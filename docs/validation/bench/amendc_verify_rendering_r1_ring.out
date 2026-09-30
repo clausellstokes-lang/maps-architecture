@@ -1,0 +1,25 @@
+== 1:500, DPR 2, fixed sun 45 deg, 45 m tower: tile side S = 33.9 m, caster x in [70.0, 76.0) m, height 45.0 m, sun altitude 45.0 deg; similar-triangles shadow from x = 25.0 to 70.0 m (length 45.0 m)
+   from x =    20.0 m: ring-capped law lit    | uncapped law lit    | pixel tile 0
+   from x =    26.4 m: ring-capped law lit    | uncapped law SHADOW | pixel tile 0
+   from x =    33.9 m: ring-capped law SHADOW | uncapped law SHADOW | pixel tile 1
+   ring-capped shadow starts at x = 33.9 m; nearest tile line 33.9 m; uncapped shadow starts at x = 26.4 m
+== 1:500, DPR 1, path sun 15 deg, 30 m tower: tile side S = 67.7 m, caster x in [140.0, 146.0) m, height 30.0 m, sun altitude 15.0 deg; similar-triangles shadow from x = 28.0 to 140.0 m (length 112.0 m)
+   from x =    23.0 m: ring-capped law lit    | uncapped law lit    | pixel tile 0
+   from x =    31.5 m: ring-capped law lit    | uncapped law SHADOW | pixel tile 0
+   from x =    37.5 m: ring-capped law lit    | uncapped law lit    | pixel tile 0
+   from x =    38.3 m: ring-capped law lit    | uncapped law SHADOW | pixel tile 0
+   from x =    44.3 m: ring-capped law lit    | uncapped law lit    | pixel tile 0
+   from x =    44.9 m: ring-capped law lit    | uncapped law SHADOW | pixel tile 0
+   from x =    50.9 m: ring-capped law lit    | uncapped law lit    | pixel tile 0
+   from x =    51.2 m: ring-capped law lit    | uncapped law SHADOW | pixel tile 0
+   from x =    57.2 m: ring-capped law lit    | uncapped law lit    | pixel tile 0
+   from x =    57.3 m: ring-capped law lit    | uncapped law SHADOW | pixel tile 0
+   from x =    67.7 m: ring-capped law SHADOW | uncapped law SHADOW | pixel tile 1
+   ring-capped shadow starts at x = 67.738 m; nearest tile line 67.7 m; uncapped shadow starts at x = 31.538 m
+== 1:500, DPR 2, fixed sun 45 deg, 20 m house (control): tile side S = 33.9 m, caster x in [70.0, 76.0) m, height 20.0 m, sun altitude 45.0 deg; similar-triangles shadow from x = 50.0 to 70.0 m (length 20.0 m)
+   from x =    45.0 m: ring-capped law lit    | uncapped law lit    | pixel tile 1
+   from x =    50.7 m: ring-capped law SHADOW | uncapped law SHADOW | pixel tile 1
+   ring-capped shadow starts at x = 50.7 m; nearest tile line 33.9 m; uncapped shadow starts at x = 50.7 m
+== (2a) 1:500, DPR 1, path sun 15 deg, 30 m x 6 m tower inside the ring: 130 of 1118 samples (0.1 m) inside the similar-triangles shadow read lit under the ring-capped law; 8 alternating runs; far-sample spacing at t = 90 m: 6.3 m against the caster's 6.0 m
+== (2b) the same with a 12 m-wide caster (control): 120 of 1118 samples (0.1 m) inside the similar-triangles shadow read lit under the ring-capped law; 2 alternating runs; far-sample spacing at t = 90 m: 6.3 m against the caster's 12.0 m
+== (2c) the 6 m tower under the default fixed sun, 45 deg (control): 9 of 299 samples (0.1 m) inside the similar-triangles shadow read lit under the ring-capped law; 2 alternating runs; far-sample spacing at t = 24 m: 1.7 m against the caster's 6.0 m

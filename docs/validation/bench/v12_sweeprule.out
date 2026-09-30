@@ -1,0 +1,28 @@
+P(cavern) by relief plain/rolling/hilly/mountainous (item 109 (a)): [0.07, 0.148, 0.23, 0.375]
+ relief trend, 30 towns per level: pass, reversal-clause fail = (0.7755, 0.0045)
+ relief trend, 50 towns per level: pass, reversal-clause fail = (0.95, 0.0015)
+ relief trend, 100 towns per level: pass, reversal-clause fail = (1.0, 0.0)
+ no effect (flat 0.20), 50 per level: pass, reversal fail = (0.0105, 0.0685)
+ no effect (flat 0.20), 100 per level: pass, reversal fail = (0.0125, 0.06)
+ true trend with one flat step (0.20, 0.20, 0.30, 0.40), 100 per level: (0.8535, 0.0245)
+P(cavern) with mining, boost 1.4 capped 0.9: [0.098, 0.2072, 0.322, 0.525]
+ mining higher-with, 50 towns per cell (4 relief strata): pass, reversal fail = (0.384, 0.0065)
+ mining higher-with, 100 towns per cell (4 relief strata): pass, reversal fail = (0.7, 0.005)
+ mining higher-with, 200 towns per cell (4 relief strata): pass, reversal fail = (0.9605, 0.003)
+ no boost, 100 per cell: pass, reversal fail = (0.012, 0.0835)
+ access by buildings-over (q 0.03, o 0.02) [0.02, 0.0638, 0.1324, 0.2319, 0.3794, 0.607], 20 voids per bin: pass, reversal fail = (0.9925, 0.007)
+ access by buildings-over (q 0.03, o 0.02) [0.02, 0.0638, 0.1324, 0.2319, 0.3794, 0.607], 40 voids per bin: pass, reversal fail = (0.9975, 0.0025)
+ access by buildings-over (q 0.05, o 0.05) [0.05, 0.1204, 0.2262, 0.3698, 0.5599, 0.7961], 20 voids per bin: pass, reversal fail = (0.996, 0.004)
+ access by buildings-over (q 0.05, o 0.05) [0.05, 0.1204, 0.2262, 0.3698, 0.5599, 0.7961], 40 voids per bin: pass, reversal fail = (0.9975, 0.0025)
+ access, no effect (flat 0.10), 40 per bin: pass, reversal fail = (0.0085, 0.0725)
+ presence, p 0.01: N 500, P(zero at a level) 0.0066
+ presence, p 0.02: N 250, P(zero at a level) 0.0064
+ presence, p 0.05: N 100, P(zero at a level) 0.0059
+ presence, p 0.1: N 50, P(zero at a level) 0.0052
+ presence, p 0.3: N 17, P(zero at a level) 0.0023
+ rate bar, 100 units: fail when right (0.30 v 0.30) 0.007; when off by half (0.15 v 0.30) 0.839; off by a third (0.20 v 0.30) 0.3515
+ rate bar, 200 units: fail when right (0.30 v 0.30) 0.008; when off by half (0.15 v 0.30) 0.995; off by a third (0.20 v 0.30) 0.7485
+ most rule, 100 instances: P(pass) at true share 0.55: 0.0098, 0.6: 0.0913, 0.667: 0.5216, 0.7: 0.7793, 0.75: 0.9724, 0.8: 0.9993
+ most rule, 200 instances: P(pass) at true share 0.55: 0.0004, 0.6: 0.0247, 0.667: 0.4974, 0.7: 0.8421, 0.75: 0.9956, 0.8: 1.0
+ floor rule (floor 0.30), 100 units: P(fail) at true share 0.3: 0.0089, 0.25: 0.0995, 0.2: 0.4602, 0.15: 0.8935
+ floor rule (floor 0.30), 200 units: P(fail) at true share 0.3: 0.0072, 0.25: 0.1852, 0.2: 0.7887, 0.15: 0.9969

@@ -1,0 +1,36 @@
+X1|V11|templateFamily[^\n]{0,200}(S11|composition resolution)
+X2|V11|1\.45
+X3|V11|420
+X4|V11|footprintShare
+X5|V11|towerStoreyCm
+X6a|V11|wingRole
+X6b|V11|the seating
+X7|V11|rankShare
+X8|V06|per wing
+X9|V08|MaterialRow
+X10a|V09|fantasyShapes
+X10b|V09|moveTower
+X11|V03|gatehall
+X12|V04|wing key
+X13|V07|templateFamily
+X14|V01|roofscape
+X15|V05|rim[- ]slab
+X16|V11|deckOk
+X17|V11|stepped_temple
+X18a|V03|W_TIER_UNREACHED
+X18b|V03|Chimney\.levels
+X19|V04|layTiers
+X20|V05|stack
+X21a|V09|skirt
+X21b|V09|shrine-inset|shrineInset|inset handle
+X21c|V09|'none'[^\n]{0,40}stair|stair[^\n]{0,80}'none'|None \(sealed\)
+X21d|V09|J-V9\.67
+X22a|V10|massing/bend
+X22b|V10|stack\.grade
+X23a|V06|rebaseStack
+X23b|V06|clearCm
+X25|V12|T-V2-4[0-9]|T-V2-51
+X26|V07|villageCap
+X27|V11|2 500|arena
+X29a|V04|vaultClamp|soffit
+X29b|V04|drawTiers

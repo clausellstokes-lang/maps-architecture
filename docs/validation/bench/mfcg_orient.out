@@ -1,0 +1,9 @@
+s555001-size40-gates4 r=60 m: median R4=0.84 (p25 0.65, p75 0.93); shuffled control 0.21; median n=25
+s555001-size40-gates4 r=120 m: median R4=0.58 (p25 0.43, p75 0.75); shuffled control 0.15; median n=87
+s555001-size40-gates4 r=250 m: median R4=0.32 (p25 0.24, p75 0.43); shuffled control 0.14; median n=317
+s555001-size40-gates9 r=60 m: median R4=0.86 (p25 0.70, p75 0.94); shuffled control 0.25; median n=21
+s555001-size40-gates9 r=120 m: median R4=0.65 (p25 0.49, p75 0.79); shuffled control 0.19; median n=78
+s555001-size40-gates9 r=250 m: median R4=0.39 (p25 0.22, p75 0.53); shuffled control 0.17; median n=286
+s777001-size80-river-coast r=60 m: median R4=0.97 (p25 0.90, p75 0.99); shuffled control 0.23; median n=25
+s777001-size80-river-coast r=120 m: median R4=0.88 (p25 0.71, p75 0.96); shuffled control 0.18; median n=92
+s777001-size80-river-coast r=250 m: median R4=0.68 (p25 0.46, p75 0.84); shuffled control 0.17; median n=362

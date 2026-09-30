@@ -1,0 +1,36 @@
+NR-1  O3 (d) model-time bars against the p95 laws of §12.3
+ TOWN: bar 100 ms; law p95 = 20 ms + 60 us x B
+   band bottom B=440: p95 46 ms, max bound 58 ms
+   default request B=1200-1500: p95 92-110 ms, max bound 115-138 ms
+   band top B=2940: p95 196 ms, max bound 246 ms
+   p95 bar holds up to B = 1333 (~4533 people); max bar holds up to B = 1000 (~3400 people)
+   single-worker: p95 bar up to B = 1127 (~3831 people), max bar up to B = 845 (~2873 people); band top p95 229 ms
+   per-building p95 that would hold the bar at the band top: 27.2 us (the law has 60 us)
+ CITY: bar 300 ms; law p95 = 40 ms + 50 us x B
+   band bottom B=2940: p95 187 ms, max bound 234 ms
+   default request B=4500-6000: p95 265-340 ms, max bound 331-425 ms
+   band top B=8820: p95 481 ms, max bound 601 ms
+   p95 bar holds up to B = 5200 (~17680 people); max bar holds up to B = 4000 (~13600 people)
+   single-worker: p95 bar up to B = 3768 (~12812 people), max bar up to B = 2899 (~9855 people); band top p95 649 ms
+   per-building p95 that would hold the bar at the band top: 29.5 us (the law has 50 us)
+ METROPOLIS: bar 1000 ms; law p95 = 100 ms + 52 us x B
+   band bottom B=8820: p95 559 ms, max bound 698 ms
+   default request B=12000-15000: p95 724-880 ms, max bound 905-1100 ms
+   band top B=35000: p95 1920 ms, max bound 2400 ms
+   p95 bar holds up to B = 17308 (~58846 people); max bar holds up to B = 13462 (~45769 people)
+   single-worker: p95 bar up to B = 13433 (~45672 people), max bar up to B = 10448 (~35522 people); band top p95 2445 ms
+   per-building p95 that would hold the bar at the band top: 25.7 us (the law has 52 us)
+
+NR-2  first map T(B) = model law + F(B) (20 ms + 10 us x B), §12.5
+ TOWN: band top B=2940 -> 246 ms; 0.25 s up to B = 3000 (~10200 people); 0.5 s up to B = 6571 (~22343 people); 1 s up to B = 13714 (~46629 people)
+ CITY: band top B=8820 -> 589 ms; 0.25 s up to B = 3167 (~10767 people); 0.5 s up to B = 7333 (~24933 people); 1 s up to B = 15667 (~53267 people)
+ METROPOLIS: band top B=35000 -> 2290 ms; 0.25 s up to B = 2097 (~7129 people); 0.5 s up to B = 6129 (~20839 people); 1 s up to B = 14194 (~48258 people)
+ CITY at 20 000 people (B=5882): 413 ms; at 30 000 people (B=8824): 589 ms
+
+NR-5  transient export list, city band: §8.1 item 6 gives ~10 MB for ~60 000 marks at CITY (5 200 buildings)
+   167 B per mark; 1923 B per building
+   TOWN target B=1333: list ~2.6 MB; S14 build at ~4 us per building ~5 ms
+   CITY target B=5200: list ~10.0 MB; S14 build at ~4 us per building ~21 ms
+   CITY band top B=8820: list ~17.0 MB; S14 build at ~4 us per building ~35 ms
+   METROPOLIS target B=13460: list ~25.9 MB; S14 build at ~4 us per building ~54 ms
+   METROPOLIS cap B=35000: list ~67.3 MB; S14 build at ~4 us per building ~140 ms

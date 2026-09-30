@@ -1,0 +1,20 @@
+type-14 edge classification (n=348):
+   {'inside river polygon': 122, 'coincides with a lot edge': 120, 'within 3 m of sea boundary': 106} ; endpoints within 1 m of a water vertex: 340
+   type-14 inside river: 122; both endpoints are exact river-polygon vertices: 99
+type-3 edges:
+   (2500,1511)-(2500,1479) len 33 m
+   (1377,-2500)-(-2500,-2500) len 3877 m
+   (-2500,-2500)-(-2500,2500) len 5000 m
+   (-2500,2500)-(-2164,2500) len 336 m
+   (1970,2500)-(2005,2500) len 35 m
+   (2005,2500)-(2500,2500) len 495 m
+   (2500,2500)-(2500,1511) len 989 m
+   (2500,1479)-(2500,728) len 751 m
+   (2500,728)-(2500,-2500) len 3228 m
+   (350,2500)-(1970,2500) len 1620 m
+   (-2164,2500)-(-1280,2500) len 885 m
+   (-1280,2500)-(350,2500) len 1629 m
+   (2500,-2500)-(1938,-2500) len 562 m
+   (1938,-2500)-(1377,-2500) len 562 m
+   other type-14: n=120 nearest-building median 303 m; bbox x -271..2496 y 313..2499; length median 50 m
+type-6 nearest-building distance: median 275 m p10 20 p90 943

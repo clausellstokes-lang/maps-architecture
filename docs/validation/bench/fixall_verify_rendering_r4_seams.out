@@ -1,0 +1,6 @@
+tiles seeded from 400001..400004: points 165 / 160 / 160 / 164
+  same-variant seams: pairs closer than r0 = 0 (toroidal: expected 0)
+  different-variant seams (24 oriented seams of 64 m): pairs closer than r0 = 84 (3.5 per seam), closer than r0/2 = 15 (0.6 per seam), closest 91 cm (0.23 x r0)
+tiles seeded from 2800001..2800004: points 164 / 171 / 164 / 164
+  same-variant seams: pairs closer than r0 = 0 (toroidal: expected 0)
+  different-variant seams (24 oriented seams of 64 m): pairs closer than r0 = 119 (5.0 per seam), closer than r0/2 = 18 (0.8 per seam), closest 48 cm (0.12 x r0)

@@ -1,0 +1,22 @@
+fixall_pipeline_r4_wings: wing carry under a smooth warp (NP3-1); seed 20260926; trials per shape and amplitude: 4000
+columns: shape | amplitude (cm) | exact (union = footprint, rings simple) | failed | skipped (moved footprint not simple: the whole-step validation halves) | carried wings | of them failing the raw-ring convex near-rectangle test | failing the corner test (four corners near-rectangle, other ring vertices within 2 cm of their side)
+L tiled      |   25 |  4000 |    0 |    0 |  8000 |  2985 |  3125
+T tiled      |   25 |  4000 |    0 |    0 |  8000 |  3270 |  3466
+cross tiled  |   25 |  4000 |    0 |    0 | 12000 |  5518 |  5168
+U tiled      |   25 |  4000 |    0 |    0 | 12000 |  3991 |  4365
+T overlap    |   25 |  4000 |    0 |    0 |  8000 |  6261 |  5217
+L tiled      |  100 |  4000 |    0 |    0 |  8000 |  7005 |  7250
+T tiled      |  100 |  4000 |    0 |    0 |  8000 |  7015 |  7228
+cross tiled  |  100 |  4000 |    0 |    0 | 12000 | 10635 | 10659
+U tiled      |  100 |  4000 |    0 |    0 | 12000 | 10455 | 10596
+T overlap    |  100 |  4000 |    0 |    0 |  8000 |  7729 |  7928
+L tiled      |  300 |  4000 |    0 |    0 |  8000 |  7911 |  7916
+T tiled      |  300 |  4000 |    0 |    0 |  8000 |  7924 |  7927
+cross tiled  |  300 |  4000 |    0 |    0 | 12000 | 11812 | 11814
+U tiled      |  300 |  4000 |    0 |    0 | 12000 | 11851 | 11853
+T overlap    |  300 |  3838 |  162 |    0 |  7676 |  7674 |  7676
+L tiled      |  800 |  2989 |  111 |  900 |  5978 |  5963 |  5963
+T tiled      |  800 |  2897 |   89 | 1014 |  5794 |  5779 |  5779
+cross tiled  |  800 |  2731 |   85 | 1184 |  8193 |  8174 |  8174
+U tiled      |  800 |  2753 |   86 | 1161 |  8259 |  8244 |  8244
+T overlap    |  800 |  2563 |  419 | 1018 |  5126 |  5126 |  5126

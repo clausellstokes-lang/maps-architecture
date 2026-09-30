@@ -1,0 +1,3921 @@
+{
+ "input_doc": "docs/archive/ARCHITECTURE-pre-amendments-c-2026-09-27.md",
+ "input_doc_sha256": "1c23190f040c8935532e81731dfaa7df44a7aad43033fba3a0eb0e92011af461",
+ "input_rationale": "docs/archive/ARCHITECTURE-RATIONALE-pre-amendments-c-2026-09-27.md",
+ "input_rationale_sha256": "0be40dfd41ff9678dcc83c9476e3bfa08c7a6ed88fd113a513e00577e7ff2b37",
+ "files": [
+  {
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "sha256": "7d3e89df3e9ff793f768093ff65ded195fe1f4ca62b128a1b168cd4611aa3693",
+   "lines": 2047,
+   "blocks": 17,
+   "issues": []
+  },
+  {
+   "file": "blocks-determinism-dossier.md",
+   "sha256": "161e4e760f678871824db477283144f588225095af8d38bf522ebab75bcf90f3",
+   "lines": 530,
+   "blocks": 3,
+   "issues": []
+  },
+  {
+   "file": "blocks-kernel.md",
+   "sha256": "6cfa332ea201e88e1e41f8ceaa46e52d2f80a57b03a22f8daad04e65ab0d3785",
+   "lines": 474,
+   "blocks": 7,
+   "issues": []
+  },
+  {
+   "file": "blocks-model.md",
+   "sha256": "41e22b97680062941aca0581c65d82ee6cc151e6b94485b71e8559f7c1549eb9",
+   "lines": 2007,
+   "blocks": 11,
+   "issues": []
+  },
+  {
+   "file": "blocks-pipeline-bentcut.md",
+   "sha256": "67289e48f3a9d6473562723116490b4b47bba42f715ac463d7deab43f9cf195e",
+   "lines": 304,
+   "blocks": 4,
+   "issues": []
+  },
+  {
+   "file": "blocks-pipeline-plots.md",
+   "sha256": "48fc2b8f9ac09c9014316f01221706f1be7f9234d5fd37b853de31a2966e1508",
+   "lines": 391,
+   "blocks": 3,
+   "issues": []
+  },
+  {
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "sha256": "0f3af41c4dbe6b1745ce1edd11314bacc9217e76b690e70d40b5b65a2700c340",
+   "lines": 1137,
+   "blocks": 12,
+   "issues": []
+  },
+  {
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "sha256": "3c58b6e38f7fb4a88850469e0dfcbdc5b05d9847b3fe4b97a660c902a5908645",
+   "lines": 1510,
+   "blocks": 13,
+   "issues": []
+  },
+  {
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "sha256": "18778ea2c87975246e5e95344a2115b236a799b67511df2f6380f29a16a22025",
+   "lines": 1202,
+   "blocks": 8,
+   "issues": []
+  },
+  {
+   "file": "blocks-rendering.md",
+   "sha256": "948ad1c1e7af96993cb543169f74fce3fa578070ae77037bf4df10c25a972fdf",
+   "lines": 2273,
+   "blocks": 25,
+   "issues": []
+  },
+  {
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "sha256": "6c9f21edfaac7904e248bd7a3d9379f19abcfd61d9ddbb7d4a99ed64e87adbbf",
+   "lines": 1265,
+   "blocks": 13,
+   "issues": []
+  },
+  {
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "sha256": "1aa57a6f84f4e133e552a4fb535352340b5f08f1b8bc3294a9ddcd7b3975007d",
+   "lines": 1056,
+   "blocks": 16,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #1 (l. 1) REPLACE ### 5.1 Principles and the seven tiers (G-P7)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 5.1 Principles and the seven tiers (G-P7)",
+   "body_lines": 82,
+   "body_sha256": "2814abe5a2a4ce71a63b5ccde087816ff8ceade32d6233e9507ea62600f53c87",
+   "target_line": 5538,
+   "section_old": "5538–5616",
+   "section_old_n": 79,
+   "section_new_n": 83,
+   "new_headings": [
+    "### 5.1 Principles and the seven tiers (G-P7)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #2 (l. 84) REPLACE ### 5.2 Failure classes: detection, ladder, test",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 2,
+   "line": 84,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "body_lines": 31,
+   "body_sha256": "2102fb091d1340333e68d1f655419aa525945e30db0402c8a2b5a9f6b07c33bb",
+   "target_line": 5621,
+   "section_old": "5621–5650",
+   "section_old_n": 30,
+   "section_new_n": 32,
+   "new_headings": [
+    "### 5.2 Failure classes: detection, ladder, test"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #3 (l. 116) REPLACE ### 5.3 The invariant suite, by scope (SCL-1)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 3,
+   "line": 116,
+   "kind": "REPLACE",
+   "heading": "### 5.3 The invariant suite, by scope (SCL-1)",
+   "body_lines": 75,
+   "body_sha256": "5e1391f310d544d48a83190e171b179f4f4e784129aa51fd4879389f1e29aa73",
+   "target_line": 5653,
+   "section_old": "5653–5717",
+   "section_old_n": 65,
+   "section_new_n": 76,
+   "new_headings": [
+    "### 5.3 The invariant suite, by scope (SCL-1)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #4 (l. 192) REPLACE ### 5.4 The generation report",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 4,
+   "line": 192,
+   "kind": "REPLACE",
+   "heading": "### 5.4 The generation report",
+   "body_lines": 36,
+   "body_sha256": "4ae06c224644a7aa8a81af7c6312132ae2114e1874b4692e668866e745b957b9",
+   "target_line": 5729,
+   "section_old": "5729–5762",
+   "section_old_n": 34,
+   "section_new_n": 37,
+   "new_headings": [
+    "### 5.4 The generation report"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #5 (l. 229) REPLACE ### 6.1 RNG and stream design",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 5,
+   "line": 229,
+   "kind": "REPLACE",
+   "heading": "### 6.1 RNG and stream design",
+   "body_lines": 179,
+   "body_sha256": "b14807aaa2669ad1bad63c5ef5497e8723d725b15b0dfd2ea12e664821f31a24",
+   "target_line": 5778,
+   "section_old": "5778–5918",
+   "section_old_n": 141,
+   "section_new_n": 180,
+   "new_headings": [
+    "### 6.1 RNG and stream design"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #6 (l. 409) REPLACE ### 6.2 What a seed determines, and the model digest",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 6,
+   "line": 409,
+   "kind": "REPLACE",
+   "heading": "### 6.2 What a seed determines, and the model digest",
+   "body_lines": 168,
+   "body_sha256": "f828c008267c895ee9408ef8cfa74ee8467242f31040f0143c15fe6f03738080",
+   "target_line": 5958,
+   "section_old": "5958–6103",
+   "section_old_n": 146,
+   "section_new_n": 169,
+   "new_headings": [
+    "### 6.2 What a seed determines, and the model digest"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #7 (l. 578) REPLACE ### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 7,
+   "line": 578,
+   "kind": "REPLACE",
+   "heading": "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+   "body_lines": 209,
+   "body_sha256": "234cd0fda3749f7704c672de09ad3bf3625635515e70a96d67925bc9f1b3e1be",
+   "target_line": 6127,
+   "section_old": "6127–6313",
+   "section_old_n": 187,
+   "section_new_n": 210,
+   "new_headings": [
+    "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #8 (l. 788) REPLACE ### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 8,
+   "line": 788,
+   "kind": "REPLACE",
+   "heading": "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+   "body_lines": 109,
+   "body_sha256": "45e2197a2b7d994f969d9760e6e417523984a527f5d3d2ff7d1828b3dbe32295",
+   "target_line": 6402,
+   "section_old": "6402–6488",
+   "section_old_n": 87,
+   "section_new_n": 110,
+   "new_headings": [
+    "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #9 (l. 898) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 9,
+   "line": 898,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+   "body_lines": 322,
+   "body_sha256": "ff3d5d0fafb9ab3dfe6bf397bf013dedc60f6bcc28cc2a1758460a8b46386f0c",
+   "target_line": 6525,
+   "section_old": "6525–6755",
+   "section_old_n": 231,
+   "section_new_n": 323,
+   "new_headings": [
+    "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #10 (l. 1221) REPLACE ### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 10,
+   "line": 1221,
+   "kind": "REPLACE",
+   "heading": "### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes",
+   "body_lines": 64,
+   "body_sha256": "9913fa13f54ccb3d58ae84426cf6aa821b81a2e028587ca3f687a98ab002208c",
+   "target_line": 6848,
+   "section_old": "6848–6903",
+   "section_old_n": 56,
+   "section_new_n": 65,
+   "new_headings": [
+    "### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #11 (l. 1286) REPLACE ### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 11,
+   "line": 1286,
+   "kind": "REPLACE",
+   "heading": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+   "body_lines": 328,
+   "body_sha256": "d7ce76d77bebb1472fa960336113403ff4b80f92cde6a9836a2d8d215e644c24",
+   "target_line": 6913,
+   "section_old": "6913–7192",
+   "section_old_n": 280,
+   "section_new_n": 329,
+   "new_headings": [
+    "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #12 (l. 1615) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 12,
+   "line": 1615,
+   "kind": "REPLACE",
+   "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "body_lines": 199,
+   "body_sha256": "47f8d255f19b9855cbeaa9e87096d2edc4a1c1141c72041f0c128594b7987666",
+   "target_line": 7242,
+   "section_old": "7242–7416",
+   "section_old_n": 175,
+   "section_new_n": 200,
+   "new_headings": [
+    "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #13 (l. 1815) APPEND TO SECTION ### 7.5 Migration and upgrade (G-P9)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 13,
+   "line": 1815,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 7.5 Migration and upgrade (G-P9)",
+   "body_lines": 20,
+   "body_sha256": "1f4f2728cd640a98bb62f34e868070f21c58e9ce62038eae8dc6085d741967c8",
+   "target_line": 7442,
+   "section_old": "7442–7532",
+   "section_old_n": 91,
+   "inserted_at_line": 7532,
+   "lines_inserted": 21,
+   "new_headings": []
+  },
+  {
+   "seq": 14,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #14 (l. 1836) REPLACE ### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 14,
+   "line": 1836,
+   "kind": "REPLACE",
+   "heading": "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+   "body_lines": 99,
+   "body_sha256": "9ebf8067801573910c9c65622045fe39ed113dee3aa60d301213deaeca2c2c3a",
+   "target_line": 7554,
+   "section_old": "7554–7636",
+   "section_old_n": 83,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #15 (l. 1936) REPLACE ### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 15,
+   "line": 1936,
+   "kind": "REPLACE",
+   "heading": "### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)",
+   "body_lines": 60,
+   "body_sha256": "38fb6f1db0fb5926d649ebeabb36a4adc883cf35392a7a4d6b7aa859d552c3dd",
+   "target_line": 7807,
+   "section_old": "7807–7857",
+   "section_old_n": 51,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #16 (l. 1997) J-ROWS",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 16,
+   "line": 1997,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 24,
+   "body_sha256": "2f3bfea706ed4f34ad0289b60187a89b480a2155b2f254c9cd6be08714908548",
+   "target_table": "document l. 12860 (header '| id | the choice | where |')",
+   "inserted_after_line": 13333,
+   "rows_inserted": 24,
+   "row_ids": [
+    "J-A51.51",
+    "J-A52.61",
+    "J-A41.61",
+    "J-A67.61",
+    "J-A68.61",
+    "J-A68.62",
+    "J-A72.61",
+    "J-A72.62",
+    "J-A37.71",
+    "J-A43.71",
+    "J-A44.71",
+    "J-A66.71",
+    "J-A65.71",
+    "J-A67.71",
+    "J-A68.72",
+    "J-A68.71",
+    "J-A76.72",
+    "J-A101.71",
+    "J-A101.72",
+    "J-A101.73",
+    "J-A101.74",
+    "J-A101.75",
+    "J-A101.76",
+    "J-A101.77"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #17 (l. 2022) RATIONALE-A",
+   "file": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md",
+   "index": 17,
+   "line": 2022,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 24,
+   "body_sha256": "565421a445d6405de368dc2ce0e3a030682d038f6538d18f1f907a71a48f9042",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 518,
+   "rows_inserted": 24,
+   "row_ids": [
+    "J-A51.51",
+    "J-A52.61",
+    "J-A41.61",
+    "J-A67.61",
+    "J-A68.61",
+    "J-A68.62",
+    "J-A72.61",
+    "J-A72.62",
+    "J-A37.71",
+    "J-A43.71",
+    "J-A44.71",
+    "J-A66.71",
+    "J-A65.71",
+    "J-A67.71",
+    "J-A68.72",
+    "J-A68.71",
+    "J-A76.72",
+    "J-A101.71",
+    "J-A101.72",
+    "J-A101.73",
+    "J-A101.74",
+    "J-A101.75",
+    "J-A101.76",
+    "J-A101.77"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "blocks-determinism-dossier.md #1 (l. 1) REPLACE ### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "file": "blocks-determinism-dossier.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "body_lines": 476,
+   "body_sha256": "b7b74b64596df53558713d2e9fac3c531a7323268d1af319718d25c0a28678a3",
+   "target_line": 7654,
+   "section_old": "7654–7806",
+   "section_old_n": 153,
+   "section_new_n": 477,
+   "new_headings": [
+    "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "blocks-determinism-dossier.md #2 (l. 479) J-ROWS",
+   "file": "blocks-determinism-dossier.md",
+   "index": 2,
+   "line": 479,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 24,
+   "body_sha256": "dc53cf7a1dd488fe64ea8accedd0bcc1f3fe6c09900bd9cc5b43f5c843022830",
+   "target_table": "document l. 13184 (header '| id | the choice | where |')",
+   "inserted_after_line": 13681,
+   "rows_inserted": 24,
+   "row_ids": [
+    "J-A20.76",
+    "J-A20.77",
+    "J-A20.78",
+    "J-A20.79",
+    "J-A74.71",
+    "J-A74.72",
+    "J-A74.73",
+    "J-A75.71",
+    "J-A75.72",
+    "J-A76.71",
+    "J-A77.71",
+    "J-A77.72",
+    "J-A78.71",
+    "J-A78.72",
+    "J-A80.71",
+    "J-A80.72",
+    "J-A81.71",
+    "J-A81.72",
+    "J-A82.71",
+    "J-A82.72",
+    "J-A82.73",
+    "J-A86.71",
+    "J-A86.72",
+    "J-A87.71"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "blocks-determinism-dossier.md #3 (l. 505) RATIONALE-A",
+   "file": "blocks-determinism-dossier.md",
+   "index": 3,
+   "line": 505,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 24,
+   "body_sha256": "e0f74a2dabfce69f66d41a86f692ec187017f3c515029e11ff424645a33995c2",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 542,
+   "rows_inserted": 24,
+   "row_ids": [
+    "J-A20.76",
+    "J-A20.77",
+    "J-A20.78",
+    "J-A20.79",
+    "J-A74.71",
+    "J-A74.72",
+    "J-A74.73",
+    "J-A75.71",
+    "J-A75.72",
+    "J-A76.71",
+    "J-A77.71",
+    "J-A77.72",
+    "J-A78.71",
+    "J-A78.72",
+    "J-A80.71",
+    "J-A80.72",
+    "J-A81.71",
+    "J-A81.72",
+    "J-A82.71",
+    "J-A82.72",
+    "J-A82.73",
+    "J-A86.71",
+    "J-A86.72",
+    "J-A87.71"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "blocks-kernel.md #1 (l. 1) REPLACE ### 3.4 Kernel operations the pipeline needs (complete list)",
+   "file": "blocks-kernel.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 3.4 Kernel operations the pipeline needs (complete list)",
+   "body_lines": 240,
+   "body_sha256": "9afaba8c91df927b6874d9741cafd938310e6ac22c3ece0271bb63695b2594b3",
+   "target_line": 2501,
+   "section_old": "2501–2695",
+   "section_old_n": 195,
+   "section_new_n": 241,
+   "new_headings": [
+    "### 3.4 Kernel operations the pipeline needs (complete list)"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "blocks-kernel.md #2 (l. 242) REPLACE ### 3.1 Build-versus-adopt, per primitive",
+   "file": "blocks-kernel.md",
+   "index": 2,
+   "line": 242,
+   "kind": "REPLACE",
+   "heading": "### 3.1 Build-versus-adopt, per primitive",
+   "body_lines": 47,
+   "body_sha256": "c6d79e591680b5999d2ba3e8fe216a2ba2b699c4b768f2232bbf456c111ca5dd",
+   "target_line": 2089,
+   "section_old": "2089–2135",
+   "section_old_n": 47,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 3.1 Build-versus-adopt, per primitive"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "blocks-kernel.md #3 (l. 290) REPLACE ### 3.5 Why this kernel closes the creators' failure classes",
+   "file": "blocks-kernel.md",
+   "index": 3,
+   "line": 290,
+   "kind": "REPLACE",
+   "heading": "### 3.5 Why this kernel closes the creators' failure classes",
+   "body_lines": 17,
+   "body_sha256": "a2177dce58e2723b393a58f15c3ad7d1aed1c831e3a073bf0949f721a999515d",
+   "target_line": 2743,
+   "section_old": "2743–2760",
+   "section_old_n": 18,
+   "section_new_n": 18,
+   "new_headings": [
+    "### 3.5 Why this kernel closes the creators' failure classes"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "blocks-kernel.md #4 (l. 308) REPLACE ### 3.7 One geometry engine on every host — booleans, buffers and the kerb on the arrangement",
+   "file": "blocks-kernel.md",
+   "index": 4,
+   "line": 308,
+   "kind": "REPLACE",
+   "heading": "### 3.7 One geometry engine on every host — booleans, buffers and the kerb on the arrangement",
+   "body_lines": 113,
+   "body_sha256": "0568e06652d3dca3c6008469ef87406e555973939ae9e758789627caa72c8c86",
+   "target_line": 2983,
+   "section_old": "2983–3087",
+   "section_old_n": 105,
+   "section_new_n": 114,
+   "new_headings": [
+    "### 3.7 One geometry engine on every host — booleans, buffers and the kerb on the arrangement"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "blocks-kernel.md #5 (l. 422) REPLACE ### 3.10 Kernel invariants — what is checked, when, and at what cost",
+   "file": "blocks-kernel.md",
+   "index": 5,
+   "line": 422,
+   "kind": "REPLACE",
+   "heading": "### 3.10 Kernel invariants — what is checked, when, and at what cost",
+   "body_lines": 41,
+   "body_sha256": "a05db47244a9e878080970bbbc343a9fe19c70c6b8e4c047f9bc80814d12e890",
+   "target_line": 3217,
+   "section_old": "3217–3258",
+   "section_old_n": 42,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 3.10 Kernel invariants — what is checked, when, and at what cost"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "blocks-kernel.md #6 (l. 464) J-ROWS",
+   "file": "blocks-kernel.md",
+   "index": 6,
+   "line": 464,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 4,
+   "body_sha256": "822b06a81d4e90d54fc30fbfff6e861cc1a165e6b61f7f1700549ef996928051",
+   "target_table": "document l. 13240 (header '| id | the choice | where |')",
+   "inserted_after_line": 13761,
+   "rows_inserted": 4,
+   "row_ids": [
+    "J-A45.31",
+    "J-A53.31",
+    "J-A65.31",
+    "J-A65.32"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "blocks-kernel.md #7 (l. 469) RATIONALE-A",
+   "file": "blocks-kernel.md",
+   "index": 7,
+   "line": 469,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 4,
+   "body_sha256": "0f0fb0a2ae48807ab5a0bcaa9b31aa9011b4e8386d4abcc0c4acbfbd8883d217",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 566,
+   "rows_inserted": 4,
+   "row_ids": [
+    "J-A45.31",
+    "J-A53.31",
+    "J-A65.31",
+    "J-A65.32"
+   ]
+  },
+  {
+   "seq": 28,
+   "block": "blocks-model.md #1 (l. 1) REPLACE ### 2.1 Layers, coordinates, units, ids",
+   "file": "blocks-model.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 2.1 Layers, coordinates, units, ids",
+   "body_lines": 36,
+   "body_sha256": "39d6e2fd8196949f3189a641aab9e2f7363b039e3a06156a55de2b7fed9c0b4c",
+   "target_line": 374,
+   "section_old": "374–403",
+   "section_old_n": 30,
+   "section_new_n": 37,
+   "new_headings": [
+    "### 2.1 Layers, coordinates, units, ids"
+   ]
+  },
+  {
+   "seq": 29,
+   "block": "blocks-model.md #2 (l. 39) REPLACE ### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored ind",
+   "file": "blocks-model.md",
+   "index": 2,
+   "line": 39,
+   "kind": "REPLACE",
+   "heading": "### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices",
+   "body_lines": 333,
+   "body_sha256": "07b73cf1de6431cf48ad806c232115c6fe3b3ce38f0f8158dc338b8071a80b1b",
+   "target_line": 411,
+   "section_old": "411–725",
+   "section_old_n": 315,
+   "section_new_n": 334,
+   "new_headings": [
+    "### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices"
+   ]
+  },
+  {
+   "seq": 30,
+   "block": "blocks-model.md #3 (l. 374) REPLACE ### 2.3 Terrain and water",
+   "file": "blocks-model.md",
+   "index": 3,
+   "line": 374,
+   "kind": "REPLACE",
+   "heading": "### 2.3 Terrain and water",
+   "body_lines": 85,
+   "body_sha256": "0bed4ac2f880c3d8f5e6e41d71c88a42459cc0237bbf1c85d59960c3d7d9d9ee",
+   "target_line": 745,
+   "section_old": "745–829",
+   "section_old_n": 85,
+   "section_new_n": 86,
+   "new_headings": [
+    "### 2.3 Terrain and water"
+   ]
+  },
+  {
+   "seq": 31,
+   "block": "blocks-model.md #4 (l. 461) REPLACE ### 2.4 Ways (the skeleton) and typed edges",
+   "file": "blocks-model.md",
+   "index": 4,
+   "line": 461,
+   "kind": "REPLACE",
+   "heading": "### 2.4 Ways (the skeleton) and typed edges",
+   "body_lines": 21,
+   "body_sha256": "f1d70f421fa539795551c5c0f1830756af315581e2c657f78a8f13895546d38a",
+   "target_line": 831,
+   "section_old": "831–852",
+   "section_old_n": 22,
+   "section_new_n": 22,
+   "new_headings": [
+    "### 2.4 Ways (the skeleton) and typed edges"
+   ]
+  },
+  {
+   "seq": 32,
+   "block": "blocks-model.md #5 (l. 484) REPLACE ### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the conte",
+   "file": "blocks-model.md",
+   "index": 5,
+   "line": 484,
+   "kind": "REPLACE",
+   "heading": "### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the context vector",
+   "body_lines": 145,
+   "body_sha256": "bab62db7a8e8f6a6d09efa5803a934ec9fa584194b15d9d4db298534b8777ebf",
+   "target_line": 853,
+   "section_old": "853–969",
+   "section_old_n": 117,
+   "section_new_n": 146,
+   "new_headings": [
+    "### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the context vector"
+   ]
+  },
+  {
+   "seq": 33,
+   "block": "blocks-model.md #6 (l. 631) REPLACE ### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+   "file": "blocks-model.md",
+   "index": 6,
+   "line": 631,
+   "kind": "REPLACE",
+   "heading": "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+   "body_lines": 652,
+   "body_sha256": "848c8230082b2a60a8407059b2623f01a61977e08e45c9ac67295dc055965e72",
+   "target_line": 999,
+   "section_old": "999–1590",
+   "section_old_n": 592,
+   "section_new_n": 653,
+   "new_headings": [
+    "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface"
+   ]
+  },
+  {
+   "seq": 34,
+   "block": "blocks-model.md #7 (l. 1285) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+   "file": "blocks-model.md",
+   "index": 7,
+   "line": 1285,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+   "body_lines": 164,
+   "body_sha256": "142bedb3633a28b28b263aa0464a70ef5dc06f171ac1b09bb27118363e85e51c",
+   "target_line": 1652,
+   "section_old": "1652–1758",
+   "section_old_n": 107,
+   "section_new_n": 165,
+   "new_headings": [
+    "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records"
+   ]
+  },
+  {
+   "seq": 35,
+   "block": "blocks-model.md #8 (l. 1451) REPLACE ### 2.8 Identity, lifecycle, provenance, the entity registry",
+   "file": "blocks-model.md",
+   "index": 8,
+   "line": 1451,
+   "kind": "REPLACE",
+   "heading": "### 2.8 Identity, lifecycle, provenance, the entity registry",
+   "body_lines": 207,
+   "body_sha256": "392a0bf83ea1fdae2231c086103a8223f8575e845a5635a695851177cc68a5de",
+   "target_line": 1817,
+   "section_old": "1817–1971",
+   "section_old_n": 155,
+   "section_new_n": 208,
+   "new_headings": [
+    "### 2.8 Identity, lifecycle, provenance, the entity registry"
+   ]
+  },
+  {
+   "seq": 36,
+   "block": "blocks-model.md #9 (l. 1660) REPLACE ### 2.9 The document and serialisation",
+   "file": "blocks-model.md",
+   "index": 9,
+   "line": 1660,
+   "kind": "REPLACE",
+   "heading": "### 2.9 The document and serialisation",
+   "body_lines": 307,
+   "body_sha256": "19f454df1fb3e4422529f74c934fa28e6b812599bb091a1867610f979621d97b",
+   "target_line": 2025,
+   "section_old": "2025–2308",
+   "section_old_n": 284,
+   "section_new_n": 308,
+   "new_headings": [
+    "### 2.9 The document and serialisation"
+   ]
+  },
+  {
+   "seq": 37,
+   "block": "blocks-model.md #10 (l. 1969) J-ROWS",
+   "file": "blocks-model.md",
+   "index": 10,
+   "line": 1969,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 18,
+   "body_sha256": "1b39ef354747624cb1591366f89ea0504171347639f6964646b2a5725f00b808",
+   "target_table": "document l. 13492 (header '| id | the choice | where |')",
+   "inserted_after_line": 14017,
+   "rows_inserted": 18,
+   "row_ids": [
+    "J-A50.21",
+    "J-A59.21",
+    "J-A60.21",
+    "J-A79.21",
+    "J-A79.22",
+    "J-A79.23",
+    "J-A88.21",
+    "J-A88.22",
+    "J-A20.23",
+    "J-A63.21",
+    "J-A64.21",
+    "J-A65.21",
+    "J-A66.21",
+    "J-A67.21",
+    "J-A68.21",
+    "J-A70.21",
+    "J-A72.21",
+    "J-A101.21"
+   ]
+  },
+  {
+   "seq": 38,
+   "block": "blocks-model.md #11 (l. 1988) RATIONALE-A",
+   "file": "blocks-model.md",
+   "index": 11,
+   "line": 1988,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 18,
+   "body_sha256": "10e9fb6e4f25393a8862caf501301101170512b84e9f0af0de72b22c15f3467c",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 570,
+   "rows_inserted": 18,
+   "row_ids": [
+    "J-A50.21",
+    "J-A59.21",
+    "J-A60.21",
+    "J-A79.21",
+    "J-A79.22",
+    "J-A79.23",
+    "J-A88.21",
+    "J-A88.22",
+    "J-A20.23",
+    "J-A63.21",
+    "J-A64.21",
+    "J-A65.21",
+    "J-A66.21",
+    "J-A67.21",
+    "J-A68.21",
+    "J-A70.21",
+    "J-A72.21",
+    "J-A101.21"
+   ]
+  },
+  {
+   "seq": 39,
+   "block": "blocks-pipeline-bentcut.md #1 (l. 3) REPLACE ### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-inter",
+   "file": "blocks-pipeline-bentcut.md",
+   "index": 1,
+   "line": 3,
+   "kind": "REPLACE",
+   "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+   "body_lines": 245,
+   "body_sha256": "23653a8a908a453f911830b2bd1845cc3ff3d2c55cc56c7984aa35cb091f14ef",
+   "target_line": 4489,
+   "section_old": "4489–4670",
+   "section_old_n": 182,
+   "section_new_n": 246,
+   "new_headings": [
+    "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule"
+   ]
+  },
+  {
+   "seq": 40,
+   "block": "blocks-pipeline-bentcut.md #2 (l. 250) REPLACE ## II.5 What the base already carries for stage 2 (all base requirements in PART I)",
+   "file": "blocks-pipeline-bentcut.md",
+   "index": 2,
+   "line": 250,
+   "kind": "REPLACE",
+   "heading": "## II.5 What the base already carries for stage 2 (all base requirements in PART I)",
+   "body_lines": 28,
+   "body_sha256": "b26169a533ca4c6c5d8eae9875e1b3bacf7859b2422b200e1c7a1b37eb47ab39",
+   "target_line": 12855,
+   "section_old": "12855–12883",
+   "section_old_n": 29,
+   "section_new_n": 29,
+   "new_headings": [
+    "## II.5 What the base already carries for stage 2 (all base requirements in PART I)"
+   ]
+  },
+  {
+   "seq": 41,
+   "block": "blocks-pipeline-bentcut.md #3 (l. 280) J-ROWS",
+   "file": "blocks-pipeline-bentcut.md",
+   "index": 3,
+   "line": 280,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 11,
+   "body_sha256": "2d1d0f7623dc1fe6aacb0a2fa93ef28b6467c12b7b7313a3aa906ae16386107e",
+   "target_table": "document l. 13556 (header '| id | the choice | where |')",
+   "inserted_after_line": 14099,
+   "rows_inserted": 11,
+   "row_ids": [
+    "J-A33.41",
+    "J-A33.42",
+    "J-A34.41",
+    "J-A34.42",
+    "J-A35.41",
+    "J-A36.41",
+    "J-A37.41",
+    "J-A37.42",
+    "J-A38.41",
+    "J-A39.41",
+    "J-A40.41"
+   ]
+  },
+  {
+   "seq": 42,
+   "block": "blocks-pipeline-bentcut.md #4 (l. 292) RATIONALE-A",
+   "file": "blocks-pipeline-bentcut.md",
+   "index": 4,
+   "line": 292,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 11,
+   "body_sha256": "50fc32153b16b70f84358d2e6c962674f8056f23829798b6722fa2f881814978",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 588,
+   "rows_inserted": 11,
+   "row_ids": [
+    "J-A33.41",
+    "J-A33.42",
+    "J-A34.41",
+    "J-A34.42",
+    "J-A35.41",
+    "J-A36.41",
+    "J-A37.41",
+    "J-A37.42",
+    "J-A38.41",
+    "J-A39.41",
+    "J-A40.41"
+   ]
+  },
+  {
+   "seq": 43,
+   "block": "blocks-pipeline-plots.md #1 (l. 10) REPLACE ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+   "file": "blocks-pipeline-plots.md",
+   "index": 1,
+   "line": 10,
+   "kind": "REPLACE",
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "body_lines": 368,
+   "body_sha256": "b13c87e3e96e2b8c7aa2be531760552733028c49881f67bddb0d5b6ceb5319b1",
+   "target_line": 4735,
+   "section_old": "4735–5066",
+   "section_old_n": 332,
+   "section_new_n": 369,
+   "new_headings": [
+    "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model"
+   ]
+  },
+  {
+   "seq": 44,
+   "block": "blocks-pipeline-plots.md #2 (l. 379) J-ROWS",
+   "file": "blocks-pipeline-plots.md",
+   "index": 2,
+   "line": 379,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 5,
+   "body_sha256": "1f1cdfe4621c713c320c45cd910c605b4439e2775717e7b8cee053fbb64bda4d",
+   "target_table": "document l. 13593 (header '| id | the choice | where |')",
+   "inserted_after_line": 14147,
+   "rows_inserted": 5,
+   "row_ids": [
+    "J-A42.41",
+    "J-A43.41",
+    "J-A43.42",
+    "J-A44.41",
+    "J-A67.49"
+   ]
+  },
+  {
+   "seq": 45,
+   "block": "blocks-pipeline-plots.md #3 (l. 385) RATIONALE-A",
+   "file": "blocks-pipeline-plots.md",
+   "index": 3,
+   "line": 385,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 5,
+   "body_sha256": "3793b9cd04a7e8661aaa2a33b009719c9c887cf79129c8958f9b94f35a72c993",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 599,
+   "rows_inserted": 5,
+   "row_ids": [
+    "J-A42.41",
+    "J-A43.41",
+    "J-A43.42",
+    "J-A44.41",
+    "J-A67.49"
+   ]
+  },
+  {
+   "seq": 46,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #1 (l. 2) REPLACE ## II.2 Templates as fabric strategies (NG B2, B7, B8)",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## II.2 Templates as fabric strategies (NG B2, B7, B8)",
+   "body_lines": 39,
+   "body_sha256": "1e90504d7f05254db31afcb837c93e0b4235c66d5b00f13b42e970483eedc2b6",
+   "target_line": 12818,
+   "section_old": "12818–12840",
+   "section_old_n": 23,
+   "section_new_n": 40,
+   "new_headings": [
+    "## II.2 Templates as fabric strategies (NG B2, B7, B8)"
+   ]
+  },
+  {
+   "seq": 47,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #2 (l. 43) REPLACE ## II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 2,
+   "line": 43,
+   "kind": "REPLACE",
+   "heading": "## II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)",
+   "body_lines": 19,
+   "body_sha256": "69ad90d3c49030c811d098a46ff07165c8e55baf97c21cad0f682516a28e5adc",
+   "target_line": 12858,
+   "section_old": "12858–12873",
+   "section_old_n": 16,
+   "section_new_n": 20,
+   "new_headings": [
+    "## II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)"
+   ]
+  },
+  {
+   "seq": 48,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #3 (l. 64) REPLACE # PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 3,
+   "line": 64,
+   "kind": "REPLACE",
+   "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "body_lines": 72,
+   "body_sha256": "45b30b6844d25b2f25c87d47543ac08932c5a2a3e9eab77fa30d557bcea1f83e",
+   "target_line": 13348,
+   "section_old": "13348–13409",
+   "section_old_n": 62,
+   "section_new_n": 73,
+   "new_headings": [
+    "# PART III — What a later village product needs from the base (one page; the hooks are concrete)"
+   ]
+  },
+  {
+   "seq": 49,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #4 (l. 138) APPEND TO SECTION ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 4,
+   "line": 138,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "body_lines": 80,
+   "body_sha256": "f48af885945df9886809c2e782daeb3fd8247732af6802bd34aeb36990bd7916",
+   "target_line": 4735,
+   "section_old": "4735–5103",
+   "section_old_n": 369,
+   "inserted_at_line": 5103,
+   "lines_inserted": 81,
+   "new_headings": []
+  },
+  {
+   "seq": 50,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #5 (l. 221) REPLACE ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 5,
+   "line": 221,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "body_lines": 192,
+   "body_sha256": "73c952cbfb6222adfe2738c1107f341d2d819595d10b3b7035a03fa946b12ab0",
+   "target_line": 10052,
+   "section_old": "10052–10200",
+   "section_old_n": 149,
+   "section_new_n": 193,
+   "new_headings": [
+    "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)"
+   ]
+  },
+  {
+   "seq": 51,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #6 (l. 415) REPLACE ## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 6,
+   "line": 415,
+   "kind": "REPLACE",
+   "heading": "## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+   "body_lines": 156,
+   "body_sha256": "6da348af36200946abc197c1db79cb8f84e5838e144ee471a9637c563c730e21",
+   "target_line": 13067,
+   "section_old": "13067–13205",
+   "section_old_n": 139,
+   "section_new_n": 157,
+   "new_headings": [
+    "## II.6 The staged layers — floating islands and sewers: the hooks the base carries now"
+   ]
+  },
+  {
+   "seq": 52,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #7 (l. 573) INSERT AFTER ## II.7 The sewer layer — existence by tier, the network stage, the underground neighbourhoods (stag",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 7,
+   "line": 573,
+   "kind": "INSERT AFTER",
+   "heading": "## II.7 The sewer layer — existence by tier, the network stage, the underground neighbourhoods (staged, with its base hooks)",
+   "body_lines": 10,
+   "body_sha256": "1d5a2af095faa5bf8f3a4156066c0a022ebe911bffb7e3466797751974d55ae6",
+   "target_line": 13224,
+   "section_old": "13224–13490",
+   "section_old_n": 267,
+   "inserted_at_line": 13225,
+   "lines_inserted": 11,
+   "new_headings": []
+  },
+  {
+   "seq": 53,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #8 (l. 586) REPLACE ### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occu",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 8,
+   "line": 586,
+   "kind": "REPLACE",
+   "heading": "### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order",
+   "body_lines": 172,
+   "body_sha256": "1801623703515e3e473543bbd30707f0010490430b97d9340157bdf1e5693dcb",
+   "target_line": 13352,
+   "section_old": "13352–13475",
+   "section_old_n": 124,
+   "section_new_n": 173,
+   "new_headings": [
+    "### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order"
+   ]
+  },
+  {
+   "seq": 54,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #9 (l. 760) REPLACE ### II.7.4 The hook interfaces and the base's part",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 9,
+   "line": 760,
+   "kind": "REPLACE",
+   "heading": "### II.7.4 The hook interfaces and the base's part",
+   "body_lines": 38,
+   "body_sha256": "6f5ba2fedc5ebd222fed5f1b4b0f291f901da46485fbba84dddcecc62b13c022",
+   "target_line": 13525,
+   "section_old": "13525–13550",
+   "section_old_n": 26,
+   "section_new_n": 39,
+   "new_headings": [
+    "### II.7.4 The hook interfaces and the base's part"
+   ]
+  },
+  {
+   "seq": 55,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #10 (l. 800) APPEND TO SECTION ### II.7.4 The hook interfaces and the base's part",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 10,
+   "line": 800,
+   "kind": "APPEND TO SECTION",
+   "heading": "### II.7.4 The hook interfaces and the base's part",
+   "body_lines": 288,
+   "body_sha256": "7383cc7a76d75a7dceb7497270dd53aefe76663db81bdd9e2793a242cf3da140",
+   "target_line": 13525,
+   "section_old": "13525–13563",
+   "section_old_n": 39,
+   "inserted_at_line": 13563,
+   "lines_inserted": 289,
+   "new_headings": [
+    "### II.7.5 The undercity (item 65): what it requires, existence and the 1–3 bound, a shadow of the settlement",
+    "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+   ]
+  },
+  {
+   "seq": 56,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #11 (l. 1091) J-ROWS",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 11,
+   "line": 1091,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 21,
+   "body_sha256": "b678d0e71205ff4e25cb9af316f1bd510b03370f2be1e162a12d6b4bee84b0c5",
+   "target_table": "document l. 14130 (header '| id | the choice | where |')",
+   "inserted_after_line": 14689,
+   "rows_inserted": 21,
+   "row_ids": [
+    "J-A58.41",
+    "J-A58.42",
+    "J-A58.43",
+    "J-A61.41",
+    "J-A63.41",
+    "J-A63.42",
+    "J-A63.43",
+    "J-A63.44",
+    "J-A64.41",
+    "J-A64.42",
+    "J-A64.43",
+    "J-A65.41",
+    "J-A65.42",
+    "J-A65.43",
+    "J-A65.44",
+    "J-A65.45",
+    "J-A65.46",
+    "J-A65.47",
+    "J-A65.48",
+    "J-A66.41",
+    "J-A67.40"
+   ]
+  },
+  {
+   "seq": 57,
+   "block": "blocks-pipeline-staged-clandestine-underground.md #12 (l. 1114) RATIONALE-A",
+   "file": "blocks-pipeline-staged-clandestine-underground.md",
+   "index": 12,
+   "line": 1114,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 21,
+   "body_sha256": "1e9960a41d484a385bdfafcd282339af350e74adcb7a91389a08a21606175a79",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 604,
+   "rows_inserted": 21,
+   "row_ids": [
+    "J-A58.41",
+    "J-A58.42",
+    "J-A58.43",
+    "J-A61.41",
+    "J-A63.41",
+    "J-A63.42",
+    "J-A63.43",
+    "J-A63.44",
+    "J-A64.41",
+    "J-A64.42",
+    "J-A64.43",
+    "J-A65.41",
+    "J-A65.42",
+    "J-A65.43",
+    "J-A65.44",
+    "J-A65.45",
+    "J-A65.46",
+    "J-A65.47",
+    "J-A65.48",
+    "J-A66.41",
+    "J-A67.40"
+   ]
+  },
+  {
+   "seq": 58,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #1 (l. 13) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 1,
+   "line": 13,
+   "kind": "REPLACE",
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "body_lines": 172,
+   "body_sha256": "5853a2cc289ca99a5babdda751f333a33b092012526b0bb1d5af911a6afa52ad",
+   "target_line": 3520,
+   "section_old": "3520–3673",
+   "section_old_n": 154,
+   "section_new_n": 173,
+   "new_headings": [
+    "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker"
+   ]
+  },
+  {
+   "seq": 59,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #2 (l. 187) APPEND TO SECTION ### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 2,
+   "line": 187,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "body_lines": 30,
+   "body_sha256": "30a753409817981dede71116179dd404c2dce9e72d3d508798a1b70f09d35d11",
+   "target_line": 4108,
+   "section_old": "4108–4165",
+   "section_old_n": 58,
+   "inserted_at_line": 4165,
+   "lines_inserted": 31,
+   "new_headings": []
+  },
+  {
+   "seq": 60,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #3 (l. 220) APPEND TO SECTION ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 3,
+   "line": 220,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "body_lines": 132,
+   "body_sha256": "7f9e9980aaa4d59e55a44e8a5a3f63485208f0cbe2d92383c7b95b93232a957f",
+   "target_line": 4358,
+   "section_old": "4358–4538",
+   "section_old_n": 181,
+   "inserted_at_line": 4538,
+   "lines_inserted": 133,
+   "new_headings": []
+  },
+  {
+   "seq": 61,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #4 (l. 355) APPEND TO SECTION ### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-inter",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 4,
+   "line": 355,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+   "body_lines": 5,
+   "body_sha256": "c0f24908a2fc3ded4cd02a45651c7537080776b7c1b0e0d66d4a37c2a62520cf",
+   "target_line": 4672,
+   "section_old": "4672–4917",
+   "section_old_n": 246,
+   "inserted_at_line": 4917,
+   "lines_inserted": 6,
+   "new_headings": []
+  },
+  {
+   "seq": 62,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #5 (l. 363) APPEND TO SECTION ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 5,
+   "line": 363,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "body_lines": 152,
+   "body_sha256": "90e6b4a8efffcad4cce618169d1e45d1a1c23c72f64bf2c3356bf030456a1b50",
+   "target_line": 4924,
+   "section_old": "4924–5373",
+   "section_old_n": 450,
+   "inserted_at_line": 5373,
+   "lines_inserted": 153,
+   "new_headings": []
+  },
+  {
+   "seq": 63,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #6 (l. 518) APPEND TO SECTION ### 4.10 S13 Names and labels · S14 Display list · S15 Simulation",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 6,
+   "line": 518,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 4.10 S13 Names and labels · S14 Display list · S15 Simulation",
+   "body_lines": 5,
+   "body_sha256": "e81b0f9695f157c143f70a25a1bf99be0abb38939b3a691c9525ed0ac34720be",
+   "target_line": 5774,
+   "section_old": "5774–5785",
+   "section_old_n": 12,
+   "inserted_at_line": 5785,
+   "lines_inserted": 6,
+   "new_headings": []
+  },
+  {
+   "seq": 64,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #7 (l. 526) REPLACE ### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in th",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 7,
+   "line": 526,
+   "kind": "REPLACE",
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "body_lines": 765,
+   "body_sha256": "4fb6150f405cf93c3ba2039832c230b51a5301d0eefb176a250f97149b704505",
+   "target_line": 5792,
+   "section_old": "5792–6334",
+   "section_old_n": 543,
+   "section_new_n": 766,
+   "new_headings": [
+    "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)"
+   ]
+  },
+  {
+   "seq": 65,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #8 (l. 1293) APPEND TO SECTION ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 8,
+   "line": 1293,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "body_lines": 80,
+   "body_sha256": "74dd1fadd2b522096be9d4eca905b8cc0378c88e36af9b9f7917cca88a09991b",
+   "target_line": 10623,
+   "section_old": "10623–10815",
+   "section_old_n": 193,
+   "inserted_at_line": 10815,
+   "lines_inserted": 81,
+   "new_headings": []
+  },
+  {
+   "seq": 66,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #9 (l. 1376) APPEND TO SECTION ### 10.3 People, households, relations, sub-locations, schedules",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 9,
+   "line": 1376,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 10.3 People, households, relations, sub-locations, schedules",
+   "body_lines": 15,
+   "body_sha256": "77602f86667e475b2425b1a83c97f5b6ea06162202937494e4aa6dd666d4b465",
+   "target_line": 10897,
+   "section_old": "10897–10961",
+   "section_old_n": 65,
+   "inserted_at_line": 10961,
+   "lines_inserted": 16,
+   "new_headings": []
+  },
+  {
+   "seq": 67,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #10 (l. 1394) APPEND TO SECTION ### 10.4 Names, descriptions and setting packs",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 10,
+   "line": 1394,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 10.4 Names, descriptions and setting packs",
+   "body_lines": 17,
+   "body_sha256": "23bf9feea89f3485e3af6f9d0208f1fa067d31338530b8eba4aaf6f82113b3a5",
+   "target_line": 10978,
+   "section_old": "10978–11025",
+   "section_old_n": 48,
+   "inserted_at_line": 11025,
+   "lines_inserted": 18,
+   "new_headings": []
+  },
+  {
+   "seq": 68,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #11 (l. 1414) APPEND TO SECTION # PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 11,
+   "line": 1414,
+   "kind": "APPEND TO SECTION",
+   "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "body_lines": 5,
+   "body_sha256": "ee3d828b93f6bde028a79be4133b07b910d7551c5280ed54cc97d5428507575c",
+   "target_line": 14539,
+   "section_old": "14539–14611",
+   "section_old_n": 73,
+   "inserted_at_line": 14611,
+   "lines_inserted": 6,
+   "new_headings": []
+  },
+  {
+   "seq": 69,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #12 (l. 1422) J-ROWS",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 12,
+   "line": 1422,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 42,
+   "body_sha256": "dadb94a50ebafa26194d5a4398ec6626bda8f2db3a805c988e06837c0c0340ee",
+   "target_table": "document l. 14822 (header '| id | the choice | where |')",
+   "inserted_after_line": 15402,
+   "rows_inserted": 42,
+   "row_ids": [
+    "J-A76.45",
+    "J-A67.41",
+    "J-A67.42",
+    "J-A67.43",
+    "J-A67.44",
+    "J-A67.45",
+    "J-A67.46",
+    "J-A67.47",
+    "J-A67.48",
+    "J-A76.41",
+    "J-A76.42",
+    "J-A76.43",
+    "J-A76.44",
+    "J-A81.41",
+    "J-A77.41",
+    "J-A101.41",
+    "J-A68.41",
+    "J-A70.41",
+    "J-A70.42",
+    "J-A70.43",
+    "J-A70.44",
+    "J-A70.45",
+    "J-A70.46",
+    "J-A70.47",
+    "J-A70.48",
+    "J-A71.41",
+    "J-A71.42",
+    "J-A71.43",
+    "J-A71.44",
+    "J-A72.40",
+    "J-A72.41",
+    "J-A72.42",
+    "J-A72.43",
+    "J-A72.44",
+    "J-A72.45",
+    "J-A72.46",
+    "J-A72.47",
+    "J-A72.48",
+    "J-A72.49",
+    "J-A82.41",
+    "J-A88.41",
+    "J-Fpipe-2"
+   ]
+  },
+  {
+   "seq": 70,
+   "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #13 (l. 1466) RATIONALE-A",
+   "file": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md",
+   "index": 13,
+   "line": 1466,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 42,
+   "body_sha256": "f321e402cfd355e7c6dd694e2eb2422366c767424abf62d47be8cface34d349e",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 625,
+   "rows_inserted": 42,
+   "row_ids": [
+    "J-A76.45",
+    "J-A67.41",
+    "J-A67.42",
+    "J-A67.43",
+    "J-A67.44",
+    "J-A67.45",
+    "J-A67.46",
+    "J-A67.47",
+    "J-A67.48",
+    "J-A76.41",
+    "J-A76.42",
+    "J-A76.43",
+    "J-A76.44",
+    "J-A81.41",
+    "J-A77.41",
+    "J-A101.41",
+    "J-A68.41",
+    "J-A70.41",
+    "J-A70.42",
+    "J-A70.43",
+    "J-A70.44",
+    "J-A70.45",
+    "J-A70.46",
+    "J-A70.47",
+    "J-A70.48",
+    "J-A71.41",
+    "J-A71.42",
+    "J-A71.43",
+    "J-A71.44",
+    "J-A72.40",
+    "J-A72.41",
+    "J-A72.42",
+    "J-A72.43",
+    "J-A72.44",
+    "J-A72.45",
+    "J-A72.46",
+    "J-A72.47",
+    "J-A72.48",
+    "J-A72.49",
+    "J-A82.41",
+    "J-A88.41",
+    "J-Fpipe-2"
+   ]
+  },
+  {
+   "seq": 71,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #1 (l. 4) REPLACE ### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 1,
+   "line": 4,
+   "kind": "REPLACE",
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "body_lines": 97,
+   "body_sha256": "1f57887d9e7f067a6871701b22a3b1af4d9d4e65df256f2f0aaf015f9970f8f9",
+   "target_line": 5527,
+   "section_old": "5527–5611",
+   "section_old_n": 85,
+   "section_new_n": 98,
+   "new_headings": [
+    "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture"
+   ]
+  },
+  {
+   "seq": 72,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #2 (l. 103) REPLACE ### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and it",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 2,
+   "line": 103,
+   "kind": "REPLACE",
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "body_lines": 434,
+   "body_sha256": "cab1b731219d4b91dcd2acb831af93e0dbeca0f4c8637bf78f9effd860f5f986",
+   "target_line": 3693,
+   "section_old": "3693–4107",
+   "section_old_n": 415,
+   "section_new_n": 435,
+   "new_headings": [
+    "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace"
+   ]
+  },
+  {
+   "seq": 73,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #3 (l. 539) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 3,
+   "line": 539,
+   "kind": "REPLACE",
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "body_lines": 163,
+   "body_sha256": "3cff91ad9411300521c51d6663ac38c997bf1dbe4bba02c7a684c6777f7582bb",
+   "target_line": 4217,
+   "section_old": "4217–4377",
+   "section_old_n": 161,
+   "section_new_n": 164,
+   "new_headings": [
+    "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check"
+   ]
+  },
+  {
+   "seq": 74,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #4 (l. 704) REPLACE ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 4,
+   "line": 704,
+   "kind": "REPLACE",
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "body_lines": 200,
+   "body_sha256": "13b053aed7c8577abe8facab97d1424d2589665513e67fcbb319d69b6af5326f",
+   "target_line": 4381,
+   "section_old": "4381–4694",
+   "section_old_n": 314,
+   "section_new_n": 201,
+   "new_headings": [
+    "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims"
+   ]
+  },
+  {
+   "seq": 75,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #5 (l. 906) REPLACE ## II.1 The district → neighbourhood interface",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 5,
+   "line": 906,
+   "kind": "REPLACE",
+   "heading": "## II.1 The district → neighbourhood interface",
+   "body_lines": 98,
+   "body_sha256": "b02d0c5d214fffb1d87dd6a64cc489705783502cf160a70b40d2ee2c7a8b2893",
+   "target_line": 13453,
+   "section_old": "13453–13551",
+   "section_old_n": 99,
+   "section_new_n": 99,
+   "new_headings": [
+    "## II.1 The district → neighbourhood interface"
+   ]
+  },
+  {
+   "seq": 76,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #6 (l. 1006) REPLACE ### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 6,
+   "line": 1006,
+   "kind": "REPLACE",
+   "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "body_lines": 171,
+   "body_sha256": "09f1e1848bc07354403cc444d5ea2c76efa0483750f752dbb4623095ff8e6305",
+   "target_line": 5535,
+   "section_old": "5535–5696",
+   "section_old_n": 162,
+   "section_new_n": 172,
+   "new_headings": [
+    "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)"
+   ]
+  },
+  {
+   "seq": 77,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #7 (l. 1179) J-ROWS",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 7,
+   "line": 1179,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 10,
+   "body_sha256": "f172cc10c9ca0d66249f3df743086c73a0a4efe451aa767fa5c217a28829a733",
+   "target_table": "document l. 14755 (header '| id | the choice | where |')",
+   "inserted_after_line": 15377,
+   "rows_inserted": 10,
+   "row_ids": [
+    "J-A45.41",
+    "J-A45.42",
+    "J-A46.41",
+    "J-A46.42",
+    "J-A46.43",
+    "J-A47.41",
+    "J-A47.42",
+    "J-A57.41",
+    "J-A57.42",
+    "J-A57.43"
+   ]
+  },
+  {
+   "seq": 78,
+   "block": "blocks-pipeline-walls-districts-hinterland.md #8 (l. 1191) RATIONALE-A",
+   "file": "blocks-pipeline-walls-districts-hinterland.md",
+   "index": 8,
+   "line": 1191,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 10,
+   "body_sha256": "097437215e95137b4091ab7e0186b8489b7988d67292faf66424fc80130bc740",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 667,
+   "rows_inserted": 10,
+   "row_ids": [
+    "J-A45.41",
+    "J-A45.42",
+    "J-A46.41",
+    "J-A46.42",
+    "J-A46.43",
+    "J-A47.41",
+    "J-A47.42",
+    "J-A57.41",
+    "J-A57.42",
+    "J-A57.43"
+   ]
+  },
+  {
+   "seq": 79,
+   "block": "blocks-rendering.md #1 (l. 5) REPLACE ### 8.1 The display list (renderer-independent, columnar, incremental)",
+   "file": "blocks-rendering.md",
+   "index": 1,
+   "line": 5,
+   "kind": "REPLACE",
+   "heading": "### 8.1 The display list (renderer-independent, columnar, incremental)",
+   "body_lines": 124,
+   "body_sha256": "281202b910d1216b1f7371f3ff6e362a325676784c64cfa3c3ffe9c7c3637895",
+   "target_line": 9198,
+   "section_old": "9198–9302",
+   "section_old_n": 105,
+   "section_new_n": 125,
+   "new_headings": [
+    "### 8.1 The display list (renderer-independent, columnar, incremental)"
+   ]
+  },
+  {
+   "seq": 80,
+   "block": "blocks-rendering.md #2 (l. 131) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+   "file": "blocks-rendering.md",
+   "index": 2,
+   "line": 131,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+   "body_lines": 433,
+   "body_sha256": "d1f947abd84d97e4728327def7ea318f24628f3f42e0e4a142dd666f416704eb",
+   "target_line": 9323,
+   "section_old": "9323–9656",
+   "section_old_n": 334,
+   "section_new_n": 434,
+   "new_headings": [
+    "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)"
+   ]
+  },
+  {
+   "seq": 81,
+   "block": "blocks-rendering.md #3 (l. 566) REPLACE ### 8.3 Symbol catalogue and draw-style census",
+   "file": "blocks-rendering.md",
+   "index": 3,
+   "line": 566,
+   "kind": "REPLACE",
+   "heading": "### 8.3 Symbol catalogue and draw-style census",
+   "body_lines": 72,
+   "body_sha256": "e96f147f137cda6143c42db90fdb4297c21fc95836157723881686ea05e43f84",
+   "target_line": 9757,
+   "section_old": "9757–9813",
+   "section_old_n": 57,
+   "section_new_n": 73,
+   "new_headings": [
+    "### 8.3 Symbol catalogue and draw-style census"
+   ]
+  },
+  {
+   "seq": 82,
+   "block": "blocks-rendering.md #4 (l. 640) REPLACE ### 8.4 Layers, shadows, heights",
+   "file": "blocks-rendering.md",
+   "index": 4,
+   "line": 640,
+   "kind": "REPLACE",
+   "heading": "### 8.4 Layers, shadows, heights",
+   "body_lines": 217,
+   "body_sha256": "c3bdbdd54380996591d61e0ed3dae149352f810aed0af0db8473fd860141a57a",
+   "target_line": 9830,
+   "section_old": "9830–9902",
+   "section_old_n": 73,
+   "section_new_n": 218,
+   "new_headings": [
+    "### 8.4 Layers, shadows, heights"
+   ]
+  },
+  {
+   "seq": 83,
+   "block": "blocks-rendering.md #5 (l. 859) REPLACE ### 8.5 Level of detail, the city-band figure-ground contract, way selection, first paint",
+   "file": "blocks-rendering.md",
+   "index": 5,
+   "line": 859,
+   "kind": "REPLACE",
+   "heading": "### 8.5 Level of detail, the city-band figure-ground contract, way selection, first paint",
+   "body_lines": 109,
+   "body_sha256": "616c61b441cbc00ebd494c2158d9b5c8b303d7b248933f794ef0d4ad4bea40c5",
+   "target_line": 10048,
+   "section_old": "10048–10138",
+   "section_old_n": 91,
+   "section_new_n": 110,
+   "new_headings": [
+    "### 8.5 Level of detail, the city-band figure-ground contract, way selection, first paint"
+   ]
+  },
+  {
+   "seq": 84,
+   "block": "blocks-rendering.md #6 (l. 970) APPEND TO SECTION ### 8.6 Stage-2 render tier and stage-3 LOD",
+   "file": "blocks-rendering.md",
+   "index": 6,
+   "line": 970,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 8.6 Stage-2 render tier and stage-3 LOD",
+   "body_lines": 5,
+   "body_sha256": "0331a928f096dc7e4f5f2ee3cee854b2e0d6466901485251de1b4dd77e9b94f6",
+   "target_line": 10158,
+   "section_old": "10158–10188",
+   "section_old_n": 31,
+   "inserted_at_line": 10188,
+   "lines_inserted": 6,
+   "new_headings": []
+  },
+  {
+   "seq": 85,
+   "block": "blocks-rendering.md #7 (l. 977) REPLACE ### 8.8 Tiles, zoom stops, print and the canvas budget",
+   "file": "blocks-rendering.md",
+   "index": 7,
+   "line": 977,
+   "kind": "REPLACE",
+   "heading": "### 8.8 Tiles, zoom stops, print and the canvas budget",
+   "body_lines": 93,
+   "body_sha256": "2208470535473d22a3e6c08a50c41e90e8e371ba1dbf8ff33f6b39db1eb3a804",
+   "target_line": 10203,
+   "section_old": "10203–10274",
+   "section_old_n": 72,
+   "section_new_n": 94,
+   "new_headings": [
+    "### 8.8 Tiles, zoom stops, print and the canvas budget"
+   ]
+  },
+  {
+   "seq": 86,
+   "block": "blocks-rendering.md #8 (l. 1072) REPLACE ### 8.9 Backends, text, threads and the worker boundary",
+   "file": "blocks-rendering.md",
+   "index": 8,
+   "line": 1072,
+   "kind": "REPLACE",
+   "heading": "### 8.9 Backends, text, threads and the worker boundary",
+   "body_lines": 130,
+   "body_sha256": "573f6c04a8e2ac33b1fbcf6fc5eb0b442d81df933a354e013db044da34d506e2",
+   "target_line": 10297,
+   "section_old": "10297–10419",
+   "section_old_n": 123,
+   "section_new_n": 131,
+   "new_headings": [
+    "### 8.9 Backends, text, threads and the worker boundary"
+   ]
+  },
+  {
+   "seq": 87,
+   "block": "blocks-rendering.md #9 (l. 1204) REPLACE ### 8.10 Decoration instances (trees, scatter, crowns, roof detail)",
+   "file": "blocks-rendering.md",
+   "index": 9,
+   "line": 1204,
+   "kind": "REPLACE",
+   "heading": "### 8.10 Decoration instances (trees, scatter, crowns, roof detail)",
+   "body_lines": 132,
+   "body_sha256": "6dde650d023405bce136c1dfbe9a92063688e6e474d07701233e43278fdf9e10",
+   "target_line": 10428,
+   "section_old": "10428–10551",
+   "section_old_n": 124,
+   "section_new_n": 133,
+   "new_headings": [
+    "### 8.10 Decoration instances (trees, scatter, crowns, roof detail)"
+   ]
+  },
+  {
+   "seq": 88,
+   "block": "blocks-rendering.md #10 (l. 1338) REPLACE ### 9.1 What is model and what is view",
+   "file": "blocks-rendering.md",
+   "index": 10,
+   "line": 1338,
+   "kind": "REPLACE",
+   "heading": "### 9.1 What is model and what is view",
+   "body_lines": 47,
+   "body_sha256": "868c4c0c1ac2c22fe63340f24c2157fa54e7197963be0ba5d009766495fcd822",
+   "target_line": 10571,
+   "section_old": "10571–10605",
+   "section_old_n": 35,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 9.1 What is model and what is view"
+   ]
+  },
+  {
+   "seq": 89,
+   "block": "blocks-rendering.md #11 (l. 1387) REPLACE ### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+   "file": "blocks-rendering.md",
+   "index": 11,
+   "line": 1387,
+   "kind": "REPLACE",
+   "heading": "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+   "body_lines": 154,
+   "body_sha256": "3dad369a5d3be1cb18e0adf00ed7f236b9bd8d149cfe930bebd48f0ed09d42e0",
+   "target_line": 10619,
+   "section_old": "10619–10755",
+   "section_old_n": 137,
+   "section_new_n": 155,
+   "new_headings": [
+    "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally"
+   ]
+  },
+  {
+   "seq": 90,
+   "block": "blocks-rendering.md #12 (l. 1543) REPLACE ### 9.3 Spines and candidates",
+   "file": "blocks-rendering.md",
+   "index": 12,
+   "line": 1543,
+   "kind": "REPLACE",
+   "heading": "### 9.3 Spines and candidates",
+   "body_lines": 28,
+   "body_sha256": "98b0a3a78ac48c6e2a36e78075cfabef76344251533953b8a305cb5d1459fabd",
+   "target_line": 10774,
+   "section_old": "10774–10792",
+   "section_old_n": 19,
+   "section_new_n": 29,
+   "new_headings": [
+    "### 9.3 Spines and candidates"
+   ]
+  },
+  {
+   "seq": 91,
+   "block": "blocks-rendering.md #13 (l. 1573) REPLACE ### 9.4 Sizes, floors, the ladder, quarters, overflow, halos",
+   "file": "blocks-rendering.md",
+   "index": 13,
+   "line": 1573,
+   "kind": "REPLACE",
+   "heading": "### 9.4 Sizes, floors, the ladder, quarters, overflow, halos",
+   "body_lines": 51,
+   "body_sha256": "0d8d532743505ed1263c862c9150197be759d72e9ee6bc5b681ca0e116b82aa5",
+   "target_line": 10803,
+   "section_old": "10803–10847",
+   "section_old_n": 45,
+   "section_new_n": 52,
+   "new_headings": [
+    "### 9.4 Sizes, floors, the ladder, quarters, overflow, halos"
+   ]
+  },
+  {
+   "seq": 92,
+   "block": "blocks-rendering.md #14 (l. 1626) REPLACE ### 9.5 Furniture, framing and tools",
+   "file": "blocks-rendering.md",
+   "index": 14,
+   "line": 1626,
+   "kind": "REPLACE",
+   "heading": "### 9.5 Furniture, framing and tools",
+   "body_lines": 63,
+   "body_sha256": "a939b3f1c2813402730089fa42ac72d863eec591d651298d4f91aa85c5a70971",
+   "target_line": 10855,
+   "section_old": "10855–10900",
+   "section_old_n": 46,
+   "section_new_n": 64,
+   "new_headings": [
+    "### 9.5 Furniture, framing and tools"
+   ]
+  },
+  {
+   "seq": 93,
+   "block": "blocks-rendering.md #15 (l. 1691) APPEND TO SECTION ### 9.6 Names",
+   "file": "blocks-rendering.md",
+   "index": 15,
+   "line": 1691,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 9.6 Names",
+   "body_lines": 7,
+   "body_sha256": "af4f9422e68569dc9dd3b5a6cac2efd17d3976a1f2227671356e7cefdc06a9cf",
+   "target_line": 10919,
+   "section_old": "10919–10934",
+   "section_old_n": 16,
+   "inserted_at_line": 10934,
+   "lines_inserted": 8,
+   "new_headings": []
+  },
+  {
+   "seq": 94,
+   "block": "blocks-rendering.md #16 (l. 1700) REPLACE ### 11.1 Formats",
+   "file": "blocks-rendering.md",
+   "index": 16,
+   "line": 1700,
+   "kind": "REPLACE",
+   "heading": "### 11.1 Formats",
+   "body_lines": 144,
+   "body_sha256": "a6104b49eedf20cefa9d19967d06bd098472aa371d8ad16a4e6f81c92ae32042",
+   "target_line": 11405,
+   "section_old": "11405–11523",
+   "section_old_n": 119,
+   "section_new_n": 145,
+   "new_headings": [
+    "### 11.1 Formats"
+   ]
+  },
+  {
+   "seq": 95,
+   "block": "blocks-rendering.md #17 (l. 1846) REPLACE ### 11.2 The embedding API and the worker boundary (SCL-6)",
+   "file": "blocks-rendering.md",
+   "index": 17,
+   "line": 1846,
+   "kind": "REPLACE",
+   "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+   "body_lines": 106,
+   "body_sha256": "c01f0a4e4e50a044ed9feb4539f7443eb33c22f1e20d2e55dd7d2331cd391349",
+   "target_line": 11550,
+   "section_old": "11550–11635",
+   "section_old_n": 86,
+   "section_new_n": 107,
+   "new_headings": [
+    "### 11.2 The embedding API and the worker boundary (SCL-6)"
+   ]
+  },
+  {
+   "seq": 96,
+   "block": "blocks-rendering.md #18 (l. 1954) REPLACE ### 11.3 The host bridge — the host is the store (FTG-12)",
+   "file": "blocks-rendering.md",
+   "index": 18,
+   "line": 1954,
+   "kind": "REPLACE",
+   "heading": "### 11.3 The host bridge — the host is the store (FTG-12)",
+   "body_lines": 87,
+   "body_sha256": "c391f6c6108d66eefdaf2d1e6b305d3683085134ebcc944659d7eca36d041348",
+   "target_line": 11657,
+   "section_old": "11657–11729",
+   "section_old_n": 73,
+   "section_new_n": 88,
+   "new_headings": [
+    "### 11.3 The host bridge — the host is the store (FTG-12)"
+   ]
+  },
+  {
+   "seq": 97,
+   "block": "blocks-rendering.md #19 (l. 2043) REPLACE ### 11.4 Host inputs (DEF-11)",
+   "file": "blocks-rendering.md",
+   "index": 19,
+   "line": 2043,
+   "kind": "REPLACE",
+   "heading": "### 11.4 Host inputs (DEF-11)",
+   "body_lines": 36,
+   "body_sha256": "3c8a49d964acf816499a8a14aa396b10fe411d93910c8d8403ef907dadbdf495",
+   "target_line": 11745,
+   "section_old": "11745–11762",
+   "section_old_n": 18,
+   "section_new_n": 37,
+   "new_headings": [
+    "### 11.4 Host inputs (DEF-11)"
+   ]
+  },
+  {
+   "seq": 98,
+   "block": "blocks-rendering.md #20 (l. 2081) APPEND TO SECTION ### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+   "file": "blocks-rendering.md",
+   "index": 20,
+   "line": 2081,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+   "body_lines": 10,
+   "body_sha256": "f34ff69397e68c91726de72d9c4a21057a3bffe790410acd64e21edba1d1055d",
+   "target_line": 12001,
+   "section_old": "12001–12064",
+   "section_old_n": 64,
+   "inserted_at_line": 12064,
+   "lines_inserted": 11,
+   "new_headings": []
+  },
+  {
+   "seq": 99,
+   "block": "blocks-rendering.md #21 (l. 2093) APPEND TO SECTION ### 12.6 Edits, regeneration, replay and warp, as functions of scope (SCL-9)",
+   "file": "blocks-rendering.md",
+   "index": 21,
+   "line": 2093,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 12.6 Edits, regeneration, replay and warp, as functions of scope (SCL-9)",
+   "body_lines": 8,
+   "body_sha256": "a58458008d1d4e33201c41998985fd5bff962bf87f3b44708ab1c5ed8b32a962",
+   "target_line": 12076,
+   "section_old": "12076–12129",
+   "section_old_n": 54,
+   "inserted_at_line": 12129,
+   "lines_inserted": 9,
+   "new_headings": []
+  },
+  {
+   "seq": 100,
+   "block": "blocks-rendering.md #22 (l. 2103) REPLACE ### 12.7 Labels, trees, exports (SCL-8, SCL-10, SCL-14)",
+   "file": "blocks-rendering.md",
+   "index": 22,
+   "line": 2103,
+   "kind": "REPLACE",
+   "heading": "### 12.7 Labels, trees, exports (SCL-8, SCL-10, SCL-14)",
+   "body_lines": 97,
+   "body_sha256": "7bd32c12d71f0f648a33528b84111903830b709b517b9d3b6903e09168119016",
+   "target_line": 12139,
+   "section_old": "12139–12222",
+   "section_old_n": 84,
+   "section_new_n": 98,
+   "new_headings": [
+    "### 12.7 Labels, trees, exports (SCL-8, SCL-10, SCL-14)"
+   ]
+  },
+  {
+   "seq": 101,
+   "block": "blocks-rendering.md #23 (l. 2202) APPEND TO SECTION ### 12.8 Memory (what is counted, per rung)",
+   "file": "blocks-rendering.md",
+   "index": 23,
+   "line": 2202,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 12.8 Memory (what is counted, per rung)",
+   "body_lines": 6,
+   "body_sha256": "c3f270597835cb12bdc52355b882b7e6a7be1ba88b075c1b6efad440e33fb5d6",
+   "target_line": 12237,
+   "section_old": "12237–12318",
+   "section_old_n": 82,
+   "inserted_at_line": 12318,
+   "lines_inserted": 7,
+   "new_headings": []
+  },
+  {
+   "seq": 102,
+   "block": "blocks-rendering.md #24 (l. 2210) J-ROWS",
+   "file": "blocks-rendering.md",
+   "index": 24,
+   "line": 2210,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 30,
+   "body_sha256": "8379de68e2b9ed2dc4dd577425e678c7a394edc7d8dba7177eb08a966f5ddd70",
+   "target_table": "document l. 15296 (header '| id | the choice | where |')",
+   "inserted_after_line": 15928,
+   "rows_inserted": 30,
+   "row_ids": [
+    "J-A53.81",
+    "J-A54.81",
+    "J-A55.81",
+    "J-A68.81",
+    "J-A68.82",
+    "J-A68.83",
+    "J-A68.84",
+    "J-A68.85",
+    "J-A68.86",
+    "J-A68.87",
+    "J-A68.88",
+    "J-A68.89",
+    "J-A69.81",
+    "J-A69.82",
+    "J-A69.83",
+    "J-A69.84",
+    "J-A63.81",
+    "J-A65.81",
+    "J-A67.81",
+    "J-A67.82",
+    "J-A70.81",
+    "J-A72.81",
+    "J-A20.82",
+    "J-A73.81",
+    "J-A85.81",
+    "J-A85.82",
+    "J-A101.81",
+    "J-A101.82",
+    "J-A101.83",
+    "J-A101.84"
+   ]
+  },
+  {
+   "seq": 103,
+   "block": "blocks-rendering.md #25 (l. 2242) RATIONALE-A",
+   "file": "blocks-rendering.md",
+   "index": 25,
+   "line": 2242,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 30,
+   "body_sha256": "7986bb705c6160fcdef56c94dae1ac71dd67e01e1aa29a78eece17e01e9a6993",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 677,
+   "rows_inserted": 30,
+   "row_ids": [
+    "J-A53.81",
+    "J-A54.81",
+    "J-A55.81",
+    "J-A68.81",
+    "J-A68.82",
+    "J-A68.83",
+    "J-A68.84",
+    "J-A68.85",
+    "J-A68.86",
+    "J-A68.87",
+    "J-A68.88",
+    "J-A68.89",
+    "J-A69.81",
+    "J-A69.82",
+    "J-A69.83",
+    "J-A69.84",
+    "J-A63.81",
+    "J-A65.81",
+    "J-A67.81",
+    "J-A67.82",
+    "J-A70.81",
+    "J-A72.81",
+    "J-A20.82",
+    "J-A73.81",
+    "J-A85.81",
+    "J-A85.82",
+    "J-A101.81",
+    "J-A101.82",
+    "J-A101.83",
+    "J-A101.84"
+   ]
+  },
+  {
+   "seq": 104,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #1 (l. 18) REPLACE ### 17.1 The clean-room chain (IMP-1; D-29)",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 1,
+   "line": 18,
+   "kind": "REPLACE",
+   "heading": "### 17.1 The clean-room chain (IMP-1; D-29)",
+   "body_lines": 146,
+   "body_sha256": "d41a3251cca82a8ea1edfd13ad76c3d16b2c09f73ae10988dd10740c0113c334",
+   "target_line": 13807,
+   "section_old": "13807–13933",
+   "section_old_n": 127,
+   "section_new_n": 147,
+   "new_headings": [
+    "### 17.1 The clean-room chain (IMP-1; D-29)"
+   ]
+  },
+  {
+   "seq": 105,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #2 (l. 166) REPLACE ### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 2,
+   "line": 166,
+   "kind": "REPLACE",
+   "heading": "### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file",
+   "body_lines": 110,
+   "body_sha256": "d8df612ff4706bedee83dfcc94cc2682c599f9cc85036d53c8449402a2762ecf",
+   "target_line": 12929,
+   "section_old": "12929–13024",
+   "section_old_n": 96,
+   "section_new_n": 111,
+   "new_headings": [
+    "### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file"
+   ]
+  },
+  {
+   "seq": 106,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #3 (l. 278) REPLACE ### 1.3 The thesis in one paragraph",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 3,
+   "line": 278,
+   "kind": "REPLACE",
+   "heading": "### 1.3 The thesis in one paragraph",
+   "body_lines": 18,
+   "body_sha256": "8df453867af7787a4812274e7afc0b1439ce38af5d8b3c76c76133fe7fc76135",
+   "target_line": 267,
+   "section_old": "267–282",
+   "section_old_n": 16,
+   "section_new_n": 19,
+   "new_headings": [
+    "### 1.3 The thesis in one paragraph"
+   ]
+  },
+  {
+   "seq": 107,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #4 (l. 298) REPLACE ### 1.4 Fusion thesis, stage by stage",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 4,
+   "line": 298,
+   "kind": "REPLACE",
+   "heading": "### 1.4 Fusion thesis, stage by stage",
+   "body_lines": 46,
+   "body_sha256": "9172276072a1185dfe4e03443cae3f30107f0842f3e3406c4f91d198ab48338c",
+   "target_line": 286,
+   "section_old": "286–332",
+   "section_old_n": 47,
+   "section_new_n": 47,
+   "new_headings": [
+    "### 1.4 Fusion thesis, stage by stage"
+   ]
+  },
+  {
+   "seq": 108,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #5 (l. 346) REPLACE ### 0.3 Evidence discipline",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 5,
+   "line": 346,
+   "kind": "REPLACE",
+   "heading": "### 0.3 Evidence discipline",
+   "body_lines": 15,
+   "body_sha256": "320b1bf358d9824b60c61dad2ea795faf5bed2f09d23f8192c56bc6bad1c7034",
+   "target_line": 164,
+   "section_old": "164–174",
+   "section_old_n": 11,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 0.3 Evidence discipline"
+   ]
+  },
+  {
+   "seq": 109,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #6 (l. 363) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 6,
+   "line": 363,
+   "kind": "REPLACE",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "body_lines": 369,
+   "body_sha256": "e71d02218f485e883991abef96bc5933b88a96e48e4fcb971b9c438bc5bf3fab",
+   "target_line": 12502,
+   "section_old": "12502–12824",
+   "section_old_n": 323,
+   "section_new_n": 370,
+   "new_headings": [
+    "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT"
+   ]
+  },
+  {
+   "seq": 110,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #7 (l. 734) REPLACE ## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, t",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 7,
+   "line": 734,
+   "kind": "REPLACE",
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "body_lines": 103,
+   "body_sha256": "73cea6eacc0af830e4185214b9389487d36d9facb218482bf5368397e823bce7",
+   "target_line": 13775,
+   "section_old": "13775–13866",
+   "section_old_n": 92,
+   "section_new_n": 104,
+   "new_headings": [
+    "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2"
+   ]
+  },
+  {
+   "seq": 111,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #8 (l. 839) REPLACE # Delegated decisions (the owner deferred all judgment; each is final unless vetoed)",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 8,
+   "line": 839,
+   "kind": "REPLACE",
+   "heading": "# Delegated decisions (the owner deferred all judgment; each is final unless vetoed)",
+   "body_lines": 213,
+   "body_sha256": "15bad681cc8ace2f77b809e04b4b2a598567f4b1d071a5cd8e3ed53109d1a0df",
+   "target_line": 15194,
+   "section_old": "15194–15383",
+   "section_old_n": 190,
+   "section_new_n": 214,
+   "new_headings": [
+    "# Delegated decisions (the owner deferred all judgment; each is final unless vetoed)"
+   ]
+  },
+  {
+   "seq": 112,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #9 (l. 1054) REPLACE # Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 9,
+   "line": 1054,
+   "kind": "REPLACE",
+   "heading": "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+   "body_lines": 36,
+   "body_sha256": "8547e74f9497eb7eaa947374ebc720f095ea9a1fe7fff399dab82b0009dc4792",
+   "target_line": 16107,
+   "section_old": "16107–16129",
+   "section_old_n": 23,
+   "section_new_n": 37,
+   "new_headings": [
+    "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE"
+   ]
+  },
+  {
+   "seq": 113,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #10 (l. 1092) REPLACE ### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`) and items 8–",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 10,
+   "line": 1092,
+   "kind": "REPLACE",
+   "heading": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`) and items 8–31 (its sibling `AMENDMENTS-2026-09-25b`)",
+   "body_lines": 103,
+   "body_sha256": "6c664405550f7f1fdd9c6406bb7cb022313c06f9647c631bdb7670b55ebdee33",
+   "target_line": 116,
+   "section_old": "116–163",
+   "section_old_n": 48,
+   "section_new_n": 104,
+   "new_headings": [
+    "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`) and items 8–31 (its sibling `AMENDMENTS-2026-09-25b`)"
+   ]
+  },
+  {
+   "seq": 114,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #11 (l. 1197) APPEND TO SECTION ## The whole design in one page (plain words)",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 11,
+   "line": 1197,
+   "kind": "APPEND TO SECTION",
+   "heading": "## The whole design in one page (plain words)",
+   "body_lines": 27,
+   "body_sha256": "78e91727c5ba7e38046f17e7568851bacf81906f9d80b06d8acb0fbd401ca529",
+   "target_line": 20,
+   "section_old": "20–102",
+   "section_old_n": 83,
+   "inserted_at_line": 102,
+   "lines_inserted": 28,
+   "new_headings": []
+  },
+  {
+   "seq": 115,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #12 (l. 1227) J-ROWS",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 12,
+   "line": 1227,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 18,
+   "body_sha256": "08a212a29907b856eabc3ef02d904344a6d6f7deb97bedb15775f05f401fa0b8",
+   "target_table": "document l. 15506 (header '| id | the choice | where |')",
+   "inserted_after_line": 16168,
+   "rows_inserted": 18,
+   "row_ids": [
+    "J-A32.01",
+    "J-A32.02",
+    "J-A33.01",
+    "J-A34.01",
+    "J-A37.01",
+    "J-A41.01",
+    "J-A41.02",
+    "J-A47.01",
+    "J-A48.01",
+    "J-A49.01",
+    "J-A50.01",
+    "J-A62.01",
+    "J-A63.05",
+    "J-A68.05",
+    "J-A69.05",
+    "J-A72.05",
+    "J-A73.05",
+    "J-A101.05"
+   ]
+  },
+  {
+   "seq": 116,
+   "block": "blocks-scope-provenance-bentcut-calibration.md #13 (l. 1246) RATIONALE-A",
+   "file": "blocks-scope-provenance-bentcut-calibration.md",
+   "index": 13,
+   "line": 1246,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 18,
+   "body_sha256": "aef56f113c65bafd6c99d8893f8569d2f30989a3f5c5ed893e3f4f1e6f533bf7",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 707,
+   "rows_inserted": 18,
+   "row_ids": [
+    "J-A32.01",
+    "J-A32.02",
+    "J-A33.01",
+    "J-A34.01",
+    "J-A37.01",
+    "J-A41.01",
+    "J-A41.02",
+    "J-A47.01",
+    "J-A48.01",
+    "J-A49.01",
+    "J-A50.01",
+    "J-A62.01",
+    "J-A63.05",
+    "J-A68.05",
+    "J-A69.05",
+    "J-A72.05",
+    "J-A73.05",
+    "J-A101.05"
+   ]
+  },
+  {
+   "seq": 117,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #1 (l. 1) REPLACE ### 15.1 Parity matrix — every capability row of `docs/confidence/*.md` (rows per `judge-parity.md` ",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 15.1 Parity matrix — every capability row of `docs/confidence/*.md` (rows per `judge-parity.md` §2), plus the audit rows the matrix lacked",
+   "body_lines": 168,
+   "body_sha256": "b0c73f9b9b9dea7ff320fcfc84fedc3cd3f22983b9048ebd29b4ffb9cc3f0bf9",
+   "target_line": 13634,
+   "section_old": "13634–13802",
+   "section_old_n": 169,
+   "section_new_n": 169,
+   "new_headings": [
+    "### 15.1 Parity matrix — every capability row of `docs/confidence/*.md` (rows per `judge-parity.md` §2), plus the audit rows the matrix lacked"
+   ]
+  },
+  {
+   "seq": 118,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #2 (l. 170) REPLACE ## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 2,
+   "line": 170,
+   "kind": "REPLACE",
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "body_lines": 404,
+   "body_sha256": "3586d5d46bf5d815b77e0b2570a21148126a9622eedeb78452f6f0e6656a6e15",
+   "target_line": 13432,
+   "section_old": "13432–13625",
+   "section_old_n": 194,
+   "section_new_n": 405,
+   "new_headings": [
+    "## §14 Package and module layout, key interfaces, dependency rules, extension points"
+   ]
+  },
+  {
+   "seq": 119,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #3 (l. 575) APPEND TO SECTION ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 3,
+   "line": 575,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "body_lines": 155,
+   "body_sha256": "88b384de7fc24a2445e3722401b5aafd545e85c9a59a4b2e97a7198325127dba",
+   "target_line": 12586,
+   "section_old": "12586–12955",
+   "section_old_n": 370,
+   "inserted_at_line": 12955,
+   "lines_inserted": 156,
+   "new_headings": []
+  },
+  {
+   "seq": 120,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #4 (l. 731) APPEND TO SECTION ### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 4,
+   "line": 731,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+   "body_lines": 13,
+   "body_sha256": "1d97487146e7fc36fd5fb42fa4d4a363f0a4e8960a5c3f0e15c5732703194371",
+   "target_line": 12450,
+   "section_old": "12450–12585",
+   "section_old_n": 136,
+   "inserted_at_line": 12585,
+   "lines_inserted": 14,
+   "new_headings": []
+  },
+  {
+   "seq": 121,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #5 (l. 745) APPEND TO SECTION ### 13.3 Seed goldens with the declared-shift protocol (G-P11, G-R9), from M1",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 5,
+   "line": 745,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.3 Seed goldens with the declared-shift protocol (G-P11, G-R9), from M1",
+   "body_lines": 10,
+   "body_sha256": "11fa2f0158313ff0b62c62321380cb7dd93a3b073fac682114542d976056e0e8",
+   "target_line": 13126,
+   "section_old": "13126–13214",
+   "section_old_n": 89,
+   "inserted_at_line": 13214,
+   "lines_inserted": 11,
+   "new_headings": []
+  },
+  {
+   "seq": 122,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #6 (l. 756) APPEND TO SECTION ### 13.4 Visual regression, B-ZOOM and the app harness",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 6,
+   "line": 756,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.4 Visual regression, B-ZOOM and the app harness",
+   "body_lines": 31,
+   "body_sha256": "81ba336453e4646bf2d061f564e5f557aaea34b382470c89786d461b64e9ce42",
+   "target_line": 13226,
+   "section_old": "13226–13248",
+   "section_old_n": 23,
+   "inserted_at_line": 13248,
+   "lines_inserted": 32,
+   "new_headings": []
+  },
+  {
+   "seq": 123,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #7 (l. 788) APPEND TO SECTION ### 13.7 Thresholds without a reference source (IMP-6, DEF-1; D-30)",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 7,
+   "line": 788,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.7 Thresholds without a reference source (IMP-6, DEF-1; D-30)",
+   "body_lines": 10,
+   "body_sha256": "57ebb040b0a06885af54bb5d6659cb5bd6618192d8878cc3e7e398c3464e8913",
+   "target_line": 13528,
+   "section_old": "13528–13580",
+   "section_old_n": 53,
+   "inserted_at_line": 13580,
+   "lines_inserted": 11,
+   "new_headings": []
+  },
+  {
+   "seq": 124,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #8 (l. 799) APPEND TO SECTION ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 8,
+   "line": 799,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "body_lines": 11,
+   "body_sha256": "d2406e4b8778f4b85b5e8b3ef41005104c0fe498a55817434b2a5534475f6aaa",
+   "target_line": 13592,
+   "section_old": "13592–13620",
+   "section_old_n": 29,
+   "inserted_at_line": 13620,
+   "lines_inserted": 12,
+   "new_headings": []
+  },
+  {
+   "seq": 125,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #9 (l. 811) APPEND TO SECTION ### 13.9 The corpus-calibration interface (staged by the owner; DEF-9)",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 9,
+   "line": 811,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 13.9 The corpus-calibration interface (staged by the owner; DEF-9)",
+   "body_lines": 9,
+   "body_sha256": "d3bc04c81bd6015d42636523cf54b7a9fc1067ce83edf78625500f2be5581363",
+   "target_line": 13633,
+   "section_old": "13633–13667",
+   "section_old_n": 35,
+   "inserted_at_line": 13667,
+   "lines_inserted": 10,
+   "new_headings": []
+  },
+  {
+   "seq": 126,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #10 (l. 821) REPLACE ### 1.1 What is built, in what order; the two size ladders",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 10,
+   "line": 821,
+   "kind": "REPLACE",
+   "heading": "### 1.1 What is built, in what order; the two size ladders",
+   "body_lines": 73,
+   "body_sha256": "8de19ca48c2469925b2f0254ac3bab6ac5824f26cf934c423e517157b4b4656e",
+   "target_line": 274,
+   "section_old": "274–340",
+   "section_old_n": 67,
+   "section_new_n": 74,
+   "new_headings": [
+    "### 1.1 What is built, in what order; the two size ladders"
+   ]
+  },
+  {
+   "seq": 127,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #11 (l. 895) REPLACE ### 1.2 The one-click default, stated once",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 11,
+   "line": 895,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The one-click default, stated once",
+   "body_lines": 18,
+   "body_sha256": "eb278de900131c5d6e6d45faf33e52fbad3241724809a3183ea9fa995f7ac818",
+   "target_line": 348,
+   "section_old": "348–362",
+   "section_old_n": 15,
+   "section_new_n": 19,
+   "new_headings": [
+    "### 1.2 The one-click default, stated once"
+   ]
+  },
+  {
+   "seq": 128,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #12 (l. 914) REPLACE ### 1.7 Tech stack (reasons; no dependence on any existing project)",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 12,
+   "line": 914,
+   "kind": "REPLACE",
+   "heading": "### 1.7 Tech stack (reasons; no dependence on any existing project)",
+   "body_lines": 14,
+   "body_sha256": "4d4ac99dab304b06f5b3a1b589fdc1a9021163ea0f0ee17b626a56d7bb0e4409",
+   "target_line": 451,
+   "section_old": "451–465",
+   "section_old_n": 15,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 1.7 Tech stack (reasons; no dependence on any existing project)"
+   ]
+  },
+  {
+   "seq": 129,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #13 (l. 929) REPLACE ### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEME",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 13,
+   "line": 929,
+   "kind": "REPLACE",
+   "heading": "### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5",
+   "body_lines": 56,
+   "body_sha256": "865e01026a04661d4a6b635ab285266ad2e64c531b858036b3cb05cd09c7dbe3",
+   "target_line": 14271,
+   "section_old": "14271–14326",
+   "section_old_n": 56,
+   "section_new_n": 57,
+   "new_headings": [
+    "### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5"
+   ]
+  },
+  {
+   "seq": 130,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #14 (l. 986) REPLACE # Staged by the owner's roadmap (this document defers nothing)",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 14,
+   "line": 986,
+   "kind": "REPLACE",
+   "heading": "# Staged by the owner's roadmap (this document defers nothing)",
+   "body_lines": 21,
+   "body_sha256": "a59c641733cf9d3c337accbca191878f0bb4814213e53d15b6076ee9e7c3ab92",
+   "target_line": 16657,
+   "section_old": "16657–16677",
+   "section_old_n": 21,
+   "section_new_n": 22,
+   "new_headings": [
+    "# Staged by the owner's roadmap (this document defers nothing)"
+   ]
+  },
+  {
+   "seq": 131,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #15 (l. 1008) J-ROWS",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 15,
+   "line": 1008,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 23,
+   "body_sha256": "893634eecc19a3cd0059e72e2a65c50b3818f3db52ad73a7fe60b1c9dcb41f5d",
+   "target_table": "document l. 15975 (header '| id | the choice | where |')",
+   "inserted_after_line": 16655,
+   "rows_inserted": 23,
+   "row_ids": [
+    "J-A56.01",
+    "J-A20.06",
+    "J-A63.01",
+    "J-A65.01",
+    "J-A68.01",
+    "J-A68.02",
+    "J-A69.01",
+    "J-A71.01",
+    "J-A72.01",
+    "J-A73.01",
+    "J-A73.02",
+    "J-A73.03",
+    "J-A83.01",
+    "J-A83.02",
+    "J-A84.01",
+    "J-A84.02",
+    "J-A85.01",
+    "J-A85.02",
+    "J-A85.03",
+    "J-A101.01",
+    "J-A101.02",
+    "J-A101.03",
+    "J-A101.04"
+   ]
+  },
+  {
+   "seq": 132,
+   "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #16 (l. 1032) RATIONALE-A",
+   "file": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md",
+   "index": 16,
+   "line": 1032,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 23,
+   "body_sha256": "5f2ac0c2139fdbd023ca956445a46b20e09772ee650bf36d3eab9bb8436504b5",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 725,
+   "rows_inserted": 23,
+   "row_ids": [
+    "J-A56.01",
+    "J-A20.06",
+    "J-A63.01",
+    "J-A65.01",
+    "J-A68.01",
+    "J-A68.02",
+    "J-A69.01",
+    "J-A71.01",
+    "J-A72.01",
+    "J-A73.01",
+    "J-A73.02",
+    "J-A73.03",
+    "J-A83.01",
+    "J-A83.02",
+    "J-A84.01",
+    "J-A84.02",
+    "J-A85.01",
+    "J-A85.02",
+    "J-A85.03",
+    "J-A101.01",
+    "J-A101.02",
+    "J-A101.03",
+    "J-A101.04"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "blocks-pipeline-staged-clandestine-underground.md #10 (l. 800) APPEND TO SECTION ### II.7.4 The hook interfaces and the base's part",
+   "note": "APPEND body holds heading(s) of the target level or higher",
+   "items": [
+    "### II.7.5 The undercity (item 65): what it requires, existence and the 1–3 bound, a shadow of the settlement",
+    "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+   ]
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #1 (l. 1) REPLACE ### 5.1 Principles and the seven tiers (G-P7)",
+    "kind": "REPLACE",
+    "heading": "### 5.1 Principles and the seven tiers (G-P7)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #2 (l. 84) REPLACE ### 5.2 Failure classes: detection, ladder, test",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Failure classes: detection, ladder, test",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #3 (l. 116) REPLACE ### 5.3 The invariant suite, by scope (SCL-1)",
+    "kind": "REPLACE",
+    "heading": "### 5.3 The invariant suite, by scope (SCL-1)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #4 (l. 192) REPLACE ### 5.4 The generation report",
+    "kind": "REPLACE",
+    "heading": "### 5.4 The generation report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #5 (l. 229) REPLACE ### 6.1 RNG and stream design",
+    "kind": "REPLACE",
+    "heading": "### 6.1 RNG and stream design",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #6 (l. 409) REPLACE ### 6.2 What a seed determines, and the model digest",
+    "kind": "REPLACE",
+    "heading": "### 6.2 What a seed determines, and the model digest",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #7 (l. 578) REPLACE ### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+    "kind": "REPLACE",
+    "heading": "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #8 (l. 788) REPLACE ### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+    "kind": "REPLACE",
+    "heading": "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #9 (l. 898) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #10 (l. 1221) REPLACE ### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes",
+    "kind": "REPLACE",
+    "heading": "### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #11 (l. 1286) REPLACE ### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+    "kind": "REPLACE",
+    "heading": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #12 (l. 1615) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "kind": "REPLACE",
+    "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #13 (l. 1815) APPEND TO SECTION ### 7.5 Migration and upgrade (G-P9)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 7.5 Migration and upgrade (G-P9)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #14 (l. 1836) REPLACE ### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+    "kind": "REPLACE",
+    "heading": "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #15 (l. 1936) REPLACE ### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)",
+    "kind": "REPLACE",
+    "heading": "### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #16 (l. 1997) J-ROWS",
+    "state": "OK",
+    "rows": 24,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-determinism-determinism-underground-authoring-bentcut-plots-walls-districts-render-labels-provenance-clandestine-transitions-light-palette-informal-character.md #17 (l. 2022) RATIONALE-A",
+    "state": "OK",
+    "rows": 24,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-determinism-dossier.md #1 (l. 1) REPLACE ### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+    "kind": "REPLACE",
+    "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-determinism-dossier.md #2 (l. 479) J-ROWS",
+    "state": "OK",
+    "rows": 24,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-determinism-dossier.md #3 (l. 505) RATIONALE-A",
+    "state": "OK",
+    "rows": 24,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-kernel.md #1 (l. 1) REPLACE ### 3.4 Kernel operations the pipeline needs (complete list)",
+    "kind": "REPLACE",
+    "heading": "### 3.4 Kernel operations the pipeline needs (complete list)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-kernel.md #2 (l. 242) REPLACE ### 3.1 Build-versus-adopt, per primitive",
+    "kind": "REPLACE",
+    "heading": "### 3.1 Build-versus-adopt, per primitive",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-kernel.md #3 (l. 290) REPLACE ### 3.5 Why this kernel closes the creators' failure classes",
+    "kind": "REPLACE",
+    "heading": "### 3.5 Why this kernel closes the creators' failure classes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-kernel.md #4 (l. 308) REPLACE ### 3.7 One geometry engine on every host — booleans, buffers and the kerb on the arrangement",
+    "kind": "REPLACE",
+    "heading": "### 3.7 One geometry engine on every host — booleans, buffers and the kerb on the arrangement",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-kernel.md #5 (l. 422) REPLACE ### 3.10 Kernel invariants — what is checked, when, and at what cost",
+    "kind": "REPLACE",
+    "heading": "### 3.10 Kernel invariants — what is checked, when, and at what cost",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-kernel.md #6 (l. 464) J-ROWS",
+    "state": "OK",
+    "rows": 4,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-kernel.md #7 (l. 469) RATIONALE-A",
+    "state": "OK",
+    "rows": 4,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-model.md #1 (l. 1) REPLACE ### 2.1 Layers, coordinates, units, ids",
+    "kind": "REPLACE",
+    "heading": "### 2.1 Layers, coordinates, units, ids",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #2 (l. 39) REPLACE ### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored ind",
+    "kind": "REPLACE",
+    "heading": "### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #3 (l. 374) REPLACE ### 2.3 Terrain and water",
+    "kind": "REPLACE",
+    "heading": "### 2.3 Terrain and water",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #4 (l. 461) REPLACE ### 2.4 Ways (the skeleton) and typed edges",
+    "kind": "REPLACE",
+    "heading": "### 2.4 Ways (the skeleton) and typed edges",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #5 (l. 484) REPLACE ### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the conte",
+    "kind": "REPLACE",
+    "heading": "### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the context vector",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #6 (l. 631) REPLACE ### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+    "kind": "REPLACE",
+    "heading": "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #7 (l. 1285) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #8 (l. 1451) REPLACE ### 2.8 Identity, lifecycle, provenance, the entity registry",
+    "kind": "REPLACE",
+    "heading": "### 2.8 Identity, lifecycle, provenance, the entity registry",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #9 (l. 1660) REPLACE ### 2.9 The document and serialisation",
+    "kind": "REPLACE",
+    "heading": "### 2.9 The document and serialisation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-model.md #10 (l. 1969) J-ROWS",
+    "state": "OK",
+    "rows": 18,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-model.md #11 (l. 1988) RATIONALE-A",
+    "state": "OK",
+    "rows": 18,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-bentcut.md #1 (l. 3) REPLACE ### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-inter",
+    "kind": "REPLACE",
+    "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-bentcut.md #2 (l. 250) REPLACE ## II.5 What the base already carries for stage 2 (all base requirements in PART I)",
+    "kind": "REPLACE",
+    "heading": "## II.5 What the base already carries for stage 2 (all base requirements in PART I)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-bentcut.md #3 (l. 280) J-ROWS",
+    "state": "OK",
+    "rows": 11,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-bentcut.md #4 (l. 292) RATIONALE-A",
+    "state": "OK",
+    "rows": 11,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-plots.md #1 (l. 10) REPLACE ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+    "kind": "REPLACE",
+    "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-plots.md #2 (l. 379) J-ROWS",
+    "state": "OK",
+    "rows": 5,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-plots.md #3 (l. 385) RATIONALE-A",
+    "state": "OK",
+    "rows": 5,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #1 (l. 2) REPLACE ## II.2 Templates as fabric strategies (NG B2, B7, B8)",
+    "kind": "REPLACE",
+    "heading": "## II.2 Templates as fabric strategies (NG B2, B7, B8)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #2 (l. 43) REPLACE ## II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)",
+    "kind": "REPLACE",
+    "heading": "## II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #3 (l. 64) REPLACE # PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+    "kind": "REPLACE",
+    "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #4 (l. 138) APPEND TO SECTION ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #5 (l. 221) REPLACE ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #6 (l. 415) REPLACE ## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+    "kind": "REPLACE",
+    "heading": "## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #7 (l. 573) INSERT AFTER ## II.7 The sewer layer — existence by tier, the network stage, the underground neighbourhoods (stag",
+    "kind": "INSERT AFTER",
+    "heading": "## II.7 The sewer layer — existence by tier, the network stage, the underground neighbourhoods (staged, with its base hooks)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #8 (l. 586) REPLACE ### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occu",
+    "kind": "REPLACE",
+    "heading": "### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #9 (l. 760) REPLACE ### II.7.4 The hook interfaces and the base's part",
+    "kind": "REPLACE",
+    "heading": "### II.7.4 The hook interfaces and the base's part",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #10 (l. 800) APPEND TO SECTION ### II.7.4 The hook interfaces and the base's part",
+    "kind": "APPEND TO SECTION",
+    "heading": "### II.7.4 The hook interfaces and the base's part",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #11 (l. 1091) J-ROWS",
+    "state": "OK",
+    "rows": 21,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-staged-clandestine-underground.md #12 (l. 1114) RATIONALE-A",
+    "state": "OK",
+    "rows": 21,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #1 (l. 13) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "kind": "REPLACE",
+    "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #2 (l. 187) APPEND TO SECTION ### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #3 (l. 220) APPEND TO SECTION ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+    "occurrences": 0,
+    "later_replaces": [
+     "blocks-pipeline-walls-districts-hinterland.md #4 (l. 704) REPLACE ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims"
+    ],
+    "state": "LOST — overwritten by a later REPLACE that does not carry it"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #4 (l. 355) APPEND TO SECTION ### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-inter",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #5 (l. 363) APPEND TO SECTION ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #6 (l. 518) APPEND TO SECTION ### 4.10 S13 Names and labels · S14 Display list · S15 Simulation",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 4.10 S13 Names and labels · S14 Display list · S15 Simulation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #7 (l. 526) REPLACE ### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in th",
+    "kind": "REPLACE",
+    "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #8 (l. 1293) APPEND TO SECTION ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #9 (l. 1376) APPEND TO SECTION ### 10.3 People, households, relations, sub-locations, schedules",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 10.3 People, households, relations, sub-locations, schedules",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #10 (l. 1394) APPEND TO SECTION ### 10.4 Names, descriptions and setting packs",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 10.4 Names, descriptions and setting packs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #11 (l. 1414) APPEND TO SECTION # PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+    "kind": "APPEND TO SECTION",
+    "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #12 (l. 1422) J-ROWS",
+    "state": "OK",
+    "rows": 42,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-transitions-informal-character-dossier-calibration-light-authoring.md #13 (l. 1466) RATIONALE-A",
+    "state": "OK",
+    "rows": 42,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #1 (l. 4) REPLACE ### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+    "kind": "REPLACE",
+    "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #2 (l. 103) REPLACE ### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and it",
+    "kind": "REPLACE",
+    "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #3 (l. 539) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+    "kind": "REPLACE",
+    "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #4 (l. 704) REPLACE ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+    "kind": "REPLACE",
+    "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #5 (l. 906) REPLACE ## II.1 The district → neighbourhood interface",
+    "kind": "REPLACE",
+    "heading": "## II.1 The district → neighbourhood interface",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #6 (l. 1006) REPLACE ### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+    "kind": "REPLACE",
+    "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #7 (l. 1179) J-ROWS",
+    "state": "OK",
+    "rows": 10,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-pipeline-walls-districts-hinterland.md #8 (l. 1191) RATIONALE-A",
+    "state": "OK",
+    "rows": 10,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-rendering.md #1 (l. 5) REPLACE ### 8.1 The display list (renderer-independent, columnar, incremental)",
+    "kind": "REPLACE",
+    "heading": "### 8.1 The display list (renderer-independent, columnar, incremental)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #2 (l. 131) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #3 (l. 566) REPLACE ### 8.3 Symbol catalogue and draw-style census",
+    "kind": "REPLACE",
+    "heading": "### 8.3 Symbol catalogue and draw-style census",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #4 (l. 640) REPLACE ### 8.4 Layers, shadows, heights",
+    "kind": "REPLACE",
+    "heading": "### 8.4 Layers, shadows, heights",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #5 (l. 859) REPLACE ### 8.5 Level of detail, the city-band figure-ground contract, way selection, first paint",
+    "kind": "REPLACE",
+    "heading": "### 8.5 Level of detail, the city-band figure-ground contract, way selection, first paint",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #6 (l. 970) APPEND TO SECTION ### 8.6 Stage-2 render tier and stage-3 LOD",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 8.6 Stage-2 render tier and stage-3 LOD",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #7 (l. 977) REPLACE ### 8.8 Tiles, zoom stops, print and the canvas budget",
+    "kind": "REPLACE",
+    "heading": "### 8.8 Tiles, zoom stops, print and the canvas budget",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #8 (l. 1072) REPLACE ### 8.9 Backends, text, threads and the worker boundary",
+    "kind": "REPLACE",
+    "heading": "### 8.9 Backends, text, threads and the worker boundary",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #9 (l. 1204) REPLACE ### 8.10 Decoration instances (trees, scatter, crowns, roof detail)",
+    "kind": "REPLACE",
+    "heading": "### 8.10 Decoration instances (trees, scatter, crowns, roof detail)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #10 (l. 1338) REPLACE ### 9.1 What is model and what is view",
+    "kind": "REPLACE",
+    "heading": "### 9.1 What is model and what is view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #11 (l. 1387) REPLACE ### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+    "kind": "REPLACE",
+    "heading": "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #12 (l. 1543) REPLACE ### 9.3 Spines and candidates",
+    "kind": "REPLACE",
+    "heading": "### 9.3 Spines and candidates",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #13 (l. 1573) REPLACE ### 9.4 Sizes, floors, the ladder, quarters, overflow, halos",
+    "kind": "REPLACE",
+    "heading": "### 9.4 Sizes, floors, the ladder, quarters, overflow, halos",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #14 (l. 1626) REPLACE ### 9.5 Furniture, framing and tools",
+    "kind": "REPLACE",
+    "heading": "### 9.5 Furniture, framing and tools",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #15 (l. 1691) APPEND TO SECTION ### 9.6 Names",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 9.6 Names",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #16 (l. 1700) REPLACE ### 11.1 Formats",
+    "kind": "REPLACE",
+    "heading": "### 11.1 Formats",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #17 (l. 1846) REPLACE ### 11.2 The embedding API and the worker boundary (SCL-6)",
+    "kind": "REPLACE",
+    "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #18 (l. 1954) REPLACE ### 11.3 The host bridge — the host is the store (FTG-12)",
+    "kind": "REPLACE",
+    "heading": "### 11.3 The host bridge — the host is the store (FTG-12)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #19 (l. 2043) REPLACE ### 11.4 Host inputs (DEF-11)",
+    "kind": "REPLACE",
+    "heading": "### 11.4 Host inputs (DEF-11)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #20 (l. 2081) APPEND TO SECTION ### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #21 (l. 2093) APPEND TO SECTION ### 12.6 Edits, regeneration, replay and warp, as functions of scope (SCL-9)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 12.6 Edits, regeneration, replay and warp, as functions of scope (SCL-9)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #22 (l. 2103) REPLACE ### 12.7 Labels, trees, exports (SCL-8, SCL-10, SCL-14)",
+    "kind": "REPLACE",
+    "heading": "### 12.7 Labels, trees, exports (SCL-8, SCL-10, SCL-14)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #23 (l. 2202) APPEND TO SECTION ### 12.8 Memory (what is counted, per rung)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 12.8 Memory (what is counted, per rung)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-rendering.md #24 (l. 2210) J-ROWS",
+    "state": "OK",
+    "rows": 30,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-rendering.md #25 (l. 2242) RATIONALE-A",
+    "state": "OK",
+    "rows": 30,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #1 (l. 18) REPLACE ### 17.1 The clean-room chain (IMP-1; D-29)",
+    "kind": "REPLACE",
+    "heading": "### 17.1 The clean-room chain (IMP-1; D-29)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #2 (l. 166) REPLACE ### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file",
+    "kind": "REPLACE",
+    "heading": "### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #3 (l. 278) REPLACE ### 1.3 The thesis in one paragraph",
+    "kind": "REPLACE",
+    "heading": "### 1.3 The thesis in one paragraph",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #4 (l. 298) REPLACE ### 1.4 Fusion thesis, stage by stage",
+    "kind": "REPLACE",
+    "heading": "### 1.4 Fusion thesis, stage by stage",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #5 (l. 346) REPLACE ### 0.3 Evidence discipline",
+    "kind": "REPLACE",
+    "heading": "### 0.3 Evidence discipline",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #6 (l. 363) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "kind": "REPLACE",
+    "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #7 (l. 734) REPLACE ## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, t",
+    "kind": "REPLACE",
+    "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #8 (l. 839) REPLACE # Delegated decisions (the owner deferred all judgment; each is final unless vetoed)",
+    "kind": "REPLACE",
+    "heading": "# Delegated decisions (the owner deferred all judgment; each is final unless vetoed)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #9 (l. 1054) REPLACE # Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #10 (l. 1092) REPLACE ### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`) and items 8–",
+    "kind": "REPLACE",
+    "heading": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`) and items 8–31 (its sibling `AMENDMENTS-2026-09-25b`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #11 (l. 1197) APPEND TO SECTION ## The whole design in one page (plain words)",
+    "kind": "APPEND TO SECTION",
+    "heading": "## The whole design in one page (plain words)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #12 (l. 1227) J-ROWS",
+    "state": "OK",
+    "rows": 18,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-scope-provenance-bentcut-calibration.md #13 (l. 1246) RATIONALE-A",
+    "state": "OK",
+    "rows": 18,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #1 (l. 1) REPLACE ### 15.1 Parity matrix — every capability row of `docs/confidence/*.md` (rows per `judge-parity.md` ",
+    "kind": "REPLACE",
+    "heading": "### 15.1 Parity matrix — every capability row of `docs/confidence/*.md` (rows per `judge-parity.md` §2), plus the audit rows the matrix lacked",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #2 (l. 170) REPLACE ## §14 Package and module layout, key interfaces, dependency rules, extension points",
+    "kind": "REPLACE",
+    "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #3 (l. 575) APPEND TO SECTION ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #4 (l. 731) APPEND TO SECTION ### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #5 (l. 745) APPEND TO SECTION ### 13.3 Seed goldens with the declared-shift protocol (G-P11, G-R9), from M1",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.3 Seed goldens with the declared-shift protocol (G-P11, G-R9), from M1",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #6 (l. 756) APPEND TO SECTION ### 13.4 Visual regression, B-ZOOM and the app harness",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.4 Visual regression, B-ZOOM and the app harness",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #7 (l. 788) APPEND TO SECTION ### 13.7 Thresholds without a reference source (IMP-6, DEF-1; D-30)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.7 Thresholds without a reference source (IMP-6, DEF-1; D-30)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #8 (l. 799) APPEND TO SECTION ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #9 (l. 811) APPEND TO SECTION ### 13.9 The corpus-calibration interface (staged by the owner; DEF-9)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 13.9 The corpus-calibration interface (staged by the owner; DEF-9)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #10 (l. 821) REPLACE ### 1.1 What is built, in what order; the two size ladders",
+    "kind": "REPLACE",
+    "heading": "### 1.1 What is built, in what order; the two size ladders",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #11 (l. 895) REPLACE ### 1.2 The one-click default, stated once",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The one-click default, stated once",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #12 (l. 914) REPLACE ### 1.7 Tech stack (reasons; no dependence on any existing project)",
+    "kind": "REPLACE",
+    "heading": "### 1.7 Tech stack (reasons; no dependence on any existing project)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #13 (l. 929) REPLACE ### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEME",
+    "kind": "REPLACE",
+    "heading": "### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #14 (l. 986) REPLACE # Staged by the owner's roadmap (this document defers nothing)",
+    "kind": "REPLACE",
+    "heading": "# Staged by the owner's roadmap (this document defers nothing)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #15 (l. 1008) J-ROWS",
+    "state": "OK",
+    "rows": 23,
+    "rows_not_once": []
+   },
+   {
+    "block": "blocks-scope-render-labels-dossier-plots-walls-districts-determinism-toolkit-hinterland-staged-clandestine-underground-transitions-light-palette-informal-character-authoring.md #16 (l. 1032) RATIONALE-A",
+    "state": "OK",
+    "rows": 23,
+    "rows_not_once": []
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 702,
+  "document index duplicate ids": [],
+  "Part A rows": 702,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 145,
+  "headings_after": 147,
+  "headings_added": [
+   "### II.7.5 The undercity (item 65): what it requires, existence and the 1–3 bound, a shadow of the settlement",
+   "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+  ],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 108,
+  "fence_lines_after": 130,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 0,
+  "pending_fable_review_lines_after": 0,
+  "doc_bytes_before": 1645248,
+  "doc_bytes_after": 2176636,
+  "doc_lines_before": 13026,
+  "doc_lines_after": 16737,
+  "rationale_bytes_before": 459633,
+  "rationale_bytes_after": 619666,
+  "rationale_lines_before": 2053,
+  "rationale_lines_after": 2283,
+  "blocks_total": 132,
+  "blocks_applied": 132,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "63f3d1cc8edae45987a062e207687cf5d761233017a62756a96a7aae8e8bddc8",
+  "output_rationale_sha256": "84cf0c37d1d234ac04417ac5e59fa9794389a06a807037ca07430ee4df94dd9d"
+ },
+ "order": "one-pass",
+ "merges": []
+}

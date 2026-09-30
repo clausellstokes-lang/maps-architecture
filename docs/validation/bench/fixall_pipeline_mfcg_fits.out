@@ -1,0 +1,22 @@
+gates: N = round(1 + 0.47*sqrt(walled_ha))  vs arch old 2+round(0.9*sqrt(A/10))
+size-10   walled      4.4 ha  MFCG gates   2  new   2  old   3
+size-15   walled      9.5 ha  MFCG gates   3  new   2  old   3
+size-24   walled     23.1 ha  MFCG gates   4  new   3  old   3
+size-40   walled     58.2 ha  MFCG gates   5  new   5  old   4
+size-60   walled    121.8 ha  MFCG gates   7  new   6  old   5
+size-80   walled    220.4 ha  MFCG gates   8  new   8  old   6
+size-120  walled    473.5 ha  MFCG gates  12  new  11  old   8
+size-130  walled    548.1 ha  MFCG gates  12  new  12  old   9
+size-200  walled   1274.5 ha  MFCG gates  18  new  18  old  12
+size-250  walled   1942.0 ha  MFCG gates  21  new  22  old  15
+districts ~ 1.374 * buildings^0.267 (least squares on log, sizes 40-250)
+size-10   buildings     77  MFCG districts   3  fit   4.4  1.16*B^0.28   3.9  arch 3.5*sqrt(A/10) on walled   2.3
+size-15   buildings    174  MFCG districts   6  fit   5.4  1.16*B^0.28   4.9  arch 3.5*sqrt(A/10) on walled   3.4
+size-24   buildings    411  MFCG districts   6  fit   6.9  1.16*B^0.28   6.3  arch 3.5*sqrt(A/10) on walled   5.3
+size-40   buildings   1475  MFCG districts   9  fit   9.6  1.16*B^0.28   8.9  arch 3.5*sqrt(A/10) on walled   8.4
+size-60   buildings   2617  MFCG districts  13  fit  11.2  1.16*B^0.28  10.5  arch 3.5*sqrt(A/10) on walled  12.2
+size-80   buildings   5242  MFCG districts  12  fit  13.5  1.16*B^0.28  12.8  arch 3.5*sqrt(A/10) on walled  16.4
+size-120  buildings  11772  MFCG districts  17  fit  16.8  1.16*B^0.28  16.0  arch 3.5*sqrt(A/10) on walled  24.1
+size-130  buildings  13091  MFCG districts  18  fit  17.3  1.16*B^0.28  16.5  arch 3.5*sqrt(A/10) on walled  25.9
+size-200  buildings  31951  MFCG districts  22  fit  21.9  1.16*B^0.28  21.2  arch 3.5*sqrt(A/10) on walled  39.5
+size-250  buildings  48379  MFCG districts  24  fit  24.5  1.16*B^0.28  23.8  arch 3.5*sqrt(A/10) on walled  48.8

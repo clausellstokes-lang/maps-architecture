@@ -1,0 +1,12 @@
+== A  GEO-3 edge attraction, revised rule ==
+fixture (20,20) vs edge (0,0)-(1000,0): dist to A 28.28 (> 26, not vertex-attracted) -> endpoint at (0, 0), displacement 28.28 cm
+band samples 400000: vertex-attracted 42888, moved onto an endpoint 5729, split 343718; sub-minEdge sub-edges 0; shortest sub-edge 25.50 cm; largest displacement 36.72 cm (bound sqrt(2)*26 = 36.77)
+== B  round-1 measurement re-run (cut endpoints on Chaikin x2 spines) under the revised rule ==
+segments p50 7.9 m; endpoints attracted 6.38 %; displacement p50 12.9 cm, p90 23.5 cm, max 26.0 cm; shortest resulting edge 25.6 cm
+== C  crossing next to an existing vertex at 25-26 cm from the crossed edge ==
+200000 crossings: plain nearest-lattice rounding leaves 1361 sub-minEdge edges (max off-line 0.703 cm); constrained rounding leaves 0 (max off-line 0.706 cm, max distance from the exact crossing 0.840 cm)
+== D  VK-10 notched near-rectangle ==
+area ratio to OBB 0.970; four OBB corners present; convex: False; hip (0,0)->(500,500) passes (150,150), inside footprint: False
+== E  VK-8 exact area2 ==
+300 random rings over the full range |x|,|y| < 2^23: flush-at-2^52 mismatches 0; fixed 1 024-term flush mismatches 0
+3 star rings (1 radian steps, radius 2^23 - 2): flush-at-2^52 mismatches 0; fixed 1 024-term flush mismatches 3

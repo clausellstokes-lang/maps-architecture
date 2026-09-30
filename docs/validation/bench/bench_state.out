@@ -1,0 +1,15 @@
+rung=CITY entities=22250 plat vertices/level=60000 (build 190 ms)
+canonical model hash: serialise entities 237 ms + plats 808 ms + hash 118 ms = 1163 ms; canonical text 65.0 MB
+structuredClone(entities) 186 ms (sender serialise 60 ms + receiver deserialise 162 ms; 19.4 MB); structuredClone(plats, copied) 9 ms
+display list 60000 Mark objects: build 6 ms; postMessage-equivalent sender 46 ms + main-thread receive 140 ms (17.7 MB)
+display list 125000 Mark objects: build 15 ms; postMessage-equivalent sender 111 ms + main-thread receive 208 ms (36.9 MB)
+heap per entity-table copy ≈ -90 MB; plat typed arrays per copy ≈ 29 MB
+stream keys: 100000 paths -> 128-bit keys in 73 ms (1)
+
+rung=METRO entities=55625 plat vertices/level=150000 (build 487 ms)
+canonical model hash: serialise entities 582 ms + plats 1812 ms + hash 318 ms = 2712 ms; canonical text 167.4 MB
+structuredClone(entities) 445 ms (sender serialise 159 ms + receiver deserialise 268 ms; 48.7 MB); structuredClone(plats, copied) 78 ms
+display list 150000 Mark objects: build 168 ms; postMessage-equivalent sender 144 ms + main-thread receive 302 ms (44.3 MB)
+display list 312500 Mark objects: build 50 ms; postMessage-equivalent sender 319 ms + main-thread receive 895 ms (92.5 MB)
+heap per entity-table copy ≈ 117 MB; plat typed arrays per copy ≈ 73 MB
+stream keys: 250000 paths -> 128-bit keys in 195 ms (0)

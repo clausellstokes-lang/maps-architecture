@@ -1,0 +1,2902 @@
+[
+ {
+  "id": "32",
+  "owner_words": "\"oh read them. don't hesitate. we captured it, we read it, unless we directly copy their code line by line, that is copyright. but to read them and to understand their logic, that is another thing entirely.\" (owner, 2026-09-27; quoted in docs/AMENDMENTS-2026-09-25b.md item 32)",
+  "ruling": "ADOPT (policy)",
+  "gate": "CONFIRMED (policy)",
+  "held": [],
+  "evidence": "policy",
+  "state": "PARTIAL",
+  "home_part": "scope",
+  "home_section": "§17.1 (1) The clean-room chain — who reads what",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§0.2",
+    "what": "landing table for items 32–62 (rule, landing, clause map); rewrite l. 136 \"Item 32 … is the next pass's\" (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Appendix A",
+    "what": "an \"Amendments c (2026-09-27)\" paragraph: reader lanes read the bundles research-side; design seats read findings, critic and impact file only; held parts listed (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "the one-page summary",
+    "what": "one APPENDED plain-words paragraph on the code readings (never a REPLACE; the workflow guard) (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Delegated decisions D-29",
+    "what": "optional clause: research seats may read captured bundles to understand them since 2026-09-27; implementer inputs unchanged (S1)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-29",
+   "J-S8",
+   "J-A21.01",
+   "J-S32",
+   "J-S35",
+   "J-S36",
+   "critic R5",
+   "critic R9"
+  ],
+  "group": "provenance (with 62); meets amendments-b item 21"
+ },
+ {
+  "id": "33",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "CALIBRATE citations; KEEP OURS slope term",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M2, R-N2, R-V4",
+  "state": "PARTIAL (citation)",
+  "home_part": "pipeline",
+  "home_section": "§4.6 S8 Infill — the recipe paragraph's parenthesis and step 1's slope-term provenance (own)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.4 block fabric (lanes) row",
+    "what": "\"NG 1.2.2's bent cut, its mechanism restated, with the measured signature\" (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§0.3",
+    "what": "the unknown-mechanism sentence keeps only FTG's district scoring (server unread); the bend placement and NG's stop test are read; the identifier `isSmallEnough` goes (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Delegated decisions D-16",
+    "what": "\"with the measured construction\" -> \"with NG 1.2.2's mechanism restated in our metric terms\" (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "the one-page summary",
+    "what": "\"measured from Neighbourhood's recordings\" corrected only through item 32's appended paragraph, never by REPLACE (S1)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.5 (same part, seat A)",
+    "what": "optional: \"the measured recipe\" -> \"the restated recipe\""
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.6 (owner duty of seat A)",
+    "what": "fold item 42's deep-interior phrase; remove `BisectorEx`; keep the heading line byte-identical"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-16",
+   "J-P4",
+   "J-2",
+   "J-A23.71",
+   "COV-MFCG-C05"
+  ],
+  "group": "bentcut"
+ },
+ {
+  "id": "34",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "KEEP OURS quantity (extent); ADOPT per-face random threshold",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M2, R-N1, R-N2; X1 (exact mean 7/30)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.6 step 1 Stop test (states [e_lo, e_hi] once, from §4.4's regime floor and §4.7's depth column)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "`cut.stop` appended by item 41's registry edit; uniform-only draw helpers for the folded bell |(u1+u2+u3+u4)/2 − 1| and the mean of three uniforms; the power via dmath (§6.5 (3))"
+   },
+   {
+    "part": "scope",
+    "section": "§0.3",
+    "what": "NG's stop test is read (with item 33's sentence) (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§16 M-1",
+    "what": "the block-depth band rows re-fitted at M-1 under the per-face stop reading (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 blocks row",
+    "what": "optional note: band rows recalibrated at M-1 under item 34 (folded by S1)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-19",
+   "J-P15"
+  ],
+  "group": "bentcut"
+ },
+ {
+  "id": "35",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "ADOPT (restated position law)",
+  "gate": "CONFIRMED; the 160/162-face check is PLAUSIBLE support, not written",
+  "held": [
+   "the position check on 160/162 faces (support only)"
+  ],
+  "evidence": "✓ R-M2, R-N2",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "§4.6 step 2 Position and the holes paragraph",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "II.2 (same part; owner seat D)",
+    "what": "\"§4.6's slit and holed position law\" for \"§4.6's slit, σ = 0.098\" — written by the II.2 owner (item 58's seat)"
+   }
+  ],
+  "staged": "BASE (the II.2 wording belongs to stage 2's text)",
+  "decisions_touched": [],
+  "group": "bentcut"
+ },
+ {
+  "id": "36",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "ADOPT deterministic start",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M2, R-N2",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "§4.6 step 3 Start (row `cut.sideLongerBias` deleted there)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "`cut.side` retired by item 41's registry edit"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [],
+  "group": "bentcut"
+ },
+ {
+  "id": "37",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "ADOPT corner-first and the far-side rule; CALIBRATE `cut.bendMode` (flatten default, straightFirst for the MFCG preset)",
+  "gate": "CONFIRMED; HOLD the metre reading behind 0.7 m",
+  "held": [
+   "the metre reading that makes `cut.flattenM` = 0.7 m \"NG's two model units at its export scale\""
+  ],
+  "evidence": "✓ X2, X3, R-M2, R-N2, R-V4; ⚙ 177/178 corners",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "§4.6 steps 4–5 Corner; Far side and second leg; Straight or bent",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "`cut.farSideAlt` retired by item 41's registry edit"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.6",
+    "what": "a per-preset value rule: a parity preset can set a reference-choice row to that reference's value (`cut.bendMode = straightFirst` under MFCG; item 43's jitter values) — today presets only zero `extension` cells (J-A37.71)"
+   },
+   {
+    "part": "scope",
+    "section": "§16 M0 (b)",
+    "what": "the J-P16 fallback no longer runs; M0 (b)'s comparison checks the adopted rule; the flatten height calibrated there (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§0.3",
+    "what": "C13's bend-placement law is read (with item 33) (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Judgment calls index",
+    "what": "the J-A37 rows name J-P16 as superseded (J-ROWS append; never REPLACE the index)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-P16",
+   "J-P4",
+   "J-A23.71",
+   "code-impact Fable re-check (NG flatten vs MFCG straight-first)"
+  ],
+  "group": "bentcut"
+ },
+ {
+  "id": "38",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "ADOPT angle-and-leg fillet, whole-leg tangent",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "⚙ NG checked on captures; R-N5 re-ran (209.9 vs 200 of 378); MFCG R",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "§4.6 step 6 Fillet (COV-NG-N19)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.6 (same part)",
+    "what": "no cross-part edit: `r_t` occurs nowhere in §6.1 or §7.7; `cut.arc` keeps its name; the fillet-share bar is item 41's (scope §13.5)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "COV-NG-N19 (row id kept)"
+  ],
+  "group": "bentcut"
+ },
+ {
+  "id": "39",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "KEEP OURS ladder; ADOPT the 36°-turned frame for rung (a)",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M2; NG §6 rows 14–15 R",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.6 step 8 Transaction and ladder, rung (a)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§5.2 F-CUT",
+    "what": "\"redraw the cut position ×2\" -> \"re-plan in a frame turned 36°, ×2\""
+   },
+   {
+    "part": "kernel",
+    "section": "§3.5",
+    "what": "the NG row: NG 1.2.2's silent turned-frame retries (ten attempts, then the face stays whole) and its hole-aware bisector's \"Alternative cut\" / \"Trying again\" loops (≤ 20 random-frame retries, then accepted)"
+   },
+   {
+    "part": "scope",
+    "section": "§1.3",
+    "what": "the item's replacement text (S1)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-9",
+   "J-DET-3",
+   "J-DET-25"
+  ],
+  "group": "bentcut"
+ },
+ {
+  "id": "40",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "CALIBRATE: saturating power law, free-end term withdrawn",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "⚙ ✓ R-N5 (rms ≤ 0.0008)",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "§4.6 step 9 Width (COV-NG-N20)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "II.2 (same part; owner seat D)",
+    "what": "add \"(NG draws them as its per-map maximum)\" to the template-widths sentence — written by the II.2 owner"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [],
+  "group": "bentcut"
+ },
+ {
+  "id": "41",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "CALIBRATE: measured numbers are outputs; only the streams change",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "from items 34–40",
+  "state": "ABSENT",
+  "home_part": "scope",
+  "home_section": "§13.5 bent-cut signature row (reference cell \"measured outputs of NG 1.2.2's mechanism …\"; fillet-share bar ± 0.05)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1 concern registry",
+    "what": "append `cut.stop` (an \"Appended by the amendments of 2026-09-27\" sentence) and mark `cut.side`, `cut.farSideAlt` retired (reserved, no reader, never reused) — the append-only rule; the determinism editor rules (J-A41.61)"
+   },
+   {
+    "part": "scope",
+    "section": "§16 M0 (b) (same part, S1)",
+    "what": "add the fillet-share bar; σ read as NG's measured output"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 (owner duty of S1)",
+    "what": "fold items 34, 46, 47, 48, 49, 50, 53, 58 (e), 60, 61 into one REPLACE"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-15",
+   "G-P6",
+   "D-24",
+   "J-S17"
+  ],
+  "group": "bentcut"
+ },
+ {
+  "id": "42",
+  "owner_words": "\"plots of land that have buildings in them and a yard\" (owner, the plot model)",
+  "ruling": "KEEP OURS; correct the characterisation (NG's frontage-less lots are its courts)",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (NG §0 #5, §6 row 21)",
+  "state": "PARTIAL (citation)",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S10 (10)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§5.2 F-PLOT",
+    "what": "test cell: \"NG baseline: ≈ 42 % of lot leaves frontage-less (its courts)\""
+   },
+   {
+    "part": "scope",
+    "section": "§1.3",
+    "what": "the item's replacement text, written by S1 (the §1.3 owner)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.6 deep-interior paragraph (same part; owner seat A)",
+    "what": "add \"(an output of NG's no-frontage rule on its block and lot sizes)\" — written by seat A"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 (owner duty of seat B)",
+    "what": "fold item 50's S11 Entrances phrase"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-P15",
+   "J-A30.41",
+   "J-P13"
+  ],
+  "group": "plots; meets amendments-b items 30, 31"
+ },
+ {
+  "id": "43",
+  "owner_words": "\"end to end against the street front for row houses\" (owner, the plot model)",
+  "ruling": "CALIBRATE the law's shape; KEEP OURS construction and band defaults; MFCG preset 4.8 m / 2 m",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (MFCG §2.11.4, §6 row 17; NG §6 row 22)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S11 designation template — front-line jitter",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§7.6",
+    "what": "band defaults carry the `extension` marker over MFCG (mode option) above the emulated law; the MFCG preset's 4.8 m / 2 m through item 37's per-preset value rule"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 MFCG C3; NG C7",
+    "what": "C3: \"lot post-processing (the front recession, P9)\" (identifier `Offset` removed); C7 unchanged (S2)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-A23.71",
+   "J-P14",
+   "J-K2"
+  ],
+  "group": "plots; meets amendments-b item 23"
+ },
+ {
+  "id": "44",
+  "owner_words": "\"Sometimes several disjointed or disconnected buildings all still belonging to the same business or institution.\" (owner, the plot model)",
+  "ruling": "KEEP OURS; provenance own + extension marker",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (NG §0 #9, §6 row 29)",
+  "state": "PARTIAL (citation)",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S11 arrangement table, set-back compound row (boundary treatment)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.5 PlotBound",
+    "what": "\"(VIS-8; our compound enclosure — NG draws none; FTG's fences, COV-FTG-F23)\""
+   },
+   {
+    "part": "determinism",
+    "section": "§7.6",
+    "what": "gap: no NG parity preset exists (presets MFCG and FTG; `extension.over` MFCG|FTG|both|none); recommended `over: 'both'`, no new preset (J-A44.71)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 NG C3",
+    "what": "\"(the enclosure is ours; NG has none)\" (S2)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.3 (same part; owner seat D)",
+    "what": "\"so the close-up draws a compound's enclosure from model data (ours; NG's manors stand unenclosed)\" — written by the II.3 owner"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-A23.71",
+   "VIS-8",
+   "COV-NG-N27"
+  ],
+  "group": "plots; meets amendments-b item 23"
+ },
+ {
+  "id": "45",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "ADOPT regular-polygon target; CALIBRATE order (bloat, then equalise); KEEP OURS bloat mechanism and stall exit",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (MFCG §0 #8, §2.4, §2.13, §6 row 8)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.8 Compactness (F-CASTLE)",
+  "referencing": [
+   {
+    "part": "kernel",
+    "section": "§3.4",
+    "what": "recommended read-only service `regularFit(ring) -> { centre, radiusCm, phase, n }` beside `obb` and `lir` (trig via dmath), used by §4.8 and §7.1 (J-A45.31)"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2 F-CASTLE",
+    "what": "the new ladder order: thinness bloat -> equalise toward the best-fit regular polygon (≤ 20 passes; ≥ 0.75 or gain < 0.001) -> re-site -> keep without a bailey"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 warp table, Equalize row",
+    "what": "\"each cell under the brush moves its vertices `strength` × 20 % toward the cell's best-fit regular polygon (MFCG's tool is its castle routine)\""
+   },
+   {
+    "part": "scope",
+    "section": "§1.4 walls row",
+    "what": "\"thinness bloat, then equalisation toward the best-fit regular polygon\" (folded by S1)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-17",
+   "D-9",
+   "J-P26",
+   "J-P36",
+   "code-impact Fable re-check (order change)"
+  ],
+  "group": "walls-districts"
+ },
+ {
+  "id": "46",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "KEEP OURS area law and picks; CALIBRATE waterfront reduction and 3 smoothing passes",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M4; arithmetic hand-checked (4/7/10/14)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.2 S3 (4) Gate picks and bearings (+ §4.4 trace chain, same seat)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§13.5 towers-and-gates row",
+    "what": "\"; with a coast 4 / 7 / 10 (coded law)\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Delegated decisions D-17, D-19",
+    "what": "optional \"with its waterfront reduction\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 MFCG B5",
+    "what": "optional (S2)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.4 S5b N_k (same part, seat C)",
+    "what": "rule whether the reduction applies to a later enceinte with an open waterfront (recommended: yes, same condition)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-P24",
+   "D-17",
+   "D-19",
+   "J-P45",
+   "J-P25"
+  ],
+  "group": "walls-districts"
+ },
+ {
+  "id": "47",
+  "owner_words": "— (program ruling; the owner rules it serves: \"lean into the corpus with constraint and precision\" (design tiebreaker) and \"based in our base of MFCG and FTG emulation first\" (J28))",
+  "ruling": "ADOPT per-kind growth rates; KEEP OURS arterial barriers and count law",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M6 (parameters) + R",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.5 Grower",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "`district.seed` also draws the turn skips and the absorbed neighbour, keyed per grower by its seed feature's lineage, turns in seed-id order, so §7.3's S6 operator reproduces them; no new concern"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 MFCG-anchors row (or §13.2 S6 statistics)",
+    "what": "bar: districts seeded at a gate, the castle or a bridgehead have a median area below the town's median district area on ≥ 90 % of B-CITY seeds (C) (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§1.4 districts row",
+    "what": "optional \"with MFCG's per-kind growth rates\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 MFCG B9",
+    "what": "`check4holes` identifier -> \"a hole split\" (S2)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-P1",
+   "J-P28",
+   "J-I1",
+   "MFP-10",
+   "J-4",
+   "J-A24.42"
+  ],
+  "group": "walls-districts; meets amendments-b item 24"
+ },
+ {
+  "id": "48",
+  "owner_words": "\"the actual size of the town, even within each tier is determined by population.\" (owner)",
+  "ruling": "KEEP OURS (roster first); CALIBRATE descriptive text",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-M5",
+  "state": "PARTIAL (citation)",
+  "home_part": "scope",
+  "home_section": "§13.5 population-and-buildings row",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.4 content row (same part, S1)",
+    "what": "\"population = 6 × lots, rounded up to two significant figures\""
+   },
+   {
+    "part": "scope",
+    "section": "Appendix A A.3 (same part, S1)",
+    "what": "\"≈ 6.12 persons per building\" -> \"6 persons per lot, rounded up\""
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "O7"
+  ],
+  "group": "calibration"
+ },
+ {
+  "id": "49",
+  "owner_words": "\"refine that as we think of them as plots\" (owner, the plot model)",
+  "ruling": "CALIBRATE — withdraw the FTG field-9 figures (R10)",
+  "gate": "CONFIRMED; HOLD the optional restoration of the 49 % and its F13 attribution",
+  "held": [
+   "restoring \"49 % of buildings in no ring\" from a re-derivation on the district rings",
+   "the attribution of the 49 % to F13 (PLAUSIBLE)"
+  ],
+  "evidence": "✓ R-T3",
+  "state": "PARTIAL (citation)",
+  "home_part": "scope",
+  "home_section": "§13.5 blocks row and plot-area-gradient row",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.4 districts row and blocks → plots row (same part, S1)",
+    "what": "delete \"49 % of buildings in no ring\" and \"(containment 53 %)\"; FTG cell \"run server-side on road-graph faces; no lot or plot is sent to the client\"; the identifiers in those rows go (§C.5)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "critic R10"
+  ],
+  "group": "calibration"
+ },
+ {
+  "id": "50",
+  "owner_words": "\"larger buildings can have more than one entrance. there should always be a street facing entrance. back or side entrances if an alley presents itself are optional or random but limited. back entrances in the case of a larger court or yard is recommended\" (owner 2026-09-26, item 29 (a))",
+  "ruling": "KEEP OURS (the owner's main-door rule); FTG's 2.99 m leaves the parity table; §13.5 entrance row P -> C",
+  "gate": "CONFIRMED for the FTG client; the MFCG no-door clause is INFERRED (not asserted as fact)",
+  "held": [
+   "\"no door concept among MFCG's read model classes\" (INFERRED from the full read)"
+  ],
+  "evidence": "R (code-ftg-client §0 #4, §6 C5; field 8.6 not critic re-derived)",
+  "state": "PARTIAL (citation)",
+  "home_part": "model",
+  "home_section": "§2.6 Entrances (rule 1 and the parity-preset sentence: provenance owner; the 3 ± 1 m offset kept as own or dropped — the model editor rules)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.7 S11 Entrances line",
+    "what": "\"(the owner's rule, §2.6)\" for \"(FTG's measured rule, §13.5)\" — written by seat B, the §4.7 owner"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2",
+    "what": "\"one street entrance per building (the owner's rule, item 29; neither MFCG 12710731 nor the FTG client models a door)\" (seat D)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 entrance-rule row; entrances-and-basements row",
+    "what": "reference cell \"— (owner rule, item 29; FTG's measured 2.99 m is a light anchor)\", class C, bar \"100 % on the access edge\"; \"neither MFCG nor FTG models a door\" (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 T29-4",
+    "what": "\"the entrance row of §13.5 (C) stands for the main door\" (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§1.4 buildings row",
+    "what": "FTG cell \"a light anchor on the road-facing edge (no door is sent)\"; adopted cell \"the owner's main-door rule (item 29) as the default\" (S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Judgment calls index",
+    "what": "J-A50 rows name the superseded clauses of J-A29.01 and J-A29.41"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-A29.21",
+   "J-A29.41",
+   "J-A29.01",
+   "J-A23.71"
+  ],
+  "group": "calibration; meets amendments-b items 29, 23"
+ },
+ {
+  "id": "51",
+  "owner_words": "— (a program ruling on the owner-directed code reading; no owner words of its own)",
+  "ruling": "KEEP OURS; correct the retry and stream citations",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-V1, P1, R-N4 + R",
+  "state": "PARTIAL (citation)",
+  "home_part": "determinism",
+  "home_section": "§5.1 (1) The unit of failure",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.4 determinism and failure-policy rows",
+    "what": "MFCG cells: \"one MINSTD stream with a save/restore slot and per-cell seeds for ward geometry; a retry continues the stream (A2)\"; \"whole-city retry of all nine stages (ST-8)\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 VG G2",
+    "what": "\"§5 no seed swap\" -> \"§5 no whole-build retry\" (S2)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-9",
+   "J-S5"
+  ],
+  "group": "determinism"
+ },
+ {
+  "id": "52",
+  "owner_words": "\"a seed is supposed to be a seed\" (owner, evolution clarification); \"One seed is the town\" (DEFINITION §5)",
+  "ruling": "KEEP OURS (immune by construction); add the session-history independence test",
+  "gate": "CONFIRMED for the reference mechanisms; HOLD the visible divergences",
+  "held": [
+   "that the references' Enter-reached or cache-affected maps visibly differ from a fresh load"
+  ],
+  "evidence": "R (code-neighbourhood §8 #4; code-dwellings C21 ✓)",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§6.5 (9) Determinism tests (CI) — a *session-history independence* entry (canon R5/R9)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§13.3",
+    "what": "one sentence: the nightly cross-platform golden run includes §6.5 (9)'s session-history test (or §13.8 places it) (S2)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-DET-53",
+   "D-15",
+   "D-28",
+   "J-A22.71"
+  ],
+  "group": "determinism"
+ },
+ {
+  "id": "53",
+  "owner_words": "— (a program ruling on the owner-directed code reading; no owner words of its own)",
+  "ruling": "CALIBRATE the candidate annulus; KEEP OURS contours; path search unchanged (notes corrected)",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ critic X8 + R",
+  "state": "PARTIAL",
+  "home_part": "rendering",
+  "home_section": "§8.10 Sampling (candidate radius r0 × (1 + poisson.annulus · float01), default 0.1; torus already)",
+  "referencing": [
+   {
+    "part": "kernel",
+    "section": "§3.1 Poisson, marching-squares and path-search rows",
+    "what": "Poisson: points to §8.10's annulus, citation \"`_critic.md` C2 as corrected by the code readings (a torus wrap, not a warp)\", P14; marching squares and path search: the item's text (the `createDeflection` identifier goes)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 tree-scatter row",
+    "what": "\"MFCG / NG Bridson k = 50 in a [r, 1.1 r] annulus on a periodic tile\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "Delegated decisions D-11",
+    "what": "optional clause naming the annulus (folded by S1)"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.10 (same part)",
+    "what": "re-state the tile point count and ranking cost (161 points, ≈ 1.8 ms) for the denser packing as PLAUSIBLE until the asset is built"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-11",
+   "J-10",
+   "J-R11",
+   "J-R48",
+   "J-R50",
+   "J-R55"
+  ],
+  "group": "toolkit"
+ },
+ {
+  "id": "54",
+  "owner_words": "— (a program ruling on the owner-directed code reading; no owner words of its own)",
+  "ruling": "CALIBRATE: per-class raise ratios (house 1, landmark 2, farm building 0.6)",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (MFCG §2.12, §6 row 26)",
+  "state": "PARTIAL",
+  "home_part": "rendering",
+  "home_section": "§8.2 symbolisation row, `raised(offset, classRatio)` program and the sheet's `raised` field",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§15.1 MFCG C2",
+    "what": "\"Raised = `ink`'s offset under-copy with class ratios, on by default\" (S2)"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.4 K06 (same part)",
+    "what": "\"swept by an offset read from a class row (§8.2) — ON by default in `ink`; not a shadow and not sun-dependent\""
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "K06",
+   "D-1",
+   "J-R29"
+  ],
+  "group": "render-labels"
+ },
+ {
+  "id": "55",
+  "owner_words": "— (a program ruling on the owner-directed code reading; no owner words of its own)",
+  "ruling": "KEEP OURS; ADOPT the horizontal-spine candidate first",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (MFCG §2.12, §6 row 22; FTG C24)",
+  "state": "ABSENT",
+  "home_part": "rendering",
+  "home_section": "§9.3 Area labels (candidate list)",
+  "referencing": [
+   {
+    "part": "rendering",
+    "section": "§9.3 / §9.1 (same part)",
+    "what": "rule the view-coordinate interplay: candidates are hashed model data (§6.1, §6.2) and rotation is view state (J-DET-15) — recommended: S13a scores horizontality in model coordinates; S13b may re-rank by on-screen horizontality (J-A55.81)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-R12",
+   "J-I3",
+   "J-DET-15"
+  ],
+  "group": "render-labels"
+ },
+ {
+  "id": "56",
+  "owner_words": "\"original English-fantasy naming\" (adopted default D-6)",
+  "ruling": "KEEP OURS; correct the MFCG D1 row",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (MFCG §0, §6 row 23; NG §6 row 38)",
+  "state": "PARTIAL (citation)",
+  "home_part": "scope",
+  "home_section": "§15.1 MFCG D1",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1 draw helpers",
+    "what": "\"MFCG's `DeckRuleSelector` idea\" -> \"MFCG 12710731's deck selection idea\" (identifier removed)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-6"
+  ],
+  "group": "render-labels"
+ },
+ {
+  "id": "57",
+  "owner_words": "— (a program ruling on the owner-directed code reading; no owner words of its own)",
+  "ruling": "CALIBRATE: two sources named; ADOPT VG's outward claim as the preset's selection rule",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "R (VG §0 #9, C23; MFCG §2.7, §2.11.5, §6 row 20)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.9 S12a field-system presets (the sector look)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.4 hinterland row",
+    "what": "\"VG 1.6.9's and MFCG 12710731's sector looks\"; `Cutter.grid` / `splitField` identifiers go (folded by S1)"
+   }
+  ],
+  "staged": "BASE (a style preset)",
+  "decisions_touched": [
+   "J-A26.42",
+   "J-A26.43",
+   "J-I6",
+   "J-P27"
+  ],
+  "group": "hinterland; meets amendments-b item 26"
+ },
+ {
+  "id": "58",
+  "owner_words": "\"the town/city composed of individual neighborhoods\" (owner, stage order)",
+  "ruling": "CALIBRATE (a) ring courses; (b) correct greens, KEEP OURS target; (c) ADOPT pin decay; (d), (e) correct render notes; (f) HOLD",
+  "gate": "CONFIRMED (a)–(e); HOLD (f)",
+  "held": [
+   "(f) NG's export scale 0.35 m per model unit and the ≈ 525 m hood span"
+  ],
+  "evidence": "R (NG §6 rows 18–19, 24–28; not critic re-derived)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "II.2 RingFabric (a) with II.3 (b), (c) — one seat owns both",
+  "referencing": [
+   {
+    "part": "rendering",
+    "section": "§8.2 layer-order note",
+    "what": "(d) \"large-tree pins under buildings, block trees above them\""
+   },
+   {
+    "part": "rendering",
+    "section": "§8.3 census row (per wing, hatched)",
+    "what": "(e) the same clarification, or a pointer to §13.5's row"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 draw-style row",
+    "what": "(e) \"(two filled ridge tapers of 30–50 % per wing are part of the triangle count)\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 NG E2",
+    "what": "\"depth-sorted trees\" corrected per (d) (S2)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.2, II.3 (owner duty of seat D)",
+    "what": "fold item 35's and 40's II.2 phrases and item 44's II.3 phrase; remove `createGreen` and \"Normal / Manor / Empty / Green\""
+   }
+  ],
+  "staged": "STAGED HOOK (stage 2, built at M5)",
+  "decisions_touched": [
+   "J-S34",
+   "J-S42",
+   "J-P23",
+   "amendments item 1 (per-band greenery)"
+  ],
+  "group": "staged"
+ },
+ {
+  "id": "59",
+  "owner_words": "\"the individual buildings within the neighborhood … constructed in the same way as https://watabou.itch.io/fantasy-manor\"; \"I don't want it all just to be full manor, I want diversity from a giant manor to a small hovel\" (owner)",
+  "ruling": "KEEP OURS (wings in the collision set, street-facing main door, metric scale); ADOPT the five layout families as path-shape rows",
+  "gate": "CONFIRMED; HOLD the timing",
+  "held": [
+   "the restated Fantasy Manor model timing (≈ 0.08 ms warm, ≈ 0.66 ms with view geometry) and the §12.7 note"
+  ],
+  "evidence": "✓ R-F1–R-F5; 51 generations replayed by the reader",
+  "state": "PARTIAL",
+  "home_part": "model",
+  "home_section": "§2.6 The stage-3 hook and its cost contract",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "Staged by the owner's roadmap, stage-3 row",
+    "what": "add \"the layout families as path-shape rows\" to the hooks (S2); §12.7 takes no edit now (the timing is HOLD)"
+   }
+  ],
+  "staged": "STAGED HOOK (stage 3)",
+  "decisions_touched": [
+   "J-P17",
+   "J-P18",
+   "J-P48",
+   "DEF-17",
+   "SCL-13",
+   "J-A29.21"
+  ],
+  "group": "staged; meets amendments-b item 29"
+ },
+ {
+  "id": "60",
+  "owner_words": "\"a coherent floor plan of the building … taking and tailoring to the building type and function\" (item 28); \"selective but appropriate basements\" (item 29 (b))",
+  "ruling": "KEEP OURS throughout; CALIBRATE the descriptive baselines",
+  "gate": "CONFIRMED; the NG consequence of the 11-cell drop is PLAUSIBLE support, not written",
+  "held": [
+   "NG hand-offs of widths up to 16 being dropped (critic X8 cross-derivation)"
+  ],
+  "evidence": "✓ R-D1–R-D6 (basement roll); loop rule and 11-cell drop R",
+  "state": "PARTIAL",
+  "home_part": "model",
+  "home_section": "§2.6 Basements (emulation note) and the plan rung step 5",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§13.5 entrances-and-basements row",
+    "what": "\"its basement law n/(n + 1) and its loop rule are descriptive notes only\" (folded by S1)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 NG G2",
+    "what": "\"(the reference's rasterised path drops any plan wider than 11 cells to a random house; ours has no such limit)\" (S2)"
+   }
+  ],
+  "staged": "STAGED HOOK (the plan rung of stage 3; amendments-b item 28)",
+  "decisions_touched": [
+   "J-A29.01",
+   "J-A28.21",
+   "J-A29.22"
+  ],
+  "group": "staged; meets amendments-b items 28, 29"
+ },
+ {
+  "id": "61",
+  "owner_words": "\"Village will be its own thing for the moment.\" (owner)",
+  "ruling": "CALIBRATE (reference observations; no base change)",
+  "gate": "CONFIRMED",
+  "held": [],
+  "evidence": "✓ R-V1–R-V5 in part; R",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "PART III item 2 (a palisade before its roads)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§13.5 build-drift sentence",
+    "what": "\"(… between build 19251041 and build 19365073 = VG 1.6.9)\" (folded by S1)"
+   }
+  ],
+  "staged": "STAGED HOOK (the village product)",
+  "decisions_touched": [
+   "critic R5",
+   "P5 (build 19251041 unread)"
+  ],
+  "group": "staged"
+ },
+ {
+  "id": "62",
+  "owner_words": "\"oh read them. don't hesitate. we captured it, we read it, unless we directly copy their code line by line, that is copyright. but to read them and to understand their logic, that is another thing entirely.\" (owner, 2026-09-27; quoted in docs/AMENDMENTS-2026-09-25b.md item 32)",
+  "ruling": "ADOPT the `(code)` provenance form with P-id trace keys",
+  "gate": "policy (CONFIRMED that R5 and R9 exist)",
+  "held": [],
+  "evidence": "policy",
+  "state": "ABSENT",
+  "home_part": "scope",
+  "home_section": "§17.1 (6) Honest provenance and (8) Sources of algorithms",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§7.6 emulation marker",
+    "what": "l. 6906 \"in §17.1 (6)'s grammar (`ref:⟨reference⟩ ⟨behaviour⟩`)\" gains \"(or its `(code)` form)\""
+   }
+  ],
+  "staged": "BASE (policy)",
+  "decisions_touched": [
+   "D-29",
+   "J-A23.01",
+   "J-S8",
+   "critic R5",
+   "critic R9"
+  ],
+  "group": "provenance (with 32)"
+ },
+ {
+  "id": "63",
+  "owner_words": "\"note that for some assignments, some criminal like institutions or buildings have to be clandestine meaning there are certain lots and assignments that have two functions. A front which can be anything and a second function. the alternative is the hidden places as mentioned before, or being placed in the underground sewer building/network in an appropaite dwelling there. Think of an assasin guild in a city. It would obviosuly not parade itself as an assasin guild.\" (owner, 2026-09-27; docs/AMENDMENTS-2026-09-27c.md item 63; PROGRESS J54)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(g) are the program's vetoable interpretation (concealment none/front/hidden/underground; the front as a second designation; placement, knowledge, dossier, mutation, emulation), judged by owner fidelity",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.7 — ONE new paragraph 'Concealed institutions — a front and a hidden function (item 63)' stating the S10b and S11 mechanism (mode resolution and fallback, the cover table, the pair placed as one item with the front's hard rows and the true function's soft rows, the front's design plus concealed rooms, door and link, mutation); written as an APPEND TO SECTION block because §4.7's REPLACE owner is the plots seat, whose REPLACE folds two pointer lines; the assembler applies the APPEND after the REPLACE",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.7 Use / Institution",
+    "what": "the concealed function as its own record: recommended `Use.concealment: 'front'|'hidden'|'underground'`, `Use.front?: Id` (the front use it hides behind), `knownTo` 'secret' by default on the concealed use; `Institution.concealment?` mirroring the dossier fact (the model editor rules the shape and records it)"
+   },
+   {
+    "part": "model",
+    "section": "§2.6 Building, Room, Entrance, the plan rung",
+    "what": "`Building.use` stays the FRONT; `Building.concealed?: Id[]` (the concealed uses housed); `Room.concealed?` and a concealed entrance (never the main door; rule 2's access-edge condition); plan steps 2-5 place concealed programme rows away from the main entrance, reached by a service, yard or concealed door, never off the public hub"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 entity registry",
+    "what": "the new fields with their edit kinds and migration hooks (absent = none)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7 assignments and the dossier contract (7)",
+    "what": "`Assignment.concealment?` and `Assignment.front?` beside `knownTo`; concealment and the front are dossier facts; a raid or discovery is a dossier event applied as a least-disruption mutation (front closes, true function relocates, passage sealed; items 17, 22, 30); a map delete relocates by rejectSite (already the contract)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 edit targets; §7.4 lifecycle",
+    "what": "`setAttr` on concealment and the front (uses, buildings, assignments); `setAttr(knownTo)` on the concealed use; their lifecycle rows"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3 invariant rows; §6.1",
+    "what": "check rows: every clandestine institution in an allowed mode; concealed rooms reachable only from the concealed door or the front's service side; the underground mode only with an underground allocation. No new concern: the mode and cover draws on `siting` keyed by the item, the concealed programme on `plan.*`"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.2 the knowledge filter",
+    "what": "a concealed use is its own label and reader row with `knownTo: 'secret'`; the building's public row shows the front; concealed rooms, doors and access points are DRAWN only for a viewer whose key admits the concealed use — refines J-A30.83 ('never its geometry or kind') for concealed sub-parts; the building mass and every public part always drawn"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1 formats; §11.2 the reader",
+    "what": "every export and the reader (hover, gazetteer, the clerk) withhold the concealed use, its rooms, doors and links by the same table; a public export never carries them (the plan block, J-A28.84, included)"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 symbolisation / §8.5 LOD",
+    "what": "the entrance tick and the plan drawing of a concealed door or room pass the knowledge filter (one row)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-amendment tests",
+    "what": "T63-1..T63-4: every clandestine institution placed in an allowed mode; public views and exports show only the front; concealed rooms reachable only from the concealed entrance or the front's service side; the underground mode never chosen without an underground allocation"
+   },
+   {
+    "part": "scope",
+    "section": "Staged by the owner's roadmap; §0.2; §14",
+    "what": "stage-3 row: the concealed programme flag and door; sewers row: the underground mode; SettlementForge row: concealment and the front as dossier facts; §0.2 landing row for item 63; §14: the cover table's file"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 roster tables (same part; the §10.2 owner)",
+    "what": "`BuildingClassRow.concealment?` default-mode weights by band and district kind for the criminal classes (thieves' den, assassins' house, smugglers' store, forbidden cult, black market, spy ring — our own rows, `extension`); `RosterTables.covers: CoverRow[]` (true function -> weighted plausible front classes); `RoomRuleRow.concealed?`"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.7.3 (same part)",
+    "what": "the underground allocation's (b) reads `concealment: 'underground'` (and item 65's undercity) with the fallback underground -> front -> hidden, reported"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.6 knowledge sentence (same part; the bent-cut seat's REPLACE folds it)",
+    "what": "l. 4157-4159 gains '(a concealed institution's mode and front: §4.7, item 63)'"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 use step (same part; the transitions seat's REPLACE folds it)",
+    "what": "a concealed use relocates like any use; the front stays as an ordinary business"
+   },
+   {
+    "part": "pipeline",
+    "section": "PART III (same part)",
+    "what": "villages: hidden share 0 and sewers never, so a village's concealed institution takes `front`"
+   }
+  ],
+  "staged": "BASE (the concealment value, the front and hidden modes, the cover table, placement, mutation, knowledge and export rules) + STAGED HOOK (the concealed rooms of the plan rung — stage 3; the underground mode — the sewer layer and item 65's undercity)",
+  "decisions_touched": [
+   "J-A30.83",
+   "J-A30.22",
+   "J-A30.71",
+   "J-A30.81",
+   "J-A16.41",
+   "J-A16.43",
+   "J-A17.21",
+   "J-A18.41",
+   "J-A29.21",
+   "J-A28.25",
+   "J-A28.84",
+   "J-A12.44",
+   "J-A14.43",
+   "J-A20.71",
+   "J-A22.73",
+   "J-A23.71"
+  ],
+  "group": "clandestine (63, 64); meets item 65 (the undercity as an underground target) and amendments-b assignments 16-19, dossier flow 20/22, hidden plots 30, the plan rung 28, entrances 29, sewers 12/14"
+ },
+ {
+  "id": "64",
+  "owner_words": "\"and selectively, some buildings that have basements have accesses to the sewer grid or a dwelling in a sewer grid where appropraite. higher chances if they are criminal as described above.\" (owner, 2026-09-27; docs/AMENDMENTS-2026-09-27c.md item 64; PROGRESS J55)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(e) are the program's vetoable interpretation (the cellar stays a cellar; an access by a reach gate and a class x band probability x concealment multiplier x network presence; state and knowledge; the plan-rung reservation; bars)",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "II.7.3 'Access, air and light' — a building-driven access rule beside the neighbourhood-driven one — with II.7.4's `AccessPoint` (state, knownTo, the dwelling-door form)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.6 Basements",
+    "what": "'allowed where the class row's `undergroundAccess` is true' -> 'by II.7.3's access rule: a probability by class x band x concealment, gated by the basement's reach to a navigable tunnel or a sewer dwelling (item 64)'; J-A12.42 stands (the cellar stays a cellar); plan step 3: an access in the basement is a fixed anchor (trapdoor, ladder or stair) of the basement storey"
+   },
+   {
+    "part": "model",
+    "section": "§2.7 (the AccessPoint comment) and §2.8 registry",
+    "what": "the AccessPoint's forms (tunnel kerb or a dwelling's wall), `state`, `knownTo` — pointers and registry fields"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3 invariant rows",
+    "what": "no access without a basement and a reachable tunnel or dwelling; a secret access on a clandestine building"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 edit targets; §7.4 lifecycle; §6.1",
+    "what": "access points: `setAttr` state and knownTo, add (item 66's closure) and remove; lifecycle rows; the access draw on `sewer` keyed by the building's lineage (no new concern)"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 states",
+    "what": "access-point state rows (open, locked, bricked, collapsed) as glyphs where they break the surface"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.2 knowledge filter",
+    "what": "a secret access point is drawn only for a knowing viewer (item 63's rule)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-amendment tests",
+    "what": "T64 bars (no access without a basement and a reachable tunnel or dwelling; the access rate by class within its row; clandestine buildings over a network carry an access at least at their row's rate); the stale T12-1 clause 'every access point in public ground or a yard' -> '… in public ground, a yard or a building's basement'"
+   },
+   {
+    "part": "scope",
+    "section": "Staged by the owner's roadmap (sewers row)",
+    "what": "the access probability row and `AccessPoint.state` and `knownTo`"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 the `undergroundAccess` column (same part; the §10.2 owner)",
+    "what": "boolean -> a probability row by band with a concealment multiplier (breweries, bathhouses, warehouses, inns, old houses higher; barracks, courthouse, temple low or zero unless the dossier says otherwise)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.6 the underground fades (same part)",
+    "what": "an access's state follows the network's fading: a caved-in or sealed run's accesses collapse or are bricked (one line)"
+   }
+  ],
+  "staged": "STAGED HOOK (the sewer layer); the base carries the fields and rows",
+  "decisions_touched": [
+   "J-A12.42",
+   "J-A29.22",
+   "J-A14.44",
+   "J-A11.21",
+   "J-A11.41",
+   "J-A12.21",
+   "J-A29.41",
+   "J-A28.21"
+  ],
+  "group": "clandestine (63, 64); feeds item 65's connection graph and item 66's closure; meets amendments-b sewers 12/14, fading 11, basements 29, the plan rung 28"
+ },
+ {
+  "id": "65",
+  "owner_words": "\"one last thing and all of this is for the underground layer. I think the central piece is a derived sewer system as you have already built out. But other additions to keep in mind is catacombs (underneath cemeteries or churches for example), cavernous tunnels, sewer dwellings and networks, and an undercity. Those are all options that exist in the same level with varying degrees of connections and access between them (not always). The hardest part for me to conceptualize is an undercity. we already have dwellings or underbuildings that are adjacent to the sewer walls. those are more standoffish. But what about an undercity, what would that require? In my mind, it is still part of a sewer network or cavern or catacomb, but it is a large space or network where there is a collection of buildings/dwellings to be a microcosm of a city but of the riffraff, criminal, and less savory types or more desperate go.\" (spelling as normalised in the amendments file's copy); \"i would say that the undercity is at most 1-3 neighborhoods to keep it simple and consistent\"; \"while it is called an undercity, it is simply the less than savory shadow and extension of the full settlement, not independent of it\" (owner, 2026-09-27; item 65; PROGRESS J55, J57, J58)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(g) are the program's vetoable interpretation (one underground layer of several systems with depth bands; the undercity's four requirements; existence and the 1-3 bound; a shadow, not a second city; typed, not-guaranteed connections; the same engine)",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words",
+  "state": "PARTIAL (the sewer centre and its dwellings stand; every addition ABSENT)",
+  "home_part": "pipeline",
+  "home_section": "II.7 — two new subsections appended after II.7.4 (APPEND TO SECTION on II.7.4's heading): '### II.7.5 The undercity (item 65)' — (b), (c), (c′) — and '### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)' — (a), (d), (e); one sentence in II.7's plain-words intro (INSERT AFTER the II.7 heading); no heading renamed",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.1 the underground arena's content; the PlatKey comment",
+    "what": "the family of systems; one arena part per system if the kernel ruling below takes that form (today 'part 0 = the ground or the underground arena')"
+   },
+   {
+    "part": "model",
+    "section": "§2.2 rule 1",
+    "what": "level mapping for galleries (chains), chambers and the undercity's blocks and plots"
+   },
+   {
+    "part": "model",
+    "section": "§2.3 terrain",
+    "what": "a site geology field (soluble rock, volcanic) written by S1, read by the cavern rule"
+   },
+   {
+    "part": "model",
+    "section": "§2.5 districts",
+    "what": "DistrictKind `undercity`; a parent link to the surface district each undercity neighbourhood shadows; `ContextVector.arena` values if systems get parts"
+   },
+   {
+    "part": "model",
+    "section": "§2.7 staged layers' records; §2.8 registry",
+    "what": "records for galleries and chambers (or extended Tunnel kinds), `UndergroundLink { a, b, kind: open|gated|secret|collapsed|flooded, knownTo }`, the undercity and void-source records; existence ladders (flood, collapse, seal) and the buried records of a buried old town"
+   },
+   {
+    "part": "kernel",
+    "section": "§3.4 / §3.10 (arenas); §3.7 corridorUnion",
+    "what": "RULING: systems that pass over and under one another cannot cross in one planar arena without a junction — recommended one arena part per system (J-A12.32: a transaction writes one arena; services read any arena), links as cross-arena records; `corridorUnion` over gallery chains with the half-width from the gallery record; no new operation expected"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2; §5.3",
+    "what": "a ladder row for the undercity and voids (a void too small -> fewer neighbourhoods -> none, reported); check rows: an undercity only with a void source and >= 1 lifeline; ceiling-capped heights; every link typed and knowledge-gated"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1; §6.3",
+    "what": "concerns for the catacomb, cavern, quarry and undercity draws (or one per system on the `sewer` pattern); undercity neighbourhoods' lineage from the parent surface district"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1; §7.4; §7.7",
+    "what": "edit targets for galleries, chambers, links and the undercity's neighbourhoods (draw, move, setAttr kind/state/knownTo, delete; seal, flood, collapse conversions); the dossier may require or forbid an undercity; the circumstances slice's disorder / crime scalars read by the size law"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.4 layers; §8.2 states and programs",
+    "what": "all systems on the one underground layer, drawn by depth band (the `depthBand` key across systems), crossings drawn over and under; programs for ossuary, cavern, quarry gallery, undercity chamber and the link kinds"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.1 quarter tree; §9.2",
+    "what": "undercity neighbourhoods named as the underside of their parent quarter (II.7.3 today puts the underground pseudo-district 'in a family of its own'); secret links and places filtered"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1",
+    "what": "exports per system and depth band (one VTT scene per band)"
+   },
+   {
+    "part": "scope",
+    "section": "§1.1 RungProfile.layers",
+    "what": "an undercity bound column: TOWN 0 (1 only for a large town, rarely), CITY 1-2, METROPOLIS <= 3, villages 0 — the owner's 'at most 1-3'"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2; D-3; Staged by the owner's roadmap; §14; §15.2; §16",
+    "what": "T65 bars; D-3's ruling (realism by rule for catacombs, quarries, caverns, vaults and a buried old town; the undercity's scale riding on the `navigable` preset — recommended); the sewers row becomes the underground layer's hooks; the strategies' registry entries; the hooks row; pricing (hooks only)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S1 (same part)",
+    "what": "the geology flag's derivation; the stone-void link (quarries from `SiteResources.stone` and the stone stock)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.5 S7b (same part)",
+    "what": "a new (7) after (6): the undercity allocation from the roster's destitute band share, the outlawed and the clandestine institutions with `concealment: 'underground'` — nobody added, the population whole"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (same part; the transitions seat's REPLACE folds it)",
+    "what": "one line: the buried-old-town conversion kind (declared in II.7.5) joins the ConversionOp union; the systems fade in the persistence order with the underground"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 (same part; the §10.2 owner)",
+    "what": "institution rows that prefer the undercity (black market, fence's hall, guild seat, tavern, forbidden shrine, fighting pit, healer)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.6; II.7.3 (same part)",
+    "what": "the underground's lifecycle covers galleries and chambers; sewer-front dwellings along the tunnels into the undercity are its outskirts; U1-U3 stated as the sewer system's rules"
+   },
+   {
+    "part": "pipeline",
+    "section": "PART III (same part)",
+    "what": "village rows: undercity never; catacombs, caverns and quarries never automatically (item 66's user-dug passage the one village underground)"
+   }
+  ],
+  "staged": "STAGED HOOK (the underground layer; the buried-old-town source also needs the evolution engine); the base carries rows, fields, interfaces, invariants and tests",
+  "decisions_touched": [
+   "J-A12.45",
+   "J-A12.32",
+   "J-A12.31",
+   "J-A12.41",
+   "J-A12.44",
+   "J-A12.46",
+   "U2 (item 12's owner rule)",
+   "J-A11.41",
+   "J-A11.42",
+   "J-A14.43",
+   "J-A14.44",
+   "D-3",
+   "J-A13.41",
+   "J-A10.43",
+   "J-P1",
+   "J-A16.41",
+   "J-A20.71",
+   "J-A8.46"
+  ],
+  "group": "underground (65, 66); meets items 63, 64 and amendments-b sewers 12/14, fading 11, the islands' 1-3 bound 13, evolution 8 and 31, supply chains 16, the dossier 20"
+ },
+ {
+  "id": "66",
+  "owner_words": "\"but make it so that if a user edits a building to have an access to the underground, it generates all the necessary pieces\" (owner, 2026-09-27; docs/AMENDMENTS-2026-09-27c.md item 66; PROGRESS J56)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(e) are the program's vetoable interpretation (one edit, its whole closure: basement, target, connector, a minimal private underground, the access point, the plan reservation, the links; seed and locality; reversal and ownership; the rule general; bars)",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.3 — a new item '9. Closure edits (item 66)' (an edit whose prerequisites are missing expands at dry run into its closure, in dependency order, as one event and one transaction; seed-stable; the closure record; undo removes exactly what it created; a later deletion removes only pieces nothing else uses) and a row in item 3's operator table; `addUndergroundAccess` its first (staged) instance",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.6 Basements",
+    "what": "the requested mode: a user's request overrides the probability, never the terrain gate — the lawful-form ladder full -> half cellar (slope) -> a hatch to a raised crawl space -> refusal with the reason; the plan rung reserves the stair, ladder or hatch and is marked stale"
+   },
+   {
+    "part": "model",
+    "section": "§2.7; §2.8; §2.9",
+    "what": "a `dug` passage kind (a private tunnel, not a sewer); the underground's presence for a settlement independent of `Features.sewers`; the closure record carried in the event (created and shared pieces) and its ownership reading in the registry"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.7 (the underground seat)",
+    "what": "the pieces' generators the closure calls: the target order (named, else the nearest navigable tunnel or sewer dwelling, else a catacomb, cavern, quarry gallery or the undercity within reach); the dug connector routed through the underground arena (around foundations and other cellars, above the water table, below the street's services, within its depth band); the minimal private underground of kind `dug` to the most plausible outlet; the sewer rung rules unchanged"
+   },
+   {
+    "part": "pipeline",
+    "section": "PART III",
+    "what": "a village's underground arena holds only user-dug passages (sewers still never)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-amendment tests",
+    "what": "T66 bars: an access edit on a building without a basement gives a lawful basement or a stated refusal; every generated connector reachable end to end and inside its depth band; undo restores the document byte for byte; a second access sharing a connector survives the first one's deletion"
+   },
+   {
+    "part": "scope",
+    "section": "Staged by the owner's roadmap (sewers / underground row)",
+    "what": "the edit kind and the closure rule as base hooks"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 (same part)",
+    "what": "the event `addUndergroundAccess { building; target? }`, its edit-target rows (buildings, access points); the dry run's refusal as F-EDIT with the reason"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.4 (same part)",
+    "what": "lifecycle row: the closure record in the event; undo removes exactly the created pieces; deleting the access removes the pieces nothing else uses (a shared connector stays); a created basement reverts unless kept"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2; §6.1; §6.3 (same part)",
+    "what": "F-EDIT's refusal row; pieces draw from the building's and the target's lineage streams (no new concern) and are minted from the causing event's seq (as the mutator's added parts, J-A18.43)"
+   }
+  ],
+  "staged": "BASE HOOK (the general closure rule and the edit kind) + STAGED (the underground pieces run when the layer exists)",
+  "decisions_touched": [
+   "J-A12.42",
+   "J-A29.22",
+   "J-A20.72",
+   "J-A18.43",
+   "J-A28.72",
+   "J-A14.41",
+   "J-A11.41",
+   "J-DET-33"
+  ],
+  "group": "underground (65, 66); meets items 63 (a front requiring a concealed door), 64 (the access record) and amendments-b items 12, 28, 29, 20"
+ },
+ {
+  "id": "67",
+  "owner_words": "\"now something else I want us to figure out and consider... transitions.... so hear me out, when a building gets torn down, ruined, being built, being expanded, Lots need to merge or separate. But depending on where things are in the process of being built or ruined, we should consider things being roofless or other visuals that they are in a transition state. note that our simulator advances by units of one week. so if it takes two weeks or a month to build a full house, then during that time, we should show stages of it being built. What do you think those stages should be?\" (owner, 2026-09-27; docs/AMENDMENTS-2026-09-27c.md item 67; PROGRESS J59)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(k) are the program's vetoable interpretation (every physical change a Works record with a timetable; durations by rule; construction, extension, demolition and ruin stages; plots in transition; one model at every zoom; restraint; stale markers; bars) and the answer to the owner's question 'what do you think those stages should be?'",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.11 — a new paragraph 'Works — every physical change as a timed project on the weekly clock (item 67)' with `WorksTable`, the stage schedules, the derivation rule and the clock (EpochInputs), inside §4.11's REPLACE (this seat owns §4.11 and folds the one-line additions of items 63 and 65)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.7 (or §2.8) the Works record; §2.8 existence and registry",
+    "what": "`Works { id; kind: build|extend|demolish|repair|convert|decay|clear; target; startWeek; durationWeeks; schedule; cause }` in the model digest; the stage derived at read, never stored; recommended no new Existence value (a `works` link on the target; the item's ruin stages as the drawn stages of the existing abandoned -> decayed -> ruined -> cleared ladder, J-A8.46)"
+   },
+   {
+    "part": "model",
+    "section": "§2.6 heights, roof, the plan rung",
+    "what": "heights and roof at a stage derived (walls rising storey by storey; a `framed` roof state without covering); the plan rung of a building in progress (walls without doors or furniture) and of a ruin (fallen walls, open rooms); the extension's joint (d)"
+   },
+   {
+    "part": "model",
+    "section": "§2.5 PlotBound",
+    "what": "plots in transition: the plat's rings change at the Works' start (ownership); the old line's treatment persists as a pending-removal bound until its clearing stage; the new line shows as stakes, then a fence or wall at walls-rising; pending boundaries dashed"
+   },
+   {
+    "part": "model",
+    "section": "§2.9 view state",
+    "what": "the document's week (the clock) and a per-viewer `week` view key for scrubbing (every live or retained Works drawn at week w over the current model); outside every digest"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1; §6.2; §6.5",
+    "what": "the duration draw (a `works` concern keyed by the target's lineage and the start week, or none if durations are table-exact); the Works record in the model digest, the stage never; the test: the stage at week w a pure function of the record and w, scrubbing forward and back byte for byte"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1; §7.4; §7.6; §7.7",
+    "what": "edit kinds `startWorks`, `cancelWorks`, `setAttr` on a Works (duration, start) — a hand `convert` stays instant unless scheduled; lifecycle rows; `WorksTable` editable; the circumstances timeline schedules weekly epochs (the host's tick)"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3",
+    "what": "a Works never leaves a plot without access; a demolished building's occupants rehoused (item 17) before demolition stage (1)"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 states",
+    "what": "rows for the construction stages (staked: dashed footprint and material pile; ground broken; foundations; walls rising: wall outline, interior floor, scaffold hatch ring; roof framed: roof lines without fill; roofed with scaffold; finished), the demolition stages, the ruin sub-stages, fire's charred shell and dashed pending boundaries"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.5 LOD; §8.4 shadows; §8.6",
+    "what": "the city band a stage glyph on the footprint; the neighbourhood band walls, scaffolds, frames and rubble; the building band the plan in progress; shadows from the stage heights"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1; §11.3 / §11.4",
+    "what": "the 3-D export follows the stage at the document's week; the host's weekly tick arrives as `epoch` events through the bridge (distinct from the module's `time` view key, which never changes the model)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2; D-25; Staged by the owner's roadmap; §14; §15.2; §16",
+    "what": "T67 bars (the item's (k)); D-25's evolution hook gains the Works records, the derivation rule and the drawing rows; the evolution row; `works.json` beside `wealthLadder.json`; hooks row 2; M4's price line"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 (same part; the §10.2 owner folds it)",
+    "what": "the template row's key into `WorksTable` (or WorksTable keyed by class directly)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.4 descriptions (same part)",
+    "what": "'being built', 'being demolished', 'ruined since …' in descriptions and the clerk"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.6 island rule (4) (same part; the underground seat folds it)",
+    "what": "the slots re-drawn each epoch take a per-year chance applied over the epoch's span (1 - (1 - p)^years), so a weekly clock does not multiply them"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 trigger rows and every per-epoch chance (home)",
+    "what": "rows stated per year and applied as 1 - (1 - p)^years of the epoch's span; `EpochInputs.weeks` (the host's weekly tick) and the absolute week, `years` derived"
+   }
+  ],
+  "staged": "STAGED HOOK (the evolution engine and the simulator's weekly clock); the base carries the Works record, the derivation rule, WorksTable, the drawing rows and the hand edits",
+  "decisions_touched": [
+   "J-A8.46",
+   "J-A8.47",
+   "J-A8.42",
+   "J-A8.41",
+   "J-A8.81",
+   "J-A31.41",
+   "J-A31.42",
+   "J-A31.46",
+   "J-A31.47",
+   "J-A17.41",
+   "J-A18.41",
+   "J-A28.22",
+   "J-A28.81",
+   "J-A22.42",
+   "D-25",
+   "the owner's materials rule (§2.6 Materials, item 19)"
+  ],
+  "group": "transitions (67); meets amendments-b evolution hooks 8, 11, 17, 22, the mutation 18, the ladder 31, the plan rung 28"
+ },
+ {
+  "id": "68",
+  "owner_words": "\"next thing, daytime vs night time view, lights such as torches or magical lights vs the sun, global light as the sun versus radial light sources from torches/magical lights, and shadows that correspond with shape and height. 1. a daytime view is the default. the global light is the cursor. every shadow moves in accordance with wherever the global light (the cursor) is radiating against them 2. a night time view with appropriately spaced and partitioned torches or magical lights. the moon is a global light but much softer than the sun. all of these does somewhat of the opposite, it brightens a shadow ridden area. 3. shadows are gradients affected by light sources, during the day time it primarily comes from the sun. During the night time it softens according to multiple light sources. There is not just one shade for shadow, and we consider shadows the absence of light which means that a torch radiates in all direction but if there is an object between multiple torches where every side is lit, it would have no shadow then. and light is also reflected in the dark meaning that indirect light sources also help to illuminate whether from a torch or the moon. 4. shadows of buildings also have to take into account the height of a building it may be cast on. We only see the rooftops, however, if there was a wizard tower tall and giant, a small hovel's shadow if the shadow is cast on the tower, does not produce one on its roof. But the tower can on the hovel subtracting the distance of the shadow on the ground and the height of the hovel, traveling further if appropriate beyond the hovel onto the ground or next building. shadows also take into account the height of their light sources and distance. 5. Torches have optimal distances and gradients of effectiveness as well as light gets dispersed over distance.\" — confirmed: \"and the cursor moves the global light which creates different angles for every shadow\"; underground: \"the undercity and near dwellings underground has to have a lot of light sources. they don't have the sun or moon\" (owner, 2026-09-27; docs/AMENDMENTS-2026-09-27c.md item 68, spelling normalised there only; standing: docs/OWNER-INSTRUCTIONS-2026-09-25.md 'eventually, I want to add shadows and they would use that height number')",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(h) are the program's vetoable interpretation: (a) one lighting model — light accumulated over a height field (sum over sources of intensity x falloff x facing x visibility, plus ambient, plus indirect, less ambient occlusion; a shadow is the absence of one source's light, a gradient, cancelled where other sources reach); (b) height-aware shadows tested against the height field (shortened on a lower roof, never climbing a taller one), replacing section 8.4's ground-only projection as the lit model, the vector projection kept as the fallback and for vector exports; (c)(c') the day sun at the cursor, radial at a finite height H (tip at d*h/(H-h), capped), the sheet's fixed sun without a pointer and for exports, path mode kept; (d) night: a soft moon and point lights as ENTITIES placed by rule (spacing from radius and height to a target minimum brightness per street class and prosperity band; inverse-square falloff with a smooth cutoff; windows by occupancy and hour; era and magic rows); (d') underground: no global light, dense point lights, light shafts at the lifelines, an optional hand lantern; (e) GPU per-pixel with a light map for static lights and a fallback ladder; (f) a pure function of model, lights, style and view, nothing lit stored, lights editable; (g) emulation note, parity presets reproduce the references",
+  "gate": "owner rule (no evidence gate) for (a)-(f) and (h); the emulation note (g) states reference facts read in code, so gates (a)-(c) bind it: Fantasy Manor 1.0.0 build 890 (per-facet diffuse-plus-specular shading, swept-silhouette shadow) and the FTG client of the 2026-09-25 capture (a shadow map from extruded footprints, window lights from the server's lit set, a low-intensity moon on the sun's path) CONFIRMED at reader grade; MFCG 12710731 'draws no cast shadows' is an absence inferred from the full read — HOLD",
+  "held": [
+   "(g) the reference claim 'MFCG draws no cast shadows' — an absence inferred from the full read of MFCG 12710731 (no shadow layer among its read classes), not a read fact; the design states the MFCG preset's behaviour as its own (the raised under-copy, K06 and item 54's P15, and no cast shadow in the `MFCG` preset), never as a claim about the reference",
+   "(g), not in the item: VG 1.6.9's cast-shadow and night-light layers were search-only in its reading (code-village section 8, critic G3) — nothing about VG's lighting may be written",
+   "(g) Dwellings' shading and ambient-occlusion gradients (view classes skimmed; critic R11) — nothing beyond J-A28.32's room lights may be written"
+  ],
+  "evidence": "owner's words; (g): code-manor section 2.10-2.14 and its section 6 rows 16-17 [READ, CHECKED, replayed exact shadow stamps]; code-ftg-client section 2.2, 2.5.2, 2.5.5, 2.5.6 and rows C5, C13, C19, C22 [READ]; code-neighbourhood section 2.11 [READ] (NG 1.2.2's prism shadow and per-building night glow — not in the item; the hatched family already emulates NG's prism pass, section 8.2, parity rows E5-E6); no P-id exists for any of them in code-impact section (d): proposed P22 (FTG client light model), P23 (NG 1.2.2 prism shadow and night glow), P24 (Fantasy Manor build 890 facet shading and swept shadow), to be appended to that reader-tier table before a design cell cites them",
+  "state": "PARTIAL",
+  "home_part": "rendering",
+  "home_section": "§8.4 'Layers, shadows, heights' (seat R's REPLACE) — the lighting model: the height-and-normal field per tile and its layered casters (islands, bridge decks, a passage's spanning wing); the source set (sun, moon, placed LightSource records, derived window and room lights, underground shafts, the hand lantern); the brightness sum with falloff, facing, visibility, ambient, indirect and ambient occlusion; the cursor sun (radial, finite H, similar-triangles length, cap; fixed sun without a pointer; path mode); day and night and the `light` view key; the light pass as a post operation over the base raster (slots 1-20, before labels) with a CPU reference and a GPU accelerator; the static-light light map per (tile, stop, lights revision); the fallback ladder ending in today's vector ShadowPass (kept for vector exports and the parity presets); K06's raised under-copy unchanged; the budget with its measurement and pre-decided fallback",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.7 records (seat M)",
+    "what": "`LightSource { id; kind: 'torch'|'lantern'|'lamp_post'|'brazier'|'fire_pit'|'campfire'|'magic_orb'|'shrine_lamp'|… (data rows); point: Point; host: Id (the building face, way strip, square, gate, bridge, pin or underground element it belongs to); layer (ground, sky island or underground arena); heightCm: Cm above the host surface; colour: Color; intensity (a stated photometric unit); radiusCm: Cm (effective radius, smooth cutoff); source: 'fire'|'magic'; flicker: boolean; rule: string; lifecycle: Lifecycle }`; the emitting `Pin.kind`s ('lamp', 'campfire', 'fire_pit') carry `light?: Id`; windows and the plan rung's room lights are DERIVED sources, never records (recommended; J-A28.32)"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 identity and the entity registry",
+    "what": "the registry row for `LightSource` — edit kinds, undo path, lifecycle row; lineage from its host (a door lantern from its building and entrance, a street light from its way strip and its ordinal along it); a light follows its host's lifecycle (removed with a demolished host, unlit on an abandoned or decayed one)"
+   },
+   {
+    "part": "model",
+    "section": "§2.9 view state",
+    "what": "per-viewer view keys outside every digest: `light` in {'day','night','time'} (default 'day'; 'time' follows the `time` key's hour through the path sun), `sunMode` in {'cursor','fixed','path'} (default 'cursor' where a pointer exists), `sunHeight` (H as a share of the view's extent; the near-parallel true sun at its top), `handLantern` (underground only; off by default); the pointer position is a transient input — never a view key, never stored, logged or shared"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 — seat T's APPEND TO SECTION, a new paragraph 'Light sources (item 68)' after B's REPLACE (exception 3 of §C.2)",
+    "what": "S11's furniture step places the lights by the light table `LightRule` (context vector: host kind — gate, bridge, plaza and markets, inn and tavern, temple, castle, guard post, way class —; prosperity value, interpolated along its band rows, never binary; era row; magic circumstance; arena), per district on its own faces and its own half-corridor strips (as §4.9's avenues), street lights at a spacing derived from each light's radius and height so lit pools overlap to the row's target minimum illuminance per street class and band; hidden and clandestine plots unlit by default rows (items 30, 63); concern `pin.light`; a light that cannot be placed is skipped and reported; parity presets: `MFCG` none, `FTG` one light per lit building at its main entrance (item 50's light anchor)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S0 circumstances (seat C folds)",
+    "what": "`magic: 'none'|'low'|'high'` joins the circumstances, 'none' by default (D-3: magical lights a named fantasy toggle); the era row gains its public-lighting density"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (seat T, owner)",
+    "what": "lights over epochs: a light follows its host; the light rows re-run on new and changed faces only; a building in Works (item 67) carries no light before FINISHED"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.3 (seat T)",
+    "what": "the module's occupancy at the view's hour selects the lit windows (derived sources); without the module the base rule — dwellings lit in the evening hours by household presence, workplaces by their `openingHours` rows (§10.2)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.6 (seat D folds)",
+    "what": "an island's magical lights (the light table's sky rows, their strength by the island's supply) and the island as a floating caster in §8.4's model (its shadow on the ground, the ground beneath lit from the sides)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.7 — II.7.3 and the new II.7.5 (seat D folds)",
+    "what": "underground light rows (d'): no global light, near-zero ambient; densities per system (undercity and sewer-front dwellings high; tunnels at junctions and access points; catacombs dark but for shrines and ossuary lamps; caverns dark but where lived in); light shafts at the lifelines — access points and openings that break the surface (items 64, 65) — admitting daylight by day and faint moonlight by night; fuel by circumstances; a glowing-fungus row only where magic or biome allows"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1; §6.2; §6.5 (seat E)",
+    "what": "the concern `pin.light` keyed by host lineage and rule row; flicker a view-time function of the light's address hash and the time, never a stream; `LightSource` records in the model digest, lighting, height-and-normal buffers and light maps in none; the test — the CPU reference light pass byte-identical on the five engines for the same model, lights, style and view, transcendentals through `dmath`"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1; §7.4; §7.6; §7.8 (seat E)",
+    "what": "the edit-target row 'lights': add, move, remove, change kind, height, colour, intensity and radius (`setAttr`), `delete`, `lock`; view keys not logged; lifecycle rows (undo exact; a hand-placed light survives regeneration by its host lineage); `lights.json` editable with provenance and the extension marker, zeroed by the parity presets (J-A23.71); the day/night switch, sun-height control and lighting on/off inside the control-surface budget"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2; §5.3 (seat E)",
+    "what": "F-LIGHT: no GPU or a lost context -> the fallback ladder (GPU field -> half-resolution light buffer -> vector shadows and glow sprites, today's §8.4), reported, never an error; invariants: every light on its host and its arena, its height within its row"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 (seat S2's exception-2 group, T68)",
+    "what": "the item's bars — a spot lit from every side by several lights has no shadow; a shadow never climbs a taller roof; the shadow on a lower roof is shortened by that roof's height and continues beyond it; lighting identical for the same model, lights and view (CPU reference) — plus placement bars (every street class x band reaches its target minimum brightness at night; no light on a hidden or clandestine plot unless a row places one), the GPU-versus-CPU tolerance and the fallback run"
+   },
+   {
+    "part": "scope",
+    "section": "§13.3; §13.4; §13.5 (S1 folds §13.5)",
+    "what": "the declared shift: `LightSource` records join every golden's model digest; visual regression of the GPU pass against the CPU reference within a stated tolerance and night-view legibility in B-ZOOM; parity rows for the presets' lighting (FTG's day-night light and lit windows, NG's prism pass in `hatched`, MFCG's raised under-copy only)"
+   },
+   {
+    "part": "scope",
+    "section": "§1.2; §1.7 (seat S2)",
+    "what": "the one-click default: the day view, the fixed sun at first paint and the cursor sun after it; cast shadows by the ruling on the default (the item's interpretation to confirm); the rendering-backends row: Canvas2D stays the reference for every mark, the light pass is a post operation with a CPU reference and a WebGL2 (WebGPU where available) accelerator — never a second drawing path"
+   },
+   {
+    "part": "scope",
+    "section": "Delegated decisions D-1, D-3, D-19; §16; §0.2 and the summary (seat S1 folds)",
+    "what": "D-1: its rejected 'WebGL2 reference backend for lit' stands, the GPU accelerating only the light pass; D-3: magical lights a named fantasy toggle, torches and lanterns realism, the night view a view choice (replacing 'the night preset's lights'); D-19: the sun's default mode `cursor` and shadows by the ruling; §16: the price and milestone of the lighting model; §0.2 and the one appended amendments-c summary paragraph: item 68's landing row and plain-words sentence"
+   },
+   {
+    "part": "scope",
+    "section": "§14; §15.1; §15.2; Staged by the owner's roadmap (seat S2)",
+    "what": "`@plat/render`'s light pass (CPU reference and GPU accelerator) and `lights.json` in `@plat/tables`; §15.1 cells D5 (day/night, weather, seasons, window lights: now the base model), E5, E6 and the R-row lights; a §15.2 row; the sewer and sky rows of *Staged* gain the underground light rows, the shafts and the islands' magical lights as hooks"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 (same part; the home seat)",
+    "what": "roles `light`, `lights`, `ambience`, `shadow` given their field-mode meaning; the programs `lightPass` and `glow`; `faceLight`, the two-tone roof, `hillshade` and crown shading emit albedo and normals when the pass runs (no double lighting); layer order: the light pass after slot 20 and before labels (slot 23); the `lit` on the reference backend paragraph (VIS-7, J-R4) restated; the `night` variant as the night view of every family"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.1; §8.5; §8.8; §8.9; §8.10 (same part)",
+    "what": "roof-surface heights (eave, ridge, faces from the roof construction) in the mark columns; first paint with the fixed sun; the height-and-normal and light-map channels in the canvas budget and the tile keys; WebGL2 and WebGPU run the light pass and still draw no marks; the `lit` crown bake per light step only on the fallback"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.4; §11.1-§11.3; §12.5; §12.7; §12.8 (same part)",
+    "what": "labels composed after the light pass, halos holding the label floor at night; exports — raster and 3-D carry the lighting (glTF punctual lights from `LightSource`), dd2vtt `lights` from the model's lights (no longer only the module's), SVG the vector fallback or a raster lighting layer; the API and bridge set the light keys; the per-frame cursor-sun pass inside §12.5's frame budget (>= 60 fps reference, >= 30 fps low end), the light-map bake budget, the memory of the new channels"
+   }
+  ],
+  "staged": "BASE — the lighting model, day and night, the cursor sun, height-aware shadows, point lights placed by rule, the GPU light pass with its CPU reference and fallback ladder (not on the owner's staged list; NO-DEFER); STAGED HOOKS — underground light (d') with the underground layer (II.7), the islands' magical lights and floating-caster shadows with the sky layer (II.6), the plan rung's room lights (stage 3; J-A28.32)",
+  "decisions_touched": [
+   "D-1",
+   "D-3",
+   "D-19",
+   "J-R4",
+   "J-R54",
+   "J-I7",
+   "J-R21",
+   "J-R22",
+   "J-A12.81",
+   "J-A15.41",
+   "J-A23.71",
+   "J-A28.32",
+   "K05",
+   "K06",
+   "N-8",
+   "AM-3",
+   "VIS-7",
+   "VIS-17",
+   "WC5",
+   "FTG-13",
+   "§1.7 rendering-backends row (Canvas2D the reference of every preset; rejected: WebGPU-only, a WebGL2 reference backend for lit)",
+   "§1.2 one-click default (projected shadow off)",
+   "the owner's 2026-09-25 rule: shadows use the height number"
+  ],
+  "group": "light (68); meets the islands 10, 13, 15 (magical lights; floating casters), the sewers and underground 12, 14, 64, 65 (underground light, shafts), hidden and clandestine plots 30, 63 (dark by default), entrances 29 and item 50 (FTG's light anchor), the plan rung 28 (room lights), transitions 67 (lights and shadows follow the Works stage), emulation 23 and the prosperity bands 27"
+ },
+ {
+  "id": "69",
+  "owner_words": "\"Adopt the corpus measured color targets\" (owner, 2026-09-27 ~13:35; docs/AMENDMENTS-2026-09-27c.md item 69; PROGRESS J64)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(e) are the program's vetoable interpretation: (a) the targets — paper luma 226-244 (target 235) and warmth R-B 20-50 pinned at 36; the darkest 0.5 % of a rendered plate at luma <= 45 with a warm brown-black ink at warmth ~20; plate chroma 18-70, median 43; (b) where they bind — `ink`'s paper and ink roles move to them, dependent roles re-derived under the contrast matrix, `ink`'s chroma cap raised from 18 so its plate chroma lands at 20-30 (constraint and precision), the other families aimed at the median, MFCG parity judged by style class; (c) a palette acceptance bar on a fixed measurement render, measured by our own code; (d) provenance 'owner-opened corpus palette exception, 2026-09-27'; (e) homes",
+  "gate": "owner rule (no evidence gate); the numbers are the owner-released corpus palette bands quoted in the item itself — taken from the item's text only; no seat opens partitioned/ (the exception's scope: the palette bands alone)",
+  "held": [],
+  "evidence": "owner's words (J64); the bands' source is the preliminary corpus look recomputed without the 53-plate holdout, quoted in the item — the measures' own definitions (paper 'lightness', 'the corpus's plate-chroma measure') are NOT in the item and sit in the walled-off preview: an input gap for the manager or ruling 1 of the route's section",
+  "state": "PARTIAL",
+  "home_part": "rendering",
+  "home_section": "§8.2 'Style sheets as data …' (seat R) — a new paragraph 'Palette targets — the owner-opened corpus bands (item 69)' beside Role values: the targets table (axis, measure in our own words, band, target, provenance `corpus` / 'owner-opened corpus palette exception, 2026-09-27'); where they bind (`ink` paper and ink/label/wall roles moved; dependent roles re-derived by the bounded repair so every contrast-matrix pair passes; `ink`'s chroma cap raised from 18 to put its plate chroma at 20-30; `lit`, `hatched`, `parchment`, `painterly` aimed at the median; random-style chroma windows following); the new role-value table with the pair-check receipt; the fixed measurement render (plate-equivalent resolution and framing, resolution-stable axes only)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§13.4 B-ZOOM (seat S2)",
+    "what": "the palette acceptance bar: on the fixed measurement render every shipped family inside its targets (paper luma and warmth, darkest-ink luma and warmth, plate chroma — `ink` 20-30, the others in the band by R's rule), measured by our own code from §8.2's definitions, no corpus instrument in plat/; from the milestone that ships each family's bands (`ink` values at M1); recommended here rather than §13.5, which reads only the references' baselines.json"
+   },
+   {
+    "part": "scope",
+    "section": "§13.9 the corpus-calibration interface (seat S2)",
+    "what": "one sentence: the owner released the corpus palette bands on 2026-09-27 (item 69, §8.2); every other corpus fact stays with the staged calibration phase; the program still reads no corpus file"
+   },
+   {
+    "part": "scope",
+    "section": "§17.1 (6), (5), (2) (ii) (seat S1)",
+    "what": "(6) the exception's provenance: `corpus` with the evidence 'owner-opened corpus palette exception, 2026-09-27 (item 69)'; (5) one clause: the palette audit compares with REFERENCE palettes only; (2) (ii) the new colour values go through the colour check like any"
+   },
+   {
+    "part": "scope",
+    "section": "Delegated decisions D-1 (seat S1)",
+    "what": "the look stays clean ink in MFCG's family; its values follow the owner-opened targets (warmer paper, brown-black ink, a little more colour); rejected and reverse unchanged"
+   },
+   {
+    "part": "scope",
+    "section": "§0.2 landing table; the one-page summary (seat S1)",
+    "what": "a landing row for item 69; one plain-words sentence in the appended amendments-c summary paragraph"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1; §16 (seats S2, S1)",
+    "what": "§15.1 palette / draw-style cells point to §8.2's targets where a row names colours; §16 the price (recommended ~0.5 pw at M1 for `ink`'s re-tune and the measurement code, the other families at their milestones)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.6 the override layer and editable tables (seat E)",
+    "what": "l. 7289-7290 becomes 'No corpus content enters the design by this rule except the palette bands the owner released on 2026-09-27 (item 69, §8.2); the corpus phase re-signs every other table value through §13.9'; role values carry per-cell provenance"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.3 census (same part, seat R)",
+    "what": "a census row 'palette targets on the measurement render' (the check; the gate is §13.4's); §8.2's random-style chroma windows and role continuity re-checked; J-R3, J-R28, J-R29 re-ruled as J-A69.8n"
+   }
+  ],
+  "staged": "BASE — the default palette ships with `ink` at M1; the corpus-calibration phase stays staged (§13.9) and this item is its one owner-opened early exception",
+  "decisions_touched": [
+   "J-R3",
+   "J-R28",
+   "J-R29",
+   "J-R30",
+   "J-A19.81",
+   "D-1",
+   "D-29",
+   "J-S9",
+   "J10 (owner-adopted ink default, MFCG family)",
+   "PROGRESS J27 (no corpus content before reconciliation) narrowed by J64",
+   "§17.1 (6) provenance values",
+   "§7.6 l. 7289-7290 'No corpus content enters the design by this rule'",
+   "§13.9 l. 10876-10877 'the corpus lies outside this folder and is not read by this program'"
+  ],
+  "group": "palette (69); meets light 68 (light, lights and shadow roles; night variants on the new paper and ink), render-labels 54 (the raised under-copy's ink tone), emulation 23 (style class, not colours), amendments-b item 19 (J-A19.81's lit roof rows)"
+ },
+ {
+  "id": "70",
+  "owner_words": "\"Oh something to consider, we are drawing expansion or when the settlement is generated lots with very low prosperity lots, some neighborhoods simply have a lot of for example, shacks on one block no single individual owns it. They kind of congregate together throughout the lot if the lot itself is not already built in the form of a larger building, each one deserving of a door. Sometimes they're just tents. What are your thoughts of this? It's similar to how we have retrofitted the interior of a once prosperous to our poor by instead of all in one building it's now just a bunch of separated small buildings still with more people in each depending on how big the city or town is and how low the prosperity is of that neighborhood and the town.\" (owner, 2026-09-27 ~13:50; docs/AMENDMENTS-2026-09-27c.md item 70; PROGRESS J65)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(g) are the program's vetoable interpretation and its answer to 'What are your thoughts of this?': (a) plot tenure owned/rented/common/informal, informal the lowest bands' default for plots with no standing building and for vacant, cleared or ruined ground in a declining district; (b) the `cluster` arrangement — shacks, tents or lean-tos packed organically, a footpath web, every structure its own door on a footpath reaching an access edge, a fire gap, denser in larger and poorer places; (c) households per structure by rung x band, the outdoor twin of item 28 (f); (d) where — FTG's shanty staging as the emulation default, declining districts' vacant plots, riverbanks and marsh margins, the lee of walls and ruins, the undercity's chambers, never a standing middle-or-above-floored plot; (e) over time — accretion, densification, fire, clearance or formalisation; (f) drawing — a speckle of small roofs at the city band, door ticks at district zoom, one place label; (g) homes and bars",
+  "gate": "owner rule (no evidence gate); (d)'s emulation clause cites FTG's shanty staging and MFCG's shanty toggle, already in the design (ref:FTG shanty rule, J-A27.43; the S0 shanty toggle) — no new code fact",
+  "held": [],
+  "evidence": "owner's words (J65)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S11 — one new paragraph 'Informal clusters — tenure and the cluster arrangement (item 70)', written as seat T's APPEND TO SECTION on §4.7 (exception 3 of §C.2 extended; B owns §4.7's REPLACE and folds the arrangement table's `cluster` row): tenure's rule; the packing (structures by class row, organic packing from the plot's `siteplan` stream, the residual yard as the footpath web narrower than an alley, one door per structure on a footpath, every footpath reaching an access edge, the fire gap, density by rung and band, a whole block as one informal lot where a band row says so); households per structure by rung x band read by §4.7's generation fill; where (FTG's staging via the shanty kind, declining districts' vacant plots, riverbanks and marsh margins, the lee of walls and ruins, never a standing middle-or-above-floored plot, never below a neighbourhood range floor that excludes squalid — item 72 (d'''), the undercity's chambers by II.7.5's rows)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.5 Plot, SitePlan, YardPart (seat M)",
+    "what": "`Plot.tenure: 'owned'|'rented'|'common'|'informal'` (recommended derived with a setAttr override, like knownTo); `SitePlan.arrangement` gains 'cluster'; the footpath web as YardPart faces of data kind `footpath`; the per-structure access guarantee named beside 'Exposure, passages and knowledge'"
+   },
+   {
+    "part": "model",
+    "section": "§2.6 BuildingClass, Entrances, Basements (seat M)",
+    "what": "`shack` and a lean-to shelter class row (data; its id named apart from the `lean_to` frontage treatment); a cluster structure's main entrance faces its footpath (rule 1 read as for a hidden plot; J-A29.21); no basement; one storey; roof `tent` for tents; a lean-to's shared wall"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 the entity registry (seat M)",
+    "what": "registry rows for `tenure` (edit kind; derived) and the new class rows"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3 invariant rows; §5.2 F-PLOT (seat E)",
+    "what": "rows: every cluster structure has its own door on a footpath face connected to one of the plot's access edges; the fire gap between every structure pair; households per structure within the row; no cluster on a standing middle-or-above-floored plot; F-PLOT: a structure that cannot take a door on a connected path is dropped and reported, its households re-housed by §4.7's overflow pass, never omitted"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1; §7.1 edit targets; §7.4 lifecycle (seat E)",
+    "what": "no new concern (the packing draws from `siteplan` keyed by the plot); `setAttr(tenure)` on plots; a cluster's structures edited as buildings; a re-pack as the plot's regenerate; the lifecycle rows"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.5 (2) the city-band figure-ground contract; §8.2 symbolisation (seat R)",
+    "what": "a cluster exception to the mass closing: a cluster plot's footprints are not closed across its footpaths — a dense speckle of small roofs over the path web in the ground tone, never an empty block and never a solid mass (MFP-1, J-R5); at the district band each structure with its entrance tick, the paths in the ground or court tone"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.1 LabelEntity; §9.6 names (seat R)",
+    "what": "one place label per cluster (a LabelEntity targeting the plot, never one per shack; its kind R's choice), its name drawn by §10.4's engine (seat T)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-rule group (seat S2)",
+    "what": "T70 bars: every structure has a door on a footpath that reaches an access edge; the fire-gap minimum holds; households per structure within the row; no cluster on a standing middle-or-above-floored plot; under the parity presets the shanty districts draw FTG's tents row (T27-2's shanty fixture extended)"
+   },
+   {
+    "part": "scope",
+    "section": "§15.1 B13 and the tents row; Staged by the owner's roadmap; §0.2; the summary; §16 (seats S2, S1)",
+    "what": "the parity cells; the evolution row (accretion, fire, formalisation hooks) and the underground row (the undercity's chambers); the landing row, one summary sentence, the price"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.5 shanty kind (same part; C folds)",
+    "what": "the shanty kind 'takes the cluster row (§4.7 S11, item 70; FTG's tents row in the parity presets)'"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 roster tables (same part; D folds)",
+    "what": "`DesignationTemplateRow.arrangement` gains 'cluster'; `shack` and lean-to shelter class rows (drain none, replaceability immediate, no cellar); the cluster rows — structure-kind weights by band x climate x era, footprint bands (shack 6-20 m2, tent 6-15 m2), households per structure by rung x band, fire gap, path width, density; tenure defaults by band"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (same part; T owns) and §10.3 (T)",
+    "what": "(e): accretion on the weekly clock (item 67's Works: a shack in days, a tent in hours), densification by rung 1's `densify … infill` on an informal plot, fire as a destructive circumstance event (rung 3), clearance or formalisation when prosperity rises (rung 3 in the due epoch for `immediate` stock: clear, S10 (7)'s re-cut into row-house plots, build); in decline a vacant, cleared or ruined plot takes tenure informal; §10.3: households per structure (pointer)"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.7.3 / II.7.5 (same part; D)",
+    "what": "the undercity's chambers may hold clusters by item 65's rows; II.7.3's sewer-front plots keep 'no compound, detached, hovel or tents'"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.9 greenery rows (same part; C, optional)",
+    "what": "the yard-planting row gains `cluster -> bare ground, paths, a midden`"
+   }
+  ],
+  "staged": "BASE — tenure, the cluster arrangement at generation (default preset; FTG's tents row under the parity presets), households per structure, the drawing and the place label; STAGED HOOKS — accretion, fire and formalisation over epochs (the evolution engine on item 67's clock; rows and kinds now) and the undercity's chambers (the underground layer, item 65)",
+  "decisions_touched": [
+   "J-A27.43 (vs (d)'s 'outside the enceinte')",
+   "J-A29.21 (one street-facing main door)",
+   "J-A28.25 (the unit-door rule)",
+   "J-A28.23",
+   "J-A28.46 (the generation fill per residential slot)",
+   "J-A31.42 (replaceability)",
+   "J-A31.43 (the geometry floor)",
+   "J-A31.41",
+   "J-A31.47 (rung 3's triggers)",
+   "J-A30.42 (exposure by adjacency)",
+   "J-A19.41 (discrete columns switch at the cut)",
+   "J-A12.41",
+   "J-A12.42",
+   "II.7.3 arrangement restriction (no hovel or tents underground)",
+   "MFP-1 (§8.5 figure-ground contract)",
+   "J-R5",
+   "COV-FTG-E07 (the tents row)",
+   "item 72 (d''') range floor"
+  ],
+  "group": "informal (70, 71); meets 71 (the class mix's lower end), 72 (d')(1) slums and (d''') range floor, 67 (accretion and formalisation as Works), 65 (the undercity's chambers), 68 (light rows); amendments-b 28 (f) (the outdoor twin of the interior ladder), 31, 27, 29, 30, 23"
+ },
+ {
+  "id": "71",
+  "owner_words": "\"Also note that regarding bands a prosperous neighborhood if it's not at the upper extreme may have a mix where appropriate to its band and the prosperity of the city they have a mix of middle class to rich man manors. Keeping with the idea that it is gradient. Of course, a very prosperous location may simply have all manors because that makes sense.\" (owner, 2026-09-27 ~13:55; docs/AMENDMENTS-2026-09-27c.md item 71; PROGRESS J66)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(e) are the program's vetoable interpretation: (a) a district's and a block's building-class mix drawn from weights interpolated along its prosperity value, the manor share rising to all manors at the extreme, the same at every band edge; (b) the town-wide wealth shifts the weights, the band cuts staying the town's own; (c) inside a mixed block the larger classes take the prime frontages (a frontage-prestige term in S10b; item 16's templates may override), plot granularity following the class placed; (d) households decide who lives there, the map which building each gets; a fallen manor keeps its shell and is subdivided inside; (e) homes and bars",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words (J66)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S10b — one new paragraph 'Class mix inside a band — the gradient reaches the building mix (item 71)' in seat T's APPEND TO SECTION on §4.7 (exception 3 of §C.2 extended; B owns the REPLACE and folds two pointers): the residential class drawn at placement from class-mix weights per band row interpolated along the plot's (manifested) value, monotone to all manors at the extreme, the draw on `siting` keyed by the plot; the town-wealth shift (recommended the intent's wealthLevel); the soft frontage-prestige term with the largest class placed first inside a block, item 16's hard rows first; granularity following the class via S10 (7)'s join; households' bands the roster's, the class the map's within drift; the default mix an `extension`, a step at each cut under the parity presets",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.1; §7.6; §7.7 (seat E)",
+    "what": "§6.1 no new concern (the class draw on `siting`); §7.6 the class-mix table editable with provenance and the `extension` marker, a step under the parity presets; §7.7 the intent expansion gains the class-mix shift row from wealthLevel, and l. 7450's whole-neighbourhood class mix stated as an override of the table's weights inside the assigned district"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-rule group; §13.7; §13.5 (seats S2, S1)",
+    "what": "T71 bars: monotone manor share inside a band row, 1 at the extreme; the town-wealth shift in the declared direction at equal relative position; largest classes on prime frontages above a shuffled-placement baseline by the §13.7 margin; manors on joined plots and houses on standard ones in one block; §13.7 the prime-frontage margin with its milestone and fallback; §13.5 the references' step under the parity presets (T23-1)"
+   },
+   {
+    "part": "scope",
+    "section": "§0.2; the summary; §16 (seat S1)",
+    "what": "the landing row, one plain-words summary sentence, the price"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.5 bands; §4.2 S2 (same part; C folds)",
+    "what": "§4.5's interpolation sentence gains 'and the class-mix weights (§4.7 S10b, item 71)'; S2's stage-land estimate reads the class-mix table's expected plot area per band"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 S10 (7) and S11 (same part; B folds)",
+    "what": "'a larger class placed by S10b's class mix asks this law for its join (item 71)'; 'J-A19.41 holds within a class; the class itself is S10b's class-mix draw (item 71)'"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 roster tables (same part; D folds)",
+    "what": "the class-mix table — recommended RosterTables.classMix: ClassMixRow[] ({ band; weights: { cls; weight }[] at the band centre; wealthShift }) with the prestige rows ({ frontage: tier1|square|park|corner|water; weight }), our own rows, extension"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (same part; T)",
+    "what": "rung-3 builds read the class mix at the new stock's value; a falling manor keeps its shell (pointer)"
+   }
+  ],
+  "staged": "BASE — the mix at generation and on every placement; its use over epochs rides the base's ladder and the staged engine with no new hook",
+  "decisions_touched": [
+   "J-A19.41 (discrete columns switch at the cut)",
+   "J-A19.43 (geometry reads the manifested band)",
+   "J-A27.41",
+   "J-A28.46 (households by band ± drift per residential slot)",
+   "J-A16.41",
+   "J-A16.43",
+   "J-A31.43",
+   "J-A23.71",
+   "§7.7 l. 7450 whole-neighbourhood class mix",
+   "§7.7 wealthLevel intent expansion",
+   "item 72 (d''') band range"
+  ],
+  "group": "informal (70, 71); meets 70 (the mix's lower end), 72 (d''') (the range clamps the mix); amendments-b 16, 19, 27, 28 (f), 31, 23"
+ },
+ {
+  "id": "72",
+  "owner_words": "\"By the way, just so you know, prosperity can shift for a number of reasons as well as regression and expansion to a number of reasons. Eventually neighborhoods are going to be more or less defined by the mix of assigned lots within them and how they correlate to relevant political powers as well as the spatial flow of trade both to main streets and the general direction (paired with location of walls and gates as gates) where trade is flowing most from, in addition to the economic make up of a settlement that can shift, their relationship to the main roads and to the more significant institutions which synergizes with again the make up or contributions of assigned lots to institutions within a settlement. This assignment also helps to assign names to neighborhoods.\" (owner, 2026-09-27 ~14:05; docs/AMENDMENTS-2026-09-27c.md item 72; PROGRESS J67) — with the further owner words quoted in the item at (d') (~14:20, J68: district-defining institutions, dispersed institutions, 'three or more … churches or … a grand cathedral … the religious quarter'), (d'') (~14:30, J69: two dials; value, not volume), (d''') (~14:35, J70: 'this neighborhood prosperities defines the bounds (floor, and ceiling) of what any building inside of it can be'), (d4) (~14:45/14:50, J71: the economic make-up amplifies by market share, no rank bonus) and (d5) (~14:55, J73: shared buildings partitioned, never doubled)",
+  "ruling": "OWNER RULE — the words are the authority; (a)-(d5) are the program's vetoable interpretation: (a) a district's character vector derived from five components (lot mix, political alignment, trade position, economic role, relation to main roads and significant institutions with the lots' contributions), kinds read off it; (b) recomputed at each epoch, kind and band following through item 31's ladder, never a re-roll; (c) names follow character, kept past a hysteresis, old names historical; (d') a class-table column `distribution` — district-defining (one district per dossier instance, shaped not filled), dispersed (spread by the solver with affinities and controlled randomness), singular/anchor — and a table of quarter identities (weighted class-family counts, thresholds, band conditions, priorities), dossier kinds winning; (d'') class-to-power rows, an institution dial and a quarter dial from the dossier's standings as field driver terms, significance-weighted (value, not volume); (d''') each district's value gives a floor-and-ceiling band range bounding every prosperity-driven building state, amplifiers clamped, the excess as pressure on the district's value; (d4) an economy dial from sector market shares, proportional, no rank bonus; (d5) shared buildings partitioned, never doubled",
+  "gate": "owner rule (no evidence gate)",
+  "held": [],
+  "evidence": "owner's words (J67-J71, J73); the dossier's actual fields (quarter names, powers with standings, income shares, trade goods without direction) per research/sf/SUMMARY.md — matched at the SettlementForge stage, 27d items 77-79 typing the slices after this pass",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.5 — new paragraphs 'Neighbourhood character, identity, the three dials and the band range (item 72)' written as seat T's APPEND TO SECTION on §4.5 (exception 4 of §C.2; C owns the REPLACE and folds two pointers): (a) the five-component character vector computed by a new pure step after S11 and before S13a; (d') the distribution column's three placements and the quarter-identity rule (highest-priority row met; dominant component or plain residential kind otherwise; dossier kinds win; S6's feature-named kinds stay the typing the pipeline reads); (d'') the two power dials as declared field driver terms and significance weighting; (d''') the band range with its clamp and the pressure; (d4) the economy dial proportional to market share; (d5) the partition of shared buildings",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.5 District, CharacterVector (seat M)",
+    "what": "`CharacterVector` declared once (ruling 1: the derived five-component profile) — today used at l. 831, 1832, 11022 and never declared; `District.identity?: { row; source: 'dossier'|'emergent'|'dominant'|'plain'; since }`; `District.bandRange: [band, band]` (derived); `District.pressure: number` (persisted, epoch-written); `District.nameHistory?: NameRef[]`"
+   },
+   {
+    "part": "model",
+    "section": "§2.7 Institution, Faction (seat M)",
+    "what": "the power link — recommended derived from the class-to-power rows with a dossier override (`Institution.powers?: { power: Id; weight: number }[]`, the partition weights); a power's standing (recommended `Faction.influence` read as the standing); no Faction materialised by the base beyond the schema (D-10)"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 registry; §2.9 Recipe (seat M)",
+    "what": "registry rows: character, identity, bandRange derived (setAttr only on the identity override), pressure epoch-written, nameHistory by the rename case; `Recipe.character` becomes the overrides of the input vector (ruling 1); the circumstance slices the dials read — economy (sector -> share), powers (power -> standing), trade (partners with bearing weights) — typed minimally as hooks (27d's 77-79 extend them after this pass)"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1; §6.2; §6.3 (seat E)",
+    "what": "no new concern (draw-free vector, identity, range; dispersal on `alloc.district`; a rename on the district's `naming` stream); the vector, identity and range derived and recomputed on load, `pressure` in the model digest, the dials' inputs recorded so J-DET-12's recomputation reproduces the field; §6.3 a new draw case — the epoch rename past the identity hysteresis (ruling 4), l. 6124-6125 staying true for generation and edits"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1; §7.4; §7.6; §7.7 (seat E)",
+    "what": "the district row's setAttr gains `identity` (an override); tables by editTable; lifecycle rows; the new tables editable with provenance, their rows `extension`, zeroed by the parity presets (kinds stay S6's; the field without the dials); §7.7 layer 2's input vector restated (ruling 1), the economy, powers and trade circumstances typed as the dials' inputs, a district-defining dossier institution an Assignment of granularity 'neighbourhood' with existence 'dossier' — one district per instance"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3 invariant rows (seat E)",
+    "what": "one district per district-defining dossier instance; every building's prosperity-driven state inside its district's band range; a shared building's partition weights sum to one; the vector equal on recomputation"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.1; §9.4; §9.6; §11.1; §8.2 thematic layers (seat R)",
+    "what": "district labels read the identity-driven names; a quarter node's name from its members' dominant identity (pointer to §10.4); the JSON export carries each district's vector, identity, band range and historical names; an optional theme keyed by identity, power or sector"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-rule group (seat S2)",
+    "what": "T72 bars: the vector a pure function (equal on recomputation); a name changes only past the hysteresis or by a rename; value not volume (many lodgings never outweigh a few churches); three churches or one cathedral make the religious quarter; one district per district-defining dossier instance at the row's share, not every lot; dispersed classes never gathered into one district by rule; every building's prosperity-driven state inside its range and an institution's excess raising the pressure; a shared building never above a single-power building of equal significance; the economy dial proportional to share with no rank bonus"
+   },
+   {
+    "part": "scope",
+    "section": "§1.4 districts row; D-16; D-10; D-32; §15.1 (MFCG B9, NG C8); §15.2; §16; §0.2; the summary; Staged (seats S1, S2)",
+    "what": "kinds feature-named as before with identities emergent from the lots (J-P1 refined); D-16 wording refined; D-10/D-32 the dials read shares and standings, the economy never modelled (J-A16.44 holds); the parity cells; O10/O18 letters; the price; the landing row and one summary sentence (with the pressure reading flagged to the owner); the SettlementForge row (standings, shares, partners, district-defining institutions as dossier facts) and the evolution row (recomputation, renames, pressure)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.5 Typing and Fields (same part; C folds)",
+    "what": "two pointers: Typing ('the district's identity, read after placement from its character vector, names and describes it; §4.5, item 72'); Fields ('plus the three dials' driver terms and the district pressure (item 72)')"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S3 (4) and S2 (same part; C folds)",
+    "what": "the gate bearings' trade weights from the trade slice (the dossier's partners mapped onto bearings by item 20 (h)'s derivation row); S2's town-level character shift read from the economy slice (ruling 3)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.3 (same part; T, single seat)",
+    "what": "a way's trade weight = the sum of the gate bearings' weights routed over it, read by the trade-position component"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 S10b and S11 (same part; T's APPEND with items 70 and 71)",
+    "what": "S10b's placement of dispersed, district-defining and singular classes; S11's reads clamped to the district's band range"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (same part; T owns)",
+    "what": "the epoch recomputes the vector after step (a), re-reads the dials, adds the clamped excess to each district's pressure, moves identities and kinds past their hysteresis (item 31's ladder, never a re-roll), renames by ruling 4, converts a district toward a dossier-added district-defining institution by item 22's mutation"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 (same part; D folds interface fields; exception 5: T's APPEND declares the row types)",
+    "what": "D folds `BuildingClassRow.distribution`, `significance`, `powers`, `sectors` and `RosterTables.quarterIdentities`, `powerLinks`, `sectorLinks`, `bandRanges`; T's APPEND TO SECTION declares their row types and default rows (our own, extension)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.3; §10.4 (same part; T)",
+    "what": "§10.3: the module's faction influence field reads the base's standings (pointer); §10.4: names from the dominant components (trade, institution, faction, gate or trade direction, terrain), kept until a rename or a change past the hysteresis, the old name historical"
+   }
+  ],
+  "staged": "BASE — the vector, identities, distributions, dials, band range and partition at generation, reading the recipe's circumstances (the blueprint's own economy, powers and trade as the dossier's stand-in, item 20 (h)); STAGED HOOKS — the epoch recomputation, renames past the hysteresis and the pressure over epochs (the evolution engine) and the dossier's standings, shares, partners and district-defining institutions (SettlementForge inputs, typed now as circumstance slices and assignments)",
+  "decisions_touched": [
+   "J-P1",
+   "J-A27.41 (districts stay feature-named)",
+   "§2.5 'Districts are feature-named, never class-named'",
+   "J-2 (districts typed and fields solved before the infill)",
+   "D-16",
+   "J-P2",
+   "J-P28",
+   "J-I1",
+   "J-DET-37",
+   "§6.3 l. 6124-6125 (features are not naming inputs)",
+   "D-6",
+   "D-10",
+   "D-32",
+   "J-A16.44",
+   "J-DET-12",
+   "J-A24.41",
+   "J-A24.43",
+   "J-A16.41",
+   "COV-FTG-E02 (FTG's sub-districts)",
+   "J-A22.71",
+   "J-A22.73",
+   "J-A31.41",
+   "J-A31.43",
+   "J-A31.45",
+   "J-A28.24",
+   "J-A19.41",
+   "J-A19.43",
+   "J-A20.71-J-A20.75",
+   "§7.7 l. 7331-7337 (the input character vector)",
+   "§10.2 l. 8944 (the town-level character vector)"
+  ],
+  "group": "character (72); meets 20 (h) (the dossier's facts; the derivation rows for trade direction and district kinds), 70 (slums with clusters; the range floor), 71 (the range clamps the mix — designed together), 67 (the clock and epochs), 63 (criminal powers; fronts); amendments-b 8, 17 (evolution drivers; uses moving), 16-19 (solver, supply edges, templates), 20, 22 (dossier authority; mutation), 24 (trade convergence), 27, 31 (band set, ladder, floor), 28 (f) (interior rung clamped), 23 (emulation)"
+ },
+ {
+  "id": "20",
+  "owner_words": "\"whatever the dossier doesn't provide, the rest of the map code must compensate. it is one directional. only the dossier is the source of immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things from the dossier and in accordance with our rules.\" (owner, 2026-09-27 ~17:45; docs/AMENDMENTS-2026-09-27c.md §G item 20 (h); PROGRESS J77; docs/OWNER-INSTRUCTIONS-2026-09-25.md 'Data flow, refined') — routed as item 20; items 20 (a)-(g) are pass b's and stand",
+  "ruling": "OWNER RULE for part (h) — the words are the authority; (i)-(v) are the program's vetoable interpretation: (i) two tiers of fact — dossier facts immutable on the map, changed only by a dossier change; map facts the map's own construction — with a per-record or per-field tier marker; (ii) derive before invent — a §7.7 derivation table, one row per map-fact family (fact, dossier inputs, rule, chance entry or none), a missing input falling back to the next row, never to a request; (iii) coherence bars — no derived fact contradicts a dossier fact, a dossier change re-derives exactly the dependents by item 22's mutation, purity (seed, ordered dossier history, map edits), nothing flows back, an edit that would alter a dossier fact refused 'dossier-owned'; (iv) the map never asks the dossier to change — the port declares optional fields only; (v) PROPOSED — a binding table from the map's record ids to the dossier's name keys",
+  "gate": "owner rule (no evidence gate); (i)-(iii) BASE; (iv)-(v) STAGED HOOK; (v) was 'PROPOSED, vetoable; pending the survey's mapping and its verification' — the survey landed (J80) and its key law is docs/AMENDMENTS-2026-09-27d.md item 74, not in this pass: pass c designs only (v)'s base hook (the table's slot, re-bind, disambiguation)",
+  "held": [],
+  "evidence": "owner's words (J77, CONFIRMED); the dossier facts they answer — research/sf/dossier-model.md and research/sf/SUMMARY.md (names as keys, kinds with counts, no positions, households, classes or trade direction), the survey's, under Fable review in the queue",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 the dossier contract (seat E) — four new numbered items after item 7: 'Two tiers of fact' (the classification; the per-field marker is §2.8's; read by §7's edit rules, §9.2's reader, §11's exports and §11.2's API); 'Derive before invent — the derivation table' (one row per map-fact family: fact, dossier inputs, a POINTER to the deriving rule's home, the chance entry as an existing §6.1 stream or 'none'; rows for households, institutions' class/size/band, the settlement-level trade direction, positions, district kinds and names, prosperity, undossiered names; fallback to the next row, never a request); 'Coherence' (no contradiction; dependents re-derived by item 22's mutation; item 6's purity; item 1's one way; an edit that would alter a dossier fact refused 'dossier-owned'); 'The map never asks' (optional fields only at the doors and the staged port); item 8 (What is staged) gains (v)'s binding-table hook; (i)-(iii) run from M1 on a stand-in dossier built from the design's roster and blueprint",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.8 identity and the entity registry (seat M)",
+    "what": "the tier marker — recommended `Identity.dossierPaths?: string[]` (the attribute paths whose values are dossier facts on an entity carrying Identity.dossier), the registry declaring per kind which paths a dossier may own; or a per-field enum ('dossier'|'map') so a later author tier (27e item 101) adds a value; named apart from `Provenance` (never persisted)"
+   },
+   {
+    "part": "model",
+    "section": "§2.9 the document (seat M)",
+    "what": "the binding table's slot — recommended a registry record `DossierBinding { key; ref: DossierRef; entity: Id; since }`, model data in the digest like Rejection, empty until the staged port fills it; DossierRef.element read through it"
+   },
+   {
+    "part": "model",
+    "section": "§2.5-§2.7 (seat M)",
+    "what": "which fields a dossier may own on District (a dossier-named quarter), Institution (name, kind, knownTo, concealment) and Use; nothing else"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S2 (C folds); §4.7 households-per-building paragraph (B folds); §4.11 rung 1 and §10.3 (T); §10.2 (D folds)",
+    "what": "S2: the roster derived from the dossier's population and circumstances, the stand-in when there is none (the derivation table's household row points here); the wording 'a household of the dossier's roster' becomes 'the households that fill the dossier's population' at l. 4675-4689, 4995, 9016 (ruling 3) — the protection stays"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.4 host inputs; §11.1 formats; §11.2 API; §9.2 reader (seat R)",
+    "what": "§11.4 the optional-only rule (every door field beyond the dossier's present content optional; the map derives the rest); §11.1 every export carries the tier marker; §11.2 and §9.2 the reader and the API show which facts are dossier-owned; §11.3 unchanged (J-A20.81)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 owner-rule group (seat S2)",
+    "what": "T20-7 … T20-12: no derived fact contradicts a dossier fact on the dossier fixtures; a dossier change re-derives exactly its disruption set; a map edit of a dossier-owned value returns F-EDIT 'dossier-owned' and changes nothing; the derivation table total (every map-fact family a row, every row a chance entry or 'none'); every door field beyond the dossier's content optional (a schema test); the stand-in dossier fixture at M1"
+   },
+   {
+    "part": "scope",
+    "section": "§0.2 item-20 row; the summary; Staged SettlementForge row; §14; §15.2 O10 (i); §16 (seats S1, S2)",
+    "what": "(h)'s landing in item 20's row; one plain-words summary sentence; the optional-only rule and the binding table as staged hooks; the doors' adapters behind one interface as the port's slot (the package is 27d item 73's); O10 (i)'s letter; the price (recommended ~0.5-1 pw across M1 and M3a)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1; §5.2; §5.3; §6.1; §7.3 (same part, seat E)",
+    "what": "§7.1 the refusal 'dossier-owned' in the dry-run paragraph and the edit-target rows (a dossier-named institution's name and kind; knownTo by ruling 2); §5.2 F-EDIT's reason; §5.3 coherence rows after every derivation and dossier event; §6.1 no new concern; §7.3 a dossier change's effective scope = its dependent map facts (item 22's disruption set, exists)"
+   }
+  ],
+  "staged": "BASE for (i)-(iii) — the tiers, the derivation table and the bars from M1 with a stand-in dossier from the design's roster and blueprint; STAGED HOOK for (iv)-(v) — the optional-only port rule and the binding table are the SettlementForge stage's (27d items 73-74 make them concrete in the pass after c)",
+  "decisions_touched": [
+   "J-A20.71",
+   "J-A20.72",
+   "J-A20.73",
+   "J-A20.74",
+   "J-A20.75",
+   "J-A20.21",
+   "J-A20.22",
+   "J-A20.41",
+   "J-A20.42",
+   "J-A20.43",
+   "J-A20.81",
+   "J-A20.01",
+   "J-A22.71",
+   "J-A22.72",
+   "J-A22.73",
+   "J-A22.74",
+   "J-A22.75",
+   "J-A22.76",
+   "J-A30.71 (map knownTo override)",
+   "J-A30.72",
+   "§7.1 institutions row setAttr (knownTo, name)",
+   "J-DET-53",
+   "J-A28.46 and §4.7's overflow ('never a household of a dossier's roster')",
+   "PROGRESS J63 (hand-fix major on dossier-roster households)",
+   "J-A16.41",
+   "J-A21.81",
+   "D-22",
+   "J80 plan rulings (27d, not this pass)"
+  ],
+  "group": "dossier (20), with amendments-b 22 (dossier flow 20/22); meets 72 (inputs; derivation rows for trade direction and district kinds), 71 (class-mix tables in the household row), 63 (concealment as a dossier fact), 67 (the dossier's weeks); amendments-b 16-19, 9, 27; extended later by 27d items 73-88 and 27e item 101 (not in this pass)"
+ },
+ {
+  "id": "73",
+  "owner_words": "— (program candidate of the survey's Fable plan seat; extends OWNER RULE 20 (h) (iv), J77: \"the dossier port (§14) … may declare OPTIONAL fields it uses when present … and never REQUIRED ones\"; carries J86: Q1 \"the dossier port binds FIRST to SettlementForge's product line fp/integration-2026-09-23, pinned at commit 5d699cc68\", Q2 \"DOOR 1 STAYS CLOSED\"; staging per the plan's J-P1: creation half M1 test-side, absorb half M3a, host wiring at the SettlementForge stage)",
+  "ruling": "ADOPT (program; J-P1, J-P2); Q1 and Q2 RULED (J86)",
+  "gate": "facts CONFIRMED (§14 read; V2, V52, V56; s C-15, E-1/E-3/E-9); the interface's shape PLAUSIBLE — the program's own, applied as a vetoable decision",
+  "held": [],
+  "evidence": "file d item 73; research/sf/PLAN.md §2.1–§2.3 (the types, l. 95–187); mapping-verify V2, V52, V56",
+  "state": "PARTIAL",
+  "home_part": "scope",
+  "home_section": "§14 (seat S2): the package line `@plat/port` (one door for dossier facts; SettlementForge's shapes read only in `adapters/sf/<line>/`, a pure function to the neutral `DossierDigest`; first folder `fp-integration-2026-09-23` @ `5d699cc68`, Q1); the dependency rule `… ← edit ← export ← port ← api ← app` with the adapter-boundary lint; the interfaces `DossierPort`, `PortResult` (E_RUNG_UNAVAILABLE, E_UNKNOWN_SHAPE, E_LINE_UNSUPPORTED), `PortNote`, `HostContext` (all optional), `RealmBlock`, `DossierDigest`, `DossierInstitution`, `PortReport` (the plan's §2.2 re-stated); `DossierBinding`, `CarriedFacts`, `DossierChange` pointed to at §7.7; the extension point (one adapter folder per line); the `@plat/tables` line gains `tables/dossier/*`; the two halves and when each lands",
+  "referencing": [
+   {
+    "part": "rendering",
+    "section": "§11.4 host inputs (seat R)",
+    "what": "item 73 (c): for a dossier, door 1's blueprint and creation prefix and door 2's events and epochs are produced by `@plat/port` (§14); the host passes the whole dossier and the optional `HostContext`, nothing else; the staged sentence becomes 'the port's host wiring is staged'; Q2 in one line — the host's simulator never reads the map's geometry (door 1 closed, J86), a canonical-only export possible later only on the owner's word — with its row J-A73.81"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7 item 8 (seat E1 determinism-dossier)",
+    "what": "reworded per 73 (d): the port's creation half is the base's (M1, exercised by item 83's fixture bench, never by a live host), its absorb half lands with this contract at M3a, its wiring to a live host bridge is the owner's SettlementForge stage"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.5 (3) (seat E2 folds)",
+    "what": "the allowlist lint gains the adapter-boundary scan (the adapter's key list), one sentence"
+   },
+   {
+    "part": "scope",
+    "section": "§16 (same part; S1 folds)",
+    "what": "M1: the package, the digest, one adapter, the creation half; M3a: the absorb half; the O11 line widened (§C.9.3 (4))"
+   },
+   {
+    "part": "scope",
+    "section": "Staged by the owner's roadmap (same part; S2)",
+    "what": "the SettlementForge row: the port (§14) is built (creation M1, absorb M3a); staged: the host wiring, the realm block's supply, the audience table and display names in use, item 88's records"
+   },
+   {
+    "part": "scope",
+    "section": "§0.2 item 20's row; the summary (same part; S1 folds)",
+    "what": "item 20's row gains 'the port and its seam (27d items 73–88): §14, §7.7, §4.11, §2.7, §13.2'; one plain sentence in the appended amendments paragraph"
+   }
+  ],
+  "staged": "BASE (package, types, digest, creation half M1 test-side; absorb half M3a) + STAGED HOOK (host wiring at the SettlementForge stage)",
+  "decisions_touched": [
+   "20 (h) (iv) and its §B ruling 6 (stand-in dossier → item 84's fixtures)",
+   "J-A21.81",
+   "D-22",
+   "J-A20.81",
+   "J86 (Q1, Q2)",
+   "J-P1",
+   "J-P2",
+   "§11.4 door 4 ContentProvider (in-page embedders only)"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "74",
+  "owner_words": "— (program candidate; makes OWNER RULE 20 (h) (v) concrete, J77: \"the map binds its own stable record id to that dossier key in a binding table kept in the map document; a dossier rename arrives as a dossier change and re-binds … two dossier records of one name are disambiguated by the dossier's own ordering and reported\")",
+  "ruling": "ADOPT (program; J-P3, J-P9, J-P10, J-P11)",
+  "gate": "CONFIRMED V1–V6, V30, V54, V57, V62, V69 (the verification's corrections carried); the law's order and the member rule PLAUSIBLE — the program's",
+  "held": [],
+  "evidence": "file d item 74; research/sf/PLAN.md §2.2 (DossierBinding, CarriedFacts), §2.4 (the key law); mapping-verify V1–V6, V30, V54, V57, V62, V69",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 (seat E1 determinism-dossier): item 8's binding hook becomes a BASE item 'Identity without dossier ids — the binding': the key law (settlement / institution cat → uid → name with #k and the array-order tie-break reported / power / notable / condition / resource / quarter / government), class read apart from identity (current name after a demotion or upgrade receipt; catalogue kind; name, category, tags; M1 classes only, unmapped kinds to the category's generic class, reported), the re-binding receipts, controlledInstitutions resolved by stablePart, DossierRef.element = the binding key and version = the line; `DossierBinding` and `CarriedFacts` declared here",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.9 Document (seat M)",
+    "what": "74 (a): `dossier?: { binding: DossierBinding; carried: CarriedFacts }` — canonical, outside the model digest like `hostContent`, rebuildable from the log's dossier events and verified against that fold at load; the canonical-form list names it"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 Identity.dossier (seat M)",
+    "what": "the comment: `element` is §7.7's binding key (item 74), `version` the SettlementForge line; the binding is document data, not an entity"
+   },
+   {
+    "part": "scope",
+    "section": "§14 the port (seat S2)",
+    "what": "`digest` applies the key law and the class rule inside the adapter; `creation` and `absorb` return the binding and the carried facts (the law itself is §7.7's)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.4 door 2 (seat R)",
+    "what": "door 2's events carry the binding key in `EditBase.dossier.element` (one clause)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1, §6.3, §5.3 (same part; seat E2 folds, §C.9.2)",
+    "what": "§7.1 DossierRef comment 'the binding key of §7.7 (item 74)'; §6.3 a re-binding re-points a binding row and never re-keys a map address; §5.3 a check row: the stored binding equals the one rebuilt from the log's dossier events"
+   }
+  ],
+  "staged": "BASE (block, law, class rule M1; re-binding on receipts M3a) — supersedes 20 (h)'s '(v) … the key law and the port … are the SettlementForge stage's'",
+  "decisions_touched": [
+   "20 (h) (v) and §B 20 (h)'s in-digest DossierBinding recommendation (ruling 1)",
+   "J-A20.22",
+   "J-A20.21",
+   "J-A20.41",
+   "§6.3 address rules (J-DET-37, SPLIT)",
+   "J-P3",
+   "J-P9",
+   "J-P10",
+   "J-P11",
+   "J-P12",
+   "J-M4 (with J-P14's corrections)"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "75",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (i) and (iv), J77, and item 22 (b)'s report; carries owner Q4, J80: \"a settlement that dies and is resettled on its site is ONE map — ruin stages, then an epoch of regrowth on the old plan (item 8)\")",
+  "ruling": "ADOPT (program; mapping J-M4 with J-P14's corrections)",
+  "gate": "CONFIRMED V31, V39, V47, V57–V64, V67, V68, generation §7 (the corrections carried); the envelope PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 75; research/sf/PLAN.md §2.2 (DossierChange), §2.6 (the change feed and receipts); mapping §5 F-rows; mapping-verify V47, V57–V61, V64",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 item 1 (seat E1): the port produces dossier events by diffing the incoming dossier against `Document.dossier.carried` by binding key, dating each by item 76's rungs; `DossierChange` declared here; the receipt tables (row type, dispatch rule, the ten corrected rows F1, F2, F3, F4, F5, F8, F14, F15, F18, F20 — F20 with owner Q4: the same map regrows on the old plan; `memberBirths` a new map); the rest as data `tables/dossier/receipts`; the `unreceipted_change` note",
+  "referencing": [
+   {
+    "part": "rendering",
+    "section": "§11.4 door 2; §11.3 report.changed (seat R)",
+    "what": "each dossier-generated event carries its `DossierChange` in `EditBase.dossierChange`; `report.changed` entries name the change that caused them (nothing flows back)"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 LifecycleEvent.cause (seat M)",
+    "what": "a comment: the EditRef reaches the event's dossierChange (optionally `detail.dossierChange?: string`)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 EpochInputs.dossier (seat T)",
+    "what": "epoch-carried dossier events keep their dossierChange; item 76's cadence groups them"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §16 (S1 folds)",
+    "what": "absorb returns DossierChange[]; the `receipts` row set on the tables line; §16 M3a: the diff, envelope, dating and receipt tables (O10 +1.5, O11 +1 of the plan's M3a +2 / +3)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1, §5.4, §7.4 (same part; seat E2 folds)",
+    "what": "§7.1 EditBase.dossierChange?: DossierChange (set by the port); §5.4 a dossier event's changes entry names changeId and reason; §7.4 nothing new"
+   }
+  ],
+  "staged": "BASE (M3a)",
+  "decisions_touched": [
+   "item 22 (b), J-A22.73",
+   "J-A20.81",
+   "J-A20.74",
+   "J-A22.76",
+   "item 8 regrowth-first",
+   "J80 Q4",
+   "J-M4",
+   "J-M10",
+   "J-P14"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "76",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (iii), J77, and item 22 (e); refines §7.7 item 3's lapse, owner: \"if a settlement grows or declines that might be appropriate to put something there\" (J-P6); grounds item 67's \"our simulator advances by units of one week\" in SettlementForge's clock, V7)",
+  "ruling": "ADOPT (program; mapping J-M9, J-P6)",
+  "gate": "CONFIRMED V7, V8, V47, V70, V72's inputs; the threshold and the cadence PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 76; research/sf/PLAN.md §2.7; mapping-verify V7, V8, V47, V70, V72",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.11 (seat T, designed with item 67's Works): the week = calendar.elapsedWeeks (never elapsedMonths or history.age); `EpochInputs.week?`; dossier events' week in dossierChange.week; the dating rungs in order (explicit ticks, the outcome id's week suffix, HostContext.week, null → applies finished); the `calendar.sf445` season rows read by item 67 (b); the cadence (standalone dossier events at their week, decrees first; an epoch at each 52-week boundary or on a population move past ± 5 %; years = Δweeks ÷ 52; catch-ups by the same rule); the tolerance stated once here",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§7.7 items 1, 2, 3, 6 (seat E1)",
+    "what": "item 3: the lapse only when populationTarget differs by more than §4.11's tolerance — grown or declined, not drifted; item 1: changes dated by §4.11's rungs; item 6: the port groups changes into epochs by §4.11's cadence; item 2: the circumstance timeline dated in weeks"
+   },
+   {
+    "part": "model",
+    "section": "§2.9 EpochRecord; the document's week (seat M)",
+    "what": "EpochRecord records the epoch's week; the current week is derived (the last folded event's), never a stored counter; item 67's `week` view key reads the same week"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §16, §13.2 (S1 folds)",
+    "what": "tables/dossier/calendar holds sf445; §16 M3a the week, rungs and cadence, M4 the lapse inside the existing hook (+0.5, unpriced-mechanisms line); T20-2's epoch clause: the lapse only past the tolerance, a 2 % drift fixture keeps the hold (V72)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.3 (same part; T's own)",
+    "what": "the module's hour calendar (`time` view key) is never the map's week and never compared with it"
+   }
+  ],
+  "staged": "BASE (week, rungs, cadence M3a; the lapse tolerance M4)",
+  "decisions_touched": [
+   "J-A20.74",
+   "J-A22.42",
+   "J-A22.76",
+   "item 67 c-route rulings 1, 2, 7, 8",
+   "item 31 dwell bands in years",
+   "J-P6",
+   "J-P8",
+   "J-M9",
+   "J-M10"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "77",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (ii), J77: \"the settlement-level direction of trade from the realm-level partners and routes, the terrain and the road-and-gate geometry (item 72's trade-flow term)\"; gives item 72 (a)(3) its input)",
+  "ruling": "ADOPT (program; J-P13)",
+  "gate": "CONFIRMED V26, V31, V44, V71 (corrections V31, V71 carried); the shapes and the north-first rule PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 77; research/sf/PLAN.md §2.8 (R3); mapping-verify V26, V31, V44, V71",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 item 2 (seat E1): `CircumstanceSlice` declared once with `trade: TradePartner[]` (key, mode, weight, bearingCdeg, relationship?, source dossier|derived|realm); the fill rules §4.2 S3 (4) and 20 (h)'s derivation row point to — a partner's bearing drawn on its own key stream when the dossier gives none, goods → modes via ResourceRow, tolls and port duties split road from water, isEntrepot raises the harbour or busiest gate, hostile weight zero and a rival's kept (V31); the realm fit (north first, then the residual by least disruption); standalone fill from the blueprint",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.3 (seat T, single seat); §4.11 (T)",
+    "what": "`TradeFlow { gates: { gate; weight }[]; harbour?; dominantBearingCdeg }` declared and derived after S4 from the slice and the road-and-gate geometry, beside item 72's way trade weight; read by 72's trade-flow term and §4.5's drivers; recomputed at each epoch; §4.2 needs no new text (C's S3 (4) reads the slice through §7.7)"
+   },
+   {
+    "part": "model",
+    "section": "§2.9 Document.derived; §2.4 Way.from/to (seat M)",
+    "what": "`derived.tradeFlow?: TradeFlow` (a cache, never canonical); an external bearing names its partner's key (comment)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1 the geo anchor (seat R)",
+    "what": "the anchor's bearingDeg may be set by the port's realm fit — a documented default of the exportAnchor view key (one clause)"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §16 (S1 folds); Staged (S2)",
+    "what": "RealmBlock in HostContext and the realm_block_used note; §16 M1 slice and bearings, M2b weights and drivers (72's price), M3a the port's partner fill; Staged: the realm block's supply"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1 (same part; E2 folds)",
+    "what": "the partner bearing drawn on the S3 bearing concern keyed by the partner's key — no new concern"
+   }
+  ],
+  "staged": "BASE (slice, bearings as destinations, TradeFlow) + STAGED HOOK (the realm block's supply)",
+  "decisions_touched": [
+   "J-A24.41",
+   "J-A24.43",
+   "item 72 c-route rulings (trade-flow term, §4.3 way weight)",
+   "J-A22.71",
+   "J-A22.73",
+   "J-R31",
+   "J-P13",
+   "§C.6 (slices declared by M) — superseded"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "78",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (ii), J77: households and classes derived from \"population, wealth level, size tier, sector shares and the class-mix tables\"; gives item 72 (d4) its input)",
+  "ruling": "ADOPT (program; V35 — type the existing slot)",
+  "gate": "CONFIRMED V18, V35 (correction carried); T13's rows PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 78; research/sf/PLAN.md §2.5 (T13); mapping 4.13; mapping-verify V18, V35",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 item 2 (seat E1), in the one CircumstanceSlice declaration: `economy: EconomyShares` = Record<Sector, number> summing to 1, default an even mix (neutral); the Sector set by pointer to §10.2's RosterTables.sectors; read by item 72 (d4)'s dial at creation and each epoch with hysteresis; standalone filled from the blueprint",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§10.2 (seat T, exception 5 extended); §4.5 / §4.11 (T, item 72's text)",
+    "what": "`RosterTables.sectors: SectorRow[]` (T13's left column) and `BuildingClassRow.sectors: { sector; weight }[]` summing to one — item 72 (d4)'s table and (d5)'s partition in ONE column; own rows, extension under the parity presets; the economy dial reads the slice and the column"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); Delegated decisions D-10, D-32 (S1 folds); §16 (S1 folds)",
+    "what": "tables/dossier/sectors: the port's revenue → sector rows (Property Rents → none, finance its own sector, J-M6); D-10/D-32: the shares are read, never modelled; §16 M1 type and tables, M2b the dial (72's price), M3a the T13 fill"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-10",
+   "D-32",
+   "J-A16.44",
+   "item 72 c-route rulings 3 and 9",
+   "J-M6",
+   "J-P13"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "79",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (ii), J77: an institution's class, size and band derived \"through the designation templates (items 19, 72 (d′)–(d″))\"; gives item 72 (d″), (d5) their inputs; J-P13 over mapping G-D1 (b))",
+  "ruling": "ADOPT (program; J-P13 over G-D1 (b))",
+  "gate": "CONFIRMED V21, V24, V30, V32–V34 (V30 carried); the shapes and T15's rows PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 79; research/sf/PLAN.md §2.5 (T15), J-P13; mapping-verify V21, V24, V30, V32–V34",
+  "state": "PARTIAL",
+  "home_part": "model",
+  "home_section": "§2.7 (seat M): `Faction.kind` gains 'military' | 'arcane' (arcane a dossier fact, or standalone only under item 68's magic circumstance, D-3); `Institution.powers?: { power; weight }[]` summing to one — absent: item 72 (d″)(1)'s class-to-power row; present: the dossier's override from controlledInstitutions past the hysteresis, partitioned by relative standing (72 (d5)); declared link lists weighted 1.0 / 0.6 / 0.5 / 0.4 when present; `Institution.faction?` stays for the module",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§7.7 item 2 (seat E1)",
+    "what": "`powers: PowerStanding[]` in the one slice declaration — { key; kind; standing (Σ = 1); governing; appliedStanding (moves only past a hysteresis at an epoch) }; recipe data at creation (standalone: the design's government and religion rows), epoch data afterwards"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 (T, exception 5); §4.11 (T); §10.3 (T)",
+    "what": "the class-to-power rows (72's powers column, powerLinks) read the new kinds; the dials move appliedStanding only past the hysteresis at an epoch; the module's faction influence reads the base's standings"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §15.1 B5 (S2, optional); Staged (S2); §16 (S1 folds)",
+    "what": "tables/dossier/powers — T15's rows ('Unknown Faction (hidden)' → the secret flag); B5 names the standings; PowerRelation and legitimacy are item 88's; §16 schema and tables M1, the dials M2b (72's), the override M3a"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 registry (same part; M)",
+    "what": "Institution.powers's edit kind (setAttr), dossier-owned when the dossier set it (20 (h)'s tier marker)"
+   }
+  ],
+  "staged": "BASE (slice, kinds, column) + STAGED HOOK (PowerRelation, legitimacy — item 88)",
+  "decisions_touched": [
+   "§10.1",
+   "J-9",
+   "D-3",
+   "D-32",
+   "item 72 c-route rulings 5, 8, 10",
+   "mapping G-D1 (b) (superseded by J-P13)",
+   "J-A30.71",
+   "J-A30.72"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "80",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (iii), J77: \"No derived fact contradicts a dossier fact (counts, kinds, existence, membership …)\"; refines §7.7 item 2)",
+  "ruling": "ADOPT (program; J-P12)",
+  "gate": "CONFIRMED V16, V41, V48, V59–V61 (V59–V61 carried)",
+  "held": [],
+  "evidence": "file d item 80; research/sf/PLAN.md §2.5 (T11); mapping-verify V16, V41, V48, V59, V60, V61",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 (seat E1): `Assignment.state: 'active'|'ruined'|'removed'` (default active; written only by dossier events); ruined = present as its ruin (use closed, building ruined, counted present), a reopen returning to the same building first; removed = unassign → closeUse → vacant; the status response rows keyed on the fate word and inactive flag before status (impaired physical → condition steps, non-physical → item 79's dial; remnant smaller-designation fates → item 18's mutation; closure fates → removed; ruin fates → ruined; vacant → nothing; ruined_by_decree reserved); J-P12's distribution over a collective record's members",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.8 ladder note (seat M)",
+    "what": "one line: a dossier-listed ruin is Assignment.state 'ruined' over a building whose existence is 'ruined' (§7.7, item 80); no new field on Use or Building"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (T); §4.7 (T's exception-3 APPEND)",
+    "what": "the reopen path: a returning element re-opens in its former building first (formerUses), repaired by a Works when item 67 runs; S10b's dossier request ranks the element's former building first"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §16 (S1 folds)",
+    "what": "tables/dossier/status (T11's rows); schema M1, behaviour M3a"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3, §7.1, §6.1, §7.4 (same part; E2 folds)",
+    "what": "§5.3 the dossier row: live and placed, or present as its ruin; §7.1 a map setAttr of state refused dossier-owned; §6.1 J-P12's member choice on the record's existing stream; §7.4 nothing new"
+   }
+  ],
+  "staged": "BASE (schema M1; behaviour M3a)",
+  "decisions_touched": [
+   "§7.7 item 2",
+   "J-A20.71",
+   "J-A20.75",
+   "J-A8.46",
+   "item 31 condition",
+   "item 18",
+   "J-A17.71",
+   "J-P12",
+   "J-M3"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "81",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (iii), J77; carries owner Q3, RULED J80: \"a dossier below the 1 500-person floor is refused by the port naming the staged village product (the dossier's population is immutable; §1.1's clamp stays for requests without a dossier)\"; J-P7; fills mapping G-D15)",
+  "ruling": "ADOPT; the refusal owner-ruled (Q3, J80; J-P7)",
+  "gate": "CONFIRMED V40, V47 (carried), the census T1",
+  "held": [],
+  "evidence": "file d item 81; research/sf/PLAN.md §6.3, J-P7; mapping-verify V40, V47; census-fixtures",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 (seat E1): a dossier below 1 500 refused by the port (E_RUNG_UNAVAILABLE, naming the village product) while no village product is registered; §1.1's clamp only for blueprint requests without a dossier; the tier word a dossier fact and the title's word; a bare tier change fires F8 (item 75's rows)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.1 Requests at the ends of the ladder (S2)",
+    "what": "the clamp sentence gains 'for a request that carries no dossier; a dossier below 1 500 is refused (§7.7, item 81; J80 Q3)'"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11 (T); PART III (T's APPEND after D, exception 6)",
+    "what": "at each epoch the rung profile is read at EpochInputs.populationTarget; a band crossing changes the rung's row — frame by §3.2 (9), budgets by the building count — the fabric surviving as in a growth stage (§6.3); II.6 (2)'s gate one reader; PART III: a sub-floor dossier waits for the village product's own port path"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.5 Title; §11.4 door 1 (seat R)",
+    "what": "a dossier-bound map's title word is the dossier's tier word; door 1 through the port refuses a sub-floor dossier with E_RUNG_UNAVAILABLE"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.4 (same part; E2, optional)",
+    "what": "the refusal is a port result, never a generation report entry"
+   }
+  ],
+  "staged": "BASE (refusal M1; the epoch rung M4)",
+  "decisions_touched": [
+   "D-33",
+   "§1.1 clamp and requestedVsBuilt",
+   "J-A13.41",
+   "J80 Q3",
+   "J-P7",
+   "J-M7"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "82",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (i), J77; carries owner Q5 and Q6, RULED J80: \"'Eastern district (traditional)' on every Religious Quarter is a placeholder — a soft east row at low weight, dropped on the owner's word\"; \"SettlementForge's news naming districts of its own layout is a mismatch we accept — our districts never follow its classes\")",
+  "ruling": "ADOPT; Q5 and Q6 owner-ruled (J80)",
+  "gate": "CONFIRMED V10, V11, V37, V55 (V10, V37 carried)",
+  "held": [],
+  "evidence": "file d item 82; research/sf/PLAN.md §2.5 (T6–T8); mapping-verify V10, V11, V37, V55",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 (seat E1): a quarter as a NAMING CLAIM — a neighbourhood assignment with name and a kind bias (T6), never a zoning, the best-matching emergent identity (item 72) carrying the name past 72 (c)'s hysteresis, an absent quarter never a fact, SettlementForge's own district names never matched (Q6); T7's phrases as the claim's soft relation rows (the east row a low-weight placeholder, Q5); Assignment.target widened to a way, bridge, quay or pin — a named-feature claim for a landmark string the roster demands (T8 + six strings), nothing created for a string alone",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.7 Pin.kind; §2.8 Identity.dossier (seat M)",
+    "what": "`Pin.kind` gains 'notice'; the claim is how a named feature's Identity.dossier is set (comment)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.4 (T, single seat); §10.2 (T's exception-5 APPEND)",
+    "what": "a claimed quarter name is the matched district's name, protected as an assigned name, re-matched only past item 72's hysteresis; the notice pin's placement row; the arcane identity row the Mages' claim biases toward"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §16 (S1 folds)",
+    "what": "tables/dossier/quarters (T6, T7 with V10's rows and Q5's east row) and tables/dossier/landmarks (T8 + six strings); M3a"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.1 (seat R, optional)",
+    "what": "a quarter label reads the claimed name like any assigned name — no new rule"
+   }
+  ],
+  "staged": "BASE (M3a)",
+  "decisions_touched": [
+   "J-P1",
+   "J-A27.41",
+   "item 72 c-route ruling 1",
+   "J-A20.22",
+   "J-DET-46",
+   "J80 Q5",
+   "J80 Q6",
+   "J-M1",
+   "J-M2"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "83",
+  "owner_words": "— (program candidate; makes OWNER RULE 20 (h) (iii) executable, J77: \"COHERENCE BARS (§13). No derived fact contradicts a dossier fact … the derivation is a pure function of (seed, ordered dossier history, map edits)\")",
+  "ruling": "ADOPT",
+  "gate": "the fixture properties CONFIRMED (the plan's census); the bench's cost PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 83; research/sf/PLAN.md §4.3, §5",
+  "state": "PARTIAL",
+  "home_part": "scope",
+  "home_section": "§13.2 (seat S2's APPEND group after S1's REPLACE — exception 2 extended): 'The dossier port (items 73–88)': the creation bars T73-1 – T73-10 on B-DOSSIER-lite (nine births × 5 seeds PR, culture towns nightly; T73-8 stated in §6.5 and scheduled here; T73-10 the totality test) and the absorb bars T75-1 – T75-5 on item 84's pairs at M3a",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.5 determinism tests (seat E2 folds; R5)",
+    "what": "T73-8: the same dossier fixture and seed give the same model.digest on Node x86 and arm64 and in the nightly five-engine run"
+   },
+   {
+    "part": "scope",
+    "section": "§13.8 (same part; S2); §16 (S1 folds)",
+    "what": "B-DOSSIER-lite in the PR tier (creation bars) and nightly (culture towns; absorb pairs from M3a); M1 exit 'B-DOSSIER-lite green (T73-1 – T73-10)', M3a 'T75-1 – T75-5'; the rig line +0.5–1 pw"
+   }
+  ],
+  "staged": "BASE (M1 creation bars; M3a absorb bars)",
+  "decisions_touched": [
+   "T20-1 – T20-6",
+   "T22-1 – T22-4",
+   "§13.8 tier budgets and fallback",
+   "20 (h) §B rulings 4 and 6"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "84",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (iv), J77; carries J86 Q1 (cut from fp/integration-2026-09-23 @ 5d699cc68, re-cut by the same scripts for a later line) and J-P4)",
+  "ruling": "ADOPT (J-P4)",
+  "gate": "CONFIRMED the plan's census (census-fixtures.out), o§2, V1",
+  "held": [],
+  "evidence": "file d item 84; research/sf/PLAN.md §4 (the fixture set)",
+  "state": "ABSENT",
+  "home_part": "scope",
+  "home_section": "§13.2 (seat S2's APPEND group, with 83): plat/tests/fixtures/dossier/ with manifest.json (file, sfLine, commit, generatorVersion, seed, config, generatedBy, kind, pairsWith, population, tierWord, ourRung, notes): the nine at-rung births, the three refusal births, the totality-only files, the pairs; rules — cut from the named line's runs only, never under research/ or captures/, synthetic _seed and _config never published, re-cut by the same scripts on a new line; copied by the build at M1",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§14 testkit line (same part; S2); §17.1 (3) and §16 (S1 folds)",
+    "what": "the @plat/testkit line gains the dossier fixtures and their manifest; §17.1 (3): the dossier fixtures lie inside plat/; §16 M1 (the rig line)"
+   }
+  ],
+  "staged": "BASE (M1)",
+  "decisions_touched": [
+   "§17.1 (3)",
+   "§17.1 (4) committed-files precedent",
+   "J86 Q1",
+   "J-P4"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "85",
+  "owner_words": "— (program candidate; extends item 20 (d) (the host may store the document as an opaque artifact) and item 30's knowledge rules (J-A30.82); 20 (h) (iv)'s optional-only HostContext, J77)",
+  "ruling": "ADOPT",
+  "gate": "CONFIRMED s C-1, C-8, C-11; the candidates PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 85; research/sf/PLAN.md §2.9; research/sf/dossier-seam.md C-1, C-8, C-11",
+  "state": "PARTIAL",
+  "home_part": "scope",
+  "home_section": "§14 (seat S2, with item 73's port): (a) Recipe.seed for a dossier = H32('plat:sf-seed' ‖ _seed), one-way, the port's first act; (b) HostContext.displayNames applied inside one export request, never stored; (f) the audience → role and key table in the port's host glue (DM owner/secret; co-DM editor; player viewer/public raised place by place; anonymous and gallery pictures only under public; DM-full share pictures under secret, never the document)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.9 Recipe.seed (seat M)",
+    "what": "comment: for a dossier-bound document, the port's one-way derivation (§14, item 85); never SettlementForge's seed"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.2 (seat E2 folds)",
+    "what": "'what a seed determines' gains the dossier case: the derived seed replays exactly; the host's seed never enters a digest or a link (§6.4)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1 (seat R)",
+    "what": "(c) the inert-export bar: every text node, attribute and metadata string XML-escaped; no script, event attribute, foreignObject or external reference in SVG; other exporters escape by their format; display names applied at the request and written nowhere else"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.3 (seat R)",
+    "what": "(d) every reply carries the request's seq as `re`; the transport checks the source window as well as the origin; host messages before `ready` queued and delivered in order; (e) 'an iframe on the module's own origin' as the SettlementForge configuration; the Roles bullet points to (f)'s table"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 (same part; S2's APPEND group); §16 (S1 folds)",
+    "what": "the bar: hostile names through every exporter, inert and well-formed output; §16 M1 (a), (c), M3a (b), (d)–(f)"
+   }
+  ],
+  "staged": "BASE ((a), (c) at M1; (b), (d)–(f) at M3a; live use at the SettlementForge stage)",
+  "decisions_touched": [
+   "item 20 (d)",
+   "J-A30.82",
+   "J-A30.83",
+   "J-A30.85",
+   "§11.3 transport, FTG-12",
+   "J-R32",
+   "J-R13 (emblem sanitising)",
+   "§6.4 permalinks"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "86",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (ii), J77, and the standing rule that our base stays the base; carries owner Q6, RULED J80: \"our districts never follow its classes (its map program is not the base)\")",
+  "ruling": "ADOPT; Q6 owner-ruled (J80)",
+  "gate": "CONFIRMED g§6.6, s§3, V21, V28, o§5.2 (J-M5, J-M8)",
+  "held": [],
+  "evidence": "file d item 86; research/sf/PLAN.md §2.6 (the ignore-list); dossier-generation §6.6; dossier-seam §3",
+  "state": "ABSENT",
+  "home_part": "determinism",
+  "home_section": "§7.7 item 1 (seat E1), beside 'One way': the port never reads, and the module never takes as input, a host's map-side layers (urbanFabric, mapEdits, fogSessions, every worldState.spatialLedgers.* sub-ledger incl. the spatial substrate), its derived reads, its generation log (simulationTrace), aiOverlays, generationCoherenceReceipt, its generation sliders, its NPC social groups, or prose beyond a description seed for the clerk; the frozen spatialDigest the one campaign fact the realm block may carry; SettlementForge's own district names never matched (Q6)",
+  "referencing": [
+   {
+    "part": "rendering",
+    "section": "§11.4 (seat R)",
+    "what": "one sentence: what a host's data the module never reads is §7.7 item 1's list (item 86); the adapter reports every key it dropped"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2); §16 (S1 folds)",
+    "what": "the adapter's `ignored` list in DossierDigest and the ignored_key note (item 73's types); M1"
+   }
+  ],
+  "staged": "BASE (M1)",
+  "decisions_touched": [
+   "J-A21.81",
+   "D-22",
+   "J27",
+   "J80 Q6",
+   "J-M5",
+   "J-M8",
+   "item 101 (d) (the clerk's description seed)"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "87",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (iii), J77: \"a dossier change re-derives exactly the dependent map facts by item 22's least-disruption mutation — never a re-roll\"; §7.7 item 5; J-P5)",
+  "ruling": "ADOPT (J-P5, over s C-4's rewind)",
+  "gate": "CONFIRMED V49; the convergence PLAUSIBLE (bar T75-4)",
+  "held": [],
+  "evidence": "file d item 87; research/sf/PLAN.md §3 (the SettlementForge undo), J-P5; mapping-verify V49",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 item 5 (seat E1), one sentence: a host that restores an earlier dossier state sends it as a dossier change like any other; the port diffs it; S10b's vacant-first order and §4.11's formerUses preference return removed-then-restored elements to their own buildings and free the plots of added-then-withdrawn ones; the residue reported; the report names the earlier absorbed state the dossier now equals (state_matches_absorbed, item 74's factHash); no rewind of dossier events exists. §7.4 is NOT edited",
+  "referencing": [
+   {
+    "part": "rendering",
+    "section": "§11.4 (seat R)",
+    "what": "the port's report names state_matches_absorbed (one clause)"
+   },
+   {
+    "part": "model",
+    "section": "§2.9 Document.dossier (seat M)",
+    "what": "DossierBinding.absorbed holds each absorbed state's factHash (item 74's block; no new field)"
+   },
+   {
+    "part": "scope",
+    "section": "§14 (S2)",
+    "what": "PortNote state_matches_absorbed and PortReport.stateMatchesAbsorbed; T75-4 is item 83's"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.4 (same part; seat E2)",
+    "what": "NOT edited — E2 writes nothing for item 87 in §7.4"
+   }
+  ],
+  "staged": "BASE (M3a)",
+  "decisions_touched": [
+   "J-A20.74",
+   "J-A22.76",
+   "J-A22.71",
+   "item 17 formerUses",
+   "J-P5"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "88",
+  "owner_words": "— (program candidate; extends OWNER RULE 20 (h) (iv), J77: the port lists \"for every map fact, its derivation and its dossier inputs\"; the staged layers' 'schema-complete, empty in the base' precedent)",
+  "ruling": "ADOPT",
+  "gate": "CONFIRMED V6, V7, V24, V36, V38, V42, V43, V66; the shapes PLAUSIBLE",
+  "held": [],
+  "evidence": "file d item 88; research/sf/PLAN.md §5 (staged row); mapping G-D1 (c), (d), G-D5, G-D9, G-D11, G-D12, G-D17",
+  "state": "PARTIAL",
+  "home_part": "model",
+  "home_section": "§2.7 (seat M), schema-complete and empty in the base: ConditionOverlay { key; archetype; severity; sinceWeek; untilWeek? }; DepositSite { key; family; state available|depleted|removed|discovered; bearingCdeg; landUse }; HistoryHint { ageYears; scars[] } (an S0 input; ageYears never advanced by SettlementForge weeks); PowerRelation { a; b; kind; strength }; the dossier-backed Person (pinned, Identity.dossier, housed by rule, Posting and Membership, a successor re-bound through replacedNpc); named in the staged-records paragraph",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§10.2 (T, exception 5 extended); §4.6 (T's APPEND after A); §4.11 (T)",
+    "what": "the staged rows: impairment types (physical → condition; non-physical → item 79's dial), a hinterland row reading importPct and food-chain booleans, a crime term on §4.6's hidden share and item 64 (b)'s access rate, custom-content fallback weights, a legitimacy scalar read by the dial table — schema-complete, empty, extension; §4.6 one line (the staged crime term scales the hidden share when filled); §4.11: ConditionOverlay read by item 67's works share, a DepositSite state change a land-use conversion; §4.2, §4.5, §4.9 need no text"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7 item 8 (seat E1)",
+    "what": "'What is staged' names the records and rows the port will fill"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 (seat R)",
+    "what": "a ConditionOverlay drawn as a thematic overlay row (staged, empty; no geometry)"
+   },
+   {
+    "part": "scope",
+    "section": "Staged (S2); §16 (S1 folds)",
+    "what": "the SettlementForge row lists the five records and the rows; schema at M3a (no added price), behaviour at the SettlementForge stage and with item 67 and the evolution engine"
+   },
+   {
+    "part": "model",
+    "section": "§2.8 registry (same part; M)",
+    "what": "each declared with edit kinds and migration hooks (absent = empty)"
+   }
+  ],
+  "staged": "STAGED HOOK (schema at M3a; behaviour at the SettlementForge stage and with the evolution engine)",
+  "decisions_touched": [
+   "J-A11.21 and the II.6 schema-complete rule",
+   "§10.1, §10.3 (people derived; pinned exception)",
+   "item 30 hidden-share rows with item 64 (b)",
+   "item 26 hinterland rows",
+   "G-D1 (c), (d), G-D5, G-D9, G-D11, G-D12, G-D17",
+   "J-M3"
+  ],
+  "group": "dossier"
+ },
+ {
+  "id": "101",
+  "owner_words": "\"But what I want you to do is come up with an elegant set of tools for both an ai clerk and a user where a dedicated user can build it or emulate it.\" (owner, 2026-09-27 ~18:30; J79); \"look up similar tools online (keep in mind a casual audience with minimal technical background) to better determine how the edit tools should function as user experience\" (~18:45); \"But like a brush or a you design points to choose a space to create to create a neighborhood or a body of water (corners and boundaries are automatically assigned and you can then edit the boundaries after generation) or other things. Thoughts on that or more refined ways?\" (~20:05, part (i)) — docs/AMENDMENTS-2026-09-27e.md item 101",
+  "ruling": "OWNER RULE — the words are the authority; (a)–(i) are the program's vetoable interpretation (declare then derive; three surfaces, one vocabulary; twelve tools in five layers; the clerk; elegance bars; UX rules R1–R19 with (f′) superseding (f)'s wording and adding R13–R19 and the first-five-minutes bar; per-tool interactions; points in, shape out, handles always), judged by owner fidelity",
+  "gate": "owner rule (no evidence gate); the UX evidence research/ux/tool-survey.md stays in the research — the design states the rules with a pointer, never the web quotations",
+  "held": [],
+  "evidence": "owner's words; research/ux/tool-survey.md (38 tools, 440 sources); docs/experiments/known-city-authoring.md (J78)",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.1 (seat E2, §7.1's REPLACE owner): a new paragraph 'The authoring toolkit (item 101): declare, then derive' — declarations as events or sugar over one (one dry run, fate report, commit, undo; refusals with closest alternatives; what is declared is held); the twelve tools in five layers as a tool · layer · events table; the sugar events placeGate, quarter, roster, group with their expansions; the points forms (drawBoundary, drawWater incl. a level form, drawWall, drawWay, placeAt) derived at dry run by the class's own operator and stored resolved; handles 4–8, visible escapable snapping, brush = many seeds, lasso = many points; scoped re-rolls; three variations on the scope's next rerolls; the three surfaces produce identical events",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.8 tier marker and registry; §2.9 (seat M)",
+    "what": "the author tier `declared` on 20 (h)'s marker; registry rows for the four sugar events; the skeleton as a document form (creation prefix in, declared subset out); the per-viewer view key `underlay` (never exported, never in a digest, never read by the model)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.1, §4.3 (seat T)",
+    "what": "§4.1: the stage graph reads a skeleton's creation-prefix declarations ahead as its stages' constraints (ruling 2), as S2 reads the prefix's assignments; §4.3: the two-point road by S4's router with its class; §4.2, §4.4, §4.5 need no text"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.1/§8.2, §9.1, §9.4, §9.5, §11.1, §11.2, §12.6 (seat R)",
+    "what": "the ghost preview as a live layer (live.ghost) with handles and the count badge; region labels as named groups on the quarter tree; the leader-line switch for every landmark at the city band; the underlay layer and the handle and snap surfaces; the clerk's tool API — events, reader queries, a `why` query (rule, inputs, alternatives from provenance and the derivation record) and a `preview` dry-run call; the `skeleton` export format and every export's declared / derived / clerk-proposed provenance (R19); the preview budget"
+   },
+   {
+    "part": "scope",
+    "section": "§14, §13.2, §13.4, Staged (S2); §16, §0.2, the summary, §1.4 (S1 folds)",
+    "what": "§14 the three surfaces, the clerk interface (reads, authors, critiques, iterates; never bypasses dry run or undo; never invents a dossier fact; reads only what its viewer may know; optional, labelled as AI, preview-first, never draws pixels) and the app's twelve tools with (g)'s interactions and R1–R19 as the interaction contract with first-use hints; §13.2 the elegance bars, J78's fixture authored three ways and agreeing, (i)'s three fixtures; §13.4 the first-five-minutes test at M2a and M3a with the survey's open questions as measurements with fallbacks; Staged: the built-in clerk and plots on a bridge deck; §16 M2a / M3a / M3b placement and price; §0.2 landing row; one summary sentence; §1.4's editing row the differentiator"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.2, §7.3, §7.4, §7.5, §7.8, §6.1 (same part; E2's own); §7.7 (E1 folds)",
+    "what": "declared means held; fates name held declarations; scoped re-rolls; lifecycle rows for sugar events and points forms; migration by expansion version; intend's sliders as basic controls; variations on next rerolls; §7.7 'One path' names the skeleton file as a creation prefix and the forms catalogue gains `citadel-and-port`"
+   }
+  ],
+  "staged": "BASE (vocabulary, sugar events, points forms, skeleton file, tool API, the app's tools) + STAGED (the built-in clerk; plots on a bridge deck, J78 (c))",
+  "decisions_touched": [
+   "J78 (a)–(c)",
+   "J79",
+   "§7.2 locked by default, J-DET-6",
+   "J-DET-14",
+   "J-A22.74",
+   "§7.8 control budget (R15, O16)",
+   "J-R12",
+   "20 (h) ruling 1 (tier marker)",
+   "20 (g)",
+   "J-A30.82",
+   "D-7",
+   "§14 keymap and accessibility"
+  ],
+  "group": "authoring"
+ }
+]

@@ -1,0 +1,2 @@
+positions meeting <= 2 deg: 52/200; spread min 1.30 deg, median 2.94 deg, max 25.78 deg
+example d=300.0, h=10.0, H=60.0: tip beyond caster 60.0; tip from G 360.0 (= d*H/(H-h) = 360.0)

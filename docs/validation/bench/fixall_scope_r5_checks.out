@@ -1,0 +1,25 @@
+# PENDING FABLE REVIEW — output of fixall_scope_r5_checks.py, run by opus standing in for the Fable seat fixall/draft-scope-r5 (2026-09-26)
+# run 1: the integrated round-4 text (before this round)
+doc docs/ARCHITECTURE.md md5 2661eb6826ea537ddcd524941c003e14 lines 10724
+A rows whose cell count differs from the header: 1
+A   l. 10660: 3 cells against 2 (row J-I15)
+B milestone rows 10: M-1 2–3, M0 9–12, M1 33–43, M2a 9–12, M2b 33–42, M3a 15–19, M3b 16–21, M4 11–16, M4b 8–14, M5 14–18
+B milestone sum 150–200
+B effort lines 13: sum 136–182; stated base subtotal 136–182; stage 2 14–18; stated total 150–200
+B checks: lines = subtotal True; subtotal + stage 2 = total True; milestone sum = total True
+B cuts 17–28: base after cuts computed 119–154, stated 119–154; total after cuts computed 133–172, stated 133–172
+B calendar weeks stated 75–100; total ÷ 2 = 75.0–100.0
+B D-20 figures: total 150–200, base 136–182, stage 2 14–18, after cuts 133–172
+B plain words: 150–200
+
+# run 2: the same text with every block of docs/validation/fix-all/r5-scope.md applied (a scratch copy, not committed; its md5 below)
+doc arch-patched.md md5 e7e916da94aec1c795abf30b3e385260 lines 10783
+A rows whose cell count differs from the header: 0
+B milestone rows 10: M-1 2–3, M0 9–12, M1 35–46, M2a 9–12, M2b 33–42, M3a 16–20, M3b 16–21, M4 11–16, M4b 8–14, M5 14–18
+B milestone sum 153–204
+B effort lines 13: sum 139–186; stated base subtotal 139–186; stage 2 14–18; stated total 153–204
+B checks: lines = subtotal True; subtotal + stage 2 = total True; milestone sum = total True
+B cuts 17–28: base after cuts computed 122–158, stated 122–158; total after cuts computed 136–176, stated 136–176
+B calendar weeks stated 77–102; total ÷ 2 = 76.5–102.0
+B D-20 figures: total 153–204, base 139–186, stage 2 14–18, after cuts 136–176
+B plain words: 153–204

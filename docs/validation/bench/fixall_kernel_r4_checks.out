@@ -1,0 +1,17 @@
+== A  VK3-3 / K4-1: same-level route changes over finer vertices ==
+100000 random L2 route edges (5-60 m), 2-10 finer vertices on each, each placed within the hot pixel (0.7071 cm):
+  promotion of one finer vertex: in 9818 cases (9.82 %) another finer vertex ends farther than the hot pixel from its new route edge; the largest distance 1.253 cm
+  a same-level split placed at the nearest lattice point: 11763 cases (11.76 %) over the hot pixel; the largest 1.238 cm
+  finer vertices placed after a promotion, then the promoted vertex demoted: 5234 cases over the hot pixel; the largest 1.249 cm
+  demotion after the promotion (the promoting chain removed): the route restored vertex for vertex in 100000 of 100000
+  index boxes after a promotion: finer vertices outside (route-edge endpoints box + hot pixel) 0; outside (box of the run's vertices + hot pixel) 0
+  the same with finer vertices at any qualifying lattice point within 3 cm of the exact point (the placement rule's non-nearest choices): 400753 finer vertices after a promotion; outside the endpoints' box + hot pixel 38; outside the run's box + hot pixel 0
+  demotion test: promoted vertex on the line 0.000 cm from u-w -> demoted; the same vertex after a warp moved it 6 cm -> 6.000 cm, refused (it stays a vertex of the coarser route)
+== B  VK3-4: two re-seats on one warped route, placed in either order ==
+20000 pairs of Steiner vertices re-seated onto one warped route, their projections 25.0-26.5 cm apart: both orders place both vertices validly in 20000; the placed points differ between the two orders in 1354 (6.77 %)
+== C  VK3-9: removing a stretch of a profiled chain ==
+20000 random ways (16-60 vertices), 2-5 width knots, a stretch between two interior vertices removed:
+  the remaining parts keeping only their own knots: largest change of a sampled width 835.6 cm
+  a cut knot at each end of the removed stretch carrying the sampled value: largest change 1.59e-12 cm
+5000 random profiled rings (20-60 vertices, 3-8 base knots) opened by removing the stretch between two anchors:
+  the open remainder keeping only its own knots: largest change 2584.7 cm; with a cut knot at each end: 5.91e-12 cm

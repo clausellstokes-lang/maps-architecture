@@ -1,0 +1,5 @@
+# fixall_verify_scope_r3_cleanroom_checks.py receipts (lane fixall/verify-scope-r3, 2026-09-25). C's first file is the pre-round-3 text kept by the integration seat (md5 ca2e20669f557e6e6de113c069811fe0, session scratchpad r3i/ARCHITECTURE.pre-r3.md)
+A presets.json: 19659 token 3-grams, 3166 shared with research/findings (0.161); 620 distinct name-like strings, 343 absent from every findings file
+B 2052 JSON files, 47638 distinct string 3-grams, 44 s; whole ARCHITECTURE.md: 3 runs >= 3 against them, 1 not already runs against the findings; 0 of the document's 36 colour values in captures JSON
+C ARCHITECTURE.pre-r3.md §13–§17: 26236 token 3-grams, 1196 shared, runs of >= 3 shared 3-grams (>= 5 tokens): 47
+C ARCHITECTURE.md §13–§17: 29214 token 3-grams, 1350 shared, runs of >= 3 shared 3-grams (>= 5 tokens): 53

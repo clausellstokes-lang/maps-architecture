@@ -1,0 +1,62 @@
+[
+ {
+  "label": "MFCG town Feygate",
+  "window": [
+   0.22,
+   0.08,
+   0.63,
+   0.8
+  ],
+  "cells_p25_p50_p75": [
+   25,
+   29.5,
+   33
+  ],
+  "pitch_px": 20.8
+ },
+ {
+  "label": "MFCG metropolis Stormway",
+  "window": [
+   0.36,
+   0.08,
+   0.75,
+   0.92
+  ],
+  "cells_p25_p50_p75": [
+   50,
+   67,
+   85.5
+  ],
+  "pitch_px": 8.7
+ },
+ {
+  "label": "FTG street-level core",
+  "window": [
+   0.3,
+   0.1,
+   0.8,
+   0.9
+  ],
+  "cells_p25_p50_p75": [
+   16.2,
+   26,
+   37.5
+  ],
+  "pitch_px": 28.8
+ },
+ {
+  "label": "VG village Godaton W bank",
+  "window": [
+   0.26,
+   0.18,
+   0.52,
+   0.68
+  ],
+  "cells_p25_p50_p75": [
+   7.1,
+   9.2,
+   13.5
+  ],
+  "pitch_px": 42.3
+ }
+]

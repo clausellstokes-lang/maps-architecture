@@ -1,0 +1,43 @@
+===== Galeiaward 2026-09-21 (stage-2 roadLength 60) | captures/ftg/2026-09-21T05-23-58/session/network/bodies/intercept-0018-b39aab95.bin
+[edges] total 5326; road-type 2377; shortest road edge 0.196 m; road edges <0.5 m 3, <1 m 14, <5 m 140
+   type  0 n=1214 shortest 0.474 m  <1 m 8  <5 m 53
+   type  1 n= 207 shortest 0.868 m  <1 m 2  <5 m 16
+   type  2 n=  19 shortest 7.072 m  <1 m 0  <5 m 0
+   type  3 n=  14 shortest 32.780 m  <1 m 0  <5 m 0
+   type  4 n=2575 shortest 0.020 m  <1 m 28  <5 m 181
+   type  6 n= 853 shortest 0.196 m  <1 m 4  <5 m 70
+   type  7 n=  25 shortest 3.890 m  <1 m 0  <5 m 1
+   type 10 n=  59 shortest 7.075 m  <1 m 0  <5 m 0
+   type 12 n=  12 shortest 75.556 m  <1 m 0  <5 m 0
+   type 14 n= 348 shortest 1.279 m  <1 m 0  <5 m 11
+[nodes] 4303; distinct ids sharing one position (1 cm): 0
+[buildings] 2798; smallest footprint 34.9 m2; OBB short side min 3.81 m; aspect >3: 4, >5: 1; non-convex 167; self-intersecting (hourglass) 3 ['middle class home', 'middle class home', 'middle class home']; no entrance point 109 (3.9 %)
+   no-entrance labels: [('middle class home', 44), ('fishery', 12), ('house share', 8), ('shipyard', 7), ('lower class home', 5), ('medium inn', 4)]
+[overlaps] building pairs with any sampled overlap 32; >=1 m2 1; >=10 m2 0; >=50 m2 0; largest 2.2 m2
+[duplicates] exact-duplicate footprints (identical vertex sets): 0 groups, 0 records
+[roads x buildings] buildings whose outline is properly crossed by a road centreline: 2
+[water] building centroids inside a water polygon (river polygons include bank strips, see _critic-ftg §6.5): {3: 1}
+[districts] 4 rings ['Beer Forest', 'Rustic Village', 'Ash Town', 'Green Wood']; buildings inside any ring 1426 / 2798 (51 %)
+===== Nevervalley 2026-09-25 (stage-2 roadLength 100) | captures/ftg/2026-09-25T10-13-51/session/network/bodies/intercept-0054-b39aab95.bin
+[edges] total 4811; road-type 2039; shortest road edge 0.050 m; road edges <0.5 m 7, <1 m 9, <5 m 135
+   type  0 n= 964 shortest 0.290 m  <1 m 3  <5 m 58
+   type  1 n= 126 shortest 0.081 m  <1 m 2  <5 m 11
+   type  3 n=  15 shortest 48.490 m  <1 m 0  <5 m 0
+   type  4 n=2054 shortest 0.045 m  <1 m 15  <5 m 107
+   type  6 n= 853 shortest 0.050 m  <1 m 4  <5 m 62
+   type  7 n=  44 shortest 2.411 m  <1 m 0  <5 m 4
+   type 10 n=  52 shortest 7.076 m  <1 m 0  <5 m 0
+   type 12 n=  28 shortest 9.994 m  <1 m 0  <5 m 0
+   type 13 n=  15 shortest 15.093 m  <1 m 0  <5 m 0
+   type 14 n= 660 shortest 0.094 m  <1 m 4  <5 m 13
+[nodes] 4045; distinct ids sharing one position (1 cm): 0
+[buildings] 2813; smallest footprint 25.4 m2; OBB short side min 4.42 m; aspect >3: 6, >5: 0; non-convex 146; self-intersecting (hourglass) 0 []; no entrance point 281 (10.0 %)
+   no-entrance labels: [('lower class home', 142), ('middle class home', 53), ('abandoned squat', 13), ('upper class home', 8), ('fishery', 6), ('herbalist', 5)]
+[overlaps] building pairs with any sampled overlap 62; >=1 m2 40; >=10 m2 40; >=50 m2 40; largest 488.2 m2
+[duplicates] exact-duplicate footprints (identical vertex sets): 40 groups, 80 records
+   labels: [(('lower class home', 'lower class home'), 34), (('abandoned squat', 'lower class home'), 6)]
+   districts containing them: [(('Turnpike Dale',), 40)]
+   pairs with an entrance point on either record: 0; pairs with different names: 37
+[roads x buildings] buildings whose outline is properly crossed by a road centreline: 3
+[water] building centroids inside a water polygon (river polygons include bank strips, see _critic-ftg §6.5): {}
+[districts] 3 rings ['Metal Heath', 'Bread Village', 'Turnpike Dale']; buildings inside any ring 1814 / 2813 (64 %)

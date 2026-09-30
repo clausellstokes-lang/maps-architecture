@@ -1,0 +1,9 @@
+# fixall_scope_r3_h32.py receipts (lane fixall/draft-scope-r3, 2026-09-25)
+# PENDING FABLE REVIEW — written by opus standing in for the Fable seat fixall/draft-scope-r3 (2026-09-25); queued in docs/FABLE-REVIEW-QUEUE.md.
+SMHasher verification MurmurHash3_x86_32  = 0xB0F57EE3 (published 0xB0F57EE3)
+SMHasher verification MurmurHash3_x86_128 = 0xB3ECE62A (published 0xB3ECE62A)
+H32('') = 0 (0x00000000)
+H32('d5/M1/TOWN/none/0') = 1221236157 (0x48CA95BD)
+H32('d5/M1/TOWN/coast+river/4') = 3998735106 (0xEE57DB02)
+H32('d5/M2b/METROPOLIS/none/2') = 1332480437 (0x4F6C09B5)
+H32('d5-mfcg/M1/TOWN/none/0') = 1965791930 (0x752B9ABA); MFCG seed 1 + (H32 mod 2147483646) = 1965791931

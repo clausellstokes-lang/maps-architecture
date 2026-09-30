@@ -1,0 +1,36 @@
+=== galeiaward-rl60: Galeiaward
+  type 0 in-ring: through-pairs 348; exact-straight (<0.05 deg) 64 (18%) at node degrees {2: 2, 3: 46, 4: 16}
+     exact pairs by length classes: [('oth+oth', 43), ('30+30', 6), ('50+50', 4), ('25+25', 3), ('25+oth', 2), ('30+oth', 2)]
+     bent  pairs by length classes: [('30+oth', 114), ('30+30', 68), ('oth+oth', 33), ('25+25', 22), ('25+oth', 17), ('50+50', 11)]
+     deviation histogram 0..19 deg: [108, 22, 16, 13, 13, 19, 13, 17, 15, 17, 15, 21, 22, 20, 15, 0, 0, 1, 1, 0]
+  type 0 out-ring: through-pairs 593; exact-straight (<0.05 deg) 318 (54%) at node degrees {3: 14, 4: 301, 5: 2, 6: 1}
+     exact pairs by length classes: [('15+30', 140), ('15+15', 90), ('15+oth', 58), ('oth+oth', 24), ('30+30', 2), ('15+25', 2)]
+     bent  pairs by length classes: [('30+30', 153), ('30+oth', 44), ('100+100', 20), ('oth+oth', 18), ('15+oth', 16), ('100+oth', 5)]
+     deviation histogram 0..19 deg: [362, 18, 17, 19, 8, 18, 18, 15, 14, 18, 16, 18, 15, 13, 21, 0, 0, 0, 3, 0]
+  type 1 in-ring: through-pairs 43; exact-straight (<0.05 deg) 17 (40%) at node degrees {3: 15, 4: 2}
+     exact pairs by length classes: [('oth+oth', 17)]
+     bent  pairs by length classes: [('oth+oth', 12), ('50+oth', 8), ('50+50', 2), ('60+oth', 2), ('50+60', 1), ('30+oth', 1)]
+     deviation histogram 0..19 deg: [25, 2, 2, 2, 2, 1, 0, 0, 2, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 1]
+  type 1 out-ring: through-pairs 144; exact-straight (<0.05 deg) 37 (26%) at node degrees {2: 2, 3: 26, 4: 8, 5: 1}
+     exact pairs by length classes: [('oth+oth', 27), ('15+oth', 4), ('25+oth', 2), ('30+oth', 2), ('50+oth', 1), ('30+30', 1)]
+     bent  pairs by length classes: [('100+100', 37), ('oth+oth', 24), ('100+oth', 18), ('60+oth', 7), ('60+60', 7), ('30+oth', 4)]
+     deviation histogram 0..19 deg: [60, 9, 5, 3, 6, 7, 4, 8, 7, 5, 6, 3, 6, 7, 8, 0, 0, 0, 0, 0]
+
+=== nevervalley-rl100: Nevervalley
+  type 0 in-ring: through-pairs 304; exact-straight (<0.05 deg) 73 (24%) at node degrees {3: 49, 4: 21, 5: 2, 6: 1}
+     exact pairs by length classes: [('oth+oth', 44), ('50+oth', 10), ('50+50', 9), ('25+25', 3), ('30+oth', 3), ('15+oth', 2)]
+     bent  pairs by length classes: [('50+oth', 75), ('oth+oth', 58), ('25+25', 34), ('50+50', 30), ('25+oth', 24), ('15+oth', 2)]
+     deviation histogram 0..19 deg: [111, 14, 17, 9, 19, 12, 17, 13, 11, 3, 12, 16, 11, 20, 15, 2, 1, 1, 0, 0]
+  type 0 out-ring: through-pairs 442; exact-straight (<0.05 deg) 201 (45%) at node degrees {2: 1, 3: 16, 4: 184}
+     exact pairs by length classes: [('15+30', 90), ('15+15', 52), ('15+oth', 32), ('oth+oth', 22), ('50+50', 2), ('15+25', 2)]
+     bent  pairs by length classes: [('30+30', 118), ('oth+oth', 39), ('30+oth', 25), ('15+oth', 15), ('50+oth', 11), ('100+100', 10)]
+     deviation histogram 0..19 deg: [257, 15, 17, 19, 14, 8, 15, 12, 16, 9, 18, 8, 13, 13, 7, 0, 1, 0, 0, 0]
+  type 1 in-ring: through-pairs 46; exact-straight (<0.05 deg) 28 (61%) at node degrees {3: 25, 4: 3}
+     exact pairs by length classes: [('oth+oth', 27), ('50+oth', 1)]
+     bent  pairs by length classes: [('50+oth', 7), ('oth+oth', 7), ('50+50', 2), ('25+oth', 2)]
+     deviation histogram 0..19 deg: [30, 1, 2, 2, 1, 0, 0, 1, 0, 2, 3, 0, 1, 1, 2, 0, 0, 0, 0, 0]
+  type 1 out-ring: through-pairs 71; exact-straight (<0.05 deg) 8 (11%) at node degrees {3: 4, 4: 4}
+     exact pairs by length classes: [('oth+oth', 5), ('50+50', 2), ('15+oth', 1)]
+     bent  pairs by length classes: [('100+100', 32), ('100+oth', 15), ('oth+oth', 9), ('100+50', 5), ('25+oth', 1), ('15+50', 1)]
+     deviation histogram 0..19 deg: [19, 5, 8, 3, 4, 6, 4, 4, 3, 3, 3, 2, 2, 2, 3, 0, 0, 0, 0, 0]
+

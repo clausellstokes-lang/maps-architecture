@@ -1,0 +1,4 @@
+district regeneration (450 buildings, 0.5 m radius, anchors moved <= 40 cm): old=450 fresh=446 matched=413 median=271 us total, 0.603 us per old entity (min 0.554, max 1.582)
+CITY re-derive from S1 (30 000 entities, 0.5 m radius, 5 % dropped, 5 % new): old=30000 fresh=30002 matched=27646 median=17731 us total, 0.591 us per old entity (min 0.574, max 0.641)
+CITY re-derive from S1, fresh town unrelated (30 000, anchors random): old=30000 fresh=30000 matched=21 median=11285 us total, 0.376 us per old entity (min 0.368, max 0.457)
+METROPOLIS upgrade mapping (80 000 entities, 2 m radius, anchors moved <= 150 cm): old=80000 fresh=80006 matched=75478 median=46867 us total, 0.586 us per old entity (min 0.577, max 0.652)

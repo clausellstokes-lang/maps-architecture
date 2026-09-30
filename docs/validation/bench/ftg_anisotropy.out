@@ -1,0 +1,36 @@
+== galeiaward-rl60 buildings 2798 centre (4, 204) m
+  sector  0 (  0.0- 22.5 deg) bldg   95  r90    408 m  water 0.00  mainroad-edges(400-1500m)   0
+  sector  1 ( 22.5- 45.0 deg) bldg  120  r90    599 m  water 0.16  mainroad-edges(400-1500m)   7
+  sector  2 ( 45.0- 67.5 deg) bldg   57  r90    660 m  water 0.04  mainroad-edges(400-1500m)   4
+  sector  3 ( 67.5- 90.0 deg) bldg  197  r90    701 m  water 0.00  mainroad-edges(400-1500m)  20
+  sector  4 ( 90.0-112.5 deg) bldg  244  r90    787 m  water 0.00  mainroad-edges(400-1500m)   2
+  sector  5 (112.5-135.0 deg) bldg  116  r90    789 m  water 0.00  mainroad-edges(400-1500m)   0
+  sector  6 (135.0-157.5 deg) bldg  381  r90    814 m  water 0.30  mainroad-edges(400-1500m)  22
+  sector  7 (157.5-180.0 deg) bldg  202  r90    484 m  water 0.82  mainroad-edges(400-1500m)   0
+  sector  8 (180.0-202.5 deg) bldg   62  r90    331 m  water 0.94  mainroad-edges(400-1500m)   0
+  sector  9 (202.5-225.0 deg) bldg   29  r90    173 m  water 1.00  mainroad-edges(400-1500m)   0
+  sector 10 (225.0-247.5 deg) bldg   56  r90    331 m  water 0.92  mainroad-edges(400-1500m)   0
+  sector 11 (247.5-270.0 deg) bldg  143  r90    445 m  water 0.80  mainroad-edges(400-1500m)   0
+  sector 12 (270.0-292.5 deg) bldg  471  r90    749 m  water 0.36  mainroad-edges(400-1500m)  31
+  sector 13 (292.5-315.0 deg) bldg  255  r90    527 m  water 0.00  mainroad-edges(400-1500m)   0
+  sector 14 (315.0-337.5 deg) bldg  175  r90    500 m  water 0.00  mainroad-edges(400-1500m)   0
+  sector 15 (337.5-360.0 deg) bldg  195  r90    748 m  water 0.00  mainroad-edges(400-1500m)  14
+  land sectors (water<0.2, >=20 bldgs): 9; r90 with main road: n=5 mean 699 m; without: n=4 mean 556 m; ratio 1.26; CV(r90) over land sectors 0.20
+== nevervalley-rl100 buildings 2813 centre (174, -405) m
+  sector  0 (  0.0- 22.5 deg) bldg  273  r90    485 m  water 0.68  mainroad-edges(400-1500m)   0
+  sector  1 ( 22.5- 45.0 deg) bldg  238  r90    486 m  water 0.70  mainroad-edges(400-1500m)   0
+  sector  2 ( 45.0- 67.5 deg) bldg   62  r90    507 m  water 0.84  mainroad-edges(400-1500m)   0
+  sector  3 ( 67.5- 90.0 deg) bldg   98  r90    348 m  water 0.86  mainroad-edges(400-1500m)   0
+  sector  4 ( 90.0-112.5 deg) bldg  178  r90    543 m  water 0.62  mainroad-edges(400-1500m)  12
+  sector  5 (112.5-135.0 deg) bldg  203  r90    422 m  water 0.14  mainroad-edges(400-1500m)   7
+  sector  6 (135.0-157.5 deg) bldg  203  r90    449 m  water 0.00  mainroad-edges(400-1500m)   8
+  sector  7 (157.5-180.0 deg) bldg  284  r90    539 m  water 0.00  mainroad-edges(400-1500m)   6
+  sector  8 (180.0-202.5 deg) bldg  172  r90    726 m  water 0.14  mainroad-edges(400-1500m)   5
+  sector  9 (202.5-225.0 deg) bldg  173  r90    745 m  water 0.00  mainroad-edges(400-1500m)   3
+  sector 10 (225.0-247.5 deg) bldg   82  r90    815 m  water 0.24  mainroad-edges(400-1500m)   6
+  sector 11 (247.5-270.0 deg) bldg   24  r90    866 m  water 0.00  mainroad-edges(400-1500m)   5
+  sector 12 (270.0-292.5 deg) bldg   60  r90    333 m  water 0.00  mainroad-edges(400-1500m)   9
+  sector 13 (292.5-315.0 deg) bldg  120  r90    382 m  water 0.00  mainroad-edges(400-1500m)   0
+  sector 14 (315.0-337.5 deg) bldg  278  r90    912 m  water 0.00  mainroad-edges(400-1500m)  11
+  sector 15 (337.5-360.0 deg) bldg  365  r90    661 m  water 0.16  mainroad-edges(400-1500m)   4
+  land sectors (water<0.2, >=20 bldgs): 10; r90 with main road: n=9 mean 628 m; without: n=1 mean 382 m; ratio 1.65; CV(r90) over land sectors 0.33

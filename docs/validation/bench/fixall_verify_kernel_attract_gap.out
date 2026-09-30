@@ -1,0 +1,2 @@
+counterexample: v=(20,20) dist to A=28.28 (>26, not vertex-attracted); dist to edge=20 (<=26); split at (20, 0); sub-edge A-split=20.0 cm < 25
+band samples 200000: to vertex 21419, to edge 175580, sub-minEdge sub-edge after split 2349 (1.338% of edge attractions)

@@ -1,0 +1,14 @@
+# fixall_verify_scope_r2_o9c_indep.py receipts (lane fixall/verify-scope-r2, 2026-09-25). Three runs of the same algorithm:
+# run A: args 2000 400 400, seed 777001 (the script's default)
+K=50 N=400 widths=[6, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+H0 correlated rho=0.8 continuous    : 18/2000 = 0.0090
+H0 scope-varying discrete (ties)    : 23/2000 = 0.0115
+H1 bias +0.25 sd, rho=0.8           : 368/400 = 0.9200
+H1 snug 0.8x, rho=0.8               : 380/400 = 0.9500
+# run B: n = 800, H1 only, 300 campaigns each, seed 777002
+K=50 N=800 widths=[6, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+H1 bias +0.25 sd, rho=0.8           : 299/300 = 0.9967
+H1 snug 0.8x, rho=0.8               : 300/300 = 1.0000
+# run C: n = 800, H0 correlated only, 1000 campaigns, seed 777002 (the tied H0 case was stopped for time: rank uniformity does not depend on n, and run A covers it at n = 400)
+K=50 N=800 widths=[6, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+H0 correlated rho=0.8 continuous    : 4/1000 = 0.0040

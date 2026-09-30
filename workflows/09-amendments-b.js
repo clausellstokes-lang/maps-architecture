@@ -1,0 +1,165 @@
+export const meta = {
+  name: 'amendments-b',
+  description: 'Fold the owner rules of docs/AMENDMENTS-2026-09-25b.md (items 8-31) into the consolidated docs/ARCHITECTURE.md: route each item to its canonical home, Fable part editors write replace/insert blocks, a script applies them, Opus verifies per part, Fable validates the whole against the owner words, bounded repairs, owner summary; max four lanes',
+  phases: [
+    { title: 'Route', detail: 'Opus: each amendment to the section that states its mechanism and the sections that reference it' },
+    { title: 'Amend', detail: 'Fable part editors: blocks and judgment rows; nothing edited in place' },
+    { title: 'Assemble', detail: 'Opus: archive, apply blocks by script, references, document checks, changelog' },
+    { title: 'Verify', detail: 'Opus per part: every item present as a mechanism, stale text, single-source, cross-part' },
+    { title: 'Repair', detail: 'Fable: targeted blocks for every issue (at most two rounds)' },
+    { title: 'Validate', detail: 'Fable: the owner words versus the mechanisms; coherence; owner summary' },
+  ],
+}
+
+const ROOT = '/Users/cstokes/Desktop/Maps'
+const ARGS = (typeof args === 'object' && args) ? args : {}
+const AMEND = ARGS.amendmentsFile || 'docs/AMENDMENTS-2026-09-25b.md'
+const TAG = ARGS.tag || 'b'
+const ITEMS = ARGS.items || '8-31'
+const DATE = ARGS.date || '2026-09-26'
+const DIR = `docs/validation/amendments-${TAG}`
+const FABLE_MODEL = ARGS.fableModel || 'fable'
+const OPUS_MODEL = ARGS.opusModel || 'opus'
+const STANDIN = FABLE_MODEL !== 'fable'
+const MAX_LANES = ARGS.maxLanes || 4
+const MAX_REPAIR = ARGS.maxRepairRounds || 2
+// A part whose home items exceed MAX_HOME_PER_SEAT is edited by several seats, one per rule family (or a pack of small
+// families); seats of one part run in parallel and may REPLACE only the subsections their own items own (see the prompt).
+const MAX_HOME_PER_SEAT = ARGS.maxHomePerSeat || 5
+const FAMILY = [['dossier', ['20', '22']], ['evolution', ['8', '11']], ['assignments', ['16', '17', '18', '19']], ['islands', ['10', '13', '15']], ['sewers', ['12', '14']], ['emulation', ['23', '24', '25', '26', '27']], ['plan', ['28', '29']], ['hidden', ['30']], ['prosperity-change', ['31']], ['size', ['9']], ['licence', ['21']]]
+const familyOf = (id) => { const f = FAMILY.find(([, ids]) => ids.includes(String(id))); return f ? f[0] : 'other' }
+
+let liveLanes = 0
+const laneQueue = []
+const acquireLane = () => new Promise((resolve) => { if (liveLanes < MAX_LANES) { liveLanes++; resolve() } else laneQueue.push(resolve) })
+const releaseLane = () => { const next = laneQueue.shift(); if (next) next(); else liveLanes-- }
+const limited = async (fn) => { await acquireLane(); try { return await fn() } finally { releaseLane() } }
+const standInNote = (label) => `
+
+STAND-IN NOTICE: you run on ${FABLE_MODEL} standing in for the Fable seat ${label} (Fable is unavailable; owner: "mark everything that has not gone through the touch of Fable for review next time we have Fable"). Do the full job to Fable's standard. Put under the title of every report file you write (never inside block files): > PENDING FABLE REVIEW — written by ${FABLE_MODEL} standing in for the Fable seat ${label}; queued in docs/FABLE-REVIEW-QUEUE.md. When done, APPEND one row to the table at the end of docs/FABLE-REVIEW-QUEUE.md: | A-${label} | A | what you produced | your files | ${FABLE_MODEL} stand-in | today's date | PENDING | what Fable should re-check first |. Add nothing if you resumed from disk.`
+const opusNote = (label) => `
+
+FABLE-UNAVAILABLE NOTICE: Opus-role work no Fable seat has checked. Put under your report file's title: > PENDING FABLE REVIEW — Opus-produced (${label}). When done, APPEND one row to the table at the end of docs/FABLE-REVIEW-QUEUE.md: | B-${label} | B | what you produced | your files | ${OPUS_MODEL} | today's date | PENDING | what to re-check |, unless a row with that id already exists (a resumed seat adds nothing twice). This applies also when you resume from disk: the pass's Fable seats are stand-ins now, so no Fable seat will have checked your work.`
+const fableSeat = (prompt, label, phaseName, schema) => limited(() => agent(STANDIN ? prompt + standInNote(label) : prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: FABLE_MODEL }))
+const opusSeat = (prompt, label, phaseName, schema) => limited(() => agent(STANDIN ? prompt + opusNote(label) : prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: OPUS_MODEL }))
+
+const PARTS = [
+  { key: 'model', heads: ['## §2 '], note: '§2 domain model and schemas' },
+  { key: 'kernel', heads: ['## §3 '], note: '§3 geometry kernel' },
+  { key: 'pipeline', heads: ['## §4 ', '## §10 ', '# PART II', '## II.', '# PART III'], note: '§4 generation pipeline, §10 simulation and content, PART II (stage 2, including II.6 the staged layers) and PART III (village readiness)' },
+  { key: 'determinism', heads: ['## §5 ', '## §6 ', '## §7 '], note: '§5 failure handling, §6 determinism (seed, streams, mutation), §7 editing and regeneration locality' },
+  { key: 'rendering', heads: ['## §8 ', '## §9 ', '## §11 ', '## §12 '], note: '§8 rendering and styles, §9 labels, §11 export and interop (the data protocol to the host), §12 performance budgets' },
+  { key: 'scope', heads: ['# ARCHITECTURE', '## The whole design', '## §0 ', '# PART I — ', '## §1 ', '## §13 ', '## §14 ', '## §15 ', '## §16 ', '## §17 ', '# Delegated decisions', '# Judgment calls', '# Staged by', '# Appendix A'], note: 'the title block and one-page summary, §0, §1 scope and fusion thesis, §13 testing, §14 modules and interfaces, §15 matrices, §16 build plan, §17 clean-room and licences, Delegated decisions, the Judgment-calls index, Staged by the roadmap, Appendix A' },
+]
+
+const GROUND = `
+PROJECT (root ${ROOT}; paths relative to it). docs/ARCHITECTURE.md is the design of PLAT, an original settlement map generator (PART I the base: an MFCG/FTG-fused town/city generator; PART II neighbourhood composition; PART III village readiness). On 2026-09-26 a consistency pass gave every normative fact ONE canonical home (docs/validation/consistency/canon.md: the home rules, and every fact with its home) and moved rationale and history to docs/ARCHITECTURE-RATIONALE.md (Part A holds the full judgment calls; the architecture document keeps a one-line index of them under "# Judgment calls"); the fix-round record is docs/ARCHITECTURE-VALIDATION.md. The owner's rules given after the architects were queued are in ${AMEND}; its items ${ITEMS} are NOT yet in the design, and this pass folds them in. Each item quotes the owner's words and then states consequences drafted by the program: the owner's words are the authority, the drafted consequences a starting point.
+RULES: (1) SINGLE SOURCE stays — an amendment's mechanism is stated ONCE, in the section that owns its subject by the canon's home rules, and referenced from every other place that needs it; (2) MECHANISM, NOT ASSERTION — a rule lands as data-model fields (typed, with units), a stage step (inputs, outputs, failure handling), a rule table with its context vector, an interface, and the test or acceptance bar that proves it — in the design's own terms, coherent with what is there, never a bolt-on appendix; (3) EMULATION-FIRST — MFCG/FTG behaviour is the default and the owner's rules extend it (item 23; docs/OWNER-INSTRUCTIONS-2026-09-25.md); prosperity is a gradient and a band, never binary; everything stays editable (§7's edit kinds cover any new state) and every new derived state obeys §6's seed and mutation rules; (4) STAGED VERSUS BASE — what the owner's roadmap stages later (the evolution engine, floating islands, sewers, underground neighbourhoods, SettlementForge inputs) lands NOW as the base's hooks (the fields, interfaces and invariants the later stage needs; PART II.6 and PART III already carry such hooks) and its engine later; the roadmap's staging is not a deferral, and the owner's NO-DEFER rule holds for everything else (no "TBD", "later", "open", no unresolved choice); (5) DECISIONS ARE RECORDED — where an item meets an existing decision (D-n, J-…), rule, and record the ruling as a judgment call: one index row in the architecture document's "# Judgment calls" table (id J-A<item> or J-A<item>.<n>: the choice and the section) and the full entry (chose X over Y because Z, in plain language) in Part A of the rationale file; (6) CLEAN-ROOM and STANDALONE — no reference code, grammars, palettes, wordlists or content tables; nothing outside ${ROOT}; nothing from partitioned/ (the corpus preview is walled off until the reconciliation stage); (7) the document's one review banner stays as it is; no per-section markers.
+BLOCK PROTOCOL: editors and repairers never edit docs/ARCHITECTURE.md, docs/ARCHITECTURE-RATIONALE.md or docs/ARCHITECTURE-VALIDATION.md; they write block files that the assembler applies by script. Text before a file's first "=== " line is ignored. Block kinds: "=== REPLACE <exact heading line> ===" followed by the complete new text of that heading's subsection (the heading line first; a subsection ends at the next heading of the same or higher level); "=== INSERT AFTER <exact heading line> ===" text placed directly after the heading line; "=== APPEND TO SECTION <exact heading line> ===" text placed at the end of that subsection; "=== J-ROWS ===" rows for the judgment index table (| J-A… | the choice | §where |); "=== RATIONALE-A ===" full entries appended to Part A of the rationale file in its own entry format; "=== END ===" closes the last block. Copy a heading line exactly (grep it first); a block naming a missing heading is skipped and reported.
+WORKING RULES: write your files incrementally (skeleton first); if your output file exists AND docs/lane-events.log has a LANDED line for your lane key, return the structured summary from it without redoing the work; if it exists without one, continue from the first unfinished part. KILL-SAFE WRITING (the session may be cut at any moment): write ONE block at a time and append the line "=== END ===" immediately after each complete block (the next block's header replaces it: remove the END line, append the block, append END again); keep a PROGRESS ledger at the top of your report file — one line per item "ITEM <id>: planned <sections> | done <blocks>" updated after every block — so a seat that continues you can see exactly what is complete; on CONTINUE, first check the block file's tail: a block not followed by "=== " or "=== END ===" is truncated — delete it and rewrite it. Redirect long tool output to files under /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/454522d3-02d4-4290-bb60-ba2f045c687d/scratchpad/ and grep them; never print whole JSON files; read whole sections, never samples. When your files are complete append: echo "$(date '+%Y-%m-%d %H:%M') <lane key> LANDED <file>" >> ${ROOT}/docs/lane-events.log  Then return only the structured summary.
+DOCUMENT CHECKS (docs/ARCHITECTURE.md §17.1 (2)): after applying blocks the assembler runs python3 docs/validation/bench/doc_checks.py --sections "<every top-level heading key changed>" (allow file docs/validation/doc-checks-allow.tsv), corrects mechanical hits, adds a reviewed allow row (check, exact hit text, written reason) only for a false positive, re-runs until it exits 0, and records the counts.`
+
+const ROUTE_SCHEMA = { type: 'object', properties: { file: { type: 'string' }, items: { type: 'number' }, satisfied: { type: 'array', items: { type: 'string' } }, parts: { type: 'array', items: { type: 'object', properties: { part: { type: 'string', enum: PARTS.map((p) => p.key) }, home_items: { type: 'array', items: { type: 'string' } }, referencing_items: { type: 'array', items: { type: 'string' } } }, required: ['part', 'home_items', 'referencing_items'] } } }, required: ['file', 'items', 'satisfied', 'parts'] }
+const AMEND_SCHEMA = { type: 'object', properties: { part: { type: 'string' }, file: { type: 'string' }, blocks: { type: 'number' }, items_done: { type: 'array', items: { type: 'string' } }, items_not_applicable: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, why: { type: 'string' } }, required: ['id', 'why'] } }, cross_notes: { type: 'array', items: { type: 'string' } } }, required: ['part', 'file', 'blocks', 'items_done', 'items_not_applicable', 'cross_notes'] }
+const ASSEMBLE_SCHEMA = { type: 'object', properties: { file: { type: 'string' }, applied: { type: 'number' }, skipped: { type: 'number' }, old_kb: { type: 'number' }, new_kb: { type: 'number' }, broken_references: { type: 'number' }, doc_check_hits: { type: 'number' }, changed_sections: { type: 'array', items: { type: 'string' } }, notes: { type: 'array', items: { type: 'string' } } }, required: ['file', 'applied', 'skipped', 'old_kb', 'new_kb', 'broken_references', 'doc_check_hits', 'changed_sections', 'notes'] }
+const CHECK_SCHEMA = { type: 'object', properties: { part: { type: 'string' }, file: { type: 'string' }, issues: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, item: { type: 'string' }, severity: { type: 'string', enum: ['blocker', 'major', 'minor'] }, kind: { type: 'string', enum: ['missing', 'partial', 'stale', 'duplicate', 'conflict', 'broken-reference', 'deferral-wording', 'owner-fidelity', 'new-problem'] }, claim: { type: 'string' }, required_change: { type: 'string' }, owner: { type: 'string', enum: PARTS.map((p) => p.key) } }, required: ['id', 'item', 'severity', 'kind', 'claim', 'required_change', 'owner'] } } }, required: ['part', 'file', 'issues'] }
+const REPAIR_SCHEMA = { type: 'object', properties: { part: { type: 'string' }, file: { type: 'string' }, blocks: { type: 'number' } }, required: ['part', 'file', 'blocks'] }
+
+// ───────── Route ─────────
+phase('Route')
+const route = await opusSeat(`${GROUND}
+
+LANE amendments-${TAG}/route. Read completely: ${AMEND} (items ${ITEMS}: the owner's words and the drafted consequences), docs/OWNER-INSTRUCTIONS-2026-09-25.md, docs/DEFINITION.md, the architecture document's title block and one-page summary, its complete heading tree (all levels, by grep), §1, PART II.6 and PART III, the "Home rules" of docs/validation/consistency/canon.md, and docs/PROGRESS.md's judgment rows J27–J28 (how items 23–27 were re-grounded in emulation). For EACH item: (a) the owner's words; (b) the current state of the design against it — SATISFIED (already the rule; quote where), PARTIAL (quote what is there and what is missing) or ABSENT — read the candidate sections themselves, not only their headings; (c) the HOME: the one section (and part) that must state the mechanism, by the canon's home rules; (d) the REFERENCING sections (other parts) that need a pointer, a hook field or a one-line rule, and what each must say; (e) BASE or STAGED HOOK (the evolution and decline engine, floating islands, sewers, underground neighbourhoods and SettlementForge inputs are staged; the base carries their hooks now); (f) the existing decisions it meets (D-n, J-… ids, quoted) that the home editor must rule on; (g) which items must be designed TOGETHER as one rule family (assignments 16–19; evolution hooks 8, 11, 17, 22; islands 10, 13, 15; sewers 12, 14; dossier flow 20, 22; emulation baselines 23–27). Write ${DIR}/route.md (a table and one section per item) and ${DIR}/route.json (an array of objects: id, owner_words, state, home_part, home_section, referencing [{part, section, what}], staged, decisions_touched, group).`, `amendments-${TAG}/route`, 'Route', ROUTE_SCHEMA)
+if (!route) { log('route failed — stopping'); return { error: 'route failed' } }
+const partItems = (key) => { const r = (route.parts || []).find((x) => x.part === key); return r ? { home: r.home_items, ref: r.referencing_items } : { home: [], ref: [] } }
+const activeParts = PARTS.filter((p) => { const x = partItems(p.key); return x.home.length || x.ref.length })
+const seatsFor = (p) => {
+  const byNum = (a, b) => Number(a) - Number(b)   // numeric order: seat keys stay identical across relaunches (new sessions have no cache)
+  const { home: home0, ref: ref0 } = partItems(p.key)
+  const home = [...home0].map(String).sort(byNum), ref = [...ref0].map(String).sort(byNum)
+  const fams = new Map()
+  for (const id of home) { const f = familyOf(id); if (!fams.has(f)) fams.set(f, { home: [], ref: [] }); fams.get(f).home.push(String(id)) }
+  for (const id of ref) { const f = familyOf(id); if (!fams.has(f)) fams.set(f, { home: [], ref: [] }); fams.get(f).ref.push(String(id)) }
+  const seats = []
+  let cur = null
+  for (const [f, x] of fams) {
+    if (!cur || cur.home.length + x.home.length > MAX_HOME_PER_SEAT) { cur = { fams: [], home: [], ref: [] }; seats.push(cur) }
+    cur.fams.push(f); cur.home.push(...x.home); cur.ref.push(...x.ref)
+  }
+  return seats.map((x) => ({ ...x, part: p, key: seats.length > 1 ? `${p.key}-${x.fams.join('-')}` : p.key }))
+}
+// Parts named in args.lastParts (default: model, the home of item 28) queue last, so their seats start after the earlier
+// waves — by then the Fable Dwellings synthesis (research/findings/dwellings-synthesis.md) has normally landed.
+const LAST_PARTS = ARGS.lastParts || ['model']
+const allSeats = [...activeParts.filter((p) => !LAST_PARTS.includes(p.key)), ...activeParts.filter((p) => LAST_PARTS.includes(p.key))].flatMap(seatsFor)
+log(`route: ${route.items} items; satisfied already ${route.satisfied.length} (${route.satisfied.join(', ') || 'none'}); parts touched ${activeParts.map((p) => `${p.key} ${partItems(p.key).home.length}+${partItems(p.key).ref.length}`).join(', ')}`)
+
+// ───────── Amend ─────────
+phase('Amend')
+const amends = (await parallel(allSeats.map((st) => () => fableSeat(`${GROUND}
+
+LANE amendments-${TAG}/amend-${st.key}. You are an ARCHITECT-EDITOR of the ${st.part.key.toUpperCase()} part (${st.part.note}; top-level headings ${JSON.stringify(st.part.heads)}), seat ${st.key} for the rule family(ies) ${st.fams.join(', ')}. Your items: HOME ${JSON.stringify(st.home)} — you state their mechanism; REFERENCING ${JSON.stringify(st.ref)} — you add the pointer, hook field or one-line rule the route names.${allSeats.filter((o) => o.part.key === st.part.key && o.key !== st.key).length ? ` OTHER SEATS EDIT THE SAME PART IN PARALLEL (${allSeats.filter((o) => o.part.key === st.part.key && o.key !== st.key).map((o) => `${o.key}: items ${[...o.home, ...o.ref].join(', ')}`).join('; ')}): a subsection may be REPLACED by ONE seat only — the seat whose item has its home there (the route's home_section), or whose items alone touch it; where a subsection is shared with another seat of your part, write ADDITIVE blocks (APPEND TO SECTION or INSERT AFTER) or send the change to that seat as a cross-part note naming it; never REPLACE a subsection another seat owns (the assembler reports double replacements and the second would overwrite the first).` : ''} Read completely: your items in ${AMEND} (the owner's words first), ${DIR}/route.md (your items' sections, decisions touched, rule families), your part's sections in docs/ARCHITECTURE.md (every section you change, whole, and the subsections that cite them), the one-page summary, docs/OWNER-INSTRUCTIONS-2026-09-25.md, and the first sixty lines of Part A of docs/ARCHITECTURE-RATIONALE.md (its entry format). GUARDS: the banner line directly under the document title ("> PENDING FABLE REVIEW …" or "> Fable-…") is never inside any block you write — another pass may rewrite it while you work; if you must change the title block or the one-page summary, use INSERT AFTER or APPEND TO SECTION blocks, never REPLACE, for those two. ${[...st.home, ...st.ref].some((id) => ['28', '29', '30'].includes(String(id))) ? 'For items 28, 29 and 30 read the Dwellings review findings first — research/findings/dwellings-posts.md §0, profile-dwellings.md §0 and dwellings-exports.md §0, the critic research/findings/_critic-dwellings.md if it exists, and ABOVE ALL research/findings/dwellings-synthesis.md if it exists (the Fable synthesis states the hooks our plan rung must carry and any correction to item 28); if the synthesis does not exist yet, design from the findings and the items and say so in your report, so the validator re-checks item 28 against it.' : ''} Design each home item as a MECHANISM in the design's own terms, coherent with the plot / prosperity-field / granularity / greenery rule family and with emulation-first defaults; the tests and acceptance bars a mechanism needs are yours if you are the scope part, otherwise a cross-part note to scope; where an item meets an existing decision, rule and record it (J-A rows). Write ${DIR}/blocks-${st.key}.md — blocks only, per the BLOCK PROTOCOL: the smallest subsections that carry the change, each REPLACE block complete, the J-ROWS and RATIONALE-A blocks for your rulings — and ${DIR}/amend-${st.key}.md: per item, where it landed (sections), the mechanism in one plain-language paragraph, the rulings taken, items you judge already satisfied or not applicable to your part (with why), and CROSS-PART NOTES (what another part's editor must add; they run in parallel and the verifiers check both sides).`, `amendments-${TAG}/amend-${st.key}`, 'Amend', AMEND_SCHEMA)))).filter(Boolean)
+log(`amend: ${amends.length}/${allSeats.length} seats (${allSeats.map((x) => x.key).join(', ')}); blocks ${amends.reduce((n, a) => n + a.blocks, 0)}; items done ${[...new Set(amends.flatMap((a) => a.items_done))].length}; cross-notes ${amends.reduce((n, a) => n + a.cross_notes.length, 0)}`)
+if (amends.length < allSeats.length) { log('an editor failed — stopping before assembly; nothing in docs/ARCHITECTURE.md changed'); return { error: 'amend incomplete', done: amends.map((a) => a.part) } }
+
+// ───────── Assemble ─────────
+const assemblePrompt = (round) => `${GROUND}
+
+LANE amendments-${TAG}/assemble-r${round}. RESUME CHECK FIRST, before any other action: if docs/lane-events.log has a line containing "amendments-${TAG}/assemble-r${round} LANDED", read ${DIR}/assemble-r${round}.md and return its structured summary WITHOUT touching docs/ARCHITECTURE.md, the rationale file or the archives (applying blocks twice would corrupt the design). Never overwrite an existing archive file (they are read-only). A mechanical seat: python scripts, no hand edits. ${round === 0 ? `First archive: copy docs/ARCHITECTURE.md to docs/archive/ARCHITECTURE-pre-amendments-${TAG}-${DATE}.md and docs/ARCHITECTURE-RATIONALE.md to docs/archive/ARCHITECTURE-RATIONALE-pre-amendments-${TAG}-${DATE}.md (cmp identical; record sha256). Then write ${DIR}/apply-blocks.py (reused by later rounds) and apply every block of ${DIR}/blocks-*.md` : `Apply every block of ${DIR}/repair-r${round}-*.md with ${DIR}/apply-blocks.py`} per the BLOCK PROTOCOL: REPLACE, INSERT AFTER and APPEND TO SECTION on docs/ARCHITECTURE.md by exact heading line (a subsection ends at the next heading of the same or higher level; headings inside code fences are not headings); J-ROWS appended to the "# Judgment calls" index table after its last row; RATIONALE-A appended to the end of Part A of docs/ARCHITECTURE-RATIONALE.md (before "## Part B"). Apply files in name order and blocks in file order; if two blocks REPLACE the same heading apply both in order and report it; a block naming a missing heading is skipped and reported; a file whose last block is not closed by "=== END ===" (or followed by another block header) is TRUNCATED: apply its complete blocks only, skip the truncated tail, and report it as an issue for the repair round. Then: (1) references — run the resolver docs/validation/consistency/assemble-r0-refs.py (or its logic) over the document: list broken references, fix only mechanical ones; (2) DOCUMENT CHECKS over every changed top-level key; (3) changelog — ${round === 0 ? `append to docs/ARCHITECTURE-VALIDATION.md a section "## §A${TAG} Amendments ${TAG} applied (${DATE})" with a table: item, home section, referencing sections, blocks applied (from the block headers and the amend reports)` : `append to the §A${TAG} section of docs/ARCHITECTURE-VALIDATION.md the rows of repair round ${round}: issue id, sections changed`}; (4) write ${DIR}/assemble-r${round}.md: blocks applied and skipped per file, sizes before and after, the changed sections (exact heading lines), broken references, doc-check counts.`
+phase('Assemble')
+let asm = await opusSeat(assemblePrompt(0), `amendments-${TAG}/assemble-r0`, 'Assemble', ASSEMBLE_SCHEMA)
+if (!asm) { log('assembly failed — check docs/archive/ and ' + DIR); return { error: 'assembly failed' } }
+log(`assembled: ${asm.applied} blocks applied, ${asm.skipped} skipped; ${Math.round(asm.old_kb)} KB → ${Math.round(asm.new_kb)} KB; broken references ${asm.broken_references}; doc-check hits ${asm.doc_check_hits}`)
+
+// ───────── Verify → Repair ─────────
+const verifyPrompt = (p, round) => `${GROUND}
+
+LANE amendments-${TAG}/verify-${p.key}-r${round}. You VERIFY the ${p.key.toUpperCase()} part (${p.note}; headings ${JSON.stringify(p.heads)}) of docs/ARCHITECTURE.md after ${round === 0 ? 'the amendment blocks' : `repair round ${round}`} were applied. Read: the items routed to this part in ${DIR}/route.json (home ${JSON.stringify(partItems(p.key).home)}, referencing ${JSON.stringify(partItems(p.key).ref)}) and their owner's words in ${AMEND}; every ${DIR}/amend-${p.key}*.md (your part's seat reports) and every cross-part note addressed to your part in the other ${DIR}/amend-*.md files; the part's changed sections whole (${DIR}/assemble-r${round}.md lists them) and every subsection that cites them; the archived text docs/archive/ARCHITECTURE-pre-amendments-${TAG}-${DATE}.md where you need the before. For each item routed here: PRESENT (the mechanism is there in the terms the route required — quote it), PARTIAL or MISSING. Then check: SINGLE-SOURCE (stated once; other places reference it; no second statement in your part — kind duplicate), STALE (sentences anywhere in your part that still state the old rule: lots as buildings, binary wealth, size fixed by tier, one central market, the map editing the dossier, a proprietary licence default, terrain and water that never change …), CROSS-PART (the referencing sections point to the right home; the home states what they assume; cross-part notes addressed to your part reflected — kind conflict), DEFERRAL-WORDING, BROKEN-REFERENCE, NEW-PROBLEM (a contradiction the amendment created with an existing rule of your part). ${round > 0 ? 'This round re-checks the repaired subsections and the issues the repair claimed to fix; other findings keep their earlier verdict (cite your earlier report).' : 'Read everything routed here; sample nothing.'} Write ${DIR}/verify-${p.key}-r${round}.md and return every issue with its owning part and an exact required change.`
+const repairPrompt = (p, round, issues, sources) => `${GROUND}
+
+LANE amendments-${TAG}/repair-${p.key}-r${round}. Fix these issues in your part (${p.note}) of docs/ARCHITECTURE.md: ${JSON.stringify(issues)}. Read the issue sources (${sources}), the owner's words for the items concerned in ${AMEND}, ${DIR}/route.md, and the current text of every subsection concerned (whole). Write ${DIR}/repair-r${round}-${p.key}.md containing only blocks per the BLOCK PROTOCOL (the smallest subsections that fix each issue; J-ROWS and RATIONALE-A for any new ruling). Do not edit the architecture, rationale or validation files yourself.`
+let round = 0
+let issues = []
+let checkedParts = activeParts
+while (true) {
+  phase('Verify')
+  const checks = (await parallel(checkedParts.map((p) => () => opusSeat(verifyPrompt(p, round), `amendments-${TAG}/verify-${p.key}-r${round}`, 'Verify', CHECK_SCHEMA)))).filter(Boolean)
+  issues = checks.flatMap((c) => c.issues.map((i) => ({ ...i, reported_by: c.part })))
+  log(`verify round ${round}: ${issues.length} issues (${['blocker', 'major', 'minor'].map((s) => `${issues.filter((i) => i.severity === s).length} ${s}`).join(', ')})`)
+  if (!issues.length || round >= MAX_REPAIR) break
+  round++
+  phase('Repair')
+  const byPart = PARTS.filter((p) => issues.some((i) => i.owner === p.key))
+  await parallel(byPart.map((p) => () => fableSeat(repairPrompt(p, round, issues.filter((i) => i.owner === p.key), `${DIR}/verify-*-r${round - 1}.md`), `amendments-${TAG}/repair-${p.key}-r${round}`, 'Repair', REPAIR_SCHEMA)))
+  phase('Assemble')
+  asm = await opusSeat(assemblePrompt(round), `amendments-${TAG}/assemble-r${round}`, 'Assemble', ASSEMBLE_SCHEMA) || asm
+  checkedParts = byPart
+}
+
+// ───────── Validate ─────────
+const SUMMARY_DUTY = `Write ${DIR}/SUMMARY.md for the owner in PLAIN LANGUAGE (the owner does not code): each of the owner's rules and how the design now honours it (one short paragraph each, the owner's words quoted), the rulings taken where a rule met an existing decision, sizes before and after, what if anything remains and why, and what comes next.`
+phase('Validate')
+const fin = await fableSeat(`${GROUND}
+
+LANE amendments-${TAG}/validate. You are the FINAL VALIDATOR of the amendments pass — the Fable seat. Read: ${AMEND} completely (the owner's words are the standard), docs/OWNER-INSTRUCTIONS-2026-09-25.md, ${DIR}/route.md, every ${DIR}/amend-*.md and ${DIR}/verify-*.md, the assemble logs, and in docs/ARCHITECTURE.md every changed section (from the assemble logs) plus the one-page summary, §1, §16, PART II.6 and PART III, and the new Part A entries of the rationale file. Judge: (1) OWNER FIDELITY — for each item, the owner's words against the mechanism: honoured as meant, narrowed, widened or misread (quote both; kind owner-fidelity); (2) MECHANISM — real fields, steps, tables, interfaces and tests, not assertions; (3) COHERENCE — the new rules form one rule family with the plot model, the prosperity field, granularity and greenery (one context vector); the evolution hooks agree across the model, the pipeline, §6's seed and mutation rules and §7's edits; the staged layers' hooks agree with PART II.6; the one-page summary and §1 are still true; no regression of a reference strength (legibility, speed, charm, one-click); (4) single-source kept and no deferral wording; (5) a J-A row exists for every ruling, vetoable in plain language. Issues the repair rounds left open: ${JSON.stringify(issues)}. Return every issue with its owning part and an exact required change (a repair round follows if you raise any); write ${DIR}/validate.md. If you raise NO issue: ${SUMMARY_DUTY}`, `amendments-${TAG}/validate`, 'Validate', CHECK_SCHEMA)
+const finIssues = (fin && fin.issues) ? fin.issues.map((i) => ({ ...i, reported_by: 'validate' })) : []
+log(fin ? `validate: ${finIssues.length} issues (${['blocker', 'major', 'minor'].map((s) => `${finIssues.filter((i) => i.severity === s).length} ${s}`).join(', ')})` : 'validate: FAILED (no result)')
+let closing = null
+if (finIssues.length && ARGS.finalRepair !== false) {
+  round++
+  phase('Repair')
+  const byPart = PARTS.filter((p) => finIssues.some((i) => i.owner === p.key))
+  await parallel(byPart.map((p) => () => fableSeat(repairPrompt(p, round, finIssues.filter((i) => i.owner === p.key), `${DIR}/validate.md`), `amendments-${TAG}/repair-${p.key}-r${round}`, 'Repair', REPAIR_SCHEMA)))
+  phase('Assemble')
+  asm = await opusSeat(assemblePrompt(round), `amendments-${TAG}/assemble-r${round}`, 'Assemble', ASSEMBLE_SCHEMA) || asm
+  phase('Verify')
+  const checks = (await parallel(byPart.map((p) => () => opusSeat(verifyPrompt(p, round), `amendments-${TAG}/verify-${p.key}-r${round}`, 'Verify', CHECK_SCHEMA)))).filter(Boolean)
+  issues = checks.flatMap((c) => c.issues.map((i) => ({ ...i, reported_by: c.part })))
+  log(`final verify (round ${round}: ${byPart.map((p) => p.key).join(', ')}): ${issues.length} issues`)
+  phase('Validate')
+  closing = await fableSeat(`${GROUND}
+
+LANE amendments-${TAG}/closing. You CLOSE the pass (the Fable seat). The validator (${DIR}/validate.md) raised ${finIssues.length} issues; repair round ${round} answered them (${DIR}/repair-r${round}-*.md, assembled per ${DIR}/assemble-r${round}.md) and the re-verification (${DIR}/verify-*-r${round}.md) reports ${issues.length} issues: ${JSON.stringify(issues)}. Read those files and the repaired subsections of docs/ARCHITECTURE.md; confirm each validator issue is fixed as required (return any that is not, with its owner — it is handled by hand next; nothing is deferred). Then: ${SUMMARY_DUTY}`, `amendments-${TAG}/closing`, 'Validate', CHECK_SCHEMA)
+}
+
+return { items: route.items, satisfied_before: route.satisfied, parts: amends.map((a) => ({ part: a.part, blocks: a.blocks, done: a.items_done.length })), assembled_kb: asm && [Math.round(asm.old_kb), Math.round(asm.new_kb)], repair_rounds: round, verify_remaining: issues, validator_issues: finIssues, closing_remaining: closing && closing.issues }

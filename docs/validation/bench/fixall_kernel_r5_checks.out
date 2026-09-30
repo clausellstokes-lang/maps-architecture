@@ -1,0 +1,15 @@
+== A  VK4-3: split restoration after k later same-level vertices on the promoted vertex's route ==
+   (column (iii) "route restored" dropped in the consistency pass, VK5-3: it compared two lists equal by construction)
+   k   cases   round-4 test refuses   largest drift of V from its restored route edge   V outside the run box
+   0  100000        0 (0.00 %)            0.699 cm                                        0
+   1  100000      538 (0.54 %)            1.025 cm                                        0
+   2  100000      634 (0.63 %)            1.097 cm                                        0
+   3  100000      659 (0.66 %)            1.269 cm                                        0
+   4  100000      648 (0.65 %)            1.339 cm                                        0
+
+== B  VK4-2: standing drift of finer vertices after k successive same-level changes of their route ==
+   k   cases   finer vertices beyond the hot pixel   largest distance from the spanning route edge
+   1   50000     4751 of 209106 (2.27 %)                1.232 cm
+   2   50000     6569 of 189996 (3.46 %)                1.364 cm
+   3   50000     7325 of 173880 (4.21 %)                1.487 cm
+   4   50000     7434 of 160549 (4.63 %)                1.438 cm

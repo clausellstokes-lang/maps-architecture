@@ -1,0 +1,13 @@
+=== galeiaward
+ type  2: n=19 total 740 m median 50.0 m ; both endpoints on ONE district ring: 0 ; adjacent ring vertices: 0 ; edges touching a tower: 0 ; rings: {}
+ type  7: n=25 total 632 m median 24.0 m ; both endpoints on ONE district ring: 25 ; adjacent ring vertices: 25 ; edges touching a tower: 23 ; rings: {'Beer Forest': 25}
+ type 10: n=59 total 4581 m median 100.0 m ; both endpoints on ONE district ring: 0 ; adjacent ring vertices: 0 ; edges touching a tower: 0 ; rings: {}
+ type-7 subgraph: nodes 26, degree hist {1: 2, 2: 24} (open chains have exactly two degree-1 ends each)
+ towers among type-7 nodes: 17/17 towers ; type-7 nodes that are NOT towers: 9
+ tower spacing measured ALONG the wall polyline: n=16 min 18.9 med 39.3 max 72.8 m
+=== nevervalley
+ type  7: n=44 total 933 m median 23.6 m ; both endpoints on ONE district ring: 44 ; adjacent ring vertices: 44 ; edges touching a tower: 40 ; rings: {'Turnpike Dale': 13, 'Metal Heath': 31}
+ type 10: n=52 total 4439 m median 100.0 m ; both endpoints on ONE district ring: 0 ; adjacent ring vertices: 0 ; edges touching a tower: 0 ; rings: {}
+ type-7 subgraph: nodes 46, degree hist {1: 4, 2: 42} (open chains have exactly two degree-1 ends each)
+ towers among type-7 nodes: 29/29 towers ; type-7 nodes that are NOT towers: 17
+ tower spacing measured ALONG the wall polyline: n=27 min 4.4 med 35.6 max 59.7 m

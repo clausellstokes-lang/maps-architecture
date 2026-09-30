@@ -1,0 +1,4 @@
+turn +1.5 deg, offset 60 cm: old rule -1.571 cm from the facade (outdoors); new rule -4.55e-16 cm; new vs interior MVC limit 1.00e-07 cm; lattice-rounded new +0.429 cm
+turn -1.5 deg, offset 60 cm: old rule +1.571 cm from the facade (indoors); new rule +4.55e-16 cm; new vs interior MVC limit 9.97e-08 cm; lattice-rounded new -0.429 cm
+turn +5.0 deg, offset 60 cm: old rule -5.229 cm from the facade (outdoors); new rule +0.00e+00 cm; new vs interior MVC limit 1.01e-07 cm; lattice-rounded new -0.248 cm
+turn +1.5 deg, offset 120 cm: old rule -3.141 cm from the facade (outdoors); new rule +4.55e-16 cm; new vs interior MVC limit 1.00e-07 cm; lattice-rounded new -0.142 cm

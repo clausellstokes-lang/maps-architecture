@@ -1,0 +1,74 @@
+== ST0 (least draws, steepest grade) and the median stack
+stepped-temple    p  ST0 Wmin   9.0 Dmin  15.0 Amin    117 | median {'n': 4, 'd': 2.0, 'g': 1.1, 'r': 3.5, 'W': 15.0, 'D': 19.8, 'ideal_aspect': 0.759, 'A': 308, 'offset': 2.4}
+stepped-temple    m  ST0 Wmin  12.0 Dmin  20.8 Amin    221 | median {'n': 5, 'd': 2.0, 'g': 1.1, 'r': 3.9, 'W': 19.0, 'D': 26.3, 'ideal_aspect': 0.724, 'A': 514, 'offset': 3.6}
+stepped-temple    pr ST0 Wmin  15.0 Dmin  23.7 Amin    316 | median {'n': 5, 'd': 2.5, 'g': 1.1, 'r': 4.4, 'W': 23.0, 'D': 29.7, 'ideal_aspect': 0.775, 'A': 704, 'offset': 3.3}
+stepped-temple    r  ST0 Wmin  19.0 Dmin  30.6 Amin    526 | median {'n': 6, 'd': 2.75, 'g': 1.1, 'r': 5.0, 'W': 30.5, 'D': 39.3, 'ideal_aspect': 0.775, 'A': 1233, 'offset': 4.4}
+stepped-monument  p  ST0 Wmin   9.0 Dmin  17.4 Amin    134 | median {'n': 4, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 16.5, 'D': 23.6, 'ideal_aspect': 0.699, 'A': 411, 'offset': 3.5}
+stepped-monument  m  ST0 Wmin  12.0 Dmin  22.3 Amin    235 | median {'n': 5, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 21.0, 'D': 29.8, 'ideal_aspect': 0.706, 'A': 646, 'offset': 4.4}
+stepped-monument  pr ST0 Wmin  15.0 Dmin  27.0 Amin    361 | median {'n': 6, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 25.5, 'D': 35.6, 'ideal_aspect': 0.716, 'A': 930, 'offset': 5.1}
+stepped-monument  r  ST0 Wmin  18.0 Dmin  31.5 Amin    511 | median {'n': 7, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 30.0, 'D': 41.2, 'ideal_aspect': 0.727, 'A': 1259, 'offset': 5.6}
+terraced-palace   p  ST0 Wmin   9.0 Dmin  11.3 Amin     86 | median {'n': 3, 'd': 4.0, 'g': 0.6, 'r': 2.8, 'W': 19.0, 'D': 19.0, 'ideal_aspect': 1.0, 'A': 368, 'offset': 0.0}
+terraced-palace   m  ST0 Wmin   9.0 Dmin  11.3 Amin     86 | median {'n': 3, 'd': 4.5, 'g': 0.6, 'r': 2.8, 'W': 21.0, 'D': 21.0, 'ideal_aspect': 1.0, 'A': 448, 'offset': 0.0}
+terraced-palace   pr ST0 Wmin  19.0 Dmin  21.8 Amin    368 | median {'n': 4, 'd': 5.5, 'g': 0.6, 'r': 3.5, 'W': 36.0, 'D': 36.0, 'ideal_aspect': 1.0, 'A': 1308, 'offset': 0.0}
+terraced-palace   r  ST0 Wmin  23.0 Dmin  26.3 Amin    539 | median {'n': 4, 'd': 6.5, 'g': 0.6, 'r': 4.3, 'W': 42.0, 'D': 42.0, 'ideal_aspect': 1.0, 'A': 1781, 'offset': 0.0}
+tiered-tower      p  ST0 Wmin   4.2 Dmin   4.2 Amin     18 | median {'n': 3, 'd': 0.4, 'g': 1.0, 'r': 0.0, 'W': 4.6, 'D': 4.6, 'ideal_aspect': 1.0, 'A': 21, 'offset': 0.0}
+tiered-tower      m  ST0 Wmin   4.2 Dmin   4.2 Amin     18 | median {'n': 4, 'd': 0.44999999999999996, 'g': 1.0, 'r': 0.0, 'W': 5.7, 'D': 5.7, 'ideal_aspect': 1.0, 'A': 32, 'offset': 0.0}
+tiered-tower      pr ST0 Wmin   4.6 Dmin   4.6 Amin     21 | median {'n': 4, 'd': 0.55, 'g': 1.0, 'r': 0.0, 'W': 6.3, 'D': 6.3, 'ideal_aspect': 1.0, 'A': 40, 'offset': 0.0}
+tiered-tower      r  ST0 Wmin   5.4 Dmin   5.4 Amin     29 | median {'n': 5, 'd': 0.6000000000000001, 'g': 1.0, 'r': 0.0, 'W': 7.8, 'D': 7.8, 'ideal_aspect': 1.0, 'A': 61, 'offset': 0.0}
+== tiered tower: the median stack against the tower-family budget (V2 §3.10.3: 34/42/60/85 m2)
+p: median n=3 d=0.4 needs 4.6 x 4.6 = 21 m2 vs budget 34 (fits: True)
+m: median n=4 d=0.44999999999999996 needs 5.7 x 5.7 = 32 m2 vs budget 42 (fits: True)
+pr: median n=4 d=0.55 needs 6.3 x 6.3 = 40 m2 vs budget 60 (fits: True)
+r: median n=5 d=0.6000000000000001 needs 7.8 x 7.8 = 61 m2 vs budget 85 (fits: True)
+== tiersTruncated, Monte-Carlo, N=2000 per anchor, on claim-sized hints: area = median A / 0.475, shape of the median stack (+ reserve)
+stepped-temple    p  hint  20.5 x  31.7 m (   648 m2): truncated   8.0 %
+stepped-temple    m  hint  26.1 x  41.5 m (  1083 m2): truncated   7.6 %
+stepped-temple    pr hint  31.7 x  46.8 m (  1482 m2): truncated  33.1 %
+stepped-temple    r  hint  42.2 x  61.5 m (  2595 m2): truncated  31.7 %
+terraced-palace   p  hint  26.0 x  29.8 m (   775 m2): truncated  41.6 %
+terraced-palace   m  hint  28.8 x  32.7 m (   943 m2): truncated  37.7 %
+terraced-palace   pr hint  50.1 x  55.0 m (  2753 m2): truncated  44.6 %
+terraced-palace   r  hint  58.3 x  64.3 m (  3750 m2): truncated  63.6 %
+stepped-monument  p  hint  22.4 x  38.6 m (   865 m2): truncated  38.4 %
+stepped-monument  m  hint  28.8 x  47.3 m (  1361 m2): truncated  35.8 %
+stepped-monument  pr hint  35.2 x  55.7 m (  1958 m2): truncated  34.2 %
+stepped-monument  r  hint  41.6 x  63.8 m (  2650 m2): truncated  31.8 %
+== tiersTruncated on precinct hints sized for the p90 stack (area = p90 needed area / claimHi 0.6; shape: aspect mid : 1 plus the reserve), N=4000
+stepped-temple    p  p90 stack    360 m2 -> hint  21.2 x  28.3 m (   601 m2): truncated  15.9 %, mean tiers laid 3.35
+stepped-temple    m  p90 stack    605 m2 -> hint  27.5 x  36.7 m (  1008 m2): truncated  14.9 %, mean tiers laid 4.35
+stepped-temple    pr p90 stack   1123 m2 -> hint  37.5 x  49.9 m (  1871 m2): truncated  13.7 %, mean tiers laid 4.85
+stepped-temple    r  p90 stack   1914 m2 -> hint  48.9 x  65.2 m (  3190 m2): truncated  15.2 %, mean tiers laid 5.85
+terraced-palace   p  p90 stack    594 m2 -> hint  40.4 x  24.5 m (   990 m2): truncated  24.9 %, mean tiers laid 2.26
+terraced-palace   m  p90 stack    761 m2 -> hint  45.7 x  27.7 m (  1268 m2): truncated  22.8 %, mean tiers laid 2.26
+terraced-palace   pr p90 stack   2092 m2 -> hint  75.9 x  46.0 m (  3487 m2): truncated  26.7 %, mean tiers laid 3.23
+terraced-palace   r  p90 stack   4333 m2 -> hint 109.2 x  66.2 m (  7221 m2): truncated  23.5 %, mean tiers laid 3.74
+stepped-monument  p  p90 stack    748 m2 -> hint  30.2 x  41.3 m (  1246 m2): truncated  13.9 %, mean tiers laid 3.85
+stepped-monument  m  p90 stack   1071 m2 -> hint  36.1 x  49.5 m (  1785 m2): truncated  14.0 %, mean tiers laid 4.86
+stepped-monument  pr p90 stack   1481 m2 -> hint  42.4 x  58.2 m (  2468 m2): truncated  14.2 %, mean tiers laid 5.86
+stepped-monument  r  p90 stack   1883 m2 -> hint  47.9 x  65.6 m (  3139 m2): truncated  17.3 %, mean tiers laid 6.79
+== with the DERIVED aspect (the drawn stack's own W/D, clamped to the row cell); hints sized for the p90 stack / claimHi, shaped by the median derived aspect; N=4000
+stepped-temple    p  raw W/D p10-p90 0.68-0.84 | hint  21.4 x  31.6 m: truncated   2.3 %, mean tiers 3.47
+stepped-temple    m  raw W/D p10-p90 0.64-0.80 | hint  27.0 x  41.3 m: truncated   1.2 %, mean tiers 4.48
+stepped-temple    pr raw W/D p10-p90 0.70-0.85 | hint  38.0 x  53.4 m: truncated   7.2 %, mean tiers 4.93
+stepped-temple    r  raw W/D p10-p90 0.67-0.87 | hint  49.9 x  69.3 m: truncated   8.7 %, mean tiers 5.93
+terraced-palace   p  raw W/D p10-p90 1.23-1.67 | hint  36.8 x  29.3 m: truncated   6.0 %, mean tiers 2.43
+terraced-palace   m  raw W/D p10-p90 1.20-1.61 | hint  41.5 x  33.3 m: truncated   8.1 %, mean tiers 2.41
+terraced-palace   pr raw W/D p10-p90 1.20-1.39 | hint  67.0 x  55.1 m: truncated  11.3 %, mean tiers 3.38
+terraced-palace   r  raw W/D p10-p90 1.18-1.41 | hint  95.5 x  77.8 m: truncated  12.1 %, mean tiers 3.89
+stepped-monument  p  raw W/D p10-p90 0.59-0.82 | hint  29.6 x  46.9 m: truncated   6.7 %, mean tiers 3.94
+stepped-monument  m  raw W/D p10-p90 0.58-0.83 | hint  35.6 x  55.2 m: truncated   7.1 %, mean tiers 4.95
+stepped-monument  pr raw W/D p10-p90 0.59-0.84 | hint  41.8 x  63.1 m: truncated   9.0 %, mean tiers 5.93
+stepped-monument  r  raw W/D p10-p90 0.60-0.85 | hint  48.5 x  71.2 m: truncated   8.4 %, mean tiers 6.92
+== FINAL cells (temple aspect .65-.85, monument .6-.85, palace 1.15-1.8; derived aspect clamped): tiersTruncated on p90-sized precinct hints, N=4000
+stepped-temple    p  hint  21.3 x  31.5 m (   671 m2): truncated   1.0 %, mean tiers laid 3.48
+stepped-temple    m  hint  27.0 x  41.3 m (  1114 m2): truncated   1.6 %, mean tiers laid 4.48
+stepped-temple    pr hint  38.1 x  53.4 m (  2036 m2): truncated   4.6 %, mean tiers laid 4.95
+stepped-temple    r  hint  49.9 x  69.4 m (  3464 m2): truncated   7.0 %, mean tiers laid 5.92
+terraced-palace   p  hint  36.8 x  29.2 m (  1072 m2): truncated   3.2 %, mean tiers laid 2.45
+terraced-palace   m  hint  41.4 x  33.2 m (  1372 m2): truncated   4.8 %, mean tiers laid 2.45
+terraced-palace   pr hint  66.5 x  55.4 m (  3684 m2): truncated   6.0 %, mean tiers laid 3.44
+terraced-palace   r  hint  94.6 x  79.3 m (  7501 m2): truncated   7.6 %, mean tiers laid 3.93
+stepped-monument  p  hint  29.5 x  46.7 m (  1378 m2): truncated   5.1 %, mean tiers laid 3.93
+stepped-monument  m  hint  35.8 x  55.5 m (  1986 m2): truncated   6.3 %, mean tiers laid 4.93
+stepped-monument  pr hint  41.8 x  63.1 m (  2640 m2): truncated   7.3 %, mean tiers laid 5.95
+stepped-monument  r  hint  48.1 x  71.0 m (  3414 m2): truncated   7.5 %, mean tiers laid 6.92

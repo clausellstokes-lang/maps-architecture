@@ -1,0 +1,46 @@
+TOWN: pool-law target B = 1333 (4533 people at 3.4); single-worker slope through 115 ms = 71.2 us
+CITY: pool-law target B = 5200 (17680 people at 3.4); single-worker slope through 400 ms = 69.2 us
+METROPOLIS: pool-law target B = 13462 (45769 people at 3.4); single-worker slope through 1000 ms = 66.9 us
+
+TOWN: first map T(B) = 40 ms + 70 us x B ; single-worker 40 ms + 81 us x B
+   bottom     1500 people ~    441 buildings: model     46 ms, first frame    24 ms, first map     71 ms (single     76 ms)
+   default    5000 people ~   1471 buildings: model    108 ms, first frame    35 ms, first map    143 ms (single    160 ms)
+   top        9999 people ~   2941 buildings: model    196 ms, first frame    49 ms, first map    246 ms (single    279 ms)
+   at the target's building range 1200-1500: 124-145 ms (single 138-162 ms)
+   rung bar 150 ms holds up to B = 1571 (5343 people); one second up to B = 13714 (46629 people)
+CITY: first map T(B) = 60 ms + 60 us x B ; single-worker 60 ms + 79 us x B
+   bottom    10000 people ~   2941 buildings: model    187 ms, first frame    49 ms, first map    236 ms (single    293 ms)
+   default   20000 people ~   5882 buildings: model    334 ms, first frame    79 ms, first map    413 ms (single    526 ms)
+   top       29999 people ~   8823 buildings: model    481 ms, first frame   108 ms, first map    589 ms (single    759 ms)
+   at the target's building range 4500-6000: 330-420 ms (single 416-535 ms)
+   rung bar 400 ms holds up to B = 5667 (19267 people); one second up to B = 15667 (53267 people)
+METROPOLIS: first map T(B) = 120 ms + 62 us x B ; single-worker 120 ms + 77 us x B
+   bottom    30000 people ~   8824 buildings: model    559 ms, first frame   108 ms, first map    667 ms (single    799 ms)
+   default   50000 people ~  14706 buildings: model    865 ms, first frame   167 ms, first map   1032 ms (single   1251 ms)
+   top      120000 people ~  35294 buildings: model   1935 ms, first frame   373 ms, first map   2308 ms (single   2834 ms)
+   at the target's building range 12000-15000: 864-1050 ms (single 1043-1274 ms)
+   rung bar 1000 ms holds up to B = 14194 (48258 people); one second up to B = 14194 (48258 people)
+   at the 35 000-building cap: 2290 ms; single-worker one-second knee B = 11443 (38908 people)
+
+viewport 1440x900 CSS px at DPR 2: worst-case tile positions P = 35; canvas need 3P + 7 = 112 MB; path-mode split 4.25P + 7 = 156 MB
+viewport 1440x900 CSS px at DPR 1.5: worst-case tile positions P = 24; canvas need 3P + 7 = 79 MB; path-mode split 4.25P + 7 = 109 MB
+viewport 1366x768 CSS px at DPR 1: worst-case tile positions P = 12; canvas need 3P + 7 = 43 MB; path-mode split 4.25P + 7 = 58 MB
+viewport 1920x1080 CSS px at DPR 1: worst-case tile positions P = 20; canvas need 3P + 7 = 67 MB; path-mode split 4.25P + 7 = 92 MB
+viewport 2560x1440 CSS px at DPR 1.5: worst-case tile positions P = 54; canvas need 3P + 7 = 169 MB; path-mode split 4.25P + 7 = 236 MB
+viewport 2560x1440 CSS px at DPR 1: worst-case tile positions P = 24; canvas need 3P + 7 = 79 MB; path-mode split 4.25P + 7 = 109 MB
+viewport 1920x1080 CSS px at DPR 2: worst-case tile positions P = 54; canvas need 3P + 7 = 169 MB; path-mode split 4.25P + 7 = 236 MB
+first-frame fixed term at P = 35: 18.8 ms (0.25 raster + 0.10 compose + 0.10 commit per position, + 2 ms S13b + 1 ms glyphs)
+first-frame per-building term: S14 4 us + delivery 1 us + city-band raster 5 us = 10 us
+   TOWN B=1470: F = 33 ms (law 35 ms)
+   CITY B=5200: F = 71 ms (law 72 ms)
+   METROPOLIS B=13460: F = 153 ms (law 155 ms)
+
+settle CITY whole-town view at the city band: 42 ms; district-band view of 3 000 buildings: 52 ms
+settle METROPOLIS whole-town view at the city band: 83 ms; district-band view of 3 000 buildings: 52 ms
+
+  200 x   0.5 ms  light: attribute, label, lock, pin, style, table row without re-derivation
+   80 x   8.0 ms  plot-scale: build, drawFootprint, split, join, fill on one plot (<= 5 ms model + 3 ms S13a)
+   15 x  10.0 ms  block regeneration, <= 60 buildings (3 + 0.06 x 60 + matching + 3 S13a)
+    5 x  36.0 ms  district regeneration, <= 450 buildings (3 + 0.06 x 450 + matching + 3 S13a)
+verification (reference mix, CITY): 300 (replay from the recipe, p95) + sum + 20 (one S14) + 5 (root) = 1395 ms
+worst case 300 district regenerations: 11125 ms

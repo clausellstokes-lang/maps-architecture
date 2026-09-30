@@ -1,0 +1,496 @@
+{
+ "input_doc": "/private/tmp/claude-502/-Users-cstokes-Desktop-Maps/c0d81c15-f08e-4364-97ca-c6b05aa13811/scratchpad/handfix/asm2/doc-before.md",
+ "input_doc_sha256": "e9c0b828c9dd1779edea44c38d4af5d75e3bcbebca6e6932b0fba643926bf943",
+ "input_rationale": "/private/tmp/claude-502/-Users-cstokes-Desktop-Maps/c0d81c15-f08e-4364-97ca-c6b05aa13811/scratchpad/handfix/asm2/rat-before.md",
+ "input_rationale_sha256": "dcabf14b0ce9b9b04d5903d4bdb34443f63ac74cc15e240f6f4fa26d005bef70",
+ "files": [
+  {
+   "file": "repair-r2-determinism.md",
+   "sha256": "ce62542d4a073f0f51e3753d0ca06f835f25cdc48801045c7861a898b3461da3",
+   "lines": 212,
+   "blocks": 3,
+   "issues": []
+  },
+  {
+   "file": "repair-r2-kernel.md",
+   "sha256": "3362e9c9560c67921ade8e30afb02a2b18f118f1d00d4e9f459e02d593f96799",
+   "lines": 209,
+   "blocks": 2,
+   "issues": []
+  },
+  {
+   "file": "repair-r2-model.md",
+   "sha256": "fa0154b9d1f8d724d59d52deba84d9c0ac809e2f6baa48339a7320b461dc241c",
+   "lines": 616,
+   "blocks": 3,
+   "issues": []
+  },
+  {
+   "file": "repair-r2-pipeline.md",
+   "sha256": "3bdc244e90c9d9c1126a6d3f9ef81d4349108c9380e95080ce6ed63805461a7b",
+   "lines": 524,
+   "blocks": 4,
+   "issues": []
+  },
+  {
+   "file": "repair-r2-rendering.md",
+   "sha256": "69a226bda9ae5f347c65fdfa856de4b7704dc51394ac68736fb6b8723427710b",
+   "lines": 335,
+   "blocks": 1,
+   "issues": []
+  },
+  {
+   "file": "repair-r2-scope.md",
+   "sha256": "84e00c5b396215f494afd3060be245019d6791a1836d48ac9346bda550f0d57b",
+   "lines": 325,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-determinism.md #1 (l. 1) REPLACE ### 5.2 Failure classes: detection, ladder, test",
+   "file": "repair-r2-determinism.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "body_lines": 29,
+   "body_sha256": "d06c17e1c6b79ae55878da4245367cf2e534fbe44ab15e6fb9b87ad577abbd8e",
+   "target_line": 5613,
+   "section_old": "5613–5642",
+   "section_old_n": 30,
+   "section_new_n": 30,
+   "new_headings": [
+    "### 5.2 Failure classes: detection, ladder, test"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-determinism.md #2 (l. 33) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "file": "repair-r2-determinism.md",
+   "index": 2,
+   "line": 33,
+   "kind": "REPLACE",
+   "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "body_lines": 174,
+   "body_sha256": "67a344a3d83ac9c5fe6fa6950e5ce6997b645b6384264ecdd9cce5f6ee46e3c9",
+   "target_line": 6959,
+   "section_old": "6959–7133",
+   "section_old_n": 175,
+   "section_new_n": 175,
+   "new_headings": [
+    "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-determinism.md #3 (l. 210) RATIONALE-A",
+   "file": "repair-r2-determinism.md",
+   "index": 3,
+   "line": 210,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "8d9ad69eac9cc8b9644e3b1c6f6e8b368122611794c178049ccb9502052e7b05",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 518,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A20.74"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-kernel.md #1 (l. 10) REPLACE ### 3.4 Kernel operations the pipeline needs (complete list)",
+   "file": "repair-r2-kernel.md",
+   "index": 1,
+   "line": 10,
+   "kind": "REPLACE",
+   "heading": "### 3.4 Kernel operations the pipeline needs (complete list)",
+   "body_lines": 194,
+   "body_sha256": "b8d66835cdd97adf11c6c5c449d42012cc678e5b13284a475f34dad4d3055484",
+   "target_line": 2499,
+   "section_old": "2499–2691",
+   "section_old_n": 193,
+   "section_new_n": 195,
+   "new_headings": [
+    "### 3.4 Kernel operations the pipeline needs (complete list)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-kernel.md #2 (l. 207) RATIONALE-A",
+   "file": "repair-r2-kernel.md",
+   "index": 2,
+   "line": 207,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "3a3377a81b11767ba9c94327cf992db32ce6695143ed65c91a948cc0e709c3b5",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 519,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A28.34"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-model.md #1 (l. 14) REPLACE ### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+   "file": "repair-r2-model.md",
+   "index": 1,
+   "line": 14,
+   "kind": "REPLACE",
+   "heading": "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+   "body_lines": 591,
+   "body_sha256": "ca86d5f45a124381d3c32c758c79c29c3cfa6ba790843f85e94244aed28846b8",
+   "target_line": 943,
+   "section_old": "943–1532",
+   "section_old_n": 590,
+   "section_new_n": 592,
+   "new_headings": [
+    "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-model.md #2 (l. 608) J-ROWS",
+   "file": "repair-r2-model.md",
+   "index": 2,
+   "line": 608,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 2,
+   "body_sha256": "a7d895ffdf314b3836a712f13d0595ef45d46a8972b588caab3604b8a7751695",
+   "target_table": "document l. 12508 (header '| id | the choice | where |')",
+   "inserted_after_line": 12981,
+   "rows_inserted": 2,
+   "row_ids": [
+    "J-A28.23",
+    "J-A28.26"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-model.md #3 (l. 613) RATIONALE-A",
+   "file": "repair-r2-model.md",
+   "index": 3,
+   "line": 613,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 2,
+   "body_sha256": "0919761ae28f6f2ae880c7354e9dcb9b645b91c6adcd32d9535c2317035e5046",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 520,
+   "rows_inserted": 2,
+   "row_ids": [
+    "J-A28.23",
+    "J-A28.26"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-pipeline.md #1 (l. 33) REPLACE ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+   "file": "repair-r2-pipeline.md",
+   "index": 1,
+   "line": 33,
+   "kind": "REPLACE",
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "body_lines": 331,
+   "body_sha256": "cb26535ad2c721dcf3aac79c0bc78386905444c4529a3cfd2c2d10bcc6ca762c",
+   "target_line": 4363,
+   "section_old": "4363–4694",
+   "section_old_n": 332,
+   "section_new_n": 332,
+   "new_headings": [
+    "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-pipeline.md #2 (l. 367) REPLACE ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "file": "repair-r2-pipeline.md",
+   "index": 2,
+   "line": 367,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "body_lines": 148,
+   "body_sha256": "5a186672570b9b7614dc535a81b2ca8bb803107af255795152b238d79a50ba3f",
+   "target_line": 8885,
+   "section_old": "8885–9033",
+   "section_old_n": 149,
+   "section_new_n": 149,
+   "new_headings": [
+    "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-pipeline.md #3 (l. 518) J-ROWS",
+   "file": "repair-r2-pipeline.md",
+   "index": 3,
+   "line": 518,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "c21af622a6f78caec4ee05122bfaa6a29c0d03da7b543b9f28d5fa0cd83454bc",
+   "target_table": "document l. 12508 (header '| id | the choice | where |')",
+   "inserted_after_line": 12983,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A28.46"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-pipeline.md #4 (l. 522) RATIONALE-A",
+   "file": "repair-r2-pipeline.md",
+   "index": 4,
+   "line": 522,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "29d9ac9a3b5175761db8f08edb907370d44e7a9e0bd369b94d6f33f7e07c65db",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 522,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A28.46"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-rendering.md #1 (l. 1) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+   "file": "repair-r2-rendering.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+   "body_lines": 333,
+   "body_sha256": "f80dc4423be7b9a5d099c3ed3b6bafc3a29c8bfc80919de526ba36f2c48625c7",
+   "target_line": 7633,
+   "section_old": "7633–7966",
+   "section_old_n": 334,
+   "section_new_n": 334,
+   "new_headings": [
+    "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-scope.md #1 (l. 1) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "file": "repair-r2-scope.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "body_lines": 323,
+   "body_sha256": "5b69e34d7245ae159d246922133d3d2a9f1eac7e89de303f81362c08ac573961",
+   "target_line": 10123,
+   "section_old": "10123–10446",
+   "section_old_n": 324,
+   "section_new_n": 324,
+   "new_headings": [
+    "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r2-determinism.md #3 (l. 210) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A20.74"
+   ]
+  },
+  {
+   "block": "repair-r2-kernel.md #2 (l. 207) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A28.34"
+   ]
+  },
+  {
+   "block": "repair-r2-model.md #2 (l. 608) J-ROWS",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A28.23",
+    "J-A28.26"
+   ]
+  },
+  {
+   "block": "repair-r2-model.md #3 (l. 613) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A28.23",
+    "J-A28.26"
+   ]
+  },
+  {
+   "block": "repair-r2-pipeline.md #3 (l. 518) J-ROWS",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A28.46"
+   ]
+  },
+  {
+   "block": "repair-r2-pipeline.md #4 (l. 522) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A28.46"
+   ]
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-determinism.md #1 (l. 1) REPLACE ### 5.2 Failure classes: detection, ladder, test",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Failure classes: detection, ladder, test",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-determinism.md #2 (l. 33) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "kind": "REPLACE",
+    "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-determinism.md #3 (l. 210) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r2-kernel.md #1 (l. 10) REPLACE ### 3.4 Kernel operations the pipeline needs (complete list)",
+    "kind": "REPLACE",
+    "heading": "### 3.4 Kernel operations the pipeline needs (complete list)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-kernel.md #2 (l. 207) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r2-model.md #1 (l. 14) REPLACE ### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+    "kind": "REPLACE",
+    "heading": "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-model.md #2 (l. 608) J-ROWS",
+    "state": "OK",
+    "rows": 2,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r2-model.md #3 (l. 613) RATIONALE-A",
+    "state": "OK",
+    "rows": 2,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r2-pipeline.md #1 (l. 33) REPLACE ### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footp",
+    "kind": "REPLACE",
+    "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-pipeline.md #2 (l. 367) REPLACE ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-pipeline.md #3 (l. 518) J-ROWS",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r2-pipeline.md #4 (l. 522) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r2-rendering.md #1 (l. 1) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-scope.md #1 (l. 1) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "kind": "REPLACE",
+    "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [
+   "J-A20.74",
+   "J-A28.34"
+  ],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 475,
+  "document index duplicate ids": [
+   "J-A28.23",
+   "J-A28.26",
+   "J-A28.46"
+  ],
+  "Part A rows": 477,
+  "Part A duplicate ids": [
+   "J-A20.74",
+   "J-A28.23",
+   "J-A28.26",
+   "J-A28.34",
+   "J-A28.46"
+  ]
+ },
+ "checks": {
+  "headings_before": 145,
+  "headings_after": 145,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 108,
+  "fence_lines_after": 108,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 0,
+  "pending_fable_review_lines_after": 0,
+  "doc_bytes_before": 1636552,
+  "doc_bytes_after": 1644417,
+  "doc_lines_before": 13021,
+  "doc_lines_after": 13028,
+  "rationale_bytes_before": 456336,
+  "rationale_bytes_after": 474578,
+  "rationale_lines_before": 2053,
+  "rationale_lines_after": 2058,
+  "blocks_total": 14,
+  "blocks_applied": 14,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "3ce12f2663730ae0008092baea463201733512d379dd5d6fa0ad94a9a37791b5",
+  "output_rationale_sha256": "8f111a21230fa72de379741c29b9bf487b98c0d6b0c89af492549e3f95611d4d"
+ }
+}

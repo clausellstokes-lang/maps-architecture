@@ -1,0 +1,8 @@
+== model of Section 3.3 index maintenance: first step at which a query answer differs from the truth ==
+   rule        regroups   sequences   sequences with a wrong answer
+   r5          False           2000   0
+   r5          True            2000   2000
+   r5+move     False           2000   0
+   r5+move     True            2000   0
+   per-level   False           2000   1793
+   per-level   True            2000   2000

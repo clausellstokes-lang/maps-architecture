@@ -1,0 +1,8 @@
+K=50 from-scratch generations per scope, n=400 regenerated scopes per campaign, 10 bins, Holm over 4 at 0.01
+H0 perfect, discrete statistic, ties randomised:     false failures 9/1000 = 0.0090
+H0 perfect, discrete statistic, ties NOT randomised: false failures 200/200 = 1.000
+H0 perfect, continuous statistic:                    false failures 11/1000 = 0.0110
+H1 too snug 0.8x spread  : campaigns failed 199/200 = 0.995
+H1 too loose 1.5x spread : campaigns failed 200/200 = 1.000
+H1 biased +0.25 sd       : campaigns failed 199/200 = 0.995
+H1 too snug 0.6x (FTG)   : campaigns failed 200/200 = 1.000

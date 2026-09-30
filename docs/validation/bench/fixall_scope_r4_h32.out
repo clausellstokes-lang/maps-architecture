@@ -1,0 +1,7 @@
+# fixall_scope_r4_h32.py receipts (lane fixall/draft-scope-r4, 2026-09-26); the FTG capture id below is illustrative, not a panel choice
+# PENDING FABLE REVIEW — written by opus standing in for the Fable seat fixall/draft-scope-r4 (2026-09-25); queued in docs/FABLE-REVIEW-QUEUE.md.
+SMHasher verification MurmurHash3_x86_128 = 0xB3ECE62A (published 0xB3ECE62A)
+H32('d5-ng/M5/area/0') = 3967261230; NG seed 1 + (H32 mod 2147483646) = 1819777585
+H32('d5-ng/M5/ring/4') = 3098606043; NG seed 1 + (H32 mod 2147483646) = 951122398
+H32('d5/M5/area/0/0') = 3881605733 (a PLAT Seed)
+H32('d5-ftg/M2b/TOWN/2026-09-21T05-08-07') = 809831003 (a PLAT Seed)

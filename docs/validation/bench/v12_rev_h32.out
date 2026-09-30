@@ -1,0 +1,12 @@
+# Revision receipt for V12 §2.4 (revise-V12, 2026-09-29): new seed labels, computed with v12_h32_vectors.py; the base's d5 check vectors reproduce.
+verification 0xb3ece62a
+known/K1 3403473561 PM 1255989916
+known/K2 3205843448 PM 1058359803
+tune/2026-09-28-example/guard/TOWN/none/0 2478365614 PM 330881969
+null/T71-3/CITY/none/c1/0 338389334 PM 338389335
+sweep/T110b.elevated.prosperity/w0.1/0 4196945930 PM 2049462285
+sweep/T110b.elevated.prosperity/w0.9/0 3144925691 PM 997442046
+null/T110b.viaduct/CITY/none/0 4261915227 PM 2114431582
+sweep/T109k6.extent/any/0 1148414874 PM 1148414875
+d5/M1/TOWN/none/0 1221236157 PM 1221236158
+d5-mfcg/M1/TOWN/none/0 1965791930 PM 1965791931

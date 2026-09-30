@@ -1,0 +1,20 @@
+== A. area budget: band-weighted plot area from ARCH §4.7 granularity-table midpoints
+  poor       midpoint plot     80 m2
+  modest     midpoint plot    180 m2
+  prosperous midpoint plot    374 m2
+  rich       midpoint plot    878 m2
+  spread rich/poor = 11.0x
+  household-weighted mean plot (FTG Comfortable mix mapped poor/modest/prosperous/rich): 490 m2
+  equal-quartile bands mean plot: 378 m2
+  vs a single modest-class value (180 m2): x2.72 (FTG mix), x2.10 (equal quartiles)
+  coverage double count if plotArea is plot area and coverage = 0.38: x2.63
+== B. Chaikin x2 on FTG-like polylines (25-30 m steps, turns uniform in [-15, 15] deg)
+  raw:      segment p50 27.5 m; per-vertex turn p50 7.5, p95 14.3, max 15.0 deg
+  chaikin2: segment p50 6.9 m; per-vertex turn p50 1.8, p95 3.6, max 4.2 deg
+  mean absolute turning per 100 m: raw 25.9 deg, chaikin2 26.5 deg
+== C. FTG junction mix (Galeiaward degree histogram, _critic-ftg §4 row 2)
+  4-way share of junctions (deg>=3): 36.4%; T share 62.8%
+== D. heading drift of a growth proposal (20 steps of 30 m = 600 m)
+  sigma 2 deg/step: i.i.d. turns -> median |heading| 6 deg, P(>90) 0.00; curvature walk -> median 73 deg, P(>90) 0.41
+  sigma 3 deg/step: i.i.d. turns -> median |heading| 9 deg, P(>90) 0.00; curvature walk -> median 108 deg, P(>90) 0.58
+  sigma 6 deg/step: i.i.d. turns -> median |heading| 18 deg, P(>90) 0.00; curvature walk -> median 217 deg, P(>90) 0.78

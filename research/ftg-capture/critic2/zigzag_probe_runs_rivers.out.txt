@@ -1,0 +1,12 @@
+A) bridges = road edges that cross a river (id 2/3) boundary
+   bridge edges: 0 types Counter()
+B) junction-to-junction polyline length modes (chain through all deg-2 nodes), per type
+   type  0 runs=988 length modes (5 m bins): [(30, 357), (15, 281), (50, 53), (25, 41), (10, 40), (5, 37)] ; segments-per-run: [(1, 841), (2, 98), (3, 34), (4, 10), (5, 1), (6, 2), (8, 1), (10, 1)]
+   type  4 runs=1468 length modes (5 m bins): [(15, 710), (30, 192), (45, 100), (20, 74), (10, 58), (0, 52)] ; segments-per-run: [(1, 1056), (2, 343), (3, 40), (4, 4), (5, 2), (6, 3), (7, 2), (8, 1)]
+   type  6 runs=131 length modes (5 m bins): [(5, 17), (0, 8), (725, 5), (705, 5), (580, 5), (585, 4)] ; segments-per-run: [(1, 19), (2, 9), (4, 22), (5, 9), (6, 26), (7, 14), (8, 4), (9, 9)]
+   type 14 runs=47 length modes (5 m bins): [(15, 7), (305, 3), (10, 3), (5, 3), (35, 3), (225, 2)] ; segments-per-run: [(1, 14), (2, 10), (3, 2), (4, 1), (5, 5), (6, 4), (7, 2), (11, 1)]
+C) water id 1: perimeter 569 m area 18638 m2 -> mean width if ribbon 65.5 m
+C) water id 2: perimeter 4953 m area 76478 m2 -> mean width if ribbon 30.9 m
+C) water id 3: perimeter 6592 m area 102156 m2 -> mean width if ribbon 31.0 m
+C) water id 4: perimeter 15345 m area 11016036 m2 -> mean width if ribbon 1435.7 m
+D) group 8 (9.2.4,9.2.5) flags: {(1, 1): 15}

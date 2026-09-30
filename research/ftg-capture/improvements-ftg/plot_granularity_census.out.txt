@@ -1,0 +1,159 @@
+===== Galeiaward 2026-09-21 | captures/ftg/2026-09-21T05-23-58/session/network/bodies/intercept-0018-b39aab95.bin
+[A] residence footprint by class (m2: n, p10 / p50 / p90; OBB short x long p50; sub-location count modes)
+   abandoned squat    rank 0  n=  30  area   95.7 /  124.2 /  137.6   OBB 10.4 x 12.0 m   rooms [(5, 28), (10, 2)]
+   lower class home   rank 1  n= 478  area   92.6 /  119.9 /  141.6   OBB 10.3 x 11.9 m   rooms [(5, 465), (10, 13)]
+   house share        rank 2  n= 116  area   71.3 /  105.4 /  163.1   OBB 9.3 x 12.3 m   rooms [(6, 110), (12, 6)]
+   middle class home  rank 2  n=1083  area   53.0 /   86.1 /  134.3   OBB 8.6 x 10.9 m   rooms [(5, 1071), (10, 12)]
+   upper class home   rank 3  n= 330  area   95.1 /  123.2 /  142.0   OBB 10.4 x 12.1 m   rooms [(5, 329), (10, 1)]
+   mansion            rank 4  n=   2  area  888.8 /  889.0 /  889.0   OBB 22.4 x 44.7 m   rooms [(20, 2)]
+   Spearman(wealth rank, footprint area) over 2039 residences = -0.056
+[B] non-residential footprint by category (m2: n, p50, p90, max)
+   Artisan          n= 505  p50    87.4  p90   140.2  max   339.9
+   Shop             n=  88  p50   107.3  p90   141.3  max   398.6
+   Industrial       n=  56  p50   112.4  p90   179.4  max   194.8
+   Service          n=  34  p50    98.3  p90   133.3  max   154.1
+   Tavern           n=  24  p50    96.0  p90   142.1  max   142.9
+   Warehouse        n=  17  p50   638.5  p90  1040.8  max  1056.4
+   Inn              n=   9  p50   700.0  p90   752.4  max   752.4
+   Law enforcement  n=   6  p50   104.2  p90   200.9  max   200.9
+   Farm             n=   5  p50    77.9  p90   100.0  max   100.0
+   Educational      n=   4  p50    89.4  p90   120.1  max   120.1
+   Faction          n=   4  p50   368.3  p90  1599.8  max  1599.8
+   Religious        n=   4  p50   425.5  p90   661.2  max   661.2
+   Market           n=   2  p50  1168.1  p90  1168.1  max  1168.1
+   Cultural         n=   1  p50   966.6  p90   966.6  max   966.6
+[C] grain around each residence, by class (exact-duplicate footprints counted once): nearest-footprint gap m (p10/p50/p90; n with none within 45 m); share touching a neighbour (gap <= 0.3 m); share with a shared wall (>= 2 m of boundary within 0.15 m of a neighbour); local coverage in a 25 m disc (p50); neighbours within 30 m (p50); radius from the origin m (p50)
+   abandoned squat    n=  30  gap  1.49 /  1.50 /   5.67 (none   0)  touching   6.7 %  shared wall   6.7 %  coverage 0.30  n30  6.0  radius    450
+   lower class home   n= 478  gap  1.49 /  1.50 /   3.00 (none   0)  touching   1.0 %  shared wall   1.0 %  coverage 0.34  n30  7.0  radius    522
+   house share        n= 116  gap  1.49 /  1.50 /   1.50 (none   0)  touching   5.2 %  shared wall   5.2 %  coverage 0.49  n30 12.0  radius    174
+   middle class home  n=1083  gap  1.49 /  1.50 /   1.50 (none   0)  touching   0.6 %  shared wall   0.6 %  coverage 0.41  n30 12.0  radius    436
+   upper class home   n= 330  gap  1.49 /  1.50 /   3.03 (none   0)  touching   0.3 %  shared wall   0.3 %  coverage 0.35  n30  6.0  radius    561
+   mansion            n=   2  gap  0.85 /  2.75 /   2.75 (none   0)  touching   0.0 %  shared wall   0.0 %  coverage 0.68  n30  4.0  radius    350
+   Spearman(wealth rank, gap) = -0.025; (wealth rank, local coverage) = 0.087; (wealth rank, neighbours within 30 m) = 0.110; (wealth rank, radius) = -0.017
+[D] class clustering: share of the 6 nearest residences with the same label, vs that label's global share
+   abandoned squat    n=  30  same-class neighbour share 0.01  vs global share 0.01  (enrichment x0.8)
+   lower class home   n= 478  same-class neighbour share 0.39  vs global share 0.23  (enrichment x1.7)
+   house share        n= 116  same-class neighbour share 0.83  vs global share 0.06  (enrichment x14.6)
+   middle class home  n=1083  same-class neighbour share 0.76  vs global share 0.53  (enrichment x1.4)
+   upper class home   n= 330  same-class neighbour share 0.27  vs global share 0.16  (enrichment x1.7)
+   mansion            n=   2  same-class neighbour share 0.00  vs global share 0.00  (enrichment x0.0)
+[E] districts: prose; ring area ha; buildings; buildings/ha; residence mix
+   Beer Forest     "Overall, is a waterfront district, but also contains industrial and park areas."                 9.6 ha   219 bldg   22.8 /ha  {'lower class home': 13, 'middle class home': 12, 'house share': 6, 'abandoned squat': 2, 'upper class home': 1}
+   Rustic Village  "Overall, is a market district, but also contains residential (middle class) areas."              8.0 ha   412 bldg   51.4 /ha  {'house share': 84, 'middle class home': 34}
+   Ash Town        "Overall, is a residential (middle class) district."                                             10.1 ha   549 bldg   54.2 /ha  {'middle class home': 479, 'house share': 26}
+   Green Wood      "Overall, is a residential (middle class) district."                                              4.9 ha   246 bldg   50.4 /ha  {'middle class home': 231}
+   (no district)                                                                                                             1372 bldg          {'lower class home': 465, 'upper class home': 329, 'middle class home': 327, 'abandoned squat': 28, 'mansion': 2}
+[F] serialised in-town lots (< 2 ha, render class 0 or 1): per dominant residence class of the buildings inside
+   lots 945 ({'in rings': 46, 'outside rings': 899}); empty 247 (26.1 %); buildings inside a serialised lot 1478 / 2798
+   abandoned squat        lots   15  lot area p50    441 m2  buildings/lot p50  2 (p90  2)  lot area per building p50   220 m2  coverage p50 0.57
+   lower class home       lots  207  lot area p50    441 m2  buildings/lot p50  2 (p90  3)  lot area per building p50   225 m2  coverage p50 0.51
+   middle class home      lots  143  lot area p50    441 m2  buildings/lot p50  2 (p90  3)  lot area per building p50   230 m2  coverage p50 0.51
+   upper class home       lots  172  lot area p50    441 m2  buildings/lot p50  2 (p90  2)  lot area per building p50   227 m2  coverage p50 0.53
+   mansion                lots    2  lot area p50   1078 m2  buildings/lot p50  1 (p90  1)  lot area per building p50  1078 m2  coverage p50 0.89
+   non-residential/mixed  lots  159  lot area p50    442 m2  buildings/lot p50  2 (p90  2)  lot area per building p50   223 m2  coverage p50 0.58
+[G] access: entrance -> nearest road-type edge (types [0, 1, 2, 6, 10]), by class: p50 / p95 m; entrances > 10 m from any road; no entrance
+   abandoned squat    n=  30   3.62 /  8.60   >10 m:   0   no entrance:   0
+   lower class home   n= 478   3.50 /  8.48   >10 m:   0   no entrance:   5
+   house share        n= 116   2.47 /  2.96   >10 m:   0   no entrance:   8
+   middle class home  n=1083   2.82 /  4.96   >10 m:   0   no entrance:  44
+   upper class home   n= 330   3.45 /  8.45   >10 m:   0   no entrance:   1
+   mansion            n=   2  25.86 / 25.86   >10 m:   2   no entrance:   0
+   edge length inside district rings (32.6 ha), by wire type: type 0 10.82 km (332 m/ha), type 1 2.63 km (81 m/ha), type 4 0.36 km (11 m/ha), type 6 0.15 km (5 m/ha), type 7 0.63 km (19 m/ha), type 12 0.91 km (28 m/ha)
+[H] in-town serialised lots: area quantiles, share within +-10 %% of 441 m2, OBB p50, by zone
+   outside rings n= 899  area p10    147 p50    441 p90    867 m2; within 397-485 m2:  65.4 %; OBB p50 14.7 x 30.0 m
+   in rings      n=  46  area p10    169 p50    425 p90   6523 m2; within 397-485 m2:  52.2 %; OBB p50 8.5 x 50.0 m
+[I] wire type 7: 25 edges, 0.63 km; midpoints inside rings 25; on a plaza-lot edge (<= 0.6 m) 9; nearest-building label [('house share', 6), ('middle class home', 5), ('candle shop', 1), ('general store', 1), ('pastry shop', 1)]; midpoint -> nearest footprint p50 5.5 m; wall towers (field 7) lying exactly on a type-7 node: 17 of 17  => type 7 is the WALL line
+[J] mansion: 8 vertices, area 888.8 m2, OBB (1000.0, 22.4, 44.7), sorted edge lengths [7.45, 7.45, 14.9, 14.9, 14.91, 22.36, 22.36, 44.72]
+[J] mansion: 8 vertices, area 889.0 m2, OBB (1000.2, 22.4, 44.7), sorted edge lengths [7.45, 7.46, 14.91, 14.91, 14.92, 22.36, 22.36, 44.72]
+[K] nearest-footprint gap over all 2789 buildings: within 1.45-1.55 m 81.2 %; 0 m 7.2 %; > 3 m 5.2 %
+[L] by zone and class (exact duplicates counted once): n; footprint p50 m2; neighbours within 30 m p50; local coverage p50
+   in a district ring lower class home   n=  13  footprint  100.9  n30  6.0  coverage 0.30
+   in a district ring house share        n= 116  footprint  105.4  n30 12.0  coverage 0.49
+   in a district ring middle class home  n= 756  footprint   69.8  n30 14.0  coverage 0.44
+   outside rings      abandoned squat    n=  28  footprint  125.4  n30  5.0  coverage 0.30
+   outside rings      lower class home   n= 465  footprint  120.2  n30  7.0  coverage 0.34
+   outside rings      middle class home  n= 327  footprint  121.8  n30  7.0  coverage 0.34
+   outside rings      upper class home   n= 329  footprint  123.2  n30  6.0  coverage 0.35
+[M] shared wall (>= 2 m of boundary within 0.15 m of a non-duplicate neighbour), all buildings, by category x zone: n, share
+   in a district ring Residence 888 (2 %), Artisan 363 (22 %), Shop 59 (46 %), Industrial 51 (96 %), Warehouse 17 (94 %), Service 16 (19 %), Tavern 12 (8 %), Law enforcement 5 (20 %)
+   outside rings      Residence 1151 (0 %), Artisan 142 (0 %), Shop 29 (0 %), Service 18 (0 %), Tavern 12 (0 %), Inn 7 (0 %), Industrial 5 (0 %), Farm 5 (0 %)
+[N] wall line: 26 nodes; street arms per wall node {0: 14, 1: 6, 2: 6} (2+ arms = a street passes the wall there, with no gate object on the wire); street/wall crossings without a shared node: 0
+[O] building outlines properly crossed, by edge type: {0: ['medium inn', 'market square']}
+===== Nevervalley 2026-09-25 | captures/ftg/2026-09-25T10-13-51/session/network/bodies/intercept-0054-b39aab95.bin
+[A] residence footprint by class (m2: n, p10 / p50 / p90; OBB short x long p50; sub-location count modes)
+   abandoned squat    rank 0  n=  39  area   54.0 /   79.1 /  110.6   OBB 8.3 x 10.0 m   rooms [(5, 39)]
+   lower class home   rank 1  n= 453  area   55.9 /   81.8 /  117.3   OBB 8.3 x 10.5 m   rooms [(5, 446), (10, 7)]
+   house share        rank 2  n= 123  area   72.8 /  104.2 /  213.5   OBB 9.5 x 11.0 m   rooms [(6, 117), (12, 6)]
+   middle class home  rank 2  n=1023  area   56.3 /   96.7 /  139.7   OBB 9.2 x 11.1 m   rooms [(5, 987), (10, 36)]
+   upper class home   rank 3  n= 391  area   91.8 /  120.5 /  142.6   OBB 10.4 x 11.8 m   rooms [(5, 371), (10, 20)]
+   mansion            rank 4  n=   1  area  889.1 /  889.1 /  889.1   OBB 22.4 x 44.7 m   rooms [(20, 1)]
+   Spearman(wealth rank, footprint area) over 2030 residences = 0.381
+[B] non-residential footprint by category (m2: n, p50, p90, max)
+   Artisan          n= 519  p50    89.5  p90   139.1  max   321.3
+   Shop             n=  86  p50    99.2  p90   142.6  max   264.0
+   Industrial       n=  66  p50   100.0  p90   167.5  max   281.0
+   Service          n=  34  p50   117.1  p90   144.0  max   199.4
+   Tavern           n=  25  p50   117.6  p90   132.6  max   143.0
+   Warehouse        n=  18  p50   672.0  p90   880.6  max  1077.4
+   Inn              n=   9  p50   326.1  p90   706.2  max   706.2
+   Religious        n=   6  p50   350.3  p90   661.1  max   661.1
+   Law enforcement  n=   6  p50    86.9  p90   116.5  max   116.5
+   Educational      n=   4  p50    98.2  p90   100.7  max   100.7
+   Faction          n=   3  p50   444.4  p90   944.1  max   944.1
+   Farm             n=   3  p50   100.0  p90   100.1  max   100.1
+   Market           n=   2  p50   955.9  p90   955.9  max   955.9
+   Residence        n=   1  p50    92.4  p90    92.4  max    92.4
+   Cultural         n=   1  p50   497.5  p90   497.5  max   497.5
+[C] grain around each residence, by class (exact-duplicate footprints counted once): nearest-footprint gap m (p10/p50/p90; n with none within 45 m); share touching a neighbour (gap <= 0.3 m); share with a shared wall (>= 2 m of boundary within 0.15 m of a neighbour); local coverage in a 25 m disc (p50); neighbours within 30 m (p50); radius from the origin m (p50)
+   abandoned squat    n=  39  gap  1.49 /  1.49 /   1.50 (none   0)  touching   0.0 %  shared wall   0.0 %  coverage 0.62  n30 20.0  radius    586
+   lower class home   n= 453  gap  1.49 /  1.49 /   1.50 (none   0)  touching   1.5 %  shared wall   1.5 %  coverage 0.62  n30 20.0  radius    593
+   house share        n= 123  gap  1.49 /  1.50 /   1.50 (none   0)  touching   3.3 %  shared wall   3.3 %  coverage 0.51  n30 13.0  radius    336
+   middle class home  n=1023  gap  1.49 /  1.50 /   1.50 (none   0)  touching   3.2 %  shared wall   3.2 %  coverage 0.39  n30 10.0  radius    605
+   upper class home   n= 391  gap  1.49 /  1.50 /   1.70 (none   0)  touching   4.3 %  shared wall   4.3 %  coverage 0.34  n30  6.0  radius    817
+   mansion            n=   1  gap  4.02 /  4.02 /   4.02 (none   0)  touching   0.0 %  shared wall   0.0 %  coverage 0.45  n30  0.0  radius    555
+   Spearman(wealth rank, gap) = 0.304; (wealth rank, local coverage) = -0.588; (wealth rank, neighbours within 30 m) = -0.682; (wealth rank, radius) = 0.308
+[D] class clustering: share of the 6 nearest residences with the same label, vs that label's global share
+   abandoned squat    n=  39  same-class neighbour share 0.07  vs global share 0.02  (enrichment x3.8)
+   lower class home   n= 453  same-class neighbour share 0.89  vs global share 0.22  (enrichment x4.0)
+   house share        n= 123  same-class neighbour share 0.80  vs global share 0.06  (enrichment x13.1)
+   middle class home  n=1023  same-class neighbour share 0.78  vs global share 0.50  (enrichment x1.6)
+   upper class home   n= 391  same-class neighbour share 0.43  vs global share 0.19  (enrichment x2.3)
+   mansion            n=   1  same-class neighbour share 0.00  vs global share 0.00  (enrichment x0.0)
+[E] districts: prose; ring area ha; buildings; buildings/ha; residence mix
+   Metal Heath     "Overall, is a waterfront district, but also contains market areas."                             11.8 ha   248 bldg   21.0 /ha  {'middle class home': 36, 'upper class home': 20, 'lower class home': 7, 'house share': 6}
+   Bread Village   "Overall, is a market district, but also contains residential (middle class) areas."             15.8 ha   780 bldg   49.4 /ha  {'middle class home': 244, 'house share': 117, 'lower class home': 26, 'mansion': 1, 'abandoned squat': 1}
+   Turnpike Dale   "Overall, is a residential (middle class) district, but also contains residential (lower class) areas."  13.8 ha   786 bldg   56.9 /ha  {'lower class home': 420, 'middle class home': 296, 'abandoned squat': 38}
+   (no district)                                                                                                              999 bldg          {'middle class home': 447, 'upper class home': 371}
+[F] serialised in-town lots (< 2 ha, render class 0 or 1): per dominant residence class of the buildings inside
+   lots 690 ({'in rings': 78, 'outside rings': 612}); empty 202 (29.3 %); buildings inside a serialised lot 1155 / 2813
+   lower class home       lots    1  lot area p50   2251 m2  buildings/lot p50  6 (p90  6)  lot area per building p50   375 m2  coverage p50 0.59
+   middle class home      lots  201  lot area p50    441 m2  buildings/lot p50  2 (p90  5)  lot area per building p50   227 m2  coverage p50 0.53
+   upper class home       lots  164  lot area p50    441 m2  buildings/lot p50  2 (p90  3)  lot area per building p50   224 m2  coverage p50 0.55
+   non-residential/mixed  lots  122  lot area p50    441 m2  buildings/lot p50  2 (p90  2)  lot area per building p50   226 m2  coverage p50 0.57
+[G] access: entrance -> nearest road-type edge (types [0, 1, 2, 6, 10]), by class: p50 / p95 m; entrances > 10 m from any road; no entrance
+   abandoned squat    n=  39   2.67 /  3.80   >10 m:   0   no entrance:  13
+   lower class home   n= 453   2.56 /  3.50   >10 m:   0   no entrance: 142
+   house share        n= 123   2.45 /  2.94   >10 m:   0   no entrance:   3
+   middle class home  n=1023   2.85 /  7.84   >10 m:   0   no entrance:  53
+   upper class home   n= 391   3.49 /  8.60   >10 m:   0   no entrance:   8
+   mansion            n=   1  22.66 / 22.66   >10 m:   1   no entrance:   0
+   edge length inside district rings (41.4 ha), by wire type: type 0 13.38 km (323 m/ha), type 1 1.70 km (41 m/ha), type 4 0.27 km (7 m/ha), type 6 1.22 km (29 m/ha), type 7 0.88 km (21 m/ha), type 12 0.38 km (9 m/ha), type 14 0.14 km (3 m/ha)
+[H] in-town serialised lots: area quantiles, share within +-10 %% of 441 m2, OBB p50, by zone
+   outside rings n= 612  area p10    169 p50    441 p90   1066 m2; within 397-485 m2:  66.7 %; OBB p50 14.7 x 30.0 m
+   in rings      n=  78  area p10     84 p50    345 p90   6228 m2; within 397-485 m2:  20.5 %; OBB p50 10.0 x 40.7 m
+[I] wire type 7: 44 edges, 0.93 km; midpoints inside rings 42; on a plaza-lot edge (<= 0.6 m) 4; nearest-building label [('middle class home', 28), ('upper class home', 5), ('builder', 2), ('house share', 2), ('launderer', 1)]; midpoint -> nearest footprint p50 5.5 m; wall towers (field 7) lying exactly on a type-7 node: 29 of 29  => type 7 is the WALL line
+[J] mansion: 8 vertices, area 889.1 m2, OBB (1000.5, 22.4, 44.7), sorted edge lengths [7.45, 7.45, 14.9, 14.91, 14.91, 22.36, 22.37, 44.72]
+[K] nearest-footprint gap over all 2805 buildings: within 1.45-1.55 m 83.9 %; 0 m 8.2 %; > 3 m 3.7 %
+[L] by zone and class (exact duplicates counted once): n; footprint p50 m2; neighbours within 30 m p50; local coverage p50
+   in a district ring abandoned squat    n=  39  footprint   79.1  n30 20.0  coverage 0.62
+   in a district ring lower class home   n= 453  footprint   81.8  n30 20.0  coverage 0.62
+   in a district ring house share        n= 123  footprint  104.2  n30 13.0  coverage 0.51
+   in a district ring middle class home  n= 576  footprint   78.2  n30 13.0  coverage 0.43
+   in a district ring upper class home   n=  20  footprint  124.6  n30  7.0  coverage 0.27
+   outside rings      middle class home  n= 447  footprint  123.7  n30  6.0  coverage 0.34
+   outside rings      upper class home   n= 371  footprint  120.5  n30  6.0  coverage 0.34
+[M] shared wall (>= 2 m of boundary within 0.15 m of a non-duplicate neighbour), all buildings, by category x zone: n, share
+   in a district ring Residence 1213 (5 %), Artisan 417 (13 %), Industrial 61 (98 %), Shop 56 (43 %), Warehouse 18 (78 %), Service 15 (40 %), Tavern 10 (40 %), Law enforcement 6 (33 %), Religious 5 (40 %), Inn 5 (20 %)
+   outside rings      Residence 818 (0 %), Artisan 102 (0 %), Shop 30 (0 %), Service 19 (0 %), Tavern 15 (0 %), Industrial 5 (0 %)
+[N] wall line: 46 nodes; street arms per wall node {0: 25, 1: 19, 2: 1, 3: 1} (2+ arms = a street passes the wall there, with no gate object on the wire); street/wall crossings without a shared node: 0
+[O] building outlines properly crossed, by edge type: {0: ['medium inn', 'market square'], 10: ['farm']}

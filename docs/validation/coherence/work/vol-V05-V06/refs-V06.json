@@ -1,0 +1,8641 @@
+{
+ "volume": "V06",
+ "counts": {
+  "J": 162,
+  "file": 44,
+  "base": 109,
+  "gitem": 10,
+  "own": 97,
+  "ownbare": 49,
+  "T": 78,
+  "vol": 120,
+  "fitem": 17,
+  "BCR": 46,
+  "style": 5,
+  "D": 1
+ },
+ "unresolved": [
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rv6/V06-pre-revision.md",
+   "ok": false,
+   "lines": [
+    9
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/revise-v6b/V06-pre-revision-110.md",
+   "ok": false,
+   "lines": [
+    16
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6/V06-pre-reconcile.md",
+   "ok": false,
+   "lines": [
+    21
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r2/V06-pre-reconcile-r2.md",
+   "ok": false,
+   "lines": [
+    28,
+    4348
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r3/V06-pre-reconcile-r3.md",
+   "ok": false,
+   "lines": [
+    33,
+    4391
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r3c/V06-pre-r3c.md",
+   "ok": false,
+   "lines": [
+    35
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r4/V06-pre-reconcile-r4.md",
+   "ok": false,
+   "lines": [
+    40,
+    4425
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r4c/V06-pre-r4c.md",
+   "ok": false,
+   "lines": [
+    42
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r5/V06-pre-r5.md",
+   "ok": false,
+   "lines": [
+    47,
+    4541
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r6/V06-pre-r6.md",
+   "ok": false,
+   "lines": [
+    52,
+    4607
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.6",
+   "ok": false,
+   "lines": [
+    55,
+    70,
+    653,
+    2863,
+    3620,
+    4078
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.11",
+   "ok": false,
+   "lines": [
+    57,
+    125,
+    4118,
+    4199,
+    4597
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19",
+   "ok": false,
+   "lines": [
+    63,
+    75,
+    112,
+    464,
+    1180,
+    2766
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.2",
+   "ok": false,
+   "lines": [
+    68,
+    79,
+    486,
+    626,
+    627,
+    628
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.5",
+   "ok": false,
+   "lines": [
+    68,
+    69,
+    79,
+    80,
+    4072,
+    4235
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.6",
+   "ok": false,
+   "lines": [
+    68,
+    72,
+    124,
+    1492,
+    2624,
+    4199
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.8.2",
+   "ok": false,
+   "lines": [
+    70,
+    78,
+    666,
+    3846,
+    4078,
+    4226
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.5.2",
+   "ok": false,
+   "lines": [
+    70,
+    356,
+    643,
+    644,
+    645,
+    646
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.5",
+   "ok": false,
+   "lines": [
+    70,
+    3620,
+    4078,
+    4362,
+    4431,
+    4431
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.10",
+   "ok": false,
+   "lines": [
+    70,
+    82,
+    125,
+    667,
+    1626,
+    3620
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.12",
+   "ok": false,
+   "lines": [
+    71,
+    72,
+    79,
+    4053,
+    4077,
+    4233
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.4",
+   "ok": false,
+   "lines": [
+    71,
+    73,
+    1304,
+    3937,
+    4047,
+    4208
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.3",
+   "ok": false,
+   "lines": [
+    72,
+    75,
+    2893,
+    3899,
+    3902,
+    4094
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.2",
+   "ok": false,
+   "lines": [
+    73,
+    75,
+    1303,
+    2550,
+    2552,
+    2685
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.10",
+   "ok": false,
+   "lines": [
+    75,
+    3801,
+    4053,
+    4532
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.13",
+   "ok": false,
+   "lines": [
+    75,
+    3899,
+    3900,
+    3910,
+    4065,
+    4272
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.16",
+   "ok": false,
+   "lines": [
+    85,
+    482,
+    1055,
+    1676,
+    4058,
+    4412
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18",
+   "ok": false,
+   "lines": [
+    111,
+    127,
+    3430,
+    4042,
+    4048,
+    4053
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.17",
+   "ok": false,
+   "lines": [
+    126
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.23",
+   "ok": false,
+   "lines": [
+    167
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.11",
+   "ok": false,
+   "lines": [
+    167
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11",
+   "ok": false,
+   "lines": [
+    319,
+    649,
+    674,
+    4042,
+    4061,
+    4074
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V4 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    347,
+    410,
+    471,
+    471,
+    483,
+    1059
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.5.3",
+   "ok": false,
+   "lines": [
+    356,
+    656,
+    4059,
+    4087,
+    4221,
+    4276
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V2 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    359,
+    476,
+    932,
+    1623,
+    1651,
+    2027
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V5 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    418,
+    471,
+    486,
+    650,
+    809,
+    905
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V9 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    426,
+    464,
+    465,
+    467,
+    467,
+    851
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.5",
+   "ok": false,
+   "lines": [
+    470,
+    1305,
+    2552,
+    3938,
+    4214,
+    4218
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.3",
+   "ok": false,
+   "lines": [
+    478,
+    4219,
+    4292
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.4",
+   "ok": false,
+   "lines": [
+    478,
+    4357
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.6",
+   "ok": false,
+   "lines": [
+    512,
+    4217,
+    4287
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.1",
+   "ok": false,
+   "lines": [
+    620,
+    621,
+    622,
+    623,
+    624,
+    625
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.3",
+   "ok": false,
+   "lines": [
+    634,
+    635,
+    1510,
+    1531,
+    3323,
+    3623
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.4",
+   "ok": false,
+   "lines": [
+    637,
+    638,
+    639,
+    640,
+    641,
+    642
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.4",
+   "ok": false,
+   "lines": [
+    651
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.7",
+   "ok": false,
+   "lines": [
+    652,
+    3859
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.2",
+   "ok": false,
+   "lines": [
+    655,
+    733
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.12",
+   "ok": false,
+   "lines": [
+    657,
+    658,
+    659,
+    660,
+    2704,
+    3730
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.13",
+   "ok": false,
+   "lines": [
+    661
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.15.1",
+   "ok": false,
+   "lines": [
+    662
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.15.2",
+   "ok": false,
+   "lines": [
+    664
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.3.2",
+   "ok": false,
+   "lines": [
+    665,
+    3335,
+    4198,
+    4268
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.6",
+   "ok": false,
+   "lines": [
+    668
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18.1",
+   "ok": false,
+   "lines": [
+    669,
+    3982,
+    4196,
+    4219,
+    4221,
+    4274
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18.2",
+   "ok": false,
+   "lines": [
+    670,
+    3789,
+    4066,
+    4268,
+    4273,
+    4280
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.1",
+   "ok": false,
+   "lines": [
+    671,
+    3950
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5.11",
+   "ok": false,
+   "lines": [
+    1062
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.5.1",
+   "ok": false,
+   "lines": [
+    1365,
+    3887,
+    4022,
+    4059
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.15.5",
+   "ok": false,
+   "lines": [
+    2189,
+    3804,
+    4042,
+    4199,
+    4283
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.14",
+   "ok": false,
+   "lines": [
+    2261,
+    3765,
+    4042
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.23.8",
+   "ok": false,
+   "lines": [
+    2455,
+    3430,
+    4048,
+    4134
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.1",
+   "ok": false,
+   "lines": [
+    2749,
+    2783,
+    4216,
+    4357
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24",
+   "ok": false,
+   "lines": [
+    3430
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.3.5",
+   "ok": false,
+   "lines": [
+    3756
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rv6/bcrcheck.out",
+   "ok": false,
+   "lines": [
+    4008
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5.7",
+   "ok": false,
+   "lines": [
+    4023
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V1 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    4035
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5.0",
+   "ok": false,
+   "lines": [
+    4045,
+    4219
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.2",
+   "ok": false,
+   "lines": [
+    4048,
+    4048,
+    4134,
+    4287
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.3",
+   "ok": false,
+   "lines": [
+    4048,
+    4287
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.4",
+   "ok": false,
+   "lines": [
+    4048,
+    4061,
+    4134,
+    4214
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.7",
+   "ok": false,
+   "lines": [
+    4049,
+    4134
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18.3",
+   "ok": false,
+   "lines": [
+    4066,
+    4195,
+    4370,
+    4398
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.2.2",
+   "ok": false,
+   "lines": [
+    4073
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.4.2",
+   "ok": false,
+   "lines": [
+    4074
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.1",
+   "ok": false,
+   "lines": [
+    4118
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.9",
+   "ok": false,
+   "lines": [
+    4130
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.1",
+   "ok": false,
+   "lines": [
+    4214
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV7r5/V06-pre.md",
+   "ok": false,
+   "lines": [
+    4570
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV7r6/V06-pre-r6.md",
+   "ok": false,
+   "lines": [
+    4585
+   ]
+  }
+ ],
+ "all": [
+  {
+   "kind": "J",
+   "ref": "J84",
+   "ok": true,
+   "lines": [
+    3,
+    4,
+    10,
+    17,
+    22,
+    29
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/V06.md",
+   "ok": true,
+   "lines": [
+    5,
+    11,
+    4148
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J111",
+   "ok": true,
+   "lines": [
+    6
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/AMENDMENTS-2026-09-28g.md",
+   "ok": true,
+   "lines": [
+    7,
+    12,
+    152,
+    174
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§8",
+   "ok": true,
+   "lines": [
+    9,
+    73,
+    83,
+    103,
+    115,
+    130
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rv6/V06-pre-revision.md",
+   "ok": false,
+   "lines": [
+    9
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§9",
+   "ok": true,
+   "lines": [
+    11,
+    116,
+    131,
+    4033,
+    4035,
+    4066
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "110",
+   "ok": true,
+   "lines": [
+    12,
+    106,
+    112,
+    358,
+    358,
+    359
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.19",
+   "ok": true,
+   "lines": [
+    14,
+    319,
+    358,
+    388,
+    438,
+    446
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§10",
+   "ok": true,
+   "lines": [
+    16,
+    116,
+    131,
+    4042,
+    4053,
+    4154
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/revise-v6b/V06-pre-revision-110.md",
+   "ok": false,
+   "lines": [
+    16
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-time-r0.md",
+   "ok": true,
+   "lines": [
+    18,
+    4262
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-content-calibration-r0.md",
+   "ok": true,
+   "lines": [
+    19,
+    4263
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6/V06-pre-reconcile.md",
+   "ok": false,
+   "lines": [
+    21
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-time-r1.md",
+   "ok": true,
+   "lines": [
+    23,
+    4344
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-content-calibration-r1.md",
+   "ok": true,
+   "lines": [
+    24,
+    26,
+    4345,
+    4463
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7",
+   "ok": true,
+   "lines": [
+    26,
+    34,
+    102,
+    115,
+    130,
+    171
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r2/V06-pre-reconcile-r2.md",
+   "ok": false,
+   "lines": [
+    28,
+    4348
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-time-r2.md",
+   "ok": true,
+   "lines": [
+    30,
+    4387
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-content-calibration-r2.md",
+   "ok": true,
+   "lines": [
+    31,
+    34,
+    4388,
+    4487
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r3/V06-pre-reconcile-r3.md",
+   "ok": false,
+   "lines": [
+    33,
+    4391
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r3c/V06-pre-r3c.md",
+   "ok": false,
+   "lines": [
+    35
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-time-r3.md",
+   "ok": true,
+   "lines": [
+    37,
+    4421
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-layers-r3.md",
+   "ok": true,
+   "lines": [
+    38,
+    4421
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-surfaces-r3.md",
+   "ok": true,
+   "lines": [
+    38,
+    41,
+    4422,
+    4512
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-content-calibration-r3.md",
+   "ok": true,
+   "lines": [
+    39,
+    4422
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r4/V06-pre-reconcile-r4.md",
+   "ok": false,
+   "lines": [
+    40,
+    4425
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§9.1",
+   "ok": true,
+   "lines": [
+    41,
+    4095,
+    4512
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r4c/V06-pre-r4c.md",
+   "ok": false,
+   "lines": [
+    42
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-time-r4.md",
+   "ok": true,
+   "lines": [
+    44,
+    4538,
+    4568
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-layers-r4.md",
+   "ok": true,
+   "lines": [
+    45,
+    4538
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-content-calibration-r4.md",
+   "ok": true,
+   "lines": [
+    45,
+    4539
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r5/V06-pre-r5.md",
+   "ok": false,
+   "lines": [
+    47,
+    4541
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-time-r5.md",
+   "ok": true,
+   "lines": [
+    49,
+    4583,
+    4603
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-settlements-r5.md",
+   "ok": true,
+   "lines": [
+    50,
+    4603
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/critique/seam-surfaces-r5.md",
+   "ok": true,
+   "lines": [
+    50,
+    4604
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV6r6/V06-pre-r6.md",
+   "ok": false,
+   "lines": [
+    52,
+    4607
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.6",
+   "ok": false,
+   "lines": [
+    55,
+    70,
+    653,
+    2863,
+    3620,
+    4078
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-51",
+   "ok": true,
+   "lines": [
+    55,
+    56,
+    70,
+    78,
+    88,
+    3363
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.2",
+   "ok": true,
+   "lines": [
+    56,
+    64,
+    71,
+    85,
+    319,
+    3823
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.11",
+   "ok": false,
+   "lines": [
+    57,
+    125,
+    4118,
+    4199,
+    4597
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-45",
+   "ok": true,
+   "lines": [
+    57,
+    1707,
+    1932,
+    3357,
+    4118,
+    4241
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.4",
+   "ok": true,
+   "lines": [
+    58,
+    160,
+    336,
+    351,
+    421,
+    422
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§12",
+   "ok": true,
+   "lines": [
+    59,
+    65,
+    74,
+    75,
+    84,
+    94
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13",
+   "ok": true,
+   "lines": [
+    59,
+    65,
+    74,
+    75,
+    84,
+    94
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §6",
+   "ok": true,
+   "lines": [
+    62,
+    1055,
+    3203,
+    3203,
+    3203,
+    3215
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§6.2",
+   "ok": true,
+   "lines": [
+    62,
+    71,
+    154,
+    520,
+    1022,
+    1965
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.118",
+   "ok": true,
+   "lines": [
+    62,
+    3215,
+    3257,
+    3631,
+    4234,
+    4240
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19",
+   "ok": false,
+   "lines": [
+    63,
+    75,
+    112,
+    464,
+    1180,
+    2766
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "244",
+   "ok": true,
+   "lines": [
+    63,
+    464,
+    464,
+    464,
+    464,
+    464
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.4",
+   "ok": true,
+   "lines": [
+    64,
+    488,
+    650,
+    4197,
+    4204,
+    4239
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.8",
+   "ok": true,
+   "lines": [
+    68,
+    69,
+    79,
+    153,
+    178,
+    420
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.2",
+   "ok": false,
+   "lines": [
+    68,
+    79,
+    486,
+    626,
+    627,
+    628
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.5",
+   "ok": false,
+   "lines": [
+    68,
+    69,
+    79,
+    80,
+    4072,
+    4235
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.6",
+   "ok": false,
+   "lines": [
+    68,
+    72,
+    124,
+    1492,
+    2624,
+    4199
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§5.1",
+   "ok": true,
+   "lines": [
+    68,
+    349,
+    2298,
+    3780,
+    4079,
+    4200
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-11",
+   "ok": true,
+   "lines": [
+    68,
+    69,
+    80,
+    3323,
+    4231,
+    4283
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.2",
+   "ok": true,
+   "lines": [
+    69,
+    346,
+    353,
+    1349,
+    1435,
+    4079
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.8.2",
+   "ok": false,
+   "lines": [
+    70,
+    78,
+    666,
+    3846,
+    4078,
+    4226
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.5.2",
+   "ok": false,
+   "lines": [
+    70,
+    356,
+    643,
+    644,
+    645,
+    646
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.5",
+   "ok": false,
+   "lines": [
+    70,
+    3620,
+    4078,
+    4362,
+    4431,
+    4431
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.10",
+   "ok": false,
+   "lines": [
+    70,
+    82,
+    125,
+    667,
+    1626,
+    3620
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.107",
+   "ok": true,
+   "lines": [
+    70,
+    78,
+    1290,
+    1624,
+    1643,
+    3620
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.1",
+   "ok": true,
+   "lines": [
+    71,
+    85,
+    519,
+    1000,
+    3664,
+    3834
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.12",
+   "ok": false,
+   "lines": [
+    71,
+    72,
+    79,
+    4053,
+    4077,
+    4233
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.4",
+   "ok": false,
+   "lines": [
+    71,
+    73,
+    1304,
+    3937,
+    4047,
+    4208
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.3",
+   "ok": false,
+   "lines": [
+    72,
+    75,
+    2893,
+    3899,
+    3902,
+    4094
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-58",
+   "ok": true,
+   "lines": [
+    72,
+    75,
+    3370,
+    4094,
+    4233,
+    4238
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§1",
+   "ok": true,
+   "lines": [
+    73,
+    99,
+    108,
+    108,
+    121,
+    121
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.2",
+   "ok": false,
+   "lines": [
+    73,
+    75,
+    1303,
+    2550,
+    2552,
+    2685
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.10",
+   "ok": false,
+   "lines": [
+    75,
+    3801,
+    4053,
+    4532
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.13",
+   "ok": false,
+   "lines": [
+    75,
+    3899,
+    3900,
+    3910,
+    4065,
+    4272
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.120",
+   "ok": true,
+   "lines": [
+    75,
+    2765,
+    3633,
+    4524
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-43",
+   "ok": true,
+   "lines": [
+    82,
+    1899,
+    3355,
+    3459,
+    3476,
+    4365
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.16",
+   "ok": false,
+   "lines": [
+    85,
+    482,
+    1055,
+    1676,
+    4058,
+    4412
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.79",
+   "ok": true,
+   "lines": [
+    85,
+    3592,
+    4496
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-8",
+   "ok": true,
+   "lines": [
+    85,
+    338,
+    435,
+    531,
+    2245,
+    2250
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-18",
+   "ok": true,
+   "lines": [
+    88,
+    448,
+    1372,
+    1405,
+    1659,
+    3411
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-28",
+   "ok": true,
+   "lines": [
+    90,
+    447,
+    1379,
+    1656,
+    2404,
+    3622
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.16",
+   "ok": true,
+   "lines": [
+    95,
+    337,
+    338,
+    410,
+    435,
+    466
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§1.2",
+   "ok": true,
+   "lines": [
+    99,
+    4041,
+    4052,
+    4268,
+    4296,
+    4432
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2",
+   "ok": true,
+   "lines": [
+    99,
+    109,
+    122,
+    171,
+    4018,
+    4041
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3",
+   "ok": true,
+   "lines": [
+    100,
+    4043,
+    4054,
+    4067,
+    4080,
+    4108
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4",
+   "ok": true,
+   "lines": [
+    101,
+    113,
+    128,
+    171,
+    4042
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§6",
+   "ok": true,
+   "lines": [
+    101,
+    114,
+    129,
+    171,
+    2129,
+    3336
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-27",
+   "ok": true,
+   "lines": [
+    103,
+    412,
+    412,
+    500,
+    738,
+    3338
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§0",
+   "ok": true,
+   "lines": [
+    108,
+    121
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.1",
+   "ok": true,
+   "lines": [
+    110,
+    123,
+    2438,
+    4041,
+    4053,
+    4268
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.6",
+   "ok": true,
+   "lines": [
+    110,
+    123,
+    614,
+    615,
+    616,
+    617
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.7",
+   "ok": true,
+   "lines": [
+    111,
+    124,
+    1341,
+    4065,
+    4078
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18",
+   "ok": false,
+   "lines": [
+    111,
+    127,
+    3430,
+    4042,
+    4048,
+    4053
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§5",
+   "ok": true,
+   "lines": [
+    114,
+    129,
+    349,
+    2293,
+    3559,
+    4042
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§11",
+   "ok": true,
+   "lines": [
+    116,
+    131,
+    4042,
+    4054,
+    4304
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.8",
+   "ok": true,
+   "lines": [
+    124,
+    2326,
+    3844,
+    4041,
+    4053,
+    4066
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.9",
+   "ok": true,
+   "lines": [
+    125,
+    3429,
+    4053,
+    4066
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.10",
+   "ok": true,
+   "lines": [
+    126,
+    480,
+    654,
+    2326,
+    3741,
+    4025
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.17",
+   "ok": false,
+   "lines": [
+    126
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/DEFINITION.md",
+   "ok": true,
+   "lines": [
+    151
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/OWNER-INSTRUCTIONS-2026-09-25.md",
+   "ok": true,
+   "lines": [
+    151
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/AMENDMENTS-2026-09-25b.md",
+   "ok": true,
+   "lines": [
+    153
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.11",
+   "ok": true,
+   "lines": [
+    154,
+    171,
+    173,
+    263,
+    266,
+    325
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§6.1",
+   "ok": true,
+   "lines": [
+    154,
+    173,
+    337,
+    338,
+    435,
+    466
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§6.3",
+   "ok": true,
+   "lines": [
+    155,
+    337,
+    466,
+    543,
+    764,
+    943
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§6.4",
+   "ok": true,
+   "lines": [
+    155
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.3",
+   "ok": true,
+   "lines": [
+    155,
+    340,
+    2088,
+    2206,
+    2947,
+    2960
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.4",
+   "ok": true,
+   "lines": [
+    156,
+    173,
+    340,
+    360,
+    409,
+    427
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.7",
+   "ok": true,
+   "lines": [
+    156,
+    177,
+    339,
+    345,
+    353,
+    411
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§12.6",
+   "ok": true,
+   "lines": [
+    158,
+    174,
+    450,
+    1055,
+    1714,
+    2208
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§14",
+   "ok": true,
+   "lines": [
+    158,
+    177,
+    326,
+    411,
+    493,
+    980
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§16",
+   "ok": true,
+   "lines": [
+    158,
+    3401,
+    3403
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.7",
+   "ok": true,
+   "lines": [
+    159,
+    165,
+    329,
+    332,
+    335,
+    336
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.9",
+   "ok": true,
+   "lines": [
+    160,
+    325,
+    341,
+    360,
+    413,
+    427
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§10.2",
+   "ok": true,
+   "lines": [
+    160,
+    332,
+    344,
+    345,
+    352,
+    1686
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§10.3",
+   "ok": true,
+   "lines": [
+    160,
+    174,
+    286,
+    348,
+    392,
+    436
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.2",
+   "ok": true,
+   "lines": [
+    161,
+    487,
+    3291,
+    3292,
+    3292,
+    3338
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V01 §3.3.6",
+   "ok": true,
+   "lines": [
+    162,
+    347,
+    471,
+    481,
+    1062
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V01 §3.5.11",
+   "ok": true,
+   "lines": [
+    162,
+    347
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V02 §3.9",
+   "ok": true,
+   "lines": [
+    162,
+    347
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §1.3",
+   "ok": true,
+   "lines": [
+    162
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.10",
+   "ok": true,
+   "lines": [
+    162,
+    347,
+    354,
+    367,
+    447,
+    1037
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §3.15",
+   "ok": true,
+   "lines": [
+    163,
+    175,
+    347,
+    365,
+    410,
+    446
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §3.16",
+   "ok": true,
+   "lines": [
+    163,
+    415,
+    483,
+    483,
+    1338,
+    4046
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "research/findings/ftg-docs-params.md",
+   "ok": true,
+   "lines": [
+    164,
+    1412,
+    1614,
+    3390,
+    3531
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§1.3",
+   "ok": true,
+   "lines": [
+    165,
+    3390
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§1.4",
+   "ok": true,
+   "lines": [
+    165,
+    1412,
+    3390,
+    3531
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.3",
+   "ok": true,
+   "lines": [
+    166,
+    409,
+    554,
+    1002,
+    1614,
+    2204
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "research/findings/ftg-posts-a.md",
+   "ok": true,
+   "lines": [
+    166
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.23",
+   "ok": false,
+   "lines": [
+    167
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§2.11",
+   "ok": false,
+   "lines": [
+    167
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "research/findings/ftg-posts-c.md",
+   "ok": true,
+   "lines": [
+    167
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§12.1",
+   "ok": true,
+   "lines": [
+    168,
+    3156
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "research/findings/profile-mfcg.md",
+   "ok": true,
+   "lines": [
+    168
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/retrovalidation/base/pipeline-gen.md",
+   "ok": true,
+   "lines": [
+    170
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/retrovalidation/pipeline-content.md",
+   "ok": true,
+   "lines": [
+    170
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§5.4",
+   "ok": true,
+   "lines": [
+    174,
+    349,
+    426,
+    857,
+    908,
+    2166
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §1.3",
+   "ok": true,
+   "lines": [
+    175
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.7",
+   "ok": true,
+   "lines": [
+    176,
+    333,
+    333,
+    344,
+    350,
+    352
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.12",
+   "ok": true,
+   "lines": [
+    176,
+    326,
+    408,
+    410,
+    536,
+    545
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.1",
+   "ok": true,
+   "lines": [
+    176,
+    325,
+    542,
+    798,
+    975,
+    1002
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§8.2",
+   "ok": true,
+   "lines": [
+    177,
+    416,
+    429,
+    486,
+    904,
+    913
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§11.2",
+   "ok": true,
+   "lines": [
+    177,
+    411,
+    411,
+    426,
+    430,
+    438
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "104",
+   "ok": true,
+   "lines": [
+    179,
+    277,
+    345,
+    345,
+    441,
+    441
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.1",
+   "ok": true,
+   "lines": [
+    265,
+    356,
+    356,
+    408,
+    443,
+    444
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.2",
+   "ok": true,
+   "lines": [
+    265,
+    306,
+    327,
+    347,
+    355,
+    359
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-1",
+   "ok": true,
+   "lines": [
+    265,
+    306,
+    326,
+    356,
+    380,
+    408
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.3",
+   "ok": true,
+   "lines": [
+    268,
+    339,
+    434,
+    1030,
+    1030
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-9",
+   "ok": true,
+   "lines": [
+    268,
+    434,
+    498,
+    702,
+    1108,
+    1149
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.6",
+   "ok": true,
+   "lines": [
+    271,
+    312,
+    355,
+    421,
+    447,
+    448
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7",
+   "ok": true,
+   "lines": [
+    271,
+    274,
+    336,
+    416,
+    497
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.5",
+   "ok": true,
+   "lines": [
+    274,
+    329
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.8",
+   "ok": true,
+   "lines": [
+    276,
+    330,
+    1043,
+    1283,
+    1370,
+    1423
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "103",
+   "ok": true,
+   "lines": [
+    277,
+    344,
+    344,
+    385,
+    1678,
+    1736
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9",
+   "ok": true,
+   "lines": [
+    278,
+    332,
+    344,
+    352,
+    419,
+    1035
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.10",
+   "ok": true,
+   "lines": [
+    279,
+    333,
+    347,
+    420,
+    770,
+    1041
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "102",
+   "ok": true,
+   "lines": [
+    280,
+    342,
+    343,
+    343,
+    366,
+    413
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.4",
+   "ok": true,
+   "lines": [
+    281,
+    343,
+    359,
+    413,
+    511,
+    782
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.11",
+   "ok": true,
+   "lines": [
+    282,
+    412,
+    500,
+    1031,
+    2735,
+    2876
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.12",
+   "ok": true,
+   "lines": [
+    284,
+    334,
+    424,
+    474,
+    1039,
+    1342
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.13",
+   "ok": true,
+   "lines": [
+    285,
+    335,
+    425,
+    501,
+    1048
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.14",
+   "ok": true,
+   "lines": [
+    286,
+    348,
+    436,
+    515
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.15",
+   "ok": true,
+   "lines": [
+    288,
+    340,
+    341,
+    1049
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §5",
+   "ok": true,
+   "lines": [
+    288,
+    404
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §6",
+   "ok": true,
+   "lines": [
+    289,
+    4039,
+    4129,
+    4150
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.5.3",
+   "ok": true,
+   "lines": [
+    291,
+    346,
+    442,
+    444,
+    482,
+    546
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §4.4",
+   "ok": true,
+   "lines": [
+    292,
+    430,
+    440,
+    466,
+    722,
+    2784
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.15.5",
+   "ok": true,
+   "lines": [
+    293,
+    360,
+    426,
+    462,
+    876,
+    884
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "105",
+   "ok": true,
+   "lines": [
+    294,
+    350,
+    350,
+    438,
+    449,
+    505
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.10",
+   "ok": true,
+   "lines": [
+    296,
+    350,
+    449,
+    505,
+    1042,
+    1718
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.2",
+   "ok": true,
+   "lines": [
+    299,
+    450
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.6",
+   "ok": true,
+   "lines": [
+    299,
+    385,
+    1625,
+    2014,
+    2524,
+    3632
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.8",
+   "ok": true,
+   "lines": [
+    299,
+    441
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "108",
+   "ok": true,
+   "lines": [
+    300,
+    353,
+    353,
+    451,
+    504,
+    506
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.1",
+   "ok": true,
+   "lines": [
+    301,
+    353,
+    451,
+    504,
+    1737,
+    2678
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.11",
+   "ok": true,
+   "lines": [
+    301,
+    353,
+    451,
+    504,
+    1042,
+    1042
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "106",
+   "ok": true,
+   "lines": [
+    302,
+    351,
+    351,
+    452,
+    510,
+    1440
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7.6",
+   "ok": true,
+   "lines": [
+    304,
+    319,
+    351,
+    452,
+    475,
+    486
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.3.2",
+   "ok": true,
+   "lines": [
+    306,
+    356,
+    411,
+    692,
+    2918,
+    2930
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "109",
+   "ok": true,
+   "lines": [
+    307,
+    354,
+    354,
+    507,
+    508,
+    1067
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.18",
+   "ok": true,
+   "lines": [
+    310,
+    354,
+    370,
+    1045
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.1",
+   "ok": true,
+   "lines": [
+    312,
+    409,
+    410,
+    444,
+    446,
+    471
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.8.1",
+   "ok": true,
+   "lines": [
+    312,
+    446,
+    556,
+    559,
+    1374,
+    2012
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.11.6",
+   "ok": true,
+   "lines": [
+    314,
+    355,
+    456,
+    2822
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.5.2",
+   "ok": true,
+   "lines": [
+    314,
+    355,
+    415,
+    415,
+    415,
+    418
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11",
+   "ok": false,
+   "lines": [
+    319,
+    649,
+    674,
+    4042,
+    4061,
+    4074
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.8.4",
+   "ok": true,
+   "lines": [
+    328,
+    1041,
+    1803,
+    2017,
+    2832,
+    2867
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.5",
+   "ok": true,
+   "lines": [
+    328,
+    1216,
+    2008
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-5",
+   "ok": true,
+   "lines": [
+    331,
+    417,
+    418,
+    470,
+    484,
+    795
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-4",
+   "ok": true,
+   "lines": [
+    332,
+    419,
+    814,
+    1712,
+    1728,
+    3413
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.5",
+   "ok": true,
+   "lines": [
+    333,
+    420,
+    1939
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-7",
+   "ok": true,
+   "lines": [
+    333,
+    420,
+    771,
+    1959,
+    2950,
+    2974
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.3",
+   "ok": true,
+   "lines": [
+    334,
+    424,
+    2025,
+    3727,
+    3757,
+    4046
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-6",
+   "ok": true,
+   "lines": [
+    334,
+    424,
+    812,
+    2081,
+    2091,
+    2874
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-2",
+   "ok": true,
+   "lines": [
+    335,
+    425,
+    889,
+    2125,
+    2190,
+    3279
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-3",
+   "ok": true,
+   "lines": [
+    336,
+    416,
+    785,
+    1494,
+    3412,
+    3692
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §4",
+   "ok": true,
+   "lines": [
+    340
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.5",
+   "ok": true,
+   "lines": [
+    342,
+    343,
+    350,
+    358,
+    413,
+    422
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§8.4",
+   "ok": true,
+   "lines": [
+    343,
+    778,
+    3922
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.5",
+   "ok": true,
+   "lines": [
+    345,
+    1017,
+    1625,
+    2491,
+    2527,
+    2863
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.9",
+   "ok": true,
+   "lines": [
+    346,
+    442,
+    1275,
+    1347,
+    2429
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §1b.2",
+   "ok": true,
+   "lines": [
+    347,
+    4058
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.10",
+   "ok": true,
+   "lines": [
+    347,
+    410,
+    483,
+    1059,
+    1332,
+    1333
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V4 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    347,
+    410,
+    471,
+    471,
+    483,
+    1059
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.18.2",
+   "ok": true,
+   "lines": [
+    347,
+    410,
+    445,
+    455,
+    500,
+    501
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-10",
+   "ok": true,
+   "lines": [
+    348,
+    436,
+    2144,
+    2150,
+    3414,
+    3759
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.17",
+   "ok": true,
+   "lines": [
+    349,
+    734,
+    1005,
+    4101,
+    4547
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.8",
+   "ok": true,
+   "lines": [
+    351,
+    358,
+    422,
+    475
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "107",
+   "ok": true,
+   "lines": [
+    352,
+    352,
+    450,
+    1713,
+    1763,
+    1764
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §2.2",
+   "ok": true,
+   "lines": [
+    354,
+    455,
+    2325
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §2.3",
+   "ok": true,
+   "lines": [
+    354,
+    368,
+    2325
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.5",
+   "ok": true,
+   "lines": [
+    354,
+    2058,
+    2325
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "II.7.3",
+   "ok": true,
+   "lines": [
+    354,
+    355,
+    447,
+    1375,
+    2394,
+    3622
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "II.7.5",
+   "ok": true,
+   "lines": [
+    354,
+    2380,
+    2388
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "II.7.6",
+   "ok": true,
+   "lines": [
+    354,
+    355,
+    455,
+    456,
+    456,
+    2052
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "II.7.1",
+   "ok": true,
+   "lines": [
+    355,
+    445,
+    1079,
+    3818,
+    4014
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-16",
+   "ok": true,
+   "lines": [
+    355,
+    445,
+    1078,
+    3417,
+    3818,
+    4016
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §2.1",
+   "ok": true,
+   "lines": [
+    356,
+    410,
+    444,
+    444,
+    482,
+    537
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §3.12",
+   "ok": true,
+   "lines": [
+    356,
+    379,
+    410,
+    417,
+    451,
+    482
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.5.3",
+   "ok": false,
+   "lines": [
+    356,
+    656,
+    4059,
+    4087,
+    4221,
+    4276
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V7-18",
+   "ok": true,
+   "lines": [
+    356,
+    444,
+    537,
+    573,
+    1076,
+    3410
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V7-26",
+   "ok": true,
+   "lines": [
+    356,
+    444,
+    576,
+    993,
+    1030,
+    3363
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V10 §2.13",
+   "ok": true,
+   "lines": [
+    357,
+    460,
+    479,
+    3033
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §4.5",
+   "ok": true,
+   "lines": [
+    357,
+    419,
+    460,
+    479,
+    486,
+    1438
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V10-3",
+   "ok": true,
+   "lines": [
+    357,
+    460
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.8.2",
+   "ok": true,
+   "lines": [
+    358,
+    457,
+    461,
+    476,
+    482,
+    550
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.3",
+   "ok": true,
+   "lines": [
+    358,
+    2094,
+    2619,
+    4046,
+    4272
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§5.3",
+   "ok": true,
+   "lines": [
+    358,
+    446,
+    593,
+    932,
+    1293,
+    1633
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V2 §3.16",
+   "ok": true,
+   "lines": [
+    359,
+    476,
+    932,
+    1623,
+    1651,
+    2027
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V2 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    359,
+    476,
+    932,
+    1623,
+    1651,
+    2027
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.11.3",
+   "ok": true,
+   "lines": [
+    359,
+    4219
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V2-32",
+   "ok": true,
+   "lines": [
+    359,
+    478,
+    1170
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V5-28",
+   "ok": true,
+   "lines": [
+    359,
+    410,
+    473,
+    1063,
+    4209,
+    4322
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V3-28",
+   "ok": true,
+   "lines": [
+    359,
+    471,
+    933,
+    2845,
+    4212,
+    4327
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.5",
+   "ok": true,
+   "lines": [
+    360,
+    462,
+    600,
+    914,
+    925,
+    2226
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5",
+   "ok": true,
+   "lines": [
+    369,
+    4065
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V03 §3.7.4",
+   "ok": true,
+   "lines": [
+    371,
+    2498,
+    2961,
+    4026
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V2-28",
+   "ok": true,
+   "lines": [
+    372,
+    458,
+    1947,
+    2498,
+    3486
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.18.3",
+   "ok": true,
+   "lines": [
+    373,
+    458,
+    506,
+    769,
+    919,
+    1042
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.6",
+   "ok": true,
+   "lines": [
+    382,
+    616,
+    919,
+    1397,
+    1424,
+    2496
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.4",
+   "ok": true,
+   "lines": [
+    389,
+    412,
+    463,
+    649,
+    671,
+    1978
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-12",
+   "ok": true,
+   "lines": [
+    389,
+    412,
+    463,
+    500,
+    736,
+    1107
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-24",
+   "ok": true,
+   "lines": [
+    397,
+    467,
+    926,
+    958,
+    1560,
+    2760
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-26",
+   "ok": true,
+   "lines": [
+    397,
+    415,
+    469,
+    469,
+    485,
+    930
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.4",
+   "ok": true,
+   "lines": [
+    399,
+    1143,
+    3517
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2",
+   "ok": true,
+   "lines": [
+    404,
+    3151
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "202",
+   "ok": true,
+   "lines": [
+    409,
+    409,
+    409,
+    540,
+    540,
+    573
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.18.1",
+   "ok": true,
+   "lines": [
+    410,
+    410,
+    410,
+    453,
+    454,
+    458
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.3",
+   "ok": true,
+   "lines": [
+    411,
+    2908,
+    2928,
+    3335,
+    4201
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §4.1",
+   "ok": true,
+   "lines": [
+    411,
+    914,
+    1136,
+    3011,
+    3149,
+    3282
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-11",
+   "ok": true,
+   "lines": [
+    411,
+    440,
+    700,
+    2907,
+    3006,
+    3092
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.11.1",
+   "ok": true,
+   "lines": [
+    412,
+    602,
+    1015,
+    2112,
+    2308
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.6",
+   "ok": true,
+   "lines": [
+    413,
+    1181
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-13",
+   "ok": true,
+   "lines": [
+    413,
+    780,
+    3414,
+    3793,
+    4223,
+    4285
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.5.1",
+   "ok": true,
+   "lines": [
+    414,
+    1036
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.19.2",
+   "ok": true,
+   "lines": [
+    415,
+    469,
+    470,
+    474,
+    683,
+    805
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.19.4",
+   "ok": true,
+   "lines": [
+    415,
+    417,
+    467,
+    469,
+    477,
+    477
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.19.5",
+   "ok": true,
+   "lines": [
+    415,
+    446,
+    467,
+    469,
+    476,
+    806
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.7",
+   "ok": true,
+   "lines": [
+    416,
+    2943,
+    3695
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.8",
+   "ok": true,
+   "lines": [
+    417,
+    418,
+    470,
+    484,
+    1327,
+    1469
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7.5",
+   "ok": true,
+   "lines": [
+    417,
+    486,
+    486,
+    486,
+    803,
+    834
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §4.2",
+   "ok": true,
+   "lines": [
+    417,
+    1969,
+    2855,
+    4215,
+    4430
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §3.16",
+   "ok": true,
+   "lines": [
+    418,
+    486,
+    809,
+    905,
+    913,
+    1308
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V5 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    418,
+    471,
+    486,
+    650,
+    809,
+    905
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.4",
+   "ok": true,
+   "lines": [
+    418,
+    808,
+    1697,
+    3786,
+    4070,
+    4130
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.9",
+   "ok": true,
+   "lines": [
+    419,
+    3700
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7.1",
+   "ok": true,
+   "lines": [
+    422,
+    873,
+    1044,
+    1408,
+    1541,
+    1580
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7.4",
+   "ok": true,
+   "lines": [
+    423,
+    792,
+    1545,
+    1580,
+    1589
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.10",
+   "ok": true,
+   "lines": [
+    426,
+    438,
+    2166,
+    2754,
+    2769,
+    4093
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.15.1",
+   "ok": true,
+   "lines": [
+    426,
+    1009,
+    3031,
+    4430
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V9 §4.10",
+   "ok": true,
+   "lines": [
+    426,
+    464,
+    465,
+    851,
+    2774,
+    3633
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V9 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    426,
+    464,
+    465,
+    467,
+    467,
+    851
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V08 §4.6",
+   "ok": true,
+   "lines": [
+    426,
+    464,
+    465,
+    851,
+    2776,
+    3633
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.19.3",
+   "ok": true,
+   "lines": [
+    426,
+    465,
+    466,
+    467,
+    467,
+    851
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-14",
+   "ok": true,
+   "lines": [
+    426,
+    581,
+    857,
+    2166,
+    2233,
+    3410
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.11",
+   "ok": true,
+   "lines": [
+    427,
+    428,
+    439,
+    978,
+    2107,
+    2195
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.15.2",
+   "ok": true,
+   "lines": [
+    428,
+    439,
+    459,
+    803,
+    894,
+    911
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§8.1",
+   "ok": true,
+   "lines": [
+    428,
+    2212,
+    3086,
+    3086
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.15.3",
+   "ok": true,
+   "lines": [
+    429,
+    2236,
+    2925
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §5.3",
+   "ok": true,
+   "lines": [
+    431,
+    929
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§11.1",
+   "ok": true,
+   "lines": [
+    431,
+    486,
+    913,
+    3131,
+    3141,
+    3144
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.2",
+   "ok": true,
+   "lines": [
+    432,
+    433,
+    461,
+    980,
+    1892,
+    1953
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.6",
+   "ok": true,
+   "lines": [
+    432,
+    608,
+    923,
+    925,
+    2952
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.8",
+   "ok": true,
+   "lines": [
+    433,
+    599,
+    3779
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §5.2",
+   "ok": true,
+   "lines": [
+    437,
+    871,
+    1480,
+    2185,
+    4430
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§9.6",
+   "ok": true,
+   "lines": [
+    437,
+    3105
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§10.4",
+   "ok": true,
+   "lines": [
+    437,
+    3105,
+    3121,
+    3122
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.7",
+   "ok": true,
+   "lines": [
+    438,
+    837
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-20",
+   "ok": true,
+   "lines": [
+    438,
+    438,
+    479,
+    860,
+    872,
+    958
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§1.1",
+   "ok": true,
+   "lines": [
+    444,
+    482,
+    537,
+    1123,
+    3610,
+    3661
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-52",
+   "ok": true,
+   "lines": [
+    446,
+    480,
+    593,
+    2403,
+    3364,
+    4274
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-17",
+   "ok": true,
+   "lines": [
+    446,
+    581,
+    587,
+    593,
+    2134,
+    3410
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.4",
+   "ok": true,
+   "lines": [
+    447,
+    480,
+    1377
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.12",
+   "ok": true,
+   "lines": [
+    451,
+    504,
+    1693,
+    1696,
+    1917,
+    4030
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V08 §3.5.1",
+   "ok": true,
+   "lines": [
+    451,
+    540,
+    1042,
+    1927,
+    1927,
+    1927
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.125",
+   "ok": true,
+   "lines": [
+    451,
+    1927,
+    3638,
+    4241,
+    4613,
+    4631
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.16",
+   "ok": true,
+   "lines": [
+    452,
+    1537,
+    4030
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §3.16",
+   "ok": true,
+   "lines": [
+    453,
+    568,
+    2362
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.5.7",
+   "ok": true,
+   "lines": [
+    453,
+    458,
+    2342,
+    2353,
+    2372,
+    2528
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.8",
+   "ok": true,
+   "lines": [
+    454,
+    2384
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.23.8",
+   "ok": true,
+   "lines": [
+    455,
+    2437,
+    2458,
+    2465,
+    2533,
+    3566
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.5.1",
+   "ok": true,
+   "lines": [
+    455,
+    2430,
+    2431,
+    2437,
+    2440,
+    4298
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V02 §3.14.5",
+   "ok": true,
+   "lines": [
+    458,
+    1947
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-7",
+   "ok": true,
+   "lines": [
+    461,
+    3319,
+    3392,
+    3450,
+    3469,
+    3471
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.98",
+   "ok": true,
+   "lines": [
+    462,
+    3415,
+    3529,
+    3611,
+    4224,
+    4283
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.27",
+   "ok": true,
+   "lines": [
+    464,
+    2627,
+    3635,
+    4108,
+    4547
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-25",
+   "ok": true,
+   "lines": [
+    464,
+    465,
+    465,
+    466,
+    474,
+    926
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.13",
+   "ok": true,
+   "lines": [
+    465,
+    466,
+    467,
+    2282,
+    2562,
+    2602
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V9 §4.3",
+   "ok": true,
+   "lines": [
+    467,
+    926,
+    2761,
+    2966
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V9 §4.20.3",
+   "ok": true,
+   "lines": [
+    467,
+    926,
+    2779,
+    2798,
+    2967,
+    2967
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.24.2",
+   "ok": true,
+   "lines": [
+    468,
+    2566,
+    2604,
+    2661,
+    3488,
+    4037
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.5",
+   "ok": false,
+   "lines": [
+    470,
+    1305,
+    2552,
+    3938,
+    4214,
+    4218
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.5.0",
+   "ok": true,
+   "lines": [
+    471
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.5.3",
+   "ok": true,
+   "lines": [
+    471,
+    1059,
+    2367,
+    2434
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §3.15",
+   "ok": true,
+   "lines": [
+    471,
+    2254,
+    4110,
+    4496,
+    4499,
+    4558
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V3-30",
+   "ok": true,
+   "lines": [
+    471,
+    933,
+    2845,
+    4212,
+    4328,
+    4432
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.24.4",
+   "ok": true,
+   "lines": [
+    476,
+    1622,
+    1650,
+    1651,
+    1754,
+    1785
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.11.2",
+   "ok": true,
+   "lines": [
+    478,
+    1790
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.3",
+   "ok": false,
+   "lines": [
+    478,
+    4219,
+    4292
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.4",
+   "ok": false,
+   "lines": [
+    478,
+    4357
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §2.2",
+   "ok": true,
+   "lines": [
+    482,
+    539,
+    4069,
+    4221,
+    4398,
+    4411
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V5-9",
+   "ok": true,
+   "lines": [
+    483,
+    1322
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "245",
+   "ok": true,
+   "lines": [
+    484,
+    486,
+    913,
+    931,
+    931,
+    931
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §2.12",
+   "ok": true,
+   "lines": [
+    485,
+    486,
+    983,
+    3152,
+    4347,
+    4361
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "246",
+   "ok": true,
+   "lines": [
+    485,
+    806,
+    932,
+    961,
+    2795,
+    2870
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7.2",
+   "ok": true,
+   "lines": [
+    486,
+    486,
+    790,
+    799,
+    913,
+    1038
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.7.3",
+   "ok": true,
+   "lines": [
+    486,
+    913,
+    1554,
+    2713,
+    3607
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-6",
+   "ok": true,
+   "lines": [
+    486,
+    487,
+    913,
+    3318,
+    3449,
+    3471
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "575",
+   "ok": true,
+   "lines": [
+    486,
+    486,
+    486,
+    799,
+    799,
+    803
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §8",
+   "ok": true,
+   "lines": [
+    487,
+    487,
+    679,
+    2321,
+    3156,
+    3630
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §1b",
+   "ok": true,
+   "lines": [
+    487
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.7.1",
+   "ok": true,
+   "lines": [
+    487,
+    3416,
+    3429,
+    4400
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §2.1",
+   "ok": true,
+   "lines": [
+    487,
+    3436,
+    3442,
+    3487,
+    4232,
+    4435
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-34",
+   "ok": true,
+   "lines": [
+    487,
+    2351,
+    3346,
+    3441,
+    3463,
+    3480
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-37",
+   "ok": true,
+   "lines": [
+    487,
+    2412,
+    3349,
+    3441,
+    3464,
+    3480
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V12-20",
+   "ok": true,
+   "lines": [
+    487,
+    683,
+    3420,
+    3445
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1-5.1.2",
+   "ok": true,
+   "lines": [
+    488,
+    906,
+    1221
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1-3.7.3",
+   "ok": true,
+   "lines": [
+    488,
+    846,
+    906,
+    1033,
+    1209,
+    1215
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "207",
+   "ok": true,
+   "lines": [
+    488,
+    488,
+    906,
+    906,
+    4108
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "research/sf/mapping.md",
+   "ok": true,
+   "lines": [
+    505,
+    1905
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.11",
+   "ok": true,
+   "lines": [
+    512
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.24.7",
+   "ok": true,
+   "lines": [
+    512,
+    2587,
+    2599,
+    2617,
+    2665,
+    2893
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.6",
+   "ok": false,
+   "lines": [
+    512,
+    4217,
+    4287
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V8.67",
+   "ok": true,
+   "lines": [
+    512
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.128",
+   "ok": true,
+   "lines": [
+    540,
+    542,
+    3671,
+    4576
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.129",
+   "ok": true,
+   "lines": [
+    542,
+    2271,
+    4586
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-A22.76",
+   "ok": true,
+   "lines": [
+    543,
+    2270
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V7-32",
+   "ok": true,
+   "lines": [
+    548,
+    1289,
+    1641,
+    4057,
+    4221
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §3.9",
+   "ok": true,
+   "lines": [
+    552
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V5-23",
+   "ok": true,
+   "lines": [
+    557,
+    1602,
+    3582,
+    4027,
+    4204
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.67",
+   "ok": true,
+   "lines": [
+    559,
+    1381,
+    3580
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §1b",
+   "ok": true,
+   "lines": [
+    564,
+    2897,
+    3338,
+    4206,
+    4206,
+    4207
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.30",
+   "ok": true,
+   "lines": [
+    600,
+    3543
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.3",
+   "ok": true,
+   "lines": [
+    601,
+    3516
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.19",
+   "ok": true,
+   "lines": [
+    602,
+    1110,
+    1989,
+    3532
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.9",
+   "ok": true,
+   "lines": [
+    609,
+    1849,
+    1994,
+    4131
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.1",
+   "ok": false,
+   "lines": [
+    620,
+    621,
+    622,
+    623,
+    624,
+    625
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.3",
+   "ok": false,
+   "lines": [
+    634,
+    635,
+    1510,
+    1531,
+    3323,
+    3623
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.7.4",
+   "ok": false,
+   "lines": [
+    637,
+    638,
+    639,
+    640,
+    641,
+    642
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.9.9",
+   "ok": true,
+   "lines": [
+    648,
+    3422,
+    3476,
+    3706,
+    4368,
+    4368
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §3.19",
+   "ok": true,
+   "lines": [
+    650,
+    3280
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V5-15",
+   "ok": true,
+   "lines": [
+    650,
+    1179
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.4",
+   "ok": false,
+   "lines": [
+    651
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.7",
+   "ok": false,
+   "lines": [
+    652,
+    3859
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §6.1",
+   "ok": true,
+   "lines": [
+    653,
+    2773,
+    3203,
+    3495,
+    4099,
+    4524
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.2",
+   "ok": false,
+   "lines": [
+    655,
+    733
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.12",
+   "ok": false,
+   "lines": [
+    657,
+    658,
+    659,
+    660,
+    2704,
+    3730
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.13",
+   "ok": false,
+   "lines": [
+    661
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.15.1",
+   "ok": false,
+   "lines": [
+    662
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.15.2",
+   "ok": false,
+   "lines": [
+    664
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.3.2",
+   "ok": false,
+   "lines": [
+    665,
+    3335,
+    4198,
+    4268
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §2.3",
+   "ok": true,
+   "lines": [
+    667,
+    1889,
+    3355,
+    3568,
+    4047
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.7.4",
+   "ok": true,
+   "lines": [
+    667,
+    1868,
+    1877,
+    1879,
+    1889,
+    1894
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.5.2",
+   "ok": true,
+   "lines": [
+    667,
+    1890
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.6",
+   "ok": false,
+   "lines": [
+    668
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18.1",
+   "ok": false,
+   "lines": [
+    669,
+    3982,
+    4196,
+    4219,
+    4221,
+    4274
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18.2",
+   "ok": false,
+   "lines": [
+    670,
+    3789,
+    4066,
+    4268,
+    4273,
+    4280
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.11.1",
+   "ok": false,
+   "lines": [
+    671,
+    3950
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §2.1",
+   "ok": true,
+   "lines": [
+    673,
+    4412
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.111",
+   "ok": true,
+   "lines": [
+    673,
+    3624,
+    3639,
+    4400,
+    4631
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.7.2",
+   "ok": true,
+   "lines": [
+    674
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.1",
+   "ok": true,
+   "lines": [
+    678,
+    2259,
+    4237,
+    4496,
+    4501,
+    4504
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.18",
+   "ok": true,
+   "lines": [
+    683,
+    2666,
+    2711,
+    2837,
+    4134,
+    4225
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.3.3",
+   "ok": true,
+   "lines": [
+    701,
+    2910
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.4",
+   "ok": true,
+   "lines": [
+    701,
+    803,
+    805,
+    807,
+    2230,
+    2856
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.3.4",
+   "ok": true,
+   "lines": [
+    714
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.2",
+   "ok": true,
+   "lines": [
+    721,
+    1109,
+    2921,
+    3515
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V08 §2.6a",
+   "ok": true,
+   "lines": [
+    746
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "research/sf/dossier-generation.md",
+   "ok": true,
+   "lines": [
+    756
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.10.1",
+   "ok": true,
+   "lines": [
+    768,
+    2504
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-21",
+   "ok": true,
+   "lines": [
+    768,
+    1936,
+    3413,
+    3862
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§2.2",
+   "ok": true,
+   "lines": [
+    799,
+    944,
+    1472,
+    2026,
+    3867,
+    4052
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.31",
+   "ok": true,
+   "lines": [
+    803,
+    1516,
+    1552,
+    2105,
+    3544,
+    3585
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.90",
+   "ok": true,
+   "lines": [
+    803,
+    1516,
+    2106,
+    3544,
+    3603,
+    4429
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V7-22",
+   "ok": true,
+   "lines": [
+    804
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "209",
+   "ok": true,
+   "lines": [
+    804,
+    804,
+    4223,
+    4247,
+    4247,
+    4257
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §3.19.1",
+   "ok": true,
+   "lines": [
+    805,
+    848,
+    953,
+    954,
+    956,
+    2287
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V01 §2.7",
+   "ok": true,
+   "lines": [
+    906,
+    1213,
+    4106
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.28",
+   "ok": true,
+   "lines": [
+    925,
+    2952,
+    2972,
+    3541
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "447",
+   "ok": true,
+   "lines": [
+    929,
+    930,
+    931,
+    3136,
+    3136,
+    3415
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "260",
+   "ok": true,
+   "lines": [
+    962,
+    962,
+    2816,
+    2816,
+    3899,
+    3899
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-1",
+   "ok": true,
+   "lines": [
+    987,
+    2549,
+    3308,
+    3313,
+    3384,
+    3410
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.1",
+   "ok": true,
+   "lines": [
+    990,
+    3514
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.97",
+   "ok": true,
+   "lines": [
+    995,
+    3610,
+    4268
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.66",
+   "ok": true,
+   "lines": [
+    1017,
+    1749,
+    2323,
+    2491,
+    3579
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.7",
+   "ok": true,
+   "lines": [
+    1019,
+    1294,
+    1466,
+    2045,
+    2621,
+    2731
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.1",
+   "ok": true,
+   "lines": [
+    1051,
+    4045
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.124",
+   "ok": true,
+   "lines": [
+    1051,
+    3637,
+    4612
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §4.2",
+   "ok": true,
+   "lines": [
+    1055,
+    3234,
+    3631,
+    4102,
+    4545,
+    4545
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §6.2",
+   "ok": true,
+   "lines": [
+    1055,
+    4089,
+    4109,
+    4179,
+    4196,
+    4234
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1-3.10.3",
+   "ok": true,
+   "lines": [
+    1055,
+    1055,
+    4086,
+    4234,
+    4433,
+    4443
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.1",
+   "ok": true,
+   "lines": [
+    1059,
+    2480
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1-3.17.3",
+   "ok": true,
+   "lines": [
+    1062
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5.11",
+   "ok": false,
+   "lines": [
+    1062
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.5.4",
+   "ok": true,
+   "lines": [
+    1066
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §8",
+   "ok": true,
+   "lines": [
+    1076
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.60",
+   "ok": true,
+   "lines": [
+    1078,
+    3573,
+    3818
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.2",
+   "ok": true,
+   "lines": [
+    1086
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.8",
+   "ok": true,
+   "lines": [
+    1094,
+    1682,
+    3521
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.82",
+   "ok": true,
+   "lines": [
+    1100,
+    2540,
+    3595
+   ]
+  },
+  {
+   "kind": "gitem",
+   "ref": "101",
+   "ok": true,
+   "lines": [
+    1115,
+    2559,
+    2700,
+    2787,
+    2902,
+    2915
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.5",
+   "ok": true,
+   "lines": [
+    1125,
+    2308,
+    3518
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.61",
+   "ok": true,
+   "lines": [
+    1125,
+    2308,
+    3518,
+    3574
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.29",
+   "ok": true,
+   "lines": [
+    1160,
+    3542
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V02 §3.14.1",
+   "ok": true,
+   "lines": [
+    1165
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-12",
+   "ok": true,
+   "lines": [
+    1188,
+    1194,
+    3324,
+    3414,
+    3477,
+    4239
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §2.1",
+   "ok": true,
+   "lines": [
+    1202
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V5-21",
+   "ok": true,
+   "lines": [
+    1202
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §2.1",
+   "ok": true,
+   "lines": [
+    1208
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V5.72",
+   "ok": true,
+   "lines": [
+    1208
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.121",
+   "ok": true,
+   "lines": [
+    1209,
+    3634,
+    4548
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.9",
+   "ok": true,
+   "lines": [
+    1251,
+    3522
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-23",
+   "ok": true,
+   "lines": [
+    1252,
+    3411,
+    3884
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.99",
+   "ok": true,
+   "lines": [
+    1307,
+    3612,
+    4271
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.108",
+   "ok": true,
+   "lines": [
+    1321,
+    3621,
+    4353,
+    4354
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §2.6",
+   "ok": true,
+   "lines": [
+    1322
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.5.1",
+   "ok": false,
+   "lines": [
+    1365,
+    3887,
+    4022,
+    4059
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "II.7.4",
+   "ok": true,
+   "lines": [
+    1375,
+    3964,
+    3967,
+    3970,
+    3972
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.17",
+   "ok": true,
+   "lines": [
+    1390,
+    3530,
+    3837
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§5.2",
+   "ok": true,
+   "lines": [
+    1397,
+    1448,
+    2301
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-19",
+   "ok": true,
+   "lines": [
+    1410,
+    3411,
+    3531,
+    3849
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.18",
+   "ok": true,
+   "lines": [
+    1413,
+    3531,
+    3849
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.112",
+   "ok": true,
+   "lines": [
+    1477,
+    1515,
+    3625,
+    4396,
+    4429
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.13",
+   "ok": true,
+   "lines": [
+    1489,
+    3526
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.115",
+   "ok": true,
+   "lines": [
+    1523,
+    3628,
+    4430,
+    4516
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.110",
+   "ok": true,
+   "lines": [
+    1525,
+    3623,
+    4397,
+    4429,
+    4490
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.16",
+   "ok": true,
+   "lines": [
+    1529,
+    3529,
+    3623
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.58",
+   "ok": true,
+   "lines": [
+    1547,
+    1590,
+    3571
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.59",
+   "ok": true,
+   "lines": [
+    1568,
+    3572
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.91",
+   "ok": true,
+   "lines": [
+    1577,
+    3604
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.114",
+   "ok": true,
+   "lines": [
+    1597,
+    3627,
+    4429,
+    4515
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.105",
+   "ok": true,
+   "lines": [
+    1697,
+    4070,
+    4401
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-A74.73",
+   "ok": true,
+   "lines": [
+    1699,
+    1919
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.24",
+   "ok": true,
+   "lines": [
+    1702,
+    3537
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.57",
+   "ok": true,
+   "lines": [
+    1710,
+    1916,
+    3570
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.25",
+   "ok": true,
+   "lines": [
+    1746,
+    3538
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.54",
+   "ok": true,
+   "lines": [
+    1746,
+    1865,
+    3538,
+    3567
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.68",
+   "ok": true,
+   "lines": [
+    1771,
+    2602,
+    3168,
+    3581
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.7.3",
+   "ok": true,
+   "lines": [
+    1783
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.23",
+   "ok": true,
+   "lines": [
+    1799,
+    3536
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.119",
+   "ok": true,
+   "lines": [
+    1800,
+    3632,
+    4456,
+    4611
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.123",
+   "ok": true,
+   "lines": [
+    1808,
+    3632,
+    3636,
+    4611
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §3.6",
+   "ok": true,
+   "lines": [
+    1809
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-14",
+   "ok": true,
+   "lines": [
+    1840,
+    3326
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.56",
+   "ok": true,
+   "lines": [
+    1846,
+    3569
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.55",
+   "ok": true,
+   "lines": [
+    1865,
+    3568,
+    4365
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.7.1",
+   "ok": true,
+   "lines": [
+    1868
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-41",
+   "ok": true,
+   "lines": [
+    1873,
+    3353
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-42",
+   "ok": true,
+   "lines": [
+    1882,
+    3354
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.113",
+   "ok": true,
+   "lines": [
+    1893,
+    3626,
+    4403,
+    4490
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §2.10",
+   "ok": true,
+   "lines": [
+    1895
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V11.14",
+   "ok": true,
+   "lines": [
+    1895,
+    3626
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §4.2",
+   "ok": true,
+   "lines": [
+    1897
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V08 §2.6",
+   "ok": true,
+   "lines": [
+    1906,
+    3298,
+    4363
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-44",
+   "ok": true,
+   "lines": [
+    1914,
+    3356,
+    3377,
+    4229
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V8.114",
+   "ok": true,
+   "lines": [
+    1927,
+    4241
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.17",
+   "ok": true,
+   "lines": [
+    1946,
+    4313,
+    4321,
+    4325,
+    4329
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §4.3",
+   "ok": true,
+   "lines": [
+    2033
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §2.3",
+   "ok": true,
+   "lines": [
+    2034,
+    2401,
+    3329
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "II.6",
+   "ok": true,
+   "lines": [
+    2034
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.34",
+   "ok": true,
+   "lines": [
+    2141,
+    3547
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.36",
+   "ok": true,
+   "lines": [
+    2187,
+    3549
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.15.5",
+   "ok": false,
+   "lines": [
+    2189,
+    3804,
+    4042,
+    4199,
+    4283
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §5.1",
+   "ok": true,
+   "lines": [
+    2216,
+    4429
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §1.1",
+   "ok": true,
+   "lines": [
+    2255,
+    3592,
+    4496,
+    4500
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1-3.3.6",
+   "ok": true,
+   "lines": [
+    2255,
+    4496,
+    4500
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V11-1",
+   "ok": true,
+   "lines": [
+    2259,
+    4239,
+    4496
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.14",
+   "ok": false,
+   "lines": [
+    2261,
+    3765,
+    4042
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§6.5",
+   "ok": true,
+   "lines": [
+    2277,
+    3314,
+    4294
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.84",
+   "ok": true,
+   "lines": [
+    2281,
+    2604,
+    3597
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.50",
+   "ok": true,
+   "lines": [
+    2323,
+    2379,
+    3563
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.53",
+   "ok": true,
+   "lines": [
+    2323,
+    2425,
+    2460,
+    3566,
+    4246
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.62",
+   "ok": true,
+   "lines": [
+    2323,
+    2495,
+    2512,
+    3575
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §2.6",
+   "ok": true,
+   "lines": [
+    2339,
+    4359
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-36",
+   "ok": true,
+   "lines": [
+    2352,
+    3348,
+    4203
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.51",
+   "ok": true,
+   "lines": [
+    2387,
+    3564
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.100",
+   "ok": true,
+   "lines": [
+    2397,
+    3613,
+    4274
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §3.5.0",
+   "ok": true,
+   "lines": [
+    2414,
+    4072,
+    4086,
+    4412,
+    4444
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §1b.2",
+   "ok": true,
+   "lines": [
+    2416,
+    4219
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.52",
+   "ok": true,
+   "lines": [
+    2425,
+    2445,
+    3565,
+    3597
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.64",
+   "ok": true,
+   "lines": [
+    2426,
+    2446,
+    2671,
+    3577
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.65",
+   "ok": true,
+   "lines": [
+    2426,
+    2469,
+    3578
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.23.8",
+   "ok": false,
+   "lines": [
+    2455,
+    3430,
+    4048,
+    4134
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.5.1",
+   "ok": true,
+   "lines": [
+    2484,
+    2485,
+    4356
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.63",
+   "ok": true,
+   "lines": [
+    2495,
+    2528,
+    3576,
+    3597,
+    4370
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.76",
+   "ok": true,
+   "lines": [
+    2495,
+    3589
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.77",
+   "ok": true,
+   "lines": [
+    2495,
+    3590
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §2.4",
+   "ok": true,
+   "lines": [
+    2497,
+    4398,
+    4401,
+    4411
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V11-13",
+   "ok": true,
+   "lines": [
+    2497,
+    4398
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-55",
+   "ok": true,
+   "lines": [
+    2506,
+    3367
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.95",
+   "ok": true,
+   "lines": [
+    2540,
+    2670,
+    2687,
+    3608,
+    4153
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.85",
+   "ok": true,
+   "lines": [
+    2612,
+    3598
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.92",
+   "ok": true,
+   "lines": [
+    2633,
+    2889,
+    3605
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-57",
+   "ok": true,
+   "lines": [
+    2649,
+    3369,
+    3508,
+    4547
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.19.1",
+   "ok": true,
+   "lines": [
+    2665
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.20.3",
+   "ok": true,
+   "lines": [
+    2665
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.86",
+   "ok": true,
+   "lines": [
+    2670,
+    3599
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.7.4",
+   "ok": true,
+   "lines": [
+    2690
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.87",
+   "ok": true,
+   "lines": [
+    2699,
+    3600,
+    3924
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.94",
+   "ok": true,
+   "lines": [
+    2699,
+    3607,
+    4153
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.19.1",
+   "ok": false,
+   "lines": [
+    2749,
+    2783,
+    4216,
+    4357
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.83",
+   "ok": true,
+   "lines": [
+    2756,
+    3596,
+    3890
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.116",
+   "ok": true,
+   "lines": [
+    2800,
+    3629,
+    4434
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.88",
+   "ok": true,
+   "lines": [
+    2819,
+    3601
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §3.5.5",
+   "ok": true,
+   "lines": [
+    2825,
+    4208
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-3",
+   "ok": true,
+   "lines": [
+    2828,
+    2991,
+    3315
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.101",
+   "ok": true,
+   "lines": [
+    2847,
+    3614,
+    4270
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.89",
+   "ok": true,
+   "lines": [
+    2859,
+    3602,
+    3924
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§7.2",
+   "ok": true,
+   "lines": [
+    2901,
+    2955
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V1.36",
+   "ok": true,
+   "lines": [
+    2912,
+    3615,
+    4159
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.102",
+   "ok": true,
+   "lines": [
+    2912,
+    3615,
+    4159,
+    4288
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §4",
+   "ok": true,
+   "lines": [
+    2960
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-22",
+   "ok": true,
+   "lines": [
+    3013,
+    3334,
+    4283,
+    4614
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.37",
+   "ok": true,
+   "lines": [
+    3023,
+    3515,
+    3550
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-53",
+   "ok": true,
+   "lines": [
+    3034,
+    3365
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §5",
+   "ok": true,
+   "lines": [
+    3075,
+    3076
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§8.10",
+   "ok": true,
+   "lines": [
+    3081
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-15",
+   "ok": true,
+   "lines": [
+    3084,
+    3106,
+    3415,
+    3806,
+    4281
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V5-18",
+   "ok": true,
+   "lines": [
+    3089
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-26",
+   "ok": true,
+   "lines": [
+    3120,
+    3338,
+    4118,
+    4277,
+    4576,
+    4577
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-21",
+   "ok": true,
+   "lines": [
+    3130,
+    3333,
+    3415
+   ]
+  },
+  {
+   "kind": "D",
+   "ref": "D-18",
+   "ok": true,
+   "lines": [
+    3158,
+    3257,
+    3258,
+    3336,
+    3631,
+    4180
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V04 §6",
+   "ok": true,
+   "lines": [
+    3163,
+    3164,
+    3205,
+    3206,
+    3207
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1-6",
+   "ok": true,
+   "lines": [
+    3203,
+    3203,
+    3203,
+    3218,
+    4086,
+    4105
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V01 §6",
+   "ok": true,
+   "lines": [
+    3208
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V5.81",
+   "ok": true,
+   "lines": [
+    3220,
+    3631,
+    4240
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§12.5",
+   "ok": true,
+   "lines": [
+    3225,
+    4107
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§15.2",
+   "ok": true,
+   "lines": [
+    3238,
+    4107
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V6-22",
+   "ok": true,
+   "lines": [
+    3263,
+    3875,
+    4545
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V5.42",
+   "ok": true,
+   "lines": [
+    3281
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§12.7",
+   "ok": true,
+   "lines": [
+    3286
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.1",
+   "ok": true,
+   "lines": [
+    3291
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.3",
+   "ok": true,
+   "lines": [
+    3293,
+    3384
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.4",
+   "ok": true,
+   "lines": [
+    3293,
+    3333
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.8",
+   "ok": true,
+   "lines": [
+    3293,
+    3309
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-2",
+   "ok": true,
+   "lines": [
+    3314
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-4",
+   "ok": true,
+   "lines": [
+    3316,
+    3520
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-5",
+   "ok": true,
+   "lines": [
+    3317,
+    3411,
+    3416
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-8",
+   "ok": true,
+   "lines": [
+    3320,
+    3437,
+    3451,
+    3469
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-9",
+   "ok": true,
+   "lines": [
+    3321,
+    3412,
+    3456,
+    3475,
+    3475
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-10",
+   "ok": true,
+   "lines": [
+    3322,
+    3457,
+    3475,
+    3639
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.6",
+   "ok": true,
+   "lines": [
+    3325,
+    4369
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-13",
+   "ok": true,
+   "lines": [
+    3325,
+    3413,
+    3458,
+    3476,
+    3476,
+    4369
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-15",
+   "ok": true,
+   "lines": [
+    3327
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-16",
+   "ok": true,
+   "lines": [
+    3328,
+    3460,
+    3478
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-17",
+   "ok": true,
+   "lines": [
+    3329,
+    4292
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-18",
+   "ok": true,
+   "lines": [
+    3330,
+    3461,
+    3479
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-19",
+   "ok": true,
+   "lines": [
+    3331
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T67-2",
+   "ok": true,
+   "lines": [
+    3331
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-20",
+   "ok": true,
+   "lines": [
+    3332
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-23",
+   "ok": true,
+   "lines": [
+    3335,
+    4161,
+    4283,
+    4288
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-24",
+   "ok": true,
+   "lines": [
+    3336,
+    3409
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-25",
+   "ok": true,
+   "lines": [
+    3337
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-27",
+   "ok": true,
+   "lines": [
+    3339,
+    3500
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-28",
+   "ok": true,
+   "lines": [
+    3340,
+    3452,
+    3472
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-29",
+   "ok": true,
+   "lines": [
+    3341
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-30",
+   "ok": true,
+   "lines": [
+    3342
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-31",
+   "ok": true,
+   "lines": [
+    3343,
+    3453,
+    3470
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-32",
+   "ok": true,
+   "lines": [
+    3344,
+    3454,
+    3472
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-33",
+   "ok": true,
+   "lines": [
+    3345,
+    3417
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-35",
+   "ok": true,
+   "lines": [
+    3347
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-38",
+   "ok": true,
+   "lines": [
+    3350,
+    4203
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-39",
+   "ok": true,
+   "lines": [
+    3351
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-40",
+   "ok": true,
+   "lines": [
+    3352,
+    3465,
+    3481,
+    4203
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-46",
+   "ok": true,
+   "lines": [
+    3358
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-47",
+   "ok": true,
+   "lines": [
+    3359
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-48",
+   "ok": true,
+   "lines": [
+    3360
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-49",
+   "ok": true,
+   "lines": [
+    3361
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-50",
+   "ok": true,
+   "lines": [
+    3362
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-54",
+   "ok": true,
+   "lines": [
+    3366,
+    3462,
+    3478
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-56",
+   "ok": true,
+   "lines": [
+    3368
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-59",
+   "ok": true,
+   "lines": [
+    3371
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-60",
+   "ok": true,
+   "lines": [
+    3372
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-61",
+   "ok": true,
+   "lines": [
+    3373,
+    4398,
+    4490
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-62",
+   "ok": true,
+   "lines": [
+    3374,
+    3374,
+    3455,
+    3474,
+    4243,
+    4270
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-63",
+   "ok": true,
+   "lines": [
+    3375,
+    4272,
+    4362,
+    4434
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-64",
+   "ok": true,
+   "lines": [
+    3376
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.7.8",
+   "ok": true,
+   "lines": [
+    3377,
+    3377,
+    4061,
+    4367
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §2.13",
+   "ok": true,
+   "lines": [
+    3377,
+    4061
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.24.0",
+   "ok": true,
+   "lines": [
+    3377
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-65",
+   "ok": true,
+   "lines": [
+    3377,
+    3492,
+    4213,
+    4329,
+    4367,
+    4466
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-66",
+   "ok": true,
+   "lines": [
+    3378,
+    4225,
+    4271,
+    4353,
+    4354
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-67",
+   "ok": true,
+   "lines": [
+    3379,
+    4275
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-68",
+   "ok": true,
+   "lines": [
+    3380,
+    4278
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V6-69",
+   "ok": true,
+   "lines": [
+    3381,
+    4280
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T67-5",
+   "ok": true,
+   "lines": [
+    3384
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.7",
+   "ok": true,
+   "lines": [
+    3395
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §11",
+   "ok": true,
+   "lines": [
+    3405,
+    4372
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.9",
+   "ok": true,
+   "lines": [
+    3416
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.11",
+   "ok": true,
+   "lines": [
+    3420,
+    3423,
+    3427,
+    3472,
+    3473,
+    3474
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24",
+   "ok": false,
+   "lines": [
+    3430
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §2.8",
+   "ok": true,
+   "lines": [
+    3431,
+    4243
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.126",
+   "ok": true,
+   "lines": [
+    3431,
+    3639,
+    4243,
+    4631
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §5.5",
+   "ok": true,
+   "lines": [
+    3432,
+    3498
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.117",
+   "ok": true,
+   "lines": [
+    3435,
+    3630,
+    4435,
+    4519
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §7",
+   "ok": true,
+   "lines": [
+    3439,
+    3442,
+    3475,
+    4137,
+    4203
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.24.1",
+   "ok": true,
+   "lines": [
+    3455
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §4.2",
+   "ok": true,
+   "lines": [
+    3474
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V11 §3.3.5",
+   "ok": true,
+   "lines": [
+    3477
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V12.65",
+   "ok": true,
+   "lines": [
+    3487,
+    4089,
+    4232,
+    4435
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V12.66",
+   "ok": true,
+   "lines": [
+    3487,
+    4089,
+    4232,
+    4435
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §6.5",
+   "ok": true,
+   "lines": [
+    3496
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.6",
+   "ok": true,
+   "lines": [
+    3519
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.10",
+   "ok": true,
+   "lines": [
+    3523
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.11",
+   "ok": true,
+   "lines": [
+    3524
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.12",
+   "ok": true,
+   "lines": [
+    3525
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.14",
+   "ok": true,
+   "lines": [
+    3527
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.15",
+   "ok": true,
+   "lines": [
+    3528
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.20",
+   "ok": true,
+   "lines": [
+    3533
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.21",
+   "ok": true,
+   "lines": [
+    3534
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.22",
+   "ok": true,
+   "lines": [
+    3535
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.26",
+   "ok": true,
+   "lines": [
+    3539
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.27",
+   "ok": true,
+   "lines": [
+    3540,
+    3862
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.32",
+   "ok": true,
+   "lines": [
+    3545
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.33",
+   "ok": true,
+   "lines": [
+    3546
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.35",
+   "ok": true,
+   "lines": [
+    3548
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.38",
+   "ok": true,
+   "lines": [
+    3551
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.39",
+   "ok": true,
+   "lines": [
+    3552
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.40",
+   "ok": true,
+   "lines": [
+    3553
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.41",
+   "ok": true,
+   "lines": [
+    3554
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.42",
+   "ok": true,
+   "lines": [
+    3555
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.43",
+   "ok": true,
+   "lines": [
+    3556
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.44",
+   "ok": true,
+   "lines": [
+    3557
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.45",
+   "ok": true,
+   "lines": [
+    3558
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.46",
+   "ok": true,
+   "lines": [
+    3559
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.47",
+   "ok": true,
+   "lines": [
+    3560
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.48",
+   "ok": true,
+   "lines": [
+    3561
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.49",
+   "ok": true,
+   "lines": [
+    3562
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.6",
+   "ok": true,
+   "lines": [
+    3566,
+    4195
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.69",
+   "ok": true,
+   "lines": [
+    3582
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.70",
+   "ok": true,
+   "lines": [
+    3583
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.71",
+   "ok": true,
+   "lines": [
+    3584,
+    3854
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.72",
+   "ok": true,
+   "lines": [
+    3585
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.73",
+   "ok": true,
+   "lines": [
+    3586
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.74",
+   "ok": true,
+   "lines": [
+    3587
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.75",
+   "ok": true,
+   "lines": [
+    3588
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.78",
+   "ok": true,
+   "lines": [
+    3591
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V11.80",
+   "ok": true,
+   "lines": [
+    3592,
+    4237,
+    4501
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.80",
+   "ok": true,
+   "lines": [
+    3593
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.81",
+   "ok": true,
+   "lines": [
+    3594
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.93",
+   "ok": true,
+   "lines": [
+    3606,
+    3925,
+    4153
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.96",
+   "ok": true,
+   "lines": [
+    3609
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.103",
+   "ok": true,
+   "lines": [
+    3616,
+    4276
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.104",
+   "ok": true,
+   "lines": [
+    3617,
+    4275
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.105",
+   "ok": true,
+   "lines": [
+    3618,
+    4272
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.106",
+   "ok": true,
+   "lines": [
+    3619,
+    4282
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.109",
+   "ok": true,
+   "lines": [
+    3622,
+    3959,
+    4066,
+    4355
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "319",
+   "ok": true,
+   "lines": [
+    3622,
+    3622,
+    3959,
+    3959,
+    4227,
+    4227
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V9.113",
+   "ok": true,
+   "lines": [
+    3633,
+    4095,
+    4527
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V6.122",
+   "ok": true,
+   "lines": [
+    3635,
+    4547
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V8.113",
+   "ok": true,
+   "lines": [
+    3638,
+    4241
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.130",
+   "ok": true,
+   "lines": [
+    3671
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.3.5",
+   "ok": false,
+   "lines": [
+    3756
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§4.1",
+   "ok": true,
+   "lines": [
+    3779,
+    4200,
+    4288,
+    4331
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "336",
+   "ok": true,
+   "lines": [
+    3847,
+    3847,
+    4083,
+    4236,
+    4431,
+    4431
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-A28.45",
+   "ok": true,
+   "lines": [
+    3886,
+    3888
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "574",
+   "ok": true,
+   "lines": [
+    3960,
+    3960,
+    4061,
+    4061,
+    4228,
+    4256
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-A12.47",
+   "ok": true,
+   "lines": [
+    3971,
+    3976
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/ARCHITECTURE.md",
+   "ok": true,
+   "lines": [
+    3982,
+    4007,
+    4062
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §10",
+   "ok": true,
+   "lines": [
+    4006,
+    4223,
+    4228
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §1.2",
+   "ok": true,
+   "lines": [
+    4008,
+    4360
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rv6/bcrcheck.out",
+   "ok": false,
+   "lines": [
+    4008
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5.7",
+   "ok": false,
+   "lines": [
+    4023
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V4 §8",
+   "ok": true,
+   "lines": [
+    4034
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V1 §11",
+   "ok": true,
+   "lines": [
+    4035
+   ]
+  },
+  {
+   "kind": "style",
+   "ref": "V1 (non-V0n prefix)",
+   "ok": false,
+   "lines": [
+    4035
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V02 §3.15",
+   "ok": true,
+   "lines": [
+    4036
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V02 §3.17",
+   "ok": true,
+   "lines": [
+    4036
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §13",
+   "ok": true,
+   "lines": [
+    4038
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.5.0",
+   "ok": false,
+   "lines": [
+    4045,
+    4219
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V08 §3.6",
+   "ok": true,
+   "lines": [
+    4047,
+    4199
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.2",
+   "ok": false,
+   "lines": [
+    4048,
+    4048,
+    4134,
+    4287
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.3",
+   "ok": false,
+   "lines": [
+    4048,
+    4287
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.4",
+   "ok": false,
+   "lines": [
+    4048,
+    4061,
+    4134,
+    4214
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.7",
+   "ok": false,
+   "lines": [
+    4049,
+    4134
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.18.3",
+   "ok": false,
+   "lines": [
+    4066,
+    4195,
+    4370,
+    4398
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §2.5",
+   "ok": true,
+   "lines": [
+    4073,
+    4412
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.2.2",
+   "ok": false,
+   "lines": [
+    4073
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.4.2",
+   "ok": false,
+   "lines": [
+    4074
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V09 §4.20.3",
+   "ok": true,
+   "lines": [
+    4088,
+    4444
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V9 §1b",
+   "ok": true,
+   "lines": [
+    4094,
+    4527
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V9-69",
+   "ok": true,
+   "lines": [
+    4095,
+    4238
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V8-45",
+   "ok": true,
+   "lines": [
+    4095,
+    4528
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §3.10",
+   "ok": true,
+   "lines": [
+    4102
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.1",
+   "ok": false,
+   "lines": [
+    4118
+   ]
+  },
+  {
+   "kind": "ownbare",
+   "ref": "§3.9.9",
+   "ok": false,
+   "lines": [
+    4130
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§13.6",
+   "ok": true,
+   "lines": [
+    4141
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §12",
+   "ok": true,
+   "lines": [
+    4149,
+    4375,
+    4411,
+    4442,
+    4473,
+    4557
+   ]
+  },
+  {
+   "kind": "base",
+   "ref": "§3.24.1",
+   "ok": false,
+   "lines": [
+    4214
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V4-73",
+   "ok": true,
+   "lines": [
+    4227
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "V04 BCR-6",
+   "ok": true,
+   "lines": [
+    4227
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V5.11",
+   "ok": true,
+   "lines": [
+    4235
+   ]
+  },
+  {
+   "kind": "T",
+   "ref": "T-V5-14",
+   "ok": true,
+   "lines": [
+    4235
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §4.2",
+   "ok": true,
+   "lines": [
+    4240,
+    4551,
+    4558
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V10.108",
+   "ok": true,
+   "lines": [
+    4242
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "317",
+   "ok": true,
+   "lines": [
+    4248
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "322",
+   "ok": true,
+   "lines": [
+    4248
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "573",
+   "ok": true,
+   "lines": [
+    4255
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "268",
+   "ok": true,
+   "lines": [
+    4256
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.5",
+   "ok": true,
+   "lines": [
+    4259,
+    4315
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "docs/volumes/_integrate.md",
+   "ok": true,
+   "lines": [
+    4310
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V2-40",
+   "ok": true,
+   "lines": [
+    4317
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V5 §2.3b",
+   "ok": true,
+   "lines": [
+    4324
+   ]
+  },
+  {
+   "kind": "BCR",
+   "ref": "BCR-V3-29",
+   "ok": true,
+   "lines": [
+    4326
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.12",
+   "ok": true,
+   "lines": [
+    4331
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.2",
+   "ok": true,
+   "lines": [
+    4333
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.14",
+   "ok": true,
+   "lines": [
+    4333
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-VI.13",
+   "ok": true,
+   "lines": [
+    4333
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.7",
+   "ok": true,
+   "lines": [
+    4366
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V05 §2.6",
+   "ok": true,
+   "lines": [
+    4411
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V12 §3.4.2",
+   "ok": true,
+   "lines": [
+    4412
+   ]
+  },
+  {
+   "kind": "vol",
+   "ref": "V07 §1",
+   "ok": true,
+   "lines": [
+    4456
+   ]
+  },
+  {
+   "kind": "fitem",
+   "ref": "342",
+   "ok": true,
+   "lines": [
+    4505,
+    4505
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §6.3",
+   "ok": true,
+   "lines": [
+    4545
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV7r5/V06-pre.md",
+   "ok": false,
+   "lines": [
+    4570
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.125",
+   "ok": true,
+   "lines": [
+    4571
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.126",
+   "ok": true,
+   "lines": [
+    4571
+   ]
+  },
+  {
+   "kind": "own",
+   "ref": "V6 §1",
+   "ok": true,
+   "lines": [
+    4576
+   ]
+  },
+  {
+   "kind": "file",
+   "ref": "scratchpad/volumes/rcV7r6/V06-pre-r6.md",
+   "ok": false,
+   "lines": [
+    4585
+   ]
+  },
+  {
+   "kind": "J",
+   "ref": "J-V7.132",
+   "ok": true,
+   "lines": [
+    4586
+   ]
+  }
+ ]
+}

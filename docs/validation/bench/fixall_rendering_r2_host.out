@@ -1,0 +1,10 @@
+# fixall/draft-rendering-r2 (2026-09-25): the reference host, read on the capture machine (N-27 b)
+date: 2026-09-25 20:34
+hw.model: MacBookAir10,1
+cpu: Apple M1
+hw.ncpu: 8 (perflevel0 4 + perflevel1 4)
+hw.memsize: 17179869184 bytes
+os: macOS 14.7.8 (23H730)
+chrome (installed today): 153.0.8010.54
+node: v24.12.0
+capture record captures/mfcg/2026-09-21T11-25-32/meta.json host: {'platform': 'darwin', 'arch': 'arm64', 'cpus': 8, 'cpu': 'Apple M1', 'node': 'v24.12.0'} chrome= None

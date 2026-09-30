@@ -1,0 +1,5 @@
+segments p50 7.9 m
+attracted share 0.0638
+attraction displacement p50 12.9 cm p90 23.5 cm max 26.0 cm
+splitThrough off-edge p50 0.23 p90 0.46 max 0.70 cm
+min resulting edge length 25.6 cm (minEdge 25)

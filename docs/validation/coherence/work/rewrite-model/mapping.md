@@ -1,0 +1,611 @@
+| inventory id | kind | old section | disposition |
+|---|---|---|---|
+| MODEL-0001 | rule | §2 (plain words) | stated at §2 (plain words) |
+| MODEL-0002 | rule | §2 (plain words) | stated at §2 (plain words) |
+| MODEL-0003 | rule | §2 (plain words) | stated at §2 (plain words) |
+| MODEL-0004 | rule | §2.1 | stated at §2.1 |
+| MODEL-0005 | rule | §2.1 | reference → §3.2 (5), (6) (pointer kept in §2.1 Units) |
+| MODEL-0006 | rule | §2.1 | stated at §2.1 |
+| MODEL-0007 | rule | §2.1 | stated at §2.1 |
+| MODEL-0008 | field | §2.1 | stated at §2.1 |
+| MODEL-0009 | rule | §2.1 | stated at §2.1 |
+| MODEL-0010 | rule | §2.1 | stated at §2.1 |
+| MODEL-0011 | rule | §2.1 | stated once at §2.1 Layers (cluster 002; §2.7 cites §2.1) |
+| MODEL-0012 | term | §2.1 | glossary term, stated at §2.1 |
+| MODEL-0013 | type | §2.1 | stated at §2.1 |
+| MODEL-0014 | rule | §2.1 | reference → §6.3 (pointer in §2.1 Ids) |
+| MODEL-0015 | rule | §2.1 | stated at §2.1 |
+| MODEL-0016 | rule | §2.1 | stated at §2.1 |
+| MODEL-0017 | rule | §2.1 | reference → II.7 (compact pointer in §2.1 Arena parts) |
+| MODEL-0018 | rule | §2.1 | stated once at §2.1 Arena parts (cluster 001; all other places cite §2.1) |
+| MODEL-0019 | rule | §2.1 | reference → §7.3 item 9 (d), II.7.4 (pointer in §2.1 Arena parts) |
+| MODEL-0020 | rule | §2.1 | stated at §2.1 |
+| MODEL-0021 | rule | §2.1 | stated at §2.1 |
+| MODEL-0022 | type | §2.2 | stated at §2.2 |
+| MODEL-0023 | type | §2.2 | stated at §2.2 |
+| MODEL-0024 | type | §2.2 | stated at §2.2 |
+| MODEL-0025 | type | §2.2 | home kept at §2.2 (canon reference not applied: §3 cites §2.2 rule 5 for slots; kept) |
+| MODEL-0026 | interface | §2.2 | stated at §2.2 |
+| MODEL-0027 | field | §2.2 | home kept at §2.2 (canon reference not applied: only §2.2 states it (Plat.frame comment)) |
+| MODEL-0028 | field | §2.2 | home kept at §2.2 (canon reference not applied: LatticeSpec declared here; §3.2 cites it) |
+| MODEL-0029 | field | §2.2 | stated at §2.2 |
+| MODEL-0030 | rule | §2.2 | home kept at §2.2 (canon reference not applied: §3.4 pinVertices cites §2.2 rule 3 (b) as the release rule) |
+| MODEL-0031 | field | §2.2 | stated at §2.2 |
+| MODEL-0032 | field | §2.2 | stated at §2.2 |
+| MODEL-0033 | field | §2.2 | stated at §2.2 |
+| MODEL-0034 | interface | §2.2 | stated at §2.2 |
+| MODEL-0035 | interface | §2.2 | stated at §2.2 |
+| MODEL-0036 | mechanism | §2.2 | home kept at §2.2 (canon reference not applied: the hash tables are declared only here (J-K22)) |
+| MODEL-0037 | interface | §2.2 | stated at §2.2 |
+| MODEL-0038 | interface | §2.2 | home kept at §2.2 (canon reference not applied: LevelIndex declared here; §3.3 states its use) |
+| MODEL-0039 | type | §2.2 | stated at §2.2 |
+| MODEL-0040 | type | §2.2 | stated at §2.2 |
+| MODEL-0041 | type | §2.2 | stated at §2.2 |
+| MODEL-0042 | interface | §2.2 | stated at §2.2 |
+| MODEL-0043 | interface | §2.2 | stated at §2.2 |
+| MODEL-0044 | rule | §2.2 | stated at §2.2 |
+| MODEL-0045 | rule | §2.2 | stated at §2.2 |
+| MODEL-0046 | rule | §2.2 | stated at §2.2 |
+| MODEL-0047 | rule | §2.2 | reference → §4.1's S1 row (pointer in §2.2 rule 1 L0) |
+| MODEL-0048 | rule | §2.2 | stated at §2.2 |
+| MODEL-0049 | rule | §2.2 | reference → §4.1's S3 row (pointer in §2.2 rule 1 L1) |
+| MODEL-0050 | rule | §2.2 | stated at §2.2 |
+| MODEL-0051 | rule | §2.2 | stated at §2.2 |
+| MODEL-0052 | rule | §2.2 | stated at §2.2 |
+| MODEL-0053 | rule | §2.2 | stated at §2.2 |
+| MODEL-0054 | rule | §2.2 | stated at §2.2 |
+| MODEL-0055 | rule | §2.2 | stated at §2.2 |
+| MODEL-0056 | rule | §2.2 | stated at §2.2 |
+| MODEL-0057 | rule | §2.2 | reference → II.7.2 (L0–L2) and II.7.3 (L3–L4, U1–U3) for what the stage writes; the level mapping line kept in §2.2 rule 1 (II.7.2 names §2.2 rule 1 as the mapping home) |
+| MODEL-0058 | rule | §2.2 | stated at §2.2 |
+| MODEL-0059 | rule | §2.2 | home kept at §2.2 (canon reference not applied: II.7.6 does not state the further parts' level mapping) |
+| MODEL-0060 | rule | §2.2 | stated at §2.2 |
+| MODEL-0061 | rule | §2.2 | stated at §2.2 |
+| MODEL-0062 | step | §2.2 | home kept at §2.2 (canon reference not applied: only §2.2 states the face walk) |
+| MODEL-0063 | rule | §2.2 | stated at §2.2 |
+| MODEL-0064 | rule | §2.2 | stated at §2.2 |
+| MODEL-0065 | rule | §2.2 | stated at §2.2 |
+| MODEL-0066 | rule | §2.2 | stated at §2.2 |
+| MODEL-0067 | mechanism | §2.2 | home kept at §2.2 (canon reference not applied: splitThrough's effect on the level model; §3.6 states placement only) |
+| MODEL-0068 | rule | §2.2 | stated at §2.2 |
+| MODEL-0069 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0070 | rule | §2.2 | stated at §2.2 |
+| MODEL-0071 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0072 | rule | §2.2 | home kept at §2.2 (canon reference not applied: only §2.2 states it) |
+| MODEL-0073 | rule | §2.2 | reference → §3.3's clear-region rules (pointer in §2.2 rule 3) |
+| MODEL-0074 | rule | §2.2 | stated at §2.2 |
+| MODEL-0075 | mechanism | §2.2 | home kept at §2.2 (canon reference not applied: §3.4 removeEdges cites "dissolves by §2.2 rule 3") |
+| MODEL-0076 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0077 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0078 | step | §2.2 | stated at §2.2 |
+| MODEL-0079 | step | §2.2 | stated at §2.2 |
+| MODEL-0080 | rule | §2.2 | stated at §2.2 |
+| MODEL-0081 | step | §2.2 | stated at §2.2 |
+| MODEL-0082 | rule | §2.2 | stated at §2.2 |
+| MODEL-0083 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0084 | test | §2.2 | home kept at §2.2 (canon reference not applied: the bar is stated only here) |
+| MODEL-0085 | rule | §2.2 | stated at §2.2 |
+| MODEL-0086 | rule | §2.2 | home kept at §2.2 (canon reference not applied: first clause referenced (§3.3 "No item changes in place"); the rest only here) |
+| MODEL-0087 | rule | §2.2 | home kept at §2.2 (canon reference not applied: rule 4 is a §2.2 rule; its mechanics referenced to §3.4, §3.6) |
+| MODEL-0088 | rule | §2.2 | home kept at §2.2 (canon reference not applied: the owner inheritance clause only here) |
+| MODEL-0089 | rule | §2.2 | stated at §2.2 |
+| MODEL-0090 | rule | §2.2 | stated at §2.2 |
+| MODEL-0091 | rule | §2.2 | stated at §2.2 |
+| MODEL-0092 | rule | §2.2 | stated at §2.2 |
+| MODEL-0093 | rule | §2.2 | stated at §2.2 |
+| MODEL-0094 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0095 | rule | §2.2 | stated at §2.2 |
+| MODEL-0096 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0097 | rule | §2.2 | stated at §2.2 |
+| MODEL-0098 | rule | §2.2 | stated at §2.2 |
+| MODEL-0099 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0100 | test | §2.2 | home kept at §2.2 (canon reference not applied: the bar is stated only here) |
+| MODEL-0101 | rule | §2.2 | stated at §2.2 |
+| MODEL-0102 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0103 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0104 | step | §2.2 | home kept at §2.2 (canon reference not applied: resolveVertexAt's binding order stated only here (§3.4 declares the signature)) |
+| MODEL-0105 | step | §2.2 | stated at §2.2 |
+| MODEL-0106 | rule | §2.2 | stated at §2.2 |
+| MODEL-0107 | rule | §2.2 | stated at §2.2 |
+| MODEL-0108 | table | §2.2 | stated at §2.2 |
+| MODEL-0109 | table | §2.2 | stated at §2.2 |
+| MODEL-0110 | table | §2.2 | stated at §2.2 |
+| MODEL-0111 | table | §2.2 | stated at §2.2 |
+| MODEL-0112 | rule | §2.2 | stated at §2.2 |
+| MODEL-0113 | rule | §2.2 | stated at §2.2 |
+| MODEL-0114 | rule | §2.2 | stated at §2.2 |
+| MODEL-0115 | rule | §2.2 | stated at §2.2 |
+| MODEL-0116 | mechanism | §2.2 | stated at §2.2 |
+| MODEL-0117 | rule | §2.2 | stated at §2.2 |
+| MODEL-0118 | rule | §2.2 | stated at §2.2 |
+| MODEL-0119 | rule | §2.2 | home kept at §2.2 (canon reference not applied: rule 8 is a §2.2 rule citing §3.3, §3.10) |
+| MODEL-0120 | number | §2.2 | stated at §2.2 |
+| MODEL-0121 | number | §2.2 | home kept at §2.2 (canon reference not applied: 38.4 B/item referenced to §3.3; the finished-CITY count and 19.5–21 MB only here) |
+| MODEL-0122 | number | §2.2 | stated at §2.2 |
+| MODEL-0123 | number | §2.2 | home kept at §2.2 (canon reference not applied: Map rebuild costs only here) |
+| MODEL-0124 | interface | §2.3 | stated at §2.3 |
+| MODEL-0125 | field | §2.3 | stated at §2.3 |
+| MODEL-0126 | field | §2.3 | stated at §2.3 |
+| MODEL-0127 | interface | §2.3 | stated at §2.3 |
+| MODEL-0128 | interface | §2.3 | stated at §2.3 |
+| MODEL-0129 | interface | §2.3 | stated at §2.3 |
+| MODEL-0130 | table | §2.3 | stated at §2.3 |
+| MODEL-0131 | rule | §2.3 | stated at §2.3 |
+| MODEL-0132 | rule | §2.3 | stated at §2.3 |
+| MODEL-0133 | rule | §2.3 | stated at §2.3 |
+| MODEL-0134 | rule | §2.3 | stated at §2.3 |
+| MODEL-0135 | mechanism | §2.3 | stated at §2.3 |
+| MODEL-0136 | number | §2.3 | home kept at §2.3 (canon reference not applied: CITY timing is also §12.4's; the METROPOLIS, TOWN and frame-only timings only here) |
+| MODEL-0137 | rule | §2.3 | stated at §2.3 |
+| MODEL-0138 | rule | §2.3 | reference → §4.2 S1 (3), §12.4 (pointer kept, §2.3) |
+| MODEL-0139 | rule | §2.3 | stated at §2.3 |
+| MODEL-0140 | rule | §2.3 | stated at §2.3 |
+| MODEL-0141 | mechanism | §2.3 | stated at §2.3 |
+| MODEL-0142 | rule | §2.3 | stated at §2.3 |
+| MODEL-0143 | rule | §2.3 | stated at §2.3 |
+| MODEL-0144 | rule | §2.3 | stated at §2.3 |
+| MODEL-0145 | hook | §2.3 | stated at §2.3 |
+| MODEL-0146 | rule | §2.3 | stated at §2.3 |
+| MODEL-0147 | rule | §2.3 | stated at §2.3 |
+| MODEL-0148 | rule | §2.3 | stated at §2.3 |
+| MODEL-0149 | table | §2.3 | stated at §2.3 |
+| MODEL-0150 | table | §2.3 | stated at §2.3 |
+| MODEL-0151 | table | §2.3 | stated at §2.3 |
+| MODEL-0152 | rule | §2.3 | stated at §2.3 |
+| MODEL-0153 | rule | §2.3 | reference → §2.6 Basements (pointer, §2.3) |
+| MODEL-0154 | decision | §2.3 | stated at §2.3 |
+| MODEL-0155 | table | §2.4 | stated at §2.4 |
+| MODEL-0156 | interface | §2.4 | stated at §2.4 |
+| MODEL-0157 | rule | §2.4 | stated at §2.4 |
+| MODEL-0158 | field | §2.4 | reference → §4.4 (comment pointer, §2.4) |
+| MODEL-0159 | hook | §2.4 | stated at §2.4 as changed by the flowToward item (V04 BCR-2): no longer stored — the reading `wayFall`; an older document's value dropped on load |
+| MODEL-0160 | interface | §2.4 | stated at §2.4 |
+| MODEL-0161 | rule | §2.4 | stated at §2.4 |
+| MODEL-0162 | rule | §2.4 | stated at §2.4 |
+| MODEL-0163 | rule | §2.4 | stated at §2.4 |
+| MODEL-0164 | interface | §2.5 | stated at §2.5 |
+| MODEL-0165 | table | §2.5 | stated at §2.5 |
+| MODEL-0166 | field | §2.5 | reference → II.1 (District.seams comment, §2.5) |
+| MODEL-0167 | field | §2.5 | stated at §2.5 |
+| MODEL-0168 | field | §2.5 | stated at §2.5 |
+| MODEL-0169 | field | §2.5 | stated at §2.5 |
+| MODEL-0170 | field | §2.5 | stated at §2.5 |
+| MODEL-0171 | field | §2.5 | stated at §2.5 |
+| MODEL-0172 | field | §2.5 | home kept at §2.5 (canon reference not applied: the District fields are base fields (V04 §2.1 reads them as base-declared)) |
+| MODEL-0173 | field | §2.5 | stated at §2.5 |
+| MODEL-0174 | field | §2.5 | stated at §2.5 |
+| MODEL-0175 | field | §2.5 | stated at §2.5 |
+| MODEL-0176 | interface | §2.5 | stated at §2.5 |
+| MODEL-0177 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0178 | rule | §2.5 | stated at §2.5 |
+| MODEL-0179 | interface | §2.5 | stated at §2.5 |
+| MODEL-0180 | interface | §2.5 | stated at §2.5 |
+| MODEL-0181 | field | §2.5 | stated at §2.5 |
+| MODEL-0182 | interface | §2.5 | stated at §2.5 |
+| MODEL-0183 | interface | §2.5 | stated at §2.5 |
+| MODEL-0184 | interface | §2.5 | stated at §2.5 |
+| MODEL-0185 | table | §2.5 | reference → §4.6, §4.8 (comment pointer, §2.5) |
+| MODEL-0186 | field | §2.5 | stated at §2.5 |
+| MODEL-0187 | field | §2.5 | stated at §2.5 |
+| MODEL-0188 | interface | §2.5 | stated at §2.5 |
+| MODEL-0189 | interface | §2.5 | stated at §2.5 |
+| MODEL-0190 | rule | §2.5 | stated at §2.5 |
+| MODEL-0191 | field | §2.5 | stated at §2.5 |
+| MODEL-0192 | field | §2.5 | stated at §2.5 |
+| MODEL-0193 | field | §2.5 | stated at §2.5 |
+| MODEL-0194 | field | §2.5 | stated at §2.5 |
+| MODEL-0195 | field | §2.5 | stated at §2.5 |
+| MODEL-0196 | field | §2.5 | stated at §2.5 |
+| MODEL-0197 | field | §2.5 | stated at §2.5 |
+| MODEL-0198 | field | §2.5 | stated at §2.5 |
+| MODEL-0199 | interface | §2.5 | stated at §2.5 |
+| MODEL-0200 | interface | §2.5 | stated at §2.5 |
+| MODEL-0201 | rule | §2.5 | stated at §2.5 |
+| MODEL-0202 | interface | §2.5 | stated at §2.5 |
+| MODEL-0203 | interface | §2.5 | stated at §2.5 |
+| MODEL-0204 | field | §2.5 | stated at §2.5 |
+| MODEL-0205 | rule | §2.5 | stated at §2.5 |
+| MODEL-0206 | field | §2.5 | stated at §2.5 |
+| MODEL-0207 | interface | §2.5 | stated at §2.5 |
+| MODEL-0208 | field | §2.5 | stated at §2.5 |
+| MODEL-0209 | field | §2.5 | stated at §2.5 |
+| MODEL-0210 | field | §2.5 | stated at §2.5 |
+| MODEL-0211 | interface | §2.5 | stated at §2.5 |
+| MODEL-0212 | interface | §2.5 | stated at §2.5 |
+| MODEL-0213 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0214 | rule | §2.5 | stated at §2.5 |
+| MODEL-0215 | table | §2.5 | stated at §2.5 |
+| MODEL-0216 | field | §2.5 | stated at §2.5, widened to 'sky' (MC-05) |
+| MODEL-0217 | rule | §2.5 | stated at §2.5 |
+| MODEL-0218 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0219 | rule | §2.5 | reference → §8 (one clause, §2.5) |
+| MODEL-0220 | rule | §2.5 | reference → §4.7 (pointer, §2.5) |
+| MODEL-0221 | rule | §2.5 | stated at §2.5 |
+| MODEL-0222 | rule | §2.5 | stated at §2.5 |
+| MODEL-0223 | rule | §2.5 | stated at §2.5 |
+| MODEL-0224 | rule | §2.5 | stated at §2.5 |
+| MODEL-0225 | rule | §2.5 | stated at §2.5 |
+| MODEL-0226 | rule | §2.5 | stated at §2.5 |
+| MODEL-0227 | rule | §2.5 | stated at §2.5 |
+| MODEL-0228 | rule | §2.5 | stated at §2.5 |
+| MODEL-0229 | rule | §2.5 | stated at §2.5 |
+| MODEL-0230 | rule | §2.5 | stated at §2.5 |
+| MODEL-0231 | rule | §2.5 | stated once at §2.5 (Plot.builtBand comment; cluster 008) |
+| MODEL-0232 | rule | §2.5 | stated at §2.5 (Exposure, passages and knowledge; field details at the fields) |
+| MODEL-0233 | rule | §2.5 | stated at §2.5 |
+| MODEL-0234 | table | §2.5 | stated at §2.5 |
+| MODEL-0235 | rule | §2.5 | stated at §2.5 |
+| MODEL-0236 | interface | §2.6 | stated at §2.6 |
+| MODEL-0237 | interface | §2.6 | stated at §2.6 |
+| MODEL-0238 | table | §2.6 | stated at §2.6 |
+| MODEL-0239 | field | §2.6 | stated at §2.6 |
+| MODEL-0240 | field | §2.6 | stated at §2.6 |
+| MODEL-0241 | field | §2.6 | stated at §2.6 |
+| MODEL-0242 | rule | §2.6 | stated at §2.6 |
+| MODEL-0243 | interface | §2.6 | stated at §2.6 |
+| MODEL-0244 | rule | §2.6 | stated at §2.6 |
+| MODEL-0245 | table | §2.6 | stated at §2.6 |
+| MODEL-0246 | field | §2.6 | stated at §2.6 |
+| MODEL-0247 | field | §2.6 | stated at §2.6 |
+| MODEL-0248 | field | §2.6 | stated at §2.6 |
+| MODEL-0249 | field | §2.6 | stated at §2.6 |
+| MODEL-0250 | field | §2.6 | stated at §2.6 |
+| MODEL-0251 | field | §2.6 | stated at §2.6 |
+| MODEL-0252 | field | §2.6 | stated at §2.6 |
+| MODEL-0253 | field | §2.6 | stated at §2.6 |
+| MODEL-0254 | field | §2.6 | stated at §2.6 |
+| MODEL-0255 | field | §2.6 | stated at §2.6 |
+| MODEL-0256 | field | §2.6 | stated at §2.6 |
+| MODEL-0257 | field | §2.6 | stated at §2.6 |
+| MODEL-0258 | field | §2.6 | stated at §2.6 |
+| MODEL-0259 | field | §2.6 | stated at §2.6 |
+| MODEL-0260 | type | §2.6 | stated at §2.6 |
+| MODEL-0261 | interface | §2.6 | reference → V11's rows (MaterialRow interface kept in §2.6; values V11's) |
+| MODEL-0262 | interface | §2.6 | stated at §2.6 |
+| MODEL-0263 | interface | §2.6 | stated at §2.6 |
+| MODEL-0264 | interface | §2.6 | stated at §2.6 |
+| MODEL-0265 | field | §2.6 | stated at §2.6 |
+| MODEL-0266 | interface | §2.6 | stated at §2.6 |
+| MODEL-0267 | interface | §2.6 | stated at §2.6 |
+| MODEL-0268 | interface | §2.6 | stated at §2.6 |
+| MODEL-0269 | interface | §2.6 | stated at §2.6 |
+| MODEL-0270 | interface | §2.6 | stated at §2.6 |
+| MODEL-0271 | interface | §2.6 | stated at §2.6 |
+| MODEL-0272 | type | §2.6 | stated at §2.6 |
+| MODEL-0273 | interface | §2.6 | stated at §2.6 |
+| MODEL-0274 | interface | §2.6 | stated at §2.6 |
+| MODEL-0275 | field | §2.6 | stated at §2.6 |
+| MODEL-0276 | interface | §2.6 | stated at §2.6 |
+| MODEL-0277 | interface | §2.6 | stated at §2.6 |
+| MODEL-0278 | interface | §2.6 | stated at §2.6 |
+| MODEL-0279 | interface | §2.6 | stated at §2.6 |
+| MODEL-0280 | interface | §2.6 | stated at §2.6 |
+| MODEL-0281 | rule | §2.6 | stated at §2.6 |
+| MODEL-0282 | interface | §2.6 | stated at §2.6 |
+| MODEL-0283 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0284 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0285 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0286 | rule | §2.6 | stated at §2.6 |
+| MODEL-0287 | rule | §2.6 | reference → §8.2 (compressed pointer, §2.6) |
+| MODEL-0288 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0289 | rule | §2.6 | stated at §2.6 |
+| MODEL-0290 | rule | §2.6 | stated at §2.6 |
+| MODEL-0291 | test | §2.6 | stated at §2.6 |
+| MODEL-0292 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0293 | rule | §2.6 | stated at §2.6 |
+| MODEL-0294 | rule | §2.6 | stated at §2.6 |
+| MODEL-0295 | step | §2.6 | stated at §2.6 |
+| MODEL-0296 | step | §2.6 | stated at §2.6 |
+| MODEL-0297 | step | §2.6 | stated at §2.6 |
+| MODEL-0298 | step | §2.6 | stated at §2.6 |
+| MODEL-0299 | step | §2.6 | stated at §2.6 |
+| MODEL-0300 | rule | §2.6 | stated at §2.6 |
+| MODEL-0301 | rule | §2.6 | stated at §2.6 |
+| MODEL-0302 | number | §2.6 | reference → §12.6 for the per-pass and worst-step totals; per-building costs kept (§2.6 rule 4; §12 does not state them) |
+| MODEL-0303 | step | §2.6 | stated at §2.6 |
+| MODEL-0304 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0305 | rule | §2.6 | stated at §2.6 |
+| MODEL-0306 | step | §2.6 | stated at §2.6 |
+| MODEL-0307 | step | §2.6 | stated at §2.6 |
+| MODEL-0308 | step | §2.6 | stated at §2.6 |
+| MODEL-0309 | rule | §2.6 | stated at §2.6 |
+| MODEL-0310 | rule | §2.6 | stated at §2.6 |
+| MODEL-0311 | test | §2.6 | reference → §13.2 (§2.6 Test) |
+| MODEL-0312 | rule | §2.6 | stated at §2.6 |
+| MODEL-0313 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0314 | rule | §2.6 | stated at §2.6 |
+| MODEL-0315 | rule | §2.6 | stated at §2.6 |
+| MODEL-0316 | rule | §2.6 | stated at §2.6 |
+| MODEL-0317 | rule | §2.6 | reference → §8.4 (pointer, §2.6 Heights) |
+| MODEL-0318 | rule | §2.6 | stated at §2.6 |
+| MODEL-0319 | rule | §2.6 | stated at §2.6 |
+| MODEL-0320 | rule | §2.6 | stated at §2.6 |
+| MODEL-0321 | rule | §2.6 | stated at §2.6 |
+| MODEL-0322 | rule | §2.6 | stated at §2.6 |
+| MODEL-0323 | test | §2.6 | reference → §13.2 T19-3 (§2.6 Materials) |
+| MODEL-0324 | rule | §2.6 | stated at §2.6 |
+| MODEL-0325 | hook | §2.6 | reference → V02 §3.3–§3.5 (§2.6 stage-3 hook) |
+| MODEL-0326 | table | §2.6 | reference → V02 §2.3, §3.3 (PathShapeRow = MassingFamilyRow) |
+| MODEL-0327 | rule | §2.6 | reference → V02 §3.3–§3.5 (J-A59.21 named) |
+| MODEL-0328 | interface | §2.6 | reference → V02 §2.3 (`type PathShapeRow = MassingFamilyRow`, §2.6) |
+| MODEL-0329 | rule | §2.6 | stated at §2.6 |
+| MODEL-0330 | rule | §2.6 | stated at §2.6 |
+| MODEL-0331 | rule | §2.6 | stated at §2.6 |
+| MODEL-0332 | rule | §2.6 | stated at §2.6 |
+| MODEL-0333 | rule | §2.6 | stated at §2.6 |
+| MODEL-0334 | rule | §2.6 | stated at §2.6 |
+| MODEL-0335 | rule | §2.6 | stated at §2.6 |
+| MODEL-0336 | rule | §2.6 | stated at §2.6 |
+| MODEL-0337 | rule | §2.6 | stated at §2.6 |
+| MODEL-0338 | rule | §2.6 | stated at §2.6 |
+| MODEL-0339 | rule | §2.6 | home kept at §2.6 (canon reference not applied: file f item 223 rewrites the intake paragraph in §2.6 (f > canon reference)) |
+| MODEL-0340 | rule | §2.6 | stated at §2.6 |
+| MODEL-0341 | rule | §2.6 | stated at §2.6 |
+| MODEL-0342 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0343 | rule | §2.6 | stated at §2.6 |
+| MODEL-0344 | step | §2.6 | stated at §2.6 |
+| MODEL-0345 | step | §2.6 | stated at §2.6 |
+| MODEL-0346 | step | §2.6 | stated at §2.6 |
+| MODEL-0347 | step | §2.6 | stated at §2.6 |
+| MODEL-0348 | step | §2.6 | stated at §2.6 |
+| MODEL-0349 | step | §2.6 | stated at §2.6 |
+| MODEL-0350 | test | §2.6 | stated at §2.6 |
+| MODEL-0351 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0352 | rule | §2.6 | stated at §2.6 |
+| MODEL-0353 | table | §2.6 | stated at §2.6 |
+| MODEL-0354 | rule | §2.6 | stated at §2.6 |
+| MODEL-0355 | rule | §2.6 | stated at §2.6 |
+| MODEL-0356 | rule | §2.6 | stated at §2.6 |
+| MODEL-0357 | rule | §2.6 | stated at §2.6 |
+| MODEL-0358 | decision | §2.6 | stated at §2.6 |
+| MODEL-0359 | test | §2.6 | stated at §2.6 |
+| MODEL-0360 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0361 | rule | §2.6 | stated at §2.6 |
+| MODEL-0362 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0363 | hook | §2.6 | stated at §2.6 |
+| MODEL-0364 | step | §2.6 | stated at §2.6 |
+| MODEL-0365 | step | §2.6 | stated at §2.6 |
+| MODEL-0366 | step | §2.6 | stated at §2.6 |
+| MODEL-0367 | step | §2.6 | stated at §2.6 |
+| MODEL-0368 | step | §2.6 | stated at §2.6 |
+| MODEL-0369 | step | §2.6 | stated at §2.6 |
+| MODEL-0370 | step | §2.6 | stated at §2.6 |
+| MODEL-0371 | table | §2.6 | stated at §2.6 |
+| MODEL-0372 | number | §2.6 | stated at §2.6 |
+| MODEL-0373 | rule | §2.6 | stated at §2.6 |
+| MODEL-0374 | step | §2.6 | stated at §2.6 |
+| MODEL-0375 | rule | §2.6 | stated at §2.6 |
+| MODEL-0376 | step | §2.6 | stated at §2.6 |
+| MODEL-0377 | step | §2.6 | stated at §2.6 |
+| MODEL-0378 | step | §2.6 | stated at §2.6 |
+| MODEL-0379 | rule | §2.6 | stated at §2.6 |
+| MODEL-0380 | rule | §2.6 | stated at §2.6 |
+| MODEL-0381 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0382 | rule | §2.6 | stated at §2.6 |
+| MODEL-0383 | rule | §2.6 | stated at §2.6 |
+| MODEL-0384 | rule | §2.6 | stated at §2.6 |
+| MODEL-0385 | rule | §2.6 | stated at §2.6 |
+| MODEL-0386 | rule | §2.6 | stated at §2.6 |
+| MODEL-0387 | table | §2.6 | stated at §2.6 |
+| MODEL-0388 | rule | §2.6 | stated at §2.6 |
+| MODEL-0389 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0390 | rule | §2.6 | stated at §2.6 |
+| MODEL-0391 | rule | §2.6 | stated at §2.6 |
+| MODEL-0392 | rule | §2.6 | stated at §2.6 |
+| MODEL-0393 | rule | §2.6 | stated at §2.6 |
+| MODEL-0394 | rule | §2.6 | stated at §2.6 |
+| MODEL-0395 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0396 | rule | §2.6 | stated at §2.6 |
+| MODEL-0397 | mechanism | §2.6 | stated at §2.6 |
+| MODEL-0398 | rule | §2.6 | stated at §2.6 |
+| MODEL-0399 | rule | §2.6 | stated at §2.6 |
+| MODEL-0400 | rule | §2.6 | stated at §2.6 |
+| MODEL-0401 | test | §2.6 | reference → §13.2 T28-13 – T28-18 |
+| MODEL-0402 | interface | §2.7 | stated at §2.7 |
+| MODEL-0403 | field | §2.7 | stated at §2.7 |
+| MODEL-0404 | field | §2.7 | stated at §2.7 |
+| MODEL-0405 | field | §2.7 | stated at §2.7 |
+| MODEL-0406 | field | §2.7 | stated at §2.7 |
+| MODEL-0407 | field | §2.7 | stated at §2.7 |
+| MODEL-0408 | field | §2.7 | stated at §2.7 |
+| MODEL-0409 | interface | §2.7 | stated at §2.7 |
+| MODEL-0410 | interface | §2.7 | stated at §2.7 |
+| MODEL-0411 | interface | §2.7 | stated at §2.7 |
+| MODEL-0412 | interface | §2.7 | stated at §2.7 |
+| MODEL-0413 | field | §2.7 | stated at §2.7 |
+| MODEL-0414 | interface | §2.7 | stated at §2.7 |
+| MODEL-0415 | field | §2.7 | stated at §2.7 |
+| MODEL-0416 | rule | §2.7 | stated at §2.7 |
+| MODEL-0417 | interface | §2.7 | stated at §2.7 |
+| MODEL-0418 | interface | §2.7 | stated at §2.7 |
+| MODEL-0419 | interface | §2.7 | stated at §2.7 |
+| MODEL-0420 | interface | §2.7 | stated at §2.7 |
+| MODEL-0421 | rule | §2.7 | reference → §9.1 |
+| MODEL-0422 | interface | §2.7 | stated at §2.7 |
+| MODEL-0423 | interface | §2.7 | stated at §2.7 |
+| MODEL-0424 | field | §2.7 | stated at §2.7 |
+| MODEL-0425 | field | §2.7 | stated at §2.7 |
+| MODEL-0426 | interface | §2.7 | stated at §2.7 |
+| MODEL-0427 | interface | §2.7 | stated at §2.7 |
+| MODEL-0428 | interface | §2.7 | stated at §2.7 |
+| MODEL-0429 | interface | §2.7 | stated at §2.7 |
+| MODEL-0430 | interface | §2.7 | stated at §2.7 |
+| MODEL-0431 | interface | §2.7 | stated at §2.7 |
+| MODEL-0432 | interface | §2.7 | reference → V05 §2.1 (SkyIsland declared there; §2.7 names the fields the base reads; `outline` replaced by `rim`/`land`, MC-07) |
+| MODEL-0433 | interface | §2.7 | home kept at §2.7 (canon reference not applied: V04 §2.1 reads Tunnel as base-declared; f 247 edits the base line) |
+| MODEL-0434 | interface | §2.7 | home kept at §2.7 (canon reference not applied: V04 §2.1 reads it as base-declared; f 248 edits the base line) |
+| MODEL-0435 | interface | §2.7 | home kept at §2.7 (canon reference not applied: V04 §2.1 reads it as base-declared; f 249 edits the base line) |
+| MODEL-0436 | interface | §2.7 | home kept at §2.7 (canon reference not applied: V04 §2.1 reads it as base-declared; f 247, 249, 250 edit the base line) |
+| MODEL-0437 | interface | §2.7 | home kept at §2.7 (canon reference not applied: V04 §2.1 reads it as base-declared; f 249 edits the base line) |
+| MODEL-0438 | rule | §2.7 | reference → II.7.4 (comment pointer, §2.7) |
+| MODEL-0439 | interface | §2.7 | stated at §2.7 |
+| MODEL-0440 | rule | §2.7 | stated at §2.7 |
+| MODEL-0441 | interface | §2.7 | stated at §2.7 |
+| MODEL-0442 | rule | §2.7 | stated at §2.7 |
+| MODEL-0443 | interface | §2.7 | home kept at §2.7 (canon reference not applied: no volume declares ConditionOverlay) |
+| MODEL-0444 | interface | §2.7 | home kept at §2.7 (canon reference not applied: no volume declares DepositSite) |
+| MODEL-0445 | interface | §2.7 | home kept at §2.7 (canon reference not applied: no volume declares PowerRelation (f 257 edits the base line)) |
+| MODEL-0446 | interface | §2.7 | stated at §2.7 |
+| MODEL-0447 | rule | §2.7 | stated at §2.7 |
+| MODEL-0448 | rule | §2.7 | stated at §2.7 |
+| MODEL-0449 | rule | §2.7 | stated at §2.7 |
+| MODEL-0450 | rule | §2.7 | reference → §4.4, §4.8, §4.2 S1 (5) |
+| MODEL-0451 | rule | §2.7 | stated at §2.7 |
+| MODEL-0452 | rule | §2.7 | reference → §4.7 S11, §4.9, §8.4 |
+| MODEL-0453 | rule | §2.7 | stated at §2.7 |
+| MODEL-0454 | rule | §2.7 | stated at §2.7 |
+| MODEL-0455 | rule | §2.7 | stated at §2.7 |
+| MODEL-0456 | rule | §2.7 | reference → II.6 and V05 (island rules; §2.7 staged layers trimmed) |
+| MODEL-0457 | rule | §2.7 | home kept at §2.7 (canon reference not applied: the tunnel hook summary is the base's (V04 reads base)) |
+| MODEL-0458 | rule | §2.7 | home kept at §2.7 (canon reference not applied: the underground hook summary is the base's) |
+| MODEL-0459 | rule | §2.7 | home kept at §2.7 (canon reference not applied: the base hook summary; V08 §3.11 fills the records) |
+| MODEL-0460 | rule | §2.7 | home kept at §2.7 (canon reference not applied: the dossier-backed Person's base rule; V08 §3.11 fills it) |
+| MODEL-0461 | rule | §2.8 | stated at §2.8 |
+| MODEL-0462 | rule | §2.8 | stated at §2.8 |
+| MODEL-0463 | type | §2.8 | stated at §2.8 |
+| MODEL-0464 | term | §2.8 | glossary term, stated at §2.8 |
+| MODEL-0465 | type | §2.8 | stated at §2.8 |
+| MODEL-0466 | interface | §2.8 | stated at §2.8 |
+| MODEL-0467 | field | §2.8 | reference → §7.7 item 12 (binding key), §7.1 DossierRef (Dossier refs bullet, §2.8) |
+| MODEL-0468 | type | §2.8 | stated at §2.8 |
+| MODEL-0469 | mechanism | §2.8 | stated at §2.8 |
+| MODEL-0470 | table | §2.8 | stated at §2.8 |
+| MODEL-0471 | interface | §2.8 | stated at §2.8 |
+| MODEL-0472 | interface | §2.8 | stated at §2.8 |
+| MODEL-0473 | table | §2.8 | stated at §2.8 |
+| MODEL-0474 | rule | §2.3 | resolved (MC-04): `LifecycleEvent.cause` gains `convert:<kind>` (§2.8) |
+| MODEL-0475 | interface | §2.8 | stated at §2.8 |
+| MODEL-0476 | interface | §2.8 | stated at §2.8 |
+| MODEL-0477 | interface | §2.8 | stated at §2.8 |
+| MODEL-0478 | interface | §2.8 | stated at §2.8 |
+| MODEL-0479 | interface | §2.8 | stated at §2.8 |
+| MODEL-0480 | rule | §2.8 | stated at §2.8 |
+| MODEL-0481 | rule | §2.8 | stated at §2.8 |
+| MODEL-0482 | rule | §2.8 | stated at §2.8 |
+| MODEL-0483 | rule | §2.8 | stated at §2.8 |
+| MODEL-0484 | table | §2.8 | stated at §2.8 |
+| MODEL-0485 | rule | §2.8 | stated at §2.8 |
+| MODEL-0486 | rule | §2.8 | stated at §2.8 |
+| MODEL-0487 | interface | §2.8 | stated at §2.8 |
+| MODEL-0488 | table | §2.8 | stated at §2.8 |
+| MODEL-0489 | rule | §2.8 | stated at §2.8 |
+| MODEL-0490 | mechanism | §2.8 | stated at §2.8 |
+| MODEL-0491 | rule | §2.8 | stated at §2.8 |
+| MODEL-0492 | number | §2.8 | stated at §2.8 |
+| MODEL-0493 | rule | §2.8 | stated at §2.8 |
+| MODEL-0494 | rule | §2.8 | stated at §2.8 |
+| MODEL-0495 | rule | §2.8 | stated at §2.8 |
+| MODEL-0496 | mechanism | §2.8 | stated at §2.8 |
+| MODEL-0497 | number | §2.8 | stated at §2.8 |
+| MODEL-0498 | rule | §2.8 | stated at §2.8 |
+| MODEL-0499 | rule | §2.8 | stated at §2.8 |
+| MODEL-0500 | rule | §2.8 | stated at §2.8 |
+| MODEL-0501 | mechanism | §2.8 | stated at §2.8 |
+| MODEL-0502 | table | §2.8 | stated at §2.8 |
+| MODEL-0503 | table | §2.8 | stated at §2.8 |
+| MODEL-0504 | table | §2.8 | stated at §2.8 |
+| MODEL-0505 | rule | §2.8 | reference → §7.7 (pointer, §2.8 Dossier paths) |
+| MODEL-0506 | rule | §2.9 | stated at §2.9 |
+| MODEL-0507 | interface | §2.9 | stated at §2.9 |
+| MODEL-0508 | field | §2.9 | stated at §2.9 |
+| MODEL-0509 | field | §2.9 | stated at §2.9 |
+| MODEL-0510 | field | §2.9 | stated at §2.9 |
+| MODEL-0511 | field | §2.9 | stated at §2.9 |
+| MODEL-0512 | field | §2.9 | stated at §2.9 |
+| MODEL-0513 | field | §2.9 | stated at §2.9 |
+| MODEL-0514 | field | §2.9 | stated at §2.9 |
+| MODEL-0515 | field | §2.9 | reference → §7.7 item 12 (types; Document.dossier comment points to the block bullet) |
+| MODEL-0516 | field | §2.9 | reference → §8.2 (Document.style comment) |
+| MODEL-0517 | field | §2.9 | stated at §2.9 |
+| MODEL-0518 | field | §2.9 | reference → §11.3, V09 (view keys; which travel is §11.3) |
+| MODEL-0519 | field | §2.9 | stated at §2.9 |
+| MODEL-0520 | field | §2.9 | stated at §2.9 |
+| MODEL-0521 | type | §2.9 | stated at §2.9 |
+| MODEL-0522 | type | §2.9 | stated at §2.9 |
+| MODEL-0523 | field | §2.9 | stated at §2.9 |
+| MODEL-0524 | interface | §2.9 | stated at §2.9 |
+| MODEL-0525 | rule | §2.9 | stated at §2.9 |
+| MODEL-0526 | interface | §2.9 | stated at §2.9 |
+| MODEL-0527 | interface | §2.9 | stated at §2.9 |
+| MODEL-0528 | interface | §2.9 | stated at §2.9 |
+| MODEL-0529 | interface | §2.9 | stated at §2.9 |
+| MODEL-0530 | interface | §2.9 | stated at §2.9 |
+| MODEL-0531 | interface | §2.9 | stated at §2.9 |
+| MODEL-0532 | type | §2.9 | stated at §2.9 |
+| MODEL-0533 | interface | §2.9 | stated at §2.9 |
+| MODEL-0534 | rule | §2.9 | stated at §2.9 |
+| MODEL-0535 | rule | §2.9 | reference → §7.7 (dossier events via the host door) |
+| MODEL-0536 | rule | §2.9 | stated at §2.9 |
+| MODEL-0537 | rule | §2.9 | reference → §7.7 item 12 (declared there; bullet kept as the block's home) |
+| MODEL-0538 | mechanism | §2.9 | stated at §2.9 |
+| MODEL-0539 | rule | §2.9 | stated at §2.9 |
+| MODEL-0540 | rule | §2.9 | stated at §2.9 |
+| MODEL-0541 | rule | §2.9 | stated at §2.9 |
+| MODEL-0542 | rule | §2.9 | stated at §2.9 |
+| MODEL-0543 | number | §2.9 | stated at §2.9 |
+| MODEL-0544 | step | §2.9 | stated at §2.9 |
+| MODEL-0545 | step | §2.9 | stated at §2.9 |
+| MODEL-0546 | rule | §2.9 | stated at §2.9 |
+| MODEL-0547 | step | §2.9 | stated at §2.9 |
+| MODEL-0548 | rule | §2.9 | stated at §2.9 |
+| MODEL-0549 | step | §2.9 | stated at §2.9 |
+| MODEL-0550 | step | §2.9 | stated at §2.9 |
+| MODEL-0551 | rule | §2.9 | stated at §2.9 |
+| MODEL-0552 | rule | §2.9 | stated at §2.9 |
+| MODEL-0553 | mechanism | §2.9 | stated at §2.9 |
+| MODEL-0554 | rule | §2.9 | stated at §2.9 |
+| MODEL-0555 | rule | §2.9 | stated at §2.9 |
+| MODEL-0556 | rule | §2.9 | stated at §2.9 |
+| MODEL-0557 | rule | §2.9 | stated at §2.9 |
+| MODEL-0558 | number | §2.9 | stated at §2.9 |
+| MODEL-0559 | rule | §2.9 | stated at §2.9 |
+| MODEL-0560 | test | §2.9 | reference → §13.2 |
+| MODEL-0561 | step | §2.9 | stated at §2.9 |
+| MODEL-0562 | rule | §2.9 | stated at §2.9 |
+| MODEL-0563 | mechanism | §2.9 | stated at §2.9 |
+| MODEL-0564 | rule | §2.9 | stated at §2.9 |
+| MODEL-0565 | test | §2.9 | reference → §13.2, §11.3 |
+| MODEL-0566 | step | §2.9 | stated at §2.9 |
+| MODEL-0567 | rule | §2.9 | stated at §2.9 |
+| MODEL-0568 | rule | §2.9 | stated at §2.9 |
+| MODEL-0569 | mechanism | §2.9 | stated at §2.9 |
+| MODEL-0570 | number | §2.9 | stated at §2.9 |
+| MODEL-0571 | test | §2.9 | stated at §2.9 |
+| MODEL-0572 | rule | §2.9 | stated at §2.9 |
+| MODEL-0573 | rule | §2.9 | stated at §2.9 |
+| MODEL-0574 | rule | §2.9 | stated at §2.9 |
+| MODEL-0575 | rule | §2.9 | reference → §11.1, §6.3 (Formats bullet) |
+| MODEL-0576 | rule | §2.9 | stated at §2.9 |
+| MODEL-0577 | rule | §2.9 | stated at §2.9 |
+| MODEL-0578 | table | §2.9 | stated at §2.9 |
+| MODEL-0579 | rule | §2.9 | stated at §2.9 |
+| MODEL-0580 | rule | §2.9 | stated at §2.9 |
+| MODEL-0581 | term | §2 (plain words) | glossary term, stated at §2 (plain words) |
+| MODEL-0582 | term | §2.1 | glossary term, stated at §2.1 |
+| MODEL-0583 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0584 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0585 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0586 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0587 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0588 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0589 | term | §2.6 | glossary term, stated at §2.6 |
+| MODEL-0590 | term | §2.6 | glossary term, stated at §2.6 |
+| MODEL-0591 | term | §2.6 | glossary term, stated at §2.6 |
+| MODEL-0592 | term | §2.8 | glossary term, stated at §2.8 |
+| MODEL-0593 | term | §2.8 | glossary term, stated at §2.8 |
+| MODEL-0594 | term | §2.8 | glossary term, stated at §2.8 |
+| MODEL-0595 | term | §2.9 | glossary term, stated at §2.9 |
+| MODEL-0596 | term | §2.9 | glossary term, stated at §2.9 |
+| MODEL-0597 | term | §2.7 | glossary term, stated at §2.7 |
+| MODEL-0598 | term | §2.6 | glossary term, stated at §2.6 |
+| MODEL-0599 | term | §2.3 | glossary term, stated at §2.3 |
+| MODEL-0600 | term | §2.6 | glossary term, stated at §2.6 |
+| MODEL-0601 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0602 | term | §2.8 | glossary term, stated at §2.8 |
+| MODEL-0603 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0604 | term | §2.5 | glossary term, stated at §2.5 |
+| MODEL-0605 | term | §2.7 | glossary term, stated at §2.7 |
+| MODEL-0606 | term | §2.2 | glossary term, stated at §2.2 |
+| MODEL-0607 | term | §2.8 | glossary term, stated at §2.8 |
+| MODEL-0608 | term | §2.7 | glossary term, stated at §2.7 |
+| MODEL-0609 | term | §2.5 | resolved (MC-01): `lot` replaced by `plot` outside quotations; `BuildingInput.plot` |

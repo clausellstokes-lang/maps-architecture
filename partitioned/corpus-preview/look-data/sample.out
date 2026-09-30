@@ -1,0 +1,65 @@
+sample n 64 dupes 0 holdout hits []
+hf90   hf90-thorp-plains                    cat=thorp      era=HF-2  inkL= 30.8 paperL= 230.5 warm= 41 chroma= 49.2 grain=      wash= 3.19 iqr=  19.9 ratio=  6.0 REG= 74.8 prev=Y
+hf10   hf10-thorp-plains                    cat=thorp      era=HF-1  inkL= 66.0 paperL= 237.2 warm= 29 chroma= 39.7 grain= 2.08 wash= 3.17 iqr=  22.3 ratio=  4.0 REG= 56.7 prev=Y
+hf86   hf86-thorp-upland                    cat=thorp      era=HF-2  inkL= 23.0 paperL= 238.5 warm= 36 chroma= 42.5 grain= 2.23 wash= 3.33 iqr=  15.1 ratio= 4.25 REG= 71.6 prev=Y
+hf88   hf88-thorp-crossroads                cat=thorp      era=HF-2  inkL= 31.9 paperL= 238.4 warm= 35 chroma= 47.4 grain= 1.83 wash= 3.11 iqr=  13.3 ratio= 4.75 REG= 64.8 prev=Y
+hf85   hf85-thorp-riverside                 cat=thorp      era=HF-2  inkL= 32.9 paperL= 239.9 warm= 32 chroma= 43.3 grain= 2.26 wash= 3.68 iqr=  18.8 ratio=  6.0 REG= 79.7 prev=Y
+hf93   hf93-hamlet-street                   cat=hamlet     era=HF-2  inkL= 33.5 paperL= 244.4 warm= 22 chroma= 34.5 grain=  1.4 wash= 2.25 iqr=  32.7 ratio=  2.6 REG= 46.7 prev=Y
+hf95   hf95-hamlet-riverside                cat=hamlet     era=HF-2  inkL= 43.7 paperL= 239.3 warm= 34 chroma= 43.4 grain= 2.04 wash= 3.37 iqr=  22.2 ratio= 5.67 REG= 73.8 prev=Y
+hf96   hf96-hamlet-upland                   cat=hamlet     era=HF-2  inkL= 31.2 paperL= 246.0 warm= 24 chroma= 36.2 grain= 1.58 wash= 3.38 iqr=  19.5 ratio= 2.75 REG= 54.8 prev=Y
+hf11   hf11-hamlet-forest                   cat=hamlet     era=HF-1  inkL= 16.6 paperL= 224.5 warm= 45 chroma= 35.1 grain= 2.33 wash=  4.0 iqr=   4.0 ratio=  4.5 REG= 70.1 prev=Y
+hf3    hf3-village-organic                  cat=village    era=HF-1  inkL= 53.9 paperL= 238.0 warm= 32 chroma= 41.5 grain= 2.25 wash= 3.19 iqr=   9.8 ratio= 3.25 REG= 46.0 prev=Y
+hf13   hf13-village-fishing                 cat=village    era=HF-1  inkL= 32.2 paperL= 235.2 warm= 42 chroma= 46.3 grain= 1.65 wash=  3.4 iqr=   6.1 ratio=  3.6 REG= 50.9 prev=Y
+hf15   hf15-village-arid                    cat=village    era=HF-1  inkL= 44.3 paperL= 238.8 warm= 28 chroma= 50.2 grain=      wash= 2.96 iqr=  24.6 ratio= 4.25 REG= 60.4 prev=Y
+hf16   hf16-village-cold                    cat=village    era=HF-1  inkL= 17.3 paperL= 234.8 warm= 38 chroma= 39.4 grain= 2.42 wash= 3.96 iqr=  65.3 ratio= 5.75 REG= 92.7 prev=Y
+hf125  hf125-village-oasis                  cat=village    era=HF-3  inkL= 51.3 paperL= 246.6 warm= 19 chroma= 31.0 grain= 1.34 wash= 1.59 iqr=  12.9 ratio=  5.2 REG= 41.1 prev=Y
+hf232  hf232-village-savanna-kraals         cat=village    era=HF-3  inkL= 31.5 paperL= 242.4 warm= 25 chroma= 46.2 grain= 1.73 wash= 2.56 iqr=  23.0 ratio=  6.0 REG= 68.2 prev=Y
+hf284  hf284-village-polder                 cat=village    era=HF-4b inkL= 61.1 paperL= 245.4 warm= 23 chroma= 31.1 grain= 0.82 wash= 1.63 iqr=  13.7 ratio=  3.6 REG= 23.0 prev=Y
+hf20   hf20-town-trade                      cat=town       era=HF-1  inkL= 51.4 paperL= 238.3 warm= 28 chroma= 46.4 grain= 2.46 wash= 4.41 iqr=  19.9 ratio=  3.4 REG= 62.4 prev=Y
+hf23   hf23-town-struggling                 cat=town       era=HF-1  inkL= 38.5 paperL= 237.9 warm= 30 chroma= 43.9 grain= 2.42 wash= 3.83 iqr=  12.9 ratio= 3.75 REG= 64.3 prev=Y
+hf24   hf24-town-siege                      cat=town       era=HF-1  inkL= 76.3 paperL= 233.8 warm= 37 chroma= 47.9 grain= 2.15 wash= 3.45 iqr=  23.5 ratio= 4.33 REG= 61.3 prev=Y
+hf26   hf26-town-fire-rebuild               cat=town       era=HF-1  inkL= 30.8 paperL= 227.3 warm= 44 chroma= 53.1 grain= 2.87 wash= 4.24 iqr=  28.7 ratio= 5.33 REG= 86.6 prev=Y
+hf60   hf60-spymaster-copy                  cat=town       era=HF-1  inkL= 87.6 paperL= 241.2 warm= 27 chroma= 37.4 grain=  1.8 wash= 1.82 iqr=  15.4 ratio= 2.83 REG= 29.2 prev=Y
+hf62   hf62-bankside-town                   cat=town       era=HF-1  inkL= 45.4 paperL= 228.7 warm= 49 chroma= 55.7 grain= 3.18 wash= 3.65 iqr=   8.0 ratio=  4.0 REG= 60.6 prev=Y
+hf72   hf72-dumbbell-town                   cat=town       era=HF-1  inkL= 60.5 paperL= 228.2 warm= 51 chroma= 69.6 grain= 2.07 wash= 2.75 iqr=  11.1 ratio= 3.75 REG= 44.0 prev=Y
+hf165  hf165-stress-siege                   cat=stressor   era=HF-3  inkL= 38.4 paperL= 246.6 warm= 21 chroma= 27.6 grain=  0.9 wash= 1.38 iqr= 153.0 ratio= 11.5 REG= 57.6 prev=Y
+hf316  hf316-town-many-names-AB             cat=town       era=HF-4c inkL= 55.3 paperL= 242.5 warm= 26 chroma= 37.8 grain= 1.86 wash= 2.42 iqr=  12.4 ratio=  3.2 REG= 37.3 prev=Y
+hf324  hf324-town-bastide-halffilled        cat=town       era=HF-4c inkL= 83.0 paperL= 248.4 warm= 22 chroma= 31.2 grain= 1.21 wash= 2.64 iqr=  10.6 ratio=  5.0 REG= 37.2 prev=Y
+hf369  hf369-town-refuse-and-drains         cat=town       era=HF-4c inkL= 65.8 paperL= 244.0 warm= 24 chroma= 30.2 grain= 1.17 wash= 0.85 iqr=   1.9 ratio= 2.25 REG=  8.3 prev=Y
+hf277  hf277-town-night-plan-CURE256        cat=town       era=HF-4b inkL=  1.9 paperL= 242.6 warm= 25 chroma= 26.1 grain= 0.84 wash= 1.61 iqr=  16.4 ratio=12.75 REG= 55.5 prev=Y
+hf4    hf4-planned-city                     cat=city       era=HF-1  inkL= 37.8 paperL= 236.8 warm= 37 chroma= 52.3 grain=      wash= 1.97 iqr=  37.7 ratio=  3.0 REG= 46.3 prev=Y
+hf30   hf30-city-river                      cat=city       era=HF-1  inkL= 37.0 paperL= 222.9 warm= 52 chroma= 57.4 grain= 3.41 wash= 4.37 iqr=  18.2 ratio=  3.6 REG= 69.5 prev=Y
+hf33   hf33-city-chaos-warren               cat=city       era=HF-1  inkL= 36.3 paperL= 238.1 warm= 31 chroma= 44.4 grain= 1.81 wash= 2.54 iqr=  17.7 ratio= 3.57 REG= 52.8 prev=Y
+hf40   hf40-slum-fringe-city                cat=city       era=HF-1  inkL= 42.2 paperL= 242.4 warm= 21 chroma= 27.9 grain= 1.47 wash= 2.99 iqr=  46.2 ratio=  3.6 REG= 57.6 prev=Y
+hf50   hf50-lens-watercolor                 cat=lens       era=HF-1  inkL= 70.2 paperL= 236.6 warm= 37 chroma= 66.7 grain= 2.98 wash= 4.44 iqr=  19.5 ratio=  3.5 REG= 58.1 prev=Y
+hf235  hf235-city-canals                    cat=city       era=HF-3  inkL= 49.0 paperL= 241.2 warm= 31 chroma= 31.9 grain=  1.4 wash= 3.06 iqr=  29.1 ratio=  6.0 REG= 64.0 prev=Y
+hf274  hf274-city-twin-bridge               cat=city       era=HF-4b inkL= 48.9 paperL= 234.0 warm= 38 chroma= 41.4 grain=      wash= 2.89 iqr=  20.6 ratio=  3.5 REG= 47.0 prev=Y
+hf133  hf133-city-harbor-plan               cat=city       era=HF-3  inkL= 63.5 paperL= 246.0 warm= 19 chroma= 31.0 grain= 1.17 wash= 2.25 iqr=  15.5 ratio= 3.67 REG= 31.4 prev=Y
+hf327  hf327-city-mudbrick-river-caravan    cat=city       era=HF-4c inkL= 48.3 paperL= 245.7 warm= 22 chroma= 27.5 grain= 0.76 wash= 0.99 iqr=  20.0 ratio= 3.17 REG= 25.2 prev=Y
+hf34   hf34-metropolis-capital              cat=metropolis era=HF-1  inkL= 41.3 paperL= 221.9 warm= 54 chroma= 58.4 grain=      wash= 3.53 iqr=  51.7 ratio= 3.75 REG= 69.0 prev=Y
+hf100  hf100-metropolis-confluence          cat=metropolis era=HF-2  inkL= 53.4 paperL= 240.7 warm= 29 chroma= 40.9 grain= 1.55 wash= 3.75 iqr=  28.5 ratio=  2.6 REG= 50.6 prev=Y
+hf103  hf103-metropolis-rings               cat=metropolis era=HF-2  inkL= 60.2 paperL= 240.8 warm= 27 chroma= 43.3 grain= 1.95 wash= 3.46 iqr=  32.5 ratio=  4.0 REG= 63.0 prev=Y
+hf389  hf389-city-metropolis-wallshape      cat=metropolis era=HF-4c inkL= 38.4 paperL= 245.0 warm= 21 chroma= 31.1 grain= 1.42 wash= 1.64 iqr=  14.1 ratio=  4.0 REG= 43.3 prev=Y
+hf104  hf104-metropolis-caravan             cat=metropolis era=HF-2  inkL= 49.4 paperL= 238.4 warm= 33 chroma= 48.1 grain= 2.01 wash= 3.36 iqr=  28.6 ratio=  4.0 REG= 65.8 prev=Y
+hf101  hf101-metropolis-port                cat=metropolis era=HF-2  inkL= 53.3 paperL= 242.7 warm= 30 chroma= 41.7 grain= 1.49 wash= 3.12 iqr=  23.6 ratio=  3.2 REG= 46.7 prev=Y
+hf55   hf55-castle-plate                    cat=zoom       era=HF-1  inkL=  0.0 paperL= 234.8 warm= 39 chroma= 49.3 grain= 1.88 wash= 2.88 iqr=  18.8 ratio= 9.25 REG= 77.7 prev=Y
+hf110  hf110-castle-curtain-zoom            cat=zoom       era=HF-2  inkL= 23.6 paperL= 242.4 warm= 28 chroma= 33.3 grain= 1.62 wash= 3.02 iqr=  18.4 ratio=  4.0 REG= 62.3 prev=Y
+hf111  hf111-motte-bailey-plan              cat=zoom       era=HF-2  inkL= 48.6 paperL= 236.0 warm= 37 chroma= 49.0 grain= 2.68 wash= 3.96 iqr=  14.6 ratio= 5.33 REG= 71.9 prev=Y
+hf345  hf345-zoom-castle-bailey             cat=zoom       era=HF-4c inkL= 27.9 paperL= 245.4 warm= 29 chroma= 35.0 grain= 1.21 wash= 3.87 iqr=  13.0 ratio=  6.0 REG= 66.2 prev=Y
+hf112  hf112-hill-hachure-study             cat=specimen   era=HF-2  inkL= 43.8 paperL= 240.9 warm= 29 chroma= 42.0 grain= 1.99 wash= 3.27 iqr=   9.5 ratio= 3.67 REG= 52.4 prev=Y
+hf113  hf113-crag-cliff-study               cat=specimen   era=HF-2  inkL=  7.8 paperL= 242.9 warm= 23 chroma= 31.7 grain= 1.17 wash= 2.25 iqr=  12.9 ratio=  5.5 REG= 55.8 prev=Y
+hf114  hf114-forest-canopy-study            cat=specimen   era=HF-2  inkL= 19.7 paperL= 245.3 warm= 21 chroma= 33.5 grain= 1.02 wash= 2.46 iqr=  12.0 ratio=  4.6 REG= 50.0 prev=Y
+hf115  hf115-marsh-reed-study               cat=specimen   era=HF-2  inkL= 36.6 paperL= 237.4 warm= 30 chroma= 33.9 grain= 2.38 wash= 3.34 iqr=  15.7 ratio= 3.25 REG= 60.7 prev=Y
+hf140  hf140-terrain-plains-openfield       cat=terrain    era=HF-3  inkL=  3.0 paperL= 239.6 warm= 30 chroma= 47.8 grain= 1.76 wash= 2.56 iqr=  11.9 ratio=  3.4 REG= 52.9 prev=Y
+hf142  hf142-terrain-hills-ridgeway         cat=terrain    era=HF-3  inkL= 65.7 paperL= 245.3 warm= 19 chroma= 37.2 grain= 1.37 wash= 2.88 iqr=  29.5 ratio=  3.0 REG= 40.2 prev=Y
+hf36   hf36-countryside-study               cat=systems    era=HF-1  inkL= 25.9 paperL= 235.5 warm= 40 chroma= 44.7 grain= 1.29 wash= 2.16 iqr=  26.9 ratio=  4.6 REG= 59.2 prev=Y
+hf216  hf216-series-rising-2                cat=series     era=HF-3  inkL= 32.6 paperL= 239.3 warm= 32 chroma= 46.8 grain= 1.96 wash=  3.0 iqr=  59.4 ratio= 4.33 REG= 74.0 prev=Y
+hf300  hf300-EXP-winter-lens-of-hf20        cat=exp        era=HF-4b inkL= 48.6 paperL= 243.0 warm= -7 chroma= 16.0 grain=  1.7 wash= 3.15 iqr=  45.8 ratio=  4.0 REG= 63.2 prev=Y
+hf123  hf123-wall-seam-zoom                 cat=zoom       era=HF-2  inkL= 55.8 paperL= 242.5 warm= 24 chroma= 43.3 grain= 1.69 wash= 3.17 iqr=  36.8 ratio=  4.0 REG= 59.0 prev=Y
+hf131  hf131-town-fjord                     cat=town       era=HF-3  inkL= 26.1 paperL= 236.1 warm= 40 chroma= 39.3 grain= 2.43 wash= 3.32 iqr=  29.6 ratio= 3.75 REG= 75.4 prev=Y
+hf5    hf5-night-pigment                    cat=lens       era=HF-1  inkL=  0.0 paperL= 227.5 warm= 42 chroma= 18.0 grain= 2.25 wash= 2.92 iqr=  20.8 ratio= 5.75 REG= 80.5 prev=Y
+hf51   hf51-lens-vtt                        cat=lens       era=HF-1  inkL= 16.6 paperL= 241.0 warm= 25 chroma= 33.5 grain= 1.89 wash= 2.11 iqr=   9.7 ratio=  4.0 REG= 53.8 prev=Y
+hf303  hf303-legend-masterplate             cat=specimen   era=HF-4b inkL= 34.8 paperL= 244.0 warm= 23 chroma= 31.4 grain= 0.67 wash= 1.19 iqr=  13.6 ratio= 3.83 REG= 33.0 prev=Y
+hf378  hf378-spec-density-ladder            cat=specimen   era=HF-4c inkL=  9.0 paperL= 245.8 warm= 20 chroma= 35.1 grain= 1.37 wash= 1.78 iqr=  67.5 ratio= 3.25 REG= 54.7 prev=Y
+hf208  hf208-spec-roof-ticks                cat=specimen   era=HF-3  inkL= 12.1 paperL= 241.2 warm= 28 chroma= 46.8 grain= 1.47 wash= 3.92 iqr=  20.7 ratio= 2.83 REG= 61.7 prev=Y
+hf320  hf320-spec-street-hierarchy          cat=specimen   era=HF-4c inkL= 37.5 paperL= 245.3 warm= 22 chroma= 35.0 grain= 1.58 wash= 2.23 iqr=  11.2 ratio=  5.0 REG= 50.9 prev=Y

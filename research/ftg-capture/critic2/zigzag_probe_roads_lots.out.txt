@@ -1,0 +1,46 @@
+1) deg-2 nodes: straight (<0.05 deg) fraction and paired-length sums, per type
+   type  0 deg2= 226 straight=   2 (1%)  paired-length modes: [(50, 1), (49, 1)]
+   type  1 deg2=  75 straight=   2 (3%)  paired-length modes: [(18, 1), (30, 1)]
+   type  4 deg2=1107 straight= 211 (19%)  paired-length modes: [(24, 18), (22, 17), (30, 16), (27, 15), (26, 15)]
+   type  6 deg2= 825 straight=   0 (0%)  paired-length modes: []
+   type 10 deg2=  43 straight=   0 (0%)  paired-length modes: []
+   type 14 deg2= 301 straight=  15 (5%)  paired-length modes: [(100, 14), (67, 1)]
+2) collinear run lengths (chains through straight deg-2 nodes), per type
+   type  0 run-length modes (m): [(30, 480), (15, 254), (25, 48), (50, 28), (100, 24), (10, 22), (5, 19), (6, 18)]
+   type  4 run-length modes (m): [(15, 864), (10, 127), (30, 123), (11, 89), (9, 85), (12, 67), (8, 65), (13, 63)]
+3) type-12 edges (endpoints, m):
+   (-141,30)-(-203,-13) len 75.6
+   (-150,43)-(-212,-1) len 75.6
+   (-159,55)-(-221,11) len 75.6
+   (-168,67)-(-229,24) len 75.6
+   (-176,80)-(-238,36) len 75.6
+   (-185,92)-(-247,49) len 75.6
+   (-194,105)-(-256,61) len 75.6
+   (-202,117)-(-264,74) len 75.6
+   (-211,129)-(-273,86) len 75.6
+   (-220,142)-(-282,98) len 75.6
+   (-229,154)-(-290,111) len 75.6
+   (-237,167)-(-299,123) len 75.6
+   harbour water id=1 bbox x -324..-136 y -34..174
+4) centroid->road median 6.23 m p95 10.5; vertex->road median 1.99 m, within 2 m: 53.0%; entrance->road median 2.99 p95 4.79; entrance->outline median 0.003 p95 0.007
+5) building containment per lot group (zz):
+   group  2 lots=  51 buildings_in=  10  9.2.5 set=[0]  lots<2ha=34 (median 425 m2)
+   group 18 lots= 901 buildings_in=1362  9.2.5 set=[0]  lots<2ha=896 (median 441 m2)
+   group  8 lots=  15 buildings_in= 115  9.2.5 set=[1]  lots<2ha=15 (median 419 m2)
+   group 11 lots=  34 buildings_in=   0  9.2.5 set=[2]  lots<2ha=9 (median 17635 m2)
+   group  1 lots=  31 buildings_in=   0  9.2.5 set=[2]  lots<2ha=7 (median 18959 m2)
+   group  0 lots=  33 buildings_in=   0  9.2.5 set=[2]  lots<2ha=7 (median 17988 m2)
+   group 13 lots=  30 buildings_in=   0  9.2.5 set=[2]  lots<2ha=7 (median 17711 m2)
+   group  3 lots=  40 buildings_in=   0  9.2.5 set=[2]  lots<2ha=3 (median 19271 m2)
+   group 12 lots=  35 buildings_in=   0  9.2.5 set=[2]  lots<2ha=9 (median 18311 m2)
+   group  4 lots=   2 buildings_in=   0  9.2.5 set=[2]  lots<2ha=0 (median 0 m2)
+   group 20 lots=   4 buildings_in=   0  9.2.5 set=[2]  lots<2ha=2 (median 15870 m2)
+   buildings inside ANY lot: 1487 / 2798
+6) 11.2 dist to road: min 6.7 med 18.2 max 24.9 m ; radius from origin med 239 m
+6) 11.4 dist to road: min 11.4 med 20.8 max 29.5 m ; radius from origin med 309 m
+6) 11.5 dist to road: min 1.8 med 19.3 max 24.7 m ; radius from origin med 464 m
+7) towers on district Beer Forest     ring vertices: 17/17
+7) towers on district Rustic Village  ring vertices: 11/17
+7) towers on district Ash Town        ring vertices: 6/17
+7) towers on district Green Wood      ring vertices: 0/17
+   tower chain (m): [(-134, -157), (-94, -134), (-62, -113), (-27, -90), (25, -40), (27, -13), (-3, 30), (-22, 58), (-42, 90), (-62, 124), (-83, 159), (-104, 194), (-125, 226), (-148, 256), (-171, 281), (-195, 300), (-212, 309)]

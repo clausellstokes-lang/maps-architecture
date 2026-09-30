@@ -1,0 +1,77 @@
+=== galeiaward-rl60: Galeiaward  (captures/ftg/2026-09-21T05-23-58/session/network/bodies/intercept-0018-b39aab95.bin, 593263 bytes)
+edges 5326  nodes 4303  buildings 2798  towers 17  water polys 4  lot groups 11 / lots 1176  districts ['Beer Forest', 'Rustic Village', 'Ash Town', 'Green Wood']
+node bbox m: x -2500.0..2500.0 y -2500.0..2500.0 ; total road length 191.9 km
+degree hist {1: 83, 2: 2678, 3: 969, 4: 561, 5: 10, 6: 2}
+per type: n, total km, median, top modes (1 m bins, value x count, mean of bin), counts within +-0.5 m of targets (10, 15, 20, 25, 30, 50, 60, 100)
+  type  0 n= 1214    30.0 km  median   26.4 m  modes: 30 x481 (30.09), 15 x254 (14.72), 25 x50 (25.21), 50 x27 (50.02), 100 x24 (100.00), 10 x22 (9.97)
+          targets: 10:22 15:254 20:10 25:50 30:481 50:27 60:2 100:24
+  type  1 n=  207     9.7 km  median   32.7 m  modes: 100 x48 (100.00), 2 x8 (2.03), 12 x7 (12.05), 60 x7 (60.50), 61 x7 (60.50), 19 x6 (18.75)
+          targets: 10:5 15:4 20:2 25:2 30:6 50:4 60:7 100:48
+  type  2 n=   19     0.7 km  median   50.0 m  modes: 50 x11 (50.00), 14 x3 (14.14), 7 x1 (7.07), 20 x1 (19.94), 36 x1 (36.05), 42 x1 (41.82)
+          targets: 10:0 15:0 20:1 25:0 30:0 50:11 60:0 100:0
+  type  3 n=   14    20.0 km  median  884.5 m  modes: 562 x2 (561.72), 33 x1 (32.78), 35 x1 (35.12), 336 x1 (335.99), 495 x1 (494.97), 751 x1 (750.64)
+          targets: 10:0 15:0 20:0 25:0 30:0 50:0 60:0 100:0
+  type  4 n= 2575    41.8 km  median   14.7 m  modes: 15 x943 (14.78), 10 x163 (10.00), 11 x133 (11.06), 9 x111 (8.97), 12 x109 (12.04), 30 x106 (30.03)
+          targets: 10:163 15:943 20:12 25:4 30:106 50:16 60:1 100:3
+  type  6 n=  853    68.0 km  median   56.5 m  modes: 50 x35 (49.95), 100 x29 (99.94), 8 x26 (8.04), 3 x25 (3.00), 10 x23 (9.98), 11 x23 (10.93)
+          targets: 10:23 15:5 20:0 25:4 30:3 50:35 60:2 100:29
+  type  7 n=   25     0.6 km  median   24.0 m  modes: 17 x2 (16.86), 19 x2 (18.91), 34 x2 (34.23), 40 x2 (39.70), 4 x1 (3.89), 9 x1 (8.93)
+          targets: 10:0 15:1 20:1 25:1 30:0 50:0 60:0 100:0
+  type 10 n=   59     4.6 km  median  100.0 m  modes: 100 x37 (100.00), 31 x2 (31.30), 50 x2 (50.00), 7 x1 (7.07), 11 x1 (11.36), 13 x1 (12.87)
+          targets: 10:0 15:1 20:0 25:0 30:0 50:2 60:0 100:37
+  type 12 n=   12     0.9 km  median   75.6 m  modes: 76 x12 (75.56)
+          targets: 10:0 15:0 20:0 25:0 30:0 50:0 60:0 100:0
+  type 14 n=  348    15.4 km  median   50.0 m  modes: 50 x204 (50.00), 49 x39 (49.32), 51 x35 (50.71), 15 x7 (14.98), 17 x4 (17.03), 19 x4 (19.07)
+          targets: 10:2 15:7 20:2 25:0 30:2 50:204 60:0 100:0
+deg-2 straightness (<0.05 deg) and collinear run-length modes (chains through straight deg-2 nodes):
+  type  0 deg2= 226 straight=   2 (1%)  run-length modes (m): [(30, 480), (15, 254), (25, 48), (50, 28), (100, 24), (10, 22)]
+  type  1 deg2=  75 straight=   2 (3%)  run-length modes (m): [(100, 48), (12, 7), (60, 7), (61, 7), (2, 7), (30, 6)]
+  type  2 deg2=  15 straight=   1 (7%)  run-length modes (m): [(50, 9), (14, 3), (7, 1), (20, 1), (42, 1), (100, 1)]
+  type  3 deg2=   4 straight=   0 (0%)  run-length modes (m): [(562, 2), (33, 1), (3877, 1), (5000, 1), (336, 1), (35, 1)]
+  type  4 deg2=1107 straight= 211 (19%)  run-length modes (m): [(15, 864), (10, 127), (30, 123), (11, 89), (9, 85), (12, 67)]
+  type  6 deg2= 825 straight=   0 (0%)  run-length modes (m): [(50, 35), (100, 29), (8, 26), (3, 25), (10, 23), (11, 23)]
+  type  7 deg2=  14 straight=   1 (7%)  run-length modes (m): [(19, 2), (17, 2), (34, 2), (47, 1), (40, 1), (9, 1)]
+  type 10 deg2=  43 straight=   0 (0%)  run-length modes (m): [(100, 37), (31, 2), (50, 2), (57, 1), (75, 1), (61, 1)]
+  type 14 deg2= 301 straight=  15 (5%)  run-length modes (m): [(50, 176), (49, 39), (51, 35), (100, 12), (15, 7), (19, 4)]
+  type 0 junction-to-junction spans (m): [(30, 337), (15, 248), (50, 30), (10, 14), (49, 12), (27, 12), (3, 11), (60, 10)] ; edges per span: [(1, 841), (2, 98), (3, 34), (4, 10), (5, 1), (6, 2), (8, 1), (10, 1)]
+  type 4 junction-to-junction spans (m): [(15, 599), (30, 88), (45, 45), (14, 32), (31, 31), (16, 29), (17, 28), (12, 26)] ; edges per span: [(1, 1056), (2, 343), (3, 40), (4, 4), (5, 2), (6, 3), (7, 2), (8, 1)]
+
+=== nevervalley-rl100: Nevervalley  (captures/ftg/2026-09-25T10-13-51/session/network/bodies/intercept-0054-b39aab95.bin, 643546 bytes)
+edges 4811  nodes 4045  buildings 2813  towers 29  water polys 4  lot groups 13 / lots 903  districts ['Metal Heath', 'Bread Village', 'Turnpike Dale']
+node bbox m: x -2500.0..2500.0 y -2500.0..2500.0 ; total road length 169.3 km
+degree hist {1: 28, 2: 2866, 3: 752, 4: 390, 5: 8, 6: 1}
+per type: n, total km, median, top modes (1 m bins, value x count, mean of bin), counts within +-0.5 m of targets (10, 15, 20, 25, 30, 50, 60, 100)
+  type  0 n=  964    26.5 km  median   27.0 m  modes: 30 x217 (30.00), 15 x158 (14.72), 50 x128 (50.18), 25 x63 (25.21), 3 x31 (2.95), 12 x21 (11.96)
+          targets: 10:9 15:158 20:7 25:63 30:217 50:128 60:0 100:12
+  type  1 n=  126     7.0 km  median   50.5 m  modes: 100 x38 (100.07), 2 x6 (2.01), 10 x6 (10.10), 50 x6 (50.17), 51 x6 (50.83), 101 x4 (100.50)
+          targets: 10:6 15:1 20:0 25:2 30:0 50:6 60:0 100:38
+  type  3 n=   15    20.0 km  median  900.1 m  modes: 805 x2 (805.19), 48 x1 (48.49), 49 x1 (49.18), 80 x1 (80.14), 448 x1 (448.48), 732 x1 (731.97)
+          targets: 10:0 15:0 20:0 25:0 30:0 50:0 60:0 100:0
+  type  4 n= 2054    34.0 km  median   14.7 m  modes: 15 x658 (14.79), 10 x117 (10.04), 9 x111 (9.03), 12 x111 (11.98), 11 x95 (11.05), 13 x83 (12.90)
+          targets: 10:117 15:658 20:12 25:5 30:66 50:21 60:1 100:2
+  type  6 n=  853    59.5 km  median   44.9 m  modes: 9 x39 (8.97), 10 x38 (9.93), 11 x32 (10.96), 4 x22 (3.91), 8 x22 (8.03), 3 x21 (2.98)
+          targets: 10:38 15:7 20:6 25:4 30:2 50:13 60:1 100:17
+  type  7 n=   44     0.9 km  median   23.6 m  modes: 6 x3 (6.00), 24 x3 (24.09), 29 x3 (29.09), 35 x3 (35.19), 4 x2 (4.34), 7 x2 (7.37)
+          targets: 10:1 15:0 20:2 25:0 30:1 50:0 60:0 100:0
+  type 10 n=   52     4.4 km  median  100.0 m  modes: 100 x39 (100.00), 50 x4 (50.00), 7 x1 (7.08), 8 x1 (7.63), 13 x1 (13.09), 20 x1 (20.02)
+          targets: 10:0 15:0 20:1 25:0 30:0 50:4 60:0 100:39
+  type 12 n=   28     0.4 km  median   10.0 m  modes: 10 x24 (10.00), 34 x4 (34.35)
+          targets: 10:24 15:0 20:0 25:0 30:0 50:0 60:0 100:0
+  type 13 n=   15     0.2 km  median   15.2 m  modes: 15 x9 (15.15), 16 x5 (15.96), 18 x1 (17.87)
+          targets: 10:0 15:9 20:0 25:0 30:0 50:0 60:0 100:0
+  type 14 n=  660    16.2 km  median   16.9 m  modes: 50 x145 (50.00), 15 x63 (14.94), 14 x58 (14.03), 16 x54 (16.05), 13 x48 (13.06), 18 x43 (18.00)
+          targets: 10:6 15:63 20:15 25:2 30:1 50:145 60:0 100:0
+deg-2 straightness (<0.05 deg) and collinear run-length modes (chains through straight deg-2 nodes):
+  type  0 deg2= 191 straight=   1 (1%)  run-length modes (m): [(30, 217), (15, 158), (50, 128), (25, 64), (3, 31), (12, 20)]
+  type  1 deg2=  51 straight=   0 (0%)  run-length modes (m): [(100, 38), (51, 6), (50, 6), (10, 6), (2, 6), (101, 4)]
+  type  3 deg2=   5 straight=   1 (20%)  run-length modes (m): [(805, 2), (900, 1), (5000, 1), (3740, 1), (49, 1), (48, 1)]
+  type  4 deg2=1038 straight= 149 (14%)  run-length modes (m): [(15, 618), (9, 89), (10, 87), (11, 83), (12, 78), (30, 74)]
+  type  6 deg2= 853 straight=   0 (0%)  run-length modes (m): [(9, 39), (10, 38), (11, 32), (8, 22), (4, 22), (12, 21)]
+  type  7 deg2=  25 straight=   0 (0%)  run-length modes (m): [(24, 3), (35, 3), (29, 3), (6, 3), (38, 2), (36, 2)]
+  type 10 deg2=  42 straight=   0 (0%)  run-length modes (m): [(100, 39), (50, 4), (124, 1), (48, 1), (41, 1), (20, 1)]
+  type 12 deg2=   8 straight=   6 (75%)  run-length modes (m): [(10, 12), (20, 6), (34, 4)]
+  type 13 deg2=  14 straight=   0 (0%)  run-length modes (m): [(15, 9), (16, 5), (18, 1)]
+  type 14 deg2= 608 straight=   7 (1%)  run-length modes (m): [(50, 133), (15, 63), (14, 58), (16, 54), (13, 48), (18, 43)]
+  type 0 junction-to-junction spans (m): [(30, 217), (15, 150), (50, 68), (49, 15), (3, 15), (25, 13), (47, 10), (53, 10)] ; edges per span: [(1, 659), (2, 86), (3, 10), (4, 5), (5, 6), (6, 4), (7, 1), (9, 1)]
+  type 4 junction-to-junction spans (m): [(15, 419), (30, 52), (14, 26), (45, 25), (28, 24), (18, 23), (32, 22), (42, 20)] ; edges per span: [(1, 749), (2, 216), (3, 20), (4, 2), (5, 3), (7, 2), (10, 1), (11, 2)]
+

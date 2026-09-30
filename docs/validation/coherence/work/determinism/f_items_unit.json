@@ -1,0 +1,356 @@
+{
+ "5.2": [
+  [
+   "327",
+   "V01 BCR-18 (V01 \u00a710) \u2014 failure classes F-TEMPLATE, F-DISPATCH, F-UNIT. *Needed by:* V01. **STAGED (M5, stage 2).**"
+  ],
+  [
+   "328",
+   "BCR-V2-16 (V02 \u00a710) \u2014 F-MASSING and F-COMPOSE. *Needed by:* V02. **STAGED (M6, stage 3).**"
+  ],
+  [
+   "329",
+   "BCR-V3-10 (V03 \u00a710) \u2014 the stair's kind fallback inside F-PLAN's tier 2. *Needed by:* V03. **STAGED (M6-P, the plan rung).**"
+  ],
+  [
+   "330",
+   "V04 BCR-7 (V04 \u00a710) \u2014 F-NET. *Needed by:* V04. **STAGED (M6-U, the underground layer).**"
+  ],
+  [
+   "331",
+   "BCR-V5-11 (V05 \u00a710) \u2014 the sky's failure rows and invariants. Also touches: \u00a75.3. *Needed by:* V05. **STAGED (M6-sky).**"
+  ]
+ ],
+ "5.3": [
+  [
+   "332",
+   "BCR-V2-17 (V02 \u00a710) \u2014 invariants. *Needed by:* V02. **STAGED (M6, stage 3).**"
+  ],
+  [
+   "333",
+   "BCR-V2-35 (V02 \u00a710) \u2014 stacked wings in the invariants and the carry check (item 110 (c); item 110 fold). Also touches: \u00a72.6. *Needed by:* V0"
+  ],
+  [
+   "334",
+   "BCR-V3-11 (V03 \u00a710) \u2014 shared access in the unit rule. *Needed by:* V03. **STAGED (M6-P, the plan rung).**"
+  ],
+  [
+   "335",
+   "BCR-V6-17 (V06 \u00a710) \u2014 households between an epoch's batches. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**"
+  ],
+  [
+   "336",
+   "BCR-V6-18 (V06 \u00a710) \u2014 the history engine's tiers and its two stage exceptions (J-V6.17). *Needed by:* V06. **STAGED (M6-E, the evolution eng"
+  ]
+ ],
+ "5.4": [
+  [
+   "337",
+   "Two generator report codes (volume 8, X10; J-VI.15). \u00a75.4's report vocabulary gains `aqueduct_no_source` (an aqueduct reason met with no hig"
+  ],
+  [
+   "338",
+   "V04 BCR-41 (V04 \u00a710) \u2014 a stage's own warnings (C4-30 (g)). *Needed by:* V04. **STAGED (M6-U, the underground layer).**"
+  ],
+  [
+   "339",
+   "BCR-V6-14 (V06 \u00a710) \u2014 the epoch report. *Needed by:* V06, V10. **STAGED (M6-E, the evolution engine).**"
+  ]
+ ],
+ "6.1": [
+  [
+   "340",
+   "V01 BCR-11 (V01 \u00a710) \u2014 the stream registry gains `fabric.select`, `hood.dispatch`, `hood.template`; the hood's seed key. Also touches: \u00a76.2."
+  ],
+  [
+   "341",
+   "BCR-V2-10 (V02 \u00a710) \u2014 stage 3's concerns. *Needed by:* V02. **STAGED (M6, stage 3).**"
+  ],
+  [
+   "342",
+   "BCR-V6-8 (V06 \u00a710) \u2014 the engine's stage ids. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**"
+  ],
+  [
+   "343",
+   "BCR-V6-9 (V06 \u00a710) \u2014 the epoch's wealth level and its provenance. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**"
+  ],
+  [
+   "344",
+   "BCR-V7-15 (V07 \u00a710) \u2014 the village concerns. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**"
+  ]
+ ],
+ "6.3": [
+  [
+   "345",
+   "V01 BCR-31 (V01 \u00a710) \u2014 a template's seed ways and plazas take the stage id `S8.seed` in their lineage key. *Build (SCC-R3C-5; reconciliation"
+  ],
+  [
+   "346",
+   "BCR-V2-11 (V02 \u00a710) \u2014 wing anchors. *Note:* With BCR-V3-29 on the same \u00a76.3 table (a new row before the room row; the room row amended). *Ne"
+  ],
+  [
+   "347",
+   "BCR-V3-29 (V03 \u00a710) \u2014 a stacked wing's rooms re-matched by wing-relative storey. *Needed by:* V03, V06. **STAGED (M6-P, the plan rung).**"
+  ]
+ ],
+ "7.1": [
+  [
+   "582",
+   "**A placement with no fitting plot, over budget, or on an occupied join \u2014 bent, not refused** (item 101 R2; J-VI.4's \"R2 governs every tool\""
+  ],
+  [
+   "348",
+   "A quarter's target size in its points form, and the badge's plus and minus. One text (C10-21 (3)): BCR-V10-12's `sizeM2` comment and *Points"
+  ],
+  [
+   "349",
+   "V01 BCR-35 (V01 \u00a710) \u2014 the skeleton `quarter` event and the toolkit's events columns gain `fabric`. *Needed by:* V01. **STAGED (M5, stage 2)"
+  ],
+  [
+   "350",
+   "V01 BCR-44 (V01 \u00a710) \u2014 the `quarter` event's `terrace`; T8's Terraces chip and the sugar expansion. *Needed by:* V01. **BASE (M3a, item 110 "
+  ],
+  [
+   "351",
+   "BCR-V2-12 (V02 \u00a710) \u2014 the two event kinds, the key paths, and their lifecycle rows. Also touches: \u00a77.4. *Note:* Applied before items 352 and"
+  ],
+  [
+   "352",
+   "BCR-V3-3 (V03 \u00a710) \u2014 hearth and stair-kind edits, and the count of plan events. Also touches: \u00a70.2, \u00a713.2, \u00a714. *Note:* Applied after item 3"
+  ],
+  [
+   "353",
+   "BCR-V3-16 (V03 \u00a710) \u2014 the toolkit's rows and the `instance` lifecycle for plan rooms. Also touches: \u00a77.4. *Needed by:* V03. **STAGED (M6-P, "
+  ],
+  [
+   "354",
+   "BCR-V3-24 (V03 \u00a710) \u2014 door leaves and window kinds are editable. *Needed by:* V03. **STAGED (M6-P, the plan rung).**"
+  ],
+  [
+   "355",
+   "V04 BCR-8 (V04 \u00a710) \u2014 points forms and paths of the underground tools. *Note:* Its `drawChamber` gains BCR-V9-21's `system` union; its `dept"
+  ],
+  [
+   "356",
+   "BCR-V5-10 (V05 \u00a710) \u2014 the edit events and targets. Also touches: \u00a77.8. *Note:* Edited in place for J-VI.4: the T4 stroke to a rim is bent, n"
+  ],
+  [
+   "357",
+   "BCR-V7-19 (V07 \u00a710) \u2014 the village edit forms. *Note:* `drawWay` also carries BCR-V9-26's `raised?`. *Needed by:* V07. **STAGED (the village "
+  ],
+  [
+   "358",
+   "BCR-V8-6 (V08 \u00a710) \u2014 the two host-only event kinds. Also touches: \u00a77.4. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**"
+  ],
+  [
+   "359",
+   "BCR-V8-19 (V08 \u00a710) \u2014 the port's reserved session (C8-15). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**"
+  ],
+  [
+   "360",
+   "BCR-V9-13 (V09 \u00a710) \u2014 a wall stretch's grade as an edit (item 106 (c)). *Needed by:* V09. **BASE (M1\u2013M3b, the reference UI (AP1\u2013AP4)).**"
+  ],
+  [
+   "361",
+   "BCR-V9-21 (V09 \u00a710) \u2014 a chamber that starts a system, and the catacomb bend ladder (item 109 (h), (k) as revised ~20:05, J111; V9C-05, V9C-0"
+  ],
+  [
+   "362",
+   "BCR-V9-26 (V09 \u00a710) \u2014 item 110's events (item 110 (a), (b), (f); V9C-52; J-V9.59; one text for volumes 9 and 10, XV-V9-10). Also touches: \u00a72"
+  ],
+  [
+   "363",
+   "BCR-V9-29 (V09 \u00a710) \u2014 a raised way and a town wall (item 110 (b); V9C-54 (4); J-V9.61). Also touches: \u00a77.3. *Needed by:* V09. **BASE (M1\u2013M3b"
+  ],
+  [
+   "364",
+   "BCR-V9-33 (V09 \u00a710) \u2014 a crossing's form and a raised way's measures (V9C-76). *Note (integration continuation, J-VI.27):* the two measures a"
+  ],
+  [
+   "365",
+   "BCR-V10-16 (V10 \u00a710) \u2014 a clerk-made creation prefix keeps its authorship. Also touches: \u00a711.1. *Needed by:* V10. **STAGED (M3c, the built-in"
+  ],
+  [
+   "366",
+   "BCR-V10-17 (V10 \u00a710) \u2014 one flatten mode on a terrain stroke. *Needed by:* V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**"
+  ],
+  [
+   "367",
+   "BCR-V10-18 (V10 \u00a710) \u2014 a points-form `placeAt`'s plot. *Needed by:* V10. **BASE (M3a, the oracle and the tool API (item 101)).**"
+  ],
+  [
+   "368",
+   "BCR-V10-20 (V10 \u00a710) \u2014 `delete` joins T10. *Note:* `delete` in T10: its dry run of a generated re-addable entity names the suppression (BCR-"
+  ],
+  [
+   "570",
+   "BCR-V9-35 (V09 \u00a710) \u2014 a place by a locus is T6's one-line roster (SS-13; J-V9.83). *Note:* Applied after item 368 (BCR-V10-20), item 353 (BC"
+  ],
+  [
+   "571",
+   "BCR-V10-23 (V10 \u00a710) \u2014 an unnamed roster line (SS-12; J-V10.81). *Note:* On \u00a77.1's sugar paragraph; one text with item 570 for the one-line "
+  ]
+ ],
+ "7.3": [
+  [
+   "369",
+   "V01 BCR-33 (V01 \u00a710) \u2014 a district re-derivation's effective scope includes its bounding ways' surface and naming records. Also touches: II.4"
+  ],
+  [
+   "370",
+   "BCR-V2-32 (V02 \u00a710) \u2014 the datum of a stacked wing and of a deck building (item 110 (c), (d); item 110 fold). Also touches: \u00a77.4, \u00a72.6. *Note"
+  ],
+  [
+   "371",
+   "BCR-V2-33 (V02 \u00a710) \u2014 the storeys a wing reaches (item 110 (c); item 110 fold). Also touches: \u00a72.6, \u00a75.3, \u00a77.4, \u00a710.2, \u00a713.2 (T29-4), Judgme"
+  ],
+  [
+   "372",
+   "BCR-V9-22 (V09 \u00a710) \u2014 dwellings in a sealed void as a closure (item 109 (j) (4); V9C-07; J-V9.40). Also touches: \u00a711.2 (`PreviewResult.alter"
+  ]
+ ],
+ "7.4": [
+  [
+   "373",
+   "V01 BCR-25 (V01 \u00a710) \u2014 the `closeup` row's undo cell. *Needed by:* V01. **STAGED (M5, stage 2).**"
+  ],
+  [
+   "374",
+   "BCR-V3-4 (V03 \u00a710) \u2014 furniture through `instance`. *Note:* Applied after item 351: its buildings-row addition is appended to item 351's new "
+  ],
+  [
+   "375",
+   "BCR-V5-25 (V05 \u00a710) \u2014 the lifecycle rows of the sky's events (C5-44). *Needed by:* V05. **STAGED (M6-sky).**"
+  ]
+ ],
+ "7.6": [
+  [
+   "376",
+   "BCR-V2-14 (V02 \u00a710) \u2014 the `FM` building-scope preset. *Note:* With BCR-V7-13: `extension.over: 'MFCG'|'FTG'|'VG'|'FM'|'both'|'none'`; `prese"
+  ],
+  [
+   "377",
+   "BCR-V7-13 (V07 \u00a710) \u2014 the `VG` parity preset. *Note:* See BCR-V2-14 (one union with `FM`). *Needed by:* V07, V11, V12 (V11 \u00a72.2's source cel"
+  ],
+  [
+   "581",
+   "BCR-V11-31 (V11 \u00a710) \u2014 the `VG` preset's scope over categorical option cells (reconciliation round 4, SCC-77; J-V11.77; amended in V11's rou"
+  ],
+  [
+   "584",
+   "V01 BCR-46 (V01 \u00a710) \u2014 the `NG` parity preset (SCC-R3C-3; J-V1.41, J-V1.98): a zeroing parity preset for the stage-2 comparisons with Neighb"
+  ],
+  [
+   "378",
+   "BCR-V7-14 (V07 \u00a710) \u2014 the depth ratio as a fabric parameter. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**"
+  ],
+  [
+   "379",
+   "BCR-V11-6 (V11 \u00a710) \u2014 the table list becomes the registry. *Needed by:* V11. **BASE (M0 (b), V11 C0).**"
+  ],
+  [
+   "380",
+   "BCR-V11-10 (V11 \u00a710) \u2014 document-only tables (g items 104 (a) (1), 105 (j)). *Needed by:* V09, V11. **BASE (M3a, V11 C3).**"
+  ],
+  [
+   "381",
+   "BCR-V12-5 (V12 \u00a710) \u2014 provenance evidence and owner-rule stamps. *Needed by:* V11, V12. **BASE (M-1\u2013M4, the calibration rig).**"
+  ],
+  [
+   "382",
+   "BCR-V12-22 (V12 \u00a710) \u2014 the historical pack's slot. *Needed by:* V12. **STAGED (M-CAL, the corpus reconciliation).**"
+  ]
+ ],
+ "7.7": [
+  [
+   "383",
+   "**Derivation-row numbers** (J-VI.13). The rows the volumes add after DR25 are numbered: DR26 = V01's DR-V1.1 (V01 BCR-29); DR27 = V05's DR-S"
+  ],
+  [
+   "384",
+   "V01 BCR-29 (V01 \u00a710) \u2014 the derivation row DR-V1.1 (DR26): a district's fabric and block content derived. *Note:* Its DR-V1.1 is numbered DR2"
+  ],
+  [
+   "385",
+   "BCR-V2-08 (V02 \u00a710) \u2014 `DriftBounds` typed. *Needed by:* V02. **STAGED (M6, stage 3).**"
+  ],
+  [
+   "386",
+   "V04 BCR-14 (V04 \u00a710) \u2014 the dossier's underground facts. *Needed by:* V04. **STAGED (M6-U, the underground layer).**"
+  ],
+  [
+   "387",
+   "BCR-V5-12 (V05 \u00a710) \u2014 the dossier's islands row. *Note:* Its DR-SKY is numbered DR27. *Needed by:* V05. **STAGED (M6-sky).**"
+  ],
+  [
+   "388",
+   "BCR-V6-12 (V06 \u00a710) \u2014 the dossier's calamities as hazard events. *Note:* Its DR-V6.1 is numbered DR28 (one row with DR-V8.6). *Needed by:* V"
+  ],
+  [
+   "389",
+   "BCR-V8-7 (V08 \u00a710) \u2014 per-settlement values on the circumstance slice. Also touches: \u00a710.2. *Needed by:* V08. **STAGED (SettlementForge stage"
+  ],
+  [
+   "390",
+   "BCR-V8-8 (V08 \u00a710) \u2014 the binding's additions. Also touches: \u00a75.4 (`GenerationReport.dossierNotes`; SR-23). *Needed by:* V08, V09 (V9 \u00a75.7's "
+  ],
+  [
+   "391",
+   "BCR-V8-11 (V08 \u00a710) \u2014 the latitude row (g item 102). Also touches: \u00a714, \u00a78.4. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7)"
+  ],
+  [
+   "392",
+   "BCR-V8-12 (V08 \u00a710) \u2014 coverage inside a collective range (g item 103 (f)). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**"
+  ],
+  [
+   "393",
+   "BCR-V8-20 (V08 \u00a710) \u2014 the change and receipt vocabularies for the port's own kinds (C8-16). *Needed by:* V08. **STAGED (SettlementForge stag"
+  ],
+  [
+   "394",
+   "BCR-V8-21 (V08 \u00a710) \u2014 a custom assignment's revision (C8-17). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**"
+  ],
+  [
+   "395",
+   "BCR-V8-22 (V08 \u00a710) \u2014 the creation prefix's staged records read ahead (C8-18). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7"
+  ],
+  [
+   "396",
+   "BCR-V8-24 (V08 \u00a710) \u2014 the realm block computed by the host glue (C8-21). Also touches: \u00a714. *Needed by:* V08. **STAGED (SettlementForge stag"
+  ],
+  [
+   "397",
+   "BCR-V8-25 (V08 \u00a710) \u2014 the institution's own political role in DR12 (C8-32). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).*"
+  ],
+  [
+   "398",
+   "BCR-V8-30 (V08 \u00a710) \u2014 the port's derivation rows (C8-02, C8-06, C8-09, C8-41, C8-43). *Note:* Its DR-V8.x rows are numbered DR28\u2013DR35. *Need"
+  ],
+  [
+   "399",
+   "BCR-V8-32 (V08 \u00a710) \u2014 a toll bridge on a dry site (C8-45; g item 110). *Needed by:* V08, V09. **STAGED (SettlementForge stage, SF0 to SF7).*"
+  ],
+  [
+   "400",
+   "BCR-V11-7 (V11 \u00a710) \u2014 the era table. *Needed by:* V11. **BASE (M1, V11 C1).**"
+  ],
+  [
+   "401",
+   "BCR-V11-29 (V11 \u00a710) \u2014 the aqueduct's terminal criteria row (item 110 (b); V11C-40). *Needed by:* V11. **BASE (M3a, V11 C3b).**"
+  ]
+ ],
+ "7.8": [
+  [
+   "402",
+   "BCR-V2-30 (V02 \u00a710) \u2014 the `fantasyShapes` control (the revision, V2C-23). *Needed by:* V02, V09. **STAGED (M6, stage 3).**"
+  ],
+  [
+   "403",
+   "V04 BCR-9 (V04 \u00a710) \u2014 the network's two controls. *Needed by:* V04. **STAGED (M6-U, the underground layer).**"
+  ],
+  [
+   "404",
+   "V04 BCR-35 (V04 \u00a710) \u2014 the ruins toggle (C4-55; D-3). *Needed by:* V04. **STAGED (M6-U, the underground layer).**"
+  ]
+ ]
+}

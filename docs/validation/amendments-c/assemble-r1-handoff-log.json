@@ -1,0 +1,497 @@
+{
+ "input_doc_sha256": "f358b8bf9227fcfc3dba41e7619fc28f2f9b9a9a6f77e78b8dfd029a67e591a8",
+ "input_rationale_sha256": "8877372bf547de733a0130bca5cef78bf67d7fe0a943ec85fd838c95ab92fefb",
+ "input_impact_sha256": "7e6de9d255aa2ea3e5bddd4bdc9354e56b56033816efe127835215a0660164eb",
+ "index": {
+  "table_header_line": 16266,
+  "ids_swapped": [
+   "J-A12.45",
+   "J-A67.61",
+   "J-A72.61",
+   "J-A66.71",
+   "J-A76.72",
+   "J-A65.31",
+   "J-A65.32",
+   "J-A79.23",
+   "J-A68.21",
+   "J-A65.46",
+   "J-A65.48",
+   "J-A81.41",
+   "J-A88.41",
+   "J-A68.83",
+   "J-A68.84",
+   "J-A68.85",
+   "J-A68.87"
+  ],
+  "swaps": [
+   {
+    "id": "J-A12.45",
+    "older_line": 16666,
+    "appended_line": 16999,
+    "old_row_sha256": "05f1604b6b2eb5ee543f574db551c67e647a6345c93cc5c85a85bf7afd398bd4",
+    "new_row_sha256": "fcb7892cf8e4b88056f4dc99c148f8d67e31d7b906fa4aee2fe06cdb063e8891",
+    "old_row": "| J-A12.45 | one underground arena; depth per entity as `elevationCm`, drawn and exported by depth band | II.7, §8.4, §11.1 |",
+    "new_row": "| J-A12.45 | one underground arena; depth per entity as `elevationCm`, drawn and exported by depth band (amended for systems by J-A65.31: one part per system, depth per entity inside a part) | II.7, §8.4, §11.1 |"
+   },
+   {
+    "id": "J-A67.61",
+    "older_line": 16743,
+    "appended_line": 16972,
+    "old_row_sha256": "f1da7988aa38e44181e2eadbb0c9f8111dddaee63b476e0dd6e5ffc9839bd361",
+    "new_row_sha256": "36bf84a0ab79016673192271401418cf472042be9a4691a0fa209a3fb1bff31d",
+    "old_row": "| J-A67.61 | a Works' duration drawn inside its `WorksTable` row's range on an appended concern `works`, keyed by its target's lineage with the start week as creation index | §6.1 |",
+    "new_row": "| J-A67.61 | a Works' timing drawn on an appended concern `works`: for a Works an epoch starts, keyed by its target's lineage with the epoch's week as creation index and the epoch component — its start offset in the epoch's span first, its duration inside its `WorksTable` row's range second; for a Works a dated change or a scheduled edit starts, keyed by its target's lineage with its given start week — the duration alone | §6.1 |"
+   },
+   {
+    "id": "J-A72.61",
+    "older_line": 16746,
+    "appended_line": 16975,
+    "old_row_sha256": "bcd4dffa5833cbc0dde685d73c5d8962e0523eb5a35421ec4c20d735f2f12f28",
+    "new_row_sha256": "ef99aed105a0d0bb4ed5b30e2e275f8b79b5cfffd8e8974d274304b762268738",
+    "old_row": "| J-A72.61 | a district's character vector and band range derived, recomputed on load and never hashed; its `identity`, `pressure` and `nameHistory` model data in the digest, written only by generation and epochs | §6.2 |",
+    "new_row": "| J-A72.61 | a district's character vector and band range derived, recomputed on load and never hashed; its `identity`, `pressure` and `nameHistory` model data in the digest, written by generation, epochs and dossier events, and `identity` also by a `setAttr` override | §6.2 |"
+   },
+   {
+    "id": "J-A66.71",
+    "older_line": 16751,
+    "appended_line": 16973,
+    "old_row_sha256": "f1901d354038826ace68ee3a06296f43ec942d53e68c85dac43bd2be8ce824b3",
+    "new_row_sha256": "c883d5f52e61c5eb87cb4752d1e50b6da3f236dfd7748c9aea483237c943285e",
+    "old_row": "| J-A66.71 | the closure rule general and homed in §7.3 item 9: an edit with missing prerequisites expanded at dry run by registry-declared generators into one event and one transaction, its closure record stored, undo exact, a later deletion removing only unshared created pieces, never a dossier fact | §7.3 |",
+    "new_row": "| J-A66.71 | the closure rule general and homed in §7.3 item 9: an edit with missing prerequisites expanded at dry run by registry-declared generators into one event whose batches commit together, its closure record stored, undo exact, a later deletion removing only unshared created pieces, never a dossier fact; the rule and `addUndergroundAccess` the base's, its underground pieces staged — until their stages exist its dry run returns F-EDIT naming the staged layer | §7.3 |"
+   },
+   {
+    "id": "J-A76.72",
+    "older_line": 16756,
+    "appended_line": 16974,
+    "old_row_sha256": "b9f87beb1f153cb135a713f77f1b30d1edcf87ce99edd73a281a6b86dfdba23d",
+    "new_row_sha256": "1b6c70ff1d62e3cfe52733762e71c08d96648353d381b63813427d9135aa4a06",
+    "old_row": "| J-A76.72 | an older `epoch` event without a week takes its predecessor's week plus its own `years` × 52 at load | §7.5 |",
+    "new_row": "| J-A76.72 | an older `epoch` event without a week takes its predecessor's week plus round(52 × `years`) at load | §7.5 |"
+   },
+   {
+    "id": "J-A65.31",
+    "older_line": 16790,
+    "appended_line": 16978,
+    "old_row_sha256": "2add5fa9a8911c67c9e09e445d1ff0ba6bd730c5e132046825c336877b9004ad",
+    "new_row_sha256": "84c21503e078594dd9c10250e75966700c28ea9edf77d7f1e25df8c1494dcf16",
+    "old_row": "| J-A65.31 | several arenas on the underground layer — a `PlatKey` part per system that may pass over or under another without meeting, its number allocated once and never reused — with J-A12.32 carried across the parts and every entity's geometry in one part, over grade separation inside one arena (amends J-A12.45 for systems; depth stays per entity inside a part) | §3.4, §3.10 |",
+    "new_row": "| J-A65.31 | several arenas on the underground layer — a `PlatKey` part per system that may pass over or under another without meeting, its number allocated once and never reused — with J-A12.32 carried across the parts and every entity's geometry in one part (a link's two ends excepted, one vertex in each part), over grade separation inside one arena (amends J-A12.45 for systems; depth stays per entity inside a part) | §3.4, §3.10 |"
+   },
+   {
+    "id": "J-A65.32",
+    "older_line": 16791,
+    "appended_line": 16979,
+    "old_row_sha256": "429543561b091dd089f2f1ac157430a033ef907229ba7d9d21a4d92d952b0083",
+    "new_row_sha256": "77b609bd8da799869aa5e1c3521b543297565e65d1f350b013306ac52c2f8353",
+    "old_row": "| J-A65.32 | every underground part cut by the same functions: galleries' and walkways' bands by `corridorUnion` from their system's row, a chamber as a closed outline chain at the part's L1 whose floor S9–S11 cut; no underground-specific operation | §3.7 |",
+    "new_row": "| J-A65.32 | every underground part cut by the same functions: galleries' and walkways' bands by `corridorUnion` from their `Gallery` records, a chamber as a closed outline chain at the part's L1 whose floor S9–S11 cut; no underground-specific operation | §3.7 |"
+   },
+   {
+    "id": "J-A79.23",
+    "older_line": 16797,
+    "appended_line": 16985,
+    "old_row_sha256": "672be8d845b291c97f35ad60c0bd3a371b7662542947f643305217697aec0bc0",
+    "new_row_sha256": "4c91f7d3233507663e47dfe3d49e8975004171ed7cc4f478c7a853ed341fcc0c",
+    "old_row": "| J-A79.23 | a hidden power keeps its kind and sets `Faction.secret`; `secret` stays a flag, never a kind | §2.7 |",
+    "new_row": "| J-A79.23 | a hidden power keeps its kind and sets `secret` — `PowerStanding.secret` in the base (§7.7 item 2), `Faction.secret` when the module materialises it (§10.1); `secret` stays a flag, never a kind | §2.7 |"
+   },
+   {
+    "id": "J-A68.21",
+    "older_line": 16806,
+    "appended_line": 16984,
+    "old_row_sha256": "b062a9c795b4feb853d043c3a2acd7c1a9dd74630bed627a73ecdde4bf958d97",
+    "new_row_sha256": "58abcb54fc60fb32bd083f79c26fb318871d041f9cbc732c59766fb3ede60573",
+    "old_row": "| J-A68.21 | `LightSource` a host-anchored record (kind, source, point, host and entrance ordinal, height, intensity in candela, radius, flame size, colour, an optional flicker phase), lit or unlit a reading of its host; derived lights never records; an emitting pin carries its `light`; the light view keys per viewer, the pointer never stored | §2.7, §2.9 |",
+    "new_row": "| J-A68.21 | `LightSource` a host-anchored record (kind, source, point, host and entrance ordinal, height, intensity in candela, radius, flame size, colour, an optional flicker flag), lit or unlit a reading of its host; its colour used as is by the light pass, while a style's light roles tint only the vector rung's glyph and glow; its flicker §8.4's pure function of its render key and the view's time, never drawn or stored; derived lights never records; an emitting pin carries its `light`; the light view keys per viewer, the pointer never stored | §2.7, §2.9 |"
+   },
+   {
+    "id": "J-A65.46",
+    "older_line": 16842,
+    "appended_line": 16997,
+    "old_row_sha256": "2cee72eb257baeee94733dd9c7d930873b0b17998b4dd8d1517ccab75b84c332",
+    "new_row_sha256": "1f6734a3e5f3a3e9fb24943aba3f8649ebacf5a1a6e75a4645850e88e7b591c3",
+    "old_row": "| J-A65.46 | a buried old town is the `raiseGrade` conversion: the old grade's records end on the ground and their successors become the `buried` system's galleries and chambers; the ground above is re-derived on the new grade | II.7.6 |",
+    "new_row": "| J-A65.46 | a buried old town is the `raiseGrade` conversion: the old grade's records end on the ground and fresh records of the `buried` part become its galleries and chambers, the conversion recording the system it made; the ground above is re-derived on the new grade | II.7.6 |"
+   },
+   {
+    "id": "J-A65.48",
+    "older_line": 16844,
+    "appended_line": 16996,
+    "old_row_sha256": "30171b4e4967c98a22c34aa3d7c56ff3b08d64d9043dedeb1d29a0d7c3b7a6d4",
+    "new_row_sha256": "e1e5b34477c3edce4a6860a7395d7220653a232d8f2f6d8d4c6952441c17bbf6",
+    "old_row": "| J-A65.48 | every underground gallery and chamber takes II.6's condition table, with a `flooded` row of their own | II.6 |",
+    "new_row": "| J-A65.48 | every underground gallery and chamber takes II.6's condition table, with a `flooded` row of their own; the ladder's conversions name an `element` (a tunnel, gallery or chamber) and `flood` joins them | II.6, §4.11 |"
+   },
+   {
+    "id": "J-A81.41",
+    "older_line": 16860,
+    "appended_line": 16998,
+    "old_row_sha256": "7cf278b3f4a1f8fd4a158f9d3b4ce0d935df9fad56b0ab1aea61865c0ba3d1c9",
+    "new_row_sha256": "c197034c6e3e7dde57e5fec1a245fffa6dd3f4c0048c897d141f19f093b7a0c6",
+    "old_row": "| J-A81.41 | at each epoch the rung profile is read at the population target; an upward crossing the frame cannot hold grows the frame by an S1-derived ring and one L0 batch, the old arena byte-identical; the frame never shrinks | §4.11, §3.2 |",
+    "new_row": "| J-A81.41 | at each epoch the rung profile is read at the population target; an upward crossing the frame cannot hold grows the frame by an S1-derived ring plus the kernel's single-level batches over one clear region (§3.2 (9); J-A81.31), the pipeline re-deriving the region and continuing the through-roads; every face outside the region, the deleted stretches and the ring unchanged; the frame never shrinks | §4.11, §3.2 |"
+   },
+   {
+    "id": "J-A88.41",
+    "older_line": 16887,
+    "appended_line": 16995,
+    "old_row_sha256": "e7c1ade8312f8a8dbe788b7b039036b92595ad96a4434b6732767d5ab344f260",
+    "new_row_sha256": "8473cc25f18cb95181381f8ad1308f2ec592d49a4fef17a3fd7c1c584ffcc431",
+    "old_row": "| J-A88.41 | the staged crime term as multipliers on the hidden-share target and the basement-access probability, 1 while the port's row is empty | §4.6, §10.2 |",
+    "new_row": "| J-A88.41 | the staged crime term as multipliers on the hidden-share target, the basement-access probability and the undercity's demand, stated once at §4.6 and 1 while the port's row is empty | §4.6, §10.2, II.7.3, II.7.5 |"
+   },
+   {
+    "id": "J-A68.83",
+    "older_line": 16904,
+    "appended_line": 17002,
+    "old_row_sha256": "f28cb214e570befd54499763c982eb68076aa328a3d2a2cf86a5bf7cc229f753",
+    "new_row_sha256": "8f6eaee70755966ea56022861ddc060e3c3bd8c35cc204d82e50bb2433feb09e",
+    "old_row": "| J-A68.83 | the light model: a per-tile surface layer (normal, height, unlit coverage) plus a slab list for casters over drawn ground; brightness a sum over sources of inverse-square light with a smooth cutoff, soft visibility marched at the source's height, ambient occlusion and a blurred spill; light in value only in `ink` | §8.4 |",
+    "new_row": "| J-A68.83 | the light model: a per-tile surface layer (normal, height, unlit coverage) plus a slab list for casters over drawn ground; brightness a sum over sources of inverse-square light with a smooth cutoff, soft visibility marched at the source's height by one march law for the CPU reference, the GPU pass and the bake (N samples, quadratically spaced over a march length that only the source, the pixel and the surface decide), ambient occlusion and a bounce-only spill, so open level ground keeps exactly its albedo; light in value only in `ink` | §8.4 |"
+   },
+   {
+    "id": "J-A68.84",
+    "older_line": 16905,
+    "appended_line": 17003,
+    "old_row_sha256": "b1be815f3698232104324493edfe6eb84418cdb51059bc9037940d9903a0188a",
+    "new_row_sha256": "1ec55eee5b70cc2d1cb2b237afa980f9958418ff4f572e1143cec8f6b62256d3",
+    "old_row": "| J-A68.84 | the cursor sun at G = V + s·u, height h₀·D·s — over the pointer at `sunHeight` 1, receding toward a parallel sun as it rises; on-screen lengths view-derived and nothing stored; fixed and path suns zoom-independent and the only suns of exports and stills | §8.4 |",
+    "new_row": "| J-A68.84 | the cursor sun at G = V + s·u, height h₀·D·s — over the pointer at `sunHeight` 1, receding toward a parallel sun as it rises; on-screen lengths view-derived and nothing stored; fixed and path suns zoom-independent and the only suns of exports and stills; the sheet's `SunSpec.mode` the default and `SunSpec.admits` the modes a viewer's `sunMode` may choose, and a sheet's `defaultLight` set on the viewer's `light` key when the sheet becomes its style | §8.4 |"
+   },
+   {
+    "id": "J-A68.85",
+    "older_line": 16906,
+    "appended_line": 17004,
+    "old_row_sha256": "f468a5e8a165402853df328b669ac1b1404abb24e2d15ad55453bd2a4fae2188",
+    "new_row_sha256": "056fef18b11816a55798164449c38e22dc62e8bbddaa42f413a91841f0f20eaa",
+    "old_row": "| J-A68.85 | the fallback ladder: the GPU pass at the tile DPR → with a half-resolution global term → the vector pass; chosen per tier at app start, lowered on a lost context or three frames over budget, never raised mid-session; exports always on the CPU reference; `hatched` on its vector prism pass by design | §8.4 |",
+    "new_row": "| J-A68.85 | the fallback ladder: the GPU pass at the tile DPR → with a half-resolution global term → the vector pass; chosen per tier at app start, lowered on a lost context or three frames over budget, never raised mid-session; a tier missing §13.4's tolerance first takes a full-precision surface, the march unchanged; the bake's fallback a declared view shift on every host; exports always on the CPU reference; `hatched` on its vector prism pass by design | §8.4, §8.8, §12.7 |"
+   },
+   {
+    "id": "J-A68.87",
+    "older_line": 16908,
+    "appended_line": 17005,
+    "old_row_sha256": "0e28b11a8c660e1116cb2a64d53af7f03344451a104fb885b7e49c93d28f4c22",
+    "new_row_sha256": "e9b1176515f3f1c49a3d78155a804122d399b45c20afa19786d6445005d68bde",
+    "old_row": "| J-A68.87 | on rungs 1–2 the lit programs emit albedo and normals and the pass lights them once, the light-step machinery serving the vector rung; labels, halos, overlays and furniture never lit — composed after the pass in day colours, J-R21's one bitmap per tile kept by the surface layer's unlit coverage | §8.4 (with §8.2's roles, §8.8's canvas and §9.4) |",
+    "new_row": "| J-A68.87 | on rungs 1–2 the lit programs emit albedo and normals and the pass lights them once, the light-step machinery serving the vector rung; labels, halos, overlays and furniture never lit — composed after the pass in day colours, J-R21's one bitmap per tile kept by the surface layer's unlit coverage; §8.2's post operations after the light, on the base picture alone, on every path | §8.4 (with §8.2's roles and post operations, §8.8's canvas and §9.4) |"
+   }
+  ]
+ },
+ "part_a": {
+  "table_header_line": 45,
+  "ids_swapped": [
+   "J-A12.45",
+   "J-A67.61",
+   "J-A72.61",
+   "J-A66.71",
+   "J-A76.72",
+   "J-A65.31",
+   "J-A65.32",
+   "J-A79.23",
+   "J-A68.21",
+   "J-A65.46",
+   "J-A65.47",
+   "J-A65.48",
+   "J-A81.41",
+   "J-A88.41",
+   "J-A68.83",
+   "J-A68.84",
+   "J-A68.85",
+   "J-A68.87",
+   "J-A32.02",
+   "J-A50.01",
+   "J-A63.01"
+  ],
+  "swaps": [
+   {
+    "id": "J-A12.45",
+    "older_line": 445,
+    "appended_line": 779,
+    "old_row_sha256": "7f2da63fba15ffd1d9180e3aded1b2d81252a3a03d328c5e68c302f17d193694",
+    "new_row_sha256": "54e31fd169fc09872ab87f413d2f002b79e37b407e1bde8066783ea7e81bd297",
+    "old_row": "| J-A12.45 | Chose one underground arena with depth per entity (`elevationCm` = `baseCm` below the datum) and drawing and export by depth band, over one arena per depth level, because tunnels at different depths must keep one topology at their junctions and §2.2's arena-per-layer rule already gives the underground exactly one `PlatKey`; a building is still drawn and exported on its own level through the band (II.7.3, §8.4, §11.1). |",
+    "new_row": "| J-A12.45 | Chose one underground arena with depth per entity (`elevationCm` = `baseCm` below the datum) and drawing and export by depth band, over one arena per depth level, because tunnels at different depths must keep one topology at their junctions and §2.2's arena-per-layer rule already gives the underground exactly one `PlatKey`; a building is still drawn and exported on its own level through the band (II.7.3, §8.4, §11.1). (Amended for systems by J-A65.31: one part per system, depth per entity inside a part.) |"
+   },
+   {
+    "id": "J-A67.61",
+    "older_line": 522,
+    "appended_line": 751,
+    "old_row_sha256": "83bc06c4edddbb78b603a347b725d3951e8b92fe10456a547cc50c4f61e9146d",
+    "new_row_sha256": "0f11b26fdd657532790de1fe2eb4694790f620dae6396d9cfbaa73973cd01e4b",
+    "old_row": "| J-A67.61 | Chose to draw a Works' duration inside its `WorksTable` row's range (a small timber house 2–6 weeks, a stone house 4–12 months) on a new concern `works`, keyed by the target's lineage with the start week as the creation index, over table-exact durations, because the owner's words give ranges (\"two weeks or a month\") and a fixed duration per row would make every house of a class finish in step, while the keyed draw keeps the same history giving the same weeks on every host and never disturbs another concern's draws (§6.1; item 67). |",
+    "new_row": "| J-A67.61 | Chose to draw a Works' timing inside its `WorksTable` row's range (a small timber house 2–6 weeks, a stone house 4–12 months) on a new concern `works`, keyed two ways — for a Works an epoch starts, by the target's lineage with the epoch's week as the creation index and the epoch component, the start offset within the epoch's span drawn first and the duration second; for a Works a dated change or a scheduled edit starts, by the target's lineage with its given start week as the creation index, the duration alone — over table-exact durations and over one key built from the start week, because the owner's words give ranges (\"two weeks or a month\") and a fixed duration per row would make every house of a class finish in step, while an epoch's Works draws its own start week, so a key built from that week would need the draw's result before the draw; both keys keep the same history giving the same weeks on every host and never disturb another concern's draws (§6.1; item 67; repair r1, VD0-01). |"
+   },
+   {
+    "id": "J-A72.61",
+    "older_line": 525,
+    "appended_line": 754,
+    "old_row_sha256": "d1ea41ca178cfb329d69c2ce59a9f19a0825136f13e138f254dd474dbd4df05c",
+    "new_row_sha256": "7406c9e4ea801ed0b11a079868ecdad23706b31c4e0786820699a98a158d3993",
+    "old_row": "| J-A72.61 | Chose to treat a district's character vector and band range as derived — pure functions of committed state, recomputed on load and never hashed — and its `identity`, `pressure` and `nameHistory` as model data in the digest, written only by generation and epochs, over hashing all five or deriving all five, because the vector and range can always be recomputed from the lots and the slices, while the identity depends on the epochs it lived through (the hysteresis's dwell), the pressure is a retained accumulation and the name history a record of renames, none of which the present state alone reproduces (§6.2; item 72, ruling 7). |",
+    "new_row": "| J-A72.61 | Chose to treat a district's character vector and band range as derived — pure functions of committed state, recomputed on load and never hashed — and its `identity`, `pressure` and `nameHistory` as model data in the digest, written by generation, by epochs and by dossier events (a district-defining institution or a matched claim sets the identity, a dossier rename extends the name history), and the identity also by a `setAttr` override, over hashing all five or deriving all five, because the vector and range can always be recomputed from the lots and the slices, while the identity depends on the epochs and dossier events it lived through (the hysteresis's dwell), the pressure is a retained accumulation and the name history a record of renames, none of which the present state alone reproduces (§6.2; item 72, ruling 7; repair r1, V-MC0-20). |"
+   },
+   {
+    "id": "J-A66.71",
+    "older_line": 530,
+    "appended_line": 752,
+    "old_row_sha256": "a820a9a314821f70464984eff4f42cb494bebf665485ba13d7b8a9676c98966c",
+    "new_row_sha256": "7b88399ca82715a478d12c7c1bf1827b75d1e8877deb9a0af7b21e39855e2a4e",
+    "old_row": "| J-A66.71 | Chose a general closure rule homed in §7.3 — an edit whose target lacks prerequisites is expanded at its dry run, by generators the entity registry declares per edit kind, into the minimal pieces in dependency order, applied as one event and one transaction, its closure record stored, its undo removing exactly the created pieces, a later deletion removing only the created pieces nothing else uses, a created basement returning to its derived state unless edited, and never touching a dossier fact — over a rule stated only for the underground access in II.7, because the owner's words (\"it generates all the necessary pieces\") describe what an edit must do to stay lawful, which is §7's subject, and the same rule already serves a front's missing concealed door and an undercity's missing lifeline; the underground pieces themselves stay II.7.6's (§7.3 item 9; item 66). |",
+    "new_row": "| J-A66.71 | Chose a general closure rule homed in §7.3 — an edit whose target lacks prerequisites is expanded at its dry run, by generators the entity registry declares per edit kind, into the minimal pieces in dependency order, applied as one event whose batches (each one level of one arena, on the underground layer of one part) commit together from the dry run's overlay, its closure record stored, its undo removing exactly the created pieces, a later deletion removing only the created pieces nothing else uses, a created basement returning to its derived state unless edited, and never touching a dossier fact — over a rule stated only for the underground access in II.7, because the owner's words (\"it generates all the necessary pieces\") describe what an edit must do to stay lawful, which is §7's subject, and the same rule already serves a front's missing concealed door and an undercity's missing lifeline; the underground pieces themselves stay II.7.6's. The rule and the edit kind are the base's, while `addUndergroundAccess`'s underground pieces run only once the owner-staged underground stages exist, its dry run until then returning F-EDIT naming the staged layer, so the base carries the whole hook and never a half-built underground; \"transaction\" keeps its §3.3 meaning, one batch (§7.3 item 9; item 66; repair r1, VD0-04 and VD0-16). |"
+   },
+   {
+    "id": "J-A76.72",
+    "older_line": 535,
+    "appended_line": 753,
+    "old_row_sha256": "3aa1d99ee8d67a2224a94eb929b527f138f0f682804ed9288065b67aa1e62211",
+    "new_row_sha256": "a4edf8fa2c5a48621a9700a39d96996f0b17bdd7dc1807e3cd039854c6ab550e",
+    "old_row": "| J-A76.72 | Chose to give an older `epoch` event without a week the week its predecessor's week plus its own `years` × 52 implies (the first from week 0), over leaving it weekless, because every Works stage and the cadence read an absolute week and a weekless epoch would leave them undefined; no such document exists yet, so the transform only keeps the schema chain total (§7.5; item 76). |",
+    "new_row": "| J-A76.72 | Chose to give an older `epoch` event without a week its predecessor's week plus round(52 × `years`) — §4.11's `EpochInputs.week` rule, the first from week 0 — over leaving it weekless, because every Works stage and the cadence read an absolute week and a weekless epoch would leave them undefined, and the rounding keeps the week an integer as the clock requires; no such document exists yet, so the transform only keeps the schema chain total (§7.5; item 76; repair r1, VD0-23). |"
+   },
+   {
+    "id": "J-A65.31",
+    "older_line": 569,
+    "appended_line": 757,
+    "old_row_sha256": "3dcc47f7c61be5f3941fd49ef253bef333d7f850b7c75bf7fc13b911d3b7ac2e",
+    "new_row_sha256": "0342f8ec95aab2881a6c7684cd868083974d4cdea261afb3ffc098bdb31544e7",
+    "old_row": "| J-A65.31 | Chose to let the underground layer hold several arenas — a `PlatKey` part per system that may pass over or under another without meeting, the sewer network keeping part 0 and each further system taking a number allocated once at its creation and never renumbered or reused, because the number is part of its entities' keys and addresses — and to carry J-A12.32 across them unchanged (a transaction writes one part; a stage reads the ground and every other part by key; a meeting of two systems, or a stair or shaft joining them, is a record that names one vertex in each part; every entity's geometry lies in the one part its `Identity.key` names, and a grouping that spans systems — an undercity neighbourhood and its outskirts along the sewer tunnels — is a link between records in different parts, over one entity with faces in two arenas, which would give `Identity` a second key and every reader of a reference a choice of arena), over grade separation inside one arena (a crossing vertex that joins nothing, or faces allowed to overlap where their depths differ), because every kernel guarantee — faces that never overlap, every crossing a vertex, nesting checked by index, `minEdge` and clearance tested against the index — rests on an arena being one planar subdivision, so an exception for depth would have to be carried through every writer, query and invariant, while a separate part costs only its index partitions, snapshot block and level digests and keeps a re-derivation of one system from touching another; it amends J-A12.45's \"one underground arena\" for systems and keeps its depth per entity inside each part (§3.4, §3.10; item 65 (a), (d), (e); the kernel's confirmation asked by ruling 1 of the route's item 65; amendments-c, kernel seat). |",
+    "new_row": "| J-A65.31 | Chose to let the underground layer hold several arenas — a `PlatKey` part per system that may pass over or under another without meeting, the sewer network keeping part 0 and each further system taking a number allocated once at its creation and never renumbered or reused, because the number is part of its entities' keys and addresses — and to carry J-A12.32 across them unchanged (a transaction writes one part; a stage reads the ground and every other part by key; a meeting of two systems, or a stair or shaft joining them, is a record that names one vertex in each part; every entity's geometry lies in the one part its `Identity.key` names (a link's two ends excepted, one vertex in each part), and a grouping that spans systems — an undercity neighbourhood and its outskirts along the sewer tunnels — is a link between records in different parts, over one entity with faces in two arenas, which would give `Identity` a second key and every reader of a reference a choice of arena), over grade separation inside one arena (a crossing vertex that joins nothing, or faces allowed to overlap where their depths differ), because every kernel guarantee — faces that never overlap, every crossing a vertex, nesting checked by index, `minEdge` and clearance tested against the index — rests on an arena being one planar subdivision, so an exception for depth would have to be carried through every writer, query and invariant, while a separate part costs only its index partitions, snapshot block and level digests and keeps a re-derivation of one system from touching another beyond its links' far ends; it amends J-A12.45's \"one underground arena\" for systems and keeps its depth per entity inside each part (§3.4, §3.10; item 65 (a), (d), (e); the kernel's confirmation asked by ruling 1 of the route's item 65; amendments-c, kernel seat). |"
+   },
+   {
+    "id": "J-A65.32",
+    "older_line": 570,
+    "appended_line": 758,
+    "old_row_sha256": "16ec7b82883e5f3d66c62eac69e3211aa934384b8e1567a9c7ea022ff7c35a55",
+    "new_row_sha256": "600f2409ce978c6f8da6a2348eeecac0e05d869d6f26cb64747b035b5adc0d82",
+    "old_row": "| J-A65.32 | Chose to cut every underground part with the functions the ground and the sewer already use — `corridorUnion` over galleries and walkways with the half-width their system's row declares, as J-A12.31 reads a tunnel's, and a chamber as a closed outline chain at the part's L1 whose floor S9–S11 cut like a ground L1 face, the outline declaring no half-width as a shore declares none — over an operation of their own for voids or galleries, because item 65 (e) asks for the surface's engine underground, because the band and chain machinery already makes a gallery's wall the kerb its frontage plots end on and a chamber's floor a face the plot model can divide, and because a second construction would bring a second attraction and placement behaviour to test (§3.7; item 65 (b), (e); amendments-c, kernel seat). |",
+    "new_row": "| J-A65.32 | Chose to cut every underground part with the functions the ground and the sewer already use — `corridorUnion` over galleries and walkways with the half-width their `Gallery` record declares, as J-A12.31 reads a tunnel's, and a chamber as a closed outline chain at the part's L1 whose floor S9–S11 cut like a ground L1 face, the outline declaring no half-width as a shore declares none — over an operation of their own for voids or galleries, because item 65 (e) asks for the surface's engine underground, because the band and chain machinery already makes a gallery's wall the kerb its frontage plots end on and a chamber's floor a face the plot model can divide, and because a second construction would bring a second attraction and placement behaviour to test (§3.7; item 65 (b), (e); amendments-c, kernel seat). |"
+   },
+   {
+    "id": "J-A79.23",
+    "older_line": 576,
+    "appended_line": 764,
+    "old_row_sha256": "12ea52aa23444bb7d796edb3be4bdce634d431d5c9e1bfb2c1cfcf82203d78c1",
+    "new_row_sha256": "4f40c292ea3a965a5495170fbf50edd7cae8420eeffd5a7c7fdc698cfbad9410",
+    "old_row": "| J-A79.23 | Chose to keep a hidden power's kind and set `Faction.secret`, over making \"secret\" a kind of its own, because a hidden criminal network and a hidden cult are different powers that both happen to be hidden: the flag keeps each kind's rows (its class links, its dials) working while §9.2's knowledge rules withhold the name. |",
+    "new_row": "| J-A79.23 | Chose to keep a hidden power's kind and set its `secret` flag — `PowerStanding.secret` in the base, where a power is a standing of §7.7's circumstance slice, and `Faction.secret` only when the module materialises the power as a faction (§10.1) — over making \"secret\" a kind of its own, because a hidden criminal network and a hidden cult are different powers that both happen to be hidden: the flag keeps each kind's rows (its class links, its dials) working while §9.2's knowledge rules withhold the name. |"
+   },
+   {
+    "id": "J-A68.21",
+    "older_line": 585,
+    "appended_line": 763,
+    "old_row_sha256": "07f6de8642f5b3e1591898129a3a7529097d846d92ece6baaf1e355f2849d4ad",
+    "new_row_sha256": "3581fe83c78065625ec099c93bfb43bfc726e6ca01cc2e7be5ab05e4269242eb",
+    "old_row": "| J-A68.21 | Chose to make a point light a record anchored on its host — kind, fire or magic, point, host (with the entrance ordinal of a door light), height, intensity in candela, radius, the flame's or orb's own size, colour and an optional flicker phase — with lit or unlit a reading of the host's state, lit windows, room lights and light shafts derived and never records, and the controls for day, night, sun and lantern per-viewer view keys with the pointer's position never stored, over storing every light including windows or storing the cursor's sun, because placed lights are things a user adds, moves and removes (the owner's torches) while lit windows follow who lives in a building and how its rooms lie, and the cursor is a way of looking, not a fact of the map. |",
+    "new_row": "| J-A68.21 | Chose to make a point light a record anchored on its host — kind, fire or magic, point, host (with the entrance ordinal of a door light), height, intensity in candela, radius, the flame's or orb's own size, colour and an optional flicker flag — with lit or unlit a reading of the host's state, lit windows, room lights and light shafts derived and never records, and the controls for day, night, sun and lantern per-viewer view keys with the pointer's position never stored, over storing every light including windows or storing the cursor's sun, because placed lights are things a user adds, moves and removes (the owner's torches) while lit windows follow who lives in a building and how its rooms lie, and the cursor is a way of looking, not a fact of the map. The flicker is a flag, never a stored phase: its motion follows from the light's render key and the view's time alone (J-A68.61), so nothing is drawn for it and nothing enters the model digest. The colour is the one the light pass lights with (§8.4 (c)), and a style's `light` and `lights` roles tint only the vector rung's glyph and glow, over letting a style shift a source's colour, because §8.2's light roles are the vector rung's tones and no style rule reaches the light pass. |"
+   },
+   {
+    "id": "J-A65.46",
+    "older_line": 621,
+    "appended_line": 776,
+    "old_row_sha256": "b58d6f05b1eb1ff6deb2bb06914d1d1fe904c02da63fef92ec80cd33bef11255",
+    "new_row_sha256": "515e2be6a407ad656f91b26224d340e26728d0dafeea784b299757e40167adfd",
+    "old_row": "| J-A65.46 | Chose to make a buried old town the conversion `raiseGrade { region; raiseCm; cause }`, by an epoch or by hand: the region's ground is raised by S1's terrain operator, its records at the old grade end on the ground (`cleared`) and their successors become the `buried` system's galleries (the old streets) and chambers (the old ground storeys) by §6.3's succession, while the ground above is re-derived regrowth-first on the old centrelines, over copying the old town into the underground or deriving buried towns at generation, because no geometry may live in two arenas at once (J-A12.43), because succession keeps each old place's history addressable, and because \"the evolution log supplies it\" — a settlement without that history has none, unless the staged port names such a scar (II.7.6; item 65 (b)(1), ruling 5; amendments-c, pipeline seat D). |",
+    "new_row": "| J-A65.46 | Chose to make a buried old town the conversion `raiseGrade { region; raiseCm; cause }`, by an epoch or by hand: the region's ground is raised by S1's terrain operator, its records at the old grade end on the ground (`cleared`) and fresh records of the `buried` part — minted from the conversion event as a mutation's added parts are — become the `buried` system's galleries (the old streets) and chambers (the old ground storeys), the conversion recording the system it created or extended in `RaiseGrade.system` so that a replay reads its part number there, while the ground above is re-derived regrowth-first on the old centrelines, over copying the old town into the underground, succeeding each old record into another part or deriving buried towns at generation, because no geometry may live in two arenas at once (J-A12.43), an address names its part and no batch writes two (§3.4), the cleared records keep each old place's history addressable, and \"the evolution log supplies it\" — a settlement without that history has none, unless the staged port names such a scar (II.7.6; item 65 (b)(1), ruling 5; amendments-c, pipeline seat D; repair round 1, VKC-10, VPR0-09). |"
+   },
+   {
+    "id": "J-A65.47",
+    "older_line": 622,
+    "appended_line": 777,
+    "old_row_sha256": "f83cc63774eff32516a724465e04701b48c4df7d7c4cf168f178ef63c1a4671c",
+    "new_row_sha256": "3f0e6edb2654c463b1620990896f25b837023d766683f49e596f2a54842af8c9",
+    "old_row": "| J-A65.47 | Chose one system per kind, each taking the next part number at its creation (catacomb, cavern, quarry, vaults at generation; buried and dug when first made), and a connection graph drawn by proximity (10 m in plan, 8 m in depth, one link per 60 m) and a chance per pair of kinds, its kind by weights and following its elements' condition, the undercity's lifelines realised before any lottery, over one part per complex or guaranteed links, because the owner said the systems connect \"with varying degrees of connections and access between them (not always)\", because two complexes of one kind that meet should join as galleries do, and because an undercity without a lifeline could not live (II.7.6; item 65 (a), (d); amendments-c, pipeline seat D). |",
+    "new_row": "| J-A65.47 | Chose one system per kind, each taking the next part number at its creation (catacomb, cavern, quarry, vaults at generation; buried and dug when first made), and a connection graph drawn by proximity (10 m in plan, 8 m in depth, one link per 60 m) and a chance per pair of kinds, its kind by weights and following its elements' condition, the undercity's lifelines realised before any lottery, over one part per complex or guaranteed links, because the owner said the systems connect \"with varying degrees of connections and access between them (not always)\", because two complexes of one kind that meet should join as galleries do, and because an undercity without a lifeline could not live; and since inside one part every plan crossing is a junction (§3.4), no rule lays an element across another of its part without meeting it: a catacomb or quarry laid beside a complex of its kind joins it at a common depth band, a dug connector's path search treats every other building's dug passage as a foundation, and a drawn gallery or chamber that would cross one of its system's at another depth band is refused by its dry run, naming the crossing (F-EDIT, §5.2) (II.7.6; item 65 (a), (d); amendments-c, pipeline seat D; repair round 1, VKC-11). |"
+   },
+   {
+    "id": "J-A65.48",
+    "older_line": 623,
+    "appended_line": 775,
+    "old_row_sha256": "b7d9db634c5546276ee70f83bf6ea1f48c329b677cae0c4ddc1b91d74d5fbd3e",
+    "new_row_sha256": "77790e39f6f95ca2de07a0fded20aa424d1263ef85aa362fc8f9797028bdf1f4",
+    "old_row": "| J-A65.48 | Chose to let every gallery and chamber of the undercity and the other systems take II.6's tunnel condition table and conversions, adding one row — `flooded`, for an element below the water table — over a second ladder for voids, because the owner said the underground fades \"like the walls … some tunnels simply cave in or become decommissioned\", which holds for every void, and one table keeps one reading for the renderer, the reader and the locality rules (II.6; item 65 (c); amendments-c, pipeline seat D). |",
+    "new_row": "| J-A65.48 | Chose to let every gallery and chamber of the undercity and the other systems take II.6's tunnel condition table and conversions, adding one row — `flooded`, for an element below the water table, reached by the `flood` conversion — and to let the ladder's conversions name an `element` (a tunnel, gallery or chamber) in place of a tunnel, over a second ladder for voids, because the owner said the underground fades \"like the walls … some tunnels simply cave in or become decommissioned\", which holds for every void, one table keeps one reading for the renderer, the reader and the locality rules, and one conversion union must carry every row the table names (II.6, §4.11; item 65 (c); amendments-c, pipeline seat D; repair round 1, VPR0-10). |"
+   },
+   {
+    "id": "J-A81.41",
+    "older_line": 639,
+    "appended_line": 778,
+    "old_row_sha256": "e475c6870c7570b3186bc35945291226f90e542e4753c4329b6bcba007fef27a",
+    "new_row_sha256": "c42a372cfb7558d0f1ffb1d443033b087f6637acfc8cb280d5dc194eda23c285",
+    "old_row": "| J-A81.41 | Chose to read the rung profile at every epoch's population target and, where an upward crossing needs more room, to grow the frame by an S1-derived ring and one L0 batch that replaces the margin and border chains, the frame never shrinking, over a rung fixed at creation, because a dossier's town may cross a band as it grows (its tier moves under SettlementForge's simulator) and the kernel seat found no mechanism for a frame that grows after the document exists; keeping every face inside the old margin byte-identical makes the growth local, and a declining town keeping its frame loses nothing it had (§4.11, §3.2; item 81 (b); the kernel seat's finding). |",
+    "new_row": "| J-A81.41 | Chose to read the rung profile at every epoch's population target and, where an upward crossing needs more room, to grow the frame by an S1-derived ring and the kernel's single-level batches over one clear region — an L1 clearing, an L0 batch that replaces the margin chain, an L1 batch that replaces the border chain (§3.2 (9); J-A81.31) — the pipeline re-deriving the cleared region, S4 continuing every through-road to the new margin and every raster growing by whole cells about its old grid, the frame never shrinking, over a rung fixed at creation, because a dossier's town may cross a band as it grows (its tier moves under SettlementForge's simulator) and the kernel seat found no mechanism for a frame that grows after the document exists; keeping every face outside the cleared region, the deleted stretches and the ring as it was makes the growth local, and a declining town keeping its frame loses nothing it had (§4.11, §3.2; item 81 (b); the kernel seat's finding; repair round 1, VKC-08). |"
+   },
+   {
+    "id": "J-A88.41",
+    "older_line": 666,
+    "appended_line": 774,
+    "old_row_sha256": "b30e85b2c11e9c11e909b77a3579e95ab5280a0960e670fbd8e4c174fa9295a3",
+    "new_row_sha256": "3976f15a58cdfb0fbe1220666af3e82cb96db3a1cef49d1ff979dd0f5cb16b6c",
+    "old_row": "| J-A88.41 | Chose to apply the staged crime term as multipliers on the hidden-share target and the basement-access probability, each 1 while the port's row is empty, over a separate crime layer, because the dossier's crime figure then shapes the hidden places and the ways down that items 30 and 64 already build, and the base is unchanged until the port fills it (§4.6, §10.2; item 88). |",
+    "new_row": "| J-A88.41 | Chose to apply the staged crime term as multipliers on the hidden-share target, the basement-access probability and the undercity's demand — stated once at §4.6, which II.7.3 and II.7.5 cite — each 1 while the port's row is empty, over a separate crime layer or a factor each reader defines for itself, because the dossier's crime figure then shapes the hidden places, the ways down and the undercity that items 30, 64 and 65 already build, one statement keeps the three factors of one form (a lawful town, with no crime, multiplies by one, never by nothing), while the base stays unchanged until the port fills it (§4.6, §10.2, II.7.3, II.7.5; item 88; repair round 1, VPR0-22). |"
+   },
+   {
+    "id": "J-A68.83",
+    "older_line": 683,
+    "appended_line": 782,
+    "old_row_sha256": "9404f7d791114174caa1ff1092edb575b0069a09aeedeca9400752e7fa000269",
+    "new_row_sha256": "2afceb11cdccc7c6a86919166dd0b599be37ed763f3c75de7519969d46b09db4",
+    "old_row": "| J-A68.83 | Chose one light model over a per-tile surface layer — per pixel a normal, a height above the tile's datum and the unlit coverage — with a slab list for casters whose covered ground the view draws (a sky island under ghost or offset occlusion, the span marks over a passage, a deck over drawn water), brightness the sum over sources of inverse-square light with the smooth cutoff (1 − x⁴)² at each light's radius, a soft visibility marched from the surface toward the source at the source's height, ambient occlusion from the horizon in eight directions and a blurred spill of the direct light, over a single-valued height field alone or ground-only projected shadows, because the owner's points 3 and 4 ask for exactly these properties — shadows as gradients and the absence of one light, cancelled where other lights reach, indirect light lifting them, a tall shadow crossing and shortened on a lower roof but never climbing a taller one, fall-off with \"optimal distances\" — while a slab is needed only where the ground under an overhang is drawn (a crown's ground is never seen from above, so crowns stay in the field); `ink` takes the light in value only, keeping its restraint (§8.4; item 68, rulings 3 and (a)–(c)). |",
+    "new_row": "| J-A68.83 | Chose one light model over a per-tile surface layer — per pixel a normal, a height above the tile's datum and the unlit coverage — with a slab list for casters whose covered ground the view draws (a sky island under ghost or offset occlusion, the span marks over a passage, a deck over drawn water), brightness the sum over sources of inverse-square light with the smooth cutoff (1 − x⁴)² at each light's radius, a soft visibility marched from the surface toward the source at the source's height, ambient occlusion from the horizon in eight directions and a bounce spill — the blurred direct light's excess over the pixel's own, max(0, B(D) − D) — over a single-valued height field alone or ground-only projected shadows, because the owner's points 3 and 4 ask for exactly these properties — shadows as gradients and the absence of one light, cancelled where other lights reach, indirect light lifting them, a tall shadow crossing and shortened on a lower roof but never climbing a taller one, fall-off with \"optimal distances\" — while a slab is needed only where the ground under an overhang is drawn (a crown's ground is never seen from above, so crowns stay in the field); `ink` takes the light in value only, keeping its restraint. Restated in the repair round (VRC-04, VRC-07): the spill is bounce only, over blurring the whole direct light, because that spill lifted open level ground 5–7 % above its albedo (`ink` +5.3 %, `lit` +6.8 %) and moved item 69's paper target on the lit map, while bounce light is by nature the lift of a darker pixel by its lit surroundings, zero on uniform ground, so E_key = E_g · (a + sin 45°) holds exactly (`amendc_repair_rendering_r1_light.out` (C)); and the visibility is marched by one law — N samples at t_k = T · ((k + ½) ÷ N)², N = 32 for the global light and 24 for a point light, T set by the source, the pixel and the surface alone — which the CPU reference, the GPU pass and the light map's bake all use, over a sample count per implementation, because §13.4 can hold the GPU pass to the reference only where both sample the same points (§8.4; item 68, rulings 3 and (a)–(c)). |"
+   },
+   {
+    "id": "J-A68.84",
+    "older_line": 684,
+    "appended_line": 783,
+    "old_row_sha256": "cf6c19e53b40fd9472bd7ba0bdbaf7e4a96d7833c0d615baa1fac20d6714090a",
+    "new_row_sha256": "fec2d3b96a3e609a630d74771fd4446f4601270e0f0270f684c0d1e349462cf4",
+    "old_row": "| J-A68.84 | Chose to place the cursor sun at G = V + s·u, height h₀·D·s (V the view centre, D its half-diagonal, u the pointer's offset, s = `sunHeight` ≥ 1): over the pointer at s = 1 and receding along the line through the pointer, rising in proportion, as `sunHeight` grows, over a sun that only rises above the pointer, because a sun rising straight above the pointer shortens every shadow to nothing instead of making them parallel, while the owner's control asks for \"very high: nearly parallel, realistic; lower: dramatic and radial\" and his confirmation for \"different angles for every shadow\" at the default; on-screen lengths of the radial sun therefore follow the view (a zoom changes them), which is view-derived and stores nothing, and the fixed and path suns — the only suns of exports and stills, which have no pointer — never depend on zoom (§8.4; item 68, ruling 4). |",
+    "new_row": "| J-A68.84 | Chose to place the cursor sun at G = V + s·u, height h₀·D·s (V the view centre, D its half-diagonal, u the pointer's offset, s = `sunHeight` ≥ 1): over the pointer at s = 1 and receding along the line through the pointer, rising in proportion, as `sunHeight` grows, over a sun that only rises above the pointer, because a sun rising straight above the pointer shortens every shadow to nothing instead of making them parallel, while the owner's control asks for \"very high: nearly parallel, realistic; lower: dramatic and radial\" and his confirmation for \"different angles for every shadow\" at the default; on-screen lengths of the radial sun therefore follow the view (a zoom changes them), which is view-derived and stores nothing, and the fixed and path suns — the only suns of exports and stills, which have no pointer — never depend on zoom. Restated in the repair round (VRC-09): which sun draws is one rule — the sheet's `SunSpec.mode` is the family's default and `SunSpec.admits` the modes a viewer's `sunMode` may choose (a parity preset admitting only its own), a mode the sheet does not admit drawing the sheet's, a `cursor` sun with no pointer or on rung 3 drawing `fixed` — and a sheet's `LightingSpec.defaultLight` is set on a viewer's `light` key when the sheet becomes its drawn style, over letting the per-viewer key override a parity preset or reducing the `night` preset to its night roles, because the `FTG` preset must draw its fixed or path sun whatever a viewer's key says (item 23), while a `night` preset that opened by day would draw its day palette and nothing of the night (§8.4; item 68, ruling 4). |"
+   },
+   {
+    "id": "J-A68.85",
+    "older_line": 685,
+    "appended_line": 784,
+    "old_row_sha256": "e9931d5d6b261da00c7eebaf436eef30570b37ecb9e8046f5f1c0a5f681b64e0",
+    "new_row_sha256": "dd7bab7ade94669ec1f1ac8fc524fa9eb2c5779b53d1a14b5f09717b458f11c6",
+    "old_row": "| J-A68.85 | Chose a three-rung fallback ladder — the GPU pass at the tile DPR, the GPU pass with a half-resolution global term, the vector pass of today (projected shadows, night roles and glow sprites) — chosen per hardware tier at app start from the canvas budget and the measured frame time, lowered at run time on a lost GPU context or three consecutive frames over budget and never raised mid-session, with every export on the CPU reference and `hatched` on its prism pass by design, over refusing the lit view to devices without a capable GPU or letting the rung flicker with load, because the owner's day and night views must reach every device the base supports and a picture that changes rung under a moving pointer would read as a defect; each rung is counted, never an error, and never a model change (§8.4; item 68; F-LIGHT is §5.2's). |",
+    "new_row": "| J-A68.85 | Chose a three-rung fallback ladder — the GPU pass at the tile DPR, the GPU pass with a half-resolution global term, the vector pass (projected shadows, night roles and glow sprites) — chosen per hardware tier at app start from the canvas budget and the measured frame time, lowered at run time on a lost GPU context or three consecutive frames over budget and never raised mid-session, with every export on the CPU reference and `hatched` on its prism pass by design, over refusing the lit view to devices without a capable GPU or letting the rung flicker with load, because the owner's day and night views must reach every device the base supports and a picture that changes rung under a moving pointer would read as a defect; each rung is counted, never an error, and never a model change. Restated in the repair round (VRC-07, VRC-08): a tier whose GPU pass misses §13.4's tolerance first transfers its surface at full precision (13 B per pixel, counted by §8.8 as 6.5P + 7 MB) with the march unchanged, and only then draws rung 3, over halving the march step on that tier, because the reference samples the points of §8.4 (c)'s one march law and a GPU marching other points would be held to a picture it does not compute; and a light-map bake that misses at M2b halves the point-light march on every host and in the CPU reference alike, a declared view shift (§13.3), over a per-device change, because a reference that varied by device could not be byte-identical on the five engines (§8.4, §8.8, §12.7; item 68; F-LIGHT is §5.2's). |"
+   },
+   {
+    "id": "J-A68.87",
+    "older_line": 687,
+    "appended_line": 785,
+    "old_row_sha256": "a8b7b83925864ed8795df805440f492e0fcad29fc6f6b0f68486e4ab450072fb",
+    "new_row_sha256": "b0290c235334563554b070da03511f1084a4147a91fc45c275bc82fb09236abb",
+    "old_row": "| J-A68.87 | Chose that on rungs 1–2 `faceLight`, the two-tone roof, `hillshade` and the `lit` crowns emit the albedo and write normals for the light pass to light once, the light-step machinery (J-R54) serving the vector rung, and that labels, halos, live overlays and furniture are never lit — composed after the pass in their day colours, the tile worker writing their coverage into the surface layer so the pass leaves those pixels as composed — over lighting the programs' already-shaded output again or splitting the tile's bitmap into a base and a label layer, because double lighting would darken every roof twice, a night that dims the labels would break the label floor (§9.4), and the coverage byte keeps J-R21's one composed bitmap per tile position and its canvas budget (§8.2, §8.4, §8.8, §9.4; item 68, ruling 8). |",
+    "new_row": "| J-A68.87 | Chose that on rungs 1–2 `faceLight`, the two-tone roof, `hillshade` and the `lit` crowns emit the albedo and write normals for the light pass to light once, the light-step machinery (J-R54) serving the vector rung, and that labels, halos, live overlays and furniture are never lit — composed after the pass in their day colours, the tile worker writing their coverage into the surface layer so the pass leaves those pixels as composed — over lighting the programs' already-shaded output again or splitting the tile's bitmap into a base and a label layer, because double lighting would darken every roof twice, a night that dims the labels would break the label floor (§9.4), and the coverage byte keeps J-R21's one composed bitmap per tile position and its canvas budget. Restated in the repair round (VRC-05): §8.2's post operations run after the light wherever it runs — on the GPU over the lit base for the view, after the CPU reference pass and before the labels for an export or still, in the tile worker after the marks on rung 3 — and on the base picture alone on every path, over running them in the tile worker before the pass, because a coloured light would then re-colour a greyscale, sepia or tinted base and the view and a CPU-reference export of one frame would differ (§8.2, §8.4, §8.8, §8.9, §9.4; item 68, ruling 8). |"
+   },
+   {
+    "id": "J-A32.02",
+    "older_line": 709,
+    "appended_line": 788,
+    "old_row_sha256": "c5be1e5e79b0bf90d94422813afdcb23ed5ca802d3b4312b26a69fce4009b420",
+    "new_row_sha256": "8363d2f3c9d4648499fd5d12c30451c5a0f6b1d3d3bfcc62dd3b980860552a6b",
+    "old_row": "| J-A32.02 | Chose to land amendments c, d and e in one new §0.2 table in the form of items 8–31's rows (rule, landing, clause map; one row per item 32–72 and 101), with item 20's existing row carrying (h) and the dossier port (items 73–88) because both refine item 20, and to add one plain-words paragraph after the summary's last one — which names the summary's two phrases it supersedes, the bent cut \"measured from Neighbourhood's recordings\" and the effort figure, for folding in place by the repair round under canon R11 — over rewriting the summary, because the pass's guard forbids its editors a REPLACE of the title block and the summary (J-A28.02's precedent), and over one row per d item, because items 73–88 are one mechanism (the port and its seam) whose home rows §7.7 items 12–16 and §14 already give (§0.2, the summary). |",
+    "new_row": "| J-A32.02 | Chose to land amendments c, d and e in one new §0.2 table in the form of items 8–31's rows (rule, landing, clause map; one row per item 32–72 and 101), with item 20's existing row carrying (h) and the dossier port (items 73–88) because both refine item 20, and to add one plain-words paragraph after the summary's last one — which named the summary's phrases it superseded, the bent cut \"measured from Neighbourhood's recordings\" and the effort figure, folded in place by repair round 1 under canon R11 together with the optional shadows and the finished first picture that item 68 superseded (VSC-10) — over rewriting the summary, because the pass's guard forbids its editors a REPLACE of the title block and the summary (J-A28.02's precedent), and over one row per d item, because items 73–88 are one mechanism (the port and its seam) whose home rows §7.7 items 12–16 and §14 already give (§0.2, the summary). |"
+   },
+   {
+    "id": "J-A50.01",
+    "older_line": 718,
+    "appended_line": 789,
+    "old_row_sha256": "f903a6709076ac928f714963d9fc8a223c37b8070c1aac09cc0014457eec2e4d",
+    "new_row_sha256": "34b639d34673e0a2f192e3c509badcd463f4b98ca5e5da6d1f83b1a2b4348c67",
+    "old_row": "| J-A50.01 | Chose to make §13.5's entrance row class C — \"100 % on the access edge\", the owner's rule of item 29 — and to withdraw FTG's measured 2.99 m, which the FTG client of the 2026-09-25 capture uses as its night-light anchor (no door is sent), and to write \"neither MFCG nor FTG models a door\" in the entrances-and-basements row with MFCG 12710731's side stated as an inference from its full read, over keeping a P-class target of 2–4 m, because a light anchor is no evidence for a door; this supersedes J-A29.01's clause keeping \"§13.5's FTG entrance row as the main entrance's target\", and T29-4 now reads the C row (§13.5, §13.2). |",
+    "new_row": "| J-A50.01 | Chose to make §13.5's entrance row class C — the main door on the footprint side that faces the frontage access edge, 100 %, the owner's rule of item 29 as §2.6's first entrance rule states it (a set-back building's court or path, a hidden plot's passage or court, a cluster structure's footpath; repair r1, VSC-26) — and to withdraw FTG's measured 2.99 m, which the FTG client of the 2026-09-25 capture uses as its night-light anchor (no door is sent), and to write \"neither MFCG nor FTG models a door\" in the entrances-and-basements row with MFCG 12710731's side stated as an inference from its full read, over keeping a P-class target of 2–4 m, because a light anchor is no evidence for a door; this supersedes J-A29.01's clause keeping \"§13.5's FTG entrance row as the main entrance's target\", and T29-4 now reads the C row (§13.5, §13.2). |"
+   },
+   {
+    "id": "J-A63.01",
+    "older_line": 728,
+    "appended_line": 790,
+    "old_row_sha256": "e41b92250a9cfb1ae4b2c2cadea55f4413bd01fec732b3e1f3c35287d5726387",
+    "new_row_sha256": "bf4e99c1bc1394068cd821438572a57ffe1bdbc196ccf0fff43e1f59aaf092b4",
+    "old_row": "| J-A63.01 | Chose to state the owner-rule items' hook tests and bars (T20-7 – T20-12, T63 – T72, T76-1) once, as one §13.2 group with the amendments-b group's rules — a bar hard unless it names a band, a staged engine's bars run on hook fixtures with its conversions applied by hand until the engine lands — over scattering them across the sections that state the mechanisms, because §13 is the one home of every test (R9) and the same rule already governs items 8–31 (§13.2). |",
+    "new_row": "| J-A63.01 | Chose to state the owner-rule items' hook tests and bars (T20-7 – T20-13, T63 – T72, T76-1) once, as one §13.2 group with the amendments-b group's rules — a bar hard unless it names a band, a staged engine's bars run on hook fixtures with its conversions applied by hand until the engine lands — over scattering them across the sections that state the mechanisms, because §13 is the one home of every test (R9) and the same rule already governs items 8–31 (§13.2). |"
+   }
+  ]
+ },
+ "p_rows": {
+  "inserted_after_line": 189,
+  "rows": [
+   "| P22 | the preset's light: an ambient term with a single directional sun that moves on an hour path, a dim moon taking the same path by night, the direct light only when the weather is clear or snowy, shadows cast by extruded footprints through a shadow map, and one night light for each lit building, at an anchor of its own | FTG client, bundle of the 25 September 2026 capture | `Sun`, `useSunPosition`, `sunDirection`, `getColourForTime`; `BuildingLights`, `lightPositionsForBuildings`; `BuildingsRender` (the shadow map) | FTG client §2.2, §2.5.5, §2.5.6; C5, C13, C19, C22 | 68 |",
+   "| P23 | per wing a prism shadow — its footprint offset by its height away from the light — with trees and pins shadowed alike, the whole layer multiplied at one alpha; by night an ambience colour washed over the view and, by a chance per building, a radial glow | NG 1.2.2 | `ShadowLayer`, `HoodView`, `BuildingView` | NG §2.11 | 68 |",
+   "| P24 | each roof facet shaded diffuse plus specular from one light direction; the shadow a silhouette of the drawn building swept along an offset and multiplied | Fantasy Manor build 890 | `ManorView.prepareColors`, the `ManorView` element drawers; `visuals.Shadow` | FM §2.10–§2.14, §6 rows 16–17 | 68 |"
+  ],
+  "checks": [
+   {
+    "id": "P22",
+    "reading": "code-ftg-client.md",
+    "names_checked": [
+     "Sun",
+     "useSunPosition",
+     "sunDirection",
+     "getColourForTime",
+     "BuildingLights",
+     "lightPositionsForBuildings",
+     "BuildingsRender"
+    ],
+    "sections_checked": [
+     "2.2",
+     "2.5.5",
+     "2.5.6"
+    ]
+   },
+   {
+    "id": "P23",
+    "reading": "code-neighbourhood.md",
+    "names_checked": [
+     "ShadowLayer",
+     "HoodView",
+     "BuildingView"
+    ],
+    "sections_checked": [
+     "2.11"
+    ]
+   },
+   {
+    "id": "P24",
+    "reading": "code-manor.md",
+    "names_checked": [
+     "ManorView.prepareColors",
+     "ManorView",
+     "visuals.Shadow"
+    ],
+    "sections_checked": [
+     "2.10",
+     "2.14",
+     "6"
+    ]
+   }
+  ],
+  "table_rows_before": 21,
+  "table_rows_after": 24
+ },
+ "substitutions": [
+  {
+   "item": "rendering 4 — §5.2 F-LIGHT: the last `ShadowPass` name (VRC-17)",
+   "file": "document",
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "line": 6911,
+   "old": "the vector `ShadowPass` with glow sprites",
+   "new": "the vector pass (§8.2's `shadowPass` program) with glow sprites"
+  },
+  {
+   "item": "rendering 5 — §13.4 pre-decided fallback: §8.4 (g)'s full-precision surface, no halved march (VRC-08)",
+   "file": "document",
+   "heading": "### 13.4 Visual regression, B-ZOOM and the app harness",
+   "line": 13562,
+   "old": "runs the pass\n  at full float precision with the march step halved and is re-measured",
+   "new": "takes §8.4 (g)'s full-precision surface\n  — the march unchanged — and is re-measured"
+  },
+  {
+   "item": "rendering 7 — §16 M2b exit: the re-declaration trigger at the re-summed pooled p50 (VRC-13; J-A72.82)",
+   "file": "document",
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "line": 14658,
+   "old": "if its pooled p50 exceeds 48 ms",
+   "new": "if its pooled p50 exceeds 53 ms"
+  },
+  {
+   "item": "rendering 2 — Part A J-A68.86: the P-ids now exist (VRC-15)",
+   "file": "rationale",
+   "row": "J-A68.86",
+   "line": 686,
+   "old": "their P-ids (P22–P24) to be appended to the reader-tier provenance table before a cell cites them",
+   "new": "their P-ids P22–P24"
+  }
+ ],
+ "handoff_6": {
+  "state": "SATISFIED by scope's §13.2 REPLACE (VSC-08); nothing applied",
+  "line": 13193,
+  "aligned": "a `why` on the withheld place answers at `public` with\n    its address and kind only, `withheld: true`, and no rule, input or alternative, and on T63-2's front fixture the front's\n    `why` is the front's own and a `why` on a concealed part answers empty"
+ },
+ "output_doc_sha256": "024c57dabc6b93c8e0ddfb03fdc1892572648f9fc04eea8905116f60789d80b9",
+ "output_rationale_sha256": "33b21ca8cdc157895434f794ed9f8019295edbb3c0da0ff7b3bd10ccdce4f7de",
+ "output_impact_sha256": "cf6f665f4cb9148e7cf62ca9ca681dd4a1e5018ab086290a17752a353600edf3"
+}

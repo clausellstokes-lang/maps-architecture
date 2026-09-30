@@ -1,0 +1,17 @@
+case | cells | relief m | flood ms | flats ms (flat cells) | D8 ms | accum ms | hydrology total ms | cells without D8
+TOWN frame only 2 km @10 m (previous spec) | 40000 | 60 | 1.9 | 2.8 (6452) | 1.7 | 0.8 | 7.2 | 0
+TOWN frame only 2 km @10 m (previous spec) | 40000 | 3000 | 3.0 | 2.3 (6406) | 1.7 | 0.7 | 7.7 | 0
+CITY frame only 5 km @16 m (previous spec) | 97969 | 60 | 3.6 | 6.0 (25823) | 4.1 | 1.6 | 15.3 | 0
+CITY frame only 5 km @16 m (previous spec) | 97969 | 3000 | 4.7 | 5.9 (25746) | 4.1 | 1.6 | 16.4 | 0
+METRO frame only 8 km @20 m (previous spec) | 160000 | 60 | 5.7 | 10.6 (50427) | 6.7 | 2.6 | 25.6 | 0
+METRO frame only 8 km @20 m (previous spec) | 160000 | 3000 | 7.2 | 10.1 (50304) | 6.6 | 3.0 | 26.8 | 0
+TOWN frame+margin 3.2 km @16 m (chosen) | 40000 | 60 | 1.5 | 2.3 (6452) | 1.7 | 0.7 | 6.2 | 0
+TOWN frame+margin 3.2 km @16 m (chosen) | 40000 | 3000 | 2.2 | 2.4 (6406) | 1.7 | 0.7 | 7.0 | 0
+CITY frame+margin 8 km @25 m (chosen) | 102400 | 60 | 3.7 | 6.3 (26181) | 4.3 | 1.7 | 15.9 | 0
+CITY frame+margin 8 km @25 m (chosen) | 102400 | 3000 | 4.9 | 6.4 (26101) | 4.2 | 1.7 | 17.2 | 0
+METRO frame+margin 12.8 km @32 m (chosen) | 160000 | 60 | 5.6 | 10.6 (50427) | 6.6 | 2.5 | 25.3 | 0
+METRO frame+margin 12.8 km @32 m (chosen) | 160000 | 3000 | 7.1 | 10.2 (50304) | 6.6 | 2.6 | 26.5 | 0
+CITY frame+margin 8 km @16 m (rejected) | 250000 | 60 | 9.0 | 17.3 (82619) | 10.6 | 4.2 | 41.2 | 0
+CITY frame+margin 8 km @16 m (rejected) | 250000 | 3000 | 10.5 | 18.5 (82413) | 10.6 | 4.3 | 43.9 | 0
+METRO frame+margin 12.8 km @20 m (rejected) | 409600 | 60 | 14.4 | 29.0 (137378) | 16.8 | 6.6 | 66.7 | 0
+METRO frame+margin 12.8 km @20 m (rejected) | 409600 | 3000 | 16.0 | 29.8 (137051) | 16.4 | 6.5 | 68.6 | 0
