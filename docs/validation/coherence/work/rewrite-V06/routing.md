@@ -26,3 +26,25 @@ Goal band after: 63 814 – 79 768 words (canon).
 342 EVO_* (§6.1), 443 lifespans (§10.3), 458 API (§11.2), 388 DR28 (§7.7), 339 GenerationReport.epochs (§5.4), 409 live.history, CSVs, APNG (§8.2, §11.1),
 550 sewers per epoch (II.7.1), 335 §5.3 transit row (cites V06 §2.1), 293 suburb row (§4.4), 265 detail.why (§2.8), 266 epoch-spread mutation (§4.11),
 478 §12.6 epoch cost, 260 suppress (§2.8), 290 generation (§4.3), 291 persistence rows raised/retaining 0.05 (§4.11), 573 events+CalamityRef (§4.11), 574 crowding hook (§4.11 (6)).
+
+## Continuation 2026-09-30 (cloud, second run) — inputs re-gathered
+Scratch (recompute if gone; dir /tmp/claude-0/-home-user-maps-architecture/<session>/scratchpad/coherence/):
+canonV06.md (canon.md l.4682-4774), inv-V06.tsv (502 items + 36 terms with canon roles), edges-V06.md (edges.md l.867-981),
+combos-V06.md (l.1774-1818), handoffs.md (19 rows of agreement.md), f-items-V06.tsv, base-4.11.md (new pipeline §4.11).
+Marker line (V01-V04 form): "> PENDING FABLE REVIEW — written by opus stand-ins for the Fable seat (volumes/V6-evolution, its
+revisions, reconciliation and coherence lanes); covered by the whole-design retrovalidation (J84)."
+New ids: T-V6-70 (edge suite), T-V6-71 (item 113 replay at generation), T-V6-72 (item 111 failing springs); J-V6.127+; W82+.
+Base for item 113: new pipeline §4.11 *History-first generation* (1)-(7) owns peak, replay semantics, destruction/refounding,
+burial, sewers reopen, edges; §7.7 DR36 (peak) DR37 (replay epochs/events) DR38 (destruction/refounding) DR39 (burial), DR40
+oasis; §7.7 *The history replay's record* (V06's history record; §5.4 epochs list; V10); §6.1 *The history replay* (no new
+concern; epoch component). V11 cells: history.epochYears, history.burialYears, history.symbolicQuantile, history.reuseCost,
+history.replay; V11 event-to-epoch rows. V06 writes: ReplayPlan/ReplayRecord, coarse epochs runner, event->epoch mapping,
+generation budget, lazy detail, lifecycle rows, tests, no-op pin, report/clerk story.
+Conflicts: ICONF-1 repairWall no-stretch no-op line; ICONF-2 J-V6.92 reworded; ICONF-3 stoppedAt? in advance (f 343);
+ICONF-4 'Open a copy from here' in §5.1; XCONF-1 retire J-V6.4 + §1.3 bullet, write g113; XCONF-2 DR28/DR29; AGREE-1 cite
+V09 info.remove.holds {kind}, deck-plot variant V09's; CANON-C02 hood doc no clock, bend line (V09 row, V10 row), T-V6-23;
+CANON-C03 §11 decisions table (Q1 (a) right after M4, J122).
+Elegance: E-01 (stretch-state profile at §2.2 rule 5 — V06 keeps writer/reader cells), E-02 keep apart (lift rule f 260),
+E-24 one mark 'superseded by X'/'amended by X', E-39 keep apart (LOST joins V04's access-state set).
+Wiring: W-DOS-02 (wealthLevel via V08 §3.5 diff row; DR6), W-DOS-09 closed by g113 DR36-39, W-DOS-10d (DR33, DR34, DR35 by
+number), V06-WGAP-1a/1b (V09/V10 rows; V06 cites), WGAP-2 (hand-off table closed).
