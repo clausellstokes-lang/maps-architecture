@@ -27,7 +27,7 @@ shrinks it to what it is today. What it is today matches the campaign exactly; w
 houses, a church too big for its congregation, street lines kept as field tracks, ruins on the surface or — after a
 century — buried underneath. A place destroyed outright is refounded on its own ruins, reusing the old roads and gate
 gaps. Every step is recorded, so the map can tell the story ("the walls were built when this was a city of twelve
-thousand"), and the whole replay takes a few seconds at most.
+thousand"), and the whole replay takes seconds for a town and under a minute for a metropolis, with a progress bar.
 
 **When the town grows**, it fills itself before it spreads: empty houses are taken first, ruins are repaired or rebuilt
 on their old foundations, gaps along the old streets are built up, and only when the old plan is full does a new ring of

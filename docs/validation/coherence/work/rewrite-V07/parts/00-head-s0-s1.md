@@ -7,7 +7,7 @@ with files f and g applied: `docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2
 PART III. The implementer holds the base and the volumes and nothing else (§17.1). Every fact the base or another volume
 states is cited, never restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's;
 `Vnn §n` is a design volume's section, this one included (`V07 §3.2`); a list after a volume prefix stays in that volume
-(`V06 §2.1, §3.5.2` is two sections of volume 6); `item n` is an amendment item — items 1–113 the owner's, items 200 and
+(`V06 §2.1, §3.5.2` is two sections of V06); `item n` is an amendment item — items 1–118 the owner's, items 200 and
 above file f's, each the applied text of a volume's base change request (V07 §10 lists this volume's); `J-VI.n` is a
 volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V7.n` (V07 §9),
 tests `T-V7-n` (V07 §7); the wiring rows `W1`… are this volume's (V07 §1b; another volume's are written `V06 W75`). The
@@ -95,7 +95,10 @@ and their decline into the scarps of a deserted village, V07 §3.8a, §3.12; (b)
 carried down, read-only to every village stage, with the router's rung gate, V07 §3.5, §3.5a, §3.12; (c) stepped massing by
 the culture-and-era rows only, V07 §2.4; (d) deck plots on a pier head or placed by the author, V07 §3.10a); item 111 (the
 crowding map's water pull and the oasis village, V07 §3.3, §3.2 (4)); item 113 (a village over a former city and refounding
-at village rungs, V07 §3.12a).
+at village rungs, V07 §3.12a); item 114 (the palisade's patches, decay and recovery, V07 §3.4 (8)); item 115 (the village class
+mix under the grandeur ceiling, V07 §3.8); item 116 (the township view at the zoom-out limit, V07 §5.2); item 117 (the fields,
+strips, commons, green and ponds through the year, autumn's fall covers included, V07 §5.1); item 118 (the festival decorations
+of the village rungs, V07 §5.1).
 
 **Base hooks consumed** (cited, never restated): the rung profile, the village rows and `LadderRouter` (§1.1, D-33; items
 201, 202); the Blueprint, the feature table and `autoResolved` (§4.2 S0); S1 whole (§4.2 S1); S2's roster, the farm table,
@@ -142,7 +145,7 @@ town's catacomb carried into a village (V04 §2.2, §3.5.1 (6); V07 §3.12); V04
 the crypt and cellar cells of `v.parish_church` and `v.chapel` are this volume's rows (V07 §2.4; J-V7.41), and V11's compile
 check counts `v.parish_church` as a church. (3) V02 — every village row names a `templateFamily` of V11 §3.6.1 for its
 budget rows, while V02's `composition.classFamily` (V02 §3.10.5) is the one source of the village classes' composition
-keys and is read first (V02-ICONF-1; V07 §2.4). (4) V09 and V10 — the unexcavated style, the shade map and link views, and
+keys and is read first (V07 §2.4). (4) V09 and V10 — the unexcavated style, the shade map and link views, and
 the explanations (V07 §4.5, §5.1). (5) V04 — the arch-vault source registered at every village rung (V04 §3.5.4 (d)); the
 span rule's `country` reason keeps a span over hinterland faces open at every rung (§2.7, item 244; J-C4). (6) V06 — the
 raised-way ledger's suppressions and carried ways cross both hand-offs unchanged and the raised-way step's founding never
@@ -176,7 +179,7 @@ keyed by the dossier event's `seq` and `remove?(ctx, record, event)` after the b
 and the absorb-path call in §7.7's *One path* sentence; V06 §3.9.11's REPLACEMENT row for a greater V08 §3.5.1 (d) places
 new (J-V6.125; T-V6-45) and a record's claim-sized joins charged to no churn cap (V06 §3.9.6, J-V6.123); V08 §3.5.1 (c)'s
 three cases and (d)'s one-key receipt (J-V8.113, J-V8.114) and the `town_walls` key; V11's display cells on
-`BuildingClassRow` (V11 §2.3, §3.5.15; T-V11-4), which V07 §2.4's column fills for the `v.` rows. (14) Volume 6's engine
+`BuildingClassRow` (V11 §2.3, §3.5.15; T-V11-4), which V07 §2.4's column fills for the `v.` rows. (14) V06's engine
 (M6-E) for V-M3's clauses that run its steps: the desertion's street candidate and hollow ways (V06 §3.5.2, E2), a
 claim-sized roster member's opening and the counts (V06 §3.9.6, §3.9.1, E4), a ladder step carried by an epoch (V06
 §3.9.11, E4) and a carried raised way's decline (V06 §3.19.2, E3); the grow path reaches the village's phases and

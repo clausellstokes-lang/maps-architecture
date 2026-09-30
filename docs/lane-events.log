@@ -1938,3 +1938,17 @@
 2026-09-30 19:48 coherence/orchestrator NOTE owner rule 118 (festival decorations) filed (J129) and routed by a dated canon ruling; rewrite-V07 told by message; briefs of V08-V12, assemble, verify and validate carry it
 2026-09-30 19:49 coherence/orchestrator NOTE owner: "for autumn make it a plethora of fall covers" -> item 117 (f2) added in place (per-tree keyed crown colours, fallen-leaf cover deepening through the leaf-fall weeks) and its bar; canon routing line amended; rewrite-V07 told
 2026-09-30 19:49 coherence/rewrite-V06 CHECKPOINT part 11 (§3.20 item 113 replay at generation; §3.21 edges: mechanisms + 42 combinations) written; IN-V06-2/3/4 folded; next: §4-§5 (part 12)
+2026-09-30 19:50 coherence/rewrite-V07 CHECKPOINT P8 done (parts 10 §4, 11 §5-§6; g 114-118 parts written; W77-W81); next: P9 §7 tests
+2026-09-30 19:51 coherence/rewrite-V06 CHECKPOINT part 12 (§4-§5: EDGE-2 undo after reload/shared, hood-document rule, ICONF-4 label, AGREE-1 key, item 111/113/114 rows) written; next: §6 (part 13), §7 (part 14)
+2026-09-30 19:52 coherence/rewrite-V06 CHECKPOINT part 13 (§6; §6.2 cites V05 §6 rows by name; new §6.7 replay budget; §2.2 rows replay.epochCostMs/budgetMs) written; next: §7 (part 14)
+2026-09-30 19:53 coherence/rewrite-V07 CHECKPOINT P9 done (part 12 §7: T-V7-58..T-V7-66 added); next: P10 §8-§13 and integration notes
+2026-09-30 19:54 coherence/rewrite-V06 CHECKPOINT part 14 (§7: T-V6-70 edge suite, T-V6-71 replay, T-V6-72 springs, T-V6-73 walls, T-V6-74 ceiling; edge/conflict clauses in T-V6-11/12/15/21/22/23/26/27/33/52/53/57/58/60/61) written; next: §8 (part 15)
+2026-09-30 19:56 coherence/rewrite-V06 CHECKPOINT part 15 (§8: Q1 decided J122 right after M4; E9 replay; items 111/114/115 priced; 29.5-41.75 pw; bar.T-V6-72) written; next: §9 decisions (part 16)
+2026-09-30 20:00 coherence/rewrite-V07 CHECKPOINT P10 done (part 13 §8-§13, integration notes); next: P11 assemble and checks
+2026-09-30 20:03 coherence/rewrite-V06 CHECKPOINT part 16 (§9: J-V6.1-126 final form, E-24 marks on .4/.5/.110/.111/.112, ICONF-2 J-V6.92, C02 J-V6.102, new J-V6.127-134) written; next: §10-§13 + integration map (part 17), assemble
+2026-09-30 20:05 coherence/rewrite-V06 CHECKPOINT part 17 (§10 pointer table BCR-V6-1..28 -> file f items; §11 Q1 decided J122; §12 two paragraphs; §13 none open; integration map) written; next: assemble + verify
+2026-09-30 20:10 coherence/rewrite-V06 CHECKPOINT assembled new/volumes/V06-evolution.md (parts 00-17); refs/ids verified (891 V06 § refs resolve; T-V6 74, J-V6 134, W 90 unique); hand-offs CVR-V10-5/-11, X-V11-16 closed in text; next: mapping + report + result
+2026-09-30 20:12 coherence/rewrite-V07 CHECKPOINT P11 done (volume assembled at new/volumes/V07-village.md; ids, references, terms checked); next: P12 report body, mapping, result
+2026-09-30 20:16 coherence/rewrite-V06 CHECKPOINT report §1-§5 written (sizes 106357->96516 words; f/g list; 9 conflicts; E-01/E-02/E-24/E-39; renumberings); mapping.py -> mapping.md (538 rows) and edges-map.md (154 rows); next: report §6-§11, result JSON, LANDED
+2026-09-30 20:17 coherence/rewrite-V07 LANDED docs/validation/coherence/new/volumes/V07-village.md docs/validation/coherence/rewrite-V07.md docs/validation/coherence/results/coherence_rewrite-V07.json
+2026-09-30 20:18 coherence/orchestrator NOTE rewrite-V07 landed (items 111, 113-118 village parts included); starting rewrite-V08 in its lane (cap 2: V06 + V08)
