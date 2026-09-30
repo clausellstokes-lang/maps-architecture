@@ -7,7 +7,7 @@ with files f and g applied: `docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2
 §4.11. The implementer holds the base and this volume and nothing else (§17.1). Every fact the base or another volume
 states is cited, never restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's;
 `Vnn §n` is a design volume's section, this one included (`V06 §3.2`); a list after a volume prefix stays in that volume
-(`V04 §3.5, §3.10` is two sections of volume 4); `item n` is an amendment item — items 1–113 the owner's, items 200 and
+(`V04 §3.5, §3.10` is two sections of volume 4); `item n` is an amendment item — items 1–116 the owner's, items 200 and
 above file f's, each the applied text of a volume's base change request (V06 §10 lists this volume's); `J-VI.n` is a
 volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V6.n` (V06 §9),
 tests `T-V6-n` (V06 §7), wiring rows `Wn` (V06 §1b; another unit writes `V06 Wn`).

@@ -1952,3 +1952,6 @@
 2026-09-30 20:16 coherence/rewrite-V06 CHECKPOINT report §1-§5 written (sizes 106357->96516 words; f/g list; 9 conflicts; E-01/E-02/E-24/E-39; renumberings); mapping.py -> mapping.md (538 rows) and edges-map.md (154 rows); next: report §6-§11, result JSON, LANDED
 2026-09-30 20:17 coherence/rewrite-V07 LANDED docs/validation/coherence/new/volumes/V07-village.md docs/validation/coherence/rewrite-V07.md docs/validation/coherence/results/coherence_rewrite-V07.json
 2026-09-30 20:18 coherence/orchestrator NOTE rewrite-V07 landed (items 111, 113-118 village parts included); starting rewrite-V08 in its lane (cap 2: V06 + V08)
+2026-09-30 20:18 coherence/rewrite-V06 CHECKPOINT report complete (§1-§12: sizes, f/g 111/113/114/115, 9 conflicts, E-01/02/24/39, renumberings, 6 wiring gaps, 19 hand-offs, X1-X49 by destination, 51 findings, edges map 154, judgment calls, cross-part notes, checks; doc_checks provisional C3 286/S2 534); next: result JSON, LANDED
+2026-09-30 20:19 coherence/rewrite-V06 LANDED docs/validation/coherence/new/volumes/V06-evolution.md docs/validation/coherence/rewrite-V06.md docs/validation/coherence/results/coherence_rewrite-V06.json
+2026-09-30 20:19 coherence/orchestrator NOTE rewrite-V06 landed (items 111, 113, 114, 115 parts included); starting rewrite-V09 in its lane (cap 2: V08 + V09)

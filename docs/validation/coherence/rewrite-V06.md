@@ -306,8 +306,8 @@ the end of this report (§12), written by `work/rewrite-V06/mapping.py` and chec
 
 ## 10 Checks run (provisional where noted)
 
-- `docs/validation/bench/doc_checks.py --doc docs/validation/coherence/new/volumes/V06-evolution.md`: C1 0, C2 0, C3 285
-  hits (277 unreviewed), C4 0, S1 0, S2 530 (bare base pointers the volume's own headings cannot resolve). Its warning,
+- `docs/validation/bench/doc_checks.py --doc docs/validation/coherence/new/volumes/V06-evolution.md`: C1 0, C2 0, C3 286
+  hits (278 unreviewed), C4 0, S1 0, S2 534 (bare base pointers the volume's own headings cannot resolve). Its warning,
   recorded as given: "reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs,
   research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the
   corpus before any freeze". The source volume on the same run: C3 411 (403 unreviewed), S2 569. PROVISIONAL.
