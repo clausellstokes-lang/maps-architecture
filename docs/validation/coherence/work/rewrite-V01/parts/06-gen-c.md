@@ -218,8 +218,8 @@ the pick ordinal — in the order gate, kind, size, angle:
    basement nor `ground(b)` (V03 §3.3), whose head volume 3 opens as an outside door at `stackAccessDoor(b, a)` (V03
    §3.7.2 (1)), the `hood` row's rectangle outward from the footprint side on which `stackAccessDoor(b, a)` lies, centred
    on its `at` — a `well` access there opens at the well pin it stands over (V04 §3.5.7 (d)) and takes no reserve
-   rectangle, and a building on a deck hosts no head (V03 §3.7.2 (0)–(1)). Both door points are V03 §3.7.1's shared door
-   helper's (E-29): pure, draw-free, of eager records, in `@plat/plots` from M3a. The reserve holds the porch, the
+   rectangle, and a building on a deck hosts no head (V03 §3.7.2 (0)–(1)). Both door points come from V03 §3.7.1's one door
+   helper: pure, draw-free, of eager records, in `@plat/plots` from M3a. The reserve holds the porch, the
    secondary porch, the stoop (V03 O1 (e)), the outside basement stair's steps and the stack access's outside door
    whichever rungs have been derived, so the close-up stays a pure function of committed state in any order of click,
    `wings` rung and plan (T-V1-26 measures it; *fallback*: the reserve's depth doubled, re-measured). From M6-U a church's

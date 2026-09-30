@@ -7,7 +7,7 @@ recomputed from persisted state and never stored.
 ### 2.1 Identifiers and the fabric table
 
 `FabricStrategyId` (a `hood.templates` row key), `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in
-§2.5 (MC-11); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
+§2.5 (item 505); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
 
 ```ts
 type HoodSite = 'court'|'plotYard'|'yardBlock'|'square'|'green'|'cemetery'|'fieldEdge'|'outsideYard';   // hood-pin sites (V01 §3.8.2); the last three hinterland
@@ -95,7 +95,7 @@ row that laid it; kind `park` for a green-mode plaza, planted by §4.9's parks r
 
 ### 2.3 Views and services (derived, never stored)
 
-`DistrictContext` is the district-level view over the one context vector (§2.5): its `kind`, `prosperity`, `band`,
+`DistrictContext` is the district-level view over the one context vector, `ContextVector` (§2.5): its `kind`, `prosperity`, `band`,
 `density`, `growthStage` and `arena` read the same fields the context vector samples per plot, aggregated over D, never a
 second copy; the rest are stage 2's own reads of committed state. `TypedBoundary` is assembled from `District.seams` on
 demand (§2.5).

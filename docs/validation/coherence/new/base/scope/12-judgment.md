@@ -8,7 +8,8 @@ disagreement between two area drafts; the `J-F⟨lane⟩-⟨n⟩` rows are the F
 (`docs/fable-review/`). In `J-A⟨item⟩.⟨n⟩`, ⟨item⟩ is the owner item or file-f item ruled on and the first digit of ⟨n⟩
 names the part whose seat ruled — 0 the scope part (§0, §1, §13–§17 and the lists), 2 the model (§2), 3 the kernel (§3),
 4 the pipeline (§4, §10, PART II and PART III), 5, 6 or 7 determinism (§5–§7) and 8 rendering (§8, §9, §11 and §12).
-J-C1 – J-C4 are the coherence pass's decisions under the owner's delegation (J122). A superseded or amended row carries
+J-C1 – J-C4 are the coherence pass's decisions under the owner's delegation (J122); its part editors' decisions under
+the same delegation take their part's form above. A superseded or amended row carries
 one mark, *superseded by* or *amended by*, and the governing row keeps the reason. The volumes' decisions are their §9's
 `J-Vn.m` rows; the integrator's `J-VI.n` rows stay in `docs/volumes/_integrate.md`.
 
@@ -778,3 +779,20 @@ one mark, *superseded by* or *amended by*, and the governing row keeps the reaso
 | J-A344.61 | `village.track` kept rerollable (file f item 344), its `rerollLayer` dry run a Re-derive from VS4 with the fate report | §6.1 |
 | J-A101.78 | plan-edit refusals, a `relet` above capacity, a passage below two storeys, a table cell out of range and a roster line the rules cannot honour are bends; capacity re-homing that cannot place its excess and a Works edit that strands a plot stay conflicts | §7.1 |
 | J-DET-56 | an empty edit appends nothing (the `ok` result, nothing changed) over appending a no-op event | §7.1 |
+| J-A110.21 | raised ways on ground arena parts ≥ 1, numbered by `Document.nextGroundPart` beside the other two part counters, each allocated once and never reused; a raised part's entities keep unprefixed addresses | §2.4, §2.7, §2.9 |
+| J-A206.21 | `Outfall.into` maps an oxbow to `'lake'` | §2.3 |
+| J-A111.21 | the oasis as `WaterBody.spring { at, flow }` with a `grove` greenery and `garden` land uses linked by `fedBy`; the water pull weighted by `spring.flow`, which volume 6's failing spring lowers | §2.3, §2.7 |
+| J-A77.21 | a way whose bearing names a trade partner the slice no longer holds keeps its geometry, bearing and key, weighed 0 by `TradeFlow` (roads outlive their trade) | §2.4 |
+| J-A106.21 | a barrier closure's arcs stored by anchor ends and `BarrierKind`, written once by S5a's classification, over a derived reading; `stretchClass` a `full` / `parapet` step profile on the knot role `wall_class_knot`; `Gate.mouth` the harbour-mouth chain | §2.7 |
+| J-A113.21 | one `HistoryRecord` per document in the model digest; `Provenance.symbolic` on a symbolic peak's facts; a lost void is volume 4's access state | §2.7, §2.8 |
+| J-A110.22 | at the frame: a raised part sized to the ground's frame plus margin and growing with it; an aqueduct sourced beyond the frame laid to the outer ring without a ramp, a declared course beyond it bent to the ring; a retaining wall ending on the ring; a deck slot crossing it left out, reported and re-offered by a frame growth | §2.7 |
+| J-K37 | the `W_STEINER` warning removed, having no producer and no reader in the set | §3.1 |
+| J-P51 | the wealth-gradient driver `drivers.wealthGradient` 0.15, 0 without a bearing and in the parity presets | §4.5 |
+| J-A102.41 | the class-mix values `ClassMixRow.sun` 0.3 (item 102 (d)), cottage `wealthShift` −0.2 and the lean-to shelter's significance 0.05 | §4.7 S11 |
+| J-A110.41 | no deck plots on a gate's moat deck, so the gate's approach stays clear (the realism tiebreaker on the owner's "a deck plot on a bridge over a moat") | §4.7 S10, §4.13 |
+| J-A110.42 | a raised part excludes the harbour basin and its mouth, a stroke across it bending to its last ground vertex; no support on a square, a reservation or an oasis's water; a river spanned within `viaduct.maxSpanM` | §4.3, §4.13 |
+| J-A110.43 | no retaining wall on a cliff bank or on a `cliff` or `sheer` closure arc: the cliff face holds the ground | §4.7 S10, §4.13 |
+| J-A101.42 | a skeleton declaration a stage cannot honour bent at its dry run to the nearest lawful one; only one contradicting a dossier fact or a lock refused | §4.1, §7.1 |
+| J-P52 | a hinterland with no land: the outside classes to F-SITING, the farm households housed as under `perimeter`, the arable, fuel and timber demand an import (reported) | §4.9 S12a, §4.13 |
+| J-A111.41 | the oasis sited on the best-scored hollow or fault line within the frame's middle two thirds, a site with no hollow on the lowest ground cell there | §4.2 S1 |
+| J-P53 | the pipeline's defined limits: a catacomb source's age at generation by the history-scaled stage count; the basement-access age term 1 at K = 1; `institutionDepthM` 8–15 m; the underground light fuel the era row's rows plus the magic rows where admitted; the island count `recipe.params['islands.count']` with `SkyIsland.slot`; the ring factor in [1, 2] | II.2, II.6, II.7 |

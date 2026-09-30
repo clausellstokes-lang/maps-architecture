@@ -2,12 +2,16 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/rewrite-scope; covered by the whole-design retrovalidation (J84).
 
-PROGRESS (lane `coherence/rewrite-scope`, 2026-09-29)
+PROGRESS (lane `coherence/rewrite-scope`, 2026-09-29; continued 2026-09-30 in the cloud checkout)
 - P1 inputs read (the scope part whole, canon scope routes, conflicts, f and g items with their BCR texts, INDEX, owner decisions): done
 - P2 section files written to `docs/validation/coherence/new/base/scope/` (14 files, 01–14 in document order): done
 - P3 INDEX §3, §4, §6 and §7 new text for the assembler (`docs/validation/coherence/new/index/`): done
-- P4 sizes, mapping table, elegance, f and g items, conflicts, renumberings, cross-part notes: done
-- P5 result file and LANDED: done
+- P4 sizes, mapping table, elegance, f and g items, conflicts, renumberings, cross-part notes: written 2026-09-29, but the
+  cross-part notes of the landed parts were only part-integrated when the lane stopped (20:10); on 2026-09-30 every note
+  addressed to scope by rewrite-{model,kernel,pipeline,determinism,rendering} was checked against the section files and
+  the rest integrated (*Cross-part notes received*), the scans re-run and this report's numbers refreshed: done
+- P5 result file and LANDED: the 2026-09-29 ledger said "done", but no result file and no LANDED line existed (found
+  2026-09-30); written at the close of the continuation: done
 
 ## Outcome
 
@@ -18,10 +22,11 @@ the twelve volumes — with J122's combined build order and item 568's two total
 §14, the village rows and the volumes' milestones in §1.1, and the owner items 102–113's bars in §13.2. Every routed
 conflict (27), f item (64 own, 6 shared parts, and the §13/§16 parts of items 296, 308, 317, 371, 413, 458 and 474),
 g part (102–113), wiring gap (6), elegance ruling (7), id ruling (7), cohesion check, owner question and the 8 UNDEFINED
-edges are applied; the 73 open findings are closed (below). All 1 684 inventory ids are mapped (none missing). The unit
-shrinks by 5.6 %, below the 25–40 % band: the pass added about 9 500 words of required content, and the rest is test
+edges are applied; the 73 open findings are closed (below); every cross-part note the five landed base parts addressed to
+scope is in its section (*Cross-part notes received*). All 1 684 inventory ids are mapped (none missing). The unit
+shrinks by 3.9 %, below the 25–40 % band: the pass added about 11 100 words of required content, and the rest is test
 specification, typed interfaces, matrices and one index row per decision (see *Sizes*). CONFIRMED by script: table
-shapes, pointer resolution against the base and volume headings, index ids (758 unique, the 736 old ones all present),
+shapes, pointer resolution against the base and volume headings, index ids (781 unique, the 736 old ones all present),
 the §16 sums; the design statements themselves are PLAUSIBLE as before.
 
 ## Sizes
@@ -30,21 +35,21 @@ the §16 sums; the design statements themselves are PLAUSIBLE as before.
 |---|---|---|---|---|---|
 | 01-title | 264 | 302 | +38 | 2 | 2 |
 | 02-summary | 1944 | 1732 | -212 | 11 | 10 |
-| 03-s0 | 5689 | 2712 | -2977 | 34 | 16 |
+| 03-s0 | 5689 | 2716 | -2973 | 34 | 16 |
 | 04-part1 | 17 | 17 | +0 | 0 | 0 |
 | 05-s1 | 5570 | 5580 | +10 | 34 | 34 |
-| 06-s13 | 26850 | 32504 | +5654 | 163 | 197 |
-| 07-s14 | 7391 | 9108 | +1717 | 50 | 63 |
+| 06-s13 | 26850 | 33251 | +6401 | 163 | 201 |
+| 07-s14 | 7391 | 9200 | +1809 | 50 | 64 |
 | 08-s15 | 8436 | 8692 | +256 | 48 | 49 |
-| 09-s16 | 7565 | 8237 | +672 | 46 | 50 |
-| 10-s17 | 3383 | 3752 | +369 | 22 | 25 |
+| 09-s16 | 7565 | 8258 | +693 | 46 | 50 |
+| 10-s17 | 3383 | 3755 | +372 | 22 | 25 |
 | 11-delegated | 3005 | 3107 | +102 | 19 | 19 |
-| 12-judgment | 25908 | 15384 | -10524 | 146 | 83 |
+| 12-judgment | 25908 | 16156 | -9752 | 146 | 87 |
 | 13-staged | 1779 | 1296 | -483 | 11 | 8 |
 | 14-appendixA | 657 | 549 | -108 | 4 | 3 |
-| **total** | **98458** | **92972** | **-5486 (-5.6 %)** | **590** | **559** |
+| **total** | **98458** | **94611** | **-3847 (-3.9 %)** | **590** | **569** |
 
-**Words removed, by source** (≈ 15 000 removed, ≈ 9 500 added; the source split is PLAUSIBLE — estimated section by
+**Words removed, by source** (≈ 15 000 removed, ≈ 11 100 added; the source split is PLAUSIBLE — estimated section by
 section from the edits made, not measured by a diff tool):
 
 | source | words removed | where |
@@ -54,21 +59,24 @@ section from the edits made, not measured by a diff tool):
 | duplicated mechanisms (the canon's UNIFY rulings) | ≈ 1 400 | E-20 (three convention copies → one), E-21 (§13.8's two tier paragraphs and §16's exit T-lists → one schedule table; net of the table), E-22 (three landing tables → one), E-23 (three re-signing lists → one) |
 | verbose prose | ≈ 300 | compact wording in §1.1's layers paragraph, §1.5–§1.6, D-rows |
 
-**Added, as required by the pass** (≈ 9 500): the g items 102–113's bars at build depth (≈ 2 300); the volumes placed —
+**Added, as required by the pass** (≈ 11 100): the g items 102–113's bars at build depth (≈ 2 300); the volumes placed —
 §1.1's stage table and village rows, §14's nine new package lines and dependency rules, §16's staged-milestone table,
 release gate and effort lines, §15's STAGE-3 rows (≈ 3 300); the f items' texts (T28-1/2/3, T29-4, T14-1, T15-1,
 T101-6, the Baseline/ParityReport/D5/MilestoneRecord fields, §13.6 (10)–(11), §13.7's two rows, §13.9's items 6–10,
 §17.1's additions; ≈ 2 000); the takeover table (CO-06/W-05) and the edges (≈ 1 100); the schedule table net (≈ 400);
-the index's 22 new rows (≈ 400).
+the index's 45 new rows (≈ 1 000); the landed parts' cross-part notes (≈ 1 000: §13.1's fault-injection fixtures,
+degenerate inputs per class and the kernel's limits beyond §3.11; §13.2's batch-cost bar, registry cases, schema and
+control-registry tests, the door-4 fixture provider, B-EDGE, the T-ER registration and the edit-boundary fixtures;
+T77-1's removed-partner and item 110's frame clauses; §14's `migrate` result and every extension point's implementer).
 
-**Why the unit sits below the band (not a defect; the goal yields to the guard).** §13 (32 500 words) is test
+**Why the unit sits below the band (not a defect; the goal yields to the guard).** §13 (33 250 words) is test
 specification: every bar is a behaviour, a fixture or a threshold, and none is restated elsewhere; §14's typed
 interfaces exist only here (script check: `interface StageContext`, `ConcernId`, `StrategyRegistry`, `Kernel`, `Rng`,
 `EditEngine`, the strategies and the port's types are declared once in the base, in §14); §15's two matrices are the
-home of the parity rows and the acceptance letters; the index keeps one row per decision (758). Cutting further would
-remove content, which the guard forbids. The unit shrank by more than half nowhere as a whole; two files did — §0 (−52
-%, its landing lists cut to homes by E-22) and the index (−41 %, the choice text beyond the name, held in Part A) — and
-are flagged for the verifier's nuance audit.
+home of the parity rows and the acceptance letters; the index keeps one row per decision (781). Cutting further would
+remove content, which the guard forbids. The unit shrank by more than half nowhere as a whole; one file did — §0 (−52
+%, its landing lists cut to homes by E-22) — and it and the index (−38 %, the choice text beyond the name, held in Part
+A) are flagged for the verifier's nuance audit.
 
 ## Elegance rulings applied, with their equivalence lists
 
@@ -95,7 +103,7 @@ are flagged for the verifier's nuance audit.
   102–113 and a pointer row for file f.
 * **E-23 — one list of calibratable table families** (§13.9 (4)). Equivalence: ☑ "the dossier row sets are not
   re-signed" kept as §13.9 (7), so the volumes' citations of (7) still resolve.
-* **E-24 — one supersession mark** (the index). Equivalence: ☑ no row dropped (758 = 736 + 22, ids checked by script);
+* **E-24 — one supersession mark** (the index). Equivalence: ☑ no row dropped (781 = 736 + 45, ids checked by script);
   ☑ the governing row keeps the reason (Part A). Marks: J-P16 *superseded by J-A37.41*; J-A29.01 *amended by J-A50.01,
   J-A50.21*; J-A30.71, J-A30.72 *amended by J-A20.77*; J-A30.22 *amended by J-A30.24*; J-A8.21 *amended by J-A8.22*;
   J-A12.45 *amended by J-A65.31*; J-DET-2, J-DET-6, J-DET-53 (their inline "amended by amendments b" notes); J-A28.71
@@ -179,8 +187,14 @@ with no open item).
 * **J-T → JT** (ID-JT). The canon's gloss "the Jonckheere–Terpstra trend test" is wrong for the base: §13.7's J-T is
   "the calibration rule every table row and threshold cites"; only the rename is applied, the meaning kept.
 * **A.3 → Appendix A** (ID-APPX): the section is unnumbered.
-* **New index rows:** J-C1 – J-C4, J-S44 – J-S47, J-A73.06, J-A77.06, J-A102.01, J-A110.01, J-A111.01, J-A112.01,
-  J-A113.01, J-A201.01, J-A505.01, J-A505.02, J-A509.01, J-A568.01 – J-A568.03 (their Part A entries below).
+* **New index rows (45):** this part's — J-C1 – J-C4, J-S44 – J-S47, J-A73.06, J-A77.06, J-A102.01, J-A110.01,
+  J-A111.01, J-A112.01, J-A113.01, J-A201.01, J-A505.01, J-A505.02, J-A509.01, J-A568.01 – J-A568.03; the part editors'
+  J122 decisions as their reports record them — determinism's six (J-A113.61, J-A110.61, J-DET-55, J-A344.61,
+  J-A101.78, J-DET-56), the model's (J-A110.21, J-A206.21, J-A111.21, J-A77.21, J-A106.21, J-A113.21, J-A110.22 for
+  its J-RM3, J-RM5, J-RM7, J-RM8, J-RM10, J-RM11, J-RM12), the kernel's `W_STEINER` removal (J-K37, KWG-01) and the
+  pipeline's nine (J-P51, J-A102.41, J-A110.41 – J-A110.43, J-A101.42, J-P52, J-A111.41, J-P53). The model's J-RM1,
+  J-RM2, J-RM4, J-RM14 – J-RM16 are editorial and J-RM6, J-RM9, J-RM13 close canon-routed wiring or MC rows (no
+  alternative chosen), so they take no row. Part A entries: *Cross-part notes*.
 * **§0.2's columns** are now item | home — the mechanism | clause map (E-22).
 
 ## Wiring gaps closed
@@ -257,18 +271,58 @@ the first-five-minutes participants (§13.4, J122).
   "lots" (MFCG's lots drawn as buildings, FTG's growth lot, NG's lot leaves, MFCG's lots per block) stay, as MC-01's
   "outside quotations" requires — renaming them would change what the reference did.
 * **ID-JT's gloss** (above).
+* **G-unitinput:** the canon renames the unit-run view (`SkyHandover` → `SkyUnitInput`, one spelling); §14's
+  `@plat/sky` line names its producer `skyUnitInput` by the same rule, and `handover` stays only for the reservation
+  passing (V05 §3.5). Volume 5's editor is told (cross-part notes).
+
+## Cross-part notes received from the landed base parts (checked against the section files 2026-09-30)
+
+Each note the five landed base parts addressed to scope, checked by grep and reading (never assumed); "in" = found in the
+section file as the 2026-09-29 run left it, "added" = written by the continuation.
+
+| from | note | disposition |
+|---|---|---|
+| model | §1.1 declares `Rung` (MC-11) | in (§1.1, `type Rung`) |
+| model | T77-1 gains the removed-partner clause (J-RM8) | in (§13.2 T77-1's slice clause) |
+| model | item 110 (f)'s bars gain the frame clause for raised ways, retaining walls and deck slots (J-RM12) | in (T110-1, T110-2, T110-5) |
+| model | the registry path test covers `HistoryRecord`, `WaterBody.spring`, `fedBy`, `Enceinte.arcs` / `stretchClass`, `Gate.mouth` | in (§13.2 *Document tests*) |
+| model | its J122 judgment calls (J-RM1 – J-RM16) | added: index rows for the seven design choices (above) |
+| kernel 28 | §13.1's constructive set gains §3.11's cases | in by pointer for every case §3.11's rows name; added: the kernel's further limits §3.11 does not name — `buffer` joins and ends, `insetRing` at 0, below 0 and non-convex, the outer-ring-only arena, the no-growth frame and the village → town fold, a part-0 warp under a raised way, a raised way over part-0 ways |
+| kernel 29 | §13.2's cost-model test bounds `work` and the four edge counts by the touched faces (SCL-1; W-FLD-02) | in (*Batch cost*) |
+| kernel 30 | §14's `Kernel.resolve` takes a `PlatKey`; a transient arena read through `readBack` and `view` (KIC-02) | in |
+| kernel 31 | §16's M4 exit names the extreme-growth memory measurement (KWG-08) | in |
+| kernel | KWG-01's `W_STEINER` removal, "ruling of this editor under J122, vetoable" | added: J-K37 |
+| pipeline | "What the base supports" stays at §4.2 S0 | in (§1 holds no statement of it) |
+| pipeline | §13.2: B-EDGE; the fixture `ContentProvider` (W-IF-07); items 111's and 113's bars; T66's over-long dug route (EDGE-PIPE-02) | in (B-EDGE; the door-4 fixture; T111-1 – T111-5, T113-1 – T113-7; T66-2) |
+| pipeline | §13.5's wealth-bands row points to §4.5 for MFCG's ward-class shares and receipt | in |
+| pipeline | §14: `StrategyRegistry.hooks`, `products`; `AccessPassStrategy` in the `underground` map; `@plat/evolve` | in; added: `AccessPassStrategy` (V04's U-ACCESS) and volume 1's S7c and S9b hook registrations in the extension points |
+| pipeline | its J122 decisions (§4 of its report) | added: J-P51 – J-P53, J-A102.41, J-A110.41 – J-A110.43, J-A101.42, J-A111.41 |
+| determinism | §13.1's bug-abort fault injection, "`bugs` empty" and one degenerate input per failure class | in (*Ladder coverage*) |
+| determinism | §6.5 (9)'s tests on one fixture per base rung plus a METROPOLIS-cap fixture | in (*Stage contract tests*) |
+| determinism | §13.2's empty-edit, §7.2, edit-boundary, report-schema, budget-row and control-registry tests | in (*Document tests*, *B-EDIT*) |
+| determinism | §14's `migrate` returns `{ doc, diff: UpgradeDiff }` | in |
+| determinism | tools cited with their words in §13.8 and §16 (ID-TOOL) | in; the scan found one bare mapping-table id — §0.2 row 108's "T9" — now V08 §2.6's `distribution` row set |
+| determinism | index rows for its six decisions | in (J-A113.61, J-A110.61, J-DET-55, J-A344.61, J-A101.78, J-DET-56) |
+| rendering | §14: `ObstacleSource` kind `room`; `LabelTable` columns if listed; the `LiveLayerProvider` registrations; PageUp / PageDown; T1's time card, the timeline and the history panel; `@plat/clerk` | in (§14 lists no `LabelTable` columns, so none added); added: every live layer named with its implementer |
+| rendering | §13: T-ER-01 – T-ER-21 by pointer; item 112's style check; the band entry stops' B-ZOOM pop check (RWG-03) | in (§13.2, T112-1, §13.4) |
+| rendering | §16: item 474 (d)'s M5 row and effort line; the daylight term's measurement at M2b (R12-29); item 568's totals | in |
 
 ## Cross-part notes (what another unit must change; not edited here)
 
 * **Model (§2):** declare `ProductDecl` (V07 §2.1's type) at the base's home if S3/MC-11 applies (the base registers
-  'base'); `StrategyRegistry.products` in §14 cites it.
+  'base'); `StrategyRegistry.products` in §14 cites it. §2.1's *Arena parts* and §2.2's `PlatKey` comment name the
+  ground's parts ≥ 1 (one arena per raised way) and `Document.nextGroundPart` beside the other two counters, as §2.4,
+  §2.7 and §2.9 already state (the kernel's note 3; J-A110.21).
 * **Kernel (§3.3–§3.4):** KIC-02's service list must agree with §14's `Kernel` — `resolve` PlatKey-only, a transient
   arena read through `readBack` and `view`.
 * **Pipeline:** W-IF-07 — §4.2 S2, §4.7 S10b and §10.3 name the `ContentProvider` call points (§14 keeps door 4 and
   §13.2 holds its fixture test, J-S46); file f item 202's §4.11, §4.12 and PART III parts; PART III item 5's village
   bands per BCR-V7-1 ([1, 80), [80, 400), [400, 1 500)); G-lot in §4.6 and §4.7 ("lot cut" → "plot cut"; §4.9's hinterland
   "lots" → "plots"); rename J-T → JT (4 hits); item 111's base parts at M1 (S0–S1) and M2b (the water pull, the water
-  term, wells) as §16 schedules them; §4.11's history replay (item 113) lands at M6-E.
+  term, wells) as §16 schedules them; §4.11's history replay (item 113) lands at M6-E. §4.2 S2's "(§7.7 T9, DR9)" reads
+  "(DR9; V08 §2.6's `distribution` row set)" — `research/sf/mapping.md`'s tables are cited by their row-set names
+  (ID-TOOL); II.4's "T8 `fabric`'s parameter and a block's content T9's" reads "T8 `fill`'s `fabric` parameter and T9
+  `shape`'s block content" (§7.1's tool words).
 * **Determinism:** §7.7 item 1's never-read list gains `powerStructure.previousGovernments` (W-DOS-05); §7.7 item 15
   carries file f item 202's wording (the refusal only while no village product is registered); the forms catalogue's
   milestone is §16's M3b (DIC-11); DR24's custom-content inputs (file f item 511's §7.7 part); §7.1 T2 `ground`'s spring
@@ -318,34 +372,88 @@ the first-five-minutes participants (§13.4, J122).
   no ground wing is storeyed (§2.6 *Basements*; its door V03 §3.7.1's), else the programme row's `basementAccess` at
   `builtBand`" and "an `external` basement's outside stair a door at the point §2.6's plan rung step 3 gives (V03
   §3.7.1)" (BCR-V2-33 (b), file f item 371); J-A28.02 drops "(R11)" (ID-R); the marks of E-24 on their entries.
+  **The part editors' J122 decisions** (full texts in `rewrite-determinism.md` *Decisions taken under J122*,
+  `rewrite-model.md` *Judgment calls*, `rewrite-kernel.md` *Wiring gaps closed* and `rewrite-pipeline.md` §4): J-A113.61:
+  chose the replay's coarse-epoch component `0x8000 + r` over a separate stage-id family, because the replay runs the same
+  stages and concerns as a live epoch and the u16 range's upper half keeps its draws apart. J-A110.61: chose to register
+  the raised-way generator's stream as `raised.reason` (cap 0) over leaving it unnamed, because §7.7's totality test needs
+  every chance cell to name a registered concern. J-DET-55: chose attempt cap 2 for the tier-3 concerns over a stated cap
+  3, because their ladders are the tier table's three attempts; `hood.template` keeps its four. J-A344.61: chose to keep
+  `village.track` rerollable (file f item 344), its dry run a Re-derive from VS4 with the fate report, because then no
+  geometry changes without a fate list. J-A101.78: chose to bend plan-edit refusals, a `relet` above capacity, a passage
+  below two storeys, a table cell out of range and an unhonourable roster line over refusing them, because R2 governs
+  every tool (J-VI.4); re-homing that cannot place its excess and a Works edit that strands a plot stay conflicts, having
+  no lawful form to bend to. J-DET-56: chose that an empty edit appends nothing over appending a no-op event, so digests
+  and `nextSeq` never move for nothing. J-A110.21: chose ground parts ≥ 1 numbered by `Document.nextGroundPart` for raised
+  decks, their entities keeping unprefixed addresses, because g item 110 (b) numbers them from 1, allocated once and never
+  reused, as the underground's and sky's parts are. J-A206.21: chose `'lake'` for an oxbow's `Outfall.into`, because
+  volume 4's mapping gives every other still water `'lake'`. J-A111.21: chose `WaterBody.spring { at, flow }` with a
+  `grove` and `garden`s linked by `fedBy`, because g item 111 (b)'s weakening pull needs a stored flow volume 6's failing
+  spring can lower. J-A77.21: chose to keep a way whose trade partner left the slice, weighed 0 by `TradeFlow`, over
+  removing it, because roads outlive their trade. J-A106.21: chose stored barrier arcs over a derived reading, because
+  the classification runs once at S5a and volumes 1, 9 and 12 and the exports read its result. J-A113.21: chose one
+  `HistoryRecord` per document in the model digest and the lost void as volume 4's access state, because the replay's
+  result is one per document and the void's access is volume 4's set (E-39). J-A110.22: chose, at the frame, a raised
+  part sized to the frame plus margin and growing with it, an aqueduct from beyond laid to the outer ring, a declared
+  course bent to it, a retaining wall ending on it and a crossing deck slot left out and re-offered by frame growth,
+  because no geometry leaves its arena and item 101 R2 bends a declaration rather than refusing it. J-K37: chose to
+  remove `W_STEINER` over naming a reader, because nothing in the set produces or reads it (KWG-01). J-P51: chose
+  `drivers.wealthGradient` 0.15, 0 without a bearing and in the parity presets, so the intent's wealth bearing is read
+  (W-FLD-07) and the parity presets stay unbiased. J-A102.41: chose `ClassMixRow.sun` 0.3, cottage `wealthShift` −0.2 and
+  the lean-to's significance 0.05, so every class-mix cell the stages read has a value (WG-PIPE-11). J-A110.41: chose no
+  deck plots on a gate's moat deck over allowing them, because the gate's approach stays clear (the realism tiebreaker).
+  J-A110.42: chose to exclude the harbour basin and its mouth from a raised part, bending a stroke to its last ground
+  vertex, with no support on a square, a reservation or an oasis's water and a river spanned within
+  `viaduct.maxSpanM`, because masts must pass and supports never stand in water or on open ground the town uses.
+  J-A110.43: chose no retaining wall on a cliff bank or a `cliff` / `sheer` arc, because the cliff face holds the ground.
+  J-A101.42: chose to bend a skeleton declaration a stage cannot honour over refusing it, refusing only one that contradicts
+  a dossier fact or a lock, because item 101 R2 governs every tool. J-P52: chose, for a hinterland with no land, the
+  outside classes to F-SITING, the farm households housed as under `perimeter` and the demand a reported import, over a
+  failed generation, because a limit has a defined outcome and never a whole-map retry. J-A111.41: chose the best-scored
+  hollow or fault line in the frame's middle two thirds for the oasis, the lowest ground there without one, because a
+  spring rises at a relief break or in low ground. J-P53: chose the pipeline's defined limits (EDGE-PIPE-01, -04 – -08):
+  a catacomb source's age by the history-scaled stage count, the basement-access age term 1 at K = 1, `institutionDepthM`
+  8–15 m, the underground light fuel the era row's rows plus admitted magic rows, the island count
+  `recipe.params['islands.count']` with `SkyIsland.slot` and the ring factor in [1, 2], because each limit needs one value
+  and these follow the rules that read them.
 * **INDEX.md:** the assembler places `docs/validation/coherence/new/index/03-dependency-graph.md`,
   `04-combined-build-order.md`, `06-owner-questions.md` and `07-reconciliation.md` over §3, §4, §6 and §7 (each starts
   with its heading line exactly); the intro's "(file g, items 102–110)" reads "items 102–113"; §1's table stands.
-* **Volumes:** V01 (T-V1 tests name the base bars they take); V02 (T-V2-31 cites §13.5's Fantasy Manor rows, which file f
+* **Volumes:** V01 (T-V1 tests name the base bars they take; its unit runner reads `skyUnitInput(doc, island):
+  SkyUnitInput`, G-unitinput); V02 (T-V2-31 cites §13.5's Fantasy Manor rows, which file f
   item 522 places in the base); V03 (§4.5 cites §14's PageUp/PageDown precedence); V04 (§5.1 cites the same; T-V4 name
-  the base bars they take); V05 (T-V5-19 – T-V5-21 cite T102-2); V06 (§7's tests name each base bar and clause they take
+  the base bars they take); V05 (T-V5-19 – T-V5-21 cite T102-2; the unit-run view's producer `skyHandover(doc, island): SkyHandover` is
+  `skyUnitInput(doc, island): SkyUnitInput`, one spelling, as §14's `@plat/sky` line names it, `handover` kept only for
+  `IslandInstitution.handover`, G-unitinput); V06 (§7's tests name each base bar and clause they take
   — the takeover table's first row; item 113's replay cost inside M6-E's price or as a delta §16 then carries); V07 (§2.1
   cites §1.1's rows; §8's V-M0 slot right after M0 and V-M1 after M4, J122); V08 (drop `government.previous` from its
   digest and adapter; `mPerRealmUnit` stays only in its host-side `RealmPlacements`); V09 (the release trial's running,
   item 112 (b)); V10 (`plat clerk` in `@plat/cli`, J-A505.02); V12 (J-T → JT, 6 hits; M-CAL after M6-sky in J122's
-  order); every volume listing the published methods it adopts (§17.1 (8)'s rule) and its production dependencies
+  order; §2's `SampleFrame` and `frames.json` rows cite §13.9 (6), *Evidence*, for the evidence gate, beside (1)); every volume listing the published methods it adopts (§17.1 (8)'s rule) and its production dependencies
   through its base change requests (§17.4).
 
 ## CONFIRMED versus PLAUSIBLE
 
-**CONFIRMED (executed in this lane):** every section file starts with its heading line exactly as in the base (md5
-01fea21f); every table row of the fourteen files has its header's cell count; every `§x.y` pointer resolves to a base
-heading and every `Vnn §x.y` to a volume heading or numbered paragraph; the index holds 758 rows with 758 distinct ids
-and every one of the 736 old ids; the new test ids collide with none in the set; §16's rows sum to the first total
+**CONFIRMED (executed in this lane; re-run 2026-09-30 after the continuation's edits):** every section file starts with
+its heading line exactly as in the base (14 of 14); every table row of the fourteen files has its header's cell count
+(0 misshapen); every `§x.y` pointer (3 505) resolves to a base heading of the new parts or today's base and every
+`Vnn §x.y` (189) to a volume heading or numbered paragraph (six flagged by the script — range ends, wrapped `volume 12
+§…` pointers and bold-numbered paragraphs such as V12's **3.5.2** — each checked by hand and resolved); the index holds
+781 rows with 781 distinct ids and every one of the 736 old ids, and every J-id the six new base parts cite (782
+distinct) resolves to an index row; each base test id is defined once (285 definitions; none of T102-1 … T113-7 is used
+by a volume or file f/g as another test); the new test ids collide with none in the set; §16's rows sum to the first total
 (221.5–300.5) and its staged lines to 170.75–238.75 and the whole program to 392.25–539.25; the typed interfaces of §14
-are declared nowhere else in the base; all 1 684 inventory ids appear in the mapping table; the word counts of *Sizes*.
+are declared nowhere else in the base; all 1 684 inventory ids appear in the mapping table, each once, every destination
+naming a heading of its file; the retired-term scan over the canon's 35 patterns (G-lot hits all the references' own
+lots, MC-01; G-M6U's one hit is stage 3's M6 beside M6-U); the word counts of *Sizes*.
 **PLAUSIBLE:** the source split of the words removed; the designs added (the g bars, the edges' outcomes, the pricing
 placements J-A568.01 – J-A568.03, the calendar estimate), each until the milestone §16 names executes it.
 
 ## Mapping table
 
 Every inventory id of `docs/validation/coherence/inventory-scope.json` → its new home or disposition (generated by
-script from the inventory's lines and the canon's roles; `02-summary` lines keep the summary's plain words with their
+script from the inventory's lines and the canon's roles; re-verified 2026-09-30 — 1 684 of 1 684 ids, each once, every
+`file §x.y` destination a heading of that file, no subsection renumbered by the continuation; `02-summary` lines keep the summary's plain words with their
 pointer, which is the summary's job).
 
 | inventory id | new home or disposition |
