@@ -4,8 +4,8 @@
 
 PROGRESS (lane `coherence/rewrite-V10`, started 2026-09-30 in the cloud)
 - P1 inputs gathered (canon unit V10 → work/rewrite-V10/unit.json, routing.md, handoffs*.md, edges-v10.md, f-items.md, bcr-map.json; src/V10-work2.md = the volume with G-cite, G-DR, G-clerkhandle, list prefixes and request→item citations applied mechanically, logged in transform-log.tsv): done
-- P2 head, §0, §1: done (parts/00-head-s0-s1.md; one marker line; J121/J122 wording (V10-J121-1); E-33; g-item plain words; §1.2 as two citation tables); §1b: pending
-- P3 §2: pending
+- P2 head, §0, §1: done (parts/00-head-s0-s1.md; one marker line; J121/J122 wording (V10-J121-1); E-33; g-item plain words; §1.2 as two citation tables); §1b: extracted and stripped before the restart, hand edits after §3 (continuation)
+- P3 §2: done on continuation (parts/02-s2.md; spec02.py via rep.py: E-33, the J121 model row, WGAP-1 cells, V10-XAGREE-1/-2, the weights restatement, the g-item inputs and brief lines, `LookAnswer`)
 - P4 §3: pending
 - P5 §4–§6: pending
 - P6 §7: pending

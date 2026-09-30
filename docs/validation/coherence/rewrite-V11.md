@@ -3,9 +3,9 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/rewrite-V11; covered by the whole-design retrovalidation (J84).
 
 PROGRESS (lane `coherence/rewrite-V11`, started 2026-09-30 21:15 in the cloud)
-- P1 inputs gathered (canon unit V11; routing in work/rewrite-V11/): in progress
-- P2 head, §0, §1, §1b: pending
-- P3 §2: pending
+- P1 inputs gathered (canon unit V11; routing in work/rewrite-V11/): done (src/stripped.md by transform.py + strip.py)
+- P2 head, §0, §1, §1b: done (parts 00, 01)
+- P3 §2: done (part 02; §2.8d new)
 - P4 §3.1–§3.4: pending
 - P5 §3.5: pending
 - P6 §3.6–§3.12: pending

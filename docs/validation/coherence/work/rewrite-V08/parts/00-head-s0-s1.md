@@ -150,7 +150,7 @@ live SettlementForge drives a map end to end:
 15. **The port side of item 110** — the dossier facts that feed item 110 (b)'s generated raised ways: the water system
     and its demand records to the aqueduct reason (DR34), the high-ground landmarks to the elevated road's (DR35), the
     culture to the aqueduct's chance and to the stepped specialisations of item 110 (c); the toll bridge's watercourse
-    rule at every rung (V08 §2.6b (3); E-31); and the rule that nothing item 110 generates is dossier-bound, so the DM's
+    rule at every rung (V08 §2.6b (3)); and the rule that nothing item 110 generates is dossier-bound, so the DM's
     removal holds through every absorb (V08 §2.6b, §4.1, §4.3, §4.6).
 16. **The port side of items 111 and 113–118** — a desert dossier with or without `oasis_water`, and deserts with rivers,
     lakes or coasts (item 111; V08 §2.6 `site`, `deposits`); SettlementForge's history — the founding, the 29 event
