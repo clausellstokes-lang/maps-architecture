@@ -1957,3 +1957,6 @@
 2026-09-30 20:19 coherence/orchestrator NOTE rewrite-V06 landed (items 111, 113, 114, 115 parts included); starting rewrite-V09 in its lane (cap 2: V08 + V09)
 2026-09-30 20:20 coherence/rewrite-V08 CHECKPOINT started (opus stand-in); routing extracted to docs/validation/coherence/work/rewrite-V08/ (routing.md, unit.json, inv.txt); next: read V08 whole, then base cites, agreement, edges, hand-offs
 2026-09-30 20:20 coherence/rewrite-V09 CHECKPOINT started (fresh; no prior output); report skeleton written; next: gather canon unit V09 rulings, inventory, edges, hand-offs, f/g items
+2026-09-30 20:29 coherence/rewrite-V09 CHECKPOINT P1 inputs gathered (canon unit, 28 conflicts, g 111-118 routing, wiring, elegance, ids, 26 hand-offs, edges); part 00 (head, §0, §1) written; next: §1b (part 01), §2 (part 02)
+2026-09-30 20:34 coherence/rewrite-V08 CHECKPOINT P2 done (volume read whole; base §7.7/§11.3/§11.4/§14 new text read; routing, hand-offs, edges extracted); part 00 (head, §0, §1) written; next: part 01 §1b (W-numbered)
+2026-09-30 20:35 coherence/rewrite-V09 CHECKPOINT parts 01 (§1b: + rows for items 111-118, TrialRecord, cell inspector; dossier trace DR34/35/40, DR36-39) and 02 (§2: five classes, J121 AI setup, XAGREE-1 table shape, article form J-V9.126, locales J121, appVersion reader, new keys' lifecycle) written; next: §3 (part 03)
