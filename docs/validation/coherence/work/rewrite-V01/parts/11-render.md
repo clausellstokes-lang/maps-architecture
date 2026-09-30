@@ -62,7 +62,7 @@ their shadows (V01 §5.1.3).
   `details` off **no hatching draws**, the ridge tapers included (NG E1, E6); with `shadows` off the hatch turns 90° to the
   eave (NG's own switch). The parity subset below `hatch.minPx` and the `details` and `shadows` switches apply to every
   facet.
-* **Stair flights** (volume 2's `stairFlight`; V02 X24). The flight's facet as volume 2 paints it, its treads hatched
+* **Stair flights** (volume 2's `stairFlight`, V02 §2.6). The flight's facet as volume 2 paints it, its treads hatched
   across the flight by volume 2's `stairTreads(w)` (its `n − 1` lines at its `goingCm`, V02 §2.6), no ridge tapers; below
   2 px of plan per tread the lines are omitted as volume 2's `stairFlight` omits them; drawn after the wing it rises from
   and before the wing it lands on (V01 §5.1.3).
@@ -146,8 +146,8 @@ buildings → buildings → chimneys → block trees → title) is a subsequence
 | 20 | grid | — |
 | 21–25 | scale bar, compass, labels, title and legend, live layers | as §8.2's list |
 
-**Stacks in slot 12** (item 110 (c), (f); V02 X24). A building's wings are drawn in stack order by `BaseWing.on` depth
-(V02 §2.6; §8.6, item 419) — a wing before the wings standing on it, ties by wing key (V02 §2.1's canonical order) — and
+**Stacks in slot 12** (item 110 (c), (f)). A building's wings are drawn in stack order by `BaseWing.on` depth
+(V02 §2.6; §8.6, items 227, 419) — a wing before the wings standing on it, ties by wing key (V02 §2.1's canonical order; item 216) — and
 after each wing that carries others, the prism shadows of the wings standing on it are drawn clipped to that wing's roof,
 in the shadow tone at the sheet's shadow alpha (slot 9's law), so each tier casts its own visible shadow on the tier below;
 slot 9 keeps only the building's ground shadow, cast from its stack's envelope. A stair flight is drawn after the wing it

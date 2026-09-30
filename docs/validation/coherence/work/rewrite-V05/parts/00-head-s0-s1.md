@@ -42,13 +42,12 @@ island cathedral's burial crypt is cut into the island's own rock beneath it —
 the island never has catacombs: those lie only under the cemeteries on the ground.
 
 **What it looks like.** Each island has its own shape (round, D-shaped, a lozenge, a crescent or a long spindle), a rocky
-rim, its own gentle hills that echo the country below, and often a small magically conjured river that flows the same way
-as the river on the ground and spills off the edge as a waterfall that turns to mist. It floats over water, fields or the
-outskirts — over the city's heart only if someone asks for it there — high enough that nothing on the ground touches its
-rocky underside. From above you see the island drawn over the city with the ground showing faintly through it (you can
-switch it to solid, or to a "lifted" view that shows the rock hanging beneath it), and its shadow falls on the ground and
-moves with the sun under your mouse pointer. At night the rim glows with small magical lights and a soft glow shines down
-from beneath it onto the ground.
+rim, gentle hills that echo the country below, and often a small conjured river that flows the same way as the ground's
+and spills off the edge as a waterfall that turns to mist. It floats over water, fields or the outskirts — over the
+city's heart only if someone asks — high enough that nothing on the ground touches its rocky underside. From above you
+see it drawn over the city with the ground showing faintly through (or solid, or "lifted" to show the rock hanging
+beneath), and its shadow moves with the sun under your mouse pointer. At night the rim glows with small magical lights
+and a soft glow shines down from beneath it.
 
 **How people get up.** By hoists — winch houses on the rim lowering cages on ropes to a landing yard below, the way some
 real clifftop monasteries were reached — or, over water, by an inclined rope line to a tower on the shore. Where the
@@ -56,17 +55,15 @@ world has magic, a floating stair of stepping stones or a bridge of light may jo
 way up, and every landing on the ground is a small yard on a street.
 
 **The shade it throws on the ground.** An island blocks the sun. For a typical day the generator works out how long each
-patch of ground lies in an island's shade — the same way it works out the shade of hills and walls — using the island's
-real bulk: its thick rocky rim and the root tapering beneath it. Ground that spends much of the day in that shade tends
-to be a little poorer, so cheaper lodgings and workshops gather in the island's "under-hang", while the rich keep to the
-sunny side (in hot dry country, where the climate makes shade valued, the ground's own rule decides). It is a gentle
-tendency, never a rule: the shade alone never moves a patch of ground by more than one step of wealth. If an island is
-moved, raised or lowered, the ground beneath catches up over time — at the next period of the city's history — rather
-than being rebuilt the moment you drag it. A shade map shows where each island's shade falls across the day, and the
+patch of ground lies in an island's shade — as it does for hills and walls — from the island's real bulk: its thick rocky
+rim and the root tapering beneath it. Ground long in that shade tends to be a little poorer, so cheaper lodgings and
+workshops gather in the island's "under-hang" while the rich keep to the sunny side (in hot dry country, where shade is
+valued, the ground's own rule decides). It is a gentle tendency, never a rule: the shade alone never moves ground by more
+than one step of wealth. If an island is moved, raised or lowered, the ground beneath catches up at the next period of
+the city's history rather than being rebuilt as you drag it. A shade map shows where each island's shade falls, and the
 clerk can answer "why is this quarter poor?" with "it lies in the shade of the Palace island for half the day". The map
-remembers where each island stood when the ground last took its shade, so saving and reopening a map never changes the
-picture; and if you do not want to wait for the town's next period, one button ("Update shade now") brings the ground
-under the old and new shade up to date at once.
+remembers where each island stood when the ground last took its shade, so saving and reopening never changes the
+picture; one button ("Update shade now") brings the ground up to date at once.
 
 **Who trades with whom.** Shops and workshops on an island follow the same siting rules as those on the ground, but a
 trip to the ground means a ride down a hoist: so an island's baker sits near the hoist that leads down towards the mill,
@@ -82,14 +79,13 @@ between them; the ground end of that trade gathers near the hoist's landing yard
 **Walls.** An island needs no wall: its cliffs are its wall. If you draw a wall on an island anyway, only the tops of its
 hoists are walled, each with a gate, and the clerk explains that "the drop is the wall" everywhere else.
 
-**Viaducts, raised roads, aqueducts and terraces.** Cities may build viaducts, raised roads and aqueducts; they pass
-beneath an island and never reach one, the island floats clear of them, and one you remove stays removed. The hoists'
-landing yards keep clear of the arches, a rope line passes well above any deck it crosses, and a road you draw toward an
-island's edge is turned into the offer of a hoist instead: "A road cannot reach a floating island; a hoist, rope line,
-stair or bridge of light can." An island on steep ground may be terraced, with its own retaining walls, but never along
-its edge: the rim walk stays level, and a terrace wall you draw there is moved just inside it. When an island falls, the
-arches, piers and terrace walls beneath it break with everything else it lands on, and the shops standing on a covered
-bridge fall with the bridge.
+**Viaducts, raised roads, aqueducts and terraces.** They pass beneath an island and never reach one; the island floats
+clear of them, and one you remove stays removed. The landing yards keep clear of the arches, a rope line passes well
+above any deck, and a road you draw toward an island's edge becomes a hoist instead: "A road cannot reach a floating
+island; a hoist, rope line, stair or bridge of light can." An island on steep ground may be terraced with its own
+retaining walls, never along its edge: the rim walk stays level, and a terrace wall drawn there is moved just inside it.
+When an island falls, the arches, piers and terrace walls beneath it break with everything else it lands on, and the
+shops on a covered bridge fall with the bridge.
 
 **Water.** An island's water is its own — its conjured river or a spring pond. A desert oasis, the pull of a dry town
 toward its water and the climate's preference for shade all belong to the ground; they never reach an island, though an
@@ -106,11 +102,10 @@ returns in time, an abandoned island is raised again before any new one appears.
 cathedral or the palace an island carries, the island finds a new purpose at the town's next period — another
 institution of the same kind, or a rich neighbourhood — or, failing both, slowly sinks.
 
-**Editing.** Everything can be changed: switch islands on or off, choose how many, draw an island where you want it,
-drag it elsewhere, raise or lower it, make it bigger or smaller, reshape its rim, add or move a hoist or a stair, rename
-it, paint its wealth, density or greenery with the same brushes as the ground, edit anything on it like any other
-neighbourhood, or bring it down by hand. Every change can be undone, and changing an island never disturbs the city
-below except the landing yards of its hoists. An island or a hoist you remove stays removed: the city never raises it
+**Editing.** Everything can be changed: switch islands on or off, choose how many, draw one where you want it, drag,
+raise, lower, grow or shrink it, reshape its rim, add or move a hoist or a stair, rename it, paint its wealth, density or
+greenery with the ground's brushes, edit anything on it like any neighbourhood, or bring it down by hand. Every change
+can be undone, and changing an island never disturbs the city below except its hoists' landing yards. An island or a hoist you remove stays removed: the city never raises it
 again by itself — the clerk says "removed by you" — unless you undo the removal, or draw an island yourself when every
 other place is taken. Asking for more islands opens new places only, never the one you emptied. If you switch islands on
 and none appears, the map says why in plain words — the city is not rich enough to keep one aloft — and offers the two
