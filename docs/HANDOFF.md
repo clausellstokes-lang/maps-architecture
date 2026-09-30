@@ -10,6 +10,11 @@ docs/validation/coherence/new/base/); volume rewrites V01–V05 were IN PROGRESS
 up); V06–V12 not started; the LIVE design files are untouched (only the assembly seat writes them). (3) Then the Fable review — ONLY on
 the owner's word. All other decisions are delegated (J122). Owner rules: `docs/AMENDMENTS-2026-09-28g.md` (102–113).
 
+**Repository.** The program is backed up in a PRIVATE GitHub repository: https://github.com/clausellstokes-lang/maps-architecture
+(commit 5354c2a, 2026-09-29 20:20). This folder is now a git repository; commit new work with explicit paths and push only on the
+owner's word. Third-party captures, source repositories, copied archives, study images, browser profiles and backups stay local
+(`.gitignore`).
+
 **To continue the coherence pass:** in a NEW session, launch `Workflow({ scriptPath: "/Users/cstokes/Desktop/Maps/workflows/18-coherence.js",
 args: <workflows/lane-prompts/coherence-args.json> })` fresh; every landed seat returns its saved result from
 docs/validation/coherence/results/ (or its LANDED summary) without redoing, and the in-progress editors continue from their drafts. Register

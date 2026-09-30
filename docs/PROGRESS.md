@@ -185,7 +185,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-09-29 20:10 EDT._
+_Disk state as of 2026-09-29 20:12 EDT._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -627,3 +627,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-09-29 15:46 EDT** — LANDED: volumes pass wf_153a2e0d-96a completed 15:44 (157 agents, 0 errors; seam material history 136/48/31/29/15/19/14, round 6's 14 material fixed by the finalize seat; 25 minors on INDEX §7's fix list; file f items 200-582; INDEX.md, SUMMARY.md, bundle UP TO DATE). 18-coherence patched to route INDEX §7's fix list into its zero bar. Launching 18-coherence fresh at 6 lanes.
 - **2026-09-29 15:46 EDT** — Coherence pass launched: workflows/18-coherence.js, run wf_4465b207-520, task wpb81roi2, args workflows/lane-prompts/coherence-args.json (6 lanes), registered with tools/lanes.py.
 - **2026-09-29 20:10 EDT** — STOPPED by the owner's request for a stopping point (2026-09-29 ~20:10): coherence pass wf_4465b207-520 stopped in its Rewrite phase. LANDED: inventory (12), wiring, canon (canon, agreement, edges), and all six base rewrites (scope, model, kernel, pipeline, determinism, rendering). IN PROGRESS (drafts saved in docs/validation/coherence/new/volumes/, CONTINUE rule applies): V01-V05. NOT STARTED: V06-V12, assembly, verification loops, validation. Live design files untouched (only the assembly seat writes them). The lane-check cron was deleted so it cannot resume the run. Resume: relaunch workflows/18-coherence.js with args workflows/lane-prompts/coherence-args.json (a new session cannot use resumeFromRunId; every finished seat returns its saved result, the in-progress editors continue from their drafts).
+- **2026-09-29 20:12 EDT** — Uploaded to a PRIVATE GitHub repository at the owner's request: https://github.com/clausellstokes-lang/maps-architecture (commit 5354c2a on main, 1,396 files, 186 MB; pushed and verified). The Maps folder is now a git repository. Kept local by .gitignore: captures/, reference/, research/patreon|devlogs|ftg-docs|external|reference-maps/, profiler/.profiles and node_modules, backups/. Secret scan of the uploaded set: 0 hits.
