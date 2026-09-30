@@ -364,10 +364,11 @@ the block stays ordinary.
 #### 3.5.7 Courts greened (§4.9, item 313)
 
 S12b plants a block's court residue (§4.7 S10 (6)) as a green with trees with the band's **court-greening**
-probability, drawn on `greenery` keyed by the block: squalid 0.10, poor 0.20, modest 0.35, comfortable 0.45, prosperous
-0.60, rich 0.80, × (0.5 + D's greenery value), × 1.5 for a `leafy` standalone recipe, clamped to [0, 1] (ours; II.3's "a
-target per band" over NG 1.2.2's complete-frontage-ring rule, whose 23–58 % of ordinary blocks green is the calibration
-anchor for the modest to comfortable rows, item 58 (b)). The row is `extension` (0 in the parity presets). A court not
+probability (§4.9's row, item 313, which reads it here), drawn on `greenery` keyed by the block: squalid 0.10, poor 0.20,
+modest 0.35, comfortable 0.45, prosperous 0.60, rich 0.80, × (0.5 + D's greenery value), × 1.5 for a `leafy` standalone
+recipe, clamped to [0, 1] (ours; II.3's "a target per band" over NG 1.2.2's complete-frontage-ring rule, whose 23–58 % of
+ordinary blocks green is the calibration anchor for the modest to comfortable rows, item 58 (b)). The row is `extension`
+(0 in the parity presets). A court not
 greened stays bare `court` ground. A court residue a `RetainingWall` crosses (a terraced block's rear line,
 V01 §3.17.1 (7)) is greened or not by one draw, and a greened one plants every level piece — a terraced garden.
 

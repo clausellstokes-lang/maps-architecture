@@ -185,97 +185,97 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-09-29 20:19 EDT._
+_Disk state as of 2026-09-30 01:28 UTC._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
 | lane | covers | state | size | written |
 |---|---|---|---|---|
-| `os-geometry` | TownGeneratorOS geom/ + utils/ | **LANDED** | 63 KB | 09-25 05:41 |
-| `os-model` | TownGeneratorOS building/ pipeline | **LANDED** | 91 KB | 09-25 05:41 |
-| `os-wards-render` | TownGeneratorOS wards/ + mapping/ | **LANDED** | 69 KB | 09-25 05:42 |
-| `mfcg-posts-a` | Patreon City collection, older 15 | **LANDED** | 70 KB | 09-21 01:48 |
-| `mfcg-posts-b` | Patreon City collection, newer 15 | **LANDED** | 63 KB | 09-21 01:54 |
-| `mfcg-devlogs-a` | itch MFCG devlogs, older 23 | **LANDED** | 89 KB | 09-25 05:44 |
-| `mfcg-devlogs-b` | itch MFCG devlogs, newer 23 | **LANDED** | 78 KB | 09-21 03:13 |
-| `vg-posts-a` | Patreon Village collection, older 14 | **LANDED** | 85 KB | 09-25 06:46 |
-| `vg-posts-b` | Patreon Village collection, newer 14 | **LANDED** | 88 KB | 09-25 06:46 |
-| `vg-ng-devlogs` | itch Village (21) + Neighbourhood (6) devlogs | **LANDED** | 74 KB | 09-25 06:46 |
-| `ftg-posts-a` | FTG Patreon posts, oldest 10 | **LANDED** | 79 KB | 09-25 05:43 |
-| `ftg-posts-b` | FTG Patreon posts, middle 10 | **LANDED** | 84 KB | 09-25 05:43 |
-| `ftg-posts-c` | FTG Patreon posts, newest 10 | **LANDED** | 84 KB | 09-25 05:43 |
-| `ftg-docs-params` | FTG user guide + create-request/presets schema | **LANDED** | 75 KB | 09-25 05:43 |
-| `ftg-payload-visual` | FTG protobuf layout stats + Foundry module + visuals | **LANDED** | 72 KB | 09-27 21:50 |
-| `profile-mfcg` | live MFCG profiles/call counts/draw | **LANDED** | 202 KB | 09-27 21:50 |
-| `profile-village` | live Village profiles | **LANDED** | 204 KB | 09-27 21:50 |
-| `profile-neighbourhood` | live Neighbourhood profiles | **LANDED** | 203 KB | 09-27 21:50 |
-| `visual-spec` | style sheet of all four from screenshots + draw records | **LANDED** | 49 KB | 09-21 02:57 |
-| `watabou-extra-a` | 65 watabou posts OUTSIDE the two collections (twisted bisection, straight skeletons, NG, City Viewer, Urban Places, tutorials) — older half | **LANDED** | 82 KB | 09-21 02:55 |
-| `watabou-extra-b` | … newer half | **LANDED** | 81 KB | 09-21 02:52 |
-| `_critic` | Fable completeness critic over all findings | **LANDED** | 41 KB | 09-21 03:18 |
-| `_critic-ftg` | Fable second critic seat — FTG trio + docs + payload (critic §6.9) | **LANDED** | 48 KB | 09-25 05:43 |
-| `_critic-os` | Fable second critic seat — TownGeneratorOS constants/algorithms/RNG order (critic §6.9) | **LANDED** | 61 KB | 09-25 05:43 |
-| `_critic-vg-ng` | Fable third critic seat — Village + Neighbourhood findings | **LANDED** | 36 KB | 09-25 06:45 |
+| `os-geometry` | TownGeneratorOS geom/ + utils/ | **LANDED** | 63 KB | 09-30 00:20 |
+| `os-model` | TownGeneratorOS building/ pipeline | **LANDED** | 91 KB | 09-30 00:20 |
+| `os-wards-render` | TownGeneratorOS wards/ + mapping/ | **LANDED** | 69 KB | 09-30 00:20 |
+| `mfcg-posts-a` | Patreon City collection, older 15 | **LANDED** | 70 KB | 09-30 00:20 |
+| `mfcg-posts-b` | Patreon City collection, newer 15 | **LANDED** | 63 KB | 09-30 00:20 |
+| `mfcg-devlogs-a` | itch MFCG devlogs, older 23 | **LANDED** | 89 KB | 09-30 00:20 |
+| `mfcg-devlogs-b` | itch MFCG devlogs, newer 23 | **LANDED** | 78 KB | 09-30 00:20 |
+| `vg-posts-a` | Patreon Village collection, older 14 | **LANDED** | 85 KB | 09-30 00:20 |
+| `vg-posts-b` | Patreon Village collection, newer 14 | **LANDED** | 88 KB | 09-30 00:20 |
+| `vg-ng-devlogs` | itch Village (21) + Neighbourhood (6) devlogs | **LANDED** | 74 KB | 09-30 00:20 |
+| `ftg-posts-a` | FTG Patreon posts, oldest 10 | **LANDED** | 79 KB | 09-30 00:20 |
+| `ftg-posts-b` | FTG Patreon posts, middle 10 | **LANDED** | 84 KB | 09-30 00:20 |
+| `ftg-posts-c` | FTG Patreon posts, newest 10 | **LANDED** | 84 KB | 09-30 00:20 |
+| `ftg-docs-params` | FTG user guide + create-request/presets schema | **LANDED** | 75 KB | 09-30 00:20 |
+| `ftg-payload-visual` | FTG protobuf layout stats + Foundry module + visuals | **LANDED** | 72 KB | 09-30 00:20 |
+| `profile-mfcg` | live MFCG profiles/call counts/draw | **LANDED** | 202 KB | 09-30 00:20 |
+| `profile-village` | live Village profiles | **LANDED** | 204 KB | 09-30 00:20 |
+| `profile-neighbourhood` | live Neighbourhood profiles | **LANDED** | 203 KB | 09-30 00:20 |
+| `visual-spec` | style sheet of all four from screenshots + draw records | **LANDED** | 49 KB | 09-30 00:20 |
+| `watabou-extra-a` | 65 watabou posts OUTSIDE the two collections (twisted bisection, straight skeletons, NG, City Viewer, Urban Places, tutorials) — older half | **LANDED** | 82 KB | 09-30 00:20 |
+| `watabou-extra-b` | … newer half | **LANDED** | 81 KB | 09-30 00:20 |
+| `_critic` | Fable completeness critic over all findings | **LANDED** | 41 KB | 09-30 00:20 |
+| `_critic-ftg` | Fable second critic seat — FTG trio + docs + payload (critic §6.9) | **LANDED** | 48 KB | 09-30 00:20 |
+| `_critic-os` | Fable second critic seat — TownGeneratorOS constants/algorithms/RNG order (critic §6.9) | **LANDED** | 61 KB | 09-30 00:20 |
+| `_critic-vg-ng` | Fable third critic seat — Village + Neighbourhood findings | **LANDED** | 36 KB | 09-30 00:20 |
 
 ### Phase 4 — confidence + weakness ledger (Fable) → docs/ — 18/18 landed
 
 | lane | covers | state | size | written |
 |---|---|---|---|---|
-| `confidence/mfcg` | reproduction confidence matrix — MFCG | **LANDED** | 75 KB | 09-25 07:46 |
-| `confidence/vg` | … Village | **LANDED** | 63 KB | 09-25 07:45 |
-| `confidence/ng` | … Neighbourhood | **LANDED** | 78 KB | 09-25 08:02 |
-| `confidence/ftg` | … FTG | **LANDED** | 98 KB | 09-25 08:07 |
-| `confidence/mfcg-challenge-over` | Fable skeptic (over-confidence lens) on mfcg | **LANDED** | 40 KB | 09-25 08:25 |
-| `confidence/mfcg-challenge-under` | Fable skeptic (under-confidence lens) on mfcg | **LANDED** | 41 KB | 09-25 08:35 |
-| `confidence/vg-challenge-over` | Fable skeptic (over-confidence lens) on vg | **LANDED** | 35 KB | 09-25 08:19 |
-| `confidence/vg-challenge-under` | Fable skeptic (under-confidence lens) on vg | **LANDED** | 39 KB | 09-25 08:27 |
-| `confidence/ng-challenge-over` | Fable skeptic (over-confidence lens) on ng | **LANDED** | 39 KB | 09-25 08:39 |
-| `confidence/ng-challenge-under` | Fable skeptic (under-confidence lens) on ng | **LANDED** | 40 KB | 09-25 10:06 |
-| `confidence/ftg-challenge-over` | Fable skeptic (over-confidence lens) on ftg | **LANDED** | 29 KB | 09-25 08:41 |
-| `confidence/ftg-challenge-under` | Fable skeptic (under-confidence lens) on ftg | **LANDED** | 42 KB | 09-25 10:20 |
-| `improvements/mfcg` | Opus weakness miner — mfcg | **LANDED** | 128 KB | 09-25 10:49 |
-| `improvements/vg` | Opus weakness miner — vg | **LANDED** | 108 KB | 09-25 07:53 |
-| `improvements/ng` | Opus weakness miner — ng | **LANDED** | 130 KB | 09-25 10:58 |
-| `improvements/ftg` | Opus weakness miner — ftg | **LANDED** | 163 KB | 09-25 11:08 |
-| `CONFIDENCE` | synthesised, skeptic-challenged confidence report | **LANDED** | 151 KB | 09-27 21:11 |
-| `IMPROVEMENTS` | cross-reference improvement opportunities with acceptance metrics | **LANDED** | 188 KB | 09-25 12:12 |
+| `confidence/mfcg` | reproduction confidence matrix — MFCG | **LANDED** | 75 KB | 09-30 00:20 |
+| `confidence/vg` | … Village | **LANDED** | 63 KB | 09-30 00:20 |
+| `confidence/ng` | … Neighbourhood | **LANDED** | 78 KB | 09-30 00:20 |
+| `confidence/ftg` | … FTG | **LANDED** | 98 KB | 09-30 00:20 |
+| `confidence/mfcg-challenge-over` | Fable skeptic (over-confidence lens) on mfcg | **LANDED** | 40 KB | 09-30 00:20 |
+| `confidence/mfcg-challenge-under` | Fable skeptic (under-confidence lens) on mfcg | **LANDED** | 41 KB | 09-30 00:20 |
+| `confidence/vg-challenge-over` | Fable skeptic (over-confidence lens) on vg | **LANDED** | 35 KB | 09-30 00:20 |
+| `confidence/vg-challenge-under` | Fable skeptic (under-confidence lens) on vg | **LANDED** | 39 KB | 09-30 00:20 |
+| `confidence/ng-challenge-over` | Fable skeptic (over-confidence lens) on ng | **LANDED** | 39 KB | 09-30 00:20 |
+| `confidence/ng-challenge-under` | Fable skeptic (under-confidence lens) on ng | **LANDED** | 40 KB | 09-30 00:20 |
+| `confidence/ftg-challenge-over` | Fable skeptic (over-confidence lens) on ftg | **LANDED** | 29 KB | 09-30 00:20 |
+| `confidence/ftg-challenge-under` | Fable skeptic (under-confidence lens) on ftg | **LANDED** | 42 KB | 09-30 00:20 |
+| `improvements/mfcg` | Opus weakness miner — mfcg | **LANDED** | 128 KB | 09-30 00:20 |
+| `improvements/vg` | Opus weakness miner — vg | **LANDED** | 108 KB | 09-30 00:20 |
+| `improvements/ng` | Opus weakness miner — ng | **LANDED** | 130 KB | 09-30 00:20 |
+| `improvements/ftg` | Opus weakness miner — ftg | **LANDED** | 163 KB | 09-30 00:20 |
+| `CONFIDENCE` | synthesised, skeptic-challenged confidence report | **LANDED** | 151 KB | 09-30 00:20 |
+| `IMPROVEMENTS` | cross-reference improvement opportunities with acceptance metrics | **LANDED** | 188 KB | 09-30 00:20 |
 
 ### Phase 5 — architecture (standalone; parity is the floor, improvement is the goal) → docs/ — 8/8 landed
 
 | lane | covers | state | size | written |
 |---|---|---|---|---|
-| `design/proposal-kernel` | architect A — geometry-kernel-first | **LANDED** | 136 KB | 09-25 12:35 |
-| `design/proposal-pipeline` | architect B — pipeline/determinism-first | **LANDED** | 164 KB | 09-25 12:41 |
-| `design/proposal-product` | architect C — renderer/product-first | **LANDED** | 140 KB | 09-25 12:31 |
-| `design/judge-parity` | judge — capability parity | **LANDED** | 42 KB | 09-25 12:56 |
-| `design/judge-improvement` | judge — improvement realism & restraint | **LANDED** | 68 KB | 09-25 12:55 |
-| `design/judge-engineering` | judge — engineering soundness | **LANDED** | 42 KB | 09-25 12:53 |
-| `design/judging` | panel score table + graft list | **LANDED** | 28 KB | 09-25 15:08 |
-| `ARCHITECTURE` | synthesised architecture | **LANDED** | 2250 KB | 09-28 16:19 |
+| `design/proposal-kernel` | architect A — geometry-kernel-first | **LANDED** | 136 KB | 09-30 00:20 |
+| `design/proposal-pipeline` | architect B — pipeline/determinism-first | **LANDED** | 164 KB | 09-30 00:20 |
+| `design/proposal-product` | architect C — renderer/product-first | **LANDED** | 140 KB | 09-30 00:20 |
+| `design/judge-parity` | judge — capability parity | **LANDED** | 42 KB | 09-30 00:20 |
+| `design/judge-improvement` | judge — improvement realism & restraint | **LANDED** | 68 KB | 09-30 00:20 |
+| `design/judge-engineering` | judge — engineering soundness | **LANDED** | 42 KB | 09-30 00:20 |
+| `design/judging` | panel score table + graft list | **LANDED** | 28 KB | 09-30 00:20 |
+| `ARCHITECTURE` | synthesised architecture | **LANDED** | 2250 KB | 09-30 00:20 |
 
 ### Phase 6 — adversarial validation → docs/ — 7/8 landed
 
 | lane | covers | state | size | written |
 |---|---|---|---|---|
 | `validation/coverage-audit` | every extracted capability vs the architecture (Opus) | not landed | | |
-| `validation/redteam-geometry` | Fable red team — geometry | **LANDED** | 131 KB | 09-25 16:27 |
-| `validation/redteam-lifecycle` | Fable red team — lifecycle | **LANDED** | 115 KB | 09-25 17:02 |
-| `validation/redteam-scale` | Fable red team — scale | **LANDED** | 97 KB | 09-25 17:06 |
-| `validation/redteam-visual` | Fable red team — visual | **LANDED** | 83 KB | 09-25 17:27 |
-| `validation/redteam-ftg` | Fable red team — ftg | **LANDED** | 99 KB | 09-25 17:04 |
-| `validation/redteam-improve` | Fable red team — improve | **LANDED** | 86 KB | 09-25 17:37 |
-| `ARCHITECTURE-VALIDATION` | dispositions + re-verification rounds | **LANDED** | 311 KB | 09-28 16:25 |
+| `validation/redteam-geometry` | Fable red team — geometry | **LANDED** | 131 KB | 09-30 00:20 |
+| `validation/redteam-lifecycle` | Fable red team — lifecycle | **LANDED** | 115 KB | 09-30 00:20 |
+| `validation/redteam-scale` | Fable red team — scale | **LANDED** | 97 KB | 09-30 00:20 |
+| `validation/redteam-visual` | Fable red team — visual | **LANDED** | 83 KB | 09-30 00:20 |
+| `validation/redteam-ftg` | Fable red team — ftg | **LANDED** | 99 KB | 09-30 00:20 |
+| `validation/redteam-improve` | Fable red team — improve | **LANDED** | 86 KB | 09-30 00:20 |
+| `ARCHITECTURE-VALIDATION` | dispositions + re-verification rounds | **LANDED** | 311 KB | 09-30 00:20 |
 
 ### Phase 3b — post-critic gap closers (addenda appended inside existing findings files) — 6/6 landed
 
 | lane | covers | state | file | written |
 |---|---|---|---|---|
-| `profile-neighbourhood-ring` | Opus reader — NG `ring` template capture 2026-09-21T07-20-25 (critic §6.2) | **LANDED** | research/findings/profile-neighbourhood.md | 09-27 21:50 |
-| `profile-mfcg-gates` | Opus reader — MFCG gates=4 size=40 capture 2026-09-21T11-25-32 (critic §6.1 part) | **LANDED** | research/findings/profile-mfcg.md | 09-27 21:50 |
-| `profile-village-river` | Opus reader — VG river + island capture at 20 µs 2026-09-21T11-25-55 (critic §6.3) | **LANDED** | research/findings/profile-village.md | 09-27 21:50 |
-| `external-sources` | itch post 422446 + palette SVGs; Reddit threads blocked (critic §6.5) | **LANDED** | research/findings/mfcg-devlogs-a.md | 09-25 05:44 |
-| `critic-2-ftg-addenda` | rulings the FTG critic seat appended into ftg-*.md | **LANDED** | research/findings/_critic-ftg.md, research/findings/ftg-docs-params.md, research/findings/ftg-payload-visual.md, research/findings/ftg-posts-a.md, research/findings/ftg-posts-b.md, research/findings/ftg-posts-c.md | 09-27 21:50 |
-| `critic-2-os-addenda` | corrections the OS critic seat appended into os-*.md | **LANDED** | research/findings/_critic-os.md, research/findings/os-geometry.md, research/findings/os-model.md, research/findings/os-wards-render.md, research/findings/profile-mfcg.md | 09-27 21:50 |
+| `profile-neighbourhood-ring` | Opus reader — NG `ring` template capture 2026-09-21T07-20-25 (critic §6.2) | **LANDED** | research/findings/profile-neighbourhood.md | 09-30 00:20 |
+| `profile-mfcg-gates` | Opus reader — MFCG gates=4 size=40 capture 2026-09-21T11-25-32 (critic §6.1 part) | **LANDED** | research/findings/profile-mfcg.md | 09-30 00:20 |
+| `profile-village-river` | Opus reader — VG river + island capture at 20 µs 2026-09-21T11-25-55 (critic §6.3) | **LANDED** | research/findings/profile-village.md | 09-30 00:20 |
+| `external-sources` | itch post 422446 + palette SVGs; Reddit threads blocked (critic §6.5) | **LANDED** | research/findings/mfcg-devlogs-a.md | 09-30 00:20 |
+| `critic-2-ftg-addenda` | rulings the FTG critic seat appended into ftg-*.md | **LANDED** | research/findings/_critic-ftg.md, research/findings/ftg-docs-params.md, research/findings/ftg-payload-visual.md, research/findings/ftg-posts-a.md, research/findings/ftg-posts-b.md, research/findings/ftg-posts-c.md | 09-30 00:20 |
+| `critic-2-os-addenda` | corrections the OS critic seat appended into os-*.md | **LANDED** | research/findings/_critic-os.md, research/findings/os-geometry.md, research/findings/os-model.md, research/findings/os-wards-render.md, research/findings/profile-mfcg.md | 09-30 00:20 |
 
 ### Fable review queue — 253 pending (104 class A stand-in, 149 class B unchecked) of 293
 
@@ -284,80 +284,10 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 
 ### Captures on disk
 
-- `captures/dwellings/2026-09-26T22-56-56` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-11-03` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-11-14` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-11-23` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-11-32` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-11-42` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-11-58` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-12-08` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-12-18` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-12-29` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-12-38` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-12-47` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-13-01` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-36-09` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-36-25` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-36-48` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-37-10` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-38-44` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-39-37` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-40-27` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-41-27` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-42-38` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-44-05` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-45-44` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-46-55` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-48-04` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-49-13` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-50-03` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-50-54` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-51-41` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-52-27` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-53-14` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-54-02` (report.md ✓)
-- `captures/dwellings/2026-09-26T23-54-54` (report.md ✓)
-- `captures/ftg/2026-09-21T05-08-07` (report.md ✓)
-- `captures/ftg/2026-09-21T05-23-58` (report.md ✓)
-- `captures/ftg/2026-09-25T10-13-51`
-- `captures/manor/2026-09-25T10-45-12` (report.md ✓)
-- `captures/manor/2026-09-25T10-48-38` (report.md ✓)
-- `captures/manor/2026-09-25T11-25-38` (report.md ✓)
-- `captures/mfcg/2026-09-21T05-03-24` (report.md ✓)
-- `captures/mfcg/2026-09-21T05-06-58` (report.md ✓)
-- `captures/mfcg/2026-09-21T11-25-32` (report.md ✓)
-- `captures/mfcg/2026-09-25T10-05-23` (report.md ✓)
-- `captures/mfcg/2026-09-25T10-05-38` (report.md ✓)
-- `captures/mfcg/2026-09-25T10-05-44` (report.md ✓)
-- `captures/mfcg/2026-09-25T10-38-58` (report.md ✓)
-- `captures/neighbourhood/2026-09-21T05-04-54` (report.md ✓)
-- `captures/neighbourhood/2026-09-21T05-38-59` (report.md ✓)
-- `captures/neighbourhood/2026-09-21T05-40-05` (report.md ✓)
-- `captures/neighbourhood/2026-09-21T07-20-25` (report.md ✓)
-- `captures/neighbourhood/2026-09-25T10-55-19` (report.md ✓)
-- `captures/neighbourhood/2026-09-25T10-55-36` (report.md ✓)
-- `captures/neighbourhood/2026-09-25T10-55-47` (report.md ✓)
-- `captures/neighbourhood/2026-09-25T10-55-59` (report.md ✓)
-- `captures/village/2026-09-21T05-04-05` (report.md ✓)
-- `captures/village/2026-09-21T05-37-29` (report.md ✓)
-- `captures/village/2026-09-21T05-38-17` (report.md ✓)
-- `captures/village/2026-09-21T11-25-55` (report.md ✓)
-- `captures/village/2026-09-25T10-14-02` (report.md ✓)
-- `captures/village/2026-09-25T10-19-31` (report.md ✓)
-- `captures/village/2026-09-25T10-27-25` (report.md ✓)
-- `captures/village/2026-09-25T10-28-58` (report.md ✓)
-- `captures/village/2026-09-25T19-03-50` (report.md ✓)
-- `captures/village/2026-09-25T19-04-26` (report.md ✓)
-- `captures/village/2026-09-25T19-07-01` (report.md ✓)
-- `captures/village/2026-09-25T19-07-16` (report.md ✓)
 
 ### Lane events reported by agents (last 40)
 
 ```
-2026-09-29 19:38 coherence/rewrite-scope CHECKPOINT index compacted to 15.0k words (758 rows verified unique, none missing); starting §13 rewrite (E-20/E-21/E-23/E-25, g 102-113 bars, f 482-503/585, edges)
-2026-09-29 19:39 coherence/rewrite-model CHECKPOINT §2.8 drafted (parts/2.8.md); next §2.9
-2026-09-29 19:40 coherence/rewrite-pipeline CHECKPOINT §4.1–§4.11 drafted; next §4.12, §4.13 (edges and meeting points), then §10
 2026-09-29 19:41 coherence/rewrite-V01 CHECKPOINT inputs gathered (canon unit, 12 conflicts, 68 f items, hand-offs, 232 edges + 15 combos, inventory 650 ids); report skeleton written; next: read §1.2-§1b and write parts
 2026-09-29 19:42 coherence/rewrite-model CHECKPOINT first full assembly new/base/model/01-domain-model-and-schemas.md; next: verification sweeps (terms, ids, refs, f-item coverage), compression pass
 2026-09-29 19:42 coherence/rewrite-scope CHECKPOINT §13 intro/13.1/13.2 built in scratch (convention E-20, g 102-113 groups, f 482-489 texts, takeover table); next 13.3-13.9 (E-21 schedule, E-23, E-25, edges)
@@ -395,18 +325,10 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 2026-09-29 20:05 coherence/rewrite-V03 CHECKPOINT parts 00 (§0), 01 (§1), 02 (§1b: derived list one home, crypt+plan section providers, dossier trace) written; next: §2
 2026-09-29 20:06 coherence/rewrite-V05 STARTED (opus stand-in for the Fable seat coherence/rewrite-V05; editor of docs/volumes/V05-sky.md; outputs docs/validation/coherence/new/volumes/V05-sky.md, docs/validation/coherence/rewrite-V05.md; work docs/validation/coherence/work/rewrite-V05/)
 2026-09-29 20:09 coherence/rewrite-V04 CHECKPOINT parts 00 (head, §0, §1), 01 (§1b: W-IF-01 providers, gradeFaces, ExcavationRecord, BuriedFormer.lay, dossier-change paragraph), 02 (§2: V04-ICONF-1, lost state set, V11 rows cited, row-set and key edges) written; next: §3.1-§3.4
+2026-09-30 00:26 coherence/rewrite-model NOTE resume rule applied (relaunch wf_f44e25e2-c99, all seats on Opus 5.5): output docs/validation/coherence/new/base/model/01-domain-model-and-schemas.md + docs/validation/coherence/rewrite-model.md present with the 2026-09-29 19:51 LANDED line; saved result docs/validation/coherence/results/coherence_rewrite-model.json returned verbatim, nothing redone or edited
+2026-09-30 00:26 coherence/rewrite-pipeline NOTE resume rule applied (relaunch wf_f44e25e2-c99, all seats on Opus 5.5): output docs/validation/coherence/new/base/pipeline/ (11 section files) + docs/validation/coherence/rewrite-pipeline.md present with the 2026-09-29 20:05 LANDED line; saved result docs/validation/coherence/results/coherence_rewrite-pipeline.json returned verbatim, nothing redone or edited
+2026-09-30 00:27 coherence/rewrite-rendering NOTE resume rule applied (relaunch, all seats on Opus 5.5): output docs/validation/coherence/new/base/rendering/ (4 section files) + docs/validation/coherence/rewrite-rendering.md present with the 2026-09-29 19:38 LANDED line; saved result docs/validation/coherence/results/coherence_rewrite-rendering.json returned verbatim, nothing redone
 ```
-
-### Archives on disk
-
-- Patreon `watabou-city`: 30 posts
-- Patreon `watabou-village`: 28 posts
-- Patreon `ftg`: 30 posts
-- Patreon `watabou-extra`: 65 posts
-- Patreon `watabou-manor`: 33 posts
-- itch.io devlogs: 92
-- FTG guide pages: 36
-- External sources fetched (research/external/raw): 36 files
 
 <!-- AUTO:END -->
 
@@ -629,3 +551,7 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-09-29 20:10 EDT** — STOPPED by the owner's request for a stopping point (2026-09-29 ~20:10): coherence pass wf_4465b207-520 stopped in its Rewrite phase. LANDED: inventory (12), wiring, canon (canon, agreement, edges), and all six base rewrites (scope, model, kernel, pipeline, determinism, rendering). IN PROGRESS (drafts saved in docs/validation/coherence/new/volumes/, CONTINUE rule applies): V01-V05. NOT STARTED: V06-V12, assembly, verification loops, validation. Live design files untouched (only the assembly seat writes them). The lane-check cron was deleted so it cannot resume the run. Resume: relaunch workflows/18-coherence.js with args workflows/lane-prompts/coherence-args.json (a new session cannot use resumeFromRunId; every finished seat returns its saved result, the in-progress editors continue from their drafts).
 - **2026-09-29 20:12 EDT** — Uploaded to a PRIVATE GitHub repository at the owner's request: https://github.com/clausellstokes-lang/maps-architecture (commit 5354c2a on main, 1,396 files, 186 MB; pushed and verified). The Maps folder is now a git repository. Kept local by .gitignore: captures/, reference/, research/patreon|devlogs|ftg-docs|external|reference-maps/, profiler/.profiles and node_modules, backups/. Secret scan of the uploaded set: 0 hits.
 - **2026-09-29 20:19 EDT** — Owner: "move it to the cloud" (2026-09-29 ~20:45). This session moves to a Claude Code cloud session on the GitHub repository (branch main); the coherence pass resumes there per docs/HANDOFF.md's cloud instructions (args.root = the checkout, args.scratch = /tmp/maps-scratch/coherence).
+- **2026-09-30 00:22 UTC** — coherence pass relaunched fresh in cloud session as wf_f44e25e2-c99 (Fable-role seats on Fable, others on Opus per owner's split request 2026-09-30; machine has 4 CPUs so harness runs 2 agents at once; volume-rewrite part files for V01-V05 were local-only, so those editors restart from their saved reports)
+- **2026-09-30 00:25 UTC** — owner 2026-09-30: run every seat on Opus 5.5 — coherence run wf_f44e25e2-c99 stopped (no Fable seat had started; only landed inventory/wiring/canon had replayed) and resumed with fableModel opus
+- **2026-09-30 00:29 UTC** — owner 2026-09-30: in the cloud, push regularly — session branch main-8c2bmp pushed, draft PR #1 opened, half-hourly lane check now commits and pushes each round
+- **2026-09-30 01:28 UTC** — coherence run wf_f44e25e2-c99 found stalled at 01:28 UTC: a chat message at 00:27 interrupted the rewrite-rendering and rewrite-scope seats, and the lane check had been lost with a session reconnect; resumed at the same run id, lane check recreated

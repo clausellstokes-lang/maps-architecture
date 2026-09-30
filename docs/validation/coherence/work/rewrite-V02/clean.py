@@ -1,8 +1,8 @@
 # Mechanical pre-clean of V02 for the coherence rewrite: citation form (G-cite), narration ids inside parentheticals,
 # BCR -> f item pointers. Output is a working copy only; every section is then edited by hand against the original.
 import re, json, sys
-W='/Users/cstokes/Desktop/Maps/docs/validation/coherence/work/rewrite-V02/'
-src=open('/Users/cstokes/Desktop/Maps/docs/volumes/V02-buildings.md').read()
+W='/home/user/maps-architecture/docs/validation/coherence/work/rewrite-V02/'
+src=open('/home/user/maps-architecture/docs/volumes/V02-buildings.md').read()
 bcr=json.load(open(W+'bcr_map.json'))
 PRIMARY={'BCR-V2-14':376,'BCR-V2-20':524,'BCR-V2-37':525}
 NARR_ID=r'(?:S23(?:R\d)?-\d+|SCC(?:-R\dC)?-\d+|V\dC-\d+|V1\dC-\d+|SR\d?-\d+|ST-\d+|C\d-[\d]+(?:-\d+)?|TW-\d+|S23R\dC?-\d+|J-S23\.\d+|SCC-R\dC-\d+|SLR\d-\d+)(?:\s*\((?:\d+[a-z]?|[a-z])\)(?:\s*,\s*\((?:\d+[a-z]?)\))*)?'

@@ -1,0 +1,71 @@
+1:# Design volume 8 — The SettlementForge stage: connecting the map to the host end to end
+86:## 0 In plain words
+149:## 1 Scope, the base hooks consumed, and what is out of scope
+250:## 1b Wiring table
+385:## 2 Data model
+387:### 2.1 The map record — what SettlementForge stores beside the dossier
+444:### 2.2 The bridge additions and the host client
+544:### 2.3 The binding in practice — additions to `DossierBinding`, the carried facts and their hash
+609:### 2.4 The adapter manifest, the registry and the port's new results
+677:### 2.5 The digest's additions, the staged-record event and the per-settlement values
+744:### 2.6 The dossier row sets, written out
+1000:### 2.6a Item 109's dossier sources and the burial and crypt trace (DR-V8.2 – DR-V8.4; C8-02)
+1079:### 2.6b Item 110's dossier inputs — the water system, the high-ground landmarks, the toll bridges and the culture (DR-V8.7, DR-V8.8; C8-41 – C8-45)
+1178:### 2.7 Lifecycle of every new state field
+1218:### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)
+1310:## 3 Generation — the port pipeline, end to end
+1312:### 3.1 The embed: the Map tab, the frame, the boot
+1417:### 3.2 When a dossier is offered, and coalescing
+1434:### 3.3 Who runs the port, and who commits — the port leader
+1468:### 3.4 The refresh queue — campaign scale
+1490:### 3.5 `digest` and the diff — from a whole dossier to a list of changes
+1623:#### 3.5.1 The institution ladders (item 108; C8-07)
+1736:### 3.6 From changes to events and epochs
+1813:### 3.7 Persistence inside the host — commit, compaction, thumbnails, backups
+1862:### 3.8 Versions and migrations on both sides
+1898:### 3.9 Failure handling — every failure, its detection, its rung and what the user sees
+1932:### 3.10 The village-tier hand-off
+1952:### 3.11 The staged records, the per-settlement values, the realm block and the audience in use
+2021:### 3.12 Determinism
+2032:### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)
+2104:### 3.14 The players' view — the party picture set and the party gazetteer (C8-01, C8-14, C8-36)
+2173:## 4 Editing
+2175:### 4.1 No new declaration; two host-only events; item 110's generated content is never bound
+2197:### 4.2 The host-side actions in the Map tab
+2227:### 4.3 Locality, protection and the dossier's reach
+2246:### 4.4 The host clerk — SettlementForge's assistant as a client of the tool API
+2295:### 4.5 Custom content under editing
+2306:### 4.6 The DM's view of what the dossier did
+2416:## 5 Rendering, labels, exports
+2418:### 5.1 The Map tab — what SettlementForge draws and what the frame draws
+2461:### 5.2 Drawing the dossier's records and custom content
+2482:### 5.3 Pictures for SettlementForge's own surfaces
+2510:### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured format
+2555:### 5.5 Labels
+2567:## 6 Performance budgets
+2601:## 7 Tests and acceptance bars
+2603:### 7.1 The bars (T-V8-n)
+2659:### 7.2 The host harness
+2671:### 7.3 Parity metrics
+2686:## 8 Build plan
+2688:### 8.1 Where it slots into §16
+2706:### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)
+2722:### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configuration)
+2737:### 8.4 Risks, in order
+2763:## 9 Decisions (each vetoable)
+2883:## 10 Base change requests
+3185:## 11 Owner questions
+3199:## 12 CONFIRMED versus PLAUSIBLE
+3396:## 13 Fix list
+3471:## Integration notes (volumes/_integrate, 2026-09-29)
+3489:## Reconciliation round 1 (volumes/reconcile-V08-r1, 2026-09-29)
+3534:## Reconciliation round 2 (volumes/reconcile-V08-r2, 2026-09-29)
+3562:## Reconciliation round 3 (volumes/reconcile-V08-r3, 2026-09-29)
+3603:## Reconciliation round 4 (volumes/reconcile-V08-r4, 2026-09-29)
+3637:## Reconciliation round 1 — continuation (volumes/reconcile-V08-r1, 2026-09-29)
+3684:## Reconciliation round 2 — continuation (volumes/reconcile-V08-r2, 2026-09-29)
+3724:## Reconciliation round 3 — continuation (volumes/reconcile-V08-r3, 2026-09-29)
+3765:## Reconciliation round 4 — continuation (volumes/reconcile-V08-r4, 2026-09-29)
+3798:## Reconciliation round 5 (volumes/reconcile-V08-r5, 2026-09-29)
+3827:## Reconciliation round 6 (volumes/reconcile-V08-r6, 2026-09-29)
+3860:## Finalization (volumes/_finalize, 2026-09-29)

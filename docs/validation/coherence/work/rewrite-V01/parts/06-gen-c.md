@@ -195,8 +195,7 @@ the pick ordinal — in the order gate, kind, size, angle:
    site (V01 §3.5.5; on a sky arena volume 5's `shadeSky` there, never the ground's mask) — so fountains and bandstands
    favour the sunlit squares. The site draws u and holds a pin when `u < min(pin.cap, 1 − Π_r (1 − p_r))`.
 4. **Kind.** A pin's kind is a weighted pick over the rows with nonzero `p_r`, each weight `r.weight × decay_r`, where
-   `decay_r` starts at 1 in each block and is **divided by 10** after r is picked (II.3's rule, provenance `ref:NG 1.2.2
-   pin decay (code)`, P20; its scope `pin.decayScope`: the block by default, the district under the `NG` preset, NG's
+   `decay_r` is II.3's decay (`ref:NG 1.2.2 pin decay (code)`, P20), its scope `pin.decayScope`: the block by default, the district under the `NG` preset, NG's
    per-map reading, V01 §3.15), so one block rarely repeats a kind.
 5. **Placement.** Size `lerp(sizeM, u)`; the pin stands at the site's point when its disc (size ÷ 2 + `clearanceM`)
    clears every footprint, every entrance reserve (below), every model pin's disc, every **drawn** ground-access symbol's

@@ -1,0 +1,29 @@
+{
+ "key": "coherence/rewrite-scope",
+ "dir": "docs/validation/coherence/new/base/scope/",
+ "old_kb": 590,
+ "new_kb": 564,
+ "facts_mapped": 1684,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "200-202: \u00a71 (village rows in \u00a71.1's table per 201; the dossier-refusal wording per 202 at \u00a71.1)",
+  "482-503, 585: \u00a713 test and bar texts (T28-1/2/3, T29-4, T14-1, T15-1, T101-6; Baseline/ParityReport/D5/MilestoneRecord fields; \u00a713.6 (10)-(11); \u00a713.7 two rows; \u00a713.9 items 6-10)",
+  "505, 507, 508-514, 516, 518, 521, 476, 317: \u00a714 packages of the whole set placed (@plat/api worker host as sole importer of staged packages; @plat/cli; @plat/clerk; @plat/evolve), the port and digest",
+  "474, 524-533, 567, 568: \u00a716 effort lines and milestone rows; totals computed once: first total 221.5-300.5 pw, with the staged stages 392.25-539.25 pw",
+  "569: \u00a716 / INDEX combined build order per J122",
+  "\u00a713/\u00a716 parts of items 296, 308, 371, 413, 458",
+  "g 102-113: bars T102-x..T113-x at build depth in \u00a713.2 with the volume tests that take them named; 111 at M1/M2b/M3a; 112 release trial gated on SettlementForge's release (J121); 113 at M6-E/M6-U"
+ ],
+ "conflicts_resolved": 27,
+ "cross_notes": [
+  "model: declare ProductDecl (V07 \u00a72.1) at the base's home if S3/MC-11 applies; StrategyRegistry.products in \u00a714 cites it",
+  "kernel: KIC-02 service list agrees with \u00a714's Kernel (resolve PlatKey-only; transient arena via readBack and view)",
+  "pipeline: W-IF-07 ContentProvider call points at \u00a74.2 S2, \u00a74.7 S10b, \u00a710.3; f 202 parts in \u00a74.11/\u00a74.12/PART III; village bands [1,80),[80,400),[400,1500); G-lot 'lot cut'->'plot cut' in \u00a74.6/\u00a74.7/\u00a74.9; J-T->JT; item 111 base parts at M1/M2b; \u00a74.11 history replay (113) at M6-E",
+  "determinism: \u00a77.7 item 1 never-read list gains powerStructure.previousGovernments (W-DOS-05); \u00a77.7 item 15 carries f 202 wording; forms catalogue at M3b (DIC-11); DR24 custom-content inputs (f 511); \u00a77.1 T2 ground spring flag (111); tool layer words L0-L4 as \u00a714 writes them",
+  "rendering: \u00a78.2 names the deficiency-contrast threshold T112-1 reads; checked variants ship at M3b (hatched at M5); \u00a79.2 cites ObstacleSource kind room (RXC-01); \u00a78.3 structural-face clause (f 482); \u00a712 budgets point to V07 \u00a76 for village rungs (f 495); 'first paint'->'first map' (G-firstmap)",
+  "rationale Part A: full entries for the 22 new index rows J-C1..J-C4, J-S44..J-S47, J-A73.06, J-A77.06, J-A102.01, J-A110.01, J-A111.01, J-A112.01, J-A113.01, J-A201.01, J-A505.01, J-A505.02, J-A509.01, J-A568.01..03 (texts in rewrite-scope.md); changed J-A16.01, J-A29.25, J-A28.02",
+  "INDEX.md: assembler places new/index/03-dependency-graph.md, 04-combined-build-order.md, 06-owner-questions.md, 07-reconciliation.md over \u00a73/\u00a74/\u00a76/\u00a77; intro reads 'items 102-113'",
+  "volumes: V01/V04/V06 tests name the base bars they take; V02 T-V2-31 cites \u00a713.5 Fantasy Manor rows; V03 \u00a74.5 and V04 \u00a75.1 cite \u00a714 PageUp/PageDown precedence; V05 T-V5-19..21 cite T102-2; V07 \u00a72.1 cites \u00a71.1 rows, V-M0 after M0 and V-M1 after M4; V08 drops government.previous; V09 runs the release trial (112 b); V10 plat clerk in @plat/cli; V12 J-T->JT and M-CAL after M6-sky; every volume lists adopted published methods (\u00a717.1 (8)) and production dependencies via its BCRs (\u00a717.4)",
+  "shrink: 4.7 % below the 25-40 % band; held by ~10 400 words of required added content (g bars, volumes placed in \u00a71/\u00a714/\u00a715/\u00a716, f item texts, landed lanes' notes) and irreducible test specification, typed interfaces, matrices and one index row per decision"
+ ]
+}

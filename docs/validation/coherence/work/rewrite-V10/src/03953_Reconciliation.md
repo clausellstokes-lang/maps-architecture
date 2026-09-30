@@ -1,0 +1,37 @@
+## Reconciliation round 5 (volumes/reconcile-V10-r5, 2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-V10-r5; covered by the whole-design retrovalidation (J84).
+
+Reconciled in place against `docs/volumes/critique/seam-surfaces-r4.md` (SR4-01 – SR4-06, raised 12:18 on V10
+`0edd1635…`). The four issues addressed to this volume — three majors and one minor — are fixed: 4 fixed, 0 invalid, 0
+on the fix list. The three majors are one contract, what a clerk's card button does, what it says and who makes it, and
+were applied in that order. New here: decisions J-V10.101 – J-V10.105, cross-volume request CVR-V10-19 (V09's
+companions, seam-surfaces-r4's SR4-05), one §6.1 budget row and prompt rules 17 and 18. No new test or change-request
+number: T-V10-4, -16, -29, -35 and -44 gain clauses and group C gains the what-if case (89 cases, about US$80 a full
+run). The build plan's estimates are unchanged: the `why` kind is one more dispatch row, the labels are catalogue reads
+the harness already makes, and the action step is a parse and a few set lookups inside the grounding check C3 already
+builds.
+
+| issue | severity | what changed | where |
+|---|---|---|---|
+| SR4-01 | major | (a) `ClerkAction` gains `{ kind: 'why'; id?; page?; label }` — exactly one of `id` (the why card, V9 §5.8, at the session's key) and `page` (the Help page, V9 §5.9) — run by the application; the dispatch table gains its row, `run` rejects it with the application's kinds, §1b.2's dispatch row lists it; (b) V10 §3.5 step 3 maps a V9 §4.9 row's buttons in four classes by what the canvas's button does — commits events → `propose` with the canvas's events; **Show me why** → `why`; shows things → `select`; starts a tool on a spot the user picks → `useTool` — each labelled with the button's text under the session's key, and states the one **why target** rule (a `refuse.*` row's first address argument naming a thing of the user's document that the reader's key admits by name, else the page the row names or its key's `@plat/docs` guide page); §3.16's bends paragraph reads the same: `bend.under.accessOpening`'s **Show me why** a `why`, both rows' **Show the way in** a `select`, `bend.under.noAccess`'s **Add a way down** a `useTool` of `place`; (c) the `role` row's alternatives read "the row's **Show me why**; (1) "See why {thing} is here", a `why` with the thing's `id`; a `select`", and `clerk.content.refusals.actions` admits `why`; (d) the `select.label` comment drops **Show me why**, and J-V10.100's reason reads "from **Show them**"; (e) `useTool.tool` is `Exclude<ToolName, 'read_map'\|'why'\|'check_draft'\|'critique'>`; (f) T-V10-44 names `why` among the application's kinds; T-V10-4's new clause on T-V9-38's fixture with no building qualifying | §1b.2, §2.6, §2.10, §3.5, §3.16, T-V10-4, T-V10-44, J-V10.100, J-V10.101, CVR-V10-19 (b) |
+| SR4-02 | major | (a) `label: string` required on every `ClerkAction` kind but `select` (optional there; absent = the ids' chips) — `undo` and `rebuild` included, worded "Undo" and "Put it back", since they now also reach the reply (J-V10.102); (b) the sources stated once: a V9 §4.9 row's button → its text (a dry-run action's own `message`, BCR-V9-12); a V10 §3.16 alternative → `clerk.alt.<category>.<n>`, its `en` words quoted as (n) in §3.16's alternatives column (dossier (1) – (5), role (1), picture (1) – (2), scope (1), budget (1), key (1)); `clerk.alt.help.useTool` "Open {tool}"; `clerk.alt.history.fork`, `.rerun` (V9 §3.9's words), `.undo`, `.rebuild`; `clerk.alt.critique.fix` "Fix"; `clerk.content.refusals.actions` is `{ kind; msg? }[]`; (c) V10 §5.4 words every action by its label and names the families for V9 §4.9's table; §1b.1's label row lists the sources; T-V10-29 covers `clerk.alt.*`; T-V10-44 finds a label on every action block and `RefusalView.actions` entry but a `select` of the `role` or `knowledge` rows | §1b.1, §2.6, §2.10, §3.10, §3.16, §5.4, T-V10-29, T-V10-44, J-V10.102 |
+| SR4-03 | major | the action form `[[do:<kind>]]` / `[[do:<kind>:<arg>]]` at the reply's end, the model's only way to an `action` block: V10 §3.13 gains step 4 (repair becomes step 5), which turns `useTool:<tool>` (a canvas tool), `fork:<seq>` and `rerun:<seq>` (a seq a read of the segment returned — a chronicle cause, a history entry, a removal — or one less, never above the document's last seq; a `rerun` needing a later epoch or dossier event; a `frame` names none) into labelled blocks and drops any other as an unknown link is, listing it in the repair; the chronicle read renders a cause's `seq`; prompt rule 8 names the form, rule 15 the help route's `[[do:useTool:<tool>]]`, new rule 17 the what-if answer ending with `fork` and `rerun` at the seq before the event; §1b.1's `ReplyBlock` row names the check as the producer; T-V10-16's synthetic replies gain the dropped and kept forms; T-V10-35 asserts the help block and its label; group C gains "what if the old wall had stayed?" | §1b.1, §3.1, §3.3, §3.5, §3.13, §6.1, T-V10-16, T-V10-35, §7.3, §8, §11 Q5, J-V10.28, J-V10.103 |
+| SR4-04 | minor | (a) the stale card shows V9 §4.9's `refuse.stale` row — **Show the new preview** a `focus` on the fresh preview — and **Ask again** (`clerk.alt.stale.retry`, the card's `retry` with a stale note); (b) `clerk.view.cleared` and `clerk.applied`, words written where they stand and named for V9 §4.9's table; (c) "Three cases are never applied at once"; (d) CVR-V10-4 **Met** with its five citations; (e) the `role` row renders `refuse.viewer` with no `msg` of its own, as `lock` and `rule`; T-V10-29 reads "but `lock`, `rule` and `role`"; §2.9, §2.10, §1b.1 and the §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.12, §3.16, §4.4, §5.4, T-V10-29, CVR-V10-4, J-V10.105 |
+
+Found in passing and fixed, not deferred (J-V10.103, J-V10.104). V10 §3.14 answers "undo that" and "put it back" with
+`undo` and `rebuild` actions, and group D grades them, but the model had no way to make either; the refusals the model
+gives itself (a dossier change asked for in words, a picture, anything beyond the map, a known work) had no way to reach
+the harness, so group G's "category the harness records" had no producer. The action form therefore also carries
+`[[do:undo]]`, `[[do:rebuild:<id>]]` (an id the session's accepted removal deleted) and `[[do:refuse:<category>]]`
+(`dossier`, `dossier:count`, `picture`, `scope:<tool>`, `knownWork`), which becomes the turn's refusal with its row's
+alternatives (prompt rules 6, 10 and 18). The `dossier` row's own template, "SettlementForge sets {name}; the map can move
+it, but not {verb} it.", had slots nothing filled; it is replaced by two slot-free keyed sentences, `refuse.clerk.dossier`
+and `refuse.clerk.dossier.count` (`{town}` only), whose alternatives are `useTool` actions, while every engine case keeps
+the dry run's one-click buttons; a dossier-declared way's "Move it" is a `propose` through the request's anchor, else a
+`useTool`. The `knownWork` row, whose turn goes on, carries no button, and `ClerkRefusal`'s comment says so. Routed, not
+deferred: CVR-V10-19 to V09's round-5 lane (seam-surfaces-r4 SR4-05), which applied it while this lane ran (its note
+13:04; read in V09's live text at 13:08, `005a03d0…`), so the row is marked **Met**; that lane's found-beside reading —
+a host's card-only drawer shows `refuse.stale` without **Ask again**, since V10 §2.6's host card offers no `retry` — is
+written into V10 §3.11.
+

@@ -9,7 +9,7 @@ Two callers exist at generation; V01 §3.10.3 (6) names those after it.
 
 #### 3.10.1 The standalone neighbourhood document (`Recipe.product = 'hood'`)
 
-The one-click standalone neighbourhood (IMPROVEMENTS S6, NG-UX-1). Its recipe is `Recipe.hood` (V01 §2.6).
+The one-click standalone neighbourhood document (IMPROVEMENTS S6, NG-UX-1). Its recipe is `Recipe.hood` (V01 §2.6).
 1. **S0.** Resolve the recipe, drawing on `blueprint.features` (appended after S0's existing draws, §6.1) in this order:
    * **the kind** when absent — `hood.kinds` weights over `DistrictKind` values only: central 0.25, craft 0.25, market
      0.15, temple 0.15, riverbank 0.05 (with a river edge only), docks 0.05 (with a sea or canal edge only), gate 0.05
