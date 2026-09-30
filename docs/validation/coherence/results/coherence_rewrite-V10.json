@@ -1,0 +1,34 @@
+{
+ "key": "coherence/rewrite-V10",
+ "dir": "docs/validation/coherence/new/volumes/V10-clerk.md",
+ "old_kb": 526.0,
+ "new_kb": 454.2,
+ "facts_mapped": 805,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "item 238", "item 246", "item 260", "item 270", "item 271", "item 290", "item 297", "item 311", "item 339",
+  "item 348", "item 362", "item 365", "item 366", "item 367", "item 368", "item 460", "item 461", "item 463",
+  "item 464", "item 465", "item 466", "item 468", "item 469", "item 470", "item 471", "item 473", "item 481",
+  "item 487", "item 516", "item 518", "item 519", "item 531", "item 538", "item 568", "item 570", "item 571",
+  "item 572", "item 582", "item 583",
+  "g item 111 (V10 part at build depth: V10 §3.9 Water in a dry land — info.water.* rows with noOasis reasons; oasis, grove and district-water provider rows; FieldDrivers water and climate entries (V10 §2.13); T2 ground lake spring and T1 intend oasis (V10 §2.12, §4.1); lexicon dry-country rows; rule 16; budgets; group J; T-V10-45; J-V10.112)",
+  "g item 113 (V10 part at build depth: new V10 §3.9b the settlement's past told — MapBrief.history, the past section's seven info.history.* rows, the population basis (recorded / derived 'about' / symbolic never), lost and buried-former rows in V10 §3.9a, T1 intend history, prompt rules 6, 17, 19 and the claims rule for the past; group J; T-V10-46; J-V10.111)"
+ ],
+ "conflicts_resolved": 18,
+ "cross_notes": [
+  "V09 §4.9: the table of volume 10's families gains info.water.<row> (V10 §3.9 Water in a dry land) and info.history.<row> (V10 §3.9b), their en texts loaded from V10; the new section is named `past` (why.section.past) and V07's section `village` also needs a why.section title; info.under.former, .arch.<reason>, .monument, .terminal and .footing are worded in V10 §3.9a while info.under.lost keeps V09's own row (both read 'once known; its way in closed in year {n}'); the fork and undo buttons are worded by V09's shared button.openCopy and button.undo (no clerk.alt.history.fork / .undo keys, SR6-05 (d)); error.clerkOffline is retired (E-32)",
+  "V09 §3.2 (3) and §4.11 (EI-V10-EDGE-1; J-V10.115; T-V10-49): a creation accepted over the untouched empty-state town drops the old town exactly as Surprise me does (nothing written to the local store or Recent; the harness keeps its blueprint for the card's Undo) and the new town is a saved document at acceptance; V09 §4.11's 'the old one stays in Recent towns' should read so, and §3.2 (3)'s empty-state test 'a log holding only a creation prefix that declares nothing'",
+  "V09 §2.9 Where a button is not drawn: add a subject button whose row has no address argument the session's key admits, whatever the tool (SR6-05 (a), now in V10 §3.5 step 3, J-V10.107, T-V10-4)",
+  "scope §16 and INDEX §3/§4: M3c now 10.75-14.5 pw (V10 §8: C4 2.5-3.25 pw with items 111 and 113's parts and the edge catalogue); with C1 and the second transcript inside M3a the volume totals 14-19.25 pw (14.5-19.75 with plat clerk); M3c beside M3b (J122) unchanged",
+  "determinism §7.1 binding table: T6 place's row should list setAttr of a new use's name and specialisation (V10 §4.1's place emits them as the placeholder form; a set specialisation is exempt from chance and cap, V11 §3.24.3); V10's typed forms emit T2 ground's drawWater lake spring (item 111) and T5 quarter's fabric and terrace (items 349, 350)",
+  "V11 §4.2: siting.linkEdits cells {bindTo?, avoid?, cut?} and the cls: key form with the per-key-form cells of V09-XAGREE-1 (V10 §4.1 writes only these, pin on the use: row); V11 §3.24.3's carriers are read by V10 §4.1 (the first carrier class, then setAttr specialisation)",
+  "V01 §4.5: its RetainingWall provider registers for the base kind and replaces V10's default from M5 (one provider per kind; J-V10.117; W-IF-03)",
+  "V07 §4.5: its WhySectionProvider is named `village` in V10 §3.9's owed table (W-IF-02)",
+  "V12 §2.10/§4.4: W-IF-05 is wired to the shipped dist/evidence.json (RuleAnswer.evidence: status word, plain lines, evidence ids; V10 §3.9 A value's provenance; T-V10-50); that file carries no due milestone, so the clerk states the status only; V10's tables take no register entry",
+  "V04 §4.5: V10 §3.9a words every underground row V04 lists (info.under.former, .arch.<reason>, .monument, .terminal, .footing added) and reads under/wayIn and the lost reading; no V04 change",
+  "V06: V10 §3.9b reads each replay epoch's EpochInputs.populationTarget from the log and HistoryRecord.refounded (no replay re-run); no V06 change",
+  "REPORT (the rewrite report file docs/validation/coherence/rewrite-V10.md was refused by the harness's subagent report-file guard, so its content is carried here and in docs/validation/coherence/work/rewrite-V10/: mapping.md maps all 805 inventory ids, 0 unmapped): sizes 84 658 -> 74 891 words (-11.5 %; wc 83 260 -> 73 853); about 20 800 words removed (narration 68 %, restatement 26 %, duplicated mechanisms 1 %, verbose prose 5 %; carried text about -24.6 %) and about 11 000 added as new design (V10 §3.9b, §3.9 water rows, §3.23 edges, T-V10-45..50, J-V10.111..117, the hand-off table, the J121/J122 rewording) — the band is missed because of that required new design",
+  "REPORT: conflicts DIC-06, DIC-07, DXC-04, MC-11, SCOPE-C07, SCOPE-C16, V09-XAGREE-1, V09-XAGREE-3, V10-XAGREE-1..4, V10-J121-1..3, CANON-C02..C04 applied as ruled; elegance E-04, E-07, E-17, E-24, E-28, E-32, E-33 applied with every equivalence item kept (no other unification made); wiring W-IF-01/02/03/05, W-PKG-01, W-EDIT-01, W-FLD-12, V05-WGAP-2b, V06-WGAP-1b, V10-WGAP-1 closed; ID-BCR, ID-TOOL (43 first mentions worded), ID-LAYER, ID-WX, ID-DUPDEF applied; no renumbering; T-V10-1..50 and J-V10.1..117 unique, all references resolving, 0 unresolved section references",
+  "REPORT: all 39 routed findings fixed (SR6-05 (a)-(g) in the body; V10-EDGE-1 ruled in V10 §4.2 (3)); all 21 routed hand-offs closed (V10 §10.2's second table) and CVR-V10-1..20 met at named sections; 51 UNDEFINED and 14 UNTESTED edges and 8 owned combinations defined in the new V10 §3.23 (rules 1-5, rows (a)-(ap); T-V10-47, T-V10-48); owner questions Q1-Q5 answered (J121/J122); §13 empty; no FABLE-REVIEW-QUEUE row (J84)"
+ ]
+}
