@@ -7,11 +7,11 @@ the shell that V08's host mode runs on — over the base (`docs/ARCHITECTURE.md`
 `docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2026-09-28g.md`). The implementer holds the base and this volume and
 the sibling sections cited, and nothing else (§17.1). Every fact the base or another volume states is cited, never
 restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a design
-volume's section, this one included (`V09 §4.3`); a list after a volume prefix stays in that volume (`V04 §3.5, V04
-§3.10`); `item n` is an amendment item — items 1–101 the owner's instructions, 102–118 file g's owner and program rules,
+volume's section, this one included (`V09 §4.3`); a list after a volume prefix stays in that volume (`V04 §3.5,
+V04 §3.10`); `item n` is an amendment item — items 1–101 the owner's instructions, 102–119 file g's owner and program rules,
 200 and above file f's, each the applied text of a volume's base change request (V09 §10 lists this volume's); `J-VI.n`
-is a volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V9.n` (V09
-§9), tests `T-V9-n` (V09 §7). **Words.** Every word the application shows a user is quoted here in "double quotes"; those
+is a volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V9.n`
+(V09 §9), tests `T-V9-n` (V09 §7). **Words.** Every word the application shows a user is quoted here in "double quotes"; those
 strings are the message catalogue's English rows (V09 §2.9), data, not code; English is the catalogue's source language,
 and which locales ship follows SettlementForge (J121). **Clean room.** Nothing here is taken from a reference program's
 code, word lists, palettes or screens: the reference generators' and the surveyed tools' behaviour enters only as
@@ -87,6 +87,10 @@ even a hamlet fills the screen. The map dresses for the time of year — ice on 
 every shade of autumn — following SettlementForge's calendar or the week you pick, and when a festival is on its streets
 are hung with bunting and banners; none of this changes the town itself.
 
+**Nothing keeps you waiting long.** A new town, a big change, a town opened from SettlementForge or an export is done
+within ten seconds, and any wait longer than a second shows what is being made — the ground, the streets, the houses —
+with the map filling in, never an empty screen. Moving around the map, dragging and undoing stay instant.
+
 **Getting it out.** One export button offers pictures (screen, poster or print size), a virtual-tabletop scene that
 arrives in the game already walled, lit and on its grid, GIS data, and 3-D models; each shows its size and a preview
 before it writes, and none of them changes the town. Sharing gives a link when the town can be rebuilt from one, and
@@ -131,7 +135,7 @@ extension slot. Concretely, this volume settles:
    highlight, the variations tray, the bend line, the refusal card, first-use hints, toasts); the thematic views the owner's
    file-g rules ask the interface for (the shade map, the supply links, the siting "Why here?" card).
 2. **The flows** — boot and open; the first map; the declaration pipeline (gesture → draft → preview → ghost → commit or
-   cancel) with its latency budget; confirmation of fates and renames; variations and scoped re-rolls; undo, redo,
+   cancel) with its latency budget; confirmation of fates and renames; variations and New random on a scope; undo, redo,
    restore points and "open a copy from here"; autosave with crash recovery; export; share; settings; accepting or
    refusing a clerk's proposal.
 3. **The input model** — pointer, pen, touch and keyboard, one gesture grammar across them; the responsive classes and
@@ -162,19 +166,20 @@ extension slot. Concretely, this volume settles:
    whole-circuit view (V09 §5.4); volume 1's coverage and voids views (V09 §5.4); and the base's view keys, people search,
    family tree, clock, notes, pins and ruler that no other volume places (V09 §4.18, V09 §4.19).
 10. **Item 110's tools** (V09 §4.20; J-V9.58) — T3's **Retaining wall** mode and T2's **Terrace** mode (V09 §4.20.1); T4's
-   **Raised** toggle and **Aqueduct** chip (V09 §4.20.2); removing a generated raised way, and building it again (V09
-   §4.20.3); T6 on deck faces and at a mole's landmark slots (V09 §4.20.4); T9's tier controls (V09 §4.20.5); the panels,
+   **Raised** toggle and **Aqueduct** chip (V09 §4.20.2); removing a generated raised way, and building it again
+   (V09 §4.20.3); T6 on deck faces and at a mole's landmark slots (V09 §4.20.4); T9's tier controls (V09 §4.20.5); the panels,
    handles, span and crossing controls and why lines of the new records (V09 §4.20.6); what else a change does, in words,
    on every preview (V09 §4.20.7; file f item 465); reaching what lies under a raised deck (V09 §4.20.8; file f item 466);
    item 110 on the Sky layer (V09 §4.20.9); the item-110 exports (V09 §5.10; file f item 447); an author's removals in the
    skeleton (V09 §3.12; file f item 455); and the second known-city fixture through the canvas (V09 §7.2). The events
    these tools send are file f item 362's.
-11. **Items 111–118 on screen** (V09 §4.21) — T2's spring flag for an oasis (item 111); the colour-vision setting and the
+11. **Items 111–119 on screen** (V09 §4.21) — T2's spring flag for an oasis (item 111); the colour-vision setting and the
    second cue of every thematic view of this volume (item 112 (a)) and the game-master trial's running (item 112 (b),
    V09 §7.6); the history option in T1's sheet and a lost void's panel line (item 113); the wall repair's material and the
    wall states in the legend (item 114); a hand edit beyond the grandeur ceiling, honoured and explained (item 115); the
    view controls' stop at the zoom-out limit (item 116); the season control and its follow switch (item 117); the festival
-   list and its switch (item 118).
+   list and its switch (item 118); the progress view of a one-time wait (item 119).
+12. **The edges** — every mechanism of this volume at its limits, with its outcome, failure rung and test (V09 §3.16).
 
 ### 1.2 The base hooks consumed, by section
 
@@ -192,8 +197,8 @@ extension slot. Concretely, this volume settles:
 | §9.1, §9.2, §9.4, §9.5 | labels, `displayText`, region groups; the knowledge admission function (E-17); the leader-line switch; furniture, the legend, the ruler, the authoring surfaces (handles, feature snap, count badge), the underlay, framing |
 | §10.3 | the people query (gazetteer), the family-tree view (module tier) |
 | §11.1–§11.3, §11.5 | the export formats and their knowledge rule; `PlatApi` (`generate`, `open`, `edit`, `preview`, `confirm`, `cancel`, `undo`, `redo`, `query` with `why`, `view`, `setView`, `export`, `report`, `subscribe`); roles and view keys over a bridge; `DocResolver` |
-| §12.5, §12.6 | first-map and frame budgets; edit, preview and warp budgets — the latency budget of V09 §6 is built from them |
-| §13.2, §13.4, §13.6 | the bars of items 101 and 110–118; the app harness, scripted tasks, accessibility, input scheme, the first-five-minutes test; the protocol shape reused by the owner's UX sitting |
+| §12, §12.5, §12.6 | the ten-second ceiling of a one-time wait and its progress rule (item 119); first-map and frame budgets; edit, preview and warp budgets — the latency budget of V09 §6 is built from them |
+| §13.2, §13.4, §13.6 | the bars of items 101 and 110–119; the app harness, scripted tasks, accessibility, input scheme, the first-five-minutes test; the protocol shape reused by the owner's UX sitting |
 | §14 | `@plat/app`, the interaction contract R1–R19, the per-tool interactions, the input scheme, accessibility, context help, the family-tree view |
 | §16 | the milestones the application's steps slot into (V09 §8); the release gate (item 112 (b)) |
 | §17.1, §17.2 | the clean room (our own UI words and colours); the bundled fonts |
@@ -244,14 +249,15 @@ something of a sibling it asked in V09 §10.2, whose every row is closed at its 
   (V02 §2.6, V02 §4.6, V04 §3.5.4, V06 §2.13, V11 §3.24). V08 binds none of it (V08 §2.6b). This volume designs their tools,
   words and screens (V09 §4.20). The time card's count of raised ways built is V06's (V06 §4.1); this volume hosts the card.
 * **The underground's records and rules** — ruins, caverns, the access pass and its causes, the excavation reading with its
-  lost state, catacombs, their growth, ratchet and stagnation, and every bend they compute — are V04's (V04 §3.5, V04
-  §3.5.7); a church's crypt, its rank cap and its wet-ground rule are V03's (V03 §3.7.4) and the cathedral's crypt
+  lost state, catacombs, their growth, ratchet and stagnation, and every bend they compute — are V04's (V04 §3.5,
+  V04 §3.5.7); a church's crypt, its rank cap and its wet-ground rule are V03's (V03 §3.7.4) and the cathedral's crypt
   basement V02's no-refusal crypt ladder (V02 §3.14.5). This volume shows them, maps gestures to their events and words
   their messages (V09 §4.17).
-* **Items 111–118's rules** — the oasis and the water pull, the style families' second cues and checked variants, the
+* **Items 111–119's rules** — the oasis and the water pull, the style families' second cues and checked variants, the
   history replay, the wall condition ladder and its drivers, the grandeur ceiling, the zoom-out limit, the season and
-  festival rows — are the base's and their volumes' (item 111 at §4.2 S0–S1 and §7.1; item 112 at §8.2 and §13.2; item 113
-  at §4.2 S0, §4.11 and V06; item 114 at §2.7, §7.1 and V06 §3.7.7; item 115 at §4.2 S10b and V02; item 116 at §8.8; items
-  117 and 118 at §2.9, §7.7 and §8.2); this volume designs their controls, words and panels (V09 §4.21).
+  festival rows, the ten-second ceiling and its quality budget — are the base's and their volumes' (item 111 at §4.2 S0–S1
+  and §7.1; item 112 at §8.2 and §13.2; item 113 at §4.2 S0, §4.11 and V06; item 114 at §2.7, §7.1 and V06 §3.7.7; item 115
+  at §4.2 S10b and V02; item 116 at §8.8; items 117 and 118 at §2.9, §7.7 and §8.2; item 119 at §12); this volume designs
+  their controls, words and panels (V09 §4.21).
 * **The people and the family tree's contents** — the relation store, postings, schedules and the clock's hours — are
   §10.3's module (`@plat/sim`, M4b); this volume places their screens (V09 §4.18).
