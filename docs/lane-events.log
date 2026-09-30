@@ -1955,3 +1955,5 @@
 2026-09-30 20:18 coherence/rewrite-V06 CHECKPOINT report complete (§1-§12: sizes, f/g 111/113/114/115, 9 conflicts, E-01/02/24/39, renumberings, 6 wiring gaps, 19 hand-offs, X1-X49 by destination, 51 findings, edges map 154, judgment calls, cross-part notes, checks; doc_checks provisional C3 286/S2 534); next: result JSON, LANDED
 2026-09-30 20:19 coherence/rewrite-V06 LANDED docs/validation/coherence/new/volumes/V06-evolution.md docs/validation/coherence/rewrite-V06.md docs/validation/coherence/results/coherence_rewrite-V06.json
 2026-09-30 20:19 coherence/orchestrator NOTE rewrite-V06 landed (items 111, 113, 114, 115 parts included); starting rewrite-V09 in its lane (cap 2: V08 + V09)
+2026-09-30 20:20 coherence/rewrite-V08 CHECKPOINT started (opus stand-in); routing extracted to docs/validation/coherence/work/rewrite-V08/ (routing.md, unit.json, inv.txt); next: read V08 whole, then base cites, agreement, edges, hand-offs
+2026-09-30 20:20 coherence/rewrite-V09 CHECKPOINT started (fresh; no prior output); report skeleton written; next: gather canon unit V09 rulings, inventory, edges, hand-offs, f/g items
