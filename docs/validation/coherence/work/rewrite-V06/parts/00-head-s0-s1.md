@@ -61,6 +61,15 @@ apothecary, the baker, the chapel — spread out so each quarter has one rather 
 slaughterhouse on the edge and a stall in the market, and merge back if the town shrinks. When the campaign says the town
 has "5–10 blacksmiths", the map has that many smithies, more as the town grows and fewer (never below five) as it shrinks.
 
+**Walls wear with the times.** A town that is poor and feels safe lets its walls go: the parapets crumble, then sections
+fall into gaps you can see. A poor town under threat patches its gaps with whatever it has — timber, wattle, earth banks —
+and a rich one under threat rebuilds in stone, replacing the oldest patches first. The walls change only when the times
+have stayed good or bad for years, never at a passing blip.
+
+**Villages stay villages in their buildings.** A wealthy village has bigger farms and better roofs, not a street of
+manors. When a village grows into a town, its new and rebuilt houses may be grander; when a town shrinks to a village,
+its grand old houses stay as they are, and only the new ones are village-sized.
+
 **Walls follow the ground and never cut off the water.** A new ring of walls, or a shorter one in a shrunken town, leaves
 the cliff, the gorge and the deep water as the wall and builds only where an enemy could walk up; a port always keeps a
 gate onto its quays. A campaign town gets new walls only when its dossier says it has them.
@@ -167,6 +176,10 @@ The **evolution engine** — the owner-staged strategy behind §4.11's `Evolutio
 26. **The history replay at generation** (item 113): the engine's side of §4.11's history-first generation — the replay
     plan of coarse epochs, the event-to-epoch mapping, the generation budget with lazy detail, destruction and refounding
     run as epochs, and the replay record the report and the clerk read (V06 §3.20).
+27. **Walls by need and means** (item 114): the condition ladder's transitions — worn, patched, breached — driven by the
+    threat and the wealth level each sustained over a window, patches replaced oldest first (V06 §3.7.7).
+28. **The grandeur ceiling across a rung change** (item 115 (e)): lifted for new and rebuilt buildings when a village
+    becomes a town; the grander buildings of a town handed down kept as they stand (V06 §3.8.5).
 
 ### 1.2 The base hooks consumed (cited, never restated)
 

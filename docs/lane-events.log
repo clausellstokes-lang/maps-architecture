@@ -1925,3 +1925,13 @@
 2026-09-30 19:28 coherence/rewrite-V06 CHECKPOINT P3-P4 parts 02 (§2 incl. new §2.14 replay records, E-01 rows, EDGE-2 advance-undo row) and 03 (§3.1-§3.3 incl. EDGE-1 degenerate requests) written; next: §3.4-§3.8 (part 04)
 2026-09-30 19:31 coherence/rewrite-V06 CHECKPOINT P4 parts 04 (§3.4-§3.6) and 05 (§3.7-§3.8; G-hollow, pool rates cited to f 291) written; next: §3.9 (part 06)
 2026-09-30 19:31 coherence/orchestrator NOTE owner rules 114-116 filed (docs/AMENDMENTS-2026-09-28g.md; J127) and routed by a dated canon ruling (canon.md end); the running editors rewrite-V06 and rewrite-V07 told by message; briefs of V08-V12, assemble, every verify and the validator carry the routing; the landed base parts and V01-V05 write their parts in the repair round (F-MISSING)
+2026-09-30 19:34 coherence/rewrite-V06 NOTE owner items 114-116 received (coordinator); V06 parts 114 (§3.7.7) and 115 (§3.8.5) designed in routing.md; writing them into part 05 next, then §3.9
+2026-09-30 19:35 coherence/rewrite-V06 CHECKPOINT items 114 (§3.7.7, wearWall, repairWall.material, W89) and 115 (§3.8.5, W90) written into parts 00/01/02/05; next: §3.9 (part 06)
+2026-09-30 19:38 coherence/rewrite-V07 CHECKPOINT P4-P5 done (parts 02-06: §2, §3.0-§3.8a; g 111, 114, 115 written; coordinator's g 114-116 routing received); next: P6 §3.9-§3.11
+2026-09-30 19:39 coherence/rewrite-V06 CHECKPOINT parts 06 (§3.9) and 07 (§3.10-§3.14 incl. §3.11.7 drought, §3.12.1 springs over epochs) written; next: §3.15-§3.17 then §3.18
+2026-09-30 19:40 coherence/rewrite-V06 CHECKPOINT part 08 (§3.15-§3.17 incl. replay frames, new chronicle kinds, failure (10)) written; next: §3.18 (part 09)
+2026-09-30 19:41 coherence/rewrite-V06 CHECKPOINT part 09 (§3.18 incl. item 113 (e) lost reading and (d) reopened sewers) written; next: §3.19 (part 10)
+2026-09-30 19:43 coherence/rewrite-V06 CHECKPOINT part 10 (§3.19; AGREE-1 V09 info.remove.holds cited; X-V12-10 confirmed) written; next: read §6, then write §3.20 (item 113 replay) and §3.21 (edges)
+2026-09-30 19:44 coherence/rewrite-V07 CHECKPOINT P6 done, P7 half (parts 07 §3.9-§3.11, 08 §3.12 + new §3.12a item 113); next: §3.13-§3.16 and the edges section (§3.17)
+2026-09-30 19:46 coherence/rewrite-V07 CHECKPOINT P7 done (part 09: §3.13-§3.16, new §3.17 edges); next: P8 §4-§6
+2026-09-30 19:47 coherence/orchestrator NOTE owner rule 117 (seasons) filed (J128) and routed by a dated canon ruling; rewrite-V07 told by message (V06 has no part); briefs of V08-V12, assemble, verify and validate carry it; the landed units write their parts in the repair round

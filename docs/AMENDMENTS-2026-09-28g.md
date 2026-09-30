@@ -889,3 +889,55 @@ vetoable interpretation.
      **HOMES:** §8.8 (the per-map limit on the pyramid), §9.5 (framing), §12.5 (budget: fewer stops, never more), §13.2 (T-ER-08
      restated). Volumes: V07 (§5.2's township view is the limit's view less its margin), V09 (the view controls stop there), V12
      (bars). Applied by the coherence pass like items 111–113 (J127).
+
+117. **OWNER RULE — Seasons: the map dressed for the time of year, following SettlementForge's calendar (owner, 2026-09-30).**
+     Owner: "oh and the last big thing... seasons! lakes freeze during winter, fall leaves during fall, growing season during spring,
+     we have seasons in settlementforge. can those be integrated in?" **What SettlementForge gives (CONFIRMED, research/sf):** one tick
+     is one week; `worldState.calendar` carries `season` (spring | summer | autumn | winter, thirteen weeks each, spring first; the
+     4-4-5 month grid) and the week; the settlement's `config.terrainType` (plains, coastal, riverside, hills, mountain, forest,
+     desert) feeds our biome; the realm map's optional climate and biome digests exist behind a flag. **What the design has
+     (CONFIRMED):** §8.2's view keys `season` ∈ {spring, summer, autumn, winter} and `weather` ∈ {clear, overcast, snow} (§2.9 view
+     state) select override rows — autumn and winter re-skin deciduous crowns (autumn tint; winter a bare-crown symbol), snow lays the
+     `snow` role over ground, fields and roofs, overcast removes direct light; the model and its hash are untouched; V06 reads
+     SettlementForge's season for a campaign week (item 67 (b): masonry pauses in winter); the biome's climate row (item 111) holds
+     aridity. Missing: frozen water, fields and gardens through the growing year, the season following SettlementForge, climate
+     deciding what a season looks like, and the low winter sun.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) A LOOK, NEVER A CHANGE OF THE MAP.** A season dresses the same map: it never moves, adds or removes a building, way, wall,
+     field boundary or water edge, never changes the model or its hash, and a save is the same save in every season. It lives in view
+     state and in exports.
+     **(b) THE YEAR POSITION.** The view's season is a week of the year (0–51, spring first, SettlementForge's grid); the four named
+     seasons are picks of their middle weeks. Every seasonal effect is a band of weeks per climate, so the year turns gradually: leaves
+     colour, then fall; the first ice on ponds before lakes; the fields green, ripen and are cut.
+     **(c) FOLLOWING SETTLEMENTFORGE.** With a dossier from a campaign, the default season is the dossier's current week and season
+     (a derivation row, §7.7); the user may pick another (view state) or set it to follow SettlementForge again. Standalone, the
+     default is midsummer and the season is a picker.
+     **(d) CLIMATE DECIDES.** The biome's climate row gains season columns (a table, our own defaults): how cold its winter is (none,
+     mild, cold, severe), the weeks of leaf colour and fall, of the growing season and harvest, of ice and snow. Arid and warm climates
+     never freeze and rarely snow; a mild winter freezes only ponds and moats in its coldest weeks; a cold one freezes ponds, moats,
+     millponds, lakes and slow wide rivers; a severe one freezes rivers and the harbour's edge too. The climate comes from
+     SettlementForge's climate digest when present, else from its terrain type with the site's height (mountain and upland colder),
+     else the user's choice.
+     **(e) WATER IN WINTER.** Still water freezes first and flowing water last: ice drawn in an `ice` role with crack lines and a
+     snow-dusted surface where snow lies; open leads kept at a river's fast current, weirs, mill races, springs and outfalls; the sea
+     frozen only in a severe climate and only along sheltered shores. Boats drawn hauled up on the banks while their water is frozen.
+     **(f) THE GROWING YEAR.** Fields, gardens, orchards, meadows and commons carry season rows by their kind: spring — fresh green and
+     sown strips, orchard blossom; summer — full crops, meadows high; late summer to autumn — ripening gold, then stubble and stooks after
+     the harvest weeks; winter — ploughed brown and bare fallow (under snow where it lies). Deciduous trees, hedges and vines follow the
+     leaf weeks; evergreens stay. Gardens and greens follow their climate.
+     **(g) LIGHT AND WEATHER.** The rendered sun's default height follows the week (low in winter, long shadows; high in summer) — the
+     view's light only, never item 102's model-side daylight, which stays fixed so the map never changes with the season; `snow`
+     weather defaults on in the snow weeks of a cold or severe climate and off in arid ones, and remains the user's to switch.
+     **(h) EXPORTS, TOOLS AND CLERK.** Image and print exports draw the chosen season and name it; battle-map exports record it (ice
+     is walkable ground in a severe winter, water otherwise); the editor shows the season control and a "follow SettlementForge"
+     switch; the clerk explains a seasonal look ("the millpond is frozen: it is midwinter, and winters here are cold").
+     **(i) BARS.** The same document hashes identically in all 52 weeks; every climate's season rows cover all 52 weeks with no gap;
+     an arid fixture never draws ice or snow; a cold fixture freezes still water before flowing water and keeps open water at mill
+     races and weirs; a campaign dossier opens on its own week; each season's look passes the contrast and colour-blind checks
+     (item 112); switching season re-skins cached tiles within §12.5's budget.
+     **HOMES:** §2.9 (view state: the year position, "follow SettlementForge"), §7.7 (the derivation row: the dossier's week and season;
+     the climate's source), §8.2 (the season rows: water and ice, fields, gardens, orchards and trees through the year, snow by climate;
+     the sun's default height), §4.2 S0 and §10.2 (the climate row's season columns), §11 (exports), §12.5 (the re-skin budget), §13.2
+     (bars). Volumes: V07 (the village's fields, strips, commons, green and pond through the year), V08 (reading SettlementForge's
+     calendar and climate), V11 (the season tables by climate and by field, garden and water kind), V09 (the season control), V10
+     (the explanations), V05 (the sky islands' seasonal look), V12 (bars). Applied by the coherence pass like items 111–116 (J128).

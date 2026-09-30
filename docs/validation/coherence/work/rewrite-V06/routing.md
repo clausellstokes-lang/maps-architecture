@@ -48,3 +48,23 @@ Elegance: E-01 (stretch-state profile at §2.2 rule 5 — V06 keeps writer/reade
 E-24 one mark 'superseded by X'/'amended by X', E-39 keep apart (LOST joins V04's access-state set).
 Wiring: W-DOS-02 (wealthLevel via V08 §3.5 diff row; DR6), W-DOS-09 closed by g113 DR36-39, W-DOS-10d (DR33, DR34, DR35 by
 number), V06-WGAP-1a/1b (V09/V10 rows; V06 cites), WGAP-2 (hand-off table closed).
+
+## Owner items 114-116 (coordinator message 2026-09-30; canon "Dated ruling 2026-09-30", J127)
+- 114 (V06 part): §3.7.7 new — NEED = the slice's threat (DR2, readiness folded in by V08) read from the log's epoch slices;
+  MEANS = the wealth level in force (log) — classes low/mid/high by thresholds with hysteresis, sustained over V11 windows;
+  local weight = the run's bounding districts' present mean prosperity vs the town's, scaling decay rates [0.5, 1.5] (no class
+  flip). Ladder standing·worn·patched·breached·dismantled (base §2.7 via model; each run's material + epoch of last change).
+  Transitions: neglected ring standing→worn (wearChancePerYear; neutral null = straight to breached as before)→breached;
+  in use with means low sustained: worn/breached at poor rates; both low ×bothLowFactor; need returns + means low → breached
+  runs patched (repairWall with a patch material drawn by V11 walls.patchMaterials kind×culture weights on
+  stream(EVO_FORT, enceinte)); need + means → breached rebuilt robust, patched rebuilt oldest first ≤ rebuildRunsPerYear×years,
+  worn restored; means high without need → in-use ring's worn restored, neglected keeps decaying; dismantled stays gap.
+  V11 cells named: walls.condition.{needReturnYears, meansWindowYears, meansLow, meansHigh, meansHysteresis,
+  wearChancePerYear, poorWearChancePerYear, poorBreachChancePerYear, bothLowFactor, rebuildRunsPerYear, localWeight};
+  walls.patchMaterials. No-op pin: meansLow 0, wearChancePerYear null, needReturnYears 0 → pre-114 behaviour byte-identical.
+  Test T-V6-73; decision J-V6.131; report walls.worn/patched/rebuilt; chronicle wallPatched/wallRebuilt/wallWorn.
+- 115 (V06 part): §3.8.5 new — the grandeur ceiling read at the epoch's rung (the fold's) by every op that derives a building's
+  design (S11 of a new stage, tier (3) rebuild/reuse…build, rung-3 rebuild/redevelopment, MutationPlan steps); standing
+  buildings never reshaped by a rung change; a plan step beyond the ceiling after a hand-down cancels the plan (done steps
+  standing); dossier-specified / hand-made designs kept. Test T-V6-74; decision J-V6.132.
+- 116: no V06 part (V07, V09, V12, rendering); cross-note only (bounds grown by an epoch move the limit — §8.8's).

@@ -5503,3 +5503,20 @@ the repair round writes a landed unit's part. Precedence: owner rules first (pri
 * **rendering:** §8.8 (the per-map zoom-out limit on the pyramid: the stop where `bounds` fits the viewport's short side plus one stop); §9.5 (framing); §12.5 (budget); T-ER-08 restated (every rung draws every stop from its limit inward)
 * **scope:** §13.2 (the bars of item 116 (e)); the judgment index row
 * **V07:** §5.2's township view is the limit's view less its margin; **V09:** the view controls stop at the limit; **V12:** bars
+
+## Dated ruling 2026-09-30 (later) — File g item 117 routed (orchestrator under J122; J128)
+
+The owner's rule 117 (seasons) is routed like items 111–116: EVERY unit named writes its part at build depth as new design; a
+verifier raises F-MISSING where a part is absent; a landed unit writes its part in the repair round. It is a LOOK only: no unit may
+make a season change the model or its hash.
+
+### g item 117 — every unit named writes its part
+* **model:** §2.9 view state (the year position, week 0–51; the "follow SettlementForge" flag)
+* **determinism:** §7.7 (a derivation row: the dossier's calendar week and season → the default view season; the climate's source order: SettlementForge's climate digest, else terrain type with height, else the user's)
+* **pipeline:** §4.2 S0 and §10.2 (the biome climate row's season columns: winter severity; leaf, growing, harvest, ice and snow weeks)
+* **rendering:** §8.2 (season rows: `ice` role and open leads, fields, gardens, orchards, hedges and trees through the year, snow by climate, boats hauled up; the view sun's default height by week, item 102's model daylight untouched); §11 (exports draw and name the season; battle-map ice rule); §12.5 (the re-skin budget)
+* **scope:** §13.2 (the bars of item 117 (i)); the judgment index row
+* **V07:** the village's fields, strips, commons, green and pond through the year
+* **V08:** reading SettlementForge's calendar and the climate digest
+* **V11:** season tables by climate and by field, garden and water kind
+* **V05:** the sky islands' seasonal look; **V09:** the season control and follow switch; **V10:** the explanations; **V12:** bars
