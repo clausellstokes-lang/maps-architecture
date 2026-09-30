@@ -1,0 +1,41 @@
+52:   village, with named fates for each institution), prosperity (a seven-step band), resources, who governs,
+66:   prosperity bands to our Works kinds and bands. §8 lists these in order.
+74:   prosperity "Comfortable" vs "Moderate") while both say `generatorVersion: '0.9.0'` — so a seed plus a version
+87:   prosperity bands; under the Dramatic preset a town fell to a village and a village to a thorp within one year
+107:  `steps/assembleSettlement.js`, `steps/economyReconcilePass.js` (lines 79–164, its body).
+121:  `cascadePass`, `isolationPass`, `stressConfirmPass`, `generateEconomy`, `generatePower`, `neighbourFactions`,
+151:| `src/domain/districtProfile.js`, `src/domain/mapProfile.js` | IN — first 40 lines only | pure derivations over the dossier (districts' wealth/safety/dominant faction; a declared map↔simulator interface), not drawing programs |
+251:  (`auto` or a terrain), `culture` (11 keys or `random_culture`), `monsterThreat`, five priority sliders
+252:  (`priorityEconomy/Military/Religion/Criminal/Magic`), `magicExists`, stress choices, `customName`,
+256:  `_servicesToggles`, plus `_randomizePriorities` and `_importedNeighbor` (CONFIRMED, `settlementSlice.js:871–882`).
+258:  `tier`, `terrainType`, `magicLevel`, `stressTypes`, `latentPantheon`) and `_config` = the RAW input with its
+267:  `dependencyEngine.js:79`, `resolveResources.js:157`, `economyReconcilePass.js`).
+282:- `importedNeighbour` is an already-generated settlement; it biases economy and factions and fills
+380:| 1 | resolveConfig | tier, population, tradeRoute, terrainType, resolvedTerrain, culture, magicLevel, threat, noMagic, townPlus, effectiveConfig, the toggle maps | tier (or from population), population (rolled in the tier's range), terrain, trade route, culture, threat, magic; floors a plagued town's military priority |
+389:| 10 | generateEconomy | economicState (provisional) | chains, income, exports/imports, prosperity band |
+393:| 14 | economyReconcilePass | economicState, **spatialLayout**, availableServices | re-derives the economy on the FINAL roster (a damped one-pass fixpoint), demand imports, the named quarters, services, supply-chain receipts |
+431:- `economicState.prosperity` is a band label on a seven-step ladder: `Subsistence, Struggling, Poor,
+432:  Moderate, Comfortable, Prosperous, Wealthy` (CONFIRMED, `data/constants.js:47`).
+438:  generateEconomy, generatePower, neighbourFactions, factionCorrelationPass, coherenceRepairPass,
+439:  economyReconcilePass, powerEconomyReconcilePass, structuralValidationPass, generatePopulation, corruptionPass,
+442:  decides eligibility once — does magic function, may maritime-only institutions appear — from config, tier,
+445:  re-derivation findings say it also writes `institutions` — CONFIRMED as design text, body not read); `powerEconomyReconcilePass` (replays the
+446:  political intent once against the final economy and stamps `economyInputFingerprint`; assembly fails closed if
+455:  sources`); the same `spatialLayout` shape (the waterfront's location now reads "Along the river"); prosperity
+595:| REMOVE_INSTITUTION | institutions, powerStructure | `status: 'removed'`, `removedByEventId`; propagated `wealth` impairments on linked institutions |
+747:| **Institutions (economy)** | a settlement whose economy stays healthy for a streak may BUILD the missing supply-chain step (a mine for a smithy with ore; works for a mine); a stably distressed one may CLOSE its least essential institution (export anchors close last; required, criminal and essential never) (`institutionLifecycle.js` header) | new `{ id, name, category, status: 'active', _worldPulseEconomyBuilt, createdByWorldPulseOutcomeId, builtReason }`; closure → `status: 'remnant'`, `worldPulseFate`, `closedByWorldPulseOutcomeId`, `remnantReason`; reopen → `status: 'active'`, `reopenedByWorldPulseOutcomeId`; `institutionHistory` (last 24: `{ name, category, fate, tier, outcomeId, reason }`) |
+749:| **Prosperity** | a band step on the seven-step ladder. Writers found: the upswing mover (boom +, bust retreat), the generosity mover (a purchase debits the buyer's band, nudges the seller's), the entrepôt toll (a bounded lift) — all behind flags. No event handler writes prosperity (searched `mutateWorld.js`, `mutateEntities.js`) | `economicState.prosperity` (a label, or an object with `tier`) (`upswingKernel.js:889–915`) |
+750:| **Resources** | depletion and recovery by pressure and taxonomy (renewable/nonrenewable/magical), a DM proposal by default; organic discovery from the terrain's latent pool and removal of a long-depleted nonrenewable (behind `resourceDynamicsEnabled`) (DESIGN_RESOURCE_DYNAMICS) | `config.nearbyResources*`, `config.resourceEdits` (so it survives regeneration), a surgical re-derivation of `economicState.activeChains`/`primaryExports`, `resourceHistory`, a `resource_strike` or `vein_exhausted` condition |
+756:| **Upswing** | behind `upswingArcsEnabled`: reconstruction after a calamity or siege (progress from prosperity, builders, ally credit, peace; regresses on new shocks); boom → bust on trade throughput; flourishing (DESIGN_UPSWING) | conditions `reconstruction`, `boom`, `bust`; prosperity band steps; an institution upgrade at completion |
+760:layer, strategy, faith spread, attrition, war-economy drain — OFF; resource dynamics, lifecycle, upswing,
+768:changed** (they waited as proposals); **no prosperity band changed**; populations fell by 817, 176 and 197
+845:| run | changed-key counts over 52 weeks (3 settlements) | institutions | tier | prosperity | population |
+849:| branch, lit Realistic Regional | as above, plus `urbanFabric` 71, `npcLadder` 156, `traditions` 12 | 53 status changes | none | the city Comfortable → Prosperous (week 5) → Wealthy (week 33) | −663, −158, +125 |
+850:| branch, Dramatic Campaign, one `one_year` advance | 499 outcomes auto-applied, 12 proposals | demotion and closure fates incl. `hollowed_out`, `privatized`, `shuttered`, `bankrupt` | town → village (week 32); village → hamlet (week 9) → thorp | the city Comfortable → Wealthy | 4694 → 3364; 763 → 495; 8950 → 9438 |
+852:  Reading (PLAUSIBLE): on the current line a campaign born into the lit default shows growth-side change (prosperity
+920:| 3 | institution IMPAIRED or RESTORED | `impairments[]` `{ type: capacity / wealth / access / corruption, severity, causeEventId }`, `status: 'impaired'` ↔ `'active'` | severity, type, cause id | a condition on the building (a damaged-stage look by severity); restoration → a repair `Works` |
+924:| 7 | PROSPERITY band changed | `economicState.prosperity` (seven-step label) | old and new band | the prosperity field's driver (§4.5), item 31's ladder, item 72's dials; slow, epoch-scale |
+933:| 16 | NPC changes | `npcs[]` (`id`, `role`, `institution`, status) | per NPC | named household heads (item 17); low priority |
+949:  op: 'add' | 'remove' | 'state' | 'attr' | 'tier' | 'population' | 'prosperity' | 'power' | 'rename'
+987:not a count. Our map must decide the instance count itself (seeded, by population and prosperity inside the
+1004:   → our `Works` kind and entry stage (§8.2 rows 1–4); SF's seven prosperity bands → our bands (item 27);

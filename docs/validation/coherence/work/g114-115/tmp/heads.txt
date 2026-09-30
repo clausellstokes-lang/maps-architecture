@@ -1,0 +1,126 @@
+== docs/validation/coherence/new/base/determinism/01-s5-failure-handling.md
+1:## §5 Failure handling — no whole-map discard-and-retry
+10:### 5.1 Principles and the seven tiers (G-P7)
+114:### 5.2 Failure classes: detection, ladder, test
+150:**The staged layers' classes** are rows of the same table, each built with its layer, marked † with the volume section
+162:### 5.3 The invariant suite, by scope (SCL-1)
+242:### 5.4 The generation report
+274:**Report codes.** A rung that needs more than its (class, rung, tier) triple names one of these codes — the only codes
+== docs/validation/coherence/new/base/determinism/02-s6-determinism.md
+1:## §6 Determinism
+13:### 6.1 RNG and stream design
+214:### 6.2 What a seed determines, and the model digest
+243:**The model digest is a Merkle digest over the eager model's content only.** The **eager model** is everything the
+340:**Histories, not states (item 22 (c); J-A22.71).** Because the log is folded in order, the map is a function of the
+353:**State that time and history write (items 67, 68 and 72).** A Works record (§4.11) is model data in the digest; its
+365:**The elaboration cache is outside both digests (item 28 (c); J-A28.62).** A rung derived by a click — a
+380:### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)
+593:**The scope of stability, stated** (O2 b, e):
+610:### 6.4 Permalinks, version axes, retention and goldens
+612:**Version axes.**
+629:**Permalinks.** A link carries the canonical recipe, never a pointer to machine state:
+660:**Retention of old output versions.** The browser library ships the current output version's model packages and the
+673:**Goldens** (§13.3 builds the tooling from M1). **Stage-isolated goldens:** the golden store keeps, per seed and stage,
+678:### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)
+== docs/validation/coherence/new/base/determinism/03-s7-editing.md
+1:## §7 Editing and regeneration locality — everything is editable
+14:### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation
+137:**The named actions** (G-R4; O16-core) are separate operations with distinct semantics, never one flag:
+158:**Warp is MFCG's staged edit.** Strokes in a warp session preview on the L1 overlay at interactive rate — vertex moves
+183:**Drawing at the authoring boundary.** Pointer samples are resampled along arc length to a spacing of at least
+195:**Raised ways, aqueducts and retaining walls (item 110 (a)–(b); items 362–364).** A raised `drawWay`'s ends resolve onto
+218:**Building-level editing**, each acting through the plot model: `drawFootprint` places a hand-drawn footprint
+230:**Entrances, basements, passages and plans (items 28–30).** `setEntrance` adds, moves or removes a side, rear, yard or
+248:**Brushes.** `paint` sets roof kind, roof colour or wall colour on every building whose footprint centroid lies under
+257:**People.** A lock with `paths` fixes chosen attributes of a person (name, age, role …); New random on a person
+263:**Delete.** A `delete` of generated content is the plain `delete { id }`: a dossier-backed element's is recorded as
+273:**Empty edits.** An edit whose dry run resolves to nothing — a warp applied with no strokes, a stroke of fewer than two
+280:**Edit targets — owner amendment 5.** Every generated element is editable (the table below); every rule table and
+318:**Dry-run validation (G-R10).** Every event is validated before commit on the scratch overlay: the schema, the
+328:**The dry run's outcomes** (E-07; the one home of every refusal, conflict and bend cause; §5.2's F-EDIT row cites it).
+370:**A new catacomb from a chamber** (item 109 (k); item 361). The dry run of `drawChamber { system: { newKind: 'catacomb' } }`
+475:### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes
+542:### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)
+902:### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8
+904:**Replay semantics.** The log is an **ordered fold**: each event applies to the state its predecessors produced,
+969:**Rebases.** The `rebase` event is a no-op for a client whose base it already is. A replay from the recipe folds an
+983:**Undo and redo are events.** Undo never removes an event from a shared log: a host stores the log and it only grows
+1070:**Warp and what stands on the ground.** A warp and a `moveVertex` move arena vertices (§3.6). The records below hold a
+1093:**A building's stored wing rings** — with a stored stage-3 composition's rings, its plan's points (rooms, wall ends, bays
+1107:**Every kind at the edit boundary** (the edge catalogue's combinations; §5.1 (9)–(10)). Each model kind is edited,
+1126:**MFCG's recorded edit asks** (IMPROVEMENTS O9 (f): the list behind B6, asked for by twelve users). Each is a scripted
+1146:### 7.5 Migration and upgrade (G-P9)
+1219:**The schema transforms** (E-10) — each pure and forward-only, checking the old records root and writing the new one
+1253:**Sugar events migrate by their expansion** (item 101; J-A101.72). A sugar event's `expansion` (§7.1) makes every
+1259:### 7.6 The override layer and editable tables (G-P12; owner amendment 5)
+1390:### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)
+1545:**One path — placement, then mutation (items 16, 18).** A blueprint's assignments and edits, every element of a dossier
+1703:**The derivation rule and the port's contract** (item 20 (h), 2026-09-27; items 74–87; owner: "whatever the dossier
+1930:**Forms catalogue.** A form is a row `{ id, constraints, growthProgramme, signature }`: constraints (site request, wall
+1941:### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)
+== docs/validation/coherence/new/base/model/01-domain-model-and-schemas.md
+1:## §2 Domain model and schemas
+12:### 2.1 Layers, coordinates, units, ids
+61:### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices
+411:### 2.3 Terrain and water
+455:**The rasters.** Terrain is a raster in metres with a resolution set at creation by the size class (TOWN 5 m, CITY 8 m,
+462:**The hydrology grid (J-K12).** Flow direction, flat rank and accumulation live on their own raster, `hydro`, over the
+475:**Heights (GEO-15; J-K7).** Heights are `Int32` centimetres relative to the per-document datum `datumCm` (§4.2 S1), so
+481:**Flats (GEO-15).** Sinks are filled by §4.2 S1 (3)'s priority flood, which keeps exact flat surfaces. Flow across every
+487:**Terrain is not in the plat.** Water faces and their shore and bank edges enter L0 from S1 (§4.2). Contour lines are
+495:**Water attributes along a shore.** A shore's bank kind and shore class are step `ChainProfile`s on the water body's
+502:**The oasis (item 111).** An oasis is a `WaterBody` of kind `pond` or `lake` carrying `spring` — its source point and its
+537:### 2.4 Ways (the skeleton) and typed edges
+568:**No `passage` way class (item 30).** A passage through a building is not a way: it is an L3 face of kind `passage` under
+573:**Missing and contradictory data.** A way without `name` is legal until S13a names it (alleys, tracks and paths may stay
+581:### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the context vector
+714:**What the records are for.**
+769:### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface
+937:**The base outline builder.** The base ships `OutlineBuildingGenerator`: the site plan's rectangle, an L or T composed of
+969:**Row footprints are quads (J-P31, J-P39).** S11's row arrangement builds each row house's footprint by the boolean
+985:**Wings follow their footprint — the wing-carrying rule (J-P42).** Wing rings store world lattice points, some of them
+1071:**A stored composition is carried with its wings (J-P48).** A stage-3 `Composition` is derived lazily and stores no
+1117:**Test.** "§2.6's test" — the B-EDIT fixture that exercises this rule (warps and vertex moves over L, overlapping T,
+1123:**Heights and the ground datum (owner HEIGHT ruling; AM-3; FTG-13).** Every building, wing, tower, keep, wall run, gate
+1176:**Descriptions, opening hours, sub-locations (COV-FTG-F21, FTG-11).** A building's description is generated by the
+1182:**The stage-3 hook and its cost contract (owner-staged; DEF-17, SCL-13).** Stage 3 replaces `OutlineBuildingGenerator`
+1194:**The stage-3 contract.** The union of the composed wings and of the composed towers' ground rings equals the outline's
+1372:**A requested basement (item 66; J-A66.21).** When an edit's closure needs a basement the building lacks —
+1617:### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records
+1800:**Both faces of a wall are unbuildable (MFP-9).** `setbackCm.inner` and `setbackCm.outer` are both unbuildable bands; the
+1807:**An enceinte's condition by stretch.** `condition` is a stretch-state profile (§2.2 rule 5): values
+1819:**Raised ways (g item 110 (b); J-VI.2, J-VI.15, J-VI.21, J-VI.27).** A raised way is a `Way` whose deck
+1867:**Retaining walls (g item 110 (a)).** A line record on the arena whose terrain it levels, holding level
+1886:**Deck plots (g item 110 (d)).** A deck plot is a `Plot` whose `deck` names its host: `deck.host` a
+1899:**At the frame (the combinations of item 110's pieces with §3.2 (9)'s frame).** A raised way's course never leaves the
+1907:**What the content records settle.** `Faction` gains goals, named roles with member criteria and a secret flag
+1918:**The powers an institution answers to (item 79; J-A79.21 – J-A79.23).** The base types the settlement's powers as
+1932:**The staged layers (AM-2, DEF-7; items 10–15, 65).** `SkyIsland` and `Tunnel` give the owner-staged layers their data
+1948:**The dossier's staged records (item 88; J-A88.21, J-A88.22).** `ConditionOverlay`, `DepositSite`, `PowerRelation`,
+1959:### 2.8 Identity, lifecycle, provenance, the entity registry
+2252:### 2.9 The document and serialisation
+== docs/validation/coherence/new/base/rendering/03-s11-export-and-interop.md
+1:## §11 Export and interop
+10:### 11.1 Formats
+27:**Rotation.** Picture exports (SVG, PNG, VTT) use the view's rotation (§9.5); GeoJSON keeps model coordinates and records
+30:**Layers.** `LayerSpec.exportSeparately` (§8.4) is read by the layered exports: where it is
+36:**Knowledge (item 30; J-A30.83, J-A30.85).** Every picture and interchange export takes the requesting viewer's
+57:**Authorship and tiers in every export (items 20 (h), 101 R19; J-A101.82).** Every model and interchange format carries,
+65:**Inert exports (item 85 (c); J-A85.81).** Every text node, attribute value and metadata string an exporter writes is
+74:**The two GeoJSON variants (N-14).** RFC 7946 fixes WGS84 longitude and latitude and removed the `crs` member, so the
+95:**Where exports run.** Every `export(h, fmt)` runs in the generation worker, which holds the document (§8.9). *Model
+124:**The CityJSON extension.** By the CityJSON 2.0 convention a root property outside the core schema is named with a
+135:**Measurement** at the CityJSON exporter's milestone (M3b, D-8): the anchored file passes the CityJSON validator with the
+141:**Identity in every export (LC-1, LC-28).** Every export carries entity addresses (§6.3) and the document's supersedes
+145:**The `.dd2vtt` profile (DEF-4).**
+193:### 11.2 The embedding API and the worker boundary (SCL-6)
+274:**Knowledge (item 30; J-A30.83, J-A30.85).** `query` answers of every kind — `gazetteer`, `people`, `whereIs`,
+334:**Variations (file f item 461).** With `variations: 3` a derived fill's dry run returns §7.3 item 10's three overlays in
+340:**Confirming fates.** An action whose dry run (§7.1) must be confirmed under §7.3 item 4 — protected entities in
+353:**The clerk's tool API (item 101 (b), (d); R10, R19; J-A101.83, J-V10.39).** The tool API a clerk — SettlementForge's
+390:### 11.3 The host bridge — the host is the store (FTG-12)
+522:### 11.4 Host inputs (DEF-11)
+540:**A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
+551:**Optional only (item 20 (h) (iv); J-A20.79):** every field these doors accept beyond what the dossier holds today is
+567:### 11.5 Sharing and multi-client use without a hosted service (DEF-12, COV-FTG-N07)
+577:### 11.6 Edges (principle (11))

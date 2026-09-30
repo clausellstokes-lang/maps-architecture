@@ -1,0 +1,5 @@
+./research/sf/dossier-model.md
+./research/sf/dossier-generation.md
+./docs/validation/coherence/work/g114-115/tmp/sf-grep1.txt
+./docs/validation/coherence/work/g114/tmp/prio-all.txt
+./docs/validation/coherence/work/g114/tmp/sf-grep.txt

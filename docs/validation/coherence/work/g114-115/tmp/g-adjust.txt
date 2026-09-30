@@ -1,0 +1,18 @@
+100:  | { t: 'adjust'; param: string; value: unknown; fromStage: StageId; fates: EditFate[] }                 // Adjust, and Re-derive from stage k
+150:* **Adjust** re-solves with a changed parameter. Locality is promised only for parameters the control registry (§7.8)
+294:| districts | `drawBoundary` (its points form, item 101), `quarter` (sugar, item 101), `merge`, `split`, `setAttr` (kind, name, its `DistrictIntent` — §7.7 layer 2 —, `identity` — an override of the derived identity, item 72; §4.5 —, `fabric`, `fabricParams.*`, `terrace`), `regenerate`
+304:| sky islands and their accesses (V05) | `quarter` with `sky`, `setAttr` (`anchor`, `altitudeCm`, `areaHa`, `occlusion`, `underside.*`, `field.*` — `field.prosperity` a declared target mean —, name), `setField` with `key` (terrain and the prosperity, density and greenery brushes), `drawWall`
+395:| L0 INTENT | T1 `intend` | the recipe's intent at creation (§7.7 layer 1: site, size, form, era and style, prosperity, walls; `Recipe.product`, V01); afterwards the Adjust and Re-derive events of the basic panel's controls, which are its sliders and chips (§7.8) |
+415:| T1 `intend` | `adjust` (intent, recipe, layers, islands, the sewer family, ruins, a standalone neighbourhood's outline) |
+773:   after an epoch or a field edit elsewhere moved the current inputs; re-deriving with the current inputs is Adjust.
+778:   of §7.3 item 7 and (b) as an optimisation for Adjust — invalidating exactly the closure of a changed parameter or table
+939:| regenerate / adjust / re-derive from Sk | T10 `hold` (regenerate on an area, district, block, plot, person, rung, tunnel run or system, island) and T1 `intend` (adjust) | report entry; the fate list | log: resolved scope, mode, absolute rerolls used, confirmed fates and renames | §7.3; New ra
+951:| `builtBand` (a plot attribute, item 31 — not an event kind: its paths) | the writers §4.11's floor paragraph lists (J-A31.44) | §4.11's ladder; S10 and S11 through the manifested band `max(field band, geometryFloor)` (§4.7 S10 (2), S11) | the plot's attribute columns (§2.9), in the leaf 
+952:| `fieldBand` (a plot attribute, item 28 (f) — not an event kind: its paths) | every derivation that reads the current field (generation, `Adjust` and a brush's re-derivation past τ among them) and the epoch's re-banding after S6 (§2.5, §4.11) | §2.6's interior ladder, `ClassRules.pick` an
+1029:  (the slices, recomputed from the target's operations and their base rows by §7.6's slice kinds). For an `adjust` — a
+1037:  heights row followed by a `build` on a plot the edit did not touch, an `adjust` followed by a `drawWay`, and a
+1262:layer a sparse delta with provenance; setting packs are recorded in the recipe, or in the `adjust` that adds them, by
+1269:  explicit action "apply my current preferences", logged as one `adjust` per changed parameter with its locality class.
+1275:  in an existing document — selecting or deselecting a corpus included (§10.4) — is an `adjust` of the recipe's pack list
+1798:   `powers`, `state`, `custom.revision`), a collective record's count set outside its range, an `adjust` of a
+1946:  scoped: Adjust is local) or *re-derive from Sk* (the action shows the fate report first, §7.1) — its **continuity

@@ -1,0 +1,78 @@
+2918:**The one built path: add a growth stage (GEO-27, LC-12, FTG-4, FTG-14).** `grow(doc, epochInputs)` appends an `epoch`
+2932:* **Built-face legality (GEO-27).** In an epoch a growth proposal may not cross a face holding footprints unless it runs
+2937:* **Survivors — the wealth ladder and the geometry floor (LC-12; item 31).** Surviving plots and buildings keep their built
+3111:* **Test (M4).** On a town with walled, ribbon and suburb regimes, adding a stage re-rolls 0 survivors, adds ≥ 1 primary
+3115:**Conversions** are typed plat operations with recorded events. `ConversionOp` is defined here, once, as one union: the
+3137:**`wallToWay(enceinte)`** is `retypeEdges(ChainRef('wall', enceinte), add ('way', the new ring road), remove 'wall')`: the
+3142:(GEO-38):** the new corridor needs half its width on each side of the old wall line; where the half-band plus setback on a
+3146:**`carve` — a canal, moat or basin added by an edit, or an outer moat by S5a (§4.4).** The dry run decides every way's fate
+3149:* **kept with a pinned deck** — every `through` and `primary` way, and any other way that is the only connection of the
+3156:* **cut** — every other `secondary`, `lane`, `alley`, `cul_de_sac`, `track` and `path`: its stretch inside the channel ⊕
+3162:**Other crossings (J-I13).** A wall trace that `S` crosses has its **run** — the trace between the nearest unaffected towers
+3174:**The footprint (J-P34).** `C` is the set of L1 cells (the faces of the L1 view) that (a) the channel ⊕ (`attractCm` + bank
+3188:**The batches**, each single-level (§3.3):
+3189:1. **L1, clear region `R`.** `clearFiner` on `R`'s cells; the cut stretches, the pruned remainders and the kept ways'
+3205:2. **L0, clear region `R`, `KernelTx.prepared` = the `deck_end`, `gate_end` and contact-name vertices of (1) (J-P40).** The
+3210:3. **L1.** Each kept quay or pier is extended from its cut end to the new bank (its end a Steiner vertex on the L0 bank line,
+3214:4. **Re-derivation of `R` (J-P43).** S6's operator, restricted to `R`'s cells, after the L0 batch: each land face of `R`
+3233:**A cut way's far part — the records that name a way (J-Fpipe-2).** When the carve's batch (1) hands a cut way's far part
+3237:(`Frontage.way`, §2.5), `Bridge.way` of a built deck there, `Gate.way` of a gate there (§2.7), the `Greenery.along.way` of
+3239:(§2.7), and the `SeamEdge.chain`, `Portal.wayId` and `SeamAmendment.spine` entries of the `Seam` records that name it
+3240:(II.1). Those records lie outside the footprint `R` and change only by that id: this is the carve's **identity exception**,
+3252:**Coherence from one seed (owner).** Epoch N+1 is derived from epoch N's persisted state, the inputs and the seed's epoch
+3257:**The evolution engine is the owner's staged stage (DEF-8; V06, M6-E); its hooks are concrete now.** The owner's history —
+3279:**The runner** (in `@plat/edit`'s fold) runs, for each `EpochStep` in order, the phase for that step — the override the
+3294:**History-first generation (item 113; with V06's replay engine, V08's history reading, V04's buried ruins and lost access,
+3297:1. **The peak.** Built extent follows the high-water mark: SettlementForge's `peakTier` or its high-water population when
+3310:2. **The replay.** Generation runs S0–S13a at the peak's population — or at the founding's, with the growth to the peak
+3324:3. **The result carries its past** by the decline ladder and the persistence order: walls far beyond the houses, abandoned
+3327:4. **Destruction and refounding (item 113 (b)).** Where the history says the place was destroyed outright
+3334:5. **Surface or underground (item 113 (c)).** Ruins younger than `history.burialYears` (V11; default a century, shortened by
+3339:6. **Sewers reopen (item 113 (d)).** Growth over closed sewer runs reopens them before new ones are dug (V04's J-V4.29), in
+3341:7. **Edges and bars.** A history whose founding lies after its present (bad data) replays nothing and is reported; a peak
+3346:**The clock — weeks (item 76, with item 67's Works; owner: "our simulator advances by units of one week").** "Our
+3349:1. **The week.** The map's time is an integer week. For a dossier-bound map it is SettlementForge's `calendar.elapsedWeeks`
+3356:2. **Dating a dossier change.** The port (§14) dates each change it finds by the first of these rungs that gives a week: an
+3362:3. **The season — one calendar (J-A76.42).** `CalendarRow` gives the week of the year, `(week mod 52) + 1`, and its season:
+3367:4. **The cadence.** The port folds a dossier's discrete changes as standalone dossier events at their weeks, in
+3374:5. **Rates per year (J-A76.45).** Every chance this section states per unit of time is per year, applied over an epoch's
+3384:**The rung at an epoch (item 81 (b); J-A81.41).** At each epoch the rung profile is read at the epoch's `populationTarget`
+3385:(§1.1's ladder): a crossing of one of §1.1's bands changes the rung's row — its granularity, greenery, layer and budget rows
+3387:(§6.3). **The product at an epoch** is the fold of V07 §2.1 (the hand-off band `handoff.band`, default 5 %): a
+3411:**The dials' inputs over epochs (items 72, 78 and 79).** At each epoch, before S6 re-evaluates the drivers, a power's
+3417:**Uses across epochs (item 17) — the hooks now, the engine's step later.** A **use** — a shop, workshop, inn or institution
+3426:(1) **re-score** — for every use, §4.7 S10b's solver scores its present plot and the best alternative within its catchment
+3427:(the district and its neighbours, `serviceRadiusM` of §10.2's `useRules`) against the current field, distribution and
+3433:(the roster's suffix) opens uses where the solver scores best — a closed shop's coverage gap raising the pull that reopens
+3445:**The epoch-spread mutation (item 18 (c)).** Across epochs a designation change is not applied at once: the engine issues
+3453:**Dossier content across epochs (item 20; J-A20.75, J-A20.43).** No step of an epoch closes a dossier-backed use (its
+3478:**Decline and regrowth (owner, 2026-09-25: "growth, regression and growth where appropriate"; AM-8).** Regression is growth
+3487:* **The ladders** (§2.8's `Existence` value in brackets; every step is one conversion below, a lifecycle event with its
+3507:* **The decline table** (`DeclineTable` in `@plat/tables`: an editable, versioned rule table with provenance, §7.6; our own
+3519:* **The strike pool (the engine's step, V06 §3.5.2; the exposure function and the table are the base's).** For an epoch whose
+3529:* **Salvage — the material ledger.** `robStone`, `clear`, `dismantle` and `demolish` credit the town's `MaterialLedger` (§2.7)
+3536:* **Lag and memory.** Built extent follows population with a lag on the way down and none on the way up: a fall's
+3540:* **Regrowth-first — built now, on the one path (J-A8.44).** In `grow-by-stage` S2's delta demand is placed in this order,
+3555:* **The prosperity field under decline.** The drivers are re-evaluated per epoch (§4.5); under decline the market, harbour
+3561:* **Islands and the underground over epochs** (their laws are II.6's and II.7's). Each epoch re-reads the rung from its
+3575:* **Identity and determinism.** A vacant, derelict, ruined, cleared or reused building is a live record with its address and
+3580:* **Emulation note.** Neither reference has time: with no epoch the static baseline is unchanged byte for byte (§13.3's
+3603:**Terrain and water change slowly (item 25; the engine is owner-staged, the kinds and the hand path are the base's).**
+3617:* **Repair.** `reclaim` runs S1's terrain operator (§7.3 (a)) — the region's ground raised to the flood line plus the row's
+3625:* **Trigger rows (the engine's step; the rows are the decline table's `terrainWater` rows, §7.6).** Candidates and their
+3637:**Hidden plots over epochs (item 30 (e); the base carries the kinds).** A passage can be **sealed** — `sealPassage` sets
+3651:**Works — every physical change on the ground as a timed project on the weekly clock (item 67; owner: "when a building
+3654:1. **Decided at once, shown over weeks (J-A67.41).** Every physical change — a build, an extension, a demolition, a repair, a
+3669:2. **The stage at a week.** `stageAt(works, w)`: `e` = the working weeks in [start, w) — the weeks the calendar row does not
+3676:3. **Durations (item 67 (b); J-A67.43).** `WorksTable` rows keyed by kind × class (or the designation template's `works`
+3685:4. **The stages — the answer to the owner's question (item 67 (c)–(f)).** Start fractions are per class row; what each stage
+3702:5. **The decay Works carries the dwell band (J-A67.46).** A `vacate` (the building `abandoned`) starts a `decay` Works toward
+3707:6. **Mutation steps (J-A67.49).** A Works shows its event's `MutationRecord` (§4.7 S11) in the record's order — subtracted
+3712:7. **Plots in transition (item 67 (g); J-A67.44).** A join or a split is decided when its event lands — the plot rings change
+3717:8. **What reads the stage.** Heights at a stage are derived, `heightsAt(works, w)`: WALLS RISING raises the eave storey by
+3733:9. **Which week is drawn (J-A67.45).** Every drawing, export and reader draws the document's current week (*The clock*,
+3741:10. **Restraint (item 67 (i); J-A67.48).** An epoch's Works start at weeks spread uniformly over its span (the weeks since
+3762:**Markets over epochs (item 24).** A secondary market the roster's suffix adds is claimed by the epoch's S7b in the new stage
+3766:**Informal clusters over epochs (item 70 (e); J-A70.48).** On the weekly clock a cluster grows by accretion: delta households
+3773:(7) into row-house plots and built by S11 at the new band. In decline, a vacant, cleared or ruined plot of a district whose
+3777:**Lights, deposits and conditions over epochs (items 68 and 88).** A light follows its host (§4.7's *Light sources*), and an

@@ -1,0 +1,648 @@
+
+**`wallToWay(enceinte)`** is `retypeEdges(ChainRef('wall', enceinte), add ('way', the new ring road), remove 'wall')`: the
+wall chain becomes the spine of a `primary` way with a ring-road width, on the same edges; the wall strips' setback and
+glacis lines are removed, so the strips merge into the faces beside them, their band, tower and gatehouse faces are cleared
+with the rest of their finer content, and S9's `corridorUnion` re-derives the ring road's corridor there; towers are
+removed; gates become junctions with a `square` option. A barrier arc the wall left unwalled (§4.4) carries no way. **Clearance
+(GEO-38):** the new corridor needs half its width on each side of the old wall line; where the half-band plus setback on a
+side is narrower, plots meeting the new corridor are clipped along its edge — a plot keeps its id when its frontage anchor
+survives (O8 g), and footprints that no longer fit are demolished with lifecycle events (cause `convert:wallToWay`).
+
+**`carve` — a canal, moat or basin added by an edit, or an outer moat by S5a (§4.4).** The dry run decides every way's fate
+and the carve's one **footprint** before any batch runs. Let `S` be the channel ⊕ its bank setback. Every way whose corridor
+meets `S` takes a fate by class (J-P30), recorded as lifecycle events with cause `convert:carve`:
+* **kept with a pinned deck** — every `through` and `primary` way, and any other way that is the only connection of the
+  streets on its far side to a gate or the plaza. Its deck (S1 (5)'s form, perpendicular to the channel) and its
+  **re-route** are solved in the dry run by §7.3's S4 local operator — between the way's nearest pinned nodes on either side
+  of `S`, on S3's lattice with `existingFabricCost` (so it keeps near its old line), through the deck as a fixed graph edge;
+  a way that already meets the channel within ± 10° of its normal keeps its line and only its stretch across the channel
+  changes. The old stretch between the re-route's two ends is the way's **replaced stretch**. S7's rules give the deck its
+  `Bridge` (events: `altered` on the way, `built` on the bridge);
+* **cut** — every other `secondary`, `lane`, `alley`, `cul_de_sac`, `track` and `path`: its stretch inside the channel ⊕
+  max(bank setback, 1 m) is removed, so every cut end lies at least 1 m from the channel, and a remainder that now dangles
+  shorter than one block depth is pruned (events: `altered`, `demolished`); `quay` and `pier` ways are cut the same way and,
+  where they met the new water at ≥ 30°, extended from the cut end to the new bank as a quay or a landing. A raised way the
+  channel passes under keeps its course; a support the channel meets is re-sited by §2.7's support step (item 244).
+
+**Other crossings (J-I13).** A wall trace that `S` crosses has its **run** — the trace between the nearest unaffected towers
+on either side of the crossing — re-traced as data in the dry run, with a water gate where the channel crosses, as §7.3 (b)
+2 re-traces a run a moved river crosses. The stretches of the run's strip lines alongside it — the inner setback line, the
+glacis line (or the moat's inner bank, which is water and stays) and, where the era row has one, the intervallum — between
+the feet of the perpendiculars from the run's two end towers leave with the old run, and S7's operator re-cuts them along
+the re-traced run from those feet (batch (3)). Every way the re-traced run's new strips — the new run ⊕ (half its band + its
+setback, and + its glacis or berm on the field side) — will meet, other than a kept way through a gate of the run (whose
+corridor ends each strip, §4.8), takes the `cut` fate at the strip's boundary, as `drawWall` cuts the ways its new strips
+meet (§5.2, §7.4), and every plot inside the new strips is re-derived with the rest of `R`. A locked or pinned way, wall or
+finer entity, or a reservation, inside `S` or inside a new strip returns to the dry run as an F-EDIT conflict (lock > drawn
+geometry; Re-derive from S3 offered for a reservation, §5.2), as for S1's water operator.
+
+**The footprint (J-P34).** `C` is the set of L1 cells (the faces of the L1 view) that (a) the channel ⊕ (`attractCm` + bank
+setback) meets; (b) border a removed stretch, a pruned remainder or a stretch the new strips' cuts remove; (c) border a kept
+way's replaced stretch or are crossed by its new route; (d) where the channel crosses a wall, border the old run or the
+strip-line stretches batch (1) removes with it, or meet the re-traced run ⊕ (half its band + its setback, and + its glacis
+or berm on the field side) — the ground its new strips will take. The **footprint** is `R` = ⋃ `C`, exactly: every point of
+the arena lies in one L1 cell, so the channel's buffer lies inside the cells (a) names, and no cell outside `C` holds a face
+any batch of the carve clears, splits or re-derives. `R` is the carve's one clear region: batches (1) and (2) declare it as
+`KernelTx.clearRegion`, step (4) re-derives exactly its cells, the fate report lists exactly the protected entities inside
+it, and the locality checks — §3.3's clear-region confirmation, §7.3's carve row, the §13.1 and §16 M3a fixtures and the
+O18 (g) / O2 (c) perturbation test — require byte identity outside it, less the seam exception at its boundary (step (4)).
+By (b)–(d) no plot outside `R` loses its access (a plot's access edge lies on a kerb of a way it fronts) and batch (1)
+removes no edge a kept face uses (no `E_KEPT`); inside `R`, S10 gives every plot an access edge by construction (O5 a), and
+S8's deep-interior rule and F-PLOT's alley rung act as in any block. The wall-crossing fixtures are §13.1's and §13.2's.
+
+**The batches**, each single-level (§3.3):
+1. **L1, clear region `R`.** `clearFiner` on `R`'s cells; the cut stretches, the pruned remainders and the kept ways'
+   replaced stretches are removed, each through its `StretchRef` (§3.4) — a way cut in two first hands its far part to a new
+   way by `retypeEdges`' `rekey` on that part's `StretchRef`; each kept way's new route is inserted whole, across the line the
+   channel will take, with its deck's two bank vertices placed on it at the new bank points — carrying `deck_end`, pinned —
+   and the span between them carrying the structural `deck` role beside `way`, so every kept way stays one connected chain
+   through every batch; each crossed wall run is replaced by its re-traced run, with its water gate's two bank vertices
+   carrying `('gate_end', gate, 0 | 1)` under a fresh `Gate` (§2.2 rule 7), the old run leaving with the stretches of its
+   strip lines alongside it (each through its `StretchRef`, its ends placed by `splitThrough` at the feet of the end towers'
+   perpendiculars); the ways the new strips will meet are cut at the strips' boundaries; and every other L1 edge the
+   channel's banks will cross that is no way — a settlement-perimeter or other district-boundary stretch, a wall strip's
+   setback or glacis line outside a re-traced run — is split at its two bank points by `splitThrough`, each carrying an
+   `anchor` contact name (§2.2 rule 7: the entity of the edge's first own-level row, the smallest free ordinal — from 2 on an
+   enceinte), with the stretch between them removed through its `StretchRef`; the map's `border` line is split at its bank
+   points the same way but kept whole across the channel (§3.3 clear regions, rule 2; the arena's outer ring is L0 and meets
+   the channel at its own level, §4.1). Those `deck_end`, `gate_end` and contact-name vertices are the carve's **prepared**
+   vertices; every cut end lies ≥ 1 m from the channel, so no way is prepared except at its deck.
+2. **L0, clear region `R`, `KernelTx.prepared` = the `deck_end`, `gate_end` and contact-name vertices of (1) (J-P40).** The
+   channel's ring is inserted and attracts onto and promotes the prepared vertices, stripping the contact names (§3.3 rule
+   3, §3.6); each deck span — the kept way's own edge between its two promoted bank vertices — now crosses the water as the
+   `Bridge`'s deck (§2.2 rule 7), and no L0 edge crosses the channel, so the water body stays one L0 face. Any other contact
+   with finer geometry is `E_LEVEL` or `E_KEPT` and returns to the dry run.
+3. **L1.** Each kept quay or pier is extended from its cut end to the new bank (its end a Steiner vertex on the L0 bank line,
+   §2.2 rule 3); S7's operator re-cuts the wall strips' setback, glacis and intervallum lines along each re-traced run from
+   the feet (1) left, closing them on the new banks, and builds its towers and the water gate's `Gate` record, whose `banks`
+   name its two `gate_end` vertices (§7.3's S7 row).
+4. **Re-derivation of `R` (J-P43).** S6's operator, restricted to `R`'s cells, after the L0 batch: each land face of `R`
+   takes the district — or the hinterland pseudo-district, or the `wall_strip` typing — of the pre-edit L1 cell that held
+   the larger part of its area (ties by id). A boundary stretch removed under the water lies between its two bank anchors,
+   so the L0 batch re-separates the land on either bank along the boundary that remains and no land face spans it: a canal
+   across the settlement perimeter leaves the land outside it with the hinterland on both banks (0 district faces outside the
+   perimeter; fixture §13.2), and a block part beside a crossed glacis line keeps its own block's typing. The same rule
+   settles a boundary stretch removed on land — a cut way that carried a district boundary — by the larger part. The new
+   strips (3) cut are typed `wall_strip` and take their district as S7's strips do (§4.8), and the channel's water faces
+   leave the district face sets they were cut from. Then S8–S12b re-derive `R`'s cells by tree scoping (§7.3 item 2) — S8
+   first, because cuts and replaced stretches merge and reshape L1 cells — with S10's step (0) for `R`'s faces beside a wall
+   trace, the settlement perimeter or a shared reservation boundary (§4.7). Where a batch of the carve adds or removes a
+   junction vertex on a spine that bounds `R`, the far side takes II.1 (3)'s neighbour step or its reversal; those steps and
+   the `Seam` records of `R`'s districts are the carve's seam exception, the same set a district's reroll has (§7.3 item 1),
+   which the locality oracle computes from the commit records. A carve therefore costs its footprint, not the town.
+
+At S5a nothing finer than L1 exists yet and the channel meets only the arterials through the stage's gates: every way is
+kept with a deck, nothing is cut, and `R` clears nothing (§4.4). Every touched entity's lifecycle records the event with its
+cause.
+
+**A cut way's far part — the records that name a way (J-Fpipe-2).** When the carve's batch (1) hands a cut way's far part
+to a new way by `retypeEdges`' `rekey` — and S1's water operator, which cuts ways the same way (§7.3 (b) 3), likewise — the
+rekey moves the far part's role rows, knot rows and vertex role rows and no record (§3.4), so the same batch **re-points
+every record that names the way by id along the far part** to the new way: the `Frontage` records of the blocks along it
+(`Frontage.way`, §2.5), `Bridge.way` of a built deck there, `Gate.way` of a gate there (§2.7), the `Greenery.along.way` of
+its avenue and street-tree rows (§4.9; §2.7), `Junction.arms` at its junctions (§2.4), `Tunnel.follows` of a main beneath
+(§2.7), and the `SeamEdge.chain`, `Portal.wayId` and `SeamAmendment.spine` entries of the `Seam` records that name it
+(II.1). Those records lie outside the footprint `R` and change only by that id: this is the carve's **identity exception**,
+which the locality oracle admits beside the seam exception (§7.3 item 1, item 7 (ii)) — every such record equals its prior
+record except that the new way's id replaces the old, and every other entity outside `R` stays byte-identical. The part
+keeping the old anchor keeps the old address and the far part is keyed by §6.3's SPLIT rule (§7.3 (b); J-A31.73,
+J-A11.43); it **keeps the parent's name
+and naming record without a draw** — a street a canal severs is one street on both banks, so S13a draws nothing and its
+label candidates for the new way are built inside the carve's S13a delta (§7.3 item 2). A `Frontage`'s `class` and
+`lengthCm` are unchanged (the class is the way's and moves with the rekey). The carve's undo restores the one way and every
+re-pointed record (§7.4). *Test (§13.2, with §13.1's carve fixtures):* after a canal that cuts a `lane` and a `secondary`,
+§5.3's reference-integrity row holds on every record that named either way, 0 records outside `R` differ from their prior
+other than by the new way id, and both parts of each cut way carry one name.
+
+**Coherence from one seed (owner).** Epoch N+1 is derived from epoch N's persisted state, the inputs and the seed's epoch
+sub-stream `…/epoch=<n>`: the same town under different inputs has different histories, under the same inputs the same
+history, and nothing that survives is re-rolled, because a survivor keeps its lineage and its derivation record (§6.3,
+§7.3).
+
+**The evolution engine is the owner's staged stage (DEF-8; V06, M6-E); its hooks are concrete now.** The owner's history —
+growth, regression and growth again: houses emptied and robbed for stone, plots turned to gardens, a shorter wall ring
+inside the old one, ruins left standing — is expressed with the base's own records: the transformation and conversion kinds
+above (`abandon`, `decay`, `ruin`, `robStone`, `plotToGarden`, `contractWall`, the ladder's `LadderOp` and the `DeclineOp`
+kinds below), which a user can also apply by hand in the base (§7.1); the lifecycle history on every entity; the epoch
+streams; the circumstances timeline (§7.7); and the sequential roster (a population fall selects its suffix in reverse
+ordinal order; the decline table's exposure function, below, chooses which buildings empty). A ruined building keeps its
+footprint and heights and draws with the ruin program and the `none` roof kind (§2.6, §8.2). The engine plugs in behind one
+phase interface:
+
+```ts
+interface EpochInputs { week?: number /* item 76: the absolute week at the epoch (The clock, below) — a dossier-bound map's is SettlementForge's calendar.elapsedWeeks; absent on a standalone call, then the previous week + round(52 × years) */;
+  years: number /* derived from the weeks: (week − the previous epoch's week, or the creation week) ÷ 52, a fraction allowed */; populationTarget: number;
+  circumstances: CircumstanceSlice /* §7.7 layer 2 */;
+  events: { week?: number /* the event's own week in (the previous epoch's week, week]; absent: drawn in the span (V06 §3.11.1) */; kind: string /* a hazard row's kind, or 'calamity' */;
+    params?: Record<string, number> /* overrides of the hazard row's defaults */; calamity?: CalamityRef /* kind 'calamity': the dossier's calamity as the port carries it (V08 §3.6) */ }[];
+  dossier?: EditEvent[] /* the host's dossier events (author 'host', EditBase.dossier set), in the host's order, applied at step (e) (§7.7 item 6); each keeps its EditBase.dossierChange (§7.1, item 75) */ }
+interface CalamityRef { id: string; name: string; type?: string; severity: 'minor'|'moderate'|'major'|'catastrophic'; targets: Id[] /* the uses bound to the institutions it marked ruined (§7.7 F5) */;
+  deaths: number /* its deaths, 0 when none are given — the burial input of the catacomb growth (II.7.6) */ }   // typed by V06's calamity table (DR28)
+interface EvolutionStrategy { id: string; phases: EpochPhase[] }   // registered by name in StrategyRegistry.evolution (§4.12); EpochPhase, EpochParticipant, EpochContext (extending ProductEpochContext), EpochOps, HouseholdLedger, EpochScope, ChurnLedger and EpochStep's twenty steps are V06 §2.1's, in V06 §3.2's order
+```
+
+**The runner** (in `@plat/edit`'s fold) runs, for each `EpochStep` in order, the phase for that step — the override the
+epoch's product declares in `ProductDecl.phases` (`siting`, `growth`; the product the fold gives at the epoch, *The rung at
+an epoch*), else the strategy's; a step for which neither registers a phase runs nothing — and then every participant
+registered at that step (`ProductDecl.participants` included), at every epoch whatever its product, each scoped participant
+returning no ops outside its product, rung or state, in (order, id) order, committing each one's ops in the order given as
+single-level batches of the one `epoch` event. The base registers **`'grow-by-stage'`** — the path above — with the phases
+`prelude`, `demand`, `field` (without the building mask), `dossier`, `siting`, `growth`, `lapse`, `character` and `works`:
+the base's steps before S2, S2, (a), (e), (f), (g), (h), (i) and (j), built once in `@plat/edit` and reused by any strategy,
+reproducing the path above byte for byte; V06's `'history'` strategy adds the steps `prelude`, `hazards`, `fortification`,
+`terrainWater`, `raisedWays`, `close` and the participant steps at V06 §3.2's places. Before V06 lands, `grow-by-stage`
+consults a product's two overrides and runs its participants at the call points of the epoch's order (above), called with
+the `ProductEpochContext` the grow path fills (item 202; V06's `EpochContext` extends it at M6-E, item 317). The base builds
+and tests exactly one path — **add a growth stage to an existing town** — at M4 (G-P13), because it is the same path
+"regenerate this area" uses.
+
+**History-first generation (item 113; with V06's replay engine, V08's history reading, V04's buried ruins and lost access,
+V07 at village rungs, V11's rows; built with M6-E).** A settlement with a known history is generated as its past and aged
+to the present.
+1. **The peak.** Built extent follows the high-water mark: SettlementForge's `peakTier` or its high-water population when
+   present (`HistoryHint.peak`, §2.7, filled by V08); standalone, the blueprint's history option ("once a city, now a
+   village", §4.2 S0) gives it. Where SettlementForge wrote no `peakTier` but the dossier shows the place once stood higher,
+   the map uses the **effective peak** (item 113 (f)): the higher tier itself, treated as the peak for everything the replay
+   builds, sized at `history.symbolicQuantile` of that tier's population range (V11; default the range's lower quartile),
+   every fact it sizes carrying provenance `symbolic` (§2.8). The evidence, strongest first: `tierHistory`'s from-tier on a
+   demotion; the maximum of `populationHistory`; losses in `calamityHistory`; institutions of a higher tier still listed as
+   ruined or remnant (a village holding a ruined "City walls and gates" or a remnant cathedral was once larger); a
+   resettlement after a terminal death (V08 reads them). With no evidence of a higher tier there is no peak, and the
+   history's events are soft hints only — §4.2 S2's stage count, the catacomb age, the buried old town — as without replay.
+   The symbolic peak only sizes the remnants the replay leaves (the extent of old walls, streets and ruins) and never
+   contradicts a present dossier fact; SettlementForge's own rule (never infer a peak) is untouched — this is the map's
+   derivation (item 20 (h)), never written back.
+2. **The replay.** Generation runs S0–S13a at the peak's population — or at the founding's, with the growth to the peak
+   replayed, when the history starts there — then V06's engine runs the recorded history as coarse epochs of
+   `history.epochYears` (V11; the owner's default a decade) from the founding or the peak to the present, each on this
+   section's path: growth; the events, each mapped to its epoch by V11's event-to-epoch rows (a great fire burns and rebuilds
+   a quarter; a great flood raises the grade, II.7.6; plague years and a trade collapse empty the edges; an occupation leaves
+   a citadel; a pilgrimage surge adds hostels); decline to the present population, each epoch's target from
+   `populationHistory` where given, else interpolated from the peak. The dossier's present facts are met exactly at the end
+   (item 20: history shapes only what the dossier does not say) — the present population by the roster, the present
+   institutions by the last epoch's dossier step (e). The replay's epochs enter the log as the creation prefix (flagged
+   `creation`, never undo targets, §7.4), so the document replays them and its current week is the present's; they draw on
+   the ordinary `…/epoch=e` streams (§6.1), so the replay is deterministic from the seed and the history; they run inside
+   V06's stated generation budget (coarse epochs, detail lazily under §4.1's contract); and the replay record (V06) is what
+   the clerk tells the story from ("the walls were built when this was a city of twelve thousand"; for a symbolic peak "its
+   exact size is not recorded", V10).
+3. **The result carries its past** by the decline ladder and the persistence order: walls far beyond the houses, abandoned
+   street lines kept as tracks and field boundaries, a church too big for today's congregation, a market square too large
+   for its market, empty plots, roofless and ruined buildings.
+4. **Destruction and refounding (item 113 (b)).** Where the history says the place was destroyed outright
+   (SettlementForge's terminal death and resettlement, a catastrophic event, or an ancient "Fall of" event on the site), the
+   old settlement's geometry becomes ruins — every building `ruined`, every way a trace — and the new settlement, a hamlet,
+   village, town or city (V07 at village rungs), is generated on top: its route costs favour the old roads, gate gaps and
+   bridges (the lattice's `existingFabricCost` pricing a ruined way at V11's `history.reuseCost`), it builds on old
+   foundations first (`reuse … build`), quarries the ruins for stone (the salvage ledger, below), and may follow a different
+   plan and culture (the history's culture rows); the old plan persists wherever it helps.
+5. **Surface or underground (item 113 (c)).** Ruins younger than `history.burialYears` (V11; default a century, shortened by
+   floods, river silt and rebuilding on top, lengthened on bare rock — the table's factors) stand on the surface; older ones
+   are buried and become II.7.6's **buried former settlement**, derived from the former geometry — its streets, walls and
+   major buildings at their old ground level — distinct from item 109's ruins of an older civilisation. Access to them
+   follows item 109 (j) and is lost when its link closes (item 113 (e); II.7.4, V04).
+6. **Sewers reopen (item 113 (d)).** Growth over closed sewer runs reopens them before new ones are dug (V04's J-V4.29), in
+   the replay as in the live epochs.
+7. **Edges and bars.** A history whose founding lies after its present (bad data) replays nothing and is reported; a peak
+   below the present population is no peak; a peak above the rung table's top is sized at the cap (§1.1). With the replay
+   off (`history.replay` false, the parity presets) generation is byte-identical to the base (a no-op pin). The bars are
+   §13.2's (item 113 (g)).
+
+**The clock — weeks (item 76, with item 67's Works; owner: "our simulator advances by units of one week").** "Our
+simulator" is the clock that changes the map's inputs — the host's (SettlementForge's) or the staged evolution engine's —
+never `@plat/sim`'s `time` view key, which changes nothing (§10.3; J-A76.41).
+1. **The week.** The map's time is an integer week. For a dossier-bound map it is SettlementForge's `calendar.elapsedWeeks`
+   — no conversion; never `elapsedMonths`, never `history.age` — and its creation week is the port's `HostContext.week`
+   (§14) or 0; a standalone map starts at week 0. `EpochInputs.week` is the absolute week at the epoch and `years` is derived
+   from it (above); a standalone `grow` call that gives `years` only takes the previous week + round(52 × years) and
+   re-derives `years` from the whole weeks, so every reader sees one clock. A dossier event carries its week in
+   `dossierChange.week` (§7.1, item 75). The document's current week is derived — the week of the last folded event that
+   carries one — never a stored counter (§2.9), and each epoch's week is its `EpochRecord`'s.
+2. **Dating a dossier change.** The port (§14) dates each change it finds by the first of these rungs that gives a week: an
+   explicit tick on the change's receipt (`foundedAt.tick`; lifecycle `institutionHistory[].tick`;
+   `populationHistory[].tick`; `activeConditions[].triggeredAt.tick`; campaign-era `historicalEvents[].tick`;
+   `decrees[].tickRef`; `calamityHistory[].tick`; `previousGovernments[].tick`; a news tick; the provenance ledger's tick),
+   then the week suffix of the change's outcome id, then `HostContext.week`, then none: a change with no week applies
+   finished, with no Works (§7.7 item 1 reads these rungs; the port counts an undated change in its report).
+3. **The season — one calendar (J-A76.42).** `CalendarRow` gives the week of the year, `(week mod 52) + 1`, and its season:
+   a dossier-bound map reads the row `sf445` (52 weeks; four seasons of 13 weeks from spring; month ends at weeks 4, 8, 13,
+   17, 21, 26, 30, 34, 39, 43, 47, 52), a standalone map our own default row, shaped alike (month ends 4, 9, 13, 17, 22, 26,
+   30, 35, 39, 43, 48, 52). The Works' pauses (below), §8.2's season rows for a campaign week and the simulation module read
+   it; no second calendar of weeks and seasons exists (`tables/dossier/calendar`, §14; the module's day schedule is §10.3's).
+4. **The cadence.** The port folds a dossier's discrete changes as standalone dossier events at their weeks, in
+   SettlementForge's order (decrees first), and an `epoch` at each 52-week boundary crossed — or sooner, when the dossier's
+   population has moved from the last epoch's `populationTarget` by more than the **roster tolerance**, ± 5 % (J-A76.43; the
+   one number §7.7 item 3's lapse reads too) — carrying the target, the circumstance slices (§7.7 layer 2), the event kinds
+   and that week's dossier events in `EpochInputs.dossier`; a catch-up batch follows the same rule, gaps allowed. No epoch
+   is folded per tick: the Works' stages are derived from the week at any drawing (below). A standalone map's epochs are its
+   circumstance timeline's (§7.7, dated in weeks) or a user's `grow` calls.
+5. **Rates per year (J-A76.45).** Every chance this section states per unit of time is per year, applied over an epoch's
+   span as `1 − (1 − p)^years` through `dmath` (§6.5 (3)); dwell bands and ladder durations are in years read as weeks ÷ 52;
+   the churn caps scale by `years` (above) — so epochs a few weeks apart and one a decade long change the town at the same
+   rate. II.6's island slots follow the same rule.
+
+```ts
+interface CalendarRow { id: string /* 'sf445' — the dossier's; 'plat-default' — ours */; weeksPerYear: 52;
+  seasons: { season: 'spring'|'summer'|'autumn'|'winter'; fromWeek: number /* week of the year, 1-based */ }[]; monthEnds: number[] /* twelve week-of-year ends */ }
+```
+
+**The rung at an epoch (item 81 (b); J-A81.41).** At each epoch the rung profile is read at the epoch's `populationTarget`
+(§1.1's ladder): a crossing of one of §1.1's bands changes the rung's row — its granularity, greenery, layer and budget rows
+— for everything the epoch builds from then on, and the standing fabric survives exactly as it survives a growth stage
+(§6.3). **The product at an epoch** is the fold of V07 §2.1 (the hand-off band `handoff.band`, default 5 %): a
+village-product document passes to the base product at `1 500 × (1 + band)` and back below `1 500 × (1 − band)` (item 322),
+and a population of 0 at a registered village product's rung routes to THORP and V07's desertion (V07 §3.12; item 202). A
+crossing upward whose town the frame no longer holds grows the frame to the one §3.2 (9) gives the new target: S1 derives
+terrain, water and the hinterland's ground on the ring between the old margin and its successor — the same terrain field
+continued, each water body continued across the old margin with its inner reaches fixed — and the kernel grows the frame by
+§3.2 (9)'s single-level batches over one clear region (J-A81.31) — an L1 batch clearing the finer content of the whole L1
+faces beside a lapsing stretch of the old chains or under the new rectangle, an L0 batch replacing the `margin` chain, an
+L1 batch replacing the `border` chain — each raster growing by whole cells as §3.2 (9) states, every stored height unchanged
+and the flow fields recomputed over the grown grid. The pipeline then continues on that region and the ring: S4 continues
+every through-road from its old end to the new margin, S12a sites the hinterland on the ring; the stages that own the
+cleared faces re-derive them (the hinterland unit for the hinterland's, a district's S8–S12b for a district's; on each
+underground part §3.2 (9) grows, that part's stages for its cleared faces — part 0's network stage its bands by
+`corridorUnion` (II.7.2) and II.7.3's stage its plots, each other system's stage (catacomb, cavern, quarry, vaults, ruin)
+its own part's bands (II.7.6) and II.7.5's stage the undercity's plots there; on the `buried` and `dug` parts, which no stage
+re-derives at an epoch — a buried town, laid from a history scar or the replay at generation or made by a `raiseGrade`, and
+the passages access edits and undercity lifeline closures dig — their cleared bands re-laid from their kept gallery chains by
+`corridorUnion` (§3.7), which draws nothing); every face outside the region, off a deleted stretch and off the ring keeps its
+ring, owner and nested faces. The frame never shrinks: a declining town keeps its frame and its hinterland. II.6's island
+gate is one reader of the rung. A dossier above the 120 000 cap is refused by the port (§7.7 item 15, item 81; §1.1;
+J-A81.01) and never reaches an epoch; a dossier below 1 500 is routed to the village product when one is registered (V07
+§2.1, §3.11), else refused (SCOPE-C01); so §3.2 (9)'s clamp of the frame's target at the cap serves only growth that carries
+no dossier.
+
+**The dials' inputs over epochs (items 72, 78 and 79).** At each epoch, before S6 re-evaluates the drivers, a power's
+applied standing (`PowerStanding.appliedStanding`, §7.7 layer 2) moves to the epoch's standing, and a sector's applied
+share to the epoch's share, only when they differ by more than `dial.hysteresis` (0.05, a dial-table row); both are folds
+over the epochs' slices in log order, so a replay reproduces them and §4.5 (6)'s dials follow the dossier's powers and
+economy without flickering at every small move.
+
+**Uses across epochs (item 17) — the hooks now, the engine's step later.** A **use** — a shop, workshop, inn or institution
+— is its own record (`Use`, §2.7), separate from the buildings that house it: a building references its current use or
+none (vacant) and keeps `formerUses`, so a use can close in one building and open in another while the building persists —
+vacant, re-let or converted. The base builds the hand path: the conversion kinds below, applied by a `convert` event (§7.1)
+— `openUse` on a vacant plot or building (the building mutates to the designation by §4.7 S11's operator), `closeUse` (the
+building stays, vacant — the first state of the decline hooks — or converts to a named designation), `relocateUse` (a
+`closeUse` here and an `openUse` there under one event, `detail.from` and `to` on the use's lifecycle event, §2.8;
+`swapUse` is two relocations) and `mutate` (§4.7 S11) — each with its undo record (§7.4) and reported to a host (§11.3). The
+staged engine's **use step** runs at each epoch after the roster's delta demand and before siting, as the same events:
+(1) **re-score** — for every use, §4.7 S10b's solver scores its present plot and the best alternative within its catchment
+(the district and its neighbours, `serviceRadiusM` of §10.2's `useRules`) against the current field, distribution and
+supply links (the links re-bind as members open and close); (2) **inertia** — a use moves only when the alternative beats
+the present plot by more than the row's `inertia` and the row's `moveChance` draw falls (the `use.relocate` concern on the
+use's `…/epoch=e` stream, §6.1), closes only when its catchment's demand (the households within its radius against the
+roster's ratio) has been below `closeShare` for `closeAfterEpochs`, or a hard supply edge has had no provider in reach for
+`starveAfterEpochs`; a dossier-backed use never closes by this rule (*Dossier content across epochs*, below); new demand
+(the roster's suffix) opens uses where the solver scores best — a closed shop's coverage gap raising the pull that reopens
+one where people now are (item 103 (f)) — so markets and shops drift toward where people live and inns toward the busiest
+gate, by distribution, never by a fixed order; (3) **cap** — at most the churn cap's `use` share of a district's uses
+relocates per epoch; (4) **assignments** — a host or owner assignment is a stable identity that moves with its use under
+the same rules unless `pinned` (§7.7, item 20 (g)), in which case it stays and the town adapts around it; every change is
+reported; (5) **traces** — a vacated building keeps its former use in `formerUses`, which a later opening prefers (a former
+inn reopens as an inn first; a dossier element whose assignment returns to `active` reopens in its former building first,
+repaired by a Works when the change is dated — item 80, §4.7) and the naming engine may read (§10.4); (6) **concealed uses**
+— a concealed use (item 63) relocates by these rules like any use, and its front stays an ordinary business (§4.7). Uses
+are visited in address order; one seed and one circumstance timeline therefore give one history of openings, closings and
+moves; households and postings follow (§10.3).
+
+**The epoch-spread mutation (item 18 (c)).** Across epochs a designation change is not applied at once: the engine issues
+§4.7 S11's `MutationRecord` as a sequence of `mutate` events over the ladder's rung durations (item 31) — first occupy,
+when the present design is compatible (every kept part, nothing added); then adapt; then extend (the adds); and rebuild
+only the parts that cannot be adapted — the same steps and the same draws, spread in time, so a smith moving into a richer
+street mutates toward the richer template over epochs. Each of those events decides and records its step at once, as a host
+or user change does (§4.7 S11 step 6), and a Works shows it on the ground over the weeks it takes (*Works*, below;
+J-A67.49), so the model never changes between events.
+
+**Dossier content across epochs (item 20; J-A20.75, J-A20.43).** No step of an epoch closes a dossier-backed use (its
+assignment's `existence: 'dossier'`, §7.7 item 2) or leaves one without a building; only a dossier event the epoch applies
+at step (e) removes, adds or re-designates one (§7.7 item 2). The use step never closes one: where its catchment or its
+supply fails, the use relocates to (1)'s best alternative by the solver's `dossier` request — its first closest option
+where no plot passes the hard rows (J-A20.71) — or, where its catchment holds no candidate plot, stays in its building; its
+moves by (2)'s inertia rule are any use's. Before any other step would empty or remove the building that houses an unpinned
+one — a redevelopment's purchase, step (c)'s `vacate`, the strike pool's strike, the growth step's declared `demolish` or
+corridor re-cut, a carve, `wallToWay`'s clearance, `contractWall`, a terrain-and-water repair, `fallIsland`, a tunnel's
+closing (II.7.3) or a passage's sealing — the use is first relocated the same way inside the epoch, a `relocateUse` citing
+the epoch and counted outside the use cap, the request's scope its catchment less the plots that step empties or removes,
+widened to the town where that scope holds no candidate plot; a pinned one keeps its building, which the step treats as it
+treats any pinned entity (§7.2). So the dossier element is live and placed at every step (§5.3's row). A dossier-listed
+ruin (`Assignment.state` `ruined`, §7.7, item 80) is present as its ruin — its use closed, its building `ruined` — and no
+step repairs or clears it but a dossier event; a reopening returns its use to its former building first (above).
+
+The kinds these steps use join `ConversionOp`:
+
+```ts
+type UseConversionOp =
+  | { op: 'openUse'; plot: Id; to: Designation /* §4.7 S11 */; building?: Id; assignment?: Id }
+  | { op: 'closeUse'; use: Id; leave: 'vacant' | 'convert'; to?: Designation }
+  | { op: 'relocateUse'; use: Id; to: Id /* the destination plot: a closeUse here and an openUse there under one event */ }
+  | { op: 'mutate'; plot: Id; to: Designation; spread?: 'now' | 'epochs' /* §4.7 S11's operator; 'epochs' issues its steps over the ladder's durations */ };
+```
+
+**Decline and regrowth (owner, 2026-09-25: "growth, regression and growth where appropriate"; AM-8).** Regression is growth
+read the other way: the population target falls, the roster's manifest shrinks by its suffix (§10.2), and the fabric the
+suffix leaves behind steps down a ladder of states over epochs — never re-rolled, never removed by arithmetic — until
+regrowth reoccupies it. The steps are scheduled by the owner's staged evolution engine (DEF-8, above); the base carries now,
+stated here once: the ladders, the decline table with its exposure function, the salvage ledger, the lag rule, the
+regrowth-first siting order — which binds the built `grow-by-stage` path today — and the conversion kinds, each applicable
+by hand (§7.1) and undoable (§7.4). The states are §2.8's and the style classes that draw them §8.2's; §6.3 holds the
+identity rules, §13.2 the hook tests, §16 the price at M4.
+
+* **The ladders** (§2.8's `Existence` value in brackets; every step is one conversion below, a lifecycle event with its
+  cause). *Buildings:* occupied → vacant (`abandoned`: the use has left, the fabric stands) → derelict (`decayed`: roofless,
+  `RoofSpec.kind 'none'`) → ruin (`ruined`: walls part-standing, the ruin program) → robbed or cleared (`cleared`: a
+  footprint trace, its material in the ledger) → reused (`reused`: the trace, keeping its face, drawn as the garden, orchard
+  or field it became — `Building.reusedAs`, §2.6 — or a successor building raised on the old foundations, which takes the
+  trace's address, §6.3). Upward steps exist at every rung — reoccupy, repair, rebuild, reuse — and regrowth uses them first.
+  *Walls and gates:* in use → neglected (`abandoned`) → breached or partly dismantled by stretch (`decayed` while any run is
+  not standing: the run's `Enceinte.condition` profile, `breached` or `dismantled`, §2.7, item 575) → superseded by a shorter
+  inner ring: `contractWall` traces and builds the new ring inside the old one through S5a's trace step and S7's operator,
+  the old ring's record stays live with `Enceinte.supersededBy` naming the new one and its line persists as a trace — or
+  becomes the ring road of the owner's original case by `wallToWay`. *Raised ways, retaining walls and decks* (V06 §3.19):
+  in use → neglected → a span fallen or a stretch decayed → supports alone or ruined, their `state` fields (§2.7) written by
+  `DeclineOp`'s members below. *Tunnels* (II.6's condition table), and the underground's galleries and chambers at the same
+  persistence rate (II.7.5, II.7.6; item 65): in use → neglected, silted (`abandoned`) → partly caved in (`decayed`) →
+  collapsed or sealed (`ruined`; `Tunnel.closure`), never demolished by the engine. *Islands* (II.6): floating → waning →
+  settled → fallen. *Plots:* a plot whose last building is cleared or reused merges into a garden, orchard or field
+  (`plotToGarden`) or into its occupied neighbour (`amalgamate`; §4.7 S10), so surviving households absorb the plots beside
+  them and the plan coarsens where people are few — fewer, larger plots from loss, through the same merge operator as from
+  wealth. Fields are their own layer: a struck farmstead's fields stay worked, their `LandUse.owner` passing to the nearest
+  farmstead or to the commons.
+* **The decline table** (`DeclineTable` in `@plat/tables`: an editable, versioned rule table with provenance, §7.6; our own
+  rows, calibratable, §13.9). Its rows are tendencies — weights and chance, no fixed order (AM-23):
+
+  | row | default | what it does |
+  |---|---|---|
+  | persistence rate per fabric layer | `use` 1.0 · `building` 0.6 · `plotBoundary` 0.3 · `street` 0.08 (decks too) · `wall` 0.05 · `raised` 0.05 · `retaining` 0.05 · `underground` 0.03 · `terrainWater` 0.005 | scales how readily a layer is struck: uses go first, then buildings, then plot boundaries; street, wall, raised-way and retaining lines persist longest; the underground slower still (AM-11); terrain and water slowest (AM-25's conversions are the rarest events) |
+  | exposure drivers | kernels over the context vector (§2.5) with weights, §4.5's construction: extramural (the district outside the outermost enceinte, as S10b reads it) +; `terrainClass` low, damp or flood +; downwind +; near the noxious kernels of field pass 2 +; the intramural periphery (`dist.wall` small inside the enceinte, `dist.centre` and `dist.market` large) +; low `prosperity` +; the resilient core (`dist.market` and `dist.plaza` small; the attractors at churches, the precinct and the castle) − | where decline strikes first, as weights |
+  | chance share | 0.25 of the exposure field (the prosperity field's is 0.15) | causes vary and chance plays a part |
+  | dwell bands (years; each drawn once as its step's `decay` Works duration, *Works* below) | vacant → derelict [10, 30]; derelict → ruin [20, 60]; ruin → cleared on salvage demand only; walls, raised ways and retaining walls one band slower, tunnels two | the lag on the way down |
+  | haul radius | 250 m | how far salvage travels |
+  | exemptions | a locked or pinned entity is never struck; an assigned entity only through the use-relocation rule (AM-17); the building of a dossier-backed use only after that use is relocated (*Dossier content across epochs*) | the user's fixings hold |
+
+* **The strike pool (the engine's step, V06 §3.5.2; the exposure function and the table are the base's).** For an epoch whose
+  target lies below the manifest, the suffix leaves in reverse ordinal order as the epoch's step (c) states — a `relet` down
+  while households remain, `vacate` at a building's last household (J-A28.45); which standing fabric then steps down is
+  drawn without replacement from the pool of candidates whose dwell band has run — for a building, whose `decay` Works has
+  run its span (*Works*, below; J-A67.46) — weight `w = E(x) · rate(layer) · u`: `E(x) = clamp(Σ_j v_j · kernel_j(x) +
+  ε_E(x), 0, 1)` the exposure field, computed per epoch on §4.5's 32 m cells from the current context vectors and prosperity
+  field with its chance share; `rate` the layer's persistence row; `u` a draw from the `epoch.transform` stream keyed by the
+  entity's lineage and the epoch (§6.1; no new concern); the draw bounded by the churn cap per district and per epoch. An
+  undefended suburb, a damp low quarter and the plot beside the tannery empty first as a tendency, the market core last, and
+  a core house can still fall — a weighted tendency, not a law (J-A8.41).
+* **Salvage — the material ledger.** `robStone`, `clear`, `dismantle` and `demolish` credit the town's `MaterialLedger` (§2.7)
+  by the building's class-table yield (`salvageM3` per material, §10.2); `build`, `rebuild`, `reuse … build` and a repair
+  (`reoccupy` from derelict) debit it by the new class's row from sources within the haul radius. The ledger is a flow
+  record, never a hard constraint: a debit it cannot cover is built anyway and the shortfall is reported (J-A8.45). Its mark
+  on the map: the strike pool's weight for `robStone` and `clear` is multiplied by the salvage demand within the haul radius
+  — the standing debits of planned building, repairs and a new stage's footprints — so cleared zones appear beside active
+  building, and a ruin beyond any demand is left standing, the owner's "occasional old decrepit buildings or ruins".
+* **Lag and memory.** Built extent follows population with a lag on the way down and none on the way up: a fall's
+  households leave at once (step (c)) and the standing stock decays by the dwell bands over later epochs; a rise is met in
+  the epoch it arrives by the regrowth-first order below, without a dwell (J-A8.47). Memory is the persistence order itself:
+  plot lines, street lines, wall lines and traces outlast the buildings, so the old plan is there for regrowth to refill.
+* **Regrowth-first — built now, on the one path (J-A8.44).** In `grow-by-stage` S2's delta demand is placed in this order,
+  and only the residual grows a stage: (0) standing shells whose household count fell below what their occupants' band row
+  houses relet up within §2.6's capacity (`relet`; J-A28.45); (1) vacant buildings reoccupied (`reoccupy`); (2) derelict
+  ones repaired (`reoccupy`, a ledger debit); (3) ruins and cleared traces rebuilt or reused on their foundations
+  (`rebuild`, `reuse … build`); (4) vacant plots of the old plan beyond the band's vacancy-run share (S10 (8) keeps the
+  share; the design's own runs are never filled below it); (5) plots S10 cuts on the faces the old plan left unbuilt along
+  its street lines inside the last boundary; (6) new faces of a new stage — the underground crowding hook first sends
+  `crowdingShare` of the residual's poorest-band households underground where there is room: on lived and reopened sewer
+  runs where `Features.sewers` is on, and in accessible cavern and ruin clusters at any rung (II.7.3 (c), II.7.4, §4.5 S7b
+  (6); item 109 (j) (4)); S5a grows the boundary for the residual only; then, after S11 of the new stage, where
+  `Features.sewers` is on, `SewerStrategy.extend` connects the new faces to the network, reopening closed runs on its paths
+  first (II.7.2), and the first epoch the feature turns on, `SewerStrategy.derive` lays the network whole over the current
+  ways instead, every existing entity kept (V06's `under.extend`); an epoch whose residual is ≤ 0 grows no stage and adds no
+  face. S7b allocates the delta first to (0)–(5) as each district's old-plan capacity and only the remainder to new faces.
+  **Test:** §13.2's T8-2 (M4).
+* **The prosperity field under decline.** The drivers are re-evaluated per epoch (§4.5); under decline the market, harbour
+  and main-street kernels shrink with their activity (§7.7's circumstance slice), and where plots merge the density field
+  falls, so the field contracts toward the survivors' core and may concentrate there — the ladder's amalgamations are its
+  footprint on the plan. An island that sinks or moves, a new wall or tall new building shifts the shade, and the field and
+  the uses move by their normal lag — a sunnier quarter slowly improves, a newly shaded one slowly declines (item 102 (e));
+  a spring or oasis that fails weakens its water pull and the quarters around it may decline (item 111 (b); V06).
+* **Islands and the underground over epochs** (their laws are II.6's and II.7's). Each epoch re-reads the rung from its
+  population target (*The rung at an epoch*) and re-evaluates II.6's supply law: an island whose supported area shrinks past
+  the hysteresis is resized (its rim's plots cleared with lifecycle events, cause `convert:resizeIsland`); one whose supply
+  falls to zero — or whose settlement falls below the CITY band (to TOWN or a village rung; AM-13) — wanes, settles after its
+  dwell band and falls: `fallIsland` archives its arena and converts the ground it lands on — covered buildings demolished,
+  covered plots left vacant under a `fallen_island` decoration, covered fields quarried, the stone credited to the salvage
+  ledger, no edge added or removed (V05 §3.16); regrowth re-floats a settled island before it raises a new one (J-A10.42) —
+  the laws in full, called once per epoch as `IslandEpochStep`, are V05 §3.15. The underground's candidates, weights and
+  conversions are `UndergroundFade.candidates` and `.apply` (II.7; the underground's rows in `tables/under/fade.json`): a
+  tunnel, gallery or chamber silts, caves in, floods or is sealed by its own draw at the `decline` step, after the fabric
+  pool (V06's `under.fade` participant), at the underground's rate with `UndergroundFade.candidates`' weights, uncapped by
+  the district's `fabric` cap and outside the pool's persistence order, never demolished by the engine (J-A11.41), and is
+  reopened before a new one is dug; the undercity's size is re-read and a neighbourhood cleared by `UndercityEpoch.reread`
+  (II.7.5; V06's `under.undercity`).
+* **Identity and determinism.** A vacant, derelict, ruined, cleared or reused building is a live record with its address and
+  lineage (§6.3); it becomes a tombstone only by `demolish` or when a `reuse … build` successor takes its address
+  (`supersede`, §2.8) (J-A8.42). Every draw above comes from `epoch.transform` or, for islands, `island.place`, keyed by
+  lineage and epoch, so the same seed under the same circumstance timeline gives the same history of decline and regrowth
+  and a different timeline a different one (§6.2, §7.7).
+* **Emulation note.** Neither reference has time: with no epoch the static baseline is unchanged byte for byte (§13.3's
+  goldens), and every rate above is a table value (AM-23).
+
+The kinds this adds to `ConversionOp` — one list with the union above, which reads `… | DeclineOp`; §7.1's `convert` event
+carries them all:
+
+```ts
+type DeclineOp =
+  | { op: 'vacate' | 'reoccupy'; building: Id }                                          // occupied ⇄ vacant; reoccupy from derelict is a repair: roof restored, ledger debited
+  | { op: 'reuse'; building: Id; as: 'garden'|'orchard'|'field' | { build: BuildingClass } } // a ruin or trace reused: the trace drawn as that kind (Building.reusedAs, §2.6), or a successor on the old foundations (Building.predecessor, §2.6)
+  | { op: 'neglect' | 'breach' | 'dismantle'; enceinte: Id; stretch?: StretchRef }        // walls and gates: breach → the stretch's condition 'breached', dismantle → 'dismantled' (the whole trace when no stretch; §2.7, item 575); the old line persists as a trace; contractWall and wallToWay above supersede a ring
+  | { op: 'neglect' | 'breach' | 'dismantle'; raised: Id; span?: SpanRef; support?: number }   // item 110 (b)'s raised ways (V06 §3.19.2): neglect the way (abandoned); breach a span (its deck and arch ruined, the rubble left); dismantle a ruined span's rubble or a support whose spans are both down (cleared, stone credited); breach and dismantle collapse the span's arch-vault chambers in the same batch (V04), and removal deletes them
+  | { op: 'breach' | 'dismantle'; retaining: Id; stretch?: StretchRef }                   // item 110 (a)'s retaining walls (V06 §3.19.4): a stretch decayed (slumped) or ruined (stone taken), knots of the wall's `state` profile at its ends (§2.7, item 245); no edge removed, no terrain changed
+  | { op: 'breach' | 'ruin'; deck: Id /* the deck plots' Plot.deck.host (item 246): a Bridge, or a pier or quay way */ }   // item 110 (d)'s decks (V06 §3.19.5): breach — the host decayed (charred or damaged, impassable); ruin — ruined (fallen or taken down), its way cut only where §5.3's network invariant allows; the buildings on its deck plots ruined by least disruption in the same batch and the deck plots tombstoned; Bridge.state untouched; repairRaised's deck form restores the host's former existence from the striking op's undo record
+  | { op: 'silt' | 'caveIn' | 'seal' | 'reopen' | 'flood'; element: Id /* a tunnel, gallery or chamber (II.6's condition table); flood only on a gallery or chamber whose floor lies below the water table */; stretch?: StretchRef }   // the underground's ladder (II.6; J-A65.48); a `stretch` splits the record first; no engine plan contains demolish on a tunnel
+  | { op: 'resizeIsland'; island: Id; areaHa: number; altitudeCm: Cm }                     // the supply law's response: the rim eroded or dilated by the kernel's buffer; rim plots cleared, or new rim faces grown by the grow path on the island's arena (V05 §3.15)
+  | { op: 'waneIsland' | 'settleIsland' | 'fallIsland' | 'refloatIsland'; island: Id }      // floating → waning → settled (elevation at the floor of its band, districts declined) → fallen (arena archived, the landfall above); a settled island re-floats first
+  | { op: 'raiseIsland'; allocation?: Id; declared?: { ring: PolygonCm /* local */; anchor: PointCm; kind: string; altitudeCm?: Cm } }   // regrowth: a new island for a sky allocation the count law opened at this epoch, placed by SkyStrategy (II.6), or a declared one
+  | { op: 'removeIsland'; island: Id }                                                    // an author's removal: the record kept at its address in state 'removed', holding its slot (V05 §3.2 (6))
+  | { op: 'reclearIsland'; island: Id; groundRefCm: Cm; altitudeCm: Cm; elevationRaisedCm: Cm };   // the epoch's clearance re-check (V05 §3.15 (7)); returned by the `sky.clearance` participant only
+type SpanRef = { raised: Id; from: number; to: number /* support ordinals; a view resolved in its batch, as StretchRef */ };
+```
+
+**Terrain and water change slowly (item 25; the engine is owner-staged, the kinds and the hand path are the base's).**
+Reclamation, silting and river-course shifts are conversions on the one list — the slowest layer of the persistence order,
+never immutable — applied by hand in the base through §7.1's `convert` event and, in the staged engine, drawn at the decline
+table's `terrainWater` rate by their own trigger rows (below). Each is a typed operation whose repair is an operator the base
+already has (J-A25.41):
+
+```ts
+type TerrainWaterOp =
+  | { op: 'reclaim'; kind: 'marsh'|'foreshore'; region: Polygon /* marsh: LandUse faces of kind 'marsh' or a damp or flood band re-typed as land; foreshore: a shallow water margin filled */ }
+  | { op: 'siltReach'; water: Id; stretch?: StretchRef /* a reach or a basin: its width and depth profiles fall by the row's share; a basin below the harbour's draught loses its harbour use */ }
+  | { op: 'shiftCourse'; water: Id; from: number; to: number /* control-knot ordinals (§2.3): the reach between them re-traced — a meander cut-off or an avulsion */ }
+  | { op: 'digCanal'; polygon: Polygon /* the carve above, kind 'canal' */ };
+```
+
+* **Repair.** `reclaim` runs S1's terrain operator (§7.3 (a)) — the region's ground raised to the flood line plus the row's
+  margin (`reclaim.raiseCm` 60), drained by a ditch water body and its `LandUse` faces re-typed with `reclaimed` set, as
+  §2.3 states — and, for a foreshore, S1's water operator (§7.3 (b)) with the filled margin as the new shore; `siltReach`
+  and `shiftCourse` are S1's water operator on the changed reach (the width and depth profiles, the shores as their buffer,
+  the crossings re-sited, the kept ways re-routed, F-RIVER's re-trace confined to the reach, §7.3 (b) 1–2), so their
+  footprint, fates and locality are the carve's and byte identity holds outside it; `digCanal` is `carve`. A shoreline
+  change re-evaluates a wall's barrier closure by least disruption (§4.4). Every touched entity's lifecycle records the
+  cause (`convert:reclaim` …); the record changes each kind makes are §2.3's.
+* **Trigger rows (the engine's step; the rows are the decline table's `terrainWater` rows, §7.6).** Candidates and their
+  chance per year — applied over the epoch's span as `1 − (1 − p)^years` (*The clock*, above; J-A76.45) — each × the layer's
+  persistence rate (0.005) and drawn from `epoch.transform` keyed by the water body's or face's lineage and the epoch (§6.1;
+  no new concern, J-A25.42): `siltReach` — a reach whose accumulation has fallen, or a basin whose harbour use has closed
+  (the use step), 0.02 per year; `reclaim` — a marsh or foreshore face beside built land whose band's plot demand is short
+  (S5d's shortfall record) and whose district's band is `modest` or above, 0.03 per year — reclamation is bought by
+  prosperity and pressed by demand; `shiftCourse` — a reach whose sinuosity exceeds `river.cutoffSinuosity` (1.8), or whose
+  flood cells beside it exceed the row's share, 0.01 per year; `digCanal` only by demand (a `canal` row of the roster's
+  institutions, a dossier element or a user's edit). Each fires at most once per body per epoch; AM-23's tendency wording
+  holds — rates, not laws. Emulation note: neither reference has time, and both already let a user reshape water — MFCG's
+  warp and FTG's water drawing — which the base keeps as §7.1's edits; nothing here runs without an epoch.
+
+**Hidden plots over epochs (item 30 (e); the base carries the kinds).** A passage can be **sealed** — `sealPassage` sets
+`Passage.sealed` (§2.5), so the access edges on its face read as sealed; every plot whose only reach passes it takes
+exposure `sealed` (§4.6), and its buildings enter the decline ladder as vacant (`vacate`, cause `convert:sealPassage`) — and
+later **reopened** (`openPassage`: the exposure returns to `hidden` and the buildings reoccupy by the regrowth-first order);
+both are hand edits in the base and the engine's kinds later. Hidden plots **arise** by densification — the ladder's
+`densify … back_court` (rung 2) — and **vanish** by `thin … back_court` (the rear plots cleared after their uses relocate,
+their households are re-homed and their buildings vacated, the passage sealed and, on a rising band's re-cut, removed with
+the rear row, `amalgamate` returning the land to the front plot's garden: item 31). The sealing kinds are the last kinds of
+this section the union admits (`… | TerrainWaterOp | HiddenOp`):
+
+```ts
+type HiddenOp = { op: 'sealPassage' | 'openPassage'; passage: Id /* the L3 passage face (§2.5) */ };
+```
+
+**Works — every physical change on the ground as a timed project on the weekly clock (item 67; owner: "when a building
+gets torn down, ruined, being built, being expanded, Lots need to merge or separate … we should show stages of it being
+built. What do you think those stages should be?").**
+1. **Decided at once, shown over weeks (J-A67.41).** Every physical change — a build, an extension, a demolition, a repair, a
+   conversion, a decay step, a clearance — is decided and recorded by the event that makes it (the designation mutator's
+   record, a conversion, a ladder or decline op; §4.7 S11 step 6, J-A67.49), so the log alone still determines the model.
+   When that event carries a week — an epoch, a dated dossier change (§7.7 item 1), a hand edit scheduled by `startWorks`
+   (§7.1) — and the preset's `works.enabled` holds, the event also creates a **`Works`** record (§2.7): its kind, its target
+   (a building, whose added or subtracted wings and storeys are the parts of the `MutationRecord` its `cause.mutation` names;
+   or the plots of a join or a split — §2.7's `Works.target`), its start week, its duration in working weeks, the `WorksTable`
+   row read, the event and mutation it shows, and what the ground held before that the model no longer holds (the removed
+   parts' rings with their heights and roof kinds; the removed plot lines with their treatments). The drawn state at any
+   week is DERIVED — computed from the record, never stored per week (2). An event with no week, a hand edit not scheduled,
+   generation (the creation week shows a finished town; J-A67.47) and the parity presets create no Works, and the change is
+   drawn finished. So a user's `build`, `demolish` or `convert` stays instant unless scheduled; an engine's `demolish` makes
+   its tombstone at once while its Works draws the demolition from the kept shell; aborting a change is its undo (§7.4),
+   which removes its Works; `cancelWorks` (§7.1) ends a running Works at once — the change it shows stands, drawn finished —
+   and a `setAttr` on a Works moves its start or its duration.
+2. **The stage at a week.** `stageAt(works, w)`: `e` = the working weeks in [start, w) — the weeks the calendar row does not
+   pause for the Works' material in the town's climate (`WorksTable.pauses`: masonry, stone and brick, pauses in winter in
+   temperate and cold climates; our own rows) — and `f = min(1, e ÷ duration)`; the stage is the kind's latest scheduled
+   stage whose start fraction is ≤ `f`, `before` for w before the start and `finished` at `f` = 1. Weeks are integers, so a
+   stage shorter than a week is never drawn (a tick shows the stage it lands in); a zero-week duration (a tent's row) applies
+   finished in its week. At most one Works runs on a target: a new change on it ends the running one at the stage reached,
+   which the new one takes as its `before` (a repair begun on a decaying house runs back from DECAYING).
+3. **Durations (item 67 (b); J-A67.43).** `WorksTable` rows keyed by kind × class (or the designation template's `works`
+   key, §10.2) × size (storeys, footprint) × material give a range of working weeks; the duration is drawn once, uniform in
+   the range, × the labour factor of the plot's band (richer, faster; a row), on the `works` concern (its key is §6.1's;
+   J-A67.61; J-A67.42). Defaults (our own, calibratable, §13.9): a tent 0 weeks; a hovel, shed or shack 1–2 weeks; a small
+   timber house 2–6 (the owner's "two weeks or a month"); a town house 8–17; a stone house 17–52; a manor 52–156; a church
+   520 or more; a cathedral built part by part — choir, transept, nave, towers, each its own Works in its programme's order,
+   the choir in use under a temporary roof while the nave rises; a demolition a quarter of its build's range; a clearance
+   1–4; a `decay` Works the decline table's dwell band for its step (below), × 0.6 for timber and thatch. Material enters as
+   a duration row only — time, never shape (the owner's materials rule, §2.6; J-A31.42 stands for replaceability).
+4. **The stages — the answer to the owner's question (item 67 (c)–(f)).** Start fractions are per class row; what each stage
+   draws is §8.2's `states` rows. The table's first column is `WorksRow.kind`; a fire is no Works kind but an instant event
+   with a drawn state:
+
+   | kind | stages (default start fractions) |
+   |---|---|
+   | `build` — and each wing or storey an extension or an adaptation adds | STAKED 0 (a dashed footprint, a material pile) · GROUND BROKEN 0.05 (bare earth, a spoil heap, a cellar pit) · FOUNDATIONS 0.15 (low walls or a sill frame) · WALLS RISING 0.25 (the walls up storey by storey, no roof, the interior open, a scaffold ring) · ROOF FRAMED 0.75 (rafters, no covering) · ROOFED 0.85 (covered, the scaffold still up, a work yard) · FINISHED 1 (the scaffold gone, the yard laid out) |
+   | `extend` | the kept building in use throughout; the added wing through the build stages; at ROOF FRAMED the old roof opened where the two join; at FINISHED the joint wall opened and the wings united (item 18's add step, shown over time) |
+   | `demolish` | EMPTIED 0 (doors and windows out) · STRIPPED 0.2 (the covering salvaged, rafters bare) · ROOFLESS SHELL 0.4 (rubble inside) · RUBBLE 0.7 (wall stubs, heaps, salvage piles) · CLEARED 1 |
+   | `decay` — §2.8's ruin ladder on the way down (5) | toward `decayed`: ABANDONED 0 (shut up, the yard overgrowing, the roof whole) · DECAYING 0.5 (a holed roof, a sagging ridge); then `decayed` is ROOFLESS (weeds and saplings inside), `ruined` COLLAPSED (walls fallen in places, the stone gone to the salvage ledger), `cleared` or `reused` OVERGROWN (a grassy mound and a foundation line, until cleared or built over) |
+   | `repair` | the decay stages backwards under a scaffold, to the building's former state |
+   | `clear` | RUBBLE 0 (the ruin's heaps being carted) · CLEARED 1 |
+   | `convert` (a conversion with no geometry step) | REFIT 0 (a scaffold on the frontage) · FINISHED 1 |
+   | a fire (an event, not a kind) | an instant destructive event (rung 3's trigger): the building `decayed` in its week and drawn CHARRED — a blackened roofless shell — until a clearance or a repair starts |
+
+   The ruin stages are the existing ladder's drawn stages (J-A8.46 stands; no new `Existence` value): the target keeps its
+   ladder state from the event on and carries its running Works by a link (`Building.works`, §2.6).
+5. **The decay Works carries the dwell band (J-A67.46).** A `vacate` (the building `abandoned`) starts a `decay` Works toward
+   `decayed` whose duration is its dwell band drawn once (the decline table, above); the strike pool's `decay` candidates are
+   the buildings whose `decay` Works has run its span, and the strike's `decay` event (the building `decayed`) starts the
+   next toward `ruined` the same way; a `reoccupy` ends it and starts a `repair`. A building left `abandoned` or `decayed` by
+   an undated event (a hand edit) gets its decay Works from the next epoch, starting at that epoch's week.
+6. **Mutation steps (J-A67.49).** A Works shows its event's `MutationRecord` (§4.7 S11) in the record's order — subtracted
+   parts by the demolition stages first, then adapted parts (an added storey's walls rising, an extended wing's build
+   stages), then added parts by the build stages — each part's span a share of the duration by its footprint area; kept parts
+   stand as they are. A `rebuild` is a demolition then a build, one Works; the epoch-spread mutation's events (above) each
+   start their own.
+7. **Plots in transition (item 67 (g); J-A67.44).** A join or a split is decided when its event lands — the plot rings change
+   then (ownership) — and the ground follows the work: each removed boundary line is drawn from the Works' kept lines, dashed
+   as pending removal, until the joined plot's build reaches GROUND BROKEN (or a demolition reaches RUBBLE), and a new
+   dividing line is drawn as stakes, dashed, from STAKED and as its fence or wall from WALLS RISING. Item 31's `subdivide` and
+   `amalgamate` run through the same stages. Access is the event's, so a Works never leaves a plot without access.
+8. **What reads the stage.** Heights at a stage are derived, `heightsAt(works, w)`: WALLS RISING raises the eave storey by
+   storey (the eave × the storeys reached ÷ the floors) — for a building with a solid wing or a wing standing on another
+   (V02 §3.15) **in stack order**: its courses counted along each chain from the ground (a storeyed wing's floors; a solid
+   wing `⌈eaveCm ÷ storeyCm.upper⌉` courses, never a division by its zero floors), the courses reached advancing by this
+   rule over the tallest chain's count, a wing's height its `eaveCm ×` the courses it has reached `÷` its courses from its
+   stored `baseCm`, a wing neither drawn nor cast until the wing it stands on has reached its eave, a stair rising with the
+   tier whose top it reaches, the shrine and a roofed top taking their roofs from ROOF FRAMED as any roof does and a flat
+   terrace no roof stage — no roof before ROOF FRAMED (drawn as a `framed` roof), the finished roof from ROOFED, a demolition
+   lowering them in reverse (in reverse stack order); the stored heights stay the finished building's, so the shadows of §8.4
+   and §11.1's 3-D export follow the stage. The households an event placed are housed at a week only from FINISHED, and a
+   demolition's have left before EMPTIED (item 17's relocation, J-A17.41): the module's occupancy, the lit windows (§10.3)
+   and the light sources (§4.7, §8.4) read that. The plan rung of a building in progress draws walls without doors or
+   furniture, and of a ruin its fallen walls and open rooms (§2.6); the stage counts among the plan rung's recorded inputs, so
+   a stage change marks a derived plan stale and §8.5's change marker shows it (item 67 (j)). Descriptions use §10.4's stage
+   words; the city band draws the stage glyph on the footprint, the neighbourhood band the walls, scaffolds, frames and
+   rubble (§8.5, §8.2).
+9. **Which week is drawn (J-A67.45).** Every drawing, export and reader draws the document's current week (*The clock*,
+   above) unless the per-viewer view key `week` (§2.9) names another — a host setting its campaign week, or a user scrubbing
+   — outside every digest. Scrubbing draws every live Works, and every Works finished within `works.retainWeeks` (52), at
+   that week over the current model, forward and back, byte for byte; the full history at an earlier week is the log's
+   replay (§7.4). An epoch retires the Works that finished more than `works.retainWeeks` before the week of the previous
+   epoch — the start of its span; the creation week for the first — so the model after an epoch holds every Works that ran
+   during its span at any cadence (V06's frames draw from it): the record leaves the model and its target's lifecycle event
+   keeps the weeks.
+10. **Restraint (item 67 (i); J-A67.48).** An epoch's Works start at weeks spread uniformly over its span (the weeks since
+   the previous epoch; the offset is the `works` concern's draw before the duration's, §6.1), so the share of stock under
+   works at the epoch's week follows the growth or decline rate by construction — a steady town shows a few scaffolds, a boom
+   town many, a declining one ruins. A `ConditionOverlay` (§2.7; staged, empty in the base; item 88) scales the share of an
+   epoch's changes it starts as Works once the port fills it (a siege stops building). With no epoch and no scheduled edit
+   nothing here runs, and the static baseline is byte-identical (item 23: neither reference has time).
+
+```ts
+type WorksStage = 'before'|'staked'|'groundBroken'|'foundations'|'wallsRising'|'roofFramed'|'roofed'|'finished'
+  | 'emptied'|'stripped'|'rooflessShell'|'rubble'|'cleared' | 'abandoned'|'decaying'|'roofless'|'collapsed'|'overgrown' | 'charred'|'refit';
+interface WorksRow { key: string /* a class id, or a designation template's `works` key (§10.2) */; kind: 'build'|'extend'|'demolish'|'repair'|'convert'|'decay'|'clear';
+  storeys?: [number, number]; footprintM2?: [number, number]; material?: string /* a duration row only (item 67 (b)); never a shape input */;
+  weeks?: [number, number] /* working weeks, drawn once; absent on a decay row, whose span is the decline table's dwell band × 52 */; factor?: number /* a decay row's material factor: timber and thatch 0.6 */;
+  stages: { stage: WorksStage; from: number /* a fraction of the duration */ }[] }
+interface WorksTable { rows: WorksRow[]; labour: { band: string; factor: number }[] /* the duration × the factor of the plot's band */;
+  pauses: { material: string; climate: string; seasons: ('spring'|'summer'|'autumn'|'winter')[] }[]; retainWeeks: number /* 52 */; enabled: boolean /* false in the parity presets */ }
+```
+
+`WorksTable` lives in `@plat/tables` (`works.json`, §14), editable with provenance (§7.6); its decay rows read the decline
+table's dwell bands, never a second number.
+
+**Markets over epochs (item 24).** A secondary market the roster's suffix adds is claimed by the epoch's S7b in the new stage
+or in a due district by §4.5 S7b (3)'s rule; a market whose institution closes (the use step) keeps its square — a plaza or a
+`market_green` — until a `clear` or a claim reuses it, so no market moves by wealth change alone.
+
+**Informal clusters over epochs (item 70 (e); J-A70.48).** On the weekly clock a cluster grows by accretion: delta households
+of its band placed on an informal plot add structures by §4.7's packing on the plot's free path sites, each a `build` Works
+of its row — a shack or lean-to the hovel-or-shed row's 1–2 working weeks, a tent the zero-week row, finished in its week;
+rung 1's `densify … infill` on an informal plot adds structures in that way too. A destructive circumstance event (rung 3's
+trigger) burns a cluster fast — its structures `decayed` and drawn CHARRED in one week, then cleared. When its district's
+band rises past the hysteresis a cluster is cleared or **formalised** by rung 3 in the due epoch (the replaceability of tents
+and shacks is `immediate`, §10.2): its households re-homed by item 17's relocation or re-let, the plot cleared, re-cut by S10
+(7) into row-house plots and built by S11 at the new band. In decline, a vacant, cleared or ruined plot of a district whose
+value fell past the hysteresis at the epoch takes tenure `informal` (§4.7) and may take a cluster. Each step is an event of
+this section's kinds; the engine that schedules them is the staged one.
+
+**Lights, deposits and conditions over epochs (items 68 and 88).** A light follows its host (§4.7's *Light sources*), and an
+epoch re-runs the light rows on its new and changed faces only. A `DepositSite` (§2.7; staged, empty in the base) whose state
+changes converts the land use it anchors: `depleted` or `removed` — its quarry, mine or claypit `abandoned` and drawn worked
+out (a deposit depleted at creation drawn so from the start); `discovered` — a new outside site sited by S12a's rows at that
+epoch. A `ConditionOverlay` is read as *Works* (10) states.
+
+### 4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)
