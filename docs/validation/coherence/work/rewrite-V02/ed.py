@@ -1,7 +1,7 @@
 # ed.py: extract a line range of cleaned.md into a part, or apply exact replacements to a part.
 # usage: python3 ed.py extract START END part.md   |   python3 ed.py apply part.md edits.py
 import sys,runpy
-W='/Users/cstokes/Desktop/Maps/docs/validation/coherence/work/rewrite-V02/'
+W='/home/user/maps-architecture/docs/validation/coherence/work/rewrite-V02/'
 if sys.argv[1]=='extract':
     a,b=int(sys.argv[2]),int(sys.argv[3])
     L=open(W+'cleaned.md').read().split('\n')

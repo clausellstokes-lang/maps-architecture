@@ -1,0 +1,333 @@
+V07-0001	home	0	summary	village product,thorp,hamlet,village,township	Plain words: the village product draws a thorp (handful of farms), hamlet (few dozen homes) or village (few hundred people with church, mill, smithy) 
+V07-0002	home	0	summary	density raster,tracker,green,palisade,forms	Plain words: emulates watabou's Village Generator: density ('crowding') map highest at heart following contours; roads grow as walkers bending along s
+V07-0003	home	0	summary	palisade,neck,class siting,items 103-104	Plain words: palisade stops at river/cliff/gorge/marsh; never fences the village's own water; inside a river bend fences only the neck; trades linked 
+V07-0004	home	0	summary	twelve tools,dossier,hand-off,painterly	Plain words: editable with the same twelve tools as towns; SettlementForge thorps/hamlets/villages and small towns under 1 500 accepted: every listed 
+V07-0005	home	0	summary	smooth scaling	Plain words: everything scales smoothly with head count — no jump at 80 or 400; a 399-person hamlet and 401-person village differ like any two village
+V07-0006	home	0	summary	item 109,caverns,ruins,crypt,catacomb	Plain words (item 109): a small place may sit over a cave system or buried ruins (more often in mountains/mines or where SF says ancient ruins, magica
+V07-0007	home	0	summary	item 110,levelling,raised way,deck plot	Plain words (item 110): on steep ground houses stand on levelled platforms with low stone retaining walls, steps or cart ramp; crofts and fields follo
+V07-0008	reference	header Reading	rule	provenance,clean-room,D5,P17	Every reference behaviour V07 emulates is restated in metres in our own words, cited by file and section, with provenance form 'ref:VG 1.6.9 <behaviou
+V07-0009	home	1	scope	scope	In scope at build depth: THORP/HAMLET/VILLAGE ladder and population bands; territory frame; landscape first (course-first river, site, heart); density
+V07-0010	home	1	scope	items 102-110	Village part of owner rules 2026-09-28: item 102 sunlight (base mechanism file g's; V07 adds settlement prefers sunny slope, fields and woods sort by 
+V07-0011	reference	1	interface	hooks consumed	Base hooks consumed (cited): rung profile and LadderRouter (§1.1, D-33); Blueprint, feature table, autoResolved (§4.2 S0); S1 whole (heightfield, coas
+V07-0012	reference	1	interface	item 110	Item 110 base side (file g, applied by coherence pass): RetainingWall (§2.7) with step profile; S10/S11 levelling publishing levelled ground; ground a
+V07-0013	home	1	scope	out of scope	Out of scope: floating islands (none reaches a village rung; §4.11 fells an island when CITY band is left; TOWN holds none); sewer, catacombs, quarrie
+V07-0014	handoff	1 (1)	handoff	blockedBy rung,hand-off	Cross-volume dependency (1): CatacombComplex.blockedBy gains 'rung' for a town catacomb carried into a village (V04 §2.2's union lacks it); fallback: 
+V07-0015	handoff	1 (2)-(3)	handoff	crypt cells,templateFamily	Dependency (2): crypt and cellar cells of v.parish_church and v.chapel at village rungs are V07's rows (J-V7.41); V11's compile check counts v.parish_
+V07-0016	handoff	1 (4)-(7)	handoff	arch-vault,raised way,deckOk	Dependencies: (4) V09/V10 unexcavated style, shade map and link views, explanations; (5) V04 arch-vault source registered at every village rung, span 
+V07-0017	handoff	1 (8)-(13)	handoff	companions	Dependencies (8)-(13): companion edits of reconciliation rounds 1-6 recorded as landed in V11 (v. namespace, villageForm compile check, guildhall no v
+V07-0018	handoff	1 (14)	handoff	M6-E	Dependency (14): V06's engine (M6-E) runs V-M3's clauses: desertion street candidate and hollow ways (V6 §3.5.2, E2), claim-sized roster member openin
+V07-0019	home	1b W1	wiring	W1,ProductDecl,LadderRouter	W1 ProductDecl('village') (§2.1): registered by @plat/village at load; plugs into StrategyRegistry.products (BCR-V7-11); dossier DR23 (rung).
+V07-0020	home	1b W2	wiring	W2,ladder.json	W2 THORP, HAMLET, VILLAGE rows of ladder.json (§2.1); RungProfile (§1.1; BCR-V7-1); DR23.
+V07-0021	home	1b W3	wiring	W3,village.json	W3 village.json (§2.2) with VG column; §7.6 tables and presets (BCR-V7-13); DR1, DR2, DR5, DR7 read its rows.
+V07-0022	home	1b W4	wiring	W4,VillageRequest	W4 VillageRequest (§2.7); Blueprint (BCR-V7-2); DR1 terrain->water, DR2 walls/access, DR3 bearings.
+V07-0023	home	1b W5	wiring	W5,S0 draws	W5 S0 village draws (water, form, roads, palisade, open space, field system, δ; §3.1); S0 feature table (§4.2 S0); dossier site.culture (forms), acces
+V07-0024	home	1b W6	wiring	W6,course-first	W6 course-first RiverStrategy (§3.2 (2)); RiverStrategy registry (§4.12; PART III); DR1 riverside.
+V07-0025	home	1b W7	wiring	W7,VillagePlan	W7 VillagePlan from VS1 (heart, nuclei, character, R_s; §2.3, §3.2); StageDecl (§4.1), entity registry (BCR-V7-3); DR1 site, DR7 dwellings in R_s.
+V07-0026	home	1b W8	wiring	W8,mill seat,leat	W8 mill seat and leat (§3.2 (7)); S3 reservation and carve forms (§4.2 S3 (2), (10)); DR19 river_mills.
+V07-0027	home	1b W9	wiring	W9,density raster	W9 density raster and FieldBands('density') (§3.3); §4.5 field type; §7.2 brush.
+V07-0028	home	1b W10	wiring	W10,palisade	W10 palisade plan and Enceinte with barrier closure, reach, stretch profile (§3.4); EnceinteStrategy 'palisade' (§4.12; PART III item 2), Enceinte.clo
+V07-0029	home	1b W11	wiring	W11,tracker	W11 tracker network: ways, junctions, entries, approaches, landings (§3.5); NetworkStrategy 'tracker' (§4.12; PART III item 3); DR2 access -> topology
+V07-0030	home	1b W12	wiring	W12,green,square	W12 open space green or square (§3.6); Reservation (BCR-V7-5; plaza); dossier market record (V11 market family or mercantile-market custom record; §3.
+V07-0031	home	1b W13	wiring	W13,perimeter,village district	W13 perimeter and one 'village' district (§3.7); District.kind (BCR-V7-4), §4.5 pass 1; DR5 one district.
+V07-0032	home	1b W14	wiring	W14,prosperity	W14 village prosperity drivers with item 102 term (§3.7 (3)); §4.5 field; file g item 102; DR6 wealth.
+V07-0033	home	1b W15	wiring	W15,village-ways	W15 village-ways fabric: frontage runs, back closes (§3.8); FabricStrategy registry (§4.12; PART III item 3).
+V07-0034	home	1b W16	wiring	W16,toft	W16 toft plots (toft, croft, drive) and closes (§3.8); PlotStrategy 'toft' (§4.7); yard-part rows; DR7, landmark yard parts.
+V07-0035	home	1b W17	wiring	W17,slot race	W17 block quotas and slot race (§3.8); S10a block Allocation (§4.5); DR7 dwelling count.
+V07-0036	home	1b W18	wiring	W18,v. classes	W18 village classes (v. keys, J-V7.95) as typed rows: label, synonyms, family, templateFamily, distribution, significance, presence, powers, sectors, 
+V07-0037	home	1b W19	wiring	W19,villageForm	W19 BuildingClassRow.villageForm (a v. key) and the tag fallback (§2.7, §3.11), order pseudo-reader -> village form -> own row -> fallback; BCR-V7-21;
+V07-0038	home	1b W20	wiring	W20,land budget	W20 S12a village presets, land budget, suitability claim (§3.9); §4.9 presets (BCR-V7-8), FarmTable; DR19 deposits, DR1 terrain forest.
+V07-0039	home	1b W21	wiring	W21,VillageField	W21 VillageField (§2.7); entity registry (BCR-V7-3).
+V07-0040	home	1b W22	wiring	W22,outlying farmsteads	W22 outlying farmsteads (§3.9 (5)): D_o of dwellings D (§3.2 (3)); §4.9 outside plots and farm modes (BCR-V7-7); village.json farm.outlyingShare; DR7 
+V07-0041	home	1b W23	wiring	W23,wharf,pier	W23 wharf, landings, piers (VS4 step 5, §3.10); water furniture (§4.8); DR2 access port, river; Fishing Landing quarter.
+V07-0042	home	1b W24	wiring	W24,VillageEnd	W24 VillageEnd (§3.10); entity registry (BCR-V7-3), §7.7 item 16 naming claims; DR5 quarters -> ends, DR14 names.
+V07-0043	home	1b W25	wiring	W25,pins	W25 village pins: stocks, maypole, wells by coverage, moot place, market stalls, and pin forced by a pin record (shrine, market_cross, well, churchyar
+V07-0044	home	1b W26	wiring	W26,declareEnd	W26 declareEnd and drawWay.walk (V07 §4.2); §7.1 events (BCR-V7-19).
+V07-0045	home	1b W27	wiring	W27,retypeLand	W27 retypeLand (V07 §4.2); V06's EvolveOp member (file f item 209, absorbing BCR-V7-22; ST-25); dossier resource_strike, depleted deposit (DR19).
+V07-0046	home	1b W28	wiring	W28,epoch phases	W28 village epoch phases 'siting' (step (m), W71) and 'growth'; records placement village.records (W70); participants village.plan (stage VS1), villag
+V07-0047	home	1b W29	wiring	W29,hand-off	W29 hand-off up and down (§3.12); §4.11 rung at epoch; V08 §3.10; DR23.
+V07-0048	home	1b W30	wiring	W30,port consultation	W30 port's consultation of LadderRouter (V08 §3.10; file f item 202) for [1, 1 500) and village DR rows (§3.11); file f item 202 (BCR-V7-11, -17); §7.
+V07-0049	home	1b W31	wiring	W31,painterly	W31 painterly programs and village roles (V07 §5.1); PaintProgram, StyleSheet registries (§8.2).
+V07-0050	home	1b W32	wiring	W32,GeoJSON	W32 GeoJSON village layers (§5.4); Exporter registry.
+V07-0051	home	1b W33	wiring	W33,concerns	W33 village concerns (§3.14); §6.1 (BCR-V7-15).
+V07-0052	home	1b W34	wiring	W34,VG preset	W34 VG parity preset (§3.15); §7.6 (BCR-V7-13).
+V07-0053	home	1b W35	wiring	W35,B-VILLAGE	W35 village budgets and B-VILLAGE bench (§6, §7); §12, §13 (BCR-V7-23); frozen small-dossier fixtures.
+V07-0054	home	1b W36	wiring	W36,supply,balance	W36 village supply, balance, spacing rows (§2.4 second table); SupplyEdge and balance profile (§10.2; file g 105, 107); activeChains[] bind to these e
+V07-0055	home	1b W37	wiring	W37,ladder rows	W37 village ladder rows: member ranges and step readings (§2.4 third table, §3.11); step-type table (§10.2; file g 108); institutions[] names with ran
+V07-0056	home	1b W38	wiring	W38,activeChains	W38 dossier activeChains[] as village links (§3.11); port DR rows (§7.7; V08); economicState supply chains -> V08 chain row.
+V07-0057	home	1b W39	wiring	W39,entry store	W39 entry store for imports and exports (§3.11); item 104 (b) import/export pulls (file g); DR3 partners, entrepot chain.
+V07-0058	home	1b W40	withdrawn	W40,split	W40 withdrawn (SR2-15; J-V7.115): village rows carry no split switch; generated works-and-shop split follows item 105 (h)'s threshold at village rungs
+V07-0059	home	1b W41	wiring	W41,border,lattice	W41 VS1's S3 jobs: border chain, lattice and edge costs, typed destinations, L0 ponds (§3.2 (8)); §4.2 S3 (3), (10), (13), §3.2 (9); DR3 partners.
+V07-0060	home	1b W42	wiring	W42,daylight,latitude	W42 daylight.terrain: sunlit share D over terrain by nine horizon sweeps (§3.2 (4)); latitude by V08 §2.5 rule (CircumstanceSlice.port.latitudeDeg, el
+V07-0061	home	1b W43	wiring	W43,anchor law	W43 anchor law over P for every per-rung cell (§2.2); §7.6 tables; population (DR23).
+V07-0062	home	1b W44	wiring	W44,rule cells	W44 typed rule cells (heart, polyfocal, settle, mill, grade, branch, formRules, openShape, market, claimArea, ends, stalls, race, manor, fields, ladde
+V07-0063	home	1b W45	wiring	W45,underground	W45 underground tail at village rungs (§3.16): caverns, ruins, access pass, scattered dwellings after access; V04 §3.1 village subset, StageDecl (§4.1
+V07-0064	home	1b W46	wiring	W46,dig rows	W46 village dig rows and the well and mine-working access readings (§3.16 (3)-(4)); V04 DigRule.classRow, OpeningRow; mining deposits DR19.
+V07-0065	home	1b W47	wiring	W47,ruin marker	W47 ruin marker's site at village rungs (§3.16 (6)); §4.9 decoration table (village row); ancient_ruins, ruined-landmark archetype.
+V07-0066	home	1b W48	wiring	W48,crypt,burial	W48 crypt cells and burial faces of village churches (§2.4); V11 crypt column (BCR-V11-13); dossier crypt fact (chance 1), graveyard, burial_ground (D
+V07-0067	home	1b W49	wiring	W49,catacomb step,maintenance	W49 hand-off up's catacomb step and hand-off down's maintenance mode (§3.12); V04 §3.5.1; §4.11; V06 phases; church and burial records (V08).
+V07-0068	home	1b W50	wiring	W50,hysteresis	W50 hand-off hysteresis handoff.band and product fold (§2.1, §3.12); §4.11 (BCR-V7-26); population DR23.
+V07-0069	home	1b W51	wiring	W51,Landing,FrontageRun	W51 Landing, FrontageRun, village.reached (transient, §2.7); stage graph data keys (§4.1).
+V07-0070	home	1b W52	wiring	W52,decline,hollow way	W52 ways' decline ladder: hollow ways by retireWay, effaceWay, reopenWay on land classes on ground part 0 only; decks by V6 §3.19.5, fords with their 
+V07-0071	home	1b W53	wiring	W53,request fields	W53 VG request mapping and new request fields (orchards, forest, arableFactor, organic, district; §2.7); Blueprint (BCR-V7-2).
+V07-0072	home	1b W54	wiring	W54,painterly programs	W54 painterly building, edge, tree and spotlight programs (V07 §5.1); PaintProgram (§8.2).
+V07-0073	home	1b W55	wiring	W55,title plate	W55 title plate qualifier and rounding (V07 §5.3); §9.5 (BCR-V7-31); dossier tier word.
+V07-0074	home	1b W56	wiring	W56,dossier readings	W56 dossier readings: burial ground, parish burial grounds, external mill, parish church elsewhere, Wealthy and Common Residential, east phrase (§3.11
+V07-0075	home	1b W57	wiring	W57,RetainingWall	W57 generated and drawn RetainingWalls at village rungs (§3.8a); file g item 110 (a) (§2.7 record); BCR-V7-34; DR1 terrain hills/mountain.
+V07-0076	home	1b W58	wiring	W58,house platform	W58 house platform and rules.terrace (§2.2a, §3.8a); FabricStrategy.levelledUnits (BCR-V7-34).
+V07-0077	home	1b W59	wiring	W59,raised	W59 raised data key and raised way on a village map (§2.7, §3.5a); file g item 110 (b) (§3.4 parts); BCR-V7-35; no dossier fact (aqueduct_or_water_sys
+V07-0078	home	1b W60	wiring	W60,deck plots	W60 deck plots at village rungs, pier head, rules.deck, deck widths (§3.10a); file g item 110 (d); toll-house or chapel record admitted by V11 deckOk 
+V07-0079	home	1b W61	wiring	W61,stair,ramp	W61 stair and ramp yard parts, village way-class crossing rule, F-V-TERRACE (§3.8a, §3.13); §2.5 data-defined yard parts; item 110 (a) way-class rule.
+V07-0080	home	1b W62	wiring	W62,item-110 programs	W62 painterly item-110 programs: retaining.wall, way.stair, way.ramp, raised.deck with deck.shadow, raised.support, raised.ruin, aqueduct.channel, tie
+V07-0081	home	1b W63	wiring	W63,stepped	W63 stepped massing at village rungs (§2.4) and ruin marker's stepped monument (§3.16 (6)); §10.2 DesignationTemplateRow.composition (V02 BCR); cultur
+V07-0082	home	1b W64	wiring	W64,dist.market,dist.harbour	W64 dist.market and dist.harbour at territory rungs (BCR-V7-36 (b); §2.4; SR2-02); ContextVector.dist (§2.5); market and port kinds -> DR9, DR24.
+V07-0083	home	1b W65	wiring	W65,claimArea	W65 rules.claimArea and market halls' claims (§2.2a, §3.6 (4a)); §4.2 S3 claim form read at village rung (institution Reservation laid by VS4); V11 §3
+V07-0084	home	1b W66	wiring	W66,fair field	W66 fair field (§3.6 (4b)); Reservation kind market, rank secondary (item 24); annual_fair -> DR9.
+V07-0085	home	1b W67	wiring	W67,VG preset entries	W67 VG preset file entries (§3.15; SCC-79): V07 VG column and switches, V11's five presets.VG entries, presets.VG entry of every village-read presetsR
+V07-0086	home	1b W68	wiring	W68,densityPower	W68 rules.race.densityPower and register entry cal.village.*.rules.race.densityPower@VG (§2.2a, §3.8, §3.15; SCC-78): 1 at every rung, VG entry provis
+V07-0087	home	1b W69	wiring	W69,register	W69 register entries of calibratable columns: village.json (V-M0) and presence column (V-M2) (V12 §2.6 CalibrationEntry); §13.7, §13.9 (V12 §3.11).
+V07-0088	home	1b W70	wiring	W70,village.records	W70 village.records: product's records placement (ProductDecl('village').records, stage S10b; TV-02; J-V7.125): engine's dossier step at a village epo
+V07-0089	home	1b W71	wiring	W71,step (m)	W71 siting override's step (m), the market members (§3.12 Village siting; TV-02): S2 manifest at the target less standing fair_ground and nearMarket-h
+V07-0090	home	1b W72	wiring	W72,village.pins	W72 village.pins: VS8's rows at a village epoch (participant afterGrowth, order 60, stage VS8; TV-03; J-V7.126); V6 §2.1 EpochParticipant, V6 §3.2 par
+V07-0091	home	1b W73	wiring	W73,outside plot	W73 village.outsidePlot, (c)'s outside plot (§3.12 (c); TV-02): claim-sized class with no joinable candidate; §4.9 outside plots (BCR-V7-7); monastery
+V07-0092	home	1b dossier trace	trace	dossier trace	Dossier facts traced field -> DR -> piece: population -> DR23, DR7 -> W2, W17; tier -> title word (§9.5, V07 §5.3); terrain -> DR1 -> W4, W5, W6; trad
+V07-0093	home	2	rule	@plat/village,units	Units: lengths M or Cm, angles Cdeg, areas m2 or ha as named (as base §2.1). Package @plat/village (BCR-V7-10) depends on @plat/layout and @plat/plots
+V07-0094	home	2.1	table	THORP,HAMLET,VILLAGE,ladder.json	Rung rows added to ladder.json (RungProfile, rung union widened by BCR-V7-1; floor lowered to SF thorp band start 8 people; J-V7.1): THORP [1,80) targ
+V07-0095	home	2.1	rule	matched.vg,share2	Dwellings fewer than households: class rows let two households share a longhouse or farmstead at poor and modest bands (§2.4). matched column gains ma
+V07-0096	reference-owner-rule	2.1	rule	split,splitEnabled	Item 105 (h)'s owner-approved threshold decides a generated works-and-shop split at village rungs as everywhere; its one off switch V11 §3.7.4 siting.
+V07-0097	home	2.1	rule	layers,gates	Layers: islands/sewers/undercity column is the rung's; caverns and ruins gated by the site not the rung (item 109 (j)(1); §3.16); catacomb, quarry, va
+V07-0098	home	2.1	rule	floor,E_RUNG_UNAVAILABLE	Floor and ceiling: population >= 1 and < 1 500 is a village; ceiling = D-33's 1 500 (TOWN floor), ladders meet without gap or overlap; creation reques
+V07-0099	home	2.1	rule	handoff.band,hysteresis,fold	Hand-off band (hysteresis; J-V7.68): product is a fold over epochs, never a stored flag (J-V7.3); before first epoch = product that registered Recipe.
+V07-0100	reference	2.1	record	ProductDecl	ProductDecl interface (@plat/layout registry entry, BCR-V7-11; base registers 'base', V07 'village'): id 'base' or 'village'; rungs: Rung[]; stages: S
+V07-0101	reference	2.1	rule	LadderRouter,Recipe.rung	LadderRouter.route returns 'village' for [1, 1 500) once the village ProductDecl is registered; the base's clamp to a 1 500-person TOWN applies only w
+V07-0102	home	2.1	mechanism	village.records,EpochPlacement	Records placement (TV-02; J-V7.125): 'records' names an EpochPlacement (V6 §2.1: place(ctx, record, event), remove?(ctx, record, event)) registered in
+V07-0103	home	2.2	record	village.json,VillageRungRow	village.json: one versioned table in @plat/tables, one VillageRungRow per village rung, every cell {value, unit, provenance, calibratable} (§1.7), edi
+V07-0104	home	2.2	record	VillageRungRow,PLaw	VillageRungRow fields: rung; household {meanSize persons, share2 per band, minSize persons (least mean household size DR7's re-solve may reach)}; band
+V07-0105	home	2.2	rule	anchor law,smooth scaling	Anchor law (DEFINITION §2; J-V7.47): per-rung value = anchor at rung targets 40, 200, 700 people; value at P piecewise linear in ln P between anchors,
+V07-0106	home	2.2	rule	calibratable	Provenance and calibratable flags: ref:VG 1.6.9 ... (code) where VG (trace key D5 unless noted), own otherwise; every numeric cell calibratable (corpu
+V07-0107	home	2.2	table	village.json defaults	Default rows (THORP/HAMLET/VILLAGE; VG preset): household.meanSize 4.5 all (VG one draw per village uniform [3,7]); share2 (poor, modest) 0.3,0.15 / 0
+V07-0108	home	2.2	table	forms,water,density	Default rows cont.: forms grown/street/green/nucleated/polyfocal/row/dispersed 0.25/0.25/0/0/0/0/0.5 ; 0.4/0.2/0.15/0.05/0.1/0/0.1 ; 0.35/0.15/0.2/0.1
+V07-0109	home	2.2	table	network,open	Default rows cont.: network stepM 3.5, lookAheadM 3.5, bridgeSnapM 30 (VG 0); weight through/road/track 0.5/1/2; turn 0.05 + 0.2·F4 (drawn once per vi
+V07-0110	home	2.2	table	palisade,toft,fields	Default rows cont.: palisade chance/denseChance/waterFactor 0.10/0.15/0.5, 0.15/0.25/0.5, 0.2/0.3/0.5 (VG 0.2/0.3/0, dry maps only); lattice 10, keepB
+V07-0111	home	2.2	table	epoch.rows	epoch.rows (ProductEpochRows, calibratable false): persistence (x building layer's rate, V6 §3.5.2): every V11 §3.5.1 church-family class (cathedral, 
+V07-0112	home	2.2	rule	cultureForms	cultureForms multipliers by dossier culture key (DR1 site.culture): celtic x2 dispersed; norse x2 dispersed; germanic x1.5 green and row; slavic x2 st
+V07-0113	home	2.2a	mechanism	rule cells,reference cell	Rule cells (item 23; DEFINITION §5 'Rules are data'): every rule constant of §3 is a VillageRuleCells cell {value, unit, provenance, calibratable}, ed
+V07-0114	home	2.2a	record	VillageRuleCells	VillageRuleCells sub-records: heart, polyfocal, settle, mill, grade, branch, formRules, openShape, market {law PLaw, fairHa, fairAspect}, claimArea {c
+V07-0115	home	2.2a	table	heart,mill,grade,branch	Defaults: heart lattice 20 m over frame's middle half (0.5); slope <= 0.1 hard (F-V-HEART relaxes to 0.2); +0.6 within 150 m of a crossing site; +0.5 
+V07-0116	home	2.2a	table	formRules,openShape,market,claimArea,ends,stalls	Defaults cont.: formRules street side spacing x3, back lane 0.5; nucleated crossroads 0.6, branch x0.7 within 0.6 R_s, crossroads weight x2; row strai
+V07-0117	home	2.2a	table	pins,manor,presence,slot,race	Defaults cont.: pins well per 8 households within 120 m; crossroads cross 0.4; troughs 0.3; shrine 0.3; maypole 0.2; stocks (200, 0) -> (700, 0.5); L0
+V07-0118	home	2.2a	table	fields,ladders,handoff	Defaults cont.: fields factors climate cold, maritime x2 infield_outfield; relief hilly x1.5, mountainous x3 infield_outfield, mountainous x0.3 open_f
+V07-0119	home	2.2a	table	vg,plate,terrace,raised,deck,fail	Defaults cont.: vg household draw [3, 7] (D5.9); frame 210/350/560 m (D1); margin 34 m; field area 490 m2 per dwelling (D5.12); one-house field rule a
+V07-0120	reference	2.2a	rule	reference trace,D5	Reference trace (§17.1 (6), item 62): sub-keys of row D5 of research/findings/code-impact.md §(d): D5.1 character draws (§3.2 (5)); D5.2 terrain primi
+V07-0121	home	2.3	record	VillagePlan	VillagePlan (@plat/village entity kind, BCR-V7-3): one per document ever; created at first village creation or first hand-off down, superseded at hand
+V07-0122	home	2.3	record	VillageEnd	VillageEnd (entity kind, BCR-V7-3): named part of the one district; plots derived never stored; id; plan; anchor (green, church, manor, mill, crossing
+V07-0123	reference	2.3	rule	close,yard parts,Pin kinds	Base records read with village values: District.kind 'village' (BCR-V7-4); Reservation.kind 'green' (BCR-V7-5) owner 'commons' with Greenery kind gree
+V07-0124	home	2.3	rule	named beach	Named beach is no record: the 'beach' run of the shore chain's bankKinds profile (§2.3, drawn at S1 (7)) nearest the wharf end's anchor, else the land
+V07-0125	home	2.3	rule	sunlit share,D	Sign of D: in V07, D(x) = sunlit share of the representative day at x; file g item 102 (a)'s shade(x) = 1 − D(x), so g's kernel −w_sun x shade(x) and 
+V07-0126	home	2.3	rule	house platform,RetainingWall	Item 110 records at village rungs: RetainingWall (item 110 (a); base §2.7) for §3.8a walls, generated or drawn, never an Enceinte; raised way parts fr
+V07-0127	home	2.4	rule	v. namespace,BuildingClassRow	Village classes are rows of §10.2 RosterTables.classes (BuildingClassRow as V11 §2.3 extends it, plus BCR-V7-36 presence column), own content, keyed i
+V07-0128	home	2.4	rule	class columns,commonness	Class columns: family = the ONE V11 §3.4 profile family; template = templateFamily of V11 §3.6.1 (budget rows footprint, plot area, floors, coverage, 
+V07-0129	home	2.4	table	v.hovel,v.cottage,v.longhouse	v.hovel: hovel · hut, cot; housing; one-room dwelling, hovel arrangement, one room, lean-to; template hovel; disp 0.05; class mix (squalid, poor); dec
+V07-0130	home	2.4	table	v.farmstead,v.yeoman_house	v.farmstead: farmstead · farm, farmhouse; housing; compound (house, barn, byre around a yard); template farm; disp 0.5; class mix modest to prosperous
+V07-0131	home	2.4	table	v.manor_house	v.manor_house: manor house · manor, hall, lord's hall; housing; compound (hall, chamber block, kitchen, barn, stables, dovecote; moat by rules.manor);
+V07-0132	home	2.4	table	v.parish_church	v.parish_church: parish church · church, kirk; worship; institution (nave, chancel, west tower); churchyard part >= 30 % of yard (§4.9), a burial face
+V07-0133	home	2.4	table	v.chapel,v.parsonage,v.tithe_barn	v.chapel: chapel of ease · chapel; worship; institution (single cell; chapel family has no churchyard part, V11 §3.6.1); template chapel; disp 3; pres
+V07-0134	home	2.4	table	v.watermill,v.windmill	v.watermill: watermill · mill, water mill; food; compound (mill house, wheel, leat as water carve kind canal, rules.mill); template mill; disp 2; pres
+V07-0135	home	2.4	table	v.smithy,v.alehouse,v.inn	v.smithy: smithy · forge, blacksmith, smith; metalwork; detached (forge, open front, shoeing yard); workshop-yard; disp 1; (40, 0.1) -> (200, 0.5) -> 
+V07-0136	home	2.4	table	v.bakehouse,v.pound,v.reeve_house	v.bakehouse: bakehouse · common oven, bakery, oven; food; detached; shopfront; disp 0.6; (40, 0) -> (200, 0.3) -> (700, 0.6); crafts; everyday; E= smo
+V07-0137	home	2.4	table	v.shop,v.landing,v.wood_yard	v.shop: shop · general dealer, chandler; trade; detached with stall front; shopfront; disp 0.5; (200, 0) -> (700, 0.3); company/trade; everyday; E= cr
+V07-0138	home	2.4	table	v.charcoal_pit,v.potter,v.tannery,v.watchtower	v.charcoal_pit: charcoal pit · charcoal hearth, charcoal burner; extraction; institution in hinterland; extractive; disp 0.3; resource timber >= 0.4 :
+V07-0139	home	2.4	rule	translation,authored rows	Village word translation (J-V7.102): holiness = family's alignment sacred +, never an emission; a service's local custom = clientele dailyLocal, dwell
+V07-0140	home	2.4	rule	dist.centre,dist.gate,dist.market,dist.harbour	Context distances at village rungs (BCR-V7-36 (b); J-V7.111): nearCentre reads dist.centre to VillagePlan.heart; nearGate reads dist.gate to palisade 
+V07-0141	home	2.4	mechanism	presence column	Presence column (BCR-V7-36 (a)), read by S2 at rungs whose RungProfile.frameLaw is territory: classes drawn in roster class order with every class a w
+V07-0142	home	2.4	rule	PresenceWhen	PresenceWhen conditions (read at S2 from S0 draws, S1 site, dossier): gov k,... (government kind V11 §3.21.1, DR11's reading else request's); with c /
+V07-0143	home	2.4	rule	forced seats,@absent,@seat	Forced seats (§3.11 DR11): the class a dossier government's villageSeat names (V11 §3.21.1), or an @seat record's, is present with >= 1 member at ever
+V07-0144	home	2.4	rule	pins	Village pins by own rows (§3.10; rules.pins): wells (coverage one per 8 households within 120 m); a pump in place of a well from the era row's pump da
+V07-0145	home	2.4	rule	decorations,pond	Decorations from §4.9's table with village rows: village pond (0.4; VS1 carves it in its L0 batch at the lowest hollow within 150 m of heart, §3.2 (8)
+V07-0146	home	2.4	rule	stepped massing,tiers	Stepped massing at village rungs (item 110 (c); J-V7.94): no village class carries a tiered composition; a class takes tiers only through V11's cultur
+V07-0147	home	2.4	rule	crypt,cryptM2	Crypts (item 109 (k)(2) revised ~20:05, J111): crypt column and size rows are V11's schema (crypt 'always'/'basement'/'never', cryptM2, cellar chance 
+V07-0148	home	2.4	rule	burial faces,charnel vault,W_CATACOMB_BELOW_TOWN	Burial faces (grounds a later catacomb may lie under; item 109 (k)(2)): parish church's churchyard yard part; a dossier graveyard or burial_ground rec
+V07-0149	home	2.4	rule	item 104,archetype	Item 104 at village rungs: a custom institution's scene archetype resolves to the village class row that plays it (item 104 (a)(2)); where none, maps 
+V07-0150	home	2.4	table	supply rows,SupplyEdge	Supply rows (items 105, 107): consumer-side SupplyEdge rows (§10.2); goods = V11 §3.7.1 goods ids (ale = beer, hay = fodder, pots = pottery, entry sto
+V07-0151	home	2.4	rule	supply rules	Three village supply rules: (1) dwellings are link ends but carry no placement pull (toft chosen by slot race; exact count and VG density look hold; J
+V07-0152	home	2.4	table	item 108,ladder readings	Item 108 ladder readings at village rungs (only those differing; greater arriving below 1 500): member count = S2's per-capita count clamped into the 
+V07-0153	home	2.4	table	ladder ranges	Village ladder range table (rules.ladders.ranges): COUNT '(multiple)' * THORP 2-2, HAMLET 2-3, VILLAGE 2-4; COUNT v.parish_church 2-2, 2-2, 2-3; GUILD
+V07-0154	home	2.5	rule	lineage,tracker lineage	Lineage addresses (§6.3): VillagePlan keyed by the town root (one per document ever; revived plan keeps its address); derived VillageEnd by anchor lin
+V07-0155	home	2.5	rule	wall address,pier head	Item 110 identities: generated retaining wall keyed <plot>/terrace/<side> (side front/back/left/right relative to frontage) and .<k> for the k-th wall
+V07-0156	home	2.6	lifecycle	lifecycle,tables	Lifecycle rows (tables): ladder.json village rows, village.json — create shipped tables; read VS1-VS8, S2, S10, S12a, §6 budgets; persist table pins i
+V07-0157	home	2.6	lifecycle	lifecycle,recipe	Lifecycle rows (registration and recipe): ProductDecl 'village' — package registration; read LadderRouter, port, epoch; not persisted (code); migrate 
+V07-0158	home	2.6	lifecycle	lifecycle,VillagePlan,VillageEnd	Lifecycle rows (plan): VillagePlan.form, .roads — S0 draw or request or dossier; read VS2-VS6, S12a; entities chunk; Regenerate (keep) reads recorded 
+V07-0159	home	2.6	lifecycle	lifecycle,fields	Lifecycle rows (fields and plots): density raster and FieldBands — VS2; VS3-VS6, S10 slot draw, painterly spotlight; fields chunk; recomputed from rec
+V07-0160	home	2.6	lifecycle	lifecycle,markets,entry store	Lifecycle rows (palisade, stores, markets): palisade closure 'barrier', barrier arcs, stretch profile (item 106) — VS3 (§3.4 steps 5-6) or drawWall's 
+V07-0161	home	2.6	lifecycle	lifecycle,pins,records	Lifecycle rows (pins and records): a pin a record forces — VS8 at generation; village.records at epoch or absorb (address minted from the adding dossi
+V07-0162	home	2.6	lifecycle	lifecycle,underground,decline	Lifecycle rows (underground, decline): crypt cells of v.parish_church, v.chapel and a church's drawn crypt — table; §2.6 basement draw at build; V02, 
+V07-0163	home	2.6	lifecycle	lifecycle,item 110	Lifecycle rows (item 110): generated RetainingWall at village rungs — S11 platform levelling; render retaining.wall, exports, clerk, V04 footing reach
+V07-0164	home	2.7	record	VillageRequest	VillageRequest (@plat/layout blueprint village block, BCR-V7-2; all optional, 'auto' drawn at S0): form PlanForm or auto; roads RoadTopology or auto; 
+V07-0165	home	2.7	record	Landing,FrontageRun,village.reached,raised	Transient data keys typed here (never persisted): Landing {shore, bearingCdeg, tracker lineage, water} output village.landings of VS4, read by VS4 ste
+V07-0166	home	2.7	record	RaisedRead	RaisedRead {way; kind viaduct/elevated/aqueduct; origin declared/generated derived at read never stored (file f item 244 as ST-06 amends: declared whe
+V07-0167	home	2.7	record	VillageField	VillageField (@plat/village, BCR-V7-3): id; plan; kind great_field/infield/outfield/common/meadow/wood/strip_holding; furlongs (LandUse face ids, addr
+V07-0168	reference	2.7	record	villageForm	BuildingClassRow gains villageForm?: string (BCR-V7-21; file f item 432): names a v. class, the village row that plays this class at village rungs (co
+V07-0169	home	3.0	mechanism	village pipeline,stage set	Village pipeline: ProductDecl('village').stages lists reused base stages, seven village stages (VS1-VS6, VS8; former VS7's wharf and piers are VS4's s
+V07-0170	home	3.0	mechanism	stage order	Stage order: S0 (village draws) - S1 (territory, course-first river) - S2 (programme at village rungs) - VS1 (heart, nuclei, character, radius, daylig
+V07-0171	home	3.0	rule	writer order	Writer order at village rungs (§4.1 rule, J-P46; BCR-V7-29): L0 by S1 and VS1 (leat, ponds); L1 by VS1 (border first, then reservations), VS4 (network
+V07-0172	home	3.0	rule	declarations,raised	Document-state keys: declarations.* (VS8's declarations.ends) and raised are published by the kernel's declaration layer from log and standing records
+V07-0173	home	3.0	table	stage I/O	Stage I/O table: VS1 in site.*, roster, blueprint.village, latitude (V08 §2.5 rule: CircumstanceSlice.port.latitudeDeg, else Intent.latitudeDeg, else 
+V07-0174	home	3.0	rule	StageDecl	Every village stage registers a StageDecl with invariants (§3.13 rows), ladder (§3.13), work limits (laws of household count, §6) and budgetMs per vil
+V07-0175	glossary	3.1	term	u,B3,F4,S	Named draw shapes: u single uniform draw on (0, 1); B3 average of three draws (hump centred 1/2 on [0,1]); F4 = abs(sum of four draws / 2 − 1) on [0,1
+V07-0176	home	3.1	mechanism	S0 draws	S0 resolves VillageRequest: given values taken (source recorded); every auto drawn once on blueprint.features from town root (§6.1), after base featur
+V07-0177	home	3.1	rule	toll bridge,forced brook,toll_bridge_dry	Bridge-implying record (a dossier record whose kinds row carries implies 'bridge'; today V11's toll_bridge row; V08 §2.6b (3), BCR-V8-32; IN-V07-3) fo
+V07-0178	home	3.2 (1)	rule	territory frame,A_T	Territory frame: A_T = max(territory.minKm2, territory.haPerHead x P / territory.usableShare / 100) km2 (700 people -> 20.1 km2) at the request's aspe
+V07-0179	home	3.2 (2)	mechanism	relief primitive	S1 over the territory at village raster sizes; relief primitive follows water type as VG's (ref:VG terrain primitive, D5) mapped onto S1 authored prim
+V07-0180	home	3.2 (2)	mechanism	course-first river	Course-first river (J-V7.5; RiverStrategy 'course-first'): (1) width by class brook 2-4 m, stream 4-10 m, river 10-40 m, w = w_lo + (w_hi − w_lo) x B3
+V07-0181	home	3.2 (3)	mechanism	S2,H_f,H_o,D_o,D_v	S2 at village rungs: sequential roster (§10.2) with village class rows; households H = round(P / household.meanSize) split over bands by bandShares (s
+V07-0182	home	3.2 (3)	rule	government step,villageSeat	Government step at village rungs (SR3-01; J-V7.117): at territory-frame rungs S2's government step (§10.2 Government) reads the government row's villa
+V07-0183	home	3.2 (4)	mechanism	daylight,horizon sweeps	Daylight share (item 102 (a)-(c); J-V7.60): daylight.terrain = sunlit share D(x) over frame and margin at rasters.daylightCm by nine horizon sweeps, o
+V07-0184	home	3.2 (4)	mechanism	heart,nuclei	Heart (draws on site.centre keyed by town root): a declared heart (request heart, intend or place declaration) is taken; else candidates on the 20 m l
+V07-0185	home	3.2 (5)	mechanism	character,buildingScale	Character (VS1 on village.plan; ref:VG character parameters, D5, 0.7 m per unit): minWidthM = 0.7(8 + 2 B3) (5.6-7.0 m); maxWidthM = 0.7(10 + 4 B3) (7
+V07-0186	home	3.2 (6)	mechanism	R_s,settlement radius	Settlement radius: A_s = (sum_b D_v,b x toftArea_b + sum_inst plotArea_inst) / settle.settledShare (tofts and crofts at band centres, squalid row for 
+V07-0187	home	3.2 (7)	mechanism	mill seat,leat	Mill seat and leat (VS1, when S2 demanded v.watermill): candidates = course points where carved bed falls >= 1 m within 300 m downstream, 150-1 000 m 
+V07-0188	home	3.2 (8)	mechanism	border,lattice,destinations,ponds	S3's non-siting jobs taken over by VS1 (V7C-02; J-V7.50): (a) map border chain on the frame rectangle (§3.2 (9), §2.2 rule 1) laid first in VS1's L1 b
+V07-0189	home	3.3	mechanism	density raster,VS2	VS2 density raster: box = square around heart of half-side max(1.6 R_major, 150 m) clipped to frame, at densityCm (4 m): about 385 x 385 cells at VILL
+V07-0190	home	3.3	rule	FieldBands density	Density bands: FieldBands field 'density', cuts [populated, 0.35, 0.7], bands empty/scattered/close/dense, source 'table' (§4.5 field type); read by V
+V07-0191	home	3.4	mechanism	palisade,VS3	VS3 palisade (only when S0 resolved one or a dossier lists a wall record; VG construction D5.5; PART III item 2): EnceinteStrategy.trace binding (§4.1
+V07-0192	home	3.4	mechanism	barrier closure,reached	Barrier closure at village scale (item 106 (a), (b); off under VG whose rule is the water cut alone: stretches in water or within bandM of a shore cut
+V07-0193	home	3.4	rule	palisade section,light stretch	Kind and section by stretch (item 106 (c)): full stretches take the kind's section — palisade timber stakes 300 cm high, 40 cm thick; earthwork a bank
+V07-0194	home	3.4	rule	palisade commit,F-V-PAL,F-V-ANCHOR,F-V-GATE	Planned then committed: trace data village.palisadePlan read by every tracker at every step; VS4 commits with the network in one L1 batch as an Encein
+V07-0195	home	3.5	mechanism	tracker,terrain vectors	VS4 tracker network (NetworkStrategy 'tracker', §4.12; VG D5.6; PART III item 3): reads density raster, planned palisade, mill reservation, S1 crossin
+V07-0196	home	3.5	mechanism	tracker step,ford,gate,merge	One tracker step (stepM 3.5 m, round-robin in lineage order): (1) leaving the frame stops (open crossing cancelled; through road's end becomes an entr
+V07-0197	home	3.5	mechanism	steer,grade guard,branching,approach	Tracker steer and density: (5) v = t x weight[class] + water + pull + push; weight through 0.5, road 1, track 2; water = repulsion vector of every wat
+V07-0198	home	3.5	mechanism	seeding,empty-road prune	Seeding order: (1) through roads by topology: isolated none; through one from the entry at the entry bearing (VS1 destinations order: declared bearing
+V07-0199	home	3.5	rule	rung gate,raised way	Rung gate on the router (item 110 (b) revised ~23:40; J-V7.90): every call a village stage makes to S4's router (neighbour roads, polyfocal joins, row
+V07-0200	home	3.5	rule	plan forms	Plan forms (J-V7.6): street — through road is the spine; side-road spacing x streetSideSpacing (3) within major radius; per side, with probability str
+V07-0201	home	3.5	rule	way widths	VS4 output one L1 batch with the palisade trace and open spaces: ways through (7 m), secondary (village street, 5 m), lane (back and joining lanes, 3.
+V07-0202	home	3.5a	rule	raised way sources	Raised way on a village map (item 110 (b) revised ~23:40; J-V7.83): a village never generates one (rung gate), a user may add one at any rung, and one
+V07-0203	home	3.5a (3)	mechanism	supports obstacle,feet,W_RAMP_STUB	VS4 around a raised way: merging on part 0 only (merge test and router read part-0 ways; only its two feet may be merged onto); supports are obstacles
+V07-0204	home	3.5a (4)-(6)	rule	under-deck strip	VS3: a support in the planned palisade band is taken into the stretch (abuts its two faces), never moved, never a gate; a gate within supportClearM of
+V07-0205	home	3.5a (7)-(9)	rule	arch vault,aqueduct terminal	(7) Spans: V04's arch-vault source registered at every village rung (§3.16 (1); C4-110-3); V04's span rule decides open or vaulted, with one condition
+V07-0206	home	3.5a (10)-(11)	rule	adding,removal,draw-free	Adding and removing are local (V07 §4.3): adding (T4 with raised, or aqueduct class): the declaration's commit joins feet by the base's rule, VS4 re-j
+V07-0207	home	3.6	mechanism	open space,green,square	Open space (during VS4 step 2; J-V7.17; draws on village.open keyed by nucleus ordinal): (1) size (VG D5.7): rim holds n of the widest ordinary dwelli
+V07-0208	home	3.6 (4)	rule	market rank,market law	Open space records: green = Reservation kind green (BCR-V7-5; owner commons) with Greenery kind green; square = plaza reservation. With a market in S2
+V07-0209	home	3.6 (4a)	mechanism	market hall claim	Market halls' claims (SR2-03; J-V7.112): a market-hall-family class playing itself at a village rung with a nearMarket row (today V11's market_hall fo
+V07-0210	home	3.6 (4b)	mechanism	fair field,F-V-FAIR	Fair field (SR2-02; J-V7.111): a fair_ground member (dossier annual_fair; V11 row: market reservation, secondary, extramural, no building) laid by VS5
+V07-0211	home	3.6 (5)-(7)	rule	centrepiece,rim roads	(5) Centrepiece (VS8 places it; decided here): none when the shape meets water; else from open.centrepiece (well, large tree, pond — 'a small decorati
+V07-0212	home	3.7	mechanism	VS5,perimeter,prosperity pass 1	VS5 (after VS4, before S7; V7C-03): (1) perimeter = region where density >= populated, closed by a 20 m morphological close, Chaikin-smoothed, united 
+V07-0213	home	3.8	mechanism	VS6,frontage run,back close	VS6 village-ways fabric (FabricStrategy 'village-ways', PART III item 3): no block cut, every district face is a block; frontage runs along each side 
+V07-0214	home	3.8	mechanism	capacity check,top-up trackers	VS6 capacity check and top-up (moved from S10a so no L1 write follows S9; J-V7.52): slot estimate per run = length / frontage centre of its band at pr
+V07-0215	home	3.8	mechanism	toft slots,VG house rectangle	Slots (S10, PlotStrategy 'toft'): widths from band's toft.frontageM at the run's prosperity, jittered by toft.jitterCv (0.05 in row village); slots ab
+V07-0216	home	3.8	mechanism	block quotas	Block quotas (S10a): D_v and the institutions allocated to blocks (reached faces excluded) in proportion to sum over raceable slots of density(slot mi
+V07-0217	home	3.8	mechanism	slot race,race keys	Slot race (S10b): institutions first, claims-first (§4.7 S10b): each class placed by the one solver with its §2.4 row (profile, relation rows, coverag
+V07-0218	home	3.8	rule	class mix,close	Village class mix (S10b generation fill; item 71 rows at village rungs, own): squalid -> v.hovel on squalid toft row; poor -> v.cottage 0.7, v.hovel 0
+V07-0219	home	3.8	rule	moated manor	Moated manor: when the manor row's moated-site draw (0.25 with water within 150 m, on siteplan keyed by plot) succeeds, S11 lays two yard parts: a pla
+V07-0220	home	3.8a (1)-(2)	mechanism	house platform,levelling,RetainingWall	Levelling (item 110 (a); J-V7.84-89): plot/block/ward units are the wrong size in a village (toft-and-croft plot up to 380 m deep; block = whole face;
+V07-0221	home	3.8a (3)-(9)	rule	levelling exemptions,stairs,way-class crossing	(3) Never levelled by generation at village rungs: croft, close (incl. reached close), reached ground, green, churchyard part, pound, charcoal pit, a 
+V07-0222	home	3.9 (1)	rule	land budget	Land budget: FarmTable village rows (§4.9; own, calibratable) restate §2.2's haPerHead: arable 1.2 ha per head incl. fallow (arableHaPerCapita), meado
+V07-0223	home	3.9 (2)	mechanism	suitability,outward claim	Suitability and outward claim (soft rule rows, own): arable = fertile x (1 − slope/0.15)+ x dry x sqrt(D) x (1 − dist/3 km)+; meadow = [below flood li
+V07-0224	home	3.9 (3)	mechanism	field systems,great field,furlong	Field systems (S0 draw; factor rows as §2.2a): open_field (default at VILLAGE): arable divided into G great fields (3, or 2 when era row or poor land 
+V07-0225	home	3.9 (4)-(6)	rule	meadow,commons,outlying farmsteads	(4) Meadow faces along water form a meadow field; pasture and commons one or more common fields (a common per 200 ha, split along roads); coppice and 
+V07-0226	home	3.10	mechanism	wharf,piers	Wharf, landings and piers (VS4 seeding step 5; VG D5.11; laid in VS4's L1 batch; pier count reads S2's dwelling count D; J-V7.51): wharf only on navig
+V07-0227	home	3.10	mechanism	ends,VillageEnd	VS8 ends (J-V7.20): anchors in order: each open space (green), church, manor, mill, each part-0 bridge or ford (crossing; raised way never), each thro
+V07-0228	home	3.10	rule	pins,stalls,wells	VS8 pins and decorations (pin.centrepiece, pin.decor keyed by host): open space centrepiece; wells by coverage (one per 8 households within 120 m of t
+V07-0229	home	3.10	mechanism	pin-record rule,market_cross	Pin-record rule (SR4-01; J-V7.127): after the rows above, a @pin:<kind> record (V11 §3.11) binds to a standing pin of its kind within presence.siteRea
+V07-0230	home	3.10	rule	whole furniture	These rows are the village's whole furniture (SR3-02; J-V7.118): at territory-frame rungs S11's furniture step (§4.7 Furniture pins: centrepieces, gat
+V07-0231	home	3.10	rule	names	Names (S13a, §10.4; naming; rows = V11 §3.20.1's naming.settlement village features, naming.villageEnd, naming.field; SS-18): village name from own gr
+V07-0232	home	3.10a	mechanism	deck plots,pier head	Deck plots at village rungs (item 110 (d); J-V7.91): generation makes one kind only, a widened pier head with the landing's net store; every other is 
+V07-0233	home	3.11	rule	routing,tier word	Routing: the village package registers ProductDecl (range [1, 1 500)) in StrategyRegistry.products, consulted by the one port through LadderRouter (fi
+V07-0234	home	3.11	rule	small dossier	What a small dossier holds (research/sf/dossier-outputs.md §3.4, §6): one population integer; a tier word; 7-42 institution records incl. one housing 
+V07-0235	home	3.11 DR1	rule	DR1 village	DR1 site at village rungs (only what differs from §7.7; row sets V08 §2.6's): plains -> water draw with coast, island, estuary weights 0; riverside ->
+V07-0236	home	3.11 DR2	rule	DR2 village,sea threat	DR2 walls at village rungs: a wall record -> palisade stage runs, chance draw skipped; kind from words: Palisade alone -> palisade; 'Palisade or earth
+V07-0237	home	3.11 DR3-DR6	rule	DR5 ends,quarters,east phrase	DR3 partners: a road partner's bearing is a through road's or neighbour road's entry bearing. DR5 districts -> ends: one district; each quarter claims
+V07-0238	home	3.11 DR7	rule	DR7 village,W_VACANT_TO_RANGE	DR7 households (J-V7.55): H0 = round(P / meanSize); with the housing range [min, max]: (1) too few (H0 < min): H = min(min, max(1, floor(P / household
+V07-0239	home	3.11 DR9/DR24	rule	DR24 village,tag fallback,pseudo-class	DR9 and DR24 institutions -> classes (J-V7.56), resolution order at a village rung: (1) a pseudo-class goes to its reader, builds nothing: @office bin
+V07-0240	home	3.11 burial	rule	burial records,external mill	Burial records (J-V7.57): a cemetery-class record (burial_ground at tiers T and H, graveyard at V) seated as the parish church's churchyard when a chu
+V07-0241	home	3.11 DR11-DR19	rule	DR11 village,DR19 village,tents	DR11 seats: Feudal Stewardship (seigneurial) -> v.manor_house; elder, household or free elder council or elected reeve (chartered commune, T14) -> v.r
+V07-0242	home	3.11 landmarks	rule	landmark strings	Landmark strings (V08 landmarks row, village-product rows): Alehouse -> alehouse use's name; Common well -> green's well pin; Net mending post -> net_
+V07-0243	home	3.11 item 108	rule	ladder records	DR9 with item 108 ladder records: a record whose name carries a count range, a ladder qualifier ('(multiple)', '(guild)', '(district)', '(established)
+V07-0244	home	3.11 chains	rule	chains,entry store,custom chain	Supply chains (item 105 (i)): dossier activeChains[] (0-4 thorp, 2-9 hamlet, 6-13 village) become links between bound members through V08's chain row:
+V07-0245	home	3.11 absorb	rule	absorb village	Absorb half at village rungs (§7.7, V08): an added institution placed first by village.records (market, claim-sized or pin record; at an epoch in its 
+V07-0246	home	3.11 palisade REPLACEMENT	rule	palisade replacement	Palisade REPLACEMENT ('Palisade or earthworks' -> 'Town walls'): when >= 80 % of standing dwellings lie inside the palisade's enclosure the wall is re
+V07-0247	home	3.12	mechanism	phase overrides,participants,grow path	Which path runs: epoch product and rung are the fold's (§2.1; §4.11 The rung at an epoch per file f items 322, 317; V6 §3.1 (3)-(4)), never the target
+V07-0248	home	3.12 siting	mechanism	village siting,(m),(6v)-(9v),encroachment	Village siting: regrowth-first order of §4.11 tiers (0)-(5) unchanged then the village tiers; every placement (a house platform's rebuild included) fo
+V07-0249	home	3.12 markets	mechanism	markets over epochs,fair field,market hall,W_ENCROACH_OVER_CAP	Markets, halls and fair over epochs (TU-04; J-V7.116; TV-02, J-V7.125): neither the base's Markets over epochs claim (§4.11) nor S5 runs at a village 
+V07-0250	home	3.12 markets	mechanism	claim-sized opening,market rank over epochs	(c) Claim-sized opening: a cloister-family member or market-hall member without nearMarket (slave_market) opening at a village epoch takes a candidate
+V07-0251	home	3.12 records	mechanism	village.records list,REPLACEMENT greater	Records at a village epoch (village.records; stage S10b; draws key by it): the engine's dossier step (V6 §3.2 row 12) calls it once per record added /
+V07-0252	home	3.12 records	mechanism	remove,absorb without epoch	Removed record (TW-02; J-V7.130): base dossier step removes it first (closeUse, §7.7 item 2), then calls village.records remove with the removing even
+V07-0253	home	3.12 pins	mechanism	village.pins steps	Pins over epochs (village.pins; TV-03; J-V7.126): VS8's rows at a village epoch through the participant at afterGrowth, order 60 (after V06's particip
+V07-0254	home	3.12 decline	mechanism	decline,hollow way,retireWay,effaceWay,reopenWay	Decline and desertion: engine's strike lottery (V06 §3.5) with village persistence rows; a vacant toft's dwelling decays by §4.11 dwell bands; a dwell
+V07-0255	home	3.12 decline	mechanism	platform walls decline,land use,deserted village	House platform walls (J-V7.89): generated retaining wall re-derives with terrain only while its dwelling stands short of cleared; from the step the dw
+V07-0256	home	3.12 hand-off up	mechanism	hand-off up,catacomb rule	Hand-off up (fold gives base product; rung TOWN): (1) standing fabric survives (§6.3): village district, tofts, ways, green, palisade keep records and
+V07-0257	home	3.12 hand-off down	mechanism	hand-off down,maintenance mode,revived plan	Hand-off down (fold gives village product; rung VILLAGE): standing fabric survives; the one VillagePlan revived when it exists (lifecycle live; only a
+V07-0258	home	3.12 item 110 and 102-108	rule	item 110 over epochs,items 105-108 over epochs	Item 110 state (J-V7.92): neither hand-off rewrites an event; suppression ledger (C6-39) crosses both unchanged; no village stage reads it; V6 §3.19's
+V07-0259	home	3.13	table	failure ladders	Village failure ladders (never a whole-map retry, §5; VG's unbounded retry never emulated; each rung bounded and reported with delivery tier §5.4): F-
+V07-0260	home	3.13	table	failure ladders	Failure ladders cont.: F-V-FAIR fair field meets water, mill reservation, raised strip or support, or frame margin (VS5; at epoch village.records or s
+V07-0261	home	3.14	rule	concerns,streams	Concerns appended to §6.1's registry (BCR-V7-15; u16 ids, never renumbered): village.plan (character, polyfocal count), village.density (reference poi
+V07-0262	home	3.14	rule	records keys,seq	village.records draws and mints as the base's post-build placement (§6.1, §6.3; §7.7 item 6, J-A22.76; TW-01, J-V7.129): draws on siting, and plot.* c
+V07-0263	home	3.14	rule	order,locality,dmath	Order: trackers advance in lineage order one step per round (network a pure function of recorded inputs); branch draws keyed by branch lineage (step i
+V07-0264	home	3.15	rule	VG preset	VG parity preset (§7.6; BCR-V7-13) via VG column and switches: frame VG's view at matched.vg.size (210, 350, 560 m square, vg.frameM); one household d
+V07-0265	home	3.15	rule	VG preset file,register entry	VG preset file (file f item 377; SCC-78, SCC-79; J-V7.119, J-V7.120) ships with V-M0 and carries: (1) V07's VG column and switches (no village.json co
+V07-0266	home	3.16 (1)	rule	underground existence,arch vaults,caverns,ruins	Underground existence at village rungs (item 109 (a), (b), (j), (3b); J-V7.48, .49, .79, .81): village stage set registers V04's tail at V04 §3.1's vi
+V07-0267	home	3.16 (2)-(4)	rule	access,DigRule.classRow,mines	(2) Underground arena covers frame and margin; cavern reach and caps the frame's (V04 §3.5.2); ruin extent = V04 significance draw capped at RuinRule.
+V07-0268	home	3.16 (5)-(8)	rule	dwellings after access,surface marker	(5) Dwellings only after access (item 109 (j)(4)): V04's F6 settles scattered dwellings (squatters, hermits, cult) in accessible cavern and ruin clust
+V07-0269	home	4	rule	twelve tools,declared means held	Editing: everything a village has is editable with item 101's twelve tools (§7.1 authoring toolkit); village adds no thirteenth tool — two parameters 
+V07-0270	home	4.1	table	T1,T2,T3,T4	Twelve tools on a village: T1 intend — site card with form, water, palisade, field system, organic roads, orchards, forest, field factor; size = popul
+V07-0271	home	4.1	table	T5-T12,delete raised	Tools cont.: T5 quarter — at a village rung declare an end by lassoing its houses (item 101 R4), kind and name; anchor defaults to most significant en
+V07-0272	home	4.1	rule	convert,count badge,links	Other village edits: land conversion by hand = convert with retypeLand (file f item 209 absorbing BCR-V7-22; ST-25) under T2's land-use chip; retiring
+V07-0273	reference	4.2	record	declareEnd,walk,retypeLand	New event forms (BCR-V7-19): EditEvent gains {t: 'declareEnd'; anchor?: Id or PointCm (absent: most significant entity inside boundary); boundary?: Po
+V07-0274	home	4.3	table	locality	Locality per village edit (§7.3): heart moved / form or road topology changed / nuclei edited -> from VS1; settlement VS1-VS8 and S7-S11 on the distri
+V07-0275	home	4.4	table	edit lifecycle	Edit lifecycle (§7.4 columns): declareEnd — event (sugar quarter); VS8, labels, exports; log; held (lasso plots re-joined every re-derivation; never m
+V07-0276	home	4.5	rule	clerk,why is this here	Clerk's view (V10 over §11.2's tool API): reads the same records a person sees (VillagePlan, ends, fields, palisade, dossier facts); proposes with the
+V07-0277	home	5.1	rule	painterly,ground,water,ways programs	Painterly family: the village opens in 'painterly' (base reserves the slot, §8.2; V07 builds it at all four bands); every other family draws a village
+V07-0278	home	5.1	rule	fields,woods,palisade programs	Painterly cont.: Fields: each furlong in its crop tone with bounded jitter; strips as furrow strokes along furrowAxisCdeg at strip width, dashed from 
+V07-0279	home	5.1	rule	buildings program,item 110 programs	Painterly buildings (J-V7.73): roof shapes are V02's roof rows (gable default for cottages and longhouses, hip for manor and church nave by templates)
+V07-0280	home	5.1	rule	spotlight,night,shade map	Spotlight: radial vignette; spotlight.focus heart (default VillagePlan.heart), centre (view centre) or edge (pushed from heart toward the frame edge o
+V07-0281	home	5.1	rule	roles,glyphs	New roles (rows in every family's sheet with defaults so ink, lit and hatched draw them): village.green, village.close, village.croft, palisade, earth
+V07-0282	home	5.2	rule	bands,first view	Bands at village scale (§8.5 LodBand): city = whole township, fields as tones and strip hatching, settlement as masses; district = village with first 
+V07-0283	home	5.3	rule	title plate,labels	Labels (S13a builds, S13b places; §9.1, §9.2; collision-checked, never over a gate, the church or a well): title plate = village name, tier word (doss
+V07-0284	home	5.4	rule	GeoJSON layers,exports	Exports (§11.1): SVG and PNG by band and family; GeoJSON in metres; VTT scenes (district band: palisade and buildings as walls, gates as doors; and on
+V07-0285	home	6	rule	model time law,budgets	Performance (§12.1 reference machine): VG's own model 14 ms (no water) to 143 ms (pond, cold), whole regenerate with rendering 240-330 ms script (rese
+V07-0286	home	6	rule	stage split,edit budgets,work limits,fallback	VILLAGE target split (p50, PLAUSIBLE until V-M0): S0 0.2, S1 10 (terrain 8 m from 32 m fBm grid; hydrology 32 m about 28 000 cells), S2 1, VS1 4.5 (he
+V07-0287	home	7	test	B-VILLAGE,B-VG	B-VILLAGE bench: 200 seeds per village rung x four water settings (none, stream, river, coast) x seven forms at default weights (PR tier 20 seeds per 
+V07-0288	home	7	test	T-V7-1,T-V7-2,T-V7-3	T-V7-1 (C, V-M1) routing: populations 1, 8, 79, 80, 399, 400, 1 499 build THORP, THORP, THORP, HAMLET, HAMLET, VILLAGE, VILLAGE; 1 500 builds a TOWN; 
+V07-0289	home	7	test	T-V7-4..T-V7-12	T-V7-4 (C, V-M1) heart dry, above flood line, within slope limit, or F-V-HEART rung reported. T-V7-5 (C, V-M1) density: under VG the raster equals the
+V07-0290	home	7	test	T-V7-13	T-V7-13 (C, O, V-M2; village-history clause V-M3) dossiers: every small fixture created; every institution placed or bound by §3.11's order; every qua
+V07-0291	home	7	test	T-V7-13 history	T-V7-13 village-history clauses (on M4 grow path at item 202's call points before M6-E, V06 runner after; TX-02): annual_fair record arriving at an ep
+V07-0292	home	7	test	T-V7-14..T-V7-18	T-V7-14 (C, V-M3) hand-off up: fixture grown past the band keeps every surviving entity byte-identical, retypes its district central keeping village-w
+V07-0293	home	7	test	T-V7-19..T-V7-24	T-V7-19 (C, O, V-M2) item 102: with sunTerm and woodShade 0 output byte-identical to the build without them; at defaults dwellings' mean daylight exce
+V07-0294	home	7	test	T-V7-25..T-V7-30	T-V7-25 (C, V-M3) renders: B-ZOOM role continuity across every band switch of painterly and ink at village rungs, programs roof.faces, roof.palette, r
+V07-0295	home	7	test	T-V7-31..T-V7-34	T-V7-31 (C, V-M1) barrier closure: river-bend fixture fenced across its neck only, enclosure sealed; scarp-backed fixture 0 walled edges along sheer a
+V07-0296	home	7	test	T-V7-35..T-V7-37	T-V7-35 (C, V-M2/V-M3) ladders: on small-town fixtures every COUNT (save multiple_water_sources, a floor), QUARTER, GUILD record has members inside it
+V07-0297	home	7	test	T-V7-38..T-V7-41	T-V7-38 (C, V-M2u) caverns and ruins at every village rung (with mountainous-relief and dossier-ruin sets) at their rows' rates within ±3 s.e.; cavern
+V07-0298	home	7	test	T-V7-42..T-V7-44	T-V7-42 (C, V-M2) resolution order: every catalogue kind of tiers T, H, V, W (count read from dossier.catalogue manifest, never written into the bar; 
+V07-0299	home	7	test	T-V7-45..T-V7-47	T-V7-45 (C, V-M2) crypts and burial faces: parish church crypt share within binomial band of 0.1; 0 chapels with crypt or churchyard part; below TOWN 
+V07-0300	home	7	test	T-V7-48..T-V7-51	T-V7-48 (C, V-M3) raised way on a village map (declared viaduct and aqueduct, and one carried down): 0 junctions with a raised part except its feet; 0
+V07-0301	home	7	test	T-V7-52..T-V7-56	T-V7-52 (C, V-M1) no-op pins (item 110 (f)): terrace, raised-way, deck-plot rows off -> B-VILLAGE byte-identical to pre-110 build; under VG byte-ident
+V07-0302	home	7	test	T-V7-57	T-V7-57 (C, V-M1; fair-field clause V-M2; village-history clause V-M3) furniture (SR3-02; J-V7.118): across B-VILLAGE and dossier fixtures at every vi
+V07-0303	home	7	rule	parity metrics,one-time shift	Parity metrics from baselines.json VG rows (BCR-V7-23; referenceBuild 19365073 = VG 1.6.9, §13.5 stamp), generated research-side from captures/village
+V07-0304	home	8	plan	prerequisites	Prerequisites: built on the finished base — S1, the plot model and the one solver (M2b), relief tier (M2b), item 101's tools and the port's absorb hal
+V07-0305	home	8	plan	V-M0	V-M0 tracker spike (1.25-1.75 pw): VS2 + VS3 + VS4 + slot race on flat, river, coast at VILLAGE target headless; village.json whole (three rung rows, 
+V07-0306	home	8	plan	V-M1	V-M1 village core (8.75-10.75 pw): @plat/village; ProductDecl (with extraInputs) and ladder rows; anchor law and typed rule cells; S0 village draws; c
+V07-0307	home	8	plan	V-M2	V-M2 institutions, fields, dossiers (7-10 pw): §2.4 class rows and templates with presence laws, crypt cells, burial faces; items 103, 104, 105, 107, 
+V07-0308	home	8	plan	V-M2u,V-M3,V-M4,estimate	V-M2u underground under a village (1-1.5 pw, after V04's tail milestone): registration of V04's tail at the village subset with productStages.village 
+V07-0309	home	8	plan	register at exits	Register at the exits (SCC-R2C-16; X-V12-16; J-V7.124): every milestone landing a registry table or calibratable column exits with plat calibrate regi
+V07-0310	home	8	plan	slot into §16,Q1	Where it slots into §16: after M4; V-M0 and V-M1 may start once M2b has landed and M3a's tools exist, in parallel with M5 (stage 2); V-M2 needs no M6-
+V07-0311	home	8	plan	risks,fallbacks	Risks and pre-decided fallbacks: (1) legibility at VILLAGE top (about 300 dwellings at 1 500; walk-grown network may tangle): spike V-M0's 20 renders 
+V07-0312	home	9	decision	J-V7.1..J-V7.10	J-V7.1 THORP floor of 1 (bands [1,80), [80,400), [400,1 500)) over PART III (5)'s about 20 (SF thorps start at 8; population a fact not clamped; creat
+V07-0313	home	9	decision	J-V7.11..J-V7.20	J-V7.11 farm mode by plan form (perimeter with outlying share for nucleated forms, fill for dispersed; BCR-V7-7). J-V7.12 under VG, VG's field area (4
+V07-0314	home	9	decision	J-V7.21..J-V7.30	J-V7.21 epoch growth: infill of closes, encroachment cottages (at most a quarter of a green), extension by trackers, new nucleus. J-V7.22 at hand-off 
+V07-0315	home	9	decision	J-V7.31..J-V7.40	J-V7.31 dwellings link ends without placement pull. J-V7.32 promoted town wall rebuilt on palisade trace when >= 80 % of dwellings inside, else a new 
+V07-0316	home	9	decision	J-V7.41..J-V7.50	J-V7.41 village class rows (profiles, supply, balance, spacing, ladder readings at village rungs) stated in V07, cited by V11; V11 owns the goods tabl
+V07-0317	home	9	decision	J-V7.51..J-V7.60	J-V7.51 wharf and piers in VS4's batch, pier count from S2's dwelling count (no L1 after S9, J-P46). J-V7.52 VS6 runs capacity estimate and F-V-SLOT's
+V07-0318	home	9	decision	J-V7.61..J-V7.70	J-V7.61 coarse hydrology grids (16/24/32 m) and the law 20 ms + 0.8 ms per frame km2 + 110 µs per footprint, declared miss above about 1 100 people. J
+V07-0319	home	9	decision	J-V7.71..J-V7.80	J-V7.71 lassoed declareEnd keyed by event address, exempt from merge and cap, count badge. J-V7.72 explicit request fields (organic, district, orchard
+V07-0320	home	9	decision	J-V7.81..J-V7.90	J-V7.81 ruin marker on the most prominent non-arable hinterland face within 800 m of the heart. J-V7.82 decline V02's X13 templateFamily column, compo
+V07-0321	home	9	decision	J-V7.91..J-V7.100	J-V7.91 deck plots at village rungs only on a widened pier head (smooth law, with a landing) or by the author, never dwellings. J-V7.92 item 110 state
+V07-0322	home	9	decision	J-V7.101..J-V7.110	J-V7.101 village classes as typed rows in V11 §3.5's notation (family, template family with church plot override and dwelling plot as toft, distributi
+V07-0323	home	9	decision	J-V7.111..J-V7.120	J-V7.111 dist.market and dist.harbour readings at territory rungs; dossier market record definition; fair_ground as extramural secondary market reserv
+V07-0324	home	9	decision	J-V7.121..J-V7.133	J-V7.121 calibratable false for village.json switch and mode cells and every reference cell (SCC-87). J-V7.122 stage VS1 for village.plan and VS2 for 
+V07-0325	bcr-pointer	10	bcr	BCR-V7-1..6	BCR-V7-1 (§1.1): RungProfile.rung widened to type Rung = TOWN/CITY/METROPOLIS/THORP/HAMLET/VILLAGE; matched gains vg? {size small/medium/large; densit
+V07-0326	bcr-pointer	10	bcr	BCR-V7-7..12	BCR-V7-7 (§4.9): village farm mode follows plan form (perimeter for grown, street, green, nucleated, polyfocal, row with farm.outlyingShare at outlyin
+V07-0327	bcr-pointer	10	bcr	BCR-V7-13..18	BCR-V7-13 (§7.6): extension.over gains 'VG'; a cell's presets gains VG? (J-A37.71 form); third parity preset VG read at village rungs only, switches V
+V07-0328	bcr-pointer	10	bcr	BCR-V7-19..24	BCR-V7-19 (§7.1): drawWay gains walk? {headingCdeg, class road/track, maxLengthM?} resolved into points at dry run; EditEvent gains declareEnd {anchor
+V07-0329	bcr-pointer	10	bcr	BCR-V7-25..30	BCR-V7-25 (§4.3): width table keyed by class and rung; village rows through 7 m, secondary 5 m, lane 3.5 m, track 3 m (own, calibratable) and (amended
+V07-0330	bcr-pointer	10	bcr	BCR-V7-31..35	BCR-V7-31 (§9.5 Title): 'a standalone map's word is its rung's; the plate may add a water qualifier after the tier word (sheet option; V07 §5.3) and s
+V07-0331	bcr-pointer	10	bcr	BCR-V7-36..38	BCR-V7-36 (a) (§10.2): BuildingClassRow gains presence?: {member?, when?: PresenceWhen, law: PLaw}[] read by S2 only at territory-frameLaw rungs (memb
+V07-0332	answer-J121-J122	11	question	Q1,build order	Q1 (product order): when is the village product built — (a) as soon as the base's M4 lands, in parallel with stage 2 (M5); (b) after stage 2; (c) afte
+V07-0333	home	Integration notes	note	integration notes,IN-V07	IN-V07-1 (J-VI.1, clean-room): request field renamed arableFactor (former name coincided with a reference field); §3.8's VG slot rule defines its larg

@@ -1,0 +1,42 @@
+BCR-V7-1 -> item 201 @ §1.1 What is built, in what order; the two size ladders
+BCR-V7-11 -> item 202 @ §1.1 What is built, in what order; the two size ladders
+BCR-V7-17 -> item 202 @ §1.1 What is built, in what order; the two size ladders
+BCR-V7-18 -> item 202 @ §1.1 What is built, in what order; the two size ladders
+BCR-V7-22 -> item 209 @ §2.4 Ways (the skeleton) and typed edges
+BCR-V7-4 -> item 214 @ §2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations,
+BCR-V7-5 -> item 215 @ §2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations,
+BCR-V7-6 -> item 255 @ §2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorat
+BCR-V7-3 -> item 267 @ §2.8 Identity, lifecycle, provenance, the entity registry
+BCR-V7-32 -> item 268 @ §2.8 Identity, lifecycle, provenance, the entity registry
+BCR-V7-12 -> item 276 @ §2.9 The document and serialisation
+BCR-V7-30 -> item 279 @ §3.2 Numeric policy
+BCR-V7-29 -> item 283 @ §4.1 Stage graph, evaluation model, laziness contract, transactions, th
+BCR-V7-2 -> item 287 @ §4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, t
+BCR-V7-33 -> item 290 @ §4.3 S4 Backbone — arterials routed between named destinations, built a
+BCR-V7-35 -> item 290 @ §4.3 S4 Backbone — arterials routed between named destinations, built a
+BCR-V7-25 -> item 292 @ §4.3 S4 Backbone — arterials routed between named destinations, built a
+BCR-V7-24 -> item 310 @ §4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement 
+BCR-V7-20 -> item 312 @ §4.8 S7 Fortification furniture (per enceinte) · the castle · water fur
+BCR-V7-7 -> item 314 @ §4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — t
+BCR-V7-8 -> item 315 @ §4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — t
+BCR-V7-28 -> item 316 @ §4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — t
+BCR-V7-18 -> item 317 @ §4.11 Incremental mode, transformations and conversions (the evolution 
+BCR-V7-26 -> item 322 @ §4.11 Incremental mode, transformations and conversions (the evolution 
+BCR-V7-11 -> item 326 @ §4.12 The strategy interface, stage registration by declared I/O, and t
+BCR-V7-15 -> item 344 @ §6.1 RNG and stream design
+BCR-V7-19 -> item 357 @ §7.1 Edits are ordered events on addresses; the named actions; the edit
+BCR-V7-13 -> item 377 @ §7.6 The override layer and editable tables (G-P12; owner amendment 5)
+BCR-V7-14 -> item 378 @ §7.6 The override layer and editable tables (G-P12; owner amendment 5)
+BCR-V7-9 -> item 418 @ §8.5 Level of detail, the city-band figure-ground contract, way selecti
+BCR-V7-31 -> item 424 @ §9.5 Furniture, framing and tools
+BCR-V7-21 -> item 430 @ §10.2 Roster (data-driven, replaceable; sequential and prefix-stable; o
+BCR-V7-22 -> item 431 @ §10.2 Roster (data-driven, replaceable; sequential and prefix-stable; o
+BCR-V7-23 -> item 495 @ §13.5 Reference-parity metrics (B-REF), read from one numbers-only base
+BCR-V7-10 -> item 505 @ §§14 Package and module layout, key interfaces, dependency rules, exten
+BCR-V7-34 -> item 506 @ §§14 Package and module layout, key interfaces, dependency rules, exten
+BCR-V7-16 -> item 527 @ §§16 Build plan — calibration and spikes first, then a viewable town, t
+BCR-V7-17 -> item 528 @ §§16 Build plan — calibration and spikes first, then a viewable town, t
+BCR-V7-27 -> item 565 @ §II.7.6 Catacombs, caverns and quarries; depth bands and the connection
+BCR-V7-36 -> item 576 @ §10.2 Roster (data-driven, replaceable; sequential and prefix-stable; o
+BCR-V7-37 -> item 577 @ §PART III — What a later village product needs from the base (one page;
+BCR-V7-38 -> item 579 @ §4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement 

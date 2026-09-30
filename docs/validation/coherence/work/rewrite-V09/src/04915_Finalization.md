@@ -1,0 +1,6 @@
+## Finalization (volumes/_finalize, 2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_finalize; covered by the whole-design retrovalidation (J84).
+
+The finalization fixed, in place, **SR6-03** (seam-settlements-r6, major): V9 §4.16 (3)'s roster reader, and T6's stamp palette, match only the classes the document's rung admits — at a base rung the town-and-city, sky and generic rows; at a village rung the `v.` rows, the self-playing town-and-city rows and the generic rows, a row with a `villageForm` answering through its `v.` row — ties by `commonness` inside that set, a `v.` row first at a village rung. New test **T-V9-70** (the roster reader's namespaces) and decision **J-V9.125**. Volume 11's companion (SR6-09 (b)) is applied in V11. Volume 10's clerk card now carries bend and refusal actions (V10 §2.6, SR6-01); this volume's drawer draws them from `ProposalView.variations[].bends[].actions`, `lines[].actions` and `TurnView.refused` — its own companion wording (seam-surfaces-r6 SR6-06 (d)) is on the fix list with SR6-02, SR6-03 and SCC-115 (docs/volumes/INDEX.md §7). **CONFIRMED** by execution: both edits asserted one match each; T-V9-70 inserted after T-V9-69 and J-V9.125 after J-V9.124.
+

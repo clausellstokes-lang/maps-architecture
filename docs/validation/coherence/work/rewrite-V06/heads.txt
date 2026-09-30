@@ -1,0 +1,71 @@
+1:# Design volume 6 — Evolution: growth, decline and regrowth over time, and transitions on the weekly clock
+183:## 0 In plain words
+259:## 1 Scope, the base hooks consumed, and what is out of scope
+261:### 1.1 What this volume builds
+321:### 1.2 The base hooks consumed (cited, never restated)
+362:### 1.3 Out of scope, with the reason
+401:## 1b Wiring table — every new piece, what feeds it and what it feeds
+517:## 2 Data model
+524:### 2.1 The engine's interfaces (`@plat/evolve`)
+596:### 2.2 Parameters and the evolution table
+689:### 2.3 The trajectory and the `advance` event
+724:### 2.4 Hazard rows
+761:### 2.5 `MutationPlan` — a designation change spread over epochs (item 18 (c))
+774:### 2.6 `BuildingShadeMask` — the buildings' share of the daylight driver at an epoch (item 102 (b), (e))
+785:### 2.7 `Enceinte.pathway` and `Enceinte.underuseSince` — a ring's road out of use (BCR-V6-3)
+795:### 2.8 The new conversion kinds and `Way.formerClass` (BCR-V6-5)
+814:### 2.9 `Use.strain` — the use step's memory (BCR-V6-4)
+821:### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)
+880:### 2.11 The history index, frames and diffs (derived and non-canonical)
+898:### 2.12 Lifecycle of every new state (create · read · persist · regenerate · undo · migrate)
+935:### 2.13 Item 110's epoch records — the reason key, the ledger and the suppression (C6-37–C6-40)
+971:## 3 Generation — the evolution engine
+973:### 3.1 Where the engine runs: the epoch runner
+1024:### 3.2 The phase order
+1104:### 3.3 Epoch inputs
+1154:### 3.4 Sunlight over time — the building shade mask (item 102 (b), (e))
+1227:### 3.5 Decline
+1368:### 3.6 Growth — fill first, crowd next, spread last
+1427:### 3.7 Fortification — new circuits, old rings, shorter rings
+1599:### 3.8 Regrowth, siting order and the ladder's schedule
+1678:### 3.9 Uses that move (item 17), the siting rulebook over time (item 103) and custom content (item 104)
+1934:### 3.10 Designation mutations over epochs — the `MutationPlan` (item 18 (c))
+1975:### 3.11 Hazards — fire, flood and collapse
+2063:### 3.12 Terrain and water over epochs (item 25)
+2097:### 3.13 Works on the weekly clock (item 67) — scheduling what the epoch decided
+2138:### 3.14 People over time — ageing and the derived succession of household members (§10.3)
+2163:### 3.15 The history record, replay and time scrubbing
+2243:### 3.16 Determinism
+2293:### 3.17 Failure handling — never a whole-map retry (§5)
+2323:### 3.18 The underground over epochs (item 109 (h), (j) (1)–(5) with (3b), (k) (1)–(6) as revised; J-V6.50–J-V6.53, J-V6.62–J-V6.66)
+2540:### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d) as revised ~23:40; C6-37–C6-43, C6-47; J-V6.82
+2899:## 4 Editing — the declarations, the edit events, locality, undo and the clerk's view
+2905:### 4.1 Advancing time (`advance`) — T1's time card, the clerk and the CLI
+2939:### 4.2 The hand forms of the engine's changes
+2988:### 4.3 Locality, locks and the order of events
+3004:### 4.4 Editing the past — forks and re-runs
+3029:### 4.5 The clerk's view (volume 10 owns the prompts; this volume owns what the answers read)
+3062:## 5 Rendering, labels and exports
+3064:### 5.1 Rendering — every new state has its drawing
+3103:### 5.2 Labels, names and words
+3126:### 5.3 Exports
+3154:## 6 Performance budgets
+3289:## 7 Tests and acceptance bars
+3398:## 8 Build plan
+3510:## 9 Decisions (each "chose X over Y because Z"; vetoable)
+3641:## 10 Base change requests
+3985:## 11 Owner questions
+4004:## 12 CONFIRMED versus PLAUSIBLE
+4145:## 13 Fix list
+4306:## Integration notes (volumes/_integrate, 2026-09-29)
+4340:## Reconciliation round 2 (volumes/reconcile-V06-r2, 2026-09-29)
+4383:## Reconciliation round 3 (volumes/reconcile-V06-r3, 2026-09-29)
+4417:## Reconciliation round 4 (volumes/reconcile-V06-r4, 2026-09-29)
+4458:## Reconciliation round 2 — continuation on the re-issued brief (volumes/reconcile-V06-r2, 2026-09-29 09:17)
+4482:## Reconciliation round 3 — continuation on the re-issued brief (volumes/reconcile-V06-r3, 2026-09-29 10:24)
+4507:## Reconciliation round 4 — continuation on the re-issued brief (volumes/reconcile-V06-r4, 2026-09-29 11:22)
+4534:## Reconciliation round 5 (volumes/reconcile-V06-r5, 2026-09-29)
+4564:## Reconciliation round 5 — volume 7's companion rows (volumes/reconcile-V07-r5, shared-file edit, 2026-09-29)
+4579:## Reconciliation round 6 — volume 7's companion rows (volumes/reconcile-V07-r6, shared-file edit, 2026-09-29)
+4599:## Reconciliation round 6 (volumes/reconcile-V06-r6, 2026-09-29)
+4627:## Finalization (volumes/_finalize, 2026-09-29)
