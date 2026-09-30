@@ -27,3 +27,6 @@ backups/
 *.lock
 __pycache__/
 *.pyc
+
+# live-run registration written by tools/lanes.py (session-local journal path)
+docs/ACTIVE-RUN.json
