@@ -187,8 +187,8 @@ V01 §3.5.10; item 210); **a square** is an L1 `square` face or a `square` block
 `yard` block's `yard_common` residue. Each is resolved by `pointLocate` on ground part 0 and, for a block, its
 `Block.content` (S9b's eager typing, so every district's blocks carry it before the tail). II.7.3's surface test admits
 all of them already, so F3 is unchanged; the readers of the definition are N11's gratings, F5's access order and shafts,
-L1's lifeline stair and air grating, `placeAccess`'s kinds, the forced vaults (V04 §3.5.6), the terminal cistern (V04
-§3.5.4 (e)), a buried town's squares (V04 §3.5.5) and `OpeningRow`'s `collapsed_shaft` row.
+L1's lifeline stair and air grating, `placeAccess`'s kinds, the forced vaults (V04 §3.5.6), the terminal cistern
+(V04 §3.5.4 (e)), a buried town's squares (V04 §3.5.5) and `OpeningRow`'s `collapsed_shaft` row.
 
 ### 1.3 Out of scope, with the reason
 
@@ -606,7 +606,7 @@ volume factor), `headingWidthCm` 150, `headingHeadroomCm` 200. `vaults`: `bridge
 `vaultBelowCm` 400, `cisternBelowCm` 700, `forcedGridM` 8 (the forced vaults' pitch, V04 §3.5.6), `archInsetPierCm` 60
 and `archInsetOpenCm` 30 (an arch vault's inset at its raised-way piers and at its open faces, V04 §3.5.4 (d)),
 `archDoorStripM` 2 (the strip beyond an open face that the door's choice reads), `terminalCisternM2` 600 (an aqueduct's
-terminal cistern: 4 × the precinct cistern's 150 m², calibrate-later). The arch vault's headroom and fall bounds and its
+terminal cistern: 4 × the precinct cistern's 150 m², provisional; V12 §3.11 register entry). The arch vault's headroom and fall bounds and its
 share are the base's, since a span's use is an eager base fact (item 244). `buried`: `formerStoreyMinM2` 120 (a former
 building's footprint from which its ground storey is laid as a `storey` chamber), `formerWallCm` 150 (a former wall
 line's masonry band), `formerGateM2` 40 (a former gate's passage chamber), `formerMinGalleryM` 12 (the shortest former way
@@ -1127,8 +1127,8 @@ at most one catacomb only.
      and the recipe, all known at S7b) × `RuinRule.forecastFloorShare`;
    * a **cavern** by its existence draw (the key U-SYS uses; the geology is S1's) and the frame's rock × `maxRockShare` ×
      `forecastFloorShare`;
-   * **vaults** by the part-0 bridges and steep ways present (exact), and the **forced vaults** under `require` (V04
-     §3.5.6) by their law (exact) — never an arch vault or a terminal cistern, which no undercity takes; a **buried** town
+   * **vaults** by the part-0 bridges and steep ways present (exact), and the **forced vaults** under `require`
+     (V04 §3.5.6) by their law (exact) — never an arch vault or a terminal cistern, which no undercity takes; a **buried** town
      by the scar rule (exact); a buried former settlement is never forecast: the history replay lays it at a coarse epoch
      after the generation's S7b (§4.11 *History-first generation* (2), (5); V04 §3.5.5 (b)), and its voids take
      dwellings only by V06's relocation at an epoch (V04 §3.10);
@@ -1152,8 +1152,8 @@ at most one catacomb only.
    households (under the standalone line, the one-district allocation's poorest-band households).
 
 S7b (6) and (7) allocate at most `forecastSafety` × each forecast capacity (item 551), so over-forecasts are rare. The
-forecast is advisory and deterministic: its misses are absorbed below (V04 §3.4 F0, V04 §3.6 C1) and the remainder by T8 (V04
-§3.7a), reported, never re-rolled. **Its edges.** It commits nothing, so degenerate input only shrinks it: a zero-length
+forecast is advisory and deterministic: its misses are absorbed below (V04 §3.4 F0, V04 §3.6 C1) and the remainder by T8
+(V04 §3.7a), reported, never re-rolled. **Its edges.** It commits nothing, so degenerate input only shrinks it: a zero-length
 run adds no length, a zero-area face no served area, a void of zero extent no capacity, and with nothing to forecast it
 returns V04 §2.4's all-zero record. It is never persisted: load, undo, redo, regenerate and migrate recompute it through
 the replay that re-runs S7b (V04 §2.6). Budget: item 475's §12.4 row (V04 §6).
@@ -1209,8 +1209,8 @@ are its steps.
    and hermits of the poorest band and, where the roster holds one, a forbidden shrine (a cult). F6's blocks join the
    underground pseudo-district's `faces` (a `FaceRef` names its part), keyed by the cluster (V04 §2.5). A cluster that is
    `unexcavated` or `lost` holds no dwelling (J-V4.53); one that turns `lost` vacates them by II.7.3's vacancy rules in
-   the commit that closes its last open path, and dwellings may return at the next placement after it is refound (V04
-   §3.5.7 (g); g item 113 (e)).
+   the commit that closes its last open path, and dwellings may return at the next placement after it is refound
+   (V04 §3.5.7 (g); g item 113 (e)).
 
 **Existence along the sewers.** II.7.3's surface test excludes every footprint, so under 4–8 m streets the sewer-front
 plots may be rare. T-V4-41 measures it at U2 (at least one sewer-front neighbourhood on 60 % of navigable and 10 % of
@@ -1279,8 +1279,8 @@ one's comes with it (T-V4-65). A raised-way pier is no building and never a dig 
 own elements (a raised grade's, a scar's) are never collapsed by a footing: its old streets and storeys are the ground the
 walls held (V04 §3.5.5 (a)).
 
-**At an epoch (J-V4.109)** no V04 stage derives, so the rule is applied by `Foundations.apply(doc, scope, cause)` (V04
-§1b.2), V06's `under.extend`'s first act (V06 §3.18.1 (6)), at every rung, the maintenance mode included: over the new
+**At an epoch (J-V4.109)** no V04 stage derives, so the rule is applied by `Foundations.apply(doc, scope, cause)`
+(V04 §1b.2), V06's `under.extend`'s first act (V06 §3.18.1 (6)), at every rung, the maintenance mode included: over the new
 footprints and basement rings of `scope.built` and `scope.basementGrown`, the raised-way piers of the parts in
 `scope.raised` and the footings of the retaining walls in `scope.levelled`, it applies this paragraph's rule to the
 elements within reach of those obstacles — an older void's stretch split out `collapsed`, a chamber covered by at least
@@ -1390,8 +1390,8 @@ The rows' gallery and chamber defaults, which II.7.6 leaves to the rows (our own
    `columnPitchM` centred on the rectangle, every node at least `columnPitchM ÷ 2` inside its walls and outside its
    monument's tier-0 ring grown by 100 cm; each line of nodes along `u` is one colonnade row, indexed from the front. The
    nodes of the rows (6) keeps are `Chamber.columns`, derived, never stored, exported by `@plat/under` as
-   `ruinColumns(chamberId)`: V03 §3.12 (6) reads them as fixed rings, the ruin program draws them as its 60 cm dots (V04
-   §5.2), C3's walkways keep 60 cm clear of each, and glTF and VTT export them. The drawn dots are the modelled points
+   `ruinColumns(chamberId)`: V03 §3.12 (6) reads them as fixed rings, the ruin program draws them as its 60 cm dots
+   (V04 §5.2), C3's walkways keep 60 cm clear of each, and glTF and VTT export them. The drawn dots are the modelled points
    (T-V4-44). A chamber too small for one node has none.
 6. **Decay (the persistence order).** Each element's persistence class — `hall` for halls and temples, `cistern`, `gate`,
    `axis` for the main streets, `street` for the rest, `wall` for vaults, `room` for rooms, courts and tombs; `colonnade` for
@@ -1427,8 +1427,8 @@ The rows' gallery and chamber defaults, which II.7.6 leaves to the rows (our own
 A ruin exists whole whether or not anyone can reach it: its excavation reading (V04 §3.5.7 (g)) starts `unexcavated`.
 
 **3.5.1 Catacombs — under cemeteries only, counted, ranked, never shrinking (g item 109 (k); J-V4.16, J-V4.55).** TOWN and
-above. The law, the sources and the stagnation are II.7.6's; these are its steps. The values of `CatacombRule` are V11
-§3.23.8's.
+above. The law, the sources and the stagnation are II.7.6's; these are its steps. The values of `CatacombRule` are
+V11 §3.23.8's.
 1. **Candidates: burial faces only.** (a) The `churchyard` part of a church or temple plot (§4.9's churchyard row) — the
    church building is never the source; (b) every `cemetery`-class use (V11 §3.5, its `extramural` row letting it lie
    outside the walls), the dossier's `Parish burial grounds`, `Burial ground`, `Burial grounds and charnel house` and
@@ -1446,8 +1446,8 @@ above. The law, the sources and the stagnation are II.7.6's; these are its steps
    need is the burials of the faces left without a complex after the burial-face pass plus the unmet need of the stagnant
    complexes ((7)); one whose need is under `growthFloorM2` is not adopted.
 3. **Count.** One at TOWN; at CITY and METROPOLIS `min(cap, 1 + ⌊churches ÷ churchesPer⌋)` (`CatacombRule.count`).
-   `churches` counts the buildings of classes `cathedral`, `great_temple`, `church` and `v.parish_church` (V07 §2.4, V11
-   §2.9) on the ground and on every live sky island, each once (V05 §3.5 (3); the one exception to V04 §1.2's sky rule — a
+   `churches` counts the buildings of classes `cathedral`, `great_temple`, `church` and `v.parish_church` (V07 §2.4,
+   V11 §2.9) on the ground and on every live sky island, each once (V05 §3.5 (3); the one exception to V04 §1.2's sky rule — a
    count, never a candidate: (1) skips every sky face), and each monastery's church; a collective dossier record counts each
    member once (item 108 (c)); V06 re-reads the count at each epoch (V06 §3.18.2 (1)). The churches set how many; only burial
    faces hold them. Candidates are tried in rank order until the count is reached, each passing II.7.6's dry-ground gate
@@ -1515,8 +1515,8 @@ above. The law, the sources and the stagnation are II.7.6's; these are its steps
    `knownTo: 'local'`, at the grid node nearest the face's centroid, its ground host the face; its head inside the burial
    ground's chapel where one stands on the face and its class's crypt column is `never` (V11's `cemetery` chapel slot), in a
    cellar, the nave or a store by V03's `AccessHostRow` (catacomb, any cause but `crypt`) — never a crypt — else in the open
-   face, drawn with the stair symbol. **A church-class building** (its class's crypt column `always` or `basement`, V03
-   §3.7.4) never hosts a catacomb access of source `system` (V03 §3.7.2 (6)): a churchyard's catacomb is entered from the
+   face, drawn with the stair symbol. **A church-class building** (its class's crypt column `always` or `basement`,
+   V03 §3.7.4) never hosts a catacomb access of source `system` (V03 §3.7.2 (6)): a churchyard's catacomb is entered from the
    churchyard, and through its church only by the crypt join (V04 §3.5.7 (c)); a quarry ossuary by its working's shaft and a
    stair at the working's surface head.
 10. **Dossier forcing.** A catacomb record forces one complex, within the count, on the first burial face in rank order that
@@ -1532,8 +1532,8 @@ above. The law, the sources and the stagnation are II.7.6's; these are its steps
 
 **3.5.2 Caverns (J-V4.17; g item 109 (a), (j) (1)).** At every rung; the extent is the site's. *Existence:* the geology
 flag (S1, with g item 109 (a) (1)'s relief rows) and its row chance, × `mineBoost` (capped at `mineCap`) where the site
-**holds mining** — the share of the frame's land cells with `SiteResources.ore ≥ 0.5` reaches `miningCellShare` (V11
-§3.23.1), or the roster holds a mining class, or the dossier carries a mining deposit (V04 §1b.5); one uniform on `sewer`
+**holds mining** — the share of the frame's land cells with `SiteResources.ore ≥ 0.5` reaches `miningCellShare`
+(V11 §3.23.1), or the roster holds a mining class, or the dossier carries a mining deposit (V04 §1b.5); one uniform on `sewer`
 keyed by (`cavern`, the town root) (the chances II.7.6's). **The fissure variant:** where the flag is `ordinary` and the
 relief class is `hilly` or `mountainous`, a `cavern` system of `variant: 'fissure'` (item 248) exists with
 `fissureChance`, × the same boost, capped. *Soluble rock:* the D8 paths over the frame's `rock`, `high` and `mid` cells
@@ -1948,8 +1948,8 @@ generator, and an inherited undercity is re-read against the village row's bound
    no plot on a floor at or below the water table (a cavern hall's floor lies `hallDryCm` above it, V04 §3.5.2); no plot on
    a monument's standing tiers or mound or on a foundation pillar (obstacles cut out of the floor), while a plot may hold
    column points, which V03 §3.12 (6) plans round. Every entrance S11 derives here takes `Entrance.faces: 'tunnel'` (item
-   239). S10b places the neighbourhood's share of the allocation, its relation families measured by `underDistance` (V04
-   §3.6a), the black market as a hard `near: core` row fronting the ring — bound to a `Black market bazaar` record where the
+   239). S10b places the neighbourhood's share of the allocation, its relation families measured by `underDistance`
+   (V04 §3.6a), the black market as a hard `near: core` row fronting the ring — bound to a `Black market bazaar` record where the
    dossier holds one (V04 §2.3a); ladder members, SIZE steps and clandestine modes as F4 states; no crypt is ever seated
    below (V04 §3.5.1 (11)). S11 with `UndercityRule.arrangements`, heights ceiling-capped (II.7.5); the ring's stall pins by
    §4.7's market pins at the secondary-market scale.
@@ -2227,8 +2227,8 @@ participants (§4.11 *History-first generation* (2)), and `BuriedFormer.lay` ins
   (walkway distance) from its core first; a new neighbourhood opens only in free capacity and only in an accessible cluster;
   when `disorder` < `clearanceDisorder`, each neighbourhood draws clearance at `1 − (1 − clearancePerYear)^years` on
   `epoch.transform` keyed by its lineage, at most one `clearUndercity` per epoch, in address order.
-* **Access at an epoch (g item 109 (j) (3)–(4); g item 113 (e)).** `under.access` runs `AccessPass.run(doc, scope)` (V04
-  §3.5.7, *With a scope*): each building the epoch builds, or gives a basement, over a cavern, ruin or former-settlement
+* **Access at an epoch (g item 109 (j) (3)–(4); g item 113 (e)).** `under.access` runs `AccessPass.run(doc, scope)`
+  (V04 §3.5.7, *With a scope*): each building the epoch builds, or gives a basement, over a cavern, ruin or former-settlement
   element draws U-ACCESS (d)'s dig draw; the excavation reading is recomputed; a cluster that became `accessible` takes F6's
   new dwellings (V04 §3.4 F6's cut and arrangements), filled by V06's relocation of the district's poorest-band ground
   households (V06 §3.18.1 (4)) — never by S7b (6), whose allocation at an epoch is the crowding hook's alone and runs before
@@ -2244,14 +2244,14 @@ participants (§4.11 *History-first generation* (2)), and `BuriedFormer.lay` ins
   band becomes `bricked` (stored, cause `convert:<the use op>`); one whose building is demolished or whose basement is
   removed is deleted with its host (§2.8); a street grating or stair whose ground host is re-hosted by `pointLocate` onto
   ground II.7.3 does not admit (a footprint over a former street) becomes `bricked`; an access whose ground host a landfall
-  covers — its ground point in a member of a `fallen_island` decoration (a covered way, plot, land use or reservation; V05
-  §3.16 (4)–(5)): a grating, a street stair, a public opening, a catacomb stair — becomes `bricked`, cause
+  covers — its ground point in a member of a `fallen_island` decoration (a covered way, plot, land use or reservation;
+  V05 §3.16 (4)–(5)): a grating, a street stair, a public opening, a catacomb stair — becomes `bricked`, cause
   `convert:fallIsland`, until the batch in which that host leaves its `fallen_island` decoration — whichever op ends its
   cover, at an epoch or by hand (V06 §3.5.2, V06's member-leaving batch) — when it returns to `open` (`locked` where its
   `knownTo` is `secret`); a basement or dig access whose building the landfall demolishes is deleted with its host (above);
   a secret access whose building's concealed use relocates stays, `locked`, its `knownTo` unchanged. The `collapsed` and
-  element-sealed readings stay II.6's derived ones. Each closure that ends a cluster's last open path turns it `lost` (V04
-  §3.5.7 (g)).
+  element-sealed readings stay II.6's derived ones. Each closure that ends a cluster's last open path turns it `lost`
+  (V04 §3.5.7 (g)).
 * **The opening pass (J-V4.106) — the one list of the commits that run it.** V01's opening pass (V01 §3.7.1) runs only while
   `@plat/hood`'s local-place step is registered and runs — while `fabric.extensionWeight` > 0 (V01 §3.15); the registration
   is V04 §8's registry lookup, and with either missing no opening place is made and their count is reported (V04 §3.11). It
@@ -2499,8 +2499,8 @@ Every row is §7.4's; the closure record (§7.3 item 9 (c)) names U-DIG's pieces
 `at` is in the water edit's undo record; a depth offset's undo restores the knots of every run N7 re-laid; an excavation's
 undo removes its access and the `ExcavationRecord` entries it added, restoring the cluster's former state by the replaced
 scope; a closing edit's undo restores the cluster `accessible` and its abandoned dwellings byte-identically; an opening
-place that an edit's opening pass made or tombstoned returns with the edit's undo (a place's undo is its host's event, V01
-§2.7); a catacomb delete's undo restores the galleries, `extentFloorM2` and the tombstones; a raised way's removal's undo
+place that an edit's opening pass made or tombstoned returns with the edit's undo (a place's undo is its host's event,
+V01 §2.7); a catacomb delete's undo restores the galleries, `extentFloorM2` and the tombstones; a raised way's removal's undo
 restores the way, its arch vaults, their doors, links and accesses with the same ids (the replaced scope); a monument
 count's undo restores the former lay. **Held pieces:** L5's pieces for a subterranean dossier institution are held while
 that institution is live: a `delete` of one returns F-EDIT `dossier-owned` with `rejectSite` offered (the institution moved,
@@ -2521,8 +2521,8 @@ user; item 244); per terminal cistern its aqueduct and source; per cistern the n
 test read; per foundation pillar or collapsed stretch the raised-way pier or retaining wall that made it, and the epoch whose
 `Foundations.apply` made it; per village working's breach its working and the void it reached; per buried stair step the
 tombstoned retaining wall it keeps; per buried former settlement its burial epoch and the former fabric it lies under (the
-story's `HistoryRecord`, §2.7). A ruin, a cavern cluster and every unexcavated element are known to a `secret` key only (V04
-§5.2); a `lost` cluster to the knowledge it had while accessible.
+story's `HistoryRecord`, §2.7). A ruin, a cavern cluster and every unexcavated element are known to a `secret` key only
+(V04 §5.2); a `lost` cluster to the knowledge it had while accessible.
 
 **The providers** (implemented by `@plat/under`, V04 §1b.2; called by V10's `why` query, V10 §3.9, V10 §3.9a, and V09's why
 card and underground panels). Every row's words are a key of V09's catalogue — `info.under.*`, `info.catacomb.*` — one per
@@ -2587,14 +2587,14 @@ declaration by the stage that owns its subject and as a constraint of that stage
   system exist whatever its chance draws (a declaration is a fact), and the system's layout grows around it (a ruin's plan
   on the declared elements' axis, a catacomb's grid from the declared gallery's axis). A raised way the prefix declares (the
   base's) has its arch vaults and terminal cistern laid by V04 §3.5.4 (d), (e) like any.
-* **U-CITY** reads a `quarter` or `drawBoundary` on a void part as a required neighbourhood, as `require` places one (V04
-  §3.6 C0), in the declared cluster; on a cluster still sealed after T2b its way in is the dwelling closure's (V04 §3.8), run
+* **U-CITY** reads a `quarter` or `drawBoundary` on a void part as a required neighbourhood, as `require` places one
+  (V04 §3.6 C0), in the declared cluster; on a cluster still sealed after T2b its way in is the dwelling closure's (V04 §3.8), run
   at C0 before C1's lifeline test with the declaration's `seq`, never `require`'s lifeline stair of cause `dossier`
   (J-V4.120).
 * **U-LINK** reads `addLink`, `placeAccess` and `addUndergroundAccess`, whose closures run at their prefix positions after
   T5, in prefix order, each folding nothing the derivation has already made (§7.4) — save an `addUndergroundAccess` grouped
-  before a dwelling declaration on a sealed cluster, which runs with that declaration's closure at U-CITY C0 (above; V04
-  §3.8).
+  before a dwelling declaration on a sealed cluster, which runs with that declaration's closure at U-CITY C0 (above;
+  V04 §3.8).
 
 A declaration a stage cannot honour is refused at its dry run with the reason and the closest alternatives (item 20 (g)).
 The skeleton file, the canvas and the tool API give one model digest for the same declarations (T-V4-40).
@@ -3305,9 +3305,9 @@ none deferred (the validation records keep the history: `docs/volumes/critique/V
 | V12 | the bar specs of V04 §7's item-109 bars (V12 §3.6b), the no-op pin engine (V12 §3.7.8), the V4-U5 panel spec, the register lines of V04 §8 |
 
 **Clean-room checks of this text** (`docs/validation/bench/doc_checks.py --doc` this file `--heads docs/ARCHITECTURE.md`,
-2026-09-30): C1 identifiers 0, C2 colours 0, C4 copied lists 0, S1 tables 0; C3 177 three-gram runs, each read — common
+2026-09-30): C1 identifiers 0, C2 colours 0, C4 copied lists 0, S1 tables 0; C3 179 three-gram runs, each read — common
 English phrases ("a new random on the", "is byte identical to its"), digit runs of section numbers and values, the marker
-line and file paths cited by file and section — no reference content; S2 112, each a volume-prefixed pointer (`V04 §3.11`,
+line and file paths cited by file and section — no reference content; S2 116, each a volume-prefixed pointer (`V04 §3.11`,
 `V06 §3.16`, `V11 §3.23` …) the tool resolves against the base's headings, every one resolving in its volume. The
 reference corpus is incomplete in the checkout that ran them (no `captures/`, `research/patreon`, `research/devlogs`,
 `research/ftg-docs`, `research/external`), so C1–C4 are provisional until re-run where the corpus is held.
