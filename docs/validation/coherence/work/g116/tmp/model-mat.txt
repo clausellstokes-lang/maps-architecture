@@ -1,0 +1,31 @@
+176:   (O(degree)). A level's face records inside a parent face are materialised when the first edge of that level is
+600:  materialOverride?: Partial<MaterialRow> /* §2.6 */; allocation: Id /* the district's Allocation record (§4.5 S7b) */; subDistricts: Id[];
+769:### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface
+820:  material: { walls: string; roof: string } /* from MaterialRow; setAttr-overridable; a rendering attribute only (below) */; condition: 'kept'|'worn'|'neglected' /* item 31 rung 1: the fabric's wear — a rendering-class driver like material (§8.2: wear, patched roofs), never a shape input and not an existence state (§2.8); stepped down by §4.11's ladder, restored by renovation */;
+843:  pitch?: number /* a ratio, not an angle */; high?: number /* shed only: the ring side at ridge height */; material?: string };
+844:interface MaterialRow { key: { era: string; stage?: number /* FTG's per-stage default: the growth stage of the building's plot */; districtKind?: string; cls?: string /* overrides, the most specific winning: class (temples and churches stone by row), then district kind, then the stage default */;
+845:  band?: string /* only in the optional regional-shift rows below — absent from every default row, so the default never keys a material by wealth (item 19) */ }; walls: string; roof: string; weight: number; extension?: 'regionalShift' /* §7.6's marker: a row of our optional regional shift, off by default (items 19, 23) */ }   // a rule table (§7.6): its rows are volume 11's; the rule is "Materials" below
+1162:**Materials (COV-FTG-F20; item 19; owner, 2026-09-26: "different materials for construction is only represented by a
+1163:change in texture or color. It has nothing to do with the shape").** A material is a **rendering attribute only**: it
+1165:or a roof form — the same geometry renders in any material, as in FTG; shape is decided by the designation template and
+1166:prosperity alone (§4.7 S11). `MaterialRow` is a rule table read by S11 whose **default rows reproduce FTG's model**
+1167:(item 23): one default material per growth stage (`key.stage`), overridden per district kind and per building class
+1169:roof-colour role by band in the style sheet (§8.2) — never by a material keyed to the prosperity band. The **optional
+1170:regional shift** — rows marked `extension: 'regionalShift'`, off by default, a preset row (D-2) — may shift materials
+1172:`materialOverride` and a building's `setAttr` override the rows; enceintes carry their own wall material (§2.7). Wear
+1472:   §3.8), never blocking an opening or the stair bay. Materials stay texture only (above).
+1634:  intervallum?: Id /* the lane inside the wall when the era row asks for it */; material: string;
+1668:  closed: boolean /* a platform, high side inside */; material: string /* a V11 MaterialRow key: dry stone, earth bank, timber crib … */;
+1705:interface Institution { id: Id; kind: string; plots: Id[]; buildings: Id[]; faction?: Id /* the module's materialised Faction, when it exists (§10.1) */; roster: RosterRef; name: NameRef; reservation?: Id;
+1717:interface MaterialLedger { rows: { epoch: number; material: string; m3: number; from: Id /* the robbed, cleared, dismantled or demolished entity */; to?: Id /* the build or repair it fed */ }[] }   // item 8 (d): one per document, changed only by §4.11's salvage events, so inside the model digest; its only effect on the map is to weight clearance toward nearby building (§4.11)
+1727:// The relation store (FTG-9; when it is materialised and persisted: §10.1, §10.3)
+1796:People are derived, and never materialised in the document unless an explicit edit pins them (§10.3); which people a
+1826:  way's material (drawn by the `material` row by band; an aqueduct never timber); (2) n = max(1, round(L ÷ p)) spans, the
+1920:share of standing and the value the dials last applied — and `Faction` stays the module's materialised record (§10.1,
+1929:sets `secret` — `PowerStanding.secret` in the base (§7.7 layer 2), `Faction.secret` when the module materialises it
+1982:type RosterRef = string;        // the key of the row of §10.2's RosterTables an institution was materialised from
+2061:  zeroed in the record and its material is credited to the `MaterialLedger`, §2.7) → reused (`reused`: the trace keeps
+2255:or, after a rebase, a materialised state; the log is every event since the document was created, in `seq` order.
+2279:  model?: Snapshot;             // the materialised model at the log head: a cache checked against its own model and records digests and verified by replay (load step 3); always written on save
+2308:interface Snapshot { seq: number /* the log head it materialises */; chunks: ChunkRef[] /* content-addressed, below */;
+2419:       replay** folds (base, log) up to `h₀`, the log head `model` materialises (`model.seq`), in replay mode — every

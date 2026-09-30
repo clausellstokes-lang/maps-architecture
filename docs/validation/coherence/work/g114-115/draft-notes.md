@@ -90,14 +90,14 @@ The field `P` is never clamped or compressed.
 3. A value clamp would count the economy twice on a standalone map, because the economy already moves the absolute level through the derived wealth level's character offset.
 4. A compression of the upper tail would move the absolute values that `S_town` and V05's calibrated supply rows read.
 
-**What does flatten.** Only rows read above the ceiling band's centre take that band's row. The top band's upper half already reads that way today, through §4.5's end-band rule.
+**What does flatten.** Only rows read above the highest allowed band's centre take that band's row. The top band's upper half already reads that way today, through §4.5's end-band rule.
 
 ### D114-4. The ceiling's form: a continuous position with a fold (J-A114.44)
 
 **Decision.** The ceiling is `at`, a position on the band ranks.
-- The ceiling band is ⌈at⌉.
+- The highest allowed band is ⌈at⌉.
 - Its share is `f = at − ⌈at⌉ + 1`.
-- The S2 fold works like this: the ceiling band holds `f·W`, the band below holds `w_{c−1} + (1 − f)·W`, and every band above holds 0.
+- The S2 fold works like this: the highest allowed band holds `f·W`, the band below holds `w_{c−1} + (1 − f)·W`, and every band above holds 0.
 
 **Reason.** §7.8 makes the Economy a continuous control, swept for monotonicity and continuity. A stepped band table would jump at each step and fail the sweep, and its pre-decided fallback would then smoothstep it anyway. The fold is continuous at integer positions. I checked both one-sided limits: at `at` = k⁻ the band k holds W≥k; at `at` = k⁺ the band k holds w_k + W>k = W≥k.
 
@@ -148,10 +148,10 @@ The field `P` is never clamped or compressed.
 ### D114-7. Which bound wins (J-A114.47)
 
 **Decision.**
-- The map ceiling wins over item 72 (d‴)'s rows. Each end of the range is lowered to the ceiling band.
+- The map ceiling wins over item 72 (d‴)'s rows. Each end of the range is lowered to the highest allowed band.
 - The range still holds the district's own band, because that band is never above the ceiling (J-A72.50).
 - The dials stay inside the range.
-- The pressure's excess is measured against the clamped range. At the ceiling band the upper cut is 1, so no upward excess arises there and there is no runaway.
+- The pressure's excess is measured against the clamped range. At the highest allowed band the upper cut is 1, so no upward excess arises there and there is no runaway.
 - No rung row caps a band. Band-keyed rung rows are read at the clamped band.
 
 **Precedence.** The ceiling is a rule-table bound. It sits below locks, dossier existence, assignments and drawn geometry, and those hold with the fate `held above the prosperity ceiling`.
@@ -409,14 +409,14 @@ The supply law runs after them, unchanged.
 
 - **DR numbering.** No new DR row is minted; DR6, DR7 and DR27 are extended. Item 116 (materials, drafted in parallel under `work/g116/`) may mint DR41, and items 114 and 115 claim no DR number.
 - **Receipt row F-V8-8.** It is minted by V08 for a changed settlement economy priority, and the base's §7.7 item 13 only names it. If item 116 also mints an F-V8 row, V08 numbers them in filing order: 114 first.
-- **Shared names.** Every name below is pinned in the items and appears nowhere else yet. There are no collisions with existing names, which I checked by grep over the base and volumes.
+- **Shared names.** Every name below is pinned in the items and appears nowhere else yet: a grep over the base section files, the twelve volumes and the amendments files finds each 0 times (receipt `tmp/names-check.txt`). The one collision it found, "ceiling band", is renamed (Terms, below). V05's existing piece name `skyGate` (its gate result) is kept; `SkyGate` is that result's record type.
   - Fields and types: `Intent.economyPriority`, `FieldBands.ceiling {at, by}`, `BandSet.ceiling` rows, `DossierDigest.settlement.economyPriority`, the optional `DossierDigest.site.magic?`, `IslandRule.gate {magic, economyMin}`, `SkyGate` and `SkyGateClause`, `FieldDrivers.ceiling`, `IntendInput.economy` and `IntendInput.islands`.
   - Notes, receipts and fates: `economy_absent`, `economy_clamped`, `magic_absent`, `creation_only`, F-V8-8, `held above the prosperity ceiling`, `held against its magic`, `held against its economy`.
   - Report reasons: `gated: rung|magic|economy`.
   - Messages and buttons: `info.ceiling`, `bend.fill.ceiling`, `button.economyUp`, `info.islandsGated`, `refuse.islandsDossier`, `refuse.islandsNoMagic`, `info.islandsNone`, `button.magicHigh`, `button.economyHigh`.
 - **Terms.**
   - "economy priority" is the value and "Economy" is the control.
-  - "prosperity ceiling" is `at` and "ceiling band" is ⌈at⌉. Item 72's "band range's ceiling" stays distinct.
+  - "prosperity ceiling" is `at` and "highest allowed band" is ⌈at⌉. The base already says "ceiling band" for item 72's range end ("the floor and ceiling bands", §2.5 `bandRange`; "the ceiling band's upper cut", §4.5 (8)), so the map-wide band takes a different name and "ceiling band" alone keeps meaning the range's end (grep receipt `tmp/names-check.txt`).
   - "economy dial" (item 72) and "economy slice" (`CircumstanceSlice.economy`) are unchanged and distinct from all of the above.
 - **Tests.** T114-1 – T114-13 and T115-1 – T115-9 are §13.2's (scope). Volumes extend their own bars (V05's T-V5-1, V08's T-V8 set, and others) without new ids from these items.
 

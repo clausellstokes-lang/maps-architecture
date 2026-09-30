@@ -1,0 +1,70 @@
+  unhistorical (clay-bonded fieldstone was the poor's wall in stone country), so it is admitted for every house row.
+- **Timber local, no quarry, a river partner with stone.** Rubble 3 × 1.5 × (1 + 0.45 × 3) ≈ 10.6. Only rich plots with
+  means ≥ 8.5 reach it — the top ≈ 28 % of the rich band's span, giving rich ≈ timber 80 / rubble 10 / mixed (stone
+  ground storey, timber upper) 10, ≈ 2 % of built land in all; ashlar (≈ 17.6) none. A parish church
+  (prestige 1.0, patronage ≥ 1.06) is stone; by road (rubble ≈ 24.8) no house and no parish church is, a cathedral only at
+  full patronage. By sea (≈ 8.6) about half the rich band. Without the partner: none at all.
+- **Stone local, timber by sea.** Timber frame 2 × 2.85 = 5.7: only the rich reach it (the reverse of the case above, as
+  the task states). With the defaults it falls within `tieBand` of local ashlar (5.75), so the rich share one place by the
+  house row's weights — V11 may weight masonry higher there; T116-7 bounds only "traded timber only in rich". Churches
+  stay masonry because their preference row admits masonry (D25). Without the premium (1.9 → 3.8) the prosperous would
+  take imported timber: that is why the premium exists.
+
+## 4. Mixed construction
+
+| decision | reason |
+|---|---|
+| D22. `BuildingMaterial.mix?: { part: 'upper'|'gable'|'outshots'; walls }` — at most two wall materials; one roof covering per building; `RoofSpec.material` retired (no writer ever set it). | The owner: "individual buildings that is a combination of the two". Two materials is the owner's number. The chimney stack is folded into `gable` (the masonry chimney gable of a timber house is the historical form of "a stone gable or chimney stack"); a separate `stack` part would need the lazy composition at S11, or make material add a chimney (a shape change item 19 forbids). |
+| D23. The **heavier mass takes the lower part and the gable** (masonry > earth > timber); `outshots` gives the dearer to the main range. Which pair is mixed is decided by cost (the blend zone, `mix` 0.5 × 4t(1 − t)); where each goes, by physics. | A timber ground storey under stone upper storeys is structurally absurd, and in the "stone local, timber traded" case the dearer material is the timber. Separating "whether" (cost) from "where" (mass) keeps both the owner's pairing and realism. |
+| D24. Eligibility at S11 from facts S11 has: `upper` needs ≥ 2 floors; `gable` a gabled main wing; `outshots` a base wing of role `back` or `service`. Chimney stacks draw in the building's heaviest masonry or earth wall material, else in the roof tone as today. | No dependence on the lazy composition; no material ever adds or moves geometry. |
+
+## 5. Institutions, pieces, over time
+
+| decision | reason |
+|---|---|
+| D25. `MaterialPreference` rows replace V11's fixed class and district material shares: they ADMIT materials with tie weights and give institutions a `prestige`; they never name a material the settlement lacks. | "Temples always stone" is FTG's per-class law; under the owner's rule a stone church needs stone. A stave church in a timber town and a brick cathedral where clay is local and stone is not follow from the same ladder. |
+| D26. Roof coverings are chosen **by the roof form** (`MaterialDef.covers`: kinds and minimum pitch): thatch ≥ 0.8, shingle and stone slate ≥ 0.5, slate ≥ 0.4, clay tile ≥ 0.3, turf 0.3–0.8, mud and lead on flat, canvas on tents; the floor (turf on pitched, mud on flat) ignores the bounds. | Shape decides the covering, never the reverse (item 19). An arid flat roof never takes thatch. |
+| D27. New ids `adobe`, `log`, `stone_slate`, `mud`; new surface `brick`; `timber` stays one id for sawn boards (board walls and decks). | The realism tiebreaker: arid and cold sites need their own earth and timber walls; the owner names stone slates; brick streets are the Low Countries' answer where clay is local and stone is not. Boards are one material in two uses, so one id. |
+| D27b. `MaterialDef.nativeOnly`: dry stone, log, wattle-and-daub, timber crib and every earth material are never drawn from a partner. | Low-value, bulky materials were never carried: without the flag, wattle-and-daub in a stone country with sea-borne timber costs 1.2 × 2.85 ≈ 3.4, ties with local rubble and half the prosperous would build imported wattle — absurd. Dry stone may still be native by ruins (robbed rubble). |
+| D28. Over time: standing fabric keeps its material and origin; a repair is in kind; a **rebuild, a new build, a completed upward refurbishment and a fire rebuild** re-pick at the epoch's supply; a refurbishment never picks cheaper than it stands. A link acts from the first epoch whose slice lists it and ends with the first epoch whose slice no longer licenses it (a dossier receipt F14 enters the next epoch's slice). A native source opens or ends by a deposit's state, a timeline toggle, or (timber) the standing woods falling below the test. | The owner: "can't have … or grow to have them" governs construction; demolishing stone houses when a link closes is least-disruption-hostile (item 22) and unhistorical. The refurbishment rule gives "rebuilding in dearer materials as a quarter grows richer" through the base's existing upward refurbishment (§4.11), with no new op. |
+| D29. The fire rebuild shift reads the supply and extends to walls (an ordinance stretch of the means × 1.25), reported `fire_rebuild_unavailable` when nothing less flammable is available. | The historical ordinances after great fires required masonry and tile; availability bounds them (no brick where there is no clay and no partner). |
+| D30. The ledger is keyed by **family**; a ruins-only family is built only while the stock within 250 m covers the debit (J-A8.45 amended: the ledger never creates a material; for a native-by-land or traded family it stays a flow record). | The owner's refinement forbids a reported shortfall standing in for a material; the flow-record rule stays where a real source exists. |
+| D31. The history replay reads the present partner set for every replay epoch (the dossier states no dated partner) and treats a deposit listed `depleted` or `removed` today as available in the replay's epochs before the last. | No partner is invented for the past; a worked-out quarry was worked once, so the peak city's stone and its robbed ruins are explained without trade. |
+| D32. V04's quarry volume law counts only fabric whose origin is native-by-land stone; tunnels gain a `lining` (masonry, `timber` shoring, or none). | Traded stone makes no local working (read-vols F7 (1)); the owner's "all relevant pieces" includes the underground's linings, which today have no material. |
+| D33. Paving: V01's surface table keeps its structure; `paved` needs stone, `cobble` stone or river or beach pebbles, `brick` fired clay native (from c14), `planks` timber; fallback paved → cobble → brick → planks (quays, piers, bridges and comfortable+) → dirt. | Street surfaces are the most visible material of all; setts were local stone. |
+
+## 6. Items 19 and 23, presets, overrides
+
+| decision | reason |
+|---|---|
+| D34. **Item 19's default clause** ("never by a material keyed to the prosperity band"; `band` absent from every default row) and **item 23's FTG-reproducing default rows** are superseded AS THE DEFAULT by item 116, the newer owner rule. Item 19's "texture and colour, never shape" stays and is extended to every structure's material within its kind. | The standing rule: a newer owner rule prevails where they conflict; the owner wrote 116 knowing FTG's model. The shape clause is not in conflict. |
+| D35. One switch, `materials.supply.enabled` (an `extension` option cell, default on; `MFCG`, `FTG`, `VG`, `NG` off; `FM` zeroes none). Off → S11 reads the kept parity `MaterialRow` (FTG's per-stage rows, band and regional-shift rows removed), byte-identical to the base (the no-op pin). An older document's recipe lacks the cell and reads off, so it replays byte-identically. Turning it on is an `Adjust` from S1 (11): buildings' geometry never moves, but producer classes and structure kinds (a bridge's stone or timber, a raised way's pier spacing, V07's circuit kind) may, so T116-2 pins buildings and lets structures change only through their kind. | Emulation where a parity preset asks (item 23 kept for the presets); a user can still choose FTG's model; old documents never shift silently. |
+| D36. The `lit` default sheet colours roofs by the **roof material's** role; the band tint rows move to the FTG parity sheet (J-A19.81 kept there). `ink` shows the roof family as an ink pattern at the building band and the close-up only; MFCG's sheet shows none. | Under 116 the material already carries wealth; a band tint as well double-encodes it and paints a rich thatched roof "the deepest clay". The default look (`ink`, D-1) would otherwise never show the owner's rule. |
+| D37. The regional shift is **retired and folded**: its rows become `MaterialDef.factors.region` cost rows; `key.band` goes (band enters through the means); `extension: 'regionalShift'` goes (the switch replaces it); D-2's region preset carries the region's cost rows; `EraRow.region` keys them; `EraRow.materialRows` keys the parity rows. | One concept, one mechanism: "shift with band within what the region builds with" IS the new default. |
+| D38. `setAttr` of a material and a district's `materialOverride` **win** (origin `edit`), hold through regeneration, license nothing; the clerk's critique reports them; standalone, the edit's alternatives line offers the partner declaration. A dossier-declared material (`materialFamily`, a kind row that declares one) is honoured on that element only (origin `dossier`). A map-side partner on a dossier map is refused `dossier-owned`. | The task: setAttr and materialOverride still win; item 20 (h): dossier facts never move and a user's edit of a map fact is theirs (§7.7 item 11); the owner's refinement binds derivation and growth, not an author's explicit act, which the critique makes visible. The partner set is a dossier fact. |
+| D39. Standalone partner declaration: V09's Trade control writes `source: 'declared'` partners into the creation slice (an `Adjust` whose re-derivation is scoped by the supply's family slices: the picks and S2's producer demand for a changed family), or into a timeline entry's slice for an epoch. | §7.6's slice rule already re-derives exactly the entities citing a changed slice; making the supply's families slices gives least disruption with no new mechanism. |
+
+## 7. What was considered and not chosen
+
+- **A town-wealth factor on the means** (`wealthLevel`): rejected — item 114 is the owner's mechanism for town wealth;
+  adding a second would double-count and could disagree with it.
+- **Band-share tables per material** (the regional-shift form): rejected as the default — they cannot express "stone only
+  where a partner ships it, and only for the very rich" without a table per supply case; the cost ladder does it with one
+  formula and a handful of cells.
+- **A free-form "trade access" import** for ports and river towns without a named partner: forbidden by the owner.
+- **Reading SettlementForge's `resourceAnalysis`, `nearbyResourcesNative[]` or campaign ledgers**: not in the adopted
+  list; `…Native` has no established meaning (read-sf §3.4); the ledgers are on the never-read list.
+- **Culture prose** (`culturalIdentity.builtForm`): never parsed; culture enters only as our own cost rows keyed by the
+  culture key (clean-room).
+- **Re-picking standing fabric when a link closes**: rejected (D28).
+- **A `stack` part and per-wing roof coverings**: rejected (D22).
+
+## 8. Bars → test ids (all §13.2, cited by the volumes)
+
+T116-1 no-op pin · T116-2 texture only · T116-3 licence invariant · T116-4 both local · T116-5 timber, no stone · T116-6
+timber with a stone partner · T116-7 the reverse · T116-8 cost function · T116-9 monotone pick · T116-10 mixed ·
+T116-11 one native test · T116-12 dossier deposits · T116-13 partners (DR3) · T116-14 supply web and producers · T116-15
+earth only · T116-16 everything native · T116-17 desert · T116-18 marsh or delta · T116-19 mountain · T116-20 port and
+route · T116-21 thorp to metropolis · T116-22 item 114 · T116-23 islands (item 115) · T116-24 history replay · T116-25
+a link over epochs · T116-26 sources over epochs · T116-27 structures · T116-28 paving · T116-29 institutions ·
+T116-30 overrides and the dossier · T116-31 determinism and load · T116-32 why, legend, export, compile totality.

@@ -1,0 +1,138 @@
+72. **OWNER RULE — What defines a neighbourhood, and names it (owner, 2026-09-27).** Owner: "By the way, just so you know,
+    prosperity can shift for a number of reasons as well as regression and expansion to a number of reasons. Eventually
+    neighborhoods are going to be more or less defined by the mix of assigned lots within them and how they correlate to
+    relevant political powers as well as the spatial flow of trade both to main streets and the general direction
+    (paired with location of walls and gates as gates) where trade is flowing most from, in addition to the economic
+    make up of a settlement that can shift, their relationship to the main roads and to the more significant institutions
+    which synergizes with again the make up or contributions of assigned lots to institutions within a settlement. This
+    assignment also helps to assign names to neighborhoods." The owner's words are the authority; the consequences are
+    the program's vetoable interpretation, refining §4.5's district typing, §10.4's naming and item 8's evolution
+    drivers. The dossier supplies the facts (item 20); SettlementForge's dossier is being surveyed (J67) so this item's
+    inputs can be matched to its real fields at reconciliation.
+    (a) A NEIGHBOURHOOD'S CHARACTER IS DERIVED, NOT ASSIGNED ONCE: a district's character vector is computed from (1) the
+    MIX of its assigned lots (the trades, institutions and households placed there, weighted by size and rank); (2) its
+    POLITICAL ALIGNMENT — how those lots correlate with the settlement's powers (factions, guilds, the church, the crown,
+    the criminal network: the dossier's political facts), as shares of affiliated lots; (3) its TRADE POSITION — the
+    spatial flow of trade: its place on the main streets and on the routes from the gates, weighted by the direction the
+    settlement's trade mostly flows from (the dossier's trade partners and routes mapped onto the gates and main roads);
+    (4) its ECONOMIC ROLE in the settlement's make-up (what share of which sector it holds); (5) its RELATIONSHIP to the
+    main roads and to the significant institutions nearby, and the CONTRIBUTIONS its lots make to those institutions
+    (suppliers, members, dependants). Kinds (market, docks, craft, temple, gate …) remain the emulation-first labels, now
+    read off this vector.
+    (b) IT SHIFTS OVER TIME: the vector is recomputed at each epoch; prosperity, expansion and regression have many causes
+    (the dossier's events, the economy, politics, war, trade shifts, disaster), and a district's kind and band follow its
+    vector through item 31's ladder, never by re-roll.
+    (c) NAMES FOLLOW CHARACTER: the naming engine (§10.4) names a neighbourhood from its dominant vector components — its
+    trade (Tanners' Row), its institution (Temple Hill), its faction (the Guildquarter), its trade direction or gate (the
+    Northgate), its terrain — and keeps a name once given unless the owner or the dossier renames it or its character
+    changes past a hysteresis (the old name may survive as a historical name, as real quarters keep outdated names).
+    (d′) THREE KINDS OF INSTITUTION, AND HOW EACH SHAPES NEIGHBOURHOODS (owner, 2026-09-27: "And in some institutions
+    that we have for settlement Forge, we had things like districts or slums. Those should define a whole neighborhood
+    either changing things within our neighborhood to fit with it or generating that in mind but not completely
+    occupying every single lot to the specific institution that defines that. For example, a red light district might
+    still have a blacksmith or an inn or other institutions, but would also have an increased number of brothels. Now
+    we're going to define institutions which basically say multiple blacksmiths or multiple alchemists or multiple
+    churches as not neighborhood or districts, but something to be dispersed out across all neighborhoods and districts,
+    randomly someone with more than other some may not have it at all. But what defines with the exception of those
+    special cases where it is like a red light district, how we define a neighborhood is based but we currently don't
+    have to defined in the settlement (like there's one red light district not two) the prosperity and lot assignment
+    contributions to the neighborhood. For example, if there is a neighborhood that has three or more or a lot of
+    churches or it has a grand cathedral which by itself is enough, then let's call that neighborhood the religious
+    quarter. There is one that has multiple craftsman that were generated there and that's the craftsman quarters and so
+    on and so forth where appropriate"). A class-table column `distribution` on every institution and building class:
+    (1) DISTRICT-DEFINING — a dossier institution that IS a district (a red-light district, the slums, a foreign quarter,
+    a guild district …): it claims ONE neighbourhood each (as many as the dossier lists — one red-light district, not
+    two), sited where its kind belongs (a red-light district near docks, gates and inns; slums at the poorest edge), and
+    shapes it without filling it: the neighbourhood's lot mix is the ordinary mix for its band with the defining trade's
+    share RAISED to the class row's target (more brothels, still a smith, an inn, houses), and its band, granularity,
+    greenery and lighting take the kind's row (slums: squalid band, informal clusters of item 70); when the dossier adds
+    one to a settlement already drawn, an existing neighbourhood is converted toward it by least-disruption mutation
+    (item 22), never re-rolled. (2) DISPERSED — ordinary institutions with many instances (smiths, alchemists, chapels
+    and churches, bakers, inns): spread across all neighbourhoods by the placement solver with affinities (item 16) and
+    a controlled randomness, so some neighbourhoods hold several, some one, some none — never gathered into a district
+    by rule. (3) SINGULAR OR ANCHOR — one-off major institutions (a cathedral, the palace, the university, the great
+    market): sited by their own rules and weighing heavily on the neighbourhood around them. IDENTITY FOR EVERY OTHER
+    NEIGHBOURHOOD is EMERGENT from what landed in it and its prosperity: a table of QUARTER IDENTITIES, each a weighted
+    count of class families with a threshold, a band condition and a priority — e.g. RELIGIOUS QUARTER: chapels and
+    churches weight 1, a cathedral or a great temple weight 3, threshold 3 (so three churches, or one cathedral alone,
+    suffice); CRAFTSMEN'S QUARTER: craft workshops weight 1, threshold by the neighbourhood's size; MERCHANTS' QUARTER:
+    trading houses and warehouses with a prosperous-band condition; and so on, our own rows. The highest-priority
+    identity whose threshold is met names the neighbourhood's kind (and feeds its name, (c)); a neighbourhood meeting none
+    takes its dominant component of (a) or a plain residential kind by band; identities may repeat across a city (two
+    craftsmen's quarters) unless their row is marked singular. Kinds from the dossier (1) always win over emergent ones.
+    (d″) POWER DIALS AND VALUE, NOT VOLUME (owner, 2026-09-27: "when we have those kind of neighborhood assignments (as
+    opposed to lot assignments), they will see a relatively synergetic bonus to the relative power. A craftsman quarters
+    for example, will rise and fall with the power relationship dynamics of the craft guilds power. Now this applies both
+    to every craftsman institution in the settlement as well as a specific craftsman's quarters, so it's two separate
+    dials, and this applies to all powers and institutions in buildings. I would be very careful on how you assign these
+    values because it's not just about the number of institutions for example, you will have a lot more lodging places
+    just for people that live in and you will have churches and just because there's a lot more lodging doesn't mean
+    that anything related to lodging is more prosperous than churches from that alone. It means that each church
+    individual value is greater than the lodging and it has other things working out. And of course quarters can shift
+    over time depending on their make up."). (1) EVERY institution and building class is associated with the power(s) it
+    answers to (craft guilds, merchant houses, the church, the crown, the military, the criminal network … as the dossier
+    names them; a table row, dossier-overridable). (2) TWO DIALS, both read from the dossier's power standings (the
+    dossier owns power dynamics; the map reads them, item 20): the INSTITUTION DIAL — every institution of a power, anywhere
+    in the settlement, rises and falls with that power's standing (its building's condition, upkeep, extensions, its
+    plot's prosperity term); the QUARTER DIAL — a neighbourhood whose identity is tied to that power (the craftsmen's
+    quarter to the craft guilds, the religious quarter to the church) gets its own synergetic term on top, so the quarter
+    as a whole rises and falls with the power. Both enter the prosperity field as driver terms (§4.5) with declared
+    weights, never replacing the other drivers. (3) VALUE, NOT VOLUME: identity thresholds, the character vector and the
+    dials weigh each instance by its SIGNIFICANCE — a per-class value (a cathedral far above a church, a church far above
+    a lodging house, a guildhall above a workshop) scaled by the instance's rank, size and patronage — never by counts
+    alone; ubiquitous classes (housing, lodging, common shops) carry low significance, so many lodgings never outweigh a
+    few churches or make "lodging" a prosperous power; a power's weight in a quarter is the significance-weighted share of
+    its institutions there. (4) QUARTERS SHIFT OVER TIME as their make-up and the powers' standings change — recomputed at
+    each epoch with hysteresis (item 31's ladder), their names following past the hysteresis ((c)).
+    (d‴) THE NEIGHBOURHOOD BOUNDS ITS BUILDINGS (owner, 2026-09-27: "And I would say this neighborhood prosperities
+    defines the bounds (floor, and ceiling) of what any building inside of it can be. So any amplifier specific to the
+    institution regarding its prosperity let's stay with the neighborhood bounds until the neighborhood itself
+    upgrades"). Each neighbourhood's prosperity value gives a BAND RANGE — a floor band and a ceiling band (a table row
+    by the value: near the top of the scale the range narrows to the rich band alone, all manors; a prosperous but not
+    extreme neighbourhood spans middle to rich, item 71's mix; a poor one spans squalid to modest). Every
+    prosperity-driven state of a building inside it — its class for a new build or a re-designation, its condition and
+    upkeep, its extensions, its occupants' band, its interior ladder rung — stays inside that range. The INSTITUTION DIAL
+    of (d″) and any other building-specific amplifier moves a building WITHIN the range and is clamped at the ceiling
+    (and the floor); the excess is not lost: it accumulates as upward (or downward) pressure on the neighbourhood's own
+    prosperity value, so a thriving institution lifts its neighbourhood over epochs, and when the neighbourhood's band
+    changes past its hysteresis the range moves and the buildings may follow. Consistency with item 31: the range governs
+    what a building IS and how it is kept, not whether an existing shell survives — a mansion's shell standing in a
+    neighbourhood that has fallen keeps its geometry floor, while its condition, occupants and interior are bounded by
+    the neighbourhood's range (subdivided, worn); and no informal cluster or hovel is built below the floor of a
+    neighbourhood whose range excludes the squalid band.
+    (d4) THE ECONOMIC MAKE-UP AMPLIFIES WHAT IT RESTS ON (owner, 2026-09-27: "Oh, when I keep forgetting that regarding
+    prosperity, alter tie into the economic make up of the city which we have the data for in settlementforge. If trade
+    is the number one contributor to the economy for example that is an amplifier to things like markets. If it's taxes
+    and toll roads then any infrastructure becomes amplified more."). A third dial beside (d″)'s two, the ECONOMY DIAL,
+    read from the dossier's economic make-up (the share each sector contributes to the settlement's economy — trade,
+    crafts, agriculture, taxes and tolls, mining, fishing, religion and pilgrimage, military, magic, crime …, as
+    SettlementForge names them; the survey of research/sf/ maps its fields). A table associates each institution and
+    building class, and each infrastructure element (markets, warehouses and quays for trade; gates, toll houses, bridges,
+    roads, walls and the customs house for taxes and tolls; workshops and guildhalls for crafts; farms, mills and granaries
+    for agriculture …), with the sectors it serves; each sector's MARKET SHARE of the economy sets its amplifier in proportion
+    (owner, 2026-09-27: "Rather than say, the leading sectors amplify the most I would say that there's like a market
+    share however, much any one controls, the market share affects their application") — a sector holding 40 % amplifies
+    its classes twice as strongly as one holding 20 %, measured against a neutral even mix, with no extra bonus for
+    ranking first — entering the prosperity field and the institution condition as a
+    declared driver term (§4.5), significance-weighted ((d″)(3)), bounded by the neighbourhood's range ((d‴)), its excess
+    flowing into the neighbourhood's pressure. It also feeds the character vector's economic component ((a)(4)) and the
+    quarter identities (a trade-led city grows a merchants' quarter sooner). The make-up shifts over time as the dossier's
+    economy does, and the dial follows at each epoch with hysteresis. The map reads the make-up; it never models the
+    economy itself (item 20; the dossier owns it).
+    (d5) SHARED BUILDINGS ARE PARTITIONED, NEVER DOUBLED (owner, 2026-09-27: "I would say that shared buildings also as
+    how we consider them when they contribute to neighborhoods prosperity or receive amplification is also defined by the
+    relative ranking of powers and economic makeup. Because we don't want to double up those the contribute to multiple
+    powers should not get a double amplification, but a partition amplification relative to the strength of both or more
+    powers they contribute to and their economy"). A building or institution that serves several powers ((d″)) or
+    several sectors ((d4)) receives ONE amplification, partitioned: its weight toward each power or sector is that
+    power's standing, or that sector's market share, relative to the others it serves (normalised so the weights sum to
+    one), and its amplification is the weighted blend of theirs — never their sum. The same partition governs what it
+    CONTRIBUTES: its significance feeds each power's weight in the quarter, each sector's presence and the neighbourhood's
+    prosperity pressure in those proportions, so a guild chapel serving the craft guild and the church counts once, split
+    between them by their relative strength and economy. §13 bar: a building's total amplification and contribution never
+    exceed those of a single-power building of the same significance.
+    (d) HOMES: the character vector and its five components in §2.5 (District.character) and §4.5 (typing), the trade-flow
+    term with §4.3 routes and gates, the political term with §10 and the dossier contract §7.7, naming in §10.4 and §9,
+    recomputation in §4.11; §13 bars: the vector is a pure function of the lots, the dossier's facts and the geometry;
+    a district's name changes only past the hysteresis or by a rename.
+

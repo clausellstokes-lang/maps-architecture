@@ -1,0 +1,12 @@
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1529:interface ReceiptRow { row: string /* F1 … F22, F-V8-1 … F-V8-7 */; element: DossierChange['element']['kind']; op: DossierChange['op'];
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1841:   event, F21 a reroll — and the port's own kinds of V08 §3.6 (1) — F-V8-1 `relation` (the powers' pulse week when the
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1842:   line stamps one, else arrival; a `setAttr` through a `dossierRecord` put), F-V8-2 `port-values` (arrival; `epoch`; the
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1843:   government's legitimacy read as an `attr` on this key), F-V8-3 `custom-def`, `custom-chain` and `custom-service`
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1844:   (arrival; the responses of V08 §3.5's diff table), F-V8-4 `chain`, F-V8-5 `dependency` and F-V8-7 `evidence`
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1845:   (arrival; `epoch`), F-V8-6 `calamity` (its own tick; `epoch`, riding `EpochInputs.events`) (item 393) — are data rows
+docs/volumes/V08-settlementforge.md:1740:   this volume adds are dated by rows F-V8-1 – F-V8-7 of `tables/dossier/receipts` (BCR-V8-20): a relation by its powers'
+docs/volumes/V08-settlementforge.md:3094:`tables/dossier/receipts` gains the rows V08 §3.6 (1) names: F-V8-1 `relation` (receipt: the powers' pulse week when the
+docs/volumes/V08-settlementforge.md:3095:line stamps one, else arrival; response `setAttr` through a `dossierRecord` put); F-V8-2 `port-values` (arrival; response
+docs/volumes/V08-settlementforge.md:3096:`epoch`); F-V8-3 `custom-def`, `custom-chain`, `custom-service` (arrival; responses by V08 §3.5's diff table); F-V8-4
+docs/volumes/V08-settlementforge.md:3097:`chain` (arrival; `epoch`); F-V8-5 `dependency` (arrival; `epoch`); F-V8-6 `calamity` (receipt: its own tick; `epoch`,
+docs/volumes/V08-settlementforge.md:3098:riding `EpochInputs.events`); F-V8-7 `evidence` (arrival; `epoch`). The government's legitimacy is read as an `attr` on

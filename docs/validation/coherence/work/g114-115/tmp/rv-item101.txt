@@ -1,0 +1,30 @@
+101. **OWNER RULE — The authoring toolkit: one vocabulary of declarations for the user and the AI clerk, so a dedicated
+     user can build or emulate a known city (owner, 2026-09-27 ~18:30).** Owner, after the Baldur's Gate experiment
+     (`docs/experiments/known-city-authoring.md`, J78): "But what I want you to do is come up with an elegant set of tools
+     for both an ai clerk and a user where a dedicated user can build it or emulate it."
+
+     **(a) THE PRINCIPLE — declare, then derive.** Authoring is a set of DECLARATIONS: each says what must be true of the
+     city; the generator derives everything undeclared by the design's rules (item 20 (h) applied to human input — an
+     author's declarations are immutable facts on the map exactly as dossier facts are, until the author changes them).
+     Every declaration is one of §7.1's edit events (or sugar over one), so it has one dry run, one disruption-and-fates
+     report, one commit and one undo; nothing changes silently, and a refused declaration returns the reason and the
+     closest acceptable alternatives (item 20 (g)). EMULATING a city is declaring its intent, bones and programme and
+     letting the rules fill the fabric; BUILDING it is also declaring the fabric where fidelity matters. Same tools,
+     different depth.
+
+     **(b) THREE SURFACES, ONE VOCABULARY.** The same declarations are made (1) by a person with the canvas tools, (2) by
+     the AI clerk through a typed tool API (the edit events plus the reader's queries and the oracle, over §11.2's
+     embedding API), and (3) as a SKELETON FILE — the ordered declarations as a document, imported as the log's creation
+     prefix (§2.9, §7.7) and exported from any map as its declared subset. Bar: a call from any surface produces the same
+     event; a skeleton exported and re-imported with the same seed reproduces the city byte for byte; the clerk's
+     transcript of tool calls is itself a valid skeleton.
+
+     **(c) THE TWELVE TOOLS, in five layers of commitment** (the author may stop at any layer; everything below it is
+     derived). L0 INTENT — T1 `intend`: site, size band, form from the forms catalogue (§7.7: `hill-acropolis`,
+     `bridge-town`, `port-quay-parallel`, `radial`, `linear-street`, `confluence`, `twin-town`, `polycentric`, … plus a new
+     `citadel-and-port` row: a walled upper town on high ground over a walled lower port), era and style, prosperity,
+     walls policy (none, one, two enceintes). L1 GROUND AND BONES — T2 `ground`: terrain strokes (raise, lower, cliff,
+     flatten), coast, river course knots, a harbour basin (`setField` terrain, `warp`, `drawWater`, `moveCourseKnot`);
+     T3 `wall`: an enceinte (closed or open, kind) with GATES declared as points on it — sugar `placeGate` over a short
+     through-way stub — or arising where a declared road crosses (`drawWall`); T4 `road`: a way of a class — through,
+     primary, secondary, lane, alley, track, path, quay, pier, bridge, ford — a road drawn across water is a bridge deck

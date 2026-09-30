@@ -1,0 +1,20 @@
+# fantasy group (0 hits expected)
+# deferral stems in items
+123: (h) keeps the lived word the truth. *A later slider change in the dossier* (a same-i
+126:map whose creation reads its slider. *A later change in the panel:* standalone, T1's 
+# LANDED lines 2026-09-30
+1840:2026-09-30 00:50 coherence CLOUD RESUME (session in a Claude Code cloud container, 4 CPUs: the harness runs at most 2 agents per workflow, so the six lanes
+1862:2026-09-30 01:28 coherence/rewrite-V04 CHECKPOINT volume assembled to new/volumes/V04-underground.md (70.9k words); ids/refs/terms/clean-room checked; next
+1865:2026-09-30 01:31 coherence/rewrite-V03 CHECKPOINT new volume file written (66 724 words, -19.4 %); mapping generated (513/513); next: report rewrite-V03.md
+1866:2026-09-30 01:33 coherence/rewrite-V04 CHECKPOINT report §7-§13 (findings, hand-offs, edges, mapping 360 rows) written; next: cross-part notes, result, L
+1867:2026-09-30 01:34 coherence/rewrite-V04 LANDED docs/validation/coherence/new/volumes/V04-underground.md docs/validation/coherence/rewrite-V04.md docs/valida
+1868:2026-09-30 01:35 coherence/rewrite-V03 LANDED docs/validation/coherence/new/volumes/V03-interiors.md docs/validation/coherence/rewrite-V03.md docs/validati
+# item text: census/slider claims
+8:  `economicState.priorities`; no simulator writes them after birth; the settlement's wealth is one 
+9:y` (Subsistence … Wealthy); all 155 census dossiers were generated at the default sli
+161:l above the Economy: lifted, `by: 'wealth'` (T114-5). (6) A thorp and (7) the village produc
+198:above the ceiling bends with `bend.fill.ceiling`; a `prosperityBands: ['rich']` criterion places 
+238:ealth level, `info.ceiling`, `bend.fill.ceiling` with `button.economyUp`, the Wealth view's legen
+270:ntrol in the advanced panel's fantasy group, so the basic panel's budget holds (R15); it emit
+295:` (§7.7 item 11, J-V5.19) is retired — the setting alone raises nothing now, and the
+418:vel`'s magic, the register's `ownerRule` entries (never calibrated), and M6-sky's panel s

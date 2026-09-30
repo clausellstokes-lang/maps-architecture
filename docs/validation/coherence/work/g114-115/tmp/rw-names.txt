@@ -1,0 +1,29 @@
+T114-: 0
+T115-: 0
+T116-: 50
+F-V8-[0-9]: 12
+highest allowed band: 3
+SkyGateClause: 0
+FieldDrivers.ceiling: 0
+host\.locked: 14
+bend\.fill\.band: 1
+refuse\.islandsRung: 2
+button\.cityUp: 2
+economyPriority: 0
+magic_absent: 0
+unmapped_word: 20
+creation_only: 0
+held against its supply: 4
+held above: 2
+fantasy group: 0
+report panel: 35
+factTier: 54
+BandSet: 3
+prosperityBands: 2
+requirementBand: 6
+joinMaxDelta: 5
+dial\.hysteresis: 8
+circumstances\.magic: 0
+adjust\('intent: 0
+adjust\('layers: 0
+intent\.surprise: 8

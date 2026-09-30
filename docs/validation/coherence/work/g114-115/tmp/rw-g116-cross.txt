@@ -1,0 +1,22 @@
+15:     your recomendation". Bundled with items 114 and 115 into the coherence pass's Rewrite phase (owner, ~01:12). **What
+20:     keyed to the prosperity band", with an optional regional shift off by default; `Building.material` is one
+120:     `DossierDigest.economy.partners[]` gains `exports?: string[]` (our good ids), `resources?: string[]` (deposit keys) and
+125:     `TradeFlow`), a partner of weight 0 (hostile, or a suppressed economy), the label lists (`primaryImports`,
+174:     into its district's band range `[floor, ceiling]` (item 72 (d‴): the neighbourhood's bounds), then read on the band row
+183:     of item 114's highest allowed band — 10, the `rich` row's, where no ceiling binds. **Which prosperity reads which:**
+191:     raised way 1.0, a retaining wall on a civic face 0.8, lining 0.5, paving 0.6. **Item 114** (its (b)–(c): the ceiling
+192:     caps the band, never the field value): the town's wealth reaches the means only through the bands the
+193:     field and the ceiling leave — a plot banded at the highest allowed band reads that band's row along its value up to its
+194:     `hi` (the band's upper cut reading 1), a district's range is lowered to the ceiling before it clamps, and institutions
+195:     and works read `means.top`, so the ceiling limits how much dear material can appear by construction; this item adds no
+196:     wealth term of its own (one mechanism, item 114's). **Item 115:** a floating island's plots read their own bands; the
+197:     high economy item 115 requires makes island fabric dearer, from the same supply ((i)).
+362:     **(m) ITEMS 19 AND 23 — THE CONFLICT, STATED AND RULED.** Item 19 (owner-approved default) says wealth shows "through
+382:     under the owner's rule the material already carries wealth and a band tint would paint a rich thatched roof "the
+402:     | item 114's ceiling | no means above `means.top`, the highest allowed band's `hi`, for plots, institutions and works alike | — | T116-22 |
+403:     | islands (item 115) | the settlement's supply; island rock no source | — | T116-23 |
+473:     T116-22 **item 114**: no plot's means above `means.top` × `rungMeans`, and no institution's or work's above `means.top`
+474:     × its factors; the traded share non-increasing as the ceiling lowers. T116-23 **islands**: island materials ⊆ the
+505:     | base **scope** (§0, §1, §13, §14, §16, D-n, register) | §0's row for 116 and item 19's row amended; §1's buildings row ("item 116's supply model by default; FTG's under the FTG preset"); §13.2's T116-1 – T116-32; §14's `DossierDigest.economy.partners[]` fields; §16's milestones (J-A116.01: the supply, the pick, the rows and the record at M1 with V11's C1; the mixed facets, the edit paths and the standalone Trade control at M3a; the exports at M3b; the plan at M6-P; linings and quarry voids at M6-U; the epoch parts at M6-E; the dossier fill at M-SF; the why at M3c with the clerk); D-2 amended; the register's J-A116.01 (milestones), .21 (the default model; J-A19.21 superseded), .41 (which prosperity reads which), .42 (institutions outside the band range), .43 (the ledger never creates a material; J-A8.45 amended), .44 (the timber shortfall; J-A26.42 amended), .45 (quarries of native stone; J-A65.45 amended), .61 (the streams), .81 (the `lit` roof by covering; J-A19.81 kept under FTG) | every other unit |
+510:     | **V05** sky | the landfall credit as family `stone`; island buildings on the settlement's supply; the island's rock, conjured water and magical structures are no source and no material; item 115's gate unchanged | the supply, the pick |
+527:     and the plan, with the underground for linings and voids. *Routing:* bundled with items 114 and 115 (owner, ~01:12);

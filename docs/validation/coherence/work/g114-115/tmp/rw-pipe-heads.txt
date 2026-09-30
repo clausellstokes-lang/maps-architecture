@@ -1,0 +1,141 @@
+1:## §4 Generation pipeline
+11:### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker
+205:### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace
+207:**S0 Blueprint.** `Blueprint = { version, seed, size: { rung: Rung /* §1.1 */, population? | areaHa? | buildings?,
+230:**feature table** — P(coast), P(river), P(lake), P(oasis), P(castle), P(castle on the enceinte), P(temple),
+238:**Water in dry country (item 111 (a)).** On a biome whose climate row is arid, S0's water rows read that row: P(river),
+248:**S0's sewer feature (item 14; II.7.1).** At TOWN a `sewers: 'auto'` is resolved by the feature table's P(sewers) row —
+255:**S1 Site (O1; the mechanism that removes whole-map restarts).** A requested feature infeasible on the drawn site is
+291:**The oasis (item 111 (a)).** An oasis is a spring-fed pond or small lake: its site is the best-scored hollow or fault
+328:**pinned deck**: a bank-to-bank segment perpendicular to the local flow (the course tangent averaged over one channel
+399:**S2 Programme (the roster demand side; O7).** From `population` (or derived from area or buildings by the size tables)
+416:**secondary** markets — the row's `firstAtPopulation` (10 000, the CITY floor) and `perCapita` (one per 12 000
+467:**Output:** `Roster` (demand by class with area / frontage requirement classes, district affinities, wealth bands) and
+479:**S2 need propagation (item 16 (b); with §10.2's supply edges).** After the sequential roster has produced the manifest,
+492:**S3 Siting, reservations, the stage-1 boundary and its trace (J-P26).** S3 decides everything the first enceinte depends
+710:**Dossier-backed elements at creation (item 22 (d); with §7.7; J-A22.41).** A brand-new map from an existing dossier holds
+712:**fixed rows** — one (class, ordinal) each at the head of its class, present at every population and never withdrawn by
+719:### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph
+721:**Lattice and costs.** Built once at S3 (§4.2 S3 (3); they depend only on the frame, terrain, water and reservations) and
+735:**Routes.** S4 commits the gate routes solved at S3 (§4.2 S3 (5)) without re-solving: each is split at its gate into the
+749:**One graph, then one smoothing (GEO-16).** All routes are solved first on the lattice; the arterial graph is the union of
+768:**Result.** Through-roads continue to the context margin with their bearings (O14); MFCG's radial gate → plaza
+773:**Raised ways — viaducts, elevated roads, aqueducts (item 110 (b); file f item 290).** A raised way is a way carried
+830:**Markets as destinations (item 24).** A flanking principal market (§4.2 S3 (12)) is on its way already: S4 commits that
+836:**Trade flow — the gates' and the ways' trade weights (items 72 and 77; J-A77.41, J-A77.42).** `TradeFlow` is declared
+860:**Two-point roads (item 101 (i)).** A `drawWay` declaration in its `points` form — two points and a class, or more points
+870:### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check
+875:**S5a Stage boundary and enceinte trace.** *Boundary (FTG-5, COV-FTG-D26; J-P7):* the boundary of stage k is a level set
+955:**S5b Main-road step (FTG-4; stages k ≥ 2 and every epoch stage).** The stage's primaries match its gates: `N_k` = the
+970:**S5c Growth of the secondaries.** Inside the boundary a priority queue of proposals grows streets FTG-style (CONFIDENCE
+1020:**S5d Capacity check (FTG-2).** Right after S5c the stage's new coarse faces are priced: built land per face = face area
+1031:**Stage regimes** (a table; `StageRegime` rows per rung, era and form):
+1041:**The fusion risk gate (O4 f) and its fallbacks.** S4 + S5 + S8 infill ≤ 100 ms at CITY on reference hardware; the
+1051:**Markets and `T` (item 24).** `T` keeps its root at the plaza(s) whatever site the principal market takes (§4.2 S3
+1056:### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims
+1058:**Perimeter and margin band.** S6's one L1 batch first inserts the **settlement perimeter** — the last stage's boundary
+1070:**Grower (CONFIDENCE B9).** Seeds = the sited features (every market — the principal's reservation and each secondary's
+1078:**edge test** = (no arterial of class ≥ primary, no wall trace, no water, no reservation boundary) unless the seed kind
+1096:**Quarters (MFP-10, VIS-4; J-P2, J-P28, J-I1).** After typing, S6 builds §9.1's quarter merge tree (`QuarterNode`) once
+1100:**quarters** are the tree's cut at `min(N_q, L)` nodes — after `L − min(N_q, L)` merges, L the number of districts the
+1108:**Typing (G-P5; MFP-7; J-P1).** A data-driven scorer per district kind reads the roster's remaining demand per class,
+1112:**greedily from the largest** with a **mixed-use floor** (no single-use district unless requested, R5). Kinds are
+1113:**feature-named**; wealth is not a kind — "the rich quarter" is a description the naming engine derives from the
+1133:**Fields (owner: prosperity is a gradient and a band; AM-6).** The **prosperity field**
+1152:**Drivers, for the oracle** (item 102 (f), item 101 (d)): `ProsperityField.drivers(points): FieldDrivers` evaluates each
+1253:**S7b Allocation and district claims (after S7; LC-2, FTG-1, FTG-3).** Everything that decides the town's content is
+1337:**Neighbourhood character, identity, the three dials and the band range (item 72; owner: "neighborhoods … more or less
+1501:### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule
+1520:**Test:** on every walled B-CITY seed, 0 lanes cross a wall strip and 0 L3 band faces are cleared or split by an L1 batch.
+1522:**The strategy slot.** S8 calls `FabricStrategy.partition(district, seam, ctx)` for the district's `fabric` row; the base
+1527:**Sides (GEO-22).** Before any rule reads a side, the face boundary is reduced to **runs** (the kernel's `sideRuns`,
+1533:**The recipe (MN-3; the mechanism of NG 1.2.2's plain bisector as read in its code — reader-tier, via the digest —
+1660:**The deep-interior rule (IMP-8, GEO-25; J-P15).** When recursion stops and a block's local thickness exceeds twice its
+1673:**Hidden plots, and how a court or a rear row is reached (item 30; owner: "plots that do not have a direct access to
+1706:**Exposure — how a plot's reach is named (item 30 (a)).** When S10 types a plot's access edges it sets `Plot.exposure`
+1724:**Holes (the case of NG 1.2.2's hole-aware bisector, C13 — ours).** A cut that would cross a hole is routed to the hole's
+1730:**Stairs and ramps (item 110 (a), (b)).** Where a way — an S8 lane or any way of an earlier stage — crosses a retaining
+1738:**Partition recipes (COV-MFCG-G03).** The same module exposes `PartitionRecipe` rows built only from the kernel's
+1743:**An alley that presents itself; back courts across epochs (items 29, 30 and 31).** For item 29's side and rear entrances
+1753:**The staged crime term (item 88; J-A88.41).** When the dossier port fills §10.2's staged crime row (`PortRows.crime`: the
+1761:### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model
+1763:**S9 Corridors (L2).** `corridorUnion(l1Faces)` (§3.7), the single kerb function, commits exactly the kerbs S8 cut
+1773:**S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district's `Allocation` (S7b) is
+1804:**S10 Plots (L3) — frontage-first with the granularity law (O5 / O18), per block.**
+1805:**(0) Shared-edge bands, eager (J-I9).** A block whose `interior` is `wall_strip` (§4.8) gets no plots. Its L3 content is
+1813:**margin bands** along the settlement perimeter and along any reservation boundary two districts share. The enceinte's
+1822:**The class floors (the one home; §3.2 (2), §3.10, §5.2's F-PLOT and F-CORRIDOR and §5.3's class-floor row cite it
+1889:**Levelling and retaining walls (item 110 (a); file f items 245, 302, 309).** With `terrace.enabled` (a switch, V11
+1914:**`levelledGroundCm(doc, key: PlatKey, p: PointCm): Cm`** is the one reader of levelled heights (pure, draw-free): the
+1927:**Deck plots (item 110 (d); file f item 246).** S10's deck-plot cutter offers plots on every built ground-part-0 deck —
+1941:**S10b Placement (O7; per district; the allocation honoured) — the one placement solver (item 16).** Each block's
+2132:**S11 Site plans and footprints (L4; O17; one batch per block) — the designation template and the designation mutator.**
+2140:**specialisation** — the designation's variant in this band, with its room programme (item 28, §2.6): a farrier or
+2174:**Front-line jitter — an area-scaled recession (item 43).** Each plot's main slot may stand back from its frontage by a
+2200:**Footprints and heights.** The row arrangement's footprints are made here by the boolean above and passed to
+2220:**description, opening hours and sub-locations** from the class table and the naming engine (COV-FTG-F21, FTG-11); yards
+2223:**The designation mutator (item 18).** A change of designation — an `assign` or `unassign`, a `setAttr` on a plot's use or
+2272:**Furniture pins (COV-MFCG-I01, COV-FTG-J02, COV-FTG-J05; `pin.*` streams).** The main plaza always gets one centrepiece —
+2289:**Markets and hidden plots in this stage (items 24 and 30; the rules are §4.2 S3 (12)'s, §4.5 S7b (3)'s and §4.6's).**
+2297:**Vacant plots under decline (AM-8).** A plot whose last building is cleared or reused merges into a garden, orchard or
+2302:**Households per building (item 28 (f); J-A28.46).** S10b places a residential plot's households — per residential slot (a
+2334:**Concealed institutions — a front and a hidden function (item 63; owner: "some criminal like institutions or buildings
+2416:**Light sources — placed by rule (item 68; owner: "a night time view with appropriately spaced and partitioned torches or
+2476:**Informal clusters — tenure and the cluster arrangement (item 70; owner: "some neighborhoods simply have a lot of for
+2532:**Class mix inside a band — the gradient reaches the building mix (item 71; owner: "a prosperous neighborhood … may have a
+2572:**Notice posts (item 82; J-A82.41).** The furniture step places a `notice` pin (§2.7) where §10.2's notice rule puts one —
+2576:### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture
+2578:**The trace is S3's and S5a's** (§4.2 S3 (6)–(9), §4.4), always fixed before that stage's secondaries grow. S7 builds
+2582:**Wall strips, band, setbacks, intervallum (GEO-38, MFP-9, COV-FTG-G07; J-P29).** S7's L1 batch cuts two **wall strips**
+2585:**inner setback line** — or, where the era row asks for an **intervallum** (`lane` on inner and outer enceintes at CITY and
+2588:**glacis line** — or, where a moat runs along the wall, by the moat's inner bank, the strip then being the band's half plus
+2598:**Graded by stretch (item 106 (c)).** The wall's thickness, height, walk and tower spacing are a `ChainProfile` along the
+2606:**Gates — exactly N, by construction (MFP-4).** Main gates are where S4's and S5b's arterials cross the trace: N₁ gate sites
+2619:**Towers** — a row per enceinte kind and rung: at every trace vertex whose turn exceeds a threshold and along straight runs
+2627:**The harbour mouth (item 106 (e)).** A walled port's harbour entrance gets two towers on the mole or breakwater heads (or
+2632:**The castle (MFP-3, COV-FTG-G09, COV-FTG-G10).** The S3 bailey reservation becomes the castle's plot; its curtain is its
+2636:**gatehouse** at the town-side gate S3 fixed (§4.2 S3 (8)), with an inward spur; the **keep** — shape `rect` (by `lir`),
+2661:**repaired** when its compactness reaches the floor and **unrepaired** when a pass gains less than 0.001 or the passes are
+2673:**Water furniture.** **Bridges** stand on pinned decks — S1's on rivers; S3's on the moats and canals it carves (§4.2 S3
+2688:**harbour works** under §5.3's crossing invariant; MFCG's `1.2 ± t` pier casing is a style. **Canals and moats** were carved
+2694:### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)
+2696:**S12a Hinterland siting (eager, no geometry; after S7b, before S8; O14-core; FTG-7).** S12a makes the hinterland's
+2820:**S12b Greenery (after S11; O19; owner base ruling AM-1) — the rule table.** Greenery is a rule family that reads the
+2872:**Acceptance (O19, adopted):** (a) Spearman(prosperity, private green share) ≥ 0.7 within ± 5 points of the table mean,
+2880:**The owner rule, clause by clause (AM-1).** Trees and greens here and there: the poor-quarter tree-by-the-well pin, edge
+2887:**One more member of the family (AM-10).** II.6's island supply law is a row of this family: an island's supported area and
+2892:**Gardens over epochs (item 31).** The yard rows read the plot's manifested band for the yard parts that exist (S11's yard
+2897:### 4.10 S13 Names and labels · S14 Display list · S15 Simulation
+2903:**description** from its venue mix, features and prosperity (§10.4; COV-FTG-E10). **S13b (view)** places labels per zoom
+2910:**Names and descriptions from character (items 67, 70 and 72).** Since S13a follows S12c (§4.1), a district's naming and
+2916:### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)
+2918:**The one built path: add a growth stage (GEO-27, LC-12, FTG-4, FTG-14).** `grow(doc, epochInputs)` appends an `epoch`
+3115:**Conversions** are typed plat operations with recorded events. `ConversionOp` is defined here, once, as one union: the
+3137:**`wallToWay(enceinte)`** is `retypeEdges(ChainRef('wall', enceinte), add ('way', the new ring road), remove 'wall')`: the
+3146:**`carve` — a canal, moat or basin added by an edit, or an outer moat by S5a (§4.4).** The dry run decides every way's fate
+3162:**Other crossings (J-I13).** A wall trace that `S` crosses has its **run** — the trace between the nearest unaffected towers
+3174:**The footprint (J-P34).** `C` is the set of L1 cells (the faces of the L1 view) that (a) the channel ⊕ (`attractCm` + bank
+3188:**The batches**, each single-level (§3.3):
+3233:**A cut way's far part — the records that name a way (J-Fpipe-2).** When the carve's batch (1) hands a cut way's far part
+3252:**Coherence from one seed (owner).** Epoch N+1 is derived from epoch N's persisted state, the inputs and the seed's epoch
+3257:**The evolution engine is the owner's staged stage (DEF-8; V06, M6-E); its hooks are concrete now.** The owner's history —
+3279:**The runner** (in `@plat/edit`'s fold) runs, for each `EpochStep` in order, the phase for that step — the override the
+3294:**History-first generation (item 113; with V06's replay engine, V08's history reading, V04's buried ruins and lost access,
+3346:**The clock — weeks (item 76, with item 67's Works; owner: "our simulator advances by units of one week").** "Our
+3384:**The rung at an epoch (item 81 (b); J-A81.41).** At each epoch the rung profile is read at the epoch's `populationTarget`
+3411:**The dials' inputs over epochs (items 72, 78 and 79).** At each epoch, before S6 re-evaluates the drivers, a power's
+3417:**Uses across epochs (item 17) — the hooks now, the engine's step later.** A **use** — a shop, workshop, inn or institution
+3445:**The epoch-spread mutation (item 18 (c)).** Across epochs a designation change is not applied at once: the engine issues
+3453:**Dossier content across epochs (item 20; J-A20.75, J-A20.43).** No step of an epoch closes a dossier-backed use (its
+3478:**Decline and regrowth (owner, 2026-09-25: "growth, regression and growth where appropriate"; AM-8).** Regression is growth
+3603:**Terrain and water change slowly (item 25; the engine is owner-staged, the kinds and the hand path are the base's).**
+3637:**Hidden plots over epochs (item 30 (e); the base carries the kinds).** A passage can be **sealed** — `sealPassage` sets
+3651:**Works — every physical change on the ground as a timed project on the weekly clock (item 67; owner: "when a building
+3762:**Markets over epochs (item 24).** A secondary market the roster's suffix adds is claimed by the epoch's S7b in the new stage
+3766:**Informal clusters over epochs (item 70 (e); J-A70.48).** On the weekly clock a cluster grows by accretion: delta households
+3777:**Lights, deposits and conditions over epochs (items 68 and 88).** A light follows its host (§4.7's *Light sources*), and an
+3783:### 4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)
+3820:**Stage hooks.** A stage may declare hook points; S7b (1) calls its `S7b.afterGreedy` hooks between its greedy pass and its
+3827:**The pipeline order** is the topological order of the routed product's stage set (`ProductDecl.stages`, the base's own set
+3839:### 4.13 Edges and meeting points — the defined outcome at every limit
+3868:**Where features meet (the combination suite, §13.2, B-EDGE).** Each cell is the outcome where the row's feature meets the
