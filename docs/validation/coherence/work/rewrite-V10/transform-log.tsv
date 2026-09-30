@@ -1,0 +1,354 @@
+113	cite-Vn	V9	V09
+237	G-clerkhandle	ClerkHarness	ClerkHandle
+238	G-clerkhandle	ClerkHarness	ClerkHandle
+239	cite-Vn	V9	V09
+241	AMBIG	V10 §2.12, §4.1	V10 / base §4.1
+277	cite-Vn	V9	V09
+278	AMBIG	V02 §3.16, §4.6	V02 / base §4.6
+282	AMBIG	V08 §3.1, §4.4	V08 / base §4.4
+283	AMBIG	V09 §2.7, §2.9	V09 / base §2.9
+284	list-prefix	V11 §2.4, §3.3.1	V11 §3.3.1
+285	AMBIG	V04 §2.2, §3.5	V04 / base §3.5
+286	list-prefix	V03 §2.1, §3.7.4	V03 §3.7.4
+287	AMBIG	V05 §3.20, §4.5	V05 / base §4.5
+288	list-prefix	V06 §2.10, §2.11	V06 §2.11
+289	AMBIG	V07 §2.1, §2.7	V07 / base §2.7
+290	AMBIG	V06 §4.1 and §4.5	V06 / base §4.5
+302	cite-Vn	V6	V06
+327	cite-Vn	V9	V09
+328	G-clerkhandle	ClerkHarness	ClerkHandle
+342	list-base	V06 §3.15.2, §11.2	V06 / base §11.2
+343	list-base	V11 §4.5, §11.2	V11 / base §11.2
+347	cite-Vn	V6	V06
+353	AMBIG	V10 §3.15, §7.3	V10 / base §7.3
+358	cite-Vn	V9	V09
+365	cite-Vn	V9	V09
+366	cite-Vn	V9	V09
+366	cite-Vn	V9	V09
+366	AMBIG	V09 §2.9, §4.9	V09 / base §4.9
+367	cite-Vn	V9	V09
+367	cite-Vn	V9	V09
+367	cite-Vn	V9	V09
+371	cite-Vn	V9	V09
+371	cite-Vn	V9	V09
+380	G-clerkhandle	ClerkHarness	ClerkHandle
+380	G-clerkhandle	ClerkHarness	ClerkHandle
+381	list-prefix	V10 §2.6, §3.17	V10 §3.17
+389	cite-Vn	V9	V09
+389	cite-Vn	V9	V09
+389	G-clerkhandle	ClerkHarness	ClerkHandle
+390	cite-Vn	V9	V09
+390	cite-Vn	V9	V09
+390	AMBIG	V10 §2.6, §4.3	V10 / base §4.3
+391	cite-Vn	V9	V09
+391	cite-Vn	V9	V09
+392	cite-Vn	V9	V09
+392	cite-Vn	V9	V09
+392	cite-Vn	V9	V09
+392	G-clerkhandle	ClerkHarness	ClerkHandle
+392	AMBIG	V09 §3.9, §4.11	V09 / base §4.11
+393	list-prefix	V10 §2.3, §3.12	V10 §3.12
+439	list-prefix	V04 §3.5.0a, §3.5.2	V04 §3.5.2
+442	G-DR	DR-V8.7	DR34
+443	G-DR	DR-V8.8	DR35
+483	cite-Vn	V9	V09
+552	cite-Vn	V9	V09
+563	cite-Vn	V9	V09
+656	cite-Vn	V9	V09
+658	cite-Vn	V9	V09
+663	cite-Vn	V9	V09
+664	cite-Vn	V9	V09
+665	cite-Vn	V9	V09
+666	cite-Vn	V9	V09
+669	cite-Vn	V9	V09
+672	cite-Vn	V9	V09
+674	cite-Vn	V9	V09
+674	cite-Vn	V9	V09
+679	cite-Vn	V9	V09
+679	cite-Vn	V9	V09
+685	G-clerkhandle	ClerkHarness	ClerkHandle
+694	cite-Vn	V9	V09
+694	list-prefix	V10 §4.2 and §3.11	V10 §3.11
+705	cite-Vn	V9	V09
+705	G-clerkhandle	ClerkHarness	ClerkHandle
+707	cite-Vn	V9	V09
+707	cite-Vn	V9	V09
+708	cite-Vn	V9	V09
+709	cite-Vn	V9	V09
+709	cite-Vn	V9	V09
+710	cite-Vn	V9	V09
+711	cite-Vn	V9	V09
+711	cite-Vn	V9	V09
+712	cite-Vn	V9	V09
+713	cite-Vn	V9	V09
+714	cite-Vn	V9	V09
+725	cite-Vn	V9	V09
+728	cite-Vn	V9	V09
+744	cite-Vn	V9	V09
+787	cite-Vn	V9	V09
+832	cite-Vn	V9	V09
+987	cite-Vn	V9	V09
+989	cite-Vn	V9	V09
+1065	cite-Vn	V6	V06
+1132	AMBIG	V11 §3.3.1, §2.4	V11 / base §2.4
+1154	cite-Vn	V6	V06
+1192	cite-Vn	V6	V06
+1237	cite-Vn	V9	V09
+1237	AMBIG	V09 §2.10, §4.11	V09 / base §4.11
+1239	cite-Vn	V9	V09
+1239	AMBIG	V09 §3.9, §4.11	V09 / base §4.11
+1300	list-prefix	V10 §2.3, §3.12	V10 §3.12
+1374	cite-Vn	V6	V06
+1380	cite-Vn	V6	V06
+1537	cite-Vn	V9	V09
+1539	cite-Vn	V9	V09
+1542	cite-Vn	V9	V09
+1544	cite-Vn	V9	V09
+1545	cite-Vn	V9	V09
+1550	cite-Vn	V9	V09
+1553	cite-Vn	V9	V09
+1557	cite-Vn	V9	V09
+1560	cite-Vn	V9	V09
+1560	cite-Vn	V9	V09
+1562	cite-Vn	V9	V09
+1568	cite-Vn	V9	V09
+1568	cite-Vn	V9	V09
+1573	cite-Vn	V9	V09
+1725	cite-Vn	V6	V06
+1735	AMBIG	V02 §4.5, §4.6	V02 / base §4.6
+1835	cite-Vn	V9	V09
+1835	cite-Vn	V9	V09
+1840	cite-Vn	V9	V09
+1867	cite-Vn	V9	V09
+1893	cite-Vn	V9	V09
+1893	list-prefix	V09 §4.9, §4.17.5	V09 §4.17.5
+1953	cite-Vn	V9	V09
+1954	cite-Vn	V9	V09
+2058	cite-Vn	V9	V09
+2060	cite-Vn	V9	V09
+2062	cite-Vn	V6	V06
+2066	cite-Vn	V9	V09
+2068	cite-Vn	V9	V09
+2154	cite-Vn	V9	V09
+2157	cite-Vn	V9	V09
+2169	cite-Vn	V9	V09
+2169	cite-Vn	V9	V09
+2169	cite-Vn	V9	V09
+2169	cite-Vn	V9	V09
+2169	cite-Vn	V9	V09
+2169	cite-Vn	V9	V09
+2170	cite-Vn	V9	V09
+2170	cite-Vn	V9	V09
+2171	cite-Vn	V9	V09
+2172	cite-Vn	V9	V09
+2172	cite-Vn	V9	V09
+2174	cite-Vn	V9	V09
+2184	cite-Vn	V9	V09
+2193	cite-Vn	V9	V09
+2195	cite-Vn	V9	V09
+2196	cite-Vn	V9	V09
+2199	cite-Vn	V9	V09
+2204	cite-Vn	V9	V09
+2207	cite-Vn	V9	V09
+2231	cite-Vn	V9	V09
+2262	cite-Vn	V9	V09
+2304	AMBIG	V08 §3.14, §4.4	V08 / base §4.4
+2446	cite-Vn	V9	V09
+2461	cite-Vn	V9	V09
+2462	cite-Vn	V9	V09
+2470	cite-Vn	V9	V09
+2474	cite-Vn	V2	V02
+2475	cite-Vn	V2	V02
+2479	cite-Vn	V9	V09
+2486	cite-Vn	V9	V09
+2486	cite-Vn	V9	V09
+2541	cite-Vn	V9	V09
+2541	cite-Vn	V9	V09
+2546	cite-Vn	V9	V09
+2567	cite-Vn	V6	V06
+2629	cite-Vn	V9	V09
+2636	cite-Vn	V9	V09
+2641	cite-Vn	V9	V09
+2668	cite-Vn	V9	V09
+2673	cite-Vn	V9	V09
+2767	cite-Vn	V9	V09
+2770	cite-Vn	V9	V09
+2770	cite-Vn	V9	V09
+2770	cite-Vn	V9	V09
+2770	cite-Vn	V9	V09
+2770	cite-Vn	V9	V09
+2795	cite-Vn	V9	V09
+2795	cite-Vn	V9	V09
+2810	G-clerkhandle	ClerkHarness	ClerkHandle
+2841	cite-Vn	V9	V09
+2889	G-clerkhandle	ClerkHarness	ClerkHandle
+2901	cite-Vn	V9	V09
+2985	G-clerkhandle	ClerkHarness	ClerkHandle
+3004	cite-Vn	V2	V02
+3010	cite-Vn	V9	V09
+3016	cite-Vn	V9	V09
+3016	G-clerkhandle	ClerkHarness	ClerkHandle
+3017	cite-Vn	V9	V09
+3021	cite-Vn	V9	V09
+3022	cite-Vn	V9	V09
+3022	cite-Vn	V9	V09
+3023	cite-Vn	V9	V09
+3023	list-prefix	V10 §2.3, §3.12	V10 §3.12
+3026	cite-Vn	V9	V09
+3026	cite-Vn	V9	V09
+3026	cite-Vn	V9	V09
+3028	cite-Vn	V9	V09
+3028	cite-Vn	V9	V09
+3029	cite-Vn	V9	V09
+3029	cite-Vn	V9	V09
+3029	cite-Vn	V9	V09
+3029	cite-Vn	V9	V09
+3029	AMBIG	V09 §3.3, §4.9	V09 / base §4.9
+3029	list-prefix	V09 §5.8, §5.9	V09 §5.9
+3030	cite-Vn	V9	V09
+3030	cite-Vn	V9	V09
+3030	list-prefix	V10 §3.14, §3.13	V10 §3.13
+3031	cite-Vn	V6	V06
+3031	cite-Vn	V6	V06
+3033	cite-Vn	V9	V09
+3034	cite-Vn	V9	V09
+3034	cite-Vn	V9	V09
+3034	cite-Vn	V9	V09
+3035	cite-Vn	V9	V09
+3035	cite-Vn	V9	V09
+3036	cite-Vn	V6	V06
+3036	cite-Vn	V6	V06
+3038	cite-Vn	V9	V09
+3338	cite-Vn	V9	V09
+3338	cite-Vn	V9	V09
+3338	cite-Vn	V9	V09
+3338	cite-Vn	V9	V09
+3341	cite-Vn	V9	V09
+3341	cite-Vn	V9	V09
+3341	cite-Vn	V9	V09
+3341	cite-Vn	V9	V09
+3341	cite-Vn	V9	V09
+3349	cite-Vn	V9	V09
+3349	cite-Vn	V9	V09
+3349	AMBIG	V09 §2.10, §4.11	V09 / base §4.11
+3350	cite-Vn	V9	V09
+3351	cite-Vn	V9	V09
+3351	cite-Vn	V9	V09
+3351	cite-Vn	V9	V09
+3351	cite-Vn	V9	V09
+3352	cite-Vn	V9	V09
+3352	cite-Vn	V9	V09
+3352	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	cite-Vn	V9	V09
+3353	AMBIG	V09 §2.10's and §4.11	V09 / base §4.11
+3354	cite-Vn	V9	V09
+3354	cite-Vn	V9	V09
+3354	cite-Vn	V9	V09
+3354	cite-Vn	V9	V09
+3449	AMBIG	V09 §2.10, §3.7	V09 / base §3.7
+3451	list-base	V11 §2.4's family enum, §4.2	V11 / base §4.2
+3460	cite-Vn	V9	V09
+3467	cite-Vn	V9	V09
+3476	AMBIG	V08 §3.14 and §4.4	V08 / base §4.4
+3486	cite-Vn	V9	V09
+3486	AMBIG	V10 §1b.2, §2.6	V10 / base §2.6
+3492	cite-Vn	V9	V09
+3494	cite-Vn	V9	V09
+3495	cite-Vn	V9	V09
+3496	cite-Vn	V9	V09
+3501	cite-Vn	V9	V09
+3501	cite-Vn	V9	V09
+3526	cite-Vn	V9	V09
+3528	AMBIG	V08 §3.1's `connect-src`, §4.4	V08 / base §4.4
+3531	cite-Vn	V9	V09
+3539	cite-Vn	V9	V09
+3545	cite-Vn	V9	V09
+3553	cite-Vn	V9	V09
+3570	cite-Vn	V4	V04
+3571	cite-Vn	V9	V09
+3572	cite-Vn	V9	V09
+3580	cite-Vn	V9	V09
+3583	cite-Vn	V6	V06
+3586	list-prefix	V10 §2.6, §3.16	V10 §3.16
+3591	cite-Vn	V9	V09
+3591	list-prefix	V09 §2.10, §5.8	V09 §5.8
+3593	cite-Vn	V9	V09
+3598	cite-Vn	V6	V06
+3605	cite-Vn	V9	V09
+3605	AMBIG	V09 §2.9, §4.5	V09 / base §4.5
+3623	cite-Vn	V9	V09
+3625	cite-Vn	V4	V04
+3627	cite-Vn	V9	V09
+3633	list-prefix	V10 §3.5 step 3 and §3.16	V10 §3.16
+3651	cite-Vn	V9	V09
+3667	cite-Vn	V9	V09
+3667	cite-Vn	V9	V09
+3673	cite-Vn	V9	V09
+3692	cite-Vn	V9	V09
+3711	list-prefix	V10 §3.5 step 3 and §3.16	V10 §3.16
+3724	cite-Vn	V9	V09
+3726	cite-Vn	V9	V09
+3730	cite-Vn	V2	V02
+3730	cite-Vn	V2	V02
+3777	G-clerkhandle	ClerkHarness	ClerkHandle
+3779	cite-Vn	V9	V09
+3780	cite-Vn	V9	V09
+3802	AMBIG	V08 §3.14, §4.4	V08 / base §4.4
+3804	cite-Vn	V9	V09
+3806	cite-Vn	V9	V09
+3806	cite-Vn	V9	V09
+3808	cite-Vn	V9	V09
+3826	cite-Vn	V9	V09
+3826	cite-Vn	V9	V09
+3826	cite-Vn	V9	V09
+3826	cite-Vn	V9	V09
+3829	cite-Vn	V9	V09
+3837	cite-Vn	V9	V09
+3855	cite-Vn	V9	V09
+3855	cite-Vn	V9	V09
+3856	cite-Vn	V9	V09
+3857	cite-Vn	V9	V09
+3862	cite-Vn	V9	V09
+3864	cite-Vn	V9	V09
+3885	cite-Vn	V9	V09
+3885	cite-Vn	V9	V09
+3887	cite-Vn	V9	V09
+3888	cite-Vn	V9	V09
+3888	cite-Vn	V9	V09
+3893	cite-Vn	V9	V09
+3914	cite-Vn	V9	V09
+3915	cite-Vn	V9	V09
+3915	cite-Vn	V9	V09
+3923	cite-Vn	V9	V09
+3940	cite-Vn	V4	V04
+3940	cite-Vn	V9	V09
+3944	cite-Vn	V9	V09
+3969	cite-Vn	V9	V09
+3969	cite-Vn	V9	V09
+3969	cite-Vn	V9	V09
+3970	cite-Vn	V9	V09
+3970	cite-Vn	V9	V09
+3970	cite-Vn	V9	V09
+3970	NONE	V09 §4.9's table; §1b.1	V09 / base §1b.1
+3972	cite-Vn	V9	V09
+3972	cite-Vn	V9	V09
+4006	cite-Vn	V9	V09
+4006	cite-Vn	V9	V09
+4007	cite-Vn	V9	V09
+4007	cite-Vn	V6	V06
+4009	cite-Vn	V9	V09
+4015	list-prefix	V10 §3.13 step 4, §3.16	V10 §3.16
+4017	cite-Vn	V9	V09
+4019	cite-Vn	V9	V09
+4022	cite-Vn	V9	V09
+4036	cite-Vn	V9	V09
+4047	list-prefix	V10 §3.5 step 3; §3.16	V10 §3.16
