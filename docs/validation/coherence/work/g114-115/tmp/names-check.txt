@@ -1,0 +1,28 @@
+economyPriority: 0
+FieldBands.ceiling: 0
+BandSet.ceiling: 0
+SkyGate: 0
+IslandRule.gate: 0
+economy_absent: 0
+economy_clamped: 0
+magic_absent: 0
+creation_only: 0
+F-V8-8: 0
+held above the prosperity ceiling: 0
+held against its magic: 0
+held against its economy: 0
+info.ceiling: 0
+bend.fill.ceiling: 0
+button.economyUp: 0
+info.islandsGated: 0
+refuse.islandsDossier: 0
+refuse.islandsNoMagic: 0
+info.islandsNone: 0
+button.magicHigh: 0
+button.economyHigh: 0
+IntendInput.economy: 0
+IntendInput.islands: 0
+prosperity ceiling: 0
+ceiling band: 3
+T114-: 0
+T115-: 0
