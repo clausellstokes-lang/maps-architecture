@@ -1,0 +1,67 @@
+1:# Design volume 5 — Floating islands: the sky layer
+92:## 0 In plain words
+186:## 1 Scope, the base hooks consumed, and what is out of scope
+199:### 1.1 What this volume builds (to build depth)
+256:### 1.2 The base hooks this volume consumes (cited, never restated)
+311:### 1.3 Out of scope, and whose it is
+349:## 1b Wiring table — every new piece, what feeds it and what it feeds
+415:## 2 Data model
+417:### 2.1 The island record, revised (applied by BCR-V5-1 and BCR-V5-2)
+489:### 2.2 The access record (new; registry row by BCR-V5-1)
+517:### 2.3 The hand-over to the unit run (a derived view; never persisted)
+549:### 2.3a The shade strip (derived with the prosperity field; item 102)
+580:### 2.3b The access obstacles (an export for item 110's raised ways; C5-48)
+597:### 2.4 The rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratable}`)
+741:### 2.5 Identity
+755:### 2.6 The lifecycle of every state field this volume adds or gives a producer
+799:## 3 Generation
+801:### 3.1 Where the sky runs in the stage graph
+837:### 3.2 Existence and count
+875:### 3.3 The two supplies, on absolute values (answering RV-pc-3)
+916:### 3.4 Purpose — a prosperity island or an institution island
+944:### 3.5 The sky allocation (S7b (5) at depth)
+1036:### 3.6 Shape (S7b (5), per open slot, in the island's local frame)
+1048:### 3.7 Placement — where the island floats (S7b (5), per open slot, in slot order)
+1075:### 3.8 The island arena: frame, land, rim, terrain, the conjured river (SKY)
+1110:### 3.9 The underside, the ground reference and the altitude (the owner's J98)
+1165:### 3.10 Access — the tops, the feet, the landing claims (SKY)
+1241:### 3.11 The island's field and its context vector
+1293:### 3.12 The hand-over to the unit run, and what it must honour
+1347:### 3.13 Lights (SKY-F; the sky rows of §4.7's light table, BCR-V5-8)
+1360:### 3.14 Names
+1370:### 3.15 Over time — the island laws an epoch applies (`IslandEpochStep`, BCR-V5-7)
+1469:### 3.16 The fall and the landfall (`fallIsland`)
+1549:### 3.17 Failure ladders (the F-SKY rows of §5.2, BCR-V5-11) — never a whole-map retry
+1565:### 3.18 Determinism — every draw on an existing concern (no new concern; J-V5.12)
+1588:### 3.19 The island's shade strip (the owner's item 102 on the island's side; J98's underside)
+1679:### 3.20 The siting rulebook on and across the island (the owner's items 103 and 104 where they reach islands)
+1820:### 3.21 The rim as a barrier (the owner's item 106 where it reaches islands; J-V5.49)
+1847:### 3.22 Item 110 on, under and against the island (the owner's "they go in"; C5-47 to C5-55)
+1937:## 4 Editing
+1939:### 4.1 The declarations — item 101's twelve tools, no thirteenth
+1967:### 4.2 The new and extended events and their semantics (BCR-V5-10)
+2135:### 4.3 Locality and undo
+2164:### 4.4 The dossier — derivation row DR-SKY and coherence (BCR-V5-12)
+2186:### 4.5 The clerk's view
+2226:## 5 Rendering, labels, exports
+2228:### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)
+2272:### 5.2 Occlusion
+2280:### 5.3 Light and shadow — the underside's shadow (the owner's J98; BCR-V5-13)
+2318:### 5.4 Labels
+2327:### 5.5 Exports (§11.1's rows extended, BCR-V5-13)
+2346:## 6 Performance budgets
+2394:## 7 Tests and acceptance bars
+2684:## 8 Build plan
+2738:## 9 Decisions (each vetoable)
+2824:## 10 Base change requests
+3268:## 11 Owner questions
+3276:## 12 CONFIRMED versus PLAUSIBLE
+3444:## 13 Fix list
+3631:## Integration notes (volumes/_integrate, 2026-09-29)
+3654:## Reconciliation round 1 (volumes/reconcile-V05-r1, 2026-09-29)
+3681:## Reconciliation round 2 (volumes/reconcile-V05-r2, 2026-09-29)
+3704:## Reconciliation round 3 (volumes/reconcile-V05-r3, 2026-09-29)
+3726:## Reconciliation round 4 (volumes/reconcile-V05-r4, 2026-09-29)
+3747:## Reconciliation round 3 — continuation (volumes/reconcile-V05-r3, second brief, 2026-09-29)
+3765:## Reconciliation round 5 (volumes/reconcile-V05-r5, 2026-09-29)
+3788:## Reconciliation round 6 (volumes/reconcile-V05-r6, 2026-09-29)

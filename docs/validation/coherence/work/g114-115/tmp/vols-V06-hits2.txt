@@ -1,0 +1,342 @@
+62:- P1 TV-01 (a)–(d), SLR4-09 the sky participant's every island event, §6.2's row by V05 §6's rows, the century sum re-derived, J-V6.118, X40 — done
+71:- N4 SLR3-11, TU-06 (a)–(c) the island participant's raise and budget; the scope's readers; stored plans re-cut (§3.2, §6.2, §2.1, §2.12, §3.19.4 (5), W64, X18, IN-V06-4) — done
+91:- L4 TR-15, TR-16 wording and the island mask — done
+152:island-shadow and sunlight sections of 2026-09-28 included); `docs/AMENDMENTS-2026-09-28g.md` (items 102, 103 with (f));
+156:and its stored-plan row; §7.4's epoch, Works, `builtBand`, `fieldBand` and rejection rows and its undo semantics; §7.7's
+163:(`UndergroundFade`, `SewerStrategy.extend`, `UndercityEpoch.reread`), V05 §3.15–§3.16 (`IslandEpochStep`, `fallIsland`).
+207:sunny side of the hill and away from the shadow of a floating island. Your own custom institutions keep their places;
+268:   as typed hazard rows, the town wealth level over time (BCR-V6-9) (V6 §3.3).
+287:13. **The history record, replay and time scrubbing**: the epoch report and chronicle, the history index, history frames,
+328:| the survivors' wealth ladder, the due mark, the ladder table, the churn caps, the geometry floor | §4.11, §2.5 | the ladder phase schedules rungs 1–3 on due blocks in the order V6 §3.8.4 states |
+329:| the decline table, exposure field, strike lottery, dwell bands, salvage ledger, persistence order | §4.11, §2.7 | the decline phase builds the lottery's candidate sets per layer (V6 §3.5) |
+338:| `epoch.transform`, `works`, `use.relocate`, `island.place`, `people`, the stage id component of the stream key | §6.1 | every draw; the engine's phases register their own stage ids (V6 §3.16; BCR-V6-8) |
+340:| the undo record, independence, groups, checkpoints, replay mode | §7.4, §7.3 | the `advance` group, history frames (V6 §4, §3.15) |
+342:| the prosperity field and its drivers, S12c's character step and pressure | §4.5 | re-evaluated each epoch; the building shade mask enters its shade driver (item 102) |
+347:| `IslandEpochStep` (V05 §3.15); V04's epoch functions (V04 §1b.2, §3.10) — `UndergroundFade` (`under.fade`); in `under.extend`, in V4 §3.10's one order, `Foundations.apply`, `ArchVaults.reconcile(doc, scope.raised, epoch)`, `SewerStrategy.derive` at the first sewers epoch else `SewerStrategy.extend` with its wall drop
+356:| the village product's `ProductDecl`, its rung path and the product fold with its hand-off band | V07 §2.1, §3.12 (BCR-V7-18, absorbed into BCR-V6-1; BCR-V7-26) | the epoch's product and rung (V6 §3.1 (3)); the product phase overrides, participants and epoch rows (V6 §3.1 (4), §3.5.2, §3.5.3); the clamp to the registe
+359:| item 110 in the sibling volumes: the deck and stacked datums (V02 `deriveBase` stacking, BCR-V2-32; deck buildings, V2 §3.16), arch vaults (V04, critique-V4 C4-110-1–C4-110-3), clearance after growth and the landfall's ruined parts (V05, BCR-V5-28, critique-V5 C5-47, C5-53), the close-ups' add path (V01, critique-V1 V1C
+364:* **The island laws** (supply, waning, settling, falling, re-floating), their shade strip and the underside profile —
+365:  volume 5's (`IslandEpochStep`, V05 §3.15). This volume calls it at its step and reads the island shade the base's
+386:* **The port's carriage of dossier facts into `EpochInputs`** — volume 8's: the calamity records, prosperity words, dated
+396:  under-deck strip in the close-up volume 1's, the island clearance volume 5's. This volume designs their epoch half and
+410:| W3 | `EpochParticipant` registrations (V6 §2.1, §3.2's participant table) | `@plat/sky` registers `sky.islands` (V05 §3.15) and `sky.clearance` (BCR-V5-28); `@plat/hood` registers `hood.fabric` (V01's S7c on the districts the epoch made outside S7b and S9b on the blocks rung 3 re-cut or redeveloped, `EpochScope.recut`);
+413:| W6 | `BuildingShadeMask` (V6 §2.6, §3.4) | the field phase at each epoch, from the buildings standing when the field phase runs (after this epoch's hazards), per wing, on the ground arena and on every island arena | §4.5's daylight driver (item 102) as its building casters — the field, the due marks, S10b's sunlit pre
+415:| W8 | the per-layer strike candidate sets (V6 §3.5.2), with the `raised`, `retaining`, `deck` and `landfall` kinds (V6 §3.19.2, §3.19.4, §3.19.5, §3.5.2) | lifecycle states, finished `decay` Works, salvage demand, vacancy spans, a raised way's disuse (`underuseSince`), a terrace's abandonment, a deck's dead crossing, a
+418:| W11 | `Way.formerClass` (V6 §2.8) | `downgradeWay`; V05's `fallIsland` convert (a covered way dropped to `track`, V5 §3.16 (4); TR-19) | `upgradeWay` in regrowth tier (5′); the landfall clearance (V6 §3.5.2); the renderer (drawn by its current class); GeoJSON `plat:formerClass` | §2.4 way record (BCR-V6-5) |
+422:| W15 | the wall decision and the suburbs' absorption (V6 §3.7.1) | the threat slice (DR2), the extramural households, the prosperity mean, the era row | a walled stage (S5a trace, S7 furniture); W9 on the superseded ring; the character step re-typing absorbed districts | §4.4 S5a; §4.8 S7; §4.5 S12c |
+428:| W21 | `HistoryFrame` cache (V6 §2.11, §3.15.2) | the frame builder: the history store's images and keyframes, else replay from the nearest checkpoint (§7.4's replay mode) | the renderer at a scrubbed week outside the retain window; the APNG export W24; then-and-now W22 | §2.9 `week` view key; §8.1 |
+434:| W27 | `EpochInputs.wealthLevel` and the timeline entry's (V6 §3.3) | the port (dossier `wealth.label`, DR6) or the timeline / trajectory | the field phase's layer-1 expansion (`field.characterOffset`) | §4.11 `EpochInputs`, §7.7 (BCR-V6-9) |
+439:| W32 | `HistoryStore` — images and keyframes (V6 §2.11, §3.15.2) | every commit's touched set (before and after); the verification replay | the frame builder W21; then-and-now W22 | §7.4's undo records and checkpoints |
+444:| W37 | `ProductDecl.phases` and `.participants` (V6 §2.1, §3.1) | a product's registration (V07's village product) | the runner at an epoch whose product, by V07 §2.1's fold (BCR-V7-26; the hand-off band), is that product — its phases and epoch rows (`rows`, read by the decline and hinterland steps, V6 §3.5.2, §3.5.3
+446:| W39 | `HouseholdLedger` (`EpochContext.households`), `EpochOps.displaced`, `EpochOps.demandTaken`, `Household.transit` (V6 §2.1, §3.8.1) | hazards, contraction strips, Works, `sky.islands` (V05 §3.15), `under.fade`'s sealing of a lived void, clearances (a raised way's land, V6 §3.19 (7); a struck deck's buildings, V6 �
+447:| W40 | the underground crowding hook before the growth decision (V6 §3.6 (1)) | the residual's poorest-band households; U-FRONT's free capacity on lived and reopened runs and accessible void clusters (V04 §3.4, §3.10) | S7b (6)'s underground allocation and U-FRONT's placement; `R` less the seated | §4.11's regrowth orde
+460:| W53 | V6's `WhyProvider`s — `use`, `enceinte`, `district` (path `prosperity`), `mutationPlan` (V6 §4.5); what V10's raised-way provider reads over epochs | `LifecycleEvent.detail.why`, `Use.strain`, `Enceinte.pathway`, the circuit decision's recorded conditions, the masks of the history frames, `MutationPlan` | V10's `w
+461:| W54 | `decline.turnoverVacancy` (V6 §2.2, §3.8.2) | the table row per band | regrowth tier (1)'s refill stop; T-V6-7 | §4.11's regrowth order |
+462:| W55 | history across a rebase and an upgrade (V6 §3.15.5) | `Base.seq` (§2.9); the pinned output version and the upgrade's replay | the timeline's grey range, `locate`'s banner, the bends of `forkAt` and `rerunFrom` to the earliest seq (J-V6.98), the kept reports; the per-epoch `HistoryDiff` of an upgrade | §2.9, §7.4,
+464:| W57 | the `raisedWays` step and its pass (V6 §3.2 row 10a, §3.19) | the epoch's rung (the fold's, read at `prelude`, V6 §3.1 (3)), the state after `terrainWater`, the field (prosperity), the ground hydrology's eager need reading, W58's ledger, V11's `raisedWays` rows, the dossier's water-system record, landmarks and era
+471:| W64 | `EpochScope` (V6 §2.1) — `raised` and `levelled` added here, `recut` and `workings` at W74; **the one reader list of every field** (TU-06 (b): the field comments point here) | derived from the epoch event's lifecycle entries: every op that builds, extends or opens what the fields name; every op that creates, repai
+473:| W66 | the `sky.clearance` participant at `afterGrowth` order 50 (V6 §3.2) | every island and every caster the epoch committed (raised parts, retaining walls' high sides, massing tiers, levelled fill) | V05's clearance rule (BCR-V5-28): an island raised only where its floor fails, a listed fate | V05 (critique-V5 C5-47 (3)
+480:| W73 | underground households at an epoch (V6 §3.18.1 (4), (6); ST-19, ST-20) | F6's new void dwellings after `under.access`; the district's poorest-band ground households (`E(x)` order) up to V04's `voidDwellings.share`; the households `under.undercity`'s re-read or a foundation collapse vacates | `relocate` events into t
+483:| W76 | the `landfall` candidate kind and its clearance (V6 §3.5.2; ST-13, TR-05, TR-06) | a `fallen_island` decoration's members (V05 §3.16 (5); `DecorationMember`, BCR-V5-9 — an `Id` for a way, plot, reservation, land use or retaining wall, `{ raised, span: [a, b] }` for a raised span and `{ raised, support }` for a su
+488:| W81 | the `field` phase's way-surface re-lay (V6 §3.2 row 4, §3.4 (9); SCC-95) | S6's re-banding at the epoch (the plots whose `fieldBand` changed, §4.11 (a)); volume 1's `way.surface` rows (V11 row 90, whose `S6` epoch reader this is), the era row, the field as S6 reads it; each way's edit mark on `surface` | `setAttr`
+498:| the prosperity word | `wealth.label` → `intent.wealthLevel` by `tables/dossier/wealth` | DR6 | `EpochInputs.wealthLevel` (BCR-V6-9) → the field's character offset |
+513:| landmarks on high ground | the dossier's landmark records placed on the ground arena's high wards or terraces (V08) | the coherence pass's row for item 110 (b) | the elevated road's landmark factor (V6 §3.19 (3)); never a sky landmark (critique-V5 C5-52 (b)) |
+533:interface EpochParticipant { id: string /* 'sky.islands', 'under.fade', 'under.extend', 'under.access', 'under.undercity', 'hood.fabric', 'sky.clearance', 'village.plan', 'village.density', 'village.pins' — V6 §3.2's participant table */;
+535:  stage: StageId /* the stage its volume names (V6 §3.16): SKY, S9b, U-FADE, VS1, VS2, VS8 — its draws' stream-key stage and its reads' tag (SCC-R2C-11; VS8 for village.pins, TV-03) */;
+557:  demandTaken?: { band: string; count: number }[] /* households a participant takes up from the epoch's delta demand (V05 §3.15's refloat or raise; BCR-V5-23): `siting` subtracts them */ }
+558:type DisplaceCause = 'fire'|'flood'|'topple'|'contraction'|'works'|'island'|'void'|'clearance'|'redevelopment';
+561:  take(band: string, count: number, by: string /* participant or phase id */): void /* the runner calls it for every EpochOps.demandTaken row */;
+562:  pool(): { household: Id; band: string; cause: DisplaceCause }[] /* not yet placed, address order */;
+563:  taken(): Record<string /* band */, number> }
+571:  raised: Id[] /* raised ways (item 110 (b)) any op of this epoch created, repaired, neglected, breached, dismantled or removed, or whose spans a landfall ruined (sky.islands), address order — its readers W64's */;
+576:  product: string /* the product V07 §2.1's fold gives at the epoch (BCR-V7-26; ST-01): the previous epoch's product unless the target crossed the hand-off band — a village becomes a town at 1 500 × (1 + handoff.band) = 1 575, a town a village below 1 425 — 'town', or V07's 'village' */;
+577:  rung: Rung /* the rung the fold gives: inside the band the previous product's own rung row at the edge of its range (a 1 440-person town on TOWN, a 1 560-person village on VILLAGE) */;
+616:| `growth.crowdFactor` | 1.5 | a dwelling of the crowding bands may take up to ⌈its band row's households × factor⌉, never above §2.6's capacity (§3.6) |
+617:| `growth.crowdBands` | the bands up to and including the settlement's middle band (§4.5) | who crowds (§3.6) |
+623:| `walls.prosperityMin` | 0.40 | the town's household-weighted mean prosperity a new circuit needs (§3.7.1) |
+650:| `shade.rasterM` · `shade.ruinShare` | 4 · 0.5 | the caster raster's cell; a ruin's caster height as a share of its eave (§3.4). The reach is not a row of this volume: the one reach law is the sampler's — a caster of height `h` shades at most `min(cot β, c)` × `h` away at sun elevation `β`, `c` the sampler's cap (8;
+666:| `decline.turnoverVacancy` | poorest band 0.05 · every other band 0.01 · 0 in the parity presets | the share of each band's dwellings regrowth tier (1) leaves vacant, so a steady town keeps some abandoned stock (§3.8.2; C6-34) |
+676:(they shape the non-canonical report, never the model); the rules `growth.crowdBands`, `streets.classes`,
+677:`uses.closeSurplusBy` and `works.partStartAt` (a band set, a class set, an order and a stage, not quantities); and the
+697:  wealthLevel?: { kind: 'hold' } | { kind: 'target'; target: number } /* default hold */;
+743:  maxBuildings?: Record<'minor'|'moderate'|'major'|'catastrophic', number> /* the burn's cap or the topple's count by the calamity's severity band */ }
+777:interface BuildingShadeMask { arena: Id /* the ground arena, or an island's arena (V05): one mask per arena */; epoch: number; week: number /* the epoch that wrote it */;
+781:// on an island arena the grid is the island's own 32 m lattice (V05) and the mask is OR-ed into V05's `shadeSky` receivers (C5-32)
+821:### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)
+865:  |'redevelopment'|'useOpened'|'useClosed'|'useMoved'|'mutation'|'terrain'|'island'|'underground'|'dossier'|'rename'
+876:The report and the chronicle stay non-canonical (rebuilt by replay; kept across a rebase, V6 §3.15.5); the **why rows are
+891:interface HistoryStore {   // non-canonical, in the generation worker; spills past the device's store setting to the app's disk cache keyed by the document id and the event's seq; dropped whenever convenient, rebuilt by the verification replay
+903:| `BuildingShadeMask` (one per arena) | the field phase of every epoch | §4.5's daylight driver at every field evaluation after that epoch, load included; V05's `shadeSky` on an island | model data, `fields` chunk | kept: Regenerate and brushes never rewrite it (the field re-derives from it) | the epoch's undo restores the 
+905:| `Way.formerClass` | `downgradeWay`; V05's `fallIsland` (a covered way dropped to `track`, V5 §3.16 (4); a way already carrying one keeps it) | `upgradeWay`, regrowth tier (5′), the landfall clearance (V6 §3.5.2), exports | model data | kept | the writing event's undo restores the prior value (absent where that event wr
+908:| `EpochReport`, `ChronicleEntry` | every epoch | the history panel, the clerk, `chronicle.csv` | non-canonical report block (§5.4) | rebuilt by replay | removed with the epoch | rebuilt |
+911:| `HistoryStore` images and keyframes | every committed event's commit (images); every `history.checkpointStride`-th epoch (keyframes); the verification replay after a load | `locate` and the frame builder (V6 §3.15.2) | memory, spilled to the app's disk cache — never in the document | rebuilt by replay | an undone event'
+914:| an `advance` request's epochs | T1's time card, the clerk, the CLI — appended one `epoch` event at a time in one `group` | the fold | log (the epochs, each with `EpochInputs.advance`; `stoppedAt` on a stopped group's last) | — | one step while the last is the latest live event: the checkpoint taken before the group's f
+916:| `EpochOps.displaced`, `EpochOps.demandTaken`, the ledger | any phase or participant | the runner, `siting` | inside the epoch event only | recomputed by a replay of the epoch | the epoch event's undo | — |
+926:| a suppression (`LifecycleEvent.detail.suppress`, BCR-V6-24) | the `delete` of a generated raised way, harbour-mouth chain, quay wall, retaining wall (key: its chain's lineage address) or deck plot (key: its deck host's id and its slot ordinal along the deck; ST-15) (V9 §4.3's delete, the clerk, the CLI) — written by the
+933:| `EpochScope.raised`, `.levelled`, `.recut`, `.workings` | derived from the epoch event's lifecycle entries so far | W64's reader list, per field (`under.extend`, `under.access`, `sky.clearance`, `hood.fabric`); volume 3 reads none — the levelling op re-cuts a stored plan beside the levelled faces inside the epoch event a
+946:  strength: number /* metres saved − span × spanCostFactor; mean prosperity × landmark factor; the need ratio */; met: boolean;
+962:// ST-15, ST-59: islands and sky accesses keep volume 5's record form (SkyIsland.removed, .removedAccesses) under the same lift rule — file f item 260
+994:   hand-off band: the previous epoch's product runs unless the target crossed 1 575 upward or 1 425 downward, reading its
+995:   own rung row at the edge of its range inside the band; ST-01, J-V6.97), the household ledger empty.
+1022:nothing else — no view key, no wall clock, no host call; so a replay reproduces every epoch (§6.2 *Histories, not states*).
+1030:| 1 | `prelude` | before S2 | the product and the rung the fold gives (V07 §2.1's fold, BCR-V7-26; V6 §3.1 (3)), read before the dials — the rung every later step reads; the dials past their hysteresis, `TradeFlow` re-read (base); the slice and the wealth level installed (V6 §3.3); **the feature set re-resolved at the 
+1033:| 4 | `field` | (a) | the building shade mask written, then S6 re-evaluates the drivers, re-bands `fieldBand`, marks due blocks, and re-lays the `surface` of each way whose fronting band crossed the hysteresis by volume 1's way-surface rule (V1-3.7.3; an edited `surface` kept; V6 §3.4 (9); SCC-95) (base; V01) | V6 §3.4 + 
+1034:| 5 | `afterField` | — | participants: `sky.islands` (V05 §3.15), `village.plan` and `village.density` (V07 §3.12; each gating itself by its scope, the table below; TW-08) | V05 + V07 |
+1041:| 11 | `ladder` | (d) | the wealth ladder's rungs on due blocks (base's rules); `MutationPlan` steps that fall due | V6 §3.8.4, §3.10 |
+1045:| 15 | `afterGrowth` | (g) | participants, in order: `under.extend`, `under.access`, `under.undercity`, `hood.fabric`, `sky.clearance`, and at a village rung `village.pins` (the table below) | V04, V6 §3.18, V01, V05, V07 |
+1055:| `afterField` | 0 | `sky.islands` | `@plat/sky` | V05's `IslandEpochStep` (V05 §3.15), whose conversions are **every island event an epoch can run**, at every rung where an island stands (TOWN's carried or declared islands included): a **raise** (`raiseIsland`, V05 §3.15 (5): S7b's delta fill for the sky, SKY's island st
+1061:| `afterGrowth` | 30 | `under.undercity` | `@plat/evolve` (adapter) | V04's `UndercityEpoch.reread`, then U-FRONT F6's scattered dwellings in accessible voids, filled by relocating the district's poorest-band ground households; the households the re-read vacates are re-housed inside the participant (V6 §3.18.1 (4); ST-19) 
+1063:| `afterGrowth` | 50 | `sky.clearance` | `@plat/sky` | V05's clearance rule after growth (BCR-V5-28; critique-V5 C5-47 (3)): over every live island, reading every caster the epoch committed — raised parts, retaining walls' high sides, massing tiers, levelled fill — `elevationCm` kept, raised only where the floor fails, 
+1081:the TOWN law's probability at the epoch's population and wealth level, and the feature turns on the first epoch `u <
+1102:`sky.clearance` (order 50, after every commit of the epoch) reads them.
+1107:roster tolerance) with the week, the target, the slices, the calamity records (typed by V6's calamity table, DR-V6.1, BCR-V6-12), the wealth level (DR6,
+1127:  when it falls below 1 425; inside the band the previous product runs on its own rung row) runs that product's phase
+1132:* the wealth level — `hold` keeps the current; `target` interpolates linearly in `f_i`;
+1137:replay folds the stored epochs; the trajectory rides only as provenance on epoch 1 (`EpochInputs.advance`).
+1149:**3.3.5 The wealth level over time.** `EpochInputs.wealthLevel` (BCR-V6-9), when present and different from the level in
+1156:Item 102's base term reads terrain, walls, gatehouses, the castle, great towers and floating islands, at generation and at
+1167:   towers, the castle, islands, raised ways and retaining walls are the base's casters (item 102's list, extended by the
+1181:   island strips (C5-31; ST-46: no absolute distance cap, so a 90 m spire at the lowest sample reaches 720 m on both sides). The bit is written to the mask (V6 §2.6).
+1193:   mask's bit; `shade(x)` is the shaded share, the driver `−w_sun · shade(x)` as item 102 (a) states. The prosperity brush
+1196:   houses — or put in the shade of an island that sank — changes field band at the first epoch after the mask records the
+1197:   casters, then its stock drifts only through the wealth ladder: rung 1 at that due epoch, rung 2 only after the ladder
+1201:8. **Islands.** (a) *Islands as casters*: an island's own shade strip is V05's, computed from the island's persisted
+1202:   `shadeBasis` (V05 §2.1, BCR-V5-21), which each epoch's S6 writes from the island as it stands when the epoch begins — so
+1203:   an island that sank or moved in epoch e shades the field from epoch e + 1, the same one-epoch lag as the buildings, and
+1204:   the lag survives a save and a load (C5-01). (b) *Islands as receivers*: the mask runs on each island arena's own 32 m
+1205:   lattice too, with that island's buildings as casters, and is OR-ed into V05's `shadeSky` receivers (C5-32), so a manor
+1206:   on an island is shaded by its neighbour's tower as a ground house is. An island raised at this epoch (`sky.islands`,
+1210:   its batch, after S6's re-banding: the **candidates** are the ways fronted by a plot whose `fieldBand` S6 changed this
+1214:   way-surface rule again — the `way.surface` row for its class, the era row, and the band of its fronting blocks by
+1215:   V1-3.7.3's area-weighted reading over the field as S6 now reads it. A plot's band moves only past §4.5's hysteresis
+1216:   (§2.5's `fieldBand`), and a way is re-read only when a fronting plot's band has so moved, so the way's surface follows
+1217:   the hysteresis without a band memory of its own and never flickers at a cut. Where the rule's value differs from the stored `surface`, the phase writes one `setAttr` of
+1224:   the band cut, and a risen one's are paved again the same way — the streets drift with their frontages, as (7)'s
+1232:1. For each band `b` in the band order (poorest first; §4.5's cuts), `L_b` = the leaving households of band `b`, `n_b = |L_b|`.
+1233:2. The candidate dwellings `D_b` = occupied buildings housing a band-`b` household, less the protected (V6 §3.1). Each
+1237:3. Dwellings are taken in descending key until their band-`b` households number at least `n_b`; the last one taken may
+1243:   of its band, so a protected building stays occupied. When its band has no emptying dwelling to refill from, the
+1295:in `op`'s result (an `abandoned` hollow way) is a candidate of the same kind at the same rate once its dwell band has run
+1296:since its retirement — the first band of §4.11's decline table (vacant → derelict, [10, 30] years), drawn once on
+1307:**landfall** (`rate` 0.08, the street's; ST-13; J-V6.99) — the members of a `fallen_island` decoration a landfall left on
+1314:band, as a cleared road is re-laid (absent `formerClass`, a landfall made before this rule: the class stays `track`,
+1333:every `AccessPoint` that V4 §3.10 bricked with cause `convert:fallIsland` and whose ground host is that member takes a
+1376:   `R₀`'s poorest-band households, rounded half up, are offered underground — S7b (6)'s underground allocation and
+1383:   `rule:overflow`, and those crowded above ⌈band row × `growth.crowdFactor`⌉ — derived from their records, never stored.
+1385:   growth.quantumHouseholds)`; `C` = the crowded households, `Σ max(0, households − band row)` over the dwellings of the
+1386:   crowding bands (derived).
+1388:   * **The rich build outside.** `R_rich` = `R`'s households of a band above `growth.crowdBands`. When `R_rich > 0`, a stage
+1389:     grows **for `R_rich` only** — their plots at their band's plot area, in the `ribbon` regime along the arterial whose
+1397:     (none is ever dropped, §5.2 F-PLAN's rule): (i) crowding past `growth.crowdFactor` up to §2.6's capacity, poorest bands
+1404:     **decrowding**: at each crowded dwelling the households above its band row in descending ordinal leave for the new
+1416:   at their bands' plot areas, S5b's gate law, S5c with the built-face legality, S5d — then S6–S13 on the new faces (S7b
+1423:5. **Crowding itself** is siting tier (5″) (V6 §3.8): before this phase, households of the crowding bands relet up,
+1424:   dwelling by dwelling in the solver's score order, to ⌈band row × `growth.crowdFactor`⌉ and never above §2.6's
+1432:the new stage's counted — `≥ walls.extramuralShareMin`; the town's household-weighted mean prosperity `≥
+1433:walls.prosperityMin` (walls cost money); the youngest enceinte's creation (its lifecycle's `since`, read to a week through
+1437:(`detail.why`, BCR-V6-20: `walls.threatMin` with the threat, the extramural share, the prosperity mean, the years since the
+1602:(cause `void`, V6 §3.18.1 (4)) or the island step (cause `island`: a wane, a settle, a fall, V05 §3.15; BCR-V5-23)
+1606:households taken** by `EpochOps.demandTaken` (a refloated or raised island's reservation), band by band.
+1609:band (descending), ties by address:
+1610:* (0) `relet` up in standing shells below their band row;
+1611:* (1) `reoccupy` vacant buildings — a building whose `builtBand` equals the household's band first (the house was built
+1612:  for people like them) — leaving vacant, in each band, `decline.turnoverVacancy` of that band's dwellings (the poorest
+1613:  band 5 %, the others 1 %; 0 in the parity presets), the most exposed first by `E(x)`, so a steady town keeps some
+1619:  plot's field band (item 71); the footprint kept when the class's template admits it, else S11 on the plot (the successor
+1621:* (4) vacant plots of the old plan beyond the band's vacancy-run share (S10 (8)) — **a vacant deck plot only to a use
+1656:  `crowdingShare` of the residual's poorest-band households underground (to accessible capacity only; BCR-V6-28) before any stage is
+1663:(§3.6 (2)) or the poorest band's delta demand needs it — the engine never makes a cluster without households for it.
+1670:base's redevelopment composite on a due block growing rich only where rung 3's years in the band have run (the ladder
+1680:The `uses` phase runs once per epoch, after the field and the island participant (V6 §3.2), on the households standing
+1761:   prosperity field (item 102's daylight driver in it) and the neighbourhood character (item 72): item 103's relation
+1809:up to V07's `rules.claimArea` for the family (`claimArea.cloister` at its band, or the hall area `A_h`, V07 §3.6 (4a));
+1981:depth factor) by the severity band. An event's `params` override the row's; `params.x` and `params.y` (metres in the
+2025:its nearest water body (§2.3's flood band) + `depthCm`, and the **water level** there is that flood line + `depthCm`. The
+2073:  S5d's shortfall record of the last growth is positive and the face's district band is `modest` or above (§4.11). The
+2087:  flood band (deviation ≤ 300 m), and the abandoned channel becomes a `marsh` face. Both run as S1's water operator on the
+2163:### 3.15 The history record, replay and time scrubbing
+2175:per terrain-and-water op (a `raiseGrade` among them); `island` and `underground` per participant state change (the
+2205:3. the **replay path** — from the nearest checkpoint or keyframe at or before `e`, folding the log forward through the
+2206:   session's code path (§7.3 item 2's replay mode), the images captured as it goes.
+2208:verification replay after a load (§12.6) rebuilds them as a side effect; past the device's store setting (V09) they spill to the app's
+2209:disk cache and are fetched back on demand; if they are gone the replay path serves. A keyframe is a copy-on-write
+2227:* **Before a rebase point.** A rebased document replays from `base.state` and is not seed-reproducible before `base.seq`
+2232:  before the rebase stay in the saved non-canonical report block: a verification replay cannot rebuild them, so it never
+2234:* **Upgrading a `'history'` document.** §7.4's epoch row lets a multi-epoch document upgrade by replaying its whole log
+2236:  against the pinned version (the `HistoryDiff` machinery, V6 §3.15.3, over the two replays' frames), with the chronicle's
+2239:  An upgrade rebuilds the reports, the history store and the masks by its replay.
+2241:  `'grow-by-stage'` epochs replay as they were and a later `adjust` to `'history'` runs only from the next epoch.
+2254:  their volume names** — `SKY` for V05's two (`sky.islands`, `sky.clearance`; V5 §3.15), `S9b` for `hood.fabric`
+2399:   district's ground stock — the poorest band's, the most exposed first by `E(x)`, then address — up to V04's
+2400:   `voidDwellings.share` (0.05) of that band's households in the district and each cluster's
+2402:   leaves the rest for the next epoch); never new households, so ground + underground + sky still equal the target
+2436:     or a burial face on a sky island.
+2438:     §3.1 (3)) and church count, island churches included (ST-24), **re-read at each epoch** (ST-55).
+2472:   from any stage, New random on the catacomb system, an upgrade's replay and a migration — each re-derives the complex
+2565:   `'ground'`, any part; critique-V5 C5-52 (b)–(d)) — never a sky ward, an island institution, an island landmark, an
+2566:   island's conjured river or spring pond. The thresholds, factors, caps and chances are V11 §3.24.2's `raisedWays` rows,
+2581:     never the institutions on them (critique-V5 C5-52 (a)), so a hand-over to an island leaves the road's reason
+2586:     Its **strength** is the mean of the prosperity field at `P1` and `P2` × `landmarkFactor^n`, `n` (at most
+2592:     households only (C5-52 (c)); it never reads V04's placed cisterns or an island's water. The **terminal** `T` is
+2605:   stated once" over `chance[rung, kind]`, `pMax` and the kind's factor (the ends' mean band, the landmarks and the
+2629:   (its reason key, (8)) and `pitch`, inside its material's `pierSpacingM` band — and a course one of whose piers stands
+2674:   prosperity, a sinking water need or a rung fall removes none: a city above a cap after a rung change is reported
+2718:3. **The strike** (the pool's `raised` kind, V6 §3.5.2, rate 0.05 — BCR-V6-26's persistence row, one dwell band slower
+2721:   * **each standing span** whose dwell band has run since the way's neglect (drawn once per span, keyed with the epoch
+2737:   a landfall ruins the spans and supports it covers whatever their state — that is the island's law (critique-V5 C5-53
+2738:   (1)), and `sky.islands` records them in `scope.raised`, so this epoch's `raisedWays` reads an aqueduct's lost supply
+2776:   V08 §4.6 item 3's line — and the list is derived with the rest of the report and rebuilt by replay (W19).
+2815:   preamble above). Islands and sky accesses keep volume 5's record form (`SkyIsland.removed`, `.removedAccesses`) under
+2833:3. **They slump slowly, as their own candidate** (the pool's `retaining` kind, rate 0.05 — BCR-V6-26's row, one dwell band
+2978:changes shade by changing what casts it or by the prosperity brush, item 102 (f)), `LifecycleEvent.detail.why`
+3044:* **`district`**, path `prosperity`: the building-shade share epoch by epoch from the masks of the history frames — "the
+3045:  island's shade since year N", "the tall houses built to its south since year N" — beside item 72's character and
+3089:| a landfall's rubble cleared (V6 §3.5.2) | each cleared member drawn by its own rows again (a way by its restored class and surface, a plot or reservation without the `fallen` rubble); a tombstoned `fallen_island` decoration draws nothing; the quarry face as `commons` | §8.2's `fallen` row (V05, BCR-V5-18) and the base's
+3098:a thin band "Year N — viewing the past" and every editing tool is disabled (edits are appended at the head, never into the
+3165:at a class's `serviceRadiusM` visiting ≈ 40 % of the graph; one S10b score ≈ 3.5 µs (the 2–5 µs band); an opening scores
+3203:| `sky.islands` (≤ 3 islands: the step and the strips; **plus, per event, outside these cells, at every rung where an island stands** — TOWN's carried or declared islands included — each island event of V6 §3.2's `sky.islands` row at V05 §6's row for it: a **raise** at `raiseIsland`'s parts (the rows "S7b (5): `S_to
+3209:| `sky.clearance` (≤ 3 islands) | 3 | 3 | 3 | ≤ 1 ms per island (critique-V5 C5-47 (5)) |
+3210:| **participants total** (the per-event island work of the `sky.islands` row excluded — raises, resizes, falls — summed into the century below) | **≤ 34** | **≤ 75** | **≤ 151** | |
+3215:**The sky's island events, re-derived from V05 §6's rows** (TV-01, SLR4-09, TW-04; J-V6.118), as those rows read on 2026-09-29
+3216:after volume 5's round-6 lane (the CITY / METROPOLIS columns; a TOWN reads CITY's, its islands no larger): "a resize, a
+3218:claim is re-searched where it receives no face (at most k ≤ 3 in all; V01 V1-6's sky row) + §12.6's scoped-regeneration
+3222:stretch's yards only) + §12.6's 30 ms per re-landed foot's placement"; "`fallIsland`"
+3223:≤ 80 / 110 ms; a raise at `raiseIsland`'s parts, bounded by "declaring an island after generation" ≤ 120 / 160 ms. With an
+3224:island's buildings ≤ 5 % of the town's (V05 §6's unit-run row: ≈ 2–5 % of the town's plots) at the default request's
+3228:the island) ≈ 12 / 21 ms; the plots re-cut outside those districts, one scope, are a growing resize's yards' (≤ 3 plots
+3229:a yard by V05 §6's basis, ≤ 9 buildings: ≈ 7 ms) and a shrink's rim ring (its eroded band ≤ 0.025 · r a year, below;
+3230:at most a third of the island: ≈ 12 / 21 ms); with ≤ 3 accesses (`accessCount.max`; an institution row's accesses, ≤ 3
+3236:buffer distance, at most `growthPerYear` · years · A ÷ P ≤ 0.025 · years · r for the disc of the island's area (the least
+3241:line at every resize. So the worst case is every island
+3243:10 years in which the island is not resized (V05 §3.15 (3)–(4); V05's dynamics row), and a fall with a raise in one epoch
+3245:≈ 68.4 s; **METROPOLIS** 3 × 100 × 255 ms ≈ 76.5 s; **TOWN**, whose rung row admits no island (V05 §3.15 (1): the target
+3246:0, and no slot re-opens), each of ≤ 3 carried or declared islands wanes once — a shrink at each of ≤ 15 epochs of the
+3247:longest waning dwell — settles and falls: 3 × (15 × 209 + 80) ms ≈ 9.6 s. In a history whose islands resize one epoch in
+3248:five or fewer (V05's hysteresis 0.05 against a target that follows a town growing 1 % a year), the sky's share is about
+3262:**6.3 Replay and load.** Under the `'history'` strategy an epoch's replay cost `c(e)` in §12.6's law is its compute above
+3264:verifies within §6.2's CITY century bound after load (its island events included; TV-01), off the path to the picture (§12.6, §2.9 step 3), rebuilding the history store as it goes.
+3270:at CITY; the replay path ≤ the epochs' compute, with progress. Play at one epoch per 0.5 s holds at CITY from cached or
+3281:J-V5.42): ≈ 11 KB at CITY (≈ 10 000 cells), ≈ 45 KB at METROPOLIS (≈ 40 000 cells), each island arena ≤ 5 KB; if item
+3284:*Fallback:* images kept only at every 5th epoch (the others by replay from the nearest), reported.
+3295:30; threat 0.5 throughout; hazards `minor`); **H-DOSSIER** — a dossier-bound history replayed from the port's fixtures
+3314:| T-V6-2 | property | determinism: the same seed and inputs fold to the same digest per epoch; a replay from the log and a replay from any checkpoint agree; the fold is identical on every host (§6.5) | 0 mismatches over H-100 and 50 random trajectories |
+3317:| T-V6-5 | statistics | departures follow exposure: the mean `E(x)` of the dwellings emptied in a fall exceeds that of those kept; extramural and flood-band dwellings empty first; a core dwelling can still empty | on 200 seeds: emptied-minus-kept mean `E` ≥ 0.1; core share of emptied > 0 in ≥ 5 % of seeds |
+3319:| T-V6-7 | hook | regrowth-first: after decline then growth, no new face is built while tiers (0)–(5″) hold capacity beyond `decline.turnoverVacancy`; the old plan's vacancies are refilled first, each band keeping its turnover share vacant | 0 violations; ≥ 80 % of pre-decline plots reoccupied before the first new sta
+3320:| T-V6-8 | statistics | crowding before sprawl: households per dwelling of the crowding bands rise before a stage grows; decrowding moves households to the new stage; the rich bands never crowd | on 200 seeds: crowding precedes ≥ 80 % of stages; 0 rich-band crowding |
+3323:| T-V6-11 | hook | renewed threat repairs breaches (`repairWall`, the `breached` runs of the ring's `condition` in chain order; file f item 575) and never rebuilds a dismantled stretch; the record's lifecycle returns to its former state only when every run is `standing`; a hand `repairWall` on a dismantled stretch bends to 
+3324:| T-V6-12 | property + hook | the shade mask: the incremental mask equals a full recomputation bit for bit, including on a fixture whose Works span the epoch's week and on an island arena; the mask survives a save and a load between epochs unchanged, and a sampler change reads as zero building shade until the next epoch; `w
+3330:| T-V6-18 | hook + statistics | terrain and water: a cut-off leaves an oxbow that silts to marsh; reclamation fires only with a shortfall and a `modest` band; the rates over 1 000 seed-centuries lie within ± 30 % of the table's | exact; within tolerance |
+3332:| T-V6-20 | property | people: a person's key, age and succession are pure functions; the same week gives the same household members from any replay **and at any cadence** (the same 100-year history at 13, 52 and 520 weeks gives the same successors, keyed by death week); a pinned person is never succeeded | exact |
+3333:| T-V6-21 | property + visual | frames: `frame(w)` by the images path equals the replayed prefix's model digest (with the effective-week before-images) for random `w`; scrubbing forward and back draws byte-identical images (§13.4's week-scrub harness); then-and-now equals the lifecycle entries between the two weeks; at a 1
+3338:| T-V6-26 | hook (wiring) | every registered strategy has a phase for every step it must run — `'grow-by-stage'` for its nine base steps, `'history'` for every step of V6 §3.2 — and every product override names a registered phase; every participant id of V6 §3.2's table is registered by its package **and every registe
+3341:| T-V6-29 | property | a 500-year soak of alternating growth and decline: every §5.3 invariant holds after every batch; plot counts stay within the ladder's bounds; the digest is stable across replays | 0 violations |
+3342:| T-V6-30 | hook | participants: each is called at its step in (order, id) order — `sky.clearance` at `afterGrowth` order 50, after `hood.fabric`; an erroring participant is isolated and reported; the island and underground laws' ops commit in their step (V05 §3.15, V04 §3.10) | exact |
+3343:| T-V6-31 | statistics | growth reads as historical (replacing the tautology of the first text): over H-100, while the extramural households number fewer than 2 × `growth.ribbonMaxHouseholds`, the share of extramural buildings within 100 m of a gate road stays in MFCG's ribbon band (§4.4's ribbon row: 71–85 %), falling 
+3346:| T-V6-34 | statistics | access grows with the settlement (109 (j) (3), (5)): across H-VOID's growth from a hamlet's population, the share of voids with an access rises monotonically with the number of buildings over them (V12's `trend` on `voidAccessible`); every access carries its cause with the epoch's seq; a lineage dra
+3350:| T-V6-38 | property | the catacomb ratchet (109 (k) (4), (6)): V12's `exactMonotone` on each complex's `extentFloorM2` across every epoch of H-100, of 50 random trajectories and of H-METRO, and across Regenerate, a Re-derive from S1, New random on the catacomb system and an upgrade replay (V12's row for 109 (k) (6) registe
+3354:| T-V6-42 | hook | the relaxation pass (105 (f)): on the loop fixture, the epoch's relaxation stays within `relaxPasses`, the second pass moves fewer members than the first, every move stays inside its district, byte-stable across replays | exact |
+3363:| T-V6-51 | hook | products (V07): with volume 7 registered, H-VILLAGE hands up when the target reaches 1 575 and down when it falls below 1 425 (V07 §2.1's fold, BCR-V7-26) through the product overrides; a target alternating 1 480 / 1 520 never changes the product (a 1 440-person town runs the base product's phases on the
+3364:| T-V6-52 | property | households: across every epoch of H-100, H-VOID and a sky fixture, ground + underground + sky households equal the epoch's target at the epoch's end, and no household is in transit after any epoch; on H-VOID, an epoch that opens an access fills F6's new dwellings by relocation only (the total unchange
+3365:| T-V6-53 | hook | the why answers persist: the four providers' answers (a moved use, an enceinte, a district's prosperity, a plan) are identical before and after a save, a load and a rebase | exact |
+3368:| T-V6-56 | hook | the crypt join, on H-CHURCHYARD: the join's uniform is fixed per (church, complex) pair and gives the same answer whether the growth that reaches the crypt happens at an epoch or at a regeneration, across replays; a success yields one crypt access whose cause's event is the epoch's seq; a refusal never ch
+3370:| T-V6-58 | hook | a removal holds: on a METROPOLIS fixture, delete a generated viaduct, an elevated road and an aqueduct; then 100 epochs of growth, a Regenerate (keep), a scoped re-roll of each crossed district, a save and a reload, a decline below CITY and a regrowth to METROPOLIS | 0 of the three re-appear; no replaceme
+3371:| T-V6-59 | property | keys and cadence: the same century to the same METROPOLIS target at 13-, 52- and 520-week cadence; a Regenerate after a history | the same set of raised-way reason keys in ≥ 95 % of 100 seeds, the rest only where `p` crossed `u` between sampled weeks; each reason still live after the history regener
+3376:| T-V6-64 | hook | participants and scope | the arch vaults follow their spans at every batch (a chamber under every standing `vault` span, none under a fallen one); `sky.clearance`'s 100 % clause holds after every epoch of a century with islands (critique-V5 C5-47 (4)); an opened close-up crossed by a new raised way has 0 
+3378:| T-V6-66 | hook | the landfall clearance (ST-13, TR-05, TR-06), on a sky fixture whose island falls on built ground at year 30 with salvage demand around it, covering a field, an arch of a generated aqueduct (a span and a pier), a street grating and a catacomb stair: every struck way member regains its `formerClass` with a
+3387:band within ± 15 % — its **walled share** reported at every tenth epoch of H-100 under threat 0.5 with the bar [0.5,
+3414:| E5 — time, hazards, water, people | the shade mask on every arena (BCR-V6-13) with the stacked caster top, the field phase's way-surface re-lay (V6 §3.4 (9); SCC-95), the hazards with the deck and terrace rules (fire over a deck, the flood at the datum, supports toppled and scoured, decks broken and charred), the calam
+3417:| E8 — the underground over epochs | the feature re-resolution and first-epoch U-NET (BCR-V6-16); the `under.*` adapters over V04's functions with the epoch scope (`raised` and `levelled` included: the arch-vault reconcile, the invert drops); the `sky.clearance` registration and `hood.fabric`'s crossed close-ups; the acce
+3424:the row set V6 §2.2 marks `calibratable: false` take no entry (`advance.maxEpochs` and `chronicle.*` land at E1, `growth.crowdBands`
+3450:| `bar.T-V6-7` | the pre-decline plots reoccupied before the first new stage; regrowth-first violations; the poorest band's vacant share (share, count, share) | `H-100` (TOWN, CITY) | `EVO_SITING`, `EVO_GROWTH` | E2 |
+3451:| `bar.T-V6-8` | the stages at which crowding precedes; rich-band crowding (share, count) | `H-100` (TOWN, CITY, METROPOLIS) | `EVO_SITING`, `EVO_GROWTH` | E2 |
+3469:| `growth.quantumShare`, `.quantumHouseholds`, `.crowdFactor`, `.crowdShareMax` | E2 | `measure` | `bar.T-V6-8`, `bar.T-V6-7` | crowding precedes < 80 % of stages: `growth.crowdShareMax` 0.12 → 0.16; rich-band crowding or regrowth-first failing: `growth.quantumShare` 0.03 → 0.05 |
+3471:| `plots.mergeAfterYears`, `.amalgamateWeight`, `plots.gardenKinds`' areas, `streets.abandonAfterYears`, `decline.turnoverVacancy` | E2 | `measure` | `bar.T-V6-6`, `bar.T-V6-7`, `vacancy.share` | T-V6-6's plot-boundary–street pair out of order: `streets.abandonAfterYears` ± 10 years toward the order; the poorest band's v
+3472:| `land.*`, `overflow.tentBeltM` | E2 | `panel` (V6-E7, AB `history` on H-100, `realism`) | `bar.T-V6-28`, `bar.T-V6-32` (conformance, read beside the panel) | the panel rule (V12 §3.11); second value: every `land.*` band × 0.5 |
+3479:| `oxbow.*`, `silt.*`, `reclaim.*`, `canal.maxM` | E5 | `panel` (V6-E7, `realism`) | `bar.T-V6-18` (the rates reproduced, read beside the panel) | the panel rule; second value: every span band × 1.5 |
+3522:| J-V6.9 | chose WHO leaves from the roster's suffix and WHERE from exposure-weighted keys matched by band (with swaps) over emptying the suffix's own dwellings, because the roster fixes the population's composition while item 8 (c) fixes geography — both must hold |
+3524:| J-V6.11 | chose to re-derive every once-drawn span from a stream keyed by the epoch it began in over storing it, because it keeps the model small and the history identical on replay |
+3525:| J-V6.12 | chose a new circuit only when threat, the extramural share, prosperity, the interval and a per-year chance all agree, over a population trigger alone, because walls were built by rich towns under threat, not by size |
+3548:| J-V6.35 | chose frames from before/after images of each commit with keyframes, the replay as fallback, over replaying every scrub, because recomputing epochs is too slow to scrub and images cost O(touched scope) |
+3551:| J-V6.38 | chose that `rerunFrom` re-appends, in log order, the later epochs and **dossier events** but not the later hand edits (listed with a "re-apply" that resolves by carry-over matching, F-EDIT with alternatives on failure), over replaying every event or dropping the dossier's, because the dossier is the sole truth (
+3557:| J-V6.44 | chose the town's wealth level as an epoch input (dossier `wealth.label`, a trajectory target) over a fixed recipe value, because a campaign's prosperity word changes (BCR-V6-9) |
+3587:| J-V6.74 | chose a per-band turnover vacancy (poorest 5 %, others 1 %; 0 in the parity presets) over refilling every vacancy, because towns always carried some vacancy and FTG's poorest pools keep abandoned stock |
+3595:| J-V6.82 | chose a dedicated `raisedWays` step between `terrainWater` and `ladder` over deciding raised ways in the growth phase, because item 110 (b)'s reasons arise without a stage (a rung crossing, a need rising inside the old plan, a prosperity rise on high wards) and the households a raised way displaces must be re-ho
+3610:| J-V6.97 | chose the product and rung that V07 §2.1's fold gives at the epoch (the 5 % hand-off band, BCR-V7-26) over §1.1's router at the epoch's target, because the router would flip product, phases and rung rows at every epoch of a target oscillating around 1 500, and volume 7 owns the hand-off (ST-01) |
+3613:| J-V6.100 | chose to fill F6's void dwellings opened at an epoch by relocating the district's poorest-band ground households (up to `voidDwellings.share`, charged to the `use` cap) and to re-house the underground households `under.undercity` or a foundation collapse vacates inside the participant by §4.7's overflow pass, 
+3620:| J-V6.107 | chose to issue volume 7's whole hollow-way ladder from this engine — `ProductEpochRows.street` gaining `again` (`effaceWay`, a hollow way struck a second time after the first dwell band [10, 30] years, keyed with its retirement epoch) and `reopen` (`reopenWay`), the retirement candidate filtered by V07's disu
+3621:| J-V6.108 | chose that a `fallen_island` decoration's member leaves in the batch of whichever op ends its cover — a strike of this kind, a `repairRetaining`, the `retypeLand` of its quarry face to commons, a `repairRaised` (a span's repair restoring the ruined supports at its ends) or a `dismantle`, or any tombstoning op
+3624:| J-V6.111 | chose to confirm `tables/evolution.json` by its own bars (`bar.T-V6-<n>`) and the V6-E7 panel, with one pre-decided fallback move per column family applied by V12's `fallback` run and a second miss `not-achieved`, and to mark the cost and recording bounds (`advance.maxEpochs`, `history.checkpointStride`, `uses.
+3631:| J-V6.118 | chose to price **every island event an epoch runs** — a raise at `raiseIsland`'s parts (bounded by V05 §6's "declaring an island after generation" row), a `resizeIsland` growing or shrinking at every rung where an island stands (a wane's shrinks at TOWN included) at V05 §6's "a resize, a rim reshape" row wi
+3634:| J-V6.121 | chose to re-lay way surfaces as the `field` phase's last act — only the ways fronted by a plot whose `fieldBand` S6 changed, by volume 1's rule over the field as S6 now reads it, an edited `surface` kept, one `setAttr` per changed way (cause `rule:field`) — over a V01 base change request on §4.5's epoch mo
+3682:@plat/sky, @plat/under and @plat/hood register there too".
+3736:(`setAttr`) and `Enceinte.underuseSince` (engine only), `Way.formerClass` (the engine and the `fallIsland` convert; never
+3738:`BuildingShadeMask` (one per arena — the ground's and each live island's — engine only; ST-37), each in §13.2's path-completeness test." (b) Heading as BCR-V6-1 (a).
+3753:**BCR-V6-9 — the epoch's wealth level and its provenance.** Heading as BCR-V6-1 (a). Current: "interface EpochInputs {
+3754:week?: number". New fields: "wealthLevel?: number /* the town's intent wealth level at the epoch (§7.7 layer 1): the
+3755:dossier's `wealth.label` by `tables/dossier/wealth` (DR6), or a standalone trajectory's; absent: the level in force; applied
+3778:BCR-V6-1 (b), the app's tool table. Current: "| T1 `intend` (L0) | pick a site card and a size; drag the wealth and walls
+3795:holds, besides the field rasters, one `BuildingShadeMask` per arena — the ground's and each live island's (volume 6
+3802:derived, rebuilt by replay, never in a digest; **kept across a rebase**: the reports of epochs before `base.seq`, which no
+3803:replay can rebuild, stay in the saved non-canonical report block and a verification replay never drops them (volume 6
+3820:every replay from seed and request (§2.9) and listed in the report". New: "a derived field of the document, recomputed on
+3821:every replay from seed and request (§2.9) **and re-resolved at each epoch against the epoch's rung and population** — on at
+3823:wealth level, no new draw; **once on, never off** (the evolution engine's prelude, volume 6 §3.2; the first epoch it turns
+3828:the optional field `transit?: { cause: 'fire'|'flood'|'topple'|'contraction'|'works'|'island'|'void'|'clearance'|'redevelopment';
+3844:crowding within a factor of the band row (volume 6 §3.8); and every placement that engine makes — at every tier, in its
+3875:**BCR-V6-22 — an epoch's replay cost under the history strategy.** Heading `### 12.6 Edits, regeneration, replay and warp, as
+3879:recomputation — volume 6 §6.1's per-rung compute plus its participants', their island events at volume 5's per-event
+3887:§3.5.1: the roster's suffix matched to exposure-weighted dwellings by band), and the decline lottery (below) strikes fabric
+3898:delete's undo, or held by a user's re-add serving the same key; islands and sky accesses keep volume 5's record form under
+3928:`terrainWater` 0.005". Current (the dwell bands): "walls one band slower, tunnels two". New: "walls, raised ways and
+3929:retaining walls one band slower, tunnels two". Current (`DeclineOp`'s wall member): "| { op: 'neglect' | 'breach' |
+3963:`Features.sewers` is on, the underground crowding hook first sends `crowdingShare` of the residual's poorest-band
+3965:crowding hook first sends `crowdingShare` of the residual's poorest-band households underground where there is room: on
+3970:`crowdingShare` (II.7.4) of the poorest band's households in the epoch's residual demand — what §4.11's regrowth-first
+3972:evolution engine's crowding hook: a share `crowdingShare` (II.7.4) of the poorest band's households in the epoch's
+3978:rows, the law and the cap are II.7.3's; the ground's districts receive the remainder as they do for the sky." Mechanism
+4015:every replay from seed and request", II.7.6's "`raiseGrade` … is applied by an epoch" and step (c)'s "deciding whose
+4028:(`EpochOps.demandTaken`, the displaced pool's cause `island`) and `SkyIsland.shadeBasis`; volume 7's BCR-V7-18 (phase
+4045:§2.1's hand-off band, §3.12 and BCR-V7-26 (the fold, 1 575 / 1 425); V04 §3.1's maintenance mode, §3.5.0
+4084:pointer); V05 §3.15 (5) and (7) and §6's rows (SKY per island ≤ 7 / 10 ms, its gradient field and ground reference,
+4085:SKY-F ≤ 3 / 4 ms, a resize ≤ 3 ms plus §12.6's scoped regeneration, the dynamics row's dwells 5–15 and 10–40 years);
+4086:V01 V1-3.10.3 (6) (a), note (26) and V1-6's sky row (the unit run ≈ 8–12 / 12–18 ms); V04 §3.5.0 *At an epoch*,
+4104:re-landed foot's placement", `fallIsland` ≤ 80 / 110 ms, "declaring an island after generation" ≤ 120 / 160 ms, the
+4106:sky row and V1-3.7.3 with V01 §2.7's `Way.surface` row; the base's §12.6 (scoped regeneration ≤ 3 ms + 60 µs × buildings,
+4110:words quoted; V5 §3.15 (3) and (6) shrink a waning island by `resizeIsland` at every rung; item 244 runs the support step
+4112:**PLAUSIBLE** (reasoning): the re-derived century sums (arithmetic by hand from those rows, with an island's buildings
+4114:them; that the worst case (every island resized at every epoch, every foot re-landed) bounds every history; that the
+4204:| X10 | V05 (landed) | BCR-V5-23 is applied here (`demandTaken`, the displaced pool's cause `island`); the building mask is OR-ed into `shadeSky` on island arenas | V6 §2.1; §3.4 (8) |
+4209:| X15 | V05 | `sky.clearance` registered at `afterGrowth` order 50 (BCR-V5-28); `sky.islands`' landfall ops put the raised parts they ruin in the epoch's lifecycle (so in `scope.raised`) | V6 §3.2; §3.19.2 (4) |
+4234:| X40 | V01 (SLR3-11, TU-06 (a)) | note (26) is **met** by V6 §3.2's `sky.islands` row (a `raiseIsland` lays the island's districts by volume 1's unit run inside the epoch's commit, V1-3.10.3 (6) (a)) and priced per event in V6 §6.2 at V05 §6's rows and V1-6's sky row — a raise's unit run, a resize's scoped law once pe
+4239:| X45 | V01 and V11 (their next lanes; SCC-95) | V1-3.7.3's epoch clause ("an epoch re-derives surfaces on ways whose fronting band changes past the hysteresis") is **met** by V6 §3.4 (9), run as the `field` phase's last act (V6 §3.2 row 4): the ways fronted by a plot S6 re-banded take the rule again, an edited `surface` 
+4240:| X46 | V05 (its next lane; an observation from TV-01, no V05 issue this round) | V05 §6's "a resize, a rim reshape" row prices "§12.6's 30 ms per re-landed foot's placement", while V5 §4.2's resize also serves each re-claimed landing yard at its re-seated top by a positive placement (`placeAt`) at every resize — a pla
+4248:reads, for this volume: item 317's runner takes the product of item 322's fold (ST-02); item 260 keeps islands and accesses in
+4257:by this volume (TR-23 (b)); item 209 lands `repairRetaining` with the earlier of M6-sky and M6-E (TR-23 (c)); item 575 gives
+4268:| ST-01 | blocker | the epoch's product and rung are V07 §2.1's fold with the hand-off band (1 575 up, below 1 425 down; BCR-V7-26): `EpochContext.product` and the new `rung`, §3.1 (3)–(4), §3.2 row 1 and the feature re-resolution, §3.3.2, §3.18.2 (1), §3.19 (C) and (1), W37, W38, W57, §1.2, BCR-V6-1 (a); T-V6-51 g
+4274:| ST-19 | major | §3.18.1 (4) *Whose households*: F6's dwellings filled by relocating the district's poorest-band ground households up to `voidDwellings.share`; the crowding hook's sewers gate dropped for void clusters (§3.6 (1)); the undercity's vacated households re-housed in the participant; report fields; W73; T-V6-52
+4294:| ST-47 | minor | §6.5's mask budget by the sampler's layout (9 bits a cell: ≈ 11 KB CITY, ≈ 45 KB METROPOLIS, ≤ 5 KB an island) |
+4298:| ST-55 | minor | §3.18.2 (1)'s count cites V04 §3.5.1 (3) / V11's `count` row, island churches included, re-read each epoch |
+4300:| ST-59 | minor | IN-V06-7's sentence (islands and accesses keep volume 5's record form) |
+4321:* **IN-V06-3 (J-VI.17 H20; volume 5's §13 item 10).** The participant `sky.clearance` is registered at `afterGrowth`,
+4322:  order 50, and may return `reclearIsland` (BCR-V5-28); it receives `EpochScope.raised` and `.levelled`; the raised-way
+4334:  source); readers show its derived word. Islands and accesses keep volume 5's record form (`SkyIsland.removed`, `.removedAccesses`) under the same lift rule
+4352:| TR-03 | major | V6 §2.1's `ProductEpochRows.street` gains `again: 'effaceWay'` and `reopen: 'reopenWay'`; V6 §3.5.2 *The product's rows*: with `retireWay` the candidate also excludes a way carrying an entry, approach or landing (V07 §3.12) and any way whose retirement would leave a gate, frame exit or occupied plot wit
+4353:| TR-05 | major | V6 §3.5.2: every `fallen_island` member leaves by the op that ends its cover — a strike, `repairRetaining`, the `retypeLand` of its quarry face to commons, `repairRaised` (a span's repair restoring the ruined supports at its ends, V6 §2.8) or `dismantle`, or any tombstoning op — the decoration tombst
+4354:| TR-06 | major | V6 §3.5.2 *Accesses under the rubble*: in the member-leaving batch every access V4 §3.10 bricked with cause `convert:fallIsland` on that host returns `open` (`locked` when secret), cause `rule:landfall`; the face enters `EpochScope.surfaceChanged` (V6 §2.1) so `under.access` re-derives the excavation re
+4358:| TR-16 | minor | V6 §3.4 (8) (b): an island raised at the epoch or declared since the last field phase has no mask until the next field phase; absent reads as zero building shade |
+4361:| TR-19 | minor | V6 §2.12's `Way.formerClass` row (V05's `fallIsland` writer, the landfall clearance reader, the writing event's undo); W11; BCR-V6-7 (a) "the engine and the `fallIsland` convert; never a hand `setAttr` target" |
+4432:| TU-06 | minor | (a) with SLR3-11 below; (b) every `EpochScope` field comment points to W64, which now lists each field's readers once (`Foundations.apply`, `AccessPass.run`'s steps, `QuarryWorkings.extend`, `ArchVaults.reconcile`, `SewerStrategy.extend`, `sky.clearance`, `hood.fabric`); (c) "marks the stored plans stale" 
+4433:| SLR3-11 | minor | V6 §3.2's `sky.islands` row: a `raiseIsland` lays the island's arena by SKY's island steps and its districts by volume 1's unit run inside the epoch's commit (V05 §3.15 (5); V01 V1-3.10.3 (6) (a)), a growing resize its rim districts' scoped re-derivation; V6 §6.2's row prices them per event (≈ 24 / 
+4446:`abandoned`, a use on a hollow way with no path, an island raise priced nowhere, a register entry naming an unregistered
+4465:`street` type's `again` and `reopen`, `convert:fallIsland` accesses, BCR-V6-28, the per-use `deckOk`, the neutral-key
+4467:V6 §3.9.9's table pointer, `servedShare`, V11 §3.23.8's `rankCap` and `cryptJoin`, `sourceClosed`, the island mask
+4496:| SCC-R2C-11 | minor | V6 §3.16's sentence "participants use their own packages' ids (volumes 1, 4, 5)" replaced: **participants register the stage their volume names** — `SKY` for V05's two (V5 §3.15), `S9b` for `hood.fabric` (V1-3.3.6), `U-FADE` for the four `under.*` adapters (V4 §1.1, the engine they call; only the
+4499:**CONFIRMED** (read in the files this continuation): V5 §3.15 registers `sky.islands` and `sky.clearance` with stage
+4500:`SKY`; V1-3.3.6 registers `hood.fabric` with stage `S9b`; V4 §1.1's `U-FADE` row names the four `under.*` participants as
+4517:and J-V6.107; V6 §3.2's `sky.islands` row with the `raiseIsland` unit run (V01 V1-3.10.3 (6) (a)) and V6 §6.2's per-event
+4524:| SR3-10 | major | V6 §2.10's `raised` gains `suppressedFired: { removal: number /* the live delete's seq */; week: number }[]`; V6 §3.19.3 (2) states how the `raisedWays` pass fills it — in (C), a suppressed key is read by §3.19 (2) and gated by (3) with W59's keyed uniform (so no other draw moves), never admitted or 
+4545:| TV-01 | major | (a) V6 §3.2's `sky.islands` row names every island event an epoch can run, at every rung where an island stands: a raise, a growing or shrinking `resizeIsland` (a floating island toward its target, a waning one toward half its area) with V05 §4.2's whole resize — the rim strip and yards re-laid, each f
+4546:| SLR4-09 | minor | with TV-01: V6 §6.2's row prices every `resizeIsland` — growing or shrinking, a wane's included, at every rung where an island stands — at V05 §6's resize row (its fixed part, §12.6's scoped law per receiving district and for the district whose claim is re-searched, V01 V1-6's sky row, and the pla
+4547:| TV-07 | minor | V6 §3.19 (5): after the course, the solver holds the deck at item 244's clearance over each crossed part-0 way, and **item 244's support step** (file f item 244; J-VI.27) lays the stations and pier rings — a generated way's pitch the step's draw keyed by the way's lineage (its reason key) and `pitch` in
+4548:| SCC-95 | minor | (1) V6 §3.2's `field` row re-lays the `surface` of each way whose fronting band crossed the hysteresis by volume 1's way-surface rule (V1-3.7.3; an edited `surface` kept) (base; V01); (2) V6 §3.4 (9) states the write in the phase's batch: candidates are the ways fronted by a plot whose `fieldBand` S6 ch
+4558:V5 §3.15 (3) and (6)'s wane by `resizeIsland` at every rung, V5 §4.2's resize and move re-landing, file f item 244's support

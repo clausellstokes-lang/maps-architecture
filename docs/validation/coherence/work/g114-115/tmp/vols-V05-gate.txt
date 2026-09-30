@@ -1,0 +1,59 @@
+127:world has magic, a floating stair of stepping stones or a bridge of light may join them. Every island has at least one
+165:**Where magic wells up.** If the settlement's own record says it sits on a magical node, the town pays less to keep
+168:**When the city declines.** If the city gets poorer, its islands shrink a little and sink lower. If the magic can no
+270:| §4.2 S0, S1 (2)–(5) | the `magic` circumstance, the closed-outline routine, outline templates, rivers by descent, crossing sites | outline, terrain, the conjured river, the island's decks |
+278:| §7.7 (derivation table, coherence, `magic` from `site.magic`) | the dossier contract | derivation row DR-SKY (BCR-V5-12) |
+353:| gate result `skyGate` (V5 §3.2) | `recipe.layers.islands`, `RungProfile.layers.islands`, DR-SKY's dossier `site.magic` row | S7b (5)'s slot draw; §7.8's control state; the report | II.6 (1)–(2), §7.7 |
+410:| DR-SKY (V5 §4.4) | the dossier's population, `wealth.label`, `site.magic`, `site.deposits`, institutions (custom ones by their resolved archetype; ladder records by their step type; district-defining records), government, `activeChains[]` | the gate, S_town through DR6, the node term, the institution rows, the fill's held shares, the chain rule | §7.7 derivation table (BCR-V5-12) |
+644:  staffHouseholds: number; weight: number; requires: { government?: string[]; magic?: ('low'|'high')[] /* the `magic` circumstance the row needs */ };
+649:interface SkyAccessRow { kind: SkyAccess['kind']; magic: ('none'|'low'|'high')[]; weight: number; maxAltitudeM?: number; maxRunM?: number /* the horizontal top-to-foot distance (V5 §2.2) */; needsLandBelow: boolean; extension: true }
+701:| `tower` | `mage_tower` (its lowest-ordinal instance), `mages_guild` | `prosperous` | 0.6 ha | 4 | 0.20 | `magic` low or high | `sky-tower` / `square` | main | far from the plaza (≥ 600 m); fields 1.2 | `exotic-tower`, any level | none (sited by S10b) |
+706:where the world has magic (J-V5.31). The cathedral row's second tag is the great temple of a town whose religion row
+714:| access row | magic | weight | limits | land below |
+718:| `stair` | low, high | 0.3 at `low`, 0.4 at `high` | altitude ≤ 120 m | yes |
+841:   islands, item 23); and, for a dossier-bound document, the circumstance `magic` that DR-SKY derives from the dossier's
+842:   `site.magic` is not `none` (V5 §4.4). A failed gate makes no allocation and reports `islands: off`, `gated: rung` or
+843:   `gated: dossier magic`.
+858:   rose this time" when the slot draws came up empty — and names both remedies: raise the town's wealth (T1 `intend`), or
+880:the field's **absolute** value, which the dials, `wealthLevel`'s character offset (§7.7 layer 1) and the epochs' drivers
+895:  value + node.bonus)`: magic that wells up on the site costs the town less to keep aloft. It is one addend however many
+897:  above 0 — a town too poor to supply magic at all is not lifted by a node (the owner's "if there is no prosperity, there
+908:`wealthLevel` ∈ {0, 0.25, 0.5, 0.75, 1} with the setting on, record `S_town`'s median `m_w` per level; set `townSupply`
+909:to (m_0.25, 0) (m_0.5, 0.5) (m_1, 1). Bars: the median `h_town` at `wealthLevel` 0 ≤ 0.05, at 0.5 within [0.35, 0.65], at
+911:becomes `0.5 · (the field mean) + 0.5 · w`, `w` the intent's `wealthLevel` (with a dossier its derived value, DR6), the
+913:same run: `h_carried(v(rich))` ≥ 0.7 and `h_carried(v(modest))` = 0 at `wealthLevel` 0.5 on ≥ 90 % of seeds; else its
+929:   (when present) holds for the town's `Government.kind`, its `requires.magic` (when present) admits the recipe's `magic`
+1056:   within the horizontal run of an admitted slanted access row (`ropeway`, and `lightBridge` where the `magic`
+1081:   (The earlier disc-sized side, 2.6 × the radius of a disc of 1.5 × `areaHaMax`, was too small for an elongated outline:
+1174:3. **The kind at each top**, among the access rows admitted by the recipe's `magic` circumstance (a `guarded` access is a
+1288:and `terrainClass` from the island's terrain (`high`, but `damp` within 10 m of island water); `upwind` from the ground's
+1356:each ground landing's lantern is its `sky_landing` class's `door` row. The `magic` circumstance gates no sky row: the
+1357:island is the magic that holds it up (J-V5.9). A waning island's magical lights scale with its `h_carried` at each epoch;
+1410:   either way (magic accretes and erodes slowly), and its altitude toward `E_t` by at most `altitudeRateMPerYear · years`
+1702:   (J-V5.23: they are magic's own; V5 §3.5 (3) (a)).
+1735:   the ground (item 104 (h) (1)); the island's conjured river and spring pond are magic's own, carry no trade (1) and
+1945:| T1 `intend` | the islands setting (off / on) and the count (`auto`, 0–3) | `adjust('layers.islands')`, `adjust('islands.count')` — both Re-derive from S7b with their fate report (§7.8) |
+2058:  where the town cannot supply magic is allowed only with the fate `held against its supply` confirmed (J-V5.10); the
+2071:* **Accesses.** `placeSkyAccess`'s dry run checks the kind against the `magic` circumstance and the row's limits (a
+2083:  the way (J-VI.4 (b)). **`setAttr(kind)`** on an access re-runs the same check at its dry run — the `magic`
+2122:  `ropeway` for a slanted stroke, a `hoist` where the foot lies under the rim, a `lightBridge` where `magic` admits it.
+2168:| DR-SKY | floating islands: the gate, count, reason, size, altitude and access kinds; what the sky fill carries of a chain; the shares it may not take | the population (the rung, DR23); `wealth.label` (DR6: the field, so `S_town`); the households' bands (DR7: `S_carried`); the institutions (DR9, DR24: a palace, cathedral, great temple, prison or mage's instance; a custom institution by its resolved scene archetype and `landmarkLevel`, item 104 (a)); the institution ladder records by their step type (item 108 (a): only a singular or SIZE record may go up; COUNT, GUILD and QUARTER members counted across both arenas); the district-defining records (item 72: their raised shares never taken by the fill); `government` (DR11: a palace's eligibility); `site.magic` (the `magic` circumstance: the gate and the access kinds); `site.deposits` (a `magical_node`: the node term of `h_town`, V5 §3.3); the active reviewed custom chains (item 104 (b)) and `activeChains[]` (item 105 (i)): the nodes the fill keeps on the ground, V5 §3.5 (3), and the links' status | V5 §3.2–§3.10, V5 §3.15 (1b), V5 §3.20 (9)–(12) | `island.place` | every bound CITY or METROPOLIS map with the setting on has its gate resolved, its node term traced to a deposit or to none, each island's reason traced to a DR7 or DR9 fact, and no ladder pair counted twice across the arenas |
+2172:(J-V5.40). The setting itself is the map's declared choice, never a dossier path. **Coherence:** where the dossier's `site.magic`
+2173:resolves to `none`, turning the setting on is refused (F-EDIT `dossier-owned`: "the dossier's world has no magic"), and a
+2400:  dossier-bound CITY whose `site.magic` resolves `none` refuses the setting (F-EDIT `dossier-owned`).
+2401:* **T-V5-2 — the count** [C]. 500 CITY seeds at the target at `wealthLevel` 0.5 and 1: every count 0–3 within ± 3 s.e. of
+2427:  ends at its top with a landing every 20 m of rise; no stair or bridge of light where `magic` is `none`; `guarded` only
+2524:  its supply` fate; a fourth island is bent to join the nearest island (J-VI.4 (a); seam SLR2-11); the dossier-magic refusal holds.
+2592:  is a `tower` candidate where the world has magic and not where `magic` is `none`; a `martial-keep` is a palace
+2707:the sky base); the field's power to tell rich towns from poor (P0; fallback: the `wealthLevel` blend); the unit-run
+2749:| J-V5.8 | Chose hoists — a winch house and a cage on ropes, as clifftop monasteries were reached — as the default access, rope lines over water, and floating stairs and bridges of light only where the world has magic, over bridges of light everywhere, because the realism tiebreaker tempers the fantasy: the island is the one magic the setting asks for. |
+2750:| J-V5.9 | Chose to leave the island's magical lights ungated by the `magic` circumstance, over hiding them when it is `none`, because the island exists by its own setting and its magic is what holds it up; the circumstance still gates the stairs, the bridges of light and the ground's magical lights. |
+2754:| J-V5.13 | Chose to redraw only empty slots at an epoch, a supplied island staying, over the base's reading that a slot may close and send its island down the decline ladder, because an island falls for want of magic, never by chance while it is paid for. |
+2760:| J-V5.19 | Chose to refuse the setting where a bound dossier's `site.magic` is `none`, and to keep the setting and the circumstance independent without a dossier, because a floating island would contradict a dossier's magic-less world (item 20 (h)'s coherence) while a standalone map's two toggles are the author's. |
+2772:| J-V5.31 | Chose a fourth island institution row, the arcane `tower`, admitted only where the world has magic and taking a custom kind of the `exotic-tower` archetype, and the archetype column on the palace and cathedral rows, over leaving custom institutions off the islands, because item 104 asks that custom content land sensibly with no hand-written rules and a tower "on its own ground, apart" is the owner's unique institution in its plainest fantasy form; it arises only when the roster or the dossier demands one. |
+2773:| J-V5.32 | Chose to leave on the ground, by the editable table `IslandRule.carry`, every trade whose profile emits smell, smoke or water pollution at the top step, the heavy processors and wholesale and storage of item 107 (a), every class with a hard need for running water, a river bank, the harbour, a gate or a quay, and an active chain's working nodes, over excluding the top-step emitters only, because an island has no downwind, downstream or extramural ground, no quay or gate, and no water that satisfies a need (its conjured river is magic's own), and the owner's rule that the tannery goes "down river" and away from homes cannot be met there (revised with C5-16). |
+2782:| J-V5.41 | Chose to read the dossier's `magical_node` deposit as a flat, positionless addend to `h_town`, acting only where the town already supplies some magic, over a placement pull toward the node or a multiplier, because the node's position — at a ruin's centre where a ruin exists (item 109 (f)), else S12a's decoration site — is volume 4's and volume 8's and is fixed after S7b (5) places the islands, reading it would tie the islands to the underground (item 2), a multiplier would vanish exactly where a node matters most (a middling town), and the owner's "no prosperity, no islands" forbids a node lifting a town that supplies nothing (revised with C5-23). |
+2940:§3.13 — light an island by its carried supply and are gated by no `magic` value; the ground rows light the island's
+2968:(kind — re-checked against `magic` and the row's limits —, role, `state`, `knownTo`, `ground.at` — re-landed as a move),
+2994:rows the refusal of the islands setting where the dossier's `site.magic` resolves `none` (V05 §4.4).
+3639:  whose `site.magic` resolves `none`) is a **bend**: V5 §3.1 (3)–(4), §3.22 (3) (d), §4.1's table rows T3 and T4, §4.2's

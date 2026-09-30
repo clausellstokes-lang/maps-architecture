@@ -7,7 +7,7 @@ PROGRESS (lane `coherence/rewrite-V04`, 2026-09-29)
 - P2 head, §0, §1: done (parts/00-head-s0-s1.md)
 - P3 §1b: done (parts/01-s1b.md)
 - P4 §2: done (parts/02-s2.md)
-- P5 §3.1–§3.4: pending
+- P5 §3.1–§3.4: done (parts/03-s3-1-4.md; cloud resume 2026-09-30)
 - P6 §3.5: pending
 - P7 §3.6–§3.12 (edges table): pending
 - P8 §4–§6: pending

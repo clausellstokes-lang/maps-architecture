@@ -19,8 +19,9 @@ def conv(t):
     for k,v in DR.items(): t=t.replace(k,v)
     t=re.sub(r'(DR\d\d) \(\1\)',r'\1',t)
     t=re.sub(r'(DR\d\d)\'s \(\1\)',r"\1's",t)
-    t=re.sub(r'(?<![-\w.])V(\d) §',r'V0\1 §',t)
-    t=re.sub(r'(?<![-\w.])V(1[0-2]) §',r'V\1 §',t)
+    t=re.sub(r'(?<![-\w.])V(\d)(\s+)§',r'V0\1\2§',t)
+    t=re.sub(r'\(critique-V11 V11C-\d+ \x01\d+\x02\)','',t)
+    t=re.sub(r'(?<![-\w.])V(1[0-2])(\s+)§',r'V\1\2§',t)
     t=re.sub(r'(?<![-\w.])V(\d)-(\d+(?:\.\d+)*)(?![\w-])',r'V0\1 §\2',t)
     t=re.sub(r'(?<![-\w.])V(1[0-2])-(\d+(?:\.\d+)*)(?![\w-])',r'V\1 §\2',t)
     def bcr(m):

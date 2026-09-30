@@ -1,0 +1,242 @@
+120:economy's sectors, and the owner's siting rulebook of 2026-09-28 — how each kind of building pulls toward or pushes
+156:must be, and how tall a step, before a town builds a terrace wall, and what that wall is made of by the wealth of the
+219:monuments (V04), the epochs' raised-way pass and decline (V06), the tools (V09); the island's underside, its shadow strip and its siting (V05); the epochs'
+247:| W11 | `WallBarrierRow`, `WaterfrontThreatRow` (V11 §2.7, V11 §3.16) | V11 §3.16 rows | S3 (9), S5a's arc classification, §4.8's graded furniture, §7.7 DR2 (per g item 106), V07's palisade barrier arcs (V07 §3.4 step 5; V11 §10b), V05's island rim (V5 §3.21), the mole-head slot's fort draw (V11 §3.24.4) | §2.7, §4.2 S3 (9) (BCR-V11-5) | stressors, `activeConditions[].archetype`, DR3's hostile sea partners, `config.monsterThreat`, `config.tradeRouteAccess` (mapping.md rows 10, 11, 49, 70) → V08's `threats` row set (V08 §2.6, J-V8.50) → the neutral threat key → this table → DR2 |
+254:| W18 | sector, power-link, sector-link rows (V11 §3.15) | this volume | §4.5 (2), (6); S2's town-level character | §10.2 | `economy.incomeSources` (T13), `powers[]` (T15) |
+258:| W22 | grammar slices and descriptions (V11 §3.20) | this volume's grammar sources + authored corpora | S13a, the description writer, V05's island names, V01's local places and way names, V06's chronicle | §10.4 | claimed names (item 82) bypass the grammar |
+266:| W30 | the ruin rows (`under.ruin`: chances, significance, burial by age, the four ancient-culture rows, survival, the void-source rank, magic lights; V11 §3.23.2–§3.23.6) | V11 §3.23 | V04 §3.5.0a (U-SYS), U-CITY C1, U-FADE, U-FORECAST; V07 §3.16; V06's ruin decay; V12's `paired` and `twoSample` bars | II.7.5, II.7.6; V04 §2.3's `RuinRule` | `ancient_ruins` deposit, `ruined-landmark` records, `magical_node`, ley-line income rows, `history` events of type `magical`, `history.age`, delving institutions (V08's DR rows) |
+284:| W48 | `HeightsRow.attic`, `parapetCm`, `towerStoreyCm` (V02's BCR-V2-26), the role table (V11 §3.6.5), the `sky-*` district kinds and the landing rows (V05) | V11 §3.6, §3.9, §3.5.13 | V02's M3, M10, M11; S11's structures; V05's arena typing; V01's unit runner | §10.2, §2.6 | — |
+285:| W49 | `terrace` and `retaining` (V11 §3.24.1), the relief column `terracedEdges` | V11 §3.24.1 rows | S10 and S11's levelling (the `RetainingWall` records: where, material, batter, buttresses, towers), V01's stepped fabric and `levelledUnits`, V07's village cells, V09's T2 terrace sugar and T3 retaining mode and its flat-ground bends (V09 §4.20.1 (3): `retainingReachM`, `flatDepthM`, `coverShare`), V06 §3.19.4, V05's island arena, V12 §3.4.2's model metric `retaining.onFlatM` (0 by rule, reported nightly) | §2.7 `RetainingWall`, §4.7 S10/S11 (per g item 110 (a)); §4.2 S1 (BCR-V11-28) | — (relief from the terrain row; a dossier `mountain` terrain is mountainous, DR1) |
+286:| W50 | `raisedWays` with its `settings` and `structure` (V11 §3.24.2) | V11 §3.24.2 rows | the base's raised-way generator (S4, each later stage's S5b through S4's router (SCC-96), end of S6), V06 §3.19's epoch pass and ledger, V09's T4 dry run and aqueduct tool, V04's arch vaults, V05's caster ceiling, V10's why (`rw/<kind>`), V12's register; V08's DR-V8.8 (its landmark threshold, W74) | §3.4's ground parts, §4.3, §4.6 (per g item 110 (b)) | the water-system record, the landmarks on high ground, `site.culture` (V11 §3.24.7) |
+313:| W77 | the display cells — `label`, `icon?`, `synonyms`, `commonness` on every class row; `label`, `icon?` on the profile families, goods, district kinds and style sheets (V11 §2.3, §3.1's *Display cells*, §3.4, §3.5.1, §3.5.15, §3.7.1, §3.9, §3.13.3; reconciliation round 6, SR5-03) | V11's source rows (the town-and-city and sky classes, the families, goods, kinds and the shipped sheets' words); V07 §2.4 (the `v.` rows, SR5-10); the compiler (`icon` and `commonness` of a class, the generic rows' cells) | V09's roster reader (V9 §4.16 (3)), T6's palette and T5's cards (V9 §2.3's `labelCell` / `iconCell`, V9 §4.5), the link view (V9 §4.7), the `refuse.roster.dossier` slot and the history template (V9 §4.9, §4.16 (6)) rendered by V10, V08 §4.6's `unmapped_kind` and `custom_resolved` notes (T-V8-46), `@plat/docs`; V9 §5.1's sprite holds the 45 `fam.<key>` glyphs (X-V11-17) | §10.2 `BuildingClassRow` (BCR-V11-1 amended); §14 `@plat/tables` (BCR-V9-8 = file f item 516) | — (no dossier field feeds the words; V08's notes name the class a record is built as) |
+337:  interp: 'band'|'step'|'none' /* band: interpolated along the prosperity value between band rows (§4.5); step: switches at the cut; none: not band-keyed */;
+349:    `StageDecl`), so a readers entry 'S5' is a group the compiler expands to those four (V11 §3.1's *Readers*; SCC-96) — and every id a volume registers — 'S7c', 'S8.seed', 'S9b' (V01), 'SKY' (V05), 'U-NET', 'U-SYS', 'U-ACCESS',
+474:number, number, number]` (m², the crypt ring's growth target at poor, modest, prosperous, rich; required when `crypt` ≠
+476:BCR-V2-28; on an island V05's rim-slab vault) and exempt from the terrain gate's wet-ground refusal; `basement`: the
+503:The source writes `label` and `synonyms` for every authored town-and-city row and for V05's two sky rows in V11
+536:for a term of §4.5's prosperity field (`drv/sun` for item 102's daylight term, `drv/water`, …), which V10's
+584:    siteFeature?: 'ravine'|'cliff' /* §2.3's SiteFeature kinds */; bankKind?: string[]; rule?: 'islandRim' /* an arc of a sky island's rim chain, by rule (V05 §3.21) */ } /* the test that classifies an arc as this barrier (thresholds; ours) */;
+644:  floors: [[number, number], [number, number], [number, number], [number, number]]; footprintM2: [number, number, number, number] /* p50 by poor, modest, prosperous, rich */; plotAreaM2: [number, number, number, number];
+704:  kind: RaisedKind; chance: number /* share: the base chance p0 of a live candidate */; cap: number /* the kind's count cap at the rung */; pMax: number /* share: the ceiling on p */ }
+708:  elevated: { minRiseM: number; maxSpanM: number; bandFactor: Record<'poor'|'modest'|'prosperous'|'rich', number>; landmarkFactor: number; landmarkMax: number; highGroundM: number;
+713:interface RaisedWayStructure {      // one row 'structure' of the same entry: the heights V05's caster ceiling and V04's vaults read
+719:  material: Record<'poor'|'modest'|'prosperous'|'rich', Partial<Record<'timber'|'rubble'|'brick'|'ashlar', number>>>;   // an aqueduct never timber
+835:named by its **StageId** — §4.1's stages; the ids the volumes register (V01's `S7c`, `S8.seed`, `S9b`; V05's `SKY`; V04's
+840:an epoch participant under the `stage` it registers (V6 §2.1's `EpochParticipant.stage`: `SKY` for V05's two, `S9b` for
+867:| 6 | `prosperity.bands` | `bands.json` | `BandSet` | §4.5 | every band-keyed reader | row | written |
+868:| 7 | `prosperity.drivers` | `drivers.json` | driver kernels and weights (incl. `w_sun`, item 102) | §4.5; `w_sun` row V11 §3.3.5 | S6, S10a, EVO_FIELD (the building shade mask's `w_sun` term, V6 §3.4; the field step's re-evaluation runs as S6) | weights | written |
+875:| 14 | `walls.barriers` | `walls/barriers.json` | `WallBarrierRow` | V11 §3.16.1 | S3 (9), S5a, S7, VS3 (the palisade's barrier arcs, V07 §3.4 step 5), SKY (an island's rim closing as a cliff, V05), EVO_GROWTH and EVO_FORT (a new circuit and a ring's contraction under barrier closure, V6 §3.7) | row | written here |
+879:| 18 | `roster.districtKinds` | `roster/districtKinds.json` | `DistrictKindRow` (with `affinity`, BCR-V11-17, and `label`, `icon?`, BCR-V9-8) | V11 §3.9 (the `sky-*` rows from V05 §2.4's facts) | S6, S7b, S10b, SKY (V05's arena typing); V01's unit run is a derivation unit these same stages run (V1-3.10; BCR-3) | row, match | written here |
+908:| 47 | `wealthLadder` | `wealthLadder.json` | survivors' ladder, churn caps | §4.11 | EVO_LADDER (the wealth ladder's rungs, V6 §3.8.4), EVO_DECLINE (the churn caps the lottery runs inside, V6 §3.5.2) | row | written |
+913:| 52 | `palette` | `style/*.json` | style sheets and role values (each sheet's head row with `label` and `icon?`, BCR-V9-8) | §8.2 (values); V05 §5.1's sky-slot facts and V04's ruin and void style facts (their volumes) — this volume writes no colour; the sheets' labels V11 §3.1's *Display cells* | the renderer (§8) | row | written |
+917:| 56 | `islands` | `islands.json` | `IslandRule` and V05's rows (its `accessSiting.deckGapM` and `lineClearM` are V05's own cells, never V11 rows) | II.6, V05 | S7b (5), SKY (V05's stage, and its epoch participants `sky.islands` and `sky.clearance`, which run under it, V5 §3.15) | row | written (V05) |
+925:| 63 | `dossier.*` (tiers, site, access, threat, deposits, quarters, landmarks, distribution, status, wealth, sectors, government, powers, conditions, calendar, receipts, derivation, impairments, crime, cultures, categories, tags, relations, historyScars, magic, era, materials, isolation, chainStatus, dependencySeverity, calamitySeverity, qualifiers, threats, ruinEvidence — the twelve from `relations` by SS-24 — `customWeights` (the custom definition's `economicWeight` and `criticality` words → the numbers of `PortRows.customKinds`, V08 §2.6 and §3.11; J-V8.108; V08's X19, outside this round's brief) — and V04's two, `sanitation` and `subterranean`, which V04 writes as `tables/dossier/sanitation` and `tables/dossier/subterranean` (files `dossier/sanitation.json`, `dossier/subterranean.json`; `owner` `'V04'`; reconciliation round 3's continuation, SCC-R2C-2)) | `dossier/*.json` | V08's row types; V04's two the match rows of V4 §2.3a (`sanitation`: match, binding; `subterranean`: match, effect, binding) | §14 item 7, V08 §2.6 and §2.6a; V4 §2.3a for `sanitation` and `subterranean` (BCR-14's DR17) | `port.digest` (for V04's two, DR17's creation and binding at door 1: `toggles.sewers`, a system's forced existence, a placement's `arena` row, each record's binding target); for V04's two also `@plat/app` (V09's why card, which names the matched row: V9 §1b's dossier-facts table, 4.17.3) | row, match | written (V08; V04's two written (V04)) |
+930:| 68 | `naming.*` (settlement, district, quarter, way, place, landmark, water, island, cluster, undercity, ruin, formerWall, person, folk, villageEnd, field, `building.wingRole`) | `naming/*.json` | `GrammarDef` | V11 §3.20.1 (grammars); corpora `authored` | S13a (V04's T6 and the renames at an epoch's `character` step included); modules: derivePerson (§10.3), V02's wing hover label | row (field slices for corpora, §7.6) | grammars written here; corpora authored (bar: V11 §3.20.6) |
+942:| 80 | `raisedWays` (rows, `settings`, `structure`) | `item110/raisedWays.json` | `RaisedWayRow`, `RaisedWaySettings`, `RaisedWayStructure` (with `span` and `slideMaxFactor`, reconciliation round 6, SCC-104) | V11 §3.24.2; V04 §10 BCR-45 (the `span` values); §2.7 by file f item 244 (`slideMaxFactor`) | S4, S6 (the base's raised-way generator), S5b (the main-road step at stages k ≥ 2 and every epoch stage, through S4's router, which prices viaduct spans; §4.4; BCR-V6-25; V6 §3.6; reconciliation round 5, SCC-96 — should T-V11-1 (b)'s recorded reads tag an epoch stage's S5b as EVO_GROWTH, this row lists EVO_GROWTH in that change, J-V11.92), EVO_RAISED (V6 §3.19's epoch pass), U-SYS and U-FADE (V04's arch vaults and their reconcile, and `foundationObstacles`' `span.supportFoundationCm`, V04 §3.5.0's foundation rule), U-CITY, U-ACCESS and U-LINK (`foundationObstacles` read by U-CITY's carve and U-DIG's cost; reconciliation round 6, SCC-104), SKY (V05's caster ceiling, with its `sky.clearance` participant); modules: V09's T4, the clerk (V10), the bench (V12) | row | written here |
+980:the town-and-city classes and V05's sky classes, V11 §3.5.15; the `v.` classes, V07 §2.4; the generic classes, the
+1142:| clientele | elite | `band` values `prosperous`, `rich`; `near` → `align:status+` within 100, beyond 300 | — | 0.5 | "among the well-to-do" |
+1196:**3.3.5 Item 102's cells.** `prosperity.drivers` gains the row `sun` (id `drv/sun`): kernel `−shade(x)` (item 102
+1296:| family | liveIn | shopProb | lifestyleBand | priority | outside | drain | underground · undercity | template family |
+1299:| food, trade, craft, luxury, alchemy, healing, information | yes | 0.6 | modest (luxury, finance: prosperous) | 4 | no | pit | never · allowed | shopfront or workshop-row |
+1306:| civic-authority, law-court, guild-hall, watch, garrison, fortification, welfare, school, worship, monastic, infrastructure, sanitation, water-supply | no (a warden's household where the template has a dwelling slot) | 0 | prosperous (watch, welfare: modest) | 10 | no | pit (monastic, sanitation: channel) | never · never (worship: allowed for the forbidden rows only) | by class |
+1307:| arcane, planar, exotic, adventuring | no | 0 | prosperous | 7 | no | pit | allowed · allowed | by class |
+1326:* `undergroundAccess.prob` (item 64; per band row poor / modest / prosperous / rich, interpolated along the value): the
+1337:  class's expected member count n — 0 when a `dos`, `magic` or `req` gate or a `firstAtPopulation` above P binds it, or
+1348:(§4.7 S10b, calibrate-later at M1 with its fallback), `magicGate` the classes marked *magic* below read
+1349:`CircumstanceSlice.magic ≠ 'none'` or a dossier arcane power (item 79), `crypt.rankShare` 0.8 (every crypt but the
+1365:dossier record, an assignment or a pack (perCapita 0), `magic` gated as above, `req` the site-resource gate (§10.2
+1404:| `house` | `housing` | burgess house | dwelling-row (prosperous: dwelling-detached) | disp · 0.2 | class mix | — | residential | — · — | — |
+1407:| `tower_house` | `fortification` | fortified elite house | tower | disp · 3 | 1/15 000 @10k, CITY+; prosperous and rich only | S smell 2, noise 1; clientele residential | residential | lordship · — | — |
+1427:| `vintner` | `trade` | wine merchant and cellar | shopfront | disp · 0.8 | 1/4 000 @3k | band prosperous | specialist · mkt | company · trade | underground `allowed` (its cellar, BCR-V11-15) |
+1436:| `armourer` | `metalwork` | armour and blades | workshop-yard | disp · 1.5 | 1/6 000 @5k | band prosperous; S+ disorder 1 | specialist · mkt | guild 0.5, military 0.5 · crafts | `near` → barracks, castle within 400, soft *ext* |
+1451:| `draper` | `trade` | cloth merchant | shopfront | disp · 1 | 1/2 500 @2k | band prosperous | specialist · mkt | company · trade | supply `cloth` 2 000 m street |
+1467:| `bookbinder` | `luxury` | books and binding | shopfront | disp · 1 | 1/8 000 @5k | band prosperous | specialist | guild · crafts | `near` → school, university, cathedral within 500, soft *ext*; supply `parchment` 1 500 m street |
+1482:| `merchant_house` | `trade` | counting house and store | dwelling-compound | disp · 2 | 1/1 500 @2k | band prosperous; N+ harbour or gate | wholesale · bal | company · trade | `frontage` through, primary soft *ext* |
+1516:| `palace` | `civic-authority` | royal or princely palace | castle | sing · 30 | gov (crown) | N+ space (hard), highGround | institution | lordship · — | the castle's reservation rules (§4.2 S3); on an institution island, V05's island siting applies and the ground rows do not (V5 §3.5) |
+1530:| `cathedral` | `worship` | cathedral and close | cathedral | sing · 30 | gov (ecclesiastical); else 1 @10k | N+ space (hard); V — | institution | religion · religion | S3's precinct (§4.2 S3); `nearMarket` 300 soft; on an institution island, V05's island siting applies and the ground rows do not (V5 §3.5) |
+1546:| `physician` | `healing` | physician's house | dwelling-compound | disp · 1 | 1/5 000 @4k | clientele elite; band prosperous | specialist | guild · — | — |
+1554:| class | crypt | cellar prob = the crypt chance, poor / modest / prosperous / rich | cryptM2, poor / modest / prosperous / rich |
+1571:  applies; on an institution island V05's rim-slab vault, V5 §3.10 (5)).
+1617:| `druid_grove` | `worship` | sacred grove | — (a grove `Decoration` with a shrine pin) | sing · 3 | dos, magic | V — | institution | religion · religion | `near` → `landuse:wildwood`, `landuse:reserve` within 0, hard (a grove stands in its wood) |
+1619:**3.5.11 Arcane, exotic and adventuring** (every row *magic*-gated unless marked; all `extension`):
+1623:| `mage_tower` | `arcane` | a wizard's tower | tower | disp · 6 | 1/20 000 @10k | K spread 400 | specialist | arcane · magic | — |
+1624:| `mages_guild` | `arcane` | mages' guild hall | hall | sing · 6 | CITY 0.5 | — | institution | arcane · magic | — |
+1625:| `academy_of_magic` | `arcane` | academy | court-institution | sing · 12 | dos | — | institution | arcane · magic | — |
+1626:| `alchemist` | `alchemy` | alchemist's shop | workshop-row | disp · 1 | 1/8 000 @3k | — | specialist · src | arcane · magic | supply `reagents` 3 000 m road |
+1627:| `enchanter` | `arcane` | enchanter's shop | shopfront | disp · 1.5 | 1/15 000 @5k | clientele elite | specialist | arcane · magic | — |
+1628:| `scroll_scribe` | `arcane` | scroll scribe | shopfront | disp · 1 | 1/15 000 @5k | — | specialist | arcane · magic | `near` → mage_tower, mages_guild within 400, soft |
+1629:| `hedge_wizard` | `arcane` | a wise one's house | dwelling-row | disp · 0.5 | 1/6 000 (low magic ×2) | clientele dailyLocal; band poor | everyday | arcane · magic | — |
+1630:| `teleport_circle` | `planar` | a warded circle | court-institution | sing · 4 | dos | N space | institution | arcane · magic | `near` → `open:square`, castle within 300, soft |
+1631:| `airship_dock` | `transport` | mooring mast and yard | tower | sing · 5 | dos (high magic) | N highGround, space (hard) | wholesale | company · trade | `far` → `#housing` 60 soft |
+1632:| `planar_embassy` | `planar` | embassy of another plane | court-institution | sing · 6 | dos | — | institution | arcane · magic | — |
+1633:| `dream_parlour` | `entertainment` | dream parlour | tavern-row | disp · 1 | dos | E= crowds 1, noise 1; S noise 2, crowds 2 | specialist | arcane · magic | — |
+1634:| `golem_works` | `industry` | golem workshop | works-noxious | disp · 2 | dos | E noise 3 | heavy | arcane · magic | — |
+1635:| `necro_works` | `industry` | undead labour yard | works-noxious | disp · 2 | dos | E smell 2, disorder 1; alignment sacred − | heavy | arcane · magic | `far` → `#worship` 300 soft |
+1637:| `adventurers_hall` | `adventuring` | adventurers' guild or charter hall | hall | disp · 2 | dos (not magic-gated) | — | specialist | company · — | `nearGate` 300 soft |
+1638:| `hireling_hall` | `adventuring` | hiring hall | hall | disp · 1 | dos (not magic-gated) | — | specialist | — · — | `nearGate` 300 soft |
+1639:| `beast_yard` | `adventuring` | beast trainers | stable-yard | disp · 1 | dos (not magic-gated) | E smell 2, noise 2 | specialist | — · — | `extramural` soft |
+1640:| `fortune_teller` | `entertainment` | fortune teller's booth | shopfront | disp · 0.3 | dos (not magic-gated) | alignment sacred − | everyday | — · — | `nearMarket` 200 soft |
+1641:| `outfitter` | `adventuring` | delvers' outfitter | shopfront | disp · 1 | dos (not magic-gated) | — | specialist | company · trade | `nearGate` 200 soft |
+1642:| `sage_house` | `school` | sage | dwelling-compound | disp · 1 | dos (not magic-gated) | — | specialist | — · — | `near` → library or university 400 soft |
+1654:**3.5.13 The sky classes** `sky_landing` and `sky_landing_top`: rows compiled from V05 §2.4's facts — family
+1655:`transport`, template `yard` (ground) and `landing-yard` (island), `sing · 1`, positioned (never pulled; their NEEDS met
+1670:`label` and `synonyms` cells (V11 §2.3) of every authored town-and-city row and of V05's two sky rows, one row each
+1829:| 3.5.11 | `academy_of_magic` | academy of magic | magic academy, arcane academy, wizard school |
+1835:| 3.5.11 | `airship_dock` | airship dock | airship mooring, sky dock, mooring mast |
+1859:| 3.5.13 | `sky_landing` | sky landing (ground) | — |
+1860:| 3.5.13 | `sky_landing_top` | sky landing (island) | — |
+1866:the poor, modest, prosperous and rich rows (§4.5's four-row tables: `squalid` reads the poor row, `comfortable` the
+1928:| `dwelling-compound` | court 0.4, garden 0.3 (prosperous and rich: formal_garden 0.2 of it) |
+1943:values, J-V2.35): prosperous footprint p50 420 m², plot 2 000 m²; rich footprint p50 650 m², plot 3 000 m²; structures
+1961:| class | poor | modest | prosperous | rich |
+2147:| `volume` | minor 0.5, moderate 1.0, major 1.5, backbone 2.0 (SettlementForge's `economicWeight` words, V08 §2.8); any other word: moderate, noted `unmapped_word` | `economicWeight` → a custom or dossier chain link's volume and σ multiplier (item 104 (h) (2)); absent: moderate |
+2148:| `chainStatus` | keyed by V08's NEUTRAL status keys (V08 §2.6's `chainStatus` word row maps SettlementForge's six words onto them: `running` and `operational` → `active`, `magically_sustained` → `sustained`, any other word → `active`, noted; J-V8.49): active 1.0, vulnerable 0.8, impaired 0.6, entrepot 1.0 (its ends take the import and export pulls), sustained 0.9 (V08 §13 X2) | item 105 (i)'s status table; the port carries the key, this row the weight |
+2200:| `thieves-crowds` | thieves_den, fences_hall | market, inn, tavern | near | within 60, beyond 300 | 0.5 | no | … yet stays near crowds and wealth — the tension is the point |
+2201:| `thieves-wealth` | thieves_den, fences_hall | values `prosperous`, `rich` | band | — | 0.2 | no | … and within reach of the well-to-do |
+2251:| `park` | `highGround` (0.3); `band` values prosperous, rich (0.5) | housing (prosperous–rich) 0.6 | the `greens` toggle's park districts (§4.9) |
+2256:| `sky-island`, `sky-palace`, `sky-temple`, `sky-prison`, `sky-tower` | V05 §2.4's rows (BCR-V5-6; keyed apart from every ground kind, J-V5.48) | each its ground counterpart's (`sky-island` the town's richest ground kind's; `sky-palace` `castle`'s; `sky-temple` `temple`'s; `sky-prison` and `sky-tower` `central`'s) | V05's facts, written as rows here |
+2263:underground; `undercity` undercity; `sky-island` sky island; `sky-palace` sky palace; `sky-temple` sky temple;
+2264:`sky-prison` sky prison; `sky-tower` sky tower; `harbour-market` harbour market; `bridgehead` bridgehead.
+2269:whole-neighbourhood assignment. Keys are unique (T-V11-3): the ground precinct is `temple`, the island's `sky-temple`.
+2273:| id | families (weight) | threshold | per ha | bands | priority | singular | power · sector | kind | definedBy · targetShare | naming slice |
+2278:| `merchants` | trade 1; warehouse 1; finance 2 | 5 | no | prosperous–rich | 60 | no | company · trade | — | — | `…/merchant` |
+2285:| `arcane` | arcane 1; mage_tower 3; alchemy 1 | 3 | no | — | 75 | no | arcane · magic | — | magicOnly | `…/arcane` |
+2287:| `luxury` | luxury 2; finance 1 | 4 | no | prosperous–rich | 58 | no | guild · crafts | — | — | `…/luxury` |
+2294:| `banking-district` | finance 2 | — | — | prosperous–rich | 84 | no | company · finance | central | bank · 0.2 | `…/banking` |
+2295:| `mages-district` | arcane 2 | — | — | — | 84 | no | arcane · magic | — | mage_tower · 0.15 (magicOnly) | `…/arcane` |
+2296:| `alchemist-quarter` | alchemy 2 | — | — | — | 84 | no | arcane · magic | — | alchemist · 0.25 (magicOnly) | `…/arcane` |
+2297:| `luxury-quarter` | luxury 2 | — | — | prosperous–rich | 84 | no | guild · crafts | — | goldsmith · 0.2 | `…/luxury` |
+2310:generated `dominant-<family>` row with priority 20 and the naming slice `naming.district/trade` guarded on the family.
+2425:| `cartographer_s_workshop` (Crafts/Economy) | V,W | `cartographer` |
+2462:| `access_to_external_mill` (Economy) | T,H | `@absent:watermill+windmill` |
+2463:| `ale_house` (Economy) | V | `alehouse` |
+2464:| `alehouse` (Economy) | H | `alehouse` |
+2465:| `annual_fair` (Economy) | W | `fair_ground` |
+2466:| `apothecary_district` (Economy) | C | `apothecary` |
+2467:| `assay_office` (Economy) | W | `assay_office` |
+2468:| `auction_house` (Economy) | C | `auction_house` |
+2469:| `banking_district` (Economy) | M | `bank` |
+2470:| `banking_houses` (Economy) | C | `bank` |
+2471:| `barge_and_river_transport_company` (Economy) | C | `carrier_yard` |
+2472:| `caravan_masters_exchange` (Economy) | C | `carrier_yard` |
+2473:| `caravaneer_s_post` (Economy) | W | `carrier_yard` |
+2474:| `caravanserai` (Economy) | H,V | `caravanserai` |
+2475:| `carriers_guild` (Economy) | W | `carrier_yard` |
+2476:| `carriers_hiring_hall` (Economy) | W | `carrier_yard` |
+2477:| `cartographer_s_guild` (Economy) | C | `cartographer` |
+2478:| `chroniclers_exchange` (Economy) | C | `archive` |
+2479:| `city_granaries` (Economy) | C | `granary` |
+2480:| `coaching_inn` (Economy) | W | `coaching_inn` |
+2481:| `common_grazing_land` (Economy) | H | `@landuse:commons` |
+2482:| `craft_guilds_30_80` (Economy) | C | `guildhall` |
+2483:| `craft_guilds_5_15` (Economy) | W | `guildhall` |
+2484:| `customs_house` (Economy) | W | `customs_house` |
+2485:| `daily_markets` (Economy) | C,M | `market` |
+2486:| `district_markets_5_10` (Economy) | M | `market` |
+2487:| `docks_port_facilities` (Economy) | W,C | `harbour_master` |
+2488:| `farmland` (Economy) | V | `@landuse:arable` |
+2489:| `fish_market` (Economy) | V | `market_hall` |
+2490:| `fishing_community` (Economy) | T | `fish_landing` |
+2491:| `furrier_s_district` (Economy) | C | `furrier` |
+2492:| `harbour_master_s_office` (Economy) | C | `harbour_master` |
+2493:| `inn_multiple` (Economy) | W | `inn` |
+2494:| `inns_and_taverns_district` (Economy) | C | `inn` |
+2495:| `international_trade_center` (Economy) | M | `market_hall` |
+2496:| `jeweller` (Economy) | W | `goldsmith` |
+2497:| `listening_post` (Economy) | W,C | `spy_ring` |
+2498:| `major_annual_fairs` (Economy) | C | `fair_ground` |
+2499:| `market_square` (Economy) | W | `market` |
+2500:| `merchant_guilds_15_40` (Economy) | C | `guildhall` |
+2501:| `merchant_guilds_3_8` (Economy) | W | `guildhall` |
+2502:| `merchant_guilds_50_100` (Economy) | M | `guildhall` |
+2503:| `mint_official` (Economy) | C | `mint` |
+2504:| `money_changers` (Economy) | W | `money_changer` |
+2505:| `multiple_market_squares` (Economy) | C | `market` |
+2506:| `pawnbroker` (Economy) | H | `pawnshop` |
+2507:| `periodic_market` (Economy) | H | `market` |
+2508:| `post_relay_station` (Economy) | W | `post_station` |
+2509:| `public_bathhouse` (Economy) | W | `bathhouse` |
+2510:| `river_boatyard` (Economy) | V | `boatyard` |
+2511:| `river_ferry` (Economy) | V | `ferry_landing` |
+2512:| `shepherd_collective` (Economy) | T | `sheepfold` |
+2513:| `shipyard` (Economy) | W,C | `shipyard` |
+2514:| `slave_market` (Economy) | W,C | `slave_market` |
+2515:| `slave_market_district` (Economy) | C | `slave_market` |
+2516:| `stable_district` (Economy) | W | `livery_stable` |
+2517:| `state_granary_complex` (Economy) | M | `granary` |
+2518:| `subsistence_farming` (Economy) | T,H | `@landuse:arable` |
+2519:| `taverns_5_20` (Economy) | W | `tavern` |
+2520:| `toll_bridge` (Economy) | V | `toll_house`; `implies: 'bridge'` (V11 §3.24.7 (2); SR1-22) |
+2521:| `town_granary` (Economy) | W | `granary` |
+2522:| `travelers_inn` (Economy) | V | `inn` |
+2523:| `vintner` (Economy) | W | `vintner` |
+2524:| `warehouse_district` (Economy) | C | `warehouse` |
+2525:| `wayside_inn` (Economy) | H | `inn` |
+2526:| `waystation` (Economy) | V | `post_station` |
+2527:| `weekly_market` (Economy) | V,W | `market` |
+2528:| `woodcutter_s_camp` (Economy) | T | `lumber_camp` |
+2544:| `airship_docking_high_magic` (Exotic) | C | `airship_dock` |
+2546:| `dream_parlors_high_magic` (Exotic) | C | `dream_parlour` |
+2548:| `message_network_high_magic` (Exotic) | C | `post_station` |
+2593:| `academy_of_magic` (Magic) | M | `academy_of_magic` |
+2594:| `alchemist_quarter` (Magic) | C | `alchemist` |
+2595:| `alchemist_shop` (Magic) | W | `alchemist` |
+2596:| `druid_circle` (Magic) | V | `druid_grove` |
+2597:| `elder_grove_council` (Magic) | W | `druid_grove` |
+2598:| `enchanter_s_shop` (Magic) | C | `enchanter` |
+2599:| `great_library` (Magic) | M | `library` |
+2600:| `healer_divine_1st_level` (Magic) | V | `healer` |
+2601:| `hedge_wizard` (Magic) | V | `hedge_wizard` |
+2602:| `mages_district` (Magic) | M | `mage_tower` |
+2603:| `mages_guild` (Magic) | C | `mages_guild` |
+2604:| `planar_embassy` (Magic) | M | `planar_embassy` |
+2605:| `scroll_scribe` (Magic) | C | `scroll_scribe` |
+2606:| `teleportation_circle` (Magic) | W,C | `teleport_circle` |
+2607:| `traveling_hedge_wizard` (Magic) | H | `@none` |
+2608:| `warden_s_lodge` (Magic) | W | `hunting_lodge` |
+2609:| `wizard_s_tower` (Magic) | W,C | `mage_tower` |
+2610:| `adventurers_charter_hall` (Magic/Adventuring) | H,V,W | `adventurers_hall` |
+2771:merge them whatever the file says. **The remaining file pairs** — `academy_of_magic`, `assassins_guild`, `auction_house`,
+2806:| 5 | the optional definition fields (V08's `custom-def` facts): `authority` (any non-empty value) → alignment law + and status +; `defenseRole` by its words — `garrison`, `militia` → `garrison`; `watch`, `patrol`, `police` → `watch`; `wall`, `fort`, `tower` → `fortification`; any other word → `garrison`, noted `unmapped_word` — as that family's deltas; `criminal` → family `criminal`, concealment weights of V11 §3.14.1's generic row; `magical` → family `arcane`; `foodImpact: produces` → need `fields` and clientele townWide; `economicWeight` → σ × (minor 0.5, moderate 1, major 1.5, backbone 2) and link volume (V11 §3.7.4) | 0.6 | as listed |
+2839:`commerce`, `trade`, `mercantile`, `merchant`, `market`, `shop`, `food` → Economy; `agriculture`, `farming` → Economy,
+2844:`illicit`, `thieves` → Criminal; `magic`, `magical`, `arcane`, `mystic`, `occult` → Magic; `leisure`, `social`,
+3010:| `magic` | `arcane` | 0.4 |
+3197:| concealed class | fronts (weight) — poor and modest | fronts (weight) — prosperous and rich |
+3212:**Sectors** (`SectorRow`; the set the economy slice is keyed by; `tags` the class families that serve the sector by
+3217:garrison, watch, fortification; `magic` — arcane, planar, exotic; `crime` — criminal, smuggling, information,
+3249:| `sheerCliff` | slope ≥ 100 % over a drop ≥ 12 m; or, by rule (`islandRim`), an arc of a sky island's rim chain (V5 §3.21: closure only, no wall) | yes | none | — | no | 0 (none) | strong | `cliff` (`sheer` under `islandRim`) |
+3271:(V07 §3.4 step 5; V11 §10b X-V11-2). An island's rim (V5 §3.21) is the `islandRim` rule of the first row — closure
+3417:| `naming.island` | floating islands (V05 §3.14) | reason, the institution's kind, the echoed river's name, the ground district below, altitude class, culture | `#island.head#` from the institution or the district below + `#island.generic#`; the fallen form for a landfall |
+3428:slice's unguarded alternatives (every slice has one). No feature is a strict priority (V1-3.7.2's rule, applied to every
+3471:| `island.head`, `island.generic`, `cluster.word`, `wall.memory`, `water.root` | as named | 60, 20, 30, 20, 80 | our own words |
+3513:| prosperous | 6.0 | 2.0 | 2 · 14 | 1.5 |
+3523:modest, 3–5 prosperous, 5–8 rich; institutions by template size ÷ 40 m²); items and services — one item per good of V11
+3573:| a `magical_node` deposit or a ley-line income row | 0.6 (`magic`) |
+3574:| a `magical` history event, or a founding older than V04's `ancientYears` | 0.4 (`history`) |
+3623:void dwellings (`voidDwellings`), the forecast floor (`accessForecastMin`) and the ruin's magic lights
+3624:(`magicLightChance`, V04 §3.9) are V04's cells, cited.
+3669:`v.parish_church`; a collective record's members count once each (item 108 (c)), an island church once (C5-02 (3a)); a
+3729:  island's arena.
+3749:| prosperous | rubble 0.6, ashlar 0.3, brick 0.1 | 0.12 | 0.4 | 250 · 5–7 | 100 | 0.02 (300) |
+3774:pass, V09's T4 dry run and aqueduct tool, V04's vaults, V05's caster ceiling, V10's why, V12's register):
+3789:* **`raisedWays.settings`**: `totalCap` CITY 2, METROPOLIS 4 (the caps are ceilings, never quotas); `viaduct.minDropM` 12 m;
+3793:  modest 0.1, prosperous 0.3, rich 0.5 (read at the band holding the mean of the two ends' prosperity values);
+3807:* **`raisedWays.structure`** (the heights V05's caster ceiling and V04's vaults read, V5 §13 item 13): `clearanceCm` cart
+3813:  `material` by band — poor timber 0.5, rubble 0.5; modest rubble 0.7, brick 0.2, timber 0.1; prosperous rubble 0.4, ashlar
+3889:| kind | offer TOWN · CITY · METROPOLIS | footprint m² poor / modest / prosperous / rich | max floors p / m / pr / r | frontage m | min plot depth m | fill | sides | end clear m |
+4105:badges are V09's; the island's shade strip V05's.
+4136:| T-V11-2 | totality: `dossier.kinds` covers the line's 280 catalogue kinds; `dossier.archetypes` the 17; every profile family named by V08's `tags` and `categories` rows exists; every band-keyed table has a row or interpolates for every band of `prosperity.bands`; every QUARTER kind names an identity row and every `definedBy` is a class id; every pair of `dossier.catalogue`'s `ladderPairs` is a `dossier.ladders` row or on the uncatalogued list; the burial kinds (`burial_ground`, `graveyard`, `parish_burial_grounds`, `burial_grounds_and_charnel_house`) form one ladder chain (SS-26) | 100 % |
+4151:| T-V11-37 | the village readings and the wall kinds (reconciliation round 1): every `GovernmentRow` has a `villageSeat`; every `dossier.archetypes` row a `village` cell with exactly one of `class`, `pin`, `ruin`; `guildhall`, `castle` and `palace` carry no `villageForm`; `citizen_militia` and `gates_if_walled` map to `@none`; every `walls.barriers` row carries an `arcKind` column, null only on `open`, `sheer` only under the `islandRim` rule; no `dossier.*` column, no column of registry rows 68–70 and 86–89 and no naming column of row 71 is calibratable (SCC-06, SCC-44, SCC-R1C-3); no switch cell — `siting.web.orientEnabled`, `siting.web.splitEnabled`, `terrace.enabled` — is calibratable (SCC-67) | 100 % |
+4167:| T-V11-19 | walls: the barrier fixtures of g item 106 (h) with these rows — river-loop neck only; cliff-backed coast zero wall edges on sheer arcs; 100 % of quays reachable; a sea-threat dossier's quay wall with sea gates; an island's rim closed with no wall; every exported `closure` feature comes from a row that closes with wall `none` and carries that row's `arcKind`; a village palisade by a fordable brook closes that water arc with no wall (SS-15, SCC-01) | holds |
+4220:`owner` `'V11'`, `statistic` the number of plots whose band index differs by two or more between the prosperity field
+4237:| the rest: `mutator.compat`'s `tolerance` (row 40); `landuse` (row 44); `climate`'s columns but `rainMmPerYear` (row 43); `era` (row 50) and `materials` (row 49) outside item 110's factors and structure keys; the per-material `decline` rows (row 46, V11 §3.18's first table); `roster.covers` (row 26) and the `concealment` column; `roster.sectors`, `roster.powerLinks`, `roster.sectorLinks` (rows 29, 31); `roster.institutions`, `roster.government`, `roster.religions` (rows 20–22); `roster.settings`' `placement.extensionWeight`; every other calibratable class column (`priority`, the family defaults of V11 §3.5.1); `sim.*` (row 72) | C1; C3; C7 at M4b | `corpus` at M-CAL | `frame.<table>.<column>` | no admissible frame: closes `fixed` at M-CAL with its reason |
+4265:`SKY` and its two participants (M6-sky), V06's `EVO_*` phases and its four `under.*` adapters (E8), V07's village stages
+4284:`synonyms` land with the row — C1 the M1 classes, C3 the rest, C3b `fort` and `lighthouse`, V05's sky rows with M6-sky,
+4318:| J-V11.10 | chose the four-row band authoring (poor, modest, prosperous, rich) for template families, matching the base's four-row tables, with squalid reading poor and comfortable interpolating |
+4347:| J-V11.39 | chose the manor's prosperous and rich footprints of 420 and 650 m² (V02's measured values, X3) over the critique's 320 and 550, because V02's courtyard compositions were measured against them and a giant manor must hold them |
+4520:prosperous, rich; required when crypt ≠ never */`", and the sentence "`roster.settings` carries `crypt.rankShare` (V11
+4918:names V-M0 by its content; V11 §8 no longer speaks of the two metric families as still to be added. The document checks' before and after
+4930:rung lazy); V04 §1.1's engine table and §3.1's tail stages; V05's `sky.islands` and `sky.clearance` under `SKY`; V01's
+5014:classes of §3.5's tables and clandestine list and V05's 2 sky rows (0 missing, 0 extra — the count of 179 predated item
+5233:| SCC-R1C-1 | major | FIXED — every stage and epoch-phase reader in the registry is named by its StageId, a module id only for a reader outside the stage graph (V11 §2.1's `readers` comment, §3.1's *Readers* paragraph); row 39 reads S11 (V02's `outline()`) with the wings rung as a lazy module reader; row 60 all fifteen `EVO_*` ids; row 61 the village stages and the epoch phases reading V07 §3.12's rows; rows 7, 17, 24, 46, 58a, 67, 78, 80, 82, 85 — and, for the class, rows 3, 5, 9, 14, 15, 18–20, 23, 25, 28, 32, 36–38, 40, 43, 44, 47–52, 55–59, 68–71, 79, 81, 83, 84 — name their readers by StageId (the `EVO_*` phases, V04's `U-*` stages with `U-FADE` for its epoch participants, V05's `SKY`, V07's `VS3`); the source manifest gains `stageIds` and the dist manifest `stageReaders`, the compiler refusing a reader that is neither a StageId nor a module id (V11 §3.2.1 steps 1, 6, 7), the village-read test reading StageIds only (step 4); T-V11-1 (b) records each stage's reads in the integration suite and fails an unlisted reader | §2.1, §3.1, §3.2.1, T-V11-1, W4, W71, §2.10, §8, J-V11.80, X-V11-14 |
+5377:| SR5-03 | major | FIXED — `BuildingClassRow` gains `label`, `icon?`, `synonyms`, `commonness` (own, not calibratable, read by no model stage; BCR-V11-1 amended); `label` and `synonyms` written for all 181 authored town-and-city classes and V05's 2 sky rows in the new V11 §3.5.15 (the class count corrected from 179, which predated item 110's `fort` and `lighthouse`); `commonness` the compiled roster share at TOWN (V11 §3.5.1; the same meaning as V07's at VILLAGE, J-V7.133); `icon` compiled from the family, whose 45 `fam.<key>` glyphs X-V11-17 (a) asks of V09's sprite; the same `label` and `icon?` on the profile families (V11 §3.4), goods (§2.5, §3.7.1), district kinds (§3.9) and the shipped style sheets (V11 §3.1's *Display cells*); T-V11-4 refuses a row without its `label`; registry rows 17, 18, 19, 33, 52. **One deviation, vetoable:** a generic class's label is its family's `label` cell, not the `trade.noun` corpus entry the finding named — the corpus is authored at C5, after the generic rows first compile, and is a naming word list (J-V11.95); the finding's mechanism (compiler-written label, `synonyms` [], `commonness` 0) is kept | V11 §2.3, §2.5, §3.1 (rows 17–19, 33, 52; *Display cells*), §3.2.1 steps 5–5a, §3.4, §3.5.1, §3.5.14, §3.5.15, §3.7.1, §3.9, §3.13.3, §3.20.5, T-V11-4, §2.10, W77, §8, §10's BCR-V11-1 amendment, J-V11.93–J-V11.95, X-V11-17 (a)–(c) |
