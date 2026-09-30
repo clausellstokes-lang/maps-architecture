@@ -185,7 +185,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-09-30 00:29 UTC._
+_Disk state as of 2026-09-30 01:28 UTC._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -554,3 +554,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-09-30 00:22 UTC** — coherence pass relaunched fresh in cloud session as wf_f44e25e2-c99 (Fable-role seats on Fable, others on Opus per owner's split request 2026-09-30; machine has 4 CPUs so harness runs 2 agents at once; volume-rewrite part files for V01-V05 were local-only, so those editors restart from their saved reports)
 - **2026-09-30 00:25 UTC** — owner 2026-09-30: run every seat on Opus 5.5 — coherence run wf_f44e25e2-c99 stopped (no Fable seat had started; only landed inventory/wiring/canon had replayed) and resumed with fableModel opus
 - **2026-09-30 00:29 UTC** — owner 2026-09-30: in the cloud, push regularly — session branch main-8c2bmp pushed, draft PR #1 opened, half-hourly lane check now commits and pushes each round
+- **2026-09-30 01:28 UTC** — coherence run wf_f44e25e2-c99 found stalled at 01:28 UTC: a chat message at 00:27 interrupted the rewrite-rendering and rewrite-scope seats, and the lane check had been lost with a session reconnect; resumed at the same run id, lane check recreated
