@@ -1,6 +1,12 @@
 # V03 — Interiors: floor plans, rooms, households and furnishing (the plan rung, Dwellings-class)
 
-> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/V3-interiors; covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — written by opus stand-ins for the Fable seat (volumes/V3-interiors, its revision, reconciliation and coherence lanes); covered by the whole-design retrovalidation (J84).
+
+**Citations.** `§n` and `II.n` are sections of the base design, `docs/ARCHITECTURE.md`, with files f and g applied
+(`docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2026-09-28g.md`); `Vnn §n` is a section of a design volume, this one
+included; `item n` is an owner or amendment item (its home is §0.2's landing row); `J-V3.n` is a decision of this volume
+(V03 §9), `J-VI.n` a volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated; research and
+reference files are named by file and section only.
 
 ## 0 In plain words
 
