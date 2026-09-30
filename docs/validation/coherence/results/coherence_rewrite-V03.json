@@ -1,0 +1,29 @@
+{
+ "key": "coherence/rewrite-V03",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 493.9,
+ "new_kb": 384.1,
+ "facts_mapped": 513,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "V03 applies no base text: its 33 requests are applied by the base parts as file f items 428, 232, 352, 374, 457, 420, 450, 273, 482, 329, 334, 233, 234, 483, 235, 353, 236, 451, 237, 238, 239, 262, 324, 354, 240, 241, 242, 263, 346/347, 567, 505, 578, 585; V03 §10 is a one-line pointer table (request, subject, file f item, base home)",
+  "the 48 f items concerning V03 are cited as base text, never restated: 226, 230, 231, 270, 309, 370, 436, 524, 568 and the items above by number; 218, 219, 225, 228, 432 by their request ids (BCR-V2-03, -04, -27, -38, BCR-V11-1); 229 and 351 added to V03 §1's hooks",
+  "kept as V03 homes because the applied base cites V03 for them (J-RM1 reading): the Entrance.storey rule (V03 §3.6; §2.6 rule 4 cites it), basementDoor(b)'s rule (V03 §3.7.1; §2.6's declaration cites it), the crypt's ring, rank and entry (V03 §3.7.4), the export content (V03 §5.3; §11.1 cites it), the plan stage's WorkLimitLaw row values (V03 §2.4)",
+  "file g: no part of items 111-113 names V03; items 102, 104, 105, 108, 109, 110 cited as landed (V03 §1); items 114/115 not yet filed at landing and not concerning the plan rung"
+ ],
+ "conflicts_resolved": 6,
+ "cross_notes": [
+  "V10: rename deckRefusal -> deckNoCellar in V10 §1b's provider row and CVR-V10-9; the plan section's keys are info.plan.<cause> (landingDoor, terraceDoor, terraceExit, seatingExit, walkOut, tombDoor, gradeFace, deckNoCellar, stoop, exposure, stackCarried, solidMonument, shrineOneRoom; V03 §4.6), en texts written in V10 as for info.crypt.*; V10 §3.9a's crypt rows agree with V03 §3.7.4's wet-ground rule",
+  "V09: the catalogue gains the info.plan.* family; §4.17.5 (e) and bend.crypt.largest word the cap ('stops at {share} of the cathedral's') and cite V03 §3.7.4; bend.crypt.cathedral keeps the principal at its smallest lawful size (J-V3.130); drop 'floor vaults (wet ground)'; XV-V9-5 and XV-V9-15 closed at V03 §3.7.4 and §4.2",
+  "V04: T-V4-50 gains the elaboration-independence clause (V04-XCONF-3); V04 §5.1 cites §14's PageUp/PageDown precedence (V04-XCONF-2); V03 cites gradeFaces(chamberId) at 'V04 §3.5.4' (sub-clause letter is V04's); a walled-up arch vault gives no grade face",
+  "scope §14: the keymap states the storey keys' precedence over the depth-band keys (V03 §4.5, V04 §5.1 cite it); the @plat/plots line may list doorRunPoint beside basementDoor and stackAccessDoor",
+  "scope §16/INDEX: V03 §8's decided order equals §16's M6-P row; INDEX §6 marks V03 Q1 answered (J122); P3's basement, crypt and ways-down parts land with P2",
+  "model §2.6: step 3's summary of basementDoor(b) may add rule 3's walkable guard (V03 §3.7.1; J-V3.131); step 4's 'default 50 cm' module restates V03 §2.4's moduleCm (its home, VOL-V03-V04-RESTATEMENTS-003) - cite it; BuildingInput.plot read by V03 §3.1 (MC-01)",
+  "rendering §12.7: the plan row's fallback '(50 -> 100 cm)' cites V03 §2.4's moduleCm for the 50",
+  "V05: V05 §1b's levelledGroundCm reader list names V03's W2 outside sample (V03 §3.6)",
+  "V11: the least cell of a class's cryptM2 row is read by the crypt dry runs (J-V3.130); row 38's readers stand as V11 §3.1 states",
+  "V12: T-V3-36 is a structural bar (no register line); X-V12-4, -15, -16, -17, -18 closed at V03 §2.4, §7, §8",
+  "V06, V01, V02, V07: each V03 §13 hand-off row closed at the section named there; nothing further owed",
+  "size: 82 788 -> 66 724 words (-19.4 %), above the canon's band top (62 091) by ~4 600 words of mandated new design (edge table, T-V3-36, one edit table, section providers, crypt dry runs, doorRunPoint, degenerate runs, J-V3.130-134) and ~660 words of G-cite self-references; see rewrite-V03.md"
+ ]
+}
