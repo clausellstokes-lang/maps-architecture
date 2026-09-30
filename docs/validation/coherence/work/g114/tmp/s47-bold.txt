@@ -1,0 +1,68 @@
+1763:**S9 Corridors (L2).** `corridorUnion(l1Faces)` (§3.7), the single kerb function, commits exactly the kerbs S8 cut
+1773:**S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district's `Allocation` (S7b) is
+1804:**S10 Plots (L3) — frontage-first with the granularity law (O5 / O18), per block.**
+1805:**(0) Shared-edge bands, eager (J-I9).** A block whose `interior` is `wall_strip` (§4.8) gets no plots. Its L3 content is
+1813:**margin bands** along the settlement perimeter and along any reservation boundary two districts share. The enceinte's
+1822:**The class floors (the one home; §3.2 (2), §3.10, §5.2's F-PLOT and F-CORRIDOR and §5.3's class-floor row cite it
+1889:**Levelling and retaining walls (item 110 (a); file f items 245, 302, 309).** With `terrace.enabled` (a switch, V11
+1914:**`levelledGroundCm(doc, key: PlatKey, p: PointCm): Cm`** is the one reader of levelled heights (pure, draw-free): the
+1927:**Deck plots (item 110 (d); file f item 246).** S10's deck-plot cutter offers plots on every built ground-part-0 deck —
+1941:**S10b Placement (O7; per district; the allocation honoured) — the one placement solver (item 16).** Each block's
+1951:* **Hard rows filter, soft rows score.** A relation row marked `hard` excludes every plot that fails it; the candidates that
+1973:* **Supply links and distances by mode (items 16 (b), 105, 107).** A link is a supply relation between two placed members
+2009:* **Spread and pull (items 103 (f), 107).** Each class's **balance profile** (§10.2, defaulted from its clientele) weighs
+2021:* **Water in dry country (item 111 (b)).** The well and public-fountain classes score an extra term on the plot's well
+2025:* **Custom chains (item 104 (b), (h); item 105 (i)).** Each **active** reviewed chain of the dossier (SettlementForge's
+2049:* **Split sites — a works and a shop (item 105 (h)).** A class whose row declares `split` (default rows: the butcher —
+2060:* **Live-in (MFP-7):** craft and shop rows default to `liveIn`; a live-in household is sited first at its workplace and
+2067:* **Requests after the city is built** — an assignment, a dossier element, a positive placement, a relocation — take the
+2082:* **Concealed institutions (item 63).** A concealed institution is placed as one item with its front by this section's
+2084:* **Reconcile and infeasibility (O18 f).** At generation a bounded **plan–fit–reconcile** loop (≤ 3 rounds) adjusts *inside
+2099:* **Placement order and the explanation (items 101 (d), 102 (d), 103 (e), 105 (j), 107).** S10b records, for every item it
+2132:**S11 Site plans and footprints (L4; O17; one batch per block) — the designation template and the designation mutator.**
+2140:**specialisation** — the designation's variant in this band, with its room programme (item 28, §2.6): a farrier or
+2174:**Front-line jitter — an area-scaled recession (item 43).** Each plot's main slot may stand back from its frontage by a
+2200:**Footprints and heights.** The row arrangement's footprints are made here by the boolean above and passed to
+2220:**description, opening hours and sub-locations** from the class table and the naming engine (COV-FTG-F21, FTG-11); yards
+2223:**The designation mutator (item 18).** A change of designation — an `assign` or `unassign`, a `setAttr` on a plot's use or
+2227:1. **Match.** The present design's parts — slots by `BuildingSlot.role`, wings, storeys, roofs, entrances, yard parts,
+2235:2. **Order and draws.** Subtract, convert, adapt, then add, so the added parts pack around the kept ones on the plot's OBB
+2241:3. **Land.** When the target's size budget exceeds the plot, the mutator asks S10b's solver for a JOIN with a neighbour by
+2244:4. **Protection.** A locked part or path is never subtracted, converted or adapted (fate *kept*, §7.3 item 4); a
+2248:5. **Record and reversal.** The steps are one `MutationRecord`, persisted in the causing event beside its fates (§7.1,
+2253:6. **Timing.** A host or user change decides and records the whole mutation at once; across epochs the evolution engine
+2257:7. **One path.** Generation is the mutation from the empty design: every structure an add, every draw from the plot's
+2272:**Furniture pins (COV-MFCG-I01, COV-FTG-J02, COV-FTG-J05; `pin.*` streams).** The main plaza always gets one centrepiece —
+2289:**Markets and hidden plots in this stage (items 24 and 30; the rules are §4.2 S3 (12)'s, §4.5 S7b (3)'s and §4.6's).**
+2297:**Vacant plots under decline (AM-8).** A plot whose last building is cleared or reused merges into a garden, orchard or
+2302:**Households per building (item 28 (f); J-A28.46).** S10b places a residential plot's households — per residential slot (a
+2334:**Concealed institutions — a front and a hidden function (item 63; owner: "some criminal like institutions or buildings
+2339:1. **The value and its resolution (J-A63.41).** An institution, a use and an assignment carry
+2353:2. **Feasibility and the fallback chain (J-A63.41).** A mode is feasible where its ground exists: `underground` where an
+2360:3. **FRONT — one item, two uses (J-A63.42).** The front is a cover class drawn from the cover table
+2373:4. **S11 builds the front (J-A63.42).** S11 reads the FRONT's designation template row at the plot's band: class,
+2386:5. **HIDDEN.** The institution goes to a plot whose `exposure` is `hidden` (item 30's plots behind a passage or in a back
+2390:6. **UNDERGROUND.** The institution joins an underground allocation: a sewer-front dwelling of II.7.3 (U1–U3; the
+2393:7. **Mutation (items 17 and 18; J-A63.43).** A change of the front's designation — an `assign`, the front use's closing, a
+2401:8. **The dossier stays the authority (items 20 and 22).** The dossier says that the institution exists and is clandestine;
+2406:9. **Knowledge, not geometry.** The building's mass and every public part are always on the map (J-A30.83); the concealed
+2409:10. **Emulation (item 23; J-A63.44).** No reference has concealment: the non-`none` weights of the `concealment` column and
+2416:**Light sources — placed by rule (item 68; owner: "a night time view with appropriately spaced and partitioned torches or
+2434:1. **Hosts.** A `gate` row lights each gate (two torches flanking the passage by default); `bridge` each end of a built
+2443:2. **Street lights, spaced by what they give (J-A68.41).** A `way` row lights each way of its class whose band row targets a
+2452:3. **How much light — "partitioned" (J-A68.41).** Read as distributed by way class, district and band through these rows:
+2463:4. **Draws and presets.** Each choice reads a rule or a table; one thing only is drawn — a door lantern's side of its door
+2472:5. **Over time.** A light follows its host's lifecycle (§2.8): removed with a demolished host, unlit on an abandoned or
+2476:**Informal clusters — tenure and the cluster arrangement (item 70; owner: "some neighborhoods simply have a lot of for
+2479:1. **Tenure (item 70 (a); J-A70.41).** A plot's `tenure` (§2.5) is derived, never drawn: `common` for commons, greens and
+2487:2. **Where (item 70 (d); J-A70.43).** The designation template takes the `cluster` arrangement (§10.2) at generation for the
+2500:3. **The packing — paths first, then structures (item 70 (b); J-A70.45).** S11 builds a cluster plot in one batch from its
+2518:4. **People per structure (item 70 (c); J-A70.46).** Each structure is a residential slot (`houses`) whose
+2525:5. **Presets, drawing and time (item 70 (e), (f); J-A70.42).** In the default preset the cluster row takes the squalid and
+2532:**Class mix inside a band — the gradient reaches the building mix (item 71; owner: "a prosperous neighborhood … may have a
+2534:1. **A class draw above the template (item 71 (a); J-A71.41).** When S10b places the households of a block's residential
+2543:2. **The town's wealth shifts the weights (item 71 (b); J-A71.42).** Each class's weight is multiplied by
+2548:3. **Largest classes on the prime frontages, the sunniest first (item 71 (c); item 102 (d); J-A71.43).** For each block
+2560:4. **Households and buildings (item 71 (d); J-A71.44).** The households' bands are the roster's (with a dossier, the
+2565:5. **Emulation.** The mix is our extension: the parity presets set it to a step at each cut — one class per band row, the
+2572:**Notice posts (item 82; J-A82.41).** The furniture step places a `notice` pin (§2.7) where §10.2's notice rule puts one —
