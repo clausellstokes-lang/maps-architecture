@@ -189,8 +189,8 @@ generation is V07's; this volume designs only the port side of its hand-off. The
 volume wires SettlementForge's own assistant (configuration C) and the host side of V10's `clerk.config` (V08 §2.2,
 §4.4, §5.4 (3)). The siting rulebook's content — every class's and every catalogue kind's profile, and the per-kind rows
 of `tables/dossier/kinds` — is V11's; this volume owns the vocabulary boundary and the lookup chain. The shade-map view is
-V09's. Reconciliation with SettlementForge's own map program and its plan-artifact seam are parked by the owner
-(J-Fsf-1). What the map builds from the facts this volume carries is its readers': the ruin, cavern and catacomb systems,
+V09's. Reconciliation with SettlementForge's own map program and its plan-artifact seam stay outside this design by the
+owner's ruling (J-Fsf-1). What the map builds from the facts this volume carries is its readers': the ruin, cavern and catacomb systems,
 their access and growth are V04's; the crypts V03's (with V02's basements); the calamity-to-hazard table, every epoch
 behaviour and the history replay V06's; the chain-status weights, the waterfront threat weights, the ladder step table,
 the goods, era, material, patch-material, ceiling, season and decoration rows V11's. A live, explorable map for players
