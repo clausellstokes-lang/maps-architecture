@@ -13,11 +13,11 @@ PROGRESS (lane `coherence/verify-kernel-r0s`, 2026-09-30)
 
 ## Outcome
 
-**24 issues — 0 blocker, 6 major, 18 minor.** Owners: pipeline 6, kernel 4, model 3, determinism 3, rendering 2, V06 2, scope 2, V03 1, V09 1.
+**25 issues — 0 blocker, 7 major, 18 minor.** Owners: pipeline 6, model 4, kernel 4, determinism 3, rendering 2, V06 2, scope 2, V03 1, V09 1.
 
 The kernel's own text is sound: every one of the 403 inventory ids is present at its home or at the home its pointer names, with four exceptions where the named home does not state the fact (VK0-01, VK0-02, VK0-03 pointers; VK0-23 a receipt whose meaning shifted); every conflict ruling (DXC-01/02/06, KIC-01–08, KXC-01–04) and every elegance ruling (E-12 kept apart; E-13, E-14, E-15 with their equivalence lists ticked item by item) is applied as ruled; f items 279, 245 and 575 are applied as written (202, 510 and 560 carry no kernel part); g item 110 (b)'s kernel part is in (§3.4, §3.2 (9), §3.6 held set (3), §3.7, §3.10); g items 111–119 name no kernel part (canon.json `g_routing` and the four dated rulings of 2026-09-30), so no F-MISSING; no retired term, no deferral wording, no narration; every §, II., Vnn §, J- and D- reference resolves and every bench receipt exists; J-K37 (the `W_STEINER` removal, KWG-01) is unique and recorded in both the index and Part A. The kernel's four issues are pointer and wording defects.
 
-The weight is at the seams: the rewrite closed its half of W-FLD-01, KWG-04, KWG-07, the §3.10 stored-references edge and g item 110 (b)'s raised parts, and sent the other halves as cross-part notes (its notes 3–6, 10, 11, 15, 17, 18, 20, 26) that the model, pipeline, determinism and rendering rewrites — run in parallel — did not apply. The result is one-ended hooks the kernel now depends on: raised ground parts ≥ 1 absent from `PlatKey`/§2.1/§2.2 rules 1–2 (VK0-05), raised-way feet with no record field or vertex role (VK0-06), `E_INVARIANT` routed to an F-REDERIVE row that does not take it (VK0-08), an undeclared `Invariant` type (VK0-09), and an untested `expect`/`onFail` mechanism (VK0-24). §4.3 contradicts the owner's rule on where a raised way's piers stand (VK0-04). The set-wide sweep found `E_NON_SIMPLE`, a code §3.1 never defined, entered by the coherence rewrite in four units (VK0-14–VK0-17), and three citations the new base §3.11 now captures (VK0-21, VK0-22).
+The weight is at the seams: the rewrite closed its half of W-FLD-01, KWG-04, KWG-07, the §3.10 stored-references edge and g item 110 (b)'s raised parts, and sent the other halves as cross-part notes (its notes 3–6, 10, 11, 15, 17, 18, 20, 26) that the model, pipeline, determinism and rendering rewrites — run in parallel — did not apply. The result is one-ended hooks the kernel now depends on: raised ground parts ≥ 1 absent from `PlatKey`/§2.1/§2.2 rules 1–2 (VK0-05), raised-way feet with no record field or vertex role (VK0-06), `E_INVARIANT` routed to an F-REDERIVE row that does not take it (VK0-08), an undeclared `Invariant` type (VK0-09), an untested `expect`/`onFail` mechanism (VK0-24), and stretch-state knots with no defined ordinals for §3.10's ordinal-order row (VK0-25). §4.3 contradicts the owner's rule on where a raised way's piers stand (VK0-04). The set-wide sweep found `E_NON_SIMPLE`, a code §3.1 never defined, entered by the coherence rewrite in four units (VK0-14–VK0-17), and three citations the new base §3.11 now captures (VK0-21, VK0-22).
 
 ## Sizes
 
@@ -44,7 +44,7 @@ The part grew (the rewrite reports 23 820 → 25 103 by its own count: ≈ 1 245
 |---|---|---|
 | lattice values 25 / 26 / 500 (0061–0063) | §2.2 `LatticeSpec` | yes, l. 559 |
 | class floors 2.5 m, 12°, `minCorridor` (0064) | §4.7 class-floor paragraph | values yes (l. 6173–6176); the FTG sheared-quad justification no — VK0-02 |
-| rung frame areas 4 / 25 / 64 km² (0079) | §1.1 ladder | yes, l. 297–300 rows |
+| rung frame areas 4 / 25 / 64 km² (0079) | §1.1 ladder | yes, l. 321–323 |
 | cap 120 000, 153.6 km² (0059) | §12.2 | yes, l. 14714 |
 | raster whole-cell growth, `cellCm` kept; TOWN 5 m cell (0090, 0093) | §2.3 | yes, l. 931–935 |
 | random floats from integers; nightly cross-platform run (0070) | §6.1, §13.3 (via §6.5) | yes, l. 8739, 16259 |
@@ -82,7 +82,7 @@ The part grew (the rewrite reports 23 820 → 25 103 by its own count: ≈ 1 245
 | KXC-03 (the clear rule) | applied: §3.3 states it citing §7.2; §2.2 rule 6 references §3.3 (l. 831) |
 | KXC-05 (§5.4 warnings) | determinism's half applied: `a count per Warning code of §3.1`, `downgrades` = W_DOWNGRADE (l. 8492) |
 | f 279 (BCR-V7-30) | applied as written at §3.2 (9), frame growth reads the same law; `Frame.marginShare` agrees with V07's `territory.marginShare` (V07 l. 398, 455) |
-| f 245, 575 (knot doors) | applied: §3.4 *The doors*, `splitThrough` landing on a vertex; the model's renumbering half — see note below |
+| f 245, 575 (knot doors) | applied: §3.4 *The doors*, `splitThrough` landing on a vertex; the model's renumbering half missing — VK0-25 |
 | f 202, 510, 560 | no kernel part (routing matched a volume's '§3.x'): confirmed against the items' text |
 | g 110 (b) | kernel part applied (§3.4, §3.2 (9), §3.6 (3), §3.7, §3.10); the model's §2.1/§2.2 half missing — VK0-05, VK0-06 |
 | g 111–119 | no kernel part named (canon.json g_routing; dated rulings J127–J130): nothing to find missing |
@@ -100,8 +100,6 @@ The part grew (the rewrite reports 23 820 → 25 103 by its own count: ≈ 1 245
 | G-lot | applied ('the plot cut's one bend'); 0 retired terms of the glossary's 35 patterns left in §3 |
 | 77 open findings | closed as the rewrite states; KERNEL-RESTATEMENTS-012 and -014 land on homes that do not carry the fact — VK0-01, VK0-03 |
 | 38 edges | each defined in place and indexed in §3.11; tested through §13.1; §3.10 E5's receiving ladder missing — VK0-08 |
-
-*Note on items 245/575's knot ordinals (kernel note 6).* §2.2 rule 5's stretch-state *Write* does not say how a knot inserted between two existing knots gets an ordinal that keeps §3.10's 'knots … in ordinal order' row true. Not raised as a separate issue: `retypeEdges`' `rekey` (§3.4) renumbers knots in chain order and the canonical-form rewrite after every write can use it; the model's verifier owns §2.2 rule 5.
 
 ## Issues
 
@@ -248,4 +246,10 @@ The part grew (the rewrite reports 23 820 → 25 103 by its own count: ≈ 1 245
 **Claim.** The mechanism W-FLD-01 added at §3.3 *Expectations* — a failed `KernelTx.expect` class floor returning `E_BELOW_MIN_WIDTH`/`_AREA`/`_ANGLE`, any other failed entry `E_INVARIANT`, and `onFail`'s three outcomes (`reject`: nothing committed, the code to the stage's class; `repair`: `absorbSliver` on each face below its floor, re-checked, rejected if a failure remains; `downgrade`: nothing committed, the code for the ladder's simpler rung) — has no test anywhere in §13 (no fixture names `expect`, `onFail` or a class floor failing inside a batch). Every mechanism that can fail needs its test (principles (7), (11)).
 
 **Required change.** §13.1's constructive set, after the §3.11 clause: 'a batch whose `expect` carries a class floor its result breaks, under each `onFail` — `reject` (version kept, the `E_BELOW_MIN_*` code returned), `repair` (a sliver below its width or area floor absorbed and the batch committed; a face below its angle floor still rejected after the repair), `downgrade` (version kept, the code returned) — and a failed non-floor entry (`E_INVARIANT`)'.
+
+### VK0-25 — major — EDGE-UNDEFINED — owner: model
+
+**Claim.** A stretch-state write (items 245, 575; §2.2 rule 5 *Stretch-state profiles*, *Write*, l. 806–808) places 'a knot at each end' of its `StretchRef`, but nothing states which ordinals the new knots take when the stretch lies between existing knots, nor that the profile is renumbered after the canonical form drops knots; §3.4's doors add a knot only with its ordinal ('any other indexed row carries its ordinal, an assertion otherwise') and §3.10's stored-references row requires 'every `ChainProfile`'s knots lie on its chain in ordinal order'. A mid-chain write therefore has no defined ordinal assignment, and the natural next-free ordinal fails §3.10 at save (`E_INVARIANT`). The kernel's cross-part note 6 asked for the renumbering; not applied (the river's control knots, by contrast, define theirs: `nextControl`, l. 921).
+
+**Required change.** §2.2 rule 5 *Stretch-state profiles*, *Write*: add 'After placing its end knots and applying the canonical form, the writer renumbers the profile's knots from 0 in chain order in the same batch — each knot row whose ordinal changes stripped by `removeEdges` on its `VertexRef` and re-added by `splitThrough` landing on its vertex with the new ordinal (§3.4's doors) — so §3.10's ordinal-order row holds; its undo record restores the former rows (as the profile's undo already does).'
 
