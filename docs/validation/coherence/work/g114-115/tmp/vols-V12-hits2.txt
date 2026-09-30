@@ -1,0 +1,206 @@
+29:- K5 SCC-26 the FM and VG preset runs (V12 §3.7.2 (3), T-V12-9, T-V12-24, J-V12.11): done
+42:- L6 SCC-R1C-5 `BenchBarDef.towns.settings[].preset`'s vocabulary, `'default'` or a `PresetId` (V12 §2.1, §6): done
+49:- M3 SCC-60 a preset entry's own fallback run; preset entries in the register (V12 §2.5, §2.6, §3.7.2 (3), T-V12-9): done
+57:- M9 SCC-R2C-6 BCR-V12-2's row `preset` spelled as V12 §2.1's `PresetArm`; file f item 497's note (V12 §10): done
+71:- N8 SCC-R3C-6 `NG` in the register's preset target, the parity arms, the M5 panel, BCR-V12-2 and T-V12-24 (V12 §2.1, §2.5, §2.6, §3.5, §3.7.2, §3.9.1, §10): done
+162:plates are never used. MFCG's and FTG's own behaviour stays exactly reachable through the two parity presets; the
+178:islands and the town histories — never more than one older, unrated sitting carried into a new one; and release notes
+209:| §7.6 — cells `{value, unit, provenance, calibratable, extension?, presets?}`, the parity presets, overrides, the reading rule for absolutes | what a run may write and where (V12 §3.7.2, §3.10.3; BCR-V12-5) |
+213:| D-2 (era and region presets), D-5, D-30, D-31 | the reconciled preset layer (V12 §3.10.3); the gates; FTG's METROPOLIS |
+224:P6), V04's underground panel (V04 §7), V05's island set (V05 §7, descriptive), V06's history panel (V06 §12, on H-100),
+281:| provenance `evidence` ids and `dist/evidence.json` with each cell's register status (2.10; BCR-V12-5) | accepted runs, panel picks, M-1 re-measurements; the register's statuses | V11's compiler (carries the ids into every compiled cell, writes the file); V09's cell inspector and preset dialog (X-V12-6); V10's clerk, plain 
+282:| `PanelSpec` engine, `plat d5 seeds / render / verdict` (2.8, 3.9; BCR-V12-6) | registrations: the base's M1, M2b, M4, M5; V02's M6; V07's V-M4; V03's V3-P6; V04's V4-U5; V05's M6-sky; V06's V6-E7; this volume's M-CAL and each later corpus run's `M-CAL/<layer>` (3.10.1) | `seeds.json`, the renders, `D5Record` verdicts, `Mil
+288:| the historical pack `historical:<frame>` (3.10.3; BCR-V12-22) | accepted corpus runs of its frame | §7.6's packs slot for documents whose D-2 era and region match the frame; the preset dialog's "historical (<era>, <region>)" entries (V09, X-V12-6); the recipe's pinned pack version | D-2, §7.6 |
+302:| V11 §3.24.0's switch table — `terrace.enabled`, every `raisedWays` chance, every `deck.offer` with the `deck.landmarks` chances, `roster.specialisations` (V11's rows; X-V12-9) | V11 | the pins' overlay (3.7.8); the parity presets, where they resolve off (3.4.4); the switch-on bumps | §7.6 `extension`; J-V11.12's parity
+309:| the four raised-way bars `T110b.*` (3.6b) | forcing fixture sites (frozen S1), `Level.intent.wealthLevel`, the dossier landmark fixture (DR-V8.8) | the `raisedWays` register line (3.11); fallback runs bounded by the owner floor (3.7.2) | §13.2 (the coherence pass writes them from item 110 (b)) |
+325:| `site.ruinEvidence` (ancient ruins, a ruined landmark, a magical node, ley lines, magical history) | DR-V8.2 | a level's forced ruin source (item 109 (b)) | a fixture record, never a test-only branch (J-V12.35) |
+329:| `wealth.label` | DR6 (to `intent.wealthLevel`) | the elevated-road prosperity trend's dossier arm (item 110 (b)) | the fixture's wealth word; the standalone arm sets `Level.intent.wealthLevel` |
+349:  | 'model'   // only on our model: plots, prosperity, the generation report, the core statistics record (§13.2)
+405:type PresetArm = 'default' | PresetId   // the recipe a harness run generates its towns under (reconciliation round 2's continuation, SCC-R1C-5;
+406:                                        // J-V12.72): 'default' — the recipe with no parity preset applied (V12 §3.5's O and C rows; an owner bar's
+407:                                        // own towns); else a registered preset, PresetId (V11 §2.2: 'MFCG' | 'FTG' | 'VG' | 'FM' | 'NG'). Every `preset`
+408:                                        // field of V12 §2's records is a PresetArm, except `CalibrationRun`'s `layer` and `CalibrationEntry.target`,
+409:                                        // which name a preset ENTRY of a cell ('FM' | 'VG' | 'NG'; SCC-R3C-6), never an arm
+417:           settings: { rung: Rung; water: WaterSetting; preset: PresetArm /* 'default' for a bar's own towns (V6 §8, V2 §3.10.10, V11 §8) */ }[] };
+461:    prosperity?: number;  // PLAT only: the field's value at the feature (§4.5), 3 decimals
+482:model in memory; T-V12-4 holds it equal to the metric GeoJSON export read back — `use`, `district` and `prosperity` included,
+578:| `sweep/<spec>/<level>/<i>`; for an `exactMonotone` bar `sweep/<spec>/any/<i>` (one seed shared by every level and step) | u32 | 5 | per rule (V12 §3.6b) | the sweep bars (V12 §3.6b) | `sweep/T109-a.relief/mountainous/0` → 4027728537; `sweep/T109-j5.access/TOWN/0` → 649597841; `sweep/T109k6.extent/any/0` → 114841487
+599:         | { preset: 'FM' | 'VG' | 'NG' } /* the cell's presets.FM, presets.VG or presets.NG entry, one a register entry names: a 'reference' run against that preset's own
+601:  objective: { targets: { metric: MetricId; rung: Rung | 'building' | 'hood' | 'village'; preset: PresetArm; baselineIds: string[]; weight: number }[];
+604:  seeds: { perSetting: 30; settings: { rung: Rung; water: WaterSetting; population: number; preset: PresetArm }[] };   // families tune/<id>/train and tune/<id>/holdout
+628:  id: string;                  // 'cal.<table>.<rowKey>.<column>' | 'thr.<letter>' | 'band.<metric>.<rung>'; a preset entry's entry adds '@FM', '@VG' or '@NG'
+629:  target: { cell: CellRef; preset?: 'FM' | 'VG' | 'NG' } | { threshold: string /* a §13.7 letter */ } | { band: { metric: MetricId; rung: string } }
+630:        | { column: { table: TableId; column: string; rows?: string /* a row-key glob; absent = every row */; preset?: 'FM' | 'VG' | 'NG' } };
+631:                               // column: one entry for a column family (V12 §3.11); preset: the entry is that preset's entry of the cell or column (a measured-rate
+633:                               // V11's PresetId (round 4's continuation, SCC-R3C-6): volume 1 holds no provisional NG entry (V1-3.15, J-V1.98), so no
+668:                               // entry's first row (its writing seat writes it with the target's compiled cells — a preset entry's excepted; round 6,
+673:                               // row, and on a pack or preset run's row (its cells are not the column's compiled cells); reconciliation round 5, SCC-90
+677:mechanism under different names (a cell's default and its `FM`, `VG` or `NG` entry are two knobs, told apart by `preset`) (the J111 fold found two names each for the crypt join and the growth cap; the columns
+715:  seeds: { settings: { rung: Rung; water: WaterSetting; preset: PresetArm }[] };
+716:  applies: { requires?: ('river' | 'coast' | 'walls' | 'customChain' | 'islands')[]; minMembers: number /* default 1 on the pooled route, 3 on the rank route */ };
+751:interface Level { id: string /* 'mountainous', 'TOWN', 'x1.5', 'w0.9' */; rung: Rung; water: WaterSetting; preset: PresetArm;
+754:  intent?: { wealthLevel?: number };                      // a T1 `intend` input (§7.7): the settlement-level prosperity of item 110 (b)'s trend
+784:  applies: { requires?: ('river' | 'coast' | 'walls' | 'customChain' | 'islands' | 'underground')[] };
+797:  id: string;           // the milestone id: 'M1', 'M2b', 'M4', 'M5', 'M6', 'V-M4', 'M-CAL' and a later corpus run's 'M-CAL/<layer>' (V12 §2.9's CorpusRunId); a volume's phase: 'V3-P6', 'V4-U5', 'M6-sky', 'V6-E7'
+806:interface PanelGroup { reference: 'MFCG' | 'FTG' | 'NG' | 'FM' | 'VG' | 'DW' | 'AB' | 'SOLO'; formula: string /* the seed label pattern */; count: number; preset: PresetArm;
+810:interface PanelRender { widthPx: 1600; heightPx: 1200; framing: 'walledPlus10' | 'overview' | 'hood' | 'building' | 'village' | 'plan' | 'underground' | 'island';
+817://     a: string; b: string /* each a recipe: output version, preset, and the layer or epoch it differs by */ }            (V12 §3.10.6; V06 §12)
+818://   { reference: 'SOLO'; rung: Rung; i: number; platSeed: string; recipe: string /* output version, preset, mode */ }   (V04 §7)
+833:volumes' base change requests applied (M-1, M0, M1, M2a, M2b, M3a, M3b, M4, M4b, M5, M6; the staged rows M6-U, M6-sky,
+855:  evidence: EvidenceClass; scale: 'metric' | 'relative'; era: string; region: string /* our D-2 preset keys, mapped research-side */;
+862:type CorpusRunId = 'M-CAL' | 'M-CAL/under' | 'M-CAL/sky' | 'M-CAL/evolution' | `M-CAL/${string}`
+892:  calibration minimum binds every run, fallback and corpus pack — never the parity presets' extension zeros (item 23), a
+965:  suites: { suite: string; owner: string }[];  // registered by their owners: the golden suite and hook fixtures (base), B-DOSSIER-lite, B-MASS (V02), the sky
+989: corpus (M-CAL only): adapter → MeasureInput → plat measure   │  corpus runs (same engine) ─→ reconciled preset layer
+1084:beyond numbers and flags, any corpus string other than our D-2 preset keys (J-V12.2).
+1140:| `street.turn100` | geo | m | ways other than alleys resampled at 10 m arc steps; turning = Σ \|Δheading\| between steps × 100 ÷ length; per seed the length-weighted median over ways ≥ 50 m | FTG; PLAT organic presets | §13.5 street turning |
+1164:| `plot.spearman`, `plot.moran`, `plot.cvDistrict` | model (NG `plot.moran` on lots: geo) | f | Spearman(prosperity, plot area); Moran's I of plot area on the shared-edge adjacency graph with unit weights; within-district CV, districts ≥ 30 plots | NG (weakness) | plot-area gradient |
+1165:| `alley.gradient` | model | f | Spearman of alley length per hectare against prosperity decile | FTG (weakness) | alleys |
+1177:| `delivery.tier`, `ladder.use`, `vacancy.share`, `quay.reach`, `residue.share`, `entrance.frontage`, `hidden.share`, `wealth.*` | model | — | from the core statistics record and the report (§13.2, §5.4) | — / FTG descriptive | the C rows of §13.5 |
+1202:| `shade.gap` | model | — | item 102 (g): the mean prosperity of sunlit minus shaded plots within districts holding both; descriptive — V05's island fixture and V06's drift fixture read it as their fixture bars | — | item 102 (g) |
+1220:| MFCG 12710731 | the matched population (V12 §3.5.5), water `none`, parity preset `MFCG` for P rows; stress rows at `coast+river` | TOWN (size 40), CITY (80), METROPOLIS (130) | street signature, walled and ribbon shares, anchors, gates, recoverability and streetwall ⟨M-1⟩, markets ⟨M-1⟩, draw style (`ink`), label
+1221:| FTG (server of each capture, request hash) | each capture's recorded population and water setting (§13.6 (2)), parity preset `FTG` | TOWN (BIG_TOWN), CITY (BIG_CITY); METROPOLIS per D-31 (none) | turning, junctions, runs, footprints, outline, towers and gates, water, trees (weakness), time (weakness), variety (floor); po
+1223:| VG 1.6.9 (19365073) | V07's settings under the `VG` preset | THORP, HAMLET, VILLAGE | V07 §7's rows | V07's tiers from V-M4 |
+1224:| Fantasy Manor (build 890) | the free frame, `FM` preset | the building band | V02 T-V2-31 | V02's tiers from M6c |
+1233:extensions: V11 §3.24.0's switch table resolves them off in `presets.MFCG`, `presets.FTG` and `VG` (T-V11-21), `NG` resolving them as `MFCG` does (V1-3.15;
+1235:`presets.FM` resolves the stepped and deck families off too (X-V12-9), so every P row measures towns and buildings
+1236:without them. In the default preset they are on, and their metrics (`raised.*`, `retaining.*`,
+1276:3. Generate our towns on `bref/<ref>/<rung>/<water>/<i>` (20 per setting nightly, 100 at a milestone) once per preset arm
+1277:   (`PresetArm`, V12 §2.1) the setting's rows need — the reference's own preset for P rows, `MFCG` or `FTG` (T23-1), `NG` (V01's T-V1-31), `VG` (V07's T-V7-23) or `FM`
+1297:guarantee. Item 102 (g) is not one of them: its bar is a fixture — an island over a uniform district, the shade strip
+1298:poorer by the declared weight within tolerance — owned by V05 (its island fixture) and V06 (the drift fixture); prosperity
+1307:`null/<spec>/<rung>/<water>/<i>` under the spec's preset.
+1401:`plat statbar <spec | all>` runs every `StatBarSpec` (V12 §2.7b) on towns of its levels under their presets, seeds from
+1537:| 110 (b): an elevated road likelier with prosperity | trend, `stopAfter` the elevated-road stage | `raised` elevated, `generated` | CITY on the two-high-wards site at `intent.wealthLevel` 0.1, 0.3, 0.5, 0.7, 0.9; 100 towns per level | base (`T110b.elevated.prosperity`) |
+1541:"likelier with prosperity and with dossier landmarks on high ground"; "no reason, no raised way", the rung gate and the cap
+1551:* **`T110b.elevated.prosperity`** runs `trend` over the settlement's prosperity input `intent.wealthLevel` (§7.7; DR6 is
+1557:  prosperity trend read are V11 §3.24.2's (`elevated.bandFactor` by band, poor 0).
+1577:run's cell (reconciliation round 4, SCC-80) — each a `reference` run on the preset's own entry, V12 §3.7.2 (3); item 34's
+1593:(3) is a default value, never a `presets.MFCG` or `presets.FTG` entry; a `presets.FM`, `presets.VG` or `presets.NG` entry only when a
+1594:register entry names it (V12 §2.6's `preset` target — a measured-rate entry awaiting its reference), and then only by a
+1595:`reference` run against that preset's own reference (`layer: { preset }`, V12 §2.5: V02 §3.10.8's free-frame run against
+1600:value and no other preset's entry; a preset entry no register entry names — one read from its reference's code
+1601:(`ref:… (code)`, V02 §3.10.8's layout families) or an off value with a `fixed:` note (V11 §2.2) — is never a run's cell; every `presets.NG` entry is a code-read value or a
+1603:MFCG and FTG presets' reference values are never tuned, and the FM and VG presets' measured-rate cells are set only
+1609:calibration minimum binds runs, fallbacks and corpus packs, never the parity presets' extension zeros (item 23), a no-op
+1625:the train seeds that fails with the candidate: every §13.5 row on those settings under its preset, the C bars of §13.2
+1646:1. The seat writes the chosen values into the table's source (V11 §2.2) — into the cell's `presets.FM` or `presets.VG`
+1647:   entry for a `layer: { preset }` cell, the default untouched — with provenance `ref:<reference> <behaviour>`
+1668:   move, V05's two sky goldens, V06's H-100, K1 and K2, and the B-DOSSIER-lite towns carrying the water-system record (its
+1675:Every bump leaves the `MFCG`, `FTG` and `FM` presets' goldens byte-identical (V12 §3.4.4). The release notes (V12 §5.5)
+1690:   overlay; the same form is the table's parity-neutral default and the value the parity presets resolve (reconciliation
+1693:   calibration, not a pin's overlay or a preset (J-V12.43, J-V12.56). A pin's overlay sets its family's off values; the
+1731:| M5 | the stage-2 gate | NG 20 (five per template), `preset: 'NG'` (V01's T-V1-32; SCC-R3C-6) | strips (S4 (d)) | base (V01's BCR-21) |
+1736:| M6-sky | none: a descriptive set, never a gate (V05 §7) | NG 5: island close-ups in `hatched` beside Neighbourhood patches; question `reads`, subject "a floating patch" | — | V05 |
+1760:largest catacomb complex lie inside it (V4-U5); `island` frames the island's rim plus 25 %; labels and furniture off,
+1802:docs/DEFINITION.md §1 and §13.9 ("after the standalone generators"). The sky and underground layers and the evolution
+1806:`M-CAL/<layer>` (V12 §2.9's `CorpusRunId`): `M-CAL/under`, `M-CAL/sky`, `M-CAL/evolution`, or `M-CAL/<milestone>` for a
+1810:`opened`, once its layer's last milestone has exited (M6-U, M6-sky, M6-E, M6-P; the named milestone for any other). It reads
+1839:4. It maps each map's era and region onto our D-2 preset keys and each corpus trade label onto our class-family keys
+1852:  whose era and region presets match the frame and to no other, so a document keeps its one preset slot for the D-2 era
+1853:  and region preset or a parity preset and still takes the matching layer (BCR-V12-22; J-V12.49). The emulated defaults
+1861:  preset they are role `descriptive`, reported beside the pack's verdict, until the owner adopts that pack; from then on
+1866:* **R4 — never.** Code, mechanisms, stage order and table schemas; a cell that is not `calibratable`; the parity presets
+1888:  settings in the controls' registry order, crossed with the D-2 presets of the frame's era and region, and item 101's
+1923:parity presets' goldens are byte-identical before and after, and every §13.5 row passes as before; **A4** the C bars and
+1930:preset dialog as "historical (<era>, <region>)" (V09, X-V12-6), and the default stays as built. A document of another era
+1945:**3.10.8 Release.** Each accepted layer ships as a versioned preset table; the `ReconciliationRecord` is committed;
+1981:`IslandRule` cells among them) and volume 7's §2.2 and §2.2a numeric cells other than its one `VG` entry (X-V12-16);
+2002:| M6-sky and `V5-P0` – `V5-P6` (V5 §8) | `M-CAL/sky` |
+2056:compares, for every entry whose target is a cell or a column without `preset` and whose history holds a cells row, its
+2081:| item 102: `w_sun` (`prosperity.drivers`' row `sun`, V11 §3.3.5; owner V11), `sun.samples` and the `roster.classMix` prestige key `sun` (V11); V05's and V06's own shade cells by their volume's own lines where one names them (V6 §8), else by the default line above (reconciliation round 1, SCC-15; round 2's continuation, S
+2091:volume named in brackets. No entry of these lines names a preset entry (V11's preset entries are `fixed:` off values, V11
+2101:| `under.ruin` (row 58a) `chance`: `magic`, `history`, `delvingFactor`, every `blueprint` rung × relief cell | V11 (§3.23.2; V04 §2.3) | `measure` at U3 (the 109 (j) (1) `rate` rows on forced-source sites confirm each draw reads its chance), then `panel` (V4-U5, `realism`) at U5, then `corpus` possibility (E1) at M-CAL |
+2105:| `under.ruin` V04's cells: `ancientYears`, `significance`, `maxFrameShare`, `maxChambers`, `forecastFloorShare`, `depthM`, `burialByAge`, `smoothM`, `sharedAxisChance`, `ageRefYears`, `coverKeep`, `distinct`, `fadeFactor`, `magicLightChance`, `monument` (`clearM`, `tierDecay`, `ceilingClearCm`, `moundShare`), and every oth
+2212:M6-sky, `V6-E*` at M6-E; `V-M0` – `V-M4` and `V-M2u` in their own order; volume 11's steps at their §16 ids (V12 §2.8) —
+2214:and precede every other row; M4b, M5 and the staged rows (M6, M6-U, M6-sky, M6-E, M6-P, the village's) are unordered
+2216:unordered rows are each read at their own exit, whichever comes first (the item-102 line's island and drift stages); a
+2260:rung, preset); numbers written with six significant digits by our own formatter (round half to even on the decimal
+2350:### 4.1 No new map event: calibration reaches a town as tables and presets
+2359:  preset dialog at creation (T1 `intend`'s advanced panel, V09); an existing town applies or removes it through §7.6's
+2400:fixed; "the owner's rule" for a stamped cell), and the preset dialog lists the adopted and selectable historical packs.
+2443:Our side is drawn by §8's pipeline under the pair's preset and family (§13.6 (3)); nothing in this volume adds a paint
+2485:| B-REF nightly, counted per preset arm: MFCG TOWN, CITY and METROPOLIS at `none` × 2 arms (the `MFCG` preset for P rows, `'default'` — no parity preset, V12 §2.1's `PresetArm` — for O and C rows) × 20 = 120 towns; MFCG `coast+river` at CITY × 1 arm × 20 = 20 (no stress baseline at TOWN or METROPOLIS, V12 §3.2.1);
+2504:| the four short sittings and the M4-110 group | the floor plans ≈ 20 min, the underground ≈ 15, the islands ≈ 5, the town histories ≈ 10; the M4-110 group ≈ 5 inside M4 | V3-P6, U5, M6-sky, E7, M4 | a short sitting may join the next main sitting within its 45 minutes |
+2518:| T-V12-1 | **The crossing refuses what must not cross.** Fixture files — a place-name string in `capture`; a 201-character note; a six-hex-digit sequence; a row without `referenceBuild`; `sample.indices` starting at 3; a removed row; an unsalted corpus id; a corpus *target* row with `frameN` 12; a corpus string other tha
+2521:| T-V12-4 | **Our input equals our export.** On the golden suite `measureInputOf(doc)` equals the metric GeoJSON export read back — ids, kinds, classes (the `WayClass` mapping of V12 §2.2), `use`, `district`, `prosperity`, item 110's kinds and properties as file f item 447 exports them and V12 §2.2 declares them (the ki
+2526:| T-V12-9 | **Runs keep to their scope.** Specs naming an `owner`, `owner-eye`, palette-target, `host` or `sf:` cell (provenance source `sf:`, V11 §2.2, BCR-V11-21), an `ownerRule`-stamped cell, a `raisedWays` row below CITY (refused by V11's schema before the spec check), a non-calibratable cell, a `presets.MFCG` or `pres
+2534:| T-V12-17 | **Panels.** `plat d5 seeds` reproduces `seeds.json`; a key differing by one side fails its commitment; a missing answer leaves the panel *provisional — not rated*; verdicts on fixture answers equal the hand-computed §13.6 (6) results for MFCG (20 of 30), FTG (2 of 3 per rung), NG (14 of 20), Fantasy Manor, D
+2537:| T-V12-20 | **No provisional number dangles.** `plat calibrate register --check` is green: every calibratable cell is covered by an admissible source, an entry or a `fixed:` note; an `own` calibrate-later fixture cell without an entry fails; two entries or two columns for one knob fail; a cell of an owner-rule hard clause 
+2540:| T-V12-23 | **Corpus intake.** On a synthetic corpus we author (60 maps, 5 flagged holdout, 2 flagged map-design, 3 frames): 0 holdout or map-design maps measured, their counts recorded; every id salted; no corpus string but preset keys crosses; `frames.json` crosses before any row of its frames, and a frame whose declarat
+2541:| T-V12-24 | **The base stays the base.** Every corpus run's cells target `historical:<frame>`; the shipped default tables and the `MFCG`, `FTG`, `NG`, `FM` and `VG` presets' goldens are byte-identical before and after M-CAL and each later corpus run `M-CAL/<layer>` (SCC-R3C-6, SCC-R3C-1; a `presets.FM`, `presets.VG` or `pr
+2554:| T-V12-37 | **The no-op pins and the switch-on bumps.** Before a family's bump, a commit landing its code produces zero ShiftRecords on the pin's suites; after it, the suites under the overlay are byte-identical to the off-state set; a planted item-110 draw on a shared stream fails the pin, a planted empty array fails it, 
+2556:| T-V12-39 | **The raised-way bars.** The four `T110b.*` specs are registered as mapped; on planted fixtures a viaduct chance of 0.02 at CITY passes `presence` with N = min(500, ⌈5 ÷ 0.02⌉) = 250 towns on the ravine site, an elevated-road chance flat across `wealthLevel` fails the trend, and a landmark factor of 1 fail
+2567:the M4-110 group — and the parity presets never show them (T-V12-37).
+2593:| — panels and bars of later stages | M5, M6, V-M4, V3-P6, U3–U5, M6-sky, E7 | the NG, Fantasy Manor, VG, Dwellings, SOLO, island and history panel specs on the engine; item 109's bar specs | T-V12-17's clauses for each; T-V12-34, T-V12-35's underground clause | within V01, V02, V07, V03, V04, V05, V06 |
+2596:| M-CAL/<layer> — the later corpus runs (staged; V12 §3.10.1; reconciliation round 4's continuation, SCC-R3C-1) | after M-CAL and the layer's last milestone (M6-U, M6-sky, M6-E, M6-P), each on the owner's word | one run over the entries due there on M-CAL's frames — the underground's E1 and E4 only, the sky's and the e
+2649:| J-V12.11 | chose that no run may move an `owner`, `owner-eye`, palette-target, `host` or `MFCG` or `FTG` preset value, that a `presets.FM` or `presets.VG` value moves only by a `reference` run against that preset's own reference or by a `fallback` run applying its register entry's own pre-decided fallback, touching no def
+2653:| J-V12.15 | chose that every corpus change lands in a reconciled preset `historical:<frame>`, never overwriting a shipped default, over re-signing cells in place, because the owner's "what you have built is always the BASE" and item 23's emulation-first default both hold only if the built values survive intact, and adoptin
+2680:| J-V12.42 | chose owner-stamped calibration minima for the CITY and METROPOLIS raised-way chances (0.02) and caps (1), binding every run, fallback and corpus pack, with V11's schema holding the rung gate (no `raisedWays` row below CITY) and a TOWN guard setting in every run that touches a raised-way row, over leaving the c
+2682:| J-V12.44 | chose tendency bars only for the owner-rule text's two "likelier" clauses (prosperity, dossier landmarks) and presence bars on forcing sites for the viaduct and the aqueduct, over on / off rows for every kind, because without its reason no raised way may exist, so an "off" arm measures conformance, not a leanin
+2687:| J-V12.49 | chose the historical layer as a setting pack in §7.6's packs slot bound to its frame's era and region, adopted per frame, over a preset in the one preset slot, because a document must be able to hold its D-2 era and region preset (or a parity preset) and the matching layer at once, and one frame's layer must n
+2690:| J-V12.52 | chose E1's reachability search as the grid of the controls the metric's stages read, at their range ends and middle, capped at 64 settings, crossed with the frame's era and region presets and the author's declarations, reachable within max(`absFloor`, 10 %) on any of 50 seeds, over an unspecified "bounded searc
+2692:| J-V12.54 | chose item 110's four families as extensions off in the `MFCG`, `FTG` and `FM` presets, switched on by four upstream-first bumps each with its own `feature` cause, over one bump for all rows, because no measured reference builds them (0 of 48 research inputs), item 23 keeps extensions out of parity, and one bum
+2701:| J-V12.63 | *Reconciliation round 1 (SCC-26).* Chose a `layer: { preset: 'FM' \| 'VG' }` cell in a `reference` run against that preset's own reference, written into the cell's preset entry with the default untouched, over freezing every preset entry, because V02 §3.10.8 and V07's V-M4 set those presets' measured-rate entr
+2705:| J-V12.67 | *Reconciliation round 3 (SCC-60).* Chose to admit a `presets.FM` or `presets.VG` entry in a `fallback` run applying that entry's own pre-decided fallback, with a `preset` field on the register target (ids `…@FM`, `…@VG`) so a preset entry has its own entry, and to keep out of every run a preset entry no reg
+2710:| J-V12.72 | *Reconciliation round 2's continuation (SCC-R1C-5).* Chose a named type `PresetArm = 'default' \| PresetId` for `BenchBarDef.towns.settings[].preset` and for every other `preset` field of V12 §2's records (a tuning run's targets and seeds, a correlation spec's seeds, a sweep level, a panel group), `'default'` 
+2711:| J-V12.73 | *Reconciliation round 3's continuation (SCC-R2C-5).* Chose (a) to have `plat calibrate register --defaults` write a default entry only for a calibratable column that holds at least one compiled cell, over writing one for every calibratable column of the compiled registry, because V11 §2.1 ships every registry 
+2712:| J-V12.74 | *Reconciliation round 3's continuation (SCC-R2C-6).* Chose to make BCR-V12-2's parity-report row carry a required `preset` spelled as V12 §2.1's `PresetArm` (`'default'` \| `'MFCG'` \| `'FTG'` \| `'VG'` \| `'FM'`), written out in the base's text, over keeping the base's optional `preset?: string`, because V12 
+2713:| J-V12.75 | *Reconciliation round 4's continuation (SCC-R3C-1).* Chose to date a column whose first compiled cell lands after M-CAL's `ReconciliationRecord` is committed to the later run of the corpus process that takes its layer — `M-CAL/under`, `M-CAL/sky`, `M-CAL/evolution`, or `M-CAL/<milestone>` for any other late m
+2714:| J-V12.76 | *Reconciliation round 4's continuation (SCC-R3C-6).* Chose to write `NG` wherever this volume spells the presets out — the register's `…@NG` id and `target.preset`, a run's `layer: { preset }`, the report row's `preset` union (BCR-V12-2), V12 §3.5 step 3's arms (each P row under its reference's own preset:
+2717:| J-V12.79 | *Reconciliation round 6 (SCC-105, SCC-100).* Chose to type a register line of several stages as one entry carrying `stages` — `method`, `due` and `panel` its current stage's, each exit or sitting appending a stage row with its outcome, the last non-`corpus` stage's pass confirming, a failing stage closing the
+2747:Baseline['role']; rung: Rung; preset?: string;". New: "rows: { metric: string; metricVersion: string; baselineIds:
+2748:string[]; role: Baseline['role']; rung: Rung; preset: 'default' | 'MFCG' | 'FTG' | 'VG' | 'FM' | 'NG' /* volume 12 §2.1's
+2749:PresetArm: 'default' — no parity preset (the O and C rows); else the preset the row was measured under, volume 12
+2752:`PresetArm`, the base's optional string retired, so a row never admits a third spelling; reconciliation round 3's
+2783:parity presets, the dossier row sets, naming tables and packs, engineering invariants and budgets (volume 12 §3.10.3 R4).
+2786:(volume 12 Q-V12-3). Corpus target rows gate the frame's historical pack; under the default preset they are descriptive,
+2807:against Dwellings (volume 3), the underground rated alone (volume 4), the islands beside Neighbourhood's patches as a
+2834:append-only rows, research-side paths as opaque `research:` labels, corpus ids salted and no corpus string but our preset
+2871:depth by volume V12 as milestone M-CAL (after M4, M5, M6 and V-M4), its changes a reconciled preset layer that never
+2935:family key), `district` (the id of the district the feature lies in) and, on plots and buildings, `prosperity` (the
+2991:it only to a document whose era and region presets match the frame, it takes no preset slot, a new matching document takes
+3010:  SOLO, M6-sky as a descriptive NG set, V6-E7 as AB `history` on H-100), each owner confirming or changing its spec in its
+3019:* **X-V12-6 — V09 (the tables editor and the preset dialog).** The cell inspector reads `dist/evidence.json`: the status
+3020:  in plain words ("the owner's rule" for a stamped cell) and the evidence lines; the preset dialog lists the adopted and
+3035:  any-tier existence) and the stamped-clause list the register check reads (BCR-V12-5); `presets.FM` resolving the stepped
+3036:  and deck families off beside T-V11-21's three presets; the item-110 rows under the names V12 §3.11's register lines cite
+3062:  Each registration's `towns.settings[].preset` is a `PresetArm` (V12 §2.1): `'default'` for towns generated under no parity
+3063:  preset — V6 §8 writes it so, V2 §3.10.10 writes `preset: 'default'` (its registration paragraph; SCC-R2C-7, J-V2.105
+3064:  (c)), and V11 §8's T16-4 and T-V11-30 registrations write `preset: 'default'` (reconciliation round 2's continuation,
+3081:  (SCC-R3C-13), may name it `M-CAL/under`; V5 §13 item 29 is met by the same line (`M-CAL/sky` for P1's and P2's columns
+3082:  should M6-sky land after M-CAL); V6 §8's lines carry no corpus stage, so only a V06 column no V6 §8 line names and that
+3120:| Q-V12-2 | Will you sit the seven main sittings — M1, M2b, M4, M5, M6, the village and M-CAL, each up to about 45 minutes — and four short ones (the floor plans about 20 minutes, the underground about 15, the islands about 5, the town histories about 10), and six short items inside the M4 sitting on the new raised ways
+3204:§3.10.8 and §3.10.10 (the FM measured-rate list, `hipInset` 0.5, `bar.T-V2-<n>`), SP-V2-3 and X33; V11 §2.2's preset
+3228:`ColumnSpec.calibratable`, which the default line reads (V11 79d485df…); the three spellings of the no-preset arm — V6 §8
+3229:`'default'` (V06 22519528…), V2 §3.10.10 "no parity preset" with no value (V02 bd45a3b4…), V11 §8's T16-4 and T-V11-30
+3238:seat; registry rows 38 (`roomProgram`, "V03; §2.6") and 56 (`islands`, "II.6, V05") name two homes; every column of rows
+3244:`preset?: string` (§13.5); V4 §8's due steps put the `under.openings` and `under.dig` measures at U3b (T-V4-49, T-V4-54)
+3255:V06 ba61b240…); V11 §2.2 types `PresetId` with `'NG'` (V11 ddcee9c6…, its round-4 continuation live); V01 states `NG` as
+3256:a zeroing parity preset with no provisional entry, so no `…@NG` id is needed on its account (V1-3.15, J-V1.98, its
+3259:and J-V7.124 choose no line of their own; V2 §3.10.10 writes `preset 'default'` (J-V2.105 (c)); V11 §8's two
+3263:M6-sky, M6-E) is where its run belongs, rather than each step; that volume 7's V-M2u lands only underground cells, so its
+3275:V06's E0 – E8, V07's V-M0 – V-M4 with V-M2u; `docs/ARCHITECTURE.md` names M6, M6-U, M6-sky, M6-E and M6-P (48, 82, 46,
+3309:presets' extension zeros, a pin's overlay or a user's edit (J-V12.42) — V11 landed the raised family's off form as chances
+3336:§3.3.5's, its metric `shade.gap`. **SCC-26:** rule (3) admits a `presets.FM` or `presets.VG` entry only in a `reference` run
+3337:against that preset's own reference (`layer: { preset }`, V12 §2.5; emission step 1), and T-V12-9, T-V12-24 and J-V12.11
+3367:comment and V12 §3.7.2 (3) admit a preset entry that a register entry names in a `reference` run against its preset's
+3368:reference or a `fallback` run applying that entry's own pre-decided fallback (V02 §3.10.8's `hipInset` 0.5); a preset entry
+3369:no entry names (code-read, `fixed:`) is never a run's cell; the register target gains `preset` (ids `…@FM`, `…@VG`); §3.11's
+3377:as V12 §2.5 and R1 type it (it read `preset`). The halves of this round's sibling findings were already landed by their
+3416:recipe arm once, `PresetArm = 'default' | PresetId` (V11 §2.2), `'default'` the recipe with no parity preset;
+3417:`BenchBarDef.towns.settings[].preset` and, as a same-shape sweep, the five other bare `preset: string` fields of V12 §2
+3419:B-REF row name the arm `'default'`; X-V12-15 asks V02 and V11 to write `preset: 'default'` in their registrations (V06
+3439:BCR-V12-2's new text gives the report row a required `preset: 'default' | 'MFCG' | 'FTG' | 'VG' | 'FM'` (V12 §2.1's
+3440:`PresetArm`), the base's `preset?: string` retired; file f item 497 gains the note naming the change, a shared-file edit
+3455:milestones → `M-CAL/under`, the sky's → `M-CAL/sky`, the evolution engine's → `M-CAL/evolution`, any other →
+3465:J-V12.75, J-V12.21 amended. **SCC-R3C-6 (minor):** `NG` wherever this volume spells the presets out — §2.1's
+3466:`PresetArm` comment, §2.5's `layer`, §2.6's `…@NG` suffix, both `target.preset` unions and the one-knob rule, V12 §3.5
+3467:step 3 (each P row under its reference's own preset: `MFCG`, `FTG`, `NG` for T-V1-31, `VG` for T-V7-23, `FM` for V02's
+3469:paragraph (`NG` resolves the families off as `MFCG`), §3.9.1's M5 row (`preset: 'NG'`), T-V12-9, T-V12-24 and BCR-V12-2's
+3474:T-V4-62 and the offer of lines dropped; X-V12-15's V02 clause reads "V2 §3.10.10 writes `preset: 'default'`", met for
+3476:dating and the preset spellings moved; no base change request and no owner question was added.
+3530:a named entry's first row a cells row; (3) compares every entry holding a cells row (without `preset`), naming the
+3554:  volume 5's `IslandRule` cells (own, calibrate-later), never as volume 11 rows.
+3556:  minima) and V11 §3.24.0's FM line (`presets.FM` resolving the stepped and deck families off; V11's round 1, SCC-09).
+3557:* **IN-V12-3 (J-VI.4).** A bar that counted refusals of item 110 or of the sky layer counts bends (each with its line).
