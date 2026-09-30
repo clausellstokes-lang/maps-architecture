@@ -1,0 +1,358 @@
+[
+ {
+  "unit": "model",
+  "items": [
+   "116"
+  ],
+  "part": "116 (a), (d)-(h), (m), (p): late seat - the Materials rule and every record type",
+  "states": [
+   "§2.6 Materials rule rewritten: the owner's words, (a)'s terms and wealth words, (e)'s cost, (f)'s means (interval rule, top means, institutions clamped in their district's band range, works), (g)'s pick (row order, earth-wall admission, fallback, places, draws), (h)'s mix with part shares and the per-wing covering, item 19's shape clause kept, (m)'s supersession",
+   "§2.6 types MaterialFamily, MaterialMass, MaterialSlot, MaterialDef, MaterialPreference, MaterialMixRow, the narrowed parity MaterialRow, BuildingMaterial, MaterialOrigin; RoofSpec.material and materialOrigin as the wing's covering",
+   "§2.7 MaterialSupply and NativeReason; MaterialLedger.rows[].family and .at; Enceinte.materialOrigin and crest; Gate.material/materialOrigin; Bridge.material/materialOrigin; RetainingWall.material (a MaterialDef id)/materialOrigin; Tunnel.lining/liningOrigin; Gallery.lining/liningOrigin",
+   "§2.4 Way.material/materialOrigin/surfaceOrigin and surface 'brick'",
+   "§2.5 District.materialOverride retyped {walls?, roof?}",
+   "§2.3 Terrain.fissile, Terrain.lead, Terrain.mining declared",
+   "§2.8 registry rows for the new edit paths; factTier for origin dossier; SliceRef.kind 'supply' (table 'derived.materialSupply')",
+   "§2.9 Document.derived.materialSupply; thematic view key 'materials'"
+  ],
+  "references": [
+   "§4 producers (S1 (11), S3, S5a, S4, S5b, S7, S10, S11, §4.9, §4.11, II.7)",
+   "§7.7 TradePartner, DR3, DR15, DR41",
+   "§7.1-§7.6 edit paths, migration, the switch",
+   "§8.2 roles and tiles",
+   "V11 rows and cell values"
+  ]
+ },
+ {
+  "unit": "pipeline",
+  "items": [
+   "116"
+  ],
+  "part": "116 (b), (d), (i)-(k), (o): late seat - the supply's derivation, every consumer, materials over time",
+  "states": [
+   "§4.2 S0 site requests fissile and lead; S1 (10)'s two appended draws; the struck sentence that only II.7.6 reads Terrain.mining",
+   "§4.2 S1 (11): the supply's derivation with (b)'s tests - the creation arena, the deposit rule at generation and at epochs, the dossier production records, the ruins basis and ruinsReachM, generation's ruin credits; S3's commit writes the land carriage",
+   "§4.2 S2 producer gate (requiresFamily) and the thatch-family edge resolution",
+   "§4.2 S3 and §4.4 S5a: the enceinte pick where the trace is fixed, construction by mass, the crest, the earthwork rows' reading, towers and gates",
+   "§4.3 S4 and §4.4 S5b: bridge feasibility at the router; the ford, then F-ROUTE's rungs",
+   "§4.8 S7: towers, gates, castle curtain, bridges, the dossier-implied bridge, harbour works and sea moles",
+   "§4.7 S10 retaining pick; S10a surface gate over V01's table; S11 building pick, institutions, deck buildings, per-wing covering, tents, host buildings",
+   "§4.9 land uses on native sources, the timber shortfall through partners, the scarcity factor",
+   "§4.11 item 116 (j) whole: prelude, re-picks, refurbishment writing builtProsperity (J-A31.44's list), fire ordinance, repairs in kind, ledger by family with positions, ruins stock, sources over epochs, the replay's partners and deposits; Works keyed by id or mass",
+   "§4.1 and §4.12 stage I/O (materialSupply); §4.13 EP row for S1 (11) and the pick",
+   "§10.2 requiresFamily, salvageM3 by id with family credits, the citation of V11 §3.5.2's refusal, the corrected sentence on which rows name a material",
+   "II.7.2 lining pick; II.7.6 quarry voids from native-land stone (structures included), reachM from the town, surface-quarry fallback; II.7 S7b stone-stock forecast"
+  ],
+  "references": [
+   "§2.6 pick, cost, means and types",
+   "V11 cells and rows",
+   "V06 engine",
+   "V04 U-FORECAST build",
+   "V01 §3.7.3 surface table"
+  ]
+ },
+ {
+  "unit": "determinism",
+  "items": [
+   "116"
+  ],
+  "part": "116 (c), (l)-(n), (p): late seat - partners, DR rows, failure, streams, edits, the switch",
+  "states": [
+   "§5.2 F-MATERIAL and its ladder (the floor for buildings; kinds then tier 6 for structures)",
+   "§5.3 the licence invariant; the neighbourhood-character row unchanged",
+   "§5.4 report codes with class F-MATERIAL and landing (ladderUses, unserved, requestedVsBuilt)",
+   "§6.1 the material row (lineage and slot, no epoch component, readers S3, S4, S5a, S5b, S7, S10, S11, II.7.2, EVO_*, VS1-VS6) and blueprint.features order (... sewer, fissile, lead); §6.2 leaf-digest note",
+   "§7.1 edit paths (T12 dress, paint wallMaterial/roofMaterial clearing mix, T5 materialOverride and its growth rule, terrain row fissile and lead, each structure's material, the dossier-map partner refusal)",
+   "§7.3 locality of the partner and switch Adjusts; §7.4 lifecycle rows; §7.5 migration reads (timber -> boards alias, ledger ids as families, non-id Enceinte.material)",
+   "§7.6 the switch materials.supply.enabled, its presets, the retired regional shift, the licence as the one exception to the reading rule",
+   "§7.7 TradePartner fields (name, supplies, distanceM, source 'declared'); layer 2's standalone fill order and declared partners outside TradeFlow; DR3 amended; DR15 amended; DR41 (family site; covers Document.derived.materialSupply; inputs; rule; chance; bar); the closed-digest admission; item 9's tiers",
+   "§7.8 registry rows: the Trade control, the fissile and lead toggles, the switch through presets and the tables editor"
+  ],
+  "references": [
+   "V08 DR3 fill rows",
+   "V09 controls",
+   "§2.6 rules and types"
+  ]
+ },
+ {
+  "unit": "rendering",
+  "items": [
+   "116"
+  ],
+  "part": "116 (i), (n), (p): late seat - roles, tiles, legend, export, why, budgets",
+  "states": [
+   "§8.1 attrs columns materialWalls, materialRoof, mixPart, mixWalls, materialOrigin",
+   "§8.2 roles wall.<id> and roof.<id> for every MaterialDef id with ink, lit and hatched palette and contrast rows; lit's roof by covering with the switch on, band tint off; ink's pattern; the total id-to-tile map (11 new tiles, 26 in all, M2b; hatched at M5); mixed parts per facet, chimneys, per-wing covering, boundary walls; the colour-deficiency row and the Materials row; the Materials ThematicRow with item 112's second cue",
+   "§8.11, §9.7, §11.6 edge rows",
+   "§9.5 Materials legend with its origin line",
+   "§11.1 export fields and the skeleton's declared partners and material setAttrs",
+   "§11.2 why on material.*",
+   "§12.4 budget rows (supply at S1, pick at S11)"
+  ],
+  "references": [
+   "V02 facets",
+   "V03 plan",
+   "V09 Materials view",
+   "V07 painterly values"
+  ]
+ },
+ {
+  "unit": "scope",
+  "items": [
+   "116"
+  ],
+  "part": "116 (q), (r): Rewrite - index terms, bars, digest fields, milestones, judgments",
+  "states": [
+   "§0 row for item 116; item 19's row amended; index terms (native, traded, native-only, material family, means, top means, work's means, origin, mixed)",
+   "§1 buildings row",
+   "§13.2 T116-1 - T116-34; T8-5 and T26-1 amended",
+   "§13.8 schedule rows",
+   "§14 DossierDigest.economy.partners[] exports?, resources?, access?; PortNote kind partner_no_supplies",
+   "§16 milestones (J-A116.01)",
+   "D-2 amended (region cost rows)",
+   "register J-A116.01, .21, .41-.48, .61, .81 (J-A19.21 superseded; J-A8.45, J-A26.42, J-A65.45 amended; J-A19.81 kept under FTG and switch off)"
+  ],
+  "references": [
+   "every other unit's part of item 116"
+  ]
+ },
+ {
+  "unit": "V01",
+  "items": [
+   "116"
+  ],
+  "part": "116 (i) paving, names; (n) hatched",
+  "states": [
+   "the paving gate over V01 §3.7.3's table: surface-to-material costs, the brick row, the fallback order, the epoch rule",
+   "hatched's roof program reads the covering role (NG's two tones under NG)",
+   "the material naming feature (§3.7.4)",
+   "the lone neighbourhood's supply from its recipe's creation-slice trade, native-only by default; M5"
+  ],
+  "references": [
+   "§2.6 pick",
+   "§2.7 supply",
+   "§8.2 role values"
+  ]
+ },
+ {
+  "unit": "V02",
+  "items": [
+   "116"
+  ],
+  "part": "116 (h): the mix at the building",
+  "states": [
+   "the mix parts' facets and shares (upper, gable with every chimney, outshots)",
+   "roofscape and facade programs per part; the per-wing covering; the band-tint line replaced",
+   "§1b trace rows for the supply's inputs",
+   "the mutator keeps the material except a completed upward refurbishment (§3.9)",
+   "deck buildings' row",
+   "§5.5 exports by part",
+   "T-V2-25 extended; a bar that the heavier part is below"
+  ],
+  "references": [
+   "§2.6 BuildingMaterial",
+   "§4.7 S11 pick"
+  ]
+ },
+ {
+  "unit": "V03",
+  "items": [
+   "116"
+  ],
+  "part": "116 (i) interiors: late seat",
+  "states": [
+   "exterior-wall fill per storey and per gable segment",
+   "chimneys in the heavier material",
+   "thickness, openings and stairs never read material",
+   "an underground building's host styling from origin host"
+  ],
+  "references": [
+   "§2.6 BuildingMaterial"
+  ]
+ },
+ {
+  "unit": "V04",
+  "items": [
+   "116"
+  ],
+  "part": "116 (i) the underground: late seat",
+  "states": [
+   "§3.5.3 volume law over native-land stone by origin, structures and linings included, by part shares",
+   "a stoneless site lays no workings; the surface-quarry fallback",
+   "U-FORECAST's stone stock",
+   "Gallery.lining on dug passages",
+   "vault spans and archVault only under masonry raised ways",
+   "ancient ruins' ledger credits at generation and when robbed",
+   "§3.13 edge rows (a stoneless site; traded stone)"
+  ],
+  "references": [
+   "II.7.2 lining pick",
+   "II.7.6 quarries",
+   "§2.7 supply and ledger"
+  ]
+ },
+ {
+  "unit": "V05",
+  "items": [
+   "116"
+  ],
+  "part": "116 (i) islands",
+  "states": [
+   "landfall credit as family stone at the decoration's face centroid",
+   "island buildings on the settlement's supply",
+   "island rock, conjured water and magical structures neither source nor material",
+   "item 115's gate unchanged"
+  ],
+  "references": [
+   "§2.7 supply",
+   "§2.6 pick"
+  ]
+ },
+ {
+  "unit": "V06",
+  "items": [
+   "116"
+  ],
+  "part": "116 (j): engine parts only",
+  "states": [
+   "EVO_PRELUDE's supply step",
+   "§3.11.2 (4) ordinance with fire.ordinanceStretch (1.25) beside fire.rebuildShift (switch-off path)",
+   "hazard reads of MaterialDef.flammability and floodCollapse (buildings by part; decks, piers, supports by mass)",
+   "which structure events are repairs in kind and which re-pick",
+   "chronicle lines",
+   "fixtures H-TRADE, H-NATIVE, H-QUARRY, H-WOODS",
+   "T-V6-16 stratified by supply; T-V6-17 amended"
+  ],
+  "references": [
+   "§4.11 item 116 (j)",
+   "V11 cells"
+  ]
+ },
+ {
+  "unit": "V07",
+  "items": [
+   "116"
+  ],
+  "part": "116 (i) the village",
+  "states": [
+   "the village application through rungMeans",
+   "v. preference rows",
+   "the kind draw over admitted kinds and the REPLACEMENT retype",
+   "roof.palette and painterly's role values for every MaterialDef id (roofJitter kept)",
+   "both 'geology row' citations replaced by (b)'s tests",
+   "wall records' materials (J-V7.15, T-V7-32 amended)",
+   "the entry store as the arrival point; roads: isolated a road form only",
+   "a native-only village bar at V-M1"
+  ],
+  "references": [
+   "§2.6 pick",
+   "§2.7 supply",
+   "§4.8 enceinte construction"
+  ]
+ },
+ {
+  "unit": "V08",
+  "items": [
+   "116"
+  ],
+  "part": "116 (b) (2), (c): the dossier's partners and production records",
+  "states": [
+   "DR3's supplies fill from the four dossier sources; the port's fill of exports, resources, access and name",
+   "access-pair route rows",
+   "deposits row's supplies column (every key; glass_sand none; coal_deposits fuel only); precious_metals -> lead",
+   "production records' rows feeding DR41",
+   "materials row -> our id and family",
+   "note partner_no_supplies",
+   "the consequence statement",
+   "the adapter (J121)",
+   "§1b rows; a T-V8 bar that the fill reads only the named fields"
+  ],
+  "references": [
+   "§7.7 TradePartner, DR3, DR41",
+   "§14 digest fields"
+  ]
+ },
+ {
+  "unit": "V09",
+  "items": [
+   "116"
+  ],
+  "part": "116 (l), (p): the view, the panels, the Trade control",
+  "states": [
+   "Materials view in the Show menu, legend words and origin line",
+   "About tab's material, origin chip and 'Why this material?'",
+   "standalone Trade control (name, route, supplies; advanced panel)",
+   "site card's fissile and lead toggles",
+   "dossier map's read-only trade panel and the refusal's alternatives",
+   "paint's two targets",
+   "§4.3 binding rows",
+   "catalogue keys: every new report code, critique.K19, bend.material.*, legend words"
+  ],
+  "references": [
+   "§2 records",
+   "§11.2 why"
+  ]
+ },
+ {
+  "unit": "V10",
+  "items": [
+   "116"
+  ],
+  "part": "116 (p): the why and the critique",
+  "states": [
+   "the material why section",
+   "K19 in CritiqueFinding, T-V10-17 and CVR-V10-4",
+   "creation mode's partner proposal (adjust('circumstances.trade') with a declared partner standalone)",
+   "chronicle answers"
+  ],
+  "references": [
+   "§11.2 why",
+   "V06 chronicle"
+  ]
+ },
+ {
+  "unit": "V11",
+  "items": [
+   "116"
+  ],
+  "part": "116 (a), (b), (k): every row and cell",
+  "states": [
+   "row 49 materials: defs, preferences (structures; classes with prestige rows and fallbacks; v. and cluster classes; docks and shanty; the default row), mixes, parity (FTG rows, band and regional-shift rows removed, timber -> boards), settings cells",
+   "relief rows' P(slate), P(flag), P(lead)",
+   "ResourceRow.family (§2.5) and the goods column; goods slate, lead, straw; good words",
+   "§3.5.2 the refusal of the generic import for family goods and the family edge",
+   "requiresFamily rows",
+   "§3.18 salvage and dwell rows for every id; family credits",
+   "earthwork section rows at TOWN, CITY, METROPOLIS",
+   "§2.8c RetainingProfileRow.material and RaisedWayStructure.material retired into preference rows; pierSpacingM by mass",
+   "§3.20 words for the material naming feature",
+   "culture and region rows as MaterialDef.factors",
+   "T-V11-28 and the compile totality",
+   "§1b, §2.1, §3.1 rows with readers; register lines; C1"
+  ],
+  "references": [
+   "§2.6 formulas",
+   "§7.7 TradePartner",
+   "§4.11 Works"
+  ]
+ },
+ {
+  "unit": "V12",
+  "items": [
+   "116"
+  ],
+  "part": "116 (q): the bars",
+  "states": [
+   "§1 owner-rule entry '116 (n)'",
+   "bar-map rows for T116-3 - T116-7, T116-10, T116-16 - T116-22, T116-25 with owners",
+   "register lines for every new cell (panel, then corpus; the switch never calibrated)",
+   "item-110 material register lines re-pointed to preference rows",
+   "the switch's preset resolution",
+   "known-city fixtures' stated supply",
+   "MeasureInput gains building material records"
+  ],
+  "references": [
+   "§13.2 bars"
+  ]
+ }
+]
