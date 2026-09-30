@@ -1,0 +1,10 @@
+# Ids minted or renamed by the fix pass (fix-notes.md), counted in the design before filing (2026-09-30).
+# columns: new/ = docs/validation/coherence/new/, volumes/ = docs/volumes/, ARCH = docs/ARCHITECTURE.md, other = any other docs/ *.md outside the three work folders
+held_against_island_supply       new/: 0  volumes/: 0  ARCH: 0  other: 0
+held_against_material_supply     new/: 0  volumes/: 0  ARCH: 0  other: 0
+fate.held.islandSupply           new/: 0  volumes/: 0  ARCH: 0  other: 0
+fate.held.materialSupply         new/: 0  volumes/: 0  ARCH: 0  other: 0
+bend.material.supplyFollows      new/: 0  volumes/: 0  ARCH: 0  other: 0
+button.openTrade                 new/: 0  volumes/: 0  ARCH: 0  other: 0
+legend.wealth.richest            new/: 0  volumes/: 0  ARCH: 0  other: 0
+Level.trade                      new/: 0  volumes/: 0  ARCH: 0  other: 0

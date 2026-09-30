@@ -1,0 +1,834 @@
+116. **OWNER RULE — Building materials come from terrain, resources and trade, paired with prosperity; a material that is
+     not native exists only by trade with a named settlement that has it (owner, 2026-09-30 ~01:05; refined ~01:10; filed
+     under J122 and J128).** Owner: "oh and material for buildings is determined by terrain, resoucres, and trade. paired
+     with prosperity. Think about it. if you are in a river nearby a forrest for timber but no quarry, then most building
+     material is going to be wood based. That is not to say that they can't have stone buildings, that would come from trade
+     and be reserved for teh very rich as they are exotic and expensive to transport. Pairing all of this with neighborhood
+     prosperity, if a town has both a quarry and timber, the richer areas will have buidlings mostly made out of the more
+     expensive material stone, the middling areas will have buildings mixed btween wood and stone or individual buildings
+     that is a combination of the two. Expand this to all relevant pieces. What do you think?" / "also to say that material
+     not native requires trade which means isoalted settlements cant have non nattive materials or grow to have them until
+     and unless they trade specifcially with another settlement that has that material." / (~01:12) "bundle all this with
+     g114-115" / (~01:33, on which partners count, after the program's recommendation — every neighbour SettlementForge names
+     counts, supplying the materials its named exports, goods or resources show; a settlement with no named neighbour is
+     native-only whatever its access; one port-side partner record, because SettlementForge is reworking trade) "note that
+     we are reworking trade as we speak. but for now its your recomendation". The messages are filed in
+     docs/OWNER-INSTRUCTIONS-2026-09-25.md. **What exists (CONFIRMED by reading the coherence pass's base files and the
+     volumes):** a material is a rendering attribute only (§2.6; item 19; the owner, 2026-09-26: "different materials for
+     construction is only represented by a change in texture or color. It has nothing to do with the shape"); `MaterialRow`'s
+     default rows reproduce FTG's model — item 19's "DEFAULT: that FTG model" (J28's application of the owner's "emulation
+     first", item 23): one share mix per growth stage, overridden by district kind and by class (churches stone by row), with
+     wealth shown by the lifestyle pools and the roof-colour role by band, which §2.6 restates as "never by a material keyed to
+     the prosperity band", and an optional regional shift off by default; `Building.material` is one `{ walls; roof }` pair
+     and `RoofSpec.material` a field no rule writes; nothing reads terrain, resources or trade for a material; `TradePartner`
+     carries no goods, the dossier's trade links are read only as a count, and the supply web serves every material good by a
+     generic `import`; retaining walls, raised ways and bridges key their material by band or era; the salvage ledger is keyed
+     by a free string and is "never a hard constraint"; the quarry voids are sized by all the stone the town is built of; three
+     thresholds say "there is stone or clay here" (V04 0.5, V07 0.4, V11 none); V07 cites a "geology row" no table holds; the
+     material id `timber` names sawn boards beside a good and a resource of the same word. Program's interpretation
+     (vetoable; J122; the working notes are docs/validation/coherence/work/g116/):
+
+     **(a) THE WORDS, THE VOCABULARY AND THE RECORDS.** A settlement's **material supply** states, for each material
+     **family**, whether it is **native** — the owner's word: its source is the settlement's own, by **land** (a source in the
+     arena the settlement was created in, or a dossier fact that the settlement works it, (b)) or by **ruins** (the salvage
+     ledger's unspent stock near the building site, (b)) — **traded** (only through a named partner that supplies it, (c)) or
+     **unavailable**. The owner's "isolated settlement" is, in the design, a **native-only** settlement: one no partner
+     supplies. *Why a new word:* V07's road form `isolated` and SettlementForge's access key `isolated` both name a road or
+     access form, which says nothing about partners; they keep their meanings, and neither alone makes a settlement native-only
+     or not. A **family** (`MaterialFamily`) is what the land yields or a partner ships; a **material** is a built id with its
+     texture and colour roles (§8.2); SettlementForge's `materialFamily` names a material in its own words, which V08's
+     `materials` row maps to our material id and so to its family. A builder's **means** is the cost level it can pay ((f));
+     the **top means** (derived, never a cell) is the means at the top of item 114's highest allowed band; a **work's means**
+     is a public or lordly work's. A built material's **origin** records where it came from; a **mixed** building has two wall
+     materials ((h)). **The owner's wealth words** (vetoable; FTG's lifestyle tiers read on our six bands, item 27): "the very
+     rich" is the `rich` band, "the richer areas" are `prosperous` and `rich`, "the middling areas" `modest` and `comfortable`,
+     the poorer `squalid` and `poor`; the bars of (q) are written in these words. **The records** (§2.6 states the types; V11
+     the rows; every number below is a default V11 states and V12 calibrates):
+
+     ```ts
+     type MaterialFamily = 'stone'|'slate'|'fired_clay'|'timber'|'earth'|'thatch'|'lead';
+     type MaterialMass = 'masonry'|'timber'|'earth';
+     type MaterialSlot = 'walls'|'roof'|'enceinte'|'gate'|'bridge'|'harbour'|'raised'|'retaining'|'lining'|'paving'|'host';
+     interface MaterialDef { id: string; requires: MaterialFamily[] /* every one available */; nativeOnly: boolean /* never drawn from a partner */;
+       slots: MaterialSlot[]; covers?: { kinds: RoofSpec['kind'][]; minPitch?: number; maxPitch?: number } /* a covering: the roof forms that admit it */;
+       mass?: MaterialMass; baseCost: number /* cost units */;
+       factors: { climate?: Record<string, number>; culture?: Record<string, number>; era?: Record<string, number>; region?: Record<string, number> } /* the one home of every per-row cost factor; 0: not built there */;
+       flammability: number /* V06's fire scale */; floodCollapse: boolean /* V06's flood */ }
+     interface MaterialPreference { key: { structure?: string; cls?: string; districtKind?: string } /* no field: the default row */; slot: MaterialSlot;
+       admits: { id: string; weight: number /* shares a tie place */ }[]; fallback?: string[] /* join only when no admitted candidate is native or affordable */;
+       prestige?: number /* an institution's multiplier on its plot's means, (f) */ }
+     interface MaterialMixRow { lower: MaterialMass; upper: MaterialMass; parts: { upper?: number; gable?: number; outshots?: number } }
+     interface MaterialRow { key: { era: string; stage?: number; districtKind?: string; cls?: string }; walls: string; roof: string; weight: number }   // the parity rows only, (n): `band` and `extension` removed
+     ```
+
+     The materials (V11 writes the full rows; ids are texture and colour roles, §8.2; base cost in cost units):
+
+     | id | requires | slots | mass | base cost | beyond the base cost (defaults) |
+     |---|---|---|---|---|---|
+     | `ashlar` | stone | walls, enceinte, gate, bridge, harbour, raised, retaining, lining, paving (`paved`) | masonry | 5.0 | — |
+     | `rubble` | stone | walls, enceinte, gate, bridge, harbour, raised, retaining, lining, paving (`cobble`) | masonry | 3.0 | — |
+     | `dry_stone` (dry-laid or clay-bonded fieldstone) | stone, native only | walls, retaining, enceinte (village) | masonry | 1.3 | no carriage; × `groundFactor` off stony ground ((e)) |
+     | `brick` | fired clay | walls, enceinte, gate, bridge, harbour, raised, retaining, lining, paving (`brick`) | masonry | 3.5 | era c12 × 1.4, c13 × 1.2, c15 × 0.9; × `kilnFuelFactor` where kiln fuel is not native |
+     | `timber_frame` | timber | walls | timber | 2.0 | — |
+     | `log` | timber, native only | walls | timber | 1.8 | climate cold × 0.9, temperate-coniferous × 1.0, mixed × 1.3, else 0 |
+     | `boards` (sawn boards; the id `timber` renamed) | timber | walls (shacks, sheds, deck buildings), gate (village), bridge, harbour (piers), raised (never an aqueduct), lining (shoring), paving (`planks`), an enceinte's crest | timber | 1.5 | — |
+     | `timber_crib` | timber, native only | retaining (steps ≤ 150 cm), harbour | timber | 1.5 | — |
+     | `wattle_daub` | timber and earth, native only | walls | timber | 1.2 | — |
+     | `cob` | earth, native only | walls | earth | 1.0 | arid 0; the earth-wall admission ((g)) |
+     | `adobe` (new; sun-dried earth brick) | earth, native only | walls | earth | 1.0 | arid only; the earth-wall admission |
+     | `earth_bank` | earth, native only | retaining (steps ≤ 150 cm), enceinte (a rampart), harbour (sheltered water, (i)), host (unlined) | earth | 0.8 | — |
+     | `turf` | earth, native only | roof: pitched, pitch 0.3–0.8 | — | 0.8 | arid 0 |
+     | `mud` (new; the flat earthen roof) | earth, native only | roof: flat | — | 0.8 | arid only |
+     | `thatch` (reed or straw) | thatch | roof: pitched, pitch ≥ 0.8 | — | 1.0 | × `walledThatch` inside an enceinte at CITY and METROPOLIS from `c13` |
+     | `shingle` | timber | roof: pitched ≥ 0.5 | — | 2.0 | — |
+     | `clay_tile` | fired clay | roof: pitched ≥ 0.3, dome | — | 3.0 | era and kiln fuel as `brick` |
+     | `stone_slate` (new; fissile flags) | stone, native only, where `Terrain.fissile` is `flag` | roof: pitched ≥ 0.5, flat | — | 3.5 | — |
+     | `slate` | slate | roof: pitched ≥ 0.4 | — | 4.0 | — |
+     | `lead` | lead | roof: every kind but `tent` | — | 8.0 | — |
+     | `canvas` | nothing (carried) | a `tent`'s walls and roof, no pick | — | 0.5 | — |
+     | `rock` (new) | nothing | host (rock-cut) | masonry | — | never picked |
+
+     "Pitched" is `gable`, `hip`, `shed`, `pyramid` and `cone`; `skeleton` and `plain` read as the kind they downgrade from;
+     `none` takes no covering. A material marked native only is never drawn from a partner — fieldstone, logs, wattle rods,
+     cribs and earth were not worth carrying — so it is a candidate only where its families are native (fieldstone by land or
+     by ruins). Flammability (V06's scale): thatch 1.0; shingle, boards, timber frame, wattle and daub, log, canvas 0.9; clay
+     tile 0.45; turf 0.3; cob, adobe, mud 0.2; every other masonry, slate, stone slate and lead 0.15; flood collapse on
+     timber and earth masses. **The cells** (V11 row 49's `settings`, `own`, calibratable; paths pinned):
+     `materials.supply.enabled`; `materials.pick.{blend 0.2, mix 0.5, tieBand 0.05}`; `materials.means.{bands, rungMeans,
+     works}`; `materials.cost.{importPremium 1.5, routeRate {sea 0.15, river 0.45, road 1.5}, refLegM 30 000, distClamp
+     [0.5, 3], riverJoinM 500, salvageFactor 0.8, groundFactor 1.5, stonyReachM 2 000, kilnFuelFactor 2.0, timberScarcityMax 3,
+     walledThatch {CITY 1.5, METROPOLIS 2.0, from c13}}`; `materials.native.{stone {threshold 0.5}, timber {threshold 0.4,
+     areaHa 20}, clay {threshold 0.4}, straw {threshold 0.4, areaHa 10}, pebbleReachM 3 000}`; `materials.ruinsReachM`
+     1 500. **The tables:** V11 row 49 `materials` (`materials.json`) holds `defs` (`MaterialDef`), `preferences`
+     (`MaterialPreference`), `mixes` (`MaterialMixRow`), `parity` (`MaterialRow`) and its named row `settings`; its readers are
+     S1, S2, S3, S4, S5a, S5b, S7, S7b, S10, S10a, S11, S12a, `EVO_PRELUDE`, `EVO_SITING`, `EVO_GROWTH`, `EVO_WORKS`,
+     `EVO_HAZARD`, U-NET, U-SYS, U-FORECAST and VS1–VS6. The climate, culture and era tables hold no material cell.
+
+     **(b) NATIVE — THE LAND, THE DOSSIER, THE RUINS.** (1) *By land — one test per family, over the creation arena.* A family
+     is native by land when its source lies anywhere in the arena the settlement was created in — the frame and its margin at
+     creation (§3.2 (9)), the scope S1's mining test already reads — or when a dossier fact makes it so ((2)). *Why the arena,
+     not a radius:* the supply must be known before S2 and S3 site anything, and a radius about the frame's origin misses the
+     town where the centre lies off it (up to 2.9 km at a METROPOLIS); the arena is the land the settlement's rasters
+     describe, and what lies farther within it shows in the price ((e)). Frame growth at an epoch never adds a native family.
+     The tests (thresholds are V11's cells, read by every reader — V04's quarry cells, V07's village gates and V11's
+     `requires` rows included):
+
+     | family | native by land when | the dossier deposits (V08's `supplies` column) | the standalone toggle that clamps it |
+     |---|---|---|---|
+     | stone | a cell with `SiteResources.stone` ≥ 0.5 | `stone_quarry` | `quarries` |
+     | timber | cells with `timber` ≥ 0.4 over ≥ 20 ha of ground no epoch has built on or converted, plus the standing `coppice`, `wildwood` and `lumber` land uses and `wood` and `coppice` greenery (at generation, the raster alone — so nothing flips at the first epoch) | `managed_forest`, `mountain_timber`, `shipbuilding_timber` (`ancient_grove` is a reserve, never felled) | `logging`; the `forests` feature |
+     | fired clay | a cell with `clay` ≥ 0.4, and kiln fuel native: timber native, a `marsh` in the arena (peat) or a listed `coal_deposits`; clay with no native fuel is native at `kilnFuelFactor` on `brick` and `clay_tile` ((e); baked brick was dear in fuel-poor clay country) | `river_clay` (`glass_sand` supplies none) | — |
+     | thatch | reed: a `marsh` land use or bank kind in the arena; straw: `fertile` ≥ 0.4 over ≥ 10 ha of unbuilt ground | `marshlands` | `fertileLand` (straw only) |
+     | slate | `Terrain.fissile` is `slate` | none (the relief draw decides on a dossier map too) | the site request's `fissile` |
+     | lead | `Terrain.lead` | `precious_metals` | the site request's `lead` |
+     | earth | always — every settlement can dig its own ground (the floor) | — | — |
+
+     (2) *The dossier's facts win over the raster;* S1 raises the raster's floor for a family they make native, as a landscape
+     toggle does, so a source cell exists. **Deposits:** a listed deposit `available`, or `discovered` from the next epoch,
+     makes its family native. A `depleted` deposit: at generation — which stands for the settlement's past, as V04 §3.5.3 and
+     item 113 read it — its family is native for every build generation makes (V04 lays its workings worked out; DR32's
+     quarry ossuary has its quarry); from the first live epoch a point family (stone, fired clay, lead) whose listed deposits
+     are all `depleted` or `removed` is not native by land whatever the raster, while an area family's depleted deposit (a
+     timber key, `marshlands`) works out only its own land use and the family reads its standing test. A `removed` deposit is
+     no evidence of past working (V08 reads a remove): it grants nothing at any time and, for a point family, denies the land
+     basis as a depleted one does. A family the dossier lists no deposit for reads the raster, as standalone — also the rule
+     for a dossier that names no resources. **Production records** (item 20 (b), (h): what the dossier says the settlement
+     works exists, and the map derives its source): a family is native by land where the dossier shows the settlement itself
+     producing it — a dossier-backed institution bound to an extraction or first-working class (`quarry` → stone;
+     `lumber_camp`, `sawmill` → timber; `claypit`, `brickworks` → fired clay, its fuel included; `thatcher` → thatch;
+     `peat_works` → kiln fuel); an income row `Stone Quarrying` → stone or `Timber Trade` → timber, unless the settlement is an
+     `entrepot`; an active chain of its own whose resource key maps to a family; or its own `economy.exports` resolving
+     through V11's `goodWords` to a good of a family, unless `entrepot`. *Why these:* those crafts stood at their source — the
+     kiln at the clay pit, the saw pit by the woods, the thatcher by the reed bed — while a mason's or a timber yard works what
+     arrives; a current production fact outranks a depleted deposit of its family. **Slate and lead:** S0's site request gains
+     `fissile` (`'auto'|'none'|'slate'|'flag'`) and `lead` (`'auto'|'on'|'off'`), default `auto`, resolved by S1 (10) beside
+     the geology flag on two uniforms appended to `blueprint.features` after the sewer draw (fissile, then lead), each drawn
+     whether or not its toggle is set and recorded in `autoResolved`: by relief plain · rolling · hilly · mountainous,
+     P(slate) 0 · 0.05 · 0.25 · 0.4 and P(flag) 0.05 · 0.2 · 0.25 · 0.15 (`slate` below P(slate), `flag` at or above
+     1 − P(flag), else `none`); P(lead) 0.3 where `Terrain.mining` holds, else 0; stored as `Terrain.fissile` and
+     `Terrain.lead` beside `Terrain.mining` (§2.3 declares all three), editable on the terrain row as `geology` is; a listed
+     `precious_metals` sets lead `on` while available; a sky island's terrain takes `none` and false. *Why:* slates and stone
+     flags come from particular beds, not from relief alone; the geology flag is the precedent (an appended draw moves no other
+     draw). (3) *By ruins — native at a site.* A family is native by ruins at a building site while the ledger's unspent credit
+     of that family from sources within `materials.ruinsReachM` (1 500 m) of the site covers the pick's debit (the class row's
+     `salvageM3` for that material). *Why:* the owner's "what used to be old houses has been repurposed for building material"
+     (item 8) and item 113 (b)'s refounding that "quarries the ruins for stone": robbed stone lies on the settlement's own
+     ground and needs no partner; it is finite and local, and it was carted a few kilometres, so the licence reads its own
+     reach while the base's haul radius keeps its clearance-weighting role (§4.11). The ledger is keyed by family and each
+     credit carries its position, `at` (the robbed entity's centroid; a landfall's, its `fallen_island` decoration's face
+     centroid). **At generation** each surface ruin in the arena — V04's ancient ruin, a hinterland `ruin` decoration —
+     credits the ledger once, `from` the ruin at epoch 0, with its robbable masonry: its footprint × V11 §3.18's yield × the
+     share its survival rule has already lost (the spolia case: a stoneless town beside an older people's ruin builds of it
+     near the ruin while its stock lasts). (4) *What never licenses:* no rung, population, prosperity, era, epoch count,
+     growth, frame growth or access key makes a family native or traded — only the land, a dossier fact, the ruins or a
+     partner.
+
+     **(c) TRADED — ONLY BY A NAMED PARTNER THAT HAS IT.** One record carries trade into the rule, the one the port and the
+     blueprint already fill (§7.7 layer 2):
+
+     ```ts
+     interface TradePartner { key: string; name?: string /* item 116: the display name — DR3 from economy.partners[].name; the Trade control standalone */;
+       mode: 'road'|'river'|'sea' /* the route, (e) prices it */; weight: number /* Σ = 1 over the partners TradeFlow reads; 0 hostile; 0 for a declared partner */;
+       bearingCdeg: Cdeg; relationship?: string; source: 'dossier'|'derived'|'realm'|'declared' /* item 116: a standalone partner the author declared (V09) */;
+       supplies: { family: MaterialFamily; from: 'exports'|'resources'|'link'|'declared' }[] /* item 116: the families it has; [] for every derived partner */;
+       distanceM?: number /* the realm block's distance, when the host sends one */ }
+     ```
+
+     **The licence:** a family is traded when a partner lists it in `supplies` and is either `declared` or of weight above 0;
+     a hostile partner, or one under a suppressed economy, licenses nothing (vetoable; SettlementForge itself makes no trade
+     link with a hostile or suppressed neighbour, J121). **From a dossier** (DR3 amended; V08 writes its rows) every neighbour
+     SettlementForge names counts: the generation neighbour (`neighborRelationship`), whose `primaryExports` resolve through
+     V11's `goodWords` to goods whose `family` names a family (`from: 'exports'`) and whose `activeChains[].resourceKey`
+     resolve through V08's `deposits` row's `supplies` column (`from: 'resources'`); the partner an `import` trade link names,
+     its `good` label through `goodWords` (`from: 'link'`; the link's `goodId` stays unread, no goods-id row existing; an
+     export link licenses nothing); a `neighbourNetwork` link's partner, which supplies what that partner's other records
+     show, else nothing (V08's note `partner_no_supplies`). `DossierDigest.economy.partners[]` gains `exports?: string[]` (our
+     good ids), `resources?: string[]` (deposit keys) and `access?: AccessKey` (the neighbour's access key, V08's union; an
+     unknown word reads `road`, noted `unmapped_word`); the closed-digest rule admits exactly these three through V08 §2.4's
+     field-table rows (`neighborRelationship.primaryExports`, `.activeChains[].resourceKey`, `.tradeRoute`), and item 86's
+     never-read list is unchanged. **Standalone** (vetoable): the recipe's partners are the blueprint's per-bearing partners
+     (`source: 'derived'`, supplying nothing), then the partners the author declares in V09's Trade control (`source:
+     'declared'`: a name, a route and the families it supplies). A declared partner is a **material licence only**:
+     `TradeFlow`, S3 (4)'s requested bearings and the Σ = 1 normalisation read every partner but the declared ones (weight 0),
+     so a declaration moves no gate, road or field; its bearing is a draw on `gate.pick` keyed by its key, read by the endpoint
+     store that faces it ((k)). *Why:* the owner's rule is about materials, and a declaration should re-derive only what the
+     material rule reads ((l)). **Never:** a `derived` partner, an undeclared partner of weight 0, the label lists
+     (`primaryImports`, `necessityImports`, `transit`), `tradeDependencies`, a magical transit path, a `realm` partner beyond
+     the dossier partner of its key (the realm block adds a bearing and `distanceM`, never supplies), and the supply web's
+     generic `import` ((k)). **The route:** DR3's `mode` fill gains a first step — a partner whose access key the dossier
+     gives takes the mode of the pair (this site's harbour and the neighbour's `port` → `sea`; this site's harbour or navigable
+     river and the neighbour's `river` or `port` → `river`; else `road`); the rest keep DR3's water-fraction fill. **The
+     adapter** (the owner: SettlementForge is "reworking trade as we speak"): DR3's supplies fill is the one reader of
+     SettlementForge's trade fields and the material rule reads only `TradePartner`; each SettlementForge line's adapter fills
+     `TradePartner.supplies`, and the port's migration and change envelope carry existing maps (J121). **The consequence,
+     stated plainly:** SettlementForge names a neighbour with goods rarely (4 trade links in 1 of 155 births), so most dossier
+     maps are native-only at creation and gain a traded family only when a partner arrives (receipt F14, at the next epoch); a
+     port, river, crossroads or road town with no named partner imports no material. A standalone map — the one-click town and
+     every Surprise me map — is native-only until its author declares a partner, so the owner's first example (stone brought
+     to a timber town) needs one declared partner; Surprise me declares none, since partners are circumstances and §7.7 layer
+     1 draws intent only (vetoable: Surprise me could declare one named partner).
+
+     **(d) THE SUPPLY — ONE RECORD, DERIVED.**
+
+     ```ts
+     type NativeReason = 'raster'|'deposit'|'producer'|'income'|'chain'|'export'|'toggle'|'terrain_flag'|'standing'|'floor';   // §2.7 beside MaterialSupply; never a §5.4 code
+     interface MaterialSupply {   // §2.7; Document.derived.materialSupply: derived, never canonical, outside every digest
+       epoch: number;
+       families: Record<MaterialFamily, {
+         status: 'native'|'traded'|'unavailable' /* town-wide: native by land, else traded, else unavailable; the ruins basis is per site, (b) (3) */;
+         land?: { reasons: NativeReason[]; carriage?: number /* (e)'s land carriage, written at S3's commit */; kilnFuel?: boolean /* fired clay */; scarcity?: number /* timber */ };
+         partners: { key: string; route: 'road'|'river'|'sea'; carriage: number }[] /* every licensing partner, cheapest first */;
+         ruinsM3: number /* the ledger's unspent stock of the family, town-wide */ }> }
+     ```
+
+     **Producer:** a new step **S1 (11)** — after the resources and the terrain flags, before S2 — writes each family's status,
+     reasons and partners; S3's commit writes the land carriage (S2 reads only `status`, and every cost reader runs after
+     S3); §4.11's epoch prelude (V06 §3.2 row 1) re-derives it after the epoch's slice, deposit states and `TradeFlow` apply
+     and after item 114 (e)'s prosperity ceiling position, before S2's delta demand and any build (§4.11's one prelude
+     order, item 114 (e)); load recomputes it, as it does `TradeFlow`. **Consumers:** S2 (producer demand, the web's material
+     goods, (k)); S3 and S5a (an enceinte's pick where its trace is fixed); S4's and S5b's router (bridge feasibility); S7
+     (towers, gates, the castle curtain, bridges, harbour works); S10's levelling (retaining walls); S10a (way surfaces); S11
+     (buildings); §4.9 (land uses on native sources, the timber shortfall); §4.11 (builds, rebuilds, refurbishments, fire
+     rebuilds, the ruins stock); II.7.2 (linings); II.7.6 and U-FORECAST (quarry voids and their forecast); the raised-way
+     support step; V05, V07, V09's view and panels, V10's why, V12's measures and §11.1's exports; the stage registrations
+     (§4.1, §4.12) declare `materialSupply` as S1's output and these stages' input. **Slices:** each family entry is a
+     derivation slice — `SliceRef.kind: 'supply'`, `table: 'derived.materialSupply'`, key the family, the hash over its entry
+     (§2.8) — so an `Adjust` of the creation slice's trade, of the switch ((n)), or of the terrain's resources, flags or
+     deposits at creation re-derives exactly the entities whose picks cited a changed family (§7.6's slice rule, §7.3's
+     locality). An epoch never invalidates by a supply slice: standing fabric keeps its material ((j) (1)).
+
+     **(e) COST — THE MATERIAL, THEN ITS CARRIAGE, PAID PER LOAD.** A candidate material m's cost for a pick at a site:
+     native by land, `c(m) = baseCost(m) × F(m) + Σ_{f ∈ requires(m), f ≠ earth} carriage(f)` with
+     `carriage(f) = refCost(f) × routeRate[r] × bulk(f) × d ÷ refLegM`, d the principal centre's distance to the nearest
+     source cell of f and r `river` where that cell and the centre lie within `riverJoinM` of one navigable river, else `road`;
+     native by ruins, `c(m) = baseCost(m) × F(m) × salvageFactor` (0.8: reused stone is cheaper than quarried); traded,
+     `c(m) = importPremium × (baseCost(m) × F(m) + Σ_f refCost(f) × routeRate[route] × bulk(f) × dist)` with
+     `dist = clamp(distanceM ÷ refLegM, 0.5, 3)`, 1 when the distance is unknown; the cheapest basis available at the site
+     wins. `refCost(f)` is the family's reference material's base cost (stone `rubble`, fired clay `brick`, timber
+     `timber_frame`, slate `slate`, thatch `thatch`, lead `lead`); `bulk(f)` its good's `ResourceRow.bulk` (stone, fired clay,
+     timber, slate 3; thatch, lead 2); earth pays no carriage and is never traded. `F(m)` is the product of
+     `MaterialDef.factors` (climate, culture, era and region rows; the culture row keyed by `site.culture`, our own rows,
+     clean-room) and the site factors: `dry_stone` pays no carriage (fieldstone lies at hand) and takes `groundFactor` (1.5)
+     off **stony ground** — ground where no cell within `stonyReachM` of the principal centre has clay ≥ 0.2 or fertile ≥ 0.4;
+     `brick` and `clay_tile` take `kilnFuelFactor` (2.0) where kiln fuel is not native; every timber material takes the
+     **scarcity** `clamp(managedWoodHa ÷ the wood the arena lays, 1, timberScarcityMax)` (§4.9's demand; at generation the wood
+     S12a lays from the propensity, at an epoch the standing wood); `thatch` takes `walledThatch` on a plot inside an enceinte
+     at CITY (1.5) and METROPOLIS (2.0) from `c13` (the urban thatch bans). *Why carriage per load:* a load of ashlar costs no
+     more to move than a load of rubble, so freestone was the stone worth shipping; sea carriage at a tenth of road's keeps a
+     90 km sea leg cheaper than a 15 km cart haul — the owner's "expensive to transport" and item 103 (a)'s water legs cheaper
+     than carts; the premium stands for margins, tolls and risk. **Worked** (TOWN, temperate, sources 1 km out by road, woods
+     ample; receipt `work/g116/tmp/pick-worked.txt`): wattle and daub 1.5, fieldstone 1.95 (1.3 on stony ground), timber frame
+     2.3, rubble 3.45, brick 4.03, ashlar 5.45; rubble brought by sea 6.53, by river 10.58, by road 24.75; ashlar by sea 9.53,
+     by river 13.58; timber frame brought by sea 4.35.
+
+     **(f) MEANS — PAIRED WITH NEIGHBOURHOOD PROSPERITY.** *A plot's means* is read from the value its new fabric is built for —
+     `Plot.builtProsperity` as the build writes it ((j) (2)); at generation the field value — first clamped into its
+     district's band range (item 72 (d‴), owner: "this neighborhood prosperities defines the bounds (floor, and ceiling) of
+     what any building inside of it can be"; the range as item 114 (c) (5) lowers it), then read on its band's means row
+     `[lo, hi]`, interpolated linearly along the value between the band's cuts, × `rungMeans[rung]` — an interval rule of §2.6's
+     own, not §4.5's point-row rule:
+
+     | band | squalid | poor | modest | comfortable | prosperous | rich |
+     |---|---|---|---|---|---|---|
+     | means `[lo, hi]` | 0.6–0.9 | 0.9–1.3 | 1.3–2.3 | 2.3–3.2 | 3.2–4.5 | 4.5–10 |
+
+     `rungMeans` THORP 0.5 · HAMLET 0.6 · VILLAGE 0.75 · TOWN 1.0 · CITY 1.15 · METROPOLIS 1.3. *Why:* bands are per-town
+     quantiles, so "rich" is relative and the rich band's wide top is "the very rich"; a metropolis's rich outspend a
+     thorp's, so a thorp with a stone partner does not import stone like a city. **With item 114 (its one statement for this read):** in the
+     highest allowed band c (its share f, item 114 (b)) the band's upper cut reads 1 and its row is `[lo_c, lo_c + f × (hi_c −
+     lo_c)]` — item 114 (c) (4)'s continuous read for an interval row: its upper end is `R*_c`'s, `lerp(hi_{c−1}, hi_c, f)`,
+     since each band's `lo` is the band below's `hi` (V11's compile checks the rows contiguous), and its lower end stays the
+     band's own, so the row is continuous in the economy at every knot; a band an author holds above c (item 114 (c) (7))
+     reads its own row. The **top means** is that row's upper end, from the prosperity ceiling's position — `ceilingAt` for
+     the picks that run before S6 writes the record (S3, S4, S5a, S5b; item 114 (b) (2)), `FieldBands.ceiling` after it, the
+     prelude's position at an epoch (10, the `rich` row's, with no prosperity ceiling). The rows are keyed by the band set's
+     ids; a band a pack's set adds without a row takes the interval interpolated between its neighbours' rows at its rank,
+     named by V11's compile. So the town's wealth reaches the means only through the bands the field and the prosperity
+     ceiling leave — one mechanism, item 114's; this item adds no wealth term. **The very rich are the rich band:** a town
+     capped below `rich` — economy below 50 on item 114's default table, with no rich band at all at 33⅓ and below — has
+     lost the purse that pays for a traded material, so its houses and institutions take traded stone only where the capped
+     top means pays its landed price within the blend: at the defaults a town capped at `prosperous` or lower builds no house
+     or institution of river- or road-borne stone at any rung, and of sea-borne stone only from a partner within about 17 km
+     at TOWN, 29 km at CITY and 42 km at METROPOLIS, and at TOWN river-borne stone from a partner at the 30 km reference leg
+     reaches the very rich from economy 45 (receipt `work/g114-116/tmp/cap-stone.txt`); its works keep their factors on the lowered top means. **Which prosperity reads which:** the built value places the plot in the cost order; its
+     district's band range bounds it (a squalid street holds no ashlar house by derivation); the field band — its occupants —
+     never moves a standing material (a decline leaves the stone house standing, its condition falling). **Institutions**
+     (item 72 (d‴), owner: "any amplifier specific to the institution regarding its prosperity let's stay with the
+     neighborhood bounds until the neighborhood itself upgrades"): a class whose preference row gives a `prestige` reads
+     `M = min(M_plot × prestige × patronage, M_ceil)` — `M_plot` its plot's means, `patronage` §4.5's [1, 2], `M_ceil` the `hi`
+     of its district's ceiling band (in the highest allowed band, that row's upper end) × `rungMeans` — so an institution
+     builds at the top of its neighbourhood's bounds, never above them, and the neighbourhood's upgrade widens what it is
+     rebuilt in (chapel and watchtower 1.5; tower house 1.8; church, monastery, town hall, guildhall 2.0; mage tower 2.4;
+     cathedral, keep, castle and palace buildings 3.0). The clamp adds nothing to `District.pressure`: item 72's pressure
+     measures value, and the institution's significance and dial term already carry it (§4.5 (1), (6), (8)), so a material
+     term would count it twice. **Works** — a public or lordly work is no building inside a neighbourhood: its means is
+     `W = top means × rungMeans × works[kind]` — enceinte 0.8, castle curtain 1.5, gate 1.2, bridge 0.8, harbour 0.8, raised
+     way 1.0, a retaining wall on a civic face 0.8, lining 0.5, paving 0.6 (vetoable: the town's top purse scaled per work;
+     with these defaults a TOWN walls itself in stone brought by sea but never by river or road, a CITY in river-borne stone on
+     about a third of seeds, a METROPOLIS on most; gates and castles reach further). **Item 115:** its gate adds nothing to the
+     means; an island's plots read their own bands through this rule and its fabric draws on the settlement's material
+     supply ((i)) — never II.6's island supply law, which sizes the islands.
+
+     **(g) THE PICK — ONE FUNCTION FOR EVERY CONSUMER.** `pickMaterial(consumer, slot, M)`: (1) **The row** — the most specific
+     preference row that exists: a structure key (`retaining`, `raised:<kind>`, `pier`, `quay`, `mole`, `deck`, `enceinte`,
+     `gate`, `bridge`, `lining`, `paving`), then the class (`v.` classes and cluster classes included), then the district kind
+     (a district-kind row applies to every class without its own row in that district: `docks` admits masonry and timber
+     frame, tile and slate, no thatch or shingle; `shanty` boards, wattle, cob and adobe, thatch, turf, mud and canvas), then
+     the default row; F-MATERIAL steps down the same order. **Candidates** — the materials the row admits for the slot, that
+     the roof form admits (a covering), that no factor zeroes, and whose every required family is native (by land, or by
+     ruins at this site) or traded (a native-only material: native). An earth wall (`cob`, `adobe`) is a candidate only where
+     timber is not native by land and fieldstone does not lie at hand (stone native by land on stony ground) — *why:* where
+     wood lies at hand the poor build of it (wattle and daub, log), where fieldstone lies at hand of that, and cob and adobe are
+     the walls of wood-poor, stone-poor ground (the owner: "a forrest for timber … most building material is going to be wood
+     based"). The row's `fallback` materials join only when no admitted candidate is native or affordable, and a tie place
+     never merges an admitted material with a fallback one. (2) **Places** — the candidates sorted by cost; a place begins at
+     its cheapest member and holds every candidate within `tieBand` of it (≤ 1.05 × its cost); its members share it by the
+     row's weights. (3) **Affordable** — the dearest place with cost ≤ M, else the cheapest; **next** — the next dearer place,
+     with `t = clamp((M − c_next × (1 − blend)) ÷ (c_next × blend), 0, 1)`. (4) **Draws** on concern `material`, keyed by the
+     consumer's lineage and the slot with no epoch component (a fixed-key draw, E-03), always drawn in full — four for a
+     building's walls, two for its roof, two for a structure: `u₀ < t` takes next, else affordable; `u₁` chooses within the
+     place by the weights; for a building's walls `u₂ < mix × 4t(1 − t)` makes it mixed ((h)) and `u₃` chooses the part. So
+     the poor take the cheapest, the rich the dearest they can pay, the middling mix exactly where two materials meet, and
+     nothing is taken above one's means but a partial take within 20 % below the next price; with the draws fixed the pick is
+     monotone in M, so a richer rebuild never picks a cheaper place. **The owner's examples at TOWN** (≈ % of each band's
+     buildings, "mixed" the share within the band that a mix draw would make where the building is eligible; the defaults'
+     outcome under a uniform value within each band, receipt `tmp/pick-worked.txt`; V12 calibrates, the bars of (q) bound):
+
+     | case | squalid | poor | modest | comfortable | prosperous | rich |
+     |---|---|---|---|---|---|---|
+     | quarry and woods native — "the richer areas … mostly … stone, the middling areas … mixed" | wattle | wattle | wattle 46 · fieldstone 33 · timber frame 22 (mixed 26) | timber frame 84 · rubble 16 (mixed 18) | rubble 96 · timber frame 3 | ashlar 92 · rubble 8 |
+     | woods native, no quarry, a river partner with stone — "wood based", stone "for teh very rich" | wattle | wattle | wattle 77 · timber frame 23 | timber frame | timber frame | timber frame 90 · rubble 10 (mixed 10: a stone ground storey) |
+     | the same, the partner by sea | wattle | wattle | wattle 77 · timber frame 23 | timber frame | timber frame | rubble 49 · ashlar 26 · timber frame 25 |
+     | the same, no partner | wattle | wattle | wattle 77 · timber frame 23 | timber frame | timber frame | timber frame |
+     | stone native on good ground, timber by sea | cob | cob | fieldstone 54 · cob 46 | fieldstone 84 · rubble 16 | rubble 52 · timber frame 44 (by sea) | ashlar 92 · timber frame 8 |
+     | stone native on stony ground, no timber (an upland) | fieldstone | fieldstone | fieldstone | fieldstone 84 · rubble 16 | rubble 96 | ashlar 92 · rubble 8 |
+     | clay, fuel and woods native, no quarry, a river partner with stone | wattle | wattle | wattle 77 · timber frame 23 | timber frame | brick 67 · timber frame 33 | brick 90 · rubble 10 |
+
+     In the owner's first example the TOWN's circuit is an earth rampart with a timber palisade (river-borne rubble costs
+     10.58 and the enceinte's means is 8.0), its gates are river-borne stone (12.0), its bridges timber, a castle's curtain
+     stone (15.0). *Reading:* a traded material reaches only the builders whose means pay its landed price — in the owner's
+     example the rich band's upper span; a cheap sea-borne family reaches further down (timber by sea to stone country: the
+     prosperous and the rich, as Baltic timber reached the middling of the North Sea towns; vetoable: a hard gate at the rich
+     band instead).
+
+     **(h) MIXED CONSTRUCTION — "INDIVIDUAL BUILDINGS THAT IS A COMBINATION OF THE TWO".** `Building.material` becomes:
+
+     ```ts
+     interface BuildingMaterial {   // §2.6; a rendering attribute only: texture and colour, never shape
+       walls: string /* the wall material of every part `mix` does not name */; roof: string /* the building's covering */;
+       mix?: { part: 'upper'|'gable'|'outshots'; walls: string /* the named part's wall material; at most two per building */ };
+       origin: { walls: MaterialOrigin; roof: MaterialOrigin; mix?: MaterialOrigin } }
+     type MaterialOrigin =   // where a built material came from, recorded when it was built or set, with §4.11's epoch (0 at generation)
+       | { kind: 'native'; basis: 'land'|'ruins'; epoch: number }
+       | { kind: 'traded'; partner: string /* TradePartner.key */; route: 'road'|'river'|'sea'; epoch: number }
+       | { kind: 'dossier'|'edit'|'rows' /* rows: the parity MaterialRow, (n) */; epoch: number }
+       | { kind: 'host'; host: Id /* an underground building's tunnel, chamber or ruin, (i) */; epoch: number };
+     ```
+
+     WHETHER a building is mixed is decided by cost (the blend zone of (g), peaking where two materials meet — the middling
+     streets); WHERE each material goes is decided by mass for `upper` and `gable` (the heavier below and at the gable:
+     masonry over earth over timber) and by cost for `outshots`. *Why:* a timber storey under a stone one is structurally
+     absurd, and where timber is the traded family the dearer material is the timber; whether by cost and where by physics
+     keeps both the owner's pairing and realism. `upper` — the ground storey takes the heavier, every storey above the lighter
+     (a stone or brick ground storey under timber-framed storeys; a stone plinth storey under adobe); `gable` — the main
+     wing's gable-end facets and every chimney take the heavier, the other walls the lighter (a stone chimney gable on a
+     timber house); `outshots` — the main range takes the dearer, the wings of role `back` or `service` the cheaper.
+     Eligibility is read from facts S11 holds: `upper` needs at least two floors, `gable` a gabled main wing, `outshots` a base
+     wing of role `back` or `service`; the part is drawn by the pair's `MaterialMixRow` (V11: masonry over timber and masonry
+     over earth — upper 0.6, gable 0.3, outshots 0.1; earth over timber — upper 0.5, outshots 0.5; a pair of one mass —
+     outshots only), renormalised over the eligible parts; none eligible leaves the building single. **A part's share** — one
+     geometry, read alike by V04's quarry law, V11 §3.18's salvage and the ledger's credits, and V12: `upper` the share of the
+     building's wall area (perimeter × storey height) above the ground storey, `gable` the gable-end facets' share, `outshots`
+     the `back` and `service` wings' share of perimeter × height, computed at S11. Every chimney draws in the building's
+     heaviest masonry or earth wall material, else in the roof tone as today. **The covering** is one per building, chosen
+     over the main wing's form; a wing whose form rejects it takes `RoofSpec.material` — the cheapest candidate its own form
+     admits, written by S11 with `RoofSpec.materialOrigin` (the field keeps its home and gains its writer). A mixed building's
+     massing, composition, plan, heights and datum are byte-identical to the same building unmixed (item 19). A `tent` takes
+     `canvas` for walls and roof, with no pick.
+
+     **(i) EVERY PIECE.** Each piece calls the pick with its slot and its means; a structure's material within its kind is
+     texture and colour only, and its kind follows the supply as (m) rules.
+     * **Roofs** — thatch where reed or straw is available, slate where slate, clay tile where fired clay, shingle where
+       timber, stone slates where stone and fissile flags are native, lead for the rich and at prestige, turf and mud as the
+       floor; every covering admitted by its roof's form — shape decides the covering, never the reverse.
+     * **Town walls, towers, gates and the castle** (S3, S5a, S7; §4.8). `Enceinte.kind` keeps its ring role; its
+       construction is its material's mass. The material is picked where the kind and trace are fixed — S3 for the first
+       enceinte, S5a for each later one, since S5c stops at the setback band the section sets — at the works means: at TOWN
+       and above over the masonry its row admits and `earth_bank` (a rampart of bank and ditch, with a timber palisade on its
+       crest, `Enceinte.crest: 'palisade'`, where `boards` is native or traded within the means); masonry keeps the stage
+       row's section and towers, earth reads V11's `earthwork` section rows at the rung (bank width and height; no towers along
+       runs; a timber tower only at a gate); `bastion` and `octagonal` towers are drawn only on masonry. Towers take their
+       enceinte's material. A gate picks on its own over masonry and `boards` at the gate factor, never lighter in mass than
+       its enceinte (`Gate.material`, `Gate.materialOrigin`) — the stone gatehouse on an earth circuit. The castle curtain reads
+       the castle factor; the keep and the castle's buildings are buildings of their district ((f)). At village rungs V07's
+       kind draw (`palisade` / `earthwork` / `inner`) renormalises over the kinds whose material is native, or traded and within
+       the works means (`earthwork` always is), and a REPLACEMENT retypes to the available masonry, else keeps its kind. The
+       trace, closure and grading are item 106's: material never moves a wall.
+     * **Bridges** (S4, S5b, S7). `Bridge.material` (new, with `materialOrigin`) by the pick at the bridge means; `Bridge.kind`
+       `'stone'` for masonry, `'timber'` for timber; `draw` and `ford` as today. Feasibility is decided where the route is:
+       S4's and S5b's router takes a crossing as a bridge candidate only where the bridge's candidate set is non-empty (the
+       same pick and draws S7 then builds); with neither masonry nor timber the crossing takes the ford where the river admits
+       one, else F-ROUTE's existing rungs (another crossing site … the destination `unserved`), reported `bridge_no_material`.
+       A bridge the dossier implies (a `kinds` row's `implies: 'bridge'`, a "…Bridge" landmark) is always built: by the pick,
+       else in `boards` with origin `dossier`, reported `material_dossier`.
+     * **Harbour works** (S7). Quays, piers, moles and breakwaters carry `Way.material` and `Way.materialOrigin`, present
+       exactly on `quay` and `pier` ways and on raised ways (a bridge's way reads its `Bridge`; a `quay_wall` waterfront is its
+       enceinte's, the quay way under it reading the enceinte's material): quays and moles on a river, an estuary, a lake or
+       the carved basin over masonry, `timber_crib` and `earth_bank`; a sea-facing mole or breakwater over masonry and
+       `timber_crib` only (an earth bank facing the sea washes out); piers over `boards` and masonry; a work with no admitted
+       material is omitted, reported `harbour_no_material`. A deck building reads the `deck` row (timber frame, boards, brick).
+     * **Retaining walls and raised ways** (item 110). V11 §3.24.1's and §3.24.2's band rows become preference rows and the
+       band enters through the means: a private terrace reads its high side's plot, a civic face at CITY and METROPOLIS the
+       civic works means; `earth_bank` and `timber_crib` only for steps ≤ 150 cm; `RetainingWall.material` is a `MaterialDef`
+       id with `materialOrigin`. A raised way's picked mass sets its structure kind, which sets `pierSpacingM` (item 110 (b)'s
+       rule, re-keyed by mass) and whether its spans may be `vault` (masonry only, so V04's `archVault` chambers stand only
+       under masonry); an aqueduct admits masonry only; its material is `Way.material` once built. A step above 150 cm with no
+       masonry is split by the levelling's terrace rung, else left unlevelled, reported `retaining_no_material`; a raised way
+       with no admitted material is not raised, reported `raised_no_material`. With the switch off their band draws run on
+       their own streams; on, those draws are not made.
+     * **Paving** (V01's `way.surface` rule at S10a's end). The table keeps its structure and its band reads; each surface is a
+       material's paving — `paved` (setts) costs as `ashlar`; `cobble` as `rubble`, admitted where stone is available or a
+       river or beach lies within `pebbleReachM` of the principal centre (its pebbles, native); `brick` (new) as `brick`, from
+       `c14`; `planks` as `boards` — admitted where its family is native, or traded where the paving works means covers its
+       cost — a gate and a fallback that draw nothing; the fallback order paved → cobble → brick → planks (quays, piers and
+       bridges, and ways fronted at comfortable or above) → dirt. The era row's `market paved` chance applies only where `paved` is admitted. A structure way's surface
+       follows its structure's mass (V01's rule: masonry `paved`, timber `planks`). `Way.surfaceOrigin` is written for
+       `paved`, `cobble` and `brick`. An epoch's surface re-derivation raises a surface only within the epoch's supply and
+       lowers it only by the band rule, never because a family became unavailable: laid paving stands.
+     * **The underground.** `Tunnel.lining?` and `liningOrigin?` (II.7.2) and `Gallery.lining?` and `liningOrigin?` on the
+       passages a town digs (V04's digs and cellar links): masonry, `boards` (shoring), or absent — unlined earth, or rock-cut
+       where the ground class is rock — by the pick at the lining works means, texture only (the section is the profile
+       row's); caverns, catacomb galleries, quarry and mine workings and ruins are rock and carry none. A **building on an
+       `underground` plot** takes its host's material — its tunnel's lining (unlined `earth_bank`; rock-cut `rock`), a
+       cavern's or quarry chamber's `rock`, a ruin's recorded masonry, else `rubble` — with origin `host`: no pick, no ledger
+       debit, no quarry volume, its roof `none`. **Quarry voids** (II.7.6, V04 §3.5.3) count only fabric whose origin is
+       native stone by land — buildings by their stone parts' shares ((h)); enceintes, towers, gates, bridges, harbour works,
+       retaining walls and linings by `materialOrigin` at V11 §3.18's structure volumes — so traded or robbed stone lays no
+       local working and a stoneless site lays none; II.7.6 keeps its `reachM` from the town for laying the workings, and a
+       native-stone site with no stone cell within it takes its whole volume from the surface quarry on the nearest native cell
+       (§4.9). **The forecast** (S7b; V04's U-FORECAST): the predicted stone stock is the expected native-land stone wall
+       volume of the roster's demanded buildings — over classes and bands, the class template's perimeter × height × the share
+       of the band's means range whose pick is of the stone family (the expectation of (g), no draws) — and 0 where stone is
+       not native by land.
+     * **Islands** (V05). An island's buildings read the settlement's material supply with their own plots' means; the island's rock,
+       its conjured water and its magical structures (the floating stair, a bridge of light) are neither a source nor a
+       material; a landfall's rock credits the ledger as `stone` at its decoration's face centroid (native by ruins; vetoable:
+       the fallen rock lies on the settlement's own land).
+     * **The village** (V07). The same rows and rule at the village rungs through `rungMeans`, the `v.` classes with their own
+       preference rows; both "geology row" citations read (b)'s tests; `roof.palette` reads `Building.material.roof` (VG's own
+       weighted list under `VG`); a wall record naming stone, "Town walls" or "City walls and gates" builds the `inner` circuit
+       in masonry, and one naming stone is a dossier-declared material ((l)); the prime case: a standalone village with no
+       declared partner is native-only at every rung and epoch.
+     * **Interiors** (V03). The plan's exterior walls take their storey's material (ground or upper), a gable segment and the
+       chimneys the gable part's; wall thickness, openings and stair kinds never read a material; an underground building
+       keeps its host's styling.
+     * **Institutions.** The prestige rows (`chapel`, `church`, `monastery`, `cathedral`, `keep`, `castle`, `palace`,
+       `town_hall`, `guildhall`, `tower_house`, `mage_tower`, `watchtower`, `v.watchtower`) admit masonry with fallback
+       `timber_frame` and `log`, and roofs lead, slate, stone slate and clay tile with fallback shingle and thatch: an
+       institution takes native masonry at any means (the cheapest when none is affordable), traded masonry only where its
+       clamped means reaches it, else its fallback — a stave church in a timber town with no stone partner; a brick church
+       where clay is native and stone is not; a stone church brought by river where the partner ships it and the
+       neighbourhood's bounds reach it; never a material the supply lacks.
+     * **Culture and era** — cost factors only (`MaterialDef.factors`), never a material outside the supply.
+     * **Names** — V01's naming features gain `material`: a district whose buildings are ≥ 60 % of one wall family other than
+       the town's dominant family offers V11's naming rows the feature `material`, a weighted guard like V01 §3.7.4's features
+       ("Stone Row", "Brick Lane"; words ours, V11 §3.20).
+     * **Works** (§4.11). `WorksRow.material` and `WorksTable.pauses.material` read a material id or its mass (`masonry`,
+       `timber`, `earth`), an id's row winning: masonry pauses in winter in temperate and cold climates, earth in winter and in
+       the climate row's wet season (cob rises in lifts that must dry), timber never; the decay factor 0.6 applies to timber
+       mass and to thatch coverings; a mixed building's Works reads its heavier part; a traded material adds no duration (its
+       expense is its cost).
+     * **Fire and flood** (V06). V06 reads `MaterialDef.flammability` and `.floodCollapse` and keeps no list, combining roof
+       and wall as it does today; a mixed building burns by its more flammable wall part and floods by its ground storey's
+       material for `upper`, by the lighter material for `gable` and `outshots`; a deck, pier or raised-way support reads its
+       structure's mass as V06 §3.19 does.
+     * **Boundaries.** A plot boundary of treatment `wall` draws in the wall family of its plot's main building (texture only,
+       derived at draw); field boundaries stay the field system's hedgerows (§4.9) — a walled field system is a field-system
+       row a region pack may add (V11), not a material.
+
+     **(j) OVER TIME (§4.11 states it; V06 builds it).** The owner's "cant have … or grow to have them until and unless they
+     trade" governs construction. (1) **Standing fabric keeps its material and origin** whatever the supply later does; a
+     repair (`reoccupy` from derelict, a `repair` Works, `repairRaised`, `repairRetaining`) is in kind, reusing the fabric's
+     own material, so it debits nothing traded and needs no licence. (2) **Re-picks** at the epoch's supply: a new build, a
+     `rebuild`, a `reuse … build`, a fire rebuild, a new or contracted circuit (`contractWall`), a new stretch on a ruined
+     retaining wall or raised way, and a **completed upward refurbishment** (the `mutate` that raises `builtBand`, §4.11),
+     which now also writes `builtProsperity` = the plot's field value at completion clamped into the raised band's cuts (added
+     to J-A31.44's list) and re-picks at it, keeping its material where the new pick would be cheaper — so a quarter grown rich
+     is rebuilt over time in dearer materials and a refurbishment never downgrades. (3) **A partner arrives** with the first
+     epoch whose slice lists it (a dossier receipt F14 enters the next epoch's slice; standalone, a timeline entry declares
+     one): its families are traded for that epoch's builds. **A partner leaves** (or turns hostile) with the first epoch whose
+     slice no longer licenses it: its families are unavailable to that epoch's builds; buildings raised with them keep them;
+     new building falls back to the pick over what remains. Removing a declared partner from the CREATION slice is another
+     act — an edit of the settlement's premise, so the fabric whose origin names it re-picks unless locked or edited ((l)).
+     (4) **Native sources open and end:** a deposit `discovered` (from the next epoch) or put `available`, a landscape toggle
+     turned on in a timeline slice, woods regrown past the test; a deposit `depleted` or `removed` (receipt F13), a toggle
+     turned off, or woods cleared below the test by an epoch's conversions, each from the next epoch's prelude. A standalone
+     quarry never works out by use (V04's surface quarry is unbounded): stone ends only by a timeline toggle, or on a dossier
+     map by F13. Frame growth adds no native family; a rung change moves `rungMeans` for new builds only. (5) **Ruins:**
+     `robStone`, `clear`, `dismantle`, `demolish`, a ruined span and a landfall credit the ledger BY FAMILY at their position
+     (V11 §3.18's yields per material: timber frame's "timber 8, infill 4" credits timber 8; earth credits nothing reusable),
+     a mixed building each part by its share ((h)); a build of a family native only by ruins debits it and is built only while
+     the stock within `ruinsReachM` covers the debit — evaluated at each pick against the ledger as it stands, builds in the
+     epoch's order — else the pick falls back, reported `ruins_stock_short`. The ledger never creates a material (J-A8.45
+     amended); for a family native by land or traded it stays a flow record. (6) **Fire** (V06 §3.11.2 (4)): for
+     `fire.rebuildYears` after a fire, a rebuild on a burnt plot takes the least flammable covering and wall among its
+     candidates within `fire.ordinanceStretch` (1.25) × its means — the historical ordinances; none available leaves the pick
+     unchanged, reported `fire_rebuild_unavailable`; this rule replaces `fire.rebuildShift`'s step while the switch is on, the
+     switch-off path keeping it. (7) **The history replay** (item 113; vetoable): each coarse epoch reads the present partner
+     set, as generation does for all the fabric it builds, a partner whose arrival a receipt (F14) dates only from that week;
+     no history event names a partner, so none is otherwise added or removed (the alternative: a replay epoch before the
+     present has no partner, and a peak built before the link is native-only); a deposit listed `depleted` today is available
+     in the replay epochs before the week its depletion receipt (F13) dates, and in every replay epoch before the last where no
+     receipt dates it, a `removed` one in none; remnants keep their materials; a refounded settlement builds from its ruins'
+     stock while it lasts. (8) **Decline** leaves fabric standing in its material, its
+     condition stepping down. (9) **The chronicle** names each cause ("1410: rebuilt in timber; no stone came up the river
+     after Kellmoor's trade ended"; "1352: the quarry at Hollins worked out").
+
+     **(k) PRODUCERS AND THE SUPPLY WEB.** V11's goods table gains a `family?: MaterialFamily` column (`stone` → stone; `logs`,
+     `timber`, `planks` → timber; `reed`, `straw` → thatch; `clay`, `bricks` → fired clay; `slate` → slate; `lead` → lead)
+     and three goods: `slate` (site, subterranean · quarry where `Terrain.fissile` is `slate`, bulk 3, made by `quarry` there,
+     demand `market`), `lead` (site, subterranean · mine where `Terrain.lead` holds, bulk 2, made by `mine` there, demand
+     `market`) and `straw` (site, land · arable, bulk 2, demand `classes`), with good words `slate`, `slates`, `lead`, `straw`
+     and `marble`, `granite`, `limestone`, `sandstone` → `stone`, so T-V11-28's totality holds. The thatcher's edge reads the
+     thatch family ("supply `reed` | `straw` 3 000 m road"): S2 resolves it to the first good the supply holds, natively or by
+     a partner, else the first. **The one home of the refusal is V11 §3.5.2's reading rule:** a supply edge whose good has a
+     `family` takes no `import` substitute; it is served by a native provider (its land use or producing class), by the
+     endpoint store at the gate or quay facing a partner that supplies the family (V11 §3.13.4), or not at all — an unserved
+     edge reported `material_unsupplied`, soft as every web edge is; every other good keeps the generic import (§10.2 cites
+     it). **Producer gates** (§10.2's `BuildingClassRow.requiresFamily?: { family: MaterialFamily; basis: 'land'|'available'
+     }[]`; V11's rows): `quarry` and `lime_kiln` need stone native by land, `lumber_camp` and `sawmill` timber, `claypit` and
+     `brickworks` fired clay; `thatcher` thatch available, `mason_yard` stone available, `timber_yard` timber available; §4.9
+     sites quarries, clay pits and lumber only on native sources. A dossier-backed producer exists regardless (item 20 (b)) and,
+     being a production record, makes its family native ((b) (2)). **The timber shortfall** (§4.9): the managed wood is laid up
+     to what the arena holds; the rest is served by a partner that supplies timber through its endpoint store, else reported
+     `timber_short` — never a generic import, never a failure (J-A26.42 amended); (e)'s scarcity prices what is short.
+
+     **(l) EDITS, OVERRIDES AND THE DOSSIER — THE OWNER'S EDITABILITY AND "CANT … GROW TO HAVE THEM", RULED (vetoable).** The
+     owner asked that everything be editable "if a user wants to change something to fit their preference"; the refinement
+     binds what a settlement builds by derivation and growth. So **an author's act on an element wins on that element**: a
+     `setAttr` of a building's `material.walls`, `.roof` or `.mix` (T12 `dress`; `paint` gains the targets `wallMaterial` and
+     `roofMaterial`, a `wallMaterial` paint setting `walls` and clearing `mix`) or of a structure's `material` (its row's home
+     tool) — origin `edit`, implicitly pinned, held through regeneration, licensing nothing; outside the supply it is reported
+     `material_edit_unsupplied` and the clerk's critique names it (K19); standalone, the edit's alternatives line offers "say
+     {town} trades with a place that has {material}". **A district's `materialOverride`** (T5; retyped `{ walls?:
+     Record<string, number>; roof?: Record<string, number> }`) binds the buildings standing when it is set and every re-pick
+     inside the supply, its shares drawn with the pick's fixed uniforms (`u₁` for walls, the roof's first) and never making a
+     mix; at a later epoch new builds in the district draw only the shares whose families the epoch's supply holds,
+     renormalised, and with none left take (g)'s pick, reported `override_share_dropped` — so growth never adds a material the
+     settlement cannot have. **Locks and pins:** a supply change (a partner declared or removed, the switch turned on, an
+     epoch) holds a locked building's or structure's material and origin, its fate listed; a pinned one re-picks (a pin keeps
+     existence and position only, §7.2). **Dossier facts never move:** the partners, their relationships and listed goods, the
+     deposits and their states are dossier facts; the supply and every material are map facts derived from them (item 20 (h)).
+     A dossier-declared material — a custom record's `materialFamily` (V08's `materials` row → our material id, so its family),
+     a record whose `kinds` row declares one, a wall record whose words name stone — is honoured on that element (origin
+     `dossier`), reported `material_dossier`, and licenses nothing else. **Declaring a partner** standalone (V09's Trade
+     control) is `adjust('circumstances.trade', …)` on the timeline's first entry — an `Adjust` scoped by the supply's family
+     slices ((d)): the picks (a building moves no geometry; a structure whose kind changes re-derives by its stage's operator)
+     and S2's producer demand for a changed family, placed or withdrawn by §7.7 item 5's least disruption — or on a later entry
+     for an epoch. On a dossier map a map-side partner is refused `dossier-owned` (§7.7 item 11, beside items 114's and 115's
+     refusals), its alternatives the material edit and the dossier.
+
+     **(m) ITEMS 19 AND 23 — THE CONFLICT, STATED AND RULED.** *What conflicts:* item 19's default — "DEFAULT: that FTG model",
+     FTG setting "one default material per stage, overridden per district and per building type — e.g. temples always stone
+     — with wealth expressed through lifestyle pools and roof colour" (file b; J28's application of the owner's 2026-09-26
+     "emulation first", not an owner ruling on materials) — which §2.6 restates as wealth shown "through the lifestyle-banded
+     building pools … and the roof-colour role by band … never by a material keyed to the prosperity band", with
+     `MaterialRow.key.band` "absent from every default row"; and item 23, which quotes the owner ("I still want it to be based
+     in our base of MFCG and FTG emulation first") and makes every default reproduce MFCG and FTG, our extensions
+     "data-driven tendencies with chance or as options — never as fixed laws". *The ruling:* the owner's 2026-09-30 rule is
+     newer and pairs material with neighbourhood prosperity and with terrain, resources and trade, so **item 116 supersedes,
+     as the DEFAULT, item 19's FTG material default** — its default rows (V11 §3.19.3) and §2.6's band clause — **and the
+     roof-colour role by band in the default sheets**; the default material is (g)'s pick over (d)'s supply. **The licence** —
+     no material outside the supply but by a dossier fact, an author's act, the parity rows or an underground host — **is an
+     absolute of the model while `materials.supply.enabled` is on** (the owner's "cant … until and unless"): it is the one
+     exception to §7.6's "tendencies, never fixed laws", the reading rule met only in that the whole model is a cell a preset or
+     the author may turn off, and it does not bind under the parity presets or with the switch off ((n)), where item 23's
+     emulation stands. *What agrees and is kept:* item 19's owner words and its (a), which put "materials and roofing" in each
+     designation's prosperity-scaled template, agree with pairing material to prosperity; item 19's "never a universal ladder"
+     holds — the cost order is each settlement's own, from its supply, routes and climate, culture, era and region rows, and no
+     fixed stone > brick > timber order exists; the lifestyle-banded pools are kept; and item 19's "a MATERIAL IS A RENDERING
+     ATTRIBUTE ONLY … never footprint, wings, storeys, heights or roof form" is kept for every building and for every
+     structure's material within its kind. *For structures, the reading (vetoable):* a structure's kind — a stone or a timber
+     bridge, a masonry curtain or an earth rampart, a masonry or a timber raised way — is a structural choice the supply
+     constrains, as terrain decides where a ford can be, never a material's look; the base already chose bridges "stone or
+     timber by era and prosperity rows" (§4.8) and item 110 (b) keys pier spacing by masonry or timber. So a settlement lacking
+     every admitted material gets a ford or no bridge, no harbour work and no raised way, each reported (T116-2, T116-27); no
+     building's geometry ever reads the supply. **The regional shift is retired and folded**, one mechanism for one concept:
+     its "shift with the band within what the region builds with" is now the default; its rows become region cost rows of a
+     region pack (`MaterialDef.factors.region`); `MaterialRow.key.band` and `extension: 'regionalShift'` go; D-2's region preset
+     carries the region's cost rows; `EraRow.region` keys them and `EraRow.materialRows` the parity rows. J-A19.21 is
+     superseded by J-A116.21; J-A19.41 – J-A19.43 stand (materials are not template columns; built things read the built band);
+     J-A19.81 stands under the FTG preset and with the switch off; J-A8.45, J-A26.42 and J-A65.45 are amended as (j), (k) and
+     (i) state.
+
+     **(n) THE SWITCH AND THE PRESETS.** One cell, `materials.supply.enabled` (an `extension` option over both references;
+     default on; `presets`: `MFCG`, `FTG`, `VG` and `NG` off; `FM` zeroes none, as §7.6 states), provenance `ownerRule:
+     '116 (n)'`, reached through the presets and the tables editor. **Off:** S11 reads the kept parity `MaterialRow` rows —
+     FTG's per-stage rows with their district and class overrides, the band and regional-shift rows removed, our own rows
+     (clean-room) — every structure keeps its pre-116 rule and its band draws on their own streams, and no field this item
+     adds is written (an absent origin reads `rows`); the model is byte-identical to the base under V11's one id rename
+     (`timber` → `boards`, §7.5's alias at read); the two appended `blueprint.features` uniforms are drawn and move no other
+     draw. **The parity presets:** under `MFCG`, `FTG`, `VG` and `NG` the references are emulated, the one place the owner's
+     refinement does not bind (item 23's emulation, kept); every other preset and every region pack keeps it. **The look:** the
+     `lit` family's default sheet colours a roof by its covering's role while the switch is on and by its band tint while it is
+     off (the band-tint rows kept for the FTG sheet and for switch-off documents; J-A19.81) — under the owner's rule the
+     material already carries wealth, and a band tint would paint a rich thatched roof "the deepest clay"; `ink` keeps MFCG's
+     one roof role at the town and city bands and draws the roof family as an ink pattern at the building band and the
+     close-up (the `MFCG` sheet draws none); `hatched` keeps NG's two tones under `NG` and otherwise reads the covering's role;
+     V07's `painterly` reads `Building.material.roof` (VG's weighted list under `VG`). **Old documents** lack the cell and read
+     it off, so they replay byte for byte at their own output version; turning it on is an `Adjust` from S1 (11) that re-picks
+     every material, re-derives the producer classes and the structure kinds the supply changes, keeps every edit and every
+     locked element, and moves no building's geometry.
+
+     **(o) THE EDGES.** Each has a defined outcome, its fallback on §5's ladder where it can fail, and a test; §4.13's EP table
+     gains the row for S1 (11) and the pick citing this table, and B-EDGE runs its rows.
+
+     | edge | outcome | fallback (§5 tier) | test |
+     |---|---|---|---|
+     | nothing native but earth, no partner | earth walls (cob; adobe in arid rows); thatch where straw, else turf or mud | the floor, tier 5 `material_floor`, only when no admitted candidate stands; never tier 6 for a building | T116-15 |
+     | everything native | the full cost order; the dearest family's share rises with the band | — | T116-16 |
+     | a native-only settlement | no traded material at any epoch; it grows only in what it has | — | T116-3, T116-25 |
+     | a desert (item 111) | adobe walls and mud roofs; stone where native; an oasis grove no timber source; baked brick at its fuel factor | the floor | T116-17 |
+     | a marsh or a delta | reed thatch; wattle where timber; brick where clay and peat; cob | the floor | T116-18 |
+     | a mountain or stony upland | fieldstone for the poor, rubble and ashlar above, slate or stone slate where drawn, log in cold and coniferous rows | — | T116-19 |
+     | a coastal port | a sea partner's families cheapest; with no named partner, native-only | — | T116-20 |
+     | a thorp; a metropolis | `rungMeans` 0.5 and 1.3: a thorp's road-borne stone reaches no house; a metropolis's timber priced by its scarcity | — | T116-21 |
+     | item 114's prosperity ceiling | no plot or institution means above the top means × `rungMeans` but a held band's (item 114 (c) (7)), no work's above the top means × its factors, continuous in the economy; a town capped at `prosperous` or lower builds no house of river- or road-borne stone | — | T116-22 |
+     | islands (item 115) | the settlement's material supply; island rock no source; a landfall credits stone | — | T116-23 |
+     | a history replay | present partners (one a receipt dates, from its week); depleted deposits worked before their dated depletion, else before the last epoch; remnants keep their materials; the ruins' stock serves a refounding | `ruins_stock_short` → the pick | T116-24 |
+     | a building's candidate set empty | the preference row → the default row → the floor | tier 5 `material_floor` | T116-15 |
+     | a masonry structure with no masonry | an enceinte's earth construction; a sheltered harbour work's timber crib or earth bank | tier 5 `material_kind_substituted`; a bridge with neither: the ford, else F-ROUTE's rungs, `bridge_no_material`; a sea mole or breakwater, a raised way, a step > 150 cm: tier 6 with their codes | T116-27 |
+     | a dossier-implied bridge on a site with no bridge material | built in `boards`, origin `dossier` | tier 0, `material_dossier` | T116-27 |
+     | a building on an `underground` plot | its host's material, origin `host` | none needed | T116-33 |
+     | a declared material outside the supply | honoured on its element | tier 0, `material_dossier` / `material_edit_unsupplied` | T116-30 |
+     | a district override at a later epoch | only the shares the supply holds, renormalised; none left: the pick | tier 0, `override_share_dropped` | T116-30 |
+     | a supply change reaching a locked or a pinned element | a locked one holds, its fate listed; a pinned one re-picks | — | T116-30 |
+     | a declared partner removed from the creation slice, or its route edited | an `Adjust` by the family slices; the fabric that named it re-picks unless locked or edited | — | T116-30 |
+     | a terrain edit that changes a resource raster | the supply re-derives by the slice rule; the dry run lists the re-picked ("stone now native: n re-picked") | — | T116-31 |
+     | frame growth; a rung change at an epoch | no family added; new builds read the new `rungMeans`, standing fabric keeps its material | — | T116-26 |
+     | a standalone quarry | never works out by use; stone ends only by a timeline toggle (F13 on a dossier map) | — | T116-26 |
+     | a tent | canvas walls and roof, no pick | — | T116-15 |
+     | the switch off; a parity preset | the parity rows; no field of this item written | — | T116-1 |
+
+     **(p) WIRING.** **Records and their lifecycles** (§2.8's registry rows and §7.4's lifecycle rows for each):
+     `MaterialSupply` (derived: S1 (11), S3's carriage, each epoch's prelude, load; no edit kind); `BuildingMaterial`,
+     `MaterialOrigin` and `RoofSpec.material`/`materialOrigin` (S11 and §4.11's builds; `setAttr` and `paint`; in the
+     building's leaf digest, outside its geometry subtree; undo the log's; §2.8's `factTier` reads `dossier` for an origin
+     `dossier`, a map fact otherwise); `Enceinte.materialOrigin` and `crest`, `Gate.material`/`materialOrigin`,
+     `Bridge.material`/`materialOrigin`, `Way.material`/`materialOrigin`/`surfaceOrigin`, `RetainingWall.material`/
+     `materialOrigin`, `Tunnel.lining`/`liningOrigin`, `Gallery.lining`/`liningOrigin` (their stages; their rows' `setAttr`);
+     `TradePartner.name`, `supplies`, `distanceM` and `source: 'declared'` (recipe data: the creation slice and timeline
+     entries; `adjust('circumstances.trade')`; §11.1's skeleton carries declared partners and material `setAttr`s);
+     `Terrain.fissile`, `.lead`, `.mining` (S1 (10); the terrain row's `setAttr`); `MaterialLedger.rows[].family` and `.at`
+     (§4.11's salvage events; generation's ruin credits); `District.materialOverride` retyped; §2.9's thematic view key gains
+     `materials`. **Migration** (§7.5; reads of absent or superseded values, never a rewrite): a `Building.material` without
+     origin reads origin `rows` at epoch 0 and no mix; a stored id `timber` reads `boards`; a structure's absent
+     `materialOrigin` reads `rows`; an absent `Bridge.material` reads `rubble` for kind `stone`, `boards` for `timber`, absent
+     for `draw` and `ford`; an `Enceinte.material` that is no `MaterialDef` id reads `rubble` for `stone` and the `inner` kind,
+     `boards` for `palisade`, `earth_bank` for `earthwork`, else `rubble`, reported; a ledger row's `material` reads as its
+     family through V11's id → family map (`timber_frame`'s "timber 8, infill 4" → timber 8), an absent `at` as its `from`
+     entity's ground centroid; `TradePartner.supplies` absent reads `[]`; `Terrain.fissile` absent `none`, `.lead` false; the
+     switch absent off. **Streams** (§6.1): concern `material` — every pick, buildings and structures alike, keyed by the
+     consumer's lineage and slot with no epoch component (E-03): four uniforms for a building's walls, two for its roof, two for
+     a structure; its readers S3, S4, S5a, S5b, S7, S10, S11, II.7.2, `EVO_*` and VS1–VS6; with the switch off S11's
+     parity draw keeps its keying and the retaining and raised band draws their own streams; `blueprint.features` appends,
+     after the sewer draw, the fissile and the lead uniforms. **Failure** (§5.2): a new class **F-MATERIAL** — where: S3, S4,
+     S5a, S5b, S7, S10's levelling, S10a's surfaces, S11, II.7.2, §4.11's builds; detection: an empty candidate set, a
+     ruins-only candidate the stock cannot cover, a declared material outside the supply; ladder: for a building the
+     preference row → the default row → the floor (tier 5: walls `adobe` in arid rows, `wattle_daub` where timber is native,
+     else `cob`; the covering `mud` on a flat roof or in an arid row, else `turf`, the form's bounds ignored), never tier 6;
+     for a structure its kinds in the order of (i) (tier 5 `material_kind_substituted`) → tier 6 with its code; a declared
+     material honoured (tier 0, reported). **Report codes** (§5.4's closed `ReportCode` gains each with class F-MATERIAL and its
+     landing, each a `MsgRef` key in V09 §4.9's catalogue): in `ladderUses` `material_floor`, `material_kind_substituted`,
+     `ruins_stock_short`, `fire_rebuild_unavailable`, `bridge_no_material`, `harbour_no_material`, `raised_no_material`,
+     `retaining_no_material`; in `unserved` `material_unsupplied`, `timber_short`; in `requestedVsBuilt` `material_dossier`,
+     `material_edit_unsupplied`, `override_share_dropped`. `partner_no_supplies` is a port note (§14's `PortNote` kinds, V08
+     §4.6). The supply's facts are `NativeReason`s, never report codes. **§5.3:** a hard invariant row — no material outside
+     the supply but origins `dossier`, `edit`, `rows` and `host` and a family native by ruins at its site — checked at S11's
+     stage end, at each epoch and on load; the neighbourhood-character row stands unchanged (institutions stay inside their
+     range). **The clerk's why** (§11.2's `why` on `material.*`; V10's `material` section): the material and its family; its
+     origin (the native fact with its DR row — raster, deposit and state, production record, toggle, flag or floor — or the
+     partner, its route and the good that licensed it, or the ruins, the dossier record, the edit or the host); the means,
+     the band range that bounded it and the district; today's candidates with their costs ("Stone would need a trade partner
+     that has it; none does"). **The legend** (§9.5; V09's Materials view): only the families drawn, each with a second line of
+     origin words from §8.1's origin column — "from the land", "brought from {partner}", "reused from ruins", "from
+     SettlementForge", "yours" — and item 112's second cue, the family's pattern. **Display list** (§8.1): `attrs` columns
+     `materialWalls`, `materialRoof`, `mixPart`, `mixWalls`, `materialOrigin`. **Export** (§11.1; V02 §5.5 for the parts):
+     GeoJSON buildings carry `material_walls`, `material_roof`, `material_mix_part`, `material_mix` and `material_origin`;
+     enceintes, gates, bridges, ways, retaining walls, tunnels and galleries their `material` and origin; glTF names wall
+     surfaces by storey or part and roofs by covering; CityJSON as attributes. **Registry** (§7.8): the Trade control, id
+     `circumstances.trade` (consuming stage S1, locality *re-derive from S1 (11)*, discrete, anchor §7.7, the advanced panel's
+     "Site" group, V09 §4.14's grouping by consuming stage, beside the Economy; the Magic sits in "Programme"); the site card's `fissile` and
+     `lead` toggles (S1, *re-derive from S1 (10)*, discrete); the switch through the presets and the tables editor. **Budgets**
+     (§12.4's rows): the supply ≤ 5 ms at CITY per derivation (S1's row); the pick ≤ 2 ms per 10 000 buildings (S11's row).
+
+     **(q) BARS (§13.2; the volumes cite them and extend their own).** T116-1 **no-op pin**: with the switch off every
+     material, the model digest and every golden are byte-identical to the base under V11's id rename, no field this item adds
+     is written, and an older document replays byte for byte. T116-2 **texture only**: any change of supply, pick, mix,
+     override or edit leaves every building's geometry subtree unchanged, and a structure's geometry changes only through its
+     kind (T19-3 extended; V02's T-V2-25). T116-3 **the licence**: across the fixtures and 200 seeds per rung, 0 materials with
+     origin `traded` whose partner did not supply the family in the recorded slice of the build epoch, 0 materials outside the
+     supply but origins `dossier`, `edit`, `rows` and `host` and a family native by ruins at its site, and 0 traded materials
+     on a native-only settlement at every epoch (exact bound 0). T116-4 **both native** (the owner's second example: a river
+     TOWN with woods and a quarry): the richer bands ≥ 90 % stone-family walls; the middling bands hold both families, ≥ 15 %
+     of their buildings of the minority family or mixed; the poorer bands ≥ 80 % in the two cheapest native materials; the
+     share with stone in walls or mix non-decreasing from the poorer to the middling to the richer bands. T116-5 **woods, no
+     quarry, no partner** (the owner's first example): 0 stone fabric and every wall of timber mass, in every band. T116-6 **the
+     same with a river partner that has stone**: stone only on plots whose means reach 0.8 × its landed cost — at TOWN only the
+     `rich` band, "the very rich" — ≤ 3 % of houses; every stone building's origin names the partner; the circuit an earth
+     rampart, the gates stone, the bridges timber; by sea ≥ 50 % of the rich band stone, by road none. T116-7 **the reverse**
+     (stone native, timber by sea): the richer bands together ≥ 60 % stone-family walls; traded timber only in the prosperous and rich
+     bands; every prestige institution masonry. T116-8 **cost**: for one family and partner sea < river < road; cost monotone
+     in distance; the carriage of two materials of one family equal; a 90 km sea leg cheaper than a 15 km road leg; ruins
+     0.8 × the base. T116-9 **monotone pick**: with the draws fixed a higher means never picks a cheaper place, and a
+     refurbishment never downgrades. T116-10 **mixed**: exactly two wall materials; the heavier on the ground storey or the
+     gable; on T116-4's fixture the mixed share highest in the middling bands; 0 mixed where one candidate stands; a mixed
+     stone-and-timber house burns as its timber part. T116-11 **one native test**: stone native exactly when the creation
+     arena holds a stone cell ≥ 0.5 or a dossier fact makes it so; V04's quarry cells and V07's and V11's gates read the same
+     test on every fixture; frame growth adds no family. T116-12 **the dossier's facts**: an available deposit forces native; a
+     depleted `stone_quarry` gives native stone fabric and worked-out V04 workings at generation (at CITY and above DR32's
+     ossuary has its quarry) and no land stone from the first live epoch; a removed one grants nothing; a depleted timber
+     deposit on a forest site leaves timber native; discovered opens at the next epoch; a dossier `quarry`, `brickworks` or
+     `Stone Quarrying` row makes its family native on a raster without it; no resources → the raster rule. T116-13 **partners
+     (DR3)**: a partner supplies a family only when its records show it; derived and hostile partners supply none; a dossier
+     with no named neighbour has no licensing partner whatever its access key; the access-pair route; the fill reads only the
+     named fields. T116-14 **web and producers**: 0 goods of a family served by the generic import; no map-derived `mason_yard`
+     where stone is unavailable and no `quarry` where it is not native, while a dossier-backed producer always stands; the
+     timber shortfall only through a partner, else `timber_short`; T-V11-28's totality with `slate`, `lead` and `straw`.
+     T116-15 **earth only and the floor**: every building has walls and a covering; F-MATERIAL never reaches tier 6 for a
+     building; a tent is canvas. T116-16 **everything native**: ≥ 4 wall materials drawn; the dearest family's share
+     non-decreasing across the bands. T116-17 **desert**: ≥ 90 % earth-family walls where stone and timber are not native; 0
+     coverings a wing's form does not admit, checked per wing; an arid clay site without fuel has baked brick only at prestige
+     and in the rich band, its houses below it adobe. T116-18 **marsh**: thatch ≥ 60 % of roofs where reed is native and slate is not;
+     brick only with clay, at its fuel factor where the fuel is not native. T116-19 **mountain**: on a stony site with no native timber
+     stone-family walls ≥ 80 % and the squalid, poor and modest bands ≥ 60 % fieldstone; with native coniferous
+     timber both families drawn; slate only with `fissile = 'slate'` or a partner, stone slate only with `fissile = 'flag'`; log
+     only in cold, coniferous and mixed rows. T116-20 **port and route**: on one fixture the traded share at `rich` by sea ≥ by
+     river ≥ by road. T116-21 **rungs**: at one supply the top band's dearest share METROPOLIS ≥ CITY ≥ TOWN ≥ VILLAGE ≥
+     THORP; a THORP with a road partner that has stone has 0 stone houses; at one arena of wood the rich band's timber share
+     falls as the rung rises. T116-22 **item 114**: no plot's means above the top means × `rungMeans` but a held band's (item 114
+     (c) (7)), no institution's above its ceiling band's, no work's above the top means × its factors; the means continuous
+     in the economy, across the knots at 16⅔ and 33⅓; the S3 to S5b picks reading `ceilingAt` equal to the record S6 writes;
+     the traded share non-increasing as the prosperity ceiling lowers; at economy 33⅓ and below, a TOWN with a river or road
+     partner that has stone builds 0 houses and institutions of traded stone; under the lowest prosperity ceiling a stone- or brick-native town has every
+     prestige institution in masonry. T116-23 **islands**: island materials ⊆ the settlement's material supply; no family native by
+     island rock; a landfall credits stone at its face. T116-24 **history**: remnants keep their materials; a refounded
+     fixture builds stone from ruins only while the stock covers it; a stoneless site beside an ancient ruin has stone by
+     ruins at generation, near the ruin only; no partner beyond the present set in a replay epoch. T116-25 **a link over
+     epochs** (V06's H-TRADE): no traded fabric before the link's epoch, no new traded fabric after it ends, every standing
+     traded building keeps its material and origin until struck, repairs in kind; H-NATIVE (a native-only timber village over
+     20 epochs) holds 0 traded fabric. T116-26 **sources over epochs** (H-QUARRY, H-WOODS): a discovered quarry native from the
+     next epoch, a depleted one lays no new land stone, woods cleared below the test end native timber from the next prelude;
+     frame growth and a rung change add no family; a standalone quarry works out only by a toggle. T116-27 **structures**:
+     every enceinte, gate, bridge, harbour work, raised way, retaining wall and lining material is in the supply or carries its
+     code; an aqueduct only in masonry; no bastion or octagonal tower on a non-masonry enceinte; an earthwork's section is its
+     row's; every gate at least as heavy as its enceinte; no earth mole or breakwater facing the sea; a dossier-implied bridge
+     always built; S4's router takes no bridge candidate its pick cannot build. T116-28 **paving**: `paved` and `cobble` only
+     with their sources or within the paving means; `brick` only with fired clay from `c14`; the fallback order holds; an epoch
+     never lowers laid paving for want of a family. T116-29 **institutions**: in a native-only timber town every prestige
+     institution is timber; with clay and fuel, brick; with a river partner that has stone, the stone share equals the share
+     of institutions whose clamped means reach it, ± the blend; houses and institutions never outside their district's range.
+     T116-30 **overrides, locks and the dossier**: a `setAttr` material holds through regeneration with origin `edit` and
+     changes no other building's pick; a `materialOverride` wins in its district and, on a native-only fixture, adds 0
+     non-native materials by growth; a locked element keeps material and origin through a supply change, a pinned one
+     re-picks; removing a declared partner from the creation slice re-picks the fabric that named it; a declared
+     `materialFamily` is honoured on its building only; a map-side partner on a dossier map is refused `dossier-owned` with its
+     alternatives. T116-31 **determinism and load**: six uniforms per building on `material`; declaring an unrelated partner
+     changes only the picks whose candidates changed and moves no gate; a terrain edit that changes a raster re-picks by the
+     slice rule and lists the re-picked; the supply recomputed on load equals the derivation's; the replay byte-stable.
+     T116-32 **why, legend, export, compile**: every drawn family in the Materials legend with its origin; the why names the
+     basis or partner, the means and the costs; the exports carry every field of (p); V11's compile proves every `MaterialDef`
+     complete — cost, flammability, flood, Works key, salvage and dwell row, texture tile and a colour role in every family —,
+     the means rows contiguous over the band set in force (a row-less band named), and every consumer resolving a material
+     over every supply case, the earth-only case included. T116-33 **the
+     underground**: every building on an `underground` plot takes its host's material with origin `host`, no pick and no
+     ledger debit; quarry voids count only native-land stone, 0 on a stoneless site; U-FORECAST's stone stock is 0 where stone
+     is not native by land. T116-34 **fire, flood and Works**: a rebuild within `fire.rebuildYears` of a fire takes the least
+     flammable candidate within the stretch; flood collapse only on timber and earth masses; a mixed building's Works reads its
+     heavier part; masonry pauses in winter, earth in winter and the wet season. **Schedule (§13.8):** T116-1 – T116-3,
+     T116-8, T116-9, T116-11 and T116-15 PR from M1; T116-4 – T116-7, T116-10, T116-16 – T116-21 nightly from M1 on V12's
+     bar-map rows, T116-22 nightly from M2b, which lands item 114's prosperity ceiling; T116-12 – T116-14 on B-DOSSIER-lite from M1 (T116-13's fill from M-SF); T116-27 nightly, T116-29 – T116-31
+     PR, each clause from the milestone that lands its mechanism (M1, M3a); T116-32 at M3b and M3c; T116-28 at M5; T116-33 at
+     M6-U; T116-23 at M6-sky; T116-24 – T116-26 and T116-34 in the milestone tier from M6-E; the village's clauses from V-M1.
+
+     **(r) THE UNITS — applied IN the coherence pass's Rewrite phase, bundled with items 114 and 115 (owner, ~01:12: "bundle
+     all this with g114-115"): the landed units — the base model, kernel, pipeline, determinism and rendering parts, V03 and
+     V04 — in a short late rewrite seat each where they have a part (the kernel has none), every other unit in its Rewrite;
+     the owner's refinement binds every part. Each shared decision has one canonical home (STATES); every other unit cites
+     it (REFERENCES); the three items' one routing is docs/validation/coherence/work/g114-116/routing.json with the canon's
+     ruling of 2026-09-30.**
+
+     | unit | STATES | REFERENCES |
+     |---|---|---|
+     | base **model** (§2), late seat | §2.6's *Materials* rule rewritten — the owner's words, (a)'s terms and wealth words, (e)'s cost, (f)'s means (the interval rule, the top means, institutions inside their range, works), (g)'s pick (row order, earth-wall admission, fallback, places, draws), (h)'s mix with the parts' shares and the per-wing covering, item 19's shape clause kept and (m)'s supersession; the types `MaterialFamily`, `MaterialMass`, `MaterialSlot`, `MaterialDef`, `MaterialPreference`, `MaterialMixRow`, the narrowed parity `MaterialRow`, `BuildingMaterial`, `MaterialOrigin`; `RoofSpec.material` and `materialOrigin` as the wing's covering; §2.7's `MaterialSupply` and `NativeReason`, `MaterialLedger.rows[].family` and `.at`, `Enceinte.materialOrigin` and `crest`, `Gate.material`/`materialOrigin`, `Bridge.material`/`materialOrigin`, `RetainingWall.material` (an id)/`materialOrigin`, `Tunnel.lining`/`liningOrigin`, `Gallery.lining`/`liningOrigin`; §2.4's `Way.material`/`materialOrigin`/`surfaceOrigin` and `surface` `'brick'`; §2.5's `materialOverride` retyped; §2.3's `Terrain.fissile`, `.lead` and `.mining`; §2.8's registry rows for the new edit paths, `factTier` for origin `dossier`, `SliceRef.kind 'supply'`; §2.9's `Document.derived.materialSupply` and the thematic key `materials` | the producers (§4), the edits and DR rows (§7), `TradePartner` (§7.7), the roles (§8), the rows and values (V11) |
+     | base **kernel** (§3), no seat | no part: a material is never geometry and no kernel call reads one | — |
+     | base **pipeline** (§4, §10, PART II, PART III), late seat | S0's `fissile` and `lead` requests; S1 (10)'s two draws and the struck sentence that only II.7.6 reads `Terrain.mining`; **S1 (11)**, the supply's derivation with (b)'s tests (the arena, the deposit rule at generation and at epochs, the production records, the ruins basis and its reach, generation's ruin credits) and S3's carriage; S2's producer gate and the thatch-family edge; S3's and S5a's enceinte pick, the construction by mass, the crest and the earthwork rows' reading; S4's and S5b's bridge feasibility; S7's towers, gates, castle, bridges, the dossier-implied bridge, harbour works and sea moles; S10's retaining pick; S10a's surface gate over V01's table; S11's building pick, institutions, deck buildings, the per-wing covering, tents and the host rule for underground buildings; §4.9's native land uses, the timber shortfall and scarcity; §4.11's (j) whole — the prelude, re-picks, the refurbishment writing `builtProsperity` (J-A31.44's list), the fire ordinance, repairs in kind, the ledger by family with positions, the ruins stock, sources over epochs, the replay's partners and deposits — and its Works keyed by mass; §4.1's and §4.12's stage I/O; §4.13's EP row; §10.2's `requiresFamily`, `salvageM3` by id with family credits, the citation of V11 §3.5.2's refusal and the corrected sentence on which rows name a material; II.7.2's lining pick; II.7.6's quarry voids from native-land stone (structures included), its reach from the town and the surface-quarry fallback; II.7's S7b stone-stock forecast | the pick and the types (§2.6), the cells (V11), V06's engine, V04's U-FORECAST, V01's surface table |
+     | base **determinism** (§5–§7), late seat | §5.2's F-MATERIAL; §5.3's licence invariant; §5.4's codes with class and landing; §6.1's `material` row (keying, readers) and `blueprint.features`' order (… sewer, fissile, lead); §6.2's leaf-digest note; §7.1's edit paths (T12 `dress`, `paint`'s two targets clearing `mix`, T5's `materialOverride` and its growth rule, the terrain row's `fissile` and `lead`, each structure's `material` under its row's tool, the dossier-map partner refusal, stated at §7.7 item 11); §7.3's locality for the partner and switch `Adjust`s; §7.4's lifecycle rows; §7.5's migration reads; §7.6's switch cell, its presets, the retired regional shift and the licence as the one exception to the reading rule; §7.7's `TradePartner` fields, layer 2's standalone fill order and declared partners outside `TradeFlow`, DR3 amended (covers gain `TradePartner.supplies`, `.name`, `.distanceM`; inputs the neighbour's exports, chains' resource keys and access key, the import links' goods and the network's names; rule (c)'s fill and route step; bar "a partner supplies a family only when its records show it; derived and hostile partners supply none; no partner is invented"), DR15 amended (inputs DR41's supply, the plot's built value and its district's range, the class's prestige and patronage, a declared `materialFamily`; rule (g); bar "no material outside the supply but origins `dossier`, `edit`, `rows` and `host`"), **DR41** (family `site`; covers `Document.derived.materialSupply`, derived and no registry kind; inputs `site.terrain`, `site.deposits` with state, the dossier's producing institutions, income rows, own chains and exports with `entrepot`, `site.culture`, the biome, DR3's partners, the ledger at epochs; rule S1 (11) and §4.11's prelude; chance `blueprint.features`; bar: every native family traced to a site or dossier fact, no depleted or removed deposit's point family native by land after generation, no traded family without a partner whose records show it), the closed-digest admission, item 9's tiers; §7.8's registry rows | V08's fill, V09's controls, §2.6 |
+     | base **rendering** (§8, §9, §11, §12), late seat | §8.1's `attrs` columns; §8.2's roles `wall.<id>` and `roof.<id>` for every `MaterialDef` id with their palette rows in `ink`, `lit` and `hatched` and their contrast rows; `lit`'s roof by covering with the switch on, by band tint off; `ink`'s pattern; the total id → tile map (new tiles: ashlar, brick, timber frame, log, boards, wattle and daub, earth, turf, slate, lead, canvas — a set of 26, at M2b; `hatched`'s rows at M5); the mixed parts drawn per facet, the chimneys, the per-wing covering; the boundary wall by family; the colour-deficiency row re-pointed and a Materials row; the Materials `ThematicRow` with item 112's second cue; §8.11's, §9.7's and §11.6's edge rows; §9.5's legend with its origin line; §11.1's export fields and skeleton; §11.2's `why` on `material.*`; §12.4's two budget rows | V02's facets, V03's plan, V09's view, V07's `painterly` values |
+     | base **scope** (§0, §1, §13–§17, the judgment index), Rewrite | §0's row for item 116 and item 19's row amended; §0's index terms (native, traded, native-only, material family, means, top means, work's means, origin, mixed); §1's buildings row ("item 116's supply model by default; FTG's under the FTG preset and with the switch off"); §13.2's T116-1 – T116-34, T8-5 (a ruins-only shortfall blocks the build) and T26-1 (the timber import by partner or `timber_short`) amended; §13.8's schedule rows; §14's `DossierDigest.economy.partners[]` fields and the `PortNote` kind `partner_no_supplies`; §16's milestones (J-A116.01: the supply, the pick, the rows and the records at M1 with V11's C1; the mixed facets, the edit paths and the Trade control at M3a; the exports at M3b; the why at M3c; the plan at M6-P; linings, voids and host buildings at M6-U; the epoch parts at M6-E; the dossier fill at M-SF; the hood's paving and names at M5; the village at V-M1); D-2 amended; the register's J-A116.01, .21 (the default model; J-A19.21 superseded), .22 (which prosperity reads which), .23 (institutions at the top of their range), .24 (carriage per load), .41 (the ledger never creates a material; the ruins basis and reach; J-A8.45 amended), .42 (the timber shortfall and scarcity; J-A26.42 amended), .43 (quarries of native stone, structures included; J-A65.45 amended), .44 (the native test over the creation arena and the dossier's facts), .61 (the streams), .71 (a declared partner is a licence only), .81 (`lit`'s roof by covering; J-A19.81 kept under FTG and switch off) — the first digit naming the part that states the rule | every other unit |
+     | **V11** content | every row and cell of (a): `defs`, `preferences` (structures; classes with the prestige rows and their fallbacks; `v.` and cluster classes; district kinds `docks` and `shanty`; the default row), `mixes`, `parity` (FTG's rows, band and regional-shift rows removed, `timber` → `boards`), `settings`; the relief rows' P(slate), P(flag) and P(lead); `ResourceRow.family` (V11 §2.5) and the goods column; the goods `slate`, `lead`, `straw` and the good words; §3.5.2's refusal and the family edge; the `requiresFamily` rows; §3.18's salvage and dwell rows for every id and the family credits; the `earthwork` section rows at TOWN, CITY and METROPOLIS; §2.8c's `RetainingProfileRow.material` and `RaisedWayStructure.material` retired into preference rows; `pierSpacingM` by mass; §3.20's words for the `material` naming feature; the culture and region rows as `MaterialDef.factors`; T-V11-28 and the compile totality; §1b, §2.1 and §3.1's rows with readers; register lines; C1 | the formulas (§2.6), `TradePartner` (§7.7), the Works (§4.11) |
+     | **V02** buildings | the mix parts' facets (`upper` every storey above the ground storey, a stacked tier above tier 0; `gable` the main wing's gable-end facets and every chimney; `outshots` the `back` and `service` wings) and their shares; the roofscape and façade programs per part and the per-wing covering (§5.2, §5.3; the band-tint line replaced); §1b's trace rows for the supply's inputs; the mutator keeps the material, except a completed upward refurbishment, which re-picks (§3.9); deck buildings' row; §5.5's exports by part; T-V2-25 extended with T116-10's heavier-part clause (no new id) | `BuildingMaterial` (§2.6), the pick (§4.7 S11) |
+     | **V03** interiors, late seat | the exterior-wall fill per storey and per gable segment; chimneys in the heavier material; thickness, openings and stairs never read a material; an underground building's host styling read from origin `host` | `BuildingMaterial` (§2.6) |
+     | **V04** underground, late seat | §3.5.3's volume law over native-land stone by origin, structures and linings included, by the parts' shares; a stoneless site lays no workings; the surface-quarry fallback; U-FORECAST's stone stock; the dug passages' `Gallery.lining`; `vault` spans and `archVault` only under masonry raised ways; an ancient ruin's credit at generation and when robbed; §3.13's edge rows (a stoneless site; traded stone) | the lining pick (II.7.2), the supply (§2.7), II.7.6 |
+     | **V05** sky | the landfall credit as family `stone` at the decoration's face centroid; island buildings on the settlement's material supply; the island's rock, conjured water and magical structures neither source nor material; item 115's gate unchanged | the supply, the pick |
+     | **V06** evolution | its engine parts only: `EVO_PRELUDE`'s supply step; §3.11.2 (4)'s ordinance with `fire.ordinanceStretch` (1.25) in its fire row beside `fire.rebuildShift` (the switch-off path); the hazard reads of `MaterialDef.flammability` and `.floodCollapse` (buildings by part; decks, piers and supports by mass); which structure events are repairs in kind and which re-pick; the chronicle lines; fixtures H-TRADE, H-NATIVE, H-QUARRY, H-WOODS; T-V6-16 stratified by supply; T-V6-17 amended for mixed buildings and the new ids | §4.11's (j), V11's cells |
+     | **V07** village | the village application through `rungMeans`; the `v.` preference rows; the kind draw over admitted kinds and the REPLACEMENT's retype; `roof.palette` and `painterly`'s role values for every `MaterialDef` id (`roofJitter` kept); both "geology row" citations replaced by (b)'s tests; the wall records' materials (J-V7.15 and T-V7-32 amended); the entry store as the arrival point; `roads: isolated` a road form only; T116-3 and T116-25's H-NATIVE run at the village rungs from V-M1 (no new id) | the pick, the supply |
+     | **V08** settlementforge | DR3's supplies fill from the dossier's four sources and the port's fill of the three new partner fields and `name`; the access-pair route's key rows; the `deposits` row's `supplies` column (every key listed: `glass_sand` none, `coal_deposits` fuel only) and `precious_metals` → lead; the production records feeding DR41; the `materials` row → our id and family; the note `partner_no_supplies`; the consequence statement; the adapter (J121); §1b's rows; T-V8-20's ignore clause extended — the fill reads only the three admitted partner fields (T116-13; no new id) | `TradePartner`, DR3, DR41 (§7.7), the digest fields (§14) |
+     | **V09** application | the Materials view in the Show menu with its legend words and origin line; the About tab's material with its origin chip and "Why this material?"; the standalone Trade control (name, route, supplies; the advanced panel's "Site" group, id `circumstances.trade`); the site card's `fissile` and `lead` toggles; the dossier map's read-only trade panel and the refusal's alternatives; `paint`'s two targets; §4.3's binding rows (T12 `dress`, T5's override, T3 and the wall tools for structures, the terrain row, the Trade control); the catalogue keys (every new report code, `critique.K19`, `bend.material.*`, the legend words) | the records, the why |
+     | **V10** clerk | the `material` why section; K19 in `CritiqueFinding`, T-V10-17 and CVR-V10-4 ("{n} buildings in {material}, which {town} has no source for"); a description naming a material the site lacks — standalone, in creation mode the new document's creation-slice `trade` gains a declared partner (as `magic` goes to the creation slice) and in edit mode `adjust('circumstances.trade', …)` is proposed; on a dossier map, reported; the chronicle answers | §11.2's `why`, V06's chronicle |
+     | **V12** calibration | §1's owner-rule entry (`'116 (n)'`); bar-map rows for T116-3 – T116-7, T116-10, T116-16 – T116-22 and T116-25 with their owners (V11, V02, V06); register lines for every new cell (`panel`, then `corpus`; the switch never calibrated); the item-110 material register lines re-pointed to the preference rows; the switch's preset resolution; the known-city fixtures' stated supply; `MeasureInput` gains building material records | the bars (§13.2) |
+     | **V01** neighbourhoods | the paving gate over V01 §3.7.3's table (the surface-to-material costs, the `brick` row, the fallback order, the epoch rule); that `hatched`'s roof program reads the covering's role (NG's two tones under `NG`); the `material` naming feature (§3.7.4); the lone neighbourhood's supply from its recipe's creation-slice `trade`, native-only by default | the pick, the supply, §8.2's role values |
+
+     **HOMES:** §2.3, §2.4, §2.5, §2.6 (the rule, the vocabulary, the means, the pick, the mix), §2.7 (`MaterialSupply`, the
+     ledger, the structures' fields), §2.8, §2.9; §4.1, §4.2 S0–S3 (the flags, S1 (11), the carriage, the first enceinte), §4.2
+     S2 and §10.2 (producers, the web's material goods), §4.3–§4.4 (S4, S5a, S5b), §4.7 S10–S11, §4.8, §4.9, §4.11, §4.12,
+     §4.13, II.7, II.7.2, II.7.6; §5.2, §5.3, §5.4, §6.1, §6.2, §7.1, §7.3, §7.4, §7.5, §7.6, §7.7 (`TradePartner`, DR3,
+     DR15, DR41), §7.8; §8.1, §8.2, §8.11, §9.5, §9.7, §11.1, §11.2, §11.6, §12.4; §0, §1, §13.2, §13.8, §14, §16, D-2.
+     Volumes: V11 (every row and cell), V02 (the mix at the building), V06 (materials over time), V07 (the village), V04 (quarry
+     voids, linings, the forecast), V05 (islands and landfall), V03 (the plan's walls), V01 (surfaces, roof colour, names), V08
+     (the partners' supplies and the production records from the dossier), V09 (the view, the panels, the Trade control), V10
+     (the why, the critique), V12 (the bars). *Scope:* BASE (the records, the supply, the pick, the structures, the edits, the
+     dossier rows); STAGED with evolution for (j), with stage 3 for the mixed facets and the plan, with the underground for
+     linings, voids and host buildings, with the sky layer for islands, with stage 2 for the hood. *Routing:* bundled with items
+     114 and 115; applied IN the coherence pass's Rewrite phase by every unit named in (r), the landed units in a short late
+     seat.

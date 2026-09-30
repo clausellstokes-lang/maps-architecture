@@ -1,0 +1,12 @@
+docs/volumes/V04-underground.md:2124:| undercity | `gallery` (a walkway) | magical orb, magic | min(500, ceiling − 30) | 30 | 1 200 | 30 | the torch row's spacing × 1.5 | `high` |
+docs/volumes/V04-underground.md:2129:| cavern | `gallery` | glow fungus, magic | 20 | 0.5 | 300 | 30 | every 15 m, where the magic circumstance is `low` or `high` or the biome is in the row's list (`temperate_forest`, `wetland`, `jungle`; V11 reviews) | `none`, `low`, `high` with the biome clause |
+docs/volumes/V04-underground.md:2130:| ruin | `chamber` `hall`, `temple` | ancient glow, magic | ceiling − 30 | 8 | 900 | 20 | ⌈area ÷ 300 m²⌉, each chamber with `magicLightChance` (0.5; a draw on `sewer` keyed by the chamber) | `low`, `high` |
+docs/volumes/V04-underground.md:3338:S10b Placement · S11 Site plans and footprints — the plot model`, `LightRule` — current: "magic?: ('low'|'high')[] /*
+docs/volumes/V04-underground.md:3339:magical rows: only under these values of the circumstance */;" — new: "magic?: ('none'|'low'|'high')[] /* the circumstance
+docs/volumes/V04-underground.md:3340:values a row lights under: a magical row's `low`/`high`; a fire row a magical row replaces, `['none','low']` */; biome?:
+docs/volumes/V05-sky.md:644:  staffHouseholds: number; weight: number; requires: { government?: string[]; magic?: ('low'|'high')[] /* the `magic` circumstance the row needs */ };
+docs/volumes/V05-sky.md:649:interface SkyAccessRow { kind: SkyAccess['kind']; magic: ('none'|'low'|'high')[]; weight: number; maxAltitudeM?: number; maxRunM?: number /* the horizontal top-to-foot distance (V5 §2.2) */; needsLandBelow: boolean; extension: true }
+docs/volumes/V08-settlementforge.md:2813:| J-V8.47 | chose to read `magicLevel` `medium` as `low` over a fourth level, because 32 of the 35 births carry `medium` and D-3's realism floor keeps magic present but not shaping the town unless the dossier says `high` (C8-11) |
+docs/volumes/V10-clerk.md:926:  magic?: 'none'|'low'|'high'; defence?: number; density?: number; relief?: 'plain'|'rolling'|'hilly'|'mountainous';
+docs/volumes/V10-clerk.md:1431:| magic, wizards, fantasy · high magic | `magic` | `low` · `high` |
+docs/volumes/V11-content.md:1631:| `airship_dock` | `transport` | mooring mast and yard | tower | sing · 5 | dos (high magic) | N highGround, space (hard) | wholesale | company · trade | `far` → `#housing` 60 soft |

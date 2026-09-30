@@ -1,0 +1,80 @@
+OK   items-114-116.md | one thing i wanted to add, at generation time the first generation, teh economy slider det
+OK   items-114-116.md | bundle these into the rewrite phase
+OK   items-114-116.md | bundle all this with g114-115
+MISS items-114-116.md | ); no stamp binds a user's edit (IN-V11-1). **(e) AFTER THE FIRST GENERATION — the founding prosperity ceiling carried,  |ctx: the report names the departure ("prosperity ceiling rows edited (owner rule 114)
+OK   items-114-116.md | , with 
+MISS items-114-116.md | ; ~01:12:  |ctx: tems 115 and 116 (owner, 2026-09-30 ~01:00: "bundle these into the rewrite phase
+MISS items-114-116.md | ; (~01:12, with item 116)  |ctx: high magic and high economy" — and (~01:00) "bundle these into the rewrite phase
+MISS items-114-116.md | . High magic is read on the magic slider, as the owner said it (the program's correction of 2026-09-30, docs/validation/ |ctx:  into the rewrite phase"; (~01:12, with item 116) "bundle all this with g114-115
+OK   items-114-116.md | high magic
+OK   items-114-116.md | high magic on the slider
+MISS items-114-116.md | ; `magicMin` and `economyMin` carry provenance `own` and `calibratable: false` ( |ctx: ing home). `gate.magic` carries `ownerRule: '115 (b)'` — the owner's "high magic
+MISS items-114-116.md | ), re-deriving from S7b. **(c) THE GATE — four clauses in order, then the supply law.** Islands rise by rule only where  |ctx: amp (IN-V11-1) and is named in the report ("islands gate edited (owner rule 115)
+OK   items-114-116.md | actually
+OK   items-114-116.md | has to have both
+OK   items-114-116.md | floating islands
+OK   items-114-116.md | bundle these into the rewrite phase
+OK   items-114-116.md | bundle all this with g114-115
+OK   items-114-116.md | oh and material for buildings is determined by terrain, resoucres, and trade. paired with 
+OK   items-114-116.md | also to say that material not native requires trade which means isoalted settlements cant 
+OK   items-114-116.md | bundle all this with g114-115
+OK   items-114-116.md | note that we are reworking trade as we speak. but for now its your recomendation
+MISS items-114-116.md | different materials for construction is only represented by a change in texture or color. It has nothing to do with the  |ctx: a material is a rendering attribute only (§2.6; item 19; the owner, 2026-09-26: 
+MISS items-114-116.md | emulation first |ctx: s model — item 19's "DEFAULT: that FTG model" (J28's application of the owner's 
+MISS items-114-116.md | isolated settlement |ctx:  through a named partner that supplies it, (c)) or **unavailable**. The owner's 
+OK   items-114-116.md | the richer areas
+OK   items-114-116.md | the middling areas
+MISS items-114-116.md | what used to be old houses has been repurposed for building material |ctx: ick's debit (the class row's `salvageM3` for that material). *Why:* the owner's 
+OK   items-114-116.md | reworking trade as we speak
+OK   items-114-116.md | expensive to transport
+MISS items-114-116.md | this neighborhood prosperities defines the bounds (floor, and ceiling) of what any building inside of it can be |ctx: ield value — first clamped into its district's band range (item 72 (d‴), owner: 
+MISS items-114-116.md | ). The row's `fallback` materials join only when no admitted candidate is native or affordable, and a tie place never me |ctx:  owner: "a forrest for timber … most building material is going to be wood based
+MISS items-114-116.md |  the share within the band that a mix draw would make where the building is eligible; the defaults' outcome under a unif |ctx: er place. **The owner's examples at TOWN** (≈ % of each band's buildings, "mixed
+OK   items-114-116.md | , stone 
+OK   items-114-116.md | cant have … or grow to have them until and unless they trade
+OK   items-114-116.md | CANT … GROW TO HAVE THEM
+MISS items-114-116.md | if a user wants to change something to fit their preference |ctx:  TO HAVE THEM", RULED (vetoable).** The owner asked that everything be editable 
+MISS items-114-116.md | emulation first |ctx: yle pools and roof colour" (file b; J28's application of the owner's 2026-09-26 
+MISS items-114-116.md | through the lifestyle-banded building pools … and the roof-colour role by band … never by a material keyed to the prospe |ctx: first", not an owner ruling on materials) — which §2.6 restates as wealth shown 
+MISS items-114-116.md | I still want it to be based in our base of MFCG and FTG emulation first |ctx: key.band` "absent from every default row"; and item 23, which quotes the owner (
+OK   items-114-116.md | cant … until and unless
+MISS items-114-116.md | tendencies, never fixed laws |ctx: on** (the owner's "cant … until and unless"): it is the one exception to §7.6's 
+MISS items-114-116.md | materials and roofing |ctx: stands. *What agrees and is kept:* item 19's owner words and its (a), which put 
+MISS items-114-116.md | ): the landed units — the base model, kernel, pipeline, determinism and rendering parts, V03 and V04 — in a short late r |ctx: e, bundled with items 114 and 115 (owner, ~01:12: "bundle all this with g114-115
+OK   owner-instructions-entry.md | one thing i wanted to add, at generation time the first generation, teh economy slider det
+OK   owner-instructions-entry.md | Economy
+OK   owner-instructions-entry.md | and only high magic on the slider allows for floating islands in the initial generation.
+OK   owner-instructions-entry.md | actually floating islands has to have both high magic and high economy
+OK   owner-instructions-entry.md | on the slider
+OK   owner-instructions-entry.md | bundle these into the rewrite phase
+OK   owner-instructions-entry.md | oh and material for buildings is determined by terrain, resoucres, and trade. paired with 
+OK   owner-instructions-entry.md | also to say that material not native requires trade which means isoalted settlements cant 
+OK   owner-instructions-entry.md | bundle all this with g114-115
+OK   owner-instructions-entry.md | note that we are reworking trade as we speak. but for now its your recomendation
+OK   canon-ruling.md | bundle these into the rewrite phase
+OK   canon-ruling.md | bundle all this with g114-115
+OK   canon-ruling.md | note that we are reworking trade as we speak. but for now its your recomendation
+OK   canon-ruling.md | only high magic ON THE SLIDER allows for floating islands in the initial generation
+OK   canon-ruling.md | both high magic and high economy
+MISS canon-ruling.md | emulation first |ctx:  default — "DEFAULT: that FTG model" (file b), J28's application of the owner's 
+MISS canon-ruling.md | never a universal ladder |ctx: 6.21. * **Kept:** item 19's owner words and its (a), which agree with item 116; 
+OK   canon-ruling.md | high magic
+OK   j-rows.md | one thing i wanted to add, at generation time the first generation, teh economy slider det
+OK   j-rows.md | bundle these into the rewrite phase
+OK   j-rows.md | bundle all this with g114-115
+OK   j-rows.md | Economy
+OK   j-rows.md | and only high magic on the slider allows for floating islands in the initial generation.
+OK   j-rows.md | actually floating islands has to have both high magic and high economy
+OK   j-rows.md | bundle these into the rewrite phase
+OK   j-rows.md | bundle all this with g114-115
+OK   j-rows.md | on the slider
+OK   j-rows.md | on the slider
+OK   j-rows.md | oh and material for buildings is determined by terrain, resoucres, and trade. paired with 
+OK   j-rows.md | material not native requires trade which means isoalted settlements cant have non nattive 
+OK   j-rows.md | bundle all this with g114-115
+OK   j-rows.md | note that we are reworking trade as we speak. but for now its your recomendation
+OK   j-rows.md | nearby
+OK   plain-summary.md | on the slider
+MISS routing.json | states |ctx: chain after @pop×k in that order; §1's owner-rule list holds the three rules.", 
+MISS routing.json | 114+115+116: §1 owner-rule list entries |ctx: @pop×k in that order; §1's owner-rule list holds the three rules.", "states": [ 
+MISS routing.json | 114+115: Level.intent { wealthLevel?, economyPriority?, magicPriority? }, Level.magic? |ctx: holds the three rules.", "states": [ "114+115+116: §1 owner-rule list entries", 

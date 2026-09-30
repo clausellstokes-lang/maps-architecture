@@ -1,0 +1,508 @@
+================= model
+-- A114-115 STATES:
+   * §2.5 BandSet declaration with BandCeilingRow
+   * §2.5 FieldBands.ceiling?: { at; by } (written only below the top rank; derived)
+   * §2.8 dossier paths: the economy priority at creation among the settlement's own facts
+   * §2.8 dossier paths: the creation slice's magic word beside the typed slices
+   * §2.9 recipe.layers.islands = Recipe.params['layers.islands']
+-- A114-115 REFS: §4.5 (the prosperity ceiling's rules) | §7.7 (Intent, items 9 and 11) | II.6 (the gate) | V05 §2.4, §3.2 (1)
+-- B116 STATES:
+   * §2.6 Materials rule rewritten: the owner's words, (a)'s terms and wealth words, (e)'s cost, (f)'s means (interval rule, top means, institutions clamped in their district's band range, works), (g)'s pick (row order, earth-wall admission, fallback, places, draws), (h)'s mix with part shares and the per-wing covering, item 19's shape clause kept, (m)'s supersession
+   * §2.6 types MaterialFamily, MaterialMass, MaterialSlot, MaterialDef, MaterialPreference, MaterialMixRow, the narrowed parity MaterialRow, BuildingMaterial, MaterialOrigin; RoofSpec.material and materialOrigin as the wing's covering
+   * §2.7 MaterialSupply and NativeReason; MaterialLedger.rows[].family and .at; Enceinte.materialOrigin and crest; Gate.material/materialOrigin; Bridge.material/materialOrigin; RetainingWall.material (a MaterialDef id)/materialOrigin; Tunnel.lining/liningOrigin; Gallery.lining/liningOrigin
+   * §2.4 Way.material/materialOrigin/surfaceOrigin and surface 'brick'
+   * §2.5 District.materialOverride retyped {walls?, roof?}
+   * §2.3 Terrain.fissile, Terrain.lead, Terrain.mining declared
+   * §2.8 registry rows for the new edit paths; factTier for origin dossier; SliceRef.kind 'supply' (table 'derived.materialSupply')
+   * §2.9 Document.derived.materialSupply; thematic view key 'materials'
+-- B116 REFS: §4 producers (S1 (11), S3, S5a, S4, S5b, S7, S10, S11, §4.9, §4.11, II.7) | §7.7 TradePartner, DR3, DR15, DR41 | §7.1-§7.6 edit paths, migration, the switch | §8.2 roles and tiles | V11 rows and cell values
+-- C-bundle STATES:
+   * 114: §2.5 BandSet declaration with BandCeilingRow
+   * 114: §2.5 FieldBands.ceiling?: { at; by } (written only below the top rank; derived)
+   * 114+115: §2.8 dossier paths — the economy priority and the magic priority at creation among the settlement's own facts; the creation slice's magic word beside the typed slices
+   * 115: §2.9 recipe.layers.islands = Recipe.params['layers.islands']
+   * 116: §2.6 the Materials rule whole: vocabulary and wealth words, cost, means (with the one statement of the means under item 114's prosperity ceiling and the very-rich consequence), pick, mix, item 19 and 23 ruling
+   * 116: §2.6 the types MaterialFamily … MaterialOrigin; RoofSpec.material and materialOrigin
+   * 116: §2.7 MaterialSupply, NativeReason, the ledger's family and at, the structures' material and origin fields, the linings
+   * 116: §2.4 Way.material/materialOrigin/surfaceOrigin, surface 'brick'; §2.5 materialOverride retyped; §2.3 Terrain.fissile, .lead, .mining
+   * 116: §2.8 registry rows, factTier for origin dossier, SliceRef.kind 'supply'; §2.9 Document.derived.materialSupply, thematic key 'materials'
+-- C-bundle REFS: §4.5 (the prosperity ceiling's rules, ceilingAt) | §4.11 (the prelude's one order) | §7.7 (Intent, items 9 and 11, TradePartner, DR3, DR15, DR41) | §7.1–§7.6 (edit paths, migration, the switch) | II.6 (the gate) | V05 §2.4, §3.2 (1) | §8.2 (roles and tiles) | V11 (rows and cell values)
+================= kernel
+-- C-bundle STATES:
+-- C-bundle REFS: 
+================= pipeline
+-- A114-115 STATES:
+   * §4.5 the prosperity ceiling (table, ceilingAt, wealth lift, fold, cuts, fixed-cut rule, continuous reads, band ranges, precedence, record writing, drivers() filling FieldDrivers.ceiling)
+   * §4.2 S0 and S2 (wealth level in force; the fold); S5d's folded cuts
+   * §4.7 S10b (2) wealth level in force
+   * §10.2 rows read by 114 (c) 4; EP-18 limits
+   * II.7.1 the wealth level in force
+   * §4.11 the prosperity ceiling at each epoch; EpochInputs.wealthLevel?; history-first and refounding
+   * II.6 the island gate's four clauses, what rises and what stands, access conversion, destruction fall
+   * S7b (5) forced and rule-driven slots
+-- A114-115 REFS: II.7.3, II.7.5 (their banding caps) | PART III (V07's fold) | V05 §2.4 (gate cells) | V05 §3.2 (1) (skyGate) | §7.7 layer 1 (Intent) | §2.5 (BandSet, FieldBands.ceiling)
+-- B116 STATES:
+   * §4.2 S0 site requests fissile and lead; S1 (10)'s two appended draws; the struck sentence that only II.7.6 reads Terrain.mining
+   * §4.2 S1 (11): the supply's derivation with (b)'s tests - the creation arena, the deposit rule at generation and at epochs, the dossier production records, the ruins basis and ruinsReachM, generation's ruin credits; S3's commit writes the land carriage
+   * §4.2 S2 producer gate (requiresFamily) and the thatch-family edge resolution
+   * §4.2 S3 and §4.4 S5a: the enceinte pick where the trace is fixed, construction by mass, the crest, the earthwork rows' reading, towers and gates
+   * §4.3 S4 and §4.4 S5b: bridge feasibility at the router; the ford, then F-ROUTE's rungs
+   * §4.8 S7: towers, gates, castle curtain, bridges, the dossier-implied bridge, harbour works and sea moles
+   * §4.7 S10 retaining pick; S10a surface gate over V01's table; S11 building pick, institutions, deck buildings, per-wing covering, tents, host buildings
+   * §4.9 land uses on native sources, the timber shortfall through partners, the scarcity factor
+   * §4.11 item 116 (j) whole: prelude, re-picks, refurbishment writing builtProsperity (J-A31.44's list), fire ordinance, repairs in kind, ledger by family with positions, ruins stock, sources over epochs, the replay's partners and deposits; Works keyed by id or mass
+   * §4.1 and §4.12 stage I/O (materialSupply); §4.13 EP row for S1 (11) and the pick
+   * §10.2 requiresFamily, salvageM3 by id with family credits, the citation of V11 §3.5.2's refusal, the corrected sentence on which rows name a material
+   * II.7.2 lining pick; II.7.6 quarry voids from native-land stone (structures included), reachM from the town, surface-quarry fallback; II.7 S7b stone-stock forecast
+-- B116 REFS: §2.6 pick, cost, means and types | V11 cells and rows | V06 engine | V04 U-FORECAST build | V01 §3.7.3 surface table
+-- C-bundle STATES:
+   * 114: §4.5 the prosperity ceiling whole (table, ceilingAt and its callers, wealth lift, fold, cuts, fixed-cut rule, continuous reads, band ranges, precedence, record writing and readers, drivers())
+   * 114: §4.2 S0 and S2 (wealth level in force; the fold); S5d's folded cuts; §4.7 S10b (2); II.7.1
+   * 114: §10.2 rows read by 114 (c) 4; EP-18 limits
+   * 114: §4.11 the position at each epoch, the cut rewrite, EpochInputs.wealthLevel?, history-first and refounding
+   * 115: II.6 the gate's four clauses with high magic as corrected; what rises and what stands; access conversion; destruction fall
+   * 115: S7b (5) forced and rule-driven slots; §4.11 islands at an epoch
+   * 116: §4.2 S0 fissile/lead; S1 (10) draws; S1 (11) the supply and S3's carriage; S2 producer gate and thatch edge
+   * 116: §4.2 S3, §4.4 S5a enceinte pick and construction; §4.3 S4 and §4.4 S5b bridge feasibility (top means by ceilingAt)
+   * 116: §4.8 S7 structures; §4.7 S10 retaining, S10a surfaces, S11 buildings, institutions, covering, tents, host buildings
+   * 116: §4.9 native land uses, timber shortfall and scarcity; §4.11 (j) whole and Works by mass
+   * 116: §4.1/§4.12 stage I/O; §4.13 EP row; §10.2 requiresFamily, salvage, refusal citation
+   * 116: II.7.2 linings; II.7.6 quarry voids from native-land stone; S7b stone-stock forecast
+   * shared: §4.11 the epoch prelude's one order (slice, deposits, TradeFlow → lived wealth → prosperity ceiling position → material supply → S2 and builds)
+-- C-bundle REFS: §2.5 (BandSet, FieldBands.ceiling) | §2.6 (the pick, the means under the prosperity ceiling, cost, types) | §7.7 layer 1 (Intent: economyPriority, magicPriority) | II.7.3, II.7.5 (their banding caps) | PART III (V07's fold) | V05 §2.4 (gate cells) | V05 §3.2 (1) (skyGate) | V11 (cells and rows) | V06 (engine) | V04 (U-FORECAST build) | V01 §3.7.3 (surface table)
+================= determinism
+-- A114-115 STATES:
+   * §7.7 layer 1: Intent.economyPriority?, optional wealthLevel, the wealth level in force, Surprise me, the map-fact exception
+   * §7.7 layer 2: Recipe.params['layers.islands']
+   * §7.7 item 1 narrowed list
+   * §7.7 item 9 dossier facts (economy priority at creation; creation slice's magic)
+   * §7.7 item 11 refusals (Economy adjust; declared island in magic-less dossier world; setting refusal withdrawn)
+   * derivation table DR6, DR7, DR8, DR9, DR27
+   * §7.1 early-parameter list, edit-target row, T1 binding row, T5 quarter held band
+   * §7.4 adjust and quarter rows; fate reasons
+   * §7.5 migration rows and the island upgrade
+   * §7.6 ceiling cell parity entries
+   * §7.8 Economy and Magic registry rows, basic panel, advanced Wealth level, Islands control states
+   * §5.3 coherence rows
+   * §5.4 ReportCode islands_gated
+   * §6.2 recorded inputs
+-- A114-115 REFS: §4.5 (the prosperity ceiling) | II.6 (the gate) | V05 §3.2 (1) (skyGate) | V08 (adapter rows, carried facts, notes) | §14 (DossierDigest)
+-- B116 STATES:
+   * §5.2 F-MATERIAL and its ladder (the floor for buildings; kinds then tier 6 for structures)
+   * §5.3 the licence invariant; the neighbourhood-character row unchanged
+   * §5.4 report codes with class F-MATERIAL and landing (ladderUses, unserved, requestedVsBuilt)
+   * §6.1 the material row (lineage and slot, no epoch component, readers S3, S4, S5a, S5b, S7, S10, S11, II.7.2, EVO_*, VS1-VS6) and blueprint.features order (... sewer, fissile, lead); §6.2 leaf-digest note
+   * §7.1 edit paths (T12 dress, paint wallMaterial/roofMaterial clearing mix, T5 materialOverride and its growth rule, terrain row fissile and lead, each structure's material, the dossier-map partner refusal)
+   * §7.3 locality of the partner and switch Adjusts; §7.4 lifecycle rows; §7.5 migration reads (timber -> boards alias, ledger ids as families, non-id Enceinte.material)
+   * §7.6 the switch materials.supply.enabled, its presets, the retired regional shift, the licence as the one exception to the reading rule
+   * §7.7 TradePartner fields (name, supplies, distanceM, source 'declared'); layer 2's standalone fill order and declared partners outside TradeFlow; DR3 amended; DR15 amended; DR41 (family site; covers Document.derived.materialSupply; inputs; rule; chance; bar); the closed-digest admission; item 9's tiers
+   * §7.8 registry rows: the Trade control, the fissile and lead toggles, the switch through presets and the tables editor
+-- B116 REFS: V08 DR3 fill rows | V09 controls | §2.6 rules and types
+-- C-bundle STATES:
+   * 114: §7.7 layer 1 (economy priority, optional wealth level, wealth level in force, Surprise me, the map-fact exception)
+   * 115: §7.7 layer 1 (Intent.magicPriority?, the standalone magic word's derivation row); layer 2 Recipe.params['layers.islands']
+   * 114+115: §7.7 item 1 narrowed to priorityEconomy and priorityMagic; item 9 (economy priority, magic priority, magic word)
+   * 114+115+116: §7.7 item 11 refusals (one list); the setting's refusal withdrawn
+   * 114+115: DR6, DR7, DR8, DR9, DR27 (inputs settlement.economyPriority, settlement.magicPriority)
+   * 116: §7.7 TradePartner fields, layer 2 standalone fill, DR3 and DR15 amended, DR41, closed-digest admission
+   * 114+115+116: §7.1 early-parameter list, edit-target row, T1 binding row (Economy, Magic), T5 quarter held band, material edit paths
+   * 114+115+116: §7.4 adjust and quarter rows; fate reasons; lifecycle rows
+   * 114+115+116: §7.5 migration reads
+   * 114+116: §7.6 ceiling cell parity entries; the materials switch, presets, regional shift retired, licence exception
+   * 114+115+116: §7.8 registry rows (intent.economyPriority, circumstances.magic, intent.magicPriority, circumstances.trade, fissile, lead, the switch), basic panel Economy, advanced Wealth level, Islands control states
+   * 114+115+116: §5.3 coherence rows (no band above c; the sky row; the licence invariant)
+   * 115+116: §5.4 ReportCode islands_gated and the thirteen material codes; §5.2 F-MATERIAL
+   * 114+115+116: §6.1 material row and blueprint.features order; §6.2 recorded inputs and leaf-digest note
+-- C-bundle REFS: §4.5 (the prosperity ceiling) | II.6 (the gate) | V05 §3.2 (1) (skyGate) | V08 (adapter rows, carried facts, notes, DR3 fill) | V09 (controls) | §14 (DossierDigest, PortNote) | §2.6 (the pick and types)
+================= rendering
+-- A114-115 STATES:
+   * §8.2 the Wealth key's closing line under a prosperity ceiling
+-- A114-115 REFS: V09 §5.4 (the Wealth view) | §4.5 (FieldBands.ceiling)
+-- B116 STATES:
+   * §8.1 attrs columns materialWalls, materialRoof, mixPart, mixWalls, materialOrigin
+   * §8.2 roles wall.<id> and roof.<id> for every MaterialDef id with ink, lit and hatched palette and contrast rows; lit's roof by covering with the switch on, band tint off; ink's pattern; the total id-to-tile map (11 new tiles, 26 in all, M2b; hatched at M5); mixed parts per facet, chimneys, per-wing covering, boundary walls; the colour-deficiency row and the Materials row; the Materials ThematicRow with item 112's second cue
+   * §8.11, §9.7, §11.6 edge rows
+   * §9.5 Materials legend with its origin line
+   * §11.1 export fields and the skeleton's declared partners and material setAttrs
+   * §11.2 why on material.*
+   * §12.4 budget rows (supply at S1, pick at S11)
+-- B116 REFS: V02 facets | V03 plan | V09 Materials view | V07 painterly values
+-- C-bundle STATES:
+   * 114: §8.2 the Wealth key's closing line under a prosperity ceiling
+   * 116: §8.1 attrs columns; §8.2 roles, palettes, lit by covering, ink pattern, tile map, mixed facets, boundary walls, deficiency and Materials rows
+   * 116: §8.11, §9.7, §11.6 edge rows; §9.5 Materials legend with origin line
+   * 116: §11.1 export fields and skeleton; §11.2 why on material.*; §12.4 budget rows
+-- C-bundle REFS: V09 §5.4 (the Wealth view), V09 (the Materials view) | §4.5 (FieldBands.ceiling) | V02 (facets) | V03 (plan) | V07 (painterly values)
+================= scope
+-- A114-115 STATES:
+   * §13.2 T114-1 – T114-14, T115-1 – T115-10, island fixture rule
+   * §14 DossierDigest.settlement.economyPriority?, site.magic?, port duties, PortNote kinds, T1 row
+   * §1.2 defaults (Economy 50, wealth level 0.5, Magic None)
+   * D-3 sentence
+   * §0.2 rows 114 and 115
+   * judgment index J-A114.41 – J-A114.55, J-A115.41 – J-A115.51
+   * §16 placement (M2b, M6-sky, M-SF)
+-- A114-115 REFS: §1.1 (no rung caps a band) | §4.5 | II.6 | §7.7
+-- B116 STATES:
+   * §0 row for item 116; item 19's row amended; index terms (native, traded, native-only, material family, means, top means, work's means, origin, mixed)
+   * §1 buildings row
+   * §13.2 T116-1 - T116-34; T8-5 and T26-1 amended
+   * §13.8 schedule rows
+   * §14 DossierDigest.economy.partners[] exports?, resources?, access?; PortNote kind partner_no_supplies
+   * §16 milestones (J-A116.01)
+   * D-2 amended (region cost rows)
+   * register J-A116.01, .21, .41-.48, .61, .81 (J-A19.21 superseded; J-A8.45, J-A26.42, J-A65.45 amended; J-A19.81 kept under FTG and switch off)
+-- B116 REFS: every other unit's part of item 116
+-- C-bundle STATES:
+   * 114: §13.2 T114-1 – T114-14
+   * 115: §13.2 T115-1 – T115-10 and the island fixture rule
+   * 116: §13.2 T116-1 – T116-34, T8-5, T26-1 amended; §13.8 schedule
+   * 114+115+116: §14 DossierDigest additions and PortNote kinds; T1 row
+   * 114+115: §1.2 defaults (Economy 50, wealth level 0.5, Magic 50 with no magic)
+   * 115: D-3 sentence
+   * 116: D-2 amended; §1 buildings row
+   * 114+115+116: §0.2 rows 114, 115, 116 (item 19's row amended); §0 index terms
+   * 114+115+116: the judgment index (J-A114.*, J-A115.*, J-A116.* by the index's rule)
+   * 114+115+116: §16 placement (M1, M2b, M3a–M3c, M5, M6-P, M6-U, M6-E, M6-sky, M-SF, V-M1)
+-- C-bundle REFS: §1.1 (no rung caps a band) | §4.5 | II.6 | §7.7 | §2.6 | every other unit's part of items 114–116
+================= V01
+-- A114-115 STATES:
+   * the hood's Economy and derived intent.wealth
+   * great houses 90, slum 10
+   * shanty condition on the wealth level in force
+   * manor quota 0 below prosperous
+-- A114-115 REFS: §4.5 (fixed-cut rule, band ranges, the prosperity ceiling) | §7.7 layer 1 (the wealth level in force)
+-- B116 STATES:
+   * the paving gate over V01 §3.7.3's table: surface-to-material costs, the brick row, the fallback order, the epoch rule
+   * hatched's roof program reads the covering role (NG's two tones under NG)
+   * the material naming feature (§3.7.4)
+   * the lone neighbourhood's supply from its recipe's creation-slice trade, native-only by default; M5
+-- B116 REFS: §2.6 pick | §2.7 supply | §8.2 role values
+-- C-bundle STATES:
+   * 114: the hood's Economy and derived intent.wealth
+   * 114: great houses 90, slum 10
+   * 114: shanty condition on the wealth level in force
+   * 114: manor quota 0 below prosperous
+   * 116: the paving gate over §3.7.3's table
+   * 116: hatched reads the covering role
+   * 116: the material naming feature
+   * 116: the lone hood's supply, native-only by default
+-- C-bundle REFS: §4.5 (fixed-cut rule, band ranges, the prosperity ceiling) | §7.7 layer 1 (the wealth level in force) | §2.6 (pick) | §2.7 (supply) | §8.2 (role values)
+================= V02
+-- A114-115 STATES:
+-- A114-115 REFS: §4.5 / item 114 (c) 4 (the continuous reads)
+-- B116 STATES:
+   * the mix parts' facets and shares (upper, gable with every chimney, outshots)
+   * roofscape and facade programs per part; the per-wing covering; the band-tint line replaced
+   * §1b trace rows for the supply's inputs
+   * the mutator keeps the material except a completed upward refurbishment (§3.9)
+   * deck buildings' row
+   * §5.5 exports by part
+   * T-V2-25 extended; a bar that the heavier part is below
+-- B116 REFS: §2.6 BuildingMaterial | §4.7 S11 pick
+-- C-bundle STATES:
+   * 116: the mix parts' facets and shares
+   * 116: roofscape and façade programs per part; per-wing covering
+   * 116: §1b trace rows
+   * 116: the mutator's refurbishment re-pick
+   * 116: deck buildings' row
+   * 116: §5.5 exports by part
+   * 116: T-V2-25 extended (T116-10's clause)
+-- C-bundle REFS: §4.5 / item 114 (c) 4 (the continuous reads) | §2.6 (BuildingMaterial) | §4.7 S11 (the pick) | T116-10
+================= V03
+-- B116 STATES:
+   * exterior-wall fill per storey and per gable segment
+   * chimneys in the heavier material
+   * thickness, openings and stairs never read material
+   * an underground building's host styling from origin host
+-- B116 REFS: §2.6 BuildingMaterial
+-- C-bundle STATES:
+   * 116: exterior-wall fill per storey and gable segment
+   * 116: chimneys in the heavier material
+   * 116: thickness, openings and stairs never read a material
+   * 116: host styling from origin host
+-- C-bundle REFS: §2.6 (BuildingMaterial, the mix)
+================= V04
+-- B116 STATES:
+   * §3.5.3 volume law over native-land stone by origin, structures and linings included, by part shares
+   * a stoneless site lays no workings; the surface-quarry fallback
+   * U-FORECAST's stone stock
+   * Gallery.lining on dug passages
+   * vault spans and archVault only under masonry raised ways
+   * ancient ruins' ledger credits at generation and when robbed
+   * §3.13 edge rows (a stoneless site; traded stone)
+-- B116 REFS: II.7.2 lining pick | II.7.6 quarries | §2.7 supply and ledger
+-- C-bundle STATES:
+   * 116: §3.5.3 volume law over native-land stone
+   * 116: no workings on a stoneless site; surface-quarry fallback
+   * 116: U-FORECAST stone stock
+   * 116: Gallery.lining
+   * 116: vault spans and archVault only under masonry
+   * 116: ancient ruins' credits
+   * 116: §3.13 edge rows
+-- C-bundle REFS: II.7.2 (lining pick) | II.7.6 (quarries) | §2.7 (supply and ledger)
+================= V05
+-- A114-115 STATES:
+   * skyGate record, function, callers and report args
+   * §0 plain words
+   * §1b wiring row
+   * §2.4 IslandRule.gate and limits; §2.6 lifecycle row
+   * §3.2 (1), (3), (4), (5)
+   * §3.15 (4), (5); wane under magic none; access conversion
+   * §4.1 T1 row with the Magic
+   * §4.2 declaring rule and held fates
+   * §4.4 DR27 inputs and coherence (absorb wane withdrawn)
+   * §4.5 why
+   * J-V5.10, J-V5.19
+   * T-V5-1 and the island fixture rule; §8 P0 run
+   * S_town fallback on the wealth level in force
+-- A114-115 REFS: II.6 (clauses) | item 114 (c) 3–4 and item 115 (e) | §7.8 (the Islands control) | §5.4 (islands_gated) | V09 (message rows)
+-- B116 STATES:
+   * landfall credit as family stone at the decoration's face centroid
+   * island buildings on the settlement's supply
+   * island rock, conjured water and magical structures neither source nor material
+   * item 115's gate unchanged
+-- B116 REFS: §2.7 supply | §2.6 pick
+-- C-bundle STATES:
+   * 114: S_town fallback on the wealth level in force
+   * 115: skyGate record (with magicPriority), function, callers, report args; the dossier source rule
+   * 115: §0 plain words; §1b row
+   * 115: §2.4 IslandRule.gate {magic, magicMin, economyMin} and limits; §2.6 lifecycle
+   * 115: §3.2 (1), (3), (4), (5)
+   * 115: §3.15 (4), (5); wane under magic none; access conversion
+   * 115: §4.1 T1 row with the Magic; §4.2 declaring rule and held fates
+   * 115: §4.4 DR27 inputs and coherence (absorb wane withdrawn); §4.5 why
+   * 115: J-V5.10, J-V5.19
+   * 115: T-V5-1 and the island fixture rule; §8 P0 run
+   * 116: landfall credit as stone at the face centroid
+   * 116: island buildings on the material supply
+   * 116: island rock, conjured water, magical structures neither source nor material
+-- C-bundle REFS: II.6 (clauses) | item 114 (c) 3–4 and item 115 (e) | §7.8 (the Islands control) | §5.4 (islands_gated) | V09 (message rows) | §2.6 (pick) | §2.7 (supply, ledger)
+================= V06
+-- A114-115 STATES:
+   * prelude computation of the prosperity ceiling; cut rewrite at row 4
+   * EpochInputs.wealthLevel as the lift's input
+   * start small and replay under the prosperity ceiling
+   * sky.islands raise and settled refloat read the gate
+   * EpochReport.islandsGated
+   * replay islands; start-small crossing; time card unchanged
+   * its bars
+-- A114-115 REFS: §4.11 | §4.5 (ceilingAt) | II.6 | V05 §3.15
+-- B116 STATES:
+   * EVO_PRELUDE's supply step
+   * §3.11.2 (4) ordinance with fire.ordinanceStretch (1.25) beside fire.rebuildShift (switch-off path)
+   * hazard reads of MaterialDef.flammability and floodCollapse (buildings by part; decks, piers, supports by mass)
+   * which structure events are repairs in kind and which re-pick
+   * chronicle lines
+   * fixtures H-TRADE, H-NATIVE, H-QUARRY, H-WOODS
+   * T-V6-16 stratified by supply; T-V6-17 amended
+-- B116 REFS: §4.11 item 116 (j) | V11 cells
+-- C-bundle STATES:
+   * 114: prelude position of the prosperity ceiling; cut rewrite at row 4
+   * 114: EpochInputs.wealthLevel as the lift's input
+   * 114: start small and replay under the prosperity ceiling
+   * 115: sky.islands raise and settled refloat read the gate
+   * 115: EpochReport.islandsGated
+   * 115: replay islands; start-small crossing; time card unchanged; T-V6-66
+   * 116: EVO_PRELUDE supply step
+   * 116: fire ordinance beside rebuildShift
+   * 116: hazard reads of flammability and floodCollapse
+   * 116: repairs in kind vs re-picks; chronicle lines
+   * 116: H-TRADE, H-NATIVE, H-QUARRY, H-WOODS; T-V6-16, T-V6-17
+   * shared: EVO_PRELUDE order
+-- C-bundle REFS: §4.11 (the prelude's one order; item 116 (j)) | §4.5 (ceilingAt) | II.6 | V05 §3.15 | V11 (cells)
+================= V07
+-- A114-115 STATES:
+   * the fold on bandShares
+   * the forced manor's rows under a capped household
+   * T1's Economy on the village
+   * DR6 at village rungs
+   * §1 out-of-scope sentence on islands
+-- A114-115 REFS: §4.5 (the prosperity ceiling) | V05 §3.15 (island steps)
+-- B116 STATES:
+   * the village application through rungMeans
+   * v. preference rows
+   * the kind draw over admitted kinds and the REPLACEMENT retype
+   * roof.palette and painterly's role values for every MaterialDef id (roofJitter kept)
+   * both 'geology row' citations replaced by (b)'s tests
+   * wall records' materials (J-V7.15, T-V7-32 amended)
+   * the entry store as the arrival point; roads: isolated a road form only
+   * a native-only village bar at V-M1
+-- B116 REFS: §2.6 pick | §2.7 supply | §4.8 enceinte construction
+-- C-bundle STATES:
+   * 114: the fold on bandShares
+   * 114: the forced manor's rows under a capped household
+   * 114: T1's Economy on the village
+   * 114: DR6 at village rungs
+   * 115: §1 out-of-scope sentence on islands
+   * 116: rungMeans; v. rows; kind draw and REPLACEMENT retype
+   * 116: roof.palette and painterly values
+   * 116: geology-row citations replaced
+   * 116: wall records' materials (J-V7.15, T-V7-32)
+   * 116: entry store; roads: isolated
+   * 116: T116-3 and H-NATIVE at V-M1
+-- C-bundle REFS: §4.5 (the prosperity ceiling) | V05 §3.15 (island steps) | §2.6 (pick) | §2.7 (supply) | §4.8 (enceinte construction)
+================= V08
+-- A114-115 STATES:
+   * adapter row config.priorityEconomy → settlement.economyPriority
+   * §4.6 rows value_absent, value_clamped; frozen_fact_changed args
+   * carried settlement economyPriority? and the settlement diff row
+   * §2.7 lifecycle row
+   * J-V8.45, BCR-V8-25 restated
+   * host frame: Economy and Magic locked where supplied
+   * census readings for both items
+   * magic row (moderate → low; absent/unmapped → no site.magic)
+   * carried site magic? under W-DOS-08
+   * T-V8-20 ignore clause
+-- A114-115 REFS: §14 (DossierDigest, PortNote kinds) | §7.7 items 1, 9, 11 | W-DOS-02, W-DOS-08 | T114-5, T114-7, T114-11, T115-2 | DR6, DR27
+-- B116 STATES:
+   * DR3's supplies fill from the four dossier sources; the port's fill of exports, resources, access and name
+   * access-pair route rows
+   * deposits row's supplies column (every key; glass_sand none; coal_deposits fuel only); precious_metals -> lead
+   * production records' rows feeding DR41
+   * materials row -> our id and family
+   * note partner_no_supplies
+   * the consequence statement
+   * the adapter (J121)
+   * §1b rows; a T-V8 bar that the fill reads only the named fields
+-- B116 REFS: §7.7 TradePartner, DR3, DR41 | §14 digest fields
+-- C-bundle STATES:
+   * 114: adapter row config.priorityEconomy → settlement.economyPriority
+   * 114+115: §4.6 rows value_absent, value_clamped; frozen_fact_changed args
+   * 114+115: carried settlement economyPriority? and magicPriority?; the settlement diff row
+   * 114: §2.7 lifecycle row
+   * 114+115: J-V8.45, BCR-V8-25 restated (the two sliders read)
+   * 114+115: host frame — Economy and Magic locked where supplied
+   * 114+115: census readings
+   * 115: adapter row config.priorityMagic → settlement.magicPriority
+   * 115: magic row (moderate → low; magicExists false → none; absent/unmapped → no site.magic)
+   * 115: carried site magic? under W-DOS-08
+   * 114+115+116: T-V8-20's ignore clause (one clause for the three items)
+   * 116: DR3 supplies fill; partner fields; access-pair rows
+   * 116: deposits supplies column; precious_metals → lead
+   * 116: production records feeding DR41; materials row
+   * 116: partner_no_supplies; the consequence statement; the adapter (J121); §1b rows
+-- C-bundle REFS: §14 (DossierDigest, PortNote kinds) | §7.7 items 1, 9, 11; TradePartner, DR3, DR41 | W-DOS-02, W-DOS-08 | T114-5, T114-7, T114-11, T115-2, T116-12, T116-13 | DR6, DR27
+================= V09
+-- A114-115 STATES:
+   * T1 Economy slider and its hints and lock
+   * advanced Wealth level (layer word, Follow the Economy)
+   * info.ceiling, info.ceiling.wealth, info.ceiling.held, bend.ceiling.follows, report.ceiling
+   * button.economyUp, button.openEconomy and event:economyTo
+   * fate.held.ceiling, fate.held.supply, fate.held.magic, fate.held.economy
+   * Wealth view legend line
+   * BCR-V9-2 cells
+   * Magic control in 'Programme'
+   * Islands control states and rows (info.islandsGated, refuse.islandsDossier.magic/.economy/.both, refuse.islandsNoMagic, info.islandsNone, report.islands.gated, report.islands.clause)
+   * button.magicHigh, button.economyHigh, button.drawIsland and their event forms
+-- A114-115 REFS: §7.8 (registry rows, control states) | §8.2 (legend rule) | V05 §3.2 (skyGate) | V08 (frozen_fact_changed)
+-- B116 STATES:
+   * Materials view in the Show menu, legend words and origin line
+   * About tab's material, origin chip and 'Why this material?'
+   * standalone Trade control (name, route, supplies; advanced panel)
+   * site card's fissile and lead toggles
+   * dossier map's read-only trade panel and the refusal's alternatives
+   * paint's two targets
+   * §4.3 binding rows
+   * catalogue keys: every new report code, critique.K19, bend.material.*, legend words
+-- B116 REFS: §2 records | §11.2 why
+-- C-bundle STATES:
+   * 114: T1 Economy slider, hints and lock
+   * 114: advanced Wealth level (layer word, Follow the Economy)
+   * 114: info.ceiling, info.ceiling.wealth, info.ceiling.held, bend.ceiling.follows, report.ceiling
+   * 114: button.economyUp, button.openEconomy, event:economyTo
+   * 114+115: fate.held.ceiling, fate.held.supply, fate.held.magic, fate.held.economy
+   * 114: Wealth view legend line; BCR-V9-2 cells
+   * 115: Magic control (slider and switch) in 'Programme'
+   * 115: Islands control states and rows (info.islandsGated, refuse.islandsDossier.magic/.economy/.both, refuse.islandsNoMagic, info.islandsNone, report.islands.gated, report.islands.clause)
+   * 115: button.magicHigh, button.economyHigh, button.drawIsland and their event forms
+   * 116: Materials view and legend; About tab material and origin chip
+   * 116: Trade control ('Site' group); fissile and lead toggles; dossier trade panel
+   * 116: paint's two targets; §4.3 bindings; catalogue keys
+   * shared: the advanced panel placement by consuming stage
+-- C-bundle REFS: §7.8 (registry rows, control states) | §8.2 (legend rule) | V05 §3.2 (skyGate) | V08 (frozen_fact_changed) | §2 records | §11.2 (why)
+================= V10
+-- A114-115 STATES:
+   * IntendInput.economy?
+   * lexicon wealth rows on the economy field
+   * §4.1 T1 encoder rows (economy fan-out; islands)
+   * FieldDrivers.ceiling?
+   * IntendInput.islands?
+   * lexicon islands row
+   * why answers for the prosperity ceiling and the gate
+-- A114-115 REFS: §4.5 (drivers() fills FieldDrivers.ceiling) | V05 §3.2 (skyGate) | V09 (info.islandsGated) | §7.8 (registry ids)
+-- B116 STATES:
+   * the material why section
+   * K19 in CritiqueFinding, T-V10-17 and CVR-V10-4
+   * creation mode's partner proposal (adjust('circumstances.trade') with a declared partner standalone)
+   * chronicle answers
+-- B116 REFS: §11.2 why | V06 chronicle
+-- C-bundle STATES:
+   * 114: IntendInput.economy?; lexicon wealth rows on the economy field
+   * 114: §4.1 T1 encoder (economy fan-out)
+   * 114: FieldDrivers.ceiling?; why answers for the prosperity ceiling
+   * 115: IntendInput.islands?, IntendInput.magicPriority?; lexicon magic and islands rows
+   * 115: §4.1 T1 encoder (the Magic control; islands)
+   * 115: why naming the gate's clauses
+   * 116: material why section; K19, T-V10-17, CVR-V10-4
+   * 116: creation-mode and edit-mode partner paths; chronicle answers
+-- C-bundle REFS: §4.5 (drivers() fills FieldDrivers.ceiling) | V05 §3.2 (skyGate) | V09 (info.islandsGated) | §7.8 (registry ids) | §11.2 (why) | V06 (chronicle)
+================= V11
+-- A114-115 STATES:
+   * row 6 ceiling cell (provenance, not calibratable, parity entries)
+   * row 56 gate cells (gate.magic stamped; economyMin own)
+   * compiler limit bars (T-V11-2)
+   * §3.5 magicGate unchanged and distinct
+-- A114-115 REFS: §4.5 (the ceiling rows' values) | V05 §2.4 (the gate cells' values) | §7.6 (cells, presets)
+-- B116 STATES:
+   * row 49 materials: defs, preferences (structures; classes with prestige rows and fallbacks; v. and cluster classes; docks and shanty; the default row), mixes, parity (FTG rows, band and regional-shift rows removed, timber -> boards), settings cells
+   * relief rows' P(slate), P(flag), P(lead)
+   * ResourceRow.family (§2.5) and the goods column; goods slate, lead, straw; good words
+   * §3.5.2 the refusal of the generic import for family goods and the family edge
+   * requiresFamily rows
+   * §3.18 salvage and dwell rows for every id; family credits
+   * earthwork section rows at TOWN, CITY, METROPOLIS
+   * §2.8c RetainingProfileRow.material and RaisedWayStructure.material retired into preference rows; pierSpacingM by mass
+   * §3.20 words for the material naming feature
+   * culture and region rows as MaterialDef.factors
+   * T-V11-28 and the compile totality
+   * §1b, §2.1, §3.1 rows with readers; register lines; C1
+-- B116 REFS: §2.6 formulas | §7.7 TradePartner | §4.11 Works
+-- C-bundle STATES:
+   * 114: row 6 ceiling cell (own, not calibratable, parity entries)
+   * 115: row 56 gate cells (gate.magic stamped '115 (b)'; magicMin, economyMin own)
+   * 114+115: compiler limit bars (T-V11-2)
+   * 115: §3.5 magicGate unchanged and distinct
+   * 116: row 49 materials (defs, preferences, mixes, parity, settings with means rows)
+   * 116: relief P(slate), P(flag), P(lead); ResourceRow.family; goods slate, lead, straw; good words
+   * 116: §3.5.2 refusal; requiresFamily; §3.18 salvage and dwell
+   * 116: earthwork rows; §2.8c retired fields; pierSpacingM by mass; §3.20 naming words
+   * 116: T-V11-28 and compile totality; §1b, §2.1, §3.1 rows; register lines; C1
+-- C-bundle REFS: §4.5 (the ceiling rows' values) | V05 §2.4 (the gate cells' values) | §7.6 (cells, presets) | §2.6 (formulas) | §7.7 (TradePartner) | §4.11 (Works)
+================= V12
+-- A114-115 STATES:
+   * §1 owner-rule list entries
+   * Level.intent.economyPriority?, Level.magic?
+   * explicit wealthLevel keeps the economy at its default
+   * derived fixtures @economy<e>, @magic<word>
+   * register entries
+   * M6-sky seeds with the gate held
+-- A114-115 REFS: §13.2 (T114-5, T115-5) | V05 (P0 and fixtures) | V11 (cells)
+-- B116 STATES:
+   * §1 owner-rule entry '116 (n)'
+   * bar-map rows for T116-3 - T116-7, T116-10, T116-16 - T116-22, T116-25 with owners
+   * register lines for every new cell (panel, then corpus; the switch never calibrated)
+   * item-110 material register lines re-pointed to preference rows
+   * the switch's preset resolution
+   * known-city fixtures' stated supply
+   * MeasureInput gains building material records
+-- B116 REFS: §13.2 bars
+-- C-bundle STATES:
+   * 114+115+116: §1 owner-rule list entries
+   * 114+115: Level.intent { wealthLevel?, economyPriority?, magicPriority? }, Level.magic?
+   * 114: explicit wealthLevel keeps the economy at its default
+   * 114+115: derived fixtures @economy<e>, @magic<m>, @magicLevel<word>
+   * 114+115+116: register entries
+   * 115: M6-sky seeds with the gate held
+   * 116: bar-map rows; item-110 lines re-pointed; switch preset resolution; known-city fixtures' supply; MeasureInput material records
+-- C-bundle REFS: §13.2 (T114-5, T115-2, T115-5, T116-*) | V05 (P0 and fixtures) | V11 (cells)

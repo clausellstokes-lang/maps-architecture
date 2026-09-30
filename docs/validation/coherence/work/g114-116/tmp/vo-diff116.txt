@@ -1,0 +1,752 @@
+3877a3878,3884
+> after
+> item
+> 114
+> (e)'s
+> prosperity
+> ceiling
+> position,
+3878a3886,3889
+> S2's
+> delta
+> demand
+> and
+3880c3891,3898
+< build;
+---
+> build
+> (§4.11's
+> one
+> prelude
+> order,
+> item
+> 114
+> (e));
+4690c4708,4714
+< 114:**
+---
+> 114
+> (its
+> one
+> statement
+> for
+> this
+> read):**
+4722,4725d4745
+< the
+< one
+< exception
+< to
+4729c4749,4751
+< (3)
+---
+> (4)'s
+> continuous
+> read
+4731,4732c4753,4790
+< this
+< read,
+---
+> an
+> interval
+> row:
+> its
+> upper
+> end
+> is
+> `R*_c`'s,
+> `lerp(hi_{c−1},
+> hi_c,
+> f)`,
+> since
+> each
+> band's
+> `lo`
+> is
+> the
+> band
+> below's
+> `hi`
+> (V11's
+> compile
+> checks
+> the
+> rows
+> contiguous),
+> and
+> its
+> lower
+> end
+> stays
+> the
+> band's
+> own,
+> so
+> the
+> row
+> is
+4740c4798,4813
+< the
+---
+> a
+> band
+> an
+> author
+> holds
+> above
+> c
+> (item
+> 114
+> (c)
+> (7))
+> reads
+> its
+> own
+> row.
+> The
+4748d4820
+< read
+4749a4822,4845
+> the
+> prosperity
+> ceiling's
+> position
+> —
+> `ceilingAt`
+> for
+> the
+> picks
+> that
+> run
+> before
+> S6
+> writes
+> the
+> record
+> (S3,
+> S4,
+> S5a,
+> S5b;
+> item
+> 114
+> (b)
+> (2)),
+4750a4847,4854
+> after
+> it,
+> the
+> prelude's
+> position
+> at
+> an
+> epoch
+4758a4863,4895
+> The
+> rows
+> are
+> keyed
+> by
+> the
+> band
+> set's
+> ids;
+> a
+> band
+> a
+> pack's
+> set
+> adds
+> without
+> a
+> row
+> takes
+> the
+> interval
+> interpolated
+> between
+> its
+> neighbours'
+> rows
+> at
+> its
+> rank,
+> named
+> by
+> V11's
+> compile.
+4787a4925,5066
+> **The
+> very
+> rich
+> are
+> the
+> rich
+> band:**
+> a
+> town
+> capped
+> below
+> `rich`
+> —
+> economy
+> below
+> 50
+> on
+> item
+> 114's
+> default
+> table,
+> with
+> no
+> rich
+> band
+> at
+> all
+> at
+> 33⅓
+> and
+> below
+> —
+> has
+> lost
+> the
+> purse
+> that
+> pays
+> for
+> a
+> traded
+> material,
+> so
+> its
+> houses
+> and
+> institutions
+> take
+> traded
+> stone
+> only
+> where
+> the
+> capped
+> top
+> means
+> pays
+> its
+> landed
+> price
+> within
+> the
+> blend:
+> at
+> the
+> defaults
+> a
+> town
+> capped
+> at
+> `prosperous`
+> or
+> lower
+> builds
+> no
+> house
+> or
+> institution
+> of
+> river-
+> or
+> road-borne
+> stone
+> at
+> any
+> rung,
+> and
+> of
+> sea-borne
+> stone
+> only
+> from
+> a
+> partner
+> within
+> about
+> 17
+> km
+> at
+> TOWN,
+> 29
+> km
+> at
+> CITY
+> and
+> 42
+> km
+> at
+> METROPOLIS,
+> and
+> at
+> TOWN
+> river-borne
+> stone
+> from
+> a
+> partner
+> at
+> the
+> 30
+> km
+> reference
+> leg
+> reaches
+> the
+> very
+> rich
+> from
+> economy
+> 45
+> (receipt
+> `work/g114-116/tmp/cap-stone.txt`);
+> its
+> works
+> keep
+> their
+> factors
+> on
+> the
+> lowered
+> top
+> means.
+5112a5392
+> material
+5114c5394,5404
+< ((i)).
+---
+> ((i))
+> —
+> never
+> II.6's
+> island
+> supply
+> law,
+> which
+> sizes
+> the
+> islands.
+7724a8015
+> material
+9720c10011,10020
+< `dossier-owned`,
+---
+> `dossier-owned`
+> (§7.7
+> item
+> 11,
+> beside
+> items
+> 114's
+> and
+> 115's
+> refusals),
+10961a11262,11268
+> plot
+> or
+> institution
+> means
+> above
+> the
+> top
+10962a11270,11281
+> ×
+> `rungMeans`
+> but
+> a
+> held
+> band's
+> (item
+> 114
+> (c)
+> (7)),
+> no
+> work's
+10967c11286,11289
+< (continuous
+---
+> ×
+> its
+> factors,
+> continuous
+10970,10974c11292,11307
+< economy):
+< plots,
+< institutions
+< and
+< works
+---
+> economy;
+> a
+> town
+> capped
+> at
+> `prosperous`
+> or
+> lower
+> builds
+> no
+> house
+> of
+> river-
+> or
+> road-borne
+> stone
+10986a11320
+> material
+12142c12476,12478
+< control
+---
+> control,
+> id
+> `circumstances.trade`
+12156c12492,12508
+< panel);
+---
+> panel's
+> "Site"
+> group,
+> V09
+> §4.14's
+> grouping
+> by
+> consuming
+> stage,
+> beside
+> the
+> Economy;
+> the
+> Magic
+> sits
+> in
+> "Programme");
+13124c13476,13484
+< `rungMeans`,
+---
+> `rungMeans`
+> but
+> a
+> held
+> band's
+> (item
+> 114
+> (c)
+> (7)),
+13145c13505,13525
+< economy;
+---
+> economy,
+> across
+> the
+> knots
+> at
+> 16⅔
+> and
+> 33⅓;
+> the
+> S3
+> to
+> S5b
+> picks
+> reading
+> `ceilingAt`
+> equal
+> to
+> the
+> record
+> S6
+> writes;
+13154a13535,13558
+> at
+> economy
+> 33⅓
+> and
+> below,
+> a
+> TOWN
+> with
+> a
+> river
+> or
+> road
+> partner
+> that
+> has
+> stone
+> builds
+> 0
+> houses
+> and
+> institutions
+> of
+> traded
+> stone;
+13177a13582
+> material
+13696c14101,14115
+< —
+---
+> —,
+> the
+> means
+> rows
+> contiguous
+> over
+> the
+> band
+> set
+> in
+> force
+> (a
+> row-less
+> band
+> named),
+13822c14241
+< T116-22
+---
+> T116-21
+13829c14248,14258
+< rows;
+---
+> rows,
+> T116-22
+> nightly
+> from
+> M2b,
+> which
+> lands
+> item
+> 114's
+> prosperity
+> ceiling;
+13918a14348
+> kernel,
+13934c14364,14373
+< each,
+---
+> each
+> where
+> they
+> have
+> a
+> part
+> (the
+> kernel
+> has
+> none),
+13960c14399,14412
+< (REFERENCES).**
+---
+> (REFERENCES);
+> the
+> three
+> items'
+> one
+> routing
+> is
+> docs/validation/coherence/work/g114-116/routing.json
+> with
+> the
+> canon's
+> ruling
+> of
+> 2026-09-30.**
+14128c14580
+< late
+---
+> no
+14468c14920,14925
+< refusal);
+---
+> refusal,
+> stated
+> at
+> §7.7
+> item
+> 11);
+15015c15472
+< .41
+---
+> .22
+15020c15477
+< .42
+---
+> .23
+15028c15485,15489
+< .43
+---
+> .24
+> (carriage
+> per
+> load),
+> .41
+15042c15503
+< .44
+---
+> .42
+15050c15511
+< .45
+---
+> .43
+15059c15520
+< .46
+---
+> .44
+15071c15532,15535
+< .47
+---
+> .61
+> (the
+> streams),
+> .71
+15079,15085d15542
+< .48
+< (carriage
+< per
+< load),
+< .61
+< (the
+< streams),
+15097a15555,15565
+> —
+> the
+> first
+> digit
+> naming
+> the
+> part
+> that
+> states
+> the
+> rule
+15337,15345c15805,15811
+< and
+< a
+< bar
+< that
+< the
+< heavier
+< part
+< is
+< below
+---
+> with
+> T116-10's
+> heavier-part
+> clause
+> (no
+> new
+> id)
+15488a15955
+> material
+15654,15660c16121
+< a
+< village
+< bar
+< (native-only
+< at
+< every
+< rung
+---
+> T116-3
+15662c16123,16125
+< epoch)
+---
+> T116-25's
+> H-NATIVE
+> run
+15663a16127,16130
+> the
+> village
+> rungs
+> from
+15664a16132,16134
+> (no
+> new
+> id)
+15741,15744c16211,16215
+< a
+< T-V8
+< bar
+< that
+---
+> T-V8-20's
+> ignore
+> clause
+> extended
+> —
+15750c16221,16223
+< named
+---
+> three
+> admitted
+> partner
+15751a16225,16228
+> (T116-13;
+> no
+> new
+> id)
+15801c16278,16282
+< panel);
+---
+> panel's
+> "Site"
+> group,
+> id
+> `circumstances.trade`);
+15884,15887c16365
+< the
+< creation
+< mode
+< (a
+---
+> a
+15895,15898c16373,16383
+< proposes
+< `adjust('circumstances.trade',
+< …)`
+< with
+---
+> —
+> standalone,
+> in
+> creation
+> mode
+> the
+> new
+> document's
+> creation-slice
+> `trade`
+> gains
+15902,15904c16387,16406
+< standalone,
+< else
+< reports);
+---
+> (as
+> `magic`
+> goes
+> to
+> the
+> creation
+> slice)
+> and
+> in
+> edit
+> mode
+> `adjust('circumstances.trade',
+> …)`
+> is
+> proposed;
+> on
+> a
+> dossier
+> map,
+> reported;
