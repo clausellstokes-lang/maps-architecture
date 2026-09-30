@@ -19,10 +19,17 @@ the twelve volumes — with J122's combined build order and item 568's two total
 conflict (27), f item (64 own, 6 shared parts, and the §13/§16 parts of items 296, 308, 317, 371, 413, 458 and 474),
 g part (102–113), wiring gap (6), elegance ruling (7), id ruling (7), cohesion check, owner question and the 8 UNDEFINED
 edges are applied; the 73 open findings are closed (below). All 1 684 inventory ids are mapped (none missing). The unit
-shrinks by 5.6 %, below the 25–40 % band: the pass added about 9 500 words of required content, and the rest is test
+shrinks by 4.7 %, below the 25–40 % band: the pass added about 9 500 words of required content, and the rest is test
 specification, typed interfaces, matrices and one index row per decision (see *Sizes*). CONFIRMED by script: table
 shapes, pointer resolution against the base and volume headings, index ids (758 unique, the 736 old ones all present),
 the §16 sums; the design statements themselves are PLAUSIBLE as before.
+
+The cross-part notes of the landed base lanes (determinism, kernel, model, pipeline, rendering) that route to this
+part are integrated at their homes — §13.1's fault-injection and constructive-set cases, §13.2's B-EDGE suite, fixture
+`ContentProvider`, T-ER-01 – T-ER-21 by pointer and the item 111/113 bars, T66's over-long dug route, T77-1's removed-partner
+clause, B-ZOOM's band-entry pop check, §14's `PlatKey`-only `Kernel.resolve`, `UpgradeDiff`, `AccessPassStrategy`,
+`@plat/evolve` and `ObstacleSource` kind `room`, §16's extreme-growth memory measurement at M4, the daylight term at
+M2b and item 474's M5 row — which accounts for the words after in the table below (≈ 900 more than first measured).
 
 ## Sizes
 
@@ -33,16 +40,16 @@ the §16 sums; the design statements themselves are PLAUSIBLE as before.
 | 03-s0 | 5689 | 2712 | -2977 | 34 | 16 |
 | 04-part1 | 17 | 17 | +0 | 0 | 0 |
 | 05-s1 | 5570 | 5580 | +10 | 34 | 34 |
-| 06-s13 | 26850 | 32504 | +5654 | 163 | 197 |
-| 07-s14 | 7391 | 9108 | +1717 | 50 | 63 |
+| 06-s13 | 26850 | 33136 | +6286 | 163 | 200 |
+| 07-s14 | 7391 | 9153 | +1762 | 50 | 64 |
 | 08-s15 | 8436 | 8692 | +256 | 48 | 49 |
-| 09-s16 | 7565 | 8237 | +672 | 46 | 50 |
+| 09-s16 | 7565 | 8250 | +685 | 46 | 50 |
 | 10-s17 | 3383 | 3752 | +369 | 22 | 25 |
 | 11-delegated | 3005 | 3107 | +102 | 19 | 19 |
-| 12-judgment | 25908 | 15384 | -10524 | 146 | 83 |
+| 12-judgment | 25908 | 15550 | -10358 | 146 | 83 |
 | 13-staged | 1779 | 1296 | -483 | 11 | 8 |
 | 14-appendixA | 657 | 549 | -108 | 4 | 3 |
-| **total** | **98458** | **92972** | **-5486 (-5.6 %)** | **590** | **559** |
+| **total** | **98458** | **93828** | **-4630 (-4.7 %)** | **590** | **564** |
 
 **Words removed, by source** (≈ 15 000 removed, ≈ 9 500 added; the source split is PLAUSIBLE — estimated section by
 section from the edits made, not measured by a diff tool):
