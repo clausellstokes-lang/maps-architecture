@@ -3,8 +3,8 @@
 PROGRESS: complete — inputs read; every removal hunk of the word diff reviewed (602 hunks, 3 395 words); all 609 inventory
 ids checked; the 88 routed f items checked against their BCR texts in the archived volumes; g items 105–119 (with the
 2026-09-30 dated rulings); 14 conflicts, 5 elegance rulings, 7 wiring gaps, 44 open findings, 12 agreement subjects,
-7 edges and combinations; cross-part notes to model from the 17 other rewrite reports; references, ids, terms, deferral
-wording; doc checks. 37 issues (1 blocker, 15 major, 21 minor). Result saved to
+7 edges and combinations; the cross-part notes to model in the 17 other rewrite reports; references, ids, terms,
+deferral wording; doc checks. 37 issues (1 blocker, 15 major, 21 minor). Result saved to
 docs/validation/coherence/results/coherence_verify-model-r0s.json.
 
 Lane key: coherence/verify-model-r0s. Verifier (Opus). Scope: base `## §2 ` after coherence/assemble-r0.
@@ -13,14 +13,14 @@ Lane key: coherence/verify-model-r0s. Verifier (Opus). Scope: base `## §2 ` aft
 
 | input | what was read |
 |---|---|
-| live §2 | docs/ARCHITECTURE.md (md5 4571b44e…) lines 477–3057 (2 581 lines, 53 256 words by wc); identical to the rewrite's output docs/validation/coherence/new/base/model/01-domain-model-and-schemas.md (md5 68b3e30d…) but for assemble-r0's six G-cite fixes (`V03 §3.7.4`, `V02 §3.15.2`, `V11 §3.16`, `V11 §3.24.2`, `V06 §3.7.1`, `V06 §3.19`, `V05 §3.15 (5)`) |
+| live §2 | docs/ARCHITECTURE.md (md5 4571b44e…) lines 477–3057 (2 581 lines, 53 256 words by wc); identical to the rewrite's output docs/validation/coherence/new/base/model/01-domain-model-and-schemas.md (md5 68b3e30d…) but for assemble-r0's G-cite fixes (`V03 §3.7.4`, `V02 §3.15.2`, `V11 §3.16`, `V11 §3.24.2`, `V06 §3.7.1`, `V06 §3.19`, `V06 §3.19.3 – V06 §3.19.5`, `V05 §3.15 (5)`) |
 | archived §2 | docs/archive/ARCHITECTURE-pre-coherence-2026-09-28.md (md5 01fea21f…) lines 469–2451 (1 983 lines, 41 761 words by wc; 42 526 by the inventory's count) |
 | inventory | docs/validation/coherence/inventory-model.json — 609 items, 12 conflicts, 13 broken references, 14 restatement clusters, 5 wiring observations |
 | canon | canon.json (units.model: 496 state, 77 reference, 88 f items, 6 g parts, 14 conflicts, 7 wiring, 5 elegance, 44 open findings, 12 agreement subjects, the G-lot and G-shadows terms, edges); canon.md's dated rulings of 2026-09-30 (g items 114–116, 117, 118, 119) |
-| rewrite report | rewrite-model.md (judgment calls J-RM1–J-RM16, f-item placement table, mapping table of 609 ids, cross-part notes) |
-| f / g | docs/AMENDMENTS-2026-09-28f.md items 202–278, 286, 303, 313, 333, 362, 371, 459, 510, 575, 576, 578 (and 309, 335, 429 whose §2 parts other units' texts cite); every BCR they apply as written, extracted from docs/archive/volumes-pre-coherence-2026-09-28/*.md §10; docs/AMENDMENTS-2026-09-28g.md items 102–119 |
-| edges | edges.json (model: 15 DEFINED, 3 UNDEFINED, 1 UNTESTED; combinations C-raised-frame, C-retaining-frame, C-deckplot-frame; named combinations touching model) |
-| other units | cross-part notes to model in rewrite-V01 … V12, -kernel, -pipeline, -determinism, -rendering, -scope; the live base §3, §4, §5, §7, §8, §10–§14, II.1, II.6, II.7 and the live volumes where a note or reference lands |
+| rewrite report | rewrite-model.md (judgment calls J-RM1–J-RM16, the f-item placement table, the mapping table of 609 ids, cross-part notes) |
+| f / g | docs/AMENDMENTS-2026-09-28f.md items 202–278, 286, 303, 313, 333, 362, 371, 459, 510, 575, 576, 578 (and 309, 335, 429, whose §2 parts other units' texts cite); every BCR they apply as written, extracted from docs/archive/volumes-pre-coherence-2026-09-28/*.md §10; docs/AMENDMENTS-2026-09-28g.md items 102–119 |
+| edges | edges.json (model: 15 DEFINED, 3 UNDEFINED, 1 UNTESTED; combinations C-raised-frame, C-retaining-frame, C-deckplot-frame; the named combinations touching model) |
+| other units | cross-part notes to model in rewrite-V01 … V12, -kernel, -pipeline, -determinism, -rendering, -scope; the live base §1.1, §3, §4, §5, §7, §8, §10–§14, II.1, II.6, II.7 and the live volumes wherever a note or reference lands |
 
 ## 2. Method
 
@@ -31,17 +31,17 @@ Lane key: coherence/verify-model-r0s. Verifier (Opus). Scope: base `## §2 ` aft
    §4.1's S1 and S3 rows, §4.3, §4.6, §7.7, §11.1, §12.6, §13.2, V02, V05, V11, the rationale).
 2. **Every inventory id.** The mapping table's disposition of each of the 609 ids was checked against the diff review;
    a token probe (every backticked name, dotted field and number of each item's statement searched in live §2, else in
-   the base and volumes) flagged 70 ids, each read by hand (formatting false positives: `3,000 m` vs `3 000 m`,
-   `Plot.owner` as a field line; genuine: the ids in §3's exceptions).
+   the base and volumes) flagged 70 ids, each read by hand (formatting false positives such as `3,000 m` against
+   `3 000 m` or `Plot.owner` as a field line; the genuine ones are §3's exceptions).
 3. **f and g items as written.** For each routed f item the BCR texts it applies were extracted from the archived
    volumes' §10 and every new text, field and clause located in live §2; the dated g rulings' model parts were checked.
 4. **Canon rulings, wiring, edges, agreement.** Each ruling routed to model was checked at §2 and, for wiring, at the
-   other end (the writer's and reader's sections).
+   other end (the writer's and the reader's sections).
 5. **Cross-part notes** addressed to model in the 17 other rewrite reports were each checked in live §2 and against the
    texts that cite §2.
 6. **Terms, references, ids, deferral.** Every retired-term pattern of the canon glossary was run over §2; every
    `§x.y`, `Vnn §x.y` and decision id cited in §2 was resolved (headings and numbered bold paragraphs of the base,
-   rationale and volumes); a deferral-wording sweep; doc checks.
+   rationale and volumes); a deferral-wording sweep; the doc checks.
 
 ## 3. Inventory check (every id)
 
@@ -52,15 +52,15 @@ Exceptions (each an issue in §5):
 
 | inventory id | finding |
 |---|---|
-| MODEL-0302 | the carry cost's assumed core mix (55 % row quads, 25 % one-wing houses, 18 % tiled, 2 % overlapping) and the 150 m brush ≈ 7 ha basis cut to a pointer at §12.6, which does not state them — VM-R0S-01 |
+| MODEL-0302 | the carry cost's assumed core mix (55 % row quads, 25 % one-wing houses, 18 % tiled, 2 % overlapping) and its 150 m brush ≈ 7 ha basis cut to a pointer at §12.6, which does not state them — VM-R0S-01 |
 | MODEL-0403 | `Enceinte.waterfront`'s value meanings (open: no wall along quays and beaches; quay_wall: a wall along the waterfront; sea_wall: a full wall) gone from §2.7 and from §4.4 — VM-R0S-02 |
 | MODEL-0173 | `District.fabric` / `FabricStrategyId` declared twice with different meanings — VM-R0S-17, VM-R0S-18 |
 | MODEL-0018, MODEL-0024 | the part-numbering home (§2.1 *Arena parts*, `PlatKey`) omits ground parts ≥ 1 and `nextGroundPart` — VM-R0S-06 |
-| MODEL-0053, MODEL-0417, MODEL-0609 | retired 'lot' kept for the hinterland (J-RM2) against §4.1/§4.9's 'outside plots' — VM-R0S-30; MODEL-0417 also VM-R0S-12 |
+| MODEL-0053, MODEL-0417, MODEL-0609 | the retired 'lot' kept for the hinterland (J-RM2) against §4.1's and §4.9's 'outside plots' — VM-R0S-30; MODEL-0417 also VM-R0S-12 |
 | MODEL-0402 | `Enceinte.walkCm`'s named readers partly one-ended — VM-R0S-23 |
-| MODEL-0524 | `Recipe.presetId`'s named readers absent at §5.4 and V09 — VM-R0S-24, VM-R0S-25 |
+| MODEL-0524 | `Recipe.presetId`'s named readers absent at §5.4 and in V09 — VM-R0S-24, VM-R0S-25 |
 | MODEL-0184 | `Block.depthClass`'s writer (§4.6) and reader (§13.5) never name it — VM-R0S-26, VM-R0S-27 |
-| MODEL-0472 | `EditRef`/`RuleRef` declared twice with different shapes; stray `//` — VM-R0S-07, VM-R0S-22 |
+| MODEL-0472 | `EditRef` / `RuleRef` declared twice with different shapes; a stray `//` — VM-R0S-07, VM-R0S-22 |
 | MODEL-0446 | `HistoryHint` lacks the item-113 fields V08 says §2.7 carries — VM-R0S-11 |
 | MODEL-0418 | `SiteResources` lacks the well-yield raster S1 (10) writes — VM-R0S-10 |
 | MODEL-0427 | `Household` lacks f item 335's `transit` — VM-R0S-09 |
@@ -688,61 +688,62 @@ The full per-id table (609 rows):
 | 202 | no §2 text (its homes §1.1, §4.11, §4.12, §7.7, PART III) — checked |
 | 203, 204 | applied (sky parts ≥ 1, `nextSkyPart`, the sky part's levels in rule 1 with the void face, `rim`, `sky_access`) |
 | 205, 206, 207, 208, 209 (b), 210, 211, 212, 213 | applied as written (§2.3–§2.5, §2.8's `core`/`outskirts` writers); 209 (a) is §4.11's |
-| 214 | the `village` kind applied; its district-kind row ('every village class's affinity 1', one quarter, `village-ways`) is in no table — VM-R0S-16 (V11) |
-| 215–243 | applied as written (wing roles and keys, massing, composed wing and tower bases, porch kinds, `shed`, the stage-3 contract and admission bounds, the entrance hint and its free-part revision, keys under stage 3 incl. `StairCore.tower`, the raised crypt and half raise, stacked and solid wings, the outline builder's constructions, rule 5's solid stack, the wall-side datum, the plan records, `R(s)`, `partName`, declared rooms, floor openings, hosted accesses, `Basement.crypt`, the tunnel frontage, `storeyRange`, `Entrance.storey`, the walk-out at a wall, the forced basement); 226's milestone note left as narration — VM-R0S-29 |
-| 244, 245, 246 | applied (the raised-way record, support step, clearance, span rule with `country`, readers, source and lifecycle; `RetainingWall` with the stretch-state profile and `stepProfile`; deck plots and `DeckContext`); values cited to V11 (J-RM14, agreeing with V11 §3.24.2's name map); a stale '(cross-part note)' and a wrong home — VM-R0S-20, VM-R0S-19 |
-| 247–259 | applied as written (tunnels, chambers, `ChamberKind` with `archVault`, systems' `ruin`/`variant`/`name`, link `cause`, `reusedBy`, span and monument, the island block citing V05 §2.1–§2.2, `fallen_island` and `fall`, `LandUse.source`, `pathway`/`underuseSince`, pin kinds, custom chain and service records, `PowerRelation` sign/hidden, the arc-classification rows, the culture specialisation) |
+| 214 | the `village` kind applied; its district-kind row ('every village class's affinity 1', one quarter, `village-ways`) is in no table — VM-R0S-16 |
+| 215–243 | applied as written (wing roles and keys, massing, composed wing and tower bases, porch kinds, `shed`, the stage-3 contract and admission bounds, the entrance hint and its free-part revision, keys under stage 3 with `StairCore.tower`, the raised crypt and the half raise, stacked and solid wings, the outline builder's constructions, rule 5's solid stack, the wall-side datum, the plan records, `R(s)`, `partName`, declared rooms, floor openings, hosted accesses, `Basement.crypt`, the tunnel frontage, `storeyRange`, `Entrance.storey`, the walk-out at a wall, the forced basement); item 226's milestone note left as narration — VM-R0S-29; step 4's module value restated — VM-R0S-34 |
+| 244, 245, 246 | applied (the raised-way record, support step, clearance, span rule with `country`, readers, source and lifecycle; `RetainingWall` with the stretch-state profile and `stepProfile`; deck plots and `DeckContext`); the values cited to V11 (J-RM14, agreeing with V11 §3.24.2's name map); a stale '(cross-part note)' and a wrong home — VM-R0S-20, VM-R0S-19; a BCR id left in the text — VM-R0S-36 |
+| 247–259 | applied as written (tunnels, chambers, `ChamberKind` with `archVault`, the systems' `ruin`/`variant`/`name`, the link's `cause`, `reusedBy`, span and monument, the island block citing V05 §2.1–§2.2, `fallen_island` and `fall`, `LandUse.source`, `pathway`/`underuseSince`, the pin kinds, the custom chain and service records, `PowerRelation`'s sign and `hidden`, the arc-classification rows, the culture specialisation) |
 | 260 | applied (two record forms, one lift rule); the dry-run quote disagrees with V09's `info.remove.holds` — VM-R0S-33; the retired lead phrase — VM-R0S-37 |
-| 261–265, 267, 269–278 | applied as written (per-rung inputs and `stale`, `room:` addresses, the outside ground, the registry additions, `why`, the village kinds, label/help, explainer, placement order, `product`/`hood`, `PlanReport`, the shade basis on load, the fields block, `Recipe.rung`, the view keys, `showUnexcavated`) |
+| 261–265, 267, 269–278 | applied as written (per-rung inputs and `stale`, `room:` addresses, the outside ground, the registry additions, `why`, the village kinds, label and help, the explainer, the placement order, `product`/`hood`, `PlanReport`, the shade basis on load, the fields block, `Recipe.rung`, the view keys, `showUnexcavated`) |
 | 266 | no §2 text (§4.11's paragraph) — checked |
-| 268 | (a) applied but its rate clause dropped — VM-R0S-35; (b) (§4.11's `DeclineOp` members) not applied by pipeline — VM-R0S-24 |
-| 286, 303, 313, 333, 362, 371, 459, 576, 578 | their §2 parts applied (`handedFrom`; `BuildingInput` fields and the court hole; `Greenery.along.way?`; stacked-wing check; `aqueduct` class; `storeyRange`, `Storey.level`, the ground wings, widened `external`; `docId`; `dist` at territory rungs; `basementDoor`) |
+| 268 | (a) applied but its rate clause dropped — VM-R0S-35; (b), §4.11's `DeclineOp` members, not applied — VM-R0S-15 |
+| 286, 303, 313, 333, 362, 371, 459, 576, 578 | their §2 parts applied (`handedFrom`; the `BuildingInput` fields and the court hole; `Greenery.along.way?`; the stacked-wing check; the `aqueduct` class; `storeyRange`, `Storey.level`, the ground wings, the widened `external`; `docId`; `dist` at territory rungs; `basementDoor`) |
 | 510 | no §2 text (§14 item 7's list) — checked |
-| 575 | applied (E-01's stretch-state profile); g item 114's extension missing — VM-R0S-17 |
-| 309 (pipeline), 335 (determinism), 429 (pipeline) | their §2 fields not applied: `Plot/Block.platformCm` — VM-R0S-20; `Household.transit` — VM-R0S-19; `Use.strain` — VM-R0S-06 |
+| 575 | applied (E-01's stretch-state profile); g item 114's extension missing — VM-R0S-03 |
+| 309 (pipeline), 335 (determinism), 429 (pipeline) | their §2 fields not applied: `Plot/Block.platformCm` — VM-R0S-10; `Household.transit` — VM-R0S-09; `Use.strain` — VM-R0S-08 |
 
 ### 4.2 File g items
 
 | item | model part | verdict |
 |---|---|---|
 | 105 | `Use.branchOf` | present |
-| 106 | closure `barrier`, anchors by stretch, `arcs`, `stretchClass`, `Gate.mouth`, `BarrierKind` | present (value meanings of `waterfront` lost — VM-R0S-02) |
-| 109 | `ruin`, `variant`, link `cause`, `reusedBy` | present; `Terrain.mining` (g 109 (a) (2)) cited to §2.3 by §4.2 but undeclared — VM-R0S-20 |
-| 110 | retaining walls, raised ways, deck plots, stacked/solid wings, ground parts ≥ 1 | present in §2.4–§2.7 and §2.9; the numbering home omits ground parts — VM-R0S-06; the raised way's feet undeclared — VM-R0S-22 |
-| 111 | the oasis (spring, grove, garden, `fedBy`) and its lifecycle | present; the garden kind's name conflicts with §4.9 — VM-R0S-07; the well-yield raster — VM-R0S-20 |
-| 112 | none routed | `cvdVariant` missing from §2.9's key list — VM-R0S-14 |
-| 113 | `HistoryRecord`, `Provenance.symbolic`, the lost void | present; `HistoryHint`'s item-113 inputs — VM-R0S-21 |
-| 114 | `Enceinte.condition`'s five values, each run's material and last-change epoch | **absent** — VM-R0S-17 |
+| 106 | closure `barrier`, anchors by stretch, `arcs`, `stretchClass`, `Gate.mouth`, `BarrierKind` | present; the `waterfront` value meanings lost — VM-R0S-02 |
+| 109 | `ruin`, `variant`, the link's `cause`, `reusedBy` | present; `Terrain.mining` (g 109 (a) (2)) cited to §2.3 by §4.2 but undeclared — VM-R0S-10 |
+| 110 | retaining walls, raised ways, deck plots, stacked and solid wings, ground parts ≥ 1 | present in §2.4–§2.7 and §2.9; the numbering home omits ground parts — VM-R0S-06; the raised way's feet undeclared — VM-R0S-13 |
+| 111 | the oasis (spring, grove, garden, `fedBy`) and its lifecycle | present; the garden kind's name conflicts with §4.9 — VM-R0S-12; the well-yield raster — VM-R0S-10 |
+| 112 | none routed | `cvdVariant` missing from §2.9's key list — VM-R0S-32 |
+| 113 | `HistoryRecord`, `Provenance.symbolic`, the lost void | present; `HistoryHint`'s item-113 inputs — VM-R0S-11 |
+| 114 | `Enceinte.condition`'s five values, each run's material and last-change epoch | **absent** — VM-R0S-03 |
 | 115, 116, 119 | none named by the dated rulings | checked: no model part |
-| 117 | §2.9 view state: the year position (week 0–51), the 'follow SettlementForge' flag | **absent** — VM-R0S-18 |
-| 118 | §2.9 view state: festival display follow / off / preview | **absent** — VM-R0S-03 |
+| 117 | §2.9 view state: the year position (week 0–51), the 'follow SettlementForge' flag | **absent** — VM-R0S-04 |
+| 118 | §2.9 view state: festival display follow / off / preview | **absent** — VM-R0S-05 |
 
 ### 4.3 Canon rulings
 
-* **Conflicts (14).** KXC-03 applied (rule 6). MC-01 applied except J-RM2's hinterland 'lots' (VM-R0S-30). MC-02 applied
-  (every entity interface shows `lifecycle`; checked by script — the plan sub-records `Room`, `Wall`, `Opening`,
+* **Conflicts (14).** KXC-03 applied (rule 6). MC-01 applied but for J-RM2's hinterland 'lots' (VM-R0S-30). MC-02
+  applied (every entity interface shows `lifecycle`; checked by script — the plan sub-records `Room`, `Wall`, `Opening`,
   `WindowRec`, `StairCore`, `Chimney`, `FurnitureItem` are no registry entities). MC-03, MC-04, MC-05, MC-06, MC-07,
   MC-08, MC-09, MC-10, MC-12 and V07-XCONF-2 applied. MC-11 applied at §2 (`Segment`, `Outfall`, `TypedBoundary`,
   `FabricStrategyId`, `DriftBounds`; V01, V02, V04 no longer declare them; V10's conversation record renamed
-  `ClerkSegment`), but `FabricStrategyId` is re-declared at §4.12 (VM-R0S-26, VM-R0S-27) and `TableId` is declared nowhere (VM-R0S-13).
-* **Elegance (5).** E-01 UNIFY — every item of its equivalence list found at §2.2 rule 5 and §2.7 (canonical form,
-  write, read, regenerate with `retaining.settings.stateSnapCm`, cut/join, undo, migrate; the retaining wall's values,
-  role, writers, restoration and readers; the enceinte's values, role, writers, lifecycle rules and §8.2 / §11.1
-  readers); no nuance lost. The pre-existing gap of knot ordinals on a mid-chain write is VM-R0S-23. E-02 KEEP APART,
-  E-15 UNIFY (`Cdeg` the one angle unit; every stored angle named `…Cdeg`), E-37 UNIFY (the 25-word `Unit` with V11's
-  `lvl`/`weight`; V11 and V12 subsets), E-39 KEEP APART — applied.
-* **Wiring (7).** W-HOOK-02, W-FLD-04, KWG-09 (E-15), MW-05 closed. W-FLD-05 closed at §2 but two of its named readers
-  never read the field (VM-R0S-08). W-FLD-06 and W-FLD-13 closed at §2 only; the other ends are missing (VM-R0S-09,
-  VM-R0S-10, VM-R0S-11, VM-R0S-12).
-* **Open findings (44).** MODEL-RESTATEMENTCLUSTERS-001–014 each stated once with the others citing (001 at §2.1 once
-  ground parts are added, VM-R0S-06); MC-01–12 as above; MW-01–05 closed; MB-01 ('(R12)') removed; MB-02–MB-13 declared
-  (`EditRef`/`RuleRef` conflict with §4.12 — VM-R0S-05).
-* **Agreement (12).** `FabricStrategyId` (VM-R0S-26), `TypedBoundary`, `DriftBounds` cited by V01/V02; `BaseWing`,
-  `BuildingInput.plot` (no `lot` left in any volume); `PathShapeRow` = V02's `MassingFamilyRow`; `SkyIsland` (V05 §2.1
-  declares it with `rim`/`land`); `ContextVector.arena` `'sky'` (V05 §1b cites it); `TableId` (VM-R0S-13).
-* **Retired terms.** 35 patterns run: G-lot 4 hits (two quotations kept, two hinterland 'lots' — VM-R0S-30); G-suppress
-  1 (VM-R0S-37); G-unitinput, G-standalone, G-stairway hits are the kept senses; G-shadows 0 (the shadow pass now
-  'projected shadows'); all others 0.
+  `ClerkSegment`), but `FabricStrategyId` is re-declared at §4.12 (VM-R0S-17, VM-R0S-18) and `TableId` is declared
+  nowhere (VM-R0S-31).
+* **Elegance (5).** E-01 UNIFY — every item of its equivalence list found at §2.2 rule 5 and §2.7 (canonical form, write,
+  read, regenerate with `retaining.settings.stateSnapCm`, cut and join, undo, migrate; the retaining wall's values,
+  knot role, writers, restoration and readers; the enceinte's values, knot role, writers, lifecycle rules and the §8.2 and
+  §11.1 readers); no nuance lost. The pre-existing gap of knot ordinals on a mid-chain write is VM-R0S-14. E-02
+  KEEP APART, E-15 UNIFY (`Cdeg` the one angle unit; every stored angle named `…Cdeg`), E-37 UNIFY (the 25-word `Unit`
+  with V11's `lvl` and `weight`; V11's and V12's named subsets), E-39 KEEP APART — applied.
+* **Wiring (7).** W-HOOK-02, W-FLD-04, KWG-09 (E-15) and MW-05 closed. W-FLD-05 closed at §2 but two of its named readers
+  never read the field (VM-R0S-23). W-FLD-06 and W-FLD-13 closed at §2 only; the other ends are missing
+  (VM-R0S-24, VM-R0S-25, VM-R0S-26, VM-R0S-27).
+* **Open findings (44).** MODEL-RESTATEMENTCLUSTERS-001–014 each stated once, the other places citing (001's home needs
+  the ground parts, VM-R0S-06); MC-01–12 as above; MW-01–05 closed; MB-01 ('(R12)') removed; MB-02–MB-13
+  declared (`EditRef`/`RuleRef` conflict with §4.12 — VM-R0S-07).
+* **Agreement (12).** `FabricStrategyId` (VM-R0S-17), `TypedBoundary` and `DriftBounds` cited by V01 and V02;
+  `BaseWing`, `BuildingInput.plot` (no `lot` left in any volume); `PathShapeRow` = V02's `MassingFamilyRow`; `SkyIsland`
+  (V05 §2.1 declares it with `rim`/`land`); `ContextVector.arena` `'sky'` (V05 §1b cites it); `TableId` (VM-R0S-31).
+* **Retired terms.** 35 patterns run: G-lot 4 hits (two quotations kept; two hinterland 'lots' — VM-R0S-30); G-suppress
+  1 (VM-R0S-37); the G-unitinput, G-standalone and G-stairway hits are the kept senses; G-shadows 0 (the shadow pass
+  is now 'projected shadows'); all others 0.
 
 ### 4.4 Edges and combinations routed to model
 
@@ -751,28 +752,28 @@ The full per-id table (609 rows):
 | M-model-943-E5 (ways: missing, empty, contradictory data) | DEFINED at §2.4 *Missing and contradictory data*; tested by T77-1's removed-partner clause (§13.2) |
 | M-model-943-E8 (ways: save, load, undo, redo, regenerate, migrate) | DEFINED; tested by §13.2 *Document tests*' registry path test (O11 a) |
 | EI-MC-05 (a sky plot's arena) | DEFINED (`ContextVector.arena` `'sky'`) |
-| EI-MC-09 (capacity 0 vs the ≥ 1 clamp) | DEFINED (capacity bounds; `unhoused`) |
+| EI-MC-09 (capacity 0 against the ≥ 1 clamp) | DEFINED (the capacity bounds; `unhoused`) |
 | C-raised-frame, C-retaining-frame, C-deckplot-frame | DEFINED (§2.7 *At the frame*) and TESTED (T110-1, T110-2, T110-5) |
-| new: a stretch-state write inside an existing run (knot ordinals vs §3.10's hard ordinal-order row) | UNDEFINED — VM-R0S-23 |
+| new: a stretch-state write inside an existing run (knot ordinals against §3.10's hard ordinal-order row) | UNDEFINED — VM-R0S-14 |
 
 ### 4.5 Cross-part notes addressed to model
 
 | from | note | verdict |
 |---|---|---|
 | V01 | §2.5 declares `TypedBoundary`, `FabricStrategyId`, `BlockKind`, `SquareType`, `SeamRun` | closed |
-| V02 | deck-plot landmark and deck-plot suppression at the base homes | closed |
-| V03 | §2.6 step 4 cites V03 §2.4's `moduleCm` without the value | open — VM-R0S-35 |
+| V02 | the deck-plot landmark and the deck-plot suppression at their base homes | closed |
+| V03 | §2.6 step 4 cites V03 §2.4's `moduleCm` without the value | open — VM-R0S-34 |
 | V05 | no text change (the block cites V05 §2.1–§2.4) | closed |
-| V06 | (a) `Use.strain`, `Household.transit`; (b) g 114 values; (c) `HistoryHint.peak`; (d) `spring.flow`'s writers; §2.8 quote cites `info.remove.holds`; `repairWall`'s no-op | (a) open — VM-R0S-06, VM-R0S-19; (b) VM-R0S-17; (c) VM-R0S-21; (d) §2.3 names 'volume 6's failing spring' (closed); the quote — VM-R0S-15; the `repairWall` no-stretch no-op is V06 §2.8's (checked; §2.7 states the lift) |
-| V07 | g 114 values | open — VM-R0S-17 |
-| V08 | `HistoryHint` item-113 fields | open — VM-R0S-21 |
-| V10 | g 117/118 view keys | open — VM-R0S-18, VM-R0S-03 |
-| V11 | `Unit` includes `lvl`, `weight` | closed |
-| determinism | oasis records in §2.3; closure generators for `drawChamber { newKind }` and the fountain; `nextSkyPart`'s migration default; custom records | closed (the closure pieces are §7.3 item 9's `ClosureRecord`, the migration default §7.5's table) |
-| kernel | 1 rule 4 as pointer; 2 KXC-03; 3–4 ground parts in `PlatKey` and rule 1; 5 the raised way's feet; 6 knot renumbering; 7 E-15; 8 §2.6 homes; 9 `LatticeSpec` values | 1, 2, 7, 8, 9 closed (rule 4 is one sentence with its pointer); 3–4 open — VM-R0S-06; 5 open — VM-R0S-22; 6 open — VM-R0S-23 |
-| pipeline | `Terrain.mining`, `WaterBody.spring`, a well-yield raster; `Plot/Block.platformCm`, `compactnessMin`'s reader, `venueMix`'s producer, `dist` at villages; `slopeP95`, `surface`; `BuildingInput` fields; `HistoryHint` peak, `symbolic`, `Person.key.bornWeek`, `Use.strain`, `garden_irrigated`, `SkyIsland.slot` | spring, `dist`, `slopeP95`, `surface`, `BuildingInput`, `symbolic`, `slot` closed; `compactnessMin` and `venueMix` declared (their reader/producer lines are pipeline's); mining, well yield, platform datums, `bornWeek` — VM-R0S-20; `HistoryHint` — VM-R0S-21; `Use.strain` — VM-R0S-06; the garden name — VM-R0S-07 |
-| rendering | `cvdVariant`, `showUnexcavated`, `roomNumbers`, `docId`; `walkCm`'s reader §11.1 glTF | `cvdVariant` open — VM-R0S-14; `walkCm` — VM-R0S-08; the rest closed |
-| scope | `Rung` at §1.1, T77-1's clause, T110 frame clauses, the registry path test's cases | closed (`type Rung` at §1.1; T77-1; T110-1/2/5; §13.2 *Document tests*) |
+| V06 | (a) `Use.strain`, `Household.transit`; (b) g 114's values; (c) `HistoryHint.peak`; (d) `spring.flow`'s writers; the §2.8 quote cites `info.remove.holds`; `repairWall`'s no-op | (a) open — VM-R0S-08, VM-R0S-09; (b) VM-R0S-03; (c) VM-R0S-11; (d) closed (§2.3 names volume 6's failing spring); the quote — VM-R0S-33; the no-stretch no-op is V06 §2.8's (§2.7 states the lift) |
+| V07 | g 114's values | open — VM-R0S-03 |
+| V08 | `HistoryHint`'s item-113 fields | open — VM-R0S-11 |
+| V10 | g 117's and g 118's view keys | open — VM-R0S-04, VM-R0S-05 |
+| V11 | `Unit` includes `lvl` and `weight` | closed |
+| determinism | the oasis records in §2.3; the closure pieces for `drawChamber { newKind }` and the fountain; `nextSkyPart`'s migration default; the custom records | closed (the closure pieces are §7.3 item 9's `ClosureRecord`, the migration default §7.5's table) |
+| kernel | 1 rule 4 as a pointer; 2 KXC-03; 3–4 ground parts in `PlatKey` and rule 1; 5 the raised way's feet; 6 knot renumbering; 7 E-15; 8 §2.6's homes; 9 `LatticeSpec`'s values | 1, 2, 7, 8, 9 closed (rule 4 is one sentence with its pointer); 3–4 open — VM-R0S-06; 5 open — VM-R0S-13; 6 open — VM-R0S-14 |
+| pipeline | `Terrain.mining`, `WaterBody.spring`, a well-yield raster; `Plot/Block.platformCm`, `compactnessMin`'s reader, `venueMix`'s producer, `dist` at villages; `slopeP95`, `surface`; the `BuildingInput` fields; `HistoryHint`'s peak, `symbolic`, `Person.key.bornWeek`, `Use.strain`, `garden_irrigated`, `SkyIsland.slot` | the spring, `dist`, `slopeP95`, `surface`, `BuildingInput`, `symbolic` and `slot` closed; `compactnessMin` and `venueMix` declared (their reader and producer lines are pipeline's); mining, well yield, platform datums, `bornWeek` — VM-R0S-10; `HistoryHint` — VM-R0S-11; `Use.strain` — VM-R0S-08; the garden's name — VM-R0S-12 |
+| rendering | `cvdVariant`, `showUnexcavated`, `roomNumbers`, `docId`; `walkCm`'s reader §11.1's glTF top | `cvdVariant` open — VM-R0S-32; `walkCm` — VM-R0S-23; the rest closed |
+| scope | `Rung` at §1.1, T77-1's clause, the T110 frame clauses, the registry path test's cases | closed (`type Rung` at §1.1; T77-1; T110-1, T110-2, T110-5; §13.2 *Document tests*) |
 
 ## 5. Issues
 
@@ -818,16 +819,16 @@ The full per-id table (609 rows):
 
 ## 6. Sizes, references, doc checks
 
-* **Words** (wc): 41 761 → 53 256 (+27.5 %; the rewrite's count 42 526 → 54 155). The shrink band (25–40 % fewer,
-  canon goal 25 516–31 894 words) is not met: file f's 88 items and six g items added build-depth records the base had not
-  absorbed (≈ 12 600 and ≈ 900 words by the rewrite's attribution, which the diff review agrees with); of the original
-  text 3 395 words were removed (restatement, narration, one duplicated mechanism, verbose prose). Not a defect
+* **Words** (wc): 41 761 → 53 256 (+27.5 %; the rewrite's count 42 526 → 54 155). The shrink band (25–40 % fewer, the
+  canon's goal 25 516–31 894 words) is not met: file f's 88 items and six g items added build-depth records the base had
+  not absorbed (≈ 12 600 and ≈ 900 words by the rewrite's attribution, which the diff review bears out), while 3 395
+  words of the original were removed (restatement, narration, one duplicated mechanism, verbose prose). Not a defect
   (principle (9)); no part shrank by more than half, so no nuance audit was triggered — the one constant a restatement
   cut lost is VM-R0S-01.
 * **References.** Every bare `§x.y` in §2 resolves to a base heading; every `Vnn §x.y` resolves to a heading or a
-  numbered bold paragraph of that volume; five list forms land on the wrong base section (VM-R0S-28 … see VM-R0S-32); 119
-  decision ids cited, all defined in the rationale or a volume except J-S23.2, a seam-critique id (VM-R0S-33); tests
-  cited (T19-3, T19-4, T28-3, T28-13–T28-18, T77-1, T-V12-4) exist.
+  numbered bold paragraph of that volume; five list forms land on the wrong base section (VM-R0S-28); 119 decision ids
+  cited, all defined in the rationale or a volume except J-S23.2, a seam-critique id (VM-R0S-29); the tests cited
+  (T19-3, T19-4, T28-3, T28-13 – T28-18, T77-1, T-V12-4) exist.
 * **Ids.** §2 mints no test or decision id and renumbers none; the new roles (`retaining_state_knot`, `wall_state_knot`,
   `wall_class_knot`, `rim`, `sky_access`) are unique in rule 7's registry.
 * **Deferral wording.** None ('later' occurs only as time).
@@ -839,6 +840,6 @@ The full per-id table (609 rows):
 
 37 issues: 1 blocker, 15 major, 21 minor. Owners: model 26, pipeline 5, determinism 2, scope 1, V09 1, V11 1, V12 1.
 The design files are untouched. CONFIRMED (executed): the word diff and its hunk review, the token probes, the BCR
-extraction and application checks, the term, reference, id and deferral sweeps, the doc checks. PLAUSIBLE: that no
-change inside an added (insert-only) hunk silently alters an archived rule — insertions were read against their f / g
-source, not diffed against a prior text, since none existed.
+extraction and the application checks, the term, reference, id and deferral sweeps, the doc checks. PLAUSIBLE: that no
+change inside an insert-only hunk alters an archived rule — insertions were read against their f or g source, having no
+prior text to diff against.
