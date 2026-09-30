@@ -2044,3 +2044,5 @@
 2026-09-30 22:27 coherence/rewrite-V11 CHECKPOINT volume final (99.2k words wc); writing report + mapping table
 2026-09-30 22:28 coherence/rewrite-V12 LANDED docs/validation/coherence/new/volumes/V12-calibration.md docs/validation/coherence/rewrite-V12.md docs/validation/coherence/results/coherence_rewrite-V12.json docs/validation/coherence/work/rewrite-V12/
 2026-09-30 22:29 coherence/orchestrator NOTE rewrite-V12 landed (items 111-119 calibration parts included); remaining: V11 running
+2026-09-30 22:30 coherence/rewrite-V11 LANDED docs/validation/coherence/new/volumes/V11-content.md docs/validation/coherence/rewrite-V11.md docs/validation/coherence/results/coherence_rewrite-V11.json
+2026-09-30 22:31 coherence/orchestrator LOG rewrites: 18/18; size 9062 KB -> 8367 KB (-7.7 %: the base parts grew +5 to +28 % with mandated additions, the volumes shrank 4 to 27 %); unmapped 0; f applied 1155. Rewrite phase complete; launching coherence/assemble-r0 (one seat, mechanical)
