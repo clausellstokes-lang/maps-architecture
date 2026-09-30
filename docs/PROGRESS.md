@@ -185,7 +185,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-09-29 20:12 EDT._
+_Disk state as of 2026-09-29 20:19 EDT._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -628,3 +628,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-09-29 15:46 EDT** — Coherence pass launched: workflows/18-coherence.js, run wf_4465b207-520, task wpb81roi2, args workflows/lane-prompts/coherence-args.json (6 lanes), registered with tools/lanes.py.
 - **2026-09-29 20:10 EDT** — STOPPED by the owner's request for a stopping point (2026-09-29 ~20:10): coherence pass wf_4465b207-520 stopped in its Rewrite phase. LANDED: inventory (12), wiring, canon (canon, agreement, edges), and all six base rewrites (scope, model, kernel, pipeline, determinism, rendering). IN PROGRESS (drafts saved in docs/validation/coherence/new/volumes/, CONTINUE rule applies): V01-V05. NOT STARTED: V06-V12, assembly, verification loops, validation. Live design files untouched (only the assembly seat writes them). The lane-check cron was deleted so it cannot resume the run. Resume: relaunch workflows/18-coherence.js with args workflows/lane-prompts/coherence-args.json (a new session cannot use resumeFromRunId; every finished seat returns its saved result, the in-progress editors continue from their drafts).
 - **2026-09-29 20:12 EDT** — Uploaded to a PRIVATE GitHub repository at the owner's request: https://github.com/clausellstokes-lang/maps-architecture (commit 5354c2a on main, 1,396 files, 186 MB; pushed and verified). The Maps folder is now a git repository. Kept local by .gitignore: captures/, reference/, research/patreon|devlogs|ftg-docs|external|reference-maps/, profiler/.profiles and node_modules, backups/. Secret scan of the uploaded set: 0 hits.
+- **2026-09-29 20:19 EDT** — Owner: "move it to the cloud" (2026-09-29 ~20:45). This session moves to a Claude Code cloud session on the GitHub repository (branch main); the coherence pass resumes there per docs/HANDOFF.md's cloud instructions (args.root = the checkout, args.scratch = /tmp/maps-scratch/coherence).
