@@ -1,6 +1,22 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE (kept current; last updated 2026-09-29 20:15 EDT)
+## RESUME HERE (kept current; last updated 2026-09-30 01:00 EDT)
+
+**2026-09-30 — RUNNING IN A CLOUD SESSION (owner: "please continue the pending work with opus 5.5 doing everything").** Every
+seat runs on Opus as a marked stand-in (`fableModel: "opus"`). Work is committed and pushed every 30 minutes to the branch
+`claude/great-heisenberg-rcagps` (not main). The machine has 4 CPUs, so the workflow harness runs at most 2 agents per run; the
+six lanes come from up to three runs of `workflows/18-coherence.js` given DISJOINT seats through new args (`rewriteOnly: [units]`,
+`verifyOnly: {keys, round, tag}`, `stopAfter: "assemble"`; backup `workflows/18-coherence.pre-cloud.js.bak`; the verify lane key
+now carries its sweep tag, e.g. `coherence/verify-model-r0s`). Correction to the block below: rewrite-SCOPE had NOT landed at the
+stop (its ledger said done; no LANDED line or result file) — its ledger now lists the open step. Container shims: a symlink
+`/Users/cstokes/Desktop/Maps` → the checkout (old work scripts hardcode it) and the local zone set to America/New_York so log
+times stay in EDT. State at 01:00: partition runs rewriting V03+V04 and V05; owner rule **114** (2026-09-30 ~00:50: "at
+generation time the first generation, the economy slider determines the ceiling prosperity for the entire map") being drafted in
+`docs/validation/coherence/work/g114/`, to be filed in the g file (J126) before the remaining editors (scope, V01, V02, V06–V12)
+start. Then one full run (every landed seat returns from disk) through assembly, the verify sweeps (partitioned), the repair loop
+and validation. To resume from a fresh clone of the branch: recreate the shims, then launch the same script with
+`{maxLanes: 6, date: "2026-09-28", fableModel: "opus", root: <checkout>, scratch: <scratch dir>}` (plus a partition arg if running
+several) — landed seats return from disk, partial ones continue from their files.
 
 **Where things stand — PAUSED at a clean point at the owner's request (2026-09-29 ~20:10).** (1) The twelve design volumes are DONE
 (docs/volumes/V01–V12, INDEX.md, SUMMARY.md, file f items 200–582, the bundle `docs/ARCHITECTURE-FULL.md` current as of 15:44).
