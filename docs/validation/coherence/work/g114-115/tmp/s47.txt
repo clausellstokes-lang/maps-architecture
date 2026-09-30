@@ -1,0 +1,816 @@
+### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model
+
+**S9 Corridors (L2).** `corridorUnion(l1Faces)` (§3.7), the single kerb function, commits exactly the kerbs S8 cut
+against — half-corridor strips, junction wedges and **built blocks**. It runs once per district and once for the
+hinterland's faces; a wall strip's L2 is its half-corridor strips along the arterials at its gates (and along the
+intervallum, where there is one) and one built block, the strip block (§4.8). S9 writes every way's `slopeP95` (§2.4).
+The main plaza is S3's reservation, typed as a `square` face; the other squares come from S7b claims sized from
+population (O7) where larger than a block, and from S9b's dispatch below that size (V01 §3.5) — both read the one base
+table `squares.quota` (per band: hectares per 1 000 inhabitants and kind factors; §10.2), so the quota is counted once;
+gate plazas and forecourts come from S7 (§4.8). Streets exist as geometry from here on; "negative-space streets" is
+purely a style, and §8's figure-ground contract fills blocks in a ground tone.
+
+**S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district's `Allocation` (S7b) is
+distributed to its blocks in three declared steps, from the district's `alloc.block` stream (keyed from the district's
+lineage; §2.5, §6.1), blocks by score then id: (i) the **field-driving classes** — noxious trades, middens, prisons and
+institutions below a block — first, by scores that need no prosperity (downstream, downwind, extramural, frontage class,
+adjacency); then S10a calls its `S10a.afterDrivers` hooks (§4.12) — V01's S9b, which types each district's blocks (V01
+§3.5); (ii) **field pass 2** adds their kernels to pass 1 (§4.5), from which each district's band range is written and any
+household S7b allocated outside it re-homed (§4.5 (5)); (iii) every other class — households by band, ordinary
+workplaces, shops — by capacity per band under pass 2, sub-districts receiving contiguous block groups sized to their
+clusters (COV-FTG-E02). A block whose `content` is `square`, `green` or `yard` has capacity 0 and a `manor` block one
+household of the district's top band inside its band range; after (ii) a `manor` block whose district holds no household
+of its band range reverts to `ordinary` (F-DISPATCH, reported; V01 §3.5.10's rows). **The web's order (item 105 (f))**
+inside (iii): the anchors are fixed before S10a (terrain resources and outside classes at S12a's sites, the markets,
+gates and harbour) and (i)'s field-driving classes are placed first, unchanged; then the source-oriented classes by depth
+from their resources (a topological order over the class supply graph, §10.2), then the balanced, then the
+market-oriented, then the rest; a loop in the class graph (a smith's tools for the mine whose ore feeds the smelter that
+feeds the smith) is broken for the order at its lowest-weight link, and **one bounded relaxation pass** (≤ 2, a table
+cap) re-scores the two-way classes with the full provider and consumer rasters, moving a class's block only where the
+gain exceeds a table threshold and only inside its district's allocation — deterministic on the `alloc.block` stream, no
+new concern. **The block score is S10b's rule score at block granularity (item 16):** a class's relation rows, supply
+links and soft terms (§10.2, §4.5's contract) are evaluated against the block's context — its frontage classes, the
+distance rasters at its centroid, the classes already allocated to it and to the other blocks of the town — so a
+brewery's block scores its distance to the blocks that hold its maltings and granary and a tannery's block its
+downstream, downwind and extramural rows before any plot exists; hard rows filter blocks, soft rows and supply distances
+weight them. The result is persisted as one block-level `Allocation` per block. S10a's end runs the way-surface rule
+(V01 §3.7.3; a way's `surface`, §2.4). From here on every district's S10, S10b, S11 and S12b, and the hinterland unit's,
+is a pure function of these records and its own sub-stream, writing only inside its own faces (§4.1), so the town's
+content does not depend on derivation order, viewer order or worker count. A district whose allocation is empty allocates
+nothing and its blocks are plotted as S10 (6)'s vacant or green residue; a district of one block takes its whole
+allocation there, what its capacity cannot hold going to S10b's reconcile. A product that reuses S10a (PART III) passes
+its own allocation; the steps are the same at every rung.
+
+**S10 Plots (L3) — frontage-first with the granularity law (O5 / O18), per block.**
+**(0) Shared-edge bands, eager (J-I9).** A block whose `interior` is `wall_strip` (§4.8) gets no plots. Its L3 content is
+built **eagerly on the generation worker, after S10a and before the pool's freeze**, in one step that covers the strip
+blocks on both sides of each trace at once — the band's cross edges split the trace, which the two sides' districts share,
+so no district overlay may write it (§3.3 pool steps 1 and 3; cost §12.4). The batch commits, by `bandUnion` (§3.7), the
+enceinte's half-band on each side of the wall edge; the rest of each strip — the inner setback, or the outer setback and
+glacis, or the berm up to a moat — as typed unbuildable residue (`setback`, `glacis`; `ditch` in place of `glacis` on the
+town side of an `on_enceinte` bailey whose castle template row asks for a dry ditch, §4.8); and each side's parts of every
+tower and gatehouse on the trace, the stretch profile's graded parts included (§4.8). The same eager batch lays §4.5's
+**margin bands** along the settlement perimeter and along any reservation boundary two districts share. The enceinte's
+`band` and `glacis` (its `ditch` parts included) and each tower's and gate's `footprint` are the unions of these parts
+across the strip blocks (§2.7). S9 has already committed the strip's corridors and nothing after S10 writes L1 or L2, so
+no batch ever clears or splits these faces. The step ends by rebuilding the L3 static partitions it touched, so a pooled
+plot line finds the band's inner edge through the index (§3.3 pool step 1). A regeneration re-runs this step one-sided for
+its own scope (§7.3 item 2). A castle's curtain band is built the same way inside the bailey's blocks. The hinterland
+unit's S10 builds §4.9's hinterland recipe — furlongs, outside plots, driveways, trails, woods and edge orchards — instead
+of frontage-first plots.
+
+**The class floors (the one home; §3.2 (2), §3.10, §5.2's F-PLOT and F-CORRIDOR and §5.3's class-floor row cite it
+without values; DXC-06, KXC-02).** Every plot: `minPlotWidth` 2.5 m and `minInteriorAnglePlot` 12°; every way class c:
+`minCorridor(c)` = the smallest corridor width `ways.widths` (§4.3) gives c at any rung (a derivation, no new number).
+Floors are widths, areas and angles, never `minEdge` (§3.2 (2)).
+
+For every other built block: (1) classify each kerb edge as a frontage by way class; (2) read the block's context
+(district kind, prosperity value and recorded band, density, growth stage) → the **granularity table** gives target
+frontage-width and depth bands, a join maximum and a vacancy-run share, interpolated along the prosperity value and
+scaled by the rung's `RungProfile.granularity` (frontage × and depth × on every band; the rich band's join maximum +
+`joinMaxDelta`; §1.1, AM-4) — `GranularityLaw.bands` takes the rung (§14). The band rows are §4.5's band set (item 27);
+every re-derivation other than a rung-3 event of §4.11's ladder reads the block's **manifested band** — the field band
+raised to its plots' geometry floor by §4.11's block-level reading (item 31; J-A31.43) — for every geometry row, and the
+field band for occupancy, condition and labels; the band row also carries the target share of interior and hidden plots
+that S8's deep-interior rule and this stage's cut meet together (§4.6, item 30):
+
+| band (default rows; all calibratable, JT (§13.7)) | frontage width (m) | depth (m) | join max | vacancy-run share of frontage | reference anchors |
+|---|---|---|---|---|---|
+| poor / dense | 4–6 (log-normal, CV 0.25) | 12–20 | 1 | 0.03 | NG 95–99 % attached, party walls 39–43 % of perimeter |
+| modest | 6–9 | 18–30 | 2 | 0.06 | FTG quad side median 10.3 m, footprint median 103 m² |
+| prosperous | 9–14 | 25–40 | 3 | 0.08 | MFCG ≈ 18.6 plots per block |
+| rich | 14–25 (joined) | 30–60 | 5 | 0.05 | "fewer, bigger buildings, bigger yards and courts" (owner) |
+| institution / assigned | by requirement class | by requirement | whole block above a share threshold | — | FTG landmark-first |
+
+(The block's `interior` — court, back lane, through-alley or rear plots — was chosen by S8, §4.6.) (3) **Claims first:**
+institutions and assignments *smaller than a block* `claimSubFace` (which may span several faces, §3.4) the contiguous
+area and frontage class their requirement demands — the requirement is the designation template's size budget (S11, item
+19) — before ordinary plots are cut (larger ones are S7b reservations already), and a block's `voidCorner` claim (V01
+§3.4.5 (c)) with them; claims-first covers every claim that exists at generation: the roster's institutions and
+requirement classes, and every assignment or dossier element present in the recipe when the town is generated (they enter
+S2's demand, so a brand-new map holds them from the start; §7.7, item 22 (d)). An assignment or dossier element that
+arrives after the city is built is placed by S10b's solver and applied by S11's mutation instead (§7.7). (4) **Per-frontage
+regions (GEO-24; J-P13):** the block (minus claims and the S8 interior) is partitioned into one region per frontage run by
+its straight skeleton, each region's depth capped by the skeleton height and the band depth — if the skeleton is
+downgraded (F-SKELETON), a reflex pre-cut partition (a perpendicular cut from every reflex vertex, built exactly from
+`sideRuns` and `splitFace`) is used instead; the validated skeleton arcs enter the arena through `insertChain` (§3.8) — and
+plots are laid as strips perpendicular to each region's frontage, widths drawn from the band, depth = min(band depth,
+region depth); side lines are bent plot cuts perpendicular to the frontage arriving at the region's rear line (the
+creator's stated use of the primitive for buildings, `watabou-extra-a.md` §2.1); strips never leave their region, so reflex
+corners, notches round cul-de-sacs and the inside of tight curves cannot produce overlapping or hourglass plots (property
+test: §13.2). (5) **Corners and seams:** the corner plot takes the higher-class frontage and the shorter frontage's depth;
+the wedge left between two regions becomes a corner plot when it meets the class floors, else a declared `wedge` class
+(bounded < 0.5 %) or residue. (6) The residue is typed: `court` (from the S8 interior), `yard` (assigned to the adjacent
+plot when its area < 1.5 × the plot), `green`, `vacant`, `shore` (the shore setback). (7) **Joins and splits, one law:**
+strips are cut to the band's lower end, then a merge operator joins k adjacent plots (along a frontage, or back to back
+keeping a frontage) up to the band's upper end, keeping `members`; poor bands stay at the lower end; both directions read
+the same context vector — one code path (O18 g); a `manor` block's residential plots join into one by this law, as the
+cluster row's whole-block join. **Orderings (item 31):** a join takes vacant or same-owner neighbours first, then a rear
+plot into its front plot, then the frontage neighbour with the shorter frontage; a split takes the widest frontage first,
+then the deepest yard. A designation's size budget (S11's template) is what a join is asked for — by this stage at
+generation, by S10b's solver for a later placement (a JOIN request) and by S11's mutator when a designation outgrows its
+plot; a larger class placed by S10b's class mix asks this law for its join (item 71). Across epochs the law runs in its
+incremental form — a due block re-cut with its neighbours fixed, under §4.11's ladder, churn cap and geometry floor (item
+31) — and a plot vacated by decline merges into a neighbour's garden or a field by the same operator (`plotToGarden`,
+`amalgamate`; §4.11, item 8). (8) **Vacancy runs (COV-VG-VN-170):** runs of frontage totalling the band's vacancy share,
+each at least one band frontage long, are left unbuilt from the `plot.vacancy` stream — typed `vacant`, or a `garden` yard
+joined to the neighbour — so no built block is necessarily fully ringed. (9) **Alleys:** slivers narrower than
+`minPlotWidth` that connect two ways become `alley` L3 faces, not spines (GEO-25); where the frontage is continuous, §4.6's
+rule may reserve a covered **passage** under the front plot's building instead of an open alley (item 30; the passage face
+is §2.5's). (10) Every plot gets its `ContextVector`, its `DerivationRecord` and access edges (100 %, O5 a). The
+frontage-less plots of NG 1.2.2 — about 42 % of its plot leaves, its courts by construction rather than by error — have
+no counterpart here outside the deep-interior rule (§4.6; J-P15, J-A42.41). **Party walls** are shared L3 edges carrying
+the `party_wall` role in row classes, one edge per wall (§2.2). **Unbuildable bands:** the shore setback (§4.2 S1 (8)),
+the wall strips — the band, the inner setback, the outer setback and glacis (MFP-9; step (0)) — and reservations are never
+plotted; ribbon plots begin beyond the outer wall strip. **Exact capacity check (FTG-2):** after the last block of a stage,
+plots per class × band are compared with the stage quota; a shortfall goes to S10b's reconcile and the report
+(F-BUDGET-STAGE).
+
+**Levelling and retaining walls (item 110 (a); file f items 245, 302, 309).** With `terrace.enabled` (a switch, V11
+§3.24.1; false in the parity presets), S10 and S11 level the units the district's fabric returns
+(`FabricStrategy.levelledUnits`, §14: the blocks, plots and ward it cut) wherever a unit's ground is steeper than
+`terrace.slopeMin` — S10 each block and the ward before its plots are cut, S11 each plot from its site plan — every unit
+to its own fronting way. A levelled unit is a **platform datum** (`Plot.platformCm`, `Block.platformCm`, §2.5) and never
+a write to the `Terrain` raster. Where two units' datums differ by a step: below `terrace.stepMinCm` it stays the base's
+plinth (§2.6); between `stepMinCm` and `stepMaxCm` one `RetainingWall` (§2.7; source `generated`) is raised on the units'
+shared line, its high side the higher unit; above `stepMaxCm` an intermediate terrace of at least `minTerraceDepthM` and a
+second wall; a slope steeper than `stepMaxCm ÷ minTerraceDepthM` is not levelled (the base's skirt and stepped wings, or no
+plot, reported). Each wall's material, batter, buttresses, parapet and decorative towers are drawn from the `retaining`
+rows at the high side's band (V11 §3.24.1) on the levelling stage's own stream, keyed by the levelling unit's lineage; its
+step profile is the derived view `stepProfile(wall)`, never stored. **The district-edge source** (V01 §3.17.1 (4)): for
+each district D whose fabric declares `terracedEdges` (the bent cut and `TemplateFabric` true, the village's
+`village-ways` false) and for which `terraceState(D)` (V01 §2.3) has `asks` and `walls`, S10 raises, before D's plots are
+cut, one `RetainingWall` along D's boundary setback line, inside D's faces, on each **backing soft run** — a `field` run,
+or a `way` run along which no block of D has a frontage (S9's `Block.frontages`) — across which D's ground within `d̄` of
+the run stands at least `terrace.stepMinCm` above the ground on the other side (the unlevelled terrain at the run's
+boundary samples; D the high side); it is split where that step stays below `terrace.stepMinCm` over at least `e_lo`, and
+pieces shorter than `e_hi` are dropped. Identity: derivation unit the L1 cell whose face the run bounds on D's side, stage
+S10, creation index 4 096 + the run's ordinal on that face; D's edge plots back onto it. **No wall on a hard line:** none
+stands on a hard run (`wall`, `water`, `cliff`, `marsh`, `frame`, `sky`: the enceinte, the shore, the barrier or the rim
+already holds the ground), on a `reserve` run (the reservation levels itself, S11), or along a bank of kind `cliff` or a
+closure arc of kind `cliff` or `sheer` (§4.4) — the cliff face holds the ground. **One producer per wall line:** the plot
+and block levelling raises no wall along a line a `RetainingWall` already holds (within 0.5 m and parallel within 10°),
+and a district's levelling raises walls only inside its own faces. A way crossing a wall is a stair or a ramp (§4.6).
+**`levelledGroundCm(doc, key: PlatKey, p: PointCm): Cm`** is the one reader of levelled heights (pure, draw-free): the
+datum of the levelled plot, block or ward holding `p` on the arena `key` — the ground's, or a sky island's (V05 §3.22
+(4)) — else the unlevelled raster there (bilinear); before any unit is levelled, and wherever `terrace.enabled` is false,
+it equals the raster sampler. Its readers: the buildings' datum step (V02's `deriveBase`); the ways' stair-or-ramp
+crossing rule; `stepProfile`; V01's island bridge build after S8 (§4.2 S1 (5)); V04's wall-face knots, arch-vault floors,
+foundation obstacles, the span rule, its buried floor under a raised grade and its village working's depth test (V04
+§3.2, §3.5.0, §3.5.4, §3.5.5, §3.5.7 (a)); and the sky's surface top, crypt re-test and clearance check (V05 §3.9
+(4)–(5), §3.10 (5)). Every **field** reader of the raster (the prosperity field and its daylight term, the islands'
+strips, V06's building shade mask) keeps the unlevelled heights, S1's raster with the T2 terrain strokes, before and after
+S10 and S11 alike. Lifecycle: generated walls re-derive with their terrain and levelling (a generated wall's state knots
+carried by `retaining.settings.stateSnapCm`, §2.7); drawn ones are held (T3 `wall` in its `retaining` kind, or the edge of
+a T2 `ground` terrace stroke, §7.1); undo is the log's; a document without them has none (§7.5).
+
+**Deck plots (item 110 (d); file f item 246).** S10's deck-plot cutter offers plots on every built ground-part-0 deck —
+a bridge (never a `ford` or a `draw`, and never one with no `deckCm`), a pier, a mole or a quay platform; raised decks
+carry none (V02 J-V2.71) — and on no moat deck at a gate (a gate's approach stays clear; realism tiebreaker). The offer
+is drawn once per deck by the `deck` row's chance for its kind and rung (V11 §3.24.4; `deck.offer`, 0 in the parity
+presets), keyed by the deck's lineage; an offered deck gets frontage plots along its way on the row's sides, within the
+row's frontage band, minimum depth, fill share and end clearance, each with `Plot.deck` (its host, kind, surface height —
+null for a quay platform on the bank, which is ground — and whether it is a landmark slot). The landmark slots — a mole's
+head and midpoint, and on a bridge whose span is at least `deck.landmarks`' `bridgeMid` minimum a mid-span slot — are
+drawn by `deck.landmarks`' claimants (a walled port's mole head holds item 106's harbour-mouth chain tower, §4.8). The
+deck plots belong to the district V01 §3.17.6 names, whose capacity S7b (1) counts. S10b admits a use on a deck plot only
+where its per-use `deckOk` (V11 §3.24.4) holds the deck's kind; S11 builds within the deck budget and passes
+`DeckContext`; no cellar stands on a deck over water (§2.6). Removing or ruining the deck ruins what stands on it by least
+disruption and tombstones its deck plots; rebuilding it re-offers them.
+
+**S10b Placement (O7; per district; the allocation honoured) — the one placement solver (item 16).** Each block's
+allocated classes are placed onto its plots by the **placement solver**, the one solver every path that puts a use on a
+plot calls: this stage at generation, the hinterland unit's S10b on its outside plots, every `assign` event (§7.7), a
+dossier event and a positive placement (§7.7, items 20 and 22) and the relocation of a use across epochs (§4.11, item 17).
+Its inputs are data: the **relation templates**, **supply edges** and **siting profiles** of the class rows and the
+neighbourhood kinds (§10.2), the per-assignment overrides of `PlacementCriteria` (§7.7) and the plot's `ContextVector`
+(§2.5); a host `ContentProvider`'s `site` replaces it where one is registered (§4.2 S2). The solver's score reads the
+siting families and signature pairs as derived `RelationRule`s (item 103; §10.2), a custom kind through its resolved
+profile (item 104 (a); §10.2) — its shape unchanged — and every soft term under §4.5's contract. A block with no allocated
+class places nothing; a request with no item returns an empty result.
+* **Hard rows filter, soft rows score.** A relation row marked `hard` excludes every plot that fails it; the candidates that
+  pass are scored `Σ_rows w_r · s_r(plot) + Σ_links w_l · s_l(plot) + Σ_terms`, each soft row's satisfaction `s_r ∈ [0, 1]`
+  read from the context vector — a distance row decays by its `falloff` between `withinM` and `beyondM`; a `sameStreet`
+  row is 1 on the frontage way of the named class's nearest placed member, 0 otherwise; a `clustered` row rises with the
+  number of the class's members within its radius; `band` and `exposure` rows compare the plot's band and `Plot.exposure`
+  with the row's values (item 30); an `upstream` or `downstream` row with a `to` finds the nearest member of `to` on the
+  plot's own drainage network (the D8 flow graph, §2.3) within `beyondM` along the course and is 1 when the plot lies above
+  (`upstream`) or below (`downstream`) it by at least `min` (a share of the network's length, default 0.02), falling with
+  the course distance by its `falloff`, and 0.5 when no member lies on that network; an `upwind` or `downwind` row with a
+  `to` is the cosine of the plot's angle off the windward or leeward bearing of `Terrain.wind.bearingCdeg` from the nearest
+  member within `beyondM` (0 outside ± 45°) times the distance falloff (without a `to`, these rows read the plot's own
+  `ContextVector.upwind` and `upstream`) — and each supply link's `s_l` (below). Capacity rows (`plotArea`, `plotShape`,
+  `frontageM`) read the template's size budget (S11): a hard capacity row a plot cannot meet is what a JOIN request answers
+  (S10 (7)). Candidates are filled in descending score with capacity accounting, ties by plot id; households take
+  residential plots of their band ± drift. The default rows are the references' own placement rules — noxious trades
+  downstream and extramural (`upstream` high, outside the enceinte), mills and water trades on water, inns and the market
+  hall at tier-1 junctions or gates (the market squares themselves are S3's and S7b's, item 24), religious precincts and
+  faction turf as attractors, warehouses at the harbour, frontage class and area fit — and the rows the references lack
+  (the supply links, the upwind and high-ground rows, a trade clustering on one street, the siting families, coverage and
+  the web) are soft rows whose weights the table's `placement.extensionWeight` cell scales (default 1; 0 in the parity
+  presets §13.6's side-by-sides run; item 23). True physical needs stay hard rows (a watermill on water, a quay on the
+  shore; item 103 (c)).
+* **Supply links and distances by mode (items 16 (b), 105, 107).** A link is a supply relation between two placed members
+  carrying one good, derived here — each consumer member binds to its **nearest** provider member of that good by the
+  edge's mode (several providers split their consumers; no class-wide centre pulls every member) — and never stored:
+  recomputed on every placement path (generation, assignment, dossier event, positive placement, relocation, undo
+  re-derivation) and by `explain`, so no path leaves a stale link. **Satisfaction** `s_l` is 1 within the good's `comfortM`
+  (the goods table, §10.2) and decays linearly to 0 at the edge's `maxDistanceM` (the base's linear decay is the case
+  `comfortM` = 0, which the parity presets keep). **A link pulls both ends:** the consumer toward its provider, and the
+  provider toward the weighted centre of its bound consumers; which end leads is the class's **orientation** (§10.2:
+  `source` placed near its dominant input, `market` near its dominant demand, `balanced` where its input and output routes
+  meet — the route graph's junction nearest the weighted balance point, often a gate, a bridgehead, a landing or a
+  crossroads; scored, never forced). A producer with several goods has one outgoing pull per good, weighted by the good's
+  volume × transport cost (river and sea legs cheaper than carts), and settles nearest its dominant output's consumers; the
+  consumers of a shared provider sit within reach of it and so of each other, demand beyond one provider's `perConsumers`
+  adding a provider by S2's need propagation, the consumers re-binding to the nearer; a provider serving consumers spread
+  over districts is pulled to their weighted centre, never they to it; a hub (several inputs and outputs) is placed by the
+  balance of all its links under its orientation. **Distances:** `street` distance comes from the class distance rasters
+  (16 m, one linear distance transform per class) as the land distance × the rung's detour factor (a table cell, default
+  1.3, calibrated at M1 against the way-graph Dijkstra on B-CITY; *pre-decided fallback:* the factor refitted per rung);
+  `river` and `sea` distance is ∞ unless plot and provider both lie within the shore setback of one navigable water body
+  (§4.2 S1 (8)), else the distance along that body's bank chain; `road` distance is the `street` distance to the gate
+  through which the provider is reached plus the provider's distance beyond it. **Between arenas** — a plot on a sky island
+  and a provider or relation target on the ground, or the reverse, or two islands — every mode's distance is the **route**
+  through the island's admitted accesses (V05 §3.20 (1)–(2)): the `street` leg on each arena, a transfer allowance per ride
+  and the ride's run, as `road` runs through a gate; a `river` or `sea` leg never crosses arenas (∞). Every relation row and
+  link whose two ends lie on different arenas reads the route, except the nuisance rows (emits against sensitive-to,
+  upwind and downwind), which read the straight distance in three dimensions; upstream and downstream never cross arenas.
+  A cross-arena consumer counts toward its provider's two-way pull at the foot of the access its route used (a ground
+  consumer of an island provider at that access's top); `comfortM`'s plateau reads the route length (V05 §3.20 (9)–(12)).
+  A gate provides the `import` resources its bearing's trade row lists and the harbour those that arrive by sea, so
+  warehouses and inns fall to the harbour and the gates by the same rows. Inside the pooled S10b a provider is **a block
+  whose S10a allocation holds a producing class**, a hinterland land-use face of a good's `site.landUse` built like S10a's
+  (V11 §3.7.1), or a placed plot of this district; a class on an island stands at its island's land centroid for the
+  ground's reads (eager and town-wide, so the laziness contract of §4.1 holds); a post-build request measures to the placed
+  plots themselves over the L1 way graph (one multi-source Dijkstra per provider class; budget §12.6). A hard supply edge
+  with no provider inside `maxDistanceM` fails the plot; S2 has already demanded the producer (§4.2 S2), so the failure is
+  a siting shortfall, never a missing class.
+* **Spread and pull (items 103 (f), 107).** Each class's **balance profile** (§10.2, defaulted from its clientele) weighs
+  its spread against its pull: everyday services (apothecary, baker, tavern, chapel, barber, bathhouse) strong coverage and
+  weak supply, so they spread toward districts lacking one; town-wide specialists (goldsmith, bookbinder, luxury trades)
+  neither dominant, free to share a street near a market (the clustering crafts), no coverage target; heavy processors
+  (mill, tannery, smelter, brewery, dyer) strong supply and physical needs, no coverage; wholesale and storage at the gates
+  and quays. **Coverage** (item 103 (f)): a class with a coverage row (a catchment unit — a district, a neighbourhood, a
+  walking radius, or N households — and a soft target per unit) is pulled toward units it does not yet serve and away from
+  over-served ones, added to the pools with the other terms, never a quota; with a dossier its members' count is the
+  dossier's and coverage decides only where they go (unserved districts first, then by demand). **Same-kind spacing**
+  (item 107 (d)): a spreading class carries a soft `far` row to its own class inside a district (a table radius per class),
+  off for the clustering crafts. An island counts for coverage as V05 §3.5 (3) states (its k districts, one walking-radius
+  unit, or its household units).
+* **Water in dry country (item 111 (b)).** The well and public-fountain classes score an extra term on the plot's well
+  yield (`SiteResources`, §4.2 S1 (10)) with the climate row's weight, and their walking-coverage radius (V11's
+  water-supply family) is multiplied by the climate row's coverage factor (below 1 in arid rows), so a dry town's wells sit
+  on its best ground and closer together.
+* **Custom chains (item 104 (b), (h); item 105 (i)).** Each **active** reviewed chain of the dossier (SettlementForge's
+  activation rule: all its nodes present; §7.7) — custom, and the dossier's `activeChains[]` — becomes links between the
+  placed members that are its producer, processor and consumer nodes, weighted by the volume moved (`economicWeight` when
+  visible, else moderate) and the good's nature (perishable goods keep their links short; bulky goods favour water and
+  main roads; small valuable goods tolerate distance but seek security); an `impaired` or `vulnerable` chain's links weaken
+  by the status table (§10.2). It is placed as one connected thing, in the web's order (upstream first, so a downstream node
+  sees its suppliers' sites): a **resource** node on the terrain feature its kind implies (water → a river or the coast,
+  land → fields or pasture in the hinterland, subterranean → a mine or quarry at the hinterland edge, special → its own
+  deposit site by the resource rows), created as a map feature by S12a when the settlement has none, sized by the chain's
+  volume; its first processor by the resource or on the road between it and the town (extramural or at the edge where its
+  profile emits a nuisance); each later processor a step further in; the final seller on a street feeding a market or
+  inside its consumers' catchment; its consumers pull its final node and it pulls them. A chain whose in-town nodes are
+  compatible (no node emits what another cannot bear) sits close at street scale — its links within their `comfortM` — and
+  is named a working quarter only past item 72's quarter-identity threshold or by a declaration (§4.5 (4)); an
+  incompatible chain stretches along its road, the noxious steps at the edge, the clean steps in town, still in flow
+  order. A custom node that requires or supplies a catalogue node is pulled by it the same way. A service `providedBy` an
+  institution sits inside it (a sub-location) or on an adjoining plot; an institution that subsumes others takes over their
+  site needs (one larger compound where they would have stood), never a second site. An import feeds its first consumer
+  through a store (a warehouse, a yard) at the gate or quay facing its partner's bearing (the realm block's, items 77, 85),
+  else the main gate or the harbour; an export leaves from its last node the same way; an `entrepot` chain's ends are these
+  pulls. A chain with nodes on an island and on the ground is measured by the route and reads as stretched through its
+  landing, close at street scale only on the ground. An inactive chain pulls nothing; its nodes keep their sites and may
+  drift over epochs (item 17); a chain that activates places its new nodes against the existing ones by least disruption,
+  upstream first. A chain never forces a hard row and never moves a dossier-declared, author-declared or pinned place.
+* **Split sites — a works and a shop (item 105 (h)).** A class whose row declares `split` (default rows: the butcher —
+  slaughterhouse and stall; the brewer — brewhouse and taphouse; the potter — kiln yard and shop) may, where its nuisance
+  pushes out and its dominant perishable or retail output pulls in beyond the table threshold, be placed as ONE item on TWO
+  plots: the works by its nuisance and input rows, the shop by its output and clientele rows. One institution, one dossier
+  binding, two buildings: the shop's building carries a `Use` whose `branchOf` names the works' use (§2.7). A state, closure
+  or removal of the institution reaches both (item 14's spread); relocation moves each by its own rows; undo restores both;
+  the author may merge them back onto one plot (a map-side declaration, item 104 (a) (1)); an absent `branchOf` is no split
+  (§7.5). An `assign` whose use carries `branchOf` naming a standing works' use is a **declared split** at any rung, held as
+  a declaration and removed by its inverse; a standing pair is never merged by a rung change (V07 §3.12). Generated splits
+  follow the threshold at every rung, their one off switch `siting.web.splitEnabled` (V11 §3.7.4; false in the parity
+  presets); every split is reported. A split class's shop may stand on an island while its works stays on the ground.
+* **Live-in (MFP-7):** craft and shop rows default to `liveIn`; a live-in household is sited first at its workplace and
+  recorded as the building's `dwelling`, so the arterial frontages are shop-houses, not workplace strips, and
+  residential-only blocks stay the exception (its block-level acceptance is §13.5's). **Outside classes, and under §4.9's
+  `fill` farm mode the farm households,** are placed by the hinterland unit's own S10b (under `perimeter` and `rivers` the
+  farm households are town households, placed by their districts' S10b) — the same solver over the outside plots its S10
+  built at S12a's sites, whose seeding scores are the outside classes' relation rows (§4.9; FTG-7). A `manor` block's
+  class draw is restricted to `compound` classes (V01 §3.5.10).
+* **Requests after the city is built** — an assignment, a dossier element, a positive placement, a relocation — take the
+  **least-disruption order**: vacant plots and vacancy runs first, then under-used plots (a yard part or an outbuilding the
+  template can take), then plots whose present use can move within the same district (the displaced use re-placed by this
+  solver with one further level of displacement at most — §7.7's `DisruptionBudgetRow.displacementDepth`, default 1 —
+  never a cascade), then a JOIN with a neighbour by S10 (7)'s orderings. A rejected site (§7.7's rejection record, item 20)
+  is excluded while its rejection holds, a locked plot always, and a pinned assignment's plot is fixed (§7.7's precedence).
+  Among the candidates that pass the hard rows the order is lexicographic — disruption cost (§7.7's
+  `DisruptionBudgetRow.weights` for the request's kind: per displaced use, per join, per subtracted part and per vacated
+  plot), then score descending, then plot id — so the town changes as little as the rules allow. Every displacement, join
+  and vacated plot is a lifecycle event of the causing edit (§2.8, §7.4), and the placed plot's buildings then mutate to
+  the designation by S11's operator (item 18). **A returning dossier element (item 80)** — a `dossier` request for an
+  element whose assignment returns to `active` (§7.7) — ranks first the plot of its former building (the building whose
+  `formerUses` names its use), so a reopened institution reopens where it stood, repaired by §4.11's Works when the change
+  is dated. A new custom revision (a changed content hash) re-resolves the profile and re-sites the use by this order,
+  the report saying why (item 104 (e)).
+* **Concealed institutions (item 63).** A concealed institution is placed as one item with its front by this section's
+  *Concealed institutions* paragraph.
+* **Reconcile and infeasibility (O18 f).** At generation a bounded **plan–fit–reconcile** loop (≤ 3 rounds) adjusts *inside
+  the district's allocation* where a class finds no plot (one more JOIN; a class demoted within its band; surplus capacity
+  typed as yards, greens or vacant plots); it never reaches into another district — moving demand between districts
+  happens only in S7b's reconcile and in S10a's band-range re-homing (§4.5 (5); J-A72.50) — and what it cannot place goes to
+  F-SITING's ladder (§5.2), whose rungs this stage computes as: the reconcile above; then every **soft** row's weight set to
+  0 for the item; then the manifest reduced, lowest-priority classes first and never a dossier-backed item (item 20) — the
+  report naming, for every unplaced item, the hard rows that blocked it and its **closest options** (the plots in order of
+  the number of hard rows they fail, then score descending, then plot id — each with the rows it fails; J-A20.42). A custom
+  kind always resolves a profile and always finds a site, an unplaceable preference reported with its closest options (item
+  104 (d)). **A hard row is never relaxed silently:** a post-build assignment, or the re-placement a `rejectSite` causes, that no plot satisfies
+  returns the same closest options as an F-EDIT action (§5.2) — choose one, relax a named row for this item, or withdraw — except a
+  `dossier` request, which places at its first closest option with the hard rows it fails reported (§7.7's precedence,
+  J-A20.71); a user's positive placement that no plot satisfies is bent to the site ranked first, and one over its budget
+  to the closest acceptable site within it, as §7.1 states (item 101 R2) — so placement never gives up silently (O18 f; FTG
+  V1 "would regularly give up").
+* **Placement order and the explanation (items 101 (d), 102 (d), 103 (e), 105 (j), 107).** S10b records, for every item it
+  places, its `PlacementOrder` on the derivation record of the plot it stands on (§2.8; V10 §2.13) — `seq` the event whose
+  run placed it (0 at generation), `k` its index in the run's order (claims first, then the web's anchors), `pass` 2 when
+  the relaxation pass moved it — so `explain`'s `asPlaced` reading scores against the members placed before it (a declared
+  one-time shift of the records digest at the milestone that lands it; an older document answers `asNow` with
+  `exact: false`, V10 §2.14). `explain` decomposes the same score read-only over the committed model — no stream advanced,
+  nothing written; its score at a placed item's plot equals the score `place()` computed there on an untouched town:
+  every hard row with its verdict; every soft term as a signed contribution grouped by family (the relation rows, item
+  103's families, coverage and signature pairs, item 105's links, item 107's balance, item 102's sunlit preference, the
+  field, the character, the district allocation); the controlled chance term recomputed from its stream key, which
+  advances nothing (§6.1); the top-k candidate plots of the scope by the same score; and the item's links as `place()` binds
+  them. The rasters it needs are built lazily for the classes its rows name when not resident (budget V10 §6.1). The author
+  may pin, move or cut a link, stored map-side (item 104 (a) (1)), never written to the dossier.
+* *Mechanism (budget: §12.4):* context-vector distances come from per-feature-class distance rasters (16 m; one linear
+  distance transform per class) computed once per model, and the provider rasters of the producing classes from S10a's
+  block allocation the same way; S10b is a top-k over candidates pre-filtered by district affinity and requirement class,
+  with incremental capacity. Both entry points exist, read from `recipe.entryMode` (§2.9): content-first (default) and
+  layout-first (thumbnails, then populate). People are derived lazily from the household's key and pinned only by an
+  explicit edit (§10.3).
+
+```ts
+interface PlacementItem { cls: string /* roster class id */; band?: string; designation?: Designation /* S11 */; count?: number /* generation: the block's allocation row */;
+  id?: Id /* a Use, an assignment member or a dossier element being placed or re-placed */; criteria?: PlacementCriteria /* §7.7's per-assignment overrides of the class's relation rows */;
+  pinnedTo?: Id /* a positive placement (§7.7, item 20 (g)) */ }
+interface PlacementRequest { kind: 'generation'|'assignment'|'dossier'|'positive'|'relocation'; items: PlacementItem[]; scope: Scope /* the blocks or district the solver may use (§14) */;
+  fixed: Id[] /* placed members kept (§7.7) */; exclude: Id[] /* locked entities */; rejected: Id[] /* plots under a live rejection (§7.7) */ }
+interface PlacementResult { placed: { item: number; plot: Id; score: number; joined?: Id[]; displaced?: { use: Id; to: Id | null }[] }[];
+  unplaced: { item: number; blockedBy: string[] /* relation-row and supply-edge keys */; closest: { plot: Id; fails: string[]; score: number }[] /* the closest options in S10b's order: fewest hard rows failed, then score, then plot id */ }[] }
+interface PlacementSolver { place(req: PlacementRequest, ctx: StageContext, k: Kernel): KernelResult<PlacementResult>;
+  explain(req: ExplainRequest, ctx: StageContext): Explanation /* read-only (above); ExplainRequest and Explanation as V10 §2.13 declares them */ }
+// one implementation, registered by name (§4.12, §14); its draws are the `siting` concern (§6.1)
+```
+
+**S11 Site plans and footprints (L4; O17; one batch per block) — the designation template and the designation mutator.**
+One rule evaluation per plot, no search: the **designation template** — one per roster class (§10.2's `template` rows;
+item 19), keyed by band with its continuous columns interpolated along the plot's prosperity value and its discrete
+columns switching at the band cut (§4.5) — gives the size budget (plot area, footprint area, floors), the structures (the
+slot list: main building, workshop, forge, yard, court, stables, store, journeymen's rooms … by role and count), the
+arrangement, coverage, setbacks, separation (party wall / slot / passage), the front-line jitter (item 43, below), the
+frontage treatment of the main slot (none, lean-to stall, stall, shopfront, arcaded front, gate, wall), the yard
+partition, the **boundary treatments**, the `composition` row key and the heights row (§10.2), and the
+**specialisation** — the designation's variant in this band, with its room programme (item 28, §2.6): a farrier or
+nail-maker in a lean-to forge, a general smithy with a yard, and a master armourer or cutler with a storefront, a court
+and journeymen's rooms are three rows of one smith template (our own rows). Density is a modifier column on coverage and
+separation. Geometry columns read the plot's manifested band (§4.11's plot-level read); the specialisation and the
+programme read the field band, so a poor smith in a once-rich shell is a poor smith in a big house (item 31). **The
+culture specialisation (item 110 (c)):** before the composition resolves, S11 draws the use's culture specialisation
+(V11 §3.24.3) once — on `siteplan` keyed by (the use's lineage, `'spec'`), against the row's `chance`, under the cap
+`max(capMin, ⌊capShare × S2's building count⌋)` counted in roster sequence order; a user-set, declared or keyword
+specialisation is exempt from the chance and the cap and never overwritten — and the chosen row's `composition` and
+`heights` replace the band template's; `Use.specialisation` holds it once set (§2.7). **Every path that creates or changes
+a building reads this one table** — this stage at generation, the mutator below on every designation change, S10b's
+relocation (§4.11) and every assignment (§7.7), whose drift bounds bound the mutator's adapt and add steps relative to the
+template. Two smiths a few streets apart differ by degree along the value, never by switch; the default rows reproduce
+the references' banding — FTG's lifestyle-banded building pools and MFCG's ward-type sizes and spacing (§4.5's band set,
+item 27) — and the interpolation between rows is our extension. J-A19.41 holds within a class; the class itself is S10b's
+class-mix draw (item 71). A front's building reads the front's template; its concealed function adds only concealed
+rooms, a concealed door and a link down (item 63, below). **Materials are not template columns** — the material rule,
+texture and colour only, is §2.6's (J-A19.42). The arrangement rows the template chooses among:
+
+| arrangement | geometry | boundary treatment (default rows) | where |
+|---|---|---|---|
+| row | one or more footprints end to end along the frontage; **footprint = plot ∩ the frontage band of the row depth** (a boolean intersection, GEO-26; J-P14), the band set back by the plot's front-line jitter `h` (below), so every party wall is the plot side line and, the block being one L4 batch, one shared edge even on bent or curved frontages; stored as one `quad` wing with its four corners recorded (`BaseWing.corners`; stepped quads on a slope, each with its own; J-P31, J-P39) and handed to `outline()` as fixed input (§2.6); depth from the coverage; rear yard | frontage none (the house is the frontage); rear wall (dense) or fence | dense and poor bands, shops, workshops (NG 95–99 % attached; FTG's warehouse rows) |
+| set-back compound | hall or house set back behind a forecourt; **2–5 disjoint outbuildings** (stables, workshop, chapel, barn, brewhouse) placed by a small greedy packer on the plot's OBB grid around a court — except a structure whose composition role key is attach-main (V02 §3.10.4: a mill's wheel or sails, a church's tower and porch, a court institution's ranges), which takes no slot of its own and is handed to the main slot's `outline()` with its drawn count (`BuildingInput.attached`), whose massing lays it as part of the main building (V02 §3.5 M8b) | **enclosure wall** (rich, prosperous; ours — NG 1.2.2 draws no enclosure — an `extension` the parity presets set to the fence, §7.6; J-A44.41) or fence, with a **gate on the access edge** | manors, inns, temples, guildhalls, farmsteads (FTG's farmstead with a driveway) |
+| detached | one OBB-aligned footprint at the frontage with side yards and a path to the access edge | frontage fence, railing (rich) or hedge, with a gate; side hedges | prosperous / semi-rural bands, sparingly (R4/R5) |
+| hovel | one small footprint on the frontage of a plot that is mostly bare yard | none or a hedge | squalid bands, outskirts |
+| tents | 1–3 small round or rectangular footprints (6–15 m², class `tent`, roof `tent`) with a fire-pit pin, dirt surface | none | squalid and shanty districts after the first half of the stages (COV-FTG-E07) — FTG's row, which the parity presets keep; how the default preset shares these districts with the cluster row is item 70's (below) |
+| cluster | many small structures — shacks, tents or lean-to shelters by the cluster rows (§10.2) — packed across the plot, not in frontage rows, each with its own door on a footpath web of the plot's yard that reaches one of its access edges (item 70, below) | none | informal plots of the lowest bands with no standing building, where item 70 admits them |
+| institution | the claim's own template (§2.6 footprint templates, the axis-locked composer, the `ring` partition recipe for a cloister) | wall with a gatehouse gap; churchyard wall | claims |
+| vacant run | no footprint | wall (dense bands) or fence | vacancy runs (S10 (8)) |
+
+Treatments are stored as §2.5's `PlotBound` records on the plot edges; they are drawn at district LOD as a stroke distinct
+from buildings (§8.2's treatment row), **walled or fenced frontage counts toward O17 (d)'s streetwall continuity**, and
+walls and fences export to VTT and GeoJSON (VIS-8).
+
+**Front-line jitter — an area-scaled recession (item 43).** Each plot's main slot may stand back from its frontage by a
+recession `h`, evaluated once per plot and stored, rounded to the centimetre, as `SitePlan.frontJitterCm` (§2.5):
+`h = u · min(√(plot area) / 3, jitter.maxM)`, `u` uniform in [0, 1) — one draw of the plot's `siteplan` stream (§6.1; no
+new concern) — and `h` kept only when `h ≥ jitter.minM`, else 0. The law's shape — area-scaled, uniform, floored — is the
+emulated default (provenance `ref:MFCG 12710731 front recession (code)`, P9); its construction and values are ours. Under
+the default values the area term binds only on plots under ≈ 20 m², so the default recession is in effect uniform up to
+the band's maximum. *Construction:* `h` is taken square to the frontage, on the frontage band's normal — a row footprint
+is `plot ∩` the frontage band between the offsets `h` and `h +` the row depth, and a detached, hovel or compound main
+slot's front stands `h` behind the template's setback — so the front stays parallel to a bent or curved frontage, every
+party wall stays the plot side line (J-P14) and the strip in front of the recession is the plot's `forecourt` yard part
+(§2.5). Where the plot's depth cannot hold `h` in front of a footprint that meets the class floors (S10), `h` falls to the
+largest value that can, and to 0 when that is below `jitter.minM`. *Values:* `jitter.maxM` and `jitter.minM` are
+designation-template columns (§10.2), `jitter.maxM` interpolated along the prosperity value like coverage — defaults ours
+(`own`): `jitter.maxM` 0.4 m (poor / dense), 0.7 m (modest), 1.0 m (prosperous), 1.5 m (rich); `jitter.minM` 0.3 m for all
+bands — each band cell marked `extension: { over: 'MFCG', mode: 'option' }` over the emulated law, whose values the `MFCG`
+parity preset reads through §7.6's per-preset values: `jitter.maxM` 4.8 m and `jitter.minM` 2 m (J-A43.41). The
+institution, tents and cluster rows carry `jitter.maxM` 0, unmarked, so no preset changes it and their plots draw no
+recession; any row whose `jitter.maxM` lies below its `jitter.minM` draws none. *Floor:* a front nearer its frontage than
+`attractCm` (26 cm, §3.2) would be shared with the frontage by §3.6's stretch attraction and the recession would collapse
+to 0, so `jitter.minM` is bounded below by `attractCm` + 1 cm — the column's declared range (§7.6), against which an
+`editTable` or `editPreset` setting it lower is refused, naming the bound (F-EDIT, §5.2) — and the recessions drawn are
+{0} ∪ [`jitter.minM`, `jitter.maxM`] (J-A43.42). *Changes:* a kept main slot keeps its stored recession through a
+designation change; an added main slot evaluates `h` at the target template's columns with its draw from the mutation's
+`siteplan.mutate` stream, as every added part does (the mutator's step 2); Regenerate (keep settings) re-evaluates the same
+draw, so it reproduces the same fronts. The bars: §13.2 (item 43).
+
+**Footprints and heights.** The row arrangement's footprints are made here by the boolean above and passed to
+`BuildingGenerator.outline()` as fixed `quad` wings, which it returns with heights and roofs and never re-fits (§2.6); every
+other arrangement's footprints come from the registered generator's `outline()` — with stage 3, V02's massing (V02 §3.5),
+whose `baseOutline`, template and `axisLocked` families are the base builder's — rectangles and L / T compositions as
+`rect` wings with per-wing ridge axes (VIS-10), footprint templates and the axis-locked composer for institutions
+(COV-FTG-F16, COV-MFCG-G05), the base outline builder's stepped and deck constructions from M3a (§2.6; item 229) — each
+shaped inside its slot's working hint (`SlotPlan.hint`, §2.5, which S11 never stores). The cluster packer hands each
+structure to `outline()` as one fixed wing. S11 passes in `BuildingInput` (§2.6) the slot's composition row key, the plot's
+field and manifested bands, its layer (`underground` for II.7.3's sewer-front plots, II.7.5's undercity and item 109 (j)
+(4)'s cavern and ruin dwellings), the attached structures and, on a deck plot, its `DeckContext`. S11's yard partition
+types every hole of a footprint face as a yard part of kind `court` (from M3a, with item 229; a hole of a base footprint
+template such as the ring cloister is retyped `court` once at M3a, a declared shift, §13.3). When the block's batch has
+committed, S11 carries every wing onto the committed face by §2.6's wing-carrying rule — the first carry (J-P42), after
+which every committed batch carries (§4.1). **Scale (COV-FTG-F09):** footprint targets are multiplied by the district's
+`buildingScale` (0.5–2, continuous; FTG's "smaller / bigger" as a district edit or an `Adjust` regeneration). **Heights**
+from the class tables on every wing (floors × storey height + roof rise by pitch; eave and ridge per wing; tower heights
+for keeps and church towers), with the **ground datum** `baseCm` by §2.6's `deriveBase` (FTG-13; J-P19) through
+`levelledGroundCm` — carried although the top-down view never shows them. **Entrances** are §2.6's set (the main entrance
+facing the plot's frontage access edge, item 29), re-derived whenever the designation mutates; roof kind by class per
+wing (the style sheet chooses the construction, §8.2); **materials** from `MaterialRow` (COV-FTG-F20; §2.6);
+**description, opening hours and sub-locations** from the class table and the naming engine (COV-FTG-F21, FTG-11); yards
+partitioned into typed parts.
+
+**The designation mutator (item 18).** A change of designation — an `assign` or `unassign`, a `setAttr` on a plot's use or
+class, a relocated use (§4.11), a dossier re-designation (§7.7) — never replaces the plot's buildings with a fresh roll.
+`mutate(plot, to)` derives the new design from the present one by a recorded delta toward the target template, evaluated
+at the plot's current prosperity (item 19 (c)):
+1. **Match.** The present design's parts — slots by `BuildingSlot.role`, wings, storeys, roofs, entrances, yard parts,
+   treatments, and a stored composition's or plan's rings (§2.6) — are matched to the target template's structures by role
+   through a **compatibility table** (a house and a hall, a shop's storefront and a house front, a stable and a store, a
+   workshop and a forge … our own rows, editable): each part is **kept** (it fits the target's role within the template's
+   tolerance on size), **adapted** (kept with an attribute change — a storey added within the floors band, a wing extended
+   within the size budget, a frontage treatment or a roof kind changed), **converted** (kept as another role the table
+   allows) or **subtracted** (no role in the target and no protection); each required structure without a match is
+   **added**.
+2. **Order and draws.** Subtract, convert, adapt, then add, so the added parts pack around the kept ones on the plot's OBB
+   grid by the compound packer from the plot's `siteplan.mutate` stream (§6.1: a geometry concern keyed by the plot's
+   lineage, so the same change from the same state draws the same numbers on every host, and a New random of the plot
+   changes nothing past); added parts are minted from the causing event's `seq` and ordinal (§6.3), kept parts keep their
+   addresses, subtracted parts become tombstones with the event's `seq` (§2.8). The old house stays recognisable inside
+   the new workshop.
+3. **Land.** When the target's size budget exceeds the plot, the mutator asks S10b's solver for a JOIN with a neighbour by
+   S10 (7)'s orderings, the neighbour's use relocated by the same solver; when no join is allowed — a locked neighbour, a
+   hard row — the template's `underSize` column decides: the compact rows, or a refusal reported with the blocking rule.
+4. **Protection.** A locked part or path is never subtracted, converted or adapted (fate *kept*, §7.3 item 4); a
+   user-edited attribute is kept (implicitly pinned, §7.2); an added part that would overlap a kept part is placed
+   elsewhere on the plot or reported; the entrance set and the basement decision are re-derived by §2.6's rules on the
+   result (item 29), and the plan rung's elaboration cache is marked stale (item 28).
+5. **Record and reversal.** The steps are one `MutationRecord`, persisted in the causing event beside its fates (§7.1,
+   §7.4) and cited by the plot's lifecycle event; the event's undo record keeps the former parts. Reversing the change — a
+   designation set back, an `unassign`, an `undo` — applies the **inverse** of the recorded steps when the plot's design is
+   still the record's result (its leaf digest, §6.2), restoring the earlier design exactly; otherwise a fresh forward
+   mutation toward the earlier template runs and is reported as such.
+6. **Timing.** A host or user change decides and records the whole mutation at once; across epochs the evolution engine
+   spreads the same steps — occupy if compatible, then adapt, then extend, and rebuild only what cannot be adapted — as
+   recorded events (§4.11, item 18 (c)). How a recorded step is shown on the ground over the weeks it takes is §4.11's
+   Works (item 67), which reads the steps and never re-decides them (J-A67.49).
+7. **One path.** Generation is the mutation from the empty design: every structure an add, every draw from the plot's
+   `siteplan` stream, so this stage's own batch and a later mutation are one code path (`@plat/plots`, §14); Regenerate
+   (keep settings) and New random remain re-derivations (§7.1), and `rebuild` (§4.11) the whole replacement that a ruin or
+   a redevelopment calls for (item 31's rung 3), never a designation change.
+
+```ts
+type Designation = { cls: BuildingClass; use: string /* the roster class id */; specialisation?: string /* the template's discrete row; absent: by band */; assignment?: Id }
+interface MutationStep { op: 'keep'|'adapt'|'convert'|'add'|'subtract'; part: { kind: 'slot'|'wing'|'storey'|'roof'|'entrance'|'yard'|'bound'|'frontage'|'composition'|'plan'; id?: Id; role: string };
+  from?: unknown; to?: unknown; rule: SliceRef /* the template or compatibility row read (§2.8) */ }
+interface MutationRecord { plot: Id; from: Designation | null /* null: generation, from the empty design */; to: Designation; band: { field: string; manifested: string }; steps: MutationStep[];
+  joined?: Id[]; displaced?: { use: Id; to: Id | null }[]; seq: number /* the causing event; 0 for the generation run */ }
+interface DesignationMutator { mutate(plot: Id, to: Designation, cause: EditRef | RuleRef | 'generation', ctx: StageContext, k: Kernel): KernelResult<MutationRecord> }
+// one implementation, registered by name (§4.12, §14); called by S11, by every assign, setAttr and dossier event (§7.7) and by §4.11's use step
+```
+
+**Furniture pins (COV-MFCG-I01, COV-FTG-J02, COV-FTG-J05; `pin.*` streams).** The main plaza always gets one centrepiece —
+statue 0.6, fountain 0.3, market cross 0.1 by default weights (MFCG places one in every market square, 60 % statues) —
+offset toward the plaza's longest edge for statues and for 30 % of fountains; each gate plaza gets a well, cross or trough
+with probability 0.5; every block draws one **weighted decoration row** from a deck and applies it to its unused plots and
+vacancy runs (wells, pumps, troughs, large trees); **singletons** — bandstand, statue, monument — are placed once per
+district in an unused plot by a deck draw, campfires in squalid districts; **market stalls**, drawn as small tents, line
+each market square's edge band and ring its market hall, by rank: the principal one per ≈ 150 m² of square (≤ 40), a
+secondary one per ≈ 200 m² (≤ 20); a flanking principal market takes the main plaza's centrepiece rule and a secondary
+market a centrepiece with probability 0.5 (our own rows, calibratable). Each `square` block of V01's dispatch takes its
+centrepiece by its `SquareRow`, with no stalls on a `trading` square (stalls stay on market reservations, item 24), and a
+church or temple below a block that has no §4.8 forecourt takes a `forecourt` yard part (V01 §3.5.3, §3.5.10). A well or
+pump the decoration rows place sits on the unused plot of highest well yield (§4.2 S1 (10); item 111 (b)). At the rungs
+whose `RungProfile.frameLaw` is `territory` this step places nothing — no centrepiece, gate-plaza pin, decoration row,
+singleton, campfire or market stall — nor the pins by rank below: the village product's pin stage places the whole
+furniture (V07 §3.6 (5), §3.10), and a `@pin:<kind>` record binds to its pins; the light rows below still run. What each
+band draws — footprints, yards, treatments, pins, and the plot outline as an optional cadastral layer — is §8.5's.
+
+**Markets and hidden plots in this stage (items 24 and 30; the rules are §4.2 S3 (12)'s, §4.5 S7b (3)'s and §4.6's).**
+Every market square — the plaza when it carries the principal rank, a flanking principal market, each secondary claim —
+takes the pins above by its rank; the market hall's `nearMarket` row (§10.2) binds it to the principal market by default.
+A passage the block's reach names (§4.6) is cut by S10 (9) as its `passage` face, and S11 gives the front building the wing
+that spans it; a hidden plot's main entrance faces its access face — the court or the passage — as §2.6's entrance rules
+put a set-back building's on the court that leads from its gate (item 29), so every plan roots at a door that opens onto
+the way its plot is reached by.
+
+**Vacant plots under decline (AM-8).** A plot whose last building is cleared or reused merges into a garden, orchard or
+field by `plotToGarden`, or into its occupied neighbour by `amalgamate` (§4.11's ladders), through the merge operator of
+S10 (7) with the neighbour's band; the band's vacancy-run share of S10 (8) is the design's deliberate vacancy: regrowth
+never fills a run below its share, and decline's vacancies are counted apart from it.
+
+**Households per building (item 28 (f); J-A28.46).** S10b places a residential plot's households — per residential slot (a
+structure with `houses`, §10.2) of the plot's designation template row at least one household and at most the row's
+`households.built`, by band ± drift, a plot's slots filled in its slot list's order, required slots first (the capacity
+itself cannot be read there, because the building and its wings do not exist before S11). A residential slot the demand
+cannot fill is dropped from the plot's site plan, its ground typed as yard, never below its structure's least `count` where
+the structure is `required`; a residential plot whose required residential slots the demand cannot all fill is typed
+vacant by S10b's reconcile, its households placed on the next candidate — surplus capacity, never an empty residential
+building. A residential slot on a workplace's or an institution's plot that is its main slot (a live-in class's among
+them) or within a `required` structure's least `count`, and that no household of its band or drift can fill, is neither
+dropped nor typed vacant — the workplace or institution and its use stand — and S11 builds it as a slot without `houses`,
+housing none, `Building.dwelling` absent, reported; its `BuildingSlot.unhoused` (§2.5) records that typing, written by
+every run of this fill and cleared by the designation mutator. S11, which creates each building and its wings, writes each
+residential building's `Building.households` (a building S11 builds for a slot with `houses`; every other building's list
+is empty) from its slot's households in address order, clamped into [1, capacity], a locked or pinned household kept
+before the clamp drops any (§7.2) — §2.6's one capacity function, which item 31's `relet` (§4.11) and F-PLAN's
+never-omit rule (§5.2) read, evaluated on the wings it has just made. **The overflow pass:** a household the clamp leaves,
+or whose slot S11 builds no residential building for, moves by §10.3's relocation (its address and its people's keys
+kept): after the district's last S11 block batch, still inside the district's derivation (a pseudo-district's alike), the
+overflow households are re-placed in address order by S10b's solver over the district's residential buildings that house
+fewer households than their capacity — the household's band first, then the bands its drift admits; score descending,
+then building address — each move reported; a household no building of the district has room for is an unplaced item of
+F-SITING (§5.2), reported with the capacities that refused it — except a household that fills the dossier's population
+(§7.7 item 2), which is never taken off the manifest: its housing is re-provided inside its district (item 20 (e);
+J-A20.72) by S10b's `dossier` request in the least-disruption order, its first closest option where no plot passes the hard
+rows (J-A20.42), and S11's operator builds there a residential slot of that plot's designation template for it, within
+that building's capacity, in the same derivation or causing event — each such build and displacement reported, a hand
+edit's among its dry-run fates (§7.3 item 4). So the solver and the plan agree on how many households a shell holds and no
+shell houses more than its capacity; the plan rung records the count among its inputs (§4.1). The overflow pass runs
+inside every change §2.6's capacity rule lists — S11's operator building or changing a residential shell (an epoch's new
+faces, a rung-3 re-cut, a designation mutation, item 18) among them — whenever the result's capacity falls below its
+households, each move a lifecycle event of it (§2.8), as `relet` keeps to the capacity (§4.11).
+
+**Concealed institutions — a front and a hidden function (item 63; owner: "some criminal like institutions or buildings
+have to be clandestine meaning there are certain lots and assignments that have two functions. A front which can be
+anything and a second function").** A clandestine institution does not parade itself: its building stands on the map like
+any other, and what it is, is withheld. This is the one statement of how such an institution is resolved, placed and
+built; the records are §2.6–§2.7's, the knowledge filter §9.2's and the underground allocations II.7's.
+1. **The value and its resolution (J-A63.41).** An institution, a use and an assignment carry
+   `concealment: 'none'|'front'|'hidden'|'underground'` (`Institution.concealment`, `Use.concealment`, §2.7;
+   `Assignment.concealment` with an optional named front, `Assignment.front`, §7.7), `none` by default. It is resolved when
+   the institution is first placed — and again only when a dossier event withdraws the mode the dossier set (below) — from
+   the first source that gives one: the dossier's fact (a mode, and optionally a named front); an assignment's value; the
+   class table's default-mode weights — `BuildingClassRow.concealment` (§10.2), rows only for the classes our tables mark
+   clandestine (a thieves' den, an assassins' house, a smugglers' store, a forbidden cult, a black market, a spy ring … our
+   own rows), read at the plot band's row and the district kind and drawn on `siting` keyed by the institution's lineage
+   (§6.1; no new concern); else `none`. The resolved mode is stored on the concealed use, with its map-side source
+   (`Use.concealmentSource`, §2.7) when the dossier gave none; a map edit sets a mode the dossier did not set by `setAttr`
+   (§7.1), and one the dossier set is dossier-owned, a map `setAttr` of it refused (§7.7 items 7, 11; J-A20.77, J-A63.22); a
+   dossier event that withdraws the mode it set re-resolves it by this order from the map-side sources, the use re-placed by
+   (2)–(6) as that event's least-disruption mutation (§7.7 items 5, 11 (b)), as an open use where the order yields `none`
+   (§2.7; J-A63.22).
+2. **Feasibility and the fallback chain (J-A63.41).** A mode is feasible where its ground exists: `underground` where an
+   underground allocation exists — II.7.3's sewer-front pseudo-district (S7b (6), which needs a navigable run, not only a
+   network, J-A14.43) or an undercity neighbourhood (II.7.5, S7b (7)); `hidden` where the district holds a plot whose
+   `exposure` is `hidden` (item 30, §4.6); `front` where a cover of the cover table has a plot whose hard rows pass. The
+   chain is fixed — `underground` → `front` → `hidden`; `hidden` → `front`; `front` → `hidden` — and where none is feasible
+   the front's closest options are F-SITING's (§5.2): a clandestine institution is never placed openly by a fallback and
+   never dropped, and every step down the chain is reported with its reason in `requestedVsBuilt`, never silent (J-A16.43).
+3. **FRONT — one item, two uses (J-A63.42).** The front is a cover class drawn from the cover table
+   (`RosterTables.covers`, §10.2: for each concealed class, weighted plausible covers per band — a tavern, a funeral
+   parlour, a fencing hall, an apothecary, a warehouse, a bathhouse, a tailor … our own rows; several per class, since a
+   front "can be anything") on `siting` keyed by the concealed use's lineage, unless the dossier or an assignment names one;
+   a named front is honoured where its hard rows pass, else F-SITING's closest options are offered for it — never a silent
+   substitute. S10b's solver places the pair as ONE item (J-A16.41): its hard rows are the FRONT's, so the front is plausible
+   where it stands (a tavern on a street, a warehouse at the docks); its soft rows are the true class's relation rows and
+   supply edges (near its targets and markets, the waterfront, alleys, passages, an outfall) plus an `exposure` row
+   preferring `alley`, `court` and `hidden` plots, at the true class's weights; both classes' band rows apply, so prosperity
+   shapes which fronts and which districts are used. The placed building then carries two `Use` records: the FRONT's —
+   `Building.use`, a working business with its households, opening hours, label and description — and the CONCEALED one
+   (`Use.concealment`; `Use.front` names the front's use; listed in `Building.concealed`, §2.6–§2.7), whose `knownTo` is
+   `secret` by default (item 30's values).
+4. **S11 builds the front (J-A63.42).** S11 reads the FRONT's designation template row at the plot's band: class,
+   footprint, site plan, labels and public room programme are the front's, so at every public zoom the building reads as
+   the front. The concealed use adds three things only, each flagged `concealed` and carrying the concealed use's knowledge:
+   (a) a **concealed programme** — the concealed class's room-programme rows marked `concealed` (§10.2's
+   `RoomRuleRow.concealed`: back rooms, a strongroom, a cellar room, a hidden stair), which the plan rung (§2.6, stage 3)
+   places away from the main entrance and off the public circulation hub, reached only through a service, yard or concealed
+   door (`Room.concealed`, §2.6); (b) a **concealed entrance** (`Entrance.concealed`, §2.6) — where the plot has an access
+   edge beyond its frontage onto an alley or a passage (§2.6's entrance rule 2's condition), `deriveEntrances` adds one
+   `service` or `yard` door there on `siteplan.entrance`, flagged, never the `main` door; with no such edge there is none and
+   the concealed programme is reached from the front's service side; (c) a **way down** — the basement decision (§2.6) reads
+   the higher of the front's and the concealed class's `cellar.prob` at the band (the terrain gate unchanged), and over an
+   underground element within reach the building's access draw takes the concealed class's `accessMultiplier` (II.7.3's
+   *Basement accesses*, item 64).
+5. **HIDDEN.** The institution goes to a plot whose `exposure` is `hidden` (item 30's plots behind a passage or in a back
+   court) — the `exposure` row is hard for this mode — with a front drawn by its class row's `hiddenWithFront` share on
+   `siting` (a back-court workshop that also sells something), or bare, its building then of its true class with
+   `knownTo: 'secret'`.
+6. **UNDERGROUND.** The institution joins an underground allocation: a sewer-front dwelling of II.7.3 (U1–U3; the
+   allocation's (b)) or, where one exists, a building of the undercity (II.7.5; its clandestine institutions prefer it),
+   there with a front by the same `hiddenWithFront` share; its `knownTo` is `secret`.
+7. **Mutation (items 17 and 18; J-A63.43).** A change of the front's designation — an `assign`, the front use's closing, a
+   rung-3 rebuild — runs S11's designation mutator on the front: the concealed use persists, its concealed door is
+   re-derived with the new entrance set where its access edge survives, and its concealed programme is re-fitted when the
+   plan rung, marked `stale`, is next viewed. A relocation of the concealed use (item 17's use step; a dossier event) moves
+   it by S10b's request like any use and leaves the front standing as an ordinary business: the building's `concealed`
+   list loses it, its concealed door stays as an ordinary `service` door (the flag cleared) and its concealed rooms return
+   to the front's programme at the next plan re-cut. The front and the concealed use are two records, so either can close
+   without the other.
+8. **The dossier stays the authority (items 20 and 22).** The dossier says that the institution exists and is clandestine;
+   the map places it and never reveals it on its own. An exposure — a raid, a discovery — arrives as a dossier change and
+   is applied as a least-disruption mutation (§7.7): the concealed use may relocate with its mode re-resolved, the front
+   close, a passage be sealed (item 30). A map delete of such a place relocates it by `rejectSite` (§7.7 item 3), as for any
+   dossier-backed element.
+9. **Knowledge, not geometry.** The building's mass and every public part are always on the map (J-A30.83); the concealed
+   use, rooms, door and way down carry the concealed use's `knownTo`, drawn, exported and answered through §9.2's filter
+   (§11.1, §11.2 withhold them).
+10. **Emulation (item 23; J-A63.44).** No reference has concealment: the non-`none` weights of the `concealment` column and
+    the cover table are `extension` rows scaled by `placement.extensionWeight`, so the parity presets (weight 0) resolve
+    every class to `none` and place every institution openly; with no clandestine class in the roster nothing here runs.
+§5.3 holds the check rows (every clandestine institution in an allowed mode or a reported fallback; concealed rooms reached
+only from a concealed door or the front's service side; the `underground` mode never without an underground allocation)
+and §13.2's T63 group the bars.
+
+**Light sources — placed by rule (item 68; owner: "a night time view with appropriately spaced and partitioned torches or
+magical lights").** S11's furniture step places the town's point lights as `LightSource` records (§2.7; the lighting model
+that draws them, and the derived lights — lit windows, room lights, light shafts — are §8.4's) by the light table's rows,
+each read against its context: the host kind, the way class, the prosperity value along band rows, the era row, the
+`magic` circumstance (§4.2 S0), the biome and the arena. A district places lights only on its own faces and its own
+half-corridor strips, as §4.9's avenues are planted, so the laziness contract holds (§4.1):
+
+```ts
+interface LightRule { host: 'gate'|'bridge'|'plaza'|'market'|'door'|'castle'|'guardPost'|'way'|'shrine'|'pin'|'tunnel'|'gallery'|'chamber'|'accessPoint'|'rim'|'keel'|'skyAccess' /* 'pin': an emitting pin — lamp, campfire, fire_pit; the underground hosts (arena 'underground', (1)); the sky hosts (arena 'sky': the rim's orbs, the keel's downward glow, the access lanterns, V05 §3.13); a 'door' row with arena 'underground' lights a sewer dwelling's or an undercity building's door */;
+  cls?: string /* 'door' rows: the class id or tag whose main entrance carries it (inn, tavern, temple …) */; wayClass?: WayClass /* 'way' rows */; arena: 'ground'|'sky'|'underground'; system?: string /* underground rows: the system they light — sewer, undercity, catacomb, cavern, ruin … (II.7.3, II.7.5, II.7.6) */;
+  kind: string /* LightSource.kind: torch, lantern, lamp post, brazier, fire pit, campfire, magical orb, shrine lamp … */; source: 'fire'|'magic';
+  heightCm: Cm; intensityCd: number /* candela */; radiusCm: Cm /* the smooth cutoff of §8.4's falloff */; radiusMarginM?: number /* the 'keel' row's radius beyond the apex's clearance, V05 §3.13 */; sizeCm: Cm /* the flame's or orb's own radius, §8.4's penumbra — own defaults: torch 5, lantern 8, lamp post 10, brazier, fire pit and campfire 25, magical orb 30, shrine lamp 5 */;
+  colour: string /* sRGB, the colour the light pass lights with (§8.4 (c)) — own defaults: fire rows #FF9329 (warm), magic rows #A6C8FF (cool); §8.2's light roles tint only the vector rung's glyph and glow */; flicker: boolean /* default true for source 'fire', false for 'magic' */; count?: number /* per host; default 1 */; offsetCm?: Cm /* 'door' rows: the lantern's distance from its entrance vertex along the footprint ring, on the drawn side — own default 60, calibratable */;
+  minLux?: { band: string; lux: number }[] /* 'way' rows: the target minimum ground illuminance at night, by band, interpolated along the value */;
+  era?: string[] /* the era rows it belongs to; absent: every era */; magic?: ('none'|'low'|'high')[] /* the circumstance values a row lights under: a magical row's 'low'/'high'; a fire row a magical row replaces, ['none','low'] */; biome?: string[] /* a row admitted by the biome beside the circumstance (II.7.6's glowing fungus) */;
+  exposure?: ('street'|'lane'|'alley'|'court'|'hidden'|'sealed')[] /* the exposures it may light; absent: street, lane, alley and court */; extension: boolean }
+```
+
+1. **Hosts.** A `gate` row lights each gate (two torches flanking the passage by default); `bridge` each end of a built
+   bridge; `plaza` and `market` a square's edge at the way rows' spacing and its centrepiece; `door` rows the main entrance
+   (§2.6) of each building of the row's class — an inn's or a tavern's lantern, a temple's door lamp; `castle` its gate and
+   ward; `guardPost` each post; `pin` rows every emitting pin, which then carries the light (§2.7); `shrine` a wayside
+   shrine. Underground (arena `underground`, each row naming its `system`): `tunnel` rows each junction of a tunnel run,
+   `gallery` rows a gallery at the way rows' spacing, `chamber` rows a chamber's altar, hearth or market, `accessPoint` rows
+   each access point's foot, and `door` rows the doors of the sewer dwellings and the undercity's buildings (II.7.3, II.7.5,
+   II.7.6). A light's address derives from its host's lineage — a door lantern from its building and entrance, a street
+   light from its way strip and ordinal (§2.8, §6.3).
+2. **Street lights, spaced by what they give (J-A68.41).** A `way` row lights each way of its class whose band row targets a
+   minimum night illuminance `E*` (interpolated along the value of the plots fronting it — a gradient, never a switch). The
+   spacing `s` is the largest at which two neighbouring lights of the row still give `E*` on the way's centre-line midway
+   between them: `2 · I · h ÷ (h² + (s/2)²)^1.5 × f((s/2) ÷ r) ≥ E*`, with `I` the intensity, `h` the height, `r` the radius
+   and `f` §8.4's cutoff, solved by bisection through `dmath` (§6.5 (3)) — a 25 cd lantern at 3 m and a target of 0.1 lx
+   give lights about 22 m apart. Each district lights its own half-corridor strip at spacing `2s`, the strip on the way's
+   left (by the chain's direction, §2.2) from `s/2` past the way's first junction and the right-hand strip from `3s/2`, so
+   the two sides alternate and together meet the target without either district reading the other. A site on a door, a
+   gate passage or a deck moves to the next; a light that cannot stand is skipped and reported (§5.4).
+3. **How much light — "partitioned" (J-A68.41).** Read as distributed by way class, district and band through these rows:
+   the era row sets the density of public lighting — sparse in the medieval default (the plaza, the principal market, the
+   gates and the `through` and `primary` ways of the prosperous and rich bands), denser in later eras — so rich streets are
+   well lit and poor alleys dark; the `magic` circumstance adds the magical rows (`none` by default under D-3: no magical
+   light; `low`: orbs on the rich band's squares and the precinct; `high`: on every primary way and square), a fire row a
+   magical row replaces lighting only under the values its `magic` cell lists; hidden and sealed plots, and the courts and
+   doors of a concealed institution's building (item 63), stay dark unless a row names them; an informal cluster's light
+   is its cooking fires — one `fire_pit` pin with its light per `lights.perStructures` (4) structures (item 70). The sky
+   rows — the rim's orbs, the keel's downward glow and the access lanterns (V05 §3.13) — light an island by its carried
+   supply and are gated by no `magic` value, and the ground rows light the island's ordinary fabric as any district's; the
+   underground rows light the underground layer by its system (II.7.3, II.7.5, II.7.6).
+4. **Draws and presets.** Each choice reads a rule or a table; one thing only is drawn — a door lantern's side of its door
+   — on the concern `pin.light` keyed by the host's lineage and the rule row (§6.1). A door light's point lies on its
+   building's footprint ring, at its row's `offsetCm` from the entrance vertex (`LightSource.entrance`), walked along the
+   ring on the drawn side and rounded to the lattice; §7.4 carries it and §5.3's light row checks it. Each record copies its
+   row's `sizeCm`, `colour` and flicker flag, and a fire light flickers by §8.4 (f)'s pure function of its render key and
+   the view's time, never by a draw (J-A68.61, J-A68.42). The default rows are our own (`extension`); the `MFCG` preset
+   places no light; the `FTG` preset places one window light per lit building at its main entrance — the anchor at which
+   FTG's client as captured on 25 September 2026 draws its night lights (item 50) — and no street light. A user adds, moves
+   or removes a light by §7.1's edits.
+5. **Over time.** A light follows its host's lifecycle (§2.8): removed with a demolished host, unlit on an abandoned or
+   decayed one, unlit while its host's Works stands before FINISHED (§4.11); an epoch re-runs these rows on its new and
+   changed faces only.
+
+**Informal clusters — tenure and the cluster arrangement (item 70; owner: "some neighborhoods simply have a lot of for
+example, shacks on one block no single individual owns it … each one deserving of a door. Sometimes they're just
+tents").**
+1. **Tenure (item 70 (a); J-A70.41).** A plot's `tenure` (§2.5) is derived, never drawn: `common` for commons, greens and
+   market greens (ground no one owns); `informal` for a plot of the tenure table's bands (`RosterTables.tenure`, §10.2; by
+   default squalid and poor) with no standing building but shacks, tents or lean-tos, and for vacant, cleared or ruined
+   ground in a declining district (§4.11); `rented` for a residential plot whose buildings house more households than their
+   template rows' `households.built` (let out by rung 1's `relet`, §4.11); `owned` otherwise. S10b and S11 write it with the
+   plot — at generation a plot is `informal` only where (2) gives it the cluster row, "no standing building" being read over
+   epochs, never before S11 has built (J-A70.49) — every event that changes its inputs re-derives it, and a `setAttr`
+   overrides it (an edited path, §7.2).
+2. **Where (item 70 (d); J-A70.43).** The designation template takes the `cluster` arrangement (§10.2) at generation for the
+   residential plots of the squalid and poor band rows of a shanty-typed district (§4.5's FTG trigger and staging) and for
+   every residential plot of a block of such a district that the cluster row's `wholeBlock` share picks — over epochs, for
+   the plots (1) makes informal — wherever the district's band range admits the squalid band (§4.5 (5)), never on a plot
+   whose geometry floor is the middle band or above while its stock stands (a standing large building is subdivided inside
+   instead, §2.6's interior ladder, item 28 (f)). That is FTG's staging as the emulation default, and the class mix never
+   draws a cluster structure's class (§10.2; J-A70.49); the `shanty` kind's `extramural` preference remains our soft
+   extension row (J-A27.43), and the cluster row's relation rows prefer, softly, riverbanks and marsh margins where S1's
+   shore setback and flood line allow building, and the lee of walls and ruins. Over epochs the vacant, cleared and ruined
+   plots of a declining district join them (§4.11). The undercity's chambers take clusters by II.7.5's rows (item 65),
+   while II.7.3's sewer-front plots keep "no compound, detached, hovel or tents". Where the `wholeBlock` share picks a block
+   — one draw on the block's `plot.join` stream at S10 (7), which reads the district's kind and the block's band and no
+   tenure — S10 (7) joins the block's residential plots into one cluster plot (the owner's "shacks on one block").
+3. **The packing — paths first, then structures (item 70 (b); J-A70.45).** S11 builds a cluster plot in one batch from its
+   `siteplan` stream, and every structure gets its own door by construction, as frontage-first plots each get a way (O5 a).
+   (i) **The footpath web:** from the midpoint of every access edge of the plot a trunk path runs inward, square to that
+   edge, ending one structure depth — the largest `depthM` upper end among the cluster row's kinds (§10.2), which every
+   later "structure depth" of this step reads — before the opposite side; branch paths leave the trunk on alternate sides
+   every `2 × structure depth + path width`, each turned by up to ± 20° (drawn), stopping one structure depth inside the
+   plot's boundary. The paths are yard parts of kind `footpath` (§2.5) of width `pathWidthM` (the cluster row's; below an
+   alley's) — plot-internal, never a way or a way class, so the plot keeps its access edges and its exposure (J-A30.42).
+   (ii) **The structures:** lining each path left and right, every one fronting it; the kind drawn by the cluster row's
+   weights by band × climate × era (tents in the squalid band, in camps and at the newest edge; shacks where the settlement
+   has persisted; lean-tos against a standing wall), the footprint from the kind's band in the cluster row — a lean-to's
+   against a standing wall on its own plot (a ruin's, a party wall or a plot wall; never inside a wall strip, whose band,
+   setback and glacis stay unbuildable, §4.8; J-A70.47) — and a clear gap of the cluster row's `fireGapM` at the
+   settlement's rung between any two structures; the packing stops when no site fits or the plot's households are housed.
+   (iii) **The doors:** every structure's main entrance lies on its path face — §2.6's rule 1 read for a structure whose
+   access is a footpath (J-A70.44) — so every structure has its own door on a path that reaches an access edge; no basement
+   (the rows' `cellar` 0), one storey, `RoofSpec.kind 'tent'` for a tent, a lean-to's back wall shared with its host wall. A
+   plot too narrow for a trunk and one structure depth takes the `hovel` arrangement instead (reported).
+4. **People per structure (item 70 (c); J-A70.46).** Each structure is a residential slot (`houses`) whose
+   `households.built` is the cluster row's households per structure by rung × band (more in larger towns and poorer bands;
+   our own rows); its capacity is §2.6's one capacity function — the shack, tent and lean-to programmes carry no
+   circulation and the one-room unit, so the capacity is the floor area over the minimum room — and the generation fill
+   houses the households within it, the overflow pass re-homing any excess (never omitting a household, §5.2). The
+   households that would crowd a partitioned shell under §2.6's interior ladder here fill many small structures: its
+   outdoor twin.
+5. **Presets, drawing and time (item 70 (e), (f); J-A70.42).** In the default preset the cluster row takes the squalid and
+   shanty districts' informal plots; the parity presets keep FTG's tents row (1–3 tents) and MFCG's hovel, the cluster's
+   packing an `extension` (item 23). The city band draws a cluster as a speckle of small roofs over its paths in the ground
+   tone (§8.5's cluster exception), the district band each structure with its entrance tick (§8.2), and the naming engine
+   names the cluster once, as a place (§10.4; one label, §9.1), never each structure. Accretion, fire and formalisation are
+   §4.11's.
+
+**Class mix inside a band — the gradient reaches the building mix (item 71; owner: "a prosperous neighborhood … may have a
+mix … of middle class to rich man manors. Keeping with the idea that it is gradient").**
+1. **A class draw above the template (item 71 (a); J-A71.41).** When S10b places the households of a block's residential
+   plots, each plot's residential **class** — hovel, cottage, house, row house, town house, manor …, distinct class rows
+   with their own templates — comes from the class-mix table `RosterTables.classMix` (§10.2): one row per band of §4.5's
+   band set, weights over the residential classes, read at the plot's manifested value (J-A19.43) by §4.5's interpolation
+   between the band rows' centres, an end row applying flat beyond its centre. The default rows raise the larger classes
+   monotonically through every band — just above the prosperous cut mostly houses with a few manors, the manor share rising
+   toward the rich row, which is all manors (the owner's "a very prosperous location may simply have all manors"); the same
+   at every band edge (modest houses among the poor near the modest cut). J-A19.41 holds within a class — its template's
+   discrete columns switch at the cut — while the class itself follows the gradient.
+2. **The town's wealth shifts the weights (item 71 (b); J-A71.42).** Each class's weight is multiplied by
+   `max(0, 1 + wealthShift × (wealthLevel − 0.5))`, after which the row is renormalised: `wealthLevel` the intent's (§7.7;
+   with a dossier, the wealth §7.7's derivation table derives), `wealthShift` the class's column in the mix row (positive
+   for the larger classes). The cuts stay the town's own (§4.5), so "rich" is relative to this settlement while a rich
+   metropolis's prosperous quarter holds more manors than a poor town's.
+3. **Largest classes on the prime frontages, the sunniest first (item 71 (c); item 102 (d); J-A71.43).** For each block
+   S10b draws the multiset of classes — one per residential plot, at that plot's value, on `siting` keyed by the plot (§6.1;
+   no new concern), its weights clamped into the district's band range (§4.5 (5)) — and assigns them largest class first
+   (by the class's template size budget, ties by class id) to the plots in descending **prestige**: the sum of the prestige
+   rows' weights (`ClassMixRow.prestige`, §10.2 — a `through` or `primary` frontage, a square, a park edge, a corner, the
+   waterfront) over the plot's frontages, plus the **sunlit term** `ClassMixRow.sun × (1 − shade)` at the plot's frontage
+   midpoint (item 102 (d): among otherwise equal prime frontages the larger classes take the sunnier ones — the side of a
+   street that faces the sun, a slope that faces it — and the smaller the shadier backs; `sun` × the climate row's
+   sunlight cell, 0 in the parity presets), ties by plot id; a hard relation row filters first (item 16's rows win). A mixed
+   block so reads as a street of grand houses with modest ones behind. A class whose size budget exceeds its plot asks S10
+   (7)'s law for a JOIN by its orderings (the reconcile's JOIN at generation), the joined neighbour's draw discarded, so
+   manors stand on joined plots and houses on standard ones in one block.
+4. **Households and buildings (item 71 (d); J-A71.44).** The households' bands are the roster's (with a dossier, the
+   households that fill its population, §7.7); the mix decides only which building each takes — a household takes any class
+   the mix gives a plot within its band ± drift. A manor that falls to the middle band keeps its shell (item 31's floor,
+   §4.11) and is subdivided inside (item 28 (f)). S2's land estimate reads the mix's expected plot area at each band's
+   centre (§4.2 S2), so demand and capacity keep agreeing.
+5. **Emulation.** The mix is our extension: the parity presets set it to a step at each cut — one class per band row, the
+   references' banded pools (item 23; T23-1 reads it) — with `wealthShift` and the prestige weights 0.
+
+S10b places each class by its `distribution` as §4.5 (3) states, and every prosperity-driven read of S10b and S11 — the class
+the mix draws, the template row's band, a new building's condition, the occupants' band, the mutator's adapt and add steps
+— is clamped into the district's band range (§4.5 (5)).
+
+**Notice posts (item 82; J-A82.41).** The furniture step places a `notice` pin (§2.7) where §10.2's notice rule puts one —
+at the principal market and at each gate plaza by default, at the main entrance of each class tagged `notice`, and wherever
+a named-feature claim of the dossier names one (§7.7, item 82).
+
+### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture

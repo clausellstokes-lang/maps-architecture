@@ -1,0 +1,26 @@
+== docs/AMENDMENTS-2026-09-27d.md
+444:    `config.priority*` sliders are generation inputs whose effect already sits in the institutions and the income shares
+449:    generation sliders, its NPC social groups, or prose beyond a description seed for the clerk; the campaign's frozen
+453:    own layout memory would make its map program the base, against the owner's standing rule; the sliders would count their
+== docs/volumes/critique/V08.md
+85:(history event types and severities, power-relation types, `magicLevel`, `activeChains` statuses, custom chains,
+454:`site.magic` (SettlementForge `magicLevel` none, low, medium, high; CONFIRMED medium in 32 of 35 births, low 3) must reach
+661:a fair default for the class-to-power association and why it does not count the priority sliders twice — J-M5) and a
+848:`magicLevel` values, `activeChains` statuses, custom chains separate from `activeChains`, `priorityCategory` buckets,
+== docs/design/proposal-kernel.md
+848:* **Collision and priority**: an `rbush` of placed boxes; priority = importance × zoom; protected features (gates,
+== research/findings/os-model.md
+678:The deck is consumed in order, so **position encodes priority**: the cathedral is placed 6th (while good plaza-adjacent
+== research/findings/ftg-docs-params.md
+174:**[STATED]** suburb section: "`nextSegmentPriority = currPriority + mainSpokePriorityIncrease` … the element with the **lowest priority** will be processed next."
+496:| **Bay options** | 4 weights: `Empty`, `Sandy beach`, `Pebble beach`, `Only rocks` | 0 / 50 / 50 / 50 (custom example); 30/30/30/0 (manual example) | **[STATED]** "the sliders configure the **proportion of a bay having a texture placed (or nothing placed)**". Per-bay categorical choice. |
+== docs/validation/amendments-c/route.md
+3155:  ≈ a quarter of every dossier's bytes), o§5.2; J-M5 (the sliders counted twice), J-M8 (NPC social groups). Nothing held.
+3163:  (`simulationTrace`), `aiOverlays`, `generationCoherenceReceipt`, its generation sliders (`config.priority*`), its NPC
+3166:  its map program the base; the sliders' effect is already in the institutions and shares); SettlementForge's own
+3336:    — the preview's budget (a ghost within its scope's edit budget; `intend`'s sliders within §12's regeneration budget).
+3357:  events migrate by their expansion's version; **§7.8** — `intend`'s sliders are basic-panel controls; **§6.1** — the
+== docs/validation/coherence/inventory-determinism.md
+560:| DETERMINISM-0349 | table | §7.1 twelve tools | determinism (tool home; UI surfaces V09, V10) | The twelve tools in five layers (author may stop at any layer; everything below derived): L0 intent — T1 intend (the recipe's intent at creation, §7.7 layer 1: site, size, form, era and style, prosperity, walls; afterwards the Adjust and Re-derive events of the basic panel's controls, its slide
+752:| DETERMINISM-0549 | rule | §7.7 item 1 What the port never reads (item 86; J-A86.71) | determinism / V08 port | Ignore-list: the port never reads a host's own map-side layers (urbanFabric, mapEdits, fogSessions, every worldState.spatialLedgers.* sub-ledger, the spatial substrate included), its derived reads (district profile, map profile, causal state, system state, capacities, daily life, t
+795:| DETERMINISM-0593 | rule | §7.8 control surface budget (R15) | determinism | The front door is one action; the basic panel holds ≤ 12 controls — seed (with the "Surprise me" dice as its button), size rung, water setting and side, walls, castle, gates, features (one checkbox strip — plaza, temple, shanty town, farms, greens: MFCG's first-level toggles, counted as one), planned ↔ organ

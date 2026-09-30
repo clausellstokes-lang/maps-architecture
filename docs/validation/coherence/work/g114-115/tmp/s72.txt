@@ -1,0 +1,67 @@
+### 7.2 Locks, pins, edited and assigned entities, drawn constraints, field brushes
+
+* **Protection.** A **locked** entity — or the locked attribute paths of one — is a fixed input: regeneration never
+  changes it and re-derives its dependants around it. A **pinned** entity keeps its existence and position; its other
+  attributes may re-derive. An **edited** attribute implicitly pins that attribute and the entity's existence against
+  Regenerate and New random (IMPROVEMENTS O9's "locked and edited entities are never mutated") unless the user chooses
+  **discard edits in scope**, which is only possible by confirming the fate list (§7.3 item 4) and is recorded in the
+  event. An **assigned** attribute is held at its assignment within the drift bounds (§7.7). A **dossier-backed**
+  element's existence is held on every map by §7.7 item 2, a regeneration under it re-placing it by §4.7 S10b's solver
+  when its plot goes; its position is not held unless the assignment is `pinned` or a positive placement pins it. A
+  **positive placement** (`placeAt`, §7.7 item 4) pins its element or designation to its plot and is kept by every
+  re-derivation and dossier re-application that can honour it, reported when one cannot. Every finer face under a locked
+  or pinned entity is a fixed input too, and under a `warp` or smoothing step the kernel holds its route vertices as §3.6
+  states, so "keeps its position" holds for plots, blocks and buildings, which carry no vertex roles; the dry run lists
+  the held entities. When protections and inputs meet, §7.7's precedence order decides.
+* **Declared means held** (item 101 R13; J-A101.71; the one statement — §5.3's declared row checks it). Every entity an
+  authoring declaration (§7.1's toolkit) made, placed or shaped is held without a lock to remember: the declaring event
+  pins it (existence and position; its other attributes may re-derive) — a drawn feature is locked besides (below), a
+  placed or assigned thing is held as `placeAt` and assignments hold it, a quarter's boundary and a points form's derived
+  shape are pinned by their event, a hand-placed light by `placeLight` — so Regenerate, New random, an epoch and every
+  later derivation keep it, the regenerate brush skips it, and the fates list names it *kept (declared)* (§7.3 item 4).
+  Its author changes it by a new declaration (a handle drag, §7.1), by `unpin`, or by undoing the declaring event; a
+  skeleton's declarations are held the same way (§4.1). The pieces a closure edit created (§7.3 item 9) are held while the
+  edit that created them is live. A generated retaining wall re-derives with its terrain until edited, then is held.
+* **Drawn constraints** (G-P8) — ways, water, walls, greens, district boundaries, footprints — enter the plat through
+  `insertChain` as mandatory chains with their roles (§3.6), after the resampling of §7.1; they are locked by default
+  and apply **at their log position**: the feature is inserted into the current state and, for the coarsest faces its
+  chain touches, its class's local operator (§7.3) re-derives the affected scope — drawn water through S1's water
+  operator (which re-sites the crossings on the reaches it moves and re-routes the ways that used them), drawn ways
+  through S4's and S5's (arterials re-route to reuse them), drawn walls through S7's run re-trace, drawn boundaries
+  through S6's regrouping, drawn greens through S12 on the covered faces, drawn footprints through S11 on the host plot.
+  The session and a replay run the same code at the same log position, in the same canonical insertion order, so they
+  produce the same digest (§6.5). The rule "insert before the stage that would create the class" survives only as the
+  explicit action **Rebuild around my drawings**: it moves the drawn constraints into the recipe as constraints of their
+  stages, regenerates the town, shows the diff as a migration does (§7.5), and commits as a `rebase` (reason
+  `drawnConstraintsRebuilt`) (J-DET-6).
+* **Field brushes** (the field model is §4.5). A stroke is a relative Δ over the driver field (`FieldStroke`, §7.1).
+  The field is the driver field plus the stroke list composited in log order and **clamped once at the end**, so undo
+  removes a stroke from the list and re-composites — exact, where a per-stroke clamp is not (+0.3 then −0.3 on 0.9
+  would give 0.7). A stroke re-derives every block whose plot samples moved — against the samples their
+  `DerivationRecord` holds (§2.8) — by more than τ = 0.01 of the field's range, with the same τ on replay. Bands move
+  only as §4.5 states, so a stroke in one quarter never re-bands another; an epoch keeps the stroke list and
+  re-composites it over its new drivers. A brush is authorial: the blocks it re-derives take the new field as their built
+  state — S10 and S11 read it and the plots' `builtBand` (§2.5) is set to the band they are re-cut for — while item 31's
+  geometry floor governs wealth change over epochs only (§4.11; J-A31.72); an epoch never re-derives a block by τ — it
+  acts on survivors only through §4.11's ladder, bounded by the floor.
+* **The terrain brush** edits the heightfield raster under S1's terrain operator (§7.3 (a)), with the same stroke list
+  and single clamp (to the declared relief limit, §2.3); its `flattenTo` mode moves the ground toward a level instead of
+  adding a Δ (§7.1). Its `water` mode decides what the ground may do to water:
+  * **`locked`** (the default): the stroke is masked — its Δ is zero — on every cell whose centre lies in a water face
+    or within one cell of a shore or bank edge, and under the footprints, bands and decks of locked or pinned entities;
+    land cells near the sea keep §4.2 S1 (2)'s floor, so a lowering stroke cannot sink the coast. Water bodies, their
+    courses and their widths do not change; the dry run shows the masked cells.
+  * **`follow`**: the stroke may change bed and bank cells too; every reach whose bed cells changed is then re-traced by
+    S1's water operator (§7.3 (b)), which re-sites its crossings and re-routes the ways that used them — the edit the
+    user means by "raise a hill across the river and let it find a new course".
+
+  In both modes S1's terrain operator re-bases what stands on the changed ground (§7.3 (a) 4), re-runs drainage locally
+  and re-evaluates the field drivers that read terrain, so the town stands on the new ground exactly as a reload would
+  compute it (J-DET-24) — the field re-evaluation authorial like a brush (above).
+
+*Tests (B-EDIT, §13.2):* a stroke wholly masked in `locked` mode appends nothing (§7.1's empty edits); one `placeAt` is
+kept through a Regenerate (keep settings), a New random around it and a dossier re-application, and reported where it
+cannot be honoured; a drawn way across a locked footprint is refused with the lock named, and one ending on nothing
+lawful bent; a lock, a pin and a declaration each survive save → load → undo → redo → regenerate → migrate with their
+entities' leaf digests unchanged (§6.5 (9)'s truncation cases cover the lock + unlock pair).
+

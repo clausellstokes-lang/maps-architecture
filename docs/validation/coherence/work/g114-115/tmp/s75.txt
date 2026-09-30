@@ -1,0 +1,113 @@
+### 7.5 Migration and upgrade (G-P9)
+
+`migrate(doc, to)` has two parts.
+
+1. **The schema chain** — a sequence of pure, versioned transforms over the document format, forward only, each
+   checking the old records root and writing the new one (§6.2). A document whose schema is newer than the running
+   library opens read-only with a message (view and export).
+2. **The upgrade** (a new output version) — an explicit, undoable `upgrade` event:
+   * the base and the whole ordered log — epochs included — replay under the new output version into a new model. **A
+     rebased base is checked, then re-rooted:** before the replay, `base.state` is decoded under `from` and its model
+     root compared with its root of record for `from` (§2.9 step 3) — a mismatch refuses the upgrade with a message,
+     the document staying at `from` —, and the replay decodes it under `to`; the upgrade records the model root of that
+     decoded state as `baseDigest`, the root every later load under `to` checks it against;
+   * **the mapping**: entities of the old model are matched to the new one by kind, anchor within the kind's hysteresis
+     radius, class family and, for faces and chains, overlap (IoU ≥ 0.5), through §6.3's matching routine and budget; a
+     matched entity hands its address to its successor (§6.3), and edits follow it only through §7.3 item 4's
+     class-family check; **nothing is matched by string equality**;
+   * the fates and renames of the events before the upgrade are recomputed under `to`; the events whose recomputed
+     values differ from the confirmed ones are named in `changedConfirmations` and their differences shown in the diff,
+     once (§7.3 item 4);
+   * **packs the new version stops shipping**: before the upgrade commits, every pack of the pack set (§2.9) that `to`
+     does not ship and `packs` does not hold is copied into `packs` from `from`'s shipped copy — at hand in the browser,
+     where `from` is the document's own version inside the window and its retained chunk carries its shipped packs
+     (§6.4), and in the CLI — and the mapping names it in `packsSaved`, so the upgrade event names the pack and its
+     content stays (§2.9). A copy that would pass §2.9's cap on pack data and host content is a conflict naming the pack
+     and its size (§7.1's outcome table); nothing is committed, and the one resolution offered is keeping the old model —
+     removing the pack cannot help, because the pack set keeps every pack the log ever named (§2.9). Such a town stays
+     at its output version; once that version leaves the browser's window it opens as a frozen view whose
+     `frozenImport` the same cap refuses (§2.9 step 2), viewable and exportable, and the CLI still replays it exactly
+     (§6.4);
+   * an unmatched edit is a reported **orphan**, kept in the log and listed in the orphan table, never silently bound
+     to another entity;
+   * an **orphaned lock re-imposes its last geometry** as a drawn constraint (a `drawFootprint`, `drawWay`,
+     `drawBoundary` or `drawWater` event appended at the upgrade's position) unless the user drops it, so a locked
+     building stays where it was;
+   * a **diff** (`UpgradeDiff`, below) is shown before commit;
+   * **undo** (the one statement; §7.4's row cites it): the upgrade's undo record is its `from` output version, not a
+     stored copy of the old model. Undoing it replays the base and the log before the upgrade under `from` — the
+     retained N−1 or N−2 chunk in the browser, any published version in the CLI (§6.4) — which reproduces the
+     pre-upgrade model exactly, digest included (a rebased base checked there against its root of record for `from`,
+     §2.9 step 3); within the session the checkpoint taken before the upgrade (§7.4) makes the undo instant. When `from`
+     has left the browser's window (the library was updated twice since), the undo is withdrawn there with a notice and
+     the CLI command; the upgrade's diff stays viewable (J-DET-18).
+
+   The user may instead **keep the old model**: the document stays at its output version while that version is inside
+   the retention window (§6.4); outside it the document opens as a frozen view, and its one edit is a `rebase` (§2.9).
+   FTG's "no way to regenerate old towns with new features" and "cannot be undone" are the weaknesses answered
+   (J-DET-44, J-DET-54).
+
+```ts
+interface MigrationMap {                  // what the upgrade computed and the user saw in its diff; a replay recomputes it and reports a difference, as for fates (§7.3 item 4)
+  orphans: Id[];                          // the targets of logged edits left without a successor: kept in the log, listed in the orphan table
+  packsSaved: { id: string; version: string; hash: Hash128 }[];   // the pack-set packs `to` does not ship whose content this upgrade copied into `packs`
+  changedConfirmations: number[];         // seqs of the events before the upgrade whose fates, renames or sugar expansions, recomputed under `to`, differ from the confirmed ones (§7.3 item 4)
+}   // the address hand-offs are recomputed by §6.3's matching routine on every replay, never stored, so an upgrade event stays small; its renames are EditBase.renames (§7.1)
+interface UpgradeDiff {                   // shown before commit, recomputed on demand, never stored (DWG-02); §14's migrate returns it
+  changed: Id[]; orphans: Id[]; changedConfirmations: number[]; packsSaved: MigrationMap['packsSaved'];
+  stats: { name: string; before: number; after: number }[];   // statistics deltas
+  epochs?: { epoch: number; changed: Id[]; stats: { name: string; before: number; after: number }[] }[];   // a multi-epoch document's per-epoch diff
+  added: Id[] /* model data the new version derives that the old document never held — Works records, rule-placed lights, the underground's other systems, galleries, chambers, links and undercity, clusters — which appear only by an upgrade, never by the schema chain */ }
+```
+
+*Test (M3a):* the golden suite replays under N−1 and N−2; a corpus of edited documents upgraded across one output
+version keeps 100 % of edited entities or reports each orphan (O9 e); an upgrade undone — in the session and after a
+reload — restores the pre-upgrade digest exactly; a METROPOLIS document's saved size does not grow with its upgrades
+beyond the upgrade events themselves; a `keptSnapshot`-rebased CITY document upgraded across a test output version whose
+field driver and digest leaf encoding differ from `from`'s opens editable after a reload and replays to the session's
+digest, and the upgrade undone restores the pre-upgrade digest; a document using a pack that `to` stops shipping holds
+it in `packs` after the upgrade and reopens with it once `from` has left the window; a document using such a pack whose
+copy would pass the cap gets the conflict with only "keep the old model" offered and commits nothing; and an upgraded
+document whose pre-upgrade corpus selection renames differently under `to` lists that change once in the upgrade's diff
+and reloads with no mismatch report, while a divergence forced under the confirming version is still reported.
+
+**The schema transforms** (E-10) — each pure and forward-only, checking the old records root and writing the new one
+(§6.2). What an older document never held and no rule derives stays absent: "none" below means nothing is invented.
+
+| record or field | an older document | at first load | item |
+|---|---|---|---|
+| a plot's `builtBand` and its value companion | the band its `DerivationRecord.band` holds; the companion from the record's field sample — exact for every document without an epoch, and for one with epochs the band its last derivation read | — | 31 |
+| a plot's `fieldBand` | that same band | — | 28 (f) |
+| a building's single `entrance` | `entrances` with one `main` entrance at that vertex (ordinal 0, `nextEntrance` 1) | its basement derived by §2.6's rules (an `absent` decision, never a random one) | 29 |
+| every building's `use` | a `Use` record (§2.7) with the building as its only member and no `formerUses` | — | 17 |
+| a building's `households`; its retired `occupants` list | filled from its households' `Household.building` in address order; `occupants` dropped (J-A28.29) | — | 28 (f) |
+| `condition`; `reusedAs` | `kept`; absent | — | 31 |
+| a block's `reach` | `open`, the parity presets' value | — | 30 |
+| a plot's `exposure`, its `knownTo` and its buildings' | — (no older document has a passage, so no base wing carries `spans`) | derived by §4.6's rule from its access rows, `knownTo` defaulting from that exposure (§2.5, §2.6); an institution's optional `knownTo` stays absent and reads its plots' (§2.7) | 30 |
+| a stored tunnel's `headroomCm`; its `navigable` | II.7.2's profile row for its kind and the network's preset; derived from width and headroom against that row's thresholds (§2.7) | — | 11, 12 |
+| an assignment's `existence`, `pinned`, `use` | `'map'`; `false`; — | `use` linked to the `Use` its member's building received above | 20 |
+| `Composition.lod` | admits `plan`, no data change | — | 28 |
+| a stored plan's `Room.scope` and `Room.unit` | each room's `scope` from its role's programme row (`circulation` for corridors and stair halls) | each room's unit by §2.6's rule from the building's households and the plan's doors (one household: the whole shell is its unit) | 28 (f) |
+| an elaboration cache | dropped at upgrade (non-canonical) | — | 28 |
+| a use's, an institution's or an assignment's `concealment`; an assignment's `state` | `none`, with no front; `active` | — | 63, 80 |
+| an `AccessPoint`'s `state`, `knownTo`, `source`, `under` | `open`; —; `neighbourhood`; built from the older tunnel reference as part 0 and that tunnel | `knownTo` by II.7.3's rule | 64 |
+| a `placeAccess` event's `tunnel`; an older `convert` underground decline op's (`silt`, `caveIn`, `seal`, `reopen`; `DeclineOp`, §4.11) `tunnel` | read as its `element`; `flood` is new and has no older form | — | 12, 65 |
+| a plot's `tenure` | — | derived (§4.7, item 70) | 70 |
+| a district's `identity`, `pressure`, `nameHistory` | —; 0; none | `identity` from its character step (§4.5) | 72 |
+| an older recipe's `character` entries; a district record's stored `character` | become `districtIntent` entries field for field (wealth, density, age, function mix, planned / organic, greenery, fortification, building scale; the entry without a district the town-wide default); dropped | the derived `CharacterVector` recomputed (§4.5; J-A72.21) | 72 |
+| `nextUndergroundPart`; `nextSkyPart` | 1 (part 0 being the sewer's, §2.9); 1 + the highest sky part the document holds, 1 when none (§2.9; V05) | — | 65; V05 |
+| a `Terrain`'s `geology` | `ordinary` (§2.3) | — | 65 |
+| the `Document.dossier` block | — | rebuilt from the log's dossier events (§7.7 item 12) | 74 |
+| an older event's `dossierChange`, `proposedBy`, `closure`, points form, `key`, `raised`, `walk`, `spring`, `flattenTo` mode; `dossierFacts` and `dossierRecord` events | none | — | 75, 101, 110, 111; V05, V07, V08 |
+| an older `epoch` event's `week` | its predecessor's week + round(52 × `years`), §4.11's `EpochInputs.week` rule (the first epoch's predecessor week 0) | — | 76 (J-A76.72) |
+| `Recipe.product`; `Intent.latitudeDeg` | read `town`; read 50 | — | V01; 102 |
+| a `RetainingWall`'s `state` | absent reads `standing`; a pre-profile scalar reads as the constant profile | — | 110 (a) (item 245) |
+| an enceinte's graded profile; a use's `branchOf` | uniform (the per-enceinte values as its defaults); absent: no split | — | 106 (c); 105 (h) |
+| Works records, rule-placed lights, the underground layer's other systems, galleries, chambers, links and undercity, clusters — model data a later output version derives that an older document never held | none | appear only by an `upgrade` to that version, whose diff lists them (`UpgradeDiff.added`), never by the schema chain | 65, 67, 68, 70 |
+
+**Sugar events migrate by their expansion** (item 101; J-A101.72). A sugar event's `expansion` (§7.1) makes every
+replay under the document's own output version expand it at that version, so the session and the replay make the same
+events. An `upgrade` whose output version changed an expansion re-expands the event under `to` and hands its entities on
+by §6.3's matching like any re-derived scope; the events whose expansion changed are named in the diff with the other
+changed confirmations (`MigrationMap.changedConfirmations`), once.
+
