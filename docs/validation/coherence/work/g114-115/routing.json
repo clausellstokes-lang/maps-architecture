@@ -1,0 +1,333 @@
+[
+  {
+    "unit": "model",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Late rewrite seat. Declares in §2.5, beside FieldBands, the type BandSet (bands with share, ftgTier and mfcgClass; blend 'linear'|'step'; ceiling: BandCeilingRow[]) and BandCeilingRow { economy; band }, and adds FieldBands.ceiling?: { at; by: 'economy'|'wealth' } — written only below the top rank, derived, no edit kind (item 114 (b) 1, (d)). Rewrites §2.8's dossier-paths paragraph so the settlement's own facts read 'its name, tier word, population and economy priority at creation' and the creation slice's magic word where the dossier supplied it stands beside the typed slices — on no entity; no factTier rule is added (114 (a) 1; 115 (a) 1). States in §2.9 that recipe.layers.islands is Recipe.params['layers.islands'] ('off'|'on', absent 'off'), as islands.count is recipe.params['islands.count'] (115 (c)); Recipe.intent carries economyPriority? by §7.7's Intent. SkyIsland unchanged.",
+    "states": [
+      "§2.5 BandSet declaration with BandCeilingRow",
+      "§2.5 FieldBands.ceiling?: { at; by } (written only below the top rank; derived)",
+      "§2.8 dossier paths: the economy priority at creation among the settlement's own facts",
+      "§2.8 dossier paths: the creation slice's magic word beside the typed slices",
+      "§2.9 recipe.layers.islands = Recipe.params['layers.islands']"
+    ],
+    "references": [
+      "§4.5 (the prosperity ceiling's rules)",
+      "§7.7 (Intent, items 9 and 11)",
+      "II.6 (the gate)",
+      "V05 §2.4, §3.2 (1)"
+    ]
+  },
+  {
+    "unit": "pipeline",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Late rewrite seat. States item 114's prosperity ceiling whole in §4.5: the table (default rows {0, modest}, {50, rich}; parity presets entries for MFCG, FTG, VG, NG by MFCG, FM none; limits), the pure function ceilingAt with the wealth lift (the dossier word's own band at the first generation, the lived wealth after; never an author's value), the continuous S2 fold and the demand split by f, the cuts and the fixed-cut rule, the continuous reads (R*_c = lerp(R(c−1), R(c), f); named-band reads with probability f, drawn only where f < 1), the band-range rule and the enclave consequence, the precedence (held bands and cut edits, forced seats keep their rows), the record's writing rule, and drivers() filling FieldDrivers.ceiling; rewires §4.2 S0, §4.7 S10b (2) and II.7.1 to 'the wealth level in force' (II.7.1: 'derived from the Economy, 0.5 at its default 50'); S5d's folded cuts; §10.2's rows read by 114 (c) 4 and EP-18's limits; §4.11's position at each epoch (prelude, before S2's delta demand), the cut rewrite at step (a) when the position changes, EpochInputs.wealthLevel?, and the history-first and refounding sentences. States item 115's gate in II.6: four clauses in order (setting, rung, magic, economy; the parity clause dropped), the closed gate as an outcome, the count after the gate, forced slots judged by the author rule, what rises (generation, re-derivation, replay, raiseIsland, a settled refloat) and what stands, the wane under magic none in force, the access conversion, the fall at a destruction outright; S7b (5)'s wording (forced slots at every admitting rung whatever the setting; rule-driven slots through the gate); §4.11's islands at an epoch (no draw under a closed gate).",
+    "states": [
+      "§4.5 the prosperity ceiling (table, ceilingAt, wealth lift, fold, cuts, fixed-cut rule, continuous reads, band ranges, precedence, record writing, drivers() filling FieldDrivers.ceiling)",
+      "§4.2 S0 and S2 (wealth level in force; the fold); S5d's folded cuts",
+      "§4.7 S10b (2) wealth level in force",
+      "§10.2 rows read by 114 (c) 4; EP-18 limits",
+      "II.7.1 the wealth level in force",
+      "§4.11 the prosperity ceiling at each epoch; EpochInputs.wealthLevel?; history-first and refounding",
+      "II.6 the island gate's four clauses, what rises and what stands, access conversion, destruction fall",
+      "S7b (5) forced and rule-driven slots"
+    ],
+    "references": [
+      "II.7.3, II.7.5 (their banding caps)",
+      "PART III (V07's fold)",
+      "V05 §2.4 (gate cells)",
+      "V05 §3.2 (1) (skyGate)",
+      "§7.7 layer 1 (Intent)",
+      "§2.5 (BandSet, FieldBands.ceiling)"
+    ]
+  },
+  {
+    "unit": "determinism",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Late rewrite seat. §7.7: layer 1 gains Intent.economyPriority? (0–100, absent 50), wealthLevel becomes optional, 'the wealth level in force' and its derivation row (economyPriority ÷ 100), Surprise me drawing the economy as 100 × the wealth level's draw and writing no wealth level, and the exception to 'the filled values are map facts' for the economy priority the creation's absorb supplied; layer 2's feature-set sentence becomes Recipe.params['layers.islands']; item 1's never-read list reads '… but priorityEconomy, read once at creation (item 114)'; item 9 gains the economy priority at creation and the creation slice's magic word where the dossier supplied them; item 11 gains the refusal of an adjust of the dossier-supplied economy priority and of a declared island in a dossier-stated magic-less world, and withdraws the refusal of the islands setting; the derivation table's DR6, DR7, DR9 and DR27 gain settlement.economyPriority (DR6's bar: no plot above the highest allowed band but a held one; DR27's bar: the gate's clauses traced), DR8 reads the wealth level in force. §7.1: the early-parameter list gains the Economy; the edit-target row names FieldBands.ceiling derived; the T1 binding row gains the creation slice's magic; T5 quarter's sugar gains the held band's setAttr. §7.4: the adjust row names the Economy (from S0), Follow the Economy and the Magic (from S2); the quarter row's held fates; fates as EditFate { fate: 'kept', reason: held_above_ceiling | held_against_magic | held_against_economy | held_against_supply }. §7.5: economy absent 50; stored wealth level kept; FieldBands.ceiling absent none; BandSet.ceiling absent {0, top}; site.magic optional; the island upgrade by state. §7.6: the ceiling cell with its parity entries. §7.8: the Economy row (id intent.economyPriority, S0, re-derive from S0, continuous, the step at 75 declared), the Magic row (id circumstances.magic, S2, discrete), the basic panel's 'Economy', the advanced Wealth level, the Islands control's states. §5.3: the no-band-above-c row and the sky row's gate clause. §5.4: ReportCode islands_gated. §6.2: the recipe's economy priority among the recorded inputs.",
+    "states": [
+      "§7.7 layer 1: Intent.economyPriority?, optional wealthLevel, the wealth level in force, Surprise me, the map-fact exception",
+      "§7.7 layer 2: Recipe.params['layers.islands']",
+      "§7.7 item 1 narrowed list",
+      "§7.7 item 9 dossier facts (economy priority at creation; creation slice's magic)",
+      "§7.7 item 11 refusals (Economy adjust; declared island in magic-less dossier world; setting refusal withdrawn)",
+      "derivation table DR6, DR7, DR8, DR9, DR27",
+      "§7.1 early-parameter list, edit-target row, T1 binding row, T5 quarter held band",
+      "§7.4 adjust and quarter rows; fate reasons",
+      "§7.5 migration rows and the island upgrade",
+      "§7.6 ceiling cell parity entries",
+      "§7.8 Economy and Magic registry rows, basic panel, advanced Wealth level, Islands control states",
+      "§5.3 coherence rows",
+      "§5.4 ReportCode islands_gated",
+      "§6.2 recorded inputs"
+    ],
+    "references": [
+      "§4.5 (the prosperity ceiling)",
+      "II.6 (the gate)",
+      "V05 §3.2 (1) (skyGate)",
+      "V08 (adapter rows, carried facts, notes)",
+      "§14 (DossierDigest)"
+    ]
+  },
+  {
+    "unit": "rendering",
+    "items": [
+      "114"
+    ],
+    "part": "Late rewrite seat. States in §8.2's thematic rows that, where FieldBands.ceiling is present, the prosperity (Wealth) key — which already lists only the values drawn — closes with the line 'Richest here: {band}', naming the highest band the model holds; uncapped maps are unchanged. No part for item 115 (§8.4's view toggle unchanged).",
+    "states": [
+      "§8.2 the Wealth key's closing line under a prosperity ceiling"
+    ],
+    "references": [
+      "V09 §5.4 (the Wealth view)",
+      "§4.5 (FieldBands.ceiling)"
+    ]
+  },
+  {
+    "unit": "scope",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. §13.2 states T114-1 – T114-14 and T115-1 – T115-10 with the island bars' fixture rule (magic high, economy ≥ 75, wealthLevel explicit at the bar's old level; T10-1, T15-1, T-V5-2 restated; T13-1 unchanged). §14: DossierDigest.settlement.economyPriority?, site.magic? (optional), the port's creation and absorb duties for them, PortNote.kind gaining value_absent, value_clamped and frozen_fact_changed (W-DOS-08's note, args field, was, now), and the T1 row 'drag the Economy slider'. §1.2 states the defaults (the Economy at 50, the wealth level derived 0.5, the Magic None). D-3's sentence: islands only at CITY and METROPOLIS; at the first generation — and, by the program's reading of item 115, at every later rising — only with high magic and an economy of 75 or more; only where prosperity supplies them. §0.2 gains rows 114 (principal home §4.5) and 115 (principal home II.6). The judgment index gains J-A114.41 – J-A114.55 and J-A115.41 – J-A115.51 (titles in final-notes.md §5). §16 places the Economy and the prosperity ceiling at M2b, the gate at M6-sky, the port's reading at M-SF.",
+    "states": [
+      "§13.2 T114-1 – T114-14, T115-1 – T115-10, island fixture rule",
+      "§14 DossierDigest.settlement.economyPriority?, site.magic?, port duties, PortNote kinds, T1 row",
+      "§1.2 defaults (Economy 50, wealth level 0.5, Magic None)",
+      "D-3 sentence",
+      "§0.2 rows 114 and 115",
+      "judgment index J-A114.41 – J-A114.55, J-A115.41 – J-A115.51",
+      "§16 placement (M2b, M6-sky, M-SF)"
+    ],
+    "references": [
+      "§1.1 (no rung caps a band)",
+      "§4.5",
+      "II.6",
+      "§7.7"
+    ]
+  },
+  {
+    "unit": "V01",
+    "items": [
+      "114"
+    ],
+    "part": "Main rewrite. States the hood's Economy (Recipe.intent.economyPriority; HoodRecipe.intent.wealth, absent, reads the wealth level in force), the T1 cards' values (great houses economy 90, slum economy 10), the shanty condition intent.wealth ≤ 0.2 read as the wealth level in force (not restated as an economy), and that the manor quota is 0 below prosperous by its own formula (H_top = 0, no F-DISPATCH). References §4.5 for the fixed-cut share rule (the hood's default cuts share-adjusted at the prosperity ceiling) and the band ranges. No part for 115 (a hood holds islands off).",
+    "states": [
+      "the hood's Economy and derived intent.wealth",
+      "great houses 90, slum 10",
+      "shanty condition on the wealth level in force",
+      "manor quota 0 below prosperous"
+    ],
+    "references": [
+      "§4.5 (fixed-cut rule, band ranges, the prosperity ceiling)",
+      "§7.7 layer 1 (the wealth level in force)"
+    ]
+  },
+  {
+    "unit": "V02",
+    "items": [
+      "114"
+    ],
+    "part": "Main rewrite. One sentence at §3.2 step 3: the significance shift reads at most band c's row — item 114 (c) 4's continuous read — so a landmark never composes above the highest allowed band. States nothing else; no part for 115.",
+    "states": [],
+    "references": [
+      "§4.5 / item 114 (c) 4 (the continuous reads)"
+    ]
+  },
+  {
+    "unit": "V05",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite; the principal build home of item 115. States skyGate at depth: the record SkyGate { open; failed: { clause, value?, source: 'map'|'dossier' }[] }, the pure function skyGate(recipe, rung, magic, dossierOwned), its callers (S7b (5), IslandEpochStep, §7.8's control, the report, the clerk) and the report entry's args (requestedVsBuilt, islands_gated, built: SkyGate['failed']); §0's plain words (only a city whose magic is high and whose economy is strong gets a roll at all); the §1b wiring row; IslandRule.gate { magic: ['high'], economyMin: 75 } in §2.4 with §2.6's lifecycle row and its limits; §3.2 (1) (four clauses, the parity and dossier-only clauses gone), (3) (forced slots whatever the setting), (4) (the gate before the count), (5) (the sentence split by cause; info.islandsNone's remedies); §3.15 (4) and (5) (a settled refloat and a raise read the gate), the wane under magic none in force, the access conversion; §4.1's T1 row gaining the Magic; §4.2's declaring rule (rung and dossier-stated none only; held fates held_against_magic, held_against_economy beside held_against_supply); §4.4's DR27 inputs and coherence restated with the absorb wane withdrawn; §4.5's why naming the clauses; J-V5.10 extended and J-V5.19 replaced by the item's pinned text; T-V5-1 extended with the truth table and the fixture rule on T-V5-2, T-V5-15, T-V5-18; §8's P0 run at magic high, economy 100, wealthLevel explicit. For 114: its S_town fallback reads the wealth level in force; an institution island's requirementBand and a held island's bands are read by 114 (c) 4.",
+    "states": [
+      "skyGate record, function, callers and report args",
+      "§0 plain words",
+      "§1b wiring row",
+      "§2.4 IslandRule.gate and limits; §2.6 lifecycle row",
+      "§3.2 (1), (3), (4), (5)",
+      "§3.15 (4), (5); wane under magic none; access conversion",
+      "§4.1 T1 row with the Magic",
+      "§4.2 declaring rule and held fates",
+      "§4.4 DR27 inputs and coherence (absorb wane withdrawn)",
+      "§4.5 why",
+      "J-V5.10, J-V5.19",
+      "T-V5-1 and the island fixture rule; §8 P0 run",
+      "S_town fallback on the wealth level in force"
+    ],
+    "references": [
+      "II.6 (clauses)",
+      "item 114 (c) 3–4 and item 115 (e)",
+      "§7.8 (the Islands control)",
+      "§5.4 (islands_gated)",
+      "V09 (message rows)"
+    ]
+  },
+  {
+    "unit": "V06",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. For 114: the prelude computes the prosperity ceiling after installing the wealth level and before S2's delta demand; row 4 (field) rewrites the cuts and the record when the position changes; BCR-V6-9's EpochInputs.wealthLevel is the lived wealth that lifts it (F9 or a trajectory target); start small and the item-113 replay run under it (the peak under the recorded priority; no remnant or builtBand above it); its bars (T114-8, T114-12 fixtures). For 115: sky.islands' raise and a settled refloat read the gate; EpochReport.islandsGated with one chronicle line; the replay's islands (rise through an open gate, wane and fall to landfalls in a village present); the start-small crossing into CITY; the time card unchanged (trajectory.slice.magic is how a standalone history changes magic); T-V6-66 with the gate held.",
+    "states": [
+      "prelude computation of the prosperity ceiling; cut rewrite at row 4",
+      "EpochInputs.wealthLevel as the lift's input",
+      "start small and replay under the prosperity ceiling",
+      "sky.islands raise and settled refloat read the gate",
+      "EpochReport.islandsGated",
+      "replay islands; start-small crossing; time card unchanged",
+      "its bars"
+    ],
+    "references": [
+      "§4.11",
+      "§4.5 (ceilingAt)",
+      "II.6",
+      "V05 §3.15"
+    ]
+  },
+  {
+    "unit": "V07",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. For 114: the fold on bandShares at the prosperity ceiling (a THORP's fold is the identity at economy ≥ 33⅓); the forced manor (v.manor_house) keeps its class's toft and template rows while its household is capped; T1's slider on the village is the Economy; DR6's bar at village rungs. For 115: §1's out-of-scope sentence rewritten — the village never raises an island by rule, and an island carried down from a town continues V05's steps and falls — resolving the contradiction with §3.12 and V06 §3.2.",
+    "states": [
+      "the fold on bandShares",
+      "the forced manor's rows under a capped household",
+      "T1's Economy on the village",
+      "DR6 at village rungs",
+      "§1 out-of-scope sentence on islands"
+    ],
+    "references": [
+      "§4.5 (the prosperity ceiling)",
+      "V05 §3.15 (island steps)"
+    ]
+  },
+  {
+    "unit": "V08",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. For 114: the adapter row config.priorityEconomy → DossierDigest.settlement.economyPriority (clamped to [0, 100] noted value_clamped; absent or non-number noted value_absent); §4.6's rows for value_absent and value_clamped (class standing) and frozen_fact_changed's args (field, was, now); the carried settlement fact's economyPriority? and §3.5's settlement diff row writing frozen_fact_changed (W-DOS-08), no event, no receipt row; §2.7's lifecycle row (create: the adapter; read: the creation half and the diff; persist: the carried fact; regenerate and undo: none; migrate: filled at the next absorb with no event, the recipe keeping its creation value and tier); J-V8.45 and BCR-V8-25 restated with priorityEconomy's one consumer; the host frame (the Economy locked where the creation supplied it, its hint the frozen_fact_changed line; the wealth level editable); W-DOS-02's wealth diff row as the lived wealth's source; the census reading (the 152 generated dossiers at 50: no prosperity ceiling); T-V8-20's ignore clause citing T114-5, T114-7, T114-11. For 115: the magic row (none → none; low, moderate and medium → low; high → high; an absent or unmapped word carries no site.magic, noted value_absent or unmapped_word); the carried site fact's magic? under W-DOS-08's site row (a later word: frozen_fact_changed); the census effect (none of 155 is high, so no census city gets islands at its first generation); DR27's input; the host frame's locked Magic.",
+    "states": [
+      "adapter row config.priorityEconomy → settlement.economyPriority",
+      "§4.6 rows value_absent, value_clamped; frozen_fact_changed args",
+      "carried settlement economyPriority? and the settlement diff row",
+      "§2.7 lifecycle row",
+      "J-V8.45, BCR-V8-25 restated",
+      "host frame: Economy and Magic locked where supplied",
+      "census readings for both items",
+      "magic row (moderate → low; absent/unmapped → no site.magic)",
+      "carried site magic? under W-DOS-08",
+      "T-V8-20 ignore clause"
+    ],
+    "references": [
+      "§14 (DossierDigest, PortNote kinds)",
+      "§7.7 items 1, 9, 11",
+      "W-DOS-02, W-DOS-08",
+      "T114-5, T114-7, T114-11, T115-2",
+      "DR6, DR27"
+    ]
+  },
+  {
+    "unit": "V09",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. For 114: T1's Economy slider (label 'Economy', 0–100, step 1, default 50, hint.economyRichest 'Richest households: {band}' below 50, hint.wealthSeparate 'Wealth level {w} is set separately (Advanced).', locked with host.locked where the creation supplied it, its hint showing frozen_fact_changed's line while SettlementForge's value differs); the advanced Wealth level with the layer word 'from the Economy' and Follow the Economy; the rows info.ceiling, info.ceiling.wealth, info.ceiling.held, bend.ceiling.follows, report.ceiling, fate.held.ceiling, fate.held.supply; buttons button.economyUp (event:economyTo = adjust('intent.economyPriority', n)) and button.openEconomy; the Wealth view's legend line 'Richest here: {band}'; BCR-V9-2's cells. For 115: the Magic control (None · Low · High, default None) in the advanced panel's 'Programme' group; the Islands control's states — enabled with info.islandsGated and only the map's buttons (button.magicHigh = event:magicHigh, button.economyHigh = event:economyHigh), or disabled with refuse.islandsDossier.magic, .economy or .both carrying button.drawIsland (unless the dossier states none) and button.showWhy; refuse.islandsNoMagic; info.islandsNone; report.islands.gated and report.islands.clause; fate.held.magic, fate.held.economy; its bars.",
+    "states": [
+      "T1 Economy slider and its hints and lock",
+      "advanced Wealth level (layer word, Follow the Economy)",
+      "info.ceiling, info.ceiling.wealth, info.ceiling.held, bend.ceiling.follows, report.ceiling",
+      "button.economyUp, button.openEconomy and event:economyTo",
+      "fate.held.ceiling, fate.held.supply, fate.held.magic, fate.held.economy",
+      "Wealth view legend line",
+      "BCR-V9-2 cells",
+      "Magic control in 'Programme'",
+      "Islands control states and rows (info.islandsGated, refuse.islandsDossier.magic/.economy/.both, refuse.islandsNoMagic, info.islandsNone, report.islands.gated, report.islands.clause)",
+      "button.magicHigh, button.economyHigh, button.drawIsland and their event forms"
+    ],
+    "references": [
+      "§7.8 (registry rows, control states)",
+      "§8.2 (legend rule)",
+      "V05 §3.2 (skyGate)",
+      "V08 (frozen_fact_changed)"
+    ]
+  },
+  {
+    "unit": "V10",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. For 114: IntendInput gains economy?: number (0–100); the lexicon's six wealth rows (penniless 8, struggling 25, humble 42, middling 55, thriving 72, opulent 90) take the field economy; §4.1's T1 encoder writes economy to intent.economyPriority (creation) or adjust('intent.economyPriority') (edit), and also as wealth = economy ÷ 100 where a wealth level is stored, or instead where the Economy is dossier-owned; FieldDrivers.ceiling?: { band; economyPriority; by } (no driver term; T-V10-10 holds); the why answers ('why is no quarter rich?') from FieldBands.ceiling. For 115: IntendInput.islands?: 'off'|'on' (edit mode adjust('layers.islands'); creation mode the new document's Recipe.params['layers.islands']); the lexicon row 'floating islands, sky islands, flying islands → islands: on' (the words set the switch alone; the gate's message says what is missing); the island's why naming the gate's clauses.",
+    "states": [
+      "IntendInput.economy?",
+      "lexicon wealth rows on the economy field",
+      "§4.1 T1 encoder rows (economy fan-out; islands)",
+      "FieldDrivers.ceiling?",
+      "IntendInput.islands?",
+      "lexicon islands row",
+      "why answers for the prosperity ceiling and the gate"
+    ],
+    "references": [
+      "§4.5 (drivers() fills FieldDrivers.ceiling)",
+      "V05 §3.2 (skyGate)",
+      "V09 (info.islandsGated)",
+      "§7.8 (registry ids)"
+    ]
+  },
+  {
+    "unit": "V11",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. Registers row 6's ceiling cell in bands.json (BandCeilingRow[]; provenance own, calibratable false, reason 'no corpus measures a slider', no ownerRule stamp; presets entries for MFCG, FTG, VG; NG by MFCG; FM none) and row 56's gate cells in islands.json (gate.magic ['high'] stamped ownerRule '115'; economyMin 75 own, calibratable false), with the compiler's limit bars for both (T-V11-2: empty, unsorted, out-of-range, unknown band or word). States that §3.5's magicGate for classes stays ≠ 'none' — a separate gate from the islands'.",
+    "states": [
+      "row 6 ceiling cell (provenance, not calibratable, parity entries)",
+      "row 56 gate cells (gate.magic stamped; economyMin own)",
+      "compiler limit bars (T-V11-2)",
+      "§3.5 magicGate unchanged and distinct"
+    ],
+    "references": [
+      "§4.5 (the ceiling rows' values)",
+      "V05 §2.4 (the gate cells' values)",
+      "§7.6 (cells, presets)"
+    ]
+  },
+  {
+    "unit": "V12",
+    "items": [
+      "114",
+      "115"
+    ],
+    "part": "Main rewrite. §1's owner-rule list gains the two rules (the economy slider sets the prosperity ceiling at the first generation; islands need high magic and a high economy) — never their rows or 75; Level.intent?: { wealthLevel?; economyPriority? } and Level.magic?: 'none'|'low'|'high'; the rule that a level setting wealthLevel explicitly keeps the economy at its default, so every existing bar (T110b.elevated.prosperity included) is unchanged; the derived fixture forms '<dossier>@economy<e>' and '<dossier>@magic<word>' beside '@pop×k' (T114-5's re-offers; T115-5's replay); the register's entries (the ceiling rows own and not calibratable; gate.magic owner rule, economyMin own); M6-sky's panel seeds generated with the gate held (magic high, economy ≥ 75).",
+    "states": [
+      "§1 owner-rule list entries",
+      "Level.intent.economyPriority?, Level.magic?",
+      "explicit wealthLevel keeps the economy at its default",
+      "derived fixtures @economy<e>, @magic<word>",
+      "register entries",
+      "M6-sky seeds with the gate held"
+    ],
+    "references": [
+      "§13.2 (T114-5, T115-5)",
+      "V05 (P0 and fixtures)",
+      "V11 (cells)"
+    ]
+  }
+]

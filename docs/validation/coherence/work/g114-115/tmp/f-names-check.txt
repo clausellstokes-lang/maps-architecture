@@ -1,0 +1,30 @@
+value_absent: 
+value_clamped: 
+info.ceiling.held: 
+info.ceiling.wealth: 
+bend.ceiling.follows: 
+hint.economyRichest: 
+hint.wealthSeparate: 
+report.ceiling: 
+report.islands.gated: 
+report.islands.clause: 
+button.drawIsland: 
+button.openEconomy: 
+islands_gated: 
+ceilingAt: 
+BandCeilingRow: 
+held_above_ceiling: 
+held_against_magic: 
+held_against_economy: 
+held_against_supply: 
+fate.held: 
+economyPriority: 
+islandsGated: 
+wealth lift: 
+T114-: 
+T115-: 
+J-A114: 
+J-A115: 
+frozen_fact_changed: docs/validation/coherence/wiring.py docs/validation/coherence/wiring.json docs/validation/coherence/canon.json docs/validation/coherence/wiring.md docs/validation/coherence/canon.md docs/validation/coherence/work/rewrite-V02/wiring-all.md 
+@economy: 
+@magic: 

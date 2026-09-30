@@ -1,0 +1,132 @@
+== both native, good ground, 1 km
+   costs {'wattle_daub': 1.5, 'dry_stone': 1.95, 'timber_frame': 2.3, 'rubble': 3.45, 'ashlar': 5.45}
+   ('squalid', {'wattle_daub': 100}, 0)
+   ('poor', {'wattle_daub': 100}, 0)
+   ('modest', {'wattle_daub': 46, 'dry_stone': 33, 'timber_frame': 22}, 26)
+   ('comfortable', {'timber_frame': 84, 'rubble': 16}, 18)
+   ('prosperous', {'timber_frame': 3, 'rubble': 96, 'ashlar': 1}, 7)
+   ('rich', {'rubble': 8, 'ashlar': 92}, 6)
+== woods native, no quarry, river partner stone
+   costs {'wattle_daub': 1.5, 'timber_frame': 2.3, 'rubble': 10.58, 'ashlar': 13.58}
+   ('squalid', {'wattle_daub': 100}, 0)
+   ('poor', {'wattle_daub': 100}, 0)
+   ('modest', {'wattle_daub': 77, 'timber_frame': 23}, 15)
+   ('comfortable', {'timber_frame': 100}, 0)
+   ('prosperous', {'timber_frame': 100}, 0)
+   ('rich', {'timber_frame': 90, 'rubble': 10}, 10)
+== woods native, no quarry, sea partner stone
+   costs {'wattle_daub': 1.5, 'timber_frame': 2.3, 'rubble': 6.52, 'ashlar': 9.52}
+   ('squalid', {'wattle_daub': 100}, 0)
+   ('poor', {'wattle_daub': 100}, 0)
+   ('modest', {'wattle_daub': 77, 'timber_frame': 23}, 15)
+   ('comfortable', {'timber_frame': 100}, 0)
+   ('prosperous', {'timber_frame': 100}, 0)
+   ('rich', {'timber_frame': 25, 'rubble': 49, 'ashlar': 26}, 19)
+== woods native, no quarry, road partner stone
+   costs {'wattle_daub': 1.5, 'timber_frame': 2.3, 'rubble': 24.75, 'ashlar': 27.75}
+   ('squalid', {'wattle_daub': 100}, 0)
+   ('poor', {'wattle_daub': 100}, 0)
+   ('modest', {'wattle_daub': 77, 'timber_frame': 23}, 15)
+   ('comfortable', {'timber_frame': 100}, 0)
+   ('prosperous', {'timber_frame': 100}, 0)
+   ('rich', {'timber_frame': 100}, 0)
+== woods native, no partner
+   costs {'wattle_daub': 1.5, 'timber_frame': 2.3}
+   ('squalid', {'wattle_daub': 100}, 0)
+   ('poor', {'wattle_daub': 100}, 0)
+   ('modest', {'wattle_daub': 77, 'timber_frame': 23}, 15)
+   ('comfortable', {'timber_frame': 100}, 0)
+   ('prosperous', {'timber_frame': 100}, 0)
+   ('rich', {'timber_frame': 100}, 0)
+== stone native, timber by sea, good ground
+   costs {'cob': 1.0, 'dry_stone': 1.95, 'rubble': 3.45, 'timber_frame': 4.35, 'ashlar': 5.45}
+   ('squalid', {'cob': 100}, 0)
+   ('poor', {'cob': 100}, 0)
+   ('modest', {'cob': 46, 'dry_stone': 54}, 13)
+   ('comfortable', {'dry_stone': 84, 'rubble': 16}, 18)
+   ('prosperous', {'dry_stone': 3, 'rubble': 52, 'timber_frame': 44, 'ashlar': 1}, 29)
+   ('rich', {'timber_frame': 8, 'ashlar': 92}, 6)
+== stone native, stony ground, no timber
+   costs {'dry_stone': 1.3, 'cob': 1.5, 'rubble': 3.45, 'ashlar': 5.45}
+   ('squalid', {'dry_stone': 100}, 0)
+   ('poor', {'dry_stone': 96, 'cob': 4}, 6)
+   ('modest', {'dry_stone': 7, 'cob': 93}, 7)
+   ('comfortable', {'cob': 84, 'rubble': 16}, 18)
+   ('prosperous', {'cob': 3, 'rubble': 96, 'ashlar': 1}, 7)
+   ('rich', {'rubble': 8, 'ashlar': 92}, 6)
+== earth only
+   costs {'cob': 1.0}
+   ('squalid', {'cob': 100}, 0)
+   ('poor', {'cob': 100}, 0)
+   ('modest', {'cob': 100}, 0)
+   ('comfortable', {'cob': 100}, 0)
+   ('prosperous', {'cob': 100}, 0)
+   ('rich', {'cob': 100}, 0)
+TOWN walls river W=8.00 rubble=10.58 P(stone)=0.00
+TOWN walls sea W=8.00 rubble=6.52 P(stone)=1.00
+TOWN walls road W=8.00 rubble=24.75 P(stone)=0.00
+TOWN gate river W=12.00 rubble=10.58 P(stone)=1.00
+TOWN gate sea W=12.00 rubble=6.52 P(stone)=1.00
+TOWN gate road W=12.00 rubble=24.75 P(stone)=0.00
+TOWN bridge river W=8.00 rubble=10.58 P(stone)=0.00
+TOWN bridge sea W=8.00 rubble=6.52 P(stone)=1.00
+TOWN bridge road W=8.00 rubble=24.75 P(stone)=0.00
+TOWN castle river W=15.00 rubble=10.58 P(stone)=1.00
+TOWN castle sea W=15.00 rubble=6.52 P(stone)=1.00
+TOWN castle road W=15.00 rubble=24.75 P(stone)=0.00
+CITY walls river W=9.20 rubble=10.58 P(stone)=0.35
+CITY walls sea W=9.20 rubble=6.52 P(stone)=1.00
+CITY walls road W=9.20 rubble=24.75 P(stone)=0.00
+CITY gate river W=13.80 rubble=10.58 P(stone)=1.00
+CITY gate sea W=13.80 rubble=6.52 P(stone)=1.00
+CITY gate road W=13.80 rubble=24.75 P(stone)=0.00
+CITY bridge river W=9.20 rubble=10.58 P(stone)=0.35
+CITY bridge sea W=9.20 rubble=6.52 P(stone)=1.00
+CITY bridge road W=9.20 rubble=24.75 P(stone)=0.00
+CITY castle river W=17.25 rubble=10.58 P(stone)=1.00
+CITY castle sea W=17.25 rubble=6.52 P(stone)=1.00
+CITY castle road W=17.25 rubble=24.75 P(stone)=0.00
+METROPOLIS walls river W=10.40 rubble=10.58 P(stone)=0.92
+METROPOLIS walls sea W=10.40 rubble=6.52 P(stone)=1.00
+METROPOLIS walls road W=10.40 rubble=24.75 P(stone)=0.00
+METROPOLIS gate river W=15.60 rubble=10.58 P(stone)=1.00
+METROPOLIS gate sea W=15.60 rubble=6.52 P(stone)=1.00
+METROPOLIS gate road W=15.60 rubble=24.75 P(stone)=0.00
+METROPOLIS bridge river W=10.40 rubble=10.58 P(stone)=0.92
+METROPOLIS bridge sea W=10.40 rubble=6.52 P(stone)=1.00
+METROPOLIS bridge road W=10.40 rubble=24.75 P(stone)=0.00
+METROPOLIS castle river W=19.50 rubble=10.58 P(stone)=1.00
+METROPOLIS castle sea W=19.50 rubble=6.52 P(stone)=1.00
+METROPOLIS castle road W=19.50 rubble=24.75 P(stone)=0.00
+== REVISED stone native, stony ground, no timber
+   costs {'dry_stone': 1.3, 'rubble': 3.45, 'ashlar': 5.45}
+   ('squalid', {'dry_stone': 100}, 0)
+   ('poor', {'dry_stone': 100}, 0)
+   ('modest', {'dry_stone': 100}, 0)
+   ('comfortable', {'dry_stone': 84, 'rubble': 16}, 18)
+   ('prosperous', {'dry_stone': 3, 'rubble': 96, 'ashlar': 1}, 7)
+   ('rich', {'rubble': 8, 'ashlar': 92}, 6)
+== REVISED arid, clay river flats, no stone, no timber (adobe)
+   costs {'adobe': 1.0}
+   ('squalid', {'adobe': 100}, 0)
+   ('poor', {'adobe': 100}, 0)
+   ('modest', {'adobe': 100}, 0)
+   ('comfortable', {'adobe': 100}, 0)
+   ('prosperous', {'adobe': 100}, 0)
+   ('rich', {'adobe': 100}, 0)
+== REVISED coniferous, woods native, stone native stony
+   costs {'dry_stone': 1.3, 'wattle_daub': 1.5, 'log': 2.1, 'timber_frame': 2.3, 'rubble': 3.45, 'ashlar': 5.45}
+   ('squalid', {'dry_stone': 100}, 0)
+   ('poor', {'dry_stone': 96, 'wattle_daub': 4}, 6)
+   ('modest', {'dry_stone': 7, 'wattle_daub': 52, 'log': 25, 'timber_frame': 16}, 28)
+   ('comfortable', {'timber_frame': 84, 'rubble': 16}, 18)
+   ('prosperous', {'timber_frame': 3, 'rubble': 96, 'ashlar': 1}, 7)
+   ('rich', {'rubble': 8, 'ashlar': 92}, 6)
+== REVISED clay+fuel native (timber native), no stone, river partner stone
+   costs {'wattle_daub': 1.5, 'timber_frame': 2.3, 'brick': 4.03, 'rubble': 10.58, 'ashlar': 13.58}
+   ('squalid', {'wattle_daub': 100}, 0)
+   ('poor', {'wattle_daub': 100}, 0)
+   ('modest', {'wattle_daub': 77, 'timber_frame': 23}, 15)
+   ('comfortable', {'timber_frame': 100}, 0)
+   ('prosperous', {'timber_frame': 33, 'brick': 67}, 21)
+   ('rich', {'brick': 90, 'rubble': 10}, 10)
