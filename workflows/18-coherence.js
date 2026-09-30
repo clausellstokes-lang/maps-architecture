@@ -124,7 +124,7 @@ log(`rewrites: ${rewrites.length}/${UNITS.length}; size ${Math.round(rewrites.re
 const lateWant = (LATE && !VONLY) ? UNITS.filter((u) => LATE_UNITS.includes(u.key) && (!ONLY || ONLY.includes(`${u.key}-late`))) : []
 const lates = lateWant.length ? (await parallel(lateWant.map((u) => () => fableSeat(latePrompt(u), `coherence/rewrite-${u.key}-late`, 'Rewrite', LATE_SCHEMA)))).filter(Boolean) : []
 if (lateWant.length) log(`late owner rules ${LATE}: ${lates.length}/${lateWant.length} late seats landed (${lates.map((l) => l.key).join(', ')})`)
-if (ONLY) return { rewriteOnly: ONLY, lates, landed: rewrites.map((r) => r.key), missing: ONLY.filter((k) => !rewrites.some((r) => r.key === k)), rewrites }
+if (ONLY) return { rewriteOnly: ONLY, lates, landed: rewrites.map((r) => r.key), missing: ONLY.filter((k) => !k.endsWith('-late') && !rewrites.some((r) => r.key === k || r.key === `coherence/rewrite-${k}`)), rewrites }
 if (!VONLY && lates.length < lateWant.length) { log('a late owner-rule seat failed — stopping before assembly; nothing changed on the live files; relaunch to retry'); return { error: 'late seats incomplete', done: lates.map((l) => l.key) } }
 if (!VONLY && rewrites.length < UNITS.length) { log('not every unit was rewritten — stopping before assembly; nothing changed on the live files; resume this run to retry'); return { error: 'rewrite incomplete', done: rewrites.map((r) => r.key) } }
 
