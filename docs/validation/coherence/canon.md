@@ -5538,3 +5538,16 @@ first, principle (3)).
 * **V08:** reading `traditions` and the custom-content traditions bucket at the baseline; window and staging mapping
 * **V11:** the decoration, staging-keyword and culture-motif tables
 * **V05:** the sky islands' pennants; **V09:** the festival list and switch; **V10:** the explanations; **V12:** bars
+
+## Dated ruling 2026-09-30 (later) — File g item 119 routed (orchestrator under J122; J130)
+
+The owner's rule 119 (total time up to ten seconds; spend it on quality) is routed like items 111–118. It closes D-18's declared
+misses. Interaction budgets are untouched: no unit may relax a frame, pan, zoom, drag, preview, hover, inspect or undo budget under it.
+
+### g item 119 — every unit named writes its part
+* **rendering:** §12 (the ten-second total-time ceiling for one-time waits; §12.3 and §12.5's laws kept as expected costs; the quality budget tied to measured gains; the progress rule past one second; D-18 closed; §12.10's register rows)
+* **scope:** §1 (the performance statement), §13.2 (bars), D-18's entry and the judgment index row
+* **pipeline:** §4.1 (where stages may spend the quality budget, each use a table cell with its measured gain)
+* **V06:** advance time and the history replay within the ceiling; **V07:** §6's village budgets; **V09:** the progress view
+* **V01, V02, V03, V04, V05:** their budget sections read the ceiling for one-time waits and keep their interactive budgets
+* **V12:** the bars and how each is measured

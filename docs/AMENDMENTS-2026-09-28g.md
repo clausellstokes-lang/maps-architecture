@@ -997,3 +997,31 @@ vetoable interpretation.
      `traditions` and the custom-content traditions at the baseline; the window and staging mapping), V11 (the decoration, staging and
      culture tables), V05 (the sky islands' pennants), V09 (the festival list and switch), V10 (the explanations), V12 (bars). Applied by
      the coherence pass like items 111–117 (J129).
+
+119. **OWNER RULE — Total time up to ten seconds reads as instant; spend it on a better map (owner, 2026-09-30).** Owner: "also note
+     that to a suer, the difference between milliseconds and 10 seconds is negligable and both are percieved effectively as instant.
+     Even more so if the longer time correlates to a better product." / "that is for total time". **What the design has
+     (CONFIRMED):** §12.3's model budgets on the one-click path (p95: TOWN 100 ms, CITY 300 ms, METROPOLIS 800 ms, laws up to 1.9 s at
+     the 35 000-building cap) and §12.5's first-map law (up to ≈ 2.3 s at the metropolis cap), with two declared misses at the
+     largest sizes left for the owner's veto (D-18); frame, pan, zoom and edit budgets beside them.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) THE CEILING IS TOTAL TIME.** Every wait a user sits through once — generate, regenerate, open a map from SettlementForge,
+     a dossier change applied, advance time and item 113's history replay, an export, a migration — takes at most TEN SECONDS from
+     the click to the complete result on the reference hardware (§12.1), at every size up to the metropolis cap. D-18's declared
+     misses are closed: both lie far inside the ceiling.
+     **(b) A QUALITY BUDGET, NOT A SLOWDOWN.** §12's present laws stay as the design's expected costs; the time between them and the
+     ceiling is a quality budget a stage may spend only where a measured gain shows (a calibration bar met or raised, §13, V12) —
+     more solver passes, richer placement, eager detail where it improves the first picture, the history replay, better labels.
+     Nothing is made slower without that gain.
+     **(c) FEEDBACK DURING THE WAIT.** A wait beyond about one second shows progress — the stage by name and the map filling in —
+     and never an empty screen; the first picture is still always complete, never a rough preview (§8.5).
+     **(d) INTERACTION STAYS FAST.** Moment-to-moment feedback is not total time and keeps its budgets: pan and zoom at frame rate,
+     dragging a handle and a tool's live preview, hover and click-to-inspect, undo and redo, the season and festival switches.
+     **(e) LOW-END DEVICES.** The low tier (§12.1) aims at the same ceiling; a size it cannot reach within it is declared per device,
+     as today.
+     **(f) BARS.** Every one-time wait at every rung within ten seconds on the reference hardware; progress shown past one second;
+     each use of the quality budget tied to its measured gain; interaction budgets unchanged.
+     **HOMES:** §12 (the ceiling, the quality budget, the progress rule; D-18 closed), §1 (the performance statement), §13.2 (bars),
+     the judgment index. Volumes: V06 (advance time and the history replay within the ceiling), V07 (§6's village budgets), V09 (the
+     progress view), V01–V05 (their budget sections read the ceiling for their one-time waits and keep their interactive ones), V12
+     (bars and how they are measured). Applied by the coherence pass like items 111–118 (J130).
