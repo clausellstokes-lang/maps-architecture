@@ -1,0 +1,457 @@
+unit	line	ref	list head (the other reading)	context
+base	274	§2.6	V02	adder, stepped massing, deck-plot buildings | volume 2 (§2.6's stage-3 interface) | M6 (its item-110
+base	1383	§3.7	V02	gabled'|'twoStorey'|'recessed'|'halfRound' /* V02 §2.2, §3.7; absent: gabled */; offsetCm: Cm /* fro
+base	1662	§3.5	V02	eet by *Entrances* below, a metric scale) — as V02 §3.3–§3.5 state; the base keeps the interface, th
+base	2112	§3.7	V06	ification phase and by setAttr; the rules are V06 §2.7, §3.7 */; underuseSince?: number /* the week 
+base	2659	§3.9	V10	er` that answers §11.2's `why` for the kind (V10 §2.13, §3.9), the base's kinds by the defaults of V
+base	2695	§4.4	V07	t/village` and absent from a base-only build (V07 §2.6, §4.4, §5.4); and on existing kinds `Use.conc
+base	2695	§5.4	V07	age` and absent from a base-only build (V07 §2.6, §4.4, §5.4); and on existing kinds `Use.concealmen
+base	4428	§3.5	V01	's fabric selection and S9b's block dispatch (V01 §3.3, §3.5), S12a's hinterland siting, and S10's s
+base	5667	§3.7	V05	 the outline and the placement of each slot by V05 §3.2–§3.7, a slot that cannot be placed returning
+base	6269	§4.2	V01	ule; `stepProfile`; V01's island bridge build after S8 (§4.2 S1 (5)); V04's wall-face knots, arch-va
+base	6272	§3.10	V05	, crypt re-test and clearance check (V05 §3.9 (4)–(5), §3.10 (5)). Every **field** reader of the ras
+base	6637	§3.10	V07	's pin stage places the whole furniture (V07 §3.6 (5), §3.10), and a `@pin:<kind>` record binds to i
+base	6955	§3.4	V07	d `palisade.barrierReachShare` for the share (V07 §2.2, §3.4). /  / **Gates — exactly N, by construction
+base	7028	§4.2	V01	ky island's arena V01's unit run applies the same rule (§4.2 S1 (5)) — and none for a `site`: the de
+base	7759	§3.11	V07	 the village product when one is registered (V07 §2.1, §3.11), else refused (SCOPE-C01); so §3.2 (9)
+base	8374	§3.6	V04	 the undercity cannot be laid [II.7.5, II.7.6; V04 §3.5–§3.6] | the underground systems' stages and 
+base	8429	§3.7	V05	e; the engine plan's op list | / | the sky (V05 §3.2 (6), §3.7–§3.10, §3.15, §3.22 (3)–(5); item 331):
+base	8429	§3.10	V05	 engine plan's op list | / | the sky (V05 §3.2 (6), §3.7–§3.10, §3.15, §3.22 (3)–(5); item 331): every
+base	9640	§4.4	V07	old (V05 §3.2 (6); item 260) | / | the village (V07 §4.1, §4.4) | `declareEnd`, `drawWay` with `walk`,
+base	11101	§3.5	V01	DR1's and DR2's site and walls | S7c and S9b (V01 §3.3, §3.5; item 384) | `fabric.select`, `hood.dis
+base	11102	§3.10	V05	04 (b)) and `activeChains[]` (item 105 (i)) | V05 §3.2–§3.10, §3.15 (1b), §3.20 (9)–(12) (item 387) 
+base	11107	§3.10	V04	 rank, count, ratchet and stagnation by V04 §3.5.1 and §3.10 | none | T-V8-33 | / | DR33 | the supply 
+base	13527	§2.4	V11	nd the tables named above are declared as V11 §2.8 (and §2.4, §2.5) gives them; RosterTableId is the
+base	13527	§2.5	V11	 tables named above are declared as V11 §2.8 (and §2.4, §2.5) gives them; RosterTableId is the union
+base	13530	§2.4	V07	at every rung; PLaw and PresenceWhen are V07 §2.2's and §2.4's */; outside: boolean; liveIn: boolean
+base	13534	§2.9	V11	is class at village rungs — a `v.` class key (V11 §2.3, §2.9); absent, the class plays itself */; te
+base	13623	§3.11	V07	 record or a class's `presence` entries (V07 §3.2 (3), §3.11). **Religion (COV-FTG-B14):** religions
+base	13690	§3.7	V11	le. /  / **The supply web's rows (items 105, 107; V11 §2.5, §3.7).** The goods table (`ResourceRow`) giv
+base	13743	§3.3	V03	ffSleepIn?: number; seatingExits?: boolean /* V03 §2.4, §3.3 S6 (d) */; pattern: Record<'basement'|'
+base	15703	§3.2	V03	and listed in the report with no tier (V03 §3.1 step 2, §3.2 A5 (b), §2.3); (T28-2) starting at the 
+base	15703	§2.3	V03	 the report with no tier (V03 §3.1 step 2, §3.2 A5 (b), §2.3); (T28-2) starting at the main entrance
+base	15735	§7.7	V02	2-53 and the B-MASS fixtures, in the tiers V02 §7.6 and §7.7 name — the bars of V02 §7.7 whose subje
+base	16040	§7.3	V10	assettes for their descriptions and rosters (V10 §3.15, §7.3 group A) —; the skeleton file and the h
+base	16215	§7.4	V09	*/ } /* read by M2a's, M3a's and M3b's exits (V09 §7.3, §7.4) */; knownDefects: { opened: string[]; 
+base	16458	§3.1	V07	ze choices to `VillageRequest`'s fields (volume 7 §2.7, §3.1 (8)) — as calibration data beside them;
+base	16642	§3.10	V12	 each pre-registered, held out and declared (V12 §3.7, §3.10); and no acceptance run treats an unset
+base	16875	§4.9	V09	s, keyed, with the engine codes each renders; V09 §2.9, §4.9) as versioned JSON with provenance; loa
+base	16954	§5.1	V08	 operations, no `DocResolver`, bridge-driven (V08 §3.1, §5.1) @plat/bridge-client the host client a 
+base	16972	§3	V12	 noop` with `@plat/testkit/noop` (the no-op pins) (V12 §2–§3); the clerk's evaluation cases, graders
+base	17537	§5.2	V02	s with mitred joints and two-facet roofs | V02 §3.5 M5, §5.2 | STAGE-3 | / | F3 | hip blocks | V02 §3.
+base	17540	§2.6	V02	E-3 | / | F5 | porches and a door fallback | V02 §3.7 and §2.6's entrance rule (beyond: always a stree
+base	17542	§8.4	V02	cet shading, hatching and a swept shadow | V02 §5.3 and §8.4 (h) | STAGE-3 | / | F8 | no plot, no scal
+base	18302	§3.7	V05	 an instant removal. 5. **Size and altitude** (V05 §3.4–§3.7). For an open slot the SUPPORTED AREA i
+base	19175	§3.5	V07	der and `ProductDecl.extraInputs` are §4.1's (V07 §3.0, §3.5). 2. **A palisade before its roads (MN-
+base	20217	§2.8	V08	med in §14 member by member, typed once in V08 §2.5 and §2.8 | §14 | / | J-A568.01 | §16's two totals 
+V01	96	§3.3	V01	ement), so the character drives the template (V01 §3.2, §3.3). S7c runs inside S7b (1), between its 
+V01	106	§3.9	V01	ence; the `replace` close-up as a model edit (V01 §3.8, §3.9). 7. **The unit run** — the generation 
+V01	113	§8	V01	d exports, budgets, tests and the M5 build plan** (V01 §4–§8). 10. **File g's neighbourhood parts** 
+V01	119	§4.5	V01	ty, the dispatch, the panel and the title (V01 §3.5.12, §4.5, §5.2.1); item 106's barrier closure in
+V01	120	§3.6	V01	n the typed boundary and the wall-side reads (V01 §2.3, §3.6); item 109's surface side — public open
+V01	125	§3.9	V01	hinterland's extramural cemeteries (V01 §3.7.1, §3.8.9, §3.9). 11. **The `NG` preset** — a zeroing p
+V01	135	§3.6	V01	alone neighbourhood document (V01 §2.3, §3.4.3, §3.4.4, §3.6, §3.11, §3.17, §5). /  / ### 1.2 The base h
+V01	135	§3.11	V01	eighbourhood document (V01 §2.3, §3.4.3, §3.4.4, §3.6, §3.11, §3.17, §5). /  / ### 1.2 The base hooks th
+V01	135	§5	V01	d document (V01 §2.3, §3.4.3, §3.4.4, §3.6, §3.11, §3.17, §5). /  / ### 1.2 The base hooks this volume c
+V01	146	§3.9	V01	he workflow, elaboration by click (item 28) | V01 §3.8, §3.9, §4 | / | II.5 | stage-2 readiness and th
+V01	146	§4	V01	orkflow, elaboration by click (item 28) | V01 §3.8, §3.9, §4 | / | II.5 | stage-2 readiness and the M5
+V01	150	§3.8	V01	` / `hood` | the close-up's record and cache (V01 §2.5, §3.8); `HoodRecipe` (V01 §2.6) | / | §4.1 | th
+V01	170	§2.4	V11	5 §3.11 (4); J-V1.87) | / | g item 103 (a), (f); V11 §2.3–§2.4 | `SitingProfile` (emits, sensitive, co
+V01	172	§4.5	V01	patch's fixed inputs, the panel's members (V01 §3.5.12, §4.5) | / | g item 106 (a)–(c) | `Enceinte.clo
+V01	173	§3.6	V01	over walled stretches only, gardens excluded (V01 §2.3, §3.6) | / | g item 109 (e), (g), (j) (3), (k) 
+V01	174	§3.3	V04	e), (g), (j) (3), (k) (2)–(5); II.7.4–II.7.6; V04 §3.1, §3.3 (P7, `forecastSafety`), §3.4 (F6), §3.5
+V01	174	§3.4	V04	; II.7.4–II.7.6; V04 §3.1, §3.3 (P7, `forecastSafety`), §3.4 (F6), §3.5.1, §3.6a (`underDistance`), 
+V01	174	§3.10	V04	3.4 (F6), §3.5.1, §3.6a (`underDistance`), §3.7a (T8), §3.10, §4.3 | `AccessPoint` (the kinds item 5
+V01	174	§4.3	V04	6), §3.5.1, §3.6a (`underDistance`), §3.7a (T8), §3.10, §4.3 | `AccessPoint` (the kinds item 554 add
+V01	174	§3.9	V01	-arena scope, the hood's void part (V01 §3.7.1, §3.8.8, §3.9, §3.10.1, §3.16) | / | V05 §2.3, §2.3a, §
+V01	175	§2.4	V05	7.1, §3.8.8, §3.9, §3.10.1, §3.16) | / | V05 §2.3, §2.3a, §2.4, §3.2, §3.5 (3), §3.8 (4), §3.12, §3.15
+V01	175	§3.2	V05	3.8.8, §3.9, §3.10.1, §3.16) | / | V05 §2.3, §2.3a, §2.4, §3.2, §3.5 (3), §3.8 (4), §3.12, §3.15 (5), 
+V01	175	§3.5	V05	 §3.9, §3.10.1, §3.16) | / | V05 §2.3, §2.3a, §2.4, §3.2, §3.5 (3), §3.8 (4), §3.12, §3.15 (5), §4.2, 
+V01	175	§3.8	V05	10.1, §3.16) | / | V05 §2.3, §2.3a, §2.4, §3.2, §3.5 (3), §3.8 (4), §3.12, §3.15 (5), §4.2, §4.3; item
+V01	175	§4.2	V05	2.3a, §2.4, §3.2, §3.5 (3), §3.8 (4), §3.12, §3.15 (5), §4.2, §4.3; item 280's sky stage | `SkyUnitI
+V01	175	§4.3	V05	§2.4, §3.2, §3.5 (3), §3.8 (4), §3.12, §3.15 (5), §4.2, §4.3; item 280's sky stage | `SkyUnitInput` 
+V01	179	§2.3	V01	der reads, their land and removal (V01 §3.17.2–§3.17.5, §2.3); deck ownership (V01 §3.17.6); stack o
+V01	181	§2.6	V02	(V01 §3.17.3), the terminal (V01 §3.17.8) | / | V02 §2.1, §2.6, §3.7, §3.11, §3.15–§3.17, §5.2–§5.3 | 
+V01	181	§3.7	V02	3.17.3), the terminal (V01 §3.17.8) | / | V02 §2.1, §2.6, §3.7, §3.11, §3.15–§3.17, §5.2–§5.3 | the wi
+V01	181	§3.11	V02	, the terminal (V01 §3.17.8) | / | V02 §2.1, §2.6, §3.7, §3.11, §3.15–§3.17, §5.2–§5.3 | the wings' ca
+V01	181	§5.2	V02	 §3.17.8) | / | V02 §2.1, §2.6, §3.7, §3.11, §3.15–§3.17, §5.2–§5.3 | the wings' canonical order by ke
+V01	181	§5.3	V02	7.8) | / | V02 §2.1, §2.6, §3.7, §3.11, §3.15–§3.17, §5.2–§5.3 | the wings' canonical order by key, `B
+V01	182	§5.1	V03	lusion (V01 §3.8.2 step 1) | / | V03 §3.3, §3.7.1–§3.7.3, §5.1, §5.4, O1 (e), J-V3.73 | the access hea
+V01	182	§5.4	V03	 (V01 §3.8.2 step 1) | / | V03 §3.3, §3.7.1–§3.7.3, §5.1, §5.4, O1 (e), J-V3.73 | the access head at t
+V01	247	§3.9	V01	aming rule | / | catacomb source protection (V01 §3.5.12, §3.9) | volume 4's `UndergroundSystem.source
+V01	264	§3.11	V12	h the landing milestone (M1, M2b, M3a or M5; V12 §2.8, §3.11), and `--defaults --milestone M5` for a
+V01	264	§3.11	V12	every entry's (V12 §1b) | V12 §2.6 `CalibrationEntry`, §3.11 | / | `SeamReport` fields (V01 §3.11) | e
+V01	270	§2.8	V10	 10's `why` query; volume 9's "why?" panel | V10 §2.13 (§2.8's explainer registry, item 270) | / | T1 
+V01	303	§3.9	V01	acomb sources and entrance `AccessPoint`s (V01 §3.5.12, §3.9) | / | place names; a claimed quarter's n
+V01	504	§3.6	V01	bank path; the quay way (V01 §3.4.5 (c), §3.5.3–§3.5.5, §3.6) | yes | its ramp and stair ends, as ju
+V01	657	§2.4	V11	 rows; the siting families and class profiles (V11 §2.3–§2.4); the shade sampler's mask, each live i
+V01	1648	§5.1	V03	building's plan draws its head (V03 §3.7.2 (5), §3.7.3, §5.1; a `secret` head by §5.4) — one mark pe
+V01	2134	§4.1	V01	hood.hillsidePct`; `hood.hillsideMaxPct` | V01 §3.10.1, §4.1 | 20; 60 | number · `none` (percent) | 
+V01	2447	§5	V01	at its limits (principle (11)) /  / Every mechanism of V01 §2–§5 has a defined outcome at the limits of 
+V01	2447	§5	V01	 a defined outcome at the limits of its inputs, a rung on §5's failure ladder (check, repair locally
+V01	2499	§2.2	V01	--|---|---|---|---| / | identifiers and tables (V01 §2.1, §2.2) | a `fabric` row id no table holds (a 
+V01	2513	§3.10	V01	ng 4 | substitute | T-V1-56 | / | unit runs (V01 §3.4.8, §3.10) | a unit of one district; a degenerate
+V01	2537	§4.4	V01	strict's allocation | — | T-V1-53 | / | editing (V01 §4.1–§4.4) | an edit on a target a dossier change
+V01	2540	§5.2	V01	 kind | — | T-V1-37 | / | rendering and labels (V01 §5.1, §5.2) | an empty tile; a single wing; a shee
+V01	2655	§3.10	V04	pening pass under the new gate (V04 §4.3's switch row, §3.10), never held byte-identical. * **A togg
+V01	2748	§5.3	V02	scape('twoTone')` over each building's facets (V02 §5.2–§5.3; §8.6, item 406) — each face's or facet
+V01	2769	§5.3	V02	ce; under `roofscape` (from stage 3's landing, V02 §5.2–§5.3), each of the building's `RoofFacet`s. 
+V01	3262	§3.9	V01	nt catacomb emit the `blockLifted` notice (V01 §3.5.12, §3.9). | / | J-V1.47 | Chose a **world hatch p
+V01	3289	§7	V01	ps `fakeGablePerWing` until M6b's re-measure (V01 §5.1.2, §7). | / | J-V1.74 | Chose to draw a **surfa
+V01	3301	§3.11	V01	ocabulary is the one closure vocabulary (V01 §3.6 (7), §3.11 (4)). | / | J-V1.86 | Chose to read **a `
+V01	3431	§6	V01	ries its measurement and pre-decided fallback (V01 §3.14, §6, §7, §12). /  / ## Integration notes /  / The v
+V01	3431	§7	V01	 its measurement and pre-decided fallback (V01 §3.14, §6, §7, §12). /  / ## Integration notes /  / The volum
+V01	3431	§12	V01	measurement and pre-decided fallback (V01 §3.14, §6, §7, §12). /  / ## Integration notes /  / The volumes-in
+V01	3436	§2.2	V01	-VI.23 (the block-content type is `BlockKind`, V01 §2.1–§2.2); J-VI.2 (a raised part's reason word, 
+V02	112	§3.5	V02	gives it, oriented by its frontage, in metres (V02 §3.2–§3.5). Its output is the base wings (`Buildi
+V02	116	§3.8	V02	raws are keyed per wing so what is kept stays (V02 §3.6–§3.8). 3. **The roofscape** — one derived ro
+V02	507	§7.6	V02	> /* the named constants of V02 §3.10.9's table, each a §7.6 cell */ } interface CompositionTables {
+V02	863	§2.3	V02	differences at ± `axisSampleM` 2 m, the base's sampler, §2.3) gives the slope `s` and the downhill u
+V02	1429	§3.7	V02	 §4.4), and added keys composed on the spot by V02 §3.6–§3.7 on the committed massing. * **W9 — reve
+V02	2197	§8.4	V02	oof's rise over its ring (V02 §5.2's caster rule, which §8.4 reads per wing), so each tier casts one
+V02	2335	§5	V02	at its limits (principle (11)) /  / Every mechanism of V02 §2–§5 has a defined outcome at the limits of 
+V02	2335	§5	V02	 a defined outcome at the limits of its inputs, a rung on §5's failure ladder (check, repair locally
+V02	2377	§7.4	V02	y stored field's cells are V02 §2.5's and every event's §7.4's row (V02 §4.4); the elaboration cache
+V02	2410	§5.3	V02	-inset | repair locally | T-V2-48 | / | drawing (V02 §5.1–§5.3, §5.6) | a map with no building; a one-
+V02	2510	§4.3	V03	furnished room the op would orphan (V03 §3.11, V03 §4.2–§4.3), each with §7.3's orphan actions. 3. *
+V02	3704	§4.5	V02	`fantasyShapes` control in the advanced panel (V02 §4.4–§4.5) | the ops through the clerk and the sk
+V03	134	§2.6	V02	and 5 as volume 2's BCR-V2-38 and BCR-V2-41 amend them (§2.6) | `Entrance.storey`'s rule and O2's ro
+V03	311	§2.6	V11	§2.6a) → volume 11's `crypt` column → `Basement.crypt` (§2.6) → A2 (9); a dossier crypt record binds
+V03	1937	§3.11	V03	access exists (item 109 (e), (j) (4)) — takes V03 §3.1–§3.11 with these differences, all else unchan
+V03	1976	§5	V03	 their limits (principle (11)) /  / Every mechanism of V03 §2–§5 at its limits: its outcome (stated at t
+V03	1976	§5	V03	tated at the section cited, else here), its failure rung (§5's ladder: never a whole-map retry) and 
+V03	1990	§5.4	V03	nd report | T-V3-36 (e) | / | every mechanism of V03 §3.2–§5.4 | every rung THORP → METROPOLIS | rung-
+V03	2000	§5.3	V03	) | / | the draw, the picture and scene exports (V03 §5.1–§5.3) | an empty plan; one room or storey; a
+V03	2005	§3.2	V03	o it reads the rasters over the frame's context margin (§3.2 (9)); frame growth extends the rasters 
+V03	2040	§3.8	V03	e fixes what each does to the derived parts of V03 §3.5–§3.8. Per item 101's R2, an edit that cannot
+V04	306	§2.7	V06	ystem id is written by V06 into `HistoryRecord.buried` (§2.7) | / | `UndercityStrategy.derive` | U-CIT
+V04	3134	§2.7	V11	he cells `raisedWays.structure.span.*`, their values in §2.7) — over a second value for every cell, 
+V04	3300	§2.7	V07	 V07 §3.16 (1) citing the span rule's `country` reason (§2.7; J-C4) | / | V08 | the port side of the r
+V05	10	§3.2	V06	 after a volume prefix stays in that volume (`V06 §2.1, §3.2` is two sections of volume 6); `item n`
+V05	124	§3.4	V05	custom institutions by their scene archetype (V05 §2.4, §3.4). 4. **The sky allocation** — S7b (5)'s
+V05	128	§3.7	V05	ats by one scored draw with a failure ladder (V05 §3.6, §3.7). 6. **The island arena** — its frame, 
+V05	136	§3.11	V05	unit run, which lays the island's districts (V05 §2.3, §3.11, §3.12). 10. **Lights and names** (V05 
+V05	142	§8	V05	els, exports, budgets, tests and the build plan** (V05 §4–§8). 13. **The island's shade strip** (ite
+V05	147	§3.5	V05	om chains, the landing classes' siting facts (V05 §2.4, §3.5, §3.20). 15. **The rim as a barrier** (
+V05	154	§3.11	V05	water, which leaves an island unchanged (V05 §3.8 (4), §3.11). /  / ### 1.2 The base hooks this volume c
+V05	162	§3.2	V05	; file f items 546, 547) | the rule at depth (V05 §2.4, §3.2–§3.7) | / | II.1 rule (5), V01 §2.4, §3.1
+V05	162	§3.7	V05	e f items 546, 547) | the rule at depth (V05 §2.4, §3.2–§3.7) | / | II.1 rule (5), V01 §2.4, §3.10.3 |
+V05	174	§3.5	V05	) | the supplies, the fill, the strips' fold (V05 §3.3, §3.5, §3.19) | / | §4.6 (the landing attach as
+V05	180	§2.5	V05	e hash, the anchor table; file f item 476) | V05 §3.18, §2.5 | / | §7.1–§7.8 (file f items 356, 375, 3
+V05	182	§5.3	V05	8.2, §8.4, §8.8 (file f items 408, 415, 416) | V05 §5.1–§5.3 | / | §9.1, §9.2; §11.1 (file f item 415)
+V05	184	§8	V05	, §13.2, §13.3, §14, §16 (file f items 476, 568) | V05 §6–§8 | / | items 102–111 of `docs/AMENDMENTS-2
+V05	186	§3.1	V01	their island parts (V05 §1.1 items 13–17) | / | V01 §2.3, §3.1, §3.2 (5), §3.5.5, §3.8.2, §3.14, §3.16
+V05	186	§3.2	V01	island parts (V05 §1.1 items 13–17) | / | V01 §2.3, §3.1, §3.2 (5), §3.5.5, §3.8.2, §3.14, §3.16, §3.1
+V05	188	§3.10	V04	k plots | / | V04 §3.5.0a (9) (`ruin.node`), §3.5.1 (3), §3.10; V04 §2.3 `CatacombRule.count` | the cl
+V05	189	§2.8	V06	06 §2.1 (`EpochParticipant`, `EpochOps`, `EpochScope`), §2.8, §2.12, §3.2, §3.4, §3.5.2, §3.7.5, §3.
+V05	189	§3.2	V06	chParticipant`, `EpochOps`, `EpochScope`), §2.8, §2.12, §3.2, §3.4, §3.5.2, §3.7.5, §3.8.1, §3.19 | 
+V05	189	§3.4	V06	icipant`, `EpochOps`, `EpochScope`), §2.8, §2.12, §3.2, §3.4, §3.5.2, §3.7.5, §3.8.1, §3.19 | the is
+V05	190	§3.5	V08	s clearance and repair | / | V08 §2.6 (the deposits row), §3.5 (the site latitude) | the node term; th
+V05	191	§4.9	V09	) | the node term; the sampler's latitude | / | V09 §2.7, §4.9 (the `bend.*` rows), §4.20.3, §4.20.9, 
+V05	191	§5.4	V09	| V09 §2.7, §4.9 (the `bend.*` rows), §4.20.3, §4.20.9, §5.4, §6.4 | the Shade view, the island's be
+V05	191	§6.4	V09	§2.7, §4.9 (the `bend.*` rows), §4.20.3, §4.20.9, §5.4, §6.4 | the Shade view, the island's bends, t
+V05	193	§3.5	V11	sland answers (V05 §4.5) | / | V11 §3.1 (rows 51 and 56), §3.5 (the institution classes), §3.9 (distri
+V05	193	§3.9	V11	 §3.1 (rows 51 and 56), §3.5 (the institution classes), §3.9 (district kinds), §3.24.0 (the switch t
+V05	194	§3.11	V12	lume's rows join | / | V12 §2.8, §3.7.6, §3.7.8, §3.9.1, §3.11 | the register, the pins, the M6-sky si
+V05	228	§3.11	V05	 S10b); on an island it changes nothing (V05 §3.8 (4), §3.11). /  / ## 1b Wiring table — every new piece
+V05	235	§2.2	V05	records are declared in §2.7's staged block as V05 §2.1–§2.2 give them, built by this volume). The t
+V05	256	§3.11	V05	amples, onto)` and the island's `shadeSky` (V05 §2.3a, §3.11, §3.19) | the caster's and receiver's `
+V05	271	§3.2	V06	iting` step houses | §4.11 (file f item 320); V06 §2.1, §3.2 | / | `sky.clearance` and the op `reclear
+V05	276	§3.10	V05	hout decks, raised-way piers and rubble (V05 §3.7 (2), §3.10 (3)–(4)) | the committed raised parts' 
+V05	279	§3.10	V05	, crypt re-test and clearance check (V05 §3.9 (4)–(5), §3.10 (5)); the island bridge build (V01 §3.1
+V05	439	§2.3	V01	DistrictContext.shade.islandShare` (V01 §3.5.5, §3.8.2, §2.3) — on an island the same readers throug
+V05	464	§4.2	V05	d `accessCount.handMax` hand-placed accesses (V05 §2.4, §4.2), so a document holds at most 3 × (`acc
+V05	480	§2.1	V05	s, its ray step, the basis rim's vertex cap (V05 §3.19, §2.1) */; routing: { transferM: number }    
+V05	495	§3.5	V05	arginM: number; siteLatticeM: number } /* V05 §3.4 (2), §3.5, §3.10 (5) */; cryptFloorM: number     
+V05	495	§3.10	V05	 number; siteLatticeM: number } /* V05 §3.4 (2), §3.5, §3.10 (5) */; cryptFloorM: number            
+V05	525	§3.9	V05	ands, with the measurement and fallback of V05 §3.3 and §3.9 (5), and their provenance notes name th
+V05	546	§4.2	V05	enerated; at most 6 hand-placed | same | V05 §3.10 (1), §4.2 | / | `accessSiting` | feet ≥ 30 m apart;
+V05	550	§3.5	V05	in 20 m, claim site lattice 10 m | same | V05 §3.4 (2), §3.5, §3.10 (5) | / | `cryptFloorM` | 1 m | sa
+V05	550	§3.10	V05	, claim site lattice 10 m | same | V05 §3.4 (2), §3.5, §3.10 (5) | / | `cryptFloorM` | 1 m | same | at
+V05	675	§3.7	V05	easons, fills, outline and placement per slot (V05 §3.2–§3.7) | inside S7b, before S7b (6) and (1) |
+V05	715	§3.7	V05	unt, the forced slots and each slot's outcome (V05 §3.4–§3.7), a held slot's outcome being `removed 
+V05	964	§3.10	V05	d — it is ground water, read as water by V05 §3.7 (1), §3.10 (3) and §3.16 (5) like any other. 5. **
+V05	1187	§4.2	V05	and a removed island's archived with it (V05 §3.16 (7), §4.2). /  / ### 3.14 Names /  / S13a draws each isla
+V05	1204	§3.2	V06	ds`, step `afterField`, order 0, stage `SKY` (V06 §2.1, §3.2): its `run(ctx)` calls `apply(ctx.doc, 
+V05	1445	§2.3	V01	te and `DistrictContext.shade.islandShare`, V01 §3.8.2, §2.3): S9b's strips and pass 2's are the sam
+V05	1468	§4.5	V05	es over time", offering **Update shade now** (V05 §4.2, §4.5). 9. **What it amounts to** (the owner'
+V05	1651	§3.10	V05	pM` and every deck face of item 110 (d) (V05 §3.7 (2), §3.10 (3)–(4)); "the nearest way" is a walkab
+V05	1682	§3.10	V05	lled heights through `levelledGroundCm` (V05 §3.9 (4), §3.10 (5)). A way that crosses it becomes a s
+V05	1709	§3.10	V05	 island or an access that stays removed (V05 §3.2 (6), §3.10 (1), §4.2). 8. **The landfall** covers 
+V05	1709	§4.2	V05	 an access that stays removed (V05 §3.2 (6), §3.10 (1), §4.2). 8. **The landfall** covers raised spa
+V05	1720	§5	V05	le (11)) /  / Each row gives an edge of a mechanism of V05 §2–§5, or a combination with another unit's f
+V05	1721	§5.1	V05	nother unit's feature, its defined outcome, its rung on §5.1's ladder (never a whole-map retry) and 
+V05	1734	§2.6	V05	-33 | / | identity and lifecycle | V05 §2.5's anchors and §2.6's rows at save, load, undo, redo, regen
+V05	2004	§3.10	V05	 keeps on the ground, and the links' status | V05 §3.2–§3.10, V05 §3.15 (1b), V05 §3.20 (9)–(12) | `
+V05	2546	§3.11	V05	 **Item 111 on the island** (g item 111; V05 §3.8 (4), §3.11): on an arid fixture with an oasis, the
+V05	2612	§3.9	V05	on`, land no cell, and apply their fallbacks (V05 §3.3, §3.9 (5)) before P1 lands the table; so each
+V05	2687	§4.3	V05	h every generated raised part committed before S7b (1) (§4.3's slot, file f item 290), over letting 
+V05	2775	§3.9	V05	m (V05 §8), with the pre-decided fallbacks of V05 §3.3, §3.9 (5), §3.17 and §6. /  / ## 13 Fix list /  / No 
+V05	2775	§6	V05	he pre-decided fallbacks of V05 §3.3, §3.9 (5), §3.17 and §6. /  / ## 13 Fix list /  / No item is open: each
+V05	2779	§3.10	V04	its home — V05 §8's P0 exits; V01 §3.10.3; V04 §3.5.1, §3.10; V06 §2.1, §3.2, §3.4 (8), §3.5.2, §3.7
+V05	2779	§3.2	V06	8's P0 exits; V01 §3.10.3; V04 §3.5.1, §3.10; V06 §2.1, §3.2, §3.4 (8), §3.5.2, §3.7.5, §6.2; V09 §4
+V05	2779	§3.4	V06	 exits; V01 §3.10.3; V04 §3.5.1, §3.10; V06 §2.1, §3.2, §3.4 (8), §3.5.2, §3.7.5, §6.2; V09 §4.9, §4
+V05	2780	§6.2	V06	3.5.1, §3.10; V06 §2.1, §3.2, §3.4 (8), §3.5.2, §3.7.5, §6.2; V09 §4.9, §4.20, §5.4; V10 §2.13; volu
+V05	2780	§5.4	V09	 §3.2, §3.4 (8), §3.5.2, §3.7.5, §6.2; V09 §4.9, §4.20, §5.4; V10 §2.13; volume 11's rows; volumes 2
+V05	2788	§3.10	V05	 island form under §2.8's one lift rule: V05 §3.2 (6), §3.10 (1), §4.2; **J-VI.13** — the derivation
+V05	2788	§4.2	V05	rm under §2.8's one lift rule: V05 §3.2 (6), §3.10 (1), §4.2; **J-VI.13** — the derivation row is DR
+V06	10	§3.10	V04	after a volume prefix stays in that volume (`V04 §3.5, §3.10` is two sections of volume 4); `item n`
+V06	119	§3.2	V06	ion and terrain-and-water phases placed in it (V06 §3.1–§3.2; file f item 317). 2. **Epoch inputs**:
+V06	125	§3.7	V06	lToWay` or the absorbed wall of `absorbWall`) (V06 §3.6–§3.7). 4. **Decline**: the departure matchin
+V06	128	§3.7	V06	ll ring (`contractWall`)'s trigger and trace (V06 §3.5, §3.7). 5. **Regrowth**: the ordering inside 
+V06	143	§5	V06	bar, then-and-now, forks, the animated export (V06 §3.15, §5). 14. **Budgets** for an epoch and a ce
+V06	168	§3.6	V06	und crowding hook before the growth decision (V06 §2.1, §3.6, §3.8.1). 24. **The base hooks left for
+V06	175	§3.11	V06	 dossier where they meet these (V06 §3.19, §3.7.6 (5), §3.11, §3.2). 26. **The history replay at gen
+V06	175	§3.2	V06	er where they meet these (V06 §3.19, §3.7.6 (5), §3.11, §3.2). 26. **The history replay at generatio
+V06	196	§3.10	V06	.7 (file f items 264, 266) | `MutationPlan` (V06 §2.5, §3.10) | / | the terrain-water kinds and trigge
+V06	206	§3.9	V06	5a, §4.8, §7.7, §10.2 | their epoch halves (V06 §3.7.6, §3.9) | / | item 109's ruin system, caverns, o
+V06	207	§2.3	V04	4's, V02's and V03's | II.7.3, II.7.5, II.7.6; V04 §2.2–§2.3, §3.5, §3.10 | the underground over epo
+V06	207	§3.5	V04	02's and V03's | II.7.3, II.7.5, II.7.6; V04 §2.2–§2.3, §3.5, §3.10 | the underground over epochs (V
+V06	207	§3.10	V04	d V03's | II.7.3, II.7.5, II.7.6; V04 §2.2–§2.3, §3.5, §3.10 | the underground over epochs (V06 §3.1
+V06	208	§3.6	V06	lude, the crowding hook, the two conversions (V06 §3.2, §3.6, §3.11.6, §3.5.2) | / | item 110's base h
+V06	214	§3.10	V04	 `AccessPass.run`, `UndercityEpoch.reread` (V04 §1b.2, §3.10); S7c and S9b through `hood.fabric` (V0
+V06	224	§3.5	V04	, opening and overlap rules and their tables (V04 §2.3, §3.5), the buried former-town ruins and the 
+V06	266	§3.2	V06	2 | `EpochPhase`, `EpochContext`, `EpochOps` (V06 §2.1, §3.2); `ProductEpochContext`, the part a pro
+V06	267	§3.2	V06	2) | / | W3 | `EpochParticipant` registrations (V06 §2.1, §3.2's participant table) | `@plat/sky`: `sk
+V06	268	§4.1	V06	rajectory` and the `advance` request (V06 §2.3, §3.3.2, §4.1) | T1 `intend`'s time card (the app), t
+V06	269	§3.11	V06	d the typed reading of `EpochInputs.events` (V06 §2.4, §3.11) | timeline entries and `advance` (stan
+V06	270	§3.4	V06	 event; §7.7 F5 | / | W6 | `BuildingShadeMask` (V06 §2.6, §3.4) | the field phase at each epoch, from 
+V06	273	§3.7	V06	The strike pool* | / | W9 | `Enceinte.pathway` (V06 §2.7, §3.7) | the growth phase's wall decision (a 
+V06	276	§3.9	V06	ord (file f item 209) | / | W12 | `Use.strain` (V06 §2.9, §3.9) | the use phase | the use phase's clos
+V06	277	§3.10	V06	 (file f item 429) | / | W13 | `MutationPlan` (V06 §2.5, §3.10) | the use phase (an opening or a reloc
+V06	291	§3.3	V06	Inputs.wealthLevel` and the timeline entry's (V06 §2.3, §3.3) | the port — V08 §3.5's diff row `weal
+V06	301	§3.1	V06	7 | `ProductDecl.phases` and `.participants` (V06 §2.1, §3.1) | a product's registration (V07's vill
+V06	304	§3.10	V04	 reopened runs and accessible void clusters (V04 §3.4, §3.10) | S7b (6)'s underground allocation and
+V06	337	§3.10	V04	households.undergroundVacated`; T-V6-52 | V04 §3.4 F6, §3.10; §4.7 | / | W74 | `EpochScope.recut` and 
+V06	345	§3.4	V06	the `field` phase's way-surface re-lay (V06 §3.2 row 4, §3.4 (9)) | S6's re-banding at the epoch (th
+V06	820	§4.1	V06	builder and a group's undo after a reload (V06 §3.15.2, §4.1) | memory, spilled to the app's disk ca
+V06	975	§3.10	V06	les); `MutationPlan` steps that fall due | V06 §3.8.4, §3.10 | / | 12 | `dossier` | (e) | the dossier 
+V06	1328	§3.10	V04	erground allocation and U-FRONT's placement (V04 §3.4, §3.10) seat them on lived runs, then reopened
+V06	2406	§2.3	V04	s and tables and their build-depth algorithms (V04 §2.2–§2.3, §3.5, §3.8, §3.10: `AccessPass`, `Cata
+V06	2406	§3.5	V04	tables and their build-depth algorithms (V04 §2.2–§2.3, §3.5, §3.8, §3.10: `AccessPass`, `CatacombGr
+V06	2407	§3.8	V04	 and their build-depth algorithms (V04 §2.2–§2.3, §3.5, §3.8, §3.10: `AccessPass`, `CatacombGrowth`,
+V06	2407	§3.10	V04	eir build-depth algorithms (V04 §2.2–§2.3, §3.5, §3.8, §3.10: `AccessPass`, `CatacombGrowth`, `Under
+V06	3147	§3.10	V06	t | T-V6-27; T-V6-70 (b) | / | `MutationPlan` (V06 §2.5, §3.10) | a plan whose stored record is missin
+V06	3148	§3.4	V06	ocally | T-V6-15 | / | the building shade mask (V06 §2.6, §3.4) | absent; a sampler mismatch; a field 
+V06	3152	§3.2	V06	8; T-V6-60 | / | the runner and the phase order (V06 §3.1–§3.2) | an epoch with no change of input (th
+V06	3169	§5.2	V04	§3.18) | a degenerate void element | V04's own ladders (§5.2's F-UNDER and F-VOID rows) | V04's | T-
+V06	3190	§4.1	V06	 document × the history | no clock: the bend (V06 §1.3, §4.1); `forkAt` and the timeline over its ev
+V06	3574	§2.9	V06	d events included), off the path to the picture (§12.6, §2.9 step 3), rebuilding the history store a
+V06	3764	§2.4	V06	 of `tables/evolution.json` (registry row 60; V06 §2.2, §2.4, §3.9.9), written by the seat that land
+V06	3771	§3.9	V12	E7 panel and any `fallback` run decide (V12 §3.7.1 (b), §3.9), each entry's history row appended. Th
+V06	4069	§3.6	V08	6.2 names, with the words cited; V08 §3.5.1 (c)–(d) and §3.6's `CalamityRef`; V11's cells this volum
+V06	4070	§2.3	V11	nd §3.6's `CalamityRef`; V11's cells this volume reads (§2.3's `split.threshold`, §3.7.4, §3.18, §3.
+V06	4074	§6.2	V06	lback): 1. every budget of V06 §6 — the per-epoch rows, §6.2's century bounds (TOWN ≤ 25 s, CITY ≤ 1
+V06	4079	§2.4	V06	ds every history; 3. every default of V06 §2.2's table, §2.4's hazard and calamity rows and §3.9.9's
+V06	4098	§8	V06	 each with its protocol and pre-decided fallback (V06 §6, §8). /  / ## Integration notes /  / The integratio
+V07	89	§3.8	V07	pply web's links and stores at village scale, V07 §2.4, §3.8, §3.11; the balance of spread and pull 
+V07	89	§3.11	V07	b's links and stores at village scale, V07 §2.4, §3.8, §3.11; the balance of spread and pull inside 
+V07	90	§3.10	V07	ance of spread and pull inside one district, V07 §2.4, §3.10; the institution ladders' members at vi
+V07	91	§3.11	V07	isade's replacement by a town wall included, V07 §2.4, §3.11, §3.12); item 109 (caverns and ruins un
+V07	97	§3.2	V07	wding map's water pull and the oasis village, V07 §3.3, §3.2 (4)); item 113 (a village over a former
+V07	122	§2.3	V04	 T8, T7 on show) with its records and tables (V04 §2.2, §2.3); V11's crypt column (`crypt`, `cryptM2
+V07	144	§3.10	V04	tages in maintenance mode at a village rung (V04 §3.1, §3.10). (2) V11 — the crypt and cellar cells 
+V07	149	§5.1	V07	ade map and link views, and the explanations (V07 §4.5, §5.1). (5) V04 — the arch-vault source regis
+V07	156	§2.9	V11	rm` naming a `v.` key with its compile check (V11 §2.3, §2.9); `guildhall` without a village form (V
+V07	202	§3.2	V07	` from VS1 — heart, nuclei, character, `R_s` (V07 §2.3, §3.2) | S1's site, S2's roster, W4 | VS2, VS
+V07	214	§3.11	V07	m` (naming a `v.` key) and the tag fallback (V07 §2.7, §3.11), in the order pseudo-reader → village 
+V07	230	§7	V07	 | the village budgets and the `B-VILLAGE` bench (V07 §6, §7) | V07 §6's laws | CI tiers; the milest
+V07	232	§3.11	V07	mber ranges and step readings (V07 §2.4's third table, §3.11) | V11's step-type table; the dossier's
+V07	238	§5.3	V07	 the corpus stage | VS1–VS8, S10–S12, V07 §3.12, §3.16, §5.3 | §7.6 (item 377); reference cells (§7.
+V07	259	§3.6	V07	les.claimArea` and the market halls' claims (V07 §2.2a, §3.6 (4a)) | the shipped table (the `cloiste
+V07	262	§3.8	V07	 `cal.village.*.rules.race.densityPower@VG` (V07 §2.2a, §3.8, §3.15) | the shipped table (1 at every
+V07	269	§3.2	V07	e sun readings, the wells' arid coverage (V07 §3.1 (1), §3.2 (4), §3.3, §3.10) | the climate row's a
+V07	269	§3.3	V07	ings, the wells' arid coverage (V07 §3.1 (1), §3.2 (4), §3.3, §3.10) | the climate row's arid chance
+V07	269	§3.10	V07	he wells' arid coverage (V07 §3.1 (1), §3.2 (4), §3.3, §3.10) | the climate row's arid chances, oasi
+V07	373	§3.6	V07	ecedes S7, and `reservations.fair` to S12a's (V07 §3.0, §3.6 (4b)) */; tables: TableId[] /* TableId:
+V07	515	§3.3	V07	ber; boxShare: number; boxMinM: M };   // V07 §3.2 (6), §3.3 mill: { fallM: M; fallWithinM: M; distM
+V07	525	§3.5	V07	ct` request */ };                          // V07 §3.1, §3.5 openShape: { alongRoad: number; spiralG
+V07	532	§3.6	V07	 the open space's radius */ } };           // V07 §2.4, §3.6 (4a), §3.8 perimeter: { closeM: M /* th
+V07	532	§3.8	V07	pace's radius */ } };           // V07 §2.4, §3.6 (4a), §3.8 perimeter: { closeM: M /* the morpholog
+V07	537	§3.2	V07	                                           // V07 §2.4, §3.2 (8), §3.10 manor: { moatChance: number;
+V07	537	§3.10	V07	                                // V07 §2.4, §3.2 (8), §3.10 manor: { moatChance: number; moatWaterM
+V07	538	§3.9	V07	ondM: M; warren: number; gallows: PLaw };  // V07 §3.8, §3.9 (6) presence: { siteReachM: M };  longh
+V07	539	§3.10	V07	                         // V07 §2.4's presence tests, §3.10's pin-record rule; the longhouse's axis
+V07	540	§3.8	V07	: number; backCloseDepthShare: number };   // V07 §3.7, §3.8 race: { densityPower: number /* unit no
+V07	549	§3.11	V07	                                          // V07 §2.4, §3.11 handoff: { band: number };             
+V07	680	§2.9	V11	(`v.hovel`, `v.smithy`, `v.parish_church`, …; V11 §2.3, §2.9; J-V7.95): a village row and V11's town
+V07	697	§3.6	V07	rung) reads its plot from `rules.claimArea` (V07 §2.2a, §3.6 (4a), §3.8; J-V7.112), as `v.parish_chu
+V07	697	§3.8	V07	 its plot from `rules.claimArea` (V07 §2.2a, §3.6 (4a), §3.8; J-V7.112), as `v.parish_church` reads 
+V07	768	§3.9	V07	moat and fishponds are `rules.manor`'s draws (V07 §3.8, §3.9 (6)) | / | `v.parish_church` | `clientele
+V07	823	§3.9	V07	§4.9's table's village rows, placed by V07 §3.2 (8) and §3.9 (6) (values `rules.pins`, `rules.manor`
+V07	1016	§3.11	V07	ng_rack`, `timber_stack`) and a named beach (V07 §2.3, §3.11) | S11 (the yard parts in their host's 
+V07	1033	§3.9	V07	/* false: no orchard closes or orchard faces (V07 §3.8, §3.9) */; forest?: 'auto'|'many'|'some'|'gro
+V07	1077	§3.10	V07	frameLaw` is `territory`: VS8's rows, V07 §3.6 (5) and §3.10, are the village's whole furniture; ite
+V07	1084	§3.8	V07	-first'] S2   Programme at village rungs (V07 §3.2 (3), §3.8)                        [base stage; vi
+V07	1090	§3.6	V07	d its piers → one L1 batch with the palisade (V07 §3.5, §3.6, §3.10) VS5  Perimeter (interiors over 
+V07	1090	§3.10	V07	iers → one L1 batch with the palisade (V07 §3.5, §3.6, §3.10) VS5  Perimeter (interiors over 2 ha cu
+V07	1159	§3.2	V07	village rule that reads water (V07 §2.4's `site water`, §3.2 (4), §3.3, §3.10's wells, §3.16 (3)'s w
+V07	1159	§3.3	V07	le that reads water (V07 §2.4's `site water`, §3.2 (4), §3.3, §3.10's wells, §3.16 (3)'s well readin
+V07	1159	§3.10	V07	 reads water (V07 §2.4's `site water`, §3.2 (4), §3.3, §3.10's wells, §3.16 (3)'s well reading) and 
+V07	2345	§6.3	V06	he epoch and its ordinal in that phase's opening order, §6.3); the joined-plots form does the same o
+V07	2530	§4.4	V06	grows by the base's path from S5 on (V06 §3.6's growth, §4.4): the stage-k boundary is grown from th
+V07	2911	§4.4	V07	 leave out | T-V7-38, T-V7-60 (g) | / | editing (V07 §4.1–§4.4) | degenerate: a zero-length stroke (T4
+V07	3411	§3	V07	| V-M3 | / | T-V7-44 | rules are data: a scan of V07 §1 and §3 finds no numeric rule constant that is 
+V07	3546	§2.4	V07	venance of the constants is in the rows of V07 §2.2 and §2.4. A superseded or amended decision carri
+V07	3556	§3.1	V07	the culture key is a dossier fact to honour | V07 §2.2, §3.1, §3.5 | / | J-V7.7 | chose a territory si
+V07	3556	§3.5	V07	lture key is a dossier fact to honour | V07 §2.2, §3.1, §3.5 | / | J-V7.7 | chose a territory sized by
+V07	3557	§3.2	V07	from the farm rows, 2.275 ha, never stored) | V07 §2.2, §3.2 (1), §3.9 (1) | / | J-V7.8 | chose an exa
+V07	3557	§3.9	V07	arm rows, 2.275 ha, never stored) | V07 §2.2, §3.2 (1), §3.9 (1) | / | J-V7.8 | chose an exact dwellin
+V07	3559	§2.2	V07	rp) require fewer dwellings than households | V07 §2.1, §2.2 | / | J-V7.10 | chose, when a housing ran
+V07	3565	§3.11	V07	s; timber and earth remain the norm | V07 §3.4 step 6, §3.11 | / | J-V7.16 | chose a defensible-ground
+V07	3567	§3.6	V07	 and PART III allows at most one market | V07 §3.1 (5), §3.6 | / | J-V7.18 | chose a registered produc
+V07	3574	§5.2	V07	duplicate the village's own plot-scale fabric | V07 §1, §5.2 | / | J-V7.25 | chose the `painterly` fam
+V07	3580	§4.1	V07	ides at village rungs as everywhere) | V07 §2.1, §3.12, §4.1 | / | J-V7.31 | chose dwellings as link e
+V07	3583	§2.4	V07	.3's order) and the roads must reach it | V07 §3.2 (7), §2.4 | / | J-V7.34 | chose item 102's village 
+V07	3584	§3.3	V07	e climate cell multiplies each reading) | V07 §3.2 (4), §3.3, §3.9 (2) | / | J-V7.35 | chose 2–3 great
+V07	3584	§3.9	V07	ate cell multiplies each reading) | V07 §3.2 (4), §3.3, §3.9 (2) | / | J-V7.35 | chose 2–3 great field
+V07	3587	§3.11	V07	e and V11 fills the column once (item 430) | V07 §2.7, §3.11 | / | J-V7.38 | chose to draw "Palisade o
+V07	3595	§3.4	V07	t a thorp's fence run far beyond its houses | V07 §2.2, §3.4 step 5 | / | J-V7.46 | chose a light stre
+V07	3597	§2.4	V07	iling rung-stepped by the owner's item 115) | V07 §2.2, §2.4 | / | J-V7.48 | chose V04's frame-share c
+V07	3600	§3.2	V07	while the green is sited after the L0 batch | V07 §3.0, §3.2 (8) | / | J-V7.51 | chose to lay the whar
+V07	3604	§3.9	V07	unts both as the settlement's dwellings | V07 §3.2 (3), §3.9 (5) | / | J-V7.55 | chose to trigger DR7'
+V07	3610	§3.2	V07	n position and the sign must be pinned once | V07 §2.3, §3.2 (4) | / | J-V7.61 | chose coarse hydrolog
+V07	3611	§6	V07	or and §12.4's rate prices the frame honestly | V07 §2.2, §6 | / | J-V7.62 | chose the worked radius (
+V07	3612	§3.3	V07	illage plot and the budget follows them | V07 §3.2 (6), §3.3 | / | J-V7.63 | chose to keep a shrunk to
+V07	3621	§4.1	V07	ire lassos, held declarations and the badge | V07 §2.3, §4.1–§4.4 | / | J-V7.72 | chose explicit reque
+V07	3621	§4.4	V07	assos, held declarations and the badge | V07 §2.3, §4.1–§4.4 | / | J-V7.72 | chose explicit request fi
+V07	3622	§3.1	V07	he reference's vocabulary out of the design | V07 §2.7, §3.1 | / | J-V7.73 | chose to specify the pain
+V07	3632	§2.4	V07	sources for one mapping — amended by J-V7.101 | V07 §1, §2.4 | / | J-V7.83 | chose to make a raised wa
+V07	3637	§4.1	V07	led as contour strips with walls or banks) | V07 §3.8a, §4.1 | / | J-V7.88 | chose ramps for the cart 
+V07	3640	§3.2	V07	ways at CITY and METROPOLIS only (item 290) | V07 §3.5, §3.2 (8) | / | J-V7.91 | chose deck plots at v
+V07	3645	§2.7	V07	ords in this volume's prose is its `v.` row | V07 §2.4, §2.7 | / | J-V7.96 | chose reference cells (§7
+V07	3647	§3.11	V07	e's one home, with its village column) | V07 §3.1 (1), §3.11 DR1 | / | J-V7.98 | chose own ops `retire
+V07	3649	§5.1	V07	rd parts are data rows with their own roles | V07 §2.3, §5.1, §5.4 | / | J-V7.100 | chose V11 §3.6.1's
+V07	3649	§5.4	V07	ts are data rows with their own roles | V07 §2.3, §5.1, §5.4 | / | J-V7.100 | chose V11 §3.6.1's `buri
+V07	3651	§10	V07	nd against the smooth-scaling rule (J-V7.47) | V07 §2.4, §10 | / | J-V7.102 | chose one translation of
+V07	3654	§3.2	V07	wo `v.parsonage` under two parish churches) | V07 §2.4, §3.2 (3), §3.11 DR11 | / | J-V7.105 | chose to
+V07	3654	§3.11	V07	nage` under two parish churches) | V07 §2.4, §3.2 (3), §3.11 DR11 | / | J-V7.105 | chose to key the vi
+V07	3655	§2.4	V07	ke V11's town range at a village (J-V7.39) | V07 §2.2a, §2.4 | / | J-V7.106 | chose to key the tag fal
+V07	3659	§2.2	V07	the target's rung, choose an epoch's phases | V07 §2.1, §2.2, §3.12 | / | J-V7.110 | chose to read the
+V07	3660	§3.2	V07	slice and T-V7-3 needs one producer per key | V07 §3.0, §3.2 (4) | / | J-V7.111 | chose, at territory 
+V07	3661	§3.6	V07	eld is never what `dist.market` measures to | V07 §2.4, §3.6 (4), (4b), §3.11 | / | J-V7.112 | chose a
+V07	3661	§3.11	V07	 `dist.market` measures to | V07 §2.4, §3.6 (4), (4b), §3.11 | / | J-V7.112 | chose a `rules.claimArea
+V07	3662	§2.4	V07	ale, and a market hall stood on its market | V07 §2.2a, §2.4, §3.6 (4a), §3.8 | / | J-V7.113 | chose t
+V07	3662	§3.6	V07	nd a market hall stood on its market | V07 §2.2a, §2.4, §3.6 (4a), §3.8 | / | J-V7.113 | chose that a 
+V07	3662	§3.8	V07	 hall stood on its market | V07 §2.2a, §2.4, §3.6 (4a), §3.8 | / | J-V7.113 | chose that a forced seat
+V07	3663	§3.11	V07	hbour's, not that the parish has no priest | V07 §2.4, §3.11 DR11 | / | J-V7.114 | chose `calibratable
+V07	3664	§2.4	V07	st never change how a dossier fact is read | V07 §2.2a, §2.4 | / | J-V7.115 | chose to make V11 §3.7.4
+V07	3666	§3.6	V07	gs; the phases that run them are J-V7.125's | V07 §2.6, §3.6 (4b), §3.12 | / | J-V7.117 | chose that S
+V07	3667	§3.11	V07	tower's presence law that T-V7-12 bars | V07 §3.2 (3), §3.11 | / | J-V7.118 | chose that S11's furnitu
+V07	3668	§3.10	V07	e not the furniture step and run unchanged | V07 §3.0, §3.10 | / | J-V7.119 | chose one cell, `rules.r
+V07	3669	§3.8	V07	 corpus stage (M-CAL) may move the default | V07 §2.2a, §3.8, §3.15, §8 | / | J-V7.120 | chose to ship
+V07	3669	§8	V07	ge (M-CAL) may move the default | V07 §2.2a, §3.8, §3.15, §8 | / | J-V7.120 | chose to ship the `VG` p
+V07	3670	§8	V07	e preset file's data work sits in V-M0's row | V07 §3.15, §8 | / | J-V7.121 | chose `calibratable: fal
+V07	3671	§7	V07	ell's value is its target's, calibrated there | V07 §2.2, §7 | / | J-V7.122 | chose stage `VS1` for th
+V07	3673	§8	V07	ould otherwise have no named writer | V07 §1 (11), §3.15, §8, W67 | / | J-V7.124 | chose to write no r
+V07	3674	§2.6	V07	, written whole with the `VG` file V-M0 ships | V07 §8, §2.6, W69, §12 | / | J-V7.125 | chose a record
+V07	3674	§12	V07	whole with the `VG` file V-M0 ships | V07 §8, §2.6, W69, §12 | / | J-V7.125 | chose a records placemen
+V07	3677	§3.10	V07	cells map, and the chance pins stay chance | V07 §2.4, §3.10, §3.12, W25 | / | J-V7.128 | chose that t
+V07	3678	§3.11	V07	 keeps one list of what the village places | V07 §2.1, §3.11, §3.12, W70 | / | J-V7.129 | chose to key
+V07	3679	§2.6	V07	epoch key, since no dossier event causes it | V07 §2.1, §2.6, §3.12 (b), (c), §3.14, W70, W73, T-V7-
+V07	3680	§3.11	V07	l or a cloister stays for item 17's re-use | V07 §2.1, §3.11, §3.12, W25, W70, §2.6, T-V7-13, T-V7-5
+V07	3680	§2.6	V07	or item 17's re-use | V07 §2.1, §3.11, §3.12, W25, W70, §2.6, T-V7-13, T-V7-57 | / | J-V7.131 | chose 
+V07	3681	§3.10	V07	tself so the cross follows it in one batch | V07 §2.4, §3.10, §3.11, §3.12, W25, W70, T-V7-13 | / | J-
+V07	3681	§3.11	V07	o the cross follows it in one batch | V07 §2.4, §3.10, §3.11, §3.12, W25, W70, T-V7-13 | / | J-V7.132 
+V07	3682	§8	V07	poch before then taking risk (10)'s fallback | V07 §3.12, §8, §1 (13), W28 | / | J-V7.133 | chose to g
+V07	3682	§1	V07	 before then taking risk (10)'s fallback | V07 §3.12, §8, §1 (13), W28 | / | J-V7.133 | chose to give 
+V07	3683	§2.6	V07	 V08 §4.6's `host.pinKind.<kind>` rows | V07 §2.4, W18, §2.6, T-V7-56 | / | J-V7.134 | chose item 111'
+V07	3684	§3.2	V07	-identical to the build before item 111 | V07 §3.1 (1), §3.2 (4), §3.3, §3.10 | / | J-V7.135 | chose t
+V07	3684	§3.3	V07	 to the build before item 111 | V07 §3.1 (1), §3.2 (4), §3.3, §3.10 | / | J-V7.135 | chose the palisad
+V07	3684	§3.10	V07	 build before item 111 | V07 §3.1 (1), §3.2 (4), §3.3, §3.10 | / | J-V7.135 | chose the palisade's con
+V07	3685	§5.1	V07	preset draws VG's whole palisade | V07 §3.4 (8), §3.12, §5.1 | / | J-V7.136 | chose item 115's grandeu
+V07	3686	§3.8	V07	 a hand edit is never refused (item 101 R2) | V07 §2.4, §3.8, §3.11 DR6, DR11 | / | J-V7.137 | chose t
+V07	3686	§3.11	V07	 edit is never refused (item 101 R2) | V07 §2.4, §3.8, §3.11 DR6, DR11 | / | J-V7.137 | chose the town
+V07	3689	§3.3	V07	ll the density formula already implied real | V07 §2.2, §3.3, §3.5 | / | J-V7.140 | chose one village 
+V07	3689	§3.5	V07	 density formula already implied real | V07 §2.2, §3.3, §3.5 | / | J-V7.140 | chose one village `WhyPr
+V07	3766	§2.4	V07	 measures it): every `own` constant of V07 §2.2, §2.2a, §2.4 and §3 — the household sizes and doubli
+V07	3766	§3	V07	es it): every `own` constant of V07 §2.2, §2.2a, §2.4 and §3 — the household sizes and doubling shar
+V07	3793	§3.1	V04	urch` and its maintenance mode are V04 §2.2, §3.5.1 and §3.1; the span rule's `country` reason is §2
+V07	3807	§5.1	V07	t" control is `LayerSpec.showCircuit` (V07 §3.4 step 7, §5.1); **J-VI.4** — no village tool refuses 
+V07	3809	§4	V07	troke at a village rung drawn as declared (V07 §3.5a (1), §4); **J-VI.25** — the dossier trace reads
+V08	10	§4.10	V09	after a volume prefix stays in that volume (`V09 §2.2, §4.10` is two sections of V09); `item n` is a
+V08	105	§3.4	V08	, and the background refresh after an advance (V08 §3.2–§3.4). **The players' view** — the stored pa
+V08	110	§3.5	V08	tined records and the absorbed-state history (V08 §2.3, §3.5–§3.6). 4. **Persistence inside the host
+V08	110	§3.6	V08	 records and the absorbed-state history (V08 §2.3, §3.5–§3.6). 4. **Persistence inside the host** — 
+V08	112	§3.7	V08	nails and the fingerprints the host compares (V08 §2.1, §3.7). 5. **Versions and migrations on both 
+V08	124	§3.11	V08	ce table and display names in use (item 85) (V08 §3.6, §3.11). 9. **The host clerk** — SettlementFor
+V08	127	§4.4	V08	wal, the proposal channel and the projection (V08 §2.2, §4.4, §5.4 (3)). 10. **Campaign scale** — ma
+V08	127	§5.4	V08	he proposal channel and the projection (V08 §2.2, §4.4, §5.4 (3)). 10. **Campaign scale** — many set
+V08	128	§6	V08	age, memory, the refresh queue and its budgets (V08 §3.4, §6). 11. **Testing and release** — the hos
+V08	130	§8.3	V08	 the end-to-end bars and the release checklist (V08 §7, §8.3). 12. **File g's items 102 and 103 at t
+V08	135	§3.5	V08	age inside a collective record's count range (V08 §2.6, §3.5). 13. **Custom content, the host side (
+V08	154	§4.1	V08	the DM's removal holds through every absorb (V08 §2.6b, §4.1, §4.3, §4.6). 16. **The port side of it
+V08	154	§4.3	V08	's removal holds through every absorb (V08 §2.6b, §4.1, §4.3, §4.6). 16. **The port side of items 11
+V08	154	§4.6	V08	oval holds through every absorb (V08 §2.6b, §4.1, §4.3, §4.6). 16. **The port side of items 111 and 
+V08	164	§3.7	V08	assistant and its model tier (V08 §2.2 `MapHostConfig`, §3.7, §4.4, §5.5); and the export bundle's s
+V08	164	§4.4	V08	ant and its model tier (V08 §2.2 `MapHostConfig`, §3.7, §4.4, §5.5); and the export bundle's scene f
+V08	190	§4.4	V08	C) and the host side of V10's `clerk.config` (V08 §2.2, §4.4, §5.4 (3)). The siting rulebook's conte
+V08	190	§5.4	V08	 the host side of V10's `clerk.config` (V08 §2.2, §4.4, §5.4 (3)). The siting rulebook's content — e
+V08	266	§3.11	V07	 forced course at creation (base rungs); V07 §3.1 (1), §3.11 DR1 at village rungs; V11's toll-house 
+V08	297	§4.9	V09	) | this volume's words | `messages/en.json` (V09 §2.9, §4.9) and the client's `statusText` defaults
+V08	1078	§3.6	V08	es, steps and deaths (the diff rules of DR32; V08 §3.5, §3.6).** * **Ruin evidence** that appears or
+V08	1176	§3.11	V07	uched, no raised way, no declaration. V07 §3.1 (1) and §3.11 DR1 cite this rule at the village rungs
+V08	1202	§4.4	V08	ance names that record for the clerk's `why` (V08 §4.1, §4.4 (2); item 260). It reads no retaining w
+V08	1395	§3.9	V08	 with the reason row `MapRecord.held.reason`, V08 §5.1, §3.9) — a frozen view's notice is the shell'
+V08	1430	§4.6	V08	, the restore dialog and `historyLines` ((b); V08 §4.2, §4.6); the client sends them after each `doc
+V08	1476	§3.6	V08	 → `absorb(doc, digest, host)` (§14; its steps V08 §3.5–§3.6), dry-runs the events on its working st
+V08	1676	§3.10	V07	 `village.records` at an epoch or an absorb; V07 §2.4, §3.10, §3.12 *Records at a village epoch* ite
+V08	2193	§3.1	V08	which posts `host.state { playersView: on }` (V08 §2.2, §3.1 step 7 (c)) — sets the frame's `ViewOpt
+V08	2325	§3.11	V07	 V07's manor house forced as the seat (DR11; V07 §3.8, §3.11 DR11), at VILLAGE the one manor the cei
+V08	2400	§4.3	V08	ute | T-V8-50, T-V8-52 – T-V8-55 | / | editing (V08 §4.1, §4.3, §4.5) | none: a map with no edit absor
+V08	2400	§4.5	V08	T-V8-50, T-V8-52 – T-V8-55 | / | editing (V08 §4.1, §4.3, §4.5) | none: a map with no edit absorbs as 
+V08	2480	§2.7	V08	l is undone by hiding it | `MapRecord.party` (V08 §2.1, §2.7) | / | Hide from the party (owner, editor
+V08	2584	§5.4	V09	r-event row, and under it the report entries it caused (§5.4's `changes`, each naming its `changeId`
+V08	2715	§4.11	V09	 the card-only drawer for a host's proposal (V09 §2.2, §4.11; V10 §3.17) — with no creation mode and
+V08	2716	§4.11	V09	n mode and no **Start a new map from this** (V09 §3.9, §4.11); the history panel carries the group "
+V08	2938	§3.9	V08	_RUNG_UNAVAILABLE`'s three cases has its row (V08 §4.6, §3.9), every `host.status.*`, `host.party.*`
+V08	2938	§4.6	V08	host.frame.title` key named here has its row (V08 §5.1, §4.6, §3.9), each row ≤ 25 words, and every 
+V08	2938	§3.9	V08	rame.title` key named here has its row (V08 §5.1, §4.6, §3.9), each row ≤ 25 words, and every arg a 
+V08	3045	§4.6	V08	ners and history panel with item 110's lines (V08 §5.1, §4.6); the words of the notes, held reasons,
+V08	3045	§4.6	V08	 and the frame's controls, dialogs and strip (V08 §3.9, §4.6, §5.1); the actions of V08 §4.2 with `h
+V08	3045	§5.1	V08	he frame's controls, dialogs and strip (V08 §3.9, §4.6, §5.1); the actions of V08 §4.2 with `host.ac
+V08	3045	§5.4	V08	d previews; `setClerk` and `clerkNeedsToken` (V08 §4.4, §5.4); the export bundle's scene route (V08 
+V08	3126	§4.4	V08	d party gazetteer, made under the party key (V08 §3.14, §4.4 (1)) | / | J-V8.22 | chose that the playe
+V08	3204	§4.6	V08	 as a key — and to write their words once, in V08 §3.9, §4.6 and §5.1, with a raised way's history l
+V08	3204	§5.1	V08	 — and to write their words once, in V08 §3.9, §4.6 and §5.1, with a raised way's history lines left
+V08	3285	§3.1	V08	ision, read as `MapHostConfig.moduleOrigin` | V08 §2.2, §3.1, §3.7 (the draft mirror), §8.4 risk 1 |
+V08	3285	§3.7	V08	 read as `MapHostConfig.moduleOrigin` | V08 §2.2, §3.1, §3.7 (the draft mirror), §8.4 risk 1 | / | Q2 
+V08	3285	§8.4	V08	oduleOrigin` | V08 §2.2, §3.1, §3.7 (the draft mirror), §8.4 risk 1 | / | Q2 — which plans get the Map
+V08	3286	§2.2	V08	h accounts see the tab is SettlementForge's | V08 §2.1, §2.2, §3.7, §3.9 B21, §6, §8.4 risk 5 | / | Q3
+V08	3286	§3.7	V08	unts see the tab is SettlementForge's | V08 §2.1, §2.2, §3.7, §3.9 B21, §6, §8.4 risk 5 | / | Q3 — sce
+V08	3286	§3.9	V08	ee the tab is SettlementForge's | V08 §2.1, §2.2, §3.7, §3.9 B21, §6, §8.4 risk 5 | / | Q3 — scene fil
+V08	3286	§6	V08	ab is SettlementForge's | V08 §2.1, §2.2, §3.7, §3.9 B21, §6, §8.4 risk 5 | / | Q3 — scene files insid
+V08	3286	§8.4	V08	SettlementForge's | V08 §2.1, §2.2, §3.7, §3.9 B21, §6, §8.4 risk 5 | / | Q3 — scene files inside Sett
+V08	3287	§5.4	V08	s export on their own (J122) | V08 §2.2 `exportScenes`, §5.4 (2), T-V8-48, J-V8.119 | / | Q4 — M-SF af
+V08	3346	§4.9	V09	t.host`, `host.*` rows and host lines (V09 §2.2, §2.10, §4.9, §4.10), V10's `info.raised.*` rows and
+V08	3346	§4.10	V09	, `host.*` rows and host lines (V09 §2.2, §2.10, §4.9, §4.10), V10's `info.raised.*` rows and V06's 
+V08	3350	§5.2	V08	gazetteer and answer cache (V08 §3.1 step 7, §3.14 (5), §5.2), V10's clerk origins and "kept removed
+V08	3350	§4.6	V08	clerk origins and "kept removed" line (V08 §3.1 step 2, §4.6), V11's ladder, goods, manifest, shape 
+V08	3351	§2.6	V08	er, goods, manifest, shape and keyword cells (V08 §2.4, §2.6, §3.5.1), and V12's fixture levels (V08
+V08	3357	§3.5	V08	th V06's), the working names retired (V08 §2.6a, §2.6b, §3.5, §3.6); **J-VI.14** and **J-VI.15** — a
+V08	3357	§3.6	V08	's), the working names retired (V08 §2.6a, §2.6b, §3.5, §3.6); **J-VI.14** and **J-VI.15** — a remov
+V08	3359	§4.3	V08	joining §5.4's vocabulary (V08 §2.6b (1) (b), (e), (3), §4.3); **J-VI.9** — a dossier-bound `conduit
+V08	3363	§3.11	V08	solution at fold (V11 §3.13), the read-time overlay stays (item 425; V08 §3.5 step 5 (f), §3.11). / 
+V09	302	§6.1	V09	ender-time hashes of `style.jitter` and `style.crowns` (§6.1; display only); the history line "New d
+V09	1438	§3	V09	xcepted (V09 §2.4). /  / **(a) Data, state and flows (V09 §2, §3)** /  / | # | mechanism | the edge | outcom
+V09	2157	§4.2	V08	row of the same file, its text volume 8's (V08 §13 X12: §4.2's controls and undo words, §5.1's strip
+V09	2157	§5.1	V08	olume 8's (V08 §13 X12: §4.2's controls and undo words, §5.1's strips and banner rows, `host.locked`
+V09	3831	§7.3	V10	has its anchor `messages#<key>`, and every staged layer §7.3 item 9 (d)'s F-EDIT can name has its pa
+V09	4190	§7.3	V09	ion bent onto ground part 0 — over refusing it, because §7.3 item 9's closure exists for exactly thi
+V09	4246	§2.9	V09	96 | chose to split V09 §3.14's older-document row into §2.9's three outcomes — (a) inside the reten
+V09	4246	§2.9	V09	y older document, because the base separates the three (§2.9 steps 2–3, §7.5), a version outside the
+V09	4246	§7.5	V09	, because the base separates the three (§2.9 steps 2–3, §7.5), a version outside the window can be n
+V10	1824	§2.3	V10	t, and that it is water to every rule that reads water (§2.3): the wells, the water pull, the prospe
+V10	2568	§7.1	V09	 volume 9's T2 mapper sets them, V09 §4.20.1 (4), since §7.1's `FieldStroke` requires both; `water` 
+V10	2593	§3.2	V10	the polyline V10 §3.6 (4) reads, in `dmath`, rounded by §3.2's rule, a tie going to the lower arc le
+V11	755	§2.8	V11	 records the slices it read (`DerivationRecord.slices`, §2.8), and a family row's slice is the pair 
+V11	932	§4.4	V09	 binding table and the context menu (V09 §3.3, V09 §4.2–§4.4), `@plat/docs`' tool pages, T-V9-12 | r
+V11	937	§4.5	V01	band`) | V01 §3.5.2 (the default rows) — the base table §4.5 S7b (3) and §4.7 S9 read (file f item 3
+V11	4466	§7.4	V11	.4) — so every table of V11 §3.1 is editable, undoable (§7.4's `editTable` row), migrated by §7.5 an
+V11	4675	§2.2	V11	-|---|---| / | C0 — registry, compiler, loader | V11 §2.1–§2.2, §3.2; the provenance grammar; the sour
+V11	4675	§3.2	V11	---| / | C0 — registry, compiler, loader | V11 §2.1–§2.2, §3.2; the provenance grammar; the source man
+V11	4880	§4.4	V11	ecause S5b runs S4's router with the same span pricing (§4.4; file f item 290 (1), (3)), so every ta
+V11	4884	§2.1	V11	 which V01's `hood.constants` and this finding cite and §2.1 had not stated, and to list U-CITY, U-A
+V11	4885	§2.7	V11	on's rule S2), the base names the cells without values (§2.7) and V04 §10 is a pointer table | / | J-V
+V12	1914	§8	V02	a line a volume writes in V02 §3.10.10's form (in its own §8, or beside its table as V03 §2.4 does f
+V12	2763	§5	V12	ity preset at each rung it names: generation completes by §5's ladder (a failed seed reported and co

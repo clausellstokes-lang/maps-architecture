@@ -1,0 +1,300 @@
+{
+ "added": [
+  {
+   "id": "J-C1",
+   "text": "chose to keep the default ink map's gentle cast shadows in its own ink, only the `MFCG` preset drawing none, over MFCG's raised look on the default, because the owner's item 68 makes shadows follow real heights on every map and J-A68.81's design already did (J122 delegation)."
+  },
+  {
+   "id": "J-C2",
+   "text": "chose `ink`'s plate chroma 20–30 over the corpus middle 43, because the default stays in MFCG's restrained family and 43 is the `parchment` variant's aim (RIC-01; J122)."
+  },
+  {
+   "id": "J-C3",
+   "text": "chose to keep item 72's surplus-pressure reading as designed over reopening it, because it reads the owner's words directly and changes no behaviour (J122)."
+  },
+  {
+   "id": "J-C4",
+   "text": "chose to leave open a raised-way span whose strip lies wholly on hinterland faces (reason `country`) at every rung over a rung-specific rule, because realism: country arches stand open (V07-XCONF-2)."
+  },
+  {
+   "id": "J-S44",
+   "text": "chose to fold every amendment's facts into the summary's body by subject over appended per-round paragraphs, because the summary describes the design, not its history (EL-06)."
+  },
+  {
+   "id": "J-S45",
+   "text": "chose one landing table (item, home, clause map) over three per round, because one discipline and one column set serve all (E-22)."
+  },
+  {
+   "id": "J-S46",
+   "text": "chose to keep `ContentProvider` (door 4) as a third party's extension point with a fixture test over removing it, because it costs nothing unused and serves hosts other than SettlementForge, which enters through the port (J121)."
+  },
+  {
+   "id": "J-S47",
+   "text": "chose one schedule table over per-paragraph and per-milestone lists, because one statement of when a bar runs cannot drift (E-21)."
+  },
+  {
+   "id": "J-A73.06",
+   "text": "chose to drop `government.previous` over naming a reader, because no mechanism of the set reads it and inventing one is new design; §7.7 item 1 lists the key as never read."
+  },
+  {
+   "id": "J-A77.06",
+   "text": "chose to drop `RealmBlock.mPerRealmUnit`, because the host client already turns the scale into distances and no module reads it."
+  },
+  {
+   "id": "J-A102.01",
+   "text": "chose `T⟨item⟩-⟨n⟩` ids for items 102–113 with each group naming the volume tests that take it over, because the base's bar family is that form and principle (10) needs the takeover named."
+  },
+  {
+   "id": "J-A110.01",
+   "text": "chose to keep volume 12's `T110b.*` spec ids for item 110's tendency bars beside T110-1 – T110-7, because V12's bar map already registers them as base bars."
+  },
+  {
+   "id": "J-A111.01",
+   "text": "chose M1 for the oasis and spring (with the S0–S1 site features), M2b for the water pull and term (with the field) and M3a for T2's spring flag (with the ground tool), because each lands with the stage it belongs to."
+  },
+  {
+   "id": "J-A112.01",
+   "text": "chose the public release inside SettlementForge as the trial's gate, its timing SettlementForge's, because J121 makes the product's release SettlementForge's and item 112 (b) asks the trial before it."
+  },
+  {
+   "id": "J-A113.01",
+   "text": "chose M6-E for the replay and M6-U for the buried former settlement, because the replay is volume 6's engine and the ruins are volume 4's layer."
+  },
+  {
+   "id": "J-A201.01",
+   "text": "chose to carry the village rows' values in §1.1's table as file f item 201 rules, with volume 7 §2.1 giving households and dwellings, over a pointer only, because `ladder.json` is the base's table."
+  },
+  {
+   "id": "J-A505.01",
+   "text": "chose `@plat/api`'s worker host as the one importer of the staged packages over ground-package imports, because the ground must never import a staged layer and something must register them."
+  },
+  {
+   "id": "J-A505.02",
+   "text": "chose a separate `@plat/cli` over hosting `plat clerk` in `@plat/api`, because `clerk` depends on `api` and the reverse import would invert the chain."
+  },
+  {
+   "id": "J-A509.01",
+   "text": "chose to name the digest's staged fields in §14 member by member with volume 8 §2.5 and §2.8 their type home over copying the types, because one declaration serves both."
+  },
+  {
+   "id": "J-A568.01",
+   "text": "chose to split stage 3's 22.5–32.5 pw as 2–2.75 inside M3a and 20.5–29.75 staged, and to carry volume 9's and volume 12's out-of-row shares on one line, because item 568 forbids counting a delta twice and the rows must sum to the total."
+  },
+  {
+   "id": "J-A568.02",
+   "text": "chose to place volume 11's +2.5–4 pw as C2's file-g share at M2b and C3b at M3a (by subtraction from V11 §8) and to scale the calendar to about 110–150 weeks, over leaving them unplaced."
+  },
+  {
+   "id": "J-A568.03",
+   "text": "chose to price the base mechanisms of items 102–113 by absorption into named lines over new line widenings, because they are rows and terms read by stages the lines price (PLAUSIBLE until measured)."
+  },
+  {
+   "id": "J-A113.61",
+   "text": "chose the replay's coarse-epoch component `0x8000 + r` over a separate stage-id family, because the replay runs the same stages and concerns as a live epoch and the u16 range's upper half keeps its draws apart."
+  },
+  {
+   "id": "J-A110.61",
+   "text": "chose to register the raised-way generator's stream as `raised.reason` (cap 0) over leaving it unnamed, because §7.7's totality test needs every chance cell to name a registered concern."
+  },
+  {
+   "id": "J-DET-55",
+   "text": "chose attempt cap 2 for the tier-3 concerns over a stated cap 3, because their ladders are the tier table's three attempts; `hood.template` keeps its four."
+  },
+  {
+   "id": "J-A344.61",
+   "text": "chose to keep `village.track` rerollable (file f item 344), its dry run a Re-derive from VS4 with the fate report, because then no geometry changes without a fate list."
+  },
+  {
+   "id": "J-A101.78",
+   "text": "chose to bend plan-edit refusals, a `relet` above capacity, a passage below two storeys, a table cell out of range and an unhonourable roster line over refusing them, because R2 governs every tool (J-VI.4); re-homing that cannot place its excess and a Works edit that strands a plot stay conflicts, having no lawful form to bend to."
+  },
+  {
+   "id": "J-DET-56",
+   "text": "chose that an empty edit appends nothing over appending a no-op event, so digests and `nextSeq` never move for nothing."
+  },
+  {
+   "id": "J-A110.21",
+   "text": "chose ground parts ≥ 1 numbered by `Document.nextGroundPart` for raised decks, their entities keeping unprefixed addresses, because g item 110 (b) numbers them from 1, allocated once and never reused, as the underground's and sky's parts are."
+  },
+  {
+   "id": "J-A206.21",
+   "text": "chose `'lake'` for an oxbow's `Outfall.into`, because volume 4's mapping gives every other still water `'lake'`."
+  },
+  {
+   "id": "J-A111.21",
+   "text": "chose `WaterBody.spring { at, flow }` with a `grove` and `garden`s linked by `fedBy`, because g item 111 (b)'s weakening pull needs a stored flow volume 6's failing spring can lower."
+  },
+  {
+   "id": "J-A77.21",
+   "text": "chose to keep a way whose trade partner left the slice, weighed 0 by `TradeFlow`, over removing it, because roads outlive their trade."
+  },
+  {
+   "id": "J-A106.21",
+   "text": "chose stored barrier arcs over a derived reading, because the classification runs once at S5a and volumes 1, 9 and 12 and the exports read its result."
+  },
+  {
+   "id": "J-A113.21",
+   "text": "chose one `HistoryRecord` per document in the model digest and the lost void as volume 4's access state, because the replay's result is one per document and the void's access is volume 4's set (E-39)."
+  },
+  {
+   "id": "J-A110.22",
+   "text": "chose, at the frame, a raised part sized to the frame plus margin and growing with it, an aqueduct from beyond laid to the outer ring, a declared course bent to it, a retaining wall ending on it and a crossing deck slot left out and re-offered by frame growth, because no geometry leaves its arena and item 101 R2 bends a declaration rather than refusing it."
+  },
+  {
+   "id": "J-K37",
+   "text": "chose to remove `W_STEINER` over naming a reader, because nothing in the set produces or reads it (KWG-01)."
+  },
+  {
+   "id": "J-P51",
+   "text": "chose `drivers.wealthGradient` 0.15, 0 without a bearing and in the parity presets, so the intent's wealth bearing is read (W-FLD-07) and the parity presets stay unbiased."
+  },
+  {
+   "id": "J-A102.41",
+   "text": "chose `ClassMixRow.sun` 0.3, cottage `wealthShift` −0.2 and the lean-to's significance 0.05, so every class-mix cell the stages read has a value (WG-PIPE-11)."
+  },
+  {
+   "id": "J-A110.41",
+   "text": "chose no deck plots on a gate's moat deck over allowing them, because the gate's approach stays clear (the realism tiebreaker)."
+  },
+  {
+   "id": "J-A110.42",
+   "text": "chose to exclude the harbour basin and its mouth from a raised part, bending a stroke to its last ground vertex, with no support on a square, a reservation or an oasis's water and a river spanned within `viaduct.maxSpanM`, because masts must pass and supports never stand in water or on open ground the town uses."
+  },
+  {
+   "id": "J-A110.43",
+   "text": "chose no retaining wall on a cliff bank or a `cliff` / `sheer` arc, because the cliff face holds the ground."
+  },
+  {
+   "id": "J-A101.42",
+   "text": "chose to bend a skeleton declaration a stage cannot honour over refusing it, refusing only one that contradicts a dossier fact or a lock, because item 101 R2 governs every tool."
+  },
+  {
+   "id": "J-P52",
+   "text": "chose, for a hinterland with no land, the outside classes to F-SITING, the farm households housed as under `perimeter` and the demand a reported import, over a failed generation, because a limit has a defined outcome and never a whole-map retry."
+  },
+  {
+   "id": "J-A111.41",
+   "text": "chose the best-scored hollow or fault line in the frame's middle two thirds for the oasis, the lowest ground there without one, because a spring rises at a relief break or in low ground."
+  },
+  {
+   "id": "J-P53",
+   "text": "chose the pipeline's defined limits (EDGE-PIPE-01, -04 – -08): a catacomb source's age by the history-scaled stage count, the basement-access age term 1 at K = 1, `institutionDepthM` 8–15 m, the underground light fuel the era row's rows plus admitted magic rows, the island count `recipe.params['islands.count']` with `SkyIsland.slot` and the ring factor in [1, 2], because each limit needs one value and these follow the rules that read them."
+  }
+ ],
+ "changes": [
+  {
+   "id": "J-A16.01",
+   "kind": "changed",
+   "old": "so the rows still sum to the total of 166–220 (153–204 before amendments b)",
+   "new": "so the rows still sum to the total (153–204 before amendments b)"
+  },
+  {
+   "id": "J-A29.25",
+   "kind": "changed",
+   "old": "an outside stair for a walk-out, else the class's programme row's access read at the band the stock was built for",
+   "new": "`external` for a walk-out or where no ground wing is storeyed (§2.6 *Basements*; its door V03 §3.7.1's), else the programme row's `basementAccess` at `builtBand`"
+  },
+  {
+   "id": "J-A29.25",
+   "kind": "changed",
+   "old": "a walk-out's outside stair is a door in the side of the basement ring that lies lowest on the terrain",
+   "new": "an `external` basement's outside stair is a door at the point §2.6's plan rung step 3 gives (V03 §3.7.1)"
+  },
+  {
+   "id": "J-A28.02",
+   "kind": "changed",
+   "old": "were folded in place by repair round 1 under canon R11 (the summary carries only canonical figures)",
+   "new": "were folded in place by repair round 1 (the summary carries only canonical figures)"
+  },
+  {
+   "id": "J-P16",
+   "kind": "E-24 mark",
+   "mark": "superseded by J-A37.41"
+  },
+  {
+   "id": "J-A29.01",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A50.01, J-A50.21"
+  },
+  {
+   "id": "J-A30.71",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A20.77"
+  },
+  {
+   "id": "J-A30.72",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A20.77"
+  },
+  {
+   "id": "J-A30.22",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A30.24"
+  },
+  {
+   "id": "J-A8.21",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A8.22"
+  },
+  {
+   "id": "J-A12.45",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A65.31"
+  },
+  {
+   "id": "J-DET-2",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A31.73, J-A28.63, J-A8.61"
+  },
+  {
+   "id": "J-DET-6",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A22.72, J-A22.74"
+  },
+  {
+   "id": "J-DET-53",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A22.74"
+  },
+  {
+   "id": "J-A28.71",
+   "kind": "E-24 mark",
+   "mark": "amended by item 28 (f)"
+  },
+  {
+   "id": "J-A16.01",
+   "kind": "E-24 mark",
+   "mark": "amended by J-A568.01"
+  },
+  {
+   "id": "J-A28.02",
+   "kind": "E-24 mark",
+   "mark": "superseded by J-S44"
+  },
+  {
+   "id": "J-A32.02",
+   "kind": "E-24 mark",
+   "mark": "superseded by J-S44, J-S45"
+  },
+  {
+   "id": "J-A68.05",
+   "kind": "E-24 mark",
+   "mark": "amended by J-C1"
+  },
+  {
+   "id": "J-A81.71",
+   "kind": "E-24 mark",
+   "mark": "amended by file f item 202"
+  },
+  {
+   "id": "J-A101.04",
+   "kind": "E-24 mark",
+   "mark": "superseded by item 110 (d)"
+  }
+ ],
+ "inserted_after_line": 782,
+ "old_bytes": 675351,
+ "new_bytes": 685208,
+ "old_words": 113979,
+ "new_words": 115671
+}
