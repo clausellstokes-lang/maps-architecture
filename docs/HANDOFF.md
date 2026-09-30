@@ -3,6 +3,8 @@
 ## RESUME HERE (kept current; last updated 2026-09-29 20:15 EDT)
 
 **2026-09-30: RELAUNCHED in a cloud session as run `wf_f44e25e2-c99` (checkout /home/user/maps-architecture; ALL seats on Opus 5.5 (owner 2026-09-30: "run everyone with opus 5.5"; a brief launch with Fable seats was stopped before any Fable seat ran); 2 agents at a time on this 4-CPU machine). V01–V05 part files were local-only, so those editors restart from their saved reports.**
+**OWNER 2026-09-30: "if it runs on the cloud push regularly"** — in a cloud session, commit and push the pass's work to the session branch (`main-8c2bmp`, draft PR #1) at every half-hourly lane check, including docs/validation/coherence/work/ part files so an interrupted editor can continue on a new machine. Never push to main; merging stays the owner's call. The Mac rule "push only on the owner's word" still holds for main.
+
 
 **Where things stand — PAUSED at a clean point at the owner's request (2026-09-29 ~20:10).** (1) The twelve design volumes are DONE
 (docs/volumes/V01–V12, INDEX.md, SUMMARY.md, file f items 200–582, the bundle `docs/ARCHITECTURE-FULL.md` current as of 15:44).

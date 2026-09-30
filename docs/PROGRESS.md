@@ -185,7 +185,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-09-30 00:25 UTC._
+_Disk state as of 2026-09-30 00:29 UTC._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -288,9 +288,6 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 ### Lane events reported by agents (last 40)
 
 ```
-2026-09-29 19:38 coherence/rewrite-scope CHECKPOINT index compacted to 15.0k words (758 rows verified unique, none missing); starting §13 rewrite (E-20/E-21/E-23/E-25, g 102-113 bars, f 482-503/585, edges)
-2026-09-29 19:39 coherence/rewrite-model CHECKPOINT §2.8 drafted (parts/2.8.md); next §2.9
-2026-09-29 19:40 coherence/rewrite-pipeline CHECKPOINT §4.1–§4.11 drafted; next §4.12, §4.13 (edges and meeting points), then §10
 2026-09-29 19:41 coherence/rewrite-V01 CHECKPOINT inputs gathered (canon unit, 12 conflicts, 68 f items, hand-offs, 232 edges + 15 combos, inventory 650 ids); report skeleton written; next: read §1.2-§1b and write parts
 2026-09-29 19:42 coherence/rewrite-model CHECKPOINT first full assembly new/base/model/01-domain-model-and-schemas.md; next: verification sweeps (terms, ids, refs, f-item coverage), compression pass
 2026-09-29 19:42 coherence/rewrite-scope CHECKPOINT §13 intro/13.1/13.2 built in scratch (convention E-20, g 102-113 groups, f 482-489 texts, takeover table); next 13.3-13.9 (E-21 schedule, E-23, E-25, edges)
@@ -328,6 +325,9 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 2026-09-29 20:05 coherence/rewrite-V03 CHECKPOINT parts 00 (§0), 01 (§1), 02 (§1b: derived list one home, crypt+plan section providers, dossier trace) written; next: §2
 2026-09-29 20:06 coherence/rewrite-V05 STARTED (opus stand-in for the Fable seat coherence/rewrite-V05; editor of docs/volumes/V05-sky.md; outputs docs/validation/coherence/new/volumes/V05-sky.md, docs/validation/coherence/rewrite-V05.md; work docs/validation/coherence/work/rewrite-V05/)
 2026-09-29 20:09 coherence/rewrite-V04 CHECKPOINT parts 00 (head, §0, §1), 01 (§1b: W-IF-01 providers, gradeFaces, ExcavationRecord, BuriedFormer.lay, dossier-change paragraph), 02 (§2: V04-ICONF-1, lost state set, V11 rows cited, row-set and key edges) written; next: §3.1-§3.4
+2026-09-30 00:26 coherence/rewrite-model NOTE resume rule applied (relaunch wf_f44e25e2-c99, all seats on Opus 5.5): output docs/validation/coherence/new/base/model/01-domain-model-and-schemas.md + docs/validation/coherence/rewrite-model.md present with the 2026-09-29 19:51 LANDED line; saved result docs/validation/coherence/results/coherence_rewrite-model.json returned verbatim, nothing redone or edited
+2026-09-30 00:26 coherence/rewrite-pipeline NOTE resume rule applied (relaunch wf_f44e25e2-c99, all seats on Opus 5.5): output docs/validation/coherence/new/base/pipeline/ (11 section files) + docs/validation/coherence/rewrite-pipeline.md present with the 2026-09-29 20:05 LANDED line; saved result docs/validation/coherence/results/coherence_rewrite-pipeline.json returned verbatim, nothing redone or edited
+2026-09-30 00:27 coherence/rewrite-rendering NOTE resume rule applied (relaunch, all seats on Opus 5.5): output docs/validation/coherence/new/base/rendering/ (4 section files) + docs/validation/coherence/rewrite-rendering.md present with the 2026-09-29 19:38 LANDED line; saved result docs/validation/coherence/results/coherence_rewrite-rendering.json returned verbatim, nothing redone
 ```
 
 <!-- AUTO:END -->
@@ -553,3 +553,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-09-29 20:19 EDT** — Owner: "move it to the cloud" (2026-09-29 ~20:45). This session moves to a Claude Code cloud session on the GitHub repository (branch main); the coherence pass resumes there per docs/HANDOFF.md's cloud instructions (args.root = the checkout, args.scratch = /tmp/maps-scratch/coherence).
 - **2026-09-30 00:22 UTC** — coherence pass relaunched fresh in cloud session as wf_f44e25e2-c99 (Fable-role seats on Fable, others on Opus per owner's split request 2026-09-30; machine has 4 CPUs so harness runs 2 agents at once; volume-rewrite part files for V01-V05 were local-only, so those editors restart from their saved reports)
 - **2026-09-30 00:25 UTC** — owner 2026-09-30: run every seat on Opus 5.5 — coherence run wf_f44e25e2-c99 stopped (no Fable seat had started; only landed inventory/wiring/canon had replayed) and resumed with fableModel opus
+- **2026-09-30 00:29 UTC** — owner 2026-09-30: in the cloud, push regularly — session branch main-8c2bmp pushed, draft PR #1 opened, half-hourly lane check now commits and pushes each round
