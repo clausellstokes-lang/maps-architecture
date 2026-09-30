@@ -1,0 +1,27 @@
+12:> reading was materially stale on this lane's own subject (steps, event vocabulary, edit mode and decrees,
+155:| `docs/ARCH_EDIT_MODE_AND_DECREES.md`, `DESIGN_UPSWING_RELATIONSHIP_FLOWS.md`, `DESIGN_MOMENTUM.md`, `DESIGN_PACING_GOVERNOR.md`, `world-pulse-roadmap.md`, `src/data/sampleDossier.json`, `tests/fixtures/**`, `sim-report.json` | NOT READ (time) | the design doc for decrees was read instead of its architecture twin; dossier shape was observed by executing generation (§3.3) rather than from the samples, which the data-model lane covers |
+208:- **Scope decisions on the branch** (the brief's first-40-lines rule): `worldPulse/urbanFabricKernel.js` — OUT
+209:  beyond its header, because its subject is SF's own town map's "memory" ("the growth layer for STONE … Map =
+250:  `tradeRouteAccess` (`road`, `river`, `crossroads`, `port`, `isolated`, `random_trade`), `terrainOverride`
+253:  `faith`, resource choices (`nearbyResourcesRandom`, `nearbyResourcesState`, `nearbyResources`) (CONFIRMED,
+255:- The store adds the four toggle maps as `_institutionToggles`, `_categoryToggles`, `_goodsToggles`,
+270:  dossier (`nearbyResourcesCustom`, `source: 'custom'`) (CONFIRMED, same files).
+280:- Toggles decide which catalogue entries, categories, goods and services may appear (CONFIRMED,
+310:  which are not in the dossier today (PLAUSIBLE). The settlement's own `tradeRouteAccess` (one word) and
+319:`resourceEdits` (added/removed/depleted/recovered), `customTradeGoods`, `stressorEdits`, `eventConditions`,
+335:  and not repeated here.
+347:    plan (seed + template) and materializes when the realm map opens; the realm's spatial canon stays unfrozen
+357:  `customTradeGoods`, while `_cutRoutes` survives a regeneration by riding in the carried config (PLAUSIBLE).
+380:| 1 | resolveConfig | tier, population, tradeRoute, terrainType, resolvedTerrain, culture, magicLevel, threat, noMagic, townPlus, effectiveConfig, the toggle maps | tier (or from population), population (rolled in the tier's range), terrain, trade route, culture, threat, magic; floors a plagued town's military priority |
+381:| 2 | resolveResources | nearbyResources, …Depleted, …Custom (mutates effectiveConfig) | terrain-legal resources, tier-weighted depletion, custom resources, then the DM's `resourceEdits` overlay |
+646:tombstone after an accidental uncanonize; otherwise the lifecycle is §5.1's (CONFIRMED, `settlementSlice.js:894–935`).
+750:| **Resources** | depletion and recovery by pressure and taxonomy (renewable/nonrenewable/magical), a DM proposal by default; organic discovery from the terrain's latent pool and removal of a long-depleted nonrenewable (behind `resourceDynamicsEnabled`) (DESIGN_RESOURCE_DYNAMICS) | `config.nearbyResources*`, `config.resourceEdits` (so it survives regeneration), a surgical re-derivation of `economicState.activeChains`/`primaryExports`, `resourceHistory`, a `resource_strike` or `vein_exhausted` condition |
+753:| **Trade** | the campaign's regional graph (channels such as `trade_route`, `war_front`, `trade_dependency`), trade wars, and — behind the commodity-flow opt-in — goods stocks, entrepôt centrality and a windowed `tradeFlow` tally `{ in, out }` per settlement, which is display-only ("never writes economicState — the generation baseline is sacred") (`worldState.js:305–340`) | mostly campaign ledgers, not the dossier |
+863:| `campaignState.eventLog[]` | canon events | `{ event, appliedAt, beforeState, afterState, deltas, factionResponses, narrativeSummary, causalStateDeltas, factionRelationshipDeltas, undo? }` — no entity-level diff | canon only; cleared on (un)canonize and on regeneration |
+866:| authored records in `config` + `_config` | events and resource dynamics | `resourceEdits`, `customTradeGoods`, `stressorEdits`, `eventConditions`, `_cutRoutes` | re-applied at every regeneration |
+928:| 11 | RESOURCES changed | `config.nearbyResources*`, `resourceEdits`, `resourceHistory` | key, state | the hinterland (item 26): an extraction site opens or closes |
+929:| 12 | TRADE changed | neighbour relationship events, `config._cutRoutes`, `economicState.primaryExports / primaryImports / tradeDependencies / transit / isEntrepot`; campaign `trade_route` channels | goods, partners (campaign level) | item 72's trade-position term and the weight of each gate — the bearing of each partner is NOT in the dossier (§2.5) |
+957:set (ARCHITECTURE §7.7, §11.4), and, when physical, a `Works` whose start week is `week` (item 67 (a)). Both
+966:  (masonry pauses in winter) should read SF's season for a campaign week, not a calendar of our own.
+998:   generatorVersion, week }` in the host-door contract (ARCHITECTURE §7.7 / §11.4), next to `DossierRef`.
+1090:   `fp/integration-2026-09-23` @ `5d699cc68`; the working tree and `master` differ materially (steps, events, edit

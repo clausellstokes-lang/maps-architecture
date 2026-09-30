@@ -1,0 +1,105 @@
+=== dossier-outputs
+26:**Read in full:** `src/data/sampleDossier.json` (by script and by eye), `src/data/sampleDossier.js`, `src/data/sampleSettlements.js` (branch), `tests/fixtures/townMapFixtures.js` (branch; a pure input builder), `tests/fixtures/spatialPackFixtures.js` (branch), `tests/fixtures/save-museum/manifest
+36:- CONFIRMED (key-tree script, `SCR/samples/sampleDossier.tree.txt`): **23 top-level keys** — `_comment, _seed, _version, schemaVersion, simulationVersion, generatorVersion, id, name, tier, population, culture, config, pressureSentence, arrivalScene, institutions, npcs, factions, economicState, 
+38:- For the map, the sample is interesting for what it has that real outputs lack: named places outside the town (`Whitestone Pass` as the source of grain and the place a supply failure happens), neighbour **distances with a direction** ("two days, salt road", "half a day, upriver"), and a scene wi
+44:- CONFIRMED (executed): the three branch cards were generated with their canonical seeds and configs (`SCR/gen/sample-*.json`): Mossgate town, population 4,155, 60 institutions, 9 NPCs, government "Church Council"; Black Crag city, 18,911, 47 institutions, 12 NPCs, "Merchant City Council"; Cnocby
+53:| Synthetic settlement input for the legacy map | `townMapFixtures.js` | YES, as an INPUT builder: `makeTownFixture()` returns `{_seed, id 'fixture-<seed>', name, tier, population (one per tier: 40 / 220 / 650 / 2400 / 12000 / 48000), config {terrainType, tradeRouteAccess}, spatialLayout {quarter
+57:| Hash goldens of generated or simulated output | `generator-golden-master.json` (525 rows `tier|culture|terrain|access|threat|seedTag` → SHA-256 of a generated dossier), `dossier-prose-manifest-golden.json` (1,050 rows = the 525 configs × dm/player), `worldpulse-golden-master.json`, `worldpul
+58:| Other subjects | `wiringFixtures.js`, `grammarControls.js`, `brackwaterTables.js`, `civilityVectors.js`, `gameGradeHeraldFixtures.js`, `soakFlagRegistryFixture.js`, `goods-matcher-identity-corpus.json`, `herald-knowledge-desk-golden.json`, `distribution-envelopes.manifest.json` (measured base r
+90:| `resourceAnalysis`, `economicViability`, `history` | objects | 138/138 | 3.3 %, 1.7 %, 4.0 % |
+104:Second-level emptiness worth knowing (same census): `config.intendedStressTypes`, `config.nearbyResourceDefinitions`, `config.nearbyResourcesCustom`, `resourceAnalysis.featureEffects` and `resourceAnalysis.priorityNotes` are empty in all 138; `economicState.transit` is filled in 29/138, `economi
+139:| Nearby resources | 5–9–15 | 5–9–14 | 6–8–13 | 4–10–15 | 5–10–17 | 0–5–15 |
+168:- **With an imported neighbour** (`town-nb-1`, neighbour `city-1` Pianopagus as a `trade_partner`): still 41 keys. `neighborRelationship` = `{name, tier, relationshipType, primaryExports[21], primaryImports[10], activeChains[25], economicStrength 0.65, militaryStrength 0.5, governmentType, domin
+169:- **With the custom-content reference pack** (`town-cc-1`, nine buckets: institutions, services, resources, stressors, tradeGoods, factions, deities, traditions, supplyChains): 42 keys (+ `customContentProvenance {schemaVersion, scope, environment, bindingHash, materializedDefinitions[{category,
+173:**Setup (CONFIRMED by execution, `SCR/tick.mjs`, outputs `SCR/tick/`).** `town-1`, `city-1` and `village-1` were put in one scratch campaign as canon members and advanced with `simulateCampaignWorldInterval({ campaign, saves, interval, commit: true, now: <pinned>, autoResolve: true, advanceEpoch
+184:- Over a year (birth default): institutions become **impaired in place** (`status: 'impaired'`, `impairments[{type 'legitimacy', severity, causeEventId 'corruption:save-town-1:npc_3:demoted:home', description 'Propagated from faction "Religious Authorities" (legitimacy → legitimacy, hop 1)', a
+214: "forbiddenResources": [
+222:What it tells the map (CONFIRMED on this output): the record is a catalog KIND (`catalogId: underground_network`) with no `id`, no position, no quarter, no size and no owner. Its facets say it is hidden and underground (items 63–66); `forbiddenResources` says it cannot exist where the land is 
+233:  "desc": "Hold goods in dug caches off the rolls.",
+273: "desc": "Timber and stone, raised to more than one floor.",
+395:  "good": "Shipbuilding timber (coastal stands cleared)",
+396:  "goodId": "timber",
+433:1. **The site, as keys.** `config.terrain` / `terrainType` / `terrainOverride` (plains, riverside, coastal, hills, forest, mountain, desert), `config.tradeRouteAccess` (road, river, port, crossroads, isolated in these outputs; SettlementForge's golden matrix also pins `random_trade`, `mountain_p
+436:4. **Quarters, as names with a location phrase.** `spatialLayout.quarters[] {name, location, desc, landmarks[]}`, 0–8 per settlement, 13 names seen: Religious Quarter (152), Government Quarter (74), Noxious Trades Quarter (57), Wealthy Residential (47), Common Residential (47), Shadows Distric
+437:5. **One layout sentence.** `spatialLayout.layout`, 42 distinct lines over 153 outputs, chosen by tier and terrain (e.g. "Walled town straddling the river, a fortified bridge at its commercial heart"; "Woodcutters' clearings ringed by dense tree cover").
+438:6. **Built form by culture.** `culturalIdentity` (11 profile keys; `mediterranean` resolves to `latin`) states a morphology in prose — e.g. celtic "Older round or oval compounds sit among later rectangular halls, linked by lanes rather than a rigid grid" / "the settlement follows the contours 
+439:7. **Institutions that are places.** Many catalog kinds are named as areas: `Multiple market squares` (47), `Inns and taverns (district)` (47), `Warehouse district` (47), `Apothecary district` (46), `Luxury goods quarter` (41), `Market square` (39), `Mercenary quarter` (35), `Brothel (red light 
+441:9. **After ticks:** `urbanFabric {drift, stocks {districtClass: 0–1}, scars [{kind, severity, week}], rebirths [{classes, type, week}]}` (district CLASSES, not districts), `calamityHistory[].targets` (institution names), ruined and impaired institutions, `traditions[]` whose festivals are stag
+445:A key-name scan of all 167 output files (120 soak, 35 generated, 12 after ticks) for coordinate- or place-shaped keys (`x`, `y`, `cx`, `lat`, `position`, `bearing`, `distance`, `area`, `geometry`, `cell`, `cellId`, `adjacency`, `location`, `parcel`, `plot`, `building`, `household`, `street`, `ro
+449:- The map derives all geometry itself; the dossier supplies a roster (institution kinds with count ranges, statuses), a site (terrain, access, resources), soft hints (quarter names with fixed location phrases, one layout sentence, culture built-form prose, arrival scene) and politics by name. Th
+469:- **The same seed and config give a different settlement.** `city-1` (`sfout-city-1`, mediterranean coastal port) is "Flachturm" with 45 institutions and 16 NPCs on the working tree, "Pianopagus" with 49 institutions and 18 NPCs on the branch (39 institution names shared) — the branch resolves
+481:2. **The input adapter must normalise what the outputs really do:** `stress`/`stressors` as null, object or array; institutions keyed by name with `catalogId` or `localUid` (no dossier of the 167 files checked holds two records of one `catalogId` or one name, so the pair is unique per dossier to
+500:Mages' 42, Market 41, Waterfront 25, Alehouse & Common 19, Fishing Landing 7, Woodcutters' Ground 4, Artisan 3 — this
+=== dossier-seam
+60:how their map draws); ours: `docs/ARCHITECTURE.md` §11 (lines 9143–9456) and §14 (10904–11097);
+87:`docs/ARCHITECTURE.md` §11 (lines 9143–9456) and §14 (10904–11097) again; §7.1's `EditBase` and `DossierRef`
+93:`docs/fmg-bridge.js` 1–140 of 262; `docs/DESIGN_FP_ARCHITECTURE.md` 1–14 (triage);
+170:landmarkLevel, materialFamily, glyph`.
+238:   `resourceSites`, `townScene/compileTownSceneManifest`, `certification/subsystemRowsPlace`, `lib/spatialUsage`,
+325:vetoable; nothing here edits `docs/ARCHITECTURE.md`. Under the owner's rule of today (item 20 (h) (iv)) no candidate
+327:host-side note. Section numbers in this section name `docs/ARCHITECTURE.md` unless prefixed "split" (SF's
+552:| `TOWN_SCENE_3D_ARCHITECTURE.md` | HEAD, branch | the 3-D town scene, a drawing surface; its one seam fact (it reads the substrate and `mapEdits`) is taken from code (§3) |
+553:| the other `DESIGN_FP_*` files | branch | CLASSIFICATION CORRECTED: SF's roster of 2026-08-29 called all 27 `DESIGN_FP_*` files the "map-program family", but the branch's `DESIGN_FP_ARCHITECTURE.md` opens as "THE FP ARCHITECTURE (thirteen programs compiled for build)" — spine, grammar, inform
+555:| `REVIEW_FMG_PUBLISHED_MATERIALS.md`, `fmg-fork.md` | HEAD (the second also branch) | realm-map review and the fork's upgrade procedure; no seam hit; not opened |
+568:  artifacts; a plan from SF, if one ever exists, enters as optional hints. Owner-gated (cross-program architecture);
+572:  map edit can steer a fire or a siege, item 20 (d) intact; (c) including map edits — "the stone shapes events", as SF's
+=== mapping-verify
+44:4. **A rival neighbour trades (V31).** SettlementForge blocks goods links only for a `hostile` neighbour or a suppressed
+77:list a depleted deposit at birth (V38); the record count can grow (V48); the 12-entry population history loses long
+224:`economicState.tradeLinks[].direction` (import or export, 4 values) and `powerStructure.factionRelationships[].direction`
+232:Fishing Landing, Woodcutters' Ground, Artisan Quarter, Government Quarter, Mages' Quarter, Shadows District, Wealthy
+266:| V13 | row 9: `config.terrainType` plains 35, coastal 25, riverside 23, hills 21, mountain 20, forest 19, desert 12; `config.terrain` null in 155 of 155 | census_v C6: identical counts; `config.terrain` is None in 155 | CONFIRMED |
+279:| V26 | row 48: `tradeLinks` only with an imported neighbour; `direction` is the flow; partner by NAME | `src/domain/region/tradeLinks.js:12-14` ("Empty when there's no neighbour, the relationship is hostile/suppressed, or there's no overlap"), `:45-60` (`direction` 'import'/'export', `partner: 
+282:| V29 | row 15: 34 deposit keys seen in `config.nearbyResources`; `resourceAnalysis.availableResources` 57 keys | census_v2 R15: 34 and 57 | CONFIRMED |
+306:"no trade weight" (row 49). Re-derivation: `tradeLinks.js:26`: `NO_TRADE_RELATIONSHIPS = new Set(['hostile'])`, and
+309:So SettlementForge generates goods links with a RIVAL (and a cold-war) neighbour.
+312:rival or cold-war partner carries whatever trade the dossier's `tradeLinks` list (its weight may be damped, never
+318:outputs, the design half from `docs/ARCHITECTURE.md`, unchanged at sha256 `e9c0b828c9dd1779…` (re-hashed 18:59).
+322:| V32 | G-D1 (a): powers of category military (146) and magic (46) have no `Faction.kind` | census_v C12: military 146, magic 46; `ARCHITECTURE.md:1588` `Faction.kind: 'guild'\|'religion'\|'lordship'\|'company'\|'criminal'\|'council'` | CONFIRMED |
+323:| V33 | G-D1 (b): `Faction` is "base schema from M1, materialised by the module" — the base never materialises it | `ARCHITECTURE.md:8862-8864` ("Base schema from M1, materialised by the module: the relation store …, factions with roles and goals, religions, the government's offices"); `:113
+324:| V34 | G-D1 (e): shared control needs more than `Institution.faction?: Id` | `ARCHITECTURE.md:1580` `faction?: Id`; SF: `brokeragePatronage.js:219-221` two powers may both claim one house (the accreting union); exec2: `ale_house` and `fish_market` held by two powers in `village-1` | CONFIRMED |
+325:| V35 | G-D3: "no sector list, no class-to-sector table, no input slot" for the economy dial | no economic sector list or table exists (every "sector" in the design is geometric: `:4792`, `:10626`, `:12250`); BUT the Blueprint already has an `economy` circumstance — `ARCHITECTURE.md:3370-3371`
+326:| V36 | G-D6: `Building.condition` is wear only; non-physical impairments have no home | `ARCHITECTURE.md:969` `condition: 'kept'\|'worn'\|'neglected'` "the fabric's wear … never a shape input and not an existence state"; SF `entities/status.js:31` lists the five non-physical types | CONFIRMED
+327:| V37 | G-D8: an assignment's target is "one building / plot or one district"; `Identity.dossier` foresees a named feature; `Pin.kind` has no notice post | `ARCHITECTURE.md:7337`, `:1662` ("a named feature: a bridge, a well, a gate"), `:1576` (Pin kinds: well … lamp — no notice post); census
+328:| V38 | G-D13: `SiteResources` is a raster; deposits have state (depleted, discovered, removed) | `ARCHITECTURE.md:1573` (six `Float32Array` layers); SF config keys `nearbyResourcesDepleted`, `…NativeDepleted`, `…Custom`, and `nearbyResourcesState` (`lib/settlementConfigMigration.js:51`, rea
+329:| V39 | G-D14: `EditBase.dossier` is `DossierRef {element, version?}` — no week, cause or fate | `ARCHITECTURE.md:6398`, `:6403` | CONFIRMED |
+331:| V41 | G-D16: no state for "listed but ruined" | `ARCHITECTURE.md:7337-7345` (`Assignment` has `existence` and no state); `:1583` (`Use` has `opened` / `closed` only) | CONFIRMED |
+333:| V43 | G-D7: epochs carry `circumstances` and `events`; nothing holds a condition between epochs | `ARCHITECTURE.md:5270` (`EpochInputs {years, populationTarget, circumstances, events}`); SF condition shape `activeConditions.js:10-26` (`id 'condition.<archetype>.<short>'`, `triggeredAt {tick, s
+334:| V44 | G-D2: no trade record; `Way.from / to` can name an "external bearing" | `ARCHITECTURE.md:809` (`from / to: … gate, plaza, bridge, harbour, junction, external bearing`); no partner, direction or gate-weight record in the design | CONFIRMED |
+348:(V8); the design half: `ARCHITECTURE.md:9065-9068` (`@plat/sim`'s calendar in hours, the view key `time`, advanced by
+351:through proposals" is wrong: `src/domain/worldPulse/tierResourceDynamics.js:223-237` makes a tier change a proposal only
+486:`tierOutcomeApply.js:379-388` (the entry, capped at 12); `tierResourceDynamics.js:223`
+542:`docs/ARCHITECTURE.md:7400-7405` — a rejection "lapses … at the first `epoch` event folded after it whose
+=== PLAN
+13:| 1 | read in full: `docs/AMENDMENTS-2026-09-27c.md` §G item 20 (h) and items 63–72; `docs/OWNER-INSTRUCTIONS-2026-09-25.md` (whole, its last section binding); `docs/DEFINITION.md`; the four surveys, `mapping.md`, `mapping-verify.md`; `docs/ARCHITECTURE.md` §1, §7.7, §10, §11, §14, §16 p
+18:| 6 | §5 what the design gains now versus later, by milestone, priced; §6 owner decisions; §7 judgments; §8 the relayed edit-build experiment; §9 evidence | done |
+29:   SettlementForge product line, and are translated into a neutral `DossierDigest` of our own before anything else sees
+31:2. **The port has two halves that land at different milestones, and no host wiring until the SettlementForge stage.**
+64:  and repeats none of them; where a candidate amendment touches the same home it says which part it extends.
+128:          deposits: { key: string; state: 'available'|'depleted'|'removed'|'discovered'; custom?: boolean }[]; isolation?: { status: string; paths: string[] } };
+133:             dependencies: { institution: string; resource: string; severity: number }[];
+134:             tradeLinks: { good: string; goodId: string; flow: 'import'|'export'; partner: string }[];
+179:  element: { kind: 'settlement'|'institution'|'power'|'notable'|'resource'|'condition'|'trade'|'quarter'|'government'|'deity'; key: string };
+194:| **digest + creation** | `digest` normalises one dossier (§2.4's keys, §2.5's tables, the ignore-list); `creation` builds the `Blueprint` (population → `size`; T12 → `intent.wealthLevel`; T3 → gate and arterial intent and `toggles.harbour`; the walls bucket → `toggles.walls` and castl
+212:| resource | `res:<key>` | catalogue keys | — | V29 |
+228:The mapping's T1–T16 become sixteen row sets under `tables/dossier/` (`tiers`, `site`, `access`, `threat`, `deposits`,
+237:| T8 landmarks | six rows added: `Alehouse`, `Net mending post`, `Beaching ground`, `Timber stacks`, `Tool shed`, `Charcoal pit` (V37); nothing created for a string the roster does not demand (J-M2) |
+270:| F14 TRADE | `_cutRoutes`, `_userRoutes` and a `neighbourNetwork` link (CREATE_ROUTE), `tradeLinks`, a neighbour's live `relationshipType` — a RIVAL or cold-war partner keeps whatever links the dossier lists; only `hostile` (and a suppressed economy) carries none (V31) |
+396:| `town-nb-1.json` | Novasaltus, town | 4 921 → TOWN | the only dossier with partner-level `tradeLinks` (4 links, partner Pianopagus) — R3/R4's named-partner case | 320 866 B |
+433:## 5. What the design gains now, what waits — by milestone, priced
+436:content as listed. Additions are small and named with the §16 line that absorbs them, so the milestone rows stay equal
+440:| milestone | piece (candidate amendment) | line that absorbs it | added |
+447:| **staged — the SettlementForge stage** (unpriced, as §16 leaves the roadmap's stages) | the host wiring of the port to `doc.apply` and `generate`; `HostContext`'s realm block, display names and audience table in use; `PowerRelation`, the legitimacy scalar, `ConditionOverlay`, `DepositSite`,
+449:Total added to the base: **+4.5 / +6 pw**, carried by the milestone rows M1 +1.5 / +2, M2b +0.5 / +0.5, M3a +2 / +3,
+461:   working tree differ materially (the same seed yields a different settlement). Recommendation: name the product line
+467:   includes user edits — "the stone shapes events", at the cost of map edits reaching later dossier states.
+491:| J-P2 | SettlementForge's shapes confined to `@plat/port/adapters/sf/<line>/`, translated to a neutral `DossierDigest`, enforced by lint | reading SettlementForge fields in the port core or in `@plat/api` | a second SettlementForge line or a schema change then costs one folder; the module never
+502:| J-P13 | item 72's dossier inputs as three TYPED circumstance slices (`economy: EconomyShares`, `trade: TradePartner[]`, `powers: PowerStandings`) in the recipe and in `EpochInputs.circumstances` | materialising `Faction` entities in the base for every dossier power (mapping G-D1 (b)) | the dia
+523:**CONFIRMED (read on disk or executed by this seat):** every design fact cited from `docs/ARCHITECTURE.md` (§1, §2.7–§2.9,
+530:survey section. **PLAUSIBLE:** every proposal — the port's types and halves, the tables' right-hand sides, the milestone
+=== SUMMARY
+16:  (terrain, trade access, nearby resources); the culture; the history; any crises; and a generation log that takes up a
+35:- **Trade is words.** Lists of export and import goods with no partner and no direction; partner-level trade appears only
+61:  the trade goods' likely modes (road, river, sea).
+87:   read in one folder inside it and translated into a neutral form of our own; nothing else in the module ever learns a
+116:condition between epochs, a deposit with a state, a pre-creation history hint, relations between powers, a dossier-named
