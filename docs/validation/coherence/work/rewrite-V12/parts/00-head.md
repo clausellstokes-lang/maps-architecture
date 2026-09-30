@@ -58,11 +58,12 @@ used. MFCG's and FTG's behaviour stays exactly reachable through the parity pres
 "historical" layer that becomes the default for its era and region only where the owner's sitting passes it.
 
 **The owner's later rules.** Terraces, raised ways, deck plots and stepped temples (item 110) are measured against our
-own rules — no other generator makes them — and two test cities sketched from originals must come out as sketched every
-time. Water in dry country (item 111), history at generation (item 113), walls that decay into gaps and patchwork and
+own rules — no other generator makes them — and a second test city made from an original sketch (a port with a
+sea-anchored wall, a walled harbour, terraces, a raised road and a stepped temple) must come out as sketched every time,
+as must the first. Water in dry country (item 111), history at generation (item 113), walls that decay into gaps and patchwork and
 recover (item 114), the grandeur ceiling of small places (item 115), the zoom-out limit (item 116), seasons (item 117)
 and festival decorations (item 118) each get their bars here; colour-blind-safe styles (item 112) get their style check's
-threshold and the game-master trial's record; and every one-time wait is timed against its target and the ten-second
+threshold and the game-master trial's findings in the calibration record; and every one-time wait is timed against its target and the ten-second
 comfort level (item 119). Turning any owner item's new rules off gives back exactly yesterday's towns, and a season or a
 festival never changes the map itself — both proved by byte-for-byte pins.
 

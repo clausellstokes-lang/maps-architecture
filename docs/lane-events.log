@@ -2035,3 +2035,12 @@
 2026-09-30 22:07 coherence/rewrite-V12 CHECKPOINT parts 23 (§10 pointer table, hand-offs from and to closed) and 24 (§11 answered J122, §12 current lists, §13 none open, Integration notes map) written; assembled new/volumes/V12-calibration.md; next: verification (terms, ids, references, sizes)
 2026-09-30 22:09 coherence/rewrite-V10 LANDED docs/validation/coherence/new/volumes/V10-clerk.md docs/validation/coherence/rewrite-V10.md docs/validation/coherence/results/coherence_rewrite-V10.json
 2026-09-30 22:10 coherence/orchestrator NOTE rewrite-V10 landed (items 111, 113-115, 117-118 clerk parts included); remaining: V11, V12 running
+2026-09-30 22:11 coherence/rewrite-V11 CHECKPOINT part 17 (§9 decisions, J-V11.97–109) written; next: §10–§13 + integration map (part 18), assemble
+2026-09-30 22:12 coherence/rewrite-V12 CHECKPOINT verification: ids (T-V12-1..51, J-V12.1..96) unique and resolving; every V12 §, base § and Vnn § reference resolves; retired terms and narration ids 0; mapping.py maps 403/403 inventory ids; lost-token and coverage checks run, 12 dropped details restored; next: doc checks, sizes, report, result
+2026-09-30 22:16 coherence/rewrite-V11 CHECKPOINT part 18 (§10 pointers, §10b/§10c closures, §11–§13, integration map) written; J-V11.110–111 added; next: assemble + checks
+2026-09-30 22:17 coherence/rewrite-V12 CHECKPOINT final checks; report next
+2026-09-30 22:22 coherence/rewrite-V12 CHECKPOINT volume final (69655 words, refs resolve, doc checks provisional); writing report
+2026-09-30 22:22 coherence/rewrite-V11 CHECKPOINT new volume assembled at docs/validation/coherence/new/volumes/V11-content.md (checks: ids unique, refs resolve, retired terms 0; doc_checks provisional); next: mapping table + report
+2026-09-30 22:27 coherence/rewrite-V11 CHECKPOINT volume final (99.2k words wc); writing report + mapping table
+2026-09-30 22:28 coherence/rewrite-V12 LANDED docs/validation/coherence/new/volumes/V12-calibration.md docs/validation/coherence/rewrite-V12.md docs/validation/coherence/results/coherence_rewrite-V12.json docs/validation/coherence/work/rewrite-V12/
+2026-09-30 22:29 coherence/orchestrator NOTE rewrite-V12 landed (items 111-119 calibration parts included); remaining: V11 running
