@@ -42,13 +42,12 @@ island cathedral's burial crypt is cut into the island's own rock beneath it —
 the island never has catacombs: those lie only under the cemeteries on the ground.
 
 **What it looks like.** Each island has its own shape (round, D-shaped, a lozenge, a crescent or a long spindle), a rocky
-rim, its own gentle hills that echo the country below, and often a small magically conjured river that flows the same way
-as the river on the ground and spills off the edge as a waterfall that turns to mist. It floats over water, fields or the
-outskirts — over the city's heart only if someone asks for it there — high enough that nothing on the ground touches its
-rocky underside. From above you see the island drawn over the city with the ground showing faintly through it (you can
-switch it to solid, or to a "lifted" view that shows the rock hanging beneath it), and its shadow falls on the ground and
-moves with the sun under your mouse pointer. At night the rim glows with small magical lights and a soft glow shines down
-from beneath it onto the ground.
+rim, gentle hills that echo the country below, and often a small conjured river that flows the same way as the ground's
+and spills off the edge as a waterfall that turns to mist. It floats over water, fields or the outskirts — over the
+city's heart only if someone asks — high enough that nothing on the ground touches its rocky underside. From above you
+see it drawn over the city with the ground showing faintly through (or solid, or "lifted" to show the rock hanging
+beneath), and its shadow moves with the sun under your mouse pointer. At night the rim glows with small magical lights
+and a soft glow shines down from beneath it.
 
 **How people get up.** By hoists — winch houses on the rim lowering cages on ropes to a landing yard below, the way some
 real clifftop monasteries were reached — or, over water, by an inclined rope line to a tower on the shore. Where the
@@ -56,17 +55,15 @@ world has magic, a floating stair of stepping stones or a bridge of light may jo
 way up, and every landing on the ground is a small yard on a street.
 
 **The shade it throws on the ground.** An island blocks the sun. For a typical day the generator works out how long each
-patch of ground lies in an island's shade — the same way it works out the shade of hills and walls — using the island's
-real bulk: its thick rocky rim and the root tapering beneath it. Ground that spends much of the day in that shade tends
-to be a little poorer, so cheaper lodgings and workshops gather in the island's "under-hang", while the rich keep to the
-sunny side (in hot dry country, where the climate makes shade valued, the ground's own rule decides). It is a gentle
-tendency, never a rule: the shade alone never moves a patch of ground by more than one step of wealth. If an island is
-moved, raised or lowered, the ground beneath catches up over time — at the next period of the city's history — rather
-than being rebuilt the moment you drag it. A shade map shows where each island's shade falls across the day, and the
+patch of ground lies in an island's shade — as it does for hills and walls — from the island's real bulk: its thick rocky
+rim and the root tapering beneath it. Ground long in that shade tends to be a little poorer, so cheaper lodgings and
+workshops gather in the island's "under-hang" while the rich keep to the sunny side (in hot dry country, where shade is
+valued, the ground's own rule decides). It is a gentle tendency, never a rule: the shade alone never moves ground by more
+than one step of wealth. If an island is moved, raised or lowered, the ground beneath catches up at the next period of
+the city's history rather than being rebuilt as you drag it. A shade map shows where each island's shade falls, and the
 clerk can answer "why is this quarter poor?" with "it lies in the shade of the Palace island for half the day". The map
-remembers where each island stood when the ground last took its shade, so saving and reopening a map never changes the
-picture; and if you do not want to wait for the town's next period, one button ("Update shade now") brings the ground
-under the old and new shade up to date at once.
+remembers where each island stood when the ground last took its shade, so saving and reopening never changes the
+picture; one button ("Update shade now") brings the ground up to date at once.
 
 **Who trades with whom.** Shops and workshops on an island follow the same siting rules as those on the ground, but a
 trip to the ground means a ride down a hoist: so an island's baker sits near the hoist that leads down towards the mill,
@@ -82,14 +79,13 @@ between them; the ground end of that trade gathers near the hoist's landing yard
 **Walls.** An island needs no wall: its cliffs are its wall. If you draw a wall on an island anyway, only the tops of its
 hoists are walled, each with a gate, and the clerk explains that "the drop is the wall" everywhere else.
 
-**Viaducts, raised roads, aqueducts and terraces.** Cities may build viaducts, raised roads and aqueducts; they pass
-beneath an island and never reach one, the island floats clear of them, and one you remove stays removed. The hoists'
-landing yards keep clear of the arches, a rope line passes well above any deck it crosses, and a road you draw toward an
-island's edge is turned into the offer of a hoist instead: "A road cannot reach a floating island; a hoist, rope line,
-stair or bridge of light can." An island on steep ground may be terraced, with its own retaining walls, but never along
-its edge: the rim walk stays level, and a terrace wall you draw there is moved just inside it. When an island falls, the
-arches, piers and terrace walls beneath it break with everything else it lands on, and the shops standing on a covered
-bridge fall with the bridge.
+**Viaducts, raised roads, aqueducts and terraces.** They pass beneath an island and never reach one; the island floats
+clear of them, and one you remove stays removed. The landing yards keep clear of the arches, a rope line passes well
+above any deck, and a road you draw toward an island's edge becomes a hoist instead: "A road cannot reach a floating
+island; a hoist, rope line, stair or bridge of light can." An island on steep ground may be terraced with its own
+retaining walls, never along its edge: the rim walk stays level, and a terrace wall drawn there is moved just inside it.
+When an island falls, the arches, piers and terrace walls beneath it break with everything else it lands on, and the
+shops on a covered bridge fall with the bridge.
 
 **Water.** An island's water is its own — its conjured river or a spring pond. A desert oasis, the pull of a dry town
 toward its water and the climate's preference for shade all belong to the ground; they never reach an island, though an
@@ -106,11 +102,10 @@ returns in time, an abandoned island is raised again before any new one appears.
 cathedral or the palace an island carries, the island finds a new purpose at the town's next period — another
 institution of the same kind, or a rich neighbourhood — or, failing both, slowly sinks.
 
-**Editing.** Everything can be changed: switch islands on or off, choose how many, draw an island where you want it,
-drag it elsewhere, raise or lower it, make it bigger or smaller, reshape its rim, add or move a hoist or a stair, rename
-it, paint its wealth, density or greenery with the same brushes as the ground, edit anything on it like any other
-neighbourhood, or bring it down by hand. Every change can be undone, and changing an island never disturbs the city
-below except the landing yards of its hoists. An island or a hoist you remove stays removed: the city never raises it
+**Editing.** Everything can be changed: switch islands on or off, choose how many, draw one where you want it, drag,
+raise, lower, grow or shrink it, reshape its rim, add or move a hoist or a stair, rename it, paint its wealth, density or
+greenery with the ground's brushes, edit anything on it like any neighbourhood, or bring it down by hand. Every change
+can be undone, and changing an island never disturbs the city below except its hoists' landing yards. An island or a hoist you remove stays removed: the city never raises it
 again by itself — the clerk says "removed by you" — unless you undo the removal, or draw an island yourself when every
 other place is taken. Asking for more islands opens new places only, never the one you emptied. If you switch islands on
 and none appears, the map says why in plain words — the city is not rich enough to keep one aloft — and offers the two
@@ -145,19 +140,16 @@ remedies: raise its wealth, or draw one yourself.
     every covered kind (V05 §3.15, §3.16).
 12. **Failure ladders, determinism and every edge** (V05 §3.17, §3.18, §3.23); **editing, rendering, labels, exports,
     budgets, tests and the build plan** (V05 §4–§8).
-13. **The island's shade strip** (the owner's item 102 on the island's side, with J98's underside) — the shade each island
-    casts across the model's representative day, which field pass 2 folds into the prosperity field's daylight term; the
-    sky receivers' shade; its lag behind edits, persisted as the shade basis (V05 §2.1, §2.3a, §3.19).
-14. **Siting across the island** (the owner's items 103–105, 107 and 108 where they reach islands) — the route distance
-    through the accesses between arenas, the island's districts as coverage units, the trades an island never carries,
-    split works and shops, the supply web and its order per arena, custom chains, the landing classes' siting facts
-    (V05 §2.4, §3.5, §3.20).
+13. **The island's shade strip** (item 102 on the island's side, with J98's underside) — folded into the daylight term by
+    field pass 2; the sky receivers' shade; its lag behind edits, persisted as the shade basis (V05 §2.1, §2.3a, §3.19).
+14. **Siting across the island** (items 103–105, 107, 108) — the route distance between arenas, coverage units, the trades
+    an island never carries, split works and shops, the supply web per arena, custom chains, the landing classes' siting
+    facts (V05 §2.4, §3.5, §3.20).
 15. **The rim as a barrier** (the owner's item 106 where it reaches islands) — the rim a sheer barrier that closes any
     wall circuit, an author's island wall walling only the landing tops (V05 §3.21).
-16. **Item 110 on, under and against the island** (the owner's "they go in") — raised parts, retaining walls, stepped
-    massing and levelled platforms as casters under an island; the accesses as overhead obstacles to a raised deck; the
-    island's own retaining walls; what the raised-way generator reads of the sky; the landfall over them; a removed
-    island or access that stays removed (V05 §3.22).
+16. **Item 110 on, under and against the island** (the owner's "they go in") — casters under an island, the accesses as
+    overhead obstacles, the island's own retaining walls, what the raised-way generator reads of the sky, the landfall over
+    them, removals that hold (V05 §3.22).
 17. **The dossier** — derivation row DR27 and the coherence rules (V05 §4.4); item 111's water, which leaves an island
     unchanged (V05 §3.8 (4), §3.11).
 
@@ -168,27 +160,27 @@ the cited home.
 
 | home | what this volume builds on it |
 |---|---|
-| II.6 (the island rule (1)–(8), `IslandRule`, `SkyStrategy`); file f items 546, 547 | the rule at depth: the supplies on absolute values (V05 §3.3), the slots (V05 §3.2), the rule table (V05 §2.4); the slot chances and `redrawPerYear` are II.6 (4)'s |
-| II.1 rule (5), V01 §2.4 (`NeighbourhoodRequest`, `layer: 'sky'`), V01 §3.10.3 | the sky call and the island's unit inputs (V05 §2.3, §3.12); volume 1's unit run lays the districts |
+| II.6 (the island rule, `IslandRule`, `SkyStrategy`; file f items 546, 547) | the rule at depth (V05 §2.4, §3.2–§3.7) |
+| II.1 rule (5), V01 §2.4, §3.10.3 | the sky call and the island's unit inputs (V05 §2.3, §3.12) |
 | §1.1 `RungProfile.layers.islands` | the rung gate (V05 §3.2 (1)) |
-| §2.1, §2.2 (rules 1, 2, 5, 7; the sky part's levels, file f items 203, 204) | one arena per island, local coordinates with a world anchor, the `rim` and `sky_access` roles, the void face |
+| §2.1, §2.2 (file f items 203, 204) | the island's arena, roles and void face |
 | §2.3 `Terrain`, `WaterBody.fall` (file f item 252) | the island's terrain and conjured river (V05 §3.8) |
-| §2.5 `Allocation`, `ContextVector` (`arena: 'sky'`), `Reservation` (`landing`, `handedFrom`), `Block.interior` `rim_strip` (file f items 213, 286) | the sky allocation, the landing rows and yards, the island's context vector, the rim strip |
-| §2.7 the staged records' block (`SkyIsland`, `UndersideProfile`, `ShadeBasis`, `SkyAccess` as V05 §2.1–§2.2 declare them; file f item 251), `Decoration` with `members` (item 252), `LandUse.source` (item 253), `RetainingWall` (item 245), `Enceinte.condition` (item 575), the raised-way record (item 244) | the records this volume declares and the ones its landfall writes |
+| §2.5 (file f items 213, 286) | the sky allocation, the landing rows and yards, the context vector, the rim strip |
+| §2.7 (file f items 244, 245, 251–253, 575) | the records this volume declares and the ones its landfall writes |
 | §2.8 (the registry; the suppression's two record forms, file f item 260), §2.9 (`Document.nextSkyPart`; the shade basis on load, item 274) | identity, the removal's hold and its lift rule, the load path |
 | §3.2, §3.4, §3.7 | the lattice, the kernel's buffer and simplification |
 | §4.1 (SKY in the stage graph and its data keys, file f item 282), §4.12 | V05 §3.1 |
 | §4.2 S0, S1 (1)–(5), S3 (2) and (8) | the `magic` circumstance and relief classes, the outline routine, rivers by descent, crossing sites; the reservations an institution island leaves (item 286) |
-| §4.3's raised-way generation (file f item 290: the slot, `skyAccessObstacles` read after SKY) | the raised parts SKY reads and the accesses' obstacles (V05 §2.3b, §3.22) |
-| §4.5 *Fields* (the daylight term, its model sampler and climate cell; the landing kernel; the island-free value; file f items 295, 296), S7b (1) and (5) | the supplies, the fill, the strips' fold (V05 §3.3, §3.5, §3.19) |
+| §4.3 (file f item 290) | the raised parts SKY reads; the accesses' obstacles (V05 §2.3b, §3.22) |
+| §4.5 *Fields*, S7b (1), (5) (file f items 295, 296) | the supplies, the fill, the strips' fold (V05 §3.3, §3.5, §3.19) |
 | §4.6 (the landing attach as an infill destination, file f item 299) | V05 §3.10 (4) |
-| §4.7 S10–S11 (levelling as platform datums and `levelledGroundCm`, file f item 309), S10b (the one solver; *Supply distances by mode* and the route between arenas, item 308), *Light sources* (the sky rows, item 307) | the landing plots, the route distance, the lights |
+| §4.7 S10–S11, S10b, *Light sources* (file f items 307–309) | levelled ground, the landing plots, the route, the lights |
 | §4.8, §4.9 (the churchyard row; the rim-walk row, file f item 313) | bridges on the island's river; burial; the rim walk |
-| §4.11 (`ConversionOp`'s island kinds and the landfall, file f item 320; the rung at an epoch, item 322; *Dossier content across epochs*; the salvage ledger) | V05 §3.15, §3.16 |
+| §4.11 (file f items 320, 322) | V05 §3.15, §3.16 |
 | §5.1–§5.3 (the F-SKY rows and the sky invariants, file f item 331) | V05 §3.17 |
 | §6.1, §6.2, §6.3 (`island.place`, the hash, the anchor table; file f item 476) | V05 §3.18, §2.5 |
-| §7.1–§7.8 (the events and targets, file f item 356; the lifecycle rows, item 375; DR27, items 383, 387; the layer controls) | V05 §4 |
-| §8.1, §8.2 (the `sky.ground` role, the sky semantics' slots, the `fallen` and `removed` rows; file f item 408), §8.4 (the slab list, the second base, the window without slabs, the cursor sun's floor; items 415, 416), §8.8 | V05 §5.1–§5.3 |
+| §7.1–§7.8 (file f items 356, 375, 383, 387) | V05 §4 |
+| §8.1, §8.2, §8.4, §8.8 (file f items 408, 415, 416) | V05 §5.1–§5.3 |
 | §9.1, §9.2; §11.1 (file f item 415) | V05 §5.4, §5.5 |
 | §12, §13.2, §13.3, §14, §16 (file f items 476, 568) | V05 §6–§8 |
 | items 102–111 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–17) |
@@ -469,7 +461,7 @@ cage or its helix rises through open air), a `ropeway` or `lightBridge` a segmen
 item 290 (5)) are item 110 (b)'s course solver, for every raised part laid after SKY, and T4 `road`'s `raised` dry run: a
 deck, its parapet and its raised-way piers stay outside every column, and a deck crossing under a segment keeps `clearCm`
 below it. The list is rebuilt from committed state on every call; an island carries at most `accessCount.max` generated
-and `accessCount.handMax` hand-placed accesses (V05 §2.4, §4.2), so a document holds at most 3 × (3 + 6) = 27 entries.
+and `accessCount.handMax` hand-placed accesses (V05 §2.4, §4.2), so a document holds at most 3 × (`accessCount.max` + `accessCount.handMax`) entries — 27 at the defaults.
 
 ### 2.4 The rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratable}`)
 
@@ -639,7 +631,7 @@ row names its base hook in its first cell. The create column is the field's prod
 | `anchor` | placement (V05 §3.7) or a declaration | S14, slabs, exports, landings, the reader | model digest | kept by a scoped regeneration; recomputed only by Re-derive from S7b | inverse `setAttr` | a record with the base's world `outline` gets as anchor the outline's area centroid rounded to the lattice, and its polygon less the anchor as the rim (below) |
 | `rim`, `land` | SKY's L0 batch | the unit run, the draw, the resize | geometry (the arena) | re-derived by New random on the island; kept by regenerate-keep | the batch's undo record | the base's `outline: Polygon` becomes the rim chain by one `insertChain` in a fresh arena |
 | `areaHa` | the supply law or an edit | the resize, the fill, the reader | model digest | the law re-evaluates only at an epoch | inverse | — |
-| `altitudeCm`, `groundRefCm` | V05 §3.9 at SKY, before field pass 2; the clearance rule (SKY-F, `reclearIsland`, a ground edit beneath, V05 §3.9 (5)); `setAttr`; a move | `elevationCm`, slabs, marks, access runs | model digest | kept; a raise of `groundRefCm` keeps `elevationCm` and sets `altitudeCm` = `elevationCm` − the new `groundRefCm`, raising `elevationCm` only where V05 §3.9 (4)'s floor then fails (a listed fate); New random re-checks the floor after re-drawing the underside | inverse | the base's `elevationCm` → `altitudeCm` = `elevationCm` − `groundRefCm` recomputed |
+| `altitudeCm`, `groundRefCm` | V05 §3.9 at SKY, before field pass 2; the clearance rule (V05 §3.9 (5)); `setAttr`; a move | `elevationCm`, slabs, marks, access runs | model digest | kept, but for the clearance rule; New random re-checks the floor after re-drawing the underside | inverse | the base's `elevationCm` → `altitudeCm` = `elevationCm` − `groundRefCm` recomputed |
 | `underside` | SKY (V05 §3.9 (1)) from the rule row and `island.place` | `undersideTiers` (slabs, the offset view, glTF), the strip's solid through the basis, the altitude floor | model digest | re-scaled by a resize; re-drawn by New random unless `source: 'edit'` | inverse | a base record without it gets the rule's default profile, drawn on its slot's key; a `flat` profile carries `depthCm` 0 and `tiers` 0 |
 | `terrain`, `river` | SKY (V05 §3.8) | the unit run's context vector, exports, the island's `levelledGroundCm` fallback | model digest (the terrain raster in the arena's chunk) | New random on the island re-derives; T2 edits on the island key | inverse | — |
 | `terrainEcho` (`river`, `relief`, `reliefClass`) | SKY (V05 §3.8 (3)–(4)): for an `own` relief the class drawn on `island.place` (index `relief`) | the island's terrain; volume 1's `terraceState` on the island's districts (V01 §3.17.7 (2)) and so the unit run's levelling (V05 §3.22 (4)); exports | model digest | re-drawn by New random on the island with the terrain; kept by every other edit (a T2 stroke changes heights, never the class) | inverse | an `own` island without `reliefClass` re-draws the class on its `island.place` key (index `relief`) at load, written and reported (J-V5.78) |
@@ -650,20 +642,20 @@ row names its base hook in its first cell. The create column is the field's prod
 | `supply` | every evaluation (V05 §3.3) | the report, epochs, the reader | model digest | recomputed at S7b and each epoch only | restored | — |
 | `field` (mean, density, greenery) and the island's gradient (V05 §3.11) | SKY: the gradient from the carried bands' shares, its mean written; `setAttr(field.prosperity)` a declared target (`declared.field`); island brush strokes (`setField` with `key`) | the context vector on the island (through `SkyUnitInput.field`), S10a's band capacity on the island, the clerk | model digest (the three values); the raster never stored — rebuilt on load from the island's terrain, rim, allocation, the cuts and the stroke list, as §2.9 rebuilds the ground's fields | recomputed at an epoch and by a re-derivation from S7b; a declared target and the strokes are held | inverse | older records: the mean is their uniform value, no strokes |
 | `shadeBasis` (§2.9, file f item 274) | every shade evaluation (V05 §3.19 (6)), from the island as it then stands; absent on an island raised or declared since the last evaluation | every strip (onto the ground and onto islands) on generation, load, replay and every field recomputation; the strip's `basis`; the clerk | model digest (≤ 2.5 KB per island; nothing when absent) | rewritten only at those evaluations; kept by every island edit, every scoped regeneration of an island and the clearance rule (item 102 (e); J-V5.27) | restored by the undo record of the event whose evaluation rewrote it (absent again where that event wrote the first) | §7.5's island-basis step (file f item 274): a document older than it gets, once, the basis of every island not fallen or removed, from the island as stored; at or after that version an absent basis is never computed at load (J-V5.72) |
-| the strips onto the ground (V05 §2.3a) | once per shade evaluation, at their first read (V05 §3.19 (6)); none from an island without a basis | the readers of V05 §2.3a | held with the field's rasters, rebuilt on load and replay from the bases and the committed ground terrain's unlevelled heights — never from the live island; never in the log | recomputed only at the evaluations and, over its scope, by a ground terrain edit (V05 §3.19 (6)); kept by every island edit and scoped regeneration | restored with the field's former state from the undo record of the event that recomputed it | a document whose tables predate item 102 reads `w_sun` = 0 (item 102 (g)'s no-op pin), so the strips it computes change no value |
+| the strips onto the ground (V05 §2.3a) | once per shade evaluation, at their first read (V05 §3.19 (6)) | the readers of V05 §2.3a | held with the field's rasters, rebuilt on load and replay from the bases and the unlevelled ground heights; never in the log | only at the evaluations and, over its scope, a ground terrain edit (V05 §3.19 (6)) | restored with the field's former state by the recomputing event's undo | tables that predate item 102 read `w_sun` = 0 (item 102 (g)'s no-op pin) |
 | the strips onto an island; the island's `shadeSky` (V05 §3.11) | SKY's last step after every island's own steps; a re-derivation starting after SKY at S10a's start; each epoch; Update shade now — from the caster's and receiver's bases; at an epoch OR-ed with volume 6's building mask on the island's lattice | that island's context vector; volume 1's sky-arena readers (V01 §2.3, §3.5.5, §3.8.2; J-V1.87) | derived: rebuilt on load with that island's field from the two bases | with the strips onto the ground | as above | — |
 | a strip's `bits`, `mask`, `basis` and `evaluated` | with the strip | the field's composition, the clerk, the view, the report | with the strip | a sampler digest that differs from the strip's basis recomputes it whole (§4.5 *Fields* (iv)) | with the strip | — (re-derived on load, never migrated) |
 | `accesses` and every `SkyAccess` field | V05 §3.10 or `placeSkyAccess` | marks, lights, exports, the landings, `skyAccessObstacles`, `skyRoute`, the reader | model digest | tops re-seated on a re-derived rim (V05 §4.3), and on a resized or reshaped one with their feet re-landed as a move re-lands them (V05 §4.2) | inverse | — |
 | the ground landing row `{ cls: 'sky_landing', at, access }` under `allocations.landing` (§2.5, §4.1; file f items 213, 282) | SKY's access step (V05 §3.10 (4)) | S10a, which takes its staff households from the host district's `modest` demand; S10b or the hinterland unit's S12a (the plot); S11 (the landing house); field pass 2's landing kernel | model digest (the allocation) | recomputed with the access | inverse | — |
 | the ground landing yard, a `Reservation` of kind `landing` under `reservations.landing` (§2.5, §4.1) | SKY's ground L1 batch (V05 §3.10 (4)); `placeSkyAccess`; a move's re-landing | S8 (a hole; its attach a destination, §4.6), S10a with S9b, S12a (V01 §3.1's read-set) | geometry (the ground arena); the reservation in the model digest | re-claimed with the access | the batch's or the event's undo record | — (new) |
-| the rim strip (its `setback` line and `rim_strip` face) and the island's claims — each landing `Reservation` and the institution claim (V05 §3.10 (5)) | SKY's island L1 batch | the unit run through `SkyUnitInput.rimStrip`, `.claims` and `.landings` (V01 §3.10.3 (2)); S10b (the top landing plot, the institution); the rim walk by volume 1's `plantRimWalk` (V01 §3.10.3 step 4); the rim lights (V05 §3.13); SKY-F's checks (V05 §3.12) | geometry (the island's arena); the reservations in the model digest | re-laid by one island L1 batch at a resize and a rim reshape (V05 §4.2), and with SKY's island steps at New random on the island and at a Re-derive from SKY or earlier; a yard claimed by `placeSkyAccess` and released by an access's delete | the undo record of the event (or the batch) that re-laid them | — (new; a migrated base island's fresh arena is laid by the same batch) |
+| the rim strip (its `setback` line and `rim_strip` face) and the island's claims — each landing `Reservation` and the institution claim (V05 §3.10 (5)) | SKY's island L1 batch | the unit run through `SkyUnitInput` (V01 §3.10.3 (2)); S10b (the top landing plot, the institution); `plantRimWalk` (V01 §3.10.3 step 4); the rim lights; SKY-F's checks | geometry (the island's arena); the reservations in the model digest | re-laid at a resize and a rim reshape (V05 §4.2), at New random on the island and at a Re-derive from SKY or earlier; a yard claimed by `placeSkyAccess`, released by an access's delete | the undo record of the event (or batch) that re-laid them | — (new; a migrated base island's arena is laid by the same batch) |
 | `state`, `stateSince`, `dwellUntilWeek`, `landfall` | `IslandEpochStep` or a hand `convert` (`removeIsland` among them) | epochs, §8.2's rows, the reader | model digest | never by a re-derivation | the conversion's undo record | — |
 | `declared` | a declaring event | every re-derivation (held) | model digest | held | inverse | — |
-| `removed` (`seq`, `generated`, `releasedBy`) — the suppression's island form (§2.8, file f item 260; E-02) | `convert removeIsland` (V09's delete row (T10), the clerk); `releasedBy` by a later T5 `sky` declaration that re-fills the slot when no slot is free — never by an `adjust('islands.count')` | S7b (5)'s slot chain at every re-derivation, V05 §3.15 (5) at every epoch, the report, the clerk's "removed by you", `removedSlots(doc)` | model digest | held: never drawn, filled or re-opened by a re-derivation or an epoch (J-V5.62) | the removal's undo restores the island whole (its arena from the archive, its households, its accesses and landing uses); undoing the releasing event clears `releasedBy` | absent in an older document: no removal |
+| `removed` (`seq`, `generated`, `releasedBy`) — the suppression's island form (§2.8, file f item 260; E-02) | `convert removeIsland` (V09's delete row (T10), the clerk); `releasedBy` by a T5 `sky` declaration re-filling the slot when none is free (V05 §3.2 (6)) | S7b (5)'s slot chain, V05 §3.15 (5), the report, the clerk, `removedSlots(doc)` | model digest | held: never drawn, filled or re-opened (J-V5.62) | the removal's undo restores the island whole (arena, households, accesses, landing uses); undoing the releasing event clears `releasedBy` | absent: no removal |
 | `removedAccesses` (V05 §3.10 (1)) | the fold of a `delete` whose target is a generated `SkyAccess`: its ordinal appended | V05 §3.10's siting at every re-derivation that re-sites accesses; the `main` succession; the clerk; `removedSlots(doc)` | model digest | held: the ordinal skipped and counted, the lowest surviving generated ordinal taking `main` | the delete's undo removes the ordinal and restores the access | absent: `[]` |
 | island `RetainingWall`s (§2.7, file f item 245; V05 §3.22 (4)) | volume 1's unit run on the island (item 110 (a)'s levelling at S10, S11); T3 `retaining` and T2 terrace strokes with the island's `key` | the island's marks and labels, the surface top, SKY-F's crypt re-test, exports, the fall | geometry (the island's arena) | generated ones re-derive with the island's terrain and plots (item 110 (a)'s rule); drawn ones held | the batch's or the event's undo record | none before item 110 |
 | `Decoration.name`, `.source` (§2.7, file f item 252) | `fallIsland` | labels, the reader | model digest | never | inverse | — |
-| `Decoration.members` (`DecorationMember[]`, §2.7, file f item 252; J-V5.76) | `fallIsland` (V05 §3.16 (5)) | §8.2's `fallen` row, volume 6's landfall candidate (V06 §3.5.2), volume 4's access closures (V04 §3.10), the accesses' admissible ground (V05 §3.10 (3)), the clerk, the per-landfall CSV | model digest | never by a re-derivation of its own; shrunk only by volume 6's member-leaving `setAttr` (V06 §3.5.2; J-V6.108) in the batch of whichever op ends a member's cover; the decoration tombstoned in the batch that removes the last | the `fallIsland` undo removes the decoration with its list; the writing event's undo restores the prior list | an older list of `Id`s reads as it stands; absent = none |
+| `Decoration.members` (`DecorationMember[]`, §2.7, file f item 252; J-V5.76) | `fallIsland` (V05 §3.16 (5)) | §8.2's `fallen` row, volume 6's landfall candidate (V06 §3.5.2), volume 4's access closures (V04 §3.10), the accesses' admissible ground, the clerk, the per-landfall CSV | model digest | shrunk only by volume 6's member-leaving `setAttr` in the batch of the op that ends a member's cover (V06 §3.5.2; J-V6.108), the decoration tombstoned with the last | the `fallIsland` undo removes it; the writing event's undo restores the prior list | an older list of `Id`s reads as it stands; absent = none |
 | `Way.formerClass` (volume 6's field; its row V06 §2.12) | this volume's writer: `fallIsland` (V05 §3.16 (4)), a covered way's class before it drops to `track`, only where the way carries none | V06 §2.12's row | V06 §2.12's row | written again when the `fallIsland` event replays | the `fallIsland` undo restores the prior value (absent where the fall wrote the first) | V06 §2.12's row |
 | `Enceinte.condition` and `RetainingWall.state` — the stretch-state profiles (§2.2 rule 5; file f items 575, 245; E-01) | this volume's writer: `fallIsland` (V05 §3.16 (4)), `breached` over each covered wall length and `decayed` over each covered retaining length | the profile rule's readers (§2.2 rule 5; items 575, 245; V06 §2.12) | the profile rule's | written again when the `fallIsland` event replays; never by a re-derivation of its own | the `fallIsland` undo restores the prior profile (and the enceinte's `lifecycle`) | the profile rule's |
 | `ContextVector.arena 'sky'` (§2.5, file f item 213; MC-05) | the unit run's context read | every arena-keyed row | derivation record | recomputed | — | — |
@@ -1485,9 +1477,8 @@ sky fixtures of T-V5-15.
 
 ### 3.20 The siting rulebook on and across the island (the owner's items 103–105, 107 where they reach islands)
 
-The one placement solver (§4.7 S10b) places everything on an island, in the unit run, with the rulebook of item 103 as
-every other district reads it; this volume adds only what the rulebook cannot know — that the island is reached by a
-ride, and what an island never carries.
+The one placement solver (§4.7 S10b) places everything on an island, in the unit run, with item 103's rulebook; this
+volume adds only what the rulebook cannot know — that the island is reached by a ride, and what it never carries.
 
 1. **The route distance** `skyRoute(doc, from, to) → { lengthCm: Cm; access: Id }` (`@plat/sky`; the implementer of §4.7
    S10b's reads between arenas, file f item 308; J-V5.36). From a point `p` on island I to a class `c` on the ground: the
@@ -1495,13 +1486,12 @@ ride, and what an island never carries.
    the island leg, the straight distance × the rung's detour factor (§4.7's `street` law for a point-to-point leg);
    `transferM` the route's allowance for the wait and the loading (`routing.transferM`); `run_a` the access's run (V05
    §2.2); and `d_G(foot_a, c)` the base's mode distance from the foot to the class (§4.7 S10b's *Supply distances by
-   mode*): the `street` distance where the foot and the class stand on the same side of the town wall, else the `road`
-   distance through the gate by which the class is reached. A class on the island itself is read on the island's own class
-   distance rasters, which the unit run's S10b builds as the base's does. `access` is the access of the least sum (ties by
-   access ordinal), which the clerk names (8). From a ground point `q` to a class on an island: the same sum taken the
-   other way; inside the pooled S10b — before the island's own placement exists — the island's class stands at the
-   island's land centroid (`d_I(attach_a, centroid)`), so the ground pool reads only what exists before it (§4.1's
-   laziness contract); after generation (post-build requests, epochs) the island's placed plots are used. Between two
+   mode*): `street` where the foot and the class stand on the same side of the town wall, else `road` through the gate by
+   which the class is reached. A class on the island itself is read on the island's own class distance rasters (the unit
+   run's S10b builds them as the base's). `access` is the access of the least sum (ties by ordinal), which the clerk names.
+   From a ground point to a class on an island: the same sum the other way; inside the pooled S10b — before the island's
+   placement exists — the island's class stands at its land centroid (`d_I(attach_a, centroid)`), so the ground pool reads only what exists before
+   it (§4.1's laziness contract); after generation (post-build requests, epochs) the placed plots are used. Between two
    islands: through the ground, both legs and two transfers. A `river` or `sea` supply edge never crosses arenas (∞): the
    island's conjured river and spring pond carry no trade and **satisfy no NEEDS row** (J-V5.23).
 2. **Admitted accesses.** An access in state `open` (its `unserved` reading included); never a `closed` or `ruined` one. A
@@ -1534,12 +1524,11 @@ ride, and what an island never carries.
    in the dossier) — and, for a dossier-backed town, each of the dossier's `activeChains[]`, its processors resolved by
    kind family (item 105 (i); volume 8) — is placed as one connected thing by the base's chain rules; the island changes
    five things and nothing else.
-   (a) **What goes up.** The sky fill never carries a chain's RESOURCE node — a resource sits at its terrain feature on
-   the ground (item 104 (h) (1)); the island's conjured water is never a chain's feature — nor its PROCESSING nodes, first
-   or later, whose demand stays on the ground with the chain's working steps (V05 §3.5 (3)). Its FINAL SELLER and its
-   CONSUMERS follow V05 §3.5 (3)'s proportional share like any class. The one exception is the island's own institution:
-   a custom kind carried as a `tower`, `palace` or `cathedral` that is also a chain node, at any step, stays on its island
-   and keeps every link by the route.
+   (a) **What goes up.** Never a chain's RESOURCE node — it sits at its terrain feature on the ground (item 104 (h) (1));
+   the island's conjured water is never a chain's feature — nor its PROCESSING nodes, whose demand stays on the ground
+   with the working steps (V05 §3.5 (3)); its FINAL SELLER and CONSUMERS follow the proportional share like any class. The
+   one exception is the island's own institution: a custom kind carried as a `tower`, `palace` or `cathedral` that is also
+   a chain node, at any step, stays on its island and keeps every link by the route.
    (b) **The links cross by the route.** Every link between a node on an island and a node on the ground is a supply edge
    of mode `street` measured by `skyRoute` — so the chain's last ground node leans toward the landing foot whose route to
    the island's node is shortest, and the island's node toward that landing's top. Item 104 (h) (2)'s natures act on the
@@ -1587,11 +1576,10 @@ ride, and what an island never carries.
     `branchOf` is no split. Every split across the arenas is reported.
 12. **Order, the district term and spread, per arena** (items 105 (f), (g) and 107; J-V5.52).
     (a) **Order and relaxation.** At generation each arena runs item 105 (f)'s order and its one bounded relaxation on its
-    own: the pooled S10b on the ground, the unit run's S10b on each island. Each reads **only the other arena's
-    proxies** — the ground reads an island's classes at its land centroid, the island reads a ground provider at the block
-    its S10a allocation holds — never the other's placed plots, so neither order waits on the other and both relaxations
-    are byte-stable whatever the worker's interleaving (T-V5-22 (j)). After generation both read the placed plots on both
-    arenas, the relaxation of one arena holding the other's placements fixed.
+    own — the pooled S10b on the ground, the unit run's S10b on each island — each reading **only the other arena's
+    proxies** (an island's classes at its land centroid; a ground provider at its S10a block), never the other's placed
+    plots, so neither waits on the other and both are byte-stable whatever the worker's interleaving (T-V5-22 (j)). After
+    generation both read the placed plots on both arenas, one arena's relaxation holding the other's placements fixed.
     (b) **The district term** (item 105 (g); J-V5.75). S7b (1)'s supply term reads a sky pseudo-district as one consumer
     location at its island's **land centroid's world point** (`anchor` + the outline's centroid, fixed by S7b (5)'s
     placement) — the proxy the ground pool reads for an island's classes — since the landing feet are sited only at SKY,
@@ -1764,7 +1752,7 @@ transaction refuses is handled by the stage's failure class on its ladder (§5.1
 | the rim as a barrier (M-V05-1820-E4) | an island with one landing gets one stretch; a stroke of fewer than two distinct points emits no event; a stroke wholly along the rim is bent to the landing stretches | check | T-V5-27 |
 | item 110 under the island (M-V05-1847-E4) | a caster whose footprint touches the projected solid only at an edge or a corner is read by cell centres, as V05 §3.9 (3) states | check | T-V5-31 |
 | the declarations (M-V05-1939-E3, -E4, -E8) | every tool gains at most one parameter; a zero-length T4 stroke emits nothing; a degenerate T5 lasso is bent as the shape row states; every declaration's lifecycle is §7.4's row | check; simpler shape | T-V5-16 |
-| the events (M-V05-1967-E4, -E6) | a resize to 0 or below the claim floor is bent to the floor; a `moveVertex` or `warp` that would make the rim non-simple is bent back along its drag to the last simple position (bisection, ≤ 12 steps); below CITY the `sky` parameter is a disabled control with its reason (§7.8), and an API or clerk event carrying it is bent to the plain quarter on the ground ("Floating islands need a city; this quarter is laid on the ground") — refused only where the rung is a dossier fact (F-EDIT `dossier-owned`) | simpler shape; substitute | T-V5-16 |
+| the events (M-V05-1967-E4, -E6) | a resize to 0 or below the claim floor is bent to the floor; a `moveVertex` or `warp` that would make the rim non-simple is bent back along its drag to the last simple position (bisection, ≤ 12 steps); below CITY T5's `sky` parameter is disabled with the islands control's reason (§7.8), and an API or clerk event carrying it is bent to the plain quarter on the ground ("Floating islands need a city; this quarter is laid on the ground") — refused only where the rung is a dossier fact (F-EDIT `dossier-owned`) | simpler shape; substitute | T-V5-16 |
 | locality (M-V05-2135-E2, -E4) | a one-island document's edit scopes are V05 §4.3's; an edit whose effective scope is empty (a move by zero, a `setAttr` to the same value) folds with no change | check | T-V5-16 |
 | the dossier (M-V05-2164-E1–E6, -E8) | no deposits, no node term; more eligible institutions than slots are drawn among by V05 §3.4, three at most; many nodes add one bonus; a dossier population at a village or TOWN rung fails the gate (`gated: rung`); a derivation record written under the working name DR-SKY reads as DR27 (file f item 383); an absorb's changes reach the islands at the next epoch and undo with it | check | T-V5-25; T-V5-33 |
 | the clerk (M-V05-2186-E1, -E2, -E4, -E8) | an island without a basis is named "not yet in the ground's shade"; one caster over a point gives one attribution; a removed island answers "removed by you"; answers are the same before and after a save and load | check | T-V5-33 |
@@ -1773,7 +1761,7 @@ transaction refuses is handled by the stage's failure class on its ladder (§5.1
 | exports (M-V05-2327-E1, -E2, -E4, -E7, -E8) | with the setting on and no island the `sky` FeatureCollection is present and empty, with it off absent; a strip with no cells omits its MultiPolygon features; the parity presets export no sky content; an export mid-lag writes `basisCurrent` false, and an export after a load equals the one before | check | T-V5-17 |
 | a lock against a dossier removal (EI-V05-EDGE-1) | V05 §3.15 (1b)'s lock clause | check | T-V5-14 |
 | a landfall on another island's landing (EI-V05-EDGE-2) | V05 §3.16 (4)'s row | substitute; leave out and report | T-V5-14 |
-| the most accesses (EI-V05-EDGE-3) | at most `accessCount.max` generated and `accessCount.handMax` hand-placed per island; a `placeSkyAccess` past the hand-placed cap is bent into a move of the island's nearest hand-placed access to the requested site ("An island takes at most {n} ways up by hand; moved {access} here"), with "Delete one first" as the alternative; `skyAccessObstacles` ≤ 27 entries | substitute | T-V5-16; T-V5-18 |
+| the most accesses (EI-V05-EDGE-3) | at most `accessCount.max` generated and `accessCount.handMax` hand-placed per island; a `placeSkyAccess` past the hand-placed cap is bent into a move of the island's nearest hand-placed access to the requested site ("An island takes at most {n} ways up by hand; moved {access} here"), with "Delete one first" as the alternative; an `editTable` lowering the cell below an island's count removes nothing — the accesses stand and only a new placement is bent; `skyAccessObstacles` ≤ 27 entries at the defaults | substitute | T-V5-16; T-V5-18 |
 | a lock under `sky.clearance` (EI-V05-EDGE-4) | V05 §3.9 (5)'s lock clause | check | T-V5-31 (f) |
 
 **(b) The combinations** (every one at CITY and METROPOLIS, where islands exist).
@@ -1862,35 +1850,32 @@ no edit kind. §4.5's `w_sun` and this volume's `shade`, `routing` and `casterAl
   `placeAt`). The fates list both plots. `placement.byAssignment` becomes true.
 * **Resizing** (`setAttr(areaHa)` or `resizeIsland`; J-V5.7, J-V5.77). The rim is eroded or dilated by the kernel's buffer
   (§3.7) on the island's arena to the new area within 1 % (bisection on the distance, ≤ 12 steps), keeping its shape —
-  never re-drawn from the stream; a growth past 1.5 × `areaHaMax` first grows the frame (V05 §3.8 (1)). The underside
-  re-scales (`depthCm` by the square-root ratio of the areas). **The rim's L1 pieces follow the rim in the same commit.**
-  One island L1 batch re-lays the rim strip `rimStripM` inside the new rim and re-claims each landing yard at its top, the
-  top re-seated where its direction ray `d_k` now leaves the land face (V05 §3.10 (2), (5)) and its foot re-landed as a
-  move re-lands it. Each re-claimed yard is served in the same commit: its `sky_landing_top` plot re-cut on the new yard
-  (the old one tombstoned) and its use opened there by a positive placement (`placeAt`), the plots the yard covers
-  re-derived by §7.3's local operator on the island's arena, and SKY-F's checks and repairs (V05 §3.12) run on the island,
-  so a way meets every attach. The institution claim is kept where it still fits the land face less the re-laid strip and
-  yards; else it is re-searched by V05 §3.10 (5)'s score and crypt re-test over the sites inside the district that holds
-  it — so every district keeps its kind — and that district is re-derived by its scoped re-derivation from S8 with the new
-  claim a hole and the old claim's land its own (V01 §3.10.3 (6) (c)'s claim re-search, which releases the institution
-  from V01 §3.9's fixed inputs), whose S10b places the institution on the new claim: its use relocated there (a
-  dossier-backed one by the solver's `dossier` request), its old building demolished, a listed fate. That district is
-  re-derived whether or not it receives a band face, and once where it does. **A resize never leaves the claim without a
-  site, nor the land without one face:** the area is floored at the least area (the same bisection) at which some site in
-  that district still fits and the eroded land face stays one face with land beyond the strip and the yards; a hand
-  request below the floor is bent to it with the line `bend.island.keepRoom` — "<island> keeps room for its
-  <institution>; shrunk to <area> ha" (J-VI.4) — and an epoch's `resizeIsland` stops at it, listed in the epoch's report.
-  **Shrinking:** every plot that loses at least half its face to the eroded rim, the re-laid strip or a re-claimed yard is
-  cleared (its households relocated on the island first, then to the ground), the rest re-cut with their neighbours fixed
-  (§4.7 S10 (7)); every way that crosses the re-laid strip line is cut back to it (the strip is never cut); no district is
-  re-derived but the claim's where the claim is re-searched; and the rim walk is re-laid by volume 1's `plantRimWalk` (V01
-  §3.10.3 step 4) in the same commit. **Growing:** the land between the old and the new strip lines — with whatever an old
-  yard held that its re-claim does not, less the re-claimed yards — is cut into faces by extending, in the same L1 batch,
-  each district boundary way that meets the old strip line across the band to the new one along the band's normal there
-  (the same class); each face joins the district of its nearest rim stretch (ties by district address), and every district
-  that receives a face is re-derived by its own scoped re-derivation from S8 (V01 §3.10.3 (6) (c)) — never a unit run,
-  which would re-cut every district, and never a change of the island's district count; `plantRimWalk` then re-plants the
-  rim walk whole, once for the resize, since the walk is one island-level pair that no district's re-derivation writes.
+  never re-drawn from the stream; a growth past 1.5 × `areaHaMax` first grows the frame (V05 §3.8 (1)); `depthCm` re-scales
+  by the square-root ratio of the areas. **The rim's L1 pieces follow in the same commit:** one island L1 batch re-lays the
+  rim strip `rimStripM` inside the new rim and re-claims each landing yard at its top, re-seated where its ray `d_k` now
+  leaves the land face (V05 §3.10 (2), (5)), its foot re-landed as a move re-lands it; each re-claimed yard's
+  `sky_landing_top` plot is re-cut on the new yard (the old one tombstoned) and its use opened there by `placeAt`, the plots
+  the yard covers re-derived by §7.3's local operator, and SKY-F's checks and repairs (V05 §3.12) run on the island, so a
+  way meets every attach. The institution claim is kept where it still fits the land face less the re-laid strip and
+  yards; else it is re-searched by V05 §3.10 (5)'s score and crypt re-test over the sites inside the district that holds it
+  — so every district keeps its kind — and that district is re-derived once from S8, whether or not it also receives a
+  band face, with the new claim a hole and the old
+  claim's land its own (V01 §3.10.3 (6) (c)'s claim re-search, which releases the institution from V01 §3.9's fixed
+  inputs), its S10b placing the institution on the new claim — its use relocated there (a dossier-backed one by the
+  solver's `dossier` request), its old building demolished, a listed fate. **The floor:** the area is floored at the least
+  area (the same bisection) at which some site in that district still fits and the eroded land stays one face with land
+  beyond the strip and the yards; a hand request below it is bent to it with `bend.island.keepRoom` — "<island> keeps room
+  for its <institution>; shrunk to <area> ha" (J-VI.4) — and an epoch's `resizeIsland` stops at it, listed in the epoch's
+  report. **Shrinking:** every plot that loses at least half its face to the eroded rim, the re-laid strip or a re-claimed
+  yard is cleared (its households relocated on the island first, then to the ground), the rest re-cut with their
+  neighbours fixed (§4.7 S10 (7)); every way that crosses the re-laid strip line is cut back to it; no district is
+  re-derived but the claim's where the claim is re-searched. **Growing:** the land between the old and the new strip lines
+  — with whatever an old yard held that its re-claim does not, less the re-claimed yards — is cut into faces by extending,
+  in the same L1 batch, each district boundary way that meets the old strip line across the band along the band's normal
+  there (the same class); each face joins the district of its nearest rim stretch (ties by district address), and every district that
+  receives a face is re-derived by its own scoped re-derivation from S8 (V01 §3.10.3 (6) (c)) — never a unit run, which
+  would re-cut every district, and never a change of the district count. Either way volume 1's `plantRimWalk` (V01
+  §3.10.3 step 4) re-plants the rim walk whole, once for the resize, since no district's re-derivation writes it.
 * **Altitude** (`setAttr(altitudeCm)`): the record alone; a value below V05 §3.9's floor is bent to the floor, the line
   naming it (J-VI.4).
 * **Underside and occlusion** (`setAttr(underside.*)`, `setAttr(occlusion)`): the record alone (`underside.source` becomes
@@ -1900,16 +1885,14 @@ no edit kind. §4.5's `w_sun` and this volume's `shade`, `routing` and `casterAl
   as §7.2's stroke overrides on the island's lattice over the gradient): the island's plots whose value crosses a cut past
   τ re-derive (§7.2's rule for a field brush), on the island only.
 * **Reshaping the rim** (`moveVertex` on a rim vertex, `warp` on the island's key with `fromLevel 0`): §7.3's local
-  operator on the island's arena moves the rim, and the rim's L1 pieces follow it as a resize's do — the strip re-laid
-  inside the new rim, each landing yard on a moved stretch re-claimed at its top (a pinned `sky_access` vertex never
-  moves), the institution claim kept or re-searched inside its district; a reshape that would leave the claim no site
-  there, or make the rim non-simple, is bent back along each moved vertex's drag to the furthest position that keeps one
-  and a simple rim (bisection, ≤ 12 steps; J-VI.4), with the line `bend.island.rimStop` — "<island> keeps room for its
-  <institution>; the rim stops here". Each stretch that moved outward is a growing resize's band — its faces, cut at the
-  extended district boundary ways, joining the district of their nearest rim stretch, every district that receives a face
-  re-derived by its own scoped re-derivation from S8 — and each that moved inward a shrinking resize's, which gives no
-  face and re-derives no district but the claim's where the claim is re-searched (V01 §3.10.3 (6) (c)); `plantRimWalk`
-  then re-plants the rim walk whole, once for the reshape; `areaHa` is rewritten to the new land area.
+  operator on the island's arena moves the rim, and its L1 pieces follow as a resize's do — the strip re-laid, each landing
+  yard on a moved stretch re-claimed at its top (a pinned `sky_access` vertex never moves), the institution claim kept or
+  re-searched inside its district. A reshape that would leave the claim no site there, or make the rim non-simple, is bent
+  back along each moved vertex's drag to the furthest position that keeps one and a simple rim (bisection, ≤ 12 steps;
+  J-VI.4), with `bend.island.rimStop` — "<island> keeps room for its <institution>; the rim stops here". A stretch that
+  moved outward is a growing resize's band, one that moved inward a shrinking resize's (no face given, no district
+  re-derived but the claim's where it is re-searched; V01 §3.10.3 (6) (c)); `plantRimWalk` re-plants the walk once;
+  `areaHa` is rewritten to the new land area.
 * **New random on the island** (`regenerate` with the island's scope, `newRandom`): the outline's displacement, the
   terrain (with an `own` relief's class), the underside (unless edited) and the river re-derived under the next reroll,
   SKY's island steps re-run (the rim strip, the landing yards and the institution claim re-laid), the island's districts
@@ -2234,7 +2217,7 @@ All PLAUSIBLE until M6-sky measures them (V05 §8), on §12.1's reference machin
 | `fallIsland` | ≤ 80 ms | ≤ 110 ms | relocations, demolitions, the archive, and ≤ 30 ms per other island's re-landed access |
 | `IslandEpochStep`, per island | ≤ 2 ms plus its conversions at the rows above | same | the epoch's strips are the field pass 2 row |
 | `sky.clearance`, per island and epoch (V05 §3.15 (7)) | ≤ 1 ms | ≤ 1 ms | the epoch scope's elements under the projected solid (≤ 300 / 800 field cells), each a footprint test and a top read; no geometry written |
-| `skyAccessObstacles` and its callers' tests | ≤ 0.15 ms per call | same | ≤ 27 entries (V05 §2.3b); the raised-way solver tests each candidate span against them in O(entries), inside its own budget (the base's) |
+| `skyAccessObstacles` and its callers' tests | ≤ 0.15 ms per call | same | ≤ 27 entries at the defaults (V05 §2.3b); the raised-way solver tests each candidate span against them in O(entries), inside its own budget (the base's) |
 | the shade map view's pending strip after an island edit | ≤ the field pass 2 row, computed only while that view is shown | same | never on the edit's own path |
 | Update shade now | ≤ the field pass 2 row for one island + the field's recomputation over the two windows (≤ 2 ms) + §12.6's rate for the blocks it re-derives | same | a scoped evaluation, never a whole pass |
 | memory | ≤ 5.2 MB for three islands (the strips ≤ 30 KB each, `shadeBasis` ≤ 2.5 KB each) | ≤ 9.3 MB (≤ 60 KB each; bases ≤ 2.5 KB each) | an island's arena ≈ 0.5 MB per district's worth; its rasters ≤ 0.1 MB; the sky surface layers only on covered tile positions, inside §8.8's canvas budget B |
@@ -2351,37 +2334,34 @@ island bars T10-1, T13-1, T15-1 and T102-2 as §13.2 names (file f item 476).
   the institution floor is bent to it with the claim keeping a site in its own district, and an epoch's erosion toward a
   sliver stops at the one-face floor, listed (J-V5.77). **The landfall:** it adds and removes no ground edge, demolishes
   exactly the covered set's buildings, keeps every locked entity, credits the ledger with the covered land area × 3 m³,
-  relocates every dossier use before its building goes; on a fixture whose footprint covers a wall stretch, a `main` gate,
-  a tower, a bridge deck, a market reservation, a way, a harbour quay, the sea and a cliff: the stretch `breached` over its
-  covered length in the enceinte's `condition` (a knot at each end, a run already `dismantled` kept) and, the ring in use,
-  back to `standing` at the next `fortification` phase (V06 §3.7.5; T-V6-11), the tower and the `main` gate inside the
-  `breached` run — drawn by their run and standing again with it, no state written to any `Tower` or `Gate` — the bridge
-  and the quay deck `ruined`, the market vacant under the rubble with its use relocated, the way `rubble` and routed as
-  `track` with its class before the fall in `Way.formerClass` — a covered lane volume 6 had downgraded keeping its earlier
-  `formerClass`, 0 covered ways without one — until an epoch's clearance restores that class and clears it (V06 §3.5.2;
-  T-V6-66), the part over the sea reported sunk, the cliff unchanged, the fall's undo restoring each way's class and prior
-  `formerClass`, the landfall's quarry carrying its `source` and read by no underground quarry rule, a locked wall kept —
-  each listed as a fate; a fall wholly over water lays no decoration and reports "sank in <water body>"; a fall covering
-  another island's hoist foot and landing plot re-lands that access as a `ropeway` from the same top (or by F-SKY-ACCESS's
-  ladder), the other island keeping a way up or being reported `unreachable`, and the undo restores it (EI-V05-EDGE-2); a
-  covered composed building and its floor plans go with it and return with the undo. **The dossier:** an absorb removing an
+  relocates every dossier use before its building goes; on a fixture whose footprint covers a wall stretch, a `main`
+  gate, a tower, a bridge deck, a market reservation, a way, a harbour quay, the sea and a cliff, each covered entity takes
+  its row of V05 §3.16 (4)'s table — the `breached` run with a knot at each end (a `dismantled` run kept) standing again at
+  the next `fortification` phase when the ring is in use (V06 §3.7.5; T-V6-11), the tower and the gate inside it with no
+  state written to any `Tower` or `Gate`, the market's use relocated, the way a `track` holding its former class in
+  `Way.formerClass` (a lane volume 6 had downgraded keeping its earlier one; 0 covered ways without one) until an epoch's
+  clearance restores it (V06 §3.5.2; T-V6-66), the landfall's quarry carrying its `source` and read by no underground
+  quarry rule — the part over the sea reported sunk, the cliff unchanged, a locked wall kept, each listed as a fate, and the
+  undo restoring every class, `formerClass`, profile and state; a fall wholly over water lays no decoration and reports
+  "sank in <water body>"; a fall covering another island's hoist foot and landing plot re-lands that access as a
+  `ropeway` from the same top (or by F-SKY-ACCESS's ladder), the other island keeping a way up or reported `unreachable`,
+  and the undo restores it (EI-V05-EDGE-2); a covered composed building and its floor plans go with it and return with the
+  undo. **The dossier:** an absorb removing an
   island's palace leaves the island at once without it, and at the next epoch the island takes the next palace instance
   where one exists, else becomes a prosperity island where the rich band admits it, else wanes (the three cases on
   fixtures); with the island locked, the palace still leaves at once, the island keeps its reason and vacant claim listed
   `held without its institution` at every epoch, and (1b) runs at the first epoch after the unlock (EI-V05-EDGE-1); each
   conversion's undo restores the model byte for byte. **With item 110:** the landfall fixture also covers an aqueduct span,
   a viaduct's raised-way pier and the span it carries (itself less than half covered), a generated retaining wall on a
-  terraced ward and a bridge carrying deck plots — the covered span, the pier and the span on it `ruined`, the viaduct's
-  crossing closed and the ways beneath it touched only where covered, the aqueduct's terminal listed as run dry and its
-  lost supply read at that epoch's `raisedWays` step when the fall is an epoch's (its ruined parts in `EpochScope.raised`;
-  the next epoch's for a hand `convert`), the retaining wall `decayed` over its covered length and still `decayed` after a
-  re-derivation until an epoch's restoration re-derives it (V06 §3.19.4 (6)), the platforms' datums unchanged, the deck
-  plots' households relocated before their buildings are demolished and the plots tombstoned with the deck — 0 vacant
-  plots left on a ruined deck, and a later repair of the deck re-offering its faces to new lineages — the covered spans,
-  piers and walls in the decoration's `members` — each span as `{ raised, span: [a, b] }` and each pier as `{ raised,
-  support }` on item 244's keys, the same members after a re-derivation of the viaduct, each leaving in the batch of the op
-  that ends its cover (V06 §3.5.2) — (the deck plots listed as fates, never members), all of it in V05 §5.5's per-landfall
-  CSV, and 0 edges of the ground's streets and plots added or removed beyond the tombstoned deck plots' lines.
+  terraced ward and a bridge carrying deck plots — each by its row of V05 §3.16 (4)'s table: the span on the ruined pier
+  `ruined` with it, the viaduct's crossing closed and the ways beneath touched only where covered, the aqueduct's lost
+  supply read at that epoch's `raisedWays` step when the fall is an epoch's (its ruined parts in `EpochScope.raised`; the
+  next epoch's for a hand `convert`), the wall still `decayed` after a re-derivation until an epoch's restoration, the
+  platforms' datums unchanged, 0 vacant plots left on the ruined deck and its later repair re-offering its faces to new
+  lineages; the covered spans, piers and walls in `members` as `{ raised, span: [a, b] }`, `{ raised, support }` and `Id`s,
+  the same members after a re-derivation of the viaduct, each leaving in the batch of the op that ends its cover (V06
+  §3.5.2), the deck plots listed as fates, never members; all of it in V05 §5.5's per-landfall CSV, and 0 edges of the
+  ground's streets and plots added or removed beyond the tombstoned deck plots' lines.
 * **T-V5-15 — goldens and determinism** [C]. Two sky fixtures join §13.3's goldens — a CITY with a prosperity island and a
   conjured river; a METROPOLIS with a palace island and a prison island — identical on the five engines; every stream key
   distinct (§6.1's sky fixture); a one-island document draws slot 1's indices only; an island raised after a fall takes a
@@ -2653,7 +2633,7 @@ are volume 11's palette rows; P0, P4, P5 and P6 land no calibratable cell, their
 | J-V5.8 | Chose hoists — a winch house and a cage on ropes, as clifftop monasteries were reached — as the default access, rope lines over water, and floating stairs and bridges of light only where the world has magic, over bridges of light everywhere, because the realism tiebreaker tempers the fantasy: the island is the one magic the setting asks for. |
 | J-V5.9 | Chose to leave the island's magical lights ungated by the `magic` circumstance, over hiding them when it is `none`, because the island exists by its own setting and its magic is what holds it up; the circumstance still gates the stairs, the bridges of light and the ground's magical lights. |
 | J-V5.10 | Chose to make generation and epochs obey the supply law strictly while letting an author's declaration or lock hold an island against it, with the fate `held against its supply` listed, and to keep the rung gate absolute, over refusing such a declaration or letting the rung be overridden, because everything is editable yet the base disables the setting below CITY. |
-| J-V5.11 | Chose to make the landfall a conversion of everything it covers — buildings demolished, plots and reservations left vacant under rubble, fields quarried as a surface working (its `source` the landfall, never an underground quarry), walls breached with their towers and gates, bridges ruined, ways buried and routed as tracks until an epoch clears them, the stone credited to the salvage ledger — with no edge added or removed, over cutting a new ruin face, leaving no mark, or covering plots and fields only, because it stays local, undoes exactly, keeps the old plan for regrowth, ties the fall into the ledger's salvage demand, and leaves no intact wall or open street standing in a field of fallen rock. |
+| J-V5.11 | Chose to make the landfall a conversion of everything it covers, one outcome per covered kind (V05 §3.16 (4)), the stone credited to the salvage ledger and no edge added or removed, over cutting a new ruin face, leaving no mark, or covering plots and fields only, because it stays local, undoes exactly, keeps the old plan for regrowth, ties the fall into the ledger's salvage demand, and leaves no intact wall or open street standing in a field of fallen rock. |
 | J-V5.12 | Chose to draw everything on existing concerns (`island.place`, `terrain.noise`, `water.river`, `field.chance`, `naming`) with named creation indices, over a new concern, because §6.1's registry already reserves `island.place` for the islands and no draw here reads another concern's order. |
 | J-V5.13 | Chose to redraw only empty slots at an epoch, a supplied island staying, over reading that a slot may close and send its island down the decline ladder, because an island falls for want of magic, never by chance while it is paid for. |
 | J-V5.14 | Chose to floor the cursor sun's height at 1.5 × the display list's top whenever the sky layer is visible and the document holds an island that is not fallen, over letting the sun stand below an island at close zooms or flooring it only while an island is in view, because a sun below a floating island casts its shadow upward and reads as an error, and a floor that switched on as an island panned into view would jolt every shadow on screen mid-pan. |
@@ -2674,7 +2654,7 @@ are volume 11's palette rows; P0, P4, P5 and P6 land no calibratable cell, their
 | J-V5.29 | Chose to fix the ground reference and the altitude at SKY from the casters already placed, the tower rows of the allocated classes and a caster allowance, over reading the built casters at SKY-F, because field pass 2 must read the island's shade before any plot is cut and the altitude must not move after that read; the rare taller caster raises it at SKY-F with the strip's basis kept, a share measured at P0 with a pre-decided fallback. |
 | J-V5.30 | Chose the model's strip as a derived record over the tiers without roughness, carrying no edit kind, over the view's rough tiers or an editable strip, because the roughness is view data keyed by the render key (§6.2), which the model must never read, and a strip is a consequence of its island — edited through the island, item 102's weight and the brush; at the field's 32 m cell the roughness is below one cell. |
 | J-V5.31 | Chose a fourth island institution row, the arcane `tower`, admitted only where the world has magic and taking a custom kind of the `exotic-tower` archetype, and the archetype column on the palace and cathedral rows, over leaving custom institutions off the islands, because item 104 asks that custom content land sensibly with no hand-written rules and a tower "on its own ground, apart" is the owner's unique institution in its plainest fantasy form; it arises only when the roster or the dossier demands one. |
-| J-V5.32 | Chose to leave on the ground, by the editable table `IslandRule.carry`, every trade whose profile emits smell, smoke or water pollution at the top step, the heavy processors and wholesale and storage of item 107 (a), every class with a hard need for running water, a river bank, the harbour, a gate or a quay, and an active chain's working nodes, over excluding the top-step emitters only, because an island has no downwind, downstream or extramural ground, no quay or gate, and no water that satisfies a need (its conjured river is magic's own), and the owner's rule that the tannery goes "down river" and away from homes cannot be met there. |
+| J-V5.32 | Chose to leave on the ground, by the editable table `IslandRule.carry`, the top-step emitters, the heavy processors and wholesale and storage, the classes with a hard need an island cannot meet, and an active chain's working nodes (V05 §3.5 (3) (a)), over excluding the top-step emitters only, because an island has no downwind, downstream or extramural ground, no quay or gate, and no water that satisfies a need (its conjured river is magic's own), and the owner's rule that the tannery goes "down river" and away from homes cannot be met there. |
 | J-V5.33 | Chose to let an island's own terrain cast nothing on its own context, over running the terrain shade on the island's terrain, because that relief is a gentle dome at a quarter of the ground's amplitude whose self-shade stays below a field cell; a higher island's shade on it is real and kept, and at an epoch its own buildings cast on it through volume 6's mask on its lattice, as item 102 (b) asks of every building. |
 | J-V5.34 | Chose to keep the island's own placement score (V05 §3.7) apart from item 103's relation families, over scoring the island's position with them, because the island is placed as one body at S7b (5) before any plot exists, while the families score plots against placed neighbours; its purpose rows are the island-scale reading of the institutions' profiles, aligned by volume 11. |
 | J-V5.35 | Chose to export the strip as a thematic layer only — GeoJSON features, the shade map view's SVG, the statistics — over carrying it in the lit raster, VTT, glTF and CityJSON, because those formats already carry the island's physical shadow and solid, and a model day's shade share is a statistic, not a picture. |
@@ -2687,7 +2667,7 @@ are volume 11's palette rows; P0, P4, P5 and P6 land no calibratable cell, their
 | J-V5.42 | Chose the model sampler's default — nine suns at the midpoints of nine equal slices of the equinox day at the site latitude; one point per field cell — with volume 6's per-cell layout of points × suns, stated at §4.5 (file f item 296), over leaving it unstated, because the strip and volume 6's building mask must OR bit for bit and neither can be built on an unstated layout; the strip reads whatever the sampler holds. |
 | J-V5.43 | Chose a vault in the island's own rock — the rim slab, underside tier 0, present under every underside kind — for an island cathedral's crypt, the settlement's largest, over a ground crypt or no crypt, because only that keeps both the owner's crypt rule (item 109 (k) (2), J111: "cathedral also gets crypts but cemetaries get catacombs") and item 2's "no relation with the sewer system or underground"; island churchyards are surface burial grounds only, never catacomb candidates, while island churches still count toward the catacomb count. |
 | J-V5.44 | Chose to state the reach cap of 8 × the caster's height as the model sampler's rule for every source — terrain, walls, islands and volume 6's building mask — over leaving each source its own reach, because the sources are OR-ed into one mask, which must follow one reach law (§8.4's cap). |
-| J-V5.45 | Chose an island district size of its own, `districtHa` (3.5 ha at CITY, 4.5 at METROPOLIS), over the town's mean district area, because with the town's mean a full CITY island is always one district and three never occur at METROPOLIS, so the owner's "a collection of neighbourhoods" could not happen; the values are about one Neighbourhood patch, calibratable. The count's plot share is volume 1's `hood.constants.sky.plotShare`, cited and never copied, and the count itself is volume 1's `skyDistrictCount(plotLandM2, districtHa)` (V01 §3.16), called and never restated; the fill's stop and the coverage overshoot read the same cell (`plotShare · A`), so an edit of it moves both volumes' counts, the fill and the overshoot together. |
+| J-V5.45 | Chose an island district size of its own, `districtHa`, over the town's mean district area, because with the town's mean a full CITY island is always one district and three never occur at METROPOLIS, so the owner's "a collection of neighbourhoods" could not happen; the count is volume 1's `skyDistrictCount` with volume 1's `plotShare`, the same cell the fill's stop and the coverage overshoot read, so one edit moves the count, the fill and the overshoot together. |
 | J-V5.46 | Chose to hand an S3 reservation an institution island leaves to the row's hand-over classes — the cathedral's close to the town's largest parish church (or temple), the palace's site to the town hall or a guild hall, else a park — and to skip the reservation where the creation prefix already sends the institution up, over leaving it empty or re-planning S3, because a reserved site with no owner is a hole no stage fills, the old close as the mother church's and the old palace as the town hall are the historical pattern, and the castle holds its own S3 reservation (so handing the palace's to the castle row would reserve twice). |
 | J-V5.47 | Chose to persist, per island, the `shadeBasis` its strips were last computed from — written only by a shade evaluation — over recomputing the strips on load from the live island or storing the strips' bits, because the owner's lag (item 102 (e)) must survive a save and a replay (the base recomputes the fields on load, §2.9), and a basis of ≤ 2.5 KB rebuilds the strips exactly where the bits would cost up to 60 KB. |
 | J-V5.48 | Chose island district kinds keyed `sky-island`, `sky-palace`, `sky-temple`, `sky-prison` and `sky-tower`, owned by this volume and adopted by volume 1, and a fabric hint that is a prior (× 3 on the hinted template at S7c) and never a forced strategy, over reusing the ground's kinds or forcing the template, because `temple` is already a ground kind (one table, one row per key), and the owner's islands should vary as neighbourhoods do while leaning toward the fitting form. |
@@ -2702,28 +2682,28 @@ are volume 11's palette rows; P0, P4, P5 and P6 land no calibratable cell, their
 | J-V5.57 | Chose to let an island institution be only one building or compound — a singular record or a SIZE step — and to send a subsuming greater up alone, its lessers staying separate members, over admitting any record, because a COUNT, GUILD or QUARTER record is many buildings (item 108) and one island cannot carry all of them, while a member taken alone would count twice. |
 | J-V5.58 | Chose to give the cathedral row a second tag, the great temple of a non-default religion, over the cathedral alone, because item 23 forbids hard-coded universals and volume 11 already treats the great temple "as cathedral". |
 | J-V5.59 | Chose an exact O(1) pre-test per corridor cell (its own ray's track against the solid's bounding box) for the strip's window in rough relief, over two-pass extremes, because extremes taken over a smaller window can miss a low cell far from the island that the ray still reaches, while the pre-test is exact and as cheap. |
-| J-V5.60 | Chose to stand every access foot and landing yard on part-0 land only — clear of raised-way piers, of raised decks' plans dilated by `accessSiting.deckGapM` and of item 110 (d)'s deck faces, "the nearest way" a walkable part-0 way — and to make the accesses overhead obstacles (`skyAccessObstacles`) that every raised course laid after SKY keeps clear of, over letting a deck span a landing yard or a rope line, because a hoist's cage and a rope line need open air while item 110 (b) lets a deck span anything, and a yard on a mid-span deck or beside an aqueduct is reachable by nobody. |
+| J-V5.60 | Chose to stand every access foot and landing yard on part-0 land only, clear of piers, dilated decks and deck faces (V05 §3.22 (3)), and to make the accesses overhead obstacles every raised course laid after SKY keeps clear of, over letting a deck span a landing yard or a rope line, because a hoist's cage and a rope line need open air while item 110 (b) lets a deck span anything, and a yard on a mid-span deck or beside an aqueduct is reachable by nobody. |
 | J-V5.61 | Chose that no raised way reaches an island and no raised part stands on one, and that no `SkyAccess` is a way or carries deck plots, over admitting a raised way into the sky or a second sky part per island, because II.1's sky has "no portals, no roads in or out", sky access is `SkyAccess` only, and item 110 (b)'s decks live in ground parts. Amended by J-VI.4: a T4 `raised` or aqueduct stroke ending on a rim, or lying on an island's key, is bent (J-VI.4 (d), (e)), never refused. |
-| J-V5.62 | Chose to keep a removed island as a live record in state `removed` (`convert removeIsland`) that holds its slot closed and counts as filled — for the slot chain and toward an integer `islands.count` — at every re-derivation and every epoch, released only by the removal's undo or the user's own re-add serving that key (a T5 declaration when no slot is free), and to hold a deleted generated access's ordinal likewise, the lowest surviving generated ordinal taking `main`, over re-drawing the slot, matching tombstones or reading the log ahead, because the owner's removal "holds through regeneration" (item 110 (b)), volume 6 holds removed generated content across epochs (V06 §2.13), the base's collision rule re-mints over a tombstone, and a live record read at every derivation is the base's own pattern (a fallen island's record, a rejection record) — the owner removed that island, not the town's quota of islands. Amended by J-VI.14: one suppression rule in two record forms, a count never releasing a hold (file f item 260). |
-| J-V5.63 | Chose that item 110 (b)'s generator reads the sky only as follows — an elevated road's endpoints bound to reservations, never institutions (so a road to a precinct whose cathedral rose stands, its reason reading through the hand-over); ground-arena entities only, by `PlatKey.layer`, at epochs and in post-build requests; the aqueduct's need from the whole S2 population at generation and the ground households at an epoch; ground hydrology only for its source, no aqueduct part on an island — with every generated raised part committed before S7b (1) (§4.3's slot, file f item 290), over letting the generator read islands, because at generation the sky fill runs after the generator, a list of `sky-*` kinds would drift from the arena test, and an island's spring pond 60–220 m up is exactly what a naive search for a higher spring would find. |
-| J-V5.64 | Chose that a landfall ruins the raised spans and raised-way piers it covers (a span falling with its pier, the crossing closed, an aqueduct's terminal running dry as a fate), steps the retaining walls it covers to `decayed` (item 245's state) — generated and drawn alike, keyed by lineage so a re-derivation keeps them decayed until an epoch's restoration re-derives them (V06 §3.19.4 (6)) — and brings down the deck plots on a covered deck after relocating their households, their buildings demolished and the plots tombstoned with the deck as volume 6 tombstones a struck deck's, a repaired deck re-offering its faces (V06 §3.19.5 (3)–(4)), over re-deriving generated retaining walls "under the rubble" or leaving raised parts untouched, because re-derivation would stand an intact wall in a field of fallen rock, and the landfall's own rule is that states change and each change is a listed fate. |
+| J-V5.62 | Chose to keep a removed island as a live record in state `removed` that holds its slot closed and counted as filled at every re-derivation and epoch (V05 §3.2 (6)), and a deleted generated access's ordinal likewise (V05 §3.10 (1)), over re-drawing the slot, matching tombstones or reading the log ahead, because the owner's removal "holds through regeneration" (item 110 (b)), the base's collision rule re-mints over a tombstone, and a live record read at every derivation is the base's own pattern (a fallen island's record) — the owner removed that island, not the town's quota of islands. Amended by J-VI.14: one suppression rule in two record forms, a count never releasing a hold (file f item 260). |
+| J-V5.63 | Chose that item 110 (b)'s generator reads the sky only as V05 §3.22 (5) states — endpoints bound to reservations, ground-arena entities only by `PlatKey.layer`, the water need by arena, ground hydrology only — with every generated raised part committed before S7b (1) (§4.3's slot, file f item 290), over letting the generator read islands, because at generation the sky fill runs after the generator, a list of `sky-*` kinds would drift from the arena test, and an island's spring pond 60–220 m up is exactly what a naive search for a higher spring would find. |
+| J-V5.64 | Chose that a landfall ruins the raised spans and piers it covers, steps the retaining walls it covers to `decayed` (kept decayed through a re-derivation until an epoch's restoration) and brings down the deck plots on a covered deck with their deck, as V05 §3.16 (4)'s table states, over re-deriving generated retaining walls "under the rubble" or leaving raised parts untouched, because re-derivation would stand an intact wall in a field of fallen rock, and the landfall's own rule is that states change and each change is a listed fate. |
 | J-V5.65 | Chose the strip's receiver heights to be the unlevelled ground raster the field reads (S1 with the T2 terrain strokes), item 110 (a)'s levelling kept as platform datums (file f item 309), the basis's receiver version the hash of those heights, and a ground terrain edit re-reading strip bits over its scope from the unchanged bases, over a stored terrain version on the basis, because a load cannot rebuild from a superseded terrain version while the unlevelled raster is what the field and volume 6's shade mask already read (V06 §3.4), and a terrain edit moves the receiver, not the caster whose lag item 102 (e) asks for. |
 | J-V5.66 | Chose to write "underside tiers" for the rock beneath an island and "massing tiers" for item 110 (c)'s stacked wings wherever both could be meant, the crypt lying "under the building's lowest massing tier, inside underside tier 0 (the rim slab)" and the surface top reading each point's highest massing tier, over one bare "tier", because a stepped temple on an island puts both in one sentence. |
 | J-V5.67 | Chose to record item 110's arrival as one declared shift of both sky goldens with a no-op pin (item 110's rows off: byte-identical), the METROPOLIS golden pinning a raised way under an island, over re-recording the goldens silently, because the owner's default at CITY and METROPOLIS legitimately changes both, and a shift that rides silently hides every later regression behind it. |
-| J-V5.68 | Chose to re-check every island's clearance after each epoch's growth, as a second participant `sky.clearance` at `afterGrowth` order 50 returning `reclearIsland` — raising `groundRefCm` and keeping `elevationCm` unless the floor fails, never writing `shadeBasis` — and to let the island yield to the city (no raised part, wall or building is moved or refused for an island), over checking at `afterField`, constraining the raised-way solver by islands, or re-evaluating the strip at the raise, because an epoch's raised parts, new stage and close-ups exist only after growth, a city builds its aqueduct where the water is, and item 102 (e)'s lag keeps the strip's basis to the next evaluation. |
+| J-V5.68 | Chose to re-check every island's clearance after each epoch's growth by a second participant `sky.clearance` (V05 §3.15 (7)) and to let the island yield to the city (V05 §3.22 (2)), over checking at `afterField`, constraining the raised-way solver by islands, or re-evaluating the strip at the raise, because an epoch's raised parts, new stage and close-ups exist only after growth, a city builds its aqueduct where the water is, and item 102 (e)'s lag keeps the strip's basis to the next evaluation. |
 | J-V5.69 | Chose to lay an island's retaining walls — the unit run's levelling and an author's T3 `retaining` or T2 terrace stroke — as `RetainingWall` records on the island's own arena, never an enclosure, never on the rim strip or along the rim (a stroke there bent inward past the rim walk, J-VI.4 (g)), over reading T3 on an island as an enceinte or keeping retaining walls on the ground layer only, because item 110 (a) says a retaining wall "is not an `Enceinte`" and holds the terrain it levels, which on an island is the island's, while the rim strip is never cut. |
-| J-V5.70 | Chose to give SKY's ground writes data keys of their own, `reservations.landing` and `allocations.landing`, declared by S8, S10a (with its hook S9b) and S12a and by no earlier stage or hook, and to let S10a take a landing's two staff households from its host district's `modest` demand, over SKY writing `reservations` and `allocations` as S3 and S7b do or SKY running before S7c, because with §4.12's hooks united into S7b's declared I/O a SKY that writes S7b's keys after S7b closes a cycle in §4.1's sort, while a SKY before S7c would split S7b; own keys order SKY after S7b and before its readers with no cycle, and SKY then rewrites no row S7b wrote. |
+| J-V5.70 | Chose to give SKY's ground writes data keys of their own, `reservations.landing` and `allocations.landing`, declared only by their readers (S8, S10a with S9b, S12a), S10a taking a landing's two staff households from its host district's `modest` demand, over SKY writing `reservations` and `allocations` as S3 and S7b do or SKY running before S7c, because with §4.12's hooks united into S7b's declared I/O a SKY that writes S7b's keys after S7b closes a cycle in §4.1's sort, while a SKY before S7c would split S7b; own keys order SKY after S7b and before its readers with no cycle, and SKY then rewrites no row S7b wrote. |
 | J-V5.71 | Chose to compute the strips onto the ground once per shade evaluation, at their first read — volume 1's S9b at S10a's `afterDrivers` hook where it is registered, else field pass 2 — and hold them for every later reader, and at a re-derivation starting after SKY to write the islands' bases at S10a's start, before step (i) and every hook, over computing bases and strips at field pass 2 alone, because S9b's manor sun factor, the hood pins' shade gate and `DistrictContext.shade.islandShare` read the strips before pass 2, and a re-derivation from S10a would otherwise let the manor pick read strips from the old bases while the field folds the new. |
 | J-V5.72 | Chose an optional `shadeBasis` — absent on an island raised at an epoch after S6 or declared between evaluations, which casts and receives no strip until the next evaluation — and a load that computes bases only through §7.5's schema chain for a document older than the basis step, never from an absent basis, over writing a basis at the raise or computing an absent one at load, because a basis written at the raise would move the field before the owner's lag lets it (item 102 (e)), and a basis invented at load gives a strip the session never had, breaking T-V5-21 (h). |
 | J-V5.73 | Chose to write a covered way's class to volume 6's `Way.formerClass` in the `fallIsland` batch, keeping a `formerClass` the way already carries, over a landfall field of this volume's own or no record, because volume 6's landfall clearance restores the class from `formerClass` alone (V06 §3.5.2) — without the write every covered primary would stay a track for ever — and a lane volume 6 had downgraded should get back the class it had before its decline, not the lowered one. |
 | J-V5.74 | Chose to read an epoch's island laws at the fold's rung (`ctx.rung`, V06 §3.1 (3)) over the rung at the epoch's population target, because inside the hand-off band the two differ and file f item 322 makes the fold's the epoch's rung for every reader, so the islands' gate agrees with the product and rung the rest of the epoch runs with. |
 | J-V5.75 | Chose to read a sky pseudo-district in S7b (1)'s district supply term at its island's land centroid's world point (`anchor` + the outline's centroid, fixed by S7b (5)'s placement) over its main landing's foot, because the feet are sited only at SKY, after S7b, while volume 1's χ̃ reads the term at S7c by centroid distance; the centroid is the proxy the ground pool already reads for an island's classes (V05 §3.20 (1)), so both volumes read one point that exists when the term runs. |
 | J-V5.76 | Chose to type a landfall's `members` as `DecorationMember` — an `Id` for a plot, land use, reservation, way or retaining wall, and `{ raised, span: [a, b] }` or `{ raised, support }` on item 244's support keys for a raised part — over storing volume 6's `SpanRef` or keeping raised parts out of the list, because a span and a pier have no `Id` of their own and a `SpanRef` is batch-local and never stored, while the support keys are minted once and never reused (file f item 244), so volume 6 can remove each raised member in the batch of the op that ends its cover. |
-| J-V5.77 | Chose to make a resize and a rim reshape re-lay the rim strip, re-claim the landing yards at their re-seated tops and keep or re-search the institution claim inside the district that holds it, in the same commit — a growing band cut at the extended district boundary ways and re-derived by each receiving district, the rim walk re-planted whole after every rim change by volume 1's island-level `plantRimWalk` (V01 §3.10.3 step 4), and a re-searched claim's district re-derived by volume 1's claim re-search, which releases the institution from V01 §3.9's fixed inputs for the event (V01 §3.10.3 (6) (c)) — and to floor a resize's area (or bend a reshape back) where no site in that district would fit, over leaving the strip and the claims where SKY laid them, re-running the unit run, re-searching the claim anywhere on the island, or releasing the institution to the ground, because a strip left behind either widens into dead land (growing) or is cut by the rim (shrinking), a re-search confined to the claim's district keeps every district's kind and volume 1's rule that only a unit run re-partitions an island (J-V1.90), and a floor keeps an institution island's reason without a second re-reasoning path beside V05 §3.15 (1b). |
+| J-V5.77 | Chose to make a resize and a rim reshape re-lay the rim strip, re-claim the landing yards and keep or re-search the institution claim inside the district that holds it, in the same commit, the rim walk re-planted whole by volume 1's `plantRimWalk` (V05 §4.2), and to floor a resize (or bend a reshape back) where no site in that district would fit, over leaving the strip and the claims where SKY laid them, re-running the unit run, re-searching the claim anywhere on the island, or releasing the institution to the ground, because a strip left behind either widens into dead land (growing) or is cut by the rim (shrinking), a re-search confined to the claim's district keeps every district's kind and volume 1's rule that only a unit run re-partitions an island (J-V1.90), and a floor keeps an institution island's reason without a second re-reasoning path beside V05 §3.15 (1b). |
 | J-V5.78 | Chose to store an `own` island's drawn relief class on `terrainEcho.reliefClass`, written by SKY at the draw, over re-drawing it wherever it is read, because volume 1's terrace rule reads it after SKY and a second draw on one stream index would be a second writer of one value; `echo` and `none` carry none and read as `plain` (V01 §3.17.7 (2); J-V1.94). |
 | J-V5.79 | Chose to let a covered tower and gate (a `Gate` of any kind — `main`, `postern`, `water`, `gatehouse` or `castle`) follow its run's `condition` — the `breached` length extended over its footprint's chord along the trace, or that chord alone where its stretch is not covered — over giving `Tower` a `ruined` state, because the base's `Tower` and `Gate` carry no state or lifecycle, file f item 575 draws a tower by its run, and volume 6's repair of a ring in use then stands tower, gate and wall together with nothing further to restore (V06 §3.7.5). |
-| J-V5.80 | Chose to write no register line of this volume's own: every calibratable column P1 and P2 land takes V12 §3.11's default line through `plat calibrate register --defaults` in the landing change, and P1's and P2's exits carry the register check (V05 §8), over a line of `measure` entries due at M6-sky for the three ⟨P0⟩ cells with T-V5-3 and T-V5-10 registered as V12 `BenchBarDef`s, because P0's spikes set those cells and apply their fallbacks before P1 lands the table, so no measurement of a landed cell is left to register (T-V5-3 and T-V5-10 then hold the cells as ordinary bars, and a failure fails the phase exit); a whole-bar verdict would open a supply or caster fallback on a clause about another quantity (T-V5-10's ring nesting, T-V5-3's monotonicity); and no corpus frame holds an island, so the default line's corpus pass closes the island columns `fixed` with "no admissible frame", the honest status of a fantasy table. The ⟨P0⟩ cells' provenance notes name the run that set them; `carriedSupply` carries its ⟨P0⟩ mark, being set at the same run. |
-| J-V5.81 | Chose to price a resize and a rim reshape at every piece of work V05 §4.2 commits — each re-claimed yard's top at §12.6's post-build placement rate (one `placeAt` per access; a reshape's on the moved stretch's yards only) and one scope at §12.6's scoped-regeneration law over the plots the event re-cuts outside the re-derived districts — over keeping those inside the row's fixed ≤ 5 ms or batching the tops into the island L1 batch, because the base prices a `placeAt` and a local operator at those rates (§12.6), V01 §6's sky row leaves the shrink's plot clearing and re-cut and T-V1-21 the yard's local operator to this row, and volume 6 sums its century from this row by citation; so V06 §6.2's worst case adds ≈ 97 ms a growing resize at CITY (3 tops, ≤ 9 re-cut plots' buildings) and its D-18 rule re-declares CITY ≤ 115 s and METROPOLIS ≤ 215 s (TOWN ≤ 25 s kept) for the owner's veto (J-V6.118). |
+| J-V5.80 | Chose to write no register line of this volume's own — every calibratable column P1 and P2 land takes V12 §3.11's default line, and their exits carry the register check (V05 §8) — over a line of `measure` entries due at M6-sky for the three ⟨P0⟩ cells with T-V5-3 and T-V5-10 registered as V12 `BenchBarDef`s, because P0's spikes set those cells and apply their fallbacks before P1 lands the table, so no measurement of a landed cell is left to register (the two tests hold them as ordinary bars at the exits); a whole-bar verdict would open a supply or caster fallback on a clause about another quantity (T-V5-10's ring nesting, T-V5-3's monotonicity); and no corpus frame holds an island, so "no admissible frame" is the honest status of a fantasy table. |
+| J-V5.81 | Chose to price a resize and a rim reshape at every piece of work V05 §4.2 commits (V05 §6's row: each re-claimed yard's top at §12.6's placement rate and the plots re-cut outside the re-derived districts at its scoped-regeneration law), over keeping those inside a fixed ≤ 5 ms or batching the tops into the island L1 batch, because the base prices a `placeAt` and a local operator at those rates (§12.6), V01 §6's sky row and T-V1-21 leave that work to this row, and volume 6 sums its century from this row by citation — its worst case ≈ 97 ms more per growing resize at CITY, its bounds re-declared under D-18 (CITY ≤ 115 s, METROPOLIS ≤ 215 s, TOWN ≤ 25 s; J-V6.118). |
 | J-V5.82 | Chose to cap an island's hand-placed accesses at `accessCount.handMax` (6), a seventh bent into a move of the island's nearest hand-placed access, over leaving hand placements unbounded or refusing past a cap, because the access obstacles, the route and their budgets need a stated maximum, a refusal is item 101 R2's only for a dossier fact or a lock, and a move is the nearest lawful form of the author's request; the cap is a table cell. |
 | J-V5.83 | Chose to let the clearance rule's lock clause, and a lock's hold on the re-reasoning of an island whose institution the dossier removed, apply wherever those rules run (SKY-F, `sky.clearance`, a ground edit beneath; each epoch), the dossier's removal still taking effect at once, over exempting locks from the rules or letting a lock block the dossier, because a lock holds the author's island while the dossier stays the truth about its institution (items 20 (h), 101). |
 
@@ -2772,14 +2752,11 @@ This volume's requests to the base are applied by file f; each is now the base's
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
-**CONFIRMED by reading:** every base citation of this volume against the base as the coherence pass writes it (files f and
-g applied: II.1, II.6, §1.1, §2.1–§2.9, §3, §4.1–§4.12, §5.1–§5.3, §6.1–§6.5, §7.1–§7.8, §8.1–§8.8, §9.1–§9.3, §11.1,
-§12, §13.2–§13.4, §14, §16); the owner's words in `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md` (J98 to
-J111 included) and items 102–111 of `docs/AMENDMENTS-2026-09-28g.md`; the sibling volumes at the sections cited (V01 §2.3,
-§2.4, §3.1, §3.2 (5), §3.5.5, §3.8.2, §3.10.3, §3.14, §3.16, §3.17.7; V02 §2.6, §3.15.2, §3.16; V04 §2.3, §3.5.0a (9),
-§3.5.1, §3.10; V06 §2.1, §2.8, §2.12, §2.13, §3.1–§3.8, §3.19, §6.2; V08 §2.6, §3.5; V09 §4.9, §4.20; V10 §2.13; V11
-§3.1, §3.24.0; V12 §2.8, §3.7, §3.9.1, §3.11) and `docs/volumes/_integrate.md`'s J-VI rows; the retrovalidation's two
-island findings (RV-pc-1, answered by volume 1's unit run and this volume's unit inputs; RV-pc-3, answered by V05 §3.3).
+**CONFIRMED by reading:** every base and volume citation of this volume against the set as the coherence pass writes it
+(files f and g applied); the owner's words in `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md` (J98 to
+J111 included) and items 102–111 of `docs/AMENDMENTS-2026-09-28g.md`; `docs/volumes/_integrate.md`'s J-VI rows; the
+retrovalidation's two island findings (RV-pc-1, answered by volume 1's unit run and this volume's unit inputs; RV-pc-3,
+answered by V05 §3.3).
 **Executed:** the nine model suns at latitude 50° on the equinox, hour angles −80° to +80° by 20° — altitudes 6.41°,
 18.75°, 29.5°, 37.16° and 40.0°, azimuths 97.7° to 262.3°, reaches 8 (capped), 2.95, 1.77, 1.32 and 1.19 — from the
 standard solar formulas (V05 §3.19 (9)); the arithmetic that a flat island's `depthCm` 0 floors no root and that the crypt
@@ -2812,7 +2789,7 @@ file f's (V05 §10).
 
 The volumes-integration decisions this volume carries (`docs/volumes/_integrate.md`) are folded into the body at their
 homes: **J-VI.4** — every refusal here but the dossier-owned one (J-V5.19) is a bend, each with its line: V05 §3.2 (3)–(4),
-§3.21 (3), §3.22 (3)–(4), §4.1's T3 and T4 rows, §4.2 and §3.23; **J-VI.14** — the island's removed slot and a deleted
+§3.21 (3), §3.22 (3)–(4), V05 §4.1's T3 and T4 rows, V05 §4.2 and V05 §3.23; **J-VI.14** — the island's removed slot and a deleted
 generated access's ordinal are the suppression's island form under §2.8's one lift rule: V05 §3.2 (6), §3.10 (1), §4.2;
 **J-VI.13** — the derivation row is DR27: V05 §4.4; **J-VI.3** — the rim's barrier kind is `sheer`: V05 §3.21 (1);
 **J-VI.17** — this volume's cross-lane items are closed at their destinations: V05 §13.

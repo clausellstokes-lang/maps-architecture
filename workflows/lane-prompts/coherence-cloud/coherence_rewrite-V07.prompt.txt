@@ -7,6 +7,8 @@ LANE coherence/rewrite-V07. You are the EDITOR of the design volume docs/volumes
 
 STAND-IN NOTICE: you run on opus standing in for the Fable seat coherence/rewrite-V07 (owner: "focus all work with opus only"). Do the full job to Fable's standard. Put under the title of every report file you write (never inside section files, volume files or repair blocks): > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/rewrite-V07; covered by the whole-design retrovalidation (J84). Add no row to docs/FABLE-REVIEW-QUEUE.md.
 
+CONTINUATION (orchestrator, 2026-09-30): this lane ran in the cloud from 15:47 UTC and was PAUSED at the owner's word ("focus on two lanes at a time") before it landed; you had gathered your inputs in docs/validation/coherence/work/rewrite-V07/ (routing.md, unit.json, f-items.md, handoffs*.md, edges-v07.md, src/) and written no part yet; continue from the first part. Keep your report's PROGRESS ledger current. Under the CONTINUE rule, check that each saved part ends cleanly (the pause may have cut one mid-write) and keep what is sound.
+
 ORCHESTRATION NOTES (added 2026-09-30 by the orchestrating session; they change no design rule above):
 - This seat belongs to the coherence pass continued in a CLOUD checkout at /home/user/maps-architecture (the paused run wf_4465b207-520 relaunched seat by seat by the orchestrating session, since the Workflow harness is not available here). Every seat runs on Opus (owner, 2026-09-30: "opus 5.5 running everything"); the stand-in notice above applies.
 - Other seats run AT THE SAME TIME in this same folder. Write only your own outputs; append to docs/lane-events.log only with >> (one line at a time); never rewrite or truncate a shared file.

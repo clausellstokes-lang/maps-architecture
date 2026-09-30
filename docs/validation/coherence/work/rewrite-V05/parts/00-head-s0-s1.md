@@ -140,19 +140,16 @@ remedies: raise its wealth, or draw one yourself.
     every covered kind (V05 §3.15, §3.16).
 12. **Failure ladders, determinism and every edge** (V05 §3.17, §3.18, §3.23); **editing, rendering, labels, exports,
     budgets, tests and the build plan** (V05 §4–§8).
-13. **The island's shade strip** (the owner's item 102 on the island's side, with J98's underside) — the shade each island
-    casts across the model's representative day, which field pass 2 folds into the prosperity field's daylight term; the
-    sky receivers' shade; its lag behind edits, persisted as the shade basis (V05 §2.1, §2.3a, §3.19).
-14. **Siting across the island** (the owner's items 103–105, 107 and 108 where they reach islands) — the route distance
-    through the accesses between arenas, the island's districts as coverage units, the trades an island never carries,
-    split works and shops, the supply web and its order per arena, custom chains, the landing classes' siting facts
-    (V05 §2.4, §3.5, §3.20).
+13. **The island's shade strip** (item 102 on the island's side, with J98's underside) — folded into the daylight term by
+    field pass 2; the sky receivers' shade; its lag behind edits, persisted as the shade basis (V05 §2.1, §2.3a, §3.19).
+14. **Siting across the island** (items 103–105, 107, 108) — the route distance between arenas, coverage units, the trades
+    an island never carries, split works and shops, the supply web per arena, custom chains, the landing classes' siting
+    facts (V05 §2.4, §3.5, §3.20).
 15. **The rim as a barrier** (the owner's item 106 where it reaches islands) — the rim a sheer barrier that closes any
     wall circuit, an author's island wall walling only the landing tops (V05 §3.21).
-16. **Item 110 on, under and against the island** (the owner's "they go in") — raised parts, retaining walls, stepped
-    massing and levelled platforms as casters under an island; the accesses as overhead obstacles to a raised deck; the
-    island's own retaining walls; what the raised-way generator reads of the sky; the landfall over them; a removed
-    island or access that stays removed (V05 §3.22).
+16. **Item 110 on, under and against the island** (the owner's "they go in") — casters under an island, the accesses as
+    overhead obstacles, the island's own retaining walls, what the raised-way generator reads of the sky, the landfall over
+    them, removals that hold (V05 §3.22).
 17. **The dossier** — derivation row DR27 and the coherence rules (V05 §4.4); item 111's water, which leaves an island
     unchanged (V05 §3.8 (4), §3.11).
 
@@ -163,27 +160,27 @@ the cited home.
 
 | home | what this volume builds on it |
 |---|---|
-| II.6 (the island rule (1)–(8), `IslandRule`, `SkyStrategy`); file f items 546, 547 | the rule at depth: the supplies on absolute values (V05 §3.3), the slots (V05 §3.2), the rule table (V05 §2.4); the slot chances and `redrawPerYear` are II.6 (4)'s |
-| II.1 rule (5), V01 §2.4 (`NeighbourhoodRequest`, `layer: 'sky'`), V01 §3.10.3 | the sky call and the island's unit inputs (V05 §2.3, §3.12); volume 1's unit run lays the districts |
+| II.6 (the island rule, `IslandRule`, `SkyStrategy`; file f items 546, 547) | the rule at depth (V05 §2.4, §3.2–§3.7) |
+| II.1 rule (5), V01 §2.4, §3.10.3 | the sky call and the island's unit inputs (V05 §2.3, §3.12) |
 | §1.1 `RungProfile.layers.islands` | the rung gate (V05 §3.2 (1)) |
-| §2.1, §2.2 (rules 1, 2, 5, 7; the sky part's levels, file f items 203, 204) | one arena per island, local coordinates with a world anchor, the `rim` and `sky_access` roles, the void face |
+| §2.1, §2.2 (file f items 203, 204) | the island's arena, roles and void face |
 | §2.3 `Terrain`, `WaterBody.fall` (file f item 252) | the island's terrain and conjured river (V05 §3.8) |
-| §2.5 `Allocation`, `ContextVector` (`arena: 'sky'`), `Reservation` (`landing`, `handedFrom`), `Block.interior` `rim_strip` (file f items 213, 286) | the sky allocation, the landing rows and yards, the island's context vector, the rim strip |
-| §2.7 the staged records' block (`SkyIsland`, `UndersideProfile`, `ShadeBasis`, `SkyAccess` as V05 §2.1–§2.2 declare them; file f item 251), `Decoration` with `members` (item 252), `LandUse.source` (item 253), `RetainingWall` (item 245), `Enceinte.condition` (item 575), the raised-way record (item 244) | the records this volume declares and the ones its landfall writes |
+| §2.5 (file f items 213, 286) | the sky allocation, the landing rows and yards, the context vector, the rim strip |
+| §2.7 (file f items 244, 245, 251–253, 575) | the records this volume declares and the ones its landfall writes |
 | §2.8 (the registry; the suppression's two record forms, file f item 260), §2.9 (`Document.nextSkyPart`; the shade basis on load, item 274) | identity, the removal's hold and its lift rule, the load path |
 | §3.2, §3.4, §3.7 | the lattice, the kernel's buffer and simplification |
 | §4.1 (SKY in the stage graph and its data keys, file f item 282), §4.12 | V05 §3.1 |
 | §4.2 S0, S1 (1)–(5), S3 (2) and (8) | the `magic` circumstance and relief classes, the outline routine, rivers by descent, crossing sites; the reservations an institution island leaves (item 286) |
-| §4.3's raised-way generation (file f item 290: the slot, `skyAccessObstacles` read after SKY) | the raised parts SKY reads and the accesses' obstacles (V05 §2.3b, §3.22) |
-| §4.5 *Fields* (the daylight term, its model sampler and climate cell; the landing kernel; the island-free value; file f items 295, 296), S7b (1) and (5) | the supplies, the fill, the strips' fold (V05 §3.3, §3.5, §3.19) |
+| §4.3 (file f item 290) | the raised parts SKY reads; the accesses' obstacles (V05 §2.3b, §3.22) |
+| §4.5 *Fields*, S7b (1), (5) (file f items 295, 296) | the supplies, the fill, the strips' fold (V05 §3.3, §3.5, §3.19) |
 | §4.6 (the landing attach as an infill destination, file f item 299) | V05 §3.10 (4) |
-| §4.7 S10–S11 (levelling as platform datums and `levelledGroundCm`, file f item 309), S10b (the one solver; *Supply distances by mode* and the route between arenas, item 308), *Light sources* (the sky rows, item 307) | the landing plots, the route distance, the lights |
+| §4.7 S10–S11, S10b, *Light sources* (file f items 307–309) | levelled ground, the landing plots, the route, the lights |
 | §4.8, §4.9 (the churchyard row; the rim-walk row, file f item 313) | bridges on the island's river; burial; the rim walk |
-| §4.11 (`ConversionOp`'s island kinds and the landfall, file f item 320; the rung at an epoch, item 322; *Dossier content across epochs*; the salvage ledger) | V05 §3.15, §3.16 |
+| §4.11 (file f items 320, 322) | V05 §3.15, §3.16 |
 | §5.1–§5.3 (the F-SKY rows and the sky invariants, file f item 331) | V05 §3.17 |
 | §6.1, §6.2, §6.3 (`island.place`, the hash, the anchor table; file f item 476) | V05 §3.18, §2.5 |
-| §7.1–§7.8 (the events and targets, file f item 356; the lifecycle rows, item 375; DR27, items 383, 387; the layer controls) | V05 §4 |
-| §8.1, §8.2 (the `sky.ground` role, the sky semantics' slots, the `fallen` and `removed` rows; file f item 408), §8.4 (the slab list, the second base, the window without slabs, the cursor sun's floor; items 415, 416), §8.8 | V05 §5.1–§5.3 |
+| §7.1–§7.8 (file f items 356, 375, 383, 387) | V05 §4 |
+| §8.1, §8.2, §8.4, §8.8 (file f items 408, 415, 416) | V05 §5.1–§5.3 |
 | §9.1, §9.2; §11.1 (file f item 415) | V05 §5.4, §5.5 |
 | §12, §13.2, §13.3, §14, §16 (file f items 476, 568) | V05 §6–§8 |
 | items 102–111 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–17) |
