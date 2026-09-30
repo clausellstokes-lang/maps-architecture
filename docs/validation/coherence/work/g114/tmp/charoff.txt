@@ -1,0 +1,7 @@
+docs/validation/coherence/new/base/determinism/03-s7-editing.md:1402:   `field.characterOffset = lerp(−0.3, +0.3)`, `granularity.joinMaxBonus = 2 · wealthLevel` (fractional: its fractional
+docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md:1134:`P(x) = Σ_i w_i · kernel_i(x) + characterOffset(district) + ε(x)`, clamped once to [0, 1], with driver kernels from a
+docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md:1146:driver-only state), then, after typing, the district-type term `characterOffset(district)`, which completes pass 1 (S8's
+docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md:1154:`characterOffset`, the brush strokes' composite, an epoch's drift where §4.11 applied one, and `ε` as `chance` — averaged
+docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md:1395:   `characterOffset`, and §4.7 S11's cluster rows, item 70); its identity's source is `dossier`. A dossier that adds one to
+docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md:1460:   (`QuarterIdentityRow.power`) adds `dial.quarterWeight × (A_p − 1)` to its `characterOffset` in pass 1 — at generation
+docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md:1484:   `characterOffset`. So a thriving institution lifts its neighbourhood over epochs until the district's value crosses its

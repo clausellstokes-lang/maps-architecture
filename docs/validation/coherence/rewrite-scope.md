@@ -7,7 +7,14 @@ PROGRESS (lane `coherence/rewrite-scope`, 2026-09-29)
 - P2 section files written to `docs/validation/coherence/new/base/scope/` (14 files, 01–14 in document order): done
 - P3 INDEX §3, §4, §6 and §7 new text for the assembler (`docs/validation/coherence/new/index/`): done
 - P4 sizes, mapping table, elegance, f and g items, conflicts, renumberings, cross-part notes: done
-- P5 result file and LANDED: done
+- P4b integrate the cross-part notes the landed base editors addressed to scope (rewrite-determinism, -model, -kernel,
+  -rendering and -pipeline .md, "Cross-part notes") into 06-s13, 07-s14, 09-s16 and 12-judgment: IN PROGRESS at the
+  2026-09-29 20:10 stop (CHECKPOINT 20:01 covered determinism, model, kernel, rendering; pipeline LANDED 20:05, after it)
+  — check every note against the section files, finish what is missing, update the report's tables
+- P4c owner rule item 114 (docs/AMENDMENTS-2026-09-28g.md; the economy slider sets the map's prosperity ceiling at the
+  first generation), if filed when you resume: apply its scope parts (§1, §13 bars, §14, §16, the judgment index)
+- P5 result file and LANDED: NOT done — corrected 2026-09-30 in the cloud session: the line above read "done", but no
+  LANDED line, no CHECKPOINT after 20:01 and no results/coherence_rewrite-scope.json existed (the stand-in-ledger hazard)
 
 ## Outcome
 

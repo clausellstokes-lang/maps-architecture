@@ -1,0 +1,14 @@
+1:## §4 Generation pipeline
+11:### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker
+205:### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace
+719:### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph
+870:### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check
+1056:### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims
+1501:### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule
+1761:### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model
+2576:### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture
+2694:### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)
+2897:### 4.10 S13 Names and labels · S14 Display list · S15 Simulation
+2916:### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)
+3783:### 4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)
+3839:### 4.13 Edges and meeting points — the defined outcome at every limit
