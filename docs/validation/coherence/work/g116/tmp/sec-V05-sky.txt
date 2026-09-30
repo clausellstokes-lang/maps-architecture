@@ -1,29 +1,29 @@
-92 6 ## 0 In plain words
-199 3 ### 1.1 What this volume builds (to build depth)
-256 3 ### 1.2 The base hooks this volume consumes (cited, never restated)
-311 2 ### 1.3 Out of scope, and whose it is
-349 3 ## 1b Wiring table — every new piece, what feeds it and what it feeds
-597 3 ### 2.4 The rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratab
-755 1 ### 2.6 The lifecycle of every state field this volume adds or gives a producer
-1048 1 ### 3.7 Placement — where the island floats (S7b (5), per open slot, in slot order)
-1110 1 ### 3.9 The underside, the ground reference and the altitude (the owner's J98)
-1165 1 ### 3.10 Access — the tops, the feet, the landing claims (SKY)
-1469 14 ### 3.16 The fall and the landfall (`fallIsland`)
-1549 1 ### 3.17 Failure ladders (the F-SKY rows of §5.2, BCR-V5-11) — never a whole-map retry
-1679 3 ### 3.20 The siting rulebook on and across the island (the owner's items 103 and 104 where they reach islands)
-1847 1 ### 3.22 Item 110 on, under and against the island (the owner's "they go in"; C5-47 to C5-55)
-1967 2 ### 4.2 The new and extended events and their semantics (BCR-V5-10)
-2186 1 ### 4.5 The clerk's view
-2228 3 ### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)
-2280 3 ### 5.3 Light and shadow — the underside's shadow (the owner's J98; BCR-V5-13)
-2318 1 ### 5.4 Labels
-2327 3 ### 5.5 Exports (§11.1's rows extended, BCR-V5-13)
-2346 3 ## 6 Performance budgets
-2394 9 ## 7 Tests and acceptance bars
-2684 4 ## 8 Build plan
-2738 7 ## 9 Decisions (each vetoable)
-2824 15 ## 10 Base change requests
-3276 4 ## 12 CONFIRMED versus PLAUSIBLE
-3444 3 ## 13 Fix list
-3654 1 ## Reconciliation round 1 (volumes/reconcile-V05-r1, 2026-09-29)
-3765 1 ## Reconciliation round 5 (volumes/reconcile-V05-r5, 2026-09-29)
+1	## 0 In plain words
+20	## 10 Base change requests
+3	## 12 CONFIRMED versus PLAUSIBLE
+2	## 13 Fix list
+5	## 1b Wiring table — every new piece, what feeds it and what it feeds
+4	## 6 Performance budgets
+5	## 7 Tests and acceptance bars
+3	## 8 Build plan
+6	## 9 Decisions (each vetoable)
+1	## Reconciliation round 1 (volumes/reconcile-V05-r1, 2026-09-29)
+1	## Reconciliation round 2 (volumes/reconcile-V05-r2, 2026-09-29)
+4	### 1.2 The base hooks this volume consumes (cited, never restated)
+2	### 1.3 Out of scope, and whose it is
+3	### 2.1 The island record, revised (applied by BCR-V5-1 and BCR-V5-2)
+4	### 2.4 The rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance,
+3	### 2.6 The lifecycle of every state field this volume adds or gives a producer
+12	### 3.16 The fall and the landfall (`fallIsland`)
+1	### 3.17 Failure ladders (the F-SKY rows of §5.2, BCR-V5-11) — never a whole-map retry
+3	### 3.19 The island's shade strip (the owner's item 102 on the island's side; J98's underside)
+2	### 3.22 Item 110 on, under and against the island (the owner's "they go in"; C5-47 to C5-55)
+1	### 3.5 The sky allocation (S7b (5) at depth)
+1	### 3.7 Placement — where the island floats (S7b (5), per open slot, in slot order)
+1	### 3.8 The island arena: frame, land, rim, terrain, the conjured river (SKY)
+5	### 3.9 The underside, the ground reference and the altitude (the owner's J98)
+2	### 4.2 The new and extended events and their semantics (BCR-V5-10)
+3	### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)
+10	### 5.3 Light and shadow — the underside's shadow (the owner's J98; BCR-V5-13)
+1	### 5.4 Labels
+2	### 5.5 Exports (§11.1's rows extended, BCR-V5-13)

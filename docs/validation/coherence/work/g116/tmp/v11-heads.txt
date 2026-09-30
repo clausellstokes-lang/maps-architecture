@@ -1,0 +1,65 @@
+1:# Design volume 11 — The content system: every rule and content table, its schema, its rows and its authoring plan
+111:## 0 In plain words
+167:## 1 Scope, the base hooks consumed, and what is out of scope
+230:### 1b Wiring table
+316:## 2 Data model
+325:### 2.1 The table registry
+382:### 2.2 The authoring source and the compiled form
+440:### 2.3 The siting profile and the class columns items 103–108 add (BCR-V11-1)
+513:### 2.4 Relation families, signature pairs and the derived rows
+549:### 2.5 The goods columns on `ResourceRow` (BCR-V11-3)
+563:### 2.6 Ladder steps (BCR-V11-4)
+577:### 2.7 Walls on natural barriers (BCR-V11-5)
+599:### 2.8 The row types the base names without declaring (BCR-V11-7, BCR-V11-8)
+655:### 2.8b The underground content rows (item 109): shapes cited, one cell added
+672:### 2.8c Item 110's row types (owner ~23:30 "they go in", (b) as revised ~23:40; V11C-33 – V11C-45)
+762:### 2.9 Identity
+779:### 2.10 Lifecycle of every new state field
+817:## 3 Generation — the table catalogue, the compiler, and the rows
+827:### 3.1 The complete catalogue of tables
+991:### 3.2 The compiler, the loader and their failure handling
+1106:### 3.3 The relation families (item 103 (a)) — rows and derivation
+1207:### 3.4 The profile families (`siting.profiles`) — every tag family's and category family's profile
+1292:### 3.5 The class ladder (`roster.classes`) — every town and city class
+1862:### 3.6 Designation templates, the compatibility table and heights
+2039:### 3.7 The goods table, orientation and the supply web's settings (items 105, 107)
+2183:### 3.8 The signature pairs (`siting.pairs`; item 103 (b); all soft, `extension`, provenance `own; general historic
+2234:### 3.9 District kinds (`roster.districtKinds`)
+2271:### 3.10 Quarter identities (`roster.quarterIdentities`; item 72 (d′); `own`, `extension`)
+2318:### 3.11 The institution map — every SettlementForge catalogue kind (`dossier.kinds`; V08's shape, J-V8.18)
+2636:### 3.12 The ladder step types (`dossier.ladders`; item 108)
+2786:### 3.13 Custom content — item 104's rows and the custom-chain placement rules
+3175:### 3.14 Concealment and the cover table (item 63; `roster.classes[].concealment`, `roster.covers`; all `own`, `ext
+3210:### 3.15 Sectors, powers and their links (items 72, 78, 79; `roster.sectors`, `roster.powerLinks`, `roster.sectorLi
+3241:### 3.16 Walls on natural barriers (item 106; `walls.barriers`, `walls.waterfront`; `own`, general historical knowl
+3289:### 3.17 Climate and land use
+3312:### 3.18 Decline, ruin and salvage by material
+3351:### 3.19 Era, region and materials
+3396:### 3.20 Naming — the grammars, their features and the authoring of their vocabularies
+3485:### 3.21 Government, religion, households, institutions and the module's tables
+3527:### 3.22 The `villageForm` column (V07's BCR-V7-21, filled here)
+3547:### 3.23 The underground's content rows (item 109; the catacombs as revised ~20:05, J111)
+3678:### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks (owner ~23:30 "they 
+3999:## 4 Editing — table edits, declarations, locality, undo and the clerk's view
+4076:## 5 Rendering, labels and exports
+4107:## 6 Performance budgets
+4127:## 7 Tests and acceptance bars
+4188:## 8 Build plan
+4305:## 9 Decisions (each vetoable)
+4406:## 10 Base change requests
+4668:### 10b Cross-volume requests
+4815:## 11 Owner questions
+4825:## 12 CONFIRMED versus PLAUSIBLE
+5022:## 13 Fix list
+5037:## Integration notes (volumes/_integrate, 2026-09-29)
+5064:## Reconciliation round 1 (volumes/reconcile-V11-r1, 2026-09-29)
+5116:## Reconciliation round 2 (volumes/reconcile-V11-r2, 2026-09-29)
+5150:## Reconciliation round 3 (volumes/reconcile-V11-r3, 2026-09-29)
+5178:## Reconciliation round 4 (volumes/reconcile-V11-r4, 2026-09-29)
+5209:## Integration notes — continuation (volumes/_integrate, 2026-09-29)
+5220:## Reconciliation round 2 — continuation on the re-issued brief (volumes/reconcile-V11-r2, 2026-09-29 09:21)
+5258:## Reconciliation round 3 — continuation on the re-issued brief (volumes/reconcile-V11-r3, 2026-09-29 10:31)
+5300:## Reconciliation round 4 — continuation on the re-issued brief (volumes/reconcile-V11-r4, 2026-09-29 11:35)
+5339:## Reconciliation round 5 (volumes/reconcile-V11-r5, 2026-09-29)
+5367:## Reconciliation round 6 (volumes/reconcile-V11-r6, 2026-09-29)
+5407:## Finalization (volumes/_finalize, 2026-09-29)

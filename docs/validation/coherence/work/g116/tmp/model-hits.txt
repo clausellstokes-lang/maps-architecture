@@ -1,0 +1,28 @@
+414:interface Terrain { id: Id; key: PlatKey /* the ground, or one sky island's own terrain */;
+543:  surface: 'paved'|'cobble'|'dirt'|'planks' /* derived at S10a's end by volume 1's rule unless edited (V01 §3.7.3) */;
+600:  materialOverride?: Partial<MaterialRow> /* §2.6 */; allocation: Id /* the district's Allocation record (§4.5 S7b) */; subDistricts: Id[];
+820:  material: { walls: string; roof: string } /* from MaterialRow; setAttr-overridable; a rendering attribute only (below) */; condition: 'kept'|'worn'|'neglected' /* item 31 rung 1: the fabric's wear — a rendering-class driver like material (§8.2: wear, 
+843:  pitch?: number /* a ratio, not an angle */; high?: number /* shed only: the ring side at ridge height */; material?: string };
+845:  band?: string /* only in the optional regional-shift rows below — absent from every default row, so the default never keys a material by wealth (item 19) */ }; walls: string; roof: string; weight: number; extension?: 'regionalShift' /* §7.6's marker: 
+1163:change in texture or color. It has nothing to do with the shape").** A material is a **rendering attribute only**: it
+1165:or a roof form — the same geometry renders in any material, as in FTG; shape is decided by the designation template and
+1167:(item 23): one default material per growth stage (`key.stage`), overridden per district kind and per building class
+1169:roof-colour role by band in the style sheet (§8.2) — never by a material keyed to the prosperity band. The **optional
+1172:`materialOverride` and a building's `setAttr` override the rows; enceintes carry their own wall material (§2.7). Wear
+1621:interface Enceinte { id: Id; kind: 'citadel'|'inner'|'outer'|'suburb'|'bailey'|'palisade'|'earthwork';
+1634:  intervallum?: Id /* the lane inside the wall when the era row asks for it */; material: string;
+1641:interface Gate { id: Id; enceinte: Id; junction: Id; way: Id | null /* null: a postern or water gate without an outward way */;
+1645:interface Tower { id: Id; enceinte: Id; vertex: VertexRef /* ('tower', id) */; radiusCm: Cm; heights: Heights; kind: 'round'|'square'|'bastion'|'octagonal'; footprint: { inner: FaceRef; outer: FaceRef }; lifecycle: Lifecycle }   // a wall tower; a composi
+1646:interface Castle { id: Id; plot: Id; reservation: Id; curtain: Id /* its own Enceinte, kind 'bailey', closed by the same closure kinds (g item 106 (f)) */; cityWeld?: [VertexRef, VertexRef] /* ('weld', castle id, 0 | 1): ends of the shared wall stretch (o
+1650:interface Bridge { id: Id; state: 'site' | 'built' /* site: two pinned bank vertices, no span, no way, no furniture, not drawn; built: a way's span laid through them */;
+1665:interface RetainingWall {   // g item 110 (a): one record for every volume — never an Enceinte: no gate, no circuit, no barrier closure
+1668:  closed: boolean /* a platform, high side inside */; material: string /* a V11 MaterialRow key: dry stone, earth bank, timber crib … */;
+1684:interface LandUse { id: Id; kind: 'arable'|'strip_field'|'meadow'|'pasture'|'commons'|'orchard'|'vineyard'|'coppice'|'wildwood'|'quarry'|'claypit'|'mine'|'lumber'|'fishery'|'saltpan'|'marsh'|'reserve'|'garden' /* item 111: an oasis's irrigated garden */;
+1689:interface SiteResources { cellCm: Cm; ore: Float32Array; stone: Float32Array; timber: Float32Array; fish: Float32Array; clay: Float32Array; fertile: Float32Array }   // S1 output on the terrain grid, 0..1 per cell (§4.2)
+1717:interface MaterialLedger { rows: { epoch: number; material: string; m3: number; from: Id /* the robbed, cleared, dismantled or demolished entity */; to?: Id /* the build or repair it fed */ }[] }   // item 8 (d): one per document, changed only by §4.11's
+1745:interface Tunnel { id: Id; kind: 'drain'|'main'|'culvert'|'passage' /* a walkable side passage of the network — not item 30's surface passage face (§2.5) */; centreline: ChainRef /* ('tunnel', id) in part 0 */;
+1782:interface DepositSite { id: Id; key: string /* res:<key>, or res:uid:<localUid> for a custom resource */; family: string /* ore, stone, clay, salt … data */; state: 'available'|'depleted'|'removed'|'discovered'; bearingCdeg: Cdeg /* its bearing from the
+1826:  way's material (drawn by the `material` row by band; an aqueduct never timber); (2) n = max(1, round(L ÷ p)) spans, the
+2005:interface DerivationRecord {            // the one definition: persisted with plots, blocks and buildings (the kinds whose stage declares it); outside the model digest, inside the records digest (§6.2)
+2061:  zeroed in the record and its material is credited to the `MaterialLedger`, §2.7) → reused (`reused`: the trace keeps
+2260:interface Document {

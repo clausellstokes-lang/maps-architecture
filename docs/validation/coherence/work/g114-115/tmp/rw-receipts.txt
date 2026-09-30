@@ -1,0 +1,10 @@
+== fates/held in V09
+== gated in V09/V10
+== fantasy group
+== BandSet interface
+== layers field in Recipe/Blueprint
+9:(generated, edited, pinned, built, converted, demolished). Three layers exist from the start — underground, ground,
+37:  4 and 5). **Wording:** *layer* without qualification means one of these three model layers; the toggleable drawing
+1617:### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records
+1735:// The staged layers' records (II.6, II.7): schema-complete and empty in the base (§2.1); each built by its volume
+1932:**The staged layers (AM-2, DEF-7; items 10–15, 65).** `SkyIsland` and `Tunnel` give the owner-staged layers their data

@@ -1,0 +1,44 @@
+194:real medieval village had: a parish church with its churchyard, often beside the manor house and its farm; a mill on the
+247:manor house, mill, smithy, alehouse and inn, bakehouse, pound, tithe barn, parsonage, the reeve's house and the moot, wells,
+430:| W24 | `VillageEnd` (§3.10) | the plots; the anchors (W12, the church, the manor, W8, crossings, entries, W23, nuclei, claims) | S13's labels; exports; the clerk; the port's quarter matcher; §3.12's sub-area labels | entity registry (BCR-V7-3); §7.7 it
+450:| W44 | the typed rule cells (`heart`, `polyfocal`, `settle`, `mill`, `grade`, `branch`, `formRules`, `openShape`, `market`, `claimArea`, `ends`, `stalls`, `race`, `manor`, `fields`, `ladders`, `crypt`, `handoff`, `vg`, `plate`, `dig`, `ruinMarker`; §2.2)
+484:`prosperity` → DR6 → W14 and S2's band shares; `government` → DR11 → W18's seats (manor, reeve's house, the moot);
+710:| toft (rich: the manor) / jitterCv | 40–80 / 40–80 / 100–300 m; 0.2 (`row` form 0.05) | as THORP | as THORP | as above | own |
+714:| epoch.rows.persistence (× the building layer's rate, V6 §3.5.2) | every class V11 §3.5.1 tags `church-family` — `cathedral`, `great_temple`, `church`, `chapel`, `monastery`, `generic-worship`, `generic-monastic`, `v.parish_church`, `v.chapel` — ×
+760:  manor: { moatChance: number; moatWaterM: M; moatWidthM: [M, M]; fishpond: number; fishpondM: M; warren: number; gallows: PLaw };  // §3.8, §3.9 (6)
+802:| `manor` | moated site 0.25 with water within 150 m, moat 5–8 m wide; fishponds 0.5 within 300 m; a warren 0.2; a gallows hill (400, 0) → (700, 0.1), seigneurial only |
+853:  id: Id; plan: Id; anchor: Id /* the green, church, manor, mill, crossing, entry, wharf, nucleus or claimed place it gathers around */;
+854:  kind: 'green'|'church'|'manor'|'mill'|'crossing'|'entry'|'wharf'|'nucleus'|'claim';
+936:| `v.manor_house` | manor house · manor, hall, lord's hall | `housing` | the lord's hall; `compound` (hall, chamber block, kitchen, barn, stables, dovecote; the moat by `rules.manor`, §3.8) | `dwelling-compound` | sing · 2 | `gov seigneurial` : (40, 0.4
+982:| `v.manor_house` | `E+ crowds 1; S+ smell 3, noise 2; N+ space, highGround, dryGround; clientele elite; alignment status +; V settlement : 1` | `near` → `v.parish_church` 150 soft 1.0; `far` → `open:green`, `open:square` 120 soft 0.3 (at the settlemen
+983:| `v.parish_church` | `clientele townWide; K neutral; V settlement : 1` | `nearCentre` 200 soft 1.0 (within 200 m of the heart); `near` → `open:green` 60 or `highGround` soft 1.0 (at the green, or on the high ground); `near` → `v.manor_house` 150 soft 
+1040:within 150 m of the heart, §3.2 (8)); the green's centrepiece pond and the manor's fishponds are **uncarved `pond` parts**
+1041:drawn in the water tone — sited after the L0 batch, as the moat is (J-V7.13, J-V7.50) — fishponds by the manor (0.5 with a manor), a warren of pillow mounds on the commons (0.2 with a manor),
+1050:it): `v.parish_church`, `v.manor_house` and `v.watchtower` — no row reaches `v.chapel` or `v.reeve_house`; the draw is V11's, on `roster/<class>/<ordinal>`, at S2.
+1093:cell is the class's `produces` (the dwellings' too: `v.farmstead` grain and hides, `v.yeoman_house` and `v.manor_house`
+1100:| `v.watermill`, `v.windmill` | grain ← `v.farmstead`, `v.yeoman_house`, the outlying farmsteads, `v.manor_house` (the demesne) | flour → `v.bakehouse`, every household | an **anchor**: its seat is fixed by its hard need (VS1's mill seat; the windmill
+1509:its site on `hinterland.decor` keyed by the heart. The green's centrepiece pond and the manor's fishponds are sited after
+1894:   base (the institution kernels: the church and manor up, the smithy and the tannery down).
+1943:the shore); the field-driving classes (the church and the manor, whose kernels drive prosperity's pass 2); then the
+1955:`v.cottage` 0.3; prosperous → `v.yeoman_house` 0.5, `v.farmstead` 0.5; rich → `v.yeoman_house` (the manor comes only by
+1962:**The moated manor.** When the manor row's moated-site draw (0.25 with water within 150 m, on `siteplan` keyed by the
+1965:but not a carved water body (no L0 batch after S10; J-V7.13). The `platform` part is the manor's levelled unit on a slope
+1982:   plan) grown by `terrace.apronM` (4 m) and clipped to the plot's toft yard part; for the manor, its `platform` yard
+2104:**(6) Decorations** (§4.9's table, village rows, our own): fishponds within 300 m of a manor (0.5), a warren of pillow
+2105:mounds on a common (0.2 with a manor), boundary stones where roads cross the territory frame, a wayside cross per through
+2126:space (`green`), the church (`church`), the manor (`manor`), the mill (`mill`), each part-0 bridge or ford (`crossing`;
+2264:  manor's or reeve's end; Artisan Quarter → the smithy's end; Waterfront District → the wharf end; Shadows District →
+2329:* **DR11 seats.** `Feudal Stewardship` (seigneurial) → the `v.manor_house` as the seat; an elder, household or free elder
+2333:  forced seats; SR4-09) at every village rung, whatever its presence entries and whatever an `@absent:` record zeroes (§2.4's forced seats; J-V7.104, J-V7.113) — so a crown village has its manor house and a
+2637:village's own); a manor's or tower house's × 0.5 (V6 §3.5.2). **Land use follows the households** (the
+2899:  class's pithead 0.5; `v.manor_house` 0.35 (a great house); `v.inn`, `v.alehouse` 0.3 (a cellar); `v.smithy`, `v.potter`, `v.tannery`,
+2958:| T5 `quarter` | at a village rung: **declare an end** by lassoing its houses (item 101 R4: areas are lassos), with its kind and name; the anchor defaults to the most significant entity inside (the church, the manor, the mill, the open space, else the las
+2959:| T6 `place` | place the village's heart, the church, the mill, the manor, a well, the green's centrepiece; assign a use; place on a **deck face** (a pier head or a widened bridge): a store, a net shed, a boat shed, a toll house or a chapel (§3.10a (4)) 
+3126:  cottages and longhouses, hip for the manor and the church's nave by their templates). **`roof.faces`**: each roof drawn
+3198:  church**, **the manor**, **the mill** and the inn as landmark labels; **the fair field** (our own word row, else the
+3466:| J-V7.13 | chose the moated manor's moat as `moat` and `platform` yard parts drawn in the water tone over a carved water body, because no L0 batch may follow the plots (the base's §3.3 canonical order) and a manor moat is a site-plan feature at this sca
+3473:| J-V7.20 | chose ends — named parts of the one district, anchored on the green, church, manor, mill, crossings, entries, wharf, nuclei and claims, capped at 1, 3 and 6 — over sub-districts or several districts, because PART III (4) fixes one district
+3561:| J-V7.108 | chose, in the typed rows, V11's `walk` coverage and a `far` row from the church family for the chapel of ease over a per-nucleus count, because the nuclei are sited at VS1 after S2 counts; the lord's-mill pair on the manor over the mill, beca
+3562:| J-V7.109 | chose the village's epoch rows as V6's `ProductEpochRows` keyed by class id — every `church-family` class × 0.3 and the manor, town manor and tower house × 0.5, the town classes included — with the street row's three ops and the hinterl
+3570:| J-V7.117 | chose that S2's government step at the territory rungs reads the government row's `villageSeat` alone — forced for a dossier government or an `@seat` record, a request government feeding only the `gov` presence conditions — and reads neit
+4260:| TR-02 | major | `VillageRungRow.epoch` = `encroachShareMax`, `newNucleusShare` and `rows: ProductEpochRows` (V6 §2.1): persistence keyed by class id (the nine `church-family` classes × 0.3; `v.manor_house`, `manor`, `tower_house` × 0.5), street (eigh

@@ -1,0 +1,65 @@
+38:milestone each is absent and the stages around it are unchanged.
+45:  palisade before its roads needs no pipeline edit (PART III). Each growth stage k runs S5a–S5d in order, and the same S5
+166:  households and its food, fuel and timber with the town's (§4.2 S2; §4.9's farm table), S12a sites them once the town's
+381:on the terrain grid — stone from slope, rock class and cliffs; ore from relief × an fBm propensity (hills only); timber
+396:reference has an underground); only II.7.6's cavern rule reads the flag, and quarry voids read `SiteResources.stone`
+426:farm households and arable land, and its fuel and timber rows into the wood the settlement burns and builds with:
+481:that resource within reach — the site resources `SiteResources` provides (farmland → grain, and timber, stone, ore, fish
+489:farms, shops instead) and is reported as an import; the hinterland's food, fuel and timber rows are the outside classes'
+821:* **Where it may not go.** A raised part's course treats the harbour basin and its mouth — between the mole heads or
+1001:  crossing matrix** (proposal class × crossed class → stop in a T, cross with a materialised crossroads, or deflect):
+1379:   when the module has materialised them, else 0). Its provisional form χ̃ — this function over S7b's allocation rows with
+1898:plot, reported). Each wall's material, batter, buttresses, parapet and decorative towers are drawn from the `retaining`
+1928:a bridge (never a `ford` or a `draw`, and never one with no `deckCm`), a pier, a mole or a quay platform; raised decks
+1933:null for a quay platform on the bank, which is ground — and whether it is a landmark slot). The landmark slots — a mole's
+1935:drawn by `deck.landmarks`' claimants (a walled port's mole head holds item 106's harbour-mouth chain tower, §4.8). The
+2103:  one-time shift of the records digest at the milestone that lands it; an older document answers `asNow` with
+2156:rooms, a concealed door and a link down (item 63, below). **Materials are not template columns** — the material rule,
+2219:wing (the style sheet chooses the construction, §8.2); **materials** from `MaterialRow` (COV-FTG-F20; §2.6);
+2603:`palisade.lightHeightCm`, and item 106 (b)'s reach cap reads `R_s` for the stage radius and `palisade.barrierReachShare`
+2623:village rungs `palisade` and `earthwork` carry no towers (a barrier anchor takes an end post, a gate a gatehouse on a
+2624:`through` way, else a timber gate), and `inner` carries towers at turns above the threshold and at barrier anchors, none
+2627:**The harbour mouth (item 106 (e)).** A walled port's harbour entrance gets two towers on the mole or breakwater heads (or
+2629:furniture drawn raised or lowered by the era row. The mole head's slot holds this tower (the deck-plot landmark slots,
+2669:Several enceintes (citadel, inner, outer, suburb, bailey, palisade, earthwork) are stage rows in the table; up to two
+2678:the way to its ends; the class comes from the way; stone or timber by era and prosperity rows; the deck height (`deckCm`)
+2683:two arms; following the coast or projecting) and type (wall, wall with rocks, detached breakwater) — moles, quays as
+2685:harbour and on the open coast (FTG's ≈ 75 m length as a reference), timber or stone by era, each pier carrying its deck
+2686:height like a bridge (read by the shadow pass and the 3-D export, §8.4, §11.1); moles, breakwaters, quays and piers are
+2687:`pier` / `quay` ways in S7's L1 batch. A pier, a mole, a breakwater arm rooted on one shore and a detached breakwater are
+2711:households are housed as under `perimeter`, and the arable, fuel and timber demand is the settlement's import (reported).
+2737:  fieldHaPerFarmstead, fuelM3PerCapitaYear, timberM3PerCapitaYear, coppiceM3PerHaYear, woodM3PerHaYear, extent:
+2749:  next ring's use. While the row is empty the factor is 1 and every chain counts as present. **Fuel and timber (item 26).**
+2751:  coppiceM3PerHaYear` and `managedWoodHa = timberM3PerCapitaYear · P / woodM3PerHaYear` (era rows; defaults 1.0 and 0.15 m³
+2753:  with the farmsteads, and which the outside classes' `produces` (grain, fuel, timber …) and supply edges carry into S2's
+2763:  timber rows with the import share reported (the bars are §13.2's).
+2795:  (§10.2), the same rows the placement solver reads (§4.7 S10b): quarries on stone, mines on ore, lumber at the woodland
+2815:  copses (wood faces), stone circles, ruins (an outline footprint in the `ruined` lifecycle state), wayside shrines (one per
+3066:    re-cut it, not from its tombstone (§6.3); a document written before the attribute existed gets `builtBand` = its plot's
+3128:  | { op: 'abandon' | 'decay' | 'ruin' | 'robStone' | 'clear' /* removed to a footprint trace */; building: Id } | { op: 'plotToGarden'; plot: Id } | { op: 'contractWall'; enceinte: Id; trace: Polygon }
+3258:growth, regression and growth again: houses emptied and robbed for stone, plots turned to gardens, a shorter wall ring
+3260:above (`abandon`, `decay`, `ruin`, `robStone`, `plotToGarden`, `contractWall`, the ladder's `LadderOp` and the `DeclineOp`
+3332:   foundations first (`reuse … build`), quarries the ruins for stone (the salvage ledger, below), and may follow a different
+3490:  footprint trace, its material in the ledger) → reused (`reused`: the trace, keeping its face, drawn as the garden, orchard
+3529:* **Salvage — the material ledger.** `robStone`, `clear`, `dismantle` and `demolish` credit the town's `MaterialLedger` (§2.7)
+3530:  by the building's class-table yield (`salvageM3` per material, §10.2); `build`, `rebuild`, `reuse … build` and a repair
+3533:  on the map: the strike pool's weight for `robStone` and `clear` is multiplied by the salvage demand within the haul radius
+3566:  covered plots left vacant under a `fallen_island` decoration, covered fields quarried, the stone credited to the salvage
+3576:  lineage (§6.3); it becomes a tombstone only by `demolish` or when a `reuse … build` successor takes its address
+3591:  | { op: 'neglect' | 'breach' | 'dismantle'; raised: Id; span?: SpanRef; support?: number }   // item 110 (b)'s raised ways (V06 §3.19.2): neglect the way (abandoned); breach a span (its deck and arch ruined, the rubble left); dismantle a ruin
+3592:  | { op: 'breach' | 'dismantle'; retaining: Id; stretch?: StretchRef }                   // item 110 (a)'s retaining walls (V06 §3.19.4): a stretch decayed (slumped) or ruined (stone taken), knots of the wall's `state` profile at its ends (§2
+3666:   its tombstone at once while its Works draws the demolition from the kept shell; aborting a change is its undo (§7.4),
+3670:   pause for the Works' material in the town's climate (`WorksTable.pauses`: masonry, stone and brick, pauses in winter in
+3677:   key, §10.2) × size (storeys, footprint) × material give a range of working weeks; the duration is drawn once, uniform in
+3680:   timber house 2–6 (the owner's "two weeks or a month"); a town house 8–17; a stone house 17–52; a manor 52–156; a church
+3683:   1–4; a `decay` Works the decline table's dwell band for its step (below), × 0.6 for timber and thatch. Material enters as
+3684:   a duration row only — time, never shape (the owner's materials rule, §2.6; J-A31.42 stands for replaceability).
+3691:   | `build` — and each wing or storey an extension or an adaptation adds | STAKED 0 (a dashed footprint, a material pile) · GROUND BROKEN 0.05 (bare earth, a spoil heap, a cellar pit) · FOUNDATIONS 0.15 (low walls or a sill frame) · WALLS 
+3694:   | `decay` — §2.8's ruin ladder on the way down (5) | toward `decayed`: ABANDONED 0 (shut up, the yard overgrowing, the roof whole) · DECAYING 0.5 (a holed roof, a sagging ridge); then `decayed` is ROOFLESS (weeds and saplings inside), `ru
+3752:  storeys?: [number, number]; footprintM2?: [number, number]; material?: string /* a duration row only (item 67 (b)); never a shape input */;
+3753:  weeks?: [number, number] /* working weeks, drawn once; absent on a decay row, whose span is the decline table's dwell band × 52 */; factor?: number /* a decay row's material factor: timber and thatch 0.6 */;
+3756:  pauses: { material: string; climate: string; seasons: ('spring'|'summer'|'autumn'|'winter')[] }[]; retainWeeks: number /* 52 */; enabled: boolean /* false in the parity presets */ }
+3787:walk), `EnceinteStrategy` (the base's S5a pull-and-simplify with barrier closure; a village's palisade), `FabricStrategy`
+3829:V07 §3.0). Every district's `SeamContract` is complete from milestone 1 (G-P1): the view over the `Seam` records it shares
+3875:| river, coast, moat | spans between supports on the banks, no support in water (§2.7's support step), within `viaduct.maxSpanM`; never out over the sea (its ends are ground vertices); a moat spanned outside its wall strip | none on a `water` r
+3876:| harbour | the basin and its mouth excluded; a stroke across bends to its last ground vertex | quays, moles and piers are harbour works, never retaining walls | moles and quays by offer; a walled port's mole head holds the chain tower (§4.8) |

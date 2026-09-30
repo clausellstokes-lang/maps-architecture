@@ -1,41 +1,37 @@
-86 2 ## 0 In plain words
-149 5 ## 1 Scope, the base hooks consumed, and what is out of scope
-250 10 ## 1b Wiring table
-387 2 ### 2.1 The map record — what SettlementForge stores beside the dossier
-444 2 ### 2.2 The bridge additions and the host client
-544 5 ### 2.3 The binding in practice — additions to `DossierBinding`, the carried facts and their hash
-677 6 ### 2.5 The digest's additions, the staged-record event and the per-settlement values
-744 28 ### 2.6 The dossier row sets, written out
-1000 2 ### 2.6a Item 109's dossier sources and the burial and crypt trace (DR-V8.2 – DR-V8.4; C8-02)
-1178 1 ### 2.7 Lifecycle of every new state field
-1218 11 ### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)
-1312 3 ### 3.1 The embed: the Map tab, the frame, the boot
-1468 2 ### 3.4 The refresh queue — campaign scale
-1490 8 ### 3.5 `digest` and the diff — from a whole dossier to a list of changes
-1623 2 #### 3.5.1 The institution ladders (item 108; C8-07)
-1736 1 ### 3.6 From changes to events and epochs
-1862 1 ### 3.8 Versions and migrations on both sides
-1952 1 ### 3.11 The staged records, the per-settlement values, the realm block and the audience in use
-2021 1 ### 3.12 Determinism
-2032 5 ### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)
-2104 5 ### 3.14 The players' view — the party picture set and the party gazetteer (C8-01, C8-14, C8-36)
-2227 1 ### 4.3 Locality, protection and the dossier's reach
-2306 1 ### 4.6 The DM's view of what the dossier did
-2418 1 ### 5.1 The Map tab — what SettlementForge draws and what the frame draws
-2461 2 ### 5.2 Drawing the dossier's records and custom content
-2510 2 ### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured format
-2567 6 ## 6 Performance budgets
-2603 10 ### 7.1 The bars (T-V8-n)
-2659 1 ### 7.2 The host harness
-2688 2 ### 8.1 Where it slots into §16
-2706 1 ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)
-2737 1 ### 8.4 Risks, in order
-2763 5 ## 9 Decisions (each vetoable)
-2883 10 ## 10 Base change requests
-3185 1 ## 11 Owner questions
-3199 3 ## 12 CONFIRMED versus PLAUSIBLE
-3396 1 ## 13 Fix list
-3489 1 ## Reconciliation round 1 (volumes/reconcile-V08-r1, 2026-09-29)
-3603 1 ## Reconciliation round 4 (volumes/reconcile-V08-r4, 2026-09-29)
-3637 1 ## Reconciliation round 1 — continuation (volumes/reconcile-V08-r1, 2026-09-29)
-3724 1 ## Reconciliation round 3 — continuation (volumes/reconcile-V08-r3, 2026-09-29)
+9	# Design volume 8 — The SettlementForge stage: connecting the map to the host end to end
+2	## 0 In plain words
+2	## 1 Scope, the base hooks consumed, and what is out of scope
+3	## 10 Base change requests
+2	## 11 Owner questions
+3	## 12 CONFIRMED versus PLAUSIBLE
+11	## 13 Fix list
+5	## 1b Wiring table
+5	## 6 Performance budgets
+2	## 9 Decisions (each vetoable)
+1	## Finalization (volumes/_finalize, 2026-09-29)
+1	## Reconciliation round 1 (volumes/reconcile-V08-r1, 2026-09-29)
+8	## Reconciliation round 1 — continuation (volumes/reconcile-V08-r1, 2026-09-29)
+2	## Reconciliation round 2 (volumes/reconcile-V08-r2, 2026-09-29)
+1	## Reconciliation round 2 — continuation (volumes/reconcile-V08-r2, 2026-09-29)
+1	## Reconciliation round 3 (volumes/reconcile-V08-r3, 2026-09-29)
+1	## Reconciliation round 3 — continuation (volumes/reconcile-V08-r3, 2026-09-29)
+1	## Reconciliation round 4 (volumes/reconcile-V08-r4, 2026-09-29)
+3	## Reconciliation round 4 — continuation (volumes/reconcile-V08-r4, 2026-09-29)
+3	## Reconciliation round 5 (volumes/reconcile-V08-r5, 2026-09-29)
+2	### 2.1 The map record — what SettlementForge stores beside the dossier
+2	### 2.2 The bridge additions and the host client
+11	### 2.6 The dossier row sets, written out
+4	### 2.6a Item 109's dossier sources and the burial and crypt trace (DR-V8.2 – DR-V8.4; C8-02)
+5	### 2.8 Custom content — the records, the chains and the optional library input (item 104's host s
+4	### 3.1 The embed: the Map tab, the frame, the boot
+1	### 3.12 Determinism
+4	### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104'
+5	### 3.14 The players' view — the party picture set and the party gazetteer (C8-01, C8-14, C8-36)
+2	### 3.4 The refresh queue — campaign scale
+2	### 4.2 The host-side actions in the Map tab
+1	### 5.1 The Map tab — what SettlementForge draws and what the frame draws
+2	### 5.2 Drawing the dossier's records and custom content
+2	### 5.3 Pictures for SettlementForge's own surfaces
+3	### 7.1 The bars (T-V8-n)
+1	### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)
+1	### 8.4 Risks, in order

@@ -1,20 +1,24 @@
-1 2 # V03 — Interiors: floor plans, rooms, households and furnishing (the plan rung, Dwellings-class)
-297 1 ## 1b Wiring table
-596 13 ### 2.4 The rule tables and the default rows
-1372 1 ### 3.4 Seed pieces per storey
-1497 1 ### 3.6 Openings — doors, unit entries, loops, windows, dormers
-1636 3 ### 3.7 Basements, the crypt and the heads of the ways down
-2295 2 ### 5.1 The plan at the building band
-2360 1 ### 5.2 Picture exports
-2369 3 ### 5.3 Interchange and scene exports
-2417 1 ### 5.4 Concealment at a public key
-2428 1 ## 6 Performance budgets
-2462 5 ## 7 Tests and acceptance bars
-2540 7 ## 8 Build plan
-2593 7 ## 9 Decisions (each vetoable)
-2727 15 ## 10 Base change requests
-3118 1 ## 11 Owner questions
-3138 4 ## 12 CONFIRMED versus PLAUSIBLE
-3548 2 ## Reconciliation round 1 (volumes/reconcile-V03-r1, 2026-09-29)
-3641 5 ## Reconciliation round 4 (volumes/reconcile-V03-r4, 2026-09-29)
-3691 1 ## Reconciliation round 3, second brief (volumes/reconcile-V03-r3, 2026-09-29)
+1	# V03 — Interiors: floor plans, rooms, households and furnishing (the plan rung, Dwellings-class)
+1	## 0 In plain words
+1	## 1 Scope, the base hooks consumed, and what is out of scope
+12	## 10 Base change requests
+3	## 12 CONFIRMED versus PLAUSIBLE
+3	## 1b Wiring table
+2	## 6 Performance budgets
+5	## 7 Tests and acceptance bars
+2	## 8 Build plan
+4	## 9 Decisions (each vetoable)
+1	## Reconciliation round 1 (volumes/reconcile-V03-r1, 2026-09-29)
+1	## Reconciliation round 3 (volumes/reconcile-V03-r3, 2026-09-29)
+2	## Reconciliation round 4 (volumes/reconcile-V03-r4, 2026-09-29)
+7	### 2.4 The rule tables and the default rows
+1	### 3.12 Buildings below ground
+1	### 3.3 Anchors — placed before any cut
+1	### 3.4 Seed pieces per storey
+1	### 3.4a Roof terraces (item 110 (c) "a flat roof or a shrine on the top tier"; V3C-67; J-V3.82)
+3	### 3.6 Openings — doors, unit entries, loops, windows, dormers
+5	### 3.7 Basements, the crypt and the heads of the ways down
+5	### 5.1 The plan at the building band
+1	### 5.2 Picture exports
+3	### 5.3 Interchange and scene exports
+1	### 5.4 Concealment at a public key
