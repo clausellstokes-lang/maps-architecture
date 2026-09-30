@@ -10,6 +10,15 @@ docs/validation/coherence/new/base/); volume rewrites V01–V05 were IN PROGRESS
 up); V06–V12 not started; the LIVE design files are untouched (only the assembly seat writes them). (3) Then the Fable review — ONLY on
 the owner's word. All other decisions are delegated (J122). Owner rules: `docs/AMENDMENTS-2026-09-28g.md` (102–113).
 
+**Continuing in a CLOUD session (from the GitHub repository).** Launch the coherence pass with the repository's own folder:
+`Workflow({ scriptPath: "<checkout>/workflows/18-coherence.js", args: { maxLanes: 6, date: "2026-09-28", fableModel: "opus",
+root: "<checkout>", scratch: "/tmp/maps-scratch/coherence" } })` where `<checkout>` is the absolute path of the clone (`pwd`). The
+workflow harness runs at most (CPUs − 2) agents at once, so a smaller cloud machine runs fewer lanes — slower, not wrong. The
+clean-room checker (`docs/validation/bench/doc_checks.py`) needs the reference corpus kept on the owner's Mac (captures/,
+research/patreon, devlogs, ftg-docs, external); in the cloud it prints "reference corpus INCOMPLETE … NOT authoritative" — treat
+its result as provisional and re-run it on the Mac before any freeze. SettlementForge's own folder is not in the repository; the
+coherence pass needs only research/sf/. Commit work as it lands; push only on the owner's word.
+
 **Repository.** The program is backed up in a PRIVATE GitHub repository: https://github.com/clausellstokes-lang/maps-architecture
 (commit 5354c2a, 2026-09-29 20:20). This folder is now a git repository; commit new work with explicit paths and push only on the
 owner's word. Third-party captures, source repositories, copied archives, study images, browser profiles and backups stay local

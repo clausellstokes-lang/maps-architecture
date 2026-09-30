@@ -14,9 +14,9 @@ export const meta = {
   ],
 }
 
-const ROOT = '/Users/cstokes/Desktop/Maps'
-const DIR = 'docs/validation/coherence'
 const ARGS = (typeof args === 'object' && args) ? args : {}
+const ROOT = ARGS.root || '/Users/cstokes/Desktop/Maps'   // the repository's folder; pass args.root when it lives elsewhere (a cloud session)
+const DIR = 'docs/validation/coherence'
 const FABLE_MODEL = ARGS.fableModel || 'opus'
 const OPUS_MODEL = ARGS.opusModel || 'opus'
 const STANDIN = FABLE_MODEL !== 'fable'
@@ -24,7 +24,7 @@ const MAX_LANES = ARGS.maxLanes || 4
 const MAX_REPAIR = ARGS.maxRepairRounds || 1
 const DATE = ARGS.date || '2026-09-28'
 const FFILE = ARGS.fFile || 'docs/AMENDMENTS-2026-09-28f.md'
-const SCRATCH = '/private/tmp/claude-502/-Users-cstokes-Desktop-Maps/c0d81c15-f08e-4364-97ca-c6b05aa13811/scratchpad/coherence'
+const SCRATCH = ARGS.scratch || '/private/tmp/claude-502/-Users-cstokes-Desktop-Maps/c0d81c15-f08e-4364-97ca-c6b05aa13811/scratchpad/coherence'   // pass args.scratch elsewhere, e.g. /tmp/maps-scratch/coherence
 
 let liveLanes = 0
 const laneQueue = []

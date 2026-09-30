@@ -62,6 +62,13 @@ cols = set(m.lower() for m in re.findall(r'(?:#|0x)([0-9a-fA-F]{6})(?![0-9a-fA-F
 corpus_files = [f for f in glob.glob('research/**/*', recursive=True)
                 if os.path.isfile(f) and f.rsplit('.', 1)[-1].lower() in ('md', 'txt', 'json', 'js', 'ts', 'tsv', 'csv', 'html', 'htm', 'svg', 'css', 'log', 'hx', 'xml', 'yaml', 'yml')]
 corpus_files += glob.glob('captures/**/README*.md', recursive=True)
+# Guard (2026-09-29): the reference corpus lives partly in folders kept off GitHub (captures/, research/patreon/, devlogs/,
+# ftg-docs/, external/). Without them the C2-C4 checks see a smaller corpus and can report a FALSE clean.
+_missing = [d for d in ('captures', 'research/patreon', 'research/devlogs', 'research/ftg-docs', 'research/external') if not os.path.isdir(d)]
+if _missing:
+    _w = 'WARNING: reference corpus INCOMPLETE (missing: ' + ', '.join(_missing) + ') - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze'
+    print(_w); print(_w, file=sys.stderr)
+
 corpus_files += glob.glob('captures/**/*.json', recursive=True)                     # VS3-4
 corpus_files += glob.glob('docs/confidence/**/*', recursive=True) + glob.glob('docs/improvements/**/*', recursive=True)
 corpus_files += ['docs/CONFIDENCE.md', 'docs/IMPROVEMENTS.md']
