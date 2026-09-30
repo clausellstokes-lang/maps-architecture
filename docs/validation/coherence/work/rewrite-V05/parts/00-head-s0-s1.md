@@ -155,8 +155,7 @@ remedies: raise its wealth, or draw one yourself.
 
 ### 1.2 The base hooks this volume consumes (cited, never restated)
 
-An index of citations: each row names the base or volume section and what this volume builds on it; the values stay at
-the cited home.
+An index of citations; the values stay at the cited home.
 
 | home | what this volume builds on it |
 |---|---|
