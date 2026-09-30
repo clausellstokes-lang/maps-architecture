@@ -1,0 +1,18 @@
+207:**S0 Blueprint.** `Blueprint = { version, seed, size: { rung: Rung /* §1.1 */, population? | areaHa? | buildings?,
+248:**S0's sewer feature (item 14; II.7.1).** At TOWN a `sewers: 'auto'` is resolved by the feature table's P(sewers) row —
+255:**S1 Site (O1; the mechanism that removes whole-map restarts).** A requested feature infeasible on the drawn site is
+399:**S2 Programme (the roster demand side; O7).** From `population` (or derived from area or buildings by the size tables)
+479:**S2 need propagation (item 16 (b); with §10.2's supply edges).** After the sequential roster has produced the manifest,
+492:**S3 Siting, reservations, the stage-1 boundary and its trace (J-P26).** S3 decides everything the first enceinte depends
+875:**S5a Stage boundary and enceinte trace.** *Boundary (FTG-5, COV-FTG-D26; J-P7):* the boundary of stage k is a level set
+955:**S5b Main-road step (FTG-4; stages k ≥ 2 and every epoch stage).** The stage's primaries match its gates: `N_k` = the
+970:**S5c Growth of the secondaries.** Inside the boundary a priority queue of proposals grows streets FTG-style (CONFIDENCE
+1020:**S5d Capacity check (FTG-2).** Right after S5c the stage's new coarse faces are priced: built land per face = face area
+1253:**S7b Allocation and district claims (after S7; LC-2, FTG-1, FTG-3).** Everything that decides the town's content is
+1763:**S9 Corridors (L2).** `corridorUnion(l1Faces)` (§3.7), the single kerb function, commits exactly the kerbs S8 cut
+1773:**S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district's `Allocation` (S7b) is
+1804:**S10 Plots (L3) — frontage-first with the granularity law (O5 / O18), per block.**
+1941:**S10b Placement (O7; per district; the allocation honoured) — the one placement solver (item 16).** Each block's
+2132:**S11 Site plans and footprints (L4; O17; one batch per block) — the designation template and the designation mutator.**
+2696:**S12a Hinterland siting (eager, no geometry; after S7b, before S8; O14-core; FTG-7).** S12a makes the hinterland's
+2820:**S12b Greenery (after S11; O19; owner base ruling AM-1) — the rule table.** Greenery is a rule family that reads the

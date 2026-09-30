@@ -1,0 +1,47 @@
+171 6 ## 0 In plain words
+252 1 ### 1.1 What this volume builds (to build depth)
+304 2 ### 1.2 The base hooks this volume consumes
+383 4 ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds
+495 1 ### 2.2 Rows (editable tables, §7.6) and new or extended records
+598 5 ### 2.3 Views and services (derived, never stored)
+695 1 ### 2.4 The request, the result and the report (II.1 revised by BCR-2)
+743 1 ### 2.6 The standalone neighbourhood's recipe
+760 4 ### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo · migrate
+819 2 ### 3.1 Where stage 2 enters the pipeline (the stage graph delta, BCR-3)
+860 2 ### 3.2 The provisional character χ̃ — item 72's vector before anything is placed
+940 5 #### 3.3.3 The weights (in-town)
+1349 1 #### 3.5.3 Squares
+1474 1 #### 3.5.12 Fixed inputs, ladder records and catacomb sources (V1C-06, V1C-09)
+1496 1 ### 3.6 Context features (stage-2 feature S2)
+1549 5 #### 3.7.1 Named local places (`HoodPlace`)
+1600 4 #### 3.7.2 Local street names — the way-naming context (BCR-16)
+1621 2 #### 3.7.3 Way surfaces (BCR-6)
+1647 2 #### 3.8.1 Trigger
+1741 1 #### 3.8.4 Staleness and re-derivation
+1775 2 #### 3.8.8 Underground, sky, and the ground access symbols
+1813 2 #### 3.8.9 The outline close-up (V1C-09; §16 M5's "arbitrary boundary"; J-V1.45)
+1868 2 #### 3.10.1 The standalone neighbourhood document (`Recipe.product = 'hood'`)
+1977 1 #### 3.10.3 A sky island's districts (V1C-31; J-V1.49)
+2098 1 #### 3.10.4 An arbitrary outline inside a town
+2196 2 ### 3.14 Constants (with provenance and table home)
+2307 1 ### 3.15 The `NG` preset — Neighbourhood's own rules (V1C-26; item 23; J-V1.41, J-V1.98)
+2509 2 #### 3.17.5 Removing or adding a raised way (V1C-71; J-V1.67)
+2585 1 ### 4.1 What is edited, by which event and tool, with its effective scope
+2666 1 ### 4.4 Undo and lifecycle rows (§7.4; BCR-25)
+2681 1 ### 4.5 The clerk's view and the "why" providers (item 101; volume 10 builds the clerk)
+2753 9 #### 5.1.2 The programs
+2951 1 ### 5.3 Exports
+2967 3 ## 6 Performance budgets
+2996 4 ## 7 Tests and acceptance bars
+3070 5 ### 8.1 Where it slots into §16
+3123 4 ### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)
+3201 11 ## 9 Decisions
+3309 9 ## 10 Base change requests
+3920 2 ## 12 CONFIRMED versus PLAUSIBLE
+4125 1 ## 13 Fix list
+4181 2 ## Reconciliation round 1 (lane volumes/reconcile-V01-r1, 2026-09-29)
+4269 2 ## Reconciliation round 3 (lane volumes/reconcile-V01-r3, 2026-09-29)
+4295 2 ## Counterpart edits by volumes/reconcile-V04-r3 (2026-09-29)
+4342 1 ## Reconciliation round 2 — continuation (lane volumes/reconcile-V01-r2, re-issued brief, 2026-09-29)
+4366 1 ## Reconciliation round 3 — continuation (lane volumes/reconcile-V01-r3, re-issued brief, 2026-09-29)
+4409 1 ## Reconciliation round 5 (lane volumes/reconcile-V01-r5, 2026-09-29)

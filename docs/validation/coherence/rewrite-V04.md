@@ -8,7 +8,7 @@ PROGRESS (lane `coherence/rewrite-V04`, 2026-09-29)
 - P3 §1b: done (parts/01-s1b.md)
 - P4 §2: done (parts/02-s2.md)
 - P5 §3.1–§3.4: done (parts/03-s3-1-4.md; cloud resume 2026-09-30)
-- P6 §3.5: pending
+- P6 §3.5: done (parts/04-s3-5.md; parts 01/02 patched for item 113 (e) `lostAt`, `formerRiseMinCm`, arch-vault-only `gradeFaces`)
 - P7 §3.6–§3.12 (edges table): pending
 - P8 §4–§6: pending
 - P9 §7–§8: pending

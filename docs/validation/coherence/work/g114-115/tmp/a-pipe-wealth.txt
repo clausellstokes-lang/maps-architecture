@@ -1,0 +1,30 @@
+249:II.7.1's law of the request's population and the intent's `wealthLevel` — drawn from `blueprint.features` with the other
+401:stand-in when there is none (§7.7's derivation table; item 20 (h)): households by wealth band (the band set of §4.5,
+418:(S3 (1)) and the town-level character's mercantile shift (below); at TOWN a secondary market is drawn with the row's
+435:demand × the band shares × stage k's quota share. Residential band shares are the roster's household wealth shares
+436:(shifted by the town-level character, which S2 reads from the circumstances' economy slice — its sector shares — so one
+467:**Output:** `Roster` (demand by class with area / frontage requirement classes, district affinities, wealth bands) and
+1029:F-SITING reconcile, reported (F-BUDGET-STAGE, §5.2). **Test:** §13.2's B-CITY `wealthLevel` sweep.
+1113:**feature-named**; wealth is not a kind — "the rich quarter" is a description the naming engine derives from the
+1138:the intent's wealth gradient — a planar ramp rising toward `Intent.wealthGradientCdeg` (§7.7), weight
+1139:`drivers.wealthGradient` (0.15; 0 when the intent sets no bearing and in the parity presets); the **daylight term** and
+1167:  | water | 111 (b) | this field; S3 (6)'s `T` | `+w_waterP · q(x)` here, S3 (6)'s cost factor there | the climate row's water-pull weights, rising with aridity | the wealthy hold the land nearest reliable water and its gardens; near zero in wet rows |
+1202:* **The band set — the references' wealth models as the default (item 27; owner: "prosperity is a gradient and a band
+1216:  | `prosperous` | wealthy | merchant | 0.217 | prosperous |
+1227:  that holds its median household under the roster's wealth shares (`comfortable` under the default shares above, where
+1233:  equals that band's share of the plot land the roster demands (household wealth shares × the band's plot areas, S2) —
+1242:  §4.11's survivors' wealth ladder does the rest — rungs a due block climbs by duration and by its stock's
+1357:   dossier's wealth or rank of the institution when it gives one, clamped to [1, 2]). So many lodgings never outweigh a few
+1468:   town-level character (§4.2 S2, §10.2; J-A72.43). **Trade as a driver:** the gate and main-street kernels scale by
+2543:2. **The town's wealth shifts the weights (item 71 (b); J-A71.42).** Each class's weight is multiplied by
+2544:   `max(0, 1 + wealthShift × (wealthLevel − 0.5))`, after which the row is renormalised: `wealthLevel` the intent's (§7.7;
+2545:   with a dossier, the wealth §7.7's derivation table derives), `wealthShift` the class's column in the mix row (positive
+2566:   references' banded pools (item 23; T23-1 reads it) — with `wealthShift` and the prestige weights 0.
+2857:  modest districts, 0.05 in poor) and one park district is seeded per 25 000 inhabitants regardless of wealth (MFCG grows
+2858:  its park districts independently of wealth); `off`: parks and park districts are not generated, yard planting and every
+2937:* **Survivors — the wealth ladder and the geometry floor (LC-12; item 31).** Surviving plots and buildings keep their built
+2939:  the explicit, recorded, rate-limited events of the **wealth ladder** — three rungs by the time a block has spent in its
+3061:    designs the town, so it re-derives its scope to the current band; the floor governs wealth change over epochs); and a
+3064:    and 2 never lower a standing plot's `builtBand`, and wealth change over epochs lowers it only through rung 3. Regenerate
+3505:  wealth. Fields are their own layer: a struck farmstead's fields stay worked, their `LandUse.owner` passing to the nearest
+3764:`market_green` — until a `clear` or a claim reuses it, so no market moves by wealth change alone.

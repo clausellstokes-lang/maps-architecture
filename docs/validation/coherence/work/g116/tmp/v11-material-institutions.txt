@@ -1,0 +1,145 @@
+142:supply chain is placed as one connected thing — raw material at the river or the quarry, processors stepping inward,
+151:catacombs lie only under cemeteries (and, in a city or a metropolis, under a worked-out quarry turned ossuary). A town
+247:| W11 | `WallBarrierRow`, `WaterfrontThreatRow` (V11 §2.7, V11 §3.16) | V11 §3.16 rows | S3 (9), S5a's arc classification, §4.8's graded furniture, §7.7 DR2 (per g item 106), V07's palisade barrier arcs (V07 §3.4 step 5; V11 §10b), V05's island rim 
+593:  threat: 'naval'|'raider'|'hostileSeaPartner'|'seaMonster'|'exposedPort'|'none' /* the neutral threat keys V08's `threats` row set produces
+594:    from real dossier fields (V08 §2.6 `threats`, J-V8.50: stressors, conditions, DR3's hostile sea partners, `config.monsterThreat`,
+664:order: Record<'TOWN'|'CITY'|'METROPOLIS', ('network'|'burial'|'quarryOssuary')[]>   /* the candidate classes in the order they are tried; inside a class, V04 §3.5.1 (2)'s rank by the burials served (J-V11.36) */
+718:  pierSpacingM: { masonry: [number, number]; timber: [number, number] }; pierWidthShare: number; pierMinCm: number;
+1235:| `textile` | water 2, smell 1, noise 1 | smoke 1 | runningWater | townWide | 0 · 0 · 0 | cluster (street) | — | heavy | works-noxious |
+1236:| `timber-yard` | noise 2, traffic 2, fire 1 | — | road, space, riverBank | townWide | 0 · 0 · 0 | cluster | — | heavy | yard |
+1284:workshop; `metalwork` metalworking shop; `leatherwork` leather workshop; `textile` cloth workshop; `timber-yard` wood yard;
+1302:| leatherwork, textile, industry | yes | 0.2 | poor | 6 | no | channel | never · never | works-noxious |
+1303:| timber-yard, shipyard, extraction, farming | yes | 0 | modest | 6 | extraction, farming: yes | pit | never · never | yard, landing-yard, farm |
+1317:  (the notice posts); `riverbank` on every class of the `textile`, `leatherwork` and `timber-yard` families;
+1422:| `maltings` | `food-works` | malt house and kiln | works-noxious | disp · 1 | ×0.4 brewery | E smoke 2, fire 2, water 0 | heavy · src | — · agriculture | supply `grain` 3 000 m road (§10.2's example) |
+1430:**3.5.5 Crafts — metal, leather, textile, wood, other:**
+1434:| `smithy` | `metalwork` | general smith | workshop-yard | disp · 1 | 1/800, ≥1 | V walk : 600 m; K spread 200 | everyday · src | guild · crafts | supply `iron` 3 000 m road, `charcoal` 3 000 m road |
+1440:| `smelter` | `industry` | bloomery and smelting yard | works-noxious | disp · 2 | 1/8 000, req ore | E smoke 3, fire 3 | heavy · src | guild · extraction | `extramural` soft *ext*; supply `ore` 5 000 m road, `charcoal` 5 000 m road |
+1447:| `weaver` | `textile` | looms | workshop-row | disp · 0.5 | 1/800 | E noise 1; band poor | specialist · src | guild · crafts | supply `wool` 800 m street (spinning was household work; general) |
+1448:| `fuller` | `textile` | fulling mill and tenter yard | works-noxious | disp · 1 | 1/4 000, req water | N runningWater (hard) | heavy · src | guild · crafts | `nearWater` hard; supply `cloth` 800 m street |
+1449:| `dyer` | `textile` | dye works | works-noxious | disp · 1 | 1/3 000, req water | E water 3, smell 2 | heavy · src | guild · crafts | `nearWater` hard; supply `cloth` 800 m street, `dyestuff` 3 000 m road |
+1452:| `ropewalk` | `textile` | rope-making walk | yard | disp · 1 | 1/8 000 @4k, req coast or river | N+ harbour | heavy · src | guild · crafts | `plotShape` hard: depth ≥ 60 m (the walk's physical length); supply `hemp` 3 000 m road |
+1453:| `carpenter` | `craft` | carpentry shop and yard | workshop-yard | disp · 0.8 | 1/800 | E noise 2, fire 1 | everyday · src | guild · crafts | supply `planks` 1 500 m street |
+1457:| `sawmill` | `timber-yard` | saw pits or a water saw | yard | disp · 1 | 1/6 000, req timber | E noise 3 | heavy · src | guild · extraction | supply `logs` 5 000 m river or road |
+1458:| `timber_yard` | `timber-yard` | timber stacks and sawpits | yard | disp · 1 | 1/4 000 | — | heavy · bal | company · extraction | `nearWater` soft *ext* (logs float) |
+1459:| `mason_yard` | `craft` | stone yard | yard | disp · 1 | 1/3 000 | E noise 2, traffic 2 | heavy · src | guild · crafts | supply `stone` 5 000 m road, `lime` 3 000 m road |
+1460:| `brickworks` | `industry` | clamps and kilns | kiln-yard | disp · 1 | 1/6 000, req clay | E smoke 3, fire 2 | heavy · src | guild · crafts | `extramural` soft *ext* |
+1461:| `lime_kiln` | `industry` | lime burning | kiln-yard | disp · 0.8 | 1/8 000 @3k, req stone | E smoke 3, fire 2 | heavy · src | guild · crafts | `extramural` soft *ext* |
+1462:| `potter` | `craft` | kiln and shop | kiln-yard | disp · 0.8 | 1/2 500, req clay | E smoke 2, fire 2 | specialist · bal · split kiln-yard+shopfront | guild · crafts | `extramural` soft *ext* |
+1463:| `glassworks` | `industry` | glass furnace | kiln-yard | disp · 2 | 1/10 000 @5k, req clay (sand) | E smoke 2, fire 3 | heavy · src | guild · crafts | `extramural` soft *ext* |
+1465:| `thatcher` | `craft` | thatch and roofing yard | yard | disp · 0.5 | 1/3 000 | — | everyday | guild · crafts | supply `reed` 3 000 m road |
+1480:| `cloth_hall` | `market` | cloth market hall | market-hall | sing · 4 | 1/15 000 @8k where textile classes ≥ 10 | — | wholesale | guild 0.5, company 0.5 · trade | `nearMarket` 150 soft *ext* |
+1605:| `quarry` | `extraction` | quarry | extractive | disp · 1 | req stone; ×1 per mason demand | N deposit stone | heavy · src | guild · extraction | §4.9's seeding rows |
+1607:| `lumber_camp` | `extraction` | wood cutting | extractive | disp · 0.5 | §4.9's timber rows | N woodEdge | heavy · src | — · extraction | §4.9 |
+1608:| `charcoal_burner` | `extraction` | charcoal hearths | extractive | disp · 0.3 | ×0.5 smelter + §4.9's fuel rows | E smoke 3, fire 2; N woodEdge | heavy · src | — · extraction | `far` → `#housing` beyond 200, soft 0.8 (V07's row) |
+1611:| `claypit` | `extraction` | clay digging | extractive | disp · 0.3 | req clay | — | heavy · src | — · extraction | §4.9 |
+1616:| `peat_works` | `extraction` | peat cutting and drying | extractive | disp · 0.2 | on marsh land use | — | heavy · src | — · extraction | `near` → `landuse:marsh` within 0, hard |
+1722:| 3.5.5 | `carpenter` | carpenter's yard | carpenter, joiner, joinery |
+1726:| 3.5.5 | `sawmill` | sawmill | saw mill, sawpit, sawyer |
+1727:| 3.5.5 | `timber_yard` | timber yard | lumber yard, woodyard |
+1728:| 3.5.5 | `mason_yard` | mason's yard | mason, stonemason, stoneyard, stone yard |
+1729:| 3.5.5 | `brickworks` | brickworks | brickyard, brick kiln, brickmaker |
+1730:| 3.5.5 | `lime_kiln` | lime kiln | limekiln, lime burner |
+1734:| 3.5.5 | `thatcher` | thatcher's yard | thatcher, roofer |
+1814:| 3.5.10 | `quarry` | quarry | stone pit |
+1816:| 3.5.10 | `lumber_camp` | lumber camp | logging camp, woodcutter, woodcutters |
+1817:| 3.5.10 | `charcoal_burner` | charcoal burners' camp | charcoal burner, collier, charcoal |
+1820:| 3.5.10 | `claypit` | clay pit | claypit, clay digging |
+1825:| 3.5.10 | `peat_works` | peat cutting | peat works, turbary, peat bog |
+1896:| `kiln-yard` | compound | kiln* 1–2, shed 1, house 0–1 | gate | 1 | 30 / 45 / 70 / 90 | 300 / 450 / 700 / 1 000 | 0.2 | fence / fence / wall / wall | short |
+1980:| workshop | forge, works, store, kiln | convert |
+1999:| `works-noxious`, `yard`, `kiln-yard`, `extractive`, `landing-yard` | 350 | 280 | 0.8 | — | — | — | no | 0 |
+2022:| store, cellar store | 0.15 (cellar store 0: below ground) | no | kiln | 0.25 | no |
+2065:| `logs` | site | 3 | 0 | 1 | 1 500 | 6 000 | river, road | 0 | land · lumber | classes |
+2069:| `charcoal` | made | 2 | 0 | 1 | 1 000 | 5 000 | road | 0 | — | classes |
+2070:| `reed` | site | 2 | 0 | 0 | 1 000 | 3 000 | road, river | 0 | land · marsh | classes |
+2071:| `stone` | site | 3 | 0 | 1 | 1 000 | 6 000 | river, road | 0 | subterranean · quarry | classes |
+2073:| `clay` | site | 3 | 0 | 0 | 600 | 2 500 | road | 0 | land · claypit | classes |
+2107:coppice: firewood, bark; wildwood: pelts, bark; marsh: reed;
+2109:milk 0.1; lumber camp logs 0.9, bark 0.1; hunting lodge pelts 0.5, meat 0.5; bowyer arms; watermill and windmill flour;
+2111:item 105 (c)); shambles meat 0.6, hides 0.3, tallow 0.1; tannery leather; currier leather; chandler candles; lumber camp
+2112:logs; sawmill and timber yard timber 0.5, planks 0.5; charcoal burner charcoal; coppice land (the hinterland's rows)
+2113:firewood; quarry stone; lime kiln lime; claypit clay; brickworks bricks; potter pottery; glassworks glass; mine ore (and
+2120:m road; `shambles` + `livestock` 3 000 m road; `lime_kiln` + `stone` 2 000 m road; `potter` and `brickworks` + `clay`
+2123:rest: tavern, alehouse and inn + beer; cookshop + meat and bread; butcher and fishmonger + salt; smithy + charcoal; mason
+2224:| `mason-church` | mason_yard | cathedral | near | within 200, beyond 800 | 0.3 | no | the lodge beside the great building |
+2230:GUILD or COUNT record takes its trade row through §7.7's `PlacementCriteria`, V11 §3.5.7). "The mason's lodge beside the
+2246:| `riverbank` | `nearWater` river 100 (0.8) | riverbank 0.8 (the textile, leatherwork and timber-yard classes' tag), food-works 0.4 | river trades |
+2250:| `craft` | `downstream` scalar (the plot's own drainage position, `min` 0.6; 0.4 *ext*); `downwind` scalar (`min` 0.6; 0.4 *ext*); `nearWater` 300 (0.3) | craft 1.0, metalwork 0.8, leatherwork 1.0, textile 1.0, industry 0.8, food-works 0.6 | noxious craf
+2276:| `craftsmen` | craft 1; metalwork 1; textile 1 | 0.6 | yes | — | 50 | no | guild · crafts | craft | — | `…/craft` |
+2372:| `brickmaker` (Crafts) | V | `brickworks` |
+2374:| `carpenter` (Crafts) | V | `carpenter` |
+2375:| `carpenter_part_time` (Crafts) | H | `carpenter` |
+2376:| `carpenters_5_15` (Crafts) | W | `carpenter` |
+2378:| `charcoal_burner` (Crafts) | H,V | `charcoal_burner` |
+2400:| `peat_cutter` (Crafts) | H | `peat_works` |
+2406:| `sawmill` (Crafts) | V | `sawmill` |
+2407:| `sawmill_commercial` (Crafts) | W | `sawmill` |
+2413:| `stone_quarry` (Crafts) | H,V | `quarry` |
+2419:| `thatcher` (Crafts) | V | `thatcher` |
+2422:| `weavers_textile_workers` (Crafts) | W | `weaver` |
+2528:| `woodcutter_s_camp` (Economy) | T | `lumber_camp` |
+2661:| `carpenters_5_15` | COUNT | carpenter, carpenter_part_time | carpenter | (5–15) | — | ladder |
+2720:| `sawmill_commercial` | SIZE | sawmill | — | × 1.5 | — | inferred |
+2824:| `industrial-forge` | `smithy` | metalwork | fire gap from thatch-dense housing (the fire family) | class `v.smithy` |
+2829:| `mercantile-guildhall` | `guildhall` | guild-hall | — | class `v.reeve_house` (the reeve's row; SS-03) |
+2830:| `mercantile-inn` | `inn` | lodging | gates, main roads, bridges, quays | class `v.inn`, elseClass `v.alehouse` (no through road) |
+2831:| `mercantile-market` | `market_hall` | market | market square frontage | pin `@pin:market_cross`, placed with its stalls by V07 §3.10's pin-record rule (reconciliation round 6, SR5-11 (a)) |
+2839:`commerce`, `trade`, `mercantile`, `merchant`, `market`, `shop`, `food` → Economy; `agriculture`, `farming` → Economy,
+2937:| `weaver` | `textile` | 0.5 |
+2938:| `loom` | `textile` | 0.4 |
+2939:| `dyer` | `textile` | 0.5 |
+2940:| `dyeworks` | `textile` | 0.5 |
+2941:| `fuller` | `textile` | 0.5 |
+2942:| `cloth` | `textile` | 0.3 |
+2943:| `wool` | `textile` | 0.3 |
+2944:| `lumber` | `timber-yard` | 0.4 |
+2945:| `timber` | `timber-yard` | 0.4 |
+2946:| `sawmill` | `timber-yard` | 0.5 |
+2967:| `quarry` | `extraction` | 0.5 |
+2970:| `kiln` | `industry` | 0.4 |
+3100:| resource site | `resourceSite` | water → the river or coast within 100 m of the chain's first processor's district; land → the hinterland land use of its good (V11 §3.7.1 `site`); subterranean → a mine or quarry at the hinterland edge; special �
+3137:| `cloth`, `linen`, `textiles`, `fabric` | cloth |
+3141:| `logs`, `lumber`, `wood` | logs |
+3145:| `charcoal` | charcoal |
+3146:| `reed`, `reeds`, `thatch` | reed |
+3150:| `bricks`, `tiles` | bricks |
+3214:`taxes` (taxes and tolls) — civic-authority, law-court; `crafts` — craft, metalwork, leatherwork, textile, timber-yard,
+3223:metalwork, leatherwork, textile, food → guild; trade, warehouse, port, finance, transport → company; worship, monastic,
+3280:| `naval` (a naval war or a hostile fleet) | quay_wall | every quay | TOWN | 1.0 |
+3282:| `hostileSeaPartner` (a sea-bearing neighbour hostile or at war) | quay_wall | main quays | TOWN | 0.8 |
+3305:tiles): `arable` — role `field.arable`, crops by climate (grain default); `strip_field` — `field.strip`; `meadow` —
+3308:maritime biomes, else only by dossier deposit); `coppice` — `wood.coppice`; `wildwood` — `wood.wild`; `quarry`, `claypit`,
+3309:`mine` — `works.pit`; `lumber` — `wood.felled`; `fishery` — `water.fishery`; `saltpan` — `works.saltpan`; `marsh` —
+3327:§4.11's `decay` Works and dwell bands multiply by the factor (×0.6 for timber and thatch is the base's rule, kept).
+3330:masonry (ashlar and rubble), so the material factor of this column is 1 there and is not applied twice (J-V11.31). The
+3341:| raised way (arches, deck, channel) | in use; an aqueduct while its source flows and its need ratio stays above 1 | disused after `aqueduct.disuseAfterYears` 30 (a dry aqueduct) or, for a viaduct or an elevated road, after V06's `streets.abandonAfterYear
+3375:| every era · stage 1 (the core) | rubble 0.4, timber_frame 0.5, brick 0.1 | clay_tile 0.5, slate 0.2, thatch 0.3 | 1 |
+3376:| every era · stage 2 | timber_frame 0.6, rubble 0.3, wattle_daub 0.1 | thatch 0.5, clay_tile 0.4, shingle 0.1 | 1 |
+3377:| every era · stage ≥ 3 and ribbon | timber_frame 0.5, wattle_daub 0.4, cob 0.1 | thatch 0.8, shingle 0.2 | 1 |
+3378:| `c15` · stage 1 | brick 0.3, rubble 0.3, timber_frame 0.4 | clay_tile 0.7, slate 0.3 | 1 |
+3379:| district `docks` | timber_frame 0.5, brick 0.3, rubble 0.2 | clay_tile 0.6, slate 0.4 | 1 |
+3380:| district `shanty`, cluster classes | wattle_daub 0.6, timber (boards) 0.4 | thatch 0.6, turf 0.2, canvas (tents) 0.2 | 1 |
+3381:| class `church`, `chapel`, `cathedral`, `monastery`, `castle`, `palace`, `town_hall`, `guildhall` | ashlar 0.7, rubble 0.3 | lead 0.4, slate 0.4, clay_tile 0.2 | 1 |
+3382:| class `tower_house`, `mage_tower`, `watchtower` | rubble 0.6, ashlar 0.4 | slate 0.6, lead 0.4 | 1 |
+3383:| class `warehouse`, `granary` | rubble 0.5, timber_frame 0.5 | clay_tile 0.8, slate 0.2 | 1 |
+3386:| structure `deck` (a building on a bridge, pier, mole or quay deck, item 110 (d)) | timber_frame 0.8, brick 0.2 | clay_tile 0.5, shingle 0.3, slate 0.2 | 1 |
+3390:`earth_bank`, `timber_crib` for retaining walls and `timber` for raised-way decks; roofs `thatch`, `shingle`, `clay_tile`,
+3391:`slate`, `lead`, `turf`, `canvas`) are the keys §8.2's texture and colour roles use (the three new wall roles by
+3533:`v.windmill`; `farmstead` → `v.farmstead`; `tannery` → `v.tannery`; `potter` → `v.potter`; `timber_yard`, `lumber_camp`,
+3534:`sawmill` → `v.wood_yard`; `charcoal_burner` → `v.charcoal_pit`; `fish_landing`, `fishery` → `v.landing`; `watchtower` and
+3538:`mercantile-guildhall` archetype's village reading is its `village` cell (V11 §3.13.2). Every other class has no village
+3617:Every ancient-culture row builds in long-persistence masonry, so V11 §3.18's material factor is 1 and is not applied
+3620:**3.23.6 The void-source rank** (`RuinRule.sourceWeight`; item 109 (e): "a ruin ranks ABOVE caverns and quarries … a
+3621:built city is readier to live in"): ruin 2.0, buried old town 1.5, vaults 1.2, catacomb 1.0, quarry 0.8, cavern 0.8 —
+3635:| the `worship` and `monastic` families; `mine` and `quarry` (a working's pithead) | 0.5 |
+3638:| the `craft`, `metalwork`, `textile` and `leatherwork` families | 0.15 |
+3651:worked-out quarry turned ossuary; churches get crypts, V11 §3.5.8; the age and dry-ground gates are the base's, II.7.6):
+3656:| `order` (V11 §2.8b's cell, X-V11-4) | burial | burial, quarryOssuary | network, burial, quarryOssuary | inside a class, by the burials served (V04 §3.5.1 (2)); METROPOLIS takes the `Cemetery network`'s grounds first (J-V11.36) |
+3660:| `chance.quarryOssuary` | 0 | 0.3 | 0.3 | never at TOWN (g (k) (2)) |
+3812:  `raised_too_tall`); `pierSpacingM` masonry 8–15, timber 4–8; `pierWidthShare` 0.2 of the span, `pierMinCm` 150;
+4081:   `cluster` → the house roles; `shopfront`, `workshop-*`, `works-noxious`, `yard`, `kiln-yard`, `warehouse`,
+4148:| T-V11-26 | catacombs: the caps do not decrease with the rung; every chance in [0, 1]; `quarryOssuary` 0 at TOWN; every `order` entry a burial-face class or `quarryOssuary`, METROPOLIS's starting with `network`; no source names a church-family class or a
+4339:| J-V11.31 | chose to fill V04's survival-share schema in g's persistence order with no material factor, over the critique's exponential with a material term, because V04's schema landed and every ancient-culture row builds in long-persistence masonry, so
+4523:**BCR-V11-14 — crypts are not catacombs (J111).** Section `### II.7.6 Catacombs, caverns and quarries; depth bands and
+5381:| SR5-11 | minor | FIXED as required — (a) the `mercantile-market` cell reads "placed with its stalls by V07 §3.10's pin-record rule"; (b) the `parish_church` row names the rule at generation, when either record arrives, or at the shrine's promotion (V

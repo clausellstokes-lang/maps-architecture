@@ -1,0 +1,33 @@
+112:together, and a weakened chain pulls less. A coastal town whose record names a war or a hostile sea partner walls its
+277:| realm-block helper `realmBlockFrom` (3.11) | the host's campaign placements (the settlement's and its partners' positions), the realm map's scale and latitude scale, the campaign's spatial digest — nothing else of campaign state | `HostContext.realm` → trade bearings, north first, latitude | §14 `RealmBlock`; item 77; BCR-V8-24 |
+304:| `economy.chains` extended; carried `chain`, `dependency`; the goods lists (2.3, 2.5) | the adapter, V11's `goodWords`, the `chainStatus` word row | DR-V8.5 → the supply web (item 105 (i)); V01's district supply term; V06's link re-binding at epochs; V07's village links and entry store | §14 `DossierDigest`; BCR-V8-5, BCR-V8-8 |
+305:| the `threats` row → `PortValues.threats` (2.5, 2.6) | the adapter over stressors, conditions, trade partners, access, terrain and population | DR2's waterfront through V11's `WaterfrontThreatRow` (item 106 (d)); V07's watchtower row | §7.7 DR2; BCR-V8-7 |
+357:`transit` → `economy.exports`, `.imports`, `.transit` (resolved to goods by `goodWords`) → DR3, DR10, DR-V8.5;
+368:DR-V8.4's trace; stressors, conditions, trade partners, access, terrain and population → `PortValues.threats` → DR2's
+539:type RealmPlacements = { self: { x: number; y: number }; partners: { key: string; x: number; y: number }[]; mPerRealmUnit: number;
+569:  | { k: 'trade'; partners: { key: string; relationship: string }[]; links: { good: string; flow: 'import'|'export'; partner: string }[]; entrepot: boolean;
+570:      goods: { exports: string[]; imports: string[]; transit: string[] } /* goods keys after goodWords (V08 §3.5 (6)) */; incomeShares: Record<string, number> /* the income sources' percentages */ }
+649:`culturalIdentity`, `culturalNotes`, `defenseProfile`, `economicState`, `economicViability`, `factions`,
+651:`neighborRelationship`, `npcs`, `population`, `powerStructure`, `pressureSentence`, `prominentRelationship`,
+652:`relationships`, `resourceAnalysis`, `schemaVersion`, `settlementReason`, `simulationTrace`, `simulationVersion`,
+703:    outputs: { label: string; goods: string[] /* V11's goodWords over the label by V11 §3.13.5's matching rule; a label matching none resolves to the generic good `import`, noted unmapped_good */ }[];
+707:  economy.goods: { exports: string[]; imports: string[]; transit: string[] };   // goods keys of primaryExports, primaryImports (with necessityImports) and transit by goodWords
+769:* **`access`** (`tradeRouteAccess` → gates and through routes, DR2, DR3): `road` 2 gates on 1 through route; `crossroads`
+771:  1–2 gates; `isolated` 1 gate on a track-class approach; `none` 1 gate, no through route; `mountain_pass` 2 gates on 1
+828:* **`wealth`** (`prosperity` → `Intent.wealthLevel` and the band the T73-7 bar reads, DR6): `Subsistence` 0.05 squalid;
+863:  `trade_route_cut` → no tint: the trade slice at the next epoch (F14 carries the partner change); `food_anchor_lost` →
+975:  quay facing the partner); `magically_sustained` → `sustained`; else `active`, noted. The weights are V11's (active 1.0,
+991:  a sea-exposed site; `hostileSeaPartner` ← a trade partner DR3 reads as hostile whose mode is `sea`, on a sea-exposed
+1288:  endpoints: { flow: 'import'|'export'; label: string; partner?: string /* a trade partner's binding key when the dossier's trade links name one for the good; else absent: the main gate or harbour (item 104 (h) (6)) */ }[];
+1536:   `resourceKey`, its processors resolved by the rule below, its outputs through V11's `goodWords`, its `upstreamChains`
+1539:   `necessityImports`, and `transit` into `economy.goods` through `goodWords`; **the calamities** — each `calamityHistory`
+1551:   exactly; the kind family is measured by T-V8-34 on the rest). **Goods words** (V11's `goodWords`): each label is
+1575:| trade | — | — | partners, links, relationships, `goods` → `attr` (F14); income shares → `attr` (the economy slice) |
+1597:| DR-V8.5 | the supply links between the chains' bound members, their goods and weights | `economy.chains` (processors resolved, outputs through `goodWords`, upstream, the neutral status), `economy.dependencies`, `economy.goods`, `entrepot` | item 105 (a)–(h)'s web at S10a/S10b and every epoch (the base as g applies it), each link × V11's `siting.web.chainStatus` of its chain's status; an `entrepot` chain's e
+2006:  without module code, from the campaign's placements (the settlement's and its partners' realm positions), the realm
+2008:  nothing else of campaign state: each partner's `bearingCdeg = round(100 × atan2(Δx, −Δy) in degrees) mod 36 000` (realm
+2023:The port reads no clock and no randomness beyond named streams: partner and deposit bearings on `gate.pick` and
+2645:| T-V8-35 | the supply links (DR-V8.5; C8-06) on `town-1` and `city-1`: every chain with two joined members yields a link; an impaired chain's pull equals V11's status factor × a running one's; an entrepot chain's ends pull toward the gate or quay facing its partner; the links are never stored (a byte search of the document for a link record finds none) | PR, SF4 |
+2978:forms catalogue (O10; the ASSIGN hook)`, `CircumstanceSlice`. Current: "`trade: TradePartner[]; entrepot: boolean;
+3052:rows keyed by entity attributes (`prosperity`, `use`, `epoch`, `owner`, `material`) — data, not code." Mechanism: add
+3122:partners, the realm map's scale and latitude scale and the frozen `spatialDigest`; the module receives only its

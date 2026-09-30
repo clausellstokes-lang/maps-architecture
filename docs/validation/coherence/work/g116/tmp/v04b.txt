@@ -1,0 +1,179 @@
+1:# Design volume 4 — The underground: sewers, tunnels, underground neighbourhoods, catacombs, caverns, quarries and the undercity
+43:**PROGRESS** (one line per section; kill-safe ledger — a resumed run continues from the first `planned`):
+60:**REVISION LEDGER** (revise-V4; kill-safe — a resumed run continues from the first `planned`):
+61:- R0 header, ledger, §0 — done
+65:- R4 §3.5 (U-SYS: ruins, catacombs, caverns, quarries, vaults, forced vaults, the access pass) — done
+75:**RECONCILIATION LEDGER** (reconcile-V04-r1, 2026-09-29; kill-safe — a resumed run continues from the first `planned`):
+82:**SECOND-ROUND LEDGER** (revise-V4, 2026-09-29; critique §8; kill-safe — a resumed run continues from the first `planned`):
+83:- S0 header, ledger, §0 — done
+95:**RECONCILIATION ROUND 2 LEDGER** (reconcile-V04-r2, 2026-09-29; kill-safe — a resumed run continues from the first `planned`):
+96:- D1 header, ledger — done
+98:- D3 §2, §3 (the hood line, the opening pass after generation, the foundations at an epoch, F6 by relocation, the deaths, the buried terraces, the village working, the surface quarry, the citations, the pseudo-district's name, the opening's role, `v.paris
+103:**RECONCILIATION ROUND 3 LEDGER** (reconcile-V04-r3, 2026-09-29; kill-safe — a resumed run continues from the first `planned`):
+104:- E1 header, ledger — done
+111:**RECONCILIATION ROUND 4 LEDGER** (reconcile-V04-r4, 2026-09-29; kill-safe — a resumed run continues from the first `planned`):
+112:- G1 header, ledger — done
+119:**RECONCILIATION ROUND 5 LEDGER** (reconcile-V04-r5, 2026-09-29; kill-safe — a resumed run continues from the first `planned`):
+120:- H1 header, ledger — done
+125:**RECONCILIATION ROUND 6 LEDGER** (reconcile-V04-r6, 2026-09-29; kill-safe — a resumed run continues from the first `planned`):
+126:- K1 header, ledger — done
+163:mine, and narrow fissures open in ordinary hill rock; a mine may break into a cave. Old quarries lie under or near a
+164:town, as large as the stone the town was built from, and a great city may turn a worked-out quarry into an ossuary.
+179:rubble. Where the older people built in steps, their temple or tomb stands as a stepped monument in its hall, its upper
+195:**The parts meet, or not.** A catacomb may break into a sewer, a quarry into a cave; each meeting is a typed opening —
+199:**Nothing is torn down.** Tunnels silt up, cave in, flood or are bricked up and sealed; they stay as ruins and a growing
+222:| **U-SYS** the void systems | `UndergroundSystemStrategy` (II.7.6; g items 109, 110) | `ruin` (with its stepped monuments and modelled columns), `catacomb` (with its `CatacombComplex` records), `cavern` (the fissure variant included), `quarry` (mine voids
+228:| **U-FADE** the underground's part of an epoch | §4.11's decline step and grow path, as volume 6's participants call them: `under.fade` (the underground's own lottery after the fabric pool, BCR-6), `under.extend`, `under.access`, `under.undercity` (V6 §
+281:| live sky islands and their churches; the landfall's `fallen_island` decoration, its rubble `quarry` land use and the raised parts it ruins | V5 §1.3, §3.5 (3), §3.16 (4)–(5); BCR-V5-26 | the catacomb count (V4 §3.5.1 (3)); the access closures (V4 �
+318:  `QuarryWorkings.extend`, `CatacombGrowth.grow` with volume 6's cap, primary and calamity deaths, `AccessPass.run` over an
+382:| naming slices `sewer`, `catacomb`, `cavern`, `quarry`, `vaults`, `buried`, `undercity.plaza` (BCR-18) | the naming pack | S13a's naming of named runs, systems and the main chamber | §10.4 |
+390:| `UndergroundLink.cause`, `Gallery.reusedBy`, `Chamber.reusedBy` (BCR-33) | U-ACCESS, U-LINK L1, U-SYS (tomb reuse, the quarry ossuary), the edits | the excavation reading, the adopting system's extent and program, V10, V12's `link.*`, GeoJSON | §2.7 |
+433:| volume 1's opening pass (V1-3.7.1; SL-06, SLR1-04) | V01's local-place step (`@plat/hood`; called only while it is registered and runs — while `fabric.extensionWeight` > 0, V1-3.7.1, V1-3.15; V4 §8; SLR4-06) | inside every commit that creates, removes
+443:| `QuarryWorkings.extend(doc, scope: EpochScope, epoch)` (V4 §3.5.3; ST-23) | U-SYS | volume 6's `under.extend` (`afterGrowth` 10, after the catacombs' growth), TOWN and above; on the grow-by-stage path, `SewerStrategy.extend`'s growth stage |
+444:| `workedOut(working, scope?)` (derived; V4 §3.5.3) | `@plat/under/sys` | V4 §3.5.1 (1) (e)'s quarry-ossuary candidates, volume 6's candidate list (V6 §3.18.2 (1)), V10 |
+487:| `UndergroundSystem` | its part's rock and voids | a system label (catacombs, caves, quarries, old town) | GeoJSON (a feature per system with its part and depth range) | entities block |
+500:| a ruin monument (`Chamber.monument`) | a ring and a shadow per standing tier; the mound in rubble stipple | none (its ruin's label) | GeoJSON a Polygon per standing tier with `tier`, `baseCm`, `topCm`; glTF prisms | with its chamber |
+593:                              // ossuary (catacomb); hall, breakdown (cavern); workings (quarry); cistern, streetVault, bridgeVault,
+605:  moundCm: Cm;                // the rubble mound's height over the first fallen tier's ring (0 when every tier stands)
+655:  source: { kind: 'churchyard'|'cemetery'|'network'|'monastery'|'quarryOssuary'|'legacy'; ref: Id };
+657:                                             // yard, the adopted quarry working, or (legacy) the church an older document held
+739:| `passage`, `galleryDry` (catacomb, quarry, vaults, buried, dug) from `inUse` | caveIn 0.8 · seal 0.2 |
+760:`fissureWidthCm` 80–150, `fissureHeadroomCm` 600–1 200, `fissureChamberM2` 150. `quarry`: `oreM3PerMine` 2 000,
+824:  sourceWeight: Record<UndergroundSystem['kind'], number>; // the undercity's rank: ruin 2.0, buried 1.5, vaults 1.2, catacomb 1.0, quarry 0.8, cavern 0.8
+843:  chance: Record<'churchyard'|'cemetery'|'network'|'monastery'|'quarryOssuary', Partial<Record<Rung, number>>>;
+855:| `OpeningRow` | sinkhole 0.15 per soluble chamber with cover < `sinkholeCoverM` under no footprint · mouth 0.5 per candidate · skylight 0.3 per breakdown chamber within `skylightDepthM` · collapsed_shaft 0.05 per quarry, mine or ruin chamber under a sq
+858:| `CatacombRule` | count TOWN (—, 1), CITY (10, 3), METROPOLIS (8, 5) (g item 109 (k) (3)); chance churchyard 0.25 · 0.4 · 0.5 at TOWN · CITY · METROPOLIS, cemetery and network 0.3 · 0.45 · 0.55, monastery 0.4, quarry ossuary 0.3 (CITY and METROPOL
+899:  voids: { kind: 'ruin'|'catacomb'|'cavern'|'quarry'|'vaults'|'buried'; capacityHouseholds: number; source: Id | null /* read by the
+933:| a quarry gallery or chamber | the `quarry` system | (the working's ordinal, the grid coordinate) |
+945:| a chain mine | the `quarry` system | (the chain's key, its resource node) |
+946:| a heading gallery (a mine breach) | the `quarry` system | (the working's key, the cavern gallery's lineage) |
+972:| `Gallery.reusedBy`, `Chamber.reusedBy` | U-ACCESS (f), U-SYS (tomb reuse, the quarry ossuary) | the adopting system's extent and program, V10 | the element's record | re-derived with the adopting system; never removed by the adopted system's re-derivatio
+1007:| T2 | U-SYS ruin → catacomb → cavern → quarry → vaults → buried | the ground (read); the raised ways' raised-way piers, spans and aqueduct terminals on ground parts ≥ 1 and the `RetainingWall`s (read; BCR-45); `SiteResources`; the religious, 
+1008:| T2b | U-ACCESS the access pass (V4 §3.5.7) | every part; ground buildings with their footprints, basements and `Basement.crypt` (read); the foundation obstacles; wells; at a village rung the mining uses' outside-plot workings and V07's `mine.workingDep
+1018:(ruin and cavern only — catacombs, quarries, vaults and the buried town keep TOWN and above — and the vaults step for the
+1024:(V07's hand-off down) — the sewer network, a catacomb, a quarry, vaults or a buried town — stays registered in maintenance
+1044:outline: its temple's churchyard, a burial ground or a monastery's burial yard an anchor brings; never a quarry ossuary,
+1045:which (1) (e) keeps to CITY and above). No quarry, generated or forced vault or buried town is laid, and U-FORECAST's P5 and
+1253:   * a **quarry** by V4 §3.5.3's volume law over the roster's predicted stone stock;
+1336:**3.5.0 Existence, order and what every system shares.** In the order ruin, catacomb, cavern, quarry, vaults, buried —
+1345:| `quarry` (mines and chain mines) | TOWN and above | V4 §3.5.3's volume law; mines where the roster holds a mining class |
+1352:way only; no `quarry` and no `buried`.
+1367:town's foundations cut through it; g item 109 (c), (d)). A dry kind (catacomb, quarry, vaults, dug) keeps its floor above
+1381:beside them. A system laid after the town (a catacomb, a quarry or mine working, vaults, the forced vaults, the undercity's
+1386:`foundation`, and one covered less keeps its floor with the footing standing in it as a masonry pillar — no floor, no
+1412:| `quarry` | haulage 250 / 50 / 250; a heading 150 / 50 / 200 | 6 (`minCoverM`) | `workings` 400 / 250 (the pillars drawn, not modelled) |
+1510:   tier stands and its own uniform (index n) passes. The fallen tiers lie as a rubble mound on the first fallen tier's ring,
+1512:   `collapsed` keeps its monument with `standing` 0: a mound in the rubble.
+1538:   every burial face, a worked-out quarry working (V4 §3.5.3) within `ossuaryReachM` (500 m) of `R`: the **quarry
+1547:   quarry ossuary's need is the burials of the faces left without a complex after the burial-face pass plus the unmet need
+1559:   `CatacombRule.chance` (churchyard 0.25 · 0.4 · 0.5; cemetery and network 0.3 · 0.45 · 0.55; monastery 0.4; quarry
+1562:4. **Layout.** A `CatacombComplex` per formed complex. Its anchor is the face's centroid (a quarry ossuary's, the
+1579:   — the greatest need `A` of (2) (a quarry ossuary's its need), ties by rank, so rank 1 at generation — at every
+1611:   plot); for a quarry ossuary, when no face feeding it is open. Its complex is then frozen — no growth and no change of
+1621:   catacomb is entered from the churchyard, and through its church only by the crypt join (V4 §3.5.7 (c)); a quarry
+1663:**3.5.3 Quarries, mine voids and chain mines (J-V4.18; C4-25, C4-16).** *Volume* (II.7.6, J-A65.45): `V = wasteFactor ×
+1666:descending, distance to the centre, cell index), taken until their volume reaches `V`. **The surface quarry** is §4.9's `quarry` land
+1667:use without a `source`; a landfall's rubble working — a `quarry` with a `source` (V05 §3.16 (4), BCR-V5-26) — is never the
+1668:surface quarry, a stone working or a volume source (SLR1-14; the sky layer is never read, V4 §1.2). **The surface split** (II.7.6's
+1669:"left to the hinterland's surface quarry"): a taken cell whose terrain class is `high` — the outcrop at the surface, its
+1670:cover under `minCoverM` — contributes its volume to §4.9's surface quarry and is laid nowhere underground; the other taken
+1675:is **drawn, not modelled** — §8.2's `quarry` program lays square pillars of side `√pillarShare × roomM` at pitch `roomM`
+1681:instance, in the same `quarry` part. *Chain mines (item 104 (h) (1), item 105; C4-16):* each ACTIVE supply chain whose
+1682:resource node is of kind `subterranean` reuses the nearest mine or quarry working within `reachM`, or makes one — a working
+1691:is worked out. Readers: the quarry-ossuary candidates (V4 §3.5.1 (1) (e)), volume 6's candidate list (V6 §3.18.2 (1)),
+1692:V10. *New workings at an epoch.* `QuarryWorkings.extend(doc, scope, epoch)` (TOWN and above; volume 6's `under.extend`,
+1696:the surface quarry's face, with the surface split, grouped into new workings; (2) **mines** — one working of
+1703:quarry, the unmet m³ reported. No draw is made (V4 §3.12).
+1798:  wall lies within `breachM` (40 m) in 3-D of a cavern gallery joins it by a `heading` gallery in the quarry part along the
+1801:  village working (TR-12; V07 §3.16 (4); J-V4.113):* at a village rung, where no `quarry` system exists, each mining use's
+1810:  lineage), and draws nothing; at V07's hand-off up the working becomes a quarry source by V4 §3.5.3 and the access is kept.
+1813:  quarry, mine or chain working, U-DIG's passages, a lifeline, and an edit that draws or deepens an element — each in its
+1855:  a `mouth`, a `skylight`, a `collapsed_shaft` over a quarry, mine or ruin chamber under a square, a square or green block (V4 §1.2) or a field
+1866:  its own record and course, so the rule never works against hydraulics. A catacomb's tomb reuse and the quarry ossuary's
+1876:  part of any other kind is always `accessible`: the sewer, catacombs, quarries, vaults and dug passages were dug from the
+2132:| quarry, vaults, buried | `accessPoint` | torch, fire | 220 | 12 | 700 | 5 | one per access of a lived system, an arch vault's door excepted | — |
+2150:`CatacombGrowth.grow` with its `opts`, then `QuarryWorkings.extend`; `under.access` (order 20) runs
+2162:  occupancy (0 while unexcavated; C4-61), 0 for an unlived cavern or quarry. A ruin element's weight is further ×
+2210:* **`QuarryWorkings.extend(doc, scope, epoch)`** (`under.extend`, after the catacombs' growth; ST-23) — V4 §3.5.3's new
+2224:  before this pass (below; TT-02); one that turned `unexcavated` — its last access sealed, bricked or
+2234:  becomes `bricked` (stored, cause `convert:<the use op>`); one whose building is demolished or whose basement is removed is
+2236:  does not admit (a footprint over a former street) becomes `bricked`; an access whose ground host a landfall covers — its
+2238:  (4)–(5)): a grating, a street stair, a public opening, a catacomb stair — becomes `bricked`, cause `convert:fallIsland`,
+2252:  `quarry` system — the systems whose elements carry opening candidates (V4 §3.5.7 (e)) — which removes the old elements'
+2260:  changed within the selection re-derives the place's subtype; each is a fate of the commit. A state change (`bricked`,
+2290:| U-SYS quarry at an epoch | the stone cells within `reachM` run out before the epoch's `ΔV` | the rest from the surface quarry (V4 §3.5.3's: a `quarry` land use without a `source`; SLR1-14) | the unmet m³ |
+2307:void kind); each crypt join (`sewer`, the church and the complex source, no epoch component); the quarry ossuary's chance
+2320:(keyed by the face's lineage; a quarry ossuary's by its working), each public opening's draw and each overlap shaft's
+2324:`QuarryWorkings.extend` and `SewerStrategy.derive` at an epoch draw nothing new but the network's `pit` draws. The hood
+2330:(§3.4), the carve's split parts (V4 §3.6 C2) and, on a `cavern`, `ruin` or `quarry` system, volume 1's opening places
+2345:| `drawTunnel` with a `system` (a gallery) | two points | a catacomb or quarry gallery an L-route on its system's grid axis; a `ruin` gallery an L-route on the ruin's `axisDeg`; any other a straight segment; the floor from the nearer existing element of t
+2380:| access point | `kind`, `role`, `state`, `knownTo`, `ground.at` | II.7.4 (with BCR-29's kinds) | re-hosted by `pointLocate` (§7.1); a `state` of `bricked` on a cluster's last access lists the vacated dwellings as fates; a `kind` or `role` change on an a
+2396:| a `delete`, `seal` or `bricked` of a cluster's last access | the excavation reading; the cluster's F6 dwellings and undercity plots vacated by II.7.3's vacancy rules, listed as fates in the dry run (C4-48 (7)) | the rest |
+2401:| `regenerate` (New random) on a system, a run or an undercity neighbourhood | that system's part, that run's blocks, that neighbourhood's elements; the links' far ends (§3.4); a host system's carve re-run (V4 §3.6 C2); on the catacomb system its lights
+2543:  rubble stipple of the `rock` role; the main streets' ancient drains as the `water` stroke — distinct from the cavern's
+2545:  shrine's ring where it stands, each tier casting its own shadow (V4 §5.3); the mound as the rubble stipple within the first
+2548:  its footing; a stretch collapsed by a foundation as the rubble stipple; a drop at a retaining wall as a small filled square
+2582:| a void system | `system` | at the centroid of its floor in the band holding the largest share of its floor area, only in that band | the `cavern`, `quarry`, `vaults`, `buried` slices (`UndergroundSystem.name`); a buried town its quarter's (Old ⟨quarte
+2583:| a catacomb complex | `system` | at its floor's centroid | `CatacombComplex.name`: a complex under a burial face reads its cemetery's name (the Catacombs of ⟨cemetery⟩), a churchyard's its church's; a quarry ossuary its quarter's (the Ossuary of ⟨q
+2618:| T2 U-SYS (catacomb, cavern, quarry, vaults, buried) | catacombs ≤ 300 grid nodes per complex, ≤ 5 complexes; caverns ≤ `caveKmPerKm2` × the frame; quarries one chamber per working; vaults ≤ 60 chambers | as T1 | 2 · 5 · 15 · 35 ms | × 1.3 |
+2660:U5): (1) U-ACCESS's proximity sampling every 10 m; (2) the cavern and quarry caps halve (`caveKmPerKm2`, `workingMaxHa`)
+2693:| T-V4-13 | rule bar | quarries: Σ workings area × headroom × (1 − `pillarShare`) within ± 10 % of the volume law; no working with cover < `minCoverM`; one shaft per working | nightly |
+2697:| T-V4-17 | isolation | T65-6 on generated output: re-deriving each system leaves the ground and every other part byte-identical but for its links' far ends and, for a `cavern`, `ruin` or `quarry` system, volume 1's opening places over the openings it mak
+2730:| T-V4-50 | catacombs (C4-49, C4-64, C4-65 (2); 500 seeds per rung) | ≤ 1 complex at TOWN, counts within `CatacombRule.count` at CITY and METROPOLIS, `churches` counting `v.parish_church` (SR1-24) and each church on a live sky island once (0 sky faces a
+2753:| T-V4-73 | sources and closures (ST-22, ST-21, SL-30, SL-31) | (a) a dossier event removing a ruin's `ancient_ruins` source leaves the ruin whole with `source.ref` null and `W_RUIN_SOURCE_REMOVED`; (b) a churchyard whose church use closes freezes its com
+2755:| T-V4-75 | hood documents (SLR1-01, SLR3-01; V01's T-V1-20) | on 100 hood documents per `contextRung` (TOWN, CITY, METROPOLIS) on forced-cavern sites with a temple anchor: 0 sewer, quarry, buried or undercity elements; 0 vaults but a declared raised way'
+2781:| **U3 — the void systems** | U-SYS: **the ruin** (V4 §3.5.0a: sources, culture and axis, plan families, decay, distinctness, `RuinRecord`, `ruinCentre`; 2.5–3.5 pw), catacomb (layout), cavern with **the mining boost, fissures and the mine breach** (
+2783:| **U4 — the undercity, the catacomb rules and the closures** | U-CITY (C0–C6) with `District.core`, the read-only lifeline test, the rank draw, the carve post-pass, the plaza ring and visibility-graph walkways; `underDistance`; the forced vaults; **t
+2784:| **U5 — time, 3-D and hardening** | U-FADE, `extend` (with the wall drops over `EpochScope.levelled`), `CatacombGrowth.grow`, `UndercityEpoch.reread`, `ArchVaults.reconcile` over `EpochScope.raised` and access at an epoch (BCR-6; V06's `under.extend`) 
+2817:| U3 | `under.ruin` (58a), every column; `under.catacomb` (58a) — U-SYS V4 §3.5.1 and T-V4-11 read it; this volume's `params` keys of `under.systems` (59): every row's `surfaceClearCm` and the `cavern`, `quarry`, `vaults` and `dug` keys of V4 §2.3 | `
+2888:| J-V4.18 | chose each quarry working as one chamber with its pillars drawn by the `quarry` program over modelled pillars, because a modelled room-and-pillar field is tens of thousands of edges at CITY for no reader but the picture |
+2952:| J-V4.82 | chose raised-way piers, retaining-wall footings and buried aqueduct stretches as foundation obstacles, re-derived at every derivation — later systems keeping out of their reach, older voids filled by the stretch or holding the footing as a m
+2960:| J-V4.90 | chose a maintenance mode at village rungs for every inherited system, the sewer network and the undercity included, over the critique's catacomb, quarry, vaults and buried town only, because V07's hand-off down keeps the sewer network's record
+2968:| J-V4.98 | chose `workedOut` as a derived reading — a mine's use closed, a chain inactive, a stone working outside the epoch that laid it — and `QuarryWorkings.extend` laying the epoch's new stone, mining and chain workings with their overlap tests, 
+2975:| J-V4.105 | chose to read `Recipe.product` in this volume's hood line — U-FORECAST and T2 — and to run the below-TOWN set with the catacomb step at TOWN's rules and count (one) on the hood's own burial faces whatever its `contextRung`, over reading t
+2976:| J-V4.106 | chose to run volume 1's opening pass inside every commit that creates, removes or re-kinds an access it selects — T6, the scoped access pass, a complex founded at an epoch, and the edits — over T6 alone or a periodic sweep, because a plac
+2983:| J-V4.113 | chose, at a village rung, to record a mining use's outside-plot working breaking into a cavern or ruin as one `shaft` `AccessPoint` of source `dig` and cause `mineBreach` per void system — its nearest element, keyed by the working's and the
+2985:| J-V4.115 | chose to run volume 1's opening pass in two more commits — a `regenerate` of a `cavern`, `ruin` or `quarry` system, after U-ACCESS (e) re-runs over the new elements' candidates keyed by their lineages, and the `delete` of a gallery or chamb
+3099:  shipped family; the `quarry` program's pillar squares are laid at `roomM` pitch, side `√pillarShare × roomM`, along a
+3161:doors, `portals` at every access point (closed when locked or bricked), every link (closed when gated or secret) and every
+3172:slice (`catacomb`, `cavern`, `quarry`, `vaults`, `buried`), a catacomb reading its source church's name and a buried town
+3174:churchyard's its church's; a quarry ossuary its quarter's); a ruin the ancient civilisation the dossier's history names,
+3192:* `### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)` — current: "its galleries
+3208:"state: 'open'|'locked'|'bricked' /* item 64 (c): stored, set by the rule's row or an edit; it reads collapsed or bricked while its element is closed (II.6), a derived reading, never stored */;"
+3209:— new: "state: 'open'|'locked'|'bricked' /* item 64 (c): stored, set by the rule's row, an edit, or the access closures of its host's change (a use turned to a class whose access row is 0, a ground host no longer admitted: `bricked`; II.7's volume §3.1
+3226:**BCR-24 — the `dug` system's generation-time creators (C4-06).** `### II.7.6 Catacombs, caverns and quarries; depth
+3271:/* … ; sinkhole, collapsed_shaft, ruin_entrance: public openings into a cavern, a quarry or mine, or a ruin (item 109 (j)
+3288:'sewer'|'catacomb'|'cavern'|'quarry'|'vaults'|'buried'|'dug'" — new: "interface UndergroundSystem { id: Id; kind:
+3289:'sewer'|'catacomb'|'cavern'|'quarry'|'vaults'|'buried'|'dug'|'ruin'" (g item 109 (b)), and after the kind's comment
+3317:network` ground 0.3, 0.45, 0.55; a monastery's burial ground 0.4; a CITY or METROPOLIS quarry ossuary 0.3 — the
+3345:"| chamber | the system's kind — ossuary, cavern hall, quarry room, cistern or vault, undercity chamber (II.7.6; II.7.5) |
+3347:with rubble stipple |" — new: "| chamber | its `Chamber.kind` (the underground volume's `ChamberKind`) | the underground
+3349:the quarry pillars, `cistern` in `water`, `streetVault` and `bridgeVault` the `vault` hatch, `storey` and `square` as
+3351:a collapsed one as a trace with rubble stipple; an unexcavated one in the unexcavated style |"; and the underground
+3352:program list — current: "`quarry` (a worked gallery's band with pillar squares) and `chamber`" — new: "`quarry` (a
+3353:worked gallery's band with pillar squares), `ruin` (double-lined masonry walls 30 cm apart, 60 cm column dots in halls
+3354:and temples, rubble stipple where collapsed; item 109 (g)), the unexcavated style (dashed kerbs at 40 % alpha, no fill,
+3363:catacombs, quarries and a buried old town only" — new: "its void sources vaults, catacombs, quarries, a buried old town
+3365:/* historical: vaults, catacomb, quarry, buried; navigable: all */" — new: the same with "historical: vaults, catacomb,
+3366:quarry, buried, ruin".
+3369:heights and ground datum, wings, materials, sub-locations, the stage-3 interface`, *Basements* — current: "derived by the
+3430:its column dots at the chamber's modelled points, each standing monument tier's ring with its own shadow, the mound in rubble
+3493:  BCR-V3-21 and its hand-offs; V07 §3.12, §3.16 and BCR-V7-27; V06's span, scope and ledger records (V6 §2.12, §2.13) and
+3519:  row (the arch-vault reconcile now second, after the foundations), §3.5.2 *Accesses under the rubble*, §3.6 (1) (the
+3523:  (`id: Id`, §2.7). V04's `collapsed_shaft` candidates over quarry chambers (V4 §2.3's `OpeningRow`, §3.5.7 (e)) are why
+3524:  the regenerate case names the `quarry` system too (J-V4.115). Every replacement was applied by an exact-string script
+3600:* The third reconciliation's mechanisms: that re-running U-ACCESS (e) over a regenerated cavern, ruin or quarry system's
+3612:  that reopening a landfall-bricked access as `open` (`locked` when secret) matches its former state in practice; the
+3623:  culverted brooks of London, the fourteenth-century vaulted sewer of Paris, the quarries and ossuaries under Paris, the
+3707:`under.extend` row cites `QuarryWorkings.extend` and `workedOut` (ST-23); V01 V1-3.7.1's selection (SL-07, V01's) is the
+3822:* **ST-16 — keys fixed without the epoch component.** §3.12's exception list gains the catacomb source draw (a quarry
+3829:  removed, a churchyard's plot without a live church-family use, a quarry ossuary with no open feeding face), the frozen
+3834:* **ST-23 — workings over epochs.** §3.5.3's `workedOut(working, scope?)` reading and `QuarryWorkings.extend(doc, scope,
+3841:  `CatacombGrowth.grow`, `QuarryWorkings.extend`, `UndergroundFade`, `UndercityEpoch.reread`; §3.10's intro and bullets
+3863:* **SL-30 (minor) — accesses under a landfall.** §3.10's access closures: a covered host bricks its access (cause
+3885:  faces, no quarry, generated or forced vault or buried town, P5 and P7 forecasting only those kinds; §3.3's gate, §3.5.0's
+3921:* **SLR1-14 (minor) — the surface quarry.** Defined once in V4 §3.5.3 (a `quarry` land use without a `source`; a landfall's
+3922:  rubble working is never the surface quarry, a stone working or a volume source); §3.11's row and §1.2's V05 row cite it.
+3952:* **TT-07 (minor) — three residuals.** (a) §3.10 *Access closures*: a landfall-bricked access reopens in the batch in
+3961:  access removed with its element, its place tombstoned) and a `regenerate` of a `cavern`, `ruin` or `quarry` system
+3963:  lineages, the excavation reading, then the pass over the openings made and removed); the `quarry` system is added

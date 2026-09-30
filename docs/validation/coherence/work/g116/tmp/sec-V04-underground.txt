@@ -1,0 +1,46 @@
+1 3 # Design volume 4 — The underground: sewers, tunnels, underground neighbourhoods, catacombs, caverns, quarries
+138 8 ## 0 In plain words
+213 2 ### 1.1 What this volume builds
+234 1 ### 1.2 The base hooks this volume consumes (cited, never restated)
+313 1 ### 1.3 Out of scope, with the reason
+362 3 ### 1b.1 Records, fields and tables
+419 5 ### 1b.2 Stage outputs and interfaces
+459 1 ### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)
+481 2 ### 1b.4 Entity kinds (each rendered, labelled, exported, persisted)
+504 1 ### 1b.5 Dossier facts, traced to their field and derivation row
+551 5 ### 2.2 New and changed fields
+671 7 ### 2.3 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratab
+892 1 ### 2.4 Derived transients (never persisted)
+914 3 ### 2.5 Identity: lineage units and creation keys
+953 2 ### 2.6 The lifecycle of every state field this volume adds or gives a producer
+992 6 ### 3.1 The underground tail: order, registration, scheduling
+1051 1 ### 3.2 U-NET — the sewer network by medieval rules
+1228 1 ### 3.3 U-FORECAST — what S7b needs before any tunnel exists (J-V4.13; fixes RV-pc-4, C4-20, C4-40)
+1334 49 ### 3.5 U-SYS — the void systems
+2110 1 ### 3.9 Light underground — the rows (item 68 (d′); J-V4.33; C4-28, C4-60)
+2143 12 ### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)
+2266 1 ### 3.11 Failure handling (no whole-map retry; §5)
+2295 4 ### 3.12 Determinism (§6; C4-58, C4-20, C4-06)
+2340 1 ### 4.1 Declarations — points in, shape out (item 101 (i); BCR-8; C4-31, C4-62)
+2366 1 ### 4.2 Attribute paths (`setAttr`), with ranges and effects
+2385 4 ### 4.3 Locality (§7.3; J-V4.14; C4-04, C4-30, C4-42, C4-43, C4-48, C4-50)
+2409 2 ### 4.4 Undo and the closure record
+2422 1 ### 4.5 The clerk's view (§11.2's tool API; item 101)
+2509 5 ### 5.2 Marks and programs (§8.1, §8.2)
+2560 2 ### 5.3 Light underground (§8.4; item 68 (d′); J-V4.32)
+2577 2 ### 5.4 Labels (§9; BCR-17, BCR-18; J-V4.34)
+2593 1 ### 5.5 Exports (§11.1; BCR-16; J-V4.35, J-V4.36)
+2608 4 ## 6 Performance budgets
+2664 14 ## 7 Tests and acceptance bars
+2762 6 ## 8 Build plan
+2867 12 ## 9 Decisions (each vetoable)
+2993 24 ## 10 Base change requests
+3444 1 ## 11 Owner questions
+3466 10 ## 12 CONFIRMED versus PLAUSIBLE
+3634 1 ## 13 Fix list
+3765 1 ## Integration notes (volumes/_integrate, 2026-09-29)
+3811 6 ## Reconciliation round 1 (volumes/reconcile-V04-r1, 2026-09-29)
+3875 7 ## Reconciliation round 2 (volumes/reconcile-V04-r2, 2026-09-29)
+3936 3 ## Reconciliation round 3 (volumes/reconcile-V04-r3, 2026-09-29)
+4094 1 ## Reconciliation round 5 (volumes/reconcile-V04-r5, 2026-09-29)
+4120 2 ## Reconciliation round 6 (volumes/reconcile-V04-r6, 2026-09-29)

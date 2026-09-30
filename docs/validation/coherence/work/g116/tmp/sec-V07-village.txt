@@ -1,0 +1,36 @@
+179 2 ## 0 In plain words
+240 2 ## 1 Scope, the base hooks consumed and what is out of scope
+399 9 ## 1b Wiring table
+519 1 ### 2.1 The village ladder, the product registration and the population floor
+606 3 ### 2.2 The village rung table (`village.json`) — every village-specific rule value, as data
+833 1 ### 2.3 Records
+887 24 ### 2.4 The village classes and their siting (the village part of items 103 and 104)
+1185 8 ### 2.6 Lifecycle of every new state field
+1395 2 ### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill seat
+1544 5 ### 3.4 VS3 — the palisade, before the roads
+1896 1 ### 3.8 VS6 and S9–S11 — houses along ways: tofts, crofts and the slot race
+1973 1 ### 3.8a Levelling and retaining walls at village rungs (file g item 110 (a); J-V7.84 – J-V7.89)
+2035 3 ### 3.9 S12a and the hinterland unit at village rungs — fields, meadow, commons, woods, outlying farms
+2108 4 ### 3.10 The wharf and piers (VS4's step); VS8 — ends, pins and names
+2217 17 ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how
+2411 12 ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions
+2746 2 ### 3.13 Failure handling — the village ladders (never a whole-map retry, the base's §5)
+2858 2 ### 3.16 Caverns and ruins under a thorp, hamlet or village (file g item 109 (a), (b), (j), (3b); V04's system
+2950 3 ### 4.1 The twelve tools on a village
+3052 1 ### 4.5 The clerk's view
+3084 9 ### 5.1 The look — the `painterly` family built, `ink` one click away
+3207 1 ### 5.4 Exports
+3224 2 ## 6 Performance budgets
+3278 7 ## 7 Tests and acceptance bars
+3360 15 ## 8 Build plan
+3447 13 ## 9 Decisions
+3588 6 ## 10 Base change requests
+3953 4 ## 12 CONFIRMED versus PLAUSIBLE
+4210 3 ## Reconciliation round 1 (volumes/reconcile-V07-r1, 2026-09-29)
+4247 1 ## Reconciliation round 2 (volumes/reconcile-V07-r2, 2026-09-29)
+4326 2 ## Reconciliation round 4 (volumes/reconcile-V07-r4, 2026-09-29)
+4378 2 ## Reconciliation round 3 — continuation (volumes/reconcile-V07-r3, re-issued brief, 2026-09-29)
+4406 1 ## Reconciliation round 4 — continuation (volumes/reconcile-V07-r4, re-issued brief, 2026-09-29)
+4433 1 ## Reconciliation round 5 (volumes/reconcile-V07-r5, 2026-09-29)
+4471 3 ## Reconciliation round 6 (volumes/reconcile-V07-r6, 2026-09-29)
+4516 1 ## Finalization (volumes/_finalize, 2026-09-29)

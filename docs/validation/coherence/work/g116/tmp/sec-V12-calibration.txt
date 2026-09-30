@@ -1,0 +1,36 @@
+1 2 # Design volume 12 — Calibration, reconciliation and parity measurement: how the built generator is tuned agai
+117 3 ## 0 In plain words
+182 4 ## 1 Scope, the base hooks consumed, and what is out of scope
+260 9 ## 1b Wiring table
+342 1 ### 2.1 The metric registry
+424 2 ### 2.2 `MeasureInput` — the neutral measurement profile
+531 1 ### 2.3 The baselines file
+557 2 ### 2.4 Seed families
+588 1 ### 2.5 Calibration runs (tuning against a reference, a threshold fallback, or the corpus)
+624 5 ### 2.6 The calibration register
+793 12 ### 2.8 Panels and sittings
+849 2 ### 2.9 Corpus records (M-CAL)
+901 5 ### 2.11 Lifecycle of every record
+996 1 ### 3.2 The capture-and-measure loop (research side)
+1086 2 ### 3.4 The metric suite
+1240 7 ### 3.5 The band arithmetic and the parity run
+1399 2 ### 3.6b Share, sweep, paired and two-sample bars
+1568 1 ### 3.7 Tuning runs — table-version bumps with declared shifts
+1709 2 ### 3.8 Reference drift
+1722 1 ### 3.9 The owner's sittings — one panel engine
+1798 7 ### 3.10 The corpus reconciliation — a process, milestone M-CAL
+1949 41 ### 3.11 The calibration register — no provisional number dangles
+2221 3 ### 3.12 Failure handling — every failure, its rung, its report
+2265 4 ### 3.14 The known-city fixtures — one engine for both (item 110 (e), (f); J78; T101-6)
+2371 2 ### 4.2 The records' verbs
+2408 1 ### 5.1 The parity dashboard
+2421 1 ### 5.2 Run, register and correlation reports
+2474 7 ## 6 Performance budgets
+2512 5 ### 7.1 The bars
+2571 2 ### 8.1 Where it slots into §16
+2583 3 ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)
+2598 2 ### 8.3 Risks, spikes and their pre-decided outcomes
+2635 11 ## 9 Decisions (each vetoable)
+2723 22 ## 10 Base change requests
+3123 6 ## 12 CONFIRMED versus PLAUSIBLE
+3299 15 ## 13 Fix list

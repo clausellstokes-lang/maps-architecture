@@ -1,0 +1,16 @@
+docs/volumes/V02-buildings.md:350:| its `materialFamily` | the material row (V11 §3.19) | texture and colour only — never the massing | §8.2 |
+docs/volumes/V02-buildings.md:418:  `materialFamily` reaches the material row, never the massing (owner, 2026-09-26; T-V2-25).
+docs/volumes/V02-buildings.md:4427:| X9 | 8 | V08's attribution: `MaterialRow`'s rows are V11's, and `materialFamily` reaches the material row only (V2 §1d) | none needed |
+docs/volumes/V05-sky.md:400:| landfall (`fallen_island` decoration with its typed `members` (`DecorationMember`, BCR-V5-9; seam TT-03), `quarry` land use carrying `source`, the covered walls with their towers and gates — `breached` over each covered length, extended over each covered tower's and gate's footprint chord (a `Gate` of any kind), in the enceinte's `condition` (file f item 575; seams 
+docs/volumes/V05-sky.md:1538:   `MaterialLedger`), so later building within the haul radius draws on it and §4.11's salvage demand weighs clearance
+docs/volumes/V06-evolution.md:160:`MaterialLedger`, `Works` records; §2.9's `Recipe`, `EpochRecord`, `ChunkRef`; §4.4 S5a; §10.2's `UseRuleRow`; §10.3's
+docs/volumes/V08-settlementforge.md:362:(f)); the culture → `CircumstanceSlice.era` (the `era` row; V11's `EraRow`); a custom record's `materialFamily` → V11's
+docs/volumes/V08-settlementforge.md:959:* **`materials`** (new; a custom record's `materialFamily` → the V11 material id whose largest walls share selects the
+docs/volumes/V08-settlementforge.md:1226:and `materialFamily` appear on the record only when the author set them (item 104; absent on the reference pack's
+docs/volumes/V08-settlementforge.md:1246:    scene?: { profileId?: string /* one of the 17 archetypes, else absent and noted unmapped_word */; landmark: boolean /* landmarkLevel 'landmark' */; material?: string /* materialFamily */ };
+docs/volumes/V08-settlementforge.md:2045:2. **Scene tokens.** `sceneProfileId`, `landmarkLevel` and `materialFamily` are checked against the adapter's copy of
+docs/volumes/V08-settlementforge.md:2628:| T-V8-18 | the staged records and the real vocabularies (C8-09 – C8-11): conditions put whatever their status (`stable`, `worsening`, `easing`) with weeks from their ticks — `untilWeek` within ±1 week across town-1's and city-1's one-week, one-season and one-year ticks, else the pre-decided absolute-tick reading — and retired when unlisted; stressor
+docs/volumes/V11-content.md:204:| `MaterialRow`, the regional shift, the era and region preset the circumstance names | §2.6, §7.7 layer 2, D-2 | the era table `EraRow` (new, BCR-V11-7) and the material rows (V11 §3.19) |
+docs/volumes/V11-content.md:256:| W20 | `MaterialRow` rows (V11 §3.19.3) | this volume | S11's material read, §8.2's texture and colour roles, §4.11's Works durations | §2.6 | `materialFamily` of a custom record (item 104) |
+docs/volumes/V11-content.md:3387:| regional shift rows (`extension: 'regionalShift'`, off by default) | a region's row set replacing walls and roof shares | — | — |
+docs/volumes/V11-content.md:3392:BCR-V11-30); the colours are the style sheet's (the palette rules, §8.2), never this table's. A custom record's `materialFamily` (item 104) selects the

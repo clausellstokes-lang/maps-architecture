@@ -1,0 +1,183 @@
+89:- L2 TR-05, TR-06, TR-19 the landfall clearance (decoration members, bricked accesses, `formerClass` lifecycle) — done
+158:items 1–5; §12.6 whole; §14's package list and the app's tool table; §16's milestone table, effort basis and staging
+160:`MaterialLedger`, `Works` records; §2.9's `Recipe`, `EpochRecord`, `ChunkRef`; §4.4 S5a; §10.2's `UseRuleRow`; §10.3's
+196:into squares, its stones are carried off for new houses, and over some decades it becomes a ring road (or, sometimes,
+200:streets beside the tanneries — and the houses they leave stand empty, lose their roofs, fall into ruin, and are robbed for
+201:stone wherever someone nearby is building. Empty plots become gardens, orchards and fields; lanes that serve nothing
+212:**Trade and services keep their balance as the town changes.** Every shop and workshop is tied to its nearest supplier
+240:quarry turned into a bone store); they grow a little each year, never shrink, and when they cannot grow the old bones are
+244:**Accidents happen, gently and by rule:** a house fire that spreads along timber rows until a wide street or a stone house
+246:and the town rebuilt on the rubble. A town tied to SettlementForge has the calamities its dossier reports and no invented
+251:framed, a building emptied, stripped, falling into rubble; a ruin overgrowing. A time bar under the map lets you scrub
+329:| the decline table, exposure field, strike lottery, dwell bands, salvage ledger, persistence order | §4.11, §2.7 | the decline phase builds the lottery's candidate sets per layer (V6 §3.5) |
+337:| the identity rules: survival, succession, JOIN / SPLIT, tombstones, lineage keys with the epoch component | §6.3, §6.1 | every op continues lineage; nothing is re-rolled (V6 §3.16) |
+347:| `IslandEpochStep` (V05 §3.15); V04's epoch functions (V04 §1b.2, §3.10) — `UndergroundFade` (`under.fade`); in `under.extend`, in V4 §3.10's one order, `Foundations.apply`, `ArchVaults.reconcile(doc, scope.raised, epoch)`, `SewerStrategy.derive` at the first sewers epoch else `SewerStrat
+391:* **Materialised social simulation** (relations, postings, schedules) — `@plat/sim` (M4b). This volume gives only the
+410:| W3 | `EpochParticipant` registrations (V6 §2.1, §3.2's participant table) | `@plat/sky` registers `sky.islands` (V05 §3.15) and `sky.clearance` (BCR-V5-28); `@plat/hood` registers `hood.fabric` (V01's S7c on the districts the epoch made outside S7b and S9b on the blocks rung 3 re-cut or red
+415:| W8 | the per-layer strike candidate sets (V6 §3.5.2), with the `raised`, `retaining`, `deck` and `landfall` kinds (V6 §3.19.2, §3.19.4, §3.19.5, §3.5.2) | lifecycle states, finished `decay` Works, salvage demand, vacancy spans, a raised way's disuse (`underuseSince`), a terrace's abandonm
+469:| W62 | the pool's `raised`, `retaining` and `deck` candidates and BCR-V6-26's `DeclineOp` members (V6 §3.19.2, §3.19.4, §3.19.5) | a raised way's disuse (W67), a terrace's abandonment, a deck's dead crossing; the salvage demand; hazards (topple, inundate, burn) | `neglect`, `breach` and `dis
+471:| W64 | `EpochScope` (V6 §2.1) — `raised` and `levelled` added here, `recut` and `workings` at W74; **the one reader list of every field** (TU-06 (b): the field comments point here) | derived from the epoch event's lifecycle entries: every op that builds, extends or opens what the fields name
+477:| W70 | retaining walls over epochs (V6 §3.19.4) | the levelling ops of the epoch (a new stage's S10–S11, a re-levelling rung-3 re-cut or rebuild, `raiseGrade`) | the walls made, re-derived or restored there (a decayed stretch restored, a ruined one replaced, V6 §3.19.4 (6)), and no others, 
+478:| W71 | hazards on decks and terraces (V6 §3.11.2 (2), §3.11.3, §3.11.4) | the deck's carriageway and faces; each building's datum `baseCm` (V02's `deriveBase`, BCR-V2-32); supports' heights and materials | fire spreading along a bridge row; the flood's depth at the datum; a toppled support b
+481:| W74 | `EpochScope.recut` and `EpochScope.workings` (V6 §2.1; ST-54, ST-29) | derived from the epoch event's lifecycle entries: the blocks a rung-3 op re-cut or redeveloped; the mining and quarry uses whose workings an op opened | `hood.fabric`'s S9b (V01 §3.3.6 (2)); `under.access`'s mine br
+483:| W76 | the `landfall` candidate kind and its clearance (V6 §3.5.2; ST-13, TR-05, TR-06) | a `fallen_island` decoration's members (V05 §3.16 (5); `DecorationMember`, BCR-V5-9 — an `Id` for a way, plot, reservation, land use or retaining wall, `{ raised, span: [a, b] }` for a raised span and 
+499:| trade partners, economy, powers | `economy.partners`, `economy.tradeLinks`, income rows, `powers[]` | DR3, DR4, DR11–DR13 | the slices the dials read past their hysteresis (§4.11) |
+508:| ruins, magic and mining | `site.deposits` (`ancient_ruins`, the mining deposits: iron, precious metals, gemstones, coal, copper), `magical_node`, ley-line income rows, `magical` history events, Adventuring delving institutions | DR19, DR17 (the coherence pass's rows for item 109 (b)) | V04's r
+568:  workings: Id[] /* the mining and quarry uses whose outside-plot workings an op of this epoch opened (a village rung's mines, V07 §3.16 (4)), address order (ST-29) — its readers W64's */;
+570:  surfaceChanged: Id[] /* faces a reclaim, a course shift, a quarry face, a raiseGrade or a collapse changed this epoch, and the faces of the landfall members that left their decoration this epoch (V6 §3.5.2; TR-06) — its readers W64's */;
+631:| `walls.dismantleChancePerYear` | 0.03 | per stretch, × the salvage-demand factor (§3.7.2) |
+771:  cause: EditRef | RuleRef; lifecycle: Lifecycle }   // model data; registry kind 'mutationPlan' (BCR-V6-7); tombstoned when its last step is done, its plot re-derived, or deleted
+803:  | { op: 'repairWall'; enceinte: Id; stretch?: StretchRef /* with a stretch: a `breached` run of the ring's `condition` back to `standing` (file f item 575; TT-04) — no Works (J-V6.31, J-V6.90: the base's `Works.target` is a building or plots), the change drawn at its effective week (V6 §3.1
+807:  | { op: 'repairRetaining'; retaining: Id; stretch?: StretchRef /* a decayed stretch of a retaining wall back to standing, or, with no stretch, every decayed stretch of it (V6 §3.19.4 (6); ST-10); a ruined stretch — its stone gone — is not restored: an epoch's re-levelling lays a new stret
+852:  retaining: { created: number; rederived: number; buried: number /* tombstoned under a raiseGrade (ST-34) */; slumped: number; restored: number /* decayed stretches restored, ruined ones replaced (V6 §3.19.4 (6)) */; suppressedHeld: number };
+855:    raised: number /* span and support members that left by repairRaised or dismantle */; decorationsCleared: number; quarriesToCommons: number;
+856:    accessesReopened: number /* bricked accesses returned with their host (TR-06) */ } /* V6 §3.5.2's landfall candidate (ST-13) */;
+902:| `MutationPlan` | the use phase's openings and relocations, a hand `mutate … spread: 'epochs'` | the ladder phase's mutation step; descriptions; the clerk | model data, entities chunk | a re-derivation of its plot tombstones it (cause `rederive`), reported | the creating event's undo removes 
+931:| a retaining stretch's condition (item 245's `state`, `decayed` · `ruined`; BCR-V6-26's retaining member) | the pool's `breach` (slump) and `dismantle` (stone taken); V05's landfall (`decayed`); `repairRetaining` (→ `standing`, V6 §3.19.4 (6); TT-06) | the pool, the restoration rule (V6 §3
+1030:| 1 | `prelude` | before S2 | the product and the rung the fold gives (V07 §2.1's fold, BCR-V7-26; V6 §3.1 (3)), read before the dials — the rung every later step reads; the dials past their hysteresis, `TradeFlow` re-read (base); the slice and the wealth level installed (V6 §3.3); **the f
+1047:| 17 | `character` | (i) | S12c's character step, pressures, renames, `TradeFlow` (base) | base |
+1059:| `afterGrowth` | 10 | `under.extend` | `@plat/evolve` (adapter) | V4 §3.10's one order (TR-18): **first, the foundations over the epoch's scope** — V04's `Foundations.apply(doc, scope, cause)` (V6 §3.18.1 (6); ST-20); **then `ArchVaults.reconcile(doc, scope.raised, epoch)`** — the reconc
+1081:the TOWN law's probability at the epoch's population and wealth level, and the feature turns on the first epoch `u <
+1219:   (its surface is its record's, by its material) and an aqueduct (none) are never candidates; a way with an edited
+1262:  building with salvage demand in its haul radius (→ `robStone` for masonry, `clear` otherwise), its weight × `min(1,
+1263:  demand ÷ yield)` — the salvage mark of §4.11 — and with no demand never a candidate, so a ruin beyond any building stands
+1303:(`breach`) and their rubble and freed supports (`dismantle`, on salvage demand only) (§3.19.2); **retaining** (`rate`
+1309:`min(1, demand ÷ yield)` of the salvage ledger's demand in its haul radius (§4.11 *Salvage*; the landfall's rubble was
+1310:credited to it, V5 §3.16 (6)), so rubble is cleared where its stone is wanted and, with no demand, a member is never a
+1317:ending, so regrowth tier (3) may build on it. The landfall's **`quarry`** face (a covered `LandUse` V5 §3.16 (4) turned
+1318:into the surface rubble working whose `source` is the decoration) steps to `commons` by `retypeLand` after
+1319:`land.scrubAfterYears` (drawn once on `stream(EVO_DECLINE, landUse)` keyed with the epoch of the fall) once the salvage
+1325:re-levelling's (V6 §3.19.4 (6)); a **land-use** member in the batch whose `retypeLand` steps its `quarry` face to
+1328:it — `dismantle` (V6 §3.19.2 (3)); and a member tombstoned by any other op (a hand `delete`, a re-cut, a clearing under a
+1329:new raised way) in that op's batch. The decoration is tombstoned (cause `rule:landfall`) in the batch that removes its
+1330:last member, whichever op that is, so the rubble drawn over the members' faces never outlives their cover. A raised part
+1331:that is never repaired and never salvaged stays a member, and the decoration stands with it, as its ruin does.
+1332:**Accesses under the rubble** (TR-06; V4 §3.10 *Access closures*). In the batch in which a member leaves the decoration,
+1333:every `AccessPoint` that V4 §3.10 bricked with cause `convert:fallIsland` and whose ground host is that member takes a
+1338:chronicled `landfallCleared` ("{year}: the rubble of {subject} is cleared from {district}."). V05 §3.16 (4) cites
+1339:this rule as the clearance it leaves the rubble to.
+1359:   §2.8) charged to the `fabric` cap of the hinterland pseudo-district. Meadows, orchards, vineyards, coppice, quarries,
+1462:   order; each not yet dismantled, at `walls.dismantleChancePerYear × min(1, 0.2 + demand ÷ yield)` (the salvage demand in
+1464:   item 575; TT-04), crediting the ledger (§4.11 *Salvage*); charged to the `fabric` cap of the district the stretch's
+1523:lifecycle being the stretch repairs' (TU-02; J-V6.115). Counted `walls.backInUse`, chronicled `wallManned`. A `dismantled` run is not rebuilt (its stone is gone); a gap stays a gap until a hand `drawWall`
+1720:  site, a chain node, an import store) within its `maxDistanceM` by its mode.
+1750:see do not move by trade; a moved churchyard would freeze its catacomb and orphan its crypt):
+1833:2. **An active chain moves by its anchor.** When a chain's upstream anchor — its resource node's site (a spring, a quarry,
+1834:   a deposit) or its import store's gate or quay — changes (a `DepositSite` depleted or discovered, §4.11 *Lights, deposits
+1845:   declaration; the engine never assigns a district to a chain or a trade, and the chronicle's `rename` line records a
+1855:| town-wide (guild crafts, merchants, markets' trades) | 1 200 | 0.40 | 10 | 5 | 0.25 | 0.05 |
+1857:| elite (goldsmiths, physicians, luxury trades) | 1 500 | 0.30 | 15 | 8 | 0.35 | 0.03 |
+1908:   × that weight in S10b's term); an `entrepot` chain's ends are item 104 (b)'s import and export pulls (V11 §3.7.4). The
+1924:| QUARTER | a district-defining record: the character step (i) sets the quarter identity for the record's district (item 72, its raised share), and the record owns the trade's members inside the district and, by the class's ordinary spread (item 107), outside it (V01's quarter record owns its m
+1925:| GUILD | one guild hall — a new `Use` opened by S10b's `dossier` request at this epoch — and the trade's workshops re-bound to the record as its members by `assign` (no move) |
+1968:(tombstoned, its done steps standing) when the use it was made for leaves the building, when its plot is re-derived, or
+1969:when a lock covers the building; a user deletes one by `delete` on the plan (V6 §4.2). The plan's last step tombstones it
+1995:`jumpM` 6, `breakM` 8, `pCatch` 0.55, flammability by roof covering and wall (thatch or reed 1.0; timber, shingle or wattle
+1996:0.9; tile 0.45; stone, slate or brick 0.15 — the lower of roof and wall factors), `windDown` 1.3, `windUp` 0.6,
+2006:   from one to the next while a carriageway at least `breakM` wide, or a stone bridgehead, still stops the fire (C6-48). A burning building's unburnt, unprotected neighbour catches when its draw on `stream(EVO_HAZARD,
+2010:   or a row of stone houses therefore stops it; a thatched lane downwind does not.
+2017:   eligible (V6 §3.8.4), and regrowth tier (3) rebuilds on it. **A burn that burns every building standing on a timber
+2023:**3.11.3 Flood — `inundate`.** Row defaults (a mapped calamity scales `depthCm` by its severity, V6 §2.4): `depthCm` 60, `collapseDepthCm` 80, `collapseShare` 0.3, `timberScourCm` 120, spontaneous
+2028:it is never used. A building of timber, cob or wattle walls whose depth reaches `collapseDepthCm` collapses when its draw
+2029:falls below `collapseShare` (→ `decay`, households displaced, its use as in 3.11.2 (3)); a timber deck whose soffit the
+2030:water level passes breaks at the same `collapseShare` (V6 §3.19.5 (3)), and a timber raised-way support standing in the
+2031:flooded land whose depth at its foot reaches `timberScourCm` breaks at it (V6 §3.19.2 (4)) — masonry decks and supports
+2057:`raise.chance` (0.3): the town rebuilt on its rubble, as history attests. Its operator, its `buried` system and its Works
+2102:   `demolish`, `clear`, `robStone`, a `vacate` (its `decay` Works), a strike's `decay` and `ruin`, `burn` (CHARRED, in its
+2252:  lineage, the catacomb source per cemetery or quarry lineage, the crypt join per (church, complex) pair — each fixed by its key, never
+2355:      a quarry or mine working, a dug passage, an undercity lifeline, a `raiseGrade`'s buried streets. A tunnel or gallery
+2360:   c. **Mine breaches** (109 (a) (3)). A mine or quarry working in `scope.elements` within V04's `breachM` (40 m) of a
+2363:      no `quarry` system below TOWN) is tested the same way, by the depth the working reaches (V07's
+2366:      (the working is no system). `QuarryWorkings.extend` already runs the overlap test and the mine breach over its own
+2370:      — ground a reclamation, a course shift, a quarry face, a `raiseGrade` or a cave-in brought within the row's cover:
+2433:     network's grounds first at METROPOLIS; then, at CITY and METROPOLIS only, a quarry working that V04's `workedOut`
+2451:   port's `HistoryHint.ageYears` (item 88). A quarry ossuary's age is the age of the oldest cemetery whose bones it takes:
+2452:   the gate measures old bones, not the quarry.
+2476:   tombstones lower the floor: the author is not a derivation). A population fall lowers the need, never the extent. It
+2486:   by least disruption, chronicled `catacombResumed` (TR-13; what closes and reopens a face, a quarry ossuary's included,
+2629:   (its reason key, (8)) and `pitch`, inside its material's `pierSpacingM` band — and a course one of whose piers stands
+2684:   dismantled (its stone taken) or a support cleared, the way is **released**: it no longer counts, it is no longer a
+2685:   repair target, its remaining supports and spans stand as ruins that the pool clears on salvage demand (§3.19.2 (3)),
+2723:     where their stone is wanted; our own floor 0.2, as the wall pathway's) — the deck and the arch over the span fall
+2724:     `ruined`; its rubble stays;
+2725:   * **a ruined span's rubble** with salvage demand in its haul radius → `dismantle` on the span (stone credited to the
+2726:     ledger, §4.11 *Salvage*; the span `cleared`), weight × `min(1, demand ÷ yield)`, never a candidate without demand;
+2727:   * **a support both of whose spans are ruined or cleared**, with salvage demand → `dismantle` on the support (cleared),
+2728:     weight as the rubble's — supports outlast spans, late in the persistence order, so a ruined aqueduct stands for
+2736:   whose depth at a timber support's foot reaches `timberScourCm` breaks it at `collapseShare`, a masonry support never;
+2757:base's collision rule (§6.3) mints a fresh entity over a tombstone (`~k`), and at an epoch the user's `delete` stands
+2758:earlier in the log than the generator, so a tombstone alone cannot hold a removal. Therefore:
+2775:   entry (`{w}` the week; **Show** on the removed way's former outline, read from the `delete` event and its tombstone) —
+2808:     first vertex to its last (Build it again's points are the former chain's, read from the tombstoned record's last
+2814:   removal in force, as for a raised way ((3)). A tombstone keyed by the line alone would not hold: §6.3's collision rule re-mints over it (the
+2823:   inside the raised region is **tombstoned** in the `raiseGrade` batch (cause `convert:raiseGrade`; ST-34) — V04's
+2824:   buried-system builder reads a tombstoned wall inside the region as a step in the buried floor, the storey chambers on
+2829:   `EpochScope.levelled`; the report counts `retaining.created`, `.rederived` and `.buried` (the tombstones).
+2840:   stretch's stone only on salvage demand (→ `ruined`; the bank remains). A drawn wall is held. Chronicled
+2853:   `ruined` stretch is not restored (its stone is gone): the re-levelling lays a **new stretch** on its line (a
+2854:   successor lineage, §6.3), the ruined stretch tombstoned in the same batch. A **drawn** wall is restored only by hand
+2877:   whose water level passes a timber deck's soffit breaks it (`ruined`) at `collapseShare`; a `burn` that burns every
+2878:   building standing on a timber deck chars the deck to `decayed` (impassable until repaired); masonry decks break by
+2882:   `fire` or `clearance`), and the deck plots are tombstoned with the deck. Counted `decks.struck`, chronicled `deck` ("the
+2945:| repair a breach; put a neglected wall back in use | T3's grip on a gap: "repair"; T3's inspector on a neglected ring: "back in use" | `convert` `repairWall` (with the gap's stretch; with no stretch, "back in use": the neglect lifted and the pathway cleared, V6 §2.8; TU-02) | the convert's un
+2950:| a mutation's pace | T9 `shape`'s inspector on a building with a plan: each step's year, "do it now", "cancel the plan" | `setAttr` on `MutationPlan.steps[i].dueWeek`; a `mutate` with the step (BCR-V6-7); `delete` of the plan | the event's undo; `delete` tombstones the plan, its done steps sta
+2969:| repair a retaining wall | T3 `wall`'s inspector on a retaining wall's decayed stretch: "repair" | `convert` `repairRetaining` (V6 §2.8; ST-10) | the convert's undo; on a ruined stretch it bends to a new drawn stretch on its line ("its stone is gone; a new stretch is built here"; J-VI.4) |
+2996:  harbour-mouth chain, quay wall, retaining wall or deck plot** is held by its suppression (V6 §3.19.3), which a tombstone alone could not do (§6.3's
+2997:  collision rule mints over a tombstone): no epoch, regeneration or re-run re-founds it while the removal is live.
+3087:| a raised way neglected, run dry, with fallen spans, or reduced to its supports | the base's decline classes for raised ways — in use, neglected (no traffic, weathered), a span fallen (its rubble at the span's foot, the arch gone, the supports standing), a row of supports alone; an aqueduct 
+3089:| a landfall's rubble cleared (V6 §3.5.2) | each cleared member drawn by its own rows again (a way by its restored class and surface, a plot or reservation without the `fallen` rubble); a tombstoned `fallen_island` decoration draws nothing; the quarry face as `commons` | §8.2's `fallen` row (
+3090:| a struck deck and its ruins | the deck's `ruined` state (the carriageway broken, the piers or the mole standing) or `decayed` (a charred timber deck), read from its host's existence (ST-56); its buildings as ruins until the deck plots are tombstoned with it | §8.2 (base, item 110 (d)) |
+3118:  the aqueduct runs dry."; "{year}: terrace walls slump in {district}."; "{year}: the houses on {subject} are swept away."; "{year}: the rubble of
+3306:— a hill town on 20–30 % slopes, a century of growth, decline and regrowth; **H-DECK** — a river town with a timber bridge
+3307:carrying houses and a stone bridgehead, a harbour mole with a mid-mole tower, and a meander that cuts off under its second
+3328:| T-V6-16 | hook + statistics | fire: the spread never crosses a way corridor ≥ `breakM` or open water; `minor` never exceeds 6 buildings; the burnt plots are rung-3 eligible and rebuilt by tier (3); the rebuild shift lowers flammability for 30 years; on H-DECK a fire lit in the timber row on
+3329:| T-V6-17 | hook | flood and collapse: only buildings whose depth at their datum (the water level less `baseCm`) reaches `collapseDepthCm` collapse, only of the listed wall materials; a deck building whose deck stands above the water level never collapses; a terrace building is judged at its pl
+3352:| T-V6-40 | hook | the catacomb count and sources over epochs, at every batch of H-100, of 50 random trajectories and of H-DOSSIER: (a) no complex is founded while the count is full, and at TOWN at most one is ever founded — more than one stands at TOWN only after a decline from CITY, each th
+3374:| T-V6-62 | hook | retaining walls, at every batch of a century on H-TERRACE | walls only on levelled ground steeper than `terrace.slopeMin` with steps above `terrace.stepMinCm` (V11); 0 walls deleted by `amalgamate`, `plotToGarden` or a re-cut; every way crossing one is a stair or a ramp, kept
+3378:| T-V6-66 | hook | the landfall clearance (ST-13, TR-05, TR-06), on a sky fixture whose island falls on built ground at year 30 with salvage demand around it, covering a field, an arch of a generated aqueduct (a span and a pier), a street grating and a catacomb stair: every struck way member re
+3407:| milestone | contents | tests | person-weeks |
+3411:| E2 — decline and regrowth | departures, the strike candidates (garden reuse, passages), the siting tiers with crowding, the way upgrade and the turnover vacancy, the growth decision (crowding hook, backlog quantum, rich ribbon, overflow order, decrowding; BCR-V6-18, BCR-V6-19, BCR-V6-23), t
+3423:lands the milestone, owner `V06` unless the line says otherwise, in V12 §3.11's form (the table below); the columns and
+3430:reads from V11 (§3.18's structures block, §3.23.8, §3.24) are registered by V11's seats, never here (X31). No milestone
+3431:adds a row without its entry. Each line's entry is written, and each bar it names registered, by the seat landing its exit step (`--milestone V6-E<n>`, V12 §2.8's form). Its `due` is `V6-E7` for a line whose exit is E1 – E6 — E7's exit runs the statistics bench (200 seeds) over every bar t
+3439:`stages` the V06 stage ids (V6 §3.16) of the phases it reads, `tier` `'milestone'`, and `run` the check V6 §7's row
+3460:| `bar.T-V6-16` | spread violations; the fire-size trend against the stone-and-tile share (count, ratio) | `golden` with `hazards: 'full'` and `H-DECK` (TOWN, CITY) | `EVO_HAZARD`, `EVO_LADDER`, `EVO_SITING` | E5 |
+3488:110 lands at M3a, BCR-V6-25), and V11's `raisedWays` rows** (V11 §3.24.2, shipped by V11's own milestone; this volume keeps no copy, so
+3529:| J-V6.16 | chose that repair closes breaches but never rebuilds a dismantled stretch, because its stone is gone; a hand `drawWall` closes a gap (a hand `repairWall` on the gap bends to it, J-V6.98) |
+3533:| J-V6.20 | chose fire as a breadth-first spread over adjacency with firebreaks, flammability and wind, capped by mode, over a circular burn radius, because streets, squares, water and stone stopped historical fires |
+3579:| J-V6.66 | chose that the use phase never moves a church-family use whose plot holds a churchyard, nor a `singular` anchor, over moving them by score, because consecrated ground and a see do not move by trade, and a moved churchyard would freeze a catacomb and orphan a crypt |
+3586:| J-V6.73 | chose `raiseGrade` after a burn of ≥ 60 connected buildings or a heavy flood over ≥ 1 ha, at a chance of 0.3 (own, calibrate-later), over never or always, because rebuilding on the rubble is attested after great fires and floods but not universal |
+3596:| J-V6.83 | chose that a removal of a generated raised way (and of a generated harbour-mouth chain or quay wall) suppresses its reason key, counted as filled, over matching tombstones, because the base's collision rule mints over a tombstone and an epoch's generator runs after the removal in th
+3608:| J-V6.95 | chose that a generated raised way with a dismantled span or a cleared support is **released** — no longer counted, no longer repaired, its key re-opened with the same `u` — over counting it until salvage clears every support (the critique's wording), because a way that can never
+3611:| J-V6.98 | chose to bend (J-VI.4) every non-dossier, non-lock infeasible request of this volume — a repair of stone that is gone (a new stretch or span on its line), `from: founding` on an existing document ("Start a new town small" as a new document), `forkAt` / `rerunFrom` before a rebase 
+3612:| J-V6.99 | chose a `landfall` candidate kind in the one strike pool, at the street's rate and weighted by the salvage ledger's demand, with the covered way's class kept in `Way.formerClass` by the landfall and its surface re-laid by the base's rule, over a fixed clearance a set number of years
+3618:| J-V6.105 | chose to suppress a removed generated retaining wall by its chain's lineage address and a removed generated deck plot by its host's id and slot ordinal, in the one suppression mechanism, over a tombstone keyed by the line, because §6.3's collision rule re-mints over a tombstone an
+3619:| J-V6.106 | chose to tombstone the retaining walls inside a `raiseGrade` region in its batch — V04's buried-system builder reading each as a step in the buried floor — over keeping them as live buried features, because item 245's record has no buried state and the buried town keeps its ter
+3621:| J-V6.108 | chose that a `fallen_island` decoration's member leaves in the batch of whichever op ends its cover — a strike of this kind, a `repairRetaining`, the `retypeLand` of its quarry face to commons, a `repairRaised` (a span's repair restoring the ruined supports at its ends) or a `dis
+3623:| J-V6.110 | chose to repair a breach on a ring in use — no pathway, its threat above `walls.neglectThreatMax` — at the next `fortification` phase by the same `repairWall` order (the `breached` runs of item 575's `condition` in chain order, no Works — its towers and gates standing again w
+3630:| J-V6.117 | chose to register each bar V6 §8 names as a V12 `BenchBarDef` in the change that lands its line's exit — tier `'milestone'`, 200 seeds per setting on the bar's own fixture family, stages the phases' `EVO_*` ids, preset `'default'` (no parity preset, which would switch the web an
+3639:| J-V6.126 | *Finalization (seam SCC-108; amends J-V6.111).* Chose to date each register line by its exit step — the entry written, and each bar it names registered, by the seat landing that step (`--milestone V6-E<n>`), its `due` `V6-E7` for lines exiting at E1 – E6 (E7's bench runs every 
+3678:after which to insert): "@plat/sim      optional, M4b: the relation store materialised, postings, occupancy and
+3715:`convert` (§7.1) with an undo record (§7.4) and a lifecycle cause `convert:<op>`; a hand repair of stone that is gone —
+3933:ways (volume 6 §3.19.2): neglect the way (abandoned); breach a span (its deck and arch ruined, the rubble left);
+3934:dismantle a ruined span's rubble or a support whose spans are both down (cleared, stone credited); breach and dismantle
+3937:§3.19.4): a stretch decayed (slumped) or ruined (stone taken); no edge removed, no terrain changed" ·
+3943:plots ruined by least disruption in the same batch and the deck plots tombstoned" (ST-56; file f item 246) — with `type SpanRef = { raised:
+3994:once M4 lands; its underground milestone E8 (2.75–4.25 pw) waits for volume 4's U5, and E3's raised-way pass for item 110's
+4032:script: the first text's milestones summed to 17–23.5 (its stated 17.5 low was an arithmetic slip), and the revised ones
+4059:rows, §3.5.1 (8), §3.5.3's `workedOut` and `QuarryWorkings.extend`, §3.10's one `under.extend` order and *Access
+4087:*With a scope* and §3.5.3's `QuarryWorkings.extend` (the scope fields each reads); V03's outside-ground row (an unstored
+4133:`catacomb.primaryHysteresis`, and item 110's flood row's `timberScourCm` 120, and the landfall candidate's rate (the street's 0.08);
+4195:| X1 | V04 (landed 22:27; its next revision) | at an epoch, `CatacombGrowth.grow` takes this volume's cap — V11's `growthCapShare` (V11 §3.23.8), V04's `CatacombRule` field, read per year and compounded over the epoch's span (J-VI.6; SCC-29 (c)) — and the derived primary, its rank cap (V11
+4208:| X14 | V04 | the arch-vault source callable over `EpochScope.raised` as a reconcile (lay, collapse, delete); breach and dismantle of a span carrying the chamber's collapse in their batch; U-NET's invert drops over `scope.levelled`; V4 §3.5.5's builder reading a `RetainingWall` tombstoned insi
+4243:| X49 | V12 (seam SCC-108, SCC-109; applied by the finalization in V12 §2.8) | V06's register lines are dated by their exit step (`--milestone V6-E<n>`) with `due` `V6-E7` (E1 – E6's lines) or `V6-E8` (E8's), and V06 lines `retaining.settings.stateSnapCm` at E2 on `bar.T-V6-62` (SCC-110, SCC
+4271:| ST-13 | major | §3.5.2's `landfall` candidate kind (rate 0.08, × salvage demand, `fabric` cap): ways back to `formerClass` with a re-laid surface, walls restored, plots released, the decoration tombstoned, the quarry face to `commons`; `formerClass` also written by the landfall (BCR-V6-5, X
+4282:| ST-34 | major | `raiseGrade` tombstones the walls in its region (§3.19.4 (1)); V04 reads each as a floor step (X14); `retaining.buried` counts them; J-V6.106 |
+4283:| ST-35 | major | bends (J-VI.4): `repairWall`, `repairRaised`, `repairRetaining` on stone that is gone; `from: founding` outside creation; `forkAt` / `rerunFrom` before a rebase point — §2.3, §2.8, §3.7.5, §3.15.5, §4.2, §4.4, W55's wording, BCR-V6-5, T-V6-11, T-V6-22, T-V6-23; J-V6.98
+4353:| TR-05 | major | V6 §3.5.2: every `fallen_island` member leaves by the op that ends its cover — a strike, `repairRetaining`, the `retypeLand` of its quarry face to commons, `repairRaised` (a span's repair restoring the ruined supports at its ends, V6 §2.8) or `dismantle`, or any tombstonin
+4354:| TR-06 | major | V6 §3.5.2 *Accesses under the rubble*: in the member-leaving batch every access V4 §3.10 bricked with cause `convert:fallIsland` on that host returns `open` (`locked` when secret), cause `rule:landfall`; the face enters `EpochScope.surfaceChanged` (V6 §2.1) so `under.access
+4360:| TR-18 | minor | V6 §1.2, W3, W65 and V6 §3.2's `under.extend` row name `Foundations.apply`, `ArchVaults.reconcile`, `SewerStrategy.derive` / `.extend`, `CatacombGrowth.grow`, `QuarryWorkings.extend` in V4 §3.10's one order; §3.18.2 (1) cites `workedOut`; §3.18.1 (2c) notes `QuarryWorking
+4366:| SCC-38 | major | V6 §8 *Exits and the calibration register*: each of E1–E8 exits with `plat calibrate register --check` green over the rows it lands (one entry per calibratable column of `tables/evolution.json`, a `fixed:` note otherwise, by the landing seat; the rows assigned per mileston
+4432:| TU-06 | minor | (a) with SLR3-11 below; (b) every `EpochScope` field comment points to W64, which now lists each field's readers once (`Foundations.apply`, `AccessPass.run`'s steps, `QuarryWorkings.extend`, `ArchVaults.reconcile`, `SewerStrategy.extend`, `sky.clearance`, `hood.fabric`); (c) "
+4435:| SCC-73 | major | V6 §8's register paragraph gains the bars' registrations: each `bar.T-V6-<n>` a V12 `BenchBarDef` registered by the seat landing its line's exit, in the same change (owner `V06`, tier `'milestone'`, 200 seeds per setting, preset `'default'`), with a table of the sixteen bars
+4547:| TV-07 | minor | V6 §3.19 (5): after the course, the solver holds the deck at item 244's clearance over each crossed part-0 way, and **item 244's support step** (file f item 244; J-VI.27) lays the stations and pier rings — a generated way's pitch the step's draw keyed by the way's lineage (

@@ -1,0 +1,67 @@
+232:On steep ground a village's houses stand on small levelled platforms held up by low stone walls, with steps or a cart
+310:left, and TOWN holds none); the sewer network, catacombs, quarries, vaults, the buried town and the undercity at village
+539:caverns and ruins are gated by the site, not the rung (file g item 109 (j) (1); §3.16), and the catacomb, quarry, vaults and
+678:| territory.haPerHead | 2.3 | 2.3 | 2.3 | — (VG has no territory: §2.1's frame is replaced at the `VG` preset by VG's view at `matched.vg.size` — small, medium or large: 300, 500 or 800 units, 210, 350 or 560 m square at 0.7 m per unit (`rules.vg.frameM`) — plus its 48
+705:| palisade kinds palisade / earthwork / inner; heights | 0.8 / 0.2 / 0; 300 / 180 / 500 cm | 0.75 / 0.25 / 0 | 0.6 / 0.3 / 0.1 | palisade 1 | own (timber stakes, bank and ditch, a small stone wall) |
+706:| palisade barrierReachShare / lightHeightCm (palisade, earthwork, inner) / minStretchM | 0.5 / 150, 100, 250 cm / 25 m | as THORP | as THORP | — (the barrier closure off: VG's water cut, §3.15) | own (item 106 (b), (c) at village scale: a wattle fence or dead hedge on ste
+868:`drying_rack` and `timber_stack` (§3.11's landmark strings) added as data rows (the base's §2.5: `YardPart.kind` is
+951:| `v.wood_yard` | wood yard · woodcutters' ground, timber yard | `timber-yard` | woodcutters' ground; `compound` (saw pit, timber stacks) | `yard` | disp · 0.5 | `resource timber ≥ 0.4` : 0.6 | — · crafts | [] | heavy |
+952:| `v.charcoal_pit` | charcoal pit · charcoal hearth, charcoal burner | `extraction` | burner's hearth; `institution` in the hinterland | `extractive` | disp · 0.3 | `resource timber ≥ 0.4` : 0.3; `outside` yes | — · extraction | [] | heavy |
+953:| `v.potter` | potter's kiln · pottery, potter | `craft` | potter's kiln; `compound` | `kiln-yard` | disp · 1 | `resource clay ≥ 0.4` : 0.3 | guild · crafts | [] | heavy |
+955:| `v.watchtower` | watchtower · lookout, tower | `fortification` | a timber or stone tower; `detached`, tall | `tower` | disp · 1 | `threat` : 1 (a sea threat, §3.11 DR2); `defence ≥ 0.6` : 0.3 (V08's `threat` row); a dossier record forces it | military · military | [] 
+958:village words translate once (J-V7.102): holiness is the family's `alignment sacred +`, never an emission; a service's
+999:| `v.potter` | `E= smoke 2, fire 2; S —; N+ deposit clay (hard); K spread 300` | — (its hard need: at the clay pits' side) |
+1042:boundary stones where roads cross the territory frame, a wayside cross per through road.
+1106:| `v.wood_yard` | logs ← the managed-wood faces (V11 §3.7.1's `lumber` site; a resource anchor, S12a) | timber, firewood → households, `v.bakehouse`, `v.potter` | at the wood edge |
+1107:| `v.potter` | clay ← the clay pits (a resource anchor); firewood ← `v.wood_yard` | pottery → households, `v.alehouse` | the clay side; no split (the row carries no `split` profile; §2.1) |
+1149:| Palisade or earthworks → Town walls → City walls and gates | REPLACEMENT | the palisade record builds the village kind (§3.11's DR2); a town-wall record at a village rung builds the `inner` stone circuit; a promotion over time rebuilds on the palisade's trace or build
+1230:| the landmark yard parts (`net_rack`, `drying_rack`, `timber_stack`) and a named beach (§2.3, §3.11) | S11 (the yard parts in their host's site plan, from V08's `landmarks` row); S13a (the beach's label) | render (V07 §5.1's roles), labels, exports (`landmark_parts`), th
+1587:   kind's section: `palisade` (timber stakes, 300 cm, 40 cm thick), `earthwork` (a bank 4 m wide and 180 cm high with its
+1588:   ditch 3 m wide outside), `inner` (a small stone circuit, 500 cm, 120 cm thick, `material: 'stone'` — the one masonry
+1589:   enceinte of a village, J-V7.15). The light stretches take `palisade.lightHeightCm`: a wattle fence or dead hedge of
+1590:   150 cm on a palisade, a low bank of 100 cm without its ditch on an earthwork, a parapet of 250 cm on a stone circuit.
+1598:   furniture (§4.8): a gatehouse across each gate of `through` class, a timber gate elsewhere, and the anchor furniture at
+1942:entries, the wharf and the chief landing, and S12a's resource sites in the hinterland — the wood edge, the clay pits,
+1997:   downslope; its material the base's `RetainingWall` material row at the geology (dry stone by the village row, V11).
+2042:0.6, fuel 1.0 m³ per head and year against coppice at 4 m³ per ha and year (0.25 ha), timber 0.15 m³ against 2 m³ per ha
+2043:(0.075 ha) — the base's fuel and timber law at its own defaults, so the village and the town read one table.
+2105:mounds on a common (0.2 with a manor), boundary stones where roads cross the territory frame, a wayside cross per through
+2247:  bank and ditch → `earthwork`; a record naming stone, "Town walls" or "City walls and gates" (a small town's greater
+2312:     `v.tannery`; `port`, or a keyword of family `port` in the name → `v.landing`; a keyword of family `timber-yard` in the
+2313:     name → `v.wood_yard`; a keyword of family `industry` with the key `kiln` in the name → `v.potter`; else the generic
+2337:  a mine breach, and scattered dwellings only after access; no sewer network, undercity, catacomb, quarry, vaults or
+2349:  `drying_rack` yard parts of the landing; `Beaching ground` → the named beach (§2.3: the `beach` run nearest the wharf end's anchor, else the landing's shore run); `Timber stacks` → a `timber_stack` yard part of the wood yard; `Tool shed` → a named
+2404:the enceinte's kind to `inner`, `material: 'stone'`, its full stretches taking the stone section and its light ones the
+2405:parapet (item 106 (c)), gates kept — the least disruptive reading, and the historical one where a stone wall replaced a
+2406:timber circuit on its line; otherwise the town wall is a new ring by the base's later-ring rule, anchoring on the
+2632:stone taken, to `ruined`, only on salvage demand); the `house_platform` role draws the platform with its decaying walls
+2674:   church, and never a quarry ossuary (CITY and above). At most one complex forms at TOWN (V11 §3.23.8's `count`); the dry-ground and age
+2702:V04's stages for the kinds the village's set does not otherwise register (the sewer network, a catacomb, quarries,
+2867:catacomb, quarry, vaults and buried-town kinds are not registered at village rungs (their TOWN gates, item 109 (j) (1),
+2915:`mine_open_cast` and any mining kind a village dossier lists to its `mine` class) lays no `quarry` system — its gate is TOWN
+2956:| T3 `wall` | draw a palisade, a bank and ditch or a stone circuit; add a gate; let a river, cliff or marsh close it; draw a **retaining wall** (item 110 (a)) — held, never an enclosure | `drawWall` with `kind` ∈ `palisade`, `earthwork`, `inner`, or `retaining` (a `Retai
+2984:material or by drawing over it (the drawn wall wins and holds); a deck is widened by `setAttr` of its width, which makes
+3119:  a bank of short hachures toward the ditch with the ditch a thin water-toned or dark line outside it; an `inner` stone
+3121:  stretch (§3.4 step 6) is drawn at half the full stretch's weight — a wattle fence as a thin line with short
+3122:  cross-hatches, a low bank as sparse hachures, a parapet as the stone symbol at a third width; a barrier anchor as a post
+3123:  dot (palisade, earthwork) or a small tower (stone); closing arcs are drawn only as the barrier they are, and the
+3130:  from the sheet's weighted list (thatch, tile, slate, shingle; our own weights, about one roof in three slate where the
+3131:  geology row gives slate) with a per-building tone variance of ± `roofJitter` (6 %) keyed by the building's lineage;
+3140:  wall's step profile (a hairline at `stepMinCm`, the full wall weight at 300 cm and above), with short stone ticks toward
+3147:  shadows at the city band. **`raised.ruin`**: a ruined span as a gap with a rubble stipple between its standing
+3172:bars) and `village.timber_stack` (a rectangle of log-end rings) (a named beach is drawn by the base's shore program as
+3218:`drying_rack` and `timber_stack` yard parts as polygons with `kind`, `plot` and the landmark's `name`; a named beach as a
+3321:| T-V7-32 | the palisade's REPLACEMENT: with ≥ 80 % of dwellings inside, a town-wall promotion keeps the trace's vertices and gates and retypes the kind to stone; below 80 %, a new ring anchors on the barriers and the palisade, and the palisade is superseded; one document 
+3329:| T-V7-40 | dwellings only after access: 0 dwellings in a void without an access; every `AccessPoint` carries its `cause`; 0 undercity at any village rung; 0 catacomb, quarry, vaults or buried systems created at a village rung save the charnel vault of a dossier catacomb fac
+3468:| J-V7.15 | chose the `inner` stone circuit as the village's one masonry enceinte (0.1 of VILLAGE palisades, and a small town's town-wall record) over no masonry below TOWN, because small walled towns under 1 500 people existed and SettlementForge's small towns carry wall re
+3485:| J-V7.32 | chose to rebuild a promoted town wall on the palisade's trace when at least 80 % of the dwellings stand inside it, else a new ring anchored on the barriers and the palisade, over always a new ring, because least disruption (item 22) and the historical pattern of 
+3491:| J-V7.38 | chose to draw "Palisade or earthworks" between the two kinds by the rung's kind weights, renormalised, over always a palisade, because the dossier leaves the choice open and every gap is derived by our rules (item 20 (h)); a town-wall record at a village rung bui
+3499:| J-V7.46 | chose a light stretch on steep ground and marsh (a wattle fence, a low bank, a parapet) and end posts rather than towers at palisade and earthwork anchors, over the base's graded curtain and anchor towers, because village defences had no towers (VG's palisade has
+3502:| J-V7.49 | chose to record a mine working's break into a void at a village rung as an `AccessPoint` of cause `mineBreach` with no link, over a `quarry` system below TOWN, because the quarry's gate is TOWN and above while item 109 (a) (3) makes the working an access; the wor
+3761:a gate a gatehouse on a `through` way, else a timber gate), `inner` carries towers at turns above the threshold and at
+3815:quarry, vaults or buried-town system (their rows of II.7.6 are gated to TOWN and above); caverns and ruins exist at every
+3818:keeps its standing systems in maintenance mode (V07 §3.12)." And `### II.7.6 Catacombs, caverns and quarries; depth bands
+3892:`BuildingClassRow`: "requires: ('water'|'coast'|'route'|'farmland'|'ore'|'stone'|'timber'|'fish'|'clay')[] /* the
+3905:  resource?: { key: 'ore'|'stone'|'timber'|'fish'|'clay'|'fertile'; min: number }; road?: string[] /* the drawn road topology */;
+4235:| SS-41 | minor | §2.3 declares the landmark yard parts `net_rack`, `drying_rack`, `timber_stack` and the named beach (the `beach` run carrying the dossier's string, J-V7.99); V07 §5.1's three roles, §5.3's beach label, §5.4's `landmark_parts` layer, a §2.6 lifecycle ro
+4273:| SR1-18 | minor | §3.11 step 4's fallback keys on V11 §3.13.2's keyword families (`food-works` or `lodging` for a drink, `food` with `mill`, `port`, `timber-yard`, `industry` with `kiln`); J-V7.106. |
