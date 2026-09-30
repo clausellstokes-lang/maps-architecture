@@ -925,13 +925,21 @@ vetoable interpretation.
      sown strips, orchard blossom; summer — full crops, meadows high; late summer to autumn — ripening gold, then stubble and stooks after
      the harvest weeks; winter — ploughed brown and bare fallow (under snow where it lies). Deciduous trees, hedges and vines follow the
      leaf weeks; evergreens stay. Gardens and greens follow their climate.
+     **(f2) AUTUMN, A PLETHORA OF FALL COVERS — ADDED 2026-09-30 (owner: "for autumn make it a plethora of fall covers").** Autumn is
+     the richest season, never one flat tint: each deciduous tree takes its own colour, drawn per tree by a keyed draw from a
+     species palette (gold, amber, orange, scarlet, crimson, russet, bronze and brown, with some crowns still green in the first
+     weeks), so a wood or an avenue reads as many colours at once; fallen leaves COVER the ground under and around the trees and
+     drift along streets, lanes, greens, lawns, gardens, churchyards and roofs and gather at walls and kerbs, thin at first and
+     deepening through the leaf-fall weeks, and float on still water near trees; creepers on walls turn red; hedges, vines and orchards
+     turn; bracken on the commons goes rust and the stubble fields gold; late autumn thins the crowns toward winter's bare ones. All of
+     it by the climate's leaf weeks (item 117 (d)), a look only (item 117 (a)); the leaf palettes and cover densities are table rows.
      **(g) LIGHT AND WEATHER.** The rendered sun's default height follows the week (low in winter, long shadows; high in summer) — the
      view's light only, never item 102's model-side daylight, which stays fixed so the map never changes with the season; `snow`
      weather defaults on in the snow weeks of a cold or severe climate and off in arid ones, and remains the user's to switch.
      **(h) EXPORTS, TOOLS AND CLERK.** Image and print exports draw the chosen season and name it; battle-map exports record it (ice
      is walkable ground in a severe winter, water otherwise); the editor shows the season control and a "follow SettlementForge"
      switch; the clerk explains a seasonal look ("the millpond is frozen: it is midwinter, and winters here are cold").
-     **(i) BARS.** The same document hashes identically in all 52 weeks; every climate's season rows cover all 52 weeks with no gap;
+     **(i) BARS.** The same document hashes identically in all 52 weeks; an autumn fixture shows at least five distinct crown colours across its deciduous trees and leaf cover on the ground that deepens week by week through the leaf-fall weeks; every climate's season rows cover all 52 weeks with no gap;
      an arid fixture never draws ice or snow; a cold fixture freezes still water before flowing water and keeps open water at mill
      races and weirs; a campaign dossier opens on its own week; each season's look passes the contrast and colour-blind checks
      (item 112); switching season re-skins cached tiles within §12.5's budget.
@@ -941,3 +949,51 @@ vetoable interpretation.
      (bars). Volumes: V07 (the village's fields, strips, commons, green and pond through the year), V08 (reading SettlementForge's
      calendar and climate), V11 (the season tables by climate and by field, garden and water kind), V09 (the season control), V10
      (the explanations), V05 (the sky islands' seasonal look), V12 (bars). Applied by the coherence pass like items 111–116 (J128).
+
+118. **OWNER RULE — Festival decorations: procedural, purely decorative, shown in the weeks a SettlementForge festival is scheduled,
+     at every tier (owner, 2026-09-30).** Owner: "and some procedural festival decorations for all levels. Note that we have festivals
+     in settlementforge. so purely decorative that coincide with the week a festival is scheduled." **What SettlementForge gives
+     (CONFIRMED from research/sf; the record's full field list to be read from SettlementForge's code at the pinned baseline,
+     read-only, as every port read is):** `traditions[]` on the dossier (and in the custom-content traditions bucket), each festival
+     with a week-bearing `window` and its staging described in prose places ("long tables set in the square"); the campaign clock
+     (`calendar`: week and season); `culturalIdentity` and deities. **What the design has (CONFIRMED):** `traditions` sits on the
+     port's ignore-list (research/sf/mapping.md: "nor are npcLadder, traditions, …"); no festival look exists; item 117 makes the view
+     a week of the year that follows SettlementForge's calendar.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) A LOOK, NEVER A CHANGE OF THE MAP** (as item 117): decorations never move, add or remove a building, way, wall, plot or
+     water edge, never change the model or its hash; they are drawn from view state and the dossier's festival schedule.
+     **(b) WHEN.** A festival's decorations show while the view's week (item 117's year position) falls inside its `window`; with the
+     season following SettlementForge, a campaign map opens dressed when a festival is on that week. The user may switch decorations
+     off, or preview any listed festival (view state). Standalone, with no dossier, the user may preview a small set of generic
+     festivals chosen by the culture and season (spring, midsummer, harvest, midwinter).
+     **(c) WHERE.** The staging prose maps to a place kind by a keyword table (square, market, green, church or temple, the deity's
+     temple, river or harbour, gate, fair field, the castle), with a fallback by the festival's kind (religious → its temple and a
+     procession route from it to the main square along primary ways; market or fair → the market square or fair field; harvest → the
+     green and the field edge; water → the waterfront); the dossier's named places win where it names one. Never over a label's
+     keep-out or a gate's passage.
+     **(d) WHAT, BY TIER** (a table; our own defaults): THORP — a garland or bonfire at the heart; HAMLET — a maypole or bonfire on the
+     green, garlands on doors; VILLAGE — maypole, bunting along the church lane, stalls and tables on the green; TOWN — bunting across
+     streets between facing fronts, banners on the gates and the hall, stalls in the market square, lantern strings; CITY and
+     METROPOLIS — the procession route lined with banners, pennants on towers and walls, pavilions and stages in the squares, lanterns
+     along main ways, decorated boats on the water. Sky islands carry pennants on their rims and landings.
+     **(e) PROCEDURAL AND STABLE.** Every decoration is placed by rule from the seed, the festival's id and the place (keyed draws), so
+     a festival looks the same each time it is shown and in every export, and different festivals look different; its colours and
+     motifs come from the culture (`culturalIdentity`) and the deity where one is named, and the season adds its own (flowers in
+     spring, sheaves in harvest, evergreen boughs and lanterns in winter).
+     **(f) AT EVERY ZOOM.** The city band shows the festival as colour along the procession route and pennants on towers; the district
+     band adds bunting, stalls and pavilions; the neighbourhood band adds lanterns, tables and garlands; item 112's colour-blind rule
+     holds (shape and pattern, never colour alone).
+     **(g) EXPORTS, TOOLS AND CLERK.** Image and print exports draw the decorations shown and name the festival; battle-map exports
+     draw them in the image only (never walls or obstacles); the editor lists the festivals with their weeks and the switch; the clerk
+     says what is on ("the streets are hung for the Feast of the Lantern, weeks 20–21; the tables are in the market square").
+     **(h) BARS.** The same document hashes identically with decorations on and off and in every week; a festival shows exactly in its
+     window's weeks; the same festival draws identically across views and exports (byte-stable tiles per seed); each tier fixture
+     shows its tier's kinds and no larger; staging lands on the named or keyed place, else its fallback; nothing blocks a gate or
+     covers a keep-out; with no traditions and no preview, byte-identical to the base (no-op pin).
+     **HOMES:** §2.9 (view state: festival display follow / off / preview), §7.7 (`traditions` moved from the ignore-list to a consumed
+     input — its window and staging — with a derivation row; the ignore-list entry amended), §8.2 (the decoration rows by tier and
+     band), §10.2 (the decoration table and the staging keyword table), §11 (exports), §12.5 (budget: decorations drawn lazily per
+     visible tile), §13.2 (bars). Volumes: V07 (the village and smaller: maypole, bonfire, the green, the church lane), V08 (reading
+     `traditions` and the custom-content traditions at the baseline; the window and staging mapping), V11 (the decoration, staging and
+     culture tables), V05 (the sky islands' pennants), V09 (the festival list and switch), V10 (the explanations), V12 (bars). Applied by
+     the coherence pass like items 111–117 (J129).

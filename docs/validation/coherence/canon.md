@@ -5514,9 +5514,27 @@ make a season change the model or its hash.
 * **model:** §2.9 view state (the year position, week 0–51; the "follow SettlementForge" flag)
 * **determinism:** §7.7 (a derivation row: the dossier's calendar week and season → the default view season; the climate's source order: SettlementForge's climate digest, else terrain type with height, else the user's)
 * **pipeline:** §4.2 S0 and §10.2 (the biome climate row's season columns: winter severity; leaf, growing, harvest, ice and snow weeks)
-* **rendering:** §8.2 (season rows: `ice` role and open leads, fields, gardens, orchards, hedges and trees through the year, snow by climate, boats hauled up; the view sun's default height by week, item 102's model daylight untouched); §11 (exports draw and name the season; battle-map ice rule); §12.5 (the re-skin budget)
+* **rendering:** §8.2 (season rows: `ice` role and open leads, fields, gardens, orchards, hedges and trees through the year, snow by climate, boats hauled up; AUTUMN'S PLETHORA OF FALL COVERS, item 117 (f2): a keyed per-tree crown colour from a species palette, fallen-leaf cover on ground, streets, greens, roofs and still water deepening through the leaf-fall weeks, red creepers, rust bracken; the view sun's default height by week, item 102's model daylight untouched); §11 (exports draw and name the season; battle-map ice rule); §12.5 (the re-skin budget)
 * **scope:** §13.2 (the bars of item 117 (i)); the judgment index row
 * **V07:** the village's fields, strips, commons, green and pond through the year
 * **V08:** reading SettlementForge's calendar and the climate digest
 * **V11:** season tables by climate and by field, garden and water kind
 * **V05:** the sky islands' seasonal look; **V09:** the season control and follow switch; **V10:** the explanations; **V12:** bars
+
+## Dated ruling 2026-09-30 (later) — File g item 118 routed (orchestrator under J122; J129)
+
+The owner's rule 118 (festival decorations) is routed like items 111–117: EVERY unit named writes its part at build depth as new
+design; a verifier raises F-MISSING where a part is absent; a landed unit writes its part in the repair round. It is a LOOK only:
+no unit may make a festival change the model or its hash. It supersedes the port's ignore-list entry for `traditions` (owner rule
+first, principle (3)).
+
+### g item 118 — every unit named writes its part
+* **model:** §2.9 view state (festival display: follow / off / preview a festival id)
+* **determinism:** §7.7 (`traditions` off the ignore-list: its window and staging consumed through a derivation row; the ignore-list entry amended; the week from item 117's year position)
+* **pipeline:** §10.2 (the decoration table by tier and kind; the staging keyword table and the fallbacks by festival kind)
+* **rendering:** §8.2 (the decoration rows by tier and band; keyed placement; culture and season motifs; never over a keep-out or a gate's passage); §11 (exports draw and name the festival; battle-map image only); §12.5 (lazy per-tile budget)
+* **scope:** §13.2 (the bars of item 118 (h)); the judgment index row
+* **V07:** the village and smaller rungs' decorations (garland, bonfire, maypole, the green, the church lane)
+* **V08:** reading `traditions` and the custom-content traditions bucket at the baseline; window and staging mapping
+* **V11:** the decoration, staging-keyword and culture-motif tables
+* **V05:** the sky islands' pennants; **V09:** the festival list and switch; **V10:** the explanations; **V12:** bars
