@@ -1,0 +1,21 @@
+18:| 6 | §5 what the design gains now versus later, by milestone, priced; §6 owner decisions; §7 judgments; §8 the relayed edit-build experiment; §9 evidence | done |
+29:   SettlementForge product line, and are translated into a neutral `DossierDigest` of our own before anything else sees
+31:2. **The port has two halves that land at different milestones, and no host wiring until the SettlementForge stage.**
+64:  and repeats none of them; where a candidate amendment touches the same home it says which part it extends.
+128:          deposits: { key: string; state: 'available'|'depleted'|'removed'|'discovered'; custom?: boolean }[]; isolation?: { status: string; paths: string[] } };
+134:             tradeLinks: { good: string; goodId: string; flow: 'import'|'export'; partner: string }[];
+228:The mapping's T1–T16 become sixteen row sets under `tables/dossier/` (`tiers`, `site`, `access`, `threat`, `deposits`,
+237:| T8 landmarks | six rows added: `Alehouse`, `Net mending post`, `Beaching ground`, `Timber stacks`, `Tool shed`, `Charcoal pit` (V37); nothing created for a string the roster does not demand (J-M2) |
+270:| F14 TRADE | `_cutRoutes`, `_userRoutes` and a `neighbourNetwork` link (CREATE_ROUTE), `tradeLinks`, a neighbour's live `relationshipType` — a RIVAL or cold-war partner keeps whatever links the dossier lists; only `hostile` (and a suppressed economy) carries none (V31) |
+333:  script, event attribute, `foreignObject` or external reference; CI runs hostile names through every exporter.
+396:| `town-nb-1.json` | Novasaltus, town | 4 921 → TOWN | the only dossier with partner-level `tradeLinks` (4 links, partner Pianopagus) — R3/R4's named-partner case | 320 866 B |
+433:## 5. What the design gains now, what waits — by milestone, priced
+436:content as listed. Additions are small and named with the §16 line that absorbs them, so the milestone rows stay equal
+440:| milestone | piece (candidate amendment) | line that absorbs it | added |
+447:| **staged — the SettlementForge stage** (unpriced, as §16 leaves the roadmap's stages) | the host wiring of the port to `doc.apply` and `generate`; `HostContext`'s realm block, display names and audience table in use; `PowerRelation`, the legitimacy scalar, `ConditionOverlay`, `DepositSite`, `HistoryHint`, the dossier-backed `Person` (88); the village product's port path | — | — |
+449:Total added to the base: **+4.5 / +6 pw**, carried by the milestone rows M1 +1.5 / +2, M2b +0.5 / +0.5, M3a +2 / +3,
+461:   working tree differ materially (the same seed yields a different settlement). Recommendation: name the product line
+467:   includes user edits — "the stone shapes events", at the cost of map edits reaching later dossier states.
+491:| J-P2 | SettlementForge's shapes confined to `@plat/port/adapters/sf/<line>/`, translated to a neutral `DossierDigest`, enforced by lint | reading SettlementForge fields in the port core or in `@plat/api` | a second SettlementForge line or a schema change then costs one folder; the module never learns a host key |
+502:| J-P13 | item 72's dossier inputs as three TYPED circumstance slices (`economy: EconomyShares`, `trade: TradePartner[]`, `powers: PowerStandings`) in the recipe and in `EpochInputs.circumstances` | materialising `Faction` entities in the base for every dossier power (mapping G-D1 (b)) | the dials and the character vector read standings, not entities; `Faction` stays "base schema, materialised by the module" (§10.1); the recipe already names `economy` and `trade` as circumstances (§4.2 S0, §7.7 item 2; V35) |
+530:survey section. **PLAUSIBLE:** every proposal — the port's types and halves, the tables' right-hand sides, the milestone

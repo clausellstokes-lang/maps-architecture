@@ -1,0 +1,9 @@
+163:`_seed` (fallback `id`), `config` (→ `resolveTerrain`), `config.tradeRouteAccess`, `defenseProfile`
+170:landmarkLevel, materialFamily, glyph`.
+176:- `deriveMapProfile(s)` — `config.{terrain, biome, riverAccess|river, roadAccess|road, tradeRouteAccess,
+183:- v2 path adds (CONFIRMED, `TownV2Settlement`): `config.{terrainType, biome, terrainOverride}`,
+272:  population, tradeRouteAccess: port ? 'port' : 'road', customName}` — ⚠ it has NO caller on the branch (grep:
+444:realm map mounts lazily (`AppViews.jsx:51`). Ours: generation needs no cross-origin isolation (§11.2); the tile worker's
+456:`foreignObject` and no external reference; a CI bar runs hostile names through every exporter and asserts inert,
+555:| `REVIEW_FMG_PUBLISHED_MATERIALS.md`, `fmg-fork.md` | HEAD (the second also branch) | realm-map review and the fork's upgrade procedure; no seam hit; not opened |
+572:  map edit can steer a fire or a siege, item 20 (d) intact; (c) including map edits — "the stone shapes events", as SF's

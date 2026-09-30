@@ -1,0 +1,2 @@
+87:   read in one folder inside it and translated into a neutral form of our own; nothing else in the module ever learns a
+116:condition between epochs, a deposit with a state, a pre-creation history hint, relations between powers, a dossier-named

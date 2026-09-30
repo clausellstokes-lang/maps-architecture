@@ -1,0 +1,329 @@
+1:# Volume 2 — Stage 3: building composition at every scale, from a giant manor to a small hovel
+117:Stage 3 replaces that outline maker with a **composer** that builds each building the way Fantasy Manor builds a manor —
+120:manors. A hovel gets one short, low range with a thatch-like roof and nothing else. A cottage may get a lean-to at the
+123:forecourt. A great manor on a joined plot may close four ranges round a courtyard, with a gate hall to walk through, a
+125:alehouse in a poor one. Which of these a building gets is decided by its class (hovel, cottage, house, inn, manor …),
+130:the main door on the street side (Fantasy Manor leaves about one building in seven without any door — ours never does),
+131:and keeps towers from standing through the middle of a wing. Sizes are in metres: a hovel's range is about 4 m wide, a
+132:manor's 7–9 m.
+146:the original exactly as it was. A manor that falls on hard times keeps its shell, but its great hall is no longer held
+154:manor an H?" gets the rule, the wealth level and the other shapes it could have taken. Each change is one undoable
+163:each at four levels of wealth, so every one of the roughly two hundred town trades (and every village building, and
+164:every custom building SettlementForge sends) gets a shape that fits its trade and its wealth. A few classes have their
+165:own touches: the manor grows courtyards and towers, the longhouse runs down the slope with its byre at the bottom, the
+180:a great stair up the front and a small shrine on top), a terraced palace (storeys on each terrace, with flights of steps
+205:(octagonal and star-shaped courtyard manors, as Fantasy Manor makes them) exist, but by default they are rare and kept
+206:for the classes where they make sense; a Fantasy Manor look-alike setting turns them up to Fantasy Manor's own mix.
+225:4. **The diversity ladder** — per class and per prosperity band, as data tables (`composition.json`), from a hovel to a
+226:   giant manor, interpolated along the prosperity value (item 19) (V2 §3.3, V2 §3.10).
+228:6. **Elaboration by click, editing, rendering, exports, budgets at METROPOLIS scale, tests, parity with Fantasy Manor,
+244:   every re-basing path, a stack order under Works, pent band facets, a solid stack's entrance rule, the claim-sized band,
+252:| `ComposedBuildingGenerator.outline()` (the massing) | stage function | `BuildingInput` from S11 (slot hint, access, ctx, class, drift); `CompositionRow` at the manifested band (§2.5 `Plot.builtBand` → §4.11's floor rule); `ClimateTable` pitch; `massing` stream | `Building.wings`, `Building
+257:| `ComposedBuildingGenerator.compose()` (the composer) | lazy stage function | the massing (base wings), the entrance set, the plot and yard parts, `CompositionRow`, `compose.*` streams | `Composition` (the `wings` and `rooms` rungs), the elaboration cache, the building-band drawing, the plan ru
+261:| M3's budget test and M10's slot band | stage logic | V11's `footprintM2` (p10/p90 or the 0.7 / 1.45 ratios), the role table's `footprintShare`, `LadderStepRow.sizeFactor`, `buildingScale`, the significance shift | M4's family draw, M10's shrink and reverse lattice, the report's `overBudget` | 
+287:| the `FM` building-scope parity preset | preset | `composition.json` cells' `presets.FM` entries, the measured-rate cells set by V12's `reference` run against Fantasy Manor (V12 §3.7.2 (3); reconciliation round 2, SCC-40); volume 11 §3.24.0's item-110 chance and offer cells' `presets.FM` entr
+294:| the free-frame parity harness `plat/bench/fm-parity/` | test instrument | the `FM` preset; `baselines.json` rows from `captures/manor/README-frequencies.md` | §13.5's Fantasy Manor rows; the owner's stage-3 panel; V12's `reference` run against Fantasy Manor, whose fixture it is (V12 §3.7.2 (
+296:| `massStepped` — the stepped branch of the massing (second revision, V2C-48) | exported function, `@plat/plots` | `BuildingInput`, the `CompositionRow`, the bands; `slotBand`; `drawTiers` on `massing` indices 8–9; the attempt streams `massing/attempt=a` | `Building.wings` and `Building.mass
+297:| `slotBand` — M10's band as one exported formula (second revision) | exported function, `@plat/plots` | the template's `footprintM2` (or, where the template is claim-sized or the row carries `claimShare`, `claimShare × area(H)`; on a deck the deck row), the role table's shares, `buildingScal
+298:| `drawTiers` — ST1 as a function of two streams (second revision) | exported function, `@plat/plots` | `TierCells` at the band and the storey heights; two `Rng`s (`massing` 8 and 9; `siteplan.mutate` for a mutation; volume 4's ruin stream) | the `TierDraws` list `layTiers` reads | §6.1 |
+300:| `TierCells.heights`; `CompositionRow.claimShare` and the constants `claimLo`, `claimHi` (second revision) | table cells | `composition.json` (`stepped-monument` 350 / 300 cm; the stepped and `arena` rows' shares; the constants row's 0.35, 0.6) | `layTiers`' storey heights for a ruin's shrine (
+306:| the pent band facets (second revision, V2C-52) | roofscape rule | a pent wing's ring and the ring of the wing standing on it | §8.4's surface layer and casters; glTF, OBJ and CityJSON roofs | §8.6 (BCR-V2-15) |
+320:| `CompositionRow.tiers` (`TierCells`) and the rows `stepped-temple`, `terraced-palace`, `tiered-tower`, `stepped-monument` (item 110 fold) | table cells and rows | `composition.json` (own), reached by name from volume 11's specialisations (X17) and by volume 4 (X19) | `layTiers` (ST1–ST8), M3
+324:| `BuildingInput.deck` (`DeckContext`) (item 110 fold) | input field | S11, from the base's deck plot (item 110 (d)) | M1's `@deck` suffix, M10's deck band, M11's storey cap, `deriveBase`'s deck datum (BCR-V2-32), the basement gate (BCR-V2-34), the dig floor (V2 §3.14.5) | §2.6 `BuildingInput`
+325:| the deck budget (read; item 110 fold) | table contract | volume 11's table `deck` by deck kind × band (X16); until it lands the constants `deck.fallbackM2`, `deck.fallbackFloors` | M10 and M11 on a deck plot; the dry run's storey bend (V2 §4.6); the why provider | §10.2 (volume 11) |
+354:| households and bands (the dossier's population) | §7.7's derivation table → the prosperity field and the plots' bands | the manifested band (geometry) and the occupants' band (the composer's rooms) | V2 §3.2 step 3; V2 §3.8 |
+355:| a worship, government or fortification institution whose culture builds in tiers — the dossier's culture only (`site.culture` → DR15's template-family row → volume 11's stepped specialisations; C8-44): no religion field builds in tiers (a deity is a temple's dedication) and the era is th
+368:| §2.6 `PathShapeRow` (item 59) | Fantasy Manor's five layout families | kept as five rows of `MassingFamilyRow` (V2 §2.3) under our own ids, which supersedes it (BCR-V2-06 with its table-migration row) |
+373:| §2.5 `SlotPlan.hint`, `BuildingSlot`, `ContextVector`, `PlotBound`, `YardPart`, `Passage`, `Plot.builtBand` / `fieldBand` | the region the massing may occupy, its frontage, its band | read at S11; the manifested band for geometry columns, the field band never (item 31) |
+377:| §4.7 S11 — designation template, arrangements, front-line jitter, first carry, households fill, designation mutator, informal clusters, class mix | the class, the band, the slot, the structures, the mutation steps | the massing is S11's `outline()` for every arrangement; the mutator's wing 
+383:| §8.1, §8.2 (`roofConstruction`, `states`, roof tint by band), §8.4 (surface layer, casters), §8.5 (bands, change markers), §8.6 (stage-3 LOD, roof construction), §8.10 (roof detail) | the drawing | construction `roofscape` (BCR-V2-15); dormers, porches, tower roofs as paint programs (V2 
+385:| §10.2 `DesignationTemplateRow`, `BuildingClassRow.templateFamily`, `HeightsRow` (volume 11's BCR-V11-1, BCR-V11-8) | the per-band template, its family and heights | the `composition` column on the row and each structure (BCR-V2-09); the resolution chain reads `templateFamily`; three heights c
+389:| §14, §15.1, §16, *Staged by the owner's roadmap* | packages, the parity matrix, the build plan, the staged row | `@plat/buildings` (BCR-V2-18); Fantasy Manor rows (BCR-V2-19); milestone M6 (BCR-V2-20) |
+414:* **Underground buildings' vaults and islands' bases** — volumes 4 and 5; the massing gives an underground building a
+415:  `single` range with a `flat` roof and nothing more (V2 §3.10.6's `@underground` rows). An island's rim as a cliff barrier
+464:  | 'regularCourt' | 'starCourt' | 'chordArc' | 'rectCourt' | 'gridWalk'   // our ids for Fantasy Manor's five layout families (item 59; renamed from the base's PathShapeRow ids by BCR-V2-06's migration row, J-V2.47)
+484:  row: string;               // the CompositionRow key the resolution chain reached (V2 §3.2 step 2): a template's `composition` value, `<class>/<band>`, `<family>/<band>`, `default.<arrangement>/<band>` (with `@underground` appended on the underground layer)
+487:  segments: number;          // the path's segment count after collinear merging (M5), before M7 splits a range into pieces: the unit Fantasy Manor's counts use (V2 §7.4); 1 for `single`, `row`, `towerHouse` and the base's constructions; written by M5, rewritten by every `setMassing` op and the
+492:  areaPct: [number, number];         // the footprint area's allowed band around the row's target, in per cent (default [-15, 15])
+549:type PorchKind = 'hood' | 'gabled' | 'twoStorey' | 'recessed' | 'halfRound';   // halfRound: a half-disc on the door's side under a half-cone roof — Fantasy Manor's commonest porch (V2 §3.7; weight 0 by default, calibrated under FM)
+586:interface CompositionRow {           // one per (key, band of §4.5's band set), compiled from the four authored anchors (V2 §3.10.1); continuous cells interpolate along the prosperity value between band centres (§4.5), discrete cells switch at the cut (item 19)
+587:  key: string;                       // `<prefix>/<band>`, the prefix a template-family key (V11 §3.6.1), a class id (an override row), a structure-role key (V2 §3.10.4), `default.<arrangement>` or `outbuilding`; `@underground` suffixed rows exist per prefix (V2 §3.10.6)
+588:  prefix: string; band: string;
+589:  alias?: string;                    // a row that reads another prefix's row at the same band (e.g. the `kiln` role reads `kiln-yard`); cells the alias row states override it
+618:  rooms: { hall: boolean /* discrete */; hallLenShare: [number, number]; chapel: number /* chance */; gateHallM: [number, number] };   // read at the OCCUPANTS' band (V2 §3.2 step 3); hall and chapel emitted only by V2 §3.8's rule
+622:  claimShare?: [number, number];     // second revision (V2C-49 (3)): present → M10's band is claimShare × area(H), replacing the template's footprint (the stepped rows, the `arena` row); absent on a row whose template's footprintM2 is "the claim's" → the constants claimLo / claimHi (0.35, 
+625:interface MassingFamilyRow {         // supersedes the base's PathShapeRow (BCR-V2-06): Fantasy Manor's five families keep their rows (P21) under our ids, ours are added
+749:                                              // under storeyed tiers), or none (a terraced palace, a tiered tower)
+766:declare function massStepped(input: BuildingInput, row: CompositionRow, band: BandRead, k: Kernel): KernelResult<{ wings: BaseWing[]; massing: MassingRef }>;
+767:  // the massing's stepped branch, every step that decides the bytes: V2 §3.4's frontage frame (steps 1–2), slotBand, ST0, drawTiers on
+771:declare function slotBand(input: BuildingInput, row: CompositionRow, band: BandRead): { lo: number; hi: number; cap: number };   // m²: M10's band and cap (V2 §3.5 M10), one formula for M3, ST0, ST8 and M10
+772:declare function massOval(input: BuildingInput, row: CompositionRow, band: BandRead, k: Kernel): KernelResult<{ wings: BaseWing[]; massing: MassingRef }>;
+777:interface BandRead { band: string; value: number /* the manifested band and value, significance-shifted (V2 §3.2 step 3) */ }
+782:  cells: TierCells;                           // the row's cells at the building's band value (V2 §3.2 step 3)
+812:// the deck budget V02 reads — volume 11's table `deck`, keyed by deck kind × band (X16); V02 declares no row of its own
+881:| the **composer** (`compose(…, 'wings')`) | the `wings` rung: a neighbourhood click (II.4), a building click when `wings` is absent or stale, a visible tile **at the neighbourhood band or finer** under `elaborate: 'view'` (§4.1; the district band draws the massing's roofscape, which needs no
+883:| the **roofscape** | every draw of a building at the district band and finer; the surface layer; 3-D exports | the tile worker (drawing), the generation worker (exports) | derived at read | `RoofFacet[]` | none (no draws) |
+894:### 3.2 The row a building reads, and its band
+910:   satisfies the arrangement law for the compiled template's `arrangement` at this band (V2 §3.10.7); a row that exists
+914:     2. `<class>/<band>` — a class override row (V2 §3.10.3);
+918:     4. `<templateFamily>/<band>` — `BuildingClassRow.templateFamily` (V11 §2.3; V11 must read "read by S11's composition
+920:     5. `default.<arrangement>/<band>` (V2 §3.10.6).
+923:     2. `<key>/<band>` where `key` is `composition.roleKeys[(templateFamily, name)]`, else `[('*', name)]` (V2 §3.10.4) —
+925:     3. `outbuilding/<band>`.
+930:     `<prefix>@underground/<band>` row is read where it exists, else `default.underground/<band>`. The layer reaches
+933:     placed landmark, `@deck` is appended to the resolved key: the `<key>@deck/<band>` row is read where it exists, else
+934:     `default.<arrangement>@deck/<band>` (V2 §3.16). A landmark reads its class's chain unchanged; a deck plot is never on
+937:3. **Band.** Every geometry cell of the row (families, widths, lengths, blocks, towers, roofs, dormers, porch,
+938:   hearths, coverage — item 31's geometry columns) is read at the plot's **manifested** band and value (§4.11's floor
+939:   rule: `max(field band, geometryFloor)`); continuous cells interpolate between the band rows' centres along the value
+940:   (§4.5's interpolation), discrete cells switch at the cut (item 19; J-A19.43). The district's band range (item 72,
+941:   §4.5 (5)) clamps the value first. **The `rooms` cells are the exception: they are read at the occupants' band** — the
+942:   plot's `fieldBand` and the current field value, as the programme is (J-A19.43) — because the composer's rooms are the
+946:   the `economicWeight` factor 0.5–2 included), `σ_class` the class row's — clamped to at most one band's width up and
+948:   guildhall composes one band richer than an unmarked one (T-V2-38; J-V2.43).
+960:| `single` | the one-range house: hovel, cottage, open-hall house, warehouse, chapel nave | one range along the frontage (eaves to the street), or across it with its gable to the street where the frontage is narrow | — | 1 | no | own |
+966:| `rectCourt` | the courtyard house, the courtyard inn, the college court | four ranges round a rectangular court; the front range is the `gate` range | butt | 4 | yes | Fantasy Manor's rectangle family (P21), fitted; our id |
+967:| `plotRing` | the urban courtyard house that follows an irregular plot | four to eight ranges along the plot's boundary inset by half a wing width | mitre | 4–8 | yes | own — the realistic reading of Fantasy Manor's irregular closed plan |
+968:| `gridWalk` | the accreted house: ranges added over time along a winding line | a self-avoiding walk on a grid fitted to the plot | butt | 1–8 | no | Fantasy Manor's grid-walk family (P21), fitted; our id |
+970:| `regularCourt` | the regular polygonal court (chapter houses, fantasy manors) | a regular 4-, 5-, 6- or 8-gon ring, one side parallel to the frontage | mitre | 4–8 | yes | Fantasy Manor's regular family (P21) — `fantasy`; our id |
+971:| `starCourt` | the irregular star-shaped court of fantasy manors | four to six corners at jittered radii inside their sectors | mitre | 4–6 | yes | Fantasy Manor's irregular closed family (P21) — `fantasy`; our id |
+972:| `chordArc` | a curved range of equal chords | the first chords of a regular polygon, its convex side to the street | mitre | 2–7 | no | Fantasy Manor's open-chain family (P21) — `fantasy`; our id |
+977:| `stepped` (item 110 fold) | the stepped temple, the ziggurat, the terraced palace, the tiered tower; an ancient ruin's stepped monument | `massStepped` / `layTiers` (V2 §3.15.1): tiers stacked by `on`, each inset from the one below, stairs up the faces, a flat, shrine or roofed top | tier 0 a
+984:**Fantasy shapes are a toggle (J-V2.5).** The three `fantasy` families carry weights in the `manor`, `hall`, `tower` and
+987:off, they are never drawn; on, at their row weights; the `FM` preset sets it on with Fantasy Manor's equal weights.
+1010:5. **Rows are already fitted.** A row arrangement's quads are `plot ∩ frontage band` (§4.7 S11) and arrive as
+1011:   `fixedWings`; only the back range is laid (M9), inside the **back region**: the plot ∩ the band behind the quad's rear
+1066:     hi`**, `hi` `slotBand`'s upper target for this slot (M10).
+1137:    outline builder also calls from M3a — which runs this frame, `slotBand`, ST0 (M3 for `stepped`), `drawTiers` on creation
+1145:    both builders lay the same bytes; it runs this frame, `slotBand`, M3's `ovalCourt` test, the construction below, M11's
+1218:  corner of the union (the inner corner of an L, T, H, U or cross), accepted by the same tests with the share band
+1267:  overlaps, measured exactly by the kernel's boolean on the arrangement only when towers exist). The slot's target band:
+1278:  stepped temple, a great temple, a palace's courts, an arena); on a deck plot the deck row's band (V2 §3.16 (3)). The band is narrowed by the drift's `areaPct`; the cap is
+1279:  `coverageMax × area(H)`. This whole band is one exported function, **`slotBand`** (`@plat/plots`; V2 §2.6), which M3, ST0,
+1407:nearest each end, alternating), then on the **exposed terrace band** of the storeyed wing below it (its bay lines whose
+1435:Dormers never project past the eave line (J-V2.7): Fantasy Manor's projecting cross-gables would leave the footprint and
+1479:band (V2 §3.2 step 3), and its recorded inputs include the occupants' band row and the household count (BCR-V2-13), so a
+1480:band change or a re-division marks it stale and the plan's re-cut starts from the rooms the new band admits. The **hall
+1481:and the chapel are emitted only** where the interior-ladder row at the occupants' band gives the unit form `house` (one
+1483:hall (an inn's common room, a guild or town hall's hall, a market hall's upper hall, a barracks' mess): a rich manor
+1484:whose occupants fall to the poor band has no hall ring, and its main range divides into the units the ladder asks
+1485:(T-V2-35); returning to the rich band restores the as-built rooms exactly (the canonical chain). **The gate hall and the
+1486:tower rooms are shell and circulation rooms and stay at every band.**
+1491:   `[min, max]` × the interior-ladder row's `sizeFactor` at the occupants' band, by shortening its length, never its width (which runs eave to eave) —
+1527:* **W1 — the target family.** The target designation's composition row at the plot's manifested band (V2 §3.2). If the
+1581:* **W5 — adapt.** Kept wings' floors move into the target's floors band (one storey per step, the base's "a storey added
+1582:  within the floors band"), and on a deck plot are clamped to the deck's `maxFloors` as M11 clamps them at generation
+1612:### 3.10 The default rows — the diversity ladder from hovel to giant manor
+1622:the cell-wise interpolation of modest and prosperous at its band centre (V11 §3.6.1's derivation, one band-anchoring
+1624:anchor's value from the band's upper half (J-A19.43's switch at the cut). A class the class mix never places at a band
+1630:**3.10.2 The template-family rows** (`<family>/<band>`; the main slot's step 4 of the chain):
+1642:| `hovel` (hovel; hut) | single 1 | 3.4–4 / 3.6–4.4 / 3.6–4.4 / 3.6–4.4 | 4–5 / 4.5–6 / 4.5–6 / 4.5–6 | 0 · 0 (0) | 0 / .1 / .1 / .1 · .5 | 0 | 1/0/0/0/0 | — · 1 | — |
+1660:| `castle` (institution) | template 1 (the base's §4.2 S3 castle and bailey) | the template's | the template's | the template's | 0 · the template's | 0 | the template's | — · 0–2 | the palace override (V2 §3.10.3) |
+1670:**3.10.3 Class override rows** (`<class>/<band>`; step 2 of the chain). Each override row is an `alias` of the family named
+1672:(`v.manor_house` → `manor`; reconciliation round 2, S23R1-06):
+1676:| `manor` (`dwelling-compound`) — the giant manor | families: single .7, L .3 (a fallen one) / single .45, L .35, T .2 / L .2, T .25, H .25, U .3 / rectCourt .35, plotRing .2, U .2, H .15, gridWalk .1 — with `fantasyShapes` on, regularCourt .2, starCourt .15, chordArc .15 added at pr and r;
+1678:| `house` (`dwelling-row` at p and m, `dwelling-detached` at pr and r — V11's per-band family) | at pr: single .5, L .35, T .15; at r: single .3, L .35, T .25, H .1; hall at r only (the `house` unit form) |
+1683:| `palace` (`castle`) | at p and m template 1; at pr and r families rectCourt .4, plotRing .2, H .2, U .2; width 8–10; length 24–50; towers 1–4 (.5); gate tower .5; cupola .3; rooms hall, chapel .6, gate hall |
+1698:owner asked for. The `manor` rows are measured against V11 §3.6.1's `manor` override.
+1707:| `manor` (V11's override) | 0.6 | 66 / 54 = 1.22 | 85 / 72 = 1.18 | 283 / 252 = 1.12 | 496 / 390 = 1.27 |
+1725:| `hovel` | 1.0 | 17 / 16 = 1.04 | 21 / 20 = 1.05 | 21 / 20 = 1.05 | 21 / 20 = 1.05 |
+1731:the templates (`church`, `chapel`'s template share, `cathedral`, `cloister`, `castle`), the claim-sized `arena` (its band
+1732:`claimShare × area(H)`, `slotBand`) and `cluster` are sized by their quads, templates, claims and cluster rows, not by these
+1742:| row | anchor | ST0 least `Wmin × Dmin` (m) | median stack: tier 0 `W × D` (m), own aspect, summit offset | band | `tiersTruncated` on the p90 hint |
+1745:| `terraced-palace` | p / m / pr / r | 9.0 × 11.3 / 9.0 × 11.3 / 19.0 × 21.8 / 23.0 × 26.3 | the top face must hold its flight (≥ `h ÷ g + landingM`), so its own aspect is 1.2–1.7 | `claimShare` .35–.6 × area(H) | 3.2 / 4.8 / 6.0 / 7.6 % |
+1749:**3.10.4 Structure roles** — the rows another slot reads (`<key>/<band>`) and `composition.roleKeys`, which maps each
+1760:| `staffDwelling` | alias `dwelling-detached` at its p and m cells at every band | — | — | — |
+1802:| `extractive` | `hut` | `hovel` (the family row) |
+1831:| `v.hovel` · `v.cottage` · `v.chapel` · `v.inn` · `v.watchtower` | `hovel` · `cottage` (the override) · `chapel` · `inn-compound` · `tower` |
+1833:| `v.farmstead` · `v.yeoman_house` · `v.manor_house` · `v.parsonage` · `v.reeve_house` | `farm` · `dwelling-compound` · `manor` · `dwelling-compound` · `dwelling-compound` |
+1838:| `v.landing` · `v.wood_yard` · `v.charcoal_pit` | `landing-yard` · `yard` · `hovel` |
+1842:(`default.<arrangement>/<band>`), so no chain ends on an undefined cell:
+1849:| `default.hovel`, `default.cluster` | alias `hovel`, `cluster` |
+1860:family `row`; under `compound`, `detached`, `hovel` or `institution` never `row`; under `cluster` or `tents` only
+1862:every row's family weights non-negative with a positive sum at every band after `fantasyShapes` off; every `alias` acyclic
+1867:template that draws none has no building (open ground), and every one of its names must resolve by `roleKeys`; every class of the compiled roster (town, city, generic, custom archetype and `v.` village) resolved at every band to a
+1877:`FM` goldens; reconciliation round 3, SCC-52): the `manor`,
+1878:`dwelling-compound`, `hall` and `dwelling-detached` rich rows' `families` — the five Fantasy Manor families
+1880:`ref:Fantasy Manor build 890 layout families (code)`, P21 (item 59); `fantasyShapes` on; `sunBias` 0.5; and,
+1881:**calibrated to Fantasy Manor's measured outputs, not copied from its code** — `blocks`, `towers`, `towerOnBlock`,
+1884:**V12's `reference` run against Fantasy Manor** (`layer: { preset: 'FM' }`, V12 §3.7.1 (c), §3.7.2 (3)) on V12's `fm.*`
+1886:measured rates of `captures/manor/README-frequencies.md` §3–§4 are reproduced (provenance `ref:Fantasy Manor build 890
+1965:| `claimLo`, `claimHi` (second revision, V2C-49 (3)) | 0.35, 0.6 | `slotBand` for a claim-sized template without a row `claimShare` |
+2000:| T-V2-29 | the least within-class Spearman, the non-decreasing check (1 or 0), `hovel`'s `single` share, the rich manors' court-family share, the towers standing where no row allows one (`none`) | B-CITY, every rung | `nightly` | the M6a seat (the geometry rows) |
+2007:| T-V2-47 | the in-band share, then each other clause 1 or 0 (`none`) | B-MASS's deck sub-fixture; the second known-city fixture | `pr`; `milestone` — two registrations | the M3a-V2 seat (the `@deck` line) |
+2012:| the template-family, class-override, structure-role and default rows' geometry cells at the four anchors (V2 §3.10.2 – §3.10.6: `families` weights, `wingWidthM`, `rangeLenM`, `crossWing`, `courtMinM`, `uOpenFront`, `blocks`, `towers`, `towerShape`, `towerRadiusW`, the storey deltas, `towe
+2014:| the `FM` preset's measured-rate entries — `presets.FM` of `blocks`, `towers`, `towerOnBlock`, `towerShape` (the square share), `dormer.perTenM`, the porch weights with `halfRound`, `secondaryPorch`, `walkStop`, `walkFree` and the blocks' `WingRoleRow.hipInset` (V2 §3.10.8) | `reference` ru
+2015:| the code-read `FM` entries — the four rich rows' `families` (the five Fantasy Manor families at weight 1, P21) and `sunBias` 0.5 | no entry: their `ref:Fantasy Manor build 890 … (code)` provenance passes V12 §3.11's lint; no run moves them (SCC-59) | — | — |
+2020:| the `@deck` rows and the stand-ins `deck.fallbackM2`, `deck.fallbackFloors` | `measure` at M3a-V2 (T-V2-47: ≥ 95 % inside the deck band), then `panel` at M4 (M4-110, V12 §3.11's `deck` line) | `deck.buildings`, `bar.T-V2-47` | the panel rule; the two stand-ins close `fixed: superseded by V
+2021:| the small tables — `WingRoleRow` (`storeyDelta`, `hipInset` outside `FM`), `MassingFamilyRow` (`minFrameW`, `wings` of our own families; the five Fantasy Manor families' rows keep their `ref:` provenance, P21, and take no entry), `TowerShapeRow`, `PorchKindRow` (shipped at M3a-V2 for volume
+2031:* **City band.** The massing only (eager): every footprint with its wings and heights, as the base's first paint.
+2032:* **District band and finer, before any click.** The roofscape of the massing (V2 §5.2) — ridges, hips, valleys, tower
+2034:  hatching"); no composition is needed for it, and the district band requests none.
+2036:  outline, centre-out from the outline's centroid; S23-29), or a visible tile's request **at the neighbourhood band or finer** under
+2042:* **A building click** from the neighbourhood band down: `wings` (if absent or stale), then `rooms`, then `plan` (volume 3),
+2045:  plan at any band (volume 3 §4.5; S23-18, J-S23.5).
+2051:  relet, a household move, a use change, an access, a sub-location, a band drift, a Works stage or a material change
+2054:* **What makes the `rooms` rung stale.** `wingsInputs`, plus the **occupants' band row and value**, the **household
+2055:  count** (V2 §3.8; BCR-V2-13), the class's programme `hall` row, and its own slices — so a band change or a re-division
+2056:  re-derives the composer's rooms and the plan's re-cut starts from the rooms the new band admits.
+2119:File g's base mechanisms are the coherence pass's (the prosperity driver, the siting profile, the supply web, the wall
+2188:lower or storeyed tier 0, and then through `rebaseStack`, every wing standing on it following. On a sky island the rim-slab vault is volume 5's form of the same ladder. (e) **Size and rank are not
+2209:same `massStepped` from M3a (BCR-V2-39) with the same row, band and streams, so a stepped building made before M6 keeps
+2210:its bytes when stage 3 registers (T-V2-46). `massStepped` owns the frame, the band, the draws, the attempts and the
+2217:`massStepped(input, row, band, k)` runs, in order:
+2219:2. `slotBand(input, row, band)` → `lo`, `hi`, `cap` (V2 §3.5 M10: a stepped row carries `claimShare`, so the band is
+2288:  `p_k = min(pitch, pentShare × storeys.groundCm ÷ d)`, `ridgeCm = eaveCm + p_k × d`: the band between the tier's ring and
+2289:  the ring above, drawn by V2 §5.2 step 3's band facets (J-V2.75). **Pent needs equal insets** — the `internal` or `none`
+2391:all four agree). Tier 0's size comes from `slotBand`: the temple and palace rows carry `claimShare` (their precinct sizes
+2394:`family` op, a `tiers` bend or a mutation names `stepped`. V2 §3.10.3's receipt table measures each against its band.
+2399:| `terraced-palace` (institution; the palace) | 2–3 / 2–3 / 3–4 / 3–5 | rect 1 | 3–5 / 3–6 / 4–7 / 5–8 | none · floors 1–2 / 1–2 / 2–2 / 2–3 | 1 · flat | flat .6, roofed .4 | flights · 2–3 / 2–3 / 2.5–4 / 3–5 · .6 | aspect 1.15–1.8; `claimShare` .35–.6; f
+2421:`layTiers` alone — never `massStepped`: no band, no ST8, no attempts — with the `stepped-monument` row at the band its
+2439:2. **The row.** A non-landmark deck building reads `<key>@deck/<band>`, else `default.<arrangement>@deck/<band>` (V2 §3.2
+2446:3. **The budget and the storeys.** For a non-landmark deck building M10's band is the deck budget's `footprintM2` at the
+2447:   plot's band and deck kind (volume 11's `deck` row, X16; until it lands `deck.fallbackM2`, [20, 60] m²) ×
+2449:   revision, V2C-66 (4)) — **replacing** the template's `[p10, p90]` (in `slotBand`), under the usual cap `coverageMax ×
+2633:| `setMassing` | T9 `shape` handles and family picker at the building band; the clerk's `shape` call; a skeleton file line | `Building.wings` (roles, keys), `Building.massing`, `nextWingKey` | log; the wings are model data | the edited wings are a fixed input to every later S11 run on the plot 
+2634:| `setComposition` | T9 `shape` at the building band; the clerk | the stored composition's dormer rows, porch, secondary porch and edited rooms | log; the first one stores the composition | a fixed input to the `wings` rung (dormers, porches) and the `rooms` rung (an edited room), re-matched by
+2649:* **Canvas handles** (volume 9 draws them; this is their contract): at the building band, each range shows its two
+2653:  or yard entrance a hood toggle (→ `setComposition porch`), and — at the building band with the plan shown — the hall,
+2659:* **The clerk** (volume 10) calls the same operations through the tool API (§11.2): "make the manor an H" is
+2667:  a new field: **`facts`** — `massing/family`, `massing/row` (the key the chain reached), the manifested band and value,
+2705:   use's culture and class where one exists, else `stepped_temple` for a class of the worship family, `terraced_palace`
+2706:   for `palace`, `tiered_tower` for `tower_house`, `mage_tower` or `watchtower`, and no cell for any other class (its own
+2792:   second terrace" `setAttr(wings/<key>/heights/floors)` (volume 10, X22). Volume 9 draws, at the building band, a tier
+2798:   host, the budget band and `maxFloors`, and whether the fallback constants were read), each with its `composition.json`
+2803:### 5.1 What each band draws (§8.5's bands, with stage 3)
+2805:| band | stage 3 draws | from |
+2807:| **city** | the massing as masses — the base's closing per block (§8.5 (2)): a courtyard building's court stays open when it is wider than the closing's 1.5 px (a court is a yard part, `ground` at this band); towers and cross-wings show in the mass's silhouette; no roof lines | model (eager
+2809:| **neighbourhood** | the district band's, plus — where the building's `wings` rung is current or stored — dormers, the entrance gable, the porch, and §8.10's decorative chimneys at the façade-bay lines (`hearths` of them; none once the plan rung exists, the base's J-A28.85); the change m
+2810:| **building** | the neighbourhood band's at full detail, and the plan storey by storey (volume 3); the other storeys' wing outlines faded beneath (the base's) | model + cache |
+2845:   to the `high` side. `pyramid` and `cone`: one triangle per ring edge to the apex over the ring's centroid. **Pent band
+2847:   rings concentric with equal insets and the same vertex count (ST3, ST4) — the facets are the band between the two rings:
+2850:   matching vertex as their hip line; a round or octagonal ring is treated per edge (a cone's band); nothing is built inside
+2856:   area centroid (triangles at the apex), rise = the ring's mean radius × `domeRise` (1.0; own), each band's ring the base
+2905:  per-facet diffuse-and-specular shading of the reference look (the `FM` preset's building band; the base's §8.4 (h),
+2906:  P24); then the lines of V2 §5.2 step 5 in `ink` at ½ the building outline weight of the band (ridges and seams), ⅓ (hips
+2921:* The `lit` family's roof tint by band (§8.2, item 19) and the material's `pattern` (texture) apply per facet, never
+2929:district band and finer names it — its role in our own words from the naming slice **`building.wingRole`** (one entry per
+2941:| **SVG** | at the district band and finer, §11.1's grouping (reconciliation round 1, S23-08): the roofscape's facets in the semantics `sem.building.roof` (wing facets), `sem.building.roof.dormer`, `sem.building.roof.porch`, `sem.building.roof.tower` and `sem.building.roof.cupola` (by `RoofFac
+2949:* **Bands.** City band: the footprint (tier 0 ∪ stair 0, and any ground wings added beside it) as a mass like any
+2950:  other. District band and finer: the roofscape with the stack's occlusion and order (V2 §5.2 steps 4 and 6) — terraces as
+2951:  flat facets with their parapet lines, pent skirts as their band facets meeting the wall of the tier above (V2 §5.2 step
+3025:| `roofscape` per building | ≤ 25 µs median, ≤ 150 µs p99 (a large manor) | end classes O(wings²) with wings ≤ 16, facets, float64 occlusion clips | the tile worker, per building per (leaf digest, composition hash, construction) — memoised as the base's derived-roof cache (§8.1 item
+3026:| a district-band tile's roofscape | ≤ 8 ms of tile-worker raster time for ≤ 400 buildings | 400 × 20 µs | inside §8.8's per-tile raster budget |
+3027:| `compose()` under `elaborate: 'view'` per tile (§12.7's 16 ms of pool time per tile, amortised) | only tiles **at the neighbourhood band and finer** request the `wings` rung (the district band draws the massing's roofscape and requests nothing); p95 buildings per neighbourhood-band tile at t
+3029:**Measurement** (M6b): on B-CITY METROPOLIS, compose per building by class, 50 neighbourhood clicks, 200 district-band
+3030:tiles, and the buildings per neighbourhood-band tile at the core (p95). **Fallbacks:** a tile's `view` request over 16 ms is
+3055:  pool time); a district-band SVG ≤ 1.5 KB per building. **Measured** at M6b; **fallback:** `derive` streams district
+3100:  no neighbours, the building's class `manor` at the `rich` row under the `FM` preset — the Fantasy Manor comparison
+3101:  setting (the reference has no plot, §3.3 of `research/findings/manor.md`, CONFIRMED).
+3116:  §5.3 row), on every composed family. (Fantasy Manor: 37 of 41 measured buildings have an entrance,
+3117:  `captures/manor/README-frequencies.md` §4 — ours is "beyond", O.)
+3142:  `recessed` or none; also run on the terraced-palace fixture (a storeyed tier 0 with `flights`, stair 0 at its face's left
+3174:  an occupants' band change marks the `rooms` rung stale and not `wings`.
+3186:  classes, V07 §2.4, S23R1-06) at every band, and every structure name of every compiled template, resolves by V2 §3.2's chain to a row
+3192:* **T-V2-35 rooms follow the occupants** (at M6b, the composer's clauses) — a rich-band manor whose occupants' band is set
+3194:  chain); the gate hall and the tower rooms stay at every band; before volume 3's programme rows are loaded every hall lies
+3196:  lies in its programme's `hall` row × the ladder's `sizeFactor`. The clause that the poor manor's plan houses at least
+3197:  three units in its main range is volume 3's (T-V3-25's manor clause; reconciliation round 1, S23-38).
+3210:* **T-V2-38 custom scale** — the landmark custom `mercantile-guildhall` composes at least one band richer (its row cells
+3211:  and M10's budget at a value ≥ one band width above) than the same class unmarked; a significance below the class's
+3239:  `manor`; `hovel` 100 % `single`; rich-row manors ≥ 60 % in {`rectCourt`, `plotRing`, `U`, `H`}; towers only where a
+3241:* **T-V2-30 the size budget** — each slot's footprint area within `[0.9 × lo, 1.1 × hi]` of M10's slot band for ≥ 95 % of
+3245:* **T-V2-4's "beyond"** — 100 % of buildings with a street-facing main door against Fantasy Manor's measured 90 % (37 / 41).
+3247:### 7.4 Parity (P) — Fantasy Manor, NG, and the presets
+3249:**T-V2-31 — against Fantasy Manor** (the free-frame harness, `FM` preset, N = 2 000 buildings, nightly; N = 20 000 at
+3250:the milestone). Targets are the measured counts of `captures/manor/README-frequencies.md` §3–§4 (41 buildings from build
+3253:| metric | Fantasy Manor measured | bar |
+3265:The `FM` preset's calibrated cells (V2 §3.10.8) are set at M6c by V12's `reference` run against Fantasy Manor
+3279:Stage 3's gate follows §13.6's written, blind protocol: (1) **twenty pairs against Fantasy Manor** — ten of our
+3280:manor-class buildings under the `FM` preset in the free frame, ten of the reference's captured buildings, rendered at
+3281:the building band in each one's own look, shown in random pairs; (2) **the ladder street** — for three B-CITY seeds, one
+3282:street at each of the six band rows at the neighbourhood band, the owner answering "does this read from a giant manor to
+3283:a small hovel?" per seed; (3) **the item-110 buildings** (second revision, V2C-73) — the second known-city fixture's
+3284:stepped temple, a terraced palace, a tiered tower, the arena and the bridge's deck row, at the building and neighbourhood
+3285:bands, the owner answering "does this read as a stepped temple, a terraced palace, a pagoda, an amphitheatre and a bridge
+3295:  roofscape ≤ 25 µs median and ≤ 8 ms per district-band tile) — nightly; milestone at METROPOLIS.
+3310:ground and on a 6 % slope); a **terraced palace** (`terraced-palace` on its receipt hints and a 60 × 45 m hint); a **tiered
+3331:  palace equals §2.6's formula over its storeyed tiers only; **no chimney, decorative or planned, is drawn inside the ring
+3336:  and T-V2-9's tiling holds. **Under Works** (V2C-51; BCR-V2-40): on a stepped temple and a terraced palace, at every stage
+3364:  within the deck budget's band for ≥ 95 % (the rest reported by cause), the band per slot (V2C-66 (4)); its floors ≤
+3444:| **SP-V2-1 massing cost and fit** (≈ 1 pw) | before M6a | M3–M13 for `single`, `L`, `T`, `H`, `U`, `rectCourt` and towers on the real plots of M5's B-CITY METROPOLIS seeds: µs per class, the share of rich-row manor plots on which a court family is feasible, F-MASSING's rung distribution |
+3446:| **SP-V2-3 the Fantasy Manor calibration** (≈ 0.5 pw) | inside M6c | V12's `reference` run against Fantasy Manor (`layer: { preset: 'FM' }`, V12 §3.7.2 (3)) on V12's `fm.*` metrics against V2 §7.4's measured targets, the free-frame harness at N = 20 000 its fixture (reconciliation round 2,
+3447:| **SP-V2-4 the reference's plan extent** (research seat, ≈ 0.25 pw) | before M6c | one capture of at least 40 Fantasy Manor generations with a draw pass, tabulating each plan's extent in wing widths (and confirming the block ridge inset, V2 §3.10.8) | a numbers-only `baselines.json` row | t
+3453:| **M6a — the massing** | `@plat/buildings` with `composition.json` (schema, loaders, default rows of V2 §3.10, provenance cells, the preset resolution); M0–M14; the S11 integration (the registration, the manifested-band row read, the entrance hint, court typing (its hole sentence already 
+3454:| **M6b — the composer, the rooms rung, rendering and exports** | `compose()` at `wings` and `rooms`; `facadeBays` on every side, built in `@plat/plots` (BCR-V2-18), at M6b or, under volume 3's Q1, first (V2 §8.1; S23-36; reconciliation round 2, S23R1-12), dormer rows, the entrance gable, th
+3455:| **M6c — editing, parity and the gate** | `setMassing` and `setComposition` with their dry runs, bending, lifecycle rows and migration rows; the `setAttr` paths by key; T9's handles and family strip (with volume 9) and the clerk's operations (with volume 10); the `FM` preset and the free-fra
+3459:sunlit choice, the crypt lift, the rooms at the occupants' band, the why provider and SP-V2-4; builder-tier seats for the
+3474:| **R2** real plots too irregular for the rectilinear families, so rich quarters read as single ranges | medium / high — the owner's "giant manor" | `lir` fitting, `plotRing`, the class mix's JOIN for large classes (item 71 (c)); SP-V2-1's feasibility share; fallback: the rich join step |
+3479:| **R7** volume 11's compiled templates arrive without the manor override, the role table's shares or BCR-V2-26's columns | medium / medium — rich courts would read small | M3's budget test removes the court families that cannot fit (rich manors then `U` and `H`, T-V2-29 still met); the main-
+3486:| **M3a-V2** — with item 110's base milestone and its second known-city fixture (§16 M3a; BCR-V2-39) | **since the second revision:** `massStepped`, `slotBand`, `drawTiers` and a pure `layTiers` (ST2–ST7 with its typed failure) in `@plat/plots`, exported, and `massOval` (the fixture's aren
+3487:| **M6a**, added | the `stepped` family in the massing (M5 calling `massStepped`), the stepped mutation rows with the anchored test, the `@deck` suffix, band (per slot) and storey cap in M1, M10 and M11, the roofscape's stacked occlusion and order;  **second revision:** the pent band facets, ch
+3503:temple stair, the claim-sized band and the tiered tower's refitted row (V2C-49 (1)–(6)), whose receipt estimates 1.0–7.6 %
+3518:| J-V2.3 | Chose **tiled ranges and blocks** (butt joints at right angles, mitres otherwise; a block splits the range it straddles) over Fantasy Manor's overlapping blocks, because tiling keeps §2.6's cheap pairing tier and an exact capacity; **towers overlap** (tier (iii)) because a round rin
+3520:| J-V2.5 | Chose to keep Fantasy Manor's **regular, star and arc families behind the `fantasyShapes` model toggle, off by default**, over its equal weights as the default, because the owner adopted "realism in the base, fantasy as toggles" (D-7); the `FM` preset turns them on at the reference's
+3522:| J-V2.7 | Chose **dormers and gables that never project past the eave** — a projecting bay is a block, which the footprint shows — over Fantasy Manor's projecting cross-gables, because a projection would leave the footprint (the stage-3 contract) and possibly the plot (item 59). |
+3529:| J-V2.14 | Chose a **back range by band** for rows, houses and cottages over leaving rows unarticulated, because rear ranges on burgage plots are the historical norm, the yard behind stays (the coverage cap), and it carries item 19's "scale in structure" to the commonest building. |
+3530:| J-V2.15 | Chose **porch kinds filtered by the free space in front of the door** — a flush front takes a recessed porch or none — over Fantasy Manor's porch lottery, because no porch may stand over a street. |
+3535:| J-V2.20 | Chose a **building-scope `FM` preset whose element rates are calibrated to Fantasy Manor's measured outputs**, not copied from its code, over a constant table taken from the code reading, because §17.1's clean room admits the code only for understanding, while emulation-first (item
+3545:| J-V2.30 | Chose **V11's four anchor bands (poor, modest, prosperous, rich) with V11's derivation for squalid and comfortable** for every row of `composition.json` over V02's former three anchors with midpoints, so **one band-anchoring rule serves every template-like table** and the massing be
+3550:| J-V2.35 | Chose a **slot-level size band** (`[p10, p90] × footprintShare ÷ count × buildingScale × sizeFactor`, the p10/p90 ratios **V11 §3.6.1's derivation ratios, mirrored as `sizeBandLo`/`sizeBandHi` (0.7 / 1.45, fixed; reconciliation round 1, SCC-R0C-3)**, rather than the critique's 
+3551:| J-V2.36 | Chose to read **the composer's rooms at the occupants' band**, emit the hall and chapel only for the `house` unit form or a programme hall, and clamp the hall to its programme row, over rooms fixed at the built band, because item 28 (f) keeps the shell and lets the interior follow w
+3553:| J-V2.38 | Chose a **sunlit bias on the mirror coins** (`sunBias` 0.7; 0.5 in the parity presets `MFCG`, `FTG`, `VG` and `FM`, each with its own entry — reconciliation round 4, SCC-85) over fair coins, because item 102 (d)'s "the rich seek the sun" reaches the building's garden and court sid
+3558:| J-V2.43 | Chose to **shift the geometry value by the use's significance** (half a band per doubling, at most one band up, never down) over ignoring it, because a landmark or a weighty custom institution must read larger (item 104) while a weak one never shrinks built stock. |
+3560:| J-V2.45 | Chose to add the **half-round porch at weight 0 in the default rows** over a default weight, because it is Fantasy Manor's commonest porch but rare in the realism base; the `FM` preset calibrates it. |
+3564:| J-V2.49 | Chose **the cupola as a massing draw recorded on `MassingRef`**, drawn from the district band and never in `Heights`, over a composition-rung ornament, because landmarks need their silhouettes before any click (NG C2) while shadows and capacity must not change. |
+3568:| J-V2.53 | Chose to **request the `wings` rung under `view` only at the neighbourhood band and finer**, with a pre-decided slicing into 16 ms batches, over requesting it at the district band, because the district band draws the massing's roofscape and §12.7 bounds a tile at 16 ms. |
+3576:| J-V2.61 | Chose **stairs as solid `shed`-roofed wings laid on the terrace below**, the stair side's inset deepened to hold the run, over stairs cut into the upper tier or projecting through the step, because every tier then stays a simple nested ring and every stair is contained in what it st
+3582:| J-V2.67 | Chose that **a deck building's footprint band is the deck row's, replacing the template's, with its storeys capped**, over the template's band clamped, because item 110 (d) asks for a "small, light" deck budget whatever the class's usual size. |
+3590:| J-V2.75 | Chose **pent skirts as ordinary `hip`, `pyramid` or `cone` roofs clipped where the tier above rises** over a new roof kind, keeping one roof vocabulary; the skirt's pitch is capped so it meets the tier above within its ground storey. *Amended by the second revision (V2C-52):* a pent
+3593:| J-V2.80 | *Second revision (V2C-48).* Chose to **split the stepped construction into a pure `layTiers` (the geometry, ST2–ST7, with a typed failure) and an exported `massStepped` (frame, `slotBand`, ST0, `drawTiers` on `massing` 8–9, ST8, the attempts and the fallbacks)** over one functio
+3598:| J-V2.85 | *Second revision (V2C-61).* Chose **each stacked storeyed tier's first storey a principal floor of `storeyCm.ground`**, its others `storeyCm.upper`, over one storey height per wing, because each tier is its own building level with its own ground floor (as terraced palaces' terraces 
+3600:| J-V2.87 | *Second revision (V2C-49 (3), V2C-59).* Chose **a claim-sized band — `claimShare × area(H)` — read by `slotBand` wherever the row carries `claimShare` or the template's footprint is "the claim's"**, with the shared default `claimLo`, `claimHi` 0.35, 0.6, over a `stepped`-only c
+3603:| J-V2.88 | *Reconciliation round 1 (SCC-12).* Chose **family rows for volume 11's three new template families** — `burial-ground` (the mortuary chapel's small single range, reached through `roleKeys`, over SCC-12's mapping to the `chapel` family row, whose templates at .1–.5 would give a o
+3612:| J-V2.97 | *Reconciliation round 2 (SCC-40, SCC-39).* Chose **V12's `reference` run against Fantasy Manor** (`layer: { preset: 'FM' }`) on V12's `fm.*` metrics to set the `FM` preset's measured-rate cells, with the free-frame harness as its fixture and V12's outcomes (`fallback-applied`, `not-
+3613:| J-V2.98 | *Reconciliation round 3 (S23R2-01).* Chose to **take every ground sample of the datum through volume 5's `levelledGroundCm`** (BCR-V2-32, BCR-V2-42) — the vertex and centroid samples, the basement gate's fall and the raised crypt's lowest sample — over sampling the terrain raste
+3734:band row and value, the household count and the programme's hall row;`".
+3736:**Extended by reconciliation round 1 (S23-06; J-V2.52 amended).** The same heading; the per-rung rule is written into the record's other two statements of its inputs and into §4.1's, so the base alone stales each rung only on its own list. Current (the `inputs` comment, whole): "`inputs: Hash6
+3777:the non-tower wings of a building tile; every tower attached (overlap share in its band; a tower on a block contained in it) and not through a wing; every
+3796:the matrix's end, "**Fantasy Manor (build 890) — STAGE-3**", with rows: F1 plan path of wings from five layout families →
+3806:at M3a; T-V2-52 at M2b)." (reconciliation round 1, SCC-R0C-5) `### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file`: the Fantasy Manor
+3817:"`| stage 3 — manor-style building compositions (after stage 2) |`" → its hooks cell gains, at its end, "; designed to build depth in `docs/volumes/V02-buildings.md` (milestone M6,
+3830:**Extended by reconciliation round 1 (S23-08).** The SVG row. Current: "inside a group one compound `<path>` per (semantic, district), and a `<metadata>` JSON map from subpath index ranges to entity ids, so every entity stays addressable without an element each;". New: the same, followed by "wi
+3860:Segment[]; compositionRow?: string /* stage 3: the slot's CompositionRow key (volume 2 §3.2) */; bands?: { field: { band:
+3861:string; value: number }; manifested: { band: string; value: number } } /* as ClassRules.pick receives them */; layer?:
+3877:added: "Stage 3's gate (M6): twenty pairs against Fantasy Manor and the ladder street, as volume 2 §7.5 states them,
+3914:scope (SCL-1)`. Current: "`a basement other than a crawl space never under the flood band or below the water table
+3915:(§2.6's terrain gate, item 29)`". New: "`a basement other than a crawl space or a raised crypt never under the flood band or
+4015:vetoable)`, J-A29.25. Current: "`external` for a walk-out, else the programme row's `basementAccess` at `builtBand`". New:
+4017:programme row's `basementAccess` at `builtBand`". In the same row, current: "a walk-out's outside stair a door in the
+4092:fold).** `### 2.6 …`, *The base outline builder*. Current: "and — for institution classes (keep, temple, church, manor,
+4094:temple, church, manor, hall, farmstead) — two further constructions behind the same `outline()`, and from M3a (item 110)
+4102:the stacked-tier construction the base outline builder calls is **`massStepped`** (volume 2 §3.15.1: the frame, `slotBand`,
+4157:reshape it with the building tool (V2 §4). Letting SettlementForge send a shape (for example "a manor with two towers round
+4188:* Fantasy Manor's five layout families at equal odds, one polyline and one wing width as its whole input, no plot, no
+4190:  `research/findings/manor.md` §2, §3.1 (Fable B14, CORRECTED where stated).
+4192:  `captures/manor/README-frequencies.md` §3–§4 (Fable B15: CONFIRMED by re-running its classifier).
+4200:  PLAUSIBLE until SP-V2-1 (cost and fit on real plots), SP-V2-2 (roofscape robustness), SP-V2-3 (the Fantasy Manor
+4206:* That the default rows produce the owner's "giant manor to small hovel" ladder to his eye — the panel of V2 §7.5 decides.
+4227:* The least-footprint formulas of M3 and the manor override's sizes (a rich `rectCourt` at `w₀` 6 m holds ≈ 360 m², at
+4232:* The METROPOLIS core's ≤ 60 buildings per neighbourhood-band tile (V2 §6.2), measured at M6b.
+4257:* That stepped temples, terraced palaces and tiered towers read rightly to the owner's eye — the owner's panel (V2 §7.5)
+4259:  terraced palace's flights along its faces, a pagoda's pent skirts, bridge houses of one or two storeys) are general
+4271:  `Wmin × Dmin` per row and anchor, the median stacks (their own aspects .70–.78 for the axial rows, 1.2–1.7 for the palace;
+4287:  written in V11 §3.6.4, the `manor` override 420 / 650 m² (J-V11.39), the `DigRule` rows (V11 §3.23.7) and the stepped
+4297:  that the pent band facets meet the upper walls within 1 cm (T-V2-44); that the D-front edge reads rightly on round
+4421:| X3 | 11 | the `manor` template override: prosperous p50 420 m², rich p50 650 m², rich plot 3 000 m², main-slot share ≥ 0.6 at prosperous and rich (V2 §3.10.3; J-V2.35); V11C-11 (5) proposes 320 / 550 m² — revise-V11 reconciles, V02's rows are measured against 420 / 650. **Landed:** V
+4433:| X15 | 5 | the island rim-slab crypt vault as the island form of the `always`-crypt ladder (V2 §3.14.5 (d); C5-02 (3b)) | none — volume 5's form |
+4434:| X16 | 11 | *Item 110 fold.* The `deck` table (`DeckBudgetRead`: `footprintM2`, `maxFloors`, and the plot fields the base's deck plots read) keyed by deck kind × band, and a `deckOk` class column that never admits an `always`-crypt class (V2 §3.16); **second revision (V2C-58):** `deckOk` is 
+4435:| X17 | 11 | *Item 110 fold.* The specialisations `stepped_temple` (temple and great temple, by the region and era rows), `terraced_palace` (palace) and `tiered_tower` (tower), each naming its composition key (`stepped-temple`, `terraced-palace`, `tiered-tower`) in `DesignationTemplateRow.compo
+4437:| X19 | 4 | *Item 110 fold.* A ruin's stepped monument laid by `layTiers` with the `stepped-monument` row at its ancient-culture band, on its ruin stream, decayed by its persistence order; the vaults under raised ways are volume 4's own (item 110 (b)) | none — V02 supplies the function and th
+4438:| X20 | 5 | *Item 110 fold.* The caster ceiling reads the stack's envelope (V2 §3.15.2); an island palace or temple may take a stepped row; its crypt is the rim-slab crypt vault under the building's lowest massing tier, inside underside tier 0 (the rim slab) (J-VI.7) | none |
+4445:| X27 | 11 | *Second revision (V2C-59).* An `arena` template override: plot p50 2 500 / 4 000 / 6 000 / 9 000 m² (own; the historical amphitheatres' 1 400 – 11 000 m² hulls), footprint "the claim's" (so `slotBand` reads the `arena` row's `claimShare` .5–.8), main share 1; and the two nami
+4448:| X30 | 3 | *Reconciliation round 1 (S23-30, -31, -07, -38).* W2 reads "On every side of every wing, volume 2's `facadeBays(wing, side, bayM)`" (a tower's bays round its free perimeter, V2 §3.7); 3.7.4 step 1 reads "under `cryptSeedWings(b)` (V2 §3.14.5 (c)); where it is empty, the far third 
+4525:| SCC-21 | minor | the `manor` budget note and the `arena` plot's "until" clauses dropped (V11 §3.6.1; SCC-11); J-V2.35 amended; X3 landed; X27 |
+4530:hatch bullet and the NG sentence; X14), S23-18 (V2 §3.11's building click by band), S23-27 (F-COMPOSE (3) points at
+4585:| S23R1-06 | major | V2 §3.10.5 keyed by V07's `v.` keys (all 25 of V07 §2.4's rows, matched by script), the `scope` column withdrawn, the lead rewritten (a town class at a village rung plays its `villageForm`'s `v.` class, V11 §3.22); `ClassFamilyRow` drops `scope` (V2 §2.3); the chain's s
+4586:| SR1-05 | major | the same change (one text for both registers): every row keyed by its `v.` key, the scope column dropped, the rows for `v.alehouse`, `v.bakehouse`, `v.pound`, `v.shop`, `v.landing`, `v.wood_yard` and `v.charcoal_pit` present under their `v.` keys; "(`v.manor_house` → `manor
+4588:| SCC-40 | major | the `FM` preset's measured-rate cells are set by V12's `reference` run against Fantasy Manor (`layer: { preset: 'FM' }`, V12 §3.7.2 (3)) on V12's `fm.*` metrics, the free-frame harness its fixture, with V12 §3.7's outcomes as the failure branch — in V2 §3.10.8, the parag
+4685:(the anchors, ids, quotations, text identity, cross-references, checks); **PLAUSIBLE** only that the five Fantasy Manor

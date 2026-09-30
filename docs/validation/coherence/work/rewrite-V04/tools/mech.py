@@ -24,6 +24,10 @@ def conv(t):
     t=re.sub(r'(?<![-\w.])V(1[0-2])(\s+)§',r'V\1\2§',t)
     t=re.sub(r'(?<![-\w.])V(\d)-(\d+(?:\.\d+)*)(?![\w-])',r'V0\1 §\2',t)
     t=re.sub(r'(?<![-\w.])V(1[0-2])-(\d+(?:\.\d+)*)(?![\w-])',r'V\1 §\2',t)
+    import json as _j
+    OTH=_j.load(open('/home/user/maps-architecture/docs/validation/coherence/work/rewrite-V04/tools/othbcr.json'))
+    t=re.sub(r"(?:volume 1's|V01) BCR-(\d+)",r'BCR-V1-\1',t)
+    t=re.sub(r'BCR-V\d{1,2}-\d+',lambda m:('item %d'%OTH[m.group(0)][0]) if OTH.get(m.group(0)) else m.group(0),t)
     def bcr(m):
         n=int(m.group(1)); return 'item %d'%BCR[n] if n in BCR else m.group(0)
     t=re.sub(r'(?<![-\w])BCR-(\d+)(?![-\d])',bcr,t)

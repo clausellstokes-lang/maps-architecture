@@ -1,0 +1,25 @@
+12:> reading was materially stale on this lane's own subject (steps, event vocabulary, edit mode and decrees,
+208:- **Scope decisions on the branch** (the brief's first-40-lines rule): `worldPulse/urbanFabricKernel.js` — OUT
+209:  beyond its header, because its subject is SF's own town map's "memory" ("the growth layer for STONE … Map =
+250:  `tradeRouteAccess` (`road`, `river`, `crossroads`, `port`, `isolated`, `random_trade`), `terrainOverride`
+253:  `faith`, resource choices (`nearbyResourcesRandom`, `nearbyResourcesState`, `nearbyResources`) (CONFIRMED,
+258:  `tier`, `terrainType`, `magicLevel`, `stressTypes`, `latentPantheon`) and `_config` = the RAW input with its
+270:  dossier (`nearbyResourcesCustom`, `source: 'custom'`) (CONFIRMED, same files).
+305:  `terrainType` and **never rewrites** the settlement (CONFIRMED as design text; not built in this checkout —
+310:  which are not in the dossier today (PLAUSIBLE). The settlement's own `tradeRouteAccess` (one word) and
+311:  `economicState.tradeAccess`, `primaryExports/Imports`, `tradeDependencies`, `transit`, `isEntrepot` are in
+335:  and not repeated here.
+347:    plan (seed + template) and materializes when the realm map opens; the realm's spatial canon stays unfrozen
+350:    `terrainType` contradicts the cell it sits on — recorded, never rewritten: the weave's S3 check, built as a
+380:| 1 | resolveConfig | tier, population, tradeRoute, terrainType, resolvedTerrain, culture, magicLevel, threat, noMagic, townPlus, effectiveConfig, the toggle maps | tier (or from population), population (rolled in the tier's range), terrain, trade route, culture, threat, magic; floors a plagued town's military priority |
+381:| 2 | resolveResources | nearbyResources, …Depleted, …Custom (mutates effectiveConfig) | terrain-legal resources, tier-weighted depletion, custom resources, then the DM's `resourceEdits` overlay |
+398:| 19 | generateNarratives | settlementReason, resourceAnalysis, economicViability, history | the reason to exist, the resource story, the history timeline |
+412:  npcs, relationships, factions, conflicts, resourceAnalysis, economicViability, history, stress, stressors,
+646:tombstone after an accidental uncanonize; otherwise the lifecycle is §5.1's (CONFIRMED, `settlementSlice.js:894–935`).
+728:   pestilence, **calamity**, generosity, intervention, **upswing**, **settlement lifecycle**, treaties, war and
+750:| **Resources** | depletion and recovery by pressure and taxonomy (renewable/nonrenewable/magical), a DM proposal by default; organic discovery from the terrain's latent pool and removal of a long-depleted nonrenewable (behind `resourceDynamicsEnabled`) (DESIGN_RESOURCE_DYNAMICS) | `config.nearbyResources*`, `config.resourceEdits` (so it survives regeneration), a surgical re-derivation of `economicState.activeChains`/`primaryExports`, `resourceHistory`, a `resource_strike` or `vein_exhausted` condition |
+863:| `campaignState.eventLog[]` | canon events | `{ event, appliedAt, beforeState, afterState, deltas, factionResponses, narrativeSummary, causalStateDeltas, factionRelationshipDeltas, undo? }` — no entity-level diff | canon only; cleared on (un)canonize and on regeneration |
+928:| 11 | RESOURCES changed | `config.nearbyResources*`, `resourceEdits`, `resourceHistory` | key, state | the hinterland (item 26): an extraction site opens or closes |
+929:| 12 | TRADE changed | neighbour relationship events, `config._cutRoutes`, `economicState.primaryExports / primaryImports / tradeDependencies / transit / isEntrepot`; campaign `trade_route` channels | goods, partners (campaign level) | item 72's trade-position term and the weight of each gate — the bearing of each partner is NOT in the dossier (§2.5) |
+966:  (masonry pauses in winter) should read SF's season for a campaign week, not a calendar of our own.
+1090:   `fp/integration-2026-09-23` @ `5d699cc68`; the working tree and `master` differ materially (steps, events, edit
