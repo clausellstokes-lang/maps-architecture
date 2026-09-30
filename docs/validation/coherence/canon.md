@@ -5472,3 +5472,34 @@ Every finding of the twelve inventories (940), the round-6 seam findings the fin
 
 **CONFIRMED (executed):** the normalisation of the 12 inventories (11 408 items, 940 findings) and every count in *Numbers* (scripts in work/canon/); the id census over the base, the rationale, INDEX, f, g, _integrate and the twelve volumes; the retired-synonym hit counts; the f parse (386 items, 200–585, none missing) and its routing by section; the wiring defects (90, wiring.json) each routed; the round-6 seam findings left open (INDEX §7) each routed; every conflict finding (164) ruled, and the four the canon adds.
 **PLAUSIBLE (reasoned or scanned, not executed against a build):** the fact links of references (142 exact, 297 near, the rest to a home section — the editor confirms); the agreement verdicts 'agree' (no conflict found by the inventories, the seam rounds r0–r6 or the canon's value comparison — absence of evidence, which the seam checkers test); the edge catalogue's DEFINED/UNDEFINED/UNTESTED (a sentence scan of each mechanism's own text) and the combinations' evidence (one sentence naming both features) — both work lists that the edge checkers confirm; the elegance rulings' equivalence lists (built from the inventories' and the text's statements; each verifier checks them against the archive); the canon decisions J-C1–J-C4 (vetoable).
+
+## Dated ruling 2026-09-30 — File g items 114–116 routed (orchestrator under J122; J127)
+
+The owner's rules 114 (walls decay into gaps and patchwork and recover), 115 (a ceiling on building grandeur by settlement tier)
+and 116 (a zoom-out limit) reached the program on 2026-09-30, after the canon and during the Rewrite phase. They are routed like
+items 111–113: EVERY unit named writes its part at build depth as new design; a verifier raises F-MISSING where a part is absent;
+the repair round writes a landed unit's part. Precedence: owner rules first (principle (3)).
+
+### g item 114 — every unit named writes its part
+* **model:** §2.7 `Enceinte.condition` — the values `standing` · `worn` · `patched` · `breached` · `dismantled` on item 575's knot profile; each run's material (robust or a patch row) and the epoch of its last change
+* **determinism:** §7.1 and §7.4 (`repairWall` takes a material; lifecycle rows for `worn` and `patched`); §7.7 (a derivation row: defence readiness and wealth → the generation-time condition at table shares)
+* **rendering:** §8.2 (state rows: `breached` as a break with rubble at every band, `patched` in its material's line style at every band, `worn` at district and finer; the legend; item 112's greyscale rule); §11 (exports carry condition and material; a battle-map export treats a patch as a wall, a breach as an opening)
+* **scope:** §13.2 (the bars of item 114 (g)); the judgment index row
+* **V06:** §3.7 (need and means as sustained drivers; the transitions of item 114 (c); patch then rebuild; the fabric cap)
+* **V07:** the palisade's patch rows and its decay under the same rules
+* **V08:** the dossier's `readiness` label and wealth as the drivers' inputs
+* **V11:** patch materials by wall kind and culture; the rates and windows
+* **V09:** the repair tool's material; the legend panel; **V10:** the story told per run; **V12:** register lines and bars
+
+### g item 115 — every unit named writes its part
+* **pipeline:** §4.2 S10b (the rung ceiling on the class mix; the "all manors" rule scoped to TOWN and above); §10.2 (the ceiling table's shape)
+* **scope:** §13.2 (the bars of item 115 (f)); the judgment index row
+* **V02:** the composition rows' ceiling by rung in the resolution chain (no `H`, `U`, court, tower or turret on a dwelling at THORP and HAMLET; at VILLAGE only the manor)
+* **V07:** the village class mix, the manor's singleton rule (a lord or a dossier record), the wealth shift along capped rows
+* **V08:** what "specified" reads from the dossier; **V11:** the ceiling table by rung; **V06:** epochs across a rung change
+* **V09, V10:** a hand edit beyond the ceiling honoured (item 101 R2) and explained; **V12:** bars
+
+### g item 116 — every unit named writes its part
+* **rendering:** §8.8 (the per-map zoom-out limit on the pyramid: the stop where `bounds` fits the viewport's short side plus one stop); §9.5 (framing); §12.5 (budget); T-ER-08 restated (every rung draws every stop from its limit inward)
+* **scope:** §13.2 (the bars of item 116 (e)); the judgment index row
+* **V07:** §5.2's township view is the limit's view less its margin; **V09:** the view controls stop at the limit; **V12:** bars

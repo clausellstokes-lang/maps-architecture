@@ -785,3 +785,107 @@ vetoable interpretation.
      access), V07 (a village over a former city; refounding at village rungs), V11 (event-to-epoch rows, burial thresholds), V09 (the
      history option in the editor), V10 (the story told), V12 (the bars and the replay's budget). Applied by the coherence pass to base
      and volumes like items 111 and 112 (J124).
+
+114. **OWNER RULE — Walls decay into gaps and patchwork when a settlement is poor and safe, and recover when it is not (owner,
+     2026-09-30).** Owner: "the walls, if there are walls, the visual of those over a long time if the prosperity and defense of a
+     settlement is low over enough time should show deterioration in walls and recovery when they go back up. what do you think as an
+     added extra variable?" / "deterioration like broken down sections or walls or pallisades using patchwork material rather than
+     robust material. visual gaps that a user can internalize" / "yes". **What the design has (CONFIRMED):** V06 §3.7.3 neglects an
+     outermost ring after `walls.neglectAfterYears` (30) at `threat ≤ walls.neglectThreatMax` (0.20) and breaches it per 120 m stretch
+     at `walls.breachChancePerYear` (0.01); V06 §3.7.5 repairs breached runs when threat returns (`repairWall`, no Works, the `fabric`
+     cap); a `dismantled` run stays a gap; file f item 575's `Enceinte.condition` is a step profile along the trace (`standing` ·
+     `breached` · `dismantled`); §8.2's state row draws a gap glyph over a breached run and a dismantled run's towers as trace discs;
+     palisades, earthworks and walls are one `Enceinte` record. Prosperity plays no part, and the look jumps from whole to gap.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) TWO DRIVERS.** NEED — the settlement's defence need (its threat as §7.7 derives it, with the dossier's defence readiness)
+     — decides whether a gap is closed; MEANS — its prosperity (the settlement's wealth level at the epoch, the districts the run
+     bounds weighting it locally) — decides what it is closed with. Both are read as values sustained over a table window of years,
+     so a run's condition never flickers between epochs at a threshold.
+     **(b) THE CONDITION LADDER** per run of the enceinte, extending item 575's profile by the same knot mechanism: `standing` (the
+     wall's own robust material) · `worn` (weathered, parapet broken; still a wall) · `patched` (a former gap closed in a cheaper
+     material than the wall's own: timber hoarding, a wattle or hurdle fence, an earth-and-turf bank or dry-stone infill in a masonry
+     wall; odd stakes, hurdles or brush in a palisade — the patch material a table row by wall kind and culture) · `breached` (a gap
+     with rubble) · `dismantled` (stone taken; a gap for good). Each run records its material (robust or a patch row) and the
+     epoch of its last change.
+     **(c) TRANSITIONS** (rates and windows are table cells, our own defaults, calibratable): low need sustained → neglect, as now, now
+     through `worn` before `breached`; low means sustained, even under threat → `worn`, then `breached` at a lower rate than neglect;
+     both low → fastest. Need returns with low means → breached runs are `patched`, not rebuilt; need with means → breached and
+     patched runs are rebuilt robust (patches replaced oldest first, at a table rate, within the `fabric` cap); means without need →
+     a wall still in use has its `worn` runs restored, while a neglected wall keeps decaying (a rich place without fear lets its wall
+     go). A `dismantled` run stays a gap unless a hand edit or a new wall decision rebuilds it.
+     **(d) AT GENERATION.** A map generated as the present with no replay takes each run's condition from the same two drivers through
+     a derivation row (§7.7): the dossier's defence readiness (SettlementForge's `readiness` label) and wealth, at table shares (a
+     vulnerable, poor town shows patched and breached runs; a fortress in a rich city stands whole). With item 113's history replay
+     the condition comes from the replay.
+     **(e) THE LOOK, legible at every zoom.** A `breached` run is a clear break in the wall line with a rubble spill; a `patched` run is
+     drawn in its patch material's own line style and colour (thinner, lighter and irregular — timber, wattle or earth reads apart
+     from stone), so a user sees at a glance where the wall is makeshift; `worn` shows at the district band and finer only (weathering,
+     broken crenellations); `dismantled` as now. The legend names each; item 112's colour-blind rule holds (pattern, never colour
+     alone).
+     **(f) TOOLS, CLERK, EXPORTS.** The wall tool's repair takes a material (robust or a patch row); the clerk tells each run's story
+     ("patched with timber in the lean years; rebuilt in stone after the siege"); exports carry condition and material (a battle-map
+     export treats a patch as a wall and a breach as an opening).
+     **(g) BARS.** A poor, threatened fixture shows patched runs and no robust rebuild; a rich, threatened one rebuilds in stone; a
+     safe one decays through `worn` to `breached`; recovery replaces patches oldest first; no condition changes without a sustained
+     driver (no flicker across two epochs at a threshold); every state distinguishable in greyscale at the bands stated; the
+     generation-time condition derives from readiness and wealth; with need and means at neutral values the existing neglect and
+     repair behaviour is reproduced (no-op pin).
+     **HOMES:** §2.7 (`Enceinte.condition`'s values and each run's material), §7.1 and §7.4 (`repairWall`'s material, lifecycle rows),
+     §7.7 (the derivation row from readiness and wealth), §8.2 (state rows, legend), §11 (exports), §13.2 (bars). Volumes: V06 (§3.7's
+     transitions with need and means), V07 (the palisade's patches), V08 (readiness and wealth read from the dossier), V11 (patch
+     materials by wall kind and culture; rates and windows), V09 (the repair tool's material; the legend), V10 (the story told), V12
+     (register lines and bars). Applied by the coherence pass to base and volumes like items 111–113 (J127).
+
+115. **OWNER RULE — Small settlements are not grand: a ceiling on building grandeur by settlement tier (owner, 2026-09-30).**
+     Owner: "And to clarify, buildings from village and lower tiers generally not have grand building designs, unless specified, even
+     if high in prosperity correct? like they can be high in prosperity but that doesn't mean that everything is a manor for a village
+     and especially so for a hamlet." / "yes". **What the design has (CONFIRMED):** a building's shape starts from its class (V02 §3.10's
+     rows by template family, four prosperity anchors); the `dwelling-compound` family, which `v.yeoman_house` and `v.manor_house`
+     read through `composition.classFamily`, reaches `H` .15 and `U` .15 at the rich anchor, and `dwelling-detached` reaches `H` .1;
+     the base's S10b class mix makes the rich row all manors (the owner's town rule) with cuts relative to the settlement; V07's
+     `bandShares` (rich 0 / 0.02 / 0.03 at THORP / HAMLET / VILLAGE) shift with DR6's wealth; `v.manor_house` is a singleton sited by
+     seigneurial government (a small chance by population otherwise). So a very wealthy hamlet could show several manor-like farms.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) QUALITY, NOT GRANDEUR.** Prosperity in small places shows as larger plots and ranges within the class's own row, more
+     outbuildings, hearths, dormers and porches, better roofs and materials — never a courtyard plan, an `H` or `U` plan, a tower, a
+     turret or a gatehouse on a dwelling.
+     **(b) THE CEILING** (a table by rung; our own defaults): THORP and HAMLET — every dwelling at most `single`, `L` or `T`; no `H`,
+     `U`, courts, towers or turrets; no manor-class dwelling unless specified. VILLAGE — at most one manor house, only with a lord
+     (seigneurial government) or when specified; every other dwelling at most `L` or `T`; the manor alone takes the grand
+     arrangements. TOWN and above — unchanged (the "all manors" rule stands there).
+     **(c) "UNLESS SPECIFIED."** A grand building the dossier names (a manor, hall or similar record), or one the user places or
+     reshapes by hand, keeps its full design: the ceiling is a default, never a refusal (item 101 R2); the clerk says it exceeds the
+     tier's usual.
+     **(d) WEALTH IN VILLAGES.** DR6 still shifts the band shares, but a band only moves a dwelling along its capped row (the richest
+     farmhouse is the capped row's rich anchor), and the manor count never rises with wealth.
+     **(e) OVER EPOCHS.** A village that grows into a town lifts the ceiling for buildings new or rebuilt from that epoch; a town that
+     shrinks to a village keeps its grander buildings as they stand (history, item 113) and never reshapes them down; new ones follow
+     the village ceiling.
+     **(f) BARS.** Rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum: no `H`, `U`, court, tower or turret dwelling but the
+     manor; at most one manor, only with a lord or a dossier record; a dossier-named hall keeps its design; TOWN rungs and above
+     byte-identical (no-op pin).
+     **HOMES:** §4.2 S10b (the rung ceiling on the class mix; the "all manors" rule scoped to TOWN and above), §10.2 (the ceiling
+     table's shape), §13.2 (bars). Volumes: V02 (the composition rows' ceiling by rung in the resolution chain), V07 (the village
+     class mix, the manor's singleton rule, the wealth shift), V08 (what "specified" reads from the dossier), V11 (the ceiling table),
+     V06 (epochs across a rung change), V09 and V10 (a hand edit beyond the ceiling honoured and explained), V12 (bars). Applied by the
+     coherence pass like items 111–113 (J127).
+
+116. **OWNER RULE — A zoom-out limit: a map never zooms out past its own land (owner, 2026-09-30).** Owner: "oh and regarding how in
+     a village and lower it would be a speck in the overall map, just zoom in and set a ceiling to the maximum zoom, or a ceiling to
+     the amount of total land to render. is that a problem you were facing?" / "yes". **What the design has (CONFIRMED):** V07 §5.2
+     (J-V7.4) opens a village on its perimeter × 1.6 (at least 400 m) at the district band, the township one zoom-out away; the
+     territory law bounds the land by population and rung, and beyond `bounds` is paper; §9.5's framing (A06) opens a town on its
+     settlement; §8.8's pyramid runs 35 stops from 1:50 000 to about 1:125, the same at every rung (T-ER-08: "every rung draws every
+     stop"), so a thorp can be zoomed out to a speck.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) THE LIMIT.** Each map's zoom-out limit is the stop at which its whole `bounds` (a village's township, a town's frame) fits
+     the viewport's short side, plus one stop of margin (a table cell); the view never settles beyond it and the pyramid draws no
+     tile past it. The zoom-in end is unchanged.
+     **(b) THE LAND** is already capped by the frame laws (the territory law per head and per rung; the town frame): stated, not added.
+     **(c) EXPORTS** frame within the same limit (the whole bounds at most).
+     **(d) GROWTH** — an epoch or a hand edit that grows the bounds moves the limit with them.
+     **(e) BARS.** At every rung from THORP to the cap the zoom-out limit shows the whole bounds and no stop beyond it is reachable in
+     the view; T-ER-08 restated (every rung draws every stop from its limit inward); the first view unchanged.
+     **HOMES:** §8.8 (the per-map limit on the pyramid), §9.5 (framing), §12.5 (budget: fewer stops, never more), §13.2 (T-ER-08
+     restated). Volumes: V07 (§5.2's township view is the limit's view less its margin), V09 (the view controls stop there), V12
+     (bars). Applied by the coherence pass like items 111–113 (J127).

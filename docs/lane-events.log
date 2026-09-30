@@ -1923,3 +1923,5 @@
 2026-09-30 19:20 coherence/rewrite-V06 CHECKPOINT P2 parts 00 (head, §0, §1; J-V6.4 bullet retired, hood-document rule stated, items 111/113 added) and 01 (§1b W1-W81 compressed + W82-W88 for items 111/113; dossier trace on DR28-DR40) written; next: part 02 (§2)
 2026-09-30 19:26 coherence/rewrite-V07 CHECKPOINT P2-P3 done (parts 00 head/§0/§1, 01 §1b with W74-W76); next: P4 §2
 2026-09-30 19:28 coherence/rewrite-V06 CHECKPOINT P3-P4 parts 02 (§2 incl. new §2.14 replay records, E-01 rows, EDGE-2 advance-undo row) and 03 (§3.1-§3.3 incl. EDGE-1 degenerate requests) written; next: §3.4-§3.8 (part 04)
+2026-09-30 19:31 coherence/rewrite-V06 CHECKPOINT P4 parts 04 (§3.4-§3.6) and 05 (§3.7-§3.8; G-hollow, pool rates cited to f 291) written; next: §3.9 (part 06)
+2026-09-30 19:31 coherence/orchestrator NOTE owner rules 114-116 filed (docs/AMENDMENTS-2026-09-28g.md; J127) and routed by a dated canon ruling (canon.md end); the running editors rewrite-V06 and rewrite-V07 told by message; briefs of V08-V12, assemble, every verify and the validator carry the routing; the landed base parts and V01-V05 write their parts in the repair round (F-MISSING)
