@@ -22,7 +22,7 @@ within ten seconds is declared per device (§12.1). T-V2-22 and T-V2-24 hold the
 """
 
 EXP = """**Exports** — one-time waits (item 119 (a)): glTF, OBJ and CityJSON, written in the generation worker, timed from the click
-to the file at every rung; the line is CityJSON's, the slowest format's (glTF and OBJ about a third less):
+to the file at every rung; the line is CityJSON's, the slowest format's (glTF and OBJ about a quarter less):
 
 | rung (buildings, §1.1) | `'asDrawn'`: estimate → target | `'derive'`: estimate → target |
 |---|---|---|
