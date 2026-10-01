@@ -1,0 +1,132 @@
+--- live
++++ new
+@@ -144 +144 @@
+-| the hook tests T11-1, T12-1, T14-1, T63-4, T64-1 – T64-3, T65-1 – T65-8, T66-1 – T66-4 and T66-6, and the owner items' bars T109-1 – T109-6, T113-4 and T113-5 | §13.2 (the underground layer's take-over row) | kept and run on generated output, each V04 §7 test naming the bar and the clause it takes; V04 §7 adds T-V4-n |
++| the hook tests T11-1, T12-1, T14-1, T63-4, T64-1 – T64-3, T65-1 – T65-8, T66-1 – T66-4 and T66-6, and the owner items' bars T109-1 – T109-6, T113-4, T113-5, T120-4, T120-5, T123-1, T123-2 and T123-6 | §13.2 (the underground layer's take-over row) | kept and run on generated output, each V04 §7 test naming the bar and the clause it takes; V04 §7 adds T-V4-n |
+@@ -150,0 +151 @@
++| item 123's base side: one plan, never redrawn, under a damage layer (§2.6 step 7); one keyed threshold per plan element, §6.3's concern `plan.damage` keyed by the building's lineage and the element's id, no id minted; the damaged plan's drawing and the battle maps' line of sight; V03's damage layer and its drawing, V06's `decayLevel` and `decayPeak`, V11's ranges by element kind | g item 123 at §2.6, §6.3, §8.6, §11.1, §13.2; V03; V06 §3.23; V11 | V04 §5.6 (the kinds below ground, the level each element reads, the drawing in the underground view and the per-band exports); T-V4-82 |
+@@ -161 +162 @@
+-| `Basement.crypt`, `Entrance.faces` `'tunnel'`, `AccessHostRow` | V03 §2.1, V03 §2.4, V03 §3.7.2 (6), V03 §3.7.4 (items 238, 239) | the crypt join (V04 §3.5.7 (c)), the burial-face entrance (V04 §3.5.1 (9)), the underground buildings' entrances (F4, F6, C4) |
++| `Basement.crypt`, `Entrance.faces` `'tunnel'`, `AccessHostRow`; the plan's parts and their ids, the basement storeys, the crypt's plan and column grid | V03 §2.1, V03 §2.2, V03 §2.4, V03 §3.7.2 (6), V03 §3.7.4, V03 §3.7.5 (items 238, 239) | the crypt join (V04 §3.5.7 (c)), the burial-face entrance (V04 §3.5.1 (9)), the underground buildings' entrances (F4, F6, C4); the kinds below ground (V04 §5.6) |
+@@ -200,2 +201,2 @@
+-  after it, `QuarryWorkings.extend`, `CatacombGrowth.grow` with V06's cap, primary and calamity deaths, `AccessPass.run`
+-  over an `EpochScope`, `ArchVaults.reconcile`, `BuriedFormer.lay`, the undercity's epoch re-read; V04 §3.10, each with
++  after it, `QuarryWorkings.extend`, `CatacombGrowth.grow` with V06's cap, primary and calamity deaths,
++  `AccessPassStrategy.run` (II.7.6) over an `EpochScope`, `ArchVaults.reconcile`, `BuriedFormer.lay`, the undercity's epoch re-read; V04 §3.10, each with
+@@ -233 +234 @@
+-* **Find** (g item 120) — its panel, type-ahead, chip grid, results list, phone sheet and `live.find` provider are V09's;
++* **Find** (g item 120) — its panel, type-ahead, chip grid, results list and `live.find` provider are V09's;
+@@ -235,0 +237,4 @@
++* **The damage layer** (g item 123) — the plan it lies over, its drawing and its panel lines are V03's, the decay level
++  V06's (V06 §3.23), the ranges by element kind V11's and the threshold draw §6.3's. This volume states the kinds below
++  ground, the level each element below ground reads, the drawing of damage in the underground view and the per-band
++  exports, and that the damage never touches the access model (V04 §5.6).
+@@ -267 +272 @@
+-| `LayerSpec.underView` and the roles `rock`, `void` | the style sheet and `setLayer` | S14's underground build, the tile worker | §8.2, §8.4 (item 413) |
++| `LayerSpec.underView` and the roles `rock`, `void` | every shipped sheet's rows for the `under.*` semantics (V04 §5.2) and `setLayer` | S14's underground build, the tile worker, §8.2's slot resolution | §8.2, §8.4 (item 413) |
+@@ -301,0 +307 @@
++| the kinds below ground `cellarWall`, `cellarVault`, `cryptWall`, `cryptVault`, `cryptTomb`, given by `belowKind(building, element)` (derived, never stored; V04 §5.6) | V03's plan parts of each storey below 0 (V03 §2.2, V03 §3.7), the crypt's column grid (V03 §3.7.5), each underground building's footprint sides on its part's rock (§3.7's `bandUnion`) | §6.3's `plan.damage` draw (the kind names V11's range row), V03's drawing of a storey below 0, S14's underground footprints (V04 §5.2 (5)), the per-band VTT's line of sight, T-V4-82 | g item 123 (c); V04 §5.6 |
+@@ -316 +322 @@
+-| `AccessPass.run(doc, scope?: EpochScope)` with `excavation(doc, cluster)` | U-ACCESS (`@plat/under/access`) | the tail scheduler, T2b, after U-SYS, with no scope (the whole document; at a village rung every mining use's outside-plot working, V04 §3.5.7 (a)); V06's `under.access` (`afterGrowth` 20) with the epoch's scope — `scope.workings` included — its last step V01's opening pass over the public openings it made (V04 §3.10); every commit that touches an access, a link, an element's closure or a building over a void (the excavation reading and `ExcavationRecord` only) |
++| `AccessPassStrategy.run(doc, rules, ctx, k, scope?: EpochScope)` (II.7.6) with `excavation(doc, cluster)` | U-ACCESS (`@plat/under/access`) | the tail scheduler, T2b, after U-SYS, with no scope (the whole document; at a village rung every mining use's outside-plot working, V04 §3.5.7 (a)); V06's `under.access` (`afterGrowth` 20) with the epoch's scope — `scope.workings` included — its last step V01's opening pass over the public openings it made (V04 §3.10); every commit that touches an access, a link, an element's closure or a building over a void (the excavation reading and `ExcavationRecord` only) |
+@@ -332,0 +339 @@
++| `belowKind(building, element)` (V04 §5.6) | `@plat/under` | §6.3's `plan.damage` draw for an element below ground (its kind's range row, V11's); V03's plan draw of a storey below 0; S14's underground builder (the damaged footprints); the per-band VTT export |
+@@ -382 +389 @@
+-| underground `Block`, `Plot`, `Building` | as ground, through the cut-away; `vault` hatch | cells unnamed; institutions by the knowledge filter | as ground at depth | part chunk |
++| underground `Block`, `Plot`, `Building` | as ground, through the cut-away; `vault` hatch; a building's damage (g item 123) by V04 §5.6 | cells unnamed; institutions by the knowledge filter | as ground at depth; the per-band VTT's line of sight following its damage (V04 §5.6) | part chunk |
+@@ -414 +421 @@
+-| mining | `site.deposits` of kinds `iron_deposits`, `precious_metals`, `gemstone_deposits`, `coal_deposits`, copper | DR19, DR31 | the cavern's mining test (V04 §3.5.2) |
++| mining | `site.deposits` of kinds `iron_deposits`, `precious_metals`, `gemstone_deposits`, `coal_deposits`, copper | DR19, DR31 | `Terrain.mining` (§4.2 S1 (10)), which the cavern's boost reads (V04 §3.5.2) |
+@@ -863 +870 @@
+-| a village working's breach access (V04 §3.5.7 (a)) | U-ACCESS (a) at T2b at a village rung; `AccessPass.run` over `scope.workings` at an epoch | the excavation reading, V10, V12's `void.*`, GeoJSON | the access record | kept by its key (the working's and the element's lineages) at every derivation; follows V04 §3.10's access closures with the working's plot as its host; kept at V07's hand-off up | the causing event's | absent: made at the next T2b, reported |
++| a village working's breach access (V04 §3.5.7 (a)) | U-ACCESS (a) at T2b at a village rung; `AccessPassStrategy.run` over `scope.workings` at an epoch | the excavation reading, V10, V12's `void.*`, GeoJSON | the access record | kept by its key (the working's and the element's lineages) at every derivation; follows V04 §3.10's access closures with the working's plot as its host; kept at V07's hand-off up | the causing event's | absent: made at the next T2b, reported |
+@@ -864,0 +872 @@
++| the damage drawn below ground (`belowKind` and the level each element reads; V04 §5.6) | derived on read from V03's plan parts, the footprint's rock sides and V06's `decayLevel` and `decayPeak` at the drawn week | V03's plan draw of a storey below 0, S14's underground footprints, the per-band picture and VTT exports | never: a look — the plan, its ids and every digest unchanged | recomputed with the plan, the footprint and the level's events | follows the records and the lifecycle events it reads | — (nothing stored; an older document reads it at once) |
+@@ -965,10 +973,19 @@
+-These fallbacks are taken **per bank** (N3: the parts of the graph the water divides, never crossed; J-V4.129). On a bank
+-with none admitted, its `moat` candidates are admitted with the start cost `outfall.moatPenalty × outfall.reachM` (a town
+-ditch took the town's waste; J-V4.7). With none of those either, U-NET makes that bank one **field outfall**: the D8 path
+-of the hydro cell of largest accumulation on the bank's stretch of `R`'s boundary is followed outward to its first cell
+-outside `R` and beyond the outermost enceinte's outer strip; the Outfall there is `{ into: 'field', water: null, at: that
+-cell's centre, snapped }`, the cess field of a dry town. A bank whose stretch of `R`'s boundary lies wholly on water (an
+-island in the river, a quarter between a river and a canal) and that holds no candidate makes none: its plots drain by
+-gutter and pit, its area reported unsewered (F-NET's truncate rung). Every admitted candidate is linked to the nearest way
+-junction on its own bank within `outfall.linkM` by a straight `outfallRun` edge that crosses no water face; a candidate
+-with none is dropped.
++**The order, the banks and each candidate's bank (J-V4.129).** U-NET first builds N3's way, culvert and drainage edges,
++without outfall runs, and from them N3's banks (the parts of the graph the water divides, never crossed). Then every
++candidate — and every `Terrain.outfalls` entry with `into: 'moat'` within `outfall.reachM` of `R`, a **moat candidate** —
++takes its **link**: the nearest way junction (under `drainage-lines`, the nearest graph node) within `outfall.linkM`
++whose straight segment to the candidate's `at` crosses no water face, by plan distance, ties by address; the candidate's
++**bank** is its link's, and a candidate with no link is dropped. **A bank's stretch** of `R`'s boundary is the set of
++`R`'s boundary `hydro` cells — each a cell of `R` with a D8 neighbour outside `R` — whose nearest graph node, by plan
++distance, ties by address, lies on that bank; a cell of the stretch is **on water** when each of its D8 neighbours
++outside `R` lies in a water face. Admission and its fallbacks then run bank by bank, in N3's bank order, and last each
++admitted candidate's straight `outfallRun` edge to its link joins the graph, before N3's tree search. On a bank with
++none admitted, its moat candidates are admitted with the start cost `outfall.moatPenalty × outfall.reachM` (a town ditch
++took the town's waste; J-V4.7). With none of those either, U-NET makes that bank one **field outfall**: the D8 path of
++the cell of largest accumulation (ties by address) among its stretch's cells not on water is followed outward to its
++first cell outside `R` and beyond the outermost enceinte's outer strip; the Outfall there is `{ into: 'field', water:
++null, at: that cell's centre, snapped }`, the cess field of a dry town, and its outfall run follows that D8 path back to
++the stretch's cell and joins the cell's nearest graph node by a straight edge that crosses no water face (the bank's next
++nearest node where it would). A bank whose stretch is empty or lies wholly on water (an island in the river, a quarter
++between a river and a canal) and that holds no candidate makes none: its plots drain by gutter and pit, its area
++reported unsewered (F-NET's truncate rung).
+@@ -978 +995,2 @@
+-  convex hull (the extent is fixed before the search; the Dijkstra then selects), plus N2's outfall-run edges — each with
++  convex hull (the extent is fixed before the search; the Dijkstra then selects), plus N2's outfall-run edges, which join
++  last (N2's order) — each with
+@@ -1056,3 +1074,4 @@
+-1. **Root-first.** Each outfall knot's floor is `low = h(at) + freeboardCm`: the terrain's height at the shore stands for
+-   the water surface, as §2.6's water table reads it, so the mouth sits `outfall.freeboardCm` above the water it
+-   discharges into; a field outfall's is `h(at) − coverMinCm − headroomCm`. Upstream along the tree,
++1. **Root-first.** Each outfall knot's floor is `low = s + freeboardCm`, `s` the receiving water's surface as §2.6's
++   water table reads it — a moat's the derived level of §4.2 S3 (10), every other body's terrain height at the shore,
++   `h(at)` — so the mouth sits `outfall.freeboardCm` above the water it discharges into; a field outfall's is
++   `h(at) − coverMinCm − headroomCm`. Upstream along the tree,
+@@ -1571,2 +1590 @@
+-**holds mining** — the share of the frame's land cells with `SiteResources.ore ≥ 0.5` reaches `miningCellShare`
+-(V11 §3.23.1), or the roster holds a mining class, or the dossier carries a mining deposit (V04 §1b.5); one uniform on `sewer`
++**holds mining** — `Terrain.mining`, by §4.2 S1 (10)'s test (V04 §1b.5); one uniform on `sewer`
+@@ -1856,2 +1874,4 @@
+-  deeper cellars and more digging raise the chance of access as the settlement grows, and a building never draws twice for
+-  one kind. Item 109 (d)'s "chance raised over a ruin" is this row.
++  deeper cellars and more digging raise the chance of access as the settlement grows, and a building draws once per
++  void kind, plus once for each wing V02's mutator adds over a void (a `MutationPlan` step or a rung-3 op), its key
++  carrying that wing's key, never twice for one key (V06 §3.18.1 (2a); T-V6-34). Item 109 (d)'s "chance raised over a
++  ruin" is this row.
+@@ -1919 +1939 @@
+-differ by their stage id (§6.1), and within U-ACCESS each (building, void kind) has its own salt, so no draw's value depends
++differ by their stage id (§6.1), and within U-ACCESS each dig key — the building, the void kind and, for an added wing, its key ((d)) — has its own salt, so no draw's value depends
+@@ -1922 +1942,2 @@
+-**With a scope.** `AccessPass.run(doc, scope?: EpochScope)`: without a scope (T2b) it runs (a)–(g) over the whole document;
++**With a scope.** `AccessPassStrategy.run(doc, rules, ctx, k, scope?: EpochScope)` (II.7.6): without a scope (T2b) it runs
++(a)–(g) over the whole document;
+@@ -2207 +2228,2 @@
+-then `QuarryWorkings.extend`; `under.access` (order 20) runs `AccessPass.run(doc, scope)`; `under.undercity` (order 30)
++then `QuarryWorkings.extend`; `under.access` (order 20) runs `AccessPassStrategy.run(doc, rules, ctx, k, scope)`;
++`under.undercity` (order 30)
+@@ -2273,2 +2295,2 @@
+-* **Access at an epoch (g item 109 (j) (3)–(4); g item 113 (e)).** `under.access` runs `AccessPass.run(doc, scope)`
+-  (V04 §3.5.7, *With a scope*): each building the epoch builds, or gives a basement, over a cavern, ruin or former-settlement
++* **Access at an epoch (g item 109 (j) (3)–(4); g item 113 (e)).** `under.access` runs
++  `AccessPassStrategy.run(doc, rules, ctx, k, scope)` (V04 §3.5.7, *With a scope*): each building the epoch builds, or gives a basement, over a cavern, ruin or former-settlement
+@@ -2306 +2328 @@
+-  2. at an epoch, as the last step of `AccessPass.run` with a scope (over its (e) openings) and of `CatacombGrowth.grow` when
++  2. at an epoch, as the last step of `AccessPassStrategy.run` with a scope (over its (e) openings) and of `CatacombGrowth.grow` when
+@@ -2328 +2350 @@
+-| U-NET outfalls | no admitted candidate on a bank (V04 §3.2 N3) | that bank's moat candidates → its field outfall → its gutters and pits where no dry stretch of `R`'s boundary is left (F-NET's truncate rung) | `requestedVsBuilt`: "sewers discharge to the town ditch / a cess field"; the unsewered hectares |
++| U-NET outfalls | no admitted candidate on a bank (V04 §3.2 N2, N3) | that bank's moat candidates → its field outfall → its gutters and pits where its stretch of `R`'s boundary is empty or lies wholly on water (V04 §3.2 N2; F-NET's truncate rung) | `requestedVsBuilt`: "sewers discharge to the town ditch / a cess field"; the unsewered hectares |
+@@ -2394 +2416,2 @@
+-| UE32 | Find on Below (V04 §5.1) | E1: no chip, or no match Below, draws nothing Below and counts 0; E2: one match glows or pins as any; E3: at the metropolis cap the pins merge into count bubbles by §8.2's rule; E5: an element of an `unexcavated` cluster is absent below `secret` and a ghost pin at `secret` while its cluster is not drawn; E6: at every rung where the layer has a match; E7: the layer hidden (every match Below a ghost pin), each `underView` mode, `showUnexcavated` on and off; E8: a view — the chips saved in view pins, re-evaluated after load, undo, redo, regenerate and migrate, the document never changed | — | T-V4-81 |
++| UE32 | Find on Below (V04 §5.1) | E1: no chip, or no match Below, draws nothing Below and counts 0; E2: one match glows or pins as any; E3: at the city band every match has a pin or a count bubble (item 120 (k)) — a match whose element is under about 6 px carries its chip's pin, and pins and ghost pins closer than about 24 px merge into a count bubble by §8.2's rule, up to the metropolis cap; Show gaps Below: every `district` unit Below without a member — each undercity neighbourhood and the underground pseudo-district — is outlined dashed "none here", and a `walk` or `households` unit reads `underDistance` (V01 §5.4 (3); V04 §3.6a (5)); E5: an element of an `unexcavated` cluster is absent below `secret` and a ghost pin at `secret` while its cluster is not drawn; E6: at every rung where the layer has a match; E7: the layer hidden (every match Below a ghost pin), each `underView` mode, `showUnexcavated` on and off; E8: a view — the chips saved in view pins, re-evaluated after load, undo, redo, regenerate and migrate, the document never changed | — | T-V4-81 ((c) the gaps, (f) E8, (i) E3) |
++| UE33 | the damage below ground (V04 §5.6) | E1: a building never decayed (level 0), and an underground none of whose buildings has decayed, draw byte-identically to the build without the layer (`item123.damage`); E2: one element past its threshold is drawn damaged alone, and a crypt whose ring holds no cell centre of its column grid has one `cryptVault`, its room's ceiling whole; E3: at level 1 every element below ground is past its threshold — a cellar and a crypt draw partly collapsed, every room, wall line, way down and join kept (a ruined church keeps its crypt), the lowest storey's floor walkable; E4: a crypt-only basement on its ring alone takes its crypt's kinds only, a grid cell whose centre lies outside the ring is no bay, and an element a plan edit removes leaves with its part; E5: a kind with no V11 row, and every building before V06's level lands, read as V06 §3.23 (4) states; a building over a void whose cellar vault has fallen keeps its dig access, a church its crypt join — no stage reads the level; E6: every rung where a basement, a crypt or an underground building stands; E7: every toggle and preset alike, the parity presets included (a look); the layer hidden draws none of the underground view's part, a plan's storey below 0 still drawn; E8: a reading — save, load, undo, redo, regenerate and migrate re-read it at the drawn week, an undone restoration giving back the level its events give | — | T-V4-82 |
+@@ -2420,0 +2444 @@
++| UC21 | item 123's damage × the underground's access model — a ruined church whose crypt is joined to a catacomb, a ruined building over a cavern with its dig access, a cellar under a decayed building over a ruin, the buildings of a cluster turned `lost` | a drawing only (V04 §5.6 (4); J-V4.130): every access, link, crypt join, `ExcavationRecord` entry and excavation state is the same at every level, so a scrubbed week never opens or closes a way; a damaged stair core or access head below 0 draws as rubble over steps still climbable; a way closes only by this volume's closure states, and a `lost` cluster stays lost whatever its buildings show; a building in a `collapsed` or `flooded` element draws that element's §8.2 `states` row over its own damage | — | T-V4-82 (d) |
+@@ -2434 +2458 @@
+-building, salt the void kind); each crypt join (`sewer`, the church and the complex source); the quarry ossuary's chance
++building, salt the void kind and, for a wing V02's mutator adds over a void, that wing's key; V04 §3.5.7 (d)); each crypt join (`sewer`, the church and the complex source); the quarry ossuary's chance
+@@ -2459 +2483,2 @@
+-reading (the `lost` state and its memory included) draw nothing; the opening pass's names are V01's draws on `naming`
++reading (the `lost` state and its memory included) draw nothing; nor does the damage below ground, whose thresholds are
++§6.3's `plan.damage` draws keyed by the building's lineage and the element's id (V04 §5.6); the opening pass's names are V01's draws on `naming`

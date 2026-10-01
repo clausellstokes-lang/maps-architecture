@@ -122,8 +122,8 @@ def apply(sub, after_line):
     # ---- §2.12 -----------------------------------------------------------------------------------------------------
     after_line('VV56-r1-01 G122-V06 G123-V06 §2.12 rows', "| `ReplayPlan` (V06 §2.14) |",
                "| a dossier catch-up's coarse epochs (V06 §6.8 (6)) | the port's catch-up (V08's rule), one epoch per k crossed year ends at "
-               "the cadence the estimate chooses | the fold | log (the port's `epoch` events at their weeks) | — | never an undo target "
-               "(§7.4 *Replay semantics*) | a catch-up folded before the coarsening keeps its epochs as they stand |\n"
+               "the cadence the estimate chooses | the fold | log (the port's `epoch` events at their weeks) | — | no undo, redo or "
+               "revert target (§7.4 *Replay semantics*) | a catch-up folded before the coarsening keeps its epochs as they stand |\n"
                "| `frontierFor`'s answer (V06 §3.22 (2)) | derived at each call over the model the view draws | §10.2's refugee-camp "
                "placement | never (memoized per model digest and count, in memory) | re-derived over the new state | re-derived: an undone "
                "epoch's state answers again | — |\n"
