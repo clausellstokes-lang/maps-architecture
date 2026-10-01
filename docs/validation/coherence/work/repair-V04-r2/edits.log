@@ -28,3 +28,12 @@ edits_b	G123-V04 VV34-r1-09 §3.11 UE32 tail and UE33	1	'redo, regenerate and mi
 edits_b	G123-V04 §3.11 UC21	1	"| UC20 | a catacomb growing into a sewer (the owner's named combination) | the g"
 edits_b	VAT0-01 §3.12 dig key	1	'each dig (`sewer` in U-ACCESS, the\nbuilding, salt the void kind);'
 edits_b	G123-V04 §3.12 damage draws	1	'reading (the `lost` state and its memory included) draw nothing;'
+edits_c	VAT1-02 §5.1 (4)	1	"`districtsAbove` (V01 §3.16) reads it upward. Show gaps' units Below are the und"
+edits_c	VAL-R1-06 §5.2 (1) rock	1	"1. **Rock** — a hatched halo of `rockHaloM` (4 m) outside every void's kerb, in "
+edits_c	VAL-R1-06 §5.2 (2) void	1	'in the role `void` (the paper, a step lighter than the\n   ghosted ground).'
+edits_c	G123-V04 §5.2 (5) buildings	1	"hatch (§8.2), party walls and door ticks as on the ground; the undercity's infor"
+edits_c	VAL-R1-06 §5.2 sheets	1	'  otherwise known as its `knownTo` says once it is accessible, and a `lost` clus'
+edits_c	G123-V04 §5.5 VTT	1	'`line_of_sight` from every void kerb and chamber wall and every underground buil'
+edits_c	G123-V04 §5.5 damage	1	"a VTT scene carries it only when asked (§11.1's battle-map rule); GeoJSON, glTF,"
+edits_c	G123-V04 §5.6	1	'\n## 6 Performance budgets\n'
+edits_c	G123-V04 §6 budget	1	"a band step with chips on re-composes the overlay within the band switch's own ≤"

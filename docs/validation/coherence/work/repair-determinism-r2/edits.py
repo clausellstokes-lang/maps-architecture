@@ -99,9 +99,9 @@ E(H61,
   "whose replay gives the condition (V06 §3.7.7 (5)) |\n",
   "whose replay gives the condition (V06 §3.7.7 (5)) |\n"
   "| `plan.damage` | 0 | geometry-free; non-rerollable by salt; epoch component 0. Item 123's damage thresholds (§6.3 "
-  "*Plan damage*): one uniform per plan element, keyed by (the building's lineage, the element's id) at the stage id of "
-  "the building's `plan.*` concerns, no rung counter, reroll or salt entering — fixed for the element's life, never "
-  "re-drawn; read wherever a plan is drawn at a decay level: §2.6 step 7's damage layer, V03 (the plan's drawing per "
+  "*Plan damage*): one uniform per plan element, keyed by (the building's lineage, the element's id) at the stage id its "
+  "`plan.*` concerns carry, no rung counter, reroll or salt entering — fixed for the element's life, never re-drawn; "
+  "read by every reader that draws a plan's damage: §2.6 step 7's damage layer, V03 (the plan's drawing per "
   "state, its exports, the panel lines), V02 (the exterior), V04 (cellars, crypts and underground buildings), §8.6 and "
   "§11.1 |\n"
   "| `view.weather` | 0 | view only; non-rerollable. The weather timeline (item 124; *The weather stream*, below): keyed "
@@ -132,23 +132,23 @@ E(H61,
 # ───────────────────────────── §6.3 ─────────────────────────────
 E(H63,
   "* **Dossier bindings never re-key (item 74).**",
-  "* **Plan damage — one threshold per plan element, no new id (g item 123; J136).** Each element of a building's plan\n"
+  "* **Plan damage — one threshold per plan element, no new id (g item 123; J136).** Each plan element of a building\n"
   "  — each wall run (an outer wall or a partition), floor area, door, window, stair, roof bay over a room and furniture\n"
   "  piece, and below ground the cellar's and the crypt's kinds (V04) — draws ONE uniform u on `plan.damage` (§6.1),\n"
   "  keyed by (the building's lineage — an underground building's own; a cellar's or crypt's element the building\n"
   "  above's —, the element's id): the id's parts — its element kind and V03 §2.2's plan-part id (`wall:`, `op:`,\n"
   "  `win:`, `core:`, `furn:`), a floor area and the roof bay over a room by their room's address — folded into the key\n"
   "  through the one mixer as structured components, never a string, with creation epoch and epoch component 0 and no\n"
-  "  rung counter, reroll or salt, at the stage id of the building's `plan.*` concerns (§6.1). Its **threshold** is\n"
+  "  rung counter, reroll or salt, at the stage id its `plan.*` concerns carry (§6.1). Its **threshold** is\n"
   "  t = lo + u · (hi − lo), [lo, hi] its element kind's range by material (V11's rows: outer walls and ground floors\n"
-  "  late, partitions and upper floors early; item 123 (c)). It is a fixed-key draw (§6.1) in all but persistence: fixed\n"
-  "  for the element's life, never re-drawn, minting no id and moving nothing, and compared, wherever a reader draws the\n"
+  "  late, partitions and upper floors early; item 123 (c)). The draw is §6.1's fixed-key draw in all but persistence:\n"
+  "  fixed for the element's life, never re-drawn, minting no id and moving nothing, and compared, wherever a reader draws the\n"
   "  plan, with the building's **decay level** (V06's `decayLevel`, derived and never stored; §2.6 step 7): the element\n"
   "  shows damaged exactly while the level is above 0 and at least t — a level of 0 damages nothing, so a building never\n"
   "  decayed draws its plan unchanged (`item123.damage`) whatever its kinds' ranges. Damage is therefore monotone in the\n"
   "  level (a higher level's damaged set contains a lower's), never relocated, and leaves in reverse threshold order as a\n"
-  "  restoration lowers the level. Every room, wall, opening and id is the intact plan's (T123-1), and the same element\n"
-  "  breaks at the same level for a seed on every engine (T123-3; §6.5 (9)). An element a stored plan's re-cut mints\n"
+  "  restoration lowers the level. Every room, wall, opening and id is the intact plan's (T123-1); for a seed, each element\n"
+  "  breaks at one level on every engine (T123-3; §6.5 (9)). An element a stored plan's re-cut mints\n"
   "  (V03 §3.11) draws by its own new id; a kept element keeps its id and so its threshold.\n"
   "* **Dossier bindings never re-key (item 74).**",
   'G123-determinism (R2-38 (2), R2-35 T123-3)')
@@ -165,7 +165,7 @@ E(H65,
   "     its render key and the view's time (§8.4);\n",
   "     its render key and the view's time (§8.4);\n"
   "   * *plan damage* (g item 123) — for every building of a B-CITY-lite fixture, its decay level stepped from 0 to 1,\n"
-  "     the damaged elements at each level are byte-identical on the five engines and a superset of the previous\n"
+  "     the damaged elements at each level are byte-identical on the five engines and contain the previous\n"
   "     level's, each element breaking at the same level for a seed (T123-3); every element id equals the intact plan's\n"
   "     (T123-1), and a level of 0 draws the plan byte-identically (`item123.damage`; §6.3 *Plan damage*);\n"
   "   * *weather timeline* (g item 124) — a fixed session seed, view time and set of **Start a shower now** presses\n"
@@ -213,7 +213,7 @@ E(H71,
 E(H71,
   "| \"keep the old model\", the one resolution | `refuse.upgrade.packCap` |\n",
   "| \"keep the old model\", the one resolution | `refuse.upgrade.packCap` |\n"
-  "| an `epoch` whose number would pass 2³¹ − 1 (§6.1's epoch component) | refused | naming the cap; nothing commits | "
+  "| an `epoch` whose number would pass the live epochs' bound of §6.1's epoch component (2³¹ − 1) | refused | naming the cap; nothing commits | "
   "`refuse.epoch.cap` |\n",
   'VDC1-03 (R2-21 (c))')
 E(H71,
@@ -254,7 +254,7 @@ E(H77,
   "     the geo anchor's `bearingDeg` (§11.1) to fit the derived gates to them — no geometry moves — and moves gates or\n"
   "     roads only for the residual, as a dossier event under §7.7 item 5's least-disruption budget (J-A77.72).",
   " No input sends a true bearing after creation (item 125 (a)):\n"
-  "     a partner's bearing changes only by the user's edit, and the geo anchor's `bearingDeg` (§11.1) is the user's to set.",
+  "     a partner's bearing changes by a user's edit alone, and the geo anchor's `bearingDeg` (§11.1) stays a user setting.",
   'G125-determinism (R2-40 (2)–(3): the realm block retired)')
 E(H77,
   "relationship?: string /* the dossier's word for the neighbour relation */; source: 'dossier'|'derived'|'realm' }",
@@ -289,7 +289,7 @@ E(H77,
   "   (5)). **What the port never reads** (item 86; J-A86.71), by reason — the paths are V08 §2.4's field table, the",
   "   and neither the doors (§11.4) nor the port takes a data input beyond the dossier (item 125 (a); J-A20.79):\n"
   "   `HostContext` (§14) carries no fact — its `audience`, `displayNames` and `line` change no document a dossier makes —\n"
-  "   and the host's view commands (a week, the layers shown, a selection; §11.2, §11.3) are commands, never inputs, which\n"
+  "   and the host's view commands (§11.2, §11.3: a week, the layers shown, a selection) are commands, never inputs, which\n"
   "   the map never needs (item 125 (c)). The port reads a custom institution's dossier record — `source: 'custom'`, its\n"
   "   `localUid`, category, tags, description, `required` and scene tokens — and the library's definition fields only\n"
   "   where the dossier itself carries them, in its `customContentRoster` and `customContentProvenance` entries (item 104\n"
@@ -427,6 +427,6 @@ E(H62,
   'G124-determinism (R2-39 (d))')
 E(H62,
   "two renders of one model are pixel-identical at a given\nbackend, DPR and style version.",
-  "two renders of one model are pixel-identical at a given\nbackend, DPR and style version — every tile and export; the "
-  "weather effects drawn over the tiles follow the session's own\nstream (§6.1) and a light's flicker the view's time (§8.4).",
+  "two renders of one model are pixel-identical at a given\nbackend, DPR and style version — every tile and export; over the "
+  "tiles, a light's flicker follows the view's time (§8.4) and\nthe weather effects the session's own stream (*The weather stream*, §6.1).",
   'G124-determinism (R2-39 (d))')

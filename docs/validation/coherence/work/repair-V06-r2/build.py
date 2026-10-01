@@ -80,6 +80,7 @@ REPLACED = [
     '### 1.2 The base hooks consumed (cited, never restated)',
     '### 1.3 Out of scope, with the reason',
     '## 1b Wiring table — every new piece, what feeds it and what it feeds',
+    '### 2.1 The engine\'s interfaces (`@plat/evolve`)',
     '### 2.3 The trajectory and the `advance` event',
     '### 2.9 `Use.strain` — the use step\'s memory',
     '### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)',

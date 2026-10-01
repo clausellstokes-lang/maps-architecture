@@ -193,6 +193,13 @@ def apply(sub, after_line):
 
     # ======================================== §9 ========================================================================
     sub('R2-26 (c) §9 J-V6.114 amended', "| J-V6.114 | chose to keep,", "| J-V6.114 | *amended by J-V6.140.* Chose to keep,")
+    sub('VM-R1T-09 R2-26 (b) §9 J-V6.122 both drops',
+        "support step drops (`raised_too_tall`) waits like one with no course — `raised.waited`, its `u` unchanged, re-read next "
+        "epoch — over re-solving at once with a pier-height cost in the solver, because the base's course solver takes the pier "
+        "rule only through the step",
+        "support step drops (`raised_too_tall` or `raised_too_long`) waits like one with no course — `raised.waited`, its `u` "
+        "unchanged, re-read next epoch — over re-solving at once with a pier-height or span cost in the solver, because the "
+        "base's course solver takes the pier and clear-span rules only through the step")
     sub('§9 J-V6.136–J-V6.140',
         "and one epoch over the whole span always fits, so no request is refused or shortened (item 101 R2) |\n\n## 10 Base change requests",
         "and one epoch over the whole span always fits, so no request is refused or shortened (item 101 R2) |\n"

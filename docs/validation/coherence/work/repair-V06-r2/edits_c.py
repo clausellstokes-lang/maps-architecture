@@ -5,6 +5,10 @@ def apply(sub, after_line):
     # ---- §1b: the access pass's slot, every remaining `AccessPass.run` (W3 and the scope row) -------------------------
     sub('R2-12 §1b AccessPassStrategy.run (W3, scope row)', "`AccessPass.run`", "`AccessPassStrategy.run`", count=6)
 
+    sub('VM-R1T-09 R2-26 (b) §1b W57 both drops',
+        "its stations, pier rings and `raised_too_tall` drop (V06 §3.19 (5))",
+        "its stations, pier rings and `raised_too_tall` or `raised_too_long` drop (V06 §3.19 (5))")
+
     # ---- §3.21 (a): an Accept after edits (VV56-r1-04) -----------------------------------------------------------------
     sub('VV56-r1-04 R2-31 (b) §3.21 (a) advancing time',
         "| advancing time (V06 §4.1) | a request with no change; one epoch; a skeleton's `history` block with bad entries; a "

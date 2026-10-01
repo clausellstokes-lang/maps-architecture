@@ -93,6 +93,9 @@ def apply(sub, after_line):
         "| the `ConditionOverlay` (the `works` phase, V06 §3.13 (6)); a plague condition's burials",
         "| the `ConditionOverlay` (the `works` phase, V06 §3.13 (6), the `reconstruction` archetype's share among them); a `disaster` condition's `sinceWeek` for the look's hand-over (V06 §3.22 (3)); a plague condition's burials")
 
+    # ---- §2.1 (self-found: `DocView` is declared nowhere in the set; the base's `Document`, §2.9, is the type) -------------
+    sub('self-found §2.1 DocView', "doc: DocView /* the epoch's transaction view", "doc: Document /* the epoch's transaction view")
+
     # ---- §2.3 ------------------------------------------------------------------------------------------------------
     sub('VPC-R1-20 R2-13 §2.3',
         "// on EpochInputs (file f item 343): the epoch's wealth level and an advance-appended epoch's provenance\n"

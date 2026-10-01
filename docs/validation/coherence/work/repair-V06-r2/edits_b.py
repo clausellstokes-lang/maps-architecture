@@ -244,10 +244,10 @@ def apply(sub, after_line):
                "kept, the higher level drawn; the Works' stage, no look; the look while the overlay stands | — | T-V6-75 |\n"
                "| the decay level (V06 §3.23) | a standing building; a building at level 1; a building generated ruined or first met so "
                "in the replay; no V11 row for its material, or none shipped; a rate of 0; a fire's CHARRED; a restoration from level "
-               "1; a restoration with no Works; a decay run beginning during a repair; a rebuild or a successor on the trace; a scrub "
+               "1; a restoration with no Works; a `reused` trace at level 1; a decay run beginning during a repair; a rebuild or a successor on the trace; a scrub "
                "across a restoration; an epoch undone; negative weeks | 0; every element damaged; V11's default age; V11's default "
                "row, else the state's floor; the state's floor at every week; the decayed third from the fire's week; down to 0 over "
-               "the repair Works, the elements leaving from the highest threshold, each then patched; 0 at the event's week; the larger "
+               "the repair Works, the elements leaving from the highest threshold, each then patched; 0 at the event's week; level and peak 0 from its week, no plan drawn; the larger "
                "of the run's level and what the repair left; a new plan, level and peak 0; the level and peak at the frame's week; the "
                "earlier history's level; read as any week | substitute (the floor) | T-V6-76 |")
     sub('VEL1-04 §3.21 (b) the history × locks',

@@ -1525,3 +1525,320 @@ far ends (§3.4), the carve's split parts (V04 §3.6 C2) and, on a `cavern`, `ru
 places over the openings U-ACCESS (e) makes and removes (V04 §3.10); a New random on the catacomb system removes nothing
 (V04 §3.5.1 (6)).
 === END ===
+
+=== REPLACE ### 5.1 The underground view (§8.4; item 413; J-V4.31) ===
+### 5.1 The underground view (§8.4; item 413; J-V4.31)
+
+Hidden by default at every rung (§8.4). When the underground layer is visible, one depth band draws at a time (`depthBand`,
+§2.9; its default §8.4's), in one of three modes, `LayerSpec.underView` (item 413), default `cutaway`:
+* **`cutaway`** — the ground drawn first as a **ghost**: every ground mark at `ghostAlpha`, in its luminance only, ground
+  labels hidden but for the district and quarter labels at half alpha; then the band's underground marks over it, so every
+  tunnel reads against the street above it;
+* **`overlay`** — the ground at full strength, the band's underground marks over it at alpha 0.7;
+* **`solo`** — the underground alone, the ground reduced to its way centrelines as `trace` hairlines (the export default).
+
+The adjacent bands' traces are §8.4's. The **band ladder** in the layer panel lists every non-empty band as its depth range
+(−2.5 to −5 m …) with the kinds present, the drawn band marked; PageUp and PageDown step it by §14's keymap precedence —
+with a building's plan open they step its storey (V03 §4.5), otherwise, with the underground layer active, the band. A
+document opened with the underground visible shows the ghosted ground with the notice "building the underground…" until T7
+has built the drawn band. **`showUnexcavated`** (item 278; a per-viewer view key, default `false`, its control V09's) draws
+the unexcavated clusters in their own style (V04 §5.2) — for a `secret` key only, whatever its value, so a game master sees
+what the inhabitants do not (g item 109 (j) (2)). **Raised parts.** In `cutaway` and `overlay` the raised parts' decks and
+raised-way piers over the drawn area draw as `trace` hairline outlines over the ghost, so an arch vault reads under its
+arch; in `solo` only the raised-way piers' outlines. The ground view draws nothing of this volume, save V01's ground
+symbols and opening places, which read this volume's `AccessPoint` records (V01 §3.8.8, V01 §5.1.2, V01 §5.2.2); a span's infill
+wall and door are the base's drawing.
+
+**Find on Below (g item 120 (f), (h); J-V4.127).** Find — §2.9's per-viewer view key `find`, V09's panel and `live.find`
+overlay provider, §8.2's veil, halo, outline, pin and count-bubble rows, §11.2's gazetteer match listing at the view's
+effective key — reads this volume for what lies Below through one derived reading, `underFindPlaces(doc, ids)`
+(`@plat/under`, never stored): for each matched id on an underground part — an underground building and its use (a sewer
+dwelling, an F4, F6 or C4 building, an undercity institution), an undercity or sewer-front district, a named system or
+catacomb complex, a named run, the core's plaza, a named chamber — it gives the part, the depth bands its open elements
+occupy (§8.4's `depthBandCm`), its glow shape in each of those bands (a footprint, a chamber's wall, a run's or gallery's
+band, a district's outline on its part) and its plan anchor (a building's footprint pole of inaccessibility, a district's
+label anchor, else the point V04 §5.4 places its label at). The matches are the listing's; this volume adds no match
+rule. With band b drawn:
+1. **The band shown glows.** A match with an element in band b glows on those elements over the veil, which lies over the
+   band's rock, voids and the cut-away's ghost alike, the plan lines (V04 §5.3) under it.
+2. **The other bands are ghost pins.** A match Below with no element in band b is a faint ghost pin at its plan anchor
+   carrying its shallowest band's depth range as the band ladder writes it; the ladder marks each band holding matches
+   with their count; **Go there** sets `depthBand` to the match's shallowest band (a view key, never an edit). A match on
+   Ground or Sky is a ghost pin at its plan anchor over the ghost (item 120 (f)).
+3. **From Ground and Sky** every match Below is a ghost pin at its plan anchor, counted by V09's panel ("N more Below").
+4. **Areas.** An undercity or sewer-front district chip lifts that district's blocks, walkways and plaza in band b and
+   glows along its outline there; a ground district, neighbourhood or quarter chip lifts every element of band b whose
+   plan band lies inside its outline, glowing along that outline traced in the band — the area reaching down, as
+   `districtsAbove` (V01 §3.16) reads it upward. Show gaps' units Below are V01 §5.4 (3)'s `gapUnits` on the underground
+   parts, restating none. Each undercity neighbourhood and the underground pseudo-district is a `district` unit (V04 §3.6a
+   (5)), and the per-plot units read `underDistance`. Each gap is outlined dashed "none here" in every band holding its
+   plots, an undercity neighbourhood's in the band holding its core.
+5. **What the viewer may know.** §11.2's admission holds: an element of an `unexcavated` cluster is absent below `secret`
+   — never suggested, counted, drawn or pinned; at `secret` it glows only while its cluster is drawn (`showUnexcavated`
+   on), a ghost pin otherwise; a `lost` cluster's matches glow over its sealed style for every key that admits them; a
+   secret access, link or `dug` gallery and a concealed use's true kind follow the same admission (T-V4-21).
+6. **When it changes.** The underground's records join Find's index at the commit that writes them — each tail stage's,
+   so chips set before the tail ends gain each Below match as its stage commits, each underground edit's and each
+   underground epoch participant's — and the chips re-evaluate then (V09).
+
+Find writes no record of this volume, never the excavation reading or `ExcavationRecord`, and no digest; with no chip on,
+nothing of it is drawn.
+=== END ===
+
+=== REPLACE ### 5.2 Marks and programs (§8.1, §8.2) ===
+### 5.2 Marks and programs (§8.1, §8.2)
+
+The underground builder of S14 writes, per part and band, marks of the semantics `under.rock`, `under.void`, `under.water`,
+`under.wall`, `under.building`, `under.trace`, `under.access`, `under.link`, `under.label` with the ordinary columns (§8.1;
+`knownTo` and `concealed` on every mark, item 7). The draw order inside a band:
+1. **Rock** — a hatched halo of `rockHaloM` (4 m) outside every void's kerb, in the role `rock` (item 413; each sheet's
+   facts below), the rest of the rock transparent so the ghost shows: the dungeon-map figure-ground, where voids read as
+   carved (J-V4.31).
+2. **Voids** — tunnel bands, gallery bands and chamber floors in the role `void` (one step lighter than the
+   ghosted ground; each sheet's facts below). A tunnel draws by §8.2's kind rows over the void (the cased band for a `main`, the hairline pair for a
+   `drain` or `culvert`, arch glyphs at a `passage`'s ends); a `chamber` junction wedge in `chamber`'s fill.
+3. **Water** — along every `drain`, `main` and `culvert` its channel, a `water` stroke 0.4 × the bore wide on the
+   centreline; a gallery with `water` and a `cistern` filled in `water`; a flooded element by §8.2's `states` row.
+4. **Walls** — every void's kerb and chamber wall as a `wall` stroke, 1.5 × a way's casing for a `main`, 1 × elsewhere.
+5. **Buildings** — the footprints of the sewer dwellings and the undercity in `building`, the vault classes with the `vault`
+   hatch (§8.2), party walls and door ticks as on the ground; the undercity's informal clusters by §4.7's cluster rows; a
+   building's damage (g item 123) by V04 §5.6.
+6. **The plaza** — the core's ring walkway, the stalls as pins.
+7. **Access points and links** — §8.2's `states` rows, each access by its underground end only, its symbol chosen by
+   `cause.rule` (V09 §4.17.3's column). Its surface head — an outfall's `mouth` at the bank (a small arch glyph facing the
+   water) included — is V01's ground symbol (V01 §3.8.8, V01 §5.1.2), drawn in an opened close-up by the knowledge filter and
+   the `pins` toggle whatever the underground layer's visibility; the underground layer draws only the underground end
+   (J-V4.96).
+8. **The adjacent bands' traces** (§8.4).
+9. **Light**, then the **plan lines** (below).
+
+A band with nothing in it draws no rock; a mark of zero length or area is not written. The `states` rows of §8.2 cover every
+declined condition; the undeclined defaults are the rows above. Added programs and rules (item 407):
+* **Chamber fill by kind.** §8.2's chamber row is keyed by `Chamber.kind`: `streetVault`, `bridgeVault` and `archVault` with
+  the `vault` hatch (an arch vault in the shallowest band, its floor at grade; its door a daylight opening), `storey` and
+  `square` as buried-town floors, `cellar` and `storage` as `dug`, `ossuary` with niche ticks whose density rises with its
+  complex's `fill` (1 tick per 60 cm of wall at `fill` 0 to 1 per 30 cm at 1), `market` as the undercity's plaza.
+* **The `ruin` program** (`ruinMasonry`; g item 109 (g)): walls as two parallel `wall` strokes 30 cm apart on every chamber
+  outline and gallery kerb; a 60 cm dot at each point of `Chamber.columns` (the modelled points); `collapsed` elements in a
+  rubble stipple of the `rock` role; the main streets' ancient drains as the `water` stroke — distinct from the cavern's
+  irregular fill. **A monument:** each standing tier's ring as a `wall` stroke, its stairs as hatched strips, the shrine's
+  ring where it stands, each tier casting its own shadow (V04 §5.3); the mound as the rubble stipple within the first fallen
+  tier's ring. **A buried former settlement** draws as a buried town (its streets, storeys and gates) with the program's
+  double wall strokes, and each of its wall bands as a solid `wall`-filled band — masonry, not rubble — its gate chambers
+  open through it.
+* **Foundations and drops.** A foundation pillar in a void's floor draws as a filled `wall` square of its footing; a stretch
+  collapsed by a foundation as the rubble stipple; a drop at a retaining wall or a cliff (V04 §3.11 UC1) as a small filled
+  square on the run at the wall's or the cliff's line (the drop shaft). A buried gallery's stair step at a tombstoned
+  retaining wall's line (V04 §3.5.5 (a)) draws as a hatched strip across its band, as a monument's stairs do.
+* **The sealed style** (the `unexcavated` program; g item 109 (j) (2); g item 113 (e)): every element of a sealed cluster
+  draws its kerbs and walls dashed (4 : 3 at 1 paper px) at 40 % alpha, with no fill, no light and no label but its
+  system's. An `unexcavated` cluster draws so only while `showUnexcavated` is on and only for a `secret` key; a `lost`
+  cluster — remembered as once known — draws so for every key that admits its elements, whatever `showUnexcavated`.
+* **Grilles.** Each station of `Tunnel.grilles` draws the link style's gate bar across the band.
+* **Access symbols** are sized by their opening row (`UnderLayoutRule.openings`).
+* **Knowledge.** The knowledge filter admits an unexcavated element, its label, its links and its exports only at `secret`
+  (the game master's key, §11's audience table), whatever its `knownTo`; a ruin's and a cavern cluster's existence is
+  otherwise known as its `knownTo` says once it is accessible, and a `lost` cluster keeps that knowledge.
+
+**Every shipped sheet** (§8.2's slot resolution; J-V4.131). The underground layer composes its own list in the draw order
+above; every shipped sheet — §8.2's presets table: `ink`, `lit`, `hatched`, the ink-family variants `parchment`,
+`bw-print` (on its grey ramp) and `night`, `painterly` from V07's V-M1, and the parity presets, in the `ink` (MFCG) and
+`lit` (FTG) families — resolves every `under.*` semantic, so the loader never refuses one; a user sheet missing one
+resolves it by §8.2's slot resolution. The per-family facts are this volume's, their values the style sheets' (V11's
+registry row 52), and `painterly`'s are drawn by V07 §5.1's programs in its palette:
+
+| semantic (role) | per-family facts |
+|---|---|
+| `under.rock` (`rock`) | the halo of `rockHaloM`, the rest of the rock transparent: in `ink` a 40 %-ink cross-hatch at 1.2 paper px, and so in `parchment` (over its texture) and in `night` (in its `@night` ink); in `bw-print` that cross-hatch on its grey ramp; in `lit` a dark stone fill, lit by the light pass's rock prisms (V04 §5.3); in `hatched` its dense hatch; in `painterly` a wash of its ground ramp's darkest step under dense hachures in its relief tier's stroke; the rubble stipple (the `ruin` program's, V04 §5.6's) in the same tone |
+| `under.void` (`void`) | one step lighter than the ghosted ground, so a void reads as carved in every sheet: the paper in `ink`, `hatched` and `painterly` (its paper tone), `parchment`'s texture, `bw-print`'s white, `night`'s `@night` paper, `lit`'s `ground` tone lifted one step |
+| `under.water` (`water`) | the family's own `water` role: the ink-family water tone in `ink`, `parchment` and `night`, its grey in `bw-print`, `lit`'s water ramp, `hatched`'s water tone, `painterly`'s first water band alone (a channel is 0.4 × its bore wide) |
+| `under.wall` (`wall`) | the `wall` stroke at (4)'s weights in every family, black in `bw-print`; in `painterly` one of its selectively outlined lines, so always drawn; the `ruin` program's double stroke and the sealed style's dash alike in every family |
+| `under.building` (`building`) | the family's footprint fill and outline as on the ground — no roof is seen below —, the `vault` hatch on the vault classes in every family (`bw-print` in its grey) |
+| `under.trace` | the adjacent bands' traces (§8.4): an `ink` hairline at alpha 0.5 in every family (`bw-print` its mid grey, `night` its `@night` ink) |
+| `under.access`, `under.link` | §8.2's `states` glyphs in `ink` in every family — `parchment`, `bw-print` and `painterly` as `ink`, `night` in its `@night` ink, a lit access's `light` marks carrying the `glow` sprite at night (§8.4) |
+| `under.label` | role `label` in every family, by §9's faces |
+=== END ===
+
+=== REPLACE ### 5.5 Exports (§11.1; item 452; J-V4.35, J-V4.36) ===
+### 5.5 Exports (§11.1; item 452; J-V4.35, J-V4.36)
+
+| format | the underground |
+|---|---|
+| GeoJSON | §11.1's rows; each tunnel with `kind`, `navigable`, `widthCm`, `headroomCm`, its invert profile (drops included), `depthBand`, its grilles and its outfall as a Point feature with `into`; each system a feature with its part, depth range and `variant`; each element with `excavation` (`accessible`, `unexcavated` or `lost`, for a cavern, ruin or former-settlement element), `culture` (a ruin's) and `reusedBy`, a buried gallery with its floor profile, its terrace stair steps included, a former-settlement element with `formerEpoch`; each arch vault with its absolute floor and ceiling (terrain-datum cm) and its `span`; each monument's standing tier a Polygon with `tier`, `baseCm`, `topCm` (absolute) and its mound a Polygon with `moundCm`; `ruinColumns` as a MultiPoint per chamber; each catacomb complex a feature with `source`, `rank`, `extentFloorM2` and `fill`; each access and link with its `cause`; `plat:tier` on every property |
+| SVG | one group per band, `layer.underground.band<k>`, holding the band's semantics groups in V04 §5.2's order; the ghost ground in `layer.ground` at the export's `underView` |
+| PNG / tiles | per band, per layer transparent; lit by the CPU reference at the export's light setting (no hand lantern, J-A68.92) |
+| VTT (dd2vtt and Foundry-class scenes) | one scene per non-empty band (§11.1), `solo` and lit: `line_of_sight` from every void kerb and chamber wall and every underground building's footprint less its doors and the outer wall runs its damage has felled (V04 §5.6), from each arch vault's walls — its raised-way pier faces and its open faces less its door, the door a portal — and from each column's 60 cm square, each foundation pillar, each former wall band and each monument's lowest standing tier; `portals` **only at openings in a wall line** — a `door` access, a link whose `via` is `door` or `breach` (`gated` and `secret` closed, `open` open), an underground building's entrances and each tunnel grille (closed); every vertical access (a stair, shaft, ladder, hatch, well, grating, mouth, sinkhole) is its shaft light plus a `plat` extension object naming the band it leads to, sized by its opening row — a vertical access has no wall opening to portal through; `lights` the band's lights and shafts; a `plat` extension object with the band's depth range; unexcavated elements and their links are left out |
+| glTF | voids as inward-facing solids — a tunnel or gallery swept along its centreline as its bore by its headroom, a `main` whose headroom reaches half its bore plus 50 cm with a half-round crown; chambers as floor, walls and a flat ceiling at `ceilingCm` (an arch vault's interior only, its ceiling at the soffit; the raised way's own solid is the base's); a monument's standing tiers, stairs and shrine as prisms and its mound as a prism; columns as 60 cm prisms floor to ceiling; the rock never exported; underground buildings extruded base to eave (§11.1); access points as shafts from floor to ground; each band a node, its lights in it |
+| CityJSON | one `Tunnel` object per system (the sewer's per run, §11.1) with a `TunnelPart` per run or gallery and a `TunnelHollowSpace` per chamber; underground buildings as §11.1 states |
+| CSV | the network's statistics: length by kind, served area, connected shares, outfalls |
+
+Every export is filtered by its knowledge key (§11.1): a secret access, link, `dug` gallery (the secret passage of T-V4-21)
+or place is left out with its lights, and an unexcavated element exports only at `secret`. A feature of zero length or area
+is left out and listed in the export's log; the layer's visibility never changes a per-band export. **Find** (item 120
+(i)): a per-band PNG or SVG export draws Find as shown in its band, the chips in the legend (§11.1's picture-export rule);
+a VTT scene carries it only when asked (§11.1's battle-map rule); GeoJSON, glTF, CityJSON and CSV never carry it (a
+view, never the model). **Damage** (item 123 (e)): a per-band PNG, SVG and VTT scene draw an underground building's
+damage at the export's drawn week (V04 §5.6); GeoJSON, glTF, CityJSON and CSV export the model, never the damage.
+=== END ===
+
+=== APPEND TO SECTION ## 5 Rendering, labels and exports ===
+### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)
+
+Item 123's damage layer — one plan, never redrawn; each plan element shown damaged when its building's decay level
+reaches the element's keyed threshold, the one comparison every reader makes (§2.6 step 7; §6.3's `plan.damage`;
+V06 §3.23's `decayLevel`) — reaches below ground by the rules below. V03 draws the plan and its damage, V02 the exterior;
+this volume states what is particular below ground. It is a drawing only: no record, field, id or digest changes.
+1. **The level each element reads.** A storey below 0 of a ground building — its cellars, stores and undercrofts, and
+   its crypt with its capped bays (V03 §3.7) — is part of that building's one plan and reads that building's level,
+   `decayLevel(doc, its lineage, week)`. An underground building — a sewer-front dwelling, an F4, F6 or C4 building, an
+   undercity building (V03 §3.12) — reads its own lineage's, whose decay run the underground's own events start
+   (V06 §3.23 (1)): the abandonment of a `lost` cluster's dwellings (V04 §3.5.7 (g) (5)), the plots a shrinking or
+   cleared undercity neighbourhood vacates (V04 §3.10), a void dwelling vacated on a floor `Foundations.apply`
+   collapses; its restoration is V06 §3.23 (3)'s, as for every building. No level reads a void's closure state or the
+   excavation reading.
+2. **The kinds below ground, each with its own thresholds** (item 123 (c)). `belowKind(building, element)`
+   (`@plat/under`, derived, never stored) gives an element below ground one of five kinds, each a row of V11's item-123
+   table by element kind, so it draws its own range and its own threshold — §6.3's `plan.damage` draw, keyed by (the
+   building's lineage, the element's id), as every element's; no id is minted:
+
+| kind | the elements | element id | damaged, drawn as |
+|---|---|---|---|
+| `cellarWall` | a wall run of a storey below 0 on `Basement.ring`'s outer edge outside the crypt's ring; an underground building's wall run on a footprint side that lies on its part's rock (outside the part's `bandUnion`, §3.7) | its `wall:` id (V03 §2.2) | partly collapsed: the run's middle third broken over a rubble spill 60 cm deep into its room, still a wall to sight and passage, earth or rock behind it |
+| `cellarVault` | the ceiling over each room of a storey below 0 outside the crypt and its capped bays | the room's id | fallen: a rubble heap over the room's middle half (its ring inset by a quarter of its least width), the ceiling drawn open above it |
+| `cryptWall` | a wall run on the crypt's ring (`Basement.crypt.ring`) or on its capped bays' ring | its `wall:` id | as a `cellarWall` |
+| `cryptVault` | each cell of the crypt's column grid (V03 §3.7.5: pitch `crypt.bayCm` in the step-2 ring's frame, which no rank event moves) whose centre lies inside the crypt's or its capped bays' ring; a crypt whose ring holds no cell centre has one, its room's ceiling whole | (its room's id, the cell's grid node (i, j)), or its room's id — a key, never a new id | fallen: a rubble heap filling the cell, its columns standing |
+| `cryptTomb` | each furniture piece of a `crypt` room (V03 §3.8: its tombs, ledger slabs and niches) | its `furn:` id (V03 §2.2) | broken open: a lid cracked, a slab split, a niche breached, as V03 draws a broken piece |
+
+Every other element below ground keeps its V03 kind and range: a partition, an opening, a stair core, an access head, a
+cellar's furniture, and an underground building's elements other than its rock-side runs. The floor of the lowest
+storey below 0 lies on the earth and is no element, so it never fails. **The ranges** are V11's values in an order this
+volume rules: each of the five kinds' ranges lies inside the `ruined` share of the level (V06 §3.23 (2)), the crypt's
+kinds at its top, so a cellar and a crypt stand intact through `abandoned` and `decayed` and partly collapse only once
+`ruined`; and a damaged element of the five never removes a room, a wall line, a way down or a join — at level 1 a
+ruined church keeps its crypt (V03 §5.1), every bay fallen and every tomb broken open, its rooms and its ways standing.
+3. **Below ground, drawn.** A damaged element below 0 not of the five kinds is drawn as V03 draws its kind damaged, but
+   for one rule: a stair core whose `levels` include a storey below 0, and an access head on one, draws as rubble over
+   its steps, a way still climbable — the way down is the access model's (4). The rubble below ground is the `ruin`
+   program's stipple in the `rock` role (V04 §5.2), one stipple for every collapse below ground; a repaired element —
+   its threshold above the level and at or below `decayPeak` (V06 §3.23 (3)) — is drawn in item 114's patch material
+   (§8.6). On a building's plan V03 draws a storey below 0 at its storey (V03 §5.1; PageUp and PageDown step to it,
+   V04 §5.1). In the underground view an underground building's footprint (V04 §5.2 (5)) draws its plan's damage as V02
+   draws a ground building's exterior (item 123 (d)): an outer wall run past its threshold a gap in the outline over the
+   stipple — a `cellarWall` run instead broken over its spill, the outline kept closed —, a roof bay over a room past
+   its threshold a hole in the footprint's fill over the room's rubble, a door past its threshold an open gap without
+   its tick. §5.3's prisms follow: a fallen outer wall run and a fallen roof bay leave their prisms, so light passes
+   the gap. An underground building in a `collapsed` or `flooded` element draws that element's §8.2 `states` row over
+   its own damage.
+4. **A drawing only; the access model untouched.** No stage of this volume — U-NET, U-SYS, U-ACCESS with its
+   excavation reading, U-FRONT, U-CITY, U-LINK, U-DIG, U-FADE — reads a level or a threshold. A crypt join (V04 §3.5.7
+   (c)), a dig access ((d)), a basement access (L3) and every link keep their records and states at every level, and a
+   way below ground closes only by this volume's closure states: an access `bricked` or deleted with its host
+   (V04 §3.10), a link `collapsed` or `flooded`, an element sealed, silted or caved in (II.6), a cluster `lost` — which
+   stays lost whatever its buildings show. So a ruined church keeps its crypt and its join, a building over a void
+   whose cellar vault has fallen keeps its dig access, and a collapsed access head is V03 §5.3's trace of a closed
+   host, never a level's.
+5. **Exports** (item 123 (e)). A per-band PNG and SVG draw the damage as shown at the export's drawn week. The per-band
+   VTT scene follows it (§11.1's battle-map rule): an underground building's outer wall run past its threshold gives no
+   `line_of_sight` segment and a door past its threshold no portal (an open gap), a `cellarWall` run keeps its segment,
+   and rubble and holes are drawn in the image, never as walls; a plan's storey below 0 exports in V03's per-storey
+   scene by the same rules. GeoJSON, glTF, CityJSON and CSV export the model, never the damage.
+6. **Landing, budget, edges, bar.** It lands at U5 (V04 §8): the underground view's footprints and the per-band exports
+   there, a plan's storeys below 0 once V03's item-123 step draws the plan's damage (V03 §8), and every level read from
+   the existence state at V11's default age until V06's level lands (V06 §3.23 (4)). A building never decayed draws
+   byte-identically to its build without the layer (`item123.damage`). Its budget is V04 §6's *Damage below ground*,
+   its edges UE33 and UC21 (V04 §3.11), its bar T-V4-82.
+=== END ===
+
+=== REPLACE ## 6 Performance budgets ===
+## 6 Performance budgets
+
+Measured as §12.1 states (the reference hardware, the harness, p50 and p95 over the rung's golden seeds). The tail is off
+the first map (J-V4.2): the first map's laws of §12.5 are unchanged; the tail's time is reported as `timings.tail` and
+bounded here. Work sizes are PLAUSIBLE until the U0 spike measures them at CITY **and METROPOLIS** (V04 §8).
+
+| stage | work at CITY (historical / navigable) | rate assumed | p50 village rungs · TOWN · CITY · METROPOLIS (historical) | navigable × |
+|---|---|---|---|---|
+| U-FORECAST (at S7b, on the main path; its own §12.4 row, item 475) | ≈ 2 000 way edges, ≈ 20 000 `hydro` cells in `R`; P5–P7 over ≤ 10 voids | Dijkstra ≈ 0.3 µs per edge relaxation; cell scan ≈ 50 ns | ≤ 1 · 1 · 3 · 6 ms | 1 |
+| T1 U-NET | ≈ 12 km / 40 km of runs, ≈ 1 000 / 3 500 chain vertices; 5 500 plot connections | insertion ≤ 8 µs (§12.4); `corridorUnion` at S9's rate per km; a connection ≈ 0.4 µs by the grid index | — · 6 · 18 · 45 ms | × 2 |
+| T2 U-SYS (catacomb, cavern, quarry, vaults, buried) | catacombs ≤ 300 grid nodes per complex, ≤ 5 complexes; caverns ≤ `caveKmPerKm2` × the frame; quarries one chamber per working; vaults ≤ 60 chambers | as T1 | 2 · 5 · 15 · 35 ms | × 1.3 |
+| T2 U-SYS ruin | a sunken district of ≤ 15 ha: ≤ `maxChambers` chambers, ≈ 400 galleries; the distinctness measures ≤ 4 times; ≤ 3 monuments, each one `layTiers` of ≤ 8 tiers (≤ 0.5 ms p95 each, J-V4.87); the column grids | as T1 | 1.5 · 6 · 12 (p95 ≤ 20) · 20 ms | 1 |
+| T2 U-SYS arch vaults, terminal cistern, foundations | arch vaults ≤ `span.vaultCap` at the rung (§2.7, item 244), O(spans); the foundation obstacles by the static index | ≈ 5 µs per span; ≈ 1 µs per index query | 0.2 · 0.3 · 1 · 2 ms; p95 ≤ 3 ms | 1 |
+| T2b U-ACCESS | the overlap and proximity queries over every part's static index; the buildings over voids by the index; the excavation reading a union-find over clusters | ≈ 1 µs per index query | 1 · 4 · ≤ 12 p95 · ≤ 30 p95 ms | × 1.5 |
+| T3 U-FRONT (F6 included) | ≤ 300 plots historical, ≤ 1 500 navigable; ≤ 8 households per void cluster | S10 + S11 ≈ 16 µs per plot; 5 samples per plot by `pointLocate` ≈ 1 µs | 1 · 1 · 3 · 8 ms | × 4 |
+| T4 U-CITY | ≤ 3 × 120 households, ≤ 400 plots; C1's read-only test | as T3; the visibility-graph MST over ≤ 200 openings | — · 1 · 4 · 8 ms | × 1.5 |
+| T5 U-LINK | L1, L3 over ≈ 2 000 basements, L5, L6 | ≈ 1 µs per index query | 1 · 1 · 4 · 10 ms | × 1.5 |
+| T6 tail S12c + S13a | ≤ 5 districts, ≤ 400 names | §12.4's rates | 1 · 1 · 2 · 4 ms | 1 |
+| T8 U-RECONCILE | usually none; ≤ 100 households | S10b's reconcile rate | 0 · 0 · ≤ 1 · ≤ 2 ms | 1 |
+| **tail total** | | | **≤ 10 ms p95 at each village rung (p50 ≈ 7.7); 26 · 71 · 162 ms p50 at TOWN · CITY · METROPOLIS; p95 ≤ 36 · 112 · 253 ms** | navigable p95 ≤ 61 · 192 · 343 ms |
+| T7 S14 underground build (on first show of the layer) | ≤ 12 000 marks per band at CITY | §12.4's S14 rate | ≤ 6 ms per band at CITY | — |
+
+A standalone neighbourhood document's tail is ≤ 12 ms p95 at every `contextRung` (the village rungs' ≤ 10 ms plus one
+catacomb complex's layout, ≤ 2 ms).
+
+**The first edit after the first map.** The tail yields between stages to a queued view request, never to an edit, so an
+edit queued during the tail commits within §12.6's budget for its scope plus the tail's remaining p95 (T-V4-42).
+
+**View.** Showing the layer or switching band re-rasters the visible tiles of the underground layer only (the ground's ghost
+is the cached ground tiles composited at `ghostAlpha`): ≤ 150 ms to the lit band at CITY on the reference device, the unlit
+band first within one frame (J-A68.88's order). The light pass's frame and bake budgets are §12.5's; a band's bake is keyed
+by the band, so returning to a band reuses its bake.
+
+**Edits** (§12.6's functions of scope): a tunnel edit ≤ 30 ms at CITY (its bounded blocks and their plots, the overlap
+test); a depth offset ≤ 5 ms; `addUndergroundAccess`'s dry run ≤ 60 ms (a connector grid of at most 160 × 160 cells at the
+default reach); a dwelling closure's first rung ≤ 60 ms for the building that digs and ≤ 60 ms more for each one passed
+over, its qualifying test ≤ 1 ms (a plan query of the part's static index; V04 §3.8); the excavation reading ≤ 1 ms per
+commit (only the clusters the commit touches, the `lost` state and the vacated plots included); the opening pass ≤ 0.1 ms
+per access it visits; a New random on a system ≤ its T2 share; the family, preset, ruins and TOWN-toggle adjusts at §12.6's
+*re-derive from S7b* row plus the tail's p95; Re-derive from the network stage ≤ the tail's p95; the stage-2 switch's edit
+(V04 §4.3; V01 §3.15) at V01's Re-derive-from-S2 line (V01 §6) plus the tail's p95, as the adjusts are; a raised way's add
+or removal adds ≤ 2 ms for its arch vaults and foundations; a span's `use` edit ≤ 1 ms; a monument's count ≤ 1 ms; a
+retaining-wall edit's re-laid knots ≤ 5 ms, as a depth offset.
+
+**Epochs.** The participants' per-epoch budgets at TOWN · CITY · METROPOLIS, which V06 §6.2's century sums read (J-V4.125):
+`under.fade` ≤ 3 · 8 · 20 ms (the fade candidates over their exposure samples); `under.extend` ≤ 6 · 17 · 43 ms (the
+foundations act, the sewer's extension over the new ways, catacomb growth ≤ 300 nodes, crypt joins, workings, the
+arch-vault reconcile over `scope.raised` ≤ 3 ms p95, the invert drops); `under.access` ≤ 5 · 15 · 40 ms (a static-index
+query over the epoch's new footprints and elements, the `lost` transitions included); `under.undercity` ≤ 1 · 4 · 8 ms
+(F6's relocations and the in-participant re-homing ≤ 1 ms at CITY). Inside them: `Foundations.apply` ≤ 1 ms per 100 new
+footings at CITY (one static-index query each); the village-working test ≤ 0.2 ms per village (≤ 10 workings, one index query each); the buried floor's
+terrace steps inside the `raiseGrade` builder's own time, O(walls × elements within one wall's reach); `BuriedFormer.lay`
+≤ 5 ms per burial epoch at CITY (one L1 and one L2 batch over the former fabric's ways and buildings), inside V06's replay
+budget.
+
+**Memory** (§12.8): part 0 ≤ 1 MB historical, ≤ 3 MB navigable at CITY; a ruin part ≤ 2 MB; each other part ≤ 1.5 MB; the
+underground display list ≤ 2 MB per drawn band; ×2.5 at METROPOLIS.
+
+**Exports.** A VTT band scene ≤ 1.5 s at CITY; the underground glTF ≤ 2 s; within §12.7's export laws.
+
+**Find on Below** (g item 120 (j)): `underFindPlaces` ≤ 2 ms p95 for 500 matches at METROPOLIS (one static-index read
+per match, the bands from the element records), inside §12.5's overlay budget — the glow drawn within about 100 ms of the
+click; a band step with chips on re-composes the overlay within the band switch's own ≤ 150 ms and re-rasters no base
+tile for Find.
+
+**Damage below ground** (g item 123; V04 §5.6): a reading inside the drawing — one `decayLevel` read per building, one
+comparison per element and one `belowKind` look-up of the element's storey, ring or room: ≤ 1 ms per band at CITY for
+the underground buildings' footprints (≈ 400 buildings, ≈ 20 elements each), inside T7's ≤ 6 ms per band; a storey
+below 0 inside V03's plan draw; a week that moves no element past its threshold re-rasters nothing; the per-band VTT's
+line of sight inside its ≤ 1.5 s.
+
+**The comfort level (g item 119; J130; J-V4.126).** The rows above and §12's underground rows stay the **targets** — as
+fast as possible (§12.1). Every one-time wait this layer adds to completes within §12.1's comfort level of ten seconds of
+total time, from the click to the complete result on §12.1's reference machine, at every rung up to the metropolis cap
+and in both presets: a generate, a regenerate, a Re-derive (the family, preset, ruins and TOWN-toggle adjusts', the
+network stage's, the stage-2 switch's) and an open from SettlementForge that generates, each with its tail; a
+migration's `upgrade` tail (V04 §4.6); and every per-band export. The tail's own targets (≤ 343 ms p95 at METROPOLIS,
+navigable) keep it far inside. The four epoch participants and `BuriedFormer.lay` add to V06's advance-time and
+history-replay waits, which take the comfort level as V06 §6 reads it for them (item 119's V06 part). A wait past one
+second shows §12.1's progress: each tail stage is a `StageDecl`, so the generation worker posts §11.2's `Progress` as it
+starts and V09 names it, the map drawn under the strip and, on a shown layer, the notice "building the underground…"
+(V04 §5.1). No row here runs slower than its target; one may only for a recorded measured gain — a V11
+`perf.qualitySpend` row (V11 §3.25.8) whose step stays inside the comfort level (R12-33). The interactive rows are
+unchanged (§12.1; R12-34): the band step by PageUp and PageDown and the band switch's ≤ 150 ms, the `underView` switch and
+the cut-away, every underground tool's live preview — the access tool's included —, hover and click-to-inspect, undo and
+redo. T-V4-32 (b) bars it.
+
+**Pre-decided fallbacks** (in order, each triggered by the U0 spike's METROPOLIS navigable measurement and re-checked at
+U5): (1) U-ACCESS's proximity sampling every 10 m; (2) the cavern and quarry caps halve (`caveKmPerKm2`, `workingMaxHa`)
+and the ruin's `maxChambers` falls to 1 000; (3) U-NET's historical `drainMinHa` rises to 5 ha. Each is a table value with a
+declared shift (§13.3).
+=== END ===

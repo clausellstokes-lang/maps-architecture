@@ -1,0 +1,45 @@
+# §8.4: G121-rendering (§8.4 (g): what Auto gives up, in order; labels and overlays at the device ratio; the rung moved
+# by Auto's loop); G124-rendering (§8.4 (i): the shower's dimming, fog's scattering and the night halos as per-frame light
+# terms; the vector rung's wash).
+@@ FILE 8.4.md
+<<<<
+  budget and the measured frame time (§12.5), lowered at run time on a lost GPU context or three consecutive frames over
+  the pass's budget, never raised mid-session; every change is counted in the view telemetry, never an error and never a
+  model change; these are F-LIGHT's triggers (§5.2 cites them). **A tier whose GPU pass misses §13.4's tolerance** at its milestone transfers its surface layers at full
+====
+  budget and the measured frame time (§12.5), lowered at run time on a lost GPU context or three consecutive frames over
+  the pass's budget and, under Auto, moved down and up by §8.8's Auto loop in the order below — otherwise never raised
+  mid-session, and a rung a lost GPU context lowered never in the session; every change is counted in the view
+  telemetry, never an error and never a model change; these are F-LIGHT's triggers (§5.2 cites them). **What Auto gives
+  up, in order (g item 121 (e); J134).** The frame rate is protected first (§12.5's frame budgets): Auto's loop gives
+  up, one rung at a time, the weather effects (item 124 (f); (i) below), then lighting detail — full precision to the
+  standard surface (below), then rung 1's full-resolution global term to rung 2's —, then sharpness (the tile DPR's
+  steps down to 1, §8.8), then the light pass (rung 3), then the tile DPR's steps below 1 (0.75, 0.5), and takes them
+  back in reverse; §8.8's fitting of the canvas need gives them up in the same order. Labels, text, the chrome and every
+  overlay (Find's halo, the handles, `live.ghost`) are drawn at the device's full pixel ratio at every rung (§8.8's
+  split composition): only the painted tiles soften. **A tier whose GPU pass misses §13.4's tolerance** at its milestone transfers its surface layers at full
+>>>>
+<<<<
+  under its sheet's sun, in every week. Find (item 120) is a tool's overlay, not a look, and draws under every preset.
+====
+  under its sheet's sun, in every week. Find (item 120) is a tool's overlay, not a look, and draws under every preset.
+  (i) **The weather effects' light terms (g item 124 (b), (d); J137).** The spell in force (§2.9's *Weather effects*) —
+  its kind, its strength s in [0, 1] by its phase (rising from 0 and back to 0 over its fades: at least 5 s for a
+  shower, 60 s for fog, mist, dust haze and cloud cover, V11's rows never shorter) — enters the per-frame terms above,
+  never a tile, a light map or a cached layer (§8.8). **A shower** (`rain`, `drizzle`) multiplies the global light's direct
+  term by 1 − 0.5 s and widens the drawn sun's disc by 1 + 3 s, so the shadows dim and soften and then return. **Fog** —
+  and `mist` at half its strength — multiplies the direct term by 1 − 0.6 s, widens the disc by 1 + 4 s, fades the lit
+  picture toward the `fog` role by 0.45 s × smoothstep(0.25, 1, r ÷ R) (r a pixel's distance from the view's centre, R
+  the half-diagonal: the map fading with depth) and at night gives every drawn `LightSource` (§8.1 item 7) a soft halo —
+  the baked point-light term spread by a separable Gaussian of σ = 6 CSS px and added at 0.35 s. **Dust haze** fades as fog
+  does, toward `sand` at half fog's weight, with no halo. **Cloud shadows** multiply the direct term by 1 − 0.3 s × c(x, t),
+  c a two-octave value noise over 400 m world cells drifting with the spell's wind. **Heat shimmer** (by day only) offsets
+  the base's sampling by at most 0.5 CSS px × s along a moving noise. Each is weighted per pixel as §8.8's effects layer
+  is, so no label, halo or overlay is dimmed, faded or moved. **On the vector rung** a spell is a wash and the halos only:
+  fog, mist and dust a full-view wash of their role at 0.3 s with the same fade from the centre, a shower or cloud cover an
+  ink wash at α 0.08 s (× c for cloud cover), and at night each light mark's `glow` sprite drawn at 1.5 × its radius, its
+  alpha × (1 + s). No term changes the light faster than its fade allows — the view's mean relative luminance moves by at
+  most 10 % in any second, with no flash and no lightning (photosensitivity; T124-7) — and none reaches a model value
+  (item 102's daylight keeps its fixed days and hours) or an export, which takes the CPU reference without effects
+  (§11.1). On a lost GPU context the terms take the vector rung's form.
+>>>>

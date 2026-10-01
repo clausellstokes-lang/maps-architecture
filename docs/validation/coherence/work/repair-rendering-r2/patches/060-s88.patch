@@ -1,0 +1,190 @@
+# §8.8: VRC1T-07 (the margin cell named, no value); VEW-r1-05 (R2-30: stop 0 where nothing fits); G122h-rendering (R2-37 (8):
+# the limit over town and camps; the ring's massed marks); G121-rendering (the Resolution ladder, the ultra tier, the 4K
+# ceiling, the Auto loop, labels and overlays at the device ratio by the split composition); G124-rendering (the effects
+# layer, never in the tile key); item 123's drawn week in the tile key; item 122's `live.crises` a base live layer.
+@@ FILE 8.8.md
+<<<<
+  (g item 116; J127).** Each map's coarsest stop is its limit k_min = max(0, k_fit − `view.zoomOutMarginStops`), where
+  k_fit is the finest stop at which the whole `bounds` (§8.1's `DisplayList.bounds`: a town's frame, a village's
+  township — land the frame laws already cap, §3.2 (9)) fits the viewport's short side — the largest k ≤ 34 with
+  max(the bounds' width, height) ≤ the short side in CSS px × m_k — and the margin is V11's base settings cell (1 stop,
+  V11 §3.25.5). The view never settles at a stop coarser than k_min — a zoom-out gesture stops there and the zoom control
+  is disabled at it (V09) — and the pyramid rasters, caches and keeps no tile coarser, the gestures' coarser-stop set
+  included; the zoom-in end is unchanged. k_min is recomputed whenever `bounds` changes — an epoch or a hand edit that
+  grows the frame moves it — or the viewport is resized, a view left coarser than a new limit settling to it; every rung
+  thus draws every stop from its limit inward (T-ER-08). Tiles are 512 × 512 device px at the view's **tile DPR** d
+  (the device pixel ratio after the tier's cap, below), **world-aligned** per (stop, d): tile (i, j) covers the world
+====
+  (g item 116; J127).** Each map's coarsest stop is its limit k_min = max(0, k_fit − `view.zoomOutMarginStops`), where
+  k_fit is the finest stop at which the whole **limit bounds** fit the viewport's short side — the largest k ≤ 34 with
+  max(their width, height) ≤ the short side in CSS px × m_k — the limit bounds being `bounds` (§8.1's
+  `DisplayList.bounds`: a town's frame, a village's township — land the frame laws already cap, §3.2 (9)) and, while a
+  crisis look stands, the bounds of town and camps (§2.9's *The crisis framing*; g item 122 (i)); the margin is the base
+  settings cell `view.zoomOutMarginStops` (V11 §3.25.5). **Where no stop fits** (R2-30; J122) — the limit bounds wider
+  than the short side × m_0, as the METROPOLIS cap's 17.53 km frame (§3.2) is on any short side under ≈ 1 465 CSS px —
+  k_fit is 0 and k_min is 0: the limit is the pyramid's coarsest stop, a ceiling on zoom-out as the owner asked; the view
+  there shows as much of the limit bounds as fits, centred by §9.5's framing, and the view status says that the town is
+  wider than the window (V09's `info.zoom.coarsest`); no stop is added below 0 (item 116's "fewer stops, never more").
+  The view never settles at a stop coarser than k_min — a zoom-out gesture stops there and the zoom control is disabled
+  at it (V09) — and the pyramid rasters, caches and keeps no tile coarser, the gestures' coarser-stop set included; the
+  zoom-in end is unchanged. k_min is recomputed whenever the limit bounds change — an epoch or a hand edit that grows the
+  frame, a crisis look that comes to stand or ends (§2.9) — or the viewport is resized, a view left coarser than a new
+  limit settling to it about its own centre; every rung thus draws every stop from its limit inward (T-ER-08). Tiles are
+  512 × 512 device px at the view's **tile DPR** d (the device pixel ratio after the tier's cap, the 4K ceiling and the
+  Resolution setting, below), **world-aligned** per (stop, d): tile (i, j) covers the world
+>>>>
+<<<<
+  into one bitmap per tile position, transferred to the main thread. A label edit or toggle, a selection or a moving
+  person re-composes the tiles it touches (§12.5's composition cost) and never re-rasters a base. In `path` sun mode
+====
+  into one bitmap per tile position, transferred to the main thread. **Labels and overlays at the device's pixel ratio
+  (g item 121 (e); J134).** Wherever the tile DPR d is below the device pixel ratio D — the tier's cap, the 4K ceiling, a
+  manual level or Auto's rungs (below) — the composition is **split**: the base tile is transferred uncomposed (its
+  unlit coverage 0), and the label glyphs, their halos and the `overlay` live marks are composed into the **text layer**,
+  world-aligned per (stop, D) by the same tiling rule, a text tile being 512 × 512 device px at D and keyed as a composed
+  bitmap (below); the compositor draws the base tiles scaled from d to D — lit and post-operated (§8.4 (f)) — then the
+  weather effects (below), then the text tiles, then the main thread's furniture, handles and chrome (§9.5). So labels,
+  text, the chrome and every overlay (Find's halo, the handles, `live.ghost`) keep the device's full pixel ratio at every
+  level and only the painted tiles soften; where d = D the one composed bitmap per tile position stands (J-R21). A label
+  edit or toggle, a selection or a moving person re-composes the tiles (or the text tiles) it touches (§12.5's composition
+  cost) and never re-rasters a base. In `path` sun mode
+>>>>
+<<<<
+  rows) or a light whose host is either (§8.1 item 7), the drawn week where the tile holds a Works mark (§8.1
+  item 7), the `light` key on the vector rung (its `@night` roles), `base` live layers (the festival display among them,
+  through `live.festival`, §8.2); for the `shadow` layer — or, while projected
+====
+  rows) or a light whose host is either (§8.1 item 7), the drawn week where the tile holds a Works mark (§8.1
+  item 7) or a building drawn under item 123's damage layer, whose decay level is read at it (§2.6 step 7; §8.6), the
+  `light` key on the vector rung (its `@night` roles), `base` live layers (the festival and crisis displays among them,
+  through `live.festival` and `live.crises`, §8.2); for the `shadow` layer — or, while projected
+>>>>
+<<<<
+  `revision`s. A composed bitmap is keyed by its base key plus the stop's label-placement revision and the `overlay`
+  providers' versions. A `DisplayDelta`'s dirty boxes invalidate every cached tile and ring block they meet, at every stop and DPR. In
+====
+  `revision`s. A composed bitmap is keyed by its base key plus the stop's label-placement revision and the `overlay`
+  providers' versions (Find's chips among them, through `live.find`'s version, §8.2), a text tile by (stop, i, j, D)
+  with the same revision and versions. No key holds the weather effects or the spell in force, the Resolution setting
+  beyond the tile DPR it sets, or Auto's rung beyond the tile DPR and light step it sets (items 121, 124): a spell, a
+  level change at the same DPR or a Find chip re-rasters no base. A `DisplayDelta`'s dirty boxes invalidate every cached tile and ring block they meet, at every stop and DPR. In
+>>>>
+<<<<
+  16-bit pyramids, first ring and blocks, each twice its byte size: Q_f = 2Q; J-A68.89). Tier ceilings: low 72 MB, mid 128 MB, high 192 MB;
+  tile-DPR caps: low 1, mid 2, high 3. The tile DPR is the device's pixel ratio capped by the tier, then stepped down
+  (3 → 2 → 1.5 → 1) until 3P + 7 MB fits the ceiling — and, while the light pass is on, until 4.25P + 7 MB + Q — at full precision 6.5P + 7 MB + Q_f — fits, the view
+  taking the vector rung where that fails at DPR 1 (J-A68.89); path-mode shadow layers are used only where 4.25P + 7 MB
+  also fits, otherwise a sun step re-rasters the base. Worked cases (`fixall_rendering_r2_budgets.out`): the reference
+  viewport (§12.5) has P = 35 and needs 112 MB (156 MB with shadow layers) — mid or high tier; the low-end
+  device at 1 366 × 768 or 1 920 × 1 080 at DPR 1 needs 43 or 67 MB — inside the low tier's 72 MB, fallback stop, scratch
+  and atlases counted. Lit (rungs 1–2; each case the base need + Q, `amendc_repair_rendering_r3_blocks.out` (5)): the
+  reference viewport keeps DPR 2 on the high tier (P = 35, 155.75 + 17 = 172.75 MB), steps to DPR 1.5 on the mid tier
+  (P = 24, 109 + 14.25 = 123.25 MB); the low-end device at 1 366 × 768 is lit at DPR 1 (P = 12, 58 + 10.75 = 68.75 MB) and
+  at 1 920 × 1 080 (P = 20, 92 + 12.75 = 104.75 MB) draws the vector rung; at full precision (base + Q_f) the reference
+  view is lit at DPR 1.5 on the high tier (P = 24, 163 + 28.5 = 191.5 MB) and at DPR 1 on the mid tier (P = 12,
+  85 + 21.5 = 106.5 MB), and the low-end device draws the vector rung (all PLAUSIBLE until M2b's canvas measurement, §12.8). These formulae and cases are the canvas need's one statement; §12.8 cites them. Cached tiles beyond the visible and fallback sets are evicted least-recently-used by bytes. The
+  tier is chosen at app start from the Canvas2D part of `bench/calibrate` (§12.1) and the host's reported device memory,
+  can be overridden in the advanced panel, and is shown with the tile DPR in the view status (J-R22).
+====
+  16-bit pyramids, first ring and blocks, each twice its byte size: Q_f = 2Q; J-A68.89). The split composition adds its
+  **text layer**, P_D MB, P_D being the positions at the device ratio D (the formula's P at d = D), to whichever need
+  holds; the weather effects add ¼ MB per position on rung 3 while a spell is drawn over an unsplit composition (its
+  coverage plane, below) and their sprite atlas (≤ 0.5 MB) while they are on. Tier ceilings: low 72 MB, mid 128 MB, high
+  192 MB, ultra 512 MB (g item 121 (c)); tile-DPR caps: low 1, mid 2, high 3, ultra 3. **Fitting the need — one order**
+  (g item 121 (e); J134). The tile DPR starts at the device's pixel ratio capped by the tier, the 4K ceiling and the
+  Resolution setting (below), rounded down to the **ladder** 3 · 2 · 1.5 · 1 · 0.75 · 0.5 (the two steps below 1 drawn
+  below CSS density and scaled up by the compositor); a need that does not fit the ceiling is met by giving up, in this
+  order, until it fits: full precision (to the standard surface), the tile DPR's steps down to 1 — 3 → 2 → 1.5 → 1, a
+  step whose positions number as many as the step below it being passed over —, the light pass (the vector rung, at DPR 1),
+  then the steps below 1 (0.75 → 0.5); under a manual level the level's DPR is kept until nothing else is left, then the
+  nearest lower step that fits is drawn and said (below). Where no step down to 0.5 fits beside the text layer at D, the
+  text layer itself steps down the ladder, the order rerun at each of its steps, and the view status says so — never a
+  refusal. With D = d this is J-A68.89's step-down with full precision given up first. Path-mode shadow layers are used
+  only where 4.25P + 7 MB also fits, otherwise a sun step re-rasters the base. Worked cases
+  (`fixall_rendering_r2_budgets.out`): the reference viewport (§12.5) has P = 35 and needs 112 MB (156 MB with shadow
+  layers) — mid or high tier; the low-end device at 1 366 × 768 or 1 920 × 1 080 at DPR 1 needs 43 or 67 MB — inside the
+  low tier's 72 MB, fallback stop, scratch and atlases counted. Lit (rungs 1–2; each case the base need + Q,
+  `amendc_repair_rendering_r3_blocks.out` (5); the text layer, `coh_repair_rendering_r2_resolution.out`): the reference
+  viewport keeps DPR 2 on the high tier (P = 35, 155.75 + 17 = 172.75 MB); on the mid tier, where DPR 1.5 (P = 24, 109 +
+  14.25 = 123.25 MB) would add its text layer at D = 2 (35 MB) past the ceiling, it is lit at DPR 1 with its text layer
+  (P = 12, 58 + 10.75 = 68.75 MB, + 35 = 103.75 MB); the low-end device at 1 366 × 768 is lit at DPR 1 (P = 12, 68.75 MB)
+  and at 1 920 × 1 080 (P = 20, 92 + 12.75 = 104.75 MB) draws the vector rung; a tier that took full precision gives it up
+  first: the reference view is lit on the standard surface at DPR 2 on the high tier (172.75 MB, where full precision would
+  need 234.5 + 34 = 268.5 MB) and at DPR 1 on the mid tier (103.75 MB), the low-end device at 1 366 × 768 on the
+  standard surface at DPR 1 (68.75 MB, where full precision's 85 + 21.5 = 106.5 MB drew the vector rung before), and the
+  ultra tier keeps full precision for the reference view (268.5 MB) as the mid and high tiers do for a 1 366 × 768 view
+  at DPR 1 (106.5 MB). The ultra tier holds
+  a native-4K view (3 840 × 2 160 device px, P = 54) at its device ratio unlit in 169 MB, lit in 257.08 MB and at full
+  precision in 399.17 MB (T121-8); a 5K screen (2 560 × 1 440 CSS px at D = 2) is drawn at the 4K ceiling's DPR 1.5 with
+  its text layer at 2 (P_D = 77) — 333.58 MB lit on the ultra tier, and on the high tier at DPR 1, unlit, in 156 MB; an
+  8K screen (3 840 × 2 160 CSS px at D = 2) on the ultra tier lit at DPR 1 with its text layer at 2 (P_D = 160) in 416.08 MB,
+  and on the high tier with its text layer stepped to 1.5 (104 MB) over tiles at 0.5 in 171 MB (all PLAUSIBLE until M2b's
+  canvas measurement and M4's, §12.8). These formulae and cases are the canvas need's one statement; §12.8 cites them.
+  Cached tiles beyond the visible and fallback sets are evicted least-recently-used by bytes. The tier is chosen at app
+  start from `bench/calibrate` (§12.1; the ultra tier by its own bar there) and the host's reported device memory, can be
+  overridden in the advanced panel, and is shown with the tile DPR in the view status (J-R22).
+* **Resolution and the Auto loop (g item 121; J134).** The setting is V09's `AppPrefs.resolution` — device state, never
+  in the document, its hash, the log or a tile key beyond the DPR it sets: **Auto** (the default, T121-1) or a manual
+  level of height h — 4K 2 160, 1440p 1 440, 1080p (HD) 1 080, 720p 720 device px. **A manual level** sets
+  d = min(D, h ÷ the screen's height in CSS px), rounded down to the ladder, then capped as above (a level above the
+  screen's own is greyed by V09); choosing one turns Auto off. **The 4K ceiling** (item 121 (b)): the live view never
+  draws more than 3 840 × 2 160 = 8 294 400 device px of tiles, so d ≤ √(8 294 400 ÷ (W × H)) for a W × H CSS-px view,
+  rounded down to the ladder — a 5K, 6K or 8K screen drawn at its 4K-equivalent DPR and scaled up; exports are not bound
+  by it (§8.7's any DPI). **Auto** starts at the fitted d with the light rung chosen at app start (§8.4 (g)) and then runs
+  the **Auto loop** over **Auto's ladder** — the weather effects; full precision; rung 1's full-resolution global term
+  (rung 2 below it); the tile DPR's steps down to 1; the light pass (the vector rung); the steps below 1 (§8.4 (g)'s
+  order, from the top): the frame time — each frame's main-thread work and GPU pass, by GPU timer queries where the
+  context offers them, else by frame intervals — is held as a rolling p95; a p95 over the tier's frame budget (§12.5:
+  16.7 ms on the mid, high and ultra tiers, 33.3 ms on the low tier) through 2 s steps one rung down; a p95 under 60 % of
+  it through 10 s, with the canvas need of the rung above fitting, steps one rung up. A change is applied only when the
+  view settles (*Gestures*, below) — never during a pan, zoom or drag — and at most once in 10 s, and a rung the loop left
+  downward is taken again only after 60 s, doubling each time it is left again (our own; calibratable), so a load at a
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once, applied at the next settle (T121-7). Each change and its reason — `screen` (the screen's resolution caps
+  it), `memory` (the canvas need), `frames` (the loop) or `ceiling` (the 4K ceiling) — is counted in the view telemetry
+  and read by V09's view-status chip. **A level the device cannot hold** (item 121 (f)) draws the nearest lower step that
+  fits by the order above, its reason `memory`, and V09 says so (`info.resolution.fallback`) — never a refusal, never a
+  crash (T121-4). Labels, text, the chrome and every overlay stay at D by the split composition at every level (T121-5);
+  exports and the document are byte-identical whatever the setting (`item121.display`, T121-6). It lands at M4 (R2-36).
+>>>>
+<<<<
+* **Gestures (SCL-7, VIS-6).** During a pinch or wheel zoom the compositor shows the nearest cached stop's composed tiles
+  scaled (the labels scale with them); 120 ms after input stops the view animates (≤ 150 ms) to the nearest stop and the
+  tile worker re-rasters the visible tiles centre-out, swapping each in when ready. Panning composites cached tiles and
+  shows newly exposed ones from the next coarser cached stop until rastered. While a gesture runs at most 4 new bitmaps
+  are committed per animation frame; at the first map and at settle every ready tile is committed in the frame it arrives
+  (§12.5).
+====
+* **Gestures (SCL-7, VIS-6).** During a pinch or wheel zoom the compositor shows the nearest cached stop's composed tiles
+  scaled (the labels scale with them; under the split composition the stop's text tiles scale with its base tiles, and
+  the coarser stop kept for gestures holds base tiles only, drawn without labels until the settle); 120 ms after input
+  stops the view animates (≤ 150 ms) to the nearest stop — the **settle**, at which Auto's changes apply — and the tile
+  worker re-rasters the visible tiles centre-out, swapping each in when ready. Panning composites cached tiles and
+  shows newly exposed ones from the next coarser cached stop until rastered. While a gesture runs at most 4 new bitmaps
+  are committed per animation frame; at the first map and at settle every ready tile is committed in the frame it arrives
+  (§12.5).
+* **The weather effects layer (g item 124; J137).** The spell in force (§2.9's *Weather effects*: session state from
+  §6.1's `view.weather` stream and V11's climate weather columns) is drawn by the compositor every frame as a layer of its
+  own — its marks §8.2's *Weather effects*, its light terms §8.4 (i) — above the tiles and below the labels, the chrome
+  and every overlay: under the split composition between the base tiles and the text tiles; over one composed bitmap
+  weighted per pixel by 1 − the composed coverage of labels, halos and `overlay` marks — on rungs 1–2 the surface
+  layer's unlit-coverage byte, on rung 3 a **coverage plane** of one byte per pixel (¼ MB per position) the tile worker
+  writes beside the composed bitmap while a spell is drawn — so no label, halo, Find glow or handle is ever covered
+  (T124-6). Rain's ripples stand only on water, read from a **water mask** — one bit per 8 × 8 device-px cell, 512 B per
+  position, written by the tile worker from the water marks when it rasters the base and transferred while a rain spell
+  is drawn. Each family's effect sprites are rastered once by Canvas2D into a sprite atlas (≤ 0.5 MB), so the WebGL2 and
+  the Canvas2D compositors draw the same look (§8.9). The layer is in no tile key and touches no cached tile: a spell
+  re-rasters and re-composes nothing (T124-1); no export draws it (§11.1); it is the first thing Auto gives up (above)
+  and costs ≈ 1 ms per frame at its densest (§12.5). It lands at M3b (R2-36).
+* **The surrounding ring (g item 122 (i); J138).** Camps stand on the land the map holds — the frame and its context
+  margin (§3.2 (9)). The camped ground §10.2's *Crisis looks* (e) cannot place there — a force too large for that land,
+  the outskirts full under the density cap, an island town with no land beyond its shore — is drawn at the city band
+  only as **massed camp marks** on the **surrounding ring**, a strip outside the margin's outer edge as deep as the
+  margin, over `paper` (no terrain lies there): each force's remainder takes an arc of the ring centred on its camp's
+  bearing from the town's centre (a coalition's armies at their spread bearings, §10.2 (f)), of length A ÷ (4 × the
+  ring's depth) for a remainder of A m² — four times a camp's density, our own — packed with its kind's tent glyph
+  (§8.2) on a world-aligned 6 m grid, in the force's colours; several forces' arcs are laid in `priority` order and, where
+  the ring is full, overlap. The panel gives the full number (V09). The arcs are `live.crises`' marks (§8.2) — its tile
+  key, admission and switch — and count among the camps the crisis framing takes in (§2.9), so the limit shows them;
+  no frame, margin, terrain, model value or hash changes.
+>>>>
