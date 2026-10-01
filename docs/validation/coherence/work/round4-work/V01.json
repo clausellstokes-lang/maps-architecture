@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VAF-R3T-01",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "V01 \u00a73.16's `campLand` (1) measures the reach from a built edge: the districts' union, 'or the outermost enceinte's outer strip where that lies beyond it' (l.2373\u20132375). \u00a71b's row (l.283) says the same. That counts every enceinte: a castle's `bailey` curtain, and with a twin town one ring or both, left unstated. Round 3 (R3-14 (2)) made \u00a710.2 (d) the home of the walls the crisis looks read. Those are the place's town enceintes, kinds other than `bailey`, and 'outermost' is the outer envelope of their walled arcs, the arcs of each non-nested ring that no other ring encloses. The camp places read that home, but the land they all take from is measured by the looser term. A castle stands in its own `castle` district, so the two readings move the reach by at most a strip's width. Nothing material is built differently, hence minor.",
+  "required_change": "V01 \u00a73.16 `campLand` (1): '\u2026 or the outermost town enceinte's outer strip where that lies beyond it (\u00a710.2 (d): the enceintes of kinds other than `bailey`, `outermost` the outer envelope of their walled arcs)'. V01 \u00a71b's `campLand` row: 'the outermost town enceinte's outer strip (\u00a710.2 (d))' for 'the outermost enceinte's outer strip'.",
+  "owner": "V01",
+  "reported_by": "verify-agree-fabric-r3t"
+ },
+ {
+  "id": "VV12-r3-03",
+  "severity": "major",
+  "kind": "WIRING",
+  "owner": "V01",
+  "claim": "Base \u00a711.2 *Find's match listing* (rendering's round-3 text, R3-24; l. 16292\u201316297) states that at a drawn week whose frame is not the head 'every row, count, match and gap unit is the head index's restricted to the entities the frame holds', so a reader passing its view's week 'counts, glows, pins, lists and gaps only what the drawn frame holds', and names \"V01's `gapUnits` (its members)\" as a reader of that listing; \u00a78.2's `live.find` (l. 13041\u201313044) says a match the frame lacks is not 'gapped there'. V01's `gapUnits(chip, key)` (V01 \u00a72.3 l. 547; \u00a73.16; \u00a75.4 (3)) takes no week and is 'memoised per commit and per key' over committed state; V09 \u00a74.21.10 (10) calls it with `(chip, key)` too. A builder of V01 draws the head's gaps at a scrubbed week \u2014 a district whose only member was built after the drawn week shown served, a district or plot the frame does not hold given a gap \u2014 while \u00a78.2 and \u00a711.2 draw only what the frame holds. In the same scope, V01 \u00a75.4 (6) frames a disaster look by 'the union of the Ground shapes of its units' `FindArea`s' (`findAreas(key)` over committed state), while at a scrubbed week the units are read over the frame (V01 \u00a73.16, R3-24): a district an epoch split or merged after the drawn week has no `FindArea` at the head, so its Show frame is undefined.",
+  "required_change": "V01 \u00a75.4 (3) reads `gapUnits(chip, key, week?)`: \"`week` the view's drawn week (\u00a72.9's `week`), absent the head: at a drawn week whose frame is not the head (V06 \u00a73.15.2) its members are \u00a711.2's match listing at that week and its units only those the frame holds \u2014 a district, parish cell or residential plot the frame lacks is no unit (\u00a711.2's *At a drawn week*)\", memoised per commit, key and drawn frame; V01 \u00a72.3's signature, \u00a73.16's bullet and \u00a75.4's head follow. \u00a75.4 (6) adds \"at a scrubbed week whose frame is not the head, a unit's Ground shape is its faces in that frame (V06 \u00a73.15.2), so a district the head no longer holds is still framed\". \u00a73.18 (e)'s Find row (l. 2678) adds \"a scrubbed week whose frame is not the head\" \u2192 \"the frame's members and units (\u00a711.2); a disaster look framed by the frame's faces\". T-V1-59 adds that case on a B-EDIT CITY document with a district split after the drawn week. V09 \u00a74.21.10 (10)'s call passes the view's week (an END line for V09).",
+  "reported_by": "verify-vol-V01-V02-r3t"
+ }
+]

@@ -1,0 +1,101 @@
+[
+ {
+  "id": "VAH-r3-07",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "determinism",
+  "claim": "DR44 (l. 11981), the tier's home since R3-13, ends its key-form clause '(V08 \u00a73.16 (7) (e); J-V8.128)'. V08 \u00a73.16 (7) (e) is now, by R3-13's END line, a citation of DR44 ('at the tier DR44 states \u2026 (J-V8.128)'), so the home cites as its source a sentence that cites it back. The wording was VAH-r2-01's required change, written while (7) (e) still stated the rule.",
+  "required_change": "DR44's clause reads 'a key form listing the overlay's address admits it whatever its tier (J-V8.128)'.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VDC3-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "\u00a76.1 *The weather stream* (l.9458\u20139461, rewritten this round) says **Start a shower now** \"starts a spell of the commonest live kind at once as the next spell index, its length drawn there\". It defines the press only at a moment with no live kind. Nothing in the set defines a press while a spell is in force \u2014 rain falling or fog standing when the user presses, an ordinary path, since V09 \u00a74.21.14 (1) enables the button whenever the effects are on and a kind is live. \u00a72.9 holds one **spell in force** (its kind, start and phase). V09 \u00a74.21.14 (4), V11 \u00a73.25.11 and item 124 (g) say nothing more. Read literally, the running spell is replaced at once. Its light terms then vanish in one frame (fog's direct-term factor 1 \u2212 0.6s back to 1), against \u00a78.4 (i)'s rule that no term changes the light faster than its fade allows (T124-7). Other builders would let both spells run, or queue the press. A normal path with no defined outcome.",
+  "required_change": "\u00a76.1 *The weather stream*: after \"\u2026V09 disables the button there with its reason (\u00a77.8: never a silent no-op).\" add \"A press while a spell is in force ends that spell first: its strength falls from its present value to 0 at its kind's fade rate (\u00a78.4 (i)), and the pressed spell starts the moment it reaches 0, so one spell is in force at a time and no light term steps faster than \u00a78.4 (i) allows (T124-7); a further press before then changes nothing.\" \u00a76.5 (9)'s *weather timeline* test adds \"a press while a spell is in force, the running spell fading out before the pressed one starts (T124-9)\". (Second end for the adjudicator: V09 \u00a74.21.14 (4) cites \u00a76.1 for it, and row 93 adds the case.)",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a76.3 *Plan damage* (l.9871\u20139874), the threshold's home, says every plan element \"shows damaged exactly while the level is above 0 and at least t\". This round model's \u00a72.6 step 7 (l.2088\u20132095, R3-05) added \"One case has no threshold\". While a building is `decayed` or `ruined`, every roof bay over a room of a wing whose `RoofSpec.kind` is `none` is damaged whatever its t, however V06 \u00a73.23 reads its level. \u00a78.6 (l.13951\u201313952), V03 l.2707, V02 \u00a75.7 (2) and X34 cite that case. So the units state two outcomes for one case: a roof bay of a roofless decayed wing at a level below its t. \u00a76.3's \"exactly\" leaves it intact; \u00a72.6 step 7 damages it. A builder of \u00a76.3's comparison, or of a test written from it, builds the first. R3-05 calls the roofless bays \"a case, not a second comparison\", but R3-05 routed no text to \u00a76.3. Graded major by R3-03 (b).",
+  "required_change": "\u00a76.3 *Plan damage*: \"the element shows damaged exactly while the level is above 0 and at least t\" \u2192 \"the element shows damaged exactly while the level is above 0 and at least t \u2014 but for \u00a72.6 step 7's one case without a threshold: a roof bay over a room of a roofless wing (`RoofSpec.kind` `none`) of a `decayed` or `ruined` building is damaged whatever its t and level\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a77.7 item 12's key law (l.12014), the home of the settlement's binding key, reads \"`settlement:<id>` \u2014 the dossier's own id, stable across reloads, same-seed regeneration and section rerolls; a new id is a new dossier and a new map\". This round V08 \u00a72.4's `id` row (V08 l.631; R3-20 (2), item 125 (b): a missing field never refuses; J-V8.134) gives two fallbacks: - a creation from a dossier whose `id` is empty or malformed mints `settlement:map:<mapId>` from the creating map's id, \"kept for the document's life \u2014 a later readable `id` neither replaces it nor is checked against it\"; - an absorb with such an `id` keeps the bound document's key, `E_OTHER_SETTLEMENT` not checked for that offer. Take a map created from an id-less dossier that later absorbs the same dossier with a readable id. \u00a77.7 item 12 (and \u00a714's `E_OTHER_SETTLEMENT`, \"an absorb whose digest's settlement key differs from the binding's\") make that a new dossier and refuse it. V08 absorbs it. Two outcomes for one case; V08's hand-off names this end.",
+  "required_change": "\u00a77.7 item 12's settlement row, its key cell \u2192 \"`settlement:<id>` \u2014 the dossier's own id; where the dossier's `id` is empty or not of its line's form, at a creation `settlement:map:<mapId>`, the creating map's id, kept for the document's life (a later readable `id` neither replaces it nor is checked against it), and at an absorb the bound document's key (V08 \u00a72.4's `id` row; item 125 (b)) \u2014 stable across reloads, same-seed regeneration and section rerolls; between readable ids, a new id is a new dossier and a new map\". (Second end for the adjudicator: \u00a714's `E_OTHER_SETTLEMENT` comment, scope, adds \"never for an offer whose `id` fell back (V08 \u00a72.4)\".)",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "DR44's rule cell (l.11981) says \"every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one, a look kind or `none`\". Its test cell says \"every SettlementForge stressor type and condition archetype at the baseline has its `map` row (T122-4)\". Several statements name a third class: - the same cell names the `map` rows' `event` rows; - V08 \u00a73.16 (7) (a)'s census lists the simulator's crisis events (`PLAGUE`, `REFUGEE_WAVE`, `RAID_OR_MONSTER_ATTACK`); - \u00a710.2 (b) maps them; - \u00a713.2's T122-4, as scope wrote it this round (l.18402\u201318403), requires \"every SettlementForge stressor type, condition archetype and crisis event\". The rule's own list omits the crisis events that its rows and its bar name.",
+  "required_change": "DR44's rule cell: \"every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one\" \u2192 \"every SettlementForge stressor type, condition archetype and crisis event at the pinned baseline has exactly one\". DR44's test cell: \"every SettlementForge stressor type and condition archetype at the baseline has its `map` row (T122-4)\" \u2192 \"every SettlementForge stressor type, condition archetype and crisis event at the baseline has its `map` row (T122-4)\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-05",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "This round model's \u00a72.7 support step gave a dry run two new bends. - (3), l.2547\u20132551: while a deck stands, a hand op on the band's held stretch under a crossing station \"bends its stretch round it (item 101 R2)\". The op is a `DeclineOp` `breach` or `dismantle` sent by hand as a `convert` event, whose `op` is any `ConversionOp`, `DeclineOp` among them (\u00a77.1 l.10213; \u00a74.11 l.8093). - (6), l.2559\u20132567: where a hand `drawWall` across a standing raised way would leave a clear span past `maxClearSpanM` or a pier past `maxPierM`, \"its dry run bends the trace to the nearest one whose crossing fits\". E-07 (\u00a77.1's outcome table, \"the one home of every refusal, conflict and bend cause of a dry run\") names neither cause. Its catch-all row lists a wall's ridge, reach, waterfront, open ground and aqueduct arch, but no held stretch and no crossing of a standing raised way. It keys every bend generically, \"V09 \u00a74.9's `bend.*` rows\", and V09 holds no row for either bend. T-V9-15's walker therefore cannot reach these bends, and the dry run has no line to show. Model's hand-off names this end.",
+  "required_change": "\u00a77.1's outcome table, before the catch-all row, add: - \"| a hand `convert` `breach` or `dismantle` of an enceinte stretch meeting the stretch held under a raised way's crossing station while its deck stands (\u00a72.7's support step (3)) | bent | the op on its stretch less the held stretch, named in one line; an op wholly on the held stretch changes nothing, with its line | `bend.wall.held` |\" - \"| a hand `drawWall` across a standing raised way whose crossing would leave a clear span past `maxClearSpanM` or a pier past `maxPierM` (\u00a72.7's support step (6)) | bent | the trace bent to the nearest one whose crossing fits, the raised way kept and its stations re-run in the same commit | `bend.wall.raisedCrossing` |\"",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-07",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a72.7's support step (6), new this round (l.2559\u20132567), makes a hand `drawWall` laid across a standing raised way re-run (1)\u2013(5) and the span rule on that raised way \"in the same commit (the trace's undo restoring them)\". The crossing station moves onto the new trace; the stations in the new strips' setbacks, glacis, berm or channel slide or are omitted. \u00a77.3's S7 local-operator row is the locality home of what a `drawWall` re-derives and of the effective scope shown before commit (\u00a77.3 item 1). It says \"re-trace only the run between the nearest unaffected towers \u2026; re-cut the strips' setback and glacis lines \u2026; re-derive the strip blocks' S10 step (0)\" and names no raised way. So the dry run's scope and fate sheet omit the piers the commit moves or drops.",
+  "required_change": "\u00a77.3 item 3's table, the S7 row's re-derivation cell: after \"re-derive the strip blocks' S10 step (0)\" add \"; on each standing raised way the new trace or its moat crosses, re-run \u00a72.7's support step (1)\u2013(5) and the span rule in the same commit (its crossing station onto the new trace, the stations in the new strips slid or omitted), that raised way's part held in the effective scope and its moved or omitted piers listed in the fate sheet (\u00a77.3 item 4)\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-08",
+  "severity": "minor",
+  "kind": "NARRATION",
+  "claim": "R3-02 (principle (5)) bars review-process ids from design text. Assemble-r3's census (\u00a78, `reviewids-final.tsv`) leaves six such sites in \u00a75\u2013\u00a77 for the verifiers. They are canon conflict and wiring ids cited as sources, all from before this round: - \u00a75.1 (8) l.8972: \"(DWG-01)\"; - \u00a76.1 l.9299: \"(DIC-02: \u2026)\"; - \u00a77.5's `UpgradeDiff` comment l.11348: \"(DWG-02)\"; - \u00a77.6's `TableId` comment l.11419: \"(MC-11)\"; - \u00a77.6 l.11460: \"(V12-XCONF-2; \u2026)\"; - \u00a77.7's `Assignment.drift` comment l.11644: \"(MC-11)\".",
+  "required_change": "- l.8972: \"8. **A bug abort ends in a defined state** (DWG-01).\" \u2192 \"8. **A bug abort ends in a defined state.**\" - l.9299: \"(DIC-02: no concern's number of draws changes)\" \u2192 \"(no concern's number of draws changes)\". - l.11348: \"never stored (DWG-02); \u00a714's migrate returns it\" \u2192 \"never stored; \u00a714's migrate returns it\". - l.11419: \"'era' \u2026 (MC-11);\" \u2192 \"'era' \u2026;\". - l.11460: \"(V12-XCONF-2; V11 \u00a73.2.1 step 7 computes it so)\" \u2192 \"(V11 \u00a73.2.1 step 7 computes it so)\". - l.11644: \"typed in \u00a72.6 (MC-11)\" \u2192 \"typed in \u00a72.6\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-09",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a76.1 *The weather stream* (l.9462\u20139464) calls the timeline \"a pure function of (the session seed, the view's time since the map opened, the climate row, year position, sites and view hour in force at each moment, the presses)\". The same paragraph makes a kind's `hours` count only \"under `light: 'time'`\". The view hour is \u00a72.9's `time` key, which exists whatever the `light` mode. So a switch of `light` between `'day'` and `'time'` with every listed input fixed changes R(t) and the spells. The list omits an input the rule reads, and a replay test that fixes the listed inputs alone does not pin the timeline.",
+  "required_change": "\u00a76.1 *The weather stream*: \"the climate row, year position, sites and view hour in force at each moment\" \u2192 \"the climate row, year position, sites, `light` mode and view hour in force at each moment\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VM-R3T-09",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "determinism",
+  "claim": "\u00a77.3's locality row for S7 (l. 10741: `drawWall`, a moved trace vertex, \u2026) lists what a wall edit re-derives \u2014 the run between the nearest unaffected towers, the strips' lines, the strip blocks' S10 step (0) \u2014 but not the re-run \u00a72.7's support step (6) makes 'in the same commit' on a standing raised way the new run crosses (l. 2559-2562).",
+  "required_change": "\u00a77.3's S7 row, its re-derived column, adds 'and \u00a72.7's support step and span rule on each standing raised way the new run crosses (\u00a72.7's support step (6))'.",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VV1112-r3-04",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "determinism",
+  "claim": "V11 \u00a74.1, rewritten this round for VEL2-r2-02 (l. 4823\u20134830), refuses the `delete` of \"a table's named row (V11 \u00a72.1's settings form \u2014 `settings`, `structure`, `festival.staging`'s `fallback` \u2014, whose cells its readers read with no fallback)\" beside the four earlier cases; V11 \u00a74.4's lifecycle row, \u00a73.26's general rule and EI-V11-EDGE-3 \u2013 -5 follow. \u00a77.1's dry-run outcomes \u2014 \"the one home of every refusal, conflict and bend cause of a dry run\" (E-07, l. 10434) \u2014 still list four in their row (l. 10485): \"the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires, or the last row of a table not `mayEmpty` (V11 \u00a74.1; J-V11.113)\". An edit engine built from \u00a77.1 applies the delete of `crisis.looks`' `settings` row, leaving DR44 and \u00a710.2's placement to read `densityCap` and `areaPerHeadM2` from no row; V11 refuses it. Two units, two outcomes; repair-r3-V11 recorded no end here.",
+  "required_change": "\u00a77.1's row: \"removing a row readers fall back to \u2014 the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires, or the last row of a table not `mayEmpty` (V11 \u00a74.1; J-V11.113)\" \u2192 \"removing a row readers fall back to or need \u2014 the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires (a `crisis.looks` row for its look kind and a `damage.elements` row for its element kind among them), a table's named row (V11 \u00a72.1's settings form: `settings`, `structure`, `festival.staging`'s `fallback`), or the last row of a table not `mayEmpty` (V11 \u00a74.1; J-V11.113)\".",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]

@@ -1,0 +1,56 @@
+[
+ {
+  "id": "VAP-r3-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V03",
+  "claim": "As VAP-r3-03, at V03: T-V3-40 (b) (V03 l. 2899) 'each building of a returned district draws its damage at the look's `lookLevel` \u2026 and at its own level outside them, after the hand-over (`crisisLookYields`), with Show crises off and at a key that withholds the condition'. The disaster's condition is `public` (DR44; R3-13), so no key withholds it: the clause asks for a fixture that cannot exist, and a key built to omit the condition finds the look drawn and the clause failing a correct build.",
+  "required_change": "T-V3-40 (b) reads '\u2026 and at its own level outside them, after the hand-over (`crisisLookYields`) and with Show crises off; under View as at `public`, `local` and `secret` the same drawing, the condition `public` (\u00a77.7's DR44); \u2026'. V03 \u00a75.6 (4)'s and (5)'s general sentences on a withheld condition stand (a `none`-row condition draws no look).",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAT3-r3-07",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V03",
+  "claim": "V03 \u00a75.6 (4) (l.2734-2735) reads 'a building the aftermath really ruins enters a decay run (V03 \u00a73.11) and draws its own level from that epoch's week'. V06 \u00a73.23 (1) starts the run at the week its change shows (the hazard's week; a `vacate`'s `decay` Works' start), not the epoch's (VAT3-r3-06); `planDamage` reads V06's `decayLevel` and T-V3-40 does not encode the week, so nothing built changes.",
+  "required_change": "V03 \u00a75.6 (4): 'draws its own level from that epoch's week' \u2192 'draws its own level from the week its change shows (V06 \u00a73.23 (1))'.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VV12-r3-04",
+  "severity": "major",
+  "kind": "WIRING",
+  "owner": "V03",
+  "claim": "The same one-ended hook as VV12-r3-01, at V03: V03 \u00a75.6 (4) (l. 2725) places a building under a disaster's look 'in a district V01's `disasterDistricts` returns, or at THORP, HAMLET and VILLAGE in an end of V07's'; \u00a71b's damage-layer row (l. 303) reads 'V07's ends', and \u00a73.18's look row (l. 2095) 'V07's ends as the units'. V07 \u00a75.6 (3)'s `villageUnitPlots` names 'the buildings' damage (V02, V03)' as its reader and V01 \u00a73.16 (1) names V03 \u00a75.6. At an end-less thorp no building lies 'in an end', so V03 draws no plan damage on a struck toft group's buildings, against V07 \u00a75.6 (3) ('every building on a returned unit's plots draws \u2026 V03's plan').",
+  "required_change": "V03 \u00a75.6 (4)'s \"or at THORP, HAMLET and VILLAGE in an end of V07's\" reads \"or at THORP, HAMLET and VILLAGE on a plot V07's `villageUnitPlots(doc, unit)` gives a unit it returns (V07 \u00a75.6 (3): its ends, or in an end-less thorp its toft groups)\"; \u00a71b's row reads \"V07 \u00a75.6 (3)'s units and `villageUnitPlots`\" for \"V07's ends\"; \u00a73.18's row reads \"V07 \u00a75.6 (3)'s units (ends, or an end-less thorp's toft groups), each building on the plots `villageUnitPlots` gives it\" for \"V07's ends as the units\".",
+  "reported_by": "verify-vol-V01-V02-r3t"
+ },
+ {
+  "id": "VV12-r3-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V03",
+  "claim": "V03 \u00a75.6 (2)'s `PlanDamage` record (l. 2683) declares `look: ExteriorDamage['look']; // V02 \u00a72.4's: the condition (null for a preview) and the calamity's type; null with no look`. V02 \u00a72.4's field is now `pattern: 'fire' | 'flood' | 'scatter'`, V01's `DisasterSource.pattern` (R3-09 (c)); the type follows V02's record, so only the comment is stale (repair-r3-V02's hand-off to V03).",
+  "required_change": "The comment reads \"V02 \u00a72.4's: the condition (null for a preview) and its pattern (V01's `DisasterSource.pattern`); null with no look\".",
+  "reported_by": "verify-vol-V01-V02-r3t"
+ },
+ {
+  "id": "VV34-r3-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V03",
+  "claim": "R3-09 (e): 'Every disaster fixture of the set is a calamity with its linked `reconstruction` condition' (a disaster look stands only through a none-row condition linked to a carried calamity, `event` `calamity`, V11 \u00a73.25.9 l. 4567; a calamity linked to no condition draws no look). V03 \u00a77's damage fixtures still stage 'a district of houses under a staged disaster `ConditionOverlay` (\u00a72.7: its weeks and severity)' (l. 2844\u20132845), and T-V3-40 runs 'on the damage fixtures' district under its disaster condition' (l. 2899); V04's T-V4-82 (i) already names its fixture so.",
+  "required_change": "V03 \u00a77: 'a district of houses ruined by a fixture calamity through its linked `reconstruction` condition's `ConditionOverlay` (V08 \u00a73.16 (7) (b): `event` `calamity`; \u00a72.7: its weeks and severity) and under a `disaster` preview'; T-V3-40: 'on the damage fixtures' district under its calamity's linked `reconstruction` condition and under a `disaster` preview'.",
+  "reported_by": "verify-vol-V03-V04-r3t"
+ },
+ {
+  "id": "VV34-r3-06",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V03",
+  "claim": "Round 3 rewrote `PlanDamage.own`'s comment (V03 l. 2682): 'V06's decayLevel(doc, lineage, week) alone; 0 for a standing building outside a run (V06 \u00a73.23 (2))'. A building reoccupied under a `repair` Works is standing and outside its run (the run lasts 'until a restoring event', V06 \u00a73.23 (1)), yet its level is L \u00d7 (1 \u2212 f(w)) until FINISHED (V06 \u00a73.23 (3)) \u2014 the weeks in which (b)'s repaired elements leave. The field's definition is right; the gloss names the wrong value for that case.",
+  "required_change": "V03 \u00a75.6 (2), the `own` comment: 'V06's decayLevel(doc, lineage, week) alone; 0 for a standing building outside a run and any restoration (V06 \u00a73.23 (2)\u2013(3))'.",
+  "reported_by": "verify-vol-V03-V04-r3t"
+ }
+]

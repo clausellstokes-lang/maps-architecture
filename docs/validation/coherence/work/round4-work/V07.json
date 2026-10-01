@@ -1,0 +1,47 @@
+[
+ {
+  "id": "VAH-r3-09",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V07",
+  "claim": "V09's repair handed V07 the deleted look word (repair-r3-V09 HAND-OFFS). V07 \u00a74.5's crisis line (l. 3125) still gives its example as 'For now: Disaster, the mill-end fire, weeks 30\u201334'. `{look}` is the `crisis.looks` row's `label` (V09 \u00a74.21.12 (4); V11 \u00a73.25.9), and the `disaster` row's label is 'Ruined quarters'. Nothing built changes.",
+  "required_change": "V07 l. 3125's example reads 'For now: Ruined quarters, the mill-end fire, weeks 30\u201334'.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VAL-R3-10",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "Same defect as VPC-R3-04 (verify-pipeline), in this lane's pipeline\u2013V07 seam. By the ruling on camp places, every camp place takes its faces from `campLand` alone, and \u00a710.2 (d) reads the village places 'as V07 \u00a75.6 (2) states'. V07 \u00a75.6 (2)'s `beyondWalls` row ('`siegeStandoffM` beyond the palisade's walled stretches') and `approachRoads` row ('the verges of each entry's way beyond the perimeter, one camp per entry') name no `campLand`, and they leave out the base row's division of the camped ground and its placing of the dossier's armies. V07's 'The outskirts' land' paragraph and 'every other rule \u2026 unchanged' still give one build.",
+  "required_change": "ONE FIX with VPC-R3-04, in its words: V07 \u00a75.6 (2)'s `beyondWalls` row reads 'the `campLand` faces lying at least `siegeStandoffM` beyond the palisade's walled stretches \u2026'. Its `approachRoads` row reads '`campLand`'s verges of each entry's way beyond the perimeter, one camp per entry, the camped ground and the dossier's armies divided among the entries as \u00a710.2 (d)'s `approachRoads` states; \u2026'.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VPC-R3-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "R3-14 (1) makes every camp place take its faces from `campLand` and nothing else, and \u00a710.2 (d) reads the village places 'as V07 \u00a75.6 (2) states'. V07 \u00a75.6 (2)'s `beyondWalls` row ('`siegeStandoffM` beyond the palisade's walled stretches') and `approachRoads` row ('the verges of each entry's way beyond the perimeter, one camp per entry') name no `campLand` (its `approachByGate` and `outside` rows do) and omit the base row's division of the camped ground and placing of the dossier's armies (VPC-R2-14's fix). \u00a710.2 (d)'s general sentence and V07's 'every other rule \u2026 unchanged' still yield one build, so this is a restatement narrower in form.",
+  "required_change": "V07 \u00a75.6 (2): the `beyondWalls` row reads 'the `campLand` faces lying at least `siegeStandoffM` beyond the palisade's walled stretches (V07 \u00a73.4), its barrier-closing arcs taking none; \u2026' (the rest as it stands); the `approachRoads` row reads '`campLand`'s verges of each entry's way beyond the perimeter, one camp per entry, the camped ground and the dossier's armies divided among the entries as \u00a710.2 (d)'s `approachRoads` states (the entries in the main approach road's order); an entry whose verges hold no `campLand` takes the `campLand` nearest where it leaves; with no entry, the `campLand` faces nearest the perimeter'.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VV78-r3-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "VV78-r2-07's fix made V06 \u00a73.22 (2) d. read 'at a village rung, the entry of V07 \u00a75.6 (2)'s main approach road', and V07 \u00a75.6 (4) reads 'the main approach road's entry ((2)), `frontierFor`'s answer at a village rung'. V07 \u00a75.6 (2)'s own `approachByGate` row still glosses that answer as 'at a village rung the through road's entry (V06 \u00a73.22 (2)'s no-frontier case)'. A crossroads village has two `through` entries, so this is the same ambiguity the fix removed at V06. It is a restatement differing in form; the computation is V06's `frontierFor`, so nothing built changes.",
+  "required_change": "V07 \u00a75.6 (2), the `approachByGate` row: '\u2014 at a village rung the through road's entry (V06 \u00a73.22 (2)'s no-frontier case)' \u2192 '\u2014 at a village rung the main approach road's entry (the first row; V06 \u00a73.22 (2) d.'s no-frontier case)'. It is the same table as VPC-R3-04's `beyondWalls` and `approachRoads` rows, so make both edits in one pass.",
+  "reported_by": "verify-vol-V07-V08-r3t"
+ },
+ {
+  "id": "VV910-r3-05",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "V07",
+  "claim": "V07 l.3125's example of V09's line, \"For now: Disaster, the mill-end fire, weeks 30\u201334\", fills `{look}` with the deleted `crisis.look.disaster` word; `{look}` is now the row's `label`, \"Ruined quarters\" (V11 l.4535; V09 \u00a74.21.12 (4)). Named in repair-r3-V09's HAND-OFFS.",
+  "required_change": "V07 l.3125's example reads \"For now: Ruined quarters, the mill-end fire, weeks 30\u201334\".",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ }
+]

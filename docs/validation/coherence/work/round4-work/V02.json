@@ -1,0 +1,29 @@
+[
+ {
+  "id": "VAP-r3-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V02",
+  "claim": "DR44 now states the tier (R3-13; base l. 11981): a condition is `public` where its map row gives a look, `secret` where it is `none`, and \u00a79.2's admission function admits a `public` row at every tier (l. 14697\u201314699) \u2014 'a look-bearing condition is therefore never withheld at any key' (R3-13). The disaster's linked condition reads the `calamity` row, which gives `disaster` (V08 \u00a73.16 (7) (b)), so it is `public`. T-V2-60 still stages the impossible key: (e) 'a viewer whose knowledge key withholds the condition sees the look on no building', and the clause round 3 added to (g) 'View as set to a key that withholds the condition, the struck buildings' damage marks re-emitted and the tile redrawn after each'. No fixture can supply that key; a key built to omit the condition finds the look drawn and (e) failing a correct build, or the condition is made withholdable against DR44 \u2014 the case R3-13 removed from T-V10-52 (VAH-r2-07, major).",
+  "required_change": "T-V2-60 (e) reads '(e) the disaster's condition, whose map row gives the look and so `public` (\u00a77.7's DR44), draws the look on its units' buildings under View as at `public`, `local` and `secret` alike, and a `none`-row condition carried beside it (an infiltrated stressor) draws no look on any building at any key;'; (g)'s clause reads '\u2026 a preview started and ended, and View as changed, the struck buildings' damage marks re-emitted and the tile redrawn after each, the look standing at every key \u2026'. V02 \u00a73.18's edge row 'a condition the view's key withholds \u2192 no look' stays (the withheld condition being a `none`-row one).",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAT3-r3-06",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V02",
+  "claim": "V02 \u00a75.7 (6) (l.3115-3116) and its \u00a73.18 row (l.2550) read 'a building the next epoch really ruins or abandons reads its own level from that epoch's week (V06's hazard and decline phases)'. V06 \u00a73.23 (1), the level's one home (R3-06 (a)), starts the run at the week its change shows \u2014 a hazard's change at the hazard's (calamity's) week, a `vacate`'s `decay` Works at its drawn offset in the epoch's span (V06 \u00a73.13 (2)) \u2014 which in a coarse catch-up can lie years before the epoch's week (R3-17). V02 calls `decayLevel` and neither T-V2-59 nor T-V2-60 encodes the week, so nothing built changes, but the restatement states another week (named in round 2; no END line carried it).",
+  "required_change": "V02 \u00a75.7 (6) and the \u00a73.18 row 'a disaster's look and its aftermath (V06)': 'reads its own level from that epoch's week (V06's hazard and decline phases)' \u2192 'reads its own level from the week its change shows (V06 \u00a73.23 (1): the hazard's week, a `vacate`'s `decay` Works' start)'.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VV12-r3-01",
+  "severity": "major",
+  "kind": "WIRING",
+  "owner": "V02",
+  "claim": "V07 \u00a75.6 (3) makes a village disaster's units `villageDisasterUnits` \u2014 the ends, or in an end-less thorp its toft groups \u2014 and gives each unit's land by `villageUnitPlots(doc, unit)`, whose comment names 'the buildings' damage (V02, V03)' as its reader; V01 \u00a73.16 (1), rewritten this round, states that V02 \u00a75.7 reads a returned unit's buildings through it. V02 never names `villageUnitPlots` and reads the village units as ends: \u00a75.7 (1) 'at THORP, HAMLET and VILLAGE every end V07 returns' (l. 3045), \u00a71b's `exteriorDamage` input cell 'V07's ends at THORP, HAMLET and VILLAGE' (l. 199), \u00a72.4's paragraph 'V07's ends at the village rungs' (l. 367), X35 (l. 4175), T-V2-60 (a) '(V07's ends at VILLAGE)' (l. 3771) and \u00a78.6's note 'the look's units wait for V07's ends' (l. 3882). At an end-less thorp the units are toft groups (each id its lowest plot's) and no end exists, so V02 as written draws the ruined look on none of a struck toft group's buildings, while V07 \u00a75.6 (3) draws item 123's damage on every building of the unit's plots: a hook with one end, and two outcomes for one case.",
+  "required_change": "V02 \u00a75.7 (1)'s \"and at THORP, HAMLET and VILLAGE every end V07 returns\" reads \"and at THORP, HAMLET and VILLAGE every unit it returns there \u2014 V07 \u00a75.6 (3)'s `villageDisasterUnits`, its ends or in an end-less thorp its toft groups \u2014 a unit's buildings being those on the plots V07's `villageUnitPlots(doc, unit)` gives it\". \u00a71b's input cell reads \"at THORP, HAMLET and VILLAGE V07 \u00a75.6 (3)'s units and their land `villageUnitPlots`\" for \"V07's ends at THORP, HAMLET and VILLAGE\"; \u00a72.4's paragraph reads \"V07 \u00a75.6 (3)'s units and their plots (`villageUnitPlots`) at the village rungs\"; X35 reads \"and at THORP, HAMLET and VILLAGE V07 \u00a75.6 (3)'s units (its ends, or an end-less thorp's toft groups) with their land `villageUnitPlots`\"; \u00a78.6's note reads \"at THORP, HAMLET and VILLAGE the look's units wait for V07's `villageDisasterUnits` and `villageUnitPlots` (V-M3, V07 \u00a75.6 (8))\". \u00a73.18's ruined-look row adds the case \"an end-less thorp\" \u2192 \"its toft groups' buildings, by `villageUnitPlots`\". T-V2-60 (a)'s parenthesis reads \"(at VILLAGE V07's ends, each on the plots `villageUnitPlots` gives it)\", and the look fixture adds an end-less THORP of B-VILLAGE whose struck toft group's buildings all draw the look and no other building does.",
+  "reported_by": "verify-vol-V01-V02-r3t"
+ }
+]

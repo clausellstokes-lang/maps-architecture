@@ -1,0 +1,65 @@
+[
+ {
+  "id": "VAP-r3-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "Round 3 placed the `disaster` look's districts at M5 (R3-15): \u00a710.2 *Crisis looks*' lead (base l. 15482\u201315486) 'Until V01's W10 (M5) the `disaster` look draws no district'; \u00a713.8's T122-2, T122-3, T122-5, T122-6 row (l. 19084) 'M3b (the `disaster` look's district clauses from M5)'; \u00a716's M5 exit (l. 19981) names those district clauses; V07's T-V7-69 runs its disaster clause 'at the later of V-M3 and M5'. Volume 12, which takes the four bars (T-V12-54), runs every preview from M3b with no M5 exception: \u00a73.15.12's head (V12 l. 2682) 'from M3b (\u00a716) each look kind previewed \u2026 on B-CITY-lite's seeds of every rung', T-V12-54's milestone 'M3b (the previews); M-SF', W7's M3b cell, V12 \u00a76's item-122 row. At M3b a correct build draws the `disaster` preview on no district, so `crisis.scale`'s second count ('every preview among them \u2026 whose units differ in number from the count \u00a710.2 (c) gives that share of its place's units', registry l. 1208; \u00a73.15.12's T122-5 bullet) fails it from M3b to M5, and no V12 milestone cell runs the district clauses at M5's exit, where \u00a716 requires them.",
+  "required_change": "V12 \u00a73.15.12's head: 'from M3b (\u00a716) each look kind previewed (`crises` `preview`, at `previewSeverity`) on B-CITY-lite's seeds of every rung, an island town and an unwalled place \u2014 the `disaster` preview's district clauses (its units, scale and placement under T122-2, T122-3, T122-5 and T122-6) from M5, when V01's W10 lands (\u00a710.2 *Crisis looks*; \u00a713.8) \u2014; from M-SF \u2026'. T-V12-54's milestone cell: 'M3b (the previews; the `disaster` preview's district clauses from M5); M-SF (the dossier crisis fixtures) (\u00a716)'. W7's M3b cell: 'item 122's previews (the `disaster` preview's districts at M5), its `crisis.*` statistics there and `item122.crises`'; its M5 cell adds 'the `disaster` preview's district clauses of T122-2, T122-3, T122-5 and T122-6'. V12 \u00a76's item-122 row milestone: 'M3b (the previews; the `disaster` look's district clauses from M5); M-SF (the dossier crisis and force fixtures) (\u00a716)'.",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAP-r3-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "Round 3 made \u00a713.4's touch fallback a switchable default (VCS-r2-03, graded major): \u00a713.4 (base l. 18640\u201318641) and V09 \u00a74.12 \u2014 `AppPrefs.touch.editFabric` false on a coarse pointer hides T8 `fill`'s and T9 `shape`'s drags \u2014 and T126-1 now reads 'every tool of V09 \u00a74.12's list completes its canvas script under touch, with `AppPrefs.touch.editFabric` on' (l. 18456), as T-V9-22 does. Volume 12 measures T126-1 without the setting: the registry row `layout.touch` (V12 l. 1214) 'the tools \u2026 whose canvas script fails to complete under touch events', \u00a73.15.16's T126-1 bullet (l. 2807) and T-V12-59 ('`layout.touch` is 0 at 600 \u00d7 480'). Once the pre-decided fallback ships, T8's and T9's scripts cannot complete at the coarse-pointer default, so `layout.touch` fails a correct build that T126-1 and T-V9-22 pass.",
+  "required_change": "V12's registry row reads '\u2026 the tools of V09 \u00a74.12's list whose canvas script fails to complete under touch events with `AppPrefs.touch.editFabric` on (V09 \u00a74.12; \u00a713.4's fallback changes only its default) \u2026'; \u00a73.15.16's bullet reads '**T126-1, every tool under touch at the medium class** \u2014 `layout.touch`: at 600 \u00d7 480 CSS px under coarse-pointer touch events, with `AppPrefs.touch.editFabric` on, each tool of V09 \u00a74.12's list completes its canvas script \u2026'; T-V12-59 adds 'with `AppPrefs.touch.editFabric` on' after '`layout.touch` is 0 at 600 \u00d7 480'.",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAP-r3-08",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "The other end of VAP-r3-07: V12 \u00a72.13's `item105.web`, `item107.spread` suites cell reads 'B-CITY (V11)' with no test id and its `item106.barrier` cell 'V11's T-V11-19 fixtures'; \u00a73.7.8's list (l. 1711\u20131716) and X-V12-11 (l. 3412) name neither T-V11-21 nor T-V11-19, so the three statements are not the one union R3-26 requires, each suite named by its test id.",
+  "required_change": "\u00a72.13: `item105.web`, `item107.spread`'s cell reads '\u2026 B-CITY's 200 seeds per rung (V11, T-V11-21) \u2026' and `item106.barrier`'s '\u2026 item 106 (h)'s barrier fixtures (V11, T-V11-19) \u2026'; \u00a73.7.8's list and X-V12-11 read '\u2026 V11's T-V11-13, T-V11-19, T-V11-21, T-V11-31 and T-V11-38 (b) \u2013 T-V11-41 (b)'.",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAP-r3-10",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "Round 3 rewrote T116-4 (VEW-r2-02; base l. 18323\u201318325): every export frames within the limit bounds (the whole bounds at most), at any window size and with none, and at the METROPOLIS cap a whole-bounds export frames the whole bounds \u2014 the stop-0 clause staying in T116-1's view bar only (canon). V12 \u00a73.15.6 (l. 2536\u20132541) defines the limit as 'the whole bounds inside the limit's view, or the limit at stop 0 where they do not fit' and glosses 'T116-2 \u2013 T116-4 (\u2026 every export within it)'; read by its own definition an export at the cap is cut to stop 0's extent, the reading T116-4 now excludes. V12 calls these the base's bars, so nothing it builds changes.",
+  "required_change": "V12 \u00a73.15.6's parenthesis reads '(the first view unchanged, the limit moving with the bounds, every export within the limit bounds \u2014 the whole bounds at most, a whole-bounds export at the cap framing them, \u00a78.7)'.",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAT3-r3-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "V12 \u00a73.15.4's `T114g.oldestFirst` (l.2511-2512) runs `exactScript` `patchesOldestFirst` 'over H-100's epochs and V06's recovery fixture, the order read from each run's epoch of last change'. V06's recovery fixture (T-V6-73) is history-first, its walls patched in replay epochs and again in live epochs; by epoch number the script expects live patches replaced first, while V06 \u00a73.7.7 (3) and \u00a76.1 replace replay-era patches first (VAT3-r3-03). T-V12-47's planted fault ('a recovery that replaces a younger patch first') is judged by the wrong key.",
+  "required_change": "V12 \u00a73.15.4: 'the order read from each run's epoch of last change' \u2192 'the order read from the week of each run's last-change epoch (`EpochRecord.inputs.week`; \u00a76.1 \u2014 never the epoch's number, so a replay epoch orders by its week, before every live one), over H-100's epochs and T-V6-73's history-first recovery fixture'; T-V12-47's planted fault adds 'a live-era patch replaced before a replay-era one'.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VCS-r3-02",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V12",
+  "claim": "R2-08 requires a volume test's head to name each base bar it takes. T-V12-48, -50 and -52 \u2013 -59 do. T-V12-44, -45, -46, -47 and -49 (V12 l. 3149\u20133154) name none, though scope's take-over table assigns them T111-1 \u2013 T111-5, T112-1's style line, T113-2/T113-5 (and T113-7, VCS-r3-01), T114-4 \u2013 T114-7 (and T114-8), and T117-2 with T118-2 \u2013 T118-6 (and T117-1, T117-4, T117-5, T117-7, T118-1). No round-3 issue carried V12's end of R2-08. Bookkeeping (R3-03 (a)).",
+  "required_change": "Heads: T-V12-44 \"**Item 111's bars are wired** (takes T111-1 \u2013 T111-5: their specs and `item111.water`).\"; T-V12-45 \"**The style line and the trial's findings (item 112)** (takes T112-1's style line).\"; T-V12-46 \"**Item 113's registrations** (takes T113-2's five-engine digest, T113-5's `T113e.lost` and T113-7's pin `item113.history`).\"; T-V12-47 \"**Item 114's specs and bench bars** (takes T114-4 \u2013 T114-7 and T114-8's pin `item114.condition`).\"; T-V12-49 \"**Items 117 and 118** (takes T117-1 and T118-1's pins, T117-2, T117-4, T117-5 and T117-7, and T118-2 \u2013 T118-6).\" Each agrees with scope's table as VCS-r3-01 corrects it.",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VV1112-r3-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V12",
+  "claim": "V12's new `crisis.scale` second count (\u00a73.4.2's `crisis.*` row, l. 1208; \u00a73.15.12's T122-5 bullet, l. 2698\u20132704) compares each look \u00a710.2 (c) sizes by severity with \"the count \u00a710.2 (c) gives that share of its place's units\" \u2014 round(s \u00d7 n) clamped to [1, n]. The `disaster` look's units are V01 \u00a73.16 `disasterSource` (5)'s: \"`units` is the first max(k, |`matched`|) units of the order \u2014 all of a shorter fire order, the shortfall reported in the view telemetry\", so every matched target is drawn even past k, and a fire whose adjacency ends draws fewer than k. V12's own fixtures hold both cases: V08 \u00a77.1's fire, flood and earthquake calamities carry resolved `targets`, and T122-5's sweep at severity 0 sets s to the `disaster` row's lower end 0.05 (k = 1 at a TOWN of eight districts), so a calamity naming two districts gives a lawful draw the count flags; a fire meeting a gap in the district adjacency likewise. The bar fails a lawful result.",
+  "required_change": "\u00a73.4.2's `crisis.*` row: \"or whose units differ in number from the count \u00a710.2 (c) gives that share of its place's units;\" \u2192 \"or whose units differ in number from the count \u00a710.2 (c) gives that share of its place's units \u2014 for the `disaster` look V01 \u00a73.16 `disasterSource` (5)'s, max(k, |`matched`|), or every unit of a fire order shorter than that, its shortfall reported and not counted;\". \u00a73.15.12's T122-5 bullet: \"else its units the count \u00a710.2 (c) gives that share of its place's units (`crisis.scale`'s second count, 0 by rule)\" \u2192 \"else its units the count \u00a710.2 (c) gives that share of its place's units \u2014 a `disaster` look's max(k, |`matched`|), or all of a shorter fire order (V01 \u00a73.16 `disasterSource` (5)) \u2014 (`crisis.scale`'s second count, 0 by rule)\". T-V12-54 adds the passing case \"a fire calamity naming more target districts than its share's count, every one drawn\".",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]
