@@ -67,7 +67,7 @@ EDITS = [
  "the largest-crypt bar, T-V11-25; item 123's range order, T-V11-47 (a); item 124's two hard rules, T-V11-48 (a)–(b): a\n"
  "`snow` entry where no snow may fall clamps to 0, an arid rain cell to its cap), is clamped to the nearest lawful value with\n"
  "the dry run's one-line note (§7.1; item 101 R2); only a dangling `ref`, a type error or an owner rule is refused, F-EDIT\n"
- "(§5.2), naming the rule — the one owner rule a table edit is refused for is item 110 (b)'s rung gate",
+ "(§5.2), naming the rule — the one owner rule a\ntable edit is refused for is item 110 (b)'s rung gate",
  1, ['G123-V11', 'G124-V11']),
 (H4,
  "/* per family, × that family's soft terms for the kind's members; hard needs unscaled */",
@@ -120,9 +120,11 @@ EDITS = [
  1, ['pipeline r2 hand-off (VEW-r1-04)']),
 (H7,
  "**7.4 The owner items 111 and 113–119, the base settings row and the edges.** Each item's behaviour bars are the base's\n"
- "(§13.2's T111–T119 groups)",
+ "(§13.2's T111–T119 groups) and the owning volumes'; these are its rows' bars, and each no-op pin is a NoOpPin registration\n"
+ "on V12 §3.7.8's engine",
  "**7.4 The owner items 111, 113–119 and 122–124, the base settings row and the edges.** Each item's behaviour bars are the\n"
- "base's (§13.2's T111–T119 and T122–T124 groups)",
+ "base's (§13.2's T111–T119 and T122–T124 groups) and the owning volumes'; these are its rows' bars, and each no-op pin is a\n"
+ "NoOpPin registration on V12 §3.7.8's engine",
  1, ['G122-V11', 'G123-V11', 'G124-V11']),
 (H7,
  "| T-V11-42 | item 117's rows: every climate row's bands",
@@ -149,7 +151,7 @@ EDITS = [
  1, ['G122-V11', 'G123-V11', 'G124-V11']),
 (H8,
  "V12 §3.11's lines cover file g's rows (items\n102–119). The tables",
- "V12 §3.11's lines cover file g's rows. The tables",
+ "V12 §3.11's lines cover file g's rows. The\ntables",
  1, ['R2-07']),
 (H8,
  "`climate`'s columns but `rainMmPerYear` (row 43);",
@@ -184,8 +186,10 @@ EDITS = [
 
 # ---------------------------------------------------------------- §12
 (H12,
- "the registry holds 107 rows (1–106\nand 58a);",
- "the registry holds 111 rows (1–110\nand 58a); the closed crisis mapping holds a row for each of the fifteen stressor types and the twenty-two condition\narchetypes the port's research lists (`research/sf/dossier-model.md` §11, `research/sf/mapping.md` row 70);",
+ "the registry holds 107 rows (1–106\nand 58a); every base section this volume cites exists in the base, and every request of V11 §10 is carried by the file f\nitem named there.",
+ "the registry holds 111 rows (1–110\nand 58a); the closed crisis mapping holds a row for each of the fifteen stressor types and the twenty-two condition\n"
+ "archetypes the port's research lists (`research/sf/dossier-model.md` §11, `research/sf/mapping.md` row 70); every base\n"
+ "section this volume cites exists in the base, and every request of V11 §10 is carried by the file f item named there.",
  1, ['G122-V11', 'G123-V11']),
 (H12,
  "  items 111–119's cells (V11 §8);",

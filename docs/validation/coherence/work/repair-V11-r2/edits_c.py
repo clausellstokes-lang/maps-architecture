@@ -237,7 +237,7 @@ EDITS = [
  "Arid and warm climates never freeze and draw no snow (a user may still switch the `snow` weather on); `snow` weather\n"
  "defaults on",
  "Arid and warm climates never freeze and draw no snow — lying or falling, whatever the view's `weather` holds (§8.2;\n"
- "item 124 (c); V11 §3.25.11's hard rules); `snow` weather defaults on",
+ "item 124 (c); V11 §3.25.11's hard rules); `snow` weather\ndefaults on",
  1, ['G124-V11 (R2-39 (a), (e))']),
 (H325,
  "* The dossier's week and season and the climate's source order are §7.7's row (V08 reads SettlementForge's calendar and\n"

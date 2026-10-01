@@ -45,7 +45,7 @@ EDITS = [
  "(§8.2); the prices,",
  "`tables/evolution.json`); the style sheets and palette values, the season, cover, `ice`, `snow`, decoration, crisis-look and\n"
  "weather-effect draw rows (§8.2); item 122's placement rules (§10.2); item 123's decay level and the damaged plans' drawings\n"
- "(V06 §3.23; V03, V02, V04); item 124's weather timeline (§6.1); the prices,",
+ "(V06 §3.23; V03, V02, V04); item 124's weather timeline (§6.1);\nthe prices,",
  1, ['G122-V11', 'G123-V11', 'G124-V11']),
 
 # ---------------------------------------------------------------- §1b
@@ -121,15 +121,19 @@ EDITS = [
  "which §11.2's `FieldDrivers` and the \"why is this quarter poor\" answer cite.",
  1, ['VAH-r1-10 (R2-10)']),
 (H24,
- "Items 111–118 add `clim/<biome>/<cell>` (a dry-country or season cell of a\nclimate row),",
- "Items 111–118 add `clim/<biome>/<cell>` (a dry-country or season cell of a\nclimate row, and item 124's weather cells),",
- 1, ['G124-V11']),
-(H24,
- "`ceil/<rung>` (the grandeur ceiling), `fest/<table>/<row>` (a festival row).",
- "`ceil/<rung>` (the grandeur ceiling), `fest/<table>/<row>` (a festival row); items 122 and 123 add\n"
- "`crisis/<table>/<row>` (a crisis look, named by its `label`, or a mapping row) and `dmg/<table>/<row>` (a damage range or a\n"
- "decay rate).",
- 1, ['G122-V11', 'G123-V11']),
+ "Items 111–118 add `clim/<biome>/<cell>` (a dry-country or season cell of a\n"
+ "climate row), `hist/<event>` (an event-to-epoch row), `wall/<cell>` and `patch/<row>` (a wall-condition cell and a patch\n"
+ "material), `ceil/<rung>` (the grandeur ceiling), `fest/<table>/<row>` (a festival row). Each id resolves to its row's\n"
+ "`says` sentence (V11 §3.24, V11 §3.25), its `reason` (signature pairs), its family's plain sentence (V11 §3.3.1's `says`)\n"
+ "or the class row's note.",
+ "Items 111–118 add `clim/<biome>/<cell>` (a dry-country or season cell of a\n"
+ "climate row; item 124's weather cells too), `hist/<event>` (an event-to-epoch row), `wall/<cell>` and `patch/<row>` (a\n"
+ "wall-condition cell and a patch material), `ceil/<rung>` (the grandeur ceiling), `fest/<table>/<row>` (a festival row);\n"
+ "items 122 and 123 add `crisis/<table>/<row>` (a crisis look, named by its `label`, or a mapping row) and\n"
+ "`dmg/<table>/<row>` (a damage range or a decay rate). Each id resolves to its row's `says` sentence or `label`\n"
+ "(V11 §3.24, V11 §3.25), its `reason` (signature pairs), its family's plain sentence (V11 §3.3.1's `says`) or the class\n"
+ "row's note.",
+ 1, ['G122-V11', 'G123-V11', 'G124-V11']),
 
 # ---------------------------------------------------------------- §2.6
 (H26,

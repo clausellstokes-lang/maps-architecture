@@ -103,7 +103,7 @@ EDITS = [
  "class may override any cell.",
  "the poor, modest, prosperous and rich rows (§4.5's four-row tables: continuous columns interpolated along the value —\n"
  "`comfortable` the interpolation of modest and prosperous, `squalid`, an end band, the poor row's —, discrete columns read\n"
- "by §4.5's discrete-cell rule: `squalid` the poor row's, `comfortable` the modest row's). A class may override any cell.",
+ "by §4.5's discrete-cell rule: `squalid` the poor row's, `comfortable` the modest row's). A\nclass may override any cell.",
  1, ['VAF-R0S-20 (R2-16)']),
 
 # ---------------------------------------------------------------- §3.17
@@ -140,9 +140,10 @@ EDITS = [
 (H323,
  "leaves open: **`miningCellShare` 0.02** — the site \"holds mining\" when at least this share\n"
  "of the frame's land cells carry `SiteResources.ore` ≥ 0.5 (besides a roster mining class or a dossier mining deposit, item\n"
- "109 (a) (2)); own.",
+ "109 (a) (2)); own. Caverns exist at every rung (item 109 (j) (1)); no cavern row reads the rung.",
  "leaves open: **`miningCellShare` 0.02** — the share of the frame's land cells with `SiteResources.ore` ≥ 0.5 that §4.2 S1\n"
- "(10)'s mining test (`Terrain.mining`; item 109 (a) (2)) reads; own.",
+ "(10)'s mining test (`Terrain.mining`; item 109 (a) (2)) reads; own. Caverns exist at every rung (item 109 (j) (1)); no\n"
+ "cavern row reads the rung.",
  1, ['R2-28 (a)']),
 (H323,
  "Scattered\nvoid dwellings (`voidDwellings`), the forecast floor (`accessForecastMin`) and the ruin's magic lights\n"
@@ -169,7 +170,7 @@ EDITS = [
  1, ['G122-V11', 'G123-V11', 'G124-V11']),
 (H324,
  "V01's seeds, fans and lanes crossing under an arch (`clearanceCm`, V01 §3.17.3 (3)),",
- "V01's seeds, fans and lanes crossing under an arch (`clearanceCm`, V01 §3.17.3 (3)), S8's under-deck strip (`stripMarginM`, §4.6),",
+ "V01's seeds, fans and lanes crossing under an arch (`clearanceCm`, V01 §3.17.3 (3)), S8's under-deck strip\n(`stripMarginM`, §4.6),",
  1, ['R2-26 (d)']),
 (H324,
  "reach is clamped, T-V11-32 (h); J-V11.116);\n",

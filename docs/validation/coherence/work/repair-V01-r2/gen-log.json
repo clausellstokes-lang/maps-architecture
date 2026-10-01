@@ -1,5 +1,5 @@
 {
- "edits": 84,
+ "edits": 85,
  "tags": [
   "VV12-r1-04 §0",
   "VAH-r1-12 §1.2 hook row",
@@ -84,7 +84,8 @@
   "G122-V01 §12 PLAUSIBLE constants",
   "G122-V01 §12 PLAUSIBLE lines",
   "G122-V01 §12 PLAUSIBLE patterns",
-  "G122-V01 §12 PLAUSIBLE early reads"
+  "G122-V01 §12 PLAUSIBLE early reads",
+  "G122-V01 §3.18 (b) village row"
  ],
  "blocks": 28,
  "inventory": [
@@ -182,7 +183,7 @@
    "kind": "REPLACE",
    "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
    "lines": 127,
-   "words": 4194
+   "words": 4220
   },
   {
    "kind": "REPLACE",
@@ -218,7 +219,7 @@
    "kind": "REPLACE",
    "target": "## 7 Tests and acceptance bars",
    "lines": 76,
-   "words": 7233
+   "words": 7258
   },
   {
    "kind": "REPLACE",
@@ -258,7 +259,7 @@
   }
  ],
  "orig_sha": "1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de",
- "new_sha": "9099ef9ab64dac4c3b093d6e01867b8084735f314bac929355ee7aad12e2db4f",
+ "new_sha": "fb2d14965bdcae74be2f7d138804e64aafe2ed5569e53f1aeb5d07ed52ac1901",
  "words_before": 80754,
- "words_after": 84619
+ "words_after": 84670
 }
