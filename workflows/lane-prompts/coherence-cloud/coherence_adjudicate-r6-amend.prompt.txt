@@ -1,0 +1,31 @@
+SEAT coherence/adjudicate-r6-amend — the Maps program's coherence pass, round 6 (orchestrator brief, 2026-10-01).
+
+WHAT THIS SEAT IS. adjudicate-r6 wrote docs/validation/coherence/adjudication-r6.md, with 11 rulings and Part H for all 73 round-5 issues. Two of its rulings replace whole families that drew new majors round after round:
+  - R6-02: raised ways and walls, now one order-independent crossing table and a way-and-channel table at §2.7's support step (6);
+  - R6-03: the late calamity's whole life.
+Before any repair seat writes against them, coherence/probe-r6 attacked both rulings cell by cell. Its findings are in docs/validation/coherence/probe-r6.md (results in results/coherence_probe-r6.json). You are the adjudicator's amending hand. You decide each probe finding and amend adjudication-r6.md IN PLACE, so the file the repair seats read is already whole.
+
+READ FIRST, WHOLE:
+  1. docs/validation/coherence/probe-r6.md.
+  2. docs/validation/coherence/adjudication-r6.md: all of R6-01, R6-02 and R6-03, the Part A hand-offs, and each Part H section a probe finding touches.
+  3. The round-6 orchestrator notes, at the end of workflows/lane-prompts/coherence-cloud/coherence_adjudicate-r6.prompt.txt: their duties bind you as they bound the adjudicator.
+  4. The owner rules each finding cites: docs/AMENDMENTS-2026-09-28g.md items 110, 114, 122 and 125; docs/OWNER-INSTRUCTIONS-2026-09-25.md's J122 and J141 entries.
+  5. The live text each finding cites, by grep.
+
+DECIDE EACH PROBE FINDING, PRB6-01 onwards:
+  - ACCEPT: amend the ruling's binding text, the table cell, the END lines and Part H in place, in the adjudicator's voice and form. Every changed sentence must still be one outcome that two builders build alike.
+  - ACCEPT AMENDED: as above, with your own words where the probe's would open a new case. Say why.
+  - REJECT: the ruling already closes it, or the probe's change contradicts an owner rule. Say why in one line, citing the ruling's words.
+Keep the method:
+  - one order-independent table, every cell an outcome and a test;
+  - readers cite the table, never restate it;
+  - no crossing station, raised gate, wall opening or held stretch comes back;
+  - no binding list for late calamities comes back.
+A finding that shows the table's rule itself cannot hold — a cell with no lawful outcome, or a clash with item 110 (b) or (f) — is the exception. Rule the narrowest change that restores it, and flag it at the head of the new part (below). Never change an owner rule. Never record an interpretation of the owner's words as the owner's.
+
+WRITE:
+  1. docs/validation/coherence/adjudication-r6.md, amended in place. Add a section "## Part P — the probe's findings and their decisions" just before Part I. It has one row per PRB6 id: the decision (ACCEPT / ACCEPT AMENDED / REJECT), the reason, and the ruling text, cell, Part H entry and END lines changed. Mark each amended spot in R6-02, R6-03 or Part H with "(amended, PRB6-nn)". If a finding changes a vetoable behaviour R6-02 lists under "What changes in behaviour", update that list and its veto option.
+  2. docs/validation/coherence/results/coherence_adjudicate-r6-amend.json, of the form {"file": "docs/validation/coherence/adjudication-r6.md", "accepted": n, "accepted_amended": n, "rejected": n, "behaviour_changes_touched": [ids]}.
+Append to docs/lane-events.log a CHECKPOINT line after reading, in the form `<UTC date time> coherence/adjudicate-r6-amend CHECKPOINT <what is done; what is next>`, and a LANDED line naming both files when done. If a Part P already exists with a CHECKPOINT of yours in the log, RESUME: never redo a decided row.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Write only the two files above and the log lines. Change no design text: the repair seats write it from your amended file. Your final message must be exactly the JSON result object, nothing else.
