@@ -3223,3 +3223,7 @@
 2026-10-01 22:05 coherence/orchestrator NOTE repair-model-r6 landed (3 whole-subsection blocks: §2.1, §2.7 with both crossing tables, §2.9; 0 ruling requests); launched repair-determinism-r6 in its slot
 2026-10-01 22:05 coherence/repair-rendering-r6 LANDED docs/validation/coherence/repair-r6-rendering.md docs/validation/coherence/results/coherence_repair-rendering-r6.json
 2026-10-01 22:06 coherence/orchestrator NOTE repair-rendering-r6 landed (8 blocks, 0 ruling requests); launched repair-V10-r6 in its slot
+2026-10-01 22:06 coherence/repair-determinism-r6 CHECKPOINT P0 done (brief, adjudication-r6 R6-01/02/03/08, Part H determinism, Part P read; skeleton written); next: issue sources and live §5.3, §5.4, §7.1, §7.3, §7.4, §7.7
+2026-10-01 22:07 coherence/repair-V10-r6 CHECKPOINT brief and adjudication-r6 (Part H V10, R6-05, R6-06, Part P) read; skeleton written; next: verifier evidence and live V10 units
+2026-10-01 22:08 coherence/repair-pipeline-r6 LANDED docs/validation/coherence/repair-r6-pipeline.md docs/validation/coherence/results/coherence_repair-pipeline-r6.json (9 REPLACE blocks, 26 edits; 9 issues: 7 FIX, 2 MERGED, 0 INVALID; R6-02 (P1)-(P14), R6-03 (1) and (4), 3 END lines, sweep 3 sites; 0 ruling requests; 1 hand-off to scope: rationale J-A67.45)
+2026-10-01 22:08 coherence/orchestrator NOTE repair-pipeline-r6 landed (9 blocks, 0 ruling requests); launched repair-V09-r6 in its slot
