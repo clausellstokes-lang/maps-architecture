@@ -3158,3 +3158,5 @@
 2026-10-01 19:06 coherence/verify-kernel-r5t CHECKPOINT P0-P1 brief read, skeleton written; next §3 diff and VKr4-01/02 re-check
 2026-10-01 19:06 coherence/orchestrator NOTE verify-agree-tools-r5t landed (5: 0 blocker, 4 major, 1 minor; r4t had 6); launched verify-edges-life-r5t in its slot
 2026-10-01 19:07 coherence/orchestrator NOTE verify-edges-world-r5t landed (5: 0 blocker, 5 major, 0 minor; r4t had 8); launched verify-vol-V03-V04-r5t in its slot
+2026-10-01 19:07 coherence/verify-vol-V03-V04-r5t STARTED docs/validation/coherence/verify-vol-V03-V04-r5t.md (opus verifier round 5; volumes V03, V04 after repair r5 / assemble-r5: round-4 VV34-r4 finding re-checked under adjudication-r5, round-5 blocks read whole; scratch scratchpad/coherence/v34r5/)
+2026-10-01 19:07 coherence/verify-vol-V05-V06-r5t CHECKPOINT P1-P2 done (r4 findings 3/3 fixed; one new candidate: wallToWay ring road beneath a deck); next P3 V06 blocks
