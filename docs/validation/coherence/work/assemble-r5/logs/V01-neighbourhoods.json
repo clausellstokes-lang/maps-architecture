@@ -1,0 +1,185 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V01-neighbourhoods.md",
+ "input_doc_sha256": "a0c15b713802a1ed08037da66475e87d2abfaf07c3a111182c85ed210cc02ce5",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V01.md",
+   "sha256": "fb246cf0e4d591edaa48f7588aa1f9907ab5b30fc203fa13319ca6d4a19eb629",
+   "lines": 422,
+   "blocks": 5,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V01.md #1 (l. 2) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r5-V01.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 127,
+   "body_sha256": "47ebc28bec78bff9067f17358c01b1c0eed1ac8faab6f069f4c8ea3904bb39bb",
+   "target_line": 2587,
+   "section_old": "2587–2714",
+   "section_old_n": 128,
+   "section_new_n": 128,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V01.md #2 (l. 132) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "file": "repair-r5-V01.md",
+   "index": 2,
+   "line": 132,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "body_lines": 113,
+   "body_sha256": "12ada707c66508fca0ee402b589536f3f6b8ab5e1247d775d8b4cf76416740eb",
+   "target_line": 3129,
+   "section_old": "3129–3241",
+   "section_old_n": 113,
+   "section_new_n": 114,
+   "new_headings": [
+    "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V01.md #3 (l. 248) REPLACE ## 6 Performance budgets",
+   "file": "repair-r5-V01.md",
+   "index": 3,
+   "line": 248,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 52,
+   "body_sha256": "0ee32077424929a09d4643fbae81cb38fe2a8022a2e89d315d2524ecc7fb8982",
+   "target_line": 3243,
+   "section_old": "3243–3295",
+   "section_old_n": 53,
+   "section_new_n": 53,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V01.md #4 (l. 303) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r5-V01.md",
+   "index": 4,
+   "line": 303,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 76,
+   "body_sha256": "fa527c36b06cd815c716f13f668d3fa654733b5de30b0a5fec0e3d78dc58da46",
+   "target_line": 3296,
+   "section_old": "3296–3372",
+   "section_old_n": 77,
+   "section_new_n": 77,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V01.md #5 (l. 382) REPLACE ### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r5-V01.md",
+   "index": 5,
+   "line": 382,
+   "kind": "REPLACE",
+   "heading": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 38,
+   "body_sha256": "f80e3ae882e6238f31f2208077c05033a4bccc5177c4fa5e76522242b2d99100",
+   "target_line": 3435,
+   "section_old": "3435–3473",
+   "section_old_n": 39,
+   "section_new_n": 39,
+   "new_headings": [
+    "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V01.md #1 (l. 2) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V01.md #2 (l. 132) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V01.md #3 (l. 248) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V01.md #4 (l. 303) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V01.md #5 (l. 382) REPLACE ### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 123,
+  "headings_after": 123,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 526767,
+  "doc_bytes_after": 527808,
+  "doc_lines_before": 3757,
+  "doc_lines_after": 3758,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 5,
+  "blocks_applied": 5,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "4585e1a59d0e499ab46301fdaa6dd5b5cc13d781474dc88202b2dff2b3e4972a",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

@@ -1,0 +1,26 @@
+class	unit	line	id	section	context
+record	V03	3131	VAF-R0S-16	## 9 Decisions (each vetoable)	, because a template family is never a class (§2.6's `BuildingClass`; VAF-R0S-16), no building's class names them, several familie
+record	V03	3282	VAF-R0S-03	## 13 Fix list	| model (VAF-R0S-03) | `AccessHead` declared at §2.6 and cited here |
+record	V03	3283	VAF-R0S-16	## 13 Fix list	| model (VAF-R0S-16) | the class rows keyed on §2.6's `BuildingClass`
+record	V03	3284	VAF-R0S-20	## 13 Fix list	| pipeline (VAF-R0S-20) | §4.5's discrete-cell rule cited | V03 §2.4, V0
+record	V03	3285	VDC0-11	## 13 Fix list	| determinism (VDC0-11) | the plan edits' reach bend `bend.room.unreacha
+record	V03	3286	VV34-07	## 13 Fix list	| V10 (VV34-07) | the notes keyed `info.plan.note.<id>` | V03 §4
+record	V03	3287	VAP-21	## 13 Fix list	| V11 (VAP-21), V12 | `exposureAllStoreys`'s preset entries fal
+record	V03	3293	VV56-r2-06	## 13 Fix list	| V06 (VV56-r2-06, VAT2-r2-09) | `decayPeak` read per element from
+record	V03	3293	VAT2-r2-09	## 13 Fix list	| V06 (VV56-r2-06, VAT2-r2-09) | `decayPeak` read per element from each element
+record	V09	4854	V09-XAGREE-3	## 9 Decisions (each vetoable)	end owns its id and a key no producer emits is a row no user can see (V09-XAGREE-3) |
+record	V09	4862	R2-41	## 9 Decisions (each vetoable)	no phone default, since no map is offered on a phone (item 126 (a2); R2-41) — with Start a shower now enabled only while the
+record	V09	4863	VAH-r1-04	## 9 Decisions (each vetoable)	outcome and the clerk's cards read the same buttons (V10 §3.5 step 3; VAH-r1-04) |
+record	V09	4864	VAT-08	## 9 Decisions (each vetoable)	e`'s `moveVertex` on an island's key, which no other gesture reaches (VAT-08) |
+record	V09	4865	R2-22	## 9 Decisions (each vetoable)	ple acts on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |
+record	V09	4865	VAH-r1-03	## 9 Decisions (each vetoable)	s on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |
+record	V09	4867	R2-42	## 9 Decisions (each vetoable)	Stop ended with `advance`'s `stopAfter` (its journalled count; §11.2, R2-42) over a timed `cancelAdvance` on the job's progre
+record	V09	4867	VV910-r1-02	## 9 Decisions (each vetoable)	och starts, so only a count reproduces the journalled `logHeadAfter` (VV910-r1-02) |
+record	V09	4880	V09-XCONF-1	## 10 Base change requests	d's `PlatKey`, or the underground, its band the view key `depthBand`; V09-XCONF-1) and `restore/<id>` | file f item 277 | §2.9 *Vie
+record	V09	4908	V01-XCONF-2	## 10 Base change requests	| BCR-V9-31 | item 110 in the formats (with the one VTT rule of V01-XCONF-2: a retaining wall joins `line_of_sight` where its
+record	V09	4914	VV910-r1-02	## 10 Base change requests	vance's epoch count — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the cohere
+record	V09	4914	R2-42	## 10 Base change requests	`stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's rendering repair
+record	V09	4926	V09-XAGREE-1	## 10 Base change requests	dTo?, avoid?, cut? }` with their three meanings | V11 §4.2, the union V09-XAGREE-1 rules; V09 §2.6 cites it |
+record	V09	4929	V09-XAGREE-2	## 10 Base change requests	runs of V09 §4.17.5 (e) | V03 §3.7.4 (the rank cap `crypt.rankShare`; V09-XAGREE-2) |
+record	V09	4946	V10-XAGREE-3	## 10 Base change requests	the size words name V09 §4.5's quantiles, never a population number (V10-XAGREE-3) | V10 §3.3 |
+record	V10	3394	V10-XAGREE-3	## 9 Decisions (each vetoable)	ers, because a word asked and a chip picked must give one population (V10-XAGREE-3) |

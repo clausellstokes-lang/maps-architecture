@@ -310,7 +310,7 @@ table below wires every other piece.
 ### 2.1 The island record
 
 `SkyIsland`, `UndersideProfile` and `ShadeBasis` are declared in `@plat/model` as below; §2.7's staged block carries
-them (file f item 251; MC-07: the island arena's own ring, no stored position).
+them (file f item 251: the island arena's own ring, no stored position).
 
 ```ts
 // every length integer cm, every value on the field's [0, 1] scale
@@ -682,7 +682,7 @@ row names its base hook in its first cell. The create column is the field's prod
 | `Decoration.members` (`DecorationMember[]`, §2.7, file f item 252; J-V5.76) | `fallIsland` (V05 §3.16 (5)) | §8.2's `fallen` row, volume 6's landfall candidate (V06 §3.5.2), volume 4's access closures (V04 §3.10), the accesses' admissible ground, the clerk, the per-landfall CSV | model digest | shrunk only by volume 6's member-leaving `setAttr` in the batch of the op that ends a member's cover (V06 §3.5.2; J-V6.108), the decoration tombstoned with the last | the `fallIsland` undo removes it; the writing event's undo restores the prior list | an older list of `Id`s reads as it stands; absent = none |
 | `Way.formerClass` (volume 6's field; its row V06 §2.12) | this volume's writer: `fallIsland` (V05 §3.16 (4)), a covered way's class before it drops to `track`, only where the way carries none | V06 §2.12's row | V06 §2.12's row | written again when the `fallIsland` event replays | the `fallIsland` undo restores the prior value (absent where the fall wrote the first) | V06 §2.12's row |
 | `Enceinte.condition` with its `conditionEpoch`, and `RetainingWall.state` — the stretch-state profiles (§2.2 rule 5; file f items 575, 245; item 114 (b); E-01) | this volume's writer: `fallIsland` (V05 §3.16 (4)), `breached` over each covered wall length with `conditionEpoch` the epoch in force at the fall over every run it changes (`conditionMaterial` kept), and `decayed` over each covered retaining length | the profile rule's readers (§2.2 rule 5; items 575, 245, 114; V06 §2.12; V06 §3.7.7's oldest-patch-first order reads the epoch) | the profile rule's | written again when the `fallIsland` event replays; never by a re-derivation of its own | the `fallIsland` undo restores the prior profiles (and the enceinte's `lifecycle`) | the profile rule's |
-| `ContextVector.arena 'sky'` (§2.5, file f item 213; MC-05) | the unit run's context read | every arena-keyed row | derivation record | recomputed | — | — |
+| `ContextVector.arena 'sky'` (§2.5, file f item 213) | the unit run's context read | every arena-keyed row | derivation record | recomputed | — | — |
 | `Reservation.owner` and `.handedFrom` of an S3 reservation an institution island leaves (§2.5, file f item 286) | S7b (5), when the slot's institution holds the reservation (V05 §3.5) | S10b (the hand-over instance's placement), S12b (a park), the raised-way generator's endpoint reason (V05 §3.22 (5)), the reader, the clerk | model digest | re-made by a re-derivation from S7b; kept by every island edit | the event's undo record | absent `handedFrom`: no hand-over |
 | the island cathedral's crypt site (V05 §3.10 (5)) | SKY's claim site search with the crypt test | the cathedral's basement crypt (volumes 2 and 3's `Basement` record, which persists it); the fate list | not stored here: the building's basement record holds the crypt | re-tested with every re-claim | with the claim | — |
 | `EpochOps.demandTaken`; the displaced pool's entries with cause `island` (V06 §2.1, V06 §3.8.1) | `IslandEpochStep` (V05 §3.15) | volume 6's `siting` step, the same epoch | inside the epoch event only; their effects persist as the events the step and `siting` commit | recomputed by a replay of the epoch | the epoch event's undo | — |
@@ -2804,22 +2804,24 @@ off form and the seat that writes the registration (X-V12-11): T-V5-15's item-11
   `LayerSpec.visible` unchanged (V05 §5.6 (3)); (d) (T120-5) at the city band every sky match has a pin or a bubble,
   each carrying its chip's second cue, and no bubble joins two islands' or two layers' pins; (e) under a player view on
   an island form of T-V9-66's knowledge canary — a `secret` access's landing yard and a concealed use on an island —
-  nothing withheld surfaces in a suggestion, count, glow, pin or ghost pin; (f) (T120-4) the chips survive every band
-  and layer change and a raise, a move (the glow moving with the island), a fall (its matches dark, its landfall offered
-  on Ground), an `advance` with its epochs, an undo, a redo, a regenerate, a load and a migration, each match set equal to a
-  fresh evaluation there, and a chip whose last match goes — an island institution's after its island falls — stays at
-  count 0, dark; (g) Show gaps outlines exactly V01 §5.4 (3)'s `gapUnits` on the islands as V05 §5.6 (4) reads them —
-  each island district for a class with no coverage row or a row counted by district or neighbourhood; under a
-  walking-radius row every residential plot of an island holding no member, whatever the ground beneath holds, and none
-  of one holding a member; under a households row each district's unserved plots by V01's per-plot reading — a class
-  `IslandRule.carry.never` excludes among them; (h) item 120 (j)'s suggestion and glow timings hold with three islands at
-  the METROPOLIS cap (V05 §6's Find row); (i) at a drawn week whose frame is not the head (V05 §5.6 (5)), on (f)'s
-  fixture after an `advance` whose epochs raise one island and resize another, then a hand move of one island and
-  the removal of another, and on T-V5-14's falling CITY, each scrubbed to a week before those epochs: every sky
-  match, glow, pin, ghost pin and gap unit those of §11.2's listing at that week, drawn on its island's land and at
-  its anchor in that frame — the raised island offering none, the moved one's at its former anchor, the removed one's
-  offered, and the fallen island's on Sky as the frame holds it, never its landfall on Ground; the head's reading
-  back when the scrub returns to the head.
+  nothing withheld surfaces in a suggestion, count, glow, pin or ghost pin; (f) (T120-4; its fall cases from the later
+  of P3 and P6, which builds the landfall, and its `advance` from the later of P3 and V06's E6, which builds `advance`)
+  the chips survive every band and layer change and a raise, a move (the glow moving with the island), a fall (its
+  matches dark, its landfall offered on Ground), an `advance` with its epochs, an undo, a redo, a regenerate, a load and
+  a migration, each match set equal to a fresh evaluation there, and a chip whose last match goes — an island
+  institution's after its island falls — stays at count 0, dark; (g) Show gaps outlines exactly V01 §5.4 (3)'s
+  `gapUnits` on the islands as V05 §5.6 (4) reads them — each island district for a class with no coverage row or a row
+  counted by district or neighbourhood; under a walking-radius row every residential plot of an island holding no
+  member, whatever the ground beneath holds, and none of one holding a member; under a households row each district's
+  unserved plots by V01's per-plot reading — a class `IslandRule.carry.never` excludes among them; (h) item 120 (j)'s
+  suggestion and glow timings hold with three islands at the METROPOLIS cap (V05 §6's Find row); (i) from the later of
+  P3, P6 and V06's E6 (P6's `IslandEpochStep` and landfall; V06's `advance` and history frames, V06 §3.15.2), at a drawn
+  week whose frame is not the head (V05 §5.6 (5)), on (f)'s fixture after an `advance` whose epochs raise one island and
+  resize another, then a hand move of one island and the removal of another, and on T-V5-14's falling CITY, each
+  scrubbed to a week before those epochs: every sky match, glow, pin, ghost pin and gap unit those of §11.2's listing at
+  that week, drawn on its island's land and at its anchor in that frame — the raised island offering none, the moved
+  one's at its former anchor, the removed one's offered, and the fallen island's on Sky as the frame holds it, never its
+  landfall on Ground; the head's reading back when the scrub returns to the head.
 
 **Parity.** No reference has islands (II.6 (8)), so no parity number binds them. The nearest look is Neighbourhood's lone
 patch — its own ground tone and a drop shadow marking its extent on an empty field (`research/findings/vg-ng-devlogs.md`
@@ -2838,7 +2840,7 @@ inputs to volume 1's unit run are settled while volume 1 is built; it needs volu
 | P0 — spikes | the supply calibration run (V05 §3.3); placement over 1 000 islands with the reachability filter; the unit inputs to volume 1's unit runner on a hand-built arena (with `districtHa` and the gradient: the band shares and the re-homed count); the caster allowance measurement (V05 §3.9 (5)) with item 110's rows on; the strip against the rung-3 shadow on one fixture; the save-and-reload of a lagging strip | the ⟨P0⟩ rows set or the fallbacks applied; T-V5-5's rates; the runner's contract passes T-V5-9 on the fixture; T-V5-10's ≥ 99 % clause; T-V5-20 on the fixture; T-V5-21 (h) on the fixture | 1.5–2 |
 | P1 — the model | the records (file f items 203, 204, 213, 251–253, 274, 282, 286, 295, 296, 546, 547); `nextSkyPart`; `shadeBasis` and its load path; S7b (5)'s gate, slots, reasons (the archetype match and the ladder filter included), fills with `carry`, the held shares and the node term, the hand-over of S3 reservations, outline, reachability and placement; the arena with its outline-sized frame, the terrain echo, the river; the underside, the ground reference and the altitude at SKY (item 110's raised parts, retaining walls and levelled platforms among the casters); the claim search with the crypt test; the gradient field; the strips from the bases on the unlevelled receivers, their fold into field pass 2 and the island-free value; the sky receivers; F-SKY-FILL, -PLACE, -TERRAIN, -SHADE, -CRYPT, -HANDOVER; SKY's own ground data keys; the strips held from their first read and the bases at S10a's start; the optional basis and its schema-chain step | T-V5-1 to T-V5-7, T-V5-10, T-V5-19, T-V5-21 (a), (e), (f), (h), T-V5-25, T-V5-26, T-V5-32, T-V5-33's rows of these mechanisms; `plat calibrate register --check` green over the cells it lands (`islands.json` whole, V11 §3.1 row 56) | 3.75–4.75 |
 | P2 — access, the unit inputs and siting | access tops, feet and landing claims (ground and hinterland) with the S8 destinations (file f item 299), the rim strip and its walk, the island's context vector, the `sky` request and `skyUnitInput` with `districtHa`, the kinds and the fabric prior, SKY-F with the clearance check and both repairs, the sky lights (item 307), names; the route distance in both S10b runs and the island's coverage units (item 308); the supply web, splits, per-arena order and relaxation, the district term, `comfortM` and spacing across the arenas (V05 §3.20 (10)–(12)); chains across the island, custom and `activeChains[]`; the rim as a barrier; item 110 against the accesses — admissible ground without decks and raised-way piers, `lineClearM`, `skyAccessObstacles` for the raised-way solver and T4, the island's retaining walls in the unit run's contract, the generator's reads of the sky (items 245, 290, 309) | T-V5-8, T-V5-9, T-V5-11, T-V5-22, T-V5-23, T-V5-24, T-V5-27, T-V5-28, T-V5-30 (with T-V5-8's and T-V5-27's item-110 clauses), T-V5-33's rows of these mechanisms; `plat calibrate register --check` green over the cells it lands (the sky rows of `lights.json`, V11 §3.1 row 51, with the `keel` row's `radiusMarginM`) | 4–5.25 |
-| P3 — the picture | the marks with their sheet rows (file f item 408), the three occlusion modes with the underside and tether, the sky surface layer in the tile worker and the light pass (CPU reference and GPU) with the window without slabs (item 416), rung 3's prism tiers, the cursor sun's floor, labels (item 415); the strip's outlines in volume 9's shade map view; the island's seasonal look, its festival pennants and Find on Sky (items 117, 118, 120; V05 §5.1, V05 §5.6) | T-V5-12, T-V5-13, T-V5-20, T-V5-34, T-V5-35, T-V5-36 | 3.75–5.5 |
+| P3 — the picture | the marks with their sheet rows (file f item 408), the three occlusion modes with the underside and tether, the sky surface layer in the tile worker and the light pass (CPU reference and GPU) with the window without slabs (item 416), rung 3's prism tiers, the cursor sun's floor, labels (item 415); the strip's outlines in volume 9's shade map view; the island's seasonal look, its festival pennants and Find on Sky (items 117, 118, 120; V05 §5.1, V05 §5.6) | T-V5-12, T-V5-13, T-V5-20, T-V5-34, T-V5-35, T-V5-36 (its (f) fall and `advance` cases and its (i) at the later exits it names) | 3.75–5.5 |
 | P4 — editing | V05 §4.2's events and parameters (the island brushes, the access `setAttr` semantics, the pointer mapping in `offset`, an island wall, the hand-placed cap), dry runs with the shade fate and the bends, Update shade now, locality, undo (items 356, 375), DR27 and its coherence with the dossier-removal path (item 387), the clerk's `WhyProvider` with the strip, route, link and siting answers; `convert removeIsland` and the removed ordinals with their holds (item 260) | T-V5-16, T-V5-29 | 2.25–3 |
 | P5 — exports | GeoJSON (the strip features included), SVG, PNG, VTT, glTF, CityJSON's extension types, the statistics rows | T-V5-17 | 1–1.5 |
 | P6 — time | `IslandEpochStep` with the household channels and the re-reasoning of an island whose institution left (its lock clause included), the bases and strips re-read at each epoch and the lag, the landfall over every covered kind (item 110's raised spans, raised-way piers, retaining walls and deck plots, and other islands' accesses, included), the participant `sky.clearance` with `reclearIsland` and the ledger by hand and on the M4 grow path (item 320); the engine-driven schedule joins volume 6's milestone; the one-time waits timed against item 119's comfort level | T-V5-14, T-V5-15, T-V5-18 (its comfort-level clause included), T-V5-21 (b)–(d), (g), T-V5-31, T-V5-33's remaining rows | 1.75–2.75 |
@@ -2862,8 +2864,9 @@ until then), and the rim barrier item 106's `barrier` closure and volume 11's `s
 rows (fixture rows until then), and P6's `sky.clearance` needs volume 6's `afterGrowth` participant table and `EpochScope`
 (a direct call after the M4 grow path's growth until then); P3's looks need §8.2's season and festival rows with V11
 §3.25.6 – V11 §3.25.7's tables (fixture rows until then) and its Find part V09's Find panel and `live.find`, which land
-at M5 (Find's milestone; §16) before P3, so T-V5-36 lands with P3 at M6-sky; P6's comfort-level runs need V12 §3.15.9's
-wait timer and V06 §6.8's estimate; P4 and P5 after P2;
+at M5 (Find's milestone; §16) before P3, so T-V5-36 lands with P3 at M6-sky, its (i) at the later of P3, P6 and V06's E6,
+(f)'s fall cases at the later of P3 and P6 and (f)'s `advance` at the later of P3 and V06's E6; P6's comfort-level
+runs need V12 §3.15.9's wait timer and V06 §6.8's estimate; P4 and P5 after P2;
 P6 after P4. **Risks, in order:** the two-surface light pass's frame cost (P3; fallback: half resolution, then rung 3 for
 the sky base); the field's power to
 tell rich towns from poor (P0; fallback: the `wealthLevel` blend); the unit-run contract across volumes (P0; tested as a

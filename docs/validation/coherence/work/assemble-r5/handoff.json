@@ -1,0 +1,305 @@
+{
+ "swaps": [],
+ "notes_for_assemble": [
+  "repair-r5-scope.md: NOTE FOR ASSEMBLE (one proposed allow row) — P5, allowrows.py"
+ ],
+ "checks": {
+  "ids": {
+   "index_before": 805,
+   "part_a_before": 805,
+   "index_after": 805,
+   "part_a_after": 805,
+   "index_duplicates": [],
+   "part_a_duplicates": [],
+   "one_id_set": true,
+   "index_order_unchanged": true,
+   "part_a_order_unchanged": true,
+   "index_rows_unchanged": true,
+   "rationale_byte_identical": true
+  },
+  "alone": {
+   "determinism": {
+    "found": 8,
+    "applied": 8,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22934,
+     22938
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "base_sha256": "9c8c1a45bc976c79d44a1557b96f9b360f7f301c5074855cae9876cd7c0a9675",
+    "rationale_unchanged": true,
+    "hunks": 13,
+    "changed_old_lines_n": 20,
+    "inserts": [
+     [
+      11786,
+      1
+     ]
+    ],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "recorded": "8 applied, 0 skipped, audit OK, headings 153 → 153; diff confined to l. 9208, 9221, 9253, 9971–9973, 10180–10183, 10319, 10592–10595, 10845, 11190, 11365, 11786, 11873, 11978 of the live base",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     9208,
+     9221,
+     9253,
+     9971,
+     9972,
+     9973,
+     10180,
+     10181,
+     10182,
+     10183,
+     10319,
+     10592
+    ]
+   },
+   "kernel": {
+    "found": 1,
+    "applied": 1,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22934,
+     22939
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "base_sha256": "a77943e70fcc5f93ac4bcc25faf22a151739471b7d726f5a74dc389d4ef2f26b",
+    "rationale_unchanged": true,
+    "hunks": 2,
+    "changed_old_lines_n": 1,
+    "inserts": [
+     [
+      3655,
+      5
+     ]
+    ],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "recorded": "1 found, 1 applied, 0 skipped, audit not-OK 0; headings 153 → 153; 2 hunks (l. 3562 changed; 5 lines added after l. 3655); index 805 = Part A 805; rationale unchanged (a480f02e…); combined: §3 of the combined output identical to §3 alone",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     3562
+    ]
+   },
+   "model": {
+    "found": 2,
+    "applied": 2,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22934,
+     22949
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "base_sha256": "21b77aa7ddb2a925cfb3c279930c461c823e95a61997df6a3f169a702b03cec1",
+    "rationale_unchanged": true,
+    "hunks": 5,
+    "changed_old_lines_n": 82,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "recorded": "2 applied, 0 skipped, audit OK, headings 153 → 153; diff confined to l. 2292, 2315–2317, 2535–2540, 2546–2615, 3392–3393 of the live base",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     2292,
+     2315,
+     2316,
+     2317,
+     2535,
+     2536,
+     2537,
+     2538,
+     2539,
+     2540,
+     2546,
+     2547
+    ]
+   },
+   "pipeline": {
+    "found": 10,
+    "applied": 10,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22934,
+     22950
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "base_sha256": "3539aecf7ace9756d02f8bf9611e9e4caba845f0c83163f360c62877140ef904",
+    "rationale_unchanged": true,
+    "hunks": 25,
+    "changed_old_lines_n": 64,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "recorded": "10 found, 10 applied, 0 skipped, audit 0, headings 153 → 153; document 22 934 → 22 950 lines; rationale unchanged",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     4930,
+     4932,
+     5623,
+     5624,
+     5625,
+     5626,
+     5627,
+     5628,
+     5629,
+     5630,
+     5631,
+     5632
+    ]
+   },
+   "rendering": {
+    "found": 11,
+    "applied": 11,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22934,
+     22956
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "base_sha256": "bf0a505c2d5bafba83def628b923b9989de89a682b13905d8fefe9dab5bf279a",
+    "rationale_unchanged": true,
+    "hunks": 24,
+    "changed_old_lines_n": 38,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "recorded": "11 found, 11 applied, 0 skipped, audit not OK 0, headings 153 → 153; index 805 rows and Part A 805 rows, no duplicate",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     13141,
+     13195,
+     13196,
+     13629,
+     13829,
+     13830,
+     13851,
+     14070,
+     14071,
+     14108,
+     14331,
+     14332
+    ]
+   },
+   "scope": {
+    "found": 5,
+    "applied": 5,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22934,
+     22967
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "base_sha256": "d75a028aa6371ec8ff8f175bd257f3c4e443baea384974f23c3d5730fbc84d3a",
+    "rationale_unchanged": true,
+    "hunks": 16,
+    "changed_old_lines_n": 43,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "recorded": "5 found, 5 applied, 0 skipped, audit not-OK 0, headings 153 → 153, the rationale untouched (805 = 805, 0 duplicates); document 22 934 → 22 967 lines",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     17594,
+     17595,
+     17596,
+     18171,
+     18172,
+     18173,
+     18174,
+     18175,
+     18176,
+     18397,
+     18398,
+     18405
+    ]
+   }
+  },
+  "combined_lines": {
+   "before": 22935,
+   "after": 23030,
+   "sum_of_alone_growths": 95,
+   "equal": true
+  }
+ },
+ "carried_unchanged": [
+  "docs/volumes/INDEX.md"
+ ],
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "2d84eac2d8a379d11bc55e5490700cf812075d40a774a88a624e116886d638e0",
+  "docs/ARCHITECTURE-RATIONALE.md": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+  "docs/volumes/V01-neighbourhoods.md": "4585e1a59d0e499ab46301fdaa6dd5b5cc13d781474dc88202b2dff2b3e4972a",
+  "docs/volumes/V02-buildings.md": "fb46c67694cfe88d0691ec57c5cedcbfde0c263b994018dfeb38a4a2c83302c7",
+  "docs/volumes/V03-interiors.md": "3fe82c822e32b703769d0c1b56510405a1b35f32854b723d77de854541b1f373",
+  "docs/volumes/V04-underground.md": "b79fd29048f06a90b564e0145b489e6fba68c407e9dfdbec99bbe627795a697e",
+  "docs/volumes/V05-sky.md": "171db6516974533d3e0aef4492f0bfbbae2f7a7c04b7a778ab19a11a14ee098e",
+  "docs/volumes/V06-evolution.md": "6fb1f6417fc1dfc886677f260dce1d38219ebd7a848d959a85260bf7792fc9e1",
+  "docs/volumes/V07-village.md": "7747179dc9854aa6d319fc1a4db579a19f9ed694d36a9cb353e88dabb4750284",
+  "docs/volumes/V08-settlementforge.md": "8b5b52439f96a352d878de641d3311f2ab8db1deee01cc1983f740036ded4f7d",
+  "docs/volumes/V09-application.md": "7c91d3bff549344b72ad0615b9362249269b2fd786e724b340c9afe50cd98253",
+  "docs/volumes/V10-clerk.md": "847b3189f56daf453a5741f5077631f3be30c301acc85cf89190896116247f08",
+  "docs/volumes/V11-content.md": "b1445a5ff552c7cba3ef9f35f39f48ea9586c8e97845cefa3dd9e4dca6e7ffae",
+  "docs/volumes/V12-calibration.md": "1e305ebe07843db09c56f838d12143ffb521538339239c838a45ad875e85e9a5",
+  "docs/volumes/INDEX.md": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3"
+ },
+ "out_equals_final": {
+  "docs/ARCHITECTURE.md": true,
+  "docs/ARCHITECTURE-RATIONALE.md": true,
+  "docs/volumes/V01-neighbourhoods.md": true,
+  "docs/volumes/V02-buildings.md": true,
+  "docs/volumes/V03-interiors.md": true,
+  "docs/volumes/V04-underground.md": true,
+  "docs/volumes/V05-sky.md": true,
+  "docs/volumes/V06-evolution.md": true,
+  "docs/volumes/V07-village.md": true,
+  "docs/volumes/V08-settlementforge.md": true,
+  "docs/volumes/V09-application.md": true,
+  "docs/volumes/V10-clerk.md": true,
+  "docs/volumes/V11-content.md": true,
+  "docs/volumes/V12-calibration.md": true,
+  "docs/volumes/INDEX.md": false
+ }
+}

@@ -3083,3 +3083,10 @@
 2026-10-01 18:15 coherence/orchestrator NOTE repair-V11-r5 landed (6 blocks, 0 ruling requests); 1 repair still running (kernel)
 2026-10-01 18:15 coherence/repair-kernel-r5 LANDED docs/validation/coherence/repair-r5-kernel.md docs/validation/coherence/results/coherence_repair-kernel-r5.json
 2026-10-01 18:15 coherence/orchestrator NOTE repair-kernel-r5 landed (1 block, 0 ruling requests); all 18 repair-r5 units landed (133 blocks, 0 ruling requests); launched coherence/assemble-r5 (base docs/ARCHITECTURE.md sha256 5f34cceb…)
+2026-10-01 18:16 coherence/assemble-r5 CHECKPOINT P0 done (fresh start; 18/18 repair-r5 landed, 133 blocks); next P1 snapshot
+2026-10-01 18:17 coherence/assemble-r5 CHECKPOINT P1+P2 done (15 live files = HEAD 3310b538; 133 REPLACE blocks routed, 0 missing/overlap/RR); next P3 apply
+2026-10-01 18:18 coherence/assemble-r5 CHECKPOINT P3 done (133/133 applied, audit 0; 12 volume outputs = seats' records, 6 base seats' alone runs reproduced; headings unchanged; installed); next P4 references
+2026-10-01 18:21 coherence/assemble-r5 CHECKPOINT P4 done (56 169 refs, 0 broken, 0 FIX, 85 ambiguous-form); next P5 doc checks
+2026-10-01 18:24 coherence/assemble-r5 CHECKPOINT P5 done (doc checks exit 0 on untouched/new/combined, 34 and 8 keys, after 5 reviewed allow rows; combined 3 571 hits, provisional); next P6 bundle
+2026-10-01 18:27 coherence/assemble-r5 LANDED docs/validation/coherence/assemble-r5.md docs/ARCHITECTURE.md docs/volumes/V01-V12 (12 changed) docs/ARCHITECTURE-FULL.md docs/validation/doc-checks-allow.tsv docs/validation/coherence/results/coherence_assemble-r5.json docs/validation/coherence/work/assemble-r5/ (133/133 blocks, 0 skipped, 0 broken refs, doc checks exit 0 provisional, 0 review-id sites)
+2026-10-01 18:28 coherence/orchestrator NOTE assemble-r5 landed (133/133 blocks applied, 0 skipped, 0 broken refs, 0 review-id sites in design text; docs/ARCHITECTURE.md sha256 2d84eac2…); verify round 5 (r5t) started: agree-layers, rendering, agree-proof, vol-V07-V08, determinism, model

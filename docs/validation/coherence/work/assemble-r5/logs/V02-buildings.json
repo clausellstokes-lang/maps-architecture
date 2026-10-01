@@ -1,0 +1,133 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V02-buildings.md",
+ "input_doc_sha256": "2579cb1696f494b6b265f13a6d4e649a0fbbe111b54f7b6d2f196a56b2d67da4",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V02.md",
+   "sha256": "7598d820cfe2f33a05122448782644d50a85a5689d04fb3288f549d2d0f8ec40",
+   "lines": 343,
+   "blocks": 3,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V02.md #1 (l. 2) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r5-V02.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 122,
+   "body_sha256": "6d36383bc3c2a3dbc61dc59273552bbf70a306184d8af832db03ba75804bad94",
+   "target_line": 2434,
+   "section_old": "2434–2556",
+   "section_old_n": 123,
+   "section_new_n": 123,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V02.md #2 (l. 127) REPLACE ### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "file": "repair-r5-V02.md",
+   "index": 2,
+   "line": 127,
+   "kind": "REPLACE",
+   "heading": "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "body_lines": 137,
+   "body_sha256": "bdac1acb5e68e92124b9e942c06704e7d8c82cb96140aed62785ef79b1b8bf22",
+   "target_line": 3029,
+   "section_old": "3029–3165",
+   "section_old_n": 137,
+   "section_new_n": 138,
+   "new_headings": [
+    "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V02.md #3 (l. 267) REPLACE ### 7.8 Ruin and disaster on the exterior",
+   "file": "repair-r5-V02.md",
+   "index": 3,
+   "line": 267,
+   "kind": "REPLACE",
+   "heading": "### 7.8 Ruin and disaster on the exterior",
+   "body_lines": 74,
+   "body_sha256": "c01cb82530d2c31812a341dafe3eaaa063912171fee38edd313d0a91bca99c82",
+   "target_line": 3737,
+   "section_old": "3737–3808",
+   "section_old_n": 72,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 7.8 Ruin and disaster on the exterior"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V02.md #1 (l. 2) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V02.md #2 (l. 127) REPLACE ### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "kind": "REPLACE",
+    "heading": "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V02.md #3 (l. 267) REPLACE ### 7.8 Ruin and disaster on the exterior",
+    "kind": "REPLACE",
+    "heading": "### 7.8 Ruin and disaster on the exterior",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 77,
+  "headings_after": 77,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 16,
+  "fence_lines_after": 16,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 563512,
+  "doc_bytes_after": 564391,
+  "doc_lines_before": 4217,
+  "doc_lines_after": 4221,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 3,
+  "blocks_applied": 3,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "fb46c67694cfe88d0691ec57c5cedcbfde0c263b994018dfeb38a4a2c83302c7",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

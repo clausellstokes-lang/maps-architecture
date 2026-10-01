@@ -1,0 +1,185 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V03-interiors.md",
+ "input_doc_sha256": "9af5ffd5d8aa2fa9298cef3a5541bdb6ad03b5a2c578c145684b1b8136ccb2c4",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V03.md",
+   "sha256": "81c218a9165d0f111a788d7ca9ee2adbb7ce518c2703e8ea63fff69dbc588d2c",
+   "lines": 431,
+   "blocks": 5,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V03.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r5-V03.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 139,
+   "body_sha256": "ba0daa34072ea23f226226b7f83147598792ee7d2abb5e852c829bf7445d3d00",
+   "target_line": 90,
+   "section_old": "90–229",
+   "section_old_n": 140,
+   "section_new_n": 140,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V03.md #2 (l. 144) REPLACE ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+   "file": "repair-r5-V03.md",
+   "index": 2,
+   "line": 144,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+   "body_lines": 63,
+   "body_sha256": "fdafab5f96962995f7ded748c0224900a94dadb8f23fa5651a7e72234569be35",
+   "target_line": 2267,
+   "section_old": "2267–2330",
+   "section_old_n": 64,
+   "section_new_n": 64,
+   "new_headings": [
+    "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V03.md #3 (l. 210) REPLACE ### 4.6 The clerk's view — plan queries and \"why?\"",
+   "file": "repair-r5-V03.md",
+   "index": 3,
+   "line": 210,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The clerk's view — plan queries and \"why?\"",
+   "body_lines": 59,
+   "body_sha256": "f8ca4ab52cc243c7d06513457c5317cbfd4b9cdd6ec8e9169058f05bd8b77edc",
+   "target_line": 2331,
+   "section_old": "2331–2390",
+   "section_old_n": 60,
+   "section_new_n": 60,
+   "new_headings": [
+    "### 4.6 The clerk's view — plan queries and \"why?\""
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V03.md #4 (l. 272) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r5-V03.md",
+   "index": 4,
+   "line": 272,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 88,
+   "body_sha256": "1b6b08d87586747430d20608b4e6b95e419e3d9696f06d878cc35ca1db4d6f7e",
+   "target_line": 2836,
+   "section_old": "2836–2924",
+   "section_old_n": 89,
+   "section_new_n": 89,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V03.md #5 (l. 363) REPLACE ## 8 Build plan",
+   "file": "repair-r5-V03.md",
+   "index": 5,
+   "line": 363,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 65,
+   "body_sha256": "295f7749d41394d8104da1dee5b7d6230e30a3b62d8e066982684641120d0ab8",
+   "target_line": 2925,
+   "section_old": "2925–2990",
+   "section_old_n": 66,
+   "section_new_n": 66,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V03.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V03.md #2 (l. 144) REPLACE ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V03.md #3 (l. 210) REPLACE ### 4.6 The clerk's view — plan queries and \"why?\"",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The clerk's view — plan queries and \"why?\"",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V03.md #4 (l. 272) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V03.md #5 (l. 363) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 48,
+  "headings_after": 48,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 466833,
+  "doc_bytes_after": 467516,
+  "doc_lines_before": 3304,
+  "doc_lines_after": 3304,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 5,
+  "blocks_applied": 5,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "3fe82c822e32b703769d0c1b56510405a1b35f32854b723d77de854541b1f373",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}
