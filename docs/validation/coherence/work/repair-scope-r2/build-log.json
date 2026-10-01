@@ -1,0 +1,530 @@
+[
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## The whole design in one page (plain words)",
+  "tag": "VCS-r1-02 (a)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## The whole design in one page (plain words)",
+  "tag": "VCS-r1-02 (b)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## The whole design in one page (plain words)",
+  "tag": "VCS-r1-01 summary",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## The whole design in one page (plain words)",
+  "tag": "VCS-r1-01 summary, item 125",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "VCS-r1-01 / R2-07 heading",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "R2-07 prose",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "VCS-r1-01 prose (subset list, R2-07)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "VCS-r1-01 rows 120–126",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "R2-18 row 20",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "R2-27 / R2-11 row 114",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "R2-11 row 117",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-",
+  "tag": "R2-11 row 118",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 1.1 What is built, in what order; the two size ladders",
+  "tag": "G126-scope §1.1",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+  "tag": "VM-R0S-14",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.4 Visual regression, B-ZOOM and the app harness",
+  "tag": "G126-scope §13.4",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-06 (a) T15-1",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-06 (a) plan rung / VCS-10",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-06 (a) stage 3 / VCS-10",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-06 (a) VAL-R1-04",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-06 (a) VCS-10",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-06 (a) B-EDGE (pipeline hand-off)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VRC1T-09 / R2-06 (a)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VDC1-17 T20-2 (R2-19)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VDC1-17 T20-6 revert (R2-19)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VDC1-17 T20-6 undo (R2-19)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VEL0-01 / VDC1-17 T20-14 – T20-16 (R2-18 (d))",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VPC-R1-23 T66-2 (pipeline hand-off)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VM-R1T-10 / R2-26 (b), (c) T110-2",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VM-R1T-10 T110-5",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VDC1-18 head",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-11 DR41",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VDC1-18 T114-9 / VEW-r1-02 T114-10 (R2-27)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-08 T114-9 village end",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-r1-03 T115-2 (R2-14)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-14 T115-3 (the retired gloss)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 item 115 runs",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-30 T116-1",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-30 T116-4",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-40 / R2-11 T117-6",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 item 117 runs",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 item 118 runs",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / VAP-r1-09 item 119 runs",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-07 convention / VCS-r1-01 / G120",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-09 convention (5)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "V12 hand-off convention (6)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "R2-07 convention (7)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-r1-01 / R2-07 group head",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "G120 – G126-scope (R2-35) groups",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / V06 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / VAP-r1-09 / V05 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VAL-R1-04 / VCS-10 / V04 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / VAP-r1-09 / V02",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / V07 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / V08 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / V10 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / R2-35",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / V12 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-E",
+  "tag": "VCS-10 / V11 hand-off",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "VV12-r1-09 / V01 §8.3",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "VAL-R1-01",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "VM-R0S-17",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "R2-40 (2) realmBlockFrom",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "R2-40 (2) realm_block_used",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "V08 hand-off field_fallback (item 125)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "R2-40 (2) HostContext; RealmBlock retired",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "R2-40 (1) item 4",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "R2-40 (2) item 5",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §14 Package and module layout, key interfaces, dependency rules, extension po",
+  "tag": "item 120 (i) / R2-37 live layers",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Staged by the owner's roadmap (this document defers nothing)",
+  "tag": "R2-40 (2) Staged",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+  "tag": "VCS-r1-01 App. A (1)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+  "tag": "VCS-r1-01 App. A (2)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+  "tag": "G125-scope T117-6 row",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+  "tag": "R2-18 (d), R2-27, R2-32 (3), R2-36, G120 – G126 rows",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+  "tag": "R2-06 (a) B-EDGE row",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+  "tag": "VRC1T-09 (R2-06 (a))",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+  "tag": "items 120–124 in V12 §6",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+  "tag": "items 120, 121, 124 timings",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "VEL0-06 = VDC1-16 = VPC-R1-26 (R2-20)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-30 J-A116.01",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-40 J-A76.41 (pipeline hand-off)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-40 J-A77.06",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-40 J-A77.72 (determinism hand-off)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-40 J-A20.79",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-40 J-A73.02",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "R2-27 J-A114.01",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "J-A568.04 amended",
+  "count": 1
+ }
+]

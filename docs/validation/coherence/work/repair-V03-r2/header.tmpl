@@ -1,0 +1,162 @@
+# Repair round 2 — V03 (interiors) — lane coherence/repair-V03-r2
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V03-r2; covered by the whole-design retrovalidation (J84).
+
+# §8 total: 19–26 pw (was 18.5–25.25) — P4 2.5–3.25 (was 2.25–2.75), P5 2–2.5 (was 1.75–2.25); M6-P's line 18.25–25 pw
+# (was 17.75–24.25); PE unchanged (R2-06 (c)).
+#
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-c/apply-blocks.py): text before the first "=== " line is
+# ignored; the FILE line below names the one file every block applies to (split off as assemble does). 25 blocks for V03:
+# 24 REPLACE (## 0, ## 1, ## 1b, §2.2, §2.4, §2.5, §3.2, §3.11, §3.13, §4.3, §4.4, §4.5, §4.6, §5.1, §5.2, §5.3, §5.4,
+# ## 6, ## 7, ## 8, ## 9, ## 11, ## 12, ## 13) and 1 APPEND TO SECTION ## 5 (the new §5.6). Built by 59 count-asserted
+# substitutions on the live V03 (work/repair-V03-r2/gen.py with edits_a–edits_d.py); every untouched line of a replaced
+# section is verbatim. 0 RULING REQUEST blocks.
+#
+# PROGRESS
+# - P0 brief read whole; adjudication-r2's TOC, R2-05, R2-06, R2-10, R2-32, R2-35, R2-36, R2-37, R2-38, Part H · V03: done
+# - P1 issue sources (verify-agree-fabric-r1t, -agree-time-r1t, -agree-host-r1t, -edges-world-r1t, -vol-V03-V04-r1t), g
+#   items 114, 122, 122 (h)–(i) and 123 whole, the canon's dated routings, every sibling round-2 text meeting V03: done
+# - P2 the live V03 sections concerned read whole: done
+# - P3 blocks built, dry run, references, ids, retired terms, doc_checks, words: done (below)
+#
+# ISSUES (4 routed to V03; each answered in the text; ruling requests: none; INVALID: none)
+# - G123-V03 (major; NEW DESIGN per R2-38 (1)–(4), R2-35, R2-36; all four verifiers' versions satisfied) — item 123 at
+#   the plan: (a) one plan, never redrawn — new V03 §3.11 *Decay re-cuts no plan*: a building `abandoned`, `decayed` or
+#   `ruined` keeps the plan in force when its decay run began (a stored plan stands; an unstored one is re-derived from
+#   its canonical prior at the occupant inputs of the week before the run, read from the history images and memoised,
+#   so it stays `current` — the plan last lived in, the as-built plan for a building never re-let); a building first met
+#   so (generated, item 113's replay, history condensed by a rebase) gets its as-built plan; the restoring event ends
+#   the freeze; the vacant programme is a standing building's only (V03 §2.4, V03 §3.2 A1, V03 §4.3); (b) the damage
+#   layer — new V03 §5.6: the elements and their kinds (V11 §2.8d's `DamageElementKind`, V03 §2.2's ids, no id minted;
+#   party walls, arches, hearths, columns, heads and the porch no elements), `planDamage` with each element damaged,
+#   repaired (patch material by `decayPeak`) or as built, every roof bay of a roofless wing in a decay run damaged (V02's
+#   X34), and which level each reader reads (the drawn level for pictures, panel and a scene's image; the own level for
+#   scene walls, portals, lights, the JSON block and the why rows); (c) the drawing per state in V03 §5.1 *The plan in
+#   ruin* (abandoned, decayed, ruined, restored with patches; cellars and the crypt by their own thresholds, a ruined
+#   church keeping its crypt; stairs, porch, terraces; the stops), replacing the uniform rule, the deck's fall under the
+#   layer; (d) exports — V03 §5.2's `plan.damage` group, V03 §5.3's JSON `damage`, `.dd2vtt` and Foundry line of sight,
+#   walls, portals and lights following the own level, rubble and holes in the image only, CityJSON and glTF the plan
+#   as built (J-V3.138); (e) the panel's damage lines (V03 §4.5; V09 §4.21.13's words) and the `plan` section's damage
+#   rows (V03 §4.6; V10 §3.9a's table); (f) T-V3-39 (takes T123-1, T123-2, T123-4, T123-6 and T123-7's plan clauses; T123-7
+#   by V12's `item123.damage` pin), V03 §3.13's decay and damage-layer rows, V03 §6's rows, the damage fixtures (V03 §7),
+#   J-V3.136, J-V3.137, J-V3.138, J-V3.140, and the §0, §1, §1b, §2.2, §2.5, §8 (P4 the step that draws a decayed or
+#   ruined plan, P5 its exports), §11, §12 and §13 rows. Who lives there: a building in a decay run names no household
+#   and lights no room (V03 §5.6 (6); V03 §1b's derived `lit`).
+# - G122-V03 (major; NEW DESIGN per R2-37 (7), R2-38, R2-36; all four verifiers' versions satisfied) — item 122 (d): V03
+#   §5.6 (4): a building over which a disaster's look stands (V02 §5.7 (1)'s reading — the overlay standing in the
+#   view's week, DR44's `disaster` row, the view's key, `crises` follow or a `disaster` preview, V01's districts or
+#   V07's ends, not yet handed over by V06's `crisisLookYields`) draws its plan's damage layer at the `lookLevel` by
+#   severity or its own level where higher; a look: no plan derived, nothing stored, ids, `PlanReport`, cache chunk and
+#   digests unchanged, no patch, scenes in the image only, no JSON and no `plan` row, households and lights kept;
+#   exactly in the condition's weeks; the aftermath through the epoch path. T-V3-40 (takes T122-1, T122-2 and T122-3's
+#   plan clauses; T122-7 by V12's `item122.crises` pin), V03 §3.13's look row, V03 §6's row, J-V3.139, and the §1, §1b
+#   (the view keys `week` and `crises`; the dossier end to end), §2.5, §4.4, §4.5 (`info.crisis.ruinedFor`), §8 rows.
+# - VAH-r1-14 (minor; FIX per R2-10) — V03 §1: "Volume 10: `WhyProvider` and `WhySectionProvider` (V10 §2.13), and
+#   §11.2's `WhyAnswer` (its sections V10 §3.9, V10 §3.9a; BCR-V10-3)". No other type R2-10 moved is cited in V03 (scan 0).
+# - VV34-r1-10 (major; FIX) — T-V3-38 (d) adds "a building whose plan is empty carries the chip's outline and halo on its
+#   outline, and a stale plan glows its cached rooms under §8.5's marker until its re-derivation lands, then the
+#   re-derived rooms"; (e) adds a redo (and, for T120-4's interior clause, an advance of time and a migration).
+#
+# RECEIVING ENDS (Part H · V03; R2-05)
+# - R2-32: T-V3-38 lands at the later of P5 and M5 (its how-measured cell; V03 §8's *Items 119 and 120*: "the later of P5
+#   and M5, Find's milestone (§16)").
+# - R2-35: T-V3-38's head takes T120-4's interior clause, clause (e) naming it; T-V3-39's head takes T123-1, T123-2,
+#   T123-4, T123-6 and T123-7's plan clauses, each lettered clause naming its bar.
+# - R2-36: item 123's plan part is V03 §8's P4 ("the step that draws a decayed or ruined plan", with §2.6 step 7, §6.3 and
+#   §8.6), its exports P5; the levels at V11's default age until V06's lands at M6-E; item 122 (d)'s look with it, drawing
+#   nothing until the look's base parts (M3b) and V01's districts (M5) stand.
+# - R2-37 (7), R2-38 (1)–(4): G122-V03 and G123-V03 above, under their shared names (`plan.damage`, `decayLevel`,
+#   `decayPeak`, `lookLevel`, `crises`, `disasterDistricts`, `crisisLookYields`); R2-10: VAH-r1-14; R2-06 (c): the §8 line.
+#
+# SIBLING HAND-OFFS CLOSED HERE (V03 §13's rows)
+# - V02 (X34): the roof bays over rooms and the outer wall runs with their states at a level; a roofless building's roof
+#   bays all damaged (V03 §5.6 (1)–(2); T-V3-39 (b)); one level rule for plan and exterior (V02 §5.7 (1)).
+# - V04 (G123-V04's hand-off): a storey below 0 drawn by V04 §5.6's kinds and rules, the stair below 0 climbable rubble,
+#   the lowest floor no element; the per-storey scene by V04 §5.6 (5) (V03 §5.1, V03 §5.3, V03 §5.6 (1)).
+# - V09 (G123-V09's hand-off): the panel's damage lines are V09 §4.21.13's, worded by `info.damage.*`; V03 lays them out
+#   and restates no words (V03 §4.5).
+# - V10 (CVR-V10-21): the `plan` section's damage rows as V10 §3.9a lists them, through V03 §5.4's merge, the room-naming
+#   rows `purpose: true` on a withheld building; V03 §8 names its item-123 step (V03 §4.6, V03 §8).
+# - V11 (its hand-off): the plan's element kinds are V11 §2.8d's `DamageElementKind` keys — cited, never re-declared.
+# - rendering (its judgment 11 and hand-off): V03 §5.1 draws §8.6's damaged forms, citing them.
+#
+# JUDGMENT CALLS (vetoable; J122 for new design; each recorded as a J-V3 row or stated at its home)
+# (1) The unstored plan in force of a decaying building is the plan last lived in — the canonical prior carried to the
+#     occupant inputs of the week before the run, read from the history images — not always the as-built plan: item 123
+#     (a)'s "amended rather than redrawn" and "one plan aging" for a house re-let to lodgings and then left (J-V3.137).
+# (2) A party wall is no element (it holds up the house beside it); arches, hearths, columns, heads and the porch neither.
+# (3) X34's roofless rule holds in a decay run only (the base's roofless derelict state), so a standing wing an author
+#     roofed `none` keeps its plan and the `item123.damage` no-op pin holds; such bays are patched after a restoration.
+# (4) A building in a decay run names no household and lights no room (§8.4's lit windows already go dark).
+# (5) Scenes take walls, portals and lights from the own level and draw the drawn level (a look included) in the image
+#     only; a damaged stair's flights below level 0 stay a portal (V04 §5.6 (3)'s climbable rubble); the JSON block
+#     carries the own damage, CityJSON and glTF none (J-V3.138).
+# (6) The floor kinds: `groundFloor` for level 0 on the ground, a wing's first storey on a solid wing and a storey below 0
+#     with a storey under it; `upperFloor` for every other floor; `roofBay` includes rooms under a flat roof or a terrace,
+#     whose damaged part draws as a floor hole.
+# (7) The damaged forms join the detail ladder by stop (gaps, holes, open roofs and unsafe crosses from the threshold;
+#     doors, windows, stairs, spills and patches from `leavesStop`; furniture fragments from `treadsStop`); an unsafe
+#     room's number stays in the panel's key table.
+# (8) Price: +0.25–0.5 pw in P4 and +0.25 pw in P5 (J-V3.140).
+# (9) T-V3-40 takes T122-1, T122-2 and T122-3's plan clauses, beyond R2-35's list (R2-08: the volume test is the home of
+#     the clauses it runs) — its scope end is a hand-off below.
+#
+# HAND-OFFS (R2-05 (3): ends no ruling names, for round 3's verifiers; none is open wording in the design text)
+# - model §2.6 step 7: its gloss of the unstored plan in force, "re-derived from its canonical prior at the building's
+#   built band and era (the as-built plan, below …)", reads with V03 §3.11 (b): that prior carried along the canonical
+#   chain to the occupant inputs of the week before the run (the as-built plan for a building never re-let), and §2.8's
+#   plan-rung inputs read so for the run (no stale mark) — model may cite V03 §3.11.
+# - V09 §4.9: `info.damage.floor` ("Floor fallen through in {rooms}") also counts V03's `groundFloor` (a rotten patch,
+#   still walkable, §8.6), so its words read true only above ground; `info.damage.head.reused` names a standing building
+#   restored with patches, whose `Existence` is a standing state (V06 §3.23 (3): `reused` is a trace with no plan) —
+#   V03 §4.6 uses the key as V09 defines it. V09 §4.21.13 (1) lists the why card's `plan` section among the look's
+#   lines' readers while V10 §3.9a says the `plan` rows never carry a look: V03 §4.6 follows V10 (own level only), and
+#   V03 §4.5's panel shows the look (V09 §4.21.13 (3)).
+# - scope §13.2's take-over table: T-V3-38 against T120-4 (interior clause); T-V3-39 against T123-1, T123-2, T123-4,
+#   T123-6, T123-7; T-V3-40 against T122-1, T122-2, T122-3 (plan clauses); §16 and INDEX: this file's §8 total
+#   (19–26 pw), M6-P's 18.25–25 pw, item 123's plan step P4 (R2-36).
+# - rendering: §8.6's sentence on the states' looks restates V03 §5.1's drawing per state (R2-38 (4) homes it at V03;
+#   §8.6 keeps the damaged forms by kind) — it may cite V03 §5.1; §11.1's per-storey `lights` ("one per lit room") reads
+#   V03 §1b's derived `lit`, none in a decay run (V03 §5.6 (6)).
+# - V02: X34 holds in a decay run (V02 §5.7's "roofless" names the same states, so the two agree); V02 §5.7 (2)'s
+#   "its patch material the plan's to show" is V03 §5.6 (2) (b).
+# - V12: T-V3-39 (g) and T-V3-40 (f) cite V12's `item123.damage` and `item122.crises` pins over V03's damage fixtures (no
+#   second registration, R2-09); V12 §3.15.13's damage fixtures may read V03 §7's list (it adds the re-let town house,
+#   the ruined row with party walls, the ruined deck shop and the staged disaster district).
+#
+# CHECKS (on copies; no live file touched)
+# - apply-blocks.py (amendments-c), two-pass and one-pass, on a copy of the live V03 (sha256 eda87a1c…, unchanged since
+#   the copy) with the FILE line split off: 25 found, 25 applied, 0 skipped; audit not-OK 0; headings 47 -> 48 (§5.6);
+#   fences balanced (12 -> 14, §5.6's code block); title block unchanged; PENDING FABLE REVIEW lines 1 -> 1; the
+#   rationale unchanged; the output byte-identical to the builder's work/repair-V03-r2/V03.new.md (459 238 bytes, 3 280
+#   lines, sha256 b015fd004576b4c1…).
+# - References (work/repair-V03-r2/refcheck.py): 76 section references in the added lines, 0 unresolved — the base's
+#   against docs/ARCHITECTURE.md with this round's base repair files, a volume's against its live text with its
+#   round-2 repair file (V02 §2.4, V02 §5.7, V04 §5.6, V06 §3.22, V06 §3.23, V09 §4.21.13, V10 §3.9b, V11 §2.8d,
+#   V11 §3.25.10 and V12 §3.15.13 resolve there, pending their install this round), V03's against the new V03; no
+#   citation split across a line break.
+# - Ids: T-V3-39, T-V3-40 and J-V3.136 – J-V3.140 each defined once and used nowhere else in the set; every T-V3 and
+#   J-V3 id the added lines name is defined exactly once.
+# - Retired terms (the canon's glossary) and deferral wording over the added lines: 0 ("the later of P5 and M5" names a
+#   milestone).
+# - doc_checks.py --doc (the live and the new V03) --allow docs/validation/doc-checks-allow.tsv --heads
+#   docs/ARCHITECTURE.md — WARNING: reference corpus INCOMPLETE (captures, research/patreon, research/devlogs,
+#   research/ftg-docs, research/external absent): the clean-room result is NOT authoritative, PROVISIONAL. Before C1 0,
+#   C2 0, C3 330 hits / 279 unreviewed, C4 2 / 0, S1 0, S2 63 / 0; after C1 0, C2 0, C3 367 / 314, C4 2 / 0, S1 0,
+#   S2 169 / 35. The 35 unreviewed S2 hits are volume pointers read against the base's headings — `V02 §5.7` (19) and
+#   `V06 §3.23` (16) — each resolving in its volume. The 31 new C3 hits are our own words (1 old hit left with replaced
+#   text). Proposed reviewed rows for docs/validation/doc-checks-allow.tsv (this lane writes no shared file):
+#   S2	§5.7	a volume-prefixed pointer — every occurrence in V03 reads V02 §5.7; S2 reads the base's headings only; it resolves in its volume (repair-V03-r2)
+#   S2	§3.23	a volume-prefixed pointer — every occurrence in V03 reads V06 §3.23; S2 reads the base's headings only; it resolves in its volume (repair-V03-r2)
+@@C3ROWS@@
+#
+# WORDS (the shrink goal, principle (9)): `wc -w` 68 805 -> 76 650 (+7 845, +11.4 %). The rise is owner-rule design —
+# items 122 (d) and 123 at build depth, which the dated rulings route to V03 and R2-37 and R2-38 shape: V03 §5.6 ≈ 1 870
+# words, V03 §3.11 ≈ 460, V03 §5.1–§5.4 ≈ 700, V03 §4.3–§4.6 ≈ 370, V03 §3.13's rows ≈ 610, V03 §7 (the damage fixtures,
+# T-V3-39, T-V3-40) ≈ 900, V03 §9 (J-V3.136 – J-V3.140) ≈ 870, V03 §0–§2.5 ≈ 1 280, V03 §6, §8, §11–§13 ≈ 790 — plus
+# VAH-r1-14 and VV34-r1-10 ≈ 60. Removed: the uniform ruin drawing of V03 §5.1 and V03 §2.4's sentence sending a ruin to
+# the vacant plan (replaced by the layer). Elegance: one reading (`planDamage`) serves the draw, the exports, the panel,
+# the why rows and V02's element reading; the drawn level is V02 §5.7 (1)'s one rule for plan and exterior, never a
+# second; V11 §2.8d's `DamageElementKind` is cited, never re-declared. No rule, case, value, bar, record field, lifecycle
+# row, test or decision was dropped (principle (9)'s guard); the shrink goal yields to new design.
+#
