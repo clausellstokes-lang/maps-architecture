@@ -118,8 +118,8 @@ EDITS = {
 JIDX_OLD = row(lines, lambda l: l.startswith('# Judgment calls'), lambda l: l.startswith('# '), 'J-A81.31')
 JIDX_NEW = sub(JIDX_OLD,
                "by three single-level batches sharing one clear region | §3.2 |",
-               "by three single-level batches sharing one clear region — part 0's L0 batch split in two where a raised way's "
-               "foot on the old ring moves between them to the new ring | §3.2 |", 'J-A81.31 index')
+               "by three single-level batches sharing one clear region — part 0's L0 batch split in two where the old ring "
+               "holds a raised way's foot, which a batch between them moves to the new ring | §3.2 |", 'J-A81.31 index')
 PA_OLD = row(rlines, lambda l: l.startswith('## Part A'), lambda l: l.startswith('## Part B'), 'J-A81.31')
 PA_NEW = sub(PA_OLD,
              "then strips the old ring's `margin` rows, and an L1 batch",
@@ -132,7 +132,7 @@ PA_NEW = sub(PA_NEW,
              "the raised way's re-derivation re-places it, because the strip would leave its vertex with its row and no "
              "edge — a vertex the arena's record does not define (`out` names one outgoing half-edge, §2.2) and that every "
              "walk, index and §3.10 row would have to admit for one passing case; the move strips the row, the vertex "
-             "dissolving into the old ring, and splits it onto the new ring's nearest point, so both ends of the foot "
+             "dissolving into the old ring, and splits it onto the new ring's nearest point, so the foot's two ends "
              "resolve at every stage end. Chose to extend each raster on its own grid,", 'J-A81.31 Part A (2)')
 PA_NEW = sub(PA_NEW, "VKC-02, VPR0-07, VD0-27;", "VKC-02, VPR0-07, VD0-27, VKr2-01;", 'J-A81.31 Part A (3)')
 

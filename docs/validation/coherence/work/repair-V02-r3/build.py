@@ -51,7 +51,16 @@ def tokens(text):
             cur += ch
     if cur:
         out.append(cur)
-    return out
+    # a number and its unit stay on one line ("4 B", "1.5 m", "20 KB")
+    units = {'B', 'KB', 'MB', 'µs', 'ms', 's', 'm', 'px', 'pw', '%', 'cm'}
+    merged = []
+    for w in out:
+        bare = w.rstrip(',;:.)')
+        if merged and bare in units and re.fullmatch(r'[≤≈(]?[0-9][0-9.,]*', merged[-1]):
+            merged[-1] += ' ' + w
+        else:
+            merged.append(w)
+    return merged
 
 
 def wrap(text, first='', rest='', width=WIDTH):
