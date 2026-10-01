@@ -255,3 +255,7 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
 - (2026-09-29 ~14:20) "P can simply be used symbolically for a difference in tier" — item 113 (f) revised: a symbolic peak (the
   higher tier at a representative size) where evidence shows a higher former tier but no peak was recorded (J125).
 - (2026-09-29 ~14:22) "Or effectively" — item 113 (f)'s tier difference is the EFFECTIVE peak for everything the replay builds (J125).
+- (2026-10-01 ~10:30) "do you think it's even possible to get rid of all of the findings or to fix them all? Or should I change the
+  pool?" / "Goal" / "Change the goal to what you suggest" — the coherence pass's exit bar is now zero blockers and zero majors on a
+  full sweep with the validator's sign-off; minors are repaired each round and those left at the stop are listed for the
+  builders (fix-list.md); feature freeze until the pass closes (J141; revises the 2026-09-29 zero of any severity, J123).

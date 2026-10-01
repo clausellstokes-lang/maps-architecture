@@ -1,7 +1,7 @@
 # Parked ideas — after the coherence pass
 
 Kept here so they are not lost. **None of these is an owner rule or part of the design yet.** The coherence pass runs to
-its zero bar without them (each new feature adds a round of findings). After the pass closes, the owner picks which to
+its bar without them (each new feature adds a round of findings; the owner's feature freeze, J141). After the pass closes, the owner picks which to
 take up; a picked idea is filed as an owner item in the usual way and routed like items 111–126.
 
 Recorded 2026-10-01 at the owner's "yes" to keeping a parked list.
