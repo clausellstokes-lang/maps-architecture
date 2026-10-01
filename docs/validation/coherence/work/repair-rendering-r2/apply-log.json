@@ -105,7 +105,7 @@
 "where": "030-bridge-host.patch:30",
 "file": "11.4.md",
 "old_w": 78,
-"new_w": 262
+"new_w": 263
 },
 {
 "where": "030-bridge-host.patch:51",
@@ -219,25 +219,25 @@
 "where": "060-s88.patch:72",
 "file": "8.8.md",
 "old_w": 398,
-"new_w": 1379
+"new_w": 1405
 },
 {
-"where": "060-s88.patch:151",
+"where": "060-s88.patch:152",
 "file": "8.8.md",
 "old_w": 103,
-"new_w": 633
+"new_w": 631
 },
 {
 "where": "070-s84.patch:5",
 "file": "8.4.md",
 "old_w": 67,
-"new_w": 229
+"new_w": 228
 },
 {
 "where": "070-s84.patch:22",
 "file": "8.4.md",
 "old_w": 22,
-"new_w": 457
+"new_w": 454
 },
 {
 "where": "080-s82.patch:7",
@@ -255,7 +255,7 @@
 "where": "080-s82.patch:23",
 "file": "8.2.md",
 "old_w": 34,
-"new_w": 142
+"new_w": 132
 },
 {
 "where": "080-s82.patch:31",
@@ -285,28 +285,28 @@
 "where": "080-s82.patch:70",
 "file": "8.2.md",
 "old_w": 15,
-"new_w": 2560
+"new_w": 2594
 },
 {
-"where": "080-s82.patch:209",
+"where": "080-s82.patch:211",
 "file": "8.2.md",
 "old_w": 18,
 "new_w": 69
 },
 {
-"where": "080-s82.patch:216",
+"where": "080-s82.patch:218",
 "file": "8.2.md",
 "old_w": 12,
 "new_w": 34
 },
 {
-"where": "080-s82.patch:222",
+"where": "080-s82.patch:224",
 "file": "8.2.md",
 "old_w": 21,
 "new_w": 26
 },
 {
-"where": "080-s82.patch:227",
+"where": "080-s82.patch:229",
 "file": "8.2.md",
 "old_w": 15,
 "new_w": 20
@@ -315,7 +315,7 @@
 "where": "090-s86-s81.patch:5",
 "file": "8.6.md",
 "old_w": 74,
-"new_w": 786
+"new_w": 812
 },
 {
 "where": "090-s86-s81.patch:55",
@@ -339,7 +339,7 @@
 "where": "100-s811.patch:15",
 "file": "8.11.md",
 "old_w": 156,
-"new_w": 1354
+"new_w": 1356
 },
 {
 "where": "110-s95.patch:5",
@@ -381,7 +381,13 @@
 "where": "120-s111.patch:35",
 "file": "11.1.md",
 "old_w": 77,
-"new_w": 134
+"new_w": 132
+},
+{
+"where": "120-s111.patch:47",
+"file": "11.1.md",
+"old_w": 15,
+"new_w": 17
 },
 {
 "where": "130-s112-find.patch:4",
@@ -441,7 +447,7 @@
 "where": "180-s1210.patch:9",
 "file": "12.10.md",
 "old_w": 75,
-"new_w": 416
+"new_w": 414
 },
 {
 "where": "190-s89.patch:4",
@@ -466,5 +472,11 @@
 "file": "8.9.md",
 "old_w": 5,
 "new_w": 11
+},
+{
+"where": "200-s87.patch:3",
+"file": "8.7.md",
+"old_w": 63,
+"new_w": 79
 }
 ]

@@ -14,8 +14,8 @@
   up, in order (g item 121 (e); J134).** The frame rate is protected first (§12.5's frame budgets): Auto's loop gives
   up, one rung at a time, the weather effects (item 124 (f); (i) below), then lighting detail — full precision to the
   standard surface (below), then rung 1's full-resolution global term to rung 2's —, then sharpness (the tile DPR's
-  steps down to 1, §8.8), then the light pass (rung 3), then the tile DPR's steps below 1 (0.75, 0.5), and takes them
-  back in reverse; §8.8's fitting of the canvas need gives them up in the same order. Labels, text, the chrome and every
+  steps down to DPR 1, §8.8), then the light pass (rung 3), then the tile DPR's last two steps (0.75, then 0.5), and
+  takes them back in reverse; §8.8's fitting of the canvas need follows this order too. Labels, text, the chrome and every
   overlay (Find's halo, the handles, `live.ghost`) are drawn at the device's full pixel ratio at every rung (§8.8's
   split composition): only the painted tiles soften. **A tier whose GPU pass misses §13.4's tolerance** at its milestone transfers its surface layers at full
 >>>>
@@ -27,8 +27,8 @@
   its kind, its strength s in [0, 1] by its phase (rising from 0 and back to 0 over its fades: at least 5 s for a
   shower, 60 s for fog, mist, dust haze and cloud cover, V11's rows never shorter) — enters the per-frame terms above,
   never a tile, a light map or a cached layer (§8.8). **A shower** (`rain`, `drizzle`) multiplies the global light's direct
-  term by 1 − 0.5 s and widens the drawn sun's disc by 1 + 3 s, so the shadows dim and soften and then return. **Fog** —
-  and `mist` at half its strength — multiplies the direct term by 1 − 0.6 s, widens the disc by 1 + 4 s, fades the lit
+  term by 1 − s/2 and the drawn sun's disc radius by 1 + 3s, so the shadows dim and soften and then return. **Fog** —
+  and `mist` at half its strength — multiplies the direct term by 1 − 0.6s and the disc radius by 1 + 4s, fades the lit
   picture toward the `fog` role by 0.45 s × smoothstep(0.25, 1, r ÷ R) (r a pixel's distance from the view's centre, R
   the half-diagonal: the map fading with depth) and at night gives every drawn `LightSource` (§8.1 item 7) a soft halo —
   the baked point-light term spread by a separable Gaussian of σ = 6 CSS px and added at 0.35 s. **Dust haze** fades as fog

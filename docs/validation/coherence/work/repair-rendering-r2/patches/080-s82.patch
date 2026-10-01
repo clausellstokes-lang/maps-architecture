@@ -24,7 +24,7 @@ chip's colour by its index); the crisis roles `crisis.tent`, `crisis.ash` (burne
 | festival.a / .b / .c / .d / .sacred | `#9E5652` / `#A38852` / `#15719F` / `#3C8463` / `#60578D` | `#B94142` / `#AD8617` / `#0872A1` / `#26865E` / `#605790` | as `lit` |
 ====
 | festival.a / .b / .c / .d / .sacred | `#9E5652` / `#A38852` / `#15719F` / `#3C8463` / `#60578D` | `#B94142` / `#AD8617` / `#0872A1` / `#26865E` / `#605790` | as `lit` |
-| find.1 / .2 / .3 / .4 / .5 / .6 / .7 / .8 | `#AE6160` / `#996E41` / `#717D41` / `#398562` / `#02848B` / `#157FAD` / `#7271AB` / `#A2628B` | `#D0474F` / `#AA6805` / `#668101` / `#02885B` / `#02848B` / `#0580AE` / `#646DD4` / `#C0499B` | as `lit` |
+| find.1 … find.8, in order | `#AE6160` / `#996E41` / `#717D41` / `#398562` / `#02848B` / `#157FAD` / `#7271AB` / `#A2628B` | `#D0474F` / `#AA6805` / `#668101` / `#02885B` / `#02848B` / `#0580AE` / `#646DD4` / `#C0499B` | as `lit` |
 | crisis.army.a / .b / .c / .d; crisis.mark | `#9D5156` / `#666C31` / `#027477` / `#5B649D`; `#964E49` | `#BF3249` / `#616F01` / `#027477` / `#3D62C7`; `#B53335` | as `lit` |
 | crisis.tent / crisis.ash / fog | `#D9C8AD` / `#B4A080` / `#D1C6B2` | `#CFBCA3` / `#A48D6E` / `#CFC5B6` | `#D1BDA2` / `#BFB5A2` / `#D0C5B4` |
 >>>>
@@ -71,7 +71,7 @@ and `live.crises` (base; g item 122: the crisis looks, below). The model view a 
 **Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
 ====
 **Crisis looks (g item 122, with (h)–(i); J135, J138): a look, never a change of the map.** While a crisis look stands —
-a `ConditionOverlay` standing in the view's week (§2.7's reader comment: §2.9's `week` in [`sinceWeek`, `untilWeek`),
+a `ConditionOverlay` whose weeks hold the view's week (§2.7's reader comment: §2.9's `week` in [`sinceWeek`, `untilWeek`),
 never `yearWeek`) whose `crisis.map` row gives a look, admitted at the viewer's key by §7.7's DR44 — or one is
 previewed, under §2.9's per-viewer key `crises` (`follow` draws the standing looks, `off` none, `preview` one look kind
 at §10.2's `previewSeverity` whatever the week, with or without a dossier), the base live layer `live.crises` draws it:
@@ -100,11 +100,11 @@ byte-identical (`item122.crises`; T122-7).
 
 * **The glyphs** (our own; each at least 3 px at 1×; never drawn coarser than its look's band): `campCluster` a camp's
   camped ground as its hull at α 0.35 — in its army's colour (`crisis.army.*` by the army's index in its coalition,
-  cycling past four), else in `crisis.tent` with an `ink` rim — with a 1-px `ink` dot per 400 m² of camp; `tent` a 4 × 3 m
+  cycling past four), else in `crisis.tent` with an `ink` rim — dotted in `ink`, one 1-px dot per 400 m² of camp; `tent` a 4 × 3 m
   `crisis.tent` rectangle with an `ink` rim and a ridge tick; `shanty` a 3 × 3 m `plank` square with a broken rim; `hut` a
   4 × 4 m `plank` square with an `ink` rim; `pestHouse` an 8 × 6 m `plank` rectangle with a cross tick; `engine` a 6 m
-  `plank` frame with a throwing-arm tick toward its target (a trebuchet), or a 6 × 3 m roofed shed where its target is a
-  gate (a ram); `banner` the festival banner's panel on a pole tick (above) in its army's colour, bearing its army's glyph;
+  `plank` frame with a throwing-arm tick toward its target (a trebuchet), or, aimed at a gate, a 6 × 3 m roofed shed
+  (a ram); `banner` the festival banner's panel on a pole tick (above) in its army's colour, bearing its army's glyph;
   `fire` a 2 m star in `light`; `smoke` a 40 m plume of 1-px `ambience` stipple at α 0.35, thinning outward and leaning
   downwind; `cart` a 2 × 1 m `plank` rectangle with two wheel ticks; `fence` a 1 px `ink` line with a post every 2 m;
   `cordon` a dashed `crisis.mark` line with a post every 5 m; `graveRow` a row of 1 × 2 m `ground` mounds with `ink` rims;
@@ -136,14 +136,14 @@ byte-identical (`item122.crises`; T122-7).
 on, the overlay provider `live.find` (V09's) delivers the marks below for the visible region dilated by one tile, over
 each chip's matches as §11.2's gazetteer match listing gives them at the view's effective key — §9.2's admission, so a
 thing the key withholds is never suggested, counted, drawn or hinted at (no glow, pin, ghost pin, gap or legend chip of
-it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, at a change of the key,
-band, layer or year position, and when the view moves (item 120 (f)). An `overlay` layer, it is composed with the
+it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, whenever the key,
+band, layer or year position changes, and when the view moves (item 120 (f)). An `overlay` layer, it is composed with the
 labels (§8.8) — at the device's pixel ratio — and never re-renders a base tile; with no chip and Show gaps off it
 delivers nothing, the tiles byte-identical (`item120.find`; T120-1). It draws over whichever Show view is on, and under
 every style preset (§8.4 (h)).
 * **The veil** (item 120 (e)). `paper` at α 0.55 (our default) over the view, cut out at each match's shapes — a
-  building's footprint, a plot's or place's face, a way's body, an area's faces — so the matches show at full strength
-  and the rest of the map reads slightly opaque; on the underground layer it lies over the band's rock, voids and the
+  building's footprint, a plot's or place's face, a way's body, an area's faces — so the matches show undimmed
+  while everything else reads slightly opaque; on the underground layer it lies over the band's rock, voids and the
   cut-away's ghost alike (V04 §5.1).
 * **The halo.** Round each match's shapes, a 2 CSS-px outline in its chip's colour in its chip's dash pattern, and
   outside it a soft glow in that colour fading from α 0.6 to 0 over 8 CSS px; the match's placed label glyphs (§9.2, at
@@ -165,7 +165,9 @@ every style preset (§8.4 (h)).
   the band ladder writes it, kept above the veil (V04 §5.1 (2)–(3)).
 * **Show gaps' outline** (item 120 (i)). With `gaps` on, each of V01 §5.4 (3)'s gap units for each kind chip, on the
   layer shown, is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
-  component (an `annotation` label, §9.1, placed by §9.2), while a unit holding a match lies lifted with its matches.
+  component — overlay text at the component's pole of inaccessibility, composed after the labels from the glyph atlas at
+  the point labels' floor (6 px cap, §9.4), and left out at a stop where its box meets a placed label's (it is view data, never a
+  `LabelEntity`, §9.1) — while a unit holding a match lies lifted with its matches.
 * **Each chip's colour and second cue** (item 120 (d); g item 112). Chip k, its index in `chips` from 1, draws in
   `find.((k − 1) mod 8 + 1)`; its second cue is its **glyph** on its pins — circle, square, triangle, diamond, star,
   cross, hexagon, bar, cycling by k, so two chips that share a colour past eight differ in glyph — and its **dash
@@ -177,8 +179,8 @@ every style preset (§8.4 (h)).
   once per commit). Find lands at M5 (§16).
 
 **Weather effects (g item 124; J137): drawn over the map, never in it.** The spell in force (§2.9's *Weather effects*:
-its kind from V11's climate weather columns for the climate row and the view's week, its strength s by its phase) is
-drawn by §8.8's effects layer every frame, at low density and opacity, in the style's own hand — its marks here, its
+its kind from V11's climate weather columns for the climate row at the view's week, its strength s by its phase) is
+drawn by §8.8's effects layer every frame, light in density and opacity, in each family's own hand — its marks here, its
 light terms §8.4 (i). Positions, lengths and sways come from the spell's own draws on §6.1's `view.weather` stream
 (keyed by the spell index and the frame's world-aligned cell), so a spell replays from its session seed and clock
 (T124-9):
