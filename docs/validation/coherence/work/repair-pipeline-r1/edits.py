@@ -507,3 +507,159 @@ E(H49, """scatter densities, and the dry-country cells (aridity, the arid water 
   §2.8's `ClimateSeasonCells`, its values V11 §3.25.6 — the winter's severity and the leaf, blossom, growing, harvest,
   hay, ice and snow weeks; read only by §8.2's season rows, §11's exports and §7.7's season derivation row, never by a
   stage, so no season changes the model or its hash, item 117 (a));""", 'VPC-02')
+
+# ───────────────────────────── §4.11 ─────────────────────────────
+E(H411, """rung 2's `densify … back_court`, for the rear plots it creates only;""",
+"""rung 2's `densify … back_court`, for the rear plots it creates only (their new stock's band; the front plot keeps its
+    own);""", 'VPC-11')
+
+E(H411, """`vacate` fires only when its last household leaves; the strike pool (below) draws per
+    building, deciding whose households leave first, and strikes fabric by its exposure (item 28 (f) with item 8;
+    J-A28.45);""",
+"""`vacate` fires only when its last household leaves; which dwellings empty is decided by the
+    evolution engine's departure matching (V06 §3.5.1: the roster's suffix matched to exposure-weighted dwellings by band),
+    and the strike pool (below; V06 §3.5.2) strikes fabric only, by its exposure (item 28 (f) with item 8; J-A28.45);""",
+  'VPC-22', 'VRC0S-12')
+
+E(H411, """below), the passage sealing's (`HiddenOp`, item 30 (e), below) and the underground's own kinds (item 65: the buried old
+town's `RaiseGrade`, II.7.6, and the undercity's `ClearUndercity`, II.7.5, declared there); §7.1's `convert` event carries
+it, and `build` below is §7.1's `build` event:""",
+"""below), the passage sealing's (`HiddenOp`, item 30 (e), below), the underground's own kinds (item 65: the buried old
+town's `RaiseGrade`, II.7.6, and the undercity's `ClearUndercity`, II.7.5, declared there) and the evolution engine's
+(`EvolveOp`, file f item 209, declared in V06 §2.8); §7.1's `convert` event carries it, and `build` below is §7.1's
+`build` event:""", 'VPC-22')
+
+E(H411, """  | LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity;""",
+"""  | LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity | EvolveOp;
+// EvolveOp as V06 §2.8 states it — absorbWall, downgradeWay, upgradeWay, burn, wearWall (item 114), repairWall { enceinte,
+// stretch?, material? }, retypeLand, repairRaised, repairRetaining — each usable by hand through `convert` (§7.1) with an
+// undo record (§7.4) and the cause `convert:<op>`; a hand repair of stone that is gone bends (item 101 R2) to a new
+// stretch or part on its line""", 'VPC-22')
+
+E(H411, """  dossier?: EditEvent[] /* the host's dossier events (author 'host', EditBase.dossier set), in the host's order, applied at step (e) (§7.7 item 6); each keeps its EditBase.dossierChange (§7.1, item 75) */ }""",
+"""  dossier?: EditEvent[] /* the host's dossier events (author 'host', EditBase.dossier set), in the host's order, applied at step (e) (§7.7 item 6); each keeps its EditBase.dossierChange (§7.1, item 75) */;
+  wealthLevel?: number /* file f item 343: the intent wealth level at the epoch (§7.7 layer 1) — a dossier's wealth.label through tables/dossier/wealth (DR6), or a standalone trajectory's; absent: the level in force; applied past dial.hysteresis before S6 (V06 §3.3.5) */;
+  advance?: { group: string; index: number; of: number /* the planned count */; stoppedAt?: number /* on the group's last epoch only, when Stop ended it early: the count actually folded */; trajectory?: Trajectory /* index 0 only; V06 §2.3 */ } /* file f item 343: the provenance of an epoch an advance request appended (V06 §2.3) */;
+  replay?: { index: number; of: number; fromYearsAgo: number; toYearsAgo: number; events: ReplayEventRef[]; destruction?: ReplayEpoch['destruction']; refound?: ReplayEpoch['refound'] } /* item 113: a replay epoch's provenance (V06 §2.14 declares ReplayEventRef and ReplayEpoch) */ }""",
+  'VDC0-09', 'VPC-22')
+
+E(H411, """reproducing the path above byte for byte; V06's `'history'` strategy adds the steps `prelude`, `hazards`, `fortification`,
+`terrainWater`, `raisedWays`, `close` and the participant steps at V06 §3.2's places.""",
+"""reproducing the path above byte for byte. V06's `'history'` strategy implements every step of V06 §3.2's order: it
+reuses the base phases `demand`, `dossier`, `lapse` and `character`, wraps the base parts of `prelude`, `field`, `siting`,
+`growth` and `works` with its own acts, and adds its own phases at `hazards`, `uses`, `departures`, `decline`,
+`fortification`, `terrainWater`, `raisedWays`, `ladder` and `close` (V06 §3.1 (2)); participants run at `afterField`,
+`decline` and `afterGrowth`.""", 'VAT0-06')
+
+E(H411, """they draw on
+   the ordinary `…/epoch=e` streams (§6.1), so the replay is deterministic from the seed and the history;""",
+"""they draw on
+   the concerns of the stages each epoch runs, keyed with the replay's own epoch component (§6.1 *The history replay*:
+   the range reserved to the replay), so the replay is deterministic from the seed and the history and no replay draw
+   equals a live epoch's;""", 'VAT0-07')
+
+E(H411, """`CalendarRow` gives the week of the year, `(week mod 52) + 1`, and its season:""",
+"""`CalendarRow` gives the week of the year, `floorMod(week, 52) + 1` (the floored modulo, so a negative week of the
+   replayed past maps into 1 … 52; V06 §3.20.3), and its season:""", 'VPC-23')
+
+E(H411, """routed to the village product when one is registered (V07
+§2.1, §3.11), else refused""", """routed to the village product when one is registered (V07
+§2.1, V07 §3.11), else refused""", 'VK0-22')
+
+E(H411, """**The epoch-spread mutation (item 18 (c)).** Across epochs a designation change is not applied at once: the engine issues
+§4.7 S11's `MutationRecord` as a sequence of `mutate` events over the ladder's rung durations (item 31) — first occupy,
+when the present design is compatible (every kept part, nothing added); then adapt; then extend (the adds); and rebuild
+only the parts that cannot be adapted — the same steps and the same draws, spread in time, so a smith moving into a richer
+street mutates toward the richer template over epochs. Each of those events decides and records its step at once, as a host
+or user change does (§4.7 S11 step 6), and a Works shows it on the ground over the weeks it takes (*Works*, below;
+J-A67.49), so the model never changes between events.""",
+"""**The epoch-spread mutation (item 18 (c), (e); file f item 266).** Across epochs a designation change is not applied at
+once: the engine issues §4.7 S11's `MutationRecord`, **decided once at the creating op**, as a sequence of `mutate` events
+each applying its own parts of that record, due at the evolution table's `mutation.stepYears` rows (V06 §2.2) — first
+occupy, when the present design is compatible (every kept part, nothing added; an always-crypt target's crypt basement
+exempt and laid then); otherwise the use opens at the first step whose result is compatible, a relocating use staying at
+its former site until then; then adapt; then extend (the adds); and rebuild only the parts that cannot be adapted — the
+same steps and the same draws, spread in time, so a smith moving into a richer street mutates toward the richer template
+over epochs. A plan cancelled because its use left keeps its done steps; when the building next takes its former
+designation, the mutator's record is the inverse of the done steps (item 18 (e)). Each of those events applies and records
+its step at once, and a Works shows it on the ground over the weeks it takes (*Works*, below; J-A67.49), so the model
+never changes between events.""", 'VPC-22')
+
+E(H411, """ways instead, every existing entity kept (V06's `under.extend`); an epoch whose residual is ≤ 0 grows no stage and adds no
+  face.""",
+"""ways instead, every existing entity kept (V06's `under.extend`); an epoch whose residual is ≤ 0 grows no stage and adds no
+  face — the owner-staged history engine's two exceptions excepted (V06 §3.6; file f item 336): a stage for the overflow
+  backlog, whose households are those its overflow ladder housed in earlier epochs, and a decrowding stage, whose
+  households are the crowded ones it moves. That engine places its own tiers between (5) and (6): (5′) the upgrade of
+  downgraded ways and the reopening of retired ones (V07's hollow ways, `reopenWay`) and (5″) crowding within a factor of
+  the band row (V06 §3.8); and every placement that engine makes on a plot whose access edge is a retired way reopens that
+  way, with any retired way on its path to the ways in use, in the same batch first (V06 §3.8.2).""", 'VDC0-08', 'VPC-22')
+
+E(H411, """repairRaised's deck form restores the host's former existence from the striking op's undo record""",
+"""repairRaised's deck form restores the host's former existence from the striking op's undo record
+  | { op: 'retireWay' | 'effaceWay' | 'reopenWay'; way: Id }                                // file f item 268 (b): a way of a land class on ground part 0 at a village rung (V07 §3.12): retire — in use → abandoned (a hollow way, read by no router, tracker or merge test); efface — abandoned → decayed; reopen — a hollow way back to built, regrowth first; issued through the product's epoch rows (V06's ProductDeclEpoch.rows) or by hand through `convert`; never on a deck, a ford or a raised part""",
+  'VM-R0S-15', 'VPC-32')
+
+# ───────────────────────────── §4.12 ─────────────────────────────
+E(H412, """```ts
+interface StageDecl { id: StageId;""",
+"""```ts
+type StageId = string /* a registered stage's id: 'S0' … 'S15' and their lettered stages, a hook's own id, a product's stage (V07 §3.0), a tail stage (II.7; V04 §3.1's U-NET … U-LINK) — the stream keys' stage component (§6.1); read by §3.3's BatchScope and §4.1's quality budget */;
+interface StageDecl { id: StageId;""", 'VPC-29')
+
+E(H412, """interface PlotStrategy     { plots(block: Block, alloc: Allocation, ctx: StageContext, k: Kernel): KernelResult<Plot[]> }        // S10 (1)–(10)
+interface SitePlanStrategy { sitePlan(plot: Plot, to: Designation, ctx: StageContext, k: Kernel): KernelResult<MutationRecord> } // S11 (through the designation mutator)
+""",
+"""// PlotStrategy (S10 (1)–(10)) and SitePlanStrategy (S11, through the designation mutator) are §14's declarations
+""", 'VPC-28')
+
+E(H412, """type EditRef = { seq: number /* the causing event, §7.1 */ }; type RuleRef = SliceRef /* the rule row that caused it, §2.8 */;
+type FabricStrategyId = 'bent-cut' | string /* the registered fabrics: BentCutFabric; V01's TemplateFabric rows; V07's 'village-ways' */;
+```""",
+"""// EditRef and RuleRef are §2.8's; FabricStrategyId is §2.5's
+```""", 'VM-R0S-07', 'VM-R0S-18')
+
+E(H412, """The owner-staged layers register the same way — `SkyStrategy` after S7b (SKY, §4.1), `SewerStrategy` after S11, and after
+the network stage `UndergroundSystemStrategy` (the void systems), `UndergroundStrategy` (the sewer-front neighbourhoods),
+`UndercityStrategy` and last `UndergroundLinkStrategy`, each by declared I/O and `phase: 'tail'` (II.6, II.7.3–II.7.6) —
+and the base registers none of them.""",
+"""The owner-staged layers register the same way — `SkyStrategy` after S7b (SKY, §4.1), and in the tail `SewerStrategy`
+(U-NET), then `UndergroundSystemStrategy` (U-SYS, the void systems), `AccessPassStrategy` (U-ACCESS, the access pass),
+`UndergroundStrategy` (U-FRONT, the sewer-front neighbourhoods), `UndercityStrategy` (U-CITY) and last
+`UndergroundLinkStrategy` (U-LINK), each by declared I/O and `phase: 'tail'`, in V04 §3.1's order (II.6, II.7.2–II.7.6) —
+and the base registers none of them.""", 'VAL-01', 'VPC-17')
+
+# ───────────────────────────── §4.13 ─────────────────────────────
+E(H413, """| EP-14 | an epoch | a target equal to the population; a residual ≤ 0 | §4.11 (the one path; regrowth-first) | — (defined) |
+| EP-15 | history-first generation | no peak, a founding after the present, a peak below the present or above the cap | §4.11 *History-first generation* (7) | report |""",
+"""| EP-14 | an epoch | a target equal to the population; a residual ≤ 0; a spring at `flow` 0 (it pulls nothing, its water body standing) | §4.11 (the one path; regrowth-first); §4.2 S3 (6) and §4.5's water term (`spring.flow`) | — (defined) |
+| EP-15 | history-first generation | no peak, a founding after the present, a peak below the present or above the cap; a replay starting 300 years before a week-0 creation (a valid season at every epoch) | §4.11 *History-first generation* (7); *The clock* (3)'s floored week | report |""",
+  'VPC-25', 'VPC-23')
+
+E(H413, """| EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |""",
+"""| EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |
+| EP-20 | S3 (6), S5a, S5d | less reachable land than a stage asks — fixtures: an island town on an island of half the stage-1 land, a fjord site, a METROPOLIS at the cap in a narrow valley | §4.2 S3 (6) (the capped `t`, the frame arc); §4.4 S5a (a stage with no land folded), S5d (no top-up without land) | simpler shape (the capped level set) → leave out and report (`requestedVsBuilt`, F-BUDGET-STAGE) |
+| EP-21 | S3 (4), (7), (9); S5a | a barrier closing the arcs a gate falls on, or every arc — fixtures: a river loop with N₁ = 5, a mesa town, an island town filling its island | §4.2 S3 (4) (the closed-arc reduction), (7), (9) (every arc closed); §4.4 S5a | retry that piece (the pick re-drawn, ≤ 3) → leave out and report (F-WALL; `walled_by_barriers`); F-CASTLE's re-site |
+| EP-22 | S3 (10); S5a's outer moats | a wet moat with no water within reach or on sloping ground — fixtures: a hill town with `moat: 'all'`, an arid town with no river with `moat: 'inner'` | §4.2 S3 (10) *Where a moat holds water*; §4.4 *Outer moats* | simpler shape (the dry `ditch`), reported (`moat_dry`) |
+| EP-23 | S3 (5), S4, S5b, S5c | the steepest ground — fixture: a mountainous site, arterials within their class grade or `unserved` | §4.3 *Lattice and costs* (the class grade limit); §5.2 F-ROUTE | simpler shape (the next class's grade) → leave out and report (`unserved`) |
+| EP-24 | S10, S11 levelling | a cliff across a district; two plots at a cliff's top and foot; a step above 2 × `stepMaxCm`; a levelled unit beside unlevelled ground | §4.7 *Levelling and retaining walls* | simpler shape (terraces, else skirts and stepped wings) → report |
+| EP-25 | S1 (6), S3 (2) | a harbour on a site with a river but no coast — fixtures: a river-only site with `harbour: 'on'`, and with `deep_harbour` | §4.2 S1 (6) (the river or lake harbour) | substitute (a river or lake harbour) → leave out and report (tier 6) |
+| EP-26 | S10b's `dossier` request | no seat on the current map for a dossier element — fixture: a THORP dossier with 40 custom institutions absorbed at once, every one placed, the report naming each edge plot | §4.7 S10b *Reconcile and infeasibility* (the last rung) | substitute (a new outside plot), reported `dossier_edge` |""",
+  'VEW-02', 'VEW-03', 'VEW-04', 'VEW-10', 'VEW-05', 'VEW-09', 'VEL0-09')
+
+E(H413, """**Where features meet (the combination suite, §13.2, B-EDGE).** Each cell is the outcome where the row's feature meets the
+column's; a raised way is generated only at CITY and METROPOLIS and declared at any rung (§4.3); a retaining wall and the
+frame stand at every rung; a deck plot at VILLAGE and above (V07's village rows at village rungs).""",
+"""**Where features meet (the combination suite, §13.2, B-EDGE).** Each cell is the outcome where the row's feature meets the
+column's, then its rung on §5's ladder (*— (defined)* where the cell is a rule with no failure); a raised way is generated
+only at CITY and METROPOLIS and declared at any rung (§4.3); a retaining wall and the frame stand at every rung; a deck plot
+at VILLAGE and above (V07's village rows at village rungs).""", 'VEW-18')
+
+_cs = [i for i, l in enumerate(lines) if l.startswith('| feature | a raised way (§4.3)')]
+assert len(_cs) == 1
+_ce = _cs[0]
+while lines[_ce + 1].startswith('|'):
+    _ce += 1
+_combo_old = '\n'.join(lines[_cs[0]:_ce + 1])
+_combo_new = open('docs/validation/coherence/work/repair-pipeline-r1/combo-new.txt', encoding='utf-8').read().rstrip('\n')
+E(H413, _combo_old, _combo_new, 'VEW-18', 'VEW-05', 'VEW-06', 'VEW-08', 'VEW-02')

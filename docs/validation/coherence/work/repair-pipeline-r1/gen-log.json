@@ -100,7 +100,51 @@
     "VPC-24",
     "VPC-02"
    ]
+  },
+  {
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "ids": [
+    "VPC-11",
+    "VPC-22",
+    "VRC0S-12",
+    "VDC0-09",
+    "VAT0-06",
+    "VAT0-07",
+    "VPC-23",
+    "VK0-22",
+    "VDC0-08",
+    "VM-R0S-15",
+    "VPC-32"
+   ]
+  },
+  {
+   "heading": "### 4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)",
+   "ids": [
+    "VPC-29",
+    "VPC-28",
+    "VM-R0S-07",
+    "VM-R0S-18",
+    "VAL-01",
+    "VPC-17"
+   ]
+  },
+  {
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "ids": [
+    "VPC-25",
+    "VPC-23",
+    "VEW-02",
+    "VEW-03",
+    "VEW-04",
+    "VEW-10",
+    "VEW-05",
+    "VEW-09",
+    "VEL0-09",
+    "VEW-18",
+    "VEW-06",
+    "VEW-08"
+   ]
   }
  ],
- "edits": 67
+ "edits": 87
 }
