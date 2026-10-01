@@ -74,8 +74,8 @@ EDITS = [
     ('VAT1-04 R2-19',
      "undone by its undo record where the epoch is an undo target (an epoch that carries a\n"
      "dossier event is none, §7.4).",
-     "undone by its undo record where the epoch is an undo target (a port epoch never is, §7.4 *Replay\n"
-     "semantics*).", 1),
+     "undone by its undo record where the epoch is an undo target (a port epoch never is, §7.4\n"
+     "*Replay semantics*).", 1),
     # R2-19's "every restating sentence cites §7.4 *Replay semantics*": the same narrower form in V07 §2.6 and §3.12.
     ('R2-19',
      "one a record laid or removed, none (a dossier event and an epoch that carries one are no undo targets, §7.4; the host restores, item 87)",

@@ -1,0 +1,1156 @@
+{
+ "edits": 119,
+ "sections": 27,
+ "log": [
+  {
+   "section": "## 0 In plain words",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "many colours (item 117); and what a festival hangs in the streets at each size of settlement (item 118). Every one of\nth",
+   "new_len": 907
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "item 110's rows (V11 §3.24); the rows of items 111 and 113–119 (V11 §3.25); and the display words with Find's lexicon of",
+   "new_len": 129
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| the gazetteer's class counts and match listing under knowledge admission (item 120) | §11.2 | Find's lexicon: the clas",
+   "new_len": 941
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "`tables/evolution.json`); the style sheets and palette values, the season, cover, `ice`, `snow` and decoration draw rows",
+   "new_len": 324
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02",
+    "G124-V11"
+   ],
+   "old": "with item 111's dry-country cells and item 117's season cells (V11 §3.25.1, V11 §3.25.6) | this volume | row 43 | §4.9; ",
+   "new_len": 341
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "G124-V11"
+   ],
+   "old": "the climate word → biome by V08's `climates` row set; `oasis_water` → the oasis (DR1) |",
+   "new_len": 115
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VPC-R1-07"
+   ],
+   "old": "II.7.3 *Basement accesses*; V04 §2.3's `OpeningRow`, `DigRule` |",
+   "new_len": 69
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "R2-28 (a)"
+   ],
+   "old": "| the base (item 109); V11 §3.23.1 | rows 9, 59 | §4.2 S1 |",
+   "new_len": 90
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VAH-r1-10"
+   ],
+   "old": "| the field's driver table; W4 | V10's `WhyPull.row` and `FieldDrivers`, V09's siting panel |",
+   "new_len": 95
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "| W50 | `raisedWays` with its `settings` and `structure` (V11 §3.24.2) | V11 §3.24.2 rows | row 80; V08's DR35 (its land",
+   "new_len": 283
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "| §2.7 `Enceinte.condition`, §7.1 `repairWall`, §7.7 |",
+   "new_len": 61
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VV78-04"
+   ],
+   "old": "| a dossier-bound record of a `grandClasses` class, or a seigneurial government's forced manor, specifies a grand buildi",
+   "new_len": 42
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19"
+   ],
+   "old": "| §2.9 view state, §7.7's calendar row, §8.2, §12.5 | the dossier's calendar week and season (V08), the climate by V08's",
+   "new_len": 170
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19",
+    "VAH-r1-21"
+   ],
+   "old": "| §2.9, §7.7's `traditions` row, §8.2, §12.5 | `traditions[]` (window, staging, kind by V08's `festivals` row set), `cul",
+   "new_len": 229
+  },
+  {
+   "section": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G122h-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| §11.2's gazetteer (item 120) | — (the dossier's institution names are V08's list entries, never lexicon words) |",
+   "new_len": 1850
+  },
+  {
+   "section": "### 2.1 The table registry",
+   "count": 1,
+   "ids": [
+    "G124-V11"
+   ],
+   "old": "type ColumnUnit = Extract<Unit, 'm'|'m2'|'ha'|'cm'|'cdeg'|'share'|'weight'|'people'|'yr'|'wk'|'m3'|'lvl'|'none'>",
+   "new_len": 124
+  },
+  {
+   "section": "### 2.1 The table registry",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-20 (R2-16)"
+   ],
+   "old": "step: switches at the cut; none: not band-keyed */;",
+   "new_len": 123
+  },
+  {
+   "section": "### 2.1 The table registry",
+   "count": 1,
+   "ids": [
+    "G123-V11"
+   ],
+   "old": "`history.events` 'none', `festival.motifs` 'mixed'; V11 §4.1 refuses its delete */;",
+   "new_len": 118
+  },
+  {
+   "section": "### 2.1 The table registry",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "rows 32, 35, 63–66, 76 and 106;",
+   "new_len": 36
+  },
+  {
+   "section": "### 2.4 Relation families, signature pairs and the derived rows",
+   "count": 1,
+   "ids": [
+    "VAH-r1-10 (R2-10)"
+   ],
+   "old": "which V10's `FieldDrivers` and the \"why is this quarter poor\" answer cite.",
+   "new_len": 76
+  },
+  {
+   "section": "### 2.4 Relation families, signature pairs and the derived rows",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "Items 111–118 add `clim/<biome>/<cell>` (a dry-country or season cell of a\nclimate row), `hist/<event>` (an event-to-epo",
+   "new_len": 660
+  },
+  {
+   "section": "### 2.6 Ladder steps (file f items 510, 520)",
+   "count": 1,
+   "ids": [
+    "VV1112-r1-04 (R2-10)"
+   ],
+   "old": "// item 108's step types; V08 §2.3, V08 §2.5, V10 §2.13 and V01 §2.3 type their fields by it",
+   "new_len": 175
+  },
+  {
+   "section": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "  farmLayout: string /* a §4.9 farm-mode override key or 'none' */;",
+   "new_len": 130
+  },
+  {
+   "section": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "count": 1,
+   "ids": [
+    "G124-V11"
+   ],
+   "old": "  dry: ClimateDryCells /* item 111, V11 §3.25.1 */; seasons: ClimateSeasonCells /* item 117, V11 §3.25.6 */ }",
+   "new_len": 162
+  },
+  {
+   "section": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "count": 1,
+   "ids": [
+    "G124-V11"
+   ],
+   "old": "  grow: [number, number]; harvest: [number, number]; hay: [number, number] | null; ice: [number, number] | null; snow: [",
+   "new_len": 1712
+  },
+  {
+   "section": "### 2.8b The underground content rows (item 109): shapes cited, one cell added",
+   "count": 1,
+   "ids": [
+    "VPC-R1-07 (R2-12)"
+   ],
+   "old": "`CultureRow` and `PersistenceClass` (`tables/under/ruin.json`), `OpeningRow` (`openings.json`),",
+   "new_len": 100
+  },
+  {
+   "section": "### 2.8c Item 110's row types",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "  maxClearSpanM: { masonry: number; timber: number };             // m: §2.7's clear-span bound by material class; a gen",
+   "new_len": 391
+  },
+  {
+   "section": "### 2.8d The row types of items 113–119",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11"
+   ],
+   "old": "### 2.8d The row types of items 113–119\n",
+   "new_len": 52
+  },
+  {
+   "section": "### 2.8d The row types of items 113–119",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G124-V11"
+   ],
+   "old": "Each table is our own and calibratable unless marked (rows 97 and 102–105 are not, in any column: V11 §3.25.4, V11 §3.25",
+   "new_len": 273
+  },
+  {
+   "section": "### 2.8d The row types of items 113–119",
+   "count": 1,
+   "ids": [
+    "VPC-R1-01 (R2-13)"
+   ],
+   "old": "interface GrandeurCeilingRow {      // table 'grandeur.ceiling' (registry row 97); key 'rung' (item 115)\n  rung: Rung; e",
+   "new_len": 194
+  },
+  {
+   "section": "### 2.8d The row types of items 113–119",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11"
+   ],
+   "old": "  gainBar: string /* the bar id the gain is measured by (§13, V12) */; gain: number; run: string /* the CalibrationRun i",
+   "new_len": 1748
+  },
+  {
+   "section": "### 2.10 Lifecycle of every new state field",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "| `RelationFamilyRow`, `SignaturePairRow`, `LadderStepRow`, `WallBarrierRow`, `WaterfrontThreatRow`, `EraRow`, `ClimateR",
+   "new_len": 520
+  },
+  {
+   "section": "### 2.10 Lifecycle of every new state field",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "a `stateSnapCm` edit applies at the next re-derivation and moves no standing knot; a pinned version without them is upgr",
+   "new_len": 640
+  },
+  {
+   "section": "### 2.10 Lifecycle of every new state field",
+   "count": 1,
+   "ids": [
+    "VDC1-11 (R2-27 (b))"
+   ],
+   "old": "| the generation-time condition re-derives with its enceinte (§7.7's row); an epoch reads the cells in force at it; a ha",
+   "new_len": 325
+  },
+  {
+   "section": "### 2.10 Lifecycle of every new state field",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| item 119's `perf.qualitySpend` rows | a row lands with its measured gain (V11 §3.25.8) | row 106 | table | a row admit",
+   "new_len": 1474
+  },
+  {
+   "section": "### 2.10 Lifecycle of every new state field",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "| the display cells (`label`, `icon?`, `synonyms`, `commonness` on the class rows; `label`, `icon?` on the families, goo",
+   "new_len": 329
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VPC-R1-15 (a)"
+   ],
+   "old": "| `castle.minInnerM`, `wall.smoothPasses`, gates' waterfront share, spacing |",
+   "new_len": 130
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-06 (R2-13)"
+   ],
+   "old": "| one row: `rosterMode`, the unemployment threshold, the propagation depth, `placement.extensionWeight`, `detourFactor`,",
+   "new_len": 70
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02",
+    "G124-V11"
+   ],
+   "old": "| `ClimateRow` (with `rainMmPerYear`, the dry-country cells of item 111 and the season cells of item 117) | V11 §3.17; `",
+   "new_len": 564
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "S12a (§4.9's field system; the oasis gardens)",
+   "new_len": 96
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G124-V11"
+   ],
+   "old": "the renderer (§8.2's season rows, item 117); modules: `@plat/app` (V09's season control), the clerk (V10) |",
+   "new_len": 233
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VPC-R1-07 (R2-12)"
+   ],
+   "old": "`RuinRule` (with `CultureRow`), `OpeningRow`, `DigRule`, `CatacombRule`",
+   "new_len": 76
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "| `RaisedWayRow`, `RaisedWaySettings`, `RaisedWayStructure` (with `span`, `slideMaxFactor` and `maxClearSpanM`) | V11 §3",
+   "new_len": 273
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "`S8` and `S8.seed` (V01's seeds, fans and bent-cut lanes crossing under an arch read `structure.clearanceCm`, V01 §3.17.",
+   "new_len": 208
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "EVO_RAISED (V06 §3.19's epoch pass), U-SYS and U-FADE",
+   "new_len": 77
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VPC-R1-15 (b)"
+   ],
+   "old": "S4, S5b, S6 and EVO_RAISED (the raised ways' ends); S13a and S14",
+   "new_len": 190
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-06 (R2-13)"
+   ],
+   "old": "| `SquareQuotaRow` (V01 §2.2: `band`, `haPer1000`, the `kind` factors; key `band`) |",
+   "new_len": 40
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "S3 and S7 (§7.7's generation-time condition row, item 114 (d),",
+   "new_len": 37
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G124-V11"
+   ],
+   "old": "| the renderer (§8.2's per-crown autumn colour by a keyed draw on `render.instances`) |",
+   "new_len": 136
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G122h-V11",
+    "G123-V11"
+   ],
+   "old": "| row | staged (shipped empty; a row lands with its measured gain) |\n",
+   "new_len": 1789
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11"
+   ],
+   "old": "**The count.** One hundred and seven catalogue rows (1–106 and 58a;",
+   "new_len": 68
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "row 106 (measured costs, each row its own\nevidence). Every other row of items 111–119 is calibratable, its register entr",
+   "new_len": 302
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "the patch materials (row 96), V11 §3.25.3; the style sheets (row 52), here —",
+   "new_len": 117
+  },
+  {
+   "section": "### 3.1 The complete catalogue of tables",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "the goods,\ndistrict kinds, patch materials and style sheets ship none,",
+   "new_len": 84
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "supply `flour` 600 m street hard (§10.2's example) |",
+   "new_len": 34
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "`nearWater` soft (§10.2's example);",
+   "new_len": 17
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "supply `grain` 3 000 m road (§10.2's example) |",
+   "new_len": 29
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "`nearWater` hard with a fall (§10.2's example; its outside row §4.9) |",
+   "new_len": 53
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "`extramural` soft (§10.2's example as file f item 440 rewrites it);",
+   "new_len": 36
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "`nearMarket` 60 hard (§10.2's example) |",
+   "new_len": 22
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "supply `import` by sea (§10.2's example) — at a port;",
+   "new_len": 35
+  },
+  {
+   "section": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-23",
+    "VPC-R1-14"
+   ],
+   "old": "`nearGate` 150 soft (§10.2's example as file f item 440 rewrites it);",
+   "new_len": 38
+  },
+  {
+   "section": "### 3.6 Designation templates, the compatibility table and heights",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-20 (R2-16)"
+   ],
+   "old": "the poor, modest, prosperous and rich rows (§4.5's four-row tables: `squalid` reads the poor row, `comfortable` the\ninte",
+   "new_len": 359
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02",
+    "G124-V11"
+   ],
+   "old": "V11 §3.25.1, and item\n117's season cells, V11 §3.25.6):",
+   "new_len": 328
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "| biome | ground role | woods (inner / outer shares; leaf) | field system | roof form · pitch | scatter per ha | rain mm",
+   "new_len": 177
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "(deciduous) | openStrip |",
+   "new_len": 32
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "birch 0.1 / 0.4 | enclosed |",
+   "new_len": 35
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "birch 0.3 / 0.4 | openStrip |",
+   "new_len": 36
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "thorn 0.3 / 0.5 | enclosed |",
+   "new_len": 35
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "(evergreen) | irrigated |",
+   "new_len": 34
+  },
+  {
+   "section": "### 3.17 Climate and land use",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "larch 0.2 / 0.2 | infieldOutfield |",
+   "new_len": 47
+  },
+  {
+   "section": "### 3.18 Decline, ruin and salvage by material",
+   "count": 1,
+   "ids": [
+    "G123-V11"
+   ],
+   "old": "`cob` (it melts to a bank), `timber_crib` as `timber_frame`.",
+   "new_len": 263
+  },
+  {
+   "section": "### 3.23 The underground's content rows (item 109; J111)",
+   "count": 1,
+   "ids": [
+    "VPC-R1-07 (R2-12)"
+   ],
+   "old": "The schemas are V04 §2.3's (`RuinRule` with `CultureRow` and `PersistenceClass`, `OpeningRow`, `DigRule`,",
+   "new_len": 110
+  },
+  {
+   "section": "### 3.23 The underground's content rows (item 109; J111)",
+   "count": 1,
+   "ids": [
+    "R2-28 (a)"
+   ],
+   "old": "leaves open: **`miningCellShare` 0.02** — the site \"holds mining\" when at least this share\nof the frame's land cells car",
+   "new_len": 267
+  },
+  {
+   "section": "### 3.23 The underground's content rows (item 109; J111)",
+   "count": 1,
+   "ids": [
+    "VV34-r1-06 (R2-28 (b))"
+   ],
+   "old": "Scattered\nvoid dwellings (`voidDwellings`), the forecast floor (`accessForecastMin`) and the ruin's magic lights\n(`magic",
+   "new_len": 229
+  },
+  {
+   "section": "### 3.23 The underground's content rows (item 109; J111)",
+   "count": 1,
+   "ids": [
+    "VPC-R1-07 (R2-12)"
+   ],
+   "old": "`OpeningRow` chances: `sinkhole`",
+   "new_len": 37
+  },
+  {
+   "section": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "Items 116–119 add no switch here: item 116's margin is a view cell of the base settings row (V11 §3.1 row 92); the seaso",
+   "new_len": 672
+  },
+  {
+   "section": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "V01's seeds, fans and lanes crossing under an arch (`clearanceCm`, V01 §3.17.3 (3)),",
+   "new_len": 130
+  },
+  {
+   "section": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "reach is clamped, T-V11-32 (h); J-V11.116);\n",
+   "new_len": 372
+  },
+  {
+   "section": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-13",
+    "VV12-r1-07"
+   ],
+   "old": "village rungs read V07's cells (J-V7.41). The\nfootprints bracket V02's stopgap band ([20, 60] m²), and V02's T-V2-47 rea",
+   "new_len": 136
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)\n",
+   "new_len": 98
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G122h-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "(the canon's routing; J127–J130).",
+   "new_len": 44
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11"
+   ],
+   "old": "the registry rows are V11 §3.1's (43, 44, 92–106).",
+   "new_len": 50
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "V06 §3.7.7's transitions and §7.7's generation-time row).",
+   "new_len": 42
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "| §7.7's row gives each run its condition at generation",
+   "new_len": 56
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "read by §7.7's item-114 row:",
+   "new_len": 20
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "VV78-04 (R2-14)"
+   ],
+   "old": "is V08 §3.16 (3)'s reading — a dossier-bound record of a `grandClasses` class, or a seigneurial\n  government's forced ma",
+   "new_len": 79
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "G124-V11 (R2-39 (a), (e))"
+   ],
+   "old": "Arid and warm climates never freeze and draw no snow (a user may still switch the `snow` weather on); `snow` weather\ndef",
+   "new_len": 184
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "* The dossier's week and season and the climate's source order are §7.7's row (V08 reads SettlementForge's calendar and\n",
+   "new_len": 181
+  },
+  {
+   "section": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G122h-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "T-V11-44 (b) holds the row shape.",
+   "new_len": 18711
+  },
+  {
+   "section": "### 3.26 Edges and combinations",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02"
+   ],
+   "old": "| M-V11-3289-E1, -E5 | V11 §3.17 climate and land use | no biome in the circumstance; a land-use kind without a row | `t",
+   "new_len": 304
+  },
+  {
+   "section": "### 3.26 Edges and combinations",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| check | T-V11-45 (s) |\n",
+   "new_len": 1671
+  },
+  {
+   "section": "### 3.26 Edges and combinations",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| C-dossier-tables | every `dossier.*` row set (never calibrated) | every rung |",
+   "new_len": 589
+  },
+  {
+   "section": "## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+   "count": 1,
+   "ids": [
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "the largest-crypt bar, T-V11-25), is clamped to the nearest lawful value with the dry run's one-line note (§7.1; item 10",
+   "new_len": 463
+  },
+  {
+   "section": "## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+   "count": 1,
+   "ids": [
+    "VAH-r1-07"
+   ],
+   "old": "/* per family, × that family's soft terms for the kind's members; hard needs unscaled */",
+   "new_len": 142
+  },
+  {
+   "section": "## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "The item-109, item-110 and items 111–119 tables\nre-derive by V11 §2.10's rows (standing generated structures kept and li",
+   "new_len": 232
+  },
+  {
+   "section": "## 5 Rendering, labels and exports",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "runs by their patch rows' `look`, item 117's season and item 118's decorations by §8.2's rows from V11 §3.25's cells.",
+   "new_len": 263
+  },
+  {
+   "section": "## 5 Rendering, labels and exports",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G124-V11"
+   ],
+   "old": "the season control and the festival list are V09's;",
+   "new_len": 84
+  },
+  {
+   "section": "## 6 Performance budgets",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| the tables of items 109–119 (V11 §3.23–V11 §3.25) | ≤ 50 KB of the shipped payload together; every lookup O(1) (keyed ",
+   "new_len": 528
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "the item-110 cells `terrace.slopeMin`, `terrace.stepMinCm`, `viaduct.minDropM` and the deck row,",
+   "new_len": 151
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11"
+   ],
+   "old": "`grandeur.ceiling`, `season.*`, `festival.*`, `perf.qualitySpend`)",
+   "new_len": 135
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "every profile family, good, district kind, patch material and shipped style sheet row has a non-empty `label`,",
+   "new_len": 156
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "pipeline r2 hand-off (VEW-r1-04)"
+   ],
+   "old": "| T-V11-32 | item 110's rows: (a) `plinthCm < stepMinCm < skirtMaxCm < stepMaxCm`,",
+   "new_len": 193
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "**7.4 The owner items 111 and 113–119, the base settings row and the edges.** Each item's behaviour bars are the base's\n",
+   "new_len": 288
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "VAP-r1-05 (R2-08)"
+   ],
+   "old": "| T-V11-42 | item 117's rows: every climate row's bands",
+   "new_len": 70
+  },
+  {
+   "section": "## 7 Tests and acceptance bars",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "a cell edit of the same row applies | every stated outcome; 0 crashes, 0 whole-map retries |",
+   "new_len": 3033
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "| C4b — the SettlementForge rows | `dossier.kinds` (280), archetypes, category synonyms, keywords, good words, ladders |",
+   "new_len": 340
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11",
+    "VAH-r1-19 (R2-11)"
+   ],
+   "old": "| C9 — the rows of items 111 and 113–119 | V11 §3.25: item 111's dry-country cells and the `garden` row; item 113's `his",
+   "new_len": 1069
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "| **total** | | | **13.0–18.25 pw** | **§16's first total** carries C0–C3b, C4a, C5–C7 and C9 — 11.25–15.75 pw inside it",
+   "new_len": 614
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "R2-07"
+   ],
+   "old": "V12 §3.11's lines cover file g's rows (items\n102–119). The tables",
+   "new_len": 49
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "VAF-R1T-02",
+    "G124-V11"
+   ],
+   "old": "`climate`'s columns but `rainMmPerYear` (row 43);",
+   "new_len": 187
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "R2-26 (d)"
+   ],
+   "old": "and `retaining` lines). The words are ≈ 0.1 pw",
+   "new_len": 194
+  },
+  {
+   "section": "## 8 Build plan",
+   "count": 1,
+   "ids": [
+    "G122-V11"
+   ],
+   "old": "C4b needs V08's adapter and the frozen fixtures, C4a the base's item-106 arc classification at M2b;",
+   "new_len": 170
+  },
+  {
+   "section": "## 9 Decisions (each vetoable)",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G122h-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "and §16 places each price in one line only — C4a in the first total, C4b with C8 on the staged content line (V11 §8) |",
+   "new_len": 2762
+  },
+  {
+   "section": "### 10b Cross-volume requests",
+   "count": 1,
+   "ids": [
+    "VAF-R0S-13",
+    "VV12-r1-07 (R2-15)"
+   ],
+   "old": "| X-V11-7 | V02 | `deck.fallbackM2` and `deck.fallbackFloors` are read only while the `deck` table is unregistered | V02",
+   "new_len": 0
+  },
+  {
+   "section": "### 10b Cross-volume requests",
+   "count": 1,
+   "ids": [
+    "VAH-r1-10 (R2-10)"
+   ],
+   "old": "an unwalled side names its barrier row and `arcKind` | V10 §2.13, V10 §4.1 |",
+   "new_len": 84
+  },
+  {
+   "section": "## 12 CONFIRMED versus PLAUSIBLE",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11"
+   ],
+   "old": "the registry holds 107 rows (1–106\nand 58a); every base section this volume cites exists in the base, and every request ",
+   "new_len": 387
+  },
+  {
+   "section": "## 12 CONFIRMED versus PLAUSIBLE",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "  items 111–119's cells (V11 §8);",
+   "new_len": 45
+  },
+  {
+   "section": "## 12 CONFIRMED versus PLAUSIBLE",
+   "count": 1,
+   "ids": [
+    "G122-V11",
+    "G123-V11",
+    "G124-V11"
+   ],
+   "old": "* items 111 and 113–118 are no-ops at their off forms (T-V11-38 – T-V11-43) and the arid water pull shows in the siting\n",
+   "new_len": 560
+  }
+ ]
+}

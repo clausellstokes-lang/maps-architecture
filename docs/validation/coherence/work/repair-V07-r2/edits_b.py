@@ -6,7 +6,7 @@ EDITS = [
      "item 115's ceiling a row read in S10b; items 117 and 118 no model time (looks, drawn lazily per visible tile within §12.5's\n"
      "budget). **The underground tail**",
      "item 115's ceiling a row read in S10b; items 117, 118 and 122 no model time (looks, drawn lazily per visible tile within\n"
-     "§12.5's budget; `villageCrisisUnits` ≤ 0.5 ms at the VILLAGE top, one pass over the district's plots and their shared\n"
+     "§12.5's budget; `villageDisasterUnits` ≤ 0.5 ms at the VILLAGE top, one pass over the district's plots and their shared\n"
      "edges, memoised per model digest, V07 §5.6). **The underground tail**", 1),
 
     # VAP-r1-01 (R2-08): V07 §7's head names the take-over in each test's head; R2-09: each pin states its registration.
@@ -106,26 +106,27 @@ EDITS = [
      "and no siege at THORP or HAMLET draws a trench or earthwork line (T122-5); **(b)** 0 look elements on water, in a gate's "
      "passage (a palisade gate's opening and 4 m along its way each side) or over a label's keep-out, and no camp on the green "
      "or on a plot — a toft, a close, a croft, a plot of DR18's clusters (T122-6); **(c)** a disaster ruins whole units of "
-     "`villageCrisisUnits` — the ends, or the toft groups of a village with no end — the calamity's matched targets first, at "
-     "least one unit while it stands, every building of a returned unit drawing the ruined look and none outside; a look scaled "
-     "as a share of its place's units takes at least one; **(d)** each place reads as V07 §5.6 (2) states: a siege of a village "
+     "`villageDisasterUnits` — the ends, or the toft groups of a village with no end — each unit's `DisasterUnit` fields as V07 "
+     "§5.6 (3) reads them, the calamity's matched targets first, every building of a returned unit drawing the ruined look and "
+     "none outside; a look scaled as a share of its place's n units at share s takes round(s × n) clamped to [1, n] where s is "
+     "above 0; **(d)** each place reads as V07 §5.6 (2) states: a siege of a village "
      "with no walled stretch draws the blockade on its entries' ways, a palisaded one its camps beyond the walled stretches and "
      "its engines facing the weakest runs, then the gates; beast's torn sections only on a standing palisade, else watch-fires "
-     "along the perimeter; famine bares every furlong, the meadow and the commons in its weeks only, its pens empty and the "
+     "along the perimeter; famine bares every arable face, the meadow and the commons, its pens empty and the "
      "market's stalls shuttered; raiders burn the outermost outlying farmsteads, else the farm tofts farthest from the heart; "
-     "the refugee camp on `campLand` by the main approach road's gate; the quarantine's marked doors in one end; **(e)** the "
+     "the refugee camp on `campLand` by the main approach road's gate; the quarantine's marked doors and cordon in one unit of V07 §5.6 (3); **(e)** the "
      "answer to a `why` on an end a disaster look ruins and on a field a famine look leaves bare carries `info.crisis.ruinedFor` "
      "while the look stands at the viewer's key, and none otherwise; **(f)** an epoch, an edit or a hand-off that changes the "
      "ends re-derives the units in that commit, a look over a hand-off reads the rung in force, and under `VG` no look draws "
-     "| C | V-M3 (the previews and the readings); the dossier clauses with V08's reading at M-SF; the disaster and camp clauses at "
-     "the later of V-M3's exit and the exits landing V01's `disasterDistricts` and `campLand` (M5) and V06's `frontierFor` (M6-E) "
-     "(risk (14)) |\n", 1),
+     "| C | V-M3 (the previews and the readings); the dossier clauses with V08's reading at M-SF; the disaster clause at the later "
+     "of V-M3 and M5 (V01's `disasterSource`), the refugee camp's frontier clause at the later of V-M3 and M6-E (V06's "
+     "`frontierFor`) (risk (14)) |\n", 1),
 
     # V07 §8: item 122 at V-M3 (G122-V07), T-V7-68 at the later of V-M3 and M5 (R2-32), the price (R2-06 (c)).
     ('G122-V07',
      "item 119's one-time waits (V07 §6); Find at the village rungs (item 120; V07 §5.5); the edge suite's V-M3 clauses |",
      "item 119's one-time waits (V07 §6); Find at the village rungs (item 120; V07 §5.5); the crisis looks at the village rungs "
-     "(item 122; V07 §5.6: the places' village readings, `villageCrisisUnits`, the crisis lines); the edge suite's V-M3 clauses |", 1),
+     "(item 122; V07 §5.6: the places' village readings, `villageDisasterUnits`, the crisis lines); the edge suite's V-M3 clauses |", 1),
     ('R2-32 G122-V07', "T-V7-61, T-V7-62's epoch clause, T-V7-64 – T-V7-68 — the clauses",
      "T-V7-61, T-V7-62's epoch clause, T-V7-64 – T-V7-67, T-V7-68 at the later of V-M3's exit and M5's (Find's milestone), T-V7-69 "
      "(its dossier clauses at M-SF, its disaster and camp clauses as its row states) — the clauses", 1),
@@ -150,8 +151,8 @@ EDITS = [
      "landing at M5 (Find's milestone, with V01's area and gap services); *pre-decided fallback:* if M5 has not exited when V-M3\n"
      "does, the village's readings (V07 §5.5) ship as the gazetteer's rows and area targets alone, and T-V7-68 exits with M5's\n"
      "exit. (14) **The crisis looks** (item 122) are §8.2's `live.crises` over §10.2's table (M3b) and V11's rows, the conditions'\n"
-     "`crisis.map` rows with V08's reading (M-SF), V01's `disasterDistricts` and `campLand` (M5) and V06's `frontierFor` (M6-E);\n"
-     "*pre-decided fallback:* the village's readings (V07 §5.6) and `villageCrisisUnits` ship at V-M3, exercised by previews, and a\n"
+     "`crisis.map` rows with V08's reading (M-SF), V01's `campLand` (M3b) and `disasterSource` (M5) and V06's `frontierFor` (M6-E);\n"
+     "*pre-decided fallback:* the village's readings (V07 §5.6) and `villageDisasterUnits` ship at V-M3, exercised by previews, and a\n"
      "clause of T-V7-69 whose service has not landed exits at the first V07 exit after it.", 1),
 
     # J-V7.146 (G122-V07).
@@ -159,15 +160,16 @@ EDITS = [
      "a viewer looking for \"the mill end\" or \"the north field\" means those, and a kept chip lets a viewer watch a place come and go across epochs as item 120 (f) asks of a closed smithy | V07 §5.5, W83, T-V7-68 |\n",
      "a viewer looking for \"the mill end\" or \"the north field\" means those, and a kept chip lets a viewer watch a place come and go across epochs as item 120 (f) asks of a closed smithy | V07 §5.5, W83, T-V7-68 |\n"
      "| J-V7.146 | chose to read item 122's crisis looks at the village rungs as §10.2's places read on the village's own records — "
-     "the ends as a disaster's units (the toft groups of a village with no end), the entries' ways as the approach roads with a "
-     "main approach road chosen by the DR3 partner of greatest weight, the palisade's walled stretches as the walls and the edge, "
-     "the hinterland's furlongs, meadow and commons as famine's fields and its commons and fallow great field as the camps' land, "
-     "an end as the quarantine's affected quarter — with a war band's camp and no siege line at THORP and HAMLET, at least one "
-     "unit of a look scaled by a share of units while it stands, and the hand-over through the village's own epochs, over a "
-     "separate village look table or the town's places scaled down, because item 122 routes \"the village and smaller rungs\" "
-     "here and its (c) gives a hamlet a war band's camp and a city the siege line, a village's parts are its ends (J-V7.20) and "
-     "its outskirts its hinterland, and a look that must show in every week of its condition cannot round a small place's share "
-     "to nothing | V07 §5.6, W84, T-V7-69 |\n", 1),
+     "the ends as a disaster's units in V01's `DisasterUnit` shape (the toft groups of a village with no end), the entries' ways "
+     "as the approach roads with a main approach road chosen by the DR3 partner of greatest weight, the palisade's walled "
+     "stretches as the walls and the edge, the hinterland's furlongs, meadow and commons as famine's fields, V01's `campLand` "
+     "read at the perimeter and the fallow course, an end as the quarantine's affected quarter — with a war band's camp and no "
+     "siege line at THORP and HAMLET, every share of a place's units counted as V01 §3.16 (5) counts the disaster's units, and "
+     "the hand-over through the village's own epochs, over a separate village look table or the town's places scaled down, "
+     "because item 122 routes \"the village and smaller rungs\" here and its (c) gives a hamlet a war band's camp and a city "
+     "the siege line, a village's parts are its ends (J-V7.20) and its outskirts its hinterland, one count of a share serves "
+     "every rung, and a look standing at a positive share must not round a small place's share to nothing | V07 §5.6, W84, "
+     "T-V7-69 |\n", 1),
 
     # V07 §12 (R2-07's subset list brought to the items this volume applies; G122-V07).
     ('R2-07 G122-V07', "(files f and g\napplied, items 111 and 113–120 included);",
@@ -176,5 +178,5 @@ EDITS = [
      "that the ends serve as Find's area targets and Show gaps' units (T-V7-68; V-M3); and the",
      "that the ends serve as Find's area targets and Show gaps' units (T-V7-68; V-M3); that the village tiers' crisis looks read at\n"
      "their places and scale — a war band's camp and no siege line at THORP and HAMLET, the ends as a disaster's units — and that\n"
-     "`villageCrisisUnits` stays within 0.5 ms (T-V7-69; V-M3); and the", 1),
+     "`villageDisasterUnits` stays within 0.5 ms (T-V7-69; V-M3); and the", 1),
 ]

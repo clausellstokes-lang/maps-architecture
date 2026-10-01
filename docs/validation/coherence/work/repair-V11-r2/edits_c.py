@@ -73,8 +73,8 @@ set is empty and every condition reads `none`, §10.2 (b)):
   V08's census at the pinned baseline): a listed word without its row fails the build until the row is written, so the
   rows above — SettlementForge's fifteen stressor types and the archetypes its conditions carry today — grow with the line;
   a word V08 meets that no row maps reads `none`, reported `unmapped_word` (V08).
-* **Off** — no switch in V11 §3.24.0: §2.9's `crises` key turns the looks off per viewer, and with no condition standing and
-  no preview nothing is drawn, every tile byte-identical to the base (`item122.crises`; T122-7).
+* **Off** — §2.9's `crises` key turns the looks off per viewer, with no switch in V11 §3.24.0; with no condition standing
+  and no preview nothing is drawn, every tile byte-identical to the base (`item122.crises`; T122-7).
 
 **3.25.10 Damage in a ruined building's plan** (item 123: a drawing only — one plan, never redrawn; no damage moves, adds
 or removes a room, wall, opening or id, and no cell here is read by a model stage; `damage.elements` with its named row
@@ -130,9 +130,9 @@ V11 §3.19.3's default rows (the table's `defaultRow`, V11 §2.1), reported once
 **3.25.11 Light weather** (item 124: a LOOK only — the animated effects never change a tile, the model, the document or
 its hash, and no cell here is read by a model stage; the climate rows' `weather` cells and the `weather` block of the
 climate table's named row `settings`, registry row 43; the mechanism is §6.1 *The weather stream* — the session-seeded
-timeline —, §8.2's effect marks and §8.4 (i)'s light terms, the switch V09's device state). The numbers are `own` and
-calibratable, their register entries V12 §3.11's, `perHour` `extension` (the parity presets resolve it 0: no spell), but for
-the two caps of the hard rules below; the weeks are V11 §3.25.6's (0–51 from the first week of spring; a band `a–b`
+timeline —, §8.2's effect marks and §8.4 (i)'s light terms, the switch V09's device state). The numbers but the two caps
+of the hard rules (below) are `own` and calibratable, their register entries V12 §3.11's; `perHour` is `extension` (the
+parity presets resolve it 0: no spell); the weeks are V11 §3.25.6's (0–51 from the first week of spring; a band `a–b`
 includes both ends and wraps the year's end when a > b).
 
 * **The columns.** A climate row holds, for each effect kind, its bands of weeks, each with `perHour` — how often: the
@@ -143,8 +143,9 @@ includes both ends and wraps the year's end when a > b).
   uniforms in that order. A week with no live kind brings no spell. A band holds its cells through its weeks, so the weeks
   turn by bands written as transitions — the first flurries before deep snow, a thaw of rain — never by interpolation, and
   a kind absent from a band stays absent through it (the arid dry months).
-* **The commonest kind** of a week — the one V09's **Start a shower now** starts (§6.1) — is its live kind of greatest
-  `perHour` after the sites' factors, ties in `WeatherKind`'s order (V11 §2.8); a week with no live kind starts none.
+* **The commonest kind** of a week is its live kind of greatest `perHour` after the sites' factors, ties in
+  `WeatherKind`'s order (V11 §2.8): the kind a press of V09's **Start a shower now** starts as the next spell; a week with
+  no live kind starts none.
 
 *The kinds* (`settings.weather.kinds`; `hours` the hours of the view's day a spell may start in, read only under
 `light: 'time'` (§2.9), so fog and mist come on cool mornings and burn off as the day goes on, item 124 (d); every
