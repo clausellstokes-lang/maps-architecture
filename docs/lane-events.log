@@ -3275,3 +3275,8 @@
 2026-10-01 22:31 coherence/orchestrator NOTE repair-V09-r6 landed (13 blocks, 0 ruling requests); 4 repairs still running (V04, V02, V05, V11)
 2026-10-01 22:31 coherence/repair-V02-r6 LANDED docs/validation/coherence/repair-r6-V02.md docs/validation/coherence/results/coherence_repair-V02-r6.json
 2026-10-01 22:32 coherence/orchestrator NOTE repair-V02-r6 landed (1 block, 0 ruling requests); 3 repairs still running (V04, V05, V11)
+2026-10-01 22:32 coherence/repair-V05-r6 CHECKPOINT brief, adjudication-r6 (R6-01, R6-02, Part H · V05, Part P) and live V05 §3.16, ## 7, ## 8 read; next: blocks for (V5-1)-(V5-3) and T-V5-14's W12 sweep, dry run
+2026-10-01 22:32 coherence/repair-V04-r6 CHECKPOINT P2 edit set built (17 REPLACE blocks, 28 count-asserted edits) in scratch; next: dry run through apply-blocks.py, then write repair file
+2026-10-01 22:33 coherence/repair-V11-r6 CHECKPOINT P2-P3 done (9 count-asserted edits over 6 units; dry run 6/6 applied, audit OK, byte-identical to expected 0e2767c1b7ec; ids unchanged; doc_checks unreviewed set identical, provisional); next P4 report, result, LANDED
+2026-10-01 22:34 coherence/repair-V11-r6 LANDED docs/validation/coherence/repair-r6-V11.md docs/validation/coherence/results/coherence_repair-V11-r6.json (opus seat; 0 issues owned; 2 END lines written; 6 REPLACE blocks, 9 count-asserted edits incl. 5 sweep conformances; 0 ruling requests; 0 hand-offs)
+2026-10-01 22:34 coherence/orchestrator NOTE repair-V11-r6 landed (6 blocks, END lines only, 0 ruling requests); 2 repairs still running (V04, V05)
