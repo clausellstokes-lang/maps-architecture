@@ -403,7 +403,7 @@ interface FindArea {   // findAreas' row (V01 §5.4 (1))
   shapes: { layer: 'ground'|'underground'|'sky'; area: PolygonCm[] /* the union of those districts' L1 faces on the layer, one per component;
     a sky shape in its island's local frame (S14 places it, V05 §5.4) */ }[];
   anchor: { layer: 'ground'|'underground'|'sky'; at: PointCm } /* on its largest shape: its label's first spine's midpoint, else that shape's pole of
-    inaccessibility — the pin below the pin size and the ghost pin on another layer (V01 §5.4 (2)) */ }
+    inaccessibility — the pin below item 120 (e)'s pin threshold and the ghost pin on another layer (V01 §5.4 (2)) */ }
 interface GapUnit {   // gapUnits' row (V01 §5.4 (3)): one per unit holding no member of the chip that the key admits
   unit: CoverageSpec['unit'] /* the unit read (V01 §5.4 (3)): the class's, 'neighbourhood' read as 'district' (J-V1.35), 'district' for a class with none */;
   id: Id /* the district (a `district` unit, and the district holding a per-plot unit's gap); a parish cell's church member (the district before any church);
@@ -417,8 +417,8 @@ interface GapUnit {   // gapUnits' row (V01 §5.4 (3)): one per unit holding no 
 //     descending, ties by district address — so its first entry is II.7.5 (2)'s parent for an undercity's main chamber */
 //   fabricSignature(region: PolygonCm): FabricSignature /* volumes 4 and 11 pass a ruin's outline */
 //   skyDistrictCount(plotLandM2: number, districtHa: number): number /* a sky island's district count, 1–3 (V01 §3.16) */
-//   findAreas(layer: 'ground'|'underground'|'sky', key: Admission): FindArea[] /* Find's area targets on a layer, at the view's effective key (V01 §5.4 (1)) */
-//   gapUnits(chip: { classes: string[] }, key: Admission, layer: 'ground'|'underground'|'sky'): GapUnit[] /* Show gaps' units of a kind chip (V01 §5.4 (3)) */
+//   findAreas(key: Admission): FindArea[] /* Find's area targets on every layer, at the view's effective key (V01 §5.4 (1)) */
+//   gapUnits(chip: { classes: string[] }, key: Admission): GapUnit[] /* Show gaps' units of a kind chip on every layer (V01 §5.4 (3)) */
 interface HoodPin {   // derived by the refine close-up (V01 §3.8.2); never stored; its overrides are Block.overrides
   host: Id /* the block, or a hinterland face */; ordinal: number; kind: Pin['kind']; site: HoodSite; host2: Id /* the court residue, yard part, block face or land-use face it stands on */;
   at: PointCm; sizeCm: Cm; angleCdeg: Cdeg; heightCm: Cm; state: 'generated'|'moved'|'restyled'|'added'|'rematched' }
@@ -544,11 +544,10 @@ with a slit first, the staggered radials, the centre rule). This volume fixes th
    (`landmarkSigma`) of highest σ, ties by the larger area, then the id.
 2. **Radius budget** `R` = the distance from `c` to the **nearest** point of the template face's boundary, less `eLo`
    (the boundary's inset); with `c` at the pole of inaccessibility this is `inscribedRadiusM − eLo`.
-3. **Radii.** The spacings `s₁, s₂, …` are II.2's law over the budget `R` — the first from `eLo` and `R`, each
-   further one the previous × the district's one growth factor `g`, its draws on `cut.arc` at creation indices 0 and 1
-   (NG 1.2.2 draws one factor per map, `code-neighbourhood.md` §2.1; J-V1.37) — and the radii are `r₁ = s₁ / 2`,
-   `r_k = r_{k−1} + s_k`. Ring k is laid while its jittered, smoothed course lies wholly inside the face inset by
-   `ring.insetELo × eLo + w_tpl / 2` and the series' laid corridor area stays within the ring land reserved (V01 §3.3.7); the first ring
+3. **Radii.** The spacings `s₁, s₂, …` are II.2's law over the radius budget `R` (its one growth factor `g` per
+   district and its `cut.arc` draws included; NG 1.2.2 draws one factor per map, `code-neighbourhood.md` §2.1;
+   J-V1.37); the radii are `r₁ = s₁ / 2` and `r_k = r_{k−1} + s_k`. Ring k is laid while its jittered, smoothed course
+   lies wholly inside the face inset by `ring.insetELo × eLo + w_tpl / 2` and the series' laid corridor area stays within the ring land reserved (V01 §3.3.7); the first ring
    that does not fit ends the series (so rings are whole and contiguous from the centre: no clipped ring, NG-GQ-5's
    truncation removed). A budget `R ≤ eLo` lays no ring, and the row bends by F-TEMPLATE. The `landmark` variant lays a
    **precinct ring** round each qualifying reservation in σ order (ties as the anchor's), up to `landmark.maxRings`
@@ -1084,7 +1083,7 @@ their own lines):
   §2.3) and its coverage units (V05 §3.5 (3)'s k), each through this call, never a copy of the formula; volume 5's fill
   and coverage overshoot read the same `sky.plotShare` cell (V05 §3.5 (2)–(3)), not the count.
 
-* **`findAreas(layer, key)`** and **`gapUnits(chip, key, layer)`** — Find's area targets and Show gaps' units (item
+* **`findAreas(key)`** and **`gapUnits(chip, key)`** — Find's area targets and Show gaps' units (item
   120), memoised per commit and per key, stated with their rules at V01 §5.4. Callers: volume 9's Find panel and
   `live.find` overlay, volume 10's `FindAnswer`, §11.1's picture exports.
 
@@ -1213,7 +1212,7 @@ Tests: T-V1-19, T-V1-34, T-V1-55.
 | seams (V01 §3.11) | a district with no way | every portal `unconnected`, reported | check | T-V1-14 |
 | constants (V01 §3.14) | a numeric `editTable` outside a column's range; its undo; a load of a document made under an older table version | clamped by V11 §4.1's rule (V11 §2.1's `ColumnSpec.range`); the undo restores the cell (§7.4, §7.6); the stage runs' `tablePins` resolve the cells the document was made with, a newer version by §7.5's migration | check | T-V1-34, T-V1-55 |
 | services (V01 §3.16) | an element under no district; a region with no built block or part-0 way; `plotLandM2` 0; a plot with nothing within `per` | the empty list; `null` measures; 1; every plot it reaches, and itself | — | T-V1-42, T-V1-46 |
-| Find's areas and gaps (V01 §5.4) | a layer with no district (a town before S6, an empty layer); a town of one district; a city-cut quarter of one district; a quarter the key admits in part, or not at all; a class with no coverage row; a several-class chip whose classes' units differ; no admitted member; a member the key withholds; every member in the hinterland; a per-plot unit over a district with no residential plot; a chip's area no longer held (merged away, or rebuilt under another id); the METROPOLIS cap | no area target and no gap unit; one district target, no quarter; that district's target only; the admitted members' union, or not listed; the `district` unit; the `district` unit over every member of its classes; every unit a gap; a gap where it alone stands, at that key (never a hint, item 120 (h)); every `district` unit a gap, a per-plot plot served only where `catchmentOf` reaches a hinterland member; no unit there; the chip kept at count 0, dark, until removed or Clear; V01 §6's Find lines | check | T-V1-59 |
+| Find's areas and gaps (V01 §5.4) | no district (a document before S6) or a layer with none; a town of one district; a city-cut quarter of one district; a quarter the key admits in part, or not at all; a class with no coverage row; a several-class chip whose classes' units differ; no admitted member; a member the key withholds; every member in the hinterland; a per-plot unit over a district with no residential plot; a chip's area no longer held (merged away, or rebuilt under another id); the METROPOLIS cap | no area target and no gap unit; one district target, no quarter; that district's target only; the admitted members' union, or not listed; the `district` unit; the `district` unit over every member of its classes; every unit a gap; a gap where it alone stands, at that key (never a hint, item 120 (h)); every `district` unit a gap, a per-plot plot served only where `catchmentOf` reaches a hinterland member; no unit there; the chip kept at count 0, dark, until removed or Clear; V01 §6's Find lines | check | T-V1-59 |
 | terraces and walls (V01 §3.17.1–V01 §3.17.2) | no wall; a declared wall degenerate after its snap; a wall with no step | nothing held; bent by §7.1's dry run before it commits (item 245), never reaching stage 2; step 0, no shadow, no VTT line (§11.1's threshold), the why "no step" | repair locally | T-V1-50, T-V1-56 |
 | raised ways (V01 §3.17.3–V01 §3.17.5) | no raised part; a strip over a whole template face; a part wholly on hinterland faces | nothing read; D has no template face; nothing read (its spans open by J-C4) | — | T-V1-51, T-V1-52 |
 | deck plots (V01 §3.17.6) | a deck whose owner rule meets no district (`Bridge.deck[0]` in the hinterland); a gate's moat deck | the hinterland pseudo-district's allocation; no deck plot (§4.7) | — | T-V1-53 |
@@ -1429,12 +1428,12 @@ lexicon; the gazetteer's class counts and match listing §11.2's; the clerk's "s
 count, glow, pin and gap passes §11.2's admission at the view's effective key, band-less as the gazetteer reads (as at
 the city band; item 120 (h); V09 §4.8's View as). This section states what a town — TOWN to the METROPOLIS cap — and a
 standalone neighbourhood document offer as **areas**, and how **Show gaps** reads its units, through `@plat/hood`'s
-`findAreas` and `gapUnits` (V01 §2.3, V01 §3.16): pure, draw-free functions of committed state and the key, memoised per
-commit and per key, never stored. Below TOWN the village's reading is V07 §5.5's; a village grown into the town ladder
+`findAreas` and `gapUnits` (V01 §2.3, V01 §3.16): pure, draw-free functions of committed state and the key over every
+layer, each row carrying its layer, memoised per commit and per key, never stored. Below TOWN the village's reading is V07 §5.5's; a village grown into the town ladder
 takes this one at its hand-off.
 
-**(1) Areas — `findAreas(layer, key)`** (item 120 (b), (e)). One `FindArea` per area the document holds on the layer:
-* **Districts and neighbourhoods** — every `District` of the layer but the hinterland pseudo-district (the land outside
+**(1) Areas — `findAreas(key)`** (item 120 (b), (e)). One `FindArea` per area the document holds:
+* **Districts and neighbourhoods** — every `District` but the hinterland pseudo-district (the land outside
   the town; a match there is listed by itself, under no area): the base's districts on Ground; on Below each undercity
   neighbourhood and the underground pseudo-district (II.7.3, II.7.5; V04 §3.6a (5)); on Sky each island's districts
   (V01 §3.10.3); in a standalone neighbourhood document its one district. **A neighbourhood is the district a close-up
@@ -1449,24 +1448,23 @@ takes this one at its hand-off.
   shape on Ground and one on Below.
 * **Regions** — each `RegionGroup` (item 101: an Upper, Lower or Outer City), the union of its quarters' districts,
   named by its `region` label.
-* **Named places** — a named `HoodPlace` (V01 §3.7.1: a square, green, yard, court or opening) is a place target of the
-  gazetteer's place rows (§11.2), not an area: a square, green, yard or court lifts its host face and glows along it, an
-  opening glows at its symbol (V01 §3.8.8); its admission is its `knownTo` read as the gazetteer reads it, so a `local`
-  court's name is offered only to a key that admits it there.
 Nothing the document lacks is listed: a TOWN whose city cut stands every district alone lists no quarter. An area the key
 does not admit — on Below, a neighbourhood in a void the key withholds — is never listed, counted, lifted or pinned; a
 quarter or region whose member districts the key admits only in part takes those members' union, and is not listed
-when it admits none.
+when it admits none. **A named `HoodPlace`** (V01 §3.7.1: a square, green, yard, court or opening) is not an area and no
+`findAreas` row: it is a place target of the gazetteer's place rows (§11.2), whose chip lifts its host face and glows
+along it — an opening glows at its symbol (V01 §3.8.8) — admitted by its `knownTo` as the gazetteer admits it, so a
+`local` court's name is offered only to a key that admits it there.
 
 **(2) The look of an area chip** (item 120 (e), (f)). An area chip lifts its `shapes` on the layer shown from the veil
 and draws §8.2's halo along their outlines; a hole in a shape (a district a quarter encloses but does not hold) stays
-under the veil. On the city band an area whose shape spans less than the pin size at the stop drawn carries its chip's
-pin at its `anchor` (item 120 (e)), so a small district at item 116's zoom-out limit is never a lost speck. On a layer
+under the veil. On the city band an area whose shape spans less than item 120 (e)'s pin threshold (about 6 px) at the stop drawn
+carries its chip's pin at its `anchor`, so a small district at item 116's zoom-out limit is never a lost speck. On a layer
 that holds none of its shapes it shows as a ghost pin at its anchor and counts among the panel's "more Below" and "on
 Sky" (item 120 (f); V04's and V05's parts draw them). An area chip never filters a kind chip's matches: the chips are a
 union (item 120 (d)).
 
-**(3) Show gaps — `gapUnits(chip, key, layer)`** (item 120 (i)). For each kind chip (an area, place or person chip has
+**(3) Show gaps — `gapUnits(chip, key)`** (item 120 (i)). For each kind chip (an area, place or person chip has
 no gaps), the **unit** is its class's compiled `profile.coverage` — `unit` and `per` (V11 §2.3) — with `neighbourhood`
 read as `district` (J-V1.35); a class without a coverage row reads the `district` unit, the "one in every district"
 reading of the Coverage view this switch absorbs; a chip of several classes ("all smiths", item 120 (c)) reads their
@@ -1474,7 +1472,7 @@ common `unit` and `per` when all share one, else `district`, its members those o
 are exactly the chip's matches the key admits (§11.2's match listing, the set the chip glows): a member the key
 withholds counts toward no unit, so a unit reads as the viewer knows it and a gap never hints at what the key withholds.
 The units are `catchmentOf`'s (V01 §3.16) — never a second definition — each a `GapUnit` holding no member:
-* **Partition units.** `district` — every district of the layer the key admits but the hinterland (a member in the
+* **Partition units.** `district` — every district the key admits but the hinterland (a member in the
   hinterland counts toward none), a gap when no member's plot lies in it, its area the district's faces united.
   `parish` — the cells `catchmentOf('parish')` gives (the plots whose nearest parish-church member is the same; before
   any church, the district), built from the church members the key admits, so no cell outlines a church the key
@@ -1482,7 +1480,7 @@ The units are `catchmentOf`'s (V01 §3.16) — never a second definition — eac
   the church member's (the district's before any church), its area the union of its plots' faces; a church class read
   on `parish` stands in every cell it makes, so it has no gap.
   `settlement` — one unit, the town, a gap only when the key admits no member on any layer, its id `TOWN_ROOT`, its area
-  the shown layer's districts united.
+  each layer's districts united (one `GapUnit` per layer that holds a district).
 * **Per-plot units.** `walk` and `households` — each residential plot (one holding a household at S10a, §4.7: the plots
   V12 §3.6's `servedShare` counts for these units) whose `catchmentOf(plot, unit, per)` holds no member is unserved; a
   district's unserved plots form its gap unit (its id the district's, its area the union of their faces), and a district
@@ -1502,9 +1500,9 @@ by plot.
 **(4) Over time and edits** (item 120 (f)). Every commit, regenerate, undo, redo and epoch re-evaluates both services
 with the overlay's index, rebuilt once per commit (item 120 (j)): a district an epoch creates is listed, and its gaps
 drawn, in that commit; an edit that removes a district's last member of a chip's class makes it a gap, and its undo
-removes the gap. A chip's area is held by its id: a district succeeded by a merge or split (§6.3's anchor rule), or a
-quarter node a Re-derive from S6 rebuilds under another id, is no longer held, and its chip stays in the grid at count
-0, dark, until the viewer removes it or presses Clear (item 120 (a)). No commit writes the view key.
+removes the gap. A chip's area is held by its id: an area whose id the document no longer holds — a district merged or
+split away under §6.3's succession, a quarter node a Re-derive from S6 rebuilds under another id — leaves its chip in the
+grid at count 0, dark, until the viewer removes it or presses Clear (item 120 (a)). No commit writes the view key.
 
 **(5) Exports and cost** (item 120 (i), (j)). A district or outline picture export (V01 §5.3) draws Find as shown — the
 veil, each area's lift and halo, the gaps with "none here" — with the chips in the legend, by §11.1's rule; a VTT scene

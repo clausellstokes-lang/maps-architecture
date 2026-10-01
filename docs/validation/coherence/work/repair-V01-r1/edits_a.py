@@ -89,7 +89,7 @@ interface FindArea {   // findAreas' row (V01 §5.4 (1))
   shapes: { layer: 'ground'|'underground'|'sky'; area: PolygonCm[] /* the union of those districts' L1 faces on the layer, one per component;
     a sky shape in its island's local frame (S14 places it, V05 §5.4) */ }[];
   anchor: { layer: 'ground'|'underground'|'sky'; at: PointCm } /* on its largest shape: its label's first spine's midpoint, else that shape's pole of
-    inaccessibility — the pin below the pin size and the ghost pin on another layer (V01 §5.4 (2)) */ }
+    inaccessibility — the pin below item 120 (e)'s pin threshold and the ghost pin on another layer (V01 §5.4 (2)) */ }
 interface GapUnit {   // gapUnits' row (V01 §5.4 (3)): one per unit holding no member of the chip that the key admits
   unit: CoverageSpec['unit'] /* the unit read (V01 §5.4 (3)): the class's, 'neighbourhood' read as 'district' (J-V1.35), 'district' for a class with none */;
   id: Id /* the district (a `district` unit, and the district holding a per-plot unit's gap); a parish cell's church member (the district before any church);
@@ -100,8 +100,8 @@ interface GapUnit {   // gapUnits' row (V01 §5.4 (3)): one per unit holding no 
 """, tag='G120-V01')
     E(h, """//   skyDistrictCount(plotLandM2: number, districtHa: number): number /* a sky island's district count, 1–3 (V01 §3.16) */
 """, """//   skyDistrictCount(plotLandM2: number, districtHa: number): number /* a sky island's district count, 1–3 (V01 §3.16) */
-//   findAreas(layer: 'ground'|'underground'|'sky', key: Admission): FindArea[] /* Find's area targets on a layer, at the view's effective key (V01 §5.4 (1)) */
-//   gapUnits(chip: { classes: string[] }, key: Admission, layer: 'ground'|'underground'|'sky'): GapUnit[] /* Show gaps' units of a kind chip (V01 §5.4 (3)) */
+//   findAreas(key: Admission): FindArea[] /* Find's area targets on every layer, at the view's effective key (V01 §5.4 (1)) */
+//   gapUnits(chip: { classes: string[] }, key: Admission): GapUnit[] /* Show gaps' units of a kind chip on every layer (V01 §5.4 (3)) */
 """, tag='G120-V01')
 
     # ------------------------------------------------------------------ §2.6

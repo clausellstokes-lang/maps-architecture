@@ -9,5 +9,6 @@
 # - P0 brief read whole; 4 issues parsed (0 blocker, 0 major, 4 minor: VK0-07, VK0-11, VK0-19, VK0-23); item 120's
 #   ruling (J133) and items 114–119's rulings name no kernel part, so no G120-kernel: done
 # - P1 issue source (verify-kernel-r0s.md), sibling repair hand-offs (model's VK0-05/06 feet and nextGroundPart): done
-# - P2 §3.1–§3.5 read whole; edits: pending
+# - P2 §3.1–§3.5 read whole; sibling seams checked (model §2.2/§2.7 feet and nextGroundPart; pipeline RaisedRead and
+#   §4.6 stop test; rendering §12.4 merge row; determinism §5.1 (5), §5.2, §7.4 frame row): done; edits: in progress
 # - P3 blocks, dry run, result: pending
