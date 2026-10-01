@@ -1,0 +1,340 @@
+[
+ {
+  "id": "VAL-R1-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "VAL-01's three named places are fixed (II.7.6's comment l. 20281\u201320283, II.7.4's inputs l. 19856\u201319857, \u00a74.12's list l. 8581\u20138584 all give V04 \u00a73.1's order U-NET, U-SYS, U-ACCESS, U-FRONT, U-CITY, U-LINK). A fourth statement of the order, which round 0 missed, still has the old one: \u00a714's `StrategyRegistry.underground` comment (base l. 18115) \"registered after the network stage by declared I/O \u2014 the systems, II.7.3's sewer-front neighbourhoods, the access pass, the undercity, then the connection stage\" puts U-FRONT before the access pass, against V04 \u00a73.1 (T2b U-ACCESS before T3 U-FRONT, whose F6 reads the excavation reading) and V07 \u00a73.16 (1). The declared I/O now orders the stages right (II.7.4 declares the access pass's outputs as U-FRONT's inputs), so the comment misdescribes the order rather than setting it.",
+  "required_change": "\u00a714's `underground` map comment reads \"/* II.7.4\u2013II.7.6: registered after the network stage by declared I/O in V04 \u00a73.1's order \u2014 the systems, the access pass (U-ACCESS), II.7.3's sewer-front neighbourhoods (U-FRONT), the undercity, then the connection stage \u2014 their outputs under.blocks, under.plots, under.buildings and under.access placed before the display list by \u00a74.1's order */\".",
+  "owner": "scope",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAL-R1-04",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "V04 \u00a77 now runs to T-V4-81 (Find on Below, V04 l. 3004; BCR-V4-15 \"the bars T-V4-1 \u2013 T-V4-81\", V04 l. 3285), and V04 \u00a713's sibling table asks the base for \"\u00a713.2's underground take-over row and *The underground layer built* line running to T-V4-81\" (V04 l. 3426). \u00a713.2 still reads \"Volume 4's T-V4-1 \u2013 T-V4-80, run from M6-U's steps\" (base l. 16894) and the take-over row \"| \u2026 | the underground layer (volume 4, M6-U) | T-V4-1 \u2013 T-V4-80 |\" (base l. 17245).",
+  "required_change": "\u00a713.2 l. 16894 reads \"Volume 4's T-V4-1 \u2013 T-V4-81\" and the take-over row's last cell (l. 17245) \"T-V4-1 \u2013 T-V4-81\"; \u00a713.2's item-120 rows name T-V4-81 among the volume bars of item 120 (k) when scope writes them (G120's scope part).",
+  "owner": "scope",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAL-R1-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "New this round. V05 \u00a78's total rose to **18\u201324.75** pw (V05 l. 2802; it was 17.25\u201323.25) with items 117, 118, 119 and 120's sky parts in P3 and P6, and V07 \u00a78's to **30.25\u201342.5** pw (V07 l. 3569; it was 29.75\u201341.75) with items 119's and 120's village parts, V07 adding \"\u00a716's village line and INDEX \u00a74 carry it\" (V07 l. 3574\u20133575). \u00a716 still prices M6-sky at \"17.25\u201323.25 pw\" (base l. 18749) and \"| the sky layer (volume 5) | 17.25\u201323.25 | V05 \u00a78 |\" (l. 18784), and the village at \"29.75\u201341.75 pw with V-M0 and V-M2u\", \"items 111 and 113\u2013118 at the village rungs\" (l. 18743) and \"| the village product (volume 7) | 29.75\u201341.75 | V07 \u00a78 |\" (l. 18786); INDEX's product map has V05 \"17.25\u201323.25\" (INDEX l. 28) and V07 \"29.75\u201341.75\" (INDEX l. 30). The build plan disagrees with the volumes it cites.",
+  "required_change": "\u00a716's M6-sky row (l. 18749) and totals row (l. 18784) read 18\u201324.75; its village row (l. 18743) reads \"items 111 and 113\u2013120 at the village rungs | 30.25\u201342.5 pw with V-M0 and V-M2u\" and its totals row (l. 18786) 30.25\u201342.5; \u00a716's grand totals are recomputed once (item 568); INDEX l. 28 reads 18\u201324.75 and l. 30 30.25\u201342.5.",
+  "owner": "scope",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAP-r1-09",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Two volume tests claim T119 clauses that neither \u00a713.2's item-119 group (l. 17235: \"Volume 9 runs the progress view (T-V9-79) and volume 12 the timer and the register check (T-V12-50)\") nor the take-over table lists, and VCS-10's required change (which adds V01, V03, V04 and V07's) does not name them either: V02's T-V2-22 (\"completes within ten seconds from the click at every rung's top and at the population cap (V12 \u00a73.15.9's wait timer, T119-2 \u2026)\") with T-V2-24's export timings, and V05's T-V5-18 (item 119's comfort level at every island rung, naming T119-2 \u2013 T119-5).",
+  "required_change": "Beside VCS-10's additions: the stage-3 take-over row's base-bar column adds \"T119-2's stage-3 clauses (T-V2-22, T-V2-24)\" and the sky row \"T119-2 \u2013 T119-5's island clauses (T-V5-18)\"; the item-119 group's runs list adds \"volume 2 the stage-3 waits (T-V2-22, T-V2-24) and volume 5 the islands' (T-V5-18)\".",
+  "owner": "scope",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAP-r1-15",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V11 \u00a78 renamed C4 into C4a (the wall rows, M2b, first total) and C4b (the SettlementForge rows, M-SF, staged), and V08 \u00a78 now cites \"V11's **C4b**\" and \"**C4a**'s \u2026 rows (landed at M2b)\". \u00a716's staged row (base l. 18753) still reads \"the content's staged rows (V11: C4 at M-SF, C8 at M6-U)\" and INDEX \u00a71's V11 cell (INDEX l. 34) \"\u2026 C4's wall rows at M2b; \u2026 C4's dossier rows with the SettlementForge stage (V11 \u00a78)\" \u2014 milestone ids V11 no longer has (VV1112-r1-01 covers \u00a716's content line's figures; VV1112-r1-02 V12's names).",
+  "required_change": "\u00a716's staged row reads \"the content's staged rows (V11: C4b at M-SF, C8 at M6-U)\"; INDEX \u00a71's V11 cell reads \"C0\u2013C3b, C4a (the wall rows) and C5\u2013C7 inside M0\u2013M4b, C4a at M2b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the dossier rows) with the SettlementForge stage (V11 \u00a78)\".",
+  "owner": "scope",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "G126-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "File g item 126 (the map only on tablets and desktops; J140) with its (a2) revision routes to scope \"\u00a71 (the supported devices: tablets and desktops); \u00a713 (bars; \u00a713.4's sessions on tablets and desktops only); \u00a716 (the narrow class's work dropped from the reference app's line); the judgment index row\". None is written (\"item 126\" 0 times in the base): \u00a71 states no supported devices; \u00a713.2 has no item-126 bar and \u00a713.8 no row; \u00a716's reference-app line (l. 18775) still prices \"touch and the three layout classes\"; no J-A126 row or Part A entry; \u00a70.2's landing table has no row.",
+  "required_change": "\u00a71.1 states the supported devices: \"the map is seen on tablets and desktops only (item 126); a phone is offered no map view, and a window below the medium class (600 \u00d7 480 CSS px) keeps the medium layout at that minimum and scrolls\". \u00a713.2 adds *Tablets and desktops only (item 126; \u00a71.1).* (T126-1) at the medium class every tool completes its canvas script under touch (V09's T-V9-22, its tablet half); (T126-2) below the medium class the medium layout holds at its minimum, the page scrolling, and the document, view and selection are byte-identical across a resize over the threshold; (T126-3) no phone layout, screen or catalogue row exists (a build-time scan of V09's layout classes and catalogue) \u2014 \"Volume 9 runs them (T-V9-22) and volume 12 measures them (its item-126 test)\"; the take-over application row names them; \u00a713.8 schedules them (PR on the app harness, from M2a with the medium layout). \u00a713.4's touch question reads \"two participants per session work on a tablet; every session runs on tablets and desktops only (item 126)\". \u00a716's reference-app line reads \"touch and the two layout classes (wide and medium; item 126 retires the narrow class)\", its price following V09 \u00a78.1's restated base line. \u00a70.2 gains item 126's row; the judgment index gains J-A126.01 with its Part A entry.",
+  "owner": "scope",
+  "reported_by": "verify-agree-proof-r1t",
+  "orchestrator_note": "ORCHESTRATOR NOTE: item 126 was REVISED by the owner the same day (item 126 (a2); canon 'g item 126 (a2) \u2014 revised'): \u201cwe will simply not have the option of viewing the map in the phone in the first place\u201d \u2014 write NO phone screen, notice, catalogue row or Send button; the narrow layout class is retired; below the medium class the medium layout holds at its 600 \u00d7 480 minimum and the page scrolls. The routing text quoted above predates the revision where it names a screen."
+ },
+ {
+  "id": "VDC1-16",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a76.1 now widens the epoch component to u32 and keys replay epochs `0x8000_0000 + r`, 'the upper half of the u32 range' (l.8996, l.9049; VEL0-06). The judgment index row J-A113.61 (base l.21356) and its Part A entry (rationale l.805) still say '`0x8000 + r`, the u16 range's upper half'. Determinism's repair file hands this to scope, and scope's repair did not apply it.",
+  "required_change": "J-A113.61, index row: 'the history replay keys its coarse epochs with the epoch component `0x8000_0000 + r`, the u32 range's upper half (live epochs 1 \u2026 2\u00b3\u00b9 \u2212 1), so no replay draw equals a live epoch's | \u00a76.1'. Part A: 'Chose the replay's coarse-epoch component `0x8000_0000 + r` over a separate stage-id family, because the replay runs the same stages and concerns as a live epoch and the u32 range's upper half keeps its draws apart.'",
+  "owner": "scope",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VDC1-17",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a77.4's *Replay semantics* now makes every event of the port's session `host:port` \u2014 dossier events, `dossierFacts`, `dossierRecord` and the port's epochs, whether or not an epoch carried a dossier change \u2014 no undo, redo or revert target (VEL0-05; l.10714-10724). \u00a77.7 item 3's lapse text reads 'an undo of a lapsing epoch outside the port's session `host:port` restores the hold'. \u00a713.2 still asserts the old rule in three places. T20-2 (l.16667-16670): 'an undo of a lapsing epoch that carried no dossier event restores the hold', false for a port year-end epoch with no dossier change. T20-6 (l.16675): 'a `revert` of it skips every later dossier event (`EditBase.dossier` set)' and 'an `undo` naming an epoch that carried a dossier event in `EpochInputs.dossier` returns F-EDIT'. \u00a77.7's new fixtures cite '\u00a713.2's T20 group' (a dossier rename on a locked name path; `ruined` and `removed` on an institution whose building is locked; a population fall over locked dwellings), and \u00a77.4's '*Fixture (B-EDIT, \u00a713.2)*' names a port year-end epoch's undo, but neither group lists them. Determinism's repair file hands these to scope.",
+  "required_change": "\u00a713.2: T20-2's undo clause reads '\u2026 and an undo of a lapsing epoch outside the port's session `host:port` restores the hold, while an `undo` naming a lapsing event of session `host:port` (a dossier event, or a port epoch whether or not it carried a dossier change) returns F-EDIT (\u00a77.4)'. T20-6 reads '\u2026 a `revert` of it skips every later event of session `host:port` that placed or re-designated it \u2026' and '\u2026 an `undo` naming an epoch of session `host:port` \u2014 one that carried a dossier event in `EpochInputs.dossier`, and a year-end epoch that carried none \u2014 returns F-EDIT and changes nothing (\u00a77.4)'. The T20 group gains \u00a77.7's precedence fixtures: a dossier rename on a locked name path, and a `ruined` and a `removed` state on an institution whose building is locked, each landing with the lock reported orphaned and every other locked entity byte-identical; and a dossier population fall over a town whose remaining households all live in locked dwellings, the population met within the roster tolerance and every locked building's state and shell byte-identical.",
+  "owner": "scope",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VDC1-18",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "\u00a75.3's wall-crossing row, rewritten this round (VEW-17; l.8860), names its tests as '\u00a713.2's fixtures: a refounded village's tracker crossing a breach with 0 violations, and a TOWN epoch beside a breached run growing no way through it'. \u00a713.2 holds neither (its item-114 group T114-1 \u2013 T114-8, l.17161-17176, and the rest of \u00a713.2 name no tracker, refounding or breach-crossing fixture). V07's T-V7-59 checks only that the village 'crosses the ruined wall only at gate gaps and breaches', not \u00a75.3's invariant at the base rungs. The edge (a way \u00d7 a breached or dismantled run, at the base rungs and the village rungs) is defined but has no test at the cited home.",
+  "required_change": "\u00a713.2's item-114 group gains: '(T114-9) a way crosses an enceinte only at a gate or an opening of item 114: a refounded village's tracker crossing a ruined former enceinte at a `breached` run and at a gate gap commits with 0 violations of \u00a75.3's wall-crossing row (V07's T-V7-59 runs it on the village path); a TOWN epoch beside a `breached` run grows no way through the breach (\u00a75.3; \u00a74.4 S5c's legality)', and the head names \u00a75.3.",
+  "owner": "scope",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VDC1-19",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a77.7's precedence now states 'A dossier event is never refused by a lock or a pin \u2026; a dossier event that changes it supersedes it', and limits J-DET-11's 'sends an unlock first' to 'A host's map event (no `EditBase.dossier`)' (l.11364-11366; VEL0-01). Part A still records the unlimited form. J-DET-11 (rationale l.111): '\u2026 a host that must override a lock sends an unlock first, which the log records'. J-A20.71 (rationale l.327) argues dossier existence's place 'while J-DET-11 already makes a host unlock before it overrides a lock'. Determinism's repair file asked scope to limit J-DET-11 to map events, and scope's repair did not.",
+  "required_change": "Rationale Part A J-DET-11: '\u2026; a host's map event that must override a lock sends an unlock first, which the log records, while a dossier event is never refused by a lock \u2014 it supersedes a lock on what it changes, the lock reported orphaned (\u00a77.7's precedence; items 20, 22).' J-A20.71: '\u2026 while J-DET-11 makes a host's map event unlock before it overrides a lock (a dossier event supersedes the locks on what it changes, \u00a77.7) \u2026'.",
+  "owner": "scope",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VEL0-01",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "Partly fixed. The outcome is now defined: \u00a77.7's precedence (l.11371-11386) says a dossier event is never refused by a lock or a pin and supersedes the lock on what it changes, reported orphaned, and a population fall empties locked dwellings by a `relet` down. \u00a77.1's outcome row 1 (l.10116) limits the refusal to map events. Two parts of the round-0 change are still unwritten, both in scope's text. (a) \u00a77.7's fixtures cite '\u00a713.2's T20 group' (l.11383), but \u00a713.2's T20 group (l.16666-16679) lists none of them. They have no id and no \u00a713.8 tier row, so no CI tier runs them. (b) Part A still records the unlimited rule. J-DET-11 (rationale l.111, R25 l.1886) reads 'a host that must override a lock sends an unlock first', and J-A20.71 (rationale l.327) reads 'J-DET-11 already makes a host unlock before it overrides a lock'. Both contradict \u00a77.7. Determinism-r1t's VDC1-17 and VDC1-19 report the same remaining defect.",
+  "required_change": "\u00a713.2's T20 group gains two bars. (T20-14) A dossier rename on a locked name path, and a `ruined` and a `removed` state on an institution whose building is locked: each lands, the lock is reported orphaned in the event's disruption report, and every other locked entity is byte-identical. (T20-15) A dossier population fall over a town whose remaining households all live in locked dwellings: the population is met within the roster tolerance, every locked building's state and shell is byte-identical, and the emptied ones are counted in `uses.heldByProtection`. \u00a713.8 schedules both in PR on B-DOSSIER-lite from M3a, T20-15 from M4 with the epochs. \u00a77.7's fixture line then cites T20-14 and T20-15. Rationale Part A J-DET-11 (l.111) and R25 (l.1886) read '\u2026 a host's map event that must override a lock sends an unlock first, which the log records; a dossier event is never refused by a lock \u2014 it supersedes the lock on what it changes, the lock reported orphaned (\u00a77.7's precedence; items 20, 22)'. J-A20.71 (l.327) reads '\u2026 while J-DET-11 makes a host's map event unlock before it overrides a lock, a dossier event superseding the locks on what it changes (\u00a77.7)'.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t"
+ },
+ {
+  "id": "VEL0-06",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "Partly fixed. \u00a76.1 now does all the round-0 change asked: it widens the epoch component to u32, keys the replay `0x8000_0000 + r`, caps live epochs at 2\u00b3\u00b9 \u2212 1 and caps the salt at 0xFFFF with `no_alternative` (l.8996, l.9047-9050, l.9063-9066). \u00a76.5 (9) tests it across 0x8000 (l.9746-9748). The judgment index row J-A113.61 (base l.21356) and its Part A row (rationale l.805) still read '`0x8000 + r`, the u16 range's upper half'. V06 \u00a73.16 (l.2383-2384) now cites J-A113.61 for the replay's component instead of restating the value, so that citation leads to the superseded key. Determinism-r1t's VDC1-16 and pipeline-r1t's VPC-R1-26 report the same remaining defect.",
+  "required_change": "Change J-A113.61's index row to read 'the history replay keys its coarse epochs with the epoch component `0x8000_0000 + r`, the u32 range's upper half (live epochs 1 \u2026 2\u00b3\u00b9 \u2212 1), so no replay draw equals a live epoch's | \u00a76.1'. Change its Part A row to read 'Chose the replay's coarse-epoch component `0x8000_0000 + r` over a separate stage-id family, because the replay runs the same stages and concerns as a live epoch and the u32 range's upper half keeps its draws apart.'",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t"
+ },
+ {
+  "id": "G120-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 120 (J133; canon's 'File g item 120 routed') assigns scope '\u00a713.2 (the bars of item 120 (k)); the judgment index row'. Neither is in the base. The base has no 'item 120', no T120 bar and no J-A120 row. \u00a713.2's owner-item convention still reads 'items 8\u2013119' (l.16587). V08's T-V8-58, V10's T-V10-51 and V12's T-V12-52 all take the item-120 bars, but no base bar exists for them to take.",
+  "required_change": "\u00a713.2 gains Find's bars, with the scope widened to 'items 8\u2013125'. (T120-1) The document hashes identically with Find on and off, and turning every chip off restores byte-identical tiles. (T120-2) Each chip's matches equal the gazetteer query's rows at the viewer's effective key. (T120-3) On T-V9-66's canary fixture under a player view, no withheld thing appears in a suggestion, count, glow, pin or ghost pin. (T120-4) The filter survives every band and layer change and every commit, advance, undo and load. A chip whose last match is removed stays in the set at count 0, dark. (T120-5) At the city band every match has a pin or a count bubble, and every chip has its second cue. (T120-6) The interaction budgets hold at the metropolis cap: suggestions within 50 ms of a key and a chip's glow within 100 ms of the click. \u00a713.8 schedules each bar, and the take-over table names V09's, V10's T-V10-51, V08's T-V8-58 and V12's T-V12-52. The judgment index gains J-A120's row: Find is a per-viewer view key, outside the document, its hash and the log; Coverage is folded into Show gaps; knowledge admission applies to every suggestion, count, glow and pin.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t, verify-scope-r1t",
+  "also_reported": [
+   {
+    "by": "verify-scope-r1t",
+    "claim": "File g item 120 (Find; J133) routes to scope '\u00a713.2 (the bars of item 120 (k)); the judgment index row'. Neither exists: the base has no T120-n bar, no J-A120.n row or Part A entry, no \u00a713.8 schedule row and no \u00a716 placement of Find's base parts ('item 120' occurs 0 times in the base). V12 already cites \"\u00a713.2's item-120 bar of item 120 (k)'s hash and tiles clauses\" (its `item120.find` pin row) and \"item 120 by the clauses of its (k)\" (V12 \u00a73.15), and eight volume tests take its clauses (T-V1-59, T-V3-38, T-V4-81, T-V5-36, T-V7-68, T-V8-58, T-V10-51, T-V12-52) \u2014 dangling against the base. Expected this round: scope's repair began before the filing.",
+    "required_change": "\u00a713.2, in the owner items' group after item 119's: '*Find (item 120; \u00a72.9, \u00a78.2, \u00a79.5, \u00a711.1, \u00a711.2, \u00a712.5).*' with (T120-1) the model digest, the document's hash, its saved bytes and its edit log identical with Find on and off, and Clear or closing the panel restores byte-identical tiles (the pin `item120.find`, a `NoOpPin`); (T120-2) each chip's matches equal \u00a711.2's gazetteer rows at the view's key, by class, area and layer (`find.matches`); (T120-3) under a player view the knowledge canary (T-V9-66's fixture) is never suggested, counted, glowing, pinned or ghost-pinned (`find.leaks` 0); (T120-4) the chips survive every band and layer change and every commit, regenerate, undo, advance of time and season change, re-evaluated at once (`find.held`); (T120-5) at the city band every match has a pin or is counted in a bubble (`find.pins`); (T120-6) every chip has its second cue, its glyph on its pins and its dash pattern on its halo's outline (`find.cues`; item 112); (T120-7) suggestions within 50 ms of a key and a chip's glow within 100 ms of its click at the metropolis cap on \u00a712.1's reference hardware (`time.findSuggest`, `time.findGlow`, timing phase); then 'Volume 1 runs the town's area clauses (T-V1-59), volume 3 the interior band (T-V3-38), volume 4 Below (T-V4-81), volume 5 Sky (T-V5-36), volume 7 the village rungs (T-V7-68), volume 8 the dossier's entries (T-V8-58), volume 10 the clerk's \"show me\" (T-V10-51), volume 12 the pin, statistics and timings (T-V12-52), volume 9 the panel, type-ahead, chip grid, results and Show gaps (its item-120 tests)'. The same tests in the take-over table's rows. \u00a713.8: 'T120-1 | PR on the two PR golden seeds (the landing gate); its off-state suite nightly', 'T120-2 \u2013 T120-6 | nightly on V09's app harness over B-CITY-lite's seeds of every rung, the village fixtures and a dossier fixture (V12 \u00a76)', 'T120-7 | \u00a712.1's timing phase', at the milestone that lands Find. \u00a716 places Find's base parts (\u00a72.9's `find` key, \u00a78.2's veil, halo, outline, pin and bubble rows, \u00a711.2's class counts and match listing, \u00a712.5's overlay budget) in one row \u2014 M3b, beside AP4's coverage view that Show gaps absorbs (V09 \u00a78.1), unless V09 \u00a78 names another \u2014 priced by absorption or an itemised widening under \u00a716's rule, and the rig line's W7 reads 'items 114\u2013120'. Index row 'J-A120.01 | item 120's base bars T120-1 \u2013 T120-7; Find's base parts built at <that milestone>, priced \u2026' with its Part A entry.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G121-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 121 (J134; canon's 'File g items 121, 122 and 123 routed') assigns scope '\u00a713.2 (the bars of item 121 (h)); the judgment index row'. Neither exists in the base: 'item 121' appears 0 times, and there are no T121 bars and no J-A121 row.",
+  "required_change": "\u00a713.2 gains item 121 (h)'s bars. (T121-1) Auto is the default on a fresh install. (T121-2) No level changes during a gesture, and at most one change happens per 10 s on a fixture loaded at its threshold (no oscillation). (T121-3) Auto holds the frame budget's p95 on the reference and low devices over \u00a712.5's reference views. (T121-4) A manual level is honoured, or the nearest level that fits is drawn with its explanation, never a refusal or a crash. (T121-5) Labels, chrome and overlays draw at the device pixel ratio at every level (a pixel test). (T121-6) Exports are byte-identical across settings, and the document and its hash are unchanged by any setting. (T121-7) A device-pixel-ratio change re-evaluates at once. (T121-8) Native 4K, lit at full precision, holds on the ultra tier within 512 MB. \u00a713.8 places each bar, and the take-over table names V09's and V12's bars. The judgment index gains J-A121's row: Auto by default, the 4K live-view ceiling, the ultra tier, and device state only.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t, verify-scope-r1t",
+  "also_reported": [
+   {
+    "by": "verify-scope-r1t",
+    "claim": "File g item 121 (a resolution adjuster: Auto the default and live, manual levels, the live view up to 4K, an ultra tier; J134) routes to scope '\u00a713.2 (the bars of item 121 (h)); the judgment index row'. Neither exists: no T121-n, no J-A121.n, 'item 121' 0 times in the base. No round-1 repair carried it.",
+    "required_change": "\u00a713.2 adds '*The resolution adjuster (item 121; \u00a78.8, \u00a78.4 (g), \u00a712.1, \u00a712.5, \u00a712.8).*' with (T121-1) Auto is the level on a fresh install (`AppPrefs.resolution` absent); (T121-2) no level change while a pan, zoom or drag is in progress \u2014 a change lands only at \u00a78.8's settle; (T121-3) on a fixture loaded at its threshold at most one level change per 10 s (no oscillation); (T121-4) Auto holds the frame budget's p95 (\u00a712.5: 60 fps on the reference and higher tiers, 30 fps on the low tier) on the reference and low devices over \u00a712.5's reference views; (T121-5) a manual level is drawn as chosen or, where the device cannot hold its canvas need, the nearest fitting level is drawn with item 121 (f)'s explanation \u2014 never a refusal or a crash; (T121-6) labels, text, the chrome and every overlay at the device's full pixel ratio at every level (a pixel test); (T121-7) every picture, print and battle-map export byte-identical, and the document's hash unchanged, across every setting; (T121-8) a change of the device pixel ratio re-evaluates the level at once; (T121-9) native 4K lit at full precision on the ultra tier within its 512 MB canvas ceiling (\u00a78.8, \u00a712.8). Name volume 9's Settings \u203a Display tests and volume 12's measurements as they take them. \u00a713.8 rows (T121-1, T121-5 \u2013 T121-8 PR on the app harness; T121-2 \u2013 T121-4 and T121-9 in \u00a712.1's timing phase on the reference, low and ultra devices) at the milestone \u00a716 names for \u00a78.8's Resolution ladder and the ultra tier; \u00a716 places those base parts (\u00a78.8, \u00a78.4 (g)'s order, \u00a712.1's ultra pick) in one row, priced under its rule; index row J-A121.01 with its Part A entry.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 assigns scope '\u00a713.2 (the bars of item 122 (g)); the judgment index row'. Neither exists in the base: 'item 122' appears 0 times, and there are no T122 bars and no J-A122 row.",
+  "required_change": "\u00a713.2 gains item 122 (g)'s bars. (T122-1) The same document hashes identically with crises on and off and in every week. (T122-2) Each look shows exactly in its condition's weeks. (T122-3) Looks are byte-stable per seed across views and exports. (T122-4) Every SettlementForge stressor type and archetype has its row (the closed table). (T122-5) Looks scale with tier and severity. (T122-6) Nothing is drawn on water, in a gate's passage or over a label's keep-out. (T122-7) With no condition and no preview, output is byte-identical to the base (a no-op pin). \u00a713.8 schedules them, and the take-over table names V06's, V08's, V09's, V10's, V11's and V12's bars. The judgment index gains J-A122's row: a look only, the aftermath through the epoch path.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t, verify-scope-r1t",
+  "also_reported": [
+   {
+    "by": "verify-scope-r1t",
+    "claim": "File g item 122 (crisis looks: SettlementForge's stressors and conditions drawn while they last, a look only, the aftermath through the epoch path; J135) routes to scope '\u00a713.2 (the bars of item 122 (g)); the judgment index row'. Neither exists: no T122-n, no J-A122.n, 'item 122' 0 times in the base. No round-1 repair carried it.",
+    "required_change": "\u00a713.2 adds '*Crisis looks (item 122; \u00a72.7, \u00a77.7, \u00a710.2, \u00a78.2, \u00a711, \u00a712.5).*' with (T122-1) the same document hashes identically with crises on and off and in every week (a pin); (T122-2) each look shows exactly in its condition's weeks (`ConditionOverlay.sinceWeek` \u2013 `untilWeek` against item 117's year position); (T122-3) a look draws identically in the view and every export, its tiles byte-stable per seed; (T122-4) every SettlementForge stressor type and condition archetype has its row in \u00a710.2's crisis-look table, a look or an explicit \"no look\" (a totality check over V08's closed mapping); (T122-5) the scale follows severity and tier \u2014 each tier's fixture at a low and a high severity draws within its row's scale (a hamlet a war band's camp, a city a full siege line); (T122-6) nothing on water, in a gate's passage or over a label's keep-out, and several crises share the outskirts by priority (siege, quarantine, refugees) under the density cap (a blocked count of 0); (T122-7) a condition the viewer's key withholds is not drawn (View as; item 122 (e)); (T122-8) with no condition and no preview, tiles byte-identical to the base (a `NoOpPin`). Name the volume tests that take them (V08's closed mapping, V11's tables, V06's hand-over, V01, V02, V03, V07, V09, V10, V12). \u00a713.8 rows (T122-1 and T122-8 PR on the two golden seeds; T122-2 \u2013 T122-7 nightly on the crisis fixtures) at the milestone \u00a716 names for the crisis look \u2014 beside item 118's decoration engine it reuses (M3b) \u2014 and the port's reading with M-SF; \u00a716 places \u00a77.7's row, \u00a710.2's table and \u00a78.2's rows there, priced under its rule; index row J-A122.01 with its Part A entry.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123 assigns scope '\u00a713.2 (the bars of item 123 (f)); the judgment index row'. Neither exists in the base: 'item 123' appears 0 times, and there are no T123 bars and no J-A123 row.",
+  "required_change": "\u00a713.2 gains item 123 (f)'s bars. (T123-1) Room, wall and opening ids are identical between the intact and the damaged plan. (T123-2) Damage is monotone in the decay level on every element. (T123-3) The same element breaks at the same level for a given seed. (T123-4) Restoring reverses the damage. (T123-5) The exterior agrees with the plan. (T123-6) Battle-map exports' line of sight follows fallen walls. (T123-7) A building never decayed is byte-identical to today's plan (a no-op pin). \u00a713.8 schedules them, and the take-over table names V03's, V06's, V09's, V10's, V11's and V12's bars. The judgment index gains J-A123's row: one plan, damaged, never redrawn.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t, verify-scope-r1t",
+  "also_reported": [
+   {
+    "by": "verify-scope-r1t",
+    "claim": "File g item 123 (a ruined building's floor plans: a damage layer over the same plan, monotone in a decay level, never redrawn; J136) routes to scope '\u00a713.2 (the bars of item 123 (f)); the judgment index row'. Neither exists: no T123-n, no J-A123.n, 'item 123' 0 times in the base. No round-1 repair carried it.",
+    "required_change": "\u00a713.2 adds '*A ruined building's plans (item 123; \u00a72.6 step 7, \u00a76.3, \u00a78.6, \u00a711.1).*' with (T123-1) room, wall and opening ids identical between the intact and the damaged plan, and a building first met ruined (generated as a ruin or reached by item 113's replay) carries the plan it had when built; (T123-2) damage monotone in the decay level \u2014 a higher level's damaged set \u2287 a lower's on every element; (T123-3) for a given seed each element breaks at the same level (one keyed threshold per element by lineage and element id, \u00a76.3); (T123-4) restoring (`reused`, a repair) lowers the level and removes the damage in reverse order, each repaired element in patch material (item 114); (T123-5) the exterior agrees with the plan \u2014 a roof hole over a room is a hole in the roof from above, a broken outer wall a gap in the footprint's outline; (T123-6) battle-map exports' line of sight passes fallen wall runs, a doorless opening is a gap, rubble heaps and floor holes are image only; (T123-7) a building never decayed is byte-identical to its plan without item 123 (a `NoOpPin`). Name the volume tests that take them (V03's damage layer and drawing, V06's decay level, V02's exterior, V04's cellars and crypts, V11's thresholds, V09, V10, V12). \u00a713.8 row at the milestone \u00a716 names for \u00a72.6 step 7, \u00a76.3's thresholds and \u00a78.6's drawing (the plan rung, M6-P, on B-PLAN's fixtures); \u00a716 places them, priced under its rule; index row J-A123.01 with its Part A entry.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G124-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 124 assigns scope '\u00a713.2 (the bars of item 124 (i)); the judgment index row'. Neither exists in the base: 'item 124' appears 0 times, and there are no T124 bars and no J-A124 row.",
+  "required_change": "\u00a713.2 gains item 124 (i)'s bars. (T124-1) The hash and every tile are identical with the effects on and off, and a spell leaves the tile cache untouched. (T124-2) The frame cost stays within \u2248 1 ms at the densest spell. (T124-3) No falling or lying snow appears in a climate row whose winter does not freeze, at any week. (T124-4) Arid rain frequency stays within its row. (T124-5) Effects are off by default under reduced motion, on the low tier and on phones. (T124-6) Labels and chrome are never covered (a pixel test). (T124-7) No luminance step is faster than the photosensitivity limit. (T124-8) Exports are byte-identical with the effects on and off. (T124-9) The timeline replays from its seed and clock. \u00a713.8 schedules them, and the take-over table names V09's, V11's and V12's bars. The judgment index gains J-A124's row: cover and precipitation kept apart, and a view layer only.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t, verify-scope-r1t",
+  "also_reported": [
+   {
+    "by": "verify-scope-r1t",
+    "claim": "File g item 124 (intermittent light weather tied to season and region, fog that scatters light, an advanced-panel switch; a view layer only; J137) routes to scope '\u00a713.2 (the bars of item 124 (i)); the judgment index row'. Neither exists: no T124-n, no J-A124.n, 'item 124' 0 times in the base. No round-1 repair carried it.",
+    "required_change": "\u00a713.2 adds '*Light weather (item 124; \u00a72.9, \u00a76.1, \u00a78.2, \u00a78.4, \u00a78.8, \u00a711, \u00a712.5).*' with (T124-1) the document's hash and every tile identical with the effects on and off, the tile cache untouched by a spell; (T124-2) the effects' frame cost within \u2248 1 ms per frame at the densest spell on \u00a712.1's reference hardware (\u00a712.5); (T124-3) in a climate row whose winter does not freeze, no falling or lying snow in any week; (T124-4) arid rain frequency within its row over a simulated year of the timeline; (T124-5) off by default under reduced motion, on the low tier and on phones; (T124-6) labels, the chrome and every overlay never covered (a pixel test); (T124-7) no luminance step faster than the photosensitivity limit; (T124-8) picture, print and battle-map exports byte-identical with the effects on and off; (T124-9) the timeline replays from its seed and clock (\u00a76.1's view-only stream, never a model stream). Name the volume tests that take them (V11's weather columns and two hard rules, V09's switch and defaults, V12's measurements). \u00a713.8 rows (T124-1, T124-3 \u2013 T124-5, T124-8, T124-9 PR; T124-2, T124-6, T124-7 in \u00a712.1's timing phase and the visual-regression run) at the milestone \u00a716 names for the weather layer (with item 117's year position and \u00a78.4's per-frame light, M3b); \u00a716 places the base parts there, priced under its rule; index row J-A124.01 with its Part A entry.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G125-scope",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 125 assigns scope '\u00a713.2 (the bars of item 125 (e)); the judgment index row'. Neither exists: 'item 125' appears 0 times in the base. \u00a713.8's T117-6 row still reads 'PR on B-DOSSIER-lite's births with a test-side `HostContext.week`' (l.17841), an input item 125 (a) retires.",
+  "required_change": "\u00a713.2 gains item 125 (e)'s bars. (T125-1) A dossier with only SettlementForge's required keys generates a full map, every absent field reported with the fallback taken. (T125-2) The same dossier with and without a host context yields the identical document and hash. (T125-3) No code path of the port reads anything but the dossier, checked statically over the adapter's imports and reads. \u00a713.8 schedules them. T117-6's tier row reads 'PR on B-DOSSIER-lite's births whose dossier carries a stamped tick (the week's source, item 125 (b)), and on one with none (the season control's midsummer)'. The judgment index gains J-A125's row: the dossier is the only data input, the map supplies the rest, and view commands are kept as commands.",
+  "owner": "scope",
+  "reported_by": "verify-edges-life-r1t"
+ },
+ {
+  "id": "VM-R0S-14",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "Partly fixed. The model's repair made \u00a72.2 rule 5's *Write* define the outcome of a write inside an existing run (the knots strictly between the ends dropped; the profile's knot rows renumbered from 0 in chain order in a fixed order \u2014 strip the dropped, raise last-first, place the end knots, lower first-last \u2014 so \u00a73.10's ordinal order holds at stage end and save), but no bar in \u00a713 tests it: \u00a713.1\u2013\u00a713.2 carry no stretch-state write case (grep 'stretch-state', 'ordinal order', 'wall_state_knot' over \u00a713: 0 hits). The model's hand-off ('the E-01 bar gains a write inside an existing run (knots in ordinal order after it)', repair-r1-model.md CROSS-UNIT HAND-OFFS) was not carried by repair-r1-scope.",
+  "required_change": "\u00a713.1 (kernel property tests): add a bar citing \u00a72.2 rule 5 \u2014 random stretch-state writes on open and closed chains that already carry a profile, each `StretchRef` inside an existing run, across one or more existing knots, ending on an existing knot's vertex and over the whole chain, for `RetainingWall.state` and for the enceinte's three parallel profiles (`condition`, `conditionMaterial`, `conditionEpoch`) written in one batch: after every write each profile's knot rows lie on the chain in ordinal order from 0, no ordinal is held by two vertices at any step, no knot vertex dissolves, the canonical form holds, \u00a73.10's stored-reference row passes at stage end and save, and undo restores every profile byte-identically; with a negative control (the dropped knots stripped last) that the bar must catch.",
+  "owner": "scope",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R0S-17",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "Partly fixed: \u00a72.5 now defines `FabricStrategyId` as the id of a registered FabricStrategy (`bent-cut`, the hood.templates rows and V07's 'village-ways', 'which is no hood.templates row') and \u00a74.12 cites \u00a72.5, but \u00a714's @plat/model comment (base l. 18121) still reads 'FabricStrategyId is a row key of hood.templates (V01 \u00a72.1)', the narrower reading that excludes the village district's fabric.",
+  "required_change": "\u00a714 (the @plat/model comment beside DistrictContext and TypedBoundary): 'FabricStrategyId is \u00a72.5's: the id of a registered fabric \u2014 `bent-cut`, a hood.templates row (V01 \u00a72.2) or V07's `village-ways`'.",
+  "owner": "scope",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-10",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "The repair gave \u00a72.7 three new defined outcomes with no bar in \u00a713.2: the support step's obstacles beyond ways and water (a square, a reservation, an enceinte's wall strip, an oasis's grove: a station there slides or is omitted, the merged span open with reason `clear`), the clear-span bound (a merged clear span over `maxClearSpanM`: a generated course dropped as `raised_too_long`, a declared one bent), and no deck plot on a gate's moat deck (VEW-11, VEW-12, VEW-13). \u00a713.2's T110-2 covers junctions, planarity and the frame, and T110-5 width, budget, falling with the deck and the frame only; the model's hand-off asking T110-2 and T110-5 to gain these cases was not carried.",
+  "required_change": "\u00a713.2: T110-2 gains \u2014 a viaduct over a square and an aqueduct across a wall strip and over an oasis's grove: 0 piers in any of them, each span over one `open` with reason `clear`; a generated viaduct and aqueduct over a 200 m river: dropped (`raised_too_long`, the epoch candidate waiting), a declared one bent to a course whose clear spans fit `maxClearSpanM`, no support in water; T110-5 gains \u2014 a walled, moated fixture with stone moat bridges: 0 deck plots on a bridge over a `moat` or `castle_moat` whose way is a `Gate.way`.",
+  "owner": "scope",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VPC-R1-26",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "Determinism's repair r1 (VEL0-06) moved the history replay's epoch keys to the u32 range: \u00a76.1 (l. 9049) reads 'keys its coarse epochs r = 1 \u2026 R with `0x8000_0000 + r`, the upper half of the u32 range reserved to it', and \u00a77.4 (l. 9746\u20139747) follows. The judgment index row J-A113.61 (l. 21356) and its Part A row (ARCHITECTURE-RATIONALE.md l. 805) still say '`0x8000 + r`, the u16 range's upper half'.",
+  "required_change": "In the judgment index row J-A113.61 and its Part A row replace '`0x8000 + r`, the u16 range's upper half' with '`0x8000_0000 + r`, the u32 range's upper half (\u00a76.1)'.",
+  "owner": "scope",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VRC1T-09",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "scope",
+  "claim": "Rendering's round-1 block adds T-ER-22, T-ER-23 and T-ER-24 to \u00a78.11, but \u00a713.2's index still reads \"T-ER-01 \u2013 T-ER-12 (\u00a78.11), T-ER-13 \u2013 T-ER-18 (\u00a79.7) and T-ER-19 \u2013 T-ER-21 (\u00a711.6)\" and \u00a713.8's CI-tier row \"T-ER-01 \u2013 T-ER-21\", so the three rows have no scheduled tier (rendering's hand-off to scope).",
+  "required_change": "\u00a713.2's line reads \"T-ER-01 \u2013 T-ER-12 and T-ER-22 \u2013 T-ER-24 (\u00a78.11), T-ER-13 \u2013 T-ER-18 (\u00a79.7) and T-ER-19 \u2013 T-ER-21 (\u00a711.6)\"; \u00a713.8's row reads \"T-ER-01 \u2013 T-ER-24 (the rendering, label and export edges: \u00a78.11, \u00a79.7, \u00a711.6)\".",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VCS-08",
+  "severity": "major",
+  "kind": "COHESION",
+  "claim": "Partly fixed. \u00a716 now carries the volumes' prices as they stood when scope's repair ran and its arithmetic holds (milestone rows 225.5\u2013307 = the first total; staged 182.5\u2013255.75; whole 408\u2013562.75), but the volume repairs of the same round re-priced three volumes: V05 \u00a78 totals 18\u201324.75 (its \u00a78: \"\u00a716: the row M6-sky after M6-U at 18\u201324.75 pw\"), V06 \u00a78 29.75\u201342.25, V07 \u00a78 30.25\u201342.5 (\"\u00a716's village line and INDEX \u00a74 carry it\"). \u00a716's staged rows (M6-sky 17.25\u201323.25, M6-E 29.5\u201341.75, the village 29.75\u201341.75), its effort lines, the staged total, the whole program, D-20 and J-A568.01's index row are therefore not true of the set. \u00a716's calendar sentence (\"about 110\u2013150 calendar weeks for the base with stage 2\") was derived from the old first total 221.5\u2013300.5; at 225.5\u2013307 and two implementers it is \u2248 113\u2013154.",
+  "required_change": "\u00a716: the staged rows read 'M6-sky \u2026 18\u201324.75 pw', 'M6-E \u2026 29.75\u201342.25 pw', 'the village, V-M1 \u2013 V-M4 \u2026 30.25\u201342.5 pw with V-M0 and V-M2u'; the effort lines 'the sky layer (volume 5) | 18\u201324.75 | V05 \u00a78', 'the evolution engine (volume 6) | 29.75\u201342.25 | V06 \u00a78', 'the village product (volume 7) | 30.25\u201342.5 | V07 \u00a78'; 'the staged milestones together' **184\u2013258.5**; 'the whole program \u2014 the second total' **409.5\u2013565.5** (the first total 225.5\u2013307 unchanged); the calendar sentence 'about 113\u2013154 calendar weeks'. D-20 reads 'the whole program with every staged milestone \u2248 409.5\u2013565.5'; J-A568.01's row reads '409.5\u2013565.5 pw for the whole program'. Before writing, re-read every volume's \u00a78 total as round 2 leaves it (round 2 adds items 120\u2013124's parts) and re-sum once (item 568), so no line lags a volume.",
+  "owner": "scope",
+  "reported_by": "verify-scope-r1t"
+ },
+ {
+  "id": "VCS-10",
+  "severity": "major",
+  "kind": "COHESION",
+  "claim": "Partly fixed. The ranges and the take-over table match the volumes' round-0 maxima, but the round-1 volume repairs added T-V1-59 (Find over the town), T-V2-58 (the grandeur ceiling; takes T115-1's composed-shape clause), T-V3-37 (item 119's plan waits), T-V3-38 (Find at the interior band), T-V4-81 (Find on Below), T-V5-34 (the island through the year, item 117), T-V5-35 (festival pennants, item 118), T-V5-36 (Find on Sky), T-V7-67 (item 119's village waits), T-V7-68 (Find at the village rungs), T-V8-58 (Find's dossier entries), T-V9-81 (takes T101-7 on the canvas), T-V9-82 (takes T101-4 on the canvas), T-V10-51 (Find from words) and T-V12-52 (Find's measurements). Stale: T-V1-1 \u2013 T-V1-58 (\u00a713.2 take-over table; \u00a716 M5's exit), T-V2-1 \u2013 T-V2-57 (\u00a713.2 stage 3; the table), T-V3-1 \u2013 T-V3-36 (\u00a713.2's plan rung; the table), T-V4-1 \u2013 T-V4-80 (\u00a713.2 M6-U; the table), T-V5-1 \u2013 T-V5-33 (\u00a713.2's islands group; the table), T-V7-1 \u2013 T-V7-66, T-V8-1 \u2013 T-V8-57 (\u00a713.2's SettlementForge stage; the table), T-V9-1 \u2013 T-V9-80, T-V10-1 \u2013 T-V10-50, T-V12-1 \u2013 T-V12-51. The item-117 group names no volume-5 test though T-V5-34 takes the islands' seasonal look; the item-115 and item-118 groups and the stage-3 take-over row say 'its item-115 bars, V02 \u00a77' and 'its item-118 bars, V05 \u00a77' where T-V2-58 and T-V5-35 now exist; the item-119 group names only T-V9-79 and T-V12-50 while V01's T-V1-29, V03's T-V3-37, V04's T-V4-32 (\"T119-2, T119-3 and T119-5's clauses on this layer\") and V07's T-V7-67 take its clauses, and no take-over row's base-bar column lists them.",
+  "required_change": "Update every range: \u00a713.2's islands group 'T-V5-1 \u2013 T-V5-36', the plan rung 'T-V3-1 \u2013 T-V3-38', stage 3 'T-V2-1 \u2013 T-V2-58', 'Volume 4's T-V4-1 \u2013 T-V4-81', the SettlementForge stage 'T-V8-1 \u2013 T-V8-58'; the take-over table V5 'T-V5-1 \u2013 T-V5-36', V4 'T-V4-1 \u2013 T-V4-81', V3 'T-V3-1 \u2013 T-V3-38', V2 'T-V2-1 \u2013 T-V2-58' (dropping 'and its item-115 bars (V02 \u00a77)'), V1 'T-V1-1 \u2013 T-V1-59', V7 'T-V7-1 \u2013 T-V7-68', V8 'T-V8-1 \u2013 T-V8-58', V10 'T-V10-1 \u2013 T-V10-51', V9 'T-V9-1 \u2013 T-V9-82', V12 'T-V12-1 \u2013 T-V12-52'; \u00a716 M5's exit 'T-V1-1 \u2013 T-V1-59'. In the groups: item 115's 'volume 2 on composed shapes (T-V2-58)'; item 117's runs list adds 'volume 5 the islands through the year (T-V5-34)'; item 118's 'volume 5 the sky islands' pennants (T-V5-35)'; item 119's adds 'volume 1 its one-time waits (T-V1-29), volume 3 the plan's (T-V3-37), volume 4 the underground's (T-V4-32), volume 7 the village's (T-V7-67)'. In the take-over table's base-bar column: the sky row adds 'T117-1 \u2013 T117-8's and T118-1 \u2013 T118-6's island clauses (T-V5-34, T-V5-35)'; stage 3 'T115-1's composed shapes (T-V2-58)'; stage 2 'T119-2 and T119-3's stage-2 clauses (T-V1-29)'; the plan rung 'T119-2's plan clauses (T-V3-37)'; the underground 'T119-2, T119-3 and T119-5's clauses on this layer (T-V4-32)'; the village 'T119-2 \u2013 T119-4's village clauses (T-V7-67)'. Re-read the twelve volumes' maxima as round 2 leaves them (items 120\u2013124 add tests) before writing.",
+  "owner": "scope",
+  "reported_by": "verify-scope-r1t"
+ },
+ {
+  "id": "VCS-18",
+  "severity": "major",
+  "kind": "COHESION",
+  "claim": "Partly fixed. INDEX \u00a71's price column was updated for V06 (E0\u2013E9), V08, V09, V10, V11 and V12 and V01's narration dropped, but three volumes re-priced in round 1: the V05 row reads 17.25\u201323.25 (V05 \u00a78: 18\u201324.75), V06 29.5\u201341.75 (V06 \u00a78: 29.75\u201342.25), V07 29.75\u201341.75 (V07 \u00a78: 30.25\u201342.5). INDEX \u00a74 says every price is its volume's own \u00a78 estimate, so \u00a71 contradicts the volumes it maps.",
+  "required_change": "INDEX \u00a71's price column reads V05 '18\u201324.75', V06 '29.75\u201342.25', V07 '30.25\u201342.5' \u2014 each equal to its volume's \u00a78 total as round 2 leaves it (re-read at writing).",
+  "owner": "scope",
+  "reported_by": "verify-scope-r1t"
+ },
+ {
+  "id": "VCS-r1-01",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "The unit's lists of owner items stop at 119 though file g now runs to 124 (items 120\u2013124, J133 \u2013 J137): \u00a70.2's one landing table (E-22) has no rows for 120\u2013124, its heading and prose read '102\u2013119 (file g)' and 'Items 63\u201372, 101, 102\u2013111 and 113\u2013119 are the owner's rules'; Appendix A reads 'The SettlementForge facts of items 73\u201388, 102\u2013113, 117 and 118' (item 122 reads SettlementForge's stressors and conditions) and 'The owner rules (items 1\u201331, 63\u201372, 20 (h), 101\u2013111, 113\u2013119)'; \u00a713.2 reads 'The bars `T\u27e8item\u27e9-\u27e8n\u27e9` of items 8\u2013119' and '**The owner items 102\u2013119.**'; INDEX.md's intro reads 'items 102\u2013119, the owner's rules'; the one-page summary describes nothing of items 120\u2013124.",
+  "required_change": "\u00a70.2: rows for 120 (Find, a view only; \u00a72.9, \u00a78.2, \u00a79.5, \u00a711.1, \u00a711.2, \u00a712.5; T120-n), 121 (the resolution adjuster; \u00a78.8, \u00a78.4 (g), \u00a712.1, \u00a712.5, \u00a712.8; T121-n), 122 (crisis looks, a look only; \u00a72.7, \u00a77.7, \u00a710.2, \u00a78.2, \u00a711, \u00a712.5; T122-n), 123 (a ruin's plans damaged, never redrawn; \u00a72.6 step 7, \u00a76.3, \u00a78.6, \u00a711.1; T123-n) and 124 (light weather, a view layer; \u00a72.9, \u00a76.1, \u00a78.2, \u00a78.4, \u00a78.8, \u00a711, \u00a712.5; T124-n), each with its volumes and its home as the routed units write them; heading and prose '102\u2013124 (file g)' and 'Items 63\u201372, 101, 102\u2013111 and 113\u2013124 are the owner's rules'. Appendix A: 'items 73\u201388, 102\u2013113, 117, 118 and 122 (the calendar, `traditions`, the stressors and conditions)' and 'items 1\u201331, 63\u201372, 20 (h), 101\u2013111, 113\u2013124'. \u00a713.2: 'of items 8\u2013124' and '**The owner items 102\u2013124.**'. INDEX.md: 'items 102\u2013124, the owner's rules'. The summary gains one sentence: Find makes what a user picks glow across every zoom and layer until closed; the view's resolution adjusts itself (Auto, up to 4K) or by hand; a SettlementForge crisis is drawn while it lasts and its aftermath arrives through time; a ruined building's plans are its own plans, damaged; light weather comes and goes by season and region, switchable \u2014 each a look or a view, never a change of the map (items 120\u2013124).",
+  "owner": "scope",
+  "reported_by": "verify-scope-r1t"
+ },
+ {
+  "id": "VCS-r1-02",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "Two clauses the repair added to the one-page summary misstate their rules. (a) 'a wall long poor and safe shows worn, patched and breached runs that recover when the need and the means return (item 114)': under item 114 (c) a safe wall decays through `worn` to `breached`; `patched` comes only when the need returns with low means (T114-1), so a poor, safe wall never shows patched runs. (b) 'below a town no dwelling takes a court, a tower or a second manor unless the dossier or the user asks (item 115)': under item 115 (b) and \u00a74.7 S10b (3) a THORP or HAMLET takes no manor unless specified and a VILLAGE's one manor needs a lord or a specification (the sentence admits a first manor anywhere), and the ceiling also bars `H` and `U` plans and turrets.",
+  "required_change": "(a) reads '\u2026, and a wall long safe weathers through worn runs to breaches, a poor one under threat patches its gaps in cheaper material and a rich one rebuilds in stone, recovering when the need and the means return (item 114)'; (b) reads '; below a town a dwelling stays a single range, an L or a T, with no court, tower or turret, a thorp or hamlet has no manor and a village at most one, with a lord \u2014 unless the dossier or the user asks (item 115)'.",
+  "owner": "scope",
+  "reported_by": "verify-scope-r1t"
+ },
+ {
+  "id": "VCS-r1-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "T115-2 reads 'at most one manor, and only with a lord (a seigneurial government) or a dossier record' for the rich THORP, HAMLET and VILLAGE fixtures alike, while \u00a74.7 S10b (3) and V11's `grandeur.ceiling` rows (`manor.max` 0 / 0 / 1; `requires` `specified` at THORP and HAMLET, `lordOrSpecified` at VILLAGE; T-V11-41) admit no manor at THORP or HAMLET on a lord alone, and 'specified' also covers a government whose `villageSeat` names the manor (V08 \u00a73.16 (3); T-V8-53). A seigneurial HAMLET drawing a manor passes T115-2 although S10b forbids it.",
+  "required_change": "T115-2 reads '(T115-2) the manor count by rung: no manor at THORP or HAMLET unless specified \u2014 a dossier manor, hall or similar record, or a government whose `villageSeat` names the manor; a seigneurial government alone admits none \u2014 and at VILLAGE at most one, only with a lord (a seigneurial government) or when specified; the manor count never rises with the wealth (\u00a74.7 S10b (3); V11's `grandeur.ceiling` rows)'.",
+  "owner": "scope",
+  "reported_by": "verify-scope-r1t"
+ },
+ {
+  "id": "VV12-r1-09",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "\u00a714's `@plat/hood` entry (l.17990\u201317995) lists \"the services catchmentOf / districtsAbove / fabricSignature\". V01 \u00a78.3 places five services and one writer in the package: `catchmentOf`, `districtsAbove`, `fabricSignature`, `skyDistrictCount`, `findAreas`, `gapUnits` and `plantRimWalk`. Item 120's two (V01 \u00a75.4) and the sky pair are missing from the base's package map.",
+  "required_change": "\u00a714's entry reads \"the services catchmentOf / districtsAbove / fabricSignature / skyDistrictCount / findAreas / gapUnits and the writer plantRimWalk (V01 \u00a73.16, V01 \u00a75.4)\".",
+  "owner": "scope",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ },
+ {
+  "id": "VV56-r1-09",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "INDEX.md \u00a72's flows table, V05 row (l. 54), \"feeds\" column: \"V01 (hand-over)\". The canon retires \"hand-over\" for the unit-run view (G-unitinput \u2192 \"the island's unit inputs\"; INDEX had two hits, VV56-30 fixed l. 28's).",
+  "required_change": "l. 54 reads \"V01 (the island's unit inputs)\".",
+  "owner": "scope",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ },
+ {
+  "id": "VV78-12",
+  "severity": "major",
+  "kind": "COHESION",
+  "owner": "scope",
+  "claim": "Persists for V07's line. V07 \u00a78's milestones now sum to 30.25-42.5 pw (V-M0 1.25-1.75, V-M1 9-11.25, V-M2 7.5-10.75, V-M2u 1-1.5, V-M3 9.5-14.25, V-M4 2-3); round 1 added +0.25 for item 119's one-time waits and +0.25-0.5 for item 120's Find. \u00a716's staged-milestones row (l.18743), \u00a716's totals table (l.18786) and INDEX \u00a71 (l.30) still read 29.75-41.75. \u00a716 l.18743 still says 'items 111 and 113-118 at the village rungs'. The staged total (182.5-255.75) and the whole program (408-562.75) omit V07's +0.5-0.75. V08's 18-24.5 now agrees everywhere. Same defect as verify-scope-r1t VCS-08 and VCS-18.",
+  "required_change": "\u00a716 l.18743: 'items 111 and 113-120 at the village rungs | 30.25-42.5 pw with V-M0 and V-M2u'. \u00a716 l.18786: '30.25-42.5'. INDEX \u00a71's V07 row: '30.25-42.5'. Re-sum \u00a716's staged total and second total with every round-1 volume price (V07 adds +0.5/+0.75; VCS-08 lists the others).",
+  "reported_by": "verify-vol-V07-V08-r1t"
+ },
+ {
+  "id": "VV1112-r1-01",
+  "severity": "major",
+  "kind": "COHESION",
+  "claim": "V11's round-1 repair (VAP-08; J-V11.117) split C4 into C4a (the wall barrier and waterfront rows, M2b, 0.5 pw) and C4b (the SettlementForge rows \u2014 `dossier.kinds` (280), archetypes, category synonyms, keywords, good words, ladders \u2014 M-SF, 1.0\u20131.5 pw), and V11 \u00a78's total row now states: \"**\u00a716's first total** carries C0\u2013C3b, C4a, C5\u2013C7 and C9 \u2014 11.25\u201315.75 pw \u2026 3.0\u20135.0 for file g's (C2's g share 1.0\u20132.0 for items 102, 103, 105 and 107; C4a's 0.5 for item 106; C3b for item 110; C9 for items 111 and 113\u2013119); **\u00a716's staged content line** carries C4b and C8 \u2014 1.75\u20132.5 pw (the 280 kind rows and items 104 and 108's dossier rows; item 109's rows)\". \u00a716 does not agree: its effort line *original content under the clean room* (l. 18773) still prices \"file g's rows \u2014 profiles, families, pairs, goods, coverage, **ladders, the 280 kind rows**, walls (items 103\u2013108; V11 \u00a78, 2.5\u20134)\" inside the first total, while its staged line \"the content's staged rows (volume 11) | \u2248 1.75\u20132.5 | V11 \u00a78\" (l. 18791) \u2014 exactly C4b + C8 \u2014 prices the ladders and the 280 kind rows again; the staged-milestones row (l. 18753) reads \"the content's staged rows (V11: **C4** at M-SF, C8 at M6-U)\"; and INDEX \u00a71's V11 row reads \"C0\u2013C3b and C5\u2013C7 inside M0\u2013M4b, **C4's wall rows** at M2b; \u2026 **C4's dossier rows** with the SettlementForge stage\", naming a milestone V11 no longer has. So C4b is priced twice in the whole program, V11 \u00a78's statement of what \u00a716's first total carries is not true of \u00a716, and the items 103\u2013108 figure (2.5\u20134) matches no V11 figure (V11: items 102\u2013107 1.5\u20132.5 in the first total). VAP-08's required change gave \u00a716's half (\"\u00a716's content line and staged V11 line then carry exactly those figures (the 280 kind rows and the ladders on the staged line only) under VCS-08's recomputation\"); V11 handed it to scope (repair-r1-V11.md, *CROSS-UNIT HAND-OFFS*), and scope's repair did not carry it. verify-scope-r1t's re-raised VCS-08 covers the V05, V06 and V07 re-pricings only.",
+  "required_change": "In \u00a716's effort line *original content under the clean room*, replace \"file g's rows \u2014 profiles, families, pairs, goods, coverage, ladders, the 280 kind rows, walls (items 103\u2013108; V11 \u00a78, 2.5\u20134)\" by \"file g's rows in the first total \u2014 profiles, families, pairs, goods, coverage and balance (items 102, 103, 105 and 107; V11 \u00a78's C2 g share, 1.0\u20132.0) and the wall rows (item 106; C4a, 0.5); the ladders, the 280 kind rows and item 109's rows are on the staged content line (V11 \u00a78's C4b and C8)\", re-summing the line, the base subtotal, the first total and the whole program once under VCS-08's recomputation (file f item 568), and checking that the milestone rows carry C4a at M2b and no C4b, so the milestone rows still equal the first total. In the staged-milestones row write \"the content's staged rows (V11: C4b at M-SF, C8 at M6-U)\". In INDEX \u00a71's V11 row write \"C0\u2013C3b, C4a (the wall rows, at M2b) and C5\u2013C7 inside M0\u2013M4b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the SettlementForge rows) at M-SF (V11 \u00a78)\".",
+  "owner": "scope",
+  "reported_by": "verify-vol-V11-V12-r1t"
+ }
+]

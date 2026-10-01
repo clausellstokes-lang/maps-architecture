@@ -60,7 +60,7 @@ for (u,k), note in NOTES.items():
 for u in UNITS:
     for k, i in by[u].items():
         if k.startswith('G126-'):
-            i['orchestrator_note'] = "ORCHESTRATOR NOTE: item 126 was REVISED by the owner the same day (item 126 (a2); canon 'g item 126 (a2) — revised'): "we will simply not have the option of viewing the map in the phone in the first place" — write NO phone screen, notice, catalogue row or Send button; the narrow layout class is retired; below the medium class the medium layout holds at its 600 × 480 minimum and the page scrolls. The routing text quoted above predates the revision where it names a screen."
+            i['orchestrator_note'] = "ORCHESTRATOR NOTE: item 126 was REVISED by the owner the same day (item 126 (a2); canon 'g item 126 (a2) — revised'): \u201cwe will simply not have the option of viewing the map in the phone in the first place\u201d — write NO phone screen, notice, catalogue row or Send button; the narrow layout class is retired; below the medium class the medium layout holds at its 600 × 480 minimum and the page scrolls. The routing text quoted above predates the revision where it names a screen."
 
 out = f'{os.path.dirname(os.path.abspath(__file__))}/repair-in-r{int(R)+1}'
 os.makedirs(out, exist_ok=True)

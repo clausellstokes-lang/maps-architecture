@@ -1,0 +1,39 @@
+[
+ {
+  "id": "VAH-r1-15",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V05 l.205 (hook row '| V10 \u00a72.13 (`WhyProvider`, `FieldDrivers`, `WhyAnswer.closure`) |'), l.1631 ('V10's `WhyAnswer.closure`') and l.2055 ('V10's `FieldDrivers`'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V05's hook row reads '| V10 \u00a72.13 (`WhyProvider`); \u00a711.2 (`FieldDrivers`, `WhyAnswer.closure`) |', and l.1631 and l.2055 cite \u00a711.2's `WhyAnswer.closure` and `FieldDrivers`.",
+  "owner": "V05",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAP-r1-06",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "V05 added T-V5-34 (item 117 on the islands, l. 2740) and T-V5-35 (item 118's pennants, l. 2756), each re-running the base bars' clauses on the sky (the hash in 52 weeks, ice and snow by climate, the festival's weeks and placement), and VCS-10 hands the sky take-over row \"T117-1 \u2013 T117-8's and T118-1 \u2013 T118-6's island clauses (T-V5-34, T-V5-35)\"; neither test names a T117 or T118 bar (0 occurrences in V05), so the take-over has no volume end.",
+  "required_change": "T-V5-34's head reads \"\u2014 the island through the year (item 117; V05 \u00a75.1; takes T117-1 \u2013 T117-8's island clauses)\" and T-V5-35's \"\u2014 festival pennants on the islands (item 118; V05 \u00a75.1; takes T118-1 \u2013 T118-6's island clauses)\"; each lettered clause names the bar it re-runs where it re-runs one (e.g. (a) \"(T117-1)\", \"(T118-1)\").",
+  "owner": "V05",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAT1-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Find's Show gaps on a sky island reads a households-counted class differently in V05 and in V01, its home. V05 \u00a75.6 (4) (l.2317-2321, added this round): 'for a class with a coverage row the island's units are V05 \u00a73.5 (3)'s \u2014 its districts for a row counted by district or neighbourhood, the whole island for one counted by walking radius or by households'. V05 \u00a73.5 (3) does not say that. It gives a households-counted row '\u2308its carried households \u00f7 N\u2309 units' and makes only the walking-radius row one unit for the island. V01 \u00a75.4 (3), the home of `gapUnits` ('never a second definition'), and V01 \u00a73.16 make 'the island \u2026 one `walk` unit'. A `households` row reads per plot over the island's plots there. For the same chip on an island, V05 outlines the whole island or nothing, while V01 outlines the unserved plots of each district.",
+  "required_change": "In V05 \u00a75.6 (4) replace 'for a class with a coverage row the island's units are V05 \u00a73.5 (3)'s \u2014 its districts for a row counted by district or neighbourhood, the whole island for one counted by walking radius or by households \u2014' with 'its units are V01 \u00a75.4 (3)'s `gapUnits` over the island's arena, restating none: its districts for a row counted by district or neighbourhood; the whole island as one unit for a row counted by walking radius (V01 \u00a73.16; the route to the ground passes every walking radius, V05 \u00a73.5 (3)); and V01's per-plot `households` reading over the island's plots for a row counted by households \u2014'. Keep the rest of the sentence ('each unit with no member \u2026 \"none here\"'). Make T-V5's Find clause and V05 \u00a73.21's Find row read the same.",
+  "owner": "V05",
+  "reported_by": "verify-agree-time-r1t"
+ },
+ {
+  "id": "VV56-r1-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "Base \u00a78.2 (l. 12456\u201312458): `weather` is `snow` by default only in a cold or severe winter's snow band \u2014 \"an arid row never snows by default; a viewer's value stands until the viewer changes it\"; \u00a78.2's season bar (l. 12892): \"on the `arid` row no ice and no default snow\". V05 \u00a75.1 (4) draws snow on an island \"as on the ground\" while the view's `weather` is `snow`, but V05 \u00a73.23's seasonal row says \"an arid row draws no ice and no snow on an island\" and T-V5-34 (d) \"the arid fixture draws no ice and no snow on any island in any week\", dropping \"by default\": under a viewer's `snow` in an arid row the ground draws snow and V05's two statements disagree about the island.",
+  "required_change": "V05 \u00a73.23's seasonal row reads \"\u2026 an arid row draws no ice on an island, and no snow while the viewer has set no `weather` (a viewer's `snow` lies on the island as on the ground, \u00a78.2) \u2026\"; T-V5-34 (d) reads \"the arid fixture, with no viewer `weather`, draws no ice and no snow on any island in any week, and with a viewer's `snow` draws the island's snow exactly where the ground's lies; \u2026\".",
+  "owner": "V05",
+  "reported_by": "verify-vol-V05-V06-r1t",
+  "orchestrator_note": "ORCHESTRATOR NOTE (owner rule first, principle (3)): item 124 (c) \u2014 the owner's words \"a desert or arid land rarely gets rain, and definetly no snow\" \u2014 rules that an arid row draws NO snow, falling or lying, on the ground or an island, a viewer's `snow` included (G124-rendering's \u00a78.2 hard rule). Fix the disagreement in that direction: V05 \u00a73.23 and T-V5-34 (d) keep 'an arid row draws no ice and no snow on an island', and \u00a78.2's 'a viewer's value stands' yields to item 124 (c) on an arid row (rendering's part)."
+ }
+]

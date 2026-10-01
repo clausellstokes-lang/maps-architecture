@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VKr1-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "kernel",
+  "claim": "\u00a73.4 *A layer's several arenas* (l. 3906\u20133908) says 'a raised way's two feet (`RaisedWayRecord.feet`, \u00a72.7), where its ramps or stairs meet part 0 (item 110 (b))'. That restates where the feet lie, which is \u00a72.7's to state, and contradicts \u00a72.7 *At the frame*: a deck that ends on the outer ring has no ramp (VKr1-02).",
+  "required_change": "\u00a73.4: replace 'a raised way's two feet (`RaisedWayRecord.feet`, \u00a72.7), where its ramps or stairs meet part 0 (item 110 (b)), each a `raised_foot` vertex on part 0 and one on the raised part' with 'a raised way's two feet (`RaisedWayRecord.feet`, \u00a72.7; item 110 (b)), each a `raised_foot` vertex on part 0 and one on the raised part'.",
+  "reported_by": "verify-kernel-r1t"
+ },
+ {
+  "id": "VKr1-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "kernel",
+  "claim": "\u00a73.3's KernelTx.expect (l. 3457) takes '\u00a75.3's batch-scope invariants \u2026 the issuing stage's StageDecl.invariants of scope batch', and *Expectations* (l. 3488\u20133494) then rejects, repairs or downgrades on any failed entry. Round 1's \u00a75.3 Invariant (l. 8823\u20138830) gives every row class 'hard'|'soft' ('hard: aborts the batch; soft (a statistics band): goes to the report'; likewise l. 8889\u20138890), and \u00a73.1's E_INVARIANT (l. 3311) speaks of a hard invariant. A soft batch-scope entry, which the type admits, therefore has two outcomes: a rejected batch (\u00a73.3) or a report line (\u00a75.3).",
+  "required_change": "\u00a73.3 KernelTx.expect comment: '\u2026 the issuing stage's StageDecl.invariants of scope 'batch' and class 'hard' (\u00a74.12, \u00a75.3; a soft row goes to the report, never into `expect`), the class floors of the faces it makes among them (\u00a74.7's class-floor row); \u2026'.",
+  "reported_by": "verify-kernel-r1t"
+ }
+]
