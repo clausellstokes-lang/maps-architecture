@@ -41,7 +41,7 @@ PRE120 = {'model','rendering','scope','V09','determinism','pipeline','V06'}
 for item, body in sections:
     tag = 'G' + item.replace(' (h)–(i)', 'h')
     num = item.split()[0]
-    if num not in ('120','121','122','123','124','125'): continue
+    if num not in ('120','121','122','123','124','125','126'): continue
     for line in body.strip().split('\n'):
         for m in re.finditer(r'\*\*([A-Za-z0-9, ]+):\*\* (.*?)(?=; \*\*[A-Za-z0-9, ]+:\*\*|$)', line):
             for u in [x.strip() for x in m.group(1).split(',')]:

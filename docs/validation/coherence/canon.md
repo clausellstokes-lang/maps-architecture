@@ -5649,3 +5649,14 @@ are retired as inputs; every used field has a standalone fallback; the embedding
 
 ### g item 125 — routing completed (orchestrator, 2026-10-01; verify-pipeline-r1t VPC-R1-27)
 * **pipeline:** §4.11 *The clock* (1)–(2) and `EpochInputs.week` — the dossier-bound map's present week from the dossier's own stamped ticks (item 125 (b)), the `HostContext.week` rung removed; J-A76.41's rows (scope) and V08 W64 follow
+
+## Dated ruling 2026-10-01 (latest) — File g item 126 routed (orchestrator under J122; J140)
+
+The owner's rule 126 (the map is seen only on a tablet or a desktop; no map view on a phone) is routed like items 111–125. It retires
+the narrow layout class as a map surface and supersedes the phone clauses of items 120 (j) and 124 (g); tablets keep every tool.
+
+### g item 126 — every unit named writes its part
+* **scope:** §1 (the supported devices: tablets and desktops); §13 (bars; §13.4's sessions on tablets and desktops only); §16 (the narrow class's work dropped from the reference app's line); the judgment index row
+* **V09:** §2.2's layout classes (narrow retired as a map surface), §4.12 and J-V9.9, the below-medium screen ("This map opens on a tablet or computer" / "Make this window larger to see the map", Send to another device) and its catalogue rows, `refuse.phone`'s row reworded to the screen, item 120's phone sheet and item 124's phone default removed, T-V9-22 (its tablet half kept)
+* **V08:** the host mounts no map on a phone; a frame mounted below the medium class shows V09's screen
+* **V04:** the "phone sheet" mention of item 120 dropped; **V12:** §3.15.10's "phone sheet" and every phone-viewport fixture dropped, the screen's bar added

@@ -1374,3 +1374,32 @@ vetoable interpretation.
      Volumes: V08 (the digest's every row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from
      the dossier's ticks; the final check's brief), V09 (the season control as the fallback), V12 (bars). Applied by the coherence
      pass like items 111–124 (J139).
+
+126. **OWNER RULE — The map is seen only on a tablet or a desktop; there is no map view on a phone (owner, 2026-10-01).** Owner:
+     "note that we have removed map view from a phone." / "so it can only be seen in a tablet or desktop". **What the design has
+     (CONFIRMED):** V09 §4.12 (J-V9.9) gives three layout classes — **wide** (≥ 1024 CSS px) and **medium** (600–1023 px, ≥ 480 px
+     high) with every tool, and **narrow** (< 600 px wide or < 480 px high, "a phone in either orientation") as a viewer with light
+     edits (the map, the gazetteer, layers and thematic views, T1, T5's seed, T6, T7, T10–T12, exports, share, the clerk drawer),
+     the withheld tools showing `refuse.phone`; item 120 (j) gives Find a phone bottom sheet; item 124 (g) turns weather effects off
+     by default on phones; V12 and T-V9-22 test the narrow class.
+     Program's interpretation (vetoable; decided under J122; the owner: "I defer all decisiosn to you"):
+     **(a) NO MAP BELOW THE MEDIUM CLASS.** The map — every view, tool, panel and the clerk drawer — needs a viewport of at least the
+     medium class (≥ 600 × 480 CSS px). The **narrow** class is retired as a map surface: on a phone the application shows no map, no
+     editing and no export, only a plain screen — the town's name, "This map opens on a tablet or computer", and **Send to another
+     device** (V09's share link) — so a phone user can pass the town on and open it where it can be seen.
+     **(b) A SMALL WINDOW ON A TABLET OR DESKTOP** shows the same screen worded for the window ("Make this window larger to see the
+     map"), the map returning, unchanged, when the window reaches the medium class; nothing is lost or re-generated.
+     **(c) SETTLEMENTFORGE** does not mount the map on a phone (the owner: "we have removed map view from a phone"); a host that mounts
+     the frame in a viewport below the medium class gets (a)'s screen, never a map.
+     **(d) WHAT GOES.** The narrow layout class's tool list and light edits (V09 §4.12, J-V9.9), `refuse.phone`'s per-tool line (one
+     screen-level line instead), item 120 (j)'s phone bottom sheet, item 124 (g)'s phone default (moot), the narrow clauses of T-V9-22
+     and of every test, edge and budget row that names a phone viewport; tablets (medium and wide, touch and pen, V09 §4.12's gestures)
+     keep every tool as now.
+     **(e) BARS.** Below the medium class no map tile, tool, panel or clerk drawer is mounted and the screen of (a) or (b) shows; at
+     the medium class every tool works under touch (T-V9-22's tablet half); resizing across the threshold keeps the document, view and
+     selection byte-identical.
+     **HOMES:** §1 (the supported devices: tablets and desktops), §13 (bars; §13.4's sessions on tablets and desktops only), §16 (the
+     narrow class's work dropped). Volumes: V09 (§2.2's layout classes, §4.12, J-V9.9, the screen and its catalogue rows, item 120's
+     sheet and item 124's phone default removed, T-V9-22), V08 (the host mounts no map on a phone; the frame's screen below the
+     medium class), V04 and V12 (their "phone sheet" mentions and phone fixtures dropped). Applied by the coherence pass like items
+     111–125 (J140); it supersedes the phone clauses of items 120 (j) and 124 (g).
