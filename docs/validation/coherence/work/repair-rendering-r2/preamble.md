@@ -157,7 +157,7 @@
 #  * apply-blocks.py on copies of the live files: 19 found, 19 applied, 0 skipped; audit not OK 0; headings 153 → 153;
 #    fences balanced (140 → 140); title block unchanged; rationale untouched (630da959…); the diff lies inside §8, §9,
 #    §11 and §12 only. With the landed siblings (repair-r2-model.md, repair-r2-pipeline.md): 44 applied, audit 0.
-#  * doc_checks.py --sections 8,9,11,12 before / after (hits / unreviewed): C1 5/0 → 5/0, C2 1/0 → 1/0, C3 189/0 → 189/0,
+#  * doc_checks.py --sections 8,9,11,12 before / after (hits / unreviewed): C1 5/0 → 5/0, C2 1/0 → 1/0, C3 189/0 → 188/0,
 #    C4 3/0 → 3/0, S1 0/0 → 0/0, S2 183/0 → 194/3 (the two volume-prefixed pointers above). WARNING printed both times:
 #    reference corpus incomplete (captures, research/patreon, research/devlogs, research/ftg-docs, research/external
 #    absent) — clean-room results NOT authoritative; provisional. Forty C3 runs of ordinary English in the new text were
