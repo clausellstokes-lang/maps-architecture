@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-vol-V05-V06-r2t",
+ "file": "docs/validation/coherence/verify-vol-V05-V06-r2t.md",
+ "issues": [
+  {
+   "id": "VV56-r2-06",
+   "severity": "blocker",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V06",
+   "claim": "V06 §3.23 (3): \"`decayPeak` keeps the highest level since the plan was built: an element whose threshold lies above the present level and at or below the peak is drawn repaired, in patch material … until the plan itself changes — a `rebuild`, a demolition, or a successor\" (V03 §5.6 (b) the same). A plan gains elements without those three: the restoring event itself re-cuts a stored plan for its new occupants (V03 l. 2017–2020: \"occupants other than those that left re-cut a stored plan inside that event … the kept elements keeping their thresholds\"), and an `extend` adds a wing (§4.11 *Works* (4)). A new element's threshold is drawn fresh on (lineage, its id) (§6.3), so every new partition, door, window or furniture piece whose t lies at or below the old peak — after a `decayed` building's repair, every new partition (0.36–0.66, V11 §3.25.10) — is drawn as a patched repair it never had and counted in `info.damage.patched` (V10): a silent wrong result on every restoration that re-cuts; no row of §3.21 and no clause of T-V6-76 covers it.",
+   "required_change": "V06 §3.23 (3): \"`decayPeak` is read per element: the highest level since the element entered the plan — the as-built plan's elements at the lineage's build, the elements a re-cut makes (V03 §3.11, a restoring event's included) or a wing an `extend` adds at that change's effective week — so an element added after its building's damage left is never drawn repaired; an element a re-cut keeps keeps its peak\"; the signature reads `decayPeak(doc, lineage, week, since: number /* the element's entry week, V03 §5.6 */)`; §3.21's decay-level row adds \"a restored building re-cut or extended | the added elements drawn as built, the kept ones patched\"; T-V6-76 (b) adds that fixture (a `reoccupy` from derelict with a re-cut, and an `extend` after a repair: 0 added elements in `repaired`). At its home (hand-off, R2-05): V03 §5.6 (b) passes each element's entry week and reads the per-element peak."
+  },
+  {
+   "id": "VV56-r2-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V06",
+   "claim": "Item 123 (b) (owner-approved): \"Restoration (`reused`, a repair) lowers the level and the damage leaves in reverse order, a repaired element drawn in patch material\"; R2-38 (3) (binding), base §2.6 step 7 (l. 2088) and §13.2's T123-4 (l. 18176) list \"`reused`, `reoccupy`, a repair\" as restorations. V06 §3.23 (3) heads \"**Restoration** (item 123 (b): `reused`, a repair)\" and then rules that `reused` \"leaves no plan to damage: its level and peak read 0 … its damage leaves with the building\"; T-V6-76 (c) bars \"a `reused` … trace read level and peak 0\" — no reverse order, no patches. The base's own `reused` state (§2.8 l. 2778; §4.11 *Works* (4)'s OVERGROWN; §8.2 l. 13073) is a cleared trace worked as a garden, orchard or field — no plan — so V06 (with V02 and V03 l. 2021) follows §2.8 while the base's damage sentence, its bar and the ruling follow item 123's word: two units state opposite outcomes for one transition, and T123-4 and T-V6-76 (c) cannot both pass.",
+   "required_change": "One reading in every unit, recorded under J122 as the reading of item 123 (b)'s word that keeps both the owner's rule and §2.8's state: V06 §3.23 (3)'s head reads \"**Restoration** (item 123 (b)'s \"reused\" — the building put back to use, a `reoccupy` from vacant or derelict, V06 §3.8.2 — and a repair)\", and its `reused` sentence reads \"§2.8's `reused` state — the cleared trace worked as a garden, orchard or field — like `cleared` and a demolition holds no plan: its level and peak read 0 from the event's effective week\"; a J-V6 row records the reading. At their homes (R2-05): base §2.6 step 7 reads \"a restoration (item 123 (b)'s \"reused\": a `reoccupy` back into use; a repair) lowers it …\" (model), and §13.2's T123-4 reads \"restoring — a `reoccupy` back into use (item 123 (b)'s \"reused\") or a repair — lowers the level …\" (scope)."
+  },
+  {
+   "id": "VV56-r2-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "§8.2's crisis rows (l. 12922–12925): \"A disaster's buildings draw item 123's damage layer at its row's `lookLevel` … and their districts the `ruinTone` at the city band; the look ends in the week its `reconstruction` Works begins (V06)\". V06 §3.22 (3) and J-V6.138 — with V02 §5.7 (6), V03 §5.6 (4), V07 §5.6 (3) and V10 l. 1997 — end the look building by building, when `crisisLookYields(doc, building, overlay, week)` turns true (a Works other than a `decay` Works begun on that building), a building no rebuild reaches keeping the look until its condition ends; V06 §3.22 (3) and W93 name \"§8.2's disaster look row\" as a reader, but §8.2 never reads `crisisLookYields` (`live.crises`' inputs, l. 12931–12932, name `frontierFor` only). Read literally, §8.2 drops the whole look — every building's damage and every district's tone — at the first rebuild while V02 and V03 keep drawing it on the others; under per-building yields the end of a district's `ruinTone` is stated nowhere, and `live.crises` re-runs only \"when the week crosses a condition's edge\", so a scrubbed week crossing a building's Works start leaves stale tiles.",
+   "required_change": "§8.2: \"… the look leaves each building in the week V06 §3.22 (3)'s `crisisLookYields` turns true on it — a Works other than a `decay` Works begun on it — so no week draws both the look and the rebuild's stage; a building no rebuild reaches keeps it until its condition no longer stands; a district's `ruinTone` stands while any of its buildings still draws the look\"; *The layer*'s inputs add \"V06's `crisisLookYields`\", and its re-run triggers add \"the week crossing a Works' start week on a building of a standing disaster look\"."
+  },
+  {
+   "id": "VV56-r2-04",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V06",
+   "claim": "V06 §6.8 (6) coarsens a catch-up's epochs until estimate (1) \"fits `advance.budgetMs`\" (9 000 ms, which §6.8 (2) says leaves one second \"for the expansion and the estimate, the last epoch's redraw … and the group's commit\") and prices the epochs \"inside §12's waits for a dossier change applied and an open from SettlementForge\"; T-V6-24 bars 20- and 100-year catch-ups at CITY and METROPOLIS at p95 ≤ 10 000 ms. Two costs of those waits lie outside the estimate: (a) the catch-up's dossier events, which still fold at their own weeks and are never coarsened, each ≤ 30 ms at TOWN and CITY and ≤ 45 ms at METROPOLIS (V08 §6's absorb rows), ≈ 10 a CITY year (V08 §6) — ≈ 1 000 events, ≈ 30 s, in a century; (b) for an open from SettlementForge (§12.1: \"to the editable complete map — the load's digest checks … included\"), the frame boot (≤ 400 ms cached) and the load to the editable map (≤ T(B): 246 / 589 / 2 290 ms) — at METROPOLIS ≈ 2.7 s against the one second `advance.budgetMs` leaves. The 100-year fixtures cannot meet their bar, and the outcome past the comfort level is not stated for a catch-up.",
+   "required_change": "V06 §6.8 (1): for a catch-up the estimate adds \"+ Σ events × V08 §6's per-event absorb bound at the document's rung (30 ms at TOWN and CITY, 45 ms at METROPOLIS)\"; (6): the catch-up's budget is `advance.budgetMs` for a dossier change applied to an open map and, inside an open from SettlementForge, `advance.budgetMs` less the open's own path at the document's rung (V08 §6's cached frame boot, 400 ms, and §12.5's T(B): 246 / 589 / 2 290 ms) — one epoch over the span still fitting it (≈ 5.3 s ≤ 6 310 ms at the cap); where even one epoch over the span with the events' term passes the budget, the catch-up folds one epoch over the span, the wait completes past the comfort level and is reported F-BUDGET-TIME (§12.1: never a coarser or shortened result), the events' cost being the trigger of V08's pre-decided change under R12-31 (hand-off: V08 §6's absorb-with-epochs row names that change); T-V6-24's catch-up fixtures state their event counts and bar p95 ≤ 10 000 ms where the estimate fits, and the one-epoch fold with its F-BUDGET-TIME report where it does not; §3.21's catch-up row and J-V6.136 read the same."
+  },
+  {
+   "id": "VV56-r2-05",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V06",
+   "claim": "V06 §3.23 (1) starts a decay run \"from the effective week `A` (V06 §2.11's `EffectiveWeek`: an engine op's is its epoch's week)\" and sets the state at `w` by \"the last such event at or before `w`\". The same ops are drawn earlier: §3.13 (2) \"a hazard's changes start at the hazard's week\" (a `burn`'s CHARRED \"in its fire's week\", §3.13 (1)), a `vacate`'s `decay` Works at its drawn offset in the span; and V06's own §3.21 row (\"a fire's CHARRED | the decayed third from the fire's week\") and T-V6-76 (c) (\"a fire's burn reads the decayed third from its week\") date the run at the fire's week. Between the fire's (or the offset's) week and the epoch's week — up to a year, and up to k years in a coarsened catch-up (§6.8 (6)) — the exterior draws the CHARRED shell while `decayLevel` reads 0, so the plan draws whole and roofed (V03 §5.6 (c)'s roofless rule applies only \"in a decay run\"): T123-5 (\"the exterior agrees with the plan\") fails in those weeks, and §3.23 (1) contradicts §3.21 and T-V6-76 (c).",
+   "required_change": "V06 §3.23 (1): \"… from the week `A` the change shows: the start week of the Works the event started (V06 §3.13 (2): a hazard's change at the hazard's week, a `vacate`'s `decay` Works at its drawn offset), else its effective week (V06 §2.11)\", and \"its state `s` at `w` is the existence the last such event dated so at or before `w` set\"; W94's inputs name the Works' start weeks; T-V6-76 (c) adds \"a `vacate` and a `burn` inside a yearly epoch and a coarse catch-up epoch: the level from the Works' start week, the plan's damage and the exterior's stage agreeing at every week (T123-5)\"."
+  },
+  {
+   "id": "VV56-r2-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "pipeline",
+   "claim": "§10.2 (f) (l. 15411–15412): \"`disaster`: (d)'s `neighbourhoods`, ending in the week its `reconstruction` Works begins (V06: no week draws both)\" — the whole look at one week; V06 §3.22 (3) (R2-37 (6)'s home) ends it per building by `crisisLookYields`, as V06's hand-off to pipeline asked.",
+   "required_change": "§10.2 (f): \"`disaster`: (d)'s `neighbourhoods`, each building leaving the look in the week a Works other than a `decay` Works begins on it (V06 §3.22 (3)'s `crisisLookYields`), so no week draws both\"."
+  },
+  {
+   "id": "VV56-r2-07",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "pipeline",
+   "claim": "§10.2 (d)'s `approachByGate` ranks `campLand` \"nearest V06's `frontierFor(doc, households)`: where the next growth would seat the camp's people\". The camp is sized in heads or camped m² ((c): headcount, else `exodus` or arrivals, else severity and tier), while V06 §3.22 (2) (a) takes \"the roster's next `households` ordinals above the present population\"; no unit says which count the caller passes (a dangling input of a two-ended hook).",
+   "required_change": "§10.2 (d): \"`approachByGate` — the `campLand` faces along the main approach road by its gate, nearest V06's `frontierFor(doc, h)`, `h` the households the sequential roster adds between the present population and that population plus the camp's heads (its headcount by (c), else its camped ground ÷ `areaPerHeadM2`): where the next growth would seat the camp's people (V06 §3.22 (2))\"."
+  },
+  {
+   "id": "VV56-r2-08",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "pipeline",
+   "claim": "§10.2 (b) (l. 15358): \"the regional_* pressures are `none`\". Item 122 (b) names \"**mass immigration** (regional_migration_pressure, REFUGEE_WAVE)\" a refugee camp, and V11 §3.25.9 (l. 4559, 4562) maps `regional_migration_pressure` → `refugeeCamp` (\"the other `regional_*` pressures are its 'no look'\"); T-V6-75's camp fixture uses that condition.",
+   "required_change": "§10.2 (b): \"… the other `regional_*` pressures are `none` (`regional_migration_pressure` is item 122 (b)'s mass immigration and draws the refugee camp, V11 §3.25.9)\"."
+  },
+  {
+   "id": "VV56-r2-09",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V06",
+   "claim": "V06 §6.8's lead (l. 3866–3870): \"§12's ten-second comfort level binds each of this volume's two one-time waits … an `advance` … and a history-first generation … this is how both waits stay inside the ten seconds\", while its title, (1) (\"one function for all three\"), (3), (5) and (6) carry the dossier catch-up as a third.",
+   "required_change": "The lead reads \"… binds each of this volume's two one-time waits — … — and the epochs of a dossier catch-up inside §12's waits for a dossier change applied and an open from SettlementForge ((6)) … this is how the three stay inside the ten seconds whatever span they are given\"."
+  },
+  {
+   "id": "VV56-r2-10",
+   "severity": "minor",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V06",
+   "claim": "V06 §3.22 (2) (b) splits the camp's households — \"their part above `growth.crowdBands` takes the rich ribbon's land; the rest with `B` take a stage\" — but (c) answers only \"the hinterland `LandUse` faces … that land covers\" for the stage, and (d) answers the belt only when no land is left. Two answers are unstated: a camp with both a rich part and a stage (one ribbon, one stage, or their union?), and a stage S5a can seat only in part before its cap (the stage's land, the belt, or both?).",
+   "required_change": "V06 §3.22 (2) (c) ends: \"The answer is the hinterland `LandUse` faces that the stage's land and, where (b) gives a rich part, the rich ribbon's plots along its arterial cover, in address order; a stage S5a seats only in part adds (d)'s belt for the households it cannot seat\"; §3.21's frontier row and T-V6-75 (c) add both cases."
+  }
+ ]
+}
