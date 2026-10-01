@@ -1,0 +1,46 @@
+{
+ "key": "coherence/verify-vol-V09-V10-r6t",
+ "file": "docs/validation/coherence/verify-vol-V09-V10-r6t.md",
+ "issues": [
+  {
+   "id": "VV910-r6-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "Round 6's V09 §4.9 `bend.wall.raisedCrossing` row (l. 2103) gives the line a gate form \"for a gate dropped or slid inside the under-deck strip (T3's **Gate**, a gate's grip)\": \"No gate can stand beneath {way}, so it moves {m} m along {wall}.\" A gate's grip is `moveVertex` on the gate's crossing vertex (V09 §3.5, l. 1194; base §7.1's T3 row, l. 10733: \"`moveVertex` on an enceinte's trace — a stretch's anchor vertex and a gate's crossing among them\"), so a slide is a moved trace vertex: §2.7's crossing table row W2 (\"a hand `drawWall`, a moved trace vertex or a re-anchored stretch\", l. 2699), whose last column gives \"a gate it makes for a ground way inside the under-deck strip moved along that way clear of it, the stretch bent locally through it\", and *beneath*'s gate clause puts \"a moved trace vertex\" in the bent group (the gate moved along its way, the trace bent through it, l. 2646–2652). Only a `placeGate` (row W13, l. 2710; §7.1's bent row, l. 10674: \"a `placeGate` moved along the trace clear of the under-deck strip\") moves along the trace. So for a gate slid into the strip the base moves it along its road and bends the wall out to meet it, while V09's line says it moves back along the wall. No bar runs a slide: T-V9-52 drops a gate, T110-2 (4) runs a `placeGate`. Two builders build different geometry for one hand edit (R6-01: two units, two outcomes for one case, however rare). Item 101 R2's nearest lawful declaration for a gate slid along a wall is the point on that wall nearest the slide's end, which is W13's outcome.",
+   "required_change": "Model, §2.7's crossing table: row W13's event cell \"a hand `placeGate` (§7.1's sugar: a stub crossing the trace at `at`)\" → \"a hand `placeGate` (§7.1's sugar: a stub crossing the trace at `at`), or a gate's crossing slid by `moveVertex` (§7.1's T3 row: a gate's grip)\"; its C2 cell \"at an `at` inside the under-deck strip, bent along the trace to the nearest point clear of it, the stub with it; elsewhere *unchanged meeting* · T110-2 (4)\" → \"at an `at` or a slide's end inside the under-deck strip, bent along the trace to the nearest point clear of it, the stub or the gate's way with it; elsewhere *unchanged meeting* · T110-2 (4), T-V9-52\"; row W2's event cell \"a moved trace vertex\" → \"a moved trace vertex (a gate's crossing slid: row W13)\". END determinism, §7.1's bent row (l. 10674): \"or a `placeGate` inside its under-deck strip\" → \"or a `placeGate` or a gate's slide inside its under-deck strip\", and \"a `placeGate` moved along the trace clear of the under-deck strip\" → \"a `placeGate`, or a slid gate with its way following, moved along the trace clear of the under-deck strip\". END V09, T-V9-52: after \"with `bend.wall.raisedCrossing`'s gate form,\" add \"and a gate of that wall slid by its grip into the strip moves back along the trace clear of it, its road following, with the same form,\".",
+   "owner": "model"
+  },
+  {
+   "id": "VV910-r6-02",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "Round 6 makes an open card re-ask its view-bound answer \"at each change of that view's §2.9 `week`, `yearWeek`, `festival` or `crises` … so V07 §4.5's crisis, season and festival rows … state the view on screen\" (V09 §2.7, l. 622–625), and §2.12's `WhyCardModel` row (l. 989) otherwise rebuilds only \"on `doc.changed` naming the subject\". At THORP, HAMLET and VILLAGE the card's crisis row is not its own: \"a `VillageField`'s and a `VillageEnd`'s row is the village `WhyProvider`'s answer row (V07 §4.5), shown once, the card adding none of its own\" (V09 §4.21.12 (4), §5.8). V07 §4.5 (l. 3138–3146) computes that row from `crisisLookYields` on the end's buildings (`villageUnitPlots`) and from the view's `looks` answer. Both change at a `doc.changed` that names neither the end nor the field: a commit beginning a Works on the end's last building not yet handed over (it names the building and its Works), an absorb that adds or ends a condition (it names the overlay), and their undo. So a card left open on an end keeps \"For now: Ruined quarters, …\" after the look has left every building, or never shows a famine an absorb brings. At TOWN and above the same card's crisis `facts` row is re-read \"at each `doc.changed`\" (§2.12's crisis row, l. 1010, which names the Works hand-over), so one owner rule (item 122 (f): the card names the crisis) gets two behaviours by rung. A build agent following §2.12 builds the stale card; T-V9-65's view-bound clause runs view-key changes only.",
+   "required_change": "(1) V09 §2.7: \"— a scrub, the Season control, a festival or crisis preview, **Show crises** — as a cached answer is at `onEffectiveKey`\" → \"— a scrub, the Season control, a festival or crisis preview, **Show crises** — and at each `doc.changed` (a commit, an absorb, an undo or redo, a regenerate), at which §11.2's `looks` evaluation it reads is re-read as the crisis card's is (V09 §2.12), as a cached answer is at `onEffectiveKey`\". (2) §2.12's `WhyCardModel` row: \"on `doc.changed` naming the subject\" → \"on `doc.changed` naming the subject (a view-bound answer on each `doc.changed`, V09 §2.7)\". (3) T-V9-65's view-bound clause: \"… and `crises` and draws each change's rows (V09 §2.7)\" → \"… and `crises`, and at a `doc.changed` naming another entity whose commit changes the provider's view-bound rows, and draws each change's rows (V09 §2.7)\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r6-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V01 §5.1.3's *Group switches* (l. 3037–3039), rewritten this round from layers to groups, still reads \"the hood pins, model pins and access symbols belong to the `pins` group and block trees to the `trees` group, so the view bar hides them as Neighbourhood's keys do\". V09, the interface's home, puts the switches in the Dress panel (T12 `dress`: §4.5's T12 row, l. 1825; §5.7, l. 4003; §4.3's row, l. 1742), base §8.2 (l. 12601) names \"T12 `dress`'s switches\", and R6-10 rules that no drawing group is switched by `setLayer`, the view bar's layer control. The builder of the switch follows V09, so nothing built changes: a restatement differing in form.",
+   "required_change": "V01 §5.1.3: \"so the view bar hides them as Neighbourhood's keys do\" → \"so the Dress panel's **Trees** and **Pins** switches hide them (V09 §4.5's T12 row), as Neighbourhood's keys do\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VV910-r6-04",
+   "severity": "minor",
+   "kind": "EDGE-UNTESTED",
+   "claim": "Round 6's T-V10-50 (33) (l. 3165) adds \"with both — a building a disaster look stands over and a field a famine look draws bare — each look's `over` as asked with that one alone\", run \"on T-V10-52's fixtures\". T-V10-52's B-DOSSIER-lite fixture carries no famine, and V08 §7.1's crisis fixtures (l. 3246–3253; V12 §3.15.12, l. 2694–2699) carry the famine and the fire \"each standing through part of the year\", the one week named for standing together being the siege's, the quarantine's and the refugee wave's. No cited fixture names a week in which a disaster look and a famine look stand at once, so the clause may run with one of them absent (R5-10, kept by R6-11: a test that names a case runs it on a fixture that holds it; R6-01 grades the omission minor).",
+   "required_change": "T-V10-50, clause (33): \"with both — a building a disaster look stands over and a field a famine look draws bare —\" → \"with both — on a test-side copy of V08 §7.1's famine fixture whose fire's linked `reconstruction` condition stands in the famine's weeks, a building that disaster look stands over and a field the famine look draws bare —\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VV910-r6-05",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "Round 6 gives the look read a `field` (§2.12, l. 954; §2.13's `over` comment; §3.5; R6-06), but §2.13's code header for the read (l. 1000–1002) still reads \"the festivals and the crisis looks projected from §11.2's `looks` reader (LooksAnswer) at the session's effective key, with the read's `building` where it names one\". The repair's sweep conformed the `over` and projection comments below it but not this line. Wording only.",
+   "required_change": "V10 §2.13's look-read comment: \"with the read's `building` where it names one, its parts read as those sections state\" → \"with the read's `building` where it names one and its `field` where it names one, its parts read as those sections state\".",
+   "owner": "V10"
+  }
+ ]
+}
