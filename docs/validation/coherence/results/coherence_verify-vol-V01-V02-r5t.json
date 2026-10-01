@@ -1,0 +1,22 @@
+{
+  "key": "coherence/verify-vol-V01-V02-r5t",
+  "file": "docs/validation/coherence/verify-vol-V01-V02-r5t.md",
+  "issues": [
+    {
+      "id": "VV12-r5-01",
+      "severity": "minor",
+      "kind": "NEW-PROBLEM",
+      "owner": "V01",
+      "claim": "T-V1-59 (f)'s new clause (round 5, VV12-r4-02's fix) runs 'a chip held on the district the epoch merged or split away (§6.3's succession: its id no longer held at the head, V01 §5.4 (4))', but (f)'s fixture is 'a B-EDIT CITY document whose epoch after the drawn week split a district, built the only member of a chip's class in a second district and closed the only one in a third' — a split, no merge. Under §6.3's anchor table a district's anchor is 'its seed feature's address', radius 'same feature', so the split's child on the old seed succeeds it and takes its id (V01 §2.5: 'a district succeeded by the anchor rule (a merge or split) carries … to its anchor successor'). On the fixture as written the split district's id is still held at the head, so the clause has no subject and its 'at the head it stays at count 0, dark' cannot be run (the chip lifts the successor). The rule (V01 §5.4 (4)) is defined; the fixture omits the case its own clause names, so a build agent adds one and nothing built changes (R5-01: a fixture omitting a case its own test names is MINOR).",
+      "required_change": "T-V1-59 (f): \"on a B-EDIT CITY document whose epoch after the drawn week split a district, built the only member of a chip's class in a second district and closed the only one in a third\" → \"… and closed the only one in a third, and merged a fourth into its neighbour (the fourth's id no longer held at the head, §6.3)\"; and \"a chip held on the district the epoch merged or split away (§6.3's succession: its id no longer held at the head, V01 §5.4 (4))\" → \"a chip held on the fourth district (merged away by the epoch: its id no longer held at the head, §6.3's succession, V01 §5.4 (4))\"."
+    },
+    {
+      "id": "VV12-r5-02",
+      "severity": "minor",
+      "kind": "COHESION",
+      "owner": "V02",
+      "claim": "repair-r5-V02's sweep added to §7.8's damage sub-fixture the house 'once reoccupied from derelict by another household (V06 §3.8.2 (2)), its re-cut (V03 §3.11) minting rooms for them while its `repair` Works runs past its epoch's week' and to T-V2-59 (c) the bar on its minted roof bays and outer runs. That case needs an epoch's regrowth tier (2) and V06 §3.23 (3)'s restoration-end week, which land with V06's E2 (V06 §8: 'E2 — decline and regrowth …'; 'V03's damage layer reading every building at V11's default age until E2 lands'). T-V2-59 runs at V02 §8.6's M6b ('the exterior's damage at the later of M6b and V03's item-123 plan step'), and M6 (V02) may start after M5 while M6-E runs beside M5 (INDEX §3), so M6b's exit can come before E2. §8.6's note covers the level ('until V06's decay level lands (M6-E) the level is read from the existence state alone at V11's default age') but names no later exit for the epoch case; INDEX §5 risk 2 moves such a clause 'to the first exit after the provider (each named in its volume)', and T-V3-39 runs the same case 'from M6-E, week by week over V06's decay runs'. A build agent applies risk 2's rule — nothing built changes (the class of VV12-r4-04 and R5-05 (c)).",
+      "required_change": "V02 §8.6's paragraph, after \"until V06's decay level lands (M6-E) the level is read from the existence state alone at V11's default age (V06);\", add \"T-V2-59 (c)'s house reoccupied from derelict at an epoch (§7.8's damage sub-fixture; V06 §3.8.2 (2)) and its restoring re-cut's minted elements run at the later of M6b and V06's E2 (V06 §8: its regrowth tiers and the decay level with its restorations, V06 §3.23 (3));\"."
+    }
+  ]
+}
