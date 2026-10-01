@@ -23,8 +23,8 @@ S('G123-V04 §1.2 V03 row',
 
 # ---- §1.3: R2-12's name; item 126 (G126-V04, R2-41); item 123's scope line (G123-V04)
 S('R2-12 §1.3',
-  "primary and calamity deaths, `AccessPass.run`\n  over an `EpochScope`,",
-  "primary and calamity deaths,\n  `AccessPassStrategy.run` (II.7.6) over an `EpochScope`,")
+  "primary and calamity deaths, `AccessPass.run`\n  over an `EpochScope`, `ArchVaults.reconcile`, `BuriedFormer.lay`, the undercity's epoch re-read; V04 §3.10, each with\n",
+  "primary and calamity deaths,\n  `AccessPassStrategy.run` (II.7.6) over an `EpochScope`, `ArchVaults.reconcile`, `BuriedFormer.lay`, the undercity's\n  epoch re-read; V04 §3.10, each with\n")
 
 S('G126-V04 §1.3 Find',
   "* **Find** (g item 120) — its panel, type-ahead, chip grid, results list, phone sheet and `live.find` provider are V09's;",

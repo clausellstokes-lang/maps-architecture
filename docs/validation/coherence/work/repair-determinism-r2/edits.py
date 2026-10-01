@@ -288,14 +288,14 @@ E(H77,
   "   supplies them, the library's definition fields as such optional inputs (`HostContext.customLibrary`; item 104 (a)\n"
   "   (5)). **What the port never reads** (item 86; J-A86.71), by reason — the paths are V08 §2.4's field table, the",
   "   and neither the doors (§11.4) nor the port takes a data input beyond the dossier (item 125 (a); J-A20.79):\n"
-  "   `HostContext` (§14) carries no fact — its `audience`, `displayNames` and `line` change no document a dossier makes —\n"
-  "   and the host's view commands (§11.2, §11.3: a week, the layers shown, a selection) are commands, never inputs, which\n"
-  "   the map never needs (item 125 (c)). The port reads a custom institution's dossier record — `source: 'custom'`, its\n"
-  "   `localUid`, category, tags, description, `required` and scene tokens — and the library's definition fields only\n"
-  "   where the dossier itself carries them, in its `customContentRoster` and `customContentProvenance` entries (item 104\n"
-  "   (a) (5)'s \"when the port receives them\", received only through the dossier); without them item 104's generic\n"
-  "   siting supplies what they would, the absence reported — `HostContext.customLibrary` is no input (item 125 (a),\n"
-  "   (e)). **What the port never reads** (item 86; J-A86.71), by reason — the paths are V08 §2.4's field table, the",
+  "   `HostContext` (§14) carries no fact — its `audience`, `displayNames` and `line` change no document a dossier makes\n"
+  "   (T125-2) — and the host's view commands (§11.2, §11.3: a week, the layers shown, a selection) are commands, never\n"
+  "   inputs, which the map never needs (item 125 (c)). The port reads a custom institution's dossier record —\n"
+  "   `source: 'custom'`, its `localUid`, category, tags, description, `required` and scene tokens — and the library's\n"
+  "   definition fields only where the dossier itself carries them, in its `customContentRoster` and\n"
+  "   `customContentProvenance` entries (item 104 (a) (5)'s \"when the port receives them\", received only through the\n"
+  "   dossier); without them item 104's generic siting supplies what they would, the absence reported —\n"
+  "   `HostContext.customLibrary` is no input (item 125 (a), (e)). **What the port never reads** (item 86; J-A86.71), by reason — the paths are V08 §2.4's field table, the",
   'G125-determinism (R2-40 (2))')
 E(H77,
   "(3)). The owner's rules made two formerly ignored parts inputs: the defence readiness (`defenseProfile.readiness`\n"

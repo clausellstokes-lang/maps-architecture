@@ -24,8 +24,12 @@ S('VAL-R1-06 §5.2 (1) rock',
   "   facts below), the rest of the rock transparent so the ghost shows: the dungeon-map figure-ground, where voids read as\n"
   "   carved (J-V4.31).")
 S('VAL-R1-06 §5.2 (2) void',
-  "in the role `void` (the paper, a step lighter than the\n   ghosted ground).",
-  "in the role `void` (one step lighter than the\n   ghosted ground; each sheet's facts below).")
+  "in the role `void` (the paper, a step lighter than the\n"
+  "   ghosted ground). A tunnel draws by §8.2's kind rows over the void (the cased band for a `main`, the hairline pair for a\n"
+  "   `drain` or `culvert`, arch glyphs at a `passage`'s ends);",
+  "in the role `void` (one step lighter than the\n"
+  "   ghosted ground; each sheet's facts below). A tunnel draws by §8.2's kind rows over the void (the cased band for a\n"
+  "   `main`, the hairline pair for a `drain` or `culvert`, arch glyphs at a `passage`'s ends);")
 S('G123-V04 §5.2 (5) buildings',
   "hatch (§8.2), party walls and door ticks as on the ground; the undercity's informal clusters by §4.7's cluster rows.",
   "hatch (§8.2), party walls and door ticks as on the ground; the undercity's informal clusters by §4.7's cluster rows; a\n"

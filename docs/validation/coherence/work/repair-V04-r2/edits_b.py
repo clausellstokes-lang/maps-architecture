@@ -79,8 +79,11 @@ S('VAT0-01 §3.5.7 (d)',
   "  ruin\" is this row.")
 
 S('VAT0-01 §3.5.7 determinism',
-  "and within U-ACCESS each (building, void kind) has its own salt,",
-  "and within U-ACCESS each dig key — the building, the void kind and, for an added wing, its key ((d)) — has its own salt,")
+  "differ by their stage id (§6.1), and within U-ACCESS each (building, void kind) has its own salt, so no draw's value depends\n"
+  "on another rule's presence. Every key is listed in V04 §3.12.",
+  "differ by their stage id (§6.1), and within U-ACCESS each dig key — the building, the void kind and, for an added wing,\n"
+  "its key ((d)) — has its own salt, so no draw's value depends on another rule's presence. Every key is listed in\n"
+  "V04 §3.12.")
 
 # ---- §3.5.7 *With a scope* (R2-12)
 S('R2-12 §3.5.7 with a scope',
@@ -93,11 +96,17 @@ S('R2-12 §3.10 callers',
   "`under.access` (order 20) runs `AccessPass.run(doc, scope)`; `under.undercity` (order 30)",
   "`under.access` (order 20) runs `AccessPassStrategy.run(doc, rules, ctx, k, scope)`;\n`under.undercity` (order 30)")
 S('R2-12 §3.10 access at an epoch',
-  "`under.access` runs `AccessPass.run(doc, scope)`\n  (V04 §3.5.7, *With a scope*)",
-  "`under.access` runs\n  `AccessPassStrategy.run(doc, rules, ctx, k, scope)` (V04 §3.5.7, *With a scope*)")
+  "`under.access` runs `AccessPass.run(doc, scope)`\n"
+  "  (V04 §3.5.7, *With a scope*): each building the epoch builds, or gives a basement, over a cavern, ruin or former-settlement\n"
+  "  element draws U-ACCESS (d)'s dig draw;",
+  "`under.access` runs\n"
+  "  `AccessPassStrategy.run(doc, rules, ctx, k, scope)` (V04 §3.5.7, *With a scope*): each building the epoch builds, or\n"
+  "  gives a basement, over a cavern, ruin or former-settlement element draws U-ACCESS (d)'s dig draw;")
 S('R2-12 §3.10 opening pass',
-  "2. at an epoch, as the last step of `AccessPass.run` with a scope",
-  "2. at an epoch, as the last step of `AccessPassStrategy.run` with a scope")
+  "  2. at an epoch, as the last step of `AccessPass.run` with a scope (over its (e) openings) and of `CatacombGrowth.grow` when\n"
+  "     it lays a new complex's entrance;",
+  "  2. at an epoch, as the last step of `AccessPassStrategy.run` with a scope (over its (e) openings) and of\n"
+  "     `CatacombGrowth.grow` when it lays a new complex's entrance;")
 
 # ---- §3.11: the outfall row's stretch (VV34-r1-08)
 S('VV34-r1-08 §3.11 outfalls row',
@@ -145,9 +154,13 @@ S('G123-V04 §3.11 UC21',
 
 # ---- §3.12: the dig key's added-wing key (VAT0-01); item 123 draws nothing here (G123-V04)
 S('VAT0-01 §3.12 dig key',
-  "each dig (`sewer` in U-ACCESS, the\nbuilding, salt the void kind);",
-  "each dig (`sewer` in U-ACCESS, the\nbuilding, salt the void kind and, for a wing V02's mutator adds over a void, that wing's key; V04 §3.5.7 (d));")
+  "each dig (`sewer` in U-ACCESS, the\n"
+  "building, salt the void kind); each crypt join (`sewer`, the church and the complex source); the quarry ossuary's chance\n",
+  "each dig (`sewer` in U-ACCESS, the\n"
+  "building, salt the void kind and, for a wing V02's mutator adds over a void, that wing's key; V04 §3.5.7 (d)); each crypt\n"
+  "join (`sewer`, the church and the complex source); the quarry ossuary's chance\n")
 S('G123-V04 §3.12 damage draws',
-  "reading (the `lost` state and its memory included) draw nothing;",
+  "reading (the `lost` state and its memory included) draw nothing; the opening pass's names are V01's draws on `naming`\n",
   "reading (the `lost` state and its memory included) draw nothing; nor does the damage below ground, whose thresholds are\n"
-  "§6.3's `plan.damage` draws keyed by the building's lineage and the element's id (V04 §5.6);")
+  "§6.3's `plan.damage` draws keyed by the building's lineage and the element's id (V04 §5.6); the opening pass's names are\n"
+  "V01's draws on `naming`\n")
