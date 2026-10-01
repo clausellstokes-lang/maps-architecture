@@ -10,7 +10,7 @@ PROGRESS (lane `coherence/repair-V02-r5`, 2026-10-01)
   X36); the homes cited checked (V03 §5.6 (2) (a)–(c), V03 §3.11, V06 §3.23 (1)–(3), V06 §3.8.2 (2), T-V3-39 (c),
   T-V6-76 (b), V06 §3.21's decay-level row; VAF-R4T-03's and VDC4-01's records; repair-r5-rendering's note on this end):
   done
-- P2 count-asserted edits and generated blocks (scratch `coherence/repair-V02-r5/build.py`: 5 edits, each applied exactly
+- P2 count-asserted edits and generated blocks (scratch `coherence/repair-V02-r5/build.py`: 6 edits, each applied exactly
   once; 3 REPLACE blocks): done
 - P3 dry run of apply-blocks.py on a copy (3 of 3 applied, byte-identical to the generator's volume); tables, ids,
   references, review-id scan, doc_checks: done
@@ -23,7 +23,7 @@ PROGRESS (lane `coherence/repair-V02-r5`, 2026-10-01)
 * **Live file** (assemble-r4's output): `docs/volumes/V02-buildings.md` sha256 2579cb1696f4…; every REPLACE body is the
   live subsection with count-asserted substitutions (the paragraphs touched re-wrapped at 120 columns, every line before
   the first change in each reproducing the live wrap); every untouched line is verbatim. Expected volume sha256
-  ad3eda06394a….
+  fb46c67694cf….
 * **Binding rulings applied:** R5-01 (the seat's own sweep, below; no review id in design text; J141 grades as Part H
   gives them), R5-04 (the one comparison — the level above 0 and at least t, compared from the element's entry week into
   the plan; for an element a restoring event's re-cut mints, the week that restoration ends, before which it draws as
@@ -68,6 +68,11 @@ END line's text:
   of its `repair` Works, never holed, gapped or patched by that restoration (V06 §3.23 (3))". T-V2-59 (a)'s agreement
   with the plan now runs the case too. The case mirrors T-V3-39 (c) and T-V6-76 (b) (a `reoccupy` from derelict whose
   `repair` Works runs past its epoch's week). The CI tier's ≈ + 4 s stands (one more house's restoration weeks).
+* **§3.18 (e), the exterior's level row** (l. 2519): its level-1 outcome "every element the plan holds damaged" restated
+  the comparison without the entry week, so a hand repair from level 1 whose re-cut mints elements (V03 §3.11's run's
+  end: other occupants re-cut inside the restoring event) would read damaged in the Works' first week; it now reads
+  "every element the plan holds damaged, each from its entry week into the plan (V03 §5.6 (2) (a))". Cases and outcomes
+  still pair 4 and 4.
 
 Kept as written, each with its reason:
 * **§13's X34** ("an element that entered the plan after its building's damage left drawn as built, V03 §5.6 (2) (b)")
@@ -80,22 +85,23 @@ Kept as written, each with its reason:
   restate no comparison.
 * **§5.7 (1)'s level-0 sentence and §3.18 (e)'s level-0 row** ("a building never abandoned, under no look"): they already
   carry R5-04's "only when no disaster look stands over it".
-* **§3.18 (e)'s level-1 row** ("level 1 → every element the plan holds damaged"): a building in a decay run at level 1;
-  a `reoccupy` restores only from vacant or derelict (V06 §3.8.2), so no restoring re-cut runs at level 1, and V03
-  §3.13's damage-layer row (the home) reads the same.
 * **§6.6's budgets, §8.6's milestone, §0's plain words**: no restatement of the comparison.
 
 ## HAND-OFFS
 
-None. Rendering's T-ER-28 and §8.6 lead, determinism's §6.3 and V09's texts are their own seats' fixes this round
-(R5-04's Texts and Ends); V03 §5.6 (2), V06 §3.23 (3), T-V3-39 (c) and T-V6-76 (b) already carry the case.
+Rendering's T-ER-28 and §8.6 lead, determinism's §6.3 and V09's texts are their own seats' fixes this round (R5-04's
+Texts and Ends); V03 §5.6 (2), V06 §3.23 (3), T-V3-39 (c) and T-V6-76 (b) already carry the case. One end for round 6's
+verifiers, no END line naming it:
+* **V03 §3.13's damage-layer row** (l. 2094): its outcome "every element damaged at 1" is the same summary V02's level
+  row carried; V03 §5.6 (2) (a) (the home) already compares each element only from its entry week, so no outcome differs.
+  V03 may add "each from its entry week into the plan (V03 §5.6 (2) (a))" there, as V02's row now reads.
 
 ## Checks
 
 * **Dry run** (`docs/validation/amendments-b/apply-blocks.py`, unchanged, on copies of the live V02 and the rationale,
   the block section with its `=== FILE` line routed off as the assembler does): 3 of 3 applied, 0 skipped, 0 malformed;
   audit 0 not OK; headings 77 → 77, none retitled; fences balanced (16 → 16); the title block unchanged; the output
-  byte-identical to the generator's volume (sha256 ad3eda06394a…).
+  byte-identical to the generator's volume (sha256 fb46c67694cf…).
 * **Tables.** Every table row of the expected volume has its header's cell count (0 mismatches).
 * **Ids.** No test, decision or hand-off id added or removed: T-V2-1 – T-V2-60 (60), J-V2.1 – J-V2.113 (113), X1 – X37
   (37). Every pointer added resolves: V03 §5.6 (2) (a), (a)–(b); V03 §3.11; V06 §3.23 (3); V06 §3.8.2 (2); T-V3-39 (c).
@@ -103,12 +109,12 @@ None. Rendering's T-ER-28 and §8.6 lead, determinism's §6.3 and V09's texts ar
 * **doc_checks** (WARNING printed: reference corpus INCOMPLETE — captures, research/patreon, research/devlogs,
   research/ftg-docs and research/external missing — so the clean-room results are NOT authoritative; provisional), on the
   volume with the base's headings for S2: before → after C1 0 → 0, C2 0 → 0, C3 599 → 600 (535 → 536 unreviewed: the
-  numeral run "§3.8.2 (2)), its" of our own text), C4 1 → 1 (0 unreviewed), S1 0 → 0, S2 207 → 211 (10 → 10 unreviewed:
+  numeral run "§3.8.2 (2)), its" of our own text), C4 1 → 1 (0 unreviewed), S1 0 → 0, S2 207 → 212 (10 → 10 unreviewed:
   the volume's own "V02 §6.6" read against the base's headings, the class present before this round).
 
 ## Size (principle (9))
 
-V02 94 303 → 94 443 words (+140, +0.15 %): §3.18 +43, §5.7 +22, §7.8 +75. All of it is content the END line and the
+V02 94 303 → 94 455 words (+152, +0.16 %): §3.18 +55, §5.7 +22, §7.8 +75. All of it is content the END line and the
 sweep require (the entry-week comparison and the minted case at §5.7 (2) and §3.18, the fixture case and its bar); no
 word was removed, since the three subsections hold no restatement, narration or duplicated mechanism the touched
 sentences could drop. No content was thinned.
