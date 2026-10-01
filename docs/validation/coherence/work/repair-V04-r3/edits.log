@@ -31,3 +31,7 @@ edits_a	VEW-r2-04 J-V4.129	1	"N2's moat and field fallbacks taken per bank, the 
 edits_a	VV34-r2-01 J-V4.130 look	1	"the lowest storey's floor no element; a storey below 0 reading its building's le"
 edits_a	VV34-r2-06 J-V4.130 landing	1	'so a scrubbed week never opens or closes a way; 0.25 pw in U5 |'
 edits_a	VV34-r2-07 §12	1	"file g's items 102–126 are read whole in\n  `docs/AMENDMENTS-2026-09-28g.md`, the"
+edits_a	form §5.6 (6) join	1	'   below ground*,\n   its edges UE33 and UC21 (V04 §3.11), its bar T-V4-82.'
+edits_a	form §5.6 (3) join	1	"   (4). The rubble below ground is the `ruin`\n   program's stipple in the `rock`"
+edits_a	form §5.6 (3) rewrap	1	'   collapse below ground; a repaired element —\n   its threshold above the level '
+edits_a	form §5.1 rewrap	1	'effects draw nothing over the view (§8.8). The **band ladder** in the layer pane'

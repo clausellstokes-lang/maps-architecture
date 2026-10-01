@@ -2637,3 +2637,7 @@
 2026-10-01 11:46 coherence/repair-V07-r3 LANDED docs/validation/coherence/repair-r3-V07.md docs/validation/coherence/results/coherence_repair-V07-r3.json (8 blocks; 9 issues closed: 5 fixed, 4 merged; 0 ruling requests; 0 END lines)
 2026-10-01 11:46 coherence/repair-V04-r3 CHECKPOINT P2 edits built (33 count-asserted edits, 10 REPLACE blocks; work dir docs/validation/coherence/work/repair-V04-r3/); next diff review, dry run, checks
 2026-10-01 11:46 coherence/orchestrator NOTE repair-V07-r3 landed (8 blocks; 9 issues: 5 fixed, 4 merged); launched repair-V01-r3 in its slot (queue: V02 V05 kernel)
+2026-10-01 11:47 coherence/repair-V01-r3 STARTED docs/validation/coherence/repair-r3-V01.md (opus stand-in for the Fable seat; 5 issues routed: VPC-R2-05, VV12-r2-01, VV12-r2-02, VV12-r2-03, VV78-r2-06; scratch scratchpad/coherence/rV01r3/)
+2026-10-01 11:47 coherence/repair-V01-r3 CHECKPOINT P0 brief and adjudication-r3 (TOC, R3-01-03, R3-09, R3-10, R3-14, R3-24, Part H V01: 5 FIX, 5 END) read; skeleton written; next: verifier evidence, live V01 sections
+2026-10-01 11:48 coherence/repair-V12-r3 LANDED docs/validation/coherence/repair-r3-V12.md docs/validation/coherence/results/coherence_repair-V12-r3.json docs/validation/coherence/work/repair-V12-r3/
+2026-10-01 11:48 coherence/orchestrator NOTE repair-V12-r3 landed (12 blocks, 0 ruling requests); launched repair-V02-r3 in its slot (queue: V05 kernel)

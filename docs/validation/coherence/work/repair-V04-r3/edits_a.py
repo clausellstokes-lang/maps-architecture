@@ -52,7 +52,7 @@ S('VEW-r2-04 UC19',
 # ---- §3.11 UE33: the look below ground (VV34-r2-01); the per-element peak (V06 r3 hand-off (a))
 S('VV34-r2-01 UE33 look',
   "E7: every toggle and preset alike, the parity presets included (a look); the layer hidden draws none of the underground view's part, a plan's storey below 0 still drawn; E8:",
-  "E7: every toggle and preset alike, the parity presets included (a look); the layer hidden draws none of the underground view's part, a plan's storey below 0 still drawn; Show crises on and off under a disaster's look (item 122 (d)): a church in a ruined district draws its crypt at the look's level while the look stands over the church (the condition's weeks, until a Works begun on it hands it over, V06 §3.22 (3)) and at its own level outside them, no patch left, its join kept, and an underground building, in no look's unit, at its own level (V04 §5.6 (1)); E8:")
+  "E7: every toggle and preset alike, the parity presets included (a look); the layer hidden draws none of the underground view's part, a plan's storey below 0 still drawn; Show crises on and off under a disaster's look (item 122 (d)): a church in a ruined district draws its crypt at the higher of its own level and the look's while the look stands over the church (the condition's weeks, until a Works begun on it hands it over, V06 §3.22 (3)) and at its own level outside them, no patch left, its join kept, and an underground building, in no look's unit, at its own level (V04 §5.6 (1)); E8:")
 
 S('VV34-r2-02 UC21',
   "a damaged stair core or access head below 0 draws as rubble over steps still climbable;",
@@ -109,9 +109,10 @@ S('VV34-r2-02 §5.6 (2) access head',
 # ---- §5.6 (3): the stair core (VV34-r2-02); the per-element peak (V06 r3 hand-off (a))
 S('VV34-r2-02 §5.6 (3) stair core',
   "   for one rule: a stair core whose `levels` include a storey below 0, and an access head on one, draws as rubble over\n"
-  "   its steps, a way still climbable — the way down is the access model's (4).",
+  "   its steps, a way still climbable — the way down is the access model's (4). The rubble below ground is the `ruin`\n",
   "   for one rule: a stair core whose `levels` include a storey below 0, once damaged, draws as rubble over its steps\n"
-  "   below 0, a way still climbable, an access head standing on it drawn with it — the way down is the access model's (4).")
+  "   below 0, a way still climbable, an access head standing on it drawn with it — the way down is the access model's\n"
+  "   (4). The rubble below ground is the `ruin`\n")
 
 S('V06-r3 hand-off (a) §5.6 (3) peak',
   "   its threshold above the level and at or below `decayPeak` (V06 §3.23 (3)) — is drawn in item 114's patch material\n",
@@ -122,13 +123,15 @@ S('V06-r3 hand-off (a) §5.6 (3) peak',
 S('VV34-r2-06 §5.6 (6)',
   "6. **Landing, budget, edges, bar.** It lands at U5 (V04 §8): the underground view's footprints and the per-band exports\n"
   "   there, a plan's storeys below 0 once V03's item-123 step draws the plan's damage (V03 §8), and every level read from\n"
-  "   the existence state at V11's default age until V06's level lands (V06 §3.23 (4)). A building never decayed draws\n",
+  "   the existence state at V11's default age until V06's level lands (V06 §3.23 (4)). A building never decayed draws\n"
+  "   byte-identically to its build without the layer (`item123.damage`). Its budget is V04 §6's *Damage below ground*,\n",
   "6. **Landing, budget, edges, bar.** It lands at the later of U5 (V04 §8) and V03's P4, the step that draws a decayed or\n"
   "   ruined plan and with which §2.6 step 7, §6.3's `plan.damage` and §8.6 land (§16's milestone rows): the underground\n"
   "   view's footprints and the per-band exports with it, a plan's storeys below 0 with V03's drawing of the plan's damage\n"
   "   (V03 §8), the look over a storey below 0 with V03 §5.6 (4)'s, and every level read from the existence state at V11's\n"
   "   default age until V06's level lands (V06 §3.23 (4)); before it nothing of this section is drawn. A building never\n"
-  "   decayed draws\n")
+  "   decayed draws byte-identically to its build without the layer (`item123.damage`). Its budget is V04 §6's *Damage\n"
+  "   below ground*,\n")
 
 # ---- §7: T-V4-2 and T-V4-80 (j) (VEW-r2-04)
 S('VEW-r2-04 T-V4-2',
@@ -158,7 +161,7 @@ S('VV34-r2-05 T-V4-82 (g)',
 
 S('VV34-r2-01 T-V4-82 (i)',
   "re-read the same drawing, within V04 §6's *Damage below ground* | PR (fixtures), nightly |",
-  "re-read the same drawing, within V04 §6's *Damage below ground*; (i) the look (g item 122 (d); V03 §5.6 (4)): on a fixture calamity with its linked `reconstruction` condition whose disaster look ruins the district of a church with a crypt, the church's own level below the look's, at severities 0, ½ and 1 — in the condition's weeks the crypt's elements draw at the church's drawn level (`PlanDamage.level`, the look's `lookLevel` by severity) by the same thresholds, and at its own level with Show crises off, at a key that withholds the condition, in the weeks outside the condition's and from the week a Works begun on the church hands it over (V06 §3.22 (3)'s `crisisLookYields`); no element drawn repaired as the look leaves; the crypt join, every access and link record and every digest byte-identical with the look and without; the crypt storey's scene walls, portals and lights at the own level, the look in its image only; an underground building under the ruined district at its own level throughout | PR (fixtures), nightly |")
+  "re-read the same drawing, within V04 §6's *Damage below ground*; (i) the look (g item 122 (d); V03 §5.6 (4)): on a fixture calamity with its linked `reconstruction` condition whose disaster look ruins the district of two churches with crypts — one never decayed, one whose own level lies above the look's at severity 0 — at severities 0, ½ and 1: in the condition's weeks each crypt's elements draw at its church's drawn level (`PlanDamage.level`, the higher of its own level and the look's `lookLevel` by severity) by the same thresholds, and at its own level with Show crises off, at a key that withholds the condition, in the weeks outside the condition's and from the week a Works begun on the church hands it over (V06 §3.22 (3)'s `crisisLookYields`; this clause once V06's E2 has landed); no element drawn repaired as the look leaves; each crypt join, every access and link record and every digest byte-identical with the look and without; each crypt storey's per-storey scene walls, portals and lights at the own level, the look in its image only; an underground building under the ruined district at its own level throughout | PR (fixtures), nightly |")
 
 # ---- §8: U5's landing (VV34-r2-06)
 S('VV34-r2-06 §8 U5 content',
@@ -188,7 +191,7 @@ S('VEW-r2-04 J-V4.129',
 
 S('VV34-r2-01 J-V4.130 look',
   "the lowest storey's floor no element; a storey below 0 reading its building's level and an underground building its own;",
-  "the lowest storey's floor no element; a storey below 0 reading its building's level — under a disaster's look over the building, its drawn level, the higher of its own and the look's (V03 §5.6 (4)), one plan having one drawn level — and an underground building, in no look's unit, its own;")
+  "the lowest storey's floor no element; a storey below 0 reading its building's level — under a disaster's look over the building, the whole building's drawn level, the higher of its own and the look's (V03 §5.6 (4)) — and an underground building, in no look's unit, its own;")
 
 S('VV34-r2-06 J-V4.130 landing',
   "so a scrubbed week never opens or closes a way; 0.25 pw in U5 |",
@@ -202,3 +205,27 @@ S('VV34-r2-07 §12',
   "file g's items are read whole in\n"
   "  `docs/AMENDMENTS-2026-09-28g.md`, the underground parts of items 113, 119, 120 and 123 written here, and item 122 (d)'s\n"
   "  look read below ground (V04 §5.6 (1)); item 126 holds none for this volume.")
+
+# ---- line joins after the two rewrapped edits above (form only)
+S('form §5.6 (6) join',
+  "   below ground*,\n   its edges UE33 and UC21 (V04 §3.11), its bar T-V4-82.",
+  "   below ground*, its edges UE33 and UC21 (V04 §3.11), its bar T-V4-82.")
+
+S('form §5.6 (3) join',
+  "   (4). The rubble below ground is the `ruin`\n   program's stipple in the `rock` role (V04 §5.2), one stipple for every collapse below ground; a repaired element —\n",
+  "   (4). The rubble below ground is the `ruin` program's stipple in the `rock` role (V04 §5.2), one stipple for every\n   collapse below ground; a repaired element —\n")
+
+S('form §5.6 (3) rewrap',
+  "   collapse below ground; a repaired element —\n"
+  "   its threshold above the level and at or below its own `decayPeak`, the highest level since it entered the plan\n"
+  "   (V06 §3.23 (3); V03 §5.6 (2) (b)) — is drawn in item 114's patch material\n"
+  "   (§8.6). On a building's plan",
+  "   collapse below ground; a repaired element — its threshold above the level and at or below its own `decayPeak`, the\n"
+  "   highest level since it entered the plan (V06 §3.23 (3); V03 §5.6 (2) (b)) — is drawn in item 114's patch material\n"
+  "   (§8.6). On a building's plan")
+
+S('form §5.1 rewrap',
+  "effects draw nothing over the view (§8.8). The **band ladder** in the layer panel lists every non-empty band as its depth range\n"
+  "(−2.5 to −5 m …)",
+  "effects draw nothing over the view (§8.8). The **band ladder** in the layer panel lists every non-empty band as its\n"
+  "depth range (−2.5 to −5 m …)")

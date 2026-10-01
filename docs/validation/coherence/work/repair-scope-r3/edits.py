@@ -65,7 +65,7 @@ E(DOC, H132,
     to `breached` in one change; (T114-4)""",
   """(T114-3) a safe one decays through `worn` to `breached`, no run going from `standing`
     to `breached` in one change, and on a neglected, poor CITY ring over 20 epochs with a masonry aqueduct through its
-    wall arch and a viaduct on a raised gate the stretch under each crossing station is never `breached` or `dismantled`
+    wall arch and a viaduct on a raised gate, the stretch under each crossing station is never `breached` or `dismantled`
     while its deck stands (§2.7's support step (3)), every other stretch decaying as the first clause states; (T114-4)""",
   'END VM-R2T-03')
 
@@ -259,8 +259,8 @@ E(DOC, H14,
   'HANDOFF VRC2T-12')
 E(DOC, H14,
   "`displayNames` — dossier key → text — are applied inside ONE export request and never stored,",
-  "`displayNames` — dossier key → text — are applied inside ONE export request (§11.2's `ExportOpts.displayNames`) and\n"
-  "   never stored,",
+  "`displayNames` — dossier key → text — are applied inside ONE export request (§11.2's `ExportOpts.displayNames`) and "
+  "never stored,",
   'HANDOFF VRC2T-12')
 E(DOC, H14,
   "  /* runs in the generation worker (§11.1):",
