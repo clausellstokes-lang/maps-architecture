@@ -13,6 +13,8 @@ NEW OWNER RULES 114–116 (2026-09-30, after the canon): docs/AMENDMENTS-2026-09
 
 CONTINUATION (orchestrator, 2026-09-30): this lane started at ~21:14 UTC and was cut at ~21:21 by a CONTAINER RESTART having written its report skeleton (docs/validation/coherence/rewrite-V12.md) and whatever it had gathered in docs/validation/coherence/work/rewrite-V12/; continue from there, keeping the ledger current.
 
+CONTINUATION (orchestrator, 2026-10-01 02:10 UTC): this lane started at ~01:00 UTC and was cut at ~01:21 by an API usage limit before it landed; it had read its inputs and made working copies and a patch applier under docs/validation/coherence/work/repair-rendering-r1/ (with docs/validation/bench/coh_repair_rendering_r1_palette.py/.out computed), and was writing §8.2's item-114 parts; no repair file yet. Under the CONTINUE rule, re-read what you need (your scratch may survive under the scratch folder; check), keep what is sound, finish the rest, then the result file and LANDED.
+
 ORCHESTRATION NOTES (added 2026-09-30 by the orchestrating session; they change no design rule above):
 - This seat belongs to the coherence pass continued in a CLOUD checkout at /home/user/maps-architecture (the paused run wf_4465b207-520 relaunched seat by seat by the orchestrating session, since the Workflow harness is not available here). Every seat runs on Opus (owner, 2026-09-30: "opus 5.5 running everything"); the stand-in notice above applies.
 - Other seats run AT THE SAME TIME in this same folder. Write only your own outputs; append to docs/lane-events.log only with >> (one line at a time); never rewrite or truncate a shared file.

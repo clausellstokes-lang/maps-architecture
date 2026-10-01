@@ -1,0 +1,17 @@
+# VAL-18 (major, DISAGREE): §9.1 names the sky island's root QuarterNode and its producer (V05 §3.14).
+@@ FILE 9.1.md
+<<<<
+    cityCut: boolean /* one of §4.5's city cut: the city band's area labels */ }   // built by S6 (§4.5), named by S13a; every node has its own LabelEntity (kind 'quarter')
+====
+    cityCut: boolean /* one of §4.5's city cut: the city band's area labels */ }   // built by S6 (§4.5) — a sky island's root node by S13a over the island's districts after its unit run (V05 §3.14) —; named by S13a; every node has its own LabelEntity (kind 'quarter')
+>>>>
+<<<<
+  second rule. An undercity neighbourhood (II.7.5; item 65) is a leaf of the tree under its parent district's node,
+  named as the underside of that quarter, its labels candidates only while the underground layer is visible (§9.2); the
+  sewer's pseudo-district stays a leaf in a family of its own (II.7.3). A **region group** (a `group` event, §7.1; J-A101.84) names
+====
+  second rule. An undercity neighbourhood (II.7.5; item 65) is a leaf of the tree under its parent district's node,
+  named as the underside of that quarter, its labels candidates only while the underground layer is visible (§9.2); the
+  sewer's pseudo-district stays a leaf in a family of its own (II.7.3); each sky island is a root of its own, its members
+  the island's districts, `cityCut` true, named with the island's name (V05 §3.14). A **region group** (a `group` event, §7.1; J-A101.84) names
+>>>>

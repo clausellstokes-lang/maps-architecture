@@ -1,0 +1,243 @@
+# new role values (sRGB), per family; patch looks with the share they were lerped toward paper by the lightness rule
+[ink]
+  ice              #DCE6EA  L*  90.7  C*   4.0
+  leaf.gold        #DEC489  L*  80.1  C*  33.0
+  leaf.amber       #D5A878  L*  71.9  C*  32.7
+  leaf.orange      #CE946F  L*  66.1  C*  33.1
+  leaf.scarlet     #BB7366  L*  55.9  C*  33.0
+  leaf.crimson     #B5696B  L*  52.9  C*  32.9
+  leaf.russet      #B6775D  L*  56.0  C*  32.7
+  leaf.bronze      #BD8C61  L*  62.0  C*  33.0
+  leaf.brown       #A3785B  L*  54.0  C*  26.0
+  festival.a       #9E5652  L*  45.0  C*  33.1
+  festival.b       #A38852  L*  58.0  C*  32.8
+  festival.c       #15719F  L*  44.9  C*  33.0
+  festival.d       #3C8463  L*  49.9  C*  32.8
+  festival.sacred  #60578D  L*  40.0  C*  33.2
+  patch.timber     #B39B78  L*  65.3  C*  21.9  lift 0.00
+  patch.wattle     #C2AA85  L*  70.8  C*  22.5  lift 0.00
+  patch.earth      #C7B18E  L*  73.2  C*  21.0  lift 0.00
+  patch.drystone   #60584D  L*  37.8  C*   7.6  lift 0.10
+  patch.stakes     #A79070  L*  61.1  C*  20.6  lift 0.00
+  patch.brush      #B9B58C  L*  73.1  C*  22.1  lift 0.00
+[lit]
+  ice              #C9E1EC  L*  88.1  C*   9.9
+  leaf.gold        #D2AC3F  L*  71.9  C*  58.8
+  leaf.amber       #D18D32  L*  64.0  C*  59.1
+  leaf.orange      #D07432  L*  58.2  C*  59.2
+  leaf.scarlet     #C24B3B  L*  48.0  C*  57.9
+  leaf.crimson     #B5444E  L*  45.0  C*  50.1
+  leaf.russet      #AA5E3E  L*  48.1  C*  42.3
+  leaf.bronze      #A97649  L*  53.9  C*  35.8
+  leaf.brown       #8D6448  L*  46.0  C*  25.9
+  festival.a       #B94142  L*  44.9  C*  54.9
+  festival.b       #AD8617  L*  58.0  C*  58.9
+  festival.c       #0872A1  L*  45.2  C*  33.9
+  festival.d       #26865E  L*  49.8  C*  40.0
+  festival.sacred  #605790  L*  40.1  C*  34.9
+  patch.timber     #BCA489  L*  68.8  C*  17.9  lift 0.30
+  patch.wattle     #BDA385  L*  68.5  C*  19.8  lift 0.20
+  patch.earth      #B8A589  L*  68.7  C*  17.2  lift 0.25
+  patch.drystone   #B0A693  L*  68.5  C*  11.1  lift 0.25
+  patch.stakes     #B7A188  L*  67.5  C*  16.5  lift 0.30
+  patch.brush      #ACA87C  L*  68.2  C*  24.0  lift 0.10
+[hatched]
+  ice              #D3E5EC  L*  89.8  C*   7.1
+  leaf.gold        #DDB749  L*  75.9  C*  59.1
+  leaf.amber       #DD973D  L*  67.9  C*  58.8
+  leaf.orange      #DC7E3C  L*  62.1  C*  59.2
+  leaf.scarlet     #CE5544  L*  51.9  C*  58.0
+  leaf.crimson     #C14F57  L*  49.0  C*  50.1
+  leaf.russet      #B56848  L*  52.1  C*  41.8
+  leaf.bronze      #B48152  L*  58.1  C*  36.0
+  leaf.brown       #986E51  L*  50.0  C*  26.1
+  festival.a       #B94142  L*  44.9  C*  54.9
+  festival.b       #AD8617  L*  58.0  C*  58.9
+  festival.c       #0872A1  L*  45.2  C*  33.9
+  festival.d       #26865E  L*  49.8  C*  40.0
+  festival.sacred  #605790  L*  40.1  C*  34.9
+  patch.timber     #A6835A  L*  57.2  C*  28.4  lift 0.05
+  patch.wattle     #BBA080  L*  67.5  C*  21.0  lift 0.00
+  patch.earth      #9B8668  L*  57.1  C*  19.4  lift 0.10
+  patch.drystone   #998871  L*  57.6  C*  14.9  lift 0.15
+  patch.stakes     #A28562  L*  57.4  C*  23.8  lift 0.10
+  patch.brush      #BFC59E  L*  78.2  C*  20.8  lift 0.00
+
+# contrast-matrix pairs §8.2 adds (every shipped family)
+  ink      ice             / water            dE2000  13.7 (>= 10)  dL*  15.9 (>= 8)
+  ink      ice             / road             dE2000  13.7 (>= 6)
+  ink      ice             / ground           dE2000  19.8 (>= 6)
+  ink      leaf.gold       / water            dE2000  32.2 (>= 10)
+  ink      ink             / leaf.gold        dE2000  65.9 (>= 25)  dL*  65.8 (>= 30)
+  ink      leaf.amber      / water            dE2000  32.0 (>= 10)
+  ink      ink             / leaf.amber       dE2000  54.5 (>= 25)  dL*  57.7 (>= 30)
+  ink      leaf.orange     / water            dE2000  34.3 (>= 10)
+  ink      ink             / leaf.orange      dE2000  47.6 (>= 25)  dL*  51.9 (>= 30)
+  ink      leaf.scarlet    / water            dE2000  39.3 (>= 10)
+  ink      ink             / leaf.scarlet     dE2000  38.0 (>= 25)  dL*  41.6 (>= 30)
+  ink      leaf.crimson    / water            dE2000  40.9 (>= 10)
+  ink      ink             / leaf.crimson     dE2000  36.3 (>= 25)  dL*  38.7 (>= 30)
+  ink      leaf.russet     / water            dE2000  38.0 (>= 10)
+  ink      ink             / leaf.russet      dE2000  37.3 (>= 25)  dL*  41.8 (>= 30)
+  ink      leaf.bronze     / water            dE2000  33.6 (>= 10)
+  ink      ink             / leaf.bronze      dE2000  42.9 (>= 25)  dL*  47.8 (>= 30)
+  ink      leaf.brown      / water            dE2000  35.9 (>= 10)
+  ink      ink             / leaf.brown       dE2000  34.0 (>= 25)  dL*  39.8 (>= 30)
+  ink      patch.timber    / wall             dE2000  45.5 (>= 10)  dL*  51.0 (>= 15)
+  ink      patch.timber    / ground           dE2000  14.0 (>= 6)
+  ink      patch.wattle    / wall             dE2000  52.4 (>= 10)  dL*  56.6 (>= 15)
+  ink      patch.wattle    / ground           dE2000   9.6 (>= 6)
+  ink      patch.earth     / wall             dE2000  55.5 (>= 10)  dL*  59.0 (>= 15)
+  ink      patch.earth     / ground           dE2000   7.8 (>= 6)
+  ink      patch.drystone  / wall             dE2000  17.7 (>= 10)  dL*  23.6 (>= 15)
+  ink      patch.drystone  / ground           dE2000  41.3 (>= 6)
+  ink      patch.stakes    / wall             dE2000  40.6 (>= 10)  dL*  46.8 (>= 15)
+  ink      patch.stakes    / ground           dE2000  17.5 (>= 6)
+  ink      patch.brush     / wall             dE2000  56.2 (>= 10)  dL*  58.8 (>= 15)
+  ink      patch.brush     / ground           dE2000  11.1 (>= 6)
+  ink      festival.a      / road             dE2000  43.6 (>= 15)
+  ink      festival.a      / ground           dE2000  39.2 (>= 15)
+  ink      festival.b      / road             dE2000  27.4 (>= 15)
+  ink      festival.b      / ground           dE2000  20.4 (>= 15)
+  ink      festival.c      / road             dE2000  49.0 (>= 15)
+  ink      festival.c      / ground           dE2000  50.0 (>= 15)
+  ink      festival.d      / road             dE2000  39.8 (>= 15)
+  ink      festival.d      / ground           dE2000  37.1 (>= 15)
+  ink      festival.sacred / road             dE2000  53.0 (>= 15)
+  ink      festival.sacred / ground           dE2000  52.6 (>= 15)
+  lit      ice             / water            dE2000  23.4 (>= 10)  dL*  26.1 (>= 8)
+  lit      ice             / road             dE2000  17.2 (>= 6)
+  lit      ice             / ground           dE2000  26.1 (>= 6)
+  lit      leaf.gold       / water            dE2000  51.8 (>= 10)
+  lit      ink             / leaf.gold        dE2000  56.9 (>= 25)  dL*  57.8 (>= 30)
+  lit      leaf.amber      / water            dE2000  49.7 (>= 10)
+  lit      ink             / leaf.amber       dE2000  47.7 (>= 25)  dL*  49.9 (>= 30)
+  lit      leaf.orange     / water            dE2000  48.4 (>= 10)
+  lit      ink             / leaf.orange      dE2000  42.0 (>= 25)  dL*  44.1 (>= 30)
+  lit      leaf.scarlet    / water            dE2000  52.9 (>= 10)
+  lit      ink             / leaf.scarlet     dE2000  34.7 (>= 25)  dL*  33.9 (>= 30)
+  lit      leaf.crimson    / water            dE2000  54.0 (>= 10)
+  lit      ink             / leaf.crimson     dE2000  33.0 (>= 25)  dL*  30.9 (>= 30)
+  lit      leaf.russet     / water            dE2000  47.3 (>= 10)
+  lit      ink             / leaf.russet      dE2000  31.8 (>= 25)  dL*  34.0 (>= 30)
+  lit      leaf.bronze     / water            dE2000  42.4 (>= 10)
+  lit      ink             / leaf.bronze      dE2000  35.1 (>= 25)  dL*  39.8 (>= 30)
+  lit      leaf.brown      / water            dE2000  41.6 (>= 10)
+  lit      ink             / leaf.brown       dE2000  26.9 (>= 25)  dL*  31.9 (>= 30)
+  lit      patch.timber    / wall             dE2000  14.9 (>= 10)  dL*  16.9 (>= 15)
+  lit      patch.timber    / ground           dE2000   6.6 (>= 6)
+  lit      patch.wattle    / wall             dE2000  14.9 (>= 10)  dL*  16.6 (>= 15)
+  lit      patch.wattle    / ground           dE2000   6.3 (>= 6)
+  lit      patch.earth     / wall             dE2000  14.9 (>= 10)  dL*  16.8 (>= 15)
+  lit      patch.earth     / ground           dE2000   6.8 (>= 6)
+  lit      patch.drystone  / wall             dE2000  15.1 (>= 10)  dL*  16.5 (>= 15)
+  lit      patch.drystone  / ground           dE2000  10.0 (>= 6)
+  lit      patch.stakes    / wall             dE2000  13.8 (>= 10)  dL*  15.6 (>= 15)
+  lit      patch.stakes    / ground           dE2000   7.8 (>= 6)
+  lit      patch.brush     / wall             dE2000  18.1 (>= 10)  dL*  16.3 (>= 15)
+  lit      patch.brush     / ground           dE2000  11.4 (>= 6)
+  lit      festival.a      / road             dE2000  39.9 (>= 15)
+  lit      festival.a      / ground           dE2000  37.3 (>= 15)
+  lit      festival.b      / road             dE2000  28.1 (>= 15)
+  lit      festival.b      / ground           dE2000  18.9 (>= 15)
+  lit      festival.c      / road             dE2000  42.2 (>= 15)
+  lit      festival.c      / ground           dE2000  46.9 (>= 15)
+  lit      festival.d      / road             dE2000  37.9 (>= 15)
+  lit      festival.d      / ground           dE2000  35.7 (>= 15)
+  lit      festival.sacred / road             dE2000  46.2 (>= 15)
+  lit      festival.sacred / ground           dE2000  49.0 (>= 15)
+  hatched  ice             / water            dE2000  17.7 (>= 10)  dL*  19.8 (>= 8)
+  hatched  ice             / road             dE2000  26.3 (>= 6)
+  hatched  ice             / ground           dE2000  16.3 (>= 6)
+  hatched  leaf.gold       / water            dE2000  44.5 (>= 10)
+  hatched  ink             / leaf.gold        dE2000  62.0 (>= 25)  dL*  61.8 (>= 30)
+  hatched  leaf.amber      / water            dE2000  43.7 (>= 10)
+  hatched  ink             / leaf.amber       dE2000  51.9 (>= 25)  dL*  53.8 (>= 30)
+  hatched  leaf.orange     / water            dE2000  45.5 (>= 10)
+  hatched  ink             / leaf.orange      dE2000  45.8 (>= 25)  dL*  48.0 (>= 30)
+  hatched  leaf.scarlet    / water            dE2000  51.1 (>= 10)
+  hatched  ink             / leaf.scarlet     dE2000  37.7 (>= 25)  dL*  37.8 (>= 30)
+  hatched  leaf.crimson    / water            dE2000  51.8 (>= 10)
+  hatched  ink             / leaf.crimson     dE2000  35.8 (>= 25)  dL*  34.9 (>= 30)
+  hatched  leaf.russet     / water            dE2000  45.4 (>= 10)
+  hatched  ink             / leaf.russet      dE2000  35.0 (>= 25)  dL*  38.0 (>= 30)
+  hatched  leaf.bronze     / water            dE2000  39.1 (>= 10)
+  hatched  ink             / leaf.bronze      dE2000  39.2 (>= 25)  dL*  44.0 (>= 30)
+  hatched  leaf.brown      / water            dE2000  38.7 (>= 10)
+  hatched  ink             / leaf.brown       dE2000  30.5 (>= 25)  dL*  35.9 (>= 30)
+  hatched  patch.timber    / wall             dE2000  17.5 (>= 10)  dL*  17.2 (>= 15)
+  hatched  patch.timber    / ground           dE2000  28.0 (>= 6)
+  hatched  patch.wattle    / wall             dE2000  26.7 (>= 10)  dL*  27.6 (>= 15)
+  hatched  patch.wattle    / ground           dE2000  18.8 (>= 6)
+  hatched  patch.earth     / wall             dE2000  17.5 (>= 10)  dL*  17.2 (>= 15)
+  hatched  patch.earth     / ground           dE2000  26.7 (>= 6)
+  hatched  patch.drystone  / wall             dE2000  18.4 (>= 10)  dL*  17.7 (>= 15)
+  hatched  patch.drystone  / ground           dE2000  26.0 (>= 6)
+  hatched  patch.stakes    / wall             dE2000  17.5 (>= 10)  dL*  17.5 (>= 15)
+  hatched  patch.stakes    / ground           dE2000  27.1 (>= 6)
+  hatched  patch.brush     / wall             dE2000  37.9 (>= 10)  dL*  38.2 (>= 15)
+  hatched  patch.brush     / ground           dE2000  14.2 (>= 6)
+  hatched  festival.a      / road             dE2000  33.0 (>= 15)
+  hatched  festival.a      / ground           dE2000  46.0 (>= 15)
+  hatched  festival.b      / road             dE2000  16.7 (>= 15)
+  hatched  festival.b      / ground           dE2000  31.0 (>= 15)
+  hatched  festival.c      / road             dE2000  43.6 (>= 15)
+  hatched  festival.c      / ground           dE2000  49.0 (>= 15)
+  hatched  festival.d      / road             dE2000  34.0 (>= 15)
+  hatched  festival.d      / ground           dE2000  40.6 (>= 15)
+  hatched  festival.sacred / road             dE2000  44.9 (>= 15)
+  hatched  festival.sacred / ground           dE2000  53.2 (>= 15)
+
+# the leaf colours keep the family chroma cap (ink: < 34; lit, hatched: < 60)
+  ink      max leaf C*  33.1
+  lit      max leaf C*  59.2
+  hatched  max leaf C*  59.2
+
+# information (no bar): the leaf and festival colours under simulated deficiency. Neither set encodes a category a legend
+#   distinguishes — a leaf colour is a look, a decoration is told by its glyph (item 118 (f)) — so T112-1 does not read them;
+#   the least pair is listed against cvdContrastMin = 10 for the record
+  ink      leaf     protan: least pair dE2000   1.0 (leaf.russet / leaf.brown)  (below; no legend pair)
+  ink      leaf     deutan: least pair dE2000   2.2 (leaf.scarlet / leaf.russet)  (below; no legend pair)
+  ink      leaf     tritan: least pair dE2000   1.5 (leaf.scarlet / leaf.russet)  (below; no legend pair)
+  ink      festival protan: least pair dE2000   6.8 (festival.c / festival.sacred)  (below; no legend pair)
+  ink      festival deutan: least pair dE2000   3.8 (festival.c / festival.sacred)  (below; no legend pair)
+  ink      festival tritan: least pair dE2000   6.0 (festival.c / festival.d)  (below; no legend pair)
+  lit      leaf     protan: least pair dE2000   2.6 (leaf.scarlet / leaf.russet)  (below; no legend pair)
+  lit      leaf     deutan: least pair dE2000   1.1 (leaf.crimson / leaf.brown)  (below; no legend pair)
+  lit      leaf     tritan: least pair dE2000   3.5 (leaf.scarlet / leaf.crimson)  (below; no legend pair)
+  lit      festival protan: least pair dE2000   7.0 (festival.c / festival.sacred)  (below; no legend pair)
+  lit      festival deutan: least pair dE2000   3.6 (festival.c / festival.sacred)  (below; no legend pair)
+  lit      festival tritan: least pair dE2000   6.6 (festival.c / festival.d)  (below; no legend pair)
+  hatched  leaf     protan: least pair dE2000   2.7 (leaf.scarlet / leaf.russet)  (below; no legend pair)
+  hatched  leaf     deutan: least pair dE2000   1.1 (leaf.crimson / leaf.brown)  (below; no legend pair)
+  hatched  leaf     tritan: least pair dE2000   3.4 (leaf.scarlet / leaf.crimson)  (below; no legend pair)
+  hatched  festival protan: least pair dE2000   7.0 (festival.c / festival.sacred)  (below; no legend pair)
+  hatched  festival deutan: least pair dE2000   3.6 (festival.c / festival.sacred)  (below; no legend pair)
+  hatched  festival tritan: least pair dE2000   6.6 (festival.c / festival.d)  (below; no legend pair)
+
+# item 114 (e): the tones the wall states draw in, as L* greys, against cvdContrastMin = 10
+#   (the states are told apart by their line styles first — the gap with its rubble spill, the patch looks, the worn
+#   notches, the dismantled trace — item 112; these are the tone steps beside them; T114-6 measures the renders)
+  ink      standing #2D2219 / worn #A59275 grey dE2000  40.4
+  ink      standing / patch.timber    grey dE2000  44.7
+  ink      standing / patch.wattle    grey dE2000  51.6
+  ink      standing / patch.earth     grey dE2000  54.8
+  ink      standing / patch.drystone  grey dE2000  17.4
+  ink      standing / patch.stakes    grey dE2000  39.9
+  ink      standing / patch.brush     grey dE2000  54.6
+  lit      standing #8B7964 / worn #B1997A grey dE2000  11.4
+  lit      standing / patch.timber    grey dE2000  14.8
+  lit      standing / patch.wattle    grey dE2000  14.6
+  lit      standing / patch.earth     grey dE2000  14.7
+  lit      standing / patch.drystone  grey dE2000  14.5
+  lit      standing / patch.stakes    grey dE2000  13.8
+  lit      standing / patch.brush     grey dE2000  14.3
+  hatched  standing #74593D / worn #BEAE99 grey dE2000  29.9
+  hatched  standing / patch.timber    grey dE2000  17.1
+  hatched  standing / patch.wattle    grey dE2000  26.6
+  hatched  standing / patch.earth     grey dE2000  17.1
+  hatched  standing / patch.drystone  grey dE2000  17.6
+  hatched  standing / patch.stakes    grey dE2000  17.4
+  hatched  standing / patch.brush     grey dE2000  34.1
+
+failures: 0

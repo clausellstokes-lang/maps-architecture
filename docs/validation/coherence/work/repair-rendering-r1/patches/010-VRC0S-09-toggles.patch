@@ -1,0 +1,11 @@
+# VRC0S-09 (blocker, NUANCE-LOST): §8.4's toggle rule regains its rung split (archive text, II.7.1, II.6).
+@@ FILE 8.4.md
+<<<<
+* **Toggles are visibility; existence is model** (the rule's home is II.7.1 and II.6; J-A12.81): the sewer control and
+  the island toggle set `LayerSpec.visible`, so hiding a layer changes no digest. The per-viewer view key
+====
+* **Toggles are visibility; existence is model** (the rule's home is II.7.1 and II.6; J-A12.81): the sewer control at
+  CITY and METROPOLIS and the island view toggle set `LayerSpec.visible`, so hiding a layer changes no digest and a
+  toggle never creates what the settlement lacks (at TOWN the *Sewers* control is a model setting, II.7.1; whether
+  islands exist is the model setting `recipe.layers.islands`, II.6). The per-viewer view key
+>>>>

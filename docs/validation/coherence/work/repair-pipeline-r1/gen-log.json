@@ -1,0 +1,51 @@
+{
+ "doc_sha256": "484af066f0115b1d19ba3a44af4388c9e069e90eb7630ad6ee218476c9b59173",
+ "blocks": [
+  {
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "ids": [
+    "VAL-12",
+    "VK0-14",
+    "VPC-04",
+    "VPC-16"
+   ]
+  },
+  {
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "ids": [
+    "VPC-02",
+    "VEW-04",
+    "VV12-05",
+    "VPC-16",
+    "VEW-09",
+    "VPC-19",
+    "VEW-03",
+    "VEW-02",
+    "VPC-31"
+   ]
+  },
+  {
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "ids": [
+    "VK0-12",
+    "VEW-10",
+    "VK0-18",
+    "VK0-04",
+    "VEW-08",
+    "VDC0-23"
+   ]
+  },
+  {
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "ids": [
+    "VEW-02",
+    "VPC-26",
+    "VEW-03",
+    "VPC-31",
+    "VEW-04",
+    "VEW-10"
+   ]
+  }
+ ],
+ "edits": 32
+}

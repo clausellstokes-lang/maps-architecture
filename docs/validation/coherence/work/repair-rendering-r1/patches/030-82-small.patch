@@ -1,0 +1,35 @@
+# §8.2 single-clause fixes: VAL-19 (chamber row), VRC0S-18 (oasis), VRC0S-24 (unexcavated / lost), VRC0S-28 (stretchClass).
+@@ FILE 8.2.md
+# VAL-19: the chamber row gains archVault and market (V04 §5.2's Chamber fill by kind).
+<<<<
+`workings` the quarry pillars, `cistern` in `water`, `streetVault` and `bridgeVault` the `vault` hatch, `storey` and `square` as buried-town floors, `cellar` and `storage` as `dug`, the ruin's kinds by `ruinMasonry`;
+====
+`workings` the quarry pillars, `cistern` in `water`, `streetVault` and `bridgeVault` the `vault` hatch, `archVault` the `vault` hatch (its floor at grade, its door a daylight opening; V04 §5.2), `market` as the undercity's plaza (the ring walkway and stalls; V04 §5.2), `storey` and `square` as buried-town floors, `cellar` and `storage` as `dug`, the ruin's kinds by `ruinMasonry`;
+>>>>
+# VRC0S-18: the oasis sentence agrees with §2.3/§2.7's records (grove kind `grove`; gardens LandUse `garden`; channels from fedBy).
+<<<<
+**Oases (g item 111):** a spring-fed water body draws as water with a `symbol('spring')` at its spring point;
+its grove is a `Greenery` wood drawn by the `instances` program with the climate row's species; its irrigated gardens
+are `garden` and `field` land-use faces with their channels as `water` hairlines — existing roles and programs, one new
+point symbol (§8.3's catalogue).
+====
+**Oases (g item 111):** a spring-fed water body draws as water with a `symbol('spring')` at its spring point;
+its grove is the `Greenery` of kind `grove`, drawn by the `instances` program with the climate row's species; its gardens
+are `LandUse` faces of kind `garden`; a `water` hairline channel is drawn from the water body to each garden its `fedBy`
+names, derived at render, never stored — existing roles and programs, one new point symbol (§8.3's catalogue).
+>>>>
+# VRC0S-24: the `unexcavated` program's gate covers V04's lost look.
+<<<<
+`unexcavated` (g item 109 (j) (2): dashed kerbs at 40 % alpha, no fill, no light; drawn only for a `secret` key
+while the view key `showUnexcavated` is on; M6-U) and `chamber` (a chamber's floor, the undercity's in
+====
+`unexcavated` (g item 109 (j) (2): dashed kerbs at 40 % alpha, no fill, no light; drawn for an `unexcavated` cluster
+only for a `secret` key while the view key `showUnexcavated` is on, and for a `lost` cluster for every key that admits
+its elements, whatever `showUnexcavated` (V04 §5.2; g item 113 (e)); M6-U) and `chamber` (a chamber's floor, the undercity's in
+>>>>
+# VRC0S-28: `wall.curtain` draws each run's graded thickness.
+<<<<
+| `wall.curtain` | city, district | model | k = 3 on the band thickness (2.5 m → 7.5 m), minPx 2, maxPx 12 | ≈ 6.1 px (MFCG 6.2) |
+====
+| `wall.curtain` | city, district | model | k = 3 on each run's thickness — `thicknessCm` × the thickness factor of the run's `stretchClass` row (V11's `walls.barriers`; 1 for `full`), read by `sampleProfile` by arc length (§3.4) — (2.5 m → 7.5 m on a `full` run), minPx 2, maxPx 12 | ≈ 6.1 px (MFCG 6.2) |
+>>>>
