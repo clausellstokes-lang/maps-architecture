@@ -177,9 +177,9 @@ EDITS = [
      "participants at item 202's call points with V06 §2.1's `ProductEpochContext`; *fallback*: V07 §8's risk (10).\n",
      "participants at item 202's call points with V06 §2.1's `ProductEpochContext`; *fallback*: V07 §8's risk (10). (15) V01 —\n"
      "`disasterSource` reads V07 §5.6 (3)'s units, in V01 §2.3's `DisasterUnit` shape, at THORP, HAMLET and VILLAGE, and\n"
-     "`campLand` the village's records as V07 §5.6 (2) states; V06 — `frontierFor` at a village rung answers the through road's entry (V06 §3.22\n"
-     "(2)), here V07 §5.6 (2)'s main approach road, and `crisisLookYields` yields a building to its rebuild (V06 §3.22 (3));\n"
-     "§10.2's *Crisis looks* — its places read at the village rungs as V07 §5.6 (2) states.\n", 1),
+     "`campLand` the village's records as V07 §5.6 (2) states; V06 — `frontierFor` at a village rung answers the through\n"
+     "road's entry (V06 §3.22 (2)), here V07 §5.6 (2)'s main approach road, and `crisisLookYields` yields a building to its\n"
+     "rebuild (V06 §3.22 (3)); §10.2's *Crisis looks* — its places read at the village rungs as V07 §5.6 (2) states.\n", 1),
 
     # V07 §1b: W74's view-state input, W79's widened bounds, W84 (G122-V07).
     ('G122-V07',

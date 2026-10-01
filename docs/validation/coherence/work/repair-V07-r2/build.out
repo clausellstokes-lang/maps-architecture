@@ -1,0 +1,22 @@
+86 edits applied; 20 REPLACE, 1 APPEND; src 02f8dbb439bce4ae new cb663d471ad61b32 words 96143 -> 99782
+  REPLACE ## 1 Scope, the base hooks consumed and what is out of scope
+  REPLACE ## 1b Wiring table
+  REPLACE ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)
+  REPLACE ### 2.6 Lifecycle of every new state field
+  REPLACE ### 3.4 VS3 — the palisade, before the roads
+  REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)
+  REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how
+  REPLACE ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions
+  REPLACE ### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's sys
+  REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))
+  REPLACE ### 4.5 The clerk's view
+  REPLACE ### 5.1 The look — the `painterly` family built, `ink` one click away
+  REPLACE ### 5.2 Bands, the first view and level of detail
+  REPLACE ### 5.4 Exports
+  REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)
+  REPLACE ## 6 Performance budgets
+  REPLACE ## 7 Tests and acceptance bars
+  REPLACE ## 8 Build plan
+  REPLACE ## 9 Decisions
+  REPLACE ## 12 CONFIRMED versus PLAUSIBLE
+  APPEND  ## 5 Rendering, labels and exports <- ### 5.6 Crisis looks at the village rungs (item 122, the village's par
