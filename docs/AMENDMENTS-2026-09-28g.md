@@ -1033,3 +1033,75 @@ vetoable interpretation.
      the judgment index. Volumes: V06 (advance time and the history replay within the ceiling), V07 (§6's village budgets), V09 (the
      progress view), V01–V05 (their budget sections read the ceiling for their one-time waits and keep their interactive ones), V12
      (bars and how they are measured). Applied by the coherence pass like items 111–118 (J130).
+
+120. **OWNER RULE — Find: a filter view that picks out institutions, places and areas with a halo-like glow, across every zoom
+     and layer, until closed (owner, 2026-10-01).** Owner: "a filter view for specific institutions in a map. What it looks like is
+     that if a user just wants to find where all of the blacksmiths are and not have to search for themselves, the map should already
+     reference what's in the dossier and have a list of the institutions or districts or neighborhoods or whatever, they can type it
+     in or quick [dictation: pick] what they're looking for, and it would have an auto fill feature. When they click it and it's also a grid like you
+     can select multiple things and deselect them, the map would turn slightly opaque and the plots of land, whether you're in the city
+     view or the neighborhood view turned into producer. He look like [dictation, the owner's correction below: produce a halo-like glow]
+     effect on the plots that are being asked to find. This process even if
+     you're going through different layers. Until you decide to close the filter or deselect everything." / asked what the effect
+     was: "I meant to produce a halo like glow effect" / asked to confirm the shape below (the list from what the town holds, the
+     type-ahead, the chip grid, the veil and the halo, pins at the city zoom, persistence across zooms and layers, the knowledge
+     filter, Coverage folded in, the clerk and exports): "And yes". **What the design has (CONFIRMED):** `query({ kind: 'gazetteer',
+     text, kinds })` with knowledge admission on every answer (§11.2); the class rows' display labels and synonyms (V11 §2.3), already
+     matched by the roster reader (V09 §4.16); the Show menu's thematic views as live-layer providers, among them **Coverage** (a
+     selected class's districts with and without a member, V09 §5.4); the People panel's "Where is" (V09 §4.18); View as (V09 §4.8);
+     item 112's second-cue rule; item 116's zoom ceiling.
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its defaults vetoable under J122):
+     **(a) A VIEW, NEVER A CHANGE.** Find never changes the model, the document, its hash or the edit log; it is per-viewer view
+     state (view key `find`: the chips and the gaps switch), kept while the viewer zooms, pans, changes layer, changes the season,
+     advances time or edits, saved in view pins like the other view keys, and ended only by **Clear** (deselect everything) or
+     closing the panel.
+     **(b) THE LIST — FROM WHAT THE TOWN HOLDS.** The Find panel lists what this document contains at the view's effective key, by
+     the gazetteer query: institution kinds present, each with its count ("Blacksmith · 4"); named institutions (the dossier's names
+     first, as SettlementForge gives them); districts, neighbourhoods and quarters; named places (squares, gates, temples, bridges,
+     harbours); people, through "Where is" (home and work). Nothing the town lacks is offered. With the box empty, the panel shows the
+     institution kinds as a browsable grid, grouped (crafts, trade, faith, rule, defence, learning, health, lodging, the rest; V11's
+     groups).
+     **(c) TYPE-AHEAD.** As the user types, suggestions match display labels, V11's synonyms ("forge", "smithy" → Blacksmith),
+     the dossier's names and the place names — prefix and whole-word matches, one-letter typos forgiven in words of five letters or
+     more — grouped by kind with their counts; arrow keys and Enter add the highlighted suggestion as a chip. A word matching several
+     kinds ("smith": black-, silver-, gold-, locksmith) offers each and an "all smiths" chip.
+     **(d) THE CHIP GRID.** Each selection is a chip in a grid; click to add, click again (or its ×) to deselect; any number at once,
+     shown as their union. Each chip has its own colour from the thematic palette and its own second cue (a glyph on its pins, a
+     dash pattern on its halo's outline, item 112); past eight chips the colours repeat and the glyph tells them apart.
+     **(e) THE LOOK — THE VEIL AND THE HALO.** While any chip is on, everything else lies under a veil (the style's paper colour at
+     α 0.55; our default) — the "slightly opaque" map; every match is drawn above the veil at full strength with a HALO-LIKE GLOW
+     (owner's words): a soft outer glow in its chip's colour fading to nothing over about 8 px of screen, inside a 2 px outline,
+     its label kept above the veil. An area chip (a district, neighbourhood or quarter) lifts the whole area from the veil and glows
+     along its boundary. At the city zoom, where a plot is under about 6 px, each match also carries a pin with its chip's glyph,
+     and pins closer than about 24 px merge into a count bubble ("12") that zooms in when clicked — so a match is never a lost speck
+     (with item 116's ceiling).
+     **(f) ACROSS ZOOMS AND LAYERS.** The filter holds from the city band to the interior band and on Ground, Below and Sky: matches on
+     the layer shown glow; matches on another layer show as faint ghost pins where they lie, and the panel says "2 more Below" / "1 on
+     Sky" with **Go there**; at the interior band, the rooms an institution uses glow. Every commit, regenerate, undo, advance of time
+     and season change re-evaluates the chips at once — a new smithy glows as it appears, a closed one goes dark.
+     **(g) THE RESULTS.** Under the chips, the matches are listed (name, kind, district) with **Go to** (flies to the band that shows
+     it), **Next** and **Previous** (keyboard too), and each chip's count.
+     **(h) WHAT THE VIEWER MAY KNOW.** The list, the suggestions, the counts, the glow, the pins and the ghost pins all pass the same
+     knowledge admission as every query (§11.2, View as V09 §4.8): a thing the key withholds is never suggested, counted, drawn or
+     hinted at — in a player view, a concealed Thieves' Guild is not in the list.
+     **(i) ONE MECHANISM.** The Show menu's **Coverage** view becomes Find's **Show gaps** switch (for each chip's class, the districts
+     or catchments with none: outlined dashed and labelled "none here"), so the two never coexist; Find draws over whichever Show view
+     is on. The clerk's "show me the blacksmiths" sets the chips (a view action, never an edit) and it can say what Find shows. A
+     picture export draws Find as shown, with the chips in the legend (a player handout: "where the smiths are"); battle-map exports
+     leave it off unless asked.
+     **(j) SPEED.** Interaction, not total time (item 119 (d)): suggestions within about 50 ms of a key, a chip's glow drawn within
+     about 100 ms of the click; Find is an overlay provider and never re-renders the base tiles; its index is rebuilt once per commit.
+     The phone shows the panel as a bottom sheet under V09's phone policy.
+     **(k) BARS.** The document hashes identically with Find on and off; turning everything off restores byte-identical tiles; each
+     chip's matches equal the gazetteer query's rows at the key; the knowledge canary (T-V9-66's fixture) never surfaces in a
+     suggestion, count, glow or pin under a player view; the filter survives every band and layer change and every commit, advance and
+     undo; at the city band every match has a pin or a bubble; every chip has its second cue; the interaction budgets of (j) hold at
+     the metropolis cap.
+     **HOMES:** §2.9 (the view key `find`, outside the document and its hash), §8.2 (the veil, halo, outline, pin and bubble rows;
+     second cues), §9.5 (the Find tool among the furniture and tools), §11.2 (the gazetteer's class counts and match listing by class,
+     area and layer, under knowledge admission), §11.1 (picture exports draw it), §12.5 (the overlay's budget), §13.2 (bars), the
+     judgment index. Volumes: V09 (the Find panel, type-ahead, chip grid, results, the `live.find` overlay provider, Coverage folded
+     into Show gaps, the phone sheet), V11 (the labels, synonyms and groups as the search lexicon), V08 (the dossier's names as list
+     entries), V10 (the clerk's "show me" sets the chips), V01 (districts, neighbourhoods, quarters and catchments as area targets and
+     gaps), V03 (the rooms an institution uses, at the interior band), V04 and V05 (ghost pins and matches on Below and Sky), V07 (the
+     village and smaller rungs), V12 (bars). Applied by the coherence pass like items 111–119 (J133).

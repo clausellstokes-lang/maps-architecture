@@ -35,8 +35,9 @@ E(H41, """  No rung shows a preview; first-map times are §12.5's (J-R7); the mo
   §4.12), the use, the target and the measured extra time, the bar the gain is measured by with the gain, and the
   `CalibrationRun` that measured it (V12) — and the extra time is spent only inside the comfort level for one-time waits
   (item 119: ten seconds of total time; §12), never from an interaction budget (§12). With no row a stage runs its target
-  path (the no-op pin), so the shipped empty table changes no output. A stage's `StageReport` (§5.4) names each quality
-  path it took beside its §12.4 timing. The bars are §12.10's register rows and T-V11-44 (b).
+  path (the no-op pin), so the shipped empty table changes no output. A stage takes a quality path exactly when its row
+  is in the table version the document pins (§7.6), so the paths a run took are read from that version, never stored, and
+  the stage's §12.4 timing includes their extra time. The bars are §12.10's register rows and T-V11-44 (b).
 """, 'VPC-04')
 
 E(H41, "on the island's own arena, from V05's hand-over (V05 §3.1; V01 §3.10),",
@@ -118,7 +119,7 @@ E(H42, """S5a commits this trace unchanged for k = 1;
    filling its island under an `open` waterfront, its shore closed by deep water): the stage walls nothing — no `Enceinte`
    is recorded for it and it has no gate — and reads as an unwalled stage for every rule (§5.3's walled-stage rows do not
    apply to it); its routes (5), picked by the land law on the whole contour as an unwalled town's are, enter across the
-   barriers, and a requested wall is reported in `requestedVsBuilt` (`walled_by_barriers`). An `on_enceinte` castle whose
+   barriers, and a requested wall is reported in `requestedVsBuilt` (S3's warning `W_WALLED_BY_BARRIERS`, §5.4). An `on_enceinte` castle whose
    weld vertices would fall on a closed arc is re-sited along the walled arcs by F-CASTLE's re-site rung (§5.2), else kept
    `inside` (reported). The trace is laid `standing`; S7 writes each run's condition at generation (§4.8; item 114 (d)).""",
   'VEW-03', 'VPC-31')
@@ -229,7 +230,7 @@ E(H42, """When
    table: 400 cm; our own, calibratable); every
    other stretch, and the whole moat when no source lies within reach, is laid **dry** — no channel and no deck, its glacis
    part typed `ditch` residue by S10 (0) as the town side of an `on_enceinte` bailey is (§4.7, §4.8) — reported
-   (`moat_dry`). An outer enceinte's moat takes the same rule (§4.4 *Outer moats*).""", 'VEW-04')
+   (S3's warning `W_MOAT_DRY`, §5.4). An outer enceinte's moat takes the same rule (§4.4 *Outer moats*).""", 'VEW-04')
 
 E(H42, """multiplied by `1 − w_water · q(x)`, with `q(x)` ∈ [0, 1] the proximity to reliable water — 1 on a river bank, a lake
    or oasis shore, a spring or ground of the top well-yield class (S1 (10)), falling linearly to 0 at the climate row's
@@ -382,13 +383,13 @@ closure arc of kind `cliff` or `sheer` (§4.4) or a cliff inside a district (abo
 E(H47, """  `dossier` request, which places at its first closest option with the hard rows it fails reported (§7.7's precedence,
   J-A20.71);""",
 """  `dossier` request, which places at its first closest option with the hard rows it fails reported (§7.7's precedence,
-  J-A20.71) — a plot holding a dossier-backed use is never a closest option for another dossier element, a building
-  holding one use; **when the map has no seat for a dossier element** (every plot of the current map fails it after the
+  J-A20.71) — a plot holding a dossier-backed use is never a closest option for another dossier element; **when the map
+  has no seat for a dossier element** (every plot of the current map fails it after the
   displacement at depth 1 and a JOIN, as when a DM adds a few dozen custom institutions to a THORP or HAMLET dossier or a
   hamlet lists more institutions than plots), the element takes a new outside plot the hinterland unit's S10 cuts (§4.9)
   from the hinterland face nearest its affinity district along the busiest arterial leaving the settlement perimeter — the
   edge-belt placement of V06 §3.6 (2) (iii)'s overflow ladder — at its class's plot area, its building by S11's template,
-  reported `dossier_edge`: the hinterland always has ground, so this last rung never fails and no dossier element is ever
+  reported (S10b's warning `W_DOSSIER_EDGE`, §5.4): the hinterland always has ground, so this last rung never fails and no dossier element is ever
   left unplaced (§7.7 item 2); a later epoch's siting may move it inward by the least-disruption order;""", 'VEL0-09')
 
 E(H47, """keyed by band with its continuous columns interpolated along the plot's prosperity value and its discrete
@@ -639,12 +640,12 @@ E(H413, """| EP-14 | an epoch | a target equal to the population; a residual ≤
 E(H413, """| EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |""",
 """| EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |
 | EP-20 | S3 (6), S5a, S5d | less reachable land than a stage asks — fixtures: an island town on an island of half the stage-1 land, a fjord site, a METROPOLIS at the cap in a narrow valley | §4.2 S3 (6) (the capped `t`, the frame arc); §4.4 S5a (a stage with no land folded), S5d (no top-up without land) | simpler shape (the capped level set) → leave out and report (`requestedVsBuilt`, F-BUDGET-STAGE) |
-| EP-21 | S3 (4), (7), (9); S5a | a barrier closing the arcs a gate falls on, or every arc — fixtures: a river loop with N₁ = 5, a mesa town, an island town filling its island | §4.2 S3 (4) (the closed-arc reduction), (7), (9) (every arc closed); §4.4 S5a | retry that piece (the pick re-drawn, ≤ 3) → leave out and report (F-WALL; `walled_by_barriers`); F-CASTLE's re-site |
-| EP-22 | S3 (10); S5a's outer moats | a wet moat with no water within reach or on sloping ground — fixtures: a hill town with `moat: 'all'`, an arid town with no river with `moat: 'inner'` | §4.2 S3 (10) *Where a moat holds water*; §4.4 *Outer moats* | simpler shape (the dry `ditch`), reported (`moat_dry`) |
+| EP-21 | S3 (4), (7), (9); S5a | a barrier closing the arcs a gate falls on, or every arc — fixtures: a river loop with N₁ = 5, a mesa town, an island town filling its island | §4.2 S3 (4) (the closed-arc reduction), (7), (9) (every arc closed); §4.4 S5a | retry that piece (the pick re-drawn, ≤ 3) → leave out and report (F-WALL; `W_WALLED_BY_BARRIERS`); F-CASTLE's re-site |
+| EP-22 | S3 (10); S5a's outer moats | a wet moat with no water within reach or on sloping ground — fixtures: a hill town with `moat: 'all'`, an arid town with no river with `moat: 'inner'` | §4.2 S3 (10) *Where a moat holds water*; §4.4 *Outer moats* | simpler shape (the dry `ditch`), reported (`W_MOAT_DRY`) |
 | EP-23 | S3 (5), S4, S5b, S5c | the steepest ground — fixture: a mountainous site, arterials within their class grade or `unserved` | §4.3 *Lattice and costs* (the class grade limit); §5.2 F-ROUTE | simpler shape (the next class's grade) → leave out and report (`unserved`) |
 | EP-24 | S10, S11 levelling | a cliff across a district; two plots at a cliff's top and foot; a step above 2 × `stepMaxCm`; a levelled unit beside unlevelled ground | §4.7 *Levelling and retaining walls* | simpler shape (terraces, else skirts and stepped wings) → report |
 | EP-25 | S1 (6), S3 (2) | a harbour on a site with a river but no coast — fixtures: a river-only site with `harbour: 'on'`, and with `deep_harbour` | §4.2 S1 (6) (the river or lake harbour) | substitute (a river or lake harbour) → leave out and report (tier 6) |
-| EP-26 | S10b's `dossier` request | no seat on the current map for a dossier element — fixture: a THORP dossier with 40 custom institutions absorbed at once, every one placed, the report naming each edge plot | §4.7 S10b *Reconcile and infeasibility* (the last rung) | substitute (a new outside plot), reported `dossier_edge` |""",
+| EP-26 | S10b's `dossier` request | no seat on the current map for a dossier element — fixture: a THORP dossier with 40 custom institutions absorbed at once, every one placed, the report naming each edge plot | §4.7 S10b *Reconcile and infeasibility* (the last rung) | substitute (a new outside plot), reported `W_DOSSIER_EDGE` |""",
   'VEW-02', 'VEW-03', 'VEW-04', 'VEW-10', 'VEW-05', 'VEW-09', 'VEL0-09')
 
 E(H413, """**Where features meet (the combination suite, §13.2, B-EDGE).** Each cell is the outcome where the row's feature meets the
@@ -765,3 +766,151 @@ grammar (V11).""",
 """`hasManorBlock`, `hasGreenBlock`, `ringCentre`, `small`, `terraced` (V01 §3.7.4) — from M5; and a way made by `wallToWay`
 (§4.11; V06) carries the naming feature `formerWall`, S13a naming it from the `naming.formerWall` slice (V11 row 68) — the
 old wall's ring road; the rows are authored with the grammar (V11).""", 'VPC-33')
+
+# ───────────────────────────── PART II ─────────────────────────────
+E(HII1, """// NeighbourhoodRequest and NeighbourhoodResult, with DistrictContext and TypedBoundary, are V01 §2.4's: the request's mode is derived and carries no reason;
+// its seam, context, params and closeup are absent exactly when `laid` is empty (the unit runner builds them after its partition); the result carries `districts`,
+// a unit run's district ids, which SKY-F writes to SkyIsland.districts. Pin is §2.7's (the complete furniture vocabulary, in the entity registry from M1).""",
+"""interface NeighbourhoodRequest {   // file f item 539
+  district: Id; key: PlatKey; layer: 'ground'|'sky'|'underground';
+  boundary: TypedBoundary;
+  seam?: SeamContract; context?: DistrictContext /* present for 'refine' and 'replace'; absent exactly when `laid` is empty (mode 'unit'): the unit's districts do not exist
+    when the request is made, so the unit runner builds each district's DistrictContext and SeamContract after its partition, from the island's SkyUnitInput (sky;
+    V05 §2.3) or the document's HoodRecipe (a standalone neighbourhood document) (V01 §3.10) */;
+  laid: { blocks: Id[]; plots: Id[]; alleys: Id[] } /* the committed fabric under the district; empty for a unit run (V01 §3.10) */;
+  strategy?: FabricStrategyId /* absent for a sky unit run: S7c picks per island district (V05 §2.3) */;
+  params?: Record<string, number> /* District.fabricParams for the strategy; absent for a unit run (each district's S7c writes its own) */;
+  closeup?: CloseupParams /* 'refine' only; absent for a unit run */;
+  outlineTemplate?: OutlineTemplateId /* standalone unit runs only (§4.2 S1 (2)) */; lod: 'neighbourhood' /* every mode, a unit run's included */ }
+// The mode is derived, never passed (J-V1.3): 'unit' when `laid` is empty; 'refine' when `strategy` equals the district's committed fabric;
+// 'replace' otherwise — a model edit (V01 §3.9). A sky island's reason is SkyIsland.reason (§2.7), not a request field.
+interface NeighbourhoodResult { mode: 'refine'|'replace'|'unit'; blocks: Block[]; ways: Way[]; plots: Plot[]; buildings: Building[]; greens: Greenery[];
+  pins: Pin[] /* model pins (S11) */; hoodPins: HoodPin[] /* refine only: derived */; places: HoodPlace[]; labels: LabelEntity[] /* §9.1 */; seams: SeamReport; report: StageReport;
+  districts: Id[] /* mode 'unit': the districts the run made, in partition order — SKY-F writes a sky run's to SkyIsland.districts (V05 §3.12); [] for 'refine' and 'replace' */ }
+// DistrictContext is V01 §2.3's and TypedBoundary V01 §2.5's; Pin is §2.7's (the complete furniture vocabulary, in the entity registry from M1).""",
+  'VPC-14', 'VV12-01', 'VAF-R0S-08')
+
+E(HII2, """The radius law's default row lays the rings from the district's ring centre (its area centroid) outward:""",
+       """The radius law's default row lays the rings from the ring centre (V01 §3.4.4 (1)) outward:""", 'VAF-R0S-21')
+
+E(HII4, """a
+layout card is T8 `fabric`'s parameter and a block's content T9's (V01 §4);""",
+"""a
+layout card is T8 `fill`'s `fabric` parameter and a block's content T9 `shape`'s (V01 §4);""", 'VPC-19')
+
+E(HII5, """opening a district ≤ NG's
+recorded 10–96 ms at comparable counts, and per-district regeneration ≤ 30 ms (§12.6);""",
+"""opening a district within
+§12.5's neighbourhood-band law, and per-district regeneration within §12.6's scoped law × its fabric's factor (≤ 30 ms for a
+`bent-cut` district of 450 buildings, ≤ 45 ms for a `ring` district; V01 J-V1.34);""", 'VPC-34')
+
+E(HII6, """raises `h(S_town)` by the rule's `node.bonus` (0.25, clamped to
+   1) wherever it is above 0""",
+"""raises `h(S_town)` by the rule's `node.bonus` (V05 §2.4; clamped
+   to 1) wherever it is above 0""", 'VPC-21')
+
+E(HII6, """and the altitude `elevationCm = E_min + (E_max − E_min) · h(S_town)` — area from both supplies, altitude from the
+   city's alone:""",
+"""and the altitude `altitudeCm = E_min + (E_max − E_min) · h(S_town)` above the island's `groundRefCm`, floored by
+   V05 §3.9 (4) (`elevationCm` derived as `groundRefCm + altitudeCm`, §2.7) — area from both supplies, altitude from the
+   city's alone:""", 'VPC-20')
+
+E(HII6, """an island whose `A` shrinks by more than the
+   hysteresis (0.05 of its area) is resized,""",
+"""an island whose `A` shrinks by more than the
+   rule's `hysteresis` (V05 §2.4) of its area is resized,""", 'VPC-21')
+
+E(HII6, """and SkyAccessRow; its node.bonus is (3)'s.""", """and SkyAccessRow; (3) reads its `node.bonus`.""", 'VPC-21')
+
+E(HII71, """Without a network — a TOWN whose draw came out `off`, every village — the rule does nothing""",
+"""Without a network — a TOWN whose draw came out `off`, every village that holds no inherited network (V04 §3.1's
+maintenance mode) — the rule does nothing""", 'VAL-02')
+
+E(HII72, """Outfalls are §2.3's `outfalls` on the settlement's
+downstream side (`ContextVector.upstream ≥ 0.5` at the outfall's cell) — downstream of the harbour and of every water mill's
+intake (a policy row). A settlement with no outfall (no water body and no frame edge the flow leaves by) drains every run to
+its lowest frame cell, reported.""",
+"""Outfalls are §2.3's `outfalls` into
+water on the settlement's downstream side (`ContextVector.upstream ≥ 0.5` at the outfall's cell) — downstream of the harbour
+and of every water mill's intake (a policy row); a frame-edge `Outfall` serves the drainage queries only and is never a sewer
+outfall. A settlement with no admitted water outfall takes a moat outfall at its penalty, else one field outfall beyond the
+outermost enceinte's outer strip — the cess field of a dry town (V04 §3.2 N2; F-NET, §5.2) — reported; V04's T-V4-2
+no-water fixture names the case.""", 'VEW-07')
+
+E(HII73, """(d) at every rung, the **void-dwelling part** —
+`voidDwellingHouseholds` of the poorest band for the cavern and ruin voids whose forecast access chance reaches
+`accessForecastMin` (V04 §3.3 P7), placed by V04's F6 —""",
+"""(d) at every rung, the **void-dwelling part** —
+V04 §3.3 P7's derived `voidDwellingHouseholds` (its cells V04 §2.3's `voidDwellings`) of the poorest band, for the cavern
+and ruin voids whose forecast access chance reaches `accessForecastMin` (V04 §3.3 P7), placed by V04's F6 —""", 'VAL-06')
+
+E(HII74, """  undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, voidDwellingHouseholds and the class table's underground and undercity 'preferred' shares */;""",
+"""  undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, V04 §2.3's voidDwellings.share and the class table's underground and undercity 'preferred' shares */;""",
+  'VAL-06')
+
+E(HII74, """  voidDwellingHouseholds: number; accessForecastMin: number; forecastSafety: number /* 0.85 */ /* II.7.3 (d) and S7b (6)'s caps (V04 §3.3) */;""",
+"""  accessForecastMin: number; forecastSafety: number /* 0.85 */ /* II.7.3 (d) and S7b (6)'s caps (V04 §3.3; the void-dwelling part is P7's derived voidDwellingHouseholds) */;""",
+  'VAL-06')
+
+E(HII74, """// a tail Stage registered after the network stage by declared I/O: inputs under.tunnels, the ground plat (read), the fields, the underground Allocation; outputs under.blocks, under.plots, under.buildings, under.access;""",
+"""// a tail Stage registered after the network stage by declared I/O: inputs under.tunnels, the ground plat (read), the fields, the underground Allocation and the access pass's
+// outputs — its access points, links and ExcavationRecord (U-ACCESS, which runs before it; F6 reads the excavation reading, V04 §3.1 T3); outputs under.blocks, under.plots, under.buildings, under.access;""",
+  'VAL-01')
+
+E(HII74, """state, knowledge, source and cause; `ContextVector.arena`; `UndergroundRule`'s depth scale, vacancy share, crowding share,
+void-dwelling part, arrangement restriction and access row;""",
+"""state, knowledge, source and cause; `ContextVector.arena`; `UndergroundRule`'s depth scale, vacancy share, crowding share,
+arrangement restriction and access row, and S7b (6)'s void-dwelling part (V04 §3.3 P7);""", 'VAL-06')
+
+E(HII74, """With `Features.sewers` off the network stage commits nothing; with every system's chance 0 (the parity presets) and
+`maxNeighbourhoods` 0 nothing of the layer runs but the caverns and ruins the site holds, which are drawn only under the
+view key `showUnexcavated` (V04; J-VI.19);""",
+"""With `Features.sewers` off the network stage commits nothing; with every system's chance 0 and `maxNeighbourhoods` 0
+(the parity presets) nothing of the layer runs — no cavern and no ruin at any rung (item 109 (i)'s no-op pin; V04 T-V4-35);
+outside the parity presets an unexcavated cavern or ruin draws only under the view key `showUnexcavated` (V04 §5.2;
+J-VI.19);""", 'VAL-07')
+
+E(HII75, """ranked
+   above caverns and quarries by the rule's `sourceRank`, item 109 (e): a built city is readier to live in;""",
+"""ranked
+   above caverns and quarries by `RuinRule.sourceWeight` (V04 §2.3; V11 §3.23.6: a void's capacity × its kind's weight orders
+   the sources), item 109 (e): a built city is readier to live in;""", 'VAL-04')
+
+E(HII75, """hysteresis: number /* 0.1 of H */; sourceRank: Partial<Record<UndergroundSystem['kind'], number>> /* item 109 (e): ruin above cavern and quarry (V11) */;""",
+       """hysteresis: number /* 0.1 of H */;""", 'VAL-04')
+
+E(HII76, """its growth per epoch capped at `growthCapShare` of its floor area (V11);""",
+"""its growth per epoch at most `max(extent × ((1 + growthCapShare)^years − 1), growthFloorM2)`,
+  `growthCapShare` a share per year compounded over the epoch's span (the power by `dmath.pow`, §6.5 (3); V11 §3.23.8;
+  J-VI.6; V04 §3.5.1 (6));""", 'VV34-12')
+
+E(HII76, """DigRule, OpeningRow and CatacombRule are V04 §2.2's (their rows V11's)""",
+       """DigRule, OpeningRow and CatacombRule are V04 §2.3's (their rows V11's)""", 'VV34-10')
+
+E(HII76, """// its own part; then II.7.3's stage, the access pass, II.7.5's stage; then the connection stage last,""",
+"""// its own part; then the access pass (AccessPassStrategy, U-ACCESS), II.7.3's stage (U-FRONT, which reads the access pass's excavation reading for F6),
+// II.7.5's stage; then the connection stage last (V04 §3.1),""", 'VAL-01')
+
+# ───────────────────────────── PART III ─────────────────────────────
+E(HIII, """`layers.sewers.existence = 'never'` (II.7.1: no
+network stage registers, a request's `toggles.sewers` reported as not applicable, the `drain` column read by nothing)""",
+"""`layers.sewers.existence = 'never'` (II.7.1: no
+network is laid at a village rung, where the network stage registers only in V04 §3.1's maintenance mode for a network a
+larger rung left; a request's `toggles.sewers` reported as not applicable, the `drain` column read by nothing)""", 'VAL-02')
+
+E(HIII, """**Not-precluded checks** (the parity judge's 44 / 44; V07 §15):""",
+       """**Not-precluded checks** (the parity judge's 44 / 44):""", 'VPC-15')
+
+# S10 (0) names the dry moat's ditch (VEW-04 wiring: the producer of the dry stretch's residue)
+E(H47, """the rest of each strip — the inner setback, or the outer setback and
+glacis, or the berm up to a moat — as typed unbuildable residue (`setback`, `glacis`; `ditch` in place of `glacis` on the
+town side of an `on_enceinte` bailey whose castle template row asks for a dry ditch, §4.8);""",
+"""the rest of each strip — the inner setback, or the outer setback and
+glacis, or the berm up to a moat — as typed unbuildable residue (`setback`, `glacis`; `ditch` in place of `glacis` on the
+town side of an `on_enceinte` bailey whose castle template row asks for a dry ditch, §4.8, and along a moat's dry
+stretches, §4.2 S3 (10));""", 'VEW-04')
+
+# §4.13 preface: rows naming several fixtures
+E(H413, """the **edge suite** (§13.2, B-EDGE) runs one fixture per row below — the home's stated outcome,
+hard, 0 per 1 000 —""", """the **edge suite** (§13.2, B-EDGE) runs one fixture per row below, or each fixture a row
+names — the home's stated outcome, hard, 0 per 1 000 —""", 'VEW-02', 'VEW-03', 'VEW-04', 'VEW-10', 'VEL0-09')

@@ -5556,3 +5556,22 @@ items 111–118. §12's present laws stay the TARGETS; D-18's misses stay declar
 * **V06:** `advance` and the history replay (with the peak's generation before it) each complete within the ten-second comfort level in total; an estimate over it coarsens the cadence (V06 §3.20.1 (3)'s coarsening, `replay.budgetMs` and `advance.maxEpochs` read against the comfort level), the cadence chosen reported; §0's sentence, §2.2's `replay.budgetMs`, §6.2's century bounds, §6.7 and J-V6.118 rewritten accordingly (VV56-07)
 * **V09:** the progress view shows the coarsened cadence; **rendering:** §12 lists advance and the replay among the one-time waits in total; **V12:** T-V12-50 times each in total
 
+
+## Dated ruling 2026-10-01 — File g item 120 routed (orchestrator under J122; J133)
+
+The owner's rule 120 (Find: a filter view with a halo-like glow, across every zoom and layer, until closed; the shape confirmed by
+the owner's "yes") is routed like items 111–119. It is a VIEW only: no unit may make Find change the model, the document, its hash
+or the edit log. It absorbs the Show menu's **Coverage** view as Find's **Show gaps** (one mechanism; V09 §5.4's Coverage row and its
+`live.coverage` provider are replaced, every item of Coverage's behaviour kept under Show gaps). Knowledge admission (§11.2) governs
+every suggestion, count, glow and pin.
+
+### g item 120 — every unit named writes its part
+* **model:** §2.9 (the per-viewer view key `find` — chips and the gaps switch — outside the document, its hash and the log; kept in view pins)
+* **rendering:** §8.2 (the veil, halo, outline, pin and count-bubble rows; each chip's colour and second cue); §9.5 (Find among the tools); §11.1 (picture exports draw Find as shown, chips in the legend; battle-map exports off unless asked); §11.2 (the gazetteer's class counts and its match listing by class, area and layer, under knowledge admission); §12.5 (the overlay's interaction budget: suggestions ≈ 50 ms, glow ≈ 100 ms; base tiles never re-rendered)
+* **scope:** §13.2 (the bars of item 120 (k)); the judgment index row
+* **V09:** the Find panel, type-ahead, chip grid, results list, the `live.find` overlay provider, Coverage folded into Show gaps (§5.4's table and cue column amended), across bands and layers, the phone bottom sheet, its tests
+* **V11:** the class labels, synonyms and groups as the search lexicon (the groups of item 120 (b))
+* **V08:** the dossier's institution names as list entries
+* **V10:** the clerk's "show me …" sets the chips (a view action) and says what Find shows
+* **V01:** districts, neighbourhoods, quarters and catchments as area targets and as Show gaps' units
+* **V03:** the rooms an institution uses glow at the interior band; **V04, V05:** matches and ghost pins on Below and Sky; **V07:** the village and smaller rungs; **V12:** bars
