@@ -3027,3 +3027,7 @@
 2026-10-01 17:43 coherence/repair-rendering-r5 LANDED docs/validation/coherence/repair-r5-rendering.md docs/validation/coherence/results/coherence_repair-rendering-r5.json (opus seat, PENDING FABLE REVIEW; 11 REPLACE blocks over §8.2, §8.4, §8.6, §8.8, §8.11, §9.5, §11.1, §11.2, §11.6, §12.5, §12.10; 9 issues fixed, 4 END lines, 0 ruling requests; dry run 11/11 and 23/23 with r5 model+pipeline drafts; hand-offs to scope T120-6, V12 time.findGlow, model (6)(d) readers)
 2026-10-01 17:43 coherence/orchestrator NOTE repair-V09-r5 landed (12 blocks, 0 ruling requests) and repair-scope-r5 landed (5 blocks, 0 ruling requests); launched repair-V12-r5 and repair-V10-r5 in their slots
 2026-10-01 17:44 coherence/orchestrator NOTE repair-rendering-r5 landed (11 blocks, 0 ruling requests); launched repair-V06-r5 in its slot
+2026-10-01 17:44 coherence/repair-V10-r5 CHECKPOINT brief and adjudication-r5 read; skeleton written; next: issue sources and V10 sites
+2026-10-01 17:44 coherence/repair-V12-r5 CHECKPOINT brief and adjudication-r5 (R5-01, R5-10, Part H V12: 5 FIX, 0 END) read; skeleton written; next issue sources and live V12 §2.13, §3.11, §3.15.4, §3.15.12, §3.15.14, §7
+2026-10-01 17:44 coherence/repair-pipeline-r5 LANDED docs/validation/coherence/repair-r5-pipeline.md docs/validation/coherence/results/coherence_repair-pipeline-r5.json
+2026-10-01 17:45 coherence/orchestrator NOTE repair-pipeline-r5 landed (10 blocks, 0 ruling requests); launched repair-V01-r5 in its slot
