@@ -258,7 +258,7 @@ placeholder direction phrase, SettlementForge's own district names never matched
 | 119 as fast as possible; the ten-second comfort level | §12 (the targets, the comfort level, the measured-gain and progress rules; D-18), §1.1 (the performance statement); T119-1 – T119-5; volumes 9 and 12 | §12 |
 | 120 Find, a view only | §2.9 (the per-viewer key `find`: its chips and Show gaps, outside the document, its hash and the log), §8.2 (the veil, halo, outline, pin, count-bubble, ghost-pin and gap marks; each chip's colour and second cue), §9.5 (the tool and the legend's chips), §11.1 (picture exports draw it), §11.2 (the gazetteer's class counts and match listing under knowledge admission), §12.5 (the overlay's budget); T120-1 – T120-6; built at M5; volumes 1, 3, 4, 5, 7, 8, 9, 10, 11 and 12 | §2.9 |
 | 121 the resolution adjuster | §8.8 (the Resolution ladder with its two steps below 1, the 4K live-view ceiling, the ultra tier, the live Auto loop and its settle rule), §8.4 (g) (what Auto gives up, in order; labels, chrome and overlays at the device's pixel ratio), §12.1 (calibration picks ultra), §12.5 (the frame budgets the loop holds), §12.8 (memory per tier); T121-1 – T121-8; built at M4; volumes 9 and 12 | §8.8 |
-| 122 crisis looks, a look only | §2.7 (`ConditionOverlay` read for the look; the aftermath only by the epoch path), §2.9 (the per-viewer key `crises`; the crisis framing), §7.7 (DR44), §10.2 (`RosterTables.crisis`: the look rows, the closed map, the settings and item 122 (h)'s rates), §8.2 (the look rows), §8.8 (the ring's massed marks), §11 (exports), §12.5; T122-1 – T122-7; built at M3b, the dossier's reading at M-SF; volumes 1, 2, 3, 6, 7, 8, 9, 10, 11 and 12 | §10.2 |
+| 122 crisis looks, a look only | §2.7 (`ConditionOverlay` read for the look; the aftermath only by the epoch path), §2.9 (the per-viewer key `crises`; the crisis framing), §7.7 (DR44), §10.2 (`RosterTables.crisis`: the look rows, the closed map, the settings and item 122 (h)'s rates), §8.2 (the look rows), §8.8 (the ring's massed marks), §11 (exports), §12.5; T122-1 – T122-7; built at M3b, the dossier's reading at M-SF; volumes 1, 2, 3, 4, 6, 7, 8, 9, 10, 11 and 12 | §10.2 |
 | 123 a ruined building's plans damaged, never redrawn | §2.6 step 7 (the damage layer over the same plan), §6.3 (`plan.damage`: one keyed threshold per plan element, no new id), §8.6 (the damaged plan's drawing), §11.1 (battle maps' line of sight); T123-1 – T123-7; built with volume 3's P4 and P5, the decay level with M6-E; volumes 2, 3, 4, 6, 9, 10, 11 and 12 | §2.6 |
 | 124 light weather, a view layer | §2.9 (the switch as device state, the spell session-transient, `weather` the cover), §6.1 (the session-seeded `view.weather` stream), §8.2 (the effects' marks; no snow where winter does not freeze), §8.4 (the shower's dimming, fog's scattering, night halos), §8.8 (the effects layer, never in the tile key), §11 (exports leave it out), §12.5 (≈ 1 ms a frame); T124-1 – T124-9; built at M3b; volumes 9, 11 and 12 | §8.2 |
 | 125 the dossier the only data input | §11.3 and §11.4 (the doors take no data input beside the dossier; the view commands kept as commands), §14 (`HostContext` without `week`, `realm` or `customLibrary`), §7.7 (DR1, DR3, DR19, DR29 and DR42 re-sourced to the dossier or the generator's fallback), §4.11 and §2.9 (the week's one source); T125-1 – T125-3, from M-SF; volumes 8, 9 and 12 | §11.4 |
@@ -1486,7 +1486,7 @@ interface BuildingInput { plot: Polygon /* the plot's ring */; access: Segment[]
   fixedWings?: BaseWing[] /* the row arrangement's clipped quads (§4.7 S11): outline() returns them with heights and roofs and never re-fits them */;
   building?: Pick<Building, 'households'|'entrances'|'basement'|'subLocations'|'use'|'assignment'|'concealed'> /* the plan rung's content inputs (item 28), resolved at the call like the footprint ring */;
   accesses?: Id[] /* every AccessPoint whose ground.host is this building or its basement, any source or cause — II.7.3's neighbourhood cellar stair and Basement accesses, a system's own entrance and the crypt join (II.7.6, V04), an undercity lifeline (II.7.5), an access edit (§7.3 item 9) and item 109 (j) (3)'s dug access — anchors of the plan (step 3; V03 §3.7.2) */;
-  stage?: WorksStage /* item 67: its running Works' stage at the drawn week (§4.11), which the plan's drawing shows (below) */ }
+  stage?: WorksStage /* item 67: its running build Works' stage at the drawn week (§4.11; a `decay` or `repair` Works is none, step 7), which the plan's drawing shows (below) */ }
 interface BuildingGenerator {   // the stage-3 hook, split by cost (SCL-13): the base implements outline() (the base outline builder, below); volume 2 implements outline() and compose() at stage 3; volume 3 implements plan() (M6-P)
   outline(input: BuildingInput, k: Kernel): KernelResult<{ wings: BaseWing[] }>;              // every LOD, exports, shadows: cheap and deterministic
   compose(input: BuildingInput, outline: BaseWing[], lod: 'wings'|'rooms', k: Kernel): KernelResult<Composition>;   // lazy, per visible tile (V02)
@@ -1988,10 +1988,10 @@ adding the rung is a registration. It runs **function first** — the reverse of
    `Basement.floors`, its crypt), the entrance set, the composed towers, courts and porch, the class and its designation
    template's `programme` row (§10.2, read at the occupants' band, Plot.fieldBand, J-A19.43), the use, assignment and
    sub-locations (one room each), the declared rooms, the concealed uses (`Building.concealed`, item 63), the accesses the
-   building hosts (`BuildingInput.accesses`), the running Works' stage (item 67), the households housed
-   (`Building.households`) and each spanned passage: at the ground storey its span ring is a seed ring and a fixed ring,
-   the passage room (J-A30.23). A plan is therefore a pure function of the building's committed state and its own
-   streams (§4.1's contract, §6.2).
+   building hosts (`BuildingInput.accesses`), the running build Works' stage (item 67; a `decay` or `repair` Works is
+   none, step 7), the households housed (`Building.households`) and each spanned passage: at the ground storey its span
+   ring is a seed ring and a fixed ring, the passage room (J-A30.23). A plan is therefore a pure function of the
+   building's committed state and its own streams (§4.1's contract, §6.2).
 2. *Programme.* From the programme row and the interior ladder (below): a `ProgramRoom` list — each household's unit at
    its ladder row's form, the shared, service and staff rooms the row allows, the class's own rooms (a smithy's forge, an
    inn's common room, a chapel's nave), one room per sub-location, each concealed use's programme rows (§10.2's
@@ -2066,9 +2066,10 @@ adding the rung is a registration. It runs **function first** — the reverse of
    `carryWings` carries with the wings (J-P48, above). A programme that does not fit is F-PLAN's (§5.2), per building,
    never whole-house. **Rooms are values**, never L4 faces, so a click changes no plat and no digest (§6.2). Cost: one
    plan per click within §12.7's row; the room graph is exported in our own schema (§11.1). A building whose running
-   build Works stands before FINISHED shows its plan as walls without doors, windows or furniture up to the storey its
-   stage has raised — a drawing of the same plan, nothing stored; the stage counts among the rung's recorded inputs
-   (§2.8), so a stage change marks the plan `stale` (item 67 (h), (j)).
+   build Works — a Works of any kind but `decay` and `repair` (§2.7's `Works.kind`) — stands before FINISHED shows its
+   plan as walls without doors, windows or furniture up to the storey its stage has raised — a drawing of the same plan,
+   nothing stored; the stage counts among the rung's recorded inputs (§2.8), so a stage change marks the plan `stale`
+   (item 67 (h), (j)).
    **The damage layer — the plan built, never redrawn (g item 123; J136).** A building's plan is derived once, as built
    — at its built band and era — and never re-derived because it decays: an existence change to `abandoned`, `decayed`
    or `ruined`, and the households' leaving that comes with it, re-cuts no plan — the plan in force when its decay run
@@ -2096,16 +2097,19 @@ adding the rung is a registration. It runs **function first** — the reverse of
    decayed or ruined, so damage only accumulates and never moves (a higher level's damaged set contains a lower's); a
    restoration (item 123 (b)'s "reused": a `reoccupy` back into use; a repair) lowers it, and the damage leaves in
    reverse threshold order, a repaired element drawn in item 114's patch material — an element that entered the plan
-   after its damage left never drawn repaired (V06 §3.23 (3)). A building generated abandoned, decayed or ruined reads
-   V06 §3.23 (4)'s run, V11's default age at the week it is first met so and aging from then; one item 113's replay
-   abandons or ruins ages from that replay epoch's week; every building before V06's level lands (M6-E) reads its
-   existence state alone at V11's default age. A `decay` or `repair` Works draws no build stage over the plan: the layer
-   at the building's level is its drawing. Every room, wall, opening and id is unchanged and no digest moves; a building
-   never decayed (level 0) draws byte-identically to its plan without the layer (`item123.damage`). A building of a
-   district a disaster look ruins (item 122 (d)) draws the same layer at the look's level by severity (§10.2's
-   `lookLevel`), or at its own where that is higher — a look only. The drawing per state is V03 §5.1's and §8.6's, the
-   exterior V02's (from these thresholds, never its own), below ground V04's, the battle-map walls and line of sight
-   §11.1's; bars T123-1 – T123-7 (§13.2).
+   after its damage left, or that a restoring event's re-cut minted, never drawn damaged by that restoration nor
+   repaired (V06 §3.23 (3)). A building generated abandoned, decayed or ruined reads V06 §3.23 (4)'s run, V11's default
+   age at the week it is first met so and aging from then; one item 113's replay abandons or ruins ages from the week
+   its change shows in that replay epoch (V06 §3.23 (4): the epoch's week where it starts no Works); every building
+   before V06's level lands (M6-E) reads its existence state alone at V11's default age. A `decay` or `repair` Works
+   draws no build stage over the plan: the layer at the building's level is its drawing. Every room, wall, opening and
+   id is unchanged and no digest moves; a building never decayed (level 0) draws byte-identically to its plan without
+   the layer (`item123.damage`). A building a disaster look stands over (item 122 (d); §10.2 (d)'s `neighbourhoods` and
+   (f): a building of one of its units — a district, at THORP, HAMLET and VILLAGE a unit of V07 §5.6 (3) on the plots
+   `villageUnitPlots` gives it — until V06 §3.22 (3)'s `crisisLookYields` turns true on it, a preview never handing
+   over) draws the same layer at the look's level by severity (§10.2's `lookLevel`), or at its own where that is higher
+   — a look only. The drawing per state is V03 §5.1's and §8.6's, the exterior V02's (from these thresholds, never its
+   own), below ground V04's, the battle-map walls and line of sight §11.1's; bars T123-1 – T123-7 (§13.2).
 
 **Elaboration by click (owner: "once generated it is saved … until something changes in them from the simulator"; item
 28 (b)–(c); J-A28.22).** When a rung is derived is the viewer's `elaborate` key (§2.9; `click`, the owner's default, or
@@ -2285,7 +2289,7 @@ interface RaisedWayRecord {   // g item 110 (b): on Way.raised (§2.4) — a way
   kind: RaisedKind; reason?: RaisedReasonKey /* generated ways only (below); the reason WORD readers and exports show is derived: viaduct → 'drop', elevated → 'link', aqueduct → 'water' (J-VI.2) */;
   underuseSince?: number /* written by volume 6's pass (V06 §3.19) */;
   feet: [RaisedFoot, RaisedFoot] /* the deck's two ends in spine order — where its ramps or stairs meet ground part 0, or a deck end on the arena's outer ring (RaisedFoot, below; §3.4) */;
-  supports: { key: number /* minted once in order along the deck, never reused: a pier's identity with its way's lineage */; ring: Polygon /* its footprint on ground part 0, a point attribute (§2.2 rule 5) */; state?: 'ruined'|'cleared' /* V06's decline (V06 §3.19.2; the DeclineOp raised members, §4.11) */ }[];
+  supports: { key: number /* minted once in order along the deck, never reused: a pier's identity with its way's lineage */; ring: Polygon /* its footprint on ground part 0, a point attribute (§2.2 rule 5) */; state?: 'ruined'|'cleared' /* V06's decline (V06 §3.19.2; the DeclineOp raised members, §4.11); never on a crossing station, which reads its wall stretch's `condition` (the support step (3), below) */ }[];
   spans: { a: number; b: number /* the bounding piers' keys, a before b along the deck */; use: 'open'|'vault'; reason: 'way'|'water'|'flood'|'clear'|'tall'|'low'|'slope'|'country'|'chance'|'cap'|'land'|'user' /* the span rule's step (below) */;
     soffitCm: Cm /* derived: the deck's level at the span's crown less `raisedWays.structure.span.deckDepthCm` */; held?: true /* a user's setAttr on spans/<a>-<b>/use: an input override every regeneration keeps (§7.2) */; state?: 'ruined'|'cleared' }[];
   terminal?: { kind: 'basin'|'cistern'|'fountain' /* 'cistern' only under a conduit house the roster or dossier holds (J-VI.9) */; at: PointCm; building?: Id /* its conduit house */ } /* an aqueduct's */;
@@ -2302,13 +2306,15 @@ interface RaisedFoot {   // foot i of a raised way: one vertex in each of the tw
   ground: { part: 0; at: VertexRef /* ('raised_foot', way id, i) on ground part 0: where the ramp or stair meets the ground; at a deck end on the arena's outer ring, that ring point (below) */ };
   deck: { part: number /* the way's own part, its Identity.key.part */; at: VertexRef /* ('raised_foot', way id, i): the spine's end on that part */ } }
   // placed by the raised-way generator and by a declared or drawn way's operator, each end by a transaction on its own part; re-placed by the way's
-  // re-derivation, one transaction per part (§3.4); read by the support step and the span rule (the deck runs between the feet), §4.6's ramp-or-stair
-  // rule at each end, §3.4's resolve and §3.10's stored-reference and arena-isolation rows; persisted as the two parts' role rows; undone with the event
-  // that placed them; a raised way carries them from its first commit (item 110 (b)), so no document holds one without them.
+  // re-derivation, one transaction per part (§3.4), a ring-end foot's ground end moved first by a frame growth's foot batch (§3.2 (9); below); read by the
+  // support step and the span rule (the deck runs between the feet), §4.6's ramp-or-stair rule at each end, §3.4's resolve and §3.10's stored-reference and
+  // arena-isolation rows; persisted as the two parts' role rows; undone with the event that placed them; a raised way carries them from its first commit
+  // (item 110 (b)), so no document holds one without them.
   // At a deck end on the arena's outer ring — an aqueduct sourced beyond the frame, a declared course bent to the ring (*At the frame*, below) — foot i is
   // that ring point: its ground end a `raised_foot` vertex placed by `splitThrough` on ground part 0's `margin` chain at the deck's end point, its deck end
-  // the spine's end on the part's own `margin` ring; no ramp or stair is drawn there. A frame growth (§3.2 (9)) extends the deck to the new ring as §4.11
-  // continues a through-road, the raised way's re-derivation re-placing both ends of that foot on the new rings, one transaction per part (§3.4)
+  // the spine's end on the part's own `margin` ring; no ramp or stair is drawn there. A frame growth (§3.2 (9)) first moves the foot's ground end onto the
+  // new ring (its foot batch, between part 0's two L0 batches), then extends the deck to the new ring as §4.11 continues a through-road, the raised way's
+  // re-derivation re-placing both ends of that foot on the new rings, one transaction per part (§3.4)
 interface RetainingWall {   // g item 110 (a): one record for every volume — never an Enceinte: no gate, no circuit, no barrier closure
   id: Id; chain: ChainRef /* on the arena whose terrain it levels — the ground's, or a sky island's (V05 §3.22 (4)) */;
   highSide: 'left'|'right' /* resolved at the dry run when drawn without it; generated: the side the district holds (§4.7 S10's district-edge source) */;
@@ -2440,16 +2446,16 @@ interface PowerRelation { id: Id; key: string /* its two powers' binding keys (�
 interface CustomChainRecord { id: Id; key: string /* chain:<chainId> */; label: string; active: boolean; nodes: { role: 'resource'|'processor'|'output'; key?: string; name: string }[] /* flow order */;
   endpoints: { flow: 'import'|'export'; label: string; partner?: string }[]; volume: 'minor'|'moderate'|'major'|'backbone'; crossLinks: { from: string; to: string; via: 'requires'|'produces'|'requiredInstitution'|'requiredResources' }[]; lifecycle: Lifecycle }   // g item 104: filled only by `dossierRecord`; the fields' rules and readers are V08 §2.8's; retired when the dossier no longer lists the chain
 interface CustomServiceRecord { id: Id; key: string /* svc:uid:<localUid> */; name: string; serviceCategory: string; provider?: string /* the provider institution's binding key */; lifecycle: Lifecycle }   // V08 §2.8
-interface HistoryHint {   // Recipe.history (§2.9): the dossier's pre-creation history, written once by the port's creation (V08 §3.15); standalone, the blueprint's history option (§4.2 S0; V09 §4.21.3 (1), V10 §4.1's T1 row) writes `ageYears`, `scars: []` and `peak: { tier: <the picked rung>, symbolic: false, evidence: [] }` — a declared peak, as a recorded `peakTier` is; no population: DR36 sizes the peak by its tier — the item-113 lists absent
-  ageYears: number /* the settlement's age at creation — never advanced by §4.11's clock */;
+interface HistoryHint {   // Recipe.history (§2.9): the dossier's history up to and including the present at creation (§4.11 *The clock* (1)), written once by the port's creation (V08 §3.15); standalone, the blueprint's history option (§4.2 S0; V09 §4.21.3 (1), V10 §4.1's T1 row) writes `ageYears`, `scars: []` and `peak: { tier: <the picked rung>, symbolic: false, evidence: [] }` — a declared peak, as a recorded `peakTier` is; no population: DR36 sizes the peak by its tier — the item-113 lists absent
+  ageYears: number /* the settlement's age at the present at creation (§4.11 *The clock* (1)) — never advanced by §4.11's clock */;
   scars: { type: string /* fire, flood, siege, plague … data */; yearsAgo: number; severity: number /* 0–1 */ }[] /* one per history event, by V08's `historyScars` row */;
   // item 113's fields (V08 §3.15 (2) reads them in)
   founding?: { yearsAgo: number } /* history.founding.age, else history.age; absent both: the midpoint of the tier's AGE_BY_TIER range by V08's `tiers` row, noted history_gap */;
   events?: { key: string /* V08's `historyEvents` row's neutral key */; type: string /* the line's type word */; yearsAgo: number;
     severity: number /* V08's `historyScars` severity words: minor 0.3, major 0.6, catastrophic 0.9, else 0.5 */; name: string }[] /* every history event, oldest first (DR37) */;
   tiers?: { from: string; to: string; direction: 'promotion'|'demotion'; yearsAgo?: number /* from the outcome id's week suffix */ }[] /* tierHistory, oldest first */;
-  population?: { yearsAgo: number; population: number }[] /* populationHistory, oldest first, each tick read as (week − tick) ÷ 52 years ago */;
-  calamities?: { yearsAgo: number; type: string; deaths: number; exodus: number; severity: 'minor'|'moderate'|'major'|'catastrophic' }[] /* calamityHistory before the creation week (DR36's losses; DR37's events) */;
+  population?: { yearsAgo: number; population: number }[] /* populationHistory, oldest first, each tick read as (week − tick) ÷ 52 years ago, the week the present at creation */;
+  calamities?: { yearsAgo: number; type: string; deaths: number; exodus: number; severity: 'minor'|'moderate'|'major'|'catastrophic' }[] /* calamityHistory up to and including the present at creation (§4.11 *The clock* (1)) — every calamity the creation carries (DR36's losses; DR37's events) */;
   lifecycle?: { died: boolean; resettled: boolean; yearsAgo?: number /* the resettlement's tick, else the current settlement's founding */ } /* DR38 */;
   ancientFall?: { name: string; yearsAgo: number /* the founding's yearsAgo + its years before the founding */ } /* DR38's ancient "Fall of" event on the site */;
   peak?: { tier: string; population?: number; symbolic: boolean; evidence: string[] /* the evidence kinds present, strongest first */ } /* DR36's input (V08 §3.15 (3)), or the standalone option's declared peak (above) */ }
@@ -2537,34 +2543,76 @@ without a junction, its two ends ramps or stairs joined to ground vertices, or a
   (`raised_too_long`, which waits as `raised_too_tall` does, V06 §3.19 (5)) and makes a declared one's dry run bend it
   to the nearest course whose clear spans fit (item 101 R2), so a river is spanned within that bound and
   `viaduct.maxSpanM` both (§4.3); a course across an enceinte's trace — on a gate's line or as an aqueduct's wall arch,
-  the only crossings §4.3 allows — has one **crossing station** on the trace at each crossing, set before the other
-  stations slide (crossings in order along the deck, each taking the nearest interior station not yet taken, ties to the
-  earlier; one added there where none lies within p ÷ 2): the wall carries the deck there — a viaduct's or an elevated
-  road's raised gate, whose tower carries the deck, or the curtain under an aqueduct's arch (V06 §3.7.6 (5)) — so that
-  station's support `ring` is the band's stretch under the deck, the wall's own masonry (no pier raised, no pier-height
-  test), while the strip's setback and glacis parts, the berm and the moat stay clear of every pier and the clear-span
-  bound reads the spans on either side of that station (T110-2); while the deck stands, the stretch of the band under a
-  crossing station is held by it — no writer of its condition but a landfall leaves it `breached` or `dismantled`: S7's
-  generation row (§4.8 *Condition at generation*) reads a `breached` draw there as `worn`, and `DeclineOp`'s `breach`
-  and `dismantle` and V06 §3.7.7 (2)'s decay pass over it in chain order, as the pathway's dismantling does by V06
-  §3.7.6 (5), and a hand op's dry run bends its stretch round it (item 101 R2); it may wear, and a repair writes it as
-  any run; a landfall over it breaches it and ruins the deck there by V05's landfall table — and from the first epoch
-  after the raised way is removed or the spans on both sides of the station have fallen (`ruined` or `cleared`) it is an
-  ordinary run (§13.2's item-114 group); (4) each other pier's `ring` is a rectangle centred on its station, across the
-  deck of the deck's width and along it of max(`pierWidthShare` × the realised span, `pierMinCm` ÷ 100) m; a pier higher
-  than `maxPierM[kind]` (the deck's level less `levelledGroundCm` at its station) drops a generated course
-  (`raised_too_tall`) and makes a declared one's dry run bend it to the nearest course the pier heights admit (item 101
-  R2); (5) keys are minted in order along the deck and never reused: an unchanged course re-derives the same stations
-  from the same stream key and so keeps its keys; a changed course keeps the key of every station within p ÷ 2 of a
-  former one and mints the rest after the largest key the way has held; (6) a trace or moat laid across a standing
-  raised way — a later stage's S5a trace and outer moat at generation, an epoch's circuit, contraction or re-anchored
-  stretch (V06 §3.7.6 (5)), or a hand `drawWall` — re-runs (1)–(5), and then the span rule, on that raised way in the
-  same commit (the trace's undo restoring them): the crossing station on the new trace (the nearest interior station
-  within p ÷ 2 moved there, keeping its key, else one added), the stations in the new strips' setbacks, glacis, berm or
-  channel slid or omitted by (3); where a clear span on either side of the station would then pass `maxClearSpanM`, or a
-  pier `maxPierM`, the trace gives way (S5a: its stage trace takes the next lattice boundary node off that span,
-  reported; V06: it retraces and waits, `walls.waited`; a hand `drawWall`: its dry run bends the trace to the nearest
-  one whose crossing fits, item 101 R2) — a standing raised way is never dropped for a wall (T110-2).
+  the only crossings §4.3 allows — (a village map's palisade, `VillagePlan.palisade`, is no crossing: its trace abuts
+  each support standing in its band, never moving it, and passes beneath every span, with no crossing station and no
+  gate; V07 §3.5a (4)) has one **crossing station** on the trace at each crossing, set before the other stations slide
+  (crossings in order along the deck, each taking the nearest interior station not yet taken, ties to the earlier; one
+  added there where none lies within p ÷ 2): the wall carries the deck there — a viaduct's or an elevated road's raised
+  gate, whose tower carries the deck, or the curtain under an aqueduct's arch (V06 §3.7.6 (5)) — so that station's
+  support `ring` is the band's stretch under the deck, the wall's own masonry (no pier raised, no pier-height test; at a
+  standing station a later trace takes, the pier's former ring with it, (6) (b) (iii)), while the strip's setback and
+  glacis parts, the berm and the moat stay clear of every pier and the clear-span bound reads the spans on either side
+  of that station (T110-2); while the deck stands, the stretch of the band under a crossing station is held by it — no
+  writer of its condition but a landfall leaves it `breached` or `dismantled`: S7's generation row (§4.8 *Condition at
+  generation*) reads a `breached` draw there as `worn`, and `DeclineOp`'s `breach` and `dismantle` and V06 §3.7.7 (2)'s
+  decay pass over it in chain order, as the pathway's dismantling does by V06 §3.7.6 (5), and a hand op's dry run bends
+  its stretch round it (item 101 R2); it may wear, and a repair writes it as any run; a landfall over it breaches it and
+  ruins the spans beside it (V05 §3.16's landfall table) — and from the first epoch after the raised way is removed or
+  the spans on both sides of the station have fallen (`ruined` or `cleared`) it is an ordinary run (§13.2's item-114
+  group); a crossing station's `supports` entry carries no `state` of its own — it reads its stretch's `condition`,
+  `standing`, `worn` or `patched` a standing support and `breached` or `dismantled` a ruined one — and the raised way's
+  support ops pass over it: V06 §3.19.2 (3)'s salvage `dismantle` and (4)'s `topple` never take it, its stretch decaying
+  as the wall's once both spans have fallen (above); a `repairRaised` of a span beside a station whose stretch is
+  `breached` or `dismantled`, whether V06 §3.19.2 (5)'s or a hand Repair, first repairs that stretch by `repairWall` in
+  the same batch, in item 114's patch material (the row V06 §3.7.7 (3) draws; on a `dismantled` stretch the op's bend,
+  V06 §2.8: a new stretch drawn on its line), so no deck stands on a fallen wall; (4) each other pier's `ring` is a
+  rectangle centred on its station, across the deck of the deck's width and along it of max(`pierWidthShare` × the
+  realised span, `pierMinCm` ÷ 100) m; a pier higher than `maxPierM[kind]` (the deck's level less `levelledGroundCm` at
+  its station) drops a generated course (`raised_too_tall`) and makes a declared one's dry run bend it to the nearest
+  course the pier heights admit (item 101 R2); (5) keys are minted in order along the deck and never reused: an
+  unchanged course re-derives the same stations from the same stream key and so keeps its keys; a changed course keeps
+  the key of every station within p ÷ 2 of a former one and mints the rest after the largest key the way has held; (6)
+  **later work across a raised way**, at generation and after it:
+  * (a) *At generation.* A stage's S5a trace and outer moat across an earlier raised way — S4's, or an S5b viaduct, the
+    stage's own included — re-run (1)–(5), and then the span rule, on it in the same commit: the crossing station on the
+    trace (the nearest interior station on the deck at its level, never on a ramp or a stair, within p ÷ 2 moved there,
+    keeping its key, else one added; where the trace would meet the raised way on a ramp or a stair, the trace is bent
+    along the deck through the nearest station at the deck's level, as in (b) (iii)), the stations in the new berm or
+    channel slid or omitted by (3) (those in the strips' setbacks and glacis, which S7 cuts, by the run after S7,
+    below). Where a clear span on either side of that station would then pass `maxClearSpanM`, or a pier `maxPierM`, or
+    the berm or channel would meet a ramp, a stair or a foot, the stage's berm and channel — and S7's setback and glacis
+    after them — are not laid under the deck: they stop at the edges of the under-deck strip and of the ramp or stair,
+    the channel ending against the ground as against a berm (§4.2 S3 (10)) and the strip lines closed along it, reported
+    (`W_RAISED_CROSSING`), so the spans either side clear only the band's half. After S7's batches and before S7b the
+    support step runs once more on every raised way, its keys kept by (5) and its span rule then running at its eager
+    time, with every obstacle then standing (S5b's and S5c's ways; S7's strips, gate plazas, castle paths, quays, piers
+    and moles); a station this run can neither slide nor omit within `maxClearSpanM` and `maxPierM` keeps the place the
+    earlier run gave it, and the S7 part it meets gives way in that batch — a strip, plaza or square cut round its ring,
+    a quay, pier, mole or castle path ending at the ring and resuming beyond it — reported (`W_RAISED_CROSSING`). A
+    locked or pinned raised way — its deck and piers a fixed input of the run (§7.2; §7.4's lock column) — is crossed at
+    generation as a standing one ((b)), and the run after S7 moves none of its stations, every S7 part one meets giving
+    way as above. No generated course is dropped for a later stage (T110-2).
+  * (b) *A standing raised way is held.* After generation nothing laid later re-runs this step on a raised way, moves,
+    adds or omits a station, mints a key or re-rules a span; only an op that names the raised way changes it (its edits,
+    V06 §3.19's ops, a landfall, a frame growth's extension of its deck, §3.2 (9)), and none drops it. Its supports, its
+    ramps, stairs and feet (`RaisedWayRecord.feet`) and the under-deck strip of each `vault` span are a reservation on
+    ground part 0 for every later way, trace, strip, berm, channel, plot, square and reservation; the rest of its
+    under-deck strip is crossed only so: (i) a part-0 way under an `open` span, by §4.3's rule; (ii) a moat's or a
+    carve's channel under an `open` span, never through a support; (iii) an enceinte's trace through one station on the
+    deck at its level — the one nearest where the trace would cross, the trace bent along the deck to pass through it,
+    the station never moved — which becomes its crossing station by (3), its key kept and its support the band's stretch
+    under the deck together with the pier's former ring (the pier built into the wall, so no clear span grows), written
+    in the trace's commit and restored by its undo; the trace's setback, glacis, berm and channel pass under the deck
+    between that station and each neighbour only where that span is `open` and no other support, ramp, stair or foot
+    stands in them, and otherwise stop as in (a), reported (V06's wall report at an epoch; the dry run's line for a hand
+    edit); (iv) a village palisade (`VillagePlan.palisade`) abuts each support standing in its band and passes beneath
+    every span, with no crossing station and no gate (V07 §3.5a (4)). The later work gives way, never the raised way:
+    S5c's proposal is deflected along the strip or ends there as at a reservation (§4.4); a route re-solve takes another
+    course by F-ROUTE's ladder (§4.3); a circuit, contraction or re-anchored stretch takes (iii) (V06 §3.7.6 (5)); S8
+    holes its plots round the reservation (§4.6); a square or reservation is cut round it; a hand `drawWay`, a moved
+    way, a carve, a `drawWall` or a moved trace vertex is bent at its dry run (§7.1's outcome table). A lock or pin on
+    the raised way holds what (b) holds; a crossing station's support taking the band's stretch is the wall's arch (item
+    110 (b)), so a locked or pinned raised way is crossed as an unlocked one is (§7.4's lock column; T110-2).
 * **The clearance.** Over each crossed part-0 way the deck stands at least `clearanceCm` + `span.deckDepthCm` above that
   way's levelled ground, `clearanceCm` the held value or, absent, V11's `raisedWays.structure.clearanceCm` for the crossed
   class (cart or foot); the course solver reads it as the deck's lower bound there (the cells bound the deck's level,
@@ -3051,7 +3099,7 @@ interface Recipe {              // the canonical recipe: every model-affecting i
   params: ParamDelta;           // the full effective delta over the pinned shipped defaults — pack, preset, user-global and document overrides folded in at creation (§7.6)
   presetId?: string;            // provenance only: the delta already holds the preset's values, so an edited preset elsewhere cannot change this town; read by the generation report's recipe line (§5.4) and the reader's recipe panel (V09), which name the preset the town was made from
   intent: Intent /* §7.7 layer 1's outcome targets */; districtIntent: DistrictIntent[] /* §7.7 layer 2: the per-district intent — a town-wide default and each district's override; the input a district is generated from, never item 72's derived CharacterVector (J-A72.21, J-A72.41) */;
-  history?: HistoryHint;        // item 88, g item 113: the pre-creation history (§2.7) — the dossier port's at creation (V08 §3.15) or the blueprint's history option (§4.2 S0) — a recipe input; absent without either
+  history?: HistoryHint;        // item 88, g item 113: the history up to and including the present at creation (§2.7; §4.11 *The clock* (1)) — the dossier port's at creation (V08 §3.15) or the blueprint's history option (§4.2 S0) — a recipe input; absent without either
   circumstances?: CircumstanceTimeline;   // schedules epoch events (the app proposes them); never applied except through `epoch` events (§7.1)
   entryMode: 'contentFirst'|'layoutFirst';  // S10b's entry point (§4.7) — a recipe field, not session state (LC-30)
   salts: Record<RerollableConcern, number> }   // initial salts of the rerollable concerns only (normally 0), keyed by §6.1's registry-generated type; the schema refuses any other key, so a geometry concern can never carry a salt; rerollLayer events in the log advance them (§6.1)
@@ -3315,7 +3363,7 @@ interface UndoRecord { session: string; of: number /* the seq of the event this 
   canonical. Four digests: the **model digest** and the **records digest** (§6.2), the **provenance digest**
   (provenance, derivation records and naming records, §2.8 — the locality audit only), and the **document digest** (over
   the canonical bytes — save → load → save identity). The bridge's concurrency token `logHead` is §11.3's.
-* **View state** (FTG-12, LC-16): time, location, favourites, notes and public notes, view pins, layer choices,
+* **View state** (FTG-12, LC-16): time, location, favourites, notes and public notes, view pins,
   `stylePreset` (a per-viewer preset that never writes `setStyle`, §11.3), `elaborate` (`click` or `view`: when a lazy
   rung is derived, never what — §4.1, item 28; `click` by default), `storey` (the storey the building band draws; its
   default is §8.5's, J-A28.82), `roomNumbers` (`'off'|'storey'|'building'`: the plan's room numbers, V03 §4.5), `depthBand` (the underground depth band the cut-away draws; its default is §8.4's, J-A12.81), `plotsOnly` (the
@@ -3343,11 +3391,13 @@ interface UndoRecord { session: string; of: number /* the seq of the event this 
   successor, item 120 (i)),
   `workingLayer` (per viewer: the layer the tools act on — ground, a sky island's `PlatKey`, or an underground depth band;
   V09 §4.2), `restore/<id>` (shared, one key per restore point: `{ seq, name, auto?, createdAt, session }`, written to
-  `null` to delete; V09 §2.8), and the people a user has opened live in `view`, outside every digest;
-  the document's `style` stays canonical; each key is last-writer-wins by (Lamport counter, session id), so a viewer
-  never writes the model. Which keys travel per viewer and which are shared across a bridge is §11.3's. The key
-  `session` holds an unshared document's authoring session (§7.4 "Sessions"); a client attached to a host bridge takes
-  its session from `doc.load` instead and never writes this key (§11.3).
+  `null` to delete; V09 §2.8), and the people a user has opened live in `view`, outside every digest. The layers shown
+  are no view key: `LayerSpec.visible` is the document's style state, set by a logged `setLayer` (§8.4, §7.1; §11.3);
+  the per-viewer `workingLayer` (above) is drawn whatever its visibility (§8.4). The document's `style` stays canonical;
+  each key is last-writer-wins by (Lamport counter, session id), so a viewer never writes the model. Which keys travel
+  per viewer and which are shared across a bridge is §11.3's. The key `session` holds an unshared document's authoring
+  session (§7.4 "Sessions"); a client attached to a host bridge takes its session from `doc.load` instead and never
+  writes this key (§11.3).
 * **The year position, festivals, crises, Find and colour vision (g items 117, 118, 122, 120, 112).** Six per-viewer keys
   (never over a bridge, §11.3), outside every digest, the log and undo and never read by the model, its stages or its
   hash — so one document hashes identically in every week, with decorations or crisis looks on or off, with Find on or
@@ -3577,10 +3627,14 @@ interface Frame { widthCm: Cm; heightCm: Cm; aspect: number /* width / height, 0
 
    **Frame growth at an epoch (item 81 (b); J-A81.31).** At an epoch a frame only grows, and only where §4.11 grows it.
    The new frame is this rule's frame for the epoch's population target — taken at most at the cap, as §1.1 clamps a
-   request — at the frame's own `aspect`, centred on (0, 0), kept at the current frame where that is no larger; the new
-   arena is the new frame plus the current law's margin, kept at the current arena where that is no larger. So a frame
-   and its arena never shrink — a change of frame law included (item 322's product fold, §4.11) — each new one encloses
-   its predecessor, and where neither grows, nothing runs. The range bound of (1) holds for every grown coordinate. The
+   request — at the frame's own `aspect`, centred on (0, 0), kept at the current frame where that is no larger or would
+   move one of its sides out by at most `attractCm` ((2); measured on the lattice); the new arena is the new frame plus
+   the current law's margin, kept at the current arena where that is no larger or would move one of its sides out by at
+   most `attractCm` — so no new chain is laid within attraction of the chain it replaces, which §3.6's vertex and
+   stretch attraction would merge into it before the strip removes its rows, and no through-road's continuation (§4.11)
+   or raised foot's move (below) spans `attractCm` or less. So a frame and its arena never shrink — a change of frame
+   law included (item 322's product fold, §4.11) — each new one encloses its predecessor, and where neither grows,
+   nothing runs. The range bound of (1) holds for every grown coordinate. The
    growth inserts coarse chains into finished fabric and deletes others, so it runs as §3.3's declared sequence of
    single-level batches sharing one clear region, each with `rederivesFrom` S1: (b) when the arena grows, (a) and (c)
    when the frame grows. A **lapsing stretch** is a
@@ -4875,7 +4929,7 @@ milestone each is absent and the stages around it are unchanged.
   | S4 | L0, only when F-ROUTE's extra-bridge rung fires on standing water: the new deck's two `deck_end` vertices by two same-level shore splits, nothing cleared (§4.2 S1 (5)) · then L1: the arterial graph's spines, inserted once, each span laid through the deck ends its route uses (those bridges become `built`) · then, on a ground part ≥ 1, each viaduct's raised parts (§4.3) | F-ROUTE |
   | S5, per stage k | k = 1 — S5a L1: S3's trace with its gate vertices · k ≥ 2 — S5b L0, only when F-ROUTE's extra-bridge rung fires on standing water: two same-level shore splits before S5b's L1 batch (§4.2 S1 (5)); S5b L1: the main roads, picked on the stage's boundary (data, no batch); S5a L1: the trace with every arterial crossing as a gate; then an outer moat's carve batches (L1: each arterial's crossing made one straight edge between two deck bank vertices, its deck span; L0: the channel, with those vertices as `KernelTx.prepared`; §3.3, §4.11) · every k — S5c L1: growth, then L1: the between-stage prune and trim · S5d: a top-up re-runs S5a's arc and S5c on the rim, each L1 | F-ROUTE (S5b), F-WALL (S5a), F-BUDGET-STAGE (S5d) |
   | S6 | L1: the settlement perimeter chain, then district owners and `district_bound` roles (one batch) · then, on ground parts ≥ 1, the elevated roads' and aqueducts' raised parts (§4.3) | F-ROUTE (a raised part's course, §4.3); a degenerate district face merges into its neighbour (§4.5) |
-  | S7, per enceinte | L1: setback and glacis lines (the wall strips), the intervallum, gate-plaza claims, castle paths and inner-ward trace, quays, piers and moles | F-WALL, F-CASTLE |
+  | S7, per enceinte | L1: setback and glacis lines (the wall strips), the intervallum, gate-plaza claims, castle paths and inner-ward trace, quays, piers and moles · after the last enceinte's batches and before S7b, §2.7's support step once more on every raised way (§4.8's lead), where a station can be neither slid nor omitted the S7 part it meets cut round its ring or ended at it in one L1 batch (§2.7's support step (6) (a)) | F-WALL, F-CASTLE |
   | S7b, per district | L1: district claims (`claimSubFace`) | F-SITING |
   | SKY, per island (V05; staged) | on the island's key: L0 — outer ring, rim, the land and void faces, then its water and each access's rim vertex; L1 — the rim strip line, the landing and institution claims · on the ground: L1 — the landing claims (`claimSubFace`) | V05's classes |
   | S12a, S10a, S10b, S12c, S7c, S9b (hooks) | none — decisions and records (field pass 2 is a raster; S12c's character records, §4.5); the hinterland's geometry is written by its unit's S10–S12b | F-SITING (S10a, S10b) |
@@ -5566,7 +5620,18 @@ steeper than the routed class's grade limit is impassable to that route. The lim
 gate routes and S4's routes (`primary`'s inside the pick contour, `through`'s beyond it), by S5b and S5c (§4.4), by a raised
 way's end ramps and by §7.3 (a) 5's steepness report; the field `T` reads no limit (it prices slope only). F-ROUTE's slope
 rung (§5.2) relaxes a route's limit to the next class's in the order `through`, `primary`, `track`, `path`; a destination
-no relaxation reaches takes F-ROUTE's last rung (`unserved`, reported). At
+no relaxation reaches takes F-ROUTE's last rung (`unserved`, reported). A standing
+raised way's support rings, ramps, stairs and feet (`RaisedWayRecord.feet`) and the under-deck strips of its `vault`
+spans are impassable to every route and growth proposal on ground part 0 once generation has ended, and at generation
+where the raised way is locked or pinned (held, §2.7's support step (6) (b)); elsewhere its under-deck strip (§4.6) is
+crossed only under an `open` span whose clear width is at least the way's width + `raisedWays.structure.clearWidthM` and
+whose soffit meets §2.7's *The clearance* for the crossed way, within ± `raisedWays.structure.squareDeg` of square to
+the deck (V11 §3.24.2), never along the strip. At generation, before the span rule has run, a later stage's way keeps
+off an unlocked raised way's ramps, stairs and feet and crosses its strip only where the deck's soffit meets *The
+clearance* for it, never along the strip, and the support step's last run (*The slot*, below) slides the supports off
+it ((6) (a)). A route's crossing shifts along the
+strip to the nearest crossing these admit, else the route takes another course by F-ROUTE's ladder (§5.2) — the one
+rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep. At
 epoch 0 S3's plaza-rooted Dijkstra tree gives every plaza-anchored route; a tree path that crosses a claim or water S3
 added after the tree (the castle bailey, a moat) is re-solved by heap A\*, as are routes without a plaza end and every
 route at epoch > 0 (with `existingFabricCost`). At village rungs the village product's VS4 replaces S4 and calls this
@@ -5633,7 +5698,9 @@ raised water channel of the same kind. It is drawn above what it crosses, with i
   declaration.
 * **The slot.** Every generated raised part is committed before S7b (1), reading the ground arena only: a viaduct inside
   S4's route solve (and each later stage's S5b through this router), an elevated road and an aqueduct at S6's end,
-  reading S6's typed wards and pass-1 prosperity. So S7b's capacity (§4.5), which subtracts each district's under-deck
+  reading S6's typed wards and pass-1 prosperity. After S7's batches and before S7b, §2.7's support step runs once more
+  on every raised way, its keys kept (§2.7's support step (5), (6) (a)). So S7b's capacity (§4.5), which subtracts each
+  district's under-deck
   strips and adds the deck plots it owns, and the sky layer read it, and it reads no island.
 * **The derivation unit and the stream.** Each generated raised way's derivation unit is V06 §2.13's `RaisedReasonKey`
   (creation index 0, epoch component 0), with one uniform per key on `raised.reason` (§6.1; epoch component 0); keys are
@@ -5806,8 +5873,13 @@ normal, as §4.3 re-solves S3's moat stretches); the L0 batch inserts the channe
 half-band and a berm, along the walled arcs only, and only on the stretches §4.2 S3 (10)'s rule makes wet — every other
 stretch a dry `ditch` (§4.7 S10 (0)) whose arterials take no deck) through those prepared vertices, so each span becomes its deck,
 perpendicular to the channel and continuing its gate's passage across. S7 builds the bridge furniture (§4.8) and S5c
-treats the moat as water. The carve clears no raised-way support: §2.7's support step (6) re-sites one first in the same
-commit; a stage gate on a raised arterial is a raised gate whose tower carries the deck, the deck itself crossing the
+treats the moat as water. The carve clears no raised-way support: §2.7's support step (6) (a) re-sites one first in the
+same commit, and where a crossing's spans or piers cannot keep their bounds, or the berm or channel would meet a ramp, a
+stair or a foot, the berm and channel stop at the under-deck strip's edges, reported (`W_RAISED_CROSSING`); after
+generation, or across a locked or pinned raised way, the trace passes through its station on the deck at its level nearest where it would
+cross, and the berm and channel pass under the deck only where the span is `open` and no other support, ramp, stair or
+foot stands in them, else stop alike (§2.7's support step (6) (b));
+a stage gate on a raised arterial is a raised gate whose tower carries the deck, the deck itself crossing the
 channel (no part-0 deck added for it), the part-0 way beneath taking its own ground gate (S7 lays both, §4.8 *Gates*).
 Nothing finer than L1 exists yet, so the carve's footprint clears nothing else. The innermost
 enceinte's moat is S3's (§4.2 S3 (10)).
@@ -5856,7 +5928,11 @@ arterial junction or gate plaza) grows nothing, and S5d prices its land as it st
   regime's separation, and the same clearance applies to shores, wall setback bands, reservations and the stage boundary:
   a proposal running within `max(minimum block depth of the regime, separation / 2) + half its corridor` of any of them
   and within 30° of parallel is deflected or rejected, so no strip thinner than a plot depth is left; a proposal meeting a
-  shore or a reservation at ≥ 30° ends there (a street arriving at the quay). A wall is never crossed except at a gate: a
+  shore or a reservation at ≥ 30° ends there (a street arriving at the quay). A standing raised way is crossed only as
+  §4.3 *Lattice and costs* states: a proposal meeting what that rule makes impassable (its supports, ramps, stairs, feet
+  or a `vault` span's strip where it is held; else, at generation, its ramps, stairs and feet), or meeting its under-deck strip
+  anywhere else than where that rule admits a crossing, is deflected along the strip to the nearest crossing it admits,
+  or ends at the strip as at a reservation. A wall is never crossed except at a gate: a
   proposal reaching the setback band stops there. Snap to a junction within `0.35 · step`. **Crossings follow the preset's
   crossing matrix** (proposal class × crossed class → stop in a T, cross with a materialised crossroads, or deflect):
   organic crosses only a lower-or-equal class collinear within 6° (the rare crossroads, O4 b); `ringed` crosses radials
@@ -7511,7 +7587,10 @@ a named-feature claim of the dossier names one (§7.7, item 82).
 
 **The trace is S3's and S5a's** (§4.2 S3 (6)–(9), §4.4), always fixed before that stage's secondaries grow. S7 builds
 everything that stands on the traced wall, once per enceinte, after S6 has typed the districts, in **one L1 batch** per
-enceinte; its geometry at L3 and L4 is built inside the wall strips by S10 and S11 after S9.
+enceinte; its geometry at L3 and L4 is built inside the wall strips by S10 and S11 after S9. After S7's batches and
+before S7b, §2.7's support step runs once more on every raised way, its keys kept (§2.7's support step (5), (6) (a)):
+where a station can be neither slid nor omitted, the S7 part it meets gives way round its ring (§2.7's support step
+(6) (a)), reported.
 
 **Wall strips, band, setbacks, intervallum (GEO-38, MFP-9, COV-FTG-G07; J-P29).** S7's L1 batch cuts two **wall strips**
 off the L1 faces beside the trace's walled stretches. Inside: the band's half (wall thickness by era 2–3 m, read along the
@@ -7541,7 +7620,9 @@ for the share (V07 §2.2, V07 §3.4).
 **Condition at generation (item 114 (d); J127).** S3 and S5a lay every trace `standing`. With no history replay, S7 then
 writes each run's `Enceinte.condition` and material (§2.7; item 114 (b)) from §7.7's DR41 — the dossier's defence
 readiness and wealth (or the blueprint's stand-ins) mapped to the table shares of `walls.condition`'s `generation` cells
-(V11 §3.25.3), a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture — along an
+(V11 §3.25.3), a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture, a `breached`
+draw on the band's stretch under a raised way's crossing station read as `worn` while its deck stands (§2.7's support
+step (3)) — along an
 `on_enceinte` castle's shared stretch (`Castle.cityWeld`) one draw, on the town enceinte, sets the stretch's condition and
 material and the bailey's profiles there mirror them in the same batch (§2.7 *An enceinte's condition by run*: the
 castle's welded stretch); with the
@@ -7559,12 +7640,14 @@ claimed in S7's L1 batch at each main gate inside the wall, taking the inner str
 or temple on a later reservation without one takes its forecourt from S9b's dispatch, and one below a block a `forecourt`
 yard part of S11 (V01 §3.5.3). Gate passages stay open by construction: a wall strip ends at the corridor of the way
 through each gate, so the band and gatehouse parts S10 builds never meet that corridor, and the intervallum's corridor is
-the strip's inner edge. **A trace across a standing raised way** (a later stage's trace across an S4 viaduct, elevated
-road or aqueduct, its crossing station put on the trace by §2.7's support step (6)) takes the crossing as furniture, at
+the strip's inner edge. **A trace across a standing raised way** (at generation a stage's trace across an S4 or S5b
+viaduct, the stage's own included, its crossing station put on the trace by §2.7's support step (6) (a); after
+generation any trace across a standing raised way, through one of its stations by (6) (b)) takes the crossing as
+furniture, at
 generation as at an epoch, in the form V06 §3.7.6 (5) gives it: for an aqueduct a **wall opening** — an arch in the curtain under the
 deck, no gate (no portal, no gate law); for a viaduct or an elevated road a **raised gate** at deck level — a gate whose
 tower carries the deck, its portal on the raised part only, the raised arterial's crossing of the trace (S5b) — the
-part-0 way beneath, if any, taking its own ground gate by the gate law (§4.4 *Outer moats*). The F-WALL ladder's last
+part-0 way beneath, if any, taking its own ground gate (§4.4 *Outer moats*) by §4.2 S3 (4)'s gate law. The F-WALL ladder's last
 rung is §5.2's.
 
 **Towers** — a row per enceinte kind and rung: at every trace vertex whose turn exceeds a threshold and along straight runs
@@ -7877,7 +7960,8 @@ words (item 67).
 
 **The one built path: add a growth stage (GEO-27, LC-12, FTG-4, FTG-14).** `grow(doc, epochInputs)` appends an `epoch`
 event to the log and runs at that log position (§7.1, §7.4) on the persisted model with the epoch sub-stream: S2 (**delta
-demand** = the suffix of the sequential roster between the old and the new population, §10.2 — prefix-stable, so no
+demand** = the suffix of the sequential roster between the old and the new population, §10.2 — prefix-stable, read over
+the households the town holds where a fall held one (V06 §3.5.1 (1)) — so no
 survivor's use is withdrawn by arithmetic) → S5 for the new stage, when a residual remains after the regrowth-first order
 below (S5a: the boundary grown from the previous one and, if walled, its trace and gates; **S5b**, the main-road step, so
 each epoch can add main roads; S5c with the built-face legality below; S5d) → S6 (districts extend over the new faces,
@@ -8125,7 +8209,9 @@ meets `S` takes a fate by class (J-P30), recorded as lifecycle events with cause
   max(bank setback, 1 m) is removed, so every cut end lies at least 1 m from the channel, and a remainder that now dangles
   shorter than one block depth is pruned (events: `altered`, `demolished`); `quay` and `pier` ways are cut the same way and,
   where they met the new water at ≥ 30°, extended from the cut end to the new bank as a quay or a landing. A raised way the
-  channel passes under keeps its course; a support the channel meets is re-sited by §2.7's support step (item 244).
+  channel passes under keeps its course; a support the channel meets is re-sited at generation by §2.7's support step
+  (6) (a); after generation the channel passes under an `open` span, its course bent at the dry run (§2.7's support step
+  (6) (b)).
 
 **Other crossings (J-I13).** A wall trace that `S` crosses has its **run** — the trace between the nearest unaffected towers
 on either side of the crossing — re-traced as data in the dry run, with a water gate where the channel crosses, as §7.3 (b)
@@ -8352,11 +8438,17 @@ never `@plat/sim`'s `time` view key, which changes nothing (§10.3; J-A76.41).
 4. **The cadence.** The port folds a dossier's discrete changes as standalone dossier events at their weeks, in
    SettlementForge's order (decrees first), and an `epoch` at each 52-week boundary crossed — or sooner, when the dossier's
    population has moved from the last epoch's `populationTarget` by more than the **roster tolerance**, ± 5 % (J-A76.43; the
-   one number §7.7 item 3's lapse reads too), and at the week of each newly carried calamity that no other epoch falls on
+   one number §7.7 item 3's lapse reads too), and at the week of each newly carried calamity dated after the last
+   epoch's week that no other epoch falls on
    (DR28: a destructive event is epoch content; V08 §3.6 (3); J-V8.55) — carrying the target, the circumstance slices
    (§7.7 layer 2), the event kinds
    and that week's dossier events in `EpochInputs.dossier`; a catch-up batch follows the same rule, gaps allowed, coarsened under item 119's comfort level by V06 §6.8 (6) (every
-   dossier event still at its own week; a calamity then riding the coarse epoch that holds its week). No epoch
+   dossier event still at its own week; a calamity then riding the coarse epoch that holds its week). A newly carried
+   calamity dated at or before the last epoch's week folds no epoch at its own week: it rides the first epoch folded by
+   the absorb that carries it (`DossierPort.absorb`; with none, the port folds one at the absorb's week for it), its
+   `EpochInputs.events` entry at that epoch's first week (the last epoch's week + 1), its own tick kept in its receipt,
+   so its hazard strikes and its deaths reach the burial need; with the absorb's week itself before the last epoch's
+   (V08 §3.6's degenerate row) it folds no epoch and its dated changes apply finished, noted. No epoch
    is folded per tick: the Works' stages are derived from the week at any drawing (below). A standalone map's epochs are its
    circumstance timeline's (§7.7, dated in weeks) or a user's `grow` calls.
 5. **Rates per year (J-A76.45).** Every chance this section states per unit of time is per year, applied over an epoch's
@@ -8379,7 +8471,8 @@ crossing upward whose town the frame no longer holds grows the frame to the one 
 terrain, water and the hinterland's ground on the ring between the old margin and its successor — the same terrain field
 continued, each water body continued across the old margin with its inner reaches fixed — and the kernel grows the frame by
 §3.2 (9)'s single-level batches over one clear region (J-A81.31) — an L1 batch clearing the finer content of the whole L1
-faces beside a lapsing stretch of the old chains or under the new rectangle, an L0 batch replacing the `margin` chain, an
+faces beside a lapsing stretch of the old chains or under the new rectangle,
+an L0 batch replacing the `margin` chain (on part 0 two, a raised way's ring-end foot moved between them, §3.2 (9)), an
 L1 batch replacing the `border` chain — each raster growing by whole cells as §3.2 (9) states, every stored height unchanged
 and the flow fields recomputed over the grown grid. The pipeline then continues on that region and the ring: S4 continues
 every through-road from its old end to the new margin, S12a sites the hinterland on the ring; the stages that own the
@@ -8389,7 +8482,9 @@ underground part §3.2 (9) grows, that part's stages for its cleared faces — p
 its own part's bands (II.7.6) and II.7.5's stage the undercity's plots there; on the `buried` and `dug` parts, which no stage
 re-derives at an epoch — a buried town, laid from a history scar or the replay at generation or made by a `raiseGrade`, and
 the passages access edits and undercity lifeline closures dig — their cleared bands re-laid from their kept gallery chains by
-`corridorUnion` (§3.7), which draws nothing); every face outside the region, off a deleted stretch and off the ring keeps its
+`corridorUnion` (§3.7), which draws nothing; on each raised part of the ground layer §3.2 (9) grows, its raised way's
+re-derivation (§3.4) for that part's cleared faces, which also extends a deck ending on the old ring to the new ring and
+re-places both ends of that foot (§2.7 `RaisedFoot`)); every face outside the region, off a deleted stretch and off the ring keeps its
 ring, owner and nested faces. The frame never shrinks: a declining town keeps its frame and its hinterland. II.6's island
 gate is one reader of the rung. A dossier above the 120 000 cap is refused by the port (§7.7 item 15, item 81; §1.1;
 J-A81.01) and never reaches an epoch; a dossier below 1 500 is routed to the village product when one is registered (V07
@@ -8871,7 +8966,7 @@ names — the home's stated outcome, hard, 0 per 1 000 — at every rung the row
 | EP-24 | S8's cliff band; S10, S11 levelling | a cliff across a district (0 lanes, seeds or ground way spines crossing the cliff line; the two sides' plots backing onto it at the `cliff` setback); two plots at a cliff's top and foot; a step of 2.5 × `stepMaxCm` (`levelledGroundCm` on each terrace equals its datum; every wall's `stepProfile` lies in (`stepMinCm`, `stepMaxCm`]); a levelled unit beside unlevelled ground | §4.6 (a cliff inside the district a hole); §4.7 *Levelling and retaining walls* (step regions) | simpler shape (terraces, else skirts and stepped wings) → report |
 | EP-25 | S1 (6), S3 (2) | a harbour on a site with a river but no coast — fixtures: a river-only site with `harbour: 'on'`, and with `deep_harbour` | §4.2 S1 (6) (the river or lake harbour) | substitute (a river or lake harbour) → leave out and report (tier 6) |
 | EP-26 | S10b's `dossier` request | no seat on the current map for a dossier element — fixtures: a 1 500-person TOWN dossier listing more dossier institutions than its plots (every one placed, the report naming each edge plot); and, run with V07 registered (V07's village rows), a THORP dossier with 40 custom institutions absorbed at once, every one placed, the report naming each edge plot | §4.7 S10b *Reconcile and infeasibility* (the last rung) | substitute (a new outside plot), reported `W_DOSSIER_EDGE` |
-| EP-27 | §10.2's crisis looks (a look only) | no outskirts land left in the frame and margin; an island town; a siege of an unwalled place; a mesa whose every arc is a closure feature; a mesa no way leaves (S3 (9) (a)'s unserved mesa) with a refugee camp and a quarantine standing — each on `campLand` measured from the reference point, else on the ring marks, never undefined; an unwalled TOWN with an `inside` castle (the blockade on its approach roads), a walled CITY with an `outside` castle, a twin town with two rings and a walled town with extramural ribbons inside the standoff — no look on a building footprint; THORP to the METROPOLIS cap, a siege at THORP and HAMLET drawing no siege line, a positive share of a place with few units taking at least one; two and three crises at once; a force larger than the frame and margin; a headcount of 0 or none given; an unmapped stressor type or archetype; a condition whose `untilWeek` is not after its `sinceWeek`; no condition and no preview — at each, the document and its hash unchanged by the look, and nothing on water, a gate's passage, a label's keep-out or a building footprint (the parts drawn on a building itself excepted), a carriageway holding only a barricade | §10.2 *Crisis looks* (b)–(h) | simpler shape (what does not fit drawn as §8.8's massed marks; the severity-and-tier scale where no headcount is given) → report (`unmapped_word`) |
+| EP-27 | §10.2's crisis looks (a look only) | no outskirts land left in the frame and margin; an island town; a siege of an unwalled place; a mesa whose every arc is a closure feature; a mesa no way leaves (S3 (9) (a)'s unserved mesa) with a refugee camp and a quarantine standing — each on `campLand` measured from the reference point, else on the ring marks, never undefined; an unwalled TOWN with an `inside` castle (the blockade on its approach roads), a walled CITY with an `outside` castle, a twin town with two rings and a walled town with extramural ribbons inside the standoff — no look on a building footprint; THORP to the METROPOLIS cap, a siege at THORP and HAMLET drawing no siege line, a positive share of a place with few units taking at least one; two and three crises at once; a force larger than the frame and margin; a headcount of 0 or none given; a refugee camp of two heads (fewer than one household); an unmapped stressor type or archetype; a condition whose `untilWeek` is not after its `sinceWeek`; no condition and no preview — at each, the document and its hash unchanged by the look, and nothing on water, a gate's passage, a label's keep-out or a building footprint (the parts drawn on a building itself excepted), a carriageway holding only a barrier across it (§10.2 (d)) | §10.2 *Crisis looks* (b)–(h) | simpler shape (what does not fit drawn as §8.8's massed marks; the severity-and-tier scale where no headcount is given) → report (`unmapped_word`) |
 
 **Where features meet (the combination suite, §13.2, B-EDGE).** Each cell is the outcome where the row's feature meets the
 column's, then its rung on §5's ladder (— (defined) for a rule with no failure); a raised way is generated
@@ -8881,9 +8976,9 @@ at VILLAGE and above (V07's village rows at village rungs).
 | feature | a raised way (§4.3) | a retaining wall (§4.7 *Levelling*) | a deck plot (§4.7 *Deck plots*) | the frame (§3.2 (9)) |
 |---|---|---|---|---|
 | cliff or steep slope | a drop the viaduct reason reads; no support taller than `maxPierM` (a generated course drops, `raised_too_tall`; a declared one bends, §2.7's support step); an end's ramp or stair keeps its class grade (§4.6). *Rung:* leave out and report (generated); simpler shape (declared, bent) | none on a cliff bank, a `cliff` or `sheer` closure arc or a cliff inside a district — the cliff holds the ground, plots backing onto it at the `cliff` setback from its top and its foot and none cut across it; on a steep slope levelled only up to `stepMaxCm ÷ minTerraceDepthM`, steeper not levelled (reported). *Rung:* simpler shape (skirts and stepped wings) → report | no deck host on a cliff bank: no pier, mole or breakwater is rooted on one (§4.8); a quay platform on a steep bank is ground, levelled as any plot. *Rung:* — (defined) | clipped at the arena's outer ring by S1; nothing drawn beyond it. *Rung:* — (defined) |
-| river, coast, moat | spans between supports on the banks, no support in water (§2.7's support step), within `viaduct.maxSpanM` and §2.7's clear-span bound (`raisedWays.structure.maxClearSpanM` by material) — a crossing wider than it drops a generated course (`raised_too_long`) and bends a declared one; never out over the sea (its ends are ground vertices); a moat spanned outside its wall strip. *Rung:* leave out and report (generated); simpler shape (declared, bent) | none on a `water` run; the bank holds the ground. *Rung:* — (defined) | a bridge, pier, mole or quay deck by the `deck` offer; none on a ford, a drawbridge or a gate's moat deck. *Rung:* — (defined) | a water body reaching the ring shares its edge (§4.1's S1 row); no crossing site whose deck end lies beyond it. *Rung:* — (defined) |
+| river, coast, moat | spans between supports on the banks, no support in water (§2.7's support step), within `viaduct.maxSpanM` and §2.7's clear-span bound (`raisedWays.structure.maxClearSpanM` by material) — a crossing wider than it drops a generated course (`raised_too_long`) and bends a declared one; never out over the sea (its ends are ground vertices); a moat spanned outside its wall strip, and one laid after the course stopped at the under-deck strip where it cannot pass under the deck, the course kept (§2.7's support step (6); `W_RAISED_CROSSING`). *Rung:* leave out and report (generated); simpler shape (declared, bent) | none on a `water` run; the bank holds the ground. *Rung:* — (defined) | a bridge, pier, mole or quay deck by the `deck` offer; none on a ford, a drawbridge or a gate's moat deck. *Rung:* — (defined) | a water body reaching the ring shares its edge (§4.1's S1 row); no crossing site whose deck end lies beyond it. *Rung:* — (defined) |
 | harbour | the basin and its mouth excluded; a stroke across bends to its last ground vertex. *Rung:* simpler shape (the bent stroke) | quays, moles and piers are harbour works, never retaining walls. *Rung:* — (defined) | moles and quays by offer; a walled port's mole head holds the chain tower (§4.8). *Rung:* — (defined) | as water. *Rung:* — (defined) |
-| wall | crosses only on a gate's line or as the aqueduct's arch; no support in a wall strip but the crossing's station on the band (§2.7's support step (3)). *Rung:* — (defined) | none on a `wall` run or in a wall strip. *Rung:* — (defined) | none on a wall strip. *Rung:* — (defined) | the trace stays inside the frame (S3's lattice; a frame arc inset by the outer wall strip, §4.2 S3 (6)). *Rung:* — (defined) |
+| wall | crosses a town enceinte only on a gate's line or as the aqueduct's arch; no support in a wall strip but the crossing's station on the band (§2.7's support step (3), (6)); a village palisade abuts its supports, the deck passing over with no gate (V07 §3.5a (4)). *Rung:* — (defined) | none on a `wall` run or in a wall strip. *Rung:* — (defined) | none on a wall strip. *Rung:* — (defined) | the trace stays inside the frame (S3's lattice; a frame arc inset by the outer wall strip, §4.2 S3 (6)). *Rung:* — (defined) |
 | bridge | passes over its way without a junction at `raisedWays.structure.clearanceCm`; no support on its deck. *Rung:* — (defined) | a bridge's approach meets a retaining wall as a ramp by `primary`'s crossing row; `bridge`, `pier`, `quay` and `ford` ways never cross one. *Rung:* repair locally (the step re-cut, V11 §3.24.5) → leave out and report (not levelled there) | by the bridge row; a mid-span landmark slot on a span ≥ the `bridgeMid` minimum. *Rung:* — (defined) | a bridge's deck lies inside the frame (its site's two ends do). *Rung:* — (defined) |
 | square or reservation | no support on it; spans over it with the clearance. *Rung:* — (defined) | the reservation levels itself (S11); no district-edge wall on a `reserve` run. *Rung:* — (defined) | a deck plot fronts its deck way, never a square. *Rung:* — (defined) | inside the frame by S3's siting. *Rung:* — (defined) |
 | hinterland | spans over hinterland land-use faces stay open (reason `country`) at every rung (J-C4; §2.7's span rule). *Rung:* — (defined) | a district-edge wall may stand on a `field` run inside the district; fields are never levelled. *Rung:* — (defined) | a bridge outside the perimeter offers deck plots owned as V01 §3.17.6 states; its `bridgeMid` fort slot on a through route. *Rung:* — (defined) | the hinterland's faces end at the ring. *Rung:* — (defined) |
@@ -8969,7 +9064,7 @@ piece.
    whether it was delivered at tier ≤ 3 (*full*), at tiers 4–5 (*degraded*) or dropped at tier 6 (*omitted*);
    acceptance counts a tier-6 omission of a requested feature as a failure, with the bars of §13.5's requested-feature
    delivery row (§15.2). "No restart path" is a design property, not an acceptance number.
-8. **A bug abort ends in a defined state** (DWG-01). Three ladders end in a bug rather than a rung: F-NUM on a mandatory
+8. **A bug abort ends in a defined state.** Three ladders end in a bug rather than a rung: F-NUM on a mandatory
    chain's `E_OUT_OF_RANGE` (§3.1, §3.6), F-PLAN's refusal of a seed, passage or composer ring, and F-PLAN's count of
    units the rung must house (§5.2). A bug abort rolls its batch — or the rung's transient arena — back, so nothing it
    wrote commits; writes a `bugs` entry (class, entity, stream key, stage; §5.4); and gives the entity its class's
@@ -9296,7 +9391,7 @@ every building, plot and district has a permanent address that follows it, separ
     is the HIGHEST attempt index its ladder may reach: attempts run 0 … cap, so cap 0 is one attempt. Every geometric
     ladder's cap is 2 (three attempts: tier 3); the naming re-draw of §9.6 has cap 8 (a repeated name re-draws on its
     own stream before taking a distinguishing suffix); a concern no ladder retries has cap 0. A row below that states
-    its own cap overrides the default (DIC-02: no concern's number of draws changes);
+    its own cap overrides the default (no concern's number of draws changes);
   - **epoch** — `e` for draws made by epoch e (epoch 0 is the original town; live epochs run 1 … 2³¹ − 1, a bound no
     log reaches: an `epoch` that would pass it is refused at its dry run, naming the cap — `refuse.epoch.cap`, §7.1);
     the history replay at generation keys its coarse epochs r = 1 … R with `0x8000_0000 + r`, the upper half of the
@@ -9451,20 +9546,23 @@ every building, plot and district has a permanent address that follows it, separ
   each kind's `perHour` × V11's site factor, the sites read from the model at the view's head. A kind is live at a
   moment when its band in the climate row's weather cells holds §2.9's `yearWeek` and, under `light: 'time'`, its
   `hours` hold the view's hour (§2.9's `time` key). So a time with no live kind (R = 0) spends none of the gap and
-  brings no spell, and a change of the year position, the climate row, the sites or the hour changes the rate from that
-  moment, the drawn E kept. The kind is drawn when the spell starts, kind k with chance its rate ÷ R at that moment (the
-  rates that spent the gap's last part), and the length uniform in that kind's `lengthS`. A spell's kind and length are
-  fixed once it starts; a change acts on a running spell only through §8.2's hard rules (a `snow` spell on a row where
-  snow cannot fall draws nothing). **Start a shower now** (V09) starts a spell of the commonest live kind at once as the
-  next spell index, its length drawn there, the press held in session state — the commonest kind as V11 §3.25.11 defines
-  it (the live kind of greatest rate after the sites' factors, at that moment); at a moment with no live kind (R = 0) a
-  press starts none, and V09 disables the button there with its reason (§7.8: never a silent no-op). Switching the
-  effects off draws nothing and stops no clock. The timeline is therefore a pure function of (the session seed, the
-  view's time since the map opened, the climate row, year position, sites and view hour in force at each moment, the
-  presses), and a test that fixes them replays it exactly (T124-9; §6.5 (9)). No stage, model stream, digest, tile key
-  or export reads it, and it reads none; the `weather` view key — the seasonal cover (§2.9) — draws nothing from it;
-  item 124 (c)'s two hard rules (no snow, falling or lying, where winter does not freeze; rain rare in arid country) are
-  the climate columns' (V11) and §8.2's, never a draw's.
+  brings no spell, and a change of the year position, the climate row, the sites, the `light` mode or the hour changes
+  the rate from that moment, the drawn E kept. The kind is drawn when the spell starts, kind k with chance its rate ÷ R
+  at that moment (the rates that spent the gap's last part), and the length uniform in that kind's `lengthS`. A spell's
+  kind and length are fixed once it starts; a change acts on a running spell only through §8.2's hard rules (a `snow`
+  spell on a row where snow cannot fall draws nothing). **Start a shower now** (V09) starts a spell of the commonest
+  live kind at once as the next spell index, its length drawn there, the press held in session state — the commonest
+  kind as V11 §3.25.11 defines it (the live kind of greatest rate after the sites' factors, at that moment); at a moment
+  with no live kind (R = 0) a press starts none, and V09 disables the button there with its reason (§7.8: never a silent
+  no-op). A press while a spell is in force ends that spell first: its strength falls from its present value to 0 at its
+  kind's fade rate (§8.4 (i)), and the pressed spell — of the commonest live kind at the press — starts the moment it
+  reaches 0, so one spell is in force at a time and no light term steps faster than §8.4 (i) allows (T124-7); a further
+  press before then changes nothing. Switching the effects off draws nothing and stops no clock. The timeline is
+  therefore a pure function of (the session seed, the view's time since the map opened, the climate row, year position,
+  sites, `light` mode and view hour in force at each moment, the presses), and a test that fixes them replays it exactly
+  (T124-9; §6.5 (9)). No stage, model stream, digest, tile key or export reads it, and it reads none; the `weather` view
+  key — the seasonal cover (§2.9) — draws nothing from it; item 124 (c)'s two hard rules (no snow, falling or lying,
+  where winter does not freeze; rain rare in arid country) are the climate columns' (V11) and §8.2's, never a draw's.
 * **Enter** creates a **new document** with seed (seed + 1) mod 2³² (a `Seed` is a u32, §2.9) and the same recipe —
   params, intent, the district intents (`districtIntent`), entry mode, table pins, packs — without edits, locks, map
   assignments or salts. The dossier is kept: the new document's creation prefix holds one `creation` `assign` event,
@@ -9870,12 +9968,13 @@ an entity is re-derived.
   draw is §6.1's fixed-key draw in all but persistence: fixed for the element's life, never re-drawn, minting no id and
   moving nothing, and compared, wherever a reader draws the plan, with the building's **decay level** (V06's
   `decayLevel`, derived and never stored; §2.6 step 7): the element shows damaged exactly while the level is above 0 and
-  at least t — a level of 0 damages nothing, so a building never decayed draws its plan unchanged (`item123.damage`)
-  whatever its kinds' ranges. Damage is therefore monotone in the level (a higher level's damaged set contains a
-  lower's), never relocated, and leaves in reverse threshold order as a restoration lowers the level. Every room, wall,
-  opening and id is the intact plan's (T123-1); for a seed, each element breaks at one level on every engine (T123-3;
-  §6.5 (9)). An element a stored plan's re-cut mints (V03 §3.11) draws by its own new id; a kept element keeps its id
-  and so its threshold.
+  at least t — but for §2.6 step 7's one case without a threshold: a roof bay over a room of a roofless wing
+  (`RoofSpec.kind` `none`) of a `decayed` or `ruined` building is damaged whatever its t and level. A level of 0 damages
+  nothing else, so a building never decayed draws its plan unchanged (`item123.damage`) whatever its kinds' ranges.
+  Damage is therefore monotone in the level (a higher level's damaged set contains a lower's), never relocated, and
+  leaves in reverse threshold order as a restoration lowers the level. Every room, wall, opening and id is the intact
+  plan's (T123-1); for a seed, each element breaks at one level on every engine (T123-3; §6.5 (9)). An element a stored
+  plan's re-cut mints (V03 §3.11) draws by its own new id; a kept element keeps its id and so its threshold.
 * **Dossier bindings never re-key (item 74).** A dossier re-binding (§7.7 item 12) re-points a binding row of
   `Document.dossier` and never re-keys a map address: the element's records keep their ids, lineage and geometry. A
   dossier name change that carries no receipt is a removal plus an addition (§7.7 item 12), and the addition mints
@@ -10081,13 +10180,15 @@ shift record. End-to-end goldens are re-signed only with a cascade record; both 
    * *plan damage* (g item 123) — for every building of a B-CITY-lite fixture, its decay level stepped from 0 to 1,
      the damaged elements at each level are byte-identical on the five engines and contain the previous
      level's, each element breaking at the same level for a seed (T123-3); every element id equals the intact plan's
-     (T123-1), and a level of 0 draws the plan byte-identically (`item123.damage`; §6.3 *Plan damage*);
+     (T123-1), and a level of 0 draws the plan byte-identically (`item123.damage`; §6.3 *Plan damage*) but for a
+     `decayed` or `ruined` building's roof bays over a roofless wing's rooms, damaged at every level (§2.6 step 7);
    * *weather timeline* (g item 124) — a fixed session seed, view time and set of **Start a shower now** presses replay
      the same spells — kind, start and length — on the five engines (T124-9); a scripted year-position change from a
      week with no live kind into a live week, and back, replays identically on the five engines, a spell starting in the
      live week and a press in the week with no live kind starting none, and so does a view hour crossing a kind's
-     `hours` under `light: 'time'` (T124-9); two session seeds give byte-identical model digests and tiles, with the
-     effects on and off (§6.1 *The weather stream*);
+     `hours` under `light: 'time'`, and a press while a spell is in force, the running spell fading out before the
+     pressed one starts (T124-9); two session seeds give byte-identical model digests and tiles, with the effects on and
+     off (§6.1 *The weather stream*);
    * *skeleton round trip* (item 101) — a map's declared subset exported as a skeleton (§11.1) and re-imported under its
      seed reproduces its model digest; a clerk's transcript of tool calls, replayed, gives the session's digest; one
      declaration made on the canvas, through the tool API and in a skeleton file gives one event (the elegance bars that
@@ -10482,12 +10583,15 @@ other rows are **conflicts** returned with their actions, or **confirmations**. 
 | a declaration from a viewer role (§11.2's `role`) | refused `role` | none: nothing is computed, so no list, count or shape | `refuse.viewer` |
 | an `adjust` of the islands setting (`recipe.layers.islands`, `islands.count`) below CITY, from any client (II.6; §7.8's disabled control) | refused, the rung | the rung change to CITY (T1 `intend`'s size chips) | `refuse.islandsRung` |
 | an `editTable` setting a `raisedWays` row below CITY (item 110 (b)'s rung gate), or carrying a dangling `ref` or a type error (V11 §4.1) | refused F-EDIT, naming the rule | for the rung gate, declaring the raised way (T4 `road`'s Raised mode); none for the others | `refuse.table.rung`, `refuse.table.invalid` |
-| an `editTable` row `delete`, or a pack's patch, removing a row readers fall back to — the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires, or the last row of a table not `mayEmpty` (V11 §4.1; J-V11.113); a pack's such op is refused at load, the row standing (V11 §3.2.3) | refused F-EDIT, naming the readers | editing the row's cells | `refuse.table.required` |
+| an `editTable` row `delete`, or a pack's patch, removing a row readers fall back to or need — the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires (a `crisis.looks` row for its look kind and a `damage.elements` row for its element kind among them), a table's named row (V11 §2.1's settings form: `settings`, `structure`, `festival.staging`'s `fallback`), or the last row of a table not `mayEmpty` (V11 §4.1; J-V11.113); a pack's such op is refused at load, the row standing (V11 §3.2.3) | refused F-EDIT, naming the readers | editing the row's cells | `refuse.table.required` |
 | a `setStyle` whose sheet leaves an unresolved or ambiguous layer-order pair (§8.2; J-R39) | conflict `invalid` | the offending pairs, which the style dialog lists; nothing applied | `refuse.style.order` |
 | an `editTable` on `knowledge.admit` by which a `public` row would admit finer than `city`, or a higher tier finer than a lower one (§9.2) | conflict `invalid` | the offending rows | `refuse.table.knowledge` |
 | an `editTable` on `clerk.ops` from a document's override layer, a skeleton or a host (V10 §2.10) | refused `invalid` | none: the device's preference layer alone edits it | `refuse.clerk.opsDevice` |
 | a preview or an apply whose base changed before it committed (§11.2) | conflict | a new preview | `refuse.stale` |
 | a Re-derive — a rung change or a population `adjust` — whose frame law gives a frame not enclosing the locked, pinned or declared entities and drawn constraints (§7.4's frame row; §3.2 (9)) | bent | the smallest frame of the rule that encloses them, at the frame's `aspect`, its centre (0, 0) | `bend.frame.held` |
+| a hand `convert` `breach` or `dismantle` of an enceinte stretch meeting the stretch held under a raised way's crossing station while its deck stands (§2.7's support step (3)) | bent | the op on its stretch less the held stretch, named in one line; an op wholly on the held stretch changes nothing, with its line | `bend.wall.held` |
+| a hand `drawWall`, a moved trace vertex or a re-anchored stretch across a standing raised way (§2.7's support step (6) (b)) | bent | the trace through the raised way's station on the deck at its level nearest where it would cross; its setback, glacis, berm and channel stopped at the under-deck strip's edges where a support, ramp, stair or foot stands in them or the span is `vault`; the raised way unchanged but that station's support; named in one line | `bend.wall.raisedCrossing` |
+| a ground `drawWay`, a moved way or a carve meeting a standing raised way's supports, ramps, stairs, feet or a `vault` span's strip, or crossing its under-deck strip elsewhere than under an `open` span (§4.3; §2.7's support step (6) (b)) | bent | the way or channel moved to cross under the nearest `open` span that holds it, named in one line | `bend.raised.underSpan` |
 | every other infeasible declaration (item 101 R2) | bent | the nearest lawful declaration, named in one line — a quarter's snap and size, a lake's level, a harbour's size, a river's course, a road's route and bridge, a wall's ridge, reach, waterfront, open ground and aqueduct arch, a fill's band, a roster line, a place's site, a retaining wall's flat ground, move and rim, a raised way's clearance, ends, wall and island strokes, an aqueduct's source, terminal and uphill run (a well), a crossing's steep ramp, a chamber's catacomb ladder (below), a crypt, a deck, a stack and its tiers, a ruin's axis, a tunnel's depth offset (to the cover limit), a stair kind or bay (V03 §4.2), a wall stretch's `closure` grade (to `light`), a hand repair of stone that is gone (a new stretch or part on its line; V06) | V09 §4.9's `bend.*` rows |
 
 **The returned kinds** (§11.2's `ConflictAction.kind`; the one statement). A refused or conflicting outcome returns its
@@ -10738,7 +10842,7 @@ entities' leaf digests unchanged (§6.5 (9)'s truncation cases cover the lock + 
 | S4 (`drawWay` of an arterial, a moved arterial vertex, a moved destination, the castle placed or resized, a deck re-sited or removed by S1's water operator) | re-route only the arterials whose corridors meet the edit region or whose destination or deck moved, each between its nearest pinned nodes (junctions of degree ≥ 3 or destination nodes) on either side of the region, over S3's lattice, every deck a fixed graph edge | their endpoints; every spine outside the region | a gate-count change (a destination added or removed) re-derives from the stage that picks those gates: S3 for stage 1 (§4.2 S3 (7)), S5 of its stage for a later enceinte (§4.4) |
 | S5 (`drawWay` of a secondary, a deleted street, a secondary now crossing water off a deck) | regrow only inside the affected L1 cells, from the proposals whose origins lie there, under S5c's legality (water only on a deck) | the cells' boundary spines | — |
 | S6 (`drawBoundary`, district merge or split, `outskirtToDistrict`, land vacated or covered by a moved channel) | regroup and re-type only the districts touching the region, the grower restricted to their cells, its turn skips and picks drawn from `district.seed` as §6.1 keys them, so unchanged cells regroup as before; then **re-lay the margin bands**: along every L1 edge without corridors whose sharing changed (a moved stretch of the settlement perimeter, a reservation boundary two districts now share) S10's step (0) lays the margin band (§4.7) on both sides, and where a merge or conversion ends the sharing it removes both parts; the blocks fronting such a stretch on either side (a neighbour's or the hinterland's included) re-derive from S10 and join the effective scope shown in the dry run | every other district, and every block fronting no changed stretch | — |
-| S7 (`drawWall`, a moved trace vertex, `wallToWay`, `gateToJunction`, a river whose course crosses an enceinte moved; a declared way of a class above lane on ground part 0 crossing an enceinte — a `placeGate`'s stub or a declared road, item 101; an aqueduct's crossing adds an arch to the curtain's run and no gate, item 110 (b)) | re-trace only the run between the nearest unaffected towers on each side, with water gates where the course now crosses and a gate at each declared crossing (a lane across a strip stays refused, NF-P5; J-A101.76); re-cut the strips' setback and glacis lines along it; re-derive the strip blocks' S10 step (0) | the rest of the trace, its gates and its strips | Re-derive from S7 when the enceinte kind changes |
+| S7 (`drawWall`, a moved trace vertex, `wallToWay`, `gateToJunction`, a river whose course crosses an enceinte moved; a declared way of a class above lane on ground part 0 crossing an enceinte — a `placeGate`'s stub or a declared road, item 101; an aqueduct's crossing adds an arch to the curtain's run and no gate, item 110 (b)) | re-trace only the run between the nearest unaffected towers on each side, with water gates where the course now crosses and a gate at each declared crossing (a lane across a strip stays refused, NF-P5; J-A101.76); re-cut the strips' setback and glacis lines along it; re-derive the strip blocks' S10 step (0); on each standing raised way the new run crosses, the run bent through its nearest station on the deck at its level and its strips stopped under the deck where they cannot pass (§2.7's support step (6) (b)) — that raised way's crossing station in the effective scope and the fate report (§7.3 item 4), nothing else of it re-derived | the rest of the trace, its gates and its strips | Re-derive from S7 when the enceinte kind changes |
 | a carve (a canal, moat or basin drawn by an edit, `digCanal` among them; §4.11) | §4.11's way rule (pinned decks for arterials and sole connections, cuts for the rest) and footprint, in its declared batch order, the channel inserted with the footprint as its clear region (§3.3) | every way and finer face outside the carve's footprint (§4.11: the channel ⊕ (`attractCm` + bank setback) united with every L1 cell that buffer, the way rule and the wall re-trace touch — the rules (b)'s footprint follows), less the seam exception | if the clear region cannot be kept, §3.3's pre-decided fallback: a declared town-wide re-derivation with the fate report |
 | S8–S11 | per cell, block and plot (tree scope, §7.3 item 2; wall-strip blocks and the scope's side of every shared margin band from S10's step (0)) | the other side of every shared edge | — |
 | S12 | the covered hinterland faces and greenery entities; the hinterland unit re-lays its headland parts along the perimeter by step (0) first (§7.3 item 2) | the districts' side of the perimeter | — |
@@ -11258,7 +11362,7 @@ outcome is:
 | a cliff (bank kind `cliff`, a closure barrier of item 106) | the terrain brush and `drawWater` (§7.3 (a)–(b)); an enceinte stretch anchored on a cliff that a stroke flattens is re-traced by S7's operator and re-anchored or walled by F-WALL, listed in the fates | a locked enceinte masks the stroke under its band (`locked` mode) | the stroke leaves the list; the heightfield and strokes persist | S1 re-derives it; an edited cliff is a stroke kept in the list |
 | steep ground | the terrain brush; `slopeP95` re-sampled and a way past its class limit offered a re-route; a footprint past `skirtMaxCm` stepped (§7.3 (a) 4–5) | a locked building's footprint masks the stroke | as a stroke | as a stroke |
 | a river, a coast, a harbour, a moat, a bridge | S1's water operator or the carve (§7.3 (b), §4.11); decks re-sited by succession | a locked way, wall or finer entity refuses the new water; a pinned bridge's deck is a fixed graph edge | the undo record restores the whole chain's scope, decks and names included; the log replays | the operator's footprint re-derives, the rest byte-identical |
-| a raised way | `drawWay` with `raised`, T9 `shape`'s span, crossing and measure paths | its deck and piers held; a raised way over a locked way keeps its span `open` | the event's undo or the delete's undo (its suppression lifted) | kept by its reason key; a removed generated one stays removed (§7.1 *Delete*) |
+| a raised way | `drawWay` with `raised`, T9 `shape`'s span, crossing and measure paths | its deck and piers held (a later trace's crossing station taking the band's stretch, §2.7's support step (6) (b)); a raised way over a locked way keeps its span `open` | the event's undo or the delete's undo (its suppression lifted) | kept by its reason key; a removed generated one stays removed (§7.1 *Delete*) |
 | a retaining wall | T3 `retaining`, the `terrace` sugar | a locked wall masks the stroke on its high side | the event's inverse; its state profile's former knots restored | a generated wall re-derives with its terrain until edited |
 | a deck plot | T6 `place` on a deck face; the deck's width by `setAttr` | a locked deck plot's building holds while its deck stands | inverse | held while its deck stands, falling with it and re-offered when the deck is rebuilt (item 110 (d)) |
 | a square | V01's `setAttr(squareType)` on its block; the plaza's reservation through S3 | a locked square's faces are fixed inputs of S9b | V01 §4.4's undo | S9b re-derives it by its quota |
@@ -11345,7 +11449,7 @@ interface MigrationMap {                  // what the upgrade computed and the u
   packsSaved: { id: string; version: string; hash: Hash128 }[];   // the pack-set packs `to` does not ship whose content this upgrade copied into `packs`
   changedConfirmations: number[];         // seqs of the events before the upgrade whose fates, renames or sugar expansions, recomputed under `to`, differ from the confirmed ones (§7.3 item 4)
 }   // the address hand-offs are recomputed by §6.3's matching routine on every replay, never stored, so an upgrade event stays small; its renames are EditBase.renames (§7.1)
-interface UpgradeDiff {                   // shown before commit, recomputed on demand, never stored (DWG-02); §14's migrate returns it
+interface UpgradeDiff {                   // shown before commit, recomputed on demand, never stored; §14's migrate returns it
   changed: Id[]; orphans: Id[]; changedConfirmations: number[]; packsSaved: MigrationMap['packsSaved'];
   stats: { name: string; before: number; after: number }[];   // statistics deltas
   epochs?: { epoch: number; changed: Id[]; stats: { name: string; before: number; after: number }[] }[];   // a multi-epoch document's per-epoch diff
@@ -11416,7 +11520,7 @@ id, version and content hash (§2.9); the UI shows which layer set a value and t
 with reasons (O16 a–b).
 
 ```ts
-type TableId = string;   // a table's registry id (`@plat/tables`' REGISTRY below; V11 §2.1, one entry per row of V11 §3.1): dotted, stable, never reused — 'roster.classes', 'siting.families', 'dossier.kinds', 'era' … (MC-11); the key a SliceRef (§2.8), Recipe.tablePins (§2.9), an editTable (§7.1), a reference cell (below) and a tablePatch (§10.4) name
+type TableId = string;   // a table's registry id (`@plat/tables`' REGISTRY below; V11 §2.1, one entry per row of V11 §3.1): dotted, stable, never reused — 'roster.classes', 'siting.families', 'dossier.kinds', 'era' …; the key a SliceRef (§2.8), Recipe.tablePins (§2.9), an editTable (§7.1), a reference cell (below) and a tablePatch (§10.4) name
 interface TableView {   // the frozen, resolved tables every reader takes: V11 §3.2.2's loadTables(recipe, packs) over the override chain above; read-only
   hash: Hash128 /* the view's memo key: H128 of the pinned table hashes and the ordered override chain's row-op hashes (V11 §3.2.2) */;
   version(table: TableId): string /* the pinned version a SliceRef records */;
@@ -11457,7 +11561,7 @@ interface TableView {   // the frozen, resolved tables every reader takes: V11 �
   knowledge, not corpus-witnessed" (items 103 (d), 104 (f)). **The pinning hash** — the table content hash the recipe
   pins with each table's version (§2.9, §6.4) — covers each cell's value, unit, `calibratable`, `extension` and `presets`
   and excludes the whole provenance block (source, date, note, evidence, owner rule), so rewording or adding evidence
-  never moves an output version (V12-XCONF-2; V11 §3.2.1 step 7 computes it so). A **reference cell** `{ ref: { table:
+  never moves an output version (V11 §3.2.1 step 7 computes it so). A **reference cell** `{ ref: { table:
   TableId; row: string; cell: string } }` in any table holds another table's cell instead of a value — a value another
   table owns is held so, never copied — resolved when the tables load (a dangling or unit-mismatched reference fails the
   table compile, V11's compiler; T-V7-44) and read as that cell's current value; `editTable` on the referencing cell
@@ -11641,7 +11745,7 @@ interface Assignment { id: Id; granularity: 'building'|'neighbourhood'|'disperse
   dispersed?: { count: number; kind: BuildingClass | string; criteria: PlacementCriteria };
   criteria?: PlacementCriteria /* a building or neighbourhood assignment's own soft rows: a naming claim's location phrase (§7.7 item 16) */;
   claim?: { kind: 'name'; bias: { identity: string /* a quarter identity row (§10.2) */; weight: number }[] } /* a naming claim (§7.7 item 16): it names and biases, never zones */;
-  name?: string; function?: string; shapeClass?: BuildingClass; drift: DriftBounds /* ± area %, ± floors, allowed layouts and roof kinds, class family — read against §4.7 S11's designation template (item 19); typed in §2.6 (MC-11) */;
+  name?: string; function?: string; shapeClass?: BuildingClass; drift: DriftBounds /* ± area %, ± floors, allowed layouts and roof kinds, class family — read against §4.7 S11's designation template (item 19); typed in §2.6 */;
   precedence: 'overClassRules'; placed?: Id[] /* the solver's placements, persisted with the event */;
   existence: 'map'|'dossier' /* dossier: the element exists on every map the module returns (§7.7 item 2) */; dossier?: DossierRef /* §7.1: its `element` is the binding key (§7.7 item 12) */;
   state: 'active'|'ruined'|'removed' /* item 80: written only by dossier events through §7.7 item 14's rows; a map assignment stays 'active' */;
@@ -11921,7 +12025,8 @@ from the dossier and in accordance with our rules").
    it never contradicts (§7.7 item 11). A row's inputs are read in the order written — the dossier's, then the
    blueprint's own; no host input is a data input (item 125 (a)) — and when none is present the rule's default applies,
    the generator's own choice exactly as on a map made without a dossier, reported with the fallback taken (item 125
-   (b); T125-1); a missing input never refuses, stalls or becomes a request (§7.7 item 1). Standalone, the blueprint
+   (b); T125-1) — at an absorb a field that takes its fallback changes nothing, the carried fact standing (V08 §3.5); a
+   missing input never refuses, stalls or becomes a request (§7.7 item 1). Standalone, the blueprint
    and our own roster are the inputs of every row — the same rows, so connecting a dossier changes inputs, not rules;
    the tests run the rows
    from M1 on the frozen dossier fixtures and on blueprints alike (§13.2, items 83, 84). The rows are data
@@ -11978,7 +12083,7 @@ from the dossier and in accordance with our rules").
 | DR41 | the enceinte runs' generation-time condition (item 114 (d); the item-114 row) | `defence.readiness` (V08's `readiness` row: its band; standalone, the band the creation slice's `threat` gives by that row); `wealth.label` (DR6's `intent.wealthLevel`, its MEANS class against V11's `walls.condition.meansLow` and `meansHigh`); `site.culture` (the patch rows admitted); the enceintes and their stretches (DR2) | S3 and S7 lay each run's condition — `standing`, `worn`, `patched` or `breached` — from V11's `walls.condition` generation shares for (readiness band, MEANS class), and a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture (V11 §3.25.3), each run's last-change epoch 0; with `atGeneration` false every run `standing`; under history-first generation the replay's condition instead (V06 §3.7.7 (5)); over epochs the need reads max(`threat`, `PortValues.readiness`) and the means the wealth level in force (V06 §3.7.7; V08 §3.16 (2)) | `walls.condition` (§6.1) | a `vulnerable`, poor town shows patched and breached runs; a `fortress` in a rich city stands whole; with `atGeneration` false every run stands (the no-op pin) |
 | DR42 | the default view season (item 117: a look only, never in the model or its hash; the item-117 row) | the present week — the dossier's own latest stamped tick, the greatest of its conditions' `triggeredAt`, its calamities' and its history's ticks (§2.9's *The week's source*; §4.11 *The clock* (1); item 125); the `calendar` row (`sf445`); the climate: the `climates` row's terrain column for `site.terrain` (item 125 (b)), else the blueprint's choice; S0's relief class | §2.9's view state: under its "follow SettlementForge" flag the year position is the present week mod 52 on the `sf445` year (52 weeks, 13-week seasons from spring); with no stamped tick, and standalone, the view keeps the user's season control, midsummer (week 19) by default (item 125 (b)); the biome's climate row is the climate's first source present, set at creation (§4.2 S0); the season look reads that row's season columns (V11's), except that a `hilly` or `mountainous` relief (S0's class; item 117 (d)'s "mountain and upland colder") reads the next colder row's — warm → temperate → cold → severe, an arid or semi-arid row unchanged — the height correction, applied whichever source gave the row but once: a `mountain` terrain's terrain-column row, which already reads `cold` by its height, is not corrected again; the correction never changes the model's row; §8.2's season rows draw it; a later `site.terrain` word is reported (`frozen_fact_changed`, V08 §3.5), never re-drawn | none | a dossier map opens on its dossier's latest stamped week, one with no stamped tick on the user's season (midsummer by default); the same document hashes identically in all 52 weeks; a temperate row on hilly or mountainous relief draws the `cold` row's season cells, a `mountain` terrain's `cold` row is not corrected to `severe` |
 | DR43 | festival decorations (item 118: a look only, never in the model or its hash; the item-118 row) | the carried `tradition` facts (`trad:` keys: the name, the kind by the `festivals` row, the weeks of the `sf445` year, the staging keys, the deity; V08 §2.3, V08 §3.16 (5)); `site.culture`; the view's year position (DR42) | §2.9's festival display (follow, off, or preview one festival): following, a festival's decorations show while the view's week lies inside its weeks — a window whose end precedes its start wrapping past week 51 — drawn by §8.2's festival rows from §10.2's decoration table by tier and kind at the place its staging keys name, else the festival kind's fallback, never over a keep-out or a gate's passage, their colours and motifs by `site.culture` and the deity; two festivals in one week both show; a tradition with no readable week is unscheduled, shown only in preview; standalone no tradition exists and none is invented | `render.instances` (view draws only: §8.10's keyed placement, as §8.2's festival rows key it) | no festival changes a digest; a festival shows exactly in its weeks |
-| DR44 | the crisis looks (item 122, with (h)–(i): a look only, never in the model or its hash; the item-122 row) | the `ConditionOverlay`s standing in the view (§2.7: archetype, severity, `sinceWeek`, `untilWeek`; a stressor, a condition or a simulator event as V08 carries it) — §2.9's `week` in [`sinceWeek`, `untilWeek`), or from `sinceWeek` on while the overlay stands where it has no `untilWeek`, never the year position; a calamity's `targets` (`calamityHistory[]`); the forces', coalitions' and travelling groups' headcounts where the dossier gives them, else the condition's or calamity's own counts (`exodus`, arrivals) (item 122 (h); V08); the map's rung | each standing overlay → the `map` row of the source word V08 §3.16 (7) (b) gives the overlay (a stressor's type, a simulator crisis event, the `calamity` word of a linked condition, else its archetype) → its look row → its scale at the rung by severity, or by headcount at `areaPerHeadM2` where the dossier gives one, placed by §10.2's *Crisis looks* (c)–(f) and drawn by §8.2's look rows under §2.9's `crises` key (`off` none; `preview` one look at `previewSeverity` with no condition). The `map` rows are §10.2's `RosterTables.crisis` (its `stressor`, `archetype` and `event` rows): every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one, a look kind or `none` — `regional_migration_pressure` the refugee camp (item 122 (b)'s mass immigration), the other regional_* pressures `none`; a source with no row reads `none`, reported `unmapped_word` (V08); a stressor's overlay draws no look while a condition's overlay whose map row gives the same look kind stands (V08 §3.16 (7) (b)). Knowledge admission at the viewer's effective key (§9.2's admission function, as a band-less reader, §11.2): a condition's `knownTo` is `public` where its `map` row gives a look (a camp, a quarantine, smoke and ruins are sights) and `secret` where the row is `none`; a key form listing the overlay's address admits it whatever its tier (V08 §3.16 (7) (e); J-V8.128); a withheld condition is never drawn, listed, counted or named. What a crisis leaves reaches the model only through the epoch path (DR28's calamity in `EpochInputs.events`, the population target; V06's hand-over); standalone no condition exists and none is invented — only a preview draws | `render.instances` (view draws only: §8.10's render keys from the seed, the condition's id and the place, a preview keyed on its look kind; never a model stream) | the same document hashes identically with crises on and off and in every week (T122-1); each look shows exactly in its condition's weeks (T122-2); every SettlementForge stressor type and condition archetype at the baseline has its `map` row (T122-4) |
+| DR44 | the crisis looks (item 122, with (h)–(i): a look only, never in the model or its hash; the item-122 row) | the `ConditionOverlay`s standing in the view (§2.7: archetype, severity, `sinceWeek`, `untilWeek`; a stressor, a condition or a simulator event as V08 carries it) — §2.9's `week` in [`sinceWeek`, `untilWeek`), or from `sinceWeek` on while the overlay stands where it has no `untilWeek`, never the year position; a calamity's `targets` (`calamityHistory[]`); the forces', coalitions' and travelling groups' headcounts where the dossier gives them, else the condition's or calamity's own counts (`exodus`, arrivals) (item 122 (h); V08); the map's rung | each standing overlay → the `map` row of the source word V08 §3.16 (7) (b) gives the overlay (a stressor's type, a simulator crisis event, the `calamity` word of a linked condition, else its archetype) → its look row → its scale at the rung by severity, or by headcount at `areaPerHeadM2` where the dossier gives one, placed by §10.2's *Crisis looks* (c)–(f) and drawn by §8.2's look rows under §2.9's `crises` key (`off` none; `preview` one look at `previewSeverity` with no condition). The `map` rows are §10.2's `RosterTables.crisis` (its `stressor`, `archetype` and `event` rows): every SettlementForge stressor type, condition archetype and crisis event at the pinned baseline has exactly one, a look kind or `none` — `regional_migration_pressure` the refugee camp (item 122 (b)'s mass immigration), the other regional_* pressures `none`; a source with no row reads `none`, reported `unmapped_word` (V08); a stressor's overlay draws no look while a condition's overlay whose map row gives the same look kind stands (V08 §3.16 (7) (b)). Knowledge admission at the viewer's effective key (§9.2's admission function, as a band-less reader, §11.2): a condition's `knownTo` is `public` where its `map` row gives a look (a camp, a quarantine, smoke and ruins are sights) and `secret` where the row is `none`; a key form listing the overlay's address admits it whatever its tier (J-V8.128); a withheld condition is never drawn, listed, counted or named. What a crisis leaves reaches the model only through the epoch path (DR28's calamity in `EpochInputs.events`, the population target; V06's hand-over); standalone no condition exists and none is invented — only a preview draws | `render.instances` (view draws only: §8.10's render keys from the seed, the condition's id and the place, a preview keyed on its look kind; never a model stream) | the same document hashes identically with crises on and off and in every week (T122-1); each look shows exactly in its condition's weeks (T122-2); every SettlementForge stressor type, condition archetype and crisis event at the baseline has its `map` row (T122-4) |
 
    **The history replay's record.** A settlement generated from its history (DR36–DR39) carries the replay's record —
    §2.7's `HistoryRecord` (its peak with `symbolic` and the evidence used, its coarse epochs and the events each played,
@@ -12011,7 +12116,7 @@ from the dossier and in accordance with our rules").
 
 | element | binding key | re-binding receipts |
 |---|---|---|
-| the settlement | `settlement:<id>` — the dossier's own id, stable across reloads, same-seed regeneration and section rerolls; a new id is a new dossier and a new map | `rename-settlement` renames the title label only |
+| the settlement | `settlement:<id>` — the dossier's own id; where the dossier's `id` is empty or not of its line's form, at a creation `settlement:map:<mapId>`, the creating map's id, kept for the document's life (a later readable `id` neither replaces it nor is checked against it), and at an absorb the bound document's key (V08 §2.4's `id` row; item 125 (b)) — stable across reloads, same-seed regeneration and section rerolls; between readable ids, a new id is a new dossier and a new map | `rename-settlement` renames the title label only |
 | an institution | `inst:cat:<catalogId>`, else `inst:uid:<localUid>`, else `inst:name:<slug(name)>` — SettlementForge's own anchor precedence; `#k` appended for a collective record's k-th member; two records of one key told apart by their order in the dossier, reported `duplicate_key` | `demotedFrom` with the fate `demoted_by_disaster`, `promotedFrom` with `upgraded_by_reconstruction`: the row is kept and the record re-classed by its new name |
 | a power | `power:id:<faction.id>` when the dossier authored one, else `power:<slug(name)>` | `rename-faction` |
 | a notable | `npc:<id>` | a successor's `replacedNpc` links the successor's row to the one it replaces |
@@ -12233,9 +12338,10 @@ Receipts named `fixall_*.out` are in `docs/validation/bench/`.
 ### 8.1 The display list (renderer-independent, columnar, incremental)
 
 ```ts
-// LodBand, Role (§8.2), ZoomStop (§8.8), and LabelTable, StringTable and GeomTable with §9.2's LabelRows, are declared in
+// LodBand, Box, Role (§8.2), ZoomStop (§8.8), and LabelTable, StringTable and GeomTable with §9.2's LabelRows, are declared in
 // @plat/model (§14), so @plat/labels and @plat/render share them without either importing the other's code (N-22)
 type LodBand = 'city'|'district'|'neighbourhood'|'building';
+type Box = { x0: Cm; y0: Cm; x1: Cm; y1: Cm };   // an axis-aligned box in world cm, as MarkTable.bbox's four values: the one box type of §8, §9, §11 and §14
 type MarkKind = 'area'|'ribbon'|'outline'|'hatch'|'glyph'|'text'|'instances'|'shadow'|'field'|'shore'|'light';
 // one row per mark; every column a typed array, so any slice is transferable (§8.9); bytes per mark on the right
 interface MarkTable {
@@ -12982,7 +13088,7 @@ byte-identical (`item122.crises`; T122-7).
   | `famine` | its fields bare (`bareField`, over item 117's crop stage) | its pens empty (`emptyPen`) | the principal market's stalls under `shutter` bars |
   | `beast` | — | the edge's torn palisade sections (the `breached` wall-run row, below), `watchFire`s along the edge | `stakes` barricades |
   | `raiders` | burned outlying farms (`crisis.ash` footprints), smoke | abandoned carts; a `barricade` across each approach road | — |
-  | `disaster` | its districts in the `ruinTone` | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
+  | `disaster` | its units in the `ruinTone` (districts; at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units, on the plots `villageUnitPlots` gives each) | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
   | `occupation` | the garrison camp's `campCluster` | its tents; foreign `banner`s on the main gates and the castle, else the principal plaza | — |
   | `rebellion` | — | a `barricade` at each junction of the principal market's streets | — |
   | `boom` | — | `scaffold` on the frontages (the Works rows' program, below) | — |
@@ -13001,20 +13107,23 @@ byte-identical (`item122.crises`; T122-7).
   `markedDoor` a `crisis.mark` cross over the door's entrance tick; `barricade` a 1.5 px `ink` zig-zag across the way;
   `stakes` a row of 1 px `ink` ticks at 45°; `watchFire` a `fire` on a 2 m `crisis.ash` disc; `shutter` a 1.5 px `ink`
   bar across a frontage; `bareField` the field's own texture at 40 % of its contrast over `field` lerped 40 % toward
-  `crisis.ash`; `emptyPen` the pen's outline with no stock; `ruinTone` the district's faces under a `crisis.ash` wash at
-  α 0.35 with 1-px `ink` rubble dots where `RH32('crisis.place', key, salt, cell)` ÷ 2³² < 0.15.
+  `crisis.ash`; `emptyPen` the pen's outline with no stock; `ruinTone` a unit's faces — a district's, or at the village
+  rungs its unit's plots' (V07 §5.6 (3)) — under a `crisis.ash` wash at α 0.35 with 1-px `ink` rubble dots where
+  `RH32('crisis.place', key, salt, cell)` ÷ 2³² < 0.15.
 * **Placement, scale and the land** are §10.2's (d)–(f): keyed, by severity and rung — a hamlet's war band, a city's full
   siege line — or by the dossier's headcounts at `areaPerHeadM2` (two armies twice the ground; engines one per
   `enginesPerBesiegers`), several looks sharing the outskirts by `priority` under `densityCap`, a look standing only
   where §10.2 (d) admits it — never on water, a gate's passage or a label's keep-out, and on a way's carriageway only a
-  `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`, `rebellion`; §10.2 (d)) —
-  no camp, tent, cart, engine or other part. A disaster's buildings draw item 123's damage layer at its row's
-  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; item 122 (d)), and their districts the
-  `ruinTone` at the city band; the look leaves each building in the week V06 §3.22 (3)'s `crisisLookYields` turns true
-  on it — a Works other than a `decay` Works begun on it — so no week draws both the look and the rebuild's stage; a
-  building no rebuild reaches keeps it until its condition no longer stands; a district's `ruinTone` stands while any of
-  its buildings still draws the look. A preview never hands over (`crisisLookYields` is false with no overlay): a
-  previewed ruin draws over every building of its units whatever their Works.
+  barrier across it — a `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`,
+  `rebellion`), `beast`'s `stakes` where the edge crosses a way, and the quarantine's `cordon` where it crosses a way into
+  its quarter (§10.2 (d), (f)) — no camp, tent, cart, engine or other part. The buildings of a disaster look's units
+  (§10.2 (d)) draw item 123's damage layer at its row's `lookLevel` by severity, or at their own decay level where that
+  is higher (§8.6; item 122 (d)), and their units (V01 §3.16 (1)) the `ruinTone` at the city band; the look leaves each
+  building in the week V06 §3.22 (3)'s `crisisLookYields` turns true on it — a Works other than a `decay` Works begun on
+  it by the view's week, unless finished before the overlay's `sinceWeek` — so no week draws both the look and the
+  rebuild's stage; a building no rebuild reaches keeps it until its condition no longer stands; a unit's `ruinTone`
+  stands while the look stands over any of its buildings (§10.2 (f)). A preview never hands over (`crisisLookYields` is
+  false with no overlay): a previewed ruin draws over every building of its units whatever their Works.
 * **Read without colour; never over a label** (item 122 (d); item 112). Each look is told by its glyph shapes — an army
   by its banner's glyph — plain, cross, chevron, saltire and pale, by (i − 1) mod 5 against the four `crisis.army.*`
   colours by (i − 1) mod 4, so armies i and i + 4 differ in glyph and colour and glyph first repeat together at the 21st
@@ -13039,9 +13148,11 @@ matches as §11.2's gazetteer match listing gives them at the view's effective k
 a thing the key withholds is never suggested, counted, drawn or hinted at (no glow, pin, ghost pin, gap or legend chip
 of it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, whenever the key, band,
 layer, year position or drawn week (§2.9's `week`) changes, and when the view moves (item 120 (f)). **At a drawn week
-whose frame is not the head** (V06 §3.15.2) each chip's matches are that listing restricted to the entities the frame
-holds (the `gazetteer` query's `week`, §11.2): one the frame lacks is not drawn, pinned, counted or gapped there, a chip
-with none there reads count 0 for that week, and the chips themselves are unchanged. An `overlay` layer, it is composed
+whose frame is not the head** (V06 §3.15.2) each chip's matches are §11.2's listing at that week (the `gazetteer`
+query's `week`; *At a drawn week*): the frame's own — a building matched by its use at that week, never its head use, and
+an entity or use the frame holds matched though the head has since closed, moved or demolished it —, one the frame lacks
+or holds otherwise not drawn, pinned, counted or gapped there, a chip with none there reading count 0 for that week, and
+the chips themselves unchanged. An `overlay` layer, it is composed
 with the labels (§8.8) — at the device's pixel ratio — and never re-renders a base tile; with no chip it delivers
 nothing — Show gaps reads the kind chips (V09 §4.21.10 (10)), so `gaps` alone draws no veil — the tiles byte-identical
 (`item120.find`; T120-1). It draws over whichever Show view is on, and under every style preset (§8.4 (h)).
@@ -13063,12 +13174,13 @@ nothing — Show gaps reads the kind chips (V09 §4.21.10 (10)), so `gaps` alone
   disc holding the count in `paper` —, only among pins of one layer and, on Sky, of one island (V05 §5.6 (2)); a click on a
   bubble zooms to the stop at which its pins part. So no match is a lost speck, at item 116's limit or at the METROPOLIS
   cap (T120-5).
-* **Ghost pins** (item 120 (f)). A match on a layer not shown is its pin at α 0.35, with no halo, at the anchor where
+* **Ghost pins** (item 120 (f)). A match on a layer other than the one shown — the view's working layer (§8.4), whatever
+  other layers the view draws — is its pin at α 0.35, with no halo, at the anchor where
   its marks are drawn (an island's displaced under `offset`, V05 §5.6 (3)); a match Below that holds no element in the
   band shown — from Ground, from Sky, or on Below itself — carries beside its glyph its shallowest band's depth range as
   the band ladder writes it, kept above the veil (V04 §5.1 (2)–(3)).
 * **Show gaps' outline** (item 120 (i)). With `gaps` on, each of V01 §5.4 (3)'s gap units for each kind chip, on the
-  layer shown, is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
+  layer shown (the view's working layer), is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
   component — overlay text at the component's pole of inaccessibility, composed after the labels from the glyph atlas at
   the point labels' floor (6 px cap, §9.4), and left out at a stop where its box meets a placed label's (it is view data, never a
   `LabelEntity`, §9.1) — while a unit holding a match lies lifted with its matches.
@@ -13465,17 +13577,24 @@ reference never drew sits at a declared slot with a reason (§8.2's `OrderSlot`s
 * **Toggles are visibility; existence is model** (the rule's home is II.7.1 and II.6; J-A12.81): the sewer control at
   CITY and METROPOLIS and the island view toggle set `LayerSpec.visible`, so hiding a layer changes no digest and a
   toggle never creates what the settlement lacks (at TOWN the *Sewers* control is a model setting, II.7.1; whether
-  islands exist is the model setting `recipe.layers.islands`, II.6). The per-viewer view key
+  islands exist is the model setting `recipe.layers.islands`, II.6). The view's working layer (§2.9's per-viewer
+  `workingLayer`, V09 §4.2) is drawn in that view whatever its `LayerSpec.visible`, every other layer by its
+  `LayerSpec.visible`; switching the working layer — V09's view bar, Find's **Go there**, a clerk's `useTool` — sets view
+  keys only and never writes `LayerSpec`, so it sends no event and a viewer switches as an owner does (§11.3), and Find
+  changes no document, hash or log (item 120 (a)); a layer's own visibility changes only by its toggle (§7.8's layer
+  controls, T12 `dress`) or a host's layer command, each a logged `setLayer`. The per-viewer view key
   `showUnexcavated` (§2.9) draws unexcavated voids for a key that admits them (file f item 413; the `unexcavated`
   program, §8.2). The `underground`
-  layer is hidden by default at every rung; when shown, the cut-away or overlay draws one **depth band** at a time
+  layer is hidden by default at every rung; when drawn — visible, or Below the view's working layer — the cut-away or
+  overlay draws one **depth band** at a time
   (`depthBandCm`, II.7.3): the per-viewer view key `depthBand` (§2.9) names it, default the shallowest band holding a
   tunnel with frontage plots, else the shallowest tunnel; every underground entity's `elevationCm` is its depth below the
   datum (§2.1, II.7.3), and a tunnel, cell or vault is drawn — and exported, §11.1 — on its own level, the band that holds its
   floor, `z` ordering the bands across the underground layer's parts (§2.1's `PlatKey`, one arena each in §3.4). The `sky` layer's `visible` shows the islands a
   settlement has; a waning or settled island keeps its lowered `elevationCm` (II.6), so its shadow falls from its lowered underside (the
-  lighting model's slab, below) and §8.2's `states` row lowers its alpha. A hidden layer's lights and casters are not
-  drawn and light nothing on the visible layers, yet they still exist (J-A12.81, J-A15.41).
+  lighting model's slab, below) and §8.2's `states` row lowers its alpha. The lights and casters of a layer the view does
+  not draw — hidden and not its working layer — are not drawn and light nothing on the layers drawn, yet they still exist
+  (J-A12.81, J-A15.41).
 * **Two different things (K06).** The **raised under-copy** (`raised`) is MFCG's Raised: a dark copy of each footprint
   beneath it, swept by an offset read from a class row (§8.2's symbolisation row; item 54) — ON by default in `ink`; not a shadow and not sun-dependent, so it is drawn identically by day, at night and on every
   rung of the ladder below. **Cast shadows** are the lighting model's (below): height-derived, the absence of one
@@ -13597,7 +13716,8 @@ reference never drew sits at a declared slot with a reason (§8.2's `OrderSlot`s
   creates different angles for every shadow"). With `V` the view centre on the ground, `D` the view's half-diagonal in
   metres, `C` the pointer's ground point, u = C − V and s = `sunHeight` (≥ 1; default 1), the sun stands at
   G = V + s · u, height H = max(h₀ · D · s, 1.5 × the list's `surfaceTopCm` above the view's ground whenever the sky layer
-  is visible and the document holds an island that is not fallen, whatever is in view) (h₀ = `sun.heightRatio`; the
+  is drawn — visible, or Sky the view's working layer — and the document holds an island that is not fallen, whatever is
+  in view) (h₀ = `sun.heightRatio`; the
   floor V05 §5.3 (4), M6-sky). At s = 1 it stands over the pointer, and every caster's
   shadow falls straight away from it; a caster of height h at horizontal distance d from G throws its tip to
   d · h ÷ (H − h) beyond it (similar triangles), capped where the view ends when h ≥ H. As `sunHeight` rises the sun
@@ -13961,7 +14081,7 @@ same tag keyed by the element's ordinal instead of a cell, so nothing moves):
 |---|---|
 | wall run (outer) | a gap in its line, a bar across each end, and a rubble spill — 1-px `ink` dots at density 0.4 — over the run's band and one wall thickness to either side; seen from outside at the building band (V02), an opening in the footprint's outline |
 | partition | a stub at each end, half a wall thickness long, and the rubble spill along its line |
-| floor area | on any storey above ground level, a hole: the area filled in `void` under a dense `ink` cross-hatch at α 0.4 (the drop), its edge a broken hairline, the storey below seen through it as `trace` hairlines; at ground level and under it, a rotten patch in `ground` stipple, still walkable |
+| floor area | an `upperFloor` element (V03 §5.6 (1)): a hole: the area filled in `void` under a dense `ink` cross-hatch at α 0.4 (the drop), its edge a broken hairline, the storey below seen through it as `trace` hairlines; a `groundFloor` element — at ground level, under it, or a wing's first storey on a solid wing — a rotten patch in `ground` stipple, still walkable |
 | door | its leaf and swing arc gone: an open gap, one jamb tick broken |
 | window | its double line replaced by a single broken tick |
 | stair | its flights dashed and broken at mid-flight (no way up) |
@@ -13972,7 +14092,7 @@ As the level rises the damage only accumulates, each element breaking at its own
 moving (T123-2, T123-3); the states' looks follow from where V11's ranges place the thresholds — at `abandoned`, dust
 and debris (the floors' rubble stipple at density 0.1 × the level), broken furniture and doors off; at `decayed`, rotten
 patches and holes, partitions down, roof bays open; at `ruined`, outer walls broken, the upper storeys mostly floorless —
-fragments over the hole's cross-hatch — leaving the ground storey the only one that can be walked, cellars and crypts by their own
+fragments over the hole's cross-hatch — leaving the ground storey — with a solid wing's first storey — the only one that can be walked, cellars and crypts by their own
 thresholds (a ruined church keeps its crypt where its thresholds hold it, V03 §5.1). A room any of whose floor areas or
 the roof bay over which is drawn damaged is marked **unsafe** — a dashed `ink` diagonal cross over it at α 0.5, its label
 dropped — a shape, never a colour alone (item 112). A restoration lowers the level and the damage leaves in reverse
@@ -13982,10 +14102,11 @@ threshold order: an element whose threshold lies above the own level and at or b
 material's look, any other element by the patch look of its material's row, V11's `walls.patchMaterials`; its outline
 as built), until the plan changes (a rebuild, a demolition, a successor on the trace); a look leaves no patch
 (`decayPeak` never reads a look; V03 §5.6 (2) (b)). Every room, wall, opening and id is the plan in force's (T123-1). A
-building of a district a disaster look ruins draws the same layer at its row's `lookLevel` by severity, or at its own
-level where that is higher, until the look leaves it (V06 §3.22 (3)'s `crisisLookYields`; a preview never hands over;
-§8.2's *Crisis looks*) — in the drawing only: a battle map's walls, portals and lights read its own level (§11.1;
-V03 §5.3). A building never decayed draws byte-identically to its plan without the layer (`item123.damage`; T123-7);
+building a disaster look stands over (§10.2 (d)'s units; (f)'s hand-over: until V06 §3.22 (3)'s `crisisLookYields`
+turns true on it, a preview never handing over; §8.2's *Crisis looks*) draws the same layer at its row's `lookLevel` by
+severity, or at its own level where that is higher — in the drawing only: a battle map's walls, portals and lights read
+its own level (§11.1; V03 §5.3). A building never decayed draws byte-identically to its plan without the layer
+(`item123.damage`; T123-7);
 the drawn week
 joins its tiles' key (§8.8). It lands with V03's plan step that draws a decayed or ruined plan, the levels from V06 at
 M6-E and, before them, from the existence state at V11's default age (§16).
@@ -14095,13 +14216,14 @@ that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §
 * **Cache and invalidation (LC-23, N-8).** Tile key = (stop, i, j, tile DPR d, tile layer — `base`, or in path mode
   `under`, `shadow`, `over` —, style version, the view-state switches that change the layer's pixels: the year position
   while the pinned tables hold item 117's season rows (under their off form the named season) and `weather` (§8.2's
-  season rows), `cvdVariant` while the sheet ships a variant (§8.2), shadows on or off and their mode, model-layer
-  toggles, `plotsOnly` (city and district bands), `storey` (building band), `depthBand` and, for a `secret` key,
+  season rows), `cvdVariant` while the sheet ships a variant (§8.2), shadows on or off and their mode, the model layers
+  the view draws (their toggles and the working layer, §8.4), `plotsOnly` (city and district bands), `storey` (building
+  band), `depthBand` and, for a `secret` key,
   `showUnexcavated` (the underground layer; §8.4), the knowledge key while a `use`- or `owner`-keyed thematic row is active
   (§8.2) or while the tile holds a concealed mark, a mark drawn only for a key that admits it (§8.2's `access` and `link`
   rows) or a light whose host is either (§8.1 item 7), the drawn week where the tile holds a Works mark (§8.1
   item 7) or a building drawn under item 123's damage layer, whose decay level is read at it (§2.6 step 7; §8.6), and
-  `crises` and the effective knowledge key where it holds a building under a disaster look (V02 §5.7 (8)), the
+  `crises` and the effective knowledge key where it holds a building a disaster look stands over (§10.2 (f); V02 §5.7 (8)), the
   `light` key on the vector rung (its `@night` roles), `base` live layers (the festival and crisis displays among them,
   through `live.festival` and `live.crises`, §8.2); for the `shadow` layer — or, while projected
   shadows are on, `base` on a tier without shadow layers — the path-mode sun quantised to the tier's sun step (1°, or 3°
@@ -14169,11 +14291,11 @@ that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §
   14.25 = 123.25 MB) would add its text layer at D = 2 (35 MB) past the ceiling, it is lit at DPR 1 with its text layer
   (P = 12, 58 + 10.75 = 68.75 MB, + 35 = 103.75 MB); the low-end device at 1 366 × 768 is lit at DPR 1 (P = 12, 68.75 MB)
   and at 1 920 × 1 080 (P = 20, 92 + 12.75 = 104.75 MB) draws the vector rung; a tier that holds full precision never
-  draws the standard surface (`coh_repair_rendering_r3_resolution.out`): its reference view is lit at full precision at
+  draws the standard surface (`coh_repair_rendering_r3_resolution.out`): its reference viewport is lit at full precision at
   DPR 1 with its text layer on the high tier (P = 12, 85 + 21.5 = 106.5 MB, + 35 = 141.5 MB, where DPR 2 needs
   234.5 + 34 = 268.5 MB and DPR 1.5 191.5 + 35 = 226.5 MB) and draws the vector rung at DPR 1 with its text layer on
   the mid tier (43 + 35 = 78 MB); the low-end device at 1 366 × 768 draws the vector rung (43 MB; full precision's
-  85 + 21.5 = 106.5 MB does not fit); and the ultra tier keeps full precision for the reference view at DPR 2
+  85 + 21.5 = 106.5 MB does not fit); and the ultra tier keeps full precision for the reference viewport at DPR 2
   (268.5 MB) as the mid and high tiers do for a 1 366 × 768 view at DPR 1 (106.5 MB). The ultra tier holds
   a native-4K view (3 840 × 2 160 device px, P = 54) at its device ratio unlit in 169 MB, lit in 257.08 MB and at full
   precision in 399.17 MB (T121-8); a 5K screen (2 560 × 1 440 CSS px at D = 2) is drawn at the 4K ceiling's DPR 1.5 with
@@ -14206,7 +14328,8 @@ that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §
   and one decided during a gesture at its settle (*Gestures*, below) — at most once in 10 s, and a rung the loop left
   downward is taken again only after 60 s, doubling each time it is left again (our own; calibratable), so a load at a
   threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
-  d at once and is applied at once while the view is idle, at the settle while a gesture runs (T121-7). Each change and
+  d at once and is applied while the view is settled — at once when no gesture runs, at the gesture's settle otherwise
+  (T121-7). Each change and
   its reason — `screen` (the screen's resolution caps
   it), `memory` (the canvas need), `frames` (the loop) or `ceiling` (the 4K ceiling) — is counted in the view telemetry
   and read by V09's view-status chip, which names a DPR d as the level whose height is nearest below d × the screen's
@@ -14232,7 +14355,7 @@ that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §
   writes beside the composed bitmap while a spell is drawn — so no label, halo, Find glow or handle is ever covered
   (T124-6). While the underground layer is drawn (V04 §5.1's `cutaway`, `overlay` or `solo`), the spell draws nothing
   over the view — no mark, ripple, fog, mist or dust fade, shimmer or night halo — and §8.4 (i)'s terms are not applied
-  (the underground has no global light, §8.4 (e)); the effects return when the underground layer is hidden, the spell's
+  (the underground has no global light, §8.4 (e)); the effects return when the underground layer is no longer drawn, the spell's
   timeline running on (§6.1's `view.weather`). Rain's ripples stand only on water, read from a **water mask** — one bit
   per 8 × 8 device-px cell, 512 B per
   position, written by the tile worker from the water marks when it rasters the base and transferred while a rain spell
@@ -14576,10 +14699,10 @@ report — never a whole-map retry); the tests are census rows of §8.3's kind, 
 | T-ER-22 | wall runs in decay and repair (§8.2's wall rows; g item 114) at every rung THORP to the cap (a village palisade's runs included, V07): a run shorter than the minimum feature; a run whose material no `walls.patchMaterials` row names; a whole enceinte `breached`; save, load, undo, redo, regenerate and migrate of a run's condition and material | drawn 2 px long, centred; its wall kind's first row's look, reported; every run a gap with its rubble, the towers and gates standing; the runs persist as §2.7's profiles, a regeneration keeps them (§7.4's row), an undo restores condition and material, a migrated document draws `standing` and robust — never an error | the fixture of §8.3's wall row at every rung: tiles as stated; the reports present; each lifecycle step's tiles equal to a fresh render of its state |
 | T-ER-23 | seasons (§8.2, §8.4; g item 117) at every rung THORP to the cap: every week 0–51; a climate band wrapping the year's end; a climate with no ice or snow band; a water mark whose `season` column holds no ice kind; a crown with no `season.leaf` row; a face whose `season` column names no `season.surfaces` row (§8.1 item 8); a document with no season tables; a sheet whose `SunSpec.altitudeCdeg` is 10° or 0°; an `arid` row, or one whose winter does not freeze, with `weather` `snow` (item 124 (c)); a parity preset; save, load, undo, redo, regenerate and migrate | each week's looks by their rows; the band read cyclically; nothing frozen or snowed; that water and that face as drawn; that crown unchanged all year (evergreen); the off form's four named rows; the drawn sun's altitude clamped into [7.1°, 89°] in every week, the loader reporting a sheet it clamped (§8.4's *Sun through the year*); `snow` drawn as `clear`; under a parity preset the map as drawn, under its sheet's sun, in every week (§8.4 (h)); the year position is view state (§2.9) — persisted with the view, in no digest, left as it was by an undo, a redo and a regeneration, kept by a migration — never an error | the season fixture of §8.3 at every rung and every week: tiles as stated, the model digest constant; sheets at 10° and at 0° swept through all 52 weeks: the sun above the horizon and every value finite in every week; the arid and the non-freezing fixtures with `snow` set: 0 snow pixels in every week; a parity-preset fixture: its tiles equal in all 52 weeks; each lifecycle step's tiles equal to a fresh render of its state |
 | T-ER-24 | festival decorations (§8.2; g item 118) at every rung THORP to the cap and on a sky island: no traditions and no preview; a window wrapping the year's end; two windows overlapping; a staging place that does not stand, and none of its fallbacks; a place too small for its count; a tradition with no readable week; a festival shown under a parity preset; save, load, undo, redo, regenerate and migrate | nothing drawn, tiles byte-identical; the window read cyclically; both drawn, in window order; the next fallback, then the heart; as many as fit, the rest reported; shown only in preview (DR43); nothing drawn under a parity preset (the `extension` marker, §8.4 (h)); the display and the year position are view state (§2.9) and the schedule the dossier's facts (DR43), so each lifecycle step draws what its state shows — never an error | §8.3's festival fixtures at every rung and on an island fixture: as stated; a parity-preset fixture with a festival shown: its tiles identical, in every week, to the preset's without it; each lifecycle step's tiles equal to a fresh render of its state |
-| T-ER-25 | Find (§8.2's *Find*, §8.8, §11.2, §12.5; g item 120) at every rung THORP to the cap, at every band and on Ground, Below and Sky: no chip; a chip with no match; a chip whose target is gone; nine or more chips; a match under 6 px at the city band, at item 116's limit and at the METROPOLIS cap; pins closer than 24 px across two layers or two islands; a match on a layer not shown, and one Below off the band shown; Show gaps with no kind chip; a player key on the knowledge canary; the halo at every tile DPR and device ratio (item 121); under the weather effects and over a crisis look; every commit, regenerate, undo, redo, advance, load, migration and change of the year position or the drawn week; a scrub to a week before a matched building was built and to a week after a closed use's end | nothing drawn, tiles byte-identical; count 0, the chip dark; the same until removed; the colours repeating past eight, each chip told by its glyph (nine, by (k − 1) mod 9) beside its dash; a pin, or a count bubble; bubbles never across layers or islands; a ghost pin, Below with its band's depth range; no gap and no veil drawn (V09 disables the switch); nothing withheld suggested, counted, drawn or hinted at; the halo, pins and labels at the device ratio; the effects under the halo, the looks under the veil; the chips re-evaluated at each, the key `find` and the document unchanged; only the drawn frame's entities matched — counted, glowed, pinned, listed and gapped —, a chip with none there at count 0, the head's matches back at the head — never an error | Find fixtures at every rung, band and layer: as stated; T120-1, T120-3, T120-4 and T120-5's bars; at the METROPOLIS cap T120-6's budgets; chips 1 and 9 (and 8 and 16) differ in glyph on their pins, in the legend and in V09's panel; the scrub fixture's counts, glows and pins those of the drawn frame's entities |
-| T-ER-26 | the resolution adjuster (§8.8, §8.4 (g); g item 121) on the reference, the low-end and an ultra-tier device, at every rung: Auto and each manual level; a level above the screen's; a level the device cannot hold; a 5K and an 8K screen; a monitor change mid-gesture, and one with the view idle; a load at a threshold, and a loop step-down reached while the view is idle under a weather spell; a lost GPU context under Auto; a tier that holds full precision (its GPU pass missing §13.4's tolerance) under Auto and under a manual level it cannot hold; save, load and every export at each level | the fitted step by §8.8's one order; greyed by V09; the nearest step that fits, said (`memory`) — never a refusal; the 4K ceiling's DPR with the text layer at D, on the high tier's 8K the text layer stepped down, said; refitted at once, applied at the settle, and with the view idle applied within one frame of the decision; one change, then the lower rung held (60 s, doubling), and the idle step-down applied within one frame of the decision; the light rung lowered and never raised in the session; never the standard surface — lighting detail from rung 1 to rung 2 at full precision, then sharpness, then the vector rung (§8.4 (g)); labels, text, chrome and overlays at D; the setting device state, the document, hash and log unchanged, every export byte-identical — never a crash | a scripted Auto run over §12.5's reference views on each device: no change during a gesture, ≤ 1 change per 10 s at the threshold fixture, the p95 within the frame budget (T121-2, T121-3); each manual level honoured or the nearest drawn and said (T121-4); a pixel test of text and chrome at every level (T121-5); exports and the document byte-identical across settings (T121-6); a DPR change re-evaluated, and with the view idle the DPR change and the step-down each applied within one frame of the decision (T121-2, T121-7); on the full-precision tier every lit frame within §13.4's tolerance; native 4K lit at full precision on the ultra tier within 512 MB (T121-8) |
-| T-ER-27 | crisis looks (§8.2's *Crisis looks*, §8.8's ring, §10.2; g item 122) at every rung THORP to the cap and on an island town: no condition and no preview; a condition the key withholds; one standing in some weeks; a condition with no `untilWeek`; one whose `untilWeek` is not after its `sinceWeek`; an unmapped source; several crises at once past the density cap; a force whose camps exceed the frame and its margin; a siege of a place with no standing town enceinte; an island town with no land beyond its shore; a headcount of 0; the preview without a dossier; Show crises off; a parity preset; a coalition of five armies; a barricade on a way's carriageway (`blockade`, `raiders`, `rebellion`); a disaster whose rebuild Works begin on some of its buildings, and a disaster previewed over buildings under Works; Show crises toggled, and View as changed, over a cached district-band tile of a struck district; an unwalled TOWN with an `inside` castle, a walled CITY with an `outside` castle, a twin town with two rings, a walled town with extramural ribbons inside the standoff; the unserved mesa (S3 (9) (a)) with a refugee camp and a quarantine standing; a drawn week whose frame is not the head; save, load, undo, redo, regenerate, advance and migrate | tiles byte-identical; not drawn, legended or counted; drawn exactly in its weeks; from `sinceWeek` on; never; nothing (`none`, reported); by priority under the cap, the rest on the ring; filling the land to the margin, the rest on the ring at the city band, the limit and Fit containing it; `blockade`, no engines; the ring; the severity's scale; the look at `previewSeverity`; nothing; nothing (the `extension` marker); each army told by its colour or its banner's glyph; drawn across the way, no other part on a carriageway; each building leaving the look in its Works' start week, the district's `ruinTone` standing while any of its buildings draws it, the preview drawn over every building whatever its Works; the tile redrawn each time; 0 look pixels on a building footprint but the parts §10.2 (d) draws on the buildings themselves (the burned farmsteads among them), the blockade at the castle-only town; each on `campLand`, else on the ring marks, never undefined; placed over that frame (V06 §3.15.2); the looks view-only — each lifecycle step draws what its week, key and DR44 show, the hash unchanged — never an error | crisis fixtures — a siege by a two-army coalition and one by a five-army coalition, a quarantine, refugees, a famine, a fire, a flood and an earthquake by their calamities, each with its linked `reconstruction` condition (V08 §3.16 (7) (b)), an occupation, and `raiders` and `rebellion` (each previewed at every rung) beside the unwalled siege's `blockade` — at every rung through every week of their windows: T122-1 – T122-3 and T122-5 – T122-7's bars; 0 look pixels on water, a gate's passage or a keep-out, and none on a carriageway but a barricade's; the four siege fixtures: 0 look pixels on a building footprint but the burned farmsteads', and the blockade at the castle-only town; the mesa fixture's camps each on `campLand` or the ring; every army of the five-army coalition told by colour or glyph; no week drawing a building both ruined and under its rebuild's stage; the cached district-band tile redrawn at each toggle and each View as change |
-| T-ER-28 | the damaged plan (§8.6; g item 123) at every rung where plans draw: a building never decayed; level 0 and level 1; every state and a restoration with patches; a building generated ruined and one first met in item 113's replay; a stale plan; a one-room and an empty plan; a church with its crypt; a building of a disaster look's district, and its battle-map scene; a roofless wing of a `decayed` building, its level below its roof bays' thresholds; an element a restoring re-cut or an `extend` adds after its building's damage left; the week scrubbed back and forth; save, load, undo, redo, regenerate and migrate | byte-identical to its plan; no element damaged, every element damaged; by thresholds; the damage leaving in reverse threshold order, repaired elements in patch material; its as-built plan, then its damage; its cached rooms under the change marker until re-derived; that room's elements by their thresholds; its outline only; the crypt by its own thresholds; at `lookLevel`, or its own level where higher, until the look leaves it, the scene's walls, portals and lights its own level's (§11.1); every roof bay over its rooms open (§2.6 step 7); drawn as built, never as a repair (V06 §3.23 (3)); monotone with the level; nothing stored — each lifecycle step draws what its state shows, every id unchanged — never an error | a fixture of every element kind at the levels 0, ¼, ½, ¾ and 1: T123-1, T123-2, T123-4, T123-6 and T123-7's bars, on the plan as on its battle-map export; the exterior agreeing with the plan (T123-5, V02); a disaster-look fixture whose battle-map scene's walls and portals equal its own-level scene's |
+| T-ER-25 | Find (§8.2's *Find*, §8.8, §11.2, §12.5; g item 120) at every rung THORP to the cap, at every band and on Ground, Below and Sky: no chip; a chip with no match; a chip whose target is gone; nine or more chips; a match under 6 px at the city band, at item 116's limit and at the METROPOLIS cap; pins closer than 24 px across two layers or two islands; a match on a layer other than the working layer — that layer drawn or not —, and one Below off the band shown; Show gaps with no kind chip; a player key on the knowledge canary; the halo at every tile DPR and device ratio (item 121); under the weather effects and over a crisis look; every commit, regenerate, undo, redo, advance, load, migration and change of the year position or the drawn week; a scrub to a week before a matched building was built, to a week after a closed use's end, to a week before a matched use closed, and to a week before a building's use changed | nothing drawn, tiles byte-identical; count 0, the chip dark; the same until removed; the colours repeating past eight, each chip told by its glyph (nine, by (k − 1) mod 9) beside its dash; a pin, or a count bubble; bubbles never across layers or islands; a ghost pin, Below with its band's depth range; no gap and no veil drawn (V09 disables the switch); nothing withheld suggested, counted, drawn or hinted at; the halo, pins and labels at the device ratio; the effects under the halo, the looks under the veil; the chips re-evaluated at each, the key `find` and the document unchanged; the drawn frame's listing (§11.2's *At a drawn week*) — counted, glowed, pinned, listed and gapped —: a building matched by its use at that week, never its head use, a use closed since matched and drawn, a chip with none there at count 0, the head's matches back at the head — never an error | Find fixtures at every rung, band and layer: as stated; T120-1, T120-3, T120-4 and T120-5's bars; at the METROPOLIS cap T120-6's budgets; chips 1 and 9 (and 8 and 16) differ in glyph on their pins, in the legend and in V09's panel; the scrub fixture's counts, glows and pins those of the drawn frame's listing |
+| T-ER-26 | the resolution adjuster (§8.8, §8.4 (g); g item 121) on the reference, the low-end and an ultra-tier device, at every rung: Auto and each manual level; a level above the screen's; a level the device cannot hold; a 5K and an 8K screen; a monitor change mid-gesture, and one with the view idle; a load at a threshold, and a loop step-down reached while the view is idle under a weather spell; a lost GPU context under Auto; a tier that holds full precision (its GPU pass missing §13.4's tolerance) under Auto and under a manual level it cannot hold; save, load and every export at each level | the fitted step by §8.8's one order; greyed by V09; the nearest step that fits, said (`memory`) — never a refusal; the 4K ceiling's DPR with the text layer at D, on the high tier's 8K the text layer stepped down, said; refitted at once, applied at the settle, and with the view idle applied within one frame of the decision; one change, then the lower rung held (60 s, doubling), and the idle step-down applied within one frame of the decision; the light rung lowered and never raised in the session; never the standard surface — lighting detail from rung 1 to rung 2 at full precision, then sharpness, then the vector rung (§8.4 (g)); labels, text, chrome and overlays at D; the setting device state, the document, hash and log unchanged, every export byte-identical — never a crash | a scripted Auto run over §12.5's reference viewports on each device: no change during a gesture, ≤ 1 change per 10 s at the threshold fixture, the p95 within the frame budget (T121-2, T121-3); each manual level honoured or the nearest drawn and said (T121-4); a pixel test of text and chrome at every level (T121-5); exports and the document byte-identical across settings (T121-6); a DPR change re-evaluated, and with the view idle the DPR change and the step-down each applied within one frame of the decision (T121-2, T121-7); on the full-precision tier every lit frame within §13.4's tolerance; native 4K lit at full precision on the ultra tier within 512 MB (T121-8) |
+| T-ER-27 | crisis looks (§8.2's *Crisis looks*, §8.8's ring, §10.2; g item 122) at every rung THORP to the cap and on an island town: no condition and no preview; a `none`-row condition carried beside the looks, under View as at `public`, `local` and `secret`; one standing in some weeks; a condition with no `untilWeek`; one whose `untilWeek` is not after its `sinceWeek`; an unmapped source; several crises at once past the density cap; a force whose camps exceed the frame and its margin; a siege of a place with no standing town enceinte; an island town with no land beyond its shore; a headcount of 0; the preview without a dossier; Show crises off; a parity preset; a coalition of five armies; a barrier across a way's carriageway (a `barricade` of `blockade`, `raiders` or `rebellion`, a `beast`'s `stakes` where its edge crosses a way, a quarantine's `cordon` across a way entering its quarter); a disaster whose rebuild Works begin on some of its buildings, and a disaster previewed over buildings under Works; Show crises toggled, and View as changed, over a cached district-band tile of a struck district; an unwalled TOWN with an `inside` castle, a walled CITY with an `outside` castle, a twin town with two rings, a walled town with extramural ribbons inside the standoff; the unserved mesa (S3 (9) (a)) with a refugee camp and a quarantine standing; a refugee camp of two heads; a drawn week whose frame is not the head; save, load, undo, redo, regenerate, advance and migrate | tiles byte-identical; the `none`-row condition drawn, legended and counted at no key, each look-bearing condition's look the same at every key (`public`, §7.7's DR44); drawn exactly in its weeks; from `sinceWeek` on; never; nothing (`none`, reported); by priority under the cap, the rest on the ring; filling the land to the margin, the rest on the ring at the city band, the limit and Fit containing it; `blockade`, no engines; the ring; the severity's scale; the look at `previewSeverity`; nothing; nothing (the `extension` marker); each army told by its colour or its banner's glyph; drawn across the way (the cordon closing the quarter, §10.2 (f)), no other part on a carriageway; each building leaving the look in its Works' start week, the unit's `ruinTone` standing while the look stands over any of its buildings, the preview drawn over every building whatever its Works; the tile redrawn each time; 0 look pixels on a building footprint but the parts §10.2 (d) draws on the buildings themselves (the burned farmsteads among them), the blockade at the castle-only town; each on `campLand`, else on the ring marks, never undefined; placed by the overflow belt by the gate (`approachByGate`'s `h` at least 1, §10.2 (d)), never undefined; placed over that frame (V06 §3.15.2); the looks view-only — each lifecycle step draws what its week, key and DR44 show, the hash unchanged — never an error | crisis fixtures — a siege by a two-army coalition and one by a five-army coalition, a quarantine whose affected quarter ways enter, refugees, a famine, a fire, a flood and an earthquake by their calamities, each with its linked `reconstruction` condition (V08 §3.16 (7) (b)), an occupation, and `raiders` and `rebellion` (each previewed at every rung) beside the unwalled siege's `blockade` — at every rung through every week of their windows: T122-1 – T122-3 and T122-5 – T122-7's bars; 0 look pixels on water, a gate's passage or a keep-out, and none on a carriageway but a barrier's across it (a barricade's, a `stakes` barricade's or a cordon's); the four siege fixtures: 0 look pixels on a building footprint but the burned farmsteads', and the blockade at the castle-only town; the mesa fixture's camps each on `campLand` or the ring; every army of the five-army coalition told by colour or glyph; no week drawing a building both ruined and under its rebuild's stage; the fire at VILLAGE striking one end: the `ruinTone` on the struck end's plots only, and at an end-less THORP on the struck toft group's plots only (V07 §5.6 (3)); the cached district-band tile redrawn at each toggle and each View as change |
+| T-ER-28 | the damaged plan (§8.6; g item 123) at every rung where plans draw: a building never decayed; level 0 and level 1; every state and a restoration with patches; a building generated ruined and one first met in item 113's replay; a stale plan; a one-room and an empty plan; a church with its crypt; a building a disaster look stands over (§10.2 (f); a struck district's, and at VILLAGE a struck end's), and its battle-map scene; a roofless wing of a `decayed` building, its level below its roof bays' thresholds; an element a restoring re-cut or an `extend` adds after its building's damage left; the week scrubbed back and forth; save, load, undo, redo, regenerate and migrate | byte-identical to its plan; no element damaged, every element damaged; by thresholds; the damage leaving in reverse threshold order, repaired elements in patch material; its as-built plan, then its damage; its cached rooms under the change marker until re-derived; that room's elements by their thresholds; its outline only; the crypt by its own thresholds; at `lookLevel`, or its own level where higher, until the look leaves it, the scene's walls, portals and lights its own level's (§11.1); every roof bay over its rooms open (§2.6 step 7); drawn as built, never as a repair (V06 §3.23 (3)); monotone with the level; nothing stored — each lifecycle step draws what its state shows, every id unchanged — never an error | a fixture of every element kind at the levels 0, ¼, ½, ¾ and 1: T123-1, T123-2, T123-4, T123-6 and T123-7's bars, on the plan as on its battle-map export; the exterior agreeing with the plan (T123-5, V02); a disaster-look fixture whose battle-map scene's walls and portals equal its own-level scene's |
 | T-ER-29 | the weather effects (§8.2's *Weather effects*, §8.4 (i), §8.8; g item 124) on every climate row through all 52 weeks, at every rung: the switch off; reduced motion and the low tier; the densest spell; a spell over every label, halo, Find glow and handle; fog at night among lights; a snow spell on an `arid` or non-freezing row; a spell on the vector rung and after a lost GPU context; a spell during an export, a resize and a gesture; a parity preset; the underground layer drawn as `cutaway`, `overlay` or `solo` during a spell; the timeline replayed from its seed and clock | nothing drawn; off by default (V09); ≈ 1 ms per frame (§12.5); nothing covered; a halo on every drawn light; nothing falls or lies; the wash and the halos only; the export without effects, the layer redrawn at the new size, the gesture's frames within budget; nothing drawn; nothing drawn, the underground tiles and light byte-identical with the effects on and off; the identical sequence — never a crash or a change of any tile | T124-1 – T124-9's bars on V12's harness: the hash and every tile identical with the effects on and off, exports byte-identical, a pixel test of labels and chrome, the luminance trace within the photosensitivity limit; the underground fixture in `cutaway`, `overlay` and `solo` with a spell: 0 effect pixels, its tiles and light byte-identical with the effects on and off |
 
 ## §9 Labels and map furniture
@@ -14624,7 +14747,7 @@ ruler are drawn on top; each can be moved, restyled or switched off.
   and district names come from the dominant identity and character (§10.4, item 72), and a quarter the dossier
   claims carries its claimed name (§7.7 item 16, item 82) — S13a's naming, read here, never a
   second rule. An undercity neighbourhood (II.7.5; item 65) is a leaf of the tree under its parent district's node,
-  named as the underside of that quarter, its labels candidates only while the underground layer is visible (§9.2); the
+  named as the underside of that quarter, its labels candidates only while the underground layer is drawn (§9.2); the
   sewer's pseudo-district stays a leaf in a family of its own (II.7.3); each sky island is a root of its own, its members
   the island's districts, `cityCut` true, named with the island's name (V05 §3.14). A **region group** (a `group` event, §7.1; J-A101.84) names
   any set of nodes whose districts are disjoint — its label drawn at the city band above the city cut (§9.4) — and is
@@ -14672,8 +14795,9 @@ Judgment call: J-R12 (placement as view data, measured with our own font metrics
   collision can appear, and crossing below a stop switches to that coarser stop's placement. Zero collisions therefore
   hold at every zoom, not only at the stops.
 * **The candidate set of a stop** is fixed before the greedy runs: every `LabelTable` row drawn at the band whose layer
-  is visible (`LayerSpec.visible`, §8.4 — a hidden underground or sky layer's district, tunnel and cell labels are not
-  candidates; and a visible sky layer's occlusion rule of V05 §5.4, M6-sky) and that the **admission function** below
+  the view draws (its `LayerSpec.visible`, or the view's working layer, §8.4 — a hidden underground or sky layer that is
+  not the working layer: its district, tunnel and cell labels are not candidates; and a visible sky layer's occlusion
+  rule of V05 §5.4, M6-sky) and that the **admission function** below
   admits, minus the labels §9.4's rung (5) hands to a quarter at this
   stop, plus the quarter candidates rung (5) creates (§9.4; N-11). Rung (5) is decided from geometry alone and the
   filter from one byte per row, so the set is known before any collision is tested.
@@ -15481,7 +15605,12 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   decoration engine, the `map` rows with the port at M-SF (§16); before them the `map` set is empty and every condition
   reads `none`. Until V01's W10 (M5) the `disaster` look draws no district (its legend line and Find's listing stand) and
   `affectedQuarter` is the district with the most households per hectare; until V06's E2 (M6-E) `approachByGate` ranks
-  the main approach road's `campLand` faces by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); at the
+  the main approach road's `campLand` faces by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer);
+  until V06's E2 (M6-E) a building leaves the `disaster` look by the yield read directly over the base's records
+  (`Building.works`, §2.6; the lifecycle's weeks once a record retires, §4.11 *Works* (9)) — V06 §3.22 (3)'s rule: a
+  Works other than a `decay` Works begun on it by the view's week and not finished before the overlay's `sinceWeek`,
+  never for a preview — so §8.2's `ruinTone`, the buildings' damage and V09's rows read one answer from the look's
+  first milestone; at the
   village rungs before V07's step the village draws no disaster unit — a part whose subject is not yet built draws
   nothing (§16).
   (a) **A look only.** The table is read by §7.7's DR44, §8.2's crisis look rows, §11's picture exports (a battle map's
@@ -15502,7 +15631,9 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   clamped into [0, 1]): camped ground in m² at a camp place (`beyondWalls`, `approachRoads`, `approachByGate`,
   `outside`, `gatesAndKeep`'s camp), else the share of its place's units ((d)) — a share s of a place's n units takes
   round(s × n) clamped to [1, n] where s > 0 and none where s ≤ 0, V01 §3.16 (5)'s count, one rule for every place at
-  every rung. **By headcount** (item 122 (h)): where the dossier gives a force's or a group's size (V08's fields, in
+  every rung; the `neighbourhoods` place then draws at least every matched target (max(k, |`matched`|), k that count)
+  and, by fire, stops where its order ends, the shortfall reported (V01 §3.16 (5)).
+  **By headcount** (item 122 (h)): where the dossier gives a force's or a group's size (V08's fields, in
   development, confirmed by item 125 (d)), its camp is sized by it, never by severity — each army its own camp of
   `areaPerHeadM2` × its heads, a travelling group's (migrants, pilgrims, a caravan) at the same rate, so two armies
   joined make twice the camped ground; where it gives none, the condition's or calamity's own count (`exodus`, arrivals)
@@ -15512,8 +15643,9 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   preview keys on its look kind in the condition's stead), never a model stream, so a crisis draws the same in every view
   and export. A look stands only on the ground arena's part 0 and never on water, a gate's passage (its opening and 4 m
   along its way each side, as §8.2's festival rows keep it) or a label's keep-out, and on a way's carriageway only a
-  `barricade` across it ((f)'s `raiders` barricaded roads and `rebellion` street barricades, §8.2's `blockade`
-  barricade; item 122 (b)) — never a camp or any other part; no camp, siege line or other part stands on a building
+  barrier across it — a `barricade` ((f)'s `raiders` barricaded roads and `rebellion` street barricades, §8.2's
+  `blockade` barricade), `beast`'s `stakes` where the edge crosses a way, and the quarantine's `cordon` where it crosses
+  a way into its quarter; item 122 (b) — never a camp or any other part; no camp, siege line or other part stands on a building
   footprint, save the parts (f) draws on the buildings themselves (the burned farmsteads and farms, a disaster's ruins
   and its districts' tone, the marked doors, the banners, the scaffolding and the shutters), a siege line broken where
   it would cross an extramural plot's building. The outskirts' land is V01's `campLand(doc)` (V01 §3.16): the `commons`
@@ -15529,7 +15661,7 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   each place below read on the village's records as V07 §5.6 (2) states, `affectedQuarter` a unit of V07 §5.6 (3):
   * `beyondWalls` — the `campLand` faces lying at least `siegeStandoffM` beyond the outermost standing town enceinte's
     outer strip along its walled arcs (the walls above); a closure arc with no wall (V11 §3.16.1) draws none;
-  * `approachRoads` — `campLand`'s verges of each arterial leaving the settlement (V01 §3.16 (2)), one camp per road, the
+  * `approachRoads` — `campLand`'s verges of each arterial leaving the settlement (V01 §3.16's `campLand` (2)), one camp per road, the
     look's camped ground divided equally among them (the remainder to the roads one each, in trade-weight order); with the
     dossier's forces, each army's camp ((c)) whole on one road, the armies in descending size onto the roads in
     trade-weight order, a road taking a second army only when every road holds one; a road whose verges hold no
@@ -15537,8 +15669,9 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
     nearest the reference point (below);
   * `approachByGate` — the `campLand` faces along the main approach road by its gate, nearest V06's
     `frontierFor(doc, h)`, `h` the households the sequential roster adds between the present population and that
-    population plus the camp's heads (its headcount by (c), else its camped ground ÷ `areaPerHeadM2`): where the next
-    growth would seat the camp's people (V06 §3.22 (2)); with no main approach road, nearest `frontierFor`'s answer, else
+    population plus the camp's heads (its headcount by (c), else its camped ground ÷ `areaPerHeadM2`), at least 1, so a
+    camp smaller than one household is seated where the next household would be:
+    where the next growth would seat the camp's people (V06 §3.22 (2)); with no main approach road, nearest `frontierFor`'s answer, else
     nearest the reference point;
   * `outside` — the `campLand` faces furthest from the main approach road (with none, from the reference point), beyond
     the outermost standing town enceinte's outer strip or, unwalled, the built edge;
@@ -15554,9 +15687,11 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   * `streets` — the junctions and frontages of the districts' ways, the principal market's first;
   * `neighbourhoods` — whole districts by V01's `disasterDistricts(doc, overlay, key)`: the calamity's `targets` first,
     else its pattern (fire through contiguous blocks downwind from a keyed seed district, flood on the low ground by the
-    water, earthquake scattered), the `disaster` row's `scale` the share of districts; at THORP, HAMLET and VILLAGE V07's
-    ends (V07). Every building of a returned district draws item 123's damage at the row's `lookLevel` by severity, or at
-    its own decay level where that is higher (V02, V03, V04; nothing stored) — no second, per-building share.
+    water, earthquake scattered), the `disaster` row's `scale` the share of districts; at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s
+    units (`villageDisasterUnits`: its ends, or an end-less thorp's toft groups). Every building of a returned unit — a
+    district's, or one on a returned unit's plots (`villageUnitPlots`) — draws item 123's damage at the row's `lookLevel`
+    by severity, or at its own decay level where that is higher (V02, V03, V04; nothing stored), while the look stands
+    over it ((f)) — no second, per-building share.
   (e) **Several at once** (item 122 (c)). The camp looks take the outskirts in `priority` order (siege, then quarantine,
   then refugees; ties by condition id), each from what the earlier left, together at most `densityCap` of `campLand`'s
   free land. A camp that cannot take its ground — the cap reached, the frame and its margin full, a force too large for
@@ -15570,23 +15705,28 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   armies each pitch their own camp in their own colours (§8.2), spread round the town at bearings evenly spaced from a
   keyed start, so the larger the coalition the fuller the ring; a `siege` of a place with no standing town enceinte
   draws the `blockade` row. `quarantine`: a fenced camp with huts, a pest-house, fresh grave rows and smoke at its
-  place, and inside, at the neighbourhood band, marked doors and a cordon in the `affectedQuarter`. `famine`: its fields
+  place, and inside, at the neighbourhood band, marked doors and a cordon closing the
+  `affectedQuarter` — along its boundary on the quarter's side of each bounding way's corridor, across each way that
+  enters it. `famine`: its fields
   bare, over item 117's crop stage (§8.2), empty pens and the principal market's stalls shuttered. `disaster`: (d)'s
-  `neighbourhoods`, each building leaving the look in the week V06 §3.22 (3)'s `crisisLookYields` turns true on it (a
-  Works other than a `decay` Works begun on it), a building no such Works reaches keeping it until its condition ends,
-  so no week draws both on a building. `occupation`: foreign banners on the main gates and the castle (else the
+  `neighbourhoods`; the look **stands over** a building of one of its units until V06 §3.22 (3)'s `crisisLookYields`
+  turns true on it — a Works other than a `decay` Works begun on it by the view's week, unless finished before the
+  overlay's `sinceWeek` — the building leaving the look in that week; a building no such Works reaches stays under it
+  until its condition ends, and a preview never hands over (every building of its units under it), so no week draws both
+  on a building. `occupation`: foreign banners on the main gates and the castle (else the
   principal plaza) and a garrison camp on its place's camp land. The rest at their places: `refugeeCamp` tents, carts
   and cooking fires; `beast` torn palisade sections, watch-fires and stake barricades; `raiders` burned farms, smoke,
   abandoned carts and barricaded roads; `rebellion` street barricades; `boom` scaffolding; `bust` shuttered shops.
   (g) **Framing** (item 122 (i)). The placed camps' and the ring arcs' bounds are the camps §2.9's opening view, Fit and
-  item 116's zoom-out limit take in with the town while a look stands (model §2.9; the limit's stop 0 where nothing fits,
+  item 116's zoom-out limit take in with the town while a look stands (§2.9's *The crisis framing*; the limit's stop 0 where nothing fits,
   §8.8).
   (h) **At its limits** (EP-27). No outskirts land left, an island town with no land beyond its shore, or a force larger
   than the frame and its margin: the remainder drawn as (e)'s ring marks; a siege of a place with no standing town
   enceinte (a mesa whose every arc is a closure feature and an unwalled town with a castle among them): the `blockade`
   row by `approachRoads`' rule, no engines; a place no way leaves: every camp measured from the reference point ((d));
   THORP to the METROPOLIS cap: each rung's `scale` cell, and no siege line at THORP and HAMLET; a headcount of 0 or
-  none: (c); an unmapped source: (b); a condition whose `untilWeek` is not after its `sinceWeek`: never stands; no
+  none: (c); a camp smaller than one household: by the gate, `approachByGate`'s `h` at least 1
+  ((d)); an unmapped source: (b); a condition whose `untilWeek` is not after its `sinceWeek`: never stands; no
   condition and no preview: every tile byte-identical to the base (`item122.crises`).
   (i) **Bars**: §13.2's T122-1 – T122-7 and V12's item-122 (h)–(i) measurements.
 * **Rows at their limits (EP-18).** V11's compiler checks every row set before a model reads it (V11 §3.1, T-V11 bars): a
@@ -15831,7 +15971,7 @@ elevation).
 **Knowledge (item 30; J-A30.83, J-A30.85).** Every picture and interchange export takes the requesting viewer's
 knowledge key with the view state (§11.3), or a lower admission the request names (`ExportOpts.knowledge`: §11.2's
 `Admission` — a tier, or a key form `{ tier, places }` — admitting exactly what both it and the caller's key admit, so
-never above the caller's; the bridge's `export.request` carries the same field; an application passes the view's
+never above the caller's; the bridge's `export.request` carries it in its `opts`, §11.3; an application passes the view's
 effective key there by default, V09 §5.10; file f item 453), and reads it through §9.2's admission function at its band —
 an SVG its declared band, a raster the band of its export stop, a storey's scene the building band, a file without a
 band (GeoJSON, CityJSON, glTF extras, CSV, a scene's journal entries) as at the city band — so a shared SVG, PNG, VTT
@@ -15976,7 +16116,8 @@ cross the API and bridge boundary as `<docId>/<id>`.
   building's footprint less its doors and every outer wall run its own decay level fells (V04 §5.6 (5)) — a `cellarWall`
   run keeping its segment —;
   `portals` only at openings in a wall line — a door access, a door or breach link,
-  an underground building's entrances, each tunnel grille (closed when locked, bricked, gated or secret); every vertical
+  an underground building's entrances whose door its own decay level leaves standing (a door past its threshold an open
+  gap, no portal; V04 §5.6 (5)), each tunnel grille (closed when locked, bricked, gated or secret); every vertical
   access (stair, shaft, ladder, hatch, well, grating, mouth, sinkhole) a shaft light plus a `plat` extension object; and
   `lights` the band's lights and shafts — each only where the export's key admits it (§8.1 item 7).
 * **Per raised way (item 110 (b); M3a):** each raised way crossing the scope adds one deck scene at its mean deck
@@ -16029,7 +16170,7 @@ interface PlatApi {
   cancel(h: DocHandle, token: string): void;                                                         // drops it; nothing was committed
   preview(h: DocHandle, e: EditEvent | EditEvent[], opts?: { view?: ViewHandle; filtered?: boolean; admitAs?: Admission;
     variations?: 3; page?: number; focus?: number }): Promise<PreviewResult>;   // item 101: the dry run alone — nothing committed; with a view, its ghost drawn as `live.ghost` (§8.2); an editing role's call (*Knowledge*, below); `variations`: *Variations*, below (file f item 461)
-  thumbnail(h: DocHandle, req: { previewId: string; variation: number; box: BoxCm; px: [number, number] }): Promise<ImageBitmap>;   // the tile worker's export-class raster of a preview's overlay ghost marks, ≤ 160 × 120 CSS px at the view's DPR, transferred
+  thumbnail(h: DocHandle, req: { previewId: string; variation: number; box: Box; px: [number, number] }): Promise<ImageBitmap>;   // the tile worker's export-class raster of a preview's overlay ghost marks, ≤ 160 × 120 CSS px at the view's DPR, transferred
   undo(h: DocHandle, of?: number): Promise<ApplyResult>;   // appends an `undo` event for the handle's session (§7.4); `of` only for the `owner` role; a conflict lists the dependent events
   redo(h: DocHandle): Promise<ApplyResult>;                  // appends a `redo` event for the handle's session (§7.4)
   query(h: DocHandle, q: Query, opts?: { admitAs?: Admission }): Promise<QueryResult>;   // ≤ 64 KB per page, paginated (kinds below); admitted by the knowledge key (below)
@@ -16066,28 +16207,45 @@ interface ExportOpts {   // every option an export reads, declared once (§11.1'
   displayNames?: Record<string, string>;   // HostContext.displayNames (§14; §11.1 *Display names*): dossier key → text, drawn for this export only, never stored
   find?: boolean;        // §11.1: absent, Find drawn on a picture export as the view shows it and off on a battle map; false leaves it out; true draws it in a
                          // battle map's image
-  frame?: BoxCm;         // a picture's frame or a scene's scope in model cm — a district or the selection passed as its box —, cut to the limit bounds (§8.7);
+  frame?: Box;           // a picture's frame or a scene's scope in model cm — a district or the selection passed as its box —, cut to the limit bounds (§8.7);
                          // default the view's frame (a scene's snapped to whole grid squares, §11.1), with no view the limit bounds
   band?: LodBand;        // SVG's declared band (§11.1): 'city' by default; 'district' after its size estimate; 'neighbourhood' only for a district-sized or smaller frame
   size?: { px: [number, number] } | { paper: 'A4'|'A3'|'A2'; dpi?: number /* 300 */ };   // PNG and print (§8.7, §8.8): the frame over the size is the export's
                          // scale, whose zoom stop places the labels (§9.2); default the view's size × 2 (V09 §5.10's "screen")
-  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default, for a picture, those the view shows (`LayerSpec.visible`,
-                         // §8.4), for every other format every layer
+  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default, for a picture, those the view draws (`LayerSpec.visible`,
+                         // and the view's working layer, §8.4), for every other format every layer
   perLayer?: boolean;    // PNG: one transparent PNG per layer, zipped, a raised part its own (§11.1): default false
   background?: 'paper'|'transparent';   // PNG: default 'paper'
   furniture?: boolean;   // the picture's furniture (§9.5): default true
   text?: 'outlines'|'embedded';         // SVG's text (§11.1; J-R32): default 'outlines'
   lighting?: 'vector'|'raster';         // SVG's light (§11.1): rung 3's vector shadows by default, or one raster lighting layer from the CPU reference
   anchor?: { latDeg: number; lonDeg: number; bearingDeg: number };   // GeoJSON and CityJSON: the geo anchor (§11.1); default the view key `exportAnchor`, else §11.1's no-place default
-  trees?: 'groups'|'each'|'none';       // GeoJSON (§11.1): one MultiPoint per green entity (default), one Feature per tree, or none
+  trees?: 'groups'|'each'|'none';       // GeoJSON (§11.1): one MultiPoint per green entity (default), one Feature per tree, or none; the 3-D formats (§11.1:
+                         // glTF's instanced crowns, CityJSON's `SolitaryVegetationObject`s): 'none' leaves them out, any other value writes them (default)
+  raised?: boolean;      // GeoJSON (§11.1's item-110 clause; file f item 447 (a)): false leaves out every feature on a raised part (`part` ≥ 1, the raised
+                         // ways' LineStrings) and the `raisedSupport` and `span` Polygons; default true
+  retaining?: boolean;   // GeoJSON (the same clause): false leaves out the `retaining` LineStrings; default true
+  links?: boolean;       // GeoJSON (V09 §5.15): one LineString of kind `supplyLink` per supply link within the export's scope (its good, consumer, provider,
+                         // satisfaction and declared row, as the `links` query below reads them); default true while the view's `thematic` is `links`, else false
+  wings?: boolean;       // GeoJSON with stage 3 registered: V02 §5.5's optional `wings` layer (§11.1); default false
   exportWhy?: boolean;   // GeoJSON and CityJSON (§11.1; file f item 456): default false
   compositions?: 'asDrawn'|'derive'|'none';   // glTF and CityJSON with stage 3 registered (§11.1; V02 §5.5): default 'asDrawn'
   interiors?: boolean;   // glTF (§11.1; V03 §5.3): default false
+  terrain?: boolean;     // the 3-D formats: the ground surface — glTF's draped ground partition, CityJSON's `TINRelief` (§11.1); false leaves it out; default true
+  lights?: boolean;      // glTF: the `KHR_lights_punctual` lights (§11.1; item 68); false writes none; default true
   numbering?: 'off'|'storey'|'building';   // the JSON `plan` block's room numbers (V03 §5.3), in the modes of `roomNumbers` (§2.9's view key): default 'off'
   stride?: number;       // the animated history (APNG; V06 §5.3): an epoch stride in years; absent, every epoch
   vtt?: { squareM?: number /* 1.5 (5 ft), or 1 */; pxPerSquare?: number /* 100; at least 50 */; plainPng?: boolean /* the `{cols}x{rows}` PNG beside it; false */;
-    scene?: { key: PlatKey } | { depthBand: number } | { building: Id; storey?: number } /* one scene set; absent, every set §11.1's profile writes for the scope */ };   // dd2vtt and Foundry (§11.1's profile)
+    scene?: { key: PlatKey } | { depthBand: number } | { building: Id; storey?: number } | { raisedWay: Id /* its deck scene, §11.1 *Per raised way* */ } /* one scene set; absent, every set §11.1's profile writes for the scope */ };   // dd2vtt and Foundry (§11.1's profile)
 }
+// Out of range (principle (11)). A request from a script or the bridge (V09 §5.10's dialog offers none) whose member lies outside the range its comment
+// gives is never drawn as asked. A member with a nearest lawful value is clamped to it — `vtt.pxPerSquare` below 50 to 50, `vtt.squareM` to the nearer
+// of 1.5 and 1, `band` 'neighbourhood' over a frame larger than a district to 'district' — the file made at that value and the clamp listed in its
+// metadata's `plat.clamped: { member: string; asked: unknown; used: unknown }[]` (the `.dd2vtt`'s `plat` extension object, a Foundry scene's
+// `flags.plat`, the SVG's `<metadata>` JSON; every clamped member is one of these formats'). A member with none — a `vtt.scene` naming a key, depth
+// band, building, storey or raised way the scope lacks, a `stride` ≤ 0, a `size` side or `dpi` ≤ 0, a `frame` of zero area once cut to the limit
+// bounds — refuses the export with the API error `E_EXPORT_OPTION` naming the member (the call's promise rejected, `exportDocument` throwing; over the bridge
+// `export.refused { error: 'E_EXPORT_OPTION', message }`), nothing written — never a crash or a hang (T-ER-19).
 interface ViewOpts { viewAs?: Admission /* a display filter: this view's drawing, labels and reads admit exactly what both the view's knowledge key and viewAs admit (§9.2's admission function) — a tier alone is read with the key's places; a key form is a key in its own right, so when its tier is the lower its places stand in for the key's, a place the key withholds staying withheld (a host's party key: V08's players' view); the knowledge key itself is unchanged, so the document formats stay available to the role (file f item 464) */ }
 type Admission = 'public'|'local'|'secret'|{ tier: 'public'|'local'; places: Id[] };   // a lowering of a caller's key (file f item 572); `public` below `local` below `secret`
 type MsgRef = { key: string; args?: Record<string, string | number | { id: Id }> };   // declared in @plat/model: a catalogue key with arguments; an address argument rendered under the caller's key (a withheld place as its kind); its English text the application's catalogue's (V09 §2.9) (file f item 463)
@@ -16119,14 +16277,17 @@ type Query =
       chips?: FindChip[] /* item 120 (g): each chip's match listing; §2.9's FindChip */; gaps?: boolean /* with chips: Show gaps' units, V01 §5.4 (3) */;
       week?: number /* the view's drawn week (§2.9's `week`); absent, the head: *Find's match listing*, below */;
       page?: number }   // answered as GazetteerAnswer (below)
-  | { kind: 'looks'; view: ViewHandle }   // g items 122 (f), 118: the crisis looks and festivals standing in the view, answered as LooksAnswer (below)
+  | { kind: 'looks'; view: ViewHandle; building?: Id /* g item 122 (f): with it, each disaster look says whether it stands over that building (§10.2 (f)) */ }   // g items 122 (f), 118: the crisis looks and festivals standing in the view, answered as LooksAnswer (below)
   | { kind: 'people'; type?: string; race?: string; gender?: string; profession?: string; workplace?: Id; ageRange?: [number, number]; household?: Id; district?: Id; page?: number }   // COV-FTG-C13
   | { kind: 'hit'; view: ViewHandle; x: number; y: number; radiusPx?: number /* default 10; 22 under a coarse pointer */ }   // answered by HitAnswer (file f item 466)
   | { kind: 'whereIs'; person: Id; day: string; hour: number }
   | { kind: 'relations'; person: Id; up: number; down: number }   // the family-tree view (COV-FTG-C11), from the relation store
   | { kind: 'inView'; view: ViewHandle }                          // the "features in view" list (COV-FTG-A24; the non-visual route, J-S19)
   | { kind: 'fates'; token: string; page: number }                // the full fate list of a pending confirmation, then its renames
-  | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number }   // item 101: the oracle — the rule, its inputs and the alternatives it weighed, from provenance and §2.8's derivation records; filtered under the caller's key (*Knowledge*, below); answered as `WhyAnswer` by the kind's `WhyProvider` and the registered section providers (§2.8)
+  | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number;
+      view?: ViewHandle /* a view-bound why: a provider whose rows state a view's look — V07 §4.5's crisis, season and festival rows — reads that view's
+                           §2.9 `week`, `yearWeek`, `festival` and `crises` and its `looks` evaluation (LooksAnswer) at the view's effective key; absent, no
+                           such row is given; a provider that states no view's look ignores it */ }   // item 101: the oracle — the rule, its inputs and the alternatives it weighed, from provenance and §2.8's derivation records; filtered under the caller's key (*Knowledge*, below); answered as `WhyAnswer` by the kind's `WhyProvider` and the registered section providers (§2.8)
   // the reader kinds of file f item 468 (M3a), each answered as its type below (ReaderAnswers):
   | { kind: 'brief' }
   | { kind: 'entity'; id?: Id; at?: PointCm; layer?: Layer; below?: boolean; dossierKey?: string }   // by address, or the top of the hit stack at a model point (item 466's order: a raised part above ground part 0); below: the next one down; dossierKey: by a binding key (file f item 583)
@@ -16156,11 +16317,12 @@ interface GazetteerAnswer {
 // Find's `crises` section and festival list, and by V10's look read. One answer of ≤ 64 KB.
 interface LooksAnswer {
   week: number /* §2.9's `week`: the drawn week the conditions' weeks are read against */; yearWeek: number /* §2.9's year position */;
-  festivals: { id: string; name?: string; weeks: [number, number]; shown: boolean /* drawn now under §2.9's `festival` */ }[] /* DR43's list, in window order */;
+  festivals: { id: string; name?: string; weeks: [number, number]; shown: boolean /* drawn now under §2.9's `festival` */ }[] /* DR43's list, in window order; standalone the list is empty (DR43: no tradition exists and none is invented); a previewed generic festival is no entry — it reaches the view by §2.9's `festival` */;
   crises: { look: CrisisLookKind /* §10.2 */; condition?: Id /* its ConditionOverlay; absent on a preview */; name?: string /* the condition's name where the dossier gives one (tier dossier) */;
     source?: { from: CrisisMapRow['from']; key: string } /* the map row that gave the look (§10.2 (b)) */; sinceWeek?: number; untilWeek?: number;
     severity: number /* 0–1; a preview's `previewSeverity` */; forces?: { headcount: number; groups: number } /* the dossier's sizes where it gives them (item 122 (h)) */;
-    districts?: Id[] /* a disaster look's units: V01's disasterDistricts over the model the view draws, at the village rungs V07's ends; key-filtered, ≤ limits.members */;
+    districts?: Id[] /* a disaster look's units: V01's disasterDistricts over the model the view draws (at the village rungs V07 §5.6 (3)'s ends or toft groups); key-filtered, ≤ limits.members */;
+    over?: boolean /* with the query's building: whether this disaster look stands over it at the view's week — a building of one of its units on which V06 §3.22 (3)'s crisisLookYields is not yet true; on a preview, every building of its units; evaluated in the generation worker */;
     massed?: true /* part of its camped ground drawn on §8.8's surrounding ring */ }[] /* DR44's standing looks, or the preview, in the legend's order */ }
 // The reader's and the oracle's answers (file f item 468, M3a; declared here once — V10 §2.13 cites them). Every bearing and distance is
 // measured from the growth centre (S3's root reservation, §4.2) in model metres and model north; every name, purpose and reference
@@ -16278,7 +16440,8 @@ withhold the `name` and the purpose of a place (its `use`, or an institution's k
 not admit, marking the row `withheld: true`; a person's workplace or
 household that is a withheld place is given by its address only, and the person's profession is withheld with it where
 that profession is the place's use. A view-bound reader (`hit`, `inView`, hover) admits at its view's band, and `looks`
-by DR44's admission at its view's effective key, so a condition the key withholds is absent and uncounted; `plan` and
+by DR44's admission at its view's effective key, so a condition the key withholds is absent and uncounted, and a `why`
+with a `view` admits its view-bound rows as `looks` does; `plan` and
 `planReport` at the building band, through V03 §5.4's merge; every other kind, band-less, as at the city band, whatever
 the caller's zoom (a view gives `inView` its box only). A
 `gazetteer` row of kind `customChain` lists each ACTIVE `CustomChainRecord` with its label only when the key admits
@@ -16289,10 +16452,15 @@ Below and Sky (V04 §5.1's `underFindPlaces` and V05 §5.6 read their places), o
 **address chip** — its target, a place, an institution or an area (a `FindArea`, V01 §5.4), or a person's household
 dwelling and workplace (§10.3); a **dossier chip** — the address `entity { dossierKey }` answers for its key, else its
 anchor (V08 §3.16 (6) (e)). A target the document no longer holds, or the key withholds, matches nothing and counts 0.
-**At a drawn week** (`week`, g item 120 (f); V06 §3.15.2): where that week's frame is not the head, every row, count,
-match and gap unit is the head index's restricted to the entities the frame holds — one the frame lacks matches nothing
-and counts nothing there, a chip with none there counting 0 — so a reader that passes its view's week (`live.find`,
-V09's panel, V10's `read_map find`) counts, glows, pins, lists and gaps only what the drawn frame holds; absent, the head.
+**At a drawn week** (`week`, g item 120 (f); V06 §3.15.2): where that week's frame is not the head, the listing is the
+frame's — every row, count, match and gap unit: the head index's matches less those whose entity, or whose matching use,
+the frame does not hold open at that week, plus the frame's own uses and entities of the chip's classes or target that
+the head lacks or holds otherwise — read from V06 §3.15.2's frame (its `Use` records whose `opened` event falls at or
+before the week and whose `closed` event, if any, after it; the `HistoryStore` images between the frame and the head) —
+so a building matches by its use at that week, never its head use, and an entity or use the frame holds matches though
+the head has since closed, moved or demolished it; a chip with none there counting 0. A reader that passes its view's
+week (`live.find`, V09's panel, V10's `read_map find`, V01's `gapUnits`, V04's and V05's Find places) counts, glows,
+pins, lists and gaps that listing; absent, the head.
 This listing is T120-2's definition of a chip's matches; V09's panel and `live.find`, V10's `FindAnswer`, V01's
 `gapUnits` (its members) and V12's statistics read it, from the generation worker's Find index, rebuilt once per commit
 (§12.5).
@@ -16444,8 +16612,9 @@ result, §3.1).
   picture set under it as `knowledge` and lists its
   gazetteer under it as `admitAs`, V08 §3.14); `doc.load` becomes `doc.load { bytes | ref, role, session, audience? }` —
   the module derives role and key from the audience word by §14's table and takes the LOWER of that and `role`;
-  `export.request` becomes `export.request { fmt, opts, displayNames?, knowledge?: Admission, bundle?: true }` (§11.1's
-  *Knowledge*: `knowledge` lowers the requester's key for that export only; `displayNames` as §11.1's *Display names*);
+  `export.request` becomes `export.request { fmt: Format, opts?: ExportOpts, bundle?: true }` — the requester's
+  `knowledge` (lowering its key for that export only, §11.1's *Knowledge*) and `displayNames` (§11.1's *Display names*)
+  being `opts`' members (§11.2) —;
   in host mode the module answers an `export.request` for any format other than `png`, `svg` and `print` with
   `export.refused { error: 'E_HOST_FORMAT' }` (V08 §5.4), save a `bundle: true` request for `dd2vtt` or `foundry` (the
   export bundle from M-SF, §11.4; V08 §5.4 (2)), rendered under the calling key's §11.1 rules and answered
@@ -16511,7 +16680,7 @@ result, §3.1).
   viewer (below; J-A30.82), travels. The key `time` is set by `view.set { time }` and advanced by the module-tier message
   `sim.advance { hours }` (§10.3). **The host's view commands (item 125 (c); J139).** A host drives the view as a user
   would — a week (`view.set { week }`: §2.9's `week`, item 67's drawn week, set as a user's scrub sets it, never
-  `yearWeek` or `seasonFollow`), the layers shown (a `setLayer { layer, spec: { visible } }` sent by `doc.apply`, as a
+  `yearWeek` or `seasonFollow`), a layer's visibility (a `setLayer { layer, spec: { visible } }` sent by `doc.apply`, as a
   user's layer toggle is that logged event — §7.1's binding, T12 `dress`; §7.4's `setLayer` row; `LayerSpec` is the
   document's style state, §8.4, and no view key, so `view.set` never carries it), a selection (`view.set { select: ids }`:
   the frame selects those entities as a user's list pick
@@ -16619,9 +16788,9 @@ SettlementForge stage (SF0–SF7, V08 §8); the port itself is §14's, its creat
 
 | id | mechanism at its limit | defined outcome and rung | test |
 |---|---|---|---|
-| T-ER-19 | every format (§11.1) at every rung, THORP to the cap, a fixture holding a wall run in each condition (g item 114) among them; degenerate geometry (none in the model, §3.1; faces written without antennae, §11.1; an antenna: §3.6 rule 3); the `.dd2vtt` scope over 8 192 px | each row's mapping — a wall run's `condition` and `material` in GeoJSON, glTF and CityJSON, a `patched` run a wall and a `breached` or `dismantled` run an opening in the VTT scenes; a larger VTT scope split into a grid of scenes or the pixels per square lowered (≥ 50), the dialog showing the choice | each format at THORP, TOWN, CITY, the METROPOLIS target and the cap: validators pass, sizes within §12.7 and §12.8; the wall fixture's runs as stated in every format |
+| T-ER-19 | every format (§11.1) at every rung, THORP to the cap, a fixture holding a wall run in each condition (g item 114) among them; degenerate geometry (none in the model, §3.1; faces written without antennae, §11.1; an antenna: §3.6 rule 3); the `.dd2vtt` scope over 8 192 px; a scripted or bridged request with each `ExportOpts` member out of its range (§11.2) — `vtt.pxPerSquare` 30, `vtt.squareM` 2, the neighbourhood band over a whole town, a `vtt.scene` naming a storey the building lacks, a `stride` of 0, a picture `size` of 0 px, a `dpi` of 0, a `frame` outside the limit bounds | each row's mapping — a wall run's `condition` and `material` in GeoJSON, glTF and CityJSON, a `patched` run a wall and a `breached` or `dismantled` run an opening in the VTT scenes; a larger VTT scope split into a grid of scenes or the pixels per square lowered (≥ 50), the dialog showing the choice; clamped where a nearest lawful value exists (50 px, 1.5 m, the district band), the file made at it and the clamp named in its `plat.clamped`, else refused with `E_EXPORT_OPTION` naming the member, nothing written — never a crash or a hang | each format at THORP, TOWN, CITY, the METROPOLIS target and the cap: validators pass, sizes within §12.7 and §12.8; the wall fixture's runs as stated in every format; each out-of-range request clamped and named or refused as stated |
 | T-ER-20 | the API's caps (§11.2): a page over 64 KB, more than 1 000 fates, 256 created addresses, 50 effects, three alternatives, three variations; every rung | paginated (`query` pages, `fates` pages); the counts beyond the first given (`effectsMore`); the API identical at every rung | a scripted client at each rung: every list complete across its pages, the counts correct |
-| T-ER-21 | host inputs (§11.4): a host passing nothing beyond the dossier; the same dossier with and without a host context (`audience`, `displayNames`, `line`; g item 125); a dossier holding only SettlementForge's required keys; a `line` no adapter supports, or one the dossier's stamps contradict; a host's view commands (a week, the layers shown, a selection); one event; a provider output over §2.9's cap; contradictory dossier data; every rung; save and replay | derived by §7.7's table; the identical document and hash (`item125.host`); a full map, every absent field reported with the fallback taken, never a refusal; `E_LINE_UNSUPPORTED`; the week and the selection view state that travels, the layers a logged `setLayer` — never an input; applied as any event; refused as `doc.rejected { reason: 'invalid' }`; §7.7's contract; the port's refusals and routing (§7.7 item 15); door (3)'s events replay without the host | a host fixture of each: the document replays byte-identically without the host; T125-1 and T125-2's bars; the adapter's static check of its imports and reads (T125-3); the refusals as stated; a provider failing the double run refused `nondeterministic` |
+| T-ER-21 | host inputs (§11.4): a host passing nothing beyond the dossier; the same dossier with and without a host context (`audience`, `displayNames`, `line`; g item 125); a dossier holding only SettlementForge's required keys; a `line` no adapter supports, or one the dossier's stamps contradict; a host's view commands (a week, a layer's visibility, a selection); one event; a provider output over §2.9's cap; contradictory dossier data; every rung; save and replay | derived by §7.7's table; the identical document and hash (`item125.host`); a full map, every absent field reported with the fallback taken, never a refusal; `E_LINE_UNSUPPORTED`; the week view state that travels, the selection a command (the frame selects and reports `entity.selected`; never a stored key), the layers a logged `setLayer` — never an input; applied as any event; refused as `doc.rejected { reason: 'invalid' }`; §7.7's contract; the port's refusals and routing (§7.7 item 15); door (3)'s events replay without the host | a host fixture of each: the document replays byte-identically without the host; T125-1 and T125-2's bars; the adapter's static check of its imports and reads (T125-3); the refusals as stated; a provider failing the double run refused `nondeterministic` |
 
 ## §12 Performance budgets
 
@@ -16937,8 +17106,9 @@ whose limit lies finer than stop 0 caches fewer stops, and a gesture at the limi
 **The frame budgets Auto holds (g item 121 (d); J134).** §8.8's Auto loop holds the interaction rates above as its frame
 budgets — 60 fps (16.7 ms a frame) on the mid, high and ultra tiers, the reference machine's, and 30 fps (33.3 ms) on
 the low tier: a rolling p95 over the budget through 2 s steps one rung of §8.4 (g)'s order down, one under 60 % of it
-through 10 s one up, each applied only at the settle and at most once in 10 s, a rung left downward held for 60 s and
-doubling (R12-36). The text layer's composition (§8.8) is the label composition above, at the device ratio's positions.
+through 10 s one up, each applied only while the view is settled — at once when no gesture runs, at the gesture's
+settle otherwise — and at most once in 10 s (§8.8's Auto loop), a rung left downward held for 60 s and doubling
+(R12-36). The text layer's composition (§8.8) is the label composition above, at the device ratio's positions.
 
 **Find (g item 120 (j); J133).** An interaction budget (item 119 (d)), at the METROPOLIS cap on the reference machine:
 suggestions drawn within ≈ 50 ms of a key; a chip's glow within ≈ 100 ms of its click — the Find index's lookup,
@@ -17293,9 +17463,9 @@ target miss — which inside the comfort level is no veto question (g item 119 (
 | R12-33 | slower than a target only for a measured gain (§12.1) | the budget-register check at each release (V12 §3.15.9 (4)) over V11's `perf.qualitySpend` rows | every stage running above its §12 target has its row, whose gain the release's runs show and whose step stays inside the comfort level | the stage runs its target path, its row withdrawn | no |
 | R12-34 | the interaction budgets (§12.5, §12.6; g item 119 (d)): pan and zoom (R12-7, R12-9), dragging and a tool's live preview (R12-15; §12.6's warp preview), hover and click-to-inspect (§11.2's `hit` within 1 ms; §8.9's queries), undo and redo (§12.6), the season and festival switches (R12-30), Find's suggestions and glow (R12-35) | each row's own run, compared release to release (V12 §3.15.9 (5)) | no row relaxed against the previous release | the row's own change | no |
 | R12-35 | Find's overlay budget: suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of its click, the index once per commit (§12.5; g item 120 (j)) | V12 §3.15.10's `time.findSuggest` and `time.findGlow` on V09's app harness at the METROPOLIS cap, in §12.1's timing phase, at M5 (§16) | p95 ≤ 50 ms and ≤ 100 ms (T120-6); 0 base tiles re-rastered by a chip change | the glow first on the visible tiles, then the pins off the view; the suggestions from the index's prefix table first, the one-typo matches added within the next 100 ms; reported | no |
-| R12-36 | the resolution adjuster — Auto's loop, the ultra tier's bar and the canvases per tier (§8.8, §12.1, §12.5, §12.8; g item 121) | at M4 (§16) on the reference, the low-end and an ultra-tier device over §12.5's reference views, V12's item-121 bars | T121-2, T121-3 and T121-8's bars; §8.8's canvas cases within their figure + 10 % | the loop's thresholds (2 s, 10 s, 60 %, the 60-s hold) re-declared at the measured values; the ultra tier's bar or ceiling re-declared at the measured need; reported | no |
+| R12-36 | the resolution adjuster — Auto's loop, the ultra tier's bar and the canvases per tier (§8.8, §12.1, §12.5, §12.8; g item 121) | at M4 (§16) on the reference, the low-end and an ultra-tier device over §12.5's reference viewports, V12's item-121 bars | T121-2, T121-3 and T121-8's bars; §8.8's canvas cases within their figure + 10 % | the loop's thresholds (2 s, 10 s, 60 %, the 60-s hold) re-declared at the measured values; the ultra tier's bar or ceiling re-declared at the measured need; reported | no |
 | R12-37 | the crisis looks' raster (§12.5; g item 122) | at M3b (§16) on the golden views of every family at every rung with the crisis fixtures (T-ER-27) | each re-skin within the settle bound; the looks ≤ 20 % of a tile's raster time | the looks' district- and neighbourhood-band parts drawn from the neighbourhood band only, reported | no |
-| R12-38 | the weather effects' frame cost, ≈ 1 ms (§12.5; g item 124 (f)) | at M3b (§16) on the reference and low-end devices, the densest spell of each kind over §12.5's reference view (V12's T124-2 measurement) | p95 ≤ 1 ms a frame on the reference machine | the densest densities halved on that tier, and its default turned off where it still misses; reported | no |
+| R12-38 | the weather effects' frame cost, ≈ 1 ms (§12.5; g item 124 (f)) | at M3b (§16) on the reference and low-end devices, the densest spell of each kind over §12.5's reference viewport (V12's T124-2 measurement) | p95 ≤ 1 ms a frame on the reference machine | the densest densities halved on that tier, and its default turned off where it still misses; reported | no |
 
 The budgets of §8 keep their own measurement clauses at their homes (§8.2's random-style confirmation, §8.4's projected
 shadows, moving sun and light steps, §8.5's recoverability, §8.9's compositor, text and queries), as does §11.1's
@@ -17419,7 +17589,9 @@ invalid outputs** (no self-intersecting output, no undeclared sliver) — at the
    the kernel's further limits: `buffer` with `miter` and `square` joins and `flat` ends (§3.7); `insetRing` at 0 (the
    face's ring), below 0 (outward, never collapsing) and on a non-convex face (`E_NON_CONVEX`, the caller taking
    `offsetFace` or a buffer union; §3.7 *Insets*); an arena holding only its outer ring saved and loaded (one face,
-   §3.9); a frame growth whose frame and arena would be no larger (nothing runs) and a village → town fold (the frame
+   §3.9); a frame growth whose frame and arena would be no larger (nothing runs), and one whose law would move a side
+   out by at most `attractCm` — a CITY frame kept through a decline below 10 000 people, re-crossing two people above
+   its peak (frame and arena kept, nothing runs, no chain stripped; §3.2 (9)) —, and a village → town fold (the frame
    kept, the arena by the new law's margin, neither shrinking; §3.2 (9)); a part-0 warp under a raised way (its feet
    held, §3.6); a raised way crossing part-0 ways (no junction, the two parts sharing no topology; §3.4, §3.10).
 
@@ -17994,8 +18166,13 @@ the floor.
     stage; (T67-5) no Works at generation and none under the parity presets, the goldens unchanged; (T67-6) on the hook
     fixture an epoch's share of buildings in works lies within ± 3 s.e. of growth × mean duration ÷ span, and a decay
     Works within its dwell band; (T76-1) its cadence clauses (from M3a, on the port's `EpochInputs`) —
-    an epoch folds at each 52-week boundary and at a population move past the roster tolerance, none on a 2 % drift, with
-    `years` = Δweeks ÷ 52 —; its per-year clause (from M4, with the epochs) — per-year rates give equal expected firings
+    an epoch folds at each 52-week boundary, at a population move past the roster tolerance and at the week of each
+    newly carried calamity no other epoch falls on (one dated at or before the last epoch's week folding none at its own
+    week: it rides the absorb's first epoch, §4.11 *The clock* (4)), none on a 2 % drift, with `years` = Δweeks ÷ 52 — on
+    fixtures adding a calamity carried at a mid-year week with no population crossing (one epoch at its week, the
+    calamity in its `EpochInputs.events`), one at a week-52 boundary (no second epoch), one inside a coarsened catch-up
+    (riding the coarse epoch that holds its week, V06 §6.8 (6); from M6-E) and a calamity carried one year late, riding
+    the absorb's first epoch, its event at that epoch's first week —; its per-year clause (from M4, with the epochs) — per-year rates give equal expected firings
     under a weekly and a decade cadence.
   * *Light (item 68; §8.4, §4.7).* (T68-1) a spot lit from every side by several point lights carries no shadow;
     (T68-2) no shadow climbs a taller roof; (T68-3) a shadow falling on a lower roof is shortened by that roof's height
@@ -18225,10 +18402,22 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     `raisedWays.structure.maxClearSpanM`, no support in water; a CITY masonry aqueduct across a moated c15 wall with an
     intervallum and a timber viaduct on a gate's line, both built, each crossing's one station on the trace the wall's
     band (the aqueduct's arch, the raised gate's tower; §2.7's support step (3)), 0 piers in a setback, glacis, berm
-    or moat, and every clear span on either side of the station within its bound; a CITY c14 fixture whose S4 viaduct over a
-    valley is crossed at a gate by stage 2's moated ring, and an epoch circuit across a standing aqueduct — each
-    crossing's one station on the trace, 0 piers in a setback, glacis, berm or moat, the raised way kept (§2.7's support
-    step (6)); (T110-3) generated raised ways only at CITY and METROPOLIS, each with its reason recorded
+    or moat, and every clear span on either side of the station within its bound; later work across a raised way (§2.7's
+    support step (6)): a CITY c14 fixture whose S4 viaduct over a valley is crossed at a gate by stage 2's moated ring —
+    the crossing's one station on the trace, 0 piers in a setback, glacis, berm or moat, the raised way kept (§2.7's
+    support step (6) (a)); (1) a CITY c15 town with `moat: 'all'` whose S4 timber viaduct is crossed by stage 2's ring at
+    the widest moat row — the berm and channel stopped at the under-deck strip, every clear span within 20 m, no support
+    in water, the viaduct kept, `W_RAISED_CROSSING` reported; (2) a stage-2 S5b viaduct crossed by stage 2's own moated
+    ring, and a stage-2 ring whose lattice boundary falls on an S4 viaduct's ramp at a valley rim — the crossing station
+    on the deck at its level, no ramp, stair or foot in a strip or the channel; (3) after generation's last support run,
+    0 piers in a setback, glacis, berm, moat, gate plaza, quay, pier or mole on the CITY and METROPOLIS fixtures; (4) an
+    epoch circuit across a standing aqueduct and one across a standing timber elevated road, and a hand `drawWall`
+    across a standing aqueduct, each run again with the raised way locked — the trace through one station on the deck at
+    its level, its strips stopped where a support stands in them, every station, key, span and state of the raised way
+    unchanged but the crossing station's support, the hand case naming `bend.wall.raisedCrossing` (§2.7's support step
+    (6) (b)); (5) an H-AQUA epoch growing a stage over a standing aqueduct's land, an epoch route re-solved under a
+    viaduct and a hand road drawn across one — 0 way corridors over a support ring, ramp, stair, foot or `vault` span,
+    every crossing under an `open` span (`bend.raised.underSpan` for the hand road; §4.3); (T110-3) generated raised ways only at CITY and METROPOLIS, each with its reason recorded
     (`drop`, `link` or `water`), within the rung's cap, and a removed one still removed after regeneration — with the
     tendency specs `T110b.viaduct`, `T110b.aqueduct`, `T110b.elevated.prosperity` and `T110b.elevated.landmarks` (volume
     12 §3.6b's bar map); (T110-4) a stepped building's tiers nest and cast one shadow each; (T110-5) deck plots within the
@@ -18237,7 +18426,7 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     bridge over a `moat` or `castle_moat` whose way is a `Gate.way`; (T110-6) both known-city fixtures pass (T101-6); (T110-7) with the
     terrace, raised-way and deck-plot rows off — V11 §3.24.0's switches — byte-identical to the base (a `NoOpPin`;
     volume 2's T-V2-50, volume 6's T-V6-65, volume 7's village pin and volume 11's T-V11-31 register theirs on the same
-    engine).
+    engine). Volume 6 runs T110-2's epoch clauses (4) and (5) on its engine (T-V6-47).
   * *Water in dry country (item 111; §4.2 S0–S1, §4.2 S3, §4.4, §4.5, §4.7 S10b).* (T111-1) on arid seeds the share of
     households within walking distance of water — the coverage radius of volume 11's water-supply family — exceeds the
     non-arid baseline (a `StatBarSpec`, higher-with); (T111-2) an oasis stands only on an arid site unless drawn (T2
@@ -18269,16 +18458,21 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     marked `symbolic`, and no peak without evidence; (T113-7) with history replay off, byte-identical to the base (a
     `NoOpPin`). Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output
     (T-V4-77, T-V4-76), volume 7 the village halves of T113-1 and T113-3 (T-V7-59), volume 8 the dossier's history
-    (T-V8-51), volume 11 T113-7's registration (T-V11-39), volume 12 their register lines and the replay's budget
-    (T-V12-46).
+    (T-V8-51), volume 11 T113-7's registration (T-V11-39), volume 12 their register lines, T113-7's pin and the
+    replay's budget (T-V12-46).
   * *Walls that decay and recover (item 114; §2.7, §5.3, §7.1, §7.4, §7.7, §8.2, §11).* (T114-1) a poor, threatened fixture —
     the need sustained high, the means sustained low — shows its breached runs `patched`, each in a patch row of its wall
     kind and culture, and no robust rebuild; (T114-2) a rich, threatened one rebuilds its breached and patched runs
     robust, inside the `fabric` cap; (T114-3) a safe one decays through `worn` to `breached`, no run going from `standing`
     to `breached` in one change, and on a neglected, poor CITY ring over 20 epochs with a masonry aqueduct through its
     wall arch and a viaduct on a raised gate, the stretch under each crossing station is never `breached` or `dismantled`
-    while its deck stands (§2.7's support step (3)), every other stretch decaying as the first clause states; (T114-4) recovery replaces patches oldest first, by each run's epoch of last change
-    (volume 12's spec `T114g.oldestFirst`); (T114-5) no run changes its condition without a driver sustained over its
+    while its deck stands (§2.7's support step (3)), every other stretch decaying as the first clause states, and a
+    crossing station whose spans have both fallen keeps its stretch as a wall run, never dismantled as a support; its
+    landfall clause, on volume 5's landfall (V05 §3.16): a landfall over a raised gate, then the deck's repair — the
+    stretch repaired with the deck, never a deck on a breached run; (T114-4) recovery replaces patches oldest first, by
+    the week of each run's last-change epoch (`EpochRecord.inputs.week` of its `conditionEpoch`; generation's epoch 0
+    first, every replay epoch's week before every live one's — §6.1, V06 §3.7.7 (3)), never the epoch's number (volume
+    12's spec `T114g.oldestFirst`); (T114-5) no run changes its condition without a driver sustained over its
     table window — a driver alternating across its threshold every epoch changes no run (`T114g.sustained`); (T114-6)
     every state is told from every other in greyscale — T112-1's contrast check on luma alone, at §8.2's threshold — at
     every band where both of a pair draw, `worn` at the district band and finer (a `BenchBarDef`); (T114-7) with no
@@ -18294,8 +18488,9 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     shares and over 10 epochs, the town enceinte's and the bailey's three profiles along `Castle.cityWeld` are equal at
     every commit (§2.7's welded stretch), §8.2 draws one state there, and §11.1's battle-map export gives one
     wall-or-opening answer per edge. The hand forms — T3 `wall`'s repair with a material and `wearWall` — are §7.4's fixtures of
-    each kind in B-EDIT. Volume 6 runs T114-1 – T114-5, T114-8's and T114-10's epoch clauses on its engine (T-V6-73), volume 7 the
-    palisade's (T-V7-62) and T114-9's village clause on its replay fixture (T-V7-59), volume 8 the readiness from the dossier (T-V8-52), volume 9 the repair tool and the legend
+    each kind in B-EDIT. Volume 6 runs T114-1 – T114-5 save T114-3's landfall clause, T114-8's and T114-10's epoch clauses
+    on its engine, T114-4's replay case on its history-first fixture (T-V6-73), volume 5 T114-3's landfall clause on its
+    landfall fixture (T-V5-14), volume 7 the palisade's (T-V7-62) and T114-9's village clause on its replay fixture (T-V7-59), volume 8 the readiness from the dossier (T-V8-52), volume 9 the repair tool and the legend
     (T-V9-74), volume 10 the story told (T-V10-47), volume 11 the rows and T114-8's registration (T-V11-40) and volume 12 the specs, the pin and the
     register lines (T-V12-47).
   * *The grandeur ceiling (item 115; §4.7 S10b, §10.2).* (T115-1) rich THORP, HAMLET and VILLAGE fixtures at the wealth
@@ -18382,7 +18577,8 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     the clerk's "show me" (T-V10-51: T120-2's clerk clause).
   * *The resolution adjuster (item 121; §8.8, §8.4 (g), §12.1, §12.5, §12.8) — device state and drawing only; built at
     M4.* (T121-1) Auto is the level on a fresh install (`AppPrefs.resolution` absent); (T121-2) no level change while a
-    pan, zoom or drag is in progress — a change lands only at §8.8's settle — and on a fixture loaded at its threshold at
+    pan, zoom or drag is in progress — a change lands only while the view is settled (§8.8): at once when no gesture
+    runs, at the gesture's settle otherwise — and on a fixture loaded at its threshold at
     most one change per 10 s, with no oscillation (`resolution.changes` 0); (T121-3) Auto holds §12.5's frame budget at
     p95 on the reference and the low-end device over §12.5's reference views (`resolution.p95`); (T121-4) a manual level
     is drawn as chosen or, where the device cannot hold its canvas need, the nearest level that fits with item 121 (f)'s
@@ -18397,15 +18593,16 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     change; built at M3b, the dossier's reading at M-SF.* (T122-1) the same document hashes identically — its model, its
     digests and its save — with crises on, off and under every preview and in every week (the pin `item122.crises`, kind
     `view`); (T122-2) each look shows exactly in its condition's weeks — while §2.9's `week` lies in [`sinceWeek`,
-    `untilWeek`), or from `sinceWeek` on while an overlay with no `untilWeek` stands (§2.7) — and never for a condition
-    the viewer's key withholds (DR44's admission) (`crisis.weeks` 0); (T122-3) a look draws identically in the view and in
+    `untilWeek`), or from `sinceWeek` on while an overlay with no `untilWeek` stands (§2.7) — at every key for a
+    look-bearing condition (`public`, DR44) and for no `none`-row one (`crisis.weeks` 0); (T122-3) a look draws identically in the view and in
     every picture export, its tiles byte-stable per seed (`crisis.stable` 0); (T122-4) every SettlementForge stressor
     type, condition archetype and crisis event at the pinned baseline has its row in §10.2's closed map — a look or an explicit `none`
     — and a word no row maps reads `none`, reported `unmapped_word` (a totality check over V08's census lists); (T122-5)
     the scale follows severity and tier — each tier's fixture at a low and a high severity within its look row's scale, a
     hamlet a war band's camp and a city a full siege line — and the dossier's headcounts where it gives them, at item
     122 (h)'s rates (`crisis.scale`); (T122-6) nothing stands on water, in a gate's passage or over a label's keep-out,
-    and several crises share the outskirts by `priority` under `densityCap` (§10.2's placement; `crisis.blocked` 0);
+    and on a way's carriageway only a barrier across it (§10.2 (d)), and several crises share the outskirts by
+    `priority` under `densityCap` (§10.2's placement; `crisis.blocked` 0 and `crisis.share` 0);
     (T122-7) with no condition and no preview, the tiles are byte-identical to the base (`item122.crises`, its `tiles`
     clause). Item 122 (h)–(i)'s four bars are volume 12's own (T-V12-55: the camped area by headcount, two armies twice
     one, every camp inside the opening view, Fit and the limit while a look stands, the limit restored when none stands).
@@ -18413,7 +18610,8 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     volume 8 its census of the baseline's lists and T122-1 and T122-7's registration (T-V8-59), volume 9 T122-2's interface clause (T-V9-85), volume 6
     T122-1's hand-over clause (T-V6-75), volume 7 T122-5 and T122-6 at the village rungs (T-V7-69) and volume 3 the plan
     clauses of T122-1 – T122-3 and T122-7 (T-V3-40); volume 1's units and land (T-V1-60), volume 2's ruined look, with
-    T122-1 and T122-7's registration (T-V2-60), volume 8's forces (T-V8-60) and volume 10's explanations (T-V10-52) test
+    T122-1 and T122-7's registration (T-V2-60), volume 4's look below ground (T-V4-82 (i)), volume 8's forces (T-V8-60)
+    and volume 10's explanations (T-V10-52) test
     their own parts.
   * *A ruined building's plans (item 123; §2.6 step 7, §6.3, §8.6, §11.1) — the plan as built, damaged, never redrawn;
     built with volume 3's P4 and P5, the decay level with M6-E.* (T123-1) room, wall and opening ids are identical
@@ -18441,7 +18639,10 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     motion; (T124-6) labels, the chrome and every overlay are never covered (a pixel test, `weather.cover` 0); (T124-7) no
     luminance step is faster than §8.4 (i)'s photosensitivity limit (`weather.luma` 0); (T124-8) picture, print and
     battle-map exports are byte-identical with the effects on and off (the pin's `exports` clause); (T124-9) the timeline
-    replays from its session seed and clock (§6.1's `view.weather`, never a model stream; `weather.replay` 0). Volume 11
+    replays from its session seed, clock and presses with the climate row, year position, sites, `light` mode and view
+    hour in force at each moment (§6.1 *The weather stream*) — a year-position change from a week with no live kind into
+    a live one and back, a press at a moment with no live kind and a view hour crossing a kind's `hours` among its
+    fixtures (§6.1's `view.weather`, never a model stream; `weather.replay` 0). Volume 11
     runs T124-3's and T124-4's row clauses as compile checks (T-V11-48), volume 9 T124-5 (T-V9-87), determinism §6.5
     (9) T124-9's stream clause, and volume 12 T124-1 – T124-4 and T124-6 – T124-9 (T-V12-57).
   * *The dossier the only data input (item 125; §11.3, §11.4, §14, §7.7, §4.11, §2.9); its bars from M-SF.* (T125-1) a
@@ -18466,8 +18667,8 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
 
 | base bars | the engine (volume, milestone) | the volume family that re-runs them |
 |---|---|---|
-| T8-1 – T8-7, T17-2, T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12, T67-1 – T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause, T81-1, T108-4 over epochs (T-V6-45), T111-1 – T111-5's epoch form (T-V6-72), T113-1 – T113-3, T113-6, T113-7 (T-V6-71), T114-1 – T114-5, T114-8's and T114-10's epoch clauses (T-V6-73), T115-1 and T115-2 across a rung change (T-V6-74), T122-1's hand-over clause (T-V6-75), T123-4's epoch clause (T-V6-76) | the evolution engine (volume 6, M6-E) | every T-V6 test (V06 §7), on the H-100, H-DOSSIER and other H fixtures |
-| T10-1, T13-1, T15-1, T102-2, T117-1 – T117-8's and T118-1 – T118-6's island clauses (T-V5-34, T-V5-35), T119-2 – T119-5's island clauses (T-V5-18), T120-1's registration and T120-4's and T120-5's sky clauses (T-V5-36) | the sky layer (volume 5, M6-sky) | every T-V5 test (V05 §7) (T102-2 by T-V5-19 – T-V5-21) |
+| T8-1 – T8-7, T17-2, T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12, T67-1 – T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause, T81-1, T108-4 over epochs (T-V6-45), T110-2's epoch clauses (4) and (5) (T-V6-47), T111-1 – T111-5's epoch form (T-V6-72), T113-1 – T113-3, T113-6, T113-7 (T-V6-71), T114-1 – T114-5 save T114-3's landfall clause, T114-8's and T114-10's epoch clauses (T-V6-73), T115-1 and T115-2 across a rung change (T-V6-74), T122-1's hand-over clause (T-V6-75), T123-4's epoch clause (T-V6-76) | the evolution engine (volume 6, M6-E) | every T-V6 test (V06 §7), on the H-100, H-DOSSIER and other H fixtures |
+| T10-1, T13-1, T15-1, T102-2, T114-3's landfall clause (T-V5-14), T117-1 – T117-8's and T118-1 – T118-6's island clauses (T-V5-34, T-V5-35), T119-2 – T119-5's island clauses (T-V5-18), T120-1's registration and T120-4's and T120-5's sky clauses (T-V5-36) | the sky layer (volume 5, M6-sky) | every T-V5 test (V05 §7) (T102-2 by T-V5-19 – T-V5-21) |
 | T11-1, T12-1, T14-1, T63-4, T64-1 – T64-3, T65-1 – T65-8, T66-1 – T66-4, T66-6, T109-1 – T109-6, T113-4 (T-V4-77), T113-5 (T-V4-76), T119-2, T119-3 and T119-5's clauses on this layer (T-V4-32), T120-4's and T120-5's underground clauses (T-V4-81), T123-1's, T123-2's and T123-6's clauses below ground (T-V4-82) | the underground layer (volume 4, M6-U) | every T-V4 test (V04 §7) |
 | T28-1 – T28-8, T28-10, T28-12's `plan` clause, T28-13 – T28-15, T28-17's F-PLAN clause, T28-18's `setRoomUnit` clause, T28-19, T63-3, T119-2 – T119-5's plan clauses (T-V3-37), T120-4's interior-band clause (T-V3-38), T122-1's, T122-2's, T122-3's and T122-7's plan clauses (T-V3-40), T123-1's, T123-2's, T123-4's, T123-6's and T123-7's plan clauses (T-V3-39) | the plan rung (volume 3, M6-P) | every T-V3 test (V03 §7) |
 | T29-4 on stacked and solid wings, T110-4, T110-5, T115-1's composed shapes and T115-4's rung clause on B-MASS (T-V2-58), T119-2's stage-3 clauses (T-V2-22, T-V2-24), T122-1 and T122-7's `item122.crises` registration (T-V2-60), T123-5 and T123-7's exterior clause (T-V2-59) | stage 3 (volume 2, M6; its item-110 part at M3a) | every T-V2 test (V02 §7) |
@@ -18476,7 +18677,7 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
 | T73-1 – T73-10, T75-1 – T75-5, T77-1, T81-2, T85-1 – T85-3, T88-1, T88-2, T108-1 – T108-3, and the port's clauses of T111-1 – T111-5 (T-V8-50), T113-1 and T113-6 (T-V8-51), T114-7 (T-V8-52), T115-2 and T115-3 (T-V8-53), T117-1 and T117-6 (T-V8-54) and T118-1, T118-2 and T118-5 (T-V8-55), T120-2's dossier clause (T-V8-58), T122-4's census clause and T122-1 and T122-7's `item122.crises` registration (T-V8-59), T125-1 – T125-3 (T-V8-61) and T126-2's host-frame clause and T126-3's embed clause (T-V8-62) | the SettlementForge connection (volume 8, M-SF) | every T-V8 test (V08 §7), on the host harness |
 | T101-6's clerk path, T111-5's `item111.water` registration (T-V10-45), T115-3's clerk form (T-V10-48), T120-2's clerk clause (T-V10-51) | the built-in clerk (volume 10, M3c) | V10 §7's evaluation cases and every T-V10 test (V10 §7) |
 | T101-1 – T101-9 on the canvas (T101-4 by T-V9-82, T101-7 by T-V9-81), §13.4's scripted tasks and first-five-minutes test, the screens of items 111–126 (T-V9-71 – T-V9-79, T-V9-83 – T-V9-87: T112-1's thematic-view clause and T112-2 (T-V9-72), T114-6's legend, T115-3's hand form, T116-1's view controls, T117-6, T118-2 and T119-3 among them, T120-2 – T120-5's interface clauses (T-V9-83), T121-1, T121-4 and T121-7 (T-V9-84), T122-2's interface clause (T-V9-85) and T124-5 (T-V9-87)), T126-1's tablet half, T126-2 and T126-3 (T-V9-22) | the application (volume 9, inside M1–M4b; its staged screens with their layers) | every T-V9 test (V09 §7) |
-| every bar's register line and its spec, the specs, pins and bench bars of items 111–126: T111-1 – T111-5 (T-V12-44); T112-1's style line (T-V12-45); T113-2 and T113-5's registration (T-V12-46); T114-4 – T114-7 (T-V12-47); T115-1, T115-4 and T116-1 (T-V12-48); T117-2 and T118-2 – T118-6 (T-V12-49); T119-1, T119-2, T119-4 and T119-5 (T-V12-50); T120-1 and T120-6 (T-V12-52); T121-2, T121-3, T121-5, T121-6 and T121-8 (T-V12-53); T122-1 – T122-3 and T122-5 – T122-7 (T-V12-54), beside item 122 (h)–(i)'s four bars (T-V12-55); T123-2, T123-3 and T123-7 (T-V12-56); T124-1 – T124-4 and T124-6 – T124-9 (T-V12-57); T125-1 and T125-2 (T-V12-58); T126-1's medium-minimum clause and T126-2 (T-V12-59) | calibration (volume 12) | every T-V12 test (V12 §7) (T-V12-35 checks the bar map) |
+| every bar's register line and its spec, the specs, pins and bench bars of items 111–126: T111-1 – T111-5 (T-V12-44); T112-1's style line (T-V12-45); T113-2, T113-5's registration and T113-7's pin (T-V12-46); T114-4 – T114-8 (T-V12-47); T115-1, T115-4 and T116-1 (T-V12-48); T117-1, T117-2, T117-4, T117-5, T117-7 and T118-1 – T118-6 (T-V12-49); T119-1, T119-2, T119-4 and T119-5 (T-V12-50); T120-1 and T120-6 (T-V12-52); T121-2, T121-3, T121-5, T121-6 and T121-8 (T-V12-53); T122-1 – T122-3 and T122-5 – T122-7 (T-V12-54), beside item 122 (h)–(i)'s four bars (T-V12-55); T123-2, T123-3 and T123-7 (T-V12-56); T124-1 – T124-4 and T124-6 – T124-9 (T-V12-57); T125-1 and T125-2 (T-V12-58); T126-1's medium-minimum clause and T126-2 (T-V12-59) | calibration (volume 12) | every T-V12 test (V12 §7) (T-V12-35 checks the bar map) |
 | every content row a bar reads, the registrations of T111-5 (T-V11-38), T113-7 (T-V11-39), T114-8 (T-V11-40) and T115-4 (T-V11-41), T117-3 (T-V11-42), T122-4 (T-V11-46), T124-3's compile clause and T124-4's row clause (T-V11-48) | the content (volume 11) | every T-V11 test (V11 §7) |
 
 ### 13.3 Seed goldens with the declared-shift protocol (G-P11, G-R9), from M1
@@ -19044,10 +19245,10 @@ bar's first milestone is the one that lands its mechanism; a clause named separa
 | T104-1, T105-2, T106-1 – T106-4, T108-2, T108-3 | PR | M2b |
 | T16-3, T17-1, T18-1 – T18-4, T19-4's dossier clause, T20-1, T20-2's dossier-event clause, T20-3 – T20-5, T20-6's refusal clause, T20-8, T20-9, T22-1 – T22-4, T25-1, T30-3, T30-5, T31-1, T31-4 – T31-7, T63-2's query and export clauses, T66-5, T72-9's dossier clause, T104-4, T108-4 | PR; nightly on B-CITY | M3a |
 | T28-9, T28-11, T28-12's `wings` clause, T28-16, T28-17's housing clause, T28-18's `relet` and re-homing clauses | PR (the B-PLAN fixtures) | M3a |
-| T75-1 – T75-5, T76-1's cadence clauses, T81-2's absorb clause, T85-3 | nightly (the absorb pairs) | M3a |
+| T75-1 – T75-5, T76-1's cadence clauses, T81-2's absorb clause, T85-3 | nightly (the absorb pairs) | M3a (T76-1's coarsened catch-up fixture with M6-E) |
 | T101-1 – T101-5, T101-7 – T101-9 for T2 `ground` to T8 `fill` | PR | M3a |
 | T101-6 (both known-city fixtures, three paths) | milestone (≤ 10 min wall) | M3a |
-| T110-1 – T110-7; the specs `T110b.*` | PR; the four raised-way specs in the milestone and weekly run (≤ 20 CPU-min) | M3a (T110-2's epoch clauses — the frame growth and the circuit across a standing aqueduct — from M4 on the hook fixtures, the circuit on volume 6's engine with M6-E's E3) |
+| T110-1 – T110-7; the specs `T110b.*` | PR; the four raised-way specs in the milestone and weekly run (≤ 20 CPU-min) | M3a (T110-2's epoch clauses — the frame growth, and (4)'s and (5)'s circuits, stage growth and route re-solve — from M4 on the hook fixtures, those of (4) and (5) on volume 6's engine with M6-E's E2 and E3) |
 | T29-5; T68-5, T68-6 (the night view); T101-1 – T101-5 for T11 `name` and T12 `dress`; the lit-street warp fixture but its tunnel, access-point and Works clauses | PR; the warp fixture in B-EDIT | M3b |
 | T112-1 (the style check) | nightly, in B-ZOOM on every checked variant | M3b (`hatched` at M5) |
 | T8-1 – T8-7, T10-1, T11-1, T12-1, T15-1, T17-2, T17-3, T20-2's epoch and tolerance clauses, T20-6's epoch clause, T31-2, T31-3, T31-8 – T31-12, T64-1 – T64-3, T65-1 – T65-6, T65-8, T66-1 – T66-4, T66-6, T67-1 – T67-6, T68-9, T72's epoch clauses, T76-1's per-year clause; the lit-street warp fixture's tunnel, access-point and Works clauses; §8.3's hand-lantern row | PR on the hook fixtures; T10-1's and T15-1's CITY sweeps, T64-2's and T65-2's 500-seed sweeps nightly; the 20-epoch test, with the wealth ladder and the decline table, in the milestone tier | M4 |
@@ -19058,7 +19259,7 @@ bar's first milestone is the one that lands its mechanism; a clause named separa
 | T28-1 – T28-8, T28-10, T28-12's `plan` clause, T28-13 – T28-15, T28-17's F-PLAN clause, T28-18's `setRoomUnit` clause, T28-19, T63-3 | PR (the B-PLAN fixtures, and the clicked buildings of B-CITY-lite nightly) | M6-P |
 | T112-2 (the game-master trial) | a human trial, outside CI | the release gate (§16) |
 | T114-6, T114-7, T114-8's generation clause | PR on the readiness × wealth fixture grid and the two PR golden seeds; T114-6 nightly with the render bars (V12 §6) | M2b |
-| T114-1 – T114-5, T114-8's epoch clause | the milestone tier over H-100's epochs; T114-4's and T114-5's step scripts nightly on the wall fixtures (V12 §6) | M6-E (with V06's E3) |
+| T114-1 – T114-5, T114-8's epoch clause | the milestone tier over H-100's epochs and H-AQUA's for T114-3's crossing clause, T114-3's landfall clause on volume 5's landfall fixture; T114-4's and T114-5's step scripts nightly on the wall fixtures (V12 §6) | M6-E (with V06's E3; T114-3's landfall clause with M6-sky) |
 | T115-1 – T115-3 | PR on S10b's hook fixtures at the village rungs' ceiling rows; `bldg.grandeur` nightly | M2b (the village clauses with V07's V-M2, the composed shapes with M6) |
 | T115-4 | PR on the two PR golden seeds; the pins' off-state suites nightly | M2b |
 | T116-1, T116-2, T116-4 | PR on the golden fixtures; T116-1's sweep nightly in B-ZOOM | M1 (the village fixtures with volume 7) |
@@ -19396,13 +19597,14 @@ interface DossierPort {
 // AdapterRegistry (register; select, whose order is V08 §2.4's) are V08 §2.4's
 type PortResult<T> = { status: 'ok'; value: T; notes: PortNote[] }
   | { status: 'refused'; code: 'E_RUNG_UNAVAILABLE' /* a population outside a registered product's range: below 1 500 while no village product is registered (§7.7 item 15; §1.1), or above the 120 000 cap (§1.1; J-A81.01) */
-      | 'E_UNKNOWN_SHAPE' | 'E_LINE_UNSUPPORTED' | 'E_OTHER_SETTLEMENT' /* an absorb whose digest's settlement key differs from the binding's */;
+      | 'E_UNKNOWN_SHAPE' | 'E_LINE_UNSUPPORTED' | 'E_OTHER_SETTLEMENT' /* an absorb whose digest's settlement key differs from the binding's — never for an offer whose `id` fell back (V08 §2.4) */;
       message: string; notes: PortNote[] };
 interface PortNote { kind: 'unmapped_kind'|'unmapped_word'|'ignored_key'|'unreceipted_change'|'rename_without_receipt'|'duplicate_key'|'state_matches_absorbed'
     |'quarantined_record'|'quarantine_hold'|'adapter_remap'|'line_migrated'|'line_defaulted'|'held'|'size_limit'|'ladder_merged'|'ladder_promoted'|'ladder_unknown'
     |'chain_node_unjoined'|'unmapped_good'|'npc_rebound'|'calamity_unplaced'|'custom_resolved'|'custom_unversioned'|'custom_node_unjoined'|'library_mismatch'
     |'custom_library_dropped'|'low_confidence'|'uncatalogued_step'|'derived_landuse'|'name_unjoined'|'name_ambiguous'|'custom_unkeyed'|'count_over_range'|'not_placed'
-    |'frozen_fact_changed'|'history_gap'|'field_fallback' /* item 125 (b): a field the port reads that the dossier lacks or leaves empty, its fallback taken (V08 §2.4) */;
+    |'frozen_fact_changed'|'history_gap'|'field_fallback' /* item 125 (b): a field the port reads that the dossier lacks, leaves empty or gives unreadable, its fallback taken — at an absorb the carried fact standing (V08 §2.4, V08 §3.5) */
+    |'line_differs' /* item 125 (e): `HostContext.line` names a registered, accepting line the dossier's own selection did not take (V08 §2.4) */;
   detail: string /* the English line, for logs and tests */; msg: MsgRef /* key 'host.note.<kind>' (a held note: a host.held.* row), args as V08 §4.6's table names */;
   keys: string[] /* the binding keys it concerns, [] when none */ }   // each kind's class — event, standing or report — and meaning are V08 §4.6's
 interface HostContext {   // every field optional (item 20 (h) (iv)) and none a data input — the dossier is the port's only one (item 125 (a)); none changes a document a dossier makes (T125-2)
@@ -19411,8 +19613,8 @@ interface HostContext {   // every field optional (item 20 (h) (iv)) and none a 
   line?: string /* the SettlementForge line the host runs: checked against the dossier's own selection (V08 §2.4), never chosen from; a line no adapter supports, or one the dossier's stamps contradict: E_LINE_UNSUPPORTED; a registered, accepting line that differs leaves the selection standing, both reported */ }
 // the neutral digest — the module's own vocabulary; the adapter fills it, and every other module reads only this
 interface DossierDigest {
-  settlement: { key: string /* `settlement:<id>`, the dossier's own id (§7.7 item 12) */; name: string; tierWord: string /* the map's title word (§7.7 item 15) */;
-    population: number /* persons */; seed: Seed /* H32("plat:sf-seed" ‖ the dossier's seed): derived, never the host's seed (below) */; line: string; versions: Record<string, string> };
+  settlement: { key: string /* `settlement:<id>`, the dossier's own id, else V08 §2.4's `id` fallback (§7.7 item 12) */; name: string; tierWord: string /* the map's title word (§7.7 item 15) */;
+    population: number /* persons */; seed: Seed /* H32("plat:sf-seed" ‖ the dossier's seed, else ‖ the settlement key — V08 §2.4's `_seed` row): derived, never the host's seed (below) */; line: string; versions: Record<string, string> };
   site: { terrain: string; access: string; threat: string; magic: string; culture: string /* the profile key */;
     deposits: { key: string; state: 'available'|'depleted'|'removed'|'discovered'; custom?: boolean }[]; isolation?: { status: string; paths: string[] } };
   walls: { records: string[] /* binding keys of the wall institutions */; citadel: boolean; flagged: boolean };
@@ -19492,7 +19694,8 @@ the other way (door 1 closed to the host's simulator, J86, §11.4). Its parts:
    folder with its manifest and a re-cut of the fixtures by the same scripts — a registration, never a rewrite.
 2. **`digest`** normalises one whole dossier — SettlementForge sends whole dossiers, never a change list — by the adapter
    `AdapterRegistry.select` picks (V08 §2.4). Its first act is the ONE-WAY SEED (item 85 (a); J-A85.01):
-   `settlement.seed = H32("plat:sf-seed" ‖ the dossier's seed)` (§13.6's `H32`, from `@plat/model`), written into the
+   `settlement.seed = H32("plat:sf-seed" ‖ the dossier's seed)` — an empty or unreadable seed read as the settlement key
+   (V08 §2.4) — (§13.6's `H32`, from `@plat/model`), written into the
    recipe once at creation; the host's own seed never enters a document, a digest, a link or an export (§6.2); the
    protection is that the host's seed is never stored — `H32` is a 32-bit digest, not a cryptographic one-way function,
    so the host keeps its own seed secret as it already does. It then applies §7.7's key law and class rule (item 12, row
@@ -19516,7 +19719,7 @@ the other way (door 1 closed to the host's simulator, J86, §11.4). Its parts:
    `PortReport`; a dossier that equals an earlier absorbed state is converged forward, never rewound
    (`state_matches_absorbed`, §7.7 item 5; item 87). The events enter through door 2 as `doc.apply` with `author: 'host'`.
    A digest whose population lies outside the ladder is refused as `creation` refuses it (item 3), a digest of another
-   settlement `E_OTHER_SETTLEMENT`, and nothing is absorbed (§1.1; J-A81.01).
+   settlement `E_OTHER_SETTLEMENT` (never for an offer whose `id` fell back, V08 §2.4), and nothing is absorbed (§1.1; J-A81.01).
 5. **`HostContext`** is optional in every field (item 20 (h) (iv)) and carries no data input: the dossier is the port's
    only one (item 125 (a); J139), and no field of the three changes a document a dossier makes (T125-2). `audience`
    is the role and knowledge key the host sets per viewer by the table below — view state that travels (§11.3;
@@ -19993,7 +20196,7 @@ outside the first total.
 | **M6-E — the evolution engine** (V06 §8: E0–E9) | M4 | M5, the village | V06 §8; E4 after item 105's S10b changes land, E8 after V04's U5, E7 after E1–E6; E9, the history replay at generation (item 113), after E8, V04's `BuriedFormer.lay` and V11's `history.*` cells; item 114's transitions at E3, item 115's ceiling across a rung change, item 122's hand-over and item 123's decay level at E2; the replay's and `advance`'s comfort-level timing (item 119; V12 §6) | 31–44 pw |
 | **M6-P — the plan rung** (V03 §8: P0–P6) | P0, P1 and P3 after M4 on the base's buildings; P2 once volume 4's access records exist; the rest after M6 | M5, M6 | V03 §8's exits; item 123's damaged plan at P4 and its exports at P5, with §2.6 step 7's, §6.3's and §8.6's base parts; the owner's twenty-plan review | 18.25–25 pw |
 | **M6 — stage 3: building composition** (V02 §8: M6a the massing, M6b the composer, rooms rung, rendering and exports, M6c editing, parity and the gate) | M5 | M6-U | V02 §8.3's exits, item 123's exterior and item 122's ruined look among them (V02 §8.6); the stage-3 panel (V02 §7.5; §13.6) | 21–30.75 pw with 2.25 pw of spikes |
-| **M6-U — the underground layer** (V04 §8) | M5 — or beside it with a second pair, its U3 distinctness and U4 undercity parent then waiting on volume 1's W15 | M6 | V04 §8's exits; U4 carries the crypt derivation; the buried former settlement of item 113; item 123's damage below ground at U5 | 28.5–39.5 pw |
+| **M6-U — the underground layer** (V04 §8) | M5 — or beside it with a second pair, its U3 distinctness and U4 undercity parent then waiting on volume 1's W15 | M6 | V04 §8's exits; U4 carries the crypt derivation; the buried former settlement of item 113; item 123's damage below ground at the later of U5 and V03's P4 (V04 §5.6 (6)) | 28.5–39.5 pw |
 | **V-M2u — the underground under a village** (V07 §8) | M6-U's tail | — | V07 §8 | inside the village's line |
 | **M6-sky — the sky layer** (V05 §8: P0–P6) | M6-U (its P0 spike may run beside M5) | — | V05 §8's exits | 18–24.75 pw |
 | **M-CAL — the corpus reconciliation** (V12 §8) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | V12 §3.10's acceptance and the before-and-after sitting | 4.75–8 pw |
@@ -22654,7 +22857,7 @@ one mark, *superseded by* or *amended by*, and the governing row keeps the reaso
 | J-A125.01 | item 125's base bars T125-1 – T125-3 — the dossier the port's only data input; `HostContext` keeps `audience`, `displayNames` and `line`, none a data input, its `week`, `realm` and `customLibrary`, the realm block and `realmBlockFrom` retired; the week the dossier's latest stamped tick, else the season control — each re-sourced row landing with its row, the bars at M-SF, priced by absorption | §14, §13.2, §13.8, §16 |
 | J-A126.01 | item 126's base bars T126-1 – T126-3 — the map on tablets and desktops only, no phone view of any kind, a smaller window keeping the medium layout at 600 × 480 and scrolling — built at M2a with the medium layout; the narrow class never built, the reference app's line following volume 9's narrowed base line | §1.1, §13.2, §13.8, §16 |
 | J-A568.05 | round 2's figures: volume 9's AP11 (4.5–6.25 pw) split 3.5–5 with the application line and 1–1.25 on the staged-screens line, its base line narrowed by item 126; volume 11's C4b on the staged content line only, C2's file-g share and C4a at M2b; items 121, 122 and 124 widening the O12 line by 2.25–3.75 pw, items 120, 123 and 125 absorbed; the calendar about 115–158 weeks | §16, D-20 |
-| J-A121.02 | item 121 (e)'s labels at the device's pixel ratio: the split composition — the base tiles at the tile DPR d, the labels, text and every overlay in a text layer at D whenever d < D, one composed bitmap where d = D — so the mid tier's lit reference view (D = 2) is lit at DPR 1 with its text layer, 103.75 MB | §8.8, §12.8 |
+| J-A121.02 | item 121 (e)'s labels at the device's pixel ratio: the split composition — the base tiles at the tile DPR d, the labels, text and every overlay in a text layer at D whenever d < D, one composed bitmap where d = D — so the mid tier's lit reference viewport (D = 2) is lit at DPR 1 with its text layer, 103.75 MB | §8.8, §12.8 |
 | J-A121.03 | one order for Auto's ladder and the canvas fitting — the weather effects, lighting detail, sharpness, the light pass, the steps below 1 — the standard surface passed over on a tier that holds full precision, so no lit frame lies outside §13.4's tolerance | §8.4, §8.8 |
 | J-A121.04 | Auto's hold: a rung the loop left downward retaken only after 60 s, the hold doubling each time it is left again (our own; calibratable) | §8.8, §12.10 |
 | J-A121.05 | where no tile DPR down to 0.5 fits beside the text layer at D, the text layer itself steps down the ladder, the order rerun at each step and the view status saying so — never a refusal | §8.8 |

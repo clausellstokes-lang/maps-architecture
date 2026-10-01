@@ -1,0 +1,497 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "8f92dd3809e03132e1d710d49e11ccf8ccce394b5dd7ceb8b7d73e2234299feb",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V06.md",
+   "sha256": "418c84ea3a8a1d842ac884f3a013eb6c2d70ba6ad14d7073811f0219e26fa937",
+   "lines": 2236,
+   "blocks": 17,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V06.md #1 (l. 1) REPLACE ### 1.1 What this volume builds",
+   "file": "repair-r4-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 1.1 What this volume builds",
+   "body_lines": 77,
+   "body_sha256": "d5edf55e5532ee82e26d8629aed9cfd5d78e9f110fb64474bd737fd139e9bec6",
+   "target_line": 117,
+   "section_old": "117–194",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 1.1 What this volume builds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V06.md #2 (l. 80) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r4-V06.md",
+   "index": 2,
+   "line": 80,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 130,
+   "body_sha256": "dd8221006cfcfd3f195e1ee78f960bbc34efc426db104e2369e8554be04b47fa",
+   "target_line": 277,
+   "section_old": "277–407",
+   "section_old_n": 131,
+   "section_new_n": 131,
+   "new_headings": [
+    "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V06.md #3 (l. 212) REPLACE ### 2.1 The engine's interfaces (`@plat/evolve`)",
+   "file": "repair-r4-V06.md",
+   "index": 3,
+   "line": 212,
+   "kind": "REPLACE",
+   "heading": "### 2.1 The engine's interfaces (`@plat/evolve`)",
+   "body_lines": 72,
+   "body_sha256": "5f65e6c73be7c51dbdaa6cf78022daada4ed9b468524dd8ca06b5909ff414547",
+   "target_line": 416,
+   "section_old": "416–488",
+   "section_old_n": 73,
+   "section_new_n": 73,
+   "new_headings": [
+    "### 2.1 The engine's interfaces (`@plat/evolve`)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V06.md #4 (l. 286) REPLACE ### 2.8 The new conversion kinds and `Way.formerClass`",
+   "file": "repair-r4-V06.md",
+   "index": 4,
+   "line": 286,
+   "kind": "REPLACE",
+   "heading": "### 2.8 The new conversion kinds and `Way.formerClass`",
+   "body_lines": 25,
+   "body_sha256": "b24bf4f089789090086a3361c99d425a98d5a2ce418492ee6c8932bd76ed641f",
+   "target_line": 710,
+   "section_old": "710–735",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 2.8 The new conversion kinds and `Way.formerClass`"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V06.md #5 (l. 313) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "file": "repair-r4-V06.md",
+   "index": 5,
+   "line": 313,
+   "kind": "REPLACE",
+   "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "body_lines": 67,
+   "body_sha256": "54380050108cbcf681b9717700a1bcf5add61fedfafb9f058e9bf40299228ca6",
+   "target_line": 740,
+   "section_old": "740–806",
+   "section_old_n": 67,
+   "section_new_n": 68,
+   "new_headings": [
+    "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V06.md #6 (l. 382) REPLACE ### 3.5 Decline",
+   "file": "repair-r4-V06.md",
+   "index": 6,
+   "line": 382,
+   "kind": "REPLACE",
+   "heading": "### 3.5 Decline",
+   "body_lines": 163,
+   "body_sha256": "28818420137c6603bb991ca2d8822e4e08a49a9927ae134ba46b54599230ed6c",
+   "target_line": 1219,
+   "section_old": "1219–1375",
+   "section_old_n": 157,
+   "section_new_n": 164,
+   "new_headings": [
+    "### 3.5 Decline"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V06.md #7 (l. 547) REPLACE ### 3.6 Growth — fill first, crowd next, spread last",
+   "file": "repair-r4-V06.md",
+   "index": 7,
+   "line": 547,
+   "kind": "REPLACE",
+   "heading": "### 3.6 Growth — fill first, crowd next, spread last",
+   "body_lines": 60,
+   "body_sha256": "bcb9a5cb1f23f00659006cf96584c79186825a7622c04f7ad6148e033425cf1c",
+   "target_line": 1383,
+   "section_old": "1383–1439",
+   "section_old_n": 57,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 3.6 Growth — fill first, crowd next, spread last"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V06.md #8 (l. 609) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "repair-r4-V06.md",
+   "index": 8,
+   "line": 609,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 227,
+   "body_sha256": "ef797285bebc1a4a0dbe4d2dbbf66c52acbe3dfa3d374cb3eda225cba0be2871",
+   "target_line": 1444,
+   "section_old": "1444–1671",
+   "section_old_n": 228,
+   "section_new_n": 228,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V06.md #9 (l. 838) REPLACE ### 3.11 Hazards — fire, flood, collapse and drought",
+   "file": "repair-r4-V06.md",
+   "index": 9,
+   "line": 838,
+   "kind": "REPLACE",
+   "heading": "### 3.11 Hazards — fire, flood, collapse and drought",
+   "body_lines": 98,
+   "body_sha256": "1d5014f86fd25b101b0c03b0411c6e421732c81488953e5c8184765b2d6998f5",
+   "target_line": 2073,
+   "section_old": "2073–2170",
+   "section_old_n": 98,
+   "section_new_n": 99,
+   "new_headings": [
+    "### 3.11 Hazards — fire, flood, collapse and drought"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V06.md #10 (l. 938) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+   "file": "repair-r4-V06.md",
+   "index": 10,
+   "line": 938,
+   "kind": "REPLACE",
+   "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+   "body_lines": 368,
+   "body_sha256": "31f143f51a0d0b33ae6b34fcebaf7b4aedf87769ae329e78fc7200e3e5160d85",
+   "target_line": 2729,
+   "section_old": "2729–3085",
+   "section_old_n": 357,
+   "section_new_n": 369,
+   "new_headings": [
+    "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-V06.md #11 (l. 1308) REPLACE ### 3.20 The history replay at generation (item 113)",
+   "file": "repair-r4-V06.md",
+   "index": 11,
+   "line": 1308,
+   "kind": "REPLACE",
+   "heading": "### 3.20 The history replay at generation (item 113)",
+   "body_lines": 156,
+   "body_sha256": "7bb03d68f0ef1ef3e448276b43dea2137d2782d385d2a909dec0eee7620c1baf",
+   "target_line": 3098,
+   "section_old": "3098–3253",
+   "section_old_n": 156,
+   "section_new_n": 157,
+   "new_headings": [
+    "### 3.20 The history replay at generation (item 113)"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r4-V06.md #12 (l. 1466) REPLACE ### 3.21 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r4-V06.md",
+   "index": 12,
+   "line": 1466,
+   "kind": "REPLACE",
+   "heading": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 77,
+   "body_sha256": "b64db569a170fe61e2bfa1381f9a9bf68359a59acf6b8499c51d2cf18bdcdd69",
+   "target_line": 3255,
+   "section_old": "3255–3332",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 3.21 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r4-V06.md #13 (l. 1545) REPLACE ### 3.23 The decay level of a building lineage (item 123)",
+   "file": "repair-r4-V06.md",
+   "index": 13,
+   "line": 1545,
+   "kind": "REPLACE",
+   "heading": "### 3.23 The decay level of a building lineage (item 123)",
+   "body_lines": 69,
+   "body_sha256": "933bc6bf755a860d0df9c495b2e1609e452e43fe6af89937b6692b44a4ac8402",
+   "target_line": 3399,
+   "section_old": "3399–3462",
+   "section_old_n": 64,
+   "section_new_n": 70,
+   "new_headings": [
+    "### 3.23 The decay level of a building lineage (item 123)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r4-V06.md #14 (l. 1616) REPLACE ## 6 Performance budgets",
+   "file": "repair-r4-V06.md",
+   "index": 14,
+   "line": 1616,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 260,
+   "body_sha256": "010a7fce11ca049e383e49d2476a3aeefd7989535f6e2a4b958d375d007620e9",
+   "target_line": 3773,
+   "section_old": "3773–4026",
+   "section_old_n": 254,
+   "section_new_n": 261,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r4-V06.md #15 (l. 1878) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V06.md",
+   "index": 15,
+   "line": 1878,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 165,
+   "body_sha256": "4b12a125ae1225f8b3900731542f6d8aee2c06d6c3073f4ed1ab8110c593501d",
+   "target_line": 4034,
+   "section_old": "4034–4197",
+   "section_old_n": 164,
+   "section_new_n": 166,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r4-V06.md #16 (l. 2045) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "file": "repair-r4-V06.md",
+   "index": 16,
+   "line": 2045,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "body_lines": 147,
+   "body_sha256": "aaebce4b21234243f51aae59414792f63609eefb791d7abd2921fcc48c8aac6b",
+   "target_line": 4343,
+   "section_old": "4343–4490",
+   "section_old_n": 148,
+   "section_new_n": 148,
+   "new_headings": [
+    "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r4-V06.md #17 (l. 2194) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r4-V06.md",
+   "index": 17,
+   "line": 2194,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 40,
+   "body_sha256": "7a68370b6878f3a472b379915cdb795e17a45bfec99203cba83e698545630421",
+   "target_line": 4541,
+   "section_old": "4541–4581",
+   "section_old_n": 41,
+   "section_new_n": 41,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V06.md #1 (l. 1) REPLACE ### 1.1 What this volume builds",
+    "kind": "REPLACE",
+    "heading": "### 1.1 What this volume builds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #2 (l. 80) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #3 (l. 212) REPLACE ### 2.1 The engine's interfaces (`@plat/evolve`)",
+    "kind": "REPLACE",
+    "heading": "### 2.1 The engine's interfaces (`@plat/evolve`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #4 (l. 286) REPLACE ### 2.8 The new conversion kinds and `Way.formerClass`",
+    "kind": "REPLACE",
+    "heading": "### 2.8 The new conversion kinds and `Way.formerClass`",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #5 (l. 313) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "kind": "REPLACE",
+    "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #6 (l. 382) REPLACE ### 3.5 Decline",
+    "kind": "REPLACE",
+    "heading": "### 3.5 Decline",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #7 (l. 547) REPLACE ### 3.6 Growth — fill first, crowd next, spread last",
+    "kind": "REPLACE",
+    "heading": "### 3.6 Growth — fill first, crowd next, spread last",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #8 (l. 609) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #9 (l. 838) REPLACE ### 3.11 Hazards — fire, flood, collapse and drought",
+    "kind": "REPLACE",
+    "heading": "### 3.11 Hazards — fire, flood, collapse and drought",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #10 (l. 938) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+    "kind": "REPLACE",
+    "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #11 (l. 1308) REPLACE ### 3.20 The history replay at generation (item 113)",
+    "kind": "REPLACE",
+    "heading": "### 3.20 The history replay at generation (item 113)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #12 (l. 1466) REPLACE ### 3.21 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #13 (l. 1545) REPLACE ### 3.23 The decay level of a building lineage (item 123)",
+    "kind": "REPLACE",
+    "heading": "### 3.23 The decay level of a building lineage (item 123)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #14 (l. 1616) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #15 (l. 1878) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #16 (l. 2045) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V06.md #17 (l. 2194) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 680177,
+  "doc_bytes_after": 691243,
+  "doc_lines_before": 4560,
+  "doc_lines_after": 4601,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 17,
+  "blocks_applied": 17,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "ef22171ae7b0d296b1a71ea88b0765541a2616f3a76ba445960830cbb8eff474",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

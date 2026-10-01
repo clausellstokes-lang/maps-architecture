@@ -1,0 +1,248 @@
+{
+ "swaps": [
+  {
+   "note": "repair-r4-pipeline.md, NOTE FOR ASSEMBLE (J-A81.41, Part A only)",
+   "script": "work/repair-pipeline-r4/swap_restated.py",
+   "stdout": [
+    "J-A81.41: l. 639 <- l. 852",
+    "Part A rows 808 duplicates ['J-A68.85', 'J-A68.89', 'J-A68.90']",
+    "sha256 3e93d6f92809d8d08893c414e643821c483796415c0aae9513d77930aea00a7c"
+   ],
+   "rationale_sha256": "3e93d6f92809d8d08893c414e643821c483796415c0aae9513d77930aea00a7c"
+  },
+  {
+   "note": "repair-r4-rendering.md, NOTE FOR ASSEMBLE (J-A121.02 in the judgment index; J-A68.85, J-A68.89, J-A68.90 in Part A)",
+   "script": "work/repair-rendering-r4/swap_restated.py",
+   "stdout": [
+    "judgment index: J-A121.02: l. 22860 <- l. 22868",
+    "Part A: J-A68.85: l. 685 <- l. 852",
+    "Part A: J-A68.89: l. 689 <- l. 852",
+    "Part A: J-A68.90: l. 772 <- l. 852",
+    "judgment index rows 805 duplicates []",
+    "Part A rows 805 duplicates []",
+    "ids in one and not the other []",
+    "base sha256 5f34cceb61432ac420f375d84296f6d154dad2af6a1fbcdf329763425784334c",
+    "rationale sha256 a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+   ],
+   "base_sha256": "5f34cceb61432ac420f375d84296f6d154dad2af6a1fbcdf329763425784334c",
+   "rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+  }
+ ],
+ "checks": {
+  "ids": {
+   "index_before": 805,
+   "part_a_before": 805,
+   "index_after": 805,
+   "part_a_after": 805,
+   "index_duplicates": [],
+   "part_a_duplicates": [],
+   "one_id_set": true,
+   "only_in_index": [],
+   "only_in_part_a": [],
+   "new_ids": [],
+   "removed_ids": [],
+   "index_order_unchanged": true,
+   "part_a_order_unchanged": true
+  },
+  "restated_positions": {
+   "J-A81.41": {
+    "table": "part_a",
+    "line_before": 639,
+    "line_after": 639,
+    "carries_block_row": true,
+    "old_row_differs": true,
+    "block": [
+     "repair-r4-pipeline.md"
+    ],
+    "ok": true
+   },
+   "J-A121.02": {
+    "table": "index",
+    "line_before": 22657,
+    "line_after": 22860,
+    "carries_block_row": true,
+    "old_row_differs": true,
+    "block": [
+     "repair-r4-rendering.md"
+    ],
+    "ok": true
+   },
+   "J-A68.85": {
+    "table": "part_a",
+    "line_before": 685,
+    "line_after": 685,
+    "carries_block_row": true,
+    "old_row_differs": true,
+    "block": [
+     "repair-r4-rendering.md"
+    ],
+    "ok": true
+   },
+   "J-A68.89": {
+    "table": "part_a",
+    "line_before": 689,
+    "line_after": 689,
+    "carries_block_row": true,
+    "old_row_differs": true,
+    "block": [
+     "repair-r4-rendering.md"
+    ],
+    "ok": true
+   },
+   "J-A68.90": {
+    "table": "part_a",
+    "line_before": 772,
+    "line_after": 772,
+    "carries_block_row": true,
+    "old_row_differs": true,
+    "block": [
+     "repair-r4-rendering.md"
+    ],
+    "ok": true
+   }
+  },
+  "rationale_changed_lines": [
+   639,
+   685,
+   689,
+   772
+  ],
+  "alone": {
+   "determinism": {
+    "found": 10,
+    "applied": 10,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22731,
+     22741
+    ],
+    "base_sha256": "6f7048f1a2f9f94972d6a327570e5e247661b41221b3bec57dc430256683b75f",
+    "rationale_unchanged": true,
+    "recorded": "result sha256 6f7048f1a2f9f949…",
+    "equals_recorded": true
+   },
+   "kernel": {
+    "found": 1,
+    "applied": 1,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22731,
+     22735
+    ],
+    "base_sha256": "2ecdccd9d6252ac0f017797533c03ee4dbdabdaaed4dcdb227d2f5ee869f1f22",
+    "rationale_unchanged": true,
+    "recorded": "base sha256 2ecdccd9…, rationale unchanged (e7b59eac…)",
+    "equals_recorded": true
+   },
+   "model": {
+    "found": 3,
+    "applied": 3,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22731,
+     22781
+    ],
+    "base_sha256": "987ebc6110c30c52541a7ee08e62dcab6bd5ef0c783563e7dbb3753e5c074acc",
+    "rationale_unchanged": true,
+    "recorded": "document 22 731 → 22 781 lines; rationale byte-identical",
+    "equals_recorded": true
+   },
+   "pipeline": {
+    "found": 8,
+    "applied": 8,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22731,
+     22788
+    ],
+    "base_sha256": "51bcf5a10b7b293d0d6fbeeffc6b19ba21c70e88ebad5635fd6bc653cb76ba9b",
+    "rationale_unchanged": false,
+    "swap": [
+     "J-A81.41: l. 639 <- l. 852",
+     "Part A rows 805 duplicates []",
+     "sha256 1624d2bb9c352ade92f8ca5c98868dff44d8ba97e32ab3960607b4e7e7e6ffc2"
+    ],
+    "recorded": "document 22 731 → 22 788 lines; swap J-A81.41 l. 639 ← l. 852; Part A 805 rows, 0 duplicates",
+    "equals_recorded": true
+   },
+   "rendering": {
+    "found": 16,
+    "applied": 16,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22731,
+     22781
+    ],
+    "base_sha256": "bf2cf6780210e80462f6bde3f9c832b11dd5f61fddfcf2425d3318ba6cd71d7c",
+    "rationale_unchanged": false,
+    "swap": [
+     "judgment index: J-A121.02: l. 22706 <- l. 22714",
+     "Part A: J-A68.85: l. 685 <- l. 852",
+     "Part A: J-A68.89: l. 689 <- l. 852",
+     "Part A: J-A68.90: l. 772 <- l. 852",
+     "judgment index rows 805 duplicates []",
+     "Part A rows 805 duplicates []",
+     "ids in one and not the other []",
+     "base sha256 ddaf70ae4670a325c75bdb89c043c6dbda9a9e56324fa05b18568483cd601f42",
+     "rationale sha256 f583160c13d3cadae8793dd415c3adec7996c6a117f332f9c6a3b35fb81e87c4"
+    ],
+    "recorded": "index l. 22706 ← l. 22714; Part A l. 685, 689, 772 ← l. 852; index 805, Part A 805, no duplicate",
+    "equals_recorded": true
+   },
+   "scope": {
+    "found": 6,
+    "applied": 6,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     22731,
+     22764
+    ],
+    "base_sha256": "e7ad969e15042b5ccf05c8092f262d8d91ff121c881c6ab9e7b7012cbdd5e884",
+    "rationale_unchanged": true,
+    "recorded": "6 found, 6 applied, 0 skipped, audit not-OK 0, headings 153 → 153, the rationale untouched",
+    "equals_recorded": true
+   }
+  }
+ },
+ "carried_unchanged": [
+  "docs/volumes/INDEX.md"
+ ],
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "5f34cceb61432ac420f375d84296f6d154dad2af6a1fbcdf329763425784334c",
+  "docs/ARCHITECTURE-RATIONALE.md": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ },
+ "out_equals_final": {
+  "docs/ARCHITECTURE.md": false,
+  "docs/ARCHITECTURE-RATIONALE.md": false
+ }
+}

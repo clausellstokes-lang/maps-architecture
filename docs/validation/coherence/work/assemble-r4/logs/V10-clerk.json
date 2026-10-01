@@ -1,0 +1,445 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V10-clerk.md",
+ "input_doc_sha256": "382ea60eedc48fa960654297ec9d6d9ffdecf80a608b3a656fc8ea93d1ea75e7",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V10.md",
+   "sha256": "f2f4a7b2d1df64a7749d09a58bd6bf443719cc91710a3c3be74b4ca993bac8a5",
+   "lines": 1469,
+   "blocks": 15,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V10.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r4-V10.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 53,
+   "body_sha256": "d0283c5985a6938388a8428bde8ffe2a5a6c3e8ce32a3d7e614f07c2286cb683",
+   "target_line": 163,
+   "section_old": "163–216",
+   "section_old_n": 54,
+   "section_new_n": 54,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V10.md #2 (l. 58) REPLACE ### 1b.1 Records, tables and derived views",
+   "file": "repair-r4-V10.md",
+   "index": 2,
+   "line": 58,
+   "kind": "REPLACE",
+   "heading": "### 1b.1 Records, tables and derived views",
+   "body_lines": 60,
+   "body_sha256": "94e5436fd5af789ac76d31230864cd185df59d2a31a5926a8458b64ed3fee619",
+   "target_line": 251,
+   "section_old": "251–311",
+   "section_old_n": 61,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 1b.1 Records, tables and derived views"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V10.md #3 (l. 121) REPLACE ### 2.3 Sessions, segments and turns (session memory)",
+   "file": "repair-r4-V10.md",
+   "index": 3,
+   "line": 121,
+   "kind": "REPLACE",
+   "heading": "### 2.3 Sessions, segments and turns (session memory)",
+   "body_lines": 64,
+   "body_sha256": "0dfd9ccdec6a518a6958b0bb8166546870fdc522cc5e3a9891711bb96e5f49b3",
+   "target_line": 440,
+   "section_old": "440–504",
+   "section_old_n": 65,
+   "section_new_n": 65,
+   "new_headings": [
+    "### 2.3 Sessions, segments and turns (session memory)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V10.md #4 (l. 188) REPLACE ### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+   "file": "repair-r4-V10.md",
+   "index": 4,
+   "line": 188,
+   "kind": "REPLACE",
+   "heading": "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+   "body_lines": 123,
+   "body_sha256": "dca5af940f48745b147b05ec5b4c18a4ef0ca9ed979ede410b3ff1371f1c6dd3",
+   "target_line": 839,
+   "section_old": "839–962",
+   "section_old_n": 124,
+   "section_new_n": 124,
+   "new_headings": [
+    "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V10.md #5 (l. 314) REPLACE ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+   "file": "repair-r4-V10.md",
+   "index": 5,
+   "line": 314,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+   "body_lines": 95,
+   "body_sha256": "8dde6af12157f23b5396feb038096a8491b887f0f3b650b4c18ab115db605922",
+   "target_line": 963,
+   "section_old": "963–1049",
+   "section_old_n": 87,
+   "section_new_n": 96,
+   "new_headings": [
+    "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V10.md #6 (l. 412) REPLACE ### 3.3 The system prompt, the map block and the vocabulary block",
+   "file": "repair-r4-V10.md",
+   "index": 6,
+   "line": 412,
+   "kind": "REPLACE",
+   "heading": "### 3.3 The system prompt, the map block and the vocabulary block",
+   "body_lines": 163,
+   "body_sha256": "6b78159b56f1232ff85fca0c20ee3966ada5967c50bf88d21e93ecdeed5963a9",
+   "target_line": 1196,
+   "section_old": "1196–1358",
+   "section_old_n": 163,
+   "section_new_n": 164,
+   "new_headings": [
+    "### 3.3 The system prompt, the map block and the vocabulary block"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V10.md #7 (l. 578) REPLACE ### 3.5 Running the tools",
+   "file": "repair-r4-V10.md",
+   "index": 7,
+   "line": 578,
+   "kind": "REPLACE",
+   "heading": "### 3.5 Running the tools",
+   "body_lines": 117,
+   "body_sha256": "739d831213db7f69df090ee1ec98101718de24f3e471abecb89496a15d0ec8ae",
+   "target_line": 1427,
+   "section_old": "1427–1543",
+   "section_old_n": 117,
+   "section_new_n": 118,
+   "new_headings": [
+    "### 3.5 Running the tools"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V10.md #8 (l. 698) REPLACE ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+   "file": "repair-r4-V10.md",
+   "index": 8,
+   "line": 698,
+   "kind": "REPLACE",
+   "heading": "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+   "body_lines": 124,
+   "body_sha256": "330566d008c461b5c64ded70e478e6d7d23886904be749bdf57dbd0ea2742216",
+   "target_line": 1640,
+   "section_old": "1640–1764",
+   "section_old_n": 125,
+   "section_new_n": 125,
+   "new_headings": [
+    "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V10.md #9 (l. 825) REPLACE ### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123;",
+   "file": "repair-r4-V10.md",
+   "index": 9,
+   "line": 825,
+   "kind": "REPLACE",
+   "heading": "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)",
+   "body_lines": 117,
+   "body_sha256": "30a89c69e233ae9f145e23a260ade71e8a74db61f9283d09f3b1b539a3e19b3e",
+   "target_line": 1765,
+   "section_old": "1765–1879",
+   "section_old_n": 115,
+   "section_new_n": 118,
+   "new_headings": [
+    "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V10.md #10 (l. 945) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, ",
+   "file": "repair-r4-V10.md",
+   "index": 10,
+   "line": 945,
+   "kind": "REPLACE",
+   "heading": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+   "body_lines": 177,
+   "body_sha256": "ccb185bca56a5b0bde3ea2e73f8317114fff5e28e6329c26d8b1d531df321f49",
+   "target_line": 1883,
+   "section_old": "1883–2052",
+   "section_old_n": 170,
+   "section_new_n": 178,
+   "new_headings": [
+    "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-V10.md #11 (l. 1125) REPLACE ### 3.17 The host clerk seam",
+   "file": "repair-r4-V10.md",
+   "index": 11,
+   "line": 1125,
+   "kind": "REPLACE",
+   "heading": "### 3.17 The host clerk seam",
+   "body_lines": 99,
+   "body_sha256": "70871d23ca882c0cce58404a0d4d7d8f604e129f995694fb8478e32db7ffc942",
+   "target_line": 2440,
+   "section_old": "2440–2539",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 3.17 The host clerk seam"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r4-V10.md #12 (l. 1227) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r4-V10.md",
+   "index": 12,
+   "line": 1227,
+   "kind": "REPLACE",
+   "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 79,
+   "body_sha256": "679a0e8ec3459ad563152120de4b9f07067293b68bc0617c385ff1ddd1b03ddd",
+   "target_line": 2646,
+   "section_old": "2646–2725",
+   "section_old_n": 80,
+   "section_new_n": 80,
+   "new_headings": [
+    "### 3.23 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r4-V10.md #13 (l. 1309) REPLACE ### 7.1 Tests",
+   "file": "repair-r4-V10.md",
+   "index": 13,
+   "line": 1309,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Tests",
+   "body_lines": 57,
+   "body_sha256": "e87cfdc2422f0104fec9c18d4ec89bd78e5837c9dcc5f5bcc3a5e6015d13b805",
+   "target_line": 3087,
+   "section_old": "3087–3144",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 7.1 Tests"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r4-V10.md #14 (l. 1369) REPLACE ## 8 Build plan",
+   "file": "repair-r4-V10.md",
+   "index": 14,
+   "line": 1369,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 55,
+   "body_sha256": "2956279b69d7f0ba43ff1c0e32ed921eff14f96c834425386e4e4018107a9e5c",
+   "target_line": 3214,
+   "section_old": "3214–3269",
+   "section_old_n": 56,
+   "section_new_n": 56,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r4-V10.md #15 (l. 1427) REPLACE ### 10.2 Cross-volume requests (to the siblings; not base changes)",
+   "file": "repair-r4-V10.md",
+   "index": 15,
+   "line": 1427,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Cross-volume requests (to the siblings; not base changes)",
+   "body_lines": 40,
+   "body_sha256": "84ee44bd7f07912a0427aae957a80dcdf66ac149551d43f72965467eb7512770",
+   "target_line": 3444,
+   "section_old": "3444–3484",
+   "section_old_n": 41,
+   "section_new_n": 41,
+   "new_headings": [
+    "### 10.2 Cross-volume requests (to the siblings; not base changes)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V10.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #2 (l. 58) REPLACE ### 1b.1 Records, tables and derived views",
+    "kind": "REPLACE",
+    "heading": "### 1b.1 Records, tables and derived views",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #3 (l. 121) REPLACE ### 2.3 Sessions, segments and turns (session memory)",
+    "kind": "REPLACE",
+    "heading": "### 2.3 Sessions, segments and turns (session memory)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #4 (l. 188) REPLACE ### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+    "kind": "REPLACE",
+    "heading": "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #5 (l. 314) REPLACE ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #6 (l. 412) REPLACE ### 3.3 The system prompt, the map block and the vocabulary block",
+    "kind": "REPLACE",
+    "heading": "### 3.3 The system prompt, the map block and the vocabulary block",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #7 (l. 578) REPLACE ### 3.5 Running the tools",
+    "kind": "REPLACE",
+    "heading": "### 3.5 Running the tools",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #8 (l. 698) REPLACE ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+    "kind": "REPLACE",
+    "heading": "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #9 (l. 825) REPLACE ### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123;",
+    "kind": "REPLACE",
+    "heading": "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #10 (l. 945) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, ",
+    "kind": "REPLACE",
+    "heading": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #11 (l. 1125) REPLACE ### 3.17 The host clerk seam",
+    "kind": "REPLACE",
+    "heading": "### 3.17 The host clerk seam",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #12 (l. 1227) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #13 (l. 1309) REPLACE ### 7.1 Tests",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Tests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #14 (l. 1369) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V10.md #15 (l. 1427) REPLACE ### 10.2 Cross-volume requests (to the siblings; not base changes)",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Cross-volume requests (to the siblings; not base changes)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 86,
+  "headings_after": 86,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 510631,
+  "doc_bytes_after": 515733,
+  "doc_lines_before": 3533,
+  "doc_lines_after": 3555,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 15,
+  "blocks_applied": 15,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "3fd16e696cb259f51f1c17f72618d1193e7e594d672ce12c8a1b11422761f7fa",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

@@ -1,0 +1,341 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V01-neighbourhoods.md",
+ "input_doc_sha256": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V01.md",
+   "sha256": "a973b66fc17acb2baa18e482f3a8c23213aa26aa809bb699f60703529fab2cfe",
+   "lines": 965,
+   "blocks": 11,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V01.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes",
+   "file": "repair-r4-V01.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes",
+   "body_lines": 55,
+   "body_sha256": "e91f40599fab970cb64daccc19585e98ca94e64d40d0a5677216de124f6a13c2",
+   "target_line": 157,
+   "section_old": "157–212",
+   "section_old_n": 56,
+   "section_new_n": 56,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V01.md #2 (l. 60) REPLACE ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "file": "repair-r4-V01.md",
+   "index": 2,
+   "line": 60,
+   "kind": "REPLACE",
+   "heading": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "body_lines": 103,
+   "body_sha256": "fc5e0d624a6a884544822280b2940a69d5626567138363bf231e1e1d92423e35",
+   "target_line": 249,
+   "section_old": "249–352",
+   "section_old_n": 104,
+   "section_new_n": 104,
+   "new_headings": [
+    "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V01.md #3 (l. 166) REPLACE ### 2.3 Views and services (derived, never stored)",
+   "file": "repair-r4-V01.md",
+   "index": 3,
+   "line": 166,
+   "kind": "REPLACE",
+   "heading": "### 2.3 Views and services (derived, never stored)",
+   "body_lines": 135,
+   "body_sha256": "513b9cfa2e0f697ccd9b15412bcf8fe5e91793285508e5c3a7eab40cf327aa2a",
+   "target_line": 449,
+   "section_old": "449–584",
+   "section_old_n": 136,
+   "section_new_n": 136,
+   "new_headings": [
+    "### 2.3 Views and services (derived, never stored)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V01.md #4 (l. 304) REPLACE ### 3.14 Constants (with provenance and table home)",
+   "file": "repair-r4-V01.md",
+   "index": 4,
+   "line": 304,
+   "kind": "REPLACE",
+   "heading": "### 3.14 Constants (with provenance and table home)",
+   "body_lines": 76,
+   "body_sha256": "530c607805d630df565dea5f8eff438f7dda4325c1c9f6314e29cd61c85d1352",
+   "target_line": 2133,
+   "section_old": "2133–2210",
+   "section_old_n": 78,
+   "section_new_n": 77,
+   "new_headings": [
+    "### 3.14 Constants (with provenance and table home)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V01.md #5 (l. 383) REPLACE ### 3.16 Services other volumes call (`@plat/hood`)",
+   "file": "repair-r4-V01.md",
+   "index": 5,
+   "line": 383,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Services other volumes call (`@plat/hood`)",
+   "body_lines": 113,
+   "body_sha256": "6b2019f9cce69bad7333a7e4ca5a873e0c775aefd4a51b5861bdf753b34ce9c6",
+   "target_line": 2279,
+   "section_old": "2279–2389",
+   "section_old_n": 111,
+   "section_new_n": 114,
+   "new_headings": [
+    "### 3.16 Services other volumes call (`@plat/hood`)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V01.md #6 (l. 499) REPLACE #### 3.17.3 Raised ways in the close-up (J-V1.65)",
+   "file": "repair-r4-V01.md",
+   "index": 6,
+   "line": 499,
+   "kind": "REPLACE",
+   "heading": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+   "body_lines": 35,
+   "body_sha256": "c78fb50428589849b6ba452a4490cbce60da6b79e58eb32193f1edeb354ba1c7",
+   "target_line": 2457,
+   "section_old": "2457–2492",
+   "section_old_n": 36,
+   "section_new_n": 36,
+   "new_headings": [
+    "#### 3.17.3 Raised ways in the close-up (J-V1.65)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V01.md #7 (l. 537) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r4-V01.md",
+   "index": 7,
+   "line": 537,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 127,
+   "body_sha256": "4c2584ad6c8cd4e07e9201f82dec15597b09f0b2fd2be25c837849a2d91fa83a",
+   "target_line": 2587,
+   "section_old": "2587–2714",
+   "section_old_n": 128,
+   "section_new_n": 128,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V01.md #8 (l. 667) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "file": "repair-r4-V01.md",
+   "index": 8,
+   "line": 667,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "body_lines": 112,
+   "body_sha256": "4c435239f14335f6be6711e401e4f14d817fbdf760056a702279fc2a49bb509d",
+   "target_line": 3129,
+   "section_old": "3129–3227",
+   "section_old_n": 99,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V01.md #9 (l. 782) REPLACE ## 6 Performance budgets",
+   "file": "repair-r4-V01.md",
+   "index": 9,
+   "line": 782,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 52,
+   "body_sha256": "658df9385b385e3862fa116c7199c5f1c5af65e96adcf36657bfeb447bfa7de0",
+   "target_line": 3242,
+   "section_old": "3242–3294",
+   "section_old_n": 53,
+   "section_new_n": 53,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V01.md #10 (l. 837) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V01.md",
+   "index": 10,
+   "line": 837,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 76,
+   "body_sha256": "0b3690502bd4a9b8cd46ad57d2a2f038bf6c71166f58384811aaeded0a961f0d",
+   "target_line": 3295,
+   "section_old": "3295–3371",
+   "section_old_n": 77,
+   "section_new_n": 77,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-V01.md #11 (l. 916) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r4-V01.md",
+   "index": 11,
+   "line": 916,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 47,
+   "body_sha256": "b9faff274c63806e03080b91b384cc9700dd38c3e9ddc56c4540864d45fae19e",
+   "target_line": 3693,
+   "section_old": "3693–3741",
+   "section_old_n": 49,
+   "section_new_n": 48,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V01.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #2 (l. 60) REPLACE ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #3 (l. 166) REPLACE ### 2.3 Views and services (derived, never stored)",
+    "kind": "REPLACE",
+    "heading": "### 2.3 Views and services (derived, never stored)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #4 (l. 304) REPLACE ### 3.14 Constants (with provenance and table home)",
+    "kind": "REPLACE",
+    "heading": "### 3.14 Constants (with provenance and table home)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #5 (l. 383) REPLACE ### 3.16 Services other volumes call (`@plat/hood`)",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Services other volumes call (`@plat/hood`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #6 (l. 499) REPLACE #### 3.17.3 Raised ways in the close-up (J-V1.65)",
+    "kind": "REPLACE",
+    "heading": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #7 (l. 537) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #8 (l. 667) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #9 (l. 782) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #10 (l. 837) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V01.md #11 (l. 916) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 123,
+  "headings_after": 123,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 523442,
+  "doc_bytes_after": 526767,
+  "doc_lines_before": 3742,
+  "doc_lines_after": 3757,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 11,
+  "blocks_applied": 11,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a0c15b713802a1ed08037da66475e87d2abfaf07c3a111182c85ed210cc02ce5",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

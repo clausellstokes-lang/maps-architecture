@@ -1,0 +1,1265 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE.md",
+ "input_doc_sha256": "593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-determinism.md",
+   "sha256": "d88f6f3a66fe8b022119dec4631c40c8ba024ac038ed4e5a09f3a5595c9d6ef0",
+   "lines": 2726,
+   "blocks": 10,
+   "issues": []
+  },
+  {
+   "file": "repair-r4-kernel.md",
+   "sha256": "af89493cbdecee17bf884aed673976b5160ae40d19e7972119035503719a196d",
+   "lines": 131,
+   "blocks": 1,
+   "issues": []
+  },
+  {
+   "file": "repair-r4-model.md",
+   "sha256": "758d010b0e63cf36321699067c6b98ab9fc490b7b9496c57df9176e75023d5f3",
+   "lines": 1871,
+   "blocks": 3,
+   "issues": []
+  },
+  {
+   "file": "repair-r4-pipeline.md",
+   "sha256": "b0393bbbdb7547558feca09c100c69f874823c4daa7aff16a44c77f6b74789c3",
+   "lines": 2307,
+   "blocks": 8,
+   "issues": []
+  },
+  {
+   "file": "repair-r4-rendering.md",
+   "sha256": "b0afc51d8c40449a990f36dc6ad49aa8ae3ab9667173ac72ab7c4daad379f9f8",
+   "lines": 3093,
+   "blocks": 16,
+   "issues": []
+  },
+  {
+   "file": "repair-r4-scope.md",
+   "sha256": "04f730c91254de478b2cdefe3391c7847d5a555f2de2703963e9af417abe86bd",
+   "lines": 2117,
+   "blocks": 6,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-determinism.md #1 (l. 1) REPLACE ### 5.1 Principles and the seven tiers (G-P7)",
+   "file": "repair-r4-determinism.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 5.1 Principles and the seven tiers (G-P7)",
+   "body_lines": 105,
+   "body_sha256": "d4e99ed3352a39ddb22ecb93b10dd85e01bc9ce3875277a51e01de4b1173db09",
+   "target_line": 8906,
+   "section_old": "8906–9011",
+   "section_old_n": 106,
+   "section_new_n": 106,
+   "new_headings": [
+    "### 5.1 Principles and the seven tiers (G-P7)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-determinism.md #2 (l. 109) REPLACE ### 6.1 RNG and stream design",
+   "file": "repair-r4-determinism.md",
+   "index": 2,
+   "line": 109,
+   "kind": "REPLACE",
+   "heading": "### 6.1 RNG and stream design",
+   "body_lines": 244,
+   "body_sha256": "59cc6835b59b097011abb56fbc84839c7f9ae95674c95deeb52efde465e53aa5",
+   "target_line": 9237,
+   "section_old": "9237–9478",
+   "section_old_n": 242,
+   "section_new_n": 245,
+   "new_headings": [
+    "### 6.1 RNG and stream design"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-determinism.md #3 (l. 356) REPLACE ### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+   "file": "repair-r4-determinism.md",
+   "index": 3,
+   "line": 356,
+   "kind": "REPLACE",
+   "heading": "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+   "body_lines": 256,
+   "body_sha256": "0f79830ece57a04dff2ef42055093927c2920b6ca8cd75ad8298627465a1a027",
+   "target_line": 9653,
+   "section_old": "9653–9908",
+   "section_old_n": 256,
+   "section_new_n": 257,
+   "new_headings": [
+    "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-determinism.md #4 (l. 615) REPLACE ### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+   "file": "repair-r4-determinism.md",
+   "index": 4,
+   "line": 615,
+   "kind": "REPLACE",
+   "heading": "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+   "body_lines": 130,
+   "body_sha256": "de825f4ebd816e4444d76e5d37f148cb68d7827ef39dca11c4ceeae918a0a645",
+   "target_line": 9978,
+   "section_old": "9978–10106",
+   "section_old_n": 129,
+   "section_new_n": 131,
+   "new_headings": [
+    "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-determinism.md #5 (l. 748) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+   "file": "repair-r4-determinism.md",
+   "index": 5,
+   "line": 748,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+   "body_lines": 495,
+   "body_sha256": "740db3b4bb81a2660b8f4daabc27f4458cd43ca8dcbd056fa853a8cc740c9fb5",
+   "target_line": 10122,
+   "section_old": "10122–10614",
+   "section_old_n": 493,
+   "section_new_n": 496,
+   "new_headings": [
+    "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-determinism.md #6 (l. 1246) REPLACE ### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+   "file": "repair-r4-determinism.md",
+   "index": 6,
+   "line": 1246,
+   "kind": "REPLACE",
+   "heading": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+   "body_lines": 359,
+   "body_sha256": "ae9a65c5d3e5fcd74370cb0b65f111f1920f4d96b5f3252bb57dbd154e5fdee0",
+   "target_line": 10685,
+   "section_old": "10685–11044",
+   "section_old_n": 360,
+   "section_new_n": 360,
+   "new_headings": [
+    "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-determinism.md #7 (l. 1608) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "file": "repair-r4-determinism.md",
+   "index": 7,
+   "line": 1608,
+   "kind": "REPLACE",
+   "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "body_lines": 256,
+   "body_sha256": "f5141695b59636efa9ce5e2683a8b0d06032cea25601e209eb0a423cae812e02",
+   "target_line": 11045,
+   "section_old": "11045–11301",
+   "section_old_n": 257,
+   "section_new_n": 257,
+   "new_headings": [
+    "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-determinism.md #8 (l. 1867) REPLACE ### 7.5 Migration and upgrade (G-P9)",
+   "file": "repair-r4-determinism.md",
+   "index": 8,
+   "line": 1867,
+   "kind": "REPLACE",
+   "heading": "### 7.5 Migration and upgrade (G-P9)",
+   "body_lines": 117,
+   "body_sha256": "247f282ef9c4ec0c580610ab826ee436b694b68476c2327745fe50c3809236ae",
+   "target_line": 11302,
+   "section_old": "11302–11419",
+   "section_old_n": 118,
+   "section_new_n": 118,
+   "new_headings": [
+    "### 7.5 Migration and upgrade (G-P9)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-determinism.md #9 (l. 1987) REPLACE ### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+   "file": "repair-r4-determinism.md",
+   "index": 9,
+   "line": 1987,
+   "kind": "REPLACE",
+   "heading": "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+   "body_lines": 140,
+   "body_sha256": "2b3e03fe68b5ecebfff384d9f04625fd3515a6f050534d0e6365f34cb48eca74",
+   "target_line": 11420,
+   "section_old": "11420–11560",
+   "section_old_n": 141,
+   "section_new_n": 141,
+   "new_headings": [
+    "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-determinism.md #10 (l. 2130) REPLACE ### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "file": "repair-r4-determinism.md",
+   "index": 10,
+   "line": 2130,
+   "kind": "REPLACE",
+   "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "body_lines": 594,
+   "body_sha256": "524e748e5d17ebec43de623299bae4e0e49773cdaa158050e165202e143c7d8e",
+   "target_line": 11561,
+   "section_old": "11561–12154",
+   "section_old_n": 594,
+   "section_new_n": 595,
+   "new_headings": [
+    "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-kernel.md #1 (l. 1) REPLACE ### 3.2 Numeric policy",
+   "file": "repair-r4-kernel.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 3.2 Numeric policy",
+   "body_lines": 128,
+   "body_sha256": "4d885891d66fb5e9ac542dfb31f72f13fd4397e772e18c49c0b6cd77cd368951",
+   "target_line": 3508,
+   "section_old": "3508–3632",
+   "section_old_n": 125,
+   "section_new_n": 129,
+   "new_headings": [
+    "### 3.2 Numeric policy"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r4-model.md #1 (l. 1) REPLACE ### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+   "file": "repair-r4-model.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+   "body_lines": 934,
+   "body_sha256": "8aef18808b46567e852e8fe48eb9a8374358d832f1b8616a3aff58fd53f2a322",
+   "target_line": 1313,
+   "section_old": "1313–2243",
+   "section_old_n": 931,
+   "section_new_n": 935,
+   "new_headings": [
+    "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r4-model.md #2 (l. 938) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+   "file": "repair-r4-model.md",
+   "index": 2,
+   "line": 938,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+   "body_lines": 500,
+   "body_sha256": "58d9f04e0963b38e77cec8d3a2695a08ac82b3a39405c066a2845bc64d4b3a7d",
+   "target_line": 2248,
+   "section_old": "2248–2704",
+   "section_old_n": 457,
+   "section_new_n": 501,
+   "new_headings": [
+    "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r4-model.md #3 (l. 1441) REPLACE ### 2.9 The document and serialisation",
+   "file": "repair-r4-model.md",
+   "index": 3,
+   "line": 1441,
+   "kind": "REPLACE",
+   "heading": "### 2.9 The document and serialisation",
+   "body_lines": 428,
+   "body_sha256": "8f69e22a445c757238deef8f6f881d9f9b88c50faf488ea2c0d28f3e38c883d0",
+   "target_line": 3052,
+   "section_old": "3052–3478",
+   "section_old_n": 427,
+   "section_new_n": 429,
+   "new_headings": [
+    "### 2.9 The document and serialisation"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r4-pipeline.md #1 (l. 1) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "file": "repair-r4-pipeline.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "body_lines": 216,
+   "body_sha256": "081d016a373f165a6ae44747fc5f86536d6c61bbb344712600053373b244a647",
+   "target_line": 4803,
+   "section_old": "4803–5019",
+   "section_old_n": 217,
+   "section_new_n": 217,
+   "new_headings": [
+    "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r4-pipeline.md #2 (l. 220) REPLACE ### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "file": "repair-r4-pipeline.md",
+   "index": 2,
+   "line": 220,
+   "kind": "REPLACE",
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "body_lines": 172,
+   "body_sha256": "0405875ef5e3beea1d6529fe2142de255d75993130230483c1d668f4ada42539",
+   "target_line": 5607,
+   "section_old": "5607–5766",
+   "section_old_n": 160,
+   "section_new_n": 173,
+   "new_headings": [
+    "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r4-pipeline.md #3 (l. 395) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+   "file": "repair-r4-pipeline.md",
+   "index": 3,
+   "line": 395,
+   "kind": "REPLACE",
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "body_lines": 212,
+   "body_sha256": "310e586ac29073a29536b1a95f8a0e538e79099c42ee6048a623f11fea29b6c9",
+   "target_line": 5780,
+   "section_old": "5780–5983",
+   "section_old_n": 204,
+   "section_new_n": 213,
+   "new_headings": [
+    "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r4-pipeline.md #4 (l. 610) REPLACE ### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "file": "repair-r4-pipeline.md",
+   "index": 4,
+   "line": 610,
+   "kind": "REPLACE",
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "body_lines": 143,
+   "body_sha256": "edd6a670dbebc91cc6d33255f4a324a05528189237a279607145ef298ac3cc6e",
+   "target_line": 7586,
+   "section_old": "7586–7722",
+   "section_old_n": 137,
+   "section_new_n": 144,
+   "new_headings": [
+    "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r4-pipeline.md #5 (l. 756) REPLACE ### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in th",
+   "file": "repair-r4-pipeline.md",
+   "index": 5,
+   "line": 756,
+   "kind": "REPLACE",
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "body_lines": 918,
+   "body_sha256": "e894ab3d5d34c074aaf883078e2888422eed3958cc4a549a6c8c40fc86525a9c",
+   "target_line": 7959,
+   "section_old": "7959–8865",
+   "section_old_n": 907,
+   "section_new_n": 919,
+   "new_headings": [
+    "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r4-pipeline.md #6 (l. 1677) REPLACE ### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "file": "repair-r4-pipeline.md",
+   "index": 6,
+   "line": 1677,
+   "kind": "REPLACE",
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "body_lines": 57,
+   "body_sha256": "c054c567d23464f233005fe652594b3992d4cceb795d7607652040570ad17e05",
+   "target_line": 8934,
+   "section_old": "8934–8991",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 4.13 Edges and meeting points — the defined outcome at every limit"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r4-pipeline.md #7 (l. 1737) REPLACE ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "file": "repair-r4-pipeline.md",
+   "index": 7,
+   "line": 1737,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "body_lines": 564,
+   "body_sha256": "7225e54898707a08ab5f0ec85202060c978eb1e6d395e2c10c508eb116268dbf",
+   "target_line": 15155,
+   "section_old": "15155–15703",
+   "section_old_n": 549,
+   "section_new_n": 565,
+   "new_headings": [
+    "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r4-pipeline.md #8 (l. 2304) RATIONALE-A",
+   "file": "repair-r4-pipeline.md",
+   "index": 8,
+   "line": 2304,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "1253a530120039114fb0cb2f20c8bdc07351570c64211ebacc504f6dfc77707c",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 851,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A81.41"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r4-rendering.md #1 (l. 1) REPLACE ### 8.1 The display list (renderer-independent, columnar, incremental)",
+   "file": "repair-r4-rendering.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 8.1 The display list (renderer-independent, columnar, incremental)",
+   "body_lines": 160,
+   "body_sha256": "fc294ccbae70184cc0fd0cde58a178772b081437d1b24b0a5dedc3125af53e49",
+   "target_line": 12338,
+   "section_old": "12338–12497",
+   "section_old_n": 160,
+   "section_new_n": 161,
+   "new_headings": [
+    "### 8.1 The display list (renderer-independent, columnar, incremental)"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r4-rendering.md #2 (l. 164) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+   "file": "repair-r4-rendering.md",
+   "index": 2,
+   "line": 164,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+   "body_lines": 959,
+   "body_sha256": "8c5a687fe2cb6463257832be20aab69f819f860dce77419090d265492eaed9c9",
+   "target_line": 12499,
+   "section_old": "12499–13452",
+   "section_old_n": 954,
+   "section_new_n": 960,
+   "new_headings": [
+    "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r4-rendering.md #3 (l. 1126) REPLACE ### 8.4 Layers, shadows, heights",
+   "file": "repair-r4-rendering.md",
+   "index": 3,
+   "line": 1126,
+   "kind": "REPLACE",
+   "heading": "### 8.4 Layers, shadows, heights",
+   "body_lines": 360,
+   "body_sha256": "fde10d98dc31d8d615b1853d1ff95f4a0e3d15c861af4679fc13172c4c4d0fe6",
+   "target_line": 13550,
+   "section_old": "13550–13902",
+   "section_old_n": 353,
+   "section_new_n": 361,
+   "new_headings": [
+    "### 8.4 Layers, shadows, heights"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "repair-r4-rendering.md #4 (l. 1489) REPLACE ### 8.6 Stage-2 render tier and stage-3 LOD",
+   "file": "repair-r4-rendering.md",
+   "index": 4,
+   "line": 1489,
+   "kind": "REPLACE",
+   "heading": "### 8.6 Stage-2 render tier and stage-3 LOD",
+   "body_lines": 88,
+   "body_sha256": "e27affb9d0712add902dcd40b8a25b3bbb70dd215e02ad4d5d65340230f2d455",
+   "target_line": 14025,
+   "section_old": "14025–14112",
+   "section_old_n": 88,
+   "section_new_n": 89,
+   "new_headings": [
+    "### 8.6 Stage-2 render tier and stage-3 LOD"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "repair-r4-rendering.md #5 (l. 1580) REPLACE ### 8.8 Tiles, zoom stops, print and the canvas budget",
+   "file": "repair-r4-rendering.md",
+   "index": 5,
+   "line": 1580,
+   "kind": "REPLACE",
+   "heading": "### 8.8 Tiles, zoom stops, print and the canvas budget",
+   "body_lines": 275,
+   "body_sha256": "30441cc764aad81fcd2041ef07f5fdeb6e47c7b4087d5b3bd968cda44167cd2b",
+   "target_line": 14124,
+   "section_old": "14124–14397",
+   "section_old_n": 274,
+   "section_new_n": 276,
+   "new_headings": [
+    "### 8.8 Tiles, zoom stops, print and the canvas budget"
+   ]
+  },
+  {
+   "seq": 28,
+   "block": "repair-r4-rendering.md #6 (l. 1858) REPLACE ### 8.11 Edges and combinations (principle (11))",
+   "file": "repair-r4-rendering.md",
+   "index": 6,
+   "line": 1858,
+   "kind": "REPLACE",
+   "heading": "### 8.11 Edges and combinations (principle (11))",
+   "body_lines": 27,
+   "body_sha256": "952209a382e909197dc316b6f6639dddb03eabb665cf71d9b4c2b99aa6278da7",
+   "target_line": 14680,
+   "section_old": "14680–14707",
+   "section_old_n": 28,
+   "section_new_n": 28,
+   "new_headings": [
+    "### 8.11 Edges and combinations (principle (11))"
+   ]
+  },
+  {
+   "seq": 29,
+   "block": "repair-r4-rendering.md #7 (l. 1888) REPLACE ### 9.1 What is model and what is view",
+   "file": "repair-r4-rendering.md",
+   "index": 7,
+   "line": 1888,
+   "kind": "REPLACE",
+   "heading": "### 9.1 What is model and what is view",
+   "body_lines": 52,
+   "body_sha256": "a82cb07c41332bfb51d03c92eeb819eaae0d62fa5136064495178baef05016dc",
+   "target_line": 14718,
+   "section_old": "14718–14770",
+   "section_old_n": 53,
+   "section_new_n": 53,
+   "new_headings": [
+    "### 9.1 What is model and what is view"
+   ]
+  },
+  {
+   "seq": 30,
+   "block": "repair-r4-rendering.md #8 (l. 1943) REPLACE ### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+   "file": "repair-r4-rendering.md",
+   "index": 8,
+   "line": 1943,
+   "kind": "REPLACE",
+   "heading": "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+   "body_lines": 164,
+   "body_sha256": "49d66a274e5ed3c6fd42c1b3a7aba2aacd88adb652fdd23f78cc9e840584dcc6",
+   "target_line": 14771,
+   "section_old": "14771–14934",
+   "section_old_n": 164,
+   "section_new_n": 165,
+   "new_headings": [
+    "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally"
+   ]
+  },
+  {
+   "seq": 31,
+   "block": "repair-r4-rendering.md #9 (l. 2110) REPLACE ### 11.1 Formats",
+   "file": "repair-r4-rendering.md",
+   "index": 9,
+   "line": 2110,
+   "kind": "REPLACE",
+   "heading": "### 11.1 Formats",
+   "body_lines": 223,
+   "body_sha256": "221d32e95b9aa900fa9209a301583a41e21ce51d97ae19b8f994e70f52e72ef2",
+   "target_line": 15924,
+   "section_old": "15924–16146",
+   "section_old_n": 223,
+   "section_new_n": 224,
+   "new_headings": [
+    "### 11.1 Formats"
+   ]
+  },
+  {
+   "seq": 32,
+   "block": "repair-r4-rendering.md #10 (l. 2336) REPLACE ### 11.2 The embedding API and the worker boundary (SCL-6)",
+   "file": "repair-r4-rendering.md",
+   "index": 10,
+   "line": 2336,
+   "kind": "REPLACE",
+   "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+   "body_lines": 423,
+   "body_sha256": "420ff99a013e0c482a2bccb10e5051a9690b4a2bdac1b298b31a45012535113e",
+   "target_line": 16148,
+   "section_old": "16148–16544",
+   "section_old_n": 397,
+   "section_new_n": 424,
+   "new_headings": [
+    "### 11.2 The embedding API and the worker boundary (SCL-6)"
+   ]
+  },
+  {
+   "seq": 33,
+   "block": "repair-r4-rendering.md #11 (l. 2762) REPLACE ### 11.3 The host bridge — the host is the store (FTG-12)",
+   "file": "repair-r4-rendering.md",
+   "index": 11,
+   "line": 2762,
+   "kind": "REPLACE",
+   "heading": "### 11.3 The host bridge — the host is the store (FTG-12)",
+   "body_lines": 150,
+   "body_sha256": "039d29aeae65fd50f92de78160da08928ebefdd97a3c515201e74a120648e10c",
+   "target_line": 16572,
+   "section_old": "16572–16721",
+   "section_old_n": 150,
+   "section_new_n": 151,
+   "new_headings": [
+    "### 11.3 The host bridge — the host is the store (FTG-12)"
+   ]
+  },
+  {
+   "seq": 34,
+   "block": "repair-r4-rendering.md #12 (l. 2915) REPLACE ### 11.6 Edges (principle (11))",
+   "file": "repair-r4-rendering.md",
+   "index": 12,
+   "line": 2915,
+   "kind": "REPLACE",
+   "heading": "### 11.6 Edges (principle (11))",
+   "body_lines": 7,
+   "body_sha256": "84e21097a2b92b9e3954dfddb04c89861e5b79c4412abf1a549b89688209e962",
+   "target_line": 16787,
+   "section_old": "16787–16794",
+   "section_old_n": 8,
+   "section_new_n": 8,
+   "new_headings": [
+    "### 11.6 Edges (principle (11))"
+   ]
+  },
+  {
+   "seq": 35,
+   "block": "repair-r4-rendering.md #13 (l. 2925) REPLACE ### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+   "file": "repair-r4-rendering.md",
+   "index": 13,
+   "line": 2925,
+   "kind": "REPLACE",
+   "heading": "### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+   "body_lines": 102,
+   "body_sha256": "257be7479eaf2f306d3b4f3b75ad9436f5123b2fc5d3f1f643fc9bd3c9c0050d",
+   "target_line": 17044,
+   "section_old": "17044–17145",
+   "section_old_n": 102,
+   "section_new_n": 103,
+   "new_headings": [
+    "### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)"
+   ]
+  },
+  {
+   "seq": 36,
+   "block": "repair-r4-rendering.md #14 (l. 3030) REPLACE ### 12.10 The budget register",
+   "file": "repair-r4-rendering.md",
+   "index": 14,
+   "line": 3030,
+   "kind": "REPLACE",
+   "heading": "### 12.10 The budget register",
+   "body_lines": 51,
+   "body_sha256": "b5a3664ad7f5dbb833009f58628d8bc8d0093b0a7af9b682497ab7f98daf7d1c",
+   "target_line": 17422,
+   "section_old": "17422–17473",
+   "section_old_n": 52,
+   "section_new_n": 52,
+   "new_headings": [
+    "### 12.10 The budget register"
+   ]
+  },
+  {
+   "seq": 37,
+   "block": "repair-r4-rendering.md #15 (l. 3084) J-ROWS",
+   "file": "repair-r4-rendering.md",
+   "index": 15,
+   "line": 3084,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "bb0355df794ee520a19b56f699debed1b59d330c46b2cf0aee326c731c30a7d0",
+   "target_table": "document l. 22028 (header '| id | the choice | where |')",
+   "inserted_after_line": 22834,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A121.02"
+   ]
+  },
+  {
+   "seq": 38,
+   "block": "repair-r4-rendering.md #16 (l. 3088) RATIONALE-A",
+   "file": "repair-r4-rendering.md",
+   "index": 16,
+   "line": 3088,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 3,
+   "body_sha256": "1b5ae7e9b2aea6929037e4758e73d7191c3ade428ded4afc885674bb277b44e9",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 852,
+   "rows_inserted": 3,
+   "row_ids": [
+    "J-A68.85",
+    "J-A68.89",
+    "J-A68.90"
+   ]
+  },
+  {
+   "seq": 39,
+   "block": "repair-r4-scope.md #1 (l. 1) REPLACE ### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMEN",
+   "file": "repair-r4-scope.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)",
+   "body_lines": 118,
+   "body_sha256": "1e5b9e8871efb8ad77bad123d45f7f84ee6340d20a721c35e78e905e24e7a940",
+   "target_line": 149,
+   "section_old": "149–267",
+   "section_old_n": 119,
+   "section_new_n": 119,
+   "new_headings": [
+    "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)"
+   ]
+  },
+  {
+   "seq": 40,
+   "block": "repair-r4-scope.md #2 (l. 122) REPLACE ### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+   "file": "repair-r4-scope.md",
+   "index": 2,
+   "line": 122,
+   "kind": "REPLACE",
+   "heading": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+   "body_lines": 177,
+   "body_sha256": "88591a63f71bfc55747740f3c3a1e7a08ad2851a4811c77240c916e82592b6c3",
+   "target_line": 17486,
+   "section_old": "17486–17661",
+   "section_old_n": 176,
+   "section_new_n": 178,
+   "new_headings": [
+    "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test"
+   ]
+  },
+  {
+   "seq": 41,
+   "block": "repair-r4-scope.md #3 (l. 302) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "file": "repair-r4-scope.md",
+   "index": 3,
+   "line": 302,
+   "kind": "REPLACE",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "body_lines": 1018,
+   "body_sha256": "2e7b6d9e4a34b3d49699069ec2ee76b362c58412f19bc6a2747f57a21bab135f",
+   "target_line": 17664,
+   "section_old": "17664–18653",
+   "section_old_n": 990,
+   "section_new_n": 1019,
+   "new_headings": [
+    "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT"
+   ]
+  },
+  {
+   "seq": 42,
+   "block": "repair-r4-scope.md #4 (l. 1323) REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "file": "repair-r4-scope.md",
+   "index": 4,
+   "line": 1323,
+   "kind": "REPLACE",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "body_lines": 111,
+   "body_sha256": "eb89026b0b913c59ea8862cae6227667a97b67b6dda6a3ee485d8ca01e23ced5",
+   "target_line": 19204,
+   "section_old": "19204–19315",
+   "section_old_n": 112,
+   "section_new_n": 112,
+   "new_headings": [
+    "### 13.8 CI tiers and compute budgets (SCL-18; D-34)"
+   ]
+  },
+  {
+   "seq": 43,
+   "block": "repair-r4-scope.md #5 (l. 1437) REPLACE ## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "file": "repair-r4-scope.md",
+   "index": 5,
+   "line": 1437,
+   "kind": "REPLACE",
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "body_lines": 528,
+   "body_sha256": "74964147fc633e47776102a707b1112024e67f6d76d2749d3a51a65c43f30f1f",
+   "target_line": 19375,
+   "section_old": "19375–19901",
+   "section_old_n": 527,
+   "section_new_n": 529,
+   "new_headings": [
+    "## §14 Package and module layout, key interfaces, dependency rules, extension points"
+   ]
+  },
+  {
+   "seq": 44,
+   "block": "repair-r4-scope.md #6 (l. 1968) REPLACE ## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, t",
+   "file": "repair-r4-scope.md",
+   "index": 6,
+   "line": 1968,
+   "kind": "REPLACE",
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "body_lines": 147,
+   "body_sha256": "945adedb7dd606fc9885b9f03d6ceeb9e321c52ec2d4f4a3009e184b90a9ed62",
+   "target_line": 20151,
+   "section_old": "20151–20298",
+   "section_old_n": 148,
+   "section_new_n": 148,
+   "new_headings": [
+    "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r4-pipeline.md #8 (l. 2304) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A81.41"
+   ]
+  },
+  {
+   "block": "repair-r4-rendering.md #15 (l. 3084) J-ROWS",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A121.02"
+   ]
+  },
+  {
+   "block": "repair-r4-rendering.md #16 (l. 3088) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A68.85",
+    "J-A68.89",
+    "J-A68.90"
+   ]
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-determinism.md #1 (l. 1) REPLACE ### 5.1 Principles and the seven tiers (G-P7)",
+    "kind": "REPLACE",
+    "heading": "### 5.1 Principles and the seven tiers (G-P7)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #2 (l. 109) REPLACE ### 6.1 RNG and stream design",
+    "kind": "REPLACE",
+    "heading": "### 6.1 RNG and stream design",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #3 (l. 356) REPLACE ### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+    "kind": "REPLACE",
+    "heading": "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #4 (l. 615) REPLACE ### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+    "kind": "REPLACE",
+    "heading": "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #5 (l. 748) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #6 (l. 1246) REPLACE ### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+    "kind": "REPLACE",
+    "heading": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #7 (l. 1608) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "kind": "REPLACE",
+    "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #8 (l. 1867) REPLACE ### 7.5 Migration and upgrade (G-P9)",
+    "kind": "REPLACE",
+    "heading": "### 7.5 Migration and upgrade (G-P9)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #9 (l. 1987) REPLACE ### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+    "kind": "REPLACE",
+    "heading": "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-determinism.md #10 (l. 2130) REPLACE ### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+    "kind": "REPLACE",
+    "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-kernel.md #1 (l. 1) REPLACE ### 3.2 Numeric policy",
+    "kind": "REPLACE",
+    "heading": "### 3.2 Numeric policy",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-model.md #1 (l. 1) REPLACE ### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+    "kind": "REPLACE",
+    "heading": "### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-model.md #2 (l. 938) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-model.md #3 (l. 1441) REPLACE ### 2.9 The document and serialisation",
+    "kind": "REPLACE",
+    "heading": "### 2.9 The document and serialisation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #1 (l. 1) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "kind": "REPLACE",
+    "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #2 (l. 220) REPLACE ### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+    "kind": "REPLACE",
+    "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #3 (l. 395) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+    "kind": "REPLACE",
+    "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #4 (l. 610) REPLACE ### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+    "kind": "REPLACE",
+    "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #5 (l. 756) REPLACE ### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in th",
+    "kind": "REPLACE",
+    "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #6 (l. 1677) REPLACE ### 4.13 Edges and meeting points — the defined outcome at every limit",
+    "kind": "REPLACE",
+    "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #7 (l. 1737) REPLACE ### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-pipeline.md #8 (l. 2304) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r4-rendering.md #1 (l. 1) REPLACE ### 8.1 The display list (renderer-independent, columnar, incremental)",
+    "kind": "REPLACE",
+    "heading": "### 8.1 The display list (renderer-independent, columnar, incremental)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #2 (l. 164) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #3 (l. 1126) REPLACE ### 8.4 Layers, shadows, heights",
+    "kind": "REPLACE",
+    "heading": "### 8.4 Layers, shadows, heights",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #4 (l. 1489) REPLACE ### 8.6 Stage-2 render tier and stage-3 LOD",
+    "kind": "REPLACE",
+    "heading": "### 8.6 Stage-2 render tier and stage-3 LOD",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #5 (l. 1580) REPLACE ### 8.8 Tiles, zoom stops, print and the canvas budget",
+    "kind": "REPLACE",
+    "heading": "### 8.8 Tiles, zoom stops, print and the canvas budget",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #6 (l. 1858) REPLACE ### 8.11 Edges and combinations (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 8.11 Edges and combinations (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #7 (l. 1888) REPLACE ### 9.1 What is model and what is view",
+    "kind": "REPLACE",
+    "heading": "### 9.1 What is model and what is view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #8 (l. 1943) REPLACE ### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+    "kind": "REPLACE",
+    "heading": "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #9 (l. 2110) REPLACE ### 11.1 Formats",
+    "kind": "REPLACE",
+    "heading": "### 11.1 Formats",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #10 (l. 2336) REPLACE ### 11.2 The embedding API and the worker boundary (SCL-6)",
+    "kind": "REPLACE",
+    "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #11 (l. 2762) REPLACE ### 11.3 The host bridge — the host is the store (FTG-12)",
+    "kind": "REPLACE",
+    "heading": "### 11.3 The host bridge — the host is the store (FTG-12)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #12 (l. 2915) REPLACE ### 11.6 Edges (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 11.6 Edges (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #13 (l. 2925) REPLACE ### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+    "kind": "REPLACE",
+    "heading": "### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #14 (l. 3030) REPLACE ### 12.10 The budget register",
+    "kind": "REPLACE",
+    "heading": "### 12.10 The budget register",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-rendering.md #15 (l. 3084) J-ROWS",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r4-rendering.md #16 (l. 3088) RATIONALE-A",
+    "state": "OK",
+    "rows": 3,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r4-scope.md #1 (l. 1) REPLACE ### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMEN",
+    "kind": "REPLACE",
+    "heading": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-scope.md #2 (l. 122) REPLACE ### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+    "kind": "REPLACE",
+    "heading": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-scope.md #3 (l. 302) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "kind": "REPLACE",
+    "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-scope.md #4 (l. 1323) REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "kind": "REPLACE",
+    "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-scope.md #5 (l. 1437) REPLACE ## §14 Package and module layout, key interfaces, dependency rules, extension points",
+    "kind": "REPLACE",
+    "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-scope.md #6 (l. 1968) REPLACE ## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, t",
+    "kind": "REPLACE",
+    "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [
+   "J-A121.02"
+  ],
+  "part_a_without_j_rows": [
+   "J-A68.85",
+   "J-A68.89",
+   "J-A68.90",
+   "J-A81.41"
+  ],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 806,
+  "document index duplicate ids": [
+   "J-A121.02"
+  ],
+  "Part A rows": 809,
+  "Part A duplicate ids": [
+   "J-A68.85",
+   "J-A68.89",
+   "J-A68.90",
+   "J-A81.41"
+  ]
+ },
+ "checks": {
+  "headings_before": 153,
+  "headings_after": 153,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 140,
+  "fence_lines_after": 140,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 0,
+  "pending_fable_review_lines_after": 0,
+  "doc_bytes_before": 2974590,
+  "doc_bytes_after": 3003970,
+  "doc_lines_before": 22731,
+  "doc_lines_after": 22935,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 715367,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2390,
+  "blocks_total": 44,
+  "blocks_applied": 44,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "2370248e8cc888dffa11ff377a7360b8c53d9a0b018a14d5dce72ee6dafd116e",
+  "output_rationale_sha256": "915b69243938d3e31961c0d58212610f446550c873dc38fa0030c6676b9da87e"
+ }
+}

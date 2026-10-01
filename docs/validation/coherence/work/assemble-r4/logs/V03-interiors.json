@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V03-interiors.md",
+ "input_doc_sha256": "f4458cf438971b111959196b5ae575b36ea6da248a5e72289c45dc565d80c2e3",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V03.md",
+   "sha256": "6153db2072aa51f149e29fe45ee7465be12ded76ce10e9ac27be9f5595532952",
+   "lines": 952,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V03.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r4-V03.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 139,
+   "body_sha256": "47edca8b8390985f466f1cc6ae398f0852ffc4b8f41844b64ba65d44bca81ae5",
+   "target_line": 90,
+   "section_old": "90–229",
+   "section_old_n": 140,
+   "section_new_n": 140,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V03.md #2 (l. 144) REPLACE ## 1b Wiring table",
+   "file": "repair-r4-V03.md",
+   "index": 2,
+   "line": 144,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 144,
+   "body_sha256": "fe0cd3beee705d898e6f1d5e4c4fdc19ebe3103d004e4c7c47c62d39b9e63527",
+   "target_line": 230,
+   "section_old": "230–374",
+   "section_old_n": 145,
+   "section_new_n": 145,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V03.md #3 (l. 291) REPLACE ### 2.5 Lifecycle of every new state field",
+   "file": "repair-r4-V03.md",
+   "index": 3,
+   "line": 291,
+   "kind": "REPLACE",
+   "heading": "### 2.5 Lifecycle of every new state field",
+   "body_lines": 52,
+   "body_sha256": "2844e54675c6634938ce14543d4c287d977682fa808d763b15660ac679947762",
+   "target_line": 880,
+   "section_old": "880–932",
+   "section_old_n": 53,
+   "section_new_n": 53,
+   "new_headings": [
+    "### 2.5 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V03.md #4 (l. 346) REPLACE ### 3.13 Edges at their limits (principle (11))",
+   "file": "repair-r4-V03.md",
+   "index": 4,
+   "line": 346,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Edges at their limits (principle (11))",
+   "body_lines": 37,
+   "body_sha256": "0c4e04b4a80701e6ceff694b20f48cbf70f0085792a62fa0f25953ca397948b3",
+   "target_line": 2064,
+   "section_old": "2064–2101",
+   "section_old_n": 38,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 3.13 Edges at their limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V03.md #5 (l. 386) REPLACE ### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d)",
+   "file": "repair-r4-V03.md",
+   "index": 5,
+   "line": 386,
+   "kind": "REPLACE",
+   "heading": "### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)",
+   "body_lines": 125,
+   "body_sha256": "28cda95a33827b8ca458bf084993c7f0d66adba4eb1a01fb1524af7245553831",
+   "target_line": 2640,
+   "section_old": "2640–2758",
+   "section_old_n": 119,
+   "section_new_n": 126,
+   "new_headings": [
+    "### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V03.md #6 (l. 514) REPLACE ## 6 Performance budgets",
+   "file": "repair-r4-V03.md",
+   "index": 6,
+   "line": 514,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 69,
+   "body_sha256": "74c8b85e4b50369af28c87125bb73078dcf06383c4be9c5714194ea78173256d",
+   "target_line": 2766,
+   "section_old": "2766–2835",
+   "section_old_n": 70,
+   "section_new_n": 70,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V03.md #7 (l. 586) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V03.md",
+   "index": 7,
+   "line": 586,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 88,
+   "body_sha256": "8a7b4051db697d7f23a4215da26c19f4aed944d1e0fe15c8b8e11dc5f2a821db",
+   "target_line": 2836,
+   "section_old": "2836–2923",
+   "section_old_n": 88,
+   "section_new_n": 89,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V03.md #8 (l. 677) REPLACE ## 8 Build plan",
+   "file": "repair-r4-V03.md",
+   "index": 8,
+   "line": 677,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 65,
+   "body_sha256": "d38732a1156d4f99684c78e20b782da49f26123cbbd350d536b99033fccf27e2",
+   "target_line": 2925,
+   "section_old": "2925–2989",
+   "section_old_n": 65,
+   "section_new_n": 66,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V03.md #9 (l. 745) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r4-V03.md",
+   "index": 9,
+   "line": 745,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 146,
+   "body_sha256": "3920628dadccc67cf1f9e0bbf595dad0591fb28a649d003bfca427323e1fcaff",
+   "target_line": 2991,
+   "section_old": "2991–3137",
+   "section_old_n": 147,
+   "section_new_n": 147,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V03.md #10 (l. 894) REPLACE ## 13 Fix list",
+   "file": "repair-r4-V03.md",
+   "index": 10,
+   "line": 894,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 56,
+   "body_sha256": "7bc154393df48f24b5e7d2715cc51a92e26208afc0c097ea196b92eeaa74e0e6",
+   "target_line": 3238,
+   "section_old": "3238–3294",
+   "section_old_n": 57,
+   "section_new_n": 57,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V03.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #2 (l. 144) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #3 (l. 291) REPLACE ### 2.5 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.5 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #4 (l. 346) REPLACE ### 3.13 Edges at their limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Edges at their limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #5 (l. 386) REPLACE ### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #6 (l. 514) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #7 (l. 586) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #8 (l. 677) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #9 (l. 745) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V03.md #10 (l. 894) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 48,
+  "headings_after": 48,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 464396,
+  "doc_bytes_after": 466833,
+  "doc_lines_before": 3295,
+  "doc_lines_after": 3304,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "9af5ffd5d8aa2fa9298cef3a5541bdb6ad03b5a2c578c145684b1b8136ccb2c4",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

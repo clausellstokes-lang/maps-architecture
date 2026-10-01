@@ -196,7 +196,7 @@ items cited are applied to the base (their text is the base section's).
 | the composer's room roles `hall`, `gatehall`, `chapel`, `towerRoom` | room rows | the `rooms` rung (V02 §3.8) | the plan rung's programme and its arches (V03); §8.5's room labels | §2.6 `Composition.rooms`; §10.2 `RoomProgramRow` |
 | `RoofSpec.kind 'shed'` and `RoofSpec.high` | model field values | the massing (back ranges, lean-tos, outshots, stairs) | the roofscape, §8.2's roof programs, glTF and CityJSON roofs | §2.6 `RoofSpec` (item 222) |
 | `roofscape(building)` | derived function (never stored) | base wings, heights, roofs, towers; the composition's dormer rows and porch where present; `valleyReach` (float mode) | §8.6's roof construction `roofscape`, §8.4's surface layer and casters' roof faces, glTF, OBJ and CityJSON LoD2.2 roofs, B-ZOOM | §8.6 (item 406) |
-| `exteriorDamage(doc, b, view, opts)` and its `ExteriorDamage` (V02 §2.4) — the exterior's damage (item 123 (d)) and the ruined look of a disaster's buildings (item 122) | derived function (never stored), run in the generation worker by S14 (V02 §5.7 (8)) | V06's `decayLevel` for the building's lineage at §2.9's `week`; the plan in force — current or stored, in the elaboration cache — under its damage layer (V03; §2.6 step 7; §6.3's `plan.damage` with V11's ranges; its repaired elements by V06's per-element `decayPeak`, read through V03 §5.6 (2) (b)); the disaster looks drawn in the view over the building's unit (§2.7's `ConditionOverlay` and its reader rule; §7.7's DR44 and its admission at the view's knowledge key, `ViewOpts.viewAs` lowering it; §10.2's `disaster` row and its `lookLevel`, and `previewSeverity`; §2.9's `crises`; V01's `disasterSource` — its `pattern` — and `disasterDistricts`, V07's ends at THORP, HAMLET and VILLAGE; V06's `crisisLookYields`, false for a preview) | the building's damage marks (V02 §5.7 (8)) — in its district's group of the display list or a `DisplayDelta`, re-emitted for exactly the buildings whose marks change — read by V02 §5.7's drawing in the tile rasteriser (the `roofscape` program's holes and patches, clipped to their wing's facets, the outline's gaps and rubble, the look's tone and dash, the porch, cupola and roof-decoration draws over a hole) and by the SVG and PNG writers from their transient lists; the SVG semantics `sem.building.roof.hole` and `sem.building.rubble`; V02 §6.6's memo; T-V2-59, T-V2-60 | §8.1 (S14, its `group`, the `DisplayDelta`, item 7's week re-emission), §8.9 (the worker boundary), §8.2 (the `states` rows; the crisis look rows), §8.6 (the damaged plan, item 123), §8.8 (the tile key) |
+| `exteriorDamage(doc, b, view, opts)` and its `ExteriorDamage` (V02 §2.4) — the exterior's damage (item 123 (d)) and the ruined look of a disaster's buildings (item 122) | derived function (never stored), run in the generation worker by S14 (V02 §5.7 (8)) | V06's `decayLevel` for the building's lineage at §2.9's `week`; the plan in force — current or stored, in the elaboration cache — under its damage layer (V03; §2.6 step 7; §6.3's `plan.damage` with V11's ranges; its repaired elements by V06's per-element `decayPeak`, read through V03 §5.6 (2) (b)); the disaster looks drawn in the view over the building's unit (§2.7's `ConditionOverlay` and its reader rule; §7.7's DR44 and its admission at the view's knowledge key, `ViewOpts.viewAs` lowering it; §10.2's `disaster` row and its `lookLevel`, and `previewSeverity`; §2.9's `crises`; V01's `disasterSource` — its `pattern` — and `disasterDistricts`, at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units and their land `villageUnitPlots`; V06's `crisisLookYields`, false for a preview) | the building's damage marks (V02 §5.7 (8)) — in its district's group of the display list or a `DisplayDelta`, re-emitted for exactly the buildings whose marks change — read by V02 §5.7's drawing in the tile rasteriser (the `roofscape` program's holes and patches, clipped to their wing's facets, the outline's gaps and rubble, the look's tone and dash, the porch, cupola and roof-decoration draws over a hole) and by the SVG and PNG writers from their transient lists; the SVG semantics `sem.building.roof.hole` and `sem.building.rubble`; V02 §6.6's memo; T-V2-59, T-V2-60 | §8.1 (S14, its `group`, the `DisplayDelta`, item 7's week re-emission), §8.9 (the worker boundary), §8.2 (the `states` rows; the crisis look rows), §8.6 (the damaged plan, item 123), §8.8 (the tile key) |
 | `valleyReach(X, Y, mode)` — the plan reach of the valley where wing X's ridge meets wing Y's roof | derived function, `@plat/plots` | the two wings' heights and roofs | `facadeBays` (integer mode) and the roofscape (float mode) | — (V02 §3.7) |
 | `facadeBays(wing, side, bayM)` | derived function, in `@plat/plots`, re-exported by `@plat/buildings` (item 505) | a wing's ring, the `bayM` column, `valleyReach` (integer mode) | dormer positions (V02 §3.7), the plan rung's windows (V03), lit windows when no plan exists (§8.4's `live.windows`), decorative chimneys (§8.10) | §2.6 plan step 6 "one per façade bay" (item 406) |
 | `resolveEnds(building)` | derived function | base wings, heights, joints | the roofscape; the drawing of ridge ends | — (V02 §5.2) |
@@ -364,9 +364,9 @@ only (never the massing, T-V2-25); a changed crypt record re-derives the basemen
   lines — is V03's; cellars, crypts and underground buildings V04's; the decay level and restoration V06's
   (`decayLevel`, `decayPeak`), and the look's yielding to a rebuild's Works (`crisisLookYields`); the crisis look table,
   its map rows and settings the base's (§10.2) with V11's values; which neighbourhoods a disaster strikes V01's
-  (`disasterDistricts`), V07's ends at the village rungs; the marks round the buildings — a ruined quarter's tone,
-  camps, smoke, marked doors — §8.2's crisis rows; the hand-over to the aftermath V06's. V02 draws the building's
-  exterior only (V02 §5.7).
+  (`disasterDistricts`), V07 §5.6 (3)'s units and their plots (`villageUnitPlots`) at the village rungs; the marks round
+  the buildings — a ruined quarter's tone, camps, smoke, marked doors — §8.2's crisis rows; the hand-over to the
+  aftermath V06's. V02 draws the building's exterior only (V02 §5.7).
 
 ## 2 Data model
 
@@ -2452,7 +2452,7 @@ and never fail a tile or an export. Tests: T-V2-9, T-V2-17, T-V2-56.
 
 | rung | stage 3 |
 |---|---|
-| THORP, HAMLET, VILLAGE (the village product) | V07's `v.` classes compose by `composition.classFamily` (V02 §3.10.5); a town class plays its `villageForm`'s `v.` class (V02 §3.2); no stepped building unless V11 §3.24.3's culture × class specialisation applies to the `v.` class under V07's `rules.tiers.capPerSettlement` (X26); deck buildings on a village bridge by V02 §3.16; no raised way (the base's rung gate); every dwelling but a `grandClasses` building reads its row under the rung's grandeur ceiling — at most `single`, `L` or `T`, no tower, turret, gate tower or court — while a manor S10b admits and a building the dossier or the author makes grand keep their full rows (V02 §3.2 step 2; item 115); a disaster's ruined look falls on every building of V07's ends (V02 §5.7) |
+| THORP, HAMLET, VILLAGE (the village product) | V07's `v.` classes compose by `composition.classFamily` (V02 §3.10.5); a town class plays its `villageForm`'s `v.` class (V02 §3.2); no stepped building unless V11 §3.24.3's culture × class specialisation applies to the `v.` class under V07's `rules.tiers.capPerSettlement` (X26); deck buildings on a village bridge by V02 §3.16; no raised way (the base's rung gate); every dwelling but a `grandClasses` building reads its row under the rung's grandeur ceiling — at most `single`, `L` or `T`, no tower, turret, gate tower or court — while a manor S10b admits and a building the dossier or the author makes grand keep their full rows (V02 §3.2 step 2; item 115); a disaster's ruined look falls on every building of V07 §5.6 (3)'s units (`villageDisasterUnits`: its ends, or in an end-less thorp its toft groups), a unit's buildings those on the plots `villageUnitPlots(doc, unit)` gives it (V02 §5.7) |
 | TOWN | stage 3 whole; raised ways only as declared (V02 §3.17 (b)); stepped buildings at V11's caps (≤ 0.1 % of buildings, V02 §6.5); the grandeur ceiling caps nothing (V02 §3.2 step 2) |
 | CITY, METROPOLIS | stage 3 whole; generated raised ways; V02 §6.1's rung rows; the grandeur ceiling caps nothing |
 | the population cap | V02 §6.1's cap row; nothing else changes |
@@ -2519,8 +2519,8 @@ data (E5), and degenerate cases with an outcome of their own (E4):
 | the exterior's damage (V02 §5.7) | level 0 (never abandoned, under no look); level 1; no plan in force (none stored, none current); a stale cached plan | nothing drawn, byte-identical (T123-7's no-op); every element the plan holds damaged; the massing reading, no hole or gap; the stale plan never read — the massing reading until the plan is re-derived | — | T-V2-59 |
 | the exterior's damage (V02 §5.7) | a building with no roof bay over a room or no storeyed wing (a solid monument, a stack of solid tiers); a wing roofed `none` (the decline's roofless state, a fire's charred shell); a building under a Works whose stage draws no roof (`wallsRising`) or no building yet (`staked`, `groundBroken`) | no hole (gaps only where a storeyed wing has outer runs); no facet to hole — the gaps cut from its state row's outline, and every roof bay over a room of a wing whose `RoofSpec.kind` is `none`, while the building is `decayed` or `ruined`, damaged (§2.6 step 7); holes only in the facets the stage draws and gaps only on an outline it draws, nothing where it draws no building | — | T-V2-59 |
 | the exterior's damage (V02 §5.7) | a restoration from level 1 to 0; a wing an `extend` adds, or an element a re-cut makes, after the damage left; a building first met ruined (generated as a ruin, or reached by item 113's replay) | the damage leaving in reverse threshold order, each repaired bay patched and each repaired run drawn whole; the new elements drawn as built, never patched (V06's per-element `decayPeak`, V03 §5.6 (2) (b)); its plan as built under its damage (V03), the exterior reading that plan | — | T-V2-59 |
-| the damage marks (V02 §5.7 (8)) | a drawn week that moves a level without crossing a threshold; one that crosses one, a look's week edge or a rebuild's start; Show crises switched, a preview started or ended, View as changed; a plan entering force, or evicted from the elaboration cache; a commit that moves a level or a look's units; a cached tile of a struck district | nothing re-emitted; exactly the buildings whose marks change re-emitted, the rest untouched; the buildings of the looks' units before and after re-emitted; that building re-emitted, its element reading joining or leaving; its marks in the commit's delta; the tile redrawn after each re-emission (its dirty box, §8.1 item 4) and keyed by the drawn week, `crises` and the effective key (§8.8) | — | T-V2-59, T-V2-60 |
-| the ruined look (V02 §5.7) | severity 0 and 1; two disaster looks over one building; a condition the view's key withholds; a `preview` on a standalone document; a preview over buildings under a rebuild's Works; an overlay whose condition carries no calamity | the `disaster` row's two `lookLevel` ends; the higher level, with that look's pattern (ties: the lower condition id); no look on any building; the previewed look at `previewSeverity` on its preview's units; the look on every building of its units whatever their Works (a preview never hands over, V06 §3.22 (3)); the `scatter` pattern (V01 §3.16 (2)) | — | T-V2-60 |
+| the damage marks (V02 §5.7 (8)) | a drawn week that moves a level without crossing a threshold; one that crosses one, a look's week edge or a rebuild's start; Show crises switched, a preview started or ended; View as changed; a plan entering force, or evicted from the elaboration cache; a commit that moves a level or a look's units; a cached tile holding a struck unit's buildings | nothing re-emitted; exactly the buildings whose marks change re-emitted, the rest untouched; the buildings of the looks' units before and after re-emitted; the looks' units at both keys tested and no building re-emitted where the same looks stand on the same units at both (every look-bearing condition is `public`, §7.7's DR44), the tile drawn under the new key (§8.8); that building re-emitted, its element reading joining or leaving; its marks in the commit's delta; the tile redrawn after each re-emission (its dirty box, §8.1 item 4) and keyed by the drawn week, `crises` and the effective key (§8.8) | — | T-V2-59, T-V2-60 |
+| the ruined look (V02 §5.7) | severity 0 and 1; two disaster looks over one building; a condition the view's key withholds (a `none`-row one: a look-bearing condition is `public`, §7.7's DR44); a `preview` on a standalone document; a preview over buildings under a rebuild's Works; an overlay whose condition carries no calamity; an end-less thorp | the `disaster` row's two `lookLevel` ends; the higher level, with that look's pattern (ties: the lower condition id); no look on any building; the previewed look at `previewSeverity` on its preview's units; the look on every building of its units whatever their Works (a preview never hands over, V06 §3.22 (3)); the `scatter` pattern (V01 §3.16 (2)); its toft groups' buildings, by `villageUnitPlots` (V07 §5.6 (3)), and no other building | — | T-V2-60 |
 | the ruined look (V02 §5.7) | a roofless building; a deck building; a tower; a stack; an underground building | its state row with the gaps; as any building (its own plan; no cellar); the tower room's roof bay opening its cone; each storeyed wing's own roof bays and lowest-storey runs, a solid wing none; none — below ground is V04's | — | T-V2-60 |
 
 **(f) Combinations** — where another unit's feature meets a V02 mechanism at its limits; the rung column names the
@@ -2547,7 +2547,7 @@ data (E5), and degenerate cases with an outcome of their own (E4):
 | a rung change at an epoch and a standing composed building (item 115 (e)) | the crossing reshapes no standing building, up or down: its re-derivations read the ceiling of the rung its `MassingRef.row` records; a building new or rebuilt from that epoch reads the new rung's ceiling (V02 §3.2 step 2; V06 §3.8.5) | — | T-V2-58 |
 | an epoch undone after a save | the epoch's recorded wing steps (`EditBase.mutations`) reverse exactly on the loaded document as before the save | — | T-V2-15, T-V2-57 |
 | a disaster's look over a building really decayed | each element drawn at the higher of the two levels; an element the look's level does not reach keeps its real state, a repaired one its patch | — | T-V2-60 |
-| a disaster's look and its aftermath (V06) | the look leaves a building where V06's `crisisLookYields` holds, so no week draws both the look and the rebuild's scaffolding; a building the next epoch really ruins or abandons reads its own level from that epoch's week; an element only the look damaged is drawn in its real state when the look ends, never patched | — | T-V2-60 |
+| a disaster's look and its aftermath (V06) | the look leaves a building where V06's `crisisLookYields` holds, so no week draws both the look and the rebuild's scaffolding; a building the next epoch really ruins or abandons reads its own level from the week its change shows (V06 §3.23 (1): the hazard's week, a `vacate`'s `decay` Works' start); an element only the look damaged is drawn in its real state when the look ends, never patched | — | T-V2-60 |
 | a disaster's look and a Works on its building | a Works other than a `decay` Works begun by the week and not finished before the condition's `sinceWeek` (a rebuild, a repair, a clearance, a demolition) ends the look on that building (V06's `crisisLookYields`): its Works' stage and its own state drawn, never both; a `decay` Works, or one finished before the condition, leaves the look standing, its damage over what the stage draws — holes in the facets it draws, gaps on the outline it draws | — | T-V2-60 |
 | a disaster's look over a deck building whose deck is ruined | the building by its own state row (§8.2's deck row) and the higher level; when the deck's fall tombstones it, nothing | — | T-V2-60 |
 | a dossier change moving a condition's weeks or severity, or removing a building under a look | the look re-read at the next draw, no rung stale; a removed building drawn by its fate, no look on what is gone | — | T-V2-60 |
@@ -3040,15 +3040,17 @@ look lies over a building while the look is drawn in the view — its `Condition
 §2.7's reader rule, its map row reading `disaster` (§7.7's DR44), admitted by the view's knowledge key (DR44's
 admission; `ViewOpts.viewAs` lowering it, §9.2), and drawn by §2.9's `crises` in `follow` — or previewed: `crises` in
 `preview` naming the `disaster` row, at §10.2's `previewSeverity`, with or without a dossier — while the building stands
-in a unit the look strikes and has not handed over ((6); a preview never hands over, V06 §3.22 (3)). The units are every
-district V01's `disasterDistricts` returns — for a preview, the districts it returns for the previewed look, keyed on
-the look kind in the condition's stead (§10.2's placement; X35) — and at THORP, HAMLET and VILLAGE every end V07
-returns; every building of a unit draws the look, with no second, per-building share (item 122 (b): whole
-neighbourhoods). Nothing of the look is drawn from a stream of its own: its units are V01's and V07's (keyed by the
-condition's id), its elements' thresholds the building's lineage's (§6.3), its rubble the building's render key's
-(§8.10). Of two looks over one building the higher level is drawn, with that look's pattern ((4); ties: the lower
-condition id). At level 0 — a building never abandoned, under no look — nothing of this section is drawn: the building
-draws byte-identically to stage 3 without items 122 and 123 (T123-7's no-op).
+in a unit the look strikes and has not handed over ((6); a preview never hands over, V06 §3.22 (3)). The units are those
+V01's `disasterDistricts` returns (§10.2 (d)'s `neighbourhoods`) — for a preview, those it returns for the previewed
+look, keyed on the look kind in the condition's stead (§10.2's placement; X35): at TOWN and above every district it
+returns, and at THORP, HAMLET and VILLAGE every unit it returns there — V07 §5.6 (3)'s `villageDisasterUnits`, its ends
+or in an end-less thorp its toft groups — a unit's buildings being those on the plots V07's
+`villageUnitPlots(doc, unit)` gives it; every building of a unit draws the look, with no second, per-building share
+(item 122 (b): whole neighbourhoods). Nothing of the look is drawn from a stream of its own: its units are V01's and
+V07's (keyed by the condition's id), its elements' thresholds the building's lineage's (§6.3), its rubble the building's
+render key's (§8.10). Of two looks over one building the higher level is drawn, with that look's pattern ((4); ties: the
+lower condition id). At level 0 — a building never abandoned, under no look — nothing of this section is drawn: the
+building draws byte-identically to stage 3 without items 122 and 123 (T123-7's no-op).
 
 **(2) The element reading — where the building's plan is in force.** Where the building's plan rung is current or stored
 (V03; a stale cached plan is not read, its elements no longer sure to lie on the massing's facets), the exterior draws
@@ -3112,8 +3114,8 @@ exterior as at the neighbourhood band.
 that week and not finished before the condition's `sinceWeek` (a rebuild, a repair, a clearance, a demolition) — the
 building draws its Works' stage and its own state, so no week draws both the ruined look and the rebuild's scaffolding;
 a `decay` Works never ends the look. A building no rebuild reaches keeps the look until its condition no longer stands.
-A building the next epoch really ruins or abandons reads its own level from that epoch's week (V06's hazard and decline
-phases), the look's level ruling only while it is the higher.
+A building the next epoch really ruins or abandons reads its own level from the week its change shows (V06 §3.23 (1):
+the hazard's week, a `vacate`'s `decay` Works' start), the look's level ruling only while it is the higher.
 
 **(7) Exports.** A picture export — SVG, PNG, print — draws this section as the view draws it at its band, week and key
 (item 122 (f)), from the damage marks of its transient list ((8)), the SVG carrying the holes in
@@ -3738,13 +3740,16 @@ manor with towers and a turret, a stepped temple with its shrine and solid tiers
 a bridge, a solid stepped monument and a `hovel`, each with its plan derived (V03), drawn at decay levels 0, 0.1, 0.2,
 0.3, 0.5, 0.75 and 1 (V06's level, set by the building's existence state and years, in stone and in timber), then
 restored from 1 to 0 by a `repair` Works — the manor then extended by a wing (`extend`) — and each once with no plan in
-force; and the house once burned (`burn`), its shell charred. A **look fixture** on B-CITY-lite's TOWN and CITY seeds
-and B-VILLAGE's VILLAGE seed: a fire, a flood and an earthquake, each a calamity carried by V08's port with its linked
-`reconstruction` condition (V08 §3.16 (7) (b)), whose map row then reads `disaster` (V11's map rows), at severities 0,
-0.5 and 1, the condition's `sinceWeek` 10 and `untilWeek` 20; on one seed a rebuild's `repair` Works beginning in week
-18 on half the struck buildings and a `decay` Works on two others, and a second calamity with its linked condition
-overlapping the first; the same documents with Show crises `off` and with no condition; and the `disaster` preview on a
-standalone document and on the rebuilt seed, its units holding buildings under the rebuild's Works.
+force; and the house once burned (`burn`), its shell charred. A **look fixture** on B-CITY-lite's TOWN and CITY seeds,
+B-VILLAGE's VILLAGE seed and an end-less THORP of B-VILLAGE (V07 §5.6 (7)'s no-end case, as T-V7-69 (c) runs it: no
+anchor, so its units are its toft groups, V07 §5.6 (3)): a fire, a flood and an earthquake, each a calamity carried by
+V08's port with its linked `reconstruction` condition (V08 §3.16 (7) (b)), whose map row then reads `disaster` (V11's
+map rows), at severities 0, 0.5 and 1, the condition's `sinceWeek` 10 and `untilWeek` 20; on one seed a rebuild's
+`repair` Works beginning in week 18 on half the struck buildings and a `decay` Works on two others, and a second
+calamity with its linked condition overlapping the first; an `infiltrated` stressor (a `none`-row condition, V11's map
+rows) carried beside the looks, standing in their weeks; the same documents with Show crises `off` and with no
+condition; and the `disaster` preview on a standalone document and on the rebuilt seed, its units holding buildings
+under the rebuild's Works.
 
 * **T-V2-59 the exterior agrees with the plan** (item 123 (d), (f); takes T123-5 and T123-7's exterior clause) — on the
   damage sub-fixture at every level and every restoration step: (a) the holes are exactly the plan's damaged roof bays
@@ -3768,27 +3773,33 @@ standalone document and on the rebuilt seed, its units holding buildings under t
   level, and an SVG at the neighbourhood band carrying the holes in `sem.building.roof.hole` and the rubble in
   `sem.building.rubble`, the outline open over each gap.
 * **T-V2-60 a disaster's ruined look** (item 122; takes T122-1 and T122-7's `item122.crises` registration on the look
-  fixture's exteriors) — on the look fixture: (a) every building of every unit `disasterDistricts` returns (V07's ends
-  at VILLAGE) draws the look in exactly the weeks it stands (10–19; 10–17 on a building whose rebuild's Works begins in
-  week 18) and no building outside those units does — at the element reading its holes and gaps equal its plan's damage
-  at the higher of its own level and the look's, at the massing reading the toned roof and the dashed outline; (b) the
-  model digest, every wing, `MassingRef`, stored composition and stored plan, and the saved bytes identical with Show
-  crises `follow`, `off` and a preview and in every week; (c) with Show crises `off`, every building's exterior
-  byte-identical to its drawing under no disaster look (its own decay alone), and with no condition and no preview every
-  tile byte-identical to stage 3 without item 122 (the `item122.crises` no-op — the `item122.crises` registration of the
-  look fixture's exteriors on V12 §3.7.8's engine (V12 §2.13), written by the seat landing V02's ruined-look step (M6b,
-  V02 §8.6)); (d) from week 18 a building whose rebuild's Works began draws that Works' stage and not the look (V06's
-  `crisisLookYields`), and a building under a `decay` Works keeps the look; the `disaster` preview on the rebuilt seed
-  in week 18 draws the look on every building of its units, those under the rebuild's Works included (a preview never
-  hands over); a building also really decayed drawn at the higher level; in week 20 every element in its real state,
-  none patched by the look; (e) a viewer whose knowledge key withholds the condition sees the look on no building; (f)
-  the fire's buildings blackened (the `fire` pattern), the flood's and the earthquake's not (`flood`, `scatter`); of two
-  overlapping looks the higher level drawn; (g) one building's holes and gaps identical across two views, at the
-  district and neighbourhood bands and in an SVG and a PNG export; over a cached district-band tile of a struck
-  district, Show crises switched `off` and back, a preview started and ended, and View as set to a key that withholds
-  the condition, the struck buildings' damage marks re-emitted and the tile redrawn after each, and the week step 17 →
-  18 re-emitting exactly the buildings whose rebuild began; (h) the stepped temple, the deck building, a tower and a
-  solid monument take V02 §3.18 (e)'s outcomes, and an underground building draws none of it.
+  fixture's exteriors) — on the look fixture: (a) every building of every unit `disasterDistricts` returns (at VILLAGE
+  V07's ends, each on the plots `villageUnitPlots` gives it; on the end-less THORP its toft groups, likewise) draws the
+  look in exactly the weeks it stands (10–19; 10–17 on a building whose rebuild's Works begins in week 18) and no
+  building outside those units does (on the end-less THORP every building of a struck toft group draws it and no other
+  building does) — at the element reading its holes and gaps equal its plan's damage at the higher of its own level and
+  the look's, at the massing reading the toned roof and the dashed outline; (b) the model digest, every wing,
+  `MassingRef`, stored composition and stored plan, and the saved bytes identical with Show crises `follow`, `off` and a
+  preview and in every week; (c) with Show crises `off`, every building's exterior byte-identical to its drawing under
+  no disaster look (its own decay alone), and with no condition and no preview every tile byte-identical to stage 3
+  without item 122 (the `item122.crises` no-op — the `item122.crises` registration of the look fixture's exteriors on
+  V12 §3.7.8's engine (V12 §2.13), written by the seat landing V02's ruined-look step (M6b, V02 §8.6)); (d) from week 18
+  a building whose rebuild's Works began draws that Works' stage and not the look (V06's `crisisLookYields`), and a
+  building under a `decay` Works keeps the look; the `disaster` preview on the rebuilt seed in week 18 draws the look on
+  every building of its units, those under the rebuild's Works included (a preview never hands over); a building also
+  really decayed drawn at the higher level; in week 20 every element in its real state, none patched by the look; (e)
+  the disaster's condition, whose map row gives the look and so `public` (§7.7's DR44), draws the look on its units'
+  buildings under View as at `public`, `local` and `secret` alike — the same drawing at each key, in every week of (a)
+  and (d) — and the `infiltrated` stressor carried beside it (a `none`-row condition) draws no look on any building at
+  any key; (f) the fire's buildings blackened (the `fire` pattern), the flood's and the earthquake's not (`flood`,
+  `scatter`); of two overlapping looks the higher level drawn; (g) one building's holes and gaps identical across two
+  views, at the district and neighbourhood bands and in an SVG and a PNG export; over a cached district-band tile
+  holding a struck unit's buildings, Show crises switched `off` and back and a preview started and ended, the struck
+  buildings' damage marks re-emitted and the tile redrawn after each, and View as changed among `public`, `local` and
+  `secret`, the look standing at every key — the same drawing, no struck building's marks re-emitted (their `revision`
+  unchanged, V02 §5.7 (8)) and the tile drawn under its new key (§8.8's tile key) — and the week step 17 → 18
+  re-emitting exactly the buildings whose rebuild began; (h) the stepped temple, the deck building, a tower and a solid
+  monument take V02 §3.18 (e)'s outcomes, and an underground building draws none of it.
 
 **CI tiers for these:** T-V2-59 in the PR tier on the damage sub-fixture (≈ + 4 s); T-V2-60 in the PR tier on
 B-CITY-lite's TOWN seed (≈ + 6 s) and nightly on every seed of the look fixture; both at the milestone on B-CITY
@@ -3879,7 +3890,8 @@ follow M6b as its plan rung does, while V03's eager facts at M3a (`ground(b)`, `
 
 Until V03's item-123 step lands no plan carries a damage layer, so the element reading draws nothing and the massing
 reading stands; until V06's decay level lands (M6-E) the level is read from the existence state alone at V11's default
-age (V06); at THORP, HAMLET and VILLAGE the look's units wait for V07's ends (V07 §8).
+age (V06); at THORP, HAMLET and VILLAGE the look's units wait for V07's `villageDisasterUnits` and `villageUnitPlots`
+(V-M3, V07 §5.6 (8)).
 
 ## 9 Decisions
 
@@ -4000,7 +4012,7 @@ another row supersedes or amends carries one mark naming it, and the governing r
 | J-V2.110 | Chose to apply **item 115's rung ceiling as a cap on a dwelling's resolved row** (V02 §3.2 step 2) — its families kept to the ceiling row's `dwellingFamilies` and the arrangement's own constructions, its tower, turret and gate-tower cells zeroed, a grand class's override row skipped, every other cell kept — over capped rows of its own per rung in `composition.json`, because one filter over the rows already written keeps one source for each fact (V11's table the limits, `composition.json` the shapes) and leaves every size, roof, dormer, porch and hearth cell free to carry the wealth item 115 (a) asks small places to show; over mapping a drawn grand family down the reverse lattice after the draw, because that would pile the grand families' weight onto `T` and `L` instead of keeping the row's own proportions among the admitted families; and to record the cap's rung in `MassingRef.row` (`~<RUNG>`) over re-reading the present rung at every re-derivation, because a standing building keeps the ceiling it was built under across a rung change (item 115 (e); V06 §3.8.5) and the key is already the persisted record of what the chain reached. A row that limits nothing writes no suffix, so TOWN and above stay byte-identical (item 115 (f)). |
 | J-V2.111 | Chose to **re-budget V02 §6.4's exports to the population cap inside item 119's ten seconds** — CityJSON `asDrawn` ≤ 3 s at METROPOLIS and ≤ 6 s at the cap, `derive` ≤ 4 s and ≤ 8 s, from the per-building costs of the roofscape, the meshes and their encoding and the pooled `compose()` — with the pre-decided change that a format or a `derive` the measurement cannot hold within ten seconds is offered only up to the building count it held, over keeping METROPOLIS's former lines of 10 s and 12 s, because those lines scaled to the cap's ≈ 36 000 buildings pass the comfort level, past which a wait fails (item 119 (a)); and over a switch by the clock at run time, because a budget never changes output at run time (§12.1), so the limit is fixed by the measurement and one document exports the same way on every machine of the reference tier (the low tier declaring its sizes per device). |
 | J-V2.112 | Chose to draw **item 123's damage on the exterior from the plan in force** (V02 §5.7) — its damaged roof bays over rooms as holes cut from their own wing's facets, its broken outer runs of each wing's lowest storey as gaps in the outline, its repaired bays in the patched-courses pattern, all read from V03's damage layer and §6.3's keyed thresholds — over thresholds or a damage pattern of V02's own, because the owner asks the inside and the outside to agree (item 123 (d)) and only the plan's own elements can agree with it element for element; to draw **no element where no plan is in force** — the state rows alone, and a look's tone and dash — and to raise no rung for the exterior, over deriving a plan for every damaged building in view, because a typical house's plan costs 3 ms median and 10 ms p95 (V03 §6) and a disaster's districts hold hundreds of buildings, while §4.1's `elaborate` decides when a rung is derived and never what it draws, so the holes are the same whenever the plan comes; and to leave the damage and a disaster's look **out of the glTF, OBJ, CityJSON, GeoJSON and JSON exports**, over carrying them, because those carry the model's surfaces and records (a roofless building already exports no roof) while the damage depends on the drawn week, the plan in force and, for a look, the viewer's switch and key — a picture draws both and a battle map follows §11.1. |
-| J-V2.113 | Chose to draw **a disaster's ruined look as item 123's damage at the higher of the building's own decay level and the look's** (the `disaster` row's `lookLevel` at the condition's severity, §10.2) on every building of every unit V01's `disasterDistricts` returns (V07's ends at the village rungs), over a ruined look of its own or a per-building share inside a struck district, because the owner's disaster takes whole neighbourhoods (item 122 (b)) and one damage design keeps the exterior, the plan and the cellars in one comparison (item 122 (d)); to give the kinds **one flavour** — a fire blackens — over a look per disaster, because soot is the one mark the damage does not already draw — an earthquake's fallen wings, towers and open roofs and a flood's fallen walls and outbuildings are the damage itself, and a flood's stained lower storeys lie under the roofs a map draws from above; and to let the look **leave no patch**, over reading its end as a repair, because the look is temporary and cosmetic (item 122 (a)) and what really breaks reaches the map only through V06's epoch path. |
+| J-V2.113 | Chose to draw **a disaster's ruined look as item 123's damage at the higher of the building's own decay level and the look's** (the `disaster` row's `lookLevel` at the condition's severity, §10.2) on every building of every unit V01's `disasterDistricts` returns (at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units — its ends, or in an end-less thorp its toft groups — a unit's buildings those on the plots `villageUnitPlots(doc, unit)` gives it), over a ruined look of its own or a per-building share inside a struck district, because the owner's disaster takes whole neighbourhoods (item 122 (b)) and one damage design keeps the exterior, the plan and the cellars in one comparison (item 122 (d)); to give the kinds **one flavour** — a fire blackens — over a look per disaster, because soot is the one mark the damage does not already draw — an earthquake's fallen wings, towers and open roofs and a flood's fallen walls and outbuildings are the damage itself, and a flood's stained lower storeys lie under the roofs a map draws from above; and to let the look **leave no patch**, over reading its end as a repair, because the look is temporary and cosmetic (item 122 (a)) and what really breaks reaches the map only through V06's epoch path. |
 
 ## 10 Base change requests
 
@@ -4172,7 +4184,7 @@ stand-in while the destination's part is not yet built (a build-order fact, not 
 | X32 | V11 §3.6.5 | the role table's `gate`, `charnel house`, `mortuary chapel` and `lychgate` shares feed M10 as written | — |
 | X33 | V12 §2.1 | the metric family `bar.<barId>` (J-V12.65), which V02 §3.10.10 names as `bar.T-V2-<n>`; V02 registers its bars there (the `BenchBarDef` table, each written by the seat landing its line's milestone) | — |
 | X34 | V03 | the damage layer V02 §5.7 reads for the plan in force: each roof bay over a room (its ring) and each outer wall run of a wing's lowest storey (its span), each intact, damaged or repaired at a level (repaired by V06's per-element `decayPeak`, an element that entered the plan after its building's damage left drawn as built, V03 §5.6 (2) (b)); every roof bay over a room of a wing whose `RoofSpec.kind` is `none`, while the building is `decayed` or `ruined` (§2.6 step 7), damaged, so the plan agrees with the roofless exterior (T-V2-59 (b)) | the element reading draws nothing (the massing reading) |
-| X35 | V01, V07 | `disasterSource` and `disasterDistricts` (V01 §3.16): the districts a disaster strikes — for a standing condition, and for a preview of the look keyed on its look kind in the condition's stead (§10.2's placement) — and its `pattern` (`fire`, `flood` or `scatter`: the overlay's calamity's type through V06 §2.4's calamity table, `scatter` with no calamity), and V07's ends at THORP, HAMLET and VILLAGE; every building of each draws the ruined look (V02 §5.7) | no look on a building |
+| X35 | V01, V07 | `disasterSource` and `disasterDistricts` (V01 §3.16): the districts a disaster strikes — for a standing condition, and for a preview of the look keyed on its look kind in the condition's stead (§10.2's placement) — and its `pattern` (`fire`, `flood` or `scatter`: the overlay's calamity's type through V06 §2.4's calamity table, `scatter` with no calamity), and at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units (its ends, or an end-less thorp's toft groups) with their land `villageUnitPlots`; every building of each draws the ruined look (V02 §5.7) | no look on a building |
 | X36 | V06 | `decayLevel` per lineage at a week, `decayPeak` per lineage at a week since an element's entry into the plan (V06 §3.23 (3); the entry week V03 §5.6 (2) (b) passes), and `crisisLookYields` per building, false for a preview (V06 §3.22 (3)), read by V02 §5.7 | the level from the existence state at V11's default age, nothing repaired; the look standing until its condition no longer stands |
 | X37 | the base, §8.1, §8.2 and §8.8 (rendering) | the Works `decaying` row's gaps along the ridge drawn, where a plan is in force, as V02 §5.7's holes (§8.2); the drawn week in the tile key of a tile holding a building drawn under the damage layer, and `crises` and the effective knowledge key where it holds one under a disaster look (§8.8); §8.1 item 7's week re-emission carrying the buildings whose damage marks differ (V02 §5.7 (8)) | the row's own ridge gaps |
 
