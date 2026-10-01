@@ -2821,3 +2821,6 @@
 2026-10-01 14:40 coherence/repair-V07-r4 LANDED docs/validation/coherence/repair-r4-V07.md docs/validation/coherence/results/coherence_repair-V07-r4.json
 2026-10-01 14:40 coherence/orchestrator NOTE repair-V07-r4 landed (4 blocks, 0 ruling requests); launched repair-V11-r4 in its slot (queue: V12 V03 V04 V02 V01 V05 kernel)
 2026-10-01 14:40 coherence/repair-determinism-r4 CHECKPOINT P2 done (17 count-asserted edits over 10 subsections: §5.1 §6.1 §6.3 §6.5 §7.1 §7.3 §7.4 §7.5 §7.6 §7.7; dry run 10/10 applied, audit OK, alone and with the other landed r4 base blocks; doc_checks exit 0, corpus INCOMPLETE: provisional); next: header, word counts, result, LANDED
+2026-10-01 14:41 coherence/repair-V11-r4 CHECKPOINT P0 done (brief, adjudication-r4 TOC, R4-01/R4-04/R4-09, Part H V11 read); next P1 evidence + live V11 text
+2026-10-01 14:42 coherence/repair-pipeline-r4 LANDED docs/validation/coherence/repair-r4-pipeline.md docs/validation/coherence/results/coherence_repair-pipeline-r4.json docs/validation/coherence/work/repair-pipeline-r4/
+2026-10-01 14:42 coherence/orchestrator NOTE repair-pipeline-r4 landed (8 blocks, 0 ruling requests); launched repair-V12-r4 in its slot (queue: V03 V04 V02 V01 V05 kernel)
