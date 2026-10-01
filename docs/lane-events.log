@@ -3280,3 +3280,5 @@
 2026-10-01 22:33 coherence/repair-V11-r6 CHECKPOINT P2-P3 done (9 count-asserted edits over 6 units; dry run 6/6 applied, audit OK, byte-identical to expected 0e2767c1b7ec; ids unchanged; doc_checks unreviewed set identical, provisional); next P4 report, result, LANDED
 2026-10-01 22:34 coherence/repair-V11-r6 LANDED docs/validation/coherence/repair-r6-V11.md docs/validation/coherence/results/coherence_repair-V11-r6.json (opus seat; 0 issues owned; 2 END lines written; 6 REPLACE blocks, 9 count-asserted edits incl. 5 sweep conformances; 0 ruling requests; 0 hand-offs)
 2026-10-01 22:34 coherence/orchestrator NOTE repair-V11-r6 landed (6 blocks, END lines only, 0 ruling requests); 2 repairs still running (V04, V05)
+2026-10-01 22:35 coherence/repair-V05-r6 CHECKPOINT blocks generated (3 REPLACE: §3.16, ## 7, ## 8) and dry-applied clean on a copy (3/3, audit OK); next: doc_checks, words, report text
+2026-10-01 22:35 coherence/repair-V04-r6 CHECKPOINT P3 dry run clean (17/17 blocks applied, output identical to the direct edit); next: write the repair file's report and blocks, result, LANDED
