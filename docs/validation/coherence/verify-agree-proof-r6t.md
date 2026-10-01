@@ -35,8 +35,8 @@ The fabric, layers, time, host, tools, edges and unit seats hold the other subje
 **Checks run** (scripts in this seat's scratch folder `agp6/`; pre = HEAD b3f83a0d's text, live = assemble-r6's):
 - *Round-5 re-check.* Each round-5 finding was read against the live subsection its required change named. It was also
   read against Part H's disposition (FIX under R6-04, R6-06, R6-11) and each END line's second end.
-- *Hunks* (`hunks.py`, `wd.py`). 77 base hunks and 199 volume hunks were listed. Every hunk in scope was read whole in its
-  subsection by word diff: §13.2, §13.8, §14's port comment, the T-ER rows, every volume's §7 and §8, V12 whole, V04's
+- *Hunks* (`hunks.py`, `wd.py`). 77 base hunks and 188 volume hunks were listed. Every hunk in scope was read whole in its
+  subsection by word diff: §13.2, §13.8, §14's port comment, the T-ER rows, every volume's §7 and §8, every V12 hunk, V04's
   UE33 and V06's H-AQUA. That is 73 hunks. Every test whose row changed was read whole.
 - *The crossing table's cells* (round-6 note (6) (b)). All 13 × 13 cells and the way-and-channel table's five rows were
   extracted with the test each names (`cells.tsv`). Each named test was read for the case. The results are in "R6-02 in
@@ -207,8 +207,9 @@ also name a test that does not hold their case (round-6 note (6) (b) (i)).
 - §13.2's T110-2 (4):
   - "a hand `delete` of a run beneath a standing viaduct — the viaduct unchanged, no bend, the run back on its undo" →
     "a hand `delete` of a run beneath a standing viaduct — the viaduct unchanged, no bend, the run back on its undo — and
-    a hand `convert` `breach` and `dismantle` and a `repairWall` of that run, each run again with the viaduct locked and
-    with it pinned: no `refuse.locked`, the viaduct unchanged (§2.7's crossing table, W4·C8, W10·C8, W11·C8)";
+    a hand `convert` `breach` of that run with its `repairWall`, and a hand `convert` `dismantle` of it, the delete and
+    each of these run again with the viaduct locked and with it pinned: no `refuse.locked`, the viaduct unchanged
+    (§2.7's crossing table, W4·C8, W10·C8, W11·C8)";
   - "a hand `placeGate` inside a viaduct's under-deck strip — moved along the trace clear of it,
     `bend.wall.raisedCrossing`" → "a hand `placeGate` inside a viaduct's under-deck strip — moved along the trace clear
     of it, `bend.wall.raisedCrossing` — and the same with the viaduct locked and with it pinned, no `refuse.locked`
@@ -251,7 +252,7 @@ rule for row W12 with one T-V5-14 passage, run on each state in turn. These rows
   - the span over the run `ruined` and, on a second run, `cleared`;
   - every span over it fallen;
   - a support by the run's band `cleared` and, on a second run, `ruined` with both its spans;
-  - its `vault` span over the run breached with its chamber;
+  - its `vault` span over the run breached;
   - a fallen span repaired by `repairRaised`;
   - the deck extended by a frame growth;
   - its Arch spacing edited.
@@ -264,7 +265,7 @@ rule for row W12 with one T-V5-14 passage, run on each state in turn. These rows
   fallen (V04 §3.5.4 (d) (2))".
 - §13.2's T110-2 (8), after "no junction with the raised way" add: "; and the same `wallToWay` with (3)'s viaduct, before
   it, at each other state, each on its own run: a span over the ring `ruined` and, on a second run, `cleared`; every span
-  over it fallen; a support by its band `cleared`; its `vault` span over the ring breached; a fallen span repaired by
+  over it fallen; a support by its band `cleared`; a `vault` span of the viaduct under the ring, that span breached; a fallen span repaired by
   `repairRaised`; the deck extended by a frame growth; its Arch spacing edited. In each the ring road follows the
   way-and-channel table (row c) read at that state, and V04's re-laid vault is `collapsed` where its span has fallen
   (§2.7's crossing table, W7·C3–C6, C10, C12, C13)".
@@ -284,13 +285,13 @@ and one per derived fixture a volume names — a run-time, test-side mutation of
 §1b's `<dossier>@pop×k` levels; V08 §7.1's crisis, force and required-keys fixtures)".
 
 The volumes name many more run-time mutations than the parenthesis lists, and V08 keeps two classes:
-- V08 §7.1 (l. 3242–3245): "Fixtures are §13.2's frozen dossier set … plus test-side mutations of a fixture's digest or JSON
+- V08 §7.1 (l. 3243–3247): "Fixtures are §13.2's frozen dossier set … plus test-side mutations of a fixture's digest or JSON
   made by the harness at run time, never written back into a fixture file. V12's item-122 and item-125 fixtures are
   test-side mutations made here (X-V12-5), each in §13.2's frozen manifest". So some mutations are registered and the rest
   are not.
 - The tests name further mutations of their own: T-V7-69's two village mutations (written this round), T-V9-85's copy whose
   reconstruction condition the dossier names not (this round), T-V10-52's copy whose plague is unnamed, T-V8-36's
-  `city-1` population mutation, and T-V8-61 (a)'s reductions and status mutations.
+  `city-1` mutated to 8 000 people, and T-V8-61 (a)'s reductions and status mutations.
 
 Read literally, "one per derived fixture a volume names" gives each of these a manifest row. Read with V08 §7.1 and the
 parenthesis, only those that V12's specs look up by id take one. V12's spec field `dossier` is "a fixture id of the
@@ -310,7 +311,7 @@ as VCS-r6-05's field comments.
 **Claim.** Round 6 rewrote T-V6-64 (V06 l. 4187): "the arch vaults follow their spans at every batch (a chamber under every
 standing `vault` span no wall stands over, none under a fallen one or under a wall, §2.7's crossing table)". "None under a
 fallen one" is kept from the old text. Every home of the rule keeps the chamber under a fallen span, `collapsed`:
-- V04 §3.5.4 (d) (1)–(2) (V04 l. 1695–1712): each `vault` span no wall stands over "has one chamber", and "its closure
+- V04 §3.5.4 (d) (1)–(3) (V04 l. 1695–1716): each `vault` span no wall stands over "has one chamber", and "its closure
   follows its span …: `collapsed` where the span's `state` is `ruined` or `cleared` … or where a bounding support's `state`
   is `ruined` or `cleared`". (3) removes one only where the span no longer exists, is `open`, or has a wall over it.
 - V06's own §3.2 (l. 1037–1040): the reconcile brings each raised way to "a chamber for each standing `vault` span no wall
