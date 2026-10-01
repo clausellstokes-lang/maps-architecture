@@ -84,8 +84,18 @@ PROGRESS (lane `coherence/verify-vol-V05-V06-r5t`, 2026-10-01)
 * **The END of VAP-r4-01** (T-V6-73's station's regrowth, and §7's T114 row) agrees with T114-3's regrowth clause at
   §13.2 (l. 18558–18562) and with §13.8's row (l. 19354).
 * **New problems.** R5-02's rule, written here by §3.7.6 (5) and T-V6-47, leaves two meetings with no outcome:
-  * `wallToWay` of a ring that runs on beneath a deck (VV56-r5-01);
-  * a later wall's line where the support, `vault` span or raised way it was built against goes (VV56-r5-02).
+  * `wallToWay` of a ring that runs on beneath a deck (VV56-r5-01, one fix with verify-pipeline-r5t's VPC-R5-02);
+  * a later wall's line where the support, `vault` span or raised way it was built against goes (VV56-r5-02, one fix
+    with verify-edges-world-r5t's VEW-r5-02).
+* **Concurrence, no separate id: VDC5-04** (verify-determinism-r5t, owner V06). V06 §3.7.2 (1)'s gate opening ("Each gate
+  of the ring … → `gateToJunction`") names no exception for a raised gate. This round's T-V6-11 and T-V6-47 now run
+  H-AQUA's CITY ring superseded with its viaduct's raised gate on it, so the case is on V06's own fixture. I concur
+  with VDC5-04's text and raise no duplicate.
+* **Concurrence, no separate id.** V06's W68 (l. 351) and §3.7.1's widening (l. 1462–1463) say "its strips
+  stopped/stopping" at the under-deck strip. That is R5-02's own END wording, and the home (6) (d) stops only the
+  setback, glacis and berm while the band runs on beneath the deck. VPC-R5-01 (verify-pipeline-r5t) already carries
+  both V06 lines as END lines, worded "its setback, glacis and berm stopped/stopping". I concur and raise no duplicate.
+  V06 §3.7.6 (5)'s bullet and §2.10's `raisedCrossings` comment already use the precise words.
 * **New problems in the H-AQUA work.** The amended H-AQUA definition does not secure its viaduct or a later trace
   meeting it (VV56-r5-03). T-V6-73's new regrowth clause topples supports but lands at E3, before `topple` (VV56-r5-04).
 
@@ -151,14 +161,15 @@ due.
 
 | id | severity | kind | owner | claim (short) |
 |---|---|---|---|---|
-| VV56-r5-01 | major | EDGE-UNDEFINED | pipeline | `wallToWay` turns a wall into a ring road "on the same edges". A wall laid after a raised way now runs on beneath its deck with the supports and `vault` spans taken into its line. No text says how its ring road passes them, and the literal rule lays a primary way over a support ring. |
-| VV56-r5-02 | major | EDGE-UNDEFINED | model | A wall laid after a raised way is closed against a support, ramp, stair, foot or `vault` span, and topped at a span's soffit. Nothing says what the wall's line is once that part goes: a support salvaged, a chamber collapsing with its span, or the raised way removed. Nothing says what height the soffit-topped run has once its span falls. |
+| VV56-r5-01 | major | EDGE-UNDEFINED | pipeline | (One fix with VPC-R5-02.) `wallToWay` turns a wall into a ring road "on the same edges". A wall laid after a raised way now runs on beneath its deck with the supports and `vault` spans taken into its line. No text says how its ring road passes them, and the literal rule lays a primary way over a support ring. |
+| VV56-r5-02 | major | EDGE-UNDEFINED | model | (One fix with VEW-r5-02.) A wall laid after a raised way is closed against a support, ramp, stair, foot or `vault` span, and topped at a span's soffit. Nothing says what the wall's line is once that part goes: a support salvaged, a chamber collapsing with its span, or the raised way removed. Nothing says what height the soffit-topped run has once its span falls. |
 | VV56-r5-03 | minor | NEW-PROBLEM | V06 | H-AQUA's viaduct: the conditions the definition states do not make the founding lay it, since §3.19 (2)'s strength, span and pier bounds are not stated. No later trace is made to meet it, yet T-V6-47 runs "a viaduct a later trace meets gets no gate". |
 | VV56-r5-04 | minor | NEW-PROBLEM | V06 | §8's E3 exit runs T-V6-73's new regrowth clause and T-V6-11's second run, both on scripted `topple`s. `topple` is built at E5. T-V6-11's sky clause needs V05's P6 landfall, and no timing cell names that. |
 
-### VV56-r5-01 (major, EDGE-UNDEFINED, pipeline)
+### VV56-r5-01 (major, EDGE-UNDEFINED, pipeline) — one fix with VPC-R5-02
 
-**Claim.** R5-02 changed what a later wall does at a raised way: it runs on beneath the deck.
+**Claim.** This is the defect verify-pipeline-r5t reports as **VPC-R5-02**. I found it independently from V06's side.
+R5-02 changed what a later wall does at a raised way: it runs on beneath the deck.
 * §2.7's support step (6) (d) (base l. 2603–2614) and V06 §3.7.6 (5) say: "each support, ramp, stair, foot or `vault`
   span in its band taken into the line". At a `vault` span the run ends at the two walled-up arch mouths, and beneath
   every other span it is a run topped at the soffit.
@@ -172,49 +183,33 @@ So when a ring laid after a raised way becomes a road, nothing says how the road
 * by a hand `convert` `wallToWay`.
 
 Taken literally, the primary way's spine runs over the support rings and through the `vault` span's chamber. That
-contradicts (6) (a) ("everything laid after the raised way gives way to it"; supports impassable). It also fails
-T110-2's and T-V6-47's bar "0 way corridors over a support ring, ramp, stair, foot or `vault` span".
+contradicts (6) (a) ("everything laid after the raised way gives way to it"). It also fails T110-2's and T-V6-47's bar
+"0 way corridors over a support ring, ramp, stair, foot or `vault` span".
 
-Nothing the (6) (a) list names covers it: it lists routes, S5c's proposals, seeds, trackers, S7's paths and hand ways.
-Nor does §7.3's S7 row or §7.1's outcome table.
+VPC-R5-02 adds the second meeting: the kept crossing-station stretch stands on the old line, in the road's way.
 
-Before R5-02 the case could not arise for a town ring, because a later trace always took a crossing station, and
-`wallToWay` handles a station. Now it is reached on an ordinary history:
-* a CITY whose S4 viaduct is crossed by stage 2's ring (T110-2's c14 fixture);
-* that ring is later superseded at an epoch and its fate drawn `road`.
-
-One builder lays the road through the pier, another ends it at the under-deck strip, a third bends it under a span. No
-bar runs the case.
+Before R5-02 the first case could not arise for a town ring, because a later trace always took a station. Now it is
+reached on an ordinary history: a CITY whose S4 viaduct is crossed by stage 2's ring (T110-2's c14 fixture), and that
+ring later superseded with its fate drawn `road`. Builders diverge (the road through the pier, ended at the strip, or
+bent under a span), and no bar runs the case.
 
 **Required change.**
-* **Base §4.11 `wallToWay`.** After "(§2.7's support step (3); V06 §3.7.6 (5) gives its form)." add:
+* Apply VPC-R5-02's required change: §4.11's added sentence, and its V06 ends at §3.7.6 (5)'s bullet and T-V6-47. That
+  is one fix; I propose no second text for the base.
+* VPC-R5-02's T-V6-47 end runs case (2) "on a fixture this test names". H-AQUA already holds such a ring, so name it.
+  T-V6-47's added clause reads:
 
-  "Where the wall ran on beneath a raised way's deck as a stretch laid after it (§2.7's support step (6) (d)), the new
-  ring road is a part-0 way laid after that raised way (§2.7's support step (6) (a)). It keeps the old edges up to the
-  under-deck strip's edges and crosses the strip only under the span nearest the old line that §4.3's crossing rule
-  admits for its class and width, its spine bent to that span inside the cleared band and strips. Where no span admits
-  it, it ends at the strip's edges on both sides as at a reservation. It is never laid over a support ring, ramp, stair,
-  foot or `vault` span. The run beneath the deck goes with the wall: a `vault` span's walled-up arch mouths are opened,
-  the chamber kept whole, and the raised way is unchanged. The meeting is reported `W_RAISED_CROSSING` (at an epoch
-  `walls.raisedCrossings`, V06 §2.10; at a hand `convert`'s dry run the line of `bend.raised.underSpan` or
-  `bend.raised.around`)."
-* **§2.7's support step (6) (a).** In the list, after "a hand way", add ", the ring road `wallToWay` makes (§4.11)". In
-  the ladders, add "§4.11's for that ring road".
-* **V06 §3.7.6 (5)'s absorb bullet.** After "stays as a free-standing arch or gate tower (§2.7's support step (3))" add:
-  "; a ring road `wallToWay` makes where the old line ran on beneath a raised way's deck crosses it by §4.11's rule,
-  never over a support, ramp, stair, foot or `vault` span".
-* **T-V6-47** adds:
+  "and `wallToWay` of H-AQUA's METROPOLIS circuit, which runs on beneath its aqueduct and its timber elevated road, by a
+  hand `convert` after the contraction and, on a second run, by its pathway fate set to `road` by a hand `setAttr` —
+  the ring road crossing each under-deck strip under a span §4.3 admits, else ended at the strip's edges, the raised
+  ways unchanged — 0 way corridors over a support ring, ramp, stair, foot or `vault` span".
+* §2.7's support step (6) (a)'s list adds ", the ring road `wallToWay` makes (§4.11)" after "a hand way", so that the
+  home's list names every later part-0 way.
 
-  "`wallToWay` of H-AQUA's METROPOLIS circuit, which runs on beneath its timber elevated road, by a hand `convert` after
-  the contraction and, on a second run, by its pathway fate set to `road` by a hand `setAttr` — the ring road crossing
-  under a span §4.3 admits or ending at the under-deck strip's edges, the raised way unchanged".
-* **Bar cell.** T-V6-47's bar cell already holds "0 way corridors over a support ring, ramp, stair, foot or `vault`
-  span".
-* **§13.2's T110-2 (4)** adds the same hand case on its c14 fixture's stage-2 ring.
+### VV56-r5-02 (major, EDGE-UNDEFINED, model) — one fix with VEW-r5-02
 
-### VV56-r5-02 (major, EDGE-UNDEFINED, model)
-
-**Claim.** Under R5-02, a wall stretch laid after a raised way is built against the raised way.
+**Claim.** This is the defect verify-edges-world-r5t reports as **VEW-r5-02**. I found it independently from V06's side.
+Under R5-02, a wall stretch laid after a raised way is built against the raised way.
 * (6) (d) (base l. 2603–2614) says "each part of the reservation standing in its band is taken into the line, the run
   abutting its faces and closed against it". At a `vault` span the run ends "at its arch vault's two walled-up arch
   mouths, the chamber kept whole". Beneath every other span it is "an ordinary run whose top is no higher than that
@@ -225,41 +220,32 @@ The raised way's parts that the wall is closed against then go on ordinary paths
 * V06 §3.19.2 (3)'s salvage `dismantle` clears "a support both of whose spans are ruined or cleared". This excepts only a
   crossing station's support, and a support a later wall abuts is not one.
 * "The span's arch-vault chambers collapse with it in the same batch" (l. 2932).
+* §3.11.4's `topple` breaks both spans beside a support.
 * A hand `delete` removes the whole raised way (V06 §3.19.3; §7.1).
 
-Nothing says what the wall's line becomes across the gap: a `breached` or `dismantled` run, a run re-laid whole, or
-masonry that appears because the geometry is derived at read. Nothing says what height the run has once the span over it
-is `ruined`, `cleared` or removed: the soffit it was built to, or the stretch's own height.
+Nothing says what the wall's line becomes across the gap: a gap, a `breached` run, or a run standing whole. Nothing says
+what height the run has once the span over it is `ruined`, `cleared` or removed.
 
-Before R5-02 this arose only at a village palisade. Now it is reached on an ordinary decline:
-* a CITY's S4 viaduct crossed by a later ring, falling into disuse, its spans struck and its piers salvaged;
-* any user removal of such a raised way.
-
-Builders diverge on the wall's `condition`, its repair, its drawing and its glTF height. No bar runs any of these.
+Before R5-02 this arose only at a village palisade. Now it is reached on an ordinary decline, and on H-AQUA itself: its
+METROPOLIS circuit runs on beneath its aqueduct, which runs dry in year 170, lapses, falls by span and is salvaged.
+Builders diverge on the wall's `condition`, closure, drawing and glTF height. No bar runs any of these.
 
 **Required change.**
-* **§2.7's support step (6) (d)** adds, before "Each such meeting is reported":
+* Apply VEW-r5-02's required change at §2.7's support step (6) (d), in whichever outcome the adjudicator rules there
+  (the run whole across the former footprint and at full height beneath a fallen span, or a `breached` run whose one
+  writer is the op that removes the part). Apply also its rendering, V06 §3.19.2 (3)–(4) and scope T110-2 (4) ends.
+  That is one fix.
+* **V06's second test end**, which VEW-r5-02 does not list. V06 runs T110-2's epoch clauses (4) and (5) on its engine
+  in T-V6-47 (§13.2's runs sentence; V06 §7's T110-2 row). So T-V6-47 and §7's T110-2 row take the new T110-2 (4)
+  clause on H-AQUA:
 
-  "Where a part so taken into the line goes while the stretch stands, the run across that part's former footprint
-  (between the faces it abutted, or between a `vault` span's two arch mouths) is written `breached`, in the batch of the
-  op that removes the part. This covers a support cleared (V06 §3.19.2 (3)) and a `vault` span's chamber collapsing with
-  its span (V06 §3.19.2 (3), (4); V05 §3.16). The gap is repaired as any breach (`repairWall`; V06 §3.7.5, V06 §3.7.7
-  (3)) and kept by a neglected ring, never closed by masonry no op wrote. A raised way removed by hand (§7.1; V06
-  §3.19.3) re-traces each stretch laid after it on its line in the removal's batch, by §7.3's S7 row, as a regeneration
-  lays it. A run beneath a span keeps its top at that span's soffit while the span's record holds it in any `state`
-  (its `soffitCm`); once the raised way is removed, the run is re-traced as above."
-* **V06 §3.19.2 (3)** (the salvage bullet and the chamber sentence) and **V06 §3.11.4** each cite this.
-* **T-V6-61** adds:
-
-  "on H-AQUA's METROPOLIS circuit where it runs on beneath the aqueduct: once the aqueduct has run dry (year 170) and a
-  support the circuit is built against has had both its spans fall, that support's salvage `dismantle`, with the run
-  across its footprint `breached` in that batch and then treated as any breach (V06 §3.7.5, V06 §3.7.7); a span beneath
-  which the circuit is topped at the soffit falling, the run keeping that height; and a hand `delete` of the timber
-  elevated road, the circuit re-traced whole on its line".
-
-  The salvage case runs on the generated aqueduct because a declared way is held and never decays by disuse (V06
-  §3.19.2 (1)). Where (6) (d)'s home rules otherwise, T-V6-61 follows it.
-* **§13.2's T110-2 (4)** adds the hand-delete case.
+  "after its METROPOLIS circuit ran on beneath the standing aqueduct, the aqueduct run dry (year 170) and lapsed — a
+  `vault` span in the circuit's band breached (its chamber collapsing) and a support in the band cleared by V06
+  §3.19.2 (3) — and, on a second run, the timber elevated road deleted by hand: the run across each former part and
+  beneath each fallen span as §2.7's support step (6) (d) rules, the circuit's closure unchanged, the delete's undo
+  restoring the abutments and the cap".
+* **T-V6-47's bar cell** adds the bar the ruled outcome sets: "0 gaps in a band" if whole, or each former footprint
+  `breached` in the removing op's batch.
 
 ### VV56-r5-03 (minor, NEW-PROBLEM, V06)
 
