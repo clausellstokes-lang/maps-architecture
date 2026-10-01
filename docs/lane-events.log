@@ -2807,3 +2807,4 @@
 2026-10-01 14:30 coherence/repair-V09-r4 LANDED docs/validation/coherence/repair-r4-V09.md docs/validation/coherence/results/coherence_repair-V09-r4.json
 2026-10-01 14:31 coherence/repair-rendering-r4 LANDED docs/validation/coherence/repair-r4-rendering.md docs/validation/coherence/work/repair-rendering-r4/ docs/validation/coherence/results/coherence_repair-rendering-r4.json (16 blocks: 14 REPLACE + J-ROWS + RATIONALE-A, restated rows swapped by swap_restated.py; 14 ids: 13 FIX, 1 MERGED; 5 END lines; 0 ruling requests)
 2026-10-01 14:31 coherence/orchestrator NOTE repair-V09-r4 landed (12 blocks, 0 ruling requests); launched repair-V06-r4 in its slot
+2026-10-01 14:31 coherence/orchestrator NOTE repair-rendering-r4 landed (16 blocks, 0 ruling requests); launched repair-V07-r4 in its slot (queue: V10 V11 V12 V03 V04 V02 V01 V05 kernel)
