@@ -1,0 +1,38 @@
+{
+  "key": "coherence/verify-vol-V01-V02-r4t",
+  "file": "docs/validation/coherence/verify-vol-V01-V02-r4t.md",
+  "issues": [
+    {
+      "id": "VV12-r4-01",
+      "severity": "major",
+      "kind": "WIRING",
+      "owner": "V09",
+      "claim": "V01's round-4 block gave `findAreas` the drawn week: `findAreas(key, week?)` (V01 §2.3 l. 546, §3.16 l. 2315, §5.4 (1) l. 3145) — at a drawn week whose frame is not the head 'the areas are the frame's … a district an edit or epoch split or merged after that week is listed whole, as the frame holds it, one made after it is not listed … absent, the head' (l. 3167–3171); §5.4 (4) re-evaluates it at every change of the drawn week and §5.4 (6) frames a disaster look by its units' `FindArea`s at the view's drawn week. Its only caller, V09, passes no week: §1b's Find-panel row (l. 311) 'V01 §5.4's `findAreas(key)`'; §4.21.10 (3) (iii) '`areas` — V01 §5.4's `findAreas(key)`', although (3)'s lead lists 'what this document holds at the view's effective key and drawn week'; §4.21.10 (7) 'an area's shapes by V01's `findAreas`' and §1b's `live.find` row (l. 312) 'V01 §5.4's `findAreas` for an area's shapes', with no week, while the same sentences pass the model the view draws to V04's and V05's Find places. At a scrubbed week a V09 builder lists and lifts the head's areas (a district an epoch made after the drawn week offered; a split district shown as its successors) while V01 §5.4 (1) and T-V1-59 (f) give the frame's, and the area list and §5.4 (6)'s Show frame disagree. repair-r4-V01's HAND-OFF (1) names it. Base §11.2 *At a drawn week*'s list of readers that pass their view's week (l. 16461–16462) omits `findAreas`.",
+      "required_change": "V09 §1b l. 311: \"V01 §5.4's `findAreas(key)`\" → \"V01 §5.4's `findAreas(key, week)` at the view's drawn week (§2.9's `week`)\". §4.21.10 (3) (iii): \"V01 §5.4's `findAreas(key)`\" → \"V01 §5.4's `findAreas(key, week)` at the view's drawn week (§2.9's `week`; at a drawn week whose frame is not the head, the frame's areas, V01 §5.4 (1))\". §4.21.10 (7): \"an area's shapes by V01's `findAreas`\" → \"an area's shapes by V01's `findAreas(key, week)` at the view's drawn week\"; §1b l. 312: \"V01 §5.4's `findAreas` for an area's shapes\" → \"V01 §5.4's `findAreas(key, week)` for an area's shapes, at the view's drawn week\". END line for rendering: §11.2 *At a drawn week*'s reader list \"V01's `gapUnits`\" → \"V01's `findAreas` and `gapUnits`\"."
+    },
+    {
+      "id": "VV12-r4-02",
+      "severity": "major",
+      "kind": "EDGE-UNTESTED",
+      "owner": "V01",
+      "claim": "V01 §5.4 (4) gains this round a defined outcome for a held area chip: an area the document no longer holds leaves its chip 'at count 0, dark, until the viewer removes it or presses Clear …, save at a drawn week whose frame holds that id, where the chip reads the frame's area and its matches ((1))' (l. 3222–3225). No bar runs it: T-V1-59 (c) holds the chip dark at the head; (f) runs `findAreas`, `gapUnits` and the disaster's frame at a drawn week but places no chip on an area the head lacks; T-V9-83's scrub clauses (l. 4406) and T-ER-25's 'a chip whose target is gone' cover kind chips and the head. A build that keeps the held chip dark at every week passes every bar. §3.18 (e)'s Find row still pairs 'a chip's area no longer held' with 'the chip kept at count 0, dark, until removed or Clear' alone.",
+      "required_change": "T-V1-59 (f) adds: \"a chip held on the district the epoch merged or split away (§6.3's succession), added at the drawn week from the frame's areas: at that week it lifts that district's faces in the frame and its matches are §11.2's listing at that week; at the head it stays at count 0, dark, until removed or Clear; scrubbed back, it reads the frame's area again\". §3.18 (e)'s Find row's outcome for \"a chip's area no longer held (merged away, or rebuilt under another id)\" reads \"the chip kept at count 0, dark, until removed or Clear — at a drawn week whose frame holds its id, the frame's area and matches (V01 §5.4 (4))\"."
+    },
+    {
+      "id": "VV12-r4-03",
+      "severity": "minor",
+      "kind": "CONFLICT",
+      "owner": "pipeline",
+      "claim": "§4.3 *Lattice and costs* (round 4's VEW-r3-01 text, l. 5632–5634) ends the raised-way crossing paragraph 'A route's crossing shifts along the strip to the nearest crossing these admit, else the route takes another course by F-ROUTE's ladder (§5.2) — the one rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep.' Placed after the route's fallback, 'the one rule' reads as the shift-then-F-ROUTE ladder too. Neither reader keeps that ladder: S5c's proposal is 'deflected along it to the nearest such span, or ends at the strip as at a reservation' (§4.4), and a stage-2 seed takes F-TEMPLATE rung 1 (redraw), then rung 2 (shift), a bent-cut lane §4.6's ladder ending at the strip's edge (V01 §3.17.3 (3); R4-09: 'V01's rule, ladder and values unchanged'). Each home states its own ladder, so nothing built changes.",
+      "required_change": "§4.3: \"… else the route takes another course by F-ROUTE's ladder (§5.2) — the one rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep.\" → \"… else the route takes another course by F-ROUTE's ladder (§5.2). S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep the same crossing rule, each with its own ladder (S5c's deflection along the strip or its end there; V01's F-TEMPLATE rungs and §4.6's lane ladder).\""
+    },
+    {
+      "id": "VV12-r4-04",
+      "severity": "minor",
+      "kind": "COHESION",
+      "owner": "V01",
+      "claim": "T-V1-59 runs 'From M5, Find's milestone (§16's M5 row)'. Its new clause (f) needs an epoch that splits a district, builds one member and closes another (M6-E), and V06 §3.15.2's history frames, which land at M6-E's E6 (V06 §8: 'E6 — history and the app: the history index, store and frames with the effective week'). M5 and M6-E run side by side after M4 (§16; INDEX §4), so M5's exit can come before E6. INDEX §5 risk 2 moves such a clause 'to the first exit after the provider (each named in its volume)'; T-V1-60 names its later clauses ('clause (e) from M3b …; the VILLAGE fixture's clauses once V07's village readings land'), T-V1-59 names none. A build agent applies risk 2's rule, so nothing built changes.",
+      "required_change": "T-V1-59's timing sentence \"From M5, Find's milestone (§16's M5 row), on the services and on V09's app harness with V09's Find panel\" adds \"; clause (c)'s epoch cases and clause (f) at the first exit after M6-E provides them — its epochs (V06 §8) and, for (f), V06 §3.15.2's history frames (E6)\"."
+    }
+  ]
+}

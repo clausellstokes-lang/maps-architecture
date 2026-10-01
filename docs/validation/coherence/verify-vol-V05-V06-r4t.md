@@ -9,7 +9,7 @@ PROGRESS (lane `coherence/verify-vol-V05-V06-r4t`, 2026-10-01)
   assemble-r4 (live hashes equal): done
 - P1 word diffs of live V05 (22 hunks) and V06 (51 hunks) against assemble-r3's outputs (commit 6c640e5^): done
 - P2 every round-3 finding re-checked against the live text and each END line's second end: done (section 1)
-- P3 every round-4 block in scope read subsection by subsection: pending
+- P3 every round-4 block in scope read subsection by subsection: done (V05 11 blocks, V06 17 blocks; candidates: V09 trigger wording, V06 §6.8 (6) parenthetical, H-AQUA fixture parts)
 - P4 ids, references, retired terms, phone clauses, review ids, document checks, sizes: pending
 - P5 report, result, LANDED: pending
 
