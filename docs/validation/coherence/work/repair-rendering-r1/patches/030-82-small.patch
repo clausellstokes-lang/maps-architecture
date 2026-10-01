@@ -31,5 +31,5 @@ its elements, whatever `showUnexcavated` (V04 §5.2; g item 113 (e)); M6-U) and 
 <<<<
 | `wall.curtain` | city, district | model | k = 3 on the band thickness (2.5 m → 7.5 m), minPx 2, maxPx 12 | ≈ 6.1 px (MFCG 6.2) |
 ====
-| `wall.curtain` | city, district | model | k = 3 on each run's thickness — `thicknessCm` × the thickness factor of the run's `stretchClass` row (V11's `walls.barriers`; 1 for `full`), read by `sampleProfile` by arc length (§3.4) — (2.5 m → 7.5 m on a `full` run), minPx 2, maxPx 12 | ≈ 6.1 px (MFCG 6.2) |
+| `wall.curtain` | city, district | model | k = 3 on each run's thickness — the enceinte's `thicknessCm` on a `full` run, the thickness its `walls.barriers` row gives on a `parapet` run (`stretchClass`, §2.7, §4.8), read along the trace by `sampleProfile` (§3.4) — 2.5 m → 7.5 m on a `full` run; minPx 2, maxPx 12 | ≈ 6.1 px (MFCG 6.2) |
 >>>>

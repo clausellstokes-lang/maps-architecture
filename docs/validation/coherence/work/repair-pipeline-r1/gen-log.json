@@ -144,7 +144,29 @@
     "VEW-06",
     "VEW-08"
    ]
+  },
+  {
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "ids": [
+    "VAF-R0S-09",
+    "VPC-29",
+    "VPC-01",
+    "VPC-03",
+    "VPC-02",
+    "VAF-R0S-11",
+    "VAF-R0S-20",
+    "VAF-R0S-15",
+    "VK0-22",
+    "VAF-R0S-23",
+    "VPC-12"
+   ]
+  },
+  {
+   "heading": "### 10.4 Names, descriptions and setting packs",
+   "ids": [
+    "VPC-33"
+   ]
   }
  ],
- "edits": 87
+ "edits": 98
 }

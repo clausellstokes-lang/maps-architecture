@@ -1,0 +1,114 @@
+# VRC0S-16 (minor, NEW-PROBLEM): validation-record ids and change history out of the design text (principle (5)); the
+# rules stay; decision ids (J-…, D-…) and item numbers stay. KERNEL-C05 (a consistency-pass record id, same class) too.
+@@ FILE 8.2.md
+<<<<
+glyph tone; `glow` the vector rung's glow sprite (E-16). On rungs 1–2 of §8.4's ladder the light pass computes light over
+====
+glyph tone; `glow` the vector rung's glow sprite. On rungs 1–2 of §8.4's ladder the light pass computes light over
+>>>>
+<<<<
+exception to `ink`'s 20–30 (RIC-01) — and the reserved `painterly` aim at the median (43), each by the chroma
+====
+exception to `ink`'s 20–30 — and the reserved `painterly` aim at the median (43), each by the chroma
+>>>>
+<<<<
+family's spotlight vignette, drawn per mark in its slot; distinct from the post operation `edgeFade`, E-16);
+====
+family's spotlight vignette, drawn per mark in its slot; distinct from the post operation `edgeFade`);
+>>>>
+<<<<
+`crosshatchNoise(periodPx, alpha)` — named apart from the per-mark programs `tint` and `vignette` (E-16) — each applied once to a
+====
+`crosshatchNoise(periodPx, alpha)` — named apart from the per-mark programs `tint` and `vignette` — each applied once to a
+>>>>
+<<<<
+with its night glow (RIC-02); each family's night is its
+====
+with its night glow; each family's night is its
+>>>>
+@@ FILE 8.4.md
+<<<<
+  §3.8's readers stay three (J-A28.32, KERNEL-C05); flat roofs, walls, towers and gatehouses as the tops of their prisms;
+====
+  §3.8's readers stay three (J-A28.32); flat roofs, walls, towers and gatehouses as the tops of their prisms;
+>>>>
+@@ FILE 8.5.md
+<<<<
+per-band detail budget exists (the style sheet's former `budgets` field, which nothing read, is withdrawn).
+====
+per-band detail budget exists.
+>>>>
+@@ FILE 8.11.md
+<<<<
+deck plots (file f item 447's properties; V01-XCONF-2's VTT rule), the hinterland
+====
+deck plots (file f item 447's properties; §11.1's VTT rule for raised supports), the hinterland
+>>>>
+@@ FILE 9.2.md
+<<<<
+  labels the plan draw sets (kind `room`, §8.5; RXC-01). S13b reads the display list through `ObstacleSource` and `RoleIndex` (§14);
+====
+  labels the plan draw sets (kind `room`, §8.5). S13b reads the display list through `ObstacleSource` and `RoleIndex` (§14);
+>>>>
+<<<<
+  **The admission function** `admit(knownTo, key, band)` — the one statement of admission (E-17) — admits a row at a band
+====
+  **The admission function** `admit(knownTo, key, band)` — the one statement of admission — admits a row at a band
+>>>>
+@@ FILE 9.7.md
+<<<<
+| T-ER-17 | a region group whose members' union has several components (EI-REDGE-01) |
+====
+| T-ER-17 | a region group whose members' union has several components |
+>>>>
+<<<<
+| T-ER-18 | the rows of kinds `region`, `wood`, `annotation`, `landmark`, `place`, `address`, `tunnel`, `system` (EI-REDGE-02, -03) |
+====
+| T-ER-18 | the rows of kinds `region`, `wood`, `annotation`, `landmark`, `place`, `address`, `tunnel`, `system` |
+>>>>
+@@ FILE 11.1.md
+<<<<
+runs as the owner) and refuses any other key with the API error `E_KNOWLEDGE_TIER`, naming the tier the format needs (RIC-04).
+====
+runs as the owner) and refuses any other key with the API error `E_KNOWLEDGE_TIER`, naming the tier the format needs.
+>>>>
+<<<<
+  supports' footprints as closed polylines as cliffs are (one rule, V01-XCONF-2; M3a, file f items 447, 448); no portal
+====
+  supports' footprints as closed polylines as cliffs are (one rule; M3a, file f items 447, 448); no portal
+>>>>
+<<<<
+  item 452 as corrected by V04-ICONF-3) takes `line_of_sight` from every void kerb and chamber wall and every underground
+====
+  item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
+>>>>
+@@ FILE 11.3.md
+<<<<
+  moves the cursor sun and the `underlay` image (§9.5), which never cross the bridge (E-19). The key `time` is set by
+====
+  moves the cursor sun and the `underlay` image (§9.5), which never cross the bridge. The key `time` is set by
+>>>>
+@@ FILE 11.4.md
+<<<<
+(V08 Q3: J122; V08-XCONF-5).** From M-SF the host client gains one call returning the user's chosen scene exports
+====
+(V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
+>>>>
+@@ FILE 12.1.md
+<<<<
+  (D-18) — and cites that row (E-18).
+====
+  (D-18) — and cites that row.
+>>>>
+@@ FILE 12.10.md
+<<<<
+### 12.10 The budget register (E-18)
+====
+### 12.10 The budget register
+>>>>
+@@ FILE 12.5.md
+<<<<
+ladder's rungs 1–2 need a GPU context and rung 3 does not (§8.4 (g); RIC-05).
+====
+ladder's rungs 1–2 need a GPU context and rung 3 does not (§8.4 (g)).
+>>>>

@@ -1,0 +1,59 @@
+# VRC0S-25 (major, EDGE-UNTESTED): T-ER-09 runs at every rung; T-ER-14 states the spines' lifecycle outcome and tests it.
+@@ FILE 8.11.md
+<<<<
+| T-ER-09 | instances at their limits (§8.10): a face smaller than one spacing, a line shorter than one spacing, an override whose point left its host | zero instances (a valid set); the override orphaned and reported (J-R24) | fixtures of each: the empty sets drawn as their fill; the orphan reported |
+====
+| T-ER-09 | instances at their limits (§8.10), at every rung THORP to the cap: a face smaller than one spacing, a line shorter than one spacing, an override whose point left its host | zero instances (a valid set); the override orphaned and reported (J-R24) | fixtures of each at every rung from THORP to the cap, a village rung's hinterland woods and orchards included: the empty sets drawn as their fill; the orphan reported |
+>>>>
+@@ FILE 9.7.md
+<<<<
+| T-ER-14 | spines (§9.3): no alternate fits, the skeleton fails, a face below one glyph | §9.4's ladder to rung (7); F-SKELETON's medial axis; rung (7)'s legend entry — each counted | fixtures: every rung reached is counted, 0 errors |
+====
+| T-ER-14 | spines (§9.3) at every rung, THORP to the cap: no alternate fits, the skeleton fails, a face below one glyph; and through save, load, undo, redo, regenerate and migrate | §9.4's ladder to rung (7); F-SKELETON's medial axis; rung (7)'s legend entry — each counted; spines are S13a model data (§9.1) — persisted with their `LabelEntity`, rebuilt by a scoped regeneration inside its scope only, undone with the event that changed them, carried unchanged by a migration | fixtures at every rung: every rung reached is counted, 0 errors; a B-EDIT fixture at every rung — save, load, undo, redo, a scoped regeneration and a migration — with the spine digests outside the scope unchanged and those inside equal to a fresh derivation |
+>>>>
+# VV910-01 (major, F-MISSING; file f item 348, BCR-V9-16 as written): §9.5's count badge steps the declaration's size.
+@@ FILE 9.5.md
+<<<<
+  with plus and minus that re-run the dry run at one more or one fewer; numbers show while drawing (a way's length, an
+====
+  with plus and minus that re-run the dry run at the next step of the declaration's size — a quarter's `sizeM2` by (its
+  band's maximum − its minimum) ÷ 8, clamped into the band, from the median when unset; a fill's density dial by one step
+  (V09 §4.5); a roster's badge has none (its size is its lines) (file f item 348); numbers show while drawing (a way's length, an
+>>>>
+# VRC0S-27 (minor, WIRING; g item 106 (e)): the harbour-mouth chain drawn from the era row.
+@@ FILE 8.2.md
+<<<<
+| boundary treatment (fence, hedge, yard wall, railing) | district and finer | paper | ≤ ½ the building outline weight, never filled, gaps at gates | — |
+====
+| harbour-mouth chain (`Gate.mouth`, §2.7; g item 106 (e)) | district and finer; its towers at every band | paper | between the `water` gate's two towers, by the era row's `harbourChain` (V11's `EraRow`): `raised` — a solid line across the entrance in `wall` at ½ the drawn wall width (minPx 1), drawn with the gate (slot 19); `lowered` — the same line dashed (2 px on, 2 px off) in slot 7, under the shore marks and everything above the water | — |
+| boundary treatment (fence, hedge, yard wall, railing) | district and finer | paper | ≤ ½ the building outline weight, never filled, gaps at gates | — |
+>>>>
+@@ FILE 8.3.md
+<<<<
+hairlines (item 110); the spring symbol (g item 111); the `occupation` symbol (V08 §5.2); each colour-coded category's
+====
+hairlines (item 110); the harbour-mouth chain, raised or lowered (g item 106 (e)); the spring symbol (g item 111); the
+`occupation` symbol (V08 §5.2); each colour-coded category's
+>>>>
+# VRC0S-07 (major, WIRING): the deficiency-contrast threshold named, valued and its readers stated.
+@@ FILE 8.2.md
+<<<<
+key (§8.8). A missing variant draws the sheet's palette with its cues and is reported by the loader. §13's style check
+(the simulated-deficiency contrast between every pair of categories a legend distinguishes, against its table threshold)
+measures every variant; §9.5's legend shows each category's cue.
+====
+key (§8.8). A missing variant draws the sheet's palette with its cues and is reported by the loader. **The style check**
+measures every variant: under each of `protan`, `deutan` and `tritan` it simulates the swatches of every pair of
+categories a legend distinguishes (Machado, Oliveira and Fernandes 2009 at severity 1.0, applied in linear sRGB — our own
+code from the published matrices) and passes when their CIEDE2000 is at least **`cvdContrastMin`** — the
+deficiency-contrast threshold, one cell of V11's `palette` table for every sheet: ΔE2000 10 (our own; calibratable at
+M3b, V12's register line). §13.2's T112-1 reads it; item 114's greyscale bar (J-V12.91) compares the pairs' CIE L*
+greys against the same cell (the wall states below). §9.5's legend shows each category's cue.
+>>>>
+# VRC0S-17 (minor, CONFLICT): the pyramid's widest stop stated as it is (≈ 1:45 000), B-ZOOM's range bound to it.
+@@ FILE 8.8.md
+<<<<
+* **Pyramid (N-9 a).** Zoom stops at 2^¼ steps of scale (four per doubling) cover B-ZOOM's 1:50 000 → 1:500 in 27 stops
+====
+* **Pyramid (N-9 a).** Zoom stops at 2^¼ steps of scale (four per doubling) cover B-ZOOM's range, ≈ 1:45 000 → 1:500, in 27 stops
+>>>>

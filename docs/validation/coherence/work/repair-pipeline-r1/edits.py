@@ -663,3 +663,105 @@ while lines[_ce + 1].startswith('|'):
 _combo_old = '\n'.join(lines[_cs[0]:_ce + 1])
 _combo_new = open('docs/validation/coherence/work/repair-pipeline-r1/combo-new.txt', encoding='utf-8').read().rstrip('\n')
 E(H413, _combo_old, _combo_new, 'VEW-18', 'VEW-05', 'VEW-06', 'VEW-08', 'VEW-02')
+
+# ───────────────────────────── §10.2 ─────────────────────────────
+E(H102, """  settings: RosterSettings /* rosterMode 'minimiseUnemployment'|'matchRatios', unemploymentThreshold, propagation.depth, placement.extensionWeight, detourFactor, crypt.rankShare (V11 §3.5.1) */;""",
+"""  settings: RosterSettings /* the one row of V11 §3.5.1 (registry row 24) */;""", 'VAF-R0S-09', 'VPC-29')
+
+E(H102, """  portRows: PortRows /* item 88: the staged rows the dossier port fills — schema-complete, empty, extension */;
+  names: NamePack; provenance: Provenance }   // GovernmentRow, ReligionRow, HouseholdRow, InstitutionRow, ProfessionRow, HeightsRow, CompatibilityRow, ClimateRow, EraRow, GrammarDef, TemplateDef, RosterSettings, item 110's row types and the tables named above are declared as V11 §2.8 (and §2.4, §2.5) gives them;""",
+"""  portRows: PortRows /* item 88: the staged rows the dossier port fills — schema-complete, empty, extension */;
+  grandeur: GrandeurCeilingRow[] /* item 115: one row per rung, below (*Grandeur ceiling*) */;
+  festival: { decorations: DecorationRow[]; staging: StagingKeywordRow[] /* with its named row fallback: Record<FestivalKind, StagingPlace[]> */; motifs: MotifRow[]; generic: GenericFestivalRow[] } /* item 118: a look only, below (*Festival decorations*) */;
+  names: NamePack; provenance: Provenance }   // GovernmentRow, ReligionRow, HouseholdRow, InstitutionRow, ProfessionRow, HeightsRow, CompatibilityRow, ClimateRow (with its ClimateSeasonCells, item 117), EraRow, GrammarDef, TemplateDef, item 110's row types and the tables named above are declared as V11 §2.8 (and §2.4, §2.5) gives them, and GrandeurCeilingRow, DecorationRow, StagingKeywordRow, StagingPlace, FestivalKind, MotifRow, GenericFestivalRow and QualitySpendRow (items 115, 118, 119) as V11 §2.8d gives them; RosterSettings is the settings field's own shape, below (its cells V11 §3.5.1);""",
+  'VPC-29', 'VPC-01', 'VPC-03', 'VPC-02')
+
+E(H102, """  crypt: 'always'|'basement'|'never' /* item 109 (k) (2): default 'never'. always: the building always has a crypt, taken by §2.6's no-refusal crypt ladder (full, half, raised) and exempt from the terrain gate's wet-ground refusal; basement: a crypt exactly when §2.6 draws a full, half or walk-out basement, the class's cellar row its crypt chance, the terrain gate binding; never: none. A crypt is part of its building's basement, never an underground system and never a catacomb source */;""",
+"""  crypt: 'always'|'basement'|'never' /* item 109 (k) (2); default 'never'; the values V11 §2.3, the ladder §2.6 */;""",
+  'VAF-R0S-11')
+
+E(H102, """  subLocations: SubLocationRow[]; openingHours: OpeningRow[]; tags: string[];""",
+"""  subLocations: SubLocationRow[]; openingHours: OpeningRow[] /* §2.6's */; tags: string[];""", 'VPC-29')
+
+E(H102, """interface DesignationTemplateRow {   // one per band of §4.5's band set; continuous columns interpolate along the prosperity value, discrete ones switch at the cut (§4.7 S11)""",
+"""interface DesignationTemplateRow {   // one per band of §4.5's band set; continuous columns interpolate along the prosperity value, discrete ones read §4.5's discrete-cell rule — a band without a row reads the nearest rowed band below (§4.7 S11)""",
+  'VAF-R0S-20')
+
+E(H102, """interface CoverRow {   // item 63: the plausible fronts of one concealed class; our own rows, extension
+  trueCls: string /* the concealed class */; band?: string /* absent: every band */;
+  covers: { cls: string /* a front class whose designation template has a row at the band */; weight: number }[] }
+```""",
+"""interface CoverRow {   // item 63: the plausible fronts of one concealed class; our own rows, extension
+  trueCls: string /* the concealed class */; band?: string /* absent: every band */;
+  covers: { cls: string /* a front class whose designation template has a row at the band */; weight: number }[] }
+interface RosterSettings {   // the 'settings' row of roster.settings (V11 registry row 24); the cells' values and meanings are V11 §3.5.1's
+  rosterMode: 'minimiseUnemployment'|'matchRatios'; unemploymentThreshold: number; propagation: { depth: number }; placement: { extensionWeight: number };
+  detourFactor: number; crypt: { rankShare: number }; coverage: { rosterWeight: number } }
+interface SubLocationRow {   // a class's sub-location template: each building of the class gets one §2.6 SubLocation per row (§4.7 S11); read by §10.3's schedules; empty in the base's rows, @plat/sim's M4b rows fill them (V11 §3.21.4)
+  name: string; tags: string[] /* table, counter, stage, bed, bath, pickup, deliver, … */; capacities: SubLocation['capacities'] /* §2.6 */; relax?: string[] }
+interface SquareQuotaRow {   // table 'squares.quota' (V11 registry row 91; file f item 301): the one square quota, a base table in @plat/tables read from M2b — by S7b (3)'s claims larger than a block (§4.5) and by S9b's sub-block remainder (§4.7 S9; V01 §3.5); key 'band'; its default rows V01 §3.5.2
+  band: string; haPer1000: number /* typed-square target per 1 000 inhabitants of the district */; kind: Partial<Record<DistrictKind, number>> /* factor */ }
+```""", 'VPC-29', 'VAF-R0S-09', 'VAF-R0S-15')
+
+E(H102, """seat classes, nor its military share; there an `@office` record binds to the `villageSeat` member's building and a
+religious office to the parish church, and a guard post arises only from a town-watch record or a class's `presence`
+entries (V07 §3.2 (3), §3.11).""",
+"""seat classes, nor its military share; there an `@office` record binds to the `villageSeat` member's building and a
+religious office to the parish church, and a guard post arises only from a town-watch record or a class's `presence`
+entries (V07 §3.2 (3), V07 §3.11).""", 'VK0-22')
+
+E(H102, """Default rows are the references' placement rules where a reference has one and soft tendencies where it has none
+(item 23; `extension: true`, scaled by §4.7 S10b's `placement.extensionWeight`) — for instance a tannery `downstream` soft
+(weight 1.0), `nearWater` hard and `extramural` soft, with supply `hides` 800 m by street and `bark` 2 000 m by road; a
+brewery with supply `malt` 1 000 m by street (hard) and `nearWater` soft; a maltings with supply `grain` 3 000 m by road; a
+bakery with supply `flour` 600 m by street; a warehouse `nearHarbour` 150 m hard with supply `import` by sea; an inn
+`frontage` primary or through soft (weight 1.0) and `nearGate` 150 m soft; a market hall `nearMarket` 60 m hard; a trade
+group's shops `sameStreet` and `clustered` soft; a mill `nearWater` hard with a fall (its outside row, §4.9). A row is hard
+only for a physical need (item 103 (c)), and in the parity preset whose reference has the rule (§7.6's per-preset values).""",
+"""Default rows are the references' placement rules where a reference has one and soft tendencies where it has none
+(item 23; `extension: true`, scaled by §4.7 S10b's `placement.extensionWeight`); the rows and their values are V11 §3.5's,
+by class (the tannery's, brewery's, maltings', bakery's, warehouse's, inn's, market hall's, a trade group's shops' and the
+mill's, its outside row §4.9's, among them). A row is hard only for a physical need (item 103 (c)), and in the parity preset
+whose reference has the rule (§7.6's per-preset values).""", 'VAF-R0S-23')
+
+E(H102, """* **Quarter identities (item 72).** The identity rows are V11 §3.10's, their family keys V11 §3.4's profile families
+  (worship, garrison, school, port …): the religious, craftsmen's, merchants', harbour, garrison, learned and arcane quarters
+  (the arcane `magicOnly`, the row a Mages' Quarter naming claim biases toward, item 82); the defined districts (the
+  red-light district `definedBy` its brothels, with no `kind` — §4.5 (3) scores its district by the brothel class row's soft
+  `nearHarbour`, `nearGate` and `near` an inn rows, J-A72.51; the slums `definedBy` the dossier's slum kind, kind `shanty`,
+  the squalid band's rows); and the plain residential identities, one per band, lowest priority. Each row's `naming` slice is
+  our naming pack's (§10.4).""",
+"""* **Quarter identities (item 72).** The identity rows are V11 §3.10's, their family keys V11 §3.4's profile families: the
+  religious, craftsmen's, merchants', harbour, garrison, learned and arcane quarters (the arcane `magicOnly`, the row a
+  Mages' Quarter naming claim biases toward, item 82), the defined districts (red-light, by its QUARTER record, J-A72.51)
+  and the quarter-claim identities (slums, foreign, guild district), and the plain residential identities, one per band,
+  lowest priority; each row's `naming` slice is our naming pack's (§10.4).""", 'VPC-12')
+
+E(H102, """* **Rows at their limits (EP-18).**""",
+"""* **Grandeur ceiling (item 115; J127).** `RosterTables.grandeur` holds one `GrandeurCeilingRow` per rung (V11 §2.8d's
+  shape; its rows V11 §3.25.4, registry row 97): `enabled`, the limits on every dwelling but the manor (`dwellingFamilies`,
+  `towers`, `turrets`, `gatehouse`, `courts`), the manor's `max` and `requires`, and `allManorsRow`. Its readers: S2's manor
+  count at the `territory` rungs (§4.2 S2), S10b's class mix (the rung ceiling, §4.7 S10b *Class mix* (3)) and S11, which
+  hands the dwelling limits to V02's composition chain (§4.7 S11), and V06's epochs at the epoch's rung (V06 §3.8.5). A row
+  `enabled` false is no ceiling (the no-op pin; the parity presets). Its bars: §13.2's item-115 rows and T-V11-41.
+* **Seasons (item 117; J128).** The climate row's season columns, `ClimateRow.seasons` (V11 §2.8's `ClimateSeasonCells`;
+  values V11 §3.25.6): the winter's severity (`none`, `mild`, `cold`, `severe`) and the weeks, 0–51 spring first, of leaf
+  colour, leaf fall, blossom, growing, harvest, hay, ice and snow, a band wrapping the year's end. A look only: read by
+  §8.2's season rows, §11's exports and §7.7's season derivation row, never by a stage, so no season changes the model or
+  its hash (item 117 (a); §4.2 S0, §4.9 *Species and climate*). Its bars: §13.2's item-117 rows and T-V11-42.
+* **Festival decorations (item 118; J129).** `RosterTables.festival` (V11 §2.8d's shapes; rows V11 §3.25.7, registry rows
+  102–105): the decoration table by tier and kind (`decorations`: each row's rung or `SKY`, item, place, band, count rule),
+  the staging keyword table (`staging`: a keyword's place kind) with its fallbacks by festival kind (the named row
+  `fallback`), the culture and season motifs (`motifs`) and the generic festivals of a standalone map (`generic`). A look
+  only, read by §8.2's decoration rows and §11's image exports, never by a stage (item 118 (a)): a festival's place is the
+  dossier's named place, else its staging keyword's place kind, else its kind's fallback, and never over a keep-out or a
+  gate's passage; each tier draws its own rows and never a larger tier's (item 118 (d)). Its bars: §13.2's item-118 rows and
+  T-V11-43.
+* **Rows at their limits (EP-18).**""", 'VPC-01', 'VPC-02', 'VPC-03')
+
+# ───────────────────────────── §10.4 ─────────────────────────────
+E(H104, """`hasManorBlock`, `hasGreenBlock`, `ringCentre`, `small`, `terraced` (V01 §3.7.4) — from M5; the rows are authored with the
+grammar (V11).""",
+"""`hasManorBlock`, `hasGreenBlock`, `ringCentre`, `small`, `terraced` (V01 §3.7.4) — from M5; and a way made by `wallToWay`
+(§4.11; V06) carries the naming feature `formerWall`, S13a naming it from the `naming.formerWall` slice (V11 row 68) — the
+old wall's ring road; the rows are authored with the grammar (V11).""", 'VPC-33')
