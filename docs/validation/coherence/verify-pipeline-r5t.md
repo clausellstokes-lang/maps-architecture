@@ -8,8 +8,8 @@ PROGRESS
 - P1 inputs: round-4 findings (verify-pipeline-r4t, 3 issues), adjudication-r5 (R5-01 – R5-10; R5-02 and R5-03 whole; Part H · pipeline and every END line naming this unit or my round-4 ids), `work/round5-work/pipeline.json` (11 issues), repair-r5-pipeline (10 REPLACE, 25 edits, its sweep and 2 hand-offs), assemble-r5 (pipeline 10/10 applied; base `5f34cceb…` → `2d84eac2…`): done
 - P2 every round-4 finding re-checked against the live text, with each END line's second end: done — 3 of 3 FIXED
 - P3 the pipeline unit's 11 round-5 dispositions and 4 END lines (P1 – P12) re-checked; the 25 in-scope hunks word-diffed against assemble-r4's text (commit `3310b538`) and read in their subsections with the homes they cite: done — 2 new problems
-- P4 references, ids, retired terms, review ids, phone clauses and doc_checks on the touched sections: pending
-- P5 findings, result file, LANDED: pending
+- P4 references, ids, retired terms, review ids, phone clauses and doc_checks on the touched sections: done
+- P5 findings, result file (`results/coherence_verify-pipeline-r5t.json`), LANDED: done
 
 ## Sources
 
@@ -62,8 +62,84 @@ boundary on a deck pins no gate, so the stage may have fewer gates than `N_k`) i
 
 ## Part 3 — round-5 blocks in scope: new problems
 
-(pending)
+Read in their subsections, each against assemble-r4's text and the homes they cite (§2.7's support step (3), (6) (a)–(d),
+(7), *The clearance* and the span rule; §4.6's under-deck strip; §4.7 S10's step (0); §4.8 *Wall strips*; §7.1's raised and
+wall rows; §7.7's binding; V06 §3.7.6 (5); V08 §3.6 (3)–(4); J-V8.54): §4.1's S5 and S7 rows; §4.3 *Lattice and costs*,
+*The slot*, *Where it may not go*; §4.4 S5a whole (*Boundary*, *Trace* (1)–(3), *Water and the waterfront*, *Outer
+moats*), S5b and S5c's legality; §4.5's casters; §4.7's class-floor heading; §4.8's lead, *Wall strips*, *Condition at
+generation*, *Gates*; §4.11's `wallToWay`, the carve, *The clock* (1)–(5), *The rung at an epoch*; §4.13's raised-way
+column; §10.2's `CrisisLookRow` and (d)–(f); II.7.3 *Order, seed and locality*.
+
+Agreeing and closed: the stage order (a stage k ≥ 2 lays its trace right after its own S5b, §4.4 l. 5803–5804, 5829–5830,
+so T110-2 (2)'s "stage-2 S5b viaduct crossed by stage 2's own moated ring" is later work as R5-02 rules); the span rule's
+one eager run after §4.6's cut against S5a's, S5c's and S7's crossings before it (§4.3 P1, §4.4 S5c, P5); S5b's count and
+§4.8's gate count on ground part 0 with §5.3's row (D4); R5-03's clock against V08 §3.6 (3)–(4), §3.17 and §7.7 (a held
+calamity keeps its carried fact, J-V8.54, so a later absorb cannot leave its key without a fact). Retired terms (the
+canon's 35 patterns), deferral wording, review ids, canon conflict ids, verifier ids and phone clauses in the 80 changed
+lines of the unit: none (the one "later" hit is "a later absorb", a defined event). Ids: none added, removed or colliding
+in scope. References: assemble-r5's resolver found none broken (56 169 checked); by hand every new citation in scope
+resolves to text that says what it is cited for (V07 §3.5a (3)'s tracker turn, V08 §4.6's `late` variant, §7.1's
+`bend.raised.underSpan` and `bend.raised.around` row, §8.2's `ruinTone`, §8.4 and §9.2's working layer, §10.2 (f)'s
+**stands over**). No stale crossing-station or last-run wording in the base, the rationale or any volume. Document checks
+on the ten sections (`--sections 4.1,4.3,4.4,4.5,4.7,4.8,4.11,4.13,10.2,II.7.3`, the shared allow file): exit 0 — C1 5/0,
+C2 1/0, C3 169/0, C4 1/0, S1 0/0, S2 287/0 unreviewed (before the round: the same, S2 272/0) — **PROVISIONAL**: the tool
+warns the reference corpus is incomplete in this checkout (captures, research/patreon, research/devlogs, research/ftg-docs,
+research/external absent).
+
+New findings (fresh ids):
+
+* **VPC-R5-01 (major, CONFLICT; pipeline).** R5-02's P8 at §4.8's lead (l. 7610–7612) reads "the strips S7 cuts beside
+  that trace stop at its under-deck strip's edges, their setback, glacis and berm closed along them"; P3 at §4.1's S7 row
+  (l. 4952) "its strips stopped at the under-deck strip"; P12 at §4.13's `wall` cell (l. 9017) "runs on beneath its deck
+  … its strips stopped at the under-deck strip". A wall strip is the band's half plus the setback inside, or the setback
+  and glacis (or the berm) outside (§4.8 *Wall strips* l. 7618–7625; §2.7 (3)'s obstacle "its band's half, setback and
+  glacis"), and S10's step (0) builds the enceinte's half-band only inside the strip blocks S7 cuts, `Enceinte.band` being
+  their union (§4.7 l. 6785–6796). So, as written, no band is built beneath the deck: the curtain is open under every
+  raised way a later wall meets. The canonical home, §2.7's support step (6) (d) (l. 2603–2616), stops only "the
+  stretch's setback, glacis and berm" there and runs the wall on beneath the deck — each support, ramp, stair, foot or
+  `vault` span in its band taken into the line, beneath every other span "an ordinary run whose top is no higher than
+  that span's soffit", read by §4.5's casters, §8.4's casters and heightfield and §11.1's glTF wall — and T110-2's lead
+  and (4) bar that run. Two builders of S7: one cuts no strip under the deck (no band, the curtain breached), the other
+  builds the band there. The same sentence of §4.8's lead also omits (6) (d)'s tower rule (no tower in the under-deck
+  strip, one moved along the trace clear of it), which S7's tower spacing must apply, and §4.1's row names only the
+  supports where §4.8 names supports, ramps, stairs and feet and adds breakwaters. The same loose wording stands at §7.3's
+  S7 row (l. 10883, determinism) and V06's W68 (l. 351) and §3.7.1 (l. 1462–1463).
+* **VPC-R5-02 (major, EDGE-UNDEFINED; pipeline).** §4.11's `wallToWay` (l. 8214–8221) retypes the wall chain as the ring
+  road's spine "on the same edges", excepting only "the stretch held under a raised way's crossing station while its deck
+  stands …, which stays as a free-standing gate tower or arch carrying the deck, the new ring road taking no junction with
+  the raised way" (VDC4-05's text, this round). Two meetings with a standing raised way have no outcome for the road: (1)
+  that kept stretch stands on the old wall's line, so the road's spine on the same edges runs into the free-standing gate
+  tower or the curtain under the arch (a raised gate's portal is on the raised part only, §4.8 l. 7672–7673); (2) since
+  R5-02, a wall stretch laid after a raised way runs on beneath its deck with each support, ramp, stair, foot or `vault`
+  span in its band taken into its line and no crossing station (§2.7 (6) (d)), so the save clause does not reach it and
+  the road's spine passes through those parts — a support standing in a road, or a road through an arch vault's chamber
+  (II.7.6). §2.7 (6) (a) makes every part-0 way laid after a raised way cross its under-deck strip only by §4.3's crossing
+  rule, else end at the strip, but `wallToWay` neither cites nor applies it, nor does V06 §3.7.6 (5)'s bullet ("leave
+  standing every raised way that crosses the old line; the new ring road takes no junction with it"). The path is an
+  ordinary one at growing CITY and METROPOLIS epochs (a superseded ring's `road` end, V06 §3.7.2 (3); case (1) is
+  H-AQUA's own CITY ring under its founded aqueduct, case (2) T110-2's lead fixture once its stage-2 ring is superseded).
+  Two builders: the road through the supports or the kept stretch, or the road re-routed or ended at the strip. Untested:
+  T-V6-47's `wallToWay` clause checks only that the raised way and its station stand.
 
 ## Issues (round 5)
 
-(pending)
+| id | severity | kind | owner | claim (short) | required change |
+|---|---|---|---|---|---|
+| VPC-R5-01 | major | CONFLICT | pipeline | §4.8's lead, §4.1's S7 row and §4.13's `wall` cell stop the whole wall strips (the band's halves with them) at the under-deck strip, so S10's step (0) builds no band beneath the deck; §2.7 (6) (d) stops only the setback, glacis and berm and runs the wall on beneath it | §4.8's lead l. 7611–7612: "the strips S7 cuts beside that trace stop at its under-deck strip's edges, their setback, glacis and berm closed along them, reported (`W_RAISED_CROSSING`);" → "the strips S7 cuts beside that trace run on beneath its deck as the band's halves only — their setback, glacis and berm stopped at its under-deck strip's edges and closed along them, reported (`W_RAISED_CROSSING`), S10's step (0) building the band there as §2.7's support step (6) (d) lays the run — and no tower stands in the under-deck strip, one the spacing would place there moving along the trace to the nearest point clear of it;". §4.1's S7 row l. 4952: "its strips stopped at the under-deck strip, a gate plaza cut round the raised way's supports and no pier or mole rooted on them" → "its strips' setback, glacis and berm stopped at the under-deck strip (the band running on beneath the deck), a gate plaza cut round the raised way's supports, ramps, stairs and feet and no pier, mole or breakwater rooted on them". §4.13's `wall` cell l. 9017: "its strips stopped at the under-deck strip" → "its setback, glacis and berm stopped at the under-deck strip". END at determinism: §7.3's S7 row l. 10883 "and its strips stopped at the under-deck strip's edges" → "and its setback, glacis and berm stopped at the under-deck strip's edges". END at V06: W68 l. 351 "its strips stopped at the under-deck strip's edges" → "its setback, glacis and berm stopped at the under-deck strip's edges"; §3.7.1 l. 1462–1463 "its strips stopping there" → "its setback, glacis and berm stopping there" |
+| VPC-R5-02 | major | EDGE-UNDEFINED | pipeline | `wallToWay` lays the ring road on the old wall's edges with no outcome where they meet a standing raised way: the kept crossing-station stretch stands on that line, and a run laid after the raised way has its supports, ramps, stairs, feet and `vault` spans taken into it (§2.7 (6) (d)); §2.7 (6) (a)'s crossing rule is not applied; untested | §4.11 `wallToWay` l. 8221, after "(§2.7's support step (3); V06 §3.7.6 (5) gives its form).": add "Where the old line meets a standing raised way — at that kept stretch, or where a run laid after the raised way ran on beneath its deck (§2.7's support step (6) (d)) — the ring road is a part-0 way laid after the raised way (§2.7's support step (6) (a)): in the dry run its spine there is re-routed by §7.3's S4 local operator, between its nearest nodes on either side of the under-deck strip, to cross under the nearest span §4.3's crossing rule admits, else it ends at the strip's edges as at a reservation, reported; the kept stretch and every part of the raised way the old run took into its line stand untouched." END at V06: §3.7.6 (5)'s bullet "the new ring road takes **no junction** with it" adds "and crosses its under-deck strip as a way laid after it (§4.11's `wallToWay`)"; T-V6-47's `wallToWay` clause adds "the ring road crossing the aqueduct's under-deck strip under a span §4.3 admits, clear of the kept stretch, else ended at the strip; and, on a fixture this test names, `wallToWay` of a ring laid after a standing viaduct with a support in its band — 0 way corridors over a support ring, ramp, stair, foot or `vault` span" |
+
+Totals: 2 issues — 0 blocker, 2 major (pipeline 2), 0 minor. Round-4 findings: 3 of 3 FIXED, every END line's second end
+written; the pipeline unit's 11 dispositions and 4 END lines (P1 – P12) closed. Nothing NUANCE-LOST: the unit grew, no
+elegance ruling or shrink cut touched it, and every sentence the round replaced is R5-02's or R5-03's ruled supersession
+(principle (3) (b)) with its equivalence list's pipeline items in place (the give-way rungs → §4.3's crossing rule at
+§4.8's lead; the ring's gate on a raised arterial → none, S5a *Trace* (2) and S5b's count; S5b and S5c ways → §4.3 P1;
+the palisade's clause → §4.13's `wall` cell; the lock clause → held from creation). Both findings are new problems of
+the round's own text (P8, P3, P12; VDC4-05's clause meeting R5-02's (6) (d)).
+
+## Size
+
+The unit (base §4, §10, PART II, PART III): 115 854 words before round 5 → 116 351 after (+497, +0.4 %), all ruled content
+(R5-02's held raised way and the wall that runs on beneath it at P1 – P12; R5-03's late change; VDC4-05's kept stretch;
+the narration "DXC-06, KXC-02" removed). Against the pre-coherence archive (85 919 words) the unit is +35.4 %: the owner's
+file g items 102–126 (new design at build depth) arrived after the archive, so the shrink band is not measurable on this
+unit alone; nothing here shrank by more than half, so no nuance audit was triggered.
