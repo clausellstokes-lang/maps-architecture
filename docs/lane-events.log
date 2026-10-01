@@ -2660,3 +2660,6 @@
 2026-10-01 11:57 coherence/orchestrator NOTE repair-V10-r3 landed (18 blocks, 0 ruling requests); 5 running: V03 V01 V02 V05 kernel
 2026-10-01 11:58 coherence/repair-V03-r3 LANDED docs/validation/coherence/repair-r3-V03.md docs/validation/coherence/results/coherence_repair-V03-r3.json (opus stand-in for the Fable seat; 10 REPLACE blocks from 29 count-asserted edits; 7 issues FIXED, 3 END lines written; 0 ruling requests; dry run byte-identical f4458cf4…)
 2026-10-01 11:58 coherence/orchestrator NOTE repair-V03-r3 landed (10 blocks, 0 ruling requests); 4 running: V01 V02 V05 kernel
+2026-10-01 12:00 coherence/repair-V05-r3 LANDED docs/validation/coherence/repair-r3-V05.md docs/validation/coherence/results/coherence_repair-V05-r3.json docs/validation/coherence/work/repair-V05-r3/ (opus stand-in for the Fable seat, PENDING FABLE REVIEW; 3 blocks — 3 REPLACE (§1.2, §3.22, ## 12); VAL-R2-04 and VKr2-07 FIXED, l. 11 as an ASSEMBLE NOTE; 0 ruling requests; dry run 3/3 applied, refs V05 broken 0; words 66120 -> 66121)
+2026-10-01 12:00 coherence/repair-V01-r3 CHECKPOINT P2 edits_a (32 count-asserted edits) applied, 11 REPLACE blocks generated in scratch rV01r3; next: diff review, refs, ids, dry run
+2026-10-01 12:00 coherence/orchestrator NOTE repair-V05-r3 landed (3 blocks, 0 ruling requests); 3 running: V01 V02 kernel
