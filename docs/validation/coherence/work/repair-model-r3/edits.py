@@ -57,23 +57,19 @@ rewrap(section(H26), '**The damage layer — the plan built, never redrawn', 'ba
 APPLIED += 2
 
 # ---- §2.7 ----------------------------------------------------------------------------------------------------------
-# VM-R2T-03 (the writers' home points to the hold, so no writer reads past it)
+# VM-R2T-03 (the writers' home points to the hold, so no writer reads past it); VM-R2T-10, amended (Part H): cite
+# V06 §3.7.7 (3), restate no order. One re-wrap from the writers' generation clause to the paragraph's end.
 rewrap(section(H27), "the wealth, at V11 §3.25.3's shares; item 114 (d)), every run's epoch 0",
-       '`repairWall` and the generation row set a material', '', '', [
+       'and epoch 0 throughout.', '', '', [
     ("and with the replay the replay's own epochs (V06 §3.20). Every writer sets",
-     "and with the replay the replay's own epochs (V06 §3.20). A stretch of the band under a raised way's crossing "
-     "station is held from these writers while its deck stands (*Raised ways*, below: the support step (3)). Every "
-     "writer sets", 1),
-])
-APPLIED += 1
-
-# VM-R2T-10, amended (Part H): cite V06 §3.7.7 (3), restate no order
-rewrap(section(H27), "*Readers:* §8.2's state rows and legend", 'and epoch 0 throughout.', '', '', [
+     "and with the replay the replay's own epochs (V06 §3.20). The stretch of the band under a raised way's crossing "
+     "station is held while its deck stands, as the support step (3) states (*Raised ways*, below). Every writer sets",
+     1),
     ("volume 6's transitions (V06 §3.7.7: patches rebuilt oldest first by the week of each run's `conditionEpoch` — "
      "its `EpochRecord.week`, so a replay epoch's patch before every live one's (§6.1) —, ties in chain order);",
      "volume 6's transitions (V06 §3.7.7 (3), which orders the patches' rebuilding);", 1),
 ])
-APPLIED += 1
+APPLIED += 2
 
 # VM-R2T-03 per R3-25 (d): the band under a crossing station held while the deck stands;
 # VEW-r2-01 per R3-25 (c): (6) a trace or moat laid across a standing raised way

@@ -22,6 +22,7 @@
 #   line dropped): 16 found, 16 applied, 0 skipped, audit not-OK 0, headings 65 → 65, fences 28 → 28 balanced, title
 #   block unchanged, rationale unchanged; output sha256 8f92dd3809e03132…, 680 177 bytes, 4 560 lines, byte-identical to
 #   the builder's expected volume; tables, ids, refs and doc checks below: done
+# - P4 result saved to docs/validation/coherence/results/coherence_repair-V06-r3.json; LANDED logged: done
 #
 # ISSUES → WHERE FIXED (18 routed ids: 17 FIXED in text, 1 MERGED; none INVALID; nothing parked)
 #  VAP-r2-04 (minor per R3-03 (a); R3-26)  T-V6-73's head "takes T114-1 – T114-5, T114-8 and T114-10's epoch clause"; its
