@@ -96,8 +96,8 @@ S('VAP-32',
 "V12): at U5 the owner rates, blind to which is which, SOLO 30 — ten CITY and five METROPOLIS underground bands, each seed\n"
 "in the historical and the navigable mode, shuffled, a ruin among the frames, each frame holding the cathedral's crypt (or\n"
 "the largest church's) and the largest catacomb complex — on `legibility` and `realism`, with one render in the reference\n"
-"family's hatched style beside the set (the side-by-side of the parity paragraph above); an unrated panel follows §13.6\n"
-"(7) — the build continues, the milestone is *provisional — not rated*.")
+"family's hatched style beside the set, shown and never rated (V12's `styleReference`; the side-by-side of the parity\n"
+"paragraph above); an unrated panel follows §13.6 (7) — the build continues, the milestone is *provisional — not rated*.")
 
 # ---- §8: U1's and U5's exits (VEW-01, VV34-16, G120-V04, VV34-02); the register's U1 row (VAL-05); the span-rule row (VV34-14)
 S('VEW-01',
