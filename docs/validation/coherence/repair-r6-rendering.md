@@ -25,9 +25,11 @@
 #   V01 §5.1.3 and its toggles table, V04 l. 2780, V09 §4.19, §4.20.8, §4.21.12 (4)–(7), the entity table, V10 §3.6
 #   rule 1 and §3.23 row 34: done
 # - P2 patches 010–080: done (5 ids fixed; the END line written; the sweeps below)
-# - P3 blocks generated; dry run on copies of the live files: in progress
-# - P4 doc checks, size: pending
-# - P5 result saved; LANDED: pending
+# - P3 blocks generated; dry run on copies of the live files: done (alone: 8 found, 8 applied, 0 skipped, audit not OK 0,
+#   headings 153 → 153, fences balanced, title block unchanged, the rationale byte-identical; with round 6's repair-r6-pipeline
+#   and repair-r6-scope as they stood at landing: the same)
+# - P4 doc checks, size: done
+# - P5 result saved; LANDED: done
 #
 # ISSUES → WHERE FIXED (5 routed ids; Part H: 5 FIX, 0 MERGED, 0 INVALID; nothing to a fix list)
 #  §11.2, §9.5, §11.6  VAT-r5-02 (FIX; R6-10): `ExportOpts.pins` — the view pins and the public notes above the map as the
@@ -133,8 +135,14 @@
 #  note a numbered marker at its thing's anchor (§11.2's `ExportOpts.pins`)" — V09's END line as Part H gives it already
 #  cites §11.2, so nothing is owed.
 #
-# SIZE (principle (9)): the eight subsections 96 178 → see the result line below; every added word is a fix's own text
-#  (no restatement, narration or duplicated mechanism added; one restatement removed — "drawn as the view draws them").
+# CHECKS (docs/validation/bench/doc_checks.py on the dry-run output, sections 8, 9, 11, 12; the reference corpus is
+#  incomplete in this checkout, so the result is NOT authoritative — the tool's warning, recorded): before C1 5 / C2 1 /
+#  C3 191 / C4 3 / S1 0 / S2 287 hits, 0 unreviewed; after C1 5 / C2 1 / C3 191 / C4 3 / S1 0 / S2 288 hits, 0 unreviewed
+#  (S2's one more is a resolved pointer the new text adds).
+#
+# SIZE (principle (9)): §8, §9, §11, §12 together 96 178 → 96 691 words (+513, +0.5 %); every added word is a fix's own
+#  text (no restatement, narration or duplicated mechanism added; one restatement removed — "drawn as the view draws
+#  them"). A repair round adds the fixes' content; the unit's shrink was taken in the earlier rounds.
 
 === REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2) ===
 ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)

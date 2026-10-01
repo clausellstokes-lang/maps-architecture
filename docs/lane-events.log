@@ -3221,3 +3221,4 @@
 2026-10-01 22:05 coherence/repair-model-r6 CHECKPOINT repair file written (3 REPLACE blocks: §2.1, §2.7, §2.9; 0 ruling requests); dry run on a copy OK; next: result file, LANDED
 2026-10-01 22:05 coherence/repair-model-r6 LANDED docs/validation/coherence/repair-r6-model.md docs/validation/coherence/results/coherence_repair-model-r6.json (opus seat; 9 issues: 8 FIXED, 1 MERGED, 0 INVALID; 2 END lines; 3 REPLACE blocks §2.1, §2.7, §2.9; 0 ruling requests; 2 minor hand-offs: pipeline §4.3, V11 §3.24.2)
 2026-10-01 22:05 coherence/orchestrator NOTE repair-model-r6 landed (3 whole-subsection blocks: §2.1, §2.7 with both crossing tables, §2.9; 0 ruling requests); launched repair-determinism-r6 in its slot
+2026-10-01 22:05 coherence/repair-rendering-r6 LANDED docs/validation/coherence/repair-r6-rendering.md docs/validation/coherence/results/coherence_repair-rendering-r6.json
