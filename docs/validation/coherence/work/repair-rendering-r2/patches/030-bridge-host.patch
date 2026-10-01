@@ -24,7 +24,7 @@
   `LayerSpec.visible`), a selection (`view.set { select: ids }`: the frame selects those entities as a user's list pick
   would, leaves out an id it does not hold or the viewer's key does not admit, and reports the selection by
   `entity.selected`; a command, never a stored key) — and these are commands, never inputs: the map never needs them, and
-  no document a dossier makes depends on them (§11.4; R2-33 (b)). **The host's clock (item 67; J-A67.82).** The clock the design calls
+  no document a dossier makes depends on them (§11.4). **The host's clock (item 67; J-A67.82).** The clock the design calls
 >>>>
 @@ FILE 11.4.md
 <<<<

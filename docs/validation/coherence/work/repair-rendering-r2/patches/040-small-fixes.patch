@@ -108,7 +108,7 @@ layer's own order (V04 §5.2) with V04 §5.2's per-family facts (M6-U). A CI tes
 ====
   those readings enters a cell. Every default row of ours — the field model, the cursor sun, the moon, the point lights,
   the ambient, occlusion and spill terms, item 117's season rows and sun through the year (§8.2, *Sun* below), item 118's
-  decorations (`live.festival`), item 122's crisis looks (`live.crises`), item 124's weather effects (§8.8) and §8.10's
+  decorations (`live.festival`), item 122's crisis looks (`live.crises`), item 124's weather effects (§8.2, §8.4 (i)) and §8.10's
   boats — carries the `extension` marker, so the parity presets switch it off: a parity preset draws the map as drawn,
   under its sheet's sun, in every week. Find (item 120) is a tool's overlay, not a look, and draws under every preset.
 >>>>

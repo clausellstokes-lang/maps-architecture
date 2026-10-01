@@ -48,7 +48,7 @@ ground and are never a mark's only cue (a tent has its ink rim, fog is a wash).
   when the winter is `cold` or `severe`, and `clear` otherwise — an arid row never snows by default; a viewer's value
   stands until the viewer changes it, except on an `arid` row and on any row whose winter does not freeze (`winter`
   `none`, or no `snow` band; V11 §3.25.6), where a `snow` value draws as `clear` in every week whatever the view holds:
-  no snow lies there and none falls (*Weather effects*, below; item 124 (c); R2-39 (a); T124-3). The view sun's default
+  no snow lies there and none falls (*Weather effects*, below; item 124 (c); T124-3). The view sun's default
   height follows the week (§8.4's *Sun*); item 102's model
 >>>>
 <<<<
@@ -85,20 +85,22 @@ byte-identical (`item122.crises`; T122-7).
 
   | look | city band | district band adds | neighbourhood band adds |
   |---|---|---|---|
-  | `siege` | each camp a cluster (its camped ground's hull in its army's colour at α 0.35, a `crisis.tent` dot per 400 m²) under its smoke; the siege line — the trench a 1.5 px `ink` line, its earthwork bank a 3 px `crisis.ash` band 6 m outward — round the walled arcs at the standoff; burned farmsteads as `crisis.ash` footprints | the tents in rows, the horse lines, the engines facing their gate or wall run, each army's banners | fires, carts, the trench's spoil |
-  | `blockade` | a camp cluster across each approach road | its tents; a `barricade` across the road | fires, carts |
-  | `refugeeCamp` | the camp's cluster on its land by the gate, its smoke | tents and `shanty` glyphs in rows along lanes; carts | cooking fires |
-  | `quarantine` | the fenced camp's cluster, its smoke | its fence, `hut` glyphs, the `pestHouse`, the `graveRow`s | in the affected quarter, `markedDoor`s and the `cordon` |
+  | `siege` | each army's camp a `campCluster` under its smoke; the siege line — the trench a 1.5 px `ink` line, its earthwork bank a 3 px `crisis.ash` band 6 m outward — round the walled arcs at the standoff; burned farmsteads as `crisis.ash` footprints | the tents in rows, the horse lines, the engines facing their gate or wall run, each army's banners | fires, carts, the trench's spoil |
+  | `blockade` | a `campCluster` across each approach road | its tents; a `barricade` across the road | fires, carts |
+  | `refugeeCamp` | the camp's `campCluster` on its land by the gate, its smoke | tents and `shanty` glyphs in rows along lanes; carts | cooking fires |
+  | `quarantine` | the fenced camp's `campCluster`, its smoke | its fence, `hut` glyphs, the `pestHouse`, the `graveRow`s | in the affected quarter, `markedDoor`s and the `cordon` |
   | `famine` | its fields bare (`bareField`, over item 117's crop stage) | its pens empty (`emptyPen`) | the principal market's stalls under `shutter` bars |
-  | `beast` | — | the edge's torn palisade sections (drawn as §8.2's `breached` run row), `watchFire`s along the edge | `stakes` barricades |
+  | `beast` | — | the edge's torn palisade sections (the `breached` wall-run row, below), `watchFire`s along the edge | `stakes` barricades |
   | `raiders` | burned outlying farms (`crisis.ash` footprints), smoke | abandoned carts; a `barricade` across each approach road | — |
   | `disaster` | its districts in the `ruinTone` | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
-  | `occupation` | the garrison camp's cluster | its tents; foreign `banner`s on the main gates and the castle, else the principal plaza | — |
+  | `occupation` | the garrison camp's `campCluster` | its tents; foreign `banner`s on the main gates and the castle, else the principal plaza | — |
   | `rebellion` | — | a `barricade` at each junction of the principal market's streets | — |
-  | `boom` | — | `scaffold` on the frontages (§8.2's Works program) | — |
+  | `boom` | — | `scaffold` on the frontages (the Works rows' program, below) | — |
   | `bust` | — | `shutter` bars on the shops' frontages | — |
 
-* **The glyphs** (our own; each at least 3 px at 1×; never drawn coarser than its look's band): `tent` a 4 × 3 m
+* **The glyphs** (our own; each at least 3 px at 1×; never drawn coarser than its look's band): `campCluster` a camp's
+  camped ground as its hull at α 0.35 — in its army's colour (`crisis.army.*` by the army's index in its coalition,
+  cycling past four), else in `crisis.tent` with an `ink` rim — with a 1-px `ink` dot per 400 m² of camp; `tent` a 4 × 3 m
   `crisis.tent` rectangle with an `ink` rim and a ridge tick; `shanty` a 3 × 3 m `plank` square with a broken rim; `hut` a
   4 × 4 m `plank` square with an `ink` rim; `pestHouse` an 8 × 6 m `plank` rectangle with a cross tick; `engine` a 6 m
   `plank` frame with a throwing-arm tick toward its target (a trebuchet), or a 6 × 3 m roofed shed where its target is a
@@ -115,7 +117,7 @@ byte-identical (`item122.crises`; T122-7).
   line — or by the dossier's headcounts at `areaPerHeadM2` (two armies twice the ground; engines one per
   `enginesPerBesiegers`), several looks sharing the outskirts by `priority` under `densityCap`, never on water, a way's
   carriageway, a gate's passage or a label's keep-out. A disaster's buildings draw item 123's damage layer at its row's
-  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; R2-37 (7)), and their districts the
+  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; item 122 (d)), and their districts the
   `ruinTone` at the city band; the look ends in the week its `reconstruction` Works begins (V06).
 * **Read without colour; never over a label** (item 122 (d); item 112). Each look is told by its glyph shapes — an army
   by its banner's glyph (plain, cross, chevron, saltire, cycling by its index in the coalition) beside its colour, a
@@ -128,7 +130,7 @@ byte-identical (`item122.crises`; T122-7).
   re-run when the week crosses a condition's edge, the crisis display or the key changes, the model changes or the view
   moves — so looks are made lazily, tile by tile (§12.5) — and, a `base` layer, joins the tile key (§8.8). Its rows carry
   the `extension` marker (§8.4 (h)): the parity presets draw no crisis look. Show crises and the preview land at M3b
-  (R2-36).
+  (§16).
 
 **Find (g item 120; J133): a view, never a change.** While §2.9's per-viewer key `find` holds a chip, or Show gaps is
 on, the overlay provider `live.find` (V09's) delivers the marks below for the visible region dilated by one tile, over
@@ -172,7 +174,7 @@ every style preset (§8.4 (h)).
 * **Layer and budget.** The marks' semantics `find.veil`, `find.halo`, `find.pin`, `find.bubble`, `find.ghost` and
   `find.gap` draw in slot 25, the veil first and the gaps last; never in a base raster, a light pass or a digest; the
   interaction budget §12.5's (suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of the click, the index rebuilt
-  once per commit). Find lands at M5 (R2-32).
+  once per commit). Find lands at M5 (§16).
 
 **Weather effects (g item 124; J137): drawn over the map, never in it.** The spell in force (§2.9's *Weather effects*:
 its kind from V11's climate weather columns for the climate row and the view's week, its strength s by its phase) is
@@ -193,14 +195,14 @@ light terms §8.4 (i). Positions, lengths and sways come from the spell's own dr
   The densities are s × the column's figure. During rain each water cell of §8.8's water mask may draw a **ripple** —
   a 1-px ring in `ink` (`lit`: `paper`) at α 0.2 growing from 0 to 6 CSS px over 0.6 s — at most 2 per 10 000 CSS px² of
   water.
-* **The hard rules** (item 124 (c); R2-39). On an `arid` row and on any row whose winter does not freeze, no snow
+* **The hard rules** (item 124 (c)). On an `arid` row and on any row whose winter does not freeze, no snow
   falls — a `snow` spell there draws nothing, and V11's compile check makes none — and none lies (*Snow and the sun*,
   above); rain in arid country comes only as V11's row allows it (T124-3, T124-4).
 * **Never in the way** (item 124 (e)). The layer lies above the tiles and below the labels, the chrome and every overlay
   (§8.8; T124-6); no lightning or flash (§8.4 (i)); its rows carry the `extension` marker, so the parity presets draw
   none (§8.4 (h)); it is off with V09's switch (`AppPrefs.weatherEffects`: off by default on the low tier and under
   reduced motion; T124-5) and the first thing Auto gives up (§8.4 (g)); no export draws it (§11.1). It lands at M3b
-  (R2-36).
+  (§16).
 
 **Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
 >>>>

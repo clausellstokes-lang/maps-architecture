@@ -1,0 +1,470 @@
+[
+{
+"where": "010-VAH31-types.patch:3",
+"file": "11.2.md",
+"old_w": 38,
+"new_w": 38
+},
+{
+"where": "010-VAH31-types.patch:8",
+"file": "11.2.md",
+"old_w": 22,
+"new_w": 20
+},
+{
+"where": "010-VAH31-types.patch:13",
+"file": "11.2.md",
+"old_w": 36,
+"new_w": 60
+},
+{
+"where": "010-VAH31-types.patch:21",
+"file": "11.2.md",
+"old_w": 21,
+"new_w": 18
+},
+{
+"where": "010-VAH31-types.patch:26",
+"file": "11.2.md",
+"old_w": 19,
+"new_w": 23
+},
+{
+"where": "020-api-controls.patch:3",
+"file": "11.2.md",
+"old_w": 31,
+"new_w": 47
+},
+{
+"where": "020-api-controls.patch:8",
+"file": "11.2.md",
+"old_w": 17,
+"new_w": 51
+},
+{
+"where": "020-api-controls.patch:14",
+"file": "11.2.md",
+"old_w": 60,
+"new_w": 100
+},
+{
+"where": "020-api-controls.patch:22",
+"file": "11.2.md",
+"old_w": 28,
+"new_w": 39
+},
+{
+"where": "020-api-controls.patch:27",
+"file": "11.2.md",
+"old_w": 25,
+"new_w": 42
+},
+{
+"where": "020-api-controls.patch:33",
+"file": "11.2.md",
+"old_w": 34,
+"new_w": 109
+},
+{
+"where": "020-api-controls.patch:41",
+"file": "11.2.md",
+"old_w": 49,
+"new_w": 56
+},
+{
+"where": "020-api-controls.patch:48",
+"file": "11.2.md",
+"old_w": 23,
+"new_w": 33
+},
+{
+"where": "020-api-controls.patch:53",
+"file": "11.2.md",
+"old_w": 26,
+"new_w": 30
+},
+{
+"where": "020-api-controls.patch:58",
+"file": "11.2.md",
+"old_w": 34,
+"new_w": 44
+},
+{
+"where": "030-bridge-host.patch:4",
+"file": "11.3.md",
+"old_w": 18,
+"new_w": 35
+},
+{
+"where": "030-bridge-host.patch:10",
+"file": "11.3.md",
+"old_w": 82,
+"new_w": 225
+},
+{
+"where": "030-bridge-host.patch:30",
+"file": "11.4.md",
+"old_w": 78,
+"new_w": 262
+},
+{
+"where": "030-bridge-host.patch:51",
+"file": "11.1.md",
+"old_w": 56,
+"new_w": 57
+},
+{
+"where": "040-small-fixes.patch:5",
+"file": "8.2.md",
+"old_w": 18,
+"new_w": 22
+},
+{
+"where": "040-small-fixes.patch:11",
+"file": "8.2.md",
+"old_w": 69,
+"new_w": 111
+},
+{
+"where": "040-small-fixes.patch:26",
+"file": "8.2.md",
+"old_w": 190,
+"new_w": 244
+},
+{
+"where": "040-small-fixes.patch:51",
+"file": "8.2.md",
+"old_w": 46,
+"new_w": 64
+},
+{
+"where": "040-small-fixes.patch:59",
+"file": "8.2.md",
+"old_w": 67,
+"new_w": 107
+},
+{
+"where": "040-small-fixes.patch:74",
+"file": "8.2.md",
+"old_w": 37,
+"new_w": 62
+},
+{
+"where": "040-small-fixes.patch:84",
+"file": "8.1.md",
+"old_w": 65,
+"new_w": 42
+},
+{
+"where": "040-small-fixes.patch:93",
+"file": "8.4.md",
+"old_w": 56,
+"new_w": 116
+},
+{
+"where": "040-small-fixes.patch:105",
+"file": "8.4.md",
+"old_w": 40,
+"new_w": 101
+},
+{
+"where": "050-comfort.patch:3",
+"file": "12.1.md",
+"old_w": 85,
+"new_w": 151
+},
+{
+"where": "050-comfort.patch:18",
+"file": "12.7.md",
+"old_w": 41,
+"new_w": 41
+},
+{
+"where": "050-comfort.patch:25",
+"file": "12.7.md",
+"old_w": 40,
+"new_w": 72
+},
+{
+"where": "050-comfort.patch:34",
+"file": "12.10.md",
+"old_w": 105,
+"new_w": 119
+},
+{
+"where": "060-s88.patch:6",
+"file": "8.8.md",
+"old_w": 208,
+"new_w": 353
+},
+{
+"where": "060-s88.patch:36",
+"file": "8.8.md",
+"old_w": 39,
+"new_w": 218
+},
+{
+"where": "060-s88.patch:52",
+"file": "8.8.md",
+"old_w": 53,
+"new_w": 77
+},
+{
+"where": "060-s88.patch:62",
+"file": "8.8.md",
+"old_w": 39,
+"new_w": 112
+},
+{
+"where": "060-s88.patch:72",
+"file": "8.8.md",
+"old_w": 398,
+"new_w": 1379
+},
+{
+"where": "060-s88.patch:151",
+"file": "8.8.md",
+"old_w": 103,
+"new_w": 633
+},
+{
+"where": "070-s84.patch:5",
+"file": "8.4.md",
+"old_w": 67,
+"new_w": 229
+},
+{
+"where": "070-s84.patch:22",
+"file": "8.4.md",
+"old_w": 22,
+"new_w": 457
+},
+{
+"where": "080-s82.patch:7",
+"file": "8.2.md",
+"old_w": 22,
+"new_w": 78
+},
+{
+"where": "080-s82.patch:17",
+"file": "8.2.md",
+"old_w": 12,
+"new_w": 39
+},
+{
+"where": "080-s82.patch:23",
+"file": "8.2.md",
+"old_w": 34,
+"new_w": 142
+},
+{
+"where": "080-s82.patch:31",
+"file": "8.2.md",
+"old_w": 23,
+"new_w": 186
+},
+{
+"where": "080-s82.patch:44",
+"file": "8.2.md",
+"old_w": 40,
+"new_w": 90
+},
+{
+"where": "080-s82.patch:54",
+"file": "8.2.md",
+"old_w": 35,
+"new_w": 75
+},
+{
+"where": "080-s82.patch:63",
+"file": "8.2.md",
+"old_w": 22,
+"new_w": 31
+},
+{
+"where": "080-s82.patch:70",
+"file": "8.2.md",
+"old_w": 15,
+"new_w": 2560
+},
+{
+"where": "080-s82.patch:209",
+"file": "8.2.md",
+"old_w": 18,
+"new_w": 69
+},
+{
+"where": "080-s82.patch:216",
+"file": "8.2.md",
+"old_w": 12,
+"new_w": 34
+},
+{
+"where": "080-s82.patch:222",
+"file": "8.2.md",
+"old_w": 21,
+"new_w": 26
+},
+{
+"where": "080-s82.patch:227",
+"file": "8.2.md",
+"old_w": 15,
+"new_w": 20
+},
+{
+"where": "090-s86-s81.patch:5",
+"file": "8.6.md",
+"old_w": 74,
+"new_w": 786
+},
+{
+"where": "090-s86-s81.patch:55",
+"file": "8.1.md",
+"old_w": 17,
+"new_w": 44
+},
+{
+"where": "100-s811.patch:5",
+"file": "8.11.md",
+"old_w": 158,
+"new_w": 325
+},
+{
+"where": "100-s811.patch:10",
+"file": "8.11.md",
+"old_w": 165,
+"new_w": 295
+},
+{
+"where": "100-s811.patch:15",
+"file": "8.11.md",
+"old_w": 156,
+"new_w": 1354
+},
+{
+"where": "110-s95.patch:5",
+"file": "9.5.md",
+"old_w": 43,
+"new_w": 111
+},
+{
+"where": "110-s95.patch:16",
+"file": "9.5.md",
+"old_w": 4,
+"new_w": 125
+},
+{
+"where": "110-s95.patch:27",
+"file": "9.5.md",
+"old_w": 90,
+"new_w": 148
+},
+{
+"where": "120-s111.patch:5",
+"file": "11.1.md",
+"old_w": 19,
+"new_w": 217
+},
+{
+"where": "120-s111.patch:21",
+"file": "11.1.md",
+"old_w": 16,
+"new_w": 40
+},
+{
+"where": "120-s111.patch:27",
+"file": "11.1.md",
+"old_w": 36,
+"new_w": 50
+},
+{
+"where": "120-s111.patch:35",
+"file": "11.1.md",
+"old_w": 77,
+"new_w": 134
+},
+{
+"where": "130-s112-find.patch:4",
+"file": "11.2.md",
+"old_w": 11,
+"new_w": 52
+},
+{
+"where": "130-s112-find.patch:11",
+"file": "11.2.md",
+"old_w": 45,
+"new_w": 326
+},
+{
+"where": "130-s112-find.patch:28",
+"file": "11.2.md",
+"old_w": 22,
+"new_w": 180
+},
+{
+"where": "140-s116.patch:3",
+"file": "11.6.md",
+"old_w": 88,
+"new_w": 174
+},
+{
+"where": "150-s121.patch:3",
+"file": "12.1.md",
+"old_w": 23,
+"new_w": 119
+},
+{
+"where": "160-s125.patch:4",
+"file": "12.5.md",
+"old_w": 42,
+"new_w": 355
+},
+{
+"where": "170-s128.patch:3",
+"file": "12.8.md",
+"old_w": 15,
+"new_w": 100
+},
+{
+"where": "170-s128.patch:13",
+"file": "12.8.md",
+"old_w": 86,
+"new_w": 120
+},
+{
+"where": "180-s1210.patch:4",
+"file": "12.10.md",
+"old_w": 139,
+"new_w": 152
+},
+{
+"where": "180-s1210.patch:9",
+"file": "12.10.md",
+"old_w": 75,
+"new_w": 416
+},
+{
+"where": "190-s89.patch:4",
+"file": "8.9.md",
+"old_w": 19,
+"new_w": 45
+},
+{
+"where": "190-s89.patch:11",
+"file": "8.9.md",
+"old_w": 21,
+"new_w": 45
+},
+{
+"where": "190-s89.patch:17",
+"file": "8.9.md",
+"old_w": 69,
+"new_w": 120
+},
+{
+"where": "190-s89.patch:22",
+"file": "8.9.md",
+"old_w": 5,
+"new_w": 11
+}
+]

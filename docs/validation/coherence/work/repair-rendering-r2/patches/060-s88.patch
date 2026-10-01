@@ -20,7 +20,7 @@
   max(their width, height) ≤ the short side in CSS px × m_k — the limit bounds being `bounds` (§8.1's
   `DisplayList.bounds`: a town's frame, a village's township — land the frame laws already cap, §3.2 (9)) and, while a
   crisis look stands, the bounds of town and camps (§2.9's *The crisis framing*; g item 122 (i)); the margin is the base
-  settings cell `view.zoomOutMarginStops` (V11 §3.25.5). **Where no stop fits** (R2-30; J122) — the limit bounds wider
+  settings cell `view.zoomOutMarginStops` (V11 §3.25.5). **Where no stop fits** (J122) — the limit bounds wider
   than the short side × m_0, as the METROPOLIS cap's 17.53 km frame (§3.2) is on any short side under ≈ 1 465 CSS px —
   k_fit is 0 and k_min is 0: the limit is the pyramid's coarsest stop, a ceiling on zoom-out as the owner asked; the view
   there shows as much of the limit bounds as fits, centred by §9.5's framing, and the view status says that the town is
@@ -94,7 +94,8 @@
   (g item 121 (e); J134). The tile DPR starts at the device's pixel ratio capped by the tier, the 4K ceiling and the
   Resolution setting (below), rounded down to the **ladder** 3 · 2 · 1.5 · 1 · 0.75 · 0.5 (the two steps below 1 drawn
   below CSS density and scaled up by the compositor); a need that does not fit the ceiling is met by giving up, in this
-  order, until it fits: full precision (to the standard surface), the tile DPR's steps down to 1 — 3 → 2 → 1.5 → 1, a
+  order, until it fits: the weather effects (their coverage plane and atlas), full precision (to the standard surface),
+  the tile DPR's steps down to 1 — 3 → 2 → 1.5 → 1, a
   step whose positions number as many as the step below it being passed over —, the light pass (the vector rung, at DPR 1),
   then the steps below 1 (0.75 → 0.5); under a manual level the level's DPR is kept until nothing else is left, then the
   nearest lower step that fits is drawn and said (below). Where no step down to 0.5 fits beside the text layer at D, the
@@ -132,8 +133,8 @@
   rounded down to the ladder — a 5K, 6K or 8K screen drawn at its 4K-equivalent DPR and scaled up; exports are not bound
   by it (§8.7's any DPI). **Auto** starts at the fitted d with the light rung chosen at app start (§8.4 (g)) and then runs
   the **Auto loop** over **Auto's ladder** — the weather effects; full precision; rung 1's full-resolution global term
-  (rung 2 below it); the tile DPR's steps down to 1; the light pass (the vector rung); the steps below 1 (§8.4 (g)'s
-  order, from the top): the frame time — each frame's main-thread work and GPU pass, by GPU timer queries where the
+  (to rung 2's half resolution); the tile DPR's steps down to 1; the light pass (the vector rung); the steps below 1
+  (§8.4 (g)'s order, from the top): the frame time — each frame's main-thread work and GPU pass, by GPU timer queries where the
   context offers them, else by frame intervals — is held as a rolling p95; a p95 over the tier's frame budget (§12.5:
   16.7 ms on the mid, high and ultra tiers, 33.3 ms on the low tier) through 2 s steps one rung down; a p95 under 60 % of
   it through 10 s, with the canvas need of the rung above fitting, steps one rung up. A change is applied only when the
@@ -145,7 +146,7 @@
   and read by V09's view-status chip. **A level the device cannot hold** (item 121 (f)) draws the nearest lower step that
   fits by the order above, its reason `memory`, and V09 says so (`info.resolution.fallback`) — never a refusal, never a
   crash (T121-4). Labels, text, the chrome and every overlay stay at D by the split composition at every level (T121-5);
-  exports and the document are byte-identical whatever the setting (`item121.display`, T121-6). It lands at M4 (R2-36).
+  exports and the document are byte-identical whatever the setting (`item121.display`, T121-6). It lands at M4 (§16).
 >>>>
 <<<<
 * **Gestures (SCL-7, VIS-6).** During a pinch or wheel zoom the compositor shows the nearest cached stop's composed tiles
@@ -175,7 +176,7 @@
   is drawn. Each family's effect sprites are rastered once by Canvas2D into a sprite atlas (≤ 0.5 MB), so the WebGL2 and
   the Canvas2D compositors draw the same look (§8.9). The layer is in no tile key and touches no cached tile: a spell
   re-rasters and re-composes nothing (T124-1); no export draws it (§11.1); it is the first thing Auto gives up (above)
-  and costs ≈ 1 ms per frame at its densest (§12.5). It lands at M3b (R2-36).
+  and costs ≈ 1 ms per frame at its densest (§12.5). It lands at M3b (§16).
 * **The surrounding ring (g item 122 (i); J138).** Camps stand on the land the map holds — the frame and its context
   margin (§3.2 (9)). The camped ground §10.2's *Crisis looks* (e) cannot place there — a force too large for that land,
   the outskirts full under the density cap, an island town with no land beyond its shore — is drawn at the city band

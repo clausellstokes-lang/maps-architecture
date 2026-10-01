@@ -28,18 +28,18 @@ same tag with the element's ordinal in place of the cell, so nothing moves):
 |---|---|
 | wall run (outer) | a gap in its line, a bar across each end, and a rubble spill — 1-px `ink` dots at density 0.4 — over the run's band and one wall thickness each side; on the building band's exterior (V02) a gap in the footprint's outline |
 | partition | a stub at each end, half a wall thickness long, and the rubble spill along its line |
-| floor area | on an upper storey a hole: the area under the `void` hatch, its edge a broken hairline, the storey below seen through it as `trace` hairlines; on the ground floor and below, a rotten patch in `ground` stipple, still walkable |
+| floor area | on an upper storey a hole: the area filled in `void` under a dense `ink` cross-hatch at α 0.4 (the drop), its edge a broken hairline, the storey below seen through it as `trace` hairlines; on the ground floor and below, a rotten patch in `ground` stipple, still walkable |
 | door | its leaf and swing arc gone: an open gap, one jamb tick broken |
 | window | its double line replaced by a single broken tick |
 | stair | its flights dashed and broken at mid-flight (no way up) |
-| roof bay over a room | the room open to the sky: its floor under a sky hatch — diagonal `light` hairlines at α 0.5 — and, on the exterior (V02), a hole in the roof over it |
+| roof bay over a room | the room open to the sky: its floor under a single-direction `ink` hatch at α 0.2, 4 px apart — told from a hole's cross-hatch — and, on the exterior (V02), a hole in the roof over it |
 | furniture piece | broken into two or three fragments of its outline at the furniture role, shifted ≤ 0.3 m by the keyed draw |
 
 As the level rises the damage only accumulates, each element breaking at its own threshold in its own place and never
 moving (T123-2, T123-3); the states' looks follow from where V11's ranges place the thresholds — at `abandoned`, dust
 and debris (the floors' rubble stipple at density 0.1 × the level), broken furniture and doors off; at `decayed`, rotten
 patches and holes, partitions down, roof bays open; at `ruined`, outer walls broken, the upper storeys mostly floorless —
-fragments over the `void` hatch — and the ground floor the only walkable storey, cellars and crypts by their own
+fragments over the hole's cross-hatch — and the ground floor the only walkable storey, cellars and crypts by their own
 thresholds (a ruined church keeps its crypt where its thresholds hold it, V03 §5.1). A room any of whose floor areas or
 the roof bay over which is drawn damaged is marked **unsafe** — a dashed `ink` diagonal cross over it at α 0.5, its label
 dropped — a shape, never a colour alone (item 112). A restoration lowers the level and the damage leaves in reverse
@@ -49,7 +49,7 @@ Every room, wall, opening and id is the built plan's (T123-1). A building of a d
 same layer at its row's `lookLevel` by severity, or at its own level where that is higher (§8.2's *Crisis looks*). A
 building never decayed draws byte-identically to its plan without the layer (`item123.damage`; T123-7); the drawn week
 joins its tiles' key (§8.8). It lands with V03's plan step that draws a decayed or ruined plan, the levels from V06 at
-M6-E and, before them, from the existence state at V11's default age (R2-36; R2-38 (3)).
+M6-E and, before them, from the existence state at V11's default age (§16).
 >>>>
 @@ FILE 8.1.md
 <<<<
