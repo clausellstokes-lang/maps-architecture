@@ -233,7 +233,8 @@ walls held (V04 §3.5.5 (a)).
 (V04 §1b.2), V06's `under.extend`'s first act (V06 §3.18.1 (6)), at every rung, the maintenance mode included: over the new
 footprints and basement rings of `scope.built` and `scope.basementGrown`, the raised-way piers of the raised ways in
 `scope.raised` (V06 §2.1: every raised way whose `feet`, `supports` or `spans` the epoch changed, a trace's crossing
-station and the frame growth's deck extension among them) and the footings of the retaining walls in `scope.levelled`, it applies this paragraph's rule to the
+station and the frame growth's deck extension among them) and the footings of the retaining walls in
+`scope.levelled`, it applies this paragraph's rule to the
 elements within reach of those obstacles — an older void's stretch split out `collapsed`, a chamber covered by at least
 `collapseShare` `collapsed`, one covered less holding the footing as a pillar, a later system's element `collapsed` (a
 catacomb's staying in its extent, V04 §3.5.1 (6)) — cause `foundation` with `event` the epoch's `seq`, one batch per part,
@@ -1115,7 +1116,8 @@ fixture of each row runs at every rung the row names).
 ### 5.1 The underground view (§8.4; item 413; J-V4.31)
 
 Hidden by default at every rung (§8.4). When the underground layer is drawn — visible, or Below the view's working
-layer (§8.4) — one depth band draws at a time (`depthBand`, §2.9; its default §8.4's), in one of three modes, `LayerSpec.underView` (item 413), default `cutaway`:
+layer (§8.4) — one depth band draws at a time (`depthBand`, §2.9; its default §8.4's), in one of three modes,
+`LayerSpec.underView` (item 413), default `cutaway`:
 * **`cutaway`** — the ground drawn first as a **ghost**: every ground mark at `ghostAlpha`, in its luminance only, ground
   labels hidden but for the district and quarter labels at half alpha; then the band's underground marks over it, so every
   tunnel reads against the street above it;
@@ -1138,7 +1140,8 @@ wall and door are the base's drawing.
 **Find on Below (g item 120 (f), (h); J-V4.127).** Find — §2.9's per-viewer view key `find`, V09's panel and `live.find`
 overlay provider, §8.2's veil, halo, outline, pin and count-bubble rows, §11.2's gazetteer match listing at the view's
 effective key — reads this volume for what lies Below through one derived reading, `underFindPlaces(doc, ids)`
-(`@plat/under`, never stored; `doc` the model the view draws, (7)): for each matched id on an underground part — an underground building and its use (a sewer
+(`@plat/under`, never stored; `doc` the model the view draws, (7)): for each matched id on an underground part — an
+underground building and its use (a sewer
 dwelling, an F4, F6 or C4 building, an undercity institution), an undercity or sewer-front district, a named system or
 catacomb complex, a named run, the core's plaza, a named chamber — it gives the part, the depth bands its open elements
 occupy (§8.4's `depthBandCm`), its glow shape in each of those bands (a footprint, a chamber's wall, a run's or gallery's
@@ -1216,7 +1219,8 @@ this volume states what is particular below ground. It is a drawing only: no rec
    cleared undercity neighbourhood vacates (V04 §3.10), a void dwelling vacated on a floor `Foundations.apply`
    collapses; its restoration is V06 §3.23 (3)'s, as for every building. Where a disaster look stands over its building
    (item 122 (d): a building of one of the look's units, §10.2 (d), on which V06 §3.22 (3)'s `crisisLookYields` is not
-   yet true, and every building of a preview's units; V03 §5.6 (4)), a storey below 0 draws at its building's drawn level — `PlanDamage.level`, the higher of
+   yet true, and every building of a preview's units; V03 §5.6 (4)), a storey below 0 draws at its building's drawn
+   level — `PlanDamage.level`, the higher of
    its own level and the look's `lookLevel` by severity — its kinds' thresholds unchanged, the look leaving no patch; the
    per-storey scene's walls, portals and lights stay at the own level, the look in its image only (V03 §5.3;
    V03 §5.6 (2) (d)). An underground building lies in no look's unit — V01's `disasterDistricts` returns ground part 0's
@@ -1309,7 +1313,8 @@ catacomb complex's layout, ≤ 2 ms).
 **The first edit after the first map.** The tail yields between stages to a queued view request, never to an edit, so an
 edit queued during the tail commits within §12.6's budget for its scope plus the tail's remaining p95 (T-V4-42).
 
-**View.** Showing the layer (its toggle, or Below made the view's working layer, §8.4) or switching band re-rasters the visible tiles of the underground layer only (the ground's ghost
+**View.** Showing the layer (its toggle, or Below made the view's working layer, §8.4) or switching band re-rasters the
+visible tiles of the underground layer only (the ground's ghost
 is the cached ground tiles composited at `ghostAlpha`): ≤ 150 ms to the lit band at CITY on the reference device, the unlit
 band first within one frame (J-A68.88's order). The light pass's frame and bake budgets are §12.5's; a band's bake is keyed
 by the band, so returning to a band reuses its bake.
@@ -1463,7 +1468,7 @@ are the specs' parameters.
 | T-V4-60 | siting (item 103 (e)) | underground members' supply, clientele and competition distances by `underDistance` beat a random-placement baseline; no undercity guild seat within the garrison's repel radius in plan; a member with no admissible way out reads out of reach, never at distance 0 | nightly |
 | T-V4-61 | custom content (B-DOSSIER) | custom fixtures — tag only, scene archetype only, an active chain with a subterranean resource — each reach the underground (a placement below, or the chain mine) | nightly |
 | T-V4-62 | arch vaults (200 CITY and 100 METROPOLIS seeds with raised ways, and the second known-city fixture) | an arch vault in exactly each `vault` span, keyed by its way and raised-way piers — none over a part-0 way, water, a flood cell or a strip wholly on hinterland land-use faces (reason `country`, at every rung including the village rungs; J-C4); each headroom within [`minHeadroomCm`, `maxHeightCm`] and each fall under the span ≤ `maxFallCm` (§2.7, item 244); a door on an open face, or `W_ARCH_VAULT_NO_DOOR`; 0 arch vaults in an undercity cluster, a forced-vault count, U-FADE's candidates, an L3 or U-DIG target or a sewer-front block; each `collapsed` exactly when V04 §3.5.4 (d) (2) says so (the span's or a bounding support's `state` `ruined` or `cleared`, a landfall's included, or the span breached or dismantled) | nightly |
-| T-V4-63 | lifecycle (B-EDIT sequences with raised-way events) | on 100 %: a removed raised way, generated or drawn, leaves no arch vault, door, link or access after its removal and after a regeneration; its undo restores them with the same ids; a user-added raised way's `vault` spans have their vaults in the same commit; a span's `use` edit lays or removes exactly that vault and survives a regeneration; an epoch that founds a raised way (V06's `under.extend`) lays its vaults in the epoch's commit; on a CITY fixture whose viaduct holds a `vault` span with its arch vault, crossed through one of its stations by an epoch circuit and, on a second run, by a hand `drawWall` (§2.7's support step (6) (b) (iii)), and an aqueduct whose deck an epoch's frame growth extends to the new ring (§3.2 (9)): after each commit every arch vault's key names a standing span of use `vault`, its footprint lies between that span's raised-way piers' inner faces (the crossing station's its band stretch), no chamber stands under an `open` span, each new `vault` span holds its chamber, and `foundationObstacles` reads the new supports in that commit; the hand case's undo restores the vaults with the same ids and footprints | PR |
+| T-V4-63 | lifecycle (B-EDIT sequences with raised-way events) | on 100 %: a removed raised way, generated or drawn, leaves no arch vault, door, link or access after its removal and after a regeneration; its undo restores them with the same ids; a user-added raised way's `vault` spans have their vaults in the same commit; a span's `use` edit lays or removes exactly that vault and survives a regeneration; an epoch that founds a raised way (V06's `under.extend`) lays its vaults in the epoch's commit; on a CITY fixture whose viaduct holds a `vault` span with its arch vault, crossed through one of its stations by an epoch circuit and, on a second run, by a hand `drawWall` (§2.7's support step (6) (b) (iii)), and an aqueduct whose deck an epoch's frame growth extends to the new ring (§3.2 (9)): after each commit every arch vault's key names a standing span of use `vault`, its footprint lies between that span's raised-way piers' inner faces (a crossing station's support its band stretch), no chamber stands under an `open` span, each new `vault` span holds its chamber, and `foundationObstacles` reads the new supports in that commit; the hand case's undo restores the vaults with the same ids and footprints | PR |
 | T-V4-64 | ground parts | 0 sewer edges, junctions, runs or gratings on a raised part; no tunnel `follows` a raised way; no street vault under a raised ramp; no bridge vault at a raised deck; every access's `ground.host` a part-0 face, none inside a raised-way pier's footprint | PR |
 | T-V4-65 | foundations | 0 open void floor or open gallery stretch within reach of a foundation obstacle (raised-way piers to `span.supportFoundationCm`, retaining-wall footings, buried aqueduct stretches); 0 later-system elements laid within reach; 0 dig accesses from a raised-way pier; removing the raised way returns the older voids' stretches to their state without it; **at an epoch:** `Foundations.apply` over a raised way founded over a lived cavern chamber, a basement grown over a ruin gallery and a terrace levelled over a cavern collapses exactly the element set a regeneration of the same state collapses (V06's T-V6-67), returns the vacated dwellings' households by id and draws nothing | nightly |
 | T-V4-66 | the aqueduct seam | the base's raised-way set, span uses and aqueduct verdicts byte-identical with the underground tail run and not run; every cistern where `min(dist.water, the nearest delivery point) > cisternDistM`, or forced by a record; one terminal cistern per `cistern` terminal, under its conduit house's yard or public ground with a `well`, or `W_TERMINAL_CISTERN_SKIPPED`; the terminal building's plot connected as `channel` where a run lies within reach | nightly |

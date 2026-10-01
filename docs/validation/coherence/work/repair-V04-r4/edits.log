@@ -14,11 +14,11 @@ edits_a	VAL-R3-05 §2.6 underFindPlaces row	1	"| recomputed at each commit that 
 edits_a	END VAL-R3-01 §5.1 lead	1	'Hidden by default at every rung (§8.4). When the underground layer is visible, o'
 edits_a	R4-02 sweep §5.1 document opened	1	'document opened with the underground visible shows'
 edits_a	R4-02 sweep §5.4 label candidates	1	'a candidate only while the underground is visible and its band drawn,'
-edits_a	R4-02 sweep §6 View	1	'**View.** Showing the layer or switching band re-rasters'
+edits_a	R4-02 sweep §6 View	1	'**View.** Showing the layer or switching band re-rasters the visible tiles of th'
 edits_a	R4-02 sweep §5.1 (2) Go there	1	"   with their count; **Go there** sets `depthBand` to the match's shallowest ban"
 edits_a	R4-02 sweep UE32 E7	1	'E7: the layer hidden (every match Below a ghost pin)'
 edits_a	R4-02 sweep T-V4-81 (b) Go there	1	"and **Go there** sets `depthBand` to the match's shallowest band; with Ground sh"
-edits_a	VAL-R3-05 §5.1 doc is the model the view draws	1	'(`@plat/under`, never stored): for each matched id on an underground part'
+edits_a	VAL-R3-05 §5.1 doc is the model the view draws	1	'(`@plat/under`, never stored): for each matched id on an underground part — an u'
 edits_a	VAL-R3-05 §5.1 (6) and new (7)	1	"   underground epoch participant's — and the chips re-evaluate then (V09).\n"
 edits_a	VAL-R3-05 UE32 E8	1	'E8: a view — the chips saved in view pins, re-evaluated after load, undo, redo, '
 edits_a	VAL-R3-05 T-V4-81 (j)	1	'pins and ghost pins closer than about 24 px merge into a count bubble whose numb'

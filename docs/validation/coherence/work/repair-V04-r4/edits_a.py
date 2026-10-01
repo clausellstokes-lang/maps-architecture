@@ -57,10 +57,11 @@ S('VAL-R3-03 §2.6 arch-vault row regenerate',
 # ---- §3.5.0 *At an epoch*: Foundations.apply over EpochScope.raised (the epoch side of the foundations re-read)
 S('VAL-R3-03 §3.5.0 Foundations.apply scope.raised',
   "the raised-way piers of the parts in\n"
-  "`scope.raised` and the footings of the retaining walls in `scope.levelled`,",
+  "`scope.raised` and the footings of the retaining walls in `scope.levelled`, it applies this paragraph's rule to the\n",
   "the raised-way piers of the raised ways in\n"
   "`scope.raised` (V06 §2.1: every raised way whose `feet`, `supports` or `spans` the epoch changed, a trace's crossing\n"
-  "station and the frame growth's deck extension among them) and the footings of the retaining walls in `scope.levelled`,")
+  "station and the frame growth's deck extension among them) and the footings of the retaining walls in\n"
+  "`scope.levelled`, it applies this paragraph's rule to the\n")
 S('VAL-R3-03 §3.5.0 no obstacle removed (sweep)',
   "An epoch op removes no obstacle — a breached\n"
   "or dismantled span keeps its piers' footings (V06 §3.19.2), a tombstoned wall its footing (above) — so the element set it\n",
@@ -122,8 +123,8 @@ S('VAL-R3-03 T-V4-63 fixture',
   "viaduct holds a `vault` span with its arch vault, crossed through one of its stations by an epoch circuit and, on a "
   "second run, by a hand `drawWall` (§2.7's support step (6) (b) (iii)), and an aqueduct whose deck an epoch's frame "
   "growth extends to the new ring (§3.2 (9)): after each commit every arch vault's key names a standing span of use "
-  "`vault`, its footprint lies between that span's raised-way piers' inner faces (the crossing station's its band "
-  "stretch), no chamber stands under an `open` span, each new `vault` span holds its chamber, and `foundationObstacles` "
+  "`vault`, its footprint lies between that span's raised-way piers' inner faces (a crossing station's support its "
+  "band stretch), no chamber stands under an `open` span, each new `vault` span holds its chamber, and `foundationObstacles` "
   "reads the new supports in that commit; the hand case's undo restores the vaults with the same ids and footprints | PR |")
 
 # =====================================================================================================================
@@ -147,9 +148,10 @@ S('VAL-R3-05 §2.6 underFindPlaces row',
 # ---- §5.1's lead: END of VAL-R3-01 (R4-02)
 S('END VAL-R3-01 §5.1 lead',
   "Hidden by default at every rung (§8.4). When the underground layer is visible, one depth band draws at a time (`depthBand`,\n"
-  "§2.9; its default §8.4's), in one of three modes,",
+  "§2.9; its default §8.4's), in one of three modes, `LayerSpec.underView` (item 413), default `cutaway`:",
   "Hidden by default at every rung (§8.4). When the underground layer is drawn — visible, or Below the view's working\n"
-  "layer (§8.4) — one depth band draws at a time (`depthBand`, §2.9; its default §8.4's), in one of three modes,")
+  "layer (§8.4) — one depth band draws at a time (`depthBand`, §2.9; its default §8.4's), in one of three modes,\n"
+  "`LayerSpec.underView` (item 413), default `cutaway`:")
 # sweep (R4-01 (2)): "visible" read as "drawn" where it gates the drawing
 S('R4-02 sweep §5.1 document opened',
   "document opened with the underground visible shows",
@@ -159,8 +161,9 @@ S('R4-02 sweep §5.4 label candidates',
   "a candidate only while the underground is drawn — visible, or Below the view's working layer (§8.4) — and its band\n"
   "drawn,")
 S('R4-02 sweep §6 View',
-  "**View.** Showing the layer or switching band re-rasters",
-  "**View.** Showing the layer (its toggle, or Below made the view's working layer, §8.4) or switching band re-rasters")
+  "**View.** Showing the layer or switching band re-rasters the visible tiles of the underground layer only (the ground's ghost\n",
+  "**View.** Showing the layer (its toggle, or Below made the view's working layer, §8.4) or switching band re-rasters the\n"
+  "visible tiles of the underground layer only (the ground's ghost\n")
 S('R4-02 sweep §5.1 (2) Go there',
   "   with their count; **Go there** sets `depthBand` to the match's shallowest band (a view key, never an edit). A match on\n"
   "   Ground or Sky is a ghost pin at its plan anchor over the ghost (item 120 (f)).\n",
@@ -177,8 +180,9 @@ S('R4-02 sweep T-V4-81 (b) Go there',
 
 # ---- §5.1 *Find on Below*: the model read, the week's re-read and the drawn week (R4-12)
 S('VAL-R3-05 §5.1 doc is the model the view draws',
-  "(`@plat/under`, never stored): for each matched id on an underground part",
-  "(`@plat/under`, never stored; `doc` the model the view draws, (7)): for each matched id on an underground part")
+  "(`@plat/under`, never stored): for each matched id on an underground part — an underground building and its use (a sewer\n",
+  "(`@plat/under`, never stored; `doc` the model the view draws, (7)): for each matched id on an underground part — an\n"
+  "underground building and its use (a sewer\n")
 S('VAL-R3-05 §5.1 (6) and new (7)',
   "   underground epoch participant's — and the chips re-evaluate then (V09).\n",
   "   underground epoch participant's — and the chips re-evaluate then (V09); and at each change of §2.9's `week` (a\n"
@@ -211,10 +215,11 @@ S('VAL-R3-05 T-V4-81 (j)',
 # =====================================================================================================================
 S('VAL-R3-09 §5.6 (1) stands over',
   "   collapses; its restoration is V06 §3.23 (3)'s, as for every building. Under a disaster's look over its building\n"
-  "   (V03 §5.6 (4); item 122 (d)), a storey below 0 draws at its building's drawn level",
+  "   (V03 §5.6 (4); item 122 (d)), a storey below 0 draws at its building's drawn level — `PlanDamage.level`, the higher of\n",
   "   collapses; its restoration is V06 §3.23 (3)'s, as for every building. Where a disaster look stands over its building\n"
   "   (item 122 (d): a building of one of the look's units, §10.2 (d), on which V06 §3.22 (3)'s `crisisLookYields` is not\n"
-  "   yet true, and every building of a preview's units; V03 §5.6 (4)), a storey below 0 draws at its building's drawn level")
+  "   yet true, and every building of a preview's units; V03 §5.6 (4)), a storey below 0 draws at its building's drawn\n"
+  "   level — `PlanDamage.level`, the higher of\n")
 S('VAL-R3-09 §5.6 (1) units',
   "An underground building lies in no look's unit — V01's `disasterDistricts` returns ground part 0's\n"
   "   districts, at the village rungs V07's ends (V01 §3.16 (1)) — so it reads its own level only.",

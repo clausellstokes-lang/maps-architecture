@@ -2853,3 +2853,8 @@
 2026-10-01 14:56 coherence/orchestrator NOTE repair-V11-r4 landed (10 blocks, 0 ruling requests); relaunched repair-kernel-r4 in its slot (queue empty; running: V06 V04 V02 V01 V05 kernel)
 2026-10-01 14:56 coherence/orchestrator NOTE assemble-r4 (base 593c657d…) and the twenty verify-*-r4t briefs rendered; assemble runs once all eighteen repair-r4 files land
 2026-10-01 14:56 coherence/repair-kernel-r4 CHECKPOINT P0 started (opus seat); brief read whole; next adjudication-r4 TOC, Part H kernel, rulings
+2026-10-01 14:56 coherence/repair-V04-r4 CHECKPOINT P2 edits built (29 count-asserted edits, 14 REPLACE blocks in work/repair-V04-r4/blocks.md); next review diff, dry run apply-blocks, checks, header
+2026-10-01 14:57 coherence/repair-V02-r4 CHECKPOINT P1 done (live V02 §1b, §1d, §3.18, §5.7, §7.8, §8.6, §9, §13 read; V01 §3.16 (1), V07 §5.6 (3)/(8), V06 §3.23 (1), DR44 checked); next: edits.py and build
+2026-10-01 14:57 coherence/repair-V05-r4 CHECKPOINT P0 done (brief, adjudication-r4 TOC row, R4-01/02/09/12, Part H · V05: 3 END lines); next: issue sources, counterparts, sweep of V05
+2026-10-01 14:59 coherence/repair-V06-r4 LANDED docs/validation/coherence/repair-r4-V06.md docs/validation/coherence/work/repair-V06-r4/ docs/validation/coherence/results/coherence_repair-V06-r4.json (opus stand-in for the Fable seat, PENDING FABLE REVIEW; 17 REPLACE blocks on V06, 64 count-asserted substitutions; 7 issues: 6 fixed, 1 merged; 6 END lines; 0 ruling requests; dry run 17/17, audit 0, refs 0 broken, doc_checks provisional — corpus incomplete)
+2026-10-01 15:00 coherence/orchestrator NOTE repair-V06-r4 landed (17 blocks, 0 ruling requests); running: V04 V02 V01 V05 kernel
