@@ -133,7 +133,7 @@
    "kind": "REPLACE",
    "target": "### 2.3 Views and services (derived, never stored)",
    "lines": 135,
-   "words": 2582
+   "words": 2590
   },
   {
    "kind": "REPLACE",
@@ -257,7 +257,7 @@
   }
  ],
  "orig_sha": "1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de",
- "new_sha": "fcfffe15e75cb43654997755f18e2c298e2e3dd446d93c56fa5638da8a72fa00",
+ "new_sha": "f7602e5339f288d9f3b5869a9193c45c1fcb4860600d108b3c81b9c854857fd4",
  "words_before": 80754,
- "words_after": 84606
+ "words_after": 84614
 }

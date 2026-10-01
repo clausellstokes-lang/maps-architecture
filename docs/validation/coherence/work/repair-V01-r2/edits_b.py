@@ -80,7 +80,7 @@ def build(text):
     E.append((T + ' §2.3 signatures',
         "//   gapUnits(chip: { classes: string[] }, key: Admission): GapUnit[] /* Show gaps' units of a kind chip on every layer (V01 §5.4 (3)) */\n",
         "//   gapUnits(chip: { classes: string[] }, key: Admission): GapUnit[] /* Show gaps' units of a kind chip on every layer (V01 §5.4 (3)) */\n"
-        "//   disasterSource(doc: Document, overlay: ConditionOverlay | null, key: Admission): DisasterSource /* a disaster look's units; null: a preview of the `disaster` look (V01 §3.16) */\n"
+        "//   disasterSource(doc: Document, overlay: ConditionOverlay | null, key: Admission): DisasterSource /* a disaster look's units; null: a preview of the `disaster` look; its only draws view render hashes (V01 §3.12, V01 §3.16) */\n"
         "//   disasterDistricts(doc: Document, overlay: ConditionOverlay | null, key: Admission): Id[] /* disasterSource(doc, overlay, key).units — §10.2's `neighbourhoods` (item 122) */\n"
         "//   campLand(doc: Document): FaceRef[] /* the outskirts' land a camp look may take, in address order (V01 §3.16; item 122) */\n", 1))
 

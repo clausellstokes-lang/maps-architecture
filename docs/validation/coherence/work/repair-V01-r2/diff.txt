@@ -84,7 +84,7 @@
 -//   catchmentOf(plot: Id, unit: CoverageSpec['unit'] | 'neighbourhood', per?: number): Id[] /* the plots in the plot's catchment */
 +//   catchmentOf(plot: Id, unit: CoverageSpec['unit'] | 'neighbourhood', per?: number): Id[] /* the plots of the plot's unit as V11 §2.3 defines it (V01 §3.16) */
 @@ -515,0 +548,3 @@
-+//   disasterSource(doc: Document, overlay: ConditionOverlay | null, key: Admission): DisasterSource /* a disaster look's units; null: a preview of the `disaster` look (V01 §3.16) */
++//   disasterSource(doc: Document, overlay: ConditionOverlay | null, key: Admission): DisasterSource /* a disaster look's units; null: a preview of the `disaster` look; its only draws view render hashes (V01 §3.12, V01 §3.16) */
 +//   disasterDistricts(doc: Document, overlay: ConditionOverlay | null, key: Admission): Id[] /* disasterSource(doc, overlay, key).units — §10.2's `neighbourhoods` (item 122) */
 +//   campLand(doc: Document): FaceRef[] /* the outskirts' land a camp look may take, in address order (V01 §3.16; item 122) */
 @@ -525 +560 @@
