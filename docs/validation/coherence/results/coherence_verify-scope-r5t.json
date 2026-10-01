@@ -1,0 +1,38 @@
+{
+ "key": "coherence/verify-scope-r5t",
+ "file": "docs/validation/coherence/verify-scope-r5t.md",
+ "issues": [
+  {
+   "id": "VCS-r5-01",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "scope",
+   "claim": "T76-1's new second-absorb fixture (the END of VAT4-r4-01, R5-03's text; base l. 18243–18245) asserts the held calamity's \"deaths in that epoch's burial need\". The burial need is V06 §3.18.2 (3)'s catacomb need inside `under.extend` (V06 W48, l. 331; its calamityHistory row, l. 389), landing with V06's E8 (\"the calamity deaths in the need\", T-V6-69; V06 §8), which §16 places after V04's U5. T76-1's cadence clauses run from M3a on the port's `EpochInputs` (l. 18234), and §13.8's row (l. 19340) names a later milestone only for the coarsened catch-up fixture (\"M3a (T76-1's coarsened catch-up fixture with M6-E)\"). INDEX §5 risk 2 moves such a clause to the first exit after its provider \"each named in its volume\"; this one is not named. Nothing built changes (J141 minor; R5-05's scheduling class).",
+   "required_change": "§13.2's T76-1: \"its deaths in that epoch's burial need;\" → \"its deaths in that epoch's burial need (that clause from M6-E's E8, V06 §3.18.2 (3));\". §13.8's row \"T75-1 – T75-5, T76-1's cadence clauses, T81-2's absorb clause, T85-3\", timing cell: \"M3a (T76-1's coarsened catch-up fixture with M6-E)\" → \"M3a (T76-1's coarsened catch-up fixture with M6-E; its second-absorb fixture's burial-need clause with M6-E's E8)\"."
+  },
+  {
+   "id": "VCS-r5-02",
+   "severity": "minor",
+   "kind": "HANDOFF-OPEN",
+   "owner": "scope",
+   "claim": "VRC4T-04 (rendering, FIX per R5-05 (b)–(c)) required \"R12-35's row and T120-6 add that timing\": the chips re-evaluated within ≈ 100 ms of a drawn week's frame being drawn. Rendering wrote R12-35 (base l. 17527) and T-ER-25 (l. 14753) and handed T120-6 to scope (repair-r5-rendering, HAND-OFFS: §13.2 is scope's text, no END line in Part H); R5-05's sweep lists T120-6. T120-6 (l. 18662–18664) still times only \"suggestions within ≈ 50 ms of a key and a chip's glow within ≈ 100 ms of its click\", and §13.8's T120-6 row (l. 19373, \"M5\") names no later exit for a drawn-week clause (R5-05 (c): the later of its milestone and V06's E6). V12's `time.findGlow` (V12 l. 1172; T-V12-52's text, l. 2642), which R12-35 cites as its measure, measures only a chip's click. R12-35 and T-ER-25 hold and run the budget, so nothing built changes (minor).",
+   "required_change": "§13.2's T120-6: after \"a chip's glow within ≈ 100 ms of its click\" add \"and, at a drawn week whose frame is not the head, the chips re-evaluated within ≈ 100 ms of the frame being drawn, the frame never waiting (that clause from the later of M5 and V06's E6, V06 §3.15.2's frames)\"; §13.8's T120-6 row: \"M5\" → \"M5 (the drawn-week clause at the later of M5 and V06's E6)\". V12's end (an END line under V12): V12 §3.15.10's `time.findSuggest`, `time.findGlow` row, \"a chip's click to its matches' glow drawn\" adds \"and a scrubbed week's frame drawn to its matches' glow drawn (that clause at the later of M5 and V06's E6)\", and T-V12-52's `time.findGlow` text the same."
+  },
+  {
+   "id": "VCS-r5-03",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "scope",
+   "claim": "R5-02 re-ruled a hand carve across a standing raised way: its channel passes beneath only where its crossing of the under-deck strip meets no support, ramp, stair, foot or `vault` span, the crossing first moved along the deck to the nearest that passes (`bend.raised.underSpan`), else it stops at the strip's edges, ending against the ground as against a berm (§2.7's support step (6) (b), base l. 2596–2599; §4.11's carve, l. 8239–8243; §7.1's row, l. 10632, under `bend.raised.around`'s branch). No bar runs either branch: T110-2 (5) (l. 18500–18504) runs hand roads only, T110-2 (1) and (6) run generation moats, §13.2's carve bar (\"a canal carved across a wall\", l. 17866) and T-V9-52 name no raised way; determinism's round-5 HAND-OFF records the gap for scope or V09. A build that carves through a support, or never stops the channel, passes every bar: an untested edge with a defined outcome on an editing path (principle (11); R5-01's grading: MAJOR).",
+   "required_change": "§13.2's T110-2 (5): \"a hand road drawn across one and a hand road wider than every `open` span's clear width drawn across one\" → \"a hand road drawn across one, a hand road wider than every `open` span's clear width drawn across one, a hand carve drawn across a standing aqueduct whose line meets one of its supports and a hand carve drawn across a raised way all of whose spans are `vault` spans\"; and after \"(`bend.raised.underSpan`; the wide road routed round the raised way, `bend.raised.around`)\" add \"; the first carve's channel moved along the deck to pass beneath at the nearest crossing that meets no support, ramp, stair, foot or `vault` span (`bend.raised.underSpan`), the second's stopped at the under-deck strip's edges, ending against the ground as against a berm (`bend.raised.around`), each raised way unchanged (§4.11's carve; §2.7's support step (6) (b))\"."
+  },
+  {
+   "id": "VCS-r5-04",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "scope",
+   "claim": "R5-02's (6), written by the model this round (base l. 2619–2622; no such sentence before round 5), defines a regeneration under a locked, pinned or declared raised way created across a standing wall: the re-derived stretches are laid after it, \"a re-derived stretch on a crossing station's line takes the station into the line as its support again, so an unchanged regeneration reproduces it, and a station no stretch lies under any more stands as a pier (its `ring` by (4)), its `supports` entry then carrying its own `state`\". The case is on a normal path: a locked generated aqueduct across a ring, or any hand aqueduct drawn across a wall (a crossing station by (3)), then Regenerate or New random re-deriving the ring (§7.2). No bar runs either branch: T110-2 (6) re-derives only a fixture with no crossing station (stage 2's ring laid after the S4 viaduct); T110-2 (4), T114-3, T-V6-11, T-V6-47, T-V6-73, T-V7-48 and T-V9-52 run crossing stations without a regeneration. A build that drops the station, re-sites it, or leaves it reading the condition of a stretch that no longer exists passes every bar (principle (11); R5-01's grading: MAJOR).",
+   "required_change": "§13.2's T110-2, after (6)'s \"… 0 S5b or S5c way corridors over a support ring, ramp, stair or foot;\" add \"(7) the generation clause's CITY c15 fixture with its masonry aqueduct locked, regenerated — the re-derived ring taking the aqueduct's crossing station into its line as its support again, the station, its stretch and its wall opening as before — and then given New random, its seed searched so that the new ring no longer lies under that station — the station standing as a pier (its `ring` by §2.7's support step (4), its `supports` entry carrying its own `state`), the new ring running on beneath the deck where it meets it with no crossing station taken and no gate or opening made, every station, key and span of the aqueduct unchanged (§2.7's support step (6));\"."
+  }
+ ]
+}

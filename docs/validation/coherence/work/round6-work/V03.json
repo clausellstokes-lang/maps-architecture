@@ -1,0 +1,38 @@
+[
+ {
+  "id": "VAF-R5T-04",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V03",
+  "claim": "repair-r5-V02's HAND-OFFS (its one end for round-5 verifiers, no END line naming it) asks V03 \u00a73.13's damage-layer row (l. 2094) to give the entry week in its level-1 outcome. The row's outcome cell still reads \"every element damaged at 1\". V02's own row on the same case now reads \"every element the plan holds damaged, each from its entry week into the plan (V03 \u00a75.6 (2) (a))\" (V02 \u00a73.18 l. 2519). The home, V03 \u00a75.6 (2) (a), reads \"an element is compared with the level only from its entry week\". So V03's own edge row disagrees in form with its home and with V02's row. Nothing built changes.",
+  "required_change": "V03 \u00a73.13's damage-layer row, outcome cell: \"every element damaged at 1\" \u2192 \"every element damaged at 1, each from its entry week into the plan (V03 \u00a75.6 (2) (a))\".",
+  "reported_by": "verify-agree-fabric-r5t"
+ },
+ {
+  "id": "VAF-R5T-05",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V03",
+  "claim": "One fix with VRC5T-03, at a site that issue does not list. R5-04 conditioned the no-op: \u00a76.3 *Plan damage* (l. 10010\u201310011) reads \"a building never decayed and under no disaster look (\u00a72.6 step 7) draws its plan unchanged (`item123.damage`)\", and \u00a78.6 (l. 14157) says the same. V03 \u00a75.2's SVG paragraph (l. 2488) ends the `plan.damage` group's rule with \"absent when nothing is damaged or repaired, so a building never decayed exports byte-identically\". Its next sentences (l. 2491\u20132492) make a picture export draw the damage \"as the view does, a disaster's look included (item 122 (f))\". So a never-decayed building under a disaster look exports the group, and the conclusion states the unconditioned form. The sentence after it decides the case, so nothing built changes.",
+  "required_change": "V03 \u00a75.2: \"so a building never decayed exports byte-identically\" \u2192 \"so a building never decayed and under no disaster look (\u00a76.3 *Plan damage*) exports byte-identically\".",
+  "reported_by": "verify-agree-fabric-r5t"
+ },
+ {
+  "id": "VV34-r5-01",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V03",
+  "claim": "T-V3-39's timing cell (V03 l. 2906) lands \"(e) and (h)'s exports from P5\", and (h) re-reads \"drawing and exports\" across the lifecycle. V03 \u00a78's P4 tests cell (l. 2943, edited this round) runs \"T-V3-39 but (e), its scrub across the run at the later of P4 and V06's E6\", so P4's exit includes (h)'s exports before P5's exporters. P5's tests cell (l. 2944) runs only \"T-V3-39 (e)\". The milestone cells omit a split the test's own timing cell names.",
+  "required_change": "V03 \u00a78's P4 tests cell: \"T-V3-39 but (e), its scrub across the run at the later of P4 and V06's E6;\" \u2192 \"T-V3-39 but (e) and (h)'s exports, its scrub across the run at the later of P4 and V06's E6;\". P5's tests cell: \"T-V3-39 (e)\" \u2192 \"T-V3-39 (e) and (h)'s exports\".",
+  "reported_by": "verify-vol-V03-V04-r5t"
+ },
+ {
+  "id": "VV34-r5-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V03",
+  "claim": "One fix with VRC5T-03, at a site it does not list. T-V3-39 runs \"on the damage fixtures\", which hold the struck district (V03 \u00a77, l. 2848\u20132853). Under the look a building's panel lists the look's damage at its drawn level under `info.crisis.ruinedFor` (V03 \u00a74.5, l. 2321\u20132322). The `plan` section's rows read the own level and carry no look (V03 \u00a74.6, l. 2386\u20132387; T-V3-40 (d)). So T-V3-39 (f) (l. 2906) \u2014 \"the panel's damage lines and the `plan` section's rows read the same `PlanDamage` \u2014 one line or row per kind present, none on a never-decayed building\" \u2014 fails a correct build on a never-decayed house of that district in the condition's weeks. VRC5T-03's V03 end names (g) only. T-V3-40 (e) runs the look's lines, so nothing built changes.",
+  "required_change": "T-V3-39 (f): \"(f) the panel's damage lines and the `plan` section's rows read the same `PlanDamage` \u2014 one line or row per kind present, none on a never-decayed building \u2014\" \u2192 \"(f) on a building no disaster look stands over (the look's lines are T-V3-40 (e)'s), the panel's damage lines and the `plan` section's rows read the same `PlanDamage` \u2014 one line or row per kind present, none on a never-decayed building \u2014\".",
+  "reported_by": "verify-vol-V03-V04-r5t"
+ }
+]
