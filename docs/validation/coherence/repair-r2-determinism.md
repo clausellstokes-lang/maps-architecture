@@ -132,14 +132,32 @@
 #   names §14); the rationale's J-A77.72 entry, if it records the realm fit.
 # - V03: §2.2 may name the floor-area and roof-bay keys §6.3 *Plan damage* uses (their room's address with the kind).
 #
-# SIZE (principle (9)): §5.2–§5.4, §6.1–§6.3, §6.5, §7.1, §7.4, §7.7 59 919 → 62 0nn words (see CHECKS for the exact
-#  count). No word removed from content. Removed: narration (VDC1-10), the retired realm inputs and North-first
+# SIZE (principle (9)): §5.2–§5.4, §6.1–§6.3, §6.5, §7.1, §7.4, §7.7 59 919 → 61 987 words (+2 068, +3.5 %): §5.2 +9,
+#  §5.3 +52, §5.4 +11, §6.1 +602, §6.2 +56, §6.3 +351, §6.5 +155, §7.1 +221, §7.4 +27, §7.7 +584. No word removed from content. Removed: narration (VDC1-10), the retired realm inputs and North-first
 #  sentence (owner item 125), restatement none. The growth is new design the owner's items require at build depth
 #  (DR44 ≈ 300 words, *Plan damage* ≈ 330, *The weather stream* and its rows ≈ 480, item 125 ≈ 250) and the defined
 #  edges and rows this round adds (E-07's three rows and grounds, the precedence's household-lock fall, the epoch
 #  numbering ≈ 450). The shrink band is not this round's: the unit's words are owner-item content (the guard).
 #
 # CHECKS (scratch copies; receipts)
+# - apply-blocks on a copy of the live base 137ecc0e…: 10 found, 10 applied, 0 skipped; audit 0 not OK; headings
+#   153 → 153; fences balanced (140 → 140); title block unchanged; rationale untouched (630da959…). Combined with the
+#   landed repair-r2-model.md and repair-r2-pipeline.md: 35 found, 35 applied, 0 skipped, no heading replaced twice.
+# - Every one of the 23 fixed ids is carried by at least one asserted edit (gen-log.json; 47 edits, each old text found
+#   exactly once in its live subsection). A residue scan of the patched unit finds no `HostContext.week`,
+#   `HostContext.customLibrary` as an input, "realm cell", "realm partners", "realm gates", "realm block's" input,
+#   `'realm'` source, "North first", `refuse.table.ownerRule`, a second `refuse.water` row, "the base's raised-way
+#   stream's", "V06 §2.13" for `RaisedReasonKey`, `Household.transit`'s "V06 §2.1", "§4.6 step 8 (a)'s area bound",
+#   `E_NO_PATH` in F-RIVER, or "formerly ignored".
+# - doc_checks over §5.2, §5.3, §5.4, §6.1, §6.2, §6.3, §6.5, §7.1, §7.4, §7.7 on the patched copy: C1 5/0, C2 1/0,
+#   C3 213/1, C4 0/0, S1 0/0, S2 185/0 — the one unreviewed C3 hit is "6 2 what a seed determines" (the §6.2 heading's
+#   own words), unreviewed on the live base too (C3 209/1); no new unreviewed hit. With the warning "reference corpus
+#   INCOMPLETE (captures, research/patreon, research/devlogs, research/ftg-docs, research/external missing) … NOT
+#   authoritative": provisional.
+# - assemble-r1's refs.py on a mirror of the patched set: base resolved 16 445 → 16 515, ambiguous forms 24 → 22
+#   (VDC1-08's two), external 30 → 30; BROKEN 0 → 16, every one a forward cite of a bar id R2-35 and R2-18 (d) fix for
+#   scope's §13.2 this round (T20-14, T20-15, T20-16, T122-1, T122-2, T122-4, T123-1, T123-3, T124-9, T125-1, T125-2),
+#   as model r2 cites them; they resolve when scope's r2 blocks land. Volumes and INDEX unchanged.
 
 === REPLACE ### 5.2 Failure classes: detection, ladder, test ===
 ### 5.2 Failure classes: detection, ladder, test
