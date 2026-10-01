@@ -1,0 +1,38 @@
+{
+ "key": "coherence/verify-vol-V09-V10-r5t",
+ "file": "docs/validation/coherence/verify-vol-V09-V10-r5t.md",
+ "issues": [
+  {
+   "id": "VV910-r5-01",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "Round 5 makes the why answer's `plan` section read the view's drawn week (R5-08 (d): base §11.2's `why` member, V10 §2.13 `rows(…, opts: { view?: WhyView })`, V03 §4.6), and V09 §5.8 (l. 4025) now reads \"its damage lines at the building's own level and the drawn week of the view the card opens on\"; V07 §4.5's crisis, season and festival rows already read the view (R4-05). V09 §2.12's `WhyCardModel` row (l. 986) rebuilds the answer only \"at every open and on `doc.changed` naming the subject\", and V09 §2.7 (l. 620–622, 667) re-asks a cached answer only at `onEffectiveKey`. The card is non-modal (§5.8), so it stays open across a timeline scrub, a Season change, a festival or crisis preview; §2.12's damage-lines row (l. 1010) says the card's `plan` section is \"recomputed at … each week change\", which the `WhyCardModel` row contradicts, and nothing re-reads V07's view-bound rows at a `yearWeek`, `festival` or `crises` change. One builder re-asks `why` at each view change; another leaves the card stating the week it opened on while the map draws another. T-V9-86's scrubbed-week clause passes either way when the card is opened after the scrub.",
+   "required_change": "(1) V09 §2.7, after \"… reads that view's week, year position, festival, crises and looks.\": \"While its card or panel is open, a view-bound answer is re-asked at each change of that view's §2.9 `week`, `yearWeek`, `festival` or `crises` — a scrub, the Season control, a festival or crisis preview, **Show crises** — as a cached answer is at `onEffectiveKey`, so V07 §4.5's crisis, season and festival rows and V03 §4.6's `plan` damage rows state the view on screen.\" (2) V09 §2.12's `WhyCardModel` row, regenerate cell: \"rebuilt at every open and on `doc.changed` naming the subject\" → \"rebuilt at every open, on `doc.changed` naming the subject, at `onEffectiveKey` and at each change of its view's `week`, `yearWeek`, `festival` or `crises` (V09 §2.7)\". (3) V09 §5.8: \"at the building's own level and the drawn week of the view the card opens on\" → \"at the building's own level and its view's drawn week, re-read as the week changes (V09 §2.7)\". (4) T-V9-86's last clause adds \"; with the card left open while the timeline is scrubbed, its `plan` section follows each drawn week\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r5-02",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "claim": "Round 5 gives the why line and the card's `ruinedFor` row five forms each (V09 §4.9 l. 2201; §4.21.12 (4) l. 3637–3644). Row 90 (l. 1610) lists \"a condition the dossier names not\" and \"a condition with neither a name nor an `untilWeek`\", outcomes `info.crisis.lineUnnamed` and `info.crisis.lineUnnamedOpen`, its test cell T-V9-85. T-V9-85 (l. 4436) runs the named line (\"{look}: {condition}, weeks {a}–{b}\"), the preview's card row (\"For now: Ruined quarters — a preview\") and \"a look with no `untilWeek` the open form\", but no unnamed form: `lineUnnamed` and `lineUnnamedOpen` are run by no V09 bar, and `ruinedForUnnamed` and `ruinedForUnnamedOpen` by no bar in the set (a census finds them only in V09 §4.9 and §4.21.12 (4); V10's T-V10-52 runs `.lineUnnamed` and `.lineUnnamedOpen` as the clerk's `says` key, not V09's card or its `ruinedFor` row). A card that words an unnamed look by the named form, its `{condition}` empty, passes every bar (R5-01's grading: an untested edge whose outcome the text defines).",
+   "required_change": "T-V9-85, after \"and a look with no `untilWeek` the open form\": \"; on a copy of the dossier crisis fixture whose fire's linked `reconstruction` condition the dossier names not, given its `untilWeek` and then none, the why line reads `info.crisis.lineUnnamed` and then `info.crisis.lineUnnamedOpen`, and the why card of a building its disaster look stands over `info.crisis.ruinedForUnnamed` and then `info.crisis.ruinedForUnnamedOpen`\" (its timing within the cell's M5 and M-SF entries as they stand).",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r5-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V07 §4.5's crisis line (l. 3138–3144) gives a disaster's `VillageEnd` and a famine's `VillageField` \"V09 §4.21.12 (4)'s `info.crisis.ruinedFor` row (\"For now: Ruined quarters, the mill-end fire, weeks 30–34\")\"; W74 (l. 282) \"the crisis line's V09 `info.crisis.ruinedFor`\"; T-V7-69 (e) (l. 3702) \"carries `info.crisis.ruinedFor`\" — one form. Round 5's V09 §4.21.12 (4) gives the row five (open, unnamed, neither, preview), and V03 was conformed (\"in its forms\", l. 198; \"under a preview `ruinedForPreview`\", l. 2322); V07, the village restatement (R5-01 (2) (a)), was not. V07 §4.5 states \"a preview never handing over\" and T-V7-69 previews every look kind at the village rungs, where a preview has no condition or weeks. The cited home states the forms, so a builder following the citation gets them: a restatement differing in form.",
+   "required_change": "V07 §4.5: \"V09 §4.21.12 (4)'s `info.crisis.ruinedFor` row (\"For now: Ruined quarters, the mill-end fire, weeks 30–34\"), the one row\" → \"V09 §4.21.12 (4)'s `info.crisis.ruinedFor` row (\"For now: Ruined quarters, the mill-end fire, weeks 30–34\") in the form that section chooses — `ruinedForOpen`, `ruinedForUnnamed` or `ruinedForUnnamedOpen` for a look with no `untilWeek`, no name or neither, `ruinedForPreview` under a preview —, the one row\"; W74: \"the crisis line's V09 `info.crisis.ruinedFor`\" → \"the crisis line's V09 `info.crisis.ruinedFor` in its forms (V09 §4.21.12 (4))\"; T-V7-69 (e): \"carries `info.crisis.ruinedFor` while the look stands\" → \"carries `info.crisis.ruinedFor` in the form V09 §4.21.12 (4) chooses (under a preview `ruinedForPreview`) while the look stands\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VV910-r5-04",
+   "severity": "minor",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "Round 5 gives V09's why card a famine's bare field (R5-08 (c): §11.2's `looks` `field`, each famine entry's `over`; V09 §4.21.12 (4) l. 3652–3654; row 90), and §4.21.12 (4) closes \"Volume 10's explanation renders the same keys\" (l. 3656). V10 sends no field (§3.5 l. 1458: a `building` naming none \"is not passed\"; §3.23 row 34: \"a field … `over` absent\"), and V10 §3.9b (8) defines only *A house under a disaster look* (l. 2046). At the town rungs the card's famine row is the card's own, read from the `looks` reader, not a `WhyAnswer` row, so the clerk explaining a field under a famine has neither the row nor a read telling a bare field from a sown one: its outcome for \"why is this field bare?\" is undefined, and it may lay a sown, or seasonally bare (item 117), field to the famine. Off the common path, hence minor.",
+   "required_change": "V10 §3.9b (8), after the *A house under a disaster look* item: \"* *A field under a famine look.* \"Why is this field bare?\" while a famine look stands: the clerk names the look and its weeks in V09's line and says the look draws a share of the town's fields bare (§10.2 (d)'s `fields`), never that this field is one of them — the look read asks no field (V10 §3.23 row 34) — then the field's own state from its `why` (its crop stage, item 117); at THORP, HAMLET and VILLAGE the field's `why` carries V07 §4.5's crisis line itself.\" T-V10-52 adds \"on a copy of the fixture with a famine standing, \"why is this field bare?\" names the famine and its weeks and lays no field to it\".",
+   "owner": "V10"
+  }
+ ]
+}
