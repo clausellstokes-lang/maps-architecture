@@ -1,0 +1,403 @@
+--- V01.orig.md
++++ V01.new.md
+@@ -89,2 +89,8 @@
+-longer waits stage 2 adds once — generating a town, laying a new layout, making a standalone neighbourhood — finish within
+-ten seconds and show their progress as they go (V01 §6).
++longer waits stage 2 adds once — generating a town, laying a new layout, making a standalone neighbourhood document —
++finish within ten seconds and show their progress as they go (V01 §6).
++
++**Crisis looks (item 122).** While the SettlementForge record says a disaster has struck, whole neighbourhoods are drawn
++ruined — the ones the record names first, else as the disaster runs: a fire through neighbouring quarters downwind, a
++flood over the low ground by the water, an earthquake here and there — more of them the worse it is; and the camps of
++refugees, the sick or an army stand on the common and fallow land just outside the town. It is only a look: the town
++itself is unchanged, and what the crisis leaves behind arrives through the town's own history (volume 6).
+@@ -145,0 +152,4 @@
++14. **File g item 122's neighbourhood part** (a look only; J135, J138): the units a disaster look ruins — whole
++    districts, the calamity's targets first, else its pattern, as many as its severity asks — through `disasterSource`
++    and `disasterDistricts`, and the outskirts' land the camp looks may take, through `campLand` (V01 §3.16,
++    V01 §5.4 (6)).
+@@ -160 +170 @@
+-| §2.8, §2.9 | the elaboration record's `closeup` rung, the elaboration cache, the `closeups` digest block, `Recipe.product` / `hood` | the close-up's record and cache (V01 §2.5, V01 §3.8); `HoodRecipe` (V01 §2.6) |
++| §2.8, §2.9 | the elaboration record's `closeup` rung, the elaboration cache, the `closeups` digest block, `Recipe.product` / `hood` | the close-up's record and cache (V01 §2.5, V01 §3.8); `HoodRecipe`'s rules (V01 §3.10.1) |
+@@ -187 +197,2 @@
+-| V10 §2.13 | `WhyProvider`, `WhyAnswer` (`drifted`, `members`, `closure`), `WhyPull` with V11's families | V01's providers (V01 §4.5) |
++| §11.2 | `WhyAnswer` (`drifted`, `members`, `closure`), `WhyPull` with V11's families | V01's providers (V01 §4.5) |
++| V10 §2.13 | `WhyProvider` | V01's providers (V01 §4.5) |
+@@ -199,0 +211 @@
++| g item 122 (a)–(f), (i) (J135, J138); §2.7's `ConditionOverlay` and its reader rule, §2.9's `crises` key, §4.11's `CalamityRef` in the committed `epoch` events (DR28), §7.7's DR44, §10.2's `RosterTables.crisis` (the `disaster` row's `scale`, `previewSeverity`) and *Crisis looks* (d)–(h), §8.1's render tag `crisis.place`, §2.3's `Terrain` (`heightCm`, `wind`), §4.9's land use and rotation, §11.2's admission; V06 §2.4's calamity table; V07 §3.10's ends; V02 §5.7 | the standing overlays a look draws and a preview; the calamities the port carries; the look rows and the placement that reads the outskirts | `disasterSource`, `disasterDistricts` and `campLand` (V01 §3.16); a disaster look's framed place in Find (V01 §5.4 (6)); T-V1-60 |
+@@ -229,0 +242,4 @@
++* **Crisis looks** (item 122) — the table, the closed mapping and the placement §10.2's, the derivation §7.7's DR44,
++  the drawing §8.2's, a building's ruined look V02 §5.7's, the hand-over V06's, the village rungs' units V07's, the
++  switch, the preview, the crisis card and Find's `crises` section volume 9's, the explanations volume 10's, the rows
++  V11's and the bars V12's. This volume gives the disaster's units and the outskirts' land (V01 §3.16).
+@@ -264 +280 @@
+-| `catchmentOf`, `districtsAbove`, `fabricSignature` (V01 §3.16) | committed districts, plots, ways; volume 4's void footprints and `underDistance`; V05 §3.5 (3)'s island unit; V12 §3.4's metric definitions | S10a / S10b's coverage term (V11's `cov/<class>` rows), volume 4's C5 parent and the ruin's distinctness step (V04 §3.5.0a (7)), V11's `naming.ruin` and culture rows, V10's explanations, Find's Show gaps (`gapUnits`, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view) and volume 9's voids view | §4.7 S10b (item 103 (f)); II.7.5 (2) |
++| `catchmentOf`, `districtsAbove`, `fabricSignature` (V01 §3.16) | committed districts, plots, ways; V11 §2.3's coverage units (its discs on the 16 m raster, its parish partition); volume 4's void footprints and `underDistance`; V05 §3.5 (3)'s island unit; V12 §3.4's metric definitions | S10a / S10b's coverage term (V11's `cov/<class>` rows), volume 4's C5 parent and the ruin's distinctness step (V04 §3.5.0a (7)), V11's `naming.ruin` and culture rows, V10's explanations, Find's Show gaps (`gapUnits`, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view) and volume 9's voids view | §4.7 S10b (item 103 (f)); II.7.5 (2) |
+@@ -265,0 +282,2 @@
++| the disaster look's units `disasterSource` and `disasterDistricts` (V01 §3.16; item 122) | a standing `ConditionOverlay` whose look DR44 reads as `disaster`, admitted at the key, or a preview (§2.9's `crises`); the committed `epoch` events' `CalamityRef`s (§4.11; V08 §3.6 carries them) and V06 §2.4's calamity table; the ground districts (`DistrictContext.inhabitants`, `.water`), their seams, `Terrain.heightCm` and `Terrain.wind` (§2.3); §10.2's `disaster` row (`scale`) and `previewSeverity`; the view's key (§11.2's admission); at THORP, HAMLET and VILLAGE V07's units (V07 §3.10) | V02 §5.7's ruined look (every building of each unit; the fire's blackening from `pattern`); §8.2's disaster row (the `ruinTone` over the units, by its pattern); §10.2's `neighbourhoods` place, and its `affectedQuarter` place through `matched`; volume 9's crisis card **Show** and Find's `crises` row **Go to** (V01 §5.4 (6)); the view telemetry (unmatched targets, a fire's shortfall); T-V1-60 | §7.7's DR44; §10.2 *Crisis looks* (d); §8.2 |
++| the outskirts' land `campLand` (V01 §3.16; item 122) | the ground's hinterland `LandUse` faces (`commons`; `arable` and `strip_field` in their rotation's fallow course, §4.9; the open verges of the arterials leaving the town), the districts' outer boundary and the outermost enceinte's outer strip, the gates' passages, the under-deck strips (V01 §3.17.3); `hood.constants`' `camp.reachM` | §10.2's camp places (`beyondWalls`, `approachRoads`' fallback, `approachByGate`, `outside`, `gatesAndKeep`'s camp), which rank its faces — the refugee camp's by V06's `frontierFor`; T-V1-60 | §10.2 *Crisis looks* (d) |
+@@ -273 +291 @@
+-| `HoodRecipe` (V01 §2.6) | T1 `intend` with `product: 'hood'`, a skeleton file, the API | the unit run's S0–S2; the layer defaults (V01 §3.10.1 (7)) | §2.9 `Recipe` |
++| `HoodRecipe` (§2.9; its rules V01 §3.10.1) | T1 `intend` with `product: 'hood'`, a skeleton file, the API | the unit run's S0–S2; the layer defaults (V01 §3.10.1 (7)) | §2.9 `Recipe` |
+@@ -275 +293 @@
+-| `HoodKindRow` table `hood.kinds` (V01 §2.6) | authors | the standalone programme's anchors and affinity | §7.6 editable tables |
++| `HoodKindRow` table `hood.kinds` (V01 §2.2) | authors | the standalone programme's anchors and affinity | §7.6 editable tables |
+@@ -301 +319 @@
+-| `HoodRecipe.edges.slope` (V01 §2.6) | T1's hillside edge; the Terraces card's default | the unit run's S1 and relief class | §2.9 `Recipe` |
++| `HoodRecipe.edges.slope` (§2.9; V01 §3.10.1 step 2) | T1's hillside edge; the Terraces card's default | the unit run's S1 and relief class | §2.9 `Recipe` |
+@@ -324,0 +343 @@
++| the disaster look's units (`disasterSource`, V01 §3.16) | `calamityHistory[]` (`type`, `tick`, `targets`) as V08's `calamities`; the stressors and active conditions as `ConditionOverlay`s | DR28 (the calamity's `CalamityRef` in `EpochInputs.events`), DR44 (the crisis look) | read from the committed `epoch` events and overlays at the view's key; a look only, never a model write |
+@@ -330,2 +349,3 @@
+-commits and the opening pass (V04 §3.10) — and a fixed input (V01 §3.5.12) is never typed away. Every field stage 2
+-does not read is another reader's or on §7.7 item 1's ignore-list.
++commits and the opening pass (V04 §3.10) — and a fixed input (V01 §3.5.12) is never typed away. A condition or calamity
++the dossier changes reaches the disaster's units at the commit that carries it (V01 §3.16): a look re-read, nothing
++re-derived. Every field stage 2 does not read is another reader's or on §7.7 item 1's ignore-list.
+@@ -341,2 +361,3 @@
+-`FabricStrategyId` (a `hood.templates` row key), `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in
+-§2.5 (item 505); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
++`FabricStrategyId` (a registered fabric: `bent-cut`, a `hood.templates` row key or V07's `village-ways`), `BlockKind`,
++`SquareType`, `SeamRun` and `TypedBoundary` are declared in §2.5 (item 505); `OutlineTemplateId` is §4.2 S1 (2)'s row
++key, its standalone rows added by item 285 (V01 §3.10.2).
+@@ -387 +408 @@
+-interface SquareQuotaRow { band: string; haPer1000: number /* typed-square target per 1 000 inhabitants of the district */; kind: Partial<Record<DistrictKind, number>> /* factor */ }
++// SquareQuotaRow is §10.2's (the base table `squares.quota`, read by S7b (3) from M2b and by S9b); this volume authors its default rows (V01 §3.5.2; V11 registry row 91)
+@@ -455 +476 @@
+-  raised: { way: Id; kind: 'viaduct'|'elevated'|'aqueduct'; reason: 'drop'|'link'|'water'|'declared'; stripM2: number }[]
++  raised: { way: Id; kind: RaisedKind /* §2.7 */; reason: 'drop'|'link'|'water'|'declared'; stripM2: number }[]
+@@ -466 +487 @@
+-  records: { record: Id; step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; membersHere: number; membersTotal: number }[] /* ladder records with members in D (item 108) */;
++  records: { record: Id; step: LadderStep /* V11 §2.6 */; membersHere: number; membersTotal: number }[] /* ladder records with members in D (item 108) */;
+@@ -507,0 +529,11 @@
++// Item 122's disaster units (V01 §3.16): view data — derived per commit, overlay and key, outside the document, its hash and the log
++interface DisasterUnit {   // one unit a disaster look may ruin: a ground district at TOWN and above; at THORP, HAMLET and VILLAGE V07's unit, built in this shape by V07
++  id: Id /* an entity's, whose render key keys the draws (V01 §3.16 (4)) */; centroid: PointCm /* its land's area centroid */; inhabitants: number /* a district's DistrictContext.inhabitants */;
++  meanHeightCm: Cm /* Terrain.heightCm's mean over its land (§2.3) */; waterFront: boolean /* a district's: DistrictContext.water.lengthM > 0 */;
++  neighbours: Id[] /* the units it shares a boundary run with (a district: a seam, II.1), in address order */ }
++interface DisasterSource {   // disasterSource's answer (V01 §3.16)
++  calamity: CalamityRef | null /* the overlay's calamity (§4.11; V01 §3.16 (2)): its `type` read by V02 §5.7 (4); null for a preview or where none falls in its weeks */;
++  pattern: 'fire'|'flood'|'scatter' /* the calamity's hazard in V06 §2.4's calamity table: fire, flood, else scatter; read by §8.2's disaster row and V02 §5.7 (4) */;
++  units: Id[] /* the units ruined: a prefix of the strike order, in that order (V01 §3.16 (4)–(5)) */;
++  matched: Id[] /* the units the calamity's targets name, admitted at the key: the first read by §10.2's `affectedQuarter` place */;
++  unmatched: Id[] /* its target ids, admitted at the key, that name no unit: reported in the view telemetry */ }
+@@ -509 +541 @@
+-//   catchmentOf(plot: Id, unit: CoverageSpec['unit'] | 'neighbourhood', per?: number): Id[] /* the plots in the plot's catchment */
++//   catchmentOf(plot: Id, unit: CoverageSpec['unit'] | 'neighbourhood', per?: number): Id[] /* the plots of the plot's unit as V11 §2.3 defines it (V01 §3.16) */
+@@ -515,0 +548,3 @@
++//   disasterSource(doc: Document, overlay: ConditionOverlay | null, key: Admission): DisasterSource /* a disaster look's units; null: a preview of the `disaster` look (V01 §3.16) */
++//   disasterDistricts(doc: Document, overlay: ConditionOverlay | null, key: Admission): Id[] /* disasterSource(doc, overlay, key).units — §10.2's `neighbourhoods` (item 122) */
++//   campLand(doc: Document): FaceRef[] /* the outskirts' land a camp look may take, in address order (V01 §3.16; item 122) */
+@@ -525 +560 @@
+-  raised?: 'viaduct'|'elevated'|'aqueduct' /* a raised way's kind, for naming.way's guard (V01 §3.7.2) */ }
++  raised?: RaisedKind /* §2.7: a raised way's kind, for naming.way's guard (V01 §3.7.2) */ }
+@@ -544 +579 @@
+-| `SeamReport.portalsConnected`'s walk (V01 §3.11 (6)); `catchmentOf('walk')` (V01 §3.16) | yes | yes, as one edge between its two end vertices | no |
++| `SeamReport.portalsConnected`'s walk (V01 §3.11 (6)) | yes | yes, as one edge between its two end vertices | no |
+@@ -552,9 +587,2 @@
+-`NeighbourhoodRequest`, `NeighbourhoodResult` and `SeamReport` are II.1's (item 539): the request's `seam`, `context`,
+-`params` and `closeup` are absent exactly when `laid` is empty (the unit runner builds each district's `DistrictContext`
+-and `SeamContract` after its partition, from `skyUnitInput` or `HoodRecipe`, V01 §3.10); the result carries `hoodPins`
+-(refine only, derived), `places` and `districts` (a unit run's, in partition order, which SKY-F writes to
+-`SkyIsland.districts`, V05 §3.12); `SeamReport` gains `landingsReached` (V01 §3.11 (6)).
+-
+-**The mode is derived, never passed** (J-V1.3): `unit` when `laid` is empty; `refine` when `strategy` equals the
+-district's committed fabric; `replace` otherwise — a model edit (V01 §3.9). A sky island's `reason` is
+-`SkyIsland.reason` (§2.7), not a request field.
++`NeighbourhoodRequest`, `NeighbourhoodResult` and `SeamReport` are II.1's (item 539), with their fields' presence rules
++and the derived mode (J-V1.3); this volume's unit runner, close-ups and SKY-F hand-over fill them (V01 §3.8–V01 §3.11).
+@@ -569,2 +597,2 @@
+-providers and the reader's `query` for the close-up panel and the clerk (V01 §4.5); the three services of V01 §3.16 by
+-S10a / S10b's coverage term and volumes 4, 9, 10 and 11.
++providers and the reader's `query` for the close-up panel and the clerk (V01 §4.5); the services of V01 §3.16 by the
++callers each names there.
+@@ -585,13 +613,2 @@
+-```ts
+-interface HoodRecipe {   // Recipe.hood (§2.9, item 272); present exactly when Recipe.product = 'hood'
+-  outline: { template: OutlineTemplateId } | { polygon: PolygonCm /* a drawn outline: simple, ≥ 3 vertices, snapped as §7.1 draws */ } | 'auto' /* by the fabric (V01 §3.10.1 step 1) */;
+-  size?: 'small'|'medium'|'large' /* the chips: `buildings` ≈ `size.small`, `size.medium`, `size.large` (NG's bands; V01 §3.14) */; areaHa?: number /* absent: from `buildings`, else the kind row's band */;
+-  buildings?: number /* a building-count target, wins over areaHa (V01 §3.10.1) */;
+-  kind?: DistrictKind /* absent: drawn from `hood.kinds` */; fabric: FabricStrategyId | 'auto';
+-  leafy?: boolean /* greenery 0.9 and court greening × `green.leafyCourt` (NG's `leafy`) */; secular?: boolean /* no landmark anchors, manorBlockShare 0 (NG's `secular`) */;
+-  contextRung: 'TOWN'|'CITY'|'METROPOLIS' /* whose rung-scaled rows the hood reads; default 'CITY' */;
+-  intent: DistrictIntent /* wealth, density, planned, greenery …; absent fields derived */;
+-  edges?: { water?: { bearingCdeg: Cdeg; body: 'river'|'sea'|'canal' }; wall?: { bearingCdeg: Cdeg };
+-    slope?: { bearingCdeg: Cdeg /* downhill */; pct: number /* the mean fall in percent; default hood.hillsidePct */ } /* T1's hillside edge (V01 §3.10.1 step 2) */ } /* optional context edges */ }
+-// The layers a standalone neighbourhood document may hold are fixed by V01 §3.10.1 (7) through the inputs its S0 writes.
+-```
++`HoodRecipe` (`Recipe.hood`, item 272) is §2.9's; its rules are V01 §3.10.1's. The layers a standalone neighbourhood
++document may hold are fixed by V01 §3.10.1 (7) through the inputs its S0 writes.
+@@ -622 +639,2 @@
+-data, outside the document, its hash and the log; V01 §5.4), `HoodPin`, the ground `AccessPoint` symbols (V01 §3.8.8),
++data, outside the document, its hash and the log; V01 §5.4), the crisis services' answers (`DisasterUnit`,
++`DisasterSource` and `campLand`'s faces: view data likewise; V01 §3.16), `HoodPin`, the ground `AccessPoint` symbols (V01 §3.8.8),
+@@ -2079,0 +2098,4 @@
++**Crisis looks draw from no concern** (item 122): `disasterSource`'s draws are view draws on §8.10's render keys under
++§8.1's render tag `crisis.place`, keyed by the condition's id (a preview's by its look kind), so a disaster strikes the
++same districts in every view and export and no stream, digest or hash moves (V01 §3.16 (4)); `campLand` draws nothing.
++
+@@ -2114 +2136 @@
+-(`clearanceCm`, the material rows), `aqueduct.terminal`; the base's `character.anchorSigma` (§4.5) and §11.1's
++(`clearanceCm`, `stripMarginM`, the material rows), `aqueduct.terminal`; the base's `character.anchorSigma` (§4.5) and §11.1's
+@@ -2172 +2194 @@
+-| `raised.stripMarginM`, `raised.clearWidthM`; `raised.squareDeg` | V01 §3.17.3 (strip margin; arch clear width + 1 m; ± 30° of square) | 1 m, 1 m; 30° | number · `m`; `cdeg` | [0, 3] each; [10°, 45°] | yes | — | — | `own` |
++| `raised.clearWidthM`; `raised.squareDeg` | V01 §3.17.3 (arch clear width + 1 m; ± 30° of square) | 1 m; 30° | number · `m`; `cdeg` | [0, 3]; [10°, 45°] | yes | — | — | `own` |
+@@ -2182,0 +2205 @@
++| `camp.reachM` | V01 §3.16 (`campLand`: the outskirts' depth beyond the built edge and along the approach roads) | 600 m | number · `m` | [100, 3 000] | no (a drawing extent) | — | — | `own` (about ten minutes' walk beyond the edge) |
+@@ -2255,16 +2278,15 @@
+-Pure, draw-free functions of committed state, memoised per commit, each ≤ 1 ms per call at CITY (V01 §6; Find's two by
+-their own lines):
+-* **`catchmentOf(plot, unit, per?)`** — the plots in a plot's catchment for item 103 (f)'s coverage (V11's
+-  `CoverageSpec.unit`): **`district` and `neighbourhood` are one unit, the district a close-up opens** (J-V1.35) — the
+-  plots of the plot's district; `walk` — the plots whose front points lie within `per` metres of the plot's front point
+-  along the way graph (L1 spines and L2 corridors — part 0, each raised road one edge between its ends, never an
+-  aqueduct; V01 §2.3); `households` — the plots of the nearest `per` households by the same metric (ties by plot id);
+-  `settlement` — every plot of the town; `parish` — the plots whose nearest parish-church member (by the same metric) is
+-  the same member, or, before one is placed, the district. **On the other arenas**: for a plot on an underground arena,
+-  `walk` and `households` read volume 4's `underDistance` (V04 §3.6a (1)) in place of the way-graph metric, and each
+-  undercity neighbourhood and the underground pseudo-district (the sewer-front neighbourhoods and F6's void dwellings)
+-  is its own `district` unit (V04 §3.6a (5)); on a sky arena the island is one `walk` unit (V05 §3.5 (3): the route to
+-  the ground passes every walking radius), its districts its `district` units. A plot with no way within `per`
+-  (`walk`) or fewer than `per` households in its arena (`households`) has every plot it can reach as its catchment, and
+-  always itself. Callers: S10a / S10b's coverage term (V11's `cov/<class>` rows, the base solver), volume 10's
+-  explanations, `gapUnits` (Find's Show gaps, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view).
++Pure, draw-free functions of committed state, memoised per commit, each ≤ 1 ms per call at CITY (V01 §6; Find's two and
++the crisis services by their own lines; `disasterSource`'s keyed render hashes are view draws, V01 §3.12):
++* **`catchmentOf(plot, unit, per?)`** — the plots in a plot's coverage unit for item 103 (f) (V11's `CoverageSpec.unit`
++  and `per`): each unit is read at the plot exactly as V11 §2.3's `CoverageSpec` defines it — `walk` and `households`
++  its discs on the 16 m raster, `parish` the plot's cell of its parish partition, `district` the plot's district,
++  `settlement` the town — cited, never restated, so the solver, Show gaps and V12 §3.6's `servedShare` count served one
++  way; the plot is always in its own catchment. This volume adds only its own readings: **`neighbourhood` is read as
++  `district`**, the district a close-up opens (J-V1.35); **on an underground arena** `walk` and `households` measure
++  the disc's radius by volume 4's `underDistance` (V04 §3.6a (1)) in place of the straight distance, and each undercity
++  neighbourhood and the underground pseudo-district (the sewer-front neighbourhoods and F6's void dwellings) is its own
++  `district` unit (V04 §3.6a (5)); **on a sky arena** the island is one `walk` unit (V05 §3.5 (3): the route to the
++  ground passes every walking radius), its districts its `district` units; **a district with no residential plot
++  holds no unit** — V11 §2.3's skipped term (no household there to serve), so no gap is drawn in it (V01 §5.4 (3)).
++  Callers: S10a / S10b's coverage term (V11's `cov/<class>` rows, the base solver), volume 10's explanations,
++  `gapUnits` (Find's Show gaps, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view).
+@@ -2292,0 +2315,57 @@
++* **`disasterSource(doc, overlay, key)`** and **`disasterDistricts(doc, overlay, key)`** (item 122 (b); J-V1.104) —
++  the units a disaster look ruins: whole neighbourhoods, never a share of the buildings inside one. `disasterDistricts`
++  is `disasterSource(…).units`, which §10.2's `neighbourhoods` place reads; every building of each unit draws the
++  ruined look (V02 §5.7). `overlay` is a standing `ConditionOverlay` admitted at the key, or `null` for a preview of
++  the `disaster` look (§2.9's `crises`): `units` is read for an overlay whose look §7.7's DR44 reads as `disaster`, and
++  `matched` for any — §10.2's `affectedQuarter` place takes the first `matched` unit of a `quarantine` overlay as the
++  quarter its cordon closes. Memoised per commit, overlay and key:
++  1. **The units.** At TOWN and above — a standalone neighbourhood document at its `contextRung` — every district of the
++     ground arena's part 0 that the key admits, the hinterland pseudo-district excepted, each read as a `DisasterUnit`
++     (V01 §2.3). At THORP, HAMLET and VILLAGE, where the village product holds one district (PART III (4)), the units
++     are V07's — its ends (`VillageEnd`, V07 §3.10), or in an end-less thorp its contiguous toft groups — in the same
++     shape, and the same rule picks among them.
++  2. **The calamity.** The overlay's calamity is the `CalamityRef` (§4.11; carried by the port, V08 §3.6) of the
++     `calamity` entries of the committed `epoch` events whose week — the entry's `week`, else its epoch's — lies in the
++     overlay's weeks ([`sinceWeek`, `untilWeek`), or from `sinceWeek` on with no `untilWeek`): the latest, ties by
++     the higher severity band, then by `CalamityRef.id`. None falling there, or a preview, gives no calamity. Its
++     **pattern** is its type's hazard in V06 §2.4's calamity table: `fire` → **fire**, `flood` → **flood**; a
++     `collapse`, a `drought`, a `null` hazard, a type no row matches and no calamity → **scatter**.
++  3. **The targets.** Each id of the calamity's `targets` names a unit: a use, or any entity on a plot, by its plot's
++     district, closed or not; a district, itself; a city-cut `QuarterNode`, each of its member districts; a
++     `HoodPlace`, its host's district (at the village rungs, V07's unit holding it). A target the key withholds
++     (§9.2's admission) is skipped and never reported to that key; one that names no unit — its plot re-derived away,
++     in the hinterland, on another arena — is `unmatched`, reported in the view telemetry, and the pattern fills the
++     share.
++  4. **The strike order.** Every draw is a view draw: `u(unit) = RH32('crisis.place', the unit's render key, salt,
++     H32(the condition's id)) ÷ 2³²` (§8.1; a preview keys on `H32('disaster')`, its look kind, in the condition's
++     stead). The order opens with the matched units by ascending `u`, then grows by the pattern —
++     * **fire**: from the first matched unit, else from a seed picked by inhabitants (the unit of least
++       −ln u ÷ (inhabitants + 1)), each next unit the neighbour of a taken one lying farthest downwind of the seed
++       (`Terrain.wind`, §2.3; centroid to centroid) — under no wind (`strength` 0) the neighbour nearest the seed; the
++       order ends when no neighbour is left, so a fire never jumps a gap in the adjacency;
++     * **flood**: each next unit the lowest by `meanHeightCm` among the water-fronting units and the neighbours of the
++       taken ones — with no water-fronting unit, the lowest of all first;
++     * **scatter**: the remaining units by ascending `u` —
++     ties by `u`, then by address.
++  5. **The share.** With n units and s the `disaster` row's `scale` at the map's rung at the severity — the overlay's,
++     clamped to [0, 1], or `previewSeverity` for a preview — linear between its two ends (§10.2's *Crisis looks* (c)),
++     k is 0 where s ≤ 0, else round(s × n) clamped to [1, n]; `units` is the first max(k, |`matched`|) units of the
++     order — all of a shorter fire order, the shortfall reported in the view telemetry. So the set grows with the
++     severity, holds every matched target, and is the same in every week the overlay stands, every view and every
++     export.
++  Several disasters at once are computed apart, each keyed by its own condition; a unit in two sets draws the higher
++  level (V02 §5.7 (1)). The look's end in the week the `reconstruction` Works begins is V06's hand-over, which this
++  service does not read; an edit or epoch that splits or merges a struck district changes the units at that commit,
++  each successor drawn by its own key.
++* **`campLand(doc)`** (item 122 (a)–(c); J-V1.105) — the outskirts' land a camp look may take: `FaceRef`s in address
++  order, on the ground arena's part 0 at every rung, memoised per commit. (1) The hinterland's `LandUse` faces of kind
++  `commons`, and the `arable` and `strip_field` faces in their rotation's fallow course (§4.9), whose nearest point lies
++  within `camp.reachM` (V01 §3.14) of the **built edge** — the outer boundary of the ground districts' union, the
++  hinterland pseudo-district left out, or the outermost enceinte's outer strip where that lies beyond it; (2) the
++  **verges of the approach roads** — the `meadow`, `pasture`, `arable` and `strip_field` faces bordering an arterial
++  that leaves the settlement, within `camp.reachM` of where it leaves (its gate, else the built edge). Never a face of
++  another kind (no water, marsh, wood, quarry, garden or orchard is camp land), one meeting a gate's passage (its
++  opening and 4 m along its way each side, §10.2 (d)), or one an under-deck strip crosses (V01 §3.17.3); a label's
++  keep-out is the band's, cut by §10.2 (d)'s placement. §10.2's camp places rank these faces — the refugee camp's by
++  V06's `frontierFor`. A standalone neighbourhood document holds no hinterland land use (V01 §3.10.1), so its
++  `campLand` is empty.
+@@ -2371,2 +2450,3 @@
+-   `raised.stripMarginM` each side — is a **hole** in the faces it crosses, as an S7b claim is (V01 §3.4.1): where it
+-   crosses a face from boundary to boundary it cuts it; no plot, block interior, seed or hood pin lies in it; the base's
++   `raisedWays.structure.stripMarginM` (V11 §3.24.2) each side, §4.6 S8's one strip — is a **hole** in the faces it
++   crosses, as an S7b claim is (V01 §3.4.1): where it crosses a face from boundary to boundary it cuts it; no plot, block
++   interior, seed or hood pin lies in it; the base's
+@@ -2533,0 +2614 @@
++| Show crises on or off, or a preview (§2.9's `crises`; item 122) | view only: with Show crises off nothing calls `disasterSource`; a preview reads no calamity, the scatter pattern at `previewSeverity`; the document, its hash, the log and every model value byte-identical (V01 §3.16) |
+@@ -2581 +2662,3 @@
+-| services (V01 §3.16) | an element under no district; a region with no built block or part-0 way; `plotLandM2` 0; a plot with nothing within `per` | the empty list; `null` measures; 1; every plot it reaches, and itself | — | T-V1-42, T-V1-46 |
++| services (V01 §3.16) | an element under no district; a region with no built block or part-0 way; `plotLandM2` 0; a plot whose unit holds no other plot; a district with no residential plot | the empty list; `null` measures; 1; the plot alone; no unit (V11 §2.3's skipped term) | — | T-V1-42, T-V1-46 |
++| the disaster's units (V01 §3.16; item 122) | no unit (a document before S6, or every district withheld); one unit (a town of one district, a standalone neighbourhood document's preview, an end-less thorp of one toft group); severity 0 and 1; a share above 0 that rounds to none; more matched targets than k; a target naming no unit (its plot re-derived away, the hinterland, another arena); a target the key withholds; no calamity in the overlay's weeks; a calamity type no row of V06 §2.4 matches; a fire whose seed's adjacency component is smaller than k; calm (`Terrain.wind.strength` 0); a flood with no water-fronting unit; several disasters at once; an edit or epoch splitting or merging a struck district; the look standing when V06's real aftermath strikes its units | the empty list, nothing drawn; that unit; the row's two ends; one unit; every matched unit (the dossier wins); `unmatched`, reported in the view telemetry, the pattern filling the share; skipped, never reported to that key; no target, scatter; scatter; the whole component, the shortfall reported in the view telemetry; the nearest neighbour first; the lowest unit first, then its neighbours; each set apart, a unit in two at the higher level (V02 §5.7 (1)); re-read at that commit, each successor drawn by its own key; the set unchanged — the aftermath is the epoch path's and the look yields per building by V06's hand-over | check; leave out and report | T-V1-60 |
++| the outskirts' land (V01 §3.16; item 122) | no commons or fallow within reach; no approach road (an unserved mesa, S3 (9) (a)); an island town with no land beyond its shore; a standalone neighbourhood document; a face meeting a gate's passage or crossed by an under-deck strip; a face an epoch builds over or an edit re-uses while a camp stands | the verges alone; the commons and fallow alone; the empty list, so §10.2 (h)'s ring marks; the empty list (no hinterland land use); left out; re-read at that commit, the camp re-placed by §10.2 (d) (a look only) | leave out and report | T-V1-60 |
+@@ -2612,0 +2696,3 @@
++| a disaster look and an opened close-up (item 122) | the close-up's chunk unchanged — the look is no input of it (V01 §3.8.3); its buildings draw V02 §5.7's ruined look over the `hatched` hatch (V01 §5.1.4), its hood pins as derived | — | T-V1-60 |
++| a disaster look and the dossier removing its calamity's target | the target `unmatched` at that commit, reported, the pattern filling the share | leave out and report | T-V1-60 |
++| a camp and a raised way (items 122, 110) | no camp face under an under-deck strip or among its piers: `campLand` leaves the face out | — | T-V1-60 |
+@@ -2734 +2820 @@
+-families (`WhyPull.family`, V10 §2.13).
++families (`WhyPull.family`, §11.2).
+@@ -2738,2 +2824,2 @@
+-  substitution writes the row built to `D.fabric`, V01 §3.13); a recomputed pick that differs otherwise sets volume 10's
+-  `evaluated.drifted` with its cause (the reconcile moved households after the draw, or the allocation changed since):
++  substitution writes the row built to `D.fabric`, V01 §3.13); a recomputed pick that differs otherwise sets §11.2's
++  `WhyAnswer.evaluated.drifted` with its cause (the reconcile moved households after the draw, or the allocation changed since):
+@@ -2748 +2834 @@
+-* **ladder records** — volume 10's `members` answer for a QUARTER, GUILD, COUNT or SIZE record: the step type, the range,
++* **ladder records** — §11.2's `WhyAnswer.members` for a QUARTER, GUILD, COUNT or SIZE record: the step type, the range,
+@@ -2750 +2836 @@
+-* **an unwalled side** — volume 10's `closure` answer for a barrier run ("the cliff is the wall here", item 106 (g)).
++* **an unwalled side** — §11.2's `WhyAnswer.closure` for a barrier run ("the cliff is the wall here", item 106 (g)).
+@@ -2946 +3032,4 @@
+-replaced by its state's program.
++replaced by its state's program. Item 123's damage and a disaster's ruined look (item 122) are V02 §5.7's in `hatched`
++as in every family: a hole takes its ring out of the hatched facets, the hatch per facet (V01 §5.1.2) stopping at its
++edge as at a facet's, a gap leaves its run of the outline undrawn, and the massing reading's tone and dash fall on
++`hatched`'s roof tones; no program of this volume draws either.
+@@ -3022 +3111,2 @@
+-export draws Find as shown (V01 §5.4 (5)).
++export draws Find as shown (V01 §5.4 (5)), and the crisis looks shown as §11.1 draws them — a VTT scene in its image
++only, never as walls or obstacles (item 122 (f)); this volume adds nothing to them.
+@@ -3077 +3167,2 @@
+-The units are `catchmentOf`'s (V01 §3.16) — never a second definition — each a `GapUnit` holding no member:
++The units are `catchmentOf`'s (V01 §3.16), which reads V11 §2.3's — never a second definition — each a `GapUnit`
++holding no member:
+@@ -3080,5 +3171,5 @@
+-  `parish` — the cells `catchmentOf('parish')` gives (the plots whose nearest parish-church member is the same; before
+-  any church, the district), built from the church members the key admits, so no cell outlines a church the key
+-  withholds (its plots fall to the nearest admitted church, item 120 (h)); a gap when the cell holds no member, its id
+-  the church member's (the district's before any church), its area the union of its plots' faces; a church class read
+-  on `parish` stands in every cell it makes, so it has no gap.
++  `parish` — the cells of V11 §2.3's parish partition (`catchmentOf('parish')`; before any church, the district),
++  built from the church members the key admits, so no cell outlines a church the key withholds (its plots fall to the
++  cell of the nearest admitted church, item 120 (h)); a gap when the cell holds no member, its id the church member's
++  (the district's before any church), its area the union of its plots' faces; a church class read on `parish` stands
++  in every cell it makes, so it has no gap.
+@@ -3094,8 +3185,7 @@
+-**Evaluation.** A partition unit takes one pass over the members' plots. A per-plot unit takes one multi-source walk from
+-the members' front points by `catchmentOf`'s metric, bounded at the largest radius a residential plot's unit takes; the
+-metric is symmetric, so a plot's catchment holds a member exactly when the walk reaches the plot within that plot's own
+-radius (ties by plot id, as `catchmentOf` breaks them): `per` for `walk`; for `households` the distance at which
+-`catchmentOf`'s walk from that plot takes its `per`-th household (its households radius, memoised per commit and per
+-`per` with `catchmentOf`'s memo). A plot with no way within `per`, or with fewer than `per` households in its arena, takes
+-`catchmentOf`'s own rule (every plot it can reach, and itself). T-V1-59 (b) holds the walk to the per-plot reading, plot
+-by plot.
++**Evaluation.** A partition unit takes one pass over the members' plots. A per-plot unit takes one pass per member
++over V11 §2.3's 16 m raster: a member serves every residential plot whose disc holds it, and the disc is symmetric, so
++each member marks the cells within the radius about its plot — `per` for `walk`; for `households` the radius V11 §2.3
++derives for each district, one pass per radius in use — and a residential plot is served when the marks of its own
++district's radius reach its cell, which is V11 §2.3's count plot by plot. On Below the marks spread from the members by
++`underDistance` (V04 §3.6a (1)); on Sky a member anywhere on the island serves every plot on it. T-V1-59 (b) holds the
++unserved plots to V12 §3.6's `servedShare` count, plot by plot.
+@@ -3115,0 +3206,6 @@
++**(6) Crisis looks in Find** (item 122 (f)). Find's `crises` section, a look's row and its crisis card are volume 9's
++(V09 §4.21.12); a look is no chip and no `findAreas` row. A disaster look's place — the land its row's **Go to** and
++its card's **Show** frame — is the union of the Ground shapes of its units' `FindArea`s: the districts
++`disasterDistricts` returns at the view's effective key (V01 §3.16), at the village rungs V07's units' land. So the
++frame and Find's halo are one set of shapes, and a unit the key withholds is neither framed nor listed.
++
+@@ -3127 +3223 @@
+-| the services of V01 §3.16 (`catchmentOf`, `districtsAbove`, `fabricSignature`) | ≤ 1 ms per call at CITY, memoised per commit; `catchmentOf('walk')` ≤ 2 ms at METROPOLIS | inside the callers' lines (S10b's coverage term, volume 4's stage, the reader) | M5 | the way-graph distances cached per district per commit |
++| the services of V01 §3.16 (`catchmentOf`, `districtsAbove`, `fabricSignature`) | ≤ 1 ms per call at CITY, memoised per commit; `catchmentOf` on a disc unit (`walk`, `households`) ≤ 2 ms at METROPOLIS (the plots under its disc's cells of V11 §2.3's 16 m raster, by a plot index per cell) | inside the callers' lines (S10b's coverage term, volume 4's stage, the reader) | M5 | the plot index per raster cell built once per commit and shared by every call |
+@@ -3129 +3225,2 @@
+-| Show gaps' units (`gapUnits`, V01 §5.4 (3)) | per chip: a partition unit (`district`, `parish`, `settlement`) ≤ 2 ms at METROPOLIS (one pass over the admitted members' plots); `walk` ≤ 25 ms at METROPOLIS (one multi-source walk bounded at `per`); `households` ≤ 25 ms at METROPOLIS once its radii are memoised, the radii of one `per` value ≤ 1 s at METROPOLIS at their first use in a commit, on the worker — never delaying a chip's glow (item 120 (j)), its gaps drawn when ready | §12.5's overlay budget, beside item 120 (j)'s glow | M5, B-CITY (METROPOLIS) on V09's app harness | the radii computed for the plots of the districts in view first and the rest on idle |
++| Show gaps' units (`gapUnits`, V01 §5.4 (3)) | per chip: a partition unit (`district`, `parish`, `settlement`) ≤ 2 ms at METROPOLIS (one pass over the admitted members' plots); `walk` and `households` ≤ 25 ms at METROPOLIS (one pass per member and per radius in use over the 16 m raster's cells within the radius, V01 §5.4 (3)), on the worker — never delaying a chip's glow (item 120 (j)), its gaps drawn when ready | §12.5's overlay budget, beside item 120 (j)'s glow | M5, B-CITY (METROPOLIS) on V09's app harness | the members nearest the view marked first and the rest on idle |
++| the crisis services (`disasterSource` with `disasterDistricts`, `campLand`; V01 §3.16, item 122) | `disasterSource` ≤ 1 ms per standing disaster overlay or preview at the METROPOLIS cap (one pass over the units' adjacency; the units' facts built once per commit and shared by every overlay), memoised per commit, overlay and key; `campLand` ≤ 3 ms at the METROPOLIS cap (one pass over the hinterland's land-use faces within `camp.reachM` through the face index), memoised per commit | §12.5's lazy per-tile budget for crisis looks: computed at the first visible tile that draws a look — an interaction, never a one-time wait (item 119 (d)) | M5 (`disasterSource`), M3b (`campLand`), on V09's app harness | the units' mean heights read on the hydrology grid instead of the height raster; `campLand`'s faces gathered for the tiles in view first and the rest on idle |
+@@ -3162,2 +3259,3 @@
+-hood-pin edit, T8's preview (the replace dry run) and Find's two lines — are interaction budgets, unchanged by item 119
+-(d). The low tier (§12.1) aims at the same comfort level, a size it cannot reach declared per device (item 119 (e)). At
++hood-pin edit, T8's preview (the replace dry run), Find's two lines and the crisis services — are interaction budgets,
++unchanged by item 119 (d). The low tier (§12.1) aims at the same comfort level, a size it cannot reach declared per
++device (item 119 (e)). At
+@@ -3203 +3301 @@
+-| T-V1-29 | budgets, every line of V01 §6: opening a district per template against NG's per-template recordings at B = 150, 450, 750 and 1 300; the first visible tiles' raster against NG's at comparable counts, measured separately; the METROPOLIS lines; per building (S5 (b)); draw calls and uploads within §12.5 (S5 (c)); the one-click added cost at CITY; **item 119's one-time waits** (V01 §6; J-V1.103): on §12.1's reference hardware at TOWN, CITY and the METROPOLIS population cap, generation with stage 2, a standalone neighbourhood document's first map at each `contextRung`, a replace close-up of the largest district, the stage-2 switch's edit (at the METROPOLIS cap among them), the sky unit run at generation and inside a raise, and a district and an outline export each complete within 10 s from the click to the complete result; every wait past 1 s shows V09 §4.21.9's progress, never an empty screen; every step slower than its V01 §6 target has its `perf.qualitySpend` row with its recorded gain (0 rows and 0 slower steps at shipping); V01 §6's interactive lines hold unchanged | bench | P / C | S5 |
++| T-V1-29 | budgets, every line of V01 §6: opening a district per template against NG's per-template recordings at B = 150, 450, 750 and 1 300; the first visible tiles' raster against NG's at comparable counts, measured separately; the METROPOLIS lines; per building (S5 (b)); draw calls and uploads within §12.5 (S5 (c)); the one-click added cost at CITY; **item 119's one-time waits** (V01 §6; J-V1.103; takes T119-2 and T119-3's stage-2 clauses): on §12.1's reference hardware at TOWN, CITY and the METROPOLIS population cap, generation with stage 2, a standalone neighbourhood document's first map at each `contextRung`, a replace close-up of the largest district, the stage-2 switch's edit (at the METROPOLIS cap among them), the sky unit run at generation and inside a raise, and a district and an outline export each complete within 10 s from the click to the complete result; every wait past 1 s shows V09 §4.21.9's progress, never an empty screen; every step slower than its V01 §6 target has its `perf.qualitySpend` row with its recorded gain (0 rows and 0 slower steps at shipping); V01 §6's interactive lines hold unchanged | bench | P / C | S5 |
+@@ -3216 +3314 @@
+-| T-V1-42 | catchment and siting (item 103): a class with a coverage row reaches the same served-district share whether S10b or `catchmentOf` counts it (one partition, J-V1.35); 0 manor or green blocks within an emitter row's radius when its weight is 1; 0 S9b typings on a block S10a (i) filled; on the underground and sky fixtures, `catchmentOf` on an undercity plot reads `underDistance` and counts its neighbourhood as its own `district` unit, and on an island plot a walk row counts the island as one unit, equal to V05 §3.5 (3)'s count | B-CITY, fixtures (V04's, V05's) | C | — |
++| T-V1-42 | catchment and siting (item 103): a class with a coverage row reaches the same served-district share whether S10b or `catchmentOf` counts it (one partition, J-V1.35); **one count of served**: over 200 B-CITY-lite seeds per rung, under the host's key, for every coverage unit (`walk`, `households`, `parish`, `district`) the plots `gapUnits` reads as unserved equal, plot by plot, those V12 §3.6's `servedShare` counts unserved, and `catchmentOf` at each plot equals V11 §2.3's unit at that plot; 0 manor or green blocks within an emitter row's radius when its weight is 1; 0 S9b typings on a block S10a (i) filled; on the underground and sky fixtures, `catchmentOf` on an undercity plot measures its disc by `underDistance` and counts its neighbourhood as its own `district` unit, on an island plot a walk row counts the island as one unit, equal to V05 §3.5 (3)'s count, and a district with no residential plot holds no unit | B-CITY, B-CITY-lite, fixtures (V04's, V05's) | C | — |
+@@ -3233 +3331,2 @@
+-| T-V1-59 | Find over the town (item 120 (k)'s town clauses; V01 §5.4): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, a standalone neighbourhood document, V04's undercity fixture and V05's island fixture — (a) **areas**: `findAreas` lists every district of each layer but the hinterland pseudo-district, each once (0 areas with both a district and a neighbourhood entry), every city-cut `QuarterNode` of two or more members and every `RegionGroup`, and nothing the document lacks; each area's shapes equal the union of its admitted districts' faces per layer (symmetric difference 0 at the lattice); under a player view an area the key withholds is never listed, counted, lifted or pinned; at every city-band stop from item 116's limit inward, an area drawn under the pin size carries its pin; (b) **gaps**: for each coverage unit, and a class with no coverage row, `gapUnits` equals the brute-force reading over 200 seeds per rung — every partition unit, or every residential plot, whose `catchmentOf` holds no admitted member, plot by plot (the multi-source walk's served set equal to the per-plot `catchmentOf` evaluation); a fixture whose only member in one district is concealed shows that district as a gap under the player view and not under the host's, and no parish cell outlines a withheld church; a several-class chip reads one unit as V01 §5.4 (3) states; an area, place or person chip yields no gap; (c) **over time**: an edit removing a district's last member adds its gap in that commit and its undo removes it; an epoch that creates a district lists it with its gaps in that commit; a chip whose area an edit or epoch removes stays at count 0, dark, until removed or Clear; (d) **a view only**: the document hash, the log and the tiles byte-identical with Find and Show gaps on and off; (e) **cost**: `findAreas` and `gapUnits` within V01 §6's Find lines at the METROPOLIS cap. From M5 on the services; on V09's app harness from V09's Find | B-CITY-lite, fixtures (V04's, V05's), app harness | C | — |
++| T-V1-59 | Find over the town (item 120 (k)'s town clauses; V01 §5.4; takes T120-2 and T120-4's town clauses): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, a standalone neighbourhood document, V04's undercity fixture and V05's island fixture — (a) **areas** (T120-2's town clause): `findAreas` lists every district of each layer but the hinterland pseudo-district, each once (0 areas with both a district and a neighbourhood entry), every city-cut `QuarterNode` of two or more members and every `RegionGroup`, and nothing the document lacks; each area's shapes equal the union of its admitted districts' faces per layer (symmetric difference 0 at the lattice); each area chip's matches equal §11.2's gazetteer match listing by area at the view's effective key; under a player view an area the key withholds is never listed, counted, lifted or pinned; at every city-band stop from item 116's limit inward, an area drawn under the pin size carries its pin; (b) **gaps**: for each coverage unit (`walk`, `households`, `parish`, `district`), and a class with no coverage row, over 200 seeds per rung, `gapUnits`' unserved plots equal, plot by plot, those V12 §3.6's `servedShare` counts unserved under the host's key, and V01 §5.4 (3)'s one-pass evaluation equals the brute-force reading of each plot's `catchmentOf` with the members the key admits; a fixture whose only member in one district is concealed shows that district as a gap under the player view and not under the host's, and no parish cell outlines a withheld church; a several-class chip reads one unit as V01 §5.4 (3) states; an area, place or person chip yields no gap; (c) **over time** (T120-4's town clause): an edit removing a district's last member adds its gap in that commit and its undo removes it; an epoch that creates a district lists it with its gaps in that commit; a chip whose area an edit or epoch removes stays at count 0, dark, until removed or Clear; (d) **a view only**: the document hash, the log and the tiles byte-identical with Find and Show gaps on and off; (e) **cost**: `findAreas` and `gapUnits` within V01 §6's Find lines at the METROPOLIS cap. From M5, Find's milestone (§16's M5 row), on the services and on V09's app harness with V09's Find panel | B-CITY-lite, fixtures (V04's, V05's), app harness | C | — |
++| T-V1-60 | the disaster's units and the outskirts' land (item 122; V01 §3.16): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap and on a standalone neighbourhood document, with fixture calamities of every pattern — a fire under wind and under calm, a flood, an earthquake, a type no calamity row matches — and a preview: (a) **whole districts**: `disasterDistricts` returns districts of the ground's part 0 only, never the hinterland pseudo-district, max(k, matched) of them for V01 §3.16 (5)'s k; a fire's set connected over district adjacency, each unit after the first the frontier's farthest downwind of the seed (nearest under calm); a flood's grown from the water-fronting districts, lowest first; (b) **monotone**: at one seed and condition the set at a lower severity a prefix of the set at a higher, severity 0 to 1 in steps of 0.05; (c) **stable**: the same set in every week the overlay stands, in every view and export, at pool sizes 0 and 3, on the five engines, with Show crises toggled and across a save and a load; (d) **the targets**: a calamity naming a district's institution always strikes that district; a target an edit removed, or one in the hinterland, reported in the view telemetry and the pattern filling the share; under T-V9-66's canary player view a withheld target neither struck by name nor reported; (e) **`campLand`**: only `commons` faces, fallow `arable` and `strip_field` faces within `camp.reachM` of the built edge and the open verges of the arterials within that reach; 0 faces meeting a gate's passage or crossed by an under-deck strip, 0 on the sky or underground arenas; empty on a standalone neighbourhood document and on an island town with no land beyond its shore; (f) **a look only**: the model digest, the document hash and the log byte-identical with every service called and not; (g) V01 §3.18 (e)'s two crisis rows and (f)'s crisis combinations, each with its outcome and rung; (h) **cost**: V01 §6's crisis line at the METROPOLIS cap. From M5; clause (e) from M3b, with `campLand` (V01 §8.1) | B-CITY-lite, fixtures, CI | C | — |
+@@ -3250 +3349 @@
+-V01 §8.2's. Three small pieces land earlier because the base reads them or its goldens would otherwise shift twice:
++V01 §8.2's. Four small pieces land earlier because the base reads them or its goldens would otherwise shift twice:
+@@ -3266,0 +3366,3 @@
++* **M3b** — `campLand` (V01 §3.16) with item 122's base parts, since §10.2's camp placement reads it from M3b; its one
++  cell, `hood.constants`' `camp.reachM`, ships with the row at M1 and is not calibratable (no register entry), and
++  clause (e) of T-V1-60 runs with it. ≈ 0.25 pw inside the base's M3b item-122 line.
+@@ -3316,2 +3418,2 @@
+-| W10 labels, exports and Find's areas | the hood title, place labels, per-format content (V01 §5.3); Find's area targets and Show gaps' units (`findAreas`, `gapUnits`; V01 §5.4, item 120) | W5, W9 | 0.5–1 |
+-| W11 verification | T-V1-1 – T-V1-59 (T-V1-50 – T-V1-54 with W18; T-V1-55 – T-V1-58 the lifecycle, edge, rung and item-111 and frame suites of V01 §3.18; T-V1-59 Find's, on V09's app harness from V09's Find; T-V1-29's one-time-wait clause, item 119), B-REF's NG template rows in `baselines.json` (research-side, numbers only; NG's plaza share of the neighbourhood's area per size tag among them, T-V1-31), the NG panel tooling (§13.6 (2)'s seeds and counts), goldens and shift records; the register entries of the cells M5 lands (`--defaults --milestone M5`, then `--check`; V01 §8.1) and the history rows of the M1 `hood.constants` and M3a `hood.templates` columns S-V1-b, W3, W16, W17 and W18 tune before M5's exit | all | 2–2.5 |
++| W10 labels, exports, Find's areas and the disaster's units | the hood title, place labels, per-format content (V01 §5.3); Find's area targets and Show gaps' units (`findAreas`, `gapUnits`; V01 §5.4, item 120); the disaster look's units (`disasterSource`, `disasterDistricts`; V01 §3.16, item 122), reading V07's village units in the same shape | W5, W9, the base's item-122 parts (M3b) | 0.75–1.5 |
++| W11 verification | every T-V1 test (V01 §7; T-V1-50 – T-V1-54 with W18; T-V1-55 – T-V1-58 the lifecycle, edge, rung and item-111 and frame suites of V01 §3.18; T-V1-59 Find's, at M5 (Find's milestone) on V09's app harness with V09's Find panel; T-V1-60 the crisis units' and the camps' land, its clause (e) from M3b; T-V1-29's one-time-wait clause, item 119), B-REF's NG template rows in `baselines.json` (research-side, numbers only; NG's plaza share of the neighbourhood's area per size tag among them, T-V1-31), the NG panel tooling (§13.6 (2)'s seeds and counts), goldens and shift records; the register entries of the cells M5 lands (`--defaults --milestone M5`, then `--check`; V01 §8.1) and the history rows of the M1 `hood.constants` and M3a `hood.templates` columns S-V1-b, W3, W16, W17 and W18 tune before M5's exit | all | 2–2.5 |
+@@ -3325 +3427 @@
+-| **M5 total** | | | **27.25–36.25** |
++| **M5 total** | | | **27.5–36.75** |
+@@ -3328,3 +3430,4 @@
+-T-V1-29 and T-V1-59 within W11's, so the M5 total and §16's M5 row are unchanged.
+-
+-This is 13.25–18.25 pw above the base's hook-depth M5 line of 14–18: the seven context templates, S7c's selection with
++T-V1-29 and T-V1-59 within W11's. Item 122's disaster units are W10's 0.25–0.5 pw of new work, T-V1-60 lies within
++W11's range, and `campLand` is M3b's (V01 §8.1).
++
++This is 13.5–18.75 pw above the base's hook-depth M5 line of 14–18: the seven context templates, S7c's selection with
+@@ -3332 +3435,2 @@
+-standalone unit runs, the file-g reads W12–W15, the emulation preset W17 and item 110's neighbourhood parts W18. §16's
++standalone unit runs, the file-g reads W12–W15, the emulation preset W17, item 110's neighbourhood parts W18 and item
++122's disaster units in W10. §16's
+@@ -3346 +3450,2 @@
+-`skyDistrictCount`, `findAreas` and `gapUnits` and the writer `plantRimWalk` (V01 §3.16, V01 §5.4), the symbol key `accessSymbolKind` (V01 §3.8.8), the
++`skyDistrictCount`, `findAreas`, `gapUnits`, `disasterSource` with `disasterDistricts`, and `campLand`, and the writer
++`plantRimWalk` (V01 §3.16, V01 §5.4), the symbol key `accessSymbolKind` (V01 §3.8.8), the
+@@ -3411 +3516 @@
+-| J-V1.26 | Chose to price **M5 at build depth, 27.25–36.25 pw** (V01 §8.2), over absorbing the additions in the base's 14–18, because the context templates, the selection with its land, the dispatch with its land accounting, local places, the unit runs, the file-g reads, the emulation preset and item 110's neighbourhood parts are new mechanisms §16's pricing rule says must be itemised (item 474). |
++| J-V1.26 | Chose to price **M5 at build depth** (V01 §8.2's total), over absorbing the additions in the base's 14–18, because the context templates, the selection with its land, the dispatch with its land accounting, local places, the unit runs, the file-g reads, the emulation preset and item 110's neighbourhood parts are new mechanisms §16's pricing rule says must be itemised (item 474). |
+@@ -3487 +3592 @@
+-| J-V1.102 | Chose to give Find (item 120) the town's **area targets** as one target per district on every layer — the district a close-up opens being the neighbourhood (J-V1.35), so a district and a neighbourhood are never two chips for one area, the panel's word `neighbourhood` going to an undercity or underground district and a standalone neighbourhood document's — with the **city cut's quarters** of two or more districts and the **region groups**, over listing every node of §9.1's quarter tree, because the city cut is the base's definition of the town's quarters (§4.5) and the tree's other nodes would list one district many times under nested names; and to read **Show gaps' units through `catchmentOf`** (V01 §3.16), the one catchment reading the siting solver and the absorbed Coverage view read — a partition unit (`district`, `parish`, `settlement`) a gap when it holds no member, a per-plot unit (`walk`, `households`) as the residential plots whose catchment holds none, grouped by district (the plots V12 §3.6's `servedShare` counts), a class without a coverage row on the `district` unit and a several-class chip on its classes' common unit, else `district` — over a second, view-only unit definition, because one reading makes the gaps the panel draws the units the solver and the bars count; and to count only the members the view's key admits, with parish cells built from admitted churches, so a gap never hints at what the key withholds (item 120 (h); V01 §5.4). |
++| J-V1.102 | Chose to give Find (item 120) the town's **area targets** as one target per district on every layer — the district a close-up opens being the neighbourhood (J-V1.35), so a district and a neighbourhood are never two chips for one area, the panel's word `neighbourhood` going to an undercity or underground district and a standalone neighbourhood document's — with the **city cut's quarters** of two or more districts and the **region groups**, over listing every node of §9.1's quarter tree, because the city cut is the base's definition of the town's quarters (§4.5) and the tree's other nodes would list one district many times under nested names; and to read **Show gaps' units through `catchmentOf`** (V01 §3.16), which reads V11 §2.3's `CoverageSpec` — the one count of served the siting solver, V12 §3.6's `servedShare` and the absorbed Coverage view read — a partition unit (`district`, `parish`, `settlement`) a gap when it holds no member, a per-plot unit (`walk`, `households`) as the residential plots whose catchment holds none, grouped by district (the plots V12 §3.6's `servedShare` counts), a class without a coverage row on the `district` unit and a several-class chip on its classes' common unit, else `district` — over a second, view-only unit definition or a way-graph walk of this volume's own, because one reading makes the gaps the panel draws the units the solver and the bars count, plot by plot (T-V1-42, T-V1-59 (b)); and to count only the members the view's key admits, with parish cells built from admitted churches, so a gap never hints at what the key withholds (item 120 (h); V01 §5.4). |
+@@ -3488,0 +3594,2 @@
++| J-V1.104 | Chose to make **a disaster look's units whole districts** (item 122 (b): "whole neighborhoods"; the neighbourhood is the district a close-up opens, J-V1.35), taken as a prefix of one **strike order** — the calamity's matched targets first, then its pattern: a fire through district adjacency downwind from the first target or a seed weighted by inhabitants, a flood from the water-fronting districts lowest first on the terrain raster, an earthquake and every other kind scattered by keyed uniforms — the count the `disaster` row's share at the rung and severity, at least one while the share is above 0 and never fewer than the matched targets, over a per-building share or a fresh draw at each severity, because whole districts are what the owner asked for, a prefix makes the ruined set grow with severity and stay the same in every week, view and export, and the dossier's named place wins; to find **the overlay's calamity** among the committed `epoch` events' `CalamityRef`s by its week inside the overlay's weeks (the latest; ties by severity band, then id) and to read its pattern through V06 §2.4's calamity table (fire, flood, else scatter), over a new field on `ConditionOverlay` or a second table of calamity words, because item 122 adds nothing to the model (§2.7) and V06's table already types every calamity word the port carries; to state one unit shape, `DisasterUnit`, which V07 fills with its village units at THORP, HAMLET and VILLAGE, so one rule picks among districts and ends alike (R2-37 (4)'s same rule); and to report a target that names no unit in the view telemetry, the pattern filling the share, while a target the key withholds is skipped unreported, because a look must never point at what the viewer does not know (DR44's admission). The draws are view draws under §8.1's `crisis.place` tag, keyed by the condition's id (a preview's by its look kind), never a model stream (V01 §3.12). |
++| J-V1.105 | Chose to give the camp looks **`campLand`** — the hinterland's `commons` faces and fallow fields within `camp.reachM` (600 m) of the built edge, and the open verges of the arterials within that reach of where they leave the town — as a pure function of the document, leaving a label's keep-out to §10.2 (d)'s placement at the band drawn, over a view-dependent list or a reach tied to `siegeStandoffM`, because the placement already keeps every look off the keep-outs per band, the outskirts are a fixed stretch of land whatever crisis stands, and the siege's standoff is another distance (the camps beyond bowshot) that §10.2 applies to `beyondWalls` itself; to leave out faces meeting a gate's passage or crossed by an under-deck strip, so a camp never blocks a gate or stands among piers; and to land it at M3b with item 122's base parts, over M5 with the disaster's units, because §10.2's camp placement reads it from M3b and it reads only records the base builds by M1. |
+@@ -3551 +3658 @@
+-No other owner question arises: the file-g parts are the owner's rules (items 102–112, 119 and 120, the catacomb and crypt rule of
++No other owner question arises: the file-g parts are the owner's rules (items 102–112, 119, 120 and 122, the catacomb and crypt rule of
+@@ -3571,4 +3678,5 @@
+-our own metric constants and provenance marks (§17.1). Items 119 and 120 were read at source
+-(`docs/AMENDMENTS-2026-09-28g.md`) with their routing (J130, J133), and the shapes this volume reads from them — V11
+-§3.25.8's `perf.qualitySpend`, V09 §4.21.9's progress view, V10 §2.13's `FindAnswer` — as landed or as their round's
+-repairs state them.
++our own metric constants and provenance marks (§17.1). Items 119, 120 and 122 (with 122 (h)–(i)) were read at source
++(`docs/AMENDMENTS-2026-09-28g.md`) with their routing (J130, J133, J135, J138), and the shapes this volume reads from
++them — V11 §3.25.8's `perf.qualitySpend`, V09 §4.21.9's progress view, V10 §2.13's `FindAnswer`, §2.7's
++`ConditionOverlay`, §4.11's `CalamityRef`, §10.2's crisis tables and *Crisis looks*, V06 §2.4's calamity table,
++§2.3's `Terrain.wind` and §4.9's land use and rotation — as landed or as their round's repairs state them.
+@@ -3579,2 +3687,2 @@
+-`.maxLevels`, `.profileNoticeCm`, the series spacing), the raised-way constants (`raised.stripMarginM`,
+-`.clearWidthM`, `.squareDeg`), `landmark.maxRings`, `landmark.roundTol` and `hood.hillsidePct`; every budget (V01 §6),
++`.maxLevels`, `.profileNoticeCm`, the series spacing), the raised-way constants (`raised.clearWidthM`,
++`.squareDeg`), `landmark.maxRings`, `landmark.roundTol`, `hood.hillsidePct` and `camp.reachM`; every budget (V01 §6),
+@@ -3582 +3690 @@
+-switch edit's; Find's two lines (the area list's unions, the gap walks and the `households` radii at the METROPOLIS cap) and that every one-time wait of V01 §6 stays inside the ten-second comfort level at the cap (T-V1-29); the M5 estimate (V01 §8.2); that S7c's weights give 15–35 % templates and separable morphologies (T-V1-4,
++switch edit's; Find's two lines (the area list's unions and the gaps' raster passes at the METROPOLIS cap) and the crisis services' and that every one-time wait of V01 §6 stays inside the ten-second comfort level at the cap (T-V1-29); the M5 estimate (V01 §8.2); that S7c's weights give 15–35 % templates and separable morphologies (T-V1-4,
+@@ -3597 +3705,3 @@
+-stages after S2 made (T-V1-4's switch clause); and that every bar of V01 §7 is met.
++stages after S2 made (T-V1-4's switch clause); that the disaster's three patterns read as a fire, a flood and an earthquake on B-CITY's
++waterfront and windy seeds, and that `camp.reachM` holds the camp looks' ground without crossing the frame's margin
++(T-V1-60); and that every bar of V01 §7 is met.
