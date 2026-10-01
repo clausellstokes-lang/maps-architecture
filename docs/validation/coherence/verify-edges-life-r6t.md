@@ -11,10 +11,14 @@ Lane: `coherence/verify-edges-life-r6t` (opus seat). Members: determinism, scope
 >   whole with its tables and Ends, R6-03 whole, Part H for my members, Part P); `assemble-r6.md`
 > - [x] live text = assemble-r6's after hashes (base `f39f1c30…`, V06 `9653164e…`, V08 `83382cac…`, V09 `046b6610…`,
 >   V10 `1014b64c…`, V11 `0e2767c1…`, V12 `006b8ef1…`)
-> - [ ] round-5 findings re-checked (VEL5-r5-01 – 04) with their END lines
-> - [ ] round-6 blocks in scope re-checked (R6-02's family at my members; R6-03's late calamity; the other rulings' sites)
-> - [ ] peers' landed r6t issues read; overlaps not re-raised
-> - [ ] report and result written
+> - [x] round-5 findings re-checked (VEL5-r5-01 – 04) with their END lines: all four FIXED
+> - [x] round-6 blocks in scope re-checked: word diffs of `b3f83a0` → `db26bb9` for V06, V08–V12 and the base's §5–§7,
+>   §13–§16 and the index, each changed subsection read whole where it states a mechanism at a limit; R6-02's two tables,
+>   R6-03's life, and the rules they rest on (V04 §3.5.4 (d), UC18; V08 §3.16 (7); V06 §3.7.4–§3.7.6, §3.11.1, §3.15.2;
+>   §6.1 *The weather stream*; §10.2 (d)–(h)) read whole
+> - [x] peers' r6t working files read (none had landed): verify-agree-layers (VAL-R6-01 the locked arch vault, VAL-R6-03
+>   GeoJSON's span use), verify-determinism (VDC6-01, VDC6-02), verify-agree-tools (VAT-r6-05); overlaps not re-raised
+> - [x] report and result written (`results/coherence_verify-edges-life-r6t.json`)
 
 ## 1. Round-5 findings re-checked against the live text
 
@@ -62,7 +66,8 @@ V06 §3.7.4–§3.7.6, §3.11.1 and §3.15.2.
     again once the wall goes, so no hold is lost.
 * **A locked arch vault under a wall.** At an epoch, a regeneration or a dossier-admitted circuit, V04's UC18 (keep it)
   and *beneath* (no arch vault under a wall) give two outcomes. It is the open hand-off of repair-r6-V04. **VAL-R6-01**
-  (verify-agree-layers) raises it with an exact change, so it is not raised again here. V06's two summaries fall under
+  (verify-agree-layers) and **VEW-r6-02** (verify-edges-world) raise it with exact changes, so it is not raised again
+  here. V06's two summaries fall under
   that issue's ends: W65 and §3.2's "the reconcile is the epoch-side guarantee that no chamber stands … under a wall".
 * **The span's `use` under a wall.**
   - VAL-R6-03 raises §11.1's GeoJSON row.
@@ -135,4 +140,176 @@ Totals: round 5's 4 issues are closed. **4 new issues: 0 blocker, 4 major, 0 min
 
 ## 3. Issues
 
-(in progress)
+### VEL6-r6-01 — MAJOR, EDGE-UNDEFINED, owner V10
+
+**The clerk tells a `vault` span under a wall as a vault; every other reader tells it open.**
+
+R6-02's *beneath* (base l. 2640–2646) rules that a `vault` span whose under-deck strip meets a wall's band or wall strip
+"is read `open` by every reader of its `use` while that band or strip lies there … its record unchanged (the span rule
+never reads a wall)". The record keeps `use: 'vault'`. V09 §4.20.6 (2) (l. 3196–3199) applies this to the span's panel,
+its raised way's panel, the badge's vaults and the why card: the span reads open, and "Walled up as a vault" is disabled
+with "A wall runs under this arch".
+
+V10's read row for a raised way (l. 1686) gives "each span's use with its reason (`open` by way, water, flood, tall,
+low, slope or land; `vault`; `user`) **from the base's span record**". A V10 builder serialises the record. Asked about
+the c14 fixture's viaduct (T110-2 (3): stage 2's ring crossing an S4 viaduct), the clerk says the arch under the ring is
+a vault, while the card on the same span says it is open and that a wall runs under it. The clerk then also names a
+vault for which V04 lays no chamber, since no arch vault stands under a wall. Two units give two outcomes for one case.
+
+R6-02's sweep (b) searched V10 only for crossing-rule words. VAL-R6-03 (verify-agree-layers) raises the same reader gap
+at §11.1's GeoJSON row. This is its V10 sibling: a different unit, so a separate fix.
+
+**Required change.**
+1. V10 l. 1686, the raised-way row's last cell: "each span's use with its reason (`open` by way, water, flood, tall,
+   low, slope or land; `vault`; `user`) from the base's span record" → "each span's use with its reason (`open` by way,
+   water, flood, tall, low, slope or land; `vault`; `user`) from the base's span record — but a span whose under-deck
+   strip a wall's band or wall strip meets is told `open` while that band or strip lies there, with "a wall runs under
+   this arch", whatever its recorded `use`, and no arch vault named in it (§2.7's crossing table, *beneath*; V09
+   §4.20.6 (2))".
+2. T-V10-41 adds: "on T110-2 (3)'s c14 fixture with a `vault` span of its S4 viaduct under stage 2's ring, the clerk's
+   read of the viaduct tells that span `open` with "a wall runs under this arch", as its V09 panel and why card do, and
+   after a hand `delete` of that run tells it `vault` with its arch vault".
+
+### VEL6-r6-02 — MAJOR, EDGE-UNTESTED, owner scope
+
+**A regeneration under a held raised way whose parts have gone: the crossing table's cells name a test that never runs
+them.**
+
+The crossing table's row W3, "a regeneration re-deriving a ring under a held raised way" (base l. 2700), names
+**T110-2 (6)** as the test for each of these cells:
+* C3: one span fallen;
+* C4: all spans fallen;
+* C5: a support cleared or toppled;
+* C6: a `vault` span breached;
+* C10 – C13: repaired, created across a gap, extended, edited.
+
+T110-2 (6) (l. 18598–18607) regenerates only **standing** held raised ways:
+* (1)'s c15 fixture with its aqueduct locked;
+* the oblique-route variant;
+* the New random run whose new boundary meets "one of the aqueduct's supports";
+* (3)'s `moat: 'all'` fixture with its viaduct locked.
+
+At generation every raised way is new, so every support stands and every span stands. A regeneration is the only time
+S3's and S5a's pull, S4's crossing rule, S10's band and V04's T2 vaults step meet fallen parts. They must then read:
+* a `ruined` support's stump as impassable and a `cleared` one's ring as open ground (*beneath*, *Where the line crosses*;
+  C5);
+* the clear width between **standing** rings only (the way-and-channel table's lead);
+* the run at its own top beneath a fallen span (*The cap*);
+* no chamber in a breached span (C6).
+
+The other bars reach other mechanisms, not these:
+* T110-2 (7) runs V06's epoch circuit and contraction (the cost field of V06 §3.7.4 (2)).
+* T110-2 (4) runs the hand operator's local bend.
+* T-V6-47 runs the epoch's re-solve.
+
+So a generation-path builder who reads every recorded support as standing, as at generation, passes every bar. At the
+user's Regenerate (keep), or New random, of a town whose held aqueduct has lapsed, that build then routes the ring round
+a cleared support, or caps a run at a soffit that has fallen. This is principle (11)'s "regenerate … at each" state, on
+the common path of a held raised way that has decayed.
+
+**Required change.** §13.2's T110-2 (6), after "0 S5b or S5c way corridors over a support ring, ramp, stair or foot"
+(the clause's end, before "(7) parts going"), add:
+
+"; and (1)'s c15 fixture with its aqueduct locked after scripted `DeclineOp`s — a span over the band `ruined`, a support
+by the band `cleared` and a `vault` span over the trace breached — regenerated (keep), then given New random with its seed
+searched so that the new ring's boundary meets the `cleared` support's former ring and, on a second run, a `ruined`
+support's stump: the trace through the cleared ring as open ground and crossing the deck line clear of the stump as of a
+standing support, the band whole across each former footprint, the run at its own top beneath each fallen span, no arch
+vault in the breached span, each S4 route the regeneration re-solves crossing the deck under a span §4.3 admits with its
+clear width read between standing rings, every station, key, span and state of the aqueduct unchanged (§2.7's crossing
+table, W3·C3–C6)".
+
+### VEL6-r6-03 — MAJOR, EDGE-UNDEFINED, owner V08
+
+**"A condition naming it": a SettlementForge condition names no calamity, so which conditions wait with a deferred late
+calamity is undefined. A carried one links to an earlier calamity.**
+
+R6-03's step 2 has an absorb whose week is not after `W₀` carry "neither the calamity, nor the records of its F5 targets
+…, nor a condition naming it". The same words stand at:
+* §4.11 *The clock* (4) (base l. 8531);
+* V08 §3.6 (3) (l. 1874), §3.2 (l. 1530) and §3.6 (4) (l. 1927–1928);
+* the §3.17 row (l. 2702);
+* T-V8-49 (g).
+
+Nothing defines "naming".
+* The dossier's `activeConditions[]` carries `id`, `archetype`, `label`, `severity`, `severityBand`, `status`,
+  `triggeredAt.tick`, `triggeredAt.sourceEventType` and `duration` (V08 l. 665). None of these refers to a calamity.
+* The only link is V08 §3.16 (7) (d) (l. 2583–2588), and it is a rule on weeks over **carried** calamities: "the key of
+  the carried calamity whose week equals its `triggeredAt.tick`, else of the latest carried calamity in the 52 weeks up
+  to its `sinceWeek`".
+
+Builders differ:
+* One defers a condition only when its `triggeredAt.tick` equals the calamity's week.
+* Another applies (d)'s whole rule with the deferred calamity counted as carried.
+* A third matches labels.
+
+Take SettlementForge's `reconstruction` condition raised a week after the calamity, in a town that carried an earlier
+calamity within 52 weeks. The first builder carries the condition now. By (d) it then links to the **earlier**
+calamity, so its disaster look stands on the earlier calamity's districts (V08 §3.16 (7) (b); §10.2 (d)) until the next
+absorb past `W₀` re-links it. That is a silent wrong look on the map, and every bar passes: T-V8-49 (g)'s condition
+"naming it" can be built to whichever rule the test's author reads.
+
+**Required change.**
+1. V08 §3.16 (7) (d), after "with none it carries no calamity.", add: "A condition **names** a calamity when this link
+   would give it that calamity were it carried: its `triggeredAt.tick` at the calamity's week, else the calamity the
+   latest in the 52 weeks up to the condition's `sinceWeek`. So a late calamity an absorb leaves uncarried (§4.11 *The
+   clock* (4); V08 §3.6 (3)) holds back each condition that names it, and none of them is carried meanwhile or linked to
+   an earlier calamity."
+2. V08 §3.6 (3): "nor a condition naming it" → "nor a condition naming it (V08 §3.16 (7) (d))".
+3. END (pipeline), §4.11 *The clock* (4): "nor a condition naming it" → "nor a condition naming it (V08 §3.16 (7) (d))".
+4. T-V8-49 (g) adds: "and on a copy whose binding carries an earlier calamity in the 52 weeks before the second absorb,
+   and whose `reconstruction` condition's `triggeredAt.tick` falls the week after the late calamity's — that condition not
+   carried by the second absorb (no disaster look on the earlier calamity's districts), and carried by the absorb past
+   `W₀` with the calamity, its look on the late calamity's targets".
+
+### VEL6-r6-04 — MAJOR, CATALOGUE-GAP, owner model
+
+**A wall stretch of the bent group that meets an aqueduct's support without crossing its deck line has no outcome.**
+
+*beneath*'s *Where the line crosses* (base l. 2617–2635) sets three rules:
+* "a trace's line never crosses … an aqueduct's standing support";
+* a stretch laid by no pull or cost field — a hand `drawWall`, a moved trace vertex, a re-anchored stretch, VS3's
+  palisade, V06 §3.7.6 (3)'s quay wall, `repairWall`'s new stretch — "is **bent locally**, between its nearest points
+  clear of the raised way's under-deck strip, ramps, stairs and feet on either side: to cross an aqueduct under the
+  nearest span";
+* "No gate and no tower in the under-deck strip".
+
+The bend is written only for a stretch that **crosses** the deck line. It gives no outcome for one that meets a support
+without crossing:
+* a hand wall drawn along beneath an aqueduct, between or through its piers — the old way of carrying a wall on an
+  aqueduct's line, which R6-02 rules no longer bears on it;
+* a stretch that enters the under-deck strip and leaves it on the same side;
+* a stretch drawn, or a trace vertex moved, so that it ends at a pier.
+
+For these there are no "nearest points clear … on either side" to bend between, and no crossing to move under a span.
+The case is not in the canon's catalogue. The probe and adjudication-r6 never consider it (no "along", "lengthwise" or
+"ends inside" case in either).
+VEW-r6-03 (verify-edges-world) rules a barrier anchor or weld vertex inside a strip. That is a different case: no
+anchor rule reaches a hand stretch run along beneath an aqueduct, or ended at one of its piers.
+
+Builders differ:
+* One moves the stretch out to the strip's edge.
+* One makes it cross the deck line under a span, so it now crosses twice.
+* One refuses the drawing.
+* One lets it run through the piers, against "never crosses … an aqueduct's standing support" and T-V6-47's bar "0 trace
+  lines across … an aqueduct's standing support".
+
+The pulled and cost-field traces are defined: they treat the supports as impassable. So is a road deck: its supports are
+built into the line.
+
+**Required change.**
+1. §2.7's crossing table, *beneath*, *Where the line crosses*: after "…through a gate there (by hand a fate named in
+   `bend.wall.raisedCrossing`'s line)." add: "A stretch of that group whose line meets an aqueduct's standing support
+   without crossing its deck line there — one drawn along beneath it, one entering and leaving its under-deck strip on
+   one side, one ending at a support — is bent the same way. Its part inside the strip is moved to the strip's edge on
+   the side it entered from, between its nearest points clear of the strip, and an end inside the strip is moved to that
+   edge (by hand a fate in `bend.wall.raisedCrossing`'s line). So no such stretch runs along within, or ends inside, an
+   aqueduct's under-deck strip."
+2. END (determinism), §7.1's `bend.wall.raisedCrossing` row, outcome: after "under an aqueduct's nearest span," add "a
+   stretch along beneath an aqueduct or ending at one of its supports moved to the under-deck strip's edge,".
+3. END (scope), T110-2 (4): after "each a fate in `bend.wall.raisedCrossing`'s line;" add "a hand `drawWall` drawn along
+   beneath a standing aqueduct through two of its supports, and one ending at a support — each moved to the under-deck
+   strip's edge, a fate in `bend.wall.raisedCrossing`'s line, every station, key and span unchanged;".
+
+(The adjudicator may instead refuse such a drawing with its nearest lawful alternative under §7.1's catch-all. The bar
+in (3) then asserts that refusal.)
