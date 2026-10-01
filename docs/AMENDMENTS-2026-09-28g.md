@@ -1312,3 +1312,65 @@ vetoable interpretation.
      judgment index. Volumes: V11 (the climate row's weather columns and the two hard rules), V09 (the advanced panel's switch, Start a
      shower now, the defaults by tier, phone and reduced motion), V12 (bars and how each is measured). Applied by the coherence pass
      like items 111–123 (J137).
+
+122 (h)–(i). **ITEM 122 AMENDED — Crisis looks scale with the forces and groups the dossier gives, and set the map's framing
+     (owner, 2026-10-01).** Owner: "regarding some stressor cosmetics such as immigration and undersiege, we have in the works varying
+     sizes of armies or coalitions of armies and group travel populations that should scale and determine teh size of the visuals as
+     in if we have two armies joining together, then that means double the size of (theoretically) of the visual. The additions of
+     these extra cosmetcis should also set the default zoom scaling of the map at that time, and the ceiling where appropriate. I
+     defer all decisiosn to you". **What SettlementForge gives:** armies, coalitions of armies and travelling groups with their sizes
+     are IN DEVELOPMENT in SettlementForge (owner); their dossier fields are to be confirmed by the final local check (item 125 (d)).
+     Program's decisions (delegated by the owner: "I defer all decisiosn to you"; our numbers, calibratable):
+     **(h) SCALE BY HEADCOUNT.** Where the dossier gives a force's or a group's size, the look is sized by it, never by guesswork:
+     each army pitches its own camp, its area proportional to its headcount at **45 m² a head** (tents, lines, horses and lanes; Roman
+     marching camps and present-day refugee-camp standards both sit near 30–45 m² a head), so two armies joined make twice the camped
+     ground; a coalition's armies each keep their own camp and colours, spread round the town (the larger the coalition, the fuller
+     the ring); siege engines number about one per 1 500 besiegers, capped by the gates and wall stretches they can face; a travelling
+     group's camp (migrants, pilgrims, a caravan) is sized by its people at the same rate. Where the dossier gives no size, item 122
+     (b)'s scale by severity and tier holds, with the calamity's or condition's own counts (`exodus`, arrivals) where it has them.
+     **(i) FRAMING AND THE CEILING.** While crisis looks stand, the map's default framing — the view it opens at and the **Fit**
+     button — takes in the town and its camps, and item 116's zoom-out limit widens to the bounds of town and camps together; when
+     the crisis ends, both return to item 116's. A view the user has already moved is never yanked: only the opening view, Fit and
+     the limit change. Camps stay on the land the map holds (the frame and its margin); a force too large for that land fills it out
+     to the margin and the rest is drawn as massed camp marks on the surrounding ring at the city band, the panel giving the full
+     number ("about 24 000 besiegers, three armies"). All of it remains a look: the frame, the model and the hash never change.
+     **HOMES (added to item 122's):** §10.2 (the area per head, the engine rate, the coalition's spread), §8.8 (the ring's massed
+     marks), §2.9 (the default framing and the widened limit as view state while a look stands). Volumes: V08 (the force, coalition
+     and travelling-group sizes read from the dossier when present, confirmed by item 125 (d)), V11 (the rates), V09 (Fit, the
+     opening view, the limit, the panel's numbers), V12 (bars: the camped area proportional to headcount within 10 %; two armies
+     twice one; the opening view contains every camp; the limit restored when the crisis ends). Applied by the coherence pass with
+     item 122 (J138).
+
+125. **OWNER RULE — The dossier is the only input; what it does not give, our map supplies (owner, 2026-10-01).** Owner: "note that
+     when it comes to making sure that everything is seamless with settlementforge inputs from dossier! and note that I want you only
+     read from the dossier, anything that is not given from the dossier, it is up to our map code to supplement." / "I defer all
+     decisiosn to you". **What the design has (CONFIRMED):** the port reads the dossier into `DossierDigest` (V08 §2.5) and ignores
+     SettlementForge's campaign state, derived reads and internals (V08's ignore-list: `worldState.spatialLedgers`, the district,
+     map and causal profiles, `simulationTrace`, …); but it also reads two host inputs that are not the dossier — `HostContext.week`
+     (the campaign's `calendar.elapsedWeeks`, item 117 (c)) and `HostContext.realm` (campaign placements, realm and latitude scale,
+     the spatial digest's words and climate word: DR1, DR3, DR19, DR29, item 117 (d)).
+     Program's decisions (delegated by the owner):
+     **(a) ONE SOURCE.** At run time the map reads SettlementForge only through the dossier: never its campaign state, simulator,
+     derived reads, realm map or code. `HostContext.week` and `HostContext.realm` stop being inputs; every fact they supplied is
+     taken from the dossier where the dossier carries it, otherwise supplied by our map code (b).
+     **(b) WHAT THE MAP SUPPLIES.** Every dossier field the map uses has a stated standalone fallback — the generator's own choice,
+     exactly as on a map made without a dossier — so a missing or empty field never refuses, never stalls, and is reported. In
+     particular: the WEEK (items 117, 118, 122, 124) is the dossier's own latest stamped tick (its conditions' `triggeredAt`, its
+     calamities' and history's ticks) where it has one, else the user's season control (standalone midsummer); the CLIMATE is the
+     dossier's terrain type with our biome rules (item 117 (d)'s rows); the LATITUDE, the realm placement and the neighbours' bearings
+     are our generator's defaults or the user's settings.
+     **(c) THE HOST STILL DRIVES THE VIEW.** A host embedding the map may still send the embedding API's view commands (§11.2, §11.3:
+     a week, a layer, a selection), as a user would; these are commands, not inputs, and the map never needs them.
+     **(d) THE FINAL CHECK.** The program's last step (after the coherence pass's verdict; owner: "read it from local") reads
+     SettlementForge's LOCAL checkout on the owner's computer, read-only, and confirms, field by field, that every dossier field the
+     port reads exists with the shape and values the port expects, that every field it needs and the dossier lacks has its fallback
+     under (b), and which in-development fields (item 122 (h)'s forces, coalitions and travelling groups; a current-week stamp) the
+     dossier now carries — a table of matches, mismatches and fixes.
+     **(e) BARS.** A dossier with only SettlementForge's required keys generates a full map, every absent field reported with the
+     fallback taken; the same dossier with and without a host context yields the identical document and hash; no code path of the
+     port reads anything but the dossier (a static check of the adapter's imports and reads).
+     **HOMES:** §11.3 and §11.4 (host inputs: the dossier the only data input; the view commands kept), §7.7 (the derivation rows
+     DR1, DR3, DR19, DR29, DR42 re-sourced to the dossier or to the generator's fallback), §2.9 (the week's source), §13.2 (bars).
+     Volumes: V08 (the digest's every row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from
+     the dossier's ticks; the final check's brief), V09 (the season control as the fallback), V12 (bars). Applied by the coherence
+     pass like items 111–124 (J139).

@@ -5625,3 +5625,24 @@ the existing `weather` key stays the seasonal cover. No snow where winter does n
 * **V11:** the climate row's weather columns per week band and the two hard rules
 * **V09:** the advanced panel's switch, Start a shower now, the defaults (on with headroom; off on the low tier, phones and reduced motion)
 * **V12:** the bars and how each is measured
+
+## Dated ruling 2026-10-01 (last) — File g item 122 (h)–(i) and item 125 routed (orchestrator, decisions delegated by the owner; J138, J139)
+
+Item 122 (h)–(i): crisis looks sized by the dossier's headcounts (45 m² a head; two armies twice the ground; a coalition's armies
+each their own camp; engines about one per 1 500 besiegers), and the opening view, Fit and item 116's limit widened to town and camps
+while a look stands — still a look only. Item 125: the dossier is the port's ONLY data input; `HostContext.week` and `HostContext.realm`
+are retired as inputs; every used field has a standalone fallback; the embedding API's view commands stay as commands.
+
+### g item 122 (h)–(i) — every unit named writes its part
+* **pipeline:** §10.2 (the area per head, the engine rate, the coalition's spread round the town)
+* **rendering:** §8.8 (massed camp marks on the surrounding ring for a force too large for frame and margin)
+* **model:** §2.9 (the default framing and the widened zoom-out limit as view state while a look stands)
+* **V08:** force, coalition and travelling-group sizes read from the dossier when present; **V11:** the rates; **V09:** Fit, the opening view, the limit, the panel's numbers; **V12:** bars
+
+### g item 125 — every unit named writes its part
+* **rendering:** §11.3 and §11.4 (the dossier the only data input; the view commands kept as commands)
+* **determinism:** §7.7 (DR1, DR3, DR19, DR29 and DR42 re-sourced to the dossier or the generator's fallback)
+* **model:** §2.9 (the week's source: the dossier's latest stamped tick, else the user's season control)
+* **scope:** §13.2 (the bars of item 125 (e)); the judgment index row
+* **V08:** every digest row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from the dossier's ticks; the final local check's brief (item 125 (d))
+* **V09:** the season control as the week's fallback; **V12:** bars
