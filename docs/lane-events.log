@@ -3253,3 +3253,5 @@
 2026-10-01 22:19 coherence/orchestrator NOTE repair-determinism-r6 landed (6 blocks, 0 ruling requests); launched repair-V04-r6 in its slot
 2026-10-01 22:19 coherence/orchestrator NOTE repair-V10-r6 landed (12 blocks, 0 ruling requests); launched repair-V04-r6 (prior) and repair-V12-r6 in the two freed slots
 2026-10-01 22:20 coherence/repair-V04-r6 CHECKPOINT started; reading brief, adjudication-r6, V04 sections
+2026-10-01 22:20 coherence/repair-V03-r6 LANDED docs/validation/coherence/repair-r6-V03.md docs/validation/coherence/results/coherence_repair-V03-r6.json
+2026-10-01 22:20 coherence/orchestrator NOTE repair-V03-r6 landed (4 blocks, 0 ruling requests); launched repair-V02-r6 in its slot
