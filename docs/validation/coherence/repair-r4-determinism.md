@@ -110,7 +110,7 @@
 #
 # CHECKS (on copies under the session scratchpad)
 # - apply-blocks.py on the live base (sha256 593c657d…): 10 blocks found, 10 applied, 0 skipped, audit 10/10 OK (present
-#   once); headings 153 → 153, fences balanced, title block unchanged, rationale untouched. Applied again with the other
+#   once); headings 153 → 153, fences balanced, title block unchanged, rationale untouched; result sha256 6f7048f1a2f9f949…. Applied again with the other
 #   landed repair-r4 base files (model, pipeline, rendering, scope; the volume files' blocks are the Assemble seat's FILE
 #   handling): this file's 10 blocks OK (present once), no collision.
 # - doc_checks.py --sections 5.1,6.1,6.3,6.5,7.1,7.3,7.4,7.5,7.6,7.7 on the result: exit 0 — C1 5, C2 1, C3 190, C4 0, S1 0,
@@ -120,7 +120,7 @@
 # - every § pointer the new text adds resolves (§2.6 step 7, §2.7's support step (3) and (6) (b) — model's repair-r4 text —,
 #   §4.3, §7.3 item 4, §8.4 (i); V08 §2.4, V08 §3.5, V11 §2.1, V11 §4.1); T124-7, T124-9 and T122-4 exist in §13.2.
 #
-# WORDS (principle (9)'s shrink report): the unit §5–§7 80 524 → 81 061 (+537, +0.7 %); the ten touched subsections
+# WORDS (principle (9)'s shrink report): the unit §5–§7 80 524 → 81 064 (+540, +0.7 %); the ten touched subsections
 # 63 909 → 64 449. Removed: narration only (the six review ids). Added: content the rulings and owner rules require — the
 # three raised-way bends and the S7 locality clause (R4-09), the press during a spell (item 124 (g)), the roofless case at
 # the comparison's home (R4-14), the settlement key's fallbacks and the absorb fallback (item 125 (b); R4-15), the named-row
