@@ -72,3 +72,4 @@ edits_d	R2-06 R2-35 §13 base	1	"§13.2's underground take-over row and *The und
 edits_d	R2-12 T-V4-56	1	'by `AccessPass.run` over `scope.workings`'
 edits_d	R2-12 T-V4-72 (e)	1	'(e) `AccessPass.run` with a scope, run twice,'
 edits_d	R2-12 §8 U5	1	'`AccessPass.run` over an `EpochScope` with the `lost` transitions'
+edits_d	§13 clean-room record	1	'**Clean-room checks of this text** (`docs/validation/bench/doc_checks.py --doc` '

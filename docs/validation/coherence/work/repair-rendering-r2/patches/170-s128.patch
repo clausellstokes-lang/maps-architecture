@@ -1,0 +1,25 @@
+# §12.8: G121-rendering — memory per tier, the ultra tier included; the lit export case under the split composition.
+@@ FILE 12.8.md
+<<<<
+**Measurement and fallback:** R12-25 (the lines and the canvases). The document's size budget is §2.9's.
+====
+**Canvases per tier (g item 121 (c); J134).** The tier ceilings are §8.8's — low 72 MB, mid 128 MB, high 192 MB, ultra
+512 MB — whose worked cases include the ultra tier's native-4K view at its device ratio (169 MB unlit, 257.08 MB lit,
+399.17 MB at full precision; T121-8) and the 5K and 8K screens; the split composition's text layer and the weather
+effects' coverage plane, water mask and sprite atlas are canvases counted there, never in the rung lines above (R12-36).
+
+**Measurement and fallback:** R12-25 (the lines and the canvases). The document's size budget is §2.9's.
+>>>>
+<<<<
+light steps serve the vector rung), so it holds no extra one: the high tier's lit reference viewport (DPR 2, 172.75 + 15 =
+187.75 ≤ 192 MB) holds both, while the mid tier's (DPR 1.5, 123.25 + 15 = 138.25 > 128 MB) and the low-end 1 366 × 768
+view, lit at DPR 1 (68.75 + 15 = 83.75 > 72 MB), drop their coarser-stop sets for the export's duration (99.25 + 15 =
+114.25 MB; 56.75 + 15 = 71.75 MB; `amendc_repair_rendering_r3_blocks.out` (5)).
+====
+light steps serve the vector rung), so it holds no extra one: the high tier's lit reference viewport (DPR 2, 172.75 + 15 =
+187.75 ≤ 192 MB) and the mid tier's, lit at DPR 1 with its text layer (§8.8: 103.75 + 15 = 118.75 ≤ 128 MB), hold both,
+while a mid-tier view of the reference size lit at DPR 1.5 on a device of ratio 1.5 (123.25 + 15 = 138.25 > 128 MB) and
+the low-end 1 366 × 768 view, lit at DPR 1 (68.75 + 15 = 83.75 > 72 MB), drop their coarser-stop sets for the export's
+duration (99.25 + 15 = 114.25 MB; 56.75 + 15 = 71.75 MB; `amendc_repair_rendering_r3_blocks.out` (5);
+`coh_repair_rendering_r2_resolution.out`).
+>>>>

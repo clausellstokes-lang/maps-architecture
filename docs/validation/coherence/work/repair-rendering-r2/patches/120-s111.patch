@@ -1,0 +1,46 @@
+# §11.1: G120-rendering (picture exports draw Find as shown, chips in the legend; battle maps off unless asked);
+# G122-rendering (pictures draw the crisis looks; battle maps in the image only); G124-rendering (no export draws the
+# effects); G123-rendering (battle-map walls, portals and line of sight follow the damage layer).
+@@ FILE 11.1.md
+<<<<
+(item 118 (g)). GeoJSON, glTF and CityJSON carry neither: a season and a festival are looks, never model facts.
+====
+(item 118 (g)). GeoJSON, glTF and CityJSON carry neither: a season and a festival are looks, never model facts.
+
+**Find, crisis looks and weather effects (g items 120, 122, 124).** Every picture export — PNG, print, SVG and the VTT
+scene's image — draws, as the request's view state holds them (the export's transient list holding `live.find`'s and
+`live.crises`' marks over its frame, for SVG as for the raster formats): **Find** as shown — the veil, the halos, pins and
+gaps — with its chips in the legend, each with its colour and glyph (item 120 (i): a player handout, "where the smiths
+are"), unless the request's `ExportOpts.find` is `false`, while a battle-map export (`.dd2vtt`, Foundry) draws it only
+with `find: true`, in its image only; and the **crisis looks**, the ring's arcs among them, each named in its legend
+and metadata with its condition's weeks (item 122 (f)), a battle-map export drawing them in its image only — never as
+walls, doors, lights or obstacles. **No export draws the weather effects** (item 124 (h)): they are never in a tile or
+the transient list, so an export is byte-identical with them on or off (T124-8), the season's cover still applying
+(above). A match or a condition the request's key withholds is in no file (*Knowledge*, below).
+>>>>
+<<<<
+  `line_of_sight` — polylines in grid units from building footprint edges (minus door openings), enceinte faces along
+====
+  `line_of_sight` — polylines in grid units from building footprint edges (minus door openings and the outer-wall runs
+  §8.6's damage layer draws broken at the export's drawn week: a fallen run leaves line of sight, item 123 (e)), enceinte faces along
+>>>>
+<<<<
+  item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
+  building's footprint less its doors; `portals` only at openings in a wall line — a door access, a door or breach link,
+====
+  item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
+  building's footprint less its doors and the runs its damage layer draws broken (V04, by their own thresholds; §8.6);
+  `portals` only at openings in a wall line — a door access, a door or breach link,
+>>>>
+<<<<
+* **Per storey (item 28):** a building whose plan rung exists exports one scene for each storey, at that storey's elevation:
+  `line_of_sight` from its walls minus their openings, `portals` from every opening and every entrance, the stair core a
+  named portal on both storeys' scenes; `lights` — one per lit room (`Room.lit`, §2.6) that draws for the export's key (a concealed room's only for a key that admits it, §8.1 item 7) at its spine summit (§3.8's
+====
+* **Per storey (item 28):** a building whose plan rung exists exports one scene for each storey, at that storey's elevation:
+  `line_of_sight` from its walls minus their openings and the wall runs and partitions §8.6's damage layer draws broken
+  at the export's drawn week, `portals` from every opening and every entrance whose door the layer leaves standing — a
+  doorless opening is a gap, no portal — and the stair core a named portal on both storeys' scenes while its flights
+  stand; floor holes, rubble and debris are drawn in the image only, never invented as walls (g item 123 (e); T123-6);
+  `lights` — one per lit room (`Room.lit`, §2.6) that draws for the export's key (a concealed room's only for a key that admits it, §8.1 item 7) at its spine summit (§3.8's
+>>>>

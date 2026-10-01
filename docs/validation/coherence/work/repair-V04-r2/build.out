@@ -1,0 +1,25 @@
+75 edits applied; 23 REPLACE, 1 APPEND; src 47c144776d2085a0 new a6647acf2da8a172 words 79203 -> 83660
+  REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)
+  REPLACE ### 1.3 Out of scope, with the reason
+  REPLACE ### 1b.1 Records, fields and tables
+  REPLACE ### 1b.2 Stage outputs and interfaces
+  REPLACE ### 1b.4 Entity kinds (each rendered, labelled, exported, persisted)
+  REPLACE ### 1b.5 Dossier facts, traced to their field and derivation row
+  REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer
+  REPLACE ### 3.2 U-NET — the sewer network by medieval rules
+  REPLACE ### 3.5 U-SYS — the void systems
+  REPLACE ### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)
+  REPLACE ### 3.11 Failure handling (no whole-map retry; §5)
+  REPLACE ### 3.12 Determinism (§6)
+  REPLACE ### 5.1 The underground view (§8.4; item 413; J-V4.31)
+  REPLACE ### 5.2 Marks and programs (§8.1, §8.2)
+  REPLACE ### 5.5 Exports (§11.1; item 452; J-V4.35, J-V4.36)
+  REPLACE ## 6 Performance budgets
+  REPLACE ## 7 Tests and acceptance bars
+  REPLACE ## 8 Build plan
+  REPLACE ## 9 Decisions (each vetoable)
+  REPLACE ## 10 Base change requests
+  REPLACE ## 11 Owner questions
+  REPLACE ## 12 CONFIRMED versus PLAUSIBLE
+  REPLACE ## 13 Fix list
+  APPEND  ## 5 Rendering, labels and exports <- ### 5.6 Damage below ground — cellars, crypts and underground building

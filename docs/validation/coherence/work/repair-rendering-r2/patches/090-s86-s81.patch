@@ -21,7 +21,8 @@ week (V06's `decayLevel`; level ≥ t, the one comparison every reader makes) is
 built. V03 §5.1 draws the plan's marks and these damaged forms in its plan program, the storeys and the plan's exports;
 V02 draws the exterior from the same thresholds; V04 draws cellars, crypts and underground buildings by their own; §11.1
 draws the battle maps. The damaged forms (our own; in the plan's roles, every rubble pixel keyed by
-`RH32('plan.rubble', the element's render key, salt, cell)` on the world-aligned cell, so it never moves):
+`RH32('plan.rubble', the building's render key, salt, cell)` on the world-aligned cell and every shifted fragment by the
+same tag with the element's ordinal in place of the cell, so nothing moves):
 
 | element | damaged |
 |---|---|

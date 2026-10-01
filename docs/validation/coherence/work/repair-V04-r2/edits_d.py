@@ -25,7 +25,7 @@ S('R2-35 §7 head',
 # ---- T-V4-2: the receiving water's surface (VEW-r1-07) and the no-water fixture (VEW-07), R2-25
 S('VEW-r1-07 VEW-07 T-V4-2',
   "every outfall invert ≥ the shore height + `freeboardCm`, or `W_OUTFALL_LOW` reported — 0 violations | PR, nightly |",
-  "every outfall invert ≥ its receiving water's surface `s` + `freeboardCm` (V04 §3.2 N7 (1): a moat's derived level, §4.2 S3 (10), every other water's shore height), or `W_OUTFALL_LOW` reported — 0 violations; **the no-water fixture** (a TOWN and a CITY with no river, lake, sea, canal or oasis, `moat: 'none'`): every run reaches the one field outfall beyond the outermost enceinte's outer strip, `requestedVsBuilt` naming the cess field, 0 `frame` outfalls | PR, nightly |")
+  "every outfall invert ≥ its receiving water's surface `s` + `freeboardCm` — a moat's derived level (§4.2 S3 (10)), every other water's shore height, as V04 §3.2 N7 (1) reads it —, or `W_OUTFALL_LOW` reported — 0 violations; **the no-water fixture** (a TOWN and a CITY with no river, lake, sea, canal or oasis, `moat: 'none'`): every run reaches the one field outfall beyond the outermost enceinte's outer strip, `requestedVsBuilt` naming the cess field, 0 `frame` outfalls | PR, nightly |")
 
 # ---- T-V4-27: every shipped sheet (VAL-R1-06, R2-29 (a))
 S('VAL-R1-06 T-V4-27',
@@ -174,10 +174,30 @@ S('G123-V04 §13 V12',
   "T-V12-50's timer over the underground's waits; the `item123.damage` pin over the underground's bands and per-band exports (T-V4-82 (g)) |")
 S('R2-06 R2-35 §13 base',
   "§13.2's underground take-over row and *The underground layer built* line running to T-V4-81 |",
-  "§13.2's underground take-over row naming T120-4, T120-5, T123-1, T123-2 and T123-6 with T-V4-81 and T-V4-82, and *The underground layer built* line reading every T-V4 test (V04 §7); §8.2's slot resolution listing the `under.*` entries in every shipped sheet with V04 §5.2's facts; §6.3's `plan.damage` reading V04 §5.6's kinds for their V11 ranges |")
+  "§13.2's underground take-over row naming T120-4, T120-5, T123-1, T123-2 and T123-6 with T-V4-81 and T-V4-82, and *The underground layer built* line reading every T-V4 test (V04 §7); §8.2's slot resolution listing the `under.*` entries in every shipped sheet with V04 §5.2's facts; §6.3's `plan.damage` reading V04 §5.6's kinds for their V11 ranges; §8.6's damaged-plan drawing and §11.1's battle-map rule, read below ground by V04 §5.6 |")
 
 # ---- the remaining callers' name (R2-12)
 S('R2-12 T-V4-56', "by `AccessPass.run` over `scope.workings`", "by `AccessPassStrategy.run` over `scope.workings`")
 S('R2-12 T-V4-72 (e)', "(e) `AccessPass.run` with a scope, run twice,", "(e) `AccessPassStrategy.run` with a scope, run twice,")
 S('R2-12 §8 U5', "`AccessPass.run` over an `EpochScope` with the `lost` transitions",
   "`AccessPassStrategy.run` over an `EpochScope` with the `lost` transitions")
+
+# ---- §13: this round's clean-room run of the text (counts filled from the run on V04.new.md)
+C3, S2N = 214, 127
+S('§13 clean-room record',
+  "**Clean-room checks of this text** (`docs/validation/bench/doc_checks.py --doc` this file `--heads docs/ARCHITECTURE.md`,\n"
+  "2026-09-30): C1 identifiers 0, C2 colours 0, C4 copied lists 0, S1 tables 0; C3 179 three-gram runs, each read — common\n"
+  "English phrases (\"a new random on the\", \"is byte identical to its\"), digit runs of section numbers and values, the marker\n"
+  "line and file paths cited by file and section — no reference content; S2 116, each a volume-prefixed pointer (`V04 §3.11`,\n"
+  "`V06 §3.16`, `V11 §3.23` …) the tool resolves against the base's headings, every one resolving in its volume. The\n"
+  "reference corpus is incomplete in the checkout that ran them (no `captures/`, `research/patreon`, `research/devlogs`,\n"
+  "`research/ftg-docs`, `research/external`), so C1–C4 are provisional until re-run where the corpus is held.",
+  "**Clean-room checks of this text** (`docs/validation/bench/doc_checks.py --doc` this file `--heads docs/ARCHITECTURE.md`,\n"
+  f"2026-10-01): C1 identifiers 0, C2 colours 0, C4 copied lists 0, S1 tables 0; C3 {C3} three-gram runs, each read — common\n"
+  "English phrases (\"a new random on the\", \"one step lighter than the\", \"a gap in the outline\"), digit runs of section\n"
+  "numbers and values, the marker line and file paths cited by file and section — no reference content; S2 "
+  f"{S2N}, each a\n"
+  "volume-prefixed pointer (`V04 §3.11`, `V06 §3.23`, `V11 §3.23` …) the tool resolves against the base's headings, every\n"
+  "one resolving in its volume. The reference corpus is incomplete in the checkout that ran them (no `captures/`,\n"
+  "`research/patreon`, `research/devlogs`, `research/ftg-docs`, `research/external`), so C1–C4 are provisional until re-run\n"
+  "where the corpus is held.")
