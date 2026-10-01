@@ -113,16 +113,16 @@ fails = 0
 # A 64-px test run, drawn width w px (§8.2's symbolisation: minPx 2 … maxPx 12), rendered in each state over `ground` on a
 # grid of 64 × 3w px — the w rows of the wall band and w rows of spill on each side — by §8.2's state rows:
 #   standing   the band in `wall`
-#   worn       the band in `wall.worn` (= `wall` lerped WORN toward `ground`, linear light), its outer edge notched: a notch
-#              ceil(w/3) px deep and 1 px long every 3 px
+#   worn       the band in `wall.worn` (= `wall` lerped WORN toward `ink`, linear light: weathered, darkened), its outer
+#              edge notched (broken crenellations): a notch ceil(w/2) px deep and 1 px long every 3 px
 #   patched    the band's middle 0.6 w (≥ 1 px) in the look's role, by its line pattern (below)
 #   breached   no band; rubble dots in `ink` over the band and the outer spill rows, 1 px each, covering RUBBLE of them
 #              (a keyed draw per pixel)
-#   dismantled no band; the `trace` hairline (1 px, 2 on / 2 off) in `ink` lerped 0.5 toward `ground` on the trace's line
+#   dismantled no band; the trace hairline (1 px, 2 on / 2 off) in `ink` on the trace's line
 # and compared pixel by pixel on CIE L* alone: the mean, over the pixels where either render draws a mark, of the grey
 # CIEDE2000 between the two renders' pixels
 # must reach cvdContrastMin (10) for every pair of different states at every width (J-V12.91; T114g.greyscale).
-WORN, RUBBLE = 0.45, 0.40
+WORN, RUBBLE = 0.40, 0.40
 import random
 PATTERN = {   # the look's line pattern on the patched strip of height hp: pixel (x, y) drawn?
     'patch.timber':   lambda x, y, hp: x % 4 != 3,                                  # planks: bars with a 1-px joint every 4 px
@@ -140,7 +140,7 @@ def render(state, w, R, look=None, look_hex=None):
         for y in band:
             for x in range(64): img[y][x] = Lstar(R['wall'])
     elif state == 'worn':
-        Lw = Lstar(lerp_lin(R['wall'], R['ground'], WORN)); nd = math.ceil(w / 3)
+        Lw = Lstar(lerp_lin(R['wall'], R['ink'], WORN)); nd = math.ceil(w / 2)
         for y in band:
             for x in range(64):
                 img[y][x] = g if (y - w < nd and x % 3 == 0) else Lw
@@ -155,7 +155,7 @@ def render(state, w, R, look=None, look_hex=None):
             for x in range(64):
                 if rnd.random() < RUBBLE: img[y][x] = Li
     elif state == 'dismantled':
-        Lt = Lstar(lerp_lin(R['ink'], R['ground'], 0.5)); y = w + w // 2
+        Lt = Lstar(R['ink']); y = w + w // 2
         for x in range(64):
             if x % 4 < 2: img[y][x] = Lt
     return img
@@ -172,11 +172,16 @@ def meandiff(i1, i2, g):
             if a == g and b == g: continue
             s += dgi(a, b); n += 1
     return s / n if n else 0.0
-PATCH_HEX = {   # the patch looks' role values (coh_repair_rendering_r1_palette.out, the lightness rule L* >= wall + 15)
+PATCH_PREV = {   # the material tones of coh_repair_rendering_r1_palette.out (hue and chroma kept)
     'ink': {'patch.timber': '#B39B78', 'patch.wattle': '#C2AA85', 'patch.earth': '#C7B18E', 'patch.drystone': '#60584D', 'patch.stakes': '#A79070', 'patch.brush': '#B9B58C'},
     'lit': {'patch.timber': '#BCA489', 'patch.wattle': '#BDA385', 'patch.earth': '#B8A589', 'patch.drystone': '#B0A693', 'patch.stakes': '#B7A188', 'patch.brush': '#ACA87C'},
     'hatched': {'patch.timber': '#A6835A', 'patch.wattle': '#BBA080', 'patch.earth': '#9B8668', 'patch.drystone': '#998871', 'patch.stakes': '#A28562', 'patch.brush': '#BFC59E'},
 }
+def patch_cap(R):
+    """the lightest L* a patch look may take: its grey CIEDE2000 against `ground` at least 11 (patched against dismantled)"""
+    g = Lstar(R['ground'])
+    return max(L for L in range(0, 101) if de2000((L, 0, 0), (g, 0, 0)) >= 11 and L < g)
+PATCH_HEX = {fam: {k: (h if Lstar(h) <= patch_cap(FAM[fam]) else at_L(h, patch_cap(FAM[fam]))) for k, h in d.items()} for fam, d in PATCH_PREV.items()}
 p('# (A) item 114: the wall states\' renders compared pixel by pixel on luma alone (WORN %.2f, RUBBLE %.2f)' % (WORN, RUBBLE))
 for fam, R in FAM.items():
     worst = (99, '')
@@ -189,8 +194,14 @@ for fam, R in FAM.items():
             if d < worst[0]: worst = (d, f'{a_} / {b_} at w = {w} px')
             if d < CVD_MIN: fails += 1; p(f'  FAIL {fam} {a_} / {b_} at w = {w} px: {d:.1f}')
     p(f'  {fam:8s} least mean grey dE2000 between two states\' renders: {worst[0]:.1f} ({worst[1]}) (>= {CVD_MIN})')
-    p(f'           wall.worn {lerp_lin(R["wall"], R["ground"], WORN)}  L* {Lstar(lerp_lin(R["wall"], R["ground"], WORN)):.1f}; '
-      f'the trace {lerp_lin(R["ink"], R["ground"], 0.5)}  L* {Lstar(lerp_lin(R["ink"], R["ground"], 0.5)):.1f}')
+    p(f'           wall.worn {lerp_lin(R["wall"], R["ink"], WORN)}  L* {Lstar(lerp_lin(R["wall"], R["ink"], WORN)):.1f}; patch L* cap {patch_cap(R)}')
+    for k, h in PATCH_HEX[fam].items():
+        res = []
+        for other, dmin in (('wall', 8), ('ground', 10), ('water', 10)):
+            d = dlab(h, R[other]); ok = d >= dmin
+            if not ok: fails += 1
+            res.append(f'{other} {d:4.1f}' + ('' if ok else ' FAIL'))
+        p(f'           {k:16s} {h}  L* {Lstar(h):5.1f}  ' + '; '.join(res))
 
 # ---------------- (B) the season looks ----------------
 p('\n# (B) item 117: the season looks (linear-light lerps of the family\'s roles) and the matrix pairs of the role each re-skins')

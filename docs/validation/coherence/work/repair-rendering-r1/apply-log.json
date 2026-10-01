@@ -1,1 +1,374 @@
-[]
+[
+{
+"where": "010-VRC0S-09-toggles.patch:3",
+"file": "8.4.md",
+"old_w": 35,
+"new_w": 68
+},
+{
+"where": "020-VAL-18-quarter-tree.patch:3",
+"file": "9.1.md",
+"old_w": 31,
+"new_w": 50
+},
+{
+"where": "020-VAL-18-quarter-tree.patch:8",
+"file": "9.1.md",
+"old_w": 59,
+"new_w": 82
+},
+{
+"where": "030-82-small.patch:4",
+"file": "8.2.md",
+"old_w": 29,
+"new_w": 56
+},
+{
+"where": "030-82-small.patch:10",
+"file": "8.2.md",
+"old_w": 60,
+"new_w": 76
+},
+{
+"where": "030-82-small.patch:22",
+"file": "8.2.md",
+"old_w": 38,
+"new_w": 62
+},
+{
+"where": "030-82-small.patch:31",
+"file": "8.2.md",
+"old_w": 31,
+"new_w": 64
+},
+{
+"where": "040-112-api.patch:5",
+"file": "11.2.md",
+"old_w": 16,
+"new_w": 94
+},
+{
+"where": "040-112-api.patch:13",
+"file": "11.2.md",
+"old_w": 34,
+"new_w": 50
+},
+{
+"where": "040-112-api.patch:19",
+"file": "11.2.md",
+"old_w": 39,
+"new_w": 52
+},
+{
+"where": "040-112-api.patch:26",
+"file": "11.2.md",
+"old_w": 10,
+"new_w": 25
+},
+{
+"where": "040-112-api.patch:31",
+"file": "11.2.md",
+"old_w": 31,
+"new_w": 34
+},
+{
+"where": "040-112-api.patch:36",
+"file": "11.2.md",
+"old_w": 22,
+"new_w": 44
+},
+{
+"where": "040-112-api.patch:42",
+"file": "11.2.md",
+"old_w": 20,
+"new_w": 28
+},
+{
+"where": "040-112-api.patch:47",
+"file": "11.2.md",
+"old_w": 20,
+"new_w": 56
+},
+{
+"where": "040-112-api.patch:54",
+"file": "11.2.md",
+"old_w": 84,
+"new_w": 144
+},
+{
+"where": "040-112-api.patch:67",
+"file": "11.2.md",
+"old_w": 39,
+"new_w": 52
+},
+{
+"where": "040-112-api.patch:72",
+"file": "11.2.md",
+"old_w": 79,
+"new_w": 2022
+},
+{
+"where": "040-112-api.patch:182",
+"file": "11.2.md",
+"old_w": 53,
+"new_w": 68
+},
+{
+"where": "040-112-api.patch:192",
+"file": "11.2.md",
+"old_w": 101,
+"new_w": 127
+},
+{
+"where": "040-112-api.patch:201",
+"file": "11.2.md",
+"old_w": 21,
+"new_w": 23
+},
+{
+"where": "040-112-api.patch:206",
+"file": "11.2.md",
+"old_w": 14,
+"new_w": 26
+},
+{
+"where": "050-111-113-small.patch:4",
+"file": "11.3.md",
+"old_w": 11,
+"new_w": 22
+},
+{
+"where": "050-111-113-small.patch:10",
+"file": "11.3.md",
+"old_w": 41,
+"new_w": 49
+},
+{
+"where": "050-111-113-small.patch:18",
+"file": "11.3.md",
+"old_w": 63,
+"new_w": 108
+},
+{
+"where": "050-111-113-small.patch:35",
+"file": "11.1.md",
+"old_w": 10,
+"new_w": 13
+},
+{
+"where": "050-111-113-small.patch:40",
+"file": "11.1.md",
+"old_w": 11,
+"new_w": 11
+},
+{
+"where": "050-111-113-small.patch:45",
+"file": "11.1.md",
+"old_w": 80,
+"new_w": 110
+},
+{
+"where": "050-111-113-small.patch:59",
+"file": "11.6.md",
+"old_w": 13,
+"new_w": 17
+},
+{
+"where": "050-111-113-small.patch:66",
+"file": "12.2.md",
+"old_w": 20,
+"new_w": 42
+},
+{
+"where": "060-VRC0S-16-ids.patch:4",
+"file": "8.2.md",
+"old_w": 21,
+"new_w": 20
+},
+{
+"where": "060-VRC0S-16-ids.patch:9",
+"file": "8.2.md",
+"old_w": 19,
+"new_w": 18
+},
+{
+"where": "060-VRC0S-16-ids.patch:14",
+"file": "8.2.md",
+"old_w": 16,
+"new_w": 15
+},
+{
+"where": "060-VRC0S-16-ids.patch:19",
+"file": "8.2.md",
+"old_w": 19,
+"new_w": 18
+},
+{
+"where": "060-VRC0S-16-ids.patch:24",
+"file": "8.2.md",
+"old_w": 10,
+"new_w": 9
+},
+{
+"where": "060-VRC0S-16-ids.patch:30",
+"file": "8.4.md",
+"old_w": 18,
+"new_w": 17
+},
+{
+"where": "060-VRC0S-16-ids.patch:36",
+"file": "8.5.md",
+"old_w": 15,
+"new_w": 4
+},
+{
+"where": "060-VRC0S-16-ids.patch:42",
+"file": "8.11.md",
+"old_w": 12,
+"new_w": 15
+},
+{
+"where": "060-VRC0S-16-ids.patch:48",
+"file": "9.2.md",
+"old_w": 19,
+"new_w": 18
+},
+{
+"where": "060-VRC0S-16-ids.patch:53",
+"file": "9.2.md",
+"old_w": 20,
+"new_w": 19
+},
+{
+"where": "060-VRC0S-16-ids.patch:59",
+"file": "9.7.md",
+"old_w": 14,
+"new_w": 13
+},
+{
+"where": "060-VRC0S-16-ids.patch:64",
+"file": "9.7.md",
+"old_w": 18,
+"new_w": 16
+},
+{
+"where": "060-VRC0S-16-ids.patch:70",
+"file": "11.1.md",
+"old_w": 21,
+"new_w": 20
+},
+{
+"where": "060-VRC0S-16-ids.patch:75",
+"file": "11.1.md",
+"old_w": 19,
+"new_w": 18
+},
+{
+"where": "060-VRC0S-16-ids.patch:80",
+"file": "11.1.md",
+"old_w": 18,
+"new_w": 14
+},
+{
+"where": "060-VRC0S-16-ids.patch:86",
+"file": "11.3.md",
+"old_w": 21,
+"new_w": 20
+},
+{
+"where": "060-VRC0S-16-ids.patch:92",
+"file": "11.4.md",
+"old_w": 18,
+"new_w": 17
+},
+{
+"where": "060-VRC0S-16-ids.patch:98",
+"file": "12.1.md",
+"old_w": 7,
+"new_w": 6
+},
+{
+"where": "060-VRC0S-16-ids.patch:104",
+"file": "12.10.md",
+"old_w": 6,
+"new_w": 5
+},
+{
+"where": "060-VRC0S-16-ids.patch:110",
+"file": "12.5.md",
+"old_w": 15,
+"new_w": 14
+},
+{
+"where": "070-12-small.patch:7",
+"file": "12.4.md",
+"old_w": 35,
+"new_w": 56
+},
+{
+"where": "070-12-small.patch:12",
+"file": "12.4.md",
+"old_w": 23,
+"new_w": 28
+},
+{
+"where": "070-12-small.patch:18",
+"file": "12.7.md",
+"old_w": 34,
+"new_w": 29
+},
+{
+"where": "070-12-small.patch:26",
+"file": "12.10.md",
+"old_w": 28,
+"new_w": 26
+},
+{
+"where": "070-12-small.patch:32",
+"file": "12.2.md",
+"old_w": 36,
+"new_w": 62
+},
+{
+"where": "080-small-wiring.patch:3",
+"file": "8.11.md",
+"old_w": 54,
+"new_w": 77
+},
+{
+"where": "080-small-wiring.patch:9",
+"file": "9.7.md",
+"old_w": 42,
+"new_w": 127
+},
+{
+"where": "080-small-wiring.patch:16",
+"file": "9.5.md",
+"old_w": 23,
+"new_w": 70
+},
+{
+"where": "080-small-wiring.patch:25",
+"file": "8.2.md",
+"old_w": 29,
+"new_w": 114
+},
+{
+"where": "080-small-wiring.patch:32",
+"file": "8.3.md",
+"old_w": 17,
+"new_w": 27
+},
+{
+"where": "080-small-wiring.patch:40",
+"file": "8.2.md",
+"old_w": 45,
+"new_w": 124
+},
+{
+"where": "080-small-wiring.patch:55",
+"file": "8.8.md",
+"old_w": 23,
+"new_w": 25
+}
+]

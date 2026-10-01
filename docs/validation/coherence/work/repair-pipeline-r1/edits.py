@@ -175,8 +175,8 @@ E(H44, """with a tower at each anchor (§4.8), and `Enceinte.closure` is `barrie
 E(H44, """With `barrier` closure and the stretch profile off, the
    trace is the base's (a no-op pin).""",
 """With `barrier` closure and the stretch profile off, the
-   trace is the base's (a no-op pin). A stage k ≥ 2 picks its gates on its approachable arcs and takes the closed-arc
-   reduction of its gate count (§4.2 S3 (4), classified on its own boundary); a stage whose every arc closes walls nothing
+   trace is the base's (a no-op pin). A stage k ≥ 2 picks its gates on its approachable arcs and takes §4.2 S3 (4)'s
+   closed-arc reduction of its gates, classified on its own boundary; a stage whose every arc closes walls nothing
    and records no enceinte, and the arcs a land barrier closes are impassable to routes as the wall is (§4.2 S3 (7), (9)).""",
   'VEW-03')
 
@@ -220,9 +220,9 @@ E(H42, """When
    is never re-derived from it.""",
 """When
    a moat was carved, `T` is recomputed once over the new water (≈ 4 ms at CITY) for the stages k ≥ 2; stage 1's boundary
-   is never re-derived from it. **Where a moat holds water.** "Water within reach" is one rule for the castle moat and the
-   city moat: a source — a river, a lake, a spring-fed pond or the sea — within `moat.waterReachM` of the moat's line (a
-   cell of the `walls` table, §7.6: 400 m; our own, calibratable). The moat's `WaterBody` names that source in `flowFrom` (§2.3; the
+   is never re-derived from it. **Where a moat holds water.** The castle moat and the city moat read one rule for
+   "water within reach": a source — a river, a lake, a spring-fed pond or the sea — within `moat.waterReachM` of the moat's line (the
+   `walls` table's cell, §7.6: 400 m; our own, calibratable). The moat's `WaterBody` names that source in `flowFrom` (§2.3; the
    nearest, ties by id), and its water level is one value per moat, derived on read and never stored: the source's surface
    at its shore point nearest the moat (the terrain's height at that shore, as V04 §3.2 N7 reads a water surface), which
    every reader of the moat's water reads (§8.4's water at its level, V04 §3.2 N2 and N7, §2.6's water table). The channel
@@ -368,7 +368,7 @@ levelled unit's edge against unlevelled ground** — a way corridor it does not 
 strip, a field — takes one `RetainingWall` on the unit's side of the line where the step to the unlevelled ground there
 exceeds `terrace.stepMinCm`, by the same rule (up to `stepMaxCm` one wall, above it the terraces, else not levelled), and
 none below `stepMinCm` (the base's plinth). **A cliff inside a district** — a `SiteFeature` of kind `cliff` (§2.3) or
-ground over the `walls.barriers` table's `cliff` threshold (V11 §3.16.1) — is a hard line as a cliff bank is: no
+ground over the `walls.barriers` table's `cliff` threshold (V11 §3.16.1) — is, like a cliff bank, a hard line: no
 `RetainingWall` stands on it and no unit is levelled across it; S10's per-frontage regions ((4)) end `shoreSetback`'s
 `cliff` distance (§4.2 S1 (8)) short of it, so plots back onto it at that setback from its top and from its foot and none
 is cut across it, the band between typed as the shore setback is; so a building's massing stays off the cliff face (V02
@@ -527,8 +527,8 @@ town's `RaiseGrade`, II.7.6, and the undercity's `ClearUndercity`, II.7.5, decla
 it, and `build` below is §7.1's `build` event:""",
 """below), the passage sealing's (`HiddenOp`, item 30 (e), below), the underground's own kinds (item 65: the buried old
 town's `RaiseGrade`, II.7.6, and the undercity's `ClearUndercity`, II.7.5, declared there) and the evolution engine's
-(`EvolveOp`, file f item 209, declared in V06 §2.8); §7.1's `convert` event carries it, and `build` below is §7.1's
-`build` event:""", 'VPC-22')
+(`EvolveOp`, file f item 209, which V06 §2.8 declares). The `convert` event of §7.1 carries it, and `build` below is
+§7.1's `build` event:""", 'VPC-22')
 
 E(H411, """  | LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity;""",
 """  | LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity | EvolveOp;
@@ -582,7 +582,7 @@ exempt and laid then); otherwise the use opens at the first step whose result is
 its former site until then; then adapt; then extend (the adds); and rebuild only the parts that cannot be adapted — the
 same steps and the same draws, spread in time, so a smith moving into a richer street mutates toward the richer template
 over epochs. A plan cancelled because its use left keeps its done steps; when the building next takes its former
-designation, the mutator's record is the inverse of the done steps (item 18 (e)). Each of those events applies and records
+designation, the mutator's record inverts the done steps (item 18 (e)). Each of those events applies and records
 its step at once, and a Works shows it on the ground over the weeks it takes (*Works*, below; J-A67.49), so the model
 never changes between events.""", 'VPC-22')
 
@@ -640,7 +640,7 @@ E(H413, """| EP-14 | an epoch | a target equal to the population; a residual ≤
 E(H413, """| EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |""",
 """| EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |
 | EP-20 | S3 (6), S5a, S5d | less reachable land than a stage asks — fixtures: an island town on an island of half the stage-1 land, a fjord site, a METROPOLIS at the cap in a narrow valley | §4.2 S3 (6) (the capped `t`, the frame arc); §4.4 S5a (a stage with no land folded), S5d (no top-up without land) | simpler shape (the capped level set) → leave out and report (`requestedVsBuilt`, F-BUDGET-STAGE) |
-| EP-21 | S3 (4), (7), (9); S5a | a barrier closing the arcs a gate falls on, or every arc — fixtures: a river loop with N₁ = 5, a mesa town, an island town filling its island | §4.2 S3 (4) (the closed-arc reduction), (7), (9) (every arc closed); §4.4 S5a | retry that piece (the pick re-drawn, ≤ 3) → leave out and report (F-WALL; `W_WALLED_BY_BARRIERS`); F-CASTLE's re-site |
+| EP-21 | S3 (4), (7), (9); S5a | a barrier closing the arcs a gate falls on, or every arc — fixtures: a river loop with N₁ = 5, a mesa town, an island town filling its island | §4.2 S3 (4)'s closed-arc reduction, (7), (9) (every arc closed); §4.4 S5a | retry that piece (the pick re-drawn, ≤ 3) → leave out and report (F-WALL; `W_WALLED_BY_BARRIERS`); F-CASTLE's re-site |
 | EP-22 | S3 (10); S5a's outer moats | a wet moat with no water within reach or on sloping ground — fixtures: a hill town with `moat: 'all'`, an arid town with no river with `moat: 'inner'` | §4.2 S3 (10) *Where a moat holds water*; §4.4 *Outer moats* | simpler shape (the dry `ditch`), reported (`W_MOAT_DRY`) |
 | EP-23 | S3 (5), S4, S5b, S5c | the steepest ground — fixture: a mountainous site, arterials within their class grade or `unserved` | §4.3 *Lattice and costs* (the class grade limit); §5.2 F-ROUTE | simpler shape (the next class's grade) → leave out and report (`unserved`) |
 | EP-24 | S10, S11 levelling | a cliff across a district; two plots at a cliff's top and foot; a step above 2 × `stepMaxCm`; a levelled unit beside unlevelled ground | §4.7 *Levelling and retaining walls* | simpler shape (terraces, else skirts and stepped wings) → report |
@@ -652,7 +652,7 @@ E(H413, """**Where features meet (the combination suite, §13.2, B-EDGE).** Each
 column's; a raised way is generated only at CITY and METROPOLIS and declared at any rung (§4.3); a retaining wall and the
 frame stand at every rung; a deck plot at VILLAGE and above (V07's village rows at village rungs).""",
 """**Where features meet (the combination suite, §13.2, B-EDGE).** Each cell is the outcome where the row's feature meets the
-column's, then its rung on §5's ladder (*— (defined)* where the cell is a rule with no failure); a raised way is generated
+column's, then its rung on §5's ladder (— (defined) for a rule with no failure); a raised way is generated
 only at CITY and METROPOLIS and declared at any rung (§4.3); a retaining wall and the frame stand at every rung; a deck plot
 at VILLAGE and above (V07's village rows at village rungs).""", 'VEW-18')
 
@@ -698,7 +698,7 @@ E(H102, """interface CoverRow {   // item 63: the plausible fronts of one concea
 interface RosterSettings {   // the 'settings' row of roster.settings (V11 registry row 24); the cells' values and meanings are V11 §3.5.1's
   rosterMode: 'minimiseUnemployment'|'matchRatios'; unemploymentThreshold: number; propagation: { depth: number }; placement: { extensionWeight: number };
   detourFactor: number; crypt: { rankShare: number }; coverage: { rosterWeight: number } }
-interface SubLocationRow {   // a class's sub-location template: each building of the class gets one §2.6 SubLocation per row (§4.7 S11); read by §10.3's schedules; empty in the base's rows, @plat/sim's M4b rows fill them (V11 §3.21.4)
+interface SubLocationRow {   // a class's sub-location template: each building of the class takes one `SubLocation` (§2.6) per row (§4.7 S11); read by §10.3's schedules; empty in the base's rows, @plat/sim's M4b rows fill them (V11 §3.21.4)
   name: string; tags: string[] /* table, counter, stage, bed, bath, pickup, deliver, … */; capacities: SubLocation['capacities'] /* §2.6 */; relax?: string[] }
 interface SquareQuotaRow {   // table 'squares.quota' (V11 registry row 91; file f item 301): the one square quota, a base table in @plat/tables read from M2b — by S7b (3)'s claims larger than a block (§4.5) and by S9b's sub-block remainder (§4.7 S9; V01 §3.5); key 'band'; its default rows V01 §3.5.2
   band: string; haPer1000: number /* typed-square target per 1 000 inhabitants of the district */; kind: Partial<Record<DistrictKind, number>> /* factor */ }
@@ -830,8 +830,8 @@ E(HII72, """Outfalls are §2.3's `outfalls` on the settlement's
 downstream side (`ContextVector.upstream ≥ 0.5` at the outfall's cell) — downstream of the harbour and of every water mill's
 intake (a policy row). A settlement with no outfall (no water body and no frame edge the flow leaves by) drains every run to
 its lowest frame cell, reported.""",
-"""Outfalls are §2.3's `outfalls` into
-water on the settlement's downstream side (`ContextVector.upstream ≥ 0.5` at the outfall's cell) — downstream of the harbour
+"""Outfalls are §2.3's water `outfalls`
+on the settlement's downstream side (`ContextVector.upstream ≥ 0.5` at the outfall's cell) — downstream of the harbour
 and of every water mill's intake (a policy row); a frame-edge `Outfall` serves the drainage queries only and is never a sewer
 outfall. A settlement with no admitted water outfall takes a moat outfall at its penalty, else one field outfall beyond the
 outermost enceinte's outer strip — the cess field of a dry town (V04 §3.2 N2; F-NET, §5.2) — reported; V04's T-V4-2
@@ -845,7 +845,7 @@ V04 §3.3 P7's derived `voidDwellingHouseholds` (its cells V04 §2.3's `voidDwel
 and ruin voids whose forecast access chance reaches `accessForecastMin` (V04 §3.3 P7), placed by V04's F6 —""", 'VAL-06')
 
 E(HII74, """  undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, voidDwellingHouseholds and the class table's underground and undercity 'preferred' shares */;""",
-"""  undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, V04 §2.3's voidDwellings.share and the class table's underground and undercity 'preferred' shares */;""",
+"""  undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, the class table's underground and undercity 'preferred' shares and V04 §2.3's voidDwellings.share */;""",
   'VAL-06')
 
 E(HII74, """  voidDwellingHouseholds: number; accessForecastMin: number; forecastSafety: number /* 0.85 */ /* II.7.3 (d) and S7b (6)'s caps (V04 §3.3) */;""",

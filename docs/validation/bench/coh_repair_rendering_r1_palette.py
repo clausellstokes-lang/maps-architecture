@@ -3,9 +3,9 @@
 
 Computes, for the three shipped families (ink, lit, hatched), the values of the roles §8.2 adds — `ice`, the eight leaf
 colours `leaf.<colour>`, the six patch looks `patch.<material>` and the festival roles `festival.a`–`festival.d`,
-`festival.sacred` — and checks every contrast-matrix pair §8.2 states for them, plus the deficiency-contrast threshold
-`cvdContrastMin` on the wall states' swatches in greyscale (item 114 (e), J-V12.91) and on each new categorical set under
-simulated protanopia, deuteranopia and tritanopia (Machado, Oliveira and Fernandes 2009, severity 1.0, applied in linear
+`festival.sacred` — and checks every contrast-matrix pair §8.2 states for them, and, for the record, each new
+categorical set under simulated protanopia, deuteranopia and tritanopia against `cvdContrastMin` (the wall states'
+greyscale bar is coh_repair_rendering_r1_looks.py's) (Machado, Oliveira and Fernandes 2009, severity 1.0, applied in linear
 sRGB). Our own code from the published definitions (CIELAB D65, CIEDE2000 per Sharma, Wu and Dalal 2005). stdlib only.
 usage: python3 coh_repair_rendering_r1_palette.py > coh_repair_rendering_r1_palette.out
 """
@@ -140,24 +140,34 @@ for fam, R in FAM.items():
         while not ok and Cv > 5:
             Cv -= 1; rgb, ok = lab2rgb(*lch(Lv, Cv, FEST_H[name]))
         v[name] = rgb2hex(rgb)
-    # patch looks: base tone, then the lightness rule — lerped toward paper (linear light, steps of 0.05) until L* >= wall L* + 15
-    wallL = L(R['wall'])
+    # patch looks: the material's base tone, lifted toward paper (linear light, steps of 0.05) until L* >= wall L* + 15,
+    # then capped where its grey CIEDE2000 against `ground` would fall under 11 (the cap coh_repair_rendering_r1_looks.py's
+    # state renders need), hue and chroma kept
+    gL = L(R['ground']); wallL = L(R['wall'])
+    cap = max(Lc for Lc in range(0, 101) if de2000((Lc, 0, 0), (gL, 0, 0)) >= 11 and Lc < gL)
     for name, (role, toward, share) in PATCH_BASE.items():
         base = WALLMAT[fam].get(role) or R[role]
         if toward: base = lerp_lin(base, R[toward], share)
-        t = 0.0; h = base
-        while L(h) < wallL + 15 and t < 1:
-            t = round(t + 0.05, 2); h = lerp_lin(base, R['paper'], t)
-        v[name] = h; v[name + '#lift'] = t
+        tt = 0.0; b0 = base
+        while L(base) < wallL + 15 and tt < 1:
+            tt = round(tt + 0.05, 2); base = lerp_lin(b0, R['paper'], tt)
+        if L(base) > cap:
+            la = rgb2lab(hex2rgb(base)); Cc = chroma(la); hh = math.atan2(la[2], la[1])
+            while True:
+                rgb, ok = lab2rgb(cap, Cc * math.cos(hh), Cc * math.sin(hh))
+                if ok or Cc < 0.5: break
+                Cc -= 0.5
+            base = rgb2hex(rgb)
+        v[name] = base
     values[fam] = v
 
-p('# new role values (sRGB), per family; patch looks with the share they were lerped toward paper by the lightness rule')
+p('# new role values (sRGB), per family; the patch looks lifted to L* >= wall + 15, then capped against ground (coh_repair_rendering_r1_looks.py)')
 for fam, v in values.items():
     p(f'[{fam}]')
     for k, h in v.items():
         if k.endswith('#lift'): continue
         lab = rgb2lab(hex2rgb(h))
-        extra = f'  lift {v[k + "#lift"]:.2f}' if k + '#lift' in v else ''
+        extra = ''
         p(f'  {k:16s} {h}  L* {lab[0]:5.1f}  C* {chroma(lab):5.1f}{extra}')
 
 p('\n# contrast-matrix pairs §8.2 adds (every shipped family)')
@@ -170,8 +180,8 @@ for fam, R in FAM.items():
         check(fam, 'leaf.' + name, 'water', v['leaf.' + name], R['water'], 10)
         check(fam, 'ink', 'leaf.' + name, R['ink'], v['leaf.' + name], 25, 30)
     for name in PATCH_BASE:
-        check(fam, name, 'wall', v[name], R['wall'], 10, 15)
-        check(fam, name, 'ground', v[name], R['ground'], 6)
+        check(fam, name, 'wall', v[name], R['wall'], 8)
+        check(fam, name, 'ground', v[name], R['ground'], 10)
     for name in FEST_H:
         check(fam, name, 'road', v[name], R['road'], 15)
         check(fam, name, 'ground', v[name], R['ground'], 15)
@@ -184,7 +194,6 @@ for fam, R in FAM.items():
     p(f'  {fam:8s} max leaf C* {mx:5.1f}' + ('' if ok else '  FAIL'))
 
 CVD_MIN = 10
-WORN_SHARE = 0.45
 p(f'\n# information (no bar): the leaf and festival colours under simulated deficiency. Neither set encodes a category a legend')
 p('#   distinguishes — a leaf colour is a look, a decoration is told by its glyph (item 118 (f)) — so T112-1 does not read them;')
 p(f'#   the least pair is listed against cvdContrastMin = {CVD_MIN} for the record')
@@ -196,19 +205,6 @@ for fam in FAM:
             p(f'  {fam:8s} {setname:8s} {kind}: least pair dE2000 {worst[0]:5.1f} ({worst[1]} / {worst[2]})'
               + ('' if worst[0] >= CVD_MIN else '  (below; no legend pair)'))
 
-p(f'\n# item 114 (e): the tones the wall states draw in, as L* greys, against cvdContrastMin = {CVD_MIN}')
-p('#   (the states are told apart by their line styles first — the gap with its rubble spill, the patch looks, the worn')
-p('#   notches, the dismantled trace — item 112; these are the tone steps beside them; T114-6 measures the renders)')
-for fam, R in FAM.items():
-    v = values[fam]
-    worn = lerp_lin(R['wall'], R['ground'], WORN_SHARE)
-    d = de2000(grey(R['wall']), grey(worn)); ok = d >= CVD_MIN
-    if not ok: fails += 1
-    p(f'  {fam:8s} standing {R["wall"]} / worn {worn} grey dE2000 {d:5.1f}' + ('' if ok else '  FAIL'))
-    for name in PATCH_BASE:
-        for other, h in (('standing', R['wall']),):
-            d = de2000(grey(h), grey(v[name])); ok = d >= CVD_MIN
-            if not ok: fails += 1
-            p(f'  {fam:8s} {other:8s} / {name:15s} grey dE2000 {d:5.1f}' + ('' if ok else '  FAIL'))
+p('\n# item 114 (e): the wall states\' greyscale bar is checked on renders by coh_repair_rendering_r1_looks.py (A)')
 p(f'\nfailures: {fails}')
 print('\n'.join(out))

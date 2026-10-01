@@ -1,0 +1,80 @@
+# (A) item 114: the wall states' renders compared pixel by pixel on luma alone (WORN 0.40, RUBBLE 0.40)
+  ink      least mean grey dE2000 between two states' renders: 12.0 (standing / worn at w = 2 px) (>= 10)
+           wall.worn #2D2219  L* 14.2; patch L* cap 68
+           patch.timber     #B39B78  L*  65.3  wall 45.5; ground 14.0; water 28.5
+           patch.wattle     #BAA27E  L*  67.9  wall 48.7; ground 11.9; water 28.2
+           patch.earth      #B8A380  L*  68.0  wall 48.8; ground 11.8; water 27.6
+           patch.drystone   #60584D  L*  37.8  wall 17.7; ground 41.3; water 39.3
+           patch.stakes     #A79070  L*  61.1  wall 40.6; ground 17.5; water 29.1
+           patch.brush      #ABA77F  L*  67.9  wall 49.8; ground 14.2; water 27.1
+  lit      least mean grey dE2000 between two states' renders: 11.1 (standing / worn at w = 12 px) (>= 10)
+           wall.worn #716250  L* 42.5; patch L* cap 61
+           patch.timber     #A78F75  L*  60.9  wall  8.6; ground 12.5; water 35.2
+           patch.wattle     #A88F72  L*  60.9  wall  8.9; ground 12.2; water 36.2
+           patch.earth      #A39175  L*  61.1  wall  8.9; ground 12.4; water 35.3
+           patch.drystone   #9C9280  L*  60.9  wall  9.3; ground 14.4; water 31.0
+           patch.stakes     #A59077  L*  61.0  wall  8.5; ground 12.5; water 34.6
+           patch.brush      #99956A  L*  61.1  wall 13.9; ground 15.2; water 39.2
+  hatched  least mean grey dE2000 between two states' renders: 12.3 (standing / worn at w = 2 px) (>= 10)
+           wall.worn #5F4932  L* 32.8; patch L* cap 76
+           patch.timber     #A6835A  L*  57.2  wall 17.5; ground 28.0; water 36.9
+           patch.wattle     #BBA080  L*  67.5  wall 26.7; ground 18.8; water 32.1
+           patch.earth      #9B8668  L*  57.1  wall 17.5; ground 26.7; water 33.0
+           patch.drystone   #998871  L*  57.6  wall 18.4; ground 26.0; water 30.7
+           patch.stakes     #A28562  L*  57.4  wall 17.5; ground 27.1; water 35.0
+           patch.brush      #B9BF98  L*  76.0  wall 36.6; ground 15.4; water 30.5
+
+# (B) item 117: the season looks (linear-light lerps of the family's roles) and the matrix pairs of the role each re-skins
+[ink]
+  field.sown       #DACEA1  L*  82.7  road  9.7; ground  5.3
+  field.green      #D1D399  L*  83.1  road 13.5; ground 10.6
+  field.ripe       #F5DEA0  L*  89.0  road 10.5; ground  6.2
+  field.harvest    #F5DEA0  L*  89.0  road 10.5; ground  6.2
+  field.stubble    #F6E2B4  L*  90.5  road  6.9; ground  4.8
+  field.ploughed   #D5BE98  L*  78.0  road 11.3; ground  4.3
+  meadow.green     #B4CC94  L*  79.1  road 18.3; building 24.1
+  meadow.high      #A6C08B  L*  74.6  road 20.3; building 23.1
+  meadow.mown      #D1D399  L*  83.1  road 13.5; building 21.7
+  meadow.winter    #D3CE9E  L*  82.1  road 11.4; building 19.3
+  meadow.dry       #D7D5A6  L*  84.4  road 10.9; building 21.0
+  grass.green      #B4CC94  L*  79.1  road 18.3; building 24.1
+  grass.autumn     #D5D49A  L*  83.7  road 12.9; building 21.5
+  garden.green     #C4CF96  L*  81.1  building 22.5
+  garden.bare      #D9CF9F  L*  82.9  building 18.7
+  wood.floor       #70946A  L*  57.7  water 29.2; ink 43.1
+[lit]
+  field.sown       #C2B783  L*  74.2  road 14.5; ground  8.0
+  field.green      #B5BA5D  L*  73.4  road 21.4; ground 15.8
+  field.ripe       #E3BC5D  L*  77.9  road 19.1; ground 10.8
+  field.harvest    #E3BC5D  L*  77.9  road 19.1; ground 10.8
+  field.stubble    #EACE95  L*  83.9  road 12.5; ground  7.1
+  field.ploughed   #C3A883  L*  70.3  road 12.7; ground  4.3
+  meadow.green     #8AB85D  L*  69.8  road 25.8; building 33.7
+  meadow.high      #7DAC55  L*  65.4  road 27.3; building 33.2
+  meadow.mown      #B5BA5D  L*  73.4  road 21.4; building 26.5
+  meadow.winter    #B8B77C  L*  73.2  road 17.3; building 22.7
+  meadow.dry       #C8C683  L*  78.6  road 16.9; building 25.0
+  grass.green      #8AB85D  L*  69.8  road 25.8; building 33.7
+  grass.autumn     #B9BA5D  L*  73.7  road 21.1; building 25.7
+  garden.green     #7BAF43  L*  66.0  building 34.6
+  garden.bare      #B3B375  L*  71.6  building 22.6
+  wood.floor       #447F33  L*  47.8  water 46.5; ink 36.4
+[hatched]
+  field.sown       #E3DDB8  L*  87.7  road 16.2; ground  7.1
+  field.green      #CBC567  L*  78.2  road 16.8; ground 18.8
+  field.ripe       #F3D580  L*  86.1  road 16.0; ground 14.9
+  field.harvest    #F3D580  L*  86.1  road 16.0; ground 14.9
+  field.stubble    #F4DDA3  L*  88.7  road 15.0; ground  9.8
+  field.ploughed   #E3D7C1  L*  86.4  road 13.8; ground  4.3
+  meadow.green     #A9B951  L*  72.0  road 20.1; building 33.8
+  meadow.high      #9BB14B  L*  68.7  road 20.9; building 34.0
+  meadow.mown      #CBC567  L*  78.2  road 16.8; building 30.9
+  meadow.winter    #D8D6A9  L*  84.8  road 16.1; building 32.1
+  meadow.dry       #D5CF8E  L*  82.2  road 15.3; building 31.0
+  grass.green      #A9B951  L*  72.0  road 20.1; building 33.8
+  grass.autumn     #CFC669  L*  78.9  road 16.4; building 30.5
+  garden.green     #9DB541  L*  69.9  building 35.2
+  garden.bare      #D5D4A6  L*  84.0  building 32.0
+  wood.floor       #5E9434  L*  55.9  water 42.7; ink 42.7
+
+failures: 0

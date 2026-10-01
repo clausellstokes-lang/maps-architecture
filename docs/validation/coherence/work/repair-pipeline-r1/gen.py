@@ -106,7 +106,9 @@ def main():
         s = by[h]
         parts.append(f"=== REPLACE {s['hl']} ===\n{s['body']}\n=== END ===\n")
         log.append(dict(heading=s['hl'], ids=s['ids']))
-    open(out, 'w', encoding='utf-8').write('\n'.join(parts))
+    hdr = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'header.md')
+    head = open(hdr, encoding='utf-8').read().rstrip('\n') + '\n\n' if os.path.exists(hdr) else ''
+    open(out, 'w', encoding='utf-8').write(head + '\n'.join(parts))
     json.dump(dict(doc_sha256=hashlib.sha256(text.encode('utf-8')).hexdigest(), blocks=log, edits=len(EDITS)),
               open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen-log.json'), 'w'), indent=1, ensure_ascii=False)
     print(f'{len(order)} blocks, {len(EDITS)} edits -> {out}')
