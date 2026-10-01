@@ -1,0 +1,142 @@
+{
+ "key": "coherence/verify-vol-V03-V04-r0s",
+ "file": "docs/validation/coherence/verify-vol-V03-V04-r0s.md",
+ "issues": [
+  {
+   "id": "VV34-01",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 119 (canon dated ruling 2026-09-30, 'File g item 119 routed'; J130) names V01–V05: 'their budget sections read the ceiling for one-time waits and keep their interactive budgets'. V03 §6 carries no item-119 part: no reading of the ten-second comfort level for its one-time waits (a plan elaboration on a click, `elaborate: 'view'` at a METROPOLIS core, the chain re-cuts inside an epoch, the plan exports), no statement that §12's plan row stays the target, none that its interactive budgets (click, storey switch, pan/zoom over plans, the dry-run preview) are unchanged; 0 hits for 'comfort', 'item 119' or 'ten seconds' in the volume.",
+   "required_change": "Add to V03 §6 a paragraph at build depth (an addition): the plan rung's rows stay §12.7's targets (as fast as possible; §12 item 119 (a)); every one-time wait this volume adds — the plan export (JSON plan block, SVG, raster, per-storey VTT scene), a stored plan's re-cut inside an epoch or a dossier change, the migration of plans on load — sits inside the ten-second total-time comfort level on §12.1's reference hardware at every rung up to the metropolis cap, with progress past one second (§12's progress rule); a step slower than its target only for a recorded measured gain (item 119 (b)); the interactive budgets (the click-to-plan frame, the storey switcher, `elaborate: 'view'` within §12.5's frame budget, the dry-run preview) unchanged (item 119 (d)); cite §12 for the laws, restate none; add the bar to V03 §7 (T-V3-36 or a new clause) and a J-V3 decision row.",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 119 (canon dated ruling 'File g item 119 routed'; J130) names V04's budget section. V04 §6 carries no item-119 part: nothing reads the ten-second comfort level for the underground's one-time waits (the tail T1–T8 at generation, U-FADE and the four epoch participants inside advance time, `BuriedFormer.lay` inside the history replay, the per-band exports) or keeps its interactive budgets (the band switch, cut-away, the access edit's preview); 0 hits for 'comfort', 'item 119' or 'ten seconds'.",
+   "required_change": "Add to V04 §6 (an addition at build depth): §12's underground rows and V04 §6's own rows stay the targets; the tail at generation, an edit's re-derivation, the epoch participants and `BuriedFormer.lay` inside V06's replay, and the underground exports each fit inside the ten-second comfort level of total time on §12.1's reference hardware at every rung to the metropolis cap, with progress shown past one second; a row slower than its target only for a recorded measured gain; the interactive rows (band step by PageUp/PageDown, cut-away, the access tool's live preview, hover and click) unchanged; add the bar to V04 §7 and a J-V4 row.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-03",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V04 §4.5 keys the excavation reading as `info.under.excavation.<state>` (`accessible`, `unexcavated`, `lost`) and V04 §13's V09 row names `info.under.excavation.lost`, stating every row's words are keys of V09's catalogue; V09 §4.9/§4.17.1 and V10 §3.9a key the same reading as `info.under.sealed` (unexcavated), `info.under.lost` and `info.under.lostUndated` (lost; V09's words) and word the accessible reading as the join chain. One concept, two key sets (principle (10)); V10's rewrite report flagged it ('the two should name one key'). T-V4-78 (a) ('every word a catalogue key') fails against V09's catalogue as written.",
+   "required_change": "In V04 §4.5 replace `info.under.excavation.<state>` by the catalogue's keys: `unexcavated` → `info.under.sealed`, `lost` → `info.under.lost` (`info.under.lostUndated` where no closing is dated; words V09 §4.17.1's), `accessible` → V10 §3.9a's chain row; the same in V04 §13's V09 row (drop `info.under.excavation.lost`); T-V4-78 (a) checks those keys.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-04",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "V04 §4.5, V04 §3.11 rows UE24 and UE27, and T-V4-78 (b) answer 'a document with no underground' (and an empty band ladder) with the key `info.under.none`; no row of V10 §3.9a and no row of V09 §4.9's catalogue produces that key (V09's `info.under.*` family is 'each underground row of V10 §3.9a'). A consumer reads a key nobody writes: a dangling input, and T-V4-78 (b)'s 'every word a catalogue key' cannot pass.",
+   "required_change": "Add to V10 §3.9a's `underground` table a row 'no underground here' keyed `info.under.none` with its `en` words (e.g. 'Nothing lies beneath this town.'), so V09 §4.9's `info.under.*` family carries it; V04's uses stand.",
+   "owner": "V10"
+  },
+  {
+   "id": "VV34-07",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "V03 §4.6's `plan` section provider keys one row per item-110 room cause as `info.plan.cause.<cause>` (`landingDoor`, `terraceDoor`, `terraceExit`, `seatingExit`, `walkOut`, `tombDoor`, `gradeFace`, `deckNoCellar`, `stoop`, `exposure`, `stackCarried`) and the notes `shrineOneRoom`, `solidMonument`, `stackCarried`, stating 'their texts written in volume 10'; V10 §3.9's provider table (the V03 row) only lists the keys, and V10 §3.9a writes words for the `underground` and `crypt` sections alone — no `en` text for any `info.plan.cause.*` key or the three notes exists anywhere in the set (CVR-V10-9 closed at V03 with keys but no words). The why card and V09's panels would show keys with no words.",
+   "required_change": "Add to V10 §3.9a a `plan` table: one row per cause key `info.plan.cause.<landingDoor|terraceDoor|terraceExit|seatingExit|walkOut|tombDoor|gradeFace|deckNoCellar|stoop|exposure|stackCarried>` and per note (`info.plan.note.<shrineOneRoom|solidMonument|stackCarried>`, the key form V03 §4.6 then names), each with its `en` words (e.g. walkOut: 'the cellar opens onto the lower terrace at {wall}'), loaded by V09 §4.9 as the crypt rows are.",
+   "owner": "V10"
+  },
+  {
+   "id": "VV34-08",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "V09 §4.9's catalogue family table lists `info.raised.<outcome>`, `info.under.*`, `info.catacomb.*` and `info.crypt.*` but no `info.plan.*` family, although V03 §4.6 states that every row of its `plan` section is 'a key of volume 9's catalogue (V09 §4.9)' (`info.plan.cause.<cause>` and the notes) and V10 §3.9 lists those keys; with no family row, T-V9-15's 'a shipped locale carries every key of every family' never covers them.",
+   "required_change": "Add to V09 §4.9's family table a row `info.plan.*` — each `plan` section row of V10 §3.9a (the eleven item-110 room causes and the three `PlanReport.notes` ids, V03 §4.6), words V10 §3.9a's — so T-V9-15 and T-V10-29 cover the keys.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV34-12",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "II.7.6's catacomb paragraph states the ratchet's growth as 'its growth per epoch capped at `growthCapShare` of its floor area (V11)'; J-VI.6 (the volumes integration decision that deliberately changes it), V04 §2.3's `CatacombRule` row and V04 §3.5.1 (6), T-V4-52, V06 §3.18.2 and V11 §3.23.8 / J-V11.32 all read `growthCapShare` as a share PER YEAR compounded over the epoch's span with the floor `growthFloorM2`: `max(extent × ((1 + growthCapShare)^years − 1), growthFloorM2)`. The base and the volumes give two caps that diverge on long epochs (principle (10); precedence (3): a J-VI row over the base's text).",
+   "required_change": "In II.7.6 replace 'its growth per epoch capped at `growthCapShare` of its floor area (V11)' with 'its growth per epoch at most `max(extent × ((1 + growthCapShare)^years − 1), growthFloorM2)`, `growthCapShare` a share per year compounded over the epoch's span (V11 §3.23.8; J-VI.6; V04 §3.5.1 (6))'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV34-16",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "claim": "The owner's named combination 'a catacomb growing into a sewer' (edges.json CN-a-catacomb-growing-into-a-sewer, owner V04, status 'to confirm: the typed opening, rung, test') is defined — V04 §0's 'each meeting is a typed opening', V04 §3.5.7 (a)'s overlap test run 'wherever a system grows … a catacomb's growth', V04 §3.5.1 (7)'s stagnation with `blockedBy` 'system' — but no bar tests it: T-V4-53 covers only a sewer crossing a sealed ruin chamber and a cavern gallery at generation, T-V4-51/T-V4-52 the ratchet and its cap, T-V4-79/T-V4-80 no catacomb × sewer row. The rewrite report's 'barred by the growth bars' names no clause that meets a sewer.",
+   "required_change": "Add a clause to T-V4-53 (or T-V4-80) with a UC row in V04 §3.11: on a CITY fixture whose catacomb frontier grows over epochs toward a sewer run at a shared depth, at TOWN, CITY and METROPOLIS — the meeting commits one typed opening (a `breach` link, cause `overlap`, in the growth's commit), no element changes system (never a merge), nodes the sewer holds stay inadmissible (the complex `stagnant`, `blockedBy` holding 'system', `fill` rising, when no other node remains), and save, load, undo and redo of that epoch are byte-identical.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V03 §3.7.4's crypt-edit dry run (1) states the bend's words `bend.crypt.cathedral` carry the kept area `{m2}` (J-V3.130; the V03 rewrite's cross-part note to V09); V09 §4.9's row reads 'A cathedral always keeps its crypt, the largest in {town}.' with no `{m2}` placeholder, so the kept smallest lawful size the bend sets is never shown.",
+   "required_change": "V09 §4.9's `bend.crypt.cathedral` row gains the kept area: 'A cathedral always keeps its crypt, the largest in {town}; kept at its smallest, {m2} m².' (the placeholder filled from the bend's ring), as V03 §3.7.4 (1) states.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV34-06",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V04 §3.5.5 (b) (1)–(2) read `history.burialYears` and 'the site's factors' as 'V11's cell and factors, read through DR39' without naming their home; V11's rewrite report (cross-part note 11) states the burial depth factors are row 93's history cells at V11 §3.25.2, which V04 does not cite (principle (1): a fact referenced at its home).",
+   "required_change": "In V04 §3.5.5 (b) (1) and (2) cite V11 §3.25.2 (row 93: `burialYears`, the flood, silt and rebuilt factors and `T(f)`) for the burial threshold and the depth factor `f` = `burialYears ÷ T(f)`.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-09",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V03 §2.3's `PlanReport.warnings` comment states each W_ code is 'also in the panel's plain words (V03 §4.5)', and E-28's equivalence list names the panel among the readers; V03 §4.5's item-110 lines word only `W_TIER_UNREACHED` ('tier 3 cannot be reached: no stair arrives there'). `W_STOREY_RUN` (added by this pass for EI-V03-EDGE-1), `W_ENTRANCE_NO_STOREY`, `W_CHURCH_CATACOMB_HEAD`, `W_STACK_ACCESS`, `W_DECK_ACCESS` and `W_GRADE_FACE_TUNNEL` have no plain-words line and no catalogue key: the stated consumer does not read them.",
+   "required_change": "In V03 §4.5 give each remaining warning its panel line with a V09 §4.9 key (e.g. `W_STOREY_RUN`: 'the {wing} is too short for a stair: planned solid, its rooms moved'; `W_ENTRANCE_NO_STOREY`: 'the {side} door meets no floor: left out'; `W_CHURCH_CATACOMB_HEAD`, `W_STACK_ACCESS`, `W_DECK_ACCESS`, `W_GRADE_FACE_TUNNEL` likewise), or narrow §2.3's comment to the codes the panel words; T-V3-12 or T-V3-36 (m) checks one line per reported code.",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-10",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "The base's PART II line 'DigRule, OpeningRow and CatacombRule are V04 §2.2's (their rows V11's)' (the U-ACCESS strategy signature, II.7.6) points at V04 §2.2 (new records and the access-state set); the three interfaces are declared in V04 §2.3 (the rule tables), in the archive and the live text alike: a reference to a section that does not state the fact.",
+   "required_change": "Re-point to 'V04 §2.3's' in that II.7.6 line.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV34-11",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "§2.3's `type OutfallInto` line comments 'declared here, V04 §2.2 cites it'; after the rewrite V04 cites `Outfall` and `OutfallInto` in V04 §2.1 (What the base already declares) and V04 §2.2 no longer names them.",
+   "required_change": "Change the comment to 'declared here, V04 §2.1 cites it'.",
+   "owner": "model"
+  },
+  {
+   "id": "VV34-13",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§5.4's `GenerationReport.warnings` comment enumerates the underground's stage warning codes as seven (W_NET_CROSS … W_OUTFALL_LOW; item 338); V04 §1b.1's row lists twelve — adding `W_RUIN_SOURCE_REMOVED`, `W_RUIN_MONUMENT_SKIPPED`, `W_ARCH_VAULT_NO_DOOR`, `W_TERMINAL_CISTERN_SKIPPED` and `W_BURIED_FORMER_SKIPPED` (the last new with g item 113 (c)) — and reports them in V04 §3.11. Two enumerations of one set disagree (V04's rewrite report, cross-part note 1).",
+   "required_change": "In §5.4's comment cite V04 §1b.1 for the underground's codes in place of the seven-name list (single source), or list all twelve.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VV34-14",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V04 §8's register row for the span-rule constants ('the cells `raisedWays.structure.span.*` (row 80, V11 §3.24.2's name map; their values in §2.7, item 244)') and J-V4.118 ('the cells `raisedWays.structure.span.*`, their values in §2.7') place the cells' values at base §2.7; the rewritten §2.7 span rule names the cells without values ('Every cell named here is V11 row 80's `raisedWays.structure` (V11 §2.8c, V11 §3.24.2)') and J-V11.97 makes V11 §3.24.2 the values' one home.",
+   "required_change": "In V04 §8's span-rule row and J-V4.118 read 'their values in V11 §3.24.2 (the rule at §2.7, item 244)'.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-15",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V10's reads table (its V04 row) names the excavation reading `excavation(cluster)`; V04, its home, declares it `excavation(doc, cluster)` (V04 §1b.1, §1b.2, §2.6, §3.5.7 (g)) — one reading, two signatures (principle (2)).",
+   "required_change": "In V10's reads table write `excavation(doc, cluster)`.",
+   "owner": "V10"
+  },
+  {
+   "id": "VV34-17",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V04's reading note says '`item n` is an amendment item — items 1–113 the owner's, items 200 and above file f's'; file g now carries items 114–119 (owner rules of 2026-09-30, routed by the canon's dated rulings, item 119 to this volume), and item 112 is a program rule under J122, so the note misstates the set of items the volume reads.",
+   "required_change": "Read 'items 1–119 the owner's rules (item 112 the program's, under J122), items 200 and above file f's'.",
+   "owner": "V04"
+  }
+ ]
+}

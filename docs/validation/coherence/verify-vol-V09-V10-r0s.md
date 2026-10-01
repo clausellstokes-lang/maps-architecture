@@ -4,10 +4,10 @@
 
 PROGRESS (lane `coherence/verify-vol-V09-V10-r0s`, 2026-09-30, cloud checkout; scratch `scratchpad/coherence/v910/`)
 - P0 resume check (no LANDED line, no output): fresh start — done
-- P1 inputs read (brief whole; inventory-vol-V09-V10 summary; rewrite-V09, rewrite-V10; canon units V09, V10; dated rulings g 114–119) — pending
-- P2 live text against the rewrite outputs (assembler's changes) — pending
-- P3 every inventory id token-checked at its mapped home; flagged ids read by hand — pending
-- P4 every changed paragraph of the body (archive → live word diff) read — pending
+- P1 inputs read (brief whole; inventory-vol-V09-V10 summary; rewrite-V09, rewrite-V10; canon units V09, V10; 39 conflicts; dated rulings g 114–119) — done
+- P2 live text against the rewrite outputs (assembler's changes) — done (both byte-identical to new/volumes; assembler: 9 + 3 ambiguous refs, V12 note on register.json)
+- P3 every inventory id token-checked at its mapped home; flagged ids read by hand — token check done (1 916 ids, 111 flagged); hand reads in progress
+- P4 every changed paragraph of the body (archive → live word diff) read — V09 head–§6 read; §7–§13 next, then V10
 - P5 canon rulings routed here (conflicts, elegance equivalence lists, wiring gaps, id rulings, glossary) — pending
 - P6 g items (111–119, the dated rulings) and f items concerning each volume — pending
 - P7 edges (edges.json rows owned by V09/V10, combinations) — pending
