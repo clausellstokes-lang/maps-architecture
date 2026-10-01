@@ -1,0 +1,12 @@
+files 1; blocks 10 found, 10 applied, 0 skipped
+audit: 10 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 797
+  Part A duplicate ids: []
+headings 59 -> 59 (+0 / -0); fences balanced True (12 -> 12 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 514605 -> 520064 bytes, 3590 -> 3605 lines, sha256 0e3bcacd8f5cc61680509b213757a3cc3a94252d6647acd26938bce7b263f162
+rationale 697152 -> 697152 bytes, 2378 -> 2378 lines, sha256 dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0

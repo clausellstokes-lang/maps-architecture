@@ -1,0 +1,81 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/INDEX.md",
+ "input_doc_sha256": "1774db18eb14cd3179d29569dc876b00b0d8ae1b603169e1dfa507bec88e83f0",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-scope.md",
+   "sha256": "68fb6f253f986bda4186e3133f598932ed0892ec9e08514144719ff01a74ed22",
+   "lines": 31,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-scope.md #1 (l. 2) REPLACE ## 1 The product map",
+   "file": "repair-r3-scope.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1 The product map",
+   "body_lines": 27,
+   "body_sha256": "e432822722825dd941cae60131333b6a409d65c5419e4ef1de06183fa625aa8e",
+   "target_line": 13,
+   "section_old": "13–40",
+   "section_old_n": 28,
+   "section_new_n": 28,
+   "new_headings": [
+    "## 1 The product map"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-scope.md #1 (l. 2) REPLACE ## 1 The product map",
+    "kind": "REPLACE",
+    "heading": "## 1 The product map",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 9,
+  "headings_after": 9,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 2,
+  "fence_lines_after": 2,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 24049,
+  "doc_bytes_after": 24074,
+  "doc_lines_before": 202,
+  "doc_lines_after": 202,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 1,
+  "blocks_applied": 1,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

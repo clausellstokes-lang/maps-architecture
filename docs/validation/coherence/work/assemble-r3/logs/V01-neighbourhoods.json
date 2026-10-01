@@ -1,0 +1,367 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V01-neighbourhoods.md",
+ "input_doc_sha256": "fb2d14965bdcae74be2f7d138804e64aafe2ed5569e53f1aeb5d07ed52ac1901",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V01.md",
+   "sha256": "2db805ba1f87c352b5653c9bae5e5ef54dd9c5bb922f79f067a88b4036cbf2f0",
+   "lines": 1030,
+   "blocks": 12,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V01.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes",
+   "file": "repair-r3-V01.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes",
+   "body_lines": 55,
+   "body_sha256": "377fbf94307e549f68613795087df21b48c91920706f05d3258dfa00ac2ed91f",
+   "target_line": 157,
+   "section_old": "157–212",
+   "section_old_n": 56,
+   "section_new_n": 56,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V01.md #2 (l. 60) REPLACE ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "file": "repair-r3-V01.md",
+   "index": 2,
+   "line": 60,
+   "kind": "REPLACE",
+   "heading": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "body_lines": 103,
+   "body_sha256": "fe859f4c707c05791a449d953f273d7bddd6549bdaff73a6206e94d44aea736d",
+   "target_line": 249,
+   "section_old": "249–352",
+   "section_old_n": 104,
+   "section_new_n": 104,
+   "new_headings": [
+    "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V01.md #3 (l. 166) REPLACE ### 2.3 Views and services (derived, never stored)",
+   "file": "repair-r3-V01.md",
+   "index": 3,
+   "line": 166,
+   "kind": "REPLACE",
+   "heading": "### 2.3 Views and services (derived, never stored)",
+   "body_lines": 135,
+   "body_sha256": "33811bc587f52c1c200f0be72938adb8a9b39d36f5315c0ff683d5ae247c448c",
+   "target_line": 449,
+   "section_old": "449–584",
+   "section_old_n": 136,
+   "section_new_n": 136,
+   "new_headings": [
+    "### 2.3 Views and services (derived, never stored)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V01.md #4 (l. 304) REPLACE #### 3.4.1 The template face",
+   "file": "repair-r3-V01.md",
+   "index": 4,
+   "line": 304,
+   "kind": "REPLACE",
+   "heading": "#### 3.4.1 The template face",
+   "body_lines": 14,
+   "body_sha256": "a20d5ef255af502fb39277383324436d688aedde785759afd0047eef36d97283",
+   "target_line": 958,
+   "section_old": "958–972",
+   "section_old_n": 15,
+   "section_new_n": 15,
+   "new_headings": [
+    "#### 3.4.1 The template face"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V01.md #5 (l. 321) REPLACE ### 3.6 Context features (stage-2 feature S2)",
+   "file": "repair-r3-V01.md",
+   "index": 5,
+   "line": 321,
+   "kind": "REPLACE",
+   "heading": "### 3.6 Context features (stage-2 feature S2)",
+   "body_lines": 56,
+   "body_sha256": "cbdf11ea97028c577a0e4def330ccd4dfb2a98abeec8cc445d08b9bd4c1843ea",
+   "target_line": 1395,
+   "section_old": "1395–1447",
+   "section_old_n": 53,
+   "section_new_n": 57,
+   "new_headings": [
+    "### 3.6 Context features (stage-2 feature S2)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V01.md #6 (l. 380) REPLACE ### 3.16 Services other volumes call (`@plat/hood`)",
+   "file": "repair-r3-V01.md",
+   "index": 6,
+   "line": 380,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Services other volumes call (`@plat/hood`)",
+   "body_lines": 110,
+   "body_sha256": "d8465e5b59200ae89d79eadd9b1776a295511947aa8b9216a608e49e859e3ea7",
+   "target_line": 2280,
+   "section_old": "2280–2381",
+   "section_old_n": 102,
+   "section_new_n": 111,
+   "new_headings": [
+    "### 3.16 Services other volumes call (`@plat/hood`)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V01.md #7 (l. 493) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r3-V01.md",
+   "index": 7,
+   "line": 493,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 127,
+   "body_sha256": "bad18d5cae79f7dc794c2bb9b474ec23589bb66af906d9a83654a8686f7bcbe1",
+   "target_line": 2585,
+   "section_old": "2585–2712",
+   "section_old_n": 128,
+   "section_new_n": 128,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V01.md #8 (l. 623) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "file": "repair-r3-V01.md",
+   "index": 8,
+   "line": 623,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "body_lines": 98,
+   "body_sha256": "567312ef92544e448a4228ed6818483c2add9b5811bff5b5f58b15e2972e885a",
+   "target_line": 3127,
+   "section_old": "3127–3224",
+   "section_old_n": 98,
+   "section_new_n": 99,
+   "new_headings": [
+    "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r3-V01.md #9 (l. 724) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r3-V01.md",
+   "index": 9,
+   "line": 724,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 76,
+   "body_sha256": "766191735c1b8b118f08df49d59a3dcfeea08240822d9dd38f1533b785254851",
+   "target_line": 3279,
+   "section_old": "3279–3355",
+   "section_old_n": 77,
+   "section_new_n": 77,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r3-V01.md #10 (l. 803) REPLACE ### 8.1 Where it slots into §16",
+   "file": "repair-r3-V01.md",
+   "index": 10,
+   "line": 803,
+   "kind": "REPLACE",
+   "heading": "### 8.1 Where it slots into §16",
+   "body_lines": 59,
+   "body_sha256": "d95a0ad536570e6b87c076640415b9f64b42daa6b6a48693d7e53591ae830188",
+   "target_line": 3358,
+   "section_old": "3358–3415",
+   "section_old_n": 58,
+   "section_new_n": 60,
+   "new_headings": [
+    "### 8.1 Where it slots into §16"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r3-V01.md #11 (l. 865) REPLACE ## 9 Decisions",
+   "file": "repair-r3-V01.md",
+   "index": 11,
+   "line": 865,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions",
+   "body_lines": 112,
+   "body_sha256": "701fb9c9f1e220770f2b5a8bde340f6369c0a9394d8881d9b6f3b7fd4655fdaf",
+   "target_line": 3500,
+   "section_old": "3500–3612",
+   "section_old_n": 113,
+   "section_new_n": 113,
+   "new_headings": [
+    "## 9 Decisions"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r3-V01.md #12 (l. 980) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r3-V01.md",
+   "index": 12,
+   "line": 980,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 48,
+   "body_sha256": "bb2e9007497e3f200f2c2d35cfcf6c02ca7a8c73b42263c9f9c9c7bca816d7f6",
+   "target_line": 3677,
+   "section_old": "3677–3724",
+   "section_old_n": 48,
+   "section_new_n": 49,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V01.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #2 (l. 60) REPLACE ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #3 (l. 166) REPLACE ### 2.3 Views and services (derived, never stored)",
+    "kind": "REPLACE",
+    "heading": "### 2.3 Views and services (derived, never stored)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #4 (l. 304) REPLACE #### 3.4.1 The template face",
+    "kind": "REPLACE",
+    "heading": "#### 3.4.1 The template face",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #5 (l. 321) REPLACE ### 3.6 Context features (stage-2 feature S2)",
+    "kind": "REPLACE",
+    "heading": "### 3.6 Context features (stage-2 feature S2)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #6 (l. 380) REPLACE ### 3.16 Services other volumes call (`@plat/hood`)",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Services other volumes call (`@plat/hood`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #7 (l. 493) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #8 (l. 623) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #9 (l. 724) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #10 (l. 803) REPLACE ### 8.1 Where it slots into §16",
+    "kind": "REPLACE",
+    "heading": "### 8.1 Where it slots into §16",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #11 (l. 865) REPLACE ## 9 Decisions",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V01.md #12 (l. 980) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 123,
+  "headings_after": 123,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 516483,
+  "doc_bytes_after": 523442,
+  "doc_lines_before": 3725,
+  "doc_lines_after": 3742,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 12,
+  "blocks_applied": 12,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

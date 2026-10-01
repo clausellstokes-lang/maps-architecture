@@ -8,7 +8,7 @@ implementer holds the base and this volume and nothing else (§17.1). Every fact
 cited, never restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n`
 is a design volume's section, this one included (`V05 §3.2`), and every item of a list carries its volume's prefix
 (`V06 §2.1, V06 §3.2` is two sections of volume 6; in `V06 §2.1, §3.2` the second is the base's); `item n` is an
-amendment item — items 1–120 the owner's, items 200 and above file f's, each the applied text of a volume's base change
+amendment item — items below 200 the owner's, items 200 and above file f's, each the applied text of a volume's base change
 request (V05 §10 lists this volume's); `J-VI.n` is a volumes-integration decision (`docs/volumes/_integrate.md`), cited
 and never restated. Decisions are `J-V5.n` (V05 §9), tests `T-V5-n` (V05 §7).
 
@@ -195,7 +195,7 @@ An index of citations; the values stay at the cited home.
 | §9.1, §9.2; §11.1 (file f item 415) | V05 §5.4, V05 §5.5 |
 | §11.2 (`FieldDrivers`, `WhyAnswer.closure`) | the daylight term's per-island attribution and the rim's `sheer` closure in the clerk's island answers (V05 §4.5, V05 §3.21 (1)) |
 | §12, §13.2, §13.3, §14, §16 (file f items 476, 568) | V05 §6–V05 §8 |
-| items 102–120 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–18) |
+| file g's items as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–18) |
 | §2.9's view state (the year position and its follow flag, the festival display, the view key `find`), §7.7's DR42 and DR43, §8.2's season and festival rows, §11.1, §11.2's gazetteer under knowledge admission, §12.1's comfort level and §12.5 (items 117–120) | the island's seasonal look and its pennants (V05 §5.1), Find on Sky (V05 §5.6), the exports' looks (V05 §5.5), the one-time waits (V05 §6) |
 | V01 §2.3, V01 §3.1, V01 §3.2 (5), V01 §3.5.5, V01 §3.8.2, V01 §3.14, V01 §3.16, V01 §3.17.7 (2) | the hooks S7c and S9b, `DistrictContext.shade`, χ̃'s supply term, `hood.constants.sky.plotShare`, `skyDistrictCount`, `plantRimWalk`, `terraceState` |
 | V02 §2.6 (`DeckContext`), V02 §3.15.2 (the stack envelope), V02 §3.16 | the caster ceiling, the surface top, deck plots |
@@ -1684,12 +1684,13 @@ everything else of item 110 is theirs, and none of it changes a ground value whi
    re-routes or, failing that, ends the course at its last ground vertex before the column with the line "this would cut
    <island>'s hoist; it ends here" (J-VI.4 (f)). An access placed or moved later (`placeSkyAccess`, a move,
    `setAttr(ground.at)`) meets the standing raised parts by (a) and (b) at its own dry run.
-   (d) **No raised way reaches an island.** A raised part's two ends are ramps or stairs joined to ground vertices (item
-   110 (b)); a T4 `raised` or aqueduct stroke that ends on an island's rim makes no way and is bent into a sky access (V05
-   §4.2; J-VI.4 (d)), so II.1's "sky: no portals, no roads in or out" stands. **No raised part stands on an island:** item
-   110 (b)'s decks live in ground parts ≥ 1, and the sky layer has one part per island (V05 §2.1); a T4 `raised` or
-   aqueduct stroke on an island's key is bent (J-VI.4 (e): `raised` dropped, the aqueduct made a fountain pin), with V09
-   §4.9's lines `bend.raised.onIsland` and `bend.aqueduct.onIsland`. **No access is a way** (V05 §2.2).
+   (d) **No raised way reaches an island.** A raised part's two ends are its feet on ground part 0 (§2.7's
+   `RaisedWayRecord.feet`; item 110 (b)); a T4 `raised` or aqueduct stroke that ends on an island's rim makes no way and
+   is bent into a sky access (V05 §4.2; J-VI.4 (d)), so II.1's "sky: no portals, no roads in or out" stands.
+   **No raised part stands on an island:** item 110 (b)'s decks live in ground parts ≥ 1, and the sky layer has one part
+   per island (V05 §2.1); a T4 `raised` or aqueduct stroke on an island's key is bent (J-VI.4 (e): `raised` dropped, the
+   aqueduct made a fountain pin), with V09 §4.9's lines `bend.raised.onIsland` and `bend.aqueduct.onIsland`.
+   **No access is a way** (V05 §2.2).
 4. **The island's own retaining walls** (J-V5.69). Volume 1's unit run levels island ground by item 110 (a)'s thresholds
    (`terrace.slopeMin`, `terrace.stepMinCm`, volume 11's rows, read unchanged), which on the island's gentle dome and
    quarter-amplitude echo (V05 §3.8 (3)) bite mainly on an `own` relief of a steep class; a terraced edge is laid only
@@ -3012,7 +3013,7 @@ This volume's requests to the base are applied by file f; each is now the base's
 
 **CONFIRMED by reading:** every base and volume citation of this volume against the set as the coherence pass writes it
 (files f and g applied); the owner's words in `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md` (J98 to
-J111 included) and items 102–120 of `docs/AMENDMENTS-2026-09-28g.md`; `docs/volumes/_integrate.md`'s J-VI rows; the
+J111 included) and file g's items in `docs/AMENDMENTS-2026-09-28g.md`; `docs/volumes/_integrate.md`'s J-VI rows; the
 retrovalidation's two island findings (RV-pc-1, answered by volume 1's unit run and this volume's unit inputs; RV-pc-3,
 answered by V05 §3.3).
 **Executed:** the nine model suns at latitude 50° on the equinox, hour angles −80° to +80° by 20° — altitudes 6.41°,

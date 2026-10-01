@@ -1,0 +1,372 @@
+{
+ "base": {
+  "target": "docs/ARCHITECTURE.md",
+  "found": 47,
+  "applied": 47,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   140,
+   140
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   2934933,
+   2975078
+  ],
+  "sha256_out": "e849c43589789bbead1fdd124f89b9bc7a5976794444e5a8a99001cd7b5092a0",
+  "rationale_unchanged": false,
+  "rationale_sha256_out": "19f3bb8660ec57da6e06a8bfe823fa5a8cb09a5c773824ec53c222a6e48442a9",
+  "notes": [
+   "DUPLICATE ID inserted (an id the table already holds): ['J-A81.31']",
+   "DUPLICATE ID inserted (an id the table already holds): ['J-A81.31']",
+   "DUPLICATE ID inserted (an id the table already holds): ['J-A68.89']",
+   "DUPLICATE ID inserted (an id the table already holds): ['J-A120.01']",
+   "DUPLICATE ID inserted (an id the table already holds): ['J-A120.01']"
+  ]
+ },
+ "INDEX": {
+  "target": "docs/volumes/INDEX.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   9,
+   9
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   2,
+   2
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   24049,
+   24074
+  ],
+  "sha256_out": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V01-neighbourhoods": {
+  "target": "docs/volumes/V01-neighbourhoods.md",
+  "found": 12,
+  "applied": 12,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   123,
+   123
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   516483,
+   523442
+  ],
+  "sha256_out": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V02-buildings": {
+  "target": "docs/volumes/V02-buildings.md",
+  "found": 14,
+  "applied": 14,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   77,
+   77
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   16,
+   16
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   547395,
+   561207
+  ],
+  "sha256_out": "4696951caa15e7ffe32522c2f5159b676a8c0da14ad45a4f10d2febe45d82e40",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V03-interiors": {
+  "target": "docs/volumes/V03-interiors.md",
+  "found": 10,
+  "applied": 10,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   48,
+   48
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   459238,
+   464396
+  ],
+  "sha256_out": "f4458cf438971b111959196b5ae575b36ea6da248a5e72289c45dc565d80c2e3",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V04-underground": {
+  "target": "docs/volumes/V04-underground.md",
+  "found": 10,
+  "applied": 10,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   59,
+   59
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   514605,
+   520064
+  ],
+  "sha256_out": "0e3bcacd8f5cc61680509b213757a3cc3a94252d6647acd26938bce7b263f162",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V05-sky": {
+  "target": "docs/volumes/V05-sky.md",
+  "found": 3,
+  "applied": 3,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   62,
+   62
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   398211,
+   398192
+  ],
+  "sha256_out": "a9cfb0a37d01a465f1ce51caa11569531473f5b4911d50ba7fe28c20cd62df91",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V06-evolution": {
+  "target": "docs/volumes/V06-evolution.md",
+  "found": 16,
+  "applied": 16,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   65,
+   65
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   28,
+   28
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   665608,
+   680177
+  ],
+  "sha256_out": "8f92dd3809e03132e1d710d49e11ccf8ccce394b5dd7ceb8b7d73e2234299feb",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V07-village": {
+  "target": "docs/volumes/V07-village.md",
+  "found": 8,
+  "applied": 8,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   18,
+   18
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   602961,
+   603780
+  ],
+  "sha256_out": "285e2f6fe9dd744be31d1d5db7073d16c958cd2f67d956e9a6da935b091a0b5a",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V08-settlementforge": {
+  "target": "docs/volumes/V08-settlementforge.md",
+  "found": 19,
+  "applied": 19,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   63,
+   63
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   18,
+   18
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   545798,
+   559089
+  ],
+  "sha256_out": "bf9fa7be4ae8c3b9977d0b2e9a6938a0be34b43df607d10c9364c64c6d0a47fe",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V09-application": {
+  "target": "docs/volumes/V09-application.md",
+  "found": 18,
+  "applied": 18,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   110,
+   110
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   738871,
+   749608
+  ],
+  "sha256_out": "cfe4df195892ff4f0943cf98764a0b4d36d22af02f11d51d4eeed6acf3675b04",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V10-clerk": {
+  "target": "docs/volumes/V10-clerk.md",
+  "found": 18,
+  "applied": 18,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   86,
+   86
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   503127,
+   510631
+  ],
+  "sha256_out": "382ea60eedc48fa960654297ec9d6d9ffdecf80a608b3a656fc8ea93d1ea75e7",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V11-content": {
+  "target": "docs/volumes/V11-content.md",
+  "found": 14,
+  "applied": 14,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   22,
+   22
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   668876,
+   674664
+  ],
+  "sha256_out": "1671da41b1f28eeda542e2946004dd94ccdc424dde2c940c16d87619a1a790d9",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ },
+ "V12-calibration": {
+  "target": "docs/volumes/V12-calibration.md",
+  "found": 12,
+  "applied": 12,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   67,
+   67
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   30,
+   30
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   512846,
+   519356
+  ],
+  "sha256_out": "90a61a9c9232f349e475123a98d52d43a5827823622b66a4434e85cb90c897b5",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "notes": []
+ }
+}

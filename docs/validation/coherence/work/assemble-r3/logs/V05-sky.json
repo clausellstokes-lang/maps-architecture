@@ -1,0 +1,133 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V05-sky.md",
+ "input_doc_sha256": "7617d87cff90221648d3152f847bad8a9c3926683066543ab69331edd764bf95",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V05.md",
+   "sha256": "c364d38479526dd7b8386e2d50a242d98f4338ae5cc4dad436cf7a0fc029e7b9",
+   "lines": 167,
+   "blocks": 3,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V05.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r3-V05.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 41,
+   "body_sha256": "dbdd4e0b5449de186865f69989cac0ed8bd879b2d1bc49e5c61a34ce22ef3fb4",
+   "target_line": 168,
+   "section_old": "168–209",
+   "section_old_n": 42,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V05.md #2 (l. 46) REPLACE ### 3.22 Item 110 on, under and against the island (the owner's \"they go in\")",
+   "file": "repair-r3-V05.md",
+   "index": 2,
+   "line": 46,
+   "kind": "REPLACE",
+   "heading": "### 3.22 Item 110 on, under and against the island (the owner's \"they go in\")",
+   "body_lines": 90,
+   "body_sha256": "b42d1fb4ff61e5145277e9487df30e181537993bdbf92aff2d5e79af4cbfba0a",
+   "target_line": 1653,
+   "section_old": "1653–1742",
+   "section_old_n": 90,
+   "section_new_n": 91,
+   "new_headings": [
+    "### 3.22 Item 110 on, under and against the island (the owner's \"they go in\")"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V05.md #3 (l. 139) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r3-V05.md",
+   "index": 3,
+   "line": 139,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 26,
+   "body_sha256": "5b52c385c5f09cf733ceeaddefdce05b7f1085d05b3475fa4e9e86a61b940230",
+   "target_line": 3012,
+   "section_old": "3012–3038",
+   "section_old_n": 27,
+   "section_new_n": 27,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V05.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V05.md #2 (l. 46) REPLACE ### 3.22 Item 110 on, under and against the island (the owner's \"they go in\")",
+    "kind": "REPLACE",
+    "heading": "### 3.22 Item 110 on, under and against the island (the owner's \"they go in\")",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V05.md #3 (l. 139) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 62,
+  "headings_after": 62,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 398211,
+  "doc_bytes_after": 398192,
+  "doc_lines_before": 3051,
+  "doc_lines_after": 3052,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 3,
+  "blocks_applied": 3,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a9cfb0a37d01a465f1ce51caa11569531473f5b4911d50ba7fe28c20cd62df91",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}
