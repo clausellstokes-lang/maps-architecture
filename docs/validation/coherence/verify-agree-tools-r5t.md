@@ -2,7 +2,7 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the seat coherence/verify-agree-tools-r5t; covered by the whole-design retrovalidation (J84).
 
-> **PROGRESS** — [x] brief read whole · [x] resume check (fresh: no output, no LANDED line) · [x] live sha256 = assemble-r5's "after" column · [x] round-4 findings re-checked against the live text (4 of 4), with every END line's second end · [x] repair-r5-touched tool subsections re-read whole · [x] round-5 hand-offs at their destination · [x] matrix-gap hunt · [ ] issues written · [ ] result saved · [ ] LANDED
+> **PROGRESS** — [x] brief read whole · [x] resume check (fresh: no output, no LANDED line) · [x] live sha256 = assemble-r5's "after" column · [x] round-4 findings re-checked against the live text (4 of 4), with every END line's second end · [x] repair-r5-touched tool subsections re-read whole · [x] round-5 hand-offs at their destination · [x] matrix-gap hunt · [x] issues written · [x] result saved (`results/coherence_verify-agree-tools-r5t.json`) · [x] LANDED
 
 Live text read: base `2d84eac2…`, V09 `7c91d3bf…`, V10 `847b3189…`, V03 `3fe82c82…`, V07 `7747179d…`, V01 `4585e1a5…`, V04 `b79fd290…`. Each equals assemble-r5's "after" column, checked by sha256 at the start. The pre-round text is git `3310b538`. Line numbers below are the live files'.
 
