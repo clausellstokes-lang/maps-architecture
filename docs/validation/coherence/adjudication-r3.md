@@ -215,3 +215,342 @@ sentence is VRC2T-15's text with "at or below V06's per-element `decayPeak` (sin
 again{, years}"), never `head.reused`: V09 §4.9's row, V09 §4.21.13 (1), V03 §4.6 and V10 §3.9a's head row (END lines).
 (d) V06 §3.23 (2)'s range sentence reads VV1112-r2-15's text (a kind's range inside the shares of the states whose looks
 item 123 (c) gives it).
+
+## Part D — item 122: crisis looks
+
+### R3-09 The disaster look's source, and which calamity it takes
+
+**Governs:** VPC-R2-03 and VV78-r2-09 (V08: no dossier source reaches the `disaster` look), VV12-r2-01 (V01 against V08:
+which calamity), VV12-r2-04 (V02: the pattern's reader), VV1112-r2-11 (V08's fixtures); ends at V11 §3.25.9, §10.2 (b),
+DR44, T-V6-75, T-ER-27, V12's crisis fixtures and V01 §2.3's comment.
+
+**Decision (J122, vetoable; canon change).**
+(a) **The source.** Item 122 (a), as the owner approved it, draws every look "from the `ConditionOverlay`s standing in the
+view's week"; a calamity is no overlay. So a disaster look stands through a condition: V08 §3.16 (7) (b) adds, after
+"every other condition reads the `archetype` row of its archetype", VPC-R2-03's sentence — a condition linked to a
+carried calamity by (d) whose own row is `none` (the `reconstruction` condition SettlementForge raises after a calamity
+among them) carries `event` `calamity` and reads that row, so the disaster look stands for that condition's weeks, its
+units the calamity's `targets` first, each building's ruin yielding to its rebuild (R3-10); a calamity linked to no
+condition draws no look, its aftermath DR28's epoch event — **and** "one look per calamity: where several none-row
+conditions link to one calamity, the earliest-triggered (ties by condition id) carries `event` `calamity`, the others
+reading `none`". V08 §2.5's `event` comment names the `calamity` word; a J-V8 row records the reading.
+(b) **Which calamity.** V08 §3.16 (7) (d)'s link is the one rule (the carried calamity whose week equals the condition's
+`triggeredAt.tick`, else the latest carried in the 52 weeks up to its `sinceWeek`). V01 §3.16 (2) takes the overlay's
+calamity from its condition's carried `calamity` field — VV12-r2-01's text **amended**: it reads the carried calamity fact
+that key names (V08 §2.3's `calamity` fact: its `type`, severity band and `targets`, resolved through the binding table
+to entity ids, V08 §3.5 (6)), as a `CalamityRef` built the way V08 §3.6 (3) builds the epoch's entry — not from the
+committed `epoch` events, so a calamity carried with no event (one dated at or before the last absorbed week) still gives
+its targets and its pattern. A condition with no `calamity` field, a stressor's overlay and a preview give none (the
+`scatter` pattern). J-V1.104, §1b's dossier row, §3.18 (e) and T-V1-60 (d) follow as VV12-r2-01 words them.
+(c) **The pattern's reader.** V02 reads `disasterSource(…).pattern` (VV12-r2-04); V01 §2.3's `DisasterSource.calamity`
+comment names no V02 reader ("the overlay's calamity, read by §10.2's `affectedQuarter` through `matched`"), and
+`pattern`'s comment names §8.2's disaster row and V02 §5.7 (4).
+(d) **The base names the source word, not its rule.** §10.2 (b)'s source sentence and DR44's map-row clause read "the
+`map` row of the source word V08 §3.16 (7) (b) gives the overlay (a stressor's type, a simulator crisis event, the
+`calamity` word of a linked condition, else its archetype)", with R3-11's regional clause and R3-12's pairing cited.
+(e) **Fixtures.** Every disaster fixture of the set is a calamity with its linked `reconstruction` condition: V08 §7.1's
+crisis fixtures (VV1112-r2-11), T-V8-59's calamity-linked fixture, T-V6-75, T-ER-27, V12 §3.15.12 / X-V12-5 and T-V1-60's
+fixture calamities (each named so where it says "a fire", "a flood", "an earthquake" or "a disaster condition").
+
+### R3-10 The disaster look leaves building by building; a preview never hands over
+
+**Governs:** VPC-R2-09 and VV56-r2-03 (pipeline §10.2 (f)), VV56-r2-02 and VPC-R2-10 (rendering §8.2), VAT2-r2-09 (V06);
+V01 §3.16's closing sentence, V02 §5.7 (1) and V03 §5.6 (4) (END lines). Supersedes R2-37 (6)'s "the `disaster` look
+ending in the week the `reconstruction` Works begins".
+
+**Decision.** V06 §3.22 (3) and J-V6.138 are the home and stand: item 122 (a)'s "a disaster's ruined look gives way to
+the Works scaffolding of `reconstruction`" holds on each building — `crisisLookYields(doc, building, overlay, week)` turns
+true once a Works other than a `decay` Works has started on the building (and did not finish before the overlay's
+`sinceWeek`); a building no such Works reaches keeps the look until its condition ends; no week draws both the look and
+a Works' stage on one building. Ending the whole look at the first rebuild's week would clear the ruin from every building
+not yet rebuilt in one week, which the hand-over does not ask. Texts: §10.2 (f) reads "`disaster`: (d)'s
+`neighbourhoods`, each building leaving the look in the week V06 §3.22 (3)'s `crisisLookYields` turns true on it (a
+Works other than a `decay` Works begun on it), a building no such Works reaches keeping it until its condition ends, so
+no week draws both on a building"; §8.2 is VV56-r2-02's text (a district's `ruinTone` stands while any of its buildings
+draws the look; *The layer* reads `crisisLookYields` and re-runs when the week crosses a Works' start week on a building
+of a standing disaster look). **A preview never hands over** (VAT2-r2-09's text): `overlay: Id | null`, `crisisLookYields`
+false for `null`, so a previewed ruin draws over every building of its units whatever their Works.
+
+### R3-11 `regional_migration_pressure` draws the refugee camp
+
+**Governs:** VPC-R2-01, VDC2-10, VV56-r2-08 (pipeline §10.2 (b)); VPC-R2-02, VDC2-09 (determinism DR44).
+
+**Decision.** Item 122 (b)'s approved text names "**mass immigration** (regional_migration_pressure, REFUGEE_WAVE)" a
+refugee camp and "the regional_* pressures — no look"; the named archetype governs the general class (V11 §3.25.9 already
+maps it so; T-V6-75 already fixtures it). One clause, both units: "`regional_migration_pressure` the refugee camp (item
+122 (b)'s mass immigration), the other regional_* pressures `none`" — inside R3-09 (d)'s sentence at §10.2 (b) and in
+DR44's map-row clause. Grade MAJOR: the base as written draws the owner's archetype as nothing.
+
+### R3-12 A stressor and a condition of one look draw one look
+
+**Governs:** VAH-r2-02 (V08); DR44's source clause (END); V11's round-2 hand-off to V08.
+
+**Decision (J122, vetoable).** The pairing test the verifier proposed (an archetype equal to the stressor's type, or a
+`triggeredAt` naming the stressor, "as SF0's census confirms") rests on fields the pinned line is not confirmed to carry.
+One rule needs none and keeps item 122 (c)'s scale by severity: **a `cond:stress:<type>` overlay draws no look while a
+condition's overlay whose map row gives the same look kind stands; the condition's look — its name, weeks, severity and
+forces — is the one drawn, and the stressor's look resumes if the condition ends while the stressor is still listed.**
+Two conditions of one look kind still draw two looks (two crises). Home: V08 §3.16 (7) (b); V08 §3.17's crisis row adds
+the edge; T-V8-59 adds a siege stressor and a `war_pressure` condition standing together (one siege drawn, the stressor's
+resuming when the condition ends); a J-V8 row records the choice over a promotion link; DR44's source clause cites V08
+§3.16 (7) (b) for it.
+
+### R3-13 A condition's knowledge tier has its home in DR44
+
+**Governs:** VAH-r2-01 (determinism), VAH-r2-07 (V10); ends at V08 §3.16 (7) (e) and V09's T-V9-85.
+
+**Decision.** DR44's rule cell states the tier (VAH-r2-01's text): `public` where the condition's map row gives a look,
+`secret` where it is `none`, a key form listing the overlay's address admitting it whatever its tier. V08 §3.16 (7) (e)
+then cites DR44. A look-bearing condition is therefore never withheld at any key: T-V10-52's fixture loses "a plague
+condition withheld at public" (VAH-r2-07's text), and V09's T-V9-85 tests the knowledge clause on a none-row condition
+carried beside its looks (END). V12's planted case (VAP-r2-12) stays a planted fault, as every planted case is.
+
+### R3-14 The camp places: one land, the walls a siege reads, barricades, the village rungs, no road
+
+**Governs:** VAF-R2T-04, VEW-r2-03, VEW-r2-05, VRC2T-03, VPC-R2-14, VV56-r2-07, VV78-r2-05 = VAL-R2-06 (pipeline);
+VV12-r2-02, VV78-r2-06 (V01); VRC2T-02 (rendering); VRC2T-04 (V12); VV78-r2-07, VV56-r2-10 (V06); ends at V01 §1b, V06
+§3.22 (2) d. and T-ER-27.
+
+**Decision.** (1) **One land** (R2-37 (5) kept; its gloss amended): every camp place takes its faces from V01's
+`campLand` and from nothing else; `campLand` is the owner's "common or fallow land" — the `commons` faces and the
+`arable` and `strip_field` faces in their rotation's fallow course, within `camp.reachM` of the built edge and along the
+approach roads by the gates (VV12-r2-02's text; never a field in crop, a meadow or a pasture). `beyondWalls`,
+`approachRoads` and (e)'s cap read it (VAF-R2T-04's text). The siege line, the trenches and earthworks, the engines and the
+burned farmsteads are no camp and keep their own places. (2) **The walls a siege reads** are the place's enceintes of
+kinds other than `bailey` (VEW-r2-05's text); "a place with no standing enceinte" reads "no standing town enceinte", so an
+unwalled town with a castle draws the blockade; no camp, line or part stands on a building footprint (burned farmsteads
+excepted), a siege line broken at an extramural plot's building. (3) **Barricades**: §10.2 (d) is the home of the
+placement rule (VRC2T-03's text: on a way's carriageway only a `barricade` across it, never a camp or any other part);
+§8.2 states the same exception and its `blockade` cell (VRC2T-02's text); V12's T122-6 measure (VRC2T-04's text). (4) **The
+share of n units**: round(s × n) clamped to [1, n] where s > 0, none where s ≤ 0, at every rung (VV78-r2-05's (c)).
+(5) **The village rungs**: §10.2 (d) and (f) read V07 §5.6 (VV78-r2-05's text: the places on the village's records, no
+siege line at THORP and HAMLET); V01's `campLand` and the units at those rungs read V07 §5.6 (2)–(3) (VV78-r2-06's text);
+V06's no-frontier answer at a village rung is V07 §5.6 (2)'s main approach road's entry (VV78-r2-07). (6) **No road**:
+with no main approach road (S3 (9) (a)'s unserved mesa) the places measure from the boundary point closest to the growth
+centre (S3's root reservation, §4.2): `approachByGate` the `campLand` nearest `frontierFor`'s answer, else that point;
+`outside` the `campLand` furthest from it (VEW-r2-03's text, the reference point so named); V06 §3.22 (2) d.'s answer
+there is the belt's faces nearest that point (END). (7) **Roads and camps**: VPC-R2-14's division; `frontierFor(doc, h)`'s
+`h` as VV56-r2-07 states; V06 §3.22 (2) (c)'s rich part and a part-seated stage as VV56-r2-10 states.
+
+**§10.2 (d)'s camp-place bullets, binding text (pipeline):**
+* `beyondWalls` — the `campLand` faces lying at least `siegeStandoffM` beyond the outermost standing town enceinte's
+  outer strip along its walled arcs (the walls above); a closure arc with no wall (V11 §3.16.1) draws none;
+* `approachRoads` — `campLand`'s verges of each arterial leaving the settlement (V01 §3.16 (2)), one camp per road, the
+  look's camped ground divided equally among them (the remainder to the roads in trade-weight order); with the dossier's
+  forces, each army's camp ((c)) whole on one road, the armies in descending size onto the roads in trade-weight order, a
+  road taking a second army only when every road holds one; a road whose verges hold no `campLand` takes the `campLand`
+  nearest where it leaves; a place no road reaches takes one camp on the `campLand` nearest the reference point (below);
+* `approachByGate` — the `campLand` faces along the main approach road by its gate, nearest V06's `frontierFor(doc, h)`,
+  `h` the households the sequential roster adds between the present population and that population plus the camp's
+  heads (its headcount by (c), else its camped ground ÷ `areaPerHeadM2`): where the next growth would seat the camp's
+  people (V06 §3.22 (2)); with no main approach road, nearest `frontierFor`'s answer, else nearest the reference point;
+* `outside` — the `campLand` faces furthest from the main approach road (with none, from the reference point), beyond
+  the outermost standing town enceinte's outer strip or, unwalled, the built edge;
+* the **reference point** where no way leaves the built edge (S3 (9) (a)'s unserved mesa): the boundary point closest to
+  the growth centre (S3's root reservation, §4.2).
+
+### R3-15 What the looks draw before the services they read have landed
+
+**Governs:** VPC-R2-11 (pipeline), VCS-r2-04 and VV12-r2-07 (scope).
+
+**Decision.** R2-36's rule ("a look whose subject is not yet built draws nothing of that part") is written in the design,
+once, at §10.2 *Crisis looks* — VPC-R2-11's text, its "(R2-36)" written "(§16)": until V01's W10 (M5) the `disaster` look
+draws no district (its legend line and Find's listing stand) and `affectedQuarter` is the district with the most
+households per hectare; until V06's E2 (M6-E) `approachByGate` ranks the main approach road's `campLand` faces by
+nearness to its gate; at the village rungs before V07's step no disaster unit is drawn. §16's M3b item-122 clause, its M5
+row and §13.8's T122 row carry the placement (VCS-r2-04's text, the M5 clause once — VV12-r2-07 MERGED; "(R2-36)" written
+"(§16)"). Grade of VPC-R2-11 raised to MAJOR (the base read an input with no producer from M3b to M5 and stated no
+outcome).
+
+### R3-16 The standing looks reach the main thread through §11.2; the why card's `plan` section keeps the own level
+
+**Governs:** VAT-r2-05 (rendering), VV910-r2-04 (V09, amended), VV34-r2-13 and VV910-r2-05 (V09), VV910-r2-08 and
+VV78-r2-08 (V09), VAH-r2-06 (V10); ends at V09 and V10.
+
+**Decision.** (a) §11.2 gains the view-bound reader kind `{ kind: 'looks'; view: ViewHandle }` answered as `LooksAnswer`
+(VAT-r2-05's text): the one evaluation `live.crises` draws and §9.5's legend lists, admitted at the view's effective key.
+§8.2's legend sentence reads "The legend lists each look standing by its row's `label` with its condition and weeks
+(§9.5) — the evaluation §11.2's `looks` reader answers". V09 (§4.21.8 (1), §4.21.12 (3)–(7), §2.12's crisis-card row) and
+V10 (§2.13's `LookAnswer.festivals` and `.crises` as projections of `LooksAnswer`; §3.5's `look` read; §1.2's row) cite it
+in place of "the legend's entries". (b) VV910-r2-04 **amended**: V09 reads a disaster look's units from
+`LooksAnswer.crises[].districts` (V01's `disasterDistricts` at the view's key, evaluated in the generation worker), never
+by calling V01 on the main thread; its (5) **Show** frames a `disaster` look by the union of its units' `FindArea` shapes
+(V01 §5.4 (6)). (c) **The why card's `plan` section** carries the building's own level only (V03 §4.6, V10 §3.9a, T-V3-40
+(d), J-V3.139); the plan panel shows the look's lines; the card names the look by its facts row `info.crisis.ruinedFor` —
+VV910-r2-05's text with VV34-r2-13's wiring-row and T-V9-86 clauses (one fix). (d) **Ask the assistant** on a crisis card
+uses V10's `drawer` entry with no attachment (VV910-r2-08). (e) At THORP, HAMLET and VILLAGE `info.crisis.ruinedFor` is
+the village `WhyProvider`'s answer row, shown once (VV78-r2-08). (f) V10's `LookAnswer` display fields carry §2.9's
+shapes as stored (VAH-r2-06's first form).
+
+## Part E — time, epochs, locks and the host
+
+### R3-17 The epoch cadence folds at a newly carried calamity's week
+
+**Governs:** VAT2-r2-01 (pipeline), VAT2-r2-02 (V06).
+
+**Decision.** V08 §3.6 (3) and J-V8.55 fold an epoch at the week of each newly carried calamity no other epoch falls on
+(DR28: a destructive event is epoch content); §4.11 *The clock* (4), the cadence's home, omits it. The home takes it:
+VAT2-r2-01's text, the catch-up clause kept (a coarse catch-up carries a calamity in the coarse epoch that holds its
+week). V06 §3.3.1 cites the home and restates no trigger list (VAT2-r2-02 **amended**): "(at §4.11 *The clock* (4)'s
+cadence; a catch-up whose epochs at that cadence would pass the comfort level folds coarser, V06 §6.8 (6), a calamity then
+riding the coarse epoch that holds its week)". Grade of VAT2-r2-01 lowered BLOCKER → MAJOR: two units state two
+cadences; no rule as written is impossible or crashing, and its worst consequence named (V01's targets missed at a fresh
+calamity's week) no longer follows once V01 reads the carried calamity (R3-09 (b)).
+
+### R3-18 The creation week and the present at creation are two values
+
+**Governs:** VAT2-r2-03 (pipeline, BLOCKER kept: the first replay epoch's `years` is negative under the home's
+definition — J141's own example of a blocker), VAT2-r2-04 (V06); read by R3-06 (c).
+
+**Decision.** VAT2-r2-03's text at §4.11 *The clock* (1) and EP-15, and VAT2-r2-04's at V06 l. 409 and §3.20.3: the
+**present at creation** is the dossier's present week (a standalone map's, week 0); the **creation week** is the week of
+the document's `generate` event — that present, except on a history-first document, whose `generate` event stands at
+the replay's start (`HistoryIndex.creationWeek`, V06 §2.11); the first epoch's `prevWeek` and `years` read the creation
+week. One name each, everywhere.
+
+### R3-19 A fall and the locks: a dossier fall takes them, no other fall does
+
+**Governs:** VEL2-r2-01 (V06), VPC-R2-07 (V06, MERGED), VAT2-r2-07 (V07, amended).
+
+**Decision.** §7.7's precedence and §2.6's clamp (R2-18) are the rule: only a dossier population fall reaches a locked or
+pinned household or empties a locked or pinned dwelling. V06 §3.5.1 (1), (4), (5), `EpochReport.households.heldByLock`,
+V06 §3.21's two rows and T-V6-70 (f) are VEL2-r2-01's texts, whole. V07's desertion follows it (VAT2-r2-07 **amended**):
+V07 l. 2542–2543 reads "every dwelling vacates and decays over the dwell bands — a locked or pinned dwelling excepted
+(V06 §3.5.1 (4)–(5)): under a dossier population fall its last household leaves by a `relet` down to 0 and the building
+keeps its state; under any other fall it keeps its last household, the fall met short (`households.heldByLock`)", and
+T-V7-16 "a target of 0 vacates every dwelling but a locked or pinned one, which keeps its state — with 0 households under
+a dossier fall, with its last household under any other (V06 §3.5.1 (5))".
+
+### R3-20 Item 125 (e): the dossier picks its adapter; every field has its fallback
+
+**Governs:** G125-V08 (V08), VCS-r2-02 (V08, MERGED); ends at §14's `HostContext.line` (scope) and §11.3 (rendering).
+Amends R2-40 (2)'s `line` clause.
+
+**Decision (owner rule first; the confirmation VCS-r2-02 asked for).** Item 125 (e): "the same dossier with and without a
+host context yields the identical document and hash". (1) **Selection** (G125-V08 clause (1), in VCS-r2-02's words): the
+dossier's own shape and stamps select the adapter in every case — the bound line when its adapter accepts, else the
+single accepting adapter, else (a creation with several accepting) the newest registered line, noted `line_defaulted`;
+`HostContext.line` is checked, never chosen from — a named line no adapter supports, or one the dossier's stamps
+contradict, refuses `E_LINE_UNSUPPORTED`; a registered, accepting line that differs leaves the selection standing, the
+report naming both. R2-40 (2)'s "`line` (it picks the adapter …)" reads "`line` (checked against the dossier's own
+selection, V08 §2.4, never chosen from …)" at §14's `HostContext` comment and item (scope) and §11.3 (rendering).
+(2) **Fallbacks** (G125-V08 clause (2)): `population`, `_seed` and `institutions` as written. The proposed refusal for
+`id` and the three version stamps is **amended to the owner's rule** (item 125 (b): "a missing or empty field never
+refuses, never stalls, and is reported"): an empty or unreadable `id` — at an absorb the bound document's
+`DossierBinding` key stands (the offer names its map), at a creation the settlement key is minted from the creating map's
+id (the offer's `docId`, V08 §3.3) — noted `field_fallback`, `E_OTHER_SETTLEMENT` then not checked for that offer; an
+empty or unreadable version stamp — the adapter by (1)'s selection without it, the single adapter whose `recognise`
+accepts the dossier's shape, else the newest registered line — noted `field_fallback` and `line_defaulted`. B3 keeps only
+what is no dossier at all (not an object of the line's shape; over a size limit). The J-V8 row records these fallbacks;
+T-V8-61 (a) adds an empty `id` and an empty `schemaVersion` beside the empty `population` and `_seed`.
+
+### R3-21 The host's view commands: the drawn week, the layers by `setLayer`, the keys that never cross
+
+**Governs:** VAT-r2-04 and VAL-R2-02 (rendering), VV910-r2-02 (V09); ends at §7.7 item 1 (determinism), V08 and V09.
+Amends R2-33 (b)–(c).
+
+**Decision.** Item 125 (c): the host sends its commands "as a user would". (a) **The layers shown** travel as the user's
+toggle does — a logged `setLayer { layer, spec: { visible } }` sent by `doc.apply` (VAT-r2-04's text), `LayerSpec` being
+document style state (§8.4, §7.4), never a `view.set` key. (b) **The week**: `view.set { week }` sets §2.9's `week` (item
+67's drawn week) as a user's scrub does and never writes `yearWeek` or `seasonFollow` (VV910-r2-02's text). (c) **A
+selection**: `view.set { select }`, unchanged. (d) `depthBand` joins the per-viewer keys that never cross (VAL-R2-02's
+text). The restatements follow: §7.7 item 1 (determinism END), V08's `setView` comment and §3.16 (4), (6) (g) (V08
+END: "a host sets the frame's view only by §11.3's commands — `view.set { week }`, `view.set { select }` and the layers
+shown by a logged `setLayer` sent by `doc.apply`; the per-viewer keys, `find`, `crises` and `depthBand` among them, never
+cross the bridge (§11.3; J-V8.127)"), V09 §4.2 and its row 21 (V09 END).
+
+### R3-22 Item 125's retirements reach every reader
+
+**Governs:** VDC2-11 (determinism), VRC2T-11 and VDC2-12 (rendering, one fix), VDC2-13 and VPC-R2-16 (pipeline, one
+fix), VDC2-14 (V06), VV78-r2-01, VV78-r2-02 and VDC2-15 (V07, one fix), VV78-r2-03 and VAL-R2-09 (V07, one fix).
+
+**Decision.** Item 125 (a)–(b): no input gives a true bearing, a river course or a latitude after creation; the week is
+the dossier's latest stamped tick (R2-40 (1)). (a) Bearings: §7.7 item 1 is VDC2-11's text; §11.1's anchor is
+VRC2T-11's text; §4.7's store faces "its partner's bearing (§7.7 layer 2's *Bearing*; items 77, 85)" (VDC2-13's text —
+DR3 reads no bearing, so VPC-R2-16's "the trade slice's partner bearing, §7.7 layer 2 and DR3" is not written).
+(b) Latitude: V06's row (VDC2-14) and V07's VS1 (VV78-r2-01) read `Intent.latitudeDeg` (DR29), else 50°. (c) The river
+course: VV78-r2-02's text (no input selects the descent trace at the village rungs; every village river is course-first)
+— VDC2-15's "taken only when the blueprint or the user sets it" names a setting that does not exist and is not written.
+(d) The week: VV78-r2-03's text at V07's trace, W80 and T-V7-65.
+
+## Part F — weather, Find at a drawn week, and the world's edges
+
+### R3-23 The weather timeline: the live rate, the hours, and Start a shower now
+
+**Governs:** VDC2-01, VDC2-02, VDC2-03, VDC2-04 (determinism), VV1112-r2-01 (V11), VV910-r2-01 and VDC2-05 (V09, one
+fix), VRC2T-17 and VAL-R2-01 (rendering; V04's end).
+
+**Decision.** (a) §6.1 *The weather stream* is the home of the timeline: the gap a unit exponential spent at the live
+rate R(t) over view time, none spent while R = 0; a kind live at a moment when its band holds §2.9's `yearWeek` and,
+under `light: 'time'`, its `hours` hold the view's hour; the kind drawn when the spell starts (VDC2-01's text, with
+VDC2-02's mark keying and VDC2-03's lint scope). V11 §3.25.11 reads its columns in the same terms (VV1112-r2-01's text).
+(b) **Start a shower now** starts the commonest live kind at that moment (V11 §3.25.11's rule); at a moment with no live
+kind it starts none and V09 disables the button with its reason — never a silent no-op (§7.8). VDC2-04's text **amended**
+to "at a moment with no live kind (R = 0)"; VV910-r2-01's V09 text governs over VDC2-05's, **amended**: the key is
+`settings.weather.noneNow`, "No weather comes here at this time of year or day." (a moment can lack a live kind by the
+hour under `light: 'time'`, not only by the week); row 93's and T-V9-87's wording follow (heat shimmer in an arid row's
+dry weeks; the disabled button where none is live). (c) The kind is read at `yearWeek`, never `week` (VRC2T-17). (d) While
+the underground layer is drawn the spell draws nothing and §8.4 (i)'s terms are off (VAL-R2-01's text); V04 §5.1 cites it
+(END).
+
+### R3-24 Find and the crisis looks at a drawn week whose frame is not the head
+
+**Governs:** VRC2T-07 (rendering), VV910-r2-09 (V09); ends at V10 §3.9b (7) and V01 §3.16.
+
+**Decision.** At a drawn week whose frame is not the head (V06 §3.15.2) Find counts, glows, pins, lists and gaps only the
+entities that frame holds, a chip with none there reading count 0 for that week, the chips themselves unchanged; the
+crisis looks place over the model the view draws. To make one place compute it, §11.2's `gazetteer` query gains
+`week?: number` — the view's drawn week (§2.9's `week`), absent the head — and answers its rows, counts and matches over
+the head's index restricted to the entities that week's frame holds (rendering, inside VRC2T-07's fix). `live.find`
+(§8.2), V09's panel (VV910-r2-09's text, its triggers adding the `week` change) and V10's `read_map find` (END) pass the
+view's week. V01's crisis services take as `doc` the model the view draws, the head or that frame (END).
+
+### R3-25 Raised ways: the feet cited, the frame growth, a trace laid across a standing raised way, the band under a station
+
+**Governs:** VKr2-05 and VM-R2T-04 (pipeline), VKr2-06 and VM-R2T-05 (determinism), VKr2-07 (V05), VKr2-01 (kernel),
+VKr2-02 (scope), VEW-r2-01 (model, BLOCKER kept), VM-R2T-03 (model); ends at pipeline §4.4, §4.8, V06 §3.7.1, §3.7.6 (5),
+§3.7.7 (2), T-V6-47 and scope's T110-2 and item-114 group.
+
+**Decision.** (a) **The feet** (R2-26 (a) kept): §2.7's `RaisedWayRecord.feet` is the one statement. §4.3 reads
+VKr2-05's citation (VM-R2T-04 MERGED; its §4.6 clause written so: "a raised way's feet (§2.7's `RaisedWayRecord.feet`) are
+ramps or stairs by the same rule, but a foot at a deck end on the arena's outer ring, which draws neither"); §7.1's
+`drawWay` comment reads VKr2-06's citation (VM-R2T-05 MERGED); V05 reads VKr2-07's. VM-R2T-04 graded MAJOR (§4.6 as
+written builds a ramp §2.7 forbids). (b) **The frame growth**: VKr2-01's first form (part 0's insertion and strip as two
+L0 batches, each ring-end foot moved between them; `Plat.frame` taken as the last batch commits) — the alternative form
+is not written; VKr2-02's T110-2 clause bars it. (c) **A trace or moat laid across a standing raised way** (VEW-r2-01): the
+support step's (6) is the home, with VEW-r2-01's ends at §4.4 S5a *Outer moats*, §4.8 S7, V06 §3.7.1 and T110-2 — and,
+because V06 §3.7.6 (5) still says a trace crosses "only under a span over land, never through a support" against its own
+J-V6.140, V06 §3.7.6 (5) and T-V6-47 read with (6) (END). (d) **The band under a crossing station** is held from decay
+while the deck stands (VM-R2T-03's text at §2.7's support step (3)); V06 §3.7.7 (2) cites it; scope's item-114 group
+gains its fixture (END lines).
+
+## Part G — bars, pins and the hand-offs nobody raised
+
+### R3-26 Take-over bars and pin registrations: both ends, the union written this round
+
+**Governs:** VAP-r2-01 – VAP-r2-14, VCS-r2-05, VV34-r2-05, VV34-r2-12, VV34-r2-15, VV1112-r2-07 – 10, VV1112-r2-12 (the
+R2-08 and R2-09 classes, recurring from round 1).
+
+**Decision.** R2-08 and R2-09 stand; this round writes both ends at once, each in the form those rulings fix: a volume
+test's head names every base-bar clause it runs and each re-running clause names its bar (VAP-r2-02, -03, -04, -05, -06,
+VCS-r2-05); a restating pin clause states "— the `<pin>` registration of <suite> on V12 §3.7.8's engine (V12 §2.13),
+written by <seat>" (VAP-r2-09, VAP-r2-10, VV1112-r2-09, VV1112-r2-10, VV34-r2-05, VV34-r2-12); scope's take-over table
+and §13.2's runs lists carry the same ids (VAP-r2-01); V12 §2.13's suites column, §3.7.8's list and X-V12-11 are exactly
+the union of the registering clauses (VAP-r2-08, VV34-r2-15, VV1112-r2-08), which this round adds: V02's T-V2-58 (f) on
+`item115.ceiling`, T-V2-59 (d) on `item123.damage`, T-V2-60 (c) on `item122.crises`; V03's T-V3-39 (g) on
+`item123.damage`, T-V3-40 (f) on `item122.crises`; V08's T-V8-59 on `item122.crises`, T-V8-61 (b) on `item125.host`;
+V10's T-V10-45 on `item111.water` (the brief's golden excepted); V11's T-V11-39 (b) on `item113.history`, T-V11-40 (b) on
+`item114.condition`, T-V11-41 (b) on `item115.off` and `item115.ceiling` (T-V11-13, T-V11-31 and T-V11-38 (b) already
+listed, their clauses now stated). V12 takes §13.8's tiers (VV1112-r2-07). Grades: the take-over and head ids are
+bookkeeping, MINOR (R3-03 (a)); VAP-r2-07, VAP-r2-08 (its suite that cannot pass), VAP-r2-11, VAP-r2-12 and VAP-r2-14 stay
+MAJOR.
+
+### R3-27 Round-2 hand-offs no verifier raised, found unwritten
+
+Two round-2 hand-offs reached no round-3 issue and are still open in the live text; each is an END line under its
+receiving unit (adjudicator's ids, MINOR): **ADJ-r3-01** (pipeline; repair-r2-V11's hand-off (d)): §10.2's comment naming
+the types V11 declares (l. 14936, "… ClimateRow (with its ClimateSeasonCells, item 117) …") reads "ClimateRow (with its
+ClimateSeasonCells, item 117, and WeatherSpells, item 124) and ClimateSettings"; **ADJ-r3-02** (rendering;
+repair-r2-V12's hand-off): §8.2's greyscale bar (l. 13116) cites "V12's `T114g.greyscale`", which V12 does not define —
+it reads "V12's `BenchBarDef` T114-6 (its statistic `bar.T114-6`, V12 §3.15.4)". The other round-2 hand-offs are either
+raised by a round-3 issue (and ruled in Part H) or found written.
