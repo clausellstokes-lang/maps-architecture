@@ -1,0 +1,34 @@
+# volchecks-final.txt (coherence/assemble-r6, P5 (b')) — doc_checks.py over each volume, INDEX and the rationale, whole document,
+# untouched (S2 against the untouched base) vs installed (S2 against the installed base). Information; not held to exit 0.
+# PROVISIONAL: doc_checks warns the reference corpus is INCOMPLETE in this checkout.
+INDEX: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 21/17 -> 21/17, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 0/0 -> 0/0; new unreviewed pairs 0, gone 0
+V01-neighbourhoods: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 407/352 -> 407/352, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 286/3 -> 286/3; new unreviewed pairs 0, gone 0
+V02-buildings: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 600/536 -> 601/537, C4 1/0 -> 1/0, S1 0/0 -> 0/0, S2 212/10 -> 214/10; new unreviewed pairs 1, gone 0
+   + C3 | 3 8 2 2 and
+V03-interiors: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 367/281 -> 367/281, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 199/0 -> 200/0; new unreviewed pairs 0, gone 0
+V04-underground: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 219/195 -> 222/197, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 153/2 -> 155/2; new unreviewed pairs 2, gone 0
+   + C3 | a b the same element
+   + C3 | between two of them 2
+V05-sky: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 237/225 -> 237/225, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 264/1 -> 267/1; new unreviewed pairs 0, gone 0
+V06-evolution: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 291/270 -> 290/269, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 428/16 -> 428/16; new unreviewed pairs 5, gone 5
+   + C3 | 1 2 4 5 7 and
+   + C3 | 3 7 1 and it
+   + C3 | just outside the ring s
+   + C3 | rests on a wall the
+   + C3 | rule for the wall s
+   - C3 | 3 7 6 5 2 7
+   - C3 | 3 7 6 5 3 the
+   - C3 | 3 7 6 5 a
+   - C3 | 3 7 6 5 s
+   - C3 | leaving the gate to the
+V07-village: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 366/320 -> 364/318, C4 1/0 -> 1/0, S1 0/0 -> 0/0, S2 414/0 -> 415/0; new unreviewed pairs 0, gone 2
+   - C3 | a gate and a gate
+   - C3 | the palisade is a wall
+V08-settlementforge: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 183/155 -> 183/155, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 284/2 -> 284/2; new unreviewed pairs 0, gone 0
+V09-application: exit 1 -> 1; C1 1/0 -> 1/0, C2 1/0 -> 1/0, C3 297/275 -> 296/274, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 456/89 -> 456/89; new unreviewed pairs 0, gone 1
+   - C3 | it 4 3 2 7
+V10-clerk: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 165/146 -> 165/146, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 329/12 -> 334/12; new unreviewed pairs 0, gone 0
+V11-content: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 305/277 -> 305/277, C4 5/0 -> 5/0, S1 0/0 -> 0/0, S2 332/33 -> 334/33; new unreviewed pairs 0, gone 0
+V12-calibration: exit 1 -> 1; C1 8/0 -> 8/0, C2 0/0 -> 0/0, C3 140/126 -> 140/126, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 119/11 -> 119/11; new unreviewed pairs 0, gone 0
+rationale: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 493/320 -> 493/320, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 17/15 -> 17/15; new unreviewed pairs 0, gone 0
+total new distinct unreviewed pairs in the volumes and INDEX: 8

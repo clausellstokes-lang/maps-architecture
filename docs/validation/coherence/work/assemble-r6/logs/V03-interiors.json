@@ -1,0 +1,159 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V03-interiors.md",
+ "input_doc_sha256": "3fe82c822e32b703769d0c1b56510405a1b35f32854b723d77de854541b1f373",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V03.md",
+   "sha256": "de540f0e62a32ebf8c78ecf48d4c0182d75285e0409ab746e6a5e394db7eadc0",
+   "lines": 219,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V03.md #1 (l. 2) REPLACE ### 3.13 Edges at their limits (principle (11))",
+   "file": "repair-r6-V03.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Edges at their limits (principle (11))",
+   "body_lines": 37,
+   "body_sha256": "581f8a45adf6f330326849d29880fdaf7c11da220733f4fa788b7536ed38cdeb",
+   "target_line": 2064,
+   "section_old": "2064–2101",
+   "section_old_n": 38,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 3.13 Edges at their limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V03.md #2 (l. 42) REPLACE ### 5.2 Picture exports",
+   "file": "repair-r6-V03.md",
+   "index": 2,
+   "line": 42,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Picture exports",
+   "body_lines": 16,
+   "body_sha256": "b57a010a24b1461293be0f656e8059ddd0865d01eedd02dd875333bc1af76151",
+   "target_line": 2479,
+   "section_old": "2479–2495",
+   "section_old_n": 17,
+   "section_new_n": 17,
+   "new_headings": [
+    "### 5.2 Picture exports"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V03.md #3 (l. 61) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r6-V03.md",
+   "index": 3,
+   "line": 61,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 88,
+   "body_sha256": "ba7be166921431c540597291d3572291a496922f4ee92ad0fe17ef3abf6a8bf8",
+   "target_line": 2836,
+   "section_old": "2836–2924",
+   "section_old_n": 89,
+   "section_new_n": 89,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-V03.md #4 (l. 152) REPLACE ## 8 Build plan",
+   "file": "repair-r6-V03.md",
+   "index": 4,
+   "line": 152,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 65,
+   "body_sha256": "7c8121fcde599d38c2a1d9a7b862fbae17ca89834f151371111d5685f8c273fe",
+   "target_line": 2925,
+   "section_old": "2925–2990",
+   "section_old_n": 66,
+   "section_new_n": 66,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V03.md #1 (l. 2) REPLACE ### 3.13 Edges at their limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Edges at their limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V03.md #2 (l. 42) REPLACE ### 5.2 Picture exports",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Picture exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V03.md #3 (l. 61) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V03.md #4 (l. 152) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 48,
+  "headings_after": 48,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 467516,
+  "doc_bytes_after": 467810,
+  "doc_lines_before": 3304,
+  "doc_lines_after": 3304,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

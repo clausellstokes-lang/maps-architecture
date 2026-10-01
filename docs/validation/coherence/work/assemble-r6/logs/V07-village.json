@@ -1,0 +1,237 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "7747179dc9854aa6d319fc1a4db579a19f9ed694d36a9cb353e88dabb4750284",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V07.md",
+   "sha256": "c6e60b24f5fde92e2b0f05e563eb47d2ba21557cf171e71028fca694e2c7b63b",
+   "lines": 592,
+   "blocks": 7,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r6-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 127,
+   "body_sha256": "397022b109b690d32598faf0fc68e615f7e55ca7dc0ad3d0b02505cd6e905bc3",
+   "target_line": 203,
+   "section_old": "203–331",
+   "section_old_n": 129,
+   "section_new_n": 129,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V07.md #2 (l. 132) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "file": "repair-r6-V07.md",
+   "index": 2,
+   "line": 132,
+   "kind": "REPLACE",
+   "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "body_lines": 100,
+   "body_sha256": "acb048bd00211dfe7374fa326b188065da04aeb15a15874aea8c648c60d1bd7f",
+   "target_line": 1560,
+   "section_old": "1560–1661",
+   "section_old_n": 102,
+   "section_new_n": 101,
+   "new_headings": [
+    "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V07.md #3 (l. 235) REPLACE ### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's par",
+   "file": "repair-r6-V07.md",
+   "index": 3,
+   "line": 235,
+   "kind": "REPLACE",
+   "heading": "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)",
+   "body_lines": 65,
+   "body_sha256": "1b3921d38dd314209631c456bbf76ef81d82bc0f779ef0c7e43947ae42e59e21",
+   "target_line": 2667,
+   "section_old": "2667–2732",
+   "section_old_n": 66,
+   "section_new_n": 67,
+   "new_headings": [
+    "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-V07.md #4 (l. 303) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r6-V07.md",
+   "index": 4,
+   "line": 303,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 67,
+   "body_sha256": "6305962241fad097248172b5236e77b587e15eb2e6e44c1fceae627d2e9690a3",
+   "target_line": 2926,
+   "section_old": "2926–2994",
+   "section_old_n": 69,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r6-V07.md #5 (l. 373) REPLACE ### 4.5 The clerk's view",
+   "file": "repair-r6-V07.md",
+   "index": 5,
+   "line": 373,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The clerk's view",
+   "body_lines": 67,
+   "body_sha256": "bfe768398e794fc281a81789d2787220df4991dcb3a980a999d171328c38099f",
+   "target_line": 3097,
+   "section_old": "3097–3163",
+   "section_old_n": 67,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 4.5 The clerk's view"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r6-V07.md #6 (l. 443) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r6-V07.md",
+   "index": 6,
+   "line": 443,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "7a9dc27032490da5e8bd1fa4b838db8c045125e7db9579dd3934a1668732a8e7",
+   "target_line": 3620,
+   "section_old": "3620–3721",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r6-V07.md #7 (l. 546) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r6-V07.md",
+   "index": 7,
+   "line": 546,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 44,
+   "body_sha256": "a24aa9e6ce1f82767005e004c136c0b1e639848d7cc3cbd126744e764d3f7147",
+   "target_line": 4032,
+   "section_old": "4032–4075",
+   "section_old_n": 44,
+   "section_new_n": 45,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V07.md #2 (l. 132) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "kind": "REPLACE",
+    "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V07.md #3 (l. 235) REPLACE ### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's par",
+    "kind": "REPLACE",
+    "heading": "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V07.md #4 (l. 303) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V07.md #5 (l. 373) REPLACE ### 4.5 The clerk's view",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V07.md #6 (l. 443) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V07.md #7 (l. 546) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 610850,
+  "doc_bytes_after": 613621,
+  "doc_lines_before": 4095,
+  "doc_lines_after": 4098,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 7,
+  "blocks_applied": 7,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "46dfede9907ee1a6602f79f10eadcd0f492c212bc16e3adc45ee15ddb5d28996",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

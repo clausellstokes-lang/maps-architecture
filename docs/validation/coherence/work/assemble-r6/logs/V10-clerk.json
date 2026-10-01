@@ -1,0 +1,367 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V10-clerk.md",
+ "input_doc_sha256": "847b3189f56daf453a5741f5077631f3be30c301acc85cf89190896116247f08",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V10.md",
+   "sha256": "b7b12ea722f82fdfac648fe9c31d74295393a868af8782f08471f7dbf59e1076",
+   "lines": 1258,
+   "blocks": 12,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V10.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r6-V10.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 53,
+   "body_sha256": "34486db3e2a13442681ac16e8691dcf8ce7275ab04ed42ee50964eb34c28fb08",
+   "target_line": 163,
+   "section_old": "163–216",
+   "section_old_n": 54,
+   "section_new_n": 54,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V10.md #2 (l. 58) REPLACE ### 1b.1 Records, tables and derived views",
+   "file": "repair-r6-V10.md",
+   "index": 2,
+   "line": 58,
+   "kind": "REPLACE",
+   "heading": "### 1b.1 Records, tables and derived views",
+   "body_lines": 60,
+   "body_sha256": "9099e63c5454bf56a23d560b52408dd9ae58402411901c2147fd330d94badf9f",
+   "target_line": 251,
+   "section_old": "251–311",
+   "section_old_n": 61,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 1b.1 Records, tables and derived views"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V10.md #3 (l. 121) REPLACE ### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+   "file": "repair-r6-V10.md",
+   "index": 3,
+   "line": 121,
+   "kind": "REPLACE",
+   "heading": "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+   "body_lines": 123,
+   "body_sha256": "ebe5b8bf38f901b6e3ae6662fbb27fb516a0920220dfadd1366946c80c81ab50",
+   "target_line": 839,
+   "section_old": "839–962",
+   "section_old_n": 124,
+   "section_new_n": 124,
+   "new_headings": [
+    "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-V10.md #4 (l. 247) REPLACE ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+   "file": "repair-r6-V10.md",
+   "index": 4,
+   "line": 247,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+   "body_lines": 102,
+   "body_sha256": "6f1e584f0d30cb703e8d29e75ad534b17945701723c507da7ae3e17e2cb0797d",
+   "target_line": 963,
+   "section_old": "963–1060",
+   "section_old_n": 98,
+   "section_new_n": 103,
+   "new_headings": [
+    "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r6-V10.md #5 (l. 352) REPLACE ### 3.3 The system prompt, the map block and the vocabulary block",
+   "file": "repair-r6-V10.md",
+   "index": 5,
+   "line": 352,
+   "kind": "REPLACE",
+   "heading": "### 3.3 The system prompt, the map block and the vocabulary block",
+   "body_lines": 165,
+   "body_sha256": "0cb7ea8d793b71670bf60d76526a3c059c7f13ed4700b0f249326db4d544f1b2",
+   "target_line": 1203,
+   "section_old": "1203–1366",
+   "section_old_n": 164,
+   "section_new_n": 166,
+   "new_headings": [
+    "### 3.3 The system prompt, the map block and the vocabulary block"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r6-V10.md #6 (l. 520) REPLACE ### 3.5 Running the tools",
+   "file": "repair-r6-V10.md",
+   "index": 6,
+   "line": 520,
+   "kind": "REPLACE",
+   "heading": "### 3.5 Running the tools",
+   "body_lines": 117,
+   "body_sha256": "453162a6af06191d7dbf97b8479bef4f2c6d34ff7103e342440a6fd2f6ab1beb",
+   "target_line": 1436,
+   "section_old": "1436–1553",
+   "section_old_n": 118,
+   "section_new_n": 118,
+   "new_headings": [
+    "### 3.5 Running the tools"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r6-V10.md #7 (l. 640) REPLACE ### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123;",
+   "file": "repair-r6-V10.md",
+   "index": 7,
+   "line": 640,
+   "kind": "REPLACE",
+   "heading": "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)",
+   "body_lines": 120,
+   "body_sha256": "7353b766957262fb6702947e54ac5379f88bbe8eca5bcf00f7d4bcedbdf797a4",
+   "target_line": 1774,
+   "section_old": "1774–1891",
+   "section_old_n": 118,
+   "section_new_n": 121,
+   "new_headings": [
+    "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r6-V10.md #8 (l. 763) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, ",
+   "file": "repair-r6-V10.md",
+   "index": 8,
+   "line": 763,
+   "kind": "REPLACE",
+   "heading": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+   "body_lines": 190,
+   "body_sha256": "27ec5e396f7e0da714b61970163c2a270422fb46a39b13a489aae32376dcf9e0",
+   "target_line": 1895,
+   "section_old": "1895–2073",
+   "section_old_n": 179,
+   "section_new_n": 191,
+   "new_headings": [
+    "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r6-V10.md #9 (l. 956) REPLACE ### 3.17 The host clerk seam",
+   "file": "repair-r6-V10.md",
+   "index": 9,
+   "line": 956,
+   "kind": "REPLACE",
+   "heading": "### 3.17 The host clerk seam",
+   "body_lines": 99,
+   "body_sha256": "6e83dd7d7233082040630f46afe5b477cc287566b0850ccc53bb1a1f34b9c287",
+   "target_line": 2465,
+   "section_old": "2465–2564",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 3.17 The host clerk seam"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r6-V10.md #10 (l. 1058) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r6-V10.md",
+   "index": 10,
+   "line": 1058,
+   "kind": "REPLACE",
+   "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 79,
+   "body_sha256": "a050426d8b04cdfbeb2bc87793d9342ba12002776a939c032ab342e9fd494160",
+   "target_line": 2671,
+   "section_old": "2671–2750",
+   "section_old_n": 80,
+   "section_new_n": 80,
+   "new_headings": [
+    "### 3.23 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r6-V10.md #11 (l. 1140) REPLACE ### 7.1 Tests",
+   "file": "repair-r6-V10.md",
+   "index": 11,
+   "line": 1140,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Tests",
+   "body_lines": 57,
+   "body_sha256": "b4bdfe1441f493ed86050656440d72fd88717b66f1067cd3eb40cebb4431a030",
+   "target_line": 3112,
+   "section_old": "3112–3169",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 7.1 Tests"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r6-V10.md #12 (l. 1200) REPLACE ## 8 Build plan",
+   "file": "repair-r6-V10.md",
+   "index": 12,
+   "line": 1200,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 55,
+   "body_sha256": "5e496dc3773f4b632cea68dc30ac41ea79bbd8a1e4e2838a5c50a9ad13b42ea5",
+   "target_line": 3239,
+   "section_old": "3239–3294",
+   "section_old_n": 56,
+   "section_new_n": 56,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V10.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #2 (l. 58) REPLACE ### 1b.1 Records, tables and derived views",
+    "kind": "REPLACE",
+    "heading": "### 1b.1 Records, tables and derived views",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #3 (l. 121) REPLACE ### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+    "kind": "REPLACE",
+    "heading": "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #4 (l. 247) REPLACE ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #5 (l. 352) REPLACE ### 3.3 The system prompt, the map block and the vocabulary block",
+    "kind": "REPLACE",
+    "heading": "### 3.3 The system prompt, the map block and the vocabulary block",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #6 (l. 520) REPLACE ### 3.5 Running the tools",
+    "kind": "REPLACE",
+    "heading": "### 3.5 Running the tools",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #7 (l. 640) REPLACE ### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123;",
+    "kind": "REPLACE",
+    "heading": "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #8 (l. 763) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, ",
+    "kind": "REPLACE",
+    "heading": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #9 (l. 956) REPLACE ### 3.17 The host clerk seam",
+    "kind": "REPLACE",
+    "heading": "### 3.17 The host clerk seam",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #10 (l. 1058) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #11 (l. 1140) REPLACE ### 7.1 Tests",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Tests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V10.md #12 (l. 1200) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 86,
+  "headings_after": 86,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 518300,
+  "doc_bytes_after": 522915,
+  "doc_lines_before": 3558,
+  "doc_lines_after": 3580,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 12,
+  "blocks_applied": 12,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "1014b64c7dc80feef334168db444130e22c8d25bf28c3787ca3e61798978c364",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

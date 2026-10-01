@@ -1,0 +1,902 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE.md",
+ "input_doc_sha256": "2d84eac2d8a379d11bc55e5490700cf812075d40a774a88a624e116886d638e0",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-determinism.md",
+   "sha256": "70a72bdf5cbdf760cec529dffddb7e8aabea5a7c03692024416a64014275db6c",
+   "lines": 1889,
+   "blocks": 6,
+   "issues": []
+  },
+  {
+   "file": "repair-r6-model.md",
+   "sha256": "2f26c2068bfca5e29706198c1a16ef98a917bd8832f845c8b9780bda2ea71212",
+   "lines": 1101,
+   "blocks": 3,
+   "issues": []
+  },
+  {
+   "file": "repair-r6-pipeline.md",
+   "sha256": "97dfdfd5d682ced0b8db9f882367461ffe29a9773013309fe4fc61d248973c45",
+   "lines": 2625,
+   "blocks": 9,
+   "issues": []
+  },
+  {
+   "file": "repair-r6-rendering.md",
+   "sha256": "7727da5b5f2ba4564828bde524d1147fd938a2c1804346f98affd0ed9d25ca56",
+   "lines": 2269,
+   "blocks": 8,
+   "issues": []
+  },
+  {
+   "file": "repair-r6-scope.md",
+   "sha256": "f9329202ae55490c3ba69961d2baad135b327d3c7e10c7bc061e7255bcbedc3f",
+   "lines": 1760,
+   "blocks": 5,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-determinism.md #1 (l. 1) REPLACE ### 5.3 The invariant suite, by scope (SCL-1)",
+   "file": "repair-r6-determinism.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 5.3 The invariant suite, by scope (SCL-1)",
+   "body_lines": 90,
+   "body_sha256": "368e469cc902bad42182cc291eac723335170333f17f354c21df53f256f69a20",
+   "target_line": 9191,
+   "section_old": "9191–9281",
+   "section_old_n": 91,
+   "section_new_n": 91,
+   "new_headings": [
+    "### 5.3 The invariant suite, by scope (SCL-1)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-determinism.md #2 (l. 94) REPLACE ### 5.4 The generation report",
+   "file": "repair-r6-determinism.md",
+   "index": 2,
+   "line": 94,
+   "kind": "REPLACE",
+   "heading": "### 5.4 The generation report",
+   "body_lines": 73,
+   "body_sha256": "7baca0d5f9337e7ac3ecd346f190be4a9c94dee2e2db5c6533c03c3aad4b4c3b",
+   "target_line": 9282,
+   "section_old": "9282–9355",
+   "section_old_n": 74,
+   "section_new_n": 74,
+   "new_headings": [
+    "### 5.4 The generation report"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-determinism.md #3 (l. 170) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+   "file": "repair-r6-determinism.md",
+   "index": 3,
+   "line": 170,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+   "body_lines": 496,
+   "body_sha256": "f4bac6174602ecc34bc971a94e407a71e4b64032887c9af12ce44f64a24bf309",
+   "target_line": 10255,
+   "section_old": "10255–10750",
+   "section_old_n": 496,
+   "section_new_n": 497,
+   "new_headings": [
+    "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-determinism.md #4 (l. 669) REPLACE ### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+   "file": "repair-r6-determinism.md",
+   "index": 4,
+   "line": 669,
+   "kind": "REPLACE",
+   "heading": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+   "body_lines": 359,
+   "body_sha256": "cd75962c0233a37ebadac283bba9c76e8bdf14754335ae518ce43b418fbc6272",
+   "target_line": 10819,
+   "section_old": "10819–11178",
+   "section_old_n": 360,
+   "section_new_n": 360,
+   "new_headings": [
+    "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r6-determinism.md #5 (l. 1031) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "file": "repair-r6-determinism.md",
+   "index": 5,
+   "line": 1031,
+   "kind": "REPLACE",
+   "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "body_lines": 256,
+   "body_sha256": "8ef2f298a37156105e1e93277856b5b874262ca7fcd55d65b759ae5ee6113db3",
+   "target_line": 11179,
+   "section_old": "11179–11435",
+   "section_old_n": 257,
+   "section_new_n": 257,
+   "new_headings": [
+    "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r6-determinism.md #6 (l. 1290) REPLACE ### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "file": "repair-r6-determinism.md",
+   "index": 6,
+   "line": 1290,
+   "kind": "REPLACE",
+   "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "body_lines": 597,
+   "body_sha256": "5ac42bdc1668902fb97ff7ae5170843fddcd0b5ee557ac5d6ba532976e2ab692",
+   "target_line": 11695,
+   "section_old": "11695–12291",
+   "section_old_n": 597,
+   "section_new_n": 598,
+   "new_headings": [
+    "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r6-model.md #1 (l. 1) REPLACE ### 2.1 Layers, coordinates, units, ids",
+   "file": "repair-r6-model.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 2.1 Layers, coordinates, units, ids",
+   "body_lines": 50,
+   "body_sha256": "c457270c60ede60032a4c4a289551c90dfdf4fad4ac3cf38492247a6a3c6c625",
+   "target_line": 529,
+   "section_old": "529–579",
+   "section_old_n": 51,
+   "section_new_n": 51,
+   "new_headings": [
+    "### 2.1 Layers, coordinates, units, ids"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r6-model.md #2 (l. 54) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+   "file": "repair-r6-model.md",
+   "index": 2,
+   "line": 54,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+   "body_lines": 612,
+   "body_sha256": "d13db60e74cf6429dc8428131695a019759c8b01e6f029a6185344563ac2b3d2",
+   "target_line": 2248,
+   "section_old": "2248–2761",
+   "section_old_n": 514,
+   "section_new_n": 613,
+   "new_headings": [
+    "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r6-model.md #3 (l. 669) REPLACE ### 2.9 The document and serialisation",
+   "file": "repair-r6-model.md",
+   "index": 3,
+   "line": 669,
+   "kind": "REPLACE",
+   "heading": "### 2.9 The document and serialisation",
+   "body_lines": 430,
+   "body_sha256": "7e5d950465f56651c96faef2c4c3e5fb8a19e8c6f68dd81ae7453262b9d44841",
+   "target_line": 3164,
+   "section_old": "3164–3594",
+   "section_old_n": 431,
+   "section_new_n": 431,
+   "new_headings": [
+    "### 2.9 The document and serialisation"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r6-pipeline.md #1 (l. 1) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "file": "repair-r6-pipeline.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "body_lines": 216,
+   "body_sha256": "99bc0f7db36847cc2256b0c4ed4e67eb54059c28e24e43bd5939c3fcdb2406b5",
+   "target_line": 4922,
+   "section_old": "4922–5138",
+   "section_old_n": 217,
+   "section_new_n": 217,
+   "new_headings": [
+    "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r6-pipeline.md #2 (l. 220) REPLACE ### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "file": "repair-r6-pipeline.md",
+   "index": 2,
+   "line": 220,
+   "kind": "REPLACE",
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "body_lines": 167,
+   "body_sha256": "92423cc96aa386b0e306c9fe69818b8dce1d96aadd1913fd537c8bfc59440e42",
+   "target_line": 5726,
+   "section_old": "5726–5899",
+   "section_old_n": 174,
+   "section_new_n": 168,
+   "new_headings": [
+    "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r6-pipeline.md #3 (l. 390) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+   "file": "repair-r6-pipeline.md",
+   "index": 3,
+   "line": 390,
+   "kind": "REPLACE",
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "body_lines": 200,
+   "body_sha256": "6efd17c50a7476cf30ce69eac4d98534759bc95309163799b839f220c173d237",
+   "target_line": 5894,
+   "section_old": "5894–6105",
+   "section_old_n": 212,
+   "section_new_n": 201,
+   "new_headings": [
+    "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r6-pipeline.md #4 (l. 593) REPLACE ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "file": "repair-r6-pipeline.md",
+   "index": 4,
+   "line": 593,
+   "kind": "REPLACE",
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "body_lines": 454,
+   "body_sha256": "64f182031caf93985ef7d34dfc3dbdfd1dc7410d8df72372540f540ae852ddd1",
+   "target_line": 6095,
+   "section_old": "6095–6549",
+   "section_old_n": 455,
+   "section_new_n": 455,
+   "new_headings": [
+    "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r6-pipeline.md #5 (l. 1050) REPLACE ### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "file": "repair-r6-pipeline.md",
+   "index": 5,
+   "line": 1050,
+   "kind": "REPLACE",
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "body_lines": 130,
+   "body_sha256": "c296ce085d40ee971b7ab910113bf8b1899a6374ef3e0d115a9c67bc96ffc27d",
+   "target_line": 7688,
+   "section_old": "7688–7836",
+   "section_old_n": 149,
+   "section_new_n": 131,
+   "new_headings": [
+    "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r6-pipeline.md #6 (l. 1183) REPLACE ### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "file": "repair-r6-pipeline.md",
+   "index": 6,
+   "line": 1183,
+   "kind": "REPLACE",
+   "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "body_lines": 209,
+   "body_sha256": "a8616fa21b7714b4780908d6abb7c50fd000fa191b41402e43dc8d005e91e8ca",
+   "target_line": 7819,
+   "section_old": "7819–8028",
+   "section_old_n": 210,
+   "section_new_n": 210,
+   "new_headings": [
+    "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r6-pipeline.md #7 (l. 1395) REPLACE ### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in th",
+   "file": "repair-r6-pipeline.md",
+   "index": 7,
+   "line": 1395,
+   "kind": "REPLACE",
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "body_lines": 908,
+   "body_sha256": "96cd78d0a2398bc0f2fc1649a58c1f93dd2c260b8385a9a67bbb00b526e4e704",
+   "target_line": 8048,
+   "section_old": "8048–8977",
+   "section_old_n": 930,
+   "section_new_n": 909,
+   "new_headings": [
+    "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r6-pipeline.md #8 (l. 2306) REPLACE ### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "file": "repair-r6-pipeline.md",
+   "index": 8,
+   "line": 2306,
+   "kind": "REPLACE",
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "body_lines": 57,
+   "body_sha256": "ce551c889f0171094e3d8d63e6778a99d01c527a47ae1b4ac5ec1f1e1ee32d56",
+   "target_line": 9013,
+   "section_old": "9013–9070",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 4.13 Edges and meeting points — the defined outcome at every limit"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r6-pipeline.md #9 (l. 2366) REPLACE ### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+   "file": "repair-r6-pipeline.md",
+   "index": 9,
+   "line": 2366,
+   "kind": "REPLACE",
+   "heading": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+   "body_lines": 257,
+   "body_sha256": "fcfe0220c84b3cfad232e136d9b04370feb7ab5387baea6e79b51dcf741467dd",
+   "target_line": 21633,
+   "section_old": "21633–21891",
+   "section_old_n": 259,
+   "section_new_n": 258,
+   "new_headings": [
+    "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r6-rendering.md #1 (l. 1) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+   "file": "repair-r6-rendering.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+   "body_lines": 966,
+   "body_sha256": "e396747cf9207d5bedebca74bb9c14c05e16f2f769322411b1a19c6ee9466876",
+   "target_line": 12584,
+   "section_old": "12584–13546",
+   "section_old_n": 963,
+   "section_new_n": 967,
+   "new_headings": [
+    "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r6-rendering.md #2 (l. 970) REPLACE ### 8.4 Layers, shadows, heights",
+   "file": "repair-r6-rendering.md",
+   "index": 2,
+   "line": 970,
+   "kind": "REPLACE",
+   "heading": "### 8.4 Layers, shadows, heights",
+   "body_lines": 365,
+   "body_sha256": "d5c6082c30c19a8453f3a0381df3d1e86e4dbe6a937f7e6a58b041d7ebbc3c72",
+   "target_line": 13642,
+   "section_old": "13642–14006",
+   "section_old_n": 365,
+   "section_new_n": 366,
+   "new_headings": [
+    "### 8.4 Layers, shadows, heights"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r6-rendering.md #3 (l. 1338) REPLACE ### 8.9 Backends, text, threads and the worker boundary",
+   "file": "repair-r6-rendering.md",
+   "index": 3,
+   "line": 1338,
+   "kind": "REPLACE",
+   "heading": "### 8.9 Backends, text, threads and the worker boundary",
+   "body_lines": 133,
+   "body_sha256": "6ae12a6c9831167b29baa48bb6778af28fa8822be67b3e07f5f5c1a19c9216b3",
+   "target_line": 14501,
+   "section_old": "14501–14634",
+   "section_old_n": 134,
+   "section_new_n": 134,
+   "new_headings": [
+    "### 8.9 Backends, text, threads and the worker boundary"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r6-rendering.md #4 (l. 1474) REPLACE ### 8.11 Edges and combinations (principle (11))",
+   "file": "repair-r6-rendering.md",
+   "index": 4,
+   "line": 1474,
+   "kind": "REPLACE",
+   "heading": "### 8.11 Edges and combinations (principle (11))",
+   "body_lines": 27,
+   "body_sha256": "8fe385e94d8bd0793cf6cefb3407b6ede52c16545946c8b87c2271aa7e9c2556",
+   "target_line": 14781,
+   "section_old": "14781–14808",
+   "section_old_n": 28,
+   "section_new_n": 28,
+   "new_headings": [
+    "### 8.11 Edges and combinations (principle (11))"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r6-rendering.md #5 (l. 1504) REPLACE ### 9.5 Furniture, framing and tools",
+   "file": "repair-r6-rendering.md",
+   "index": 5,
+   "line": 1504,
+   "kind": "REPLACE",
+   "heading": "### 9.5 Furniture, framing and tools",
+   "body_lines": 89,
+   "body_sha256": "273413133e116bd532580e4513535613b6631930f83e92c3d772a1b79ab13175",
+   "target_line": 15121,
+   "section_old": "15121–15210",
+   "section_old_n": 90,
+   "section_new_n": 90,
+   "new_headings": [
+    "### 9.5 Furniture, framing and tools"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r6-rendering.md #6 (l. 1596) REPLACE ### 11.1 Formats",
+   "file": "repair-r6-rendering.md",
+   "index": 6,
+   "line": 1596,
+   "kind": "REPLACE",
+   "heading": "### 11.1 Formats",
+   "body_lines": 223,
+   "body_sha256": "8faca549312bdd7d0135a86909710b466a177bc1195eb7d2e3077b436e3fecd3",
+   "target_line": 16027,
+   "section_old": "16027–16250",
+   "section_old_n": 224,
+   "section_new_n": 224,
+   "new_headings": [
+    "### 11.1 Formats"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r6-rendering.md #7 (l. 1822) REPLACE ### 11.2 The embedding API and the worker boundary (SCL-6)",
+   "file": "repair-r6-rendering.md",
+   "index": 7,
+   "line": 1822,
+   "kind": "REPLACE",
+   "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+   "body_lines": 435,
+   "body_sha256": "77312b45f125e42f06cdca3a2ca771fcda253e23ff3afbf64bc5a22609435495",
+   "target_line": 16251,
+   "section_old": "16251–16681",
+   "section_old_n": 431,
+   "section_new_n": 436,
+   "new_headings": [
+    "### 11.2 The embedding API and the worker boundary (SCL-6)"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "repair-r6-rendering.md #8 (l. 2260) REPLACE ### 11.6 Edges (principle (11))",
+   "file": "repair-r6-rendering.md",
+   "index": 8,
+   "line": 2260,
+   "kind": "REPLACE",
+   "heading": "### 11.6 Edges (principle (11))",
+   "body_lines": 7,
+   "body_sha256": "385f2292bd0e214015d9a09aa757686f4592c0da1280cf98136f69e15966fca2",
+   "target_line": 16902,
+   "section_old": "16902–16909",
+   "section_old_n": 8,
+   "section_new_n": 8,
+   "new_headings": [
+    "### 11.6 Edges (principle (11))"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "repair-r6-scope.md #1 (l. 1) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "file": "repair-r6-scope.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "body_lines": 1101,
+   "body_sha256": "832883f2273cc8223a7495a08c691f8e59dad3b48aa27bcc17030ff0e651b885",
+   "target_line": 17785,
+   "section_old": "17785–18829",
+   "section_old_n": 1045,
+   "section_new_n": 1102,
+   "new_headings": [
+    "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT"
+   ]
+  },
+  {
+   "seq": 28,
+   "block": "repair-r6-scope.md #2 (l. 1105) REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "file": "repair-r6-scope.md",
+   "index": 2,
+   "line": 1105,
+   "kind": "REPLACE",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "body_lines": 111,
+   "body_sha256": "c01cc4cff581850fc0c5698bc6b8b9e7c0eb05e500937823407119454c49d539",
+   "target_line": 19408,
+   "section_old": "19408–19519",
+   "section_old_n": 112,
+   "section_new_n": 112,
+   "new_headings": [
+    "### 13.8 CI tiers and compute budgets (SCL-18; D-34)"
+   ]
+  },
+  {
+   "seq": 29,
+   "block": "repair-r6-scope.md #3 (l. 1219) REPLACE ## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "file": "repair-r6-scope.md",
+   "index": 3,
+   "line": 1219,
+   "kind": "REPLACE",
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "body_lines": 531,
+   "body_sha256": "cdf8871f4d3a731662fa833942601bf6d13f9346d2c4f2a8883d1e3723ddfb2b",
+   "target_line": 19579,
+   "section_old": "19579–20110",
+   "section_old_n": 532,
+   "section_new_n": 532,
+   "new_headings": [
+    "## §14 Package and module layout, key interfaces, dependency rules, extension points"
+   ]
+  },
+  {
+   "seq": 30,
+   "block": "repair-r6-scope.md #4 (l. 1753) J-ROWS",
+   "file": "repair-r6-scope.md",
+   "index": 4,
+   "line": 1753,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "302d8901111874b945e06d642339735663b7378a3771b2abf77e36b708bfa207",
+   "target_table": "document l. 22267 (header '| id | the choice | where |')",
+   "inserted_after_line": 23073,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A67.45"
+   ]
+  },
+  {
+   "seq": 31,
+   "block": "repair-r6-scope.md #5 (l. 1757) RATIONALE-A",
+   "file": "repair-r6-scope.md",
+   "index": 5,
+   "line": 1757,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "886ad69eb4235462bc8c3fe9d39336ad48462f9db0d748869b9e193b1299c11e",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 851,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-A67.45"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r6-scope.md #4 (l. 1753) J-ROWS",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A67.45"
+   ]
+  },
+  {
+   "block": "repair-r6-scope.md #5 (l. 1757) RATIONALE-A",
+   "note": "DUPLICATE ID inserted (an id the table already holds)",
+   "items": [
+    "J-A67.45"
+   ]
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-determinism.md #1 (l. 1) REPLACE ### 5.3 The invariant suite, by scope (SCL-1)",
+    "kind": "REPLACE",
+    "heading": "### 5.3 The invariant suite, by scope (SCL-1)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-determinism.md #2 (l. 94) REPLACE ### 5.4 The generation report",
+    "kind": "REPLACE",
+    "heading": "### 5.4 The generation report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-determinism.md #3 (l. 170) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-determinism.md #4 (l. 669) REPLACE ### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+    "kind": "REPLACE",
+    "heading": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-determinism.md #5 (l. 1031) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "kind": "REPLACE",
+    "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-determinism.md #6 (l. 1290) REPLACE ### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+    "kind": "REPLACE",
+    "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-model.md #1 (l. 1) REPLACE ### 2.1 Layers, coordinates, units, ids",
+    "kind": "REPLACE",
+    "heading": "### 2.1 Layers, coordinates, units, ids",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-model.md #2 (l. 54) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-model.md #3 (l. 669) REPLACE ### 2.9 The document and serialisation",
+    "kind": "REPLACE",
+    "heading": "### 2.9 The document and serialisation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #1 (l. 1) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "kind": "REPLACE",
+    "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #2 (l. 220) REPLACE ### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+    "kind": "REPLACE",
+    "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #3 (l. 390) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+    "kind": "REPLACE",
+    "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #4 (l. 593) REPLACE ### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+    "kind": "REPLACE",
+    "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #5 (l. 1050) REPLACE ### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+    "kind": "REPLACE",
+    "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #6 (l. 1183) REPLACE ### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+    "kind": "REPLACE",
+    "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #7 (l. 1395) REPLACE ### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in th",
+    "kind": "REPLACE",
+    "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #8 (l. 2306) REPLACE ### 4.13 Edges and meeting points — the defined outcome at every limit",
+    "kind": "REPLACE",
+    "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-pipeline.md #9 (l. 2366) REPLACE ### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+    "kind": "REPLACE",
+    "heading": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #1 (l. 1) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #2 (l. 970) REPLACE ### 8.4 Layers, shadows, heights",
+    "kind": "REPLACE",
+    "heading": "### 8.4 Layers, shadows, heights",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #3 (l. 1338) REPLACE ### 8.9 Backends, text, threads and the worker boundary",
+    "kind": "REPLACE",
+    "heading": "### 8.9 Backends, text, threads and the worker boundary",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #4 (l. 1474) REPLACE ### 8.11 Edges and combinations (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 8.11 Edges and combinations (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #5 (l. 1504) REPLACE ### 9.5 Furniture, framing and tools",
+    "kind": "REPLACE",
+    "heading": "### 9.5 Furniture, framing and tools",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #6 (l. 1596) REPLACE ### 11.1 Formats",
+    "kind": "REPLACE",
+    "heading": "### 11.1 Formats",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #7 (l. 1822) REPLACE ### 11.2 The embedding API and the worker boundary (SCL-6)",
+    "kind": "REPLACE",
+    "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-rendering.md #8 (l. 2260) REPLACE ### 11.6 Edges (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 11.6 Edges (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-scope.md #1 (l. 1) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "kind": "REPLACE",
+    "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-scope.md #2 (l. 1105) REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "kind": "REPLACE",
+    "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-scope.md #3 (l. 1219) REPLACE ## §14 Package and module layout, key interfaces, dependency rules, extension points",
+    "kind": "REPLACE",
+    "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-scope.md #4 (l. 1753) J-ROWS",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "repair-r6-scope.md #5 (l. 1757) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 806,
+  "document index duplicate ids": [
+   "J-A67.45"
+  ],
+  "Part A rows": 806,
+  "Part A duplicate ids": [
+   "J-A67.45"
+  ]
+ },
+ "checks": {
+  "headings_before": 153,
+  "headings_after": 153,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 140,
+  "fence_lines_after": 140,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 0,
+  "pending_fable_review_lines_after": 0,
+  "doc_bytes_before": 3019440,
+  "doc_bytes_after": 3052788,
+  "doc_lines_before": 23029,
+  "doc_lines_after": 23141,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 705412,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2387,
+  "blocks_total": 31,
+  "blocks_applied": 31,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "fd59b92600b30e413d4c834ab60526c16d785aabba821f5fe66ec632507ebff3",
+  "output_rationale_sha256": "3871c618fc94be01f72694358ccc66bd4904102368185aea2d6735b196c84590"
+ }
+}

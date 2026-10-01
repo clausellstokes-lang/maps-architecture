@@ -1339,7 +1339,7 @@ One `convert` event, as a declared sequence of batches (§4.11), whatever its au
    | tower; gate of any kind (`main`, `postern`, `water`, `gatehouse`, `castle`) | no state of its own (§2.7): the `breached` length on its stretch is extended over the chord of its footprint along the trace, so every covered tower's vertex and gate's junction lies inside a `breached` run; one covered while its stretch is not has `breached` written over its footprint's chord alone | by its run's `condition` | standing again with its run (V06 §3.7.5) |
    | bridge, pier, mole or quay-platform deck | `ruined` (the deck falls; under a bridge the river stays one L0 face and the way's crossing is closed) | its own state row | volume 6's `repairRaised` (item 246) |
    | deck plot on a covered deck | falls with its deck by item 110 (d)'s least disruption: its households relocated first ((3)), its building demolished, the plot **tombstoned with the deck**, as volume 6 does for a struck deck (V06 §3.19.5 (3)); never a vacant plot left on a ruined deck | nothing | a repaired deck re-offers its faces; the buildings raised on them are new lineages (V06 §3.19.5 (1), (4); V02 §3.16 (7)) |
-   | raised span (its deck band's plan projection, in a ground part ≥ 1) and raised-way pier (its footprint; a crossing station's support is its wall stretch, §2.7: the wall row's breach) | `ruined` (item 244's span and support `state`); a span whose pier is ruined — or whose crossing station's stretch the wall row breaches — becomes `ruined` with it (arches fall with their piers, whatever their own cover); a raised way with a ruined span has its crossing closed — it has no junctions with the ways beneath, so the `track` fallback does not apply to it, and the ways beneath are touched only where the footprint covers them; an aqueduct ruined this way loses its terminal's supply, a listed fate ("the fountain in <square> runs dry") | item 110's state rows | volume 6's `repairRaised`; the vaults beneath follow the span's state by volume 4's rule (this volume writes nothing underground) |
+   | raised span (its deck band's plan projection, in a ground part ≥ 1) and raised-way pier (its footprint) | `ruined` (item 244's span and support `state`); a span whose pier is ruined becomes `ruined` with it (a wall run beneath it breached by the wall row as any run the footprint covers) (arches fall with their piers, whatever their own cover); a raised way with a ruined span has its crossing closed — it has no junctions with the ways beneath, so the `track` fallback does not apply to it, and the ways beneath are touched only where the footprint covers them; an aqueduct ruined this way loses its terminal's supply, a listed fate ("the fountain in <square> runs dry") | item 110's state rows | volume 6's `repairRaised`; the vaults beneath follow the span's state by volume 4's rule (this volume writes nothing underground) |
    | `RetainingWall` stretch, generated or drawn (its band) | `decayed` over its covered length (item 245's state, the `breach` op's result; a state, no edge removed), keyed by the wall's lineage address, so a later re-derivation of a generated wall keeps it `decayed` until an epoch's restoration re-derives it (V06 §3.19.4 (6)); a drawn wall is restored by hand | its state row | volume 6's restoration or `repairRetaining` |
    | another island's ground landing plot, yard or access foot | the plot's use closed with its building demolished like any covered building; in the `fallIsland` batch the access is re-landed as a move re-lands it (V05 §4.2): a slanted access at the nearest admissible point outside the covered set within its run; a vertical access becomes a `ropeway` from the same top where its row admits one, else F-SKY-ACCESS's ladder from its top; an access no rung places is dropped, reported, and an island left with none is reported `unreachable` (V05 §3.17) | its new landing's rows | its island's own re-derivation (V05 §3.10) |
 
@@ -1349,9 +1349,8 @@ One `convert` event, as a declared sequence of batches (§4.11), whatever its au
 5. **The landfall record** (§2.7, file f item 252; J-V5.76). One ground `Decoration` of kind `fallen_island` whose
    `members` (`DecorationMember[]`) are the covered plots, land uses, reservations, ways and retaining walls, each by its
    `Id`, and the covered raised spans and raised-way piers, each by its raised way and item 244's support keys (`{ raised,
-   span: [a, b] }`, `{ raised, support }`) — never a deck plot, which is tombstoned with its deck and listed as a fate,
-   nor a crossing station's support, which is its wall stretch (the wall row) — `source` the island's address and
-   `name` the grammar's fallen form of its name. Each member leaves the list in the
+   span: [a, b] }`, `{ raised, support }`) — never a deck plot, which is tombstoned with its deck and listed as a fate —
+   `source` the island's address and `name` the grammar's fallen form of its name. Each member leaves the list in the
    batch of the op that ends its cover (volume 6's member-leaving `setAttr`, V06 §3.5.2; J-V6.108). §8.2's `fallen` row
    draws its rubble over the members' faces and bands — a raised member's the span's deck band in plan or the support's
    `ring`; the walls with their towers and gates by their runs' `condition`, the bridges, raised parts and retaining walls
@@ -2553,13 +2552,24 @@ off form and the seat that writes the registration (X-V12-11): T-V5-15's item-11
   lineages; the covered spans, piers and walls in `members` as `{ raised, span: [a, b] }`, `{ raised, support }` and `Id`s,
   the same members after a re-derivation of the viaduct, each leaving in the batch of the op that ends its cover (V06
   §3.5.2), the deck plots listed as fates, never members; all of it in V05 §5.5's per-landfall CSV, and 0 edges of the
-  ground's streets and plots added or removed beyond the tombstoned deck plots' lines. **A raised gate** (T114-3's
-  landfall clause): on a fixture whose footprint covers a viaduct's crossing station on a raised gate, the station's
-  stretch is `breached` by the wall row and the spans either side of it `ruined` with it, the station's `supports` entry
-  carrying no `state` and `members` holding no `{ raised, support }` for it; then the deck's repair (§2.7's support step
-  (3)), by hand and, on a second run, by V06 §3.19.2 (5) at the next epoch: each `repairRaised` beside the station
-  repairs its stretch first by `repairWall` in the same batch — the stretch repaired with the deck, never a deck on a
-  `breached` run at any commit — and the landfall's undo restores the stretch and both spans.
+  ground's streets and plots added or removed beyond the tombstoned deck plots' lines. **A raised way over a wall**
+  (T114-3's landfall clause): on a fixture whose footprint covers an aqueduct's span and the run beneath it, the run
+  `breached` by the wall row and the span and the supports it covers `ruined` by theirs, `members` holding the span and
+  the supports; then the deck's repair, by hand and, on a second run, by V06 §3.19.2 (5) at the next epoch —
+  `repairRaised` alone, no `repairWall` (§2.7's crossing table, *unchanged meeting*) — and the landfall's undo restoring
+  the run and the span. The other way round, the run stands again by its `repairWall` (V06 §3.7.5) with the span still
+  `ruined`, no `repairRaised` in that batch. §2.7's crossing table (row W12) names this clause for the raised way's
+  other states too, each on its own run of that fixture: a span over the run already `ruined` and, on a second run,
+  `cleared` (on a third run, one whose record reads `vault`, read `open` under the wall, so no chamber stands under it);
+  every span over the run fallen; a support by the run's band `cleared` and, on a second run, `ruined` with both its
+  spans as a topple leaves it; the deck extended by a frame growth before the fall (a variant whose raised way over the
+  run has a foot on the old frame ring) and, on another, re-spaced by a hand edit of its `spanSpacingCm`; and, from the
+  later of P6 and V07's V-M3 (which builds the hand-off down), a VILLAGE whose hand-off down carried the raised way and
+  made the ring its palisade (V07 §3.12), a settled island falling there at its dwell's end (V05 §3.15 (4)). Each is an
+  *unchanged meeting*: the run `breached` by the wall row and the covered spans and supports by theirs, the wall row
+  writing nothing of the raised way and the raised rows nothing of the run. With the aqueduct locked, it is kept as
+  content the ruin laps around (V05 §3.16 (2); F-SKY-LANDFALL), `members` holding none of its parts, and the run beneath
+  is `breached` all the same.
 * **T-V5-15 — goldens and determinism** [C]. Two sky fixtures join §13.3's goldens — a CITY with a prosperity island and a
   conjured river; a METROPOLIS with a palace island and a prison island — identical on the five engines; every stream key
   distinct (§6.1's sky fixture); a one-island document draws slot 1's indices only; an island raised after a fall takes a
@@ -2843,7 +2853,7 @@ inputs to volume 1's unit run are settled while volume 1 is built; it needs volu
 | P3 — the picture | the marks with their sheet rows (file f item 408), the three occlusion modes with the underside and tether, the sky surface layer in the tile worker and the light pass (CPU reference and GPU) with the window without slabs (item 416), rung 3's prism tiers, the cursor sun's floor, labels (item 415); the strip's outlines in volume 9's shade map view; the island's seasonal look, its festival pennants and Find on Sky (items 117, 118, 120; V05 §5.1, V05 §5.6) | T-V5-12, T-V5-13, T-V5-20, T-V5-34, T-V5-35, T-V5-36 (its (f) fall and `advance` cases and its (i) at the later exits it names) | 3.75–5.5 |
 | P4 — editing | V05 §4.2's events and parameters (the island brushes, the access `setAttr` semantics, the pointer mapping in `offset`, an island wall, the hand-placed cap), dry runs with the shade fate and the bends, Update shade now, locality, undo (items 356, 375), DR27 and its coherence with the dossier-removal path (item 387), the clerk's `WhyProvider` with the strip, route, link and siting answers; `convert removeIsland` and the removed ordinals with their holds (item 260) | T-V5-16, T-V5-29 | 2.25–3 |
 | P5 — exports | GeoJSON (the strip features included), SVG, PNG, VTT, glTF, CityJSON's extension types, the statistics rows | T-V5-17 | 1–1.5 |
-| P6 — time | `IslandEpochStep` with the household channels and the re-reasoning of an island whose institution left (its lock clause included), the bases and strips re-read at each epoch and the lag, the landfall over every covered kind (item 110's raised spans, raised-way piers, retaining walls and deck plots, and other islands' accesses, included), the participant `sky.clearance` with `reclearIsland` and the ledger by hand and on the M4 grow path (item 320); the engine-driven schedule joins volume 6's milestone; the one-time waits timed against item 119's comfort level | T-V5-14, T-V5-15, T-V5-18 (its comfort-level clause included), T-V5-21 (b)–(d), (g), T-V5-31, T-V5-33's remaining rows | 1.75–2.75 |
+| P6 — time | `IslandEpochStep` with the household channels and the re-reasoning of an island whose institution left (its lock clause included), the bases and strips re-read at each epoch and the lag, the landfall over every covered kind (item 110's raised spans, raised-way piers, retaining walls and deck plots, and other islands' accesses, included), the participant `sky.clearance` with `reclearIsland` and the ledger by hand and on the M4 grow path (item 320); the engine-driven schedule joins volume 6's milestone; the one-time waits timed against item 119's comfort level | T-V5-14 (its VILLAGE variant at the later of P6 and V07's V-M3), T-V5-15, T-V5-18 (its comfort-level clause included), T-V5-21 (b)–(d), (g), T-V5-31, T-V5-33's remaining rows | 1.75–2.75 |
 | **total** | | | **18–24.75** |
 
 V09's AP7 (the sky's screens) is built beside P4 and priced in §16's line of the application's staged screens, outside
@@ -2856,8 +2866,9 @@ its archetype match item 104's profile resolution (fixtures until then); P2's ch
 through the port (volume 8) and volume 1's working-quarter reading (fixture chains and a stub reading until then); P1's
 node term needs volume 8's deposits row (a fixture digest until then); P6's registration needs volume 6's
 `EpochParticipant` (a direct call from the M4 grow path until then); P6's household channels need volume 6's
-`demandTaken` row and the displaced pool's cause `island` (§4.7's overflow pass inside the conversion until then); P1's
-crypt test needs volume 2's basement ladder and volume 11's crypt column (the full form and a fixture column until then);
+`demandTaken` row and the displaced pool's cause `island` (§4.7's overflow pass inside the conversion until then);
+T-V5-14's VILLAGE variant needs V07's hand-off down (V-M3) and runs at the later of P6 and V-M3; P1's crypt test needs
+volume 2's basement ladder and volume 11's crypt column (the full form and a fixture column until then);
 P2's web, splits and spread need items 105 and 107 as applied and volume 11's goods, balance and `split` rows (fixture rows
 until then), and the rim barrier item 106's `barrier` closure and volume 11's `sheer` row; item 110's parts need items 244,
 245, 246, 290 and 309 as applied, volume 2's stack envelope (V02 §3.15.2) and volume 11's raised-way height and terrace

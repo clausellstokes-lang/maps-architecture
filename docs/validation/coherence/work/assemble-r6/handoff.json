@@ -1,0 +1,427 @@
+{
+ "swaps": [
+  {
+   "note": "repair-r6-scope.md, NOTE FOR ASSEMBLE (1) (J-A67.45, judgment index and Part A)",
+   "script": "work/assemble-r6/swap_restated.py (work/repair-scope-r3/swap_restated.py with IDS = ['J-A67.45'])",
+   "before_base_sha256": "fd59b92600b30e413d4c834ab60526c16d785aabba821f5fe66ec632507ebff3",
+   "before_rationale_sha256": "3871c618fc94be01f72694358ccc66bd4904102368185aea2d6735b196c84590",
+   "stdout": [
+    "judgment index: J-A67.45: l. 22853 <- l. 23074",
+    "Part A: J-A67.45: l. 631 <- l. 852",
+    "judgment index rows 805 duplicates []",
+    "Part A rows 805 duplicates []",
+    "ids in one and not the other []",
+    "base sha256 f39f1c30126976c0bd2afedd5f95a23d7e6c19e0a0e5ff4f8be49ca113bbb15b",
+    "rationale sha256 a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+   ],
+   "base_sha256": "f39f1c30126976c0bd2afedd5f95a23d7e6c19e0a0e5ff4f8be49ca113bbb15b",
+   "rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+  }
+ ],
+ "notes_for_assemble": [
+  "repair-r6-scope.md: NOTE FOR ASSEMBLE (1) — the J-A67.45 swap, here",
+  "repair-r6-scope.md: NOTE FOR ASSEMBLE (2) — six proposed allow rows, P5 (allowrows.py)"
+ ],
+ "checks": {
+  "ids": {
+   "index_before": 805,
+   "part_a_before": 805,
+   "index_after": 805,
+   "part_a_after": 805,
+   "index_duplicates": [],
+   "part_a_duplicates": [],
+   "one_id_set": true,
+   "id_set_unchanged": true,
+   "index_order_unchanged": true,
+   "part_a_order_unchanged": true,
+   "index_rows_unchanged_but_swapped": true,
+   "swapped_index_row_position": [
+    584,
+    584
+   ],
+   "swapped_part_a_position": [
+    584,
+    584
+   ],
+   "rationale_lines": [
+    2387,
+    2387
+   ],
+   "rationale_lines_changed": [
+    [
+     631,
+     true
+    ]
+   ],
+   "index_row_after": "| J-A67.45 | the drawn week: the document's current week (the greatest folded week, §4.11 *The clock* (1)) unless the per-viewer view key `week` names … | §4.11, §2.9 |",
+   "index_row_before": "| J-A67.45 | the drawn week: the document's current week (the last folded event's) unless the per-viewer view key `week` names … | §4.11, §2.9 |",
+   "ok": true,
+   "index_row_equals_block_row": true,
+   "part_a_row_equals_block_row": true
+  },
+  "combined_runs": {
+   "model+pipeline+rendering": [
+    20,
+    20,
+    0,
+    0
+   ],
+   "pipeline+rendering+scope": [
+    22,
+    22,
+    0,
+    0
+   ],
+   "all five": [
+    31,
+    31,
+    0,
+    0
+   ]
+  },
+  "alone": {
+   "determinism": {
+    "found": 6,
+    "applied": 6,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23029,
+     23031
+    ],
+    "bytes": [
+     3019440,
+     3019596
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "c395246945c9c7e4cdb0d8a25a61ac6cc1f94265da04c563a88a35c1dfe63c29",
+    "rationale_unchanged": true,
+    "hunks": 14,
+    "changed_old_lines_n": 43,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "6 applied, 0 skipped, audit 0 not OK; headings 153 → 153, fences balanced, title block unchanged; the diff confined to l. 9244, 9247, 9257, 9289, 10357, 10443–10460, 10587, 10630–10633, 10708–10719, 10883, 11228, 11825, 12068–12069 of the live base; combined with the landed base repairs of round 6: 31 blocks applied, audit OK",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     9244,
+     9247,
+     9257,
+     9289,
+     10357,
+     10443,
+     10444,
+     10445,
+     10446,
+     10447,
+     10448,
+     10449
+    ]
+   },
+   "model": {
+    "found": 3,
+    "applied": 3,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23029,
+     23128
+    ],
+    "bytes": [
+     3019440,
+     3041553
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "60176c130b47a7c1b56cdbe30ff237fb1ad67f78ab5a5187e59cac856df6e257",
+    "rationale_unchanged": true,
+    "hunks": 9,
+    "changed_old_lines_n": 125,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "3 blocks applied, 0 skipped, audit OK; headings 153 → 153, fences balanced 140 → 140, title block unchanged; diff confined to l. 556, 2292, 2317, 2503–2523, 2537–2628, 2638–2649, 3140 of the live base",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     556,
+     2292,
+     2317,
+     2503,
+     2504,
+     2505,
+     2506,
+     2507,
+     2508,
+     2509,
+     2510,
+     2511
+    ]
+   },
+   "pipeline": {
+    "found": 9,
+    "applied": 9,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23029,
+     22972
+    ],
+    "bytes": [
+     3019440,
+     3019888
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "543f07e0cbb2dfe63a85e8d97746fe99512ad4dc5646f3896599ab462614ca96",
+    "rationale_unchanged": true,
+    "hunks": 25,
+    "changed_old_lines_n": 83,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "9 blocks found, 9 applied, 0 skipped; audit 0 not OK; headings 153 → 153; fences balanced (140 → 140); title block unchanged; document 23 029 → 22 972 lines, 3 019 440 → 3 019 888 bytes; rationale unchanged (805 = 805, no duplicate); 25 hunks; combined with model and rendering: 20 found, 20 applied, 0 skipped, audit 0 not OK",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     4952,
+     5644,
+     5645,
+     5647,
+     5648,
+     5652,
+     5653,
+     5654,
+     5751,
+     5752,
+     5753,
+     5853
+    ]
+   },
+   "rendering": {
+    "found": 8,
+    "applied": 8,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23029,
+     23039
+    ],
+    "bytes": [
+     3019440,
+     3022575
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "d11584d367d17657523fdf7bbec85dd97d70a1caf64939ed0ea3d66395c29a85",
+    "rationale_unchanged": true,
+    "hunks": 13,
+    "changed_old_lines_n": 19,
+    "inserts": [
+     [
+      12555,
+      1
+     ]
+    ],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "alone: 8 found, 8 applied, 0 skipped, audit not OK 0, headings 153 → 153, fences balanced, title block unchanged, the rationale byte-identical; with repair-r6-pipeline and repair-r6-scope: the same",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     13182,
+     13183,
+     13184,
+     13185,
+     13468,
+     13628,
+     13673,
+     13897,
+     13898,
+     14501,
+     14755,
+     15118
+    ]
+   },
+   "scope": {
+    "found": 5,
+    "applied": 5,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23029,
+     23087
+    ],
+    "bytes": [
+     3019440,
+     3026936
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2387
+    ],
+    "base_sha256": "20d8785c0d77b3690b5570ec0a99aa8ed3b27b4c0bc5292b6642ee8abfdd0e39",
+    "rationale_unchanged": false,
+    "hunks": 16,
+    "changed_old_lines_n": 84,
+    "inserts": [
+     [
+      22962,
+      1
+     ]
+    ],
+    "index_rows": 806,
+    "part_a_rows": 806,
+    "duplicates": [
+     "J-A67.45"
+    ],
+    "notes": [
+     "DUPLICATE ID inserted (an id the table already holds): ['J-A67.45']",
+     "DUPLICATE ID inserted (an id the table already holds): ['J-A67.45']"
+    ],
+    "swap": {
+     "stdout": [
+      "judgment index: J-A67.45: l. 22799 <- l. 23020",
+      "Part A: J-A67.45: l. 631 <- l. 852",
+      "judgment index rows 805 duplicates []",
+      "Part A rows 805 duplicates []",
+      "ids in one and not the other []",
+      "base sha256 a1f3877a9274332184ce03241127101cfcb3e1ea2f15f22ae5257866587f28d5",
+      "rationale sha256 a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+     ],
+     "lines_after_swap": 23086,
+     "rat_lines_after_swap": 2386,
+     "index_rows": 805,
+     "part_a_rows": 805,
+     "one_id_set": true,
+     "duplicates": []
+    },
+    "recorded": "5 found, 5 applied, 0 skipped, audit not-OK 0 (two DUPLICATE ID notes for J-A67.45), headings 153 → 153, fences balanced (140 → 140), title block unchanged; document 23 029 → 23 087 lines (23 086 after the swap), rationale 2 386 → 2 387 (2 386); the swap: index l. 22799 ← l. 23020, Part A l. 631 ← l. 852; 805 = 805, one id set, no duplicate",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     17914,
+     18234,
+     18235,
+     18236,
+     18237,
+     18238,
+     18239,
+     18243,
+     18244,
+     18245,
+     18246,
+     18247
+    ]
+   }
+  },
+  "combined_lines": {
+   "before": 23029,
+   "after_blocks": 23141,
+   "after_swap": 23140,
+   "sum_of_alone_growths": 112,
+   "equal": true
+  },
+  "all_five_equals_apply_out": true
+ },
+ "carried_unchanged": [
+  "docs/volumes/INDEX.md"
+ ],
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "f39f1c30126976c0bd2afedd5f95a23d7e6c19e0a0e5ff4f8be49ca113bbb15b",
+  "docs/ARCHITECTURE-RATIONALE.md": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0",
+  "docs/volumes/V01-neighbourhoods.md": "bd9b4cebbb04f88ea4df4a9469d76d065cc22195ebe2672490c4ed01859d1077",
+  "docs/volumes/V02-buildings.md": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "docs/volumes/V03-interiors.md": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "docs/volumes/V04-underground.md": "fefd0cd444a1334e9b0fa67ccfd32ed44415409f4af0ad687ae523e9b37b6240",
+  "docs/volumes/V05-sky.md": "a0dd3b65e35edef258cb29209b22ae3f3868868e4b7bdb91e29272a4db7b5e77",
+  "docs/volumes/V06-evolution.md": "9653164ebb814d3a60a02a65e193161526ce98f15cd9c52ad5f9e75048dd470a",
+  "docs/volumes/V07-village.md": "46dfede9907ee1a6602f79f10eadcd0f492c212bc16e3adc45ee15ddb5d28996",
+  "docs/volumes/V08-settlementforge.md": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "docs/volumes/V09-application.md": "046b6610e47e621d6773d9a8646f4e528a2089299347c883db7a00ac24593b11",
+  "docs/volumes/V10-clerk.md": "1014b64c7dc80feef334168db444130e22c8d25bf28c3787ca3e61798978c364",
+  "docs/volumes/V11-content.md": "0e2767c1b7ec2b438a3bd8e3027b67696791d9f3cf54757e8c89a0d520fec702",
+  "docs/volumes/V12-calibration.md": "006b8ef1d304cee55b9e0754a7c8d26fe3de43a65fd9e88eddcb5be0cd60a51d",
+  "docs/volumes/INDEX.md": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3"
+ },
+ "out_equals_final": {
+  "docs/ARCHITECTURE.md": false,
+  "docs/ARCHITECTURE-RATIONALE.md": false,
+  "docs/volumes/V01-neighbourhoods.md": true,
+  "docs/volumes/V02-buildings.md": true,
+  "docs/volumes/V03-interiors.md": true,
+  "docs/volumes/V04-underground.md": true,
+  "docs/volumes/V05-sky.md": true,
+  "docs/volumes/V06-evolution.md": true,
+  "docs/volumes/V07-village.md": true,
+  "docs/volumes/V08-settlementforge.md": true,
+  "docs/volumes/V09-application.md": true,
+  "docs/volumes/V10-clerk.md": true,
+  "docs/volumes/V11-content.md": true,
+  "docs/volumes/V12-calibration.md": true,
+  "docs/volumes/INDEX.md": false
+ }
+}

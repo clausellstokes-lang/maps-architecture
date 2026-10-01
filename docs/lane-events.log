@@ -3286,3 +3286,9 @@
 2026-10-01 22:36 coherence/orchestrator NOTE repair-V04-r6 landed (17 blocks, 0 ruling requests); 1 repair still running (V05)
 2026-10-01 22:37 coherence/repair-V05-r6 LANDED docs/validation/coherence/repair-r6-V05.md docs/validation/coherence/results/coherence_repair-V05-r6.json
 2026-10-01 22:37 coherence/orchestrator NOTE repair-V05-r6 landed (3 blocks, END lines only); all 17 repair-r6 units landed (142 blocks, 0 ruling requests; kernel none this round); launched coherence/assemble-r6 (base docs/ARCHITECTURE.md sha256 2d84eac2…)
+2026-10-01 22:38 coherence/assemble-r6 CHECKPOINT P0 resume check: fresh start; live files equal HEAD b3f83a0 (base 2d84eac2…); next P1 snapshot and kit
+2026-10-01 22:40 coherence/assemble-r6 CHECKPOINT P1-P2 done (snapshot: 15 live files = HEAD b3f83a0; 17 repair files routed, 142 blocks, 0 ruling requests, 0 missing, 0 overlap; scope's NOTE FOR ASSEMBLE: J-A67.45 swap + 6 allow rows); next P3 apply
+2026-10-01 22:42 coherence/assemble-r6 CHECKPOINT P3 done (142/142 applied, audit 0; volumes = seats' dry runs; base seats' alone runs reproduced; J-A67.45 swap done, 805=805; headings unchanged; installed: base f39f1c30…, rationale a3f45a3f…, 12 volumes, INDEX same); next P4 references
+2026-10-01 22:45 coherence/assemble-r6 CHECKPOINT P4 done (refs 56 555, 0 broken, 0 FIX, 85 ambiguous-form; crossing/way-and-channel table citations 0 bad); next P5 doc checks
+2026-10-01 22:49 coherence/assemble-r6 CHECKPOINT P5 done (doc_checks provisional: first run C3 18 distinct unreviewed, 6 scope-proposed + 12 model §2.7 reviewed; allow file 2331->2350 append-only; final exit 0 all copies/key sets, combined 3614 hits 0 unreviewed); next P6 bundle
+2026-10-01 22:50 coherence/assemble-r6 CHECKPOINT P6 done (bundle 71 740 lines, --check UP TO DATE); P7 censuses done (review ids in design text 0, PRB6 ids/markers 0; sizes: set 9649.1 -> 9704.0 KB, words +0.6 %; no duplicate id); next: write report, result, LANDED

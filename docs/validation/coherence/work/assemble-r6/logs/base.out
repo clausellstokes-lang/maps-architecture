@@ -1,0 +1,14 @@
+files 5; blocks 31 found, 31 applied, 0 skipped
+  NOTE repair-r6-scope.md #4 (l. 1753) J-ROWS — DUPLICATE ID inserted (an id the table already holds): ['J-A67.45']
+  NOTE repair-r6-scope.md #5 (l. 1757) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-A67.45']
+audit: 31 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 806
+  document index duplicate ids: ['J-A67.45']
+  Part A rows: 806
+  Part A duplicate ids: ['J-A67.45']
+headings 153 -> 153 (+0 / -0); fences balanced True (140 -> 140 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 0 -> 0
+document 3019440 -> 3052788 bytes, 23029 -> 23141 lines, sha256 fd59b92600b30e413d4c834ab60526c16d785aabba821f5fe66ec632507ebff3
+rationale 704770 -> 705412 bytes, 2386 -> 2387 lines, sha256 3871c618fc94be01f72694358ccc66bd4904102368185aea2d6735b196c84590
