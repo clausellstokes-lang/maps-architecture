@@ -1,0 +1,166 @@
+# VRC0S-01 (major, F-MISSING): g item 114's rendering part — the run state rows (`worn`, `patched`, `breached`,
+# `dismantled`), the patch looks, the legend entries, the second cue and the greyscale bar (item 112's check, J-V12.91);
+# the census row; the exports (§11.1) and the edges (§8.11, §11.6). Also the role rows items 117 and 118 add (one table).
+# Receipts: docs/validation/bench/coh_repair_rendering_r1_palette.out (roles, matrix pairs), coh_repair_rendering_r1_looks.out (A).
+@@ FILE 8.2.md
+<<<<
+    an `AccessPoint.state` (II.7.4; item 64); a gallery's or chamber's system kind with its state (II.7.6; item 65); an `UndergroundLink.kind` (II.7.6; item 65) */;
+====
+    an `AccessPoint.state` (II.7.4; item 64); a gallery's or chamber's system kind with its state (II.7.6; item 65); an `UndergroundLink.kind` (II.7.6; item 65);
+    a run's `Enceinte.condition` (§2.7; g item 114), the row then drawing that run of the trace alone */;
+>>>>
+<<<<
+  bands?: LodBand[] /* absent: every band the kind is drawn at */; paint: 'replace'|'override'; programs: PaintProgram[] }   // replace: drawn instead of the entity's programs; override: the row's tone, alpha, glyph and roof-construction changes laid over them
+====
+  bands?: LodBand[] /* absent: every band the kind is drawn at */; paint: 'replace'|'override'; programs: PaintProgram[];
+  legend?: string /* the row's legend entry, a catalogue key (V09 §4.9) §9.5's legend draws while a mark in that state is on the map: the wall runs' `legend.wall.<state>` (g item 114); absent: no entry */ }   // replace: drawn instead of the entity's programs; override: the row's tone, alpha, glyph and roof-construction changes laid over them
+>>>>
+<<<<
+halo and floors, V04 §5; M6-U); `sky.ground` (a sky island's land, never `ground` itself, V05 §5.1; M6-sky). A role never
+====
+halo and floors, V04 §5; M6-U); `sky.ground` (a sky island's land, never `ground` itself, V05 §5.1; M6-sky); the
+wall-condition role `wall.worn` and the six **patch looks** `patch.timber`, `patch.wattle`, `patch.earth`,
+`patch.drystone`, `patch.stakes` and `patch.brush` (g item 114; each row of V11's `walls.patchMaterials` names its look);
+the season roles `ice` and the eight **leaf colours** `leaf.gold`, `leaf.amber`, `leaf.orange`, `leaf.scarlet`,
+`leaf.crimson`, `leaf.russet`, `leaf.bronze` and `leaf.brown` (g item 117; V11's `season.leaf` weights name them); the
+festival roles `festival.a`, `festival.b`, `festival.c`, `festival.d` and `festival.sacred` (g item 118; V11's
+`festival.motifs` rows name them, never a colour). A role never
+>>>>
+<<<<
+| snow / road (snow lies on ground, fields and roofs while `road` keeps its value) | 8 | 5 |
+====
+| snow / road (snow lies on ground, fields and roofs while `road` keeps its value) | 8 | 5 |
+| ice / water (frozen water reads apart from open water and its leads) | 10 | 8 |
+| ice / road; ice / ground | 6 | — |
+| patch.* / wall (a patch reads apart from the wall it mends, beside its narrower strip and its pattern); patch.* / ground | 8; 10 | — |
+| leaf.* / water (fallen leaves on still water); ink / leaf.* (crown outlines, as ink / tree) | 10; 25 | —; 30 |
+| festival.* / road; festival.* / ground | 15 | — |
+>>>>
+<<<<
+| wall.dry_stone / wall.earth_bank / wall.timber_crib | `wall` / `ground` lerped 30 % toward ink / `plank` | `#8E8574` / `#9C8460` / `#8A6A45` | `#7E6A50` / `#8C7450` / `#7A5A38` |
+====
+| wall.dry_stone / wall.earth_bank / wall.timber_crib | `wall` / `ground` lerped 30 % toward ink / `plank` | `#8E8574` / `#9C8460` / `#8A6A45` | `#7E6A50` / `#8C7450` / `#7A5A38` |
+| wall.worn (`wall` lerped 40 % toward ink, linear light) | `#2D2219` (= wall: its notches carry the state) | `#716250` | `#5F4932` |
+| patch.timber / .wattle / .earth / .drystone / .stakes / .brush | `#B39B78` / `#BAA27E` / `#B8A380` / `#60584D` / `#A79070` / `#ABA77F` | `#A78F75` / `#A88F72` / `#A39175` / `#9C9280` / `#A59077` / `#99956A` | `#A6835A` / `#BBA080` / `#9B8668` / `#998871` / `#A28562` / `#B9BF98` |
+| ice | `#DCE6EA` | `#C9E1EC` | `#D3E5EC` |
+| leaf.gold / .amber / .orange / .scarlet / .crimson / .russet / .bronze / .brown | `#DEC489` / `#D5A878` / `#CE946F` / `#BB7366` / `#B5696B` / `#B6775D` / `#BD8C61` / `#A3785B` | `#D2AC3F` / `#D18D32` / `#D07432` / `#C24B3B` / `#B5444E` / `#AA5E3E` / `#A97649` / `#8D6448` | `#DDB749` / `#DD973D` / `#DC7E3C` / `#CE5544` / `#C14F57` / `#B56848` / `#B48152` / `#986E51` |
+| festival.a / .b / .c / .d / .sacred | `#9E5652` / `#A38852` / `#15719F` / `#3C8463` / `#60578D` | `#B94142` / `#AD8617` / `#0872A1` / `#26865E` / `#605790` | as `lit` |
+>>>>
+<<<<
+ink ≥ 21.2 / 21.2 / 38.3; each wall-material role against water ≥ 28.5; computed by our CIEDE2000 on the sRGB values, the
+loader re-checking them).
+====
+ink ≥ 21.2 / 21.2 / 38.3; each wall-material role against water ≥ 28.5; computed by our CIEDE2000 on the sRGB values, the
+loader re-checking them). The rows of items 114, 117 and 118 are placed by rule (`docs/validation/bench/
+coh_repair_rendering_r1_palette.out`): a patch look is its material's tone (`plank`, a wall-material role, or `tree`, lerped
+toward `ground` or `ink` by look) lifted toward `paper` until its L* is the wall's + 15, then darkened, hue and chroma kept,
+to the lightness at which its grey ΔE2000 against `ground` is 11 where it would pass it (the wall states' greyscale bar,
+below); a leaf colour its name's CIELCh hue at the family's lightness, its chroma under the family's cap (`ink` 34, the
+others 60); `ice` a pale blue-grey; the festival roles five hues at L* 40–58 under the same caps. Their pairs pass: ice /
+water ≥ 13.7 (ΔL* ≥ 15.9), ice / road ≥ 13.7, ice / ground ≥ 16.3, patch.* / wall ≥ 8.5, patch.* / ground ≥ 11.8,
+leaf.* / water ≥ 32.0, ink / leaf.* ≥ 26.9 (ΔL* ≥ 30.9), festival.* / road ≥ 16.7 and / ground ≥ 18.9.
+>>>>
+<<<<
+`ruin` (outline dashed by an entity-keyed pattern, fill at 30 % alpha, rubble stipple: the `ruined` state's program, with
+====
+`wallPatch(look)` (g item 114: a patched run's strip in its look's role and pattern, the wall rows below);
+`ruin` (outline dashed by an entity-keyed pattern, fill at 30 % alpha, rubble stipple: the `ruined` state's program, with
+>>>>
+<<<<
+| water classes (`waterKind`) | the shore program's line style and the water body's label |
+====
+| water classes (`waterKind`) | the shore program's line style and the water body's label |
+| a wall run's condition (g item 114) | its line style: the solid band, the notched band, a patch look's pattern on a narrower strip, the gap with its rubble spill, the dashed trace (the wall rows below) |
+>>>>
+<<<<
+| wall, gate | `decayed` (breached or partly dismantled) | all | override: a gap glyph over each `breached` run of `Enceinte.condition` (§2.7; file f item 575); the towers of each `dismantled` run as trace discs |
+====
+| wall, gate | `decayed` (a run of `Enceinte.condition` not `standing`, §2.7) | all | override: nothing on the enceinte as a whole — each run draws by its row below; a gate on a `breached` or `dismantled` run draws its blocks as that run's towers draw |
+| wall | a run `worn` (`Enceinte.condition`, §2.7; file f item 575, g item 114) | district and finer | override the run: its stroke in `wall.worn`, its outer edge notched — a notch ⌈w ÷ 2⌉ px deep and 1 px long every 3 px of run from its first vertex, w the drawn wall width (the broken crenellations); its towers unchanged; at the city band the run draws as `standing`; legend `legend.wall.worn` |
+| wall | a run `patched` | all | replace the run: `wallPatch(look)` — a strip 0.6 × w wide (minPx 1) centred on the trace in the look's role and line pattern (the patch looks below), the look the `look` of the V11 `walls.patchMaterials` row the run's `conditionMaterial` names (§2.7) — a material no row names (a pack withdrew it) takes the look of its wall kind's first row there and is reported; its towers stand; legend `legend.wall.patched`, one entry per look drawn, naming its row's `label` |
+| wall | a run `breached` | all | replace the run: no wall stroke — a clear break — with a bar across the trace in `wall`, 1 px by w, at each end of the gap, and the **rubble spill**: 1-px dots in `ink` over the run's band and one band width outward, a pixel drawn where `RH32('wall.rubble', key, salt, cell)` ÷ 2³² < 0.40, `cell` the pixel's world-aligned cell at the stop (seamless across tiles); its towers stand; legend `legend.wall.breached` |
+| wall | a run `dismantled` | all | replace the run: no wall stroke; a 1-px `ink` hairline along the trace, 2 px on and 2 px off from the run's first vertex; its towers as trace discs (`trace('ring')` on each tower's footprint); legend `legend.wall.dismantled` |
+>>>>
+<<<<
+A Works stage named like a ladder state — the decay Works' `abandoned` and the demolition's `cleared` — takes that
+====
+**The patch looks and reading the wall without colour (g item 114 (e); item 112).** `wallPatch` draws its strip by the
+look's pattern, along the run from its first vertex: `patch.timber` planks — the strip solid, a 1-px joint every 4 px;
+`patch.wattle` a weave — diagonal bands 2 px wide every 4 px; `patch.earth` a bank — the strip solid, its outer edge
+dotted (every second pixel); `patch.drystone` stones — blocks one strip-height long with a 1-px gap between; `patch.stakes`
+posts — a 1-px post every 3 px; `patch.brush` a broken fill — 2-px runs with one run in three left out, the gap stepping
+one pixel per row. The five states therefore differ in line style first — the solid band, the notched band, a patch's
+pattern on a narrower strip, the gap with its rubble, the dashed trace — and that is their second cue. **The greyscale
+bar** (J-V12.91; V12's `T114g.greyscale`): one run rendered in each of two states at the band is compared with itself
+pixel by pixel on CIE L* alone, and the mean grey ΔE2000 over the pixels where either render draws a mark must reach
+`cvdContrastMin`, for every pair of different states at every band where both draw (the patch looks among themselves are
+one state, told apart by pattern); on the shipped values the least is 11.1 (`lit`, `standing` against `worn` at a 12-px
+wall), over every drawn width from 2 to 12 px (`docs/validation/bench/coh_repair_rendering_r1_looks.out` (A)). **A short
+run:** a run whose drawn length at the stop is under 2 px (the minimum feature) is drawn 2 px long, centred on its middle,
+over its neighbours' strokes, so no condition vanishes at a coarse stop. The standing wall keeps its symbol-key entry;
+each other state's entry shows while a run in it is on the map (§9.5).
+A Works stage named like a ladder state — the decay Works' `abandoned` and the demolition's `cleared` — takes that
+>>>>
+@@ FILE 8.3.md
+<<<<
+| states: every (kind, state) pair that §2.8's ladders, `Building.condition`, `SkyIsland.state`, `Enceinte.supersededBy`, `Enceinte.condition`, `RetainingWall.state`,
+====
+| states: every (kind, state) pair that §2.8's ladders, `Building.condition`, `SkyIsland.state`, `Enceinte.supersededBy`, `Enceinte.condition` (`standing` · `worn` · `patched` · `breached` · `dismantled`, g item 114), `RetainingWall.state`,
+>>>>
+<<<<
+| access points and the underground systems (items 64, 65; §8.2's rows, §8.4's depth bands):
+====
+| wall runs in decay and repair (g item 114; §8.2's wall rows): a fixture holding one run in each condition and a `patched` run of every look, at every band, in `ink`, `lit` and `hatched`, with each run 1 px long at the city band's coarsest stop | ink, lit, hatched | each run drawn by its row — `worn` as standing at the city band — a `parapet` run's width its `stretchClass` thickness's (§8.2's `wall.curtain` row); every pair of different states passes §8.2's greyscale bar at every band where both draw; every short run drawn 2 px long; each state's legend entry present exactly while a run in it is drawn; the run's tiles pixel-identical after save → load, after a material undone and redone, and on a migrated document whose runs read `standing` and robust |
+| access points and the underground systems (items 64, 65; §8.2's rows, §8.4's depth bands):
+>>>>
+@@ FILE 8.11.md
+<<<<
+| the same fixture exported in every format at every rung: validators pass, every feature present with its properties |
+====
+| the same fixture exported in every format at every rung: validators pass, every feature present with its properties |
+| T-ER-22 | wall runs in decay and repair (§8.2's wall rows; g item 114) at every rung THORP to the cap (a village palisade's runs included, V07): a run shorter than the minimum feature; a run whose material no `walls.patchMaterials` row names; a whole enceinte `breached`; save, load, undo, redo, regenerate and migrate of a run's condition and material | drawn 2 px long, centred; its wall kind's first row's look, reported; every run a gap with its rubble, the towers and gates standing; the runs persist as §2.7's profiles, a regeneration keeps them (§7.4's row), an undo restores condition and material, a migrated document draws `standing` and robust — never an error | the fixture of §8.3's wall row at every rung: tiles as stated; the reports present; each lifecycle step's tiles equal to a fresh render of its state |
+>>>>
+@@ FILE 11.1.md
+<<<<
+each enceinte's wall LineStrings split per run of equal `condition` (§2.7), each run carrying the enceinte's `id` and `run` (its ordinal from the trace's first vertex in vertex order), `condition` absent when standing (file f item 575)
+====
+each enceinte's wall LineStrings split per run of equal `condition` and material (§2.7), each run carrying the enceinte's `id` and `run` (its ordinal from the trace's first vertex in vertex order), `condition` absent when standing and `material` — the `wallKind/id` key of its V11 `walls.patchMaterials` row — absent when robust (file f item 575; g item 114)
+>>>>
+<<<<
+  `line_of_sight` — polylines in grid units from building footprint edges (minus door openings), enceinte faces, yard
+====
+  `line_of_sight` — polylines in grid units from building footprint edges (minus door openings), enceinte faces along
+  every `standing`, `worn` and `patched` run (a patch is a wall) and none along a `breached` or `dismantled` run (an
+  opening; g item 114 (f)), yard
+>>>>
+<<<<
+* **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged),
+====
+* **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged;
+  an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none),
+>>>>
+<<<<
+walls, towers and gatehouses as prisms on their bases, a curtain wall's top carrying its walk (`Enceinte.walkCm` wide);
+====
+walls, towers and gatehouses as prisms on their bases, a curtain wall's top carrying its walk (`Enceinte.walkCm` wide),
+by run (g item 114): a `standing`, `worn` or `patched` run its prism with `extras.condition` and `extras.material` (absent
+when standing and robust), a `breached` or `dismantled` run no prism (its towers standing);
+>>>>
+<<<<
+`LandUse`, `OtherConstruction` (walls, towers, gatehouses; a retaining wall with `function: 'retainingWall'`),
+====
+`LandUse`, `OtherConstruction` (walls, towers, gatehouses — an enceinte one object per run that stands, `standing`,
+`worn` or `patched`, with the attributes `condition` and `material`, a `breached` or `dismantled` run none (g item 114);
+a retaining wall with `function: 'retainingWall'`),
+>>>>
+@@ FILE 11.6.md
+<<<<
+| T-ER-19 | every format (§11.1) at every rung, THORP to the cap; degenerate geometry
+====
+| T-ER-19 | every format (§11.1) at every rung, THORP to the cap, a fixture holding a wall run in each condition (g item 114) among them; degenerate geometry
+>>>>
+<<<<
+| each row's mapping; a larger VTT scope split into a grid of scenes or the pixels per square lowered (≥ 50), the dialog showing the choice | each format at THORP, TOWN, CITY, the METROPOLIS target and the cap: validators pass, sizes within §12.7 and §12.8 |
+====
+| each row's mapping — a wall run's `condition` and `material` in GeoJSON, glTF and CityJSON, a `patched` run a wall and a `breached` or `dismantled` run an opening in the VTT scenes; a larger VTT scope split into a grid of scenes or the pixels per square lowered (≥ 50), the dialog showing the choice | each format at THORP, TOWN, CITY, the METROPOLIS target and the cap: validators pass, sizes within §12.7 and §12.8; the wall fixture's runs as stated in every format |
+>>>>
