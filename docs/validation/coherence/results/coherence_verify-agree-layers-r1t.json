@@ -1,0 +1,286 @@
+{
+ "key": "coherence/verify-agree-layers-r1t",
+ "file": "docs/validation/coherence/verify-agree-layers-r1t.md",
+ "issues": [
+  {
+   "id": "VAL-05",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Partly fixed. V04's half landed: V04 §2.3's `UnderLayoutRule` no longer holds `forecastSafety` or `accessForecastMin` (V04 l. 634: \"S7b (6)–(7)'s cap forecastSafety and P7's floor accessForecastMin are II.7.4's UndergroundRule cells\"). The base's half did not: II.7.4's `UndergroundRule` (base l. 19848) reads `accessForecastMin: number; forecastSafety: number /* 0.85 */` with no default for `accessForecastMin`, while V04 §3.3 P7 (V04 l. 1180) cites \"`accessForecastMin` (II.7.4's `UndergroundRule`, 0.5)\" and V04 §13's sibling table asks for it (V04 l. 3426: \"the base | II.7.4's `UndergroundRule` writing `accessForecastMin`'s default (0.5) beside `forecastSafety`'s\"). The value now lives only in the volume that cites the base as its home. (verify-pipeline-r1t raised the same remainder as VPC-R1-08.)",
+   "required_change": "II.7.4's `UndergroundRule` reads `accessForecastMin: number /* 0.5: P7's forecast access chance at which a cavern or ruin void counts for S7b (6) (V04 §3.3 P7) */; forecastSafety: number /* 0.85 */` — the default written once, at II.7.4, closing V04 §13's hand-off row.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAL-08",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Partly fixed. V04 renamed its underground opening row `UnderOpeningRow` (V04 §2.3 l. 694; 0 `OpeningRow` left in V04), so `OpeningRow` now names only §2.6's opening-hours row (`interface OpeningRow { dayType: string; openH: number; closeH: number }`, base l. 1365). The base's II.7.6 signature was not changed: base l. 20277–20278 `interface AccessPassStrategy { run(doc: Document, rules: { link: LinkRule; dig: DigRule; openings: OpeningRow[]; catacomb: CatacombRule }, …) }   // V04's U-ACCESS; DigRule, OpeningRow and CatacombRule are V04 §2.3's` — the access pass's rules are typed with opening hours, and the comment names a V04 record that no longer exists. V04 §13 asks for exactly this (l. 3426: \"II.7.6's `AccessPassStrategy` reading `openings: UnderOpeningRow[]`\"). The remainders outside this lane are raised elsewhere (V06 l. 2443, 2490: VPC-R1-05; V11 l. 177, 616, 3611, 3705: VPC-R1-07); V07's is VAL-R1-03.",
+   "required_change": "II.7.6's signature reads `openings: UnderOpeningRow[]` and its comment \"// V04's U-ACCESS; DigRule, UnderOpeningRow and CatacombRule are V04 §2.3's (their rows V11's)\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAL-18",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Partly fixed. §9.1 now reads \"built by S6 (§4.5) — a sky island's root node by S13a over the island's districts after its unit run (V05 §3.14) —; named by S13a\" (base l. 13865) and *What the tree holds* adds the island roots (l. 13884). Model §2.5's comment, which round 0's required change named, still reads \"// Quarters are §9.1's QuarterNode merge tree, built by S6 (§4.5); its city cut is the city-LOD label unit (§9.4)\" (base l. 1128): the model's statement of the producer omits the S13a-built island roots that §9.1 and V05 §3.14 / V05 §1b (V05 l. 285) state. (verify-rendering-r1t raised the same line as VRC1T-11.)",
+   "required_change": "Model §2.5's comment reads \"// Quarters are §9.1's QuarterNode merge tree, built by S6 (§4.5) — a sky island's root node by S13a over the island's districts after its unit run (V05 §3.14); its city cut is the city-LOD label unit (§9.4)\".",
+   "owner": "model"
+  },
+  {
+   "id": "VAL-R1-01",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "VAL-01's three named places are fixed (II.7.6's comment l. 20281–20283, II.7.4's inputs l. 19856–19857, §4.12's list l. 8581–8584 all give V04 §3.1's order U-NET, U-SYS, U-ACCESS, U-FRONT, U-CITY, U-LINK). A fourth statement of the order, which round 0 missed, still has the old one: §14's `StrategyRegistry.underground` comment (base l. 18115) \"registered after the network stage by declared I/O — the systems, II.7.3's sewer-front neighbourhoods, the access pass, the undercity, then the connection stage\" puts U-FRONT before the access pass, against V04 §3.1 (T2b U-ACCESS before T3 U-FRONT, whose F6 reads the excavation reading) and V07 §3.16 (1). The declared I/O now orders the stages right (II.7.4 declares the access pass's outputs as U-FRONT's inputs), so the comment misdescribes the order rather than setting it.",
+   "required_change": "§14's `underground` map comment reads \"/* II.7.4–II.7.6: registered after the network stage by declared I/O in V04 §3.1's order — the systems, the access pass (U-ACCESS), II.7.3's sewer-front neighbourhoods (U-FRONT), the undercity, then the connection stage — their outputs under.blocks, under.plots, under.buildings and under.access placed before the display list by §4.1's order */\".",
+   "owner": "scope"
+  },
+  {
+   "id": "VAL-R1-02",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Missed shared subject (not in the matrix): the access pass's interface. The base declares the slot `interface AccessPassStrategy { run(doc: Document, rules: { link; dig; openings; catacomb }, ctx: StageContext, k: Kernel): KernelResult<{ links: UndergroundLink[]; access: AccessPoint[]; headings: Gallery[] }> }` (II.7.6, base l. 20277–20278) and registers it in §4.12 and §14. V04, which builds the stage, states another interface: `AccessPass.run(doc, scope?: EpochScope)` with `excavation(doc, cluster)` (V04 §1b.2 l. 316; V04 §3.5.7 *With a scope* l. 1922: without a scope at T2b over the whole document, with V06's `EpochScope` over `scope.elements`, `scope.workings`, `scope.built`, `scope.basementGrown`, `scope.surfaceChanged`; V04 §3.10 l. 2207, 2273; V06's `under.access` calls it so, V06 l. 1015, 2459), and T2b writes `ExcavationRecord` (V04 §3.1's table l. 889; §1b.1 l. 279). Verdict: DISAGREE in API shape — the base slot has no scope parameter for the epoch participant and no `ExcavationRecord` in its result, though II.7.4 now declares \"the access pass's outputs — its access points, links and ExcavationRecord\" as U-FRONT's inputs (base l. 19856–19857); the two names never meet.",
+   "required_change": "II.7.6 declares the slot as V04 builds it: `interface AccessPassStrategy { run(doc: Document, rules: { link: LinkRule; dig: DigRule; openings: UnderOpeningRow[]; catacomb: CatacombRule }, ctx: StageContext, k: Kernel, scope?: EpochScope /* V06 §2.1's; absent at T2b (the whole document), V06's under.access passes the epoch's */): KernelResult<{ links: UndergroundLink[]; access: AccessPoint[]; headings: Gallery[]; reached: ExcavationRecord[] /* the ExcavationRecord entries the commit adds (V04 §2.2) */ }> }` with its comment \"V04's U-ACCESS, `AccessPass.run` in V04 §1b.2 and V06\"; V04 §1b.2's row and V04 §3.5.7 *With a scope* then name it `AccessPassStrategy.run` with the base's parameter list (V04's naming follows this ruling; V06 l. 1015, 2459 likewise).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAL-R1-03",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "VAL-08's remainder in this lane's volume. V04 §13's sibling table hands V07 \"`UnderOpeningRow` in V07 §1b (W46) and V07 §3.16 (3) (iii)\" (V04 l. 3420); V07 still names the old record: V07 §1b W46 (l. 242) \"V04's `DigRule.classRow`, `OpeningRow`\" and V07 §3.16 (3) (iii) (l. 2850) \"V04 §3.5.7 (e)'s candidates and V11 §3.23.7's `OpeningRow` chances\". `OpeningRow` now names only §2.6's opening-hours row. (verify-pipeline-r1t raised l. 2850 as VPC-R1-06.)",
+   "required_change": "V07 l. 242 reads \"V04's `DigRule.classRow`, `UnderOpeningRow`\" and V07 §3.16 (3) (iii) reads \"V04 §3.5.7 (e)'s candidates and V11 §3.23.7's `UnderOpeningRow` chances (V04 §2.3's record)\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VAL-R1-04",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "V04 §7 now runs to T-V4-81 (Find on Below, V04 l. 3004; BCR-V4-15 \"the bars T-V4-1 – T-V4-81\", V04 l. 3285), and V04 §13's sibling table asks the base for \"§13.2's underground take-over row and *The underground layer built* line running to T-V4-81\" (V04 l. 3426). §13.2 still reads \"Volume 4's T-V4-1 – T-V4-80, run from M6-U's steps\" (base l. 16894) and the take-over row \"| … | the underground layer (volume 4, M6-U) | T-V4-1 – T-V4-80 |\" (base l. 17245).",
+   "required_change": "§13.2 l. 16894 reads \"Volume 4's T-V4-1 – T-V4-81\" and the take-over row's last cell (l. 17245) \"T-V4-1 – T-V4-81\"; §13.2's item-120 rows name T-V4-81 among the volume bars of item 120 (k) when scope writes them (G120's scope part).",
+   "owner": "scope"
+  },
+  {
+   "id": "VAL-R1-05",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "VAL-17's remainder at its other end. V05 §5.1 now lists every shipped sheet of §8.2's presets table — \"`ink`, `lit`, `hatched`, the ink-family variants `parchment`, `bw-print` and `night`, `painterly` once volume 7 ships it (V07 §8's V-M1), and the parity presets\" (V05 l. 2132–2134; T-V5-12 l. 2482) — with per-family rows for each. §8.2's *Slot resolution*, the loader that refuses a sheet with an unresolved pair, still says \"the sky's entries in every shipped sheet (`ink`, `lit`, `hatched`, `night` and the parity presets)\" (base l. 12753–12754), omitting `parchment`, `bw-print` and `painterly`, which §8.2's own presets table ships (l. 12772–12773). The same paragraph names no entries for the underground's `under.*` semantics that S14's underground builder emits (V04 §5.2), so it says nothing of what lets any shipped sheet resolve them (see VAL-R1-06).",
+   "required_change": "§8.2's *Slot resolution* reads \"… and the sky's entries in every shipped sheet — the presets table's `ink`, `lit`, `hatched`, the ink-family variants `parchment`, `bw-print` and `night`, `painterly` once volume 7 ships it (V-M1), and the parity presets — … each with the per-family facts of V05 §5.1's slot table (M6-sky; file f item 408), and the underground's `under.*` entries in every shipped sheet, drawn in the underground layer's own order (V04 §5.2) with V04 §5.2's per-family facts (M6-U)\".",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAL-R1-06",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Missed shared subject: the per-family facts of the underground's marks. V04 §5.2 gives the `rock` role only for `ink`, `lit` and `hatched` (\"item 413: `ink` a 40 %-ink cross-hatch at 1.2 paper px; `lit` a dark stone fill; `hatched` its dense hatch\", V04 l. 2713–2714) and says nothing of `void` or the `under.*` semantics in `parchment`, `bw-print`, `night` or `painterly`, while §8.2 ships all seven (l. 12772–12773) and refuses a sheet with an unresolved (semantic, pass) pair (l. 12748). The village product opens in `painterly` (V07 §5.1) and draws the underground at village rungs (V04 §3.1: \"The village product shows the layer\"; V07 §3.16), and V07 §5.1 leaves the underground's marks to \"V04's programs\" (V07 l. 3243–3245), so no member defines `painterly`'s rock, void or `under.*` rows. V05 §5.1 is the precedent: the layer's volume states every shipped sheet's facts and that every shipped sheet resolves its semantics.",
+   "required_change": "V04 §5.2 adds the per-family facts of `rock`, `void` and each `under.*` semantic for every shipped sheet of §8.2's presets table — `ink`, `lit`, `hatched`, the ink-family variants `parchment`, `bw-print` (on its grey ramp) and `night`, and `painterly` from V07's V-M1 (in V07 §5.1's palette, agreed with V07) — and the sentence \"every shipped sheet resolves every `under.*` semantic, so the loader never refuses one; a user sheet missing one resolves it by §8.2's slot resolution\", with T-V4's render bar (the one that loads the layer at every band) loading every shipped sheet; §8.2 cites it (VAL-R1-05).",
+   "owner": "V04"
+  },
+  {
+   "id": "VAL-R1-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "New conflict made this round. V04's repair (J-V4.129) makes N2's fallbacks per bank: \"These fallbacks are taken **per bank** (N3 …). On a bank with none admitted, its `moat` candidates are admitted … U-NET makes that bank one **field outfall** … A bank whose stretch of `R`'s boundary lies wholly on water … that holds no candidate makes none: its plots drain by gutter and pit, its area reported unsewered\" (V04 l. 965–973; V04 §3.11 UC19; T-V4-80 (j)). Pipeline's repair, the same round, wrote II.7.2 (base l. 19633–19635): \"A settlement with no admitted water outfall takes a moat outfall at its penalty, else one field outfall beyond the outermost enceinte's outer strip — the cess field of a dry town (V04 §3.2 N2; F-NET, §5.2)\". Read as written, a town astride a river whose one bank has an admitted outfall takes no fallback on the other bank (the settlement has an outfall), while V04 gives that bank its moat or field outfall; and a dry two-bank town gets one field outfall, not one per bank. (verify-pipeline-r1t raised the line as VPC-R1-16.)",
+   "required_change": "II.7.2's sentence reads \"Each bank of the network (V04 §3.2 N3: the parts the water divides, never crossed by a sewer) with no admitted water outfall takes its own moat candidates at their penalty, else its own field outfall beyond the outermost enceinte's outer strip — the cess field of a dry town — and a bank whose stretch of the boundary lies wholly on water drains by gutter and pit, its area reported unsewered (V04 §3.2 N2, N3; J-V4.129; F-NET, §5.2); V04's T-V4-2 no-water fixture and T-V4-80 (j) name the cases\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAL-R1-08",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Missed shared subject. The base writes `Terrain.mining` at S1 (10) by \"`SiteResources.ore` ≥ 0.5 over the frame, the roster holds a mining class, or the dossier lists a mining deposit\" (base l. 4983–4985), restated in model §2.3's new field comment (\"SiteResources.ore ≥ 0.5 over the frame\", base l. 938). V04 §3.5.2 (l. 1571–1573) and V11 §3.23.1 (l. 3624–3626) give the test as \"the share of the frame's land cells with `SiteResources.ore ≥ 0.5` reaches `miningCellShare`\" (0.02, V11's cell of `under.systems`' cavern row, registry row 59); V07 §3.16 (1) reads \"V11 §3.23.1's ore rule over its `miningCellShare` of the frame\". \"≥ 0.5 over the frame\" (everywhere? on average?) and \"2 % of the land cells\" set the flag differently, and the writer's text names no `miningCellShare`. Verdict: DISAGREE, the base (the writer) incomplete; V04 restates the test instead of reading the flag.",
+   "required_change": "§4.2 S1 (10) reads \"the site holds mining where the share of the frame's land cells with `SiteResources.ore` ≥ 0.5 reaches `miningCellShare` (the `under.systems` cavern row's cell, V11 §3.23.1: 0.02), the roster holds a mining class, or the dossier lists a mining deposit …\"; model §2.3's `mining` comment reads \"the site holds mining by §4.2 S1 (10)'s test\" (no restated threshold); V04 §3.5.2 reads `Terrain.mining` (§4.2 S1 (10)) for the boost instead of restating the test.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAL-R1-09",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Missed shared subject: one term, two cells and two widths. The base's S8 (repair r1, base l. 6164–6168) makes \"every committed raised part's under-deck strip — the deck's ground projection over its piers and spans, widened by `raised.stripMarginM` each side (a `hood.constants` cell …; V01 §3.17.3 (2) reads the same strip)\" a hole; V01 §3.14 sets that cell at 1 m (V01 l. 2172, 2371) and V06 §3.19 clears \"the deck's width plus V01 §3.14's `raised.stripMarginM` each side\" (V06 l. 2772, 2796). V07 §3.5a (5) defines \"The **under-deck strip** — the deck's footprint grown by `raised.stripClearM` (2 m)\" (V07 l. 1585–1586), its own cell (V07 §2.2a l. 555; V07 §2.2 l. 592: \"strip clearance 2 m\"), with no decision giving a reason for a different width (J-V7.83 states none). A raised way carried down at the hand-off changes its strip from 1 m to 2 m each side, and the town's and the village's \"under-deck strip\" are not one thing.",
+   "required_change": "V07 §3.5a (5) reads \"The **under-deck strip** — §4.6's: the deck's ground projection over its piers and spans widened by `raised.stripMarginM` each side (V01 §3.14's `hood.constants` cell, 1 m) — holds no toft yard part and no building …\", and V07 §2.2a's `raised` cells and V07 §2.2's `raised` row drop `stripClearM` (the village's 2 m has no recorded reason; were one to exist, the adjudicator may instead rule a separately named village clearance beyond §4.6's strip, with its J-V7 decision).",
+   "owner": "V07"
+  },
+  {
+   "id": "VAL-R1-10",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "New this round (item 120's parts). V07 §5.5 (3): \"**Across layers**: on Below, a dwelling or an access in a cavern or ruin (V07 §3.16 (3), (5)) glows on the underground layer and shows as a ghost pin on Ground (V04's part)\" (V07 l. 3353–3355). V04 §5.1 *Find on Below*, the part V07 cites, lists the Below matches as \"an underground building and its use …, an undercity or sewer-front district, a named system or catacomb complex, a named run, the core's plaza, a named chamber\" (V04 l. 2678–2681) — no access — and adds no match rule (\"The matches are the listing's; this volume adds no match rule\"); V05 §5.6 (1) states \"An access is no target (it has no name and no class)\" (V05 l. 2302–2303). V07 offers a match the other two layers' volumes rule out.",
+   "required_change": "V07 §5.5 (3) reads \"**Across layers**: on Below, a dwelling in a cavern or ruin (V07 §3.16 (5)) glows on the underground layer and shows as a ghost pin on Ground (V04 §5.1); an access is no Find target (V05 §5.6 (1))\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VAL-R1-11",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "New this round (item 118's parts). §8.2's place table (base l. 12523–12542) gives village readings only for `heart` (\"at a village rung V07's heart\"), `green` (\"at a village rung V07's green\"), `fairField` and `churchLane`; every other place is the town's (`square` \"the main square (the root plaza)\", `gate`, `gates` \"the gates on `through` and `primary` ways\", `castle` \"the castle's bailey\"), and \"A place that does not stand takes the next of its kind's fallback places, and the heart when none stands\". V07 §5.1 *Festivals* (V07 l. 3226–3232) reads at a village rung: square or market → \"the open space that carries the market (else the flanking square, else a street market's frontage by the heart)\"; green → \"the green (else the first nucleus's open space, else the heart)\"; gate → \"the palisade's gate on the through road, else the through road's entry\"; \"the castle → the manor house\". A village staging \"castle\" decorates the manor house by V07 and falls back by §8.2; a \"square\" staging at a village (no root plaza) does likewise.",
+   "required_change": "§8.2's place table carries every village reading V07 §5.1 states, in its rows: `square` \"…; at a village rung the open space that carries the market, else the flanking square, else a street market's frontage by the heart (V07 §5.1)\"; `green` \"…; at a village rung V07's green, else the first nucleus's open space, else the heart\"; `gate`, `gates` \"…; at a village rung the palisade's gate on the through road, else the through road's perimeter entry\"; `castle` \"the castle's bailey; at a village rung the manor house's plot\"; V07 §5.1 then cites §8.2's table for its places and keeps only the village tiers' decoration kinds and the church lane.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAL-R1-12",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "New this round (item 117's parts). V07 §5.1 restates §8.2's season rules with different content. (a) Open leads: V07 keeps \"open water … at the mill race (the wheel pit and the tail race), at the leat's take-off and at springs\" (V07 l. 3208–3210); §8.2's leads are \"a river's stretches whose course falls 2 m per km or more …, each water mill's frontage reach (its weir and race), and a 12 m disc at each spring point and each outfall\" (base l. 12452–12454) — no leat take-off, whose canal (`millpond` kind) therefore freezes. (b) Fallen-leaf cover: V07 lays it on \"the green, the lanes and tracks, the tofts' yards and crofts, the churchyard, the closes and the roofs, gathering at the palisade, hedges and yard walls\" (V07 l. 3216–3218); §8.2 lays it on \"the way bodies of `street` and `lane` classes, green and lawn faces, garden yard parts, churchyard faces, roofs, and still water\", gathering \"within 1 m of a wall line or a kerb\" (base l. 12432–12437) — no tracks, crofts, closes or hedges, and `street` is no class of §2.4's `WayClass` (base l. 1055–1056).",
+   "required_change": "§8.2's *Autumn's covers* names its way classes from §2.4's `WayClass` (\"the way bodies of the `through`, `primary`, `secondary`, `lane`, `alley`, `cul_de_sac` and `track` classes\") and adds the village surfaces V07 §5.1 covers (toft yard parts, crofts and closes; hedges among the lines the cover gathers at); *Water in winter*'s open leads add \"a leat's take-off (its weir)\"; V07 §5.1 then cites §8.2's rows for both instead of restating them, keeping only the village's kinds (which faces are crofts, closes and toft yards; which canal is the leat).",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAL-R1-13",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "New this round. V05 §8's total rose to **18–24.75** pw (V05 l. 2802; it was 17.25–23.25) with items 117, 118, 119 and 120's sky parts in P3 and P6, and V07 §8's to **30.25–42.5** pw (V07 l. 3569; it was 29.75–41.75) with items 119's and 120's village parts, V07 adding \"§16's village line and INDEX §4 carry it\" (V07 l. 3574–3575). §16 still prices M6-sky at \"17.25–23.25 pw\" (base l. 18749) and \"| the sky layer (volume 5) | 17.25–23.25 | V05 §8 |\" (l. 18784), and the village at \"29.75–41.75 pw with V-M0 and V-M2u\", \"items 111 and 113–118 at the village rungs\" (l. 18743) and \"| the village product (volume 7) | 29.75–41.75 | V07 §8 |\" (l. 18786); INDEX's product map has V05 \"17.25–23.25\" (INDEX l. 28) and V07 \"29.75–41.75\" (INDEX l. 30). The build plan disagrees with the volumes it cites.",
+   "required_change": "§16's M6-sky row (l. 18749) and totals row (l. 18784) read 18–24.75; its village row (l. 18743) reads \"items 111 and 113–120 at the village rungs | 30.25–42.5 pw with V-M0 and V-M2u\" and its totals row (l. 18786) 30.25–42.5; §16's grand totals are recomputed once (item 568); INDEX l. 28 reads 18–24.75 and l. 30 30.25–42.5.",
+   "owner": "scope"
+  },
+  {
+   "id": "VAL-R1-14",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Seven references in pipeline's text continue a volume's list with a bare `§x`, which canon S7 reads as the base's section (assemble-r1's `ambiguous-refs.tsv` lists them for the verifier); each base target is unrelated to the subject: l. 5975 \"by V05 §3.2–§3.7\" (base §3.7 is the kernel's booleans); l. 6602 \"(V05 §3.9 (4)–(5), §3.10 (5))\" (base §3.10, kernel invariants); l. 6977 \"(V07 §3.6 (5), §3.10)\"; l. 7311 \"(V07 §2.2, §3.4)\" (base §3.4, kernel operations); l. 14314 \"PLaw and PresenceWhen are V07 §2.2's and §2.4's\" (base §2.4, ways — so `PresenceWhen`'s home, V07 §2.4 l. 803, is misnamed); l. 19424 \"(V05 §3.4–§3.7)\"; l. 20307 \"(V07 §3.0, §3.5)\" (base §3.5).",
+   "required_change": "Each reads with the volume prefix: l. 5975 \"V05 §3.2–V05 §3.7\"; l. 6602 \"(V05 §3.9 (4)–(5), V05 §3.10 (5))\"; l. 6977 \"(V07 §3.6 (5), V07 §3.10)\"; l. 7311 \"(V07 §2.2, V07 §3.4)\"; l. 14314 \"PLaw and PresenceWhen are V07 §2.2's and V07 §2.4's\"; l. 19424 \"(V05 §3.4–V05 §3.7)\"; l. 20307 \"(V07 §3.0, V07 §3.5)\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "G120-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 120 (Find; J133; canon's dated ruling \"File g item 120 routed\": \"model: §2.9 (the per-viewer view key `find` — chips and the gaps switch — outside the document, its hash and the log; kept in view pins)\") is absent: §2.9 has no `find` key (0 matches for `find`, Find or Show gaps in the base), and §2.9's `thematic` still lists `coverage` (base l. 3218–3219), the view item 120 (i) folds into Find's Show gaps. The three volumes of this lane already read the key: V04 §1b.1 l. 301 and §5.1 *Find on Below* (\"§2.9's per-viewer view key `find`\"), V05 §5.6 (\"its state is the per-viewer view key `find` (§2.9: the chips and the gaps switch)\"), V07 §5.5 and W83.",
+   "required_change": "§2.9 declares the per-viewer view key `find` — its chips (each a class, a named institution, an area or a named place, with its colour index and second cue, item 120 (d)) and the Show gaps switch — outside the document, its hash and the edit log, kept across zooms, bands, layers, the year position, epochs and edits, saved in view pins, ended only by Clear or the panel's close (item 120 (a)), its writers V09's Find panel and V10's \"show me\", its readers `live.find`, §8.2's Find rows, §11.1's picture exports, V04 §5.1, V05 §5.6 and V07 §5.5; `thematic` drops `coverage` (Show gaps replaces it, item 120 (i)) with its migration (an older view's `coverage` read as Show gaps on); its lifecycle rows (persist in view pins, untouched by undo, redo, regenerate and migrate).",
+   "owner": "model"
+  },
+  {
+   "id": "G120-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 120's rendering part (canon: \"§8.2 (the veil, halo, outline, pin and count-bubble rows; each chip's colour and second cue); §9.5 (Find among the tools); §11.1 (picture exports …); §11.2 (the gazetteer's class counts and its match listing by class, area and layer, under knowledge admission); §12.5 (the overlay's interaction budget …)\") is absent from §8–§12 (verify-rendering-r1t's G120-rendering). V04 §5.1, V05 §5.6 and V07 §5.5 cite every one of these base parts as their homes (\"§8.2's veil, halo, outline, pin and count-bubble rows\", \"§11.2's gazetteer match listing\", \"§12.5's overlay budget\"), so the volumes' Find parts dangle until they exist.",
+   "required_change": "§8.2 gains the Find rows: the veil (the style's paper colour at α 0.55 over everything not matched), the halo (a soft outer glow in the chip's colour fading over ≈ 8 px inside a 2 px outline, the label kept above the veil), an area chip lifting its area and glowing along its boundary, the city-band pin with the chip's glyph where a plot is under ≈ 6 px, the count bubble merging pins closer than ≈ 24 px — only pins of one layer, and on Sky of one island (V05 §5.6 (2)) —, the ghost pin for a match on another layer or band (V04 §5.1 (2)–(3), V05 §5.6 (3)), Show gaps' dashed outline labelled \"none here\", each chip's colour from the thematic palette with its second cue (pin glyph, halo dash), the colours repeating past eight; §9.5 Find among the tools; §11.1 picture exports draw Find as shown with the chips in the legend, battle-map exports off unless asked; §11.2 the gazetteer's class counts and match listing by class, area and layer at the view's effective key under knowledge admission; §12.5 the overlay budget (suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of the click, base tiles never re-rendered, the index rebuilt once per commit) — each agreeing with V04 §5.1, V05 §5.6 and V07 §5.5's readings.",
+   "owner": "rendering"
+  },
+  {
+   "id": "G121-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 121 (resolution adjuster; J134; canon's ruling \"File g items 121, 122 and 123 routed\": rendering §8.8, §8.4 (g), §12.1, §12.5, §12.8) is absent: §8.8 keeps three hardware tiers and the tile-DPR steps 3 → 2 → 1.5 → 1 (no Resolution setting, no ultra tier, no 4K ceiling, no live Auto loop); 0 matches for \"ultra\" or \"item 121\" in the base.",
+   "required_change": "§8.8 writes the Resolution ladder 3 · 2 · 1.5 · 1 · 0.75 · 0.5 (the two steps below 1 new), the ultra tier (512 MB, tile-DPR cap 3), the live view's 4K ceiling (≈ 8.3 M device px, larger screens scaled up; exports unbound) and the live Auto loop with its settle rule (one step down on a 2 s frame-time p95 over budget, up on 10 s under 60 % with the canvas fitting, applied only when the view settles, at most once per 10 s, a DPR change re-evaluating at once); §8.4 (g) the order of what Auto gives up (lighting detail, then sharpness, then the light pass, then the steps below 1; labels, chrome and every overlay always at the device pixel ratio); §12.1 calibration picking ultra; §12.5 the frame budgets the loop holds; §12.8 memory per tier, ultra included.",
+   "owner": "rendering"
+  },
+  {
+   "id": "G122-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122 (crisis looks; J135; canon: \"model: §2.7 (`ConditionOverlay` read for the look; nothing added to the model)\") is absent: §2.7's `ConditionOverlay` names only item 67's Works share as its reader; 0 matches for \"crisis\" in the base.",
+   "required_change": "§2.7's `ConditionOverlay` comment names its look reader — §8.2's crisis look rows through §7.7's look-kind derivation row, drawn while the overlay stands in the view's week — and states that the look adds no field, record or digest input to the model (item 122 (a)).",
+   "owner": "model"
+  },
+  {
+   "id": "G122-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122's pipeline part (canon: \"§10.2 (the crisis look table: kinds by archetype, scale by severity and tier, placement rules and priorities, the density cap)\") is absent from §10.2 (verify-pipeline-r1t's G122-pipeline).",
+   "required_change": "§10.2 declares the crisis look table's shape and its reading: one row per SettlementForge stressor type and condition archetype (a look kind or an explicit no look, the table closed), the scale by severity and tier (a hamlet a war band's camp, a city a full siege line), the placement rules by place kind (camps beyond ≈ 300 m of the walls, the quarantine camp outside the town, the refugee camp on common or fallow land by the main approach, never on water, a gate's passage or a label's keep-out), the priorities when crises share the outskirts (siege, quarantine, refugees) and the density cap; its rows V11's; read only by §8.2's rows and §11's image exports.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "G122-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122's rendering part (canon: \"§8.2 (the look rows by tier and band; second cues); §11 (exports: pictures draw, battle maps image only); §12.5 (lazy per-tile budget)\") is absent (verify-rendering-r1t's G122-rendering).",
+   "required_change": "§8.2 writes the crisis look rows by tier and band (camps as clusters, the siege line, smoke and the ruined tone at the city band; engines, tents, fences at the district band; marked doors and rubble at the neighbourhood band) with their second cues, the Show crises switch and the preview, knowledge admission of a condition; §11 the exports (pictures draw them, battle maps in the image only, never walls or obstacles); §12.5 the lazy per-tile budget.",
+   "owner": "rendering"
+  },
+  {
+   "id": "G122-V07",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122's village part (canon: \"V07: the village and smaller rungs\") is absent: V07 has no crisis look (0 matches for \"crisis\" or item 122).",
+   "required_change": "V07 writes the crisis looks at THORP, HAMLET and VILLAGE as new design: the village tiers' scale (a war band's camp, a small refugee camp), their places on the village map (the green and commons, the through road's approach, the palisade for a beast attack, the great fields for famine's bare strips, the outlying farms for raiders) read through §10.2's table and §8.2's rows, the hand-over at a village epoch (V06), its edges (no palisade, no green, a THORP with one house), the clerk's line and its bar (T-V7-n), cost and build-plan line.",
+   "owner": "V07"
+  },
+  {
+   "id": "G123-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 123 (a ruined building's floor plans; J136; canon: \"model: §2.6 (step 7: the damage layer over the same plan; the decay level read)\") is absent: §2.6 step 7 has no damage layer or decay level (0 matches for \"damage layer\" or \"decay level\" in the base).",
+   "required_change": "§2.6 step 7 states the damage layer over the same plan — every room, wall, opening and id unchanged — and the decay level (0–1, from the existence state and the years since abandoned, V06) it reads, monotone (a higher level's damage ⊇ a lower's), restoration lowering it, a never-decayed building byte-identical to today's plan.",
+   "owner": "model"
+  },
+  {
+   "id": "G123-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 123's rendering part (canon: \"§8.6 (the damaged plan's drawing); §11.1 (battle maps: fallen wall runs leave line of sight, openings, rubble and holes in the image)\") is absent (verify-rendering-r1t's G123-rendering).",
+   "required_change": "§8.6 draws the damaged plan by the decay level (abandoned, decayed, ruined and restored-with-patches states, every element by its threshold); §11.1's battle-map exports follow the damage (a fallen wall run leaves line of sight, a doorless opening a gap, rubble and floor holes in the image, never invented walls).",
+   "owner": "rendering"
+  },
+  {
+   "id": "G123-V04",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 123's underground part (canon: \"V04: cellars, crypts and underground buildings by their own thresholds\"; item 123 (c): \"cellars and crypts intact or partly collapsed by their own thresholds (a ruined church keeps its crypt)\") is absent from V04 (verify-vol-V03-V04-r1t's G123-V04).",
+   "required_change": "V04 writes how an underground building, a cellar and a crypt take item 123's damage layer: their own keyed thresholds per element, the decay level they read (the building's above, or the void's own state for an underground building), a ruined church keeping its crypt, the drawing in the cut-away and the exports, the bar (T-V4-n) and the lifecycle rows.",
+   "owner": "V04"
+  },
+  {
+   "id": "G124-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 124 (intermittent light weather; J137; canon: \"model: §2.9 (the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover)\") is absent from §2.9 (verify-model-r1t's G124-model).",
+   "required_change": "§2.9 records the Weather effects switch as device state (`AppPrefs`, never the document), the spell in force as session-transient view state (never saved, never hashed), and `weather` kept as the seasonal cover.",
+   "owner": "model"
+  },
+  {
+   "id": "G124-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 124's rendering part (canon: \"§8.2 (the effects' marks per style family); §8.4 (the shower's dimming, fog's scattering and night halos as per-frame light terms; the vector rung's wash); §8.8 (the layer above tiles, below labels and overlays, never in the tile key); §11 (exports leave the effects out); §12.5 (≈ 1 ms per frame …)\") is absent (verify-rendering-r1t's G124-rendering).",
+   "required_change": "§8.2 the effects' marks per family; §8.4 the shower's dimming, fog's scattering and the night halos as per-frame light terms and the vector rung's wash; §8.8 the effects layer above the tiles and below labels and overlays, never in the tile key; §11 exports leave the effects out; §12.5 ≈ 1 ms per frame at the densest spell, first in item 121 (e)'s order.",
+   "owner": "rendering"
+  },
+  {
+   "id": "G122h-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122 (h)–(i) (forces and groups sizing the crisis looks; J138; canon's last ruling: \"pipeline: §10.2 (the area per head, the engine rate, the coalition's spread round the town)\") is absent from §10.2.",
+   "required_change": "§10.2's crisis look table gains the sizing rules: 45 m² a head for an army's or a travelling group's camp (two armies twice the ground), each army of a coalition its own camp spread round the town, siege engines ≈ one per 1 500 besiegers capped by the gates and wall stretches they can face, item 122 (b)'s severity-and-tier scale where the dossier gives no size; the rates V11's cells.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "G122h-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122 (h)–(i)'s rendering part (canon: \"§8.8 (massed camp marks on the surrounding ring for a force too large for frame and margin)\") is absent.",
+   "required_change": "§8.8 draws a force too large for the frame and its margin as massed camp marks on the surrounding ring at the city band, the camps filling the land to the margin, with the full count given by the panel.",
+   "owner": "rendering"
+  },
+  {
+   "id": "G122h-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122 (h)–(i)'s model part (canon: \"§2.9 (the default framing and the widened zoom-out limit as view state while a look stands)\") is absent from §2.9.",
+   "required_change": "§2.9 records the opening view, Fit and item 116's zoom-out limit widened to the town and its camps as view state while a crisis look stands, restored when it ends, a view the user moved never yanked.",
+   "owner": "model"
+  },
+  {
+   "id": "G125-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 125 (the dossier the only data input; J139; canon: \"model: §2.9 (the week's source: the dossier's latest stamped tick, else the user's season control)\") is absent: §2.9's `yearWeek` follows \"§7.7's DR42 (the campaign week mod 52)\" (base l. 3232), and DR42's input is \"`HostContext.week` (the campaign's `calendar.elapsedWeeks`, §14)\" (base l. 11625), the input item 125 retires.",
+   "required_change": "§2.9 states the week's source: the dossier's own latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks) where it carries one, else the user's season control (standalone midsummer) — never `HostContext.week`.",
+   "owner": "model"
+  },
+  {
+   "id": "G125-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 125's rendering part (canon: \"§11.3 and §11.4 (the dossier the only data input; the view commands kept as commands)\") is absent: §11.4 still has the host pass \"the whole dossier and, when it has them, the optional fields of `HostContext` — the week, the realm block, the audience, display names, the product line\" (base l. 15550–15551) as inputs.",
+   "required_change": "§11.3 and §11.4 state the dossier as the port's only data input — `HostContext.week` and `HostContext.realm` retired as inputs, every used field with its standalone fallback — and the embedding API's view commands (a week, a layer, a selection) kept as commands the map never needs.",
+   "owner": "rendering"
+  },
+  {
+   "id": "G125-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 125's pipeline part (canon's \"routing completed\": \"pipeline: §4.11 *The clock* (1)–(2) and `EpochInputs.week` — the dossier-bound map's present week from the dossier's own stamped ticks (item 125 (b)), the `HostContext.week` rung removed\") is absent: *The clock* (1) still reads \"its creation week is the port's `HostContext.week` (§14) or 0\" and (2)'s dating rungs end \"then the week suffix of the change's outcome id, then `HostContext.week`, then none\" (base l. 8087, 8097). (verify-pipeline-r1t's VPC-R1-27 raised the same text before the routing was completed.)",
+   "required_change": "§4.11 *The clock* (1) reads the dossier-bound map's present and creation week from the dossier's own latest stamped tick, else week 0 (standalone 0), and (2)'s dating rungs drop `HostContext.week`; `EpochInputs.week`'s comment follows.",
+   "owner": "pipeline"
+  }
+ ]
+}
