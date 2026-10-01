@@ -5575,3 +5575,38 @@ every suggestion, count, glow and pin.
 * **V10:** the clerk's "show me …" sets the chips (a view action) and says what Find shows
 * **V01:** districts, neighbourhoods, quarters and catchments as area targets and as Show gaps' units
 * **V03:** the rooms an institution uses glow at the interior band; **V04, V05:** matches and ghost pins on Below and Sky; **V07:** the village and smaller rungs; **V12:** bars
+
+## Dated ruling 2026-10-01 (later) — File g items 121, 122 and 123 routed (orchestrator under J122; J134–J136)
+
+The owner's rules 121 (a resolution adjuster: Auto the default, manual levels, the live view up to 4K), 122 (crisis looks: a look
+while a SettlementForge condition lasts, the aftermath through the epoch path) and 123 (a ruined building's floor plans damaged, the
+same plans amended, never redrawn) are routed like items 111–120. 121 is device state and drawing only (never the document or its
+hash; exports unaffected); 122 is a LOOK only (never the model or its hash); 123 changes no plan's identity (a damage layer over the
+same plan, monotone in the decay level). Interaction budgets stay as item 119 (d) sets them.
+
+### g item 121 — every unit named writes its part
+* **rendering:** §8.8 (the Resolution ladder 3 · 2 · 1.5 · 1 · 0.75 · 0.5, the ultra tier 512 MB / cap 3, the 4K live-view ceiling, the live Auto loop and its settle rule); §8.4 (g) (the order of what Auto gives up; labels, chrome and overlays always at the device pixel ratio); §12.1 (calibration picks ultra); §12.5 (the frame budgets the loop holds); §12.8 (memory per tier, ultra included)
+* **scope:** §13.2 (the bars of item 121 (h)); the judgment index row
+* **V09:** Settings › Display › Resolution, `AppPrefs.resolution`, the view-status chip and its why, the message of item 121 (f), its tests
+* **V12:** the bars and how each is measured
+
+### g item 122 — every unit named writes its part
+* **model:** §2.7 (`ConditionOverlay` read for the look; nothing added to the model)
+* **determinism:** §7.7 (the derivation row: every stressor type and condition archetype → its look kind or "no look"; knowledge admission of a condition)
+* **pipeline:** §10.2 (the crisis look table: kinds by archetype, scale by severity and tier, placement rules and priorities, the density cap)
+* **rendering:** §8.2 (the look rows by tier and band; second cues); §11 (exports: pictures draw, battle maps image only); §12.5 (lazy per-tile budget)
+* **scope:** §13.2 (the bars of item 122 (g)); the judgment index row
+* **V08:** every stressor type and archetype and the calamities' targets read at the baseline; the closed mapping
+* **V11:** the look, symbol, scale and placement tables; **V06:** the hand-over (aftermath through the epoch path; the camp at the growth frontier; reconstruction as Works)
+* **V01:** neighbourhoods as disaster targets; the outskirts' common land; **V02:** the ruined look of a disaster's buildings; **V03:** item 123's damage as a look in a disaster's buildings
+* **V07:** the village and smaller rungs; **V09:** Show crises, the preview, the why lines, Find's listing; **V10:** the explanations; **V12:** bars
+
+### g item 123 — every unit named writes its part
+* **model:** §2.6 (step 7: the damage layer over the same plan; the decay level read)
+* **determinism:** §6.3 (one keyed threshold per plan element by lineage and element id; no new ids; monotone in the decay level)
+* **rendering:** §8.6 (the damaged plan's drawing); §11.1 (battle maps: fallen wall runs leave line of sight, openings, rubble and holes in the image)
+* **scope:** §13.2 (the bars of item 123 (f)); the judgment index row
+* **V03:** the damage layer, its drawing at every state (abandoned, decayed, ruined, restored with patches), the plan's exports, the panel lines
+* **V06:** the decay level over time per lineage (existence state, years since abandoned) and restoration; **V02:** the exterior agreeing with the plan's damage
+* **V04:** cellars, crypts and underground buildings by their own thresholds; **V11:** the thresholds' tables by material and element kind
+* **V09:** the panel lines; **V10:** the explanations; **V12:** bars

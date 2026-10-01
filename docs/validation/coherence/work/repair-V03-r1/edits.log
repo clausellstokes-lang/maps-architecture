@@ -52,4 +52,21 @@ VV34-09	### 4.5 The click, the storey switcher and the plan panel — 	count 1
 G120-V03	### 4.5 The click, the storey switcher and the plan panel — 	count 1
 hand-off V10 VV34-07	### 4.6 The clerk's view — plan queries and "why?"	count 1
 G120-V03	### 5.2 Picture exports	count 1
+G120-V03	## 6 Performance budgets	count 1
+VV34-01	## 6 Performance budgets	count 1
+hand-off model VAF-R0S-16	## 7 Tests and acceptance bars	count 1
+hand-off determinism VDC0-11	## 7 Tests and acceptance bars	count 1
+hand-off V10 VV34-07	## 7 Tests and acceptance bars	count 1
+VAF-R0S-12	## 7 Tests and acceptance bars	count 1
+hand-off V11 VAP-21, V12	## 7 Tests and acceptance bars	count 1
+VV34-09	## 7 Tests and acceptance bars	count 1
+VV34-01, G120-V03	## 7 Tests and acceptance bars	count 1
+VV34-01, G120-V03	## 8 Build plan	count 1
+VAF-R0S-28	## 8 Build plan	count 1
+VAF-R0S-18	## 9 Decisions (each vetoable)	count 1
+VV34-01, G120-V03, hand-off model VAF-R0S-16	## 9 Decisions (each vetoable)	count 1
+VV34-01, G120-V03	## 12 CONFIRMED versus PLAUSIBLE	count 1
+VAF-R0S-18	## 13 Fix list	count 1
+VV34-09, G120-V03	## 13 Fix list	count 1
+hand-offs closed	## 13 Fix list	count 1
 G120-V03	APPEND ## 5 Rendering, labels, exports

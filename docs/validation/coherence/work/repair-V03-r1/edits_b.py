@@ -33,7 +33,7 @@ declare function findRooms(plan: Plan, b: Building, target: { kind: 'use'|'subLo
   admitting it only, A2 (6)'s rooms for that use (by its place in A2 (6)'s per-use order);
 * **a sub-location** (a custom service inside its provider, item 104 (h) (5)): the rooms whose `Room.subLocation` it is;
 * **a household** (a person's home through Where is): its unit's rooms (`Room.unit`);
-* **b itself** (a kind chip whose class is b's own and no use's — a farmstead, a mill —, or a named place that is a
+* **b itself** (a kind chip whose class is b's own and no use's — a manor, a town house — or a named place that is a
   building): every room.
 
 A `circulation` room glows for none of them, and the households' rooms — their units (A2 (1), (1′)), shared rooms (A2 (2))
@@ -44,8 +44,8 @@ room glows as its public reading where its public part is used, so no glow outli
 veil at full strength with their labels (V03 §5.1), and §8.2's outline and halo in the chip's colour and dash run along
 the outline of their union — one outline round adjacent rooms, none along the walls between them: the plan's `Wall`s
 whose two sides differ (a room the match uses against another room or the outside), read from its wall records with no
-boolean; the rest of the plan lies under the veil. A room two chips match glows as §8.2 draws a match two chips share. Where the shown storey holds
-none of the match's rooms — they lie on another storey, or the plan holds none (a building of the use's plot it does not
+boolean; the rest of the plan lies under the veil. A room two chips match glows as §8.2 draws a match two chips share.
+Where the shown storey holds none of the match's rooms — they lie on another storey, or the plan holds none (a building of the use's plot it does not
 work in, such as a smith's separate house; an empty plan; a use whose programme rooms the fit ladder dropped, V03 §3.9) —
 the building's outline carries the chip's outline and halo above the veil, the building itself under it, so a match is
 never lost; the storey switcher marks every storey that holds one of the rooms with the chip's glyph, its accessible name
@@ -66,8 +66,8 @@ absent with Find off, so the file then equals the Find-less export; a `.dd2vtt` 
 off unless the export asks for it, and then carries it in the scene's image only, never in its walls, portals or lights;
 the JSON `plan` block, CityJSON and glTF never carry it (a view, never the model).
 
-**(5) Cost** (item 120 (j)). An interaction, not a one-time wait (item 119 (d)): `findRooms` is O(rooms) per drawn plan
-over the stored or cached plan, for at most `view.planCap` plans per view and the clicked ones (V03 §6's Find row), inside
+**(5) Cost** (item 120 (j)). An interaction, not a one-time wait (item 119 (d)): `findRooms` is O(rooms + walls) per drawn
+plan over the stored or cached plan, for at most `view.planCap` plans per view and the clicked ones (V03 §6's Find row), inside
 item 120 (j)'s glow of about 100 ms (§12.5's overlay budget); a chip change redraws no plan tile and rewrites no
 `DisplayDelta` or cache chunk (T-V3-38)."""
 
@@ -148,9 +148,10 @@ def add(E, A):
     E(H45,
       "(`solidMonument`; its crypt\n"
       "  under the crypt line), \"tier 3 cannot be reached: no stair arrives there\" (`W_TIER_UNREACHED`), \"stands on the bridge:\n"
-      "  no cellar and no well\" (a deck),",
+      "  no cellar and no well\" (a deck), \"fell with the bridge\" (or pier, mole, quay) for a building whose deck is ruined or\n",
       "(`solidMonument`; its crypt\n"
-      "  under the crypt line), \"stands on the bridge: no cellar and no well\" (a deck),",
+      "  under the crypt line), \"stands on the bridge: no cellar and no well\" (a deck), \"fell with the bridge\" (or pier, mole,\n"
+      "  quay) for a building whose deck is ruined or\n",
       1, 'VV34-09')
     E(H45,
       "\"built into an arch of the viaduct\" (a grade face). **Room numbers** (J-V3.59):",

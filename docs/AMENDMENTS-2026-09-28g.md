@@ -1105,3 +1105,153 @@ vetoable interpretation.
      entries), V10 (the clerk's "show me" sets the chips), V01 (districts, neighbourhoods, quarters and catchments as area targets and
      gaps), V03 (the rooms an institution uses, at the interior band), V04 and V05 (ghost pins and matches on Below and Sky), V07 (the
      village and smaller rungs), V12 (bars). Applied by the coherence pass like items 111–119 (J133).
+
+121. **OWNER RULE — A resolution adjuster, automatic and manual; Auto the default; the live view up to 4K (owner, 2026-10-01).**
+     Owner: "there needs to be a resolution adjuster both automatic and manual since we are asking to use GPU. I would like for it
+     to go as high as HD or 4k but I'll leave that decision to you. Default should be set to an autoadjustment. What are your
+     thoughts?" / asked to confirm the shape below: "both and the above are yes". **What the design has (CONFIRMED):** §8.8's
+     hardware tiers (low, mid, high), each with a canvas ceiling (72 / 128 / 192 MB) and a tile-DPR cap (1 / 2 / 3); the tile DPR is
+     the device's pixel ratio capped by the tier and stepped down (3 → 2 → 1.5 → 1) until §8.8's canvas need fits; the tier picked
+     once at app start from `bench/calibrate` (§12.1) and the device memory, overridable only in the advanced panel and shown with
+     the tile DPR in the view status (J-R22); §8.4 (g)'s light ladder (the GPU pass at the tile DPR → a half-resolution global term →
+     the vector rung); exports at any DPI (§8.7). By §8.8's formula a native 4K view (3 840 × 2 160 device px, P = 54) needs about
+     169 MB unlit (inside the high tier), about 257 MB lit and about 399 MB at full precision (beyond every tier).
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its numbers our defaults, PLAUSIBLE until M2b's canvas
+     measurement, vetoable under J122):
+     **(a) THE SETTING.** Settings › Display › **Resolution**: **Auto** (the default) · **4K** · **1440p** · **1080p (HD)** · **720p**,
+     device state (`AppPrefs.resolution`), never in the document, its hash or the log; a map opened on another machine takes that
+     machine's setting. A manual level sets the tile DPR d = min(the device pixel ratio, the level's height ÷ the screen's height in
+     CSS px), rounded down to the ladder 3 · 2 · 1.5 · 1 · 0.75 · 0.5 (the two steps below 1 are new: tiles drawn below CSS density
+     and scaled up). Levels above the screen's own resolution are shown greyed ("your screen is 1440p"). The view status shows the
+     level in force ("Auto · 1440p"), its tooltip saying why Auto chose it.
+     **(b) THE CEILING — 4K FOR THE LIVE VIEW (the owner left it to us).** The live view never draws more than the 4K pixel count
+     (3 840 × 2 160 ≈ 8.3 million device px for the whole view); a larger screen (5K, 6K, 8K) draws at the 4K-equivalent tile DPR and
+     is scaled up — invisible at map-viewing distance, at a half to a quarter of the graphics memory. Exports are not bound by it
+     (§8.7's any DPI stands).
+     **(c) A TOP TIER SO 4K IS REAL.** A fourth hardware tier, **ultra** — canvas ceiling 512 MB, tile-DPR cap 3 (under (b)'s
+     ceiling) — chosen at app start by `bench/calibrate` only where the device reports the memory and the benchmark clears the
+     tier's bar, so a strong GPU holds native 4K with the light pass on, at full precision.
+     **(d) AUTO ADJUSTS LIVE.** Beyond the start-up pick, Auto watches frame times: a frame-time p95 over the tier's frame budget
+     (§12.5: 60 fps on the reference and higher tiers, 30 fps on the low tier) through 2 s steps one rung down; a p95 under 60 % of the
+     budget through 10 s, with the canvas need fitting, steps one rung up. A change is applied only when the view settles (§8.8's
+     settle after a gesture), never during a pan, zoom or drag, and at most once every 10 s, so nothing flickers; a change of the
+     device pixel ratio (the window moved to another monitor) re-evaluates at once.
+     **(e) WHAT AUTO GIVES UP, IN ORDER.** The frame rate is protected first; then Auto gives up lighting detail (full precision →
+     the standard surface → §8.4 (g)'s half-resolution global term), then sharpness (the tile-DPR steps down to 1), then the light
+     pass (the vector rung), then the steps below 1. **Labels, text, the chrome and every overlay (the halo of item 120, the
+     handles, the ghost) are always drawn at the device's full pixel ratio**, whatever the level: only the map's painted tiles soften.
+     **(f) A MANUAL CHOICE HOLDS.** Choosing a level turns Auto off; where the device cannot hold that level's canvas need, the view
+     draws the nearest level that fits and says so ("4K needs more graphics memory than this device has; showing 1440p") — never a
+     refusal, never a crash.
+     **(g) EXPORTS ARE UNAFFECTED.** A picture, print or battle-map export is byte-identical whatever the display setting.
+     **(h) BARS.** Auto is the default on a fresh install; no level change during a gesture; at most one change per 10 s on a
+     fixture loaded at its threshold (no oscillation); Auto holds the frame budget's p95 on the reference and low devices over
+     §12.5's reference views; a manual level is honoured or its explanation shown; labels and chrome at the device pixel ratio at
+     every level (a pixel test); exports byte-identical across settings; a pixel-ratio change re-evaluates; native 4K lit at full
+     precision on the ultra tier within its 512 MB.
+     **HOMES:** §8.8 (the setting's ladder, the steps below 1, the ultra tier, the 4K ceiling, the live Auto loop), §8.4 (g) (the
+     order of what Auto gives up), §12.1 (calibration picks ultra), §12.5 (the frame budgets the loop holds; the settle rule),
+     §12.8 (memory per tier, ultra included), §13.2 (bars), the judgment index. Volumes: V09 (Settings › Display, the view-status
+     chip and its why, the message of (f), `AppPrefs.resolution`), V12 (bars and how each is measured). Applied by the coherence pass
+     like items 111–120 (J134).
+
+122. **OWNER RULE — Crisis looks: SettlementForge's stressors and conditions drawn while they last, purely cosmetic (owner,
+     2026-10-01).** Owner: "We have some stressors in settlement forge such as siege, disease outbreak, mass immigration, under famine,
+     beast and raider effect, disaster, etc that could benefit from some cosmetic visuals. for example, for a siege, having some
+     generated military camps and siege apparatuses outside of the settlement, for mass immigration, having something like a bunch of
+     tents in hte outskirts of the city, for disease having a dedicated and segrated area outside of the city for plagued citizens, for
+     disaster, random combination of whole neighborhoods all having a temporary ruined cosmetic state, for famine, if any fields are
+     shown then having them be bare, etc. What do you think?" / asked to confirm the shape below: "both and the above are yes".
+     **What SettlementForge gives (CONFIRMED from research/sf; the full type lists to be read from SettlementForge's code at the
+     pinned baseline, read-only, as every port read is):** `stressors` (fifteen types, fourteen seen in the census), normalised by
+     the port into `conditions[]`; `activeConditions[]` (archetype, severity, status, its tick and duration — war_pressure, famine,
+     plague, regional_migration_pressure, rebellion, occupation, reconstruction, boom, bust, resource_strike, vein_exhausted and the
+     regional_* archetypes); `calamityHistory[]` (type, tick, deaths, exodus, `targets`); the simulator's PLAGUE, REFUGEE_WAVE and
+     RAID_OR_MONSTER_ATTACK events. **What the design has (CONFIRMED):** the port writes each condition on a `ConditionOverlay`
+     (§2.7: archetype, severity 0–1, sinceWeek, untilWeek; no geometry), read today only as item 67's share of buildings in Works;
+     calamities go to V06's hazard phase through `EpochInputs.events` (DR28); item 118's decoration engine (keyed placement, staging
+     by place kind, never over a keep-out or a gate's passage, a look only).
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its defaults vetoable under J122):
+     **(a) A LOOK WHILE IT LASTS; THE AFTERMATH IS REAL.** A crisis look never moves, adds or removes a building, way, wall, plot or
+     water edge and never changes the model or its hash; it is drawn from the `ConditionOverlay`s standing in the view's week (item
+     117's year position, following SettlementForge's calendar). What the crisis LEAVES — deaths, ruined institutions, a burned
+     quarter, settled newcomers — reaches the map only by the existing path (the calamity and the population change into the next
+     epoch, V06's hazard phase and growth), so the look hands over to the real thing: a disaster's ruined look gives way to the Works
+     scaffolding of `reconstruction`; a refugee camp is placed where V06's growth frontier would build, so newcomers who stay become
+     the next epoch's suburb.
+     **(b) THE CLOSED TABLE.** Every SettlementForge stressor type and condition archetype has one row — a look or an explicit "no
+     look" — so nothing falls through; our default looks: **siege** (war_pressure with a siege, the siege stressor) — besiegers' camps
+     beyond bowshot (≈ 300 m from the walls), a line of trenches and earthworks round the town, siege engines facing the gates or the
+     weakest wall stretch (item 114's), burned farmsteads outside; an unwalled place gets blockade camps on its approach roads;
+     **mass immigration** (regional_migration_pressure, REFUGEE_WAVE) — a tent and shanty camp on common or fallow land along the main
+     approach road by a gate, carts and cooking fires, its size by the arrivals; **disease** (plague) — a fenced quarantine camp
+     outside the town with huts and a pest-house, fresh grave rows and smoke, and inside, at the neighbourhood band, marked doors in
+     the affected quarter and a cordon; **famine** — fields bare and withered (overriding item 117's crop stage), empty pens, shuttered
+     market stalls; **beast attack** — torn palisade sections, watch-fires along the edge, stake barricades; **raiders** — burned
+     outlying farms, smoke, abandoned carts, barricaded roads; **disaster** — whole neighbourhoods in a temporary ruined state, the
+     share by severity, the pattern by the disaster: fire spreads through contiguous blocks downwind, flood takes the low ground by
+     the water (the terrain raster), earthquake scatters; the calamity's `targets` win where the dossier names the place hit;
+     **occupation** — foreign banners on gates and keep, a garrison camp; **rebellion** — street barricades; **boom** — scaffolding;
+     **bust** — shuttered shops; the regional_* pressures — no look (nothing physical).
+     **(c) PROCEDURAL AND STABLE.** Every element is placed by rule from the seed, the condition's id and the place (keyed draws, as
+     item 118 (e)), so a crisis looks the same in every view and export; the scale follows severity and tier (a hamlet gets a war
+     band's camp, a city a full siege line); several crises at once share the outskirts by priority (the siege camp, then the
+     quarantine camp, then refugees) under a density cap; never on water, a gate's passage or a label's keep-out.
+     **(d) AT EVERY ZOOM.** The city band shows camps as clusters, the siege line, smoke and the ruined neighbourhoods' tone; the
+     district band adds engines, tents and fences; the neighbourhood band adds marked doors, rubble and detail; item 112's second
+     cues hold. Interiors in a disaster's ruined neighbourhood show item 123's damage as a look while it lasts.
+     **(e) SWITCH, PREVIEW, KNOWLEDGE.** A **Show crises** switch (on by default); a manual crisis preview for maps without a dossier
+     (as item 118 (b)); a condition the viewer's key withholds is not drawn (View as, §11.2's admission).
+     **(f) EXPLAINED, FOUND, EXPORTED.** The "Why?" card and the clerk name the crisis and its weeks ("Refugee camp: the Northmarch
+     migration, weeks 12–20"); Find (item 120) lists the crisis looks; picture exports draw them; battle-map exports draw them in the
+     image only, never as walls or obstacles.
+     **(g) BARS.** The same document hashes identically with crises on and off and in every week; each look shows exactly in its
+     condition's weeks; byte-stable per seed across views and exports; every SettlementForge type and archetype has its row; tier
+     and severity scaling; nothing on water, a gate's passage or a keep-out; with no condition and no preview, byte-identical to the
+     base (no-op pin).
+     **HOMES:** §2.7 (`ConditionOverlay` read for the look; nothing added to the model), §7.7 (the derivation row: every stressor type
+     and archetype → its look kind; knowledge admission), §10.2 (the crisis look table and its placement rules), §8.2 (the look rows by
+     tier and band), §11 (exports), §12.5 (budget: drawn lazily per visible tile), §13.2 (bars). Volumes: V08 (reading every stressor
+     type and archetype and the calamities' targets at the baseline; the closed mapping), V11 (the look, symbol, scale and placement
+     tables), V06 (the hand-over: aftermath through the epoch path; the camp at the growth frontier; reconstruction as Works), V01
+     (neighbourhoods as disaster targets; the outskirts' common land), V02 (the ruined look of a disaster's buildings), V03 (item
+     123's damage as a look inside them), V07 (the village and smaller rungs), V09 (Show crises, the preview, the why lines, Find),
+     V10 (the explanations), V12 (bars). Applied by the coherence pass like items 111–121 (J135).
+
+123. **OWNER RULE — A ruined building's floor plans show its ruin, and are the SAME plans amended, never redrawn (owner,
+     2026-10-01).** Owner: "if you have a buiilding in a ruined state, make sure that hte floor plans generated also have things like
+     dilapiated floors, broken rooms etc. If it was priorly generated, then the same generated floorplans have to be amended rather
+     than redrawn as new. what do you think?" / "both and the above are yes". **What the design has (CONFIRMED):** `Existence`
+     (§2.7: generated · built · altered · converted · abandoned · decayed · ruined · cleared · reused · demolished); V03 §5.1 already
+     draws a `decayed` or `ruined` building's plan as "a drawing of the same plan" — fallen walls as broken ink over rubble stipple,
+     open rooms without labels (§2.6 step 7, §8.6) — uniformly, with no floors, no partial damage and no progression; a collapsed
+     access head drawn as a trace with rubble (V03 §5.3).
+     Program's interpretation (vetoable; decided under J122):
+     **(a) ONE PLAN, DAMAGED.** A building's floor plans are derived once from what it was built as (its built band and era) and
+     never re-derived because it decays: ruin is a damage layer over the same plan — every room, wall, opening and id unchanged
+     (V03 §2.2's identity). A building first met already ruined (generated as a ruin, or reached by item 113's history replay) still
+     gets the plan it had when built, then its damage, so scrubbing history shows one plan aging.
+     **(b) PROGRESSIVE AND MONOTONE.** Each plan element (each wall run, floor area, door, window, stair, roof bay over a room,
+     furniture piece) draws ONE keyed threshold (by lineage and element id); the building's **decay level** (0–1, from its
+     existence state and the years since it was abandoned, V06; timber rotting faster than stone, V11) shows every element whose
+     threshold it has passed. Damage therefore only accumulates as decay goes on and is never relocated: what was broken stays
+     broken in the same place. Restoration (`reused`, a repair) lowers the level and the damage leaves in reverse order, a repaired
+     element drawn in patch material (item 114's patchwork).
+     **(c) WHAT IT LOOKS LIKE.** `abandoned` — dust and debris, broken furniture, doors off their hinges; `decayed` — rotten floor
+     patches and holes, partition walls down, roof holes open to the sky, some rooms marked unsafe; `ruined` — outer walls broken,
+     upper storeys mostly floorless (fragments over the void), rubble heaps, the ground floor the only walkable storey, cellars and
+     crypts intact or partly collapsed by their own thresholds (a ruined church keeps its crypt, V03 §5.1).
+     **(d) INSIDE AND OUTSIDE AGREE.** The building band's exterior (V02) draws the same damage — a roof hole over a room is a hole in
+     the roof seen from above, a broken outer wall a gap in the footprint's outline.
+     **(e) EXPORTS AND PLAY.** Battle-map exports follow the damage: a fallen wall run leaves line-of-sight; a doorless opening is a
+     gap; rubble heaps and floor holes are drawn in the image (never invented as walls); the panel and the clerk say it ("roof fallen
+     in over the hall; the upper floor is gone").
+     **(f) BARS.** Room, wall and opening ids identical between the intact and the damaged plan; damage monotone in the decay level
+     (a higher level's damage ⊇ a lower's, on every element); the same element breaks at the same level for a given seed; restoring
+     reverses it; the exterior agrees with the plan; exports' line of sight follows fallen walls; a building never decayed is
+     byte-identical to today's plan (no-op pin).
+     **HOMES:** §2.6 (step 7: the damage layer on the same plan), §6.3 (the keyed thresholds by lineage and element id; no new ids),
+     §8.6 (drawing), §11.1 (battle-map walls, portals and line of sight), §13.2 (bars). Volumes: V03 (the damage layer, its drawing,
+     the plan's exports, the panel lines), V06 (the decay level over time; restoration), V02 (the exterior agreeing), V04 (cellars,
+     crypts and underground buildings), V11 (the thresholds' tables by material and element kind), V09 (the panel lines), V10 (the
+     explanations), V12 (bars). Applied by the coherence pass like items 111–122 (J136).
