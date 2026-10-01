@@ -7,8 +7,8 @@
 > - P0 resume check (no output, no LANDED line): fresh start — done
 > - P1 brief whole; r2t report and result (6 issues); adjudication-r3 (R3-01 – R3-03, R3-14, R3-25 – R3-27, Part H of every member, scope and V06); assemble-r3 (live sha256 = its "after" column) — done
 > - P2 the 6 round-2 findings re-checked against the live text (with END lines' second ends) — done (6 of 6 fixed)
-> - P3 the round-3 blocks in scope walked whole for new edge problems — pending
-> - P4 owner items 114–119 parts and phone census — pending
+> - P3 the round-3 blocks in scope walked whole for new edge problems — in progress (word diffs read; peers' 13 r3t results read; candidates: support step vs S7's obstacles at generation, a trace near a raised way's foot)
+> - P4 owner items 111–126 parts (mention counts never fall in any member) and phone census (item 126's own lines only) — done
 > - P5 report, result JSON, LANDED — pending
 
 ## Round-2 findings re-checked (P2)

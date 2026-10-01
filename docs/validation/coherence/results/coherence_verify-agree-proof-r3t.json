@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-agree-proof-r3t",
+ "file": "docs/validation/coherence/verify-agree-proof-r3t.md",
+ "issues": [
+  {
+   "id": "VAP-r3-01",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V12",
+   "claim": "Round 3 placed the `disaster` look's districts at M5 (R3-15): §10.2 *Crisis looks*' lead (base l. 15482–15486) 'Until V01's W10 (M5) the `disaster` look draws no district'; §13.8's T122-2, T122-3, T122-5, T122-6 row (l. 19084) 'M3b (the `disaster` look's district clauses from M5)'; §16's M5 exit (l. 19981) names those district clauses; V07's T-V7-69 runs its disaster clause 'at the later of V-M3 and M5'. Volume 12, which takes the four bars (T-V12-54), runs every preview from M3b with no M5 exception: §3.15.12's head (V12 l. 2682) 'from M3b (§16) each look kind previewed … on B-CITY-lite's seeds of every rung', T-V12-54's milestone 'M3b (the previews); M-SF', W7's M3b cell, V12 §6's item-122 row. At M3b a correct build draws the `disaster` preview on no district, so `crisis.scale`'s second count ('every preview among them … whose units differ in number from the count §10.2 (c) gives that share of its place's units', registry l. 1208; §3.15.12's T122-5 bullet) fails it from M3b to M5, and no V12 milestone cell runs the district clauses at M5's exit, where §16 requires them.",
+   "required_change": "V12 §3.15.12's head: 'from M3b (§16) each look kind previewed (`crises` `preview`, at `previewSeverity`) on B-CITY-lite's seeds of every rung, an island town and an unwalled place — the `disaster` preview's district clauses (its units, scale and placement under T122-2, T122-3, T122-5 and T122-6) from M5, when V01's W10 lands (§10.2 *Crisis looks*; §13.8) —; from M-SF …'. T-V12-54's milestone cell: 'M3b (the previews; the `disaster` preview's district clauses from M5); M-SF (the dossier crisis fixtures) (§16)'. W7's M3b cell: 'item 122's previews (the `disaster` preview's districts at M5), its `crisis.*` statistics there and `item122.crises`'; its M5 cell adds 'the `disaster` preview's district clauses of T122-2, T122-3, T122-5 and T122-6'. V12 §6's item-122 row milestone: 'M3b (the previews; the `disaster` look's district clauses from M5); M-SF (the dossier crisis and force fixtures) (§16)'."
+  },
+  {
+   "id": "VAP-r3-02",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V12",
+   "claim": "Round 3 made §13.4's touch fallback a switchable default (VCS-r2-03, graded major): §13.4 (base l. 18640–18641) and V09 §4.12 — `AppPrefs.touch.editFabric` false on a coarse pointer hides T8 `fill`'s and T9 `shape`'s drags — and T126-1 now reads 'every tool of V09 §4.12's list completes its canvas script under touch, with `AppPrefs.touch.editFabric` on' (l. 18456), as T-V9-22 does. Volume 12 measures T126-1 without the setting: the registry row `layout.touch` (V12 l. 1214) 'the tools … whose canvas script fails to complete under touch events', §3.15.16's T126-1 bullet (l. 2807) and T-V12-59 ('`layout.touch` is 0 at 600 × 480'). Once the pre-decided fallback ships, T8's and T9's scripts cannot complete at the coarse-pointer default, so `layout.touch` fails a correct build that T126-1 and T-V9-22 pass.",
+   "required_change": "V12's registry row reads '… the tools of V09 §4.12's list whose canvas script fails to complete under touch events with `AppPrefs.touch.editFabric` on (V09 §4.12; §13.4's fallback changes only its default) …'; §3.15.16's bullet reads '**T126-1, every tool under touch at the medium class** — `layout.touch`: at 600 × 480 CSS px under coarse-pointer touch events, with `AppPrefs.touch.editFabric` on, each tool of V09 §4.12's list completes its canvas script …'; T-V12-59 adds 'with `AppPrefs.touch.editFabric` on' after '`layout.touch` is 0 at 600 × 480'."
+  },
+  {
+   "id": "VAP-r3-03",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V02",
+   "claim": "DR44 now states the tier (R3-13; base l. 11981): a condition is `public` where its map row gives a look, `secret` where it is `none`, and §9.2's admission function admits a `public` row at every tier (l. 14697–14699) — 'a look-bearing condition is therefore never withheld at any key' (R3-13). The disaster's linked condition reads the `calamity` row, which gives `disaster` (V08 §3.16 (7) (b)), so it is `public`. T-V2-60 still stages the impossible key: (e) 'a viewer whose knowledge key withholds the condition sees the look on no building', and the clause round 3 added to (g) 'View as set to a key that withholds the condition, the struck buildings' damage marks re-emitted and the tile redrawn after each'. No fixture can supply that key; a key built to omit the condition finds the look drawn and (e) failing a correct build, or the condition is made withholdable against DR44 — the case R3-13 removed from T-V10-52 (VAH-r2-07, major).",
+   "required_change": "T-V2-60 (e) reads '(e) the disaster's condition, whose map row gives the look and so `public` (§7.7's DR44), draws the look on its units' buildings under View as at `public`, `local` and `secret` alike, and a `none`-row condition carried beside it (an infiltrated stressor) draws no look on any building at any key;'; (g)'s clause reads '… a preview started and ended, and View as changed, the struck buildings' damage marks re-emitted and the tile redrawn after each, the look standing at every key …'. V02 §3.18's edge row 'a condition the view's key withholds → no look' stays (the withheld condition being a `none`-row one)."
+  },
+  {
+   "id": "VAP-r3-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V03",
+   "claim": "As VAP-r3-03, at V03: T-V3-40 (b) (V03 l. 2899) 'each building of a returned district draws its damage at the look's `lookLevel` … and at its own level outside them, after the hand-over (`crisisLookYields`), with Show crises off and at a key that withholds the condition'. The disaster's condition is `public` (DR44; R3-13), so no key withholds it: the clause asks for a fixture that cannot exist, and a key built to omit the condition finds the look drawn and the clause failing a correct build.",
+   "required_change": "T-V3-40 (b) reads '… and at its own level outside them, after the hand-over (`crisisLookYields`) and with Show crises off; under View as at `public`, `local` and `secret` the same drawing, the condition `public` (§7.7's DR44); …'. V03 §5.6 (4)'s and (5)'s general sentences on a withheld condition stand (a `none`-row condition draws no look)."
+  },
+  {
+   "id": "VAP-r3-05",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V04",
+   "claim": "As VAP-r3-03, at V04, in the clause round 3 added: T-V4-82 (i) (V04 l. 3144) '… and at its own level with Show crises off, at a key that withholds the condition, in the weeks outside the condition's and from the week a Works begun on the church hands it over'. The fixture's condition is the `reconstruction` condition linked to a calamity, reading the `calamity` row and so `public` (DR44; V08 §3.16 (7) (b), (e)); no key withholds it.",
+   "required_change": "T-V4-82 (i) reads '… and at its own level with Show crises off, in the weeks outside the condition's and from the week a Works begun on the church hands it over (V06 §3.22 (3)'s `crisisLookYields`; this clause once V06's E2 has landed); under View as at `public`, `local` and `secret` the same drawing, the condition `public` (§7.7's DR44); …'."
+  },
+  {
+   "id": "VAP-r3-06",
+   "severity": "minor",
+   "kind": "HANDOFF-OPEN",
+   "owner": "V06",
+   "claim": "Round 3 gave T114-3 a second clause (VM-R2T-03's END; base l. 18278–18280): on a neglected, poor CITY ring over 20 epochs with a masonry aqueduct through its wall arch and a viaduct on a raised gate, the stretch under each crossing station is never `breached` or `dismantled` while its deck stands. §13.2's item-114 runs list, the take-over table's evolution row and V06 §7's table give T114-1 – T114-5 to T-V6-73, and V06 §3.7.7 (2) carries the rule (l. 1629). T-V6-73 (l. 4140) runs on H-WALLS only, which holds no raised way: no V06 test runs the crossing-station case (repair-r3-scope's HAND-OFF to V06, unwritten). The head claims a clause the body does not run; the base bar states its fixture, so nothing built changes.",
+   "required_change": "T-V6-73 adds, after the welded-stretch clause: '**under a crossing station**: on H-AQUA's ring held neglected and poor over 20 epochs — its masonry aqueduct through the wall arch, its viaduct on a raised gate — the stretch under each crossing station is never `breached` or `dismantled` while its deck stands, every other stretch decaying through `worn` to `breached` (V06 §3.7.7 (2); §2.7's support step (3); T114-3's crossing clause)'; V06 §7's table row for T114-1 – T114-5 adds 'the crossing stations over 20 epochs on H-AQUA'. (Scope's end: §13.8's T114-1 – T114-5 row reads 'the milestone tier over H-100's epochs and H-AQUA's for T114-3's crossing clause'.)"
+  },
+  {
+   "id": "VAP-r3-07",
+   "severity": "minor",
+   "kind": "HANDOFF-OPEN",
+   "owner": "V11",
+   "claim": "R2-09 / R3-26: a volume test restating an owner item's pin states '— the `<pin>` registration of <suite> on V12 §3.7.8's engine (V12 §2.13), written by <seat>', and V12's lists are exactly the union of those clauses. V12 §2.13 lists two V11 suites no V11 clause registers: under `item105.web`, `item107.spread` 'B-CITY (V11)' — V11's restating test is T-V11-21 (l. 4999: 'byte-identical to the base's without item 105 (item 105 (k)'s no-op pin)'; V11 l. 2270 names it so), which states no registration; under `item106.barrier` 'V11's T-V11-19 fixtures' — T-V11-19 (l. 4997) states no pin. V12 §2.13's registration refuses a suite no owner registers.",
+   "required_change": "T-V11-21's last clause ends '… (item 105 (k)'s no-op pin) — the `item105.web` registration of B-CITY's 200 seeds per rung on V12 §3.7.8's engine (V12 §2.13), written by the C2 seat'; T-V11-19 adds '; with `barrier` closure and the stretch profile off, item 106 (h)'s barrier fixtures byte-identical to the base — the `item106.barrier` registration of them on V12 §3.7.8's engine (V12 §2.13), written by the C4a seat (T106-5)'. (V12's end is VAP-r3-08.)"
+  },
+  {
+   "id": "VAP-r3-08",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V12",
+   "claim": "The other end of VAP-r3-07: V12 §2.13's `item105.web`, `item107.spread` suites cell reads 'B-CITY (V11)' with no test id and its `item106.barrier` cell 'V11's T-V11-19 fixtures'; §3.7.8's list (l. 1711–1716) and X-V12-11 (l. 3412) name neither T-V11-21 nor T-V11-19, so the three statements are not the one union R3-26 requires, each suite named by its test id.",
+   "required_change": "§2.13: `item105.web`, `item107.spread`'s cell reads '… B-CITY's 200 seeds per rung (V11, T-V11-21) …' and `item106.barrier`'s '… item 106 (h)'s barrier fixtures (V11, T-V11-19) …'; §3.7.8's list and X-V12-11 read '… V11's T-V11-13, T-V11-19, T-V11-21, T-V11-31 and T-V11-38 (b) – T-V11-41 (b)'."
+  },
+  {
+   "id": "VAP-r3-09",
+   "severity": "minor",
+   "kind": "MATRIX-GAP",
+   "owner": "scope",
+   "claim": "Round 3 gave volume 4 a part of item 122, the disaster look over a storey below 0 (V04 §1.2 l. 152; U5 'the look over a storey below 0'; T-V4-82 (i), 'g item 122 (d)'s look below ground'). The base's lists of item 122's units omit it: §0.2's item-122 row (base l. 261) 'volumes 1, 2, 3, 6, 7, 8, 9, 10, 11 and 12', and §13.2's item-122 runs list (l. 18412–18417), whose volumes that 'test their own parts' (T-V1-60, T-V2-60, T-V8-60, T-V10-52) leave out T-V4-82 (i); V12 §3.15.12's head repeats that list (l. 2679–2682). A list omitting an id the test names: nothing built changes.",
+   "required_change": "§0.2's item-122 row reads '… volumes 1, 2, 3, 4, 6, 7, 8, 9, 10, 11 and 12'; §13.2's item-122 runs list reads '… volume 1's units and land (T-V1-60), volume 2's ruined look, with T122-1 and T122-7's registration (T-V2-60), volume 4's look below ground (T-V4-82 (i)), volume 8's forces (T-V8-60) and volume 10's explanations (T-V10-52) test their own parts'. (V12's end: §3.15.12's head adds V04's T-V4-82 (i) beside V01's T-V1-60.)"
+  },
+  {
+   "id": "VAP-r3-10",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V12",
+   "claim": "Round 3 rewrote T116-4 (VEW-r2-02; base l. 18323–18325): every export frames within the limit bounds (the whole bounds at most), at any window size and with none, and at the METROPOLIS cap a whole-bounds export frames the whole bounds — the stop-0 clause staying in T116-1's view bar only (canon). V12 §3.15.6 (l. 2536–2541) defines the limit as 'the whole bounds inside the limit's view, or the limit at stop 0 where they do not fit' and glosses 'T116-2 – T116-4 (… every export within it)'; read by its own definition an export at the cap is cut to stop 0's extent, the reading T116-4 now excludes. V12 calls these the base's bars, so nothing it builds changes.",
+   "required_change": "V12 §3.15.6's parenthesis reads '(the first view unchanged, the limit moving with the bounds, every export within the limit bounds — the whole bounds at most, a whole-bounds export at the cap framing them, §8.7)'."
+  }
+ ]
+}
