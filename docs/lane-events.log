@@ -3184,3 +3184,4 @@
 2026-10-01 19:25 coherence/verify-edges-life-r5t CHECKPOINT report §1-§3 written (r4: 2 FIXED; r5: 4 major — VEL5-r5-01 pipeline, -02 V08, -03 V08, -04 determinism); next: PROGRESS ledger, result json, LANDED
 2026-10-01 19:26 coherence/verify-edges-life-r5t LANDED docs/validation/coherence/verify-edges-life-r5t.md docs/validation/coherence/results/coherence_verify-edges-life-r5t.json
 2026-10-01 19:27 coherence/orchestrator NOTE verify-edges-life-r5t landed (4: 0 blocker, 4 major, 0 minor; r4t had 2); 2 verify seats still running (scope, agree-time)
+2026-10-01 19:27 coherence/verify-scope-r5t CHECKPOINT inputs read; r4 finding VCS-r4-01 fixed; 10 scope issues + 3 END lines checked on live text; candidates: T76-1 burial-need milestone (minor), T120-6 hand-off (minor), hand carve untested (major), regeneration crossing station untested (major); next: write report
