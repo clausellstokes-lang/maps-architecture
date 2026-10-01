@@ -5660,3 +5660,8 @@ the narrow layout class as a map surface and supersedes the phone clauses of ite
 * **V09:** §2.2's layout classes (narrow retired as a map surface), §4.12 and J-V9.9, the below-medium screen ("This map opens on a tablet or computer" / "Make this window larger to see the map", Send to another device) and its catalogue rows, `refuse.phone`'s row reworded to the screen, item 120's phone sheet and item 124's phone default removed, T-V9-22 (its tablet half kept)
 * **V08:** the host mounts no map on a phone; a frame mounted below the medium class shows V09's screen
 * **V04:** the "phone sheet" mention of item 120 dropped; **V12:** §3.15.10's "phone sheet" and every phone-viewport fixture dropped, the screen's bar added
+
+### g item 126 (a2) — revised (owner, 2026-10-01: "we will simply not have the option of viewing the map in the phone in the first place")
+* **V09:** no phone screen, notice, catalogue row or Send button: the narrow layout class retired; below the medium class the medium layout holds at its 600 × 480 minimum and the page scrolls; `refuse.phone` withdrawn (no tool is ever greyed for a phone); item 120's phone sheet and item 124's phone default removed; T-V9-22 keeps its tablet half
+* **V08:** SettlementForge presents no map entry on a phone; the frame carries no phone handling
+* **scope, V04, V12:** as the item-126 routing above, less any phone screen

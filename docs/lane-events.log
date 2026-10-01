@@ -2340,3 +2340,4 @@
 2026-10-01 05:45 coherence/orchestrator NOTE owner rule 126 (map only on tablets and desktops; no map view on a phone) filed (J140); canon ruling added; routed to repair round 2
 2026-10-01 05:48 coherence/verify-agree-proof-r1t STARTED docs/validation/coherence/verify-agree-proof-r1t.md (opus seat; round-1 agreement re-check across proof and plan — scope and V01–V12 after assemble-r1: round-0 VAP findings re-checked, repair-touched §7/§8/§13/§16/INDEX subsections, g 120-126 F-MISSING; scratch scratchpad/coherence/agp1/)
 2026-10-01 05:49 coherence/orchestrator NOTE verify-agree-proof-r1t had not been launched with the other nineteen (orchestrator's omission); launched now, before round 2's collection
+2026-10-01 05:50 coherence/orchestrator NOTE owner revised item 126: no phone screen at all, the map option never offered on a phone (126 (a2)); canon line added; J140 amended

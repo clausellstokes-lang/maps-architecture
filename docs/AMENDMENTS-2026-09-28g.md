@@ -1403,3 +1403,12 @@ vetoable interpretation.
      sheet and item 124's phone default removed, T-V9-22), V08 (the host mounts no map on a phone; the frame's screen below the
      medium class), V04 and V12 (their "phone sheet" mentions and phone fixtures dropped). Applied by the coherence pass like items
      111–125 (J140); it supersedes the phone clauses of items 120 (j) and 124 (g).
+     **(a2) REVISED — owner, 2026-10-01: "rather, we will simply not have the option of viewing the map in the phone in the first
+     place".** (a)–(c) above are replaced: there is NO phone screen, notice, message or **Send to another device** button — the
+     option to view the map is never offered on a phone. SettlementForge presents no map entry on a phone, and the map product
+     designs nothing for phones: no phone layout, no phone catalogue line, no phone default and no phone test. The narrow layout
+     class is retired. A tablet or desktop window smaller than the medium class (600 × 480 CSS px) keeps the medium layout at that
+     minimum size and the page scrolls — no separate screen, nothing lost or re-generated. (d) stands; (e) reads: no phone layout,
+     screen or catalogue row exists; at the medium class every tool works under touch (T-V9-22's tablet half); below it the medium
+     layout holds at its minimum and the document, view and selection are byte-identical across a resize. HOMES unchanged, less the
+     screen's catalogue rows.
