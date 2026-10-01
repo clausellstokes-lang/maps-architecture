@@ -1,0 +1,284 @@
+[
+{
+"where": "010-damage-plan.patch:5",
+"file": "8.6.md",
+"old_w": 82,
+"new_w": 132
+},
+{
+"where": "010-damage-plan.patch:19",
+"file": "8.6.md",
+"old_w": 117,
+"new_w": 220
+},
+{
+"where": "020-battle-maps.patch:6",
+"file": "11.1.md",
+"old_w": 40,
+"new_w": 65
+},
+{
+"where": "020-battle-maps.patch:15",
+"file": "11.1.md",
+"old_w": 33,
+"new_w": 40
+},
+{
+"where": "020-battle-maps.patch:23",
+"file": "11.1.md",
+"old_w": 159,
+"new_w": 236
+},
+{
+"where": "020-battle-maps.patch:47",
+"file": "11.1.md",
+"old_w": 75,
+"new_w": 57
+},
+{
+"where": "030-api.patch:5",
+"file": "11.2.md",
+"old_w": 48,
+"new_w": 49
+},
+{
+"where": "030-api.patch:10",
+"file": "11.2.md",
+"old_w": 9,
+"new_w": 679
+},
+{
+"where": "030-api.patch:50",
+"file": "11.2.md",
+"old_w": 52,
+"new_w": 95
+},
+{
+"where": "030-api.patch:61",
+"file": "11.2.md",
+"old_w": 143,
+"new_w": 138
+},
+{
+"where": "030-api.patch:75",
+"file": "11.2.md",
+"old_w": 39,
+"new_w": 294
+},
+{
+"where": "030-api.patch:93",
+"file": "11.2.md",
+"old_w": 18,
+"new_w": 21
+},
+{
+"where": "030-api.patch:98",
+"file": "11.2.md",
+"old_w": 48,
+"new_w": 49
+},
+{
+"where": "030-api.patch:107",
+"file": "11.2.md",
+"old_w": 19,
+"new_w": 39
+},
+{
+"where": "030-api.patch:113",
+"file": "11.2.md",
+"old_w": 35,
+"new_w": 120
+},
+{
+"where": "030-api.patch:126",
+"file": "11.2.md",
+"old_w": 14,
+"new_w": 32
+},
+{
+"where": "040-host.patch:6",
+"file": "11.3.md",
+"old_w": 30,
+"new_w": 37
+},
+{
+"where": "040-host.patch:14",
+"file": "11.3.md",
+"old_w": 38,
+"new_w": 90
+},
+{
+"where": "040-host.patch:25",
+"file": "11.4.md",
+"old_w": 55,
+"new_w": 52
+},
+{
+"where": "040-host.patch:35",
+"file": "11.6.md",
+"old_w": 37,
+"new_w": 48
+},
+{
+"where": "050-crisis.patch:7",
+"file": "8.2.md",
+"old_w": 21,
+"new_w": 25
+},
+{
+"where": "050-crisis.patch:12",
+"file": "8.2.md",
+"old_w": 49,
+"new_w": 52
+},
+{
+"where": "050-crisis.patch:19",
+"file": "8.2.md",
+"old_w": 110,
+"new_w": 226
+},
+{
+"where": "050-crisis.patch:40",
+"file": "8.2.md",
+"old_w": 79,
+"new_w": 116
+},
+{
+"where": "050-crisis.patch:53",
+"file": "8.2.md",
+"old_w": 97,
+"new_w": 151
+},
+{
+"where": "050-crisis.patch:69",
+"file": "8.2.md",
+"old_w": 28,
+"new_w": 43
+},
+{
+"where": "050-crisis.patch:74",
+"file": "8.2.md",
+"old_w": 41,
+"new_w": 47
+},
+{
+"where": "050-crisis.patch:83",
+"file": "9.5.md",
+"old_w": 41,
+"new_w": 54
+},
+{
+"where": "060-find.patch:5",
+"file": "8.2.md",
+"old_w": 167,
+"new_w": 241
+},
+{
+"where": "060-find.patch:29",
+"file": "8.2.md",
+"old_w": 86,
+"new_w": 105
+},
+{
+"where": "070-weather.patch:4",
+"file": "8.2.md",
+"old_w": 42,
+"new_w": 52
+},
+{
+"where": "070-weather.patch:13",
+"file": "8.8.md",
+"old_w": 24,
+"new_w": 88
+},
+{
+"where": "070-weather.patch:23",
+"file": "8.4.md",
+"old_w": 25,
+"new_w": 37
+},
+{
+"where": "080-resolution.patch:5",
+"file": "8.4.md",
+"old_w": 44,
+"new_w": 133
+},
+{
+"where": "080-resolution.patch:18",
+"file": "8.8.md",
+"old_w": 150,
+"new_w": 174
+},
+{
+"where": "080-resolution.patch:36",
+"file": "8.8.md",
+"old_w": 136,
+"new_w": 170
+},
+{
+"where": "080-resolution.patch:52",
+"file": "8.8.md",
+"old_w": 76,
+"new_w": 104
+},
+{
+"where": "080-resolution.patch:63",
+"file": "8.8.md",
+"old_w": 17,
+"new_w": 27
+},
+{
+"where": "080-resolution.patch:69",
+"file": "8.8.md",
+"old_w": 110,
+"new_w": 168
+},
+{
+"where": "080-resolution.patch:85",
+"file": "8.8.md",
+"old_w": 23,
+"new_w": 35
+},
+{
+"where": "090-tilekey.patch:4",
+"file": "8.8.md",
+"old_w": 45,
+"new_w": 64
+},
+{
+"where": "090-tilekey.patch:13",
+"file": "8.1.md",
+"old_w": 42,
+"new_w": 56
+},
+{
+"where": "100-tests.patch:5",
+"file": "8.11.md",
+"old_w": 145,
+"new_w": 243
+},
+{
+"where": "100-tests.patch:10",
+"file": "8.11.md",
+"old_w": 202,
+"new_w": 321
+},
+{
+"where": "100-tests.patch:15",
+"file": "8.11.md",
+"old_w": 197,
+"new_w": 496
+},
+{
+"where": "100-tests.patch:20",
+"file": "8.11.md",
+"old_w": 150,
+"new_w": 230
+},
+{
+"where": "100-tests.patch:25",
+"file": "8.11.md",
+"old_w": 120,
+"new_w": 172
+}
+]

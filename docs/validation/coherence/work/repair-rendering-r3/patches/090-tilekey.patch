@@ -1,0 +1,20 @@
+# VV12-r2-06 (2)–(3): a tile holding a building under a disaster look is keyed by `crises` and the effective knowledge key
+# (V02 §5.7 (8)); a change of the drawn week re-emits the buildings whose damage marks differ (V02 §5.7; §8.6).
+@@ FILE 8.8.md
+<<<<
+  rows) or a light whose host is either (§8.1 item 7), the drawn week where the tile holds a Works mark (§8.1
+  item 7) or a building drawn under item 123's damage layer, whose decay level is read at it (§2.6 step 7; §8.6), the
+====
+  rows) or a light whose host is either (§8.1 item 7), the drawn week where the tile holds a Works mark (§8.1
+  item 7) or a building drawn under item 123's damage layer, whose decay level is read at it (§2.6 step 7; §8.6), and
+  `crises` and the effective knowledge key where it holds a building under a disaster look (V02 §5.7 (8)), the
+>>>>
+@@ FILE 8.1.md
+<<<<
+   { week }`, a scrub — the generation worker re-emits, as a `DisplayDelta`, only the marks of the targets whose stage or
+   heights differ between the two weeks and of the lights whose lit bit changes (O(changed Works)); no digest moves (§6.2).
+====
+   { week }`, a scrub — the generation worker re-emits, as a `DisplayDelta`, only the marks of the targets whose stage or
+   heights differ between the two weeks, of the buildings whose damage marks differ between them (V02 §5.7; §8.6) and of
+   the lights whose lit bit changes (O(changed Works and damage)); no digest moves (§6.2).
+>>>>

@@ -1,0 +1,90 @@
+# Item 121. VRC2T-05 (the standard surface no lawful rung on a tier that holds full precision; the worked cases re-run:
+# coh_repair_rendering_r3_resolution.out); VRC2T-08 (an idle view is settled: Auto's change and a DPR change applied at
+# once while no gesture runs).
+@@ FILE 8.4.md
+<<<<
+  steps down to DPR 1, §8.8), then the light pass (rung 3), then the tile DPR's last two steps (0.75, then 0.5), and
+  takes them back in reverse; §8.8's fitting of the canvas need follows this order too. Labels, text, the chrome and every
+====
+  steps down to DPR 1, §8.8), then the light pass (rung 3), then the tile DPR's last two steps (0.75, then 0.5), and
+  takes them back in reverse; §8.8's fitting of the canvas need follows this order too. **On a tier that holds full
+  precision** — one whose GPU pass misses §13.4's tolerance on the standard surface (below), the only tiers that hold
+  it — the standard surface is no lawful rung: Auto's loop, a manual level and §8.8's fitting pass over that step as
+  over a step that frees nothing, lighting detail going from rung 1 to rung 2's half-resolution global term at full
+  precision, then sharpness and the light pass as above, so no lit frame outside §13.4's tolerance is drawn on any tier
+  (T-ER-26). Labels, text, the chrome and every
+>>>>
+@@ FILE 8.8.md
+<<<<
+  order, until it fits: the weather effects (their coverage plane and atlas), full precision (to the standard surface),
+  the tile DPR's steps toward 1 (from 3, then 2, then 1.5, to 1), a
+  step whose positions number as many as the step below it being passed over —, the light pass (the vector rung, at DPR 1),
+  then the two steps under 1 (0.75, then 0.5); under a manual level the level's DPR is kept until nothing else is left, then the
+  nearest lower step that fits is drawn and said (below). Where no step down to 0.5 fits beside the text layer at D, the
+  text layer itself steps down the ladder, the order rerun at each of its steps, and the view status says so — never a
+  refusal. With D = d this is J-A68.89's step-down with full precision given up first. Path-mode shadow layers are used
+====
+  order, until it fits: the weather effects (their coverage plane and atlas); full precision to the standard surface —
+  passed over, as a step that frees nothing, on a tier that holds full precision, which never draws the standard
+  surface (§8.4 (g)) —; the tile DPR's steps toward 1 (from 3, then 2, then 1.5, to 1), a step whose positions number as
+  many as the step below it being passed over; the light pass (the vector rung, at DPR 1); then the two steps under 1
+  (0.75, then 0.5); under a manual level the level's DPR is kept until nothing else is left, then the nearest lower step
+  that fits is drawn and said (below). Where no step down to 0.5 fits beside the text layer at D, the text layer itself
+  steps down the ladder, the order rerun at each of its steps, and the view status says so — never a refusal. With D = d
+  this is J-A68.89's step-down on the surface the tier holds. Path-mode shadow layers are used
+>>>>
+<<<<
+  and at 1 920 × 1 080 (P = 20, 92 + 12.75 = 104.75 MB) draws the vector rung; a tier that took full precision gives it up
+  first: the reference view is lit on the standard surface at DPR 2 on the high tier (172.75 MB, where full precision would
+  need 234.5 + 34 = 268.5 MB) and at DPR 1 on the mid tier (103.75 MB), the low-end device at 1 366 × 768 on the
+  standard surface at DPR 1 (68.75 MB, where full precision's 85 + 21.5 = 106.5 MB drew the vector rung before), and the
+  ultra tier keeps full precision for the reference view (268.5 MB) as the mid and high tiers do for a 1 366 × 768 view
+  at DPR 1 (106.5 MB). The ultra tier holds
+====
+  and at 1 920 × 1 080 (P = 20, 92 + 12.75 = 104.75 MB) draws the vector rung; a tier that holds full precision never
+  draws the standard surface (`coh_repair_rendering_r3_resolution.out`): its reference view is lit at full precision at
+  DPR 1 with its text layer on the high tier (P = 12, 85 + 21.5 = 106.5 MB, + 35 = 141.5 MB, where DPR 2 needs
+  234.5 + 34 = 268.5 MB and DPR 1.5 191.5 + 35 = 226.5 MB) and draws the vector rung at DPR 1 with its text layer on
+  the mid tier (43 + 35 = 78 MB); the low-end device at 1 366 × 768 draws the vector rung (43 MB; full precision's
+  85 + 21.5 = 106.5 MB does not fit); and the ultra tier keeps full precision for the reference view at DPR 2
+  (268.5 MB) as the mid and high tiers do for a 1 366 × 768 view at DPR 1 (106.5 MB). The ultra tier holds
+>>>>
+<<<<
+  8K screen (3 840 × 2 160 CSS px at D = 2) on the ultra tier lit at DPR 1 with its text layer at 2 (P_D = 160) in 416.08 MB,
+  and on the high tier with its text layer stepped to 1.5 (104 MB) over tiles at 0.5 in 171 MB (all PLAUSIBLE until M2b's
+  canvas measurement and M4's, §12.8). These formulae and cases are the canvas need's one statement; §12.8 cites them.
+====
+  8K screen (3 840 × 2 160 CSS px at D = 2) on the ultra tier lit at DPR 1 with its text layer at 2 (P_D = 160) in 416.08 MB,
+  and on the high tier with its text layer stepped to 1.5 (104 MB) over tiles at 0.5 in 171 MB (an ultra tier that holds
+  full precision drawing the 5K screen at full precision in 475.17 MB and the 8K screen on the vector rung in 329 MB; all
+  PLAUSIBLE until M2b's canvas measurement and M4's, §12.8). These formulae and cases are the canvas need's one
+  statement; §12.8 cites them.
+>>>>
+<<<<
+  the **Auto loop** over **Auto's ladder** — the weather effects; full precision; rung 1's full-resolution global term
+====
+  the **Auto loop** over **Auto's ladder** — the weather effects; full precision (passed over on a tier that holds it,
+  §8.4 (g)); rung 1's full-resolution global term
+>>>>
+<<<<
+  it through 10 s, with the canvas need of the rung above fitting, steps one rung up. A change is applied only when the
+  view settles (*Gestures*, below) — never during a pan, zoom or drag — and at most once in 10 s, and a rung the loop left
+  downward is taken again only after 60 s, doubling each time it is left again (our own; calibratable), so a load at a
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once, applied at the next settle (T121-7). Each change and its reason — `screen` (the screen's resolution caps
+====
+  it through 10 s, with the canvas need of the rung above fitting, steps one rung up. A change is applied only while the
+  view is settled — never during a pan, zoom or drag: a view with no gesture running is settled, so a change the loop
+  decides while the view is idle (a weather spell or a moving sun loading an idle view, item 124 (b)) is applied at once,
+  and one decided during a gesture at its settle (*Gestures*, below) — at most once in 10 s, and a rung the loop left
+  downward is taken again only after 60 s, doubling each time it is left again (our own; calibratable), so a load at a
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once and is applied at once while the view is idle, at the settle while a gesture runs (T121-7). Each change and
+  its reason — `screen` (the screen's resolution caps
+>>>>
+<<<<
+  stops the view animates (≤ 150 ms) to the nearest stop — the **settle**, at which Auto's changes apply — and the tile
+====
+  stops the view animates (≤ 150 ms) to the nearest stop — the **settle**, at which the Auto changes decided during the
+  gesture apply (an idle view is settled already, above) — and the tile
+>>>>
