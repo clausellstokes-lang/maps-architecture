@@ -46,7 +46,7 @@ second ends: T110-2's frame-growth clause (l. 18469–18470) and T-V4-65's at-ep
 ## 2. Round-5 blocks in §2 re-checked
 
 * **R5-02's binding texts against the live text.** A word-level comparison of R5-02's "(6) … (7) …" (adjudication-r5
-  l. 236–288) with the live (6)–(7) (l. 2576–2628; scratch `vm5/cmp.py`) finds exactly the repair's three declared
+  l. 232–281) with the live (6)–(7) (l. 2576–2628; scratch `vm5/cmp.py`) finds exactly the repair's three declared
   differences: (1) "placed by (1)–(5) at the commit … each span's `use` ruled once by the span rule (below)" for "placed
   by (1)–(5) and the span rule at the commit" — agrees with *The span rule*'s one eager time, P1's "its one eager run,
   after §4.6's cut" and P2; (2) the ladder list names "for a stage-2 seed's way" and "§4.8's lead for S7's" — both homes
