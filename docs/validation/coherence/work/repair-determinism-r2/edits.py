@@ -178,7 +178,9 @@ E(H71,
   "**The dry run's outcomes** (E-07; the one home of every refusal, conflict and bend cause; §5.2's F-EDIT row cites it).\n"
   "A declaration is **refused** only where it contradicts a dossier fact or a lock (item 101 R2), or where an availability\n"
   "gate stops it — an assignment's bounds, a dependent later change, the role, a staged layer, the rung (J-VI.4, J-VI.30);\n"
-  "every other infeasible declaration is **bent**",
+  "every other infeasible declaration is **bent** to the nearest lawful one, which the dry run names in one line, the former\n"
+  "offer becoming the bend or its first alternative; the other rows are **conflicts** returned with their actions, or\n"
+  "**confirmations**. Each outcome carries its catalogue key (V09 §4.9) as a `MsgRef` (§5.2 F-EDIT).",
   "**The dry run's outcomes** (E-07; the one home of every refusal, conflict and bend cause of a dry run; §5.2's F-EDIT\n"
   "row cites it. The gates outside a dry run — §11.1's export tier, §11.2's `advance` on a dossier-bound document (V06\n"
   "§2.3), the shell's layer gate (V09 §4.2), V09 §3.9's restore and V10 §3.16's harness and model refusals — are their own\n"
@@ -186,7 +188,10 @@ E(H71,
   "(item 101 R2), or where an availability gate stops it — an assignment's bounds, a dependent later change, the role, a\n"
   "staged layer, the rung (J-VI.4, J-VI.30) —, or where the input has no lawful form to bend to — a table edit's dangling\n"
   "reference, type error or required row (V11 §4.1), a host provider's output past §2.9's cap, an edit of a device-only\n"
-  "table (V10 §2.10), an `epoch` past §6.1's epoch cap; every other infeasible declaration is **bent**",
+  "table (V10 §2.10), an `epoch` past §6.1's epoch cap; every other infeasible declaration is **bent** to the nearest\n"
+  "lawful one, which the dry run names in one line, the former offer becoming the bend or its first alternative; the\n"
+  "other rows are **conflicts** returned with their actions, or **confirmations**. Each outcome carries its catalogue key\n"
+  "(V09 §4.9) as a `MsgRef` (§5.2 F-EDIT).",
   'VAH-r1-06 (R2-21 (a))', 'VDC1-02 (R2-21 (b))')
 E(H71,
   "| new water reaching a reservation (§7.3 (b) 3) | conflict | Re-derive from S3 | `refuse.water` |",
@@ -254,7 +259,7 @@ E(H77,
 E(H77,
   "relationship?: string /* the dossier's word for the neighbour relation */; source: 'dossier'|'derived'|'realm' }",
   "relationship?: string /* the dossier's word for the neighbour relation */;\n"
-  "  source: 'dossier'|'derived' /* a document written before item 125 that holds 'realm' reads 'dossier', its bearing kept (§7.5's schema chain) */ }",
+  "  source: 'dossier'|'derived' /* an older schema's stored 'realm' reads 'dossier', its bearing kept (§7.5's schema chain; item 125) */ }",
   'G125-determinism (R2-40 (2))')
 # precedence: a fall the unlocked households cannot meet; the fixture line (R2-18 (b), (d))
 E(H77,
@@ -281,7 +286,7 @@ E(H77,
   "   required one beyond what the dossier holds today (J-A20.79). The port reads a custom institution's dossier record —\n"
   "   `source: 'custom'`, its `localUid`, category, tags, description, `required` and scene tokens — and, when the host\n"
   "   supplies them, the library's definition fields as such optional inputs (`HostContext.customLibrary`; item 104 (a)\n"
-  "   (5)).",
+  "   (5)). **What the port never reads** (item 86; J-A86.71), by reason — the paths are V08 §2.4's field table, the",
   "   and neither the doors (§11.4) nor the port takes a data input beyond the dossier (item 125 (a); J-A20.79):\n"
   "   `HostContext` (§14) carries no fact — its `audience`, `displayNames` and `line` change no document a dossier makes —\n"
   "   and the host's view commands (a week, the layers shown, a selection; §11.2, §11.3) are commands, never inputs, which\n"
@@ -289,34 +294,38 @@ E(H77,
   "   `localUid`, category, tags, description, `required` and scene tokens — and the library's definition fields only\n"
   "   where the dossier itself carries them, in its `customContentRoster` and `customContentProvenance` entries (item 104\n"
   "   (a) (5)'s \"when the port receives them\", received only through the dossier); without them item 104's generic\n"
-  "   siting supplies what they would, the absence reported — `HostContext.customLibrary` is no input (item 125 (a), (e)).",
+  "   siting supplies what they would, the absence reported — `HostContext.customLibrary` is no input (item 125 (a),\n"
+  "   (e)). **What the port never reads** (item 86; J-A86.71), by reason — the paths are V08 §2.4's field table, the",
   'G125-determinism (R2-40 (2))')
 E(H77,
   "(3)). The owner's rules made two formerly ignored parts inputs: the defence readiness (`defenseProfile.readiness`\n"
   "   alone; item 114, V08 §3.16 (2)) and the traditions with the custom-content traditions bucket (item 118, V08 §3.16\n"
-  "   (5)).",
-  "(3)). Two parts are read by the owner's rules: the defence readiness (`defenseProfile.readiness` alone; item 114,\n"
-  "   V08 §3.16 (2)) and the traditions with the custom-content traditions bucket (item 118, V08 §3.16 (5)).",
-  'VDC1-10')
-E(H77,
+  "   (5)). **The closed-digest rule** (W-DOS-01a): inside a record the port reads, a field no `DossierDigest` field names is\n"
   "   not read. The optional realm block (§14) is\n"
   "   computed by the host glue from the campaign's placements of the settlement and its partners, the realm map's scale and\n"
   "   latitude scale and the frozen `spatialDigest`; the module receives only its bearings, distances, cell words and\n"
-  "   latitude (item 396).",
-  "   not read. Nothing of the campaign beyond the dossier is read — its placements of the settlement and its partners, the\n"
+  "   latitude (item 396). The adapter reports every key it dropped (`ignored_key`, §14). The reasons: a host's own map\n",
+  "(3)). Two parts are read by the owner's rules: the defence readiness (`defenseProfile.readiness` alone; item 114,\n"
+  "   V08 §3.16 (2)) and the traditions with the custom-content traditions bucket (item 118, V08 §3.16 (5)). **The\n"
+  "   closed-digest rule** (W-DOS-01a): inside a record the port reads, a field no `DossierDigest` field names is not\n"
+  "   read. Nothing of the campaign beyond the dossier is read — its placements of the settlement and its partners, the\n"
   "   realm map, its scale and latitude scale, the frozen `spatialDigest` (item 125 (a); item 396's realm block is no\n"
   "   input): the bearings, latitude and cell words they would give are the dossier's where it carries them, else the\n"
-  "   generator's defaults or the user's settings (DR1, DR3, DR19, DR29, DR42).",
-  'G125-determinism (R2-40 (2))')
+  "   generator's defaults or the user's settings (DR1, DR3, DR19, DR29, DR42). The adapter reports every key it dropped\n"
+  "   (`ignored_key`, §14). The reasons: a host's own map\n",
+  'VDC1-10', 'G125-determinism (R2-40 (2))')
 # item 10: the input order and the DR-range sentence
 E(H77,
   "A row's inputs are read in the order written — a host's optional input when\n"
   "   present (`HostContext`, §14), then the dossier's, then the blueprint's own — and when none is present the rule's\n"
-  "   default applies; a missing input never becomes a request (§7.7 item 1).",
+  "   default applies; a missing input never becomes a request (§7.7 item 1). Standalone, the blueprint and our own roster\n"
+  "   are the inputs of every row — the same rows, so connecting a dossier changes inputs, not rules; the tests run the rows\n",
   "A row's inputs are read in the order written — the dossier's, then the\n"
   "   blueprint's own; no host input is a data input (item 125 (a)) — and when none is present the rule's default applies,\n"
   "   the generator's own choice exactly as on a map made without a dossier, reported with the fallback taken (item 125\n"
-  "   (b); T125-1); a missing input never refuses, stalls or becomes a request (§7.7 item 1).",
+  "   (b); T125-1); a missing input never refuses, stalls or becomes a request (§7.7 item 1). Standalone, the blueprint\n"
+  "   and our own roster are the inputs of every row — the same rows, so connecting a dossier changes inputs, not rules;\n"
+  "   the tests run the rows\n",
   'G125-determinism (R2-40 (3))')
 E(H77,
   "and DR41–DR43 the item-114, item-117 and item-118\n"
@@ -408,3 +417,16 @@ E(H77,
   "look shows exactly in its condition's weeks (T122-2); every SettlementForge stressor type and condition archetype at "
   "the baseline has its `map` row (T122-4) |\n",
   'G122-determinism (R2-37 (3), R2-11)')
+
+# ───────────────────────────── §6.2 ─────────────────────────────
+E(H62,
+  "  never stored, logged or hashed (item 68), and an underlay image (§9.5, item 101) is view state the model never reads.\n",
+  "  never stored, logged or hashed (item 68), and an underlay image (§9.5, item 101) is view state the model never reads;\n"
+  "* no session seed — the weather timeline's (§6.1 *The weather stream*) feeds only the view's effects layer, never the\n"
+  "  model, a tile or an export (item 124).\n",
+  'G124-determinism (R2-39 (d))')
+E(H62,
+  "two renders of one model are pixel-identical at a given\nbackend, DPR and style version.",
+  "two renders of one model are pixel-identical at a given\nbackend, DPR and style version — every tile and export; the "
+  "weather effects drawn over the tiles follow the session's own\nstream (§6.1) and a light's flicker the view's time (§8.4).",
+  'G124-determinism (R2-39 (d))')

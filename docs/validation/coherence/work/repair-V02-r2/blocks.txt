@@ -768,6 +768,61 @@ no, roofKinds the kinds of `TierCells.shrine.roofs` (default `hip` 1, `pyramid` 
    else.
 === END ===
 
+=== REPLACE ### 3.8 The `rooms` rung — the composer's principal rooms ===
+### 3.8 The `rooms` rung — the composer's principal rooms
+
+Derived only as the plan rung's input — on the click that derives the plan, `compose(…, 'rooms')` after `wings` —
+and never alone under `elaborate: 'view'` (J-V2.9), because nothing but the plan draws them. Each room is a `Room`
+(§2.6) with its storey, its composed wing's **base key** (a tower's room its tower wing's key; item 225) and a role the
+room programme rows name (V03 owns those rows; these four roles must exist in them). All rooms lie inside one seed
+piece at their storey (the stage-3 contract): each avoids every tower ring (a room that would meet one is shortened away
+from it, else omitted) and keeps `attractCm` from every side it does not share.
+
+**The rung reads the occupants, not the shell (item 28 (f); J-V2.36).** Its `rooms` cells are read at the occupants'
+band (V02 §3.2 step 3), and its recorded inputs include the occupants' band row and the household count (item 261), so a
+band change or a re-division marks it stale and the plan's re-cut starts from the rooms the new band admits (a
+building's decline excepted, V02 §3.11). The **hall
+and the chapel are emitted only** where the interior-ladder row at the occupants' band gives the unit form `house` (one
+household holds the building, §2.6's interior ladder), or where the class is an institution whose programme row names a
+hall (an inn's common room, a guild or town hall's hall, a market hall's upper hall, a barracks' mess): a rich manor
+whose occupants fall to the poor band has no hall ring, and its main range divides into the units the ladder asks
+(T-V2-35); returning to the rich band restores the as-built rooms exactly (the canonical chain). **The gate hall and the
+tower rooms are shell and circulation rooms and stay at every band.**
+
+1. **Hall** (the row's `rooms.hall` under the rule above): in the `main` wing — for a closed family the range opposite the
+   gate (M5) — from eave side to eave side, length `U(hallLenShare) ×` the wing's length along its ridge, clamped to
+   `[1.4w, length − 2 m]` and then **to the programme's area**: its area is clamped into the class programme's `hall` row
+   `[min, max]` × the interior-ladder row's `sizeFactor` at the occupants' band, by shortening its length, never its width (which runs eave to eave) —
+   where a `RoomProgramRow` with a `hall` rule is loaded for the class (V03's rows, shipped by V03's P1 in the stream
+   after M4, J122); where none is — a class whose programme names no hall, or a build in which P1 has not shipped its
+   rows — the clamp `[1.4w, length − 2 m]` alone, reported per building (`hallUnclamped`; J-V2.95). **Its low end** is the door it is entered by: the main entrance where that lies on the `main`
+   wing — the hall's low end at `door offset − hallDoorBackM` (1.5 m; the entrance opens into the hall's low end, the
+   cross-passage bay), clamped inside the wing; otherwise a **court door** on the `main` range's court side at the offset
+   nearest the gate hall's axis (a derived opening the plan rung opens, listed with the gate hall's arches). The hall runs
+   from its low end toward the range's farther end. Ground storey; role `hall`.
+2. **Gate hall** (closed families): in the `gate` wing, from eave side to eave side, width `U(gateHallM)` centred on the
+   main entrance's offset and shifted to keep `gateHallJointGapM` (0.5 m) from a joint; ground storey; role `gatehall`.
+   The plan rung opens an arch at both ends — to the street and to the court (V03 reads the role's programme row) —
+   so the court is reached through the building, as courtyard houses and inns were. **`ovalCourt`**: the
+   gate hall is laid in the main gate's façade wing as above and continues through its gate-passage seating wing to the
+   floor — two rooms of role `gatehall` sharing an arch on `P1` — and the opposite major-axis chord's passage wing holds a
+   second `gatehall` room (its outer end a door into the façade's `main` wing, or an arch where an access edge faces it, by
+   the base's entrance rules); each minor-axis seating wing M8b turned into a gate passage holds a `gatehall` room likewise,
+   its outer end an arch through its façade wing; the plan of the façade ring is V03's.
+3. **Chapel** (with chance `rooms.chapel`, under the rule above): in an open family, at the free end of the range whose
+   ridge direction is nearest world east (`+x`); **in a closed ring**, at the east end of the range whose ridge is nearest
+   east, from its joint toward the range's other end; from eave side to eave side, length `w × U(1, 1.5)`, ground storey
+   (or first storey where the ground storey there is the hall); role `chapel`.
+4. **Tower rooms:** per composed tower, one room per storey it reaches: its ring less the rings of the towers before it
+   in the clip order that it overlaps (the base's rule); a tower on a block, its ring inside the block's piece; role
+   `towerRoom`.
+Room ids are the base's `room:<building>/<level>/<i>`, `i` in the order hall, gate hall, chapel, then the tower rooms by
+tower key; the plan rung passes them as fixed rings (§3.4's transient arena) and places its stair cores against their
+walls (the base's contract). **Every one of them is editable** by `setComposition` `room` (V02 §4.1): on or off, and its
+extent along its host's ridge, bent to the nearest lawful extent by V02 §3.13 (3)'s rule; an edited room is a fixed input
+of the rung (`edited`), kept through a re-derivation while its host keeps its key.
+=== END ===
+
 === REPLACE ### 3.10 The default rows — the diversity ladder from hovel to giant manor ===
 ### 3.10 The default rows — the diversity ladder from hovel to giant manor
 
@@ -1208,7 +1263,9 @@ and T-V2-46 — the bars whose clauses wait on a later landing — a clause whos
   event of items 18, 22 or 31 reaches the rung only through those inputs.
 * **What makes the `rooms` rung stale.** `wingsInputs`, plus the **occupants' band row and value**, the **household
   count** (V02 §3.8; item 261), the class's programme `hall` row, and its own slices — so a band change or a re-division
-  re-derives the composer's rooms and the plan's re-cut starts from the rooms the new band admits.
+  re-derives the composer's rooms and the plan's re-cut starts from the rooms the new band admits. A building's decline is
+  no such change: an existence change to `abandoned`, `decayed` or `ruined`, and the households' leaving that comes with
+  it, leaves the rung `current`, so the plan as built stands under its damage layer (§2.6 step 7; item 123 (a); V02 §5.7).
 * **The canonical prior.** An unstored composition has none to carry: its re-derivation is a pure function of the
   committed massing, and its draws are keyed per wing key (V02 §3.12), so every wing the change kept recomposes exactly as
   before — the least-disruption property item 18 asks of a mutation, obtained by construction. A stored composition is
@@ -1343,6 +1400,7 @@ data (E5), and degenerate cases with an outcome of their own (E4):
 | a disaster's look over a deck building whose deck is ruined | the building by its own state row (§8.2's deck row) and the higher level; when the deck's fall tombstones it, nothing | — | T-V2-60 |
 | a dossier change moving a condition's weeks or severity, or removing a building under a look | the look re-read at the next draw, no rung stale; a removed building drawn by its fate, no look on what is gone | — | T-V2-60 |
 | an epoch undone, or a save and load, while a look stands | nothing stored: the exterior re-reads the restored level and the look's weeks, byte-identical to before | — | T-V2-59, T-V2-60 |
+| a building's decline after its plan was derived (an epoch's `vacate`, a fire's `burn`, a flood's or a topple's `ruin`) | the `wings` and `rooms` rungs stay `current` (V02 §3.11) and the plan in force stands (§2.6 step 7); the exterior's element reading reads it at the rising level | — | T-V2-59 |
 === END ===
 
 === REPLACE ### 4.5 The canvas, the clerk and the skeleton file ===
@@ -1758,11 +1816,12 @@ second disaster overlapping the first; the same documents with Show crises `off`
   in reverse threshold order, each repaired bay patched and each repaired run drawn whole; (d) at level 0 every tile
   byte-identical to the same fixture without item 123 (T123-7's no-op; the `item123.damage` pin is V12's, V12 §2.13);
   (e) with no plan in force the massing reading — no hole, no gap — and, the plan then derived by a click and by V03's
-  `view`, the same holes and gaps as from the stored plan; (f) the model digest, every `MassingRef`, wing, stored
-  composition and stored plan, and the saved bytes identical with the damage drawn and not, across a save and load and
-  an undo and redo of the restoring epoch; (g) the glTF, OBJ and CityJSON exports byte-identical at every level, and an
-  SVG at the neighbourhood band carrying the holes in `sem.building.roof.hole` and the rubble in `sem.building.rubble`,
-  the outline open over each gap.
+  `view`, the same holes and gaps as from the stored plan; a plan derived while the building stood, the building then
+  abandoned by an epoch's `vacate`, stays in force with its `wings` and `rooms` rungs `current`; (f) the model digest,
+  every `MassingRef`, wing, stored composition and stored plan, and the saved bytes identical with the damage drawn and
+  not, across a save and load and an undo and redo of the restoring epoch; (g) the glTF, OBJ and CityJSON exports
+  byte-identical at every level, and an SVG at the neighbourhood band carrying the holes in `sem.building.roof.hole` and
+  the rubble in `sem.building.rubble`, the outline open over each gap.
 * **T-V2-60 a disaster's ruined look** (item 122) — on the look fixture: (a) every building of every unit
   `disasterDistricts` returns (V07's ends at VILLAGE) draws the look in exactly the weeks it stands (10–19; 10–17 on a
   building whose rebuild's Works begins in week 18) and no building outside those units does — at the element reading

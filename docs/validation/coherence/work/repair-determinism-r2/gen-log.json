@@ -40,6 +40,12 @@
    ]
   },
   {
+   "heading": "### 6.2 What a seed determines, and the model digest",
+   "ids": [
+    "G124-determinism (R2-39 (d))"
+   ]
+  },
+  {
    "heading": "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
    "ids": [
     "G123-determinism (R2-38 (2), R2-35 T123-3)"
@@ -93,5 +99,5 @@
    ]
   }
  ],
- "edits": 46
+ "edits": 47
 }

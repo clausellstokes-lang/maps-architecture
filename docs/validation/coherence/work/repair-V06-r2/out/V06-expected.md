@@ -3292,8 +3292,8 @@ the history (J-V6.137, J-V6.138):
 
 ```ts
 // @plat/evolve — pure services over the model the view draws; no stream advanced, no op, nothing stored (memoized per model digest)
-frontierFor(doc: DocView /* the head, or a history frame (V06 §3.15.2) */, households: number): FaceRef[]
-crisisLookYields(doc: DocView, building: Id, overlay: Id /* a ConditionOverlay whose look ruins the building */, week: number): boolean
+frontierFor(doc: Document /* the model the view draws: the head, or the frame locate(w) gives (V06 §3.15.2) */, households: number): FaceRef[]
+crisisLookYields(doc: Document, building: Id, overlay: Id /* a ConditionOverlay whose look ruins the building */, week: number): boolean
 ```
 
 1. **The aftermath is the next epoch's.** What a crisis leaves reaches the model only by the epoch path, in the epoch
@@ -3351,18 +3351,18 @@ derived and never stored (J-V6.139):
 
 ```ts
 // @plat/evolve — pure over the lineage's lifecycle events (§2.8) at their effective weeks (V06 §2.11), its Works and V11's item-123 rows
-decayLevel(doc: DocView, lineage: Id, week: number): number   // in [0, 1]
-decayPeak(doc: DocView, lineage: Id, week: number): number    // the highest decayLevel since the lineage's plan was built, at or before week
+decayLevel(doc: Document, lineage: Id, week: number): number   // in [0, 1]
+decayPeak(doc: Document, lineage: Id, week: number): number    // the highest decayLevel since the lineage's plan was built, at or before week
 ```
 
 1. **The decay run.** A building lineage is in a decay run at week `w` from the effective week `A` (V06 §2.11's
    `EffectiveWeek`: an engine op's is its epoch's week) of the lifecycle event that took it from a standing state into
    `abandoned`, `decayed` or `ruined` — a `vacate`, a fire's `burn` (`decayed`, drawn CHARRED), a flood's or a topple's
-   `ruin` (V06 §3.5, V06 §3.11) — until a restoring event (3). Its state `s` at `w` is the existence that the last such
-   event at or before `w` set; the strike pool alone moves it (V06 §3.5.2), never the level.
+   `ruin` (V06 §3.5, V06 §3.11) — until a restoring event (3). Its state `s` at `w` is the existence the last such event at
+   or before `w` set — the strike pool's and the hazards' ops move it (V06 §3.5.2, V06 §3.11), the level never does.
 2. **The level in a run.** `decayLevel = min(hi(s), max(lo(s), r × (w − A) ÷ 52))`. Each state owns a third of the
    range — `abandoned` [0, 1/3], `decayed` [1/3, 2/3], `ruined` [2/3, 1] — so item 123 (c)'s look of each state holds
-   whatever the years, V11's element-kind ranges read against these thirds. `r` is V11's decay rate per year for the
+   whatever the years, V11's range for each element kind lying in the third of the state whose look item 123 (c) gives it. `r` is V11's decay rate per year for the
    building's walls material (`Building.material.walls`, read for time only, as §4.11's `WorksTable` reads it): timber
    and thatch faster than stone. Years only add and the ladder only climbs, so the level never falls while the run lasts
    (item 123 (b)). A run that begins before a restoration has finished starts from the level that restoration left: its

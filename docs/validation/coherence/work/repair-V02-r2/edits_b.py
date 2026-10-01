@@ -210,7 +210,8 @@ standalone document.
   them in reverse threshold order, each repaired bay patched and each repaired run drawn whole; (d) at level 0 every tile
   byte-identical to the same fixture without item 123 (T123-7's no-op; the `item123.damage` pin is V12's, V12 §2.13);
   (e) with no plan in force the massing reading — no hole, no gap — and, the plan then derived by a click and by V03's
-  `view`, the same holes and gaps as from the stored plan; (f) the model digest, every `MassingRef`, wing, stored composition and stored plan, and the
+  `view`, the same holes and gaps as from the stored plan; a plan derived while the building stood, the building then
+  abandoned by an epoch's `vacate`, stays in force with its `wings` and `rooms` rungs `current`; (f) the model digest, every `MassingRef`, wing, stored composition and stored plan, and the
   saved bytes identical with the damage drawn and not, across a save and load and an undo and redo of the restoring
   epoch; (g) the glTF, OBJ and CityJSON exports byte-identical at every level, and an SVG at the neighbourhood band
   carrying the holes in `sem.building.roof.hole` and the rubble in `sem.building.rubble`, the outline open over each gap.
@@ -343,6 +344,19 @@ def build(text):
     rr = text[i:j]
     assert rr.endswith("random on the building's plot or block re-derives its massing (S11) with the plot's reroll (§6.1).\n"), rr[-120:]
     E.append(('G122/G123 §3.11', rr, rr + B311, 1))
+    # §3.8 — the same exception, cited (one home: V02 §3.11).
+    E.append(('G123 §3.8 rooms rung',
+              "band (V02 §3.2 step 3), and its recorded inputs include the occupants' band row and the household count (item 261), so a\n"
+              "band change or a re-division marks it stale and the plan's re-cut starts from the rooms the new band admits. The **hall\n",
+              "band (V02 §3.2 step 3), and its recorded inputs include the occupants' band row and the household count (item 261), so a\n"
+              "band change or a re-division marks it stale and the plan's re-cut starts from the rooms the new band admits (a\n"
+              "building's decline excepted, V02 §3.11). The **hall\n", 1))
+    # §3.11 — the rooms rung under a building's decline (R2-38 (1); §2.6 step 7).
+    E.append(('G123 §3.11 rooms rung',
+              "  re-derives the composer's rooms and the plan's re-cut starts from the rooms the new band admits.\n",
+              "  re-derives the composer's rooms and the plan's re-cut starts from the rooms the new band admits. A building's decline is\n"
+              "  no such change: an existence change to `abandoned`, `decayed` or `ruined`, and the households' leaving that comes with\n"
+              "  it, leaves the rung `current`, so the plan as built stands under its damage layer (§2.6 step 7; item 123 (a); V02 §5.7).\n", 1))
     # §3.18 (b) — the village rung's units.
     E.append(('G122 §3.18 (b) village',
               "while a manor S10b admits and a building the dossier or the author makes grand keep their full rows (V02 §3.2 step 2; item 115) |\n",
@@ -386,7 +400,8 @@ def build(text):
               "| a disaster's look and a Works on its building | a Works other than a `decay` Works begun by the week and not finished before the condition's `sinceWeek` (a rebuild, a repair, a clearance, a demolition) ends the look on that building (V06's `crisisLookYields`): its Works' stage and its own state drawn, never both; a `decay` Works, or one finished before the condition, leaves the look standing, its damage over what the stage draws — holes in the facets it draws, gaps on the outline it draws | — | T-V2-60 |\n"
               "| a disaster's look over a deck building whose deck is ruined | the building by its own state row (§8.2's deck row) and the higher level; when the deck's fall tombstones it, nothing | — | T-V2-60 |\n"
               "| a dossier change moving a condition's weeks or severity, or removing a building under a look | the look re-read at the next draw, no rung stale; a removed building drawn by its fate, no look on what is gone | — | T-V2-60 |\n"
-              "| an epoch undone, or a save and load, while a look stands | nothing stored: the exterior re-reads the restored level and the look's weeks, byte-identical to before | — | T-V2-59, T-V2-60 |\n", 1))
+              "| an epoch undone, or a save and load, while a look stands | nothing stored: the exterior re-reads the restored level and the look's weeks, byte-identical to before | — | T-V2-59, T-V2-60 |\n"
+              "| a building's decline after its plan was derived (an epoch's `vacate`, a fire's `burn`, a flood's or a topple's `ruin`) | the `wings` and `rooms` rungs stay `current` (V02 §3.11) and the plan in force stands (§2.6 step 7); the exterior's element reading reads it at the rising level | — | T-V2-59 |\n", 1))
     # §5.1 — the pointer.
     E.append(('G122/G123 §5.1',
               "a map with no building draws nothing of stage 3.\n",

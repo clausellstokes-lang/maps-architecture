@@ -1,5 +1,5 @@
 {
- "edits": 42,
+ "edits": 44,
  "tags": [
   "VAF-R0S-03/VM-R1T-05 §2.2 lead",
   "VAF-R0S-03/VM-R1T-05 §2.2 code",
@@ -17,6 +17,8 @@
   "G122/G123 §2.4",
   "G122/G123 §2.5 row",
   "G122/G123 §3.11",
+  "G123 §3.8 rooms rung",
+  "G123 §3.11 rooms rung",
   "G122 §3.18 (b) village",
   "G122 §3.18 (b) tests",
   "G122 §3.18 (c) row",
@@ -44,7 +46,7 @@
   "G122/G123 §12 census",
   "G122/G123 §13 rows"
  ],
- "blocks": 27,
+ "blocks": 28,
  "inventory": [
   {
    "kind": "REPLACE",
@@ -114,6 +116,12 @@
   },
   {
    "kind": "REPLACE",
+   "target": "### 3.8 The `rooms` rung — the composer's principal rooms",
+   "lines": 52,
+   "words": 950
+  },
+  {
+   "kind": "REPLACE",
    "target": "### 3.10 The default rows — the diversity ladder from hovel to giant manor",
    "lines": 409,
    "words": 10221
@@ -121,14 +129,14 @@
   {
    "kind": "REPLACE",
    "target": "### 3.11 Elaboration by click, staleness and the canonical prior",
-   "lines": 40,
-   "words": 692
+   "lines": 42,
+   "words": 737
   },
   {
    "kind": "REPLACE",
    "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
-   "lines": 119,
-   "words": 3769
+   "lines": 120,
+   "words": 3824
   },
   {
    "kind": "REPLACE",
@@ -175,8 +183,8 @@
   {
    "kind": "APPEND TO SECTION",
    "target": "## 7 Tests and acceptance bars",
-   "lines": 47,
-   "words": 820
+   "lines": 48,
+   "words": 845
   },
   {
    "kind": "REPLACE",
@@ -210,7 +218,7 @@
   }
  ],
  "orig_sha": "a11f04ccc93d0fcefbef0e58fd633b75a237db3ee1ed2186daf7f15534980a6d",
- "new_sha": "e526e001aab31ce463ae7ab7dc7d530ccc5762e90d2ac83f1ab4cad68acd4bd5",
+ "new_sha": "dad2b5bce0a72f006eac1a330608b88ebf1a9cefcc17d1e2552fe591efeb48c7",
  "words_before": 85913,
- "words_after": 91566
+ "words_after": 91697
 }

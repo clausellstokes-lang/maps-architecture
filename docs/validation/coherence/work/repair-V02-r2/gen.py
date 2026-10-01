@@ -63,6 +63,7 @@ SPEC = [
     ('REPLACE', '### 2.5 Identity and lifecycle of every state field', None),
     ('REPLACE', '### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))', None),
     ('REPLACE', '### 3.2 The row a building reads, and its band', None),
+    ('REPLACE', '### 3.8 The `rooms` rung — the composer\'s principal rooms', None),
     ('REPLACE', '### 3.10 The default rows — the diversity ladder from hovel to giant manor', None),
     ('REPLACE', '### 3.11 Elaboration by click, staleness and the canonical prior', None),
     ('REPLACE', '### 3.18 Edges — every mechanism at its limits (principle (11))', None),
