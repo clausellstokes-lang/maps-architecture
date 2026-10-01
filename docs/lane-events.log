@@ -3072,3 +3072,4 @@
 2026-10-01 18:05 coherence/repair-V05-r5 LANDED docs/validation/coherence/repair-r5-V05.md docs/validation/coherence/results/coherence_repair-V05-r5.json
 2026-10-01 18:05 coherence/repair-V02-r5 LANDED docs/validation/coherence/repair-r5-V02.md docs/validation/coherence/results/coherence_repair-V02-r5.json (opus seat, PENDING FABLE REVIEW; 3 REPLACE blocks over V02 §3.18, §5.7, §7.8; 0 ruling requests; the END line of VAF-R4T-03 at §5.7 (2) as given, the sweep conforming §3.18's level and restoration rows, the damage sub-fixture and T-V2-59 (c); dry run 3/3 byte-identical; doc_checks provisional)
 2026-10-01 18:05 coherence/orchestrator NOTE repair-V02-r5 landed (3 blocks, 0 ruling requests); 4 repairs still running
+2026-10-01 18:06 coherence/orchestrator NOTE repair-V05-r5 landed (4 blocks, 0 ruling requests); 3 repairs still running (V06, kernel, V11)
