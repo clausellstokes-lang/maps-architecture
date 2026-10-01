@@ -2,14 +2,124 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V01-r5; covered by the whole-design retrovalidation (J84).
 
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
+# ignored; the FILE line routes every block to docs/volumes/V01-neighbourhoods.md. Live unit: V01 as assemble-r4 left it
+# (sha256 a0c15b713802a1ed…, 526 767 bytes, 3 757 lines). Each REPLACE body is the live subsection with count-asserted
+# substitutions (scratch rV01r5/gen.py over edits.py: 9 edits, each applied exactly its asserted count, each tagged with
+# its issue id, END line or sweep); every untouched line is verbatim. Blocks: 5, all REPLACE of leaf subsections —
+# §3.18, §5.4, ## 6, ## 7, §8.2. No heading retitled or added, no whole-volume REPLACE, the title block untouched.
+# Ruling requests: 0. END lines written: 1 of 1. Binding rulings applied (adjudication-r5, Part H · V01): R5-01, R5-05;
+# R3-01 – R3-03 and R4-01 stand.
+#
 # PROGRESS (lane `coherence/repair-V01-r5`, 2026-10-01)
-# - P0 brief read whole; adjudication-r5's header, TOC, R5-01, R5-05 and Part H · V01 read whole: done
-# - P1 issue sources (verify-vol-V01-V02-r4t: VV12-r4-02, VV12-r4-04) and the live text read whole (V01 §3.18, §5.4,
-#   ## 7, §8.1, §8.2, §1.2's and §1b's Find rows, §3.16's Find and crisis bullets, §6's Find rows; base §6.3's carry-over,
-#   §11.2's *At a drawn week*; V06 §8; INDEX §5 risk 2): done
-# - P2 blocks (3 REPLACE: §3.18, ## 7, §8.2): done
-# - P3 dry run on a copy, references, doc_checks, words: next
-# - P4 report, result saved, LANDED: pending
+# - P0 brief read whole; adjudication-r5's header, TOC, Part A, R5-01, R5-05 and Part H · V01 read whole: done
+# - P1 issue sources (verify-vol-V01-V02-r4t: VV12-r4-02, VV12-r4-04, with its §2 re-check of V01) and the live text read
+#   whole (V01 §3.18, §5.4, ## 6, ## 7, §8.1, §8.2; §1.2's and §1b's Find rows, §2.3's and §2.5's signatures and
+#   succession comment, §3.16's Find and crisis bullets); base §6.3's carry-over (survival and succession), §11.2's *At a
+#   drawn week*, §12.5's Find paragraph as repair-r5-rendering writes it (VRC4T-04); V06 §8 (E1 – E7, order); INDEX §5
+#   risk 2; V09's round-5 Find text (repair-r5-V09: `findAreas(key, week)`, §4.21.10 (5), (8)): done
+# - P2 blocks (5 REPLACE: §3.18, §5.4, ## 6, ## 7, §8.2): done
+# - P3 dry run on a copy, references, doc_checks, words: done
+# - P4 report, result saved, LANDED: done
+#
+# DISPOSITIONS — Part H · V01: 2 issues, both FIX per R5-05, each FIXED in the text (none INVALID, none MERGED); 1 END
+# line written.
+#
+# ISSUES → WHERE FIXED
+#  VV12-r4-02 (major; FIX per R5-05, "both texts as written")  The held area chip at a drawn week now has a bar.
+#        T-V1-59 (f) adds, after "at the head again, the head's areas, members, units and frame": "a chip held on the
+#        district the epoch merged or split away (§6.3's succession: its id no longer held at the head, V01 §5.4 (4)),
+#        added at the drawn week from the frame's areas: at that week it lifts that district's faces in the frame and its
+#        matches are §11.2's listing at that week; at the head it stays at count 0, dark, until removed or Clear;
+#        scrubbed back, it reads the frame's area again" — the required text verbatim, with one gloss (below); (f)'s home
+#        list "V01 §5.4 (1), (3), (6)" → "(1), (3), (4), (6)", the rule the clause runs. §3.18 (e)'s Find row: the
+#        outcome paired with "a chip's area no longer held (merged away, or rebuilt under another id)" reads "the chip
+#        kept at count 0, dark, until removed or Clear — at a drawn week whose frame holds its id, the frame's area and
+#        matches (V01 §5.4 (4))", as required; the row still pairs 13 edges with 13 outcomes (checked by a parse of the
+#        two cells). The rule itself (§5.4 (4)'s "save at a drawn week whose frame holds that id, where the chip reads
+#        the frame's area and its matches ((1))") is unchanged.
+#  VV12-r4-04 (minor; FIX per R5-05 (c))  T-V1-59's timing cell names its later clauses: "From M5, Find's milestone
+#        (§16's M5 row), on the services and on V09's app harness with V09's Find panel; clause (c)'s epoch cases at the
+#        later of M5 and the M6-E exits that provide their epochs (V06 §8), and clause (f) at the later of those and
+#        V06's E6 (V06 §3.15.2's history frames)". R5-05 (c) states the form ("lands at the later of its own milestone
+#        and V06's E6 … and its timing cell says so"); the required change's content — the epoch cases wait for M6-E's
+#        epochs (V06 §8), (f) also for E6's frames — is kept whole (see REQUIRED CHANGES below).
+#
+# END LINES (adjudication-r5, Part H · V01: 1 of 1 written as given)
+#  END of R5-05 (the tests' blind spot)  T-V1-60's timing cell "From M5; clause (e) from M3b, with `campLand` (V01
+#        §8.1); the VILLAGE fixture's clauses once V07's village readings land (V-M3, V07 §8)" adds "; (c)'s
+#        scrubbed-week clause at the later of M5 and V06's E6 (V06 §3.15.2's frames)" — verbatim.
+#
+# THE SWEEP (R5-01 (2): the terms R5-05 changes, searched in V01's prose, tables, edge rows, tests and milestone cells)
+#  (a) The reader list: V01 restates none of §11.2's list; §5.4's lead, (1), (3), (6), §1.2's item-120 row, §1b's Find
+#      row, §2.3's signatures and §3.16's bullet already read the model the view draws at the drawn week (round 4) and
+#      agree with R5-05 (a) and V09's round-5 calls (`findAreas(key, week)`). Nothing to change.
+#  (b) The re-evaluation (R5-05 (b); §12.5's Find paragraph as VRC4T-04's fix writes it: the index rebuilt at each commit
+#      and change of the effective key; each change of the drawn week re-evaluated off the scrub's path within ≈ 100 ms
+#      of the frame being drawn). Three V01 restatements of the triggers conformed, by reference to §12.5 rather than by
+#      restating its number: §5.4 (4) "every change of the view's drawn week …, re-evaluates both services with the
+#      overlay's index, rebuilt once per commit (item 120 (j))" → "every change of the view's effective key or drawn
+#      week (§2.9's `week`), re-evaluates both services with the overlay's index, within §12.5's overlay budget (item 120
+#      (j); a change of the drawn week off the scrub's path)"; §6's `findAreas` row "inside item 120 (j)'s index rebuild,
+#      once per commit, and once per drawn week a scrub settles on whose frame is not the head (§11.2's *At a drawn
+#      week*), within §12.5's overlay budget" → "… index rebuild, at each commit and change of the effective key, and at
+#      each change of a drawn week whose frame is not the head, off the scrub's path (§11.2's *At a drawn week*), within
+#      §12.5's overlay budget" ("once per drawn week a scrub settles on" would let a build skip the weeks a scrub passes,
+#      which §12.5 now times); §3.18 (c)'s Find toggle row "recomputed per commit and drawn week (V01 §5.4)" → "per
+#      commit, effective key and drawn week (V01 §5.4 (4))". The services were already memoised per commit, key and drawn
+#      frame (§2.3, §3.16, §6's budget cell), so no behaviour moves; V01 §6's own per-call budgets (≤ 3 ms / ≤ 8 ms,
+#      ≤ 2 ms / ≤ 25 ms) are unchanged. §5.4 (5) and §6's `gapUnits` row cite §12.5 already.
+#  (c) Scheduling (R5-05 (c), the tests' blind spot): T-V1-59 (VV12-r4-04), T-V1-60 (END). The milestone cell that
+#      restates both tests' timing — §8.2's W11 ("T-V1-59 Find's, at M5 …; T-V1-60 …, its clause (e) from M3b") —
+#      gains "its epoch and drawn-week clauses at the exits its timing cell names" and "its village and scrubbed-week
+#      clauses at the exits its timing cell names", so it no longer reads as all-at-M5. §7's lead ("Every bar runs from
+#      M5 unless its row says otherwise") and §8.1's M3b bullet (T-V1-60 (e)) hold. No other T-V1 row reads a drawn
+#      week (T-V1-39's epoch clauses read the head with V06's participant; not a drawn-week clause).
+#
+# REQUIRED CHANGES NOT APPLIED AS WORDED
+#  1. VV12-r4-02: every word of both required texts is applied; added, inside the required parenthesis, ": its id no
+#     longer held at the head, V01 §5.4 (4)". Reason: under §6.3's carry-over a split hands the old address to its anchor
+#     successor (V01 §2.5's succession comment: "a district succeeded by the anchor rule (a merge or split) carries … to
+#     its anchor successor"), so (f)'s fixture's split district may still be held at the head, where its chip would lift
+#     the successor and the "count 0, dark" clause could not pass; the gloss names the property §5.4 (4) defines
+#     ("an area whose id the document no longer holds — a district merged or split away under §6.3's succession"), so
+#     the bar runs on a district whose id the head lacks. Also "(4)" added to (f)'s home list. Meaning unchanged.
+#  2. VV12-r4-04: "at the first exit after M6-E provides them — its epochs (V06 §8) and, for (f), V06 §3.15.2's history
+#     frames (E6)" written in R5-05 (c)'s form, "at the later of M5 and the M6-E exits that provide their epochs (V06 §8),
+#     and clause (f) at the later of those and V06's E6 (V06 §3.15.2's history frames)" — the ruling governs where its
+#     text differs (Part H: FIX per R5-05). Each needed provider is named as required; (f) waits for both the epochs and
+#     E6 (V06 §8 lets E4, which brings openings and closings, follow E6).
+#
+# HAND-OFFS (for round 5's verifiers; ends this seat cannot write)
+#  None required. Checked and left: base §13.8's T120-2 – T120-5 timing "M5 (each volume's clause at the later of its
+#  step and M5)" covers T-V1-59's later clauses (scope's text); V09 §4.21.10 (5)'s "a chip whose target leaves the town
+#  stays at count 0, dark … until removed" with (8)'s frame reading agrees with V01 §5.4 (4) (V09's text).
+#
+# WORDS (V01, whitespace-split): 86 439 → 86 630 (+191, +0.22 %). Added 214: the new bar clause and its edge outcome
+#  (VV12-r4-02, 96), the timing cells (VV12-r4-04 and the END line, 50), W11's pointers (26), the trigger conformance
+#  (42). Removed 23, of which content-bearing 13 — RESTATEMENT 13 ("rebuilt once per commit" and §6's "once per commit,
+#  … once per drawn week a scrub settles on", now §12.5's by reference); the rest are tokens re-cut by punctuation.
+#  NARRATION 0, DUPLICATED MECHANISMS 0, VERBOSE PROSE 0. A repair round adding one test clause and its schedule is not a
+#  shrink step; nothing irreducible is cut.
+#
+# CHECKS (scratch rV01r5)
+# - apply-blocks dry run over a copy of the live V01 with this file: 6 found, 5 applied, 1 skipped (the FILE routing line,
+#   read by the assembler, never a block), audit not-OK 0; headings 123 → 123, fences balanced (12 → 12), title block
+#   unchanged, PENDING FABLE REVIEW lines 1 → 1; output byte-identical to the generator's V01.new.md (sha256
+#   4585e1a59d0e499a…, 527 808 bytes, 3 758 lines); the rationale (a throwaway input) unchanged. The live V01 was
+#   unchanged (a0c15b71…) from the snapshot to the dry run.
+# - references (assemble-r4's refs.py on mirrors of the live set and of the set with this V01): V01 resolved 3 388 →
+#   3 396, ambiguous 15 → 15, external 17 → 17, broken 0; every other unit's counts unchanged (the mirror's 10 BROKEN, in
+#   V04, V06, V08, V11, V12, are external J-ids the mirror cannot see — J-SS3.10, J-RF2.4, J-Fsf-1, J-M2, J-M11 — the same
+#   in both runs, none in V01). The added references (§6.3, §11.2, §12.5, V01 §5.4 (4), V06 §8, V06 §3.15.2) resolve.
+# - ids: no T-V1 or J-V1 id added or removed; T-V1-59 (f) gains one clause; no review id (R3-nn, R4-nn, R5-nn, a verifier
+#   id), no deferral wording and no phone clause in any added line.
+# - doc_checks (docs/validation/bench/doc_checks.py --doc <V01> --heads docs/ARCHITECTURE.md, before and after): WARNING —
+#   reference corpus INCOMPLETE (captures, research/patreon, research/devlogs, research/ftg-docs, research/external
+#   missing), so the clean-room result is NOT authoritative (provisional). C1 0, C2 0, C4 2 hits 0 unreviewed, S1 0,
+#   S2 286 hits 3 unreviewed — unchanged; C3 406 → 407 hits, 351 → 352 unreviewed: the changed runs are section numbers
+#   ("5 4 1 3 4 6", replacing "5 4 1 3 6") and function words ("a change of the drawn"), no identifier, grammar, palette
+#   or word list; S2's three `§2.0` pointers pre-exist (one moved a line).
 
 === FILE docs/volumes/V01-neighbourhoods.md ===
 
@@ -55,7 +165,7 @@ Test: T-V1-57.
 | item 110's switches off (V11 §3.24.0) | nothing of V01 §3.17 acts; byte-identical to the build without them (T-V1-4 (e)'s no-op pin, registered on V12 §3.7.8's engine as `item110.*`) |
 | the `pins` and `trees` layers; the style's `details` and `shadows` | view only (V01 §5.1.2, V01 §5.1.3) |
 | GeoJSON `closeup: true` | hood pins exported as presentation features (V01 §5.3) |
-| Find on or off; Show gaps on or off (item 120) | view only: the document, its hash, the log and the tiles byte-identical; the area targets and gap units recomputed per commit and drawn week (V01 §5.4) |
+| Find on or off; Show gaps on or off (item 120) | view only: the document, its hash, the log and the tiles byte-identical; the area targets and gap units recomputed per commit, effective key and drawn week (V01 §5.4 (4)) |
 | Show crises on or off, or a preview (§2.9's `crises`; item 122) | view only: with Show crises off nothing calls `disasterSource`; a preview reads no calamity, the scatter pattern at `previewSeverity`; the document, its hash, the log and every model value byte-identical (V01 §3.16) |
 
 Tests: T-V1-4, T-V1-56 (c), T-V1-59 (d).
@@ -143,6 +253,177 @@ otherwise; the rung is §5's for a cell that handles a failure, `—` for a cell
 | a camp and a raised way (items 122, 110) | no camp face under an under-deck strip or among its piers: `campLand` leaves the face out | — | T-V1-60 |
 === END ===
 
+=== REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102) ===
+### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)
+
+Find is a view, never a change (item 120 (a)): its state is the per-viewer view key `find` (§2.9: the chips and the Show
+gaps switch), kept across zooms, bands, layers, the season, epochs and edits until **Clear** or the panel's close, and
+outside the document, its hash and the log. The panel, the type-ahead, the chip grid, the results and the `live.find`
+overlay are volume 9's; the veil, halo, outline, pin and count-bubble rows §8.2's; the search words and groups V11's
+lexicon; the gazetteer's class counts and match listing §11.2's; the clerk's "show me" volume 10's. Every list entry,
+count, glow, pin and gap passes §11.2's admission at the view's effective key, band-less as the gazetteer reads (as at
+the city band; item 120 (h); V09 §4.8's View as). This section states what a town — TOWN to the METROPOLIS cap — and a
+standalone neighbourhood document offer as **areas**, and how **Show gaps** reads its units, through `@plat/hood`'s
+`findAreas` and `gapUnits` (V01 §2.3, V01 §3.16): pure, draw-free functions of the key and of the model the view draws
+(the committed head or, at a drawn week (§2.9's `week`) whose frame is not the head, V06 §3.15.2's frame, as §11.2's
+*At a drawn week* reads it) over every layer, each row carrying its layer, memoised per commit, key and drawn frame,
+never stored. Below TOWN the village's reading is V07 §5.5's; a village grown into the town ladder
+takes this one at its hand-off.
+
+**(1) Areas — `findAreas(key, week?)`** (item 120 (b), (e)). One `FindArea` per area the document holds:
+* **Districts and neighbourhoods** — every `District` but the hinterland pseudo-district (the land outside
+  the town; a match there is listed by itself, under no area): the base's districts on Ground; on Below each undercity
+  neighbourhood and the underground pseudo-district (II.7.3, II.7.5; V04 §3.6a (5)); on Sky each island's districts
+  (V01 §3.10.3); in a standalone neighbourhood document its one district. **A neighbourhood is the district a close-up
+  opens** (J-V1.35): districts and neighbourhoods are one set of targets — one chip per area, never a district chip and a
+  neighbourhood chip for the same land — and `word` reads `neighbourhood` for an `undercity` or `underground` district
+  and a standalone neighbourhood document's district, `district` for every other. Its search words are its name (its
+  `LabelEntity`'s, `displayText` where set) and its identity row's label (item 72; a dossier QUARTER record's label where
+  it gives one, V01 §5.2.1), so "weavers" finds the weavers' quarter whichever word named it.
+* **Quarters** — each `QuarterNode` of §9.1's tree in the **city cut** (`cityCut`: §4.5's quarters) with two or more
+  member districts, the union of its members; a city-cut node of one district is that district's target, never a second
+  chip. An undercity neighbourhood joins the tree under its parent's quarter node (II.7.5 (2)), so a quarter may have a
+  shape on Ground and one on Below.
+* **Regions** — each `RegionGroup` (item 101: an Upper, Lower or Outer City), the union of its quarters' districts,
+  named by its `region` label.
+Nothing the document lacks is listed: a TOWN whose city cut stands every district alone lists no quarter. An area the key
+does not admit — on Below, a neighbourhood in a void the key withholds — is never listed, counted, lifted or pinned; a
+quarter or region whose member districts the key admits only in part takes those members' union, and is not listed
+when it admits none. **A named `HoodPlace`** (V01 §3.7.1: a square, green, yard, court or opening) is not an area and no
+`findAreas` row: it is a place target of the gazetteer's place rows (§11.2), whose chip lifts its host face and glows
+along it — an opening glows at its symbol (V01 §3.8.8) — admitted by its `knownTo` as the gazetteer admits it, so a
+`local` court's name is offered only to a key that admits it there. **At a drawn week** whose frame is not the head
+(V06 §3.15.2) the areas are the frame's — its districts, city-cut quarters and region groups, each area's `shapes`
+its faces in that frame — so a district an edit or epoch split or merged after that week is listed whole, as the
+frame holds it, one made after it is not listed, and an area chip's matches are §11.2's listing at that week; absent,
+the head.
+
+**(2) The look of an area chip** (item 120 (e), (f)). An area chip lifts its `shapes` on the layer shown from the veil
+and draws §8.2's halo along their outlines; a hole in a shape (a district a quarter encloses but does not hold) stays
+under the veil. On the city band an area whose shape spans less than item 120 (e)'s pin threshold (about 6 px) at the stop drawn
+carries its chip's pin at its `anchor`, so a small district at item 116's zoom-out limit is never a lost speck. On a layer
+that holds none of its shapes it shows as a ghost pin at its anchor and counts among the panel's "more Below" and "on
+Sky" (item 120 (f); V04's and V05's parts draw them). An area chip never filters a kind chip's matches: the chips are a
+union (item 120 (d)).
+
+**(3) Show gaps — `gapUnits(chip, key, week?)`** (item 120 (i)). For each kind chip (an area, place or person chip has
+no gaps), the **unit** is its class's compiled `profile.coverage` — `unit` and `per` (V11 §2.3) — with `neighbourhood`
+read as `district` (J-V1.35); a class without a coverage row reads the `district` unit, the "one in every district"
+reading of the Coverage view this switch absorbs; a chip of several classes ("all smiths", item 120 (c)) reads their
+common `unit` and `per` when all share one, else `district`, its members those of any of its classes. The **members**
+are exactly the chip's matches the key admits (§11.2's match listing, the set the chip glows): a member the key
+withholds counts toward no unit, so a unit reads as the viewer knows it and a gap never hints at what the key withholds.
+`week` is the view's drawn week (§2.9's `week`), absent the head: at a drawn week whose frame is not the head
+(V06 §3.15.2) the members are §11.2's match listing at that week and the units only those the frame holds — a
+district, parish cell or residential plot the frame lacks is no unit (§11.2's *At a drawn week*); `catchmentOf`'s
+discs and cells are read over that frame.
+The units are `catchmentOf`'s (V01 §3.16), which reads V11 §2.3's — never a second definition — each a `GapUnit`
+holding no member:
+* **Partition units.** `district` — every district the key admits but the hinterland (a member in the
+  hinterland counts toward none), a gap when no member's plot lies in it, its area the district's faces united.
+  `parish` — the cells of V11 §2.3's parish partition (`catchmentOf('parish')`; before any church, the district),
+  built from the church members the key admits, so no cell outlines a church the key withholds (its plots fall to the
+  cell of the nearest admitted church, item 120 (h)); a gap when the cell holds no member, its id the church member's
+  (the district's before any church), its area the union of its plots' faces; a church class read on `parish` stands
+  in every cell it makes, so it has no gap.
+  `settlement` — one unit, the town, a gap only when the key admits no member on any layer, its id `TOWN_ROOT`, its area
+  each layer's districts united (one `GapUnit` per layer that holds a district).
+* **Per-plot units.** `walk` and `households` — each residential plot (one holding a household at S10a, §4.7: the plots
+  V12 §3.6's `servedShare` counts for these units) whose `catchmentOf(plot, unit, per)` holds no member is unserved; a
+  district's unserved plots form its gap unit (its id the district's, its area the union of their faces), and a district
+  with no residential plot holds none (V11 §2.3's skipped term). On Below `catchmentOf` reads `underDistance`, and on Sky
+  an island is one `walk` unit, as V01 §3.16 states.
+Each gap's components are drawn by §8.2's dashed gap outline with one "none here" label per component, on the layer
+shown; a gap on another layer is drawn when that layer is shown and is listed in V10's `FindAnswer.none` by its `id`.
+**Evaluation.** A partition unit takes one pass over the members' plots. A per-plot unit takes one pass per member
+over V11 §2.3's 16 m raster: a member serves every residential plot whose disc holds it, and the disc is symmetric, so
+each member marks the cells within the radius about its plot — `per` for `walk`; for `households` the radius V11 §2.3
+derives for each district, one pass per radius in use — and a residential plot is served when the marks of its own
+district's radius reach its cell, which is V11 §2.3's count plot by plot. On Below the marks spread from the members by
+`underDistance` (V04 §3.6a (1)); on Sky a member anywhere on the island serves every plot on it. T-V1-59 (b) holds the
+unserved plots to V12 §3.6's `servedShare` count, plot by plot.
+
+**(4) Over time and edits** (item 120 (f)). Every commit, regenerate, undo, redo and epoch, and every change of the
+view's effective key or drawn week (§2.9's `week`), re-evaluates both services with the overlay's index, within
+§12.5's overlay budget (item 120 (j); a change of the drawn week off the scrub's path): a district an epoch creates
+is listed, and its gaps
+drawn, in that commit; an edit that removes a district's last member of a chip's class makes it a gap, and its undo
+removes the gap. A chip's area is held by its id: an area whose id the document no longer holds — a district merged or
+split away under §6.3's succession, a quarter node a Re-derive from S6 rebuilds under another id — leaves its chip in the
+grid at count 0, dark, until the viewer removes it or presses Clear (item 120 (a)), save at a drawn week whose frame
+holds that id, where the chip reads the frame's area and its matches ((1)). No commit writes the view key.
+
+**(5) Exports and cost** (item 120 (i), (j)). A district or outline picture export (V01 §5.3) draws Find as shown — the
+veil, each area's lift and halo, the gaps with "none here" — with the chips in the legend, by §11.1's rule; a VTT scene
+leaves it off unless asked; no export stores it. Find is an interaction, not a one-time wait (item 119 (d)): `findAreas`
+and `gapUnits` run within §12.5's overlay budget by V01 §6's Find lines, never re-rendering the base tiles, and a chip's
+glow is never delayed by its gaps, which draw when computed.
+
+**(6) Crisis looks in Find** (item 122 (f)). Find's `crises` section, a look's row and its crisis card are volume 9's
+(V09 §4.21.12); a look is no chip and no `findAreas` row. A disaster look's place — the land its row's **Go to** and
+its card's **Show** frame — is the union of the Ground shapes of its units' `FindArea`s at the view's drawn week: the
+districts `disasterDistricts` returns at the view's effective key over the model the view draws (V01 §3.16), at the
+village rungs its units' land, the plots `villageUnitPlots` gives each (V07 §5.6 (3)); at a scrubbed week whose frame
+is not the head, a unit's Ground shape is its faces in that frame (V06 §3.15.2), so a district the head no longer holds
+is still framed. So the **Show** frame and Find's halo are one set of shapes, and a unit the key withholds is neither
+framed nor listed.
+=== END ===
+
+=== REPLACE ## 6 Performance budgets ===
+## 6 Performance budgets
+
+On §12.1's reference hardware, measured as §12 measures (p95 over the bench's seeds unless a line says otherwise); every
+line is PLAUSIBLE until its milestone measures it, with its pre-decided fallback (§12.10's register shape). "B" is the
+building count in scope.
+
+| line | budget | where it sits in §12 | measured | pre-decided fallback |
+|---|---|---|---|---|
+| S7c fabric selection (S7b's hook) and its land estimate | ≤ 0.07 ms per district (context from cached records; χ̃ over ≤ 100 allocation rows and their allocation-level links; ≤ 12 rows' predicates; `templateLandM2` closed-form) — ≈ 1.8 ms at CITY, ≈ 3 ms at METROPOLIS; S7b's reconcile with the template land adds ≤ 1 ms at CITY | a row of §12.4's CITY split, inside S7b's line and the one-click model budget (item 474) | M5, B-CITY | the context's portal and landmark lists are cached per district from the greedy pass; if still over, eligibility tests the cheap predicates (areas, shares) before the geometric ones (crossing pairs) |
+| template seeds (S8) | spine or parallel spine ≤ 0.3 ms per seed; a contour series ≤ 1.5 ms per district (≤ 31 level lines per flank by marching squares over the face's box); plaza ≤ 0.5 ms; ring series ≤ 2 ms per district (≤ 6 courses of 48 vertices with validation); the holed bent cut of ring bands ≤ 2.5 × a plain cut per street (NG measured 2–3 ×, `profile-neighbourhood.md` RA-6) | inside §12.4's S8 row: at the default 15–35 % template share, ≤ + 4 ms at CITY | M5 (spike S-V1-a) | the ring validation runs once per series instead of per course; a ring district's bands cut at the `landmark` variant's one-ring minimum when the series exceeds 2 ms |
+| S9b block dispatch (S10a's hook) | ≤ 0.18 ms per district (≈ 60–150 blocks; junction and frontage lookups through the L2 index; the siting pushes over S10a (i)'s filled blocks by the family rows' radii; the island strips evaluated once per shade evaluation at S9b's first read and shared with field pass 2, V01 §3.5.5) — ≈ 5 ms at CITY | a row of §12.4 (item 474) | M5 | candidate lists by type built once per district from one junction scan; the pushes read a per-district list of emitter blocks |
+| the services of V01 §3.16 (`catchmentOf`, `districtsAbove`, `fabricSignature`) | ≤ 1 ms per call at CITY, memoised per commit; `catchmentOf` on a disc unit (`walk`, `households`) ≤ 2 ms at METROPOLIS (the plots under its disc's cells of V11 §2.3's 16 m raster, by a plot index per cell) | inside the callers' lines (S10b's coverage term, volume 4's stage, the reader) | M5 | the plot index per raster cell built once per commit and shared by every call |
+| Find's area targets (`findAreas`, V01 §5.4 (1)) | the list with its shapes, per commit, key and drawn frame: ≤ 3 ms at CITY, ≤ 8 ms at METROPOLIS (the districts' faces as the drawn model holds them; the city cut's ≤ 18 quarters and the region groups united by the kernel's union, memoised) | inside item 120 (j)'s index rebuild, at each commit and change of the effective key, and at each change of a drawn week whose frame is not the head, off the scrub's path (§11.2's *At a drawn week*), within §12.5's overlay budget | M5, on V09's app harness | a quarter's or region's union computed at its first use (a chip, the list scrolled to it) instead of at the rebuild |
+| Show gaps' units (`gapUnits`, V01 §5.4 (3)) | per chip: a partition unit (`district`, `parish`, `settlement`) ≤ 2 ms at METROPOLIS (one pass over the admitted members' plots); `walk` and `households` ≤ 25 ms at METROPOLIS (one pass per member and per radius in use over the 16 m raster's cells within the radius, V01 §5.4 (3)), on the worker — never delaying a chip's glow (item 120 (j)), its gaps drawn when ready | §12.5's overlay budget, beside item 120 (j)'s glow | M5, B-CITY (METROPOLIS) on V09's app harness | the members nearest the view marked first and the rest on idle |
+| the crisis services (`disasterSource` with `disasterDistricts`, `campLand`; V01 §3.16, item 122) | `disasterSource` ≤ 1 ms per standing disaster overlay or preview at the METROPOLIS cap (one pass over the units' adjacency; the units' facts built once per commit and drawn frame and shared by every overlay), memoised per commit, drawn frame, overlay and key; `campLand` ≤ 3 ms at the METROPOLIS cap (one pass over the hinterland's land-use faces within `camp.reachM` through the face index), memoised per commit and drawn frame | §12.5's lazy per-tile budget for crisis looks: computed at the first visible tile that draws a look — an interaction, never a one-time wait (item 119 (d)) | M5 (`disasterSource`), M3b (`campLand`), on V09's app harness | the units' mean heights read on the hydrology grid instead of the height raster; `campLand`'s faces gathered for the tiles in view first and the rest on idle |
+| surface rule, local-place step, naming context | ≤ 1 ms, ≤ 1 ms + §12.4's S13a naming rate per place, ≤ 0.2 µs per way at CITY | §12.4's S10a and S13a rows | M5 | — |
+| **one-click total added by stage 2** | ≤ 12 ms at CITY, ≤ 20 ms at METROPOLIS (the model path; nothing added to the city band's first map beyond the square and green fills) | §12.3's model law gains this term, declared (D-18's rule for a declared cost) | M5 | the parity presets pay 0 (no template, all ordinary); if the default exceeds it, S9b's phase 2 moves to the pooled S10 (it is block-local) |
+| opening a district (refine close-up) — **model and display list** | the close-up derivation (hood pins over sites) plus S14's neighbourhood-band display list for the district: **non-ring fabrics ≤ 6 ms + 0.06 ms × B** (≤ 33 ms at 450, ≤ 51 ms at 750), **`ring` ≤ 10 ms + 0.07 ms × B** (≤ 100 ms at 1 300) — against NG's reset of 10–52 ms for medium area, street and square hoods (600–779 buildings) and 78–96 ms for ring (1 209–1 287), whose figures exclude raster (`docs/confidence/ng.md` H1; J-V1.48) | §12.5's neighbourhood-band line, made a law per fabric class (item 474) | M5, B-ZOOM | hood-pin symbols stamped per kind and size class (one sprite draw each) instead of drawn as paths |
+| opening a district — **first visible tiles rastered** (measured separately) | ≤ NG's 73–111 ms raster at comparable counts (H1) | §12.5 | M5, B-ZOOM | the surface stamps drawn at the district band's flat tone on the first frame, the stipple on the next |
+| the surface marks of one opened district (stamps, kerb dots, stair-stepped ticks) | ≤ 3 ms at 450 buildings | inside the display-list line above | M5 | a flat surface tone at the district band until the view settles |
+| the walls and raised parts of one opened district (item 110) | ≤ 1 ms at 450 buildings, inside the display-list line; the same per district at METROPOLIS | §12.5 | M5, B-ZOOM | one path per district for all its walls |
+| METROPOLIS: the largest district's open; its replace close-up; a large standalone neighbourhood document's first map (≈ 1 300 buildings) | open: the law above at its B; replace: §12.6's scoped law × the fabric's factor at its B; first map ≤ 0.8 s p95 | §12.5, §12.6 | M5, B-CITY (METROPOLIS) | open: hood pins derived for the visible blocks first, the rest on idle; replace: the dry run's overlay reused at commit; the hood: the one-district pool path skipped |
+| per building (S5 (b)) | generation ≤ 75 µs (the standalone path, model only) and rendering ≤ 85 µs at the neighbourhood band | §12.5 | M5 on medium standalone neighbourhood documents | as above |
+| draw calls and uploads (S5 (c)) | ≤ 80 path calls per tile (hatch batched per role) and ≤ 25 canvas operations per wing as the ceiling (II.4); uploads within §12.5's ≤ 4 per frame while moving | §12.5 | M5 census | the hatch's parity rule starts at 2 px instead of 1.5 px on screen (every second line drawn sooner) |
+| a replace close-up (a fabric change, New random on a district) | §12.6's scoped law × the template's factor — `ring` 1.5, `crossroads`, `landmark` 1.2, others 1.1 — plus S9b's and S13a's deltas: ≤ 45 ms for a ring district of 450 buildings; its dry run the same, the commit reusing the dry run's overlay (≤ 2 ms) | §12.6 | M5, B-EDIT | as §12.6's fallbacks |
+| a block's content edit | D from S10a: ≤ 3 ms + 60 µs × the buildings of the blocks whose allocation changes | §12.6 | M5 | — |
+| a hood-pin edit | ≤ 1 ms model, the district's chunk re-derived ≤ its open line | §12.6's single-plot line | M5 | — |
+| the stage-2 switch's edit (V01 §3.15) | a Re-derive from S2 of the whole document: §12.6's ≤ M(B) for a Re-derive from Sk, stage 2's per-district lines above included, the underground tail's after it | §12.6 | M5 (T-V1-4's switch clause, timed) | none needed: a rare parity edit whose dry run shows its fates before it commits |
+| a standalone neighbourhood document | first map ≤ 0.5 s p95 for a medium one (`size.medium` buildings, V01 §3.14; S6 (b)); model ≤ 75 µs × B | §12.5's first-map law applied to the unit | M5 | the one-district pool path is skipped (the unit runs single-worker) when that is faster, measured |
+| a sky island's districts | **generation**: the unit run ≈ 8–12 ms per island at CITY, ≈ 12–18 ms at METROPOLIS (≤ 3 districts' worth, ≈ 2–5 % of the town's plots, at this table's per-district rates), on the generation worker concurrent with the pool — the figure V05 §6 cites for its critical path; **after generation** (V01 §3.10.3 (6)): a raise, a late declaration or New random on an island runs the unit run inside its commit at these rates plus §12.6's commit overhead (II.6's `raiseIsland` line); a growing resize or a rim reshape costs §12.6's scoped law once per receiving district — for a resize every district bordering the rim — plus once for the district whose institution claim is re-searched where that district receives no face, at most k ≤ 3 in all, and a shrinking resize none but the district whose claim is re-searched, where one is (its plot clearing, re-cut and way cut-back are volume 5's, V05 §6); `plantRimWalk` adds ≤ 0.2 ms, once per event and once per unit run | §12.4 (inside SKY's line, V05 §6); §12.6 | with volume 5's stage (its fixture island first, T-V1-21) | the island's S12b and S13a join the ground's pooled batch instead of running serially on the worker |
+| memory | the close-up chunk ≤ `closeup.chunkKB` per district inside §12.8's 8 MB elaboration cache (LRU); `Block.content` and flags 2 B per block; `HoodPlace` ≈ 80 B; `CloseupRecord` ≈ 40 B + 24 B per override row | §12.8 | M5 | the cache's existing halving fallback |
+| document size | ≤ 1 KB per edited close-up; the town's document growth from stage 2 ≤ 2 % at CITY (places and flags) | §12.8's document line | M5 | place names stored by naming-record reference only |
+
+**One-time waits (item 119, stage 2's part; J130; J-V1.103).** Every line above stays the **target** — as fast as
+possible, the build pressing every path toward it (item 119 (a); §12.1's targets and comfort level). The one-time waits
+stage 2 adds to or lengthens — generation with stage 2 (its one-click total and the first map), a standalone
+neighbourhood document's first map, a replace close-up, the stage-2 switch's edit (a Re-derive from S2 of the whole
+document, ≤ §12.6's M(B)), the sky unit run at generation and inside a raise, a late declaration or New random on an
+island, and a district or outline export (V01 §5.3; §12.7's lines) — each completes within item 119 (a)'s **comfort
+level** of ten seconds of total time, from the click to the complete result on §12.1's reference hardware, at TOWN, CITY
+and METROPOLIS up to its population cap (a standalone neighbourhood document at each `contextRung`; the switch's edit at
+the METROPOLIS cap among them); past it the wait fails T-V1-29's clause. Each wait past about one second shows progress —
+the running stage by name and the map filling in, never an empty screen — through V09 §4.21.9's progress view (item 119
+(c)); the first picture is still complete (§8.5). A step runs slower than its target only for a measured gain recorded
+as its `perf.qualitySpend` row (V11 §3.25.8: the step, its cost and its gain) and still inside the comfort level (item
+119 (b)); stage 2 ships none. The interactive lines — opening a district (its model and display list, and its first
+visible tiles), the surface marks and the walls and raised parts of an opened district, a block's content edit, a
+hood-pin edit, T8's preview (the replace dry run), Find's two lines and the crisis services — are interaction budgets,
+unchanged by item 119 (d). The low tier (§12.1) aims at the same comfort level, a size it cannot reach declared per
+device (item 119 (e)). At
+the METROPOLIS cap the targets of these waits lie within a few seconds (§12.3's model law, §12.5's first-map law, §12.6's
+M(B)), so item 119 moves no figure of this section; T-V1-29 times each.
+=== END ===
+
 === REPLACE ## 7 Tests and acceptance bars ===
 ## 7 Tests and acceptance bars
 
@@ -210,7 +491,7 @@ reach. Every bar runs from M5 unless its row says otherwise; the last column is 
 | T-V1-56 | edges (V01 §3.18): a fixture per row of V01 §3.18 (e), run under the default preset and both parity presets — (a) no input and one item: an empty town, a town of one district, a district with no portal, block, site or name, one eligible row, one candidate; (b) the caps: `pin.cap`, `landmark.maxRings`, `terrace.maxLevels`, quotas above what the candidates hold, §6's row-count fallback; (c) every toggle and preset of V01 §3.18 (c) on and off, each with its row's outcome; (d) degenerate geometry — zero-length, zero-area, self-touching, collinear and coincident faces, outlines, seams and marks — taken by the kernel's refusal and the step's failure class (V01 §3.18 (a)); (e) missing, empty or contradictory data: an absent row, band, kind factor or `fallback`, an absent `scope` field, a dossier change removing a fixed input's record. Each case meets its row's outcome and rung, reported in the generation report, with 0 crashes, hangs, invalid outputs, silent drops or whole-map retries | B-FUZZ, CI | C | — |
 | T-V1-57 | rungs (V01 §3.18 (b)): B-CITY-lite at every rung from THORP to the METROPOLIS cap — at THORP, HAMLET and VILLAGE no stage-2 hook registered, 0 templates, typed blocks, places, hood pins or close-ups, and `hatched` drawing the village's records by V01 §5.1.1's rows; at TOWN 0 generated raised ways, 0 quarry-ossuary entrances and no sky unit run; at CITY and METROPOLIS stage 2 whole; at the METROPOLIS cap the district count S6's, V01 §6's METROPOLIS lines met and no stage-2 quota binding beyond its own rows; a village grown into the town ladder takes its fabrics and block contents from its first S7b and S10a; a standalone neighbourhood document at each `contextRung` reads that rung's rows | B-CITY-lite, fixture | C | — |
 | T-V1-58 | item 111 and the map frame against stage 2 (V01 §3.18 (f)): on item 111's oasis fixture, the spring pool read as a `lake` body by the waterfront feature and the rows' `waterShare`; 0 template faces or S9b candidates on its grove and irrigated gardens; its wells counted as prior picks by the close-up (V01 §3.8.2 step 2); with a terraced ward beside the pool, 0 ward-edge walls on the pool's shore run and the contour streets ending at its setback; on a hillside seed whose terraced ward meets the map frame, 0 ward-edge walls on a `frame` run and the levelling stopping at the margin band | fixture (item 111's), B-CITY | C | — |
-| T-V1-59 | Find over the town (item 120 (k)'s town clauses; V01 §5.4; takes T120-2 and T120-4's town clauses): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, a standalone neighbourhood document, V04's undercity fixture and V05's island fixture — (a) **areas** (T120-2's town clause): `findAreas` lists every district of each layer but the hinterland pseudo-district, each once (0 areas with both a district and a neighbourhood entry), every city-cut `QuarterNode` of two or more members and every `RegionGroup`, and nothing the document lacks; each area's shapes equal the union of its admitted districts' faces per layer (symmetric difference 0 at the lattice); each area chip's matches equal §11.2's gazetteer match listing by area at the view's effective key; under a player view an area the key withholds is never listed, counted, lifted or pinned; at every city-band stop from item 116's limit inward, an area drawn under the pin size carries its pin; (b) **gaps**: for each coverage unit (`walk`, `households`, `parish`, `district`), and a class with no coverage row, over 200 seeds per rung, `gapUnits`' unserved plots equal, plot by plot, those V12 §3.6's `servedShare` counts unserved under the host's key, and V01 §5.4 (3)'s one-pass evaluation equals the brute-force reading of each plot's `catchmentOf` with the members the key admits; a fixture whose only member in one district is concealed shows that district as a gap under the player view and not under the host's, and no parish cell outlines a withheld church; a several-class chip reads one unit as V01 §5.4 (3) states; an area, place or person chip yields no gap; (c) **over time** (T120-4's town clause): an edit removing a district's last member adds its gap in that commit and its undo removes it; an epoch that creates a district lists it with its gaps in that commit; a chip whose area an edit or epoch removes stays at count 0, dark, until removed or Clear; (d) **a view only**: the document hash, the log and the tiles byte-identical with Find and Show gaps on and off; (e) **cost**: `findAreas` and `gapUnits` within V01 §6's Find lines at the METROPOLIS cap; (f) **at a drawn week** (§11.2's *At a drawn week*; V01 §5.4 (1), (3), (4), (6)): on a B-EDIT CITY document whose epoch after the drawn week split a district, built the only member of a chip's class in a second district and closed the only one in a third, at that week (its frame not the head) `findAreas` lists the split district once, its shapes its faces in the frame, and no district the split made; `gapUnits`' members equal §11.2's listing at that week and its units only those the frame holds (the second district a gap, the third no gap, no district the split made a unit); and a disaster look standing at that week over the split district is framed by its units' faces in the frame, that district framed whole; at the head again, the head's areas, members, units and frame; a chip held on the district the epoch merged or split away (§6.3's succession; its id one the head no longer holds, V01 §5.4 (4)), added at the drawn week from the frame's areas: at that week it lifts that district's faces in the frame and its matches are §11.2's listing at that week; at the head it stays at count 0, dark, until removed or Clear; scrubbed back, it reads the frame's area again. From M5, Find's milestone (§16's M5 row), on the services and on V09's app harness with V09's Find panel; clause (c)'s epoch cases at the later of M5 and the M6-E exits that provide their epochs (V06 §8), and clause (f) at the later of those and V06's E6 (V06 §3.15.2's history frames) | B-CITY-lite, B-EDIT, fixtures (V04's, V05's), app harness | C | — |
+| T-V1-59 | Find over the town (item 120 (k)'s town clauses; V01 §5.4; takes T120-2 and T120-4's town clauses): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, a standalone neighbourhood document, V04's undercity fixture and V05's island fixture — (a) **areas** (T120-2's town clause): `findAreas` lists every district of each layer but the hinterland pseudo-district, each once (0 areas with both a district and a neighbourhood entry), every city-cut `QuarterNode` of two or more members and every `RegionGroup`, and nothing the document lacks; each area's shapes equal the union of its admitted districts' faces per layer (symmetric difference 0 at the lattice); each area chip's matches equal §11.2's gazetteer match listing by area at the view's effective key; under a player view an area the key withholds is never listed, counted, lifted or pinned; at every city-band stop from item 116's limit inward, an area drawn under the pin size carries its pin; (b) **gaps**: for each coverage unit (`walk`, `households`, `parish`, `district`), and a class with no coverage row, over 200 seeds per rung, `gapUnits`' unserved plots equal, plot by plot, those V12 §3.6's `servedShare` counts unserved under the host's key, and V01 §5.4 (3)'s one-pass evaluation equals the brute-force reading of each plot's `catchmentOf` with the members the key admits; a fixture whose only member in one district is concealed shows that district as a gap under the player view and not under the host's, and no parish cell outlines a withheld church; a several-class chip reads one unit as V01 §5.4 (3) states; an area, place or person chip yields no gap; (c) **over time** (T120-4's town clause): an edit removing a district's last member adds its gap in that commit and its undo removes it; an epoch that creates a district lists it with its gaps in that commit; a chip whose area an edit or epoch removes stays at count 0, dark, until removed or Clear; (d) **a view only**: the document hash, the log and the tiles byte-identical with Find and Show gaps on and off; (e) **cost**: `findAreas` and `gapUnits` within V01 §6's Find lines at the METROPOLIS cap; (f) **at a drawn week** (§11.2's *At a drawn week*; V01 §5.4 (1), (3), (4), (6)): on a B-EDIT CITY document whose epoch after the drawn week split a district, built the only member of a chip's class in a second district and closed the only one in a third, at that week (its frame not the head) `findAreas` lists the split district once, its shapes its faces in the frame, and no district the split made; `gapUnits`' members equal §11.2's listing at that week and its units only those the frame holds (the second district a gap, the third no gap, no district the split made a unit); and a disaster look standing at that week over the split district is framed by its units' faces in the frame, that district framed whole; at the head again, the head's areas, members, units and frame; a chip held on the district the epoch merged or split away (§6.3's succession: its id no longer held at the head, V01 §5.4 (4)), added at the drawn week from the frame's areas: at that week it lifts that district's faces in the frame and its matches are §11.2's listing at that week; at the head it stays at count 0, dark, until removed or Clear; scrubbed back, it reads the frame's area again. From M5, Find's milestone (§16's M5 row), on the services and on V09's app harness with V09's Find panel; clause (c)'s epoch cases at the later of M5 and the M6-E exits that provide their epochs (V06 §8), and clause (f) at the later of those and V06's E6 (V06 §3.15.2's history frames) | B-CITY-lite, B-EDIT, fixtures (V04's, V05's), app harness | C | — |
 | T-V1-60 | the disaster's units and the outskirts' land (item 122; V01 §3.16): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, on a standalone neighbourhood document and on a VILLAGE fixture, with fixture calamities of every pattern — a fire under wind and under calm, a flood, an earthquake, a type no calamity row matches — each a carried calamity linked to a `reconstruction` condition (V08 §3.16 (7) (b)), and a preview beside them: (a) **whole districts**: `disasterDistricts` returns districts of the ground's part 0 only, never the hinterland pseudo-district, max(k, matched) of them for V01 §3.16 (5)'s k; a fire's units after its matched ones each adjacent to a unit before it in the order and each the frontier's farthest downwind of the seed (nearest under calm); with at most one matched unit, the set connected over district adjacency; a flood's grown from the water-fronting districts, lowest first; on the VILLAGE fixture the units `villageDisasterUnits`' ends (V07 §5.6 (3)), never the `village` district; (b) **monotone**: at one seed and condition the set at a lower severity a prefix of the set at a higher, severity 0 to 1 in steps of 0.05; (c) **stable**: the same set in every week the overlay stands over one drawn model (the head, or one history frame), in every view and export, at pool sizes 0 and 3, on the five engines, with Show crises toggled and across a save and a load; at a scrubbed week whose frame is not the head, the set read over that frame (V06 §3.15.2); (d) **the targets**: a calamity naming a district's institution always strikes that district; a `reconstruction` condition linked to a fire whose weeks also hold a later calamity of another type (a plague) strikes the fire's targets, with the `fire` pattern; a linked calamity carried with no epoch event (dated at or before the last absorbed week) strikes its targets, with its pattern; on the VILLAGE fixture a target on a toft strikes the end holding it, one naming the `village` district every end, and one on an outlying farmstead is reported `unmatched`; a target an edit removed, or one in the hinterland, reported in the view telemetry and the pattern filling the share; under T-V9-66's canary player view a withheld target neither struck by name nor reported; (e) **`campLand`**: only `commons` faces and fallow `arable` and `strip_field` faces, within `camp.reachM` of the built edge or bordering an arterial within that reach of where it leaves — 0 `arable` or `strip_field` faces outside their fallow course and 0 `meadow` or `pasture` faces; 0 faces meeting a gate's passage or crossed by an under-deck strip, 0 on the sky or underground arenas; on the VILLAGE fixture read on the village's records (V07 §5.6 (2)), 0 faces on the green or a plot; empty on a standalone neighbourhood document and on an island town with no land beyond its shore; (f) **a look only**: the model digest, the document hash and the log byte-identical with every service called and not; no call for an overlay in a week outside its weeks, and none with no condition and no preview; (g) V01 §3.18 (e)'s two crisis rows and (f)'s crisis combinations, each with its outcome and rung; (h) **cost**: V01 §6's crisis line at the METROPOLIS cap. From M5; clause (e) from M3b, with `campLand` (V01 §8.1); the VILLAGE fixture's clauses once V07's village readings land (V-M3, V07 §8); (c)'s scrubbed-week clause at the later of M5 and V06's E6 (V06 §3.15.2's frames) | B-CITY-lite, fixtures, CI | C | — |
 
 **Parity against NG** (the reference that owns the close-up; run under the `NG` preset): T-V1-26 (draw style), T-V1-29 (open time per template, raster, per building, uploads),
@@ -240,7 +521,7 @@ when they pass, else keeps `fakeGablePerWing`, reported (V02 §5.3 supplies `roo
 | W8 unit runs | the standalone neighbourhood document (`Recipe.hood`, S0–S2's one-district programme, the `star` row, the border, default cuts), T1's `product`; the sky unit's district partition and split on a fixture island (volume 5's `SkyStrategy` plugs in at M6-sky), its crossing-site spans and their bridges built after S8, `levelledGroundCm`'s dispatch on a sky key with its raster fallback — the island's terrain raster, nothing levelled before S10 (item 309's M5 part, built with item 580; volume 5 adds the island's datums at M6-sky) —, the rim walk's `plantRimWalk` with its two callers, and its runs after generation with each receiving district and a re-searched claim's district re-derived at the rim (V01 §3.10.3 (4), (6)) | W1, W3, W4 | 2–3 |
 | W9 `hatched` at all four bands | roof law, hatch, lobed crowns, road surfaces and modes, stair-stepped ticks, pin symbols, the per-band order, night, states; its measurement render and B-ZOOM continuity | S-V1-c | 3–3.5 |
 | W10 labels, exports, Find's areas and the disaster's units | the hood title, place labels, per-format content (V01 §5.3); Find's area targets and Show gaps' units (`findAreas`, `gapUnits`; V01 §5.4, item 120); the disaster look's units (`disasterSource`, `disasterDistricts`; V01 §3.16, item 122), reading V07's village units in the same shape | W5, W9, the base's item-122 parts (M3b) | 0.75–1.5 |
-| W11 verification | every T-V1 test (V01 §7; T-V1-50 – T-V1-54 with W18; T-V1-55 – T-V1-58 the lifecycle, edge, rung and item-111 and frame suites of V01 §3.18; T-V1-59 Find's, at M5 (Find's milestone) on V09's app harness with V09's Find panel, its epoch and drawn-week clauses at the later exits its timing cell names; T-V1-60 the crisis units' and the camps' land, its clause (e) from M3b, its village and scrubbed-week clauses at the later exits its timing cell names; T-V1-29's one-time-wait clause, item 119), B-REF's NG template rows in `baselines.json` (research-side, numbers only; NG's plaza share of the neighbourhood's area per size tag among them, T-V1-31), the NG panel tooling (§13.6 (2)'s seeds and counts), goldens and shift records; the register entries of the cells M5 lands (`--defaults --milestone M5`, then `--check`; V01 §8.1) and the history rows of the M1 `hood.constants` and M3a `hood.templates` columns S-V1-b, W3, W16, W17 and W18 tune before M5's exit | all | 2–2.5 |
+| W11 verification | every T-V1 test (V01 §7; T-V1-50 – T-V1-54 with W18; T-V1-55 – T-V1-58 the lifecycle, edge, rung and item-111 and frame suites of V01 §3.18; T-V1-59 Find's, at M5 (Find's milestone) on V09's app harness with V09's Find panel, its epoch and drawn-week clauses at the exits its timing cell names; T-V1-60 the crisis units' and the camps' land, its clause (e) from M3b, its village and scrubbed-week clauses at the exits its timing cell names; T-V1-29's one-time-wait clause, item 119), B-REF's NG template rows in `baselines.json` (research-side, numbers only; NG's plaza share of the neighbourhood's area per size tag among them, T-V1-31), the NG panel tooling (§13.6 (2)'s seeds and counts), goldens and shift records; the register entries of the cells M5 lands (`--defaults --milestone M5`, then `--check`; V01 §8.1) and the history rows of the M1 `hood.constants` and M3a `hood.templates` columns S-V1-b, W3, W16, W17 and W18 tune before M5's exit | all | 2–2.5 |
 | W12 shade and siting reads | `DistrictContext.shade`, S7c's shade term, S9b's sun and siting factors, the strips shared with field pass 2, S9b's move after S10a (i) with its hook point, the pins' shade gain (items 102, 103) | W4, the base's item 102 and 103 work | 0.75–1 |
 | W13 chains, links, ladder members | χ̃'s allocation-level `c`, `DistrictContext.chains` and `records`, S7c's chain term, the fixed SIZE and GUILD inputs, the panel's reader query and the title's QUARTER label (items 104, 105, 107, 108) | W3, W4, the base's item 105 and 108 work | 1–1.5 |
 | W14 barrier-closure reads | the barrier seam typing (item 541), walled-stretch shares, intramural gardens excluded (item 106) | W2, the base's item 106 work | 0.25 |

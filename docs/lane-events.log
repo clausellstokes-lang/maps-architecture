@@ -3047,3 +3047,8 @@
 2026-10-01 17:54 coherence/repair-V04-r5 CHECKPOINT P0 done (brief, adjudication-r5 R5-01/R5-02/R5-05, Part H V04 read; skeleton written); next P1 live V04 subsections and issue sources
 2026-10-01 17:55 coherence/repair-determinism-r5 LANDED docs/validation/coherence/repair-r5-determinism.md docs/validation/coherence/results/coherence_repair-determinism-r5.json docs/validation/coherence/work/repair-determinism-r5/
 2026-10-01 17:55 coherence/orchestrator NOTE repair-determinism-r5 landed (8 blocks, 0 ruling requests); launched repair-V02-r5 in its slot
+2026-10-01 17:55 coherence/repair-V05-r5 CHECKPOINT skeleton written; brief, adjudication-r5 R5-01/R5-05/Part H V05 and verifier evidence read; next: read V05 §2 sites, T-V5-36, §8 whole
+2026-10-01 17:56 coherence/repair-V01-r5 CHECKPOINT P2 revised (5 REPLACE blocks saved: §3.18, §5.4, ## 6, ## 7, §8.2 — the R5-05 (b) sweep added §5.4 (4) and §6's findAreas row); next P3 checks, report
+2026-10-01 17:56 coherence/repair-V06-r5 CHECKPOINT P0 done (brief, adjudication-r5 R5-01/R5-02/R5-10, Part H V06 read; skeleton written); next P1 live V06 units and the landed round-5 base texts
+2026-10-01 17:58 coherence/repair-V01-r5 LANDED docs/validation/coherence/repair-r5-V01.md docs/validation/coherence/results/coherence_repair-V01-r5.json (opus seat, PENDING FABLE REVIEW; 5 REPLACE blocks over V01 §3.18, §5.4, ## 6, ## 7, §8.2; 2 issues fixed (VV12-r4-02, VV12-r4-04), 1 END line (T-V1-60's timing); R5-05 sweep: §5.4 (4), §6's findAreas row, §3.18 (c), §8.2 W11 conformed; 0 ruling requests; dry run 5/5 applied, audit OK, sha 4585e1a59d0e)
+2026-10-01 17:58 coherence/orchestrator NOTE repair-V01-r5 landed (5 blocks, 0 ruling requests); launched repair-V03-r5 in its slot
