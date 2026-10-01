@@ -7,7 +7,24 @@ H24 = '### 2.4 The rule tables and the default rows'
 H25 = '### 2.5 Lifecycle of every new state field'
 
 
+H0 = '## 0 In plain words'
+
+
 def add(E, A):
+    # ---------------- §0 (plain words for items 119 and 120) ----------------
+    E(H0,
+      "virtual-tabletop scene with its walls, doors, windows and lights.",
+      "virtual-tabletop scene with its walls, doors, windows and lights.\n"
+      "\n"
+      "**Find and speed.** With Find on (item 120), zooming in on a building that holds what you are looking for lights up\n"
+      "the rooms that do the work — a smithy's forge and shop, an inn's common room and guest rooms, a church's nave and its\n"
+      "crypt — while the families' own rooms stay under the veil; the storey switcher marks the floors that hold them, and\n"
+      "Find never changes the plan. Every wait you sit through once — a dossier change that re-cuts many saved plans, an\n"
+      "export of a tall building's every storey, opening a map saved by an older version — ends within ten seconds at every\n"
+      "size up to the largest metropolis and shows its progress after the first second (item 119); opening a plan,\n"
+      "switching storeys and editing stay as quick as before.",
+      1, 'VV34-01, G120-V03')
+
     # ---------------- §1 ----------------
     E(H1,
       "block, SVG, raster and per-storey VTT scenes; budgets, bars and the build plan. The base states the records (§2.6's",

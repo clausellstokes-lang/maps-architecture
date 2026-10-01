@@ -41,7 +41,7 @@ The low tier aims at the same comfort level, a size it cannot reach declared per
 
 T37 = ("| T-V3-37 | the plan's one-time waits (item 119 (f)'s plan clauses; V03 §6), on §12.1's reference machine, five seeds per "
        "wait at every rung's top and at the metropolis cap, each timed from the click to the complete result: (a) a dossier "
-       "change applied on B-EDIT's reference CITY document (§12.6) given a stored plan on every building of its largest "
+       "change applied on a CITY document of B-EDIT's dossier fixtures (§13.2) given a stored plan on every building of its largest "
        "district, whose re-homing relets each of them by one household, so that every stored plan is re-cut inside the "
        "event; (b) every plan export of the tallest B-PLAN fixture (the terraced palace's eight storeys) — the SVG storey and "
        "all-storeys sheets, the PNG sheet at the export dialog's largest offered size, the `.dd2vtt` and Foundry scenes per "
