@@ -94,7 +94,7 @@ and the 13 F-MISSING parts are written at build depth (verdicts below).
 | G122-V06 | V06 | R2-37 (6) | **PRESENT** | V06 §3.22 (`frontierFor`, `crisisLookYields`, the aftermath, reconstruction as Works), W92–W93, §2.12 rows, §3.21 rows, §6.9, T-V6-75, J-V6.137 – J-V6.138 (VAT2-r2-09) |
 | G122-V01 | V01 | R2-37 (4)–(5) | **PRESENT** | V01 §3.16 `disasterSource` / `disasterDistricts` and `campLand` l.2315-2372, T-V1-60, J-V1.104 – J-V1.105 (peers' VV12-r2-01 – 03) |
 | G122-V02 | V02 | R2-37 (4), (7) | **PRESENT** | V02 §5.7 (1), (3)–(6) l.3016-3104, X35 – X36, T-V2-60 (VAT2-r2-09) |
-| G122-V03 | V03 | R2-37 (7) | **PRESENT** | V03 §5.6 (4) l.2715-2728, T-V3-40 (VAT2-r2-09) |
+| G122-V03 | V03 | R2-37 (7) | **PRESENT** | V03 §5.6 (4) l.2712-2725, T-V3-40 (VAT2-r2-09) |
 | G122-V07 | V07 | R2-37 (4) | **PRESENT** | V07 §5.6 l.3387-3500, W84, T-V7-69, J-V7.146 (peers' VV78-r2-05 – 07) |
 | G123-determinism | determinism | R2-38 (2) | **PRESENT** | §6.3 *Plan damage* l.9786-9802; §6.1's `plan.damage` row l.9351; §6.5 (9) l.10003-10006 (T123-3) |
 | G123-V06 | V06 | R2-38 (3) | **PRESENT** | V06 §3.23 `decayLevel` / `decayPeak`, W94, §2.12 row, §3.21 row, T-V6-76, J-V6.139 (VAT2-r2-05, -06; peers' VV56-r2-01, -05, -06) |
@@ -206,7 +206,7 @@ the present." In EP-15 (l.8801), "before a week-0 creation" reads "before a week
 ### VAT2-r2-05 — MAJOR DISAGREE (owner: V06)
 
 **Claim.** V06 gives the decay level of a building the history replay ruined two readings.
-- **The default age.** V06 §3.23 (4) (l.3378-3383) gives "a building generated `abandoned`, `decayed` or `ruined`, or
+- **The default age.** V06 §3.23 (4) (l.3381-3386) gives "a building generated `abandoned`, `decayed` or `ruined`, or
   first met so in item 113's replay", V11's default age `D` under "No decay run in the log". T-V6-76 (d) (l.4081) bars
   "H-HISTORY's ruins first met in the replay, read V11's default age". V06 §3.21's decay row (l.3253) says the same.
 - **The replay's ops.** The replay ruins and abandons buildings by ops of its epochs. V06 §3.20.5 (2) states "every
@@ -239,7 +239,7 @@ building is a separate fact about the plan, not the level: the replay derives no
 
 ### VAT2-r2-06 — MAJOR CONFLICT (owner: V06)
 
-**Claim.** V06 §3.23 (4) (l.3378-3381) gives a building with no decay run in the log "its state at V11's default age
+**Claim.** V06 §3.23 (4) (l.3381-3384) gives a building with no decay run in the log "its state at V11's default age
 `D`: (2) with `w − A = 52 × D`". That holds `w − A` constant at every week. A ruin generated at creation therefore reads
 the same level at creation and after a century of epochs, so its damage never accumulates. This is against:
 - item 123 (b): "the decay level (0–1, from its existence state and the years since it was abandoned …) … Damage
@@ -294,9 +294,9 @@ drops it.
 ### VAT2-r2-09 — MINOR EDGE-UNDEFINED (owner: V06)
 
 **Claim.** V02 and V03 call `crisisLookYields` for a preview, which V06 never defines.
-- **The callers.** V02 §5.7 (1) (l.3027-3031) draws a disaster preview over a building "while the building stands in a
+- **The callers.** V02 §5.7 (1) (l.3028-3032) draws a disaster preview over a building "while the building stands in a
   unit the look strikes and has not handed over ((6))". (6) reads V06's `crisisLookYields(doc, building, overlay, week)`
-  against "the condition's `sinceWeek`". V03 §5.6 (4) (l.2715-2720) applies the same "not yet handed over" test to "a
+  against "the condition's `sinceWeek`". V03 §5.6 (4) (l.2712-2717) applies the same "not yet handed over" test to "a
   `disaster` preview at §10.2's `previewSeverity`".
 - **The callee.** V06 §3.22 types `overlay: Id /* a ConditionOverlay whose look ruins the building */`, and its rule reads
   the overlay's `sinceWeek`. A preview has no overlay and no `sinceWeek` (V06 §3.22 (1): "A crisis preview … has no
@@ -313,8 +313,8 @@ under a rebuild Works | the look drawn (a preview never hands over)". V02 §5.7 
 ## Confirmed peer findings (not raised again; confirmed in the live text)
 
 * **Item 123's level and plan:**
-  * VV56-r2-05 (V06's decay run dated by its epoch's week, not the hazard's or the Works' week). V02 §5.7 (6) (l.3093)
-    and V03 §5.6 (4) (l.2726-2728) restate "from that epoch's week". Whichever reading is adopted, those two follow it in
+  * VV56-r2-05 (V06's decay run dated by its epoch's week, not the hazard's or the Works' week). V02 §5.7 (6) (l.3097)
+    and V03 §5.6 (4) (l.2724-2725) restate "from that epoch's week". Whichever reading is adopted, those two follow it in
     the same round (R2-05).
   * VV56-r2-06 (`decayPeak` per element), VV56-r2-01 (`reused`), VM-R2T-01 / VM-R2T-02 (§2.6 step 7 against V03 §3.11
     and V06 §3.23), VDC2-07 / VDC2-08 / VRC2T-13 / VRC2T-14 / VV34-r2-04 (level ≥ t against "above 0 and at least t"),
