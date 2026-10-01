@@ -2658,3 +2658,5 @@
 2026-10-01 11:57 coherence/repair-V03-r3 CHECKPOINT P2/P3 done (34 count-asserted edits, 10 REPLACE blocks; dry run 10/10 applied, audit OK, byte-identical to expected f4458cf4…; tables regular; doc_checks provisional); next: write repair-r3-V03.md header + blocks, result json, LANDED
 2026-10-01 11:57 coherence/repair-V10-r3 LANDED docs/validation/coherence/repair-r3-V10.md docs/validation/coherence/results/coherence_repair-V10-r3.json
 2026-10-01 11:57 coherence/orchestrator NOTE repair-V10-r3 landed (18 blocks, 0 ruling requests); 5 running: V03 V01 V02 V05 kernel
+2026-10-01 11:58 coherence/repair-V03-r3 LANDED docs/validation/coherence/repair-r3-V03.md docs/validation/coherence/results/coherence_repair-V03-r3.json (opus stand-in for the Fable seat; 10 REPLACE blocks from 29 count-asserted edits; 7 issues FIXED, 3 END lines written; 0 ruling requests; dry run byte-identical f4458cf4…)
+2026-10-01 11:58 coherence/orchestrator NOTE repair-V03-r3 landed (10 blocks, 0 ruling requests); 4 running: V01 V02 V05 kernel
