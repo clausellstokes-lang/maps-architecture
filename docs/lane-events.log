@@ -3251,3 +3251,4 @@
 2026-10-01 22:19 coherence/repair-V03-r6 CHECKPOINT P1-P3 done (4 blocks built, dry run 4/4 applied, audit OK, output byte-identical to expected 894955c29098f435; doc_checks provisional); next P4 write repair file, result, LANDED
 2026-10-01 22:19 coherence/repair-V10-r6 LANDED docs/validation/coherence/repair-r6-V10.md docs/validation/coherence/results/coherence_repair-V10-r6.json
 2026-10-01 22:19 coherence/orchestrator NOTE repair-determinism-r6 landed (6 blocks, 0 ruling requests); launched repair-V04-r6 in its slot
+2026-10-01 22:19 coherence/orchestrator NOTE repair-V10-r6 landed (12 blocks, 0 ruling requests); launched repair-V04-r6 (prior) and repair-V12-r6 in the two freed slots
