@@ -3,10 +3,108 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-kernel-r5; covered by the whole-design retrovalidation (J84).
 
 PROGRESS (lane `coherence/repair-kernel-r5`, 2026-10-01)
-- P0 brief read whole; adjudication-r5 (summary, TOC, R5-01, Part H · kernel) read: done
-- P1 issue evidence (verify-kernel-r4t VKr4-01, scope's VKr4-02) and live §3.2, the frame readers set-wide read; sweep: done
-- P2 repair block VKr4-01 (REPLACE §3.2; builder in the session scratchpad): done — report header: next
-- P3 dry run on copies, references, doc checks, scans; report; result; LANDED: pending
+- P0 brief read whole; adjudication-r5 (summary, TOC, R5-01, Part H · kernel, Part I) read: done
+- P1 issue evidence (verify-kernel-r4t VKr4-01, scope's VKr4-02 and its landed round-5 fixture) and live §3.2, the frame readers set-wide read; sweep: done
+- P2 repair block VKr4-01 (REPLACE §3.2; builder in the session scratchpad): done
+- P3 dry run on copies (alone and combined), references, doc checks, scans; report; result; LANDED: done
+
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
+# ignored. Base: docs/ARCHITECTURE.md sha256 5f34cceb… (assemble-r4's output); rationale sha256 a480f02e… (untouched).
+# The REPLACE body is the live §3.2 with two count-asserted edits (builder: the session scratchpad's
+# coherence/kernel-r5/build.py — the `Frame` record's `marginShare` comment, and bullet (c) of (9) re-wrapped at 120
+# characters with its indent, its first three lines unchanged); every other line is verbatim. Blocks: 1 — REPLACE §3.2.
+# Ruling requests: 0. END lines owed by this unit: none (Part H · kernel).
+#
+# ISSUES → WHERE FIXED (one issue; FIXED in text; none INVALID, none MERGED, nothing parked)
+#  VKr4-01 (major, as graded; FIX, amended) §3.2 (9) bullet (c) and the `Frame` record.
+#    (1) Bullet (c), after "… along the frame (§2.2 rule 1) — stays.", appends the ruled sentence with Part H's amendment
+#        word for word: "Where the frame grows and the arena is kept — after a change of frame law only (a town handed down
+#        to the village product, item 322, its territory frame growing within the arena it kept — at a village band's
+#        re-crossing or at a later growth inside that arena) — (b) does not run, and `Plat.frame` takes the new frame as
+#        this batch commits, its `marginShare` the kept arena's own share of it, (arena width ÷ frame width − 1) ÷ 2, so
+#        the arena still spans the frame plus `marginShare`." So `Plat.frame` is replaced at (b)'s last commit where the
+#        arena grows and at (c)'s commit where only the frame grows; the zoom-out limit's `bounds` (§8.8; V07 W79,
+#        T-V7-64) move with the border, and the next growth measures from the grown frame (the hand-off up at 1 575 grows
+#        the arena by (b) to 3 373 × 1.6 = 5 397 m, as the claim's stated design has it).
+#    (2) The `Frame` record's `marginShare` comment, after "`territory.marginShare` under the `territory` law (V07 §3.2
+#        (1))", inserts the ruled "; the kept arena's own share where an epoch's growth kept a wider arena (§3.2 (9))".
+#    Root cause (orchestrator's note (6)): the comment listed the laws' shares only, so any arena that is not the frame
+#    plus its law's share left the field contradicting (9)'s "the arena spans the frame plus `marginShare` on every
+#    side". The set holds one other such arena — V07's `VG` parity preset, whose frame is VG's square view at
+#    `matched.vg.size` (`vg.frameM`, 210 / 350 / 560 m) plus `vg.marginM` (34 m) per side (V07 §2.2's `VG` column,
+#    V07 l. 467 and l. 603; V07 §3.15; `vg` in V07's rules record, l. 564) while the rung's `frameLaw` stays
+#    `territory` — so the comment also names it: "; `vg.marginM` ÷ the view's side under the `VG` parity preset (V07
+#    §3.15)". It restates no value (the 34 m stays V07's), changes nothing V07 builds, and leaves the comment naming
+#    every source of the arena's margin, so S1, which lays the arena's ring as "the frame plus its context margin"
+#    (§4.1's S1 row), reads one value in every case.
+#    Edges of the new sentence (principle (11)), all defined: (i) under one frame law a grown frame always grows the
+#    arena — every frame side moves by at least `attractCm` + 1 cm, every arena side by (1 + 2·share) times that — so
+#    the case arises only after a change of law, as the sentence says; (ii) the kept arena's share is never below the
+#    law's share less `attractCm` ÷ the frame's width (less than 0.001 below it at any frame of 600 m or more, THORP's
+#    floor), so the frame always lies strictly inside the arena and no chain of (c) meets the `margin` ring; (iii) the
+#    next growth computes its arena from the current law's margin, never from the record's share, so a kept share is
+#    not compounded, and a later growth inside the same arena takes the same path again (Part H's amendment); (iv) the
+#    share is computed from lattice integers with + − ÷ only (§3.2 (3); `ratio`, (8), the frame's width never 0), so a
+#    replay re-derives it byte for byte and an epoch's undo restores the old `Frame` whole ("its undo record restores the old frame"); (v) other parts,
+#    whose rings are the frame with its margin (§2.2 rule 1), keep their rings, since the arena is kept.
+#    Fixture: scope's VKr4-02 (repair-r5-scope.md, its §13.1 block l. 277–280: "the frame grown to the territory law's
+#    3 373 m square, the arena kept at 4 293 m: (a) and (c) only, `Plat.frame` the new frame as (c) commits, its
+#    `marginShare` the kept arena's share; the hand-off up at 1 575 then growing the arena by (b) to 5 397 m") —
+#    agrees with this text. Arithmetic checked: 4 km² × 9 000 ÷ 5 000 = 7.2 km², 2 683 m, × 1.6 = 4 293 m; VILLAGE's
+#    territory law at 400, 2.275 ha × 400 ÷ 0.8 = 11.375 km² ≥ 4.0, 3 373 m, × 1.2 = 4 047 m < 4 293 m (kept); the
+#    kept share (4 293 ÷ 3 373 − 1) ÷ 2 ≈ 0.136.
+#
+# RULINGS APPLIED AT THIS UNIT (adjudication-r5's kernel row: R5-01)
+#  R5-01  Part H · kernel is this seat's whole work (1 FIX, 0 END lines); written. (2) the sweep, in §3: only §3.2 (9)
+#         assigns the batches to the growths and places `Plat.frame`'s replacement; §3.3's clear-region list (l.
+#         3756–3762) and §3.11's caps and rung rows cite §3.2 (9) without restating it — nothing to conform. Set-wide
+#         (the three blind spots included): §2.2's `Plat.frame` comment (l. 590: replaced by an epoch's frame growth,
+#         "which only grows it") holds; the readers of "the frame plus its context margin" — §2.2 rule 1's part rings (l.
+#         673, 687), §4.1's S1 row (l. 4927), II.7 (l. 21053), §8.8's surrounding ring (l. 14367) — read the arena,
+#         which (2) keeps equal to it; §4.11 *The rung at an epoch* (l. 8470–8476) names the three batches as "§3.2 (9)'s
+#         single-level batches" and defers to them; §8.8's zoom-out limit (l. 14137, `DisplayList.bounds`: "a town's
+#         frame, a village's township") and V07's W79 and T-V7-64 read the frame, which now moves at (c)'s commit; V07
+#         §3.2 (1) (l. 1204–1207) and J-A81.31 / J-A81.41 agree; V09's panels and V10's clerk state no frame-growth
+#         batch rule; §13.1's fixture is scope's (above). No review id in design text (scan). Grade as adjudicated
+#         (major). R5-02 binds no kernel text: §3.2 (9)'s "extends the deck to the new ring" is consistent with §2.7's
+#         support step (7) (the old deck's stations kept), and the new case moves no ring, so it runs no foot batch.
+#  Verifier's required change: applied as Part H amends it ("after a change of frame law only (… — at a village band's
+#  re-crossing or at a later growth inside that arena)"); the verifier's PLAUSIBLE alternative (keep the law's share
+#  and send readers to part 0's ring) is not taken — the ruling chose the kept arena's share. The `VG` clause above is
+#  the same defect's other home, written so it cannot recur there.
+#
+# OWNER RULES: no g item through 126 and no dated canon ruling through "2026-10-01 (adjudication round 5)" names a
+# kernel part beyond item 110's §3.4 (closed earlier). §3 holds no phone clause (item 126 (a2)) and reads no dossier
+# field (item 125; §3.11).
+#
+# SIZES (principle (9)): §3 25 524 → 25 643 words (+119, +0.5 %; extraction from "## §3" to "## §4"); §3.2 2 288 →
+# 2 407 (+119); lines 128 → 133. Words removed by source: restatement 0, narration 0, duplicated mechanisms 0, verbose
+# prose 0. The issue adds a defined outcome for an undefined edge (principle (11)), so the unit grows; its shrink was
+# taken in earlier rounds. No shrink, so no nuance audit.
+#
+# DRY RUN (apply-blocks.py unchanged, on copies of the live files; outputs in the session scratchpad's
+# coherence/kernel-r5/):
+#  - alone: 1 found, 1 applied, 0 skipped, audit not-OK 0; headings 153 → 153, fences balanced (140 → 140), title block
+#    unchanged; index 805 = Part A 805, 0 duplicates; diff = 2 hunks (l. 3562 changed; 5 lines added after l. 3655);
+#    rationale unchanged (a480f02e…).
+#  - combined with the landed base files of round 5 (determinism, model, pipeline, rendering, scope) in name order: 37
+#    found, 37 applied, 0 skipped, audit not-OK 0, headings 153 → 153; §3 of the combined output identical to §3 alone
+#    (no other unit's block touches the base's §3).
+#  - references (assemble-r4's refs.py on mirrors, live vs new): base resolved 18 109 → 18 111 (+2: §3.2 and V07 §3.15
+#    on l. 3562, both resolved), ambiguous 14 → 14, external 30 → 30, broken 0; volumes and INDEX.md unchanged.
+#  - doc_checks --sections 3: exit 0 both; C1 5/0, C2 1/0, C3 95/0, C4 0/0, S1 0/0 identical; S2 272/0 → 273/0 (the
+#    volume pointer "V07 §3.15", allowed; refs.py resolves it) (hits/unreviewed). PROVISIONAL: "reference corpus
+#    INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) -
+#    clean-room results are NOT authoritative".
+#  - scans of the added text: canon's 35 retired-term patterns 0; review ids 0; phone 0; "etc.", "as appropriate",
+#    "similar rules apply" 0; deferral 0 — its one "later" ("a later growth inside that arena", Part H's words) orders
+#    two events and leaves no choice open.
+#
+# HAND-OFFS (R5-01 (2); for round 6's verifiers, none open wording in the design)
+#  * V07: the `VG` preset's arena margin (`vg.marginM` per side, V07 l. 467 and l. 603) is now named in the base's
+#    `Frame` record; no V07 test asserts the VG arena's ring (T-V7-23 runs parity under `VG` on other measures). The
+#    behaviour is V07's and unchanged; whether a fixture is owed is V07's to judge under principle (11).
+#  * scope: none — §13.1's reverse-fold fixture (VKr4-02) already reads this text.
 
 === REPLACE ### 3.2 Numeric policy ===
 ### 3.2 Numeric policy
