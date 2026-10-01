@@ -127,10 +127,10 @@
 #  - rendering (§11.2) and V09: Find's class entries are matched by V11's lexicon and admitted by §11.2's one admission
 #    function (row 55's readers name Find among the reader's queries).
 #
-# WORDS (whitespace-split). V11 whole: 99 184 -> 101 935 (+2 751, +2.8 %); the 29 touched sections 80 470 -> 83 275.
+# WORDS (whitespace-split). V11 whole: 99 184 -> 101 947 (+2 763, +2.8 %); the 29 touched sections 80 470 -> 83 289.
 # Removed ≈ 60: narration (the 39 canon ids and C4-05) ≈ 33, restatement ≈ 25 (S11's draw, stream, key and formula at
-# §3.24.3; the plinth and skirt values at §3.24.1; the restated `RaisedKind` union). Added ≈ 2 860, all design an issue
-# requires: Find's lexicon and groups (G120) ≈ 560; the six J rows J-V11.112 – J-V11.117 ≈ 800; the required-row rule and
+# §3.24.3; the plinth and skirt values at §3.24.1; the restated `RaisedKind` union). Added ≈ 2 875, all design an issue
+# requires: Find's lexicon and groups (G120) ≈ 575; the six J rows J-V11.112 – J-V11.117 ≈ 800; the required-row rule and
 # its schema, edge row and tests (VEL0-11) ≈ 340; the never-calibrated rows (VV1112-16) ≈ 160; the stamped-cell sentence
 # (VV1112-04) ≈ 135; the clear-span cell (model hand-off) ≈ 120; the C4 split (VAP-08) ≈ 105; `grandClasses` (VV1112-09)
 # ≈ 90; the village kind (VM-R0S-16) ≈ 85; the §10c subjects (VAH-30, VV56-27) ≈ 120; the rest ≈ 345. No rule, value,
@@ -138,14 +138,14 @@
 #
 # CHECKS (on a copy). apply-blocks.py itself, run over this file with its FILE line stripped (--doc a copy of V11): 29
 # found, 29 applied, 0 skipped, audit not-OK 0, headings 58 -> 58, fences balanced (22 -> 22), title block unchanged,
-# output sha256 fb42f4db547ed10c… (626 460 bytes, 5 154 lines), byte-identical to the scratch dry run (rV11/apply.py);
+# output sha256 7f3ee85ebbddb200… (626 514 bytes, 5 154 lines), byte-identical to the scratch dry run (rV11/apply.py);
 # every line outside the 29 sections byte-identical; J-V11 ids defined 117, every cited
 # J-V11 id defined; 370 section pointers on the changed lines (V11 §…, Vnn §…, bare base §…) all resolve to headings or
 # numbered subsections; no listed canon id remains (the EI-V11-EDGE-n row keys excepted, by the issue's own exemption).
 # doc_checks.py over the whole volume, `--heads docs/ARCHITECTURE.md` (WARNING: reference corpus INCOMPLETE — captures,
 # research/patreon, research/devlogs, research/ftg-docs, research/external absent — the clean-room result is NOT
 # authoritative): before C1 0, C2 0, C3 276 hits / 255 unreviewed, C4 3 / 0, S1 0, S2 270 / 44; after C1 0, C2 0, C3 279 /
-# 258, C4 3 / 0, S1 0, S2 290 / 50. The six new S2 hits are V11-qualified pointers ("V11 §3.26's row …", "V11 §3.26's
+# 258, C4 3 / 0, S1 0, S2 291 / 50. The six new unreviewed S2 hits are V11-qualified pointers ("V11 §3.26's row …", "V11 §3.26's
 # general rule") the checker reads as base pointers; the four new C3 hits are our own plain words, proposed for
 # docs/validation/doc-checks-allow.tsv (this lane writes no shared file):
 #   C3	3 2 3 the editor	repair-V11-r1 (2026-10-01): a section pointer "(V11 §3.2.3)" followed by our own words in V11 §4.1's required-row rule; no reference text
@@ -532,8 +532,8 @@ model input, so the document hashes identically with Find on or off (item 120 (a
   a family edit regroups every class it governs (J-V11.112). The headings are V09's catalogue words (`find.group.<key>`,
   V09 §4.9).
 * **Knowledge.** The lexicon reveals nothing: what Find lists, suggests, counts, draws or pins is the gazetteer's answer at
-  the view's effective key (§11.2; item 120 (h)), a concealed use answering as its front's class (V11 §3.14.3), so a
-  withheld kind is never offered by its words or its group.
+  the view's effective key (§11.2; item 120 (h)), a concealed use answering only as the key admits it — as its
+  front's class or not at all (V11 §3.14; item 30) — so a withheld kind is never offered by its words or its group.
 * `findGroup` is `own`, `calibratable: false`, never `extension` and read by no model stage, as the other display cells.
 === END ===
 
