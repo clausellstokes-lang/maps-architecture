@@ -5767,3 +5767,55 @@ rulings stand except where named below.
 * **Other supersessions:** R2-32 (2)'s "V10 C3" reads C4 (VV910-r2-07); R2-30's stop-0 clause binds the view bar only —
   an export frames within the limit bounds whatever the window, or with none (VEW-r2-02).
 * **INVALID:** none this round.
+
+## Dated ruling 2026-10-01 (adjudication round 4) — binding rulings R4-01 – R4-16 (coherence/adjudicate-r4; J122 where marked)
+
+The full rulings, with the issues each governs, the owner rules each was checked against and the END lines each unit
+writes, are `docs/validation/coherence/adjudication-r4.md`; this entry records what they change in the canon.
+adjudication-r2's and adjudication-r3's rulings stand except where named below.
+
+* **The sweep and supersession (R4-01):** a repair seat applying a ruling greps its own unit for the term, field, key and
+  section the ruling changes and conforms every restatement; a ruling caused by an earlier ruling supersedes it by name.
+* **The working layer (R4-02, J122; supersedes R3-21's END line for V09 §4.2 and row 21):** a view draws its working
+  layer (`workingLayer`, per viewer) whatever its `LayerSpec.visible`, every other layer by its visibility; switching the
+  working layer — the view bar, Find's **Go there**, a clerk's `useTool` — sets view keys only and writes nothing, so
+  Find never touches the document, its hash or its log (owner item 120 (a)); a layer's own toggle and a host's layer
+  command remain a logged `setLayer` (R3-21 (a) kept). Home §8.4.
+* **A restoring re-cut (R4-03, J122; amends R3-08 (b)):** an element a restoring event's re-cut mints enters the plan,
+  for its damage, at the week that restoration ends (its `repair` Works' FINISHED week, or the start of a decay run that
+  begins before then; with no Works, the event's effective week), drawn as built before it; one level per building.
+  Home V06 §3.23 (3).
+* **A disaster look's units and the buildings it stands over (R4-04; amends R3-16's reading at V09):** the units are
+  districts, at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units (ends or toft groups) on the plots `villageUnitPlots`
+  gives; a building is stood over while V06 §3.22 (3)'s `crisisLookYields` is false (a preview always); V09 asks §11.2's
+  `looks` with a `building` (each disaster look's `over`), never a district list; before M6-E the hand-over reads the
+  base's Works records.
+* **The view-bound why (R4-05):** §11.2's `why` takes `view?`; a provider stating a view's look reads it.
+* **Barriers across a way (R4-06; amends R3-14 (3)):** on a carriageway only a barrier across it — a `barricade`, a
+  `beast`'s `stakes`, the quarantine's `cordon` — never a camp or other part (owner item 122 (b)).
+* **The present at creation (R4-07; amends R3-18's reach):** `HistoryHint` carries the calamities up to and including
+  the present at creation, its age at that present; an event at the present is replayed in the last replay epoch.
+* **A calamity carried late (R4-08; amends R3-17):** one dated at or before the last epoch's week folds no epoch at its
+  week and rides the absorb's first epoch.
+* **Raised ways (R4-09, J122; supersedes R3-25 (c) and round 3's support step (6)):** at generation a stage's trace
+  re-sites an earlier raised way's crossing station, the support step runs once more after S7, and a moat, berm or strip
+  that cannot pass under the deck stops at the under-deck strip (no generated course dropped); after generation a
+  standing raised way is held — its supports, ramps, stairs, feet and `vault` spans a reservation every later way, trace,
+  strip, channel, plot and square gives way to; a later trace is bent through one of its stations, which becomes its
+  crossing station; a village palisade abuts the supports with no gate; a locked raised way is crossed by the same rule;
+  nothing waits for a raised way. Home §2.7's support step (6).
+* **Auto (R4-10):** a change applies while the view is settled — at once with no gesture, at the gesture's settle
+  otherwise.
+* **Tests and DR44's tier (R4-11):** no test stages a key that withholds a look-bearing condition (it is `public`); the
+  knowledge case is the `none`-row condition beside the looks.
+* **Find at a drawn week (R4-12; amends R3-24):** the listing is the frame's (its own uses and entities at that week),
+  read by every Find reader over the model the view draws.
+* **The disaster's count (R4-13; amends R3-14 (4)):** round(s × n) clamped to [1, n], the `neighbourhoods` place drawing
+  at least every matched target and stopping where a fire's order ends.
+* **The roofless case (R4-14):** §6.3 names §2.6 step 7's one case without a threshold.
+* **Item 125 at an absorb (R4-15; amends R3-20 (2)):** a field's fallback value serves a creation; at an absorb the
+  carried fact stands; a readable population above the cap is refused (B7); the key's fallbacks are §7.7 item 12's; a
+  dossier lacking a required key of every adapter is B3, a readable unserved line B5.
+* **V08's catch-up change (R4-16, J122):** a catch-up's dossier events are absorbed as one batch per epoch, the model and
+  its digests identical to the per-event absorb; past the budget the release fails under R12-31.
+* **INVALID:** none this round.
