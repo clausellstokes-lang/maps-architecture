@@ -12,14 +12,15 @@ const lines = src.split('\n');
 const idx = (re) => lines.findIndex((l) => re.test(l));
 const head = lines.slice(0, idx(/^\/\/ ───────── Inventory/)).join('\n');
 const defs = lines.slice(idx(/^const VUNITS/), idx(/^const verifyAll/)).join('\n');
+const asmDef = lines.slice(idx(/^const assemblePrompt/), idx(/^phase\('Assemble'\)/)).join('\n');
 const repBody = lines.slice(idx(/^const repairRound/), idx(/^outer:/)).join('\n');
 const adjTpl = repBody.match(/fableSeat\(`([\s\S]*?)`, `coherence\/adjudicate-r/)[1];
 const valTpl = src.match(/fin = await fableSeat\(`([\s\S]*?)`, `coherence\/validate-v/)[1];
 const args = JSON.parse(fs.readFileSync('/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/args.json', 'utf8'));
 const ctx = { args, agent: async () => null, parallel: async () => [], phase: () => {}, log: () => {}, JSON, Math, String, Number, Set, Array, Object };
 vm.createContext(ctx);
-const code = head + '\n' + defs + `
-;globalThis.__r = { GROUND, standInNote, repairPrompt, verifyPrompt, seamPrompt, edgePrompt, VUNITS, SEAM_UNITS, EDGE_UNITS, unitNames, DIR, FFILE, DATE, STANDIN };`;
+const code = head + '\n' + asmDef + '\n' + defs + `
+;globalThis.__r = { assemblePrompt, GROUND, standInNote, repairPrompt, verifyPrompt, seamPrompt, edgePrompt, VUNITS, SEAM_UNITS, EDGE_UNITS, unitNames, DIR, FFILE, DATE, STANDIN };`;
 new vm.Script(code).runInContext(ctx);
 const R = ctx.__r;
 let text;
@@ -32,6 +33,8 @@ if (kind === 'repair') {
 } else if (kind === 'validate') {
   const f = new vm.Script('(vround, material, rulingsFile, GROUND, DIR, DATE, unitNames, JSON) => `' + valTpl + '`').runInContext(ctx);
   text = f(A.vround, A.material, A.rulingsFile || '', R.GROUND, R.DIR, R.DATE, R.unitNames, JSON) + R.standInNote(`coherence/validate-v${A.vround}`);
+} else if (kind === 'assemble') {
+  text = R.assemblePrompt(A.round);   // an opusSeat in the workflow: no stand-in note
 } else if (kind === 'verify') {
   const u = [...R.VUNITS, ...R.SEAM_UNITS, ...R.EDGE_UNITS].find((x) => x.key === A.key);
   const full = A.tag === 's';

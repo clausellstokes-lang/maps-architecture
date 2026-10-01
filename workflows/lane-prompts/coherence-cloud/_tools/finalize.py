@@ -10,6 +10,7 @@ label, raw = sys.argv[1], sys.argv[2]
 body = open(raw).read().rstrip('\n')
 ref = open('/home/user/maps-architecture/workflows/lane-prompts/coherence-cloud/coherence_rewrite-V12.prompt.txt').read()
 owner = re.search(r'\n\n(NEW OWNER RULES 114–116.*?)\n\nORCHESTRATION NOTES', ref, re.S).group(1)
+owner = re.sub(r'\n\nCONTINUATION \(orchestrator[^\n]*', '', owner)   # V12's own continuation note is not part of the owner-rules note
 out = body + '\n\n' + owner + ns['addendum'](label, ns['schema_for'](label))
 p = '/home/user/maps-architecture/workflows/lane-prompts/coherence-cloud/' + label.replace('/', '_') + '.prompt.txt'
 open(p, 'w').write(out); print(p, len(out))
