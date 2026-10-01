@@ -1,0 +1,46 @@
+{
+ "key": "coherence/verify-scope-r6t",
+ "file": "docs/validation/coherence/verify-scope-r6t.md",
+ "issues": [
+  {
+   "id": "VCS-r6-01",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "scope",
+   "claim": "The crossing table's column C13 (base l. 2676–2681) gives the outcome of a raised way edited by its own op — 'a hand re-shape of its course, `spanSpacingCm` (V09's Arch spacing) or `clearanceCm` (Deck height)'. Its outcomes are: a station in a band laid after the deck slides off it; 'a re-shaped aqueduct stretch across a standing band *over the band*'; and 'a re-shaped road deck stretch across a standing trace bent down before it (`bend.raised.wall`)'. W1·C13 names T110-2 (4) as its test (l. 2698), and W2·C13 reads 'as W1·C13 · T110-2 (4)'. T110-2 (4) (l. 18582–18583) runs only the Arch-spacing case ('the viaduct's Arch spacing changed after the wall was drawn — its station in the band slid off it, the band whole there'). No bar in the set runs a re-shape (V04's `moveVertex`, V04 l. 372) across a standing wall: T-V9-52 runs a raised road declared across a wall, and T110-2 (1) an aqueduct drawn across one. A build whose re-shape dry run skips the wall check passes every bar, leaving a road deck carried over a curtain or an aqueduct pier in a band. That is an untested edge with a defined outcome on an editing path (principle (11); R6-01's grading).",
+   "required_change": "§13.2's T110-2 (4): after 'and the viaduct's Arch spacing changed after the wall was drawn — its station in the band slid off it, the band whole there' add '; and, on a CITY fixture with a standing ring, a standing aqueduct's course re-shaped by hand so that a stretch of it crosses the ring — that stretch *over the band*, its supports off the band and its under-deck strip clear of the ring's gates and towers — and a standing declared viaduct's course re-shaped so that a stretch of it crosses the ring — that stretch brought down before the trace, its way through the gate there on ground part 0, with `bend.raised.wall` —, each run again with the raised way locked, no `refuse.locked` (§2.7's crossing table, W1·C13)'."
+  },
+  {
+   "id": "VCS-r6-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "scope",
+   "claim": "T110-2 (6)'s New random (base l. 18602–18605) reads: 'its seed searched so that the new ring's boundary meets one of the aqueduct's supports — the trace crossing the deck line under the nearest span, a support's edge its band meets built into the band'. At a regeneration, S3 lays that ring by the `EnceinteStrategy`'s pull. The crossing table's *beneath* (l. 2622–2625) says such a trace 'treats … an aqueduct's standing supports as impassable'. Only 'a stretch laid by neither' is 'bent locally … to cross an aqueduct under the nearest span (ties: the span nearer the deck's first foot in spine order)' (l. 2627–2631). The pull goes wherever its cost path and its 40 m search band take it, so 'the nearest span' is not its outcome. When the boundary meets the support at its centre, the two spans beside it tie, and the pull has no spine-order tie rule. So two units state two outcomes for one case. A test written from T110-2 checks for the nearest span, and a generator built to pass it would bend S3's regenerated trace locally, against *beneath* (R6-01: two units stating two outcomes for one case is MAJOR however rare the case).",
+   "required_change": "§13.2's T110-2 (6): '— the trace crossing the deck line under the nearest span, a support's edge its band meets built into the band,' → '— the trace crossing the deck line under a span, never at a support, S3's pull treating the aqueduct's standing supports as impassable (§2.7's crossing table, *beneath*), a support's edge its band meets built into the band,'."
+  },
+  {
+   "id": "VCS-r6-03",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "scope",
+   "claim": "Two T110-2 clauses new this round read V04's arch vaults. T110-2 (4) (base l. 18570–18573) asserts that a hand `drawWall` across an aqueduct with a `vault` span in its line removes 'the `vault` span's arch vault … in the wall's commit (a fate in the hand dry run, the hand undo restoring it with the same id)'. T110-2 (1) (l. 18543) asserts 'a `vault` one read `open` with no chamber'. The arch vault and `ArchVaults.reconcile` land at V04's U3 (V04 l. 3207: 'the arch vaults and `ArchVaults.reconcile`'), inside M6-U, which §16 puts after M5. §13.8's T110 row (l. 19455) runs T110-2 at M3a. It names a later exit only for the epoch clauses (M4; M6-E's E2 and E3), and R6-09's sweep scheduled only those. Before U3 no arch vault exists, so (4)'s clause cannot run and (1)'s holds vacuously. INDEX §5 risk 2 and R5-05 (c) move such a clause to the first exit after its provider. V04's T-V4-63 runs the same case at its own step, so nothing built changes (VCS-r5-01's class, R6-09).",
+   "required_change": "§13.8's T110 row, timing cell: after '… those of (1), (2), (4), (5), (7) and (8) on volume 6's engine with M6-E's E2 and E3' add '; (1)'s and (4)'s arch-vault clauses at the later of their milestone and M6-U's U3, which lays the arch vaults (V04 §8)'."
+  },
+  {
+   "id": "VCS-r6-04",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "V06",
+   "claim": "The base's runs sentence (base l. 18627–18629) reads 'Volume 6 runs T110-2's epoch clauses (4), (5), (7) and (8) on its engine (T-V6-47)', and the take-over row (l. 18874), V06 §7's T110-2 row (V06 l. 4113) and V06 §7's lead say the same. T-V6-47 (V06 l. 4170) runs (7)'s lapse and the hand delete, but leaves out two of (7)'s clauses (l. 18611–18615): 'then the lapsed span repaired by `repairRaised` — the cap back, no wall op'; and the cells'-order clause — an epoch circuit laid across the aqueduct after a span over its planned band fell `ruined` and after a support there was `cleared`, and an epoch contraction laid after a support by its planned line was `cleared`. The crossing table's cells W1·C3 and W1·C5 name 'T110-2 (7), T-V6-47', and W1·C10 names T110-2 (7). T110-2 (7) still states these bars, scheduled on volume 6's engine with E3 by §13.8, so this is a volume test list that omits cases its taken clause names (R6-01's grading; VAL-R6-06's class).",
+   "required_change": "V06's T-V6-47: after 'the circuit's closure unchanged, the delete's undo restoring the cap' add '; then the breached span repaired by `repairRaised` — the cap back, no wall op; and an epoch circuit laid across the aqueduct after a span over its planned band fell `ruined` and after a support there was `cleared` — the run at its own top beneath the fallen span, the trace through the cleared ring as open ground — and an epoch contraction laid after a support by its planned line was `cleared` — the trace through its former ring (T110-2 (7); §2.7's crossing table, W1·C3, W1·C5)'."
+  },
+  {
+   "id": "VCS-r6-05",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "owner": "scope",
+   "claim": "VAP-r5-05's new row type (§13.2, base l. 18369–18374) adds `kind: 'derived'` and `derivedFrom?: { file; mutation }`. A derived fixture is 'never written as a file'. `DossierFixtureRow` still requires `file`, `seed` ('the synthetic seed the file was generated from'), `config`, `generatedBy`, `population` and `ourRung` on every row, and says nothing of them for a derived row. V12 §1b names a derived fixture by its id, '`<dossier>@pop×k`' (V12 l. 633: 'a fixture id of the frozen manifest'), and the row has no id field but `file`. A `@pop×k` row's population and rung are not its source's. One harness keys the row by its source's file, another by the derived id, and V12's `dossier` lookup misses in one of them. This is test-kit only.",
+   "required_change": "§13.2's `DossierFixtureRow`, two comment changes. (1) `file: string` takes the comment '/* the row's fixture id (V12 §1b's `dossier`): a file's name, or for a `derived` row the id its volume names — `<file>@pop×k`, or V08 §7.1's fixture name — naming no file */'. (2) `derivedFrom`'s comment adds '; its provenance fields (`sfLine` to `generatedBy`) are its source row's, its `population`, `tierWord` and `ourRung` those of the mutated dossier'."
+  }
+ ]
+}

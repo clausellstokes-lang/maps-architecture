@@ -104,7 +104,7 @@ All five are sound:
 
 * **(i) Cells and their tests.** Scope's text cites W1·C12 and W2·C12. Each gives one outcome and names the
   frame-growth clause, which runs it (l. 18531–18533). I also read the crossing table's 58 cells that name a T110-2
-  clause against that clause (l. 2697–2711):
+  clause against that clause (rows W1–W13, l. 2698–2710):
   * Where a cell gives its own outcome, T110-2 runs it: W1·C1–C6, C10–C12; W2·C2–C6, C8, C12; W3·C2; W7·C2;
     W11·C2; W13·C2.
   * The exception is the C13 column: W1·C13 and W2·C13 name T110-2 (4) for a re-shaped course, which no bar runs.
