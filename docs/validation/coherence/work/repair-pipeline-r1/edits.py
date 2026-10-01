@@ -107,9 +107,9 @@ E(H42, """Two routes that cross the boundary at one point cannot both be gates: 
    candidate (≤ 3 attempts), then dropped and reported (F-WALL).""",
 """Two routes that cross the boundary at one point cannot both be gates, and a route that first reaches `T = t_1` on a
    closed arc ((4)) gives no gate: the later pick, or that pick, is re-drawn from its next candidate (≤ 3 attempts), then
-   dropped and reported (F-WALL). The arcs a land barrier closes (`cliff`, `gorge`, `marsh`, `sheer`) are impassable to
-   S4's and S5's routes as the wall is (§4.3's `wallCrossingPenalty`), so a road leaves a walled stage only through a
-   gate — through the gate on the nearest walled arc where its bearing lies across such an arc.""", 'VEW-03')
+   dropped and reported (F-WALL). In a walled stage the arcs a land barrier closes (`cliff`, `gorge`, `marsh`, `sheer`)
+   are impassable to S4's and S5's routes as the wall is (§4.3's `wallCrossingPenalty`), so a road leaves a walled stage
+   only through a gate — through the gate on the nearest walled arc where its bearing lies across such an arc.""", 'VEW-03')
 
 E(H42, """S5a commits this trace unchanged for k = 1;
    an unwalled town keeps the boundary itself as stage 1's boundary.""",
@@ -221,11 +221,109 @@ E(H42, """When
    a moat was carved, `T` is recomputed once over the new water (≈ 4 ms at CITY) for the stages k ≥ 2; stage 1's boundary
    is never re-derived from it. **Where a moat holds water.** "Water within reach" is one rule for the castle moat and the
    city moat: a source — a river, a lake, a spring-fed pond or the sea — within `moat.waterReachM` of the moat's line (a
-   cell of V11's `walls` table, registry row 13). The moat's `WaterBody` names that source in `flowFrom` (§2.3; the
+   cell of the `walls` table, §7.6: 400 m; our own, calibratable). The moat's `WaterBody` names that source in `flowFrom` (§2.3; the
    nearest, ties by id), and its water level is one value per moat, derived on read and never stored: the source's surface
    at its shore point nearest the moat (the terrain's height at that shore, as V04 §3.2 N7 reads a water surface), which
    every reader of the moat's water reads (§8.4's water at its level, V04 §3.2 N2 and N7, §2.6's water table). The channel
-   is carved only along the stretches whose ground stays within `moat.maxFallCm` of that level (the same table); every
+   is carved only along the stretches whose ground lies at or above that level by at most `moat.maxFallCm` (the same
+   table: 400 cm; our own, calibratable); every
    other stretch, and the whole moat when no source lies within reach, is laid **dry** — no channel and no deck, its glacis
    part typed `ditch` residue by S10 (0) as the town side of an `on_enceinte` bailey is (§4.7, §4.8) — reported
    (`moat_dry`). An outer enceinte's moat takes the same rule (§4.4 *Outer moats*).""", 'VEW-04')
+
+E(H42, """multiplied by `1 − w_water · q(x)`, with `q(x)` ∈ [0, 1] the proximity to reliable water — 1 on a river bank, a lake
+   or oasis shore, a spring or ground of the top well-yield class (S1 (10)), falling linearly to 0 at the climate row's
+   pull radius — and""",
+"""multiplied by `1 − w_water · q(x)`, with `q(x)` ∈ [0, 1] the proximity to reliable water, the largest over the sources
+   — `1 − d ÷ pullRadius` from a river bank, a lake shore or ground of the top well-yield class (S1 (10)), and
+   `flow × (1 − d ÷ pullRadius)` from a water body carrying `spring` (an oasis's shore, a spring-fed pond's, its source
+   point), `flow` that body's `spring.flow` (§2.3; 1 when made, lowered and restored by V06 §3.12.1), `d` the distance and
+   `pullRadius` the climate row's pull radius (0 beyond it), so a spring at `flow` 0 pulls nothing while its water body
+   stands — and""", 'VPC-25')
+
+# §4.2 S2 — VPC-01's S2 reader (the manor count at the territory rungs)
+E(H42, """A SIZE step is one
+larger building by its template, a REPLACEMENT step the greater only.""",
+"""A SIZE step is one
+larger building by its template, a REPLACEMENT step the greater only.
+
+*The grandeur ceiling's manor count (item 115; J127).* At the `territory` rungs S2 reads the rung's `grandeur.ceiling`
+row (§10.2 *Grandeur ceiling*): an enabled row caps the manor class's count at its `manor.max` and admits a manor only
+where its `manor.requires` is met — `lordOrSpecified` a `seigneurial` government or a specified manor, `specified` a
+specified one only (a dossier manor, hall or similar record, or a government's `villageSeat` naming the manor; V08
+§3.16 (3)) — and a specified manor is a fixed row above the cap (item 115 (c)); a disabled row, and every row at TOWN and
+above, leaves S2's count as the roster gives it (V07 §3.8; §4.7 S10b *The rung ceiling*).""", 'VPC-01')
+
+# ───────────────────────────── §4.5 ─────────────────────────────
+E(H45, """  **The water term (item 111 (b)).** `q(x)` is S3 (6)'s proximity to reliable water (a river bank, a lake or oasis shore, a
+  spring, the top well-yield ground); the term adds `w_waterP · q(x)`, `w_waterP` the climate row's prosperity water
+  weight. Over epochs a spring or oasis that fails weakens its pull and the quarters around it may decline (V06).""",
+"""  **The water term (item 111 (b)).** `q(x)` is S3 (6)'s proximity to reliable water, the same function (a river bank, a
+  lake shore, the top well-yield ground, and a spring-fed body's shore and source weighted by its `spring.flow`); the term
+  adds `w_waterP · q(x)`, `w_waterP` the climate row's prosperity water weight. A failing spring weakens its pull through
+  `spring.flow` (§2.3; V06 §3.12.1), read at the field's next evaluation, so the quarters around it may decline (V06).""",
+  'VPC-25')
+
+E(H45, """(iv) the sampler's digest
+  (§6.2's hash of the positions, the points and the layout) is recorded by every stored or derived mask that reads it, and
+  a mask whose digest differs is recomputed whole;""",
+"""(iv) the sampler's digest
+  (§6.2's hash of the positions, the points and the layout) is recorded by every stored or derived mask that reads it, and
+  a mask whose digest differs is recomputed whole by its writer — the terrain, wall and island masks by the pass that reads
+  them; the building-shade mask, whose one writer is V06 §3.4's epoch field phase (file f item 275), counts as zero
+  building shade until the next epoch's field phase recomputes it (J-V6.129);""", 'VPC-27')
+
+E(H45, """at an epoch the previous epoch's buildings do (V06 §3.4), so a quarter walled in by tall new""",
+       """at an epoch the previous epoch's buildings do, through the building-shade mask V06 §3.4's epoch field phase writes
+  ((iv)), so a quarter walled in by tall new""", 'VPC-27')
+
+E(H45, """and how the class-mix weights
+  (§4.7 S10b, item 71) are read at a plot's value — and an end band takes the end row.""",
+"""and how the class-mix weights
+  (§4.7 S10b, item 71) are read at a plot's value — and an end band takes the end row. A **discrete cell** (an
+  enumeration, a flag, a key, or a count read whole: a value no interpolation can blend) at a band without a row reads
+  the nearest rowed band below it, and an end band below every row the lowest row — under the four-row tables `squalid`
+  reads the poor cell and `comfortable` the modest cell (V03's J-V3.28) — so a discrete column switches at the lower cut of
+  the next rowed band above, the one reading §4.7 S11, §10.2's templates, V03 §3.2 and V11 §3.6.1 cite.""", 'VAF-R0S-20')
+
+E(H45, """   area-bearing assignments, a castle's esplanade, and the squares larger than a block that `squares.quota` (§10.2; V01
+   §3.5) sets —""",
+"""   area-bearing assignments, a castle's esplanade, and the squares larger than a block that `squares.quota` sets (the base
+   table `SquareQuotaRow`, §10.2, read from M2b; its rows V01 §3.5.2) —""", 'VAF-R0S-15')
+
+E(H45, """(d) at every rung, the **void-dwelling part** —
+   `voidDwellingHouseholds` of the poorest band for the cavern and ruin voids whose forecast access chance reaches
+   `accessForecastMin` (V04 §3.3 P7), placed by V04's F6, its share an `extension` cell — and""",
+"""(d) at every rung, the **void-dwelling part** —
+   V04 §3.3 P7's derived `voidDwellingHouseholds` (its cells V04 §2.3's `voidDwellings`, `extension` cells) of the poorest
+   band, for the cavern and ruin voids whose forecast access chance reaches `accessForecastMin` (V04 §3.3 P7), placed by
+   V04's F6 — and""", 'VAL-06')
+
+E(H45, """**Which districts:** S12c covers the ground's districts; a unit run (a sky island's, a standalone
+neighbourhood document's) runs its own S12c over its districts (V01 §3.10).""",
+"""**Which districts:** S12c covers the ground's districts and the districts of every sky island (the town's
+S12c, after SKY-F; V01 §3.10.3 step 5, V05 §3.1); a standalone neighbourhood document's unit run runs its own S12c over
+its districts (V01 §3.10).""", 'VAL-03')
+
+E(H45, """**`district-defining`** — a class that
+   IS a district (a red-light district, the slums, a foreign quarter, a guild district: dossier institution kinds), and a
+   ladder QUARTER record (item 108 (a); §10.2's step table), which also owns its trade's members — inside its district at
+   the raised share and, by the class's ordinary spread (item 107), outside it.""",
+"""**`district-defining`** — a class that
+   IS a district (a dossier QUARTER record's district — a red-light district over its brothels, V11 §3.12; item 108 (a),
+   §10.2's step table — whose record also owns its trade's members): inside its district at the raised share and, by the
+   class's ordinary spread (item 107), outside it.""", 'VPC-12')
+
+E(H45, """(§10.2's brothel rows; J-A72.51) (a red-light
+   district near the docks, the gates and the inns; the slums at the poorest edge, by the `shanty` kind's rows), one
+   district per instance,""",
+"""(§10.2's brothel rows; J-A72.51) (a red-light
+   district near the docks, the gates and the inns), one district per instance,""", 'VPC-12')
+
+E(H45, """its
+   band, granularity, greenery and lighting rows are the defining kind's (the slums: the squalid band through the kind's
+   `characterOffset`, and §4.7 S11's cluster rows, item 70); its identity's source is `dossier`.""",
+"""its
+   band, granularity, greenery and lighting rows are the defining kind's; its identity's source is `dossier`. The slums, a
+   foreign quarter and a guild district are naming claims whose kind bias reaches their identity rows (§7.7 item 16; V11
+   §3.10), never district-defining instances.""", 'VPC-12')

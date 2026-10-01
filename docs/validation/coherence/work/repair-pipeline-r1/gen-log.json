@@ -21,7 +21,9 @@
     "VPC-19",
     "VEW-03",
     "VEW-02",
-    "VPC-31"
+    "VPC-31",
+    "VPC-25",
+    "VPC-01"
    ]
   },
   {
@@ -45,7 +47,19 @@
     "VEW-04",
     "VEW-10"
    ]
+  },
+  {
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "ids": [
+    "VPC-25",
+    "VPC-27",
+    "VAF-R0S-20",
+    "VAF-R0S-15",
+    "VAL-06",
+    "VAL-03",
+    "VPC-12"
+   ]
   }
  ],
- "edits": 32
+ "edits": 44
 }
