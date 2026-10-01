@@ -1,0 +1,38 @@
+{
+ "key": "coherence/verify-vol-V11-V12-r4t",
+ "file": "docs/validation/coherence/verify-vol-V11-V12-r4t.md",
+ "issues": [
+  {
+   "id": "VV1112-r4-01",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V08",
+   "claim": "V08 §7.1's crisis fixtures sentence (l. 3222–3224), written this round for VV1112-r3-03, stages the simultaneous siege, quarantine and refugee week \"on `city-1` and on `metropolis-3`\". V12, its only reader, measures that week at the METROPOLIS cap: §3.15.12's fixture sentence (l. 2690–2692: \"one week in which a siege, a quarantine and a refugee wave stand at once at CITY and at the METROPOLIS cap\") and T122-6's bullet (l. 2712–2719: \"on the week standing a siege, a quarantine and a refugee wave at once at CITY and at the METROPOLIS cap\"); `crisis.share` is the only bar that reads several camp looks at once (a preview draws one look). The cap is 120 000 people (base §1.1, l. 395; §12.2's row, l. 16896). `metropolis-3` holds 45 824 (the frozen fixture; research/sf/PLAN.md l. 406; §13.2 lists it among the totality-only files, l. 18251), a METROPOLIS map far below the cap. V08 names no mutation to the cap, although it names one wherever it moves a fixture's population (T-V8-36's \"`city-1` mutated to 8 000 people\"; the force fixtures \"each at TOWN, CITY and the METROPOLIS cap\"). So the cap run of `crisis.share` has no producing fixture. One builder runs it on `metropolis-3` at 45 824 and reports the cap clause met; another stops, finding no cap fixture. The outskirts' sharing at the largest frame goes untested (principle (11): the maximum and the caps). The defect is in this lane's round-3 required text, which named `metropolis-3`.",
+   "required_change": "V08 §7.1's fixtures sentence: \"with one week on `city-1` and on `metropolis-3` in which the siege, the plague's quarantine and the refugee wave stand at once\" → \"with one week on `city-1`, and one on a copy of `metropolis-3` mutated test-side to the population cap's 120 000 people (as T-V8-36 mutates `city-1`), in which the siege, the plague's quarantine and the refugee wave stand at once\"; the rest of the sentence stands."
+  },
+  {
+   "id": "VV1112-r4-02",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V12",
+   "claim": "V12 §2.13's row `item105.web`, `item107.spread` (l. 919), rewritten this round for VAP-r3-08, lists \"B-CITY's 200 seeds per rung (V11, T-V11-21)\" unqualified. In that row's own form, an unqualified suite is registered under both pins: V07's is qualified \"(T-V7-33, on `item105.web`)\", while V05's island fixture and V06's H-100 are registered under both (V05 l. 2659; T-V6-44). T-V11-21, also written this round (VAP-r3-07), registers the seeds as \"the `item105.web` registration of B-CITY's 200 seeds per rung\" only. No V11 clause registers them on `item107.spread`: a search of the set finds that pin registered only at V05 l. 2659 and V06's T-V6-44. V12 §3.7.8 has each volume register \"on the pin V12 §2.13 lists it under\", and §2.13's suites column must be the union of the registering clauses. repair-r4-V12's hand-off says V11 states the `item107.spread` registration beside `item105.web` in T-V11-21; the live V11 text does not. Nothing built changes (registration bookkeeping).",
+   "required_change": "V12 §2.13's row: \"B-CITY's 200 seeds per rung (V11, T-V11-21);\" → \"B-CITY's 200 seeds per rung (V11, T-V11-21, on `item105.web`);\"."
+  },
+  {
+   "id": "VV1112-r4-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V11",
+   "claim": "V11 §4.1 (l. 4834–4840) cites J-V11.113 for its whole delete refusal. Since round 3 that refusal includes \"a table's named row (V11 §2.1's settings form — `settings`, `structure`, `festival.staging`'s `fallback` —, whose cells its readers read with no fallback)\". This round, §7.1's row (base l. 10586; VV1112-r3-04) and V09's `refuse.table.required` row (l. 2006; VV1112-r3-05) were conformed to it. J-V11.113 (l. 5280) still records four cases — \"what readers fall back to — a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty`\". It is the third restatement of the same rule, and the sweep missed it. A stale record; nothing built changes.",
+   "required_change": "J-V11.113: \"chose to refuse a row delete that would remove what readers fall back to — a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty` —\" → \"chose to refuse a row delete that would remove what readers fall back to or need — a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover, a table's named row (V11 §2.1's settings form), the last row of a table not `mayEmpty` —\"; the rest of the record stands."
+  },
+  {
+   "id": "VV1112-r4-04",
+   "severity": "minor",
+   "kind": "CHANGED",
+   "owner": "V12",
+   "claim": "R4-09 moved V01's crossing cells `raised.clearWidthM` and `raised.squareDeg` (V01's constants row, l. 2198 at 96bdae26) into V11 §3.24.2's `raisedWays.structure` as `clearWidthM` and `squareDeg`, with the equivalence \"rule, ladder and values unchanged\". Value, range, unit, marker and provenance carried over exactly. The calibration route did not. As `hood.constants` columns, both cells took V12 §3.11's default line: `corpus` at M-CAL (J-V1.97; V12 l. 2042: \"volume 1's `hood.*` default rows\"). V11 §3.24.2 (l. 3961) and §8 (l. 5146) now give \"their entry V12 §3.11's `raisedWays.structure` line\". That line's catch-all — \"every other calibratable column but the `span` block\", V12 l. 2175 — calibrates them by `panel` (the M4-110 group) at M4. No ruling moves the route, and repair-r4-V11 says \"calibration … unchanged\". Builders read the live line alike, so nothing they build differs; the change against the archive is unruled (principle (3)).",
+   "required_change": "Keep the archive's route. V12 §3.11's `raisedWays.structure` line: \"and every other calibratable column but the `span` block (the span-rule line's)\" → \"and every other calibratable column but the `span` block (the span-rule line's) and `clearWidthM` and `squareDeg` (§4.3's crossing cells, the default line's, `corpus` at M-CAL, as when V01 held them; J-V1.97)\". The default line's list (l. 2042), after \"volume 1's `hood.*` default rows;\", adds \"V11's `raisedWays.structure.clearWidthM` and `.squareDeg` (§4.3's crossing cells);\". In the same fix, V11 §3.24.2's cell text \"`own`, calibratable, their entry V12 §3.11's `raisedWays.structure` line\" → \"`own`, calibratable, their entry V12 §3.11's default line (`corpus` at M-CAL)\". V11 §8's \"ship with item 110's rows at C3b, their entry the `raisedWays.structure` line\" → \"ship with item 110's rows at C3b — `stripMarginM`'s entry the `raisedWays.structure` line, `clearWidthM`'s and `squareDeg`'s the default line\"."
+  }
+ ]
+}
