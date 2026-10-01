@@ -1,7 +1,7 @@
 # Verify — volumes V09, V10 after repair round 3 (coherence/verify-vol-V09-V10-r3t)
 
 > PROGRESS: P1 done (inputs) · P2 done (round-2 findings re-checked) · P3 done (every round-3 block in scope read whole
-> as a pre → live word diff) · P4 done (mechanical checks) · report written; result next.
+> as a pre → live word diff) · P4 done (mechanical checks) · report and result written; LANDED.
 
 Seat: opus verifier (stand-in), PENDING FABLE REVIEW. Design files untouched.
 
