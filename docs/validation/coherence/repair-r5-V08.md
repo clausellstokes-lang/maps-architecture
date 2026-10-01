@@ -3,18 +3,181 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V08-r5; covered by the whole-design retrovalidation (J84).
 
 # Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
-# ignored; the FILE line routes every block to docs/volumes/V08-settlementforge.md.
+# ignored; the FILE line routes every block to docs/volumes/V08-settlementforge.md. Live unit: V08 as assemble-r4 left it
+# (sha256 4675c05ecf19eb56…, 572 529 bytes, 3 698 lines — round 4's target, unchanged). Each REPLACE body is the live
+# subsection with count-asserted substitutions (scratch rV08r5/edits.py: 33 edits, each applied exactly its asserted
+# count); every untouched line is verbatim. Blocks: 14, all REPLACE — ## 1b, §2.2, §2.3, §2.4, §2.7, §3.5 (with §3.5.1,
+# verbatim), §3.6, §3.16, §3.17, §4.6, §5.5, ## 6, §7.1, ## 9. No heading retitled, no whole-volume REPLACE, the title
+# block untouched. Ruling requests: 0.
+# Binding rulings applied (adjudication-r5, Part H · V08): R5-01, R5-03, R5-07, R5-10; R3-01 – R3-03 and R4-01 stand;
+# R4-08's last clause as amended by R5-03, R4-15 (a) as amended by R5-07, R4-16 kept.
 #
 # PROGRESS
 # - P0 brief read whole (9 issues routed; 2 END lines); adjudication-r5's TOC, R5-01, R5-03, R5-07, R5-10 and Part H · V08
 #   read whole; R3-01 – R3-03, R4-01, R4-08, R4-15, R4-16 read: done
 # - P1 verifier evidence (verify-edges-life, -rendering, -agree-host, -agree-tools, -agree-time, -agree-proof, -vol-V07-V08,
 #   -vol-V11-V12, -pipeline r4t) and the live V08 subsections concerned read whole; base §4.11, §11.3, II.1, §4.2 S3 (1);
-#   V01 §3.16 `disasterSource`; V07 §5.6 (3); V11's `disaster` row: done
+#   V01 §3.16 `disasterSource`; V07 §5.6 (3); V11's `disaster` row; V06 §6.8 (6) and T-V6-24: done
 # - P2 edits written (scratch rV08r5/edits.py, 33 count-asserted substitutions); 14 REPLACE blocks built: done
 # - P3 dry run of apply-blocks.py on copies: 14 found, 14 applied, audit not-OK 0, equal to the independent application;
-#   tables, ids, resolver and doc checks: next
-# - P4 result saved; LANDED: pending
+#   tables, ids, resolver and doc checks (below): done
+# - P4 result saved; LANDED: done
+#
+# ISSUES → WHERE FIXED (9 routed ids: 8 FIXED in text, 1 MERGED and closed by its sibling's fix; none INVALID)
+#  VEL4-r4-01 (major; FIX per R5-07 (b); its three texts as written)  (1) §3.6 (3): after "else linear between the target
+#        at `W₀` and the new population at `W₁`, rounded to a person" — "where this absorb's `population` took its
+#        field-table fallback (V08 §3.5's diff), the new population is the carried one wherever this step reads it (this
+#        linear target, and the crossing tested at `W₁` with no `populationHistory`), the digest's fallback value never
+#        entering an epoch's target or a crossing test; `populationHistory`'s readable entries date and size the crossings
+#        and targets as usual". (2) §3.17's digest-and-diff row: "; and where such an absorb's span crosses a year end, the
+#        epoch there targets the carried population, no epoch folding toward the fallback (V08 §3.6 (3))". (3) T-V8-61 (a):
+#        the `city-1` absorb with `population` emptied past the next year end — one year-end epoch at the carried
+#        population, no epoch at `W₁`, the households unchanged by the fallback.
+#  VRC4T-08 (minor; FIX)  §2.2's `setView` comment: "a layer's visibility goes as a logged setLayer by doc.apply (§8.4)";
+#        §3.16 (4) and (6) (g): "§11.3's commands — `view.set { week }` and `view.set { select }`, and a layer's visibility
+#        by a logged `setLayer` sent by `doc.apply` (the document's style, §8.4; `MapSession.setLayer`, V08 §2.2)". The
+#        three sites; no other "layers shown" in V08 (grep).
+#  VV78-r4-03 (major; FIX per R5-07 (a); its three texts as written)  §3.5's diff: after "makes no change: the carried fact
+#        stands." the definition — a field is a row's own path (a top-level key, or a whole list); a record's absent or
+#        unreadable sub-field takes its row's reading (an institution field's `else`; the `activeConditions[]` row's missing
+#        `label`, `duration`, `sourceEventType`) at an absorb as at a creation and is compared as read, so an institution
+#        SettlementForge reopens reopens (F6) (note 7). §2.4's table lead: "— a row's own path; a record's absent or
+#        unreadable sub-field is read by its row and compared (V08 §3.5) —,". T-V8-61 (a): the `town-1` reopen and the
+#        dropped `duration` clearing `untilWeek`.
+#  VV78-r4-04 (major; FIX per R5-03, amended)  §3.6 (6): R5-03's sentence — a late change folds after the last epoch at
+#        `W₀` + 1 where `W₁` is after `W₀`, else at `W₀`, finished, its tick kept, noted `late`, never before `W₀`, so §4.11
+#        *The clock* (1)'s current week never falls back (a late calamity: (3)). §3.6 (3)'s calamities' parenthesis: R5-03's
+#        text joined with VV78-r4-04's pointer (note 3). §4.6's `unreceipted_change` row: "for a change carried at or before
+#        the last epoch's week (V08 §3.6 (3), (6); V08 §3.17)" (note 5). §3.17's events-and-epochs row: VV78-r4-04's
+#        `W₁`-after-`W₀` row added beside R5-03's degenerate inputs (note 4). T-V8-49 (g): the current week after the absorb
+#        not before `W₀`.
+#  VV78-r4-05 (minor; FIX)  ## 6's absorb-with-epochs row: (a) the span `(the previous epoch's week, its week)`, "one dated
+#        at the epoch's own week riding its `EpochInputs.dossier` (V08 §3.6 (6))" (note 8); (b) "≤ 3 ms at TOWN and CITY and
+#        ≤ 3.5 ms at the METROPOLIS cap"; (c) the release clause reads the three catch-up fixtures and names the over-budget
+#        fixture's one-epoch fold by design (note 8).
+#  VV78-r4-06 (minor; FIX)  ## 1b: W101 (free; the next id after W100) — the host's view commands, `MapSession.setView` and
+#        `MapSession.setLayer`, both ends as required (note 9); the lead's subject list adds "the host's view commands (W101)".
+#  VV78-r4-07 (minor; FIX per R5-07 (c))  §5.5 and §3.17's labels row: the generator's own name at a creation, the carried
+#        name kept at an absorb (V08 §3.5).
+#  VV78-r4-08 (minor; MERGED into VV1112-r4-01)  closed by VV1112-r4-01's fix (the same fixture sentence of §7.1).
+#  VV1112-r4-01 (minor, regraded from major; FIX per R5-10; closes VV78-r4-08)  §7.1's crisis fixtures: "with one week on
+#        `city-1`, and one on a copy of `metropolis-3` mutated test-side to the population cap's 120 000 people (as T-V8-36
+#        mutates `city-1`), in which the siege, the plague's quarantine and the refugee wave stand at once"; the rest stands.
+#
+# END LINES WRITTEN (Part H · V08; other units' fixes)
+#  - VAT4-r4-01 (pipeline; VPC-R4-02 merged; R5-03): §3.6 (3)'s late-calamity sentence, verbatim ("is late and folds no
+#    epoch at its own week (§4.11 *The clock* (4)): with `W₁` after `W₀` it rides … with `W₁` not after `W₀` its F5 targets'
+#    dossier events apply now at `W₀`, finished, and it is held in `DossierBinding.lateCalamities` (§7.7; (4)) for the first
+#    epoch a later absorb folds, which it rides at that epoch's first week; its tick kept in its receipt either way"); the
+#    crossing clause's "— none when `W₁` is not after `W₀`, the crossing then read at the next absorb whose week passes
+#    `W₀`"; the calamities' parenthesis (note 3); §3.6 (4)'s ledger event lists `lateCalamities` beside `quarantined`,
+#    folding it setting `DossierBinding.lateCalamities` to the held list (note 2); §3.17's degenerate inputs verbatim
+#    ("an absorb whose week is the last epoch's own (`W₁` = `W₀`) or before it (a clock turned back): no epoch; late changes
+#    at `W₀`, finished, noted `late`; a late calamity's targets applied and the calamity held for the next folded epoch; a
+#    population move read at the next absorb past `W₀`"); the `lateCalamities` lifecycle row (note 1); T-V8-49 (g)'s
+#    second-absorb fixture verbatim (no epoch, the targets applied; the next absorb past `W₀` folding the crossing and the
+#    strike at its first epoch's first week, the deaths in that epoch's burial need).
+#  - VAP-r4-05 (V12; R5-10): §7.1's crisis fixtures, after "the calamities' `targets` resolved (V08 §3.16 (7))": "; on
+#    `city-1` a second fire naming more target districts than its severity's share of the place's units, and a fire at
+#    severity 1 on a fixture holding a district the adjacency from its seed does not reach (a fire never jumps a gap, V01
+#    §3.16 (4))", the fixture named with what parts its districts (note 10), "(X-V12-5)".
+#
+# SWEEP (R5-01 (2): every restatement in V08 of a term, field or rule a ruling changes, conformed in the same blocks)
+#  - R5-03 (`lateCalamities`, late changes): W20's port fields and consumers; §2.3's port-field list ("`lateCalamities` (the
+#    held late calamities, V08 §3.6 (3))" — the record is §7.7's, Part H's note); T-V8-49 (g)'s superseded "under an absorb
+#    whose week is not after the last epoch's, applied finished" rewritten (note 6); J-V8.55's amended mark ("— or, with the
+#    absorb's week not after the last epoch's, the first epoch a later absorb folds — and no late change folds before the
+#    last epoch's week"). Nothing else in V08 restates the late rule (grep: "late", "not after", "`W₀` + 1", "with no
+#    event", "burial need").
+#  - R5-07 (a field is a row's own path): §3.16 (9) (b)'s and §3.17's one-input row's general restatements of the absorb
+#    rule add the path definition; W98 and J-V8.134 name only top-level fields and agree as written; §3.17's village row
+#    already keeps the carried population at an absorb.
+#  - R5-07 (b): §3.17's village row and the field table's `population` row read "at an absorb, the carried value" and agree.
+#  - R5-10 / VV78-r4-05 (c): T-V8-63 ("on T-V6-24's three catch-up fixtures"; "one of the three past its budget fails the
+#    release …; T-V6-24's over-budget fixture takes its one-epoch fold, reported F-BUDGET-TIME, by design") and ## 6's
+#    "**Its target:** T-V6-24's three catch-up fixtures".
+#
+# NOTES FOR THE ADJUDICATOR (judgment calls, each vetoable)
+#  1. R5-03's END names "§2.6's binding lifecycle"; V08's lifecycle table is §2.7 (§2.6 is the dossier row sets), and the
+#     binding's port fields' rows (`adapter`, `quarantined`) stand there, so the `lateCalamities` row is placed in §2.7 after
+#     `quarantined`'s, its cells as R5-03 lists them; its migrate cell adds "an older ledger event without the field folds
+#     as `[]`" (the event field §7.1 gains under determinism's END).
+#  2. Wiring the held list: §3.6 (4) states the list the event carries — "the binding's list less each calamity the first
+#     epoch this absorb folds carries, plus each late calamity this absorb holds" — so its producer is defined; and since
+#     §7.7's field holds binding keys (`string[]`, determinism's END), §3.6 (3) fills a held calamity's `CalamityRef` "from
+#     its carried `calamity` fact under the held key". Both state at build depth what R5-03 implies; no new behaviour.
+#  3. The (3) calamities' parenthesis has two required texts (R5-03's and VV78-r4-04's); Part H says VV78-r4-04's "as
+#     written, joined by R5-03's V08 texts". Joined: "(one carried late: of the first epoch this absorb folds, or for one
+#     held a later absorb's, at that epoch's first week — its F5 targets' dossier events riding that epoch's
+#     `EpochInputs.dossier` with it at `W₀` + 1 where `W₁` is after `W₀`, above and (6))".
+#  4. §3.17's degenerate inputs: R5-03's text replaces the old degenerate clauses; the old row's `W₁`-after-`W₀` late
+#     calamity clause (no epoch at its own week, riding the first epoch at `W₀` + 1) is kept beside VV78-r4-04's new row, so
+#     no case the row stated is lost (principle (9)'s guard).
+#  5. §4.6's `unreceipted_change` variant now serves any late change (VV78-r4-04's text); its name and keys cells, written
+#     for a calamity only, read "the element's (the variant for a late calamity: the calamity's name)" and "the element (the
+#     variant for a late calamity: its resolved targets)". A late calamity stays noted (the row cites (3)), as T-V8-49 (g)
+#     ran it in round 4.
+#  6. T-V8-49 (g) as rewritten: "epochs none, one, backwards (late changes at the last epoch's week, finished) and across a
+#     band; a calamity carried late — … at that epoch's first week; a second absorb in the last epoch's own week … — no
+#     epoch, the calamity's targets applied, noted by `unreceipted_change`'s `late` variant, the calamity held in
+#     `DossierBinding.lateCalamities`; the next absorb past `W₀` folding the crossing and the calamity's strike …, its deaths
+#     in that epoch's burial need; and a newly carried non-calamity change … — folded at `W₀` + 1, applied finished, noted
+#     `late`, the document's current week after the absorb not before `W₀`".
+#  7. VV78-r4-03's example parenthesis adds "a record failing its own required fields is quarantined, step 4", so "a
+#     sub-field absent or unreadable takes its row's reading" cannot be read as overriding step 4's quarantine of a record
+#     whose own required field (a name; an institution's category) fails — a precision, no new behaviour.
+#  8. VV78-r4-05 (a): the epoch-week clause stands after "then the epoch" ("…, then the epoch, one dated at the epoch's own
+#     week riding its `EpochInputs.dossier` (V08 §3.6 (6))") rather than inside the span's dash pair, so the sentence parses;
+#     (c) reads "on any of T-V6-24's three catch-up fixtures that fails the release (its over-budget fixture, 100 years
+#     carrying 5 000 at the cap, taking that one-epoch fold reported F-BUDGET-TIME by design)" — the required content,
+#     worded to avoid a C3 corpus run ("… one of those three").
+#  9. W101's § cell reads "(item 125 (c); 3.16 (4), (6) (g); the client, 2.2)" — the required citations, reordered to avoid
+#     a C3 corpus run ("c 2 2 3 16"); the other cells as required.
+# 10. VAP-r4-05's fixture: `town-1` — its `riverside` terrain and `river` access force a river (V08 §2.6's water words),
+#     placed through the core (§4.2 S3 (1), G-P14), and a water run is a one-sided seam (II.1: `Seam.sides` null for
+#     water), so the two banks' districts share no seam and V01 §3.16 (4)'s fire order never crosses. A gap alone does not
+#     make the shortfall: the count at severity 1 is half the units (the `disaster` row's 0.05–0.5, V11 §3.25.9), so the
+#     fire's `targets` name one use on the bank holding fewer districts than that count, and the harness asserts that
+#     bank's count before the bar reads it — a frozen fixture whose banks fail it fails loudly, never passes. Considered
+#     and not taken: an end-less thorp's toft groups (no two neighbour by construction, V07 §5.6 (3)) — no fixture
+#     guarantees an end-less thorp, and V12's case is the district order.
+# 11. Six C3 corpus runs our new wording made (citation numerals such as "§3.6 (3), (4) and") were reworded before landing
+#     (W20, §2.3, §2.7's row, §3.17's degenerate inputs, ## 6 (c), W101): each keeps its content and citations.
+#
+# HAND-OFFS for round 6's verifiers (R5-01 (2): ends no END line names; each receiving seat's own text)
+#  - scope §13.2's frozen manifest: V08 §7.1 states that each of V12's item-122 fixtures made there is in §13.2's frozen
+#    manifest; the new ones are the `metropolis-3` copy at the 120 000 cap (R5-10's sweep names it), `city-1`'s second
+#    fire, and `town-1`'s severity-1 fire with its target on the smaller bank.
+#  - V12 §3.15.12 and X-V12-5: the place "whose district adjacency from its seed ends before that count" is V08 §7.1's
+#    `town-1` with its river; V12 may cite it.
+#  - determinism §7.7 / §7.1 (R5-03's END there): V08 §3.6 (4) states the held list's content after an absorb (note 2);
+#    §7.7's comment "set by folding each dossierFacts event's list, as quarantined is" agrees.
+#
+# CHECKS (scratch rV08r5/)
+#  - apply-blocks.py dry run on copies of the live V08 and the rationale (the FILE line dropped, as Assemble routes it):
+#    14 found, 14 applied, 0 skipped, audit not-OK 0; headings 63 → 63; fences 18 → 18, balanced; title block unchanged;
+#    PENDING FABLE REVIEW lines 1 → 1; rationale unchanged; the output equal to the independent whole-file application of
+#    the 33 edits (sha256 8b5b52439f96a352…, 579 431 bytes, 3 730 lines).
+#  - Tables: every row of every table has its header's cell count (pipes inside code spans not split; 0 bad rows; live 0).
+#  - Ids: J-V8.1 – J-V8.137 (137, no duplicate, none new), T-V8-1 – T-V8-63 (63, none new); W1 – W101 (100 rows, W42
+#    retired; W101 new, used nowhere else in the set); B1 – B21 unchanged; review ids (`R2-nn` … `R5-nn`, verifier ids) in
+#    V08: 0 → 0 (R12-31 is §12.10's register row).
+#  - The assembler's resolver (work/assemble-r4/refs.py on mirror trees of the set, live and with the target V08): V08
+#    resolved 2 792 → 2 823, external 12 → 12, ambiguous 0 → 0, BROKEN 0 → 0; ids defined 3 467 → 3 467; every other
+#    unit unchanged.
+#  - doc_checks.py over the volume, --heads docs/ARCHITECTURE.md — WARNING: reference corpus INCOMPLETE (captures,
+#    research/patreon, research/devlogs, research/ftg-docs, research/external missing): NOT authoritative, provisional.
+#    Live: C1 0, C2 0, C3 183 / 155 unreviewed, C4 2 / 0, S1 0, S2 283 / 2. Target: C1 0, C2 0, C3 183 / 155, C4 2 / 0,
+#    S1 0, S2 284 / 2 — no new unreviewed hit (note 11).
+#
+# WORDS (principle (9)) — the volume 90 869 → 92 002 words (+1 133, +1.2 %; whitespace-split count, as round 4's; per
+#  edit in rV08r5/). Added: the late changes and the held calamity ≈ 485 (§3.6 (3), (4), (6), §2.7's row, §3.17's
+#  degenerate inputs, T-V8-49 (g), W20, §2.3, J-V8.55); the fixtures R5-10 rules ≈ 150 (the cap copy, the two fires and
+#  town-1's river); a field as a row's own path ≈ 190 (§3.5, §2.4, §3.16 (9) (b), §3.17, T-V8-61 (a)); the cadence's
+#  carried population ≈ 135 (§3.6 (3), §3.17, T-V8-61 (a)); W101 ≈ 80; the batch row's three points ≈ 55; the name at an
+#  absorb ≈ 25; the view commands' wording ≈ 10. Removed: none beyond the superseded clauses each edit replaces. A repair
+#  round's growth: findings at build depth (the guard), no source of the shrink goal applies.
+#
 
 === FILE docs/volumes/V08-settlementforge.md ===
 
@@ -49,7 +212,7 @@ surfaces and the players' view (W80–W88), the plan and testing (W89–W94), Fi
 | W17 | the embed's bridge handler — the bridge to the shell (3.1 step 7) | the host's `clerk.config`, `preview { proposal }` and `host.state`; the harness's `ClerkMount.host` calls; the header's controls; the shell's selection forwarded in `entity.selected`; the loaded document's `doc.changed` `ApiEvent`s through the handler's one `subscribe` (§11.2) | `ClerkMount.host` (V09 §2.10); `HostSlots` — `header`, `banner`, `lockedControls`, `exportFormats`, `fileMenu`, `clerkMode`, `hostName`, `historyLines`, `newDocuments` (V09 §2.2); the frame's `ViewOpts.viewAs`; the posted `clerk.needsToken`, `clerk.config.refused`, `clerk.proposal` and `host.action` | §11.2 (`subscribe`), §11.3; items 472, 473, 507 |
 | W18 | `host.action` and `MapSession.on('action')` (2.2, 4.2) | the frame's header controls, an owner's or editor's frame only | the host page, which runs the V08 §4.2 row's operation with `offer`, `setParty`, `MapStore.replaceSnapshot`, `MapStore.create` or its own assistant settings and `setClerk` | §11.3; item 472; T-V8-47 |
 | W19 | `host.state` (2.2) | the client, after each `doc.load` and each change of `MapRecord.party`, `backups` or `partyPictures.at`; `MapSession.seePlayersView` | the header's controls, the restore dialog's list of lost edits, the history panel's party lines through `HostSlots.historyLines` (4.6), the players' view — `ViewOpts.viewAs` (V08 §3.14 (5)) | §11.3; items 464, 472 |
-| W20 | the binding's port fields — `DossierBinding.adapter`, `.quarantined`, `.lateCalamities`, `.notes`, `absorbed` retention (2.3) | `creation` and `absorb` through the ledger event's fold (3.5, 3.6 (4)) | the next absorb's diff and remaps (3.5, 3.8); the first epoch a later absorb folds, for each held late calamity (3.6 (3)); §5.3's binding check; the report | §7.7 `DossierBinding`, §2.9 dossier block; item 390 |
+| W20 | the binding's port fields — `DossierBinding.adapter`, `.quarantined`, `.lateCalamities`, `.notes`, `absorbed` retention (2.3) | `creation` and `absorb` through the ledger event's fold (3.5, 3.6 (4)) | the next absorb's diff and remaps (3.5, 3.8); §5.3's binding check; the report; each held late calamity's ride on the first epoch a later absorb folds (3.6 (3)) | §7.7 `DossierBinding`, §2.9 dossier block; item 390 |
 | W21 | `CarriedFact` shapes and the diff rules (2.3, 3.5) | `digest` | `absorb`'s change list; `factHash`; F22's convergence | §7.7 items 1, 12, 13; §7.7 `CarriedFacts` |
 | W22 | THE ADAPTER'S FIELD TABLE (2.4) | the pinned line's dossier shape (the 41 required keys and the optional keys read — the dossier the only data input, item 125 (a)) | every `DossierDigest` field and the derivation row it feeds; its fallback column → the generator's own choice and a `field_fallback` note (item 125 (b)); `AdapterManifest.keyList`; T-V8-20's ignore clause; §6.5 (3)'s key-list lint | §7.7 item 1's closed-digest rule and never-read reasons |
 | W23 | `AdapterManifest`, `AdapterRegistry` (2.4) | each `adapters/sf/<line>/` folder | `digest`'s adapter choice (3.8); `recognise`; the lint's key list | §14 port, lint; item 508 |
@@ -129,7 +292,7 @@ surfaces and the players' view (W80–W88), the plan and testing (W89–W94), Fi
 | W98 | the field table's fallback column and the `field_fallback` note (item 125 (b); 2.4, 4.6) | `digest`, for every read row whose path is absent, empty or unreadable — the identity, population, seed, institution list and version stamps included (J-V8.134) | the generator's own choice for the field (each row's cell) at a creation, the carried fact kept at an absorb (V08 §3.5's diff); the host's report (`dossier.result.report`); T-V8-61 | §7.7 item 10 (the rows' fallbacks); §14 `PortNote` |
 | W99 | the final local check's brief (item 125 (d); 3.16 (9)) | this volume | the program's final step — its table of matches, mismatches and fixes; SF0's census; release row R9 at a new line | — |
 | W100 | the frame's minimum size; no map on a phone (item 126; 3.1, 3.16 (10)) | `@plat/bridge-client`'s `mount` and `mountParty`; SettlementForge's own device rule | the frame and the party viewer at no less than 600 × 480 CSS px, the tab scrolling; V09's medium layout inside the frame; T-V8-62 | V09 §4.12; item 126 (a2) |
-| W101 | the host's view commands — `MapSession.setView` (`view.set { week }`, `view.set { select }`) and `MapSession.setLayer` (a logged `setLayer` by `doc.apply`, author `host`) (item 125 (c); 2.2, 3.16 (4), (6) (g)) | the host page, in an owner's or editor's frame | the frame's view — §2.9's `week` and the selection — and the document's style state, `LayerSpec.visible` through §7.1's `setLayer` (§8.4); T-V8-61 (b) | §11.3's view commands; §7.1 `setLayer` |
+| W101 | the host's view commands — `MapSession.setView` (`view.set { week }`, `view.set { select }`) and `MapSession.setLayer` (a logged `setLayer` by `doc.apply`, author `host`) (item 125 (c); 3.16 (4), (6) (g); the client, 2.2) | the host page, in an owner's or editor's frame | the frame's view — §2.9's `week` and the selection — and the document's style state, `LayerSpec.visible` through §7.1's `setLayer` (§8.4); T-V8-61 (b) | §11.3's view commands; §7.1 `setLayer` |
 
 **The dossier trace.** Every SettlementForge path the port reads, the `DossierDigest` field it fills, the derivation
 row it feeds and the fallback it takes where the dossier lacks it — or `ignored` with §7.7 item 1's reason — is V08 §2.4's
@@ -246,9 +409,9 @@ interface PartyView { refreshFromStore(): Promise<void>; close(): void }   // pa
 === REPLACE ### 2.3 The binding in practice — the carried facts and their hash ===
 ### 2.3 The binding in practice — the carried facts and their hash
 
-`DossierBinding` — with the port's fields `adapter`, `quarantined`, `lateCalamities` (V08 §3.6 (3), (4)) and `notes` and
-the `absorbed` retention (item 390) — `CarriedFacts` and the key law are §7.7 item 12's. This volume owns the carried
-shape, the port's own keys, the fact hash and the binding row's life.
+`DossierBinding` — with the port's fields `adapter`, `quarantined`, `lateCalamities` (the held late calamities, V08
+§3.6 (3)) and `notes` and the `absorbed` retention (item 390) — `CarriedFacts` and the key law are §7.7 item 12's.
+This volume owns the carried shape, the port's own keys, the fact hash and the binding row's life.
 
 ```ts
 // the carried value per element kind: exactly the digest subset the diff compares (V08 §3.5), canonical field order
@@ -486,7 +649,7 @@ carries names, tiers, categories, pairs of names and vocabulary words only; no S
 | host-minted `docId` (2.1) | the host at creation | `generate`, `logHead` | the document (§2.9) | kept | n/a | none |
 | `DossierBinding.adapter` (2.3) | `creation` | `absorb` (V08 §3.8) | the dossier block | rebuilt from the log's last dossier event's `DossierRef.version` and the port's report | n/a (no undo of dossier events) | rebuilt at first load (§7.5) |
 | `DossierBinding.quarantined` (2.3) | `digest`, `absorb` (V08 §3.9) | the next absorb's diff (skips these keys), the report, T-V8-9 | the dossier block | kept | n/a | rebuilt by folding the `dossierFacts` events, each carrying the whole list after its absorb (V08 §3.6 (4)) |
-| `DossierBinding.lateCalamities` (§7.7; 2.3) | written by folding `dossierFacts`, which carries the whole held list after its absorb: a late calamity carried by an absorb whose week is not after the last epoch's joins it, and the first epoch a later absorb folds carries and drops it (V08 §3.6 (3), (4)) | the port's next absorb, whose first folded epoch carries each held calamity at that epoch's first week (V08 §3.6 (3)) | the dossier block, with the binding | rebuilt by the fold | n/a (no undo of dossier events: a dossier event is no undo target, §7.4) | absent in an older document: `[]`; an older ledger event without the field folds as `[]` |
+| `DossierBinding.lateCalamities` (§7.7; 2.3) | written by folding `dossierFacts`, which carries the whole held list after its absorb: a late calamity carried by an absorb whose week is not after the last epoch's joins it, and the first epoch a later absorb folds carries and drops it (V08 §3.6 (3), with the ledger event of (4)) | the port's next absorb, whose first folded epoch carries each held calamity at that epoch's first week (V08 §3.6 (3)) | the dossier block, with the binding | rebuilt by the fold | n/a (no undo of dossier events: a dossier event is no undo target, §7.4) | absent in an older document: `[]`; an older ledger event without the field folds as `[]` |
 | `absorbed` retention (2.3) | each committed absorb | F22's match, the report | the dossier block | kept | n/a | the fold trims `changeIds` older than the newest 64 entries, so the stored block equals the rebuild |
 | `CarriedFact` (2.3) | `creation`, `absorb` | the diff | the dossier block | kept | n/a | remapped by V08 §3.8 |
 | carried `chain`, `dependency`, `calamity`, `evidence`, a relation's `trend` and `sign`, a condition's `source` and crisis fields (`name`, `event`, `calamity`, `arrivals`, `forces`), `port-values.threats` and `.readiness`, the settlement's `wealth`, and the `site`, `history` and `tradition` kinds (2.3) | `creation`, `absorb` | the diff (V08 §3.5); DR44 reads a condition's crisis fields through its overlay's key | the dossier block | kept | n/a | absent in an older document: filled at its next absorb as a declared remap with no map event (V08 §3.8); a calamity dated at or before the last absorbed week is carried with no event (the map never saw it happen); a `site` or `history` fact filled so writes no `frozen_fact_changed` note; a `port-values.latitudeDeg` or `site.climate` an older document carries is dropped at its next absorb by the same declared remap (item 125 retired their producers) |
@@ -1167,7 +1330,7 @@ event is never an undo target (§7.4), so a row's undo and redo clause is always
 | the refresh queue (V08 §3.4) | none: an empty queue creates no frame; one: one map runs every step and closes the frame; cap: no count limit — the queue is serial, each map bounded by V08 §6's row, and a queue longer than the page's life resumes from `refreshPending`; data: a queued dossier that is unreadable holds its map (B3) and the queue continues, a record deleted meanwhile (B15) is skipped, another settlement's dossier is B6; rungs: village-rung maps refresh through the village product, a CITY or METROPOLIS map only beside a visible TOWN or smaller (page memory), a population above the cap is B7; lifecycle: a map opened visibly is absorbed there and dropped from the queue, a lease lost to a restore or a new map (`stale`) re-reads the record, a page reload resumes | retry that piece | T-V8-49 (e), T-V8-12 |
 | the digest and the diff (V08 §3.5) | none: a dossier with no institution creates a map of its population and site with no dossier-bound use; one: one changed field makes one change; cap: more dossier-backed records than the map has seats — a THORP or HAMLET dossier with a few dozen custom institutions absorbed at once — seats every one past the last plot by §4.7 S10b's last rung (a new outside plot on the hinterland face nearest its affinity district, reported `W_DOSSIER_EDGE`), none omitted (§7.7 item 2); degenerate: a record listed twice under one key is `duplicate_key`, the later kept by `order`; data: a population of 0 is V08 §3.6 (7)'s; a population that is no whole number, or negative, takes its field-table fallback (V08 §2.4), noted `field_fallback`; one above the 120 000 cap, 10⁷ and beyond included, is B7's `E_RUNG_UNAVAILABLE` naming the cap (§1.1); an absorb whose `population`, `name` or `tier` is empty or unreadable, or whose `institutions` is no list: the carried value kept, no change, noted `field_fallback` (V08 §3.5); and where such an absorb's span crosses a year end, the epoch there targets the carried population, no epoch folding toward the fallback (V08 §3.6 (3)); a frozen fact changed is reported only | check; substitute (S10b's last rung) | T-V8-49 (f), T-V8-20 |
 | the ladders (V08 §3.5.1) | degenerate: a record that is both a greater and a lesser of present records merges into its highest present greater only, once — the port walks each ladder row once, greatest first, so no merge loops whatever the rows hold; a `(lo-hi+)` with `hi` below `lo` reads as reversed bounds (above); cap: an open top stops at V11's per-kind-and-rung cap, reported; rungs: an unnumbered record at a village rung takes V07 §2.4's range row | check | T-V8-49 (f), T-V8-44 |
-| changes to events and epochs (V08 §3.6) | none: no change writes no event (`unchanged`); a span with no year end, no crossing and no calamity makes no epoch, and an epoch's span holding no dossier event folds the epoch alone; one: one change is one event or one epoch entry, and a batch of one event is that event's own fold; cap: a catch-up's events fold one batch per epoch's span (V08 §6's absorb-with-epochs row), and where even one epoch over the span with them passes the catch-up's budget the wait completes past the comfort level, reported F-BUDGET-TIME (V06 §6.8 (6)); degenerate: an absorb whose week is the last epoch's own (`W₁` = `W₀`) or before it (a clock turned back): no epoch; late changes at `W₀`, finished, noted `late`; a late calamity's targets applied and the calamity held for the next folded epoch; a population move read at the next absorb past `W₀` (V08 §3.6 (3), (6); §4.11 *The clock* (4)); a newly carried calamity dated at or before `W₀`, `W₁` after it: no epoch at its own week, riding the first epoch the absorb folds at `W₀` + 1 (V08 §3.6 (3)); a newly carried non-calamity change dated at or before `W₀`, `W₁` after it: folded at `W₀` + 1, applied finished, noted `late` (`unreceipted_change`'s `late` variant, V08 §4.6; V08 §3.6 (6)); data: an undated change is `unreceipted_change`; rungs: an epoch that crosses a product's band is V07 §2.1's fold; lifecycle: epochs replay from the log under their version, a batch's events one by one at their own `seq`, and an absorb's epoch is no undo target | check | T-V8-49 (g), T-V8-42, T-V8-63 |
+| changes to events and epochs (V08 §3.6) | none: no change writes no event (`unchanged`); a span with no year end, no crossing and no calamity makes no epoch, and an epoch's span holding no dossier event folds the epoch alone; one: one change is one event or one epoch entry, and a batch of one event is that event's own fold; cap: a catch-up's events fold one batch per epoch's span (V08 §6's absorb-with-epochs row), and where even one epoch over the span with them passes the catch-up's budget the wait completes past the comfort level, reported F-BUDGET-TIME (V06 §6.8 (6)); degenerate: an absorb whose week is the last epoch's own (`W₁` = `W₀`) or before it (a clock turned back): no epoch; late changes at `W₀`, finished, noted `late`; a late calamity's targets applied and the calamity held for the next folded epoch; a population move read at the next absorb past `W₀` (V08 §3.6 (3), (6), under §4.11 *The clock* (4)); a newly carried calamity dated at or before `W₀`, `W₁` after it: no epoch at its own week, riding the first epoch the absorb folds at `W₀` + 1 (V08 §3.6 (3)); a newly carried non-calamity change dated at or before `W₀`, `W₁` after it: folded at `W₀` + 1, applied finished, noted `late` (`unreceipted_change`'s `late` variant, V08 §4.6; V08 §3.6 (6)); data: an undated change is `unreceipted_change`; rungs: an epoch that crosses a product's band is V07 §2.1's fold; lifecycle: epochs replay from the log under their version, a batch's events one by one at their own `seq`, and an absorb's epoch is no undo target | check | T-V8-49 (g), T-V8-42, T-V8-63 |
 | persistence (V08 §3.7) | degenerate: a compaction with no event since the last snapshot is skipped; `backupDepth` 0 keeps no backup, B10's second and third rungs are skipped and the restore control hidden; data: a quota below the snapshot's own size shows `host.status.overQuota` and never refuses a commit (B21); lifecycle: a snapshot, a restore and a new map each send a fresh `doc.load` | simpler shape (the trim order) | T-V8-49 (h), T-V8-5, T-V8-57 |
 | versions and migrations (V08 §3.8) | degenerate: a remap list with no field re-baselines nothing and notes nothing; a `fromLines` identity that changes no key writes no `rebind`; data: a malformed version string is an unknown version — a schema read-only (§2.9 step 1), a line `E_LINE_UNSUPPORTED` — while a dossier's empty or unreadable version stamp is no evidence: the selection runs without it, noted `field_fallback` and `line_defaulted` (V08 §2.4) | check | T-V8-49 (h), T-V8-10, T-V8-11 |
 | failure handling (V08 §3.9) | degenerate: two failures at once take their rows in the order of detection — load (B10) before offer (B3) — and a failure during a rung's recovery restarts that rung once (B2 during B10's rebuild re-creates the frame and rebuilds), then leaves the thumbnail; no row loops and none re-rolls | retry that piece, once | T-V8-49 (h), T-V8-14 |
@@ -1371,7 +1534,7 @@ replay law.
 | `digest` (limits, shape, records, keys, custom, the history, readiness, traditions, the crisis fields and the fallbacks) | ≤ 15 ms | ≤ 25 ms | ≤ 40 ms | a walk over ≤ 260 KB; linear in bytes |
 | creation of a new map | ≤ 20 ms + T(B) | same | same | `creation` is table look-ups; `generate` reads the prefix ahead (§7.7 One path); a history replay adds V06's generation budget (V06 §3.20.4; §12's one-time total time, item 119) |
 | an absorb without an epoch (a week: 1–5 changes) | ≤ 40 ms + 30 ms per element event | ≤ 40 ms + 30 ms per event | ≤ 60 ms + 45 ms per event | §12.6's post-build placement bound per event; the dry run's cost is the fold's |
-| an absorb with epochs (a year) | ≤ 40 ms + Σ events + Σ epochs by the evolution engine's epoch budget (V06 §6) | same | same | a CITY year of ≈ 10 events and one whole-town epoch ≈ 0.7 s; a catch-up past item 119's comfort level coarsened by V06 §6.8 (6) (V08 §3.6 (3)). **The catch-up batch** (§12.10's R12-31: this path's own pre-decided change; J-V8.137). In an absorb that folds at least one epoch, the dossier events one epoch's span holds — dated in (the previous epoch's week, its week), those after the last epoch one more span — are folded as ONE BATCH, never one fold per event: one fold pass over them in V08 §3.6 (2)'s order, then the epoch, one dated at the epoch's own week riding its `EpochInputs.dossier` (V08 §3.6 (6)). Each event keeps its own `seq` and week in the log (V08 §3.6 (6)) and its ops run in order on the model the event before it left, so the log and the model at every `seq` are the per-event fold's; the pass shares what the per-event fold repeats — the provider distances §12.6 counts in each post-build placement (one multi-source Dijkstra per provider class over the L1 way graph) and S10a's class rasters, computed once for the classes the batch places and kept current inside it (an event that opens, closes or moves a provider, or changes a way, updates its class's distances and raster in place, equal to a fresh computation, ties broken in the same order), and the view stages (S13a's names delta, S14's display list), run once with the epoch's (§12.6's replay rule) — so the events' term grows with the epochs folded, not with the events. The absorb's dry run and every editor's re-run (V08 §3.3) fold by the same batches. **Its cost** (PLAUSIBLE until SF7 times it): per epoch folded ≤ 150 ms at TOWN and CITY (a village rung reading TOWN's) and ≤ 500 ms at the METROPOLIS cap, plus per event ≤ 3 ms at TOWN and CITY and ≤ 3.5 ms at the METROPOLIS cap, averaged over the catch-up's events (a light event — a state, attribute, rename, power or record put — at §12.6's replay cost; a placement its choice from the kept distances and rasters and its one designation mutation, §4.7 S11); a catch-up's estimate counts both (V06 §6.8 (1)'s events' term). **Its target:** T-V6-24's three catch-up fixtures — 20 years carrying 200 dossier events, 100 years carrying 1 000 and 100 years carrying 20 — each within the catch-up's budget at CITY and at the METROPOLIS cap, the sky layer off and on (the worst, 1 000 events at the cap inside an open with three islands, in one epoch: 1 310 + 3 × 260 + 500 + 1 000 × 3.5 = 6 090 ≤ 6 310 ms). **Its bar:** T-V8-63. Where even the batch's one epoch over the span passes the catch-up's budget, the wait completes past the comfort level, every dossier event at its own week, reported F-BUDGET-TIME (V06 §6.8 (6)); one of those three fixtures doing so fails the release (T-V6-24's over-budget fixture, 100 years carrying 5 000 at the cap, takes that one-epoch fold reported F-BUDGET-TIME by design) until this path is changed again — never a declared miss (§12.10's R12-31) |
+| an absorb with epochs (a year) | ≤ 40 ms + Σ events + Σ epochs by the evolution engine's epoch budget (V06 §6) | same | same | a CITY year of ≈ 10 events and one whole-town epoch ≈ 0.7 s; a catch-up past item 119's comfort level coarsened by V06 §6.8 (6) (V08 §3.6 (3)). **The catch-up batch** (§12.10's R12-31: this path's own pre-decided change; J-V8.137). In an absorb that folds at least one epoch, the dossier events one epoch's span holds — dated in (the previous epoch's week, its week), those after the last epoch one more span — are folded as ONE BATCH, never one fold per event: one fold pass over them in V08 §3.6 (2)'s order, then the epoch, one dated at the epoch's own week riding its `EpochInputs.dossier` (V08 §3.6 (6)). Each event keeps its own `seq` and week in the log (V08 §3.6 (6)) and its ops run in order on the model the event before it left, so the log and the model at every `seq` are the per-event fold's; the pass shares what the per-event fold repeats — the provider distances §12.6 counts in each post-build placement (one multi-source Dijkstra per provider class over the L1 way graph) and S10a's class rasters, computed once for the classes the batch places and kept current inside it (an event that opens, closes or moves a provider, or changes a way, updates its class's distances and raster in place, equal to a fresh computation, ties broken in the same order), and the view stages (S13a's names delta, S14's display list), run once with the epoch's (§12.6's replay rule) — so the events' term grows with the epochs folded, not with the events. The absorb's dry run and every editor's re-run (V08 §3.3) fold by the same batches. **Its cost** (PLAUSIBLE until SF7 times it): per epoch folded ≤ 150 ms at TOWN and CITY (a village rung reading TOWN's) and ≤ 500 ms at the METROPOLIS cap, plus per event ≤ 3 ms at TOWN and CITY and ≤ 3.5 ms at the METROPOLIS cap, averaged over the catch-up's events (a light event — a state, attribute, rename, power or record put — at §12.6's replay cost; a placement its choice from the kept distances and rasters and its one designation mutation, §4.7 S11); a catch-up's estimate counts both (V06 §6.8 (1)'s events' term). **Its target:** T-V6-24's three catch-up fixtures — 20 years carrying 200 dossier events, 100 years carrying 1 000 and 100 years carrying 20 — each within the catch-up's budget at CITY and at the METROPOLIS cap, the sky layer off and on (the worst, 1 000 events at the cap inside an open with three islands, in one epoch: 1 310 + 3 × 260 + 500 + 1 000 × 3.5 = 6 090 ≤ 6 310 ms). **Its bar:** T-V8-63. Where even the batch's one epoch over the span passes the catch-up's budget, the wait completes past the comfort level, every dossier event at its own week, reported F-BUDGET-TIME (V06 §6.8 (6)); on any of T-V6-24's three catch-up fixtures that fails the release (its over-budget fixture, 100 years carrying 5 000 at the cap, taking that one-epoch fold reported F-BUDGET-TIME by design) until this path is changed again — never a declared miss (§12.10's R12-31) |
 | `dossier.result` size, excluding `created`'s bytes | ≤ 2 MB | ≤ 2 MB | ≤ 2 MB | the ledger event carries before and after facts; over it, the result is split into ordered parts of ≤ 1 MB under one `re`. The `.plat` bytes of `created` and of `doc.snapshot.ready` are `ArrayBuffer` transfers (no clone), bounded by §2.9's document budget (≤ 0.6, 3 and 8 MB) |
 | the refresh queue, per map (boot paid once) | ≤ 1.3 s after a year | ≤ 3.5 s after a year | ≤ 8 s after a year | load + absorb + two thumbnails (≈ 5 µs × B + 10 ms each) + a compaction (`.plat` encode ≤ 60 ms at CITY) + the party set (the render row above); a campaign of 20 CITY maps ≤ 70 s of background work |
 | memory, one live map per frame | §12.8's rung line + 30 MB | same | same | the app's fixed heap; the refresh frame has no tile worker except while it draws thumbnails and the party set |
@@ -1403,8 +1566,8 @@ wave stand at once at severities whose camped ground together passes `densityCap
 §3.15.12's `crisis.share`, T122-6; X-V12-5), the calamities' `targets` resolved (V08 §3.16 (7)); on `city-1` a second
 fire naming more target districts than its severity's share of the place's units, and a fire at severity 1 on a fixture
 holding a district the adjacency from its seed does not reach (a fire never jumps a gap, V01 §3.16 (4)) — `town-1`,
-whose river (its `riverside` terrain and `river` access, V08 §2.6's water words, run through its core by §4.2 S3 (1))
-parts its districts into two banks no seam joins (a water run is a one-sided seam, II.1), the fire's `targets` naming
+whose river runs through its core (§4.2 S3 (1); its `riverside` terrain and `river` access, V08 §2.6's water words)
+and parts its districts into two banks no seam joins (a water run is a one-sided seam, II.1), the fire's `targets` naming
 one use on the bank holding fewer districts than the fire's count, so its order ends at that bank before the count, the
 shortfall reported (V01 §3.16 (5)), the harness asserting that bank's count below the fire's before the bar reads it
 (X-V12-5); the **force fixtures** — under T-V8-60's test adapter
