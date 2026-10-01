@@ -1,0 +1,94 @@
+{
+ "key": "coherence/verify-determinism-r3t",
+ "file": "docs/validation/coherence/verify-determinism-r3t.md",
+ "issues": [
+  {
+   "id": "VDC3-01",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "§6.1 *The weather stream* (l.9458–9461, rewritten this round) says **Start a shower now** \"starts a spell of the commonest live kind at once as the next spell index, its length drawn there\". It defines the press only at a moment with no live kind. Nothing in the set defines a press while a spell is in force — rain falling or fog standing when the user presses, an ordinary path, since V09 §4.21.14 (1) enables the button whenever the effects are on and a kind is live. §2.9 holds one **spell in force** (its kind, start and phase). V09 §4.21.14 (4), V11 §3.25.11 and item 124 (g) say nothing more. Read literally, the running spell is replaced at once. Its light terms then vanish in one frame (fog's direct-term factor 1 − 0.6s back to 1), against §8.4 (i)'s rule that no term changes the light faster than its fade allows (T124-7). Other builders would let both spells run, or queue the press. A normal path with no defined outcome.",
+   "required_change": "§6.1 *The weather stream*: after \"…V09 disables the button there with its reason (§7.8: never a silent no-op).\" add \"A press while a spell is in force ends that spell first: its strength falls from its present value to 0 at its kind's fade rate (§8.4 (i)), and the pressed spell starts the moment it reaches 0, so one spell is in force at a time and no light term steps faster than §8.4 (i) allows (T124-7); a further press before then changes nothing.\" §6.5 (9)'s *weather timeline* test adds \"a press while a spell is in force, the running spell fading out before the pressed one starts (T124-9)\". (Second end for the adjudicator: V09 §4.21.14 (4) cites §6.1 for it, and row 93 adds the case.)",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§6.3 *Plan damage* (l.9871–9874), the threshold's home, says every plan element \"shows damaged exactly while the level is above 0 and at least t\". This round model's §2.6 step 7 (l.2088–2095, R3-05) added \"One case has no threshold\". While a building is `decayed` or `ruined`, every roof bay over a room of a wing whose `RoofSpec.kind` is `none` is damaged whatever its t, however V06 §3.23 reads its level. §8.6 (l.13951–13952), V03 l.2707, V02 §5.7 (2) and X34 cite that case. So the units state two outcomes for one case: a roof bay of a roofless decayed wing at a level below its t. §6.3's \"exactly\" leaves it intact; §2.6 step 7 damages it. A builder of §6.3's comparison, or of a test written from it, builds the first. R3-05 calls the roofless bays \"a case, not a second comparison\", but R3-05 routed no text to §6.3. Graded major by R3-03 (b).",
+   "required_change": "§6.3 *Plan damage*: \"the element shows damaged exactly while the level is above 0 and at least t\" → \"the element shows damaged exactly while the level is above 0 and at least t — but for §2.6 step 7's one case without a threshold: a roof bay over a room of a roofless wing (`RoofSpec.kind` `none`) of a `decayed` or `ruined` building is damaged whatever its t and level\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-03",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§7.7 item 12's key law (l.12014), the home of the settlement's binding key, reads \"`settlement:<id>` — the dossier's own id, stable across reloads, same-seed regeneration and section rerolls; a new id is a new dossier and a new map\". This round V08 §2.4's `id` row (V08 l.631; R3-20 (2), item 125 (b): a missing field never refuses; J-V8.134) gives two fallbacks: - a creation from a dossier whose `id` is empty or malformed mints `settlement:map:<mapId>` from the creating map's id, \"kept for the document's life — a later readable `id` neither replaces it nor is checked against it\"; - an absorb with such an `id` keeps the bound document's key, `E_OTHER_SETTLEMENT` not checked for that offer. Take a map created from an id-less dossier that later absorbs the same dossier with a readable id. §7.7 item 12 (and §14's `E_OTHER_SETTLEMENT`, \"an absorb whose digest's settlement key differs from the binding's\") make that a new dossier and refuse it. V08 absorbs it. Two outcomes for one case; V08's hand-off names this end.",
+   "required_change": "§7.7 item 12's settlement row, its key cell → \"`settlement:<id>` — the dossier's own id; where the dossier's `id` is empty or not of its line's form, at a creation `settlement:map:<mapId>`, the creating map's id, kept for the document's life (a later readable `id` neither replaces it nor is checked against it), and at an absorb the bound document's key (V08 §2.4's `id` row; item 125 (b)) — stable across reloads, same-seed regeneration and section rerolls; between readable ids, a new id is a new dossier and a new map\". (Second end for the adjudicator: §14's `E_OTHER_SETTLEMENT` comment, scope, adds \"never for an offer whose `id` fell back (V08 §2.4)\".)",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-04",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "DR44's rule cell (l.11981) says \"every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one, a look kind or `none`\". Its test cell says \"every SettlementForge stressor type and condition archetype at the baseline has its `map` row (T122-4)\". Several statements name a third class: - the same cell names the `map` rows' `event` rows; - V08 §3.16 (7) (a)'s census lists the simulator's crisis events (`PLAGUE`, `REFUGEE_WAVE`, `RAID_OR_MONSTER_ATTACK`); - §10.2 (b) maps them; - §13.2's T122-4, as scope wrote it this round (l.18402–18403), requires \"every SettlementForge stressor type, condition archetype and crisis event\". The rule's own list omits the crisis events that its rows and its bar name.",
+   "required_change": "DR44's rule cell: \"every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one\" → \"every SettlementForge stressor type, condition archetype and crisis event at the pinned baseline has exactly one\". DR44's test cell: \"every SettlementForge stressor type and condition archetype at the baseline has its `map` row (T122-4)\" → \"every SettlementForge stressor type, condition archetype and crisis event at the baseline has its `map` row (T122-4)\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-05",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "This round model's §2.7 support step gave a dry run two new bends. - (3), l.2547–2551: while a deck stands, a hand op on the band's held stretch under a crossing station \"bends its stretch round it (item 101 R2)\". The op is a `DeclineOp` `breach` or `dismantle` sent by hand as a `convert` event, whose `op` is any `ConversionOp`, `DeclineOp` among them (§7.1 l.10213; §4.11 l.8093). - (6), l.2559–2567: where a hand `drawWall` across a standing raised way would leave a clear span past `maxClearSpanM` or a pier past `maxPierM`, \"its dry run bends the trace to the nearest one whose crossing fits\". E-07 (§7.1's outcome table, \"the one home of every refusal, conflict and bend cause of a dry run\") names neither cause. Its catch-all row lists a wall's ridge, reach, waterfront, open ground and aqueduct arch, but no held stretch and no crossing of a standing raised way. It keys every bend generically, \"V09 §4.9's `bend.*` rows\", and V09 holds no row for either bend. T-V9-15's walker therefore cannot reach these bends, and the dry run has no line to show. Model's hand-off names this end.",
+   "required_change": "§7.1's outcome table, before the catch-all row, add: - \"| a hand `convert` `breach` or `dismantle` of an enceinte stretch meeting the stretch held under a raised way's crossing station while its deck stands (§2.7's support step (3)) | bent | the op on its stretch less the held stretch, named in one line; an op wholly on the held stretch changes nothing, with its line | `bend.wall.held` |\" - \"| a hand `drawWall` across a standing raised way whose crossing would leave a clear span past `maxClearSpanM` or a pier past `maxPierM` (§2.7's support step (6)) | bent | the trace bent to the nearest one whose crossing fits, the raised way kept and its stations re-run in the same commit | `bend.wall.raisedCrossing` |\"",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-06",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "The receiving end of VDC3-05. V09 §4.9's catalogue has no row for either bend §2.7's support step now gives a hand wall op: a decline op meeting a held stretch under a crossing station, or a hand `drawWall` whose crossing of a standing raised way does not fit. T-V9-15 requires a row for every key E-07 names.",
+   "required_change": "V09 §4.9: add `bend.wall.held` (the op's stretch shortened round the stretch held under the raised way, naming the way, e.g. \"{way} still rests on this stretch, so it stays standing.\") and `bend.wall.raisedCrossing` (the trace moved to where its crossing of {way} fits) in V09's own words, each ending with `button.showWhy`, and cite them from V09's wall tool flow (T3 `wall`).",
+   "owner": "V09"
+  },
+  {
+   "id": "VDC3-07",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§2.7's support step (6), new this round (l.2559–2567), makes a hand `drawWall` laid across a standing raised way re-run (1)–(5) and the span rule on that raised way \"in the same commit (the trace's undo restoring them)\". The crossing station moves onto the new trace; the stations in the new strips' setbacks, glacis, berm or channel slide or are omitted. §7.3's S7 local-operator row is the locality home of what a `drawWall` re-derives and of the effective scope shown before commit (§7.3 item 1). It says \"re-trace only the run between the nearest unaffected towers …; re-cut the strips' setback and glacis lines …; re-derive the strip blocks' S10 step (0)\" and names no raised way. So the dry run's scope and fate sheet omit the piers the commit moves or drops.",
+   "required_change": "§7.3 item 3's table, the S7 row's re-derivation cell: after \"re-derive the strip blocks' S10 step (0)\" add \"; on each standing raised way the new trace or its moat crosses, re-run §2.7's support step (1)–(5) and the span rule in the same commit (its crossing station onto the new trace, the stations in the new strips slid or omitted), that raised way's part held in the effective scope and its moved or omitted piers listed in the fate sheet (§7.3 item 4)\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-08",
+   "severity": "minor",
+   "kind": "NARRATION",
+   "claim": "R3-02 (principle (5)) bars review-process ids from design text. Assemble-r3's census (§8, `reviewids-final.tsv`) leaves six such sites in §5–§7 for the verifiers. They are canon conflict and wiring ids cited as sources, all from before this round: - §5.1 (8) l.8972: \"(DWG-01)\"; - §6.1 l.9299: \"(DIC-02: …)\"; - §7.5's `UpgradeDiff` comment l.11348: \"(DWG-02)\"; - §7.6's `TableId` comment l.11419: \"(MC-11)\"; - §7.6 l.11460: \"(V12-XCONF-2; …)\"; - §7.7's `Assignment.drift` comment l.11644: \"(MC-11)\".",
+   "required_change": "- l.8972: \"8. **A bug abort ends in a defined state** (DWG-01).\" → \"8. **A bug abort ends in a defined state.**\" - l.9299: \"(DIC-02: no concern's number of draws changes)\" → \"(no concern's number of draws changes)\". - l.11348: \"never stored (DWG-02); §14's migrate returns it\" → \"never stored; §14's migrate returns it\". - l.11419: \"'era' … (MC-11);\" → \"'era' …;\". - l.11460: \"(V12-XCONF-2; V11 §3.2.1 step 7 computes it so)\" → \"(V11 §3.2.1 step 7 computes it so)\". - l.11644: \"typed in §2.6 (MC-11)\" → \"typed in §2.6\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-09",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§6.1 *The weather stream* (l.9462–9464) calls the timeline \"a pure function of (the session seed, the view's time since the map opened, the climate row, year position, sites and view hour in force at each moment, the presses)\". The same paragraph makes a kind's `hours` count only \"under `light: 'time'`\". The view hour is §2.9's `time` key, which exists whatever the `light` mode. So a switch of `light` between `'day'` and `'time'` with every listed input fixed changes R(t) and the spells. The list omits an input the rule reads, and a replay test that fixes the listed inputs alone does not pin the timeline.",
+   "required_change": "§6.1 *The weather stream*: \"the climate row, year position, sites and view hour in force at each moment\" → \"the climate row, year position, sites, `light` mode and view hour in force at each moment\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC3-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§13.2's T124-9 (l.18443–18444) reads \"the timeline replays from its session seed and clock\". §6.1 *The weather stream* now makes the timeline a function of the session seed, view time, the climate row, year position, sites and view hour in force at each moment, and the presses. §6.5 (9) runs under T124-9 the scripted year-position change, a press at a moment with no live kind and a view hour crossing a kind's `hours`. The bar's head names none of them. This is bookkeeping (R3-03 (a)).",
+   "required_change": "§13.2's T124-9: \"the timeline replays from its session seed and clock\" → \"the timeline replays from its session seed, clock and presses with the climate row, year position, sites, `light` mode and view hour in force at each moment (§6.1 *The weather stream*) — a year-position change from a week with no live kind into a live one and back, a press at a moment with no live kind and a view hour crossing a kind's `hours` among its fixtures\".",
+   "owner": "scope"
+  },
+  {
+   "id": "VDC3-11",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.21.14 (4) (l.3700–3701) ends \"The press is recorded in session state, so the timeline replays from its seed, its clock and the presses (T124-9)\". §6.1 *The weather stream*, the home, names the climate row, year position, sites and view hour in force at each moment as inputs too. The restatement is narrower than its home. Determinism's repair hands this end to the verifiers.",
+   "required_change": "V09 §4.21.14 (4): \"so the timeline replays from its seed, its clock and the presses (T124-9)\" → \"so the timeline replays from its seed, its clock and the presses with the climate row, year position, sites, light mode and view hour in force (§6.1 *The weather stream*; T124-9)\".",
+   "owner": "V09"
+  }
+ ]
+}
