@@ -13,14 +13,18 @@ ORIG = os.path.join(S, 'V03.orig.md')
 lines = open(ORIG, encoding='utf-8').read().split('\n')
 
 EDITS = []          # (heading, old, new, count, tag)
+APPENDS = []        # (heading, body, tag): APPEND TO SECTION blocks, applied after every REPLACE
 
 def E(heading, old, new, count=1, tag=''):
     assert old != new, (heading, tag, old[:60])
     EDITS.append((heading, old, new, count, tag))
 
+def A(heading, body, tag=''):
+    APPENDS.append((heading, body, tag))
+
 import edits_a, edits_b, edits_c
 for m in (edits_a, edits_b, edits_c):
-    m.add(E)
+    m.add(E, A)
 
 by_head = {}
 order = []
@@ -63,6 +67,14 @@ for i, e, h, text in out_sections:
     blk.extend(body)
     blk.append('=== END ===')
     blk.append('')
+for h, body, t in APPENDS:
+    b = body.split('\n')
+    while b and not b[-1].strip():
+        b.pop()
+    blk.append('=== APPEND TO SECTION %s ===' % h)
+    blk.extend(b)
+    blk.append('=== END ===')
+    blk.append('')
 open(os.path.join(S, 'blocks.txt'), 'w', encoding='utf-8').write('\n'.join(blk))
 
 # the intended full text (REPLACE keeps the replaced range's trailing blank lines)
@@ -81,6 +93,21 @@ for i, e, h, text in out_sections:
     new.extend([''] * tb)
     pos = e
 new.extend(lines[pos:])
+# APPEND TO SECTION: one blank line and the body after the subsection's last non-blank line (the applier's rule)
+for h, body, t in APPENDS:
+    i, e = section(new, h)
+    j = e
+    while j > i and not new[j - 1].strip():
+        j -= 1
+    b = body.split('\n')
+    while b and not b[-1].strip():
+        b.pop()
+    tail_blank = e - j
+    ins = [''] + b
+    if tail_blank == 0 and e < len(new):
+        ins = ins + ['']
+    new[j:j] = ins
+    log.append('%s\tAPPEND %s' % (t, h[:60]))
 open(os.path.join(S, 'V03.new.md'), 'w', encoding='utf-8').write('\n'.join(new))
 open(os.path.join(S, 'edits.log'), 'w', encoding='utf-8').write('\n'.join(log) + '\n')
 print('sections', len(out_sections), 'edits', len(EDITS))

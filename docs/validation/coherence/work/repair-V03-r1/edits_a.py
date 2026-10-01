@@ -7,7 +7,7 @@ H24 = '### 2.4 The rule tables and the default rows'
 H25 = '### 2.5 Lifecycle of every new state field'
 
 
-def add(E):
+def add(E, A):
     # ---------------- §1 ----------------
     E(H1,
       "block, SVG, raster and per-storey VTT scenes; budgets, bars and the build plan. The base states the records (§2.6's",

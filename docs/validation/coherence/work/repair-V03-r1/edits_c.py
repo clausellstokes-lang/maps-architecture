@@ -1,2 +1,2 @@
-def add(E):
+def add(E, A):
     pass

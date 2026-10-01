@@ -37,3 +37,19 @@ hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
 hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
 hand-off model VAF-R0S-16	### 2.5 Lifecycle of every new state field	count 1
 G120-V03	### 2.5 Lifecycle of every new state field	count 1
+hand-off pipeline VAF-R0S-20	### 3.2 A — the programme	count 1
+VK0-15	### 3.4 Seed pieces per storey	count 1
+VAF-R0S-28	### 3.7 Basements, the crypt and the heads of the ways down	count 1
+hand-off model VAF-R0S-03	### 3.7 Basements, the crypt and the heads of the ways down	count 1
+VK0-15	### 3.13 Edges at their limits (principle (11))	count 1
+hand-off determinism VDC0-11	### 3.13 Edges at their limits (principle (11))	count 1
+G120-V03, VV34-01	### 3.13 Edges at their limits (principle (11))	count 1
+hand-off determinism VDC0-11	### 4.2 The edits the plan needs, each with its semantics an	count 1
+G120-V03	### 4.4 What is not an edit	count 1
+G120-V03	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+VV34-09	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+VV34-09	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+G120-V03	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+hand-off V10 VV34-07	### 4.6 The clerk's view — plan queries and "why?"	count 1
+G120-V03	### 5.2 Picture exports	count 1
+G120-V03	APPEND ## 5 Rendering, labels, exports
