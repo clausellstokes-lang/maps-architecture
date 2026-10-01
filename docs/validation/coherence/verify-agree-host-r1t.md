@@ -28,14 +28,14 @@ The round-0 findings: 33 of 34 are fixed at their owner. VAH-31 persists, now at
 
 | id | owner | verdict | where (live) |
 |---|---|---|---|
-| VAH-01 | determinism | FIXED | `DossierChange.element.kind` gains `site`, `history`, `tradition` (l.11350); item 13's F-V8-8 data row (l.11693-11695); the `ReceiptRow` comment F-V8-8 (l.11354); V08 l.171 and V08 §3.6 (1) l.1769 cite F-V8-1 – F-V8-8 |
+| VAH-01 | determinism | FIXED | `DossierChange.element.kind` gains `site`, `history`, `tradition` (l.11351); item 13's F-V8-8 data row (l.11693-11695); the `ReceiptRow` comment F-V8-8 (l.11354); V08 l.171 and V08 §3.6 (1) l.1769 cite F-V8-1 – F-V8-8 |
 | VAH-02 | determinism | FIXED | §7.7 item 1 names the reasons only and cites V08 §2.4's `ignored` rows as the one list (l.11427-11437) |
 | VAH-03 | V08 | FIXED | V08 §2.4: `mapEdits`, `fogSessions`, `worldState.spatialLedgers.*` and the derived reads, one row per reason (l.647-656) |
 | VAH-04 | determinism | FIXED | §7.7 item 8: `HistoryHint` on the recipe, written once by the port's creation (l.11538) |
 | VAH-05 | V08 | FIXED | W34 no longer lists `HistoryHint`; W39 is its row |
 | VAH-06 | determinism | FIXED | `CircumstanceSlice.port` comment without a field list (l.11331) |
-| VAH-07 | determinism | FIXED | key-law row for the port's own keys, citing V08 §2.3 (l.11665) |
-| VAH-08 | determinism | FIXED | E-07 row 1: unlock, the closest acceptable declarations, or keep the lock (l.10117) |
+| VAH-07 | determinism | FIXED | key-law row for the port's own keys, citing V08 §2.3 (l.11664) |
+| VAH-08 | determinism | FIXED | E-07 row 1: unlock, the closest acceptable declarations, or keep the lock (l.10116) |
 | VAH-09 | V09 | FIXED | `refuse.locked`, `.warp` and `.water` carry `button.chooseMarked` (l.1912, l.1925, l.1926) |
 | VAH-10 | V10 | FIXED | V10 §3.16 `lock` row: Unlock, the closest acceptable declarations, Show me why |
 | VAH-11 | determinism | FIXED (new conflict = VDC1-01) | E-07 gains the viewer, islands-rung, table-edit, style, knowledge, `clerk.ops`, stale and frame rows; every '—' key is named; the lead lists the gates. The table-edit row still refuses a stamped owner-rule cell, which V11 §4.1 now allows; that is VDC1-01 (determinism) and VDC1-14 (V09), concurred |
@@ -99,7 +99,7 @@ The round-0 hand-off residues also close. XV-V9-34 is closed: V06 §4.2 homes `d
 
 ### VAH-r1-05 — minor · DISAGREE · owner V09
 
-**Claim.** V09 §2.6 (l.581) says 'a single place is moved (`relocateUse`) or pinned (`placeAt`, T10 `hold`)'. §7.1's binding homes `placeAt` at T6 `place` (l.10215), and V09 §4.3's own row (l.1649) puts **Free this plot** (`placeAt { lift: true }`) under T6. T10 `hold` homes `pin`, not `placeAt`. This round's tool-word pass turned the former 'T10' into 'T10 `hold`', which makes the wrong home explicit.
+**Claim.** V09 §2.6 (l.583) says 'a single place is moved (`relocateUse`) or pinned (`placeAt`, T10 `hold`)'. §7.1's binding homes `placeAt` at T6 `place` (l.10215), and V09 §4.3's own row (l.1649) puts **Free this plot** (`placeAt { lift: true }`) under T6. T10 `hold` homes `pin`, not `placeAt`. This round's tool-word pass turned the former 'T10' into 'T10 `hold`', which makes the wrong home explicit.
 
 **Required change.** V09 §2.6: 'pinned (`placeAt`, T6 `place`)'.
 
