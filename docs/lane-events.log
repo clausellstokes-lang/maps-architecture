@@ -2851,3 +2851,4 @@
 2026-10-01 14:55 coherence/orchestrator NOTE correction: launching V05 and kernel together put 7 seats over the cap of 6; repair-kernel-r4 stopped by the orchestrator within two minutes of launch and re-queued (its CONTINUE rule picks up any partial file); running: V06 V11 V04 V02 V01 V05
 2026-10-01 14:56 coherence/repair-V11-r4 LANDED docs/validation/coherence/repair-r4-V11.md docs/validation/coherence/results/coherence_repair-V11-r4.json
 2026-10-01 14:56 coherence/orchestrator NOTE repair-V11-r4 landed (10 blocks, 0 ruling requests); relaunched repair-kernel-r4 in its slot (queue empty; running: V06 V04 V02 V01 V05 kernel)
+2026-10-01 14:56 coherence/orchestrator NOTE assemble-r4 (base 593c657d…) and the twenty verify-*-r4t briefs rendered; assemble runs once all eighteen repair-r4 files land
