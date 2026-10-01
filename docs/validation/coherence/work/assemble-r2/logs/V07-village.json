@@ -1,0 +1,604 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "02f8dbb439bce4ae73e010022fc29a93e71f3e8944e0a6b3fbf8df01c8e2d6f8",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V07.md",
+   "sha256": "f061a2d6ce5424e5ffbc70d082db6909c693308f3b72abbf48c75b550744826f",
+   "lines": 2228,
+   "blocks": 21,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V07.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed and what is out of scope",
+   "file": "repair-r2-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed and what is out of scope",
+   "body_lines": 126,
+   "body_sha256": "76b2920463573a0d50759538340fdc4c1def368b9443c61eb5a08d2ee0ce90f1",
+   "target_line": 75,
+   "section_old": "75–190",
+   "section_old_n": 116,
+   "section_new_n": 128,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed and what is out of scope"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V07.md #2 (l. 131) REPLACE ## 1b Wiring table",
+   "file": "repair-r2-V07.md",
+   "index": 2,
+   "line": 131,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 126,
+   "body_sha256": "e3fd2bc4defe0e1b6faa4136fd027ac57ac189496b37e6aee71894e265ac7fd7",
+   "target_line": 203,
+   "section_old": "203–326",
+   "section_old_n": 124,
+   "section_new_n": 128,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V07.md #3 (l. 260) REPLACE ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+   "file": "repair-r2-V07.md",
+   "index": 3,
+   "line": 260,
+   "kind": "REPLACE",
+   "heading": "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+   "body_lines": 112,
+   "body_sha256": "9cc6ab8edb1810c779fa93b58b931ffa4e85407681e229556f0956f7cfff8c77",
+   "target_line": 512,
+   "section_old": "512–624",
+   "section_old_n": 113,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V07.md #4 (l. 375) REPLACE ### 2.6 Lifecycle of every new state field",
+   "file": "repair-r2-V07.md",
+   "index": 4,
+   "line": 375,
+   "kind": "REPLACE",
+   "heading": "### 2.6 Lifecycle of every new state field",
+   "body_lines": 51,
+   "body_sha256": "ecf741c27911309d49d3335566305a89effc2b0a13bdefe1d0ee313c324b2dea",
+   "target_line": 986,
+   "section_old": "986–1036",
+   "section_old_n": 51,
+   "section_new_n": 52,
+   "new_headings": [
+    "### 2.6 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V07.md #5 (l. 429) REPLACE ### 3.4 VS3 — the palisade, before the roads",
+   "file": "repair-r2-V07.md",
+   "index": 5,
+   "line": 429,
+   "kind": "REPLACE",
+   "heading": "### 3.4 VS3 — the palisade, before the roads",
+   "body_lines": 79,
+   "body_sha256": "2dc7fb5b1a1c141239468959931bd03830536fd64275494886064d5c6b3db7e8",
+   "target_line": 1359,
+   "section_old": "1359–1438",
+   "section_old_n": 80,
+   "section_new_n": 80,
+   "new_headings": [
+    "### 3.4 VS3 — the palisade, before the roads"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V07.md #6 (l. 511) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "file": "repair-r2-V07.md",
+   "index": 6,
+   "line": 511,
+   "kind": "REPLACE",
+   "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "body_lines": 90,
+   "body_sha256": "ceb74c0a3c9d4750be8facdbd4077e9f1cf19cca6e9c8fe50191cd138d6a3f46",
+   "target_line": 1556,
+   "section_old": "1556–1645",
+   "section_old_n": 90,
+   "section_new_n": 91,
+   "new_headings": [
+    "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V07.md #7 (l. 604) REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+   "file": "repair-r2-V07.md",
+   "index": 7,
+   "line": 604,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+   "body_lines": 197,
+   "body_sha256": "2d969255bb723159d4494cb081c5ba90f71d2efa0b28728bfc158e5b2a590d39",
+   "target_line": 2086,
+   "section_old": "2086–2284",
+   "section_old_n": 199,
+   "section_new_n": 199,
+   "new_headings": [
+    "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V07.md #8 (l. 804) REPLACE ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+   "file": "repair-r2-V07.md",
+   "index": 8,
+   "line": 804,
+   "kind": "REPLACE",
+   "heading": "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+   "body_lines": 364,
+   "body_sha256": "b191162c8b2672826c84b69d8702e3044edfee2da69c1573557a1f9bf6c92e5f",
+   "target_line": 2285,
+   "section_old": "2285–2647",
+   "section_old_n": 363,
+   "section_new_n": 365,
+   "new_headings": [
+    "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V07.md #9 (l. 1171) REPLACE ### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's sys",
+   "file": "repair-r2-V07.md",
+   "index": 9,
+   "line": 1171,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's systems)",
+   "body_lines": 80,
+   "body_sha256": "d3277fa8b54941f452758e618220e59b26a8e7d83beca0ed23f2a390e035fd15",
+   "target_line": 2827,
+   "section_old": "2827–2906",
+   "section_old_n": 80,
+   "section_new_n": 81,
+   "new_headings": [
+    "### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's systems)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V07.md #10 (l. 1254) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r2-V07.md",
+   "index": 10,
+   "line": 1254,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 67,
+   "body_sha256": "5a61078d78f143528d61ffad34a9e501df6493623db625a2d65db7f24d1319a9",
+   "target_line": 2908,
+   "section_old": "2908–2971",
+   "section_old_n": 64,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-V07.md #11 (l. 1324) REPLACE ### 4.5 The clerk's view",
+   "file": "repair-r2-V07.md",
+   "index": 11,
+   "line": 1324,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The clerk's view",
+   "body_lines": 61,
+   "body_sha256": "3d61823aba2bc881e61eb62328f4e9265b00fcdf7d7d0e5084702bae12404b0c",
+   "target_line": 3079,
+   "section_old": "3079–3135",
+   "section_old_n": 57,
+   "section_new_n": 63,
+   "new_headings": [
+    "### 4.5 The clerk's view"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-V07.md #12 (l. 1388) REPLACE ### 5.1 The look — the `painterly` family built, `ink` one click away",
+   "file": "repair-r2-V07.md",
+   "index": 12,
+   "line": 1388,
+   "kind": "REPLACE",
+   "heading": "### 5.1 The look — the `painterly` family built, `ink` one click away",
+   "body_lines": 121,
+   "body_sha256": "9696f69a12d65850b060ca26a5558bfdd22cf913e04f139f9007424c00000ce2",
+   "target_line": 3144,
+   "section_old": "3144–3288",
+   "section_old_n": 145,
+   "section_new_n": 122,
+   "new_headings": [
+    "### 5.1 The look — the `painterly` family built, `ink` one click away"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-V07.md #13 (l. 1512) REPLACE ### 5.2 Bands, the first view and level of detail",
+   "file": "repair-r2-V07.md",
+   "index": 13,
+   "line": 1512,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Bands, the first view and level of detail",
+   "body_lines": 14,
+   "body_sha256": "61e6a3ba30f1883b54216f40e5324b5677497837413607a20d57448c76bcfa8a",
+   "target_line": 3266,
+   "section_old": "3266–3279",
+   "section_old_n": 14,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 5.2 Bands, the first view and level of detail"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-V07.md #14 (l. 1529) REPLACE ### 5.4 Exports",
+   "file": "repair-r2-V07.md",
+   "index": 14,
+   "line": 1529,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Exports",
+   "body_lines": 22,
+   "body_sha256": "f953a78cb566a71a7dc86955612ce118e369489b93e6277f2e64978cd92d096c",
+   "target_line": 3298,
+   "section_old": "3298–3318",
+   "section_old_n": 21,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 5.4 Exports"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r2-V07.md #15 (l. 1554) REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+   "file": "repair-r2-V07.md",
+   "index": 15,
+   "line": 1554,
+   "kind": "REPLACE",
+   "heading": "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+   "body_lines": 65,
+   "body_sha256": "47b3e88d0a6b2945481b437dfbd97464bb5895aeb282650b15a864dfc8849a78",
+   "target_line": 3321,
+   "section_old": "3321–3383",
+   "section_old_n": 63,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r2-V07.md #16 (l. 1622) APPEND TO SECTION ## 5 Rendering, labels and exports",
+   "file": "repair-r2-V07.md",
+   "index": 16,
+   "line": 1622,
+   "kind": "APPEND TO SECTION",
+   "heading": "## 5 Rendering, labels and exports",
+   "body_lines": 115,
+   "body_sha256": "1faa591b1b6088abc4a93d3c721d3bf52060c958e1a95805b2efe9e1ee2f18e0",
+   "target_line": 3142,
+   "section_old": "3142–3386",
+   "section_old_n": 245,
+   "inserted_at_line": 3386,
+   "lines_inserted": 116,
+   "new_headings": [
+    "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r2-V07.md #17 (l. 1740) REPLACE ## 6 Performance budgets",
+   "file": "repair-r2-V07.md",
+   "index": 17,
+   "line": 1740,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 79,
+   "body_sha256": "ed211495b1231034de0cde239115976915b4960bb04ac8907d4dd058ab076d14",
+   "target_line": 3503,
+   "section_old": "3503–3582",
+   "section_old_n": 80,
+   "section_new_n": 81,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r2-V07.md #18 (l. 1822) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r2-V07.md",
+   "index": 18,
+   "line": 1822,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "c4cb6cbc549dbb510fdd714af8c18a7c7e84f9cde1a4de0fa916d62ab9684898",
+   "target_line": 3584,
+   "section_old": "3584–3683",
+   "section_old_n": 100,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r2-V07.md #19 (l. 1925) REPLACE ## 8 Build plan",
+   "file": "repair-r2-V07.md",
+   "index": 19,
+   "line": 1925,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 98,
+   "body_sha256": "5b7328b7760a5c5fccde3016834ddcb4891260c642999ae9fba368b52c7191f7",
+   "target_line": 3686,
+   "section_old": "3686–3780",
+   "section_old_n": 95,
+   "section_new_n": 99,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r2-V07.md #20 (l. 2026) REPLACE ## 9 Decisions",
+   "file": "repair-r2-V07.md",
+   "index": 20,
+   "line": 2026,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions",
+   "body_lines": 154,
+   "body_sha256": "8b119922949739234018d9fdaf4a4cbf5c9293a82b476fbdd311fa1087b38077",
+   "target_line": 3785,
+   "section_old": "3785–3938",
+   "section_old_n": 154,
+   "section_new_n": 155,
+   "new_headings": [
+    "## 9 Decisions"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r2-V07.md #21 (l. 2183) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r2-V07.md",
+   "index": 21,
+   "line": 2183,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 43,
+   "body_sha256": "d56cdeb41e113aa74c13c0336e01a776b228c72b9e55b76d9a4f712e4728d774",
+   "target_line": 3995,
+   "section_old": "3995–4034",
+   "section_old_n": 40,
+   "section_new_n": 44,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V07.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #2 (l. 131) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #3 (l. 260) REPLACE ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+    "kind": "REPLACE",
+    "heading": "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #4 (l. 375) REPLACE ### 2.6 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.6 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #5 (l. 429) REPLACE ### 3.4 VS3 — the palisade, before the roads",
+    "kind": "REPLACE",
+    "heading": "### 3.4 VS3 — the palisade, before the roads",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #6 (l. 511) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "kind": "REPLACE",
+    "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #7 (l. 604) REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #8 (l. 804) REPLACE ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+    "kind": "REPLACE",
+    "heading": "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #9 (l. 1171) REPLACE ### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's sys",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's systems)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #10 (l. 1254) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #11 (l. 1324) REPLACE ### 4.5 The clerk's view",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #12 (l. 1388) REPLACE ### 5.1 The look — the `painterly` family built, `ink` one click away",
+    "kind": "REPLACE",
+    "heading": "### 5.1 The look — the `painterly` family built, `ink` one click away",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #13 (l. 1512) REPLACE ### 5.2 Bands, the first view and level of detail",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Bands, the first view and level of detail",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #14 (l. 1529) REPLACE ### 5.4 Exports",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #15 (l. 1554) REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "kind": "REPLACE",
+    "heading": "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #16 (l. 1622) APPEND TO SECTION ## 5 Rendering, labels and exports",
+    "kind": "APPEND TO SECTION",
+    "heading": "## 5 Rendering, labels and exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #17 (l. 1740) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #18 (l. 1822) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #19 (l. 1925) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #20 (l. 2026) REPLACE ## 9 Decisions",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V07.md #21 (l. 2183) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 57,
+  "headings_after": 58,
+  "headings_added": [
+   "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)"
+  ],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 16,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 580760,
+  "doc_bytes_after": 602959,
+  "doc_lines_before": 3917,
+  "doc_lines_after": 4060,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 21,
+  "blocks_applied": 21,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "cb663d471ad61b32c232622c3e5b520586cd09e274698caf3ce95281915ef220",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

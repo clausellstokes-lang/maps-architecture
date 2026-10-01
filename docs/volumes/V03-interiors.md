@@ -76,6 +76,17 @@ export of a tall building's every storey, opening a map saved by an older versio
 size up to the largest metropolis and shows its progress after the first second (item 119); opening a plan,
 switching storeys and editing stay as quick as before.
 
+**Ruins and disasters.** A house left empty keeps the plan it had while people lived there: it is never drawn anew,
+it ages. First the dust gathers, the furniture breaks and the doors come off their hinges; then floors rot through,
+partition walls fall and the roof opens over the rooms, which are marked unsafe; at last the outer walls break and the
+upper floors are gone, leaving only the ground floor to walk on, while the cellar and a church's crypt hold out
+longest. The same wall or floor always gives way first and stays broken where it fell, so scrubbing through the years
+shows one plan aging, and a house repaired shows its patches. While a fire, a flood or an earthquake the settlement is
+living through leaves a quarter in ruins, its houses show the same damage for those weeks only — a look that ends with
+the disaster, the rebuilding or the real ruin taking over. The panel says what has gone ("roof fallen in over the
+hall; the upper floor is gone"), and battle-map exports follow the damage: a fallen wall no longer blocks sight, and
+rubble and holes are in the picture, never walls.
+
 ## 1 Scope, the base hooks consumed, and what is out of scope
 
 **Scope.** This volume builds the plan rung — `BuildingGenerator.plan` (§2.6, which names this volume its builder) — to
@@ -93,7 +104,8 @@ vaults under raised ways, the aqueduct's cistern and the arena (item 110 (a)–(
 click-to-elaborate with stale-until-clicked as the viewer experiences it; the plan edits with their tools, bends and
 undo; the room explainer and the clerk's `plan` and `crypt` sections; the plan draw at the building band; the plan
 block, SVG, raster and per-storey VTT scenes; the plan's part of Find, the rooms a match uses at the interior band
-(item 120; V03 §5.5); budgets with the plan's share of the one-time waits (item 119), bars and the build plan. The base
+(item 120; V03 §5.5); the damage layer — a decayed, ruined or restored building's plan amended, never redrawn, and a
+disaster's look in it (items 123, 122 (d); V03 §3.11, V03 §5.6); budgets with the plan's share of the one-time waits (item 119), bars and the build plan. The base
 states the records (§2.6's
 `Plan`, `Storey`, `Room`, `Wall`, `Opening`, `WindowRec`, `StairCore`, `Chimney`, `FurnitureItem`, `InteriorLadderRow`
 and the fields file f items 232–242 add), the rung's steps (§2.6 *The plan rung*), the interior ladder and the one
@@ -135,6 +147,8 @@ capacity function (§2.6), the elaboration record and cache (§2.8, §2.9) and e
 | the JSON `plan` block, the `.dd2vtt` per-storey profile, Foundry walls, CityJSON, glTF with `interiors` (§11.1) | V03 §5.3 |
 | the `query` union with `plan` and `planReport`, the oracle rules (§11.2) | V03 §4.6 |
 | the view key `find` (§2.9), the veil, outline and halo rows (§8.2), Find in picture exports (§11.1), the gazetteer's matches under knowledge admission (§11.2), the overlay's budget (§12.5) — item 120 | the rooms a match uses at the interior band (V03 §5.5), T-V3-38 |
+| §2.6 step 7's damage layer (the plan built, never redrawn), §6.3's `plan.damage` thresholds, §8.6's damaged plan, §11.1's battle maps following the damage (item 123); `Existence` and the decline ladder's roofless `RoofSpec.kind 'none'` (§2.6, §2.7, §2.8) | the plan in force (V03 §3.11); the layer's elements, kinds and states (V03 §5.6); the drawing per state (V03 §5.1); the exports (V03 §5.2, V03 §5.3); the panel's lines and the `plan` section's rows (V03 §4.5, V03 §4.6); T-V3-39 |
+| §2.7's `ConditionOverlay` with its reader rule, §2.9's `crises` and `week`, §7.7's DR44, §10.2's crisis tables with the `disaster` row's `lookLevel` (item 122) | a disaster's look in the plan (V03 §5.6 (4)), T-V3-40 |
 | the plan row, the cache line and the chain count (§12.7, §12.8) | V03 §6 |
 | the targets, the comfort level for one-time waits, the measured-gain and progress rules and the interaction budgets (§12.1, §12.5, §12.6; item 119) | the plan's one-time waits and its interaction rows (V03 §6), T-V3-37 |
 | B-PLAN, T28-1 – T28-19, T63-3, T12-1, the plan soft bands (§13.2, §13.7) | V03 §7 |
@@ -172,15 +186,24 @@ institution access; V04 §3.7) and U-DIG (V04 §3.8); the excavation reading (V0
 points (V04 §3.5.0a); the `archVault` chambers (V04 §3.5.4 (d)) and `Chamber.monument`; its underground light rows
 (V04 §3.9). Volume 5: the island cathedral's rim-slab crypt vault (V05 §3.10 (5)); `levelledGroundCm` (BCR-V5-30).
 Volume 7: the village classes by their `v.` keys (V07 §2.4; V11 §2.9). Volume 9: the Find panel and its `live.find`
-overlay, which draw V03 §5.5's rooms (item 120); the progress view of a one-time wait (V09 §4.21.9; item 119). Volume 10: `WhyProvider`, `WhySectionProvider`
-and `WhyAnswer` (V10 §2.13, V10 §3.9, V10 §3.9a; BCR-V10-3). Volume 11: `BuildingClassRow.templateFamily`, `.staff`, `.split`
+overlay, which draw V03 §5.5's rooms (item 120); the progress view of a one-time wait (V09 §4.21.9; item 119). Volume 10: `WhyProvider` and `WhySectionProvider`
+(V10 §2.13), and §11.2's `WhyAnswer` (its sections V10 §3.9, V10 §3.9a; BCR-V10-3). Volume 11: `BuildingClassRow.templateFamily`, `.staff`, `.split`
 (V11 §2.3; BCR-V11-1), the `crypt` column, `cryptM2` and `crypt.rankShare` (BCR-V11-13), `HeightsRow.storeyCm` (V11 §2.8)
 through the designation template's `heights` key, the template families and their structures (V11 §3.6.1), the
 specialisations by band (V11 §3.6.2), the class ladder with `conduit_house` and `arena` (V11 §3.5), the ladder step
-types (V11 §3.12), the scene archetypes and the custom-content resolver (V11 §3.13). File g: item 102 (the sun), item
+types (V11 §3.12), the scene archetypes and the custom-content resolver (V11 §3.13). For items 122 (d) and 123 (V03 §5.6): volume 2's
+`exteriorDamage` and `ExteriorDamage` (V02 §2.4) with V02 §5.7's level rule, the look's units and its hand-over
+(V02 §5.7 (1), (6)); volume 4's `belowKind` and the damage below ground (V04 §5.6); volume 6's `decayLevel` and
+`decayPeak` (V06 §3.23), `crisisLookYields` (V06 §3.22) and the frames' history images (V06 §3.15.2, V06 §3.15.5);
+volume 9's damage lines, `info.damage.*` and `info.crisis.ruinedFor` (V09 §4.21.13, V09 §4.9); volume 10's damage
+rows and look read (V10 §3.9a, V10 §3.9b (8)); volume 11's `DamageElementKind` (V11 §2.8d) with its
+`damage.elements` and `damage.materials` (V11 §3.25.10).
+File g: item 102 (the sun), item
 104 (h) (5) (a custom service inside its provider), item 105 (h) (split works and shop, `Use.branchOf`), item 108 (a)
 (ladder buildings), item 109 (e), (g), (j) (1)–(5) with (3b), (k) (2) and (6) as revised ~20:05 (J111), item 110 (a)–(f)
-as revised ~23:40, item 119 (the plan's one-time waits; J130) and item 120 (Find at the interior band; J133).
+as revised ~23:40, item 119 (the plan's one-time waits; J130), item 120 (Find at the interior band; J133), item 122 (d) (a disaster's
+look in its buildings' plans; J135) and item 123 (a ruined building's plan amended, never redrawn; J136), with item
+114's patch material (§8.6).
 
 **Out of scope, each with its owner.** The composer that makes `Composition.wings`, `towers`, `courts`, dormer rows and
 `Composition.rooms` (volume 2); this volume reads a composition and, where none is stored or composed, the base wings
@@ -197,6 +220,10 @@ walls, raised ways and their spans, and deck plots (the base); arch vault chambe
 (§4.11, volume 6); how an epoch run and the history replay are timed against item 119's comfort level (volume 6's
 part of the item). Find's panel, type-ahead, chip grid, results and `live.find` overlay (volume 9), its draw rows (§8.2)
 and its matches (§11.2's gazetteer) — this volume gives the rooms a match uses at the interior band (V03 §5.5).
+The decay level, its peak, the look's hand-over and the frames (volume 6), the damage ranges and rates (volume 11), the
+damaged forms (§8.6), the damage below ground (volume 4), the exterior's damage and the look's level rule (volume 2),
+the look's districts (volumes 1 and 7), the damage lines' words (volume 9) and the explanations (volume 10) — this
+volume gives the plan in force, its elements, their states and their drawing (V03 §3.11, V03 §5.6).
 Elevation drawings: the 3-D export reads heights, not plans (§11.1), and this volume adds no elevation
 view (J-V3.19).
 
@@ -264,7 +291,7 @@ lifecycle rows cite it.
 | the principal crypt and every crypt's rank (V03 §3.7.4 (3)) | every `Basement.crypt` of the settlement, the class rows | the rank's trim, the crypt-edit dry runs (V03 §3.7.4), the `crypt` section (V03 §4.6), the panel, JSON `crypt.principal`, T-V3-23 (b) |
 | the crypt's column-grid points and `column` faces (V03 §3.7.5) | the step-2 ring's OBB (an edited ring's own), `crypt.bayCm`, `crypt.columnCm` | the cutters (fixed rings), F3, the draw, VTT `line_of_sight` |
 | a stair core's or stair head's flights and landing; a crypt stair's or choir flight's treads (V03 §3.3 S4, V03 §3.7.6) | the kind, the bay, the storey height or the two rooms' floors | the draw, JSON flights, glTF, VTT portals |
-| a room's `lit` (its role's unless an edited attribute) | `RoomRoleRow.lit`, the edited `Room.lit` | the draw's lights, VTT and Foundry lights |
+| a room's `lit` (its role's unless an edited attribute; none while its building is `abandoned`, `decayed` or `ruined`, V03 §5.6 (6)) | `RoomRoleRow.lit`, the edited `Room.lit`, the building's `Existence` | the draw's lights, VTT and Foundry lights |
 | a chimney's column ring; a door's clearance square | `PlanGeometryRow.hearth.stackCm` about `Chimney.column`; the door's width (V03 §3.6 O3) | the cutters, F2, T-V3-6, T-V3-8 |
 | an opening's concealment — concealed exactly when a room on either side is (V03 §3.6 O6) | the rooms' `concealed` flags | the merge at a public key (V03 §5.4), every export |
 | the storey switcher's names; a room's number (V03 §4.5, V03 §5.1) | the levels, the wings' roles and ordinals, the terraces; the room order under the `roomNumbers` view key | the switcher, the draw, the key table, SVG `plan.key`, the Foundry journal, JSON `number` |
@@ -272,6 +299,8 @@ lifecycle rows cite it.
 | the inlet mark (V03 §5.1) | an aqueduct-class raised way ending within `access.snapCm` of a cistern | the draw, JSON `inlet` |
 | a split half's programme (`programmeSource.half`) | `Use.branchOf` as S10b's split writes it (item 105 (h)) | A1, the report, the room why |
 | the rooms a Find match uses — `findRooms(plan, b, target)` (V03 §5.5; item 120) | the drawn plan's rooms (`Room.program`'s origins, `Room.subLocation`, `Room.unit`, scope), the match (V09's `live.find` over §11.2's gazetteer at the view's key), §2.9's view key `find`, V03 §5.4's merge | V09's `live.find` overlay with §8.2's veil, outline and halo rows; the storey switcher's and the plan panel's marks (V03 §4.5); the SVG `plan.find` group (V03 §5.2); T-V3-38 |
+| the plan in force of a building in a decay run (V03 §3.11) | the stored plan; else the building's and its plot's records in the week before its run began (V06 §3.23 (1)'s run start; read from V06 §3.15.2's history images, else the frame `locate` gives); for a building first met so, its as-built plan | the plan rung (V03 §3.1) and its recorded inputs through the run (no stale mark, §2.8); the draw, every export and query; T-V3-39 |
+| the damage layer — `planDamage(doc, b, plan, view, opts)`: each element's kind and state, the drawn and the own level (V03 §5.6) | the drawn plan's parts (V03 §2.2); §6.3's `plan.damage` with V11 §3.25.10's ranges; V04 §5.6's `belowKind`; V06's `decayLevel` and `decayPeak`; each wing's `RoofSpec.kind`; the look over the building by V02 §5.7 (1)'s rule (§2.7's `ConditionOverlay`, §2.9's `week` and `crises`, §7.7's DR44, §10.2's `lookLevel`, V01's `disasterDistricts`, V07's ends, V06's `crisisLookYields`); the view's knowledge key (V03 §5.4) | V03 §5.1's draw; V03 §5.2's `plan.damage` group; V03 §5.3's scenes and JSON `damage`; the panel's damage lines (V03 §4.5; V09 §4.21.13); the `plan` section's damage rows (V03 §4.6; V10 §3.9a); V02 §5.7's element reading (its roof bays and outer wall runs); T-V3-39, T-V3-40 |
 
 **Stage outputs** (each consumed; all inside `BuildingGenerator.plan`, §2.6)
 
@@ -301,6 +330,7 @@ lifecycle rows cite it.
 | `stackAccessDoor(b, a)` (V03 §3.7.2 (1)) | this volume's rule in `@plat/plots` beside `basementDoor(b)`, re-exported by `@plat/buildings`, built at M3a | V03 §3.7.2 (1), volume 1's entrance reserve and close-up digest, T-V3-22 |
 | `ground(b)` and the level reading (V03 §3.3), W2's outside sample (V03 §3.6) | this volume's rules in `@plat/plots`, built at M3a | the plan rung, `Entrance.storey`, `basementDoor(b)`, `stackAccessDoor(b, a)`, volume 1's entrance reserve and digest, §2.6's *Basements* (BCR-V2-33) |
 | `findRooms(plan, b, target)` (V03 §5.5) | this volume's pure reading in `@plat/buildings`, landing with Find (V03 §8) | V09's `live.find` overlay, V03 §4.5's switcher and panel, V03 §5.2's SVG exporter |
+| `planDamage(doc, b, plan, view, opts)` (V03 §5.6) | this volume's pure reading in `@plat/buildings`, landing at P4 (V03 §8) | V03 §5.1's draw, V03 §5.2's and V03 §5.3's exporters, the panel (V03 §4.5), the `plan` section provider (V03 §4.6), V02 §5.7's element reading |
 
 **Edit kinds**: V03 §4.1's table is their one home (tool, events, semantics, lifecycle row, undo).
 
@@ -309,11 +339,14 @@ window, core, stack, head, column and furniture item is drawn (V03 §5.1), label
 exported (V03 §5.2, V03 §5.3) and persisted with a stored plan (§2.6) or re-derived from the cache (§2.9). Item 110's derived
 surfaces — roof terraces (V03 §3.4a), the exterior flights (treads by volume 2's `stairTreads`), the stoop and the inlet
 mark — are drawn (V03 §5.1) and exported (V03 §5.3), named only through the switcher's "Roof terrace" (V03 §4.5), and
-never persisted: each is re-derived at read from the wings, the openings and the raised ways.
+never persisted: each is re-derived at read from the wings, the openings and the raised ways. Item 123's damage
+adds no part and no entity: each element is drawn and exported in its state (V03 §5.6) and persists as the plan it
+belongs to.
 
 **View state and chrome**: the `roomNumbers` view key (§2.9; V03 §4.5), the storey switcher and the plan panel
 (V03 §4.5), the keymap rows `plan.storeyUp` / `plan.storeyDown` (`keymap.json`, §14); the view key `find` (§2.9;
-item 120), read and never written by V03 §5.5.
+item 120), read and never written by V03 §5.5; the view keys `week` and `crises` (§2.9; items 67, 122), read and
+never written by V03 §5.6.
 
 **The dossier, end to end.** No plan fact is a dossier field: every room, wall and door is `map` tier by `factTier`, an
 edited one `declared` (§2.8; item 101). A dossier change reaches a plan only through the records below, whose change marks
@@ -333,7 +366,11 @@ the plan stale or re-cuts a stored one (§2.8, §7.3). The dossier inputs and th
   (V03 §3.7.3, V03 §5.4);
 * **stepped forms** (item 110 (c)) → the dossier's culture fact (volume 8) → volume 11's specialisation (`stepped_temple`,
   `terraced_palace`, `tiered_tower`) → `Use.specialisation` → A1 rule (1)'s `'*'` rows (V03 §2.4). No dossier fact names
-  a retaining wall, a raised way's span or a deck: they reach the plan as map facts only.
+  a retaining wall, a raised way's span or a deck: they reach the plan as map facts only;
+* **a calamity or a condition** (item 122) → §2.7's `ConditionOverlay`, mapped to a look by §7.7's DR44 → a
+  disaster's look over its districts → the plan's look damage (V03 §5.6 (4)), a look only; what it leaves reaches the
+  plan only through the epoch path (V06 §3.22 (1)) — an existence change into a decay run (V03 §3.11), drawn at its
+  decay level (V06 §3.23).
 
 ## 2 Data model
 
@@ -394,6 +431,11 @@ stored plan's re-cut (§7.3) apply to them (J-V3.12). Every id that names a wing
 another wing renumbers no part of a stored plan. Structural faces — a stack, a shaft's through-ring, a column, a
 choir flight — are rooms of their structural role and keep room addresses; room numbers have no ids: they are a function
 of the room order (V03 §5.1).
+
+**Damage elements** (item 123; V03 §5.6 (1)): each wall, opening with a leaf, window, stair core and furniture item
+above, and a room's floor area, the roof bay over it and a choir flight by the room's address, keyed with its kind —
+the key of its one threshold (§6.3's `plan.damage`); damage mints no id, and an element a re-cut keeps keeps its id
+and so its threshold.
 
 ### 2.3 The plan report (non-canonical)
 
@@ -748,11 +790,12 @@ the template-family row of that name above, else the class row of that name (§2
 yields no plan, as no building stands. A key that names no row here falls on to A1 (4), reported with `via`, which T-V3-1
 fails. The key-to-row lookup reads volume 2's table at run time and restates none of its cells.
 
-**The vacant programme** (A1, a building with no `use` and no household, item 17): the class row at the plot's
+**The vacant programme** (A1, a standing building — its existence `generated`, `built`, `altered` or `converted` —
+with no `use` and no household, item 17): the class row at the plot's
 `builtBand` with the as-built unit form's rooms (the ladder row at `builtBand`), and the crypt where `Basement.crypt`
 exists (A2 (9)), every room scope `service`, no `unit`, no furniture, labelled by role; `PlanReport.programmeSource.vacant`
-set. A ruined or decayed building draws this plan as
-V03 §5.1 states.
+set. A building `abandoned`, `decayed` or `ruined` never takes it: it keeps the plan in force (V03 §3.11's *Decay
+re-cuts no plan*) under the damage layer (V03 §5.6).
 
 **The entrance anchors** (`EntranceAnchorRow`, A2 (8)): main → [stair hall (A6 only), gatehall, common room, taproom,
 shop, arcade, nave, hall, crossPassage, firstGround]; yard → [kitchen, bakehouse, brewhouse, forge, slaughter room, stable,
@@ -879,6 +922,8 @@ migration; its row says what moves it.
 | a crypt-only basement set by `setAttr(basement)` on `basement/crypt/ring` (V03 §4.2) | the edit, by the crypt ladder (the ground wings' whole inset where the ring would not be stair-entered, V03 §3.7.4) | with `Basement` in the leaf digest, `crypt.edited` set | an edited attribute (§7.2), kept through re-derivations; announced on a `never` class | one step: basement, crypt and plan | none |
 | a split half's programme (`programmeSource.half`) | at read, from `Use.branchOf` as S10b's split writes it (item 105 (h)) | never (the use is in the leaf digest) | a split or a merge back onto one plot changes `Use.branchOf`, which marks both buildings' plans stale and re-cuts stored ones (§2.8, §7.3) | the causing event's undo restores both uses and both plans | none |
 | the rooms a Find match uses (V03 §5.5) | derived per call from the drawn plan and the view key `find` (§2.9) | never (view state, outside the document, its hash and the log) | re-read at every commit, regenerate, undo, advance of time and season change and with the plan's re-derivation (item 120 (f)) | its inputs' undo; the view key is not undone (§2.9) | none |
+| the plan in force of a building in a decay run (V03 §3.11) | derived when the plan is drawn: the stored plan as stored; an unstored one re-derived from its canonical prior at the occupant inputs of the week before its run began, memoised per lineage for the run; for a building first met so, its as-built plan | never (a stored plan persists as any stored plan; the inputs are read from the history) | a regenerate re-derives the same plan from the same inputs, its draws keyed as any re-cut's (§6.1) | an undone epoch's events gone, the run's start (or no run) as the log then gives it; undoing the restoring event resumes the run and its reading | none: no field; a document from before V03's item-123 step reads it at once |
+| the damage layer — `planDamage` (V03 §5.6) | derived per call from the drawn plan, §6.3's thresholds, V06's `decayLevel` and `decayPeak` at the drawn week, the wings' roof kinds and the look over the building (V02 §5.7 (1)) | never: a view at a week, outside every digest, the cache chunk and `PlanReport` | re-read with the plan and the level; a regeneration from the same seed keeps every threshold (§6.3) | its inputs' undo; the view keys `week` and `crises` are not undone (§2.9) | none |
 
 **Readers beyond V03 §1b's.** The crypt stairs and choir flights are also read by O2, T28-2 and T-V3-23; the stack cores
 and their doors by T-V3-28; `FurnitureItem.edited` by New random on `plan.furnish` (V03 §4.3). A crypt draws only in a
@@ -942,8 +987,10 @@ the occupants' band `b` (`Plot.fieldBand`); the recipe's era `e` (§7.7 layer 1)
 
 **Another slot** resolves by V03 §2.4's slot-row order (a slot row under the class id, under the family — for a `v.` key
 the family its `composition.classFamily` key names — the generic `'*'` slot row, then the building-class row). A row's
-room with `half` other than `both` and other than `h` is dropped. A building with no `use` and no household takes **the
-vacant programme** (V03 §2.4). The row reached, its level, the slot, the half, the era and `vacant` go to
+room with `half` other than `both` and other than `h` is dropped. A standing building with no `use` and no household takes **the
+vacant programme** (V03 §2.4); a building in a decay run resolves at the inputs V03 §3.11's *Decay re-cuts no plan*
+reads, and one first met `abandoned`, `decayed` or `ruined` at its designation template's key and its `builtBand`
+(rules (1)–(4)). The row reached, its level, the slot, the half, the era and `vacant` go to
 `PlanReport.programmeSource`. A concealed use (`Building.concealed`) resolves its own row by the same rule, for A2 (6).
 **Band cells**: an authored four-column cell reads poor / modest / prosperous / rich (`squalid` the poor cell,
 `comfortable` the modest cell, J-V3.28); continuous cells (areas, `sizeFactor`, `furnish.density`) interpolate linearly
@@ -1947,6 +1994,33 @@ concealment and against the new `maxDoors`; one that fails, or whose wall no lon
 O2 re-derives the tree with the openings that pass as forced edges. The report counts kept rooms (the mutation-survival
 figure of T-V3-9). Each step of the chain is one such derivation with its draws keyed by the step's target (§6.1).
 
+**Decay re-cuts no plan** (item 123 (a); §2.6 step 7; J-V3.137). A building whose existence is `abandoned`, `decayed`
+or `ruined` — in a decay run (V06 §3.23 (1)) — keeps the plan in force when its run began: the existence change, and
+the use and households leaving with it, neither re-cut that plan nor mark it stale, and the vacant programme
+(V03 §2.4) never reaches it.
+* **(a) A stored plan stands.**
+* **(b) An unstored plan** is re-derived, when drawn, from its canonical prior (§2.6: the as-built plan at the
+  building's built band and era, carried along the canonical chain) at the occupant inputs it held in the week before
+  its run began — its use, assignment, sub-locations, concealed use and households housed, and the occupants' band and
+  value (§2.8's plan-rung inputs) — read from the building's and its plot's records as they stood that week
+  (V06 §3.15.2: their history images, else the frame `locate` gives) and memoised per lineage for the run, so its
+  recorded inputs do not move and it stays `current` through the run: the plan the building was last lived in, which
+  for a building never re-let is its as-built plan. Its other inputs — its wings, accesses, crypt and outside ground, a build
+  Works' stage (a `decay` or `repair` Works is none, §2.6 step 7) and the slices — are read as any building's, so an
+  author's edit of them re-cuts the stored plan (V03 §4.3) or stales the unstored one as on any building, a kept
+  element keeping its id and so its threshold (§6.3), an element the re-cut mints drawing by its own.
+* **(c) First met so.** A building first met `abandoned`, `decayed` or `ruined` — generated so, or first reached so by
+  item 113's history replay — and one whose week before the run the history no longer reaches (a rebase condensed it,
+  V06 §3.15.5) gets its **as-built plan**: A1 at its designation template's key and its `builtBand` (rules (1)–(4)),
+  the template's `households.built` clamped into [1, capacity] at the as-built form, then its damage.
+
+In every case every room, wall, opening and id is the one the building last stood with, and its damage is V03 §5.6's
+layer. **The run's end ends the freeze**: the event that restores the building (a `reoccupy`, a repair; V06 §3.23 (3))
+reads its inputs as any standing building's, so occupants other than those that left re-cut a stored plan inside that
+event and stale an unstored one (§7.3), the kept elements keeping their thresholds while the damage leaves
+(V06 §3.23 (3)); a rebuild or a successor on the trace is a new plan (§6.3), and a trace (`cleared`, `reused`) or a
+demolished building has no plan to draw (V06 §3.23 (3)).
+
 ### 3.12 Buildings below ground
 
 A building whose `ContextVector.arena` is `underground` — a sewer-front dwelling (II.7.3), an undercity building
@@ -2008,6 +2082,7 @@ this table.
 | failure handling (V03 §3.9) | a kernel refusal inside any step | the step's row of V03 §3.9 | per the row | T-V3-17, T-V3-36 (b) |
 | determinism (V03 §3.10) | no draw; one draw | V03 §3.10 | none (no failure) | T-V3-20, T-V3-36 (h) |
 | re-cuts (V03 §3.11) | a prior room's seed piece degenerate or gone; a kept opening's wall gone | V03 §3.11 | leave out and report | T-V3-9, T-V3-36 (i) |
+| decay (V03 §3.11's *Decay re-cuts no plan*) | a building entering a decay run with a stored, an unstored and an absent plan; one re-let before it was left; one generated ruined or first met so in item 113's replay; a run whose week before a rebase condensed; an author's edit during the run; a restoration by the same and by other occupants; a rebuild, a successor, a trace | a stored plan stands, an unstored or absent one is the plan last lived in, from the frozen inputs, `current` through the run; the re-let plan, never the vacant programme or the as-built plan; the as-built plan; the as-built plan; the edit re-cuts or stales as on any building, kept elements keeping their thresholds; the restoring event re-cuts or stales as any event does; a new plan; a new plan; no plan | substitute (the as-built plan) | T-V3-39 (a) |
 | below ground (V03 §3.12) | no basement; one grade face; a chamber with none; a grade face shorter than a window bay or a door run; the raised way removed | (1); (9) on that face; (1)–(8); no window or door on it, the frontage entrance at its vertex (§2.6 rule 5); V03 §4.2's dry run and undo | leave out and report | T-V3-24, T-V3-32, T-V3-36 (j) |
 | the edits (V03 §4.1, V03 §4.2) | save, load, undo, redo, regenerate, migrate; geometry the kernel refuses; an edit that would leave a room unreached | V03 §2.5's rows; V03 §4.2's degenerate bend (for a crypt ring, the ring step 2 derives) and reach bend (`bend.room.unreachable`), never refused, never partly committed | repair locally | T-V3-11, T-V3-36 (k) |
 | carries (V03 §4.3) | a carry that collapses a room's carried ring | V03 §4.3 | leave out and report | T-V3-36 (l) |
@@ -2016,6 +2091,8 @@ this table.
 | the draw, the picture and scene exports (V03 §5.1–§5.3) | an empty plan; one room or storey; a room too small for its label; a degenerate part; `interiors` off and on | V03 §5.1, V03 §5.2, V03 §5.3 | leave out | T-V3-13, T-V3-14, T-V3-36 (o) |
 | concealment (V03 §5.4) | one concealed room; a storey whose every room is concealed | V03 §5.4 | none (no failure) | T-V3-12, T-V3-14, T-V3-36 (p) |
 | Find at the interior band (V03 §5.5) | no chip; one chip and twelve; a match whose rooms lie on another storey only or on none; a plan absent, stale, stored or empty; a concealed use at a public key; save, load, undo, redo, regenerate | V03 §5.5 (1)–(3): where the shown storey holds none of the match's rooms the building's outline glowing and the switcher marking the storeys that do; where the plan does not draw the building glowing whole; no concealed room glowing at a key that withholds it; nothing saved, the view key outside the document | none (no failure) | T-V3-38 |
+| the damage layer (V03 §5.6) | level 0 and level 1; a level between two thresholds; a restoration to 0 with and without its Works; a run beginning while a restoration runs; a wing whose roof kind is `none`; a party wall; an empty plan and a one-room plan; a storey every floor area of which is damaged; a plan absent, cached, `stale` or stored; a concealed room at a public key; a deck building fallen with its deck; a storey below 0 and an underground building; a kind or material with no V11 row; every building before V06's level lands; every rung THORP → METROPOLIS; every toggle and preset, the parity presets included; save, load, undo, redo, regenerate, migrate | nothing damaged at 0, so the plan draws and exports byte-identically; every element damaged at 1, the ground storey and the storeys below 0 walkable, a ruined church's crypt rooms and ways kept (V04 §5.6); the elements whose thresholds the level reaches; V06 §3.23 (3)'s level and peak, the damage leaving in reverse threshold order, the patches kept (the larger level in an overlapping run); every roof bay of that wing damaged in the run, patched after its restoration; never broken; the outline with its heads, nothing to damage, and that room's elements; the switcher keeps it, described by `storeyGone`; the damage drawn only where a plan draws (a click or `view` derives it), a stale plan's cached elements under §8.5's marker; V03 §5.4's merge (V03 §5.6 (5)); V03 §5.1's deck fall; V04 §5.6's kinds and level; V11's default row (V06 §3.23 (4)); V11's default age; rung-independent per building; the same under every toggle and preset — a look of the model's state (with no Works, a restoration is at once, V06 §3.23 (3)); re-read at the drawn week, never stored | none (no failure); substitute (V11's default row and age) | T-V3-39 |
+| a disaster's look in the plan (V03 §5.6 (4)) | no condition and no preview; a condition ending, or the view's week leaving its weeks, in the session; a building under the look and its own decay; the hand-over (`crisisLookYields`); a condition the key withholds; Show crises off; a preview with no dossier; THORP, HAMLET and VILLAGE; a building whose plan does not draw; save, load, undo, redo, regenerate | nothing drawn, every plan tile byte-identical; the building at its own level from that week; the higher level on every element, the look leaving no patch; its own state and Works from the hand-over's week; nothing drawn; nothing drawn; the previewed look at `previewSeverity`; V07's ends as the units; the look on its exterior only (V02 §5.7); a view, re-read, nothing saved | none (no failure) | T-V3-40 |
 | the plan's one-time waits (V03 §6) | a dossier change reaching many stored plans; the largest export; a migration at the metropolis cap | inside the comfort level (V03 §6); a wait past it completes and is reported (§12.1), never answered by a coarser plan (§12.7) | report | T-V3-37 |
 | the plan × a cliff (pipeline) | a wall or basement side over a cliff's drop | V03 §3.6's exposure gates; V03 §3.7.1's drop no step reaches | leave out and report | T-V3-36 (r) |
 | the plan × steep ground (pipeline) | a fall past `cellar.slopeCm`; ground beyond the step tolerance | V03 §3.7.1 rule 3; V03 §3.6's entrance storeys, stoop and `W_ENTRANCE_NO_STOREY` | repair locally | T-V3-30 |
@@ -2161,7 +2238,8 @@ event). Conversely, three edits outside a building reach its plan, each by its o
 furniture item or crypt ring is a fixed input of every later re-cut of that plan (§7.2): a stored plan whose inputs
 change is re-cut inside the changing event around them (§7.3's table), by V03 §3.11 with the edited parts passed as fixed
 rings and fixed openings; an edited part that no longer fits the new shell (its wing's clipped seed changed) is orphaned
-and reported (§7.4's plan-event row).
+and reported (§7.4's plan-event row). An existence change into `abandoned`, `decayed` or `ruined`, and the occupants
+leaving with it, re-cut no plan, stored or unstored (V03 §3.11's *Decay re-cuts no plan*).
 
 **Carries** (J-V3.64). Each `Storey.furniture[].at` is among the points `carryWings` carries with a stored plan (§2.6's
 `CarriedShapes.composition`, J-P48). After each carry, each carried item is checked — its footprint inside its room's
@@ -2181,7 +2259,9 @@ advanced counter; `plan` — all three. Each is compared by §5.1 (6) on the sto
 ### 4.4 What is not an edit
 
 Clicking a building, switching storeys, opening the plan panel, turning room numbers on (the `roomNumbers` view key),
-setting Find's chips (the view key `find`, V03 §5.5) and a clerk's plan or why query log nothing (§4.1, item 28 (c), §2.9's view state). A room's light is the edited attribute of
+setting Find's chips (the view key `find`, V03 §5.5), moving the drawn week (§2.9's `week`) and setting Show
+crises or its preview (the view key `crises`) — which redraw a plan's damage (V03 §5.6) — and a clerk's plan or why
+query log nothing (§4.1, item 28 (c), §2.9's view state). A room's light is the edited attribute of
 V03 §4.2; `placeLight` (§7.1, item 68) adds lights of its own and never changes a room's `lit`.
 
 ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience
@@ -2211,7 +2291,8 @@ V03 §4.2; `placeLight` (§7.1, item 68) adds lights of its own and never change
   switcher. The current one is checked; the map region's live description gains "storey n of m"; `keymap.json` rows
   `plan.storeyUp` (PageUp) and `plan.storeyDown` (PageDown), editable and versioned, their precedence over the
   underground layer's band keys (V04 §5.1) stated in §14's keymap; the view key `storey` (§2.9) holds it per viewer. With Find on (item 120), every storey holding a room a match uses
-  carries its chip's glyph (V03 §5.5).
+  carries its chip's glyph (V03 §5.5). A storey every floor area of which is damaged (V03 §5.6) keeps its option, its
+  accessible description the `info.damage.storeyGone` line (V09 §4.9).
 * **The plan panel** (the context panel's building tab, accessible name "Floor plan"): rooms by storey with their name
   or role, number (when `roomNumbers` is on), unit (the household's name for a viewer admitted to it) and area in m²;
   what the plan owed — `PlanReport.owed` with each row's `delivered` in plain words ("folded into the hall", "no room for
@@ -2234,7 +2315,12 @@ V03 §4.2; `placeLight` (§7.1, item 68) adds lights of its own and never change
   tiers: the way down is entered by a door in the outer wall"; `W_DECK_ACCESS` "stands on a deck: a way down here is
   only a hatch in the floor, and a well only its mark on the map"; `W_GRADE_FACE_TUNNEL` "the door in the arch opens
   onto the ground under the span, not a tunnel"; `W_CHURCH_CATACOMB_HEAD` "a catacomb stair handed to this church
-  stands in a store: a church reaches the catacomb only through its crypt". **Room numbers** (J-V3.59):
+  stands in a store: a church reaches the catacomb only through its crypt". **The damage** (item 123 (e); V03 §5.6 (7)): for a
+  building `abandoned`, `decayed` or `ruined`, one restored with patches and one under a disaster's look, volume 9's
+  damage lines (V09 §4.21.13 — the head `info.damage.head.<state>`, one line per damaged kind present in
+  `info.damage.*`'s order, three rooms and then `info.damage.more`, `info.damage.patched`; under a look the look's
+  lines under `info.crisis.ruinedFor`), read from `PlanDamage` at the drawn level and listed after the ways down; a
+  building in a decay run lists its units by form, naming no household (V03 §5.6 (6)). **Room numbers** (J-V3.59):
   the per-viewer view key `roomNumbers: 'off'|'storey'|'building'` numbers rooms in reading order (storey, then room
   index; per storey or through the building), with a key table in the panel. Every edit tool of V03 §4.1 acts from the
   panel or on the canvas. With Find on, each room a match uses carries its chip's glyph in the room list (V03 §5.5).
@@ -2268,9 +2354,9 @@ its vault), `deckNoCellar` (the deck: why a deck building has no cellar — a fa
 edit refusal), `stoop` (over an `external` basement, the main entrance kept on the ground storey, V03 §3.6), `exposure`
 (the outside ground above a sill or floor), `stackCarried` (the tier a chimney rises through); `rest` — its
 `PlanReport.owed` row and the unit's asked and built form. The building's path `plan` ("why these units?", "why is there
-no kitchen?", "why no crypt?", "why are there no rooms?", "why can't I reach the top tier?") answers from the ladder row
+no kitchen?", "why no crypt?", "why are there no rooms?", "why can't I reach the top tier?", "why is the upper floor gone?") answers from the ladder row
 at the occupants' band, `Building.households`, A1's `programmeSource`, the owed rows, `Basement.crypt`'s derivation (the
-column value, the ladder's form, the rank trim), `PlanReport.warnings` and `PlanReport.notes`.
+column value, the ladder's form, the rank trim), `PlanReport.warnings`, `PlanReport.notes` and the damage rows below.
 
 **The section providers** (V10 §3.9, V10 §3.9a; J-VI.17 H18). This volume registers two `WhySectionProvider`s, which the
 facade's `why` query merges after the kind's provider (V10 §3.9) and volume 9's panels show; every row's words are a key
@@ -2288,6 +2374,17 @@ of volume 9's catalogue (V09 §4.9), one key per value, their texts written in v
   catacomb it opens into (`info.crypt.join`); **no crypt** — its row gave it none, or wet ground with ledger slabs in the
   chancel floor (`info.crypt.none.<row|wet>`, V03 §3.7.4). The crypt rows are `purpose: true` (a crypt names a church),
   so a withheld building's answer keeps none (V10 §3.9a).
+* **`plan`'s damage rows** (item 123; V10 §3.9a's table; J-V3.136), on a building whose own level is above 0 or with
+  a repaired element, read from `PlanDamage` at the own level (V03 §5.6 (2) (d)): `info.damage.head.<state>` — its
+  `Existence`, `reused` for a standing building restored with patches — with the own level to 0.01; one
+  `info.damage.<kind>` row per kind present among `ownDamaged`, in V09 §4.9's order — `floor` for `upperFloor` and
+  `groundFloor`, `storeyGone` per storey every `upperFloor` area of which is damaged, `unsafe` per room §8.6 marks
+  unsafe, `cellar` for `cellarWall` and `cellarVault`, `crypt` for `cryptWall`, `cryptVault` and `cryptTomb`, each
+  other kind its own key — its value the count, `row` the V11 range row of its first element's kind, `ref` that
+  element; and `info.damage.patched` with the count of `repaired`. They pass V03 §5.4's merge at the session's key; on
+  a building the key withholds the rows that name rooms (`roofBay`, `floor`, `partition`, `furniture`, `unsafe`) are
+  `purpose: true`, as the crypt rows are, while the state, the level and the other rows' counts stay. A disaster's
+  look is no row: the clerk tells it from the look read (V10 §3.9b (8)), and the panel shows it (V03 §4.5).
 
 Both the provider and the sections are knowledge-filtered by volume 10's oracle rules and V03 §5.4 (T-V3-12).
 
@@ -2341,21 +2438,38 @@ openings as gaps with the door leaf (a hairline from the hinge at the door's wid
 `ink`; an arch as two jamb ticks and a dashed lintel; an open doorway as a gap; a door with `steps` its short flight
 inside the lower room); entrances with §8.2's entrance ticks and an inward arrow on the main one; windows as wall breaks
 with a thin double line, a `light` as a single thin line, a slit as a single tick; room labels, numbers and lights
-(§8.5, in §9.4's room-label range); the change marker (`live.stale`, §8.5). Concealed parts follow V03 §5.4. `hatched`
+(§8.5, in §9.4's room-label range; no room light in a building in a decay run, V03 §5.6 (6)); the change marker (`live.stale`, §8.5). Concealed parts follow V03 §5.4. `hatched`
 draws the plan as `ink`'s (§8.2's table). Colour roles only, plus the one program `planWallShade`. An empty plan 
 (V03 §3.1 step 2) draws the building's outline with its heads; a one-room plan draws that room (T-V3-14).
 
 **Labels.** A room's label is its `name` where set, else its role's display text from the setting pack (§10.4), in
-§9.4's room-label range; a unit room adds the household's name in a second line when the viewer's knowledge admits it,
-in the same range and dropped when it does not fit; with `roomNumbers` on, the room's number is a numeral at the label's
+§9.4's room-label range; a unit room adds the household's name in a second line when the viewer's knowledge admits it
+and a household lives there (none in a decay run, V03 §5.6 (6)), in the same range and dropped when it does not fit; with `roomNumbers` on, the room's number is a numeral at the label's
 head in the same range. A room too small for its label at the range's bottom is unlabelled (one label per room inside
-its ring or none, §8.3's plan-draw row). Nothing else is labelled inside a plan; a structural face never is.
+its ring or none, §8.3's plan-draw row). A room §8.6 marks unsafe (V03 §5.6) is unlabelled, its number kept in the
+panel's key table where `roomNumbers` is on. Nothing else is labelled inside a plan; a structural face never is.
 
-**The plan in progress and in ruin** (item 67): walls without doors, windows or furniture up to the storey `heightsAt`
-has raised; a `decayed` or `ruined` building's fallen walls as broken ink runs over rubble stipple and open rooms without
-labels — both drawings of the same plan (§2.6 step 7, §8.6), the crypt's ring included (a ruined church keeps its crypt).
-**A deck's fall** (item 110 (d)): a deck building that the base ruins with its deck draws its ruined plan where the deck
-stands in ruin (its piers or arches left) and nothing where the deck is removed; the panel says "fell with the bridge"
+**The plan in progress** (item 67): walls without doors, windows or furniture up to the storey `heightsAt` has
+raised — a drawing of the same plan (§2.6 step 7, §8.6); a `decay` or `repair` Works draws no build stage over the
+plan, its drawing being the damage layer at the building's level (§2.6 step 7).
+**The plan in ruin** (item 123 (c); J-V3.136). A building `abandoned`, `decayed` or `ruined`, one restored with
+patches and one a disaster's look ruins (item 122 (d)) draw the plan in force (V03 §3.11) under the damage layer
+(V03 §5.6): each element `PlanDamage` gives damaged in §8.6's damaged form for its kind among the marks above, in their
+order, each repaired one in §8.6's patch material, every other as built — every room, wall, opening and id unchanged.
+**Per state** (item 123 (c)), from where V11's ranges place the thresholds: `abandoned` — dust and debris over the
+floors, furniture broken, doors off their hinges, windows broken; `decayed` — floors rotten in patches and holed,
+partitions down, roofs open to the sky over their rooms, the rooms §8.6 marks unsafe; `ruined` — outer walls broken
+over their rubble, the upper storeys mostly floorless (fragments over the holes), the ground storey the only one left
+to walk; below level 0 the cellars and the crypt partly collapse by their own thresholds, the crypt's rooms and ways
+kept — a ruined church keeps its crypt (V04 §5.6 (2)–(3)).
+A damaged stair core draws §8.6's broken flights on the storeys at or above level 0 (no way up) and V04 §5.6 (3)'s
+climbable rubble below them; the porch outline is drawn only while the outer wall run carrying the main entrance stands (as V02 §5.7 (2) draws the
+porch); a walkable terrace over a damaged roof bay draws that bay's part as §8.6's floor hole. **By stop** (the detail
+ladder above): wall gaps, floor holes, open roof bays and the unsafe crosses from the threshold; the door, window and
+stair forms, the rubble spills and the patch material from `leavesStop`; the furniture fragments from `treadsStop`.
+**The storey switcher** keeps every storey, the levels unchanged (V03 §4.5).
+**A deck's fall** (item 110 (d)): a deck building that the base ruins with its deck draws its plan under the damage
+layer where the deck stands in ruin (its piers or arches left) and nothing where the deck is removed; the panel says "fell with the bridge"
 (or pier, mole, quay).
 
 **Below ground**, the plan draws at the underground band's depth in the underground view (V03 §3.12 (8); V04 §5.1).
@@ -2366,9 +2480,14 @@ stands in ruin (its piers or arches left) and nothing where the deck is removed;
 level order on one sheet, each captioned "Storey n", one scale bar. Groups `layer.plan.floor`, `plan.shade`,
 `plan.furniture`, `plan.stairs`, `plan.heads`, `plan.hearths`, `plan.walls`, `plan.openings`, `plan.windows`,
 `plan.labels`, `plan.lights`, with numbering on `plan.key` (the key table: number, name or role, area) and with Find on
-`plan.find` (V03 §5.5), with the
-`<metadata>` map to room, wall, opening, head and furniture ids (§11.1's convention). **PNG** by §8.8's tiles at the
-building-band stops, the sheet likewise. A picture export derives the plan as the `plan` query does (V03 §4.6); an empty
+`plan.find` (V03 §5.5); with a damaged or repaired element, `plan.damage` (V03 §5.6: the rubble spills, floor holes,
+open roof bays, unsafe crosses and patch material, each element's own broken form staying in its group — a run's gap in
+`plan.walls`, a door's open gap in `plan.openings`, a flight's break in `plan.stairs`, a piece's fragments in
+`plan.furniture`), absent when nothing is damaged or repaired, so a building never decayed exports byte-identically;
+with the `<metadata>` map to room, wall, opening, head and furniture ids (§11.1's convention), each damaged or
+repaired element named with its kind and state. **PNG** by §8.8's tiles at the
+building-band stops, the sheet likewise. A picture export derives the plan as the `plan` query does (V03 §4.6) and draws its damage at the
+export's drawn week and key as the view does, a disaster's look included (item 122 (f)); an empty
 plan (V03 §3.1 step 2) exports the building's outline with its heads of `storey` null and no storey sheet
 (T-V3-36 (o)).
 
@@ -2385,7 +2504,11 @@ This section is the home of the plan's export content; §11.1 cites it.
   V03 §3.7.2 (1)'s outside door */, room? /* absent then */, door? /* { wing, side, at }, present then */, head: Polygon
   | PointCm, reaches: { element: Id; system: string }[], cause }[]` (`state` as V03 §3.7.2 (7) reads it, `collapsed`
   included; a head of `storey` null lies on no storey, so no `.dd2vtt` or Foundry scene carries it); `crypt: { ring,
-  principal: boolean }` where the building has one; and the plan's `report` (V03 §2.3). Knowledge-filtered by V03 §5.4
+  principal: boolean }` where the building has one; and the plan's `report` (V03 §2.3); where the
+  building's own decay level is above 0 or an element is repaired, `damage: { week, state: Existence, level /* the
+  own level */, damaged: PlanElementRef[], repaired: PlanElementRef[] }` (V03 §5.6 (2): `ownDamaged` and `repaired`
+  at the export's drawn week) — derived, never a disaster's look and never read back (a load re-derives it), absent
+  otherwise, so a never-decayed building's block is unchanged. Knowledge-filtered by V03 §5.4
   for picture-class keys as §11.1 states. An empty plan exports a block with no storeys.
 * **`.dd2vtt` per storey** (§11.1's profile): the image drawn at the scale the scene's `pixels_per_grid` implies (100 px
   per 1.5 m square ≈ 1:57), the finest building-band stop's mark widths scaled with it, without the grid;
@@ -2396,7 +2519,14 @@ This section is the home of the plan's export content; §11.1 cites it.
   other head a `plat` extension object naming its access id and the underground band's scene (as volume 4's scene
   carries the same id, V04 §5.5); a head read `bricked` or `collapsed` (V03 §3.7.2 (7)) no portal; `lights` per lit room
   (§11.1); the scene's elevation the main entrance wing's `floorCm`. Furniture stays in the image
-  (`objects_line_of_sight` empty, §11.1). **Item 110**: a walkable terrace is floor in the scene image with its parapet
+  (`objects_line_of_sight` empty, §11.1). **Damage** (item 123 (e); V03 §5.6): `line_of_sight` leaves out every wall
+  run and partition the own level breaks (`ownDamaged`) — a fallen run leaves line of sight — and keeps every
+  `cellarWall` and `cryptWall` run (partly collapsed, still a wall; V04 §5.6 (2)); a door the own level breaks writes
+  no portal (a doorless opening is a gap); a broken stair core writes no portal between storeys at or above level 0,
+  its flights below level 0 climbable rubble that stays a portal (V04 §5.6 (3)); a broken window is written as every
+  window is; floor holes, rubble, debris and patches are in the image only, never walls; the image draws the drawn
+  level, a disaster's look in it only (item 122 (f)), the walls, portals and lights being the own level's; a building in
+  a decay run writes no room light (V03 §5.6 (6)). **Item 110**: a walkable terrace is floor in the scene image with its parapet
   drawn in it and left out of `line_of_sight` (a parapet does not block sight; the format has no movement-only wall, so
   Foundry's export carries the block); each landing door, terrace door and seating exit is a portal; each flight's head
   is a named portal on the storey it lands on, its foot linked to the scene of the storey or ground below it (a `plat`
@@ -2410,7 +2540,9 @@ This section is the home of the plan's export content; §11.1 cites it.
   naming the underground band's scene; a terrace's parapet a wall of the window type (movement blocked, sight and light
   passing) and each exterior flight a note linking the scene of its head to the one of its foot; journal entries one per
   room, titled "n. name" when numbered (else the name or role), with role, area, the household where admitted and the
-  ways down it holds.
+  ways down it holds. Damage as in the `.dd2vtt` scene: no wall segment along a run or partition the own level
+  breaks, a `cellarWall` or `cryptWall` run a wall, a broken door none (a gap), the stair notes only between the
+  storeys the core still links, the same image and lights; in a decay run the journal names no household.
 * **CityJSON** (J-V3.68): a building whose plan rung is not `absent` gains `BuildingStorey` children (one per storeyed
   level, its level and elevation — the least `floorCm` among its wings, so a tier's storeys stand at their true heights;
   terraces add nothing, roof surfaces being §11.1's), `BuildingUnit` children (one per household unit, attribute
@@ -2423,6 +2555,8 @@ This section is the home of the plan's export content; §11.1 cites it.
   from `window.sillCm` to `min(window.headCm, the storey's height − 30 cm)`, floors as planes, interior stairs (the crypt
   stairs and choir flights among them) as stepped prisms at the plan's `goingCm`, the exterior flights as volume 2
   exports them (V02 §5.6, by `stairTreads`), columns as prisms; nodes named by room, wall and head ids.
+  Neither CityJSON nor glTF carries V03 §5.6's damage: they export the plan as built, never a view at a week, as
+  volumes 2 and 4 export their buildings (J-V3.138).
 
 Every exported part is the plan's, which the kernel admitted, and V03 §3.3's run limit keeps every storey above one
 riser, so no extruded solid is flat (T-V3-13).
@@ -2438,7 +2572,7 @@ reading — a `cellar` below ground, else a `store` — unlabelled by any concea
 concealed opening is drawn and exported as wall; the concealed head, its furniture and its ways down are absent. VTT
 `line_of_sight`, Foundry walls, CityJSON rooms and glTF walls follow the same merge, so at a public key every storey's
 rooms tile its extents with no enclosed room lacking an opening (T-V3-12, T-V3-14, T-V3-36 (p)). For an admitting key
-everything draws as derived.
+everything draws as derived. The damage layer follows the same merge (V03 §5.6 (5)).
 
 ### 5.5 Find at the interior band (item 120, the plan's part; J-V3.134)
 
@@ -2501,6 +2635,116 @@ plan over the stored or cached plan, for at most `view.planCap` plans per view a
 item 120 (j)'s glow of about 100 ms (§12.5's overlay budget); a chip change redraws no plan tile and rewrites no
 `DisplayDelta` or cache chunk (T-V3-38).
 
+### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)
+
+A building's plan is the one it was built with, or last lived in, and decay never re-cuts it (V03 §3.11's *Decay
+re-cuts no plan*). What decay changes is item 123's **damage layer** over that plan — §2.6 step 7's mechanism, each
+element's one threshold §6.3's `plan.damage`, the building's decay level V06 §3.23's — and while a disaster's look
+stands over the building's district, the same layer at the look's level (item 122 (d)). This section is the plan's part:
+its elements and their kinds, their states, the look, knowledge, who lives there, the panel and the why; the drawing per
+state is V03 §5.1's with §8.6's damaged forms, the exports V03 §5.2's and V03 §5.3's, below ground V04 §5.6's rules. It
+is a drawing only: no room, wall, opening or id changes, nothing is stored, and no plan, cache chunk, `PlanReport`,
+digest or hash moves.
+
+**(1) The elements and their kinds.** Every damage element is a part V03 §2.2 already names, keyed with its kind (§6.3:
+the kind and the part's id as structured components; no id minted). The kinds are V11 §2.8d's `DamageElementKind`, each
+kind's range of the decay level V11 §3.25.10's `damage.elements`; this volume gives each plan element its kind, and
+below level 0 V04 §5.6's `belowKind` gives five kinds of its own:
+
+| kind | the elements | id |
+|---|---|---|
+| `outerWall` | each wall run with the outside on one face — an `exterior` or `court` wall — on a storey at or above level 0 | its `wall:` id |
+| `partition` | each `partition` wall run | its `wall:` id |
+| `groundFloor` | the floor area of each room at level 0 of a wing on the ground, of each room on the first storey of a wing standing on a solid wing (V03 §3.3's `s₀(w)`), and of each room below level 0 with a storey under it — the lowest storey's floor lies on the earth and is no element (V04 §5.6 (2)) | the room's address |
+| `upperFloor` | the floor area of every other room: one over a storeyed level, or an open one, of its building | the room's address |
+| `roofBay` | the roof over each room that no storeyed room of its building lies above, pitched or flat, a terrace's included | the room's address |
+| `door` | each opening with a leaf — a door, a unit entry, an entrance's door, a trapdoor or a hatch (V03 §3.6, V03 §3.7) | its `op:` id |
+| `window` | each window, `light` and slit (V03 §3.6 W1–W3) | its `win:` id |
+| `stair` | each stair core, the crypt stairs among them, and each choir flight (a room of role `stair`, V03 §3.7.6) | its `core:` id; a flight by its room's address |
+| `furniture` | each furniture item (V03 §3.8) | its `furn:` id |
+| `cellarWall`, `cellarVault`, `cryptWall`, `cryptVault`, `cryptTomb` | below level 0, by V04 §5.6 (2)'s `belowKind` | V04 §5.6 (2)'s |
+
+An underground building (V03 §3.12) takes these kinds by the same rules, its runs on its part's rock V04's `cellarWall`,
+and reads its own lineage's level (V04 §5.6 (1)). A `party` wall is no element: it stands while the building beside it
+does, so a ruin in a row never opens its neighbour's rooms. An arch or an open doorway (no leaf), a hearth and its stack,
+a column, an access head (its state is its access's, V03 §3.7.2 (7); V04 §5.6 (4)), the porch, the exterior flights
+(volume 2's) and the derived terraces are no elements either; the porch and a terrace draw by (3)'s rules.
+
+**(2) The states — one comparison.** `planDamage` gives each element of the drawn plan its state:
+```ts
+// @plat/buildings (V03 §5.6; items 123, 122 (d)): the drawn plan's damage at the view's week; derived at read, never stored
+interface PlanElementRef { kind: DamageElementKind /* V11 §2.8d */; id: string /* (1)'s id column */ }
+interface PlanDamage {
+  level: number;                 // the drawn level, by V02 §5.7 (1)'s rule: the higher of V06's decayLevel at the drawn week and the level of
+                                 // a disaster look over the building (§10.2's lookLevel at its severity); 0 with neither
+  own: number;                   // V06's decayLevel(doc, lineage, week) alone; 0 for a building in no decay run
+  look: ExteriorDamage['look'];  // V02 §2.4's: the condition (null for a preview) and the calamity's type; null with no look
+  damaged: PlanElementRef[];     // at `level`, in plan order: by storey, then V03 §2.2's order within it
+  ownDamaged: PlanElementRef[];  // at `own`: a subset of `damaged`
+  repaired: PlanElementRef[];    // (b) and (c): not in `ownDamaged`, drawn in patch material where not in `damaged`
+}
+declare function planDamage(doc: Document, b: Building, plan: Plan, view: ViewState, opts: ViewOpts): PlanDamage;
+```
+* **(a) Damaged** — an element whose threshold t (§6.3) the level reaches: the level above 0 and at least t, the one
+  comparison every reader makes (§2.6 step 7). A level of 0 damages nothing, so a building never decayed and under no
+  look draws its plan unchanged (`item123.damage`). Damage only accumulates as the level rises and never moves: a higher
+  level's damaged set contains a lower's (T123-2).
+* **(b) Repaired** — a restoration lowers the own level (V06 §3.23 (3)) and the damage leaves in reverse threshold
+  order, the highest first; an element whose threshold lies above the own level and at or below `decayPeak` is drawn
+  repaired, in item 114's patch material (§8.6), until the plan itself changes (a rebuild, a demolition, a successor on
+  the trace). A look leaves no patch: `decayPeak` never reads a look (V02 §5.7 (4)), so an element only the look damaged
+  draws as built again from the week the look no longer stands over the building.
+* **(c) Roofless** — in a decay run, while a wing's roof kind is `none` (§2.6's `RoofSpec`: the derelict state the
+  decline ladder sets, kept through ruin; a fire's charred shell), every roof bay over a room of that wing is damaged
+  whatever its threshold, so the plan's open ceilings are the missing roof the exterior draws (V02 §5.7 (2); T123-5);
+  once the run has reached `decayed`, each such bay counts as reached for (b), so a restoration that roofs the wing
+  again draws it repaired while the level lies below its threshold. The state only climbs while the run lasts
+  (V06 §3.23 (1)), so (a)'s nesting holds; a standing wing an author roofed `none` keeps its plan unchanged.
+* **(d) Which level each reader reads** — `level` for the drawing, the picture exports, the panel's lines and a scene's
+  image; `own` for what the model holds: a scene's walls, portals and lights (V03 §5.3), the JSON block's `damage` and
+  the `plan` section's rows (V03 §4.6); `repaired` from `own` alone. The week is the drawn week of the view or the export
+  (§2.9's `week`; a scrubbed frame's, V06 §3.15.2), so scrubbing history shows one plan aging (item 123 (a)).
+
+**(3) Drawn** by V03 §5.1 at the building band — each damaged element in §8.6's damaged form for its kind, the states'
+looks, the unsafe rooms, the porch and terraces, the storey switcher — exported by V03 §5.2 and V03 §5.3, and below
+ground by V04 §5.6 (3); a building whose plan does not draw shows its damage on its exterior only (V02 §5.7).
+
+**(4) A disaster's look** (item 122 (d); J-V3.139). A building over which a disaster's look stands — by V02 §5.7 (1)'s
+reading: its `ConditionOverlay` standing in the view's week (§2.7's reader rule), its map row `disaster` (§7.7's DR44),
+admitted by the view's key, `crises` in `follow`, or a `disaster` preview at §10.2's `previewSeverity`; the building in a
+district V01's `disasterDistricts` returns, or at THORP, HAMLET and VILLAGE in an end of V07's; not yet handed over
+(V06 §3.22 (3)'s `crisisLookYields`; V02 §5.7 (6)) — draws its plan's damage layer at the look's `lookLevel` by
+severity, or at its own level where that is higher (`PlanDamage.level`), on every element. It is a look: it derives no
+plan (a click or `elaborate: 'view'` does, V03 §4.5), stores nothing, and leaves the plan's ids, its `PlanReport`, its
+cache chunk and every digest unchanged; a scene draws it in its image only, never as walls, portals or lights (item 122
+(f); V03 §5.3); the JSON block and the `plan` section's rows never carry it; a lived-in building under it keeps its
+households and lights ((6)). It shows exactly in the condition's weeks: the view's week leaving them, Show crises off, a
+key that withholds the condition or the hand-over draws the building at its own level again. What the disaster leaves
+reaches the plan only by the epoch path (V06 §3.22 (1)): a building the aftermath really ruins enters a decay run
+(V03 §3.11) and draws its own level from that epoch's week, the look's ruling only while it is the higher.
+
+**(5) Knowledge** (V03 §5.4). At a key that does not admit a concealed use, the layer follows V03 §5.4's merge: a merged
+room draws the floor and roof-bay states of the public room it merged into over its whole merged ring and nothing of
+the concealed rooms' own elements (their partitions, floors, roof bays and furniture), so no hole, spill or patch
+outlines a concealed room; a concealed opening drawn as wall takes the state of its wall run; a concealed head stays
+absent. A condition the key withholds draws no look ((4)).
+
+**(6) Who lives there.** A building `abandoned`, `decayed` or `ruined` houses nobody: its unit rooms keep their scope and
+ids (the plan as last lived in) but name no household — on a label, in the panel or in a scene's journal — and its rooms
+draw and export no room light (V03 §1b's derived `lit`), as §8.4's lit windows go dark when no household lives there; the
+event that restores it houses and lights them again. A look changes neither.
+
+**(7) The panel and the why** (item 123 (e)). The plan panel shows volume 9's damage lines (V09 §4.21.13; their words
+V09 §4.9's `info.damage.*`) from `PlanDamage` at the drawn level, laid out by V03 §4.5; the `plan` section's damage rows
+(V10 §3.9a's table) are V03 §4.6's, at the own level. One reading feeds both, so the panel, the why card and the clerk
+say the same thing in the same words ("roof fallen in over the hall; the upper floor is gone"; V09 §4.21.13 (4)).
+
+**(8) Lifecycle, edges, cost, bars, landing.** Derived per read, never stored (V03 §2.5's row): a save, load, undo, redo,
+regenerate and migrate re-read it from the restored records at the drawn week, an undone epoch's events gone
+(V06 §3.23 (6)). Its edges are V03 §3.13's rows, its cost V03 §6's row, its bars T-V3-39 (item 123) and T-V3-40 (the
+look). It lands at P4, its exports at P5 (V03 §8); until V06's level lands (M6-E) every building reads its existence
+state at V11's default age (V06 §3.23 (4)), and before P4 no plan carries the layer.
+
 ## 6 Performance budgets
 
 On §12.1's reference hardware, in the derivation pool; the rung's whole budget per plan is §12.7's (× steps for a
@@ -2528,6 +2772,9 @@ chain), which this split must sum inside. PLAUSIBLE until the P0 spike measures 
 | `elaborate: 'view'` at a METROPOLIS core at `planStop` | ≤ `view.planCap` plans derived, ≤ 8 per 16 ms pool frame, drawn within §12.5's frame budget | centre-out; measured at P4 on the B-CITY METROPOLIS seeds |
 | the cache (§12.8) | §12.8's line per storey, furniture included; ≈ 0.8 MB for a capped view (`view.planCap` × 3 storeys) | 40 items × 16 B + rooms, walls, openings as §12.8 states |
 | Find's room reading (V03 §5.5; item 120 (j)) | ≤ 0.02 ms per drawn plan; ≤ 2 ms per chip change over a capped view | O(rooms + walls) per plan (≤ 60 rooms) over the stored or cached plan, the union's outline read from its wall records with no boolean, for ≤ `view.planCap` plans and the clicked ones; an overlay reading, no plan redrawn; inside §12.5's glow of about 100 ms; measured at Find's landing (V03 §8) on the B-CITY METROPOLIS seeds |
+| the damage layer (V03 §5.6; item 123): `planDamage` per drawn plan | ≤ 0.05 ms per plan | O(elements): ≤ 60 rooms with their walls, openings, windows, cores and furniture, one `plan.damage` uniform each (§6.3's fixed-key draw) and one comparison, memoised with the plan per (lineage, drawn week, level); the levels V06's (their cost V06 §6's); its marks inside the per-storey draw row above, the rubble §8.6's keyed stipple; measured at P4 on the damage fixtures |
+| the plan in force of a building in a decay run (V03 §3.11) | ≤ 1 ms per lineage, once per run | the building's and its plot's records at the week before the run, from their history images (V06 §3.15.2's images path, two records only), memoised per lineage for the session; where the frame builder must replay instead, its cost is V06 §6.4's frame row, inside §12.7's chain budget for the click |
+| a disaster's look over drawn plans (V03 §5.6 (4); item 122) | ≤ 0.05 ms per drawn plan in a ruined district | V02 §5.7 (1)'s level (the look's units listed once per look in the view, V02 §6's), then `planDamage`; lazily per drawn plan, inside §12.5's frame budget; no plan derived for it |
 
 **Fallbacks, pre-decided:** a class over its row → the module doubles (§12.7's fallback) for that class; a storey over its
 `workLimit` → F-PLAN tier 3 then 4 (V03 §3.9); furnishing over 1.5 ms p95 at P0 → F3's slot scan steps at 2 × module; the
@@ -2565,7 +2812,7 @@ by a coarser plan (§12.7). A plan step runs slower than its target only for a m
 ships. A wait past about one second shows progress — the stage by name and the map filling in — through V09 §4.21.9's
 progress view (§12.1's progress rule; item 119 (c)). **Interaction stays fast** (item 119 (d)): the click and its plan (a
 stale chain derived in idle frames, the progress tick until it lands), the storey switch, `elaborate: 'view'` within
-§12.5's frame budget, Find's room reading and a plan edit's preview (§12.6) keep the rows above and §12's, none relaxed.
+§12.5's frame budget, Find's room reading, the damage layer's reading (V03 §5.6) and a plan edit's preview (§12.6) keep the rows above and §12's, none relaxed.
 The low tier aims at the same comfort level, a size it cannot reach declared per device (item 119 (e)).
 
 ## 7 Tests and acceptance bars
@@ -2580,7 +2827,11 @@ crypt) and on a sky island (the rim-slab vault); a rich shell with one household
 vacant house; a closed-family inn with its gate hall and the hall's court door; a stepped row on a slope and a two-wing
 house with wings of different storey heights; a front whose concealed use's service rooms lie on another storey; a
 building with a secret item-64 access; the access fixtures of T-V3-22; a sewer-front dwelling and a ruin dwelling
-(T-V3-24). **Item 110's fixtures**: a stepped temple of the `great_temple` class (solid tiers, axial stair, a one-storey
+(T-V3-24). **The damage fixtures** (T-V3-39, T-V3-40; read by volume 9's T-V9-86 and V12 §3.15.13): a house holding
+every element kind in each of `abandoned`, `decayed` and `ruined`, one restored with patches and a never-decayed
+control; a ruined church with its crypt; a town house re-let to lodgings and then left; a building generated ruined;
+a ruined row of three houses sharing party walls; a ruined deck shop; and a district of houses under a staged
+disaster `ConditionOverlay` (§2.7: its weeks and severity) and under a `disaster` preview. **Item 110's fixtures**: a stepped temple of the `great_temple` class (solid tiers, axial stair, a one-storey
 shrine, its `always` crypt) on dry and on `flood` ground, and one laid with `top` `flat` — no shrine, its crypt planned
 alone; the same with a storeyed ground annex, with and without a requested basement, and on a `flood` plot; a terraced
 palace (four storeyed tiers of two storeys, flights); a tiered tower (five one-storey tiers, pent roofs, the `internal`
@@ -2632,7 +2883,9 @@ aborts, and F-PLAN's tier-6 flags are counted and reported per class.
 | T-V3-35 | the B-PLAN calibration statistics (J-V3.118) — the bar V03 §2.4's register lines name as `bar.T-V3-35`, registered there as a V12 `BenchBarDef`; four clauses, each a share, in this order: (i) of the delivered rooms of every role whose area is not `ring`, the share whose area lies inside the role's [min, max] × the ladder row's `sizeFactor` (A3; the resolved row's override where one is set) — pass ≥ 0.90; (ii) of the households on the fixtures and on a household sweep from 1 to 80 % of each fixture's capacity, the share whose unit is built at its asked form (`PlanReport.units`, `built` = `asked`) — pass ≥ 0.95; (iii) of the cores of buildings on the `house`, `row_house` and `cottage` class rows and the families taking them, the share whose kind S4 dropped to `ladder` or `trapdoor` where the resolved row asked another kind — pass ≤ 1/90 (parity row (d′)'s target made a clause); (iv) Σ `PlanReport.furnitureSkipped` ÷ Σ F1's `n` over the furnished rooms — pass ≤ 0.10, −1 and left out of the verdict until P2 lands F1–F4; the verdict passes when every clause that applies passes (thresholds `own`) | B-PLAN's fixtures and B-CITY-lite, every building's plan derived by the `plan` query (V03 §4.6); at V3-P6's exit (tier `milestone`) |
 | T-V3-36 | edges at their limits (V03 §3.13; principle (11)): (a) a wing whose run is below one riser per storey is planned solid with `W_STOREY_RUN`, its rooms on other wings, every wing standing on it keeping its levels; a heights row with `G + (n − 1) × U` = 0 gives equal storeys; a basement under ground wings of different `baseCm` lies below the lowest; (b) a storey whose wings reach no level has no storey; a one-piece, one-target storey is that room; a seed piece a fixture's edited wing makes degenerate is left out, its targets re-allocated and reported, no other building re-derived; (c) a wing with no flat roof makes no terrace; a degenerate terrace face is roof; save, load, undo and redo of a stepped plan re-derive byte-identical terraces, a regenerate re-derives them with its plan, and a migrated document re-derives them at read equal to a fresh derivation (none is stored); (d) a stored plan with every migrate-cell absence reads its default; a head whose access was removed, furniture whose room was re-cut away and an opening whose wall is gone are re-derived or orphaned and reported; a table cell outside its type fails load (§7.6); (e) a wall shorter than a door and its jambs holds no door, a side with no bay no window, and a room with no wall long enough to a neighbour takes O5's strip or is tier 1, reported; (f) B-CITY-lite at THORP, HAMLET, VILLAGE, TOWN, CITY and the METROPOLIS cap, the village fixtures included, every building clicked: no plan aborts, T28-1 and T28-2 hold, a rung with no `always` building has no principal crypt and no trim, and the METROPOLIS view holds `view.planCap`; (g) furnishing with `n` = 0 places nothing, with `n` = 1 one glyph, on an empty free floor skips every item (counted), and a glyph with no `FurnitureRow` is skipped (counted); (h) an empty plan and a one-draw plan are byte-identical across two runs and across a whole derivation and a local re-derivation; (i) a re-cut whose prior room's seed piece became degenerate or vanished cuts it as new (unstored) or orphans it with its parts (stored), reported, and a kept opening whose wall is gone is removed, reported; (j) an underground building with no basement, with one grade face, in a chamber with none and with a grade face shorter than a door run holds windows and doors only on usable grade faces, its frontage entrance at its vertex; (k) an edit whose geometry the kernel refuses bends to the nearest lawful position or ring, named, and undoes byte-identically, and save, load, undo, redo, regenerate and migrate of each edit kind leave the plan byte-identical to a fresh derivation of the same log; (l) a warp that collapses a stored room's carried ring orphans the room with its parts, reported, the plan re-cut around the rest; (m) an absent, one-storey, empty and stale plan each show V03 §4.5's state, and a building smaller than the frame stop fills is framed inside `view.frameStops`; a plan reporting each `PlanReport.warnings` code shows one panel line per entry under its `report.plan.<code>` key, every code of V03 §2.3's union having its line; (n) `plan` on an empty plan returns no storeys, with a `storey` the plan lacks `noStorey`, and after an undo, redo, load or regenerate an answer equal to a fresh derivation's, writing nothing; (o) an empty plan's picture export is its outline with its heads and no storey sheet; (p) one concealed room merges into its neighbour and a wholly concealed storey draws as one public room at a public key; (q) an empty plan, a one-room plan and a building whose class has no row (the fallback, reported); (r) on the cliff-edge row no basement door opens over the drop (the trapdoor fallback or another side, reported) and no window lies below its ground; on the shore, moat-side and oasis fixtures no door opens onto water, no cellar stands on wet ground but an `always` crypt raised, and other churches there have ledger slabs; (s) a building at the frame's edge reads every sample inside the context margin, and an epoch's frame growth leaves every plan's outside digest unchanged (under the re-grid fallback the digests move and each plan goes stale or is re-cut) | the edge fixtures of B-PLAN, B-CITY-lite at every rung, B-EDIT sequences |
 | T-V3-37 | the plan's one-time waits (item 119 (f)'s plan clauses; V03 §6), on §12.1's reference machine, five seeds per wait at every rung's top and at the metropolis cap, each timed from the click to the complete result: (a) a dossier change applied on a CITY document of B-EDIT's dossier fixtures (§13.2) given a stored plan on every building of its largest district, whose re-homing relets each of them by one household, so that every stored plan is re-cut inside the event; (b) every plan export of the tallest B-PLAN fixture (the terraced palace's eight storeys) — the SVG storey and all-storeys sheets, the PNG sheet at the export dialog's largest offered size, the `.dd2vtt` and Foundry scenes per storey — and the whole-document JSON, CityJSON and glTF `interiors` with the elaboration cache at its §12.8 cap; (c) a load migrating a document written before M6-U (every `always` and `basement` building's crypt re-derived) and one without `BaseWing.partName` — each within the comfort level (§12.1; T119-2); every such wait past one second shows V09 §4.21.9's progress within a second of the click, never an empty screen (T119-3); every plan step slower than its V03 §6 or §12.7 target has its `perf.qualitySpend` row with its recorded gain, none at shipping (T119-4); the click and a stale chain's derivation, the storey switch, `elaborate: 'view'`'s frame share, Find's room reading and a plan edit's preview hold their V03 §6 and §12 rows, none relaxed against the previous release (T119-5; V12 §3.15.9 (5)); an epoch's re-cuts are timed by volume 6's part of item 119 | §12.1's timing phase with V12 §3.15.9's wait timer (`wait.dossierChange`, `wait.export`, `wait.migrate`), nightly; clause (b) from P5, the rest from P6 |
-| T-V3-38 | Find at the interior band (item 120 (k)'s plan clauses; V03 §5.5), on B-PLAN's fixtures and B-CITY-lite's clicked buildings with chip sets of one to twelve chips: (a) the model digest, every stored plan, cache chunk and `PlanReport` and the saved bytes are identical with Find on and off, and Clear leaves every plan tile byte-identical; (b) `findRooms` returns exactly V03 §5.5 (1)'s set — a `smithy` chip on the smithy with a separate dwelling glows its work building's programme rooms and no room of the dwelling, whose outline alone carries the halo; the split brewer pair glows the brewhouse in the works and the taproom in the shop; a `church` chip on the cruciform church glows its programme's rooms and its crypt; a person's chip glows their unit's rooms; a custom service glows its sub-location's rooms; no `circulation` room glows for a use or a household; (c) at `public` a front's concealed use is offered as no chip and no concealed room glows, a merged room glowing only as its public reading, and at `secret` its A2 (6) rooms glow; (d) on a storey without the match's rooms the building's outline glows and the switcher marks exactly the storeys that hold them, each with its chip's glyph and its accessible name's count, and a building whose plan does not draw glows whole; (e) after a `relet`, a `setRoomRole`, a re-cut, an undo, a regenerate and a load the glowing set equals a fresh reading, and a chip set survives every storey switch and every stop of the building band; (f) an SVG storey sheet with Find on carries `plan.find` and the chips in its legend, with Find off equals the Find-less export byte for byte, and a `.dd2vtt` scene carries no Find unless asked, then in its image only; (g) at the METROPOLIS cap under `view.planCap` a chip's glow over the drawn plans lands within item 120 (j)'s 100 ms (V03 §6's Find row) | B-PLAN, B-CITY-lite and volume 9's app harness; at Find's landing (V03 §8) |
+| T-V3-38 | Find at the interior band (item 120 (k)'s plan clauses; V03 §5.5; takes T120-4's interior clause, (e)), on B-PLAN's fixtures and B-CITY-lite's clicked buildings with chip sets of one to twelve chips: (a) the model digest, every stored plan, cache chunk and `PlanReport` and the saved bytes are identical with Find on and off, and Clear leaves every plan tile byte-identical; (b) `findRooms` returns exactly V03 §5.5 (1)'s set — a `smithy` chip on the smithy with a separate dwelling glows its work building's programme rooms and no room of the dwelling, whose outline alone carries the halo; the split brewer pair glows the brewhouse in the works and the taproom in the shop; a `church` chip on the cruciform church glows its programme's rooms and its crypt; a person's chip glows their unit's rooms; a custom service glows its sub-location's rooms; no `circulation` room glows for a use or a household; (c) at `public` a front's concealed use is offered as no chip and no concealed room glows, a merged room glowing only as its public reading, and at `secret` its A2 (6) rooms glow; (d) on a storey without the match's rooms the building's outline glows and the switcher marks exactly the storeys that hold them, each with its chip's glyph and its accessible name's count, and a building whose plan does not draw glows whole; a building whose plan is empty carries the chip's outline and halo on its outline, and a stale plan glows its cached rooms under §8.5's marker until its re-derivation lands, then the re-derived rooms; (e) T120-4's interior clause: after a `relet`, a `setRoomRole`, a re-cut, an undo, a redo, a regenerate, an advance of time, a load and a migration the glowing set equals a fresh reading, and a chip set survives every storey switch and every stop of the building band; (f) an SVG storey sheet with Find on carries `plan.find` and the chips in its legend, with Find off equals the Find-less export byte for byte, and a `.dd2vtt` scene carries no Find unless asked, then in its image only; (g) at the METROPOLIS cap under `view.planCap` a chip's glow over the drawn plans lands within item 120 (j)'s 100 ms (V03 §6's Find row) | B-PLAN, B-CITY-lite and volume 9's app harness; at the later of P5 and M5, Find's milestone (V03 §8) |
+| T-V3-39 | a decayed or ruined plan (item 123 (f)'s plan clauses; V03 §3.11, V03 §5.6; takes T123-1's, T123-2's, T123-4's, T123-6's and T123-7's plan clauses), on the damage fixtures at the levels 0, 0.05, …, 1 and, from M6-E, week by week over V06's decay runs: (a) one plan (T123-1): every room, wall, opening, window, core and furniture id, ring and position of the damaged plan equals the intact plan's at every level, its `PlanReport`, cache chunk and the model digest unchanged; the re-let town house, once left, keeps its lodgings plan — never the vacant programme, never its as-built plan — its elaboration record `current` through the run, and a scrub across the run draws that one plan; the building generated ruined draws its as-built plan; an author's wing edit during the run re-cuts the stored plan with every kept element's id and threshold kept; (b) monotone (T123-2's plan clause): at each level the damaged set contains every lower level's, on every kind, and a roofless wing's roof bays are all damaged from the week it turns roofless; (c) restoring reverses it (T123-4's plan clause): a restoration from level 1 to 0 removes the damage in reverse threshold order, the highest first, each element then drawn in patch material until a rebuild; a restoration with no Works removes it at once, every patch drawn; a roof bay the roofless state opened is patched once the wing is roofed; (d) the drawing (V03 §5.1): each state shows item 123 (c)'s look — `abandoned` furniture broken, doors off and the floors' dust; `decayed` partitions down, floor holes and roofs open, every room over a hole or under an open roof marked unsafe and unlabelled; `ruined` outer walls broken, the upper storeys mostly floorless and the ground storey walkable; the ruined church's crypt rooms, its join and every way down kept (V04 §5.6) —, no party wall broken in the ruined row, the porch gone with its wall, and a building in a decay run naming no household and lighting no room; (e) exports (T123-6's plan clause): each storey's `.dd2vtt` and Foundry scene leaves out of `line_of_sight` and its walls every run and partition the own level breaks, keeps every `cellarWall` and `cryptWall` run, writes no portal for a broken door and none at or above level 0 for a broken stair, and draws holes, rubble and patches in its image only (validators); the SVG carries `plan.damage` with each damaged and repaired id in its metadata; the JSON block's `damage` lists exactly `ownDamaged` and `repaired`; CityJSON and glTF are byte-identical to the intact plan's; (f) the panel's damage lines and the `plan` section's rows read the same `PlanDamage` — one line or row per kind present, none on a never-decayed building — and at `public` a front's concealed rooms show no hole, spill or patch of their own; (g) T123-7's plan clause is V12's `item123.damage` pin over these fixtures (V12 §2.13; V12 §3.15.13): a never-decayed building draws, exports and answers byte-identically to its plan without the layer | the damage fixtures, B-CITY-lite; before M6-E the levels at V11's default age; validators in CI; from P4, (e) from P5 |
+| T-V3-40 | a disaster's look in the plan (item 122 (d), (f) and (g)'s plan clauses; V03 §5.6 (4); takes T122-1's, T122-2's and T122-3's plan clauses), on the damage fixtures' district under its disaster condition and under a `disaster` preview: (a) T122-1's plan clause: every plan id, stored plan, cache chunk, `PlanReport`, the model digest and the saved bytes identical with `crises` in `follow`, `off` and `preview` and in every week; (b) T122-2's: each building of a returned district draws its damage at the look's `lookLevel` by severity exactly in the condition's weeks, and at its own level outside them, after the hand-over (`crisisLookYields`), with Show crises off and at a key that withholds the condition; a building under the look and its own decay draws the higher level on every element, and the look leaves no patch; (c) T122-3's: the damaged set is byte-stable per seed across two views, a scrub away and back, a save and load and a regenerate; (d) exports: a picture export draws the look as the view does; a `.dd2vtt` and a Foundry scene of a look-damaged storey draw the look in their image only, their walls, portals and lights the own level's; the JSON block and the `plan` section carry no look; (e) the panel shows the look's lines under `info.crisis.ruinedFor` (V09 §4.21.13 (3)); (f) with no condition and no preview every plan tile is byte-identical to the base — V12's `item122.crises` pin (V12 §2.13; T122-7) | the damage fixtures, B-CITY-lite; from P4 once item 122's base parts (M3b) and V01's districts (M5) stand, (d) from P5 |
 
 **Parity against the reference that owns the subject (Dwellings; descriptive rows, research-side, never `baselines.json`
 rows — §13.5's note):** (a) *programme realisation* on the twelve footprints the Dwellings exports lane decoded, fed as
@@ -2668,16 +2921,23 @@ PLAUSIBLE, for the builder tier with a verifier seat.
 | **P1 — the rung on any wings** | every pattern and `lodgings`; the per-piece rule and the cut machine on bent pieces; S1–S5, H1–H4, E1–E2; floor datums; W1–W4 on volume 2's façade bays (moved forward from its M6b, imported from `@plat/plots`, priced there; V03 §3.6 W2); every row of V03 §2.4 (role, class, family, slot, class-id, village, tables); `PlanReport`; the chain, the kept-room and kept-opening tests; **item 110** — the plan's uses of the level reading, `ground(b)` and the storey heights (their functions imported from PE), the storey run's limit, chain cores (S5 (a)), S6's joins, the roof terraces (V03 §3.4a), stacks through tiers, the window and door exposure gates, the basement door opened at `basementDoor(b)`, the stepped, `conduit_house` and `arena` rows (`Entrance.storey`, the wall walk-out, `basementDoor(b)` and `R(s)` are PE's); the composition clauses — A2 (11)'s composer rooms, W4's `DormerRow` counts, O1 (b)'s court door — run on composed wings from volume 2's M6 | T28-1 – T28-6, T28-13 – T28-17 (F-PLAN clause), T-V3-1 – T-V3-7, T-V3-9, T-V3-16 – T-V3-20, T-V3-25 – T-V3-29, the plan clauses of T-V3-30 and T-V3-34 and T-V3-36 (a)–(c), (e), (h), (q) on B-PLAN, T-V3-25's composer clauses from M6; the known-city click set; the register check green over the cells it lands, T-V3-35's `BenchBarDef` registered and the `area` column's entry restated (V03 §2.4's register lines) | 4–5.5 | P0, PE, M4; volume 2's item-110 fold (`storeyRange`, `deckLevel`, `stairChain`, `landingSide`) and façade bays; volume 2's composer (M6) for composed wings; volume 11's registry (class ids, families, `staff`, `split`, `HeightsRow`); item 110 (a)'s `RetainingWall` |
 | **P2 — basements, heads, the crypt, concealment, furnishing, below ground** | V03 §3.7 but the crypt's derivation (heads of every source, the secret head's room, the crypt's plan and columns, crypt stairs and choir flights, the crawl hatch, the core's join and the tomb door, O2's crypt join and closed vault, the deck rule; `stackAccessDoor(b, a)` is PE's); V03 §3.12 with its grade faces; the concealed sub-graph and V03 §5.4's merge; F1–F4 and the catalogue; and P3's parts that read these — `setAttr(basement)`'s underground preview and the crypt-only basement edit, the crypt-edit dry runs (V03 §3.7.4), the panel's ways down and crypt line, the room why's head causes and the `crypt` section (V03 §4.6), priced in P3's range. `Basement.crypt` with its seed, growth, rank and the stair-entered reading that sets the basement's extent (V03 §3.7.4) is built at M6-U (§2.6; volume 4's crypt derivation line) | T-V3-8, T-V3-10, T-V3-22 – T-V3-24, T-V3-31, T-V3-32, T-V3-11 (ii), (v), T-V3-12's crypt clauses, T-V3-36 (d), (g), (i), (j), (p), (r); the concealed-institutions row of the base's §5.3; T12-1's plan side; the register check green over the cells it lands (V03 §2.4) | 3–4.25 | P1; volume 4's access records (U-SYS, U-ACCESS, U-LINK, U-DIG) and item 64's, and its `archVault` chambers with `gradeFaces` (M6-U); volume 11's crypt column and rows; the crypt derivation and volume 2's lift (M6-U — the crypt's plan and T-V3-23's plan clauses run from that landing) and the deck gate |
 | **P3 — editing, the click and the clerk** | the plan tools with their bends; `setHearth`, `moveStairCore.kind`, `instance` on a room, the attribute paths, `declaredRooms`, the deck bend; New random per rung; carries under warps (§2.6's test with stored furnished plans); the wing-relative re-match under volume 2's `tiers` op and its orphan preview, the retaining wall's stale mark and re-cut, the raised way's removal fates; the storey switcher with stack names, the panel with item 110's lines and room numbers; the clerk's queries, the `WhyProvider` with item 110's causes and the `plan` section — the parts that read P2's heads and crypt land with P2 (above) | T28-6, T28-7, T28-9 – T28-12, T28-18 (`setRoomUnit` clause), T-V3-11 but (ii) and (v), T-V3-12 but its crypt clauses, T-V3-21, T-V3-33, T-V3-36 (k)–(n) | 3.25–4.5 | P1, M4; §7's editing core (M2a–M3a); volume 10's registry |
-| **P4 — the draw** | the building band's stops (§8.8) and the detail ladder, every mark of V03 §5.1 in `ink`, `lit`, `hatched` and the ink variants, `planWallShade`, labels, numbers, lights, the Works and ruin drawings, the underground band's plans; terraces, exterior flights, the stoop, the cistern and inlet mark, the deck's fall; the view cap | T-V3-14; §8.2's plan-draw row; V03 §6's view-cap row on the B-CITY METROPOLIS seeds; T-V3-36 (f) | 2.25–2.75 | P1; §8's building band (M2b); M6 (the decided order) |
-| **P5 — exports** | the JSON block (with `terraces`, entrance storeys, flights, `inlet`), SVG and PNG with the all-storeys sheet, `.dd2vtt` and Foundry per storey (terraces, landing portals, linked flights, roof levels), CityJSON storeys at their true elevations, units and rooms, glTF interiors | T28-19, T-V3-13, T-V3-29's export clause, T-V3-36 (o) | 1.75–2.25 | P1, P4; §11's exporters (M3b) |
+| **P4 — the draw** | the building band's stops (§8.8) and the detail ladder, every mark of V03 §5.1 in `ink`, `lit`, `hatched` and the ink variants, `planWallShade`, labels, numbers, lights, the Works drawing, the underground band's plans; terraces, exterior flights, the stoop, the cistern and inlet mark, the deck's fall; the view cap; **item 123's plan part, the step that draws a decayed or ruined plan**: the plan in force (V03 §3.11), `planDamage` and the drawing per state (V03 §5.6, V03 §5.1), the panel's damage lines and the `plan` section's damage rows (V03 §4.5, V03 §4.6), with item 122 (d)'s look in it | T-V3-14; §8.2's plan-draw row; V03 §6's view-cap row on the B-CITY METROPOLIS seeds; T-V3-36 (f); T-V3-39 but (e); T-V3-40 but (d) | 2.5–3.25 | P1; §8's building band (M2b); M6 (the decided order); §2.6 step 7, §6.3 and §8.6, which land with this step (§16); V06's decay level at M6-E (before it, V11's default age); for the look, item 122's base parts (M3b) and V01's `disasterDistricts` (M5) |
+| **P5 — exports** | the JSON block (with `terraces`, entrance storeys, flights, `inlet`), SVG and PNG with the all-storeys sheet, `.dd2vtt` and Foundry per storey (terraces, landing portals, linked flights, roof levels), CityJSON storeys at their true elevations, units and rooms, glTF interiors; the damage in every format (V03 §5.2's `plan.damage`, V03 §5.3's scene walls, portals, lights and image and the JSON `damage`) | T28-19, T-V3-13, T-V3-29's export clause, T-V3-36 (o), T-V3-39 (e), T-V3-40 (d) | 2–2.5 | P1, P4; §11's exporters (M3b) |
 | **P6 — content and tuning** | the role, class, family, use and catalogue rows and the unit floors tuned on B-PLAN and B-CITY-lite — never the `room` role's area (V03 §2.4's first register line: measured, never tuned) or a class row's poorest-band `circulation` (V03 §2.4's PE line), which §2.6's capacity reads; the soft bands; the owner's panel of twenty plans (six classes, three bands, a church with its crypt) side by side with Dwellings houses of like size — V12 §3.9.1's `PanelSpec` V3-P6 (DW 20), as V12 states it; under J122's sittings its build lands after M5, so the panel runs unrated, its bars "provisional — not rated" (§13.6 (7)), never blocking | §13.7's plan soft bands; T-V3-15; T-V3-35, which confirms V03 §2.4's `measure` entries or opens their fallback, no V03 entry left `provisional` past V3-P6 | 2–3 | P1–P5 |
-| **total** | | | **18.5–25.25** | |
+| **total** | | | **19–26** | |
 
 **Items 119 and 120** (J-V3.133, J-V3.134). T-V3-37 times the plan's share of the one-time waits at P5's exit (its
 exports' clause) and P6's (the rest) on V12 §3.15.9's wait timer, inside those milestones' prices. The plan's part of
-Find (V03 §5.5) — `findRooms`, the switcher's and the panel's marks and the SVG `plan.find` group — lands with the later
-of P5 and the milestone that lands Find (V09 §8), inside P4's and P5's prices (one pure reading over the plan's wall
+Find (V03 §5.5) — `findRooms`, the switcher's and the panel's marks and the SVG `plan.find` group — lands at the later
+of P5 and M5, Find's milestone (§16), inside P4's and P5's prices (one pure reading over the plan's wall
 records, two marks and one SVG group), its exit T-V3-38.
+
+**Items 122 and 123** (J-V3.140). Item 123's plan part — V03 §3.11's *Decay re-cuts no plan*, V03 §5.6's layer,
+V03 §5.1's drawing per state, the panel's lines and the `plan` section's rows — is the step that draws a decayed or
+ruined plan: it lands at P4, its exports at P5, priced inside them (+0.25–0.5 and +0.25 pw), with §2.6 step 7's,
+§6.3's and §8.6's base parts (§16); every building reads its existence state at V11's default age until V06's decay
+level lands at M6-E (V06 §3.23 (4)), and before P4 no plan carries the layer. Item 122 (d)'s look in the plan lands
+with it, drawing nothing until item 122's base parts (M3b) and V01's `disasterDistricts` (M5) stand.
 
 **Against the parity assessment.** docs/confidence/dwellings.md's capability matrix sums to 20.0 pw for
 Dwellings-alone parity (its rows A1–H2, D7 excluded). This volume builds none of rows B1 (ground-plan drafting, 0.8), B2
@@ -2687,10 +2947,11 @@ setback, 0.2 of its 0.4) — together 5.3 pw: footprints, storeys, setbacks and 
 volume 11's, the editor and parameters volume 9's and the base's, and the elevation is dropped (J-V3.19). B3's plan half —
 a smaller storey's containment and partition, and the exposed roof — is this volume's since item 110 (c) (parity row
 (e)). The rows it does build sum to 14.7 pw, plus D7's 1.5 pw (the typed, programme-first method this volume's programme
-is) — 16.2 pw at the assessor's pace. The remaining 2.3–9.05 pw of this volume's 18.5–25.25 pay for what parity does not
+is) — 16.2 pw at the assessor's pace. The remaining 2.8–9.8 pw of this volume's 19–26 pay for what parity does not
 ask: the interior ladder and its re-cuts, the resolution over every registered class, the editing contract (events,
 bends, undo, stored plans, carries), the VTT, Foundry, CityJSON and glTF exports, the clerk and "why", the ways down, the
-crypt and the buildings below ground, and item 110's stacks, terraces, hillside exposure, decks and vaults (1.75–2.5 pw).
+crypt and the buildings below ground, and item 110's stacks, terraces, hillside exposure, decks and vaults (1.75–2.5 pw), and the damage layer of items
+122 and 123 (0.5–0.75 pw).
 
 **Risks, in order** (the synthesis's list, §6, answered here): packing a programme into bent or L wings (A5's trimming
 before any cut, P0 and the exact `slice` before the pattern, tiers 2–5; measured at P0); small wings against a stair bay
@@ -2702,8 +2963,8 @@ core that fits no whole chain, a terraced palace's budget; S5's prefixes, S6's j
 measured on the stepped fixtures at P1). **Spikes:** P0 is the spike; its pre-decided fallbacks are V03 §6's and V03 §3.9's.
 
 **Where in §16's order** (J-V3.109). The base prices the plan rung's hooks (§16: O9's +2 and the transient arena); the
-rung itself is §16's milestone **M6-P — the plan rung**, carrying P0–P6 and 17.75–24.25 pw of this volume's
-18.5–25.25 on the effort table's line "plan rung (volume 3)"; PE's 0.75–1 pw is built within the base's M2b (0.25) and
+rung itself is §16's milestone **M6-P — the plan rung**, carrying P0–P6 and 18.25–25 pw of this volume's
+19–26 on the effort table's line "plan rung (volume 3)"; PE's 0.75–1 pw is built within the base's M2b (0.25) and
 M3a (0.5–0.75) and counted in those rows, inside §16's first total. The crypt derivation's price is M6-U's (volume 4's
 line). §16 computes the totals once; this volume states no total of its own.
 
@@ -2848,6 +3109,11 @@ One row per decision; an amended row carries one mark naming the row that amends
 | J-V3.133 | Chose to read item 119 at the plan rung (V03 §6) as V03 §6's rows and §12.7's plan row kept as the targets and the plan's share of each one-time wait — PE's eager facts inside S11's generation, the stored plans' re-cuts inside a dossier change or any event that moves their inputs, an epoch's re-cuts (timed by volume 6's part of the item), the plan exports and the plan's migration on load — inside §12.1's comfort level, with the click, a stale chain's derivation, the storey switch, `elaborate: 'view'`, Find's room reading and a plan edit's preview kept as interaction budgets, over timing a plan's elaboration on a click as a one-time wait, because a click on a building is click-to-inspect (item 119 (d)), the plan rung runs on no generation (§4.1), and the cache and the idle-frame chain keep it off the user's path, while the waits a user sits through once are the events and exports that carry plans. |
 | J-V3.134 | Chose to make Find's interior-band glow (item 120 (f)) the rooms a match uses in the plan as drawn — a use's programme rooms (origins `programme`, `sleepIn`, `subLocation` and `crypt`; on a shell housing no household its `declared`, `access` and `composer` rooms too), a sub-location's rooms, a household's unit, or every room for a match that is the building — one union outline per chip from the plan's wall records, the building's outline glowing and the switcher marking the storeys where the shown storey holds none, over glowing the whole footprint at every stop or every room of a matched building, because the owner's rule asks that "the rooms an institution uses glow", a smith's house and an inn's family rooms are its households' and not the institution's, and a match must never be lost (item 120 (e)); Find reads the drawn plan and never derives one, so a chip costs no derivation and no tile (item 120 (j)). |
 | J-V3.135 | Chose to key the class rows on §2.6's `BuildingClass` alone — `hall`, `keep`, `tower` and `mill` moved, cell for cell, to named rows in the same columns, reached only by name from the family, slot, class-id and specialisation rows, and `temple` dropped from the church row's key — over re-keying the four rows to classes (`castle`, `tower_house`, `watermill`) or folding them into the family table, because a template family is never a class (§2.6's `BuildingClass`; VAF-R0S-16), no building's class names them, several families, slots and classes take each whole, the family table lacks their `shared` column, and their poorest-band `circulation` stays a capacity cell on PE's register line; no building resolves differently — a great temple reaches its `cathedral` family row at A1 (3) as before, so the church row's `temple` key served no building. |
+| J-V3.136 | Chose to make item 123's damage layer at the plan the parts V03 §2.2 already names, each with one of V11's kinds — wall runs split into `outerWall` and `partition`, floor areas into `groundFloor` (level 0 on the ground, a wing's first storey on a solid wing, and every storey below 0 with a storey under it) and `upperFloor`, the roof over a room no storeyed room lies above as its `roofBay`, doors with a leaf, windows, stair cores and choir flights, furniture, and below ground volume 4's five — read by one pure function, `planDamage`, that gives each element damaged, repaired or as built at the drawn and at the own level, with party walls, arches, hearths, columns, heads and the porch no elements, every roof bay of a wing a decay run leaves roofless damaged, and a building in a decay run lighting no room and naming no household, over minting damage ids or a stored damage record, damage by storey or by room, or party walls that fall, because item 123 (a)–(b) ask for the same plan with one keyed threshold per element and no new ids, a party wall holds up the house beside it (a ruin in a row never opens its neighbour's rooms), the base's roofless derelict state (`RoofSpec.kind 'none'`) must agree with the plan's ceilings and the exterior (item 123 (d); V02 §5.7), and nobody lights a lamp in a house nobody lives in (§8.4's lit windows already go dark). |
+| J-V3.137 | Chose, for a building in a decay run, the plan in force when its run began — a stored plan as stored; an unstored plan re-derived from its canonical prior at the occupant inputs it held the week before the run, read from the building's and its plot's history images and memoised per lineage, so it stays `current` through the run — and, for a building first met abandoned, decayed or ruined or whose week before the run a rebase condensed, its as-built plan, with the vacant programme kept for a standing building only, over re-cutting a decaying building to the vacant programme or re-deriving every decaying unstored plan as its as-built plan, because the owner asks that a plan already generated be "amended rather than redrawn" and that scrubbing history show one plan aging (item 123 (a)): a town house re-let to lodgings and then left must decay as the lodgings it last was, and for a building never re-let the two readings give the same as-built plan (§2.6 step 7). |
+| J-V3.138 | Chose to export a ruined plan's damage as the view draws it in pictures (the SVG `plan.damage` group, the PNG) and as the model holds it in scenes and JSON — a `.dd2vtt` or Foundry scene's walls, portals and lights from the building's own decay level (a broken run or partition leaves line of sight, a broken door is a gap, a broken stair links no storey at or above level 0, a cellar or crypt wall stays a wall), its image at the drawn level, a disaster's look in the image only; the JSON block a `damage` member at the own level, absent when nothing is damaged or repaired; CityJSON and glTF the plan as built — over carrying the damage in every format or in none, because item 123 (e) asks battle maps to follow the damage, item 122 (f) keeps a look out of walls, portals and lights, a JSON reader without our rules needs the damaged set as it needs the derived flights, and CityJSON and glTF export the model's buildings, never a view at a week, as volumes 2 and 4 export theirs. |
+| J-V3.139 | Chose to draw a disaster's look in a plan at the level V02 §5.7 (1)'s rule gives the exterior — the higher of the building's own decay level and the look's `lookLevel` by severity, over the districts volumes 1 and 7 return, until volume 6's hand-over — with no patch, nothing stored and no row of the `plan` section (the look read tells it, the panel shows it), over a look level of the plan's own or patches a look leaves behind, because item 123 (d) asks the inside and the outside to agree, item 122 (a) keeps a crisis a look whose aftermath is the epoch path's, and a look that left patches would draw a repair that never happened. |
+| J-V3.140 | Chose to land item 123's plan part — the plan in force, `planDamage`, the drawing per state, the panel's damage lines and the `plan` section's rows — at P4 as the step that draws a decayed or ruined plan, and its exports at P5, priced inside them at +0.25–0.5 and +0.25 pw (this volume's total 19–26 pw), item 122 (d)'s look landing with it once the look's base parts (M3b) and volume 1's districts (M5) stand, over a step of its own, because the layer is one pure reading over the plan P1 cuts, drawn by P4's program and written by P5's exporters, and the decay level reads V11's default age until volume 6's lands at M6-E, so no step waits on another unit's milestone. |
 
 ## 10 Base change requests
 
@@ -2897,7 +3163,8 @@ named states it and this volume cites that section. One line each:
 | Q1 — may floor plans come on the base's buildings right after M4, before volume 2's manor-style buildings? The plan rung needs only a building's walls, which the base already makes, and takes the compositions later with no rework. | **Answered: yes (J122)** — P0, P1 and P3 on the base's buildings after M4; P2 once volume 4's access records exist; the rest after volume 2's M6 (V03 §8; §16; INDEX §3–§4); volume 2's façade-bay function and constants are built first as its own item, moved forward from its M6b and priced there |
 
 No other question is open: the owner's crypt and catacomb ruling (J111) and item 110 are applied as ruled, and every
-choice they left is a vetoable decision (J-V3.47, J-V3.80 – J-V3.100, J-V3.130); a cistern inside a mole fort would need
+choice they left is a vetoable decision (J-V3.47, J-V3.80 – J-V3.100, J-V3.130), as is every choice items 122 (d)
+and 123 left (J-V3.136 – J-V3.140); a cistern inside a mole fort would need
 J-V2.68 amended, which item 110 (d) does not ask (J-V3.92). This volume decides nothing that follows SettlementForge
 (J121).
 
@@ -2935,11 +3202,15 @@ the vault a level-0 room stands over fits (V03 §3.7.6's kinds, then tier 6, fla
 reached (T-V3-23 (j), the core's bay and the trapdoor kept outside the vault); that the `half` rung's bound keeps the principal intact (T-V3-23 (b), (i) at M6-U); that the plan's share of each
 one-time wait stays inside item 119's comfort level — a district of stored plans re-cut in one dossier change, the
 largest plan export, a migration at the metropolis cap — until T-V3-37 runs; that `findRooms`'s set reads as where an
-institution is at the interior band, and its cost, until T-V3-38 and P4's visual bars run. The historical readings
+institution is at the interior band, and its cost, until T-V3-38 and P4's visual bars run; that the damage layer's states read as item 123 (c)'s
+looks at the building band (the stops each damaged form joins at, party walls kept, the porch going with its wall, a
+ruin unlit), that the frozen inputs' history read stays inside V03 §6's row, and the 0.5–0.75 pw of items 122 and 123,
+until T-V3-39, T-V3-40 and P4's visual bars run. The historical readings
 behind the rules (a shared stair hall giving each family its own door, a unit floor of 9–60 m², crypts entered from the
 nave, raised choirs over crypts on wet ground, ledger slabs in a church floor, hill-town houses entered from two streets,
 walk-outs at a terrace edge, arch-vault fronts bricked in with a door, windows and a flue, tomb doors at a stepped
-platform's foot, a one-room temple-top sanctuary, stoops, a hall raised over an undercroft on wet ground) are general
+platform's foot, a one-room temple-top sanctuary, stoops, a hall raised over an undercroft on wet ground, party walls outlasting a ruined house in a row, floors and roofs
+going before outer walls) are general
 knowledge, not corpus-witnessed; the CityJSON 2.0 types (`BuildingStorey`, `BuildingUnit`, `BuildingRoom`) are checked
 against the schema at P5 (T-V3-13). Clean-room (§17.1): no identifier, name, list or table of the Dwellings reference, or
 of item 110's study-only assessment (J114), appears in this text.
@@ -2962,6 +3233,8 @@ each request another unit made of this one, with where it is closed.
 | V02 | the basement door at `basementDoor(b)` (V03 §3.7.1); F-COMPOSE (3)'s omitted rooms (A2 (11)); the plan stack at `Chimney.levels[1]` (H4); the `tiers` op's orphan list (V03 §4.2); `bend.deck.basement` in its bend list; `facadeBays` built first (V03 §3.6 W2) | closed at V02 §3.13, V02 §5.2, V02 §4.6, V02 §1b and V02 §8 |
 | V09, V10 | the `room` provider and the `plan` and `crypt` sections (V03 §4.6); the panel, switcher and `roomNumbers` key (V03 §4.5); the `drawChamber` bend's crypt-ring edit and the tier and raised-way previews (V03 §4.2); the crypt-edit dry runs' words (V03 §3.7.4) | closed at V09 §4.17.5 and V10 §3.9, V10 §3.9a; the deck cause's one name is this volume's `deckNoCellar`, which V10's rows follow |
 | V09 | the family `report.plan.<code>` in V09 §4.9's family table — one key per `PlanReport.warnings` code, its `en` text V03 §4.5's; Find's `live.find` drawing V03 §5.5's rooms at the interior band, with the switcher's and the panel's marks (item 120) | the other end: V09 §4.9's family table; V09's Find panel and `live.find` |
+| V02 | the damage layer's roof bays over rooms and outer wall runs with their states at the drawn level (`planDamage`, V03 §5.6), every roof bay of a wing a decay run leaves roofless damaged; one level for the plan and the exterior by V02 §5.7 (1)'s rule | the other end: V02 §5.7 (1)–(2), T-V2-59 |
+| V09, V10 | the panel's damage lines laid out from `PlanDamage` (V03 §4.5); the `plan` section's damage rows (V03 §4.6) | the other end: V09 §4.21.13, V09 §4.9, V10 §3.9a |
 | V05, V07, V12 | `levelledGroundCm` read by W2 (V03 §3.6); a new village class's rows (J-V3.111, J-V3.112); the known-city click set (V03 §7) | closed at V05's reader list, V02 §3.10.5 and V12's fixtures (standing rules, nothing owed) |
 | the base (file f) | every request of V03 §10 at its section, with the notes of items 233, 235, 237, 238, 241, 242, 263, 305, 483, 505, 567, 568, 578 and 585 | closed at the base sections of V03 §10 |
 
@@ -2989,6 +3262,11 @@ each request another unit made of this one, with where it is closed.
 | determinism (VDC0-11) | the plan edits' reach bend `bend.room.unreachable` | V03 §4.2; T-V3-11 (vi) |
 | V10 (VV34-07) | the notes keyed `info.plan.note.<id>` | V03 §4.6, V03 §2.3; T-V3-12 |
 | V11 (VAP-21), V12 | `exposureAllStoreys`'s preset entries false; T-V3-34's first clause the `item110.*` `NoOpPin` on V12 §3.7.8's engine | V03 §2.4; T-V3-34 |
+| V02 (X34) | the damage layer's two element kinds V02 reads — each roof bay over a room and each outer wall run — intact, damaged or repaired at a level; a roofless building's roof bays all damaged | V03 §5.6 (1)–(2); T-V3-39 (b) |
+| V04 (G123-V04) | a storey below 0 drawn by V04 §5.6's kinds and rules — the stair below 0 climbable rubble, the lowest floor never failing — and exported in V03's per-storey scene by V04 §5.6 (5) | V03 §5.1, V03 §5.3, V03 §5.6 (1) |
+| V09 (G123-V09) | the panel's damage lines are V09 §4.21.13's, worded by `info.damage.*`; V03 lays them out | V03 §4.5 |
+| V10 (CVR-V10-21) | the `plan` section's item-123 damage rows as V10 §3.9a lists them; V03 §8 names its item-123 step | V03 §4.6, V03 §8 |
+| rendering (G123-rendering) | V03 §5.1 draws §8.6's damaged forms, citing them | V03 §5.1 |
 
 ## Integration notes
 

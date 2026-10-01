@@ -8,7 +8,7 @@ the shell that V08's host mode runs on — over the base (`docs/ARCHITECTURE.md`
 the sibling sections cited, and nothing else (§17.1). Every fact the base or another volume states is cited, never
 restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a design
 volume's section, this one included (`V09 §4.3`); a list after a volume prefix stays in that volume (`V04 §3.5,
-V04 §3.10`); `item n` is an amendment item — items 1–101 the owner's instructions, 102–119 file g's owner and program rules,
+V04 §3.10`); `item n` is an amendment item — items 1–101 the owner's instructions, file g's items, from 102, its owner and program rules,
 200 and above file f's, each the applied text of a volume's base change request (V09 §10 lists this volume's); `J-VI.n`
 is a volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V9.n`
 (V09 §9), tests `T-V9-n` (V09 §7). **Words.** Every word the application shows a user is quoted here in "double quotes"; those
@@ -37,7 +37,7 @@ buildings it will hold, and handles you can drag. Nothing is final until you let
 press of undo takes it back. If what you ask cannot be done exactly, the program does the nearest thing it can and
 says so in one plain sentence ("The wall follows the ridge; it was 40 m off your line"), with the other lawful options one
 click away. It holds back only where it honestly cannot do what you ask: a fact a SettlementForge record fixes, something
-you locked, a change another person's later work depends on, or a drawing tool on a screen too small for it. Even then it
+you locked, or a change another person's later work depends on. Even then it
 says why in one sentence and offers at least one thing it can do instead.
 
 **Your work is never lost.** Every change is saved the moment you make it, on your own computer, with no account and
@@ -96,9 +96,8 @@ arrives in the game already walled, lit and on its grid, GIS data, and 3-D model
 before it writes, and none of them changes the town. Sharing gives a link when the town can be rebuilt from one, and
 otherwise the file.
 
-**On a tablet or a phone.** A tablet gets every tool with touch (press and hold opens the menu that a right-click
-opens). A phone is for looking, naming, placing things from a list, dressing and exporting; the drawing tools that need
-precise handles wait for a bigger screen, and the phone says so where they would be.
+**On a tablet.** A tablet gets every tool with touch (press and hold opens the menu a right-click opens). The map is not
+offered on a phone (item 126).
 
 **The assistant.** An optional assistant, clearly labelled as AI and off until you open it, can take a sentence like "a
 walled harbour town with a temple quarter" and propose it as ghosts you accept or refuse, answer "why is this here?",
@@ -129,8 +128,8 @@ extension slot. Concretely, this volume settles:
 
 1. **The screens** — the empty state and the new-town flow (V09 §5.2); the editor frame (top bar, tool rail, map region
    with its overlays, context panel, view bar, drawers; V09 §5.1); the panels (selection and its tabs, tool options, the
-   report, history with restore points, the gazetteer and "features in view", the advanced panel and the tables editor,
-   style and dress, names); the sheets and dialogs (confirm the fates, export in five families, share, settings, open and
+   report, history with restore points, the gazetteer and "features in view", Find, the advanced panel and the tables
+   editor, style and dress, names); the sheets and dialogs (confirm the fates, export in five families, share, settings, open and
    recent towns, the keymap overlay, about); the clerk drawer; the overlays (ghost, handles, count badge, snap
    highlight, the variations tray, the bend line, the refusal card, first-use hints, toasts); the thematic views the owner's
    file-g rules ask the interface for (the shade map, the supply links, the siting "Why here?" card).
@@ -138,8 +137,8 @@ extension slot. Concretely, this volume settles:
    cancel) with its latency budget; confirmation of fates and renames; variations and New random on a scope; undo, redo,
    restore points and "open a copy from here"; autosave with crash recovery; export; share; settings; accepting or
    refusing a clerk's proposal.
-3. **The input model** — pointer, pen, touch and keyboard, one gesture grammar across them; the responsive classes and
-   what a phone may do (V09 §4.12, J-V9.9); accessibility beyond §14's contract.
+3. **The input model** — pointer, pen, touch and keyboard, one gesture grammar across them; the two layout classes — the map on
+   tablets and desktops only (V09 §4.12, J-V9.9; item 126); accessibility beyond §14's contract.
 4. **The tool binding's screens** — §7.1's binding table (one home tool per event kind and target class or path, E-04)
    is the base's; this volume gives every row its gestures, its context-panel control and its screen (V09 §4.3), with a
    completeness test (T-V9-12).
@@ -153,8 +152,8 @@ extension slot. Concretely, this volume settles:
    106 (g)); a collective record's member list (item 108 (a)–(b)); a chain named as a working quarter only past item 72's
    threshold (item 104 (h) (3) as revised by item 107 (e)). The base mechanisms of those items are file g's; this volume
    designs only their screens and gestures. The declarations the edits store are volume 11's document-only tables
-   (V11 §4.2), which the screens write by `editTable` (V09 §2.6), and every answer a panel shows is volume 10's
-   `WhyAnswer` (V10 §2.13), projected for the card (V09 §2.7).
+   (V11 §4.2), which the screens write by `editTable` (V09 §2.6), and every answer a panel shows is §11.2's
+   `WhyAnswer`, projected for the card (V09 §2.7).
 8. **Item 109's screens** — the game master's view of sealed and lost caverns and ruins (V09 §4.17.1); the system chip that
    draws a gallery or chamber into a named system and starts a new ruin, cavern or catacomb (V09 §4.17.2); how each way down
    came about and the path in (V09 §4.17.3); dwellings only after a way in (V09 §4.17.4); the catacomb, crypt and cemetery
@@ -164,7 +163,8 @@ extension slot. Concretely, this volume settles:
    import critique and transcript export (V09 §4.11, V09 §3.12, V09 §5.10, V09 §5.12); volume 6's "Re-run from here",
    chronicle and use-history tables, animated history and history import (V09 §3.9, V09 §3.12, V09 §5.10); volume 2's
    massing handles and family strip (V09 §3.5); volume 5's shade strips and "Update shade now" (V09 §5.4); volume 7's
-   whole-circuit view (V09 §5.4); volume 1's coverage and voids views (V09 §5.4); and the base's view keys, people search,
+   whole-circuit view (V09 §5.4); volume 1's voids view (V09 §5.4) and its area and gap services under Find
+   (V09 §4.21.10); and the base's view keys, people search,
    family tree, clock, notes, pins and ruler that no other volume places (V09 §4.18, V09 §4.19).
 10. **Item 110's tools** (V09 §4.20; J-V9.58) — T3 `wall`'s **Retaining wall** mode and T2 `ground`'s **Terrace** mode (V09 §4.20.1); T4 `road`'s
    **Raised** toggle and **Aqueduct** chip (V09 §4.20.2); removing a generated raised way, and building it again
@@ -174,12 +174,16 @@ extension slot. Concretely, this volume settles:
    item 110 on the Sky layer (V09 §4.20.9); the item-110 exports (V09 §5.10; file f item 447); an author's removals in the
    skeleton (V09 §3.12; file f item 455); and the second known-city fixture through the canvas (V09 §7.2). The events
    these tools send are file f item 362's.
-11. **Items 111–119 on screen** (V09 §4.21) — T2's spring flag for an oasis (item 111); the colour-vision setting and the
-   second cue of every thematic view of this volume (item 112 (a)) and the game-master trial's running (item 112 (b),
-   V09 §7.6); the history option in T1 `intend`'s sheet and a lost void's panel line (item 113); the wall repair's material and the
-   wall states in the legend (item 114); a hand edit beyond the grandeur ceiling, honoured and explained (item 115); the
-   view controls' stop at the zoom-out limit (item 116); the season control and its follow switch (item 117); the festival
-   list and its switch (item 118); the progress view of a one-time wait (item 119).
+11. **Items 111–126 on screen** (V09 §4.21) — T2 `ground`'s spring flag for an oasis (item 111); the colour-vision setting
+   and the second cue of every thematic view of this volume (item 112 (a)) and the game-master trial's running (item
+   112 (b), V09 §7.6); the history option in T1 `intend`'s sheet and a lost void's panel line (item 113); the wall repair's
+   material and the wall states in the legend (item 114); a hand edit beyond the grandeur ceiling, honoured and explained
+   (item 115); the view controls' stop at the zoom-out limit (item 116); the season control, its follow switch and the
+   week's fallback (items 117, 125); the festival list and its switch (item 118); the progress view of a one-time wait,
+   naming a coarsened cadence (item 119); Find, with Show gaps in place of the Coverage view (item 120); Settings ›
+   Display › Resolution and the view-status chip (item 121); Show crises, the crisis preview, the why lines, the crisis
+   card and the framing that takes in the camps (item 122); a ruined building's damage lines (item 123); the advanced
+   panel's Weather effects and Start a shower now (item 124); the two layout classes, with no phone layout (item 126).
 12. **The edges** — every mechanism of this volume at its limits, with its outcome, failure rung and test (V09 §3.16).
 
 ### 1.2 The base hooks consumed, by section
@@ -188,36 +192,38 @@ extension slot. Concretely, this volume settles:
 |---|---|
 | §1.2 | the one-click default request — the empty state's town (V09 §5.2) |
 | §2.8 | the entity registry's per-type edit kinds, undo paths and lifecycle rows — generate the context panel's controls (V09 §4.4); `factTier` — the tier chips on every panel row; `Provenance.symbolic` (item 113 (f)) — the symbolic chip |
-| §2.9 | the document (`view`, `derived`, `undo` sections), the view keys and their writers, the stored authoring `session`; the `.plat` writer the autosave uses |
+| §2.9 | the document (`view`, `derived`, `undo` sections), the view keys and their writers — `find` and `FindChip` (item 120), `crises` (item 122), *The crisis framing* (item 122 (i)), *The week's source* (item 125) and *Weather effects* (item 124) among them — the stored authoring `session`; the `.plat` writer the autosave uses |
 | §4.1, §7.7 | the skeleton file as a creation prefix; the forms catalogue and `Intent` behind T1 `intend`'s cards; §4.2 S0's history option (item 113) |
-| §5.2, §5.4 | F-EDIT and its `ConflictAction`s — the refusal card; the generation report — the report panel |
-| §6.1, §6.4 | the `intent.surprise` stream (Surprise me), Enter's successor seed; permalinks, their refusal reasons, the output-version and preview notices |
+| §5.2, §5.4 | F-EDIT and its `ConflictAction`s — the refusal card; the generation report — the report panel, its recipe line (`GenerationReport.recipe`) among its lines |
+| §6.1, §6.3, §6.4 | the `intent.surprise` stream (Surprise me), Enter's successor seed, the view-only `view.weather` stream (item 124); the `plan.damage` thresholds the damage lines read (item 123); permalinks, their refusal reasons, the output-version and preview notices |
 | §7.1–§7.4 | every event kind, the named actions, the dry run and its outcome table, the toolkit (twelve tools, the binding table, sugar, points forms), declared means held, fates, variations, undo and redo with sessions, independence and truncation |
 | §7.5, §7.6, §7.8 | the upgrade diff; the override layer, preferences folded at creation, the tables editor and presets dialog; the control registry, the ≤ 12-control basic panel, proxy thumbnails, layer and light controls |
-| §8.2, §8.4, §8.5, §8.8, §8.9 | live layers (`live.ghost`, `live.selection`, `live.stale`) and thematic rows, the second cues and the checked variants (item 112); the light keys; the LOD bands and the first map; the tile pyramid and its per-map zoom-out limit (item 116); the worker boundary and its snap, coverage and furniture queries |
+| §8.2, §8.4, §8.5, §8.8, §8.9 | live layers (`live.ghost`, `live.selection`, `live.stale`) and thematic rows, the second cues and the checked variants (item 112), Find's rows (item 120), the crisis look rows (item 122); the light keys and the per-frame weather layer (item 124); the LOD bands and the first map; the tile pyramid, its per-map zoom-out limit (item 116, stop 0 where nothing fits) and the ring's massed marks (item 122 (i)), the hardware tiers, the resolution ladder, the Auto loop and the view status (item 121); the worker boundary and its snap, coverage and furniture queries |
 | §9.1, §9.2, §9.4, §9.5 | labels, `displayText`, region groups; the knowledge admission function (E-17); the leader-line switch; furniture, the legend, the ruler, the authoring surfaces (handles, feature snap, count badge), the underlay, framing |
-| §10.3 | the people query (gazetteer), the family-tree view (module tier) |
-| §11.1–§11.3, §11.5 | the export formats and their knowledge rule; `PlatApi` (`generate`, `open`, `edit`, `preview`, `confirm`, `cancel`, `undo`, `redo`, `query` with `why`, `view`, `setView`, `export`, `report`, `subscribe`); roles and view keys over a bridge; `DocResolver` |
-| §12, §12.5, §12.6 | the ten-second comfort level of a one-time wait, §12's laws staying the targets, and its progress rule (item 119); first-map and frame budgets; edit, preview and warp budgets — the latency budget of V09 §6 is built from them |
-| §13.2, §13.4, §13.6 | the bars of items 101 and 110–119; the app harness, scripted tasks, accessibility, input scheme, the first-five-minutes test; the protocol shape reused by the owner's UX sitting |
+| §10.2, §10.3 | the crisis look table (item 122); the people query (gazetteer), the family-tree view (module tier), re-derive people (§7.4's regenerate row of scope `people`) |
+| §11.1–§11.3, §11.5 | the export formats and their knowledge rule; `PlatApi` (`generate`, `open`, `edit`, `preview`, `confirm`, `cancel`, `undo`, `redo`, `query` with `why` and the gazetteer's class counts and match listing (item 120), `view`, `setView`, `export`, `report`, `subscribe`; `generate`'s and `export`'s `signal`, `advance`'s `stopAfter`, `edit`'s `onProgress`); roles and view keys over a bridge; `DocResolver` |
+| §12, §12.5, §12.6 | the ten-second comfort level of a one-time wait — an advance and a history-first generation in total (item 119 (a2)) — §12's laws staying the targets, and its progress rule (item 119); first-map and frame budgets, the overlay budget Find draws within (item 120 (j)); edit, preview and warp budgets — the latency budget of V09 §6 is built from them |
+| §13.2, §13.4, §13.6 | the bars of items 101 and 110–126; the app harness, scripted tasks, accessibility, input scheme, the first-five-minutes test; the protocol shape reused by the owner's UX sitting |
 | §14 | `@plat/app`, the interaction contract R1–R19, the per-tool interactions, the input scheme, accessibility, context help, the family-tree view |
 | §16 | the milestones the application's steps slot into (V09 §8); the release gate (item 112 (b)) |
 | §17.1, §17.2 | the clean room (our own UI words and colours); the bundled fonts |
 | item 110's homes (file f items 244–246, 362–364, 447, 455, 465, 466) | §2.7's `RetainingWall`, the raised ways' parts, supports and spans with their use, the deck plots; §3.4's ground arena parts from 1; §4.3 and §4.6's raised-way course solver, stairs and ramps; §4.7 S10–S11's levelling and deck plots; §4.8's moles, piers and quays; §5.3's revised deck invariant; §7.1's events and edit targets; §7.3's S7 row; §8's drawing and shadows of raised parts and retaining walls; §11.1's formats and skeleton; §11.2's preview effects and hit stack |
 
-**Volumes read** (each cited where it is used): V01's parameters on T1 `intend`, T6 `place`, T8 `fill` and T12 `dress` and its close-up panel (V01 §4.2,
-V01 §4.5); V02's `setMassing` and `setComposition` under T9 `shape`, the canvas-handle contract, the stack and deck records and
-their bends (V02 §1b, V02 §2.6, V02 §4.1, V02 §4.5, V02 §4.6); V03's storey switcher, plan panel, plan tools and crypt
-(V03 §3.7.4, V03 §4.1, V03 §4.2, V03 §4.5); V04's underground tool mapping, depth band, ruins, the access pass and its
-causes, the excavation reading with its lost state, catacombs and the unexcavated style (V04 §1b, V04 §2.2, V04 §3.5.1,
-V04 §3.5.4, V04 §3.5.7, V04 §4.1–V04 §4.4, V04 §5.1–V04 §5.5); V05's sky tool mapping, the `key` parameter, the shade strips
-and "Update shade now" (V05 §3.22, V05 §4.1, V05 §4.2, V05 §5.1); V06's history store and frame cache (reading this volume's device settings, V09 §5.12), time card, timeline bar,
-chronicle, `forkAt`, `rerunFrom`, the reason key, the raised-way ledger and the suppression (V06 §2.2, V06 §2.13, V06 §4.1,
-V06 §4.4, V06 §5.1–V06 §5.3); V07's village rungs, `declareEnd` and walk-mode roads (V07 §4.2); V08's host mode, host
-clerk seam and embed entry (V08 §3.1, V08 §4.4, V08 §5.1) and V08 §2.6b's aqueduct and elevated-road rows; V10's
-settings, sessions, proposals, the drawer's view model and the oracle's typed answer (V10 §2.2–V10 §2.13, V10 §3.1,
+**Volumes read** (each cited where it is used): V01's parameters on T1 `intend`, T6 `place`, T8 `fill` and T12 `dress`, its close-up panel and its area and gap services
+`findAreas` and `gapUnits` (V01 §4.2, V01 §4.5, V01 §5.4); V02's `setMassing` and `setComposition` under T9 `shape`, the canvas-handle contract, the stack and deck records and
+their bends (V02 §1b, V02 §2.6, V02 §4.1, V02 §4.5, V02 §4.6); V03's storey switcher, plan panel, plan tools, crypt, damage layer and `findRooms`
+(V03 §3.7.4, V03 §4.1, V03 §4.2, V03 §4.5, V03 §5.5); V04's underground tool mapping, depth band, ruins, the access pass and its
+causes, the excavation reading with its lost state, catacombs, the unexcavated style and `underFindPlaces` (V04 §1b, V04 §2.2,
+V04 §3.5.1, V04 §3.5.4, V04 §3.5.7, V04 §4.1–V04 §4.4, V04 §5.1–V04 §5.5); V05's sky tool mapping, the `key` parameter, the shade strips,
+"Update shade now" and Find on Sky (V05 §3.22, V05 §4.1, V05 §4.2, V05 §5.1, V05 §5.6); V06's history store and frame cache (reading this volume's device settings, V09 §5.12), time card, timeline bar,
+chronicle, `forkAt`, `rerunFrom`, the reason key, the raised-way ledger, the suppression, the cadence's coarsening and
+`decayLevel` (V06 §2.2, V06 §2.13, V06 §4.1, V06 §4.4, V06 §5.1–V06 §5.3, V06 §6.8); V07's village rungs, `declareEnd`, walk-mode roads and Find's village targets (V07 §4.2, V07 §5.5); V08's host mode, host
+clerk seam and embed entry (V08 §3.1, V08 §4.4, V08 §5.1), V08 §2.6b's aqueduct and elevated-road rows and the
+dossier's Find entries (V08 §3.16 (6)); V10's
+settings, sessions, proposals, the drawer's view model and the oracle's providers (V10 §2.2–V10 §2.13, V10 §3.1,
 V10 §3.11, V10 §3.17–V10 §3.21, V10 §4.2–V10 §4.4, V10 §5.1–V10 §5.4); V11's siting profile, families and their `says`,
-the document-only tables and their lifecycle, and the `raisedWays`, `terrace` and `deck` rows (V11 §2.3–V11 §2.4,
+the search lexicon (labels, synonyms, `findGroup`) and `CoverageSpec`, the document-only tables and their lifecycle,
+and the `raisedWays`, `terrace` and `deck` rows (V11 §2.3–V11 §2.4,
 V11 §3.3.1, V11 §3.24, V11 §4.1–V11 §4.5); V12's evidence file and register (V12 §2.6, V12 §3.11). Where this volume needed
 something of a sibling it asked in V09 §10.2, whose every row is closed at its destination.
 
@@ -254,12 +260,17 @@ something of a sibling it asked in V09 §10.2, whose every row is closed at its 
   V04 §3.5.7); a church's crypt, its rank cap and its wet-ground rule are V03's (V03 §3.7.4) and the cathedral's crypt
   basement V02's no-refusal crypt ladder (V02 §3.14.5). This volume shows them, maps gestures to their events and words
   their messages (V09 §4.17).
-* **Items 111–119's rules** — the oasis and the water pull, the style families' second cues and checked variants, the
+* **Items 111–126's rules** — the oasis and the water pull, the style families' second cues and checked variants, the
   history replay, the wall condition ladder and its drivers, the grandeur ceiling, the zoom-out limit, the season and
-  festival rows, the ten-second comfort level and its quality budget — are the base's and their volumes' (item 111 at §4.2 S0–S1
-  and §7.1; item 112 at §8.2 and §13.2; item 113 at §4.2 S0, §4.11 and V06; item 114 at §2.7, §7.1 and V06 §3.7.7; item 115
-  at §4.7 S10b and V02; item 116 at §8.8; items 117 and 118 at §2.9, §7.7 and §8.2; item 119 at §12); this volume designs
-  their controls, words and panels (V09 §4.21).
+  festival rows, the ten-second comfort level and its quality budget, Find's key, rows and gazetteer listing, the
+  resolution ladder and its Auto loop, the crisis looks and their table, the damage layer and its thresholds, the weather
+  effects and their stream, the week's source — are the base's and their volumes' (item 111 at §4.2 S0–S1 and §7.1;
+  item 112 at §8.2 and §13.2; item 113 at §4.2 S0, §4.11 and V06; item 114 at §2.7, §7.1 and V06 §3.7.7; item 115 at
+  §4.7 S10b and V02; item 116 at §8.8; items 117 and 118 at §2.9, §7.7 and §8.2; item 119 at §12 and V06 §6.8; item 120 at
+  §2.9, §8.2, §11.2, V01, V03, V04, V05, V07, V08 and V11; item 121 at §8.8 and §8.4 (g); item 122 at §2.7, §2.9, §7.7's
+  DR44, §10.2, §8.2, §8.8, V01, V02, V03, V06, V07, V08 and V11; item 123 at §2.6 step 7, §6.3, V03, V04 and V06; item 124
+  at §2.9, §6.1, §8.4, §8.8 and V11; item 125 at §2.9, §4.11, §7.7 and V08); this volume designs their controls, words and
+  panels (V09 §4.21), and item 126's two layout classes are its own (V09 §4.12).
 * **The people and the family tree's contents** — the relation store, postings, schedules and the clock's hours — are
   §10.3's module (`@plat/sim`, M4b); this volume places their screens (V09 §4.18).
 
@@ -287,15 +298,19 @@ registries mechanically.
 | placement alternatives (4.5 T6 `place`) | the top three `SiteCandidate`s of the `sites` query (file f items 463, 468) | T6's faint alternative sites; the refusal and bend cards' "put it here" | §4.7 S10b's closest sites |
 | `sizeM2` on a quarter's points form (4.5 T5 `quarter`) | the badge's plus / minus and the size chips | S6's grower's target in `quarter`'s dry run (file f item 348) | §7.1 `PointsForm` |
 | `Selection`, `HandleSet`, `CountBadge` (2.5) | clicks, lists, lassos; the selected geometry by V09 §3.5's rules; `PreviewResult.counts` | the context panel, the handles' drags (3.5), `live.selection` | §8.2 `live.selection`; §9.5 |
-| the context panel and context menu generator (4.4) | §2.8's entity registry (edit kinds, attribute paths with their labels and help anchors, `factTier`), the entity schemas and §7.8's control registry | panel controls and menu entries → `setAttr`, `setAttrMany`, `editTable`, the kinds §7.1's binding homes | §2.8, §7.8; file f item 269 |
+| the context panel and context menu generator (4.4) | §2.8's entity registry (edit kinds, attribute paths with their labels and help anchors, `factTier`), the entity schemas and §7.8's control registry | panel controls and menu entries → `setAttr`, `setAttrMany`, `editTable`, the kinds §7.1's binding homes; a use's **Find all {kind}s** → the Find panel's kind chip (4.21.10) | §2.8, §7.8; file f item 269 |
 | map-side siting, link and split declarations (2.6) | `editTable` row operations on V11's document-only tables `siting.declared` and `siting.linkEdits` from the Shape tab, the per-kind panel, the link view and a clerk's accepted proposal | V11's resolver and S10b's score, the link binding, the split placement (V11 §4.2–V11 §4.4); the `why` and `links` answers | file f item 380; items 104 (a) (1), 105 (h), (j) |
 | a wall stretch's grade override (4.7) | `setAttr(enceinte, 'profile/<arc>/grade')` | S7's operator as a fixed input | §4.8; item 106 (c); file f item 360 |
-| `WhyCardModel` (2.7) | V10's `WhyAnswer` from `query({ kind: 'why' })` (file f item 468; each kind's `WhyProvider`, file f item 270, and each `WhySectionProvider`'s rows, V10 §3.9) with row ids resolved to sentences by V11 §4.5 | the why card (5.8), the source chips (4.7), the drawer's why turn (4.11), the underground panels (4.17) and item 110's panels and why lines (4.20.6) — `sections` drawn by all of them | §11.2's oracle |
+| `WhyCardModel` (2.7) | §11.2's `WhyAnswer` from `query({ kind: 'why' })` (file f item 468; each kind's `WhyProvider`, file f item 270, and each `WhySectionProvider`'s rows, V10 §3.9) with row ids resolved to sentences by V11 §4.5 | the why card (5.8), the source chips (4.7), the drawer's why turn (4.11), the underground panels (4.17) and item 110's panels and why lines (4.20.6) — `sections` drawn by all of them | §11.2's oracle |
 | `LinkRow` (2.7) | the `links` query, read from the generation worker's link cache (3.15), bound by S10a/S10b's binding function | `live.links`, the Link card, the GeoJSON `supplyLink` features | §11.2; item 105 (a), (j); file f item 460 |
 | a record's members (4.7) | `EntityCard.members` (`query entity`, file f item 468) and `WhyAnswer.members` | the record panel, the gazetteer's counts | §11.2; item 108 |
 | `live.shade` provider (5.4) | `ModelView.fieldDriver('daylight')`; V05's held strips (`sky.island.shadeStrip`, `shadePending`) | the Shade view's tiles, its legend and readout; picture exports while it is on | §8.2 live layers; item 102 (f); file f item 411 |
 | `live.links` provider (5.4) | the `links` query | the Supply links view (overlay) | §8.2 live layers; file f item 411 |
-| `live.coverage`, `live.voids` providers (5.4) | V01's `catchmentOf` and `districtsAbove` (V01 §3.16) | the Coverage and Voids views | §8.2 live layers; file f item 411 |
+| `live.voids` provider (5.4) | V01's `districtsAbove` (V01 §3.16) | the Voids view | §8.2 live layers; file f item 411 |
+| the Find panel and the view key `find` (4.21.10) | the panel's list, type-ahead and chip grid; **Find all {kind}s** in a use's context menu (4.4); V10's `find` action (4.11; V10 §2.6) | `live.find`; the results list; picture exports and the export dialog's Find line (5.10; §11.1); V10's `read_map { kind: 'find' }` and `FindView` (V10 §3.9b (7)); T-V9-83 | §2.9's `find` and `FindChip`; §9.5; item 120 |
+| the Find panel's list and suggestions (4.21.10 (3)–(4)) | §11.2's gazetteer — its class counts and its match listing by class, area and layer — at `effectiveKey()`; V11 §2.3's labels, synonyms and `findGroup` through V09 §4.16 (3)'s matcher; V08 §3.16 (6)'s dossier entries; V01 §5.4's `findAreas(key)`; at the village rungs V07 §5.5's ends and field groups; the standing crisis looks (4.21.12 (7)) | the list's sections, the empty box's grid, the suggestions with their counts, the chips they add; T-V9-83 | §11.2; item 120 (b)–(c) |
+| `live.find` and its index (4.21.10 (6)–(8)) | per chip, §11.2's match listing at `effectiveKey()`; V04 §5.1's `underFindPlaces(doc, ids)` for the ids on underground parts; V05 §5.6 for the matches on Sky; V01 §5.4's `findAreas` for an area's shapes; V03 §5.5's `findRooms(plan, b, target)` for each matched building whose plan draws at the interior band | §8.2's Find rows — the veil, halo, outline, pins, count bubbles and ghost pins; the per-layer counts and **Go there**; the storey switcher's marks and "{n} found" and the plan panel's room-list marks (V03 §5.5); the results list; T-V9-83 | §8.2 live layers; §12.5's overlay budget; item 120 (e)–(f) |
+| Show gaps (4.21.10 (10)) | the `gaps` flag over the kind chips; V01 §5.4 (3)'s `gapUnits(chip, key)`, counted by V11 §2.3's `CoverageSpec`, an island's units by V05 §5.6 (4), a village's by V07 §5.5 | the dashed gap outlines labelled "none here" on every layer — the Coverage view's one successor (item 120 (i)); T-V9-83 | §2.9's `find`; §8.2; item 120 (i) |
 | `showCircuit` on the wall layer (5.4) | the wall layer's toggle, by `setLayer` (file f item 413) | S14 draws the barrier arcs after commit, in the town and village products (V07 §5) | §8.4 `LayerSpec`; item 106 (g) |
 | view keys `thematic`, `workingLayer`, `restore/<id>` (2.1, 2.8) | the view bar; the history panel | the live providers; the tools' layer; the restore flow | §2.9 view state; file f item 277 |
 | the Show menu's **SettlementForge's chains** entry (5.4) | the gazetteer's `customChain` rows as V08 §5.2's row lists them, read at the view's effective key after each load and each commit | `thematic: 'supplyChains'` → V08 §5.2's thematic row: its lines, legend and GeoJSON | §2.9 view state; §8.2 thematic rows; file f items 277, 410 |
@@ -303,16 +318,18 @@ registries mechanically.
 | **New decoration** (3.7, 4.5 T12 `dress`) | the Dress panel's button | the group V09 §4.5's T12 row states (J-V9.115) → the render-time hashes of `style.jitter` and `style.crowns` (§6.1; display only); the history line "New decoration" (4.10); volume 10's `restyle` value `'decoration'`, which reads V09 §4.5's T12 row | §6.1's rerollable concerns; §7.1 `rerollLayer`; §7.4 |
 | view key `showUnexcavated` (4.17.1) | the Below group's "Show hidden caves and ruins", offered only at tier `secret` | S14's unexcavated style (V04 §5.2), which draws unexcavated and lost clusters; a picture export at `secret` | §2.9, §11.3, §11.1; file f item 278 |
 | `ViewOpts.viewAs` (4.8) | the View as menu (a tier); a host's players' view, set by the embed's bridge handler as the party's key form (V08 §3.14 (5)) | §9.2's admission for this view's drawing and labels; `effectiveKey()` (2.10) — the `admitAs` of every band-less read (2.7), the key the shell lists the host's lines with (2.2), the clerk's session key and the export dialog's default knowledge (file f item 453) | §9.2's admission function; §11.2 view options; file f items 464, 572 |
-| the base's own view keys placed on screen (4.19) | the Map, Below and Light groups, the Notes panel, the Dress panel, a viewer's style card | `rotation`, `plotsOnly`, `elaborate`, `handLantern`, `weather`, favourites, notes, public notes, view pins, `stylePreset`, the grid, legend and emblem settings — their readers are the base's | §2.9 view state; §9.5 |
+| the base's own view keys placed on screen (4.19) | the Map, Below and Light groups, the Notes panel, the Dress panel, a viewer's style card | `rotation`, `plotsOnly`, `elaborate`, `handLantern`, `weather` (its `snow` offered only where snow can lie, R2-39 (b)), favourites, notes, public notes, view pins, `stylePreset`, the grid, legend and emblem settings — their readers are the base's | §2.9 view state; §9.5 |
 | the ruler (4.19) | key M and the view bar's button | a length or area readout; "Save as annotation" (a view pin) | §9.5 measure tool |
 | the system chip and "New ruin / cavern / catacomb" (4.17.2) | the town's `UndergroundSystem` records by name and kind; item 109's admissibility by rung | `drawTunnel { system }`, `drawChamber { system }`, `drawChamber { system: { newKind } }` | §7.1; file f item 361 |
 | "How people get down here" (4.17.3) | `AccessPoint.cause`, `UndergroundLink.cause` (V04 §2.2) and the excavation reading's connection graph (V04 §3.5.7) | the access, cavern and ruin panels; "Show the way in"; the access symbol by cause; the access edits | II.7.4; V04 §3.5.7 |
 | a lost void's line (4.17.1, 4.21.3) | V04's excavation reading `lost` and its `ExcavationRecord` (V04 §2.2, V04 §3.5.7) | the void's panel line, the Below legend's "Once known" entry, "Show hidden caves and ruins" at tier `secret`; T-V9-73 | II.7.4; item 113 (e) |
 | the dwelling closure (4.17.4) | a dwelling or undercity declaration on an `unexcavated` cluster; for **Use another building**, the dry run's `PreviewResult.alternatives` (file f item 372) | the access closure's pieces with the dwelling, dug by V04 §3.8's U-DIG; the bend card's **Use another building** re-preview; the clerk's `propose` for the alternative (V10 §3.16) | §7.3 item 9 |
 | the catacomb, crypt and cemetery panels (4.17.5) | `CatacombComplex` (V04 §2.2), `Basement.crypt` (V03 §3.7.4), the crypt join's `AccessPoint` (cause `crypt`), the burial face and V01's opening place | the panels, the extent chart, the bends' words, the fates of an author's delete | II.7.6; V04 §3.5.1 |
-| the People panel, the family tree, "Where is", the clock (4.18) | `query people`, `relations`, `whereIs`; the `time` key and `sim.advance` | the panels; the map's highlight of home and work | §11.2; §10.3; §14's family-tree view |
+| the People panel, the family tree, "Where is", the clock (4.18) | `query people`, `relations`, `whereIs`; the `time` key and `sim.advance` | the panels; the map's highlight of home and work; Find's **Where is someone?** (4.21.10 (3)) | §11.2; §10.3; §14's family-tree view |
+| **Re-derive people** (4.3 T10 `hold`, 4.18) | the households chosen in the People panel, or a household's card | `regenerate` of scope `people` (§7.4's regenerate row; §10.3's re-derive people), advancing each `Household.tableVersion` (§2.7), previewed with its fates, one undo step; the history line (4.10); T-V9-12 | §7.4; §10.3; R2-22 |
 | `HistoryRow` (2.8) | the log (and the journal's times) | the history panel, the context panel's History tab, a generic host's viewer filter (`HostSlots.historyFilter`, §11.3) | §7.4 status; §2.9 log |
 | `HistoryRow.lines`, `.dossierGroup` and the dossier groups (2.8, 4.10) | the log's `dossierFacts` events — their `changes` count, the `absorbed` week, their `notes` (V08 §3.6 step 4) — and the port's `host:port` events after each; `report(h)`'s `changes` (§5.4); `query({ kind: 'entity', dossierKey })` and `query({ kind: 'entity', id })` at `effectiveKey()` (file f item 583); V06's `EpochReport.raised.suppressedFired` for the epoch rows' lines | the history panel's absorb and creation groups: heads, note lines, report-entry lines, Show (V08 §4.6's absorb group); T-V9-69 | §7.4; §5.4; §11.2; V08 §4.6 |
+| the report panel's recipe line (5.7) | §5.4's `GenerationReport.recipe` (the seed, the rung and the preset) | the report's recipe line under its head, `info.recipe.line` with `info.recipe.preset` when a preset is named; T-V9-15 | §5.4 |
 | the report panel's dossier section (5.7) | `report(h)`'s `GenerationReport.dossier` and `.dossierNotes` (file f item 390); the note keys by file f item 583; the entries' addresses named by `entity` reads at `effectiveKey()` | the placement list (`report.dossier.<state>`) and the standing-note lines under `host.group.standing`; T-V9-69 | §5.4; V08 §4.6 |
 | the report panel's "What its past left" (5.7, 4.21.3) | §2.7's `HistoryRecord` (the peak, its evidence and `symbolic`, the refoundings, the buried systems) and V06's replay record (V06 §2.14) | the report panel's history lines with Show; the symbolic chip on a fact whose provenance carries `symbolic` (§2.8); T-V9-73 | §2.7, §2.8; §4.11; item 113 |
 | restore flow and re-run (3.9) | a row or a restore point | `undo(h, of)` groups; `forkAt`, `rerunFrom` (V06 §4.4); in host mode the new document written by `export(h, 'plat')` to the user's device and released, or the controls hidden (`HostSlots.newDocuments`) | §7.4; file f item 458 |
@@ -326,7 +343,7 @@ registries mechanically.
 | the share sheet (5.11) | `export(h, 'permalink')`, §6.4's refusal conditions | the clipboard; the file download | §6.4, §11.5 |
 | the three load outcomes (3.14 (a)–(c)) | `open`'s load (§2.9 *Load* steps 2–3; §6.4's retention window) | V09 §3.14 (a)–(c)'s screens and their actions; the history rows (4.10); T-V9-67 | §2.9 *Load*, §6.4, §7.4's rebase row, §7.5 |
 | the locus wording (4.16 (6)) | a `Locus` (a roster line's, an `assign`'s) and its target's name from the `gazetteer` query at the view's effective key (2.7) | `refuse.roster.dossier`'s `{locus}` (4.9), the history template "Asked for {name} {locus}" (4.10), volume 10's `dossier` row (V10 §3.16); T-V9-13 | §7.1's `Locus`; §11.2 `gazetteer` |
-| `F5Record`, `UxSittingRecord` (7.3, 7.4) | the first-five-minutes sessions; the owner's sitting | `MilestoneRecord.ux` of M2a, M3a and M3b (file f item 490) | §13.3, §13.4, §13.6's protocol shape |
+| `F5Record`, `UxSittingRecord` (7.3, 7.4) | the first-five-minutes sessions; the owner's sitting | `MilestoneRecord.ux` of M2a, M3a, M3b and M3c — M3c's clerk session (file f item 490; §13.4) | §13.3, §13.4, §13.6's protocol shape |
 | `TrialRecord` (7.6) | the game-master trial's sessions and its report (item 112 (b)) | volume 12's calibration record and the fix list; §16's release gate (T112-2); T-V9-72 | §13.2 (T112-2); §16's release gate |
 | the canvas script (3.12, 7.2) | the known-city fixture's gesture list, each gesture with its view scale and centre | the app harness; T101-6's agreement bar | §13.2's elegance bars; §13.4 harness |
 | item 110's events (4.20; file f item 362): `drawWall` of kind `retaining` with `highSide`, `drawWay` with `raised` and the `aqueduct` class, the `terrace` sugar, `setAttr` of `spans/<n>/use` | T3 `wall`'s Retaining wall mode, T2 `ground`'s Terrace mode, T4 `road`'s Raised toggle and Aqueduct chip, T9 `shape`'s span chips; volume 10's encoders; a skeleton's prefix | the fold (the base's `RetainingWall`, raised parts and span use); the journal (3.8); the history templates (4.10); T-V9-12's walker | §7.1 (file f item 362) |
@@ -350,11 +367,16 @@ registries mechanically.
 | the wall repair's material (4.21.4) | T3 `wall`'s **Repair** mode, its **Material** chip (robust, or a patch row of V11's `walls.patchMaterials` by the wall's kind and culture) | `convert repairWall` with its material (§7.1; item 114 (f)); the history template; the wall's panel line; T-V9-74 | §7.1; §2.7 `Enceinte.condition`; item 114 |
 | the wall states in the legend (4.21.4, 5.4) | §8.2's state rows for `standing`, `worn`, `patched`, `breached`, `dismantled` | the legend panel's wall lines and each state's second cue; T-V9-74 | §8.2; §9.5; item 114 (e) |
 | the grandeur note (4.21.5) | the dry run of a hand placement or reshape above the rung's grandeur ceiling (item 115 (c)): honoured, its line `info.grand.beyondTier` | the preview card and the badge's line, the building's why card fact; V10's explanation (V10 §3.9); T-V9-75 | §7.1's outcome table; §4.7 S10b; item 115 |
-| the zoom-out stop (4.21.6) | §8.8's per-map zoom-out limit (the stop where `bounds` fits the viewport's short side, plus one) | the view bar's zoom control, the wheel and pinch, **Fit the town**, the export dialog's frame; T-V9-76 | §8.8; §9.5; item 116 |
-| the season control (4.21.7) | the view bar's **Season** control: a week slider, the four season chips and **Follow SettlementForge** | §2.9's year position and follow flag → §8.2's season rows; the export dialog's season line; V10's explanation; T-V9-77 | §2.9; §7.7's calendar row; §8.2; item 117 |
-| the progress view (4.21.9) | the worker host's stage messages (§11.2's worker boundary (`onProgress`); §12's progress rule) and each one-time wait's own steps (epochs, export tiles, replayed calls; the events a Go back to here undoes) | the progress strip and its line (`progress.*`), the first map's stages filling in under it; T-V9-79 | §12 (item 119) |
+| the zoom-out stop (4.21.6) | §8.8's per-map zoom-out limit (the stop where `bounds` fits the viewport's short side, plus one; stop 0 where none fits, R2-30), over the bounds of town and camps while a crisis look stands (§2.9's *The crisis framing*) | the view bar's zoom control and its tooltip (`info.zoom.limit`, `.limitCamps`, `.coarsest`), the wheel and pinch, **Fit the town**, the opening view, the export dialog's frame; T-V9-76 | §8.8; §9.5; §2.9; items 116, 122 (i) |
+| the season control (4.21.7) | the view bar's **Season** control: a week slider, the four season chips and **Follow SettlementForge** | §2.9's year position and follow flag → §8.2's season rows; the export dialog's season line; V10's explanation; T-V9-77 | §2.9; §7.7's DR42; §8.2; items 117, 125 |
+| the progress view (4.21.9) | the worker host's stage messages (§11.2's worker boundary (`onProgress`); §12's progress rule) and each one-time wait's own steps (epochs, export tiles, replayed calls; the events a Go back to here undoes, from `edit`'s `onProgress`, §11.2's `'undo'`; an open's verification replay, `'verify'`); the cadence chosen where a run coarsened (`EpochReport.advance.cadenceWeeks`, `ReplayPlan.epochYears`; V06 §6.8) | the progress strip and its line (`progress.*`, naming the cadence), the view status's `progress.verify` line, the first map's stages filling in under it; **Stop** through `cancelAdvance` and `generate`'s and `export`'s `signal`; T-V9-79 | §12 (item 119, (a2)); §11.2 |
 | the edge suite's outcomes (3.16) | each mechanism's own inputs at their limits | the `edge.*` rows, the refusals and bends named there; T-V9-80 | §5.1's ladder |
-| the festival list (4.21.8) | §7.7's traditions row (the dossier's festivals and their weeks) or, standalone, the generic festivals by culture and season | §2.9's festival display (follow · off · preview a festival) → §8.2's decoration rows; the export's festival name; T-V9-78 | §2.9; §7.7; §8.2; item 118 |
+| the festival list (4.21.8) | §7.7's DR43 (the dossier's festivals and their weeks) or, standalone, the generic festivals by culture and season | §2.9's festival display (follow · off · preview a festival) → §8.2's decoration rows; the export's festival name; T-V9-78 | §2.9; §7.7; §8.2; item 118 |
+| `AppPrefs.resolution` and the view-status chip (4.21.11) | Settings › Display › **Resolution** (5.12); §8.8's Auto loop's level in force and its reason | §8.8's resolution ladder and tile DPR at boot and on each change; the chip and its tooltip; `info.resolution.fallback`; T-V9-84 | §8.8; §8.4 (g); J-R22; item 121 |
+| the view key `crises` — Show crises and the crisis preview (4.21.12 (1)–(2)) | the Show menu's switch and **Preview a crisis** (the look kinds of §10.2's crisis look table) | §8.2's look rows; the legend's crisis entries (§9.5); the crisis framing (4.21.6); the picture exports' line (5.10); T-V9-85 | §2.9's `crises`; item 122 (e) |
+| the crisis why lines, card and forces' numbers (4.21.12 (4)–(5)) | the standing `ConditionOverlay`s by §7.7's DR44 at `effectiveKey()`; each condition's name and its forces' and groups' sizes as V08 carries them from the dossier (item 122 (h)) | the crisis card, the legend's crisis entries, the why card's `facts` row (5.8), Find's `crises` section (4.21.10 (3)); volume 10's explanations (the same keys); T-V9-85 | §7.7's DR44; §10.2; §8.8's ring; item 122 (f), (h)–(i) |
+| the damage lines (4.21.13) | V03's damage layer (§2.6 step 7; §6.3's `plan.damage`) at V06's `decayLevel(doc, lineage, week)` by the one comparison (R2-38 (4)), or a disaster look's `lookLevel` | the plan panel's lines and the why card's `plan` section (`info.damage.*`); volume 10's explanation (the same keys); T-V9-86 | §2.6 step 7; item 123 (e) |
+| `AppPrefs.weatherEffects` and **Start a shower now** (4.21.14) | the advanced panel's device group (4.14); its default by §8.8's tier and reduced motion | §8.4's per-frame weather layer at §8.8's place; the session's weather timeline (§6.1's `view.weather`) and its next spell; T-V9-87 | §2.9's *Weather effects*; §6.1; §8.4; item 124 (g) |
 
 **The dossier facts this volume shows** (it writes none; each is read through the port's digest and §7.7's rows):
 
@@ -383,10 +405,12 @@ registries mechanically.
 | that nothing of item 110 is dossier-bound | — | V08 §2.6b (5) | every raised way, retaining wall and deck plot is removable by the plain delete (4.20.3) |
 | an oasis | `site.deposits` of kind `oasis_water` on an arid site | DR40 (item 111 (a)) | the water body's why card: "SettlementForge's record puts water here" (4.21.1, 5.8); T2 `ground`'s spring toggle locked on it |
 | the town's past | `peakTier`, the high-water population, `tierHistory`, `populationHistory`, `calamityHistory`, the history's events, the lifecycle's destruction and resettlement | DR36–DR39 (item 113) | T1 `intend`'s History chip reads "From SettlementForge's record" and is locked; the report panel's "What its past left"; the symbolic chip (4.21.3) |
-| a wall's condition at generation | the settlement's `readiness` label and its wealth | §7.7's condition row (item 114 (d)) | the wall's why line (4.21.4) |
+| a wall's condition at generation | the settlement's `readiness` label and its wealth | §7.7's DR41 (item 114 (d)) | the wall's why line (4.21.4) |
 | a building specified as grand | a dossier record naming a manor, hall or similar (V08's "specified", item 115 (c)) | §4.7 S10b's ceiling, lifted for it | the building's why fact "Named in SettlementForge's record" (4.21.5) |
-| the week and season | the campaign calendar's week and season | §7.7's calendar row (item 117 (c)) | the Season control's week while **Follow SettlementForge** is on (4.21.7) |
-| the festivals | `traditions[]` and the custom-content traditions (their windows and staging) | §7.7's traditions row (item 118) | the festival list with its weeks (4.21.8) |
+| the week | the dossier's latest stamped tick — the greatest of its conditions' `triggeredAt`, its calamities' and its history's ticks (item 125 (b)) | §7.7's DR42 | the Season control's week while **Follow SettlementForge** is on; with no stamped tick, the control's own week (4.21.7) |
+| the festivals | `traditions[]` and the custom-content traditions (their windows and staging) | §7.7's DR43 (item 118) | the festival list with its weeks (4.21.8) |
+| the crisis looks | the dossier's stressors and active conditions (§2.7's `ConditionOverlay`s), their names, and the forces' and groups' sizes where given (item 122 (h)) | §7.7's DR44 | the crisis card and its numbers, the why lines, the legend's crisis entries, Find's crises (4.21.12) |
+| Find's dossier entries | the dossier's named entries, its names first (V08 §3.16 (6)) | §7.7 item 12's binding keys | Find's `dossier` section and its dossier chips, re-evaluated by key and anchor (4.21.10) |
 
 ## 2 Data model
 
@@ -409,7 +433,7 @@ interface for are volume 11's document-only tables, written by `editTable` (V09 
 
 ```ts
 type ShellMode = 'standalone' | 'host';                       // host = V08's embed.html (V08 §5.1): its differences switch the slots below
-type LayoutClass = 'wide' | 'medium' | 'narrow';               // V09 §4.12: wide ≥ 1024 CSS px wide; narrow < 600 px wide or < 480 px high; medium otherwise
+type LayoutClass = 'wide' | 'medium';                          // V09 §4.12: wide ≥ 1024 CSS px wide, medium otherwise; below 600 × 480 the medium layout holds at that minimum and the page scrolls (item 126)
 interface InputCaps { finePointer: boolean; coarsePointer: boolean; hover: boolean; physicalKeyboard: boolean }   // from matchMedia('(pointer: fine|coarse)'), '(hover: hover)' and the last key event; re-read on change
   // readers: physicalKeyboard chooses the hints' wording ("press R" or "tap Try again") and whether the keymap overlay is offered in Help (V09 §5.9)
 interface ShellConfig {
@@ -472,7 +496,7 @@ type PointsFormKind = 'seed'|'corners'|'lasso'|'sourceMouth'|'levelPoint'|'shore
 interface ToolRow { id: ToolId; n: number /* 1–12, §7.1's order */; layer: ToolLayer; label: MsgKey; hint: MsgKey /* §14's first-use hint */;
   icon: string /* an id in the app's own icon sprite, V09 §5.1 */; key: string /* its keymap.json binding id */;
   firstScreen: boolean /* R9: true for intend, quarter, place, dress */; contextual: boolean /* true for shape, hold: offered once a thing is selected */;
-  narrow: boolean /* available on the narrow layout (V09 §4.12) */; coarse: boolean /* available with a coarse pointer */;
+  coarse: boolean /* available with a coarse pointer (V09 §4.12) */;
   modes: ToolModeRow[]; params: ToolParamRow[] }
 interface ToolModeRow { id: string; label: MsgKey; icon: string; gesture: GestureKind; pointsForm?: PointsFormKind;
   emits: string[] /* the EditEvent kinds (`t`) this mode's commit may carry — the binding table of V09 §4.3 is generated from these */;
@@ -579,8 +603,8 @@ Every screen writes only a cell V11 §4.2 declares for its key form.
 **The family multipliers** (this section is the home of their words; V09 §4.7 and V10 cite it). `familyWeights` is
 V11 §4.2's cell, its values and meaning there; V09 §4.7's chips word its five values Ignore 0 · Less 0.5 · Normal 1 ·
 More 2 · Much more 3, one chip row per family id of V11 §2.4's enum (`nuisance`, `need`, `clientele`, `supply`,
-`alignment`, `competition`, `coverage`, `sun`), and a family the cell does not hold reads Normal — a multiplier of 1.
-**No per-use siting weights** (J-V9.36): a single place is moved (`relocateUse`) or pinned (`placeAt`, T10 `hold`) — the owner's
+`alignment`, `competition`, `coverage`, `sun`), and a family the cell does not hold reads Normal (V11 §4.2).
+**No per-use siting weights** (J-V9.36): a single place is moved (`relocateUse`) or pinned (`placeAt`, T6 `place`) — the owner's
 per-kind declaration is the row, and one member's site is its own edit. **Tier and dossier.** Each row is `declared`
 (§2.8's `factTier`) and held by every re-derivation (§7.2). A dossier-backed kind accepts rows — they change where the map
 puts or binds things, never a dossier fact (item 20 (h)) — and no row is ever written to the dossier. A dossier event that
@@ -589,8 +613,8 @@ for every town — stay the tables editor's (V09 §4.14).
 
 ### 2.7 The answers the panels render
 
-The panels read §11.2's `query`. **The oracle's answer is volume 10's `WhyAnswer`** (V10 §2.13, placed in §11.2 by
-file f item 468 and produced by each kind's `WhyProvider`, file f item 270); this volume adds none of its fields (J-V9.33). The why
+The panels read §11.2's `query`. **The oracle's answer is §11.2's `WhyAnswer`** (file f item 468), produced by each kind's `WhyProvider`
+(V10 §2.13; file f item 270); this volume adds none of its fields (J-V9.33). The why
 card (V09 §5.8), the source chips (V09 §4.7), the drawer's why turn (V09 §4.11) and the underground panels (V09 §4.17) render
 one app-side projection of it, `WhyCardModel`, built on the main thread from the answer and the row sentences V11 §4.5
 resolves; it is session-transient and never saved.
@@ -627,7 +651,7 @@ interface WhyCardModel {
 | `facts` | `facts` | the registry's path label (file f item 269), the tier chip, and for a `row` "from SettlementForge's record, by rule {row}"; a fact whose provenance carries `symbolic` (§2.8; item 113 (f)) adds the chip "size not recorded" (`info.history.symbolic`, V09 §4.21.3) |
 | `dossierLine` | the newest `history` entry with a `change` | "Since week {w}: {reason}" |
 | `drifted` | `evaluated.drifted` | "Today the rules would put it elsewhere; it stays." |
-| `sections` | `sections` (V10 §2.13's `WhySection`: each registered provider's rows, V10 §3.9, V10 §3.9a) | one block per section, in the answer's order, after `facts`; `title` the key `why.section.<kind>` (V09 §4.9); per row: `text` its `says` (a key of the families of V09 §4.9's sources paragraph), else the registry path label of its `key` (file f item 269); `value` its `value` with its `unit` in the user's units (`AppPrefs.units`); `tier` its tier chip; `target` its `ref`, named and clickable (Show); a `withheld` row reads "somewhere the viewer doesn't know"; a `purpose` row never arrives (the facade drops it, V10 §3.9). The underground panels (V09 §4.17), item 110's panels and why lines (V09 §4.20.6) and the drawer's why turn draw these same rows, so one `MsgRef` is one sentence everywhere |
+| `sections` | `sections` (§11.2's `WhySection`: each registered provider's rows, V10 §3.9, V10 §3.9a) | one block per section, in the answer's order, after `facts`; `title` the key `why.section.<kind>` (V09 §4.9); per row: `text` its `says` (a key of the families of V09 §4.9's sources paragraph), else the registry path label of its `key` (file f item 269); `value` its `value` with its `unit` in the user's units (`AppPrefs.units`); `tier` its tier chip; `target` its `ref`, named and clickable (Show); a `withheld` row reads "somewhere the viewer doesn't know"; a `purpose` row never arrives (the facade drops it, V10 §3.9). The underground panels (V09 §4.17), item 110's panels and why lines (V09 §4.20.6) and the drawer's why turn draw these same rows, so one `MsgRef` is one sentence everywhere |
 
 A withheld target, member or link end reads "somewhere the viewer doesn't know" (§11.2 *Knowledge* (2)); a withheld
 subject shows its kind and nothing else.
@@ -654,9 +678,9 @@ interface LinkRow {
   distanceM: number; comfortM: number; maxDistanceM: number;
   satisfaction: number /* 0–1: 1 within comfortM, falling to 0 at maxDistanceM, item 107 (b) */;
   mode: 'road'|'water'|'any'; volume: number /* the good's relative volume, item 105 (c) */;
-  orientation: 'source'|'market'|'balanced';      // V10's WhyLink field, item 105 (b)
+  orientation: 'source'|'market'|'balanced';      // §11.2's WhyLink field, item 105 (b)
   declared?: 'bindTo'|'avoid'|'cut';              // a siting.linkEdits row names it (V09 §2.6)
-  chain?: WhyLink['chain'];                        // item 105 (i): a SettlementForge chain's id, status ('impaired'|'vulnerable') and an entrepôt's end — V10 §2.13's type, cited
+  chain?: WhyLink['chain'];                        // item 105 (i): a SettlementForge chain's id, status ('impaired'|'vulnerable') and an entrepôt's end — §11.2's type, cited
   source: 'class'|'dossier'|'custom'; withheld?: true }
 ```
 
@@ -711,7 +735,9 @@ interface MsgRow { key: MsgKey; text: string /* {placeholders} and the forms bel
   codes: string[] /* the engine codes it renders: an F-EDIT reason, a ConflictAction kind, an E_* error, a PortNote, a link-refusal condition */ }
 // argument forms in `text`: {slot} renders the argument (an { id } under the reader's key, a withheld place as its kind); {a slot} (en only) renders
 // the English indefinite article and then the slot — "an" before words beginning a, e, i, o or u, except words beginning "uni", "use", "usu", "eu"
-// or "one", which take "a", and "a" before every other word; a locale file writes its own grammar in its `text` (J-V9.126)
+// or "one", which take "a", and "a" before every other word; a locale file writes its own grammar in its `text` (J-V9.126);
+// {, name} or {; name}: an optional clause whose words the row's note gives, drawn with its leading mark only when the MsgRef
+// carries every slot those words name (info.wall.run's {, material}; refuse.undo.dossier's {; move}) (J-V9.145)
 type ButtonClass = 'commit'|'why'|'show'|'tool'|'drop'|'app';
 interface MsgButton {
   key: MsgKey;             // its words: a row of the button.* family (V09 §4.9), one row per wording, shared — "Show me why" is button.showWhy wherever offered
@@ -726,7 +752,8 @@ interface MsgButton {
   tool?: ToolId; mode?: string;   // tool: the tool and its ToolModeRow.id (V09 §2.3; V09 §4.5 names the modes)
   subject?: true;          // tool: the row's first address argument the reader's key admits, selected first
   command?: AppCommand;    // app: one of V09 §4.9's application commands
-  when?: 'owner'|'names' } // drawn only for the owner role; only when the thing the row names is a name
+  when?: 'owner'|'names'|'dossier' } // drawn only for the owner role; only when the thing the row names is a name; only when it is
+                         // dossier-backed (J-V9.145)
 type ButtonEventId = 'exactSite'|'notHere'|'firstFreeSite'|'rederive'|'cityUp'|'unassignCreation'|'roomRole'|'stairsAxial'|'stairsFlights'|
   'stairsInternal'|'retainingFlat'|'retainingOtherSide'|'rampLonger'|'roadToFoot'|'catacombUnder'|'joinCatacomb'|'cryptSmallest'|
   'cryptEnlarge'|'keepRaised'|'removeStanding';          // V09 §4.9's event forms, one row each
@@ -743,8 +770,7 @@ as the button; an alternative's plot, site or building; an unplaced element — 
 canvas's the role's key, J-V9.86; the clerk's its session key). **What each class does on the canvas.** `commit` previews
 its events as a new draft and commits on Accept (V09 §3.3): from a `ConflictAction` kind, the first action of that kind in
 the answer's order — `unlock` the `unlock` of its `target`, `unassign` an `unassign` of its `target`, `moveTo` the draft's
-declaration at its `target` (J-V9.111's form for an assignment), `reroute` the draft through its `at` — the other actions
-of that kind marked on the map; from `alternatives`, one entry of `PreviewResult.alternatives` (file f item 463; file f item 372) —
+declaration at its `target` (J-V9.111's form for an assignment) — the other actions of that kind marked on the map; from `alternatives`, one entry of `PreviewResult.alternatives` (file f item 463; file f item 372) —
 the draft at that plot by V10 §4.1's `where.plot`, or V09 §4.17.4's access group for that building — the canvas drawing
 them marked (a click on one picks it) and its one button, worded by `key`, stepping to the next alternative not yet tried,
 while a card that shows every alternative at once (the drawer's, V10 §3.16) has one button per alternative worded by
@@ -760,8 +786,8 @@ layer (V09 §4.2), with `subject` the row's first admitted address argument sele
 withdraws the draft or pending edit it belongs to (**Keep {building}**, **Keep a way open**), or dismisses a notice that
 has none (**Not now**). `app` runs one application command (V09 §4.9's list) and is never an edit of its own. **Where a
 button is not drawn.** A `commit` whose source yields nothing (no action of that kind, no alternative left, no element
-unplaced, an event form with nothing to change), a `subject` button whose row has no address argument the reader's key
-admits, and a button whose `when` does not hold are not drawn; every `refuse.*` row still keeps **Show me why**, its last
+unplaced, an event form with nothing to change), a `show` whose `arg` the row's `MsgRef` does not carry, a `subject` button whose row has no address argument
+the reader's key admits, and a button whose `when` does not hold are not drawn; every `refuse.*` row still keeps **Show me why**, its last
 button. **Arguments a button reads.** A `show` `arg`, a `subject` and a `page`
 template read the row's `MsgRef`; where the text shows no such argument the engine's `MsgRef` still carries it
 (file f item 463's `args` hold every argument, shown or not) — the ones the button column names, among them `thing`,
@@ -788,7 +814,7 @@ surface renders** (J-V9.79): beside the application's own rows it holds the key 
 renders — `critique.K1`–`K18`, `refuse.clerk.*`, `clerk.notice`, `info.raised.*`, `info.under.*`, `info.catacomb.*`,
 `info.crypt.*`, `info.plan.*` and the withheld kind words — whose `en` texts are written once, in volume 10, and loaded from there
 (V09 §4.9's sources paragraph lists each family's source and the two sub-families whose words this volume writes);
-volume 7's `info.village.*` lines (V07 §4.5), volume 5's island lines (V05 §3.2, V05 §3.23, V05 §4.2) and volume 6's lines
+volume 7's `info.village.*` lines (V07 §4.5), volume 3's `report.plan.*` plan-warning lines (V03 §4.5), volume 5's island lines (V05 §3.2, V05 §3.23, V05 §4.2) and volume 6's lines
 `info.copy.condensed` (V06 §3.15.5), `info.past.viewing` (V06 §5.1) and `bend.hood.noClock` (V06 §4.1), loaded the same
 way; volume 11's `says` and `reason` sentences are shown as volume 11 writes them. T-V9-15 covers every family and runs its
 readability step over all of them, reporting a failure to the owning volume (J-V9.55 as revised by J-V9.79).
@@ -840,8 +866,9 @@ interface ClerkHandle {
                                                            // V10's device key; null forgets it; the key card shows the verdict (V09 §4.11)
   usage(): UsageTally;                                     // V10 §2.8: the turn's and the month's estimate against the caps
   run(action: ClerkAction): Promise<void>;                 // the harness's half of V10 §2.6's dispatch table — propose, undo, rebuild; the application runs select,
-                                                           // why (the why card or Help page, V09 §5.8, V09 §5.9), openSettings, useTool, export, fork (forkAt)
-                                                           // and rerun (rerunFrom) itself — seven kinds — and passes the rest here (V09 §4.11)
+                                                           // why (the why card or Help page, V09 §5.8, V09 §5.9), openSettings, useTool, export, fork (forkAt),
+                                                           // rerun (rerunFrom) and find (the Find panel's chips and Show gaps, V09 §4.21.10 (12)) itself —
+                                                           // eight kinds — and passes the rest here (V09 §4.11)
   newTopic(): void;                                        // the drawer menu's New topic: closes the route's live segment (V10 §3.2)
   defects(): DefectRecord[]; clearDefects(): void }        // V10 §2.8's device defect store, listed in Settings' Assistant section (V09 §5.12)
 ```
@@ -886,9 +913,12 @@ interface AppPrefs {
   units: 'metric'|'imperial'; theme: 'system'|'light'|'dark'; uiScale: 1|1.25|1.5|1.75|2;
   reducedMotion: 'system'|'on'|'off'; highContrastChrome: boolean; largeTargets: boolean /* 44 px minimum even with a fine pointer */;
   cvdDefault: 'none'|'protan'|'deutan'|'tritan' /* the Colour vision a view starts with where its town holds no `cvdVariant` (V09 §4.21.2); default 'none' */;
+  resolution: 'auto'|'4k'|'1440p'|'1080p'|'720p' /* Settings › Display › Resolution (V09 §4.21.11; item 121 (a)); default 'auto'; handed to §8.8's ladder */;
+  weatherEffects?: boolean /* the advanced panel's Weather effects (V09 §4.21.14; item 124 (g)); absent reads the default: on on §8.8's mid, high
+                              and ultra tiers, off on the low tier and while reduced motion holds (`reducedMotion`, or 'system' with the system asking) */;
   announcePreviews: boolean /* the live region's preview summaries (V09 §6.3); on by default (a polite live region is silent unless a screen reader reads it) */;
   longPressMs: number /* 300–1 000, default 500 (V09 §4.15) */;
-  hintsDone: Record<string /* ToolId | 'clerk' | 'tour' | 'variations' | 'restore' */, number /* ms when completed; 0 = not yet */>;
+  hintsDone: Record<string /* ToolId | 'clerk' | 'tour' | 'variations' | 'restore' | 'find' */, number /* ms when completed; 0 = not yet */>;
   tourOffered: boolean;                        // the guided first town was offered once (V09 §5.9)
   railPins: ToolId[]; railExpanded: ToolLayer[];   // tools pinned to the rail; layer groups left open
   snapRadiusPx: number /* default 8 (§9.5), 4–24 */; handles: 'fewer'|'default'|'more' /* 4 / 4–8 / up to 16 */;
@@ -939,7 +969,7 @@ your work." with a Download button (never silent; V09 §3.8's ladder).
 | `Selection`, `HandleSet`, `CountBadge` | a click, a list pick, a lasso; derived from the selected geometry; from the preview | the context panel, the overlay | memory | recomputed when the selected entity's record changes (a `doc.changed` naming it) | the selection survives undo when its ids still exist, else it clears | n/a |
 | `HistoryRow` | derived from the log | the history panel, the context panel's History tab, `HostSlots.historyFilter` (V09 §1b) | never | recomputed per log change | — | the templates are keyed by event kind, one for every kind of the base and volumes 1–8, and for item 110's variants by their discriminating field (`drawWall.retaining`, `drawWay.raised`, `drawWay.aqueduct`, `terrace`, `setAttr.spans/use`, `setMassing.tiers`; V09 §4.10; T-V9-15's walker); a kind from a newer version renders "A change made with a newer version of the editor"; `lines` and `dossierGroup` are derived with the row (V09 §4.10) and never stored |
 | `RestorePoint` (`restore/<id>`) | the Restore-point button; the auto rules of 2.8 | the history panel | the document's view section (shared) | unaffected (a log position) | deleting a point writes the key to `null`; a restore is itself undoable (V09 §3.9) | a point whose `seq` exceeds the log (a truncated log, §7.4) is shown "at the latest state" and re-pointed on the next save |
-| view keys `thematic`, `workingLayer` (per viewer) | the view bar | the live providers, the tools | the document's view section; never over a bridge | — | not logged (view state); the previous value is one click away | an unknown value reads as the default (`none`, `ground`) |
+| view keys `thematic`, `workingLayer` (per viewer) | the view bar | the live providers, the tools | the document's view section; never over a bridge | — | not logged (view state); the previous value is one click away | an unknown value reads as the default (`none`, `ground`); an older `thematic: 'coverage'` reads `none` with `find` `{ chips: [], gaps: true }` (§2.9; item 120 (i)) |
 | view key `underlay` (per viewer) | the dress panel's underlay picker | the compositor (§9.5) | view section (hash, opacity, frame); the image in `assets` | — | not logged | an absent asset shows "The tracing image is not on this computer" with a re-pick button |
 | `siting.declared`, `siting.linkEdits` rows (map-side, declared; V11's tables) | `editTable` from the per-kind panel, the Shape tab, the link view, "Keep together", a clerk's accepted proposal | V11's resolver, S10b, the link binding, the split placement; the `why` and `links` answers | the log (events) | held by every re-derivation; a key that no longer resolves is orphaned and reported (V11 §4.4) | the inverse row operation | V11 §4.4 (row migration by keyed row operations, §7.6) |
 | `ToolRow`, `MsgRow` (with its `buttons`) | our table versions | the shell, `@plat/docs`; the rows' `buttons` also volume 10's cards (V10 §3.5 step 3) | `@plat/tables` | — | — | additive rows; a removed key is refused by the loader while referenced — a `button.*` row while a row's `buttons` name it, a mode while a `tool` button names it |
@@ -956,19 +986,28 @@ your work." with a Download button (never silent; V09 §3.8's ladder).
 | the effects list (`PreviewResult.effects`, 4.20.7) | each preview and each `confirm` | the badge, the fates sheet's "What else changes", the live region, the clerk's card | never | dropped with a stale preview and re-requested | n/a | n/a |
 | T4 `road`'s Raised toggle and Aqueduct chip (4.20.2) | T4's options strip, PageUp and PageDown while drawing | the mapper, the badge | memory only; never `AppPrefs`, never logged | — | reset to off each time T4 is picked (J-V9.73) | n/a |
 | "Keep them as yours" (4.20.3) | T1 `intend`'s whole-town ghost card | the Re-derive's group | as declared `drawWay` events in the log | held (declared) | one undo with the Re-derive | — |
-| a suppressing removal, as the app shows it (4.20.3) | a Delete of generated content of file f item 260's kinds — a raised way, harbour-mouth chain, quay wall, retaining wall or deck plot (V06's `detail.suppress`), an island or sky access (V05's removed slots) | `info.remove.holds`, the history row, `ClerkMount.rebuildEvents`, the skeleton's export (file f item 455) | the log (the base's and V06's) | holds through Regenerate, scoped re-rolls, reloads and epochs (V06 §2.13) | undo lifts it; "Build it again" (and the clerk's Put it back, the same events) re-declares | an older document has none |
+| a suppressing removal, as the app shows it (4.20.3) | a Delete of generated content of file f item 260's kinds — a raised way, harbour-mouth chain, quay wall, retaining wall or deck plot (V06's `detail.suppress`), an island or sky access (V05's removed slots) | `info.remove.holds`, the history row, `ClerkMount.rebuildEvents`, the skeleton's export (file f item 455) | the log (the base's and V06's) | holds through Regenerate, New random, reloads and epochs (V06 §2.13) | undo lifts it; "Build it again" (and the clerk's Put it back, the same events) re-declares | an older document has none |
 | `HostSlots.historyLines`' lines (2.2, 4.10) | a host change reaching this session — for SettlementForge a `party` value differing from the last one received, a new `partyPicturesAt` (V08 §3.1 step 7 (c)) | the history panel's group "The party" | never by the shell: the host's handler holds them in the session's memory, and a reload starts with none (the record keeps no reveal history beyond `party.prev`, V08 §4.6) | re-listed, with `list(effectiveKey())`, on each `onChange` and each `onEffectiveKey` (V09 §2.2) | none: not events, no Undo this — the host's own "Hide again" / "Reveal again" (V08 §4.2) | n/a |
 | a copy saved in host mode (3.9) | an action that makes a new document, under `newDocuments: 'download'` | the user, opening the file in the standalone app (§2.9's load) | the user's device only (a `.plat` download); nothing in the frame, the host or a local store | — | n/a: the frame's document is untouched | the `.plat` reads by §2.9's steps |
 | `attach.newMap` (2.10) | the drawer menu's Start a new map from this (standalone) | V10 §3.1 (4) | memory, for one message | — | Esc or the item again clears it before sending | n/a |
 | view key `cvdVariant` (per viewer; 4.21.2) | the **Colour vision** chip (the view bar's Map group; Settings' Accessibility section) | the tile key and the sheet's checked variant (§8.2), the legend (§9.5), picture exports | the view section; never over a bridge | — | not logged; the chip's previous value | absent or unknown: `AppPrefs.cvdDefault`; a sheet without that variant draws its palette with its cues (§8.2) |
-| §2.9's year position and its follow flag (per viewer; 4.21.7) | the **Season** control; with the flag on, §7.7's calendar row sets the week at open and at each absorb | §8.2's season rows, the export's season line, V10's explanation | the view section; never over a bridge; the model and its hash untouched in every week (item 117 (a)) | a new absorb moves the week only while the flag is on | not logged; the control's previous value | absent: the flag on with a dossier, midsummer standalone (item 117 (c)) |
+| §2.9's year position and its follow flag (per viewer; 4.21.7) | the **Season** control; with the flag on, §7.7's DR42 sets the week — the dossier's latest stamped tick (item 125 (b)) — at open and at each absorb | §8.2's season rows, the export's season line, V10's explanation | the view section; never over a bridge; the model and its hash untouched in every week (item 117 (a)) | a new absorb moves the week only while the flag is on | not logged; the control's previous value | absent: the flag on with a dossier, midsummer standalone (item 117 (c)) |
 | §2.9's festival display (per viewer; 4.21.8) | the festival list: follow · off · preview one festival | §8.2's decoration rows, the export's festival name | the view section; never over a bridge; model and hash untouched (item 118 (a)) | a festival no longer listed after an absorb falls back to follow | not logged | absent: follow |
 | the History chip's choice (4.21.3) | T1 `intend`'s sheet | the `adjust` of the recipe's history option (§4.2 S0) | the log (a canonical `adjust`, the base's lifecycle row) | a Re-derive from S0 (whole town) | one undo with its Re-derive | the recipe's migration (§7.5) |
 | the Colour vision, Season and festival controls' own state | the view bar | the three keys above | none of their own: each control shows its key | — | — | — |
 | T2 `ground`'s **Spring-fed** toggle, T3 `wall`'s **Material** chip (4.21.1, 4.21.4) | the options strip | the mapper | memory, per tool for the session, as every option (V09 §4.2) | — | not logged; the event they shape is | n/a |
 | the grandeur line (4.21.5) | derived from the draft's events and the ceiling table, per preview; the why card's `facts` row | the badge, the preview card, the why card | never | recomputed with each preview | — | — |
-| the zoom-out stop (4.21.6) | derived from §8.8's limit for the map's `bounds` and the viewport | the zoom controls, Fit the town, the export frame | never | re-read at each `doc.changed` that moves `bounds` and at each resize | — | — |
-| the progress view (4.21.9) | a one-time wait past `progress.showAfterMs` | the progress strip | memory, for the wait | — | — | — |
+| the zoom-out stop and the crisis framing (4.21.6, 4.21.12 (8)) | derived from §8.8's limit for the map's `bounds` — the bounds of town and camps while a crisis look stands (§2.9's *The crisis framing*) — and the viewport; stop 0 where none fits (R2-30) | the zoom controls and their tooltip, Fit the town, the opening view, the export frame | never | re-read at each `doc.changed` that moves `bounds`, at each resize, and when a look starts or ends (a week change, an absorb, the `crises` key); a view coarser than a narrowed limit settles to it about its own centre, as at a resize | — | — |
+| the progress view (4.21.9) | a one-time wait past `progress.showAfterMs` | the progress strip; the view status's `progress.verify` line | memory, for the wait | — | — | — |
+| view key `find` (per viewer; 4.21.10) | the Find panel (its list, suggestions, chips, Clear, Show gaps); a use's **Find all {kind}s**; V10's `find` action | `live.find` and §8.2's Find rows, the results list, picture exports, V10's `FindView` | the view section; never over a bridge (§11.3) | re-evaluated at every commit, regenerate, undo, redo, advance, load and migration; a chip whose target goes stays at count 0, dark, and lights when a match returns | not logged (view state): Clear empties it, closing the panel removes it | absent: Find off; an older `thematic: 'coverage'` opens as `{ chips: [], gaps: true }`; a chip of unknown shape is dropped |
+| Find's index and suggestions (4.21.10 (4), (7)) | derived: per chip, the gazetteer's match listing at `effectiveKey()` with each match's places by layer, band and room | `live.find`, the panel's counts and results, the suggestions | never (generation-worker memory) | rebuilt once per commit, regenerate, undo, redo, advance, load and migration, and at each `onEffectiveKey` | — | — |
+| view key `crises` (per viewer; 4.21.12) | the Show menu's **Show crises** and **Preview a crisis** | §8.2's look rows, the legend's crisis entries, the crisis card, Find's `crises` section, the crisis framing, picture exports | the view section; never over a bridge | the looks standing re-read at each week change and each absorb | not logged; the switch's previous value | absent: `{ mode: 'follow' }`; a `preview` whose `look` names no row reads `follow` (§2.9) |
+| the crisis card and the why lines (4.21.12 (4)–(5)) | derived from the standing overlays by DR44 at `effectiveKey()` | the card, the legend, the why card's `facts` row, Find's list | never | rebuilt at each week change, absorb and `onEffectiveKey` | — | — |
+| `AppPrefs.resolution` (4.21.11) | Settings › Display › **Resolution** | the shell at boot and on change → §8.8's ladder | IndexedDB `prefs` (device state; never a document, its hash or the log) | — | Settings' Reset restores `auto` | absent or unknown: `auto` |
+| the view-status chip (4.21.11 (3)) | derived from §8.8's loop: the level in force and its reason | the chip and its tooltip; `info.resolution.fallback` while a manual level cannot hold | never | recomputed at each level change, each settle and each device-pixel-ratio change | — | — |
+| the damage lines (4.21.13) | derived from V03's damage layer at V06's `decayLevel` for the drawn week, or a disaster look's `lookLevel` | the plan panel, the why card's `plan` section | never | recomputed at each `doc.changed` naming the building and each week change | — | — |
+| `AppPrefs.weatherEffects` (4.21.14) | the advanced panel's **Weather effects** | the shell → §8.4's weather layer | IndexedDB `prefs` (device state; never a document, a view key or a bridge message) | — | Settings' Reset clears it to the default | absent: the default by tier and reduced motion (V09 §4.21.14 (2)) |
+| the spell in force (4.21.14) | the session's weather timeline (§6.1's `view.weather`, seeded per session); **Start a shower now** as the next spell | §8.4's weather layer | session memory only (§2.9's *Weather effects*): never saved, never a view key, never in a digest, the tile key or an export | — | — | n/a |
 
 ## 3 Generation — the application's runtime flows
 
@@ -1009,7 +1048,7 @@ V09 §3.13.
    §7.8 (the towns' own S0–S4 runs on six fresh seeds with the same intent), within §7.8's budget. Picking one continues
    that recipe from its committed S4 state (§7.8) and replaces the untouched town.
 3. **The empty state lasts until the first declaration.** While the document's log holds only its creation prefix, the
-   town is replaceable without a question: Enter, "Surprise me", a proxy pick, a T1 card change or an accepted creation
+   town is replaceable without a question: Enter, "Surprise me", a proxy pick, a T1 `intend` card change or an accepted creation
    proposal of the assistant (V09 §4.11) replaces it (an unscoped new town is the empty state's action only, R5; §7.3
    item 10), and nothing is written to the local store — an untouched town holds no declaration, so nothing of the
    user's is lost, and it is not added to Recent towns (J-V9.127). The
@@ -1032,9 +1071,9 @@ Every tool runs this one pipeline; the per-tool mapping from a draft to events i
 | 3 settle | no pointer movement for `settleMs`, or pointer-up | `state = 'settled'`; the draft's points resampled and simplified by §7.1's authoring-boundary rule, snaps resolved into points | `settleMs` = 120 ms (§12.6) |
 | 4 map | the settled draft | `EditEvent[]` by the tool mode's mapper row (V09 §4.5); a sugar event carries `expansion` = the running `sugar.json` version (§7.1); a `placeAt` from a point is written `plot: ''` with `from: { points: [p] }`, the dry run deriving and writing the plot — the nearest lawful one (§7.1; file f item 367; V10 §4.1's `where.at`) — and T6 `place`'s "this plot only" writes the plot under the point (V10 §4.1's `where.plot`), so the canvas and the clerk emit the same bytes (T101-3) | — |
 | 5 preview | the events | `preview(h, events, { view, variations? })` (§11.2; file f item 461 for variations) with `gen += 1` | one preview in flight per draft; a newer settle cancels the older request's delivery (latest wins, §12.6) |
-| 6 ghost | the `PreviewResult` whose `gen` is the latest | `live.ghost` drawn (§8.2), handles (V09 §3.5), the count badge (V09 §2.5) with its effects count (file f item 465; V09 §4.20.7), the bend line when `bent` is set, the refusal card when `status: 'conflict'` | delivery ≤ 3 ms (§12.6) |
+| 6 ghost | the `PreviewResult` whose `gen` is the latest | `live.ghost` drawn (§8.2), handles (V09 §3.5), the count badge (V09 §2.5) with its effects count (file f item 465; V09 §4.20.7), the bend line when `bent` is set, the refusal card, from `outcome`, when `status: 'conflict'` | delivery ≤ 3 ms (§12.6) |
 | 7 commit | release (commit-on-release tools) or Accept (accept tools; V09 §4.5's column) | `edit(h, events)` — for a variation, its committed group (V09 §3.6) — with `fates` / `renames` filled from the shown preview (§11.2's resubmission form); the journal's `pending` entry is written first (V09 §3.8) | — |
-| 8 settle the result | `ApplyResult` | `ok`: the draft closes, the ghost clears, the journal appends (V09 §3.8), a toast names the change with Undo; `confirm` (the state moved since the preview): the fates sheet (V09 §5.5) with the fresh list; `conflict`: the refusal card | — |
+| 8 settle the result | `ApplyResult` | `ok`: the draft closes, the ghost clears, the journal appends (V09 §3.8), a toast names the change with Undo; `confirm` (the state moved since the preview): the fates sheet (V09 §5.5) with the fresh list; `conflict`: the refusal card, the catalogue's text of the conflict's `outcome` | — |
 
 **Commit on release or accept.** A tool whose gesture draws the thing itself — a wall or road stroke, a terrain or field
 brush stroke, a handle drag, a label drag, a shape drag, a lock — commits on pointer-up (R1: the real thing on release),
@@ -1054,9 +1093,11 @@ only when the dry run lists fates other than *kept* or renames. Esc restores the
 Accept.
 
 **Refused and bent.** `bent` (R2) draws the ghost normally and adds one line under the badge in the `bend` tone ("The wall
-follows the ridge, 40 m off your line"). `conflict` draws the refusal card (V09 §5.3) at the draft's last point: the plain
-reason and the row's buttons (V09 §2.9's `MsgButton` list, V09 §4.9's button column) — a `commit` from a `ConflictAction`
-carrying that action ("Unlock", "Put it at {site}" at its `target`, "Remove the assignment"), each a new draft or event;
+follows the ridge, 40 m off your line"). `conflict` draws the refusal card (V09 §5.3) at the draft's last point: the line of the conflict's `outcome` (§11.2's
+`PreviewResult.outcome`, `ApplyResult.outcome`: §7.1's outcome row's key with its arguments, rendered by its V09 §4.9 row)
+and that row's buttons (V09 §2.9's `MsgButton` list, V09 §4.9's button column) — a `commit` from a `ConflictAction`
+carrying that action ("Unlock", "Put it at {site}" at its `target`, "Remove the assignment"), worded by the action's own
+`msg` (V09 §2.9), each a new draft or event;
 the draft stays open so the user can adjust. A refusal is never a
 modal, and every card carries at least one action — at the least **Show me why**, the last button of every `refuse.*`
 row, which opens the why card or the page that explains the limit (V09 §4.9; J-V9.44). Where the dry run can name the nearest lawful alternative, the engine returns
@@ -1077,15 +1118,15 @@ role filter and the returned role):
 
 | tool mode | snaps to (in priority order when two are within the radius) |
 |---|---|
-| T3 wall | enceinte ends and wall vertices; **natural-barrier edges** — sheer and steep cliff edges, gorge rims, deep-marsh edges and shorelines (item 106 (a), (g)); ridge and slope-break lines; road crossings |
-| T4 road | junction vertices; gates; way centre-lines (the point lands on the line and splits it at commit, §7.1); piers and quays; shore points (a road to water) — with Raised on, the next row instead |
+| T3 `wall` | enceinte ends and wall vertices; **natural-barrier edges** — sheer and steep cliff edges, gorge rims, deep-marsh edges and shorelines (item 106 (a), (g)); ridge and slope-break lines; road crossings |
+| T4 `road` | junction vertices; gates; way centre-lines (the point lands on the line and splits it at commit, §7.1); piers and quays; shore points (a road to water) — with Raised on, the next row instead |
 | T4 `road` with **Raised** on, or the **Aqueduct** chip (V09 §4.20.2) | **the two ends only**: junction vertices, way centre-lines (the end splits that way at commit, making a ground vertex) and plot frontage points; an aqueduct's first point also springs and river reaches, its last also squares, fountain and cistern pins and `conduit_house` plots; interior points snap to nothing on ground part 0 and never split a way they cross; Shift's 15° rule still applies |
 | T3 `wall` **Retaining wall** (V09 §4.20.1) | slope-break and contour lines; the ends of existing retaining walls; plot boundaries; street centre-lines — never a natural-barrier edge (a retaining wall closes no circuit) |
 | T2 `ground` **Terrace** (V09 §4.20.1) | none (a brush); the level is the ground height under the pointer-down point, shown as a readout |
-| T5 quarter (corner and lasso points) | street centre-lines; shores and banks; walls; ridges |
+| T5 `quarter` (corner and lasso points) | street centre-lines; shores and banks; walls; ridges |
 | T2 `ground` river source and mouth, harbour shore point, lake point | the shore or bank for a mouth or a harbour; terrain peaks and saddles for a source; none for a lake's point, a spring-fed one included (V09 §4.21.1) |
-| T6 place | the plot under the point (the plot is the snap: its outline lights); on a deck, the deck plot under the point, and for a tower or fort stamp a mole's landmark slots ("Mole head", "Mid-mole") and a long bridge's mid-span slot (V09 §4.20.4; file f item 246) |
-| T9 shape drags | the footprint's own plot edges and neighbours' party walls (§3.6's attraction does the rest) |
+| T6 `place` | the plot under the point (the plot is the snap: its outline lights); on a deck, the deck plot under the point, and for a tower or fort stamp a mole's landmark slots ("Mole head", "Mid-mole") and a long bridge's mid-span slot (V09 §4.20.4; file f item 246) |
+| T9 `shape` drags | the footprint's own plot edges and neighbours' party walls (§3.6's attraction does the rest) |
 | handle drags | the same roles as the tool that made the thing |
 | the ruler (§9.5) | way centre-lines, face edges, vertices (unchanged) |
 
@@ -1119,10 +1160,11 @@ island's rim) the handles are k of its vertices: by default k = clamp(round(peri
 `handles: 'fewer'` — and with "More handles" on the entity (session only) k = clamp(round(perimeter ÷ 75 m), 8, 16),
 chosen greedily by **salience** = the exterior turning angle at the vertex × the length of its shorter adjacent edge, with
 no two handles closer than perimeter ÷ (2k) along the ring; ties by the vertex's lattice order (y, x) (our own rule;
-deterministic). For an open chain (a road, a wall trace) the handles are the chain's ends plus up to 6 interior points by
-the same rule (14 with More), and, for a river, its course knots instead (`WaterBody.controls`, §2.3). A gate is a grip on
+deterministic). For an open chain (a road, a tunnel run on Below, a wall trace, a sea's coast) the handles are the chain's ends plus up
+to 6 interior points by the same rule (14 with More), and, for a river, its course knots instead (`WaterBody.controls`, §2.3). A gate is a grip on
 its enceinte; a lake has only its level handle (a vertical double arrow beside its rim), since its shore is its basin
-filled to that level (J-V9.47); an island has its rim handles and an altitude handle (V05); a castle a keep grip at its
+filled to that level (J-V9.47); an island has its rim handles — **Resize** by default, **Reshape the rim** by the island panel's rim chip (`island.rim.<mode>`,
+session only, as More handles) — and an altitude handle (V05); a castle a keep grip at its
 keep's centre and a bailey handle on the bailey's outline at its point farthest from the keep; a place's handle is its
 footprint; a label's is the label; at the building band a building has V02 §4.5's handles. **Item 110** (V09 §4.20.6): a
 raised way has its two end handles (`rampEnd`, a half-filled circle) and interior points by the open-chain rule; a
@@ -1139,9 +1181,10 @@ each settle and committed on release:
 |---|---|---|
 | a quarter's boundary | `drawBoundary { district, polygon }` whose polygon is the district's current resolved ring with only the run between the moved handle's two neighbouring handles replaced by previous handle → the new point → next handle; the street snap of §7.1's quarter rule resolves it, so only that edge's plots re-derive | §7.1; item 101 (i) |
 | a river knot | `moveCourseKnot` | §7.1 |
-| a road or wall chain point | `moveVertex` at that lattice point with its role signature | §7.1 |
+| a road's, a tunnel run's, a wall trace's or a coast's chain point | `moveVertex` at that lattice point with its role signature — on a coast the shore's own vertex (T2 `ground`'s shore or coast pair; a lake keeps its level handle alone, J-V9.47), on a tunnel its run on Below (T4 `road`) | §7.1 |
 | a lake's level | `drawWater` with the level form at the same point | §7.1 |
-| an island's rim | `convert resizeIsland { island, areaHa: areaHa × (r′ ÷ r)², altitudeCm }`, r and r′ the handle's distances from the island's centroid before and after | V05 §4.2 |
+| an island's rim, **Resize** | `convert resizeIsland { island, areaHa: areaHa × (r′ ÷ r)², altitudeCm }`, r and r′ the handle's distances from the island's centroid before and after | V05 §4.2 |
+| an island's rim, **Reshape the rim** | `moveVertex` on that rim vertex in the island's own arena (T9 `shape`'s pair on an island's key), its pieces following and its bend `bend.island.rimStop` by V05 §4.2 | V05 §4.2 |
 | an island's altitude | `setAttr(island, 'altitudeCm')` | V05 §4.2 |
 | a gate's grip — a placed or a generated gate | `moveVertex` on the gate's crossing vertex, sliding it along its enceinte; the crossing way follows by §7.1's vertex rule | §7.1's walls row; J-V9.47 |
 | a wall stretch's end (its grade's boundary) | `moveVertex` on the stretch's anchor vertex | §7.1; item 106 (c) |
@@ -1176,8 +1219,8 @@ composed tiles (§9.5) and cost ≤ 1 ms per frame (V09 §6).
 
 A derived fill offers three versions (R5; §7.3 item 10), and a clerk proposal offers its real alternatives. One preview
 contract serves both (file f item 461, merged with file f item 470 (b); J-V9.41):
-* **The four derived sources** — T8's `fill`; T8's density, greenery and prosperity brushes; a scoped New random (T10 `hold`'s
-  button "Try again", shift+click, the New random brush of V09 §3.7); a T5 quarter's fabric — call `preview(h, events, { view,
+* **The four derived sources** — T8 `fill`'s `fill`; its density, greenery and prosperity brushes; a scoped New random (T10 `hold`'s
+  button "Try again", shift+click, the New random brush of V09 §3.7); a quarter's fabric (T5 `quarter`) — call `preview(h, events, { view,
   variations: 3, page })`. It returns `previewId` and `variations: { event, result }[]` for §7.3 item 10's three overlays,
   each `event` the resolved event with its absolute reroll map; the generation worker keeps the overlays until the draft
   commits or cancels.
@@ -1251,9 +1294,10 @@ to the group before the regenerate; the entity is derived from then on, and the 
    `pending` call — the tab was killed between sending it and recording its result, possibly after the worker had
    committed it — is re-issued from its `logHeadBefore` and its result accepted and recorded. An `advance` is re-issued
    with its request from its `logHeadBefore`: a `done` one must reproduce its `logHeadAfter`, as every `done` call must,
-   and one that **Stop** ended is stopped again after `stoppedAfter` epochs — the shell calls `cancelAdvance` when the
-   job's `onProgress` (§11.2) reports epoch `stoppedAfter` running, and V06 §4.1's job ends after the running epoch; a
-   trailing `pending` one (the tab killed mid-group, the epochs it had folded lost with the worker) is re-issued whole.
+   and one that **Stop** ended is re-issued with its epoch count — `advance(h, req, { stopAfter: stoppedAfter, onProgress })`
+   (§11.2's `stopAfter`; R2-42) — the job folding at most that many epochs and writing `stoppedAt` on the last, as Stop does
+   (V06 §2.3, V06 §4.1), so it reproduces its `logHeadAfter` with no timed cancel; a trailing `pending` one (the tab killed
+   mid-group, the epochs it had folded lost with the worker) is re-issued whole.
    The first mismatch stops
    recovery there, keeps the unreplayed calls in the record's quarantine (downloadable as a JSON file from the history
    panel), and says "Recovered your town up to {time}. {n} later changes could not be replayed." Nothing is discarded
@@ -1282,7 +1326,7 @@ to the group before the regenerate; the entity is derived from then on, and the 
   stack is intact; any new change clears it (§7.4), and the auto point then remains the way back (through "Open a copy
   from here"). **Its cost** is the sum of the targets' undo-record costs (each O(its scope), §7.4), so going back a few
   hundred edits at METROPOLIS can take seconds: past `progress.showAfterMs` the progress view (V09 §4.21.9) counts the
-  events undone of the total (`progress.undo`), the map stays pannable and viewable, the tools wait, and the toast's "Undo going back" is the way back (the
+  events undone of the total (`progress.undo`, from the `edit` call's `onProgress`, §11.2's `'undo'`), the map stays pannable and viewable, the tools wait, and the toast's "Undo going back" is the way back (the
   call is one group, so it is not cancelled midway).
 * **Re-run from here** (owner role; a history row, a chronicle row or a restore point, offered when epochs or dossier
   events follow it): `rerunFrom(h, seq)` (V06 §4.4) — a NEW document, the log prefix through `seq` with every later epoch
@@ -1510,10 +1554,10 @@ rows name only what they add:
 
 | # | mechanism | the edge | outcome | rung | test |
 |---|---|---|---|---|---|
-| 48 | the frame (V09 §5.1) | a viewport below 320 × 480; every rung | the narrow layout with the map region at least 200 px high, panels as full-height sheets; the same frame at every rung | simpler shape | T-V9-21; T-V9-80 (48) |
+| 48 | the frame (V09 §5.1) | a viewport below 600 × 480; every rung | the medium layout at its minimum, the page scrolling; the same frame at every rung | simpler shape | T-V9-22; T-V9-80 (48) |
 | 49 | the empty state's card (V09 §5.2) | a first map that fails | the card stays with **Surprise me** and **Open a town…**; the report names the failure rung | substitute | T-V9-1 |
 | 50 | the overlays (V09 §5.3) | no preview yet; a ghost of zero area | the raw stroke only; the badge's counts, no ghost | check | T-V9-80 (50) |
-| 51 | the thematic views (V09 §5.4) | nothing to draw for the view; one value; a stored value the town cannot draw (`supplyChains` with none listed); a view on every rung; each view on and off; save and reload | the legend reads `edge.nothingToShow`; the legend's one entry; read as None; the same views at every rung (Coverage and Voids hidden where their sources are absent); no model digest changes; `thematic` restored per viewer | check | T-V9-23; T-V9-68; T-V9-80 (51) |
+| 51 | the thematic views (V09 §5.4) | nothing to draw for the view; one value; a stored value the town cannot draw (`supplyChains` with none listed); a view on every rung; each view on and off; save and reload | the legend reads `edge.nothingToShow`; the legend's one entry; read as None; the same views at every rung (Voids hidden where its source is absent; Find's Show gaps, row 88); no model digest changes; `thematic` restored per viewer | check | T-V9-23; T-V9-68; T-V9-80 (51) |
 | 52 | the fates sheet (V09 §5.5) | a `confirm` with no fates and no renames; one fate; every rung | the action commits without the sheet (V09 §3.3); one row; the same at every rung, paged beyond 1 000 | check | T-V9-80 (52) |
 | 53 | the other panels (V09 §5.7) | an empty report; one entry; a degenerate entry address; a report with no dossier; every rung; each style; a panel after undo | `edge.allMade`; one line; the entry drawn with no **Show**; the dossier sections omitted; the same at every rung; the Dress cards of the shipped styles; re-read at `doc.changed` | leave out and report | T-V9-69; T-V9-80 (53) |
 | 54 | the why card (V09 §5.8) | an answer with nothing to show; one bar; a subject of zero area; a withheld subject | "The rules made it" and no bars; one bar at full length; the card anchored at the subject's point; its kind and nothing else | substitute | T-V9-65; T-V9-80 (54) |
@@ -1537,7 +1581,7 @@ rows name only what they add:
 | 67 | the frame × the tools (a gesture past `bounds`) | points beyond the frame are clamped to it at the settle, the readout saying `edge.frameEnd`; a quarter's lasso is clipped | repair locally | T-V9-80 (67) |
 | 68 | the frame × the working layers | Below and Sky share the frame's `bounds`; the zoom-out limit is the ground's bounds for every layer (item 116) | — | T-V9-76 |
 | 69 | a close-up neighbourhood × the working layers | the close-up is Ground's; Below and Sky show the town's layers as they stand, the close-up's edits Ground-only (V01 §4.5) | — | T-V9-80 (69) |
-| 70 | a terraced ward × the tools | T2 `ground`'s Terrace on a terraced ward re-levels within the ward's steps (V01's terraced fabric keeps its step rule); T3 `wall`'s Retaining wall snaps to the ward's step lines; T5's quarter over it keeps its terraces | repair locally | T-V9-54; T-V9-80 (70) |
+| 70 | a terraced ward × the tools | T2 `ground`'s Terrace on a terraced ward re-levels within the ward's steps (V01's terraced fabric keeps its step rule); T3 `wall`'s Retaining wall snaps to the ward's step lines; a quarter T5 `quarter` paints over it keeps its terraces | repair locally | T-V9-54; T-V9-80 (70) |
 | 71 | a terraced ward × the working layers | Ground's; Below under a terrace follows V04's depth from the levelled ground | — | T-V9-80 (71) |
 | 72 | a composed building × the working layers | Ground's at the building band; its basement and crypt reached on Below's band and in the plan panel | — | T-V9-80 (72) |
 | 73 | a crypt × the tools (T6 `place`'s chamber inside a church; T9 `shape`'s plan events on it) | V09 §4.17.5 (a) and (e)'s bends | repair locally | T-V9-35 |
@@ -1553,6 +1597,20 @@ rows name only what they add:
 | 83 | a dossier × the tools | a dossier-owned field is locked (`refuse.dossierOwned`); a dossier element's delete is **Not here**; a T6 `place` or T7 `roster` line naming no element takes `refuse.roster.dossier`; an absorb under a pending ghost re-previews it | check | T-V9-13; T-V9-69 |
 | 84 | custom content × the tools | a custom kind stamps and sites by its profile (item 104); its chain's links pin, move and cut as any link | — | T-V9-24; T-V9-68 |
 | 85 | custom content × the working layers | custom institutions are Ground's; a custom underground kind is Below's by its registry row | — | T-V9-80 (85) |
+
+**(e) Items 120–126's screens (V09 §4.21.7, V09 §4.21.10 – V09 §4.21.14)**
+
+| # | mechanism | the edge | outcome | rung | test |
+|---|---|---|---|---|---|
+| 86 | Find's list and type-ahead (V09 §4.21.10 (3)–(4)) | a section with nothing (no named place, no people module); a word matching nothing; a one-letter word; a typo in a word of four letters or fewer; a word naming a kind the key withholds; a whole word several present kinds carry; every rung | the section omitted; `find.noMatch`; prefix suggestions only; no typo forgiven there (prefix and whole word only); never suggested, listed or counted (item 120 (h)); each kind and one "All {word}s" chip; the same panel at every rung, the village rungs' ends and field groups under `areas` | check | T-V9-83 |
+| 87 | Find's chips (V09 §4.21.10 (1), (5), (7), (11)) | no chip; a chip with no match; a chip whose last match goes at a commit, an advance or an undo; a dossier chip whose entry an absorb re-keys; a chip the new key withholds at `onEffectiveKey`; more than eight chips; sixteen chips at the METROPOLIS cap; save and reload; a migrated document | Find off with the panel open (no veil); count 0, dark (`find.none`); the same, lit again when a match returns; followed by key and anchor (V08 §3.16 (6) (e)); `find.withheld`, nothing drawn; colours repeating, each chip's glyph and dash telling them apart; the union drawn within §12.5's overlay budget, the index rebuilt once per commit; the chips restored from the view section; the chips kept, re-evaluated on the migrated document | check | T-V9-83 |
+| 88 | `live.find` across bands and layers (V09 §4.21.10 (6), (8), (10), (13)) | every match on another layer; a match on a hidden sky layer; the city band with a thousand matches; the interior band with a matched building whose plan does not draw; Show gaps with no kind chip; Show gaps where a layer has no units; Find over each Show view; a picture export and a battle map with chips on | ghost pins only, each layer's count with **Go there**; its ghost pin at its drawn position, **Go there** showing the layer; count bubbles merged within one layer and, on Sky, one island; the building's glow and pin, no room marks; the switch disabled with `find.gapsNeedKind`; no gap drawn there; drawn over the view; drawn with the chips in the legend; left off unless **Draw Find** is on | simpler shape | T-V9-83 |
+| 89 | the resolution setting and its chip (V09 §4.21.11) | a level above the screen; a level the device cannot hold; a device-pixel-ratio change during a gesture; Auto at its lowest step; a screen beyond 4K; an unknown stored value; a fresh install | greyed with `settings.resolution.screen`; the nearest level that fits, with `info.resolution.fallback`, never a refusal or a crash (T121-4); re-evaluated at once, the level applied at the next settle (T121-7); tiles below CSS density with labels and chrome at the device pixel ratio, the chip naming the level; the 4K-equivalent tile DPR scaled up (item 121 (b)); read as `auto`; `auto` (T121-1) | substitute | T-V9-84 |
+| 90 | Show crises and the preview (V09 §4.21.12 (1)–(7)) | no condition and no preview; several crises at once; a crisis ending while shown; a condition with no `untilWeek`; a condition the dossier names not; a condition the key withholds; a preview on a dossier map; a carried preview whose look left the table; every rung | nothing drawn, byte-identical to the base (T122-7, `item122.crises`); each drawn, the outskirts shared by §10.2's priority under its density cap, each with its line on the card and in Find; drawn no more from its `untilWeek`, its card closing and its Find row going; drawn while the overlay stands, with `info.crisis.lineOpen`; `info.crisis.lineUnnamed`; never drawn, listed, named or counted; the previewed look alone while it shows; read as `follow`; the same controls at every rung, the village rungs' looks V07's | check | T-V9-85 |
+| 91 | the crisis framing and the forces (V09 §4.21.12 (5), (8)) | a crisis starting and ending while the view is moved; a force larger than the frame and its margin hold; two crises whose camps widen the bounds; camps wider than the window at stop 0 | the limit, the opening view and Fit move, the view is never re-framed, a view coarser than the restored limit settling to it about its own centre (§2.9); the rest drawn as §8.8's massed marks on the ring, the card giving the full number with `info.crisis.massed`; the bounds the union of town and every camp; stop 0 with `info.zoom.coarsest` (R2-30) | simpler shape | T-V9-76; T-V9-85 |
+| 92 | the damage lines (V09 §4.21.13) | a building never decayed; a fully ruined building; a building with no abandonment epoch (generated ruined, or met in the replay); a restored building; more than three rooms in a line; a crypt under a ruined church; a building in a district a disaster look ruins | no line (`item123.damage`); the ground floor's lines, each upper storey's `storeyGone`; read at V11's default age, the years clause dropped; the lines leaving in reverse threshold order, with `info.damage.patched`; three rooms and `info.damage.more`; its own threshold's `crypt` line, or none; the look's lines under `info.crisis.ruinedFor`, nothing stored | check | T-V9-86 |
+| 93 | weather effects (V09 §4.21.14) | reduced motion; the low tier; the switch during a gesture; Start a shower now in an arid row's dry weeks, in a winter that does not freeze, with the effects off; a `snow` cover carried onto an arid row; an export while a spell shows | off by default, a user's on honoured (T124-5); off by default; applied at once, no tile touched and the gesture unbroken; dust haze; rain, never snow; the button disabled; drawn `clear` (R2-39); the export without the effects (item 124 (h)) | check | T-V9-87 |
+| 94 | the week's fallback (V09 §4.21.7; item 125) | a dossier with no stamped tick; a tick far in the past; a host's `view.set { week }` against a moved control; an absorb bringing the first tick, the switch on and off | the control's own week (19 by default) with `view.season.noWeek`; its year position by DR42; the control moved as a user's pick does, the switch off; the week moved with the switch on, unchanged with it off | check | T-V9-77 |
 
 The named combinations of the owner's list that reach the application — a settlement growing over a sealed void
 (V09 §4.17.4's closure, T-V9-38), a dossier removing what an edit pinned (the pin orphaned and listed, V09 §4.10's orphans), an
@@ -1571,7 +1629,7 @@ so the rail is complete for a user who never opens a panel, and the panel is com
 
 ### 4.2 The tool rail, the five layers and the working layer
 
-**The rail.** A vertical column on the left (wide and medium layouts; a bottom sheet on narrow, V09 §4.12). It holds the
+**The rail.** A vertical column on the left (both layouts, V09 §4.12). It holds the
 five layers as labelled groups — "Kind of place" (L0 INTENT), "Ground & bones" (L1 GROUND AND BONES), "What's in it"
 (L2 PROGRAMME), "Fabric" (L3 FABRIC), "Finish" (L4 FINISH) — each tool a 44 × 44 px button with its icon, its name under it at UI scale 1, and its number badge (T1 `intend` – T12 `dress`, which is
 also its key, V09 §4.13). **Progressive depth (R9).** On first run only the four `firstScreen` tools show: T1 `intend`, T5 `quarter`
@@ -1625,21 +1683,21 @@ the entity registry (§2.8) on every build.
 
 | event kind (target) | the mode (§7.1's home tool) | the gesture | also from | source |
 |---|---|---|---|---|
-| `adjust` (intent, recipe, layers, islands, sewer family, ruins, a standalone neighbourhood's outline; the recipe's history option, item 113) | T1 `intend` (cards and sliders; the **History** chip, V09 §4.21.3) | a card or slider change; after a declaration a Re-derive previews as a whole-town ghost and commits on Accept (V09 §3.3); across the CITY line its effects list the generated raised ways that go or come, with **Keep them as yours** (V09 §4.20.3 (7)) | the basic and advanced panels (§7.8) | §7.1, §7.8; V01 §4.2; V04 §4.1; V05 §4.2 |
-| `setField(terrain)`, `warp`, `drawWater` (a lake's points form with `spring`, item 111), `moveCourseKnot` | T2 `ground` (raise, lower, cliff, flatten; warp kernels; lake, with its **Spring-fed (oasis)** toggle, V09 §4.21.1; river by source and mouth; **river or canal drawn** as a line with a width handle; coast and harbour; water paint) | brush strokes; a warp session with Apply / Discard (§7.1); points forms; a drawn line → `drawWater { kind: 'river' \| 'canal', add: [], line, widthCm }`; knot drags | river and lake handles (V09 §3.5) | §7.1; V05 §4.2 (sky key); FTG's drawn river |
+| `adjust` (intent, recipe, layers, islands, sewer family, ruins, a standalone neighbourhood document's outline; the recipe's history option, item 113) | T1 `intend` (cards and sliders; the **History** chip, V09 §4.21.3) | a card or slider change; after a declaration a Re-derive previews as a whole-town ghost and commits on Accept (V09 §3.3); across the CITY line its effects list the generated raised ways that go or come, with **Keep them as yours** (V09 §4.20.3 (7)) | the basic and advanced panels (§7.8) | §7.1, §7.8; V01 §4.2; V04 §4.1; V05 §4.2 |
+| `setField(terrain)`, `warp`, `drawWater` (a lake's points form with `spring`, item 111), `moveCourseKnot`; `moveVertex` on a shore or coast | T2 `ground` (raise, lower, cliff, flatten; warp kernels; lake, with its **Spring-fed (oasis)** toggle, V09 §4.21.1; river by source and mouth; **river or canal drawn** as a line with a width handle; coast and harbour; water paint; on a selected coast its chain handles) | brush strokes; a warp session with Apply / Discard (§7.1); points forms; a drawn line → `drawWater { kind: 'river' \| 'canal', add: [], line, widthCm }`; knot drags; a coast's chain-point drags by V09 §3.5's open-chain rule (a lake keeps its level handle alone, J-V9.47) | river, lake and coast handles (V09 §3.5) | §7.1; V05 §4.2 (sky key); FTG's drawn river |
 | `setAttr` on `geology`, a bank class, a site feature | T2 `ground` (on the selected ground or water) | chips | the context panel | §7.1's terrain and water rows |
 | `convert` `reclaim`, `siltReach`, `shiftCourse`, `digCanal`, `retypeLand`; `setAttr` on `WaterBody.spring.flow` | T2 `ground` (the "Change over time" menu of a water, marsh or hinterland face; the land-use chip; a spring's flow slider) | a context action with a ghost; V06 §4.2's forms | the context panel | §4.11, §7.1; V06 §4.2 |
-| `drawWall`, `placeGate`; `moveVertex` on a gate's crossing | T3 `wall` (draw, gate; on Sky with the island's `key`, V05 §3.21) | two or more points or a line; a gate stamp on the trace; a gate's grip slides it (V09 §3.5) | wall handles | §7.1; item 106 (g) |
+| `drawWall`, `placeGate`; `moveVertex` on an enceinte's trace — its chain points, a stretch's anchor vertex and a gate's crossing | T3 `wall` (draw, gate; on a selected enceinte its trace's handles; on Sky with the island's `key`, V05 §3.21) | two or more points or a line; a gate stamp on the trace; the trace's chain-point drags, a stretch end's drag along the trace, a gate's grip sliding it (V09 §3.5) | wall handles | §7.1; items 106 (c), (g) |
 | `drawWall` of kind `retaining` with `highSide` (file f item 362 (a)); `moveVertex` on its chain; `setAttr` on a retaining wall (material, towers, high side) | T3 `wall` (**Retaining wall**; on Sky with the island's `key`) | two or more points or a line with the High side chip (V09 §4.20.1) | the retaining wall's panel and chain handles | item 110 (a) |
 | `terrace` (sugar, file f item 362 (c)) | T2 `ground` (**Terrace**; on Sky with the island's `key`) | a brush with a level readout, then the level handle; Accept (V09 §4.20.1) | "Change the terrace's level" on a terrace-made wall | item 110 (a) |
 | `setAttr` on the castle (`site`, `baileyArea`) | T3 `wall` (on the selected castle: its keep grip and its bailey handle) | drags, previewed | the castle's context panel ("Move the castle", "Castle grounds" stepper) | §7.4's MFCG asks |
 | `convert` `wallToWay`, `gateToJunction`, `neglect`, `breach`, `dismantle`, `contractWall`, `absorbWall`, `repairWall` (with its material, item 114), `wearWall`, `repairRetaining`; `setAttr` on `Enceinte.pathway` | T3 `wall` ("Change over time" on an enceinte or gate; a run's grip: **Repair** with the **Material** chip, **Wear**, V09 §4.21.4; a neglected ring's **Back in use**; a retaining wall's decayed stretch: **Repair**) | a context action with a ghost; V06 §4.2's forms | the context panel | §4.11; V06 §4.2 |
-| `drawWay` (every class; `bridge` over water; V07's walk mode) | T4 `road` (class chips: main, street, lane, alley, track, path, quay, pier, bridge, ford) | two points or a line | way handles (`moveVertex`) | §7.1; V07 §4.2 |
-| `drawWay` with `raised` and the `aqueduct` class (file f item 362 (b)) | T4 `road` (the **Raised** toggle; the **Aqueduct** chip; V09 §4.20.2) | two points or a line, its ends on ground vertices | a raised way's handles (`rampEnd`, interior points); **Build it again** in the history (V09 §4.20.3); **Keep them as yours** on T1 `intend`'s ghost | item 110 (b) |
+| `drawWay` (every class; `bridge` over water; V07's walk mode); `moveVertex` on a way's chain | T4 `road` (class chips: main, street, lane, alley, track, path, quay, pier, bridge, ford; on a selected way its chain handles) | two points or a line; a chain point's drag (V09 §3.5) | way handles | §7.1; V07 §4.2 |
+| `drawWay` with `raised` and the `aqueduct` class (file f item 362 (b)); `moveVertex` on a raised way's chain | T4 `road` (the **Raised** toggle; the **Aqueduct** chip; V09 §4.20.2; on a selected raised way its handles) | two points or a line, its ends on ground vertices; a `rampEnd` drag onto a ground vertex, an interior point's drag on its raised part (V09 §3.5) | a raised way's handles (`rampEnd`, interior points); **Build it again** in the history (V09 §4.20.3); **Keep them as yours** on T1 `intend`'s ghost | item 110 (b) |
 | `setAttr` of a span's `use` (`spans/<n>/use`), of a crossing's `form` (`crossings/<wall>/form`), of a raised way's `clearanceCm` and `spanSpacingCm` (file f item 362 (d), file f item 364) | T9 `shape` (its `setAttr`, on a selected raised way, its span or a crossing, reached through the hit stack; J-V9.104) | chips; steppers; each previewed (V09 §4.20.6) | the span's, crossing's and raised way's panels | item 110 (a), (b); V04 §3.5.4 (the arch vault) |
 | `setAttr` on a way (class, width, name) and a bridge's kind; `convert` `downgradeWay`, `upgradeWay`, `repairRaised` | T9 `shape` (its `setAttr`, on a selected way; J-V9.104; the class chip's `path` ↔ its former class; **Repair** on a raised way, **Rebuild the deck** on a bridge or pier) | class chips; a width stepper; a context action with a ghost | the context panel | §7.1's ways row; V06 §4.2 |
 | `split` of a way at a point, `merge` of two ways | T9 `shape` (on a selected way: **Split here**, one click on it; with two ways selected: **Join these**; J-V9.104) | a click; a context action | the context panel; the context menu | §7.1; §7.4's MFCG asks ("add vertices") |
-| `drawTunnel` (a sewer run, or a gallery with `system`), `addLink` (working layer Below) | T4 `road` (tunnel, link), the gallery's system from the **system chip** (V09 §4.17.2) | two points or a line on the underground layer | — | V04 §4.1; item 109 (h) |
+| `drawTunnel` (a sewer run, or a gallery with `system`), `addLink` (working layer Below); `moveVertex` on a tunnel's chain | T4 `road` (tunnel, link), the gallery's system from the **system chip** (V09 §4.17.2); on a selected run its chain handles | two points or a line on the underground layer; the run's chain-point drags on Below (V09 §3.5) | the run's handles | V04 §4.1; item 109 (h) |
 | `placeSkyAccess` (working layer Sky, or a stroke from the ground to a rim) | T4 `road` (sky access) | a stroke ground → rim | the island's context panel | V05 §4.2 |
 | `quarter` (sugar), `drawBoundary` | T5 `quarter` (kind card, then seed / corners / lasso / brush / click-inside) | points forms (§7.1) | boundary handles (a partial ring, V09 §3.5) | §7.1; V05 (`sky`) |
 | `setAttr` on a district (kind, identity, `DistrictIntent`, band), `merge` and `split` of districts | T5 `quarter` (on a selected quarter: its kind card, band chip, "Merge with…", "Split along…") | chips; a two-point split line | the context panel | §7.1's districts row; item 72 |
@@ -1650,24 +1708,24 @@ the entity registry (§2.8) on every build.
 | `drawChamber` (into a system, or `{ newKind }` creating a ruin, cavern or catacomb, file f item 361), `placeAccess` (over a sealed void it is the user's excavation), `addUndergroundAccess` | T6 `place` (on Below: chamber, access, with the system chip; on a building: "Add a way down") | one point and a size; a context action | the building's context panel; the access closure of a dwelling declaration (V09 §4.17.4) | V04 §4.1; §7.3 item 9; item 109 (h), (j) |
 | `setAttr` on an access point (`kind`, `role`, `state`, `knownTo`, `ground.at`), `moveVertex` on its `access_point` vertex, `delete` | T9 `shape` on the selected access ("Brick it up", "Lock it", "Open it", "Who knows this way down", the opening's drag, the underground end's drag); T6 `place` for a new one | chips; drags; the Delete key | the access's panel (V09 §4.17.3) | §7.1's underground row; V04 §4.2 |
 | `setAttr` on a catacomb's `fill`; `delete` of catacomb galleries | T9 `shape` on the catacomb (the fill stepper; Delete on selected galleries) | a stepper; the Delete key | the catacomb panel (V09 §4.17.5) | V04 §4.2, V04 §4.3 (J-V4.56) |
-| `instance` add (a hood pin) | T6 `place` (furniture stamp) | drop | — | V01 §4.2 |
+| `instance` on a hood pin — add, move, remove, restyle | T6 `place` (the **Furniture** stamp; on a selected pin) | add: a drop of V01's furniture stamp; move: V09 §4.6's drag; remove: Delete; restyle: its kind chips (`InstanceStyle.pinKind`, §8.10) | the pin's context panel | V01 §4.2; §7.1 (item 349) |
 | `convert` `relet` | T6 `place` (the building's "Households") | a number stepper | the plan panel | V03 §4.1 |
 | `convert` `openUse`, `closeUse`, `relocateUse`, `mutate`; `swapUse` | T6 `place` ("Open a business here", "Close", "Move it", "Swap with…") | a context action; drag a use's badge onto another building | the context panel | §4.11, §7.1 |
 | `roster` (sugar) | T7 `roster`; its one-line form also T6 `place` (a place by a locus: a drop on a quarter, road or gate, or a typed locus; file f item 570) | paste or type a list; cards; for T6, one drop or one typed locus | — | §7.1; file f item 570 |
-| `fill`, `setField` (density, greenery, prosperity), `drawGreen`; `setAttrMany` of land use; `instance` groups of trees | T8 `fill` (density, mix, greenery, prosperity brushes; square; park; **Land use** lasso — arable, pasture, orchard, wood → `setAttrMany` of the land-use faces under it; **Trees** brush — plant, thin, restyle → one group of `instance` events, a `drawGreen` first where no green hosts them) | brushes; drops; a lasso | — | §7.1; §7.4's MFCG asks ("farms in chosen areas"); FTG's tree brush |
+| `fill`, `setField` (density, greenery, prosperity), `drawGreen`; `setAttrMany` of land use; `instance` on trees and §8.10's other decoration instances — add, move, remove, restyle | T8 `fill` (density, mix, greenery, prosperity brushes; square; park; **Land use** lasso — arable, pasture, orchard, wood → `setAttrMany` of the land-use faces under it; **Trees** brush — plant, thin, restyle → one group of `instance` events on the decoration marks under it, trees and §8.10's other instances (a scatter class's, a run's boats) alike, each added as its mark's own class, a `drawGreen` first where no green hosts new trees) | brushes; drops; a lasso; an instance's move by V09 §4.6's drag | a selected instance's context panel (its restyle chips; Delete) | §7.1; §7.4's MFCG asks ("farms in chosen areas"); FTG's tree brush |
 | `setAttr(fabric)` + `regenerate`, `setAttr(fabricParams.*)`, `setAttr(terrace)` + `regenerate` | T8 `fill` (layout card on a district, with its **Terraces** chip — V01's `terrace`: auto · on · off) | a card pick with variations; the chip, one undo group | the close-up panel | V01 §4.1, V01 §4.2 |
 | `split`, `join`, `merge`, `moveFootprint`, `setEntrance`, `paint`, `setAttr` (class, heights, roof, basement, tenure, reach, front jitter, surface, a square's type, a block's content, a way's class, width and name, the item-110 `setAttr` paths …) | T9 `shape` | corner and door drags; storey steppers; roof and wall paint; chips | the context panel's Shape tab | §7.1; V01 §4.1 |
 | `setMassing`, `setComposition` (`room` among its ops), `reshapeRange`, `moveTower` (with `shape`), `addTower` | T9 `shape` (at the building band: range, tower and room handles, storey and dormer steppers, roof, the porch and the secondary porch, hood, tower-shape and room chips, the family strip; on a `stepped` building the tier controls — `setMassing { op: 'tiers' }` and a tier's `setAttr` of heights, shape, skirt and solid, V09 §4.20.5) | handles, steppers, chips (V09 §3.5) | the building tab | V02 §4.1, V02 §4.4, V02 §4.5, V02 §4.6 |
 | plan events (`setRoomRole`, `moveWall`, `splitRoom`, `mergeRooms`, `setOpening`, `setWindow`, `moveStairCore`, `setRoomUnit`), `setHearth`, `instance` on furniture | T9 `shape` (at the building band, the plan) | wall and door drags; role chips | the plan panel (V03 §4.5) | §7.1; V03 §4.1 |
 | `drawPassage`, `convert` `sealPassage`, `openPassage`, `densify`, `thin`, `subdivide`, `amalgamate`, `plotToGarden` | T9 `shape` (on a plot or block) | a two-point passage; context actions | the context panel | §7.1, §4.11 |
 | `convert` `demolish`, `abandon`, `decay`, `ruin`, `robStone`, `clear`, `rebuild`, `build`, `burn`; `setAttr` on a `MutationPlan` step and on `Use.strain` | T9 `shape` ("Change over time" on a building; the plan's steps; the use's "clear its trouble"); the history panel's hazard tray for a fire, a flood, a collapse or a dry year (V06 §4.2) | context actions with ghosts; the hazard's dry run with three variations | the context panel | §4.11; V06 §4.2 |
-| `convert` tunnel kinds (`silt`, `caveIn`, `seal`, `reopen`, `flood`), `raiseGrade`, `clearUndercity`; island kinds (`resizeIsland`, `waneIsland`, `settleIsland`, `fallIsland`, `refloatIsland`, `raiseIsland`); `setAttr` on a ruin's `monument/count` | T9 `shape` (on the tunnel, system, neighbourhood, island or ruin; a ruin's monument stepper) | context actions; the island's rim handles (V09 §3.5); a stepper | the context panel | V04 §4.1, V04 §4.2; V05 §4.2 |
+| `convert` tunnel kinds (`silt`, `caveIn`, `seal`, `reopen`, `flood`), `raiseGrade`, `clearUndercity`; island kinds (`resizeIsland`, `waneIsland`, `settleIsland`, `fallIsland`, `refloatIsland`, `raiseIsland`); `setAttr` on a ruin's `monument/count` | T9 `shape` (on the tunnel, system, neighbourhood, island or ruin; a ruin's monument stepper) | context actions; the island's rim handles under **Resize** (V09 §3.5); a stepper | the context panel | V04 §4.1, V04 §4.2; V05 §4.2 |
 | `startWorks`, `cancelWorks`, `setAttr` on a Works | T9 `shape` ("Build it over time" on any build, convert, join, split or delete) | a toggle on the action with a duration | the Works' context panel | §4.11, item 67 |
 | `editTable` on `siting.declared` and `siting.linkEdits` (V09 §2.6) | T9 `shape` (a place's "What it cares about", its per-kind panel "All {kind}s in this town", "Keep together on one plot"); the link view (V09 §4.7) | chips and sliders; link drags; context actions | the context panel; the tables editor | items 104 (a) (1), 105 (h), (j); V11 §4.2 |
-| `lock`, `unlock`, `pin`, `unpin`, `revert`, `regenerate` (keep, New random, a rung, a tunnel run or a system, an island's `shade`); `rerollLayer('village.track')` | T10 `hold` | the lock and pin icons; **Try again** (New random) with its scope chips — at a village rung also the roads and the fields (V07 §4.1), a village's woods re-rolling with T12 `dress`'s **New trees** (`rerollLayer('render.instances')`, town-wide, §6.1); the re-roll brush (V09 §3.7); ctrl / cmd+click (revert); "Update shade now" on an island | alt+click (lock), shift+click (New random), R | §7.1, §14; V04 §1b.3; V05 §4.2; V07 §4.1 |
+| `lock`, `unlock`, `pin`, `unpin`, `revert`, `regenerate` (keep, New random, a rung, a tunnel run or a system, an island's `shade`, a household's people — the scope `people`, §10.3); `rerollLayer('village.track')` | T10 `hold` | the lock and pin icons; **Re-derive people** on the households chosen in V09 §4.18's People panel or on a household's line of the person's card — previewed with its fates, one undo step (§10.3; §7.4's regenerate row; R2-22); **Try again** (New random) with its scope chips — at a village rung also the roads and the fields (V07 §4.1), a village's woods re-rolling with T12 `dress`'s **New trees** (`rerollLayer('render.instances')`, town-wide, §6.1); the re-roll brush (V09 §3.7); ctrl / cmd+click (revert); "Update shade now" on an island | alt+click (lock), shift+click (New random), R | §7.1, §14; V04 §1b.3; V05 §4.2; V07 §4.1 |
 | `setAttr(name)`, `setAttr(displayText)`, `moveLabel`, `hideLabel`, `group`, `rerollLayer(naming)` | T11 `name` | click a label to type; drag it; select quarters and "Name as region"; "New names" with a scope | F2 on the selection | §7.1, §9.1 |
 | `setAttr(knownTo)` on a plot, building or institution | T11 `name` ("Who knows this place": everyone, locals, secret) | chips | the context panel | §7.1; item 30 |
-| `setAttr` on an island (area, altitude, state, occlusion, underside) and on a sky access | T9 `shape` (on the island) | handles and steppers | the island's context panel | V05 §4.2 |
+| `setAttr` on an island (area, altitude, state, occlusion, underside) and on a sky access; `moveVertex` on an island's key | T9 `shape` (on the island; on Sky, a vertex of the island's own arena — the rim handles under **Reshape the rim**, V09 §3.5) | handles and steppers; a rim vertex's drag | the island's context panel and its rim chip | V05 §4.2 |
 | `setStyle`, `setLayer`, `paintGround`, `placeLight`; the leader-line switch (a style row, §9.4); `rerollLayer` of `style.compass`, `naming.emblem`, `render.instances` (**New trees**, V09 §3.7; J-V9.101) and `style.jitter` with `style.crowns` (**New decoration**, one group; J-V9.115) | T12 `dress` | style cards; toggles; **New trees**, **New decoration**, **New emblem** and **New compass** (buttons in the Dress panel, V09 §4.19; each a `rerollLayer` at the concern's current salt + 1 — New decoration two, as one group — V09 §4.5's T12 row); a quarter's **Colour** swatch (a thematic `setStyle` row keyed by that district); the wall layer's **Show the whole circuit** and the underground's view chips (`setLayer`); a ground-texture brush; drop a light; the furniture tray | the view bar (layers, the Below group) | §7.1, §9.4, §9.5; §7.4's MFCG asks ("set district colours"); V01 (pinGate, vignette); V04 (lights below, `underView`) |
 | `setAttr` on a light (kind, height, colour, intensity, radius, point), `delete` of a light | T12 `dress` (the selected light) | chips; a drag re-hosts its point | the context panel | §7.1's lights row |
 | `closeup` | produced by the first edit inside a close-up (PART II) | — | — | §7.1; V01 |
@@ -1688,14 +1746,14 @@ previous value (§2.9).
 ### 4.4 The context panel — generated from the entity registry
 
 A selection opens the **context panel** (wide: a 360 px column on the right; medium: a 320 px sheet over the map's right
-edge; narrow: a bottom sheet at half height, dragged to full; V09 §5.1). Its content is **generated** from §2.8's entity
+edge; V09 §5.1). Its content is **generated** from §2.8's entity
 registry, so a new entity kind or edit path reaches the panel without panel code:
 
 * **Header** — the thing's name (click to rename: T11 `name`), its kind in plain words from the message catalogue, a **tier
   chip** for the thing and for each field (§2.8's `factTier`: "From SettlementForge" for `dossier`, "Yours" for
   `declared`, "Made by the rules" for `map`), the lock and pin toggles (T10 `hold`), and the **Why here?** button (V09 §5.8).
 * **Tabs** — **About** (every attribute the registry lists for the kind, each with its tier chip; an editable path is a
-  control, a derived one is text); **Shape** (T9 `shape`'s controls for the kind, V09 §4.5); **Keep** (T10: lock paths, pin, revert,
+  control, a derived one is text); **Shape** (T9 `shape`'s controls for the kind, V09 §4.5); **Keep** (T10 `hold`: lock paths, pin, revert,
   **Try again** — §7.1's New random — with its scope chips); **Links** (a use's supply links, V09 §4.7); **Over time** (the kind's `convert` ops and
   "Build it over time" for Works, §4.11; the lifecycle lines — "ruined since year N", "once an inn" — from V06 §5.2);
   **History** (the history panel filtered to rows whose `targets` include the thing). A tab with nothing to show for the
@@ -1717,7 +1775,7 @@ registry, so a new entity kind or edit path reaches the panel without panel code
   the same registry and `toolkit.json` (J-V9.52), in this order: **Why here?**; **Select below: {name}**, one item per
   other entry of the hit stack under the pointer (V09 §4.20.8); **Try again** (with the kind's default scope); **Lock** / **Unlock**; **Pin** / **Unpin**; **Reset to generated** (when edited); the kind's primary Shape actions
   (the first four of its Shape tab's controls, as items); an **Over time** submenu (the kind's `convert` ops and "Build it
-  over time"); **All {kind}s in this town…** for a use (V09 §4.7); and last **Delete**, previewed by V09 §4.20.3's rule — or
+  over time"); **All {kind}s in this town…** for a use (V09 §4.7); **Find all {kind}s** for a use (`find.findAll`: its kind chip added to Find, V09 §4.21.10 (2)); and last **Delete**, previewed by V09 §4.20.3's rule — or
   **Not here** for a dossier-backed thing. Each item is the same control as the panel's, so it previews and commits the same way; a menu opens
   at the pointer, is keyboard-navigable (arrows, Enter, Esc) and closes on any other click.
 
@@ -1727,8 +1785,7 @@ Each row gives the modes (with their gesture), the parameters shown at once and 
 a draft to events (V09 §3.3 step 4; a points form written as §7.1 states it, each geometry field the dry run resolves
 written empty — `points: []`, `boundary: []`, `add: []`, a `placeAt`'s `plot: ''` — beside its `from`, the bytes
 V10 §4.1's encoders write, T101-3), the commit style (V09 §3.3), the badge's extra figures and readouts, the tool's bend and
-refusal lines (V09 §4.9), the keyboard form (§14's accessibility contract) and its availability on the narrow layout and
-with a coarse pointer (V09 §4.12). §14's table gives each tool's first-use hint and live feedback; they are not restated.
+refusal lines (V09 §4.9), the keyboard form (§14's accessibility contract) and its availability with a coarse pointer (V09 §4.12). §14's table gives each tool's first-use hint and live feedback; they are not restated.
 
 **Mode ids** (`ToolModeRow.id`, V09 §2.3; J-V9.124). Each mode's id is its name in the row in lower camel case,
 unique within its tool — among them T4 `road`'s `way` (the class chips, with **Raised** and **Aqueduct**), `tunnel`, `link` and
@@ -1739,20 +1796,20 @@ V09 §4.20.5), `place`, `way` and `raised`; and T11 `name`'s `rename`, `moveLabe
 catalogue button and the clerk's `useTool` open a tool in one of them (V09 §2.9's `MsgButton.mode`; V09 §4.11), and T-V9-15
 checks every such mode against `toolkit.json`.
 
-| tool | modes · gesture | basic parameters | behind "More" | mapper → events | commit | badge extras · readouts | keyboard form | narrow · coarse |
+| tool | modes · gesture | basic parameters | behind "More" | mapper → events | commit | badge extras · readouts | keyboard form | coarse |
 |---|---|---|---|---|---|---|---|---|
-| T1 `intend` | the **Kind of place** sheet: product chips (Town & city; Village when that product is registered, V07; Neighbourhood, V01's `product: 'hood'`), site cards (a forms-catalogue row with its water setting, side and era preset, §7.7, §7.8), size chips (seven, at population quantiles of the rungs' bands read from the rung table: small town, town, large town at the TOWN band's 25th, 50th and 85th percentiles; small city, city, large city at the CITY band's; metropolis at the METROPOLIS band's median — each showing its number, "about 3 400 people"; J-V9.56, the one rule for the size words, which V10 §3.3's lexicon names by quantile), wealth slider, walls chip (none · one ring · two rings), style card, the **History** chip (item 113; V09 §4.21.3); Surprise me; V06's time card | site, size, wealth, walls, style | exact population, seed, gates, castle, the features strip, planned ↔ organic, greenery, labels (the rest of §7.8's basic panel); "Advanced…" opens the advanced panel | empty state: a new `generate` replacing the untouched town (V09 §3.2); after a declaration: `adjust(param, value)` — a Re-derive for a parameter consumed before S10 (§7.1) | empty state: on release; after a declaration: a whole-town ghost with Accept (V09 §3.3); the fates sheet only after Accept, when fates other than kept or renames exist | the proxy thumbnails while a site or size card is hovered (§7.8); "Rebuilds from {stage}: {n} of your changes are kept, {m} move"; across the CITY line, the raised ways that go or come among the effects (V09 §4.20.3 (7)) | cards in a grid with arrow keys, Enter picks; sliders take arrows and Page keys | yes · yes |
-| T2 `ground` | **Raise, Lower, Cliff, Flatten** (brush: press and drag); **Warp** (the eight kernels of §7.1, a session with Apply / Discard); **Lake** (one point, then drag up or down for the level; the **Spring-fed (oasis)** toggle, V09 §4.21.1); **River** (source point, mouth point); **River or canal** (draw a line; a width handle, default the kind's width row); **Coast & harbour** (sea level, one shore point, a basin size); **Water paint** (add or subtract water by lasso); **Terrace** (a brush that levels the ground under it to a level, with its level handle; V09 §4.20.1) | brush radius (m), strength | falloff, the terrain brush's water mode (`locked` by default, `follow`; §7.2), a warp's inner radius | a stroke → `setField { field: 'terrain', stroke }`; a warp session → one `warp`; lake → `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm } }`, with the toggle on `from: { points: [p], levelCm, spring: true }` (§7.1's `PointsForm.spring`; item 111 (a)); river → `drawWater { kind: 'river', add: [], from: { points: [source, mouth] } }`; a drawn river or canal → `drawWater { kind, add: [], line, widthCm }`; harbour → `drawWater { kind: 'harbour_basin', add: [], from: { points: [shore], levelCm, sizeM2 } }`; water paint → `drawWater { kind, add: rings }` or `drawWater { kind, add: [], subtract: rings }` (on Sky: with V05's `key`); terrace → `terrace { stroke, levelCm }` (file f item 362 (c)) | a stroke on release; a warp on Apply; water forms and a terrace on Accept | height under the pointer (m), slope (%), stroke length; "{n} plots re-flow · {m} roads re-routed" from the preview | a brush applies at the focused entity's scope with the arrow keys moving the brush centre and Enter stamping; points forms by arrows + Enter | no (view only: "Shaping the ground needs a larger screen") · yes |
-| T3 `wall` | **Draw wall** (two or more points or a line; closes when its ends meet within 20 px); **Gate** (drop a gate stamp on a trace; slide a gate's grip — `moveVertex`, V09 §3.5); **Retaining wall** (two or more points or a line with the **High side** chip; V09 §4.20.1); **Repair** on a run (its **Material** chip: robust, or a patch row; V09 §4.21.4) and **Wear**; on the castle, its keep and bailey handles | High side (Retaining wall); Material (Repair) | the enceinte kind (§2.7), open or closed | a line → `drawWall { points, kind, closed }`, two or more points → `drawWall { points: [], kind, closed, from: { points } }`; a gate → `placeGate { enceinte, at, expansion }` (`expansion` sugar.json's current version); a retaining wall → `drawWall { kind: 'retaining', closed, highSide? }` with its line as `points`, or `points: []` and `from: { points }`; Repair → `convert { op: 'repairWall', enceinte, stretch, material }` and Wear → `convert { op: 'wearWall', enceinte, stretch }` (V06 §2.8) | on release; Accept when fates move houses or effects are listed | gates · towers · walled m · closed by barriers m · houses displaced · the districts enclosed, tinted (V09 §3.4); a retaining wall: V09 §4.20.1 (2)'s badge | points by arrows + Enter; Tab cycles gate grips | no · yes |
-| T4 `road` | class chips (main, street, lane, alley, track, path, quay, pier, bridge, ford, **Aqueduct**); the **Raised** toggle (V09 §4.20.2); **Tunnel**, **Link** (Below, with the system chip); **Sky access** (Sky, or a stroke from the ground to a rim) | class, Raised | width (m), name, V07's walk mode at village rungs | two points → `drawWay { points: [], class, widthCm, from: { points: [a, b] } }` (S4's router); a line → `drawWay { points, class, widthCm }`; with Raised or Aqueduct → the same with `raised: true` (file f item 362 (b)); Below → `drawTunnel` / `addLink` (V04); Sky → `placeSkyAccess` (V05) | on release; a raised or aqueduct stroke always on Accept (V09 §4.20.2 (8)) | length (m), bearing (Shift snaps to 15°), grade (%), bridges, "{n} new frontage plots" (ghosts along the road; on a pier, quay or bridge "{n} deck plots", V09 §4.20.4); with Raised on V09 §4.20.2 (8)'s badge | points by arrows + Enter; Backspace or right-click removes the last point; PageUp / PageDown turn Raised on and off while drawing | no · yes |
-| T5 `quarter` | a **kind card** first (the district-kind rows, V11), then: one **seed** point, **two to four corners**, a **lasso**, a **brush**, or **click inside** a road-enclosed block (takes that block whole); a name | kind, name, band chip (the band set's labels, §4.5) | size target (m², also the badge's plus / minus), sky (V05) | `quarter { boundary: [], from: { points, sizeM2? }, kind, name?, band?, expansion }` (§7.1's sugar; `expansion` sugar.json's current version); click-inside → the block's ring as the lasso form; at a village rung → `declareEnd` (V07); on a selected quarter: `setAttr`, `merge`, `split` (V09 §4.3) | Accept (pending ghost with handles, V09 §3.3) | plots · households · buildings, **plus / minus** stepping `sizeM2` by (band max − band min) ÷ 8, clamped into the kind's size band, from the band's median when unset (file f item 348) | kind cards by arrows; the seed at the focus point; handles by Tab | yes (seed and click-inside only) · yes |
-| T6 `place` | **Stamp** (a searchable palette of class stamps grouped by category, V11's labels and icons, listing the classes the document's rung admits — V09 §4.16 (3)'s set; drop on a spot, a quarter, a road or a gate); **Locus** (type "near the north gate"); **Footprint** (draw a polygon); **Furniture** (V01's hood-pin stamps); **Below**: chamber (`chamber`), access (`access` — `placeAccess` on a chosen spot, over a sealed void the user's excavation; the mode `bend.under.noAccess`'s and `info.under.sealed`'s **Add a way down** open), each into the system the system chip names, and "New ruin", "New cavern", "New catacomb" where item 109 admits one (V09 §4.17.2); on a building: "Add a way down"; on a rejected site "Allow here again", on a pinned plot "Free this plot", on an assigned thing "Remove the assignment"; on a deck, its plots and a mole's or long bridge's landmark slots (V09 §4.20.4) | class, name | exact site ("this plot only"), the drift bounds (§7.7), a hidden front (item 63) | a drop on a plot → V10 §4.1's `where.at` row (with "this plot only", its `where.plot` row), the one mapping for canvas and clerk (T101-3): `placeAt` with `designation { cls, use }` (§4.7's `Designation`: the stamp's building class and its roster class id) and, when the name field is filled, a `setAttr { path: 'name' }` on the use that `placeAt` creates — its address read from the preview's `created` list (file f item 470) as V10 §3.11 (3) resolves a placeholder — the two in one group; a drop on a quarter, road or gate, or a typed locus → a one-line `roster { lines: [{ name, cls, locus }], expansion }` (`expansion` sugar.json's current version; an empty name field writes `name: ''`, file f item 571's unnamed line; one text with V10 §4.1's `where.locus` row; T6's own kind by file f item 570; the sugar expands to one `assign` whose id the engine mints from the event's `seq`, §6.3, so the app never writes an assignment id; the locus is a `Locus` (§7.1: its `rel` in, on, at or near, its `target` and optional `side`) parsed from the drop target or the typed words, V09 §4.16); **with a dossier connected** (§7.1's roster rule; J-V9.88) a locus drop of a class stamp previews the same one-line `roster`, and a line naming no element comes back `dossier-owned`: its refusal card is `refuse.roster.dossier` with the element picker of V09 §4.16 (5) (the unplaced elements, the stamp's class first; a pick re-previews the line with its `element`, V10 §4.1's `element` row) and **Put it at {site}** — `placeAt { plot, designation }` on the first `SiteCandidate` satisfying the locus, the alternative V10 §3.16 offers: the first candidate with no `hardFails` of `query({ kind: 'sites', cls, near: target.anchor, district: rel === 'in' ? target.id : undefined, k: 3 }, { admitAs })` — `target` the locus target's `EntityCard`, `district` only for `in` a quarter — one query for canvas and clerk; when none of the three is free of hard fails, **Put it at {site}** is not shown and the element picker stays — one rule with V10's `dossier` alternative, which is then not offered; footprint → `drawFootprint`; furniture → `instance { op: 'add' }` (V01); chamber → `drawChamber { system }` or `{ system: { newKind } }` (file f item 361); access → `placeAccess`; a way down → `addUndergroundAccess`; the lifts → `rejectSite { op: 'lift' }`, `placeAt { lift: true }`, `unassign` | Accept, or nudge (drag the ghost footprint to another plot: a new preview there) | the chosen plot's area, households; the one-line reason; two or three faint alternatives (file f item 463); on a deck "on the {deck} · at most {n} storeys · {a}–{b} m²" (V09 §4.20.4); a design above the rung's grandeur ceiling, honoured, with the line `info.grand.beyondTier` (item 115 (c); V09 §4.21.5) | the stamp palette is a listbox with type-ahead; the locus field is text; Enter accepts | yes · yes |
-| T7 `roster` | **Paste** into the visible box in T6 `place`'s options ("Paste your list of places"); each line becomes a card with its guessed class (changeable) and locus; under the box, **Ask the assistant to place these** when a clerk is configured and on (V09 §4.11) | — | with a dossier: an element picker per line (unplaced elements) | one `roster { lines }` (§7.1's sugar) for the whole list; accepting card by card commits a `roster` with that card's line and re-previews the rest; with a dossier connected, a line committed naming no element comes back `dossier-owned`: its card is `refuse.roster.dossier` — the element picker and, when a candidate is free of hard fails, **Put it at {site}** by T6's `sites` query (`near` and `district` from the line's locus, both omitted for a line with none; V10 §4.1) — one rule with volume 10's `dossier` alternative (J-V10.93; J-V9.99) | Accept all, or per card | plots · households · buildings; sites placed · lines not placed (each with its nearest options) | the card list is a grid; Enter accepts the focused card | yes · yes |
-| T8 `fill` | **Density**, **Mix** (an arrangement: dense rows, detached, compounds …), **Greenery**, **Prosperity** brushes; **Square**, **Park** (drop and size); **Land use** (a lasso: arable, pasture, orchard, wood); **Trees** (a brush: plant, thin, restyle); **Layout** card on a district (V01's fabric), its **Terraces** chip behind More | brush radius, the density dial (−3 … +3) | the arrangement's class, the layout's parameters (V01), the layout card's **Terraces** chip (auto · on · off; V01 §4.1) | density / greenery / prosperity → `setField { field, stroke }`; mix → `fill { scope: the blocks under the brush, arrangement, cls? }`; square / park → `drawGreen { polygon, kind }`; land use → `setAttrMany { ids: the land-use faces under the lasso, path: their kind, value }` (§2.7's land-use faces); trees → one group of `instance { op: 'add' \| 'remove' \| 'restyle' }` (a `drawGreen` first where no green hosts them); layout → `setAttr(district.fabric)` + `regenerate` (grouped, V01); terraces → `setAttr(district.terrace)` (`'on'`, `'off'`, or absent for auto) + `regenerate({ ids: [the district] }, 'keep')` (grouped, V01 §4.1) | brushes, mix, layout: Accept one of three variations, the committed group of V09 §3.6; square, park, land use, trees, terraces: Accept | plots · households · buildings; the variation tray | the brush at the focused scope; `[` `]` cycle variations; Enter accepts | no · yes (subject to §13.4's touch fallback) |
-| T9 `shape` | contextual: on a plot — split (a two-point line), join (click a neighbour), corner drags, front jitter, reach; on a building — move and turn the footprint, storeys, roof kind and colour, door drags, basement, class, over-time actions, "Build it over time"; at the building band — V02's massing and V03's plan tools, and on a `stepped` building the tier controls (V09 §4.20.5); on a place — "What it cares about" (V09 §4.7); on a way — class, width and name, **Split here** (one click on it) and, with two ways selected, **Join these**; on a raised way, span or crossing — V09 §4.20.6's controls | the kind's primary controls | the rest of the kind's editable paths | the event kinds of V09 §4.3's T9 rows; on a way, Split here → `split { id: the way, cut: [p] }`, `p` the nearest point of the way's centre-line to the click by V10 §4.1's T9 rule, and Join these → `merge { ids: [the first selected, the second] }` | on release (each edit one undo step; V02 and V03 as they state) | "{n} households re-homed", the site plan's changes; a reshape above the rung's grandeur ceiling, honoured, with `info.grand.beyondTier` (V09 §4.21.5) | every control in the Shape tab is a form control | view and the Shape tab's forms only · yes (subject to §13.4's fallback) |
-| T10 `hold` | contextual: the lock and pin toggles on any thing; **Keep these, re-roll the rest** on a lasso; **Try again** (New random) with scope chips (on Below also this run, this system); the **Re-roll brush** (V09 §3.7); **Reset to generated**; on an island **Update shade now**; **Delete** on any thing (the Delete key and the context menu; V09 §4.20.3; J-V9.74) | — | lock on attribute paths (a person's name, a room) | `lock` / `unlock` / `pin` / `unpin`; `revert`; `regenerate { scope, mode }` (V09 §3.7); `delete { id }` | lock and pin at once; a re-roll by Accept of a variation; a Delete at once, or on Accept when its dry run lists anything beyond the thing itself | the fates list (kept, carried, orphaned); held things stay bright while the rest ghosts | alt+Enter toggles the selection's lock (L stays the labels key, §14); R is Try again | yes · yes |
-| T11 `name` | click a label to type a new name; drag a label; select quarters and **Name as region**; **New names** with a scope (these, this quarter, the town); the leader-line switch; "Who knows this place" | — | name packs and a user's own name list (§10.4, an `adjust` of packs) | `setAttr(name)` — or `setAttr(label.displayText)` for a dossier-owned name; `moveLabel`; `hideLabel`; `group`; New names — these → `rerollLayer { concern: 'naming', ids: the selection's named entities, salt: 0 }`; this quarter → the same with `ids` the quarter and every `gazetteer` row not marked withheld whose district is the quarter, read with `admitAs` = `effectiveKey()` (V09 §2.7; J-V9.110); `ids` in address order in both scoped forms, their per-entity `salts` the dry run's (§6.3 case (3)); the town → `rerollLayer { concern: 'naming', salt: the concern's current salt + 1 }` with no `ids`, through the fates sheet — a concern's current salt is §6.1's effective salt, as `DisplayList.salts` carries it; `setAttr(knownTo)` | on Enter or release; a town-wide New names or a pack change via the fates sheet (it lists every rename, §6.3 case (4)) | "{n} names change" | F2 renames the selection; Tab moves between labels in view | yes · yes |
-| T12 `dress` | **Style** cards (the shipped families, random style, saved sheets); the **quarter tint** toggle; a selected quarter's **Colour** swatch; the **furniture tray** (compass, scale bar, title cartouche, legend, emblem, border, grid, north arrow, annotation marker); **Light** (day or night, sun: cursor, fixed or path, sun height, hour); **Ground texture** brush; **Lights** (drop a lamp or a torch); **Underlay** (an image to trace, its opacity and frame handles); the close-up's quieter / busier slider and vignette (V01); **New trees**, **New decoration**, **New emblem** and **New compass** (buttons in the Dress panel; V09 §3.7, V09 §4.19) | style, tint, furniture, light | ground texture, lights, underlay, the style's rows ("Edit this style…", the style dialog) | style card → `setStyle`; tint → `setStyle` (a thematic row); a quarter's colour → `setStyle` (a thematic row keyed by that district); furniture and light → view keys by `setView` (§9.5, §2.9); ground texture → `paintGround`; lights → `placeLight`; underlay → the `underlay` view key; close-up → `closeup` params and `setStyle` (V01); New trees → `rerollLayer { concern: 'render.instances', salt: the concern's current salt + 1 }` (town-wide, §6.1; display only: the trees, hedgerows and render-time field strips are re-drawn and nothing else moves; J-V9.101); New emblem → `rerollLayer { concern: 'naming.emblem', salt: the concern's current salt + 1 }` and New compass → `rerollLayer { concern: 'style.compass', salt: the concern's current salt + 1 }` (town-wide; the emblem generator and the compass program re-draw, nothing else, §9.5); New decoration → one `group` of `rerollLayer { concern: 'style.jitter', salt: the concern's current salt + 1 }` then `rerollLayer { concern: 'style.crowns', salt: the concern's current salt + 1 }`, in §6.1's registry order (town-wide; display only: the drawing's render-time jitter and the tree crowns' shapes are re-drawn and nothing else moves, §6.1; one undo step; J-V9.115) | at once; logged ones are one undo step each; view-key changes are not logged and are toggled back | — | every card and toggle is a button; the underlay's frame handles by Tab and arrows | yes (not the texture brush or the underlay) · yes |
+| T1 `intend` | the **Kind of place** sheet: product chips (Town & city; Village when that product is registered, V07; Neighbourhood, V01's `product: 'hood'`), site cards (a forms-catalogue row with its water setting, side and era preset, §7.7, §7.8), size chips (seven, at population quantiles of the rungs' bands read from the rung table: small town, town, large town at the TOWN band's 25th, 50th and 85th percentiles; small city, city, large city at the CITY band's; metropolis at the METROPOLIS band's median — each showing its number, "about 3 400 people"; J-V9.56, the one rule for the size words, which V10 §3.3's lexicon names by quantile), wealth slider, walls chip (none · one ring · two rings), style card, the **History** chip (item 113; V09 §4.21.3); Surprise me; V06's time card | site, size, wealth, walls, style | exact population, seed, gates, castle, the features strip, planned ↔ organic, greenery, labels (the rest of §7.8's basic panel); "Advanced…" opens the advanced panel | empty state: a new `generate` replacing the untouched town (V09 §3.2); after a declaration: `adjust(param, value)` — a Re-derive for a parameter consumed before S10 (§7.1) | empty state: on release; after a declaration: a whole-town ghost with Accept (V09 §3.3); the fates sheet only after Accept, when fates other than kept or renames exist | the proxy thumbnails while a site or size card is hovered (§7.8); "Rebuilds from {stage}: {n} of your changes are kept, {m} move"; across the CITY line, the raised ways that go or come among the effects (V09 §4.20.3 (7)) | cards in a grid with arrow keys, Enter picks; sliders take arrows and Page keys | yes |
+| T2 `ground` | **Raise, Lower, Cliff, Flatten** (brush: press and drag); **Warp** (the eight kernels of §7.1, a session with Apply / Discard); **Lake** (one point, then drag up or down for the level; the **Spring-fed (oasis)** toggle, V09 §4.21.1); **River** (source point, mouth point); **River or canal** (draw a line; a width handle, default the kind's width row); **Coast & harbour** (sea level, one shore point, a basin size); **Water paint** (add or subtract water by lasso); **Terrace** (a brush that levels the ground under it to a level, with its level handle; V09 §4.20.1) | brush radius (m), strength | falloff, the terrain brush's water mode (`locked` by default, `follow`; §7.2), a warp's inner radius | a stroke → `setField { field: 'terrain', stroke }`; a warp session → one `warp`; lake → `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm } }`, with the toggle on `from: { points: [p], levelCm, spring: true }` (§7.1's `PointsForm.spring`; item 111 (a)); river → `drawWater { kind: 'river', add: [], from: { points: [source, mouth] } }`; a drawn river or canal → `drawWater { kind, add: [], line, widthCm }`; harbour → `drawWater { kind: 'harbour_basin', add: [], from: { points: [shore], levelCm, sizeM2 } }`; water paint → `drawWater { kind, add: rings }` or `drawWater { kind, add: [], subtract: rings }` (on Sky: with V05's `key`); terrace → `terrace { stroke, levelCm }` (file f item 362 (c)) | a stroke on release; a warp on Apply; water forms and a terrace on Accept | height under the pointer (m), slope (%), stroke length; "{n} plots re-flow · {m} roads re-routed" from the preview | a brush applies at the focused entity's scope with the arrow keys moving the brush centre and Enter stamping; points forms by arrows + Enter | yes |
+| T3 `wall` | **Draw wall** (two or more points or a line; closes when its ends meet within 20 px); **Gate** (drop a gate stamp on a trace; slide a gate's grip — `moveVertex`, V09 §3.5); **Retaining wall** (two or more points or a line with the **High side** chip; V09 §4.20.1); **Repair** on a run (its **Material** chip: robust, or a patch row; V09 §4.21.4) and **Wear**; on the castle, its keep and bailey handles | High side (Retaining wall); Material (Repair) | the enceinte kind (§2.7), open or closed | a line → `drawWall { points, kind, closed }`, two or more points → `drawWall { points: [], kind, closed, from: { points } }`; a gate → `placeGate { enceinte, at, expansion }` (`expansion` sugar.json's current version); a retaining wall → `drawWall { kind: 'retaining', closed, highSide? }` with its line as `points`, or `points: []` and `from: { points }`; Repair → `convert { op: 'repairWall', enceinte, stretch, material }` and Wear → `convert { op: 'wearWall', enceinte, stretch }` (V06 §2.8) | on release; Accept when fates move houses or effects are listed | gates · towers · walled m · closed by barriers m · houses displaced · the districts enclosed, tinted (V09 §3.4); a retaining wall: V09 §4.20.1 (2)'s badge | points by arrows + Enter; Tab cycles gate grips | yes |
+| T4 `road` | class chips (main, street, lane, alley, track, path, quay, pier, bridge, ford, **Aqueduct**); the **Raised** toggle (V09 §4.20.2); **Tunnel**, **Link** (Below, with the system chip); **Sky access** (Sky, or a stroke from the ground to a rim) | class, Raised | width (m), name, V07's walk mode at village rungs | two points → `drawWay { points: [], class, widthCm, from: { points: [a, b] } }` (S4's router); a line → `drawWay { points, class, widthCm }`; with Raised or Aqueduct → the same with `raised: true` (file f item 362 (b)); Below → `drawTunnel` / `addLink` (V04); Sky → `placeSkyAccess` (V05) | on release; a raised or aqueduct stroke always on Accept (V09 §4.20.2 (8)) | length (m), bearing (Shift snaps to 15°), grade (%), bridges, "{n} new frontage plots" (ghosts along the road; on a pier, quay or bridge "{n} deck plots", V09 §4.20.4); with Raised on V09 §4.20.2 (8)'s badge | points by arrows + Enter; Backspace or right-click removes the last point; PageUp / PageDown turn Raised on and off while drawing | yes |
+| T5 `quarter` | a **kind card** first (the district-kind rows, V11), then: one **seed** point, **two to four corners**, a **lasso**, a **brush**, or **click inside** a road-enclosed block (takes that block whole); a name | kind, name, band chip (the band set's labels, §4.5) | size target (m², also the badge's plus / minus), sky (V05) | `quarter { boundary: [], from: { points, sizeM2? }, kind, name?, band?, expansion }` (§7.1's sugar; `expansion` sugar.json's current version); click-inside → the block's ring as the lasso form; at a village rung → `declareEnd` (V07); on a selected quarter: `setAttr`, `merge`, `split` (V09 §4.3) | Accept (pending ghost with handles, V09 §3.3) | plots · households · buildings, **plus / minus** stepping `sizeM2` by (band max − band min) ÷ 8, clamped into the kind's size band, from the band's median when unset (file f item 348) | kind cards by arrows; the seed at the focus point; handles by Tab | yes |
+| T6 `place` | **Stamp** (a searchable palette of class stamps grouped by category, V11's labels and icons, listing the classes the document's rung admits — V09 §4.16 (3)'s set; drop on a spot, a quarter, a road or a gate); **Locus** (type "near the north gate"); **Footprint** (draw a polygon); **Furniture** (V01's hood-pin stamps); **Below**: chamber (`chamber`), access (`access` — `placeAccess` on a chosen spot, over a sealed void the user's excavation; the mode `bend.under.noAccess`'s and `info.under.sealed`'s **Add a way down** open), each into the system the system chip names, and "New ruin", "New cavern", "New catacomb" where item 109 admits one (V09 §4.17.2); on a building: "Add a way down"; on a rejected site "Allow here again", on a pinned plot "Free this plot", on an assigned thing "Remove the assignment"; on a deck, its plots and a mole's or long bridge's landmark slots (V09 §4.20.4) | class, name | exact site ("this plot only"), the drift bounds (§7.7), a hidden front (item 63) | a drop on a plot → V10 §4.1's `where.at` row (with "this plot only", its `where.plot` row), the one mapping for canvas and clerk (T101-3): `placeAt` with `designation { cls, use }` (§4.7's `Designation`: the stamp's building class and its roster class id) and, when the name field is filled, a `setAttr { path: 'name' }` on the use that `placeAt` creates — its address read from the preview's `created` list (file f item 470) as V10 §3.11 (3) resolves a placeholder — the two in one group; a drop on a quarter, road or gate, or a typed locus → a one-line `roster { lines: [{ name, cls, locus }], expansion }` (`expansion` sugar.json's current version; an empty name field writes `name: ''`, file f item 571's unnamed line; one text with V10 §4.1's `where.locus` row; T6's own kind by file f item 570; the sugar expands to one `assign` whose id the engine mints from the event's `seq`, §6.3, so the app never writes an assignment id; the locus is a `Locus` (§7.1: its `rel` in, on, at or near, its `target` and optional `side`) parsed from the drop target or the typed words, V09 §4.16); **with a dossier connected** (§7.1's roster rule; J-V9.88) a locus drop of a class stamp previews the same one-line `roster`, and a line naming no element comes back `dossier-owned`: its refusal card is `refuse.roster.dossier` with the element picker of V09 §4.16 (5) (the unplaced elements, the stamp's class first; a pick re-previews the line with its `element`, V10 §4.1's `element` row) and **Put it at {site}** — `placeAt { plot, designation }` on the first `SiteCandidate` satisfying the locus, the alternative V10 §3.16 offers: the first candidate with no `hardFails` of `query({ kind: 'sites', cls, near: target.anchor, district: rel === 'in' ? target.id : undefined, k: 3 }, { admitAs })` — `target` the locus target's `EntityCard`, `district` only for `in` a quarter — one query for canvas and clerk; when none of the three is free of hard fails, **Put it at {site}** is not shown and the element picker stays — one rule with V10's `dossier` alternative, which is then not offered; footprint → `drawFootprint`; furniture → `instance { op: 'add' }` (V01); chamber → `drawChamber { system }` or `{ system: { newKind } }` (file f item 361); access → `placeAccess`; a way down → `addUndergroundAccess`; the lifts → `rejectSite { op: 'lift' }`, `placeAt { lift: true }`, `unassign` | Accept, or nudge (drag the ghost footprint to another plot: a new preview there) | the chosen plot's area, households; the one-line reason; two or three faint alternatives (file f item 463); on a deck "on the {deck} · at most {n} storeys · {a}–{b} m²" (V09 §4.20.4); a design above the rung's grandeur ceiling, honoured, with the line `info.grand.beyondTier` (item 115 (c); V09 §4.21.5) | the stamp palette is a listbox with type-ahead; the locus field is text; Enter accepts | yes |
+| T7 `roster` | **Paste** into the visible box in T6 `place`'s options ("Paste your list of places"); each line becomes a card with its guessed class (changeable) and locus; under the box, **Ask the assistant to place these** when a clerk is configured and on (V09 §4.11) | — | with a dossier: an element picker per line (unplaced elements) | one `roster { lines }` (§7.1's sugar) for the whole list; accepting card by card commits a `roster` with that card's line and re-previews the rest; with a dossier connected, a line committed naming no element comes back `dossier-owned`: its card is `refuse.roster.dossier` — the element picker and, when a candidate is free of hard fails, **Put it at {site}** by T6's `sites` query (`near` and `district` from the line's locus, both omitted for a line with none; V10 §4.1) — one rule with volume 10's `dossier` alternative (J-V10.93; J-V9.99) | Accept all, or per card | plots · households · buildings; sites placed · lines not placed (each with its nearest options) | the card list is a grid; Enter accepts the focused card | yes |
+| T8 `fill` | **Density**, **Mix** (an arrangement: dense rows, detached, compounds …), **Greenery**, **Prosperity** brushes; **Square**, **Park** (drop and size); **Land use** (a lasso: arable, pasture, orchard, wood); **Trees** (a brush: plant, thin, restyle — over every decoration mark under it, §8.10); **Layout** card on a district (V01's fabric), its **Terraces** chip behind More | brush radius, the density dial (−3 … +3) | the arrangement's class, the layout's parameters (V01), the layout card's **Terraces** chip (auto · on · off; V01 §4.1) | density / greenery / prosperity → `setField { field, stroke }`; mix → `fill { scope: the blocks under the brush, arrangement, cls? }`; square / park → `drawGreen { polygon, kind }`; land use → `setAttrMany { ids: the land-use faces under the lasso, path: their kind, value }` (§2.7's land-use faces); trees → one group of `instance { op: 'add' \| 'remove' \| 'restyle' }` on the marks under the brush, trees and §8.10's other instances alike (a `drawGreen` first where no green hosts new trees); layout → `setAttr(district.fabric)` + `regenerate` (grouped, V01); terraces → `setAttr(district.terrace)` (`'on'`, `'off'`, or absent for auto) + `regenerate({ ids: [the district] }, 'keep')` (grouped, V01 §4.1) | brushes, mix, layout: Accept one of three variations, the committed group of V09 §3.6; square, park, land use, trees, terraces: Accept | plots · households · buildings; the variation tray | the brush at the focused scope; `[` `]` cycle variations; Enter accepts | yes (subject to §13.4's touch fallback) |
+| T9 `shape` | contextual: on a plot — split (a two-point line), join (click a neighbour), corner drags, front jitter, reach; on a building — move and turn the footprint, storeys, roof kind and colour, door drags, basement, class, over-time actions, "Build it over time"; at the building band — V02's massing and V03's plan tools, and on a `stepped` building the tier controls (V09 §4.20.5); on a place — "What it cares about" (V09 §4.7); on a way — class, width and name, **Split here** (one click on it) and, with two ways selected, **Join these**; on a raised way, span or crossing — V09 §4.20.6's controls | the kind's primary controls | the rest of the kind's editable paths | the event kinds of V09 §4.3's T9 rows; on a way, Split here → `split { id: the way, cut: [p] }`, `p` the nearest point of the way's centre-line to the click by V10 §4.1's T9 rule, and Join these → `merge { ids: [the first selected, the second] }` | on release (each edit one undo step; V02 and V03 as they state) | "{n} households re-homed", the site plan's changes; a reshape above the rung's grandeur ceiling, honoured, with `info.grand.beyondTier` (V09 §4.21.5) | every control in the Shape tab is a form control | yes (subject to §13.4's fallback) |
+| T10 `hold` | contextual: the lock and pin toggles on any thing; **Keep these, re-roll the rest** on a lasso; **Try again** (New random) with scope chips (on Below also this run, this system); the **Re-roll brush** (V09 §3.7); **Reset to generated**; on an island **Update shade now**; **Delete** on any thing (the Delete key and the context menu; V09 §4.20.3; J-V9.74) | — | lock on attribute paths (a person's name, a room) | `lock` / `unlock` / `pin` / `unpin`; `revert`; `regenerate { scope, mode }` (V09 §3.7); `delete { id }` | lock and pin at once; a re-roll by Accept of a variation; a Delete at once, or on Accept when its dry run lists anything beyond the thing itself | the fates list (kept, carried, orphaned); held things stay bright while the rest ghosts | alt+Enter toggles the selection's lock (L stays the labels key, §14); R is Try again | yes |
+| T11 `name` | click a label to type a new name; drag a label; select quarters and **Name as region**; **New names** with a scope (these, this quarter, the town); the leader-line switch; "Who knows this place" | — | name packs and a user's own name list (§10.4, an `adjust` of packs) | `setAttr(name)` — or `setAttr(label.displayText)` for a dossier-owned name; `moveLabel`; `hideLabel`; `group`; New names — these → `rerollLayer { concern: 'naming', ids: the selection's named entities, salt: 0 }`; this quarter → the same with `ids` the quarter and every `gazetteer` row not marked withheld whose district is the quarter, read with `admitAs` = `effectiveKey()` (V09 §2.7; J-V9.110); `ids` in address order in both scoped forms, their per-entity `salts` the dry run's (§6.3 case (3)); the town → `rerollLayer { concern: 'naming', salt: the concern's current salt + 1 }` with no `ids`, through the fates sheet — a concern's current salt is §6.1's effective salt, as `DisplayList.salts` carries it; `setAttr(knownTo)` | on Enter or release; a town-wide New names or a pack change via the fates sheet (it lists every rename, §6.3 case (4)) | "{n} names change" | F2 renames the selection; Tab moves between labels in view | yes |
+| T12 `dress` | **Style** cards (the shipped families, random style, saved sheets); the **quarter tint** toggle; a selected quarter's **Colour** swatch; the **furniture tray** (compass, scale bar, title cartouche, legend, emblem, border, grid, north arrow, annotation marker); **Light** (day or night, sun: cursor, fixed or path, sun height, hour); **Ground texture** brush; **Lights** (drop a lamp or a torch); **Underlay** (an image to trace, its opacity and frame handles); the close-up's quieter / busier slider and vignette (V01); **New trees**, **New decoration**, **New emblem** and **New compass** (buttons in the Dress panel; V09 §3.7, V09 §4.19) | style, tint, furniture, light | ground texture, lights, underlay, the style's rows ("Edit this style…", the style dialog) | style card → `setStyle`; tint → `setStyle` (a thematic row); a quarter's colour → `setStyle` (a thematic row keyed by that district); furniture and light → view keys by `setView` (§9.5, §2.9); ground texture → `paintGround`; lights → `placeLight`; underlay → the `underlay` view key; close-up → `closeup` params and `setStyle` (V01); New trees → `rerollLayer { concern: 'render.instances', salt: the concern's current salt + 1 }` (town-wide, §6.1; display only: the trees, hedgerows and render-time field strips are re-drawn and nothing else moves; J-V9.101); New emblem → `rerollLayer { concern: 'naming.emblem', salt: the concern's current salt + 1 }` and New compass → `rerollLayer { concern: 'style.compass', salt: the concern's current salt + 1 }` (town-wide; the emblem generator and the compass program re-draw, nothing else, §9.5); New decoration → one `group` of `rerollLayer { concern: 'style.jitter', salt: the concern's current salt + 1 }` then `rerollLayer { concern: 'style.crowns', salt: the concern's current salt + 1 }`, in §6.1's registry order (town-wide; display only: the drawing's render-time jitter and the tree crowns' shapes are re-drawn and nothing else moves, §6.1; one undo step; J-V9.115) | at once; logged ones are one undo step each; view-key changes are not logged and are toggled back | — | every card and toggle is a button; the underlay's frame handles by Tab and arrows | yes |
 
 ### 4.6 Multi-selection and moving things (R16)
 
@@ -1864,18 +1921,19 @@ name the thing by its name, never by an id; never "error", "invalid", "conflict"
 a button when there is one; the bend tone is gentle ("follows", "kept"), never apologetic. **Bend before refusing**
 (R2; J-V9.44): where the dry run can name the nearest lawful alternative, the engine bends to it and the row is a `bend`
 with that alternative pre-selected and the other one click away; the only refusals left are a dossier fact, a lock or an
-assignment, a dependent later change, the viewer role, a staged layer, the rung, the screen and a table edit V11 §4.1
-refuses — availability gates, not bends of a lawful declaration (J-VI.4) — and the conflicts and caps §7.1's table names,
-each offering its one resolution or none (content an earlier stage made, a stale base, a household capacity or a Works
-conflict, a style or knowledge table the loader would refuse, a host's or an upgrade's size cap, a bug abort); every other
+assignment, a dependent later change, the viewer role, a staged layer and the rung — availability gates, not bends of a
+lawful declaration (J-VI.4) —, an input with no lawful form to bend to (a table edit's dangling reference, type error or
+required row, V11 §4.1; a host provider's output past §2.9's cap; an edit of a device-only table, V10 §2.10; an `epoch`
+past §6.1's epoch cap), and the conflicts and caps §7.1's table names, each offering its one resolution or none (content
+an earlier stage made, new water reaching a reservation, a stale base, a household capacity or a Works conflict, a style
+or knowledge table the loader would refuse, an upgrade's size cap, a bug abort); every other
 cause of a dry run, the island, aqueduct and rim cases and V02's
 massing cases among them, is a bend row. **One row per outcome** (E-07): every key §7.1's dry-run outcome table names has
 its row here, worded for the cause, detection and outcome of each outcome row that names it (one key may word several
 outcome rows); and every `bend.*` and `refuse.*` row here names its producer in its codes column — an outcome row of
 §7.1 (a bend a volume's dry run makes under its last row, *every other infeasible declaration*, naming that volume's
 section), or, for a gate outside that table, §11.1's export rule (`refuse.exportTier`), §11.2's `advance` on a
-dossier-bound document (`refuse.dossierClock`, V06 §2.3), the shell's screen and layer gates (`refuse.phone`, V09 §4.12;
-`refuse.layer`, V09 §4.2), V09 §3.9 (`refuse.restore.dossier`) or V10 §3.16 (`refuse.clerk.*`). T-V9-15 checks both
+dossier-bound document (`refuse.dossierClock`, V06 §2.3), the shell's layer gate (`refuse.layer`, V09 §4.2), V09 §3.9 (`refuse.restore.dossier`) or V10 §3.16 (`refuse.clerk.*`). T-V9-15 checks both
 directions. A row's text is the user's words; the design's name for the same concept is the glossary's (`refuse.kept`'s
 "Rebuild from {stage}" is §7.1's Re-derive; the re-roll control's "Try again" is New random, and no other control is so
 worded — an export's retry is **Retry**, a proposal card's `retry` **Ask again**).
@@ -1923,7 +1981,8 @@ in brackets (`[owner]`, `[names]`). A name in backticks after `show`, `subject` 
 | `refuse.capacity.household` | "{n} households in {district} have nowhere left to live there; move them first." | `button.show` show(`district`) · `button.showWhy` why | §7.1's capacity row: a capacity re-homing that cannot place a household filling no dossier's population (§2.6's capacity rule), the capacities that refuse it named; item 17's relocation first |
 | `refuse.works.access` | "These works would cut off {plot} or leave its people without a home; move them first." | `button.show` show(`plot`) · `button.showWhy` why | §7.1's Works row (§5.3; item 67): a plot left without access or a building's occupants unhoused, the plots and households named; item 17's relocation first |
 | `refuse.warp` | "That push would move {thing} off its ground. Unlock it, push more gently, or choose one of the marked places." | `button.unlock` commit(`unlock`) · `button.chooseMarked` commit(`alternatives`, each `button.putAt`) · `button.showWhy` why | F-EDIT (warp carrying a held record); `PreviewResult.alternatives` |
-| `refuse.water` | "The new water would reach {thing}, which is kept. Unlock it, move the water, or choose one of the marked places." | `button.unlock` commit(`unlock`) · `button.chooseMarked` commit(`alternatives`, each `button.putAt`) · `button.showWhy` why | F-EDIT (§7.3 (b) 3); `PreviewResult.alternatives` |
+| `refuse.water` | "The new water would reach {thing}, which is kept. Unlock it, move the water, or choose one of the marked places." | `button.unlock` commit(`unlock`) · `button.chooseMarked` commit(`alternatives`, each `button.putAt`) · `button.showWhy` why | §7.1's lock row: new water with its bank setback meeting a locked or pinned way, wall or finer entity (§7.3 (b) 3); `ConflictAction` `unlock`; `PreviewResult.alternatives` |
+| `refuse.water.reservation` | "The new water would reach ground kept for {thing}. Rebuild from {stage} to make room?" — `{stage}` S3's word | `button.rebuildFrom` commit(`event:rederive`) · `button.showWhy` why | §7.1's reservation row: new water reaching a reservation (§7.3 (b) 3), its one resolution the Re-derive from S3 |
 | `bend.warp.halved` | "The push went half as far here, so nothing it moves breaks." | — | §7.1's warp-step row: a step that would break an invariant, halved (§3.6) |
 | `bend.carve` | "The river takes the deepest course the ground allows, {m} m at most." | `button.showWhy` why | F-EDIT (`carveMaxCm`), bent to the deepest lawful course |
 | `refuse.kept` | "That would cut through {thing} made earlier. Rebuild from {stage} instead?" | `button.rebuildFrom` commit(`event:rederive`) · `button.showWhy` why | `E_KEPT`, `E_LEVEL` (§7.1's one resolution) |
@@ -1932,23 +1991,23 @@ in brackets (`[owner]`, `[names]`). A name in backticks after `show`, `subject` 
 | `refuse.stale` | "The town changed while you were working. Here is the new preview." | `button.newPreview` show(`preview`) · `button.showWhy` why | `ConflictAction` `stale`; `doc.rejected { stale }` |
 | `refuse.staged` | "{layer} isn't part of this version yet." | `button.showWhy` why(page `staged/{layerId}`, the staged layer's guide page) | F-EDIT naming a staged layer (§7.3 item 9 (d)) |
 | `refuse.islandsRung` | "Floating islands exist only in cities and metropolises." | `button.cityUp` commit(`event:cityUp`) · `button.showWhy` why | §7.8's disabled control |
-| `refuse.undo.creation` | "This is where the town began. Remove the assignment instead." | `button.unassign` commit(`event:unassignCreation`) · `button.showWhy` why | F-EDIT (undo of a creation event) |
-| `refuse.undo.dossier` | "Changes from SettlementForge can't be undone here." | `button.otherNameHere` tool(`name`/`rename`, subject: `thing`) [names] · `button.showWhy` why | F-EDIT (undo of a dossier event) |
+| `refuse.undo.creation` | "This is where the town began, so it stays{; instead}." — `{; instead}` "; remove the assignment instead" for a blueprint assignment, "; you can move {thing} or mark this spot as not for it" for a dossier element the creation placed | `button.unassign` commit(`event:unassignCreation`) · `button.moveIt` show(`thing`) [dossier] · `button.notHere` commit(`event:notHere`) · `button.showWhy` why | §7.1's creation-undo row (E-07: `unassign` for a blueprint assignment; `rejectSite` and `placeAt` for a dossier element) |
+| `refuse.undo.dossier` | "Changes from SettlementForge can't be undone here{; move}." — `{; move}` "; you can move {thing} or mark this spot as not for it", `{thing}` the first dossier element the event placed or re-designated; `{name}` the thing a dossier rename renamed | `button.moveIt` show(`thing`) · `button.notHere` commit(`event:notHere`) · `button.otherNameHere` tool(`name`/`rename`, subject: `name`) [names] · `button.showWhy` why | §7.1's port-session row (E-07: `rejectSite` and `placeAt` for each dossier element the event placed or re-designated, as `refuse.dossierRemove` offers them; a dossier `unassign` leaves none) |
 | `refuse.undo.dependent` | "Later changes by {authors} depend on this. Undo those first." | `button.showThem` show(`dependents`) · `button.showWhy` why | F-EDIT (independence, §7.4) |
 | `refuse.restore.dossier` | "The town can go back only to {time}; SettlementForge changed it after that." | `button.goBackTo` app(`goBack`) · `button.openCopy` app(`openCopy`) · `button.showWhy` why | V09 §3.9 |
 | `refuse.viewer` | "You're viewing this town. Ask its owner to make changes." | `button.showWhy` why | `preview` refused `role`; `doc.rejected { role }` |
 | `refuse.exportTier` | "This file holds every secret of the town; only its owner can make it." | `button.pictureInstead` app(`exportPicture`) · `button.showWhy` why | `E_KNOWLEDGE_TIER` |
-| `refuse.phone` | "{tool} needs a larger screen. Open this town on a tablet or computer." | `button.shareDevice` app(`share`) · `button.showWhy` why | V09 §4.12 |
 | `refuse.layer` | "{tool} works on the {layer}. Switch to it first." | `button.switch` app(`switchLayer`, `layer`) · `button.showWhy` why | V09 §4.2 |
 | `refuse.dossierClock` | "SettlementForge keeps this town's time; make a what-if copy to run it ahead." | `button.whatIf` app(`openCopy`, `seq` — the head: a detached `forkAt`, V06 §4.4; in host mode by `HostSlots.newDocuments`) · `button.showWhy` why | §11.2's `advance` refused on a dossier-bound document (V06 §2.3; J-V6.2); the time card's **Advance** there (V09 §5.6) |
 | `refuse.table.rung` | "Below a city the town raises no ways by itself; draw this one yourself with Raised on." | `button.drawRaised` tool(`road`/`way`) — T4 `road`'s options strip with its **Raised** toggle on (V09 §4.20.2) · `button.showWhy` why | §7.1's table-edit row: an `editTable` setting a `raisedWays` row below CITY, item 110 (b)'s rung gate (V11 §4.1, V11 §4.4) |
-| `refuse.table.ownerRule` | "{cell} is fixed by a rule of the map and stays {value}." | `button.showWhy` why | §7.1's table-edit row: a stamped owner-rule cell (V11 §4.1; V11 §3.2.1 step 4) |
 | `refuse.table.invalid` | "{cell} can't be {value}; it takes {expected}." — `{expected}` the cell's schema as the tables editor words it: a unit and range, an enumeration's values, or a row of the table its `ref` names (V09 §4.14) | `button.showWhy` why | §7.1's table-edit row: a dangling `ref` or a type error in an `editTable` (V11 §4.1) |
+| `refuse.table.required` | "{row} is what {readers} fall back to, so it stays; edit its cells instead." — `{readers}` the reading stages or tables V11 §4.1 names | `button.showWhy` why | §7.1's table-edit row for a row readers fall back to (V11 §4.1: a `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty`), the row marked in the tables editor (V09 §4.14) |
 | `refuse.table.knowledge` | "With these rows someone who knows more would see less; a place everyone knows shows at every scale." | `button.showWhy` why | §7.1's knowledge-admission row: `ConflictAction` `invalid` on an `editTable` of `knowledge.admit` (§9.2), the offending rows marked in the tables editor |
 | `refuse.style.order` | "This style leaves {n} pairs of layers without an order; set them in the style dialog." | `button.showWhy` why | §7.1's style row: `ConflictAction` `invalid` on a `setStyle` leaving an unresolved or ambiguous layer-order pair (§8.2; J-R39), the pairs listed in the style dialog; nothing applied |
 | `refuse.host.cap` | "{host}'s content would make this town {size}, more than a town can hold; it was not added." | `button.showWhy` why | §7.1's host-cap row: a host provider's output past §2.9's cap on pack data and host content |
 | `refuse.upgrade.packCap` | "Updating would make this town's copy of {pack} too large to keep, so the town stays as it was made." | `button.notNow` drop — keeps the old model (§7.5) · `button.showWhy` why | §7.1's upgrade row: an upgrade's copy of a pack that stops shipping would pass §2.9's cap (§7.5), "keep the old model" its one resolution |
 | `refuse.bug` | "That change hit a fault in the map engine, so nothing changed; the report keeps the details." | `button.showWhy` why | §7.1's bug-abort row: nothing commits; the cause `bug` with its stream key in the report (§5.1 (8), §5.4) |
+| `refuse.epoch.cap` | "This town's history has reached the most steps a town can hold, so it runs no further." | `button.showWhy` why | §7.1's epoch-cap row: an `epoch` past §6.1's epoch component (2³¹ − 1); nothing commits |
 | `share.pack` | "This town uses the setting pack {pack}, which isn't built in. Share the file instead." | `button.downloadFile` app(`download`) | §6.4 condition (pack) |
 | `share.corpus` | "This town uses your own name list {list}. Share the file instead." | `button.downloadFile` app(`download`) | §6.4 condition (user corpus) |
 | `share.host` | "This town uses content from {host}. Share the file instead." | `button.downloadFile` app(`download`) | §6.4 condition (host content) |
@@ -2102,18 +2161,34 @@ in brackets (`[owner]`, `[names]`). A name in backticks after `show`, `subject` 
 | `info.history.fromRecord` | "From SettlementForge's record" | — | T1 `intend`'s locked **History** chip with a dossier history (V09 §4.21.3) |
 | `info.history.cancelled` | "No town was made." | `button.generateWithoutHistory` app(`generateWithoutHistory`) | a history-first generation stopped during its replay (V06 §3.20.4; V09 §4.21.9) |
 | `info.past.viewing` | V06 §5.1's band, "Year {year} — viewing the past" (its text, single source, loaded from volume 6) | `button.openCopy` app(`openCopy`, `seq` — the frame's on screen; in host mode by `HostSlots.newDocuments`) | the timeline thumb off "now": the band, and each disabled tool pressed (V06 §5.1; V09 §5.6) |
-| `info.recipe.preset` | "Made from the preset {preset}." | — | `Recipe.presetId` (§2.9), the advanced panel's head (V09 §4.14) |
+| `info.recipe.preset` | "Made from the preset {preset}." | — | `Recipe.presetId` (§2.9), the advanced panel's head (V09 §4.14); the report panel's recipe line after `info.recipe.line`, from `GenerationReport.recipe` (V09 §5.7) |
+| `info.recipe.line` | "Made from seed {seed} at {rung}." | — | `GenerationReport.recipe` (§5.4): the report panel's recipe line (V09 §5.7) |
 | `report.history.<line>` | `peak` "Once a {tier} of about {n} people, in {year}." · `symbolicPeak` "Once a {tier}; its size is not recorded." · `destroyed` "Destroyed in {year}; refounded in {year2}." · `oldWalls` "Walls beyond today's houses: the {tier}'s old line." · `oldStreets` "Old street lines under {district}." · `buried` "Buried under {place}: {kind}." · `oversize` "{building} is larger than today's {tier} needs." | `button.show` show(`entry`) | §2.7's `HistoryRecord` and V06's replay record (V06 §2.14): the report panel's "What its past left" (V09 §5.7, V09 §4.21.3) |
 | `info.under.lost` | "Once known; its way in closed in {year}." | — | a void whose excavation reading is `lost` (V04 §3.5.7; item 113 (e)), shown at tier `secret` only (V09 §4.17.1) |
 | `info.under.lostUndated` | "Once known; its way in has closed." | — | the same, when no closing is dated (V09 §4.17.1) |
 | `legend.under.lost` | "Once known" | — | the Below legend's entry for a `lost` void (V09 §4.17.1) |
 | `view.cvd.<variant>` | `none` "Usual colours" · `protan` "Red-weak" · `deutan` "Green-weak" · `tritan` "Blue-weak" · `line` "Colours: {variant}" | — | the **Colour vision** chip (V09 §4.21.2; §8.2's `CvdVariant`) |
 | `export.vtt.walls` | "Patches count as walls, breaches as openings." | — | the export dialog's VTT tab (V09 §4.21.4; item 114 (f)) |
-| `info.zoom.limit` | "This is the whole town." | — | the zoom-out control at the map's zoom-out limit (V09 §4.21.6; §8.8) |
-| `view.season.<name>` | `spring` "Spring" · `summer` "Summer" · `autumn` "Autumn" · `winter` "Winter" · `week` "Week {w}" · `follow` "Follow SettlementForge" · `noWeek` "SettlementForge has no week yet" · `line` "{season}, week {w}" | — | the **Season** control and the export's season line (V09 §4.21.7) |
+| `info.zoom.limit` | "This is the whole town." | — | the zoom-out control at the map's zoom-out limit where the bounds fit (V09 §4.21.6; §8.8) |
+| `info.zoom.limitCamps` | "This is the whole town and its camps." | — | the same, at the limit widened while a crisis look stands (item 122 (i); V09 §4.21.12 (8)) |
+| `info.zoom.coarsest` | "This is as far out as the map zooms; the town is wider than this window." | — | the same at stop 0, where no stop fits the bounds (R2-30; V09 §4.21.6) |
+| `view.season.<name>` | `spring` "Spring" · `summer` "Summer" · `autumn` "Autumn" · `winter` "Winter" · `week` "Week {w}" · `follow` "Follow SettlementForge" · `noWeek` "SettlementForge's record has no date yet; the map shows week {w}." · `line` "{season}, week {w}" | — | the **Season** control and the export's season line (V09 §4.21.7) |
 | `view.festival.<name>` | `title` "Festivals" · `row` "{festival}, weeks {a}–{b}" · `on` "Decorate when a festival is on" · `off` "No decorations" · `preview` "Preview" · `spring` "Spring feast" · `midsummer` "Midsummer" · `harvest` "Harvest home" · `midwinter` "Midwinter" · `line` "Dressed for {festival}" | — | the festival list, its switch, the standalone generic festivals and the export's festival line (V09 §4.21.8) |
+| `find.<word>` | the Find panel's words (V09 §4.21.10): `title` "Find" · `box` "What are you looking for?" · `count` "{name} · {n}" · `more` "{n} more" · `allWord` "All {word}s" · `none` "none now" · `noMatch` "Nothing in this town matches “{text}”." · `withheld` "not in this view" · `moreBelow` "{n} more Below" · `onSky` "{n} on Sky" · `onGround` "{n} on the ground" · `goThere` "Go there" · `goTo` "Go to" · `next` "Next" · `previous` "Previous" · `clear` "Clear" · `gaps` "Show gaps" · `gapsNeedKind` "Pick a kind of place to see where there is none." · `noneHere` "none here" · `people` "Where is someone?" · `foundRooms` "{n} found" · `crisisRow` "{look}: {condition}" · `exportLine` "Find: {chips}" · `exportBattle` "Draw Find" · `findAll` "Find all {kind}s" · `section.dossier` "From SettlementForge's record" · `section.kinds` "Kinds of place" · `section.areas` "Districts and quarters" · `section.places` "Named places" · `section.crises` "Crises now" · `section.people` "People" | — | the Find panel, its chip strip, the context menu's item and the export dialog's lines (V09 §4.21.10) |
+| `find.group.<key>` | one per V11 §2.3's `FindGroup`: `crafts` "Crafts" · `trade` "Trade" · `faith` "Faith" · `rule` "Rule and law" · `defence` "Defence" · `learning` "Learning" · `health` "Health and care" · `lodging` "Lodging" · `other` "The rest" | — | the empty box's grid headings (V09 §4.21.10 (3); item 120 (b)) |
+| `settings.display` · `settings.resolution.<level>` | `settings.display` "Display"; `title` "Resolution" · `auto` "Auto" · `4k` "4K" · `1440p` "1440p" · `1080p` "1080p (HD)" · `720p` "720p" · `screen` "Your screen is {level}." | — | Settings' Display section (V09 §5.12, V09 §4.21.11; item 121 (a)) |
+| `view.status.<part>` | `auto` "Auto · {level}" · `manual` "{level}" · `why.screen` "Your screen is {level}." · `why.memory` "This device's graphics memory holds {level}." · `why.frames` "Lowered to keep the map smooth." · `why.ceiling` "{level} is the live view's ceiling." · `tier` "Graphics tier: {tier}; map tiles at {dpr}×." | — | the view-status chip and its tooltip (V09 §4.21.11; §8.8's view status, J-R22) |
+| `info.resolution.fallback` | "{level} needs more graphics memory than this device has; showing {shown}." | — | a manual level the device cannot hold: §8.8's nearest level that fits (item 121 (f); V09 §4.21.11 (4)) |
+| `view.crises.<word>` | `show` "Show crises" · `preview` "Preview a crisis" · `list` "Crises now" · `line` "During: {looks}" | — | the Show menu's switch, preview and list; the export dialog's line (V09 §4.21.12) |
+| `crisis.look.<kind>` | one per `CrisisLookRow.kind` of §10.2's crisis table: `siege` "Siege camp" · `blockade` "Blockade" · `refugeeCamp` "Refugee camp" · `quarantine` "Quarantine camp" · `famine` "Famine" · `beast` "Beast attack" · `raiders` "Raiders" · `disaster` "Disaster" · `occupation` "Occupation" · `rebellion` "Rebellion" · `boom` "Building boom" · `bust` "Hard times" | — | the looks' words: the why lines, the crisis card, the legend's entries, the preview list and Find's crisis rows (V09 §4.21.12) |
+| `crisis.who.<kind>` · `crisis.groups.<kind>` | the forces' words, for the kinds the dossier sizes (item 122 (h)): `who` — `siege` "besiegers" · `blockade` "besiegers" · `occupation` "soldiers" · `refugeeCamp` "people"; `groups` — `siege` "armies" · `blockade` "armies" · `occupation` "garrisons" · `refugeeCamp` "groups" | — | `info.crisis.forces` (V09 §4.21.12 (5)) |
+| `info.crisis.<line>` | `line` "{look}: {condition}, weeks {a}–{b}" · `lineOpen` "{look}: {condition}, since week {a}" · `lineUnnamed` "{look}, weeks {a}–{b}" · `preview` "{look} — a preview" · `ruinedFor` "For now: {look}, {condition}, weeks {a}–{b}" · `forces` "about {n} {who}{, groups}" — `{who}` the look's `crisis.who.<kind>` word, `{, groups}` ", {k} {groups}" where the dossier gives several forces or groups, `{groups}` its `crisis.groups.<kind>` word · `massed` "The rest are drawn as massed camps at the edge of the map." | — | DR44's standing looks with the condition's entity read (V09 §4.21.12 (4), (5)); volume 10's explanation renders the same keys |
+| `info.damage.<kind>` | one per damaged element kind of V03's damage layer, in this order: `roofBay` "Roof fallen in over {rooms}" · `floor` "Floor fallen through in {rooms}" · `storeyGone` "The {storey} is gone" · `outerWall` "Outer walls broken in {n} places" · `partition` "Partition walls down in {rooms}" · `door` "{n} doors off their hinges" · `window` "{n} windows broken" · `stair` "The stair to the {storey} has fallen" · `furniture` "Furniture broken in {rooms}" · `unsafe` "Unsafe to enter: {rooms}" · `cellar` "The cellar has partly fallen in" · `crypt` "The crypt has partly fallen in"; the head, one per state — `head.abandoned` "Abandoned{, years}" · `head.decayed` "Decayed{, years}" · `head.ruined` "In ruins{, years}" · `head.reused` "In use again{, years}", `{, years}` ", {years} years since it was left"; and `more` "and {n} more" · `patched` "Patched with {material} where it was broken" | — | V03's damage layer at V06's `decayLevel` (R2-38 (4)): the plan panel's and the why card's lines (V09 §4.21.13); volume 10's explanation renders the same keys |
+| `settings.device` · `settings.weather.<word>` | `settings.device` "On this device"; `effects` "Weather effects" · `shower` "Start a shower now" | — | the advanced panel's device group, its switch and its button (V09 §4.14, V09 §4.21.14) |
+| `people.rederive` | "Re-derive people" | — | the People panel's and a household's control (V09 §4.18; §10.3) |
+| `island.rim.<mode>` | `resize` "Resize" · `reshape` "Reshape the rim" | — | the island panel's rim chip (V09 §3.5) |
 | `progress.stage.<group>` | `ground` "Shaping the ground and the water" · `plan` "Working out what the town needs" · `streets` "Laying out the streets" · `walls` "Raising the walls" · `quarters` "Dividing the quarters" · `plots` "Cutting the plots" · `places` "Finding a place for everything" · `buildings` "Shaping the buildings" · `land` "Fields, gardens and trees" · `names` "Naming streets and places" · `drawing` "Drawing the map" · `people` "Settling the people" · `below` "Digging the underground" | — | the progress view's stage line (V09 §4.21.9; item 119 (c)) |
-| `progress.<wait>` | `epoch` "Year {year} of {years}" · `history` "Replaying the town's past: {year}" · `dossier` "Reading SettlementForge's record" · `export` "Writing the {format}: {percent} %" · `migrate` "Updating this town to this version" · `undo` "Going back: {n} of {total} changes" | — | the progress view's line for a one-time wait that is not a stage run, and for Go back to here and a restore jump (V09 §4.21.9, V09 §3.9) |
+| `progress.<wait>` | `epoch` "Year {year} of {years}{, steps}" · `history` "Replaying the town's past: {year}{, steps}" · `dossier` "Reading SettlementForge's record{, catchUp}{, steps}" · `export` "Writing the {format}: {percent} %" · `migrate` "Updating this town to this version" · `undo` "Going back: {n} of {total} changes" · `verify` "Checking this town against its recipe: {n} of {total}" — `{, steps}` ", in {n}-year steps" where the run coarsened (V06 §6.8: `EpochReport.advance.cadenceWeeks` against `.requestedWeeks`; `ReplayPlan.epochYears`), `{, catchUp}` ", year {year} of {years}" while an absorb's catch-up folds epochs | — | the progress view's line for a one-time wait that is not a stage run (§11.2's `Progress.wait`), and for Go back to here (from a history row or a restore point; `undo`, from `edit`'s `onProgress`); `verify` the view status's quiet line for an open's verification replay (V09 §4.21.9, V09 §3.9; R2-31 (c), R2-42) |
 | `edge.<case>` | `morePoints` "Add another point." · `drawRound` "Draw round an area." · `samePoint` "The ends are the same point." · `frameEnd` "The town ends here." · `nothingToChoose` "Nothing to choose here." · `removed` "That was removed." · `allKept` "Everything here is kept." · `fewVersions` "Only {n} different versions here." · `noLinks` "No supply links in view." · `noSupplier` "No other supplier of {good}." · `keyTaken` "Already used by {action}." · `noneStanding` "None standing." · `noDeckPlots` "No plots on this {deck}." · `oneTier` "One tier has no stairs." · `nothingToShow` "Nothing to show here." · `allMade` "Everything you asked for was made." · `stepGone` "This step's thing is gone." · `nothingToExport` "Nothing to export here." · `townGone` "That town is no longer on this computer." · `unreadable` "This town could not be read." · `nameLetter` "A name needs a letter." · `replaceOldest` "Replace the oldest named point?" · `nothingToApply.<form>`, one per empty form of §7.1's *Empty edits*: `noStrokes` "Nothing to change: the warp has no strokes." · `shortStroke` "Nothing to change: the stroke is too short." · `noArea` "Nothing to change: the shape has no area." · `noMatch` "Nothing to change: nothing matches." · `noLines` "Nothing to change: the list has no lines." · `noQuarters` "Nothing to change: no quarters are chosen." · `noFace` "Nothing to change: nothing lies in that area." · `noAlternative` "Nothing to change: nothing here has another version." · `groundLocked` "Nothing to change: the ground there is locked." | — | V09 §3.16's outcomes, one row per case named there; an empty dry run's reason (§7.1's *Empty edits*), carried as `PreviewResult.empty` (§11.2) |
 | `parse.<word>` | V09 §4.16's connectives, a locale's own words: `rel.in` "in" · `rel.on` "on" · `rel.at` "at" · `rel.near` "near · by · beside · next to" (the first word is the one written, V09 §4.16 (6)) · `side` "the {side} side of" · `dir.N` "north" · `dir.E` "east" · `dir.S` "south" · `dir.W` "west" · `kind.gate` "gate" · `kind.square` "square" · `kind.market` "market" · `kind.harbour` "harbour" · `kind.bridge` "bridge" | — | V09 §4.16's reader and its wording (4), (6) |
 | `why.driver.<driver>` | one per term of §4.5's field that `FieldDrivers.terms` names: a driver-table row's display label (its `label` cell, file f item 516), and this volume's words for the rest — `water` "Water close by in dry country" (item 111 (b)) · `character` "The kind of quarter it is" · `brush` "Your painting" · `epoch` "The years since" · `chance` "Chance" (`daylight` reads "In shade {p} % of the day", V09 §2.7) | — | `WhyCardModel.bars` from drivers (V09 §2.7) |
@@ -2127,7 +2202,7 @@ marked places" · `button.overBudget` "Put it there anyway ({n} moves)" · `butt
 `button.roleInstead` "Make it a {role2} instead" · `button.rebuildFrom` "Rebuild from {stage}" · `button.newPreview` "Show
 the new preview" · `button.cityUp` "Make this town a city" · `button.showThem` "Show them" · `button.goBackTo` "Go back to
 {time}" · `button.openCopy` "Open a copy from here" · `button.pictureInstead` "Save a picture instead" ·
-`button.shareDevice` "Share it to another device" · `button.switch` "Switch" · `button.downloadFile` "Download file" ·
+`button.switch` "Switch" · `button.downloadFile` "Download file" ·
 `button.reattach` "Re-attach" · `button.download` "Download" · `button.reload` "Reload" · `button.retry` "Retry" ·
 `button.seeChanges` "See what changes" · `button.notNow` "Not now" · `button.editWithVersion` "Edit it with this version" ·
 `button.copyCommand` "Copy the command" · `button.openRecipe` "Open its recipe with this version" · `button.keepSaved`
@@ -2206,14 +2281,16 @@ show who buys from whom. Click one to change it."), `hint.shade` ("Darker street
 `hint.clerk` ("Ask for a walled harbour town with a temple quarter."), `hint.oasis` ("In dry country a lake can be
 spring-fed: an oasis, with its grove and gardens.", the first time T2 `ground`'s Lake mode is picked on an arid site), `hint.raised` ("A raised way crosses what is
 below without meeting it; its ends come down by stairs or ramps.", the first time Raised is turned on) and `hint.below`
-("Click again to pick what's underneath.", the first time a click lands on a stack of more than one mark), each recorded
-in `AppPrefs.hintsDone`. Every `host.*` key volume 8 names is a row of the same file, its text volume 8's (V08 §3.9's
+("Click again to pick what's underneath.", the first time a click lands on a stack of more than one mark) and `hint.find`
+("Type what you're looking for; pick as many as you like.", the first time the Find panel opens), each recorded in
+`AppPrefs.hintsDone`. Every `host.*` key volume 8 names is a row of the same file, its text volume 8's (V08 §3.9's
 held reasons, V08 §4.2's controls and undo words, V08 §4.6's port notes and history lines — `HostSlots.historyLines`'
 texts, V09 §4.10 — V08 §5.1's strips and banner rows, `host.locked`, and the draft mirror's discard notice).
 
 **The explanation and assistant keys — one text each (J-V9.79).** The same file carries the key
 families volume 10 renders, so the drawer, the why card and the panels draw one sentence per key. Their `en` texts are
-written once, in the section named — volume 10's, or volume 7's for the village lines — and loaded into
+written once, in the section named — volume 10's, volume 7's for the village lines, or volume 3's for the plan panel's
+warnings — and loaded into
 `messages/en.json` from there; this volume does not restate them:
 
 | family | one key per | its `en` text is written in |
@@ -2221,15 +2298,16 @@ written once, in the section named — volume 10's, or volume 7's for the villag
 | `critique.K1` – `critique.K18` | critique row | V10 §3.10's template column |
 | `refuse.clerk.<category>` (with `refuse.clerk.key.<keyState>` for the `key` row's three sentences and `refuse.clerk.dossier.count` for the `dossier` row's count sentence) and `refuse.clerk.opsDevice` | one key per `RefusalCategory` value whose V10 §3.16 row words the refusal itself — every value but `lock`, `rule` and `role`, whose cards render the engine's `refuse.*` row for the code — `refuse.viewer` for `role` | V10 §3.16's table; V10 §2.10 |
 | `clerk.notice` | — | V10 §3.20's data notice |
-| `clerk.alt.*` | each key V10 §5.4's list of the drawer's keys names (*The keys of the drawer's words*): each alternative of a V10 §3.16 row (`clerk.alt.<category>.<n>`, `<n>` its position in its row), the help route's tool button, the history buttons, a critique finding's fix and the stale card's **Ask again** (`clerk.alt.stale.retry`) — so every `ClerkAction` `label` that is not a `button.*` row's words has its key | V10 §3.16's alternatives column; for the other keys, the V10 sections V10 §5.4's list cites |
+| `clerk.alt.*` | each key V10 §5.4's list of the drawer's keys names (*The keys of the drawer's words*): each alternative of a V10 §3.16 row (`clerk.alt.<category>.<n>`, `<n>` its position in its row), the help route's tool button, the history buttons, a critique finding's fix, a Find block's buttons (`clerk.alt.find.show`, `.remove`, `.clear`; V10 §3.9b (7)) and the stale card's **Ask again** (`clerk.alt.stale.retry`) — so every `ClerkAction` `label` that is not a `button.*` row's words has its key | V10 §3.16's alternatives column; for the other keys, the V10 sections V10 §5.4's list cites |
 | `clerk.view.cleared` | — | V10 §3.12 (6)'s line when the view's key changes |
 | `clerk.applied` | — | V10 §4.4's applied card line |
 | `info.raised.<outcome>` | each of the `raised` section's ten outcomes (`built`, `declared`, `carried`, `belowCity`, `reasonNotMet`, `noCourse`, `chance`, `cap`, `suppressed`, `waited`) | V10 §3.9's outcome table (this volume's `info.raised.count` and `.walk` above are its own badge lines, not outcomes) |
 | `info.under.*` | each `underground` row of V10 §3.9a — the ruin rows, `LinkCause`, the excavation reading, the dwellings line, `deep`, `sealed` | V10 §3.9a — except `info.under.cause.<rule>` (V09 §4.17.3) and `info.under.lost` (V09 §4.17.1; item 113 (e)), whose words are this volume's, because V10 §3.9a names the causes and the `lost` reading without words |
 | `info.catacomb.*` | each value of `CatacombComplex.source.kind`, the rank and count lines, each state, and each burial-face outcome of `catacombOutcome` (`holds`, `countReached`, `wet`, `age`, `island`, `belowTown`, `chance`) | V10 §3.9a — except `info.catacomb.blocked.<cause>`, whose words are this volume's (V09 §4.17.5), for the same reason |
 | `info.crypt.*` | the `crypt` section's rows: presence, area and form (full, half, raised-choir, the rim vault), rank, the crypt join, no crypt (dry and wet ground) | V10 §3.9a's `crypt` table |
-| `info.plan.*` | each `plan` section row of V10 §3.9a — the eleven item-110 room causes and the three `PlanReport.notes` ids, keyed as V03 §4.6 states (`info.plan.cause.<cause>`) | V10 §3.9a's `plan` table |
+| `info.plan.*` | each `plan` section row of V10 §3.9a — the eleven item-110 room causes and the three `PlanReport.notes` ids, keyed as V03 §4.6 states (`info.plan.cause.<cause>` for the causes, `info.plan.note.<id>` for the notes) | V10 §3.9a's `plan` table |
 | `info.village.*` | each row of V07 §4.5's list | V07 §4.5 |
+| `report.plan.<code>` | each `PlanReport.warnings` code of V03 §2.3's union: `W_TIER_UNREACHED`, `W_STOREY_RUN`, `W_ENTRANCE_NO_STOREY`, `W_STACK_ACCESS`, `W_DECK_ACCESS`, `W_GRADE_FACE_TUNNEL`, `W_CHURCH_CATACOMB_HEAD` | V03 §4.5's plan-warning lines |
 | `kind.<registry kind>` | each kind of `clerk.content.withheldWords` | V10 §2.10's `content.withheldWords` row |
 
 A shipped locale carries every key of every family (T-V9-15, T-V10-29). V09 §4.17 and V09 §4.20.6 name the row each place
@@ -2262,7 +2340,7 @@ op, and for item 110's variants by the discriminating field — `drawWall.retain
 | `split`, `join`, `merge`, `moveFootprint`, `setEntrance`, `paint` | "Split {plot}" · "Joined {n} plots" · "Merged {a} into {b}" · "Moved {building}" · "Moved the door of {building}" · "Painted {n} roofs {colour}" |
 | `setAttr` | "Changed {field} of {thing}" (the field's catalogue label) |
 | `lock`, `pin`, `revert` | "Locked {thing}" · "Pinned {thing}" · "Reset {thing} to generated" |
-| `regenerate`, `rerollLayer` | "Tried again: {scope}" · "Rebuilt {scope} as generated" · "New names for {scope}" · "New trees" · "New emblem" · "New compass" · "New decoration" — New decoration's group is one row: its `style.jitter` event carries the words and its `style.crowns` event is drawn in that row, not on its own, **Undo this** undoing the group |
+| `regenerate`, `rerollLayer` | "Tried again: {scope}" · "Rebuilt {scope} as generated" · "Re-derived the people of {n} households" (scope `people`, §10.3) · "New names for {scope}" · "New trees" · "New emblem" · "New compass" · "New decoration" — New decoration's group is one row: its `style.jitter` event carries the words and its `style.crowns` event is drawn in that row, not on its own, **Undo this** undoing the group |
 | `setStyle`, `paintGround`, `placeLight` | "Restyled the map ({preset})" · "Painted ground texture" · "Placed a {kind}" |
 | `convert` | "{thing}: {op in words}" ("The Old Mill: abandoned") |
 | an `undo` group from "Go back to here" | one row "Went back to {name}", its undone targets shown struck through beneath it |
@@ -2347,7 +2425,7 @@ empty. The log's rows, filters and undo are untouched by it (V09 §2.8).
      another try; `unchecked` (offline) shows `clerk.key.unchecked` and closes it.
   Then `enabled` is set and the drawer opens. The map, every tool and every export work fully without it (R19).
 * **Layout.** Wide: a 400 px drawer on the right, over the context panel (the panel returns when the drawer closes);
-  medium: a full-height sheet; narrow: full screen with the map as a strip above. A text box with three suggested prompts
+  medium: a full-height sheet. A text box with three suggested prompts
   under it ("A walled harbour town with a temple quarter", "Why is the tannery here?", "Check my plan for mistakes");
   **Paste a list** sends the text on V10's roster entry. The drawer's menu holds **New topic** (`ClerkHandle.newTopic`: the
   next message starts a fresh conversation on its route, V10 §3.2; the earlier one stays in the transcript), **How do I
@@ -2362,7 +2440,10 @@ empty. The log's rows, filters and undo are untouched by it (V09 §2.8).
   application runs `select` → the ids selected on the map; `why` → the why card of its `id` (V09 §5.8), else the Help page
   `page` (V09 §5.9) — what the canvas's **Show me why** opens for that row (V09 §3.3, V09 §4.9); `openSettings` → the settings' Assistant section; `useTool` → that tool active in the action's `mode` (else as last
   used) on that mode's working layer (V09 §4.2), its `ids` selected first (V09 §4.5's mode ids); `export` →
-  the export dialog on that format; `fork` → "Open a copy from here" (`forkAt`); `rerun` → "Re-run from here" (`rerunFrom`,
+  the export dialog on that format; `find` → the Find panel's chips and Show gaps set from it (V09 §4.21.10 (12): `set`
+  replaces the chips, `add` and `remove` change them, `clear` empties them and turns Show gaps off, `gaps` when given sets
+  the switch — a view action, never an edit, run once when the reply is complete and at each press of its button);
+  `fork` → "Open a copy from here" (`forkAt`); `rerun` → "Re-run from here" (`rerunFrom`,
   V09 §3.9) — below a rebase point at the earliest seq with `info.copy.condensed` (V09 §3.9's *Before a rebase point*), in host mode by `HostSlots.newDocuments`, the copy saved to the device or the
   button not drawn (V09 §3.9); every other kind goes to `ClerkHandle.run` — `propose` (its events previewed as a ghost, then Accept like any
   proposal), `undo` (the accepted group's undo) and `rebuild` (**Put it back**, V10 §4.3, its events those of
@@ -2442,19 +2523,18 @@ empty. The log's rows, filters and undo are untouched by it (V09 §2.8).
   **What the assistant sees** (the drawer's menu) opens V10 §5.4's read-only view of what was sent, as volume 10 defines
   it.
 
-### 4.12 Touch, pen and small screens — decided
+### 4.12 Touch, pen and window sizes — decided
 
 The evidence is thin (`research/ux/tool-survey.md` §6: MFCG's maker says it is not designed for small touchscreens; FTG's
 editor is large-screen only; watabou's other tools open the context menu on a long press). The decision (J-V9.9), with
 §13.4's first-five-minutes sessions confirming it:
 
-* **Layout classes** (V09 §2.2): **wide** (≥ 1024 CSS px) and **medium** (600–1023 px, and ≥ 480 px high) get every tool;
-  **narrow** (< 600 px wide, or < 480 px high — a phone in either orientation) is a **viewer with light edits**: the map,
-  the gazetteer and "features in view", layers and thematic views, "View as", the history panel (restore and copy), T1 `intend`,
-  T5 `quarter` (seed and click-inside only), T6 `place`, T7 `roster`, T10 `hold`, T11 `name`, T12 `dress` (style, tint, furniture, light), every export, share and the
-  clerk drawer. T2 `ground`, T3 `wall`, T4 `road`, T8 `fill`, warps and T9 `shape`'s geometry drags are not offered on narrow — their rail slots show the tool
-  greyed with the `refuse.phone` line — while T9's Shape tab forms (storeys, roof, class) work. The tables editor and the
-  advanced panel are read-only lists on narrow.
+* **Layout classes** (V09 §2.2; item 126 (a2), J140): **wide** (≥ 1024 CSS px wide) and **medium** (narrower) — every
+  tool on both, with a pointer, a pen or touch. The map is offered on tablets and desktops only: no phone layout, screen,
+  notice or catalogue row exists, and no tool is greyed for its screen. A window below the medium class's minimum,
+  600 × 480 CSS px, keeps the medium layout at that size and the page scrolls; nothing is hidden, re-laid or
+  re-generated, and the document, the view and the selection are the same bytes before and after a resize over the
+  threshold (T-V9-22).
 * **Gestures under a coarse pointer** — tap = click; long press (500 ms, no movement beyond 8 px) = the context menu
   (right-click); two-finger drag = pan; pinch = zoom; one-finger drag on empty map = pan when no drawing tool is active,
   and draws when one is; **free placement** (Alt) = a second finger held anywhere while the first draws; double-tap = zoom
@@ -2462,13 +2542,11 @@ editor is large-screen only; watabou's other tools open the context menu on a lo
   reset, alt+click lock) are the context panel's buttons. Hit targets and handles are at least 44 × 44 CSS px, the snap
   radius 22 px (V09 §3.4). Tooltips appear on a long press on a control.
 * **The hit stack by touch** (V09 §4.20.8). A tap on the selected thing where the stack holds more selects the next one
-  down, as a click does, and the long-press menu lists **Select below: {name}**. On narrow, a raised way, a span, a deck
-  plot and a stepped building can be selected, named (T11) and deleted with V09 §4.20.3's pending card; they cannot be drawn
-  there (T2, T3 and T4 are not offered).
+  down, as a click does, and the long-press menu lists **Select below: {name}**.
 * **Pen** is a fine pointer; pressure is not read (a brush's strength is its slider's, so a replayed stroke never depends on
   a device), and the barrel button is right-click.
 * **The fallback** (§13.4): if tablet participants fail where pointer users pass, `AppPrefs.touch.editFabric` defaults to
-  false for coarse pointers, hiding the L3 FABRIC and L4 FINISH layers' geometry edits (T8, T9's drags) on touch, and the
+  false for coarse pointers, hiding the L3 FABRIC and L4 FINISH layers' geometry edits (T8 `fill`'s and T9 `shape`'s drags) on touch, and the
   guide says so.
 * **The cursor sun** (§8.4): with no pointer hovering, the sun is the sheet's fixed sun (§1.2); on touch, a one-finger drag
   with the Light chip held in the view bar moves the sun (a view input, never logged).
@@ -2504,8 +2582,9 @@ focus (§14); a text field's focus suspends them; a user's rebinding is an `AppP
   "Streets" group adds the row **Raised ways the town builds by itself: as the rules say · none** (item 110 (b)): "none"
   is one `editTable` setting this document's rows of volume 11's `raisedWays` table to chance 0, previewed; its dry run
   says `offer.raised.standing` ("The {n} raised ways standing stay; remove them too?") with **Remove them too**, a grouped
-  `delete` of each generated one, each suppressed (V09 §4.20.3). "as the rules say" deletes the override rows. The row is
-  on medium and wide, read-only on narrow.
+  `delete` of each generated one, each suppressed (V09 §4.20.3). "as the rules say" deletes the override rows.
+* **On this device** (`settings.device`) — the advanced panel's last group, device state in `AppPrefs` and never part of
+  the recipe, the document or its hash: **Weather effects** on · off with **Start a shower now** (V09 §4.21.14; item 124 (g)).
 * **Tables editor** — the rule tables of §7.6, listed by group; a table opens as a grid of keyed rows (virtualised); a cell
   editor typed by the table's schema (unit, range, enumeration); per cell the provenance (source, date, note) and a chip
   "as MFCG does", "as FTG does" or "ours" read from the cell's `provenance.source` and `extension` marker (item 23).
@@ -2663,7 +2742,7 @@ the sealed-deep row (`info.under.deep`) when its top lies deeper than `DigRule.m
 closes a cluster's last way in previews the dwellings that empty (`fate.access.lastWay`, V04 §4.3) before Accept.
 
 **4.17.4 Dwellings only after a way in (item 109 (j) (4), with R2).** A declaration that would put dwellings in an
-`unexcavated` cluster — a T5 quarter or boundary on a void part, a T6 `placeAt` of a dwelling class on a void plot, a
+`unexcavated` cluster — a quarter or boundary T5 `quarter` draws on a void part, a T6 `place` `placeAt` of a dwelling class on a void plot, a
 clerk's proposal of either — is expanded as a closure that also makes the way in (file f item 372; J-V9.40):
 1. a dug access from the ground building standing nearest above the cluster (plan distance from the cluster's nearest
    element to its footprint, ties by address) whose dig floor lies within `DigRule.maxM` of that element's top —
@@ -2676,7 +2755,7 @@ clerk's proposal of either — is expanded as a closure that also makes the way 
    run bends the declaration onto ground part 0 over the same footprint, so the homes stand above the void (a quarter or
    boundary takes the same outline on part 0; a dwelling `placeAt` the part-0 plot over its point), named by
    `bend.under.noAccess` ("Nobody can reach this cave yet, so the homes stand above it.") with the alternatives **Add a way
-   down** (T6 on a chosen spot) and **Show me why** (item 101 R2; J-V9.102).
+   down** (T6 `place` on a chosen spot) and **Show me why** (item 101 R2; J-V9.102).
 The way in and the dwellings are one group and one undo step, so no dwelling stands in a sealed void after any
 declaration (T-V9-38).
 
@@ -2767,10 +2846,16 @@ Offered only when the relation store holds people (the module tier, §10.3); abs
   pick on the map) and district (chips), sent as `query({ kind: 'people', … })` and paged; each row gives name, age,
   profession, household, district and a tier chip, a withheld person reading "someone the viewer doesn't know" (§9.2).
   Selecting a row outlines the person's home and workplace on the map and opens the person's card.
+* **Re-derive people** (`people.rederive`; owner and editor roles) — on the panel's toolbar for the households of the rows
+  chosen (a row's household; all the households the filter lists when no row is chosen), and on the household line of a
+  person's card for that one household: `regenerate` of scope `people` for those households (§7.4's regenerate row;
+  §10.3's re-derive people), previewed with its fates — the people it re-derives and each household's `tableVersion`
+  advanced (§2.7) — and committed on Accept as one undo step, its history line "Re-derived the people of {n} households"
+  (V09 §4.10) (R2-22).
 * **The person's card**: name, age, household, profession, workplace, the module's content rows, **Family tree**, and
   **Where is {name} at…** — an hour slider (default the `time` key's hour) and a day chip send `query({ kind: 'whereIs',
   person, day, hour })`, and the answer draws a pin on its building with "At {hour} on {day}: {place}".
-* **The family tree** (§14's view) opens in the context panel's place widened to 560 px (a full-height sheet on narrow):
+* **The family tree** (§14's view) opens in the context panel's place widened to 560 px:
   `query({ kind: 'relations', person, up: 2, down: 2 })`; generations in rows by birth epoch, partners side by side and
   children below; a branch beyond two generations elided into "+{n}", which expands on click; **Re-root here** on any
   person; opening a person never pins it (§10.3); a keyboard tree grid (arrows between people, Enter opens the card, +
@@ -2789,7 +2874,7 @@ view state, not logged and outside every digest, and the per-viewer ones never c
 | **Plots only** | Map group | `plotsOnly` | off |
 | **Detail: when clicked · when in view** | Map group | `elaborate` | when clicked |
 | **Hand lantern** | Below group (V09 §4.2) | `handLantern` | off |
-| **Season** (V09 §4.21.7's control, with the festival list of V09 §4.21.8), **Weather** (where §8 draws them) | the Light group | §2.9's year position and its follow flag (item 117); `weather` | V09 §4.21.7's; `weather` the recipe's, `snow` on by default in a cold or severe climate's snow weeks and off in an arid one, the user's to switch (item 117 (g)) |
+| **Season** (V09 §4.21.7's control, with the festival list of V09 §4.21.8), **Weather** (where §8 draws them) | the Light group | §2.9's year position and its follow flag (item 117); `weather` | V09 §4.21.7's; `weather` the recipe's, `snow` on by default in a cold or severe climate's snow weeks, the user's to switch (item 117 (g)); `snow` offered only on a climate row where snow can lie — never on an `arid` row or one whose winter does not freeze, where a carried `snow` reads `clear` (§8.2; R2-39 (b)) |
 | **Day or night**, sun mode, sun height, hour | Light group | `light`, `sunMode`, `sunHeight` | §2.9's |
 | **Favourite** — a star on every panel's header | panels; the Notes panel lists them | favourites | none |
 | **Notes** — a private note on any thing's About tab; public notes (owner and editor) | the Notes panel and each panel's About tab | notes, public notes | none |
@@ -2812,18 +2897,18 @@ V09 §3.3's pipeline, every event is file f item 362's, and every word is a V09 
 
 **The `toolkit.json` rows item 110 adds** (V09 §2.3; T-V9-12 reads them):
 
-| tool · mode or parameter | gesture · kind | `emits` | `layers` | basic | narrow · coarse |
+| tool · mode or parameter | gesture · kind | `emits` | `layers` | basic | coarse |
 |---|---|---|---|---|---|
-| T3 `wall` · mode `retaining` ("Retaining wall") | `points` (`polyline` form) | `drawWall` | ground, sky | — (a mode chip beside Draw wall and Gate) | no · yes |
+| T3 `wall` · mode `retaining` ("Retaining wall") | `points` (`polyline` form) | `drawWall` | ground, sky | — (a mode chip beside Draw wall and Gate) | yes |
 | T3 `wall` · param `highSide` ("High side": Auto · Left · Right) | `chip` | — | ground, sky | yes (in the Retaining wall mode) | — |
-| T2 `ground` · mode `terrace` ("Terrace") | `brush` | `terrace` | ground, sky | — (a mode chip) | no · yes |
+| T2 `ground` · mode `terrace` ("Terrace") | `brush` | `terrace` | ground, sky | — (a mode chip) | yes |
 | T2 `ground` · param `levelCm` ("Level") | `number`, and the level handle | — | ground, sky | yes (in the Terrace mode) | — |
-| T4 `road` · param `raised` ("Raised") | `toggle` | `drawWay` | ground | yes | no · yes |
-| T4 `road` · class chip `aqueduct` ("Aqueduct") | `chip` of the class parameter | `drawWay` | ground | yes | no · yes |
-| T9 `shape` · context controls `spanUse`, `crossingForm`, `deckHeight`, `archSpacing` (on a selected raised way, span or crossing) | `card` controls | `setAttr` | ground | — (context) | yes (view) · yes |
-| T9 `shape` · params `tierCount`, `tierTop`, `tierStairs` (with Sealed), `tierShape`, `tierSkirt`, `tierSolid`, `tierStairWidth`, per-tier `floors` / `eaveCm` | `number`, `chip` | `setMassing`, `setAttr` | ground, sky | the count, top, stair and shape chips; skirt, solid and stair width behind More | yes (the Shape tab's forms) · yes |
-| T9 `shape` · handles `tierStep`, `tierCentre`, `tierRadius`, `shrineInset` | `drag-handle` | `setMassing` | ground, sky | — (on selection) | no · yes |
-| T10 `hold` · the Delete gesture ("Delete", "Remove") | `click` | `delete` | ground, sky, underground | — (context) | yes · yes |
+| T4 `road` · param `raised` ("Raised") | `toggle` | `drawWay` | ground | yes | yes |
+| T4 `road` · class chip `aqueduct` ("Aqueduct") | `chip` of the class parameter | `drawWay` | ground | yes | yes |
+| T9 `shape` · context controls `spanUse`, `crossingForm`, `deckHeight`, `archSpacing` (on a selected raised way, span or crossing) | `card` controls | `setAttr` | ground | — (context) | yes |
+| T9 `shape` · params `tierCount`, `tierTop`, `tierStairs` (with Sealed), `tierShape`, `tierSkirt`, `tierSolid`, `tierStairWidth`, per-tier `floors` / `eaveCm` | `number`, `chip` | `setMassing`, `setAttr` | ground, sky | the count, top, stair and shape chips; skirt, solid and stair width behind More | yes |
+| T9 `shape` · handles `tierStep`, `tierCentre`, `tierRadius`, `shrineInset` | `drag-handle` | `setMassing` | ground, sky | — (on selection) | yes |
+| T10 `hold` · the Delete gesture ("Delete", "Remove") | `click` | `delete` | ground, sky, underground | — (context) | yes |
 
 The other modes of T2 `ground`, T3 `wall`, T6 `place`, T8 `fill`, T9 `shape`, T10 `hold`, T11 `name` and T12 `dress` gain `'sky'` in their `layers` where V05 §4.1 maps them; T1 `intend`'s and
 T5 `quarter`'s carry it already, and T4 `road`'s only in its Sky access mode (V09 §4.20.9).
@@ -2877,12 +2962,12 @@ the deck scenes' cap per export (§11.1).
    handle again, emitting a new `terrace` over the recorded stroke at the dragged level, whose expansion replaces the old
    walls in its group (file f item 362 (c)). The recorded stroke is the `terrace` event's own, found through the wall's lifecycle
    cause (§2.8: its `EditRef`).
-6. **Crossings from the other side.** A T4 road drawn across a standing retaining wall shows the stair or ramp in its
+6. **Crossings from the other side.** A road T4 `road` draws across a standing retaining wall shows the stair or ramp in its
    ghost with the same bend line; a primary or secondary way ramps where the base's way-class rule says so. The form is
    editable afterwards (V09 §4.20.6 (6)).
 7. **Keyboard and devices.** Points by arrows and Enter; the High side chip is a `radiogroup`; the terrace brush moves by
    the arrow keys at the focus point and stamps with Enter, and the level handle takes arrows (10 cm; shift 1 m)
-   (V09 §4.15). Neither mode is offered on narrow (T2 and T3 are not); both work with a coarse pointer.
+   (V09 §4.15). Both modes work with a coarse pointer.
 8. The bar is T-V9-54 (V09 §7.1).
 
 #### 4.20.2 Raised ways and aqueducts (item 110 (b))
@@ -2901,8 +2986,8 @@ the deck scenes' cap per export (§11.1).
    `class: 'aqueduct'`.
 4. **Walls** (file f item 363; J-V9.61). A raised road or viaduct whose course meets an enceinte's trace ramps down to a ground
    vertex before it and passes through the gate the ground way makes there (`bend.raised.wall`). An aqueduct passes through
-   an arch in the curtain, never a gate (item 110 (b)), and its ghost draws the arch mark. From the other side, a T3 wall
-   drawn across a standing aqueduct shows an arch in its ghost, not a gate (`bend.wall.aqueductArch`).
+   an arch in the curtain, never a gate (item 110 (b)), and its ghost draws the arch mark. From the other side, a wall T3 `wall`
+   draws across a standing aqueduct shows an arch in its ghost, not a gate (`bend.wall.aqueductArch`).
 5. **The aqueduct's ends.** Its first point snaps to a spring or a river reach (its source), its last to a square, a
    fountain pin, a `conduit_house` plot or a cistern of the vaults system (its footprint lit on the ground; II.7.6) — its
    terminal; its course falls all the way at volume 11's `aqueduct.gradient`. A source lying lower than the terminal is
@@ -2926,7 +3011,7 @@ the deck scenes' cap per export (§11.1).
    offers no re-route, ends at its last ground vertex before it (`bend.raised.skyAccess`; J-VI.4 (f)); T-V9-52 has a
    fixture with a hoist across the stroke.
 7. **Rungs.** The Raised toggle and the Aqueduct chip are offered at every rung, the village rungs included (V07 §4.1's
-   T4 row); at TOWN and below the user's declaration is the only source (item 110 (b)). Nothing about the cap disables
+   T4 `road` row); at TOWN and below the user's declaration is the only source (item 110 (b)). Nothing about the cap disables
    them: a declared way counts toward the generator's cap and is never refused by it (V06 §2.13's `declared`).
 8. **Badge.** With Raised on, the first line reads "Raised", then "raised {m} m · {n} arches · crosses {k} ways with no
    junction · up to {h} m above the ground · {v} vaults beneath" (the vaults by V04 §3.5.4's span rule); an
@@ -2934,9 +3019,9 @@ the deck scenes' cap per export (§11.1).
    ("{n} raised ways in {town}; the rules build up to {cap} by themselves") — a fact from V06's ledger, never a limit.
    A raised or aqueduct stroke leaves its ghost pending with **Accept** — its course and its crossings are for the user to
    judge (J-V9.4) — and never commits on release; each crossing without a junction is drawn as a small bridge mark.
-9. **Devices and keys.** Not offered on narrow (T4 is not); points by arrows and Enter; the toggle is in the options
+9. **Devices and keys.** Points by arrows and Enter; the toggle is in the options
    strip; PageUp and PageDown as (1).
-10. **State and walk mode** (J-V9.73). The toggle and the chip hold while T4 stays the active tool, like the class chips,
+10. **State and walk mode** (J-V9.73). The toggle and the chip hold while T4 `road` stays the active tool, like the class chips,
     and reset to off each time T4 is picked. They are never stored in `AppPrefs`, because a toggle left on by accident turns
     the next street into a viaduct. While V07's walk mode is on, Raised and Aqueduct are disabled with `info.raised.walk`
     ("A walked way follows the ground"); the clerk or the tool API may still send both, and V07's dry run bends them to the
@@ -2987,8 +3072,7 @@ the deck scenes' cap per export (§11.1).
    empty result shows no **Build it again** (nor volume 10's **Put it back**). The history row calls it, and the shell hands
    the same function to the clerk slot as `ClerkMount.rebuildEvents` (V09 §2.10), so volume 10's `rebuild` action takes
    exactly these events — the one source (J-V9.94).
-5. **Narrow.** Delete from the context menu (or the long-press menu) is offered on narrow with the same pending card (it
-   is not a drawing gesture).
+5. **On touch.** Delete from the long-press menu takes the same pending card (it is not a drawing gesture).
 6. **A town-wide "none".** The advanced panel's "Raised ways the town builds by itself: none" (V09 §4.14) sets volume 11's
    chances to 0 and offers **Remove them too** for the standing generated ones, each removed as (2).
 7. **Crossing the CITY line on T1 `intend`** (J-V9.72). A Re-derive from CITY to TOWN drops the generated raised ways,
@@ -3008,7 +3092,7 @@ the deck scenes' cap per export (§11.1).
 2. **A class the deck refuses.** A class volume 11's `deckOk` refuses is bent to the nearest free land plot at the deck's
    landward end — the plot nearest the deck's shore vertex (`bend.deck.class`: "A {class} can't stand on a {deck}; placed it
    at the {deck}'s landward end.").
-3. **Landmark slots.** T6's snap lights a mole's slots — its head and its midpoint ("Mole head", "Mid-mole") — and a long
+3. **Landmark slots.** T6 `place`'s snap lights a mole's slots — its head and its midpoint ("Mole head", "Mid-mole") — and a long
    bridge's mid-span slot (file f item 246) for a tower or fort stamp; a stamp there maps to `placeAt` on the slot's landmark
    plot, whose building reads `DeckContext.landmark` (V02 §3.16 (2)). A non-landmark class dropped on a slot takes the
    nearest free deck plot, bent (`bend.deck.full`).
@@ -3020,7 +3104,7 @@ the deck scenes' cap per export (§11.1).
 6. **Removing or ruining a deck** previews its buildings among the effects (`removed`, `displaced`; V09 §4.20.7). The deck
    host's Over time tab offers **Rebuild it** (the base's rebuild of the host, as the coherence pass writes item 110 (d)'s
    lifecycle), which re-offers the plots, listed as `added`.
-7. **Fixture 1's bridge fortress** (V09 §7.2). Its canvas script makes it by T4 `bridge`, then a T6 stamp of the fort class
+7. **Fixture 1's bridge fortress** (V09 §7.2). Its canvas script makes it by T4 `road`'s `bridge` class, then a T6 `place` stamp of the fort class
    on the bridge's mid-span slot. File f item 246 gives a bridge deck of at least volume 11's
    `deck.landmarks/bridgeMid/minSpanM` (V11 §3.24.4) one landmark slot at its mid-span, as a mole's midpoint has.
 8. The bar is T-V9-55.
@@ -3084,7 +3168,7 @@ the deck scenes' cap per export (§11.1).
    (`tierCentre`, `tierRadius`) and the shrine's inset (`shrineInset`) (V09 §4.20.5 (1)).
 5. **The context menu** of a raised way: Why here?; Select below (V09 §4.20.8); Lock, Pin; Reset to generated (when edited);
    the Over time submenu (the base's conversions of a way); and Delete with V09 §4.20.3's card.
-6. **A crossing's form and the deck's measures** (file f item 364). A selected crossing shows T9's **Stair · Ramp** chip →
+6. **A crossing's form and the deck's measures** (file f item 364). A selected crossing shows T9 `shape`'s **Stair · Ramp** chip →
    `setAttr(way, 'crossings/<retaining wall id>/form', 'stair' | 'ramp')`; a ramp too steep for the way's class bends into
    a longer ramp along the way where its run allows, else back to a stair (`bend.crossing.steep`). A selected raised way
    shows T9's **Deck height** (`clearanceCm`, the least soffit height over the ways it crosses; a value below volume 11's
@@ -3136,15 +3220,15 @@ On Sky the tools act on the chosen island's arena with its `key` (V09 §4.2's se
   inside the strip's `setback` line, named by `bend.retaining.rim` ("The rim walk stays level; the wall stands
   inside it.") with "Show me why"; the ghost shows the moved stroke pre-selected, as every bend (V09 §3.3), and the clerk
   and a skeleton get the same bend from the same dry run.
-* **T3 Draw wall** lays V05 §3.21's barrier-closure enceinte walling only the landing yards, with V05's words.
+* **T3 `wall`'s Draw wall** lays V05 §3.21's barrier-closure enceinte walling only the landing yards, with V05's words.
 * **T4 `road`** offers only the sky access (V05 §4.2); Raised and Aqueduct are hidden, since no raised part stands on an island
   (V05 §3.22 (3)).
-* **T6 `place`, T8 `fill`, T9 `shape`, T10 `hold`, T11 `name` and T12 `dress`** take their V05 §4.1 forms; `toolkit.json`'s `layers` name `'sky'` for T2, T3, T6, T8, T9,
+* **T6 `place`, T8 `fill`, T9 `shape`, T10 `hold`, T11 `name` and T12 `dress`** take their V05 §4.1 forms; `toolkit.json`'s `layers` name `'sky'` for T2 `ground`, T3 `wall`, T6, T8, T9,
   T10, T11 and T12.
-* The disabled example on Sky is T4's Tunnel: "Tunnels are dug below the ground" (`disabled.onlyBelow`).
+* The disabled example on Sky is T4 `road`'s Tunnel: "Tunnels are dug below the ground" (`disabled.onlyBelow`).
 
 
-### 4.21 Items 111–119 on screen
+### 4.21 Items 111–126 on screen
 
 Each owner item's rules are the base's and their volumes' (V09 §1.3); this section is the application's part of each,
 as the canon routes it — its controls, words, panels, lifecycle and bar. Every word is a V09 §4.9 row, every gesture runs
@@ -3157,7 +3241,7 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
    water is V05's; item 111 does not apply there). `hint.oasis` shows the first time the Lake mode is picked on an arid
    site (the biome's climate row, §4.2 S0).
 2. **The mapper.** With the toggle on, the lake's points-and-level form maps to `drawWater { kind: 'lake', add: [], from: {
-   points: [p], levelCm, spring: true } }`, the flag inside the points form (§7.1's `PointsForm.spring`; §7.1's T2 row;
+   points: [p], levelCm, spring: true } }`, the flag inside the points form (§7.1's `PointsForm.spring`; §7.1's T2 `ground` row;
    item 111 (a)); the dry run fills the basin (S1's basin fill,
    `bend.lake.level` where the level spills) and lays the oasis's grove and irrigated gardens (§4.2 S1; §2.3's
    `WaterBody.spring`). Commit on Accept, since the grove and gardens re-flow plots.
@@ -3190,14 +3274,15 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
    style families' cues are §8.2's. The chrome's own status colours always pair with an icon and words (V09 §5.1).
 3. **The trial** (item 112 (b)) is V09 §7.6's protocol.
 4. **Edges.** A sheet without a checked variant for the chosen deficiency draws its palette with its second cues (§8.2);
-   an unknown stored value reads `'none'`; the chip on narrow is in Settings only. The bar is T-V9-72.
+   an unknown stored value reads `'none'`. The bar is T-V9-72.
 
 **4.21.3 A town with a past — the history option, what the past left, a lost void (item 113).**
 1. **The History chip.** T1 `intend`'s sheet gains **History**: "None" · "Once a {tier}" — a picker of the rungs above the
    town's own (item 113 (a), "once a city, now a village") — with, behind More, an **Age** stepper (years, default
    `history.defaultAgeYears` = 300, our own, calibratable; confirmed by T-V9-73's fixture replaying within item 119's
-   comfort level as V06's part of the item applies it). A pick maps to `adjust('history', { peak: { rung }, ageYears, scars: [] })`, the blueprint's `history`
-   (§4.2 S0's `HistoryHint`), and "None" to `adjust('history', undefined)`. In the empty state it is part of the new town's
+   ten-second comfort level in total, item 119 (a2)). A pick maps to `adjust('history', { peak: { tier: rung, symbolic:
+   false, evidence: [] }, ageYears, scars: [] })` — §2.7's standalone form of `HistoryHint` (VM-R1T-14; R2-23) — the
+   blueprint's `history` (§4.2 S0), and "None" to `adjust('history', undefined)`. In the empty state it is part of the new town's
    recipe; after a declaration it is a Re-derive from S0 (§7.1), previewed as the whole-town ghost with its fates
    (V09 §3.3), the replay's wait shown by the progress view (4.21.9). With a dossier history (DR36–DR39) the chip reads
    `info.history.fromRecord` ("From SettlementForge's record") and is locked; the replay is the port's.
@@ -3226,7 +3311,7 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
    only. "Back in use" with no neglect to lift is a no-op with `info.wall.inUse`.
 3. **The panel and the legend.** A selected run's panel line is `info.wall.run` ("{state} since {year}, patched with
    {material}"), read from its condition and material (§2.7's `Enceinte.condition`) and the epoch of its last change; the
-   ring's why card carries the generation-time line from §7.7's condition row (readiness and wealth; item 114 (d)) and
+   ring's why card carries the generation-time line from §7.7's DR41 (readiness and wealth; item 114 (d)) and
    volume 10's story of each run. The legend (§9.5) lists each wall state present in the view — `legend.wall.<state>`,
    each drawn with §8.2's state row and its second cue (a break with rubble, a patch's own line style, the worn ticks at
    the district band and finer, a dismantled run's trace discs) — so no state is told by colour alone (item 112).
@@ -3237,7 +3322,7 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
    (V06 §2.8). The bar is T-V9-74.
 
 **4.21.5 A hand edit beyond the grandeur ceiling — honoured and explained (item 115 (c)).**
-1. **Honoured.** A T6 placement or a T9 `shape` reshape that gives a dwelling a design above its rung's ceiling (§4.7 S10b's
+1. **Honoured.** A T6 `place` placement or a T9 `shape` reshape that gives a dwelling a design above its rung's ceiling (§4.7 S10b's
    ceiling; §10.2's table, V11's rows) — an `H` or `U` plan, a court, a tower or a turret at THORP or HAMLET, a second manor
    or a grand arrangement on another dwelling at VILLAGE — is committed as asked: the ceiling is a default, never a refusal
    (item 101 R2), and an epoch never reshapes it down (V06 §3.8.5 (4)).
@@ -3252,37 +3337,49 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
 
 **4.21.6 The view stops at the zoom-out limit (item 116).**
 1. **The limit** is §8.8's per-map zoom-out limit — the stop at which the map's whole `bounds` fits the viewport's short
-   side, plus one stop of margin (item 116 (a)). The wheel, a pinch, the − key and the view bar's zoom-out button settle no
-   further out than it; at the limit the button is disabled with `info.zoom.limit` ("This is the whole town") as its
-   tooltip, and a further wheel or pinch settles back to it without a bounce.
+   side, plus one stop of margin (item 116 (a)), or stop 0 where no stop fits (R2-30) — over the bounds of town and camps
+   while a crisis look stands (V09 §4.21.12 (8); item 122 (i)). The wheel, a pinch, the − key and the view bar's zoom-out
+   button settle no further out than it; at the limit the button is disabled with its tooltip — `info.zoom.limit` ("This
+   is the whole town.") where the bounds fit, `info.zoom.limitCamps` ("This is the whole town and its camps.") where the
+   bounds of town and camps fit, `info.zoom.coarsest` ("This is as far out as the map zooms; the town is wider than this
+   window.") at stop 0 where they do not — and a further wheel or pinch settles back to it without a bounce.
 2. **Fit the town** (the view bar's frame button) frames the limit less its margin — for a village, V07 §5.2's township
-   view — and the first view is §9.5's framing, unchanged (item 116 (e)). The export dialog's "whole town" frame is the same
+   view; the town and its camps while a crisis look stands — and the first view is §9.5's framing, unchanged (item 116 (e)),
+   taking in the camps while a look stands (§2.9's *The crisis framing*). The export dialog's "whole town" frame is the same
    bounds (item 116 (c)).
 3. **Growth.** An epoch or a hand edit that grows `bounds` moves the limit with it at the next `doc.changed`; a view
    zoomed out at the old limit stays where it is until the user zooms.
 4. **Edges.** A viewport resize re-reads the limit; a map whose bounds fit at the pyramid's outermost stop keeps that stop
-   as its limit. The bar is T-V9-76.
+   as its limit, and one whose bounds fit at no stop takes stop 0 (R2-30); a crisis starting or ending moves only the limit,
+   the opening view and Fit, never a view the user has moved (V09 §4.21.12 (8)). The bar is T-V9-76.
 
-**4.21.7 The season control and "Follow SettlementForge" (item 117).**
+**4.21.7 The season control, "Follow SettlementForge" and the week's fallback (items 117, 125).**
 1. **The control.** The view bar's Light group carries **Season**: a week slider (0–51, spring first, SettlementForge's
    grid; "Week {w}"), the four chips **Spring** · **Summer** · **Autumn** · **Winter**, each the middle week of its
    thirteen (6, 19, 32, 45), and, when the document has a dossier, the switch **Follow SettlementForge**
    (`view.season.<name>`). It writes §2.9's year position and follow flag (per viewer, never over a bridge, never in a
    digest; V09 §2.12). The slider and chips re-skin by §8.2's season rows within §12.5's re-skin budget; the map, its model
    and its hash are untouched in every week (item 117 (a)).
-2. **Following.** With the switch on, the week is §7.7's calendar row's — the dossier's current week and season — at open
-   and at each absorb; moving the slider or a chip turns the switch off, and turning it on again takes the dossier's week.
-   Standalone, the control opens at midsummer (week 19) and has no switch (item 117 (c)).
-3. **Weather and light.** `snow` weather defaults on in a cold or severe climate's snow weeks and off in an arid one, and
-   stays the user's to switch; the view sun's default height follows the week (item 117 (g)) — both view state only.
+2. **Following.** With the switch on, the week is §7.7's DR42's — the dossier's own latest stamped tick, the greatest of its
+   conditions' `triggeredAt`, its calamities' and its history's ticks (item 125 (b); R2-40 (1)) — read at open and at each
+   absorb, its year position by DR42; moving the slider or a chip turns the switch off, and turning it on again takes the
+   dossier's week. While the dossier carries no stamped tick, the control's own week holds — midsummer, week 19, by
+   default — and the line `view.season.noWeek` says it is the map's choice, not SettlementForge's; the first absorb that
+   brings a tick moves the week while the switch is on. Standalone, the control opens at midsummer (week 19) and has no
+   switch (item 117 (c)). A host's `view.set { week }` (§11.3) is a command, never an input (item 125 (c)): it moves the
+   control as a user's pick does, turning the switch off.
+3. **Weather and light.** `snow` weather defaults on in a cold or severe climate's snow weeks and stays the user's to
+   switch where snow can lie — never offered on an `arid` row or one whose winter does not freeze (V09 §4.21.14 (5); R2-39); the view sun's default height follows the week (item 117 (g)) — both view state only.
 4. **Exports and words.** Image and print exports draw the week shown and name it (`view.season.line`, "{season}, week
    {w}"); the export dialog shows the line and a chip to pick another week for that export; a battle-map export records
    it (§11.1). The clerk's explanation of a seasonal look is volume 10's.
-5. **Edges.** A dossier with no week falls back to midsummer with the switch on and the line "SettlementForge has no week
-   yet"; an unknown stored week is clamped into 0–51; the same document shows identical hashes in all 52 weeks (T-V9-77).
+5. **Edges.** A dossier with no stamped tick holds the control's own week (19 by default) with the switch on and
+   `view.season.noWeek`; a tick far in the past reads its year position by DR42; an unknown stored week is clamped into
+   0–51; the same document shows identical hashes in all 52 weeks, and the same dossier opens on the same week with and
+   without a host context (item 125 (e)); V09 §3.16's row 94. The bar is T-V9-77.
 
 **4.21.8 The festival list and its switch (item 118).**
-1. **The list.** Under the Season control, **Festivals** (`view.festival.title`) lists each festival §7.7's traditions row
+1. **The list.** Under the Season control, **Festivals** (`view.festival.title`) lists each festival §7.7's DR43
    reads from the dossier — "{festival}, weeks {a}–{b}" (`view.festival.row`), in window order — each with **Preview**;
    standalone, the list holds the generic festivals chosen by the culture and the season (item 118 (b): "Spring feast",
    "Midsummer", "Harvest home", "Midwinter"). Above it the switch: "Decorate when a festival is on" · "No decorations".
@@ -3300,10 +3397,13 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
 **4.21.9 The progress view — a one-time wait (item 119 (c)).**
 1. **When.** Every one-time wait a user sits through — a generate, a Regenerate or Re-derive, an open (from a file, a
    permalink or SettlementForge), an absorb, an export and a migration — runs within §12's ten-second comfort level, §12's
-   laws staying the targets (item 119 (a)); an advance of time and item 113's history replay take that comfort level as
-   V06's part of item 119 applies it. A wait that passes `progress.showAfterMs` (1 000 ms, our own; item 119 (c)'s "about
-   one second") shows the progress view, and a shorter one shows nothing; **Go back to here** and a restore jump
-   (V09 §3.9) past it show the progress view the same way, counting the events undone (`progress.undo`).
+   laws staying the targets (item 119 (a)); an advance of time, a history-first generation and a dossier catch-up each
+   complete within it in total, coarsened to fit by V06 §6.8 (item 119 (a2); J132; R2-31). An open's wait ends at the
+   editable complete map: its load-verification replay runs after it, off the path (R2-31 (c)), shown only as the view
+   status's quiet line `progress.verify` while it runs past `progress.showAfterMs`, never as the strip. A wait that passes
+   `progress.showAfterMs` (1 000 ms, our own; item 119 (c)'s "about one second") shows the progress view, and a shorter one
+   shows nothing; **Go back to here** (from a history row or a restore point, V09 §3.9) past it shows the progress view the
+   same way, counting the events undone from `edit`'s `onProgress` (§11.2's `'undo'`; `progress.undo`).
 2. **What it shows.** A strip over the map's top — never a modal and never an empty screen: on an existing town the town
    stays drawn under it (dimmed while a whole-town result is pending), and on a first map the stages' outputs fill in as
    they land, drawn in the ghost style under the strip, never shown as the finished map until it is complete (§8.5). The
@@ -3311,10 +3411,13 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
    a volume's main-phase stage taking the group of the base stage before it in the registry's order, a tail stage
    `below` — or, for a wait that is not a
    stage run, its `progress.<wait>` row (an epoch "Year {year} of {years}", the replay "Replaying the town's past: {year}",
-   an absorb, an export with its percentage, a migration), with a bar over the wait's known steps (stages, epochs, export
-   tiles) and **Stop** where the wait can stop: V06's advance; item 113's history replay at generation, where a stopped
-   history-first generation leaves no document and shows `info.history.cancelled` with **Generate without its history**
-   (V06 §3.20.4) — a stopped Re-derive's replay commits nothing; and an export.
+   an absorb, an export with its percentage, a migration), naming the cadence chosen where the run coarsened (", in
+   {n}-year steps": V06 §6.8's cadence, `EpochReport.advance.cadenceWeeks` against `.requestedWeeks`, and
+   `ReplayPlan.epochYears`; a coarsened catch-up too), with a bar over the wait's known steps (stages, epochs, export
+   tiles) and **Stop** where the wait can stop: V06's advance (`cancelAdvance`, V06 §4.1); item 113's history replay at
+   generation, through `generate`'s `signal` (§11.2; R2-42), where a stopped history-first generation leaves no document
+   and shows `info.history.cancelled` with **Generate without its history** (V06 §3.20.4) — a stopped Re-derive's replay
+   commits nothing; and an export, through `export`'s `signal` (§11.2).
 3. **The stage groups:** `ground` S0–S1 · `plan` S2–S3 · `streets` S4, S5a–S5d, S8–S9 · `walls` S7 · `quarters` S6, S7b ·
    `plots` S10a, S10 · `places` S10b · `buildings` S11 · `land` S12a–S12c · `names` S13a · `drawing` S14 and the tiles of the
    first map · `people` S15 (the simulation module, §4.10, when it is on) · `below` every `phase: 'tail'` stage (V04's
@@ -3325,6 +3428,239 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
 5. **Edges.** A wait that ends inside `progress.showAfterMs` never flashes the strip; a wait that fails shows the failure
    rung's line in its place (V09 §3.14); a stage that reports no progress keeps its name with an indeterminate bar. The
    bar is T-V9-79.
+
+**4.21.10 Find — a filter view with a halo-like glow, across every band and layer (item 120).**
+1. **A view, never a change** (item 120 (a)). The Find panel edits §2.9's per-viewer view key `find` —
+   `{ chips: FindChip[]; gaps: boolean }` (§2.9's `FindChip`): a **kind chip** (one class, or several for a word chip
+   such as "All smiths"), an **address chip** (a place, an area — a `FindArea.id`, V01 §5.4 — a person or an
+   institution) or a **dossier chip** (a dossier entry's binding key and anchor, V08 §3.16 (6) (e)), in selection order;
+   absent is Find off. It sends no event, preview or undo step and never touches the model, the document, its hash or
+   the log; it holds through zoom, pan, band, layer, season, advance and every commit, undo, redo, regenerate, load and
+   migration, is saved with the other view keys in the document's `view` section (§2.9; item 120 (a)'s "saved … like the
+   other view keys") and never crosses a bridge — a host message never sets a chip (§11.3; R2-33). Only **Clear**
+   (`find.clear`: the chips emptied, Show gaps off) or closing the panel (the key removed) ends it. A chip's colour and
+   second cue follow its index and are never stored (item 112).
+2. **Where it opens.** **Find** (`find.title`) in the view bar; **Find all {kind}s** in a selected use's context menu
+   (its kind chip added; V09 §4.4); the clerk's `find` action (12); a saved view holding the key, at open. Wide: a 320
+   px panel docked at the map region's left edge beside the rail, beside the context panel, never in its place, so a
+   selection or the drawer leaves it open. Medium: a sheet over the map's left edge that folds to its **chip strip** —
+   the chips with their counts and **Clear** in one row under the options strip — whenever the context sheet or the
+   drawer opens, and on its fold button; folding never ends the filter (J-V9.138).
+3. **The list — what the town holds** (item 120 (b)). With the box empty, the panel lists what this document holds at
+   the view's effective key (`effectiveKey()`, V09 §2.10) by §11.2's gazetteer — its class counts and its match listing
+   by class, area and layer — in these sections (`find.section.<part>`): (i) `dossier` — V08 §3.16 (6)'s entries, the
+   dossier's names first in the dossier's own order, each "{name} · {n}" (`find.count`) with its kind; (ii) `kinds` —
+   the institution kinds present as a grid under V11's nine `findGroup` headings (`find.group.<key>`: crafts, trade,
+   faith, rule, defence, learning, health, lodging and `other`, the item's "the rest"; V11 §2.3), each its `label` and
+   count ("Blacksmith · 4"), a kind present only on another layer counted there; (iii) `areas` — V01 §5.4's
+   `findAreas(key)`, each by its word (district, neighbourhood, quarter, region); at the village rungs V07 §5.5's ends
+   and field groups; (iv) `places` — the named places the gazetteer lists (squares, gates, temples, bridges, harbours);
+   (v) `crises` — the crisis looks standing (V09 §4.21.12 (7)); (vi) `people` — **Where is someone?** (`find.people`),
+   opening V09 §4.18's "Where is", shown when the module holds people. Nothing the town lacks is offered; a section with
+   nothing is omitted.
+4. **Type-ahead** (item 120 (c)). As the user types, the box (`find.box`, "What are you looking for?") suggests: classes
+   by V09 §4.16 (3)'s word matcher over V11 §2.3's `label` and `synonyms` — exact, then a plural ending removed, then
+   one-letter typos forgiven in words of five letters or more — case-folded and with prefix matching on, over the
+   classes present only (J-V9.139); the dossier's names by V08 §3.16 (6) (c)'s rules (names, never lexicon words); area
+   and place names as the gazetteer gives them, by prefix and whole word. Suggestions are grouped by kind with their
+   counts, at most eight per group and then "{n} more" (`find.more`); ↑ and ↓ move, Enter adds the highlighted one as a
+   chip, Esc empties the box. A whole word two or more present classes carry (V11 §2.3's *A shared word names a set*)
+   offers each class and one word chip, "All {word}s" (`find.allWord`), a kind chip holding all their classes. A word
+   matching nothing reads `find.noMatch`.
+5. **The chip grid** (item 120 (d)). Each pick is a chip: its words, its count, its colour swatch and its glyph. A list
+   row or a suggestion adds one; a chip's ×, or a click on its list row again, removes it; any number at once, drawn as
+   their union. Colours come from the thematic palette in chip order and repeat past eight; the second cue is one glyph
+   on its pins and one dash pattern on its halo's outline per chip index (item 112; §8.2's Find rows). A chip whose
+   target leaves the town stays at count 0, dark (`find.none`, "none now"), until removed; a dossier chip follows its
+   record by key and anchor (V08 §3.16 (6) (e)).
+6. **The look — `live.find`** (item 120 (e)). A new `overlay` live-layer provider, `live.find`, drawn by §8.2's Find
+   rows: while any chip is on, the rest of the map lies under the veil (the style's paper at α 0.55); each match is
+   drawn above it with its chip's halo — a soft glow fading over ≈ 8 px inside a 2 px outline — and its label above the
+   veil; an area chip lifts the whole area (`findAreas`' shapes) and glows along its boundary; at the city band a match
+   under ≈ 6 px also carries a pin with its chip's glyph, and pins nearer than ≈ 24 px merge into a count bubble ("12")
+   that zooms in when clicked — merged only within one layer and, on Sky, one island (V05 §5.6 (2)). The provider draws
+   over whichever Show view is on and never re-renders a base tile.
+7. **The index** (item 120 (f), (j)). Rebuilt once per commit, regenerate, undo, redo, advance, load and migration, and
+   at each `onEffectiveKey`, in the generation worker: per chip its matches by §11.2's gazetteer match listing at
+   `effectiveKey()` (a kind chip's classes; an address's entity; a dossier chip's key's rows); their places on Below by
+   V04 §5.1's `underFindPlaces(doc, ids)` (each part, depth band, glow shape and plan anchor) and on Sky by V05 §5.6; an
+   area's shapes by V01's `findAreas`; and, at the interior band, the rooms a matched building's institution uses by
+   V03 §5.5's `findRooms(plan, b, target)` for each matched building whose plan draws. A new smithy glows at its commit
+   and a closed one goes dark; a season change re-draws the same matches.
+8. **Across bands and layers** (item 120 (f)). Matches on the layer shown glow; matches on another layer show as faint
+   ghost pins where they are drawn — an island's at its drawn position, a hidden sky layer's included (V05 §5.6 (3)) —
+   and the panel counts them per layer: `find.moreBelow` ("{n} more Below"), `find.onSky` ("{n} on Sky"),
+   `find.onGround` ("{n} on the ground"), each with **Go there** (`find.goThere`): Below sets the working layer to Below
+   and `depthBand` to the match's band (V04 §5.1); Sky sets it to Sky, the island menu's `key` to the match's island and
+   a hidden sky layer visible (V05 §5.6 (3)); each then flies to the band that shows the match. At the interior band the
+   rooms a matched institution uses glow on the storey shown, with the storey switcher's marks and "{n} found"
+   (`find.foundRooms`) and the plan panel's room list marking them (V03 §5.5).
+9. **The results** (item 120 (g)). Under the chips, the matches (name, kind, district, layer), the shown layer's first,
+   then by address, paged: **Go to** (`find.goTo`) flies to the band that shows the match and selects it; **Next** and
+   **Previous** (`find.next`, `find.previous`) step through the list, each flying as Go to does; the list is a listbox
+   whose ↓ and ↑ are Next and Previous and whose Enter is Go to (V09 §4.15). Each chip shows its count.
+10. **Show gaps — Coverage folded in** (item 120 (i); J-V9.140). The panel's switch **Show gaps** (`find.gaps`) writes
+   `gaps`: for each kind chip, V01 §5.4 (3)'s `gapUnits(chip, key)` — the districts or catchments holding none, counted
+   by V11 §2.3's `CoverageSpec` (R2-34), on every layer, an island's units by V05 §5.6 (4) and a village's by V07 §5.5 —
+   each gap outlined dashed and labelled "none here" (`find.noneHere`), while a unit holding a match lies lifted from
+   the veil with its matches. Show gaps keeps every behaviour item 120 (i) folds into it: a class's units by its
+   `CoverageSpec`, gaps dashed and labelled, knowledge-filtered, drawn over any Show view. Address and dossier chips
+   draw no gaps; with no kind chip the switch is disabled with `find.gapsNeedKind`. An older view's
+   `thematic: 'coverage'` opens as Show gaps on with no chip (§2.9; V09 §2.12).
+11. **What the viewer may know** (item 120 (h)). Every list row, suggestion, count, glow, pin, ghost pin, gap and result
+   comes from reads at `effectiveKey()` (V09 §2.7; §11.2's admission): a thing the key withholds is never suggested,
+   counted, drawn or hinted at, and a concealed use answers as its front's class or not at all. On `onEffectiveKey` the
+   panel re-reads; a chip whose target the new key withholds reads `find.withheld` ("not in this view") with no count
+   and draws nothing.
+12. **The clerk** (V10 §2.6, V10 §3.9b (7)). The application runs V10's `find` action (V09 §4.11): `set` replaces the
+   chips, `add` and `remove` change them, `clear` empties them and turns Show gaps off, and `gaps` sets the switch — the
+   panel opening on them; a view action, never an edit. V10's `read_map { kind: 'find' }` reads the same key and index.
+13. **Exports** (item 120 (i)). A picture export made while chips are on draws Find as shown — the veil, the halos, the
+   pins and the gaps — with the chips in the legend (§11.1); the export dialog's Picture tab shows `find.exportLine`
+   ("Find: {chips}") with a chip to leave Find out of that export; a battle-map export leaves it off unless the Tabletop
+   tab's **Draw Find** (`find.exportBattle`, off by default) is on.
+14. **Speed** (item 120 (j)). Suggestions within ≈ 50 ms of a key and a chip's glow within ≈ 100 ms of the click at the
+   METROPOLIS cap (§12.5's overlay budget; V09 §6.4's Find row); the index rebuilt once per commit; no base re-render.
+15. **Lifecycle, edges and bar.** V09 §2.12's `find` row; V09 §3.16's rows 86–88; T-V9-83. Find lands at M5 (V09 §8.1's
+   AP11; R2-32), beside V01's area and gap services.
+
+**4.21.11 Resolution — Settings › Display and the view-status chip (item 121).**
+1. **The setting** (item 121 (a)). Settings' **Display** section (V09 §5.12) carries **Resolution**: **Auto** (the
+   default) · **4K** · **1440p** · **1080p (HD)** · **720p** (`settings.resolution.<level>`), held as
+   `AppPrefs.resolution` — device state, never in the document, its hash or the log, so a map opened on another machine
+   takes that machine's setting (V09 §2.11, V09 §2.12). A level above the screen's own resolution (its height in device
+   pixels) is greyed with `settings.resolution.screen` ("Your screen is {level}"). Choosing a level turns Auto off;
+   choosing **Auto** turns it on.
+2. **What it drives** (item 121 (a), (d)–(e)). The shell hands the setting to §8.8's resolution ladder and its Auto loop
+   at boot and on every change: a manual level sets the tile DPR by §8.8's rule, and Auto chooses by §8.8's loop and
+   gives up what §8.4 (g) orders. A change takes effect at the view's next settle, never during a pan, zoom or drag
+   (§8.8's settle rule); a change of the device pixel ratio — the window moved to another monitor, read by `matchMedia`
+   on the resolution media feature — re-evaluates at once (T121-7). Labels, text, the chrome and every overlay — Find's
+   halo, the handles, the ghost — stay at the device's full pixel ratio at every level (item 121 (e)).
+3. **The view-status chip** (item 121 (a); J-R22). At the view bar's right end, beside the scale bar, the chip names the
+   level in force: "Auto · {level}" (`view.status.auto`) or "{level}" for a manual one (`view.status.manual`). Its
+   tooltip says why — `view.status.why.<reason>`: `screen` ("your screen is {level}"), `memory` ("this device's graphics
+   memory holds {level}"), `frames` ("lowered to keep the map smooth"), `ceiling` ("{level} is the live view's ceiling")
+   — and §8.8's view status, the graphics tier and the tile density ("Graphics tier: {tier}; map tiles at {dpr}×",
+   `view.status.tier`). A click on the chip opens Settings at Display. The chip reads §8.8's loop's level in force and
+   its reason; it holds nothing of its own.
+4. **A level the device cannot hold** (item 121 (f)). The view draws the nearest level that fits and says so once as a
+   toast and on the chip's tooltip while it holds — `info.resolution.fallback` ("{level} needs more graphics memory than
+   this device has; showing {shown}.") — never a refusal and never a crash (T121-4).
+5. **Untouched.** Exports are byte-identical whatever the setting (item 121 (g); §8.7's any DPI), and nothing of the
+   document changes.
+6. **Lifecycle, edges and bar.** V09 §2.12's `AppPrefs.resolution` and chip rows; V09 §3.16's row 89; T-V9-84. It lands
+   at M4 with the performance tiers (V09 §8.1's AP11; R2-36).
+
+**4.21.12 Crisis looks — Show crises, the preview, the why lines and the framing (item 122, with (h)–(i)).**
+1. **The switch** (item 122 (e)). The Show menu's **Show crises** (`view.crises.show`), on by default, writes §2.9's
+   per-viewer view key `crises` — `{ mode: 'follow' }` on, `{ mode: 'off' }` off (R2-37 (2)). It is a switch beside the
+   thematic views, not one of them: the looks draw over whichever view is on, and under Find's veil as the rest of the
+   map does. It never touches the model, the document, its hash or the log and never crosses a bridge (§11.3).
+2. **The preview** (item 122 (e), as item 118 (b)'s **Preview**). The Show menu's **Preview a crisis**
+   (`view.crises.preview`) lists the look kinds of §10.2's crisis look table (`CrisisLookRow.kind`, each worded
+   `crisis.look.<kind>`); a pick writes `{ mode: 'preview', look }`, drawn at the table's `previewSeverity` whatever the
+   week, until the switch is touched or another look is previewed (§2.9). It is the only way to see a look on a map
+   without a dossier; on a dossier map it is offered the same way, the dossier's standing looks giving way to the
+   previewed one while it shows and returning when the switch is touched. A carried `preview` whose `look` names no row
+   reads `follow` (§2.9; V09 §2.12).
+3. **When a look stands** (R2-37 (1), (3)). A condition's look stands while §2.9's `week` lies in its [`sinceWeek`,
+   `untilWeek`) — from `sinceWeek` on while the overlay stands when it has no `untilWeek` — by §7.7's DR44 (its map row,
+   its look row, its scale by severity and tier or by the dossier's headcounts, item 122 (h)), drawn by §8.2's look
+   rows, several at once by §10.2's priority under its density cap. The year position (`yearWeek`) dresses the season
+   and is never compared with a condition's weeks. The looks standing are the legend's crisis entries (§9.5: the values
+   drawn), which this section's controls read — one evaluation.
+4. **The why lines** (item 122 (f)). A standing look reads `info.crisis.line` ("{look}: {condition}, weeks {a}–{b}" —
+   "Refugee camp: the Northmarch migration, weeks 12–20"): `{look}` its `crisis.look.<kind>` word, `{condition}` the
+   condition's name as V08 carries it from the dossier, read by the overlay's binding key (§2.7's
+   `ConditionOverlay.key`) through §11.2 at `effectiveKey()`, its weeks the overlay's `sinceWeek`–`untilWeek`;
+   `info.crisis.lineOpen` ("{look}: {condition}, since week {a}") with no `untilWeek`; `info.crisis.lineUnnamed`
+   ("{look}, weeks {a}–{b}") for a condition the dossier names not; `info.crisis.preview` ("{look} — a preview") for a
+   preview. The lines show on the crisis card (5), in the legend's crisis entries, and as a `facts` row on the why card
+   of a building in a district a disaster look ruins or of a field a famine leaves bare (`info.crisis.ruinedFor`, "For
+   now: {look}, {condition}, weeks {a}–{b}"; V09 §5.8). Volume 10's explanation renders the same keys (one key, one
+   sentence, J-V9.79).
+5. **The crisis card** — a non-modal card like the why card (V09 §5.8), opened from a crisis entry of the legend, of
+   Find's list (V09 §4.21.10 (3)) or of the Show menu's **Crises now** list (`view.crises.list`): the why line; the
+   forces' numbers where the dossier gives them (item 122 (h)–(i)) — `info.crisis.forces` ("about {n} {who}{, groups}":
+   "about 24 000 besiegers, three armies"), from the force and group sizes V08 reads from the dossier where present
+   (item 122 (h)), summed over the condition's forces; where a force is too large for the frame and its margin,
+   `info.crisis.massed` ("The rest are drawn as massed camps at the edge of the map."; §8.8's ring); **Show**, framing
+   the look's camps as **Fit the town** frames the town; and **Ask the assistant** (V10's `why` entry; hidden without an
+   enabled clerk).
+6. **Knowledge** (item 122 (e)). A condition the view's effective key withholds is never drawn, listed, named or counted
+   (DR44's admission): the card, the why lines, the legend's entries and Find's list all read at `effectiveKey()`, and
+   re-read at `onEffectiveKey` (View as, V09 §4.8).
+7. **Find lists the looks** (item 122 (f)). Each standing look is a row of Find's `crises` section, "{look}:
+   {condition}" (`find.crisisRow`); a click opens its crisis card, and its **Go to** frames it as the card's **Show**
+   does. A look is no chip: `find`'s chips name classes, addresses and dossier entries (§2.9's `FindChip`).
+8. **Framing and the limit** (item 122 (i); §2.9's *The crisis framing*; R2-37 (8); R2-30). While a look stands drawn —
+   the switch on, or a preview — the opening view and **Fit the town** take in the town and its camps, and item 116's
+   zoom-out limit widens to the bounds of town and camps together, k_min 0 where no stop fits them
+   (`info.zoom.coarsest`); at a limit that holds the camps the zoom control's tooltip reads `info.zoom.limitCamps`
+   ("This is the whole town and its camps."). When none stands, all three return to item 116's (V09 §4.21.6), a view
+   coarser than the restored limit settling to it about its own centre as at a resize (§8.8). A view the user has moved
+   is never re-framed: only the opening view, Fit and the limit change. A condition the viewer's key withholds widens
+   nothing.
+9. **Exports** (item 122 (f)). Picture exports draw the looks shown and name them (`view.crises.line`, "During:
+   {looks}"), the export dialog's Picture tab showing the line (V09 §5.10); battle-map exports draw them in the image
+   only, never as walls or obstacles (§11.1).
+10. **Lifecycle, edges and bar.** V09 §2.12's `crises` and framing rows; V09 §3.16's rows 90–91; T-V9-85. Show crises
+   and the preview land at M3b with the base parts they read (R2-36), the dossier's looks and their numbers with V08's
+   reading at M-SF, the disaster look's districts with V01's W10 at M5.
+
+**4.21.13 A ruined building's plan — its damage lines (item 123).**
+1. **One plan, damaged** (item 123 (a); R2-38). The plan is the one the building was built with (V03); what changes with
+   decay is item 123's damage layer over it. The plan panel (its contents V03 §4.5's) and the why card's `plan` section
+   (`why.section.plan`, "Inside") of an `abandoned`, `decayed` or `ruined` building, or of one restored with patches,
+   show its **damage lines**: V03's damage layer read at V06's `decayLevel(doc, lineage, week)` by R2-38's one
+   comparison — an element shows damaged when the level is at or above its threshold — one line per damaged element kind
+   present, by its `info.damage.<kind>` row in that row's order (V09 §4.9): the roof over a room (`roofBay`), floor
+   areas (`floor`, and `storeyGone` once every floor area of a storey has fallen — "the upper floor is gone"), outer
+   wall runs (`outerWall`), partitions, doors, windows, stairs, furniture, the rooms unsafe to enter (`unsafe`: a room
+   any of whose floor areas or roof bays over it shows damaged) and, below ground, the cellar and the crypt (by the
+   building above's level, an underground building by its own; V04) — the rooms named in plan order, three at most and
+   then `info.damage.more`. The panel's head line is `info.damage.head.<state>` by the building's `Existence`
+   (`abandoned`, `decayed`, `ruined`, or `reused` for one restored with patches), its `{, years}` clause from the epoch
+   whose op set the building `abandoned` (V06's reading, R2-38 (3)) and dropped for a building with no abandonment
+   epoch.
+2. **Restored** (item 123 (b)). As restoration lowers the level the damage leaves in reverse threshold order and its
+   lines with it; a repaired element drawn in patch material adds `info.damage.patched` (item 114's patchwork).
+3. **A crisis look's damage** (item 122 (d); R2-37 (7)). In a district a disaster look ruins, a building's lines are
+   those of its damage at the look's `lookLevel` by severity, or at its own level where that is higher, under the head
+   `info.crisis.ruinedFor` (V09 §4.21.12 (4)) — a look: nothing stored, ids and digests unchanged.
+4. **One sentence everywhere.** The lines are this volume's words (`info.damage.*`, V09 §4.9); volume 10's explanation
+   of a ruined building renders the same keys from the same reading (item 123 (e); J-V9.79). A building never decayed
+   shows no line (item 123 (f)); a higher level's lines are a superset of a lower's (monotone, R2-38 (2)).
+5. **Lifecycle, edges and bar.** Derived per read, never stored (V09 §2.12); V09 §3.16's row 92; T-V9-86. The lines land
+   with V03's plan step that draws a decayed or ruined plan (V03 §8), the levels from V06's at M6-E and, before it, from
+   the existence state alone at V11's default age (R2-36; R2-38 (3)).
+
+**4.21.14 Weather effects — the advanced panel's switch and Start a shower now (item 124).**
+1. **The switch** (item 124 (g)). The advanced panel's device group **On this device** (`settings.device`; V09 §4.14)
+   carries **Weather effects** on · off (`settings.weather.effects`), held as `AppPrefs.weatherEffects` — device state,
+   never in the document, its hash, the log or a tile key (V09 §2.11, V09 §2.12) — with **Start a shower now**
+   (`settings.weather.shower`) beside it, enabled while the effects are on.
+2. **The defaults** (item 124 (g), less its phone clause: item 126 (a2); R2-41). With no value stored the switch reads
+   on where the tier has headroom — §8.8's mid, high and ultra tiers — and off on the low tier and wherever the system
+   asks to reduce motion (`AppPrefs.reducedMotion` `'on'`, or `'system'` with the system's `prefers-reduced-motion` set;
+   V09 §5.12) (T124-5; J-V9.144). A user's choice holds over the default; Reset restores it.
+3. **What it drives** (item 124 (a)–(f)). The switch gates §8.4's per-frame weather layer, placed by §8.8 above the
+   tiles and below the labels, the chrome and every overlay; its spells come from the session's weather timeline
+   — §6.1's view-only `view.weather` stream, seeded per session — over V11's weather columns for the climate row and the
+   view's week; the spell in force is session-transient view state (§2.9's *Weather effects*). It never changes a tile,
+   the model, the document or its hash, and under item 121 (e) Auto gives it up first (§8.8).
+4. **Start a shower now** (item 124 (g); R2-39 (b)). It starts at once, as the timeline's next spell, a spell of the
+   commonest kind V11's weather columns give the climate row for the view's week; where they give none — an arid row's
+   dry weeks — it starts dust haze. It never starts snow on an `arid` row or on a row whose winter does not freeze
+   (V11's compile rules hold the columns to it, and the button checks it again). The press is recorded in session state,
+   so the timeline replays from its seed, its clock and the presses (T124-9).
+5. **The cover control** (R2-39 (a), (b)). The Light group's **Weather** (V09 §4.19) offers `snow` only on a climate row
+   where snow can lie — never on an `arid` row or one whose winter does not freeze — and a carried `snow` (an older
+   view, a pin, a changed climate) reads `clear` there (§8.2).
+6. **Exports** never draw the animated effects; the season's cover still applies (item 124 (h)).
+7. **Lifecycle, edges and bar.** V09 §2.12's `AppPrefs.weatherEffects` and spell rows; V09 §3.16's row 93; T-V9-87. It
+   lands at M3b with item 117's season looks it reads (R2-36).
 ## 5 Rendering, labels, exports — the screens and the dialogs
 
 The map itself is drawn by §8 in the tile worker; the application composes its tiles in the map region and draws, on the
@@ -3342,13 +3678,12 @@ drawing, readouts and hints (§9.5). Panels and dialogs are DOM, styled by the t
 | options strip | across the map's top, 44 px, only while a tool is active | the tool's mode chips and basic parameters, "More" (V09 §4.5) |
 | map region | the rest; `role="application"` (§14) | the composed tiles, the overlays (V09 §5.3), the empty state's overlay, the variations tray, the refusal card, toasts at the bottom centre |
 | context panel | right, 360 px, when something is selected or a panel is opened | selection tabs (V09 §4.4), or the report, history, gazetteer, names or dress panel |
-| view bar | map's foot, 40 px | working layer (Ground · Sky · Below, V09 §4.2) with the Below and Sky groups; the Map group (rotate, plots only, detail; V09 §4.19); Show (thematic views, V09 §5.4); View as (V09 §4.8); the Map group also holds **Colour vision** (V09 §4.21.2); the Light group (day or night, sun mode, height, the season with its festival list, V09 §4.21.7–V09 §4.21.8, weather) with the clock (V09 §4.18); layer toggles (§7.8); the ruler; the scale bar and zoom; V06's timeline bar docks above it when the town has history. Groups that do not fit fold into a "More" menu, in the order Map, Light, layers |
+| view bar | map's foot, 40 px | working layer (Ground · Sky · Below, V09 §4.2) with the Below and Sky groups; the Map group (rotate, plots only, detail; V09 §4.19); Show (thematic views, with **Show crises**, V09 §5.4, V09 §4.21.12); **Find** (V09 §4.21.10); View as (V09 §4.8); the Map group also holds **Colour vision** (V09 §4.21.2); the Light group (day or night, sun mode, height, the season with its festival list, V09 §4.21.7–V09 §4.21.8, weather) with the clock (V09 §4.18); layer toggles (§7.8); the ruler; the scale bar and zoom, with the view-status chip at the bar's right end (V09 §4.21.11); V06's timeline bar docks above it when the town has history. Groups that do not fit fold into a "More" menu, in the order Map, Light, layers |
 | drawer | right, 400 px, over the context panel | the clerk (V09 §4.11) |
 
 Medium: the rail collapses to icons (52 px), the context panel and the drawer become sheets over the map's right edge,
-the options strip wraps to two rows. Narrow: the rail becomes a bottom bar of the four first-screen tools plus "More" (a
-sheet of the rest that the narrow layout allows), panels and the drawer are bottom sheets, the view bar folds into a
-"Layers" button. **Chrome tokens** (our own values; the chrome is deliberately calmer than the map and never uses the map's
+the options strip wraps to two rows. Below 600 × 480 CSS px the medium layout holds at that size and the page scrolls
+(V09 §4.12). **Chrome tokens** (our own values; the chrome is deliberately calmer than the map and never uses the map's
 roles, so a tint on the map is never mistaken for a control):
 
 | token | light | dark | used for |
@@ -3388,7 +3723,7 @@ opacity: the line "Change anything: click it." (18 px), and three buttons — th
 place**, **Open a town…**. Along the map's foot, above the view bar, the **Try another** strip: six 160 × 120 px proxy
 thumbnails drawn in §8.5's distinct preview style with a "×" to dismiss the strip; hovering one shows its site and size in
 words. The first click on the map, or any tool pick, closes the card; the strip stays until dismissed or the first
-declaration. On narrow, the card is a bottom sheet and the strip scrolls sideways.
+declaration. Where the map region is narrower than the strip, the strip scrolls sideways.
 
 ### 5.3 The overlays: ghost, handles, badge, bend line, refusal card, snap, tray, hints
 
@@ -3410,8 +3745,8 @@ declaration. On narrow, the card is a bottom sheet and the strip scrolls sideway
   `plusMinus`; below it, the bend line (`mark.bend` rule, 13 px text) or the one-line reason.
   While drawing, a **readout** follows the pointer (length, area, height, slope; R4).
 * **Pending ghost's buttons** — Accept (Enter) and Cancel (Esc) under the badge.
-* **Refusal card** — a card at the draft's last point with a `mark.refusal` left rule, the catalogue's text and one
-  button per offered action; it closes when the draft changes or on Esc. It is never modal.
+* **Refusal card** — a card at the draft's last point with a `mark.refusal` left rule, the catalogue's text of the conflict's
+  `outcome` (V09 §3.3) and one button per offered action; it closes when the draft changes or on Esc. It is never modal.
 * **Snap highlight** — the candidate edge stroked 3 px in `mark.snap`, a 12 px label of its role beside the pointer.
 * **Variations tray** — three 160 × 120 px thumbnails over the map's foot, the focused one ringed, "Show three more",
   and the declared-things line (V09 §3.6).
@@ -3427,16 +3762,19 @@ declaration. On narrow, the card is a bottom sheet and the strip scrolls sideway
 The view bar's **Show** menu sets the per-viewer view key `thematic`: **None**; **Wealth** (§8.2's thematic row keyed by
 `prosperity`); **Shade** (below); **Supply links** (below); **Quarters** (the identity tint, item 72); **Uses** (the
 use-keyed row, knowledge-filtered, §8.2); **Who knows** (tints places by `knownTo`: public, local, secret — shown only
-to a `secret` view); **Coverage** (for a selected class, each district or catchment tinted by whether it holds a member —
-"one in every district" gaps shown, from V01's `catchmentOf` over the class's `CoverageSpec`; `live.coverage`, overlay);
-**Voids** (the footprints of the underground's systems projected on the ground, each named with the districts above it,
+to a `secret` view); **Voids** (the footprints of the underground's systems projected on the ground, each named with the districts above it,
 V01's `districtsAbove`; `live.voids`, overlay; knowledge-filtered, a sealed void only under `showUnexcavated`);
 **SettlementForge's chains** (V08 §5.2's `supplyChains` view: each chain drawn, labelled and listed by V08 §5.2's
 `CustomChainRecord` row; offered only while that row lists a chain in the gazetteer, which the shell reads by
 `query({ kind: 'gazetteer', kinds: ['customChain'] })` at the view's effective key after each load and each commit — while
 none is listed the entry is hidden and a stored `supplyChains` value draws nothing and reads as None; its drawing cost is
 V08 §6's; J-V9.105). One
-thematic view at a time; the legend for it sits in the map's lower left, listing only the values drawn (§8.2).
+thematic view at a time; the legend for it sits in the map's lower left, listing only the values drawn (§8.2). Under the
+views the menu carries **Show crises**, **Preview a crisis** and **Crises now** (V09 §4.21.12) — a switch over every view,
+not a view of its own. **Find** (V09 §4.21.10) draws over whichever view is on, and its **Show gaps** is this menu's coverage
+view (item 120 (i)) — for each kind chip the districts or catchments holding none, by V01 §5.4 (3)'s `gapUnits` over
+V11 §2.3's `CoverageSpec`; a stored `thematic: 'coverage'` (a town saved before item 120) opens as Show gaps with no
+chip (V09 §2.12).
 
 **Shade** (item 102 (f)) is a new `base` live-layer provider, `live.shade` (file f item 411): it reads the daylight-share raster
 (V09 §2.7) and draws each field cell as a translucent veil over the ground and blocks — six steps of the style's ink at α
@@ -3472,7 +3810,7 @@ anchor, so the enclosure reads whole after commit, not only in the wall tool's g
 products alike (V07 §5's palisade relies on it).
 
 **The cue column** (item 112 (a)): each colour-coded meaning of this volume's views, and its second cue — one channel per
-cue, drawn at the legend-bearing stops and named in the legend. The style families' own rows (Wealth, Quarters, Uses and
+cue, drawn at the legend-bearing stops and named in the legend. The style families' own rows (Wealth, Quarters, Uses, the crisis looks and
 the base's tints) carry §8.2's cues.
 
 | view | colour carries | second cue |
@@ -3480,7 +3818,7 @@ the base's tints) carry §8.2's cues.
 | Shade | the share of the day in shade (the veil's six steps) | the veil's steps are lightness, not hue; the readout's words; an island's strip solid, a pending one dashed |
 | Supply links | the goods family | the family's dash pattern (five); a satisfaction below 1 by a hollow arrowhead; an impaired chain by half width; an entrepôt by a square |
 | Who knows | public, local, secret | hatching: none · diagonal · cross-hatch, and the legend's words |
-| Coverage | a district or catchment holding a member, or not | a gap outlined dashed and labelled "none here" |
+| Find (V09 §4.21.10) | each chip's matches (the thematic palette in chip order, repeating past eight) | each chip's glyph on its pins and its dash pattern on its halo's outline (item 120 (d)); a Show gaps unit outlined dashed and labelled "none here" |
 | Voids | each system's projected footprint | its outline and its name label with the districts above |
 | the wall states (V09 §4.21.4) | §8.2's state rows | a break with rubble, a patch's own line style, worn ticks, trace discs |
 | the tier chips, the refusal and bend marks (V09 §5.1) | tier, tone | their words and rules |
@@ -3523,7 +3861,8 @@ mode by `HostSlots.newDocuments` (V09 §3.9).
 ### 5.7 The other panels
 
 * **Report** (§5.4, the "i" button in the top bar, and a dot on it when something was delivered simplified or left out):
-  "What you asked for" — each requested feature with "made in full", "made simpler" or "left out" and its cause in words;
+  under its head the **recipe line** from `GenerationReport.recipe` (§5.4) — `info.recipe.line` ("Made from seed {seed} at
+  {rung}.") and, when the recipe names a preset, `info.recipe.preset`; "What you asked for" — each requested feature with "made in full", "made simpler" or "left out" and its cause in words;
   "Couldn't place" — `unplaced` and `unserved` with Show; for a dossier-bound town, the placement state
   (`GenerationReport.dossier`, each entry by its `report.dossier.<state>` row with Show) and, under `host.group.standing`
   ("How the map reads SettlementForge's record"), the standing notes (`GenerationReport.dossierNotes`, V08 §4.6),
@@ -3554,7 +3893,7 @@ mode by `HostSlots.newDocuments` (V09 §3.9).
 
 ### 5.8 The "Why here?" card
 
-A `WhyCardModel` (V09 §2.7, projected from volume 10's `WhyAnswer`) renders as: the subject's name with its tier chip; the
+A `WhyCardModel` (V09 §2.7, projected from §11.2's `WhyAnswer`) renders as: the subject's name with its tier chip; the
 `decidedBy` line; the **bars** — each a plain sentence with a horizontal bar whose length is its share against the
 largest in the answer and whose side (left a push away, right a pull toward) is its sign, the target named and clickable
 (**Show**), then "and {more} smaller reasons"; for a district, block or plot the **drivers** of its wealth as bars — the
@@ -3565,11 +3904,13 @@ enough)" and "Sells {good} to {consumer}", with the orientation in words and a s
 **members**; the **profile chips** with their sources (V09 §4.7); the **alternatives** as "Other sites it considered", each
 drawn on the map as a faint numbered outline while the card is open; the **facts** with their tier chips and derivation
 rows; the **dossier line** "Since week {w}: {reason}"; "Today the rules would put it elsewhere; it stays." when
-`drifted`; among the facts, the grandeur line (V09 §4.21.5), an oasis's dossier line (V09 §4.21.1) and the symbolic chip
-(V09 §4.21.3); then the **sections** (V09 §2.7), each under its title (`why.section.<kind>`) with its rows as plain
+`drifted`; among the facts, the grandeur line (V09 §4.21.5), an oasis's dossier line (V09 §4.21.1), the symbolic chip
+(V09 §4.21.3) and, for a building in a district a disaster look ruins or a field a famine leaves bare,
+`info.crisis.ruinedFor` (V09 §4.21.12 (4)); then the **sections** (V09 §2.7), each under its title (`why.section.<kind>`) with its rows as plain
 sentences, their values in the user's units, tier chips and Show on a row's target — for an underground element its
 depth, excavation reading and ways down (the `underground` rows, V09 §4.17.3's lines among them, with `info.under.deep` for
-a deep sealed void); and for item 110's records (V09 §4.20.6) — a raised way's `raised` rows (its outcome in volume 10's
+a deep sealed void); for a building drawn damaged, the `plan` section ("Inside") opening with its damage lines
+(`info.damage.*`, V09 §4.21.13); and for item 110's records (V09 §4.20.6) — a raised way's `raised` rows (its outcome in volume 10's
 words with its values, the first as the `decidedBy` line), a dossier record that fed it as a `facts` row of tier
 `dossier`; a retaining wall's and an arch vault's `decidedBy` lines (V09 §2.7; V09 §4.17.6). A withheld target reads "somewhere the viewer doesn't know" (§11.2). **Ask the
 assistant** at the card's foot (hidden without an enabled clerk) sends the card's question with its `WhyAnswer` on V10's
@@ -3584,9 +3925,9 @@ assistant** at the card's foot (hidden without an enabled clerk) sends the card'
   than one mark (V09 §4.20.8) and `hint.oasis` the first time T2 `ground`'s Lake mode is picked on an arid site (V09 §4.21.1).
 * **The guided first town** — offered once, on the empty state's second visit or from Help ("Show me around"), never forced
   and never re-offered once dismissed (`AppPrefs.tourOffered`): six steps of about 30 s each, each waiting for the user's
-  own gesture — (1) click a building ("Every thing has a card"), (2) pick T5, drop one seed ("Paint a district"), (3) press +
-  on the badge and Accept, (4) T6: drop a tavern near a gate, (5) T10 `hold`: Try again on a block and pick a version ("What you
-  made stays"), (6) T12: pick a style and add a compass. Each step's hint completes that tool's first-use hint.
+  own gesture — (1) click a building ("Every thing has a card"), (2) pick T5 `quarter`, drop one seed ("Paint a district"), (3) press +
+  on the badge and Accept, (4) T6 `place`: drop a tavern near a gate, (5) T10 `hold`: Try again on a block and pick a version ("What you
+  made stays"), (6) T12 `dress`: pick a style and add a compass. Each step's hint completes that tool's first-use hint.
 * **Context help** (§14): every control's "?" opens its `@plat/docs` page in a side sheet; the keymap overlay (?) lists the
   current bindings, the user's overrides marked.
 * **How do I …?** — Help's entry for asking the assistant, shown only when a clerk is configured and on: it opens
@@ -3601,7 +3942,10 @@ the file shows ("What it shows: everything | what locals know | what anyone know
 host's players' view is set; by default the view's effective key, V09 §2.10, so "View as" carries into the file; lowered
 only; file f item 453), for a town with history the **year** it draws (V06 §5.3), and for a picture the **season** and
 **festival** it draws (`view.season.line`, `view.festival.line`, each with a chip to pick another for that export; items 117
-(h), 118 (g)) and its **colours** (`view.cvd.line`; item 112). **Export** runs V09 §3.10.
+(h), 118 (g)) and its **colours** (`view.cvd.line`; item 112), the **crisis looks** it draws (`view.crises.line`; item 122 (f)) and,
+while Find's chips are on, **Find** (`find.exportLine`, with a chip to leave Find out of that export; item 120 (i)); the
+Tabletop tab draws Find only with its **Draw Find** (`find.exportBattle`, off by default) and draws crisis looks in the
+image only (§11.1). **Export** runs V09 §3.10.
 
 | tab | formats | options (defaults first) | file name |
 |---|---|---|---|
@@ -3640,7 +3984,9 @@ Settings opens from the file menu's **Settings** in both modes — host mode kee
 — and at its Assistant section from the clerk's `openSettings` (V09 §4.11; V09 §3.14's clerk row).
 Sections, each with Reset: **General** — units (metric · imperial), theme (system · light · dark), UI scale (100–200 %),
 language — which locales ship follows SettlementForge (J121); English is the catalogue's source language, and in host
-mode the frame's language is the host's, read from SettlementForge's setting on `doc.load` (V08 §5.5). **New towns** — the `generation` preferences folded into a
+mode the frame's language is the host's, read from SettlementForge's setting on `doc.load` (V08 §5.5). **Display** (`settings.display`) — **Resolution**: Auto (the default) · 4K · 1440p · 1080p (HD) · 720p
+(`AppPrefs.resolution`; V09 §4.21.11), a level above the screen's own greyed with "Your screen is {level}."; the
+view-status chip opens Settings here. **New towns** — the `generation` preferences folded into a
 new document (§7.6): style, size, name packs, labels on; "Apply my current preferences to this town" (V09 §4.14). **Editing**
 — snap radius (4–24 px), handles (fewer · default · more), "Show three more" page size (fixed at three; not a setting),
 the §13.4 fallbacks when the tests switch them on (keep / change toggle on re-rolls; touch editing of the fabric).
@@ -3699,7 +4045,7 @@ map's label engine.
 | `showUnexcavated` (4.17.1) | V04's unexcavated style while on, at `secret` | the legend's "Not yet found by anyone in town" | a picture at `secret` with it on; never below `secret` | the view section, per viewer |
 | the ways down's causes (4.17.3) | the access symbol by cause; "Show the way in" as `live.selection` | the panel's lines | GeoJSON's `cause` on every access and link (V04 §5.5) | the model (V04's records) |
 | the catacomb, crypt and cemetery panels (4.17.5) | the extent chart; the ossuary fill by V04's program | the panels' sentences | GeoJSON's complex feature (V04 §5.5) | the model (V04's and V03's records) |
-| `live.coverage`, `live.voids` (5.4) | overlay tints and outlines | the legend | a picture while the view is on | never (derived) |
+| `live.voids` (5.4) | overlay outlines | the legend | a picture while the view is on | never (derived) |
 | the Show menu's **SettlementForge's chains** (5.4) | V08 §5.2's `supplyChains` thematic row while `thematic` is `supplyChains` | the legend and the gazetteer by V08 §5.2's row | GeoJSON: V08 §5.2's `supplyChain` LineStrings, under its knowledge rule; a picture while the view is on | never, but the per-viewer view key `thematic` (the records are V08's, in the model) |
 | `LayerSpec.showCircuit` (5.4) | barrier arcs dashed with anchor ticks | — | pictures draw it while on | the style's layer spec (`setLayer`, logged) |
 | the People panel, the family tree, where-is pins (4.18) | panels; home and work outlines; a pin | the panels' rows | the people CSV (§11.1) | never (queries) |
@@ -3720,9 +4066,14 @@ map's label engine.
 | a lost void's line (4.17.1) | V04's unexcavated style, at `secret` | `info.under.lost`, the legend's "Once known" | GeoJSON's `excavation: 'lost'` at `secret` (V04 §5.5) | never (V04's reading, derived) |
 | the wall states and a run's material (4.21.4) | §8.2's state rows | the legend's `legend.wall.<state>`; the run's panel line | every format with condition and material (§11.1) | the model (§2.7's `Enceinte.condition`); repairs in the log |
 | the grandeur line (4.21.5) | the badge line | `info.grand.*` | never | never (derived per preview and per why answer) |
-| the zoom-out stop (4.21.6) | the zoom control's disabled state | `info.zoom.limit` | the export's whole-town frame | never (§8.8's limit, derived from `bounds`) |
+| the zoom-out stop (4.21.6) | the zoom control's disabled state | `info.zoom.limit`, `.limitCamps`, `.coarsest` | the export's whole-town frame | never (§8.8's limit, derived from `bounds` — or the bounds of town and camps while a crisis look stands) |
 | the season and the festival display (4.21.7, 4.21.8) | §8.2's season and decoration rows | `view.season.line`, `view.festival.line` | pictures draw and name them; battle maps record the season | the view section, per viewer |
 | the progress strip (4.21.9) | the strip | `progress.*` | never | never (session) |
+| Find and its key `find` (4.21.10) | `live.find` by §8.2's Find rows: the veil, halos, outlines, pins, count bubbles, ghost pins and gap outlines | the chips' words and counts; `find.noneHere`; the legend's chips | a picture made while chips are on, with the chips in the legend; a battle map only with **Draw Find** (item 120 (i)) | the view section, per viewer; the index never |
+| the view-status chip (4.21.11) | the chip | `view.status.*` | never | never (derived); the setting `AppPrefs.resolution` on the device |
+| the crisis looks and the key `crises` (4.21.12) | §8.2's look rows; §8.8's massed marks on the ring | the legend's crisis entries, `crisis.look.*`, `info.crisis.*` | pictures draw and name them (`view.crises.line`); battle maps in the image only, never as walls (§11.1) | the view section, per viewer; the looks never (DR44, derived) |
+| the damage lines (4.21.13) | V03's damaged plan (§8.6) | `info.damage.*` | the plan's exports draw the damage (V03; §11.1) | never (derived) |
+| weather effects (4.21.14) | §8.4's per-frame weather layer | — | never (item 124 (h)) | `AppPrefs.weatherEffects` on the device; the spell never |
 
 ## 6 Performance budgets
 
@@ -3732,7 +4083,7 @@ restated as new laws. METROPOLIS takes the same scoped budgets within ± 20 % (�
 below names its own METROPOLIS figure (T1 `intend`'s Re-derive and T12 `dress`'s re-raster follow whole-town laws); TOWN takes them or less.
 **One-time waits and interaction** (item 119). A wait a user sits through once — a new town, a Re-derive, an open, an
 absorb, an export, a migration — runs within §12's ten-second comfort level, §12's laws staying the targets; an advance
-and a history replay take that comfort level as V06's part of item 119 applies it; each shows V09 §4.21.9's progress view
+and a history-first generation each complete within it in total, coarsened to fit by V06 §6.8 (item 119 (a2); J132); each shows V09 §4.21.9's progress view
 past `progress.showAfterMs`. Every budget of this section is an interaction budget, and item 119 relaxes none of them
 (item 119 (d)).
 
@@ -3752,19 +4103,19 @@ compose time) and never saved:
 
 | tool (the dry run's scope, §12.6) | L-ghost | stop-to-ghost |
 |---|---|---|
-| T9 shape — one plot (≤ 5 ms model + ≤ 2 ms deltas) | ≤ 26 ms | ≤ 150 ms |
-| T11 name — a label re-flow (S13b ≤ 2 ms per stop, §12.7) | ≤ 21 ms | ≤ 145 ms (a rename commits on Enter; no settle) |
-| T6 place — a post-build placement (≤ 30 ms at CITY, one designation mutation ≤ 5 ms) | ≤ 56 ms | ≤ 180 ms |
-| T5 quarter — a quarter of ≤ 450 buildings (≤ 30 ms scoped law + 3 ms deltas + S6's regrouping of the covered cells ≤ 10 ms) | ≤ 62 ms | ≤ 185 ms |
-| T4 road — a coarse edit (≤ 60 ms at CITY) | ≤ 80 ms | ≤ 200 ms |
-| T3 wall — S7's re-trace with its strips' F-REDERIVE (≤ 60 ms coarse + ≤ 30 ms strips) | ≤ 110 ms | ≤ 230 ms |
-| T2 ground — a terrain stroke (≤ 3 ms + 1 µs per re-based entity + the field-brush law) | ≤ 60 ms | ≤ 180 ms |
-| T8 fill — three variations of a quarter (three overlays run on three derivation-pool workers, ≈ one scope's cost; thumbnails ≤ 3 × 15 ms in the tile worker) | ≤ 70 ms (ghost); ≤ 120 ms (tray) | ≤ 190 ms (ghost); ≤ 240 ms (tray) |
-| T7 roster — one solve of N lines (≤ 30 ms + 25 ms per line at CITY) | ≤ 30 + 25 N ms | 20 lines ≤ 650 ms (the "working" ring shows past 1 s, V09 §3.14) |
-| T10 hold — a block's New random with variations | ≤ 40 ms | ≤ 160 ms |
-| T12 dress — a style change (the view's re-raster, §12.5's settle) | ≤ 150 ms at CITY; ≤ 250 ms at METROPOLIS (§12.5's METROPOLIS settle) | — (at once on click) |
+| T9 `shape` — one plot (≤ 5 ms model + ≤ 2 ms deltas) | ≤ 26 ms | ≤ 150 ms |
+| T11 `name` — a label re-flow (S13b ≤ 2 ms per stop, §12.7) | ≤ 21 ms | ≤ 145 ms (a rename commits on Enter; no settle) |
+| T6 `place` — a post-build placement (≤ 30 ms at CITY, one designation mutation ≤ 5 ms) | ≤ 56 ms | ≤ 180 ms |
+| T5 `quarter` — a quarter of ≤ 450 buildings (≤ 30 ms scoped law + 3 ms deltas + S6's regrouping of the covered cells ≤ 10 ms) | ≤ 62 ms | ≤ 185 ms |
+| T4 `road` — a coarse edit (≤ 60 ms at CITY) | ≤ 80 ms | ≤ 200 ms |
+| T3 `wall` — S7's re-trace with its strips' F-REDERIVE (≤ 60 ms coarse + ≤ 30 ms strips) | ≤ 110 ms | ≤ 230 ms |
+| T2 `ground` — a terrain stroke (≤ 3 ms + 1 µs per re-based entity + the field-brush law) | ≤ 60 ms | ≤ 180 ms |
+| T8 `fill` — three variations of a quarter (three overlays run on three derivation-pool workers, ≈ one scope's cost; thumbnails ≤ 3 × 15 ms in the tile worker) | ≤ 70 ms (ghost); ≤ 120 ms (tray) | ≤ 190 ms (ghost); ≤ 240 ms (tray) |
+| T7 `roster` — one solve of N lines (≤ 30 ms + 25 ms per line at CITY) | ≤ 30 + 25 N ms | 20 lines ≤ 650 ms (the "working" ring shows past 1 s, V09 §3.14) |
+| T10 `hold` — a block's New random with variations | ≤ 40 ms | ≤ 160 ms |
+| T12 `dress` — a style change (the view's re-raster, §12.5's settle) | ≤ 150 ms at CITY; ≤ 250 ms at METROPOLIS (§12.5's METROPOLIS settle) | — (at once on click) |
 | T9 `shape` family strip — F feasible families, each a single-plot dry run (≤ 5 ms model + ≤ 2 ms deltas, §12.6) on the derivation pool's ≤ 4 workers, then F thumbnails at ≤ 15 ms each in the tile worker | ⌈F ÷ 4⌉ × 7 ms + F × 15 ms: ≤ 134 ms for F = 8 | the strip complete ≤ 150 ms after the building is selected (its thumbnails appear as they land) |
-| T1 intend — in the empty state, a new town (§12.5's first-map law); after a declaration, a Re-derive's whole-town ghost (§12.3's model law from the named stage) | ≤ the model law + 16 ms compose, at every rung within §12's ten-second comfort level | the progress view past 1 s (V09 §4.21.9); the ghost at the law's figure (V09 §3.3) |
+| T1 `intend` — in the empty state, a new town (§12.5's first-map law); after a declaration, a Re-derive's whole-town ghost (§12.3's model law from the named stage) | ≤ the model law + 16 ms compose, at every rung within §12's ten-second comfort level | the progress view past 1 s (V09 §4.21.9); the ghost at the law's figure (V09 §3.3) |
 | T4 `road` with Raised or Aqueduct — a course of L km over built land (the course solver, the supports, the strip's re-plot, the vaults offered; V09 §4.20.2) | ≤ 60 ms + 60 ms per km at CITY; the same law at METROPOLIS, the working ring past 1 s | ≤ 180 ms + 60 ms per km; a course longer than `raised.previewOnReleaseKm` previews on release (V09 §3.14) |
 | T3 `wall` Retaining wall (V09 §4.20.1) | as T3's row: ≤ 110 ms | ≤ 230 ms |
 | T2 `ground` Terrace — the levelling of ≤ 60 plots and its edge walls (V09 §4.20.1) | ≤ 90 ms at CITY; ≤ 110 ms at METROPOLIS | ≤ 210 ms; else preview on release |
@@ -3841,6 +4192,12 @@ reported; if T5 `quarter` or T6 `place` still misses on release, its dry run gai
   an edit's incremental re-bind ≤ 5 ms per scoped edit; the `links` query ≤ 5 ms per page and ≤ 20 ms for ≤ 400 links in
   view at CITY; marks ≤ 2 ms; the overlay composes without a re-raster (§8.2's `overlay` target). Measured at M3a, with the link view (AP3); the
   pre-decided fallback, if the full bind misses: bind lazily by view region, cache per region.
+* **Find** (`live.find`; item 120 (j); §12.5's overlay budget) — suggestions within ≈ 50 ms of a key and a chip's glow
+  within ≈ 100 ms of the click at the METROPOLIS cap with sixteen chips (T-V9-83 (l); V12's T-V12-52 reports T120-6); the
+  index rebuilt once per commit in the generation worker — per chip one gazetteer listing (§11.2) and its places by
+  V04 §5.1, V05 §5.6, V01 §5.4 and V03 §5.5 — and the overlay composed without a re-raster (§8.2's `overlay` target),
+  never re-rendering a base tile. Measured at M5 (AP11); the pre-decided fallback, if a glow misses: the pins and count
+  bubbles drawn first and the halos at the next frame.
 
 ### 6.5 Autosave, storage and memory
 
@@ -3868,7 +4225,10 @@ where the bar says "three engines") unless it names another bench. "Canvas scrip
 T-V9-3, -4 and -29 to -31 are milestone exit criteria (V09 §8); the rest run on every pull request. They take over
 §13.2's T101-1 – T101-9 on the canvas (§13.2's take-over row for the application): T101-1 and T101-2 by T-V9-12, T101-3
 by T-V9-12, T-V9-13 and T-V9-71, T101-4 by T-V9-82, T101-5 by T-V9-13, T101-6 by T-V9-31 and T-V9-56, T101-7 by
-T-V9-81, T101-8 by T-V9-6 and T101-9 by T-V9-5.
+T-V9-81, T101-8 by T-V9-6 and T101-9 by T-V9-5 — and the screens of items 114–126: T114-6 by T-V9-74,
+T115-3 by T-V9-75, T116-1 by T-V9-76, T117-6 by T-V9-77, T118-2 by T-V9-78, T119-3 by T-V9-79, T120-2 – T120-5 by
+T-V9-83, T121-1, T121-4 and T121-7 by T-V9-84, T122-2 by T-V9-85, T124-5 by T-V9-87 and T126-1 – T126-3 by T-V9-22
+(R2-35).
 
 ### 7.1 The bars
 
@@ -3885,24 +4245,24 @@ T-V9-81, T101-8 by T-V9-6 and T101-9 by T-V9-5.
 | T-V9-9 | the wall ghost and natural barriers (item 106 (g)) | on item 106 (h)'s river-loop and cliff-backed fixtures, the ghost's barrier arcs' total length equals the committed enceinte's barrier-closure length within 1 m, the badge's walled length the committed wall's within 1 m, and every anchor tower ghost becomes a committed tower | M3a |
 | T-V9-10 | handles | every closed derived shape shows 4–8 handles by default and 8–16 with More (k by V09 §3.5's rules); each handle kind's drag emits V09 §3.5's event; a boundary handle drag's `drawBoundary` polygon differs from the resolved ring only between the moved handle's neighbours, and it changes only the plots along that run (the locality oracle, §7.3 item 7 (ii)); a lake shows no rim handle | M3a |
 | T-V9-11 | the canvas is deterministic | one canvas script, each gesture replayed at its recorded view scale and centre, on the three engines, at 1 440 × 900 and 1 024 × 768, at DPR 1 and 2, yields one model digest | M3a |
-| T-V9-12 | the tool binding is complete | a walker over the `EditEvent` union (the base and the volumes as revised) and §2.8's registry reads `toolkit.json`'s modes' `emits`, the `HandleSet` kinds' emits (V09 §3.5), the context panel's and the context menu's generated controls: every kind is emitted by one of them or is on V09 §4.3's host-only / API-only list — item 110's forms read by their discriminating fields (`drawWall.kind: 'retaining'`, `drawWay.raised`, `class: 'aqueduct'`, the `terrace` sugar, `setMassing { op: 'tiers' }`, the `spans/<n>/use`, `crossings/<wall>/form`, `clearanceCm` and `spanSpacingCm` paths); every entity kind's editable path has a control; a new kind without either fails CI; and each mode's `emits` lies within its tool's entry of T101-1's registry — §7.1's toolkit row as the requests amend it (T6 `place`'s one-line `roster` by file f item 570) plus the kinds a volume registers under that tool — so T101-2 holds on the canvas side as T-V10-1 holds it on the clerk's; and a T6 drop at a point emits `placeAt { plot: '', from: { points: [p] }, designation }`, byte-equal to V10 §4.1's `where.at` encoding of that point, while "this plot only" emits the plot under it (T101-3); a way's **Split here** and **Join these** are T9 `shape`'s (V09 §4.3), emitting `split { id, cut: [p] }` at the nearest centre-line point and `merge { ids }`, byte-equal with V10 §4.1's T9 way forms; T11 `name`'s **New names** in its three scopes and T12 `dress`'s **New emblem**, **New compass**, **New trees** and **New decoration** write V09 §4.5's bytes — the scoped forms `salt: 0` with `ids` in address order, the town-wide ones the concern's `DisplayList.salts` value + 1, New decoration's two as one group in registry order — which T-V10-4 compares with the clerk's encoders; and every rerollable concern of §6.1's registry (`naming`, `render.instances`, `style.jitter`, `style.crowns`, `style.compass`, `naming.emblem`) is written by a control, a concern no control writes failing CI | M2a on |
+| T-V9-12 | the tool binding is complete | a walker over the `EditEvent` union (the base and the volumes as revised) and §2.8's registry reads `toolkit.json`'s modes' `emits`, the `HandleSet` kinds' emits (V09 §3.5), the context panel's and the context menu's generated controls: every kind is emitted by one of them or is on V09 §4.3's host-only / API-only list; every (kind, target) pair of §7.1's binding has its V09 §4.3 row and its gesture emits it — `moveVertex` on a shore or coast (T2 `ground`), on an enceinte's trace with a stretch's anchor vertex and a gate's crossing (T3 `wall`), on a way's, a raised way's and a tunnel's chain (T4 `road`) and on an island's key (T9 `shape`, **Reshape the rim**), `instance` on a hood pin (T6 `place`) and on trees and §8.10's other decoration instances (T8 `fill`) with add, move, remove and restyle, and `regenerate` of scope `people` (T10 `hold`, **Re-derive people**) among them — item 110's forms read by their discriminating fields (`drawWall.kind: 'retaining'`, `drawWay.raised`, `class: 'aqueduct'`, the `terrace` sugar, `setMassing { op: 'tiers' }`, the `spans/<n>/use`, `crossings/<wall>/form`, `clearanceCm` and `spanSpacingCm` paths); every entity kind's editable path has a control; a new kind without either fails CI; and each mode's `emits` lies within its tool's entry of T101-1's registry — §7.1's toolkit row as the requests amend it (T6 `place`'s one-line `roster` by file f item 570) plus the kinds a volume registers under that tool — so T101-2 holds on the canvas side as T-V10-1 holds it on the clerk's; and a T6 drop at a point emits `placeAt { plot: '', from: { points: [p] }, designation }`, byte-equal to V10 §4.1's `where.at` encoding of that point, while "this plot only" emits the plot under it (T101-3); a way's **Split here** and **Join these** are T9 `shape`'s (V09 §4.3), emitting `split { id, cut: [p] }` at the nearest centre-line point and `merge { ids }`, byte-equal with V10 §4.1's T9 way forms; T11 `name`'s **New names** in its three scopes and T12 `dress`'s **New emblem**, **New compass**, **New trees** and **New decoration** write V09 §4.5's bytes — the scoped forms `salt: 0` with `ids` in address order, the town-wide ones the concern's `DisplayList.salts` value + 1, New decoration's two as one group in registry order — which T-V10-4 compares with the clerk's encoders; and every rerollable concern of §6.1's registry (`naming`, `render.instances`, `style.jitter`, `style.crowns`, `style.compass`, `naming.emblem`) is written by a control, a concern no control writes failing CI | M2a on |
 | T-V9-13 | refusals and bends are actionable (takes T101-5's refusal clause) | every refusal of a declaration by a dossier fact or a lock — `refuse.dossierOwned`, `refuse.dossierRemove`, `refuse.roster.dossier`, `refuse.locked`, `refuse.warp`, `refuse.water` — carries its reason and at least one closest alternative, as T101-5 states (a marked declaration of the dry run's `alternatives`, an unplaced dossier element, or the map-side alternative its row names); each F-EDIT reason, `ConflictAction` kind and bend of a fixture list — the bends of J-VI.4 among them, listed as bends (V02 §1b's massing set, `bend.raised.*`, `bend.aqueduct.*`, `bend.retaining.rim`, `bend.island.*`, `bend.hood.noClock`, `bend.wall.newStretch`, `bend.raised.newSpan`) — renders its catalogue row; every refusal row carries at least one button and every bend its pre-selected alternative where the row names one; each button yields a preview that is `ok` or a new bend; on a dossier-bound fixture a T6 `place` locus drop naming no element renders `refuse.roster.dossier` with the element picker and **Put it at {site}**, the picker's pick previews the line with its `element`, and Put it at {site} previews `ok` on the first candidate of V09 §4.5's `sites` query — the plot the clerk's `dossier` alternative names for the same locus; when none of the three candidates is free of hard fails, the card shows the element picker without **Put it at {site}**; on a T7 `roster` list on the same fixture, a line committed naming no element renders `refuse.roster.dossier` on its card with the picker and **Put it at {site}** by the same query (`near` and `district` from the line's locus, both omitted for a line with none), its plot equal to the clerk's `dossier` alternative for the same line (J-V10.93); the card's `{thing}` is the line's name, or the class's display label when the name is `''`, and its `{locus}` V09 §4.16 (6)'s wording (`in` and the settlement's name for a line with none), which (4) parses back to the same `Locus` for every named locus target of the fixture; for each word declaration of V09 §4.15 — T5 `quarter`'s seed, T4 `road`'s two points, T3 `wall`'s two ends — the point written is the named target's `EntityCard.anchor`, equal to volume 10's resolution of `{ at: target }` for the same words (V10 §3.6 rule 1), and the canvas's events are byte-equal to the clerk's encoding of the same words (T101-3); an `assign`, and a `rejectSite` whose re-placement no plot satisfies inside the hard rows, render `refuse.assignment.noSite` with the `moveTo` places marked, and **Put it at {site}** previews `ok` or a new bend on the first `moveTo` target; every `show` `arg`, `subject` and `page` template of a fixture row finds its argument in the dry run's `MsgRef` — the arguments the text does not show among them (`thing`, `building`, `crypt`, `layer`, `layerId`) — and every `commit` button of a fixture row, from each source and each event form it names, previews `ok` or a new bend with exactly the events V09 §4.9's forms state | M2a, M3a |
 | T-V9-14 | no dead ends | 1 000 random gestures (a random tool mode, random points in the frame) on B-CITY-lite seeds: 0 end with neither a ghost nor a refusal card; 0 uncaught errors | M3a |
-| T-V9-15 | the words | every code the engine can emit (the enums of §5.2, §11.2, §6.4's conditions, V08's port notes, V04's causes and `blockedBy`) has a catalogue row; every event kind of the base and the volumes has a history template, and each item-110 variant one by its discriminating field (V09 §4.10), `history.dossierFacts.creation` among them; every `ReportEntry.kind` (with `disruption`'s two forms and `works`'s three ops) has its `report.moved.<kind>` row and every `GenerationReport.dossier` state its `report.dossier.<state>` row, and F-EDIT's kept assignment case its `refuse.assignment.noSite` row; every key §7.1's dry-run outcome table names has its row, and every `bend.*` and `refuse.*` row names a producer that exists — an outcome row of §7.1 naming its key (a volume's bend under its last row, by the volume section the row cites), or a gate V09 §4.9's lead lists (E-07); every term `FieldDrivers.terms` can name has its `why.driver.<driver>` row, every registered `StageDecl` resolves to a `progress.stage.<group>` row (V09 §4.21.9; a tail stage to `below`, S15 to `people`) and every wait of V09 §4.21.9 (1), Go back to here among them, to its `progress.<wait>` row, and every `Enceinte.condition` value has its `legend.wall.<state>` row; every row ≤ 25 words, Flesch–Kincaid grade ≤ 8 by our own script, and free of "error", "invalid", "conflict", `E_…` patterns and ids; the same readability step runs over the rendered V10 refusal and critique templates and V11's `says` and `reason` sentences, and a failure is reported to that volume's table; every key of V09 §4.9's explanation families — `critique.K1`–`K18`, `refuse.clerk.*` (one per `RefusalCategory` value but `lock`, `rule` and `role`, the `key` row's three verdicts and `refuse.clerk.dossier.count` among them), `clerk.notice`, `clerk.alt.*` (one per alternative of V10 §3.16's rows and per harness button V10 §2.6's `label` comment names), `clerk.view.cleared`, `clerk.applied`, `info.raised.<outcome>` for the ten outcomes, `info.under.*` with `info.under.cause.<rule>` per `AccessCause.rule`, `info.catacomb.*` per `source.kind`, state, burial-face outcome and `blockedBy` value, `info.crypt.*`, `kind.<registry kind>` per withheld kind — and `why.section.<kind>` per registered section has a row in every shipped locale (the walker T-V10-29 shares); `clerk.alt.*` has one row per key V10 §5.4's list of the drawer's keys names (`clerk.alt.stale.retry` among them); `info.copy.condensed` has its row, its text V06 §3.15.5's line; **the buttons**: every row that offers a button carries its `buttons` list in `en.json` and no locale file carries `buttons`, `tone` or `codes`; every button's `key` is a `button.*` row, and every `button.*` row is named by some row's list; every `commit` names a source (a `ConflictAction` kind, `alternatives` with an `each` row, `unplaced`, or `event` with a form of V09 §4.9's event forms), every `tool` button a `ToolId` and a `ToolModeRow.id` of that tool in `toolkit.json`, every `app` button an `AppCommand` of V09 §4.9's list; every `refuse.*` row of V09 §4.9's table ends with `button.showWhy`; no `bend.*` row and no `refuse.*` row whose codes a dry run answers carries an `app` button; and each `ConflictAction` kind a `commit` carries has its `msg.key` equal to that button's `key` | M1 on |
+| T-V9-15 | the words | every code the engine can emit (the enums of §5.2, §11.2, §6.4's conditions, V08's port notes, V04's causes and `blockedBy`, V03 §2.3's `PlanReport.warnings` codes by their `report.plan.<code>` rows) has a catalogue row; a delete of `era`'s default row `c14` from the tables editor shows `refuse.table.required` (V11 §4.1); every `CrisisLookRow.kind` of §10.2's table has its `crisis.look.<kind>` row, every V11 §2.3 `FindGroup` its `find.group.<key>` row, every damaged element kind of V03's damage layer its `info.damage.<kind>` row and every `AppPrefs.resolution` value its `settings.resolution.<level>` row; every event kind of the base and the volumes has a history template, and each item-110 variant one by its discriminating field (V09 §4.10), `history.dossierFacts.creation` among them; every `ReportEntry.kind` (with `disruption`'s two forms and `works`'s three ops) has its `report.moved.<kind>` row and every `GenerationReport.dossier` state its `report.dossier.<state>` row, and F-EDIT's kept assignment case its `refuse.assignment.noSite` row; every key §7.1's dry-run outcome table names has its row, and every `bend.*` and `refuse.*` row names a producer that exists — an outcome row of §7.1 naming its key (a volume's bend under its last row, by the volume section the row cites), or a gate V09 §4.9's lead lists (E-07); every term `FieldDrivers.terms` can name has its `why.driver.<driver>` row, every registered `StageDecl` resolves to a `progress.stage.<group>` row (V09 §4.21.9; a tail stage to `below`, S15 to `people`) and every wait of V09 §4.21.9 (1), Go back to here among them, to its `progress.<wait>` row, and every `Enceinte.condition` value has its `legend.wall.<state>` row; every row ≤ 25 words, Flesch–Kincaid grade ≤ 8 by our own script, and free of "error", "invalid", "conflict", `E_…` patterns and ids; the same readability step runs over the rendered V10 refusal and critique templates and V11's `says` and `reason` sentences, and a failure is reported to that volume's table; every key of V09 §4.9's explanation families — `critique.K1`–`K18`, `refuse.clerk.*` (one per `RefusalCategory` value but `lock`, `rule` and `role`, the `key` row's three verdicts and `refuse.clerk.dossier.count` among them), `clerk.notice`, `clerk.alt.*` (one per alternative of V10 §3.16's rows and per harness button V10 §2.6's `label` comment names), `clerk.view.cleared`, `clerk.applied`, `info.raised.<outcome>` for the ten outcomes, `info.under.*` with `info.under.cause.<rule>` per `AccessCause.rule`, `info.catacomb.*` per `source.kind`, state, burial-face outcome and `blockedBy` value, `info.crypt.*`, `kind.<registry kind>` per withheld kind — and `why.section.<kind>` per registered section has a row in every shipped locale (the walker T-V10-29 shares); `clerk.alt.*` has one row per key V10 §5.4's list of the drawer's keys names (`clerk.alt.stale.retry` among them); `info.copy.condensed` has its row, its text V06 §3.15.5's line; **the buttons**: every row that offers a button carries its `buttons` list in `en.json` and no locale file carries `buttons`, `tone` or `codes`; every button's `key` is a `button.*` row, and every `button.*` row is named by some row's list; every `commit` names a source (a `ConflictAction` kind, `alternatives` with an `each` row, `unplaced`, or `event` with a form of V09 §4.9's event forms), every `tool` button a `ToolId` and a `ToolModeRow.id` of that tool in `toolkit.json`, every `app` button an `AppCommand` of V09 §4.9's list; every `refuse.*` row of V09 §4.9's table ends with `button.showWhy`; no `bend.*` row and no `refuse.*` row whose codes a dry run answers carries an `app` button; and each `ConflictAction` kind a `commit` carries has its `msg.key` equal to that button's `key` | M1 on |
 | T-V9-16 | history and restore | a 300-edit scripted session: "Go back to here" at 5 random points gives the model digest of a replay of the log prefix to that point; "Undo going back" restores the head's digest; "Open a copy from here" gives a document whose digest equals the prefix's | M2a (go back), M6-E (copy, with V06's E6) |
-| T-V9-17 | autosave and crash recovery | 50 trials of a 200-edit session killed at a random commit, each after the worker's commit and before the journal's `done` write: the reopened town's digest equals the last committed head in 50 of 50; 10 trials killed between a fates-sheet `confirm` and its `done` write recover the confirmed action; a corrupted journal entry stops recovery before it with `error.recoveryPartial`; a 100-epoch advance killed after its last epoch and before compaction, one killed mid-group and one stopped at epoch 40 and killed before compaction each reopen at the journalled head — the first and the third at their `logHeadAfter`, the second with the advance re-issued whole — no epoch lost and no recovery line shown | M2a; the advance clauses at M6-E (with V06's advance) |
+| T-V9-17 | autosave and crash recovery | 50 trials of a 200-edit session killed at a random commit, each after the worker's commit and before the journal's `done` write: the reopened town's digest equals the last committed head in 50 of 50; 10 trials killed between a fates-sheet `confirm` and its `done` write recover the confirmed action; a corrupted journal entry stops recovery before it with `error.recoveryPartial`; a 100-epoch advance killed after its last epoch and before compaction, one killed mid-group and one stopped at epoch 40 and killed before compaction each reopen at the journalled head — the first and the third at their `logHeadAfter` (the third re-issued with `stopAfter: 40`), the second with the advance re-issued whole — and an advance stopped after its first epoch and killed before compaction reopens at its `logHeadAfter` (`stopAfter: 1`); no epoch lost and no recovery line shown | M2a; the advance clauses at M6-E (with V06's advance) |
 | T-V9-18 | the draft mirror | a crash mid-quarter reopens with the offer; accepting restores the draft's points and params exactly | M3a |
 | T-V9-19 | exports | every tab's every format writes a file on B-CITY-lite TOWN and CITY; the estimate within ± 30 % of the actual size; the model digest and log unchanged by any export; a `public` picture holds no withheld name in its text, `aria-label`s or metadata; the VTT file carries open windows, alpha-first colours, the grid first in the Foundry scene and, when asked, the `{cols}x{rows}` picture | M3b |
 | T-V9-20 | share | each of §6.4's refusal conditions shows its `share.*` row and offers the file; an allowed town's link rebuilds the session's digest | M3a |
 | T-V9-21 | accessibility | axe-core: 0 serious or critical on every screen, panel, sheet, drawer and overlay state; the four first-five-minutes tasks and §13.4's scripted tasks completed keyboard-only; each preview announced once per settle; no focus trap — Tab past the last handle reaches the context panel, shift+Tab before the first returns to the map, Esc drops handle focus; 200 % UI scale with no loss of content | M1 (shell), M2a, M3a, M3b |
-| T-V9-22 | touch and small screens | on a coarse-pointer medium emulation every tool of V09 §4.12's list completes its canvas script with touch events; on narrow the withheld tools show `refuse.phone`; a long press opens the context menu; a second finger places freely | M3a |
+| T-V9-22 | touch and window sizes (takes T126-1's tablet half, T126-2 and T126-3) | on a coarse-pointer medium emulation every tool of V09 §4.12's list completes its canvas script with touch events (T126-1); a long press opens the context menu; a second finger places freely; a window of 599 × 479 CSS px keeps the medium layout at 600 × 480 and the page scrolls, and the document, the view and the selection are byte-identical across a resize over the threshold (T126-2); a build-time scan finds no layout class but `wide` and `medium`, no tool greyed for its screen and no phone row in the catalogue (`refuse.phone` absent; T126-3) | M2a (T126-2, T126-3; R2-36); M3a (every tool's touch script) |
 | T-V9-23 | the shade view | on item 102 (g)'s island fixture ≥ 90 % of the island strip's cells draw in the two darkest steps; toggling the view changes no model digest; the legend lists only the steps drawn | M3b |
 | T-V9-24 | links and link edits | a fixture with one bakery and two mills: Keep → a `siting.linkEdits` row `{ bindTo }` and the `links` query binds the kept mill; Cut → `{ avoid }` and the other mill serves; Stop buying → `{ cut: true }` and no link; Reset deletes the row and the nearest serves; each undo exact; the why card's links list the link; at `public` a concealed use's links are absent | M3a |
 | T-V9-25 | siting overrides | the tannery kind's `nuisance` set to Ignore in its per-kind panel: a `siting.declared` row with `familyWeights.nuisance = 0` under the kind's key; the next placement's why card shows no nuisance bar; placed tanneries stay and are listed with the score they would gain (V11 §4.3); "Show better sites" lists ≤ 3; a relocation accepted and undone restores the digest | M3a |
 | T-V9-26 | records | on B-DOSSIER-lite's fixtures, selecting a COUNT or GUILD record outlines exactly its `EntityCard.members` and the panel's count equals the model's | M3a |
 | T-V9-27 | the clerk drawer | with a scripted test clerk (a `ClerkHandle` that emits fixed `TurnView`s): no proposal commits without Accept, or without apply-then-undo switched on; an accepted proposal carries `proposedBy: 'clerk'` and author `user`; every `ReplyBlock` kind renders and every `ClerkAction` kind runs its action; each turn shows its cost and the month's tally; the first opening shows the label, the notice and the key in that order; "Undo the assistant's last change" undoes exactly that group; a viewer sees no proposal; `AppPrefs` holds no clerk field; New topic closes the live segment (the next turn opens a new one); the key card shows each `setKey` verdict (`ok` closes it, `invalid`, `noCredit` and `noAccess` their sentence, `unchecked` its note); the settings list the defect records with Save as file and Clear; each `ClerkAction` kind is dispatched by V10 §2.6's table — the seven the application runs by the shell, `propose`, `undo` and `rebuild` through `run`; a `why` opens the card or page the canvas's **Show me why** opens for that row; every `action` button shows its `label`, a labelled `select` its label and an unlabelled one its ids' chips; a stale card shows `refuse.stale` with **Ask again**, a host's stale card without it; an applied card shows `clerk.applied`, a key change `clerk.view.cleared`, and a viewer's declaration `refuse.viewer`; a proposal card's effect lines carry **Show** only (V09 §4.11), and on a `source: 'host'` card the bends carry no actions and the card offers Accept, Drop and Why only (V10 §2.6); for every bend and refusal row of T-V9-13's fixture the drawer's card and the canvas's card carry the same buttons in the same order, both read from the row's `buttons` (`commit` → `propose` with the canvas's bytes, `why` → `why` opening the same card or page, `show` → `select` of the same ids, `tool` → `useTool` with the same `mode` and, for `subject`, the same ids, `drop` → **Drop**), with no `app` button on either; a `useTool` with a `mode` opens that tool in that mode on the mode's working layer with its `ids` selected (**Add a way down** opens T6 `place`'s `access` mode on Below); and a `fork` block, and a `rerun` block, whose seq lies below a rebased document's `base.seq` make a copy whose `forkedFrom.seq` is the earliest seq, its opening toast ending with `info.copy.condensed` (saved, in host mode, with `info.copy.saved` first) | M3a (scripted), M3c (V10's harness) |
 | T-V9-28 | host mode is the same shell | `embed.html` with V08's `HostSlots` renders every screen of the standalone app except V08 §5.1's list (a DOM-structure diff against an allowlist); the allowlist also names the history panel's group "The party" — drawn from `HostSlots.historyLines` at the head of the All and SettlementForge filters only, newest first, **Show** only on a line with targets, no **Undo this** — and re-listed with the new key on a View as change: a spy on `list` sees every call carry `effectiveKey()`, and a line revealing one `local` and one `public` place draws, under "What anyone knows", naming the `public` place alone with **Show** on it alone, and both again when View as is cleared, each state read once the provider's `onChange` has fired for the new key (V08's per-key cache, J-V8.109), the same on "See what the players see" set and cleared — and the host rule for new documents: with `newDocuments: 'download'` each of Open a copy from here and Re-run from here (on a row, a chronicle row and a restore point), the drawer's `fork` and `rerun` and Enter's Same kind, new seed saves one `.plat` to the device whose model digest equals the standalone app's for the same action, leaves the frame's document and log head unchanged, writes no local store or recent entry and toasts `info.copy.saved`; with `'off'` none of those controls is in the DOM; **Start a new map from this** is absent in both; the file menu holds exactly Export skeleton, Rebuild around my drawings, Settings and About, Settings has no Storage section, and ctrl / cmd+O and ctrl / cmd+S do nothing (V09 §2.2's `fileMenu: false`) | M-SF (with V08's SF6; AP5b) |
-| T-V9-29 | the first-five-minutes test (V09 §7.3) | §13.4's pass rule at both M3a sessions; the M2a pipeline session recorded | M2a (pipeline), M3a (mid and exit) |
+| T-V9-29 | the first-five-minutes test (V09 §7.3) | §13.4's pass rule at both M3a sessions and at M3c's clerk session (T-V10-26); the M2a pipeline session recorded | M2a (pipeline), M3a (mid and exit), M3c (the clerk session) |
 | T-V9-30 | the owner's UX sitting (V09 §7.4) | its pass rule, or its unrated rule applied | M2a (diagnostic), M3a, M3b |
 | T-V9-31 | the known-city fixture authored through the canvas (V09 §7.2) | its bars (a)–(e), with item 110's rows on (its bridge fortress with its deck plots; the raised ways the city rules add listed in its report) | M3a |
 | T-V9-32 | help coverage | every tool, mode, parameter and panel control has its `@plat/docs` anchor; every tool's guide page is generated from `toolkit.json`; every catalogue row whose **Show me why** resolves to a page by V10 §3.5 step 3's target rule — every `bend.*`, `info.*` and `error.*` row that offers it, and every `refuse.*` row with no admitted address argument — has its anchor `messages#<key>`, and every staged layer §7.3 item 9 (d)'s F-EDIT can name has its page `staged/<layerId>` | M3b |
@@ -3947,14 +4307,19 @@ T-V9-81, T101-8 by T-V9-6 and T101-9 by T-V9-5.
 | T-V9-71 | the oasis (V09 §4.21.1; item 111) | on an arid and a temperate fixture: T2 `ground`'s Lake with **Spring-fed** on previews the water, the grove and the gardens with `info.oasis.badge`, commits `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm, spring: true } }` byte-equal to V10's encoding of the same request (T101-3), and undoes the three in one step; the history row reads "Made an oasis at {place}"; the toggle is absent on Sky; a dossier `oasis_water` oasis shows the toggle locked, `info.oasis.dossier` on its why card and `refuse.dossierRemove` on Delete; a save, a reload, a Regenerate and an epoch keep a drawn oasis | M3a (M6-sky for the Sky clause) |
 | T-V9-72 | colour vision, the second cues and the trial (V09 §4.21.2, V09 §7.6; item 112) | each **Colour vision** choice writes `cvdVariant` and the tiles and legend draw the sheet's checked variant; the key never crosses a bridge, never enters a digest and adds no log entry; `AppPrefs.cvdDefault` applies to a town with no value; every thematic view of V09 §5.4 at each variant passes T112-1's style check and each colour-coded meaning of V09 §5.4's cue column draws its second cue; a picture exported under a variant draws it and says so; the chrome's marks keep their words (axe-core's colour step and a greyscale capture of every screen); the trial's `TrialRecord` validates against its schema and its pass rule is computed as V09 §7.6 states | M3b (the view); the release gate (the trial, T112-2) |
 | T-V9-73 | a town with a past (V09 §4.21.3, V09 §4.17.1; item 113) | T1 `intend`'s **History** "Once a city" on a VILLAGE fixture commits one `adjust` of the blueprint's `history` as a Re-derive from S0 with its whole-town ghost; the same recipe and history replay byte-identically on the three engines; the report panel's "What its past left" lists one line per `HistoryRecord` entry with Show; a symbolic peak's facts carry the "size not recorded" chip; a dossier history locks the chip with `info.history.fromRecord`; a void whose last open link is bricked reads `info.under.lost` at `secret` only, drawn in the unexcavated style, and loses the line when a way in reopens; the replay's wait shows the progress view and ends within item 119's comfort level as V06's part of the item applies it | M6-E (with V06's replay; the lost-void clauses with V04's U-ACCESS) |
-| T-V9-74 | the wall's repair and states (V09 §4.21.4; item 114) | on a fixture with a breached, a worn, a patched and a dismantled run: Repair with a patch row makes the breached run `patched` with that material, robust makes it `standing`; the worn and patched runs offer robust only; the dismantled run bends with `bend.wall.newStretch`; Wear on a standing run makes it `worn`; "Back in use" on a ring with nothing to lift shows `info.wall.inUse`; each commits V06 §2.8's event and undoes exactly; the run's panel line and the legend's `legend.wall.<state>` entries equal the model; every state stays distinguishable in a greyscale capture at the bands §8.2 states; the VTT tab shows `export.vtt.walls` | M6-E (with V06 §3.7.7's condition ladder) |
-| T-V9-75 | a hand design beyond the grandeur ceiling (V09 §4.21.5; item 115) | on THORP, HAMLET and VILLAGE fixtures: a T9 `shape` `U` plan, a court and a tower on a dwelling and a second manor by T6 `place` each commit as asked with `info.grand.beyondTier` on the badge, the card and the why card; the same edits at TOWN show no line; a dossier-named hall reads `info.grand.dossier`; a reshape back under the ceiling drops the line; the clerk's card for the same edit carries the line | M6 (with V02's ceiling rows; the VILLAGE clauses with V07's village rungs) |
-| T-V9-76 | the zoom-out limit (V09 §4.21.6; item 116) | at every rung from THORP to the cap: the wheel, pinch, − key and zoom button settle at §8.8's limit and never beyond; the button is disabled there with `info.zoom.limit`; Fit the town frames the bounds (a village at V07 §5.2's township view); the first view is unchanged; a hand edit growing the bounds moves the limit; the export's whole-town frame equals the bounds | the milestone §16's row for item 116 names |
-| T-V9-77 | the season control (V09 §4.21.7; item 117) | a campaign fixture opens on its dossier's week with **Follow SettlementForge** on; a slider move turns it off and turning it on restores the dossier's week; a standalone town opens at week 19 with no switch; the four chips set weeks 6, 19, 32, 45; the document's model digest is identical in all 52 weeks and no week change adds a log entry; a picture names its week; `snow` defaults on in a cold climate's snow weeks; the re-skin stays within §12.5's budget | the milestone §16's row for item 117 names |
-| T-V9-78 | the festival list (V09 §4.21.8; item 118) | a dossier with two festivals lists both with their weeks; with the switch on, decorations show exactly in their windows' weeks; **Preview** shows one out of its window until the switch is touched; "No decorations" draws none; a previewed festival removed by an absorb falls back to `follow`; standalone, the four generic festivals are listed; the model digest is identical with decorations on and off; a picture names the festival | the milestone §16's row for item 118 names (V08's `traditions` read at M-SF) |
-| T-V9-79 | the progress view (V09 §4.21.9; item 119) | for a generate, a Re-derive, an open from a file, an absorb, a 100-year advance, a history replay, a CITY PNG export and a migration at METROPOLIS's cap: a wait under 1 s shows no strip; a longer one shows it within one frame of 1 s, never an empty map region, naming each stage group in order and the wait's own line; a Go back to here of a few hundred edits at METROPOLIS shows the strip past 1 s with its `progress.undo` count; a stopped history-first generation shows `info.history.cancelled`, whose **Generate without its history** makes the town with `history.replay` false; pan and zoom keep §12.5's frame budget throughout; every one-time wait completes within §12's ten-second comfort level on the reference machine — an advance and the history replay as V06's part of item 119 applies it; every registered `StageDecl` resolves to a group row, a tail stage to `below` | M3b (the strip); M6-E (the advance and the replay) |
+| T-V9-74 | the wall's repair and states (V09 §4.21.4; item 114; takes T114-6's legend clause on the canvas) | on a fixture with a breached, a worn, a patched and a dismantled run: Repair with a patch row makes the breached run `patched` with that material, robust makes it `standing`; the worn and patched runs offer robust only; the dismantled run bends with `bend.wall.newStretch`; Wear on a standing run makes it `worn`; "Back in use" on a ring with nothing to lift shows `info.wall.inUse`; each commits V06 §2.8's event and undoes exactly; the run's panel line and the legend's `legend.wall.<state>` entries equal the model; every state stays distinguishable in a greyscale capture at the bands §8.2 states; the VTT tab shows `export.vtt.walls` | M2b (the legend); M3a (Repair with a material, Wear); M6-E (Back in use, the epoch lines) |
+| T-V9-75 | a hand design beyond the grandeur ceiling (V09 §4.21.5; item 115; takes T115-3's hand form) | on THORP, HAMLET and VILLAGE fixtures: a T9 `shape` `U` plan, a court and a tower on a dwelling and a second manor by T6 `place` each commit as asked with `info.grand.beyondTier` on the badge, the card and the why card; the same edits at TOWN show no line; a dossier-named hall reads `info.grand.dossier`; a reshape back under the ceiling drops the line; the clerk's card for the same edit carries the line | M6 (with V02's ceiling rows; the VILLAGE clauses with V07's village rungs) |
+| T-V9-76 | the zoom-out limit (V09 §4.21.6; items 116, 122 (i); takes T116-1's view-control clause) | at every rung from THORP to the cap: the wheel, pinch, − key and zoom button settle at §8.8's limit and never beyond; the button is disabled there with `info.zoom.limit`; Fit the town frames the bounds (a village at V07 §5.2's township view); the first view is unchanged; a hand edit growing the bounds moves the limit; the export's whole-town frame equals the bounds; at the METROPOLIS cap in windows of 1 280 × 720 and 600 × 480 CSS px the limit is stop 0 with `info.zoom.coarsest` (R2-30); while a crisis look stands the opening view contains every camp, Fit frames the town and its camps and the limit is theirs with `info.zoom.limitCamps`, and when the crisis ends the limit is restored, a coarser view settling to it about its own centre and a moved view never re-framed (item 122 (i)) | the milestone §16's row for item 116 names; the crisis clauses at M3b (R2-36) |
+| T-V9-77 | the season control and the week's fallback (V09 §4.21.7; items 117, 125; takes T117-6's season-control clause) | a dossier fixture opens on its latest stamped tick's week with **Follow SettlementForge** on; a slider move turns it off and turning it on restores the dossier's week; a standalone town opens at week 19 with no switch; the four chips set weeks 6, 19, 32, 45; the document's model digest is identical in all 52 weeks and no week change adds a log entry; a picture names its week; `snow` defaults on in a cold climate's snow weeks, and on an arid row the Weather control offers no `snow` and a carried `snow` draws `clear` (R2-39); a dossier with no stamped tick opens on week 19 with the switch on and `view.season.noWeek`, and an absorb bringing a tick moves the week; the same dossier with and without a host context opens on the same week (item 125 (e)); a host's `view.set { week }` moves the control and turns the switch off (item 125 (c)); the re-skin stays within §12.5's budget | the milestone §16's row for item 117 names; the item-125 clauses at M-SF (R2-36) |
+| T-V9-78 | the festival list (V09 §4.21.8; item 118; takes T118-2's festival-list clause) | a dossier with two festivals lists both with their weeks; with the switch on, decorations show exactly in their windows' weeks; **Preview** shows one out of its window until the switch is touched; "No decorations" draws none; a previewed festival removed by an absorb falls back to `follow`; standalone, the four generic festivals are listed; the model digest is identical with decorations on and off; a picture names the festival | the milestone §16's row for item 118 names (V08's `traditions` read at M-SF) |
+| T-V9-79 | the progress view (V09 §4.21.9; item 119; takes T119-3) | for a generate, a Re-derive, an open from a file, an absorb, a 100-year advance, a history replay, a CITY PNG export and a migration at METROPOLIS's cap: a wait under 1 s shows no strip; a longer one shows it within one frame of 1 s, never an empty map region, naming each stage group in order and the wait's own line; a Go back to here of a few hundred edits at METROPOLIS shows the strip past 1 s with its `progress.undo` count; a stopped history-first generation shows `info.history.cancelled`, whose **Generate without its history** makes the town with `history.replay` false; pan and zoom keep §12.5's frame budget throughout; every one-time wait completes within §12's ten-second comfort level on the reference machine — a 100-year advance and a history-first generation in total (item 119 (a2)) — and where V06 §6.8 coarsened a run the line names the cadence chosen (", in {n}-year steps"), a coarsened catch-up's `progress.dossier` line too; an open's verification replay runs after the editable map, shown only as `progress.verify`; a stopped CITY PNG export and a stopped history-first generation end through their `signal` (§11.2); every registered `StageDecl` resolves to a group row, a tail stage to `below` | M3b (the strip); M6-E (the advance and the replay) |
 | T-V9-80 | the edge suite (V09 §3.16) | one scripted fixture per clause of V09 §3.16's table: each edge meets its stated outcome at its stated rung, with no uncaught error, no hang, no lost data and no whole-map retry | M3a, and at each later milestone for its rows |
 | T-V9-81 | points in, shape out on the canvas (takes T101-7) | through the canvas script on §13.2's ridge fixture: T3 `wall`'s Draw wall from two points follows the ridge and closes when its ends meet; T5 `quarter`'s seed quarter never crosses a block and its boundary lies on street centre-lines, water, walls or ridges; T2 `ground`'s Lake at one point and a level has a shoreline equal to the terrain's contour at that level — each event the points form of V09 §4.5's mapper, byte-equal to the tool API's for the same points (T101-3) | M3a |
+| T-V9-83 | Find (V09 §4.21.10; item 120; takes T120-2 – T120-5's interface clauses, with V12 §3.15.10's fixtures on this harness) | on the METROPOLIS-cap fixture, a dossier fixture and T-V9-66's canary fixture: (a) the panel lists what the gazetteer holds at the key — each kind's count equal to §11.2's class count, the dossier's names first, the empty box's grid under V11's nine groups — and nothing the town lacks; (b) "forge" and "smithy" suggest Blacksmith, "smith" offers each smith kind and "All smiths", "blacksmth" finds Blacksmith, a typo in a word of four letters is not forgiven, suggestions come grouped with counts, and ↑ ↓ Enter add a chip; (c) each chip's matches equal §11.2's match listing at the key (T120-2); (d) under a player view no canary appears in a suggestion, count, glow, pin or ghost pin (T120-3), and a chip the new key withholds reads `find.withheld`; (e) the chips survive every band and layer change and every commit, advance, undo, redo, regenerate, load and migration, a chip whose last match goes staying at count 0, dark, and lighting when a match returns (T120-4); (f) at the city band every match has a pin or a count bubble and every chip its glyph and dash, sixteen chips told apart in a greyscale capture (T120-5); (g) matches on Below and Sky show as ghost pins with "{n} more Below" and "{n} on Sky", **Go there** setting the working layer and `depthBand` or the island `key` (a hidden sky layer shown), and at the interior band `findRooms`' rooms glow with "{n} found"; (h) Show gaps draws V01's `gapUnits` dashed with "none here" and is disabled without a kind chip, and an older `thematic: 'coverage'` opens as Show gaps; (i) the document's hash, every digest and the log are unchanged by Find, and every chip off gives the tiles of Find off; (j) V10's `find` action's `set`, `add`, `remove`, `clear` and `gaps` set the panel as clicks do, and a host message sets no chip; (k) a picture export draws Find with the chips in the legend, a battle map leaves it off unless **Draw Find**; (l) at the cap with sixteen chips, suggestions ≈ 50 ms after a key and a glow ≈ 100 ms after a click (V09 §6.4; V12's T-V12-52 reports T120-6) | M5 (R2-32) |
+| T-V9-84 | the resolution setting (V09 §4.21.11; item 121; takes T121-1, T121-4 and T121-7; T121-5's captures taken on this harness for V12) | a fresh install reads **Auto** (T121-1); each manual level draws at §8.8's tile DPR, or, on a device fixture whose memory cannot hold it, the nearest level that fits with `info.resolution.fallback`, never a refusal or a crash (T121-4); a level above the screen is greyed with "Your screen is {level}."; the chip reads "Auto · {level}" with its reason, or the manual level; a device-pixel-ratio change re-evaluates within one frame and the level changes only at the next settle (T121-7); labels, chrome and overlays at the device pixel ratio at every level; the document, its hash and an export byte-identical across every setting | M4 (R2-36) |
+| T-V9-85 | crisis looks on screen (V09 §4.21.12; item 122 with (h)–(i); takes T122-2's interface clause) | standalone, **Preview a crisis** lists every look kind of §10.2's table and draws the picked one at `previewSeverity` in every week until the switch is touched; on a dossier fixture with a siege of two armies, a refugee wave and a plague: each look shows exactly in its condition's weeks (T122-2); the why lines read "{look}: {condition}, weeks {a}–{b}"; the crisis card gives "about {n} besiegers, two armies" from the dossier's sizes and, for a force beyond the frame and its margin, `info.crisis.massed`; Find's `crises` section lists the three looks; under a player view a withheld condition is never drawn, listed, named or counted; **Show crises** off draws none; the document's hash and every digest are identical with the switch on and off and in every week; a picture names the looks and a battle map draws them in the image only; while a look stands the opening view contains every camp and the limit is the bounds of town and camps (with T-V9-76) | M3b (the switch and the preview); M-SF (the dossier's looks and their numbers) (R2-36) |
+| T-V9-86 | a ruined building's damage lines (V09 §4.21.13; item 123) | on V03's damage fixtures — an `abandoned`, a `decayed` and a `ruined` building, a restored one with patches, a never-decayed one and a ruined church with its crypt: the plan panel and the why card's `plan` section show one line per damaged element kind present at the building's level, in `info.damage.*`'s order, three rooms and then "and {n} more"; a never-decayed building shows none; a higher level's lines are a superset of a lower's; a restored building's lines leave in reverse threshold order, with `info.damage.patched`; a building in a district a disaster look ruins shows the look's lines under `info.crisis.ruinedFor`, its ids and digests unchanged; volume 10's explanation of the same building renders the same keys | the later of V03's damaged-plan step and M3b; the decay levels at M6-E (R2-36) |
+| T-V9-87 | weather effects (V09 §4.21.14; item 124; takes T124-5) | on a fresh device fixture the switch reads on at the mid, high and ultra tiers and off on the low tier and under reduced motion (T124-5); a user's choice holds over the default and Reset restores it; **Start a shower now** starts a spell of the season's commonest kind for the climate row and week — dust haze in an arid row's dry weeks, rain and never snow where winter does not freeze — and the timeline replays from its session seed, clock and presses; the Light group's **Weather** offers no `snow` on an arid row and a carried `snow` draws `clear`; the document's hash and every tile are unchanged by the switch, a spell and the button; a picture export draws no effect | M3b (R2-36) |
 | T-V9-82 | a canvas-declared subset round trip (takes T101-4 on the canvas) | the documents of the known-city canvas scripts (V09 §7.2) and the declared subset of a scripted B-CITY-lite session, each exported by Export skeleton (V09 §3.12) and re-imported under its seed, reproduce the document's model digest — an author's removals kept (file f item 455) | M3a |
 
 ### 7.2 The known-city fixture, authored through the canvas
@@ -4039,13 +4404,16 @@ and the skeleton are the program's own, under our own names, and live in the tes
    instead: three to five participants, recorded and not gating, on the tasks the M2a build can express — a New random on a scope
    that keeps a locked thing (T10 `hold`), a shape task ("make this house one storey taller, then split this plot", T9 `shape`), going back
    in the history, and adding a compass — its findings feeding AP3 (file f item 494; J-V9.15). The dress task's style change has
-   `ink` and `lit` to choose from at M3a (`lit` ships at M2b).
+   `ink` and `lit` to choose from at M3a (`lit` ships at M2b). **At M3c's exit** a clerk session (§13.4): five participants
+   on the same terms, the built-in clerk connected, each asking it for "a walled harbour town with a temple quarter" and
+   making one follow-up change (T-V10-26), timed and recorded as below; its result is an exit criterion of M3c's
+   `MilestoneRecord`, written to `plat/goldens/ux/M3c/f5.json`.
 2. **Participants.** Five SettlementForge users per round (within §13.4's five to eight), recruited from its existing
    community, thanked by credit and early access, no payments (J122), each: runs tabletop games, has used a map tool
    casually, does not program for a living, has never seen the editor, and was not in an earlier session. Two per session
    work on a tablet (§13.4's touch question). The build they use is on SettlementForge's staging host (J121; V09 §11 Q1).
 3. **Setup.** A generated TOWN at a seed from `H32("f5/<milestone>/<participant>")` (§13.6's `H32`), the empty state
-   dismissed, no clerk unless the session tests it; the reference laptop with a mouse, or a 10–11 inch tablet.
+   dismissed, no clerk but in M3c's clerk session; the reference laptop with a mouse, or a 10–11 inch tablet.
 4. **Tasks**, read from cards, in this order, with no help: *quarter* — "Make a temple quarter called {name} next to the
    market."; *place* — "Put a tavern called {name} near the {gate}."; *dress* — "Make the map look like {style} and add a
    compass."; *re-roll* — "You don't like the houses in this block" (the observer points) "— get a different version, but
@@ -4059,9 +4427,10 @@ and the skeleton are the program's own, under our own names, and live in the tes
 ```ts
 interface F5Record { milestone: string; build: string; date: string;
   participants: { id: string /* P1 … P8, no names */; device: 'laptop'|'tablet';
-    tasks: { task: 'quarter'|'place'|'dress'|'reroll'; completed: boolean; seconds?: number; stuckAt?: string; notes?: string }[];
+    tasks: { task: 'quarter'|'place'|'dress'|'reroll'|'clerk' /* 'clerk': M3c's session, T-V10-26 */; completed: boolean; seconds?: number; stuckAt?: string; notes?: string }[];
     surprisedByHeld?: boolean; clerk?: { used: boolean; slow?: boolean } }[];
-  verdict: { perTask: Record<'quarter'|'place'|'dress'|'reroll', { passed: number; failed: number }>; pass: boolean /* §13.4: all, or all but one, complete all four */ };
+  verdict: { perTask: Partial<Record<'quarter'|'place'|'dress'|'reroll'|'clerk', { passed: number; failed: number }>> /* the tasks the session ran */;
+    pass: boolean /* §13.4: all, or all but one, complete every task the session ran — the four, or at M3c the clerk task */ };
   fallbacksApplied: ('firstScreen'|'hint'|'touchFabric'|'clerkApplyThenUndo'|'keepChangeToggle')[] }
 ```
 
@@ -4159,35 +4528,37 @@ application's code, data rows and its own test tooling; the engine work they cal
 | step | milestone | content | exit (V09 §7) | pw |
 |---|---|---|---|---|
 | **AP1 — the shell** | M1 | the frame (top bar, rail with the tools that exist, map region, context panel, view bar); the chrome tokens, the icon sprite and the two themes; the empty state's card (the proxies' strip waits for M3b); the report, gazetteer and "features in view" panels in plain words; the basic panel; the keymap; the accessibility contract; context help's skeleton; the message catalogue's first rows and its coverage test; open and download of generated towns | T-V9-1 (shell), T-V9-15, T-V9-21 (shell) | 2.5–3.5 |
-| **AP2 — the editing core as screens** | M2a | selection and the generated context panel; T9 `shape` and T10 `hold`; the preview pipeline — ghost, badge, handles for T9, the variations tray with thumbnails (file f item 461), the refusal card, the bend line, the fates sheet; undo and redo; the history panel with restore points and "Go back to here"; autosave, compaction, crash recovery and the draft mirror; the M2a pipeline session of the first-five-minutes test (V09 §7.3; file f item 494); the owner's diagnostic sitting | T-V9-2 to -7, -12, -13, -16 (go back), -17, -29 (the pipeline session, recorded), -30 (diagnostic), -47 (compaction) | 2.5–3.5 |
-| **AP3 — the full toolkit on the canvas** | M3a | T2 `ground` – T8 `fill` in full (points forms, snapping by role file f item 517, wall arcs file f item 462, placement alternatives file f item 463, the quarter's size file f item 348); handles on every shape; T7 `roster`'s paste and cards; multi-selection and move; the working layer; the advanced panel, tables editor and presets; the siting rows, the link view and link edits, split merge-back, wall stretch grades, record members, the why card (V11's tables by `editTable`, file f items 460 and 360, V10's `WhyAnswer` through `WhyCardModel`, its `sections` drawn by the card's row renderer within this estimate); the clerk drawer (with volume 10's clerk, or the scripted test clerk until it lands); touch and the three layout classes; the share sheet; open and recent; the three load outcomes (V09 §3.14 (a)–(c): the upgrade offer, the frozen view's Edit it with this version, a model-less file's recipe), standalone (host mode at AP5b); the known-city canvas script; the two four-task sessions (midpoint and exit); the owner's gating sitting; **the revision's base edits** (the castle's keep and bailey, land use, the tree brush, way split and join, district colour, the lifts, the drawn river), the context menu, View as as a filter, Recently deleted, the re-roll brush and the held-thing marks; **item 110 on the canvas** (V09 §4.20: Retaining wall, Terrace, Raised and Aqueduct, removal and Build it again, decks and landmark slots, the per-tier steppers, spans and crossings, the effects list, the hit stack, Keep them as yours, the Raised-ways row, the skeleton's removals, the export dialog's item-110 rows) and the second known-city canvas script | T-V9-3, -4, -8 to -11, -14, -18, -20, -22, -24 to -27, -29, -30, -31, -39, -44, -47 (links), -48, -50, -51 to -58, -60, -62, -63, -65, -66 (tiers, the harness form), -67 (the standalone clauses), -81, -82 | 7.25–11 |
-| **AP4 — finish, export and shade** | M3b | the export dialog's five tabs with estimates and the tabletop details (file f item 454); T11 `name` in full (inline editor, region groups, leader-line switch); T12 `dress` in full (furniture tray, underlay, lights, ground texture, the style dialog, **New trees**, **New decoration**, **New emblem** and **New compass**); the shade view (file f item 411, once item 102's driver is in the field); the Try-another strip (with §7.8's proxies); the guided first town; settings complete; the installable offline app; help coverage; the owner's sitting on exports and dress; **the revision's view keys** (the Map and Light groups, notes, pins, favourites, the grid, legend and emblem controls, the ruler), the coverage and voids views, the whole-circuit option, the tabletop overview | T-V9-3 (T11, T12), -6 (New trees, New decoration), -19, -21, -23, -30, -32, -43, -45, -47 (shade), -61 | 3–4.25 |
+| **AP2 — the editing core as screens** | M2a | selection and the generated context panel; T9 `shape` and T10 `hold`; the preview pipeline — ghost, badge, handles for T9, the variations tray with thumbnails (file f item 461), the refusal card, the bend line, the fates sheet; undo and redo; the history panel with restore points and "Go back to here"; autosave, compaction, crash recovery and the draft mirror; the M2a pipeline session of the first-five-minutes test (V09 §7.3; file f item 494); the owner's diagnostic sitting; the two layout classes with the medium layout's 600 × 480 minimum (item 126; R2-36) | T-V9-2 to -7, -12, -13, -16 (go back), -17, -22 (T126-2, T126-3), -29 (the pipeline session, recorded), -30 (diagnostic), -47 (compaction) | 2.5–3.5 |
+| **AP3 — the full toolkit on the canvas** | M3a | T2 `ground` – T8 `fill` in full (points forms, snapping by role file f item 517, wall arcs file f item 462, placement alternatives file f item 463, the quarter's size file f item 348); handles on every shape; T7 `roster`'s paste and cards; multi-selection and move; the working layer; the advanced panel, tables editor and presets; the siting rows, the link view and link edits, split merge-back, wall stretch grades, record members, the why card (V11's tables by `editTable`, file f items 460 and 360, §11.2's `WhyAnswer` through `WhyCardModel`, its `sections` drawn by the card's row renderer within this estimate); the clerk drawer (with volume 10's clerk, or the scripted test clerk until it lands); touch (the narrow class never built, item 126); the share sheet; open and recent; the three load outcomes (V09 §3.14 (a)–(c): the upgrade offer, the frozen view's Edit it with this version, a model-less file's recipe), standalone (host mode at AP5b); the known-city canvas script; the two four-task sessions (midpoint and exit); the owner's gating sitting; **the revision's base edits** (the castle's keep and bailey, land use, the tree brush, way split and join, district colour, the lifts, the drawn river), the context menu, View as as a filter, Recently deleted, the re-roll brush and the held-thing marks; **item 110 on the canvas** (V09 §4.20: Retaining wall, Terrace, Raised and Aqueduct, removal and Build it again, decks and landmark slots, the per-tier steppers, spans and crossings, the effects list, the hit stack, Keep them as yours, the Raised-ways row, the skeleton's removals, the export dialog's item-110 rows) and the second known-city canvas script | T-V9-3, -4, -8 to -11, -14, -18, -20, -22, -24 to -27, -29, -30, -31, -39, -44, -47 (links), -48, -50, -51 to -58, -60, -62, -63, -65, -66 (tiers, the harness form), -67 (the standalone clauses), -81, -82 | 7–10.5 |
+| **AP4 — finish, export and shade** | M3b | the export dialog's five tabs with estimates and the tabletop details (file f item 454); T11 `name` in full (inline editor, region groups, leader-line switch); T12 `dress` in full (furniture tray, underlay, lights, ground texture, the style dialog, **New trees**, **New decoration**, **New emblem** and **New compass**); the shade view (file f item 411, once item 102's driver is in the field); the Try-another strip (with §7.8's proxies); the guided first town; settings complete; the installable offline app; help coverage; the owner's sitting on exports and dress; **the revision's view keys** (the Map and Light groups, notes, pins, favourites, the grid, legend and emblem controls, the ruler), the voids view, the whole-circuit option, the tabletop overview | T-V9-3 (T11, T12), -6 (New trees, New decoration), -19, -21, -23, -30, -32, -43, -45, -47 (shade), -61 | 3–4.25 |
 | **AP5 — time** | M6-E (staged; with V06's E6) | "Open a copy from here" on V06's `forkAt` and "Re-run from here" on `rerunFrom`; the Chronicle tab joined to V06's timeline bar; `chronicle.csv`, `uses-history.csv`, the animated history and the history block at import | T-V9-16 (copy), T-V9-17 (the advance clauses), T-V9-41, T-V9-53 (the epochs) | 0.5–0.75 |
 | **AP5b — host mode** | M-SF (with V08's SF4 and SF6; V08 §8.1) | the host shell verified on V08's `embed.html` with V08's `HostSlots` — the file menu under `fileMenu: false`, the host rule for new documents (`newDocuments`) and the history panel's host group (`historyLines`), the three load outcomes in host mode (V09 §3.14 (a)–(c)), View as's host-set key form; the assistant's host clauses re-run on the embed; the Show menu's **SettlementForge's chains** (V09 §5.4); the history panel's dossier groups and the report panel's standing notes (V09 §4.10, V09 §5.7) | T-V9-28, T-V9-40 (the host clauses, on the embed), T-V9-64 (on the embed), T-V9-66 (the embed clause), T-V9-67 (the host clauses), T-V9-68, T-V9-69 | 0.25–0.5 |
 | **AP6 — Below and item 109** | M6-U (staged; with V04's U3, U3b and U4) | the Below group (band ladder, view chips, lantern, the hidden-voids toggle at `secret`); the system chip and New ruin / cavern / catacomb; the ruin legend; "How people get down here" with every cause, "Show the way in" and the access edits; the dwelling closure's words; the catacomb, crypt and cemetery panels, the extent chart and the bends | T-V9-33 to -38 | 1–1.5 |
-| **AP7 — Sky** | M6-sky (staged; with V05's P4) | the Sky group and island menu; the island handles (rim by `resizeIsland`, altitude); "Update shade now"; the shade strips and their legend | T-V9-43 (strips) | 0.5–1 |
-| **AP8 — the built-in assistant's screens** | M3c (staged; with V10's C2–C5 — C5 for the host channel and the card-only drawer) | the three first-open cards (label, notice, key); every `ReplyBlock` and `ClerkAction`; the meter and the caps; the settings' Assistant section over `ClerkSettings`; the creation preview and its acceptance; the import dialog's critique and "Check with the assistant"; "Ask the assistant"; the transcript export; the card-only drawer for a host's proposal and the host channel `ClerkMount.host`, verified on the application harness's scripted host page (T-V9-64); New topic, the key verdict and the defect list; Start a new map from this (`attach.newMap`) | T-V9-27 (harness), T-V9-40 (the host clauses on the scripted host page), T-V9-64 (on the scripted host page) | 1–1.25 |
-| **AP9 — people and the family tree** | M4b (with `@plat/sim`) | the People panel, the person card with "Where is", the family tree, the clock | T-V9-46 | 0.75–1.25 |
+| **AP7 — Sky** | M6-sky (staged; with V05's P4) | the Sky group and island menu; the island handles (the rim's **Resize** and **Reshape the rim**, altitude); "Update shade now"; the shade strips and their legend | T-V9-43 (strips) | 0.5–1 |
+| **AP8 — the built-in assistant's screens** | M3c (staged; with V10's C2–C5 — C5 for the host channel and the card-only drawer) | the three first-open cards (label, notice, key); every `ReplyBlock` and `ClerkAction`; the meter and the caps; the settings' Assistant section over `ClerkSettings`; the creation preview and its acceptance; the import dialog's critique and "Check with the assistant"; "Ask the assistant"; the transcript export; the card-only drawer for a host's proposal and the host channel `ClerkMount.host`, verified on the application harness's scripted host page (T-V9-64); New topic, the key verdict and the defect list; Start a new map from this (`attach.newMap`); the clerk session of the first-five-minutes test (V09 §7.3 (1); T-V10-26) | T-V9-27 (harness), T-V9-29 (the clerk session), T-V9-40 (the host clauses on the scripted host page), T-V9-64 (on the scripted host page) | 1–1.25 |
+| **AP9 — people and the family tree** | M4b (with `@plat/sim`) | the People panel, the person card with "Where is", the family tree, the clock, **Re-derive people** (§10.3; R2-22) | T-V9-46 | 0.75–1.25 |
 | **AP10 — building-band controls** | M6c (staged; with V02) | V02's handles and family strip (V09 §3.5) and the tier controls (V09 §4.20.5: the tier stepper, the step handle, the stair and top chips, the stair width) | T-V9-42, T-V9-59 | 0.25–0.5 |
-| **AP11 — items 111–119 on screen** (V09 §4.21) | across milestones, each part with its engine | the oasis toggle at M3a (with AP3); Colour vision, the cue column and the progress view at M3b (with AP4); the History chip, "What its past left" and the lost-void line at M6-E (with V06's replay and V04's U-ACCESS); the wall's Repair material and legend at M6-E (with V06 §3.7.7); the grandeur line at M6 (with V02's ceiling rows); the zoom-out stop, the season control and the festival list at the milestones §16's rows for items 116–118 name; the game-master trial before the public release (V09 §7.6) | T-V9-71 – T-V9-79 | 2–2.75 |
-| **total** | | | | **21.5–31.75** (base line 16.25–24.0, AP5b inside it, J-V9.103; staged AP5–AP8 and AP10 3.25–5.0; AP11 2–2.75 with the owner items it serves) |
+| **AP11 — items 111–126 on screen** (V09 §4.21) | across milestones, each part with its engine | the oasis toggle at M3a (with AP3); Colour vision, the cue column and the progress view at M3b (with AP4); the History chip, "What its past left" and the lost-void line at M6-E (with V06's replay and V04's U-ACCESS); the wall states in the legend (V09 §4.21.4 (3)) at M2b with §8.2's state rows, the Repair mode's **Material** chip and **Wear** at M3a (with AP3 and §16's M3a T3 `wall` repair), **Back in use**, the last-change epoch on the panel line and the ring's story at M6-E (with V06 §3.7.3 – V06 §3.7.7); the grandeur line at M6 (with V02's ceiling rows); the zoom-out stop, the season control and the festival list at the milestones §16's rows for items 116–118 name, the week's fallback at M-SF (item 125); **Find** at M5 (item 120; R2-32) — the panel, type-ahead, chip grid, results, `live.find` and Show gaps, with V01's W10–W11 and Coverage folded in; Settings › Display › Resolution and the view-status chip at M4 (item 121); Show crises, the crisis preview and the weather effects' switch at M3b (items 122, 124), the dossier's crisis looks and their numbers at M-SF with V08's reading, the framing with them; the damage lines with V03's damaged-plan step, the decay levels at M6-E (item 123) (R2-36); the game-master trial before the public release (V09 §7.6) | T-V9-71 – T-V9-79, T-V9-83 – T-V9-87 | 4.5–6.25 |
+| **total** | | | | **23.75–34.75** (base line 16.0–23.5, AP5b inside it, J-V9.103; staged AP5–AP8 and AP10 3.25–5.0; AP11 4.5–6.25 with the owner items it serves) |
 
 **Against the base's pricing.** §16's effort table prices the reference app's UI with item 101's addition; this volume's
 design adds to that line, itemised: autosave,
 compaction, crash recovery and the draft mirror +0.75–1.25; restore points and "Go back" +0.25–0.5; the message catalogue in
 plain words with its coverage test +0.5; the file-g interface (the siting rows, the link view and edits, split merge-back,
 wall grades, record members, the shade view, the why card) +1.5–2; the export dialog's estimates and tabletop details
-+0.5; the touch layer and the three layout classes +1–1.5; the guided first town +0.25; the owner's sittings and the
-known-city canvas bars +0.25–0.5 — **+5–7 pw** — and the base-side additions (the base edits, the view keys,
++0.5; the touch layer and the two layout classes +0.75–1 (item 126 drops the narrow class's 0.25–0.5); the guided first town +0.25; the owner's sittings and the
+known-city canvas bars +0.25–0.5 — **+4.75–6.5 pw** — and the base-side additions (the base edits, the view keys,
 notes, pins and ruler, the context menu, View as, Recently deleted, people and the family tree) **+1.5–2.25 pw**, and
 item 110 on the canvas (V09 §4.20, the effects list, the hit stack, the item-110 dialog rows, the skeleton's removals
 and the second fixture's script) **+1.25–2.25 pw**, carried by file f item 530 as a widening of that line to
-**16.25–24.0**. The staged screens — time's (AP5 0.5–0.75: the copy, the re-run, the Chronicle tab and V06's exports),
+16.25–24.0, and narrowed by item 126 to **16.0–23.5**. The staged screens — time's (AP5 0.5–0.75: the copy, the re-run, the Chronicle tab and V06's exports),
 the staged layers' (AP6 1–1.5, AP7 0.5–1), the staged clerk's (AP8 1–1.25) and the stage-3 building band's (AP10
 0.25–0.5); 3.25–5 pw — are built with their staged milestones — V06's E6 at M6-E, V04's M6-U, V05's P4, V10's M3c and
 V02's M6c — and priced in §16's row for the application's staged screens, outside the base total and outside those
 volumes' totals (V04 §8, V05 §8, V10 §8 and V02 §8 name the step each lands with).
-AP11 is priced with the owner items it serves (items 111–119), each part inside the milestone of its engine.
+AP11 is priced with the owner items it serves (items 111–126), each part inside the milestone of its engine: items
+111–119's parts 2–2.75, Find 1.25–1.75, the resolution setting and chip 0.25–0.5, the crisis looks' screens 0.5–0.75,
+the damage lines 0.25 and the weather switch 0.25.
 
 ### 8.2 Spikes (risk retirement, at the start of their milestone)
 
@@ -4237,7 +4608,7 @@ AP11 is priced with the owner items it serves (items 111–119), each part insid
 | J-V9.6 | chose to keep wall-clock times in the local journal, not in the document, because `EditBase` has no time field and adding one would change every document digest for a display detail; events made elsewhere show no time |
 | J-V9.7 | chose restore points as shared view keys, one key per point, over a canonical list, because they are bookmarks on log positions that must never move the model digest, and one key per point merges concurrent additions under last-writer-wins |
 | J-V9.8 | chose to confirm a dry run's renames as one set over per-rename choices, because keeping one old name is a different event (a name lock) that would change the dry run's own result; a user renames afterwards |
-| J-V9.9 | chose three layout classes — every tool on wide and medium (tablets), and a viewer with light edits on narrow (phones: T1 `intend`, T5 `quarter`'s seed and click-inside, T6 `place`, T7 `roster`, T10 `hold` – T12 `dress`, exports, share, the clerk) — over full editing on phones or none on tablets, because handles and snapping need 44 px targets with the map visible around them, the survey's touch evidence is thin, and §13.4's sessions decide tablet editing with a pre-decided fallback |
+| J-V9.9 | chose two layout classes — wide and medium, every tool on both (tablets and desktops) — with a window below 600 × 480 CSS px keeping the medium layout at that size and the page scrolling, over a separate small-window screen, because the owner offers no map on a phone (item 126 (a2), J140: "we will simply not have the option of viewing the map in the phone in the first place"), handles and snapping need 44 px targets with the map around them, and a scrolled page loses and re-generates nothing; §13.4's sessions decide tablet editing with a pre-decided fallback |
 | J-V9.10 | chose to keep the clerk's conversation in memory only — kept as the accepted declarations in the log, or as the user's own copy — over saving it in the document, because the accepted proposals already carry their provenance and a chat may hold what the user did not mean to keep; when the user switches on volume 10's "Keep history", V10 §2.7's device store keeps it, never the document (**amended by J-V9.34**) |
 | J-V9.11 | chose an installable, offline-capable web app with no telemetry and no network use except the clerk and a host's publishing resolver, because the base has no hosted service (§11.5), the towns are the user's, and the audience expects its tools to work at the table without a connection |
 | J-V9.12 | chose our own icon sprite for the twelve tools and the app-specific marks and one permissively licensed icon set, through one adapter file, for generic glyphs, over drawing every glyph or taking every icon from a library, because the tools' icons carry the product's identity while generic glyphs gain from familiarity (§17.4's licence rule holds) |
@@ -4275,7 +4646,7 @@ AP11 is priced with the owner items it serves (items 111–119), each part insid
 | J-V9.44 | chose to turn every refusal that is neither a dossier fact, a lock, a dependency, a role, a staged layer, the rung nor the screen into a bend with its alternative pre-selected, and to give every remaining refusal at least one button, over the first draft's fifteen refusals, because R2 and T101-5 require the closest alternative; a rule of a building's structure or of nature is a bend too (J-VI.4) |
 | J-V9.45 | chose a two-phase journal — pending before the call, done with its result — with a fates-sheet confirmation journalled in its resubmission form, over writing each entry after `ok`, because a kill between the worker's commit and the write would lose a commit and break the chain of heads |
 | J-V9.46 | chose to make "View as" a display filter (`ViewOpts.viewAs`) separate from the view's knowledge key, over lowering the key, because a lowered key refuses the document formats and would stop autosave, ctrl / cmd+S and downloads while the owner looks through a player's eyes |
-| J-V9.47 | chose that a boundary drag replaces only the run between the moved handle's neighbours, that a lake offers only its level handle (its shore is its basin filled to that level), that every gate slides by `moveVertex` on its crossing, that an island's rim resizes it by `resizeIsland`, and More handles = clamp(round(perimeter ÷ 75 m), 8, 16), over whole-ring lassos and rim handles that fight the basin rule, because a handle drag must stay local (item 101 (i)) and never contradict a derivation rule |
+| J-V9.47 | chose that a boundary drag replaces only the run between the moved handle's neighbours, that a lake offers only its level handle (its shore is its basin filled to that level), that every gate slides by `moveVertex` on its crossing, that an island's rim resizes it by `resizeIsland`, and More handles = clamp(round(perimeter ÷ 75 m), 8, 16), over whole-ring lassos and rim handles that fight the basin rule, because a handle drag must stay local (item 101 (i)) and never contradict a derivation rule (**amended by J-V9.146**) |
 | J-V9.48 | chose to design the People panel, the person card with "Where is", the family tree and the clock here at M4b, over an out-of-scope row, because §14 places the family-tree view in `@plat/app` and no other volume owns these screens |
 | J-V9.49 | chose a link cache bound once per `logHead` and re-bound incrementally, compaction only when idle, and a stated cost law for the shade sampler with a coarser-cell fallback, because METROPOLIS's tens of thousands of consumers and 8 MB documents would otherwise stall the view and the previews |
 | J-V9.50 | chose to record each canvas-script gesture's view scale and centre and to replay it at that view, and to restate the known-city bar (a) as T101-6 states it, because the snap resolves in screen pixels and a transcript made from words resolves to different points than a hand |
@@ -4311,7 +4682,7 @@ AP11 is priced with the owner items it serves (items 111–119), each part insid
 | J-V9.80 | chose a card-only mode of the one drawer, reached through a clerk slot of kind `host` that is always set in host mode, over a separate host-card component or the full drawer under configuration C, because V10 §3.17 routes a host's proposal through the same `turns` stream and card as a built-in one — a second component would draw the same card twice — and the full drawer would put a second assistant beside the host's, against "one assistant per product" |
 | J-V9.81 | chose to hand the harness the bridge through `ClerkMount.host`, filled by the embed's bridge handler, over giving the harness the bridge transport or widening `HostSlots.clerkMode` into the whole configuration, because the bridge handler is the embed's one owner of the transport (V08 §3.1), the shell needs only the mode, and the proxy token must stay out of shell state |
 | J-V9.82 | chose to draw `WhyAnswer.sections` as titled blocks after the facts, to withdraw `WhyCardModel.under`, and to take a raised way's `decidedBy` from its own `raised` row, over keeping `under` and this volume's own raised-way cause lines beside the sections, because each explanation must reach the screen from one row and two renderings of one outcome drift apart |
-| J-V9.83 | chose a BCR adding a one-line `roster` to T6 `place`'s row of §7.1's toolkit table (file f item 570) over moving a place by a locus to T7 `roster` or having the canvas emit `assign` with an app-minted id, because a locus drop is a T6 gesture, the sugar mints the assignment id from the event's `seq` (§6.3) so neither surface writes one, and the rows must list what each tool emits for T101-2 and T-V10-1 |
+| J-V9.83 | chose a BCR adding a one-line `roster` to T6 `place`'s row of §7.1's binding (file f item 570) over moving a place by a locus to T7 `roster` or having the canvas emit `assign` with an app-minted id, because a locus drop is a T6 gesture, the sugar mints the assignment id from the event's `seq` (§6.3) so neither surface writes one, and the rows must list what each tool emits for T101-2 and T-V10-1 |
 | J-V9.84 | chose to make the canvas's T6 `place` drop-on-a-plot mapper V10 §4.1's `where.at` and `where.plot` rows by citation — `designation { cls, use }`, the name a `setAttr` on the created use in the same group — over the canvas's former `{ cls, name }`, because the base's `Designation` has no name field and T101-3 needs the two surfaces to emit the same bytes |
 | J-V9.85 | chose to let `ViewOpts.viewAs` hold a key form `{ tier, places }` beside a tier, set by a host's players' view through `setViewOpts`, with `effectiveKey()` returning the form when its tier is the lower and the places both lists hold otherwise, over a tier-only View as with V08 writing the party key into the view state, because the party's learned places cannot be a tier, and a view-state write refuses the frame's document formats and risks its saves (J-V9.46); while a host's form is set the menu's other entries are disabled and the host's strip stands for the banner, over two competing banners and a menu that could contradict the host's switch; at equal or higher form tiers the value errs toward hiding, never showing (J-A30.82) |
 | J-V9.86 | chose to pass the effective key as `admitAs` on every band-less read the application makes for a view and to default the export knowledge to it, over lowering each panel's answers in the shell, because only the facade knows every withheld fact and one parameter covers every kind, present and future (file f item 572); and to keep the application's own dry runs — ghost, badge, fates sheet, refusal and bend cards, effects — at the role's key, over filtering them, because they are the user's consent to a change and a filtered dry run drops concealed uses from its fates (file f item 470 (b)); file f item 572's "reads and dry runs" is read as the clerk's |
@@ -4365,7 +4736,19 @@ AP11 is priced with the owner items it serves (items 111–119), each part insid
 | J-V9.134 | chose to offer only robust repair on a `worn` or `patched` run and the patch rows on a `breached` run, over every material on every run, because V06 §2.8's `repairWall` turns a breach into a patch and a worn or patched run robust into standing, and a patch over a wall that still stands is not a transition the ladder has |
 | J-V9.135 | chose to state every mechanism's limits in one table, V09 §3.16, with one scripted suite, T-V9-80, over scattering them through the sections, because an edge is checked by the same harness whatever its mechanism and one table shows a missing one at a glance; each row names its home section |
 | J-V9.136 | chose V02 §1b's bend ids as the one set of the massing bends — retiring this volume's `bend.tiers.flights`, `bend.stack.internalSolid`, `.removeStair`, `.addWing`, `.deck` and `.notStepped`, the event form `giveTiers` and the buttons `button.giveTiers`, `button.changeStairs` and `button.plotsOnLand` — over keeping two sets, because the producer of a bend owns its id and a key no producer emits is a row no user can see (V09-XAGREE-3) |
-| J-V9.137 | chose to journal `advance` as one entry — its request, and the count of epochs where Stop ended it — re-issued at recovery from its `logHeadBefore`, with a compaction at once after its `done` write, over journalling its `epoch` events or leaving it to the idle compaction, because the epochs are the deterministic result of the request at its head (§6), no API call appends `epoch` events but the request itself (V06 §2.3), and the at-once compaction leaves only a kill inside that compaction to the re-issue, so a century of history is never lost silently (V09 §3.8) |
+| J-V9.137 | chose to journal `advance` as one entry — its request, and the count of epochs where Stop ended it — re-issued at recovery from its `logHeadBefore`, with a compaction at once after its `done` write, over journalling its `epoch` events or leaving it to the idle compaction, because the epochs are the deterministic result of the request at its head (§6), no API call appends `epoch` events but the request itself (V06 §2.3), and the at-once compaction leaves only a kill inside that compaction to the re-issue, so a century of history is never lost silently (V09 §3.8) (**amended by J-V9.149**) |
+| J-V9.138 | chose to dock Find as a 320 px panel at the map region's left edge on the wide layout, beside the context panel, and on medium as a sheet that folds to a one-row chip strip whenever the context sheet or the drawer opens, over Find in the context panel's place, because item 120 (a) keeps the filter on while the user selects, inspects and edits, and a fold never ends it |
+| J-V9.139 | chose type-ahead over the classes present only (V09 §4.16 (3)'s matcher with prefix matching on), at most eight suggestions a group, over suggesting every lexicon word, because item 120 (b) offers nothing the town lacks and a kind the town lacks would be a chip dark from its first moment |
+| J-V9.140 | chose to fold the Coverage view into Find's **Show gaps** — every Coverage behaviour kept (a class's units by its `CoverageSpec`, gaps dashed and labelled, knowledge-filtered, drawn over any view) and a stored `thematic: 'coverage'` opened as Show gaps with no chip — over keeping both, because item 120 (i) makes them one mechanism "so the two never coexist" |
+| J-V9.141 | chose the view-status chip at the view bar's right end, its tooltip giving the level's reason in one of four words (the screen, the memory, the frame rate, the ceiling) with the tier and the tile density, a click opening Settings › Display, over a line in the report, because item 121 (a) asks the view status to say why Auto chose a level and J-R22's view status already lives in the view bar |
+| J-V9.142 | chose **Show crises** as a switch beside the thematic views, not one of them, with **Preview a crisis** offered on every map and a non-modal crisis card, over a thematic view of crises, because a look covers the whole map and must coexist with Wealth or Find (item 122 (e)), item 118 (b)'s festival preview — the pattern item 122 names — is offered on every map, and the forces' numbers need a place beside the why line (item 122 (i)) |
+| J-V9.143 | chose one damage line per damaged element kind, in a fixed order (the roof, the floors and a storey gone, the walls, the openings, the stairs, the furniture, the unsafe rooms, below ground the cellar and the crypt), naming three rooms at most, over one line per element, because item 123 (e)'s example ("roof fallen in over the hall; the upper floor is gone") reads by kind and a ruined building has hundreds of elements |
+| J-V9.144 | chose Weather effects on by default on §8.8's mid, high and ultra tiers and off on the low tier and under reduced motion — no phone default, since no map is offered on a phone (item 126 (a2); R2-41) — with Start a shower now enabled only while the effects are on, over one default for every device, because item 124 (g) ties the default to the tier's headroom and the system's request to reduce motion |
+| J-V9.145 | chose to give the undo refusals E-07's own actions — **Move it** and **Not here** for a dossier element the event placed or re-designated, the rename button only for a dossier rename, **Remove the assignment** for a blueprint assignment — through an optional clause (`{; name}`) and a `dossier` button condition in `MsgButton`, over a row per case, because one row per refusal key keeps the catalogue's one key per outcome and the clerk's cards read the same buttons (V10 §3.5 step 3; VAH-r1-04) |
+| J-V9.146 | chose to give an island's rim handles two modes on the island panel's rim chip — **Resize** (the default, `resizeIsland`, J-V9.47) and **Reshape the rim** (`moveVertex` on the rim vertex in the island's arena, with V05 §4.2's `bend.island.rimStop`) — over one of the two, because V05 §4.2 offers a uniform resize and a local reshape as distinct edits and §7.1 homes T9 `shape`'s `moveVertex` on an island's key, which no other gesture reaches (VAT-08) |
+| J-V9.147 | chose to offer **Re-derive people** on the People panel for the households its rows name and on a person's card for that one household, previewed with its fates, over a control in the advanced panel, because §10.3's re-derive people acts on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |
+| J-V9.148 | chose, on a dossier with no stamped tick, to keep the season control's own week (midsummer by default) with the follow switch on and a line saying the week is the map's, the first tick an absorb brings moving it, and to read a host's `view.set { week }` as a user's pick that turns the switch off, over refusing to follow or snapping to week 0, because item 125 (a)–(c) makes the dossier the only data input, the season control its fallback and a host's view commands commands |
+| J-V9.149 | chose to re-issue an advance that Stop ended with `advance`'s `stopAfter` (its journalled count; §11.2, R2-42) over a timed `cancelAdvance` on the job's progress, because no progress message reports the first epoch running and a cancel crossing threads may land after the next epoch starts, so only a count reproduces the journalled `logHeadAfter` (VV910-r1-02) |
 
 ## 10 Base change requests
 
@@ -4412,9 +4795,10 @@ and restates none of it. The former request ids stay here only as a pointer tabl
 | BCR-V9-34 | a removed thing's last shape | file f item 467 | §11.2 |
 | BCR-V9-35 | a place by a locus is T6 `place`'s one-line roster | file f item 570 | §7.1 |
 | BCR-V9-36 | an entity by its binding key | file f item 583 | §11.2 |
+| BCR-V9-37 | a stopped advance's epoch count — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's rendering repair (with `generate`'s and `export`'s `signal`, `Progress.wait`'s `'undo'` and `'verify'`, and `edit`'s `onProgress`) | §11.2 |
 
 Other volumes' requests this volume reads are cited by their applied items where they are read (file f items 245, 260,
-270, 353, 358, 359, 366–368, 380, 390, 399, 402, 410, 458, 468–470, 472, 473, 507, 571, 572, 582). Items 111–119 of file g
+270, 353, 358, 359, 366–368, 380, 390, 399, 402, 410, 458, 468–470, 472, 473, 507, 571, 572, 582). Items 111–126 of file g
 are applied to the base at their homes (V09 §1.3); this volume holds their screens (V09 §4.21, V09 §7.6).
 
 ### 10.2 Cross-volume requests (to the siblings; not base changes)
@@ -4459,13 +4843,13 @@ SettlementForge's decisions as inputs and decides none of them.
 | Q3 | What is the editor called on screen and in its files? | follows SettlementForge (J121): the public name is SettlementForge's; PLAT stays the codename and the package prefix `@plat/*` (SCOPE-C15) |
 
 The assistant's provider, model tier and key path follow SettlementForge's AI setup (J121, J122; V09 §2.10's *The AI
-setup*). Item 110's tools and items 111–119's screens raise no owner question: the owner ruled each, and every choice here
+setup*). Item 110's tools and items 111–126's screens raise no owner question: the owner ruled each, and every choice here
 is recorded in V09 §9.
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
 **CONFIRMED (read or executed evidence).** Every base section V09 §1.2 names was read at its text as the coherence pass
-states it, with files f and g applied; items 101–119 and `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md`
+states it, with files f and g applied; items 101–126 and `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md`
 whole; `research/ux/tool-survey.md` Part II and Part I's sections D and E (study-only); `research/findings/visual-spec.md`'s
 type and chrome sections (to understand the references' chrome; no colour, word or layout taken); the sibling sections
 this volume cites, at their current texts — the rewritten V01–V07 and the texts of V08, V10, V11 and V12 as their editors
@@ -4475,17 +4859,17 @@ leave them (V09 §10.2 names each destination read). The validation records keep
 1. Every budget of V09 §6 until the milestones' harness measures it: the latency per tool (it adds up §12.6's PLAUSIBLE
    scope costs) and the item-110 rows; the link cache's 120 ms and 5 ms; the compaction's 900 ms at METROPOLIS; the shade
    sampler's 60–120 ms; the family strip's 134 ms; the cold load's 1.5 s and 3 s and the bundle caps; the dossier groups'
-   50 ms; the progress strip's frame costs.
+   50 ms; the progress strip's frame costs; Find's ≈ 50 ms suggestions and ≈ 100 ms glow at the cap (item 120 (j)'s).
 2. This volume's own constants — the handle salience rule with its 150 m and 75 m per handle, the quarter's size step, the
    compaction trigger (50 entries, 60 s) and the 2 s idle wait, the 500 ms long press, the 22 px coarse snap radius, the
    15° angle step, the 20 % re-roll-brush cover, the shade view's six steps, the link view's caps (150 and 400), the seven
    size chips' quantiles, the 30-day bin, `raised.previewOnReleaseKm`, the `tierStep` snap, `progress.showAfterMs`,
-   `history.defaultAgeYears` — each our own and calibratable, confirmed by the bar its section names.
+   `history.defaultAgeYears`, Find's 320 px panel and eight suggestions a group, the damage lines' three rooms, the weather
+   effects' default by tier — each our own and calibratable, confirmed by the bar its section names.
 3. The estimates of V09 §8 (AP11 among them) and the second fixture's checklist thresholds (V12's K2 list).
 4. The wording of every row of V09 §4.9 until T-V9-15's readability step runs, and the new rows' reading to the owner's
    reader until the M3b sitting; that the six button classes cover every button a later row needs (a new need adds a
-   class by a decision); that no engine path emits a `reroute` `ConflictAction` now that routes bend (T-V9-15's enum walk
-   reports one if it does); that the dry run's `MsgRef`s carry the arguments the buttons read (T-V9-13's fixtures).
+   class by a decision); that the dry run's `MsgRef`s carry the arguments the buttons read (T-V9-13's fixtures).
 5. That `render.instances` is the concern a user means by "trees" (J-V9.101); that the effective key's corner rule for a
    form whose tier is not below the view key's errs toward hiding and is never reached by SettlementForge's frames.
 6. The browser storage behaviour (S-A2) and the variation thumbnails' cost.

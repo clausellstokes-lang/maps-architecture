@@ -7,12 +7,12 @@ with files f and g applied: `docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2
 §7.7, §11.3, §11.4 and §14. The implementer holds the base and the volumes and nothing else (§17.1). Every fact the base or
 another volume states is cited, never restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n`
 is always the base's; a design volume's section carries its prefix everywhere, this one's included (`V08 §3.5`), and so
-does every item of a list (`V09 §2.2, V09 §4.10`); `item n` is an amendment item — items 1–120 the owner's, items 200
+does every item of a list (`V09 §2.2, V09 §4.10`); `item n` is an amendment item — items below 200 the owner's, items 200
 and above file f's, each the applied text of a volume's base change request (V08 §10 lists this volume's); `J-VI.n` is a
 volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V8.n` (V08 §9),
 tests `T-V8-n` (V08 §7), the wiring rows `W1`… (V08 §1b; another volume's are written `V06 W27`). The twelve tools are item
 101's T1–T12, written with their word at first use (T2 `ground`); a base bar group is written with its number (`T73-7`).
-The derivation rows are §7.7's `DR1`–`DR43` by number. **Sources.** SettlementForge (SF) field names and values are quoted
+The derivation rows are §7.7's `DR1`–`DR44` by number. **Sources.** SettlementForge (SF) field names and values are quoted
 freely — the owner's own project (amendments d, gate 2); no SettlementForge code is excerpted and nothing from its map
 programs or map designs is used (§17.1). The pinned line is `fp-integration-2026-09-23` at commit `5d699cc68` (§14 item 1).
 
@@ -32,19 +32,22 @@ can — the layout players know stays, and only what must move moves. The map's 
 SettlementForge's own words ("bankrupt", "destroyed by disaster"). After the DM advances time, the maps of the campaign's
 settlements catch up one by one in the background; a map opened before its turn catches up at once.
 
-**Its past, its walls, its seasons and its feasts.** A settlement's history as SettlementForge records it — its age,
+**Its past, its walls, its seasons, its feasts and its crises.** A settlement's history as SettlementForge records it — its age,
 its great fires and floods, the tiers it rose and fell through, a destruction and a resettlement, ancient ruins under it
 — shapes the map when it is first drawn: a village that was once a city keeps the old walls and streets of its greater
 days. How well SettlementForge says the town is defended, and how rich it is, decides whether its walls stand whole or
 show patched and broken stretches. A small place is never grand because it is rich unless the dossier names a grand
 house. The map follows SettlementForge's calendar — frozen ponds in a cold winter, falling leaves in autumn — and dresses
 the streets for a festival in the weeks SettlementForge schedules it. A desert town keeps any river, lake or coast its
-record gives it, and has an oasis when its record lists one.
+record gives it, and has an oasis when its record lists one. A siege, a plague, a wave of refugees, a famine or a
+disaster the record reports shows while it lasts — the besiegers' camps beyond the walls, a quarantine camp, tents by the
+gate, bare fields, ruined neighbourhoods — sized by the armies and travelling groups the record counts; it is a look only,
+and what the crisis leaves reaches the map through the record's later changes.
 
 **Your own content.** Institutions and supply chains a DM invents in SettlementForge's homebrew library arrive in the
 dossier like the built-in ones. The map reads what SettlementForge records for each — its scene type (a mill, a forge,
-an inn…), its category and tags, and, when SettlementForge hands it over, the fuller library entry — and places it where
-such a thing belongs. A supply chain SettlementForge reports as active is laid out as one working line: the raw material
+an inn…), its category and tags, and the fuller library details wherever the record itself carries them — and places it
+where such a thing belongs. A supply chain SettlementForge reports as active is laid out as one working line: the raw material
 at its field or quarry, the workshops stepping inward, the seller near the market. Renaming a custom item in
 SettlementForge changes nothing on the map; revising it moves it only as far as the revision requires.
 
@@ -79,7 +82,10 @@ code runs beside SettlementForge's accounts or payments; which web address serve
 many older copies are kept and the interface's language follow SettlementForge's own product decisions. Each map is
 stored by SettlementForge next to its settlement — never inside the dossier — as a saved file plus the list of changes
 since it was saved, with older copies kept as backups. SettlementForge's own export bundle can carry the map's scenes
-for virtual tabletops once the connection is live, handed over as sealed files SettlementForge never reads.
+for virtual tabletops once the connection is live, handed over as sealed files SettlementForge never reads. The map
+reads nothing of SettlementForge but the settlement's record: whatever the record does not give, the map supplies by its
+own rules, as for a map made without one, and says so. SettlementForge offers the Map tab on tablets and computers only,
+never on a phone.
 
 **When something goes wrong.** An unreadable dossier, a SettlementForge version the map does not know yet, or a
 settlement outside the sizes the map draws never breaks the map: it shows the last good town with a plain note ("This
@@ -122,25 +128,25 @@ live SettlementForge drives a map end to end:
 8. **The staged records and values filled** (item 88) — `ConditionOverlay` (the conditions and the normalised
    stressors), `DepositSite`, `PowerRelation`, `HistoryHint`, the dossier-backed `Person`, and the per-settlement values
    the staged rows read (crime, food import, legitimacy, the site latitude, the sea threats, the defence readiness); the
-   calamities carried into the epochs for V06's hazard phase; the realm block's supply (item 77); the audience table and
-   display names in use (item 85) (V08 §3.6, V08 §3.11).
+   calamities carried into the epochs for V06's hazard phase; the audience table and display names in use (item 85)
+   (V08 §3.6, V08 §3.11).
 9. **The host clerk** — SettlementForge's own assistant as a client of the tool API (V10's configuration C, decided by
    J121/J122), and the host side of V10's configurations A and B where a deployment enables the built-in clerk —
    `setClerk` with the transport and its renewal, the proposal channel and the projection (V08 §2.2, V08 §4.4, V08 §5.4 (3)).
 10. **Campaign scale** — many settlements: storage, memory, the refresh queue and its budgets (V08 §3.4, V08 §6).
 11. **Testing and release** — the host harness, the fixture pairs through the bridge, the end-to-end bars and the
     release checklist (V08 §7, V08 §8.3).
-12. **File g's items 102 and 103 at the port** — item 102's latitude for the model-side sun from the dossier or the
-    realm block (DR29), and the bar that sunlight never pushes a dossier map outside its wealth row; item 103's
+12. **File g's items 102 and 103 at the port** — item 102's latitude for the model-side sun from the dossier's
+    culture (DR29), and the bar that sunlight never pushes a dossier map outside its wealth row; item 103's
     SettlementForge tags as default siting profiles (the vocabulary boundary and the lookup chain), the institution's own
     political role (`priorityCategory`) as the first input of its power association, and coverage inside a collective
     record's count range (V08 §2.6, V08 §3.5).
 13. **Custom content, the host side (item 104)** — a custom institution's record as the dossier carries it (its local
     uid, definition revision and content hash, free-text category, tags, the optional scene tokens), its description
     reduced to keyword keys inside the adapter, the ACTIVE custom chains with their resource, processors, outputs and
-    trade endpoints, custom resources and custom services with their provider, and the author's library fields as
-    OPTIONAL host inputs (`HostContext.customLibrary`), admitted only when their revision matches the dossier's and
-    recorded in the document, so that no replay needs the host (V08 §2.8, V08 §3.13). The resolution rows (the 17
+    trade endpoints, custom resources and custom services with their provider, and the author's library fields where
+    the dossier itself carries them, at the revision it materialised (item 125 (a)), recorded in the document, so that no
+    replay needs the host (V08 §2.8, V08 §3.13). The resolution rows (the 17
     scene-archetype profiles, the category and tag deltas, the keyword table, the fallback) and the chain-placement rules
     are V11's; the solver that reads them is the base's (§4.7 S10b).
 14. **The port side of file g's items 105–109** — SettlementForge's own supply chains, their dependencies and goods lists
@@ -154,36 +160,43 @@ live SettlementForge drives a map end to end:
     culture to the aqueduct's chance and to the stepped specialisations of item 110 (c); the toll bridge's watercourse
     rule at every rung (V08 §2.6b (3)); and the rule that nothing item 110 generates is dossier-bound, so the DM's
     removal holds through every absorb (V08 §2.6b, V08 §4.1, V08 §4.3, V08 §4.6).
-16. **The port side of items 111, 113–118 and 120** — a desert dossier with or without `oasis_water`, and deserts with rivers,
+16. **The port side of items 111, 113–118, 120, 122, 125 and 126** — a desert dossier with or without `oasis_water`, and deserts with rivers,
     lakes or coasts (item 111; V08 §2.6 `site`, `deposits`); SettlementForge's history — the founding, the 29 event
     templates, `tierHistory`, `populationHistory`, `calamityHistory`, the lifecycle, the opt-in ancient ruins and
     `peakTier` with its documented gap, and the effective peak's evidence order (item 113; V08 §3.15); the defence
     readiness and the wealth word as the walls' drivers (item 114); what "specified" reads from the dossier under the
-    grandeur ceiling (item 115); SettlementForge's calendar and climate for the seasons (item 117); `traditions` and the
-    custom-content traditions for the festival decorations (item 118); the dossier's institution records as Find's list
-    entries (item 120) (V08 §3.16). Item 116's zoom-out limit has no port
-    side: the frame is the dossier map's `bounds`, which the port does not set.
+    grandeur ceiling (item 115); SettlementForge's calendar week and the terrain for the seasons (item 117); `traditions`
+    and the custom-content traditions for the festival decorations (item 118); the dossier's institution records as Find's
+    list entries (item 120); every stressor type, condition archetype and simulator crisis event of the pinned line — the
+    census the crisis looks' closed mapping is checked against — with each condition's name, event, calamity and counts,
+    and the forces', coalitions' and travelling groups' headcounts where the dossier gives them (item 122, with (h)); the
+    dossier as the only data input, every read field with its fallback, the week from the dossier's own ticks and the
+    final local check's brief (item 125); no map on a phone and the frame's minimum size (item 126) (V08 §3.16). Item
+    116's zoom-out limit has no port side: the frame is the dossier map's `bounds`, which the port does not set.
 17. **SettlementForge's decisions read as inputs (J121)** — the module's origin, plans, save limits, backup depth and
     storage quota, the interface language, the assistant and its model tier (V08 §2.2 `MapHostConfig`, V08 §3.7, V08 §4.4, V08 §5.5);
     and the export bundle's scene files from M-SF (J122; V08 §5.4 (2)).
 
 **Base hooks consumed (cited, never restated).** §7.7 layer 2 (the typed slices) and the dossier contract items 1–16,
-with the derivation table (DR1–DR43), the key law, the receipt rows (F1–F22, F-V8-1–F-V8-8) and the status rows; §11.2
+with the derivation table (DR1–DR44), the key law, the receipt rows (F1–F22, F-V8-1–F-V8-8) and the status rows; §11.2
 (`PlatApi`, the clerk's tool API, *Knowledge*); §11.3 (transport, envelope, vocabulary with the port's and the clerk's
 additions, convergence, version handshake, roles, bridged load verification, logging); §11.4 (the doors; door 1 closed,
-J86; the export bundle); §14 (`@plat/port`: `DossierPort`, `PortResult`, `PortNote`, `HostContext`, `RealmBlock`,
+J86; the export bundle); §14 (`@plat/port`: `DossierPort`, `PortResult`, `PortNote`, `HostContext`,
 `DossierDigest`, `DossierInstitution`, `PortReport`, the audience table, the dossier row sets, the key-list lint, the
 dependency rule); §2.9 (`Document`, the dossier block, load steps 1–5, size budget, canonical form, view state); §2.7 (the
-staged records, `CustomChainRecord`, `CustomServiceRecord`, `HistoryRecord`, the raised-way record); §10.2 (`PortRows`);
+staged records, `CustomChainRecord`, `CustomServiceRecord`, `HistoryRecord`, the raised-way record); §10.2 (`PortRows`, `RosterTables.crisis`);
 §4.11 (the clock, the cadence, the rung at an epoch, *Dossier content across epochs*, history-first generation); §6.2–§6.4
 (digests, addresses, version axes, retention); §7.1 (`EditBase`, `DossierRef`, `EditEvent` with `dossierFacts` and
 `dossierRecord`), §7.4 (lifecycles), §7.5 (migration); §5.2–§5.4 (F-EDIT, F-SITING, the report with `dossierNotes`); §8.2
-(the thematic, season and decoration rows); §9.2 (the knowledge key); §9.5 (the title word); §12.5–§12.8 (first map, edits,
-replay, memory); §13.2 (B-DOSSIER-lite, T20-*, T73-*, T75-*, T77-1, T81-*, T85-*, T88-*, T108-1 – T108-3), §13.8 (CI tiers); §16 (the
-milestone rows); PART III (the village page); §17.1 (3) (paths); and file g's base mechanisms — item 102's daylight share,
+(the thematic, season, decoration and crisis look rows); §9.2 (the knowledge key); §9.5 (the title word); §12.5–§12.8 (first map, edits,
+replay, memory); §13.2 (B-DOSSIER-lite, T20-*, T73-*, T75-*, T77-1, T81-*, T85-*, T88-*, T108-1 – T108-3, the
+port's clauses of T111-1 – T111-5, T113-1, T113-6, T114-7, T115-2, T115-3, T117-1, T117-6, T118-1, T118-2 and T118-5,
+T120-2's dossier clause, T122-4's census clause, T125-1 – T125-3 and T126-2's host-frame clause), §13.8 (CI tiers); §16
+(the milestone rows); PART III (the village page); §17.1 (3) (paths); and file g's base mechanisms — item 102's daylight share,
 item 103's profiles, item 104's resolution, item 105's supply web, item 106's wall closure and waterfront, item 107's
 balance, item 108's ladder steps, item 109's systems, item 110's generated content, item 111's oasis and water pull, item
-113's replay, item 114's wall condition, item 115's ceiling, items 117 and 118's looks, item 120's Find — cited by item.
+113's replay, item 114's wall condition, item 115's ceiling, items 117 and 118's looks, item 120's Find, item 122's
+crisis looks, item 125's one input and item 126's devices — cited by item.
 
 **Out of scope, with where each lives.** SettlementForge's own code — its tab, its storage tables, its server — is
 SettlementForge's; this volume states the contract it implements (the host client's API and the map record) and ships
@@ -196,7 +209,7 @@ V09's. Reconciliation with SettlementForge's own map program and its plan-artifa
 owner's ruling (J-Fsf-1). What the map builds from the facts this volume carries is its readers': the ruin, cavern and catacomb systems,
 their access and growth are V04's; the crypts V03's (with V02's basements); the calamity-to-hazard table, every epoch
 behaviour and the history replay V06's; the chain-status weights, the waterfront threat weights, the ladder step table,
-the goods, era, material, patch-material, ceiling, season and decoration rows V11's. A live, explorable map for players
+the goods, era, material, patch-material, ceiling, season, decoration and crisis look and map rows V11's. A live, explorable map for players
 — a "party copy" of the document — is decided under J122: pictures and player views now; a live shared map after M-SF
 (V08 §11 Q5). SettlementForge's world-state works ledger is not read, and a raised way is never derived from it
 (J-V8.72). Item 110's terraces, retaining walls, raised ways, stepped massing and deck plots are the base's and V01, V02,
@@ -206,15 +219,16 @@ V03, V04, V06 and V11's; this volume carries only their dossier inputs (V08 §2.
 
 Every piece this volume adds, what feeds it, what it feeds and the base hook it plugs into; base records are cited. The
 rows are ordered by subject: the embed and the bridge (W1–W19), the binding, digest and adapters (W20–W33), the staged
-records and values (W34–W47), the owner items 108–118 at the port (W48–W67), custom content and the staged-record event
-(W68–W74), the clerk, drawing and exports (W75–W79), the host's surfaces and the players' view (W80–W88), the plan and
-testing (W89–W94), and Find's dossier entries (W95).
+records and values (W34–W47; W42, the realm block's helper, retired by item 125), the owner items 108–118 at the port
+(W48–W67), custom content and the staged-record event (W68–W74), the clerk, drawing and exports (W75–W79), the host's
+surfaces and the players' view (W80–W88), the plan and testing (W89–W94), Find's dossier entries (W95), and items 122,
+125 and 126 at the port (W96–W100).
 
 | row | piece (V08 §) | producer (fed by) | consumers (feeds) | base hook |
 |---|---|---|---|---|
 | W1 | embed entry `embed.html` of `@plat/app` (3.1) | the host's frame `src`; the module's static host | boots `@plat/api`'s workers; sends `ready`, `module.status` | §11.2 worker boundary, §11.3 transport; item 507 |
 | W2 | `@plat/bridge-client` (2.2, 3.1) | SettlementForge's lazy Map-tab chunk | the frame's `WindowPostMessageTransport`; the host's map-record store | §11.3; item 507 |
-| W3 | `MapHostConfig`'s SettlementForge inputs — `moduleOrigin`, `backupDepth`, `quotaBytes`, `locale` (2.2) | SettlementForge's existing product decisions (J121) | the frame's `src` and CSP (3.1); `MapStore.replaceSnapshot`'s backup depth (3.7); the storage row's quota check (6); the frame's message catalogue (5.5) | §11.3 *SettlementForge's configuration*; §11.5 |
+| W3 | `MapHostConfig`'s SettlementForge inputs — `moduleOrigin`, `backupDepth`, `quotaBytes`, `locale`, `line` (2.2) | SettlementForge's existing product decisions (J121); its running line (§14 item 1) | the frame's `src` and CSP (3.1); `MapStore.replaceSnapshot`'s backup depth (3.7); the storage row's quota check (6); the frame's message catalogue (5.5); every offer's `host.line`, the selection's check (2.4) | §11.3 *SettlementForge's configuration*; §11.5 |
 | W4 | `MapRecord` (2.1) | the host, through the client's store calls (3.7) | `doc.load` + `doc.apply` at open (3.1); the refresh queue (3.4); the offer decision (3.2) | §2.9 (the document it stores), §11.3 "the host is the store" |
 | W5 | `dossier.offer` / `dossier.result` (2.2) | the client (offer); the port leader (result) | `DossierPort.digest`, `creation`, `absorb` (3.3); the host's append and fan-out | §11.3's port vocabulary, §11.4 doors 1 and 2; item 472 |
 | W6 | `module.status` with its `detail` key (2.2) | the embed's glue at each phase (3.1); the module at B10's rebuild and B20's mismatch (3.9) | the tab's banner beside its phase's row (5.1) | §11.3; item 472 |
@@ -233,29 +247,28 @@ testing (W89–W94), and Find's dossier entries (W95).
 | W19 | `host.state` (2.2) | the client, after each `doc.load` and each change of `MapRecord.party`, `backups` or `partyPictures.at`; `MapSession.seePlayersView` | the header's controls, the restore dialog's list of lost edits, the history panel's party lines through `HostSlots.historyLines` (4.6), the players' view — `ViewOpts.viewAs` (V08 §3.14 (5)) | §11.3; items 464, 472 |
 | W20 | the binding's port fields — `DossierBinding.adapter`, `.quarantined`, `.notes`, `absorbed` retention (2.3) | `creation` and `absorb` through the ledger event's fold (3.5, 3.6 (4)) | the next absorb's diff and remaps (3.5, 3.8); §5.3's binding check; the report | §7.7 `DossierBinding`, §2.9 dossier block; item 390 |
 | W21 | `CarriedFact` shapes and the diff rules (2.3, 3.5) | `digest` | `absorb`'s change list; `factHash`; F22's convergence | §7.7 items 1, 12, 13; §7.7 `CarriedFacts` |
-| W22 | THE ADAPTER'S FIELD TABLE (2.4) | the pinned line's dossier shape (the 41 required keys, the optional keys read, the realm block, the week) | every `DossierDigest` field and the derivation row it feeds; `AdapterManifest.keyList`; T-V8-20's ignore clause; §6.5 (3)'s key-list lint | §7.7 item 1's closed-digest rule and never-read reasons |
+| W22 | THE ADAPTER'S FIELD TABLE (2.4) | the pinned line's dossier shape (the 41 required keys and the optional keys read — the dossier the only data input, item 125 (a)) | every `DossierDigest` field and the derivation row it feeds; its fallback column → the generator's own choice and a `field_fallback` note (item 125 (b)); `AdapterManifest.keyList`; T-V8-20's ignore clause; §6.5 (3)'s key-list lint | §7.7 item 1's closed-digest rule and never-read reasons |
 | W23 | `AdapterManifest`, `AdapterRegistry` (2.4) | each `adapters/sf/<line>/` folder | `digest`'s adapter choice (3.8); `recognise`; the lint's key list | §14 port, lint; item 508 |
-| W24 | the catalogue manifest `catalogue.<line>.json` with `ladderPairs` (2.4) | the adapter's build step, from the pinned line's catalogue and ladder file | V11's `coversManifest` totality and its ladder cross-check (V11 registry row 77, T-V11-2) | §14's lint |
+| W24 | the catalogue manifest `catalogue.<line>.json` with `ladderPairs` and the crisis census `crisis` (2.4) | the adapter's build step, from the pinned line's catalogue, ladder file and crisis vocabularies | V11's `coversManifest` totality and its ladder cross-check (V11 registry row 77, T-V11-2); V11's compile check of the `crisis.map` rows (T122-4); T-V8-59 | §14's lint |
 | W25 | `PortNote.msg` and `.keys`, each kind's class (2.4, 4.6) | the port — `digest`, `creation`, `absorb`; `custom_resolved` and `unmapped_kind` after the fold, their `class` the class built at the document's rung, in V11's class `label` cell or a pin kind's `host.pinKind.<kind>` row | an `event` or new `standing` note → the ledger event's `notes` → V09 §4.10's absorb group; a `standing` note → `DossierBinding.notes` → `GenerationReport.dossierNotes` → the report panel (V09 §5.7); every note → `dossier.result.report` → `MapSession.on('report')` and `statusText` | §14 `PortNote`; item 508 |
 | W26 | `dossierFacts.notes`, `.notesCleared` and `DossierBinding.notes` (2.3, 3.6 (4)) | the port run's notes, by class and identity | the fold (the binding's standing list); the history panel's group (4.6); every derivation's report build (`GenerationReport.dossierNotes`); replay, verification (3.3) | §7.1, §7.7 item 12, §2.9's dossier block, §5.4; item 390 |
 | W27 | `GenerationReport.dossierNotes` (4.6) | every derivation's report build and the verification replay on load, copying `DossierBinding.notes` at the report's seq (`[]` unbound) | `report(h)` → V09 §5.7's report panel under `host.group.standing`; T-V8-14 | §5.4 `GenerationReport`; item 390 |
 | W28 | the refusal's `reason` on `dossier.result.held` and `MapRecord.held` (2.1, 2.2, 3.9) | the port's `held` note on a refused offer (a `host.held.*` row) | the tab's banner and the frame's held notice (5.1, 3.1 step 7 (b)); the thumbnail slot at a refused creation | §11.3; item 472 |
-| W29 | digest additions of V08 §2.5 — `role`, `security`, `government.legitimacy`, the ladder fields, `site.ruinEvidence`, `site.threats`, `site.latitudeDeg`, the extended economy, `calamities`, the history, the readiness, the traditions | the adapter, by W22's table | DR12, `PortValues`, DR29, DR30–DR33, DR36–DR43 (§7.7) | §14 `DossierDigest`; item 509 |
+| W29 | digest additions of V08 §2.5 — `role`, `security`, `government.legitimacy`, the ladder fields, `site.ruinEvidence`, `site.threats`, `site.latitudeDeg`, the extended economy, `calamities`, the history, the readiness, the traditions, the conditions' crisis fields, `forces`, `presentWeek` | the adapter, by W22's table | DR12, `PortValues`, DR29, DR30–DR33, DR36–DR44 (§7.7); §4.11's clock | §14 `DossierDigest`; item 509 |
 | W30 | dossier row sets written out (2.6) | this volume's defaults, `@plat/tables` | `digest` and `creation` through the derivation rows | §14 item 7 `tables/dossier/*`; item 510 |
 | W31 | the `kinds` shape with its pseudo-classes and `implies` column (2.6) | V11's rows per catalogue kind | DR24's first rung; DR7, DR2, DR17, DR19, S2's absent classes, §2.7's pins; DR1 at creation (a bridge-implying record) | §7.7 DR24; items 399, 510 |
 | W32 | `tables/dossier/tags`, `categories`, `crime`, `cultures` (2.6) | this volume | the siting-profile lookup (item 103, V11's rows), DR24's fallback, `PortValues.crime`, DR29 | items 391, 510 |
 | W33 | key-law rows for the port's own singletons and pairs — `trade`, `port-values`, `deity`, `evidence`, `history`, `site`, `relation:`, `cond:stress:`, `chain:cat:`, `dep:`, `calamity:`, `trad:` (2.3) | `digest` | binding rows, `DossierRef.element`, the carried map | §7.7 item 12 (the key law; the custom keys item 256) |
 | W34 | the staged records' fill — `ConditionOverlay`, `DepositSite`, `PowerRelation`, the dossier-backed `Person` (3.11) | `creation`'s prefix and `absorb`, by `dossierRecord` puts and retires | §4.11's Works share and land-use conversions, §4.5's typing, item 72's political component, the renderer (5.2), the clerk | §2.7 (the records, their building volume V08), §7.1 `dossierRecord`; items 358, 395 |
-| W35 | `PortValues` on `CircumstanceSlice.port` (2.5) | `creation` (the creation slice) and the cadence's epochs (3.6) | the readers of `PortRows.crime`, `.hinterland`, `.legitimacy` (§4.6, §4.9, II.7.3, II.7.5, §4.5 (6)); DR2's waterfront (`threats`); V05's model sampler (`latitudeDeg`); the slice's threat V06's walls read (`readiness`, item 114) | §7.7 layer 2, §10.2; item 389 |
+| W35 | `PortValues` on `CircumstanceSlice.port` (2.5) | `creation` (the creation slice) and the cadence's epochs (3.6) | the readers of `PortRows.crime`, `.hinterland`, `.legitimacy` (§4.6, §4.9, II.7.3, II.7.5, §4.5 (6)); DR2's waterfront (`threats`); the slice's threat V06's walls read (`readiness`, item 114) | §7.7 layer 2, §10.2; item 389 |
 | W36 | the `threats` row → `PortValues.threats` (2.5, 2.6) | the adapter over stressors, conditions, trade partners, access, terrain and population | DR2's waterfront through V11's `WaterfrontThreatRow` (item 106 (d)); V07's watchtower row | §7.7 DR2 |
 | W37 | the `wealth` diff row → `EpochInputs.wealthLevel` (3.5) | the carried `port-values.wealth` word against the new digest's `wealth.label` (receipt F9) | DR6 at the next epoch through `tables/dossier/wealth`; V06's MEANS for item 114 (V06 W27, W89) | §7.7 DR6, receipt F9 |
 | W38 | the frozen-fact rows `site` and `history` (3.5) | the carried `site` and `history` facts against the new digest | one `frozen_fact_changed` note (class report, `host.note.frozen_fact_changed`); nothing else | §7.7 item 10 (the site and the history are creation's); DR1's creation bar |
 | W39 | `HistoryHint` fill (3.11) | `creation` from `history` | `Recipe.history` → S2's stage count, II.7.6 | §2.9 `Recipe.history`; §2.7 `HistoryHint` |
-| W40 | DR29 latitude (3.5) | realm block's `cell.latDeg`, `tables/dossier/cultures` | `Intent.latitudeDeg` at creation, `PortValues.latitudeDeg` at a later epoch → item 102's model-side sampler (V05), V06's drift, V07's village sweeps | §7.7 DR29; item 391 |
+| W40 | DR29 latitude (3.5) | `site.culture` through `tables/dossier/cultures`, else 50° N (item 125 (b)) | `Intent.latitudeDeg` at creation → item 102's model-side sampler (V05), V06's drift, V07's village sweeps | §7.7 DR29; item 391 |
 | W41 | coverage inside a collective range (3.5) | item 103 (f)'s coverage row | DR9's count draw | §7.7 DR9; item 392 |
-| W42 | realm-block helper `realmBlockFrom` (3.11) | the host's campaign placements, the realm map's scale and latitude scale, the campaign's spatial digest (its cell words and climate sub-digest) — nothing else of campaign state | `HostContext.realm` → trade bearings, north first, latitude, the climate source (item 117) | §14 `RealmBlock`; item 77; item 396 |
 | W43 | calamities → `EpochInputs.events` (3.6) | `calamityHistory[]` through the digest; the carried `calamity` keys | V06's hazard phase (DR28); V04's burial growth (the deaths) | §4.11 `EpochInputs`; items 388, 393, 573 |
-| W44 | stressors → `cond:stress:<type>` overlays (3.11) | the digest's normalised `stressors` | the `conditions` row's readers | §2.7; item 358 |
+| W44 | stressors → `cond:stress:<type>` overlays (3.11) | the digest's normalised `stressors` | the `conditions` row's readers; DR44's crisis looks through the `stressor` row of §10.2's `crisis.map` | §2.7; item 358 |
 | W45 | the port's reserved session `host:port` (3.6) | the port | §7.4's stacks (never a user's), V09's undo tooltip | §7.1; item 359 |
 | W46 | the notables' `importance` (2.5, 3.11) | the adapter from `npcs[].importance` | V10's people answer and V09's person card, which order a settlement's notables by it; no model rule reads it | §2.7 dossier-backed `Person` |
 | W47 | a derived land use — a `DepositSite` under `res:derived:<landuse>` (2.6 `deposits`, 3.11) | the port's creation prefix and `absorb`, from a record whose class carries a hard `near` → `landuse:<k>` row within 0 on a dossier that lists no deposit opening `<k>` | S12a's site and land use (DR19); V07 §3.9's village claim; the class's hard row, met | §7.7 DR19; §2.7 `DepositSite`; item 508 (`derived_landuse`) |
@@ -264,18 +277,18 @@ testing (W89–W94), and Find's dossier entries (W95).
 | W50 | row sets `relations`, `historyScars`, `magic`, `era`, `materials`, `customWeights`, `isolation`, `chainStatus`, `dependencySeverity`, `calamitySeverity`, `qualifiers`, `threats`, `ruinEvidence`, `readiness`, `climates`, `historyEvents`, `festivals` (2.6) | this volume | `PowerRelation` (§4.5, item 72), `HistoryHint`, `CircumstanceSlice.magic` and `.era`, V11's material rows, `PortRows.customKinds`' numbers, S12a, the supply web, T9 and DR9, DR2, V04's ruin rule, the need and the generation-time condition (item 114), the biome's climate row (item 117), DR37's event mapping (item 113), the festival kind (item 118) | item 510 |
 | W51 | `site.ruinEvidence` (2.5, 2.6a) | the adapter | V04 §3.5.0a's ruin existence and centre; V05's node term through V04's `ruinCentre()` | DR30; item 509 |
 | W52 | DR30–DR32, the burial and crypt trace (2.6a) | the adapter; V11's `kinds` and `ladders` rows | V04's ruin, cavern and catacomb rules; V03's crypts; V06's epochs | §7.7 DR30–DR32; item 398 |
-| W53 | DR34, the water system's inputs (2.6b) | the adapter (the records bound to `conduit_house` through V11's `kinds` and `ladders`, the demand records, the `site` row's words, the realm cell's river, the `hot_springs` deposits, the culture); DR23's rung | item 110 (b)'s aqueduct reason (the base); V11's chance, need, cap and terminal rows; V06's epoch builds (V06 §3.19.6); V10's `why` | §7.7 DR34; item 398 |
+| W53 | DR34, the water system's inputs (2.6b) | the adapter (the records bound to `conduit_house` through V11's `kinds` and `ladders`, the demand records, the `site` row's words, the river DR1 gives, the `hot_springs` deposits, the culture); DR23's rung | item 110 (b)'s aqueduct reason (the base); V11's chance, need, cap and terminal rows; V06's epoch builds (V06 §3.19.6); V10's `why` | §7.7 DR34; item 398 |
 | W54 | DR35, the high-ground landmarks (2.6b) | the dossier-bound institutions of class significance at least V11 §3.24.2's `elevated.landmarkMinSignificance` and the custom `landmark` records, at their S3 reservations | item 110 (b)'s elevated-road reason; V06's epoch builds (V06 §3.19.6); V10's `why` | §7.7 DR35; §10.2 significance; item 398 |
 | W55 | the toll bridge's watercourse rule with its rung column (2.6b (3)) | a record whose `kinds` row implies a bridge; DR1's site; item 111's arid row; the access word; at village rungs S0's own water draw | DR1's forced course at creation (base rungs); V07 §3.1 (1), V07 §3.11 DR1 at village rungs; V11's toll-house `near` bridge row and `deckOk`; the report's `toll_bridge_dry` | §7.7 DR1; item 399; J-VI.17 |
 | W56 | the aqueduct's link to its conduit house (2.6b (1) (e)) | item 110 (b)'s aqueduct, when the dossier's conduit house takes its terminal | the arches' fate and condition (the `impairments` row; V06's decay) | §2.7's raised way (`waterUse`); item 244; J-VI.9 |
 | W57 | the culture's item-110 readers (2.6b (4)) | `site.culture` | V11's aqueduct culture modifier; DR15's template family → V11's stepped specialisations (item 110 (c); V11 §3.24.3) | §7.7 DR15 |
 | W58 | generated item-110 content unbound; the removal hold (4.1, 4.3) | the base's item-110 generators; the DM's delete; an accepted clerk proposal | every absorb, epoch, rung change, re-key, upgrade, rebase and host undo (the slot stays closed); the history panel's lines (4.6) | §7.7 item 3; item 260; J-VI.14 |
 | W59 | the port's consultation of `LadderRouter` (3.10) | the village product's `ProductDecl` in `StrategyRegistry.products` (V07 §2.1) | `creation` (the product and rung) and every `absorb` (whether the population lies in a registered range; the product at an epoch by V07 §2.1's fold; 0 routed to V07's desertion) | §1.1 `LadderRouter`, §4.11, PART III; items 202, 322 |
-| W60 | the desert's water — the `site` row's `desert` with the arid chances, the `oasis_water` deposit (item 111; 2.6, 3.16 (1)) | `site.terrain`, `site.access`, the realm cell, the water deposits | S0's blueprint `oasis` (`on` with the deposit, `off` without), DR1's site, DR40's oasis; the toll bridge's failure condition (W55); V06's spring rules (a removed `oasis_water`, V06 W82) | §4.2 S0 *Water in dry country*; §7.7 DR1, DR40 |
+| W60 | the desert's water — the `site` row's `desert` with the arid chances, the `oasis_water` deposit (item 111; 2.6, 3.16 (1)) | `site.terrain`, `site.access`, the water deposits | S0's blueprint `oasis` (`on` with the deposit, `off` without), DR1's site, DR40's oasis; the toll bridge's failure condition (W55); V06's spring rules (a removed `oasis_water`, V06 W82) | §4.2 S0 *Water in dry country*; §7.7 DR1, DR40 |
 | W61 | SettlementForge's history read (item 113; 3.15) | `history` (the founding, the events with their templates), `tierHistory`, `populationHistory`, `calamityHistory`, the lifecycle stamps, the ancient-ruin marker, `peakTier` | `Recipe.history` (`HistoryHint`); DR36–DR39's inputs → §4.11's history-first generation (V06's replay), II.7.6's buried former settlement (V04); the `HistoryRecord`'s evidence (§2.7) | §7.7 DR36–DR39; §2.7 `HistoryRecord` |
 | W62 | the defence readiness (item 114; 2.6 `readiness`, 3.16 (2)) | `defenseProfile.readiness.label` and `.score` (the one part of `defenseProfile` read) | the slice's threat V06's NEED reads (V06 §3.7.7); §7.7's DR41, the generation-time condition (item 114 (d)), with the wealth word (DR6) | §7.7 DR41; §2.7 `Enceinte.condition` |
 | W63 | "specified" under the grandeur ceiling (item 115; 3.16 (3)) | the dossier-backed assignments whose class the ceiling table's `settings.grandClasses` lists (V11 §3.25.4); a dossier government whose `villageSeat` names the manor house, seigneurial or crown (V11 §3.21.1) | §4.7 S10b's rung ceiling and S2's manor count (§4.2 S2), which leave a specified building its full design (item 115 (c)); V07's manor rule (V07 §3.8); V10's note that it exceeds the tier's usual | §4.7 S10b (item 115); §10.2's ceiling table |
-| W64 | SettlementForge's calendar and climate (item 117; 3.16 (4)) | `HostContext.week` (the campaign's `calendar.elapsedWeeks`); the realm block's climate word; `site.terrain` with the relief | §11.3's `view.set { week }` → §2.9's year position under the follow flag; §7.7's DR42 (item 117); the biome's climate row (§4.2 S0) | §2.9 view state; §7.7 DR42 |
+| W64 | SettlementForge's calendar and climate (items 117, 125; 3.16 (4)) | the digest's `presentWeek` — the dossier's latest stamped tick (V08 §3.16 (4)); `site.terrain` with the relief | §4.11's clock (the creation week; V08 §3.6 (3)'s `W₁`); §2.9's `week` default and, under the follow flag, DR42's year position; the biome's climate row by the `climates` row's terrain column (§4.2 S0) | §2.9 view state; §7.7 DR42; §4.11 *The clock* (1) |
 | W65 | `traditions` and the custom-content traditions (item 118; 3.16 (5)) | the dossier's `traditions[]` and `customContentRoster`'s traditions bucket | the carried `trad:` facts → §7.7's DR43 (window and staging, item 118) → §8.2's decoration rows through §2.9's festival display; V09's festival list; V10's explanations | §7.7 DR43; §2.9 view state |
 | W66 | the ledger's carried `history`, `readiness` and `trad:` facts (2.3) | `creation`, `absorb` | the frozen-fact row (W38), the slice's threat (W62), the festival schedule (W65) | §7.7 item 12 |
 | W67 | the edge suite (3.17) | this volume's mechanisms at their limits and their combinations with every physical feature | T-V8-49 | §5's ladder |
@@ -283,7 +296,7 @@ testing (W89–W94), and Find's dossier entries (W95).
 | W69 | `DossierInstitution.custom` with `keywords` (2.8) | the adapter, from the dossier's custom instance and `customContentProvenance` | item 104 (a)'s resolution at fold (V11 §3.13.1's rungs; V08 §3.5 (5) (f)); DR10 | §14 `DossierInstitution`; item 511 |
 | W70 | `DossierDigest.customChains`, `.customResources`, `.customServices` (2.8) | the adapter, from `economicState.customChains`, `config.nearbyResourceDefinitions`, `availableServices.*` | `creation` and `absorb` → `dossierRecord` puts (3.13) | §14 `DossierDigest`; item 511 |
 | W71 | `CustomChainRecord`, `CustomServiceRecord` fields' rules (2.8) | `dossierRecord` events (3.13) | S10b's chain pulls and flow order (item 104 (b), (h); V11's rules); §10.3's sub-locations; the renderer and labels (5.2); the clerk's `why` (4.4) | §2.7 (the records); item 256 |
-| W72 | `HostContext.customLibrary` (2.8) | the host client, from the author's content library (optional) | `digest` → the `custom-def` carried facts → item 104 (a) (5) | §14 `HostContext`; item 511 |
+| W72 | the definition fields the dossier carries (2.8, 3.13 (8)) | the adapter, from the dossier's own `customContentRoster` and `customContentProvenance` entries at the revision it materialised (item 125 (a)) | `digest` → `customDefs` → the `custom-def` carried facts → item 104 (a) (5); absent, item 104's generic siting, noted `field_fallback` | §14 `DossierDigest`; item 511 |
 | W73 | carried kinds `custom-def`, `custom-chain`, `custom-service` (2.8) | `creation`, `absorb` (the ledger event) | the diff (3.5): re-resolution on a new revision (item 104 (e)), a chain's activation change (item 104 (h) (7)) | §7.7 item 12; items 256, 390 |
 | W74 | `Assignment.custom` (2.8) | the creation prefix; a `custom_revision` `setAttr` | item 104 (a)'s re-resolution at fold; the custom weights read from the `custom-def` fact; the clerk's `why` | §7.7 `Assignment`; item 394 |
 | W75 | the host clerk (4.4) | SettlementForge's assistant, its map tools resolved in the DM's page (the relay) | `query`, `preview`, accepted `doc.changed` with `proposedBy: 'clerk'`; a player's assistant: the stored party gazetteer | §11.2 clerk tool API |
@@ -307,10 +320,16 @@ testing (W89–W94), and Find's dossier entries (W95).
 | W93 | the fixtures' levels for V12 (7.1) | the surveyed-dossier pairs, the custom-chain variants, the catacomb fixtures, a high-ground landmark fixture | item 108 (f)'s `exactMonotone` levels (their `@pop×k` derivatives registered in the frozen manifest, a level outside [1 500, 120 000] `notApplicable`), item 104 (h) (8)'s levels, the step script's catacomb levels, the elevated road's `higherWith`; none a calibration seed family (V12 §1b, V12 §3.7.5) | §13.2 B-DOSSIER-lite |
 | W94 | the dossier row sets as non-calibratable data (2.6) | this volume's defaults | V11 §3.1 rows 63–66 and 77 (`calibratable: false`), T-V11-37; no V12 register line (V12's R4) | §13.9 (7) |
 | W95 | Find's dossier entries (item 120; 3.16 (6)) | the carried `institution` facts (2.3) with the binding rows (§7.7 item 12), read at each commit through §11.2's `gazetteer` query at the viewer's effective key | V09's Find panel — its list, type-ahead and chips, and the glow and pins of their matches (item 120 (b)–(f)); a dossier chip's key and anchor in §2.9's `find` key; T-V8-58 | §11.2 (`gazetteer`, *Knowledge*); §2.9's view key `find` (item 120 (a)) |
+| W96 | the crisis census — every stressor type, condition archetype and simulator crisis event of the pinned line (item 122; 2.4) | the adapter's build step, from the pinned line's code at its commit, read-only, names only | V11's `crisis.map` rows and their compile check (T122-4); `digest`'s reading of each overlay's source (3.16 (7)); release row R9; T-V8-59 | §10.2 `RosterTables.crisis.map`; §7.7 DR44 |
+| W97 | the carried condition's crisis fields — `name`, `event`, `calamity`, `arrivals`, `forces` (item 122, with (h); 2.3, 3.16 (7), (8)) | `digest`, from `activeConditions[]` (`label`, `triggeredAt.sourceEventType`), the calamities by week, `populationHistory`, and the forces' records where the line carries them | DR44 — the `map` row of the overlay's source, the calamity's `targets` and type for V01's `disasterDistricts` and V02's ruined look, the headcounts for §10.2's camp scale; V09's crisis card, why lines and forces' numbers; V10's explanations; T-V8-59, T-V8-60 | §7.7 DR44; §2.7 `ConditionOverlay` |
+| W98 | the field table's fallback column and the `field_fallback` note (item 125 (b); 2.4, 4.6) | `digest`, for every read row whose path is absent or empty | the generator's own choice for the field (each row's cell); the host's report (`dossier.result.report`); T-V8-61 | §7.7 item 10 (the rows' fallbacks); §14 `PortNote` |
+| W99 | the final local check's brief (item 125 (d); 3.16 (9)) | this volume | the program's final step — its table of matches, mismatches and fixes; SF0's census; release row R9 at a new line | — |
+| W100 | the frame's minimum size; no map on a phone (item 126; 3.1, 3.16 (10)) | `@plat/bridge-client`'s `mount` and `mountParty`; SettlementForge's own device rule | the frame and the party viewer at no less than 600 × 480 CSS px, the tab scrolling; V09's medium layout inside the frame; T-V8-62 | V09 §4.12; item 126 (a2) |
 
-**The dossier trace.** Every SettlementForge path the port reads, the `DossierDigest` field it fills and the derivation
-row it feeds — or `ignored` with §7.7 item 1's reason — is V08 §2.4's adapter field table, the one list; no fact is read
-from outside the digest, and nothing an `ignored` row names is read (T-V8-20's ignore clause).
+**The dossier trace.** Every SettlementForge path the port reads, the `DossierDigest` field it fills, the derivation
+row it feeds and the fallback it takes where the dossier lacks it — or `ignored` with §7.7 item 1's reason — is V08 §2.4's
+adapter field table, the one list; the dossier is the port's only data input (item 125 (a)), no fact is read from
+outside the digest, and nothing an `ignored` row names is read (T-V8-20's ignore clause; T-V8-61's static check).
 
 ## 2 Data model
 
@@ -383,8 +402,7 @@ TYPES are this volume's, and the host client's API:
 type DossierOffer = { type: 'dossier.offer'; body: {
   dossier: unknown;              // the whole dossier object, structured-cloned; never a change list (§7.7 item 1)
   dossierHash: string;           // the client's hashDossier(dossier) (V08 §3.2)
-  host?: { week?: number; realm?: RealmBlock; line?: string;
-    customLibrary?: CustomLibraryEntry[] /* V08 §2.8; only the entries whose definition the dossier materialised (V08 §3.13 (8)) */ };   // HostContext's fields that travel with an offer (§14)
+  host?: { line?: string /* MapHostConfig.line: SettlementForge's running line, which picks the adapter (V08 §2.4) */ };   // the one HostContext field an offer carries (§14): no data input — the dossier is the only one (item 125 (a))
   create?: { mapId: string } } };   // only when the host has no map record for this settlement
 type DocSnapshotRequest = { type: 'doc.snapshot'; body: {} };   // creation, compaction, upgrade, rebase (V08 §3.7)
 type HostState = { type: 'host.state'; body: {         // session memory only (§11.3; V08 §3.1 step 7 (c))
@@ -440,6 +458,7 @@ interface MapHostConfig {
   backupDepth: number;           // integer ≥ 0: how many previous snapshots a record keeps — SettlementForge's backup decision (J121; V08 §11 Q2); read by replaceSnapshot (V08 §3.7)
   quotaBytes?: number;           // the storage a map record may use under the account's plan — SettlementForge's save-limit decision (J121); absent: none checked (V08 §3.7)
   locale?: string;               // BCP 47: SettlementForge's interface language for this user (J121); the frame's message catalogue (V08 §5.5); absent: the catalogue's source language
+  line?: string;                 // the SettlementForge line the host runs (§14 item 1), sent as every offer's host.line (V08 §2.4's selection); absent: the dossier selects its adapter alone
   store: MapStore;               // the host's implementation of the record's reads and compare-and-set writes
   statusText?: Record<string, string> }   // the host's own strings for host.* keys; the defaults are generated from V09's host.* catalogue in the frame's locale
 interface MapStore { read(settlementKey: string): Promise<MapRecord | null>;
@@ -453,12 +472,11 @@ interface MapStore { read(settlementKey: string): Promise<MapRecord | null>;
   setStatus(mapId: string, patch: Partial<Pick<MapRecord, 'status'|'held'|'lastOffer'|'refreshPending'|'refreshing'>>): Promise<void> }
 interface MapHost { mount(el: HTMLElement, s: MountSpec): Promise<MapSession>;   // audience 'dm' or 'co-dm' only; any other word is refused before a frame exists
   mountParty(el: HTMLElement, s: { settlementKey: string }): Promise<PartyView>;   // a player's tab: stored pictures only, no frame, no module (V08 §3.14)
-  refresh(queue: { settlementKey: string; dossier: unknown; week?: number; realm?: RealmBlock; customLibrary?: CustomLibraryEntry[] }[], o?: { signal?: AbortSignal; onEach?: (k: string, s: OfferStatus) => void }): Promise<void>;   // V08 §3.4
+  refresh(queue: { settlementKey: string; dossier: unknown }[], o?: { signal?: AbortSignal; onEach?: (k: string, s: OfferStatus) => void }): Promise<void>;   // V08 §3.4
   hashDossier(dossier: unknown): Promise<string>;   // V08 §3.2
-  realmBlockFrom(p: RealmPlacements): RealmBlock;   // V08 §3.11
   audience(word: AudienceWord): { role: 'owner'|'editor'|'viewer'|null; knowledge: 'public'|'secret' } }   // §14's table
-interface MountSpec { settlementKey: string; dossier: unknown; audience: 'dm' | 'co-dm'; session: string; week?: number; realm?: RealmBlock; customLibrary?: CustomLibraryEntry[] }
-interface MapSession { offer(dossier: unknown, o?: { week?: number; realm?: RealmBlock; customLibrary?: CustomLibraryEntry[] }): Promise<OfferStatus>;
+interface MountSpec { settlementKey: string; dossier: unknown; audience: 'dm' | 'co-dm'; session: string }   // the dossier is the only data the map takes from the host (item 125 (a))
+interface MapSession { offer(dossier: unknown): Promise<OfferStatus>;
   exportPicture(fmt: 'png'|'svg'|'print', o: { knowledge?: Admission; displayNames?: Record<string, string>; opts?: unknown }): Promise<ArrayBuffer>;
   exportScenes(o: { formats: ('dd2vtt' | 'foundry')[]; knowledge?: Admission; displayNames?: Record<string, string>; opts?: unknown }): Promise<{ file: string; blob: Blob }[]>;
     // from M-SF (J122; V08 §11 Q3): the chosen scene exports as opaque blobs for SettlementForge's export bundle, packaged unread (V08 §5.4 (2))
@@ -468,15 +486,12 @@ interface MapSession { offer(dossier: unknown, o?: { week?: number; realm?: Real
     // owner or editor: writes MapRecord.party, then re-renders the party pictures (party.render, V08 §3.14 (3)) and re-sends host.state { party }
   seePlayersView(on: boolean): void;   // posts host.state { playersView: on }: a display filter (V08 §3.14 (5)); no view-state write, no store write, no event
   setClerk(config: ClerkConfig /* item 473's clerk.config body, generated from the bridge schema */): void;   // sends clerk.config
-  setView(patch: Record<string, unknown>): void;
+  setView(patch: Record<string, unknown>): void;   // view.set: a view command over the keys that travel — a week, the layers shown, a selection (§11.3; item 125 (c)); never an input, and the map never needs one
   on(ev: 'status'|'report'|'selected'|'action'|'clerkNeedsToken'|'clerkProposal'|'clerkConfigRefused', h: (x: unknown) => void): () => void;
     // action: a host.action body (V08 §4.2); clerkProposal: clerk.proposal { id, status, seqs? }; clerkConfigRefused: clerk.config.refused { reason } (item 473)
   switchTo(s: MountSpec): Promise<void>;   // reuses the frame (V08 §3.1); the same fields as mount
   close(): void }
 interface PartyView { refreshFromStore(): Promise<void>; close(): void }   // pan and zoom over the stored levels; the caption host.party.asOf (V08 §5.1)
-type RealmPlacements = { self: { x: number; y: number }; partners: { key: string; x: number; y: number }[]; mPerRealmUnit: number;
-  latitude?: { degAtY0: number; degPerUnitY: number /* the realm map's latitude scale; y grows southward */ };
-  cell?: { terrain?: string; river?: boolean; coastSideDeg?: number; climate?: string /* the climate sub-digest's word (item 117) */ } /* from the campaign's spatial digest */ };
 ```
 
 ### 2.3 The binding in practice — the carried facts and their hash
@@ -496,14 +511,16 @@ type CarriedFact =
   | { k: 'power'; name: string; category: string; standing: number; governing: boolean; controlled: string[] }
   | { k: 'relation'; kind: string /* the line's type word */; trend: string /* stable, declining, escalating */; sign: -1 | 0 | 1; strength: number; hidden: boolean }
   | { k: 'notable'; name: string; role: string; category: string; power?: string; institution?: string; importance?: string; status?: string; replaced?: string }
-  | { k: 'condition'; archetype: string; source: 'condition' | 'stressor'; severity: number; severityBand?: string; status: string; sinceWeek?: number; untilWeek?: number }
+  | { k: 'condition'; archetype: string; source: 'condition' | 'stressor'; severity: number; severityBand?: string; status: string; sinceWeek?: number; untilWeek?: number;
+      name?: string /* the condition's label */; event?: string /* the simulator crisis event that raised it (V08 §3.16 (7)) */; calamity?: string /* the carried calamity it follows */;
+      arrivals?: number; forces?: { kind: 'army' | 'group'; heads: number; coalition?: string; allegiance?: string; groupKind?: string; name?: string }[] /* the headcounts the dossier gives (V08 §3.16 (8)) */ }   // the crisis fields: read by DR44 through the overlay's key, a look only (item 122)
   | { k: 'resource'; state: 'available'|'depleted'|'removed'|'discovered'; custom: boolean }
   | { k: 'quarter'; name: string; phrase: string; landmarks: string[] }
   | { k: 'government'; name: string; governingPower?: string; legitimacy?: number }
   | { k: 'trade'; partners: { key: string; relationship: string }[]; links: { good: string; flow: 'import'|'export'; partner: string }[]; entrepot: boolean;
       goods: { exports: string[]; imports: string[]; transit: string[] } /* goods keys after goodWords (V08 §3.5 (6)) */; incomeShares: Record<string, number> }
   | { k: 'port-values'; crime: number | null; importPct: number | null; foodChain: Record<string, boolean> | null; legitimacy: number | null;
-      latitudeDeg: number | null /* DR29's value when the realm block arrives after creation */; threats: string[] /* the `threats` row's neutral keys, sorted */;
+      threats: string[] /* the `threats` row's neutral keys, sorted */;
       readiness: string | null /* the `readiness` row's neutral band (item 114; V08 §3.16 (2)) */ }
   | { k: 'deity'; key?: string; name?: string }
   | { k: 'chain'; needKey: string; resource?: string /* a res: key, else 'name:'+name */; processors: string[] /* binding keys, else 'name:'+name, flow order */;
@@ -511,8 +528,8 @@ type CarriedFact =
   | { k: 'dependency'; severity: number /* by `dependencySeverity` */; affected: string[] /* the services it names, sorted */ }
   | { k: 'calamity'; type: string; week: number; deaths: number; severity: 'minor'|'moderate'|'major'|'catastrophic'; targets: string[] /* binding keys */ }
   | { k: 'evidence'; kinds: string[] /* the ruin-evidence kinds present, sorted (V08 §2.6 `ruinEvidence`) */ }
-  | { k: 'site'; terrain: string; access: string; threat: string; magic: string; culture: string; climate?: string; isolation?: string /* frozen after creation (§7.7 item 10; V08 §3.5) */ }
-  | { k: 'history'; ageYears: number | null; atWeek: number | null /* HostContext.week when ageYears was read */;
+  | { k: 'site'; terrain: string; access: string; threat: string; magic: string; culture: string; isolation?: string /* frozen after creation (§7.7 item 10; V08 §3.5) */ }
+  | { k: 'history'; ageYears: number | null; atWeek: number | null /* the dossier's present week when ageYears was read (V08 §3.16 (4)) */;
       events: string[] /* `<type>:<slug(name)>` of history.events, sorted */; ancientRuin: boolean /* frozen after creation (V08 §3.15) */ }
   | { k: 'tradition'; name: string; kind: string; weeks: [number, number]; staging: string[]; deity?: string };   // item 118 (V08 §3.16 (5))
 ```
@@ -565,16 +582,17 @@ interface AdapterManifest { id: 'sf'; line: string /* the canonical id, the fold
   remaps: { fromVersion: string; fields: { kind: CarriedFact['k']; path: string /* a CarriedFact field */ }[] }[];   // digest changes between adapter versions (V08 §3.8)
   fromLines: { line: string; keys: { rule: 'identity' } | { rule: 'table'; rows: { from: string; to: string }[] } }[] }   // binding-key migration from an earlier line (V08 §3.8)
 interface AdapterRegistry { register(m: AdapterManifest, digest: (raw: unknown, host?: HostContext) => PortResult<DossierDigest>): void;
-  select(raw: unknown, o: { line?: string /* HostContext.line */; bound?: string /* the document's DossierBinding.adapter.line; absent at creation */ }):
+  select(raw: unknown, o: { line?: string /* HostContext.line: SettlementForge's running line (below) */; bound?: string /* the document's DossierBinding.adapter.line; absent at creation */ }):
     { status: 'ok'; manifest: AdapterManifest; defaulted?: boolean } | { status: 'refused'; code: 'E_LINE_UNSUPPORTED'; candidates: string[] } }
 ```
 
 `E_OTHER_SETTLEMENT`, the port's note kinds and `PortNote`'s `msg` and `keys` are §14's (item 508). A note's IDENTITY is
 the first 16 hex digits of H128 over the canonical CBOR of (kind, msg, keys sorted); its CLASS — event, standing or
 report — and its words are V08 §4.6's table's, and the class decides where it is kept (V08 §3.6 (4)). This volume adds
-two kinds for its new readings, each with its class and row in V08 §4.6: `frozen_fact_changed` (report; a later dossier
-changes a creation-only fact, V08 §3.5) and `history_gap` (report; a history the replay needs is missing — a demoted
-dossier without `peakTier`, or no age — V08 §3.15).
+three kinds for its new readings, each with its class and row in V08 §4.6: `frozen_fact_changed` (report; a later dossier
+changes a creation-only fact, V08 §3.5), `history_gap` (report; a history the replay needs is missing — a demoted dossier
+without `peakTier`, or no age — V08 §3.15) and `field_fallback` (report; a field the port reads that the dossier lacks or
+leaves empty, the field table's fallback taken — item 125 (b); its `detail` names the fallback).
 
 **The first line's key sets** (CONFIRMED on the 35 births and 12 after-tick dossiers generated on the pinned line;
 `research/sf/dossier-outputs.md` §3). `requiredKeys` — the 41 keys every birth carries: `_config`, `_seed`,
@@ -593,82 +611,102 @@ recognised (T-V8-31). An unknown top-level key — one neither list names, a lat
 by `digest` into `ignored` and noted `ignored_key`; the release checklist (R9) adds it to a list when the fixtures show it.
 
 **THE ADAPTER'S FIELD TABLE** (fp-integration-2026-09-23). Every SettlementForge path the port reads, the
-`DossierDigest` field it fills and the derivation row or reader it feeds; every path the port does not read — and every
-SettlementForge source it never reads that lies outside the dossier, written with no dossier path — in an `ignored` row
-with §7.7 item 1's reason. It is the one list: `AdapterManifest.keyList` is its read rows, §14's key-list lint and
+`DossierDigest` field it fills, the derivation row or reader it feeds and its **fallback** — what the map takes where the
+dossier lacks the path or leaves it empty: the generator's own choice, exactly as on a map made without a dossier, never
+a refusal or a stall, reported by one `field_fallback` note per field (item 125 (b); J-V8.130); every path the port does
+not read — and every SettlementForge source it never reads that lies outside the dossier, written with no dossier path —
+in an `ignored` row with §7.7 item 1's reason. The dossier is the port's only data input (item 125 (a)): no row reads a
+host field — the week, the realm and a custom library are no inputs (R2-40). A required key's own absence is no absent
+field but a shape the line never writes (V08 §3.5 step 3, B3); its fallback serves an empty or unreadable value. A
+fallback is noted only where a mechanism reads the field in that run. It is the one list: `AdapterManifest.keyList` is its read rows, §14's key-list lint and
 T-V8-20's ignore clause read it, and the CLOSED-DIGEST RULE holds — inside a record the port reads, a field no row names is
 not read (§7.7 item 1).
 
-| SettlementForge path | digest field | feeds |
-|---|---|---|
-| `id` | `settlement.key` (`settlement:<id>`) | §7.7 item 12's key law; `E_OTHER_SETTLEMENT` |
-| `name` | `settlement.name` | the title plate (§9.5); DR14's protected names |
-| `tier` | `settlement.tierWord` | §9.5's title word (§7.7 item 15); receipt F8 |
-| `population` | `settlement.population` | DR23, DR7, DR9; `LadderRouter` (V08 §3.10) |
-| `_seed` | `settlement.seed` (H32, §14's port item 2) | the recipe's seed; the host's seed itself never stored |
-| `schemaVersion`, `generatorVersion`, `simulationVersion` | `settlement.versions` | `recognise`; V08 §3.8's version checks |
-| `config.terrainType` | `site.terrain` | DR1 (the `site` row), DR19, DR31, DR39's bare rock; item 117's climate fallback (V08 §3.16 (4)) |
-| `config.tradeRouteAccess` | `site.access` | DR1, DR2, DR3 (the `access` row); the toll bridge's access word (V08 §2.6b (3)) |
-| `isolationSupport.status`, `.paths[].type` | `site.isolation` | DR19 (the `isolation` row) |
-| `config.monsterThreat` | `site.threat` | DR2 (the `threat` row); item 114's need |
-| `config.magicLevel` | `site.magic` | `CircumstanceSlice.magic` (the `magic` row) |
-| `config.cultureProfileKey` | `site.culture` | DR5, DR14, DR15, DR29 (the `cultures` row); the `era` row (V08 §2.6); DR34's culture modifier |
-| `config.nearbyResources`, `.nearbyResourcesNative`, `.nearbyResourcesDepleted`, `.nearbyResourcesState`, `config.nearbyResourceDefinitions` | `site.deposits`; `customResources` (V08 §2.8) | DR1 (the water deposits), DR19, DR30, DR31, DR40 (`oasis_water`); `DepositSite` |
-| `config.peakTier` | `history.peakTier` | DR36 (V08 §3.15) |
-| `config.primaryDeitySnapshot` (`_deityRef`, `name`) | `religion.deityKey`, `.deityName` | DR14 (the temple's dedication); the `deity` fact; receipt F16 |
-| `institutions[]` — `id`, `name`, `catalogId`, `category`, `priorityCategory`, `tags`, `status`, `inactive`, `worldPulseFate`, `remnantReason`, `impairments[]` (`type`, `severity`, `causeEventId`, `covert`), `knownTo`, `facets`, `forbiddenResources`, `foundedAt`, `demotedFrom`, `promotedFrom`, `createdByEventId`, `removedByEventId`, the `…ByWorldPulseOutcomeId` stamps, and the custom fields of V08 §2.8 | `institutions[]` (every `DossierInstitution` field, V08 §2.5); `walls` (the `@wall` kinds' records); `receipts` | DR9, DR10, DR12, DR15–DR18, DR20, DR24, DR25, DR30–DR35; item 108's ladders; DR2 (`walls`); receipts F1–F5, F15 |
-| `economicState.prosperity` | `wealth.label` | DR6, DR7 (the `wealth` row); V08 §3.5's `wealth` row; item 114's means (V08 §3.16 (2)) |
-| `economicState.incomeSources[]` (`source`, `percentage`) | `economy.incomeSources` | layer 2's economy slice (the `sectors` row; item 78) → DR7, DR13; DR3's toll and duty rows |
-| `economicState.primaryExports`, `.primaryImports`, `.necessityImports`, `.transit`, `.isEntrepot`, `.tradeLinks[]` | `economy.exports`, `.imports`, `.transit`, `.entrepot`, `.tradeLinks`, `.goods` | DR3, DR4; the supply web's trade ends (DR33); the `trade` fact; receipt F14 |
-| `economicState.compound.inst.hasWalls` | `walls.flagged` | DR2 |
-| `economicState.foodSecurity.importPct`, `.chains` | `economy.foodImportPct`, `.foodChains` | DR19; `PortValues.importPct`, `.foodChain` (§4.9) |
-| `economicState.activeChains[]`, `.tradeDependencies[]`, `.customChains[]` | `economy.chains`, `.dependencies`; `customChains` | DR33 → the supply web (item 105 (i)); `CustomChainRecord` (V08 §2.8) |
-| `economicState.safetyProfile.blackMarketCapture`, `powerStructure.criminalCaptureState` | `security` | `PortValues.crime` (the `crime` row) → the crime scalar DR16 and DR17 read (item 88) |
-| `neighborRelationship`, `neighbourNetwork[]` | `economy.partners` | DR3 (`TradePartner.relationship`); the `threats` row |
-| `powerStructure.government`, `.publicLegitimacy.score` | `government.name`, `.governingPower`, `.legitimacy` | DR11 (the `government` row); `PortValues.legitimacy`; item 115's lord (V08 §3.16 (3)); receipt F11 |
-| `powerStructure.previousGovernments[].tick` | `receipts`, under the government's binding key | §4.11's first dating rung for a change of government (receipt F11); the rest of each entry is ignored (below) |
-| `powerStructure.factions[]` (`faction`, `category`, `power`, `isGoverning`, `controlledInstitutions`), `powerStructure.factionRelationships[]` (`pair`, `type`, `direction`) | `powers[]` with `relations` | DR11, DR12, layer 2's `PowerStanding` (item 79); `PowerRelation` (the `relations` row); receipt F10 |
-| `npcs[]` — `id`, `name`, `role`, `category`, `factionAffiliation`, `institution`, `importance`, `status`, `replacedBy` | `notables[]` | the dossier-backed `Person` (V08 §3.11), DR22's exception (a notable is the dossier's, never derived from the households); `importance` → the order of V10's people answer and V09's person card; receipt F17 |
-| `spatialLayout.quarters[]` (`name`, `location`, `landmarks`) | `quarters[]` | DR5's quarter claims (§7.7 item 16; the `quarters` row), DR10's landmarks (the `landmarks` row), DR14 |
-| `activeConditions[]` (`id`, `archetype`, `severity`, `severityBand`, `status`, `triggeredAt.tick`, `duration`) | `conditions[]` | `ConditionOverlay` (the `conditions` row); DR21; receipt F12 |
-| `stressors` (null, one object or an array) | `stressors`, normalised into `conditions[]` (`source: 'stressor'`) | `ConditionOverlay` (`cond:stress:`); the `threats` row |
-| `history.age`, `.founding.age`, `.historicalEvents[]` (`type`, `templateType`, `yearsAgo`, `severity`, `name`, `anchored`, `tick`) | `history` | `HistoryHint` (the `historyScars` row); DR30, DR32; DR36–DR39 (the `historyEvents` row; V08 §3.15) |
-| `tierHistory[]` (`fromTier`, `toTier`, `direction`, `outcomeId`) | `history.tiers` | DR36's evidence; receipt F8 |
-| `populationHistory[]` (`tick`, `population`) | `history.population` | DR36's evidence; DR7's week |
-| `calamityHistory[]` (`name`, `type`, `tick`, `deaths`, `exodus`, `targets`) | `calamities` | DR28 (`EpochInputs.events`); DR36's evidence; receipt F5 |
-| `institutionHistory[]` (`tick`, `year`, `fate`), `resourceHistory[]` (`tick`, `state`) | `receipts` | the receipts' weeks (F1–F3, F13) |
-| the root's `destroyedByEventId`, `lifecyclePatch` | `history.lifecycle` | DR38 (V08 §3.15); receipt F20 |
-| `defenseProfile.readiness.label`, `.score` | `defence.readiness` | item 114's generation-time condition row and need (V08 §3.16 (2)) — the one part of `defenseProfile` read |
-| `traditions[]` (`id`, `name`, `type`, `window`, `staging`, `deity`) and `customContentRoster.traditions` | `traditions` | item 118's traditions row (V08 §3.16 (5)) |
-| `customContentProvenance`, `customContentRoster` (institutions, services, resources, supply chains) | `custom`, `customDefs`, `customServices`, `customResources` | item 104 (V08 §2.8, V08 §3.13) |
-| `availableServices` (its `custom` entries) | `customServices` | `CustomServiceRecord` (V08 §2.8) |
-| `HostContext.week` (the campaign's `calendar.elapsedWeeks`) | — (a host input, §14) | §4.11's last dating rung; item 117's year position (V08 §3.16 (4)) |
-| `HostContext.realm` (placements, realm scale, latitude scale, the spatial digest's cell words and climate word) | — (`RealmBlock`, §14) | DR1, DR3, DR19, DR29; item 117's climate (V08 §3.11, V08 §3.16 (4)) |
-| `urbanFabric`; `mapEdits` (the legacy map's container — on every saved dossier at least its `{ layoutLawVersion: 2 }` stamp); `fogSessions` (an older save's reveal sets, kept inert) | `ignored` | none — a host's own map-side layers (§7.7 item 1) |
-| `worldState.spatialLedgers.*` — every sub-ledger, the spatial substrate included | — (no dossier path: SettlementForge's campaign state; the realm block carries only the frozen `spatialDigest`'s words, item 396) | none — a host's own map-side layers (§7.7 item 1) |
-| SettlementForge's derived reads — the district profile, the map profile, the causal state, the system state, capacities, daily life, threat profiles, the spine | — (no dossier path: SettlementForge computes them on read or keeps them outside the dossier) | none — a host's derived reads (§7.7 item 1) |
-| `simulationTrace`, `aiOverlays`, `generationCoherenceReceipt`, `config.priority*` | `ignored` | none — the host's generation log, internals and sliders (§7.7 item 1) |
-| `relationships`, `prominentRelationship`, `conflicts`, the top-level `factions` (the NPC social groups), `npcLadder` | `ignored` | none — the host's NPC social groups and the NPC layer beside them (§7.7 item 1) |
-| `_config` | `ignored` | none — raw inputs: the resolved `config` is read (§7.7 item 1) |
-| `resourceAnalysis`, `defenseProfile` (all but `readiness`), `stress` (the alias of `stressors`, read once as `stressors`) | `ignored` | none — copies of institution records and generation scores (§7.7 item 1): the deposits come from `config.nearbyResources*`, the walls from the `@wall` kinds rows, the defence from `monsterThreat` |
-| `coherenceNotes`, `structuralViolations`, `structuralSuggestions`, `economicViability` | `ignored` | none — the host's own verdicts (§7.7 item 1) |
-| `userCanon`; the lived `campaignState.eventLog`, `_userEdits`, `dmLayer`, `locks` | `ignored` | none — the lived keys (§7.7 item 1) |
-| `arrivalScene`, `culturalIdentity`, `culturalNotes`, `pressureSentence`, `settlementReason`, `spatialLayout.layout`, `spatialLayout.tradeAccess` (the access word's prose; the word itself is `config.tradeRouteAccess`) | `ignored` | none — prose beyond a description seed (§7.7 item 1) |
-| `powerStructure.previousGovernments[]`, every field but each entry's `tick` | `ignored` | none — no mechanism of the set reads a past government (J-A73.06) |
+| SettlementForge path | digest field | feeds | fallback (absent or empty) |
+|---|---|---|---|
+| `id` | `settlement.key` (`settlement:<id>`) | §7.7 item 12's key law; `E_OTHER_SETTLEMENT` | none — a required key: the key law needs it (V08 §3.5 step 3, B3) |
+| `name` | `settlement.name` | the title plate (§9.5); DR14's protected names | the generator's own name for the settlement (§10.4 by `site.culture`, DR14), noted |
+| `tier` | `settlement.tierWord` | §9.5's title word (§7.7 item 15); receipt F8 | the rung's own word for the population (DR23; §9.5), noted |
+| `population` | `settlement.population` | DR23, DR7, DR9; `LadderRouter` (V08 §3.10) | none — a required key, DR23's one input: an integer in [0, 10⁷] (step 3, B3); 0 is V08 §3.6 (7)'s |
+| `_seed` | `settlement.seed` (H32, §14's port item 2) | the recipe's seed; the host's seed itself never stored | none — a required key (step 3, B3) |
+| `schemaVersion`, `generatorVersion`, `simulationVersion` | `settlement.versions` | `recognise`; V08 §3.8's version checks | none — required keys `recognise` reads (B3, B5) |
+| `config.terrainType` | `site.terrain` | DR1 (the `site` row), DR19, DR31, DR39's bare rock; item 117's climate by the `climates` row's terrain column (DR42; V08 §3.16 (4)) | plains, the `site` row's `else` (DR1), its climate `temperate` by the `climates` row's terrain column |
+| `config.tradeRouteAccess` | `site.access` | DR1, DR2, DR3 (the `access` row); the toll bridge's access word (V08 §2.6b (3)) | `road`, the `access` row's `else` |
+| `isolationSupport.status`, `.paths[].type` | `site.isolation` | DR19 (the `isolation` row) | no isolation: §4.9's defaults |
+| `config.monsterThreat` | `site.threat` | DR2 (the `threat` row); item 114's need | 0.3, the `threat` row's `else` |
+| `config.magicLevel` | `site.magic` | `CircumstanceSlice.magic` (the `magic` row) | `none`, the `magic` row's `else` |
+| `config.cultureProfileKey` | `site.culture` | DR5, DR14, DR15, DR29 (the `cultures` row); the `era` row (V08 §2.6); DR34's culture modifier | the blueprint's own culture, as on a map made without a dossier (§4.2 S0); DR29's 50° N; the `era` row's `c14` |
+| `config.nearbyResources`, `.nearbyResourcesNative`, `.nearbyResourcesDepleted`, `.nearbyResourcesState`, `config.nearbyResourceDefinitions` | `site.deposits`; `customResources` (V08 §2.8) | DR1 (the water deposits), DR19, DR30, DR31, DR40 (`oasis_water`); `DepositSite` | none: no deposit and no land use beyond §4.9's rings; no oasis (DR40) |
+| `config.peakTier` | `history.peakTier` | DR36 (V08 §3.15) | the evidence order of V08 §3.15 (3) (the documented gap) |
+| `config.primaryDeitySnapshot` (`_deityRef`, `name`) | `religion.deityKey`, `.deityName` | DR14 (the temple's dedication); the `deity` fact; receipt F16 | no dedication: the principal temple named by §10.4 (DR14) |
+| `institutions[]` — `id`, `name`, `catalogId`, `category`, `priorityCategory`, `tags`, `status`, `inactive`, `worldPulseFate`, `remnantReason`, `impairments[]` (`type`, `severity`, `causeEventId`, `covert`), `knownTo`, `facets`, `forbiddenResources`, `foundedAt`, `demotedFrom`, `promotedFrom`, `createdByEventId`, `removedByEventId`, the `…ByWorldPulseOutcomeId` stamps, and the custom fields of V08 §2.8 | `institutions[]` (every `DossierInstitution` field, V08 §2.5); `walls` (the `@wall` kinds' records); `receipts` | DR9, DR10, DR12, DR15–DR18, DR20, DR24, DR25, DR30–DR35; item 108's ladders; DR2 (`walls`); receipts F1–F5, F15 | none: no dossier-bound use — S2's roster programmes the town from its population, as standalone (§4.2 S2); a record's own absent field takes its row's `else` (V08 §2.6) |
+| `economicState.prosperity` | `wealth.label` | DR6, DR7 (the `wealth` row); V08 §3.5's `wealth` row; item 114's means (V08 §3.16 (2)) | `Moderate` (0.5), the `wealth` row's `else` |
+| `economicState.incomeSources[]` (`source`, `percentage`) | `economy.incomeSources` | layer 2's economy slice (the `sectors` row; item 78) → DR7, DR13; DR3's toll and duty rows | layer 2's standalone economy (§7.7: the blueprint and our rows) |
+| `economicState.primaryExports`, `.primaryImports`, `.necessityImports`, `.transit`, `.isEntrepot`, `.tradeLinks[]` | `economy.exports`, `.imports`, `.transit`, `.entrepot`, `.tradeLinks`, `.goods` | DR3, DR4; the supply web's trade ends (DR33); the `trade` fact; receipt F14 | none: layer 2's derived partners, one per through route of the access row (DR3) |
+| `economicState.compound.inst.hasWalls` | `walls.flagged` | DR2 | unflagged: DR2 by the access row, the population and `threat` |
+| `economicState.foodSecurity.importPct`, `.chains` | `economy.foodImportPct`, `.foodChains` | DR19; `PortValues.importPct`, `.foodChain` (§4.9) | null: the table's neutral (`PortRows.hinterland`) |
+| `economicState.activeChains[]`, `.tradeDependencies[]`, `.customChains[]` | `economy.chains`, `.dependencies`; `customChains` | DR33 → the supply web (item 105 (i)); `CustomChainRecord` (V08 §2.8) | none: no SettlementForge link; the supply web's own rules (item 105 (a)–(h)) |
+| `economicState.safetyProfile.blackMarketCapture`, `powerStructure.criminalCaptureState` | `security` | `PortValues.crime` (the `crime` row) → the crime scalar DR16 and DR17 read (item 88) | null, the `crime` row's neutral |
+| `neighborRelationship`, `neighbourNetwork[]` | `economy.partners` | DR3 (`TradePartner.relationship`); the `threats` row | none: layer 2's derived partners (DR3) |
+| `powerStructure.government`, `.publicLegitimacy.score` | `government.name`, `.governingPower`, `.legitimacy` | DR11 (the `government` row); `PortValues.legitimacy`; item 115's lord (V08 §3.16 (3)); receipt F11 | chartered commune, the `government` row's `else`; no governing power; legitimacy null |
+| `powerStructure.previousGovernments[].tick` | `receipts`, under the government's binding key | §4.11's first dating rung for a change of government (receipt F11); the rest of each entry is ignored (below) | no rung: the next of §4.11's dating rungs |
+| `powerStructure.factions[]` (`faction`, `category`, `power`, `isGoverning`, `controlledInstitutions`), `powerStructure.factionRelationships[]` (`pair`, `type`, `direction`) | `powers[]` with `relations` | DR11, DR12, layer 2's `PowerStanding` (item 79); `PowerRelation` (the `relations` row); receipt F10 | layer 2's standalone powers (item 79; our rows) |
+| `npcs[]` — `id`, `name`, `role`, `category`, `factionAffiliation`, `institution`, `importance`, `status`, `replacedBy` | `notables[]` | the dossier-backed `Person` (V08 §3.11), DR22's exception (a notable is the dossier's, never derived from the households); `importance` → the order of V10's people answer and V09's person card; receipt F17 | none: every person derived (DR22) |
+| `spatialLayout.quarters[]` (`name`, `location`, `landmarks`) | `quarters[]` | DR5's quarter claims (§7.7 item 16; the `quarters` row), DR10's landmarks (the `landmarks` row), DR14 | none: districts named by DR14 |
+| `activeConditions[]` (`id`, `archetype`, `label`, `severity`, `severityBand`, `status`, `triggeredAt.tick`, `triggeredAt.sourceEventType`, `duration`) | `conditions[]` with their crisis fields (V08 §3.16 (7)) | `ConditionOverlay` (the `conditions` row); DR21; DR44's crisis looks (the `archetype` or `event` row of §10.2's `crisis.map`); receipt F12; the present week | none: no overlay and no crisis look; a missing `label` no name, a missing `duration` no `untilWeek`, a missing `sourceEventType` the `archetype` row (V08 §3.16 (7)) |
+| `stressors` (null, one object or an array) | `stressors`, normalised into `conditions[]` (`source: 'stressor'`) | `ConditionOverlay` (`cond:stress:`); DR44 (the `stressor` row of `crisis.map`); the `threats` row | none (null): no overlay |
+| `history.age`, `.founding.age`, `.historicalEvents[]` (`type`, `templateType`, `yearsAgo`, `severity`, `name`, `anchored`, `tick`) | `history` | `HistoryHint` (the `historyScars` row); DR30, DR32; DR36–DR39 (the `historyEvents` row; V08 §3.15) | the `tiers` row's midpoint age, noted `history_gap` (V08 §3.15 (5)); no events: no scar, no replay |
+| `tierHistory[]` (`fromTier`, `toTier`, `direction`, `outcomeId`) | `history.tiers` | DR36's evidence; receipt F8 | none: no evidence (V08 §3.15 (3)) |
+| `populationHistory[]` (`tick`, `population`) | `history.population` | DR36's evidence; DR7's week; a condition's `arrivals` (V08 §3.16 (8)); the present week | none: no evidence; DR7's week from the next rung; no `arrivals` |
+| `calamityHistory[]` (`name`, `type`, `tick`, `deaths`, `exodus`, `targets`) | `calamities` | DR28 (`EpochInputs.events`); DR36's evidence; DR44's disaster look — a linked condition's calamity, its `targets` and type (V08 §3.16 (7)); receipt F5; the present week | none: no epoch event (DR28) and no calamity behind a disaster look |
+| `institutionHistory[]` (`tick`, `year`, `fate`), `resourceHistory[]` (`tick`, `state`) | `receipts` | the receipts' weeks (F1–F3, F13) | no rung: the next dating rung |
+| the root's `destroyedByEventId`, `lifecyclePatch` | `history.lifecycle` | DR38 (V08 §3.15); receipt F20 | none: no destruction or refounding (DR38) |
+| `defenseProfile.readiness.label`, `.score` | `defence.readiness` | item 114's generation-time condition row and need (V08 §3.16 (2)) — the one part of `defenseProfile` read | null: the threat alone decides need (the `readiness` row) |
+| `traditions[]` (`id`, `name`, `type`, `window`, `staging`, `deity`) and `customContentRoster.traditions` | `traditions` | item 118's traditions row (V08 §3.16 (5)) | none: no festival (DR43) |
+| `customContentProvenance`, `customContentRoster` (institutions, services, resources, supply chains) | `custom`, `customDefs`, `customServices`, `customResources` | item 104 (V08 §2.8, V08 §3.13) | none: no custom content; a definition whose fields the dossier does not carry has no `custom-def` fact — item 104's generic siting supplies them (V08 §3.13 (8)) |
+| `availableServices` (its `custom` entries) | `customServices` | `CustomServiceRecord` (V08 §2.8) | none: no custom service |
+| the present week (item 125 (b)): the greatest of `activeConditions[].triggeredAt.tick`, `calamityHistory[].tick` and the history's ticks — `history.historicalEvents[].tick`, `populationHistory[].tick`, `institutionHistory[].tick`, `resourceHistory[].tick`, `powerStructure.previousGovernments[].tick` | `presentWeek` | §4.11's clock — the creation week and V08 §3.6 (3)'s `W₁`; V08 §3.11's condition weeks; V08 §3.15's tick reading; §2.9's `week` default and DR42's year position (V08 §3.16 (4)) | none stamped: §4.11's clock starts at week 0 and the year position is the user's season control (midsummer, week 19) |
+| the armies — each force's headcount and allegiance (item 122 (h)) — IN DEVELOPMENT in SettlementForge, no path at `5d699cc68`; the adapter version that reads them writes its paths in this row, confirmed by the final local check (V08 §3.16 (9)) | `conditions[].forces` entries of kind `army` (`heads`, `allegiance`; V08 §2.5) | DR44's camp scale by headcount, each army its own camp in its own colours (§10.2 *Crisis looks* (c), (f)); V09's forces' numbers | the condition's or calamity's own counts — its `arrivals`, its calamity's `exodus` — else item 122 (b)'s scale by severity and tier; noted only where a look that scales by headcount stands |
+| the coalitions — the armies each alliance joins (item 122 (h)) — IN DEVELOPMENT, as the armies' row | the `coalition` key of each `army` entry (V08 §2.5) | §10.2 *Crisis looks* (f): a coalition's armies each pitch their own camp, spread round the town | none: each army stands alone |
+| the travelling groups — each group's people and kind (migrants, pilgrims, a caravan; item 122 (h)) — IN DEVELOPMENT, as the armies' row | `conditions[].forces` entries of kind `group` (`heads`, `groupKind`; V08 §2.5) | DR44's camp scale by headcount at the same rate (§10.2 *Crisis looks* (c)); V09's forces' numbers | as the armies' row |
+| `urbanFabric`; `mapEdits` (the legacy map's container — on every saved dossier at least its `{ layoutLawVersion: 2 }` stamp); `fogSessions` (an older save's reveal sets, kept inert) | `ignored` | none — a host's own map-side layers (§7.7 item 1) | — |
+| `worldState.spatialLedgers.*` — every sub-ledger, the spatial substrate included | — (no dossier path: SettlementForge's campaign state, its frozen `spatialDigest` included — no input, item 125 (a)) | none — a host's own map-side layers (§7.7 item 1) | — |
+| SettlementForge's derived reads — the district profile, the map profile, the causal state, the system state, capacities, daily life, threat profiles, the spine | — (no dossier path: SettlementForge computes them on read or keeps them outside the dossier) | none — a host's derived reads (§7.7 item 1) | — |
+| `simulationTrace`, `aiOverlays`, `generationCoherenceReceipt`, `config.priority*` | `ignored` | none — the host's generation log, internals and sliders (§7.7 item 1) | — |
+| `relationships`, `prominentRelationship`, `conflicts`, the top-level `factions` (the NPC social groups), `npcLadder` | `ignored` | none — the host's NPC social groups and the NPC layer beside them (§7.7 item 1) | — |
+| `_config` | `ignored` | none — raw inputs: the resolved `config` is read (§7.7 item 1) | — |
+| `resourceAnalysis`, `defenseProfile` (all but `readiness`), `stress` (the alias of `stressors`, read once as `stressors`) | `ignored` | none — copies of institution records and generation scores (§7.7 item 1): the deposits come from `config.nearbyResources*`, the walls from the `@wall` kinds rows, the defence from `monsterThreat` | — |
+| `coherenceNotes`, `structuralViolations`, `structuralSuggestions`, `economicViability` | `ignored` | none — the host's own verdicts (§7.7 item 1) | — |
+| `userCanon`; the lived `campaignState.eventLog`, `_userEdits`, `dmLayer`, `locks` | `ignored` | none — the lived keys (§7.7 item 1) | — |
+| `arrivalScene`, `culturalIdentity`, `culturalNotes`, `pressureSentence`, `settlementReason`, `spatialLayout.layout`, `spatialLayout.tradeAccess` (the access word's prose; the word itself is `config.tradeRouteAccess`) | `ignored` | none — prose beyond a description seed (§7.7 item 1) | — |
+| `powerStructure.previousGovernments[]`, every field but each entry's `tick` | `ignored` | none — no mechanism of the set reads a past government (J-A73.06) | — |
 
-**Selection.** `select` tries, in order: (1) `HostContext.line`, when given and registered — its adapter must accept,
-else `E_LINE_UNSUPPORTED`; (2) the document's bound line (`bound`), when its adapter accepts — a map stays on its line
+**Selection.** `select` tries, in order: (1) `HostContext.line` — SettlementForge's running line (`MapHostConfig.line`),
+the one host field the port reads, no data input (item 125 (a)) — when given: its adapter must be registered and accept
+the dossier, else `E_LINE_UNSUPPORTED` (a line no adapter supports, or one the dossier's own stamps contradict); with no
+host context the dossier's own shape and version stamps select by (2)–(4): (2) the document's bound line (`bound`), when its adapter accepts — a map stays on its line
 until a `fromLines` migration moves it (V08 §3.8); (3) the single registered adapter that accepts; (4) at a creation with
 several accepting and none named, the NEWEST registered line, recorded in the binding and noted `line_defaulted` — a
 declared default the report shows, never a silent guess; `E_LINE_UNSUPPORTED` naming the candidates only when none
-accepts (J-V8.9). The first registered adapter is `fp-integration-2026-09-23` pinned at `5d699cc68` (J86 Q1; §14).
+accepts (J-V8.9). The first registered adapter is `fp-integration-2026-09-23` pinned at `5d699cc68` (J86 Q1; §14). With one registered
+line — the pinned configuration — (1) and (2)–(4) always take the same adapter, so one dossier makes the same document
+and hash with and without a host context (T125-2; T-V8-61); only where two registered lines accept one dossier, whose
+version stamps a line's dossiers may share with another's (V08 §3.8), does `line` decide which line's reading builds it
+(B19), SettlementForge's own statement of its line, reported.
 
 **The catalogue manifest.** The adapter's build step writes
 `plat/packages/tables/src/dossier/catalogue.fp-integration-2026-09-23.json` — each catalogue kind's `catalogId`, name,
 tiers and category, read from the pinned line's catalogue, and `ladderPairs: { greater: string; lesser: string[] }[]`,
 the ladder file's pairs as data (V08 §3.5.1 (f)) — which V11's `coversManifest` check (every kind has a `kinds` row) and
-its ladder cross-check (every committed pair has a `dossier.ladders` row; V11 registry row 77, T-V11-2) read. It carries
-names, tiers, categories and pairs of names only; no SettlementForge code is copied.
+its ladder cross-check (every committed pair has a `dossier.ladders` row; V11 registry row 77, T-V11-2) read. It also
+carries **the crisis census** (item 122; J-V8.128): `crisis: { stressors: string[]; archetypes: string[]; events: string[]
+}` — every stressor type of the line (fifteen, fourteen of them seen in the fixtures), every condition archetype it defines
+(`war_pressure`, `famine`, `plague`, `regional_migration_pressure`, `rebellion`, `occupation`, `reconstruction`, `boom`,
+`bust`, `resource_strike`, `vein_exhausted`, the `regional_*` archetypes, and the rest the `conditions` row names, V08
+§2.6) and the simulator's crisis events that raise a condition (`PLAGUE`, `REFUGEE_WAVE`, `RAID_OR_MONSTER_ATTACK`), read
+from the pinned line's code at its commit as names — which V11's compile check of §10.2's `crisis.map` rows reads, so
+every census word has exactly one row, a look kind or `none` (T122-4's compile clause, V11's; its census clause, T-V8-59). It
+carries names, tiers, categories, pairs of names and vocabulary words only; no SettlementForge code is copied.
 
 ### 2.5 The digest's additions, the staged-record event and the per-settlement values
 
@@ -689,11 +727,13 @@ names, tiers, categories and pairs of names only; no SettlementForge code is cop
   government.legitimacy?: number;             // publicLegitimacy.score ÷ 100, in [0, 1]
   notables[].workplaceKey?: string; notables[].powerKey?: string;   // the named institution's and power's binding keys, resolved by name at digest (absent when the name joins nothing)
   powers[].relations: { with: string; kind: string; trend: string }[];   // (extended) the line's type word and its `direction` word (stable, declining, escalating)
-  conditions[]: + { source: 'condition'|'stressor'; severityBand?: string };   // (extended) stressors normalised into it (V08 §3.11)
+  conditions[]: + { source: 'condition'|'stressor'; severityBand?: string;   // (extended) stressors normalised into it (V08 §3.11)
+    name?: string /* label */; event?: string /* triggeredAt.sourceEventType, when the crisis census lists it */; calamity?: string /* calamity:… */;
+    arrivals?: number; forces: { kind: 'army'|'group'; heads: number; coalition?: string /* armies of one alliance */; allegiance?: string /* the power an army serves, as the dossier names it */;
+      groupKind?: string /* a group's kind word: migrants, pilgrims, a caravan */; name?: string }[] };   // the crisis fields (item 122, with (h); V08 §3.16 (7), (8))
   site.ruinEvidence: { kind: 'ruins'|'ruinedLandmark'|'node'|'leyLines'|'magicalHistory'|'delving'|'undercity'; key?: string /* the record, deposit or event's binding key */; yearsAgo?: number }[];   // DR30 (V08 §2.6a)
   site.threats: string[];                     // the neutral sea-threat keys of the `threats` row (item 106 (d)), sorted
   site.latitudeDeg: number;                   // DR29's value (V08 §3.5)
-  site.climate?: string;                      // a `climates` row key from the realm block's climate word (item 117; V08 §3.16 (4)); absent without it
   economy.chains: { key: string /* chain:cat:<chainId> */; chainId: string; label: string; needKey: string;
     resource?: { name: string; key?: string /* res:<deposit key> when resourceKey names a listed deposit */ };
     processors: { name: string; key?: string /* resolved by V08 §3.5 (6) */ }[] /* flow order */;
@@ -715,9 +755,7 @@ names, tiers, categories and pairs of names only; no SettlementForge code is cop
   traditions: { key: string /* trad:<id> */; name: string; kind: string /* the `festivals` row's kind: religious|market|harvest|water */;
     weeks: [number, number] /* weeks of the sf445 year, 0–51, from and to inclusive; from > to wraps the year's end */; staging: string[] /* keyword keys (V08 §3.16 (5)) */;
     deity?: string; custom: boolean }[];                     // item 118 (V08 §3.16 (5))
-// addition to §14's RealmBlock (item 391; item 117)
-  RealmBlock.cell.latDeg?: number;            // the settlement's latitude on the realm map, degrees north (+) or south (−); set by realmBlockFrom when the realm map has a latitude scale; DR29's first input
-  RealmBlock.cell.climate?: string;           // the campaign spatial digest's climate word for the settlement's cell, when SettlementForge's climate digest is on
+  presentWeek: number | null;                 // item 125 (b): the dossier's latest stamped tick (V08 §2.4's row; V08 §3.16 (4)); null: none stamped
 ```
 
 **The staged-record event.** The staged records of §2.7 — `ConditionOverlay`, `DepositSite`, `PowerRelation`, the
@@ -734,17 +772,17 @@ relation dissolved, a notable dead or gone — the record staying as a tombstone
 **The per-settlement values** (item 389; J-V8.16). `PortRows.crime`, `.hinterland.importPct` and `.foodChain`, and
 `.legitimacy` (§10.2) are per-settlement dossier values that move with time, not vocabulary; a table edit would re-derive
 from the table's first reader stage (§7.6), the reshuffle item 22 forbids. So they ride the circumstance slice, like the
-typed slices of items 77–79, with three more values that move at epochs — a realm latitude that arrives after creation,
-the sea threats and the defence readiness:
+typed slices of items 77–79, with two more values that move at epochs — the sea threats and the defence readiness (no
+later latitude arrives: DR29 writes it once, at creation, and no host input gives another, item 125 (a)):
 
 ```ts
 interface PortValues { crime: number | null /* [0, 1] */; importPct: number | null /* [0, 1] */; foodChain: Record<string, boolean> | null; legitimacy: number | null /* [0, 1] */;
-  latitudeDeg: number | null /* null: Intent.latitudeDeg (DR29) is in force */; threats: string[] | null /* null standalone: the preset row decides DR2's waterfront */;
+  threats: string[] | null /* null standalone: the preset row decides DR2's waterfront */;
   readiness: number | null /* [0, 1]: the `readiness` row's need weight (item 114); null standalone: the threat alone decides need */ }
 // CircumstanceSlice.port (§7.7 layer 2): recipe data at creation (the timeline's first entry), epoch data afterwards (§4.11's cadence), every field null standalone.
 // The value in force for the base's readers: PortRows.crime / hinterland.importPct / hinterland.foodChain / legitimacy — the current slice's `port` value when not
-// null, else the table's (empty in the base: every factor 1, every list empty — T88-1 unchanged); the site latitude — port.latitudeDeg, else Intent.latitudeDeg,
-// else 50; DR2's waterfront — port.threats when not null; item 114's need — the slice's threat with port.readiness when not null (V08 §3.16 (2)).
+// null, else the table's (empty in the base: every factor 1, every list empty — T88-1 unchanged); the site latitude — Intent.latitudeDeg (DR29), else
+// 50; DR2's waterfront — port.threats when not null; item 114's need — the slice's threat with port.readiness when not null (V08 §3.16 (2)).
 // PortRows keeps its vocabulary rows (impairments, customKinds, farmlandScale) as tables.
 ```
 
@@ -781,7 +819,7 @@ T73-10's totality test; the declared fallback is the row marked "else". Every "e
   `fishing_grounds` the site's coast, else its river, else a lake; `deep_harbour` the harbour chance 1 on the site's coast,
   else a river or lake harbour (§4.2 S1 (6)), and on a site with neither its basin is left out and reported (§5.1 (7));
   `oasis_water` the oasis (DR40), on any terrain (a non-arid site's oasis takes its climate row's trees);
-  `marshlands` a marsh land use. The realm cell's river and coast are DR1's own inputs. A water word the relief cannot
+  `marshlands` a marsh land use. A water word the relief cannot
   carry (a river forced on a site whose S1 relief has no descent the river can follow) takes S1's F-RIVER rung (§5.2) and
   is reported; it is never dropped silently (T-V8-50).
 * **`access`** (`tradeRouteAccess` → gates and through routes, DR2, DR3): `road` 2 gates on 1 through route; `crossroads`
@@ -887,7 +925,8 @@ T73-10's totality test; the declared fallback is the row marked "else". Every "e
   `corruption_exposed`, `infiltrated`, `recently_betrayed`, `indebted`, and every `regional_*`) → no tint: the dials at the
   next epoch; else no tint, noted. The row reads the archetype alone: a condition is put whatever its `status` (`stable`,
   `worsening`, `easing` — the line's three words; the list holds only live conditions), and a stressor is read through the
-  same row under its type (the fifteen stressor types are all archetype words here).
+  same row under its type (the fifteen stressor types are all archetype words here). The crisis look a condition draws
+  (item 122) is the `crisis.map` row's (below), never this row's.
 * **`impairments`** (`PortRows.impairments`' vocabulary): physical — `capacity`, `infrastructure`, `access`,
   `supply_starved` — `conditionSteps` 1 per severity band (≥ 0.34 worn, ≥ 0.67 neglected); non-physical — `legitimacy`,
   `influence`, `wealth`, `staffing`, `corruption` — `conditionSteps` 2 per unit of severity on the institution's own dial
@@ -1026,21 +1065,24 @@ T73-10's totality test; the declared fallback is the row marked "else". Every "e
   `Fortress` 0.9 `fortress`, `Well Defended` 0.7 `defended`, `Lightly Defended` 0.4 `light`, `Vulnerable` 0.15
   `vulnerable`; else 0.5 `defended`, noted; neither present → null (the standalone neutral: the threat alone decides need).
   The band is §7.7's DR41's input at generation; the weight folds into the need at epochs (V08 §3.16 (2)).
-* **`climates`** (item 117; the realm cell's climate word, else `site.terrain` → a key of the biome's climate rows, §4.2
-  S0, §10.2, whose season columns V11 writes): a climate word is matched case-folded to a climate row key or to that
-  row's synonyms in this set — `arid`, `desert`, `hot_desert` → `arid`; `semi_arid`, `steppe` → `semi_arid`; `temperate`,
-  `oceanic`, `maritime` → `temperate`; `continental` → `cold`; `boreal`, `subarctic`, `alpine` → `severe`; `tropical`,
-  `subtropical`, `mediterranean` → `warm`; a word neither lists falls to the terrain column, noted. The terrain column:
-  `desert` → `arid`; `mountain` → `cold`; `coastal` → `temperate`; `plains`, `riverside`, `hills`, `forest` →
-  `temperate`; else `temperate`. The height correction (upland colder) is §7.7's DR42's, read on the map's
-  relief. The synonyms are PLAUSIBLE until SF0's census reads the climate sub-digest's words at the pinned line (with its
-  flag on); a word the census shows gains its row as a table fix.
+* **`climates`** (items 117, 125; `site.terrain` → a key of the biome's climate rows, §4.2 S0, §10.2, whose season columns
+  V11 writes — DR42's climate, the dossier's terrain with our biome rules, item 125 (b)): the terrain column — `desert` →
+  `arid`; `mountain` → `cold`; `coastal` → `temperate`; `plains`, `riverside`, `hills`, `forest` → `temperate`; else
+  `temperate`. The height correction (upland colder) is §7.7's DR42's, read on the map's relief. No climate word is read:
+  the campaign's climate sub-digest is no input (item 125 (a)), so the row's former climate-word synonyms are retired with
+  the realm block (J-V8.130); a climate field the final local check finds in the dossier (V08 §3.16 (9)) gains its column
+  as a table fix.
 * **`festivals`** (item 118; a tradition's `type` word → the festival kind the staging fallback and the decoration rows
   read): a word holding `feast`, `holy`, `saint`, `rite`, `pilgrim` or `procession` → `religious`; `fair`, `market` →
   `market`; `harvest`, `sowing`, `midsummer`, `midwinter`, `solstice`, `equinox` → `harvest`; `boat`, `river`, `sea`,
   `water`, `fleet` → `water`; `founding`, `coronation`, `guild`, `tournament`, `civic` → `market` (the main square is the
   civic stage: item 118 (c)'s market-or-fair fallback); else by the same test over the tradition's name, else `market`,
   noted. The four kinds are item 118 (c)'s; a tradition naming a deity is `religious` whatever its word.
+* **`crisis.map`** (item 122; §10.2's `CrisisMapRow`, read by §7.7's DR44 — its shape §10.2's, its rows V11's, a dossier
+  row set at M-SF, `calibratable: false` like every row set here): one row per word of the crisis census (V08 §2.4) — a
+  `stressor`, `archetype` or `event` key → a look kind or `none`. This volume owns the census and the reading of each
+  overlay's source (V08 §3.16 (7)); a word the census or the rows lack reads `none`, noted `unmapped_word`, so nothing
+  falls through (T122-4).
 
 ### 2.6a Item 109's dossier sources and the burial and crypt trace (DR30–DR32)
 
@@ -1137,7 +1179,7 @@ births carry the city record; `metropolis-2` alone carries the metropolis one.
 order read: the rung (DR23); the records bound to `conduit_house` through V11's `kinds` and `ladders` rows (the city record
 and its SIZE member); the demand records — those bound to `bathhouse` and to the classes whose V11 row needs running
 water; `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid climate row;
-`hills`, `mountain` → a relief that can hold a higher spring); the realm cell's river (DR1); the `hot_springs` deposits
+`hills`, `mountain` → a relief that can hold a higher spring); the river DR1 gives; the `hot_springs` deposits
 (never a source); `site.culture` (V11's culture modifier). Its bar is T-V8-36.
 (a) **The rung gates, never the tier word.** SettlementForge's `city` spans 5 001 – 25 000 people and its lower part is our
 TOWN (DR23; research mapping T1: 4 of 24 surveyed SettlementForge cities). At TOWN the water record binds its building or
@@ -1188,14 +1230,14 @@ cathedral, a great cathedral or the palace; CONFIRMED).
 **(3) The toll bridge on a dry site — the rule's one home, at every rung** (item 399; J-V8.65). The births carry 11
 `Toll bridge` records in 11 dossiers; 9 stand where neither terrain nor access gives a river or a coast, 6 of them at
 base-rung TOWN (CONFIRMED). The `kinds` row's `implies: 'bridge'` (V08 §2.6; V11 writes the cell, today for `toll_bridge`
-only) makes DR1 read the record at creation: on a site whose terrain, access, water words and realm cell — and, at a
+only) makes DR1 read the record at creation: on a site whose terrain, access and water words — and, at a
 village rung, S0's own water draw — give no river or canal, the site row forces a watercourse the record's bridge spans.
 The bridge is then a ground-part-0 deck over water —
 §5.3's invariant untouched, no raised way, no declaration. V07 §3.1 (1) and V07 §3.11 DR1 cite this rule at the village rungs.
 
 | | base rungs (TOWN – METROPOLIS) | village rungs (THORP – VILLAGE) |
 |---|---|---|
-| the forced course | the site row's river chance becomes 1 for the smallest watercourse class (a brook), its course crossing the through route of the longest approach inside the frame | `water: brook` when terrain, access, the water words, the realm cell and S0's water draw give no flowing water (`none` or a still water); a flowing type drawn or given keeps its type; in either case, unless the realm block fixes the course's line, its entry and exit bearings lie on the two frame arcs the through road's entries divide; the road topology raised to `through` at V07 §3.1 step 3 unless the access word fixes it |
+| the forced course | the site row's river chance becomes 1 for the smallest watercourse class (a brook), its course crossing the through route of the longest approach inside the frame | `water: brook` when terrain, access, the water words and S0's water draw give no flowing water (`none` or a still water); a flowing type drawn or given keeps its type; in either case its entry and exit bearings lie on the two frame arcs the through road's entries divide; the road topology raised to `through` at V07 §3.1 step 3 unless the access word fixes it |
 | on a coastal site with no watercourse | a brook, as above | an estuary at the brook's width class, its exit the sea side, between the same two arcs |
 | the toll house | V11's toll house takes its `near` → bridge alternative first; on the deck only by V11's `deckOk` (item 110 (d)) | VS4 bridges the crossing; on the deck by `deckOk` (V07 §3.10a (4)) |
 | failure → the toll house at its gate alternative (at a village rung, at an entry — the through road's where one exists — else on the heart's approach), the build report noting `toll_bridge_dry` | any of: a `desert` site with no `oasis_water` whose arid row drew no river, lake or coast (item 111); a relief S1 cannot carry the course across the approach; a fixed `isolated` or `none` access word | the same three conditions |
@@ -1227,7 +1269,7 @@ rides the opaque document and the pictures through the base renderer and §7.5's
 |---|---|---|---|---|---|---|
 | `MapRecord` (2.1) | the host at first commit of a `created` result, every field from the message | the client at mount, offer, refresh | the host's store, compare-and-set on `logHead` | n/a (host data) | a DM's "restore previous map" swaps in `backups[0]` (V08 §4.2), then every open session gets a fresh `doc.load` | the client's record schema version; the host migrates by the client's release notes |
 | `MapRecord.backups` (2.1) | `replaceSnapshot`, up to `MapHostConfig.backupDepth` | the restore dialog (through `host.state`), B10's second rung | the host's store | n/a | the restore row (V08 §4.2) | a record holding more than a lowered `backupDepth` is trimmed, oldest first, at its next compaction; a raised depth fills as compactions occur; depth 0 keeps none (B10 falls to its third rung; the restore control hidden) |
-| `MapHostConfig`'s SettlementForge inputs — `moduleOrigin`, `backupDepth`, `quotaBytes`, `locale` (2.2) | SettlementForge's page, from its own product decisions (J121) | the frame's `src` and CSP (3.1), `replaceSnapshot` (3.7), the size check (3.7, 6), the catalogue (5.5) | never stored by us: the host's configuration | n/a | n/a | a changed value applies from the next mount; a document never records it |
+| `MapHostConfig`'s SettlementForge inputs — `moduleOrigin`, `backupDepth`, `quotaBytes`, `locale`, `line` (2.2) | SettlementForge's page, from its own product decisions (J121) and its running line | the frame's `src` and CSP (3.1), `replaceSnapshot` (3.7), the size check (3.7, 6), the catalogue (5.5), every offer's `host.line` (2.4) | never stored by us: the host's configuration | n/a | n/a | a changed value applies from the next mount; a document never records it |
 | the `dossier.*`, `module.status`, `host.state`, `host.action`, `party.render` and `party.rendered` messages (2.2) | client or module per V08 §3 | the other side | never stored | n/a | n/a | the bridge's `protocol` number in `ready`; an unknown type is ignored and reported (§11.3) |
 | `exportScenes` blobs (2.2, 5.4 (2)) | the module's scene exporters on `export.request { bundle: true }`, from M-SF | SettlementForge's export-bundle writer, unread | never by us: SettlementForge's bundle | re-requested per bundle | n/a | the exporters' own format versions (§11.1) |
 | host-minted `docId` (2.1) | the host at creation | `generate`, `logHead` | the document (§2.9) | kept | n/a | none |
@@ -1235,11 +1277,11 @@ rides the opaque document and the pictures through the base renderer and §7.5's
 | `DossierBinding.quarantined` (2.3) | `digest`, `absorb` (V08 §3.9) | the next absorb's diff (skips these keys), the report, T-V8-9 | the dossier block | kept | n/a | rebuilt by folding the `dossierFacts` events, each carrying the whole list after its absorb (V08 §3.6 (4)) |
 | `absorbed` retention (2.3) | each committed absorb | F22's match, the report | the dossier block | kept | n/a | the fold trims `changeIds` older than the newest 64 entries, so the stored block equals the rebuild |
 | `CarriedFact` (2.3) | `creation`, `absorb` | the diff | the dossier block | kept | n/a | remapped by V08 §3.8 |
-| carried `chain`, `dependency`, `calamity`, `evidence`, a relation's `trend` and `sign`, a condition's `source`, `port-values.latitudeDeg`, `.threats` and `.readiness`, the settlement's `wealth`, and the `site`, `history` and `tradition` kinds (2.3) | `creation`, `absorb` | the diff (V08 §3.5) | the dossier block | kept | n/a | absent in an older document: filled at its next absorb as a declared remap with no map event (V08 §3.8); a calamity dated at or before the last absorbed week is carried with no event (the map never saw it happen); a `site` or `history` fact filled so writes no `frozen_fact_changed` note |
+| carried `chain`, `dependency`, `calamity`, `evidence`, a relation's `trend` and `sign`, a condition's `source` and crisis fields (`name`, `event`, `calamity`, `arrivals`, `forces`), `port-values.threats` and `.readiness`, the settlement's `wealth`, and the `site`, `history` and `tradition` kinds (2.3) | `creation`, `absorb` | the diff (V08 §3.5); DR44 reads a condition's crisis fields through its overlay's key | the dossier block | kept | n/a | absent in an older document: filled at its next absorb as a declared remap with no map event (V08 §3.8); a calamity dated at or before the last absorbed week is carried with no event (the map never saw it happen); a `site` or `history` fact filled so writes no `frozen_fact_changed` note; a `port-values.latitudeDeg` or `site.climate` an older document carries is dropped at its next absorb by the same declared remap (item 125 retired their producers) |
 | `AdapterManifest` and the adapter's field table (2.4) | each adapter folder | `select`, `digest`, remaps; §14's key-list lint; T-V8-20 | the package | n/a | n/a | a new version declares `remaps`, a new line `fromLines`; the field table is re-cut with the adapter |
-| digest additions (2.5): `role`, the ladder fields, `security`, `legitimacy`, `site.ruinEvidence`, `.threats`, `.latitudeDeg`, `.climate`, the extended economy, `calamities`, the history fields, `defence.readiness`, `traditions` | the adapter | the rows of V08 §3.5; DR2, DR9, DR28–DR43 | carried by the kinds above | n/a | n/a | as the carried kinds |
+| digest additions (2.5): `role`, the ladder fields, `security`, `legitimacy`, `site.ruinEvidence`, `.threats`, `.latitudeDeg`, the extended economy, `calamities`, the history fields, `defence.readiness`, `traditions`, the conditions' crisis fields with their `forces`, `presentWeek` | the adapter | the rows of V08 §3.5; DR2, DR9, DR28–DR44; §4.11's clock | carried by the kinds above | n/a | n/a | as the carried kinds |
 | `dossierRecord` records (2.5) | `creation` prefix, `absorb` | §2.7's readers, the renderer, the clerk | the model (records in the digest, §2.7) | kept (records, not derived) | never an undo target (§7.4) | none (new) |
-| `CircumstanceSlice.port` (2.5) | `creation` (first slice), the cadence's epochs | the staged rows' readers by the value-in-force rule; V06's need (item 114) | the recipe and `EpochInputs` | read at the epoch that carries it | an epoch that carries dossier events is no undo target (§7.4) | absent in older slices, and `readiness` absent in a slice written before it: reads null (the table; the threat alone) |
+| `CircumstanceSlice.port` (2.5) | `creation` (first slice), the cadence's epochs | the staged rows' readers by the value-in-force rule; V06's need (item 114) | the recipe and `EpochInputs` | read at the epoch that carries it | an epoch that carries dossier events is no undo target (§7.4) | absent in older slices, and `readiness` absent in a slice written before it: reads null (the table; the threat alone); a slice written under an output version before item 125 replays under its own version (§6.4), and an `upgrade` drops its `latitudeDeg` (§7.5's diff shows any move) |
 | row sets of 2.6 | this volume's defaults | `digest`, `creation`, `absorb` | `@plat/tables`, pinned in the recipe | a table edit re-derives by §7.6 | an `editTable` undo (§7.4) | table versions (§6.4) |
 | the `kinds` row's `implies` column (2.6, 2.6b) | V11's rows | DR1 at creation only | `@plat/tables`, pinned in the recipe | a table edit re-derives by §7.6 at an `upgrade`, never at an absorb (the site is creation's) | an `editTable` undo | table versions; absent → no implied feature |
 | a derived `DepositSite` (`res:derived:<landuse>`; 2.6, 3.11) | the creation prefix or an absorb's `dossierRecord` put, when a record needing the land use is present and no deposit opens it | S12a (DR19), V07 §3.9, the renderer and labels as any `DepositSite` (5.2) | the model (a record, §2.7) | kept (a record); S12a's derived fields recomputed | never an undo target (§7.4) | none (new): a document made before it gains the site at its next absorb, placed by least disruption |
@@ -1249,7 +1291,7 @@ rides the opaque document and the pictures through the base renderer and §7.5's
 | `DossierInstitution.custom` with `keywords` (2.8) | the adapter | item 104 (a)'s resolution at fold (V08 §3.5 (5) (f)) | carried (the institution fact's `custom` part) | n/a | n/a | absent in an older document: filled at its next absorb as a declared remap, no event (V08 §3.8) |
 | `customChains`, `customResources`, `customServices` (2.8) | the adapter | `creation`, `absorb` | carried facts, and the records they put | kept | n/a | a document made before them carries none: every present one is an `add` at the next absorb, placed by least disruption, upstream first |
 | `CustomChainRecord`, `CustomServiceRecord` (2.8) | `dossierRecord` put | S10b's chain pulls (item 104, V11), §10.3's sub-locations, the renderer, labels, the clerk | the model (records in the digest, §2.7) | kept (records, not derived) | never an undo target (§7.4) | none (new) |
-| `HostContext.customLibrary` (2.8) | the host client, when the author's library is at hand | `digest` | never stored as sent: its admitted fields become `custom-def` facts | n/a | n/a | the entry shape is versioned with the adapter (`AdapterManifest.version`) |
+| the definition fields the dossier carries (`customContentRoster`, `customContentProvenance`; 2.8) | the adapter, at the revision the dossier materialised (item 125 (a)) | `digest` → `customDefs` | never stored as read: they become `custom-def` facts | n/a | n/a | the entry shape is versioned with the adapter (`AdapterManifest.version`) |
 | `custom-def` facts (2.8) | the ledger event (`dossierFacts`) | the resolution at fold, replay and re-derivation; the custom weights (V08 §3.11) | the dossier block | kept | n/a | remapped by the adapter's declared `remaps` (V08 §3.8) |
 | `Assignment.custom` (2.8) | the creation prefix's `assign` of a custom record; a `custom_revision` `setAttr` | the fold's re-resolution (V08 §3.13 (10)); the clerk's `why` | the model (the assignment) | kept | never (a dossier event) | absent on an older document: written by the next absorb's `setAttr`, a declared remap |
 | `MapRecord.party` (2.1) | `create` (`{ public, [], 0 }`); `setParty` by an owner or editor | the party picture render and gazetteer (V08 §3.14); the frame's copy through `host.state` | the host's store, compare-and-set on `party.rev` | n/a | "Hide again" restores `party.prev` (one step; older reveals are undone by hiding them) | an older record without it reads `{ public, [], 0 }` |
@@ -1262,10 +1304,13 @@ rides the opaque document and the pictures through the base renderer and §7.5's
 | `dossierFacts.notes`, `.notesCleared` (3.6 (4)) | each port run, in its ledger event | the fold; V09 §4.10's absorb group | the log (the event) | replayed by fold | n/a | an older ledger event without them folds as `notes: []`, `notesCleared: []` |
 | `DossierBinding.notes` (2.3) | the fold of each ledger event: the old list less `notesCleared`, plus the `standing` notes of `notes`, in identity order | every derivation's report build (into `GenerationReport.dossierNotes`), the report panel's read by `report(h)` (V08 §4.6); the next absorb's new-or-cleared test (V08 §3.6 (4)) | the dossier block | rebuilt by fold | n/a | absent in an older block: `[]`, so the next absorb carries every standing note as new |
 | `GenerationReport.dossierNotes` (4.6) | every derivation's report build and the verification replay on load: `DossierBinding.notes` at the report's seq, in identity order; `[]` for a document with no binding | the report panel's dossier section through `report(h)` (V09 §5.7; V08 §4.6); T-V8-14 | the document's `derived` section with the rest of the report, outside the canonical form and every digest (§5.4) | rebuilt with the report by every derivation | none of its own: an undo's re-derivation rebuilds the report, and the binding it copies is no undo target | a report saved without it shows `[]` until the verification replay on load rebuilds it |
-| the view's season and festival defaults read from the dossier (3.16 (4), (5)) | the carried `tradition` facts and `HostContext.week`, through §7.7's DR42 and DR43 | §2.9's view state under its "follow SettlementForge" flag; the festival list (V09) | the view state (outside the model hash); the traditions carried | re-read at every load and `view.set { week }` | the view state's own (§2.9) | none (new): an older document's view follows SettlementForge by default |
+| the view's season and festival defaults read from the dossier (3.16 (4), (5)) | the carried `tradition` facts and the dossier's present week (`presentWeek`, its latest stamped tick; V08 §3.16 (4)), through §7.7's DR42 and DR43 | §2.9's view state under its "follow SettlementForge" flag; the festival list (V09) | the view state (outside the model hash); the traditions carried | re-read at every load and absorb (DR42 at open and at each absorb, §2.9); a host's `view.set { week }` is a view command, never an input | the view state's own (§2.9) | none (new): an older document's view follows SettlementForge by default |
 | a dossier entry's chip in Find — its record's binding key and its anchor address (3.16 (6)) | the viewer's pick of a dossier entry in Find (item 120 (d)) | Find's re-evaluation at each commit, absorb, epoch, undo and load (item 120 (f)) | §2.9's view key `find` — the per-viewer view state, kept in view pins, outside the model, its hash and the log (item 120 (a)) | re-evaluated: a key no binding row holds is replaced by the key its anchor's entity carries | none: a view, never an edit (item 120 (a)) | a line migration's re-key followed through the anchor at the next re-evaluation; an older view state has no chip |
+| the crisis census (`catalogue.<line>.json`'s `crisis`; 2.4) | the adapter's build step, from the pinned line's code | V11's compile check of `crisis.map`; `digest`'s reading of each overlay's source (3.16 (7)); T-V8-59 | `@plat/tables`, with the adapter | n/a | n/a | re-cut with the adapter at a new line or commit; a word a new line adds reads `none`, noted, until its row exists |
+| the field table's fallback column and its `field_fallback` notes (2.4) | the adapter (the column); `digest` (the notes) | the generator's rules each cell names; the host's report | the column with the adapter; the notes never (class `report`) | n/a | n/a | re-cut with the adapter |
+| the frame's and the party viewer's minimum size (3.1, 3.16 (10)) | `@plat/bridge-client`'s `mount`, `switchTo` and `mountParty` | the browser's layout; V09's medium layout inside the frame | never stored | a resize keeps the document, view and selection byte-identical | n/a | none (new) |
 
-### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)
+### 2.8 Custom content — the records, the chains and the definition fields (item 104's host side)
 
 **What the pinned line gives** (CONFIRMED on the `town-cc-1` fixture, generated on `fp/integration-2026-09-23` at
 `5d699cc68` with SettlementForge's reference custom pack; `research/sf/dossier-outputs.md` §3.5, `research/sf/dossier-model.md`
@@ -1285,7 +1330,9 @@ institution's NAME in `institution`, `custom: true`, `localUid` and the definiti
 `authority`, `defenseRole`, `criminal`, `magical`, `foodImpact`, `economicWeight`, `satisfies`, `criticality`, the
 dependency references `produces`, `requires`, `subsumes`, `providedBy`, `yields`, `commodities`, `requiredInstitution`,
 `requiredResources`, and a resource's `category` (its kind: water, land, special, subterranean) — live in the author's
-library, not in the dossier.
+library: the pinned line's dossier carries none of them (its `materializedDefinitions` rows hold ids, revisions, hashes,
+names and surfaces; what `customContentRoster` holds beyond the definitions' identities is PLAUSIBLE, V08 §12), and the
+port reads them only where the dossier itself carries them (item 125 (a); V08 §3.13 (8)).
 
 ```ts
 // additions to §14's DossierInstitution (item 511) — present only on a record the dossier marks `source: 'custom'`
@@ -1298,7 +1345,7 @@ library, not in the dossier.
     keywords: string[] /* item 104 (a) (6): the keys of V11's keyword table found in the name and the description, sorted, ≤ 16; the description itself goes no further */ };
 // additions to §14's DossierDigest (item 511)
   customChains: CustomChainDigest[];
-  customDefs: CustomLibraryEntry[] /* the ADMITTED library entries (V08 §3.13 (8)), sorted by definitionId */;
+  customDefs: CustomLibraryEntry[] /* the definition fields the dossier carries for a definition it materialised (V08 §3.13 (8)), sorted by definitionId */;
   customResources: { key: string /* res:uid:<localUid> */; uid: string; name: string; revision: string; contentHash: string }[];
   customServices: { key: string /* svc:uid:<localUid> */; uid: string; name: string; serviceCategory: string /* the availableServices bucket */;
     provider?: string /* the provider institution's binding key, resolved by name; absent, noted custom_node_unjoined, when the name joins nothing */; revision: string; contentHash: string }[];
@@ -1308,7 +1355,7 @@ interface CustomChainDigest { key: string /* chain:<chainId> */; chainId: string
   processors: { name: string; key?: string /* an institution's binding key when the name joins one */ }[];   // flow order, as listed
   outputs: { name: string; uid?: string /* the trade good's localUid, from tradeEndpointOwners' nodeUid */ }[];
   exports: string[]; imports: string[] /* endpoint labels */; promoted: boolean }
-// the OPTIONAL library input (item 104 (a) (5); item 20 (h) (iv)): §14's HostContext.customLibrary
+// a definition's fields as the dossier carries them (item 104 (a) (5); item 125 (a)): a customContentRoster or customContentProvenance entry
 interface CustomLibraryEntry { definitionId: string; revision: string; contentHash: string /* read only when all three equal a definition the dossier materialised */;
   bucket: 'institutions'|'services'|'resources'|'tradeGoods';
   authority?: string; defenseRole?: string; criminal?: boolean; magical?: boolean; foodImpact?: 'none'|'produces'|'consumes';
@@ -1322,7 +1369,7 @@ interface CustomLibraryEntry { definitionId: string; revision: string; contentHa
 change of the text alone that maps to the same `group` is no change). Three kinds are added:
 
 ```ts
-  | { k: 'custom-def'; revision: string; contentHash: string; fields: Omit<CustomLibraryEntry, 'definitionId'|'revision'|'contentHash'> }   // key def:<definitionId>; present only once a library entry was admitted
+  | { k: 'custom-def'; revision: string; contentHash: string; fields: Omit<CustomLibraryEntry, 'definitionId'|'revision'|'contentHash'> }   // key def:<definitionId>; present only while the dossier carries the definition's fields
   | { k: 'custom-chain'; active: boolean; nodes: string[] /* flow order: the resource's key (or 'name:'+name), the processors' keys (or names), the outputs' uids (or names) */; exports: string[]; imports: string[] }   // key chain:<chainId>
   | { k: 'custom-service'; provider?: string; serviceCategory: string }   // key svc:uid:<localUid>
 // a custom resource is the existing 'resource' fact under res:uid:<localUid>, with custom: true
@@ -1333,8 +1380,8 @@ change of the text alone that maps to the same `group` is no change). Three kind
 are its resource, processors and outputs in flow order, each `key` a binding key (`res:…`, `inst:…`; an output's
 `def:<definitionId>`) when the name joins one; an `endpoints` entry's `partner` is a trade partner's binding key when the
 dossier's trade links name one for the good, else absent — the main gate or harbour (item 104 (h) (6)); `volume` is the
-admitted library's `economicWeight` of the chain's final processor, else `moderate` (item 104 (h) (2)); `crossLinks` come
-only from admitted library fields (`requires`, `produces`, `requiredInstitution`, `requiredResources`; item 104 (h) (4)),
+carried definition's `economicWeight` of the chain's final processor, else `moderate` (item 104 (h) (2)); `crossLinks` come
+only from carried definition fields (`requires`, `produces`, `requiredInstitution`, `requiredResources`; item 104 (h) (4)),
 a catalogue node by its `inst:cat:` key; the record is retired when the dossier no longer lists the chain. A service
 record's `provider` is the provider institution's binding key, which item 104 (h) (5) puts the service inside or on an
 adjoining plot. Their readers are S10b's chain pulls (item 104, V11's rows), §10.3's sub-locations, the renderer and
@@ -1361,11 +1408,12 @@ fact at resolution time (V08 §3.11), never from a params delta, so a revision n
    as before (`research/sf/dossier-seam.md` C-10, E-8). The chunk holds SettlementForge's mount component and
    `@plat/bridge-client` (≤ 12 KB gzipped with the party viewer, V08 §6). **A player's tab** (audience `player`) calls
    `mountParty`: it reads the record's `partyPictures` and shows them in the client's small pan-and-zoom viewer, with no
-   frame, no module and no message (V08 §3.14). **The DM's and co-DM's tab** calls `mount`: the client reads the map record
+   frame, no module and no message (V08 §3.14), at the frame's minimum size below. **The DM's and co-DM's tab** calls `mount`: the client reads the map record
    (`MapStore.read`); if a thumbnail for the viewer's key exists it draws it at once as a static image (J-V8.24); it creates
    one `<iframe>` with `src = moduleOrigin + embedPath + '#p=2' + ('&lang=' + locale when MapHostConfig.locale is set)`,
    `sandbox="allow-scripts allow-same-origin allow-downloads"` (no top navigation, no pop-ups, no forms), `allow=""`,
-   `referrerpolicy="no-referrer"`, sized to the tab (J-V8.7). `moduleOrigin` is SettlementForge's hosting decision, read
+   `referrerpolicy="no-referrer"`, sized to the tab and never below 600 × 480 CSS px, a smaller tab scrolling (item 126;
+   V08 §3.16 (10); J-V8.7). `moduleOrigin` is SettlementForge's hosting decision, read
    from `MapHostConfig` (J121; V08 §11 Q1); SettlementForge's CSP adds it to `frame-src`. `allow-same-origin` is the
    module's OWN origin, which its workers and its cache need; it grants nothing on SettlementForge's origin. `mount`
    refuses any audience word other than `dm` and `co-dm` before a frame exists.
@@ -1481,7 +1529,7 @@ document's own output version, and re-runs on a stale head.
 The port runs inside the module — in the generation worker, beside the document — and never in SettlementForge's bundle
 (J-V8.1). Only an editing role — the DM (`owner`) or a co-DM (`editor`) — holds the document, the dossier and a port; a
 player holds neither (J-V8.2). Because `digest`, `creation` and `absorb` are pure functions of (the document, the dossier,
-`HostContext`, the adapter and table versions), every editing client computes the same events from the same state, and
+the adapter — `HostContext.line` its one host field, V08 §2.4 — and the table versions), every editing client computes the same events from the same state, and
 every event the port emits carries the reserved session `host:port` (item 359), so the events are byte-identical whichever
 editor computed them (T-V8-3) and no user's undo stack ever holds one.
 
@@ -1493,8 +1541,8 @@ editor computed them (T-V8-3) and no user's undo stack ever holds one.
   another client won the race; it reloads the stored record, whose document is byte-identical by determinism, T-V8-3),
   writes the two thumbnails and renders the first party picture set (V08 §3.14).
 * **Absorb (a map record exists).** The module runs `digest` → `absorb(doc, digest, host)` (§14; its steps V08 §3.5–V08 §3.6),
-  dry-runs the events on its working state (§7.1) — they are never refused by map locks or pins, around which they apply
-  (§7.7 items 2, 5) — and replies `dossier.result { absorbed, baseLogHead, events, encoded, seqAfter, logHeadAfter,
+  dry-runs the events on its working state (§7.1) — never refused by map locks or pins (§7.7's precedence: a lock on what
+  a dossier event changes is superseded and reported orphaned, every other applied around) — and replies `dossier.result { absorbed, baseLogHead, events, encoded, seqAfter, logHeadAfter,
   factHash, week, report }` WITHOUT folding them. The host treats the result exactly as a `doc.changed` from that client:
   if `baseLogHead` is the current head it calls `MapStore.commitEvents(mapId, baseLogHead, encoded, seqAfter,
   logHeadAfter, absorbed)`, sets its head to `logHeadAfter`, and fans `doc.apply` out to every open session, the sender
@@ -1542,7 +1590,7 @@ of 20 CITY maps after a year in about a minute and a half of background work, th
    list lengths, against the manifest's `limits`; over any limit → `E_UNKNOWN_SHAPE` with a `size_limit` note naming the
    first limit passed (T-V8-20). No string longer than `maxString` is ever copied.
 3. **Shape.** Every `requiredKeys` key present, with the types the port reads (`id` of the form `s_` + 16 hex, `name` a
-   non-empty string, `tier` a string, `population` an integer in [0, 10⁷] (0 is a deserted settlement, routed by V08 §3.6
+   string, `tier` a string (an empty name or tier word takes its field-table fallback, noted `field_fallback`), `population` an integer in [0, 10⁷] (0 is a deserted settlement, routed by V08 §3.6
    (7)), `institutions` an array, `_seed` present); a failure → `E_UNKNOWN_SHAPE` listing up to 20 violations. An extra
    top-level key is never a failure: an `optionalKeys` key with `read: false`, or a key neither list names, is dropped into
    `ignored` with an `ignored_key` note. The hand-made teaching file fails here (§14).
@@ -1560,7 +1608,7 @@ of 20 CITY maps after a year in about a minute and a half of background work, th
    the fold, its `class` the class that builds the record at the document's rung (V08 §4.6's row, V08 §3.6 (4); at a
    village rung V07 §3.11 step 4's tag fallback); (f) a CUSTOM record's (`custom` present, V08 §2.8) class and profile are
    NOT decided at digest (J-VI.20): steps (b)–(e) do not run for it; the digest carries their inputs — `custom` (its scene
-   tokens, `group` and keyword keys), `tags`, `category` and, when admitted, its `custom-def` fact — and item 104 (a)'s
+   tokens, `group` and keyword keys), `tags`, `category` and, when the dossier carries the definition's fields, its `custom-def` fact — and item 104 (a)'s
    resolution with V11 §3.13.1's rungs (the author's map declaration for its `localUid`, the archetype, the category, the
    tags, the definition fields, the keywords with their `class` cell, then `generic-other`) decides both at fold, where the
    declaration is visible; the `custom_resolved` note is written after that fold (creation's `generate`, absorb's dry run,
@@ -1577,7 +1625,7 @@ of 20 CITY maps after a year in about a minute and a half of background work, th
    binding keys (absent when the name joins nothing, noted `name_unjoined`), their `importance` carried for V10's people
    answer and V09's person card; deposits; every listed condition whatever its status, and the stressors normalised into
    it (`stressors` — one object or a list — each `{ type }` a condition `cond:stress:<type>` of archetype `<type>`,
-   `source: 'stressor'`, severity 0.5, no weeks); quarters; the government and `security` (V08 §2.5); **the economy** —
+   `source: 'stressor'`, severity 0.5, no weeks), each condition's crisis fields by V08 §3.16 (7)–(8); quarters; the government and `security` (V08 §2.5); **the economy** —
    each `activeChains[]` entry into `economy.chains`: its resource joined to a listed deposit by `resourceKey`, its
    processors resolved by the rule below, its outputs through V11's `goodWords`, its `upstreamChains` as `chain:cat:`
    keys, its status word through `chainStatus`; `tradeDependencies` into `economy.dependencies` (the institution resolved
@@ -1586,8 +1634,10 @@ of 20 CITY maps after a year in about a minute and a half of background work, th
    `calamity:<tick>:<slug(name)>`, its severity by `calamitySeverity` over its deaths and the population at its week (the
    latest `populationHistory` entry at or before it, else the current population), its targets resolved to binding keys by
    name; **the sea threats** by the `threats` row; **the ruin evidence** by the `ruinEvidence` row; **the latitude** by
-   DR29; **the history** by V08 §3.15 (1); **the readiness**, **the climate** and **the traditions** by V08 §3.16 (2),
-   (4) and (5); every key an `ignored` row names dropped into `ignored` (V08 §2.4). Severities round to 1/1 000 and percentages to
+   DR29; **the history** by V08 §3.15 (1); **the readiness**, **the present week**, **the traditions** and
+   **the crises** by V08 §3.16 (2), (4), (5), (7) and (8); every key an `ignored` row names dropped into `ignored`, and
+   every read field the dossier lacks or leaves empty given its fallback, noted `field_fallback` (V08 §2.4; item 125
+   (b)). Severities round to 1/1 000 and percentages to
    1/100 — the digest's resolution (J-V8.17), so floating noise in a host's arithmetic never reads as a change.
    **Resolving a name to a record** (chain processors, dependency institutions, calamity targets): the exact name → that
    record's key; else the KIND FAMILY — the name and every record's name with their count range and qualifiers removed,
@@ -1614,24 +1664,24 @@ fate and week, V08 §3.6):
 | power | `add` | `remove` | `standing`, `governing`, `controlled` → `power` (epoch data); `name` with `rename-faction` → `rename` (its relation keys re-keyed with it); `category` → `attr` |
 | relation | `add` → a `PowerRelation` put | `remove` → retire | `kind`, `trend`, `sign`, `strength`, `hidden` → `attr` (a put) |
 | notable | `add` → a `Person` put; a reroll's new key whose name and role equal a vanished key's → `rename` (re-bound, V08 §3.11) | `remove` → retire | `role`, `institution`, `power`, `status`, `importance` → `attr`; `replaced` naming a carried notable → `rename` (the successor re-bound, F17) |
-| condition | `add` → a `ConditionOverlay` put | `remove` → retire at its week | `severity`, `severityBand`, `status`, `untilWeek` → `state` (a put) |
+| condition | `add` → a `ConditionOverlay` put | `remove` → retire at its week | `severity`, `severityBand`, `status`, `untilWeek` → `state` (a put); the crisis fields `name`, `event`, `calamity`, `arrivals`, `forces` → `attr`, response `none`: a look only (item 122) — the ledger event carries them and DR44 reads them through the overlay's key; no map event |
 | resource | `add` → a `DepositSite` put | `remove` → the deposit's state `removed` | `state` → `state` (F13) |
 | quarter | `add` → a naming claim (§7.7 item 16) | `remove` → the claim's `unassign` (the name leaves the district) | `phrase`, `landmarks` → `attr` |
 | government | — | — | `name` → `attr` (its kind by the `government` table; F11), `governingPower` → `power` |
 | trade | — | — | partners, links, relationships, `goods` → `attr` (F14); income shares → `attr` (the economy slice) |
-| port-values | — | — | any field — `crime`, `importPct`, `foodChain`, `legitimacy` (from the government's legitimacy), `latitudeDeg`, `threats`, `readiness` → `attr` on the `port-values` key, riding the next epoch's slice |
+| port-values | — | — | any field — `crime`, `importPct`, `foodChain`, `legitimacy` (from the government's legitimacy), `threats`, `readiness` → `attr` on the `port-values` key, riding the next epoch's slice |
 | deity | — | — | `key`, `name` → `attr` (F16: a temple's dedication at the next epoch) |
 | chain (SettlementForge's) | `add` | `remove` | any field → `attr`; response `epoch`: no map event — the supply web re-derives the chain's links from the carried facts at the next epoch (DR33; V06's dossier phase) |
 | dependency | `add` | `remove` | `severity`, `affected` → `attr`; response `epoch`, as a chain |
 | calamity | `add` → its event in the epoch covering its week (DR28, V08 §3.6 (3)) | nothing: a calamity that leaves the line's capped history list is never undone (J-V8.54) | none (a calamity is immutable) |
 | evidence | — | — | `kinds` → `attr`; response `epoch`: V04 re-evaluates the ruin at the next epoch (V08 §2.6a (4)) |
-| site | — | — | any field (`terrain`, `access`, `threat`, `magic`, `culture`, `climate`, `isolation`) → `attr`, response `none`: the site is creation's (§7.7 item 10; DR1's bars are creation bars) — the ledger event carries the new value, so the change is reported once, by one `frozen_fact_changed` note (class report) naming the field; no map event |
+| site | — | — | any field (`terrain`, `access`, `threat`, `magic`, `culture`, `isolation`) → `attr`, response `none`: the site is creation's (§7.7 item 10; DR1's bars are creation bars) — the ledger event carries the new value, so the change is reported once, by one `frozen_fact_changed` note (class report) naming the field; no map event |
 | history | — | — | `events`, `ancientRuin`, and `ageYears` beyond the whole years elapsed since the carried `atWeek` (±1) → `attr`, response `none`: the history shapes creation only (DR36–DR39; V08 §3.15) — reported by one `frozen_fact_changed` note, no map event; the live lists (`tierHistory`, `populationHistory`, `calamityHistory`, the lifecycle) reach the map through the settlement, calamity and F20 rows instead |
 | tradition | `add` | `remove` | `name`, `kind`, `weeks`, `staging`, `deity` → `attr`; response `none`: a look only (item 118 (a)) — the ledger event carries the new schedule, which the view's festival display reads (V08 §3.16 (5)); no map event, no model change |
 | institution, custom part | (as institution) | (as institution) | `custom.contentHash` → `attr` with cause `custom_revision` (item 104 (e): the profile re-resolved and the use re-sited by least disruption); `custom.scene`, `.group`, `.keywords`, `.required` → `attr` |
 | custom-chain | `add` → a `CustomChainRecord` put (active or not) | `remove` → the record retired | `active` → `state` (item 104 (h) (7)); `nodes`, `exports`, `imports` → `attr` |
 | custom-service | `add` → a `CustomServiceRecord` put | `remove` → retire | `provider`, `serviceCategory` → `attr` |
-| custom-def | `add` (the library's fields first seen) | kept when the offer carries no library; `remove` (response `none`, noted `custom_library_dropped`) when its definition's revision changed and no admitted entry for the new revision came (V08 §3.13 (8)) | any field → `attr` with cause `custom_library`, only when the entry's revision equals the dossier's |
+| custom-def | `add` (the definition's fields first carried by the dossier) | `remove` (response `none`, noted `custom_library_dropped`) when the dossier no longer carries fields for the definition at the revision it materialises — a new revision without them included (V08 §3.13 (8)) | any field → `attr` with cause `custom_library`, only when the entry's revision equals the definition the dossier materialised |
 
 A field whose carried and new values are equal after the digest's rounding makes no change. A change whose only effect is
 on facts no model rule reads (a notable's importance, which orders V10's people answer and V09's person card; a
@@ -1654,15 +1704,14 @@ states for a standalone roster, and coverage then decides where the members go. 
 count inside it stays a map fact (J-V8.20).
 
 **The latitude** (item 102; DR29, §7.7's; item 391). Item 102's daylight share reads the path sun at the settlement's
-latitude; a dossier gives none, so the port derives it by DR29 — the realm block's `cell.latDeg`, else `site.culture`
-through the `cultures` row, else 50° N — written into `Intent.latitudeDeg` at creation; V05's model sampler reads the
-latitude in force (V08 §2.5's value-in-force rule), and §8.4's path mode reads it for the document's views; its bar is
-T-V8-22. SettlementForge usually places a settlement on its realm map after generating it (`research/sf/dossier-seam.md`
-§4, C-9), so a typical map is created with the culture's latitude and receives the realm's later. The later value never
-jumps the town: it is a `port-values` change carried into the next epoch's slice (`PortValues.latitudeDeg`), and item 102
-(e)'s drift moves the field and the uses by the evolution engine's normal lag — a sunnier quarter slowly improves
-(J-V8.34). A DM who wants the latitude now sets it by T7 `adjust` (§7.1), a map edit with its own fate report. A document
-made before `Intent.latitudeDeg` existed reads 50°, the latitude it was built with (§7.5's migration default).
+latitude; a dossier gives none, so the port derives it by DR29 — `site.culture` through the `cultures` row, else 50° N,
+the generator's default (item 125 (b)) — written into `Intent.latitudeDeg` at creation, a map fact the user may edit;
+V05's model sampler reads the latitude in force (V08 §2.5's value-in-force rule), and §8.4's path mode reads it for the
+document's views; its bar is T-V8-22. No later latitude arrives: the realm map's placement is no input (item 125 (a)), so
+the culture's latitude stands, and a later `site.culture` change is a frozen fact, reported (`frozen_fact_changed`), never
+re-derived (J-V8.130). A DM who wants another latitude sets it by T7 `adjust` (§7.1), a map edit with its own fate
+report. A document made before `Intent.latitudeDeg` existed reads 50°, the latitude it was built with (§7.5's migration
+default).
 
 #### 3.5.1 The institution ladders (item 108)
 
@@ -1750,7 +1799,7 @@ case, else bound as (c)'s second or third case states, the greater placed under 
 receipt's fate (F2's rows; the calamity's ruins stand as ruins). A demotion or promotion of a burial record follows the
 same rules, so no burial face closes by a change of wording (V08 §2.6a (4)).
 
-**(e) Custom content (item 108 (e)).** A custom record whose admitted library entry lists `subsumes` is typed SIZE when the
+**(e) Custom content (item 108 (e)).** A custom record whose carried definition fields list `subsumes` is typed SIZE when the
 subsumed kinds belong to another V11 family than its own, GUILD when they are a craft of its own family, SIZE when
 unknown; its `lesser` are the subsumed kinds, merged by (c).
 
@@ -1765,7 +1814,8 @@ and a disagreement it finds is a V11 table fix.
 ### 3.6 From changes to events and epochs
 
 1. **Dating.** Each change reads its receipt row (§7.7 item 13): the first receipt present gives cause, fate and week by
-   §4.11's rungs; `HostContext.week` is the last rung; no rung → `week: null` and an `unreceipted_change` note. The kinds
+   §4.11's rungs (*The clock* (2)) — no host input is a rung (item 125 (a)); no rung → `week: null` and an
+   `unreceipted_change` note. The kinds
    this volume adds are dated by §7.7's data rows F-V8-1 – F-V8-8 (item 393) — a relation by its powers' pulse week when the
    line stamps one, else arrival; `port-values` by arrival, riding the next epoch; a custom definition by arrival; a chain
    (custom or SettlementForge's) by arrival; a dependency by arrival; a calamity by its own `tick`; the `evidence` singleton
@@ -1774,7 +1824,8 @@ and a disagreement it finds is a V11 table fix.
 2. **Order.** Changes are ordered by week (null last), then decrees before other sources, then the dossier's own record
    order (`order`), then binding key — SettlementForge's order where it has one, ours where it does not.
 3. **Epochs by the cadence — §4.11 (4)** (J-V8.55). From the last epoch's week `W₀` (its `EpochRecord`, else the creation
-   week) to the absorb's week `W₁` (the latest dated week, else `HostContext.week`, else `W₀`): an epoch at every calendar
+   week) to the absorb's week `W₁` (the later of the latest dated week and the dossier's present week, V08 §3.16 (4); with
+   neither, `W₀`): an epoch at every calendar
    year end `W` with `W mod 52 = 0` in `(W₀, W₁]` (the `sf445` calendar's year); an epoch at the first week the population
    leaves the last epoch's `populationTarget` ± 5 % (read from `populationHistory`; with none, at `W₁` when the new
    population is outside it), the reference then moving to that epoch's target, so every crossing inside the span adds its
@@ -1784,7 +1835,9 @@ and a disagreement it finds is a V11 table fix.
    rounded to a person — and its `circumstances` are the new digest's slices (trade, economy, powers, government, `port`):
    SettlementForge keeps no interior history of them (research V52, V56), so every epoch of a catch-up reads the end state,
    declared (J-V8.25). A span with no year end, no crossing and no calamity makes no epoch: the absorb's element events
-   fold standalone (6). **The calamities** (DR28, the one row V06 and this volume share: V06 writes the reader, this volume
+   fold standalone (6). A catch-up whose epochs at this cadence would pass item 119's comfort level is coarsened by
+   V06 §6.8 (6) — every dossier event still at its own week, one epoch over the span always fitting, nothing refused or
+   shortened (§4.11 *The clock* (4); item 119 (a2), J132). **The calamities** (DR28, the one row V06 and this volume share: V06 writes the reader, this volume
    the inputs). Each newly carried calamity is one entry `{ week, kind: 'calamity', calamity: CalamityRef }` in
    `EpochInputs.events` of the epoch at its week, V06's `CalamityRef` filled as `{ id: its key, name, type, severity,
    targets: the use ids of its resolved, bound targets, deaths }` (`deaths` for V04's burial growth, V08 §2.6a (4)); its F5
@@ -1810,7 +1863,7 @@ and a disagreement it finds is a V11 table fix.
    revises (`add`, `custom_revision`) are written after the dry run's fold (V08 §3.5 (5) (f)) and appended to `notes`
    before the events are encoded; since no model rule reads `notes`, the dry run's result stands, and every editor's re-run
    (V08 §3.3) computes the same bytes. They are `event` notes: the live resolution — which a DM's declaration may change at
-   any time — is the why card's (V10 `WhyAnswer.profile`, V09 §2.7's `chips`), never a stored note. Every `unmapped_kind`
+   any time — is the why card's (§11.2's `WhyAnswer.profile`, V09 §2.7's `chips`), never a stored note. Every `unmapped_kind`
    note (a `standing` note, V08 §3.5 (5) (d)–(e)) is likewise written after the fold — the dry run's at an absorb,
    `generate`'s at creation, the loaded document's state for an offer answered `unchanged` — its `class` the class that
    builds the record there (V08 §4.6's row; J-V8.112), before `notes` and `notesCleared` are computed, so a note whose built
@@ -1953,7 +2006,7 @@ the cap), `.empty` a creation at population 0.
 | B2 | a reply never comes (worker crash, out of memory) | `replyTimeoutMs` | the client re-creates the frame and re-loads the record → on a second miss, the thumbnail | `host.status.stopped` (V08 §5.1) |
 | B3 | the dossier is too big, too deep or not the line's shape | V08 §3.5 steps 2–3 | refuse `E_UNKNOWN_SHAPE` → held | `host.held.E_UNKNOWN_SHAPE` "The settlement's record could not be read." (with a `size_limit` note in the host's report when a limit was passed) |
 | B4 | one record is malformed in a readable dossier | step 4 | quarantine the record, absorb the rest → the quarantined element keeps its last carried state on the map (or, at creation, is not placed) and is retried at every later offer | `host.note.quarantined_record` (V08 §4.6) |
-| B5 | no registered adapter accepts the dossier, or the named line's adapter refuses it | `select` (V08 §2.4) | refuse `E_LINE_UNSUPPORTED` naming the candidates → held (several accepting adapters are B19, never a refusal) | `host.held.E_LINE_UNSUPPORTED` "This SettlementForge version is not supported by the map." |
+| B5 | no registered adapter accepts the dossier, or the line the host names is not registered or its adapter refuses the dossier (the dossier's stamps contradict it) | `select` (V08 §2.4) | refuse `E_LINE_UNSUPPORTED` naming the candidates → held (several accepting adapters are B19, never a refusal) | `host.held.E_LINE_UNSUPPORTED` "This SettlementForge version is not supported by the map." |
 | B6 | the dossier is another settlement's | the settlement key differs from the binding's | refuse `E_OTHER_SETTLEMENT` → held; the host's own records keep settlements apart, so this row catches a host bug | `host.held.E_OTHER_SETTLEMENT` "This record belongs to another settlement." |
 | B7 | the population leaves the ladder with no product for it | the router (V08 §3.10) | refuse `E_RUNG_UNAVAILABLE` naming the village product or the cap → held (creation: no map, the thumbnail slot says why); with the village product registered — as J122's build order has it before M-SF — a population below 1 500 is the village product's and never reaches this row; a population of 0 at an absorb is no failure — it routes to THORP and V07's desertion — and at a creation 0 is refused `E_RUNG_UNAVAILABLE` naming the floor (V07 §2.1; V08 §3.6 (7)) | `host.held.E_RUNG_UNAVAILABLE.village` "Settlements this small are drawn by the village map, which this build does not include." (a build without the village package only); `host.held.E_RUNG_UNAVAILABLE.cap` "Settlements of more than {cap} people are larger than the map draws."; a creation at 0: `host.held.E_RUNG_UNAVAILABLE.empty` "The settlement's record lists no inhabitants." |
 | B8 | the head moved under an absorb | `doc.rejected { stale }` | re-run `absorb` on the new head, three times → `module.status { error }`, retried at the next offer | nothing, or `host.status.absorbing` (V08 §5.1) |
@@ -1992,24 +2045,26 @@ shrinks below 1 500 at its last state (B7) until the dossier's population return
 diffs everything since the held state in one pass. V07 owns what the village product builds and its fold; this volume
 owns the port's consultation and the one-document rule, and T-V8-19 tests them with a test `ProductDecl` registered.
 
-### 3.11 The staged records, the per-settlement values, the realm block and the audience in use
+### 3.11 The staged records, the per-settlement values and the audience in use
 
 * **Conditions and stressors.** Each digest condition is put as a `ConditionOverlay` (`cond:<id>`; archetype, severity,
   `sinceWeek`, `untilWeek`) whatever its status — the line's statuses are `stable`, `worsening` and `easing`, and its list
-  holds only live conditions. Its weeks come from its ticks: with `W` the dossier's week (`HostContext.week`, else the
-  latest tick of its `populationHistory`, else 0 at a creation), `sinceWeek = round(W − duration.elapsedTicks)` and
+  holds only live conditions. Its weeks come from its ticks: with `W` the dossier's present week (`presentWeek`, its latest
+  stamped tick, V08 §3.16 (4); with none, the absorb's `W₁`, and 0 at a creation), `sinceWeek = round(W −
+  duration.elapsedTicks)` and
   `untilWeek = round(W + duration.expiresAtTicks − duration.elapsedTicks)` — the reading that `expiresAtTicks` is the
   condition's whole length (PLAUSIBLE: a generated condition carries `elapsedTicks` 3.25 and `expiresAtTicks` 6 at tick 0).
   T-V8-18 measures it: `untilWeek` stays within ±1 week across town-1's and city-1's one-week, one-season and one-year
   ticks; if it drifts, the pre-decided fallback reads `untilWeek = expiresAtTicks` as an absolute tick. A condition the
   dossier stops listing is retired at the absorb's week. Each stressor is put the same way under `cond:stress:<type>`
-  (archetype its type, severity 0.5, `sinceWeek` its first absorb's week, no `untilWeek`) and retired when no longer
+  (archetype its type, severity 0.5, `sinceWeek` the week it was first read — the creation's or the absorb's — no `untilWeek`) and retired when no longer
   listed. Effects are the `conditions` row's (V08 §2.6): the tint through §8.2's thematic rows, the Works factors through
   DR21, the activity scalars and the dials at the next epoch. Stressors add no `EpochInputs.events` entry: their one path
-  is the overlay, which the epoch's readers read (J-V8.56).
+  is the overlay, which the epoch's readers read (J-V8.56). The crisis look each overlay draws while it stands is DR44's,
+  by its source's `crisis.map` row and the crisis fields of V08 §3.16 (7)–(8).
 * **Deposits.** Each listed deposit is put as a `DepositSite` (`res:<key>`; family by the `deposits` row, its state). Its
   derived fields are S12a's: reading the creation prefix's deposit puts ahead (item 395), S12a draws the bearing on
-  `hinterland.outside` keyed by the deposit key (the realm block's bearing for it wins when given) and writes
+  `hinterland.outside` keyed by the deposit key and writes
   `bearingCdeg`, and the land use it makes writes `landUse` — both derived, recomputed on regeneration, never in the event
   (DR19). A state change is a put at its week and converts the land use at the next epoch (§4.11). The `magical_node` and
   `ancient_ruins` sites follow V08 §2.6's `deposits` row and V04's `ruinCentre()`; `oasis_water` is the oasis's deposit
@@ -2035,25 +2090,16 @@ owns the port's consultation and the one-document rule, and T-V8-19 tests them w
   history — the peak, the replay's events, destruction and refounding — is V08 §3.15's.
 * **Per-settlement values.** `PortValues` from the digest — crime by the `crime` row, `importPct` = `foodImportPct` ÷ 100,
   `foodChain` = `foodChains`, legitimacy, `threats` by the `threats` row, `readiness` by the `readiness` row (V08 §3.16
-  (2)), and `latitudeDeg` (null in the creation slice, where `Intent.latitudeDeg` holds DR29's value; a realm latitude that
-  arrives later fills it) — in the creation slice and in each epoch's slice (V08 §3.6 (3)).
+  (2)) — in the creation slice and in each epoch's slice (V08 §3.6 (3)); the latitude is `Intent.latitudeDeg`'s, written
+  once by DR29 (V08 §3.5).
 * **Custom kinds.** The dossier's custom definitions are `PortRows.customKinds` rows DERIVED at read time: the rows in
   force are the table's (empty in the base) overlaid by one row per carried custom institution — `kind` its definition id
-  (the class is item 104 (a)'s resolution at fold, item 425, J-VI.20) and, only from its carried `custom-def` fact (an
-  admitted library entry, V08 §3.13 (8)), `economicWeight` and `criticality` by the `customWeights` row (V08 §2.6;
+  (the class is item 104 (a)'s resolution at fold, item 425, J-VI.20) and, only from its carried `custom-def` fact (the
+  definition fields the dossier carries, V08 §3.13 (8); without one, the roster's defaults), `economicWeight` and `criticality` by the `customWeights` row (V08 §2.6;
   J-V8.108), `defenseRoles` and `powerAuthorities` (the entry's `defenseRole` and `authority`). Nothing is written into the
   recipe's params, so a revision changes them through its own `setAttr`'s fold (V08 §2.8) with no `editTable` — whose
   re-derivation from its first reader stage would be the reshuffle item 22 forbids. Their records, chains, resources and
   services arrive as V08 §3.13 states.
-* **The realm block** (J-V8.27; item 396). The client's `realmBlockFrom(placements)` computes, host-side and without module
-  code, from the campaign's placements (the settlement's and its partners' realm positions), the realm map's scale and
-  latitude scale, and the campaign's spatial digest (the cell's terrain, river and coast words and, when SettlementForge's
-  climate digest is on, its climate word) — nothing else of campaign state: each partner's `bearingCdeg = round(100 ×
-  atan2(Δx, −Δy) in degrees) mod 36 000` (realm y grows southward), `distanceM = hypot(Δx, Δy) × mPerRealmUnit`, the cell
-  with its climate word, and `latDeg = degAtY0 − y × degPerUnitY` when the latitude scale is given. The module uses it as
-  §7.7 layer 2 states (true bearings, north first), as DR29's first input and as item 117's climate source (V08 §3.16 (4)).
-  The host sends it with an offer only when the settlement is placed on the realm; a partner placed on the settlement's
-  own position (Δx = Δy = 0) takes no bearing and is read as unplaced (DR3's derived bearing).
 * **The audience in use.** The client maps SettlementForge's audience words through §14's table: the DM's page mounts with
   `dm` (owner, secret) and a co-DM's with `co-dm` (editor, secret); a player's page never mounts a frame — it shows the
   party picture set and gives its assistant the party gazetteer (V08 §3.14); anonymous, gallery and DM-full shares get
@@ -2077,7 +2123,7 @@ from the committed document under a fixed key, style and sun, so two renders of 
 (T-V8-41). A save, load, undo, redo, regeneration or migration changes none of these inputs: they are the log's and the
 pinned tables' (V08 §3.17).
 
-### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)
+### 3.13 Custom content's arrival — records, keywords, chains, services and the definition fields (item 104's host side)
 
 The port carries custom content to the map; what the map does with it — the resolution order's rows, the chain's flow
 order, its closeness at street scale or its stretch along a road (item 104 (h) (3) as item 107 (e) revises it), the
@@ -2103,7 +2149,7 @@ all pure:
    keyword give an empty list, and the resolver falls through its later rungs (item 104 (a) (7)).
 4. **Resources.** Each `config.nearbyResourceDefinitions[]` entry with `custom` true → `customResources` under
    `res:uid:<localUid>`; it is also listed in `site.deposits` (§14) with `custom: true` and `state: 'available'`, so DR19 and
-   `DepositSite` (V08 §3.11) carry it; its family and land use come from the admitted library's resource `category` (its
+   `DepositSite` (V08 §3.11) carry it; its family and land use come from its carried definition's resource `category` (its
    kind: `water` → the river or the coast, `land` → fields or pasture, `subterranean` → a mine or quarry at the hinterland
    edge, `special` → its own deposit site; item 104 (b)), else from its name's keywords, else `land`. A `water` resource on
    a site with neither river nor coast is the site's lake by the `site` row's water words (V08 §2.6).
@@ -2117,20 +2163,25 @@ all pure:
    whose `label` equals it; `exports`, `imports`, `promoted` as given. A node that joins nothing keeps its name, noted
    `custom_node_unjoined` — the chain still pulls between its joined nodes; a chain with one joined node or none pulls
    nothing and is still carried, drawn and listed (V08 §5.2).
-7. **Cross-links and volume.** From admitted library entries only (step 8): each `requires`, `produces`,
+7. **Cross-links and volume.** From carried definition fields only (step 8): each `requires`, `produces`,
    `requiredInstitution` and `requiredResources` reference of a chain node — `custom:<localUid>` to that item's key,
    `prebuilt:<category>:<slug>` to `inst:cat:<slug>` when the roster holds that catalogue key, else to the institution whose
    slugged name equals `<slug>` — becomes a `crossLinks` row (item 104 (h) (4)); an unresolved reference is noted
    `name_unjoined` and dropped; a reference from a node to itself makes no row. The chain's `volume` is its last
-   processor's admitted `economicWeight`, else `moderate` (item 104 (h) (2)).
-8. **The library** (item 104 (a) (5); J-V8.31). An entry of `HostContext.customLibrary` is ADMITTED only when its
-   `definitionId`, `revision` and `contentHash` equal a definition the dossier materialised; any other entry is ignored
-   with one `library_mismatch` note (the library can enrich a definition the dossier holds, never add one: the dossier is
-   the sole truth, item 20 (h)). Admitted entries become `customDefs`, carried as `custom-def` facts under
-   `def:<definitionId>`. An offer WITHOUT a library changes nothing that was carried (the `def:` keys are diffed only when
-   the new digest holds them). When a definition's revision changes and the offer carries no admitted entry for the new
-   revision, the old `def:` fact is removed (response `none`; noted `custom_library_dropped`): stale fields never describe a
-   new revision, and the resolution falls back to the dossier's own rungs until the host sends the new entry.
+   processor's carried `economicWeight`, else `moderate` (item 104 (h) (2)).
+8. **The definition fields** (item 104 (a) (5); item 125 (a); J-V8.130). The library's definition fields are read only
+   where the dossier itself carries them — in a `customContentRoster` entry or a `customContentProvenance` row of the
+   definition — and only when the entry's `definitionId`, `revision` and `contentHash` equal a definition the dossier
+   materialised; an entry for any other definition or revision is ignored with one `library_mismatch` note (the fields can
+   enrich a definition the dossier holds, never add one: the dossier is the sole truth, item 20 (h)). Read entries become
+   `customDefs`, carried as `custom-def` facts under `def:<definitionId>`. No host input carries them
+   (`HostContext.customLibrary` is retired, R2-40). A definition whose fields the dossier does not carry — every one at the
+   pinned line (V08 §2.8) — has no `custom-def` fact: item 104's generic siting supplies what they would (the
+   resolution's later rungs, `volume` `moderate`, no cross-links, the roster's weights), noted `field_fallback` once per
+   definition. When the dossier stops carrying a definition's fields, or carries none for its new revision, the old
+   `def:` fact is removed (response `none`; noted `custom_library_dropped`): stale fields never describe a new revision,
+   and the resolution falls back to the dossier's other rungs until the dossier carries the fields again. The final
+   local check lists which definition fields the dossier carries (V08 §3.16 (9)).
 9. **Order of the creation prefix.** After the `dossierFacts` ledger event: the `dossierRecord` puts — conditions,
    catalogue deposits, custom resources, power relations, custom chains in key order, custom services; then the `assign`s —
    first the institution nodes of every ACTIVE chain, chains in key order and each chain's nodes in flow order (a node in
@@ -2147,12 +2198,12 @@ all pure:
    again on its retired record, so its nodes, which never moved, keep their sites (item 104 (h) (8)'s toggle bar). A
    service whose provider changes is a put with the new provider.
 11. **Never fails** (item 104 (d)). No custom input refuses a digest: a malformed custom record is quarantined as any
-   record (V08 §3.5 step 4); unknown words, unjoined nodes and mismatched library entries are notes. Counts join the
+   record (V08 §3.5 step 4); unknown words, unjoined nodes and mismatched definition entries are notes. Counts join the
    manifest's `maxRecords` (200 per list); a dossier with no custom content gives empty lists and changes nothing.
 
-**Determinism.** Every step is a pure function of the dossier, the admitted library entries and the pinned table versions
+**Determinism.** Every step is a pure function of the dossier and the pinned table versions
 (`archetypes`, `categorySynonyms`, `keywords`, `categories`, `tags`, `deposits`); no step reads a clock or a stream. The
-admitted fields are carried in the document, so replay never needs the host (§11.4's rule for host input).
+definition fields read are carried in the document, so replay never needs the host (§11.4's rule for host input).
 
 ### 3.14 The players' view — the party picture set and the party gazetteer
 
@@ -2243,24 +2294,25 @@ campaign; the root's `destroyedByEventId` and `lifecyclePatch` (terminal death a
 forced to thorp); the opt-in ancient ruins — an event named "The Fall of …", 120–400 years before the founding, carrying
 the `ancientRuin` marker; and `config.peakTier`, SettlementForge's high-water stamp.
 
-**(2) What creation writes into `Recipe.history`** (§2.7's `HistoryHint`, whose building volume this is; its item-113
-fields typed here, which model §2.7 carries):
+**(2) What creation writes into `Recipe.history`** (§2.7's `HistoryHint`, whose building volume this is). §2.7's
+`HistoryHint` declares the fields creation writes — founding, events, tiers, population, calamities, lifecycle,
+`ancientFall` and peak — and its standalone form; this volume maps each to its dossier source:
+* `founding` — `history.founding.age`, else `history.age`; absent both, the `tiers` row's midpoint of the tier's
+  `AGE_BY_TIER` range, noted `history_gap`;
+* `events` — `history.historicalEvents[]`, every event oldest first, its key by the `historyEvents` row and its severity
+  by the `historyScars` row's severity words (DR37);
+* `tiers` — `tierHistory[]`, oldest first, `yearsAgo` from the outcome id's week suffix;
+* `population` — `populationHistory[]`, oldest first;
+* `calamities` — `calamityHistory[]` before the creation week, each with its type, deaths, exodus and its
+  `calamitySeverity` band (DR36's losses; DR37's events);
+* `lifecycle` — the root's `destroyedByEventId` and `lifecyclePatch` (DR38), `yearsAgo` the resettlement's tick, else
+  the present settlement's founding;
+* `ancientFall` — the opt-in "Fall of …" event carrying the `ancientRuin` marker, its `yearsAgo` the founding's plus its
+  years before the founding (DR38);
+* `peak` — DR36's input, by (3).
 
-```ts
-// additions to §2.7's HistoryHint (item 113): filled once by the port's creation; standalone, the blueprint's history option fills `peak` (§4.2 S0)
-  founding?: { yearsAgo: number };        // history.founding.age, else history.age; absent both → the `tiers` row's midpoint of the tier's AGE_BY_TIER range, noted history_gap
-  events: { key: string /* the `historyEvents` row's neutral key */; type: string /* the line's type word */; yearsAgo: number;
-    severity: number /* the `historyScars` row's severity words: minor 0.3, major 0.6, catastrophic 0.9, else 0.5 */; name: string }[];   // every history event, oldest first (DR37)
-  tiers: { from: string; to: string; direction: 'promotion'|'demotion'; yearsAgo?: number /* from the outcome id's week suffix */ }[];   // tierHistory, oldest first
-  population: { yearsAgo: number; population: number }[];   // populationHistory, oldest first, each tick read as (week − tick) ÷ 52 years ago
-  calamities: { yearsAgo: number; type: string; deaths: number; exodus: number; severity: 'minor'|'moderate'|'major'|'catastrophic' }[];   // calamityHistory before the creation week (DR36's losses; DR37's events)
-  lifecycle?: { died: boolean; resettled: boolean; yearsAgo?: number /* the resettlement's tick, else the current settlement's founding */ };   // DR38
-  ancientFall?: { name: string; yearsAgo: number /* the founding's yearsAgo + its years before the founding */ };   // DR38's ancient "Fall of" event on the site
-  peak?: { tier: string; population?: number; symbolic: boolean; evidence: string[] /* the evidence kinds present, strongest first */ };   // DR36's input, by (3)
-```
-
-An event dated by a `tick` is `(week − tick) ÷ 52` years ago, the week `HostContext.week`, else the latest tick the
-dossier carries; an undated event keeps the `yearsAgo` the dossier states. Every entry keeps the dossier's order where two
+A list the dossier lacks is absent, read as `[]` (§2.7). An event or entry dated by a `tick` is `(week − tick) ÷ 52` years
+ago, the week the dossier's present week (V08 §3.16 (4)); an undated event keeps the `yearsAgo` the dossier states. Every entry keeps the dossier's order where two
 are equally old. The existing `ageYears` and `scars` keep their readers (§4.2 S2's stage count, II.7.6, V04); `scars` are
 still one per event by the `historyScars` row, and an event of type `magical` is ruin evidence as well (V08 §2.6a).
 
@@ -2307,7 +2359,7 @@ live F8 or F20 change and reaches the epochs, where V06's decline rules — not 
 (V11's switch) the map is the base's, byte-identical (item 113 (g)'s no-op pin), and the port still fills the fields above.
 T-V8-51 holds this section.
 
-### 3.16 The port side of items 111, 114, 115, 117, 118 and 120
+### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126
 
 Each item's mechanism is the base's with V11's rows and its volumes' parts; the port supplies what SettlementForge says.
 
@@ -2349,17 +2401,22 @@ range's open top (`openTop` members above `hi` take the ceiling like any buildin
 name a grand word without its resolution landing on a grand class. At TOWN and above the ceiling is off and the question
 does not arise. A hand edit beyond the ceiling is the user's (item 101 R2; V09, V10). T-V8-53 holds this part.
 
-**(4) Seasons — SettlementForge's calendar and the climate (item 117).** A season is a look only: it never changes the
-model or its hash (item 117 (a)). The port writes nothing into the model for it. **The week:** the client sends `view.set {
-week }` (§11.3) with `HostContext.week` after each `doc.load` and after each committed offer; under the view's "follow
-SettlementForge" flag (§2.9, the default for a dossier map) §7.7's DR42 sets the year position to `week mod 52` by
-the `calendar` row (the `sf445` year: 52 weeks, 13-week seasons from spring), so a campaign map opens on its own week;
-without a week the view keeps its own position (midsummer by default). The user may pick another week or season in the
-view (V09's control) and set it to follow again. **The climate:** the biome's climate row, set at creation, is
-`site.climate` (the realm block's climate word through the `climates` row) when present, else the `climates` row's terrain
-column, else the user's choice in the blueprint (standalone); §7.7's DR42 applies the height correction on the
-map's relief. The climate is part of the frozen `site` fact: a later climate word is reported, never re-drawn. T-V8-54
-holds this part.
+**(4) Seasons — SettlementForge's calendar and the climate (items 117, 125).** A season is a look only: it never changes
+the model or its hash (item 117 (a)). The port writes nothing into the model for it. **The week** (item 125 (b); J139):
+a dossier-bound map's present week is the dossier's own latest stamped tick — the greatest of its conditions'
+`triggeredAt`, its calamities' and its history's ticks (V08 §2.4's `presentWeek` row); with none, §4.11's clock starts at
+week 0 and the year position is the user's season control (midsummer, week 19, by default). It is the creation's week
+(§4.11 *The clock* (1)) and §2.9's `week` default, and under the view's "follow SettlementForge" flag (§2.9, the default
+for a dossier map) §7.7's DR42 sets the year position to the present week mod 52 on the `calendar` row's `sf445` year
+(52 weeks, 13-week seasons from spring) at open and at each absorb, so a campaign map opens on its own week. No host input
+sets it: `HostContext.week` is retired (R2-40), and the client sends no week of its own. A host sets the frame's view only
+by §11.3's `view.set` over the keys that travel — a week, the layers shown, a selection (item 125 (c)) — a view command,
+as a user's scrub is, which the map never needs; the per-viewer keys, `find` among them, never cross the bridge (§11.3;
+J-V8.127). The user may pick another week or season in the view (V09's control) and set it to follow again. **The
+climate:** the biome's climate row, set at creation, is the `climates` row's terrain column for `site.terrain` (the
+dossier's terrain with our biome rules, item 125 (b); DR42), else the user's choice in the blueprint (standalone); §7.7's
+DR42 applies the height correction on the map's relief. The climate is part of the frozen `site` fact: a later terrain
+word is reported (`frozen_fact_changed`), never re-drawn. T-V8-54 holds this part.
 
 **(5) Festival decorations — the traditions (item 118).** A look only: never a model change (item 118 (a)). `traditions[]`
 and the custom-content traditions bucket (`customContentRoster.traditions`) are read at the pinned baseline — the field
@@ -2423,13 +2480,116 @@ relation, offered by the Show menu's **SettlementForge's chains** under its know
 without it — a chip is the viewer's view, never a party render's option (V08 §3.14 (2)) — and a player's tab has no Find
 (pictures and the party gazetteer; a live player map after M-SF, V08 §11 Q5); a DM's handout "where the smiths are" is a
 picture the frame's export menu draws with Find shown, at the export's knowledge key (item 120 (i); §11.1).
-SettlementForge's assistant (V08 §4.4) answers "where are the smiths" in words from the `gazetteer` query and sets no chip
-— no host message sets the frame's view but `view.set { week }` (V08 §3.16 (4)) — while the in-frame clerk's "show me …"
-is V10's (item 120 (i); J-V8.127). T-V8-58 holds this part.
+SettlementForge's assistant (V08 §4.4) answers "where are the smiths" in words from the `gazetteer` query and sets no chip:
+a host sets the frame's view only by §11.3's `view.set` over the keys that travel — a week, the layers shown, a selection
+(item 125 (c)); the per-viewer keys, `find` among them, never cross the bridge (§11.3; J-V8.127). The in-frame clerk's
+"show me …" is V10's (item 120 (i)). T-V8-58 holds this part.
 
-**What the port never does for these items.** It writes no event for a season, a festival or Find, sets no view key but
-`week` through `view.set`, and feeds no look or view back into the model; the readiness and the history are read at
-creation and through the slice, never recomputed by the port at render time.
+**(7) Crisis looks — the port's reading (item 122; J135; J-V8.128).** A crisis look is a look only: it never moves,
+adds or removes anything and never changes the model or its hash (item 122 (a)); the design is §7.7's DR44 over §10.2's
+crisis tables, drawn by §8.2's look rows under §2.9's `crises` key. The port supplies what SettlementForge says.
+(a) **The census.** The adapter's build step reads, from the pinned line's code at its commit, read-only, every stressor
+type, every condition archetype and the simulator's crisis events that raise a condition (`PLAGUE`, `REFUGEE_WAVE`,
+`RAID_OR_MONSTER_ATTACK`) into the catalogue manifest's `crisis` lists (V08 §2.4) — the words §10.2's `crisis.map` rows
+(V11's values) must each map to a look kind or `none`. V11's compile check fails the build on a census word with no row
+(T122-4's compile clause), T-V8-59 checks the census against the pinned line, and SF0's census re-reads it at M-SF.
+(b) **Each overlay's source.** A `cond:stress:<type>` overlay reads the `stressor` row of its type; a condition whose
+`triggeredAt.sourceEventType` is a census event — one the simulator's `PLAGUE`, `REFUGEE_WAVE` or
+`RAID_OR_MONSTER_ATTACK` raised — carries that word as `event` and reads its `event` row; every other condition reads the
+`archetype` row of its archetype. A word the census or the rows lack reads `none`, no look, noted `unmapped_word`, and
+release row R9 lists it for a table fix: nothing falls through. The look changes none of the `conditions` row's tints
+and Works factors (V08 §2.6).
+(c) **The name and the weeks.** A condition's `label` is carried as `name`, the words V09's why lines and V10's
+explanations give it ("Refugee camp: the Northmarch migration, weeks 12–20"); a stressor, or a condition with no label,
+carries none, and V09's line reads unnamed. Its weeks are its overlay's `sinceWeek` and `untilWeek` (V08 §3.11), counted
+from the dossier's present week ((4)); a stressor has the week it was first read and no `untilWeek`, so its look stands
+while it is listed.
+(d) **The calamity behind a disaster look.** A condition carries as `calamity` the key of the carried calamity whose week
+equals its `triggeredAt.tick`, else of the latest carried calamity in the 52 weeks up to its `sinceWeek`; with none it
+carries no calamity. Through it DR44 reads the calamity's `targets` (resolved to binding keys, V08 §3.5 (6)) — which V01's
+`disasterDistricts` takes first — and its `type`, the disaster's pattern (fire, flood, earthquake) and V02's ruined look's
+flavour; a target the map lacks is skipped and the pattern used (V01). The aftermath is DR28's calamity in the epoch at
+its week, never the look (V06 §3.22).
+(e) **Knowledge.** DR44 admits a condition at the viewer's effective key as a band-less reader (§9.2's admission
+function, §11.2), at the tier its look gives it: `public` where its `crisis.map` row gives a look — a camp, a quarantine,
+smoke and ruins are sights in plain view — and `secret` where the row is `none` (a political or regional pressure with
+nothing to see, named only for the DM, as J-V8.40 names a tint-less condition); a key form listing the overlay's address
+admits it whatever its tier. A withheld condition is never drawn, listed, counted or named (DR44).
+(f) **Over time.** A crisis field's change — a new name, event, calamity link, arrivals or force size — is a ledger-only
+change (V08 §3.5's `condition` row: `attr`, response `none`); the overlay's put and retire stay V08 §3.11's. A look
+standing across an absorb redraws from the new carried facts; a save, load, undo, redo, regeneration or migration changes
+no input (V08 §3.12). With no condition and no preview the map is byte-identical to the base (`item122.crises`, V12's
+pin). T-V8-59 holds this part.
+
+**(8) The forces' and groups' sizes (item 122 (h); J138; J-V8.129).** Armies, coalitions of armies and travelling groups
+with their sizes are IN DEVELOPMENT in SettlementForge (owner, 2026-10-01): the pinned line carries no such field, so the
+adapter of `5d699cc68` reads none and every look takes its fallback. The port's side is fixed now, so the adapter version
+that reads them adds only its paths — a new adapter version (V08 §3.8), its rows written in V08 §2.4's field table and
+confirmed by the final local check ((9)).
+(a) **The digest.** Each force or group record becomes one entry of its condition's `forces`: `kind` `army` (a force) or
+`group`, `heads` its headcount, for an army its `allegiance` (the power it serves, as the dossier names it, whose colours
+its camp shows, §8.2) and `coalition` (the key its record names for an alliance of armies: armies sharing one key are one
+coalition, each keeping its own camp), for a group its `groupKind` (migrants, pilgrims, a caravan, as the dossier words
+it), and its `name`. A record naming a
+condition (its id) or a stressor type joins that overlay; one naming none joins the overlay standing at the present
+week whose `crisis.map` look is a camp of its kind, the most severe first, ties by key — an army `siege`, `blockade` or
+`occupation`, a group `refugeeCamp`; one joining none is carried nowhere, noted `name_unjoined`.
+(b) **The counts the dossier already gives.** A condition's `arrivals` is the rise of `populationHistory` across its
+trigger week — the first entry at or after `triggeredAt.tick` less the last before it, when positive; its calamity's
+`exodus` is the calamity's own ((7) (d)). §10.2 *Crisis looks* (c) reads them where no `forces` are given.
+(c) **The fallbacks**, in order (item 122 (h)): the forces' headcounts; else the condition's `arrivals` or its
+calamity's `exodus`; else item 122 (b)'s scale by severity and tier. A headcount of 0 or less, or one that is no finite
+number, reads as none given, noted `field_fallback` with the field named. What the camps cannot hold inside the frame and
+its margin is §8.8's massed marks on the ring at the city band, the panel giving the full number (V09): the port carries
+the numbers whole.
+(d) **The rates are V11's** — 45 m² a head, one engine per 1 500 besiegers, the coalition's spread (§10.2's settings); the
+port carries headcounts only. T-V8-60 holds this part.
+
+**(9) The dossier the only input, and the final local check's brief (item 125; J139; J-V8.130, J-V8.131).**
+(a) **One source.** At run time the port reads SettlementForge only through the dossier: never its campaign state,
+simulator, derived reads, realm map or code (the field table's `ignored` rows). `HostContext.week`, `.realm` and
+`.customLibrary` are retired as inputs (R2-40): the week is (4)'s, the climate the terrain's ((4)), the latitude DR29's
+from the culture (V08 §3.5), the realm placement and the neighbours' bearings the generator's defaults or the user's
+settings (layer 2's derived partners and `gate.pick`; DR1, DR3, DR19), and a custom definition's fields the dossier's own
+(V08 §3.13 (8)). `HostContext` keeps `audience` (the role and knowledge key per viewer, view state that travels, §11.3),
+`displayNames` (inside one export request, never stored, item 85) and `line` (which picks the adapter, V08 §2.4) — none
+a data input. A host's view commands stay commands ((4)).
+(b) **What the map supplies.** Every read row of V08 §2.4's field table has its fallback — the generator's own choice,
+exactly as on a map made without a dossier — so a missing or empty field never refuses, never stalls, and is reported by
+one `field_fallback` note per field whose fallback a mechanism took in that run (class `report`; its `detail` names the
+fallback). A required key's own absence stays a shape the line never writes (B3).
+(c) **The final local check's brief** (item 125 (d): the program's last step, after the coherence pass's verdict; the
+owner: "read it from local"). Against SettlementForge's local checkout on the owner's computer, read-only, at the commit
+the owner names, field by field:
+1. every path a read row of V08 §2.4's field table names — present or absent, its shape and type as the row expects
+   (scalar, list or object; the words of the row set it feeds), its values sampled against the row set's words;
+2. every read row's fallback — the field absent or empty in the dossiers the checkout generates (a birth at each tier, a
+   lived dossier after a week, a season and a year) takes the row's fallback;
+3. the required keys and the optional keys read — each still written as V08 §2.4 lists them;
+4. the crisis census ((7) (a)) — the stressor types, condition archetypes and crisis events the code defines, against
+   the manifest's `crisis` lists and V11's `crisis.map` rows;
+5. the in-development fields — the forces', coalitions' and travelling groups' records and their sizes ((8)), a
+   current-week stamp, and any definition field of custom content (`customContentRoster`'s inner fields, V08 §2.8) —
+   each present or absent, with its path and shape where present;
+6. the result — one table of matches, mismatches and fixes, one row per path: `match`; `mismatch` with its fix (an
+   adapter version with its `remaps`, a field-table row, a row-set word as a table fix, or a fallback); `new` for a path
+   the dossier carries that no row names (an `ignored` row with its reason, or a read row with its fallback). Each fix
+   lands before SF3 cuts its fixtures, and release row R9 re-runs the check at a new line.
+
+(d) **The bars** (item 125 (e)): T125-1 – T125-3, taken by T-V8-61.
+
+**(10) No map on a phone (item 126 (a2); J140; J-V8.132).** SettlementForge presents no map entry on a phone (item 126
+(a2)): the Map tab — the DM's frame and a player's party viewer alike — and every map command are absent there, and the
+frame carries no phone handling: no phone layout, screen, notice, catalogue row or default. A frame given a viewport below
+the medium class keeps V09's medium layout at its 600 × 480 CSS px minimum and the tab scrolls (V09 §4.12); the client
+sizes the frame, and the party viewer likewise, to the tab but never below that minimum (V08 §3.1 step 1). A resize
+across the threshold re-lays nothing the document holds: the document, the view and the selection stay byte-identical.
+T-V8-62 holds this part (T126-2's host-frame clause).
+
+**What the port never does for these items.** It writes no event for a season, a festival, a crisis look or Find, sets
+no view key — a host's view commands are §11.3's — and feeds no look or view back into the model; the readiness and the
+history are read at creation and through the slice, the crisis fields through the ledger, never recomputed by the port at
+render time.
 
 ### 3.17 Edges — every mechanism at its limits (principle (11))
 
@@ -2451,9 +2611,9 @@ event is never an undo target (§7.4), so a row's undo and redo clause is always
 | the map record (V08 §2.1) | data: a record read with a field its client version predates takes the default of V08 §2.7's migrate column; a tail whose `seq` has a gap, or whose last `logHeadAfter` differs from `logHead`, is a damaged store — the client reloads once, then the module's §2.9 step 3 verification runs B10's ladder; a `backups` entry whose `docId` is not the `mapId` is never restored (B10 and the restore skip it) | repair locally → B10 | T-V8-49 (a), T-V8-5 |
 | the messages (V08 §2.2) | data: a message missing a required field or of an unknown type is ignored and reported (§11.3); a `dossier.offer` without `dossier` is `E_UNKNOWN_SHAPE` (B3); a `party.render` with empty `places` renders the base tier only; `exportScenes` with no format makes no request and returns `[]`; one: a `host.state` with only `party` updates only the party copy | check | T-V8-49 (a), T-V8-2 |
 | the carried facts and the binding (V08 §2.3) | data: an offer to a document with no dossier block (a standalone document) is refused `E_OTHER_SETTLEMENT` — only a document created by the port is bound; a stored block unequal to the fold's rebuild is §2.9's load mismatch (the fold's wins, reported); two records of one key are `duplicate_key` (§14) | check | T-V8-49 (a), T-V8-5 |
-| the digest's additions (V08 §2.5) | data: every addition is optional — no history → no replay, no readiness → null, no traditions → `[]`, no climate → the terrain column; a readiness score outside 0–100 is clamped; a tradition window with no readable week is carried unscheduled (V08 §3.16 (5)) | check | T-V8-49 (a), T-V8-51 – T-V8-55 |
+| the digest's additions (V08 §2.5) | data: every addition is optional — no history → no replay, no readiness → null, no traditions → `[]`, no stamped tick → week 0 and the season control's midsummer (V08 §3.16 (4)), no forces → the counts' fallbacks (V08 §3.16 (8)); a readiness score outside 0–100 is clamped; a tradition window with no readable week is carried unscheduled (V08 §3.16 (5)) | check | T-V8-49 (a), T-V8-51 – T-V8-55 |
 | the row sets (V08 §2.6) | data: a word no row lists takes the row's `else`, noted `unmapped_word`; a count range written with its bounds reversed (`(8-3)`) is read `[3, 8]`, noted; a range `(0-0)` places no member and carries the record, noted `not_placed`; rungs: the `site` row's water words force their water at every rung (village rungs through V07 §3.1) | substitute | T-V8-49 (b), T-V8-23 |
-| custom content's records (V08 §2.8, V08 §3.13) | none: no custom content gives empty lists and no custom event; one: one keyword, one chain node, one service each digest as specified; data: a chain whose resource and processors join nothing is carried, drawn nowhere and noted; a library entry for a definition the dossier lacks is ignored (`library_mismatch`); degenerate: a cross-link from a node to itself makes no row; lifecycle: the admitted fields are carried in the document, so a save, load, undo, redo or migration never needs the host, and a regeneration re-resolves from the carried facts | check; leave out and report | T-V8-49 (c), T-V8-25 |
+| custom content's records (V08 §2.8, V08 §3.13) | none: no custom content gives empty lists and no custom event; one: one keyword, one chain node, one service each digest as specified; data: a chain whose resource and processors join nothing is carried, drawn nowhere and noted; a definition entry for a definition or revision the dossier did not materialise is ignored (`library_mismatch`), and a definition whose fields the dossier does not carry takes item 104's generic siting (`field_fallback`); degenerate: a cross-link from a node to itself makes no row; lifecycle: the definition fields read are carried in the document, so a save, load, undo, redo or migration never needs the host, and a regeneration re-resolves from the carried facts | check; leave out and report | T-V8-49 (c), T-V8-25 |
 | the embed (V08 §3.1) | degenerate: a tab of zero width or height creates no frame until it has a size; a frame shrunk to zero keeps its document and draws nothing; one: a campaign with one settlement mounts and switches as with many | check | T-V8-49 (d), T-V8-1 |
 | offering and coalescing (V08 §3.2) | lifecycle: an offer while a load verifies waits for it; while an owner's upgrade is available it runs under the document's own output version; after a restore or a new map it follows the fresh `doc.load`; after the DM's own undo, redo or Re-derive moved the head it is stale and re-runs (B8); after a host undo of the dossier it converges forward (F22); one: a single version offered is absorbed once; none: an identical dossier is never offered | retry that piece | T-V8-49 (d), T-V8-6, T-V8-7 |
 | the refresh queue (V08 §3.4) | none: an empty queue creates no frame; one: one map runs every step and closes the frame; cap: no count limit — the queue is serial, each map bounded by V08 §6's row, and a queue longer than the page's life resumes from `refreshPending`; data: a queued dossier that is unreadable holds its map (B3) and the queue continues, a record deleted meanwhile (B15) is skipped, another settlement's dossier is B6; rungs: village-rung maps refresh through the village product, a CITY or METROPOLIS map only beside a visible TOWN or smaller (page memory), a population above the cap is B7; lifecycle: a map opened visibly is absorbed there and dropped from the queue, a lease lost to a restore or a new map (`stale`) re-reads the record, a page reload resumes | retry that piece | T-V8-49 (e), T-V8-12 |
@@ -2467,8 +2627,12 @@ event is never an undo target (§7.4), so a row's undo and redo clause is always
 | determinism (V08 §3.12) | lifecycle: save, load, undo, redo, regeneration and migration leave the port's inputs — the log and the pinned tables — unchanged, so two editors' re-runs match after each | check | T-V8-3, T-V8-49 (i) |
 | the players' view (V08 §3.14) | rungs: at a village rung the set covers V07 §5.2's township view; at METROPOLIS the z3 level stops at 64 tiles (the fallback 32); lifecycle: the set is stored outside the document, re-rendered when the head, the party revision or the output version moves (B18), a reveal of a place a restored map lacks is skipped and kept, an upgrade re-renders after the DM upgrades | leave out and report | T-V8-49 (j), T-V8-41 |
 | the history's reading (V08 §3.15) | as V08 §3.15 (5) states each case | substitute | T-V8-51 |
-| items 111, 114, 115, 117, 118 at the port (V08 §3.16) | data: a desert with no water word and no `oasis_water` has no oasis; a readiness absent leaves the threat alone; a record naming a grand word with no grand class is not "specified"; no week keeps the view's own; a tradition with no week is unscheduled; rungs: a government's `villageSeat` manor, seigneurial or crown, is specified at THORP, HAMLET and VILLAGE alike, and at TOWN and above no ceiling applies | substitute | T-V8-50, T-V8-52 – T-V8-55 |
+| items 111, 114, 115, 117, 118 at the port (V08 §3.16) | data: a desert with no water word and no `oasis_water` has no oasis; a readiness absent leaves the threat alone; a record naming a grand word with no grand class is not "specified"; no stamped tick opens week 0 on the season control's midsummer; a tradition with no week is unscheduled; rungs: a government's `villageSeat` manor, seigneurial or crown, is specified at THORP, HAMLET and VILLAGE alike, and at TOWN and above no ceiling applies | substitute | T-V8-50, T-V8-52 – T-V8-55 |
 | Find's dossier entries (V08 §3.16 (6)) | none: a dossier with no institution record offers no dossier entry, the class, area, place and people entries standing; one: a singular record is one entry of count 1; cap: every record of a METROPOLIS dossier, up to the adapter's 2 000 (V08 §2.4's `limits`), is an entry of Find's per-commit index, matched within item 120 (j)'s budget; degenerate: two records of one wording are two entries told apart by district, and a merged lesser selects its alias target; data: a `removed` record and one whose key binds nothing (`@none`, `@absent:*`, `(0-0)`) are no entry, a quarantined record keeps its carried words, and a record the key does not admit is never suggested or counted; rungs: at a village rung the records V07's resolution binds, pins included; lifecycle: a chip on a re-keyed record follows its anchor, a chip on a record the map lost shows 0 until cleared, and save, load, undo, redo, regenerate and migrate change an entry only through the binding rows they change | check | T-V8-58 |
+| the crisis reading (V08 §3.16 (7); item 122) | none: no condition and no stressor → no overlay and no look, byte-identical to the base (`item122.crises`); one: one condition reads one row; data: an archetype, stressor type or event word the census or the rows lack reads `none`, noted `unmapped_word`; a condition with no `duration` has no `untilWeek` and stands while listed; one whose `untilWeek` is not after its `sinceWeek` never stands (§10.2 *Crisis looks* (h)); overlapping conditions each read their own row, §10.2's priority and density cap sharing the outskirts; a calamity target the map lacks is skipped, V01's pattern deciding; a condition with no label carries no name; degenerate: a stressor listed twice is one overlay (one key); rungs: THORP to the cap read alike, the scale §10.2's; lifecycle: a crisis field's change is ledger-only, and the look redraws from the carried facts after every save, load, undo, redo, regeneration and migration | substitute (`none`) | T-V8-59 |
+| the forces' sizes (V08 §3.16 (8); item 122 (h)) | none: no force field (the pinned line) → the counts' fallbacks; one: one army; a coalition of one army is one camp; cap: a force larger than the frame and its margin can hold is carried whole and its excess drawn as §8.8's ring marks; data: a headcount of 0, negative or no number reads as none, noted `field_fallback`; a force naming no condition joins the most severe standing camp look of its kind, else none (`name_unjoined`); lifecycle: a size's change is ledger-only | substitute | T-V8-60 |
+| the one input and its fallbacks (V08 §2.4, V08 §3.16 (9); item 125) | none: a dossier holding only the required keys, every optional key and every empty-able value absent, generates a full map, each absent read field one `field_fallback` note, no refusal; data: a dossier with no stamped tick opens at week 0 on the season control's midsummer; a host context present and absent give the identical document and hash; a `line` no adapter supports, or one the dossier's stamps contradict, refuses `E_LINE_UNSUPPORTED` (B5); an empty name or tier word takes the generator's own; lifecycle: every fallback is re-taken at each port run from the same dossier, so a replay, reload or migration meets it unchanged | substitute | T-V8-61 |
+| the frame below the medium class (V08 §3.16 (10); item 126) | degenerate: a tab below 600 × 480 CSS px keeps the frame and the party viewer at 600 × 480, the tab scrolling; a resize across the threshold leaves the document, view and selection byte-identical; a phone shows no Map tab (SettlementForge's rule) | check | T-V8-62 |
 | editing (V08 §4.1, V08 §4.3, V08 §4.5) | none: a map with no edit absorbs as a map with edits (nothing to keep), and a map with no custom content has no custom declaration to keep; one: one element's change touches its disruption set only, and one declaration on a custom record names it by `inst:uid:<localUid>`, so it survives every rename and revision; data: an edit naming a dossier element the dossier removed is orphaned and reported (the pin yields, §7.4 — the dossier removing what an edit pinned), a declaration on a custom record the dossier no longer lists included (§7.7 item 3), and an edit of a custom chain's or service's fields is refused `dossier-owned` with the map-side alternatives (V08 §4.5); lifecycle: a removal of generated item-110 content is undone and redone by the log (the slot re-opens and closes), and a custom record's revision landing between an undo and a redo re-sites around the declaration in force at its seq | check | T-V8-49 (k), T-V8-37 |
 | the host actions (V08 §4.2) | rungs: every control is offered at every rung by role alone; "Restore previous map" only while a backup exists | check | T-V8-47 |
 | the host clerk (V08 §4.4) | none: with no map open a headless session answers and closes; one: one tool call is one `query` or `preview`; data: an answer field outside the projection's kept list never leaves the frame (the list is a whitelist); lifecycle: a proposal waiting across a load, an upgrade or an undo that moved its base is answered `stale` and dropped | check | T-V8-49 (k), T-V8-27 |
@@ -2477,7 +2641,7 @@ event is never an undo target (§7.4), so a row's undo and redo clause is always
 | drawing the records (V08 §5.2) | degenerate: a chain whose consecutive nodes share one building draws no zero-length segment and one arrowhead; a condition with no target is named in the legend only; rungs: every row draws at every rung, village rungs through V07's product | simpler shape | T-V8-49 (l), T-V8-25 |
 | pictures (V08 §5.3) | none: a map with no building still draws its ground, water and ruins; one: a `knowledge` option holds for its one export only — it lowers the requester's key and never raises it, a bare tier read with the requester key's places (item 572); data: a `displayNames` entry for an unknown key is ignored, an empty veiled text withholds the name as unnamed; lifecycle: thumbnails re-render at the next commit after a restore, a new map or an upgrade | check | T-V8-49 (l), T-V8-16 |
 | what leaves the frame (V08 §5.4) | data: a bundle request for a format the calling key's rules refuse answers `export.refused` for that format and returns the others | check | T-V8-48 |
-| labels (V08 §5.5) | none: an empty dossier name is refused at shape (B3), so a title always exists; one: a single named place is named by the key rules like any; data: a name in a script the fonts lack falls to §9's glyph fallback, and a locale the module does not ship shows the source language | substitute | T-V8-49 (l) |
+| labels (V08 §5.5) | none: an empty dossier name takes the generator's own (§10.4), noted `field_fallback`, so a title always exists; one: a single named place is named by the key rules like any; data: a name in a script the fonts lack falls to §9's glyph fallback, and a locale the module does not ship shows the source language | substitute | T-V8-49 (l) |
 
 **(b) Where this volume's features meet the others'** — each with its outcome and its clause of T-V8-49 (m); its rung is the feature's own at its home, the port adding none: a dossier or custom record the feature's rule cannot seat takes F-SITING's rungs (§5.2: its closest option by §7.7's precedence, the hard rows it fails reported, never omitted), and the party column's rung is `check` (§9.2's admission under the party key decides what is named). The port
 places nothing itself: a dossier record is sited by S10b's rules with its class's rows, a custom record by the class item
@@ -2498,7 +2662,8 @@ below holds the base's or the named volume's rule for the feature, with the port
 | the underground: sewers, caverns, ruins, catacombs, vaults, accesses (V04) | DR30–DR32 inputs only (V08 §2.6a); a closure stagnates, never shrinks | a custom record resolved to a subterranean class takes V04's access rules; a custom `subterranean` resource is a mine or quarry at the hinterland edge | the party set draws the surface band only (no underground layer in the set); a revealed underground place is named in the gazetteer |
 | sky islands, shade, sky access, landfall (V05) | the port reads nothing of the sky; `magical_node` feeds V05's node term (V08 §2.6 `deposits`) | a custom record never places an island (V05's own supply) | islands and their shade drawn by the base's rows under the party key |
 | the history (V06, item 113) | read at creation only (V08 §3.15) | a custom record takes no part in the replay beyond the present's facts | the replay's remains drawn like any fabric; the history's story is the clerk's, the party gazetteer lists no replay record |
-| light and the season (§8.2, items 102, 117) | the latitude (DR29) and the calendar week (V08 §3.16 (4)) are read; the model-side sun never moves with the season | a custom record's building lit like any | the party set drawn with the fixed sun, the season the view follows |
+| crisis looks (§8.2, §10.2, item 122) | the looks stand on V01's outskirts land and never on water, a gate's passage or a label's keep-out (§10.2 *Crisis looks* (d)); a refugee camp at V06's growth frontier hands over to its suburb; a disaster's districts are V01's at TOWN and above and V07's ends at the village rungs | a custom record's building in a ruined district draws the ruined look like any (V02) | the party set draws the standing looks its key admits (V08 §3.16 (7) (e)) |
+| light and the season (§8.2, items 102, 117) | the latitude (DR29) and the dossier's present week (V08 §3.16 (4)) are read; the model-side sun never moves with the season | a custom record's building lit like any | the party set drawn with the fixed sun, the season the view follows |
 | editing, undo and save or load (§7, §7.4) | a dossier event is never undone; a map edit around it is | a DM's declaration on a custom record keys by `localUid` and survives every revision, undo and reload (V08 §4.5) | a reveal's undo is "Hide again"; the set is stored outside the document and survives every save and load |
 
 ## 4 Editing
@@ -2512,7 +2677,7 @@ style — lives in the map's log and survives every absorb (§7.7 items 3–5). 
 not `host:port`, or that arrives in a `doc.changed` from a client, is refused F-EDIT `dossier-owned` (§5.2, §7.7 item 11) —
 only an editing client's `dossier.result` produces them. A user's edit of a staged record's fields (a condition's
 severity, a notable's posting) is refused the same way; its display — a label's text, visibility — stays the user's
-(§9.1). A season or a festival is a view setting (§2.9), never an edit (V08 §3.16 (4), (5)).
+(§9.1). A season, a festival or a crisis look is a view setting (§2.9), never an edit (V08 §3.16 (4), (5), (7)).
 
 **Generated item-110 content is never dossier-bound** (J-V8.66; item 260). A raised way, a retaining wall (a generated
 terrace's walls among them) or a deck plot the generator made (item 110) is generated content (a terrace itself is a
@@ -2557,8 +2722,12 @@ controls' and dialogs' words are `host.control.*` and `host.dialog.*` rows (V08 
 
 ### 4.3 Locality, protection and the dossier's reach
 
-A dossier event mutates only its disruption set (§7.7 item 5; T20-8), around every lock, pin, positive placement and
-declared entity (§7.2); an edit it can no longer honour is reported and orphaned, never dropped (J-A20.73). A dossier
+A dossier event mutates only its disruption set (§7.7 item 5; T20-8) and is never refused by a lock or a pin (§7.7's
+precedence). A lock or pin on what it changes — a dossier-owned value, or a dossier-backed element's existence, state,
+name, kind or membership — is superseded for what it changes and reported orphaned, the dossier fact its `why`. Every
+other lock, pin, positive placement and declared entity is applied around, and a population fall reaches locked and
+pinned dwellings by `relet` (§7.7's precedence; V06 §3.5.1 (4), (5)). An edit it can no longer honour is reported and
+orphaned, never dropped (J-A20.73). A dossier
 change of exactly one element touches only that element's disruption set; a change of none writes no event (V08 §3.5). A
 DM's rejection of a dossier element's site holds until the settlement grows or declines past the roster tolerance (§7.7
 item 3). Nothing a player does changes the model: a player holds no document and no session (V08 §3.14), and the players'
@@ -2602,8 +2771,9 @@ alone, over the bridge, with nothing added for it (J-A101.83). Its wiring:
    it move in week 40" are answered from the log. "Why is this quarter poor" reads the field's drivers, item 102's daylight
    share among them (the answer's form is V10's). For generated item-110 content, `why` names its reason — a drop, a link
    or a water need — and the DR34 or DR35 inputs it read ("the city's water system (SettlementForge) and a spring in reach
-   to the north"), in V10's words. For a wall run, a replayed history, a season or a festival the answer is V10's from the
-   records these readings fill (item 114's run story, the `HistoryRecord`, the view's week and the carried traditions).
+   to the north"), in V10's words. For a wall run, a replayed history, a season, a festival or a crisis look the answer is V10's
+   from the records these readings fill (item 114's run story, the `HistoryRecord`, the view's week, the carried
+   traditions and the carried condition's crisis fields).
 3. **Proposing.** The assistant proposes through `MapSession.preview(events, { view: true, proposal })`, the proposal body
    item 473's. What the frame does with it is V10 §3.17's host proposal intake, cited: the card in the frame, Accept sending
    `doc.changed` with `proposedBy: 'clerk'` and the DM as author, and the module's `clerk.proposal { id, status, seqs? }`
@@ -2634,7 +2804,7 @@ revision SettlementForge makes; a revision's re-siting (V08 §3.13 (10)) is a do
 pin and positive placement like any other (§7.7 item 5). A `CustomChainRecord` or `CustomServiceRecord` is dossier-owned: a
 user's or clerk's edit of its fields is refused `dossier-owned` (§7.7 item 11) with the map-side alternatives — move a node
 with T6 `place` (`placeAt`), reject a site with `rejectSite`. The clerk's `why` on a custom element names the resolution
-rung that decided its profile (declaration, archetype, category, tags, library field, keywords or the fallback), the chain
+rung that decided its profile (declaration, archetype, category, tags, definition field, keywords or the fallback), the chain
 rows that pulled it and, when keywords decided, the `low_confidence` mark (item 104 (a)). A declaration naming a custom
 record the dossier no longer lists is §7.7 item 3's declaration on a removed element (kept, orphaned and reported, never
 dropped); a map with no custom content has no custom declaration to keep; an undo or redo of a declaration is the base's
@@ -2696,7 +2866,7 @@ beyond `party.prev` (J-V8.58). Each line is drawn by V09 §4.10's rule for the h
 again" or "Reveal again".
 
 **The port's notes in words** (J-V8.97 – J-V8.99). One row per `PortNote` kind — §14's union (item 508) and this volume's
-two — key `host.note.<kind>` (the `held` kind: V08 §3.9's `host.held.*` rows). Each text is one sentence of at most 25
+three — key `host.note.<kind>` (the `held` kind: V08 §3.9's `host.held.*` rows). Each text is one sentence of at most 25
 words in V09 §4.9's style; its args are the note's `msg.args`, filled by the port as the args column says — names as the
 dossier writes them, never an id. **Show** lists what the note's `keys` hold. **Class** decides where the note is kept (V08
 §3.6 (4)): `event` — the ledger event of the run that wrote it, drawn in that absorb's group; `standing` — the ledger event
@@ -2712,7 +2882,6 @@ only when new, then `DossierBinding.notes` while every run writes it, drawn in t
 | `rename_without_receipt` | "{old} became {new} with no record of a renaming, so the map closed {old} and opened {new}." | `old`, `new` the two names | the new element | event |
 | `duplicate_key` | "Two records are both called {name}; the map keeps them apart by their order in the record." | `name` | both records | standing |
 | `state_matches_absorbed` | "The record matches an earlier state again, so the map carries on from there instead of undoing what happened since." | — | — | event |
-| `realm_block_used` | "The realm map set which way {town} faces and where its roads leave." | `town` the settlement's name | — | report |
 | `quarantined_record` | "One record, {name}, could not be read; it keeps its last state here and is tried again next time." | `name` the record's name, else its list's singular ("an institution", "a notable") | the element, when bound | standing |
 | `quarantine_hold` | "One record could not be read, so nothing was removed with this update." | — | — | event |
 | `adapter_remap` | "The map now reads {n} of the record's entries in a newer way; nothing on the map moved." | `n` the re-baselined keys | — | event |
@@ -2730,8 +2899,8 @@ only when new, then `DossierBinding.notes` while every run writes it, drawn in t
 | `custom_resolved` | "{name} is built like any {class} ({rung})." | `name`; `class` as `unmapped_kind`'s row reads it — V11's `label` cell of the class built, or a pin kind's `host.pinKind.<kind>` row (at a village rung the archetype's `village` cell decides: a `mercantile-market` record names the market cross by its `host.pinKind.market_cross` row, not the `market_hall`'s label); `rung` V09 §2.7's `chips` words for the deciding rung ("from its tags", "guessed from its name" …) | the record | event |
 | `custom_unversioned` | "{name} carries no revision from SettlementForge, so the map watches its name, category, tags and scene for changes." | `name` | the record | standing |
 | `custom_node_unjoined` | "{owner} names {node}, which is not in the settlement's record, so the map adds nothing for it." | `owner` the custom chain's label or the custom service's name; `node` | — | standing |
-| `library_mismatch` | "{n} library entries do not match the record's own versions, so the map left them out." | `n` the ignored entries | — | event |
-| `custom_library_dropped` | "{name} was revised in SettlementForge; its old library details no longer apply until the new ones arrive." | `name` | the record | event |
+| `library_mismatch` | "{n} custom definition entries do not match the record's own versions, so the map left them out." | `n` the ignored entries | — | event |
+| `custom_library_dropped` | "{name} was revised in SettlementForge; its old library details no longer apply until the record carries the new ones." | `name` | the record | event |
 | `low_confidence` | "{name}'s kind was guessed from its name and description; you can set it yourself if it is wrong." | `name` | the record | event |
 | `uncatalogued_step` | "{name} is a larger form SettlementForge's list does not name, so the map builds it as listed." | `name` | the record | standing |
 | `derived_landuse` | "{name} needs {landuse}, which the record lists no source for, so the map opened some nearby." | `name` the first record needing it, in dossier order; `landuse` the land use's label (§4.9) | the derived site and that record | standing |
@@ -2740,8 +2909,9 @@ only when new, then `DossierBinding.notes` while every run writes it, drawn in t
 | `custom_unkeyed` | "{name} has no id from SettlementForge, so the map follows it by name; a renamed copy starts afresh." | `name` | the record | standing |
 | `count_over_range` | "{name} has {count} halls, above its listed {lo} to {hi}, because that many guilds are named on their own." | `name` the COUNT record's; `count`; `lo`, `hi` its range | the record | standing |
 | `not_placed` | "{name} has no place of its own on the map." | `name` | — | standing |
-| `frozen_fact_changed` | "SettlementForge now says {field} is {value}; the map keeps the ground and history it was first drawn with." | `field` the frozen fact's word (terrain, access, threat, magic, culture, climate, isolation, history); `value` the new word as the dossier writes it | — | report |
+| `frozen_fact_changed` | "SettlementForge now says {field} is {value}; the map keeps the ground and history it was first drawn with." | `field` the frozen fact's word (terrain, access, threat, magic, culture, isolation, history); `value` the new word as the dossier writes it | — | report |
 | `history_gap` | "{name}'s greatest size is not recorded; the map shows it as {a tier} from the evidence." | `name` the settlement's; `tier` the effective peak's tier word (V08 §3.15 (3)); for a missing age, `tier` absent and the row's variant `host.note.history_gap.age` "{name}'s age is not recorded, so the map uses a usual age for its size." | — | report |
+| `field_fallback` | "SettlementForge's record gives no {field}, so the map chose it as it would for a map made without a record." | `field` the field table's path as SettlementForge names it (`config.monsterThreat`, `traditions` …), the fallback taken in the note's `detail` (V08 §2.4; item 125 (b)) | — | report |
 
 **The pin kinds' words.** Three message rows of V08's own `host.*` family, loaded by V11's registry row 87 with V08's other
 `host.*` rows, give the words a note's `class` argument shows for the three pin kinds a record can name (V11 §3.11):
@@ -2831,7 +3001,7 @@ second cue (a pattern or shape, never colour alone).
 
 | record (V08 §) | drawn | labelled | exported | persisted |
 |---|---|---|---|---|
-| `ConditionOverlay` (3.11) | by its archetype's `conditions` row: `siege` — a tint on the enceinte band and a hatched ring outside the wall; `quarantine` — a desaturating tint over the built area and a barrier mark at every gate; `occupation` — a banner mark on the seat's building (the symbol `occupation`, §8.3); `migration` — item 70's camp clusters as the base draws them; every other archetype no mark | never on the map; the cartouche's legend names each drawn condition ("Under siege since week 40") for every key, since its tint is visible anyway; an archetype without a tint is named only for a `secret` key (J-V8.40) | GeoJSON: one feature per overlay (`kind: 'condition'`, archetype, severity, weeks) without geometry of its own, its `targets` the addresses it tints; SVG/PNG: the tint groups under `layer.thematic` | the model (§2.7) |
+| `ConditionOverlay` (3.11) | by its archetype's `conditions` row: `siege` — a tint on the enceinte band and a hatched ring outside the wall; `quarantine` — a desaturating tint over the built area and a barrier mark at every gate; `occupation` — a banner mark on the seat's building (the symbol `occupation`, §8.3); `migration` — item 70's camp clusters as the base draws them; every other archetype no mark; and, while it stands in the view's week, its crisis look (item 122) by §8.2's look rows through DR44 (V08 §3.16 (7)) | never on the map; the cartouche's legend names each drawn condition ("Under siege since week 40") for every key, since its tint is visible anyway; an archetype without a tint is named only for a `secret` key (J-V8.40); a crisis look's line names the condition by its carried `name` (V09) | GeoJSON: one feature per overlay (`kind: 'condition'`, archetype, severity, weeks) without geometry of its own, its `targets` the addresses it tints; SVG/PNG: the tint groups under `layer.thematic`, and the crisis looks drawn (battle maps in the image only, §11) | the model (§2.7) |
 | `DepositSite` (3.11, 3.13 (4)) | its land use as §4.9 draws it; `depleted` by a `states` row `worked-out` (spoil heaps on a mine or quarry, a stump field on a wood); `removed` nothing; `oasis_water` as the oasis (§8.2's oasis rows, item 111) | the deposit's display name — the `deposits` row's label, a custom resource's name, or for a derived site (`res:derived:<landuse>`) its land use's label — as a hinterland feature label at the city band (§9.4's hinterland rows) | GeoJSON: the land-use feature gains `deposit` (key) and `depositState` | the model |
 | `PowerRelation` (3.11) | not drawn; item 72's political view reads it | — | the JSON schema only (model format) | the model |
 | dossier-backed `Person` (3.11) | not drawn; the gazetteer's people list and the hover card of the building it works or lives in ("Works here: Aldric Venn, master of the Tanners' Hall") | by its workplace's knowledge: a notable posted to a place a key does not admit is withheld with that place (§11.2 *Knowledge*); else public | people CSV and the JSON schema | the model |
@@ -2842,8 +3012,8 @@ second cue (a pattern or shape, never colour alone).
 
 A held map is shown by V08 §5.1's banner and the frame's held notice (`HostSlots.banner`), a frozen view by the shell's
 own `error.frozen` strip (V09 §3.14 (b)), never by a change to the map's marks. Item 110's terraces, retaining walls, raised
-ways and deck plots, item 114's wall conditions and patch materials, item 111's oasis, and items 117 and 118's season and
-festival looks are drawn, labelled and exported by the base's rows like any content of the map; the port adds no drawing
+ways and deck plots, item 114's wall conditions and patch materials, item 111's oasis, items 117 and 118's season and
+festival looks and item 122's crisis looks are drawn, labelled and exported by the base's rows like any content of the map; the port adds no drawing
 row for them.
 
 ### 5.3 Pictures for SettlementForge's own surfaces
@@ -2937,7 +3107,8 @@ M-SF, the sealed scene files it packages unread.
 The settlement's title is the dossier's name with its tier word (§9.5; §7.7 item 15); quarter names come from the dossier's
 naming claims (§7.7 item 16); every other name the dossier does not give is generated from `site.culture` (DR14). A dossier
 name is rendered as text — never as markup — and a name longer than §9.4's ladder allows overflows by §9.4's rules; an
-empty dossier name is refused at the shape check (V08 §3.5 step 3), so a title always has one. A place the dossier marks
+empty dossier name takes the generator's own (§10.4; V08 §2.4's fallback, noted `field_fallback`), so a title always has
+one. A place the dossier marks
 `local` or `secret` is drawn but not named for a key that does not admit it (§9.2); the DM raises the party's knowledge
 place by place with "Reveal to the party" (V08 §4.2), recorded on the map record for every player and every later picture
 (V08 §3.14). The history panel speaks in SettlementForge's own reason words (`DossierChange.reason`) beside the map's rule;
@@ -2966,10 +3137,10 @@ replay law.
 | load: `doc.load` + tail to the first live frame | ≤ T(B) + 5 ms per tail event | same | same | §2.9 step 3 (open-to-editable ≤ T(B)); the tail folds by §12.6's c(e); compaction keeps the tail ≤ 256 events |
 | `hashDossier` in SettlementForge's page | ≤ 10 ms at 260 KB | same | ≤ 25 ms at 600 KB | canonical JSON and Web Crypto SHA-256; over it, the hash runs in a small worker the client starts |
 | `dossier.offer` clone into the frame | ≤ 5 ms at 260 KB | same | same | structured clone |
-| `digest` (limits, shape, records, keys, custom, the history, readiness and traditions) | ≤ 15 ms | ≤ 25 ms | ≤ 40 ms | a walk over ≤ 260 KB; linear in bytes |
+| `digest` (limits, shape, records, keys, custom, the history, readiness, traditions, the crisis fields and the fallbacks) | ≤ 15 ms | ≤ 25 ms | ≤ 40 ms | a walk over ≤ 260 KB; linear in bytes |
 | creation of a new map | ≤ 20 ms + T(B) | same | same | `creation` is table look-ups; `generate` reads the prefix ahead (§7.7 One path); a history replay adds V06's generation budget (V06 §3.20.4; §12's one-time total time, item 119) |
 | an absorb without an epoch (a week: 1–5 changes) | ≤ 40 ms + 30 ms per element event | ≤ 40 ms + 30 ms per event | ≤ 60 ms + 45 ms per event | §12.6's post-build placement bound per event; the dry run's cost is the fold's |
-| an absorb with epochs (a year) | ≤ 40 ms + Σ events + Σ epochs by the evolution engine's epoch budget (V06 §6) | same | same | a CITY year of ≈ 10 events and one whole-town epoch ≈ 0.7 s |
+| an absorb with epochs (a year) | ≤ 40 ms + Σ events + Σ epochs by the evolution engine's epoch budget (V06 §6) | same | same | a CITY year of ≈ 10 events and one whole-town epoch ≈ 0.7 s; a catch-up past item 119's comfort level coarsened by V06 §6.8 (6) (V08 §3.6 (3)) |
 | `dossier.result` size, excluding `created`'s bytes | ≤ 2 MB | ≤ 2 MB | ≤ 2 MB | the ledger event carries before and after facts; over it, the result is split into ordered parts of ≤ 1 MB under one `re`. The `.plat` bytes of `created` and of `doc.snapshot.ready` are `ArrayBuffer` transfers (no clone), bounded by §2.9's document budget (≤ 0.6, 3 and 8 MB) |
 | the refresh queue, per map (boot paid once) | ≤ 1.3 s after a year | ≤ 3.5 s after a year | ≤ 8 s after a year | load + absorb + two thumbnails (≈ 5 µs × B + 10 ms each) + a compaction (`.plat` encode ≤ 60 ms at CITY) + the party set (the render row above); a campaign of 20 CITY maps ≤ 70 s of background work |
 | memory, one live map per frame | §12.8's rung line + 30 MB | same | same | the app's fixed heap; the refresh frame has no tile worker except while it draws thumbnails and the party set |
@@ -2981,8 +3152,8 @@ replay law.
 **Why these numbers.** The map tab must never feel slower than opening the standalone map: the load row is §12.5's own law,
 and everything the stage adds on top — the hash, the clone, the digest, the diff — is under 100 ms at every rung. The
 refresh queue trades time for memory (V08 §3.4): it is background work the DM never waits on, and a map opened before its
-turn is absorbed at once in its own frame. The history reading, the readiness and the traditions are part of the digest's
-row; a season or a festival costs the port nothing (a view's look, §12.5).
+turn is absorbed at once in its own frame. The history reading, the readiness, the traditions, the crisis fields and the fallbacks
+are part of the digest's row; a season, a festival or a crisis look costs the port nothing (a view's look, §12.5).
 
 ## 7 Tests and acceptance bars
 
@@ -3011,14 +3182,14 @@ or JSON made by the harness at run time, never written back into a fixture file.
 | T-V8-15 | held and recovered: an unreadable dossier holds the map; a later readable one absorbs every change since the held state in one pass; in a build without the village package a population falling below 1 500 holds and returning above absorbs; with a test `ProductDecl` registered, a population of 0 at an absorb routes to THORP and V07's desertion — the map deserted, never held, for a village-product document and, through V07 §2.1's fold, for a base-product one — and a creation at 0 is refused `E_RUNG_UNAVAILABLE` naming the floor | PR, SF3 |
 | T-V8-16 | display names through the bridge (T85-3 over the real transport): the public picture draws the veiled texts, title included; the document and the next export are unchanged; a `knowledge` option never raises the requester's key — a bare tier is read with the requester key's places and a key form as a key in its own right (item 572), and the thumbnails' and gallery pictures' `knowledge` is `{ tier: 'public', places: [] }` whatever places the requester's key holds | PR, SF4 |
 | T-V8-17 | the players: a bridge trace of a player's page shows no `doc.load`, no `dossier.offer`, no `query` and no frame; `mount` refuses the word `player` before a frame exists; the party set's SVG and gazetteer contain none of the names the party key withholds (a byte search for every withheld name on every fixture) and the tiles are drawn from a display list that holds none (an instrumented render); every `gazetteer` and `people` query of a party render carries `admitAs` = the party key resolved by V08 §3.14 (1), in item 572's key form with `places` present, and every picture of the set the same form as its `knowledge` (an instrumented facade); each audience word gets exactly §14's role and key through `doc.load.audience`, the module taking the lower of it and `role`; anonymous, gallery and DM-full shares get pictures only | PR, SF4 |
-| T-V8-18 | the staged records and the real vocabularies: conditions put whatever their status (`stable`, `worsening`, `easing`) with weeks from their ticks — `untilWeek` within ±1 week across town-1's and city-1's one-week, one-season and one-year ticks, else the pre-decided absolute-tick reading — and retired when unlisted; stressors put as overlays with no epoch event; deposits put, `bearingCdeg` and `landUse` written by S12a and recomputed on regeneration; relations put by the `relations` row; a successor notable inherits the house and posting; a reroll re-binds a notable by name and role (`npc_rebound`); a replay from the log rebuilds every record; a user's or clerk's edit of their fields is refused `dossier-owned`; TOTALITY: every relation type and trend, history event type and template word (the `historyScars` and `historyEvents` rows), condition status and archetype, stressor type, `magicLevel`, `materialFamily`, custom definition `economicWeight` and `criticality` word (the `customWeights` row, J-V8.108), isolation path, chain status, dependency severity, qualifier word, readiness label, climate word and tradition type in the fixtures has a row or the declared else, with 0 `unmapped_word` notes on the fixtures; the derived land use: a test-side mutation of `town-1` adding a `Salt works` record, with no salt deposit, has one `saltpan` face from `res:derived:saltpan`, noted `derived_landuse`, and its salt works within 0 of it (the hard row met, no closest-option report); a second salt-working record adds no second face; adding `salt_flats` later opens the deposit's own face and leaves the derived one standing; removing every salt-working record puts the derived site `depleted`, its face drawn worked out; and every class a `kinds` row binds whose hard `near` → `landuse:<k>` row within 0 names a land use outside §4.9's rings has its land use in the `deposits` row's derived list (a compile check); every row set V08 §2.6 writes compiles with `calibratable: false` on every column, T-V11-37's clause run on V08's sources (J-V8.107); **at VH**, a hamlet fixture with a `Peat cutter` record and no `marshlands` has its `marsh` face read by V07 §3.9's claim | nightly, SF4; the hamlet clause nightly, VH |
+| T-V8-18 | the staged records and the real vocabularies: conditions put whatever their status (`stable`, `worsening`, `easing`) with weeks from their ticks — `untilWeek` within ±1 week across town-1's and city-1's one-week, one-season and one-year ticks, else the pre-decided absolute-tick reading — and retired when unlisted; stressors put as overlays with no epoch event; deposits put, `bearingCdeg` and `landUse` written by S12a and recomputed on regeneration; relations put by the `relations` row; a successor notable inherits the house and posting; a reroll re-binds a notable by name and role (`npc_rebound`); a replay from the log rebuilds every record; a user's or clerk's edit of their fields is refused `dossier-owned`; TOTALITY: every relation type and trend, history event type and template word (the `historyScars` and `historyEvents` rows), condition status and archetype, stressor type, `magicLevel`, `materialFamily`, custom definition `economicWeight` and `criticality` word (the `customWeights` row, J-V8.108), isolation path, chain status, dependency severity, qualifier word, readiness label and tradition type in the fixtures has a row or the declared else, with 0 `unmapped_word` notes on the fixtures; the derived land use: a test-side mutation of `town-1` adding a `Salt works` record, with no salt deposit, has one `saltpan` face from `res:derived:saltpan`, noted `derived_landuse`, and its salt works within 0 of it (the hard row met, no closest-option report); a second salt-working record adds no second face; adding `salt_flats` later opens the deposit's own face and leaves the derived one standing; removing every salt-working record puts the derived site `depleted`, its face drawn worked out; and every class a `kinds` row binds whose hard `near` → `landuse:<k>` row within 0 names a land use outside §4.9's rings has its land use in the `deposits` row's derived list (a compile check); every row set V08 §2.6 writes compiles with `calibratable: false` on every column, T-V11-37's clause run on V08's sources (J-V8.107); **at VH**, a hamlet fixture with a `Peat cutter` record and no `marshlands` has its `marsh` face read by V07 §3.9's claim | nightly, SF4; the hamlet clause nightly, VH |
 | T-V8-19 | the village hand-off with a TEST `ProductDecl` registered in `StrategyRegistry.products` (the port registers nothing): a sub-1 500 dossier is created on its rows; a town shrinking out of the band below 1 500 and a village growing out of it above keep one document, one seed and every standing address outside the epoch's disruption set; a target alternating 1 480 / 1 520 changes the product 0 times, one alternating 1 400 / 1 600 at every epoch (V07 §2.1's band) | milestone, SF4 (VH with V07) |
 | T-V8-20 | limits, the ignore clause and the closed digest: dossiers over each limit refuse `E_UNKNOWN_SHAPE` with `size_limit` naming it and copy no over-long string; on every fixture the port reads no path outside the adapter's field table (V08 §2.4) — a proxy-wrapped dossier records every property access, and every access is a `keyList` path; no path an `ignored` row of the field table names is read — `defenseProfile` only at `readiness`, `powerStructure.previousGovernments[]` only at each entry's `tick` | PR, SF3 |
 | T-V8-21 | `PortValues`: with values present the staged readers read the slice's; with nulls, the table's; T88-1 unchanged on the golden suite | PR, SF4 |
-| T-V8-22 | the latitude: `cell.latDeg` wins when present, else the culture row, else 50; `Intent.latitudeDeg` holds it from creation; a realm latitude arriving after creation reaches the next epoch's `PortValues.latitudeDeg` and moves the field only by item 102 (e)'s drift, never at once; a document without the field reads 50; with item 102's `w_sun` at its default, T73-7 holds on every at-rung birth (a dossier map stays within one band of its wealth row) | PR, SF4 |
+| T-V8-22 | the latitude: the culture row, else 50; `Intent.latitudeDeg` holds it from creation; a later `cultureProfileKey` writes `frozen_fact_changed` and moves nothing; no input after creation changes the latitude, and T7 `adjust` sets it as a map edit; a document without the field reads 50; with item 102's `w_sun` at its default, T73-7 holds on every at-rung birth (a dossier map stays within one band of its wealth row) | PR, SF4 |
 | T-V8-23 | the tag and category vocabularies: every tag of the fixtures and of the line's tag vocabulary has a `tags` row or the declared no-family fallback; every category and content group has a `categories` row; `unmapped_word` notes 0 on the fixtures | PR, SF3 |
 | T-V8-24 | coverage inside a collective range: every collective count inside its range on every seed; with coverage rows filled, the share of districts served rises above the random-placement baseline (item 103 (f)'s bar) while the counts stay inside the ranges; with the coverage weight 0 the digest equals the no-coverage build | nightly, SF4 |
-| T-V8-25 | custom content's arrival (item 104 (g)'s port side): on `town-cc-1` and its test-side variants — a custom record with only a category; category and tags; a scene archetype; the admitted library fields; an active chain — each digests to the specified `custom` part, chain, resource and service; the client sends no library entry the dossier did not materialise, and a mismatched entry reaching the port is ignored with one note; an offer without the library changes nothing; a new content hash emits one `setAttr` of `custom.revision`; a chain toggled inactive, then dropped, then listed again puts, retires and re-puts one record and moves no node; `archetypes` has exactly the line's 17 ids; zero refusals from custom input; the class is decided at fold, not at digest — a custom record with no archetype and a keyword whose `class` cell names a class resolves to that class, a map declaration for its `localUid` outranks every rung, and the `custom_resolved` note names the deciding rung; on the active-chain variant with one joined processor made a `secret` place (a test-side mutation), read at `public` and at a party key form without that place: no line, arrowhead, legend row, gazetteer `customChain` row, GeoJSON `supplyChain` feature or `supplyChains` path in an SVG export, and all of them at `secret` | PR, SF4 |
+| T-V8-25 | custom content's arrival (item 104 (g)'s port side): on `town-cc-1` and its test-side variants — a custom record with only a category; category and tags; a scene archetype; definition fields the dossier carries (a test-side `customContentRoster` entry at the materialised revision); an active chain — each digests to the specified `custom` part, chain, resource and service; a definition entry at another revision is ignored with one `library_mismatch` note; a definition whose fields the dossier does not carry takes item 104's generic siting, noted `field_fallback`; the client carries no library (a type scan of `@plat/bridge-client`); a new content hash emits one `setAttr` of `custom.revision`; a chain toggled inactive, then dropped, then listed again puts, retires and re-puts one record and moves no node; `archetypes` has exactly the line's 17 ids; zero refusals from custom input; the class is decided at fold, not at digest — a custom record with no archetype and a keyword whose `class` cell names a class resolves to that class, a map declaration for its `localUid` outranks every rung, and the `custom_resolved` note names the deciding rung; on the active-chain variant with one joined processor made a `secret` place (a test-side mutation), read at `public` and at a party key form without that place: no line, arrowhead, legend row, gazetteer `customChain` row, GeoJSON `supplyChain` feature or `supplyChains` path in an SVG export, and all of them at `secret` | PR, SF4 |
 | T-V8-26 | the release checklist (V08 §8.3) runs as one script and fails on any unticked row | milestone, SF7 |
 | T-V8-27 | door 1, structurally for every structured format: a type scan of `@plat/bridge-client` finds no geometry-bearing field in any value it returns except the opaque document bytes, the pictures and the export bundle's `Blob`s; `exportPicture` accepts only `png`, `svg`, `print`; a host `export.request` for any other format is refused `E_HOST_FORMAT`, save `dd2vtt` and `foundry` with `bundle` (T-V8-48); `doc.snapshot` from a viewer is refused `role` and from an editor answered; the host projection is asserted on the BYTES THE MODULE POSTS (a transport tap in the harness records every `query.result` and `preview` reply leaving the frame): on the fixture answer of every offered kind — `gazetteer`, `people`, `whereIs`, `relations`, `fates`, a `preview` reply, `brief`, `entity`, `sites`, `why` with sections, `frame` without radius, `rule`, `profile` — no coordinate, ring, bearing, distance, extent or viewport field; `measure`, `hit` and `inView` are refused `E_HOST_KIND`; the stored party gazetteer's bytes likewise; a source scan finds no projection code in `@plat/bridge-client`; under V10's configuration B every tool result leaving the frame passes it | PR, SF6 |
 | T-V8-28 | inert custom text: T85-1's hostile strings as custom names, categories, tags and descriptions — and as tradition names and staging prose — reach every exporter inert; the description and the staging prose occur nowhere in the document, the digest or the carried facts (a byte search) | PR, SF4 |
@@ -3043,15 +3214,19 @@ or JSON made by the harness at run time, never written back into a fixture file.
 | T-V8-47 | the header's controls and the bridge to the shell (a host-harness check with the transport tap): in an owner's frame and an editor's, each control is offered exactly to the roles its V08 §4.2 row names, and a click on Refresh now, Restore previous map (after its dialog), Make a new map from the record (after its dialog), Reveal to the party and Hide from the party (with a selection of one dossier-bound and one map place), Hide again, Reveal again, the party's base knowledge and Assistant settings posts exactly one `host.action` with that row's `action` and `args` — binding keys for dossier-bound places, addresses otherwise — and nothing else, and the host's handler on `on('action')` runs the row's operation; a cancelled dialog posts nothing; with `backupDepth` 0 no Restore control is offered; Update the map engine posts its `doc.changed` (an `upgrade`) and no `host.action`, then the client sends `doc.snapshot`; the header carries no Keep-the-saved-town control, and V09 §3.14's load-mismatch keep commits a `rebase` through `doc.changed`, after which the client sends `doc.snapshot`; a frozen view's **Edit it with this version** (V09 §3.14 (b)) likewise commits its `frozenImport` `rebase` through `doc.changed`, after which the client sends `doc.snapshot`, and the frame's `banner` slot carries no frozen-view notice; the `upgrade-available` banner has no button; "See what the players see" posts nothing; a `host.action` whose row the role does not hold, injected by the tap, is dropped and reported; a `clerk.config` sets `ClerkMount.host.config()` and `HostSlots.clerkMode`, a host `preview { proposal }` arrives on `proposals`, and the harness's `needsToken`, `refused` and `answer` post `clerk.needsToken`, `clerk.config.refused` and `clerk.proposal`; `HostSlots.hostName` is `SettlementForge`, the population and tier word are locked with `host.locked`, and `fileMenu` is false; `HostSlots.historyLines` lists a reveal, a hide and a tier change made in this session as one `host.revealed`, `host.hidden` and `host.partyTier` line each with its targets, makes no line for the first `party` after a load, keeps one `host.picturesDrawn` line replaced at each `partyPicturesAt`, and is empty after `switchTo`; `HostSlots.newDocuments` is `'download'`, and Open a copy from here saves a `.plat` to the device and leaves the frame's document unchanged; with "See what the players see" on after a hide, `historyLines.list` called with the party key form returns the `host.hidden` line neither naming nor targeting a place that key omits, and not at all when it named only such places, and `list` called with the frame's key once the view is switched off returns it whole; a place whose binding row is gone is named by its key with no target; a `list` with a key the handler has not read yet returns only the lines that name no place, and `onChange` fires once the reads answer; a commit renaming a place a line names, and an applied tail that raises a named place's knowledge tier above the listed key, each fire `onChange`, and the next `list` names that place by its new name, or not at all; the handler registers no `onEffectiveKey` handler and exactly one `subscribe` on the loaded document — released at `switchTo`, a fresh one registered at the next `doc.load` — and every place read goes through `query`'s `entity` form with `admitAs` the listed key (the transport tap and a facade spy; J-V8.106, J-V8.109, J-V8.110) | PR, SF6 |
 | T-V8-48 | the export bundle (J122, V08 §11 Q3): `exportScenes({ formats: ['dd2vtt', 'foundry'] })` from an editor's session returns one `Blob` per format whose bytes equal the frame's own export of that format at the same key (a byte compare); the transport tap shows one `export.request { bundle: true }` per format and no other message; a `knowledge` key form lowers both files (a withheld place's name absent from both, a byte search); the client's code path from `export.ready` to the `Blob` holds no JSON parse and no text decode (a source scan, §14's lint); a request with `bundle` for `geojson`, and one for `dd2vtt` without `bundle`, are refused `E_HOST_FORMAT`; an empty `formats` list sends nothing and returns `[]`; a format the key rules refuse is `export.refused` while the other is returned | PR, SF6 |
 | T-V8-49 | the edge suite (V08 §3.17): one fixture per clause — (a) the record, messages, binding and digest additions at their data limits; (b) the row sets' `else`, reversed and zero ranges, the water words at every rung; (c) custom content none, one, degenerate and through save, load, undo, redo and migration; (d) the zero-size tab, a one-settlement campaign and an offer through every lifecycle step; (e) the refresh queue empty, one, long, with bad data, at every rung and across a visible edit, a restore and a reload; (f) the digest and the ladders degenerate, and the no-seat case — a THORP dossier with 40 custom institutions absorbed at once places every one, none omitted, the report naming each edge plot (`W_DOSSIER_EDGE`); (g) epochs none, one, backwards and across a band; (h) persistence with depth 0, a quota below the snapshot, two failures at once; (i) the hand-off's data and lifecycle; (j) the players' view at a village rung and at the METROPOLIS tile cap; (k) edits and the clerk at their limits; (l) drawings, pictures and labels at their limits; (m) V08 §3.17 (b)'s feature rows at THORP, TOWN and METROPOLIS, among them a harbour record on a site with neither coast nor river, placed at its first closest option with no basin drawn and never omitted; each clause asserts its row's outcome, its rung and no whole-map retry | nightly, SF7 |
-| T-V8-50 | item 111 at the port: a `desert` dossier with `oasis_water` has an oasis and its grove; without it and without a water word, none on any seed; a `desert` with access `river` has its river, with `port` its coast and harbour, with `fishing_grounds` a coast, river or lake; `oasis_water` on a `plains` dossier gives an oasis; a river forced on a relief that cannot carry it is reported, never dropped silently; `oasis_water` removed at an absorb leaves V06's failing spring; with V11 §3.24.0's climate dry cells off and no oasis deposit, byte-identical (item111.water, the port fixtures registered on V12 §3.7.8's engine by the SF4 seat) | PR, SF4 |
-| T-V8-51 | item 113's reading: on a test-side "city to village" mutation of a village fixture (a `tierHistory` demotion from city, no `peakTier`), `HistoryHint.peak` is `{ tier: 'city', symbolic: true, evidence: ['tierHistory', …] }` and a `history_gap` note is written; with `peakTier: 'city'` added the peak is recorded, not symbolic; with no evidence there is no peak; each evidence kind alone (a `populationHistory` maximum, calamity losses, a ruined city-tier record, a resettlement) gives its stated tier; the events map by `historyEvents` with their years ago (a ticked event from its tick); a missing age takes the `tiers` row's midpoint with `history_gap`; an ancient "Fall of" event fills `ancientFall` and never `site.ruinEvidence`; a later dossier changing the history writes one `frozen_fact_changed` note and no event; with history replay off the map is byte-identical (item 113 (g)'s pin) | nightly, SF4 |
-| T-V8-52 | item 114 at the port: the `readiness` row maps each fixture's label and score to its band and weight; at generation a `vulnerable` poor mutation and a `fortress` rich one read §7.7's DR41 with those inputs (their runs' conditions as the row's shares give them); over epochs the need threat is max(threat, readiness) — a `fortress` heartland mutation stays `high` need, a `vulnerable` frontier one keeps the frontier's need; DR2's creation defence is unchanged by the readiness (byte-identical walls and gates with and without it); a readiness change reaches the next epoch's slice only | nightly, SF4 |
-| T-V8-53 | item 115's "specified": at HAMLET a dossier manor record keeps its full design above the ceiling; a dossier government whose `villageSeat` names the manor — a seigneurial one and a crown one alike — forces it at THORP, HAMLET and VILLAGE, at VILLAGE as the one manor; a `Wealthy` hamlet with a `Wealthy Residential` quarter and no grand record builds no grand dwelling; a custom record whose keywords say "palace" but whose resolution lands on a house class is capped; at TOWN every case is byte-identical to the build without the ceiling | PR, SF4; the village clauses PR, VH |
-| T-V8-54 | item 117 at the port: a campaign dossier opens on its own week (`week mod 52`) under the follow flag, a changed week re-skins with the model hash unchanged across all 52 weeks through the bridge; a map without a week keeps its own; a realm climate word sets the biome's climate row at creation and a later one writes `frozen_fact_changed`; a word the `climates` row lacks falls to the terrain column, noted | PR, SF4 |
-| T-V8-55 | item 118 at the port: the lit-year fixture's `traditions` digest with their weeks, kinds and staging keys (the prose absent from the document, a byte search); a window across the year's end wraps; a window with no readable week is carried unscheduled; a custom tradition keys by `localUid`; adding, changing and removing a tradition changes only the ledger (the model hash equal); the festival shows exactly in its weeks under the follow flag; with no traditions the build is byte-identical (item 118 (h)'s pin) | PR, SF4 |
+| T-V8-50 | item 111 at the port (takes T111-1 – T111-5's port clauses): a `desert` dossier with `oasis_water` has an oasis and its grove; without it and without a water word, none on any seed; a `desert` with access `river` has its river, with `port` its coast and harbour, with `fishing_grounds` a coast, river or lake; `oasis_water` on a `plains` dossier gives an oasis; a river forced on a relief that cannot carry it is reported, never dropped silently; `oasis_water` removed at an absorb leaves V06's failing spring; with V11 §3.24.0's climate dry cells off and no oasis deposit, byte-identical — the `item111.water` registration of the port fixtures on V12 §3.7.8's engine (V12 §2.13), written by the SF4 seat | PR, SF4 |
+| T-V8-51 | item 113's reading (takes T113-1 and T113-6's dossier clauses): on a test-side "city to village" mutation of a village fixture (a `tierHistory` demotion from city, no `peakTier`), `HistoryHint.peak` is `{ tier: 'city', symbolic: true, evidence: ['tierHistory', …] }` and a `history_gap` note is written; with `peakTier: 'city'` added the peak is recorded, not symbolic; with no evidence there is no peak; each evidence kind alone (a `populationHistory` maximum, calamity losses, a ruined city-tier record, a resettlement) gives its stated tier; the events map by `historyEvents` with their years ago (a ticked event from its tick); a missing age takes the `tiers` row's midpoint with `history_gap`; an ancient "Fall of" event fills `ancientFall` and never `site.ruinEvidence`; a later dossier changing the history writes one `frozen_fact_changed` note and no event; with history replay off the map is byte-identical (item 113 (g)'s pin) | nightly, SF4 |
+| T-V8-52 | item 114 at the port (takes T114-7): the `readiness` row maps each fixture's label and score to its band and weight; at generation a `vulnerable` poor mutation and a `fortress` rich one read §7.7's DR41 with those inputs (their runs' conditions as the row's shares give them); over epochs the need threat is max(threat, readiness) — a `fortress` heartland mutation stays `high` need, a `vulnerable` frontier one keeps the frontier's need; DR2's creation defence is unchanged by the readiness (byte-identical walls and gates with and without it); a readiness change reaches the next epoch's slice only | nightly, SF4 |
+| T-V8-53 | item 115's "specified" (takes T115-2 and T115-3's dossier clauses): at HAMLET a dossier manor record keeps its full design above the ceiling; a dossier government whose `villageSeat` names the manor — a seigneurial one and a crown one alike — forces it at THORP, HAMLET and VILLAGE, at VILLAGE as the one manor; a `Wealthy` hamlet with a `Wealthy Residential` quarter and no grand record builds no grand dwelling; a custom record whose keywords say "palace" but whose resolution lands on a house class is capped; at TOWN every case is byte-identical to the build without the ceiling — the `item115.ceiling` registration of the port fixtures on V12 §3.7.8's engine (V12 §2.13), written by the SF4 seat | PR, SF4; the village clauses PR, VH |
+| T-V8-54 | item 117 at the port (takes T117-1 and T117-6's port clauses): a campaign dossier opens on its present week — its latest stamped tick, mod 52 — under the follow flag, and the same document re-skins with the model hash unchanged across all 52 weeks through the bridge; a dossier with no stamped tick opens at week 0 on the season control's midsummer (week 19); a host's `view.set { week }` changes the drawn week, never the document; the terrain sets the biome's climate row at creation by the `climates` row's terrain column, and a later terrain word writes `frozen_fact_changed` | PR, SF4 |
+| T-V8-55 | item 118 at the port (takes T118-1, T118-2 and T118-5's port clauses): the lit-year fixture's `traditions` digest with their weeks, kinds and staging keys (the prose absent from the document, a byte search); a window across the year's end wraps; a window with no readable week is carried unscheduled; a custom tradition keys by `localUid`; adding, changing and removing a tradition changes only the ledger (the model hash equal); the festival shows exactly in its weeks under the follow flag; with no traditions the build is byte-identical (item 118 (h)'s pin) | PR, SF4 |
 | T-V8-56 | the frozen facts and the wealth over time (V08 §3.5): a later dossier changing `terrainType`, `tradeRouteAccess`, `monsterThreat`, `magicLevel` or `cultureProfileKey` writes one `frozen_fact_changed` note each, no map event, and the next identical dossier writes none; a prosperity change from `Poor` to `Prosperous` is one `prosperity` change whose epoch carries `EpochInputs.wealthLevel` 0.8, read by V06's wealth level | PR, SF3 |
 | T-V8-57 | SettlementForge's decisions as inputs (J121): `moduleOrigin` sets the frame's `src` and the CSP check; `locale` loads a shipped catalogue and falls to English for an unshipped one; `backupDepth` 0, 1 and 3 keep that many backups; a `quotaBytes` below the record drops backups beyond `backups[0]`, then the party set's z3, never refuses a commit, and shows `host.status.overQuota` | PR, SF1 |
-| T-V8-58 | item 120 at the port — Find's dossier entries (V08 §3.16 (6); the dossier clauses of item 120 (k)): on `town-1`, `metropolis-3` and the lit `city-1` pair through the bridge, with V09's Find, every dossier institution record that is not `removed` and whose key binds an element is one entry, first among the named institutions, in dossier order, its words its `kindLabel` and its count the addresses its key's rows hold, and its chip selects exactly those addresses (a set compare with `DossierBinding.rows`), apart from its class's entry; `metropolis-3`'s merged cathedral record is its own entry selecting its alias target; an `@absent:*` record, a `(0-0)` record and a `removed` record are no entry; "red light" offers the `red light district` record, and no V11 synonym matches a dossier entry; on a test-side variant of `town-1` with one record made `secret`, under "See what the players see" with a party key that omits it, the record is never suggested, listed, counted, glowing or pinned (a byte search of Find's answers and of the drawn display list for its name); a chip on a record re-keyed by a receipted rename, by T-V8-44's `promotedFrom` pair and by a `fromLines` table on T-V8-11's test line keeps its selection and shows the new words, and a chip on a record an absorb removes shows 0 until cleared; the document's bytes, the model digest and the party set are byte-identical with Find on and off, and the transport tap finds no chip in any bridge message | PR, SF6 (with V09's Find) |
+| T-V8-58 | item 120 at the port (takes T120-2's dossier clause) — Find's dossier entries (V08 §3.16 (6); the dossier clauses of item 120 (k)): on `town-1`, `metropolis-3` and the lit `city-1` pair through the bridge, with V09's Find, every dossier institution record that is not `removed` and whose key binds an element is one entry, first among the named institutions, in dossier order, its words its `kindLabel` and its count the addresses its key's rows hold, and its chip selects exactly those addresses (a set compare with `DossierBinding.rows`), apart from its class's entry; `metropolis-3`'s merged cathedral record is its own entry selecting its alias target; an `@absent:*` record, a `(0-0)` record and a `removed` record are no entry; "red light" offers the `red light district` record, and no V11 synonym matches a dossier entry; on a test-side variant of `town-1` with one record made `secret`, under "See what the players see" with a party key that omits it, the record is never suggested, listed, counted, glowing or pinned (a byte search of Find's answers and of the drawn display list for its name); a chip on a record re-keyed by a receipted rename, by T-V8-44's `promotedFrom` pair and by a `fromLines` table on T-V8-11's test line keeps its selection and shows the new words, and a chip on a record an absorb removes shows 0 until cleared; the document's bytes, the model digest and the party set are byte-identical with Find on and off, and the transport tap finds no chip in any bridge message | PR, SF6 — at the later of M-SF and M5, Find's milestone (with V09's Find) |
+| T-V8-59 | item 122 at the port (takes T122-4's census clause; V08 §3.16 (7)): the manifest's `crisis` lists equal the pinned line's stressor types (fifteen), condition archetypes and crisis events, read from its commit by the build step; every stressor type, archetype and `triggeredAt.sourceEventType` the fixtures carry is in the census, and V11's compile check of `crisis.map` passes over it; a `cond:stress:<type>` overlay reads its `stressor` row, a condition a `PLAGUE` event raised (the probe town's PLAGUE pair) its `event` row and every other condition its `archetype` row; a test-side unknown archetype, stressor type and event each read `none`, noted `unmapped_word`; on the lit `city-1` pair a condition triggered at the storm's week carries that calamity's key, its resolved `targets` and type reaching DR44; a condition's `label` is carried as `name`; its overlay's weeks are its ticks' (V08 §3.11), so its look stands exactly in them; a condition whose row gives a look is admitted at `public` and one whose row is `none` only at `secret` — under View as "What anyone knows" and a party key that omits it, never drawn, listed or named; a changed name, event or calamity link is one ledger change with the model digest equal; with no condition and no preview the tiles are byte-identical to the base (`item122.crises`'s fixture; the pin is V12's) | PR, SF4 |
+| T-V8-60 | item 122 (h) at the port (V08 §3.16 (8)): on the pinned line no force is read and every look takes its count fallback, a `field_fallback` note only where a look scaling by headcount stands; under a test adapter version declaring test paths on a test-side mutation of `city-1` — two armies of one coalition and a travelling group — each army is one `forces` entry with its heads and the coalition's key and the group one entry, each joined to its condition; a force naming no condition joins the most severe standing `siege` overlay; headcounts of 0, −5 and "many" read as none, noted `field_fallback`; with no forces a migration condition's `arrivals` is the `populationHistory` rise across its trigger week, and a disaster's calamity carries its `exodus`; a size change is one ledger change, the model digest equal | PR, SF4 |
+| T-V8-61 | item 125 at the port (takes T125-1 – T125-3; V08 §2.4, V08 §3.16 (9)): (a) T125-1 — a test-side reduction of `town-1` to its 41 required keys, every optional key absent and every empty-able value emptied, generates a full map with no refusal, each read field it lacks one `field_fallback` note naming the field, its `detail` the row's fallback; (b) T125-2's port clause — every fixture offered with and without a host context (`line` the pinned line, an `audience`, `displayNames` for one export) yields the identical document and model digest (the `item125.host` pin is V12's); a `line` no adapter supports, and one whose adapter refuses the dossier, refuse `E_LINE_UNSUPPORTED`; (c) T125-3 — a static check: the adapter's sources import only `@plat/port`'s types and `@plat/tables` and read the host context only at `line` (an import scan, and T-V8-20's proxy wrapping `host` as well as the dossier); (d) the week: a dossier whose conditions', calamities' and history's ticks differ opens on the greatest, one with none at week 0 on the season control's midsummer | PR, SF3 |
+| T-V8-62 | item 126 at the host (takes T126-2's host-frame clause; V08 §3.16 (10)): the host harness's frame in a 599 × 479 CSS px tab shows V09's medium layout at 600 × 480 with the tab scrolling, and the party viewer keeps the same minimum; a resize across 600 × 480 in both directions leaves the document, the view and the selection byte-identical (canonical bytes, view section, selection ids); the embed's bundle holds no phone layout, screen, notice or catalogue row (V09's T126-3 scan run over `embed.html`) | PR, SF6 |
 
 ### 7.2 The host harness
 
@@ -3060,7 +3235,7 @@ in-memory `MapStore` that implements the compare-and-set exactly as V08 §2.2 st
 decoder and no hash function, so a design that needed the host to compute anything would fail to build — the module served
 on a second origin, and a scripted driver that plays audiences (the DM, a co-DM, players through `mountParty`), dossier
 versions (the fixture pairs, and test-side mutations of them), time advances, reveals, page closes, SettlementForge's
-configuration inputs (`backupDepth`, `quotaBytes`, `locale`) and forced failures (a killed worker, a dropped reply, a
+configuration inputs (`backupDepth`, `quotaBytes`, `locale`, `line`), tab sizes (V08 §3.16 (10)) and forced failures (a killed worker, a dropped reply, a
 damaged snapshot, a lost record, an altered event). It runs headless on the three engines in CI and records each run's
 events, stored records and model digests for the bars above. It is the only way the SF stage is tested before
 SettlementForge wires the tab; SettlementForge's own integration test (V08 §8.3, row R7) runs the same driver against
@@ -3100,7 +3275,8 @@ which SF6's host clerk and `ClerkMount.host` drive), M4 (the incremental path th
 each epoch), M6-E (V06's epochs and history replay, which J122's order lands before M-CAL), M-CAL's calibrated tables, and
 V11's **C4b** — the SettlementForge rows: `dossier.kinds`, archetypes, category synonyms, keywords, good words and ladders
 — with **C4a**'s wall barrier and waterfront rows (landed at M2b) and **C9**'s rows that items 111 and 113–118's port
-readings use (V11 §8, each priced there, not here). V09's AP5b — the host shell verified on `embed.html` with SF4 and SF6
+readings use, with the `crisis.map` rows item 122's census is checked against (a dossier row set at M-SF; R2-36) (V11 §8,
+each priced there, not here). V09's AP5b — the host shell verified on `embed.html` with SF4 and SF6
 — runs inside M-SF (V09 §8.1). Without V11's rows every unmapped kind still stands at its category's generic class,
 reported — the stage is never
 blocked by content. An SF step started before M6-E lands runs its catch-up epochs on the base's built growth path and
@@ -3112,23 +3288,23 @@ with V07's product (J122: the village lands before M-SF) and is a half-week row 
 
 | step | content | exit (executed, not asserted) | est. (pw) |
 |---|---|---|---|
-| **SF0 — spike** (risk retirement) | `embed.html` host mode booting in a frame on a second origin under V08 §3.1's sandbox and both CSPs, on the three engines; the transport's origin and source checks; `hashDossier`; a throwaway store; ONE measurement that could refute the brief — SettlementForge's app CSP and hosting admit a frame on the module's origin with workers (V08 §8.4 risk 1) | T-V8-1 green; boot and load rows of V08 §6 measured at CITY; the CSP answer recorded | 0.75–1 |
+| **SF0 — spike** (risk retirement) | `embed.html` host mode booting in a frame on a second origin under V08 §3.1's sandbox and both CSPs, on the three engines; the transport's origin and source checks; `hashDossier`; a throwaway store; ONE measurement that could refute the brief — SettlementForge's app CSP and hosting admit a frame on the module's origin with workers (V08 §8.4 risk 1); the census of the pinned line's history, festival and crisis words (V08 §2.6, V08 §3.16 (7)) with the final local check's table re-run against it (V08 §3.16 (9)) | T-V8-1 green; boot and load rows of V08 §6 measured at CITY; the CSP answer and the census recorded | 0.75–1 |
 | **SF1 — the host client and the store contract** | `@plat/bridge-client` (`MapHost`, `MapSession`, `MapStore`, `MapRecord`, `MapHostConfig` with SettlementForge's inputs — origin, backup depth, quota, locale — `statusText` generated from V09's rows, the party viewer); the generated message types; the bridge messages, `doc.snapshot`, the `encoded` and head fields, `doc.load.audience` and `ready`'s additions in `@plat/api` (item 472); the host-minted `docId` (item 459); the host harness with its bytes-only store | T-V8-2, T-V8-4, T-V8-57 | 2–2.5 |
 | **SF2 — the port leader** | creation and absorb over the bridge by an editing role; commit through compare-and-set; every editor's verification of applied absorbs; the reserved session `host:port`; coalescing; `unchanged`; the refresh queue in its hidden frame with its lease and the page-memory rule | T-V8-3, T-V8-6, T-V8-7, T-V8-8, T-V8-13 | 2–3 |
-| **SF3 — adapters and failure** | `AdapterManifest` with required and optional keys and the adapter's field table, `AdapterRegistry` with the selection order, limits, record quarantine and its hold, `E_OTHER_SETTLEMENT`, remaps and line migration (items 508, 390, 512); the name grammar, qualifiers and ladder merges (item 108); the frozen-fact and wealth rows of the diff; the held state with its reason; the port notes' `msg`, `keys` and classes, the ledger's `notes` and `notesCleared` and `DossierBinding.notes`, copied into `GenerationReport.dossierNotes` (items 508, 358, 390); the `tags`, `categories`, `crime`, `cultures` rows (item 510) | T-V8-9, T-V8-10, T-V8-11, T-V8-15, T-V8-20, T-V8-23, T-V8-31, T-V8-44, T-V8-46, T-V8-56 | 2.25–3.25 |
-| **SF4 — the staged records, the values, the g items and custom content** | `dossierFacts` and `dossierRecord` (item 358) with the records' fills and drawing rows and the chains' knowledge rule (item 410); `PortValues` with the latitude, the sea threats and the readiness (item 389); the realm block helper and the latitude row (items 391, 396); coverage inside a range (item 392); SettlementForge's chains, dependencies and goods (DR33); the calamities and stressors; the vocabularies (relations, history, conditions, magic, era, materials, isolation); item 109's evidence, drivers and burial trace (DR30–DR32); item 110's inputs (DR34, DR35, the dry-site brook with its rung column, item 399); items 111, 113, 114, 115, 117 and 118 at the port (the water words and the oasis, the history's reading and the effective peak, the readiness, "specified", the calendar and the climate, the traditions); the display names in use; custom content's arrival (items 511, 256, 394) | T-V8-16, T-V8-18, T-V8-21, T-V8-22, T-V8-24, T-V8-25, T-V8-28, T-V8-32 – T-V8-40, T-V8-42, T-V8-43, T-V8-50 – T-V8-55 | 5.75–7.75 |
+| **SF3 — adapters and failure** | `AdapterManifest` with required and optional keys and the adapter's field table, `AdapterRegistry` with the selection order, limits, record quarantine and its hold, `E_OTHER_SETTLEMENT`, remaps and line migration (items 508, 390, 512); the name grammar, qualifiers and ladder merges (item 108); the frozen-fact and wealth rows of the diff; the held state with its reason; the port notes' `msg`, `keys` and classes, the ledger's `notes` and `notesCleared` and `DossierBinding.notes`, copied into `GenerationReport.dossierNotes` (items 508, 358, 390); the `tags`, `categories`, `crime`, `cultures` rows (item 510); the field table's fallback column with its `field_fallback` notes and `line` the one host field (item 125) | T-V8-9, T-V8-10, T-V8-11, T-V8-15, T-V8-20, T-V8-23, T-V8-31, T-V8-44, T-V8-46, T-V8-56, T-V8-61 | 2.5–3.5 |
+| **SF4 — the staged records, the values, the g items and custom content** | `dossierFacts` and `dossierRecord` (item 358) with the records' fills and drawing rows and the chains' knowledge rule (item 410); `PortValues` with the sea threats and the readiness (item 389); the latitude row (item 391); coverage inside a range (item 392); SettlementForge's chains, dependencies and goods (DR33); the calamities and stressors; the vocabularies (relations, history, conditions, magic, era, materials, isolation); item 109's evidence, drivers and burial trace (DR30–DR32); item 110's inputs (DR34, DR35, the dry-site brook with its rung column, item 399); items 111, 113, 114, 115, 117 and 118 at the port (the water words and the oasis, the history's reading and the effective peak, the readiness, "specified", the calendar and the climate, the traditions); the display names in use; custom content's arrival (items 511, 256, 394); item 122 at the port — the crisis census, each overlay's source and its crisis fields, and item 122 (h)'s headcount fields with their fallbacks (V08 §3.16 (7), (8)) | T-V8-16, T-V8-18, T-V8-21, T-V8-22, T-V8-24, T-V8-25, T-V8-28, T-V8-32 – T-V8-40, T-V8-42, T-V8-43, T-V8-50 – T-V8-55, T-V8-59, T-V8-60 | 6–8.25 |
 | **SF5 — persistence in the host and the players' view** | compaction through `doc.snapshot`, backups to `backupDepth` with `tailAfter`, the quota's trim order, restore and "make a new map" with fresh loads, thumbnails, the upgrade flow and its compaction; the party picture set, the party gazetteer, `setParty` and the player's tab (V08 §3.14) | T-V8-5, T-V8-17, T-V8-29, T-V8-41 | 1.5–2 |
-| **SF6 — the tab's UX, the host clerk and the export bundle** | host mode's chrome, banners and history panel with item 110's lines (V08 §5.1, V08 §4.6); the words of the notes, held reasons, host lines and the frame's controls, dialogs and strip (V08 §3.9, V08 §4.6, V08 §5.1); the actions of V08 §4.2 with `host.action` and `host.state`; the bridge to the shell (`ClerkMount.host`, `HostSlots`; V08 §3.1 step 7); the host clerk's relay, projection and previews; `setClerk` and `clerkNeedsToken` (V08 §4.4, V08 §5.4); the export bundle's scene route (V08 §5.4 (2)); Find's dossier entries with V09's Find (V08 §3.16 (6); item 120; a reading of carried facts and binding rows, inside this step's estimate) | T-V8-14, T-V8-27, T-V8-45, T-V8-47, T-V8-48, T-V8-58 | 1.5–2 |
+| **SF6 — the tab's UX, the host clerk and the export bundle** | host mode's chrome, banners and history panel with item 110's lines (V08 §5.1, V08 §4.6); the words of the notes, held reasons, host lines and the frame's controls, dialogs and strip (V08 §3.9, V08 §4.6, V08 §5.1); the actions of V08 §4.2 with `host.action` and `host.state`; the bridge to the shell (`ClerkMount.host`, `HostSlots`; V08 §3.1 step 7); the host clerk's relay, projection and previews; `setClerk` and `clerkNeedsToken` (V08 §4.4, V08 §5.4); the export bundle's scene route (V08 §5.4 (2)); Find's dossier entries with V09's Find (V08 §3.16 (6); item 120, which lands at M5 before M-SF, R2-32; a reading of carried facts and binding rows, inside this step's estimate); the frame's and the party viewer's minimum size (item 126; V08 §3.16 (10); inside this step's estimate) | T-V8-14, T-V8-27, T-V8-45, T-V8-47, T-V8-48, T-V8-58, T-V8-62 | 1.5–2 |
 | **SF7 — hardening and release** | campaign scale; every budget measured; the edge suite (V08 §3.17); the release checklist; the fixtures re-cut and run through the bridge | T-V8-12, T-V8-26, T-V8-30, T-V8-49; T73-1 – T73-7 and T75-1 – T75-5 green through the bridge | 1.75–2.5 |
 | **VH — the village hand-off** (with V07) | the port's consultation of `LadderRouter` with V07's registered `ProductDecl` (item 202), the band fold at epochs and the desertion route at 0; T-V8-19 on V07's rows as well as the test product; the village clauses of the edge suite and of items 111, 115 | T-V8-19; T-V8-15's village clause; T-V8-40's, T-V8-46's, T-V8-53's and T-V8-18's village clauses | 0.5 |
-| **total (the map side)** | V11's C4b and C9 are priced by V11 | | **18–24.5** |
-| SettlementForge's side (the owner's program, priced for the owner's plan, not in the total) | the lazy Map tab chunk and its mount; the map-record table with its conditional write and row-level security; `frame-src` for the module's origin and its own `MapHostConfig` values; the advance hook that marks `refreshPending` and calls `refresh`; the library entries for `customLibrary`; the assistant's use of `query` and `preview`; the export bundle's use of `exportScenes`; the status banner's strings | SettlementForge's own tests plus R7 below | 1.5–2.5 |
+| **total (the map side)** | V11's C4b, C9 and `crisis.map` rows are priced by V11 | | **18.5–25.25** |
+| SettlementForge's side (the owner's program, priced for the owner's plan, not in the total) | the lazy Map tab chunk and its mount; the map-record table with its conditional write and row-level security; `frame-src` for the module's origin and its own `MapHostConfig` values; the advance hook that marks `refreshPending` and calls `refresh`; no Map tab on a phone (item 126); the assistant's use of `query` and `preview`; the export bundle's use of `exportScenes`; the status banner's strings | SettlementForge's own tests plus R7 below | 1.5–2.5 |
 
 ### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configuration)
 
 | row | check |
 |---|---|
-| R1 | every T-V8 bar, T73-1 – T73-10, T75-1 – T75-5, T77-1, T81-2, T85-1 – T85-3, T88-1 – T88-2 and T108-1 – T108-3 green at the release commit |
+| R1 | every T-V8 bar, T73-1 – T73-10, T75-1 – T75-5, T77-1, T81-2, T85-1 – T85-3, T88-1 – T88-2 and T108-1 – T108-3, and the port's clauses of T111-1 – T111-5, T113-1, T113-6, T114-7, T115-2, T115-3, T117-1, T117-6, T118-1, T118-2 and T118-5, T120-2's dossier clause, T122-4's census clause, T125-1 – T125-3 and T126-2's host-frame clause, green at the release commit |
 | R2 | the adapter set: each registered adapter's `line`, `version` and `commit` equal a fixture manifest's rows; every manifest's `keyList` equals its field table's read rows and passes §14's lint; each manifest's `vocabulary` versions equal the `tablePins` of the fixture documents it serves, and a moved pin is reported with the table rows it changes; V11 §3.12's ladder rows agree with the committed `ladderPairs`, a disagreement a V11 table fix |
 | R3 | output-version retention: the release replays every stored fixture document of the two previous output versions exactly (§6.4) |
 | R4 | the host client's version and its message types match the module's `protocol`; a client one protocol behind is refused at `ready` with the upgrade notice |
@@ -3136,7 +3312,7 @@ with V07's product (J122: the village lands before M-SF) and is a half-week row 
 | R6 | the budgets of V08 §6 re-measured, any fallback taken reported in the release notes |
 | R7 | SettlementForge's integration: the harness driver run against SettlementForge's staging store and tab (the owner's environment) — create, a week, a year, a held dossier, a restore, an export bundle — all bars green |
 | R8 | the known-defects file (§14's `@plat/docs`) lists every open defect of this stage with its workaround |
-| R9 | a new SettlementForge line (when one ships): its adapter folder, the fixtures re-cut by the same scripts, T-V8-10 and T-V8-11 on the old line's pairs; every top-level key, condition archetype, climate word and tradition type the fixtures show that no list or row names is listed for a table fix |
+| R9 | a new SettlementForge line (when one ships): its adapter folder, the fixtures re-cut by the same scripts, T-V8-10 and T-V8-11 on the old line's pairs; every top-level key, stressor type, condition archetype, crisis event and tradition type the fixtures show that no list or row names is listed for a table fix, and the final local check (V08 §3.16 (9)) re-run against the new line |
 | R10 | the clean-room scanner (§17.1 (5)) passes over `@plat/port`, `@plat/bridge-client` and the host mode's code |
 
 ### 8.4 Risks, in order
@@ -3168,10 +3344,14 @@ with V07's product (J122: the village lands before M-SF) and is a half-week row 
    built-in clerk where the deployment enables it (V08 §4.4 (6)), which needs no new stored artifact.
 7. **The condition weeks' reading** (`expiresAtTicks` as a whole length, V08 §3.11) is PLAUSIBLE. T-V8-18 measures it on
    the one-week, one-season and one-year ticks; **fallback:** the absolute-tick reading, pre-decided there.
-8. **SettlementForge's history, climate and tradition words at the pinned line** (V08 §2.6's `historyEvents`, `climates`,
-   `festivals`). The nine template words, the climate synonyms and the festival words are PLAUSIBLE until SF0's census
-   reads the pinned line; **fallback:** each unknown word takes its row's defined `else` (the event's type category, the
-   terrain column, the `market` kind), noted, until a table fix gives it a row — never a dropped event, climate or festival.
+8. **SettlementForge's history, tradition and crisis words at the pinned line** (V08 §2.6's `historyEvents` and
+   `festivals`; the crisis census, V08 §2.4). The nine template words, the festival words and the census's stressor types,
+   archetypes and crisis events are PLAUSIBLE until SF0's census reads the pinned line; **fallback:** each unknown word
+   takes its row's defined `else` (the event's type category, the `market` kind, `none` for a crisis word), noted, until a
+   table fix gives it a row — never a dropped event, festival or condition.
+9. **The forces' fields are in development** (item 122 (h)). Until SettlementForge ships them, no look scales by
+   headcount; **fallback:** the counts the dossier gives (`arrivals`, `exodus`), else the scale by severity and tier (V08
+   §3.16 (8)); the adapter version that reads them adds only its paths, confirmed by the final local check.
 
 ## 9 Decisions (each vetoable)
 
@@ -3187,7 +3367,7 @@ A decision a later ruling changed carries one mark on its row: "amended by X" (t
 | J-V8.6 | chose the background refresh after an advance to run in ONE hidden frame on the DM's page, serially, pausing on input, over a server-side renderer or parallel frames, because the product has no hosted service (§11.5), one document at a time keeps memory at one rung's line on any campaign size, and `refreshPending` makes it resumable |
 | J-V8.7 | chose an `<iframe>` on the module's own origin with `allow-scripts allow-same-origin allow-downloads` over a worker or script on SettlementForge's origin, because it is SettlementForge's own pattern for its realm map (`research/sf/dossier-seam.md` C-1) and no module code then runs beside accounts or payments |
 | J-V8.8 | chose to quarantine a malformed record and absorb the rest over refusing the whole dossier, because one bad record must not freeze a campaign's map, and the record keeps its last carried state and is retried at every offer |
-| J-V8.9 | chose the selection order `HostContext.line` → the document's bound line → the single accepting adapter → at a creation, the newest accepting line, recorded and noted `line_defaulted` — with `E_LINE_UNSUPPORTED` only when none accepts — over refusing whenever two adapters accept, because a bound map must stay on its line until a declared migration moves it, a declared, reported default is no silent guess, and a refusal would hold every map the moment a second line was registered |
+| J-V8.9 | chose the selection order `HostContext.line` → the document's bound line → the single accepting adapter → at a creation, the newest accepting line, recorded and noted `line_defaulted` — with `E_LINE_UNSUPPORTED` only when none accepts — over refusing whenever two adapters accept, because a bound map must stay on its line until a declared migration moves it, a declared, reported default is no silent guess, and a refusal would hold every map the moment a second line was registered — amended by item 125 (J-V8.130): `line` is the one host field read, no data input |
 | J-V8.10 | chose a declared re-baseline (`remaps`, no map event) for an adapter's own version change over treating every re-read field as a dossier change, because a change in our reading is not a change in the settlement, and T-V8-10 enforces the declaration |
 | J-V8.11 | chose declared `fromLines` key migrations with a hold when absent over re-creating the map on a line change, because the players' map must survive SettlementForge's own upgrades, and an undeclared migration would re-bind by guess |
 | J-V8.12 | chose one document, one seed and one history across the village and town products over a new map at the 1 500 boundary, because the owner's continuity rule (item 22) makes a settlement's map follow its history, and §4.11's rung change already carries a crossing; the product at each epoch is V07 §2.1's fold with its hand-off band (`handoff.band`), so a population hovering at 1 500 never flips the product (item 322), and the port registers nothing — it consults `LadderRouter` over V07's `ProductDecl` (item 202) |
@@ -3204,15 +3384,15 @@ A decision a later ruling changed carries one mark on its row: "amended by X" (t
 | J-V8.23 | chose at most one offer in flight per session, a newer dossier replacing a queued one, over queueing every version, because the port diffs carried facts against the newest dossier and dates changes from its receipts, so skipped versions lose nothing SettlementForge's own end state keeps |
 | J-V8.24 | chose to show the stored thumbnail at once and swap in the live map over a spinner, because the tab then shows the town within 50 ms whatever the frame's boot costs |
 | J-V8.25 | chose that every epoch of a catch-up reads the NEW digest's slices over interpolating them, because SettlementForge keeps no interior history of trade, economy or powers (research V52, V56); interpolating would invent facts |
-| J-V8.26 | chose each culture's centre of gravity, rounded, as its latitude (`cultures`) over one latitude for all, because item 102's daylight share should differ between a northern and a southern setting when the host gives no realm latitude; the values are a dossier row set, not calibratable (J-V8.107) |
-| J-V8.27 | chose to compute the realm block host-side in a pure client helper (`realmBlockFrom`) from the campaign's placements, the realm map's scale and latitude scale and the campaign's spatial digest over sending raw placements to the module, because the realm map is the host's and §7.7 item 1 lets the module carry only the spatial digest's words: the module receives bearings, distances, cell words (the climate word among them, item 117) and a latitude, nothing else of campaign state |
+| J-V8.26 | chose each culture's centre of gravity, rounded, as its latitude (`cultures`) over one latitude for all, because item 102's daylight share should differ between a northern and a southern setting when the host gives no realm latitude; the values are a dossier row set, not calibratable (J-V8.107) — amended by item 125 (J-V8.130): no realm latitude is read, so the culture's is the one latitude |
+| J-V8.27 | chose to compute the realm block host-side in a pure client helper (`realmBlockFrom`) from the campaign's placements, the realm map's scale and latitude scale and the campaign's spatial digest over sending raw placements to the module, because the realm map is the host's and §7.7 item 1 lets the module carry only the spatial digest's words: the module receives bearings, distances, cell words (the climate word among them, item 117) and a latitude, nothing else of campaign state — amended by item 125 (J-V8.130): the realm block is no input, its helper retired |
 | J-V8.28 | chose that the host computes display names with its own public filter over the module re-implementing that filter, because the filter is SettlementForge's product rule and the module must never hold it (item 85 (b)) |
 | J-V8.29 | chose that the module takes the LOWER of the role it is told and the role of the audience word over trusting either alone, because a client bug in one of the two must never raise a player's rights |
 | J-V8.30 | chose to reuse one frame across a campaign's settlements (`switchTo`) over a frame per settlement, because boot is then paid once per page and only one document is live |
-| J-V8.31 | chose the author's library fields as an OPTIONAL `HostContext.customLibrary` admitted only when its definition, revision and content hash equal the dossier's, and carried in the document, over asking SettlementForge to add them to the dossier, because the map never asks (item 20 (h) (iv)), the dossier stays the truth, and replay must never need the host |
+| J-V8.31 | chose the author's library fields as an OPTIONAL `HostContext.customLibrary` admitted only when its definition, revision and content hash equal the dossier's, and carried in the document, over asking SettlementForge to add them to the dossier, because the map never asks (item 20 (h) (iv)), the dossier stays the truth, and replay must never need the host — amended by item 125 (J-V8.130): the definition fields are read only where the dossier carries them |
 | J-V8.32 | chose to reduce a custom description — and a tradition's staging prose (item 118) — to keyword keys inside the adapter over carrying the prose, because §7.7 item 1 admits no prose beyond the description seed, and the keywords are what the map reads anyway |
 | J-V8.33 | chose the dossier's own activation verdict for custom chains over recomputing "all nodes present" in the port, because the verdict is SettlementForge's rule on SettlementForge's facts — recomputing it could disagree with the dossier |
-| J-V8.34 | chose that a realm latitude arriving after creation enters at the next epoch as a `port-values` change, moving the town only by item 102 (e)'s drift, over freezing the creation latitude, because SettlementForge usually places a settlement on its realm after generating it (`research/sf/dossier-seam.md` §4, C-9), so a frozen culture latitude would stay wrong, while re-deriving at once would shift every plot's daylight share together — the reshuffle item 22 forbids; the DM may still set it with T7 `adjust` |
+| J-V8.34 | chose that a realm latitude arriving after creation enters at the next epoch as a `port-values` change, moving the town only by item 102 (e)'s drift, over freezing the creation latitude, because SettlementForge usually places a settlement on its realm after generating it (`research/sf/dossier-seam.md` §4, C-9), so a frozen culture latitude would stay wrong, while re-deriving at once would shift every plot's daylight share together — the reshuffle item 22 forbids; the DM may still set it with T7 `adjust` — amended by item 125 (J-V8.130): no later latitude arrives |
 | J-V8.35 | chose that SettlementForge draws only the container, the thumbnail and a status banner over drawing map chrome of its own, because the map's UI then ships and versions with the module, and a dead frame still shows a readable state |
 | J-V8.36 | chose pictures only (`png`, `svg`, `print`) through `exportPicture` over every export format, because anything else as data carries geometry into SettlementForge's code (door 1, J86); files are the user's, from the frame's export menu — amended by J122 (V08 §11 Q3): from M-SF the export bundle's scene files cross as opaque blobs (J-V8.119) |
 | J-V8.37 | chose to close door 1 structurally for every STRUCTURED format — no decoder in the client, pictures only through the client, every clerk answer and the party gazetteer projected to words — and to state that the host stores the document as an opaque artifact and holds pictures, over a claim that nothing geometric reaches the host, because the `.plat` bytes and the SVG paths do rest with the host and the ruling J86 plus the owner's audience table accept pictures — amended by J122: no call returns a structured format as data, and the bundle call returns opaque blobs only (J-V8.119) |
@@ -3241,7 +3421,7 @@ A decision a later ruling changed carries one mark on its row: "amended by X" (t
 | J-V8.60 | chose recognition by a REQUIRED key set plus a declared optional list, any other top-level key accepted and dropped with a note, over an exact key count, because lived dossiers carry 41 to 47 keys and a later line may add more; refusing an extra key would hold every advanced campaign map |
 | J-V8.61 | chose a dedicated editing-role message `doc.snapshot` for creation, compaction, upgrade and rebase, exempt from `E_HOST_FORMAT`, over asking for a `.plat` export, because storage is not an export and the export refusal must stay absolute for hosts |
 | J-V8.62 | chose to leave the calamity-to-hazard mapping in V06's calamity table (DR28) and to carry only the `CalamityRef` — with its deaths for V04's burial growth — over a second mapping table in this volume, because two tables would disagree; V06 owns the reader, this volume the inputs |
-| J-V8.63 | chose to date a condition from its ticks — `sinceWeek = W − elapsedTicks`, `untilWeek = W + expiresAtTicks − elapsedTicks` — with a measurement and a pre-decided absolute-tick fallback, over leaving conditions undated, because the line's statuses carry no weeks and a condition must end at its week on the map |
+| J-V8.63 | chose to date a condition from its ticks — `sinceWeek = W − elapsedTicks`, `untilWeek = W + expiresAtTicks − elapsedTicks` — with a measurement and a pre-decided absolute-tick fallback, over leaving conditions undated, because the line's statuses carry no weeks and a condition must end at its week on the map — amended by item 125 (J-V8.130): `W` is the dossier's present week |
 | J-V8.64 | chose that every editing client holding the dossier re-runs an applied absorb and REPORTS a mismatch, never blocking the fold, over trusting any editor's result or requiring a second signature, because the log's order is the truth, §11.3 already reports a fates mismatch this way, and a block would let one faulty client freeze the map |
 | J-V8.65 | chose, for a toll bridge on a site with no watercourse, a watercourse forced at CREATION where the record's bridge spans it (at base rungs a brook across the longest approach's through route; at village rungs V07's brook or estuary between the frame arcs — one rule with its rung column), over dropping the bridge, raising an undeclared way at a TOWN or inventing water later, because a brook is the realistic reason for a toll bridge, needs no raised way (item 110 (b) forbids one undeclared at TOWN) and touches §5.3's deck invariant not at all; a record arriving by a later absorb never re-draws the terrain (item 22), so its toll house takes an existing crossing or the gate, noted |
 | J-V8.66 | chose that nothing item 110 generates is dossier-bound — its provenance naming the records that fed its reason — so the DM's removal is the base's delete of generated content and never lapses, over binding a raised way to its water record, because binding it would turn the DM's delete into a `rejectSite`, which lapses at the next epoch or scoped dossier event, and the arches would return within a year against the owner's "a user can decide to add or remove" (item 260) |
@@ -3250,7 +3430,7 @@ A decision a later ruling changed carries one mark on its row: "amended by X" (t
 | J-V8.69 | chose never to make a hot spring an aqueduct source over allowing it, because a hot or mineral spring gives a bath-house and mineral water, not a drinking supply |
 | J-V8.70 | chose to define item 110 (b)'s "dossier landmarks on high ground" as the dossier-bound institutions of class significance at least V11 §3.24.2's `elevated.landmarkMinSignificance` (the castle's, V11's calibratable setting beside the `landmarkFactor` it gates) and the custom `landmark` records, read at their S3 reservations, over SettlementForge's `quarters[].landmarks[]` strings, because the strings are street, yard, pin and institution names (none a high-ground landmark) and reading them would count an institution twice, and a map rule's constant belongs in V11's settings, not in a dossier row set |
 | J-V8.71 | chose to keep the era `c14` for every culture and to carry the CULTURE to item 110's aqueduct chance and stepped specialisations, over inventing an era from the culture, because the line has no era field and the culture is its only preset input; which cultures build in tiers is V11's content |
-| J-V8.72 | chose not to read SettlementForge's world-state works ledger over deriving a raised way from its infrastructure count, because the ledger names no structure, lives outside the dossier, and the port reads only the dossier and `HostContext` |
+| J-V8.72 | chose not to read SettlementForge's world-state works ledger over deriving a raised way from its infrastructure count, because the ledger names no structure, lives outside the dossier, and the port reads only the dossier and `HostContext` — amended by item 125 (J-V8.130): the dossier alone, `line` the one host field |
 | J-V8.73 | chose to resolve SettlementForge's assistant's map tools in the DM's page — the page executing `query` and `preview` and returning the answer the module already projected (V08 §5.4 (3)), a headless session when no map is open — over a server-side map session, because the product has no hosted map service (§11.5) and the page already holds the session and the key; wherever SettlementForge runs the assistant's loop — its decision (J121) — the relay holds |
 | J-V8.74 | chose that the refresh frame never starts beside a visible CITY or METROPOLIS document over letting two large documents share the DM's page, because two METROPOLIS documents would exceed any reasonable page budget (§12.8: 260 MB each); the queue waits for the tab to close or a TOWN or smaller to be visible |
 | J-V8.75 | chose the compaction precondition "the snapshot's head is the record's head or lies in its tail", keeping the tail's suffix, and keeping the removed segment on `backups[0]` as `tailAfter` until the next compaction, over a compare-and-set on the head alone, because an actively edited map must still compact and B10's second rung must be exact |
@@ -3280,7 +3460,7 @@ A decision a later ruling changed carries one mark on its row: "amended by X" (t
 | J-V8.99 | chose to give every note, held reason and host line a catalogue key with args — `PortNote.msg` as item 463's `MsgRef`, `MapRecord.held.reason`, `module.status.detail` as a key — and to write their words once, in V08 §3.9, V08 §4.6 and V08 §5.1, with a raised way's history lines left to V06's chronicle and V10's `info.raised.*` rows, over quoting sentences in the text for a panel to compose, because V09 §4.9 renders only catalogue rows, T-V9-15 fails on a code without one, and three wordings of one line is the drift a single source prevents |
 | J-V8.100 | chose to name the note kinds `name_unjoined`, `name_ambiguous`, `custom_unkeyed`, `count_over_range` and `not_placed`, and to route every row set's "else …, noted" to `unmapped_word`, over unkinded notes, because a note without a kind has no row, no class and no test |
 | J-V8.101 | chose to make `custom_resolved` and `low_confidence` `event` notes written only for the custom records a run adds or revises, over standing notes re-written at every absorb, because the live resolution changes with the DM's declarations between absorbs and is the why card's (V10's `WhyAnswer.profile`, V09 §2.7's `chips`); a stored standing copy would go stale |
-| J-V8.102 | chose to keep `ignored_key` and `realm_block_used` — and `frozen_fact_changed` and `history_gap` — in the host's report only, over drawing them in the history panel, because they recur at offers or report a fact read once, and name nothing that changed on the map |
+| J-V8.102 | chose to keep `ignored_key` and `realm_block_used` — and `frozen_fact_changed` and `history_gap` — in the host's report only, over drawing them in the history panel, because they recur at offers or report a fact read once, and name nothing that changed on the map — amended by item 125 (J-V8.130): `realm_block_used` retired, `field_fallback` added |
 | J-V8.103 | chose to hide a custom chain whole — its line, arrowheads, legend row, gazetteer row and every export feature — when the key withholds any joined node, over listing it as a `withheld: true` row or drawing it with the withheld node's end cut off, because a chain is a relation whose drawn route shows where each node stands and what it makes (the purpose §11.2 withholds), a withheld row would still let V09 §5.4 offer the view, and V09's T-V9-68 expects the entry absent |
 | J-V8.104 | chose to carry the standing notes to the report panel on `GenerationReport.dossierNotes` — a copy of `DossierBinding.notes` made by every derivation's report build (item 390) — over a new `query` kind, because the panel already reads `report(h)`, the report is a derived cache every frame rebuilds (so a second editor's frame and a reload show the list without a read of their own), and the notes change only with the log |
 | J-V8.105 | chose to admit a chain's nodes as a band-less reader does — each by §9.2's admission function as at the city band — for the drawing as well as for the gazetteer and the exports, and to read the export's whole knowledge key, over admitting at the band drawn and by tier alone, because a chain spans the town and would appear and vanish with zoom if admitted at the band drawn, a place a key form lists is admitted by its places (§9.2's last column), and §11.1 takes the requester's key, of which the tier is one part |
@@ -3301,11 +3481,16 @@ A decision a later ruling changed carries one mark on its row: "amended by X" (t
 | J-V8.120 | chose to read SettlementForge's history into `Recipe.history` at creation only — the founding, the events by the `historyEvents` row, `tierHistory`, `populationHistory`, the calamities before creation, the lifecycle, the ancient fall and the peak — with the effective peak's tier the one the STRONGEST present evidence shows (a `tierHistory` demotion, the `populationHistory` maximum, calamity losses, a ruined or remnant higher-tier record, a resettlement), every present kind listed for the clerk and `history_gap` noted, over the highest tier any evidence shows, because item 113 (f) orders the evidence strongest first and the least-reliable kind must never outrank a stronger one; later history reaches the map through the live rows, never a second replay (V08 §3.15) |
 | J-V8.121 | chose to fold the dossier's defence readiness into NEED as max(threat, readiness weight), with DR2's creation defence reading the threat alone, over averaging the two or letting readiness lower a threat, because a well-kept fortress keeps its walls in use in a safe heartland while a weak readiness never makes a frontier safe, and the creation's walls and gates must not change with a maintenance word (item 114 (a), (d); V08 §3.16 (2)) |
 | J-V8.122 | chose "specified" (item 115 (c)) to mean a dossier-bound record of a class the ceiling table's `grandClasses` lists (V11 §3.25.4) — every placed member of such a collective record included — or a dossier government's forced manor (its `villageSeat` the manor house, seigneurial or crown; V11 §3.21.1), and nothing else (no wealth word, quarter name, title or keyword alone), over reading grandeur from the dossier's wealth or words, because item 115 (a) says prosperity in small places shows as quality, not grandeur, and only a record names a building (V08 §3.16 (3)) |
-| J-V8.123 | chose to follow SettlementForge's calendar by the client's `view.set { week }` under the view's follow flag and to set the biome's climate row at creation from the realm's climate word, else the terrain, frozen after creation, over a model input for the week or a climate re-read at every absorb, because a season is a look that must never change the model or its hash (item 117 (a)) while the biome is a model input fixed with the site (V08 §3.16 (4)) |
+| J-V8.123 | chose to follow SettlementForge's calendar by the client's `view.set { week }` under the view's follow flag and to set the biome's climate row at creation from the realm's climate word, else the terrain, frozen after creation, over a model input for the week or a climate re-read at every absorb, because a season is a look that must never change the model or its hash (item 117 (a)) while the biome is a model input fixed with the site (V08 §3.16 (4)) — amended by item 125 (J-V8.130): the week is the dossier's latest stamped tick and the climate the terrain's |
 | J-V8.124 | chose to read `traditions` at the pinned baseline into carried `tradition` facts — the window reduced to weeks of the `sf445` year, the staging prose reduced to V11's staging keyword keys inside the adapter, the kind by the `festivals` row — and to make every tradition change a ledger-only change, over a model record or an epoch event, because a festival is a look only (item 118 (a)), the owner's rule makes `traditions` an input, on no `ignored` row, and no dossier prose may enter the document (V08 §3.16 (5)) |
 | J-V8.125 | chose to carry the site and the history as frozen facts whose later change writes one `frozen_fact_changed` report note and no map event, and to carry the settlement's wealth word as a `prosperity` change riding the next epoch's `EpochInputs.wealthLevel`, over skipping those changes silently, because the site and the history are creation's (§7.7 item 10) yet a DM must see that SettlementForge changed them, and a campaign's prosperity must reach DR6 and item 114's means (V08 §3.5) |
 | J-V8.126 | chose the adapter's field table (V08 §2.4) as the one list of every SettlementForge path the port reads, the digest field it fills and the row it feeds, or `ignored` with §7.7 item 1's reason — one `ignored` row per reason, a source SettlementForge keeps outside the dossier written with no dossier path — with `defenseProfile.readiness` the one part of `defenseProfile` read (item 114), `traditions` read (item 118) and `powerStructure.previousGovernments[]` read only at each entry's `tick` (J-A73.06), over paths implied across the sections, because a closed digest needs one list that the manifest's `keyList`, §14's lint and T-V8-20 read |
 | J-V8.127 | chose to list each dossier institution record whose key binds an element as one Find entry under its own words (`kindLabel`), selecting exactly the addresses its binding rows hold, first among the named institutions and apart from its class's entry, its chip holding the binding key with an anchor address so that it follows a re-key and goes dark at 0 when the record leaves the map, and to let SettlementForge's assistant answer in words without setting chips, over listing the dossier's names as synonyms of their classes, selecting a record by its words, or a host message that drives the frame's Find, because the owner's Find "references what's in the dossier" (item 120 (b)), a record's members are the dossier's statement while its class also holds the map's own buildings, words change with a rename while an address does not (§6.3), and Find is the viewer's view, never the host's (item 120 (a)) |
+| J-V8.128 | chose, for item 122 at the port, a crisis census of the pinned line's stressor types, condition archetypes and simulator crisis events carried in the catalogue manifest; each overlay's source read as its stressor type, the census event that raised it (`triggeredAt.sourceEventType`) or else its archetype; the condition's name, calamity link and counts carried as ledger-only crisis fields; and a condition's tier `public` where its look is drawn and `secret` where its row is `none` — over writing the closed mapping's values here or reading the looks from the `conditions` row, because the map rows' values are V11's (R2-37 (3)) and the census is what their totality is checked against, the `event` row needs the event that raised a condition, which only `triggeredAt` records, and a look is a sight every viewer sees while a pressure with nothing to see stays the DM's (J-V8.40) |
+| J-V8.129 | chose to fix the port's side of item 122 (h) now — a condition's `forces` (kind, heads, an army's allegiance and coalition, a group's kind, name), joined to the condition its record names or else to the most severe standing camp look of its kind, the counts the dossier already gives (`arrivals` from `populationHistory`, the calamity's `exodus`) and the fallbacks in item 122 (h)'s order — with no path read at the pinned line, over waiting for SettlementForge's fields or guessing their paths, because the fields are in development (the owner), an adapter version adds paths without a change of design (V08 §3.8), and the final local check confirms them (item 125 (d)) |
+| J-V8.130 | chose, for item 125, the dossier as the port's one data input — `HostContext.week`, `.realm` and `.customLibrary` retired with the realm block's helper, `RealmPlacements`, `PortValues.latitudeDeg`, the carried `port-values.latitudeDeg`, `site.climate`, the `climates` row's climate words and `realm_block_used` (R2-40) — the week the dossier's latest stamped tick (`presentWeek`), the latitude DR29's from the culture at creation, the climate the terrain's, the custom definition fields the dossier's own, and a fallback on every read row of the field table with a `field_fallback` report note, an empty name or tier word included, over keeping host inputs as optional sources, because the owner's rule makes the dossier the only input (item 125 (a)), a host input must never change a map a dossier makes (T125-2), and the generator already has a standalone choice for every field (§7.7 item 10); `line` stays the one host field, picking the adapter (V08 §2.4) |
+| J-V8.131 | chose a field-by-field brief for the final local check — every read path's presence, shape and values, every fallback, the key sets, the crisis census and the in-development fields, in one table of matches, mismatches and fixes, each fix landing before SF3 cuts its fixtures and R9 re-running it at a new line — over a free-form review, because item 125 (d) asks for exactly that table and a fix must reach the adapter and the fixtures before they are cut |
+| J-V8.132 | chose, for item 126 at the host, no Map tab on a phone (SettlementForge's own rule) and a frame and party viewer sized to the tab but never below 600 × 480 CSS px, the tab scrolling, over a phone screen or a frame that shrinks, because the owner's revision (a2) offers no map on a phone at all and V09 keeps the medium layout at that minimum (V09 §4.12), so a resize re-lays nothing the document holds |
 
 ## 10 Base change requests
 
@@ -3336,7 +3521,7 @@ This volume's requests to the base are applied by file f; each is now the base's
 | BCR-V8-21 | a custom assignment's revision | item 394 | §7.7 |
 | BCR-V8-22 | the creation prefix's staged records read ahead | item 395 | §7.7 |
 | BCR-V8-23 | one spelling of the line id | item 512 | §14 |
-| BCR-V8-24 | the realm block computed by the host glue | item 396 | §7.7, §14 |
+| BCR-V8-24 | the realm block computed by the host glue (withdrawn by item 125: the realm block is no input) | item 396 | §7.7, §14 |
 | BCR-V8-25 | the institution's own political role in DR12 | item 397 | §7.7 |
 | BCR-V8-26 | the power relation's sign and visibility | item 257 | §2.7 |
 | BCR-V8-27 | the player's row of the audience table | item 513 | §14 |
@@ -3350,8 +3535,8 @@ The other volumes' requests this volume's text relies on are cited at their item
 BCR-V6-12 (item 388), BCR-V6-27 (item 573), BCR-V7-11 and BCR-V7-26 (items 202, 322), BCR-V9-8 (item 516), BCR-V9-12
 (item 463), BCR-V9-14 (item 453), BCR-V9-23 (item 464), BCR-V9-36 (item 583), BCR-V10-7 (item 473), BCR-V10-14 (item
 519), BCR-V10-22 (item 572), BCR-V11-26 (item 425), and §16's totals (item 568). The base parts of file g's items 111,
-113–118 and 120 that this volume reads are the base's (§4.2 S0, §4.7 S10b, §4.11, §7.7's DR36–DR43, §8.2, §2.9's view
-state, §11.2's gazetteer), cited by item.
+113–118, 120, 122, 125 and 126 that this volume reads are the base's (§4.2 S0, §4.7 S10b, §4.11, §7.7's DR36–DR44, §8.2,
+§2.9's view state, §10.2's crisis tables, §11.2's gazetteer, §11.3's view commands), cited by item.
 
 ## 11 Owner questions
 
@@ -3376,7 +3561,9 @@ its own origin with origin and source checks, the dossier persisted as a row's d
 manifest's field lists — from the surveys (`research/sf/*.md` and their verification `mapping-verify.md`) and the
 `town-cc-1` output generated on the pinned line `fp/integration-2026-09-23` at `5d699cc68`, read-only; executed on the
 line's 35 births and 12 after-tick dossiers: the line's relation types (six), trends, history event types (eight),
-condition statuses (three) and stressor types (fifteen); `magicLevel` `medium` on 32 of the 35 births; the six material
+condition statuses (three) and stressor types (fifteen); a condition's `label` and its `triggeredAt` with `tick`,
+`sourceEventType` and `sourceEventTargetId` (`research/sf/dossier-model.md`), and the simulator's `PLAGUE` event writing
+`activeConditions` (`research/sf/dossier-generation.md` §5.2); `magicLevel` `medium` on 32 of the 35 births; the six material
 words; the fourteen qualifier words (twelve seen again); the ladder file at `5d699cc68` and its agreement with V11 §3.12;
 the burial census (one burial record per tier, the metropolis's `Cemetery network`); the relation pair order not a
 direction (`city-1`); the lit `city-1` storm's deaths; the water records per tier (7 of 7 CITY and METROPOLIS births carry
@@ -3391,8 +3578,10 @@ T-V8-41, with each row's fallback); the refresh queue's campaign time (T-V8-12);
 budget (T-V8-30); the estimates of V08 §8; that SettlementForge's hosting admits a frame on a second origin with workers
 (SF0's first measurement, with risk 1's fallback); that its store can compare-and-set on `logHead` (risk 2's fallback); the
 dossier row sets' own values — the `cultures` latitudes, the `crime` weights, the relation strengths, the custom weight
-mappings, the readiness weights and bands, the climate synonyms, the history and festival words (V08 §2.6; not
-calibratable, table fixes reviewed with V11, SF0's census for the words, risk 8's fallback); that SettlementForge's scene
+mappings, the readiness weights and bands, the history, festival and crisis words (V08 §2.6, V08 §2.4's census; not
+calibratable, table fixes reviewed with V11, SF0's census for the words, risk 8's fallback); what `customContentRoster`
+holds beyond the definitions' identities (V08 §2.8; the final local check, V08 §3.16 (9)); the forces' fields, in
+development (risk 9); the calamity link's 52-week window and the `arrivals` reading (T-V8-59, T-V8-60); that SettlementForge's scene
 tokens appear on custom records when the author sets them, and that it lists only active custom chains in `customChains`
 (the retire-and-re-put rule of V08 §3.13 (10) holds either way); the reading of a condition's `expiresAtTicks` as its whole
 length (T-V8-18, with its fallback); the kind-family resolution's gain over exact names (T-V8-34); the chain-status weights

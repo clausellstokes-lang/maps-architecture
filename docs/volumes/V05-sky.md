@@ -193,6 +193,7 @@ An index of citations; the values stay at the cited home.
 | §7.1–§7.8 (file f items 356, 375, 383, 387) | V05 §4 |
 | §8.1, §8.2, §8.4, §8.8 (file f items 408, 415, 416) | V05 §5.1–V05 §5.3 |
 | §9.1, §9.2; §11.1 (file f item 415) | V05 §5.4, V05 §5.5 |
+| §11.2 (`FieldDrivers`, `WhyAnswer.closure`) | the daylight term's per-island attribution and the rim's `sheer` closure in the clerk's island answers (V05 §4.5, V05 §3.21 (1)) |
 | §12, §13.2, §13.3, §14, §16 (file f items 476, 568) | V05 §6–V05 §8 |
 | items 102–120 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–18) |
 | §2.9's view state (the year position and its follow flag, the festival display, the view key `find`), §7.7's DR42 and DR43, §8.2's season and festival rows, §11.1, §11.2's gazetteer under knowledge admission, §12.1's comfort level and §12.5 (items 117–120) | the island's seasonal look and its pennants (V05 §5.1), Find on Sky (V05 §5.6), the exports' looks (V05 §5.5), the one-time waits (V05 §6) |
@@ -202,7 +203,7 @@ An index of citations; the values stay at the cited home.
 | V06 §2.1 (`EpochParticipant`, `EpochOps`, `EpochScope`), V06 §2.8, V06 §2.12, V06 §3.2, V06 §3.4, V06 §3.5.2, V06 §3.7.5, V06 §3.8.1, V06 §3.19, V06 §6.8 | the island's two participants, the household channels, the landfall's clearance and repair, an `advance`'s comfort estimate over the islands |
 | V08 §2.6 (the deposits row), V08 §3.5 (the site latitude) | the node term; the sampler's latitude |
 | V09 §2.7, V09 §4.2 (the working layer), V09 §4.9 (the `bend.*` rows), V09 §4.20.3, V09 §4.20.9, V09 §4.21.9 (the progress view), V09 §5.4, V09 §6.4; V09's Find panel and its `live.find` provider (item 120) | the Shade view, the island's bends, the delete row and suppression card, the progress shown past one second, Find on Sky |
-| V10 §2.13 (`WhyProvider`, `FieldDrivers`, `WhyAnswer.closure`) | the clerk's island answers (V05 §4.5) |
+| V10 §2.13 (`WhyProvider`) | the clerk's island answers (V05 §4.5) |
 | V11 §3.1 (rows 51 and 56), V11 §3.5 (the institution classes), V11 §3.9 (district kinds), V11 §3.24.0 (the switch table), V11 §3.25.6 – V11 §3.25.8 (the season, festival and quality-spend rows) | the tables this volume's rows join; the looks' and the waits' rows it reads |
 | V12 §2.8, V12 §2.13, V12 §3.7.6, V12 §3.7.8, V12 §3.9.1, V12 §3.11, V12 §3.15.9, V12 §3.15.10 | the register, the pins and their registrations, the M6-sky sitting, the wait timer, Find's measurements |
 
@@ -280,7 +281,8 @@ table below wires every other piece.
 | the access admissibility transform (V05 §3.7 (2)) | the 64 m class raster; the raised parts' pier footprints, dilated deck plans and deck faces | S7b (5)'s candidate filter | §4.5 S7b (5) |
 | the ground landing destination (V05 §3.10 (4)) | SKY's ground L1 batch where no spine lies within reach | S8's first cut in the face; SKY-F's check | §4.6 (file f item 299) |
 | the sky's semantics and the `sky.ground` role (V05 §5.1) | this volume's per-family facts; volume 11's palette rows (row 52) | §8.2's loader and every shipped sheet | §8.2 (file f item 408) |
-| the sky's `WhyProvider` and the daylight term's per-island attribution (V05 §4.5) | `@plat/sky` | volume 10's `why` on islands, accesses, landfalls and shaded ground | V10 §2.13 |
+| the sky's `WhyProvider` (V05 §4.5) | `@plat/sky` | volume 10's `why` on islands, accesses, landfalls and shaded ground | V10 §2.13 |
+| the daylight term's per-island attribution, the `sources` of §11.2's `FieldDrivers.terms` (V05 §4.5) | the prosperity field's `drivers()` (§4.5 *Fields*) over the islands' held strips and their sample bits (V05 §3.19) | §11.2's `WhyAnswer.drivers` in volume 10's `why` on shaded ground | §11.2 (`FieldDrivers`); §4.5 *Fields* |
 | the sky light rows `rim`, `keel`, `skyAccess` (V05 §3.13) | the light table; `h_carried` | `LightSource` records, §8.4's light pass, night exports | §4.7 *Light sources* (file f item 307) |
 | the island's name and `QuarterNode` root (V05 §3.14) | S13a with the island's naming features | `LabelEntity` (quarter), the gazetteer, exports | §9.1, §10.4 |
 | the island's districts' character and identity | S12c, which runs after SKY-F | labels, names, the clerk | §4.5 (S12c's coverage) |
@@ -300,7 +302,7 @@ table below wires every other piece.
 | the F-SKY rows and the sky invariants (V05 §3.17) | every SKY step | §5.4's report; the dry run | §5.2, §5.3 (file f item 331) |
 | the island's seasonal look (V05 §5.1 *Seasons on the island*) | §2.9's year position and follow flag (DR42); the document's one climate row as DR42 resolves it; §8.2's season rows with V11 §3.25.6's tables; the island's crowns, faces, water and roofs | S14's sky marks' `season` column (§8.1 item 8) and the tile worker's re-skin of the sky base and surface layer; picture exports; the clerk's seasonal line (V10) | §2.9, §8.2, §12.5 |
 | the islands' pennant places — the rim run and the landing tops (V05 §5.1 *Festival pennants*) | the island's rim chain, its landing yards and the waterfall's lip (V05 §3.8, V05 §3.10); §2.9's festival display with DR43's schedule; V11 §3.25.7's `SKY` row and motif rows | `live.festival`'s places `rims` and `landings` (§8.2), so its marks on the sky base; picture exports | §8.2, §2.9, §7.7 |
-| Find on Sky — the sky's matches, ghost pins, bubbles and gaps units (V05 §5.6) | V09's `live.find` over §11.2's gazetteer at the view's key; the committed island records, their arenas and coverage units (V05 §3.5 (3)) | the glow, pins and bubbles on the sky layer; the ghost pins of sky matches on Ground and Below; the panel's "on Sky" count and **Go there** (V09) | §2.9, §8.2, §11.2 |
+| Find on Sky — the sky's matches, ghost pins, bubbles and gaps units (V05 §5.6) | V09's `live.find` over §11.2's gazetteer at the view's key; the committed island records and their arenas; V01 §5.4 (3)'s `gapUnits` over each island's arena (V05 §5.6 (4)) | the glow, pins and bubbles on the sky layer; the ghost pins of sky matches on Ground and Below; the panel's "on Sky" count and **Go there** (V09) | §2.9, §8.2, §11.2 |
 | the budgets and the comfort level (V05 §6) | M6-sky's measurements; §12.1's comfort level | §12's rows; T-V5-18; V06 §6.8's estimate (the resize row's figures) | §12.1, §12.4, §12.6 (file f item 476) |
 
 ## 2 Data model
@@ -1628,7 +1630,7 @@ An island is barrier all round: its rim is a sheer drop, and its only approaches
 1. **The rim is a barrier edge.** For item 106 (a)'s closure and every "enclosed" or "sealed" test, the island's `rim`
    chain is a natural barrier of kind `sheer` (J-VI.3; §2.7's `BarrierKind`) — closure only, no wall; volume 11's
    `walls.barriers` row keyed `sheer` gives its defensibility class and wall `none`. The clerk's `closure` answer names it
-   as barrier `sheer` (V10's `WhyAnswer.closure`).
+   as barrier `sheer` (§11.2's `WhyAnswer.closure`).
 2. **Generation never walls an island.** No stage lays an enceinte on a sky arena; the island's defence is its rim and
    its landings. A prison island's is its rim plus its `guarded` landing, the one approachable arc, whose role already
    admits only its institution's and the law-and-enforcement classes' rows (V05 §3.20 (2)).
@@ -1788,7 +1790,7 @@ rule).
 | a lock under `sky.clearance` | V05 §3.9 (5)'s lock clause | check | T-V5-31 (f) |
 | the seasonal look (V05 §5.1) | every week of 0–51 the same model, hash, save, bases and strips; an arid row draws no ice and no snow on an island; a week in no band of a phase keeps the row's last phase (§8.2's cyclic read); a document whose pinned tables hold no item-117 rows draws §8.2's four override rows on the island as on the ground; a river all of whose stretches are fast draws no ice, a spring pond freezes as any `pond`; a `settled` or `waning` island dresses as a floating one; a `fallen` or `removed` island has no sky look (its landfall takes the ground's); a moved island's leaf cover moves with it | check | T-V5-34 |
 | the pennants (V05 §5.1) | no festival in the view's week, or the display off: none; two festivals in one week: both, in window order (§8.2); an island with no landing: rim pennants only; a rim stretch wholly inside landing yards or the waterfall's lip: none there; a `fallen` or `removed` island: none; an island an epoch carried below CITY: V11's `SKY` row as at any rung; a ground landing: none of the `SKY` row's | check; leave out and report | T-V5-35 |
-| Find on Sky (V05 §5.6) | no island: no sky entry and no "on Sky" count; one island: its matches alone; a hidden sky layer: its matches still counted and shown as ghost pins; a bubble never joins two islands' or two layers' pins; a match withheld by the key: absent everywhere; a `fallen` island: its matches dark, its landfall a Ground place; a `removed` island: never offered | check | T-V5-36 |
+| Find on Sky (V05 §5.6) | no island: no sky entry and no "on Sky" count; one island: its matches alone; a hidden sky layer: its matches still counted and shown as ghost pins; a bubble never joins two islands' or two layers' pins; a match withheld by the key: absent everywhere; a `fallen` island: its matches dark, its landfall a Ground place; a `removed` island: never offered; Show gaps on an island (V05 §5.6 (4)): V01 §5.4 (3)'s `gapUnits` over its arena — under a walking-radius row an island holding no member a gap over every residential plot of it, whatever the ground beneath holds, and one holding a member no gap; under a households row each district's unserved plots; a district with no residential plot no per-plot unit; a class `IslandRule.carry.never` excludes a gap like any other | check | T-V5-36 |
 | the one-time waits (V05 §6) | each wait at CITY and METROPOLIS with three islands, up to the population cap, within §12.1's comfort level, a row past its target only with its recorded measured gain; a wait past one second shows progress; the interactive rows never relaxed | check | T-V5-18 |
 
 **(b) The combinations** (every one at CITY and METROPOLIS, where islands exist).
@@ -2052,11 +2054,11 @@ node term at the next epoch's evaluation — the islands' supply falls by the la
 
 **Registration.** `@plat/sky` registers one `WhyProvider` (V10 §2.13) with `kinds` `SkyIsland`, `SkyAccess` and the
 `fallen_island` decoration, answering from the committed model and the report, filtered by the caller's key. The
-prosperity field's `drivers()` (V10's `FieldDrivers`; §4.5 *Fields*) gives the daylight term one entry as the base
+prosperity field's `drivers()` (§11.2's `FieldDrivers`; §4.5 *Fields*) gives the daylight term one entry as the base
 defines it and, beside it, one attribution per island whose strip covers the point: `{ driver: 'daylight', delta, sources:
 { caster: Id | 'terrain' | 'walls' | 'buildings'; samples: number }[] }`, each source's `samples` the sample bits it blocks
 at the point and the entry's `delta` the OR-ed total × `w_sun` ÷ `bits` (a sample blocked by a hill and an island is
-listed under both and counted once, J-V5.38) — the `sources` list is this volume's member of volume 10's
+listed under both and counted once, J-V5.38) — the `sources` list is this volume's member of §11.2's
 `FieldDrivers.terms`. Pulls across arenas reach `PlacementSolver.explain` (volume 10's `Explanation.terms`) with the access
 `skyRoute` returned, so every cross-arena term names its landing.
 
@@ -2314,11 +2316,14 @@ what the sky offers and how a match on an island reads.
    match's island and flies to the band that shows it. With Sky working, the ground's and the underground's matches
    show as ghost pins and counts in turn. A hidden sky layer (§8.4) keeps its matches' ghost pins and counts, so a match
    is never lost, and Go there turns its visibility on, as switching the working layer does.
-4. **Show gaps** (item 120 (i)). On an island Show gaps reads V01's units over the island's districts; for a class with
-   a coverage row the island's units are V05 §3.5 (3)'s — its districts for a row counted by district or neighbourhood,
-   the whole island for one counted by walking radius or by households — each unit with no member of the class outlined
-   dashed along its land's edge and labelled "none here". A class `IslandRule.carry.never` excludes reads as any gap;
-   the clerk's why names the carry rule (V05 §4.5).
+4. **Show gaps** (item 120 (i)). On an island Show gaps' units are V01 §5.4 (3)'s `gapUnits` over the island's arena,
+   restating none: its districts for a class with no coverage row or a row counted by district or neighbourhood; the
+   whole island as one unit for a row counted by walking radius (V01 §3.16; the route to the ground passes every walking
+   radius, V05 §3.5 (3)), so a member on the island serves every residential plot of it, a member beneath it on the
+   ground none; and V01's per-plot `households` reading over the island's plots for a row counted by households — each
+   unit with no member of the class outlined dashed along its land's edge and labelled "none here", a per-plot row's
+   gap the unserved plots of each district as V01 §5.4 (3) draws it. A class `IslandRule.carry.never` excludes reads as
+   any gap; the clerk's why names the carry rule (V05 §4.5).
 5. **Over time, edits and knowledge** (item 120 (f), (h)). Every commit, regenerate, undo and epoch re-evaluates the
    chips: a raised or declared island's matches glow in its commit, a moved island's glow moves with it, a fallen
    island's go dark with its landfall then offered on Ground, and a removed island offers nothing. A `secret` access's
@@ -2407,7 +2412,9 @@ reach declared per device (item 119 (e)). T-V5-18 measures the comfort level at 
 ## 7 Tests and acceptance bars
 
 §13's families; each bar's class — **C** conformance, **P** parity, **O** outcome — in brackets. They take over the base's
-island bars T10-1, T13-1, T15-1 and T102-2 as §13.2 names (file f item 476). Every clause that restates an owner item's
+island bars T10-1, T13-1, T15-1 and T102-2 (file f item 476), the island clauses of T117-1 – T117-8 (T-V5-34),
+T118-1 – T118-6 (T-V5-35) and T119-2 – T119-5 (T-V5-18), and T120-1's registration with T120-4's and T120-5's sky
+clauses (T-V5-36), as §13.2's take-over table names them. Every clause that restates an owner item's
 no-op or view pin registers its fixture on V12 §3.7.8's engine under its V12 §2.13 pin, naming the pin, its off form and
 the seat that writes the registration (X-V12-11): T-V5-15's item-110 clause, T-V5-19 (c), T-V5-22 (b) and (k), T-V5-27's
 two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.
@@ -2560,9 +2567,9 @@ two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.
   present and empty with the setting on and no island, absent with it off; each island's VTT scene imports with no manual
   steps; the glTF island mesh is a closed manifold and validates; CityJSON with PLAT's extension validates; the parity
   presets export no sky content; an export mid-lag carries `basisCurrent` false and one after a load equals the one before.
-* **T-V5-18 — budgets and the comfort level** [C]. V05 §6's rows on B-CITY and B-CITY-lite METROPOLIS seeds with three
-  islands, or their fallbacks applied and reported, the obstacle row with 27 accesses; the one-click path unchanged
-  (§12.5). Item 119's comfort level at every island rung — CITY and METROPOLIS, each at its top and at the population
+* **T-V5-18 — budgets and the comfort level** (item 119; takes T119-2 – T119-5's island clauses) [C]. V05 §6's rows
+  on B-CITY and B-CITY-lite METROPOLIS seeds with three islands, or their fallbacks applied and reported, the obstacle
+  row with 27 accesses; the one-click path unchanged (§12.5). Item 119's comfort level at every island rung — CITY and METROPOLIS, each at its top and at the population
   cap, with three islands: each one-time wait of V05 §6's list, five seeds, p95 ≤ 10 000 ms from the click to the complete
   result on V12 §3.15.9 (2)'s wait timer (T119-2), an `advance` with islands timed in total (V06's T-V6-24 fixtures with
   their islands); every wait over one second naming its stage within one second, never an empty frame (T119-3); every
@@ -2737,46 +2744,58 @@ two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.
   (its class `water`) and the aqueduct's source search may take the oasis's spring but never an island's water — the arid
   fixture's NoOpPin registration on V12 §3.7.8's engine under `item111.water`, its off form V11 §3.24.0's `climate`
   dry-cell row, written by the M6-sky seat landing P1.
-* **T-V5-34 — the island through the year** (item 117; V05 §5.1) [C]. On the two sky goldens (T-V5-15) and two
-  METROPOLIS fixtures — an `arid` and a `cold` climate row, each with a prosperity island carrying a conjured river and
-  one carrying a spring pond, deciduous crowns on both: (a) the same document hashes identically in all 52 weeks, its
-  saved bytes, `shadeBasis`, strips and `shadeSky` unchanged — the sky goldens' registration on V12 §3.7.8's engine under
-  `item117.season` (a `view` pin over weeks 0–51; V12 §2.13), written by the M6-sky seat landing P3; (b) each island face
-  and crown draws, week by week, the look a ground face or crown of its kind draws in the same week under the same
-  climate row — never a row of the island's own (an `own` `mountainous` island over `plain` ground included); (c) in an
-  autumn week at least five distinct crown colours across a deciduous island's trees, its leaf cover deepening week by
-  week through the leaf-fall weeks, on the island's surfaces only, and moving with the island after a move; (d) the arid
-  fixture draws no ice and no snow on any island in any week; on the cold fixture the spring pond freezes in the ice
-  weeks, the river's fast stretches and the waterfall's 12 m lip disc stay open water, and `sky.fall` and `sky.mist` draw
-  in every week; (e) in a snow week the island's land, field faces and roofs draw `snow` and its rim ticks separate it
-  from the snowy ground by the ink / ground row of §8.2's contrast matrix; (f) the drawn shadow's length follows the view
-  sun's week while the strips do not change; (g) every picture export of an island draws and names the chosen season,
-  and a VTT island scene carries its frozen water as `ice` polygons (§11.1); (h) the season switch re-skins the sky tiles
-  within V05 §6's season row (R12-30).
-* **T-V5-35 — festival pennants on the islands** (item 118; V05 §5.1) [C]. On the two sky goldens with a festival
+* **T-V5-34 — the island through the year** (item 117; V05 §5.1; takes T117-1 – T117-8's island clauses — T117-3's
+  rows and T117-6's opening week have none, the island taking the ground's season rows at the view's week) [C]. On the
+  two sky goldens (T-V5-15) and two METROPOLIS fixtures — an `arid` and a `cold` climate row, each with a prosperity
+  island carrying a conjured river and one carrying a spring pond, deciduous crowns on both: (a) (T117-1) the same
+  document hashes identically in all 52 weeks, its saved bytes, `shadeBasis`, strips and `shadeSky` unchanged — the
+  `item117.season` registration of the sky goldens on V12 §3.7.8's engine (V12 §2.13; a `view` pin over weeks 0–51),
+  written by the M6-sky seat landing P3; (b) each island face and crown draws, week by week, the look a ground face or
+  crown of its kind draws in the same week under the same climate row — never a row of the island's own (an `own`
+  `mountainous` island over `plain` ground included); (c) (T117-2) at the leaf-colour weeks' middle week at least five
+  distinct crown colours across a deciduous island's trees, its leaf cover deepening week by week through the leaf-fall
+  weeks, on the island's surfaces only, and moving with the island after a move; (d) (T117-4) the arid fixture draws no
+  ice and no snow on any island in any week; (T117-5) on the cold fixture the spring pond freezes in the ice weeks, its
+  first ice week at or before any of the conjured river's, the river's fast stretches and the waterfall's 12 m lip disc
+  stay open water, and `sky.fall` and `sky.mist` draw in every week; (e) (T117-7) at each season's middle week the
+  island's look passes T112-1's contrast and colour-blind checks, and in a snow week the island's land, field faces and
+  roofs draw `snow` and its rim ticks separate it from the snowy ground by the ink / ground row of §8.2's contrast
+  matrix; (f) the drawn shadow's length follows the view sun's week while the strips do not change; (g) every picture
+  export of an island draws and names the chosen season, and a VTT island scene carries its frozen water as `ice`
+  polygons (§11.1); (h) (T117-8) the season switch re-skins the sky tiles within V05 §6's season row (R12-30).
+* **T-V5-35 — festival pennants on the islands** (item 118; V05 §5.1; takes T118-1 – T118-6's island clauses —
+  T118-5's staging has none, V11's `SKY` row naming no staging place) [C]. On the two sky goldens with a festival
   fixture (a dossier tradition with a two-week window, a culture motif row and a deity) and with a previewed generic
-  festival: (a) the document hashes identically with decorations on and off and in every week — the sky goldens'
-  registration on V12 §3.7.8's engine under `item118.festival` (`view`, `tiles`; V12 §2.13), written by the M6-sky seat
-  landing P3; (b) pennants stand on every island not `fallen` or `removed` exactly in the window's weeks, at V11
-  §3.25.7's `SKY` row's counts, along the rim and two at each landing top, and none in a landing yard's passage, at the
-  waterfall's lip, on a ground landing, on the void or over a label; (c) the same festival draws byte-stable sky tiles
-  per seed across views and exports, and a moved island's pennants move with it; (d) a picture export draws them and
-  names the festival, a VTT island scene draws them in its image only; (e) with no tradition and no preview, the sky
-  tiles are byte-identical to the base's (the pin's `tiles` clause).
-* **T-V5-36 — Find on Sky** (item 120; V05 §5.6) [C]. On the two sky goldens and B-CITY-lite's CITY and METROPOLIS seeds
-  with islands, on V09's app harness, each with three chip sets — a class the islands hold, an island institution's name
-  and an island by its name — with Show gaps off and on: (a) the document hashes identically with Find on and off, and
-  **Clear** restores byte-identical sky tiles — the sky goldens' registration on V12 §3.7.8's engine under
-  `item120.find` (`view`, `tiles`; V12 §2.13), written by the M6-sky seat landing P3; (b) each chip's sky matches equal
+  festival: (a) (T118-1) the document hashes identically with decorations on and off and in every week — the
+  `item118.festival` registration of the sky goldens on V12 §3.7.8's engine (V12 §2.13; a `view` pin with its `tiles`
+  clause), written by the M6-sky seat landing P3; (b) pennants stand on every island not `fallen` or `removed` exactly in
+  the window's weeks (T118-2), at V11 §3.25.7's `SKY` row's counts, along the rim and two at each landing top, with no
+  kind of a ground tier's row on any island of either golden (T118-4), and none in a landing yard's passage, at the
+  waterfall's lip, on a ground landing, on the void or over a label's keep-out (T118-6); (c) (T118-3) the same festival
+  draws byte-stable sky tiles per seed across views and exports, and a moved island's pennants move with it; (d) a
+  picture export draws them and names the festival, a VTT island scene draws them in its image only; (e) (T118-1) with
+  no tradition and no preview, the sky tiles are byte-identical to the base's (the pin's `tiles` clause).
+* **T-V5-36 — Find on Sky** (item 120; V05 §5.6; takes T120-1's registration and T120-4's and T120-5's sky clauses)
+  [C]. On the two sky goldens and B-CITY-lite's CITY and METROPOLIS seeds with islands, on V09's app harness, each with
+  three chip sets — a class the islands hold, an island institution's name and an island by its name — with Show gaps
+  off and on: (a) (T120-1) the document hashes identically with Find on and off, and every chip off, or **Clear**,
+  restores byte-identical sky tiles — the `item120.find` registration of the sky goldens on V12 §3.7.8's engine (V12
+  §2.13; a `view` pin with its `tiles` clause), written by the M6-sky seat landing P3; (b) each chip's sky matches equal
   §11.2's gazetteer rows on the islands at the key, the panel's "on Sky" count their number; (c) with Ground working,
   every sky match shows a ghost pin at its drawn position under each occlusion mode, with the sky layer shown and hidden,
-  and Go there sets Sky with the match's island; (d) at the city band every sky match has a pin or a bubble, and no
-  bubble joins two islands' or two layers' pins; (e) under a player view on an island form of T-V9-66's knowledge canary
-  — a `secret` access's landing yard and a concealed use on an island — nothing withheld surfaces in a suggestion,
-  count, glow, pin or ghost pin; (f) the chips survive a raise, a move (the glow moving with the island), a fall (its
-  matches dark, its landfall offered on Ground), an epoch and an undo, each match set equal to a fresh evaluation there;
-  (g) Show gaps outlines exactly the island units of V05 §5.6 (4) that hold no member; (h) item 120 (j)'s suggestion and
-  glow timings hold with three islands at the METROPOLIS cap (V05 §6's Find row).
+  and Go there sets Sky with the match's island; (d) (T120-5) at the city band every sky match has a pin or a bubble,
+  each carrying its chip's second cue, and no bubble joins two islands' or two layers' pins; (e) under a player view on
+  an island form of T-V9-66's knowledge canary — a `secret` access's landing yard and a concealed use on an island —
+  nothing withheld surfaces in a suggestion, count, glow, pin or ghost pin; (f) (T120-4) the chips survive every band
+  and layer change and a raise, a move (the glow moving with the island), a fall (its matches dark, its landfall offered
+  on Ground), an `advance` with its epochs, an undo, a redo, a regenerate, a load and a migration, each match set equal to a
+  fresh evaluation there, and a chip whose last match goes — an island institution's after its island falls — stays at
+  count 0, dark; (g) Show gaps outlines exactly V01 §5.4 (3)'s `gapUnits` on the islands as V05 §5.6 (4) reads them —
+  each island district for a class with no coverage row or a row counted by district or neighbourhood; under a
+  walking-radius row every residential plot of an island holding no member, whatever the ground beneath holds, and none
+  of one holding a member; under a households row each district's unserved plots by V01's per-plot reading — a class
+  `IslandRule.carry.never` excludes among them; (h) item 120 (j)'s suggestion and glow timings hold with three islands at
+  the METROPOLIS cap (V05 §6's Find row).
 
 **Parity.** No reference has islands (II.6 (8)), so no parity number binds them. The nearest look is Neighbourhood's lone
 patch — its own ground tone and a drop shadow marking its extent on an empty field (`research/findings/vg-ng-devlogs.md`
@@ -2818,8 +2837,9 @@ until then), and the rim barrier item 106's `barrier` closure and volume 11's `s
 245, 246, 290 and 309 as applied, volume 2's stack envelope (V02 §3.15.2) and volume 11's raised-way height and terrace
 rows (fixture rows until then), and P6's `sky.clearance` needs volume 6's `afterGrowth` participant table and `EpochScope`
 (a direct call after the M4 grow path's growth until then); P3's looks need §8.2's season and festival rows with V11
-§3.25.6 – V11 §3.25.7's tables (fixture rows until then) and its Find part V09's Find panel and `live.find` (a fixture
-provider until then); P6's comfort-level runs need V12 §3.15.9's wait timer and V06 §6.8's estimate; P4 and P5 after P2;
+§3.25.6 – V11 §3.25.7's tables (fixture rows until then) and its Find part V09's Find panel and `live.find`, which land
+at M5 (Find's milestone; §16) before P3, so T-V5-36 lands with P3 at M6-sky; P6's comfort-level runs need V12 §3.15.9's
+wait timer and V06 §6.8's estimate; P4 and P5 after P2;
 P6 after P4. **Risks, in order:** the two-surface light pass's frame cost (P3; fallback: half resolution, then rung 3 for
 the sky base); the field's power to
 tell rich towns from poor (P0; fallback: the `wealthLevel` blend); the unit-run contract across volumes (P0; tested as a
@@ -2943,7 +2963,7 @@ are volume 11's palette rows; P0, P4, P5 and P6 land no calibratable cell, their
 | J-V5.86 | Chose to read the waterfall's lip as an outfall for §8.2's open leads, open in every week, and the spring pond as an ordinary `pond`, over freezing the fall into an icefall or keeping the pond open, because the conjured river is the island's magic, not a winter catchment's, so its fall keeps running (item 117 (e) keeps outfalls open), while the pond is still water like any pond and freezes first, as item 117 (e) asks. |
 | J-V5.87 | Chose that an island draws V11's `SKY` row alone — pennants along its rim and two flanking each landing top, at whatever rung the island stands — over drawing the ground's tier rows on it or none below CITY, because item 118 (d) names the sky's own decoration ("pennants on their rims and landings") apart from the tiers, the ground rows' places (towers, squares, the procession route) are the ground arena's, and an island an epoch carried below CITY still stands in the sky; the rim run skips the yards' fronts and the waterfall's lip, so no pennant stands in a passage or a fall. |
 | J-V5.88 | Chose to class among the sky's one-time waits under item 119's comfort level a generation and a Re-derive with islands, declaring an island and a hand `fallIsland`, opening a document with islands, a dossier change reaching them, an `advance` and an export, and among the interactive rows every other island edit (`setAttr`, a move, a resize, a reshape, New random, an access placed or deleted, Update shade now), the pending strip and the season, festival and Find switches, over binding every island edit by the comfort level, because a declaration and a fall relocate households and re-derive an island and its landings — a wait the user sits through once — while the other edits are moment-to-moment feedback whose budgets item 119 (d) leaves as they are; both kinds keep their rows as targets. |
-| J-V5.89 | Chose that on Sky pins merge into a count bubble only within one layer and one island, that a hidden sky layer keeps its matches' ghost pins and counts, that Go there sets the match's island `key`, and that Show gaps reads an island's coverage units (V05 §3.5 (3)), over merging pins across layers, dropping a hidden layer's matches and reading districts alone, because a bubble joining an island's matches to the ground's beneath would send its click to the wrong layer, item 120 (e) and (f) ask that a match is never lost and that the filter hold across layers, and the coverage units are where an island's provision is counted (item 103 (f)). |
+| J-V5.89 | Chose that on Sky pins merge into a count bubble only within one layer and one island, that a hidden sky layer keeps its matches' ghost pins and counts, that Go there sets the match's island `key`, and that Show gaps on an island reads V01 §5.4 (3)'s `gapUnits` over the island's arena, the whole island one catchment for a walking-radius row (V05 §5.6 (4)), over merging pins across layers, dropping a hidden layer's matches and a gap reading of the sky's own, because a bubble joining an island's matches to the ground's beneath would send its click to the wrong layer, item 120 (e) and (f) ask that a match is never lost and that the filter hold across layers, and `gapUnits` is Show gaps' one definition on every layer, counting a unit served as V11 §2.3's `CoverageSpec` counts it, an island one walking unit because the ride to the ground passes every walking radius (V05 §3.5 (3)). |
 
 ## 10 Base change requests
 
@@ -3018,7 +3038,7 @@ phase exits measure them (V05
 ## 13 Fix list
 
 No item is open: each is closed at its home — V05 §8's P0 exits; V01 §3.10.3; V04 §3.5.1, V04 §3.10; V06 §2.1, V06 §3.2, V06 §3.4
-(8), V06 §3.5.2, V06 §3.7.5, V06 §6.2; V09 §4.9, V09 §4.20, V09 §5.4; V10 §2.13; volume 11's rows; volumes 2 and 3's rim-slab crypt; V12
+(8), V06 §3.5.2, V06 §3.7.5, V06 §6.2; V09 §4.9, V09 §4.20, V09 §5.4; V10 §2.13 and §11.2; volume 11's rows; volumes 2 and 3's rim-slab crypt; V12
 §3.11; and file f (V05 §10).
 
 ## Integration notes

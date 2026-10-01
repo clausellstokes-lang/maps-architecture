@@ -86,8 +86,14 @@ hips, towers — the hatching follows each roof face and stops at its edges.
 **Finding things, and waiting (items 119 and 120).** Find, the map's filter view, can pick out a whole district,
 neighbourhood or quarter: it lifts from the dimmed map and glows along its edge. Its **Show gaps** switch outlines the
 parts of town that have none of what you are looking for (V01 §5.4). Opening a district stays as quick as it is; the
-longer waits stage 2 adds once — generating a town, laying a new layout, making a standalone neighbourhood — finish within
-ten seconds and show their progress as they go (V01 §6).
+longer waits stage 2 adds once — generating a town, laying a new layout, making a standalone neighbourhood document —
+finish within ten seconds and show their progress as they go (V01 §6).
+
+**Crisis looks (item 122).** While the SettlementForge record says a disaster has struck, whole neighbourhoods are drawn
+ruined — the ones the record names first, else as the disaster runs: a fire through neighbouring quarters downwind, a
+flood over the low ground by the water, an earthquake here and there — more of them the worse it is; and the camps of
+refugees, the sick or an army stand on the common and fallow land just outside the town. It is only a look: the town
+itself is unchanged, and what the crisis leaves behind arrives through the town's own history (volume 6).
 
 ## 1 Scope, the base hooks consumed, and what is out of scope
 
@@ -143,6 +149,10 @@ ten seconds and show their progress as they go (V01 §6).
     119's ten-second comfort level, every line of V01 §6 kept as its target and every interactive budget unchanged
     (V01 §6); Find's area targets — districts, neighbourhoods, quarters and regions — and Show gaps' units over the
     catchments, through `findAreas` and `gapUnits` (V01 §5.4, V01 §3.16).
+14. **File g item 122's neighbourhood part** (a look only; J135, J138): the units a disaster look ruins — whole
+    districts, the calamity's targets first, else its pattern, as many as its severity asks — through `disasterSource`
+    and `disasterDistricts`, and the outskirts' land the camp looks may take, through `campLand` (V01 §3.16,
+    V01 §5.4 (6)).
 
 ### 1.2 The base hooks this volume consumes
 
@@ -157,7 +167,7 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | II.5 | stage-2 readiness and the M5 exit | V01 §7's tests extend them |
 | II.6 | the sky call, `SkyStrategy`, `IslandRule` | the unit run lays each island's districts (V01 §3.10.3); volume 5 owns placement and supply |
 | §2.4, §2.5, §2.7 | `Way` (`surface`, `slopeP95`), `District` (`fabric`, `fabricParams`, `identity`, `terrace`), `Block` (`content`, `squareType`, `ringCentre`, `voidCorner`, `overrides`), `Plot`, `Allocation`, `Pin`, `Greenery`, `HoodPlace`, `RetainingWall`, a way's `raised` record, deck plots; the types `FabricStrategyId`, `TypedBoundary`, `BlockKind`, `SquareType` (§2.5, item 505) | written and read as V01 §2.7's lifecycle rows state |
-| §2.8, §2.9 | the elaboration record's `closeup` rung, the elaboration cache, the `closeups` digest block, `Recipe.product` / `hood` | the close-up's record and cache (V01 §2.5, V01 §3.8); `HoodRecipe` (V01 §2.6) |
+| §2.8, §2.9 | the elaboration record's `closeup` rung, the elaboration cache, the `closeups` digest block, `Recipe.product` / `hood` | the close-up's record and cache (V01 §2.5, V01 §3.8); `HoodRecipe`'s rules (V01 §3.10.1) |
 | §4.1 | the stage graph, the laziness contract, the pool and the hinterland unit, elaboration by click | S7c and S9b placed in it; the unit run a unit of its kind (V01 §3.1) |
 | §4.2 S1 (2), S1 (5), S2; §4.8's bridge rule | the closed-outline routine and outline templates; crossing sites, spans and the bridge build (`deckCm`, `kind`, `piers`); the programme's land estimate | the standalone outline rows (V01 §3.10.2); the island crossing sites (V01 §3.10.3 (4)); the square and green land (V01 §3.5.9) |
 | §4.5 | the grower, typing, fields, `FieldBands`, S7b, item 72's character, identities, the band range | χ̃ = §4.5 (2)'s function over allocation rows (V01 §3.2); S7b's capacity less the dispatch land (V01 §3.5.9) |
@@ -184,7 +194,8 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | g item 109 (e), (g), (j) (3), (k) (2)–(5); II.7.4–II.7.6; V04 §3.1, V04 §3.3 (P7, `forecastSafety`), V04 §3.4 (F6), V04 §3.5.1, V04 §3.6a (`underDistance`), V04 §3.7a (T8), V04 §3.10, V04 §4.3 | `AccessPoint` (the kinds item 554 adds; `source`, `role`, `cause.system`), `UndergroundSystem.sources`, the catacomb's ratchet and stagnation, undercity neighbourhoods, `Features.sewers`, the undercity circumstance, the below-TOWN set, the ground-edit row, P7's void-dwelling forecast | openings and catacomb entrances as places and symbols; the fixed-input set, `blockLifted`, the undercity's parent (II.7.5 (2) through `districtsAbove`), `under[]`, `fabricSignature`, `catchmentOf` underground, the standalone document's layers, a replace close-up's cross-arena scope, the hood's void part (V01 §3.7.1, V01 §3.8.8, V01 §3.9, V01 §3.10.1, V01 §3.16) |
 | V05 §2.3, V05 §2.3a, V05 §2.4, V05 §3.2, V05 §3.5 (3), V05 §3.8 (4), V05 §3.12, V05 §3.15 (5), V05 §4.2, V05 §4.3; item 280's sky stage | `SkyUnitInput` (the island's unit inputs: land, rim strip, claims, landings, field, district kind, fabric hint), `IslandShadeStrip`, the `sky-*` kinds, the islands gate, an island as one walk unit, the unit run's contract (`plantRimWalk`, the district ids, `portalsTotal` 0, the river's crossing sites), `raiseIsland`, New random on an island, the resize and the rim reshape, the island re-read of a ground edit, a ground landing's S8 destination | the sky unit run (V01 §3.10.3); S7c's κ (V01 §3.3.3); the strips read by S9b and the close-up (V01 §3.5.5); `catchmentOf` on a sky arena (V01 §3.16); the destination lane (V01 §3.4.2 (a)) |
 | V06 §2.1 | `EpochParticipant` | `hood.fabric` at `afterGrowth` (V01 §3.3.6, V01 §3.5.11) |
-| V10 §2.13 | `WhyProvider`, `WhyAnswer` (`drifted`, `members`, `closure`), `WhyPull` with V11's families | V01's providers (V01 §4.5) |
+| §11.2 | `WhyAnswer` (`drifted`, `members`, `closure`), `WhyPull` with V11's families | V01's providers (V01 §4.5) |
+| V10 §2.13 | `WhyProvider` | V01's providers (V01 §4.5) |
 | V11 §2.3 (`naming.district`, `naming.way`, `naming.place`) | the grammar slices | the features V01 derives for them (V01 §3.7) |
 | g item 110 (a)–(e); items 244, 245, 246, 260, 290, 302 | `RetainingWall` and S10–S11's levelling with its district-edge source; raised ways with their generator, supports, spans and suppression; deck plots with the `deck` row; stepped tiers; the second known-city fixture | the terrace state and the contour series (V01 §3.17.1, V01 §3.4.3); held walls, strips, crossings, the parts each reader reads, their land and removal (V01 §3.17.2–V01 §3.17.5, V01 §2.3); deck ownership (V01 §3.17.6); stack order and tier shadows (V01 §5.1.3); T-V1-50–T-V1-54 |
 | V11's item-110 rows | `terrace` (`slopeMin`, `stepMinCm`), the relief rows' `terracedEdges`, `ways.crossing` (`rampMaxGrade`, `stair`), `raisedWays.structure` (`clearanceCm`), `aqueduct.terminal` | `terraceState` (V01 §2.3), the stair-stepped way (V01 §3.6 (3)), crossings under arches (V01 §3.17.3), the terminal (V01 §3.17.8) |
@@ -197,6 +208,7 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | items 447, 448 (§11.1); J-VI.3 | item 110's GeoJSON names and the VTT rule; the six closure barrier kinds | V01 §5.3; II.1's seam typing (item 541) |
 | g item 119 (a)–(f) (J130); §12.1 (the targets and the comfort level), §12.6, §12.7, §12.10; V11 §3.25.8; V09 §4.21.9 | the targets; the ten-second comfort level for one-time waits; the measured-gain rule and its `perf.qualitySpend` rows; the progress rule and the progress view; the interaction budgets kept | V01 §6's lines kept as the targets, stage 2's one-time waits held to the comfort level, its interactive lines unchanged (J-V1.103); T-V1-29's one-time-wait clause |
 | g item 120 (a)–(k) (J133); §2.9's view key `find`, §8.2's Find rows, §11.1, §11.2's gazetteer match listing and admission, §12.5's overlay budget; V09's Find panel and `live.find` overlay; V10 §2.13's `FindAnswer`; V11's lexicon (labels, synonyms, groups) | the per-viewer chips and the Show gaps switch; the veil, halo, outline, pin and count-bubble rows; each chip's matches at the view's effective key | the town's area targets and Show gaps' units (`findAreas`, `gapUnits`; V01 §5.4, V01 §3.16; J-V1.102); T-V1-59 |
+| g item 122 (a)–(f), (i) (J135, J138); §2.7's `ConditionOverlay` and its reader rule, §2.9's `crises` key, §4.11's `CalamityRef` in the committed `epoch` events (DR28), §7.7's DR44, §10.2's `RosterTables.crisis` (the `disaster` row's `scale`, `previewSeverity`) and *Crisis looks* (d)–(h), §8.1's render tag `crisis.place`, §2.3's `Terrain` (`heightCm`, `wind`), §4.9's land use and rotation, §11.2's admission; V06 §2.4's calamity table; V07 §3.10's ends; V02 §5.7 | the standing overlays a look draws and a preview; the calamities the port carries; the look rows and the placement that reads the outskirts | `disasterSource`, `disasterDistricts` and `campLand` (V01 §3.16); a disaster look's framed place in Find (V01 §5.4 (6)); T-V1-60 |
 
 ### 1.3 Out of scope, and whose it is
 
@@ -227,6 +239,10 @@ Each row names the hook's home and what this volume does with it; the hook's con
 * **Find's panel, type-ahead, chip grid, results and overlay** (item 120) — volume 9; the veil, halo, outline and pin
   rows §8.2's; the gazetteer's counts and match listing §11.2's; the search words V11's; the clerk's "show me" volume
   10's. This volume gives the town's area targets and Show gaps' units (V01 §5.4).
+* **Crisis looks** (item 122) — the table, the closed mapping and the placement §10.2's, the derivation §7.7's DR44,
+  the drawing §8.2's, a building's ruined look V02 §5.7's, the hand-over V06's, the village rungs' units V07's, the
+  switch, the preview, the crisis card and Find's `crises` section volume 9's, the explanations volume 10's, the rows
+  V11's and the bars V12's. This volume gives the disaster's units and the outskirts' land (V01 §3.16).
 * **Calibration runs** — volume 12; every calibrate-later constant here names its default, its measurement and its
   fallback (V01 §3.14).
 
@@ -261,8 +277,10 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | the outline close-up (V01 §3.8.9) | a view gesture (rectangle, lasso, named site) | the refine close-ups of the districts it meets, the hinterland's per-face chunks | §4.1's elaboration by click; §9.5's framing rule |
 | catacomb source protection (V01 §3.5.12, V01 §3.9) | volume 4's `UndergroundSystem.sources` and entrance `AccessPoint` | the fixed-input set of S9b's re-derivation, a replace close-up and a content edit; the dry run's closed-source line (V04 §3.5.1 (8)) | §7.2 fixed inputs |
 | `blockLifted` notice (V01 §3.9) | a replace close-up's or content edit's fates over a stagnant catacomb's extent | volume 4's catacomb growth (item 109 (k) (5)) | the event's fate report (§7.1) |
-| `catchmentOf`, `districtsAbove`, `fabricSignature` (V01 §3.16) | committed districts, plots, ways; volume 4's void footprints and `underDistance`; V05 §3.5 (3)'s island unit; V12 §3.4's metric definitions | S10a / S10b's coverage term (V11's `cov/<class>` rows), volume 4's C5 parent and the ruin's distinctness step (V04 §3.5.0a (7)), V11's `naming.ruin` and culture rows, V10's explanations, Find's Show gaps (`gapUnits`, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view) and volume 9's voids view | §4.7 S10b (item 103 (f)); II.7.5 (2) |
+| `catchmentOf`, `districtsAbove`, `fabricSignature` (V01 §3.16) | committed districts, plots, ways; V11 §2.3's coverage units (its discs on the 16 m raster, its parish partition); volume 4's void footprints and `underDistance`; V05 §3.5 (3)'s island unit; V12 §3.4's metric definitions | S10a / S10b's coverage term (V11's `cov/<class>` rows), volume 4's C5 parent and the ruin's distinctness step (V04 §3.5.0a (7)), V11's `naming.ruin` and culture rows, V10's explanations, Find's Show gaps (`gapUnits`, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view) and volume 9's voids view | §4.7 S10b (item 103 (f)); II.7.5 (2) |
 | Find's area targets `findAreas` and Show gaps' units `gapUnits` (V01 §5.4, V01 §3.16; item 120) | committed districts of every layer, §9.1's city-cut `QuarterNode`s and `RegionGroup`s with their `LabelEntity` names, `District.identity`, the districts' L1 faces; `catchmentOf` (V01 §3.16) over the class's compiled `profile.coverage` (V11 §2.3); the chip's matches the view's key admits (§11.2's match listing) | volume 9's Find panel (the list's area entries) and `live.find` overlay (an area's lift, halo and pin; Show gaps' dashed outlines and their "none here" labels); V10's `FindAnswer` (a chip's `none`); §11.1's picture exports; T-V1-59 | §2.9's view key `find`; §11.2; §8.2's Find rows; §12.5 |
+| the disaster look's units `disasterSource` and `disasterDistricts` (V01 §3.16; item 122) | a standing `ConditionOverlay` whose look DR44 reads as `disaster`, admitted at the key, or a preview (§2.9's `crises`); the committed `epoch` events' `CalamityRef`s (§4.11; V08 §3.6 carries them) and V06 §2.4's calamity table; the ground districts (`DistrictContext.inhabitants`, `.water`), their seams, `Terrain.heightCm` and `Terrain.wind` (§2.3); §10.2's `disaster` row (`scale`) and `previewSeverity`; the view's key (§11.2's admission); at THORP, HAMLET and VILLAGE V07's units (V07 §3.10) | V02 §5.7's ruined look (every building of each unit; the fire's blackening from `pattern`); §8.2's disaster row (the `ruinTone` over the units, by its pattern); §10.2's `neighbourhoods` place, and its `affectedQuarter` place through `matched`; volume 9's crisis card **Show** and Find's `crises` row **Go to** (V01 §5.4 (6)); the view telemetry (unmatched targets, a fire's shortfall); T-V1-60 | §7.7's DR44; §10.2 *Crisis looks* (d); §8.2 |
+| the outskirts' land `campLand` (V01 §3.16; item 122) | the ground's hinterland `LandUse` faces (`commons`; `arable` and `strip_field` in their rotation's fallow course, §4.9; the open verges of the arterials leaving the town), the districts' outer boundary and the outermost enceinte's outer strip, the gates' passages, the under-deck strips (V01 §3.17.3); `hood.constants`' `camp.reachM` | §10.2's camp places (`beyondWalls`, `approachRoads`' fallback, `approachByGate`, `outside`, `gatesAndKeep`'s camp), which rank its faces — the refugee camp's by V06's `frontierFor`; T-V1-60 | §10.2 *Crisis looks* (d) |
 | `skyDistrictCount` (V01 §3.16) | the sky allocation's plot land, `IslandRule.districtHa` (V05 §2.3), `hood.constants`' `sky.plotShare` | the unit run's partition (V01 §3.10.3 (2)); V05 §2.3's unit inputs and V05 §3.5 (3)'s coverage units | II.6 (at most three districts per island) |
 | hood title (V01 §5.2.1) | the district's `name`, `identity`, a QUARTER record's label | the close-up view's furniture; the district export's title | §9.5 title rule |
 | unit run (V01 §3.10) | `HoodRecipe` (standalone) or `skyUnitInput(doc, island)` (V05 §2.3); the request without `seam`, `context`, `params`, `closeup` (V01 §2.4); after generation, volume 5's `raiseIsland` (an epoch's `sky.islands` participant, a late `convert`) and New random on an island (V01 §3.10.3 (6)) | the unit's districts, blocks, plots, buildings, names on its own arena; `NeighbourhoodResult.districts` → SKY-F → `SkyIsland.districts`; `SeamReport.landingsReached` (T-V1-21) | §4.1 units; II.1 (5) |
@@ -270,9 +288,9 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | the entrance reserve (V01 §3.8.2 step 5) | the buildings' `Entrance` records (main, side, rear, yard, service — a concealed use's door among them), `Basement.access` and `basementDoor(b)`, the building-hosted `AccessPoint`s of a building with neither a basement nor `ground(b)` at `stackAccessDoor(b, a)` (V03 §3.3, V03 §3.7.1–V03 §3.7.2), volume 2's `PorchKindRow`s | the hood pins' clearance; the chunk's inputs digest (V01 §3.8.3) | §2.6 `Entrance` and *Basements*; V02 §3.7; V03 §3.7.1–V03 §3.7.2 |
 | an island's crossing-site spans (V01 §3.10.3 (4)) | volume 5's conjured river and its sites (`SkyUnitInput.river`; `Bridge` records in state `site`, V05 §3.8 (4)); the unit's outline face; `levelledGroundCm` on the island's key (its raster fallback, item 309), read for `deckCm` by the after-S8 build | each district's `bridge` template portals; built `Bridge`s with their ways (`deckCm`, `kind`, `piers` by §4.8's rule) → volume 2's deck-plot rule at S10 and `DeckContext` at S11 (V02 §3.16 (1), (5)), S13a's bridge names, S14, the exports, V01 §3.17.6's deck plots and volume 5's landfall fates (V05 §3.16 (7), V05 §3.22 (6)); F-TEMPLATE's report | §4.2 S1 (5) as item 580 extends it to the sky unit run; §4.8's bridge rule |
 | a ground landing's destination lane (V01 §3.4.2 (a)) | SKY's ground `landing` reservation and its attach (V05 §3.10 (4)) | S8's first cut in the face, before the seeds; SKY-F's check; `landingsReached` | §4.6 |
-| `HoodRecipe` (V01 §2.6) | T1 `intend` with `product: 'hood'`, a skeleton file, the API | the unit run's S0–S2; the layer defaults (V01 §3.10.1 (7)) | §2.9 `Recipe` |
+| `HoodRecipe` (§2.9; its rules V01 §3.10.1) | T1 `intend` with `product: 'hood'`, a skeleton file, the API | the unit run's S0–S2; the layer defaults (V01 §3.10.1 (7)) | §2.9 `Recipe` |
 | the hood's void part (V01 §3.10.1 step 6) | P7's forecast at the hood's `contextRung` (V04 §3.3), capped at `forecastSafety`; the one-district allocation's poorest-band households | the underground pseudo-district's `Allocation` → volume 4's T3 F6 (V04 §3.4); F6's misses → volume 4's T8 (V04 §3.7a); T-V1-20 | §4.5 S7b (6) (d) |
-| `HoodKindRow` table `hood.kinds` (V01 §2.6) | authors | the standalone programme's anchors and affinity | §7.6 editable tables |
+| `HoodKindRow` table `hood.kinds` (V01 §2.2) | authors | the standalone programme's anchors and affinity | §7.6 editable tables |
 | `star`, `ring_star`, `spindle_street`, `plaza_rect`, `plaza_star` outline rows (V01 §3.10.2) | `blueprint.features` (the standalone S0's draws) | the standalone outline | §4.2 S1 (2) |
 | `hood.constants` (V01 §3.14; one `settings` row in V11's settings form, each key a column with its `ColumnSpec`) | authors; `editTable` | every rule of V01 §3 that cites a key; the `NG` preset's entries (V01 §3.15); each calibratable column's register entry (V01 §8.1) | §7.6 editable tables; V11 §2.1's settings form (registry row 62) |
 | the `NG` preset (V01 §3.15): its entries on `hood.constants` — the stage-2 switch `fabric.extensionWeight`, the eight `ng.*` switches, `pin.decayScope` — and the default cell `ng.plazaM2` | authors (`ref:NG 1.2.2 … (code)` entries; the switch's fixed on value); the NG harness's and the M5 panel's preset choice | S7c's weights in town and standalone; S9b's squares, manors, small blocks and greens and its land in the programme; the court-greening row; the hood pins; the plaza size; B-REF's NG rows (T-V1-31) and the NG panel (T-V1-32), arm `NG`; T-V1-4's resolution test; V11's compiler (`PresetId`) and V12's `PresetArm` | §7.6's parity presets (item 584); item 23 |
@@ -298,7 +316,7 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | `way.stair`, ramp hairlines, `retaining`, `raisedWay` programs (§8.2; drawn per V01 §5.1.2) | the base's stair and ramp intervals; `RetainingWall`s; raised parts | S14 from the district band (raised parts at every band) | §8.2 programs |
 | the hatch per roof facet; the stack order with tier shadows (V01 §5.1.2–V01 §5.1.3) | the sheet's `roofConstruction` facets (`fakeGablePerWing`'s faces by `RoofSpec.kind`; volume 2's `roofscape` facets); `BaseWing.on` and the wing keys; volume 2's `stairFlight` and `stairTreads` (V02 §2.6) | S14's slot 12 | §8.2; §8.6 (items 406, 419) |
 | the precinct rings (V01 §3.4.4) | the qualifying reservations in σ order | S8's seeds; `templateLandM2` | §4.6 |
-| `HoodRecipe.edges.slope` (V01 §2.6) | T1's hillside edge; the Terraces card's default | the unit run's S1 and relief class | §2.9 `Recipe` |
+| `HoodRecipe.edges.slope` (§2.9; V01 §3.10.1 step 2) | T1's hillside edge; the Terraces card's default | the unit run's S1 and relief class | §2.9 `Recipe` |
 | item-110 export rows (V01 §5.3) | walls, strips, piers, decks | SVG, GeoJSON, VTT, glTF | §11.1 (items 447, 448) |
 | the terminal-as-centrepiece rule (V01 §3.17.8) | the aqueduct's terminal pin or `conduit_house` frontage | S11's centrepiece draw (skipped); the hood pins' prior picks | §4.7 S11 |
 
@@ -322,13 +340,15 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | the layout and block content | none — no dossier field names a district's fabric or a block's content | **DR26** (§7.7, item 384) | derived by S7c and S9b from the rows above; a dossier element's plot is never typed away (V01 §3.5.12's fixed inputs) |
 | the aqueduct's terminal | `conduit_house` records | DR34 | V01 §3.17.8's terminal form |
 | the terraced ward (`terraceState`, V01 §3.17.1) | `site.terrain` | DR1 | S0's relief class → the relief rows' `terracedEdges` cell (V11) → `terraceState`; no other field is read. Raised ways are map-derived (item 20 (h)): their dossier factors are the base generator's (DR34, DR35) and volume 8's; a deck plot reads no dossier field |
+| the disaster look's units (`disasterSource`, V01 §3.16) | `calamityHistory[]` (`type`, `tick`, `targets`) as V08's `calamities`; the stressors and active conditions as `ConditionOverlay`s | DR28 (the calamity's `CalamityRef` in `EpochInputs.events`), DR44 (the crisis look) | read from the committed `epoch` events and overlays at the view's key; a look only, never a model write |
 
 **A dossier change reaches stage 2's facts** through the change envelope and the epoch or event fold (§7.7, items 22, 75,
 76) and least-disruption mutation: a changed row above re-derives the facts its readers produce inside the scope the
 fold re-derives — S7c's fabric and S9b's content on an epoch's new and due blocks only, never on survivors (V01 §3.3.6,
 V01 §3.5.11); a place's name or knowledge in S13a's scope (V01 §3.7.1); an opening or catacomb entrance through volume 4's
-commits and the opening pass (V04 §3.10) — and a fixed input (V01 §3.5.12) is never typed away. Every field stage 2
-does not read is another reader's or on §7.7 item 1's ignore-list.
+commits and the opening pass (V04 §3.10) — and a fixed input (V01 §3.5.12) is never typed away. A condition or calamity
+the dossier changes reaches the disaster's units at the commit that carries it (V01 §3.16): a look re-read, nothing
+re-derived. Every field stage 2 does not read is another reader's or on §7.7 item 1's ignore-list.
 
 ## 2 Data model
 
@@ -338,8 +358,9 @@ recomputed from persisted state and never stored.
 
 ### 2.1 Identifiers and the fabric table
 
-`FabricStrategyId` (a `hood.templates` row key), `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in
-§2.5 (item 505); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
+`FabricStrategyId` (a registered fabric: `bent-cut`, a `hood.templates` row key or V07's `village-ways`), `BlockKind`,
+`SquareType`, `SeamRun` and `TypedBoundary` are declared in §2.5 (item 505); `OutlineTemplateId` is §4.2 S1 (2)'s row
+key, its standalone rows added by item 285 (V01 §3.10.2).
 
 ```ts
 type HoodSite = 'court'|'plotYard'|'yardBlock'|'square'|'green'|'cemetery'|'fieldEdge'|'outsideYard';   // hood-pin sites (V01 §3.8.2); the last three hinterland
@@ -384,7 +405,7 @@ type CharacterTerm = { of: 'mix'|'sectors'|'trade'|'mainRoad'|'identity'|'shade'
 
 // ---- `squares.quota` — the one square quota, a base table (§4.7 S9, item 301) whose rows this volume authors (defaults V01 §3.5.2; V11 registry row 91):
 //      S7b (3) claims the squares larger than a block from it, S9b the sub-block remainder
-interface SquareQuotaRow { band: string; haPer1000: number /* typed-square target per 1 000 inhabitants of the district */; kind: Partial<Record<DistrictKind, number>> /* factor */ }
+// SquareQuotaRow is §10.2's (the base table `squares.quota`, read by S7b (3) from M2b and by S9b); this volume authors its default rows (V01 §3.5.2; V11 registry row 91)
 // ---- `hood.dispatch` — one row per band of §4.5's band set (a band without a row interpolates, item 27); read by S9b (V01 §3.5)
 interface DispatchRow { band: string;
   manorBlockShare: number /* share of eligible blocks given whole to one compound (V01 §3.5.5) */;
@@ -452,7 +473,7 @@ interface DistrictContext {   // the one context every stage-2 rule reads; assem
   barriers: { cliffM: number; marshM: number; closureWaterM: number } /* barrier-closure arcs on D's boundary (item 106 (a)), read by the wall-side feature and the panel */;
   slope: { meanPct: number; p95Pct: number; fallCdeg: Cdeg } /* on the unlevelled terrain */;
   terrace: TerraceState /* terraceState(D), below (V01 §3.17.1) */;
-  raised: { way: Id; kind: 'viaduct'|'elevated'|'aqueduct'; reason: 'drop'|'link'|'water'|'declared'; stripM2: number }[]
+  raised: { way: Id; kind: RaisedKind /* §2.7 */; reason: 'drop'|'link'|'water'|'declared'; stripM2: number }[]
     /* the raised parts whose under-deck strip meets D's faces, with their reason word — derived from the raised-way record's `RaisedReasonKey`
        (V06 §2.13; J-VI.2): viaduct → 'drop', elevated road → 'link', aqueduct → 'water'; 'declared' where the way's lifecycle cause is an edit or a
        skeleton file (item 244's derived source) — read by the panel and the why providers (V01 §4.5) */;
@@ -463,7 +484,7 @@ interface DistrictContext {   // the one context every stage-2 rule reads; assem
       (V05 §3.19 (3)); absent before SKY has written the islands' shade basis; read by the panel's reader query, the clerk's why and volume 9's shade view
       (post-generation; S9b and the pins read the strips themselves, V01 §3.5.5) */ };
   landmarks: { reservation: Id; cls: string; sigma: number; centroid: PointCm; guild?: Id /* a GUILD ladder record's hall (V01 §3.5.12) */ }[] /* S3 and S7b reservations inside it, σ by §4.5 (1) */;
-  records: { record: Id; step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; membersHere: number; membersTotal: number }[] /* ladder records with members in D (item 108) */;
+  records: { record: Id; step: LadderStep /* V11 §2.6 */; membersHere: number; membersTotal: number }[] /* ladder records with members in D (item 108) */;
   chains: { chain: Id; compatible: boolean; membersHere: number; alongWay?: Id /* an incompatible chain's tier-1 way through D along which its members lie in ≥ 2 districts */ }[];
   under: { part: number; element: Id; access: boolean; shareOfD: number }[] /* volume 4's cavern, ruin, quarry and catacomb elements whose footprint overlaps D; `access` — the
     element's cluster's `excavation` reading is `accessible` (V04 §3.5.7 (g)); a quarry or catacomb element always true (item 109 (j) (3)); filled only once the
@@ -505,14 +526,28 @@ interface GapUnit {   // gapUnits' row (V01 §5.4 (3)): one per unit holding no 
   layer: 'ground'|'underground'|'sky';
   plots: Id[] /* the gap's plots: a partition unit's plots; a per-plot unit's unserved residential plots */;
   area: PolygonCm[] /* a `district` unit's faces united, else the union of `plots`' faces; one per component, each drawn dashed with one "none here" */ }
+// Item 122's disaster units (V01 §3.16): view data — derived per commit, overlay and key, outside the document, its hash and the log
+interface DisasterUnit {   // one unit a disaster look may ruin: a ground district at TOWN and above; at THORP, HAMLET and VILLAGE V07's unit, built in this shape by V07
+  id: Id /* an entity's, whose render key keys the draws (V01 §3.16 (4)) */; centroid: PointCm /* its land's area centroid */; inhabitants: number /* a district's DistrictContext.inhabitants */;
+  meanHeightCm: Cm /* Terrain.heightCm's mean over its land (§2.3) */; waterFront: boolean /* a district's: DistrictContext.water.lengthM > 0 */;
+  neighbours: Id[] /* the units it shares a boundary run with (a district: a seam, II.1), in address order */ }
+interface DisasterSource {   // disasterSource's answer (V01 §3.16)
+  calamity: CalamityRef | null /* the overlay's calamity (§4.11; V01 §3.16 (2)): its `type` read by V02 §5.7 (4); null for a preview or where none falls in its weeks */;
+  pattern: 'fire'|'flood'|'scatter' /* the calamity's hazard in V06 §2.4's calamity table: fire, flood, else scatter; read by §8.2's disaster row and V02 §5.7 (4) */;
+  units: Id[] /* the units ruined: a prefix of the strike order, in that order (V01 §3.16 (4)–(5)) */;
+  matched: Id[] /* the units the calamity's targets name, admitted at the key: the first read by §10.2's `affectedQuarter` place */;
+  unmatched: Id[] /* its target ids, admitted at the key, that name no unit: reported in the view telemetry */ }
 // @plat/hood services (V01 §3.16), pure and draw-free:
-//   catchmentOf(plot: Id, unit: CoverageSpec['unit'] | 'neighbourhood', per?: number): Id[] /* the plots in the plot's catchment */
+//   catchmentOf(plot: Id, unit: CoverageSpec['unit'] | 'neighbourhood', per?: number): Id[] /* the plots of the plot's unit as V11 §2.3 defines it (V01 §3.16) */
 //   districtsAbove(part: number, element: Id): { district: Id; share: number }[] /* area overlap of a void's footprint with each surface district, shares
 //     descending, ties by district address — so its first entry is II.7.5 (2)'s parent for an undercity's main chamber */
 //   fabricSignature(region: PolygonCm): FabricSignature /* volumes 4 and 11 pass a ruin's outline */
 //   skyDistrictCount(plotLandM2: number, districtHa: number): number /* a sky island's district count, 1–3 (V01 §3.16) */
 //   findAreas(key: Admission): FindArea[] /* Find's area targets on every layer, at the view's effective key (V01 §5.4 (1)) */
 //   gapUnits(chip: { classes: string[] }, key: Admission): GapUnit[] /* Show gaps' units of a kind chip on every layer (V01 §5.4 (3)) */
+//   disasterSource(doc: Document, overlay: ConditionOverlay | null, key: Admission): DisasterSource /* a disaster look's units; null: a preview of the `disaster` look; its only draws view render hashes (V01 §3.12, V01 §3.16) */
+//   disasterDistricts(doc: Document, overlay: ConditionOverlay | null, key: Admission): Id[] /* disasterSource(doc, overlay, key).units — §10.2's `neighbourhoods` (item 122) */
+//   campLand(doc: Document): FaceRef[] /* the outskirts' land a camp look may take, in address order (V01 §3.16; item 122) */
 interface HoodPin {   // derived by the refine close-up (V01 §3.8.2); never stored; its overrides are Block.overrides
   host: Id /* the block, or a hinterland face */; ordinal: number; kind: Pin['kind']; site: HoodSite; host2: Id /* the court residue, yard part, block face or land-use face it stands on */;
   at: PointCm; sizeCm: Cm; angleCdeg: Cdeg; heightCm: Cm; state: 'generated'|'moved'|'restyled'|'added'|'rematched' }
@@ -522,7 +557,7 @@ interface WayNamingContext {   // S13a's naming input for a way (V01 §3.7.2), d
   trade?: string /* the class family of ≥ 0.3 of its σ-weighted frontage uses */; band: string;
   districtIdentity?: string; water: boolean; slopePct: number; placeOnIt?: Id /* a HoodPlace record its course passes (created before the ways are named, V01 §3.7.1) */;
   terraceIndex?: number /* a contour-series street's rank from the lowest level laid, 0 (V01 §3.4.3) */;
-  raised?: 'viaduct'|'elevated'|'aqueduct' /* a raised way's kind, for naming.way's guard (V01 §3.7.2) */ }
+  raised?: RaisedKind /* §2.7: a raised way's kind, for naming.way's guard (V01 §3.7.2) */ }
 ```
 
 A retaining wall's step profile is §2.7's derived view `stepProfile(wall)` (item 245), which this volume reads (V01 §3.11
@@ -541,7 +576,7 @@ an island carries no raised way (V05 §3.22 (3) (d)) — and "raised" means a gr
 | the surface rule (V01 §3.7.3) | by its fronting blocks | the base's value for its class (it has no fronting blocks) | none |
 | the naming context (V01 §3.7.2) | as V01 §3.7.2 states | `shape`, `to` (from its ends), `landmark` and `raised`; no `trade`, no `band`; its kind word the base's | none — the base names it as a feature |
 | `DistrictSignature`, `fabricSignature` (V01 §2.3, V01 §3.16) | yes | no | no |
-| `SeamReport.portalsConnected`'s walk (V01 §3.11 (6)); `catchmentOf('walk')` (V01 §3.16) | yes | yes, as one edge between its two end vertices | no |
+| `SeamReport.portalsConnected`'s walk (V01 §3.11 (6)) | yes | yes, as one edge between its two end vertices | no |
 | `TypedBoundary`'s runs (V01 §3.11 (8)) | yes | never a seam: its strip is a hole (V01 §3.17.3) | never |
 
 Raised decks carry no deck plots (V02 §3.16, J-V2.71): item 110 (d)'s plots stand on part-0 decks over water, moles, piers
@@ -549,15 +584,8 @@ and quay platforms (V01 §3.17.6).
 
 ### 2.4 The request, the result and the report
 
-`NeighbourhoodRequest`, `NeighbourhoodResult` and `SeamReport` are II.1's (item 539): the request's `seam`, `context`,
-`params` and `closeup` are absent exactly when `laid` is empty (the unit runner builds each district's `DistrictContext`
-and `SeamContract` after its partition, from `skyUnitInput` or `HoodRecipe`, V01 §3.10); the result carries `hoodPins`
-(refine only, derived), `places` and `districts` (a unit run's, in partition order, which SKY-F writes to
-`SkyIsland.districts`, V05 §3.12); `SeamReport` gains `landingsReached` (V01 §3.11 (6)).
-
-**The mode is derived, never passed** (J-V1.3): `unit` when `laid` is empty; `refine` when `strategy` equals the
-district's committed fabric; `replace` otherwise — a model edit (V01 §3.9). A sky island's `reason` is
-`SkyIsland.reason` (§2.7), not a request field.
+`NeighbourhoodRequest`, `NeighbourhoodResult` and `SeamReport` are II.1's (item 539), with their fields' presence rules
+and the derived mode (J-V1.3); this volume's unit runner, close-ups and SKY-F hand-over fill them (V01 §3.8–V01 §3.11).
 
 **Implementers and callers.** II.1's `NeighbourhoodStrategy.generate(req)` is implemented once, in `@plat/hood`, and
 dispatches on the derived mode: `refine` → the close-up deriver (V01 §3.8), called by the generation worker when §4.1's
@@ -566,8 +594,8 @@ trigger fires (a click, an outline, or a visible tile under `'view'`); `unit` �
 V05 §2.3), returning the unit's `districts`; `replace` is never a `generate` call — it is `setAttr` + `regenerate`
 through the edit engine (V01 §3.9), whose S8 calls `FabricStrategy.partition`, implemented by `TemplateFabric` (and the
 base's `BentCutFabric` for `bent-cut`). The `DistrictContext` builder is called by S7c, `TemplateFabric`, S9b, the why
-providers and the reader's `query` for the close-up panel and the clerk (V01 §4.5); the three services of V01 §3.16 by
-S10a / S10b's coverage term and volumes 4, 9, 10 and 11.
+providers and the reader's `query` for the close-up panel and the clerk (V01 §4.5); the services of V01 §3.16 by the
+callers each names there.
 
 ### 2.5 The close-up's records
 
@@ -582,19 +610,8 @@ interface CloseupRecord { district: Id /* a district, or the hinterland pseudo-d
 
 ### 2.6 The standalone neighbourhood document's recipe
 
-```ts
-interface HoodRecipe {   // Recipe.hood (§2.9, item 272); present exactly when Recipe.product = 'hood'
-  outline: { template: OutlineTemplateId } | { polygon: PolygonCm /* a drawn outline: simple, ≥ 3 vertices, snapped as §7.1 draws */ } | 'auto' /* by the fabric (V01 §3.10.1 step 1) */;
-  size?: 'small'|'medium'|'large' /* the chips: `buildings` ≈ `size.small`, `size.medium`, `size.large` (NG's bands; V01 §3.14) */; areaHa?: number /* absent: from `buildings`, else the kind row's band */;
-  buildings?: number /* a building-count target, wins over areaHa (V01 §3.10.1) */;
-  kind?: DistrictKind /* absent: drawn from `hood.kinds` */; fabric: FabricStrategyId | 'auto';
-  leafy?: boolean /* greenery 0.9 and court greening × `green.leafyCourt` (NG's `leafy`) */; secular?: boolean /* no landmark anchors, manorBlockShare 0 (NG's `secular`) */;
-  contextRung: 'TOWN'|'CITY'|'METROPOLIS' /* whose rung-scaled rows the hood reads; default 'CITY' */;
-  intent: DistrictIntent /* wealth, density, planned, greenery …; absent fields derived */;
-  edges?: { water?: { bearingCdeg: Cdeg; body: 'river'|'sea'|'canal' }; wall?: { bearingCdeg: Cdeg };
-    slope?: { bearingCdeg: Cdeg /* downhill */; pct: number /* the mean fall in percent; default hood.hillsidePct */ } /* T1's hillside edge (V01 §3.10.1 step 2) */ } /* optional context edges */ }
-// The layers a standalone neighbourhood document may hold are fixed by V01 §3.10.1 (7) through the inputs its S0 writes.
-```
+`HoodRecipe` (`Recipe.hood`, item 272) is §2.9's; its rules are V01 §3.10.1's. The layers a standalone neighbourhood
+document may hold are fixed by V01 §3.10.1 (7) through the inputs its S0 writes.
 
 ### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo · migrate)
 
@@ -619,7 +636,8 @@ interface HoodRecipe {   // Recipe.hood (§2.9, item 272); present exactly when 
 Derived and never stored: χ̃ (V01 §3.2), `templateLandM2`, `DistrictContext`, `terraceState`, `stepProfile`, the
 under-deck strips as holes (V01 §3.17.3), deck-plot ownership (V01 §3.17.6), `TypedBoundary`, `DistrictSignature`,
 `FabricSignature`, the three services' answers, Find's area targets and Show gaps' units (`FindArea`, `GapUnit`: view
-data, outside the document, its hash and the log; V01 §5.4), `HoodPin`, the ground `AccessPoint` symbols (V01 §3.8.8),
+data, outside the document, its hash and the log; V01 §5.4), the crisis services' answers (`DisasterUnit`,
+`DisasterSource` and `campLand`'s faces: view data likewise; V01 §3.16), `HoodPin`, the ground `AccessPoint` symbols (V01 §3.8.8),
 `WayNamingContext`, `SeamReport` (recomputed with each close-up or re-derivation and written to the generation report),
 the close-up's cache chunk (V01 §3.8.3: non-canonical, dropped on mismatch) and every `WhyAnswer` (V01 §4.5). The
 `blockLifted` notice is a line of the event's fate report, logged with the event; volume 4 reads it from the log
@@ -2077,6 +2095,10 @@ block), `greenery` (court greening, keyed by the block), `blueprint.features` (t
 V01 §3.10.1's order), `naming` (place names), `epoch.transform` (the `hood.fabric` participant's draws, item (1)'s S7c rule included, all under its
 registered stage `S9b`, V01 §3.3.6).
 
+**Crisis looks draw from no concern** (item 122): `disasterSource`'s draws are view draws on §8.10's render keys under
+§8.1's render tag `crisis.place`, keyed by the condition's id (a preview's by its look kind), so a disaster strikes the
+same districts in every view and export and no stream, digest or hash moves (V01 §3.16 (4)); `campLand` draws nothing.
+
 **Stage components** (§6.3's lineage key). Template seed ways and plazas take `S8.seed`, a registered stage id of their
 own (item 345), so a seed's lineage key never equals a lane's minted by the same cell's S8 run; T-V1-36's
 address-collision test runs per template row over B-FUZZ's faces.
@@ -2111,7 +2133,7 @@ where it belongs to a row, else a column of **`hood.constants`** (V01 §2.2) —
 with its own `ColumnSpec` — whose key the rule's text cites. Only `editTable` changes them (§7.6). Style values are §8.2's
 style-sheet cells. Values another unit owns are cited, never restated: volume 11's `ways.crossing` (`rampMaxGrade`,
 `stair`), `terrace` (`slopeMin`, `stepMinCm`, `enabled`), the relief rows' `terracedEdges`, `raisedWays.structure`
-(`clearanceCm`, the material rows), `aqueduct.terminal`; the base's `character.anchorSigma` (§4.5) and §11.1's
+(`clearanceCm`, `stripMarginM`, the material rows), `aqueduct.terminal`; the base's `character.anchorSigma` (§4.5) and §11.1's
 `vtt.retainingMinCm`.
 
 **Row cells.** Constants that belong to a row live in that row's table:
@@ -2169,7 +2191,7 @@ cell resolving under `NG` as under `MFCG`. Provenance `own` unless the row names
 | `terrace.askGain` | V01 §3.3.3 | 1 | number · `weight` | [0, 3] | yes | `weight` | — | `own`, calibrate at M5 (T-V1-50) |
 | `terrace.siteShare`, `terrace.minGapShare` | V01 §2.3, V01 §3.4.3 | 0.3, 0.6 | number · `share` | [0, 1], [0.3, 0.9] | yes | — (thresholds: `asks` is inert wherever `terrace.askGain` is 0 and volume 11's `terrace.enabled` off; J-V1.99) | — | `own`, calibrate at M5 (T-V1-50) |
 | `terrace.maxLevels`; `terrace.profileNoticeCm` | V01 §3.4.3 (per flank); V01 §3.9, V01 §3.11 (7) | 15; 50 cm | integer · `none`; number · `cm` | [4, 31]; [10, 200] | no (a work limit); yes | — | — | `own` |
-| `raised.stripMarginM`, `raised.clearWidthM`; `raised.squareDeg` | V01 §3.17.3 (strip margin; arch clear width + 1 m; ± 30° of square) | 1 m, 1 m; 30° | number · `m`; `cdeg` | [0, 3] each; [10°, 45°] | yes | — | — | `own` |
+| `raised.clearWidthM`; `raised.squareDeg` | V01 §3.17.3 (arch clear width + 1 m; ± 30° of square) | 1 m; 30° | number · `m`; `cdeg` | [0, 3]; [10°, 45°] | yes | — | — | `own` |
 | `landmark.maxRings` | V01 §3.4.4 | 2 | integer · `none` | [1, 4] | no | `option` — the precinct multi-ring; its off value 1 is its `presets.MFCG` and `presets.FTG` entry (`own`; `fixed: the parity off value`) | — | `own` |
 | `landmark.roundTol` | V01 §3.4.4 | 0.9 | number · `share` | [0.7, 1] | yes | — | — | `own` |
 | `hood.hillsidePct`; `hood.hillsideMaxPct` | V01 §3.10.1, V01 §4.1 | 20; 60 | number · `none` (percent) | [0, 60]; [20, 100] | yes; no | `weight` (the hillside default: a hood is flat under the parity presets and `NG`); — | — | `own` |
@@ -2180,6 +2202,7 @@ cell resolving under `NG` as under `MFCG`. Provenance `own` unless the row names
 | `closeup.chunkKB` | V01 §3.8.3 | 32 | integer · `none` (KiB) | [8, 128] | no (an engineering budget) | — | — | `own` |
 | `size.small`, `size.medium`, `size.large` | V01 §3.10.1, V01 §3.15, V01 §4.2 | 85, 700, 1 050 | integer · `none` (buildings) | [20, 3 000] each | no (NG's measured bands) | — | — | NG's size bands (`docs/confidence/ng.md` C8) |
 | `hood.frameMargin`, `hood.starRadiusFloor`, `sky.plotShare` | V01 §3.10.1, V01 §3.10.2, V01 §3.16 | 0.3, 0.35, 0.62 | number · `share` | [0.1, 1], [0.2, 0.6], [0.3, 0.9] | yes | — | — | `own`; `sky.plotShare`'s default the base's dense-core plot share (0.62, §4.2 S2) |
+| `camp.reachM` | V01 §3.16 (`campLand`: the outskirts' depth beyond the built edge and along the approach roads) | 600 m | number · `m` | [100, 3 000] | no (a drawing extent) | — | — | `own` (about ten minutes' walk beyond the edge) |
 
 ### 3.15 The `NG` preset — Neighbourhood's own rules (item 23; J-V1.98)
 
@@ -2252,22 +2275,21 @@ volume's rules as declared extensions, which T-V1-32 shows the owner beside the 
 
 ### 3.16 Services other volumes call (`@plat/hood`)
 
-Pure, draw-free functions of committed state, memoised per commit, each ≤ 1 ms per call at CITY (V01 §6; Find's two by
-their own lines):
-* **`catchmentOf(plot, unit, per?)`** — the plots in a plot's catchment for item 103 (f)'s coverage (V11's
-  `CoverageSpec.unit`): **`district` and `neighbourhood` are one unit, the district a close-up opens** (J-V1.35) — the
-  plots of the plot's district; `walk` — the plots whose front points lie within `per` metres of the plot's front point
-  along the way graph (L1 spines and L2 corridors — part 0, each raised road one edge between its ends, never an
-  aqueduct; V01 §2.3); `households` — the plots of the nearest `per` households by the same metric (ties by plot id);
-  `settlement` — every plot of the town; `parish` — the plots whose nearest parish-church member (by the same metric) is
-  the same member, or, before one is placed, the district. **On the other arenas**: for a plot on an underground arena,
-  `walk` and `households` read volume 4's `underDistance` (V04 §3.6a (1)) in place of the way-graph metric, and each
-  undercity neighbourhood and the underground pseudo-district (the sewer-front neighbourhoods and F6's void dwellings)
-  is its own `district` unit (V04 §3.6a (5)); on a sky arena the island is one `walk` unit (V05 §3.5 (3): the route to
-  the ground passes every walking radius), its districts its `district` units. A plot with no way within `per`
-  (`walk`) or fewer than `per` households in its arena (`households`) has every plot it can reach as its catchment, and
-  always itself. Callers: S10a / S10b's coverage term (V11's `cov/<class>` rows, the base solver), volume 10's
-  explanations, `gapUnits` (Find's Show gaps, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view).
+Pure, draw-free functions of committed state, memoised per commit, each ≤ 1 ms per call at CITY (V01 §6; Find's two and
+the crisis services by their own lines; `disasterSource`'s keyed render hashes are view draws, V01 §3.12):
+* **`catchmentOf(plot, unit, per?)`** — the plots in a plot's coverage unit for item 103 (f) (V11's `CoverageSpec.unit`
+  and `per`): each unit is read at the plot exactly as V11 §2.3's `CoverageSpec` defines it — `walk` and `households`
+  its discs on the 16 m raster, `parish` the plot's cell of its parish partition, `district` the plot's district,
+  `settlement` the town — cited, never restated, so the solver, Show gaps and V12 §3.6's `servedShare` count served one
+  way; the plot is always in its own catchment. This volume adds only its own readings: **`neighbourhood` is read as
+  `district`**, the district a close-up opens (J-V1.35); **on an underground arena** `walk` and `households` measure
+  the disc's radius by volume 4's `underDistance` (V04 §3.6a (1)) in place of the straight distance, and each undercity
+  neighbourhood and the underground pseudo-district (the sewer-front neighbourhoods and F6's void dwellings) is its own
+  `district` unit (V04 §3.6a (5)); **on a sky arena** the island is one `walk` unit (V05 §3.5 (3): the route to the
+  ground passes every walking radius), its districts its `district` units; **a district with no residential plot
+  holds no unit** — V11 §2.3's skipped term (no household there to serve), so no gap is drawn in it (V01 §5.4 (3)).
+  Callers: S10a / S10b's coverage term (V11's `cov/<class>` rows, the base solver), volume 10's explanations,
+  `gapUnits` (Find's Show gaps, V01 §5.4, into which item 120 (i) folds volume 9's Coverage view).
 * **`districtsAbove(part, element)`** — the area overlap of an underground element's projected footprint with each
   surface district, shares descending, ties by district address; an element whose footprint lies under no district (the
   hinterland, water) returns the empty list. **An undercity neighbourhood's `parent`** is II.7.5 (2)'s — the surface
@@ -2290,6 +2312,63 @@ their own lines):
 * **`findAreas(key)`** and **`gapUnits(chip, key)`** — Find's area targets and Show gaps' units (item
   120), memoised per commit and per key, stated with their rules at V01 §5.4. Callers: volume 9's Find panel and
   `live.find` overlay, volume 10's `FindAnswer`, §11.1's picture exports.
+* **`disasterSource(doc, overlay, key)`** and **`disasterDistricts(doc, overlay, key)`** (item 122 (b); J-V1.104) —
+  the units a disaster look ruins: whole neighbourhoods, never a share of the buildings inside one. `disasterDistricts`
+  is `disasterSource(…).units`, which §10.2's `neighbourhoods` place reads; every building of each unit draws the
+  ruined look (V02 §5.7). `overlay` is a standing `ConditionOverlay` admitted at the key, or `null` for a preview of
+  the `disaster` look (§2.9's `crises`): `units` is read for an overlay whose look §7.7's DR44 reads as `disaster`, and
+  `matched` for any — §10.2's `affectedQuarter` place takes the first `matched` unit of a `quarantine` overlay as the
+  quarter its cordon closes. Memoised per commit, overlay and key:
+  1. **The units.** At TOWN and above — a standalone neighbourhood document at its `contextRung` — every district of the
+     ground arena's part 0 that the key admits, the hinterland pseudo-district excepted, each read as a `DisasterUnit`
+     (V01 §2.3). At THORP, HAMLET and VILLAGE, where the village product holds one district (PART III (4)), the units
+     are V07's — its ends (`VillageEnd`, V07 §3.10), or in an end-less thorp its contiguous toft groups — in the same
+     shape, and the same rule picks among them.
+  2. **The calamity.** The overlay's calamity is the `CalamityRef` (§4.11; carried by the port, V08 §3.6) of the
+     `calamity` entries of the committed `epoch` events whose week — the entry's `week`, else its epoch's — lies in the
+     overlay's weeks ([`sinceWeek`, `untilWeek`), or from `sinceWeek` on with no `untilWeek`): the latest, ties by
+     the higher severity band, then by `CalamityRef.id`. None falling there, or a preview, gives no calamity. Its
+     **pattern** is its type's hazard in V06 §2.4's calamity table: `fire` → **fire**, `flood` → **flood**; a
+     `collapse`, a `drought`, a `null` hazard, a type no row matches and no calamity → **scatter**.
+  3. **The targets.** Each id of the calamity's `targets` names a unit: a use, or any entity on a plot, by its plot's
+     district, closed or not; a district, itself; a city-cut `QuarterNode`, each of its member districts; a
+     `HoodPlace`, its host's district (at the village rungs, V07's unit holding it). A target the key withholds
+     (§9.2's admission) is skipped and never reported to that key; one that names no unit — its plot re-derived away,
+     in the hinterland, on another arena — is `unmatched`, reported in the view telemetry, and the pattern fills the
+     share.
+  4. **The strike order.** Every draw is a view draw: `u(unit) = RH32('crisis.place', the unit's render key, salt,
+     H32(the condition's id)) ÷ 2³²` (§8.1; a preview keys on `H32('disaster')`, its look kind, in the condition's
+     stead). The order opens with the matched units by ascending `u`, then grows by the pattern —
+     * **fire**: from the first matched unit, else from a seed picked by inhabitants (the unit of least
+       −ln u ÷ (inhabitants + 1)), each next unit the neighbour of a taken one lying farthest downwind of the seed
+       (`Terrain.wind`, §2.3; centroid to centroid) — under no wind (`strength` 0) the neighbour nearest the seed; the
+       order ends when no neighbour is left, so a fire never jumps a gap in the adjacency;
+     * **flood**: each next unit the lowest by `meanHeightCm` among the water-fronting units and the neighbours of the
+       taken ones — with no water-fronting unit, the lowest of all first;
+     * **scatter**: the remaining units by ascending `u` —
+     ties by `u`, then by address.
+  5. **The share.** With n units and s the `disaster` row's `scale` at the map's rung at the severity — the overlay's,
+     clamped to [0, 1], or `previewSeverity` for a preview — linear between its two ends (§10.2's *Crisis looks* (c)),
+     k is 0 where s ≤ 0, else round(s × n) clamped to [1, n]; `units` is the first max(k, |`matched`|) units of the
+     order — all of a shorter fire order, the shortfall reported in the view telemetry. So the set grows with the
+     severity, holds every matched target, and is the same in every week the overlay stands, every view and every
+     export.
+  Several disasters at once are computed apart, each keyed by its own condition; a unit in two sets draws the higher
+  level (V02 §5.7 (1)). The look's end in the week the `reconstruction` Works begins is V06's hand-over, which this
+  service does not read; an edit or epoch that splits or merges a struck district changes the units at that commit,
+  each successor drawn by its own key.
+* **`campLand(doc)`** (item 122 (a)–(c); J-V1.105) — the outskirts' land a camp look may take: `FaceRef`s in address
+  order, on the ground arena's part 0 at every rung, memoised per commit. (1) The hinterland's `LandUse` faces of kind
+  `commons`, and the `arable` and `strip_field` faces in their rotation's fallow course (§4.9), whose nearest point lies
+  within `camp.reachM` (V01 §3.14) of the **built edge** — the outer boundary of the ground districts' union, the
+  hinterland pseudo-district left out, or the outermost enceinte's outer strip where that lies beyond it; (2) the
+  **verges of the approach roads** — the `meadow`, `pasture`, `arable` and `strip_field` faces bordering an arterial
+  that leaves the settlement, within `camp.reachM` of where it leaves (its gate, else the built edge). Never a face of
+  another kind (no water, marsh, wood, quarry, garden or orchard is camp land), one meeting a gate's passage (its
+  opening and 4 m along its way each side, §10.2 (d)), or one an under-deck strip crosses (V01 §3.17.3); a label's
+  keep-out is the band's, cut by §10.2 (d)'s placement. §10.2's camp places rank these faces — the refugee camp's by
+  V06's `frontierFor`. A standalone neighbourhood document holds no hinterland land use (V01 §3.10.1), so its
+  `campLand` is empty.
 
 One **writer** other volumes call: **`plantRimWalk(doc, island)`** — the rim walk's one planting (V01 §3.10.3 step 4): it
 writes the island's `esplanade` and `street_trees` pair into the calling commit's batch, a function of the committed rim
@@ -2368,8 +2447,9 @@ before it commits (item 245), so no degenerate wall reaches stage 2.
    (item 110 (f)); this volume owns the bars inside a close-up (T-V1-51). Its piers are those item 244's support step
    lays, which this volume's crossings and under-deck strip read (J-VI.27).
 2. **The under-deck strip.** The part's ground projection — its piers and spans over the deck's width plus
-   `raised.stripMarginM` each side — is a **hole** in the faces it crosses, as an S7b claim is (V01 §3.4.1): where it
-   crosses a face from boundary to boundary it cuts it; no plot, block interior, seed or hood pin lies in it; the base's
+   `raisedWays.structure.stripMarginM` (V11 §3.24.2) each side, §4.6 S8's one strip — is a **hole** in the faces it
+   crosses, as an S7b claim is (V01 §3.4.1): where it crosses a face from boundary to boundary it cuts it; no plot, block
+   interior, seed or hood pin lies in it; the base's
    arch vaults (II.7.6; volume 4's `vault` spans) fill it where they exist, and an `open` span stays open ground, a way
    passing under it or bare ground (item 110 (b): "the spaces between piers stay open or hold the base's vaults").
    `DistrictContext.areaM2` and the pre-claim template face exclude it.
@@ -2508,7 +2588,7 @@ facet, site, hull or label box draws nothing — and never fail a tile. Tests: T
 
 | rung | stage 2 |
 |---|---|
-| THORP, HAMLET, VILLAGE (the village product) | no S7c, no S9b, no refine or outline close-up, no hood pins or places: the village product registers neither hook and has no stage-2 close-up (V07 J-V7.24); the `hatched` family draws the village's own records at its four bands by V01 §5.1.1's rows with no stage-2 marks; a village that grows into the town ladder takes its fabrics and block contents from the first S7b and S10a the base product runs on it |
+| THORP, HAMLET, VILLAGE (the village product) | no S7c, no S9b, no refine or outline close-up, no hood pins or places: the village product registers neither hook and has no stage-2 close-up (V07 J-V7.24); the `hatched` family draws the village's own records at its four bands by V01 §5.1.1's rows with no stage-2 marks; a village that grows into the town ladder takes its fabrics and block contents from the first S7b and S10a the base product runs on it; item 122's two services act — `campLand` as at every rung, `disasterSource` over V07's units (V01 §3.16) |
 | TOWN | stage 2 whole, except: no raised way generated (item 290's rung gate; a way an epoch carried down from CITY is read as any committed raised part), no quarry-ossuary catacomb entrance (CITY and METROPOLIS only, V01 §3.7.1), no islands (volume 5's gate) and so no sky unit run |
 | CITY | stage 2 whole: generated raised ways, quarry-ossuary entrances, islands |
 | METROPOLIS, to its population cap | stage 2 whole; the Cemetery network's extramural grounds first among the outline close-up's named sites (V01 §3.8.9); the METROPOLIS budget lines (V01 §6); at the cap the district count is S6's, and no stage-2 quota binds beyond its own rows |
@@ -2531,6 +2611,7 @@ Test: T-V1-57.
 | the `pins` and `trees` layers; the style's `details` and `shadows` | view only (V01 §5.1.2, V01 §5.1.3) |
 | GeoJSON `closeup: true` | hood pins exported as presentation features (V01 §5.3) |
 | Find on or off; Show gaps on or off (item 120) | view only: the document, its hash, the log and the tiles byte-identical; the area targets and gap units recomputed per commit (V01 §5.4) |
+| Show crises on or off, or a preview (§2.9's `crises`; item 122) | view only: with Show crises off nothing calls `disasterSource`; a preview reads no calamity, the scatter pattern at `previewSeverity`; the document, its hash, the log and every model value byte-identical (V01 §3.16) |
 
 Tests: T-V1-4, T-V1-56 (c), T-V1-59 (d).
 
@@ -2578,7 +2659,9 @@ Tests: T-V1-19, T-V1-34, T-V1-55.
 | the sky unit run (V01 §3.10.3) | an island without a district's worth of land; a rim strip of zero length | no district, the allocation to F-SKY-UNIT, reported; no rim-walk pair | leave out and report | T-V1-21 |
 | seams (V01 §3.11) | a district with no way | every portal `unconnected`, reported | check | T-V1-14 |
 | constants (V01 §3.14) | a numeric `editTable` outside a column's range; its undo; a load of a document made under an older table version | clamped by V11 §4.1's rule (V11 §2.1's `ColumnSpec.range`); the undo restores the cell (§7.4, §7.6); the stage runs' `tablePins` resolve the cells the document was made with, a newer version by §7.5's migration | check | T-V1-34, T-V1-55 |
-| services (V01 §3.16) | an element under no district; a region with no built block or part-0 way; `plotLandM2` 0; a plot with nothing within `per` | the empty list; `null` measures; 1; every plot it reaches, and itself | — | T-V1-42, T-V1-46 |
+| services (V01 §3.16) | an element under no district; a region with no built block or part-0 way; `plotLandM2` 0; a plot whose unit holds no other plot; a district with no residential plot | the empty list; `null` measures; 1; the plot alone; no unit (V11 §2.3's skipped term) | — | T-V1-42, T-V1-46 |
+| the disaster's units (V01 §3.16; item 122) | no unit (a document before S6, or every district withheld); one unit (a town of one district, a standalone neighbourhood document's preview, an end-less thorp of one toft group); the hinterland pseudo-district; severity 0 and 1; a share above 0 that rounds to none; more matched targets than k; a target naming no unit (its plot re-derived away, the hinterland, another arena); a target the key withholds; no calamity in the overlay's weeks; a calamity type no row of V06 §2.4 matches; a fire whose seed's adjacency component is smaller than k; calm (`Terrain.wind.strength` 0); a flood with no water-fronting unit; several disasters at once; an edit or epoch splitting or merging a struck district; the look standing when V06's real aftermath strikes its units | the empty list, nothing drawn; that unit; never a unit (V01 §3.16 (1)); the row's two ends; one unit; every matched unit (the dossier wins); `unmatched`, reported in the view telemetry, the pattern filling the share; skipped, never reported to that key; no target, scatter; scatter; the whole component, the shortfall reported in the view telemetry; the nearest neighbour first; the lowest unit first, then its neighbours; each set apart, a unit in two at the higher level (V02 §5.7 (1)); re-read at that commit, each successor drawn by its own key; the set unchanged — the aftermath is the epoch path's and the look yields per building by V06's hand-over | check; leave out and report | T-V1-60 |
+| the outskirts' land (V01 §3.16; item 122) | no commons or fallow within reach; no approach road (an unserved mesa, S3 (9) (a)); an island town with no land beyond its shore; a standalone neighbourhood document; a face meeting a gate's passage or crossed by an under-deck strip; a face an epoch builds over or an edit re-uses while a camp stands | the verges alone; the commons and fallow alone; the empty list, so §10.2 (h)'s ring marks; the empty list (no hinterland land use); left out; re-read at that commit, the camp re-placed by §10.2 (d) (a look only) | leave out and report | T-V1-60 |
 | Find's areas and gaps (V01 §5.4) | no district (a document before S6) or a layer with none; a town of one district; a city-cut quarter of one district; a quarter the key admits in part, or not at all; a class with no coverage row; a several-class chip whose classes' units differ; no admitted member; a member the key withholds; every member in the hinterland; a per-plot unit over a district with no residential plot; a chip's area no longer held (merged away, or rebuilt under another id); the METROPOLIS cap | no area target and no gap unit; one district target, no quarter; that district's target only; the admitted members' union, or not listed; the `district` unit; the `district` unit over every member of its classes; every unit a gap; a gap where it alone stands, at that key (never a hint, item 120 (h)); every `district` unit a gap, a per-plot plot served only where `catchmentOf` reaches a hinterland member; no unit there; the chip kept at count 0, dark, until removed or Clear; V01 §6's Find lines | check | T-V1-59 |
 | terraces and walls (V01 §3.17.1–V01 §3.17.2) | no wall; a declared wall degenerate after its snap; a wall with no step | nothing held; bent by §7.1's dry run before it commits (item 245), never reaching stage 2; step 0, no shadow, no VTT line (§11.1's threshold), the why "no step" | repair locally | T-V1-50, T-V1-56 |
 | raised ways (V01 §3.17.3–V01 §3.17.5) | no raised part; a strip over a whole template face; a part wholly on hinterland faces | nothing read; D has no template face; nothing read (its spans open by J-C4) | — | T-V1-51, T-V1-52 |
@@ -2610,6 +2693,9 @@ otherwise; the rung is §5's for a cell that handles a failure, `—` for a cell
 | the map frame and a terraced ward | no ward-edge wall on a `frame` run (item 302); the levelling stops at the margin band | — | T-V1-58 |
 | a terraced ward and a lock | a locked or pinned plot is a fixed input: its face a hole the series avoids (V01 §3.4.1, V01 §3.4.3), its plot and site kept by every re-derivation (§7.2); the walls round it are the base's levelling's | — | T-V1-18 |
 | a terraced ward and save and load | `District.terrace` and the walls persist in their leaves; `terraceState` and `stepProfile` are recomputed on load; a load re-derives nothing (byte-identical) | — | T-V1-55 |
+| a disaster look and an opened close-up (item 122) | the close-up's chunk unchanged — the look is no input of it (V01 §3.8.3); its buildings draw V02 §5.7's ruined look over the `hatched` hatch (V01 §5.1.4), its hood pins as derived | — | T-V1-60 |
+| a disaster look and the dossier removing its calamity's target | the target `unmatched` at that commit, reported, the pattern filling the share | leave out and report | T-V1-60 |
+| a camp and a raised way (items 122, 110) | no camp face under an under-deck strip or among its piers: `campLand` leaves the face out | — | T-V1-60 |
 
 ## 4 Editing
 
@@ -2731,12 +2817,12 @@ The clerk and the application's "why?" panel read stage 2 through `query` and th
 §11.2). `@plat/hood` registers these **why providers** (V10 §2.13; §2.8's explainer registry, item 270), one provider per
 kind or path; each recomputes its answer as a pure function of committed state — never from a stored report, so the
 answer is the same before and after a save, a load or an unrelated edit (T-V1-37). The pulls they return name V11's
-families (`WhyPull.family`, V10 §2.13).
+families (`WhyPull.family`, §11.2).
 * **`district.fabric`** (and the section `fabric`) — "declared by the user" for an edited path; otherwise χ̃ over the
   committed allocation, the eligible rows with their weights (the shade and chain terms among them) and the keyed
   uniform. A committed fabric on the recomputed pick's fallback chain is reported as that pick bent to it (F-TEMPLATE's
-  substitution writes the row built to `D.fabric`, V01 §3.13); a recomputed pick that differs otherwise sets volume 10's
-  `evaluated.drifted` with its cause (the reconcile moved households after the draw, or the allocation changed since):
+  substitution writes the row built to `D.fabric`, V01 §3.13); a recomputed pick that differs otherwise sets §11.2's
+  `WhyAnswer.evaluated.drifted` with its cause (the reconcile moved households after the draw, or the allocation changed since):
   the fabric stands, as survivors do.
 * **`block.content`, `block.squareType`** — D's quotas, the candidate's siting rule, its score terms (prestige, spacing,
   and the sun factor and the siting pushes as `WhyPull`s of V11's families `sun` and `nuisance`), the keyed pick, or
@@ -2745,9 +2831,9 @@ families (`WhyPull.family`, V10 §2.13).
   opening's kind), recomputed from the place's naming record.
 * **hood pins** — the site, the gate's terms (band, identity, shade as a `sun` pull, `pinGate`, the court factor), the
   prior picks and the decay; an override's state (`byOrdinal`, `rematched`, `orphaned`).
-* **ladder records** — volume 10's `members` answer for a QUARTER, GUILD, COUNT or SIZE record: the step type, the range,
+* **ladder records** — §11.2's `WhyAnswer.members` for a QUARTER, GUILD, COUNT or SIZE record: the step type, the range,
   the count and the member ids, each counted once (item 108 (c)).
-* **an unwalled side** — volume 10's `closure` answer for a barrier run ("the cliff is the wall here", item 106 (g)).
+* **an unwalled side** — §11.2's `WhyAnswer.closure` for a barrier run ("the cliff is the wall here", item 106 (g)).
 * **openings and voids** — an opening's cause (its `AccessPoint`), and "the ruins under the old quarter" through
   `districtsAbove` (V01 §3.16); an unexcavated void is named only to a key that admits it.
 * **`district.terrace`** — the state and its source (V01 §3.17.1): "the ground here falls 18 % and the relief is hilly:
@@ -2943,7 +3029,10 @@ the `pins` toggle and the key's admission both.
 
 `hatched`'s night is §8.4 (h)'s — the ambience wash and a glow per lit building at the vector rung; the placed lights
 (§4.7) light the streets. §8.2's `states` rows apply with `hatched`'s tones; a ruined or Works-stage building's hatch is
-replaced by its state's program.
+replaced by its state's program. Item 123's damage and a disaster's ruined look (item 122) are V02 §5.7's in `hatched`
+as in every family: a hole takes its ring out of the hatched facets, the hatch per facet (V01 §5.1.2) stopping at its
+edge as at a facet's, a gap leaves its run of the outline undrawn, and the massing reading's tone and dash fall on
+`hatched`'s roof tones; no program of this volume draws either.
 
 #### 5.1.5 The close-up's framing (V01 §3.8.7)
 
@@ -3019,7 +3108,8 @@ Every export honours §9.2's knowledge admission (a court's local name withheld 
 neighbourhood band) and records declared, derived and clerk-proposed provenance (§11.1; item 101 R19). A scope holding no
 stage-2 content (a district before M5, a hinterland rectangle with no close-up) exports the base's content only. An export
 of a district whose close-up was never opened derives it for the export (a pure function), never stores it. A picture
-export draws Find as shown (V01 §5.4 (5)).
+export draws Find as shown (V01 §5.4 (5)), and the crisis looks shown as §11.1 draws them — a VTT scene in its image
+only, never as walls or obstacles (item 122 (f)); this volume adds nothing to them.
 
 ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)
 
@@ -3074,14 +3164,15 @@ reading of the Coverage view this switch absorbs; a chip of several classes ("al
 common `unit` and `per` when all share one, else `district`, its members those of any of its classes. The **members**
 are exactly the chip's matches the key admits (§11.2's match listing, the set the chip glows): a member the key
 withholds counts toward no unit, so a unit reads as the viewer knows it and a gap never hints at what the key withholds.
-The units are `catchmentOf`'s (V01 §3.16) — never a second definition — each a `GapUnit` holding no member:
+The units are `catchmentOf`'s (V01 §3.16), which reads V11 §2.3's — never a second definition — each a `GapUnit`
+holding no member:
 * **Partition units.** `district` — every district the key admits but the hinterland (a member in the
   hinterland counts toward none), a gap when no member's plot lies in it, its area the district's faces united.
-  `parish` — the cells `catchmentOf('parish')` gives (the plots whose nearest parish-church member is the same; before
-  any church, the district), built from the church members the key admits, so no cell outlines a church the key
-  withholds (its plots fall to the nearest admitted church, item 120 (h)); a gap when the cell holds no member, its id
-  the church member's (the district's before any church), its area the union of its plots' faces; a church class read
-  on `parish` stands in every cell it makes, so it has no gap.
+  `parish` — the cells of V11 §2.3's parish partition (`catchmentOf('parish')`; before any church, the district),
+  built from the church members the key admits, so no cell outlines a church the key withholds (its plots fall to the
+  cell of the nearest admitted church, item 120 (h)); a gap when the cell holds no member, its id the church member's
+  (the district's before any church), its area the union of its plots' faces; a church class read on `parish` stands
+  in every cell it makes, so it has no gap.
   `settlement` — one unit, the town, a gap only when the key admits no member on any layer, its id `TOWN_ROOT`, its area
   each layer's districts united (one `GapUnit` per layer that holds a district).
 * **Per-plot units.** `walk` and `households` — each residential plot (one holding a household at S10a, §4.7: the plots
@@ -3091,14 +3182,13 @@ The units are `catchmentOf`'s (V01 §3.16) — never a second definition — eac
   an island is one `walk` unit, as V01 §3.16 states.
 Each gap's components are drawn by §8.2's dashed gap outline with one "none here" label per component, on the layer
 shown; a gap on another layer is drawn when that layer is shown and is listed in V10's `FindAnswer.none` by its `id`.
-**Evaluation.** A partition unit takes one pass over the members' plots. A per-plot unit takes one multi-source walk from
-the members' front points by `catchmentOf`'s metric, bounded at the largest radius a residential plot's unit takes; the
-metric is symmetric, so a plot's catchment holds a member exactly when the walk reaches the plot within that plot's own
-radius (ties by plot id, as `catchmentOf` breaks them): `per` for `walk`; for `households` the distance at which
-`catchmentOf`'s walk from that plot takes its `per`-th household (its households radius, memoised per commit and per
-`per` with `catchmentOf`'s memo). A plot with no way within `per`, or with fewer than `per` households in its arena, takes
-`catchmentOf`'s own rule (every plot it can reach, and itself). T-V1-59 (b) holds the walk to the per-plot reading, plot
-by plot.
+**Evaluation.** A partition unit takes one pass over the members' plots. A per-plot unit takes one pass per member
+over V11 §2.3's 16 m raster: a member serves every residential plot whose disc holds it, and the disc is symmetric, so
+each member marks the cells within the radius about its plot — `per` for `walk`; for `households` the radius V11 §2.3
+derives for each district, one pass per radius in use — and a residential plot is served when the marks of its own
+district's radius reach its cell, which is V11 §2.3's count plot by plot. On Below the marks spread from the members by
+`underDistance` (V04 §3.6a (1)); on Sky a member anywhere on the island serves every plot on it. T-V1-59 (b) holds the
+unserved plots to V12 §3.6's `servedShare` count, plot by plot.
 
 **(4) Over time and edits** (item 120 (f)). Every commit, regenerate, undo, redo and epoch re-evaluates both services
 with the overlay's index, rebuilt once per commit (item 120 (j)): a district an epoch creates is listed, and its gaps
@@ -3113,6 +3203,12 @@ leaves it off unless asked; no export stores it. Find is an interaction, not a o
 and `gapUnits` run within §12.5's overlay budget by V01 §6's Find lines, never re-rendering the base tiles, and a chip's
 glow is never delayed by its gaps, which draw when computed.
 
+**(6) Crisis looks in Find** (item 122 (f)). Find's `crises` section, a look's row and its crisis card are volume 9's
+(V09 §4.21.12); a look is no chip and no `findAreas` row. A disaster look's place — the land its row's **Go to** and
+its card's **Show** frame — is the union of the Ground shapes of its units' `FindArea`s: the districts
+`disasterDistricts` returns at the view's effective key (V01 §3.16), at the village rungs V07's units' land. So the
+frame and Find's halo are one set of shapes, and a unit the key withholds is neither framed nor listed.
+
 ## 6 Performance budgets
 
 On §12.1's reference hardware, measured as §12 measures (p95 over the bench's seeds unless a line says otherwise); every
@@ -3124,9 +3220,10 @@ building count in scope.
 | S7c fabric selection (S7b's hook) and its land estimate | ≤ 0.07 ms per district (context from cached records; χ̃ over ≤ 100 allocation rows and their allocation-level links; ≤ 12 rows' predicates; `templateLandM2` closed-form) — ≈ 1.8 ms at CITY, ≈ 3 ms at METROPOLIS; S7b's reconcile with the template land adds ≤ 1 ms at CITY | a row of §12.4's CITY split, inside S7b's line and the one-click model budget (item 474) | M5, B-CITY | the context's portal and landmark lists are cached per district from the greedy pass; if still over, eligibility tests the cheap predicates (areas, shares) before the geometric ones (crossing pairs) |
 | template seeds (S8) | spine or parallel spine ≤ 0.3 ms per seed; a contour series ≤ 1.5 ms per district (≤ 31 level lines per flank by marching squares over the face's box); plaza ≤ 0.5 ms; ring series ≤ 2 ms per district (≤ 6 courses of 48 vertices with validation); the holed bent cut of ring bands ≤ 2.5 × a plain cut per street (NG measured 2–3 ×, `profile-neighbourhood.md` RA-6) | inside §12.4's S8 row: at the default 15–35 % template share, ≤ + 4 ms at CITY | M5 (spike S-V1-a) | the ring validation runs once per series instead of per course; a ring district's bands cut at the `landmark` variant's one-ring minimum when the series exceeds 2 ms |
 | S9b block dispatch (S10a's hook) | ≤ 0.18 ms per district (≈ 60–150 blocks; junction and frontage lookups through the L2 index; the siting pushes over S10a (i)'s filled blocks by the family rows' radii; the island strips evaluated once per shade evaluation at S9b's first read and shared with field pass 2, V01 §3.5.5) — ≈ 5 ms at CITY | a row of §12.4 (item 474) | M5 | candidate lists by type built once per district from one junction scan; the pushes read a per-district list of emitter blocks |
-| the services of V01 §3.16 (`catchmentOf`, `districtsAbove`, `fabricSignature`) | ≤ 1 ms per call at CITY, memoised per commit; `catchmentOf('walk')` ≤ 2 ms at METROPOLIS | inside the callers' lines (S10b's coverage term, volume 4's stage, the reader) | M5 | the way-graph distances cached per district per commit |
+| the services of V01 §3.16 (`catchmentOf`, `districtsAbove`, `fabricSignature`) | ≤ 1 ms per call at CITY, memoised per commit; `catchmentOf` on a disc unit (`walk`, `households`) ≤ 2 ms at METROPOLIS (the plots under its disc's cells of V11 §2.3's 16 m raster, by a plot index per cell) | inside the callers' lines (S10b's coverage term, volume 4's stage, the reader) | M5 | the plot index per raster cell built once per commit and shared by every call |
 | Find's area targets (`findAreas`, V01 §5.4 (1)) | the list with its shapes, per commit and key: ≤ 3 ms at CITY, ≤ 8 ms at METROPOLIS (the districts' faces as committed; the city cut's ≤ 18 quarters and the region groups united by the kernel's union, memoised) | inside item 120 (j)'s index rebuild, once per commit, within §12.5's overlay budget | M5, on V09's app harness | a quarter's or region's union computed at its first use (a chip, the list scrolled to it) instead of at the rebuild |
-| Show gaps' units (`gapUnits`, V01 §5.4 (3)) | per chip: a partition unit (`district`, `parish`, `settlement`) ≤ 2 ms at METROPOLIS (one pass over the admitted members' plots); `walk` ≤ 25 ms at METROPOLIS (one multi-source walk bounded at `per`); `households` ≤ 25 ms at METROPOLIS once its radii are memoised, the radii of one `per` value ≤ 1 s at METROPOLIS at their first use in a commit, on the worker — never delaying a chip's glow (item 120 (j)), its gaps drawn when ready | §12.5's overlay budget, beside item 120 (j)'s glow | M5, B-CITY (METROPOLIS) on V09's app harness | the radii computed for the plots of the districts in view first and the rest on idle |
+| Show gaps' units (`gapUnits`, V01 §5.4 (3)) | per chip: a partition unit (`district`, `parish`, `settlement`) ≤ 2 ms at METROPOLIS (one pass over the admitted members' plots); `walk` and `households` ≤ 25 ms at METROPOLIS (one pass per member and per radius in use over the 16 m raster's cells within the radius, V01 §5.4 (3)), on the worker — never delaying a chip's glow (item 120 (j)), its gaps drawn when ready | §12.5's overlay budget, beside item 120 (j)'s glow | M5, B-CITY (METROPOLIS) on V09's app harness | the members nearest the view marked first and the rest on idle |
+| the crisis services (`disasterSource` with `disasterDistricts`, `campLand`; V01 §3.16, item 122) | `disasterSource` ≤ 1 ms per standing disaster overlay or preview at the METROPOLIS cap (one pass over the units' adjacency; the units' facts built once per commit and shared by every overlay), memoised per commit, overlay and key; `campLand` ≤ 3 ms at the METROPOLIS cap (one pass over the hinterland's land-use faces within `camp.reachM` through the face index), memoised per commit | §12.5's lazy per-tile budget for crisis looks: computed at the first visible tile that draws a look — an interaction, never a one-time wait (item 119 (d)) | M5 (`disasterSource`), M3b (`campLand`), on V09's app harness | the units' mean heights read on the hydrology grid instead of the height raster; `campLand`'s faces gathered for the tiles in view first and the rest on idle |
 | surface rule, local-place step, naming context | ≤ 1 ms, ≤ 1 ms + §12.4's S13a naming rate per place, ≤ 0.2 µs per way at CITY | §12.4's S10a and S13a rows | M5 | — |
 | **one-click total added by stage 2** | ≤ 12 ms at CITY, ≤ 20 ms at METROPOLIS (the model path; nothing added to the city band's first map beyond the square and green fills) | §12.3's model law gains this term, declared (D-18's rule for a declared cost) | M5 | the parity presets pay 0 (no template, all ordinary); if the default exceeds it, S9b's phase 2 moves to the pooled S10 (it is block-local) |
 | opening a district (refine close-up) — **model and display list** | the close-up derivation (hood pins over sites) plus S14's neighbourhood-band display list for the district: **non-ring fabrics ≤ 6 ms + 0.06 ms × B** (≤ 33 ms at 450, ≤ 51 ms at 750), **`ring` ≤ 10 ms + 0.07 ms × B** (≤ 100 ms at 1 300) — against NG's reset of 10–52 ms for medium area, street and square hoods (600–779 buildings) and 78–96 ms for ring (1 209–1 287), whose figures exclude raster (`docs/confidence/ng.md` H1; J-V1.48) | §12.5's neighbourhood-band line, made a law per fabric class (item 474) | M5, B-ZOOM | hood-pin symbols stamped per kind and size class (one sprite draw each) instead of drawn as paths |
@@ -3159,8 +3256,9 @@ the running stage by name and the map filling in, never an empty screen — thro
 as its `perf.qualitySpend` row (V11 §3.25.8: the step, its cost and its gain) and still inside the comfort level (item
 119 (b)); stage 2 ships none. The interactive lines — opening a district (its model and display list, and its first
 visible tiles), the surface marks and the walls and raised parts of an opened district, a block's content edit, a
-hood-pin edit, T8's preview (the replace dry run) and Find's two lines — are interaction budgets, unchanged by item 119
-(d). The low tier (§12.1) aims at the same comfort level, a size it cannot reach declared per device (item 119 (e)). At
+hood-pin edit, T8's preview (the replace dry run), Find's two lines and the crisis services — are interaction budgets,
+unchanged by item 119 (d). The low tier (§12.1) aims at the same comfort level, a size it cannot reach declared per
+device (item 119 (e)). At
 the METROPOLIS cap the targets of these waits lie within a few seconds (§12.3's model law, §12.5's first-map law, §12.6's
 M(B)), so item 119 moves no figure of this section; T-V1-29 times each.
 
@@ -3200,7 +3298,7 @@ reach. Every bar runs from M5 unless its row says otherwise; the last column is 
 | T-V1-26 | `hatched` census (S5 (d)) at B-ZOOM's neighbourhood-band reference viewport: (a) 15–20 hatch triangles per wing (mean 17–19), the two ridge tapers of 30–50 % each included; the model's lines per wing invariant across the band's zoom range (the drawn set the model's or its parity subset); no ridge stroke; outline = footprint; `details` off → 0 hatch marks; the roof law within ± 0.02; ≤ 25 canvas operations per wing; gable and hip wings counted, and flat, pyramid, cone and dome wings hatched by their rule with a line count per wing invariant across the band's zoom; (b) large-tree pins drawn before buildings and block trees after them (order census); 0 hood pins of a singleton kind in a district holding that model singleton; (c) on the second fixture's stepped temple and B-ZOOM's stepped landmarks every tier k ≥ 1 casts a shadow on tier k − 1's roof at the fixed sun, its area within ± 10 % of the prism law's, the stack order never inverted; (d) the hatch per facet: under `roofscape` 0 hatch lines crossing a valley line, a hip line or a wing standing on the wing, every sloped facet's lines within 1° of parallel to its eave; under `fakeGablePerWing` (a)'s per-wing census; (e) 0 hood pins within their clearance of a retaining-wall line, a pier or a strip, or of an entrance reserve (the reserves at `service` entrances and at a stack-hosted access's outside door, `stackAccessDoor(b, a)`, V03 §3.7.2 (1), among them); with the `wings` and plan rungs derived, 0 within 0.3 m of a porch, a secondary porch, a stoop, an outside basement stair's steps or a stack access's outside door (*fallback*: the reserve's depth doubled) — the porch and secondary-porch clauses from M6b, the stoop and outside-stair clauses from M6-P, the stack-door clause and the reserve's own clauses from M5 on the eager records; (f) on volume 2's terrace-wall sub-fixture and the B-ZOOM hill seed with the most fall walk-outs, 0 hood pins inside the reserve at a walk-out's door (`basementDoor(b)`) and 0 basement-door rectangles on the main entrance's side of a walk-out building whose `basementDoor(b)` lies on another side (its main entrance keeps its own rectangle); 0 hood pins on an `ovalCourt` building's floor | B-ZOOM census | P | S5 |
 | T-V1-27 | S5 (e): shadow length ∝ stored height under the fixed sun, r ≥ 0.99, pins, crowns and stepped tiers' shadows included | B-ZOOM | C | S5 |
 | T-V1-28 | B-ZOOM `hatched`: role continuity ΔE2000 < 2 across every band switch; the contrast matrix on the shipped palette; the palette targets on the measurement render (§8.2, item 69); S5 (g) city-zoom legibility unchanged with the tier on | B-ZOOM | C | S5 |
-| T-V1-29 | budgets, every line of V01 §6: opening a district per template against NG's per-template recordings at B = 150, 450, 750 and 1 300; the first visible tiles' raster against NG's at comparable counts, measured separately; the METROPOLIS lines; per building (S5 (b)); draw calls and uploads within §12.5 (S5 (c)); the one-click added cost at CITY; **item 119's one-time waits** (V01 §6; J-V1.103): on §12.1's reference hardware at TOWN, CITY and the METROPOLIS population cap, generation with stage 2, a standalone neighbourhood document's first map at each `contextRung`, a replace close-up of the largest district, the stage-2 switch's edit (at the METROPOLIS cap among them), the sky unit run at generation and inside a raise, and a district and an outline export each complete within 10 s from the click to the complete result; every wait past 1 s shows V09 §4.21.9's progress, never an empty screen; every step slower than its V01 §6 target has its `perf.qualitySpend` row with its recorded gain (0 rows and 0 slower steps at shipping); V01 §6's interactive lines hold unchanged | bench | P / C | S5 |
+| T-V1-29 | budgets, every line of V01 §6: opening a district per template against NG's per-template recordings at B = 150, 450, 750 and 1 300; the first visible tiles' raster against NG's at comparable counts, measured separately; the METROPOLIS lines; per building (S5 (b)); draw calls and uploads within §12.5 (S5 (c)); the one-click added cost at CITY; **item 119's one-time waits** (V01 §6; J-V1.103; takes T119-2 and T119-3's stage-2 clauses): on §12.1's reference hardware at TOWN, CITY and the METROPOLIS population cap, generation with stage 2, a standalone neighbourhood document's first map at each `contextRung`, a replace close-up of the largest district, the stage-2 switch's edit (at the METROPOLIS cap among them), the sky unit run at generation and inside a raise, and a district and an outline export each complete within 10 s from the click to the complete result; every wait past 1 s shows V09 §4.21.9's progress, never an empty screen; every step slower than its V01 §6 target has its `perf.qualitySpend` row with its recorded gain (0 rows and 0 slower steps at shipping); V01 §6's interactive lines hold unchanged | bench | P / C | S5 |
 | T-V1-30 | S6 (a): five variants of one template in five actions (T10's New random on the district); (b) the default path one action with p95 ≤ 0.5 s for a medium standalone neighbourhood document; (d) addresses, names and footprints preserved across the bands 100 %; (e) 0 hand-offs to another tool | app harness (§13.4) | O / P | S6 |
 | T-V1-31 | B-REF against NG (§13.5's NG rows, read from `baselines.json`), **under the `NG` preset** (V01 §3.15; each row's arm `preset: 'NG'`, V12 §2.1's `PresetArm`): districts and standalone neighbourhood documents matched to NG's by building count per template (NG C8's bands: medium area 600–779, ring 1 209–1 287) — blocks per 100 buildings inside NG's band by the band rule (KS); the bent-cut signature rows unchanged by stage 2; the court (hollow-block) share per band in band; the ring template's ring count and spacing-ratio distributions against NG's ring captures (`profile-neighbourhood.md` RA-2) by the band rule; **hood pins per 100 buildings per kind and template** inside NG's band under `NG` and within 3 × NG's under the default preset; the carved plaza's share of its neighbourhood's or district's area per size tag within ± 15 % of NG's median share, a scale-free ratio (`ng.plazaM2`'s tuning target, V01 §3.15) | B-REF | P | S4 |
 | T-V1-32 | the D-5 panel against NG (§13.6 (2)), **under the `NG` preset** (the panel's NG groups `preset: 'NG'`, V12 §3.9.1): twenty pairs over the four NG templates — `area` a refine close-up, `street`, `ring` and `square` (carved, item 498) replace close-ups — rated pass at 14 of 20, no template worse on every pair; unrated → M5 *provisional — not rated* (§16); beside it, the same twenty seeds under the default preset shown to the owner unrated | D-5 | O | S2 (d) |
@@ -3213,7 +3311,7 @@ reach. Every bar runs from M5 unless its row says otherwise; the last column is 
 | T-V1-39 | the epoch hook (with volume 6): the `hood.fabric` participant runs S7c and S9b only on new districts, new faces and due blocks rung 3 redevelops; standing squares, greens and manor blocks survive byte-identical; at an epoch that adds a raised way across an opened district the participant writes 0 plot removals and 0 household moves — the clearing and its re-housing are V06's, audited by its household ledger (V06 §3.19 (7)) — and the crossed districts' chunks read stale | hook fixture (M4's) | C | — |
 | T-V1-40 | no wrong answers (item 101 R2): in B-EDIT's random sequences, 0 refusals other than dossier-owned and lock cases; every bend named in one line; a content edit in a full poor quarter re-homes its households and names where | B-EDIT | C | — |
 | T-V1-41 | shade (item 102): with `w_sun`, the shade gains and `manor.sunWeight` at 0, byte-identical to the build without them; on volume 5's island fixture over a uniform district, the manor-block share inside the island's strip below the sunlit remainder's by the declared weight within tolerance; no block changes band from the term alone | fixture, B-CITY | C | — |
-| T-V1-42 | catchment and siting (item 103): a class with a coverage row reaches the same served-district share whether S10b or `catchmentOf` counts it (one partition, J-V1.35); 0 manor or green blocks within an emitter row's radius when its weight is 1; 0 S9b typings on a block S10a (i) filled; on the underground and sky fixtures, `catchmentOf` on an undercity plot reads `underDistance` and counts its neighbourhood as its own `district` unit, and on an island plot a walk row counts the island as one unit, equal to V05 §3.5 (3)'s count | B-CITY, fixtures (V04's, V05's) | C | — |
+| T-V1-42 | catchment and siting (item 103): a class with a coverage row reaches the same served-district share whether S10b or `catchmentOf` counts it (one partition, J-V1.35); **one count of served**: over 200 B-CITY-lite seeds per rung, under the host's key, for every coverage unit (`walk`, `households`, `parish`, `district`) the plots `gapUnits` reads as unserved equal, plot by plot, those V12 §3.6's `servedShare` counts unserved, and `catchmentOf` at each plot equals V11 §2.3's unit at that plot; 0 manor or green blocks within an emitter row's radius when its weight is 1; 0 S9b typings on a block S10a (i) filled; on the underground and sky fixtures, `catchmentOf` on an undercity plot measures its disc by `underDistance` and counts its neighbourhood as its own `district` unit, on an island plot a walk row counts the island as one unit, equal to V05 §3.5 (3)'s count, and a district with no residential plot holds no unit | B-CITY, B-CITY-lite, fixtures (V04's, V05's) | C | — |
 | T-V1-43 | chains (items 104 (h), 105, 107): on B-CITY with dossier and custom chains, ≥ 80 % of supply links inside one district fall within their good's `comfortM` along the way graph; 0 districts named for a chain below item 72's threshold; districts with an `alongWay` chain take `street` above their base rate | B-CITY (chain variant) | C | — |
 | T-V1-44 | ladder records (item 108): on the surveyed dossiers, every QUARTER and GUILD record's members shown in the close-ups of the districts that hold them, member counts summing to the record's; 0 S9b typings on a SIZE record's block; 0 members double-counted | dossier suite | C | — |
 | T-V1-45 | walls on barriers (item 106): on item 106's river-loop and cliff fixtures, 0 `wallside` templates on closure-only stretches, 0 template faces on intramural gardens, every barrier run typed hard by II.1's seam typing (item 541), 0 ground seams typed from `sheer` | fixtures | C | — |
@@ -3230,7 +3328,8 @@ reach. Every bar runs from M5 unless its row says otherwise; the last column is 
 | T-V1-56 | edges (V01 §3.18): a fixture per row of V01 §3.18 (e), run under the default preset and both parity presets — (a) no input and one item: an empty town, a town of one district, a district with no portal, block, site or name, one eligible row, one candidate; (b) the caps: `pin.cap`, `landmark.maxRings`, `terrace.maxLevels`, quotas above what the candidates hold, §6's row-count fallback; (c) every toggle and preset of V01 §3.18 (c) on and off, each with its row's outcome; (d) degenerate geometry — zero-length, zero-area, self-touching, collinear and coincident faces, outlines, seams and marks — taken by the kernel's refusal and the step's failure class (V01 §3.18 (a)); (e) missing, empty or contradictory data: an absent row, band, kind factor or `fallback`, an absent `scope` field, a dossier change removing a fixed input's record. Each case meets its row's outcome and rung, reported in the generation report, with 0 crashes, hangs, invalid outputs, silent drops or whole-map retries | B-FUZZ, CI | C | — |
 | T-V1-57 | rungs (V01 §3.18 (b)): B-CITY-lite at every rung from THORP to the METROPOLIS cap — at THORP, HAMLET and VILLAGE no stage-2 hook registered, 0 templates, typed blocks, places, hood pins or close-ups, and `hatched` drawing the village's records by V01 §5.1.1's rows; at TOWN 0 generated raised ways, 0 quarry-ossuary entrances and no sky unit run; at CITY and METROPOLIS stage 2 whole; at the METROPOLIS cap the district count S6's, V01 §6's METROPOLIS lines met and no stage-2 quota binding beyond its own rows; a village grown into the town ladder takes its fabrics and block contents from its first S7b and S10a; a standalone neighbourhood document at each `contextRung` reads that rung's rows | B-CITY-lite, fixture | C | — |
 | T-V1-58 | item 111 and the map frame against stage 2 (V01 §3.18 (f)): on item 111's oasis fixture, the spring pool read as a `lake` body by the waterfront feature and the rows' `waterShare`; 0 template faces or S9b candidates on its grove and irrigated gardens; its wells counted as prior picks by the close-up (V01 §3.8.2 step 2); with a terraced ward beside the pool, 0 ward-edge walls on the pool's shore run and the contour streets ending at its setback; on a hillside seed whose terraced ward meets the map frame, 0 ward-edge walls on a `frame` run and the levelling stopping at the margin band | fixture (item 111's), B-CITY | C | — |
-| T-V1-59 | Find over the town (item 120 (k)'s town clauses; V01 §5.4): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, a standalone neighbourhood document, V04's undercity fixture and V05's island fixture — (a) **areas**: `findAreas` lists every district of each layer but the hinterland pseudo-district, each once (0 areas with both a district and a neighbourhood entry), every city-cut `QuarterNode` of two or more members and every `RegionGroup`, and nothing the document lacks; each area's shapes equal the union of its admitted districts' faces per layer (symmetric difference 0 at the lattice); under a player view an area the key withholds is never listed, counted, lifted or pinned; at every city-band stop from item 116's limit inward, an area drawn under the pin size carries its pin; (b) **gaps**: for each coverage unit, and a class with no coverage row, `gapUnits` equals the brute-force reading over 200 seeds per rung — every partition unit, or every residential plot, whose `catchmentOf` holds no admitted member, plot by plot (the multi-source walk's served set equal to the per-plot `catchmentOf` evaluation); a fixture whose only member in one district is concealed shows that district as a gap under the player view and not under the host's, and no parish cell outlines a withheld church; a several-class chip reads one unit as V01 §5.4 (3) states; an area, place or person chip yields no gap; (c) **over time**: an edit removing a district's last member adds its gap in that commit and its undo removes it; an epoch that creates a district lists it with its gaps in that commit; a chip whose area an edit or epoch removes stays at count 0, dark, until removed or Clear; (d) **a view only**: the document hash, the log and the tiles byte-identical with Find and Show gaps on and off; (e) **cost**: `findAreas` and `gapUnits` within V01 §6's Find lines at the METROPOLIS cap. From M5 on the services; on V09's app harness from V09's Find | B-CITY-lite, fixtures (V04's, V05's), app harness | C | — |
+| T-V1-59 | Find over the town (item 120 (k)'s town clauses; V01 §5.4; takes T120-2 and T120-4's town clauses): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap, a standalone neighbourhood document, V04's undercity fixture and V05's island fixture — (a) **areas** (T120-2's town clause): `findAreas` lists every district of each layer but the hinterland pseudo-district, each once (0 areas with both a district and a neighbourhood entry), every city-cut `QuarterNode` of two or more members and every `RegionGroup`, and nothing the document lacks; each area's shapes equal the union of its admitted districts' faces per layer (symmetric difference 0 at the lattice); each area chip's matches equal §11.2's gazetteer match listing by area at the view's effective key; under a player view an area the key withholds is never listed, counted, lifted or pinned; at every city-band stop from item 116's limit inward, an area drawn under the pin size carries its pin; (b) **gaps**: for each coverage unit (`walk`, `households`, `parish`, `district`), and a class with no coverage row, over 200 seeds per rung, `gapUnits`' unserved plots equal, plot by plot, those V12 §3.6's `servedShare` counts unserved under the host's key, and V01 §5.4 (3)'s one-pass evaluation equals the brute-force reading of each plot's `catchmentOf` with the members the key admits; a fixture whose only member in one district is concealed shows that district as a gap under the player view and not under the host's, and no parish cell outlines a withheld church; a several-class chip reads one unit as V01 §5.4 (3) states; an area, place or person chip yields no gap; (c) **over time** (T120-4's town clause): an edit removing a district's last member adds its gap in that commit and its undo removes it; an epoch that creates a district lists it with its gaps in that commit; a chip whose area an edit or epoch removes stays at count 0, dark, until removed or Clear; (d) **a view only**: the document hash, the log and the tiles byte-identical with Find and Show gaps on and off; (e) **cost**: `findAreas` and `gapUnits` within V01 §6's Find lines at the METROPOLIS cap. From M5, Find's milestone (§16's M5 row), on the services and on V09's app harness with V09's Find panel | B-CITY-lite, fixtures (V04's, V05's), app harness | C | — |
+| T-V1-60 | the disaster's units and the outskirts' land (item 122; V01 §3.16): on B-CITY-lite at TOWN, CITY and the METROPOLIS cap and on a standalone neighbourhood document, with fixture calamities of every pattern — a fire under wind and under calm, a flood, an earthquake, a type no calamity row matches — and a preview: (a) **whole districts**: `disasterDistricts` returns districts of the ground's part 0 only, never the hinterland pseudo-district, max(k, matched) of them for V01 §3.16 (5)'s k; a fire's set connected over district adjacency, each unit after the first the frontier's farthest downwind of the seed (nearest under calm); a flood's grown from the water-fronting districts, lowest first; (b) **monotone**: at one seed and condition the set at a lower severity a prefix of the set at a higher, severity 0 to 1 in steps of 0.05; (c) **stable**: the same set in every week the overlay stands, in every view and export, at pool sizes 0 and 3, on the five engines, with Show crises toggled and across a save and a load; (d) **the targets**: a calamity naming a district's institution always strikes that district; a target an edit removed, or one in the hinterland, reported in the view telemetry and the pattern filling the share; under T-V9-66's canary player view a withheld target neither struck by name nor reported; (e) **`campLand`**: only `commons` faces, fallow `arable` and `strip_field` faces within `camp.reachM` of the built edge and the open verges of the arterials within that reach; 0 faces meeting a gate's passage or crossed by an under-deck strip, 0 on the sky or underground arenas; the same on a VILLAGE fixture; empty on a standalone neighbourhood document and on an island town with no land beyond its shore; (f) **a look only**: the model digest, the document hash and the log byte-identical with every service called and not; no call for an overlay in a week outside its weeks, and none with no condition and no preview; (g) V01 §3.18 (e)'s two crisis rows and (f)'s crisis combinations, each with its outcome and rung; (h) **cost**: V01 §6's crisis line at the METROPOLIS cap. From M5; clause (e) from M3b, with `campLand` (V01 §8.1) | B-CITY-lite, fixtures, CI | C | — |
 
 **Parity against NG** (the reference that owns the close-up; run under the `NG` preset): T-V1-26 (draw style), T-V1-29 (open time per template, raster, per building, uploads),
 T-V1-31 (block and pin counts per template by building count, bent-cut signature, courts, ring statistics), T-V1-32 (the
@@ -3247,7 +3346,7 @@ when they pass, else keeps `fakeGablePerWing`, reported (V02 §5.3 supplies `roo
 Stage 2 is **M5** (§16's M5 row; J122's order, INDEX §3): it starts after M4 and runs beside the village's V-M1 – V-M4
 (V07), M6-E (V06) and the plan rung's P0, P1 and P3 (V03); M6 (V02) follows it, and M6-U (V04) follows it or runs beside
 it with a second pair, V04's U3 distinctness and U4 undercity parent then waiting on W15 (V01 §8.2). Its price is
-V01 §8.2's. Three small pieces land earlier because the base reads them or its goldens would otherwise shift twice:
+V01 §8.2's. Four small pieces land earlier because the base reads them or its goldens would otherwise shift twice:
 
 * **M1** — the schema only: `Block.content` (always `ordinary`), `Block.overrides`, `HoodPlace`'s registry row (no
   producer yet), `DistrictContext` declared beside §2.5's `TypedBoundary` (II.5's readiness reads the boundary view),
@@ -3264,6 +3363,9 @@ V01 §8.2's. Three small pieces land earlier because the base reads them or its 
   (item 506), since the base's district-edge source reads them from M3a (item 302); `hood.templates`' `stepped` row
   shipped whole. The second fixture's terraced wards and precinct rings are authored by hand at M3a — no stage 2 exists
   yet — and T-V1-54 re-runs its skeleton with stage 2 on at M5. ≈ 0.25 pw inside the base's M3a item-110 line.
+* **M3b** — `campLand` (V01 §3.16) with item 122's base parts, since §10.2's camp placement reads it from M3b; its one
+  cell, `hood.constants`' `camp.reachM`, ships with the row at M1 and is not calibratable (no register entry), and
+  clause (e) of T-V1-60 runs with it. ≈ 0.25 pw inside the base's M3b item-122 line.
 * **M5** — everything else. **The M5 way-name shift, declared:** the naming context's features exist from M1, but at M5
   S9b's squares and S13a's places appear for the first time, so every way that now ends at a new square or passes a
   named place gains a `to` or `placeOnIt` feature and its name may change once; M5 writes the shift record for S13a with
@@ -3313,8 +3415,8 @@ those bars stay this volume's acceptance bars (V01 §7), never register metrics.
 | W7 replace workflow and tools | T8's `fabric`, T9 on blocks, T6's furniture stamp, T12's slider; the ghost and count badge for a fabric change; the close-up panel (volume 9 lays out the screens) | M3a, W1, W6 | 1.5–2 |
 | W8 unit runs | the standalone neighbourhood document (`Recipe.hood`, S0–S2's one-district programme, the `star` row, the border, default cuts), T1's `product`; the sky unit's district partition and split on a fixture island (volume 5's `SkyStrategy` plugs in at M6-sky), its crossing-site spans and their bridges built after S8, `levelledGroundCm`'s dispatch on a sky key with its raster fallback — the island's terrain raster, nothing levelled before S10 (item 309's M5 part, built with item 580; volume 5 adds the island's datums at M6-sky) —, the rim walk's `plantRimWalk` with its two callers, and its runs after generation with each receiving district and a re-searched claim's district re-derived at the rim (V01 §3.10.3 (4), (6)) | W1, W3, W4 | 2–3 |
 | W9 `hatched` at all four bands | roof law, hatch, lobed crowns, road surfaces and modes, stair-stepped ticks, pin symbols, the per-band order, night, states; its measurement render and B-ZOOM continuity | S-V1-c | 3–3.5 |
-| W10 labels, exports and Find's areas | the hood title, place labels, per-format content (V01 §5.3); Find's area targets and Show gaps' units (`findAreas`, `gapUnits`; V01 §5.4, item 120) | W5, W9 | 0.5–1 |
-| W11 verification | T-V1-1 – T-V1-59 (T-V1-50 – T-V1-54 with W18; T-V1-55 – T-V1-58 the lifecycle, edge, rung and item-111 and frame suites of V01 §3.18; T-V1-59 Find's, on V09's app harness from V09's Find; T-V1-29's one-time-wait clause, item 119), B-REF's NG template rows in `baselines.json` (research-side, numbers only; NG's plaza share of the neighbourhood's area per size tag among them, T-V1-31), the NG panel tooling (§13.6 (2)'s seeds and counts), goldens and shift records; the register entries of the cells M5 lands (`--defaults --milestone M5`, then `--check`; V01 §8.1) and the history rows of the M1 `hood.constants` and M3a `hood.templates` columns S-V1-b, W3, W16, W17 and W18 tune before M5's exit | all | 2–2.5 |
+| W10 labels, exports, Find's areas and the disaster's units | the hood title, place labels, per-format content (V01 §5.3); Find's area targets and Show gaps' units (`findAreas`, `gapUnits`; V01 §5.4, item 120); the disaster look's units (`disasterSource`, `disasterDistricts`; V01 §3.16, item 122), reading V07's village units in the same shape | W5, W9, the base's item-122 parts (M3b) | 0.75–1.5 |
+| W11 verification | every T-V1 test (V01 §7; T-V1-50 – T-V1-54 with W18; T-V1-55 – T-V1-58 the lifecycle, edge, rung and item-111 and frame suites of V01 §3.18; T-V1-59 Find's, at M5 (Find's milestone) on V09's app harness with V09's Find panel; T-V1-60 the crisis units' and the camps' land, its clause (e) from M3b; T-V1-29's one-time-wait clause, item 119), B-REF's NG template rows in `baselines.json` (research-side, numbers only; NG's plaza share of the neighbourhood's area per size tag among them, T-V1-31), the NG panel tooling (§13.6 (2)'s seeds and counts), goldens and shift records; the register entries of the cells M5 lands (`--defaults --milestone M5`, then `--check`; V01 §8.1) and the history rows of the M1 `hood.constants` and M3a `hood.templates` columns S-V1-b, W3, W16, W17 and W18 tune before M5's exit | all | 2–2.5 |
 | W12 shade and siting reads | `DistrictContext.shade`, S7c's shade term, S9b's sun and siting factors, the strips shared with field pass 2, S9b's move after S10a (i) with its hook point, the pins' shade gain (items 102, 103) | W4, the base's item 102 and 103 work | 0.75–1 |
 | W13 chains, links, ladder members | χ̃'s allocation-level `c`, `DistrictContext.chains` and `records`, S7c's chain term, the fixed SIZE and GUILD inputs, the panel's reader query and the title's QUARTER label (items 104, 105, 107, 108) | W3, W4, the base's item 105 and 108 work | 1–1.5 |
 | W14 barrier-closure reads | the barrier seam typing (item 541), walled-stretch shares, intramural gardens excluded (item 106) | W2, the base's item 106 work | 0.25 |
@@ -3322,14 +3424,16 @@ those bars stay this volume's acceptance bars (V01 §7), never register metrics.
 | W16 the template's land | S7c as S7b's hook, `templateLandM2`, the reconcile with template land, S8's land caps, the stress fixture | W3, S-V1-b | 0.5 |
 | W17 emulation and legibility | the `NG` preset (V01 §3.15: the stage-2 switch and its edit — the Re-derive from S2 with its fates, T-V1-4's switch clause —, the eight `ng.*` rules and their switches, `pin.decayScope`'s entry, `ng.plazaM2` tuned to T-V1-31's plaza share), the `park` row, the outline by fabric (V01 §3.10.2), `hood.constants` in the settings form with its column table (V01 §3.14), the kind coverage table, the `WhyProvider`s and the `hood.fabric` participant (J-V1.51) | W1, W4, W8 | 1–1.5 |
 | W18 item 110's neighbourhood parts | `terraceState` and `District.terrace` (landed with the base at M3a), the contour series and ravine flanks, `TemplateFabric`'s levelled units and terraced edges, held walls and the digest, the strip holes and arch crossings, the parts-per-reader table, raised-way land and the add and remove paths, deck-plot ownership in the close-up, the hatch by roof kind and the stack order with tier shadows, `way.stair`, `retaining` and `raised`, the precinct rings, the exports and item 448, the Terraces hillside, the panel's rows and three why providers; T-V1-50 – T-V1-54 | W1, W4, W6, W9, the base's item-110 work (M3a) | 1.75–2.5 |
-| **M5 total** | | | **27.25–36.25** |
+| **M5 total** | | | **27.5–36.75** |
 
 Items 119 and 120 add no line: Find's two pure services lie within W10's range and the one-time-wait clause of
-T-V1-29 and T-V1-59 within W11's, so the M5 total and §16's M5 row are unchanged.
+T-V1-29 and T-V1-59 within W11's. Item 122's disaster units are W10's 0.25–0.5 pw of new work, T-V1-60 lies within
+W11's range, and `campLand` is M3b's (V01 §8.1).
 
-This is 13.25–18.25 pw above the base's hook-depth M5 line of 14–18: the seven context templates, S7c's selection with
+This is 13.5–18.75 pw above the base's hook-depth M5 line of 14–18: the seven context templates, S7c's selection with
 the template land in the allocation, the dispatch at generation with its land accounting, local places, the sky and
-standalone unit runs, the file-g reads W12–W15, the emulation preset W17 and item 110's neighbourhood parts W18. §16's
+standalone unit runs, the file-g reads W12–W15, the emulation preset W17, item 110's neighbourhood parts W18 and item
+122's disaster units in W10. §16's
 M5 row carries this price (item 474), and §16 computes the two totals once from every volume's lines (item 568); the M1,
 M2b and M3a pieces of V01 §8.1 are absorbed by those milestones' lines, as §16's pricing rule allows for a refinement a
 line already prices.
@@ -3343,7 +3447,8 @@ line already prices.
 (`HoodUnit`: standalone and sky, the latter reading `SkyUnitInput`), the `DistrictContext` and `DistrictSignature`
 builders (with `terraceState`, whose pure function lives in `@plat/model` beside them from M3a), `TemplateFabric`'s
 `levelledUnits` and `terracedEdges` (item 506), the services `catchmentOf`, `districtsAbove`, `fabricSignature`,
-`skyDistrictCount`, `findAreas` and `gapUnits` and the writer `plantRimWalk` (V01 §3.16, V01 §5.4), the symbol key `accessSymbolKind` (V01 §3.8.8), the
+`skyDistrictCount`, `findAreas`, `gapUnits`, `disasterSource` with `disasterDistricts`, and `campLand`, and the writer
+`plantRimWalk` (V01 §3.16, V01 §5.4), the symbol key `accessSymbolKind` (V01 §3.8.8), the
 `WhyProvider`s (V01 §4.5), the `hood.fabric` epoch participant (V01 §3.3.6); the tables `hood.templates`,
 `hood.dispatch`, `hood.squares`, `hood.pins`, `hood.kinds`, `hood.placeKnowledge`, `hood.defaultCuts` and
 `hood.constants` — one `settings` row in V11's settings form, holding the `NG` preset's entries (V01 §3.14, V01 §3.15) — in
@@ -3408,7 +3513,7 @@ Each is vetoable; "chose X over Y because Z". A decision another one changes car
 | J-V1.23 | Chose **court-greening probabilities per band** over NG 1.2.2's complete-frontage-ring rule, as II.3 (item 58 (b)) ruled "ours has a target per band"; NG's 23–58 % is the calibration anchor (V01 §3.5.7). |
 | J-V1.24 | Chose to re-derive the **district from S10a** when a block's content is edited over re-deriving the block alone, because the block's households must be re-homed within the district by S10a's distribution, and blocks whose allocation does not change re-derive byte-identically (V01 §4.1). |
 | J-V1.25 | Chose a **bank path** for docks, riverbank and comfortable-or-richer waterfront districts without noxious water trades, else the **rear-plot water rule**, over one waterfront treatment everywhere, because working riverbanks kept their plots to the water while promenades and quays belong to harbour and richer quarters (V01 §3.6). |
-| J-V1.26 | Chose to price **M5 at build depth, 27.25–36.25 pw** (V01 §8.2), over absorbing the additions in the base's 14–18, because the context templates, the selection with its land, the dispatch with its land accounting, local places, the unit runs, the file-g reads, the emulation preset and item 110's neighbourhood parts are new mechanisms §16's pricing rule says must be itemised (item 474). |
+| J-V1.26 | Chose to price **M5 at build depth** (V01 §8.2's total), over absorbing the additions in the base's 14–18, because the context templates, the selection with its land, the dispatch with its land accounting, local places, the unit runs, the file-g reads, the emulation preset and item 110's neighbourhood parts are new mechanisms §16's pricing rule says must be itemised (item 474). |
 | J-V1.27 | Chose our own **lobed crown** (arcs on a jittered polygon, a lit cap) over NG 1.2.2's midpoint-bulging crown, because the clean room forbids transferring its construction and the look (lobed, two greens, a lit cap) is what the census and the panel judge (V01 §5.1.2). |
 | J-V1.28 | Chose a **per-band order list for `hatched`** at the neighbourhood and building bands over the shared list, because NG's order (pins under houses, block trees above, greens first) differs from MFCG's and §8.2 already keys the order by band (V01 §5.1.3). |
 | J-V1.29 | Chose the **hood title as view furniture** (model only in a district export and a standalone neighbourhood document) over a model label per district, because the district's name is already model data and a close-up is a view (II.4's persistence status) (V01 §5.2.1). |
@@ -3484,8 +3589,10 @@ Each is vetoable; "chose X over Y because Z". A decision another one changes car
 | J-V1.99 | Chose to hold `hood.constants` as **one `settings` row in volume 11's settings form**, each V01 §3.14 key a column with its own `ColumnSpec` and register entry `cal.hood.constants.*.<key>`, keys unchanged, over rows of `{ key, value, unit, provenance, calibratable, extension }`, because V11's compiled cell takes its unit and `calibratable` from the column and V12 binds one entry per column, so the rows' units never reached the compiled cell and every constant shared one entry; chose also to state each column's type, unit, range, `calibratable` and marker in V01 §3.14's column table — the access-symbol sizes our own drawing sizes, not calibratable; the `ref:NG` code values, the work limit `terrace.maxLevels`, the budget `closeup.chunkKB`, NG's measured size chips and the switches not calibratable — and to leave the thresholds `terrace.siteShare` and `terrace.minGapShare` unmarked, over marking the share `extension`, because zeroing a threshold turns it on, while `asks` is inert under the parity presets through `terrace.askGain` 0 and volume 11's `terrace.enabled` off; to write the multi-ring's off value 1 as `landmark.maxRings`' `MFCG` and `FTG` entries, because §7.6's zeroing would give 0 rings; and to ship the row **whole at M1** (every column at its default), over growing its schema at M3a and M5, because a compiled row holds every cell (V11 §2.2) and a schema change is a major version, so the default line writes every calibratable column's entry at M1 (each holds a compiled cell, J-V12.73), the cells stay inert until their readers land, and a later tuning appends a history row (J-V1.97). |
 | J-V1.100 | Chose to key the ground access symbols by a derived **symbol kind** — `accessSymbolKind(a)`: `catacomb` for a catacomb entrance, else the access's kind, `door` never passed (it draws no symbol) — and to hold `hood.constants`' `access.*M` column set equal to its values by T-V1-4's registry test, over moving the sizes to a row table keyed by kind with a `coversEnum` rule, because the sizes are twelve drawing constants read only by V01 §3.8.8 and V01 §5.1.2, the settings row already ships whole at M1 with every other `hood.constants` key (J-V1.99), and a second table would add a registry row, a schema and a register slice for no reader beyond this volume; and over sizing by `a.kind` alone, which would size a catacomb entrance as a plain stair and leave `access.catacombM` unread. |
 | J-V1.101 | Chose to state the stage-2 switch's edit as V01 §2.7's **first-reader re-derivation from S2** (V01 §3.15, *The switch's edit*), with §6.3's carry-over retiring what stage 2 no longer makes and the underground tail re-deriving after the ground, over §7.6's slice invalidation, because the switch is read by S2's land estimate (`λ_b`, V01 §3.5.9), whose change moves every district's capacity and so every re-derivation downstream — slice invalidation would re-derive the same span with a scope no builder or oracle could name in advance — and because one named stage lets V04 §4.3's row and T-V4-74 (b) cite it; and chose to keep the held inputs (a declared `fabric` or `terrace`, a block's content set by hand, a place made by hand, the override rows) through the edit, over zeroing them with the switch, because the switch gates what stage 2 derives and the owner's everything-is-editable rule keeps what the author declared (§7.2). The opening place's lifetime (V01 §2.7, V01 §3.7.1) follows: it lives with its host while the local-place step runs. |
-| J-V1.102 | Chose to give Find (item 120) the town's **area targets** as one target per district on every layer — the district a close-up opens being the neighbourhood (J-V1.35), so a district and a neighbourhood are never two chips for one area, the panel's word `neighbourhood` going to an undercity or underground district and a standalone neighbourhood document's — with the **city cut's quarters** of two or more districts and the **region groups**, over listing every node of §9.1's quarter tree, because the city cut is the base's definition of the town's quarters (§4.5) and the tree's other nodes would list one district many times under nested names; and to read **Show gaps' units through `catchmentOf`** (V01 §3.16), the one catchment reading the siting solver and the absorbed Coverage view read — a partition unit (`district`, `parish`, `settlement`) a gap when it holds no member, a per-plot unit (`walk`, `households`) as the residential plots whose catchment holds none, grouped by district (the plots V12 §3.6's `servedShare` counts), a class without a coverage row on the `district` unit and a several-class chip on its classes' common unit, else `district` — over a second, view-only unit definition, because one reading makes the gaps the panel draws the units the solver and the bars count; and to count only the members the view's key admits, with parish cells built from admitted churches, so a gap never hints at what the key withholds (item 120 (h); V01 §5.4). |
+| J-V1.102 | Chose to give Find (item 120) the town's **area targets** as one target per district on every layer — the district a close-up opens being the neighbourhood (J-V1.35), so a district and a neighbourhood are never two chips for one area, the panel's word `neighbourhood` going to an undercity or underground district and a standalone neighbourhood document's — with the **city cut's quarters** of two or more districts and the **region groups**, over listing every node of §9.1's quarter tree, because the city cut is the base's definition of the town's quarters (§4.5) and the tree's other nodes would list one district many times under nested names; and to read **Show gaps' units through `catchmentOf`** (V01 §3.16), which reads V11 §2.3's `CoverageSpec` — the one count of served the siting solver, V12 §3.6's `servedShare` and the absorbed Coverage view read — a partition unit (`district`, `parish`, `settlement`) a gap when it holds no member, a per-plot unit (`walk`, `households`) as the residential plots whose catchment holds none, grouped by district (the plots V12 §3.6's `servedShare` counts), a class without a coverage row on the `district` unit and a several-class chip on its classes' common unit, else `district` — over a second, view-only unit definition or a way-graph walk of this volume's own, because one reading makes the gaps the panel draws the units the solver and the bars count, plot by plot (T-V1-42, T-V1-59 (b)); and to count only the members the view's key admits, with parish cells built from admitted churches, so a gap never hints at what the key withholds (item 120 (h); V01 §5.4). |
 | J-V1.103 | Chose to read item 119 for stage 2 as V01 §6's lines kept as the targets, with the one-time waits stage 2 adds or lengthens — generation with stage 2, a standalone neighbourhood document's first map, a replace close-up, the stage-2 switch's edit, the sky unit run at generation and after it, a district or outline export — held to the ten-second comfort level at TOWN, CITY and METROPOLIS up to its cap and timed by T-V1-29, and every interactive line (opening a district and its first tiles, the surface marks, an edit's commit, a hood-pin edit, T8's preview, Find's lines) kept unchanged, over re-deriving any figure, because the targets of those waits lie within a few seconds at the cap and item 119 (d) forbids relaxing an interaction budget (V01 §6). |
+| J-V1.104 | Chose to make **a disaster look's units whole districts** (item 122 (b): "whole neighborhoods"; the neighbourhood is the district a close-up opens, J-V1.35), taken as a prefix of one **strike order** — the calamity's matched targets first, then its pattern: a fire through district adjacency downwind from the first target or a seed weighted by inhabitants, a flood from the water-fronting districts lowest first on the terrain raster, an earthquake and every other kind scattered by keyed uniforms — the count the `disaster` row's share at the rung and severity, at least one while the share is above 0 and never fewer than the matched targets, over a per-building share or a fresh draw at each severity, because whole districts are what the owner asked for, a prefix makes the ruined set grow with severity and stay the same in every week, view and export, and the dossier's named place wins; to find **the overlay's calamity** among the committed `epoch` events' `CalamityRef`s by its week inside the overlay's weeks (the latest; ties by severity band, then id) and to read its pattern through V06 §2.4's calamity table (fire, flood, else scatter), over a new field on `ConditionOverlay` or a second table of calamity words, because item 122 adds nothing to the model (§2.7) and V06's table already types every calamity word the port carries; to state one unit shape, `DisasterUnit`, which V07 fills with its village units at THORP, HAMLET and VILLAGE, so one rule picks among districts and ends alike; and to report a target that names no unit in the view telemetry, the pattern filling the share, while a target the key withholds is skipped unreported, because a look must never point at what the viewer does not know (DR44's admission). The draws are view draws under §8.1's `crisis.place` tag, keyed by the condition's id (a preview's by its look kind), never a model stream (V01 §3.12). |
+| J-V1.105 | Chose to give the camp looks **`campLand`** — the hinterland's `commons` faces and fallow fields within `camp.reachM` (600 m) of the built edge, and the open verges of the arterials within that reach of where they leave the town — as a pure function of the document, leaving a label's keep-out to §10.2 (d)'s placement at the band drawn, over a view-dependent list or a reach tied to `siegeStandoffM`, because the placement already keeps every look off the keep-outs per band, the outskirts are a fixed stretch of land whatever crisis stands, and the siege's standoff is another distance (the camps beyond bowshot) that §10.2 applies to `beyondWalls` itself; to leave out faces meeting a gate's passage or crossed by an under-deck strip, so a camp never blocks a gate or stands among piers; and to land it at M3b with item 122's base parts, over M5 with the disaster's units, because §10.2's camp placement reads it from M3b and it reads only records the base builds by M1. |
 
 ## 10 Base change requests
 
@@ -3548,7 +3655,7 @@ id `BCR-V1-n`:
 |---|---|
 | **Q-V1-1** — Should the default map change at M5 to show its neighbourhoods? | **Answered: yes (J122; `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`).** With stage 2 on, a default town's districts choose their layouts by what they hold and where they lie (about a quarter of a city's districts get a main street, a square, rings, a quayside, a wall-side street or a street round their church; the rest keep the organic lanes), and every district gets its squares, greens and manor blocks by its size and wealth; every default-preset town looks different from M4's, the change declared once as every golden shift is (V01 §8.1). The `MFCG` and `FTG` parity presets do not change, and the M5 panel re-offers their side-by-sides on the new default beside the NG panel, so the new look is rated. |
 
-No other owner question arises: the file-g parts are the owner's rules (items 102–112, 119 and 120, the catacomb and crypt rule of
+No other owner question arises: the file-g parts are the owner's rules (items 102–112, 119, 120 and 122, the catacomb and crypt rule of
 item 109 (k) (2) among them), and every other choice is a vetoable decision (V01 §9).
 
 ## 12 CONFIRMED versus PLAUSIBLE
@@ -3568,18 +3675,19 @@ in `profile-neighbourhood.md` CA-2; NG's measured bands in `docs/confidence/ng.m
 600–779 and 762–1 343 buildings; the reset and raster times); the NG weaknesses the context templates and local
 identities answer in `docs/improvements/ng.md` (NG-GQ-5, -6, -7, NG-VC-1, -3, -5, -6, NG-LT-2, NG-UX-1). Clean room: no
 reference identifier, grammar, word list, palette, table or asset is transferred; NG's numbers enter as mechanisms with
-our own metric constants and provenance marks (§17.1). Items 119 and 120 were read at source
-(`docs/AMENDMENTS-2026-09-28g.md`) with their routing (J130, J133), and the shapes this volume reads from them — V11
-§3.25.8's `perf.qualitySpend`, V09 §4.21.9's progress view, V10 §2.13's `FindAnswer` — as landed or as their round's
-repairs state them.
+our own metric constants and provenance marks (§17.1). Items 119, 120 and 122 (with 122 (h)–(i)) were read at source
+(`docs/AMENDMENTS-2026-09-28g.md`) with their routing (J130, J133, J135, J138), and the shapes this volume reads from
+them — V11 §3.25.8's `perf.qualitySpend`, V09 §4.21.9's progress view, V10 §2.13's `FindAnswer`, §2.7's
+`ConditionOverlay`, §4.11's `CalamityRef`, §10.2's crisis tables and *Crisis looks*, V06 §2.4's calamity table,
+§2.3's `Terrain.wind` and §4.9's land use and rotation — as landed or as their round's repairs state them.
 
 **PLAUSIBLE (reasoning; no engine exists), each with its measurement and pre-decided fallback:** every constant marked
 `own` (V01 §3.14) and the column table's ranges — the land, manor-sun, court-pin and hatch-pitch constants, the `NG`
 plaza areas, the access-symbol sizes, the terrace constants (`terrace.askGain`, `.siteShare`, `.minGapShare`,
-`.maxLevels`, `.profileNoticeCm`, the series spacing), the raised-way constants (`raised.stripMarginM`,
-`.clearWidthM`, `.squareDeg`), `landmark.maxRings`, `landmark.roundTol` and `hood.hillsidePct`; every budget (V01 §6),
+`.maxLevels`, `.profileNoticeCm`, the series spacing), the raised-way constants (`raised.clearWidthM`,
+`.squareDeg`), `landmark.maxRings`, `landmark.roundTol`, `hood.hillsidePct` and `camp.reachM`; every budget (V01 §6),
 the split open-time laws, the METROPOLIS lines, the sky unit run's lines (volume 5's figures), `plantRimWalk`'s and the
-switch edit's; Find's two lines (the area list's unions, the gap walks and the `households` radii at the METROPOLIS cap) and that every one-time wait of V01 §6 stays inside the ten-second comfort level at the cap (T-V1-29); the M5 estimate (V01 §8.2); that S7c's weights give 15–35 % templates and separable morphologies (T-V1-4,
+switch edit's; Find's two lines (the area list's unions and the gaps' raster passes at the METROPOLIS cap) and the crisis services' and that every one-time wait of V01 §6 stays inside the ten-second comfort level at the cap (T-V1-29); the M5 estimate (V01 §8.2); that S7c's weights give 15–35 % templates and separable morphologies (T-V1-4,
 T-V1-5); that χ̃ tracks the placed character and agrees over the greedy and the reconciled allocation (T-V1-2); that the
 land estimate, the caps and the dispatch's land terms keep the population whole under every template class (T-V1-12's
 stress fixture); that rings and the contour series fit real faces with ≤ 10 % fallback (S-V1-a, T-V1-9); that the lobed
@@ -3592,9 +3700,11 @@ the island is next filled, and that a claim's district re-derived from S8 keeps 
 (T-V1-21); that `NG`'s fallback to `MFCG`'s resolution reproduces NG 1.2.2's base (T-V1-31's bent-cut signature rows),
 that §13.5's NG baselines carry the plaza share per size tag (V01 §3.15 states the fallback) and that the household count
 stands in fairly for NG's building count when an in-town district's size tag is chosen; that shipping `hood.constants`
-whole at M1 moves no M1–M4 golden, its four naming columns and M3a's two terrace cells being the only `hood.*` cells read
-before M5 (T-V1-4); that a Re-derive from S2 on the switch's edit reproduces, under an unchanged value path, what the
-stages after S2 made (T-V1-4's switch clause); and that every bar of V01 §7 is met.
+whole at M1 moves no M1–M4 golden, its four naming columns, M3a's two terrace cells and M3b's `camp.reachM` (read only
+while a crisis look stands) being the only `hood.*` cells read before M5 (T-V1-4); that a Re-derive from S2 on the switch's edit reproduces, under an unchanged value path, what the
+stages after S2 made (T-V1-4's switch clause); that the disaster's three patterns read as a fire, a flood and an earthquake on B-CITY's
+waterfront and windy seeds, and that `camp.reachM` holds the camp looks' ground without crossing the frame's margin
+(T-V1-60); and that every bar of V01 §7 is met.
 
 ## 13 Fix list
 

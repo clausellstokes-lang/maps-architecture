@@ -8,8 +8,8 @@ of `@plat/content` over the base (`docs/ARCHITECTURE.md`, with files f and g app
 else (§17.1). Every fact the base or another volume states is cited, never restated; every content-table value is stated
 once, here (the canon's rule S2: another unit cites the cell by table, row and column). **Citations:** a bare `§n` or
 `II.n` is the base's; `Vnn §n` is a design volume's section, this one included (`V11 §3.5`); a list after a volume prefix
-stays in that volume (`V04 §3.5, V04 §3.10`); `item n` is an amendment item — items 1–101 the owner's instructions, 102–120
-file g's owner and program rules, 200 and above file f's, each the applied text of a volume's base change request (V11
+stays in that volume (`V04 §3.5, V04 §3.10`); `item n` is an amendment item — items 1–101 the owner's instructions,
+file g's items the owner's and program rules, 200 and above file f's, each the applied text of a volume's base change request (V11
 §10 lists this volume's); `J-VI.n` is a volumes-integration decision (`docs/volumes/_integrate.md`), cited and never
 restated. Decisions are `J-V11.n` (V11 §9), tests `T-V11-n` (V11 §7), wiring rows `W1…` and cross-volume rows `X-V11-n`
 (local to this volume; another unit writes `V11 W19`). **Provenance words.** A cell's provenance is one of the grammar's
@@ -64,6 +64,13 @@ building a hamlet or a village may have (item 115); how each climate looks throu
 many colours (item 117); and what a festival hangs in the streets at each size of settlement (item 118). Every one of
 these is a row the user can change, and with every one switched off the map is exactly what it was before.
 
+The owner's rules of 1 October add three more, each a look or a drawing that never changes the map: what a
+SettlementForge crisis shows while it lasts — a siege's camps, a refugee camp by a gate, a quarantine camp, bare fields,
+ruined quarters — how large for the size of the place and the forces the dossier names, and in what turn camps take the
+outskirts (item 122); in what order a ruined building's doors, floors, walls and roof give way, and how fast each
+building material decays (item 123); and how often, through the year and by climate, a shower, a mist or a snowfall
+passes over the map — never snow where winter does not freeze, and rain rare in the desert (item 124).
+
 What the volume does NOT hold: the vocabularies of names (it designs the grammars and how their word lists are written,
 never the lists), the colours of the palette (§8.2's), and the rows other volumes own and state (cited, never copied).
 
@@ -84,7 +91,7 @@ of item 104 (a) (V11 §3.11, V11 §3.13); the concealment and cover rows (V11 §
 (V11 §3.15); item 106's wall defensibility and waterfront-threat rows (V11 §3.16); the climate and land-use rows
 (V11 §3.17); decline, ruin and salvage by material (V11 §3.18); the era and region table and the material rows
 (V11 §3.19); the government, religion and household rows (V11 §3.21); item 109's crypt column (V11 §3.5.8) and the
-underground's content rows (V11 §3.23); item 110's rows (V11 §3.24); the rows of items 111 and 113–119 (V11 §3.25); and the display words with Find's lexicon of
+underground's content rows (V11 §3.23); item 110's rows (V11 §3.24); the rows of items 111, 113–119 and 122–124 (V11 §3.25); and the display words with Find's lexicon of
 item 120 (file g; J133; V11 §2.3, V11 §3.4, V11 §3.5.15);
 (d) the **naming system's grammars** and the **authoring plan for their vocabularies** (V11 §3.20) — the word lists and
 the symbol artwork are written during the build under that plan, clean-room (J122); (e) the **edges** of every mechanism
@@ -119,6 +126,9 @@ all of it (V11 §4, V11 §7, V11 §8).
 | retaining walls and levelling, raised parts and their generator, deck plots and their cutter, `Use.specialisation` (item 110) | §2.2, §2.7, §3.4, §4.2 S1, §4.3, §4.6, §4.7 S10–S11 | the rows of V11 §3.24 (`terrace`, `retaining`, `raisedWays`, `ways.crossing`, `deck`, `deck.landmarks`, `roster.specialisations`, `water`); file f items 259, 289, 401, 412 |
 | the per-map zoom-out limit (item 116); the quality budget's recorded uses (item 119) | §8.8; §4.1, §12 | the base settings row's `view.zoomOutMarginStops` and the `perf.qualitySpend` rows (V11 §3.1, V11 §3.25.5, V11 §3.25.8) |
 | the gazetteer's class counts and match listing under knowledge admission (item 120) | §11.2 | Find's lexicon: the class rows' words and the profile families' groups (V11 §2.3, V11 §3.4) |
+| the crisis looks: `ConditionOverlay` read for a look, the derivation row, the crisis table's shape and placement rules, the look rows by band (item 122) | §2.7, §7.7's DR44, §10.2, §8.2 | the look, mapping and settings rows of `crisis.looks` and `crisis.map` (V11 §3.25.9) |
+| the damage layer over the one plan: one keyed threshold per plan element, compared with the decay level (item 123) | §2.6 step 7, §6.3; V06 §3.23 | the threshold ranges by element kind, the default age and the decay rates by material (V11 §3.25.10) |
+| the weather effects: the session-seeded weather stream, the effect marks and light terms (item 124) | §6.1, §8.2, §8.4 (i), §2.9 | the climate rows' weather cells and the `settings` row's weather block (V11 §3.25.11) |
 
 **Out of scope** (with the owner of each): the solver's scoring code and the relaxation pass (§4.7); item 110's
 geometry — the levelling and the `RetainingWall` records, the raised parts, their course solver and generator, the
@@ -129,8 +139,10 @@ gaps reopening over time (V06, which reads these rows), the history replay's eng
 V11 §3.22); the port's adapter, the lookup chains and their SHAPES (V08); the room programmes and the crypt's plan (V03);
 the composition rows and the crypt's basement ladder (V02, `composition.json`); the underground tables' SCHEMAS and every
 stage that reads them (V04 — this volume writes the rows of four of them, V11 §3.23); the evolution tables (V06,
-`tables/evolution.json`); the style sheets and palette values, the season, cover, `ice`, `snow` and decoration draw rows
-(§8.2); the prices, stock and professions' content of `@plat/sim` (M4b, §10.3 — this volume gives their registry rows and
+`tables/evolution.json`); the style sheets and palette values, the season, cover, `ice`, `snow`, decoration, crisis-look and
+weather-effect draw rows (§8.2); item 122's placement rules (§10.2); item 123's decay level and the damaged plans' drawings
+(V06 §3.23; V03, V02, V04); item 124's weather timeline (§6.1);
+the prices, stock and professions' content of `@plat/sim` (M4b, §10.3 — this volume gives their registry rows and
 authoring plan, V11 §3.21.4); the screens of the tables editor and the siting panel (V09); the clerk's dialogue (V10).
 The vocabularies (word lists and corpora) are authored at build time by V11 §3.20.6's plan; this volume fixes their
 grammars and bars, never their words (§17.1).
@@ -164,7 +176,7 @@ item that carries this volume's change there.
 | W18 | sector, power-link, sector-link rows (V11 §3.15) | this volume | rows 29, 31 | §10.2 | `economy.incomeSources` (T13), `powers[]` (T15) |
 | W19 | `EraRow` table (V11 §3.19.1) | this volume | row 50 | `CircumstanceSlice.era` (file f item 400) | `site.culture` → era by V08 §2.6's era row |
 | W20 | `MaterialRow` rows (V11 §3.19.3) | this volume | row 49 | §2.6 | `materialFamily` of a custom record (item 104) |
-| W21 | `ClimateRow` rows (V11 §3.17), with item 111's dry-country cells and item 117's season cells (V11 §3.25.1, V11 §3.25.6) | this volume | row 43 | §4.9; §4.2 S0, S1, S3 (6), §4.5, §4.7 S10b (item 111); §8.2 (item 117) | `site.terrain`, `site.culture` → biome (the digest's `site` row, V08 §2.6; J-VI.25); the climate word → biome by V08's `climates` row set; `oasis_water` → the oasis (DR1) |
+| W21 | `ClimateRow` rows (V11 §3.17), with the farm-mode override `farmLayout`, item 111's dry-country cells, item 117's season cells and item 124's weather cells, and the table's `settings` row (V11 §3.17.1, V11 §3.25.1, V11 §3.25.6, V11 §3.25.11) | this volume | row 43 | §4.9; §4.2 S0, S1, S3 (6), §4.5, §4.7 S10b (item 111); §8.2 (item 117); §6.1, §8.2, §8.4 (i) (item 124) | `site.terrain`, `site.culture` → biome (the digest's `site` row, V08 §2.6; J-VI.25); the terrain type → biome by V08's `climates` row set (§7.7's DR42; item 125 (b)); `oasis_water` → the oasis (DR1) |
 | W22 | grammar slices and descriptions (V11 §3.20) | this volume's grammar sources + authored corpora | rows 68–71; V05's island names, V01's local places and way names | §10.4 | claimed names (item 82) bypass the grammar |
 | W23 | government, religion, household rows (V11 §3.21) | this volume | rows 21–23 | §10.2 | `government.name` (T14), `religion` (V08) |
 | W24 | `villageForm` column fill (V11 §3.22) | this volume | row 17: V07 §3.11's substitution | §10.2 (file f item 430) | DR24 at village rungs |
@@ -174,8 +186,8 @@ item that carries this volume's change there.
 | W28 | the burial faces: the `churchyard` yard part of the `church` and `cathedral` families, the `burial` yard part of the `cloister` and `burial-ground` families, the `Cemetery network` COUNT row (V11 §3.6.1, V11 §3.12) | V11 §3.6.1, V11 §3.12 rows | rows 17, 66; V06's lineage keys, V07 §3.12's hand-off | §2.5 `YardPart`; §4.9's churchyard row | `burial_ground`, `graveyard`, `parish_burial_grounds`, `burial_grounds_and_charnel_house`, `cemetery_network` (V08 DR32) |
 | W29 | the catacomb rows (`under.catacomb`: count, order, chances, `rankCap`, growth, fill, join, charnel; V11 §3.23.8) | V11 §3.23 | row 58a; V09's catacomb view, V10's why | II.7.6 (file f item 566); V04 §2.3's `CatacombRule` | the church count from church records and their ranges (item 108 (c); V08 T9 / DR9 over `dossier.ladders`) |
 | W30 | the ruin rows (`under.ruin`: chances, significance, burial by age, the four ancient-culture rows, survival, the void-source rank, magic lights; V11 §3.23.2–V11 §3.23.6) | V11 §3.23 | row 58a; V12's `paired` and `twoSample` bars | II.7.5, II.7.6; V04 §2.3's `RuinRule` | `ancient_ruins` deposit, `ruined-landmark` records, `magical_node`, ley-line income rows, `history` events of type `magical`, `history.age`, delving institutions (V08's DR30–DR32) |
-| W31 | the opening and dig rows (`under.openings`, `under.dig`; V11 §3.23.7) | V11 §3.23 | row 58a; V12's `voidSealedDeep` and `voidAccessible` bars | II.7.3 *Basement accesses*; V04 §2.3's `OpeningRow`, `DigRule` | a ruin known to the dossier (`ruined-landmark`, `ancient_ruins` discovered) → `ruin_entrance` 1 |
-| W32 | the cavern cells (item 109 (a)'s values; `miningCellShare` 0.02) | the base (item 109); V11 §3.23.1 | rows 9, 59 | §4.2 S1 | `site.terrain: mountain` → mountainous (DR1); the mining deposits (V08) |
+| W31 | the opening and dig rows (`under.openings`, `under.dig`; V11 §3.23.7) | V11 §3.23 | row 58a; V12's `voidSealedDeep` and `voidAccessible` bars | II.7.3 *Basement accesses*; V04 §2.3's `UnderOpeningRow`, `DigRule` | a ruin known to the dossier (`ruined-landmark`, `ancient_ruins` discovered) → `ruin_entrance` 1 |
+| W32 | the cavern cells (item 109 (a)'s values; `miningCellShare` 0.02) | the base (item 109); V11 §3.23.1 | rows 9, 59 | §4.2 S1 (10) (`Terrain.mining`'s test) | `site.terrain: mountain` → mountainous (DR1); the mining deposits (V08) |
 | W33 | the `naming.ruin` slice and the corpora `ancient.root`, `ruin.generic` (V11 §3.20) | V11 §3.20 grammar; corpora authored | row 68 | §10.4 | a civilisation named by `history` bypasses the grammar (item 82) |
 | W34 | the `building.wingRole` slice (V11 §3.20.1) | V11 §3.20 | row 68 | §10.4 | — |
 | W35 | the pseudo-class `@absent:<class>[+<class>]` (V11 §3.11) | V11 §3.11 rows | row 64: V08's DR24 routing → S2 zeroes the class's `min` and demand (at a village rung, the `v.` class that plays each named class through its `villageForm`, V07 §3.11 step 1) | §4.2 S2 (via V08) | `access_to_external_mill`, `access_to_parish_church` |
@@ -187,13 +199,13 @@ item that carries this volume's change there.
 | W41 | `LadderStepRow.identity` and the QUARTER identity rows (V11 §3.10, V11 §3.12) | V11 §3.10, V11 §3.12 | rows 28, 66; V01's quarter records | §10.2 (file f item 439) | QUARTER records (V08 T9) |
 | W42 | the `siting.declared` key forms and cells; `siting.linkEdits`' `{ bindTo?, avoid?, cut? }` (V11 §4.2) | V09's gestures (V09 §2.6), the clerk's accepted proposals (V10 §4.1) | row 76 | §7.6 (file f item 380) | never written to the dossier (item 20 (h)) |
 | W43 | provenance sources `general ⟨practice⟩`, `sf:⟨file⟩@⟨baseline⟩`, the cell's `evidence` and `ownerRule` | authors; V12's accepted runs; the compiler's owner-rule stamp (V11 §3.2.1 step 4) | the compiler, the tables editor, the clerk, the M4 audit, `dist/evidence.json` | §17.1 (6) (file f item 534); §7.6 (file f item 381) | — |
-| W44 | the id forms `drv/<driver>`, `bal/<class>` (V11 §2.4) | the field's driver table; W4 | V10's `WhyPull.row` and `FieldDrivers`, V09's siting panel | §4.7 (file f items 311, 297) | — |
+| W44 | the id forms `drv/<driver>`, `bal/<class>` (V11 §2.4) | the field's driver table; W4 | §11.2's `WhyPull.row` and `FieldDrivers`, V09's siting panel | §4.7 (file f items 311, 297) | — |
 | W45 | `exportWhy` (V11 §5) | the export options | GeoJSON and CityJSON writers | §11.1 (file f item 456) | — |
 | W46 | the committed catalogue manifest `src/dossier/catalogue.<line>.json` with its `ladderPairs` | V08's build step | row 77: the compiler's `coversManifest` rule and the ladder cross-check (T-V11-2) | §14 item 7 | the line's catalogue and the ladder file's pairs in V08 §2.4's manifest shape (V08 §3.5.1 (f)) |
 | W47 | class tags (`profile family`, class id, `church-family`, `notice`, `riverbank`) and the derived `noxious` and `cluster` (V11 §3.5.1) | the compiler | row 17; §4.5 (2)'s plot mix, the notice posts, V06's church-family reads | §10.2 | — |
 | W48 | `HeightsRow.attic`, `parapetCm`, `towerStoreyCm` (file f item 427), the role table (V11 §3.6.5), the `sky-*` district kinds and the landing rows (V05) | V11 §3.6, V11 §3.9, V11 §3.5.13 | rows 5, 17, 18 | §10.2, §2.6 | — |
 | W49 | `terrace` and `retaining` (V11 §3.24.1), the relief column `terracedEdges` | V11 §3.24.1 rows | rows 9, 78, 79; V01's `levelledUnits`; V12 §3.4.2's `retaining.onFlatM` (0 by rule) | §2.7 `RetainingWall`, §4.7 S10–S11 (item 110 (a)); §4.2 S1 (file f item 289) | — (relief from the terrain row; a dossier `mountain` terrain is mountainous, DR1) |
-| W50 | `raisedWays` with its `settings` and `structure` (V11 §3.24.2) | V11 §3.24.2 rows | row 80; V08's DR35 (its landmark threshold, W74) | §3.4's ground parts, §4.3, §4.6 (item 110 (b)) | the water-system record, the landmarks on high ground, `site.culture` (V11 §3.24.7) |
+| W50 | `raisedWays` with its `settings` and `structure` (V11 §3.24.2; `structure.stripMarginM` the under-deck strip's margin) | V11 §3.24.2 rows | row 80; V08's DR35 (its landmark threshold, W74); §4.6 S8's under-deck strip, V01 §3.17.3 (2), V06 §3.19's clearance (`stripMarginM`) | §3.4's ground parts, §4.3, §4.6 (item 110 (b)) | the water-system record, the landmarks on high ground, `site.culture` (V11 §3.24.7) |
 | W51 | `ways.crossing` (V11 §3.24.5) | V11 §3.24.5 rows | row 81; V10's why (`cross/<class>`) | §2.4 `WayClass` | — |
 | W52 | `deck` and the compiled `deckOk` (V11 §3.24.4) | V11 §3.24.4 rows; the compiler (step 5a) | rows 17, 82; V10's why (`deck/…`, `deckok/…`) | §2.7 deck plots (item 110 (d)); §10.2 (file f item 432) | — |
 | W53 | `deck.landmarks` and the classes `fort` and `lighthouse` with the template family `fort` | V11 §3.24.4, V11 §3.5.7, V11 §3.5.9, V11 §3.6.1 | rows 17, 83; `naming.landmark` (row 68); §5's fortified and institution symbols | §4.8 (item 106 (e)'s chain tower) | the waterfront threat key through V11 §3.16.2 (V08's `threats` row) |
@@ -225,12 +237,15 @@ item that carries this volume's change there.
 | W79 | the base settings row `base.settings` — `reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM`, `view.zoomOutMarginStops` (V11 §3.1 row 92; J-V11.106, item 116) | V11 §3.1 (the base's values, one home) | row 92 | §3.3, §4.2 S1, §5.1, §6.3, §8.8 | — |
 | W80 | item 111's dry-country cells (`ClimateRow.dry`) and the `garden` land-use row (V11 §3.25.1, V11 §3.17.2) | V11 §3.25.1 | rows 43, 44 | §4.2 S0, S1, S3 (6), §4.4, §4.5, §4.7 S10b, §4.9 | `oasis_water` makes an oasis (DR1); the desert terrain → `arid` (V08) |
 | W81 | item 113's `history` cells and `history.events` rows (V11 §3.25.2) | V11 §3.25.2 | rows 93, 94; V09's History chip (`history.defaultAgeYears` is V09's) | §4.11 *History-first generation*, §7.7 DR36–DR39 | the history's events → V08's `historyEvents` neutral keys → these rows (DR37); floods, silt and rebuilding on top → the burial factors (DR39) |
-| W82 | item 114's `walls.condition` cells and `walls.patchMaterials` rows (V11 §3.25.3) | V11 §3.25.3 | rows 95, 96 | §2.7 `Enceinte.condition`, §7.1 `repairWall`, §7.7 | the dossier's `readiness` label and wealth (V08) → the generation row |
-| W83 | item 115's `grandeur.ceiling` rows and its `settings` row's `grandClasses` (V11 §3.25.4) | V11 §3.25.4 | row 97, port.digest among its readers (V08 §3.16 (3)'s "specified" test) | §4.7 S10b, §10.2 (item 115) | a dossier-bound record of a `grandClasses` class, or a seigneurial government's forced manor, specifies a grand building (V08 §3.16 (3)) |
-| W84 | item 117's season cells and tables (V11 §3.25.6) | V11 §3.25.6 | rows 43, 98–101; V07's village year (V07 §5.1), V05's islands; V12's bars | §2.9 view state, §7.7's calendar row, §8.2, §12.5 | the dossier's calendar week and season (V08), the climate by V08's `climates` row set |
-| W85 | item 118's festival tables (V11 §3.25.7) | V11 §3.25.7 | rows 102–105; V07's village decorations (V07 §5.1), V05's pennants; V12's bars | §2.9, §7.7's `traditions` row, §8.2, §12.5 | `traditions[]` (window, staging, kind by V08's `festivals` row set), `culturalIdentity`, deities |
+| W82 | item 114's `walls.condition` cells and `walls.patchMaterials` rows (V11 §3.25.3) | V11 §3.25.3 | rows 95, 96 | §2.7 `Enceinte.condition`, §7.1 `repairWall`, §7.7's DR41 | the dossier's `readiness` label and wealth (V08) → the generation row |
+| W83 | item 115's `grandeur.ceiling` rows and its `settings` row's `grandClasses` (V11 §3.25.4) | V11 §3.25.4 | row 97, port.digest among its readers (V08 §3.16 (3)'s "specified" test) | §4.7 S10b, §10.2 (item 115) | 'specified' is V08 §3.16 (3)'s reading |
+| W84 | item 117's season cells and tables (V11 §3.25.6) | V11 §3.25.6 | rows 43, 98–101; V07's village year (V07 §5.1), V05's islands; V12's bars | §2.9 view state, §7.7's DR42, §8.2, §12.5 | the present week from the dossier's own stamped ticks and the climate by V08's `climates` row set (item 125) — §7.7's DR42 |
+| W85 | item 118's festival tables (V11 §3.25.7) | V11 §3.25.7 | rows 102–105; V07's village decorations (V07 §5.1), V05's pennants; V12's bars | §2.9, §7.7's DR43, §8.2, §12.5 | `traditions[]` (window, staging, kind by V08's `festivals` row set) and `customContentRoster.traditions`; `site.culture` (from `config.cultureProfileKey`, V08 §2.4) and the deity — §7.7's DR43 |
 | W86 | item 119's `perf.qualitySpend` rows (V11 §3.25.8) | a calibration change landing a measured gain (V12) | row 106 | §4.1, §12 (item 119) | — |
 | W87 | Find's lexicon — the class rows' `label` and `synonyms` and the profile families' `findGroup` (V11 §2.3, V11 §3.4, V11 §3.5.15) | the source rows (V07 §2.4 for the `v.` rows); a class's group read through its family | V09's Find panel — its type-ahead, chips and grouped browse grid (item 120 (b), (c)) — through rows 17 and 33 | §11.2's gazetteer (item 120) | — (the dossier's institution names are V08's list entries, never lexicon words) |
+| W88 | item 122's crisis tables — `crisis.looks` with its `settings` row (item 122 (h)'s rates among its cells) and the closed mapping `crisis.map` (V11 §3.25.9) | V11 §3.25.9; the `map` rows' words from V08's census at the pinned baseline (C4b) | rows 107, 108; V09's Show crises preview list and Find's list of looks (by `label`), V10's explanations, V12's item-122 bars; T-V11-46 | §2.7 `ConditionOverlay`, §7.7's DR44, §10.2 *Crisis looks*, §8.2, §8.8, §12.5 | a standing condition's source — a stressor's `type`, an `activeConditions[]` archetype, a carried simulator event or calamity (V08) — → its `map` row (DR44); the forces', coalitions' and groups' headcounts, else `exodus` and arrivals (item 122 (h); V08) → the camp's size; a calamity's `targets` → its districts (V01) |
+| W89 | item 123's damage tables — `damage.elements` (the threshold ranges by plan element kind, the `settings` row's default age) and `damage.materials` (the decay rates by walls material) (V11 §3.25.10) | V11 §3.25.10 | rows 109, 110: §6.3's thresholds, V06 §3.23's `decayLevel`, V03's, V02's and V04's drawings, §11.1's battle maps; T-V11-47 | §2.6 step 7, §6.3 *Plan damage*, §8.6, §11.1 | — (the level reads the lineage's lifecycle events; a dossier calamity's ruin reaches them through the epoch path, DR28) |
+| W90 | item 124's weather cells — the climate rows' `weather` and the `settings` row's `weather` block (V11 §3.25.11) | V11 §3.25.11 | row 43: §6.1's weather stream (the spells), §8.2's effect marks, §8.4 (i)'s light terms, V09's Start a shower now; V12's item-124 bars; T-V11-48 | §6.1 *The weather stream*, §8.2, §8.4 (i), §2.9 | the climate from the dossier's terrain type (§7.7's DR42; item 125 (b)); the week as §2.9 takes it |
 
 ## 2 Data model
 
@@ -245,7 +260,7 @@ of weight 1 is one score unit, §4.7 S10b), `lvl` the ordinal nuisance level (0 
 ```ts
 // TableId is §7.6's: a dotted, stable string, never reused — 'roster.classes', 'siting.families', 'dossier.kinds', 'era' …
 type SliceKind = 'row'|'weights'|'bracket'|'thresholds'|'match'   // §2.8's SliceRef kinds
-type ColumnUnit = Extract<Unit, 'm'|'m2'|'ha'|'cm'|'cdeg'|'share'|'weight'|'people'|'yr'|'wk'|'m3'|'lvl'|'none'>   // §2.1's subset, exactly this volume's set (E-37)
+type ColumnUnit = Extract<Unit, 'm'|'m2'|'ha'|'cm'|'cdeg'|'share'|'weight'|'people'|'count'|'yr'|'wk'|'s'|'m3'|'lvl'|'none'>   // §2.1's subset, exactly this volume's set (E-37)
 interface ColumnSpec {
   name: string /* the field path, dotted for nested cells: 'template.floors', 'profile.emits.smell' */;
   row?: string /* the settings form (below): the one named row this column belongs to — 'settings', 'structure'; absent: a column of the keyed rows */;
@@ -253,7 +268,7 @@ interface ColumnSpec {
   unit: ColumnUnit;
   range?: [number, number] /* declared range: an edit outside it is clamped by V11 §4.1's rule (item 101 R2) */;
   enumValues?: string[]; ref?: TableId /* a ref column's target table: its value must be a live row key there */;
-  interp: 'band'|'step'|'none' /* band: interpolated along the prosperity value between band rows (§4.5); step: switches at the cut; none: not band-keyed */;
+  interp: 'band'|'step'|'none' /* band: interpolated along the prosperity value between band rows (§4.5); step: read by §4.5's discrete-cell rule (a band without a row reads the nearest rowed band below); none: not band-keyed */;
   calibratable: boolean /* V12 §3.11's register carries its entry (§13.9) */; extensionAllowed: boolean /* may carry §7.6's extension marker */;
   presetsRequired?: boolean /* a categorical option cell that needs an entry for each zeroing parity preset whose file ships (V11 §2.2):
     MFCG and FTG on every table; VG only on a village-read table (V11 §3.2.1 step 4); NG on none (it resolves as MFCG) */;
@@ -271,8 +286,8 @@ interface TableSchema {
   totality: TotalityRule[]; version: string /* semver: major = a changed schema, minor = a declared output shift, patch = no output change */;
   defaultRow?: string /* the row a reader meeting an absent key reads (V11 §3.26's general rule), declared on every table whose text names one:
     `era` 'c14', `climate` 'temperate-deciduous', `roster.religions` 'faith', `walls.barriers` 'open', `walls.waterfront` 'none',
-    `history.events` 'none', `festival.motifs` 'mixed'; V11 §4.1 refuses its delete */;
-  mayEmpty: boolean /* true where an empty table is a reading state its readers define — rows 32, 35, 63–66, 76 and 106;
+    `history.events` 'none', `festival.motifs` 'mixed', `damage.materials` 'timber_frame'; V11 §4.1 refuses its delete */;
+  mayEmpty: boolean /* true where an empty table is a reading state its readers define — rows 32, 35, 63–66, 76, 106 and 108;
     false elsewhere, so no delete removes the last row (V11 §4.1) */ }
 ```
 
@@ -473,16 +488,18 @@ signature pair; `sup/<class>/<resource>` for a supply edge (`sup/<class>/<resour
 comfort-distance term (item 107 (a)–(b)); `dk/<kind>/<n>` for a district kind's row; `pc/<assignment>/<n>` for a
 `PlacementCriteria` row the port or an assignment adds (§7.7; the guildhall's trade row, V11 §3.8); and `drv/<driver>` for
 a term of §4.5's prosperity field (`drv/sun` for item 102's daylight term, `drv/water` for item 111's water term, …),
-which V10's `FieldDrivers` and the "why is this quarter poor" answer cite. Item 110's rows add `rw/<kind>` (a raised way's
+which §11.2's `FieldDrivers` and the "why is this quarter poor" answer cite. Item 110's rows add `rw/<kind>` (a raised way's
 reason row, cited with the candidate's measured drop, link or need ratio), `ter/<rung>` (a retaining wall's terrace row,
 with the unit's slope and step), `ret/<band>` (its profile row), `deck/<kind>/<band>` and `deckok/<class>` (a deck plot's
 budget and a class's admission), `slot/<slot>` (a landmark slot), `spec/<culture>/<cls>/<specialisation>` (a stepped
 specialisation) and `cross/<class>` (a way's stair or ramp). Item 109's rows add `under/<table>/<row>`
 (`under/catacomb/count`, `under/dig/classRow`). Items 111–118 add `clim/<biome>/<cell>` (a dry-country or season cell of a
-climate row), `hist/<event>` (an event-to-epoch row), `wall/<cell>` and `patch/<row>` (a wall-condition cell and a patch
-material), `ceil/<rung>` (the grandeur ceiling), `fest/<table>/<row>` (a festival row). Each id resolves to its row's
-`says` sentence (V11 §3.24, V11 §3.25), its `reason` (signature pairs), its family's plain sentence (V11 §3.3.1's `says`)
-or the class row's note. `PlacementSolver.explain` (file f item 311) reports these ids in `WhyPull.row`, V06's
+climate row; item 124's weather cells too), `hist/<event>` (an event-to-epoch row), `wall/<cell>` and `patch/<row>` (a
+wall-condition cell and a patch material), `ceil/<rung>` (the grandeur ceiling), `fest/<table>/<row>` (a festival row);
+items 122 and 123 add `crisis/<table>/<row>` (a crisis look, named by its `label`, or a mapping row) and
+`dmg/<table>/<row>` (a damage range or a decay rate). Each id resolves to its row's `says` sentence or `label`
+(V11 §3.24, V11 §3.25), its `reason` (signature pairs), its family's plain sentence (V11 §3.3.1's `says`) or the class
+row's note. `PlacementSolver.explain` (file f item 311) reports these ids in `WhyPull.row`, V06's
 `UseMove.why` reports them, and the clerk (V10) and the siting panel (V09) resolve them. Ids are derived from table keys
 only, so they are stable across hosts and reloads and change only when the row they name changes key.
 
@@ -503,7 +520,7 @@ interface ResourceRow {   // §10.2's resources, typed here; the goods table of 
 ### 2.6 Ladder steps (file f items 510, 520)
 
 ```ts
-type LadderStep = 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'   // item 108's step types; V08 §2.3, V08 §2.5, V10 §2.13 and V01 §2.3 type their fields by it
+type LadderStep = 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'   // item 108's step types; V08 §2.3's `CarriedFact`, V08 §2.5's `DossierInstitution.step`, V01 §2.3's district view and §11.2's `WhyAnswer.members.step` type their fields by it
 interface LadderStepRow {   // item 108 (a): one row per SettlementForge catalogue kind that is a step of a ladder or a subsumption
   kind: string /* the greater catalogue kind (V08's kinds key) */; lesser: string[] /* the kinds it replaces or subsumes */;
   step: LadderStep;
@@ -562,9 +579,9 @@ interface EraRow {   // the era and region preset CircumstanceSlice.era names (�
 interface ClimateRow {   // §4.9's ClimateTable rows; table 'climate'
   biome: 'temperate-deciduous'|'temperate-coniferous'|'mixed'|'maritime'|'arid'|'cold'; groundRole: string /* §8.2's ground-cover role key */;
   woods: { species: string; inner: number; outer: number; leafType: 'deciduous'|'evergreen' }[]; fieldSystem: 'openStrip'|'enclosed'|'infieldOutfield'|'irrigated';
-  farmLayout: string /* a §4.9 farm-mode override key or 'none' */; roof: { form: 'gable'|'hip'|'flat'|'pyramid'; pitch: number /* ratio */ }; scatterPerHa: [number, number] /* ambient single trees */;
+  farmLayout: 'rows'|'perimeter'|'rivers' /* §4.9: the farm modes' climate override; 'rows' leaves the rung × landscape choice */; roof: { form: 'gable'|'hip'|'flat'|'pyramid'; pitch: number /* ratio */ }; scatterPerHa: [number, number] /* ambient single trees */;
   rainMmPerYear: number /* mm a year: the aqueduct's water balance (V11 §3.24.6) */;
-  dry: ClimateDryCells /* item 111, V11 §3.25.1 */; seasons: ClimateSeasonCells /* item 117, V11 §3.25.6 */ }
+  dry: ClimateDryCells /* item 111, V11 §3.25.1 */; seasons: ClimateSeasonCells /* item 117, V11 §3.25.6 */; weather: WeatherSpells /* item 124, V11 §3.25.11 */ }
 interface ClimateDryCells {   // item 111; values V11 §3.25.1
   aridity: number /* share: 0 wet – 1 desert; a row is arid when aridity ≥ climate.aridMin (V11 §3.25.1) */;
   water: { river: number; lake: number; coast: number } /* share: S0's P(river), P(lake), P(coast) on an arid row (§4.2 S0); read on arid rows only */;
@@ -575,6 +592,17 @@ interface ClimateDryCells {   // item 111; values V11 §3.25.1
 interface ClimateSeasonCells {   // item 117; values V11 §3.25.6; weeks 0–51, spring first (week 0 the first of spring); a band [a, b] with a > b wraps the year's end
   winter: 'none'|'mild'|'cold'|'severe'; leafColour: [number, number] | null; leafFall: [number, number] | null; blossom: [number, number] | null;
   grow: [number, number]; harvest: [number, number]; hay: [number, number] | null; ice: [number, number] | null; snow: [number, number] | null }
+type WeatherKind = 'rain'|'drizzle'|'snow'|'mist'|'fog'|'leaves'|'cloudShadow'|'shimmer'|'dust'   // item 124 (a)'s effects in this order (V11 §3.25.11's ties); §8.2's marks and §8.4 (i)'s light terms draw them
+type WeatherSpells = Partial<Record<WeatherKind, {   // item 124 (c): a climate row's weather cells, values V11 §3.25.11; a kind absent never comes on the row
+  weeks: [number, number] /* wk: a band of weeks 0–51 (a > b wraps the year's end); two bands of one kind never share a week */;
+  perHour: number /* count: how often — the mean spells of the kind an hour of clear map */; lengthS?: [number, number] /* s: how long, where it differs from the kind's */ }[]>>
+interface ClimateSettings {   // the named row 'settings' of the climate table (V11 §2.1's settings form)
+  aridMin: number /* share: item 111's arid test, V11 §3.25.1 */;
+  weather: {   // item 124; values V11 §3.25.11
+    kinds: Record<WeatherKind, { lengthS: [number, number] /* s: a spell's length */; hours?: [number, number] /* the view's hour of day a spell may start in, read under `light: 'time'` (§2.9) */ }>;
+    sites: Record<'coast'|'riverside'|'hills'|'forest', Partial<Record<WeatherKind, number>>> /* × a live kind's perHour where the site applies; several: the largest */;
+    forestShareMin: number /* share: the woods' share of the frame's land that makes the `forest` site */;
+    aridRainMaxPerHour: number /* count: item 124 (c)'s cap on an arid row's rain and drizzle, after the largest site factor */; aridRainMaxWeeks: number /* wk: the weeks they may cover */ } }
 interface HeightsRow {   // the class heights row DesignationTemplateRow.heights names (§2.6, §4.7 S11); table 'heights'
   key: string; storeyCm: { ground: number; upper: number } /* integer cm */; roofPitch: number /* ratio */; towerStoreys?: [number, number] /* keeps, church and mage towers */; spireFactor?: number /* spire height ÷ tower height */;
   attic: boolean; parapetCm: number; towerStoreyCm?: number /* cm; absent reads storeyCm.upper */ /* the three columns of file f item 427 (V02 §3.10.6), read by V02's M11 */ }
@@ -613,7 +641,7 @@ interface TemplateDef { id: string /* 'desc.district', 'desc.building', 'chronic
 ### 2.8b The underground content rows (item 109): shapes cited, one cell added
 
 The schemas of the four underground tables whose ROWS this volume writes are V04 §2.3's — `RuinRule` with its
-`CultureRow` and `PersistenceClass` (`tables/under/ruin.json`), `OpeningRow` (`openings.json`), `DigRule` (`dig.json`) and
+`CultureRow` and `PersistenceClass` (`tables/under/ruin.json`), `UnderOpeningRow` (`openings.json`), `DigRule` (`dig.json`) and
 `CatacombRule` (`catacomb.json`) — cited, never restated. The values are V11 §3.23's; V04's defaults table cites them
 (X-V11-4, closed at V04 §2.3). The one cell V04's shape lacks, `CatacombRule.order`, V04 §2.3 carries:
 
@@ -674,6 +702,7 @@ interface RaisedWayStructure {      // the named row 'structure' of the same ent
   maxPierM: Record<RaisedKind, number>;                            // a course needing a taller pier is infeasible: the candidate drops, reported raised_too_tall
   pierSpacingM: { masonry: [number, number]; timber: [number, number] }; pierWidthShare: number; pierMinCm: number;   // file f item 244's support step: the piers' pitch and footprint
   maxClearSpanM: { masonry: number; timber: number };             // m: §2.7's clear-span bound by material class; a generated course past it drops (raised_too_long), a declared one bends
+  stripMarginM: number;                                           // m: the under-deck strip's margin each side of the deck's ground projection over its piers and spans (§4.6 S8's hole; V01 §3.17.3 (2))
   material: Record<'poor'|'modest'|'prosperous'|'rich', Partial<Record<'timber'|'rubble'|'brick'|'ashlar', number>>>;   // an aqueduct never timber
   span: {                                                          // file f item 244's span rule (J-V11.96)
     vaultShare: Record<RaisedKind, number>;                        // share: the chance a span past the rule's gates is a vault (`span.vaultShare`), × era and culture `raisedVaultM`
@@ -717,10 +746,11 @@ interface WaterNeedRow {            // table 'water' (row 85); one row 'default'
 `siting.declared`'s `use:` rows the cell `specialisation?` (V11 §4.2). The culture rows gain the `building` block
 (V11 §3.20.3) and `EraRow` the two factors.
 
-### 2.8d The row types of items 113–119
+### 2.8d The row types of items 113–119 and 122–124
 
-Each table is our own and calibratable unless marked (rows 97 and 102–105 are not, in any column: V11 §3.25.4, V11 §3.25.7),
-its values in V11 §3.25, its switch in V11 §3.24.0.
+Each table is our own and calibratable unless marked (rows 97, 102–105 and 108 are not, in any column: V11 §3.25.4,
+V11 §3.25.7, V11 §3.25.9), its values in V11 §3.25, its switch in V11 §3.24.0. Item 124's weather cells are on
+`ClimateRow` and `ClimateSettings` (V11 §2.8).
 
 ```ts
 interface HistorySettings {         // table 'history' (registry row 93), the one row 'settings' (item 113)
@@ -742,13 +772,7 @@ interface PatchMaterialRow {        // table 'walls.patchMaterials' (registry ro
   id: string; label: string /* the Material chip's words (V09 §4.21.4) */; cultures?: string[] /* V11 §3.20.3 culture ids it is limited to; absent: every culture */;
   weight: number /* the draw weight among the rows admitted for the enceinte's kind and culture */;
   material: string /* a MaterialRow key (V11 §3.19.3): its salvage, decline and Works rows */; look: string /* §8.2's patch line-style role key */ }
-interface GrandeurCeilingRow {      // table 'grandeur.ceiling' (registry row 97); key 'rung' (item 115)
-  rung: Rung; enabled: boolean /* false on every row = no ceiling (the no-op pin); the parity presets false */;
-  dwellingFamilies: string[] | 'all' /* V02's composition families a dwelling other than the manor may take */;
-  towers: boolean; turrets: boolean; gatehouse: boolean; courts: boolean /* on a dwelling other than the manor */;
-  manor: { max: number | 'unbounded'; requires: 'specified'|'lordOrSpecified'|'none' }; allManorsRow: boolean /* S10b's rich row "all manors" applies */ }
-interface GrandeurCeilingSettings { // the named row 'settings' of the same table (V11 §2.1's settings form)
-  grandClasses: string[] }          // the classes whose dossier-bound record SPECIFIES a grand building (V08 §3.16 (3)): live roster.classes keys, V11 §3.25.4
+// GrandeurCeilingRow and its named row 'settings' (GrandeurCeilingSettings, grandClasses): §10.2's shape (item 115 homes it there); table 'grandeur.ceiling' (registry row 97), rows V11 §3.25.4
 interface SeasonSurfaceRow {        // table 'season.surfaces' (registry row 98); key 'kind' (item 117 (f)): a land use, garden, green or tree kind
   kind: string; phases: { look: string /* §8.2's season row key */; from: SeasonAnchor; offsetWk: number }[] /* in year order; each look holds until the next phase */ }
 type SeasonAnchor = 'yearStart'|'grow.start'|'grow.end'|'harvest.start'|'harvest.end'|'hay.start'|'hay.end'|'blossom.start'|'blossom.end'|'leafColour.start'|'leafFall.start'|'leafFall.end'|'snow.start'
@@ -769,6 +793,19 @@ interface GenericFestivalRow { key: 'spring'|'midsummer'|'harvest'|'midwinter'; 
 interface QualitySpendRow {         // table 'perf.qualitySpend' (registry row 106); key 'stage/use' (item 119 (b)); shipped empty, calibratable: false
   stage: string /* a StageId */; use: string /* the quality path the stage may run */; targetMs: number; extraMs: number /* the measured cost above the target */;
   gainBar: string /* the bar id the gain is measured by (§13, V12) */; gain: number; run: string /* the CalibrationRun id that measured it */ }
+// item 122: CrisisLookRow with its named row 'settings' (CrisisLookSettings) — table 'crisis.looks', registry row 107 — and CrisisMapRow —
+// table 'crisis.map', row 108 — are §10.2's shapes (item 122 homes them there); their rows V11 §3.25.9
+type DamageElementKind = 'furniture'|'door'|'window'|'partition'|'roofBay'|'upperFloor'|'stair'|'outerWall'|'groundFloor'
+  |'cellarVault'|'cellarWall'|'cryptTomb'|'cryptVault'|'cryptWall'   // item 123: a plan element's kind (§6.3 *Plan damage*); V03 gives each plan element its kind, V04 §5.6 the five below ground
+interface DamageElementRow {        // table 'damage.elements' (registry row 109); key 'kind' (item 123 (b), (c))
+  kind: DamageElementKind;
+  range: [number, number];          // share of the decay level, 0 ≤ lo < hi ≤ 1: the element's threshold is lo + u · (hi − lo), u its §6.3 draw
+  states: ('abandoned'|'decayed'|'ruined')[] }   // the existence states whose look item 123 (c) gives the kind; the range lies inside their shares (V06 §3.23 (2)); not calibratable
+interface DamageSettings {          // the named row 'settings' of the same table (V11 §2.1's settings form)
+  defaultAgeYears: number }         // yr: the age a building whose log holds no decay run reads (V06 §3.23 (4))
+interface DamageRateRow {           // table 'damage.materials' (registry row 110); key 'material' (item 123 (b))
+  material: string;                 // a walls material id of V11 §3.19.3 (`Building.material.walls`)
+  ratePerYear: number }             // share a year: V06 §3.23 (2)'s r, the level a decay run gains each year — timber faster than stone
 ```
 
 The base settings row (registry row 92, V11 §3.1) holds `reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM`
@@ -805,7 +842,7 @@ The *read* column of every table row is its registry row's readers (V11 §3.1; E
 | a registry row's empty table before its rows-home milestone | the compiler from an empty source at C0 | its readers read no rows; the compiler's rules wait for its first row | the package | the change that ships its rows is a `minor` version (a declared shift for its readers, V11 §3.2.5), its exit tests reading them | VCS | n/a |
 | `BuildingClassRow.profile`, `staff`, `villageForm`, `templateFamily` | compiled | row 17 | table | table | table | absent in an older table version: the loader fills `profile` from the class's `tags` by the tag → family map (V08 §2.6's `tags` rows) and V11 §3.4's family rows, reported as a declared shift |
 | the `v.<id>` village keys, `GovernmentRow.villageSeat`, the archetypes' `village` cell, `WallBarrierRow.arcKind`, the terrace's three bend cells | compiled | rows 17, 21, 65, 14, 78 | table | table (a village building re-derives with its use when its row's key or cells change; standing buildings kept by V11 §4.3's rule) | table | the `v.` prefix is a major version of `roster.classes` (§7.5): an override naming an unprefixed village key is mapped to its `v.` key, reported; absent `villageSeat`: the seat class, reported; absent `village` cell: the class's `villageForm`; absent `arcKind`: V11 §3.16.1's column for the row's class; absent bend cells: V11 §3.24.1's TOWN row values |
-| `RelationFamilyRow`, `SignaturePairRow`, `LadderStepRow`, `WallBarrierRow`, `WaterfrontThreatRow`, `EraRow`, `ClimateRow`, `HeightsRow`, `CompatibilityRow`, the typed §10.2 rows | compiled | their registry rows | table | table | table | table versions; a document without a table in its pinned set reads the parity-neutral default the schema declares (a family weight 0, no pair, no ladder step, the uniform wall profile — J-V11.12) |
+| `RelationFamilyRow`, `SignaturePairRow`, `LadderStepRow`, `WallBarrierRow`, `WaterfrontThreatRow`, `EraRow`, `ClimateRow`, `HeightsRow`, `CompatibilityRow`, the typed §10.2 rows | compiled | their registry rows | table | table | table | table versions; a document without a table in its pinned set reads the parity-neutral default the schema declares (a family weight 0, no pair, no ladder step, the uniform wall profile — J-V11.12); an absent `ClimateRow.farmLayout` reads `rows` (the rung × landscape choice, §4.9) |
 | `ResourceRow` goods columns | compiled | row 19 | table | table | table | absent: `comfortM` 0 and orientation `balanced`, the base's linear decay (item 107 (b)); absent `demand`: `classes` (no reverse pull without a bound consumer) |
 | `siting.web`'s switches `orientEnabled`, `splitEnabled` | compiled | row 36 (through the loader, V11 §3.2.2) | table | a switch edit re-derives every class whose orientation or split it changes; placed uses kept and the moves listed (V11 §4.3; J-V11.14) | table | absent in a pinned `siting.web` that predates them: true (that version's behaviour, replayed unchanged); no `siting.web` at all: the off form (V11 §3.7.4; J-V11.12) |
 | `dossier.sanitation`, `dossier.subterranean` (V04's rows in row 63) | compiled from V04 §2.3a's rows | row 63 | the package, pinned (§2.9) | a table version (a fix reviewed with V04 and V08, never a calibration; J-V11.65) re-runs the port's creation for the records it matches (§7.7) | table | absent in an older version: no record binds; sewers and systems by II.7's laws alone |
@@ -819,16 +856,19 @@ The *read* column of every table row is its registry row's readers (V11 §3.1; E
 | the `under.ruin`, `under.openings`, `under.dig`, `under.catacomb` rows and `miningCellShare` | compiled (V11 §3.23) | rows 58a, 59 | table | table (V04's records re-derive by V04's ratchet and keys) | table | absent: no ruin, no opening chance, no dig draw, the base's catacomb rule (II.7.6); on upgrade a declared shift — a church-sourced catacomb is re-sourced to its churchyard, else `legacy` (V04 §3.5.1) |
 | the `siting.declared` and `siting.linkEdits` rows | `editTable` on the document-only tables (V11 §4.2) | row 76 | the log | re-derived by the match slice of their binding key (V11 §4.3) | inverse row op | a key that no longer resolves is orphaned and reported (§7.6) |
 | **item 110's tables — the pattern** (`terrace`, `retaining`, `terracedEdges`, `raisedWays`, `ways.crossing`, `deck`, `deckOk`, `deck.landmarks`, `roster.specialisations`, the `stepped-shrine` row, `water`, `rainMmPerYear`, the era and culture factors; E-34) | compiled (V11 §3.24) | rows 9, 5, 43, 50, 71, 78–85 | table | the readers whose recorded slices cite a changed row re-derive; a standing GENERATED thing whose draw or admission flips is KEPT and listed with an offer (J-V11.14 extended); what the user drew, declared or set is held; a thing the user removed stays suppressed whatever the table says (§2.8's suppression; item 110 (b), (f)); each draw keyed as the exceptions below say | table (an `editTable` undo) | absent from a pinned set: off (V11 §3.24.0); an upgrade is a declared shift naming every thing it adds |
-| — exceptions to the pattern | `terrace`, `retaining`, `terracedEdges`: generated walls re-derive with their levelling units, drawn walls held; a profile edit re-draws material and towers only; key the levelling unit's lineage · `raisedWays`: the generator's gate re-runs for every reason key whose outcome the edit can change (§7.6's slice); a newly admitted reason is built by the dry run with its fates; the remove offer; key the reason key · `raisedWays.structure.span`, `.slideMaxFactor`, `.maxClearSpanM`, `retaining.settings.stateSnapCm`: written with file f item 244's span rule by the seat landing it at M3a with C3b (V04 §8); a `span` edit re-runs the span rule over every raised way whose spans cite the row (held `use` edits kept) and V04's arch-vault reconcile in the same commit; a `slideMaxFactor` or `maxClearSpanM` edit re-runs the support step on the generated ways (keys kept by item 244 (5)), a standing way a lowered bound now refuses kept and listed with the remove offer, as the pattern keeps it; a `stateSnapCm` edit applies at the next re-derivation and moves no standing knot; a pinned version without them is upgraded by §7.5's event, reported, so the zeroing rule never supplies a foundation depth of 0 to a document holding raised ways · `ways.crossing`: the crossings whose ways cite the row re-derive (a stair becomes a ramp or back), no way moves; absent: the base's slope rule (§7.3), every crossing a ramp, reported · `deck`, `deckOk`: the cutter re-runs on the decks whose rows changed; standing deck buildings above a lowered budget or of a class no longer admitted are kept with a relocate offer; new plots obey the rows (V02's clamp, J-V2.67); key the deck's lineage · `deck.landmarks`: the slot draws re-run; a standing slot building is kept, an empty slot may fill; key the slot's deck lineage · `roster.specialisations`, `stepped-shrine`: a generated stepped building whose draw flips is kept with a "re-mass" offer (a massing change is disruptive, J-V11.14); user-set, declared and keyword specialisations held; key the use's lineage with `'spec'` · `water`, `rainMmPerYear`, the factors: as `raisedWays` (the reasons they gate); absent: `perHeadL` 0 (no need), factors 1 | | | | | |
-| the display cells (`label`, `icon?`, `synonyms`, `commonness` on the class rows; `label`, `icon?` on the families, goods, district kinds, style sheets and patch materials; `findGroup` on the families) | the source (V11 §3.4, V11 §3.5.15, V11 §3.7.1, V11 §3.9, V11 §3.1's *Display cells*, V11 §3.25.3; V07 §2.4 for the `v.` rows); a class's `icon` and `commonness` and the generic rows' cells compiled (steps 5, 5a) | V09's roster reader, palette, cards and Find (item 120), the message slots V10 renders, V08's notes, `@plat/docs` — never a model stage | the package, pinned | a label, synonym or group edit moves no digest (Find's index rebuilds with the edit's commit, item 120 (j)); a count edit recomputes `commonness` in the same compile | table | absent in an older pinned `roster.classes`: the loader shows the key with `_` as a space for `label`, `[]`, 0 and no icon, reported once; an absent `findGroup` in an older pinned `siting.profiles` reads `other`, reported once; the words arrive with the table's major version, which moves no digest |
+| — exceptions to the pattern | `terrace`, `retaining`, `terracedEdges`: generated walls re-derive with their levelling units, drawn walls held; a profile edit re-draws material and towers only; key the levelling unit's lineage · `raisedWays`: the generator's gate re-runs for every reason key whose outcome the edit can change (§7.6's slice); a newly admitted reason is built by the dry run with its fates; the remove offer; key the reason key · `raisedWays.structure.span`, `.slideMaxFactor`, `.maxClearSpanM`, `retaining.settings.stateSnapCm`: written with file f item 244's span rule by the seat landing it at M3a with C3b (V04 §8); a `span` edit re-runs the span rule over every raised way whose spans cite the row (held `use` edits kept) and V04's arch-vault reconcile in the same commit; a `slideMaxFactor` or `maxClearSpanM` edit re-runs the support step on the generated ways (keys kept by item 244 (5)), a standing way a lowered bound now refuses kept and listed with the remove offer, as the pattern keeps it; a `stateSnapCm` edit applies at the next re-derivation and moves no standing knot; a pinned version without them is upgraded by §7.5's event, reported, so the zeroing rule never supplies a foundation depth of 0 to a document holding raised ways · `raisedWays.structure.stripMarginM`: shipped with item 110's rows at C3b (M3a); an edit re-cuts §4.6 S8's strip holes, S8 and the stages after it re-deriving the faces a strip crosses, a generated plot or building the widened strip now covers kept and listed with the relocate offer as the pattern keeps it; absent from a pinned version: 1 m, the value the cell ships with, so no strip moves · `ways.crossing`: the crossings whose ways cite the row re-derive (a stair becomes a ramp or back), no way moves; absent: the base's slope rule (§7.3), every crossing a ramp, reported · `deck`, `deckOk`: the cutter re-runs on the decks whose rows changed; standing deck buildings above a lowered budget or of a class no longer admitted are kept with a relocate offer; new plots obey the rows (V02's clamp, J-V2.67); key the deck's lineage · `deck.landmarks`: the slot draws re-run; a standing slot building is kept, an empty slot may fill; key the slot's deck lineage · `roster.specialisations`, `stepped-shrine`: a generated stepped building whose draw flips is kept with a "re-mass" offer (a massing change is disruptive, J-V11.14); user-set, declared and keyword specialisations held; key the use's lineage with `'spec'` · `water`, `rainMmPerYear`, the factors: as `raisedWays` (the reasons they gate); absent: `perHeadL` 0 (no need), factors 1 | | | | | |
+| the display cells (`label`, `icon?`, `synonyms`, `commonness` on the class rows; `label`, `icon?` on the families, goods, district kinds, style sheets, patch materials and crisis looks; `findGroup` on the families) | the source (V11 §3.4, V11 §3.5.15, V11 §3.7.1, V11 §3.9, V11 §3.1's *Display cells*, V11 §3.25.3, V11 §3.25.9; V07 §2.4 for the `v.` rows); a class's `icon` and `commonness` and the generic rows' cells compiled (steps 5, 5a) | V09's roster reader, palette, cards and Find (item 120), the message slots V10 renders, V08's notes, `@plat/docs` — never a model stage | the package, pinned | a label, synonym or group edit moves no digest (Find's index rebuilds with the edit's commit, item 120 (j)); a count edit recomputes `commonness` in the same compile | table | absent in an older pinned `roster.classes`: the loader shows the key with `_` as a space for `label`, `[]`, 0 and no icon, reported once; an absent `findGroup` in an older pinned `siting.profiles` reads `other`, reported once; the words arrive with the table's major version, which moves no digest |
 | the base settings row (row 92) | compiled (V11 §3.1) | row 92 | the package, pinned | `reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM`: a re-derivation from their first reader (§7.6); `index.gridCellM` changes no output (an index setting; §3.3's queries return the same items); `view.zoomOutMarginStops`: the view only | table | absent from an older pinned set: the base's constants (3, 120 m, 25 / 10 / 5 m, 1 stop), which these cells hold, so nothing shifts |
 | item 111's climate cells (`ClimateRow.dry`) and the `garden` land-use row | compiled (V11 §3.25.1, V11 §3.17.2) | rows 43, 44 | table | a cell edit re-derives from its first reader (S0 for the water chances and the oasis; S3 for the pull; S6 for the prosperity term; S10b for the wells); an oasis the user added or removed is held (§7.4's T2 row) | table | absent from a pinned set: the neutral values (water chances as the non-arid rows, oasis chance 0, pull 0, water term 0, sun cell 1, well terms neutral) — the base's behaviour exactly |
 | item 113's `history` cells and `history.events` rows | compiled (V11 §3.25.2) | rows 93, 94 | table | read once, at generation, by the replay: a change reaches an existing map only through a Re-derive from S1 that re-runs the replay whole (V06 §3.20.7) | table | absent from a pinned set: `replay` false (the one-click path) |
-| item 114's `walls.condition` cells and `walls.patchMaterials` rows | compiled (V11 §3.25.3) | rows 95, 96 | table | the generation-time condition re-derives with its enceinte (§7.7's row); an epoch reads the cells in force at it; a hand repair's material is held (V06 §2.8) | table | absent: `atGeneration` false and the neutral values of V06 §3.7.7 (4) (the rules before item 114); a run's absent material reads robust |
+| item 114's `walls.condition` cells and `walls.patchMaterials` rows | compiled (V11 §3.25.3) | rows 95, 96 | table | the generation-time condition is laid with its enceinte at generation (§7.7's DR41) and carried through every re-derivation by its knot profile (§2.2 rule 5; §7.4's wearWall / repairWall row), so a cell edit reaches a new generation and the epochs that read the cells in force; a hand repair's material is held (V06 §2.8) | table | absent: `atGeneration` false and the neutral values of V06 §3.7.7 (4) (the rules before item 114); a run's absent material reads robust |
 | item 115's `grandeur.ceiling` rows and their `settings` row (`grandClasses`) | compiled (V11 §3.25.4) | row 97 | table | S10b's class mix and S11's designs re-derive at the rungs whose row changed; a `grandClasses` edit reaches the port's "specified" test at its next digest (V08 §3.16 (3)); standing buildings kept (item 115 (c), (e); V06 §3.8.5) | table | absent: no ceiling (every rung reads TOWN's row), the base's behaviour; the `settings` row ships with the table, so no pinned set holds the rows without it |
 | item 117's season cells and tables | compiled (V11 §3.25.6) | rows 43, 98–101 | table | a look only: an edit re-skins cached tiles (§12.5), never the model or its hash | table | absent: no season rows (the base's four override rows of §8.2 by the named season) |
 | item 118's festival tables | compiled (V11 §3.25.7) | rows 102–105 | table | a look only: an edit re-draws the decorations shown, never the model or its hash | table | absent: no decorations |
 | item 119's `perf.qualitySpend` rows | a row lands with its measured gain (V11 §3.25.8) | row 106 | table | a row admits its stage's quality path from the next generation; its output shift is the row's declared shift | table | absent: every stage at its target path |
+| item 122's `crisis.looks` (with its `settings` row) and `crisis.map` rows | compiled (V11 §3.25.9); the `map` rows' words from V08's census at the pinned baseline (C4b) | rows 107, 108 | table | a look only: an edit redraws the looks standing in the view, never the model, a digest or the hash (§10.2 *Crisis looks* (a)) | table | absent: no look drawn; absent `map` rows: every condition reads `none` (§10.2 (b)) |
+| item 123's `damage.elements` (with its `settings` row) and `damage.materials` rows | compiled (V11 §3.25.10) | rows 109, 110 | table | a drawing only: a range edit moves each element's threshold with it (its draw u fixed, §6.3), a rate or default-age edit each level (V06 §3.23); no plan, id, digest or hash moves | table | absent `damage.elements`: no element has a range, so none draws damaged; absent rates and age: V06 §3.23 (4)'s 0 (each level its state's floor) |
+| item 124's weather cells (the climate rows' `weather`, the `settings` row's `weather` block) | compiled (V11 §3.25.11) | row 43 | table | a look only: an edit takes effect from the next spell (§6.1 *The weather stream*), never a tile, the model or the hash | table | absent: no weather entries — no spell comes |
 | derived family rows | `resolveSiting(view)` at load (V11 §3.3.4) | S10b, explain | never (derived, memoised by the view hash) | re-derived on any change of a source row | follows its sources | n/a |
 | document overrides of any of these tables | an `editTable` / `editPreset` event (§7.1) | the loader's override chain | the log | replayed | §7.4's `editTable` row | orphaned by §7.6 when the base row changed |
 
@@ -891,7 +931,7 @@ name, rows 3 and 50 through `S5`.
 | 10 | `workLimits` | `workLimits.json` | work-limit coefficients | §5.1 (5) | every stage | row | written |
 | 11 | `market.siting` | `market.json` | market-siting weights | §4.2 S3 (12) | S3, S7b | weights | written |
 | 12 | `cut` | `cut.json` | `cut.bendMode`, `cut.flattenM`, reach weights | §4.6 | S8 | row | written |
-| 13 | `walls` | `walls.json` | `castle.minInnerM`, `wall.smoothPasses`, gates' waterfront share, spacing | §4.2, §4.4, §4.8 | S3, S5a, S7 | row | written |
+| 13 | `walls` | `walls.json` | `castle.minInnerM`, `wall.smoothPasses`, gates' waterfront share, spacing, `moat.waterReachM`, `moat.maxFallCm` (§4.2 S3 (10)) | §4.2, §4.4, §4.8 | S3, S5a, S7 | row | written |
 | 14 | `walls.barriers` | `walls/barriers.json` | `WallBarrierRow` | V11 §3.16.1 | S3 (9), S5a, S7 (§4.8's graded furniture), VS3 (the palisade's barrier arcs, V07 §3.4 step 5), SKY (an island's rim closing as a cliff, V05 §3.21), EVO_GROWTH and EVO_FORT (a new circuit and a ring's contraction under barrier closure, V06 §3.7) | row | written here |
 | 15 | `walls.waterfront` | `walls/waterfront.json` | `WaterfrontThreatRow` | V11 §3.16.2 | S3, S10 (the mole-head slot's fort claimant, V11 §3.24.4), EVO_FORT (the waterfront grade and the harbour-mouth chain at an epoch, V06 §3.2 row 9); port.digest (DR2, §7.7) | match | written here |
 | 16 | `district.growth` | `districts.json` | `district.growthRate` | §4.5 | S6 | row | written |
@@ -902,7 +942,7 @@ name, rows 3 and 50 through `S5`.
 | 21 | `roster.government` | `roster/government.json` | `GovernmentRow` | V11 §3.21.1 | S2, S12c (§4.5's dials) | row | written here |
 | 22 | `roster.religions` | `roster/religions.json` | `ReligionRow` | V11 §3.21.2 | S2, S12c (§4.5's dials) | row | written here |
 | 23 | `roster.households` | `roster/households.json` | `HouseholdRow` | V11 §3.21.2 | S2; derivePerson (§10.3, on demand) | row | written here |
-| 24 | `roster.settings` | `roster/settings.json` | one row: `rosterMode`, the unemployment threshold, the propagation depth, `placement.extensionWeight`, `detourFactor`, `crypt.rankShare`, `coverage.rosterWeight` | V11 §3.5.1 | S2, S10b, S11 (§2.6's basement function with V03 §3.7.4's crypt rank pass after it), EVO_USES and EVO_MUTATION (the epoch ops that re-run the rank in their batch, V06 §3.18.3 (1)–(2)) | row | written here |
+| 24 | `roster.settings` | `roster/settings.json` | `RosterSettings` (§10.2; its one row `settings`, cells V11 §3.5.1) | V11 §3.5.1 | S2, S10b, S11 (§2.6's basement function with V03 §3.7.4's crypt rank pass after it), EVO_USES and EVO_MUTATION (the epoch ops that re-run the rank in their batch, V06 §3.18.3 (1)–(2)) | row | written here |
 | 25 | `roster.basementGate` | `roster/basementGate.json` | `BasementGateRow` | §10.2 | S11 (§2.6's basement function) | row | written |
 | 26 | `roster.covers` | `roster/covers.json` | `CoverRow` | V11 §3.14 | S10b (§4.7's concealed institutions) | row | written here |
 | 27 | `roster.classMix`, `roster.clusters`, `roster.tenure` | `roster/*.json` | `ClassMixRow`, `ClusterRow`, `TenureRow` | §10.2 | S10b, S11 | weights, row | written |
@@ -921,7 +961,7 @@ name, rows 3 and 50 through `S5`.
 | 40 | `mutator.compat` | `mutator/compat.json` | `CompatibilityRow` | V11 §3.6.3 | S11 (its designation mutator, which every designation change an epoch makes runs) | row | written here |
 | 41 | `farm` | `farm.json` | `FarmTable`, `FarmModeRow` | §4.9 | S2, S12a | row | written |
 | 42 | `greenery` | `greenery.json` | the greenery rule rows (the oasis grove's row, item 111) | §4.9 | S12b | row, bracket | written |
-| 43 | `climate` | `climate.json` | `ClimateRow` (with `rainMmPerYear`, the dry-country cells of item 111 and the season cells of item 117) | V11 §3.17; `dry` V11 §3.25.1; `seasons` V11 §3.25.6 | S0 (the arid water chances, P(oasis)), S1 (the oasis site and area band, the well-yield raster), S3 (S3 (6)'s water pull), S6 (the prosperity water term and the sun cell; the aqueduct's water balance, V11 §3.24.6), S10b (the wells' yield term and coverage factor), S11 (roof), S12a (§4.9's field system; the oasis gardens), S12b (§4.9's species; the oasis grove), EVO_FIELD (a failing spring's pull, V06 §3.12.1), EVO_RAISED (the water balance), VS1, VS2, VS5, VS8 (V07's village readings of item 111, V07 W75); the renderer (§8.2's season rows, item 117); modules: `@plat/app` (V09's season control), the clerk (V10) | row | written here |
+| 43 | `climate` | `climate.json` | `ClimateRow` (with `farmLayout`, `rainMmPerYear`, the dry-country cells of item 111, the season cells of item 117 and the weather cells of item 124) and its named row `settings` (`ClimateSettings`: `aridMin`, item 124's weather block) | V11 §3.17; `dry` and `aridMin` V11 §3.25.1; `seasons` V11 §3.25.6; `weather` and the weather block V11 §3.25.11 | S0 (the arid water chances, P(oasis)), S1 (the oasis site and area band, the well-yield raster), S2 (the farm mode, which §4.9 reads with `farmLayout` before S2 demands the farm plots), S3 (S3 (6)'s water pull), S6 (the prosperity water term and the sun cell; the aqueduct's water balance, V11 §3.24.6), S10b (the wells' yield term and coverage factor), S11 (roof), S12a (§4.9's field system and farm modes — the climate override `farmLayout`; the oasis gardens), S12b (§4.9's species; the oasis grove), EVO_FIELD (a failing spring's pull, V06 §3.12.1), EVO_RAISED (the water balance), VS1, VS2, VS5, VS8 (V07's village readings of item 111, V07 W75); the renderer (§8.2's season rows, item 117; the weather effects — §6.1's weather stream, §8.2's effect marks and §8.4 (i)'s light terms, item 124); modules: `@plat/app` (V09's season control and Start a shower now), the clerk (V10) | row | written here |
 | 44 | `landuse` | `landuse.json` | land-use rows (surface role, crop and livestock options) | V11 §3.17.2 | S12a; the renderer (§8.2) | row | written here |
 | 45 | `hidden` | `hidden.json` | hidden-share rows | §4.6 | S10 | row | written |
 | 46 | `decline` | `decline.json` | `DeclineTable` | §4.11; material durability rows V11 §3.18 | EVO_DECLINE (the strike pool, its persistence rows and V11 §3.18's retaining cells, V06 §3.5.2, V06 §3.19.4), EVO_RAISED (the disuse cells, V06 §3.19.2), EVO_WORKS (the `decay` Works and dwell bands, V06 §3.13); the compiler (`salvageM3`) | row, weights | written |
@@ -937,7 +977,7 @@ name, rows 3 and 50 through `S5`.
 | 56 | `islands` | `islands.json` | `IslandRule` and V05's rows (its `accessSiting.deckGapM`, `lineClearM` and `accessCount.handMax` are V05's own cells) | II.6, V05 | S7b (5), SKY (V05's stage, and its epoch participants `sky.islands` and `sky.clearance`, V05 §3.15) | row | written (V05) |
 | 57 | `sewer.existence`, `under.rule`, `under.tunnel` | `under/*.json` | `SewerExistenceRow`, `UndergroundRule`, `TunnelProfileRow` | II.7.1–II.7.4 | S0 (II.7.1's draw), U-NET, U-FRONT, U-LINK (as V04 §3.1 runs them), EVO_PRELUDE (the feature set re-resolved at an epoch's rung, V06 §3.2), U-FADE (`under.extend`'s sewer derivation and extension, V04 §1.1) | row | written |
 | 58 | `under.network`, `under.layout`, `under.fade` | `under/network.json` … | V04's rows | V04 | U-NET, U-SYS, U-ACCESS, U-FRONT, U-CITY, U-LINK (V04 §3.1), S7b (U-FORECAST, V04's predictor called at S7b), U-FADE | row | written (V04) |
-| 58a | `under.ruin`, `under.openings`, `under.dig`, `under.catacomb` | `under/ruin.json`, `under/openings.json`, `under/dig.json`, `under/catacomb.json` | `RuinRule` (with `CultureRow`), `OpeningRow`, `DigRule`, `CatacombRule` — schemas V04 §2.3, `CatacombRule.order` V04 §2.3 | V11 §3.23 | U-SYS, U-ACCESS (T2b), U-FRONT (F6), U-CITY (V04 §3.1; at every rung, V07 §3.16's village subset included), S7b (U-FORECAST), U-FADE (V04's epoch participants, V06 §3.18; V07 §3.12 at village rungs), EVO_UNDER (excavation by demand, V06 §3.18.1); the bench (V12's bars) | row | written here |
+| 58a | `under.ruin`, `under.openings`, `under.dig`, `under.catacomb` | `under/ruin.json`, `under/openings.json`, `under/dig.json`, `under/catacomb.json` | `RuinRule` (with `CultureRow`), `UnderOpeningRow`, `DigRule`, `CatacombRule` — schemas V04 §2.3, `CatacombRule.order` V04 §2.3 | V11 §3.23 | U-SYS, U-ACCESS (T2b), U-FRONT (F6), U-CITY (V04 §3.1; at every rung, V07 §3.16's village subset included), S7b (U-FORECAST), U-FADE (V04's epoch participants, V06 §3.18; V07 §3.12 at village rungs), EVO_UNDER (excavation by demand, V06 §3.18.1); the bench (V12's bars) | row | written here |
 | 59 | `undercity`, `under.systems`, `under.links` | `under/*.json` | `UndercityRule`, `UndergroundSystemRow` (the cavern row's `miningCellShare`, V11 §3.23.1), `LinkRule` | II.7.5, II.7.6 | U-SYS, U-ACCESS, U-CITY, U-LINK (as V04 §3.1 runs them), S7b (U-FORECAST), U-FADE | row | written |
 | 60 | `evolution` | `evolution.json` | V06's rows (V06 §3.9.9's clientele defaults among them) | V06 | every epoch phase — EVO_PRELUDE, EVO_HAZARD, EVO_FIELD, EVO_USES, EVO_DEPARTURES, EVO_DECLINE, EVO_FORT, EVO_TERRAIN, EVO_LADDER, EVO_MUTATION, EVO_SITING, EVO_GROWTH, EVO_WORKS, EVO_UNDER, EVO_RAISED (V06 §3.16; V06 §2.12's `EvolutionTable`) | row | written (V06) |
 | 61 | `village` | `village.json` | V07's village rung rows | V07 | S0, S1, S2, VS1–VS6, VS8, S10, S10b (`rules.race`, V07 W68), S11, S12a, S12b (V07 W3, W58, V07 §2.2a's per-sub-record stages; `village.plan` and `village.density` re-run VS1's and VS2's steps; `village.pins` re-runs VS8's rows at a village epoch under `VS8`; `village.records` places a record's market, claim or pin under `S10b`); EVO_SITING (the siting step (m), V07 §3.12), EVO_DECLINE (`epoch.rows`' persistence, street and hinterland rows, V06 §3.5.2–V06 §3.5.3), EVO_USES (`rules.claimArea`, V06 §3.9.6), EVO_GROWTH (the village's own phase, V07 §3.12, file f item 317) | row | written (V07) |
@@ -959,8 +999,8 @@ name, rows 3 and 50 through `S5`.
 | 77 | `dossier.catalogue` (a manifest, not a rule table) | `src/dossier/catalogue.<line>.json` | V08 §2.4's manifest shape — each catalogue kind's entry and `ladderPairs`, the ladder file's pairs as data (V08 §3.5.1 (f)); cited, never restated | V08's build step | the compiler's `coversManifest` rule and the ladder cross-check (T-V11-2) | — | committed by V08 |
 | 78 | `terrace` | `item110/terrace.json` | `TerraceRow` | V11 §3.24.1 | S10, S11 (the levelling — at village rungs through V07's reference cells, and at every epoch that levels, V06 §3.19.4 (1)), S7c (V01's stepped fabric, `terraceState`); modules: V09's T2 terrace sugar, T3 retaining mode and flat-ground bends (V09 §4.20.1 (3)), the bench (V12) | row | written here |
 | 79 | `retaining` | `item110/retaining.json` | `RetainingProfileRow` and its named row `settings` (`RetainingSettings`) | V11 §3.24.1; `settings.stateSnapCm` §2.7 by file f item 245 | S10, S11 (the levelling: material, batter, buttresses, towers — also at every epoch that levels or restores a stretch, V06 §3.19.4 (1), (6); `stateSnapCm` wherever a re-derivation carries a generated wall's state knots); `materials`' structure key refers to it; modules: V09's tools, the bench (V12) | row | written here |
-| 80 | `raisedWays` (rows, `settings`, `structure`) | `item110/raisedWays.json` | `RaisedWayRow`, `RaisedWaySettings`, `RaisedWayStructure` (with `span`, `slideMaxFactor` and `maxClearSpanM`) | V11 §3.24.2 (the `span` values, `slideMaxFactor` and `maxClearSpanM`; the rules file f item 244's, §2.7) | S4, S6 (the base's raised-way generator), `S8` and `S8.seed` (V01's seeds, fans and bent-cut lanes crossing under an arch read `structure.clearanceCm`, V01 §3.17.3 (3)), S5b (the main-road step at stages k ≥ 2 and every epoch stage, through S4's router, which prices viaduct spans; §4.4; file f item 290), EVO_RAISED (V06 §3.19's epoch pass), U-SYS and U-FADE (V04's arch vaults and their reconcile; `foundationObstacles`' `span.supportFoundationCm`, V04 §3.5.0), U-CITY, U-ACCESS and U-LINK (`foundationObstacles` read by U-CITY's carve and U-DIG's cost), SKY (V05's caster ceiling, with its `sky.clearance` participant); modules: V09's T4, the clerk (V10), the bench (V12) | row | written here |
-| 81 | `ways.crossing` | `item110/crossing.json` | `WayCrossingRow` | V11 §3.24.5 | S4, S5, S9, `S8` and `S8.seed` (V01's lanes and seeds, V01 §3.17.1 (5)) where a way crosses a retaining wall; S4, S5b, S6 and EVO_RAISED (the raised ways' ends); S13a and S14 (`rampMaxGrade`, the stair-stepped way's threshold: its naming context and its step ticks, V01 §3.6 (3)); module: V09's ghosts | row | written here |
+| 80 | `raisedWays` (rows, `settings`, `structure`) | `item110/raisedWays.json` | `RaisedWayRow`, `RaisedWaySettings`, `RaisedWayStructure` (with `span`, `slideMaxFactor`, `maxClearSpanM` and `stripMarginM`) | V11 §3.24.2 (the `span` values, `slideMaxFactor`, `maxClearSpanM` and `stripMarginM`; the rules file f item 244's, §2.7, and §4.6 S8's strip) | S4, S6 (the base's raised-way generator), `S8` and `S8.seed` (V01's seeds, fans and bent-cut lanes crossing under an arch read `structure.clearanceCm`, V01 §3.17.3 (3); S8 cuts the under-deck strip at `structure.stripMarginM`, §4.6, V01 §3.17.3 (2)), S5b (the main-road step at stages k ≥ 2 and every epoch stage, through S4's router, which prices viaduct spans; §4.4; file f item 290), EVO_RAISED (V06 §3.19's epoch pass and its strip clearance), U-SYS and U-FADE (V04's arch vaults and their reconcile; `foundationObstacles`' `span.supportFoundationCm`, V04 §3.5.0), U-CITY, U-ACCESS and U-LINK (`foundationObstacles` read by U-CITY's carve and U-DIG's cost), SKY (V05's caster ceiling, with its `sky.clearance` participant); modules: V09's T4, the clerk (V10), the bench (V12) | row | written here |
+| 81 | `ways.crossing` | `item110/crossing.json` | `WayCrossingRow` | V11 §3.24.5 | S4, S5, S9, `S8` and `S8.seed` (V01's lanes and seeds, V01 §3.17.1 (5)) where a way crosses a retaining wall; S4, S5b, S6 and EVO_RAISED (the raised ways' ends); S3 (5), S4, S5b and S5c (the class grade limit on routed edges, §4.3 *Lattice and costs*), §7.3 (a) 5 (the steepness report); S13a and S14 (`rampMaxGrade`, the stair-stepped way's threshold: its naming context and its step ticks, V01 §3.6 (3)); module: V09's ghosts | row | written here |
 | 82 | `deck` | `item110/deck.json` | `DeckRow` | V11 §3.24.4 | S10 (the base's deck-plot cutter, at village rungs too), S11 (V02 M10/M11's deck budget and storey bend), EVO_SITING (deck faces offered at regrowth tier (5), V06 §3.19.5 (1)), EVO_DECLINE (the pool's `deck` candidates, V06 §3.5.2), EVO_RAISED (a deck's repair, V06 §3.19.5); modules: V09's tools, the bench (V12) | row | written here |
 | 83 | `deck.landmarks` | `item110/landmarks.json` | `DeckLandmarkRow` | V11 §3.24.4 | S10 (the cutter's slot draws), S11 (V02's landmark composition); modules: V09's T6 slots, the fixtures | row | written here |
 | 84 | `roster.specialisations` | `roster/specialisations.json` | `CultureSpecialisationRow` | V11 §3.24.3 | S11 (the draw, file f item 259, and V02's resolution chain; at village rungs V07 §2.4's cap); modules: the plan rung (V03's rows), port.digest (V08's DR15 trace), the clerk (V10), the bench (V12) | row | written here |
@@ -970,24 +1010,28 @@ name, rows 3 and 50 through `S5`.
 | 88 | `clerk.ops` | `clerk/ops.json` | `ClerkOps` | V10 §2.10 | module: the clerk (`@plat/clerk`: the backend, the request builder, the meter, the caps, the store) | row | written (V10; owner V10, `parity: 'untouched'`, `packPatchable: false`; its layers the shipped rows and the device's preference layer only — a document's, a skeleton's or a host's `editTable` on it refused as V10 §2.10 states) |
 | 89 | `clerk.content` | `clerk/content.json` | `ClerkContent` | V10 §2.10 (its default lexicon rows V10 §3.3's table) | module: the clerk (the encoders, the resolver, the brief renderer, the critique engine, the grounding check, the system prompt) | row | written (V10; owner V10, `parity: 'untouched'`, `packPatchable: false` — its layers the shipped rows, the device's preference layer, the document's override layer and a host's rows, V10 §2.10; §11.4 door 3) |
 | 90 | `way.surface` | `way/surface.json` | `SurfaceRow` (V01 §2.2: `wayClass`, `era?`, `band`, `surface`; key `wayClass/band/era`, an absent `era` an empty component) | V01 §3.7.3 (file f item 207) | S10a (the way-surface rule at S10a's end, after field pass 2); S6 (an epoch's field step re-bands, and the ways whose fronting band crossed the hysteresis take their surface again, V01 §3.7.3, V01 §4.5); EVO_DECLINE (the landfall's re-laid surface, V06 §3.5.2) | row | written (V01; `owner` `'V01'`, `parity: 'zeroExtensions'` — no `extension` cell, so every preset reads its rows; `packPatchable: true`; its one value column an enumeration, `calibratable: false`) |
-| 91 | `squares.quota` | `squares/quota.json` | `SquareQuotaRow` (V01 §2.2: `band`, `haPer1000`, the `kind` factors; key `band`) | V01 §3.5.2 (the default rows) — the base table §4.5 S7b (3) and §4.7 S9 read (file f item 301) | S7b (S7b (3)'s square claims larger than a block, from M2b); S2 (the land estimate's sub-block square share, V01 §3.5.9, from M5); S9b (the sub-block remainder, V01 §3.5.2, from M5) | row | written (V01's rows; `owner` `'base'`, `parity: 'perPreset'` — its `MFCG` and `FTG` entries where they differ, V01 §2.2, no `NG` entry, `NG` reading it as `MFCG` does; `packPatchable: true`; `haPer1000` and the kind factors calibratable, their register entries written at V01's M2b exit by V12 §3.11's default line, V01 §8.1) |
+| 91 | `squares.quota` | `squares/quota.json` | `SquareQuotaRow` (§10.2; key `band`) | V01 §3.5.2 (the default rows) — the base table §4.5 S7b (3) and §4.7 S9 read (file f item 301) | S7b (S7b (3)'s square claims larger than a block, from M2b); S2 (the land estimate's sub-block square share, V01 §3.5.9, from M5); S9b (the sub-block remainder, V01 §3.5.2, from M5) | row | written (V01's rows; `owner` `'base'`, `parity: 'perPreset'` — its `MFCG` and `FTG` entries where they differ, V01 §2.2, no `NG` entry, `NG` reading it as `MFCG` does; `packPatchable: true`; `haPer1000` and the kind factors calibratable, their register entries written at V01's M2b exit by V12 §3.11's default line, V01 §8.1) |
 | 92 | `base.settings` | `base/settings.json` | one row `settings`: `reroll.maxAdvance` (integer, 3), `crossing.searchBandM` (m, 120), `index.gridCellM` (m by level: L0–L1 25, L2 10, L3–L4 5), `view.zoomOutMarginStops` (integer, 1; item 116 (a)) — the base's values, provenance `architecture 2026-09-28` (`view.zoomOutMarginStops` `owner`, item 116), `calibratable: false`, note `fixed: a base engineering constant` | here (J-V11.106; the base cites the cells by name and states no value) | S1 (§4.2 S1 (5)'s crossing sites), every stage through §3.3's dynamic grid, §5.1 (6)'s New random (the edit parser and the stage it re-derives), §6.3's anchor table (the reconciler); the renderer (§8.8's zoom-out limit on the pyramid, §9.5's framing, §11's export frames); modules: `@plat/app` (V09's view controls), V07 §5.2's township view | row | written here (`owner` `'base'`, `parity: 'untouched'`, `packPatchable: false`) |
 | 93 | `history` | `history/settings.json` | `HistorySettings` (one row `settings`) | V11 §3.25.2 | V06's replay at generation (V06 §3.20: its plan, epochs and refounding, run by the epoch runner's phases under their own ids — EVO_PRELUDE for the plan, EVO_SITING and S4's router for `existingFabricCost` at `reuseCost`, EVO_TERRAIN for burial), U-SYS (V04's `BuriedFormer.lay` depth factor, V04 §3.5.5 (b)), VS1 (V07's refounded village's lattice pricing, V07 §3.12a); modules: port.digest (DR36's symbolic peak sizing), the clerk (V10), the bench (V12) | row | written here |
 | 94 | `history.events` | `history/events.json` | `HistoryEventRow` (V06 §2.14) | V11 §3.25.2 | EVO_PRELUDE (V06 §3.20.2's event-to-epoch mapping, which feeds each replay epoch's inputs); modules: the clerk (V10's story), the bench | row | written here |
-| 95 | `walls.condition` | `walls/condition.json` | `WallConditionSettings` (one row `settings`) | V11 §3.25.3 | EVO_FORT (V06 §3.7.7's drivers, decay and repair), S3 and S7 (§7.7's generation-time condition row, item 114 (d), applied where the enceinte and its stretches are laid), VS3 (V07's palisade, V07 §3.4 (8)); modules: the clerk (V10), the bench | row | written here |
+| 95 | `walls.condition` | `walls/condition.json` | `WallConditionSettings` (one row `settings`) | V11 §3.25.3 | EVO_FORT (V06 §3.7.7's drivers, decay and repair), S3 and S7 (§7.7's DR41, item 114 (d), applied where the enceinte and its stretches are laid), VS3 (V07's palisade, V07 §3.4 (8)); modules: the clerk (V10), the bench | row | written here |
 | 96 | `walls.patchMaterials` | `walls/patches.json` | `PatchMaterialRow` | V11 §3.25.3 | EVO_FORT (a patch's material draw), S7 (the generation-time patched runs' material), VS3 (the palisade's patches); the renderer (§8.2's patch line style by `look`); modules: `@plat/app` (V09's Material chip by `label`), the clerk (V10), exports (§11.1's condition and material) | row | written here |
 | 97 | `grandeur.ceiling` | `buildings/ceiling.json` | `GrandeurCeilingRow` and its named row `settings` (`GrandeurCeilingSettings`) | V11 §3.25.4 (the table's shape §10.2 as item 115 homes it) | S2 (the manor count at the territory rungs, V07 §3.8), S10b (the rung ceiling on the class mix, §4.7 S10b; V07 §3.8's village class mix), S11 (V02's composition chain caps a dwelling's family), EVO_SITING, EVO_GROWTH and EVO_MUTATION (V06 §3.8.5's designs at the epoch's rung); modules: `@plat/app` (V09 §4.21.5's shell check), port.digest (V08 §3.16 (3)'s "specified" test reads `grandClasses`), the clerk (V10), the bench | row | written here |
 | 98 | `season.surfaces` | `season/surfaces.json` | `SeasonSurfaceRow` | V11 §3.25.6 | the renderer (§8.2's season rows over fields, gardens, orchards, meadows, commons, greens, hedges, vines and deciduous crowns); exports (§11); modules: the clerk (V10) | row | written here |
 | 99 | `season.water` | `season/water.json` | `SeasonWaterRow` | V11 §3.25.6 | the renderer (§8.2's `ice` role by water kind); exports (§11.1's battle-map ice rule) | row | written here |
-| 100 | `season.leaf` | `season/leaf.json` | `LeafPaletteRow` | V11 §3.25.6 | the renderer (§8.2's per-crown autumn colour by a keyed draw on `render.instances`) | row | written here |
+| 100 | `season.leaf` | `season/leaf.json` | `LeafPaletteRow` | V11 §3.25.6 | the renderer (§8.2's per-crown autumn colour by a keyed draw on `render.instances`; the colours of item 124's `leaves` effect marks) | row | written here |
 | 101 | `season.cover` | `season/cover.json` | `LeafCoverRow` | V11 §3.25.6 | the renderer (§8.2's fallen-leaf cover rows) | row | written here |
 | 102 | `festival.decorations` | `festival/decorations.json` | `DecorationRow` | V11 §3.25.7 | the renderer (§8.2's decoration rows by tier and band); exports (§11, the image only); modules: the clerk (V10), `@plat/app` (V09's festival list) | row | written here |
 | 103 | `festival.staging` | `festival/staging.json` | `StagingKeywordRow` and the named row `fallback` | V11 §3.25.7 | port.digest (V08's adapter reduces the staging prose to these keys, J-V8.124); the renderer (§8.2's placement at the keyed place, else the fallback) | match | written here |
 | 104 | `festival.motifs` | `festival/motifs.json` | `MotifRow` | V11 §3.25.7 | the renderer (§8.2's decoration colours and motifs) | row | written here |
 | 105 | `festival.generic` | `festival/generic.json` | `GenericFestivalRow` | V11 §3.25.7 | modules: `@plat/app` (V09's preview list, standalone); the renderer | row | written here |
 | 106 | `perf.qualitySpend` | `perf/qualitySpend.json` | `QualitySpendRow` | V11 §3.25.8 | the stage each row names (its StageId, written into this row's readers by the change that lands the row, as J-V11.85 does for a participant); modules: testkit.bench (§12's budget accounting, V12's bars) | row | staged (shipped empty; a row lands with its measured gain) |
+| 107 | `crisis.looks` | `crisis/looks.json` | `CrisisLookRow` and its named row `settings` (`CrisisLookSettings`) — §10.2's shapes | V11 §3.25.9 | the renderer (§7.7's DR44, §8.2's crisis look rows, §8.8's massed ring marks, and §10.2's placement over V01's `campLand` and `disasterDistricts` and V06's `frontierFor`); exports (§11: pictures, and a battle map's image only); modules: `@plat/app` (V09's Show crises preview list and Find's list of looks by `label`, §2.9's framing, the panel's headcount line), the clerk (V10), the bench (V12) | row | written here |
+| 108 | `crisis.map` | `crisis/map.json` | `CrisisMapRow` (§10.2; key `from/key`) | V11 §3.25.9 (a dossier row set; the words V08's census at the pinned baseline) | the renderer (§7.7's DR44: each standing overlay's look); port.digest (V08's baseline totality check and its `unmapped_word` notes); the compiler (T-V11-46 (a)'s totality over registry row 77's lists); modules: the clerk (V10) | match | written here |
+| 109 | `damage.elements` | `damage/elements.json` | `DamageElementRow` and its named row `settings` (`DamageSettings`) | V11 §3.25.10 | §6.3's `plan.damage` thresholds wherever a plan is drawn — modules: the plan rung (V03: the damaged plan, its exports and panel lines), the wings rung (V02's ruined exterior), `@plat/under` (V04 §5.6's kinds below ground), `@plat/evolve` (V06 §3.23's default age), the renderer (§8.6, §11.1's battle maps), the clerk (V10), the bench (V12) | row | written here |
+| 110 | `damage.materials` | `damage/materials.json` | `DamageRateRow` | V11 §3.25.10 | modules: `@plat/evolve` (V06 §3.23's `decayLevel`, read by every damage drawer of row 109), the clerk (V10), the bench (V12) | row | written here |
 
-**The count.** One hundred and seven catalogue rows (1–106 and 58a; some rows group several ids that share a file),
+**The count.** One hundred and eleven catalogue rows (1–110 and 58a; some rows group several ids that share a file),
 counted by `REGISTRY`'s size wherever a count is read; the catalogue is closed: a table any document names
 and this list lacks is a registry defect the build refuses (T-V11-1). **Never calibrated** (`ColumnSpec.calibratable:
 false` on every column; V12's register holds no entry for them): rows 63–66 and 77 (the `dossier.*` row sets, V04's two
@@ -1002,21 +1046,22 @@ ordinary table versions, V11 §3.2.5, each a `minor` or `patch` bump with its ca
 constants); row 97 (the grandeur ceiling — the owner's rule at THORP, HAMLET and VILLAGE, the base's behaviour above and
 the `grandClasses` list: enumerations, V11 §3.25.4); rows 102–105 (a look's enumerations and calendar mappings, not
 measured quantities: items, places, counts, motifs and windows, V11 §3.25.7); row 106 (measured costs, each row its own
-evidence). Every other row of items 111–119 is calibratable, its register entry V12
-§3.11's.
+evidence); row 108 (`crisis.map`: SettlementForge's words onto our looks, a dossier row set, V11 §3.25.9). Every other
+row of items 111–119 and 122–124 is calibratable but for its enumeration columns (V11 §3.25.9, V11 §3.25.10), its register
+entry V12 §3.11's.
 
 **Display cells** (file f item 516; J-V11.93). Every table the UI shows rows of carries a `label` cell and an `icon?` cell
 (V11 §2.3's meaning), `own` and `calibratable: false`, and the class rows also `synonyms` and `commonness`; T-V11-4
 refuses a row of these tables without its `label`. Where the words are written: the town-and-city classes and V05's sky
 classes, V11 §3.5.15; the `v.` classes, V07 §2.4; the generic classes, the compiler from their family (V11 §3.13.3); the
 profile families (row 33), V11 §3.4's *Display words*, with their `findGroup` (Find's groups, V11 §2.3); the goods (row 19), V11 §3.7.1; the district kinds (row 18),
-V11 §3.9; the patch materials (row 96), V11 §3.25.3; the style sheets (row 52), here — `ink` "ink", `lit` "lit",
+V11 §3.9; the patch materials (row 96), V11 §3.25.3; the crisis looks (row 107), V11 §3.25.9; the style sheets (row 52), here — `ink` "ink", `lit` "lit",
 `hatched` "hatched", `parchment` "parchment" (a shipping ink-family variant), `bw-print` "black and white",
 `night` "night", and the owner's third preset `house` "house" (D-1), each written into its sheet's head row by the seat
 that ships the sheet (§8.2; §16's M1, M2b, M3b and M5); the random style and a user's saved sheets (V09 §4.5's T12 row)
 are no shipped rows and take their words from V09. Icons: only the profile families' rows state one (`fam.<family key>`,
 45 glyphs in V09 §5.1's sprite, written with the glyphs), and the class rows compile theirs from their family; the goods,
-district kinds, patch materials and style sheets ship none, so their cards show the label alone (V09 §2.3's `iconCell` is
+district kinds, patch materials, crisis looks and style sheets ship none, so their cards show the label alone (V09 §2.3's `iconCell` is
 optional; a style card shows its rendered thumbnail, V09 §5.7), and a pack may state one.
 
 ### 3.2 The compiler, the loader and their failure handling
@@ -1457,16 +1502,16 @@ reference has them, marked *ext* otherwise — and every class also receives its
 
 | class | family | use | template | dist · σ | roster | profile deltas | bal · or · split | powers · sectors | authored rows |
 |---|---|---|---|---|---|---|---|---|---|
-| `bakery` | `food` | bread oven and shop | shopfront | disp · 0.6 | 1/700, ≥1 | V walk : 400 m | everyday · mkt | guild · crafts | supply `flour` 600 m street hard (§10.2's example) |
+| `bakery` | `food` | bread oven and shop | shopfront | disp · 0.6 | 1/700, ≥1 | V walk : 400 m | everyday · mkt | guild · crafts | supply `flour` 600 m street hard |
 | `butcher` | `food-works` | meat | shopfront | disp · 0.6 | 1/900, ≥1 | clientele dailyLocal; V walk : 600 m | everyday · mkt · split works-noxious+shopfront (the slaughterhouse and the stall) | guild · crafts | supply `livestock` 2 000 m road, `salt` 3 000 m road |
 | `shambles` | `food-works` | the town's slaughter yard and meat hall | works-noxious | sing · 3 | 1/12 000 @8k | E smell 3, water 3, noise 2; N runningWater (hard) | heavy · src | council · agriculture | `downstream` with `to` `#housing`, beyond 100, soft 1.0 *ext*; `extramural` soft *ext* |
 | `cookshop` | `food` | hot food | shopfront | disp · 0.5 | 1/1 500 @3k | E+ fire 2 | everyday · mkt | — · crafts | supply `meat` 600 m street, `bread` 600 m street |
 | `alehouse` | `lodging` | ale sold from a house | tavern-row | disp · 0.5 | 1/400, ≥1 | E crowds 1, noise 1, disorder 1; band poor; V households : 1 per 100 | everyday | — · trade | supply `beer` 1 200 m street |
 | `tavern` | `lodging` | drink and a room | tavern-row | disp · 1 | 1/900 @1k | E crowds 2, noise 2, disorder 2; K spread 150 | everyday | — · trade | `frontage` through, primary, soft 1.0 *ext* (general: taverns on the through streets); supply `beer` 1 200 m street |
-| `brewery` | `food-works` | brewhouse and taphouse | works-noxious | disp · 1.5 | 1/2 500 @2k | E smoke 2; N+ runningWater | heavy · mkt · split works-noxious+tavern-row (the brewhouse and the taphouse) | guild · crafts | supply `malt` 1 000 m street hard, `nearWater` soft (§10.2's example); underground `allowed` (its cellar workshop, file f item 553) |
-| `maltings` | `food-works` | malt house and kiln | works-noxious | disp · 1 | ×0.4 brewery | E smoke 2, fire 2, water 0 | heavy · src | — · agriculture | supply `grain` 3 000 m road (§10.2's example) |
+| `brewery` | `food-works` | brewhouse and taphouse | works-noxious | disp · 1.5 | 1/2 500 @2k | E smoke 2; N+ runningWater | heavy · mkt · split works-noxious+tavern-row (the brewhouse and the taphouse) | guild · crafts | supply `malt` 1 000 m street hard, `nearWater` soft; underground `allowed` (its cellar workshop, file f item 553) |
+| `maltings` | `food-works` | malt house and kiln | works-noxious | disp · 1 | ×0.4 brewery | E smoke 2, fire 2, water 0 | heavy · src | — · agriculture | supply `grain` 3 000 m road |
 | `granary` | `warehouse` | town grain store | warehouse | disp · 3 | 1/5 000, ≥1 | S+ fire 3, water 2; N+ dryGround (hard) | wholesale · bal | council · agriculture | `nearMarket` 300 soft *ext* |
-| `watermill` | `food` | corn mill on a leat | mill | disp · 2 | 1/1 500, req water | E= noise 2, traffic 2; N runningWater (hard) | heavy · src | lordship · agriculture | `nearWater` hard with a fall (§10.2's example; its outside row §4.9) |
+| `watermill` | `food` | corn mill on a leat | mill | disp · 2 | 1/1 500, req water | E= noise 2, traffic 2; N runningWater (hard) | heavy · src | lordship · agriculture | `nearWater` hard with a fall (its outside row §4.9) |
 | `windmill` | `food` | post mill | mill | disp · 1.5 | 1/1 500 where no watermill site, req farmland | E= noise 1, traffic 1; N highGround (hard) | heavy · src | lordship · agriculture | — (the hard `highGround` need: terrainClass `high`, V07's reading of an exposed site) |
 | `fishmonger` | `food-works` | fish stall and store | shopfront | disp · 0.5 | 1/2 000, req fish | clientele dailyLocal | everyday · mkt | — · fishing | supply `fish` 800 m street, `salt` 3 000 m road |
 | `vintner` | `trade` | wine merchant and cellar | shopfront | disp · 0.8 | 1/4 000 @3k | band prosperous | specialist · mkt | company · trade | underground `allowed` (its cellar, file f item 553) |
@@ -1484,7 +1529,7 @@ reference has them, marked *ext* otherwise — and every class also receives its
 | `metalworks` | `metalwork` | specialised metal shops (a street of them) | workshop-row | disp · 1.5 | 1/10 000 @10k | K cluster (street) | specialist | guild · crafts | — |
 | `smelter` | `industry` | bloomery and smelting yard | works-noxious | disp · 2 | 1/8 000, req ore | E smoke 3, fire 3 | heavy · src | guild · extraction | `extramural` soft *ext*; supply `ore` 5 000 m road, `charcoal` 5 000 m road |
 | `mint` | `finance` | coin striking under guard | hall | sing · 5 | dos, CITY by gov (crown, ecclesiastical) | N+ security (soft 0.8) | institution | council 0.5, lordship 0.5 · finance | `near` → castle, town_hall within 300, soft *ext* |
-| `tannery` | `leatherwork` | tanning pits | works-noxious | disp · 1.5 | 1/3 000, ≥1, req water | — | heavy · src | guild · crafts | `downstream` with `to` `#housing`, beyond 100, soft 1.0 (presets MFCG and FTG: hard, `ref:MFCG noxious-ward siting`), `nearWater` hard, `extramural` soft (§10.2's example as file f item 440 rewrites it); supply `hides` 800 m street, `bark` 2 000 m road |
+| `tannery` | `leatherwork` | tanning pits | works-noxious | disp · 1.5 | 1/3 000, ≥1, req water | — | heavy · src | guild · crafts | `downstream` with `to` `#housing`, beyond 100, soft 1.0 (presets MFCG and FTG: hard, `ref:MFCG noxious-ward siting`), `nearWater` hard, `extramural` soft (file f item 440); supply `hides` 800 m street, `bark` 2 000 m road |
 | `currier` | `leatherwork` | leather dressing | workshop-row | disp · 0.8 | ×0.5 tannery | E smell 1, water 1 | specialist · src | guild · crafts | supply `leather` 400 m street |
 | `cobbler` | `craft` | shoes | workshop-row | disp · 0.5 | 1/600 | — | everyday; V walk : 500 m | guild · crafts | supply `leather` 1 500 m street |
 | `saddler` | `craft` | saddles and harness | workshop-row | disp · 0.8 | 1/3 000 @2k | N+ gate | specialist · mkt | guild · crafts | supply `leather` 1 500 m street |
@@ -1521,11 +1566,11 @@ reference has them, marked *ext* otherwise — and every class also receives its
 | class | family | use | template | dist · σ | roster | profile deltas | bal · or · split | powers · sectors | authored rows |
 |---|---|---|---|---|---|---|---|---|---|
 | `market` | `market` | a market square (the reservation; no building) | — (S3 (12), S7b (3)) | sing · 5 (principal), 2 (secondary) | ≥1; @10k 1/12 000; TOWN `secondaryChance` 0.15 (§4.2 S2) | — | wholesale | council · trade | the base's market siting (§4.2 S3 (12)) |
-| `market_hall` | `market` | covered market | market-hall | sing · 5 | one per market of rank principal @8k; secondaries @20k | — | wholesale | council · trade | `nearMarket` 60 hard (§10.2's example) |
+| `market_hall` | `market` | covered market | market-hall | sing · 5 | one per market of rank principal @8k; secondaries @20k | — | wholesale | council · trade | `nearMarket` 60 hard |
 | `cloth_hall` | `market` | cloth market hall | market-hall | sing · 4 | 1/15 000 @8k where textile classes ≥ 10 | — | wholesale | guild 0.5, company 0.5 · trade | `nearMarket` 150 soft *ext* |
 | `shop` | `trade` | general retail | shopfront | disp · 0.5 | 1/500 | V walk : 400 m | everyday · mkt | — · trade | — |
 | `merchant_house` | `trade` | counting house and store | dwelling-compound | disp · 2 | 1/1 500 @2k | band prosperous; N+ harbour or gate | wholesale · bal | company · trade | `frontage` through, primary soft *ext* |
-| `warehouse` | `warehouse` | goods store | warehouse | disp · 1 | 1/2 000 | — | wholesale · bal | company · trade | `nearHarbour` 150 hard, supply `import` by sea (§10.2's example) — at a port; else `nearGate` 200 soft *ext* |
+| `warehouse` | `warehouse` | goods store | warehouse | disp · 1 | 1/2 000 | — | wholesale · bal | company · trade | `nearHarbour` 150 hard, supply `import` by sea — at a port; else `nearGate` 200 soft *ext* |
 | `moneylender` | `finance` | loans | shopfront | disp · 1 | 1/4 000 @3k | band modest | specialist | company · finance | — |
 | `bank` | `finance` | banking house | hall | disp · 4 | 1/20 000 @10k | — | specialist | company · finance | `nearMarket` 300 soft *ext* |
 | `money_changer` | `finance` | exchange table | shopfront | disp · 1 | 1/6 000 @5k | clientele travellers | specialist | company · finance | `nearGate` 200 or `nearHarbour` 200 soft *ext* |
@@ -1536,7 +1581,7 @@ reference has them, marked *ext* otherwise — and every class also receives its
 | `toll_house` | `civic-authority` | toll collection | watch-house | disp · 0.5 | one per main gate and toll bridge @3k (S7's count) | — | institution | council · taxes | `near` → bridge within 30 hard where the settlement has a bridge (a `toll_bridge` record implies one, V11 §3.24.7 (2)), else `nearGate` within 30 hard — tried in that order, one physical need |
 | `fair_ground` | `market` | a fair field with booths | — (a `market` reservation, secondary, extramural) | sing · 2 | dos (annual fairs) | — | wholesale | council · trade | `extramural` soft 1.0; `nearGate` 400 soft |
 | `slave_market` | `market` | a slave market (a setting's fact) | market-hall | sing · 2 | dos | alignment status −, sacred − | wholesale | company · trade | `nearHarbour` 300 or `nearGate` 300 soft *ext* |
-| `inn` | `lodging` | inn with stables | inn-compound | disp · 1.5 | 1/1 500, ≥1 | — | specialist · mkt | — · trade | `frontage` through or primary soft 1.0 (presets MFCG and FTG: hard — §4.7 S10b's reference rows, inns at junctions and gates), `nearGate` 150 soft (§10.2's example as file f item 440 rewrites it); supply `beer` 1 200 m street, `fodder` 2 500 m road |
+| `inn` | `lodging` | inn with stables | inn-compound | disp · 1.5 | 1/1 500, ≥1 | — | specialist · mkt | — · trade | `frontage` through or primary soft 1.0 (presets MFCG and FTG: hard — §4.7 S10b's reference rows, inns at junctions and gates), `nearGate` 150 soft (file f item 440); supply `beer` 1 200 m street, `fodder` 2 500 m road |
 | `coaching_inn` | `lodging` | large inn and yard | inn-compound | disp · 2.5 | 1/10 000 @5k | N+ through (soft 1.0), space | specialist | — · trade | `nearGate` 200 soft; supply `fodder` 2 500 m road |
 | `caravanserai` | `lodging` | walled court for caravans | inn-compound | disp · 3 | dos; arid biome 1/8 000 | N+ gate, space (hard: its walled court's area) | wholesale | company · trade | `nearGate` 300 soft 0.8 *ext* |
 | `bathhouse` | `entertainment` | public baths | bath-house | disp · 1.5 | 1/4 000 @3k, req water | E crowds 1, noise 1, disorder 1; N runningWater; V district : 1 | everyday | council · — | `nearWater` soft *ext* |
@@ -1908,8 +1953,9 @@ smithy and the armourer's, goldsmith's and metalworkers' rows; Find's "all smith
 
 **3.6.1 Template families (authoring source; V11 §2.8 `TemplateFamilyRow`).** A class's `template: DesignationTemplateRow[]`
 (§10.2) is compiled from its template family, one compiled row per band of the band set: the four authored columns are
-the poor, modest, prosperous and rich rows (§4.5's four-row tables: `squalid` reads the poor row, `comfortable` the
-interpolation), continuous columns interpolated along the value, discrete columns switching at the cut (§4.7 S11). A
+the poor, modest, prosperous and rich rows (§4.5's four-row tables: continuous columns interpolated along the value —
+`comfortable` the interpolation of modest and prosperous, `squalid`, an end band, the poor row's —, discrete columns read
+by §4.5's discrete-cell rule: `squalid` the poor row's, `comfortable` the modest row's). A
 class may override any cell. Areas in m², floors as ranges, coverage as the built share of the plot. The columns §10.2
 declares and this table omits take these defaults: `densityShift` 0; `jitter` §4.7 S11's values; `separation`
 `party_wall` for row, `slot` otherwise; `households` `{built: 1, max: 1}` for a single dwelling slot, the interior
@@ -3352,17 +3398,19 @@ The matched row's `threat` is also what V11 §3.24.4's mole-head slot reads (a f
 
 **3.17.1 Climate rows** (`ClimateRow`; §4.9's species and field system; `own`, calibratable; species are generic kinds
 our crown symbols draw, not a reference's list; `rain` is the mean yearly rainfall V11 §3.24.6's water balance reads,
-general — orders of magnitude for each climate; the same rows carry item 111's dry-country cells, V11 §3.25.1, and item
-117's season cells, V11 §3.25.6):
+general — orders of magnitude for each climate; the same rows carry item 111's dry-country cells, V11 §3.25.1, item
+117's season cells, V11 §3.25.6, and item 124's weather cells, V11 §3.25.11; `farm layout` is §4.9's farm modes' climate
+override — `rows` leaves the rung × landscape choice, the `arid` row's `rivers` and the `cold` row's `perimeter` are
+`ref:FTG Desert and Polar presets` —, an enumeration, not calibratable):
 
-| biome | ground role | woods (inner / outer shares; leaf) | field system | roof form · pitch | scatter per ha | rain mm a year |
-|---|---|---|---|---|---|---|
-| `temperate-deciduous` | `ground.grass` | oak 0.5 / 0.3, beech 0.3 / 0.2, ash 0.2 / 0.3, hazel 0 / 0.2 (deciduous) | openStrip | gable · 1.0 | 0.5–1.5 | 750 |
-| `temperate-coniferous` | `ground.grass` | pine 0.5 / 0.3, spruce 0.4 / 0.3, birch 0.1 / 0.4 | enclosed | gable · 1.1 | 0.5–1.0 | 700 |
-| `mixed` | `ground.grass` | pine 0.4 / 0.2, oak 0.3 / 0.4, birch 0.3 / 0.4 | openStrip | gable · 1.0 | 0.5–1.5 | 700 |
-| `maritime` | `ground.grass` | oak 0.4 / 0.2, ash 0.3 / 0.3, thorn 0.3 / 0.5 | enclosed | hip · 0.8 | 0.3–1.0 | 1 100 |
-| `arid` | `ground.dry` | olive 0.4 / 0.3, cypress 0.3 / 0.3, palm 0.3 / 0.4 (evergreen) | irrigated | flat · 0.1 | 0.2–0.6 | 200 |
-| `cold` | `ground.cold` | spruce 0.6 / 0.4, birch 0.2 / 0.4, larch 0.2 / 0.2 | infieldOutfield | gable · 1.3 | 0.2–0.8 | 500 |
+| biome | ground role | woods (inner / outer shares; leaf) | field system | farm layout | roof form · pitch | scatter per ha | rain mm a year |
+|---|---|---|---|---|---|---|---|
+| `temperate-deciduous` | `ground.grass` | oak 0.5 / 0.3, beech 0.3 / 0.2, ash 0.2 / 0.3, hazel 0 / 0.2 (deciduous) | openStrip | rows | gable · 1.0 | 0.5–1.5 | 750 |
+| `temperate-coniferous` | `ground.grass` | pine 0.5 / 0.3, spruce 0.4 / 0.3, birch 0.1 / 0.4 | enclosed | rows | gable · 1.1 | 0.5–1.0 | 700 |
+| `mixed` | `ground.grass` | pine 0.4 / 0.2, oak 0.3 / 0.4, birch 0.3 / 0.4 | openStrip | rows | gable · 1.0 | 0.5–1.5 | 700 |
+| `maritime` | `ground.grass` | oak 0.4 / 0.2, ash 0.3 / 0.3, thorn 0.3 / 0.5 | enclosed | rows | hip · 0.8 | 0.3–1.0 | 1 100 |
+| `arid` | `ground.dry` | olive 0.4 / 0.3, cypress 0.3 / 0.3, palm 0.3 / 0.4 (evergreen) | irrigated | rivers | flat · 0.1 | 0.2–0.6 | 200 |
+| `cold` | `ground.cold` | spruce 0.6 / 0.4, birch 0.2 / 0.4, larch 0.2 / 0.2 | infieldOutfield | perimeter | gable · 1.3 | 0.2–0.8 | 500 |
 
 **3.17.2 Land-use rows** (`landuse`; one per `LandUse.kind`, §2.7; read by S12a for the surface role and by §8.2's
 tiles): `arable` — role `field.arable`, crops by climate (grain default); `strip_field` — `field.strip`; `meadow` —
@@ -3394,7 +3442,9 @@ The *ruin persistence* column is the one scale of survival for the town's own ru
 survive by V04's `RuinRule.survival` shares, whose order is V11 §3.23.5's — every ancient-culture row builds in long
 masonry (ashlar and rubble), so the material factor of this column is 1 there and is not applied twice (J-V11.31). The
 new wall materials of item 110 read these rows: `dry_stone` as `rubble` × 0.9 dwell (it slumps sooner), `earth_bank` as
-`cob` (it melts to a bank), `timber_crib` as `timber_frame`.
+`cob` (it melts to a bank), `timber_crib` as `timber_frame`. Item 123's decay rate by walls material — how fast a ruin's
+damage layer advances, a drawing only — is V11 §3.25.10's `damage.materials`, kept apart from these rows, which model
+phases read (J-V11.119).
 
 **Structures** (item 110; V06 §3.5.2's strike-pool units; the cells V06 §3.19.2 and V06 §3.19.4 read, V06 keeping no copy; `own`,
 general — terrace walls slump and are robbed when the fields above them are abandoned, arches fall before their piers;
@@ -3608,7 +3658,7 @@ plays) and its
 
 ### 3.23 The underground's content rows (item 109; J111)
 
-The schemas are V04 §2.3's (`RuinRule` with `CultureRow` and `PersistenceClass`, `OpeningRow`, `DigRule`,
+The schemas are V04 §2.3's (`RuinRule` with `CultureRow` and `PersistenceClass`, `UnderOpeningRow`, `DigRule`,
 `CatacombRule`) and V04's stages read them (V11 §2.8b); the ROWS below are written here once — the ancient-culture plan rows and their distinctness, the persistence order, the
 cavern and ruin chance rows, the dig, opening and catacomb rows (the `ruin` naming slice is V11 §3.20's). The geometric cells of
 those tables (depths, burial by age, smoothing, clearances, frame shares, retries, forecast shares, layout rules, fade
@@ -3621,9 +3671,9 @@ named in each row) unless marked. The crypt column is V11 §3.5.8's.
 mine boost (1.4, capped at 0.9), the fissure variant's chance (0.15) and the breach reach (40 m) are item 109 (a)'s values
 in the base's S1 rows (registry row 9) and `under.systems`' cavern row (registry row 59; V04's `params` entries
 `mineBoost`, `mineCap`, `fissureChance`, `breachM`) — cited, never restated. This volume writes the one row item 109
-leaves open: **`miningCellShare` 0.02** — the site "holds mining" when at least this share
-of the frame's land cells carry `SiteResources.ore` ≥ 0.5 (besides a roster mining class or a dossier mining deposit, item
-109 (a) (2)); own. Caverns exist at every rung (item 109 (j) (1)); no cavern row reads the rung.
+leaves open: **`miningCellShare` 0.02** — the share of the frame's land cells with `SiteResources.ore` ≥ 0.5 that §4.2 S1
+(10)'s mining test (`Terrain.mining`; item 109 (a) (2)) reads; own. Caverns exist at every rung (item 109 (j) (1)); no
+cavern row reads the rung.
 
 **3.23.2 Ruin existence** (`RuinRule.chance`; item 109 (b), (j) (1); strongest source first, one ruin system per
 settlement; the dossier's facts reach it through V08's `ruinEvidence` row set, V08 §2.6):
@@ -3681,8 +3731,8 @@ Every ancient-culture row builds in long-persistence masonry, so V11 §3.18's ma
 **3.23.6 The void-source rank** (`RuinRule.sourceWeight`; item 109 (e): "a ruin ranks ABOVE caverns and quarries … a
 built city is readier to live in"): ruin 2.0, buried old town 1.5, vaults 1.2, catacomb 1.0, quarry 0.8, cavern 0.8 —
 read by II.7.5's undercity source choice (V04 §3.6) and by the `@layer:undercity` pseudo-class (V11 §3.11). Scattered
-void dwellings (`voidDwellings`), the forecast floor (`accessForecastMin`) and the ruin's magic lights
-(`magicLightChance`, V04 §3.9) are V04's cells, cited.
+void dwellings (`voidDwellings`) and the ruin's magic lights (`magicLightChance`, V04 §3.9) are V04's cells, and the
+forecast floor `accessForecastMin` II.7.4's `UndergroundRule` cell (V04 §3.3 P7 reads it), each cited.
 
 **3.23.7 Access — dig by class and depth, and the public openings** (item 109 (j) (3), (5); V04 §3.5.7 (d)–(e) reads
 them). `DigRule`: `cap` 0.6, `reachM` 6 m, `decayM` 2 m, `maxM` 20 m, `basementFactor` 1.5, `sealedFloor` 0.5 (DEPTH KEEPS
@@ -3702,7 +3752,7 @@ overriding (the compiler resolves every class; T-V11-23):
 | every other class | 0.1 |
 | V07's village classes (`v.<id>`) | V07 §3.16 (3)'s cells |
 
-`OpeningRow` chances: `sinkhole` 0.15 per qualifying chamber, `mouth` 0.5 per candidate, `skylight` 0.3, `collapsed_shaft`
+`UnderOpeningRow` chances: `sinkhole` 0.15 per qualifying chamber, `mouth` 0.5 per candidate, `skylight` 0.3, `collapsed_shaft`
 0.05, `ruin_entrance` 0.6, or 1 where the dossier makes the ruin known (a `ruined-landmark` record, or an `ancient_ruins`
 deposit in state `discovered`). The candidates' conditions (cover depths, faces, footprints) are V04's. The overlap shaft
 of item 109 (3b) (`overlapShaftM`, `overlapShaftChance`) is V04's `UnderLayoutRule.links` cell, cited.
@@ -3764,9 +3814,12 @@ cell value in its column's range, so a no-op pin's overlay can write it (V12 §2
 | `walls.condition` (item 114) | `atGeneration` false; `meansLow` 0, `wearChancePerYear` null, `needReturnYears` 0 | every run `standing` at generation; the epochs' neglect and repair as before item 114 (V06 §3.7.7 (4)) |
 | `grandeur.ceiling` (item 115) | `enabled` false on every row | no ceiling: every rung reads as TOWN does (the "all manors" row everywhere, as before item 115) |
 
-Items 116–119 add no switch here: item 116's margin is a view cell of the base settings row (V11 §3.1 row 92); the season
-and festival tables of items 117 and 118 are looks that never enter the model or its hash (with no season and no festival
-chosen, the base's view draws); item 119's `perf.qualitySpend` ships empty. With item 110's six off the generated
+Items 116–119 and 122–124 add no switch here: item 116's margin is a view cell of the base settings row (V11 §3.1 row
+92); the season and festival tables of items 117 and 118 are looks that never enter the model or its hash (with no season
+and no festival chosen, the base's view draws); item 119's `perf.qualitySpend` ships empty; item 122's crisis looks are
+switched per viewer by §2.9's `crises` key and item 124's weather effects by V09's device switch, both looks only, their
+`scale`, `lookLevel` and `perHour` cells `extension` (the parity presets draw neither); item 123's damage has no switch —
+a building never decayed draws its plan unchanged (`item123.damage`). With item 110's six off the generated
 documents are byte-identical to the pre-110 goldens (T-V11-31, the no-op pin every volume's item-110 pin cites: V02's
 T-V2-50, V03's T-V3-34, V06's T-V6-65, V07's pins); with each other row set at its off form, byte-identical to the base without that item
 (T-V11-38 – T-V11-41; V06's T-V6-71, T-V6-73, T-V6-74). **Every no-op pin of the owner items is a NoOpPin registration on
@@ -3842,7 +3895,8 @@ survives only on its own vertex), where no generated wall stands anyway (V11 §3
 **3.24.2 Raised ways** (item 110 (b): "at CITY and METROPOLIS the generator raises a way where there is a reason, each a
 soft rule with a table chance and a count cap per rung", "A TOWN gets them only by declaration"; J-V11.41). *`raisedWays`* (registry row 80; readers: the base's generator — S4's route solve,
 at generation and in each later stage's S5b, and S6's end —, V06 §3.19's epoch
-pass, V01's seeds, fans and lanes crossing under an arch (`clearanceCm`, V01 §3.17.3 (3)), V09's T4 dry run and aqueduct
+pass, V01's seeds, fans and lanes crossing under an arch (`clearanceCm`, V01 §3.17.3 (3)), S8's under-deck strip
+(`stripMarginM`, §4.6), V09's T4 dry run and aqueduct
 tool, V04's vaults, V05's caster ceiling, V10's why, V12's register):
 
 | rung · kind | chance | cap | pMax |
@@ -3889,6 +3943,9 @@ tool, V04's vaults, V05's caster ceiling, V10's why, V12's register):
   clear-span bound: the longest merged clear span a crossed river or square leaves; range masonry [15, 75], timber
   [8, 40]; `own`, `extension`, calibratable, its entry V12 §3.11's `raisedWays.structure` line; an edit below a slid span's
   reach is clamped, T-V11-32 (h); J-V11.116);
+  `stripMarginM` 1 m (the under-deck strip's margin each side of the deck's ground projection over its piers and spans —
+  §4.6 S8's hole, V01 §3.17.3 (2)'s strip, V06 §3.19's clearance; range [0, 3] m; `own`, `extension`, calibratable, its entry
+  V12 §3.11's `raisedWays.structure` line; shipped with item 110's rows at M3a);
   `material` by band — poor timber 0.5, rubble 0.5; modest rubble 0.7, brick 0.2, timber 0.1; prosperous rubble 0.4, ashlar
   0.4, brick 0.2; rich ashlar 0.7, brick 0.3 — an aqueduct never timber (a timber channel leaks; its timber weight is
   renormalised away). The deck's level is the course's (the viaduct's grade across the gap, the elevated road's ends and
@@ -3974,9 +4031,8 @@ J-V11.44, J-V11.46). *`deck`* (registry row 82; readers: the base's deck-plot cu
 | mole | 0.3 · 0.5 · 0.6 | 15–30 / 20–40 / 25–50 / 30–60 | 1 / 2 / 2 / 2 | 4–7 | 3 | 0.4 | harbourSide | 15 |
 | quay | 1 · 1 · 1 | 20–40 / 30–60 / 40–80 / 50–100 | 2 / 2 / 3 / 3 | 4–8 | 4 | 0.6 | landward | 5 |
 
-The offer is drawn once per deck by the cutter, keyed by the deck's lineage; village rungs read V07's cells (J-V7.41). The
-footprints bracket V02's stopgap band ([20, 60] m²), and V02's T-V2-47 reads whichever row is loaded. A plot's `says`: "on
-the {deck}: at most {n} storeys, about {a} m²" (id `deck/<kind>/<band>`).
+The offer is drawn once per deck by the cutter, keyed by the deck's lineage; village rungs read V07's cells (J-V7.41). A
+plot's `says`: "on the {deck}: at most {n} storeys, about {a} m²" (id `deck/<kind>/<band>`).
 
 *`deckOk`* (a compiled column of `roster.classes`, step 5a; file f item 432; listed in the manifest; a class row may
 override). A class is ELIGIBLE only when all hold: its template family is `shopfront`, `workshop-row`, `tavern-row`,
@@ -4086,11 +4142,11 @@ decided before any well, cistern or household is placed:
 5. **The culture.** `site.culture` → V11 §3.20.3's `building` block and V11 §3.24.3's rows.
 
 
-### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)
+### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)
 
-Each subsection writes the rows an item names for this volume (the canon's routing; J127–J130). The mechanisms are the
+Each subsection writes the rows an item names for this volume (the canon's routing; J127–J130, J135–J138). The mechanisms are the
 base's and the owning volumes', cited; the types are V11 §2.8 and V11 §2.8d's; the switches and off forms are
-V11 §3.24.0's; the registry rows are V11 §3.1's (43, 44, 92–106). Every cell is our own (`own`, the practice in its note,
+V11 §3.24.0's; the registry rows are V11 §3.1's (43, 44, 92–110). Every cell is our own (`own`, the practice in its note,
 general historical knowledge where it leans on one) and calibratable unless marked, its register entry V12 §3.11's.
 
 **3.25.1 Water in dry country** (item 111; the climate rows' `dry` cells, registry row 43; the `garden` land use, row 44,
@@ -4175,13 +4231,13 @@ only):
   300, V09 §4.21.3); the replay's budget cells (`replay.*`) are V06's (V06 §2.2).
 
 **3.25.3 Walls in decay and repair** (item 114; `walls.condition`, registry row 95, and `walls.patchMaterials`, row 96; the
-mechanism is §2.7's `Enceinte.condition`, V06 §3.7.7's transitions and §7.7's generation-time row).
+mechanism is §2.7's `Enceinte.condition`, V06 §3.7.7's transitions and §7.7's DR41).
 
 *`walls.condition`* (the one row `settings`; every chance per year and per V06 §3.7.2's stretch):
 
 | cell | value | what it does |
 |---|---|---|
-| `atGeneration` | true (the parity presets false; a switch, not calibratable) | §7.7's row gives each run its condition at generation from readiness and wealth (item 114 (d)) |
+| `atGeneration` | true (the parity presets false; a switch, not calibratable) | §7.7's DR41 gives each run its condition at generation from readiness and wealth (item 114 (d)) |
 | `needReturnYears` | 5 yr | NEED `high` once the threat stays at or above `walls.threatMin` this long (V06 §3.7.7 (1)) |
 | `meansLow` · `meansHigh` | 0.3 · 0.5 (the wealth level, [0, 1]) | MEANS `low` below the first, `high` at or above the second, each sustained over `meansWindowYears` |
 | `meansWindowYears` | 20 yr | the window a MEANS class needs before it changes (no flicker at a threshold) |
@@ -4191,7 +4247,7 @@ mechanism is §2.7's `Enceinte.condition`, V06 §3.7.7's transitions and §7.7's
 | `bothLowFactor` | 1.5 | × the neglect chances when MEANS is also `low` |
 | `rebuildRunsPerYear` | 0.5 | patched runs rebuilt robust per year with need and means, oldest first |
 
-*The generation shares* (the cell `generation`, read by §7.7's item-114 row: the readiness band — V08's `readiness` row
+*The generation shares* (the cell `generation`, read by §7.7's DR41: the readiness band — V08's `readiness` row
 set, standalone the band the threat gives by that row — by the MEANS class of the present wealth level against `meansLow`
 and `meansHigh`; each row the shares of runs `standing` · `worn` · `patched` · `breached`, summing to 1; a `dismantled` run
 stays as the history made it):
@@ -4248,8 +4304,8 @@ row, V08 §3.16 (3)):
   and V07's `v.manor_house` — the lord's and the ruler's houses, whose dossier-bound record specifies a grand building
   (V08 §3.16 (3) (a), read by `port.digest`); `own`, `calibratable: false`, each entry a live class key (T-V11-41 (a);
   J-V11.114).
-* **"Specified"** is V08 §3.16 (3)'s reading — a dossier-bound record of a `grandClasses` class, or a seigneurial
-  government's forced manor; a specified or hand-made grand building keeps its full design — the ceiling is a default, never a
+* **"Specified"** is V08 §3.16 (3)'s reading, which reads the `settings` row above; a
+  specified or hand-made grand building keeps its full design — the ceiling is a default, never a
   refusal (item 101 R2) — and the shell and the clerk say it exceeds the tier's usual (V09 §4.21.5's `info.grand.beyondTier`
   and `info.grand.dossier`; V10).
 * **Wealth** moves a dwelling along its capped row only (item 115 (d)); the manor count never rises with wealth.
@@ -4283,7 +4339,8 @@ end when `a > b`.
 | `arid` | none | 36–41 | 38–44 | 50–3 | 39–10 (winter-sown, irrigated) | 8–14 | — | — | — |
 | `cold` | severe | 26–31 | 28–33 | 8–11 | 5–23 | 19–26 | 17–21 | 35–6 | 34–8 |
 
-Arid and warm climates never freeze and draw no snow (a user may still switch the `snow` weather on); `snow` weather
+Arid and warm climates never freeze and draw no snow — lying or falling, whatever the view's `weather` holds (§8.2;
+item 124 (c); V11 §3.25.11's hard rules); `snow` weather
 defaults on in the snow weeks of a `cold` or `severe` climate (item 117 (g)); the view sun's default height by week is
 §8.2's (item 102's model daylight never changes).
 
@@ -4354,8 +4411,8 @@ under snow):
 | `roof` | 0.02 | 0.2 | 1.0 | 8 | 4 |
 | `stillWater` | 0.02 | 0.15 | 1.0 | 10 | 2 |
 
-* The dossier's week and season and the climate's source order are §7.7's row (V08 reads SettlementForge's calendar and
-  its climate digest into a biome key of these rows, V08 §2.6 `climates`).
+* The present week and the climate are §7.7's DR42 (item 125: the week from the dossier's own ticks, the climate from its
+  terrain type through V08's `climates` row set, V08 §2.6).
 
 **3.25.7 Festival decorations** (item 118: a LOOK only, as item 117; `festival.decorations`, `festival.staging`,
 `festival.motifs`, `festival.generic`, rows 102–105; drawn by §8.2's decoration rows, placed by keyed draws from the seed,
@@ -4445,6 +4502,206 @@ quality path only while its row stands, and inside §12's ten-second comfort lev
 targets, the comfort level and the interaction budgets are §12's and untouched by this table. The bars are §12.10's and V12's;
 T-V11-44 (b) holds the row shape.
 
+**3.25.9 Crisis looks** (item 122, with (h)–(i): a LOOK only — no crisis moves, adds or removes anything and no cell here
+is read by a model stage, so the document hashes identically with crises on and off and in every week; `crisis.looks` with
+its named row `settings`, registry row 107, and `crisis.map`, row 108; the shapes, the placement rules and the parts each
+kind draws are §10.2 *Crisis looks*, the derivation §7.7's DR44, each look's marks by band — its symbols, in role keys,
+never a colour here — §8.2's crisis look rows, the outskirts' land and a disaster's districts V01's `campLand` and
+`disasterDistricts`, the refugee camp's frontier V06's `frontierFor`). The numbers are `own` and calibratable, their
+register entries V12 §3.11's, `scale` and `lookLevel` `extension` (the parity presets draw no look); `kind`, `label`,
+`place`, `band` and `priority` are enumerations, `calibratable: false`.
+
+*`crisis.looks`* (one row per look kind; `scale` the extent at severity 0 – 1 by rung, linear between — m² of camped
+ground at a camp place, each cell a headcount × `areaPerHeadM2`, the heads in brackets, else the share of the place's
+units; `band` the coarsest band §8.2 draws a part at; `priority` the camp looks' turn on the outskirts, lowest first):
+
+| kind | label | place | band | scale by rung (THORP · HAMLET · VILLAGE · TOWN · CITY · METROPOLIS) | priority |
+|---|---|---|---|---|---|
+| `siege` | "Siege camps" | `beyondWalls` | city | m² 900–2 700 · 2 250–9 000 · 4 500–22 500 · 22 500–135 000 · 90 000–450 000 · 225 000–1 350 000 (20–60 heads, a war band, to 5 000–30 000, a full siege line) | 1 |
+| `blockade` | "Blockade camps" | `approachRoads` | city | as `siege` (the same forces before a place with no standing wall) | 1 |
+| `quarantine` | "Quarantine camp" | `outside` | city | m² 225–900 · 450–2 250 · 900–4 500 · 4 500–22 500 · 13 500–90 000 · 45 000–270 000 (5–20 to 1 000–6 000 heads) | 2 |
+| `refugeeCamp` | "Refugee camp" | `approachByGate` | city | m² 450–1 800 · 900–5 400 · 2 250–13 500 · 9 000–67 500 · 45 000–360 000 · 135 000–1 125 000 (10–40 to 3 000–25 000 heads) | 3 |
+| `occupation` | "Occupation" | `gatesAndKeep` | city | m² of its garrison camp 225–900 · 450–2 250 · 900–4 500 · 4 500–22 500 · 22 500–90 000 · 45 000–225 000 (5–20 to 1 000–5 000 heads) | 4 |
+| `famine` | "Famine" | `fields` | city | share of the fields bare 0.3–1 at every rung | 5 |
+| `beast` | "Beast attacks" | `edge` | district | share of the edge's runs torn 0.05–0.4 at every rung | 5 |
+| `raiders` | "Raiders" | `outlyingFarms` | city | share of the outlying farmsteads burned 0.1–0.6 at every rung | 5 |
+| `disaster` | "Ruined quarters" | `neighbourhoods` | city | share of the districts — at THORP, HAMLET and VILLAGE of V07's ends — 0.05–0.5 at every rung; `lookLevel` 0.67–0.95 | 5 |
+| `rebellion` | "Barricades" | `streets` | district | share of the junctions barricaded 0.1–0.6 at every rung | 5 |
+| `boom` | "Building boom" | `streets` | district | share of the frontages scaffolded 0.05–0.3 at every rung | 5 |
+| `bust` | "Shuttered shops" | `streets` | district | share of the shops shuttered 0.1–0.6 at every rung | 5 |
+
+* **The rows' readings.** The camp looks' priorities are item 122 (c)'s order — the siege camp, then the quarantine camp,
+  then refugees — the blockade beside the siege it stands for and an occupation's garrison after them; the other looks take
+  no camp land, their priority 5 unread. The `disaster` row's `lookLevel` lies in the `ruined` share of the decay level
+  (V06 §3.23 (2)): a ruined quarter's buildings draw item 123's damage there by severity, or at their own level where that
+  is higher (§10.2 (d)). The ranges: each m² cell [0.25, 4] × its value, each share in [0, 1], `lookLevel` inside [2/3, 1].
+* **`settings`**: `densityCap` 0.5 — the share of the outskirts' free land the camp looks take together (item 122 (c);
+  range [0.1, 0.9]); `siegeStandoffM` 300 — item 122 (b)'s "beyond bowshot" (range [150, 500] m; general: a war bow's and a
+  crossbow's effective reach of 200–300 m); `areaPerHeadM2` 45 — item 122 (h) (range [30, 60] m²; general: Roman marching
+  camps and present-day refugee-camp standards near 30–45 m² a head — tents, lines, horses and lanes); `enginesPerBesiegers`
+  1 500 — item 122 (h): one siege engine to about this many besiegers (range [500, 5 000] people); `previewSeverity` 0.6 —
+  the severity a preview draws its look at (§2.9's `crises`; range [0, 1]).
+* **Item 122 (h)'s rates** are three of these cells. A force's or a travelling group's camp is `areaPerHeadM2` × its heads
+  where the dossier gives them — two armies joined, twice the ground —, the condition's `exodus` or arrivals standing in
+  where it gives none, and the `scale` row by severity and rung only where it gives no count at all (§10.2 (c)); the engines
+  are one per `enginesPerBesiegers` heads, capped by §10.2 (f)'s gates and curtain runs; a coalition's spread round the
+  town — each army its own camp in its own colours, the ring fuller as the coalition grows — is §10.2 (f)'s rule (bearings
+  evenly spaced from a keyed start) and holds no cell.
+
+*`crisis.map`* (the closed mapping, item 122 (b): every SettlementForge stressor type and condition archetype has one row —
+a look or an explicit `none`; key `from/key`; the words are SettlementForge's own at its pinned baseline, identity only
+(§17.1), read by V08's census; a dossier row set, never calibrated, landing with the port at M-SF (C4b) — until then the
+set is empty and every condition reads `none`, §10.2 (b)):
+
+| from | key → look |
+|---|---|
+| `stressor` | `under_siege` → `siege`; `mass_migration` → `refugeeCamp`; `plague_onset` → `quarantine`; `famine` → `famine`; `monster_pressure` → `beast`; `occupied` → `occupation`; `insurgency`, `slave_revolt` → `rebellion`; `wartime`, `indebted`, `infiltrated`, `politically_fractured`, `recently_betrayed`, `religious_conversion`, `succession_void` → `none` |
+| `archetype` | `war_pressure` → `siege`; `regional_migration_pressure` → `refugeeCamp`; `plague` → `quarantine`; `famine` → `famine`; `vassal_extraction` → `occupation`; `rebellion` → `rebellion`; `boom` → `boom`; `bust` → `bust`; `reconstruction`, `resource_strike`, `vein_exhausted`, `trade_route_cut`, `food_anchor_lost`, `corruption_exposed`, `faction_challenge`, `dominant_npc_removed`, `stressor_residual`, `custom_crisis`, `regional_authority_instability`, `regional_tax_revenue_disruption`, `regional_criminal_pressure`, `regional_religious_pressure` → `none` |
+| `event` | `REFUGEE_WAVE` → `refugeeCamp`; `PLAGUE` → `quarantine`; `RAID_OR_MONSTER_ATTACK` → `raiders`; `calamity` (a strike of the simulator's calamity kernel, `calamityHistory`) → `disaster` |
+
+* **The readings.** `regional_migration_pressure` is the mass immigration item 122 (b) names, so it draws the refugee camp;
+  the other `regional_*` pressures are its "no look (nothing physical)". `war_pressure` is the siege it names beside the
+  siege stressor; `wartime`, a war away from the walls, draws none. An insurgency and a slave revolt are risings, drawn as
+  barricades; `vassal_extraction`, an overlord's men in the town, as an occupation. `reconstruction` draws none: its Works
+  scaffolding is the model's own (§4.11), the aftermath a disaster's look hands over to (V06 §3.22).
+  `RAID_OR_MONSTER_ATTACK` strikes the outlying farms first, so it draws `raiders`; a standing monster threat draws `beast`
+  through `monster_pressure`. Every calamity draws `disaster`, its districts the calamity's `targets` first, else its
+  pattern — fire, flood or earthquake — by its type (V01's `disasterDistricts`, §10.2 (d)).
+* **Totality** (T-V11-46 (a); T122-4). The compile checks the `stressor` rows against the catalogue manifest's
+  `sf.stressors@<line>` list and the `archetype` rows against its `sf.conditionArchetypes@<line>` list (registry row 77;
+  V08's census at the pinned baseline): a listed word without its row fails the build until the row is written, so the
+  rows above — SettlementForge's fifteen stressor types and the archetypes its conditions carry today — grow with the line;
+  a word V08 meets that no row maps reads `none`, reported `unmapped_word` (V08).
+* **Off** — §2.9's `crises` key turns the looks off per viewer, with no switch in V11 §3.24.0; with no condition standing
+  and no preview nothing is drawn, every tile byte-identical to the base (`item122.crises`; T122-7).
+
+**3.25.10 Damage in a ruined building's plan** (item 123: a drawing only — one plan, never redrawn; no damage moves, adds
+or removes a room, wall, opening or id, and no cell here is read by a model stage; `damage.elements` with its named row
+`settings`, registry row 109, and `damage.materials`, row 110; the mechanism is §2.6 step 7's damage layer, §6.3 *Plan
+damage*'s keyed threshold t = lo + u · (hi − lo) per plan element and V06 §3.23's decay level, an element showing damaged
+while the level is above 0 and at least t; the drawings are V03's, V02's and V04's, the battle maps §11.1's). The numbers
+are `own` and calibratable, their register entries V12 §3.11's; `states` is an enumeration, `calibratable: false`.
+
+*`damage.elements`* (each kind's range of the decay level lies inside the shares of the existence states whose look item
+123 (c) gives it — V06 §3.23 (2)'s thirds: `abandoned` [0, 1/3], `decayed` [1/3, 2/3], `ruined` [2/3, 1] — so each state's
+look holds whatever the years; outer walls and ground floors late, partitions and upper floors early; a range's ends move
+freely inside its states' shares, the lower below the upper):
+
+| kind | range | states | item 123 (c)'s look |
+|---|---|---|---|
+| `furniture` | 0.02–0.30 | abandoned | broken furniture |
+| `door` | 0.05–0.33 | abandoned | doors off their hinges |
+| `window` | 0.10–0.33 | abandoned | shutters and panes broken among the dust and debris |
+| `partition` | 0.36–0.66 | decayed | partition walls down |
+| `roofBay` | 0.40–0.66 | decayed | roof holes open to the sky over their rooms |
+| `upperFloor` | 0.40–0.95 | decayed, ruined | rotten floor patches and holes, then the upper storeys mostly floorless — fragments over the void |
+| `stair` | 0.70–0.90 | ruined | the way up gone with the floors it served |
+| `outerWall` | 0.72–0.98 | ruined | outer walls broken |
+| `groundFloor` | 0.85–1 | ruined | rubble heaps on the one walkable storey |
+| `cellarVault`, `cellarWall` | 0.75–1, 0.80–1 | ruined | cellars intact or partly collapsed by their own thresholds |
+| `cryptTomb`, `cryptVault`, `cryptWall` | 0.86–1, 0.88–1, 0.92–1 | ruined | the crypt last: a ruined church keeps its crypt (V04 §5.6) |
+
+* **`settings`**: `defaultAgeYears` 40 (range [0, 300] yr) — the years a building whose log holds no decay run reads at:
+  one generated abandoned, decayed or ruined, one first met so in item 113's replay, and every building before V06's level
+  lands at M6-E (V06 §3.23 (4)).
+
+*`damage.materials`* (V06 §3.23 (2)'s rate r for the building's walls material, `Building.material.walls`: the level a
+decay run gains a year; timber faster than stone, item 123 (b); general: an unroofed timber frame rots through within a
+generation, a masonry shell stands for a century and more; range [0.002, 0.1] each):
+
+| material | rate a year |
+|---|---|
+| `ashlar` | 0.008 |
+| `rubble` | 0.011 |
+| `brick`, `dry_stone` | 0.012 |
+| `timber_frame` (the default row), `timber_crib` | 0.03 |
+| `timber` (the boards of a shanty or a deck) | 0.035 |
+| `wattle_daub`, `cob`, `earth_bank` | 0.04 |
+
+A walls material with no row — a pack's, a regional shift's — reads `timber_frame`, the commonest walls material of
+V11 §3.19.3's default rows (the table's `defaultRow`, V11 §2.1), reported once.
+
+* **`says`** (ids `dmg/<table>/<row>`): the ranges — "doors and furniture go first, then partitions, roofs and the upper
+  floors; outer walls and the ground floor last, the cellar and the crypt longest"; a rate — "{material} decays about {r} of
+  the way to a ruin a year: timber within a generation, stone over a century and more".
+* **Off** — no switch: a building never decayed (level 0) draws its plan unchanged (`item123.damage`; T123-7).
+
+**3.25.11 Light weather** (item 124: a LOOK only — the animated effects never change a tile, the model, the document or
+its hash, and no cell here is read by a model stage; the climate rows' `weather` cells and the `weather` block of the
+climate table's named row `settings`, registry row 43; the mechanism is §6.1 *The weather stream* — the session-seeded
+timeline —, §8.2's effect marks and §8.4 (i)'s light terms, the switch V09's device state). The numbers but the two caps
+of the hard rules (below) are `own` and calibratable, their register entries V12 §3.11's; `perHour` is `extension` (the
+parity presets resolve it 0: no spell); the weeks are V11 §3.25.6's (0–51 from the first week of spring; a band `a–b`
+includes both ends and wraps the year's end when a > b).
+
+* **The columns.** A climate row holds, for each effect kind, its bands of weeks, each with `perHour` — how often: the
+  mean spells of the kind an hour of clear map — and, where it differs from the kind's, `lengthS` — how long a spell lasts.
+  At a week the kinds whose band holds it are live, each at its `perHour` × the largest factor of the sites that apply
+  (below); with R their sum, the clear time after a spell (and from the map's opening) is exponential with mean 3 600 ÷ R
+  s, the next kind is k with chance perHour_k ÷ R, and its length is uniform in its `lengthS` — §6.1 draws the three
+  uniforms in that order. A week with no live kind brings no spell. A band holds its cells through its weeks, so the weeks
+  turn by bands written as transitions — the first flurries before deep snow, a thaw of rain — never by interpolation, and
+  a kind absent from a band stays absent through it (the arid dry months).
+* **The commonest kind** of a week is its live kind of greatest `perHour` after the sites' factors, ties in
+  `WeatherKind`'s order (V11 §2.8): the kind a press of V09's **Start a shower now** starts as the next spell; a week with
+  no live kind starts none.
+
+*The kinds* (`settings.weather.kinds`; `hours` the hours of the view's day a spell may start in, read only under
+`light: 'time'` (§2.9), so fog and mist come on cool mornings and burn off as the day goes on, item 124 (d); every
+`lengthS` lower end at least twice its kind's fade in §8.4 (i), so a spell reaches its full strength):
+
+| kind | length s | hours |
+|---|---|---|
+| `rain` | 30–90 | — |
+| `drizzle` | 60–180 | — |
+| `snow` | 60–240 | — |
+| `mist` | 120–360 | 4–11 |
+| `fog` | 180–600 | 4–11 |
+| `leaves` | 20–60 | — |
+| `cloudShadow` | 120–480 | — |
+| `shimmer` | 120–600 | 10–18 |
+| `dust` | 120–480 | — |
+
+*The climate rows' weather cells* (weeks · spells an hour, a length in s where it differs from the kind's; item 124 (c)'s
+defaults — temperate rows: spring showers, the odd summer downpour, autumn fog and blowing leaves, winter snow where it
+freezes; maritime: frequent rain in autumn and winter, morning fog; arid: clear most of the year, rare short showers in its
+short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the winter, frozen fog on still days):
+
+| biome | rain | drizzle | snow | mist | fog | leaves | cloud shadows | shimmer, dust |
+|---|---|---|---|---|---|---|---|---|
+| `temperate-deciduous` | 0–12 · 3; 13–25 · 1 (60–180 s); 26–40 · 2 | 0–12 · 1; 26–40 · 2 | 41–42 · 1 (first flurries); 43–51 · 3; 0–1 · 1 (the thaw) | 0–12 · 0.5; 26–37 · 1 | 26–42 · 1.5; 43–51 · 0.5 | 31–37 · 6 | 0–12 · 2; 13–25 · 3; 26–38 · 2 | — |
+| `temperate-coniferous` | 0–12 · 2.5; 13–25 · 1 (60–180 s); 26–39 · 2 | 0–12 · 1.5; 26–39 · 2 | 40 · 1; 41–51 · 3; 0–3 · 1.5 | 0–12 · 1; 26–39 · 1.5 | 26–40 · 1.5; 41–51 · 0.5 | 29–35 · 3 | 0–12 · 2; 13–25 · 3; 26–39 · 2 | — |
+| `mixed` | 0–12 · 3; 13–25 · 1 (60–180 s); 26–39 · 2 | 0–12 · 1; 26–39 · 2 | 40–41 · 1; 42–51 · 3; 0–2 · 1 | 0–12 · 0.5; 26–36 · 1 | 26–41 · 1.5; 42–51 · 0.5 | 30–36 · 5 | 0–12 · 2; 13–25 · 3; 26–39 · 2 | — |
+| `maritime` | 0–12 · 3; 13–25 · 1.5; 26–51 · 4 | 0–12 · 2; 13–25 · 1; 26–51 · 3 | — | 26–38 · 1 | 0–12 · 1; 26–51 · 2 | 33–38 · 4 | 0–51 · 3 | — |
+| `arid` | 44–49 · 0.3 (20–60 s) | — | — | — | — | 38–44 · 1 | 44–49 · 0.5 | shimmer 10–38 · 2; dust 13–38 · 1 |
+| `cold` | 9–25 · 2; 26–33 · 2 | 26–33 · 1 | 34–35 · 1; 36–6 · 3; 7–8 · 1 | 9–25 · 0.5 | 26–33 · 1; 36–6 · 1 (frozen fog) | 28–33 · 4 | 9–25 · 2; 26–33 · 2 | — |
+
+*The sites* (`settings.weather.sites`: × a live kind's `perHour` where the site applies; where several apply each kind
+takes the largest factor, never their product; where none applies the row's own rates stand, item 124 (c)'s temperate
+plains; the weather stream reads the sites from the model at the view's head and writes nothing; `forestShareMin` 0.3;
+each factor in [0.25, 4]):
+
+| site | applies where | factors |
+|---|---|---|
+| `coast` | a sea shore in the frame (a `sea` water body, §2.3) | fog × 2 (morning sea fog), rain × 1.3, drizzle × 1.3 |
+| `riverside` | a river course or a lake in the frame (§2.3), or S0's relief class `plain` (lowland) | mist × 2 (morning mist on the water), fog × 1.5 |
+| `hills` | S0's relief class `hilly` or `mountainous` | snow × 1.5, fog × 1.5 (valley fog), cloudShadow × 1.5 (low cloud) |
+| `forest` | woods — the `wildwood`, `coppice` and `reserve` land uses (§2.7) — on at least `forestShareMin` of the frame's land | mist × 1.5, drizzle × 1.5, leaves × 2 |
+
+A factor scales a live entry and never makes one: a kind a row holds no band for stays absent, so a hill town of a row
+that cannot snow has no snow.
+
+* **The two hard rules** (item 124 (c); compile checks, T-V11-48 (a)–(b); T124-3, T124-4). (1) **No snow where winter does
+  not freeze**: a row whose `seasons.winter` is `none`, a row with no `snow` band and every arid row (`aridity` ≥ `aridMin`,
+  V11 §3.25.1) hold no `snow` entry, and an arid row or one whose winter is `none` holds no `snow` or `ice` band either —
+  a `snow` cover there draws as `clear` (§8.2); every other row's `snow` entries lie inside its `ice` and `snow` weeks.
+  (2) **Rain is rare in arid country**: on an arid row `rain` and `drizzle` come at most `aridRainMaxPerHour` 0.5 an hour
+  after the largest site factor, in bands covering at most `aridRainMaxWeeks` 8 weeks — its short wet weeks — and in no
+  other week, its dry months. The two caps are the owner's rule in numbers: provenance `owner`, stamped
+  `ownerRule: '124 (c)'` (V11 §3.2.1 step 4), `calibratable: false`.
+* **Off** — no switch here: V09's **Weather effects** switch (device state; off by default on the low tier and under
+  reduced motion) turns the layer off, and the parity presets draw no spell.
+
 ### 3.26 Edges and combinations
 
 Every mechanism this volume owns has a defined outcome at the extremes of its inputs, a rung on §5's ladder (check, repair
@@ -4484,7 +4741,7 @@ result in a reading stage is the kernel's refusal handled by that stage's failur
 | M-V11-3175-E2, -E5, -E6 | V11 §3.14 concealment | one front at a band; a town where the drawn front class does not stand; a custom concealed record with no row; a village rung | refused at compile (≥ 2 fronts, T-V11-8); the next front by weight among those the roster places, else `hidden`, reported; the custom `criminal` row; the `v.` class that plays the front (V11 §3.22), a front with no village form skipped | check · substitute | T-V11-8, T-V11-44 (c), T-V11-45 (i) |
 | M-V11-3241-E1, -E2, -E5, -E6 | V11 §3.16 walls | no barrier; one barrier arc; DR2's threat keys; the village kinds | every arc `open`, a full ring; one closure feature or graded stretch (an arc shorter than the tower spacing one stretch, no tower); the highest-weight threat row; every water arc closing at village kinds | — | T-V11-19 |
 | M-V11-3241-E4 | V11 §3.16 degenerate arcs | a zero-length arc; a self-touching boundary | the arc is no arc, its stretches merged (V11 §2.7); S5a's F-WALL ladder | repair locally | T-V11-45 (j) |
-| M-V11-3289-E1, -E5 | V11 §3.17 climate and land use | no biome in the circumstance; a land-use kind without a row | `temperate-deciduous`, reported; refused at compile (`landuse` covers `LandUse.kind`, T-V11-2) | substitute · check | T-V11-2, T-V11-45 (k) |
+| M-V11-3289-E1, -E5 | V11 §3.17 climate and land use | no biome in the circumstance; a land-use kind without a row; the `arid` row's `rivers` farm layout on a frame with no river | `temperate-deciduous`, reported; refused at compile (`landuse` covers `LandUse.kind`, T-V11-2); `perimeter`, §4.9's rule | substitute · check | T-V11-2, T-V11-45 (k) |
 | M-V11-3312-E1, -E2, -E4, -E5 | V11 §3.18 decline by material | a building with no material; one material; a zero-footprint ruin; a retaining stretch shorter than `retaining.stretchM`; a material key a pack adds without a row | the class's most specific material row (V11 §3.19.3); no draw; salvage 0; one stretch; the `rubble` row, reported | substitute | T-V11-45 (l) |
 | M-V11-3351-E1, -E2, -E4, -E5, -E6 | V11 §3.19 era, region, materials | no era or region; a row with one material; a spacing band with equal ends; a dossier culture naming no era row; the structure rows at every rung | `c14`, `western`; no draw; a fixed spacing (the range admits a = b); `c14` (V08 §2.6's era row), reported; the retaining row by band at every rung a wall stands | substitute | T-V11-3, T-V11-34, T-V11-45 (m) |
 | M-V11-3396-E4, -E7 | V11 §3.20 naming | an empty corpus for a symbol; a name over five words; the parity presets; a pack replacing a culture's corpus | the slice's unguarded fallback; re-drawn to the attempt cap (§9.6), then the fallback; the grammars run unchanged (naming is no extension); exactly the unedited names drawn from the changed field re-drawn (§10.4) | retry that piece · substitute | T-V11-15, T-V11-45 (n) |
@@ -4495,6 +4752,9 @@ result in a reading stage is the kernel's refusal handled by that stage's failur
 | EI-V11-EDGE-1 | V11 §3.24.5 | a cart class's crossing beyond 1.5 × `rampMaxGrade` with no switchback | the step re-cut at the crossing, else the units not levelled there (V11 §3.24.5) | repair locally · leave out and report | T-V11-45 (b) |
 | EI-V11-EDGE-2 | V11 §2.3 coverage | `per` or `target` 0; a district with no residential plot | refused by the columns' ranges (both > 0); the households term skipped there, reported (V11 §2.3) | check · leave out | T-V11-4, T-V11-45 (c) |
 | EI-V11-EDGE-3 | V11 §4.1 table edits | a row `delete` — an `editTable` or a pack's patch — of a table's `defaultRow`, of an `allowFallback` target, of the only row covering a value a totality rule requires, or of the last row of a table not `mayEmpty` | refused F-EDIT, `refuse.table.required`, naming the readers, with the alternative "edit its cells"; a pack's op refused at load, the row standing, reported; a cell edit of the same row applies | check | T-V11-45 (s) |
+| EI-V11-EDGE-4 | V11 §3.25.9 crisis looks | a stressor, archetype or event word with no `map` row; the `map` set empty (before M-SF; a standalone map); a severity outside [0, 1]; a dossier headcount of 0; a look whose `scale` at the map's rung is 0 (the parity presets) | the word reads `none`, reported `unmapped_word` (V08), and a word the census lists fails the build until its row is written (T-V11-46 (a)); every condition `none`, only a preview drawing; clamped into [0, 1] (§10.2 (c)); read as no size given — the `scale` row (§10.2 (c)); nothing drawn | check · substitute · leave out and report | T-V11-46; T-V11-45 (t) |
+| EI-V11-EDGE-5 | V11 §3.25.10 damage | a decay level of 0 and of 1; a walls material with no `damage.materials` row; a range edited to lo ≥ hi or out of its states' shares; `defaultAgeYears` 0 | nothing damaged at 0 (§6.3: the level above 0 and at least t); every element damaged at 1 (t < hi ≤ 1), a ruined church keeping its crypt's rooms and ways (V04 §5.6); the `timber_frame` row, reported; clamped to the nearest lawful range (V11 §4.1); a building with no decay run at its state's floor (V06 §3.23 (2)) | check · substitute | T-V11-47; T-V11-45 (u) |
+| EI-V11-EDGE-6 | V11 §3.25.11 weather | a week no band of a row covers; a site factor on a kind the row holds no band for; a `snow` entry or an arid rain cell edited past a hard rule; a `light` other than `'time'` | no spell comes, and Start a shower now starts none; the kind stays absent; clamped — the `snow` entry to 0, the rain cell to its cap (V11 §4.1); the `hours` cells unread, every hour admitted | check · leave out | T-V11-48; T-V11-45 (v) |
 
 **The combinations** (a physical feature of another unit read through these tables). One rule defines them all: a feature
 reads its rows at the document's rung — a row's rung key decides, and a table with none applies at every rung; an
@@ -4524,6 +4784,9 @@ default (item 20); a failure reading a row takes V11 §3.2.3's rungs. The rows e
 | C-vault-tables | `raisedWays.structure.span` (V11 §3.24.2), `naming.vaults` | every rung a raised way stands |
 | C-shade-tables | `prosperity.drivers`' `w_sun` × the climate row's sun cell (V11 §3.3.5, V11 §3.25.1) | CITY–METROPOLIS (the islands' shade in pass 2) |
 | C-dossier-tables | every `dossier.*` row set (never calibrated) | every rung |
+| C-crisis-tables | `crisis.looks`, `crisis.map` (V11 §3.25.9) | every rung, THORP to the METROPOLIS cap, by each look's `scale` row; at THORP, HAMLET and VILLAGE a disaster's units V07's ends |
+| C-damage-tables | `damage.elements`, `damage.materials` (V11 §3.25.10) | every rung where a building stands abandoned, decayed or ruined, and a disaster look's districts at its `lookLevel` |
+| C-weather-tables | the climate rows' `weather` cells, the `settings` row's weather block (V11 §3.25.11) | every rung |
 
 T-V11-45 (r) runs one fixture per combination and listed rung: one row edited, only the feature's readers re-derived, the
 undo byte-identical.
@@ -4536,9 +4799,11 @@ undo byte-identical.
 The tables editor (its screens V09's) reads `REGISTRY` for each table's columns, units, declared ranges, enum values and
 refs and validates in §7.1's dry run. **The one statement of the edit rule**: a numeric value outside its declared range,
 or one that would break a compile inequality (the terrace inequalities, T-V11-32 (a); the clear-span bound, T-V11-32 (h);
-the largest-crypt bar, T-V11-25), is clamped to the nearest lawful value with the dry run's one-line note (§7.1; item 101
-R2); only a dangling `ref`, a type error or an owner rule is refused, F-EDIT (§5.2), naming the rule — the one owner rule a
-table edit can meet is item 110 (b)'s rung gate (a `raisedWays` row below CITY), refused with the alternative "declare the
+the largest-crypt bar, T-V11-25; item 123's range order, T-V11-47 (a); item 124's two hard rules, T-V11-48 (a)–(b): a
+`snow` entry where no snow may fall clamps to 0, an arid rain cell to its cap), is clamped to the nearest lawful value with
+the dry run's one-line note (§7.1; item 101 R2); only a dangling `ref`, a type error or an owner rule is refused, F-EDIT
+(§5.2), naming the rule — the one owner rule a
+table edit is refused for is item 110 (b)'s rung gate (a `raisedWays` row below CITY), refused with the alternative "declare the
 raised way"; a stamped cell is edited like any cell — its stamp binds calibration runs, fallbacks and corpus packs, never
 a user's edit (V11 §3.2.1 step 4). **A row readers fall back to is never deleted** (J-V11.113): a row `delete` — by
 `editTable` or a pack's patch — of the row a schema names as its readers' declared default (`TableSchema.defaultRow`,
@@ -4559,7 +4824,8 @@ screen to a cell here and V10 §4.1's encoders write only these cells):
 * **`siting.declared`** — item 104 (a) (1)'s author declaration, four KEY FORMS:
   - the kind keys — `uid:<localUid>` (a custom kind), `cat:<catalogId>` (a catalogue kind) and `cls:<class>` (a roster class
     no dossier record binds) — each admitting `{ profile?: Partial<SitingProfile>; familyWeights?: Record<string, 0|0.5|1|2|3>
-    /* per family, × that family's soft terms for the kind's members; hard needs unscaled */; quarter?: Id /* a district,
+    /* per family, × that family's soft terms for the kind's members — a family the cell does not hold
+    multiplies by 1; hard needs unscaled */; quarter?: Id /* a district,
     or a named quarter record */; place?: Id /* a plot or a district */; split?: false /* the kind's members stay one site
     each (item 105 (h)) */ }`; a kind row shapes every member of the kind;
   - `use:<use address>` (ONE institution) admitting `{ place?: Id; pin?: Id; split?: false; specialisation?:
@@ -4586,9 +4852,9 @@ PLACEMENT is S10b's `relocation` request in the least-disruption order (§4.7 S1
 default every placed use whose present plot still passes its hard rows is **kept** and listed with the score it would gain
 by moving; the user confirms moves per use or all (the fates stored in the `editTable` event, §7.1). Template, heights,
 material, naming and climate edits re-derive by §7.6. A `dossier.kinds` edit re-binds the records of that kind through the
-port's next digest (V08), a dossier-derived change with least disruption. The item-109, item-110 and items 111–119 tables
-re-derive by V11 §2.10's rows (standing generated structures kept and listed; removals held; the looks of items 117 and 118
-re-skin only).
+port's next digest (V08), a dossier-derived change with least disruption. The item-109, item-110, items 111–119 and items
+122–124 tables re-derive by V11 §2.10's rows (standing generated structures kept and listed; removals held; the looks of
+items 117, 118, 122 and 124 and item 123's damage redraw only).
 
 **4.4 Lifecycle of each edit kind** (§7.4's columns; only what differs from `editTable`'s row; the tables' own rows are
 V11 §2.10's):
@@ -4629,7 +4895,9 @@ Tables are not drawn; the entities they feed are, by §8 and §9. What this volu
    fortified roles), and the compiler refuses a template family without one (T-V11-7). The item-110 structures are drawn
    by their owners (the base's `RetainingWall` and raised parts, V02's tiers and deck buildings, V04's vaults, V09's views)
    with this volume's materials (V11 §3.19.3's structure keys) through §8.2's roles (file f item 412); item 114's patched
-   runs by their patch rows' `look`, item 117's season and item 118's decorations by §8.2's rows from V11 §3.25's cells.
+   runs by their patch rows' `look`, item 117's season, item 118's decorations, item 122's crisis looks and item 124's
+   weather effects by §8.2's rows from V11 §3.25's cells, and item 123's damage by V03's, V02's and V04's drawings at
+   V11 §3.25.10's thresholds.
 2. **Labels.** A use of σ ≥ 5 takes a `landmark` label (§9.1), its name from `naming.landmark` (a fort, a lighthouse and a
    mole included); a raised way is labelled like any way, its name from `naming.way`'s `raised` guard; a terraced district's
    name may read its terrace word; a ruin's from `naming.ruin` (its label only at `secret` while unexcavated, V04); an
@@ -4645,7 +4913,7 @@ Tables are not drawn; the entities they feed are, by §8 and §9. What this volu
    each owner item's table page carries its `says` sentences and its switch or off form (V11 §3.24.0).
 
 The shade map view, the link view, the siting explanations on screen, the terrace and raised-way tools, the deck badges,
-the season control and the festival list are V09's; the island's shade strip and pennants V05's.
+the season control, the festival list, Show crises and the weather switch are V09's; the island's shade strip and pennants V05's.
 
 ## 6 Performance budgets
 
@@ -4661,7 +4929,7 @@ through a `perf.qualitySpend` row (V11 §3.25.8); the interaction budgets are §
 | feature rasters for the derived rows | ≤ 0.4 ms per raster; ≤ 4 ms in total at TOWN, ≤ 10 ms at CITY, ≤ 26 ms at METROPOLIS (§12.4's × ≈ 2.6), inside §12.4's S10a/S10b rows as file f item 477 states them; at most 32 rasters per S10b pass | V11 §3.3.3: the 32 m field cell where every reading row's radius is ≥ 60 m, 16 m otherwise; one multi-level raster per nuisance in one pass; only rasters some allocated class reads. *Pre-decided fallback:* the nuisance rasters keep levels 2–3 only, then the cap falls to 24 |
 | the derived rows' scoring | ≤ 1.1 × S10b's time without them, at CITY and at METROPOLIS (T-V11-20) | soft rows scored like any other |
 | item 104 resolution per custom record | ≤ 0.2 ms | table lookups; keywords by one hash-set pass over ≤ 200 tokens |
-| the tables of items 109–119 (V11 §3.23–V11 §3.25) | ≤ 50 KB of the shipped payload together; every lookup O(1) (keyed rows); no budget of their own beyond their reading stages' (§12.4) — the season and festival cells are read per visible tile inside §12.5's re-skin and lazy-decoration budgets, the history cells once per generation | plain rows; the water balance and the burial age a handful of multiplications each |
+| the tables of items 109–124 (V11 §3.23–V11 §3.25) | ≤ 70 KB of the shipped payload together; every lookup O(1) (keyed rows); no budget of their own beyond their readers' (§12.4, §12.5) — the season, festival and crisis cells are read per visible tile inside §12.5's re-skin, lazy-decoration and lazy crisis budgets, the weather cells once per spell, the damage rows once per drawn plan, the history cells once per generation | plain rows; the water balance, the burial age and a decay level a handful of multiplications each |
 | shipped tables size | ≤ 1.5 MB JSON, ≤ 300 KB gzipped for the CURRENT version; each retained output version (N−1, N−2) stores its tables as row deltas against the current version, rows content-addressed by H128, ≤ 150 KB gzipped each — §6.4's bar | canonical JSON; deltas by row hash |
 | memory of the `TableView` | ≤ 12 MB at METROPOLIS including derived rows | frozen objects, shared across documents with the same view hash |
 
@@ -4677,10 +4945,10 @@ writes a row):
 | id | test | bar |
 |---|---|---|
 | T-V11-0 | the shipped sources compile: every invariant below holds on the rows as written in this volume, and T-V11-3, T-V11-4, T-V11-5, T-V11-7 and T-V11-25 hold on V07 §2.4's `v.` rows as on every class (V07's T-V7-56); the preset checks of V11 §3.2.1 step 4 hold under each registered preset whose file ships — `NG`'s among them from V01's M5: no `presets.NG` entry off `hood.constants`, and the named off forms at their off values under `NG` | 0 failures |
-| T-V11-1 | registry closure and readers: (a) every table any design document names has a registry entry — a scripted grep of the design and the volumes for table ids, `.json` names and the `tables/…` and `dossier/…` path forms (V04's `tables/dossier/sanitation` and `tables/dossier/subterranean` among them), the item-110 cells `terrace.slopeMin`, `terrace.stepMinCm`, `viaduct.minDropM` and the deck row, the application's and the clerk's tables `toolkit.json`, `messages/<locale>.json`, `clerk.ops` and `clerk.content`, V01's `way.surface` and `squares.quota`, the base settings cells `reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM` and `view.zoomOutMarginStops`, the owner items' tables (`history`, `history.events`, `walls.condition`, `walls.patchMaterials`, `grandeur.ceiling`, `season.*`, `festival.*`, `perf.qualitySpend`) and the prose keys of V11 §3.24.2's and V11 §3.24.1's name maps (the span rule's `raised.vaultShare`, `raised.vault.maxHeightCm`, `minHeadroomCm`, `maxFallCm`, `raised.vaultCap`, `raised.deckDepthCm`, `raised.supportFoundationCm`, file f item 244's slide bound and `retaining.stateSnapCm`, each resolving to a live calibratable column of row 80's `structure` or row 79's `settings`) — and every entry has its file; the catalogue count is read from `REGISTRY`; (b) readers complete: in the integration suite that loads every shipped package (the golden tooling's, §13.3), the loader hands each stage and each epoch phase a `TableView` tagged with the StageId of the stage function that reads (V11 §3.1's *Readers*), which records every table it reads; over the golden fixtures at every rung of both products, with three `'history'` epochs and one history replay, every recorded (stage, table) pair has the stage among that table's compiled `stageReaders` (the `S5` group expanded); a listed stage no run records is reported, never failed; and the source manifest's `stageIds` equals the stage registry's ids with every shipped package loaded | 0 missing; 0 unlisted stage readers |
+| T-V11-1 | registry closure and readers: (a) every table any design document names has a registry entry — a scripted grep of the design and the volumes for table ids, `.json` names and the `tables/…` and `dossier/…` path forms (V04's `tables/dossier/sanitation` and `tables/dossier/subterranean` among them), the item-110 cells `terrace.slopeMin`, `terrace.stepMinCm`, `viaduct.minDropM`, `raisedWays.structure.stripMarginM` (§4.6 S8's strip) and the deck row, the application's and the clerk's tables `toolkit.json`, `messages/<locale>.json`, `clerk.ops` and `clerk.content`, V01's `way.surface` and `squares.quota`, the base settings cells `reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM` and `view.zoomOutMarginStops`, the owner items' tables (`history`, `history.events`, `walls.condition`, `walls.patchMaterials`, `grandeur.ceiling`, `season.*`, `festival.*`, `perf.qualitySpend`, `crisis.looks`, `crisis.map`, `damage.elements`, `damage.materials`) and the prose keys of V11 §3.24.2's and V11 §3.24.1's name maps (the span rule's `raised.vaultShare`, `raised.vault.maxHeightCm`, `minHeadroomCm`, `maxFallCm`, `raised.vaultCap`, `raised.deckDepthCm`, `raised.supportFoundationCm`, file f item 244's slide bound and `retaining.stateSnapCm`, each resolving to a live calibratable column of row 80's `structure` or row 79's `settings`) — and every entry has its file; the catalogue count is read from `REGISTRY`; (b) readers complete: in the integration suite that loads every shipped package (the golden tooling's, §13.3), the loader hands each stage and each epoch phase a `TableView` tagged with the StageId of the stage function that reads (V11 §3.1's *Readers*), which records every table it reads; over the golden fixtures at every rung of both products, with three `'history'` epochs and one history replay, every recorded (stage, table) pair has the stage among that table's compiled `stageReaders` (the `S5` group expanded); a listed stage no run records is reported, never failed; and the source manifest's `stageIds` equals the stage registry's ids with every shipped package loaded | 0 missing; 0 unlisted stage readers |
 | T-V11-2 | totality: `dossier.kinds` covers the line's 280 catalogue kinds; `dossier.archetypes` the 17; every profile family named by V08's `tags` and `categories` rows exists; every band-keyed table has a row or interpolates for every band of `prosperity.bands`; every QUARTER kind names an identity row and every `definedBy` is a class id; every pair of `dossier.catalogue`'s `ladderPairs` is a `dossier.ladders` row or on the uncatalogued list; the burial kinds (`burial_ground`, `graveyard`, `parish_burial_grounds`, `burial_grounds_and_charnel_house`) form one ladder chain; `landuse` covers `LandUse.kind` (`garden` included); `history.events` covers V08's `historyEvents` keys and `none`; `grandeur.ceiling` the six rungs; `roster.government` every `GovernmentRow` kind; `season.leaf` every deciduous species of the climate rows' woods; `walls.patchMaterials` at least two rows admitted for every wall kind and culture; `festival.decorations` every rung and `SKY`; `festival.motifs` every culture of V11 §3.20.3 and the four seasons; `festival.staging`'s `fallback` the four festival kinds | 100 % |
 | T-V11-3 | identity: no key reused from the retired list; every `ref` column resolves; every `defaultRow` is a live key of its table; every class id referenced by any table (kinds, covers, pairs, identities, villageForm, government, specialisations, deckOk rows, landmark claimants, history-event `uses`) exists; every derived row's `to` lies in V11 §3.3.3's feature-class vocabulary; every V07 row is keyed `v.<id>` and every `villageForm`, `villageSeat` and archetype `village.class` / `elseClass` names a `v.` key and nothing else (V11 §2.9); every `split.works` and `split.shop` is a template-family key of V11 §3.6.1; a named row of the settings form (V11 §2.1) holds exactly the columns whose `row` names it, and a keyed row none of them; every key well-formed and unique within its table | 0 dangling |
-| T-V11-4 | coherence of a class row: every class row names its ONE family; the compiled `competition.mode` is `neutral` for a `singular` class and `cluster` for a `district-defining` one; a `district-defining` class has an identity row that names it; a hard family-derived row only for a `NeedSpec` marked hard; weights in `powers` and `sectors` sum to 1 ± 0.001; a coverage row's `per` and `target` inside their ranges (both > 0); the display cells: every class row — the `v.` rows and the generic rows included — has a non-empty `label`, unique within its namespace (V11 §2.3), no synonym equal to a label of its namespace or to its own, a `commonness` in [0, 1] — on a town-and-city or `v.` row compiled, never stated in its source, and equal to V11 §3.5.1's rule recomputed (V07's T-V7-56 recomputes the `v.` rows'), 0 on a generic row — and an `icon`, where compiled, that is a V09 §5.1 sprite id; every profile family, good, district kind, patch material and shipped style sheet row has a non-empty `label`, the non-alias families' labels unique and, from the change that ships the glyphs, each with its `fam.<key>` icon; every non-alias profile family row one `findGroup`, each of `FindGroup`'s nine held by at least one family (V11 §2.3's lexicon) | 0 violations |
+| T-V11-4 | coherence of a class row: every class row names its ONE family; the compiled `competition.mode` is `neutral` for a `singular` class and `cluster` for a `district-defining` one; a `district-defining` class has an identity row that names it; a hard family-derived row only for a `NeedSpec` marked hard; weights in `powers` and `sectors` sum to 1 ± 0.001; a coverage row's `per` and `target` inside their ranges (both > 0); the display cells: every class row — the `v.` rows and the generic rows included — has a non-empty `label`, unique within its namespace (V11 §2.3), no synonym equal to a label of its namespace or to its own, a `commonness` in [0, 1] — on a town-and-city or `v.` row compiled, never stated in its source, and equal to V11 §3.5.1's rule recomputed (V07's T-V7-56 recomputes the `v.` rows'), 0 on a generic row — and an `icon`, where compiled, that is a V09 §5.1 sprite id; every profile family, good, district kind, patch material, crisis look and shipped style sheet row has a non-empty `label`, the crisis looks' labels unique, the non-alias families' labels unique and, from the change that ships the glyphs, each with its `fam.<key>` icon; every non-alias profile family row one `findGroup`, each of `FindGroup`'s nine held by at least one family (V11 §2.3's lexicon) | 0 violations |
 | T-V11-5 | no compiled profile both emits a nuisance at level 2 or more and is sensitive to it at level 2 or more (V11 §3.3.2) | 0 |
 | T-V11-6 | derived rows per class ≤ 48; shadowed derived rows listed | bound holds |
 | T-V11-7 | every template family names a symbol role and a heights row; every structure role is in the role table; every class's template compiles for every band | 100 % |
@@ -4692,7 +4960,7 @@ writes a row):
 | T-V11-25 | crypts: `cathedral` and `great_temple` are `always`; every `always` class has `cryptM2` and its minimum exceeds every `basement` class's maximum; every `basement` class's template family has a cellar row above 0 at some band; no class outside the worship and monastic families and their generic classes is `always` or `basement` | 100 % |
 | T-V11-26 | catacombs: the caps do not decrease with the rung; every chance in [0, 1]; `quarryOssuary` 0 at TOWN; every rung has an `order` entry, each a burial-face class or `quarryOssuary`, METROPOLIS's starting with `network`; no source names a church-family class or a crypt | 100 % |
 | T-V11-28 | goods totality: every good has a producer (a class, a site land use or deposit, or kind `import`) and a consumer (a class edge or a `demand` other than `classes`) | 0 orphans |
-| T-V11-32 | item 110's rows: (a) `plinthCm < stepMinCm < skirtMaxCm < stepMaxCm`, `stepMaxCm ÷ 100 ÷ minTerraceDepthM ≥ slopeMin` and `flatDepthM ≥ minTerraceDepthM`; (b) `raisedWays` holds exactly the six CITY and METROPOLIS rows and its key admits no other rung; (c) no `deckOk` kind on an `always`-crypt class or a `fire` ≥ 2 class; (d) every specialisation row's `composition` is a key of V02's `composition.json`, its class a `roster.classes` row, its `heights` a `heights` row; (e) no specialisation row for a shipped culture other than `mesoamerican`, `south_asian` and `east_asian`; (f) `ways.crossing` covers every `WayClass`; (g) `deck` holds the sixteen kind × band rows; (h) each material's `raisedWays.structure.maxClearSpanM` ≥ its `pierSpacingM` upper bound × `slideMaxFactor`, so a slid station's span never passes the clear-span bound | 100 % |
+| T-V11-32 | item 110's rows: (a) `plinthCm < stepMinCm < skirtMaxCm < stepMaxCm`, `stepMinCm < stepMaxCm ÷ 2` (an intermediate terrace's two walls each above `stepMinCm`, §4.7's step regions), `stepMaxCm ÷ 100 ÷ minTerraceDepthM ≥ slopeMin` and `flatDepthM ≥ minTerraceDepthM`; (b) `raisedWays` holds exactly the six CITY and METROPOLIS rows and its key admits no other rung; (c) no `deckOk` kind on an `always`-crypt class or a `fire` ≥ 2 class; (d) every specialisation row's `composition` is a key of V02's `composition.json`, its class a `roster.classes` row, its `heights` a `heights` row; (e) no specialisation row for a shipped culture other than `mesoamerican`, `south_asian` and `east_asian`; (f) `ways.crossing` covers every `WayClass`; (g) `deck` holds the sixteen kind × band rows; (h) each material's `raisedWays.structure.maxClearSpanM` ≥ its `pierSpacingM` upper bound × `slideMaxFactor`, so a slid station's span never passes the clear-span bound | 100 % |
 | T-V11-37 | the village readings and the wall kinds: every `GovernmentRow` has a `villageSeat`; every `dossier.archetypes` row a `village` cell with exactly one of `class`, `pin`, `ruin`; `guildhall`, `castle` and `palace` carry no `villageForm`; `citizen_militia` and `gates_if_walled` map to `@none`; every `walls.barriers` row carries an `arcKind` column, null only on `open`, `sheer` only under the `islandRim` rule; the never-calibrated rows of V11 §3.1's *The count* carry `calibratable: false` on every column; no switch cell — `siting.web.orientEnabled`, `siting.web.splitEnabled`, `terrace.enabled`, `history.replay`, `walls.condition.atGeneration`, `grandeur.ceiling`'s `enabled` — is calibratable | 100 % |
 
 **7.2 Behaviour bars** (the §13.2 statistics bench, over ≥ 200 B-CITY seeds per rung with a random-placement baseline that
@@ -4730,9 +4998,9 @@ bar): buildings per 1 000 residents by profile family on B-CITY against the FTG 
 from `baselines.json`, V12 §2.3), reported at M2b so a family far off the reference's rate is visible before the corpus
 stage.
 
-**7.4 The owner items 111 and 113–119, the base settings row and the edges.** Each item's behaviour bars are the base's
-(§13.2's T111–T119 groups) and the owning volumes'; these are its rows' bars, and each no-op pin is a NoOpPin registration
-on V12 §3.7.8's engine reading V11 §3.24.0's off form (E-20):
+**7.4 The owner items 111, 113–119 and 122–124, the base settings row and the edges.** Each item's behaviour bars are the
+base's (§13.2's T111–T119 and T122–T124 groups) and the owning volumes'; these are its rows' bars, and each no-op pin is a
+NoOpPin registration on V12 §3.7.8's engine reading V11 §3.24.0's off form (E-20):
 
 | id | test | bar |
 |---|---|---|
@@ -4740,10 +5008,13 @@ on V12 §3.7.8's engine reading V11 §3.24.0's off form (E-20):
 | T-V11-39 | item 113's rows: (a) `minYears ≤ burialYears ≤ maxYears`, `symbolicQuantile` in [0, 1], every factor in its range; every `history.events` row's effect fields consistent (a `hazard` row names a V06 hazard kind, a `uses` row live classes, a `population` factor > 0, a `destroy` row a threshold in [0, 1]); the factored burial age of V11 §3.25.2 recomputed on four fixtures (a flooded alluvial town, a rebuilt town, a rock-built town, none) equals the formula; (b) the no-op pin — `replay` false byte-identical to the one-click path (V06's T-V6-71 takes the replay's bars) | 100 %; identical |
 | T-V11-40 | item 114's rows: (a) `meansLow < meansHigh`; every `generation` row's shares sum to 1 ± 0.001 and no share of `patched` under means `high`; every patch row's `material` a `materials` key and its `look` a §8.2 role; at least two rows admitted for every wall kind and culture, their labels unique within a kind; (b) the no-op pin — the off form reproduces the neglect and repair rules before item 114 byte for byte (V06's T-V6-73 takes the transitions' bars) | 100 %; identical |
 | T-V11-41 | item 115's rows: (a) the THORP, HAMLET and VILLAGE rows admit only `single`, `L`, `T` dwellings, no tower, turret, gatehouse or court, the manor at most 0, 0 and 1 with their requirements, and each is stamped `'115 (b)'`; TOWN and above `all`; every family name a V02 composition family; every `settings.grandClasses` entry a live class key; every column `calibratable: false`; (b) the no-op pin — `enabled` false, and at TOWN and above with it true, byte-identical to the base without item 115 (V06's T-V6-74 and V07's T-V7-63 take the village and epoch bars) | 100 %; identical |
-| T-V11-42 | item 117's rows: every climate row's bands lie in 0–51 and resolve to weeks in cyclic order; every `season.surfaces` row covers all 52 weeks with no gap (its phases cyclic, none of zero length); the `arid` row draws no ice and no snow; `season.water`'s lags non-decreasing from `pond` to `seaShore` and its `freezesFrom` non-decreasing; a temperate-deciduous wood's species palettes give at least five distinct colours; every cover row `start ≤ end`; no season table has a StageId reader (a look only), so the model hash is identical in every week (the base's T117 bar measures it) | 100 % |
+| T-V11-42 | item 117's rows (takes T117-3): every climate row's bands lie in 0–51 and resolve to weeks in cyclic order; every `season.surfaces` row covers all 52 weeks with no gap (its phases cyclic, none of zero length); the `arid` row draws no ice and no snow; `season.water`'s lags non-decreasing from `pond` to `seaShore` and its `freezesFrom` non-decreasing; a temperate-deciduous wood's species palettes give at least five distinct colours; every cover row `start ≤ end`; no season table has a StageId reader (a look only), so the model hash is identical in every week (the base's T117 bar measures it) | 100 % |
 | T-V11-43 | item 118's rows: each rung's decoration rows name only its own items — THORP's ⊆ {garland, bonfire}, HAMLET's ⊆ {maypole, bonfire, garland}, VILLAGE's ⊆ {maypole, bunting, stall, table}, no TOWN, CITY or METROPOLIS item at a smaller rung; every staging key maps to a place kind and the fallback covers the four kinds; the generic festivals' windows lie in 0–51; no festival table has a StageId reader (a look only); every column of rows 102–105 `calibratable: false` | 100 % |
 | T-V11-44 | (a) the base settings row: its four cells equal the base's constants (3; 120 m; 25, 10 and 5 m; 1 stop) and are `calibratable: false`; (b) `perf.qualitySpend`: every row names a registered StageId (in its own readers), a bar id and a `CalibrationRun`, with `extraMs` > 0; (c) the sensitive kinds: `slave_market`, `trafficking_den` and `kidnap_den` carry `none` 0 concealment rows and ≥ 2 fronts; on a fixture dossier a record of each kind without `knownTo` draws its front in the players' view and its function in the secret view, and one with `knownTo: 'public'` draws its function in both | 100 % |
-| T-V11-45 | the edges of V11 §3.26, one fixture each: (a) the data edges of the family, pair and goods rows; (b) the cart-class crossing beyond 1.5 × `rampMaxGrade` (a 4 m step across a `through` way with a short run): re-cut or not levelled, never a stair or a gap; (c) the coverage units' edges (a district with no residential plot; a member at distance 0); (d) the families and pairs at every rung, THORP to the METROPOLIS cap; (e) the district kinds' edges; (f) the identities' edges; (g) an `editTable` on an identity, kind, ladder, custom-chain, government and `villageForm` row — only the recorded readers re-derived, held edits kept, the undo byte-identical, a load replaying the pinned versions, an older pinned set upgraded; (h) the pseudo-class facts under the toggles and the parity presets; (i) concealment with one standing front and at a village rung; (j) the degenerate wall arcs; (k) no biome, a missing climate or land-use row; (l) the material and decline edges; (m) no era or region, a culture naming no era; (n) naming under the parity presets and a corpus pack; (o) the government, religion and household edges; (p) a catacomb at a rung with no church and a zero-year epoch; (q) item 110's degenerate strokes, decks and short raised ways; (r) the combinations of V11 §3.26, one row edited per combination and listed rung; (s) a row `delete` of a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover and the last row of a table not `mayEmpty`, by `editTable` and by a pack — each refused naming its readers (the pack's op at load, the row standing); a cell edit of the same row applies | every stated outcome; 0 crashes, 0 whole-map retries |
+| T-V11-45 | the edges of V11 §3.26, one fixture each: (a) the data edges of the family, pair and goods rows; (b) the cart-class crossing beyond 1.5 × `rampMaxGrade` (a 4 m step across a `through` way with a short run): re-cut or not levelled, never a stair or a gap; (c) the coverage units' edges (a district with no residential plot; a member at distance 0); (d) the families and pairs at every rung, THORP to the METROPOLIS cap; (e) the district kinds' edges; (f) the identities' edges; (g) an `editTable` on an identity, kind, ladder, custom-chain, government and `villageForm` row — only the recorded readers re-derived, held edits kept, the undo byte-identical, a load replaying the pinned versions, an older pinned set upgraded; (h) the pseudo-class facts under the toggles and the parity presets; (i) concealment with one standing front and at a village rung; (j) the degenerate wall arcs; (k) no biome, a missing climate or land-use row; (l) the material and decline edges; (m) no era or region, a culture naming no era; (n) naming under the parity presets and a corpus pack; (o) the government, religion and household edges; (p) a catacomb at a rung with no church and a zero-year epoch; (q) item 110's degenerate strokes, decks and short raised ways; (r) the combinations of V11 §3.26, one row edited per combination and listed rung; (s) a row `delete` of a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover and the last row of a table not `mayEmpty`, by `editTable` and by a pack — each refused naming its readers (the pack's op at load, the row standing); a cell edit of the same row applies; (t) the crisis tables' edges (an unmapped word, the empty `map` set, a severity outside [0, 1], a headcount of 0, a zero `scale`); (u) the damage tables' edges (levels 0 and 1, a material with no row, a range edited out of its shares); (v) the weather cells' edges (a week with no live kind, a site factor on an absent kind, an edit past a hard rule, a `light` other than `'time'`) | every stated outcome; 0 crashes, 0 whole-map retries |
+| T-V11-46 | item 122's rows (takes T122-4): (a) the closed mapping — every word of the catalogue manifest's `sf.stressors@<line>` list has its `stressor` row and every word of its `sf.conditionArchetypes@<line>` list its `archetype` row, each naming a live `crisis.looks` kind or `none`, no two rows sharing a `from/key`; (b) `crisis.looks` holds one row per `CrisisLookKind`; every `scale` pair `lo ≤ hi`, inside its range and non-decreasing from THORP to METROPOLIS at each end, the camp places' rows in m² and the others' shares in [0, 1]; `lookLevel` on the `disaster` row only, inside the `ruined` share (V06 §3.23 (2)); the camp looks' priorities in item 122 (c)'s order, `siege` and `blockade` before `quarantine` before `refugeeCamp`; (c) every `settings` cell inside its range; (d) no crisis table has a StageId reader (a look only) | 100 % |
+| T-V11-47 | item 123's rows: (a) `damage.elements` holds one row per `DamageElementKind`, each range `0 ≤ lo < hi ≤ 1` inside the shares of its `states` (V06 §3.23 (2)'s thirds); item 123 (c)'s order — `partition`'s upper end at most `outerWall`'s lower, `upperFloor`'s lower end at most `groundFloor`'s, each crypt kind's lower end at least each cellar kind's; (b) every `damage.materials` rate inside its range, `timber_frame`'s above every masonry row's (`ashlar`, `rubble`, `brick`, `dry_stone`), every walls material of V11 §3.19.3 resolving to its row or the default row; (c) `defaultAgeYears` inside its range; (d) no damage table has a StageId reader (a drawing only) | 100 % |
+| T-V11-48 | item 124's rows (takes T124-3's compile clause and T124-4's row clause): (a) no snow where winter does not freeze — no `snow` entry on an arid row, on a row whose winter is `none` or on a row with no `snow` band, no `snow` or `ice` band on an arid row or one whose winter is `none`, and every other row's `snow` entries inside its `ice` and `snow` weeks, a hill site's factor included (T124-3; V12 measures the drawn weeks); (b) arid rain — on every arid row and under every site's factor, `rain` and `drizzle` at most `aridRainMaxPerHour` and in bands covering at most `aridRainMaxWeeks` weeks, none in any other week (T124-4; V12 measures the replayed frequency against the row); (c) every band inside 0–51, no two bands of one kind on a row sharing a week, every `perHour` ≥ 0, every `lengthS` lower end at least twice its kind's fade (§8.4 (i)) and below its upper end, every `hours` inside [0, 24], every site factor inside its range; (d) no weather cell has a StageId reader (a look only) | 100 % |
 
 ## 8 Build plan
 
@@ -4755,13 +5026,13 @@ on V12 §3.7.8's engine reading V11 §3.24.0's off form (E-20):
 | C3 — the full ladder and the tables editor's data | the remaining classes (arcane, exotic, adventuring, clandestine, military extras), the compatibility table, the document-only tables with their three key forms, exports and docs pages | T-V11-2 on the ladder, T-V11-11; the register green (below) | 1.0–1.5 pw | M3a (the tables editor) |
 | C3b — item 110's rows | V11 §3.24's eight tables and the switches; the `fort` and `lighthouse` classes; the `fort` and `arena` template families; the `stepped-shrine` heights row; the structure material keys and the structures decline block; the era and culture factors; the naming additions of V11 §3.20 for raised ways, slots and terraces | T-V11-31 – T-V11-36 and T-V11-32 on the bench and the two known-city fixtures; the register green (below) | 0.75–1.25 pw | M3a, beside C3 (item 110 (e)'s second fixture and V02's tier and deck construction ship there, file f item 229) |
 | C4a — the wall rows | the wall barrier and waterfront rows (item 106; V11 §3.16) | T-V11-19 on item 106 (h)'s barrier fixtures; T-V11-37's `walls.barriers` clause; the register green over them | 0.5 pw | M2b, with item 106's base (inside the content line) |
-| C4b — the SettlementForge rows | `dossier.kinds` (280), archetypes, category synonyms, keywords, good words, ladders | T-V11-2, 16, 17 and T-V11-37's other clauses on the 155 frozen dossier fixtures (the dossier row sets are not calibratable) | 1.0–1.5 pw | M-SF (V08's milestones; §16's staged content line) |
+| C4b — the SettlementForge rows | `dossier.kinds` (280), archetypes, category synonyms, keywords, good words, ladders; item 122's `crisis.map` rows (V11 §3.25.9) | T-V11-2, 16, 17, T-V11-46 (a) and T-V11-37's other clauses on the 155 frozen dossier fixtures and V08's census lists (the dossier row sets are not calibratable) | 1.1–1.6 pw | M-SF (V08's milestones; §16's staged content line) |
 | C5 — naming | the grammars of V11 §3.20 and the corpora of V11 §3.20.5 authored and scanned | T-V11-15; the register green (below) | 1.5–2.0 pw (O13-core at M2b, full at M3b) | M2b and M3b |
 | C6 — provenance audit and calibration hand-off | the audit of the register entries every earlier exit wrote (V12 §3.11); every default cell's `ref:` and `extension` audited; the corpus stage's re-sign list is those entries | M4's table-provenance audit | 0.5 pw | M4 |
 | C7 — the module's content | professions, items, services, prices | M4b's exit; the register green (below) | 1.0–1.5 pw | M4b |
 | C8 — item 109's rows | V11 §3.23: the cavern cell, the ruin chances, the four ancient-culture rows with their monument cells, the persistence order, the void rank, the dig and opening rows, the catacomb rows; the crypt rows of V11 §3.5.8 checked against V03's ring | T-V11-23 – T-V11-26 (compile), T-V11-24 (bench); the register green (below) | 0.75–1.0 pw | the underground layer's milestone (M6-U, J-VI.22), reviewed with V04's U3; §16's staged content line |
-| C9 — the rows of items 111 and 113–119 | V11 §3.25: item 111's dry-country cells and the `garden` row; item 113's `history` cells and event rows; item 114's condition cells and patch rows; item 115's ceiling; item 116's margin cell (row 92); item 117's season cells and tables; item 118's festival tables; item 119's empty `perf.qualitySpend` | T-V11-38 – T-V11-44 at the exits of the milestones that build each item's base mechanism (§16's rows for items 111–119: item 111's with S0–S1's oasis and S3's pull; item 113's with V06's E9; item 114's with V06's walls step and §7.7's row; item 115's with S10b's rung ceiling; items 116–118's with §8.8's limit and §8.2's season and decoration rows); the register green (below) | 0.75–1.25 pw | beside each item's base milestone (§16) |
-| **total** | | | **13.0–18.25 pw** | **§16's first total** carries C0–C3b, C4a, C5–C7 and C9 — 11.25–15.75 pw inside its content line (which also prices presets, symbols and textures): 8.25–10.75 for the rows outside file g and 3.0–5.0 for file g's (C2's g share 1.0–2.0 for items 102, 103, 105 and 107; C4a's 0.5 for item 106; C3b for item 110; C9 for items 111 and 113–119); **§16's staged content line** carries C4b and C8 — 1.75–2.5 pw (the 280 kind rows and items 104 and 108's dossier rows; item 109's rows); file g's rows in all 4.75–7.5 pw (file f items 532, 568; J-V11.117) |
+| C9 — the rows of items 111, 113–119 and 122–124 | V11 §3.25: item 111's dry-country cells and the `garden` row; item 113's `history` cells and event rows; item 114's condition cells and patch rows; item 115's ceiling; item 116's margin cell (row 92); item 117's season cells and tables; item 118's festival tables; item 119's empty `perf.qualitySpend`; item 122's look rows and settings (its `map` rows C4b's); item 123's damage ranges, default age and rates; item 124's weather cells | T-V11-38 – T-V11-44 and T-V11-46 – T-V11-48 at the exits of the milestones that build each item's base mechanism (§16's rows for items 111–119 and 122–124: item 111's with S0–S1's oasis and S3's pull; item 113's with V06's E9; item 114's with V06's walls step and §7.7's DR41; item 115's with S10b's rung ceiling; items 116–118's with §8.8's limit and §8.2's season and decoration rows; items 122 and 124's with §8.2's crisis looks and weather effects at M3b; item 123's with V03's plan step that draws a decayed or ruined plan, V03 §8); the register green (below) | 1.25–2.0 pw | beside each item's base milestone (§16) |
+| **total** | | | **13.6–19.1 pw** | **§16's first total** carries C0–C3b, C4a, C5–C7 and C9 — 11.75–16.5 pw inside its content line (which also prices presets, symbols and textures): 8.25–10.75 for the rows outside file g and 3.5–5.75 for file g's (C2's g share 1.0–2.0 for items 102, 103, 105 and 107; C4a's 0.5 for item 106; C3b for item 110; C9 for items 111, 113–119 and 122–124); **§16's staged content line** carries C4b and C8 — 1.85–2.6 pw (the 280 kind rows, items 104 and 108's dossier rows and item 122's mapping; item 109's rows); file g's rows in all 5.35–8.35 pw (file f items 532, 568; J-V11.117) |
 
 **The register at every exit** (J-V11.69). Each content milestone's exit — C1, C2, C3, C3b, C4a, C4b, C5, C7, C8, C9 —
 includes `plat calibrate register --check` green over the tables it lands: one `target.column` entry per calibratable
@@ -4769,8 +5040,8 @@ column (V12 §3.11), written by the seat landing the milestone, never deferred t
 hands them to the corpus stage. So V12's provisional-number lint, which runs from M1 (T-V12-20), never meets a V11 cell
 without its entry.
 
-**The non-g tables' entries** (J-V11.76). V12 §3.11's lines cover file g's rows (items
-102–119). The tables C1, C3 and C7 land outside file g take their `target.column` entries by the lines below, in V12 §3.11's
+**The non-g tables' entries** (J-V11.76). V12 §3.11's lines cover file g's rows. The
+tables C1, C3 and C7 land outside file g take their `target.column` entries by the lines below, in V12 §3.11's
 form, `owner` V11 unless a line says otherwise. The two metric families are V12's (V12 §2.1; J-V12.65): `bar.<id>` (the
 verdict statistic of one registered bar) and `frame.<table>.<column>` (a corpus frame's value for that column,
 `notApplicable` until M-CAL). **The bars V11's entries name are registered by V11's seats** (J-V11.78), each as a V12 `BenchBarDef` (V12 §2.1) in the change that writes the entry naming it. The
@@ -4795,7 +5066,7 @@ reason "no admissible frame", as V12 §3.11's g lines do. A column this volume m
 | `roster.districtKinds`' relation and `affinity` weights (row 18) | C1 | `measure` at M2b against MFCG's anchors (§13.5), then `corpus` at M-CAL | `district.area`, `quarter.count`, `usemix.entropy`; `frame.*` | V12 §3.6b's default (the driving weight doubles once, clamped); a second miss `not-achieved` |
 | `roster.quarterIdentities`' thresholds (row 28) | C2 | `measure` at M2b against MFCG's quarter count (§13.5), then `corpus` at M-CAL | `quarter.count`; `frame.*` | the failing threshold moves once by a quarter of its value toward the band, clamped; a second miss `not-achieved` |
 | `heights` (row 5) but its `stepped-shrine` row (V12 §3.11's item-110 line) | C1 | `corpus` at M-CAL (a frame's storey counts by band and district kind) | `frame.heights.<column>` | no admissible frame: closes `fixed` at M-CAL with its reason |
-| the rest: `mutator.compat`'s `tolerance` (row 40); `landuse` (row 44); `climate`'s columns but `rainMmPerYear` (row 43); `era` (row 50) and `materials` (row 49) outside item 110's factors and structure keys; the per-material `decline` rows (row 46, V11 §3.18's first table); `roster.covers` (row 26) and the `concealment` column; `roster.sectors`, `roster.powerLinks`, `roster.sectorLinks` (rows 29, 31); `roster.institutions`, `roster.government`, `roster.religions` (rows 20–22); `roster.settings`' `placement.extensionWeight`; every other calibratable class column (`priority`, the family defaults of V11 §3.5.1); `sim.*` (row 72) | C1; C3; C7 at M4b | `corpus` at M-CAL | `frame.<table>.<column>` | no admissible frame: closes `fixed` at M-CAL with its reason |
+| the rest: `mutator.compat`'s `tolerance` (row 40); `landuse` (row 44); `climate`'s columns but `rainMmPerYear`, the enumeration `farmLayout` and file g's cells (row 43; its `dry`, `seasons` and `weather` cells and its `settings` row are V12 §3.11's g lines); `era` (row 50) and `materials` (row 49) outside item 110's factors and structure keys; the per-material `decline` rows (row 46, V11 §3.18's first table); `roster.covers` (row 26) and the `concealment` column; `roster.sectors`, `roster.powerLinks`, `roster.sectorLinks` (rows 29, 31); `roster.institutions`, `roster.government`, `roster.religions` (rows 20–22); `roster.settings`' `placement.extensionWeight`; every other calibratable class column (`priority`, the family defaults of V11 §3.5.1); `sim.*` (row 72) | C1; C3; C7 at M4b | `corpus` at M-CAL | `frame.<table>.<column>` | no admissible frame: closes `fixed` at M-CAL with its reason |
 
 **The preset entries** (J-V11.74). The source type admits all five `PresetId` keys from C0, so no later schema change is needed. V11's `presets.MFCG` and `.FTG` entries land with their cells — `siting.web`'s four (V11 §3.7.4) at C2,
 `terrace.enabled`'s at C3b. Its `presets.VG` entries on the same five cells land with V07's **V-M0** — the milestone whose
@@ -4844,10 +5115,11 @@ V07's `v.` rows with V-M2 — and the district kinds', goods' and profile famili
 the compiler's `commonness` and `icon` from C1; the 45 family icons with V09's glyphs (V09 §5.1); the shipped style
 sheets' labels with each sheet (§16's M1, M2b, M3b, M5). Rows 79–80's `span`, `slideMaxFactor`, `maxClearSpanM` and `stateSnapCm` cells
 are written at C3b by the seat landing item 244's span rule at M3a, with their register entries (V12's span-rule, `raisedWays.structure`
-and `retaining` lines). The words are ≈ 0.1 pw inside C1's and C3's ranges; no estimate or milestone moves.
+and `retaining` lines); row 80's `stripMarginM`, the under-deck strip's margin §4.6 S8 reads, ships with item 110's rows at
+C3b, its entry the `raisedWays.structure` line. The words are ≈ 0.1 pw inside C1's and C3's ranges; no estimate or milestone moves.
 
 **Dependencies:** C0 before any stage reads a table; C1 before M1's gate; C2 needs the base's solver with file g's
-terms (the coherence pass's text) and the §13.2 bench; C4b needs V08's adapter and the frozen fixtures, C4a the base's item-106 arc classification at M2b; C5 needs the
+terms (the coherence pass's text) and the §13.2 bench; C4b needs V08's adapter, the frozen fixtures and, for item 122's mapping, V08's census lists in the catalogue manifest; C4a the base's item-106 arc classification at M2b; C5 needs the
 naming engine (§10.4) at M2b. **Risks and spikes:** (R1) the family weights' balance — a spike at the start of C2 runs
 the bench with the families alone, then with the authored rows, and tunes `siting.families` weights so no family
 dominates S10b's score (bar: no family's mean share of the winning score above 0.4); *fallback:* halve every family
@@ -4982,6 +5254,9 @@ item-110 records and V02's M3a tier and deck construction; C8 on V04's U-SYS and
 | J-V11.115 | chose to give the `village` district kind (file f item 214) its affinity through one compiled tag, `village`, on every `v.` row, over listing every village class id in the kind's row, because the `v.` namespace grows with V07's rows and a tag the compiler writes keeps the row whole without an edit; at a base rung no `v.` class holds demand, so the kind is never the typing scorer's pick there, and at village rungs VS5 sets it (V07 §3.7) (V11 §3.5.1, V11 §3.9) |
 | J-V11.116 | chose `raisedWays.structure.maxClearSpanM` masonry 30 m and timber 20 m (`own`, calibratable; ranges [15, 75] and [8, 40]) as the cells of §2.7's clear-span bound, over one bound for both materials or the slide bound alone, because a single masonry arch of about 30 m stood at the large end of what Roman and medieval builders turned while timber spans stayed shorter (general historical knowledge, not corpus-witnessed), the support step keys its pitch by the same two classes, and T-V11-32 (h) keeps every slid span (1.5 × the band's upper end: 22.5 m and 12 m) inside the bound (V11 §2.8c, V11 §3.24.2) |
 | J-V11.117 | chose to split C4 into C4a, the wall barrier and waterfront rows at M2b with item 106's base (0.5 pw), and C4b, the SettlementForge rows at M-SF (1.0–1.5 pw), over one milestone priced once in two slots, because the base's arc classification reads the wall rows from M2b while the 280 kind rows and the dossier row sets wait for V08's adapter and frozen fixtures, and §16 places each price in one line only — C4a in the first total, C4b with C8 on the staged content line (V11 §8) |
+| J-V11.118 | chose item 122's tables as twelve look rows keyed by look kind — the camp looks' scale by rung in m² of camped ground, each a headcount × 45 m² (a war band of 20–60 at a THORP to a siege army of 5 000–30 000 at the METROPOLIS cap), the other looks' as a share of their place's units —, one `settings` row holding item 122 (h)'s rates, display labels on the look rows, and a closed mapping of SettlementForge's own stressor, archetype and event words, over looks per condition instance or a per-rung table of looks, because item 122 (b) and (c) give one look per stressor type and archetype scaled by severity and tier, §10.2's shared shape fixes the rows' columns, V09's Show crises and Find name looks by their words, and a closed mapping lets nothing fall through (T122-4); `regional_migration_pressure` draws the refugee camp because item 122 (b) names it under mass immigration, the other `regional_*` pressures `none`; `war_pressure` the siege and `wartime` none; a calamity of the simulator's calamity kernel the `disaster` look, its pattern by its type; each look's marks are §8.2's, never a cell here (V11 §3.25.9) |
+| J-V11.119 | chose item 123's thresholds as one range of the decay level per plan element kind — inside the shares of the existence states whose look item 123 (c) gives it, the upper floor's across `decayed` and `ruined` (rotten patches and holes, then mostly floorless) — with the decay rate by walls material and the default age in tables of their own, over ranges by material or the rates as a column of V11 §3.18's decline rows, because item 123 (b) puts the rate on the material and item 123 (c) the order on the element, and the decline rows are read by model phases whose recorded slices an edit of a drawing-only cell would invalidate — a different lifecycle, so the two stay apart (V11 §3.25.10) |
+| J-V11.120 | chose item 124's weather cells as per-kind bands of weeks with spells an hour and a spell length, the kinds' lengths and starting hours and four site factors in the climate table's `settings` row, and the two hard rules as compile checks with owner-stamped caps, over a chance per week or a 52-week table per kind, because item 124 (c) asks how often each kind comes and how long it lasts, bands written as transitions turn the weeks gradually while a zero stays zero (the arid dry months), the sites carry item 124 (c)'s regions no biome row is — coastal, riverside and lowland, hills and mountains, forest — and fog's cool mornings ride the view's hour (item 124 (d)); a site's factor never makes a kind a row lacks, so no hill town snows where its climate cannot (V11 §3.25.11) |
 
 ## 10 Base change requests
 
@@ -5030,11 +5305,10 @@ Each request this volume made of another volume is closed in that volume's text:
 |---|---|---|---|
 | X-V11-1 | V08 | T9 and DR9 read `dossier.ladders` and its `identity` cells; the adapter applies `goodWords` by V11 §3.13.5's rule; the committed `ladderPairs` (registry row 77); the `kinds` shape's pseudo-classes (`@absent:<class>[+<class>]` among them) and `implies`; the `categorySynonyms` `family` and the keyword cells; no class cell on custom kinds; `archetypes.village` | V08 §2.4, V08 §2.6, V08 §2.6a, V08 §3.5, V08 §3.5.1 |
 | X-V11-2 | V07 | the palisade reads `walls.barriers` with `arcKind`; the village cap of a specialisation is `rules.tiers.capPerSettlement` over `v.parish_church`, `v.manor_house`, `v.watchtower`; V07's rows win over `deckOk` and the terrace TOWN row at village rungs; `v.<id>` keys; `villageSeat`; the village naming slices; the `VG` entries of every village-read `presetsRequired` cell | V07 §2.4, V07 §3.10, V07 §3.15, V07 §8 |
-| X-V11-3 | V10 | `WhyPull.row` carries V11 §2.4's ids resolved to their `says`; `query row` and `query profile`; an unwalled side names its barrier row and `arcKind` | V10 §2.13, V10 §4.1 |
+| X-V11-3 | V10 | `WhyPull.row` carries V11 §2.4's ids resolved to their `says`; `query row` and `query profile`; an unwalled side names its barrier row and `arcKind` | §11.2 (`WhyPull`), V10 §4.1 |
 | X-V11-4 | V04 | `CatacombRule.order`; `growthCapShare` per year compounded; V04 §2.3's defaults cite V11 §3.23 without restating values | V04 §2.3, V04 §3.5.1 |
 | X-V11-5 | V02 | the S11 specialisation draw replaces the band template's `composition` and `heights`; V02's specialisation rows are `roster.specialisations` | V02 §3.10 |
 | X-V11-6 | V08 | the keyword rows' optional `class` and `specialisation` cells | V08 §2.6 |
-| X-V11-7 | V02 | `deck.fallbackM2` and `deck.fallbackFloors` are read only while the `deck` table is unregistered | V02 §3.16 (2) |
 | X-V11-8 | V01, V07 | `WayNamingContext.raised`; the terrace slope is a share (V01's percent = 100 × share) | V01 §3.7.2; V07's `PLaw` |
 | X-V11-9 | V02 | an oval composition key for the `arena` family | V02's `ovalCourt` family |
 | X-V11-10 | V04 | `span.vaultShare` scaled by `era.raisedVaultM × culture.raisedVaultM`; `CultureRow.monument`'s values are V11 §3.23.4's | V04 §2.3 |
@@ -5102,14 +5376,15 @@ whose `knownTo` is `public` places the use openly (V11 §3.14.3); J-V11.107.
 
 **CONFIRMED** (checked against the texts or counted by script): every one of SettlementForge's 280 catalogue kinds maps to
 a class of V11 §3.5 or a pseudo-class of V11 §3.11 (none missing, none extra, every mapped class defined); the class
-ladder holds 181 town and city classes, 45 profile families and 35 template families; the registry holds 107 rows (1–106
-and 58a); every base section this volume cites exists in the base, and every request of V11 §10 is carried by the file f
-item named there.
+ladder holds 181 town and city classes, 45 profile families and 35 template families; the registry holds 111 rows (1–110
+and 58a); the closed crisis mapping holds a row for each of the fifteen stressor types and the twenty-two condition
+archetypes the port's research lists (`research/sf/dossier-model.md` §11, `research/sf/mapping.md` row 70); every base
+section this volume cites exists in the base, and every request of V11 §10 is carried by the file f item named there.
 
 **PLAUSIBLE** (reasoning, to be measured — each by the test or register line named):
 * every numeric row is our own and provisional, with its V12 §3.11 register entry: the per-capita rates, weights, radii,
   areas and thresholds; item 109's chances and the ancient-culture pitches; the catacomb growth cap; item 110's cells;
-  items 111–119's cells (V11 §8);
+  items 111–119 and 122–124's cells (V11 §8);
 * the family weights balance against the authored rows (V11 §8 R1's spike);
 * the behaviour bars T-V11-12 – T-V11-45 hold at the stated rates;
 * the water balance favours dry, karst and large cities (V11 §3.24.6; T-V11-33 and its fallback);
@@ -5128,7 +5403,11 @@ item named there.
 * the village-read tables' `presetsRequired` cells are exactly V07 §3.15's list (the compile's `villagePresetCells`
   checks it);
 * items 111 and 113–118 are no-ops at their off forms (T-V11-38 – T-V11-43) and the arid water pull shows in the siting
-  of wells and gardens (T-V11-38).
+  of wells and gardens (T-V11-38);
+* item 122's scales read as the owner's "a hamlet gets a war band's camp, a city a full siege line" and 45 m² a head as
+  item 122 (h)'s camped ground (V12's item-122 measurements); item 123's ranges show each state's look of item 123 (c)
+  at the default rates and age; item 124's rates give a few minutes clear between spells in a wet week and an arid map
+  clear most of the year (V12's item-124 bars).
 
 ## 13 Fix list
 

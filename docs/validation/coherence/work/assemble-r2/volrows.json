@@ -1,0 +1,1639 @@
+{
+ "counts": {
+  "INDEX": {
+   "new_unreviewed": 0,
+   "by_check": {},
+   "matched": 0,
+   "unmatched": 0
+  },
+  "V01-neighbourhoods": {
+   "new_unreviewed": 16,
+   "by_check": {
+    "C3": 15,
+    "S2": 1
+   },
+   "matched": 0,
+   "unmatched": 16
+  },
+  "V02-buildings": {
+   "new_unreviewed": 29,
+   "by_check": {
+    "C3": 27,
+    "S2": 2
+   },
+   "matched": 0,
+   "unmatched": 29
+  },
+  "V03-interiors": {
+   "new_unreviewed": 33,
+   "by_check": {
+    "C3": 31,
+    "S2": 2
+   },
+   "matched": 33,
+   "unmatched": 0
+  },
+  "V04-underground": {
+   "new_unreviewed": 18,
+   "by_check": {
+    "C3": 18
+   },
+   "matched": 0,
+   "unmatched": 18
+  },
+  "V05-sky": {
+   "new_unreviewed": 0,
+   "by_check": {},
+   "matched": 0,
+   "unmatched": 0
+  },
+  "V06-evolution": {
+   "new_unreviewed": 22,
+   "by_check": {
+    "C3": 20,
+    "S2": 2
+   },
+   "matched": 0,
+   "unmatched": 22
+  },
+  "V07-village": {
+   "new_unreviewed": 9,
+   "by_check": {
+    "C3": 9
+   },
+   "matched": 9,
+   "unmatched": 0
+  },
+  "V08-settlementforge": {
+   "new_unreviewed": 13,
+   "by_check": {
+    "C3": 13
+   },
+   "matched": 13,
+   "unmatched": 0
+  },
+  "V09-application": {
+   "new_unreviewed": 32,
+   "by_check": {
+    "C3": 32
+   },
+   "matched": 0,
+   "unmatched": 32
+  },
+  "V10-clerk": {
+   "new_unreviewed": 7,
+   "by_check": {
+    "C3": 7
+   },
+   "matched": 7,
+   "unmatched": 0
+  },
+  "V11-content": {
+   "new_unreviewed": 20,
+   "by_check": {
+    "C3": 20
+   },
+   "matched": 0,
+   "unmatched": 20
+  },
+  "V12-calibration": {
+   "new_unreviewed": 14,
+   "by_check": {
+    "C3": 14
+   },
+   "matched": 0,
+   "unmatched": 14
+  }
+ },
+ "appended": [
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "0 25 0 5 and 0"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "1 at the building band"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "2 2 6 3 s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "5 6 2 3 a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "5 6 2 the room s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "5 6 5 5 5"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "5 6 7 for a building"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "agree with the plan s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "and a building in a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "and the upper floors are"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "are byte identical to the"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "door is a gap a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "for a building in a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "for the plan and the"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "from the building s own"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "look of the model s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "looks at the building band"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "none 2 6 2 7 2 8 the"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "of a building in a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "of the building s own"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "opening is a gap a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "patches are in the image"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "plan at the building s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "row and the 0 5 0 75"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "so the plan s open"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "standing in the view s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "the plan is drawn the"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "there it is never drawn"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "this section is the plan s"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "wall and a building in a"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "C3",
+   "run": "with the plan and the"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "S2",
+   "run": "§3.23"
+  },
+  {
+   "volume": "V03-interiors",
+   "check": "S2",
+   "run": "§5.7"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "2 7 2 9 s"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "committed state and the view"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "farthest from the heart the"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "it to the town and"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "of a village with no"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "pass over the district s"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "shares an edge with a water"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "stands in the view s"
+  },
+  {
+   "volume": "V07-village",
+   "check": "C3",
+   "run": "the walls and the edge the"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "1 and 2 9 s"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "2 4 5 7 and"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "2 4 and the table"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "3 5 1 4 5"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "3 8 and the final"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "5 1 2 3 the"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "are read only where the"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "b 2 4 4 6"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "position is the user s"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "run it is the one"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "the frame and the party"
+  },
+  {
+   "volume": "V08-settlementforge",
+   "check": "C3",
+   "run": "the rung s own word for the population"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "10 2 2 9 s"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "and the house s own"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "because the plan is one plan"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "is absent from the read"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "or as a change to"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "read from the same plan"
+  },
+  {
+   "volume": "V10-clerk",
+   "check": "C3",
+   "run": "s level and the building s own"
+  }
+ ],
+ "unmatched": {
+  "V01-neighbourhoods": [
+   [
+    "C3",
+    "0 and 3 on the five",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "1 in place of the straight",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 10 1 4 1 the stage",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 4 5 and the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 4 6 1 2 the base hooks",
+    "not proposed",
+    "-",
+    "not in block",
+    "new"
+   ],
+   [
+    "C3",
+    "and is the same in",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "frame is the union of the ground",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "grid instead of the height",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "just outside the town it is",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "reading of each plot s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s count and a district with",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "shape and the same rule",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "the outer boundary of the ground",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "the owner asked for a",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "units in the same shape",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "S2",
+    "§5.7",
+    "not proposed",
+    "(S2)",
+    "carried",
+    "new"
+   ]
+  ],
+  "V02-buildings": [
+   [
+    "C3",
+    "0 0 1 0 2 0 3 0 5 0 75 and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 11 and the plan",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 7 the plan s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a building with no roof",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a room the room s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "and gaps in the outline",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "are drawn from the plan",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "are exactly the plan s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "as a wall or an",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "band where a building s plan",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "byte identical to the same",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "each side of a gap in the outline",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "each side of the outline",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "for the building s lineage",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "is drawn in the image",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "is drawn in the view",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "is not drawn over the",
+    "not proposed",
+    "findings/profile-mfcg.md",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "of the room s own",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "room of the storey directly",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "run of the plan with",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "runs of each wing s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s 0 5 1 and 0",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "set by the building s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "standing in the view s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "the building is drawn from",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "the building s plan rung is",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "when the building s plan",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "S2",
+    "§5.7",
+    "not proposed",
+    "(S2)",
+    "carried",
+    "new"
+   ],
+   [
+    "S2",
+    "§6.6",
+    "not proposed",
+    "(S2)",
+    "carried",
+    "new"
+   ]
+  ],
+  "V04-underground": [
+   [
+    "C3",
+    "3 1 and a void",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 2 5 the per band",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a city with no river",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a gap in the outline",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a hole in the footprint s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "are drawn in the image",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "doors and the outer wall",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "draws the plan and its",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "fill over the room s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "inset by a quarter of its",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "lies outside the ring is",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "list in the draw order",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "one step lighter than the",
+    "not proposed",
+    "findings/ftg-payload-visual.md",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "range and its own threshold",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "re read the same drawing",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s in the same tone",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "state is the same at",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "view and the per band",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ]
+  ],
+  "V06-evolution": [
+   [
+    "C3",
+    "2 8 2 11 2",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "23 1 2 the base hooks",
+    "not proposed",
+    "-",
+    "not in block",
+    "new"
+   ],
+   [
+    "C3",
+    "3 3 2 and a",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 5 1 4 5",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 5 1 5 and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 8 2 1 2 or a hand",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "6 1 6 8 7",
+    "not proposed",
+    "-",
+    "not in block",
+    "new"
+   ],
+   [
+    "C3",
+    "7 6 3 6 1",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a third of the range",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "derived from a building s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "for the building s walls",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "is the larger of the formula",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "one of the same state",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "or by a user s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "over the same plan and its",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "road by a gate at",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s 2 7 7 7 s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s level and the building s own",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "stands in the view s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "the answer is the ground",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "S2",
+    "§3.23",
+    "not proposed",
+    "(S2)",
+    "carried",
+    "new"
+   ],
+   [
+    "S2",
+    "§6.9",
+    "not proposed",
+    "(S2)",
+    "carried",
+    "new"
+   ]
+  ],
+  "V09-application": [
+   [
+    "C3",
+    "0 25 0 5 4",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "10 and the base s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "2 9 6 1 8 4 8 8 and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 s for the plan",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 6 3 and the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 7 5 4 s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "6 1 6 3 6 4 the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "9 it is the only way to",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "a building in a district",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "and for a building in a district",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "at the device pixel ratio",
+    "not proposed",
+    "findings/mfcg-devlogs-a.md",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "at the edge of the map",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "at the edge of the map 8",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "commit in the generation worker",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "covers the whole map and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "exports and the export dialog",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "for a building with no",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "is too large for the frame and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "it is the map s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "line and the ring s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "line of a person s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "line of the person s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "look is a row of",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "look on a map without a",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "of a building in a district",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "or not at all on",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "row and the view s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s or a click on",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "state by the building s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "switch on and a line",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "switch on and off the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "vertex of the island s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ]
+  ],
+  "V11-content": [
+   [
+    "C3",
+    "0 05 0 5 at",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "2 0 12 1 5 26",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "2 7 7 7 s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 0 1 1 the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 0 2 1 0 12 0",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "3 0 3 1 5 0 12 1",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "5 0 12 2 13",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "6 0 12 2 13",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "6 1 8 2 8 4",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "and from the map s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "cells and the table s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "it differs from the kind s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "large for the size of the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "r for the building s walls",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "read as the owner s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "roofs and the upper floors",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "s 2 7 and 4",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "share of the edge s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "the share of the frame",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "walls and the ground floor",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ]
+  ],
+  "V12-calibration": [
+   [
+    "C3",
+    "1 8 2 2 and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "1 8 2 2 each",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "2 13 the model digest the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "2 9 6 1 8 2 8 4",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "8 8 and the loop",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "any change of the frame the",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "are the generator s own",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "compared with the same view",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "in 0 9 1 1",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "lies in 0 9 1 1",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "rest on the ring the ring s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "seed and the harness s",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "too large for the frame and",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ],
+   [
+    "C3",
+    "unchanged from the first value",
+    "not proposed",
+    "-",
+    "carried",
+    "new"
+   ]
+  ]
+ }
+}
