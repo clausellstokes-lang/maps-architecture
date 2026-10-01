@@ -3284,3 +3284,5 @@
 2026-10-01 22:35 coherence/repair-V04-r6 CHECKPOINT P3 dry run clean (17/17 blocks applied, output identical to the direct edit); next: write the repair file's report and blocks, result, LANDED
 2026-10-01 22:36 coherence/repair-V04-r6 LANDED docs/validation/coherence/repair-r6-V04.md docs/validation/coherence/results/coherence_repair-V04-r6.json
 2026-10-01 22:36 coherence/orchestrator NOTE repair-V04-r6 landed (17 blocks, 0 ruling requests); 1 repair still running (V05)
+2026-10-01 22:37 coherence/repair-V05-r6 LANDED docs/validation/coherence/repair-r6-V05.md docs/validation/coherence/results/coherence_repair-V05-r6.json
+2026-10-01 22:37 coherence/orchestrator NOTE repair-V05-r6 landed (3 blocks, END lines only); all 17 repair-r6 units landed (142 blocks, 0 ruling requests; kernel none this round); launched coherence/assemble-r6 (base docs/ARCHITECTURE.md sha256 2d84eac2…)
