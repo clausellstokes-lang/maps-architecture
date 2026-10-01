@@ -41,13 +41,16 @@ def main():
                 assert body.split('\n', 1)[0] == heading[f], f
                 blocks.append(f'=== REPLACE {heading[f]} ===\n{body.rstrip()}\n=== END ===\n')
                 summary.append(f'§{f[:-3]}')
-    rr = f'{W}/ruling-requests.md'
-    extra = open(rr, encoding='utf-8').read().rstrip() + '\n' if os.path.exists(rr) else ''
+    extra = ''
+    for name in ('extra-blocks.md', 'ruling-requests.md'):
+        rr = f'{W}/{name}'
+        if os.path.exists(rr):
+            extra += '\n' + open(rr, encoding='utf-8').read().rstrip() + '\n'
     with open(out, 'w', encoding='utf-8') as fo:
         fo.write(open(pre, encoding='utf-8').read().rstrip() + '\n\n')
         fo.write('\n'.join(blocks))
         if extra:
-            fo.write('\n' + extra)
+            fo.write(extra)
     print(f'{len(blocks)} REPLACE blocks: ' + ', '.join(summary))
 
 

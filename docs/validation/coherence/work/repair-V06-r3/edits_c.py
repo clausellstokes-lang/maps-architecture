@@ -30,9 +30,9 @@ decayPeak(doc: Document, lineage: Id, week: number, since: number /* the element
    a `vacate`'s `decay` Works at its drawn offset in the epoch's span), read from `Building.works` (§2.6) and, once the
    record retires, from its lifecycle event's weeks (§4.11 *Works* (9)); else the event's effective week (V06 §2.11's
    `EffectiveWeek`: an engine op's is its epoch's week). So the plan's damage and the exterior's stage agree at every
-   week, inside a yearly epoch and a coarse one alike (T123-5). Its state `s` at `w` is the existence the last such event
-   dated so at or before `w` set — the strike pool's and the hazards' ops move it (V06 §3.5.2, V06 §3.11), the level never
-   does.
+   week, inside a yearly epoch and a coarse one alike (item 123 (d); §13.2's T123-5). Its state `s` at `w` is the
+   existence the last such event dated so at or before `w` set — the strike pool's and the hazards' ops move it (V06
+   §3.5.2, V06 §3.11), the level never does.
 2. **The level in a run.** `decayLevel = min(hi(s), max(lo(s), r × (w − A) ÷ 52))`. Each state owns a third of the
    range — `abandoned` [0, 1/3], `decayed` [1/3, 2/3], `ruined` [2/3, 1] — so item 123 (c)'s look of each state holds
    whatever the years, V11's range for each element kind lying inside the shares of the states whose looks item 123 (c)
@@ -127,10 +127,11 @@ def apply(sub):
         "of the frame's model; the next frontier out |",
         "| the growth frontier (V06 §3.22 (2)) | zero households; a count below the quantum; one below the quantum with a rich "
         "part; a frame with no reachable land left; a next stage the wall decision would wall; a camp with a rich part and a "
-        "stage; a stage S5a seats only in part; a village rung; a standalone neighbourhood document; no arterial leaving the "
+        "stage; a camp all of whose households are rich; a stage S5a seats only in part; a village rung; a standalone neighbourhood document; no arterial leaving the "
         "settlement (S3 (9) (a)'s unserved mesa); a scrubbed frame; the camp's ground built on by an epoch | none; the "
         "overflow belt along the busiest arterial by its gate; that belt and the rich ribbon's plots; that belt; the unwalled "
-        "frontier (the query draws nothing); the stage's land and the rich ribbon's plots along its arterial; the stage's land "
+        "frontier (the query draws nothing); the stage's land and the rich ribbon's plots along its arterial; the ribbon's "
+        "plots alone; the stage's land "
         "and the belt for the households it cannot seat; the belt by the entry of V07 §5.6 (2)'s main approach road; the belt "
         "by the busiest arterial's gate or boundary crossing; the belt's faces nearest the boundary point closest to the "
         "growth centre; the frontier of the frame's model; the next frontier out |")
@@ -197,7 +198,8 @@ def apply(sub):
         "      faces (§2.7) that land covers, in address order.",
         "The answer is the hinterland `LandUse`\n"
         "      faces (§2.7) that the stage's land and, where (b) gives a rich part, the rich ribbon's plots along its arterial\n"
-        "      cover, in address order; a stage S5a seats only in part adds (d)'s belt for the households it cannot seat.")
+        "      cover, in address order (the ribbon's alone where (b) leaves no rest); a stage S5a seats only in part adds (d)'s\n"
+        "      belt for the households it cannot seat.")
     sub('VV78-r2-07 END VEW-r2-03 VV56-r2-10 §3.22 (2) d.',
         "      item 122 (b)'s approach road by a gate (at a village rung, the through road's entry). Zero households answer none.",
         "      item 122 (b)'s approach road by a gate (at a village rung, the entry of V07 §5.6 (2)'s main approach road); with no\n"

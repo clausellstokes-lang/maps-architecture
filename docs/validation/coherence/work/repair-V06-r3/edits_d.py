@@ -144,7 +144,8 @@ def apply(sub):
         "below the quantum, with no reachable land left, at a village rung and on a standalone neighbourhood document, the "
         "overflow belt by the gate (at a village rung, by the entry of V07 §5.6 (2)'s main approach road), below the quantum "
         "with a rich part that belt and the rich ribbon's plots; a camp with a rich part and a stage, the stage's land and the "
-        "rich ribbon's plots along its arterial; a stage S5a seats only in part, its land and the belt for the households it "
+        "rich ribbon's plots along its arterial; a camp all of whose households are rich, the ribbon's plots alone; a stage "
+        "S5a seats only in part, its land and the belt for the households it "
         "cannot seat; on S3 (9) (a)'s unserved mesa, the belt's faces nearest the boundary point closest to the growth "
         "centre; after an epoch builds on the camp's ground, the next frontier out;")
     sub('VAT2-r2-09 T-V6-75 (d) preview',

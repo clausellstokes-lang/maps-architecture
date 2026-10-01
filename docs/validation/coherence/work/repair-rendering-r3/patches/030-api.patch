@@ -29,7 +29,8 @@ interface ExportOpts {   // every option an export reads, declared once (§11.1'
   band?: LodBand;        // SVG's declared band (§11.1): 'city' by default; 'district' after its size estimate; 'neighbourhood' only for a district-sized or smaller frame
   size?: { px: [number, number] } | { paper: 'A4'|'A3'|'A2'; dpi?: number /* 300 */ };   // PNG and print (§8.7, §8.8): the frame over the size is the export's
                          // scale, whose zoom stop places the labels (§9.2); default the view's size × 2 (V09 §5.10's "screen")
-  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default those whose `LayerSpec.visible` is on (§8.4); GeoJSON every layer
+  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default, for a picture, those the view shows (`LayerSpec.visible`,
+                         // §8.4), for every other format every layer
   perLayer?: boolean;    // PNG: one transparent PNG per layer, zipped, a raised part its own (§11.1): default false
   background?: 'paper'|'transparent';   // PNG: default 'paper'
   furniture?: boolean;   // the picture's furniture (§9.5): default true
