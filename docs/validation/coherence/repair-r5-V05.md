@@ -97,7 +97,7 @@ blocks).
 
 WORDS (V05, whitespace-split): 67 808 → 67 901 (+93, +0.14 %). Removed 2 — NARRATION 2 (the canon ids "MC-07:" and
 "MC-05"); RESTATEMENT 0, DUPLICATED MECHANISMS 0, VERBOSE PROSE 0. Added 95 — content: the clause schedules R5-05 (c) and
-INDEX §5 risk 2 require ((i) 18, (f) 25, §8's sentence 33, the P3 cell 17; the rest punctuation tokens). The unit grows:
+INDEX §5 risk 2 require ((f) 28, (i) 20, §8's sentence 32, the P3 cell 15). The unit grows:
 its two findings ask for a missing schedule, which is content, not prose; nothing restated was found to cut inside the
 subsections touched.
 

@@ -93,8 +93,9 @@ Rendering's T-ER-28 and §8.6 lead, determinism's §6.3 and V09's texts are thei
 Texts and Ends); V03 §5.6 (2), V06 §3.23 (3), T-V3-39 (c) and T-V6-76 (b) already carry the case. One end for round 6's
 verifiers, no END line naming it:
 * **V03 §3.13's damage-layer row** (l. 2094): its outcome "every element damaged at 1" is the same summary V02's level
-  row carried; V03 §5.6 (2) (a) (the home) already compares each element only from its entry week, so no outcome differs.
-  V03 may add "each from its entry week into the plan (V03 §5.6 (2) (a))" there, as V02's row now reads.
+  row carried. The change it needs, at V03: "every element damaged at 1" → "every element damaged at 1, each from its
+  entry week into the plan (V03 §5.6 (2) (a))" (minor: V03 §5.6 (2) (a), the home, already compares each element only
+  from its entry week, so no built outcome differs).
 
 ## Checks
 
