@@ -5819,3 +5819,48 @@ adjudication-r2's and adjudication-r3's rulings stand except where named below.
 * **V08's catch-up change (R4-16, J122):** a catch-up's dossier events are absorbed as one batch per epoch, the model and
   its digests identical to the per-event absorb; past the budget the release fails under R12-31.
 * **INVALID:** none this round.
+
+## Dated ruling 2026-10-01 (adjudication round 5) — binding rulings R5-01 – R5-10 (coherence/adjudicate-r5; J122 where marked)
+
+The full rulings, with the issues each governs, the owner rules each was checked against and the END lines each unit
+writes, are `docs/validation/coherence/adjudication-r5.md`; this entry records what they change in the canon.
+adjudication-r2's, -r3's and -r4's rulings stand except where named below.
+
+* **The sweep's three blind spots (R5-01):** a repair seat applying a ruling greps its unit's prose, tables, edge rows,
+  tests and milestone cells; the adjudicator's sweep covers V07's village restatements of town rules, V09's panels and
+  V10's clerk, and the tests, fixtures and milestone cells that must run a ruled case. A test or fixture list omitting a
+  case its own test text names is MINOR (VV1112-r4-01 regraded).
+* **Raised ways and walls (R5-02, J122, vetoable; supersedes R4-09 whole):** a raised way's stations, keys and spans are
+  placed at the commit that creates it — against the obstacles standing then, among them the strip S7 cuts beside a
+  standing trace and the quay S7 lays along a `quay` bank — and held from that commit, at generation as after it;
+  everything laid after it gives way: a part-0 way crosses its under-deck strip only by §4.3's crossing rule (S5b's and
+  S5c's ways keep off its supports from the commit), a channel passes beneath only where it meets no support, ramp,
+  stair, foot or `vault` span, else stops at the strip, a face is cut or holed round it, and a wall stretch laid after
+  it runs on beneath its deck, built against the supports, ramps, stairs, feet and `vault` spans in its band and walled
+  up to a span's soffit, with no crossing station and no gate on the deck (a raised arterial over a stage's boundary
+  pins no gate; gate counts read ground part 0), its strips stopped at the under-deck strip. A crossing station (an
+  aqueduct's arch, a raised gate) exists only where a raised way is created across a standing wall — item 110 (b)'s arch
+  for every generated and hand aqueduct — and no removal of the wall takes it (a delete bent to the other runs,
+  `wallToWay`, `absorbWall`, the hand-off down). A frame growth's extension keeps the old deck's stations (§2.7's
+  support step (7)). Gone: the station re-sited at an S5a commit, the support step's last run after S7 and its give-way
+  rungs, a later trace taking a station, the palisade's separate clause. Home §2.7's support step (3), (6), (7).
+* **Late dossier changes (R5-03; amends R4-08's last clause):** a change dated at or before the last epoch's week never
+  folds before it; a late calamity rides the absorb's first epoch, or, when the absorb's week is not after the last
+  epoch's, is held in `DossierBinding.lateCalamities` (§7.7; set by folding `dossierFacts`) for the first epoch a later
+  absorb folds, its targets applied at once; other late changes fold at the last epoch's week + 1, else at that week.
+  Home §4.11 *The clock* (4).
+* **The plan's damage comparison (R5-04):** compared from each element's entry week (a restoring re-cut's minted elements
+  from the restoration's end) at §6.3, the home, and at every restatement (§8.6, V02, V09, T-ER-28).
+* **Find at a drawn week (R5-05; extends R4-12):** §11.2's reader list is canonical (with V01's `findAreas` and V07 §5.5);
+  a change of the drawn week re-evaluates the chips within the glow's ≈ 100 ms; a test clause reading a non-head frame
+  lands at the later of its milestone and V06's E6.
+* **V07's village restatements (R5-06):** the count is V01 §3.16 (5)'s, the hand-over R4-04 (b)'s predicate.
+* **Item 125 at an absorb (R5-07; amends R4-15 (a)'s reach):** a field is a row's own path; a record's absent sub-field
+  takes its row's reading and is compared; the cadence reads the carried population; §14 restates V08 in V08's terms.
+* **The crisis look's readers (R5-08):** every why-line form has a string; each crisis mark carries its look; `looks`
+  takes a `field`; a why section reads the view's week.
+* **The working layer (R5-09):** its value is V09 §2.4's `WorkingLayer`, the band in `depthBand` alone; a target the
+  document no longer holds reads as Ground, nothing written.
+* **Fixtures (R5-10):** the three-crisis week at the METROPOLIS cap on a mutated copy of `metropolis-3`; the fires
+  `crisis.scale` names; H-AQUA's raised gate by V06's founding, never a declaration.
+* **INVALID:** none this round.
