@@ -3269,3 +3269,7 @@
 2026-10-01 22:28 coherence/repair-V09-r6 CHECKPOINT P3 blocks aligned to repair-r6-determinism's landed §7.1 rows (its V09 hand-off taken); dry run 11/11 applied, identical; doc_checks no new unreviewed hit; next: final review, report, result, LANDED
 2026-10-01 22:28 coherence/repair-V12-r6 LANDED docs/validation/coherence/repair-r6-V12.md docs/validation/coherence/results/coherence_repair-V12-r6.json
 2026-10-01 22:29 coherence/orchestrator NOTE repair-V12-r6 landed (9 blocks, 0 ruling requests); 5 repairs still running (V09, V04, V02, V05, V11)
+2026-10-01 22:29 coherence/repair-V02-r6 CHECKPOINT P0-P1 done (brief, adjudication-r6 Part A/B/H·V02/P, R6-09, verifier evidence, live V02 §7.8/§8.6/X36, V06 §8 E2/§3.8.2/§3.22/§3.23 read); next: write repair-r6-V02.md block for §8.6 and dry-run
+2026-10-01 22:30 coherence/repair-V11-r6 CHECKPOINT P1 done (V11 3.1 row 80, 3.24, 3.25.9-10, 3.26, 1b, 2.8c, 2.10, 9 read; sweep: 2 END sites + 5 conformances found); next P2 edits script and blocks
+2026-10-01 22:31 coherence/repair-V09-r6 LANDED docs/validation/coherence/repair-r6-V09.md docs/validation/coherence/results/coherence_repair-V09-r6.json (opus seat; 4 issues: 4 FIXED, 0 MERGED, 0 INVALID; 5 END lines; 13 REPLACE blocks §2.7 §2.12 §3.16 §4.3 §4.5 §4.9 §4.20.2 §4.20.6 §4.21 §5.7 §5.8 §5.15 §7.1; 0 ruling requests; 0 hand-offs)
+2026-10-01 22:31 coherence/orchestrator NOTE repair-V09-r6 landed (13 blocks, 0 ruling requests); 4 repairs still running (V04, V02, V05, V11)
