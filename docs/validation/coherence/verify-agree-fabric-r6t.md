@@ -184,7 +184,7 @@ span's strip (§2.7's way-and-channel table, row a);".
 (l. 2729, "**The span rule**, run eagerly at the end of the raised way's generation …"). V04 §3.5.4 (d) (V04 l. 1689–1690)
 is a reader of it: "The base fixes each span's `use` eagerly by §2.7's span rule (item 244)". This round makes the home
 matter more. A span's `use` is now read together with §2.7's crossing table (a `vault` span under a wall is read `open`;
-the span rule "never reads a wall", l. 2645), and V01 §3.17.3 (3) cites §2.7 for that reading, while the hook row still
+the span rule "never reads a wall", l. 2644–2645), and V01 §3.17.3 (3) cites §2.7 for that reading, while the hook row still
 sends a builder to V04. The repair left the row as it stands, since it cites V01 §3.17.3 for its use. Its provider column
 is the mis-citation. Nothing built changes.
 
