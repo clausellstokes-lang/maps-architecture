@@ -73,8 +73,8 @@ No NUANCE-LOST.
 |---|---|---|
 | R6-02 (V11-1), VM-R5T-01 → V11 §3.24.2's readers | l. 3908–3909 | **written** as given: "(`stripMarginM`, §4.6; a wall meeting it by §2.7's crossing table, its gates and towers kept out of it)" |
 | R6-02 (V11-2) → registry row 80's reader cell | l. 1006 | **written** as given: "S5a and S7 (a wall meeting a raised way's under-deck strip at `structure.stripMarginM`, §2.7's crossing table, §4.4 S5a, §4.8; …". The table and its four outcomes exist at base l. 2591 ff.; see VV1112-r6-02 for the cell's reader list |
-| R6-07, VRC5T-03 → V11 l. 3828 and l. 4649 | l. 3828, l. 4650 | **written**: "a building never decayed and under no disaster look draws its plan unchanged" and "… never decayed (level 0) and under no disaster look …". They agree with §6.3 *Plan damage* (base l. 10059–10060), §8.6 and T123-7 (base l. 18829–18831) |
-| R6-07, VRC5T-03 → V12 l. 933, l. 2761–2762, §2.13's `entityScope` comment, §3.7.8 (5)'s pin text | l. 934, l. 2762–2764, l. 904–906, l. 1748 | **written** as given and as R6-07 words the two adds. The pin's scope ("… and over which no disaster look stands at the drawn week (§10.2 (f))") agrees with T123-7 and with the registering clauses: V03 T-V3-39 (g) "under no disaster look"; V04 T-V4-82 (g) "the never-decayed control, under no disaster look". §10.2 (f) (base l. 15813–15818) defines "stands over" |
+| R6-07, VRC5T-03 → V11 l. 3828 and l. 4649 | l. 3828, l. 4650 | **written**: "a building never decayed and under no disaster look draws its plan unchanged" and "… never decayed (level 0) and under no disaster look …". They agree with §6.3 *Plan damage* (base l. 10053–10054), §8.6 and T123-7 (base l. 18829–18831) |
+| R6-07, VRC5T-03 → V12 l. 933, l. 2761–2762, §2.13's `entityScope` comment, §3.7.8 (5)'s pin text | l. 934, l. 2762–2764, l. 904–906, l. 1748 | **written** as given and as R6-07 words the two adds. The pin's scope ("… and over which no disaster look stands at the drawn week (§10.2 (f))") agrees with T123-7 and with the registering clauses: V03 T-V3-39 (g) "under no disaster look"; V04 T-V4-82 (g) "the never-decayed control, under no disaster look". §10.2 (f) (base l. 15815–15820) defines "stands over" |
 | R6-04, VAP-r5-01 → V12's catalogue row, §3.15.10's bullet, T-V12-52's text and cell | l. 1173, l. 2643, l. 3176 | **written** as VAP-r5-01's four texts. They agree with T120-6 (base l. 18771–18775) and §13.8's row (l. 19485: "M5 (its drawn-week clause at the later of M5 and V06's E6)") on the ≈ 100 ms timing and its milestone. T120-6's and R12-35's further clause, "the frame never waiting", is not measured: **VV1112-r6-01** |
 
 ## Round-6 changes in scope — new problems
@@ -99,7 +99,7 @@ Every hunk of the two word diffs (b3f83a0d → live) was read whole, together wi
   generated tower or gate leaves it in place. The pattern row's general rule keeps it and lists it: "a standing GENERATED
   thing whose draw or admission flips is KEPT and listed with an offer". That is a defined outcome, so nothing is raised.
 * **§3.25.10's lead (### 3.25)** — "compared from its entry week into the plan (V03 §5.6 (2) (a)–(b)), but for §2.6 step 7's
-  roofless case". This is §6.3 *Plan damage*'s one comparison (base l. 10052–10057), cited. V03 §5.6 (2) (b) carries the
+  roofless case". This is §6.3 *Plan damage*'s one comparison (base l. 10049–10054), cited. V03 §5.6 (2) (b) carries the
   restoring re-cut's entry week (V03 l. 2700–2704). No new issue.
 * **EI-V11-EDGE-5 (### 3.26)** — two cited outcomes are added: the disaster look's level, by V11 §3.25.9 and §10.2 (d); and
   the entry week. Each agrees with its home, but the row's test cell runs neither: **VV1112-r6-03**.
