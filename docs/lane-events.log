@@ -2649,3 +2649,6 @@
 2026-10-01 11:53 coherence/orchestrator NOTE repair-scope-r3 landed (10 blocks, 0 ruling requests); launched repair-V05-r3 in its slot (queue: kernel)
 2026-10-01 11:53 coherence/repair-V04-r3 LANDED docs/validation/coherence/repair-r3-V04.md docs/validation/coherence/results/coherence_repair-V04-r3.json
 2026-10-01 11:53 coherence/orchestrator NOTE repair-V04-r3 landed (10 blocks, 0 ruling requests); launched repair-kernel-r3, the last round-3 repair (queue empty; running: V10 V03 V01 V02 V05 kernel)
+2026-10-01 11:53 coherence/repair-V03-r3 CHECKPOINT P1 done (sources, live V03 sections, base/V06/V04/V12 round-3 texts read); next: count-asserted edits in scratchpad/coherence/rV03r3/, blocks §3.13 §4.5 §4.6 §5.1 §5.6 §7 §9 §13
+2026-10-01 11:53 coherence/repair-kernel-r3 CHECKPOINT skeleton written; brief + adjudication-r3 (R3-25, Part H kernel: VKr2-01 FIX per R3-25 (b), VKr2-03 FIX, no END lines) read; next: evidence and current §3 text
+2026-10-01 11:54 coherence/orchestrator NOTE assemble-r3 and the twenty verify-*-r3t briefs rendered (ROUND-3 NOTES: re-check round-2 findings incl. END lines' second ends; grade by J141's SEVERITY STANDARD); assemble runs once all eighteen repair-r3 files land
