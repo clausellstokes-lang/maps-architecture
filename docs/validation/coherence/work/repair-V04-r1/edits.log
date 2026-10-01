@@ -1,0 +1,97 @@
+edits_a	VV34-17	1	"`Vnn §n` is a design volume's section, this one included (`V04 §3.2`);"
+edits_a	VAP-02	1	'| the hook tests T11-1, T12-1, T14-1, T63–T66 | §13.2 | kept and run o'
+edits_a	VV34-02 G120-V04	1	"| item 113's base side: history-first generation and the replay, the b"
+edits_a	VAL-08	1	"(V04 §3.5.4 (e)), a buried town's squares (V04 §3.5.5) and `OpeningRow"
+edits_a	G120-V04	1	'* **The controls** for `showUnexcavated` and for the active layer are '
+edits_a	VAL-09	1	'under a place that once stood at TOWN or above (V04 §3.5.5), and the a'
+edits_a	VAL-05 VAL-08	1	'| `NetworkRule` (`tables/under/network.json`), `UndergroundFadeRule` ('
+edits_a	G120-V04	1	"| the buried former settlement (the `buried` system's elements keyed `"
+edits_a	G120-V04	1	'| `catacombOutcome(doc, face)` (read-only, V04 §4.5) | U-SYS, over the'
+edits_a	VV34-06	1	"`BuriedFormer.lay` at the replay's burial epoch (V04 §3.5.5 (b)); `his"
+edits_a	VAL-05	1	'  lights: { litReachM: number /* 60: a run or system within this of a '
+edits_a	VAL-08	1	"interface OpeningRow { kind: 'sinkhole'|'mouth'|'skylight'|'collapsed_"
+edits_a	VAL-08	1	'| `OpeningRow` | chances V11 §3.23.7; the candidates (our own):'
+edits_a	VEW-01	1	'| `classes.historical` | main: `through`, `primary`, `quay`, `bridge`;'
+edits_a	VEW-01	1	"  nodes: { id: number; at: PointCm; groundCm: Cm; kind: 'junction'|'be"
+edits_a	G120-V04	1	"| the view key `showUnexcavated` (J-VI.19) | V09's per-viewer control "
+edits_b	VAL-08	5	'`OpeningRow'
+edits_b	VAL-09	1	'**At every rung** (g item 109 (j) (1)): at THORP, HAMLET and VILLAGE, '
+edits_b	VEW-01	1	'With none admitted, `moat` candidates are admitted with the start cost'
+edits_b	VEW-01	1	'  vertices, in centimetres); `pier` and `ford` never carry a sewer. Th'
+edits_b	VEW-01	1	'  sweep) splits both at a new node; each way node within `culvertLinkM'
+edits_b	VEW-01	1	'* **drainage edges** (`drainage-lines` only) — the D8 tree on the `hyd'
+edits_b	VEW-01	1	'area) are dropped and the search re-run once without them; if more tha'
+edits_b	VEW-01	1	'   tunnel, V04 §4.7) enters the `SewerGraph` as a fixed chain of edges'
+edits_b	VEW-01	1	'* `channel` — connected to the nearest `main` or `culvert` run whose c'
+edits_b	VEW-01	1	"* `pit` — one uniform on `sewer` keyed by the plot's lineage; connecte"
+edits_b	VEW-01	1	'straight segment crosses an accepted passage or whose grade exceeds `p'
+edits_b	VAL-05	1	'   rule). A kind dug from the surface has `pAccess = 1`. A void counts'
+edits_b	VAL-05	1	'S7b (6) and (7) allocate at most `forecastSafety` × each forecast capa'
+edits_b	VAL-09	1	"| `dug` | every rung | U-DIG's closures and U-LINK L5 |"
+edits_b	VV34-16	1	'(V04 §3.5.0: basements,\n   raised-way piers, retaining-wall footings; '
+edits_b	VV34-16	1	"   Each rejection's reason is kept in `blockedBy`. A node inside a rui"
+edits_b	VAT0-19 VV34-06	1	"   epoch at which a former fabric's years since it was ruined first pa"
+edits_b	VV34-06	1	"   (the replay record's epochs), `f` the site's burial-speed factor — "
+edits_b	VAT0-19	1	'   * each former enceinte stretch → a **wall band**: a gallery along t'
+edits_b	VAT0-02	1	"     closed run's plots — at an epoch its households returned to V06's"
+edits_b	VAT0-02	1	'  this pass (below); one that turned `lost` — its last open path seale'
+edits_b	VEW-01	1	'| U-NET outfalls | no admitted candidate | moat candidates → one field'
+edits_b	G120-V04	1	'| UE31 | exports (V04 §5.5) | E4: a zero-length or zero-area feature i'
+edits_b	VEW-01 VV34-16	1	'| UC18 | a vault × a lock | a locked vault element is held against eve'
+edits_c	VEW-01	1	'| `drawTunnel` (sewer, no `system`) | two points; the kind optional | '
+edits_c	VV34-03	1	'  surface access through passable joins (V04 §3.5.7 (g) (1)), or none '
+edits_c	G120-V04	1	"symbols and opening places, which read this volume's `AccessPoint` rec"
+edits_c	G120-V04	1	"is left out and listed in the export's log; the layer's visibility nev"
+edits_c	VV34-02 G120-V04	1	'**Exports.** A VTT band scene ≤ 1.5 s at CITY; the underground glTF ≤ '
+edits_d	VAP-02	1	"§13's families; every bar runs on generated output from U1 (V04 §8) an"
+edits_d	VAP-25	1	'The item-109 statistical bars (T-V4-43, T-V4-44,\nT-V4-45, T-V4-49, T-V'
+edits_d	VEW-01	1	'a moat or field outfall only where none was admitted;'
+edits_d	VV34-02	1	"| T-V4-32 | performance | V04 §6's p95 bars on B-CITY-lite (PR tier) a"
+edits_d	VAP-02	1	'a relocation re-derives the pieces at the new building under the same '
+edits_d	VAP-19	1	"no ruin and no cavern at any rung (g item 109 (i)'s no-op pin)"
+edits_d	VAP-02	1	"| T-V4-43 | presence (V12's `presence` rule) |"
+edits_d	VAP-02	1	"| T-V4-44 | structure (V12's `twoSample`) |"
+edits_d	VAP-02	1	"| T-V4-45 | distinctness (V12's `paired`) |"
+edits_d	VAP-02	1	'| T-V4-46 | dossier |'
+edits_d	VAP-19	1	'| T-V4-47 | no-op pin (g item 109 (i)) | with the ruin chance 0 and th'
+edits_d	VAP-02	1	'| T-V4-48 | access |'
+edits_d	VAP-02	1	"| T-V4-49 | access (V12's `trend`) |"
+edits_d	VAP-02	1	'| T-V4-50 | catacombs (500 seeds per rung) |'
+edits_d	VAP-02	1	"| T-V4-51 | ratchet (V12's `exactMonotone`) |"
+edits_d	VAP-02 VAP-25	1	'| T-V4-52 | ratchet |'
+edits_d	VAP-02	1	'| T-V4-53 | overlap |'
+edits_d	VAP-02	1	"| T-V4-54 | depth keeps secrets (V12's `floor` on `voidSealedDeep`) |"
+edits_d	VAP-02	1	"| T-V4-55 | caverns (V12's `trend`, `higherWith`) |"
+edits_d	VAP-02	1	'| T-V4-56 | caverns |'
+edits_d	VAP-02	1	'| T-V4-57 | ruins |'
+edits_d	VAP-02	1	"| T-V4-58 | ruins (V12's `rate` on `ruinChosen`) |"
+edits_d	VAT0-02	1	'their households returned displaced (cause `void`) and re-housed that '
+edits_d	VAT0-02	1	'(f) the reading, its memory and the vacancies are byte-identical on th'
+edits_d	VV34-06	1	"(a) former elements exist only where the replay's former fabric is old"
+edits_d	VAT0-19	1	"each wall band on its former enceinte's chain,"
+edits_d	VAP-19	1	'and with the replay off 0 former elements and the output byte-identica'
+edits_d	VV34-03	1	"the `underground` section's rows equal V10 §3.9a's, every word a catal"
+edits_d	VEW-01 VV34-16 G120-V04	1	"(h) UC15–UC16, (i) UC18 — gives the row's outcome; UC13 and UC17 are T"
+edits_d	VAP-32	1	"**The owner's panel** (§13.6 without a reference; V12 §3.9.1's `PanelS"
+edits_d	VEW-01	1	"T-V4-79's (a)–(f) and (y) clauses for what U1 lands; **the default pre"
+edits_d	G120-V04 VV34-02	1	'glTF and CityJSON of the underground; performance at METROPOLIS; the o'
+edits_d	VV34-16 G120-V04	1	"T-V4-79's remaining clauses, T-V4-80 (g)–(i);"
+edits_d	VAL-05	1	'| U3b | `under.openings`, `under.dig` (58a) — U-ACCESS reads them | `c'
+edits_d	VAL-05	1	"| U1 | `under.layout` (58), every column — U-FORECAST's `forecastSafet"
+edits_d	VV34-14	1	"the cells `raisedWays.structure.span.*` (row 80, V11 §3.24.2's name ma"
+edits_d	VEW-01	1	"| J-V4.7 | chose outfalls from S1's drainage outlets,"
+edits_d	VV34-14	1	'(the cells `raisedWays.structure.span.*`, their values in §2.7)'
+edits_d	VV34-06	1	"× the site's burial-speed factor from V11's `history.burialYears`,"
+edits_d	VEW-01 VV34-16	1	'a locked vault held against every generator with E_LOCKED; every syste'
+edits_d	VAT0-02	1	"| J-V4.125 | chose V06 §6.2's per-epoch sums"
+edits_d	VV34-02 G120-V04 VAT0-02 VEW-01	1	"over budgets of this volume's own or a separate channel, because V06's"
+edits_d	G120-V04	1	'| BCR-V4-15 | the bars T-V4-1 – T-V4-80 | item 484 |'
+edits_d	VV34-02 G120-V04	1	"  request of V04 §10 is an f item that text carries; file g's items 10"
+edits_d	VAT0-19 VV34-03 VV34-06 VV34-02	1	'  V06 §3.18, V06 §3.19, V06 §6.2; V07 §3.12, V07 §3.16; V08 §2.6a, V08'
+edits_d	VAL-05	1	'  `ceilingClearCm` and `moundShare`, the `archDoor` row, the buried fo'
+edits_d	VEW-01 VV34-02 G120-V04	1	'* That the dungeon-map figure-ground, the ruin program and the plan li'
+edits_d	VAT0-02 VV34-02	1	"| V06 | the four participants' calls (V04 §3.10), their scopes and `op"
+edits_d	VAL-09 VAL-08	1	'| V07 | the maintenance mode and the village rows (item 565); V07 §1 ('
+edits_d	VV34-03 G120-V04	1	'| V09 | the `showUnexcavated` and active-layer controls; the lost void'
+edits_d	VV34-06 VAL-08 VV34-02	1	"| V11 | the underground's content rows (V11 §3.23), the stepped-shrine"
+edits_d	VAP-19 VAP-25 VAP-32 VAL-05	1	"| V12 | the bar specs of V04 §7's item-109 bars (V12 §3.6b), the no-op"
