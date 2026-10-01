@@ -11,7 +11,7 @@
 # - P0 brief read whole; 34 issues parsed; skeleton written: done
 # - P1 issue sources, canon dated rulings 114–119 (with J132), file g 114–119, live sections, volume §8s and §7s: done
 # - P2 blocks (16 REPLACE on the base, J-ROWS 7, RATIONALE-A 8, one REPLACE on INDEX.md): done
-# - P3 checks on copies (apply, audit, sums, references, document checks), result saved, LANDED: see the CHECKS note below
+# - P3 checks on copies (apply, audit, sums, references, document checks), result saved, LANDED: done (CHECKS below)
 #
 # NOTES FOR ASSEMBLE
 # (1) RATIONALE-A's last row, J-A73.06, RESTATES the existing Part A entry (VCS-15): swap it into the older row's place so
@@ -24,6 +24,9 @@
 # (4) §16's prices follow volume 9's in-progress repair (VAP-06, repair-V09-r1): AP5 moves to M6-E on the staged-screens
 #     line (V09's base line 16.25–24.0). Should that repair not land, the carried row and the application and
 #     staged-screens lines move back by AP5's 0.5–0.75 and nothing else changes.
+# (5) DOCUMENT CHECKS: append the 11 reviewed rows below (each "# ALLOW " line, prefix stripped; fields TAB-separated) to
+#     docs/validation/doc-checks-allow.tsv — grep '^# ALLOW ' <this file> | sed 's/^# ALLOW //' >> the TSV. Each is a C3
+#     3-gram run of this file's new text: ordinary words or the digits of our own pointers and person-week figures.
 #
 # ISSUES → BLOCKS (34 routed; 34 fixed in text; 0 ruling requests)
 # title, summary, §0 ........ VCS-06 (5), VCS-07, VCS-17
@@ -69,6 +72,43 @@
 # ITEM 119 (a2): the owner's answer "Total" (J132) reached the canon during this round; §1.1's statement is item 119 (a)'s
 # wording (each wait ≤ 10 s from the click to the complete result), which (a2) confirms; the coarsening rule is V06's and
 # §12's, not written here.
+#
+# ALLOW C3	1 1 with the two	the one-page summary's item-119 sentence (coherence/repair-scope-r1): "(§1.1) — with the two declared target misses"; a section number and ordinary words of our own
+# ALLOW C3	a change of the map	the one-page summary's items 117–118 sentence: "a look only, never a change of the map" — ordinary words of the owner's rule (file g items 117 (a), 118 (a)), not a copied phrase
+# ALLOW C3	2 7 7 1 7 4	§13.2's item-114 group head "(item 114; §2.7, §7.1, §7.4, …)": digits of our own section pointers, not text
+# ALLOW C3	in the view and the	T116-1 (§13.2): "reachable in the view and the pyramid draws no tile past it" — ordinary words, our own wording of file g item 116 (a)
+# ALLOW C3	2 8 2 11 12	§13.2's item-117 and item-118 group heads "(… §10.2, §8.2, §11, §12.5)": digits of our own section pointers, not text
+# ALLOW C3	and a map with no	T117-6 (§13.2): "and a map with no week opens at midsummer" — ordinary words, our own wording of file g item 117 (c)
+# ALLOW C3	are byte identical to the base	T118-1 (§13.2): "its tiles are byte-identical to the base" — the base's standing no-op-pin wording (file g item 118 (h)), ordinary words
+# ALLOW C3	by name and the map	T119-3 (§13.2): "progress — the stage by name and the map filling in" — file g item 119 (c)'s own words, ordinary
+# ALLOW C3	75 0 75 1 25	§16's carried row "(7.75–11.5, 1.25–1.75, 0.75–1.25, …)": our own person-week figures, digit runs, not text
+# ALLOW C3	25 0 25 0 5 and 0	§16's carried row "(…, 0.75–1.25, 0.25–0.5 and 0.75–1.25)": our own person-week figures, digit runs, not text
+# ALLOW C3	8 2 5 4 and the	§16's content line "(items 103–108; V11 §8, 2.5–4) — and the rows of items 111 and 113–119": a section number and our own price, ordinary words
+#
+# CHECKS (executed on scratch copies; live files untouched)
+# - apply-blocks.py (two-pass) on docs/ARCHITECTURE.md + the rationale: 18 blocks found, 18 applied, 0 skipped; audit not-OK 0;
+#   notes: the title retitled (as intended) and RATIONALE-A's J-A73.06 a duplicate id until swapped (note (1)); with the
+#   swap simulated Part A 788 rows = the index's 788 rows, 0 duplicate ids. Headings 153 → 153, fences balanced (132).
+#   The INDEX block on docs/volumes/INDEX.md: 1 applied, 0 skipped; the result equals the generator's text byte for byte.
+# - §16 re-summed from the new text: the milestone rows 225.5–307 = the first total; the base lines 198.25–270.75; the
+#   staged lines 182.5–255.75; the whole program 408–562.75; each volume's line equals its §8 (V06 29.5–41.75, V07
+#   29.75–41.75, V08 18–24.5, V10 M3c 11–14.75 and C1 + transcript 3.5–5.25, V09 21.5–31.75 = 16.25–24.0 + 1.25–1.75 on the
+#   application line and 4–6 staged, V11 C9 0.75–1.25 on the content line, V12 6.75–10.25 on the rig line).
+# - The assembler's resolver (work/assemble-r0/refs.py) over the patched base and INDEX with the live volumes: 1 BROKEN, the
+#   pre-existing PART III "V07 §15" (not this unit's); the scope lines' ambiguous continuations down from 15 to 4, each a
+#   base section read as intended; every new T114-n – T119-n, T-Vn-m and J-id resolves.
+# - doc_checks.py --sections "ARCHITECTURE,The whole design,0,1,13,14,15,16,17,Delegated decisions,Judgment calls,Staged,
+#   Appendix A" on the patched copy: C1 5/0, C2 1/0, C3 403/0 (11 new hits, reviewed by the rows above), C4 1/0, S1 0/0,
+#   S2 139/0, exit 0 with the rows (live: C3 392/0). WARNING printed: the reference corpus is INCOMPLETE in this checkout
+#   (captures, research/patreon, research/devlogs, research/ftg-docs, research/external) — NOT authoritative; provisional.
+#
+# WORDS (wc-style, before → after): title-§0 4 750 → 5 127; §1.1 1 757 → 1 908; §13.1 3 000 → 3 088; §13.2 15 356 →
+# 17 074; §13.3 1 554 → 1 560; §13.4 1 027 → 1 076; §13.5 4 366 → 4 389; §13.7 2 188 → 2 189; §13.8 1 892 → 2 165; §13.9
+# 918 → 872; §14 9 201 → 9 211; §15.1 4 241 → 4 242; §16 8 258 → 9 138; Delegated 3 107 → 3 138; the index 16 156 →
+# 16 506 (with the J-ROWS); Appendix A 549 → 571; INDEX.md 4 250 → 4 026. Net +3 934 base words, −224 INDEX words: the
+# growth is the new design file g items 114–119 require of this unit (six bar groups, schedule and take-over rows, §1.1's
+# performance statement, §16's placements and prices, seven index rows); the removals are restatement (§13.9's record,
+# §13.8's volume-12 budgets) and narration (INDEX's ledger, lane record and census notes) only — no content dropped.
 
 === REPLACE # ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and what a village would need (later) ===
 # ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and the hooks the village product (volume 7) builds on
@@ -2119,7 +2159,7 @@ tool API and a skeleton file all make and change a town with one set of twelve t
                `plat calibrate` (runs and the register); `plat nullmodel` and `plat statbar` with the expected-value functions of
                `@plat/testkit/expected` and the step runner; `undergroundInputOf`; the panel engine with `plat d5 verdict`; `plat known` (the
                known-city fixtures' engine) and `plat noop` with `@plat/testkit/noop` (the no-op pins); `@plat/testkit/bars` (the
-               `BenchBarDef` registrations, §13.2's convention (7)) (V12 §2–§3); the clerk's
+               `BenchBarDef` registrations, §13.2's convention (7)) (V12 §2 – V12 §3); the clerk's
                evaluation cases, graders and cassettes (V10 §7)
 ```
 

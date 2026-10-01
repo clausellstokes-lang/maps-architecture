@@ -370,5 +370,125 @@
 "file": "8.8.md",
 "old_w": 23,
 "new_w": 25
+},
+{
+"where": "200-g114-walls.patch:6",
+"file": "8.2.md",
+"old_w": 23,
+"new_w": 40
+},
+{
+"where": "200-g114-walls.patch:12",
+"file": "8.2.md",
+"old_w": 37,
+"new_w": 73
+},
+{
+"where": "200-g114-walls.patch:18",
+"file": "8.2.md",
+"old_w": 20,
+"new_w": 93
+},
+{
+"where": "200-g114-walls.patch:29",
+"file": "8.2.md",
+"old_w": 21,
+"new_w": 118
+},
+{
+"where": "200-g114-walls.patch:39",
+"file": "8.2.md",
+"old_w": 30,
+"new_w": 211
+},
+{
+"where": "200-g114-walls.patch:49",
+"file": "8.2.md",
+"old_w": 26,
+"new_w": 192
+},
+{
+"where": "200-g114-walls.patch:63",
+"file": "8.2.md",
+"old_w": 19,
+"new_w": 37
+},
+{
+"where": "200-g114-walls.patch:69",
+"file": "8.2.md",
+"old_w": 16,
+"new_w": 56
+},
+{
+"where": "200-g114-walls.patch:75",
+"file": "8.2.md",
+"old_w": 37,
+"new_w": 343
+},
+{
+"where": "200-g114-walls.patch:84",
+"file": "8.2.md",
+"old_w": 20,
+"new_w": 325
+},
+{
+"where": "200-g114-walls.patch:105",
+"file": "8.3.md",
+"old_w": 14,
+"new_w": 26
+},
+{
+"where": "200-g114-walls.patch:110",
+"file": "8.3.md",
+"old_w": 15,
+"new_w": 154
+},
+{
+"where": "200-g114-walls.patch:117",
+"file": "8.11.md",
+"old_w": 20,
+"new_w": 163
+},
+{
+"where": "200-g114-walls.patch:124",
+"file": "11.1.md",
+"old_w": 37,
+"new_w": 57
+},
+{
+"where": "200-g114-walls.patch:129",
+"file": "11.1.md",
+"old_w": 16,
+"new_w": 42
+},
+{
+"where": "200-g114-walls.patch:136",
+"file": "11.1.md",
+"old_w": 21,
+"new_w": 41
+},
+{
+"where": "200-g114-walls.patch:142",
+"file": "11.1.md",
+"old_w": 18,
+"new_w": 50
+},
+{
+"where": "200-g114-walls.patch:149",
+"file": "11.1.md",
+"old_w": 11,
+"new_w": 39
+},
+{
+"where": "200-g114-walls.patch:157",
+"file": "11.6.md",
+"old_w": 15,
+"new_w": 29
+},
+{
+"where": "200-g114-walls.patch:162",
+"file": "11.6.md",
+"old_w": 48,
+"new_w": 86
 }
 ]

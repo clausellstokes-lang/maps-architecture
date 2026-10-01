@@ -1,0 +1,254 @@
+# VRC0S-03 (major, F-MISSING): g item 117's rendering part — §8.2's season rows (the year position, the surfaces
+# through the year, autumn's covers, ice with its leads, boats hauled up, snow by climate), §8.4's sun through the year,
+# §8.1's season columns, §8.10's crown colours and boats, the census and edge rows, §11.1's exports, §12.5's re-skin
+# budget. A LOOK only: nothing here reaches the model or its hash (canon J128).
+@@ FILE 8.2.md
+<<<<
+`ink`, `label`, `light` and `glow` keeping their day values (labels are composed after the light, §8.4 (f)). `tree@autumn`
+re-skins deciduous crowns (below); winter draws the bare-crown symbol in `tree`.
+====
+`ink`, `label`, `light` and `glow` keeping their day values (labels are composed after the light, §8.4 (f)). The
+seasons are the season rows below; `tree@autumn` serves only their off form.
+>>>>
+<<<<
+one roof role and `hatched` NG's two tones. The view keys `season` ∈ {spring, summer, autumn, winter} and `weather` ∈
+{clear, overcast, snow} (§2.9) select override rows: autumn and winter re-skin deciduous crowns (by `leafType`,
+deciduous when absent) through role variants (`tree@autumn`; winter a bare-crown symbol); snow lays the `snow` role over
+ground, fields and roofs while `road` keeps its value; overcast removes the global light's direct term — its shadows go,
+the ambient and the occlusion stay, and on the vector rung projected shadows are off (the raised under-copy stays). The
+retaining walls' material roles (`wall.dry_stone`, `wall.earth_bank`, `wall.timber_crib`) are picked by
+`RetainingWall.material` (V11's `MaterialRow` key) as the wall-material rows are. The model and its hash are untouched.
+====
+one roof role and `hatched` NG's two tones. The retaining walls' material roles (`wall.dry_stone`, `wall.earth_bank`,
+`wall.timber_crib`) are picked by `RetainingWall.material` (V11's `MaterialRow` key) as the wall-material rows are. The
+view key `weather` ∈ {clear, overcast, snow} (§2.9): `snow` lays the `snow` role over ground, fields and roofs while
+`road` keeps its value; `overcast` removes the global light's direct term — its shadows go, the ambient and the
+occlusion stay, and on the vector rung projected shadows are off (the raised under-copy stays). The model and its hash
+are untouched.
+
+**Seasons (g item 117; J128): a look, never a change of the map.** The view's season is its **year position** — §2.9's
+`yearWeek`, 0–51 from the first week of spring on SettlementForge's grid (spring 0–12, summer 13–25, autumn 26–38,
+winter 39–51; the named seasons the picks of their middle weeks 6, 19, 32 and 45) — which follows the dossier's week
+under §2.9's follow flag (§7.7's DR42) and is midsummer, 19, standalone; the look reads it with the biome's climate row
+and its season columns (§4.2 S0, §10.2; V11 §3.25.6: the winter's severity and the bands of weeks of leaf colour, leaf
+fall, blossom, growing, harvest, hay, ice and snow, a band wrapping the year's end when it starts after it ends; DR42's
+height correction). Nothing below moves, adds or removes a mark's geometry or reaches a model value, a digest or a
+save; the tile worker draws it from the display list (§8.1 item 8), so a week change re-skins tiles (§8.8's key; §12.5)
+and re-emits nothing.
+* **Surfaces through the year (item 117 (f)).** Each land-use, green, garden, orchard and vineyard face, each wood floor
+  and each deciduous crown and hedge reads the V11 `season.surfaces` row its `seasonKind` column names (§8.1): at week w,
+  the look of the row's last phase whose week — its anchor band's end, plus its offset — lies at or before w, read
+  cyclically; a village field by its crop and rotation slot, its strips offset strip by strip (V07 §5.1). The looks,
+  each a linear-light lerp of the family's own roles (our own, calibratable):
+
+  | look | paint | pattern |
+  |---|---|---|
+  | `field.sown` | `ground` lerped 30 % toward `green` | drill rows: 1-px `field` lines every 3 px along the field's long axis |
+  | `field.green` | `field` lerped 60 % toward `green` | — |
+  | `field.ripe` | `field` | — |
+  | `field.harvest` | `field` | stooks: 2-px `plank` dots in rows every 6 px |
+  | `field.stubble` | `field` lerped 35 % toward `paper` | stubble rows: 1-px `field` lines every 3 px |
+  | `field.ploughed` | `ground` lerped 18 % toward `ink` | furrows: 1-px lines every 3 px in `ground` lerped 30 % toward `ink` |
+  | `meadow.green`, `grass.green`, `garden.green`, `orchard.leaf`, `vine.leaf`, `crown.leaf`, `wood.floor` | the mark's own role | — (the map as drawn) |
+  | `meadow.high` | `green` lerped 25 % toward `tree` | tall-grass ticks: 1 × 2 px every 4 px |
+  | `meadow.mown` | `green` lerped 40 % toward `field` | swaths: 2-px lines every 6 px |
+  | `meadow.winter` | `green` lerped 55 % toward `ground` | — |
+  | `meadow.dry` | `green` lerped 60 % toward `sand` | — |
+  | `grass.autumn` | `green` lerped 45 % toward `field` | — |
+  | `commons.bracken` | `green` lerped 45 % toward `leaf.russet` | bracken: 2-px `leaf.russet` ticks every 4 px |
+  | `garden.bare` | `garden` lerped 55 % toward `ground` | — |
+  | `orchard.blossom` | the crowns | 1-px `paper` dots over 30 % of each crown |
+  | `orchard.fruit`, `vine.fruit` | the crowns; the vine rows | 1-px dots over 15 %, in `leaf.scarlet` (orchard) or `leaf.crimson` (vine) |
+  | `orchard.colour`, `vine.colour`, `crown.colour` | each crown's leaf colour (below) | — |
+  | `orchard.bare`, `vine.bare`, `crown.bare` | the bare-crown symbol in `tree`; a vine's rows as their stakes | — |
+  | `wood.floor.leaves` | the wood's fill | the leaf cover (below) |
+
+  A look stands where its role stands, so it takes that role's matrix rows — a field look the field / road and
+  field / ground pairs, a meadow, grass or garden look the `green` or `garden` ones, a crown look the `tree` ones —
+  checked as the palette is; every look passes on the shipped families
+  (`docs/validation/bench/coh_repair_rendering_r1_looks.out` (B)).
+* **Autumn's covers (item 117 (f2)).** Through the leaf-colour band each deciduous crown — §8.10's instances whose
+  `leafType` is deciduous, a hedge's, an orchard's, a vine's and a creeper's included — takes its own colour: the keyed
+  draw `RH32('crown.leaf', key, salt, ordinal)` picks one of its species' `season.leaf` colours by weight, drawn in that
+  `leaf.<colour>` role (a species with no row is evergreen and keeps its look all year); a crown stays green while
+  `RH32('crown.early', key, salt, ordinal)` ÷ 2³² is under `earlyGreenShare` × (1 − t), t the share of the leaf-colour
+  band elapsed up to its middle week (none past it). From the leaf-fall band's last third the crowns thin: each is drawn
+  at alpha 1 − f over its bare-crown symbol, f rising from 0 to 1 across that third. **Fallen-leaf cover** lies by V11's
+  `season.cover` rows on the marks of each surface — `underTrees` (a deciduous crown's footprint × 1.5), the way bodies
+  of `street` and `lane` classes, green and lawn faces, garden yard parts, churchyard faces, roofs, and still water (the
+  `pond`, `moat` and `lake` water marks): on a world-aligned grid of 1.5 m cells, a cell within the row's `driftM` of a
+  deciduous crown (or under one) takes a 1-px leaf dot where `RH32('leaf.cover', key, salt, cell)` ÷ 2³² is under the
+  row's share — `start` at the first leaf-fall week rising linearly to `end` at the last, then fading to none over
+  `fadeWk` weeks, none while snow lies — × `edgeFactor` within 1 m of a wall line or a kerb; the dot takes the nearest
+  deciduous crown's leaf colour, so the cover deepens week by week and gathers at walls and kerbs. **Creepers:** a
+  building whose draw `RH32('creeper', key, salt)` ÷ 2³² is under 0.15 carries a creeper along its longest street-facing
+  wall at the neighbourhood band and finer — in `green` through the leaf weeks, in its `season.leaf` creeper colour
+  through the leaf-colour band, gone when bare. Bracken goes rust and stubble gold by their looks above.
+* **Water in winter (item 117 (e)).** Each water mark's `iceKind` (§8.1) — `pond` for a pond, an oxbow or a ditch;
+  `moat`; `millpond` for a canal (a leat or a mill cut); `lake`; `slowRiver` for a river, tributary, distributary or
+  islet-channel reach whose course falls under 0.5 m per km, `river` for its other reaches; `harbourEdge` for a harbour
+  basin; `seaShore` for a sea's or an estuary's `sheltered` shore segments (§8.1 item 2's exposure); none for a water body
+  carrying a `spring`, an oasis, which never freezes — is frozen at week w when the climate's winter is at least its
+  `season.water` row's `freezesFrom` and w lies in the climate's ice band shortened by the row's `lagWk` at each end
+  (V11 §3.25.6), so still water freezes first and flowing water last; a `harbourEdge` freezes within 20 m of the basin's
+  shore and a `seaShore` within 30 m of its segment, the rest of that water staying open (our own cells). A frozen face
+  draws by `iceFill`: the `ice` role, crack lines — 1-px hairlines in `water`, three per 1 000 m² of face, each a
+  three-segment polyline keyed by `RH32('ice.crack', key, salt, k)` — and, while snow lies, a `snow` stipple over 30 % of
+  it. **Open leads** stay water over the ice: S14's `water.lead` marks (§8.1 item 8) — a river's reaches whose course falls
+  2 m per km or more (its fast current), each water mill's frontage reach (its weir and race), and a 12 m disc at each
+  spring point and each outfall (§2.3; II.7.3) — drawn in `water` with a ragged rim. **Boats** (§8.10) are drawn hauled
+  up on the bank while their water is frozen.
+* **Snow and the sun (item 117 (g)).** While a viewer has set no `weather`, it is `snow` in the climate row's snow band
+  when the winter is `cold` or `severe`, and `clear` otherwise — an arid row never snows by default; a viewer's value
+  stands until the viewer changes it. The view sun's default height follows the week (§8.4's *Sun*); item 102's model
+  daylight never does.
+* **Checks and the off form.** Every look, leaf colour and the ice pass the contrast matrix (above) in every family; a
+  season changes no legend meaning — its colours are looks, never legend categories — so the deficiency variants need
+  nothing new and every colour-coded category keeps its second cue in every week. A document whose pinned tables hold no
+  item-117 season rows (V11's off form) draws the four named seasons' override rows by the season its year position
+  falls in — autumn re-skins deciduous crowns (by `leafType`, deciduous when absent) by `tree@autumn`, winter draws the
+  bare-crown symbol in `tree`, spring and summer the map as drawn — and keeps the sheet's sun.
+>>>>
+<<<<
+`wallPatch(look)` (g item 114: a patched run's strip in its look's role and pattern, the wall rows below);
+====
+`wallPatch(look)` (g item 114: a patched run's strip in its look's role and pattern, the wall rows below); `iceFill`,
+`leafCover` and `creeper` (g item 117's season rows, above);
+>>>>
+<<<<
+| 13 | building masses / footprints / roof detail — each building's wings in stack order (`BaseWing.on`, §8.6), a tier over the tier below | MFCG: wards |
+====
+| 13 | building masses / footprints / roof detail — each building's wings in stack order (`BaseWing.on`, §8.6), a tier over the tier below | MFCG: wards |
+| 13b | leaf cover and creepers (g item 117) | new: on ground, streets, greens and roofs, under the crowns |
+>>>>
+<<<<
+| 8 | shore marks | new: on the water edge, after water and river |
+====
+| 8 | shore marks | new: on the water edge, after water and river |
+| 8b | open leads (`water.lead`) and boats (§8.10; g item 117) | new: on the water or hauled up on its bank |
+>>>>
+@@ FILE 8.1.md
+<<<<
+  attrs: Record<string, Float32Array | Uint32Array>;   // named columns, 4 B per mark each: heightCm, baseCm, eaveCm, ridgeCm, prosperity, class, block, bankKind, waterKind, exposure, knownTo, concealed, worksStage, worksKind, material, tintKey, …
+====
+  attrs: Record<string, Float32Array | Uint32Array>;   // named columns, 4 B per mark each: heightCm, baseCm, eaveCm, ridgeCm, prosperity, class, block, bankKind, waterKind, exposure, knownTo, concealed, worksStage, worksKind, material, tintKey, seasonKind, iceKind (item 8), …
+>>>>
+<<<<
+   `stamp.variant`, `grid.jitter.x`, `grid.jitter.y`, `line.jitter.along`, `line.jitter.across`, `crown.species`,
+   `crown.index`, `crown.tone`, `crown.scale` and `roof.detail` (§8.10), each read by the program it names; a new tag is
+====
+   `stamp.variant`, `grid.jitter.x`, `grid.jitter.y`, `line.jitter.along`, `line.jitter.across`, `crown.species`,
+   `crown.index`, `crown.tone`, `crown.scale` and `roof.detail` (§8.10), `wall.rubble` (g item 114), `crown.leaf`,
+   `crown.early`, `leaf.cover`, `creeper` and `ice.crack` (g item 117), and `festival.place` (g item 118; §8.2), each read by
+   the program it names; a new tag is
+>>>>
+<<<<
+   light-map key (§8.8); a key that does not admit the host sees none of their light, glow or shaft, while a light
+   whose host always draws always lights.
+====
+   light-map key (§8.8); a key that does not admit the host sees none of their light, glow or shaft, while a light
+   whose host always draws always lights.
+8. **The year position (g item 117).** The display list holds no season: S14 writes, once and for every week, each
+   land-use, green, garden, orchard, vineyard and wood mark's `seasonKind` (its V11 `season.surfaces` row key, absent
+   where it has none) and each water mark's `iceKind` (§8.2's mapping), and emits the `water.lead` marks — chains along a
+   river's fast reaches and each water mill's frontage reach, and 12 m discs at spring points and outfalls — read only
+   while their water is drawn frozen; the tile worker applies the week's looks (§8.2's season rows), so a change of the
+   year position re-skins tiles and emits nothing, and no digest moves.
+>>>>
+@@ FILE 8.4.md
+<<<<
+  bounced from lit surroundings into a darker pixel, nothing on uniformly lit ground and never a darkening; `E_key` by day
+  is the illuminance of an unshadowed level surface under the fixed sun — E_g · (a + sin 45°), exactly, since such ground
+  takes neither spill nor occlusion — so open level ground shows exactly its albedo and §8.2's palette targets hold on the
+  lit map, a shadow there keeping a ÷ (a + sin 45°) of it before the spill's lift (≈ 0.65 in `ink`, the ink family's
+  shadow alpha 0.35; ≈ 0.55 in `lit`; `docs/validation/bench/amendc_repair_rendering_r1_light.out` (C)), a surface near
+====
+  bounced from lit surroundings into a darker pixel, nothing on uniformly lit ground and never a darkening; `E_key` by day
+  is the illuminance of an unshadowed level surface under the fixed sun at its drawn altitude α_f (45° in the sheet, set
+  by the week under *Sun*) — E_g · (a + sin α_f), exactly, since such ground takes neither spill nor occlusion — so open
+  level ground shows exactly its albedo in every week and §8.2's palette targets hold on the lit map, a shadow there
+  keeping a ÷ (a + sin α_f) of it before the spill's lift (at 45°: ≈ 0.65 in `ink`, the ink family's shadow alpha 0.35;
+  ≈ 0.55 in `lit`; `docs/validation/bench/amendc_repair_rendering_r1_light.out` (C)), a surface near
+>>>>
+<<<<
+  Below −6° the view is night by (e). Shadow length is
+  capped at 8 × height near sunrise and sunset for the fixed and path suns. Rung 3's shadows are vector with no
+  shadow-resolution setting; rungs 1–2's are resolved by (c)'s traversal at the surface layer's resolution, to its floor
+  cell beyond half a tile side (§8.8).
+====
+  Below −6° the view is night by (e). Shadow length is
+  capped at 8 × height near sunrise and sunset for the fixed and path suns. Rung 3's shadows are vector with no
+  shadow-resolution setting; rungs 1–2's are resolved by (c)'s traversal at the surface layer's resolution, to its floor
+  cell beyond half a tile side (§8.8). **The sun through the year (g item 117 (g)).** The view sun's default height
+  follows the year position w (§2.9's `yearWeek`) by δ(w) = 23.44° × sin(2π (w − 6) ÷ 52) — 0 at weeks 6 and 32,
+  +23.44° at midsummer (19), −23.44° at midwinter (45): the fixed sun stands at `altitudeCdeg` + δ(w) (45° in every
+  shipped sheet: 68.4° at midsummer, 21.6° at midwinter); the cursor sun's h₀ is `heightRatio` × tan(that altitude) ÷
+  tan(`altitudeCdeg`), so its shadows lengthen in winter in the same proportion; the path sun reads `dayOfYear` = 80 +
+  7 (w − 6) + d (mod 365), d the `time` key's day of the week — week 6 opening at the March equinox, half a year later
+  (+ 182) for a negative latitude, so summer is high in either hemisphere. It is the view's light only — item 102's model
+  daylight keeps its fixed days and hours (§4.5), so no week moves a model value — and without item 117's season rows
+  (V11's off form) the sun keeps the sheet's values.
+>>>>
+@@ FILE 8.10.md
+<<<<
+  present, deciduous otherwise. Hatch phase and roof detail are keyed by the render key (tags `hatch.phase`,
+====
+  present, deciduous otherwise; through the leaf-colour weeks a deciduous crown's colour is its keyed leaf colour
+  (`crown.leaf`, `crown.early`; §8.2's season rows). Hatch phase and roof detail are keyed by the render key (tags `hatch.phase`,
+>>>>
+<<<<
+* **Edits (LC-20).** `instance` events (§7.1) apply after the set is generated: `remove` drops the ordinal, `move`
+====
+* **Boats (g items 117 (e), 118 (d)).** A `line`-layout class `boats` stands along every shore run of bank kind `quay`
+  and every `beach` run within 50 m of a fishery, landing or boatyard use (classes `fishery`, `boatyard`, `v.landing`),
+  one boat per 12 m, drawn from the district band (rank < 0.6) as a hull glyph 6 × 2 m in `plank` with an `ink` rim,
+  moored along the run on the water's side, its bow alternating by ordinal; while its water is drawn frozen (§8.2) each
+  boat is drawn hauled up on the bank — moved inland by its length and turned 30°. Boats are view marks like every
+  instance (never in the model), drawn by every picture export and written by no interchange format; an `instance`
+  edit moves, removes or adds one as it does a tree.
+* **Edits (LC-20).** `instance` events (§7.1) apply after the set is generated: `remove` drops the ordinal, `move`
+>>>>
+@@ FILE 8.3.md
+<<<<
+| wall runs in decay and repair (g item 114; §8.2's wall rows):
+====
+| seasons (g item 117; §8.2's season rows, §8.4's sun through the year): a golden TOWN on each climate row at the four named weeks and at every week of its leaf-colour, leaf-fall, ice and snow bands, in `ink`, `lit` and `hatched`, and the same TOWN with no season tables pinned | ink, lit, hatched | the model digest equal in all 52 weeks; in a temperate-deciduous autumn week ≥ 5 distinct leaf colours among the deciduous crowns and the cover share rising week by week through the leaf-fall band; still water drawn frozen before flowing water and leads open at fast reaches, mill reaches, springs and outfalls, the boats hauled up exactly while their water is frozen; on the `arid` row no ice and no default snow; every look passing the matrix rows of its role; the off form drawing the four named rows with the sheet's sun |
+| wall runs in decay and repair (g item 114; §8.2's wall rows):
+>>>>
+@@ FILE 8.11.md
+<<<<
+| T-ER-22 | wall runs in decay and repair
+====
+| T-ER-23 | seasons (§8.2, §8.4; g item 117) at every rung THORP to the cap: every week 0–51; a climate band wrapping the year's end; a climate with no ice or snow band; a water mark with no `iceKind`; a crown with no `season.leaf` row; a face with no `seasonKind`; a document with no season tables; save, load, undo, redo, regenerate and migrate | each week's looks by their rows; the band read cyclically; nothing frozen or snowed; that water and that face as drawn; that crown unchanged all year (evergreen); the off form's four named rows; the year position is view state (§2.9) — persisted with the view, in no digest, left as it was by an undo, a redo and a regeneration, kept by a migration — never an error | the season fixture of §8.3 at every rung and every week: tiles as stated, the model digest constant; each lifecycle step's tiles equal to a fresh render of its state |
+| T-ER-22 | wall runs in decay and repair
+>>>>
+@@ FILE 11.1.md
+<<<<
+**Rotation.** Picture exports (SVG, PNG, VTT) use the view's rotation (§9.5); GeoJSON keeps model coordinates and records
+the rotation.
+====
+**Rotation.** Picture exports (SVG, PNG, VTT) use the view's rotation (§9.5); GeoJSON keeps model coordinates and records
+the rotation.
+
+**The season and the festival (g items 117 (h), 118 (g)).** Every picture export — PNG, print, SVG and the VTT scene's
+image — draws the request's year position, weather and festival display (the request carries them, §8.9) and names
+them: a line in its legend and in its metadata (SVG `<metadata>`, the PNG's text chunk, the scene's `plat` object) with
+the season's name and week, the weather and, while one shows, the festival's name and weeks. A battle-map export
+(`.dd2vtt`, Foundry) records the season in its `plat` object — `season { week, name, winter }`, `winter` the climate
+row's severity — with each frozen water face as a polygon `ice { walkable }`, walkable in a `severe` winter and water in
+any other (item 117 (h)), and draws decorations and boats in its image only — never as walls, doors, lights or obstacles
+(item 118 (g)). GeoJSON, glTF and CityJSON carry neither: a season and a festival are looks, never model facts.
+>>>>
+@@ FILE 12.5.md
+<<<<
+**Lighting (item 68; §8.4).** The first map above is composed unlit
+====
+**Seasons and festivals (g items 117 (i), 118; item 119 (d)).** A change of the year position, the weather or the
+festival display re-skins the visible tiles — re-rastered centre-out, each composed tile swapped in as it lands — within
+the settle bound above (≤ 150 ms for a CITY view, ≤ 250 ms for a METROPOLIS view), cached tiles of other weeks kept
+until evicted; the leaf cover, the ice and the decorations add ≤ 20 % to a tile's raster time (PLAUSIBLE until R12-30
+measures them). Decorations are drawn lazily, only for the visible tiles and their first ring (`live.festival`'s region,
+§8.2). These are interaction budgets: item 119's comfort level leaves them as they are.
+
+**Lighting (item 68; §8.4).** The first map above is composed unlit
+>>>>
