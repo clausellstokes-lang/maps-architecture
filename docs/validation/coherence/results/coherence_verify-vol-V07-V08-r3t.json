@@ -1,0 +1,54 @@
+{
+ "key": "coherence/verify-vol-V07-V08-r3t",
+ "file": "docs/validation/coherence/verify-vol-V07-V08-r3t.md",
+ "issues": [
+  {
+   "id": "VV78-r3-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V08",
+   "claim": "V08 §2.4's `recognise` (rewritten this round) accepts only with 'every requiredKeys key present', and `select` runs at `digest`'s step 1 (V08 §3.5), before steps 2–3. A dossier missing one required key is therefore accepted by no adapter, and `select` refuses it `E_LINE_UNSUPPORTED` — B5 'no registered adapter accepts the dossier' — so step 3's 'a key's own absence → `E_UNKNOWN_SHAPE` listing up to 20 violations (B3)' is never reached. T-V8-31 bars 'a dossier missing one required key is refused `E_UNKNOWN_SHAPE`'. B3, §3.16 (9) (b) ('A required key's own absence stays a shape the line never writes (B3)'), the field table's lead, J-V8.134 and V08 §3.17's messages row ('a `dossier.offer` without `dossier` is `E_UNKNOWN_SHAPE` (B3)') say B3. Base §14 port item 2 says 'A shape no adapter recognises is refused `E_UNKNOWN_SHAPE` (a hand-made teaching file among them), a line no adapter serves `E_LINE_UNSUPPORTED`'. One case has two outcomes, with different held messages ('could not be read' against 'version is not supported'), and T-V8-31 cannot pass as the steps are written. repair-r3-V08 note 9 hands this to this round. It predates the round but lies in the subsections the round rewrote (§2.4's `recognise` and *Selection*, §3.5 steps 1 and 3).",
+   "required_change": "V08 §2.4: where no registered adapter accepts, `select` refuses `E_UNKNOWN_SHAPE` (B3) when the dossier lacks a `requiredKeys` key of every registered adapter — no dossier of any registered line (a required key absent; §14's hand-made teaching file; an offer without a dossier) — and otherwise `E_LINE_UNSUPPORTED` naming the candidates (B5). Texts: `select`'s refused branch reads `{ status: 'refused'; code: 'E_UNKNOWN_SHAPE' | 'E_LINE_UNSUPPORTED'; candidates: string[] }`. *Selection*'s '`E_LINE_UNSUPPORTED` naming the candidates only when none accepts' → 'when none accepts, `E_UNKNOWN_SHAPE` listing up to 20 violations (B3) where the dossier lacks a required key of every registered adapter, else `E_LINE_UNSUPPORTED` naming the candidates (B5)'. §3.5 step 1's 'a refusal ends the call (`E_LINE_UNSUPPORTED`)' → 'a refusal ends the call (`E_UNKNOWN_SHAPE` or `E_LINE_UNSUPPORTED`, V08 §2.4)'. Step 3's first sentence → 'Every `requiredKeys` key present — a key's absence is refused at step 1, `E_UNKNOWN_SHAPE` (B3).' B3's detection cell 'V08 §3.5 steps 2–3' → '`select` (V08 §2.4: a required key absent) and V08 §3.5 step 2 (a limit)'. B5's cause 'no registered adapter accepts the dossier' → 'no registered adapter accepts a dossier holding every required key of one'. T-V8-31 stands. T-V8-14's forcing of B3 adds a dossier missing one required key, and of B5 one whose readable `schemaVersion` no registered adapter serves."
+  },
+  {
+   "id": "VV78-r3-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V08",
+   "claim": "Round 3 made a `population` 'no integer in [0, 10⁷]' an unreadable value that takes the field-table fallback. The texts are the field table's `population` row ('read as an integer in [0, 10⁷] …: empty, or no such integer → the default request of the tier word's rung …'), §3.5 step 3, and §3.17's digest row ('a population above 10⁷, or one no integer, takes its field-table fallback'). Base §1.1 says 'a dossier above it [the 120 000 cap] is refused by the port the same way, `E_RUNG_UNAVAILABLE` naming the population cap, at creation and at every absorb'; §14 port item 3 and V08's own B7 say the same. So a dossier of 20 000 000 people makes a map at the tier word's default under V08, and is refused under the base and B7. One of 9 999 999 is refused by both: the outcome is not monotonic in the population. Item 125 (b)'s fallback serves a missing or empty value, and a readable whole number above the cap is neither. Before this round the case was a refusal (`E_UNKNOWN_SHAPE`). The wording is this seat's round-2 required change (G125-V08 (2)), adopted by R3-20 (2); the cap rule was missed.",
+   "required_change": "V08 §2.4's `population` row, fallback cell: 'DR23's one input, read as an integer in [0, 10⁷] (0 is V08 §3.6 (7)'s): empty, or no such integer → …' → 'DR23's one input, read as a whole number ≥ 0 (0 is V08 §3.6 (7)'s; one above the 120 000 cap — 10⁷ and beyond included — is refused `E_RUNG_UNAVAILABLE` naming the cap, B7, §1.1, a readable value never taking the fallback): empty, negative, fractional or no number → …' (the rest as it stands). §3.5 step 3: 'a `population` empty or no integer in [0, 10⁷] (0 is a deserted settlement, routed by V08 §3.6 (7))' → 'a `population` empty, negative or no whole number (0 is a deserted settlement, routed by V08 §3.6 (7); a whole number above the cap, however large, is B7's refusal, V08 §3.10)'. §3.17's digest row: 'a population above 10⁷, or one no integer, takes its field-table fallback (V08 §2.4), noted `field_fallback`' → 'a population that is no whole number, or negative, takes its field-table fallback (V08 §2.4), noted `field_fallback`; one above the 120 000 cap, 10⁷ and beyond included, is B7's `E_RUNG_UNAVAILABLE` naming the cap (§1.1)'. T-V8-49 (f)'s fixture adds a population of 2 × 10⁷, refused `E_RUNG_UNAVAILABLE` naming the cap."
+  },
+  {
+   "id": "VV78-r3-03",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "V08",
+   "claim": "V08 §3.16 (10)'s closing sentence reads 'T-V8-62 holds this part (T126-2's host-frame clause).' This round T-V8-62's head became 'takes T126-2's host-frame clause and T126-3's embed clause' (VAP-r2-05; R1 the same), and (10) itself states the absence that T126-3's embed scan checks ('no phone layout, screen, notice, catalogue row or default'). The citation omits a bar its test now names (bookkeeping, R3-03 (a)).",
+   "required_change": "V08 §3.16 (10): 'T-V8-62 holds this part (T126-2's host-frame clause).' → 'T-V8-62 holds this part (T126-2's host-frame clause and T126-3's embed clause).'"
+  },
+  {
+   "id": "VV78-r3-04",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "V08",
+   "claim": "`MapSession.setView`'s comment (R3-21's END text) and V08 §3.16 (4) and (6) (g) say a host sends the layers shown 'as a logged setLayer by doc.apply' (item 125 (c): a host 'may still send … a layer … as a user would'). V08's client sends `doc.apply` only to replay stored events at open and to fan committed events out (V08 §3.1, §3.3). `MapSession` offers no call that sends a host's `setLayer`, so the command these texts describe has no sender in this client: a one-ended hook. repair-r3-V08 hands this to round 4 against §11.3. No SettlementForge flow needs it ('the map never needs them'), and the base's T-ER-21 runs on the base harness, so only the client's surface is affected.",
+   "required_change": "V08 §2.2's `MapSession` gains `setLayer(layer: Layer, visible: boolean): void;   // an owner's or editor's layer command (item 125 (c); §11.3): posts doc.apply { baseLogHead, events: [{ t: 'setLayer', layer, spec: { visible } }] } with author 'host', which the frame folds and commits by V08 §3.7's path as a user's toggle; a viewer audience sends none (style events are the owner's and editor's, §11.3)`. `setView`'s comment ends '…; the layers shown go as a logged setLayer by doc.apply (§8.4) — `setLayer` below; never an input, and the map never needs one'. T-V8-61 (b) adds: a host's `setLayer` logs one `setLayer` event and leaves the document a dossier makes, its model digest and hash otherwise unchanged."
+  },
+  {
+   "id": "VV78-r3-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "scope",
+   "claim": "V08's round-3 fallbacks and new note kind are not carried by §14's port types, the shapes their writers fill. (a) `PortNote.kind` (l. 19402–19404) lists `field_fallback` but not V08 §2.4's new `line_differs` (class `report`, V08 §4.6). `field_fallback`'s comment reads 'a field … that the dossier lacks or leaves empty', while V08 now notes an unreadable value too. (b) `DossierDigest.settlement.key`'s comment reads '`settlement:<id>`, the dossier's own id (§7.7 item 12)' and `seed`'s 'H32(\"plat:sf-seed\" ‖ the dossier's seed)'. Port item 2's ONE-WAY SEED sentence is the same. Yet V08 §2.4's `id` and `_seed` rows fill them with the bound or minted key (`settlement:map:<mapId>`) and with H32 of the key. repair-r3-V08 hands both to scope. The key law's conflict itself is verify-determinism-r3t's VDC3-03 (major, determinism), not raised again; this is its §14 bookkeeping, one fix with it.",
+   "required_change": "§14: `PortNote.kind` adds `|'line_differs' /* item 125 (e): HostContext.line names a registered, accepting line the dossier's own selection did not take (V08 §2.4) */`, and `field_fallback`'s comment 'that the dossier lacks or leaves empty' → 'that the dossier lacks, leaves empty or gives unreadable'. `DossierDigest.settlement.key`'s comment → '`settlement:<id>`, the dossier's own id, else V08 §2.4's `id` fallback (§7.7 item 12)'. `seed`'s comment → 'H32(\"plat:sf-seed\" ‖ the dossier's seed, else ‖ the settlement key — V08 §2.4's `_seed` row): derived, never the host's seed (below)'. Port item 2's ONE-WAY SEED sentence adds after '‖ the dossier's seed)': ' — an empty or unreadable seed read as the settlement key (V08 §2.4) —'. One fix with VDC3-03."
+  },
+  {
+   "id": "VV78-r3-06",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "VV78-r2-07's fix made V06 §3.22 (2) d. read 'at a village rung, the entry of V07 §5.6 (2)'s main approach road', and V07 §5.6 (4) reads 'the main approach road's entry ((2)), `frontierFor`'s answer at a village rung'. V07 §5.6 (2)'s own `approachByGate` row still glosses that answer as 'at a village rung the through road's entry (V06 §3.22 (2)'s no-frontier case)'. A crossroads village has two `through` entries, so this is the same ambiguity the fix removed at V06. It is a restatement differing in form; the computation is V06's `frontierFor`, so nothing built changes.",
+   "required_change": "V07 §5.6 (2), the `approachByGate` row: '— at a village rung the through road's entry (V06 §3.22 (2)'s no-frontier case)' → '— at a village rung the main approach road's entry (the first row; V06 §3.22 (2) d.'s no-frontier case)'. It is the same table as VPC-R3-04's `beyondWalls` and `approachRoads` rows, so make both edits in one pass."
+  }
+ ]
+}

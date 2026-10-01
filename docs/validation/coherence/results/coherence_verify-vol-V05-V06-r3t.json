@@ -1,0 +1,46 @@
+{
+ "key": "coherence/verify-vol-V05-V06-r3t",
+ "file": "docs/validation/coherence/verify-vol-V05-V06-r3t.md",
+ "issues": [
+  {
+   "id": "VV56-r2-06",
+   "severity": "blocker",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V06",
+   "claim": "Persists in part. R3-08 (b)'s per-element peak is written everywhere it was routed (V06 §3.23 (3) and its `since`, W94, §2.12, §6.9, §3.21, T-V6-76 (b), J-V6.139; V03 §5.6 (2) (b), V02 §5.7 (2), X34, X36, §8.6, §2.6 step 7, V10 l. 1829) and closes an `extend` after a repair and a re-cut after the damage left. It does not close the restoring event's own re-cut, the case the finding led with. V03 §3.11 (l. 2017–2021): the restoring event (a `reoccupy`, a repair) 're-cut[s] a stored plan inside that event and stale[s] an unstored one … the kept elements keeping their thresholds while the damage leaves'; V03 §5.6 (2) (b) and V06 §3.23 (3) give each element that re-cut mints `since` = 'that change's effective week (V06 §2.11)', an engine op's epoch week E (V06 l. 823). The `repair` Works the `reoccupy` starts begins at S, uniform over (prevWeek, E] (V06 §3.13 (2); §4.11 *Works* (5), (10)), and runs its drawn duration; wherever it has not reached FINISHED by E, V06 §3.23 (3) gives the level at E as L × (1 − f(E)) > 0. Every minted element (the new occupants' partitions, doors, furniture; fresh thresholds by §6.3) whose t lies at or below that level is drawn damaged from E by §6.3's comparison and, once the falling level passes below t, 'repaired, in patch material', counted in `info.damage.patched` (V10 l. 1829): the wrong result the blocker named, on a common path (every `reoccupy` re-cuts or re-derives for new occupants; Works start uniformly in the span, so any positive repair duration begun in its last weeks runs past E). T-V6-76 (b)'s property over H-100 ('a `reoccupy` from derelict with a re-cut …: 0 added elements drawn repaired') fails under the rule as written; J-V6.139's 'a per-element peak never draws as repaired an element the damage never reached' holds only by drawing the new element damaged first. `decayPeak`'s 'highest decayLevel over [since, week]' is also undefined for week < since (a frame inside the span holds the event's re-cut plan from the Works' start, V06 §3.15.2).",
+   "required_change": "V06 §3.23 (3), after 'an element a re-cut keeps keeps its peak': 'An element reads the building's level — for §6.3's comparison and for `decayPeak` — only from a decay run that begins at or after its entry into the plan: an element that enters while a restoration is lowering the level (the restoring event's own re-cut, its `repair` Works still running at the event's effective week) reads 0 until the building's next decay run, so it is drawn as built through the repair and never repaired'; the signature's comment reads 'the highest decayLevel over [since, week] of the runs begun at or after `since`; 0 with none, and 0 for week < since'; §3.21's decay-level row adds 'a `reoccupy` whose re-cut is made while its `repair` Works runs past its epoch's week | the minted elements drawn as built throughout the repair, the kept ones leaving the damage and patched'; T-V6-76 (b)'s fixture names a `reoccupy` whose `repair` Works is still running at its epoch's week. At its home (END): V03 §5.6 (2) (a)–(b) read each element's level by that rule (an element minted by the restoring event's re-cut neither damaged nor repaired by the run it entered during), V02 §5.7 (2) reading it through V03."
+  },
+  {
+   "id": "VV56-r2-04",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V08",
+   "claim": "Persists at V08 (V06's side is written: §6.8 (1) `+ a × N`, (6)'s catch-up budget and one-epoch fold reported F-BUDGET-TIME, T-V6-24's 200 / 1 000 / 20-event fixtures, §3.21, J-V6.136; V08 §6's absorb-with-epochs row cites it). The required change's other half — 'the events' cost being the trigger of V08's pre-decided change under R12-31 (hand-off: V08 §6's absorb-with-epochs row names that change)' — is not written: the V06 seat left it as its HAND-OFF (c), and V08 §6's two absorb rows' basis-and-fallback cells (l. 3166–3167) name no change. R12-31 (base l. 17291): a wait past ten seconds takes 'the owning path's own change first (… V06 §6's and V08 §6's rows)', else 'fails the release until its path is changed — never a declared miss'; T119-2 (V12 §3.15.9 (2)): 'Past it the wait fails'. V06 §6.8 (6) and T-V6-24 charge the over-budget catch-up's miss to 'the per-event absorb of V08 §6's rows', and T-V6-24's own fixtures fall there by the design's numbers (100 years carrying 1 000 events: ≈ 30 s at CITY at 30 ms an event; 20 years carrying 200 at METROPOLIS: 9 s at 45 ms against a 6 310 ms budget inside an open). So T-V6-24 passes runs that R12-31 and T119-2 fail, and the release has no pre-decided change to take. V08 §3.6 (3) (l. 1849–1851) still says 'one epoch over the span always fitting', which V06 §6.8 (6) now contradicts.",
+   "required_change": "V08 §6's 'an absorb with epochs' row adds to its basis-and-fallback cell R12-31's pre-decided change for a catch-up whose dossier events' absorb term passes the catch-up's budget (V06 §6.8 (6)) — V08's change at build depth, bounding that term so that V06 §6.8 (6)'s one-epoch fold fits the catch-up's budget on T-V6-24's catch-up fixtures at CITY and METROPOLIS, every dossier event still folded at its own week and the model unchanged — and V06 §6.8 (6)'s and T-V6-24's over-budget clauses cite that change; V08 §3.6 (3)'s 'one epoch over the span always fitting' reads 'one epoch over the span the floor (where even it, with the events' absorb term, passes the catch-up's budget, the wait completes past the comfort level, reported F-BUDGET-TIME, V06 §6.8 (6))'."
+  },
+  {
+   "id": "VV56-r3-03",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "pipeline",
+   "claim": "§10.2 (d)'s `approachByGate` (l. 15538–15542, VV56-r2-07's fix) ranks the faces 'nearest V06's `frontierFor(doc, h)`, `h` the households the sequential roster adds between the present population and that population plus the camp's heads'. The roster's delta is prefix-stable over persons (§4.11, l. 7880), so a camp of fewer heads than one household — a dossier group's size of a few heads, by which (c) sizes the camp — can add 0 households; V06 §3.22 (2) d. answers 'Zero households answer none', and 'nearest' an empty answer has no outcome (the bullet's fallbacks cover only 'no main approach road'). One builder ties every face and takes the keyed draw, another falls to the reference point: two placements.",
+   "required_change": "§10.2 (d)'s `approachByGate`: '… `h` the households the sequential roster adds between the present population and that population plus the camp's heads (its headcount by (c), else its camped ground ÷ `areaPerHeadM2`), at least 1 — a camp smaller than one household seated where the next household would be …'; T-ER-27 adds a refugee camp of two heads (the overflow belt by the gate, never undefined)."
+  },
+  {
+   "id": "VV56-r3-01",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V06",
+   "claim": "V06 §6.8 (6) (l. 3976–3981), T-V6-24 and J-V6.136 state the catch-up's over-budget branch as 'where even one epoch over the span with its events' term passes the budget'; V06 §1.1 (14) (l. 148), W91 (l. 374), §6.8's lead (l. 3918), §6.8 (3) (l. 3952–3953: 'a catch-up's fits its budget but where its dossier events alone pass it') and §3.21's dossier-bound row (l. 3253) state it as 'dossier events alone pass its budget'. They differ where the events' term is under the budget but one epoch over the span plus it is over — at the metropolis cap one epoch is ≈ 5.3 s against 6 310 ms inside an open, so about 23 events at 45 ms already pass — where (3)'s claim that one epoch then fits is false; (6) governs the build.",
+   "required_change": "In V06 §1.1 (14), W91, §6.8's lead, §6.8 (3) and §3.21's dossier-bound row, 'whose dossier events alone pass its budget' / 'where its dossier events alone pass it' reads 'where even one epoch over the span with its dossier events' absorb term passes its budget ((6))'."
+  },
+  {
+   "id": "VV56-r3-02",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V09",
+   "claim": "V09 §4.21.9 (1) (l. 3416–3417): 'an advance of time, a history-first generation and a dossier catch-up each complete within it in total, coarsened to fit by V06 §6.8' — V06 §6.8 (6) now folds a catch-up whose events push even one epoch over its budget as one epoch that completes past the comfort level, reported F-BUDGET-TIME.",
+   "required_change": "V09 §4.21.9 (1): '… each complete within it in total, coarsened to fit by V06 §6.8 — but a dossier catch-up whose events' absorb term passes its budget, which folds one epoch over the span and completes past it, reported F-BUDGET-TIME, its progress view unchanged (V06 §6.8 (6))'."
+  }
+ ]
+}
