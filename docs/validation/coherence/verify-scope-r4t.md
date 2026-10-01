@@ -8,7 +8,7 @@ PROGRESS (lane `coherence/verify-scope-r4t`, 2026-10-01, cloud checkout)
 - P2 round-3 findings VCS-r3-01 – VCS-r3-08 re-checked against the live text, each END line's second end — done (all eight FIXED, every end)
 - P3 every round-4 block in scope re-read subsection by subsection (§0.2, §13.1, §13.2, §13.8, §14, §16, the index row J-A121.02), with each routed ruling's text and the scope END lines; the ruling sweep over the whole part — done
 - P4 cross-checks (index = Part A, T-ids, references, retired terms, deferral, phone clauses, review ids, volume §8 prices, doc_checks, sizes, edges) — done
-- P5 report, result file, LANDED — pending
+- P5 report, result file, LANDED — done
 
 
 **Verdict.** All eight round-3 findings are FIXED at every end (scope, V06, V08, V10, V11, V12 and rendering). The
