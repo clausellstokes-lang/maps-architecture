@@ -1,0 +1,90 @@
+# §8.2 *Crisis looks*, the Works `decaying` row, the greyscale bar; §9.5's legend. VRC2T-02 (R3-14 (3): the barricade
+# on a carriageway; the blockade's camps on the verges); VRC2T-10 (five banner glyphs against four colours); VV56-r2-02 =
+# VPC-R2-10 (R3-10: the look leaves building by building; a preview never hands over); VAT-r2-05 (R3-16 (a): the legend's
+# looks are §11.2's `looks` reader); VRC2T-07 (R3-24: the looks placed over the model the view draws); VV12-r2-06 (1)
+# (V02 §5.7's holes on a `decaying` building whose plan is in force); END of ADJ-r3-02 (R3-27: the greyscale bar's id).
+@@ FILE 8.2.md
+<<<<
+  | `blockade` | a `campCluster` across each approach road | its tents; a `barricade` across the road | fires, carts |
+====
+  | `blockade` | a `campCluster` on each approach road's verges (§10.2 (d)'s `approachRoads`) | its tents; a `barricade` across the road | fires, carts |
+>>>>
+<<<<
+  camped ground as its hull at α 0.35 — in its army's colour (`crisis.army.*` by the army's index in its coalition,
+  cycling past four), else in `crisis.tent` with an `ink` rim — dotted in `ink`, one 1-px dot per 400 m² of camp; `tent` a 4 × 3 m
+====
+  camped ground as its hull at α 0.35 — in its army's colour (`crisis.army.*` by the army's index i in its coalition,
+  (i − 1) mod 4), else in `crisis.tent` with an `ink` rim — dotted in `ink`, one 1-px dot per 400 m² of camp; `tent` a 4 × 3 m
+>>>>
+<<<<
+* **Placement, scale and the land** are §10.2's: keyed, by severity and rung — a hamlet's war band, a city's full siege
+  line — or by the dossier's headcounts at `areaPerHeadM2` (two armies twice the ground; engines one per
+  `enginesPerBesiegers`), several looks sharing the outskirts by `priority` under `densityCap`, never on water, a way's
+  carriageway, a gate's passage or a label's keep-out. A disaster's buildings draw item 123's damage layer at its row's
+  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; item 122 (d)), and their districts the
+  `ruinTone` at the city band; the look ends in the week its `reconstruction` Works begins (V06).
+====
+* **Placement, scale and the land** are §10.2's (d)–(f): keyed, by severity and rung — a hamlet's war band, a city's full
+  siege line — or by the dossier's headcounts at `areaPerHeadM2` (two armies twice the ground; engines one per
+  `enginesPerBesiegers`), several looks sharing the outskirts by `priority` under `densityCap`, a look standing only
+  where §10.2 (d) admits it — never on water, a gate's passage or a label's keep-out, and on a way's carriageway only a
+  `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`, `rebellion`; §10.2 (d)) —
+  no camp, tent, cart, engine or other part. A disaster's buildings draw item 123's damage layer at its row's
+  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; item 122 (d)), and their districts the
+  `ruinTone` at the city band; the look leaves each building in the week V06 §3.22 (3)'s `crisisLookYields` turns true
+  on it — a Works other than a `decay` Works begun on it — so no week draws both the look and the rebuild's stage; a
+  building no rebuild reaches keeps it until its condition no longer stands; a district's `ruinTone` stands while any of
+  its buildings still draws the look. A preview never hands over (`crisisLookYields` is false with no overlay): a
+  previewed ruin draws over every building of its units whatever their Works.
+>>>>
+<<<<
+  by its banner's glyph (plain, cross, chevron, saltire, cycling by its index in the coalition) beside its colour, a
+  marked door by its cross, the ruined tone by its rubble —; the parts draw in slot 19b, under slot 23's labels and
+  their halos (§9.4), famine's bare fields in slot 15b over the fields' crop stage. The legend lists each look standing
+  with its condition and weeks (§9.5), which V09's Show crises controls and Find's list of looks read.
+====
+  by its banner's glyph — plain, cross, chevron, saltire and pale, by (i − 1) mod 5 against the four `crisis.army.*`
+  colours by (i − 1) mod 4, so armies i and i + 4 differ in glyph and colour and glyph first repeat together at the 21st
+  army — beside its colour, a marked door by its cross, the ruined tone by its rubble —; the parts draw in slot 19b,
+  under slot 23's labels and their halos (§9.4), famine's bare fields in slot 15b over the fields' crop stage. The legend
+  lists each look standing by its look's word (`crisis.look.<kind>`, V09) with its condition and weeks (§9.5) — the
+  evaluation §11.2's `looks` reader answers.
+>>>>
+<<<<
+* **The layer.** `live.crises` runs in the generation worker over the model (the places of §10.2 (d), V01's `campLand`
+  and `disasterDistricts`, V06's `frontierFor`, the walls and gates), the view state (`week`, `crises`, the key) and
+  DR44's standing looks; it delivers marks of semantics `crisis.<part>` for the visible region dilated by one tile,
+  re-run when the week crosses a condition's edge, the crisis display or the key changes, the model changes or the view
+  moves — so looks are made lazily, tile by tile (§12.5) — and, a `base` layer, joins the tile key (§8.8). Its rows carry
+====
+* **The layer.** `live.crises` runs in the generation worker over the model the view draws — the head, or at a drawn
+  week whose frame is not the head that frame (V06 §3.15.2), as V06's `frontierFor` reads it — (the places of §10.2 (d),
+  V01's `campLand` and `disasterDistricts`, V06's `frontierFor` and `crisisLookYields`, the walls and gates), the view
+  state (`week`, `crises`, the key) and DR44's standing looks; it delivers marks of semantics `crisis.<part>` for the
+  visible region dilated by one tile, re-run when the week crosses a condition's edge or a Works' start week on a
+  building of a standing disaster look, the crisis display or the key changes, the model the view draws changes (a
+  commit, or the week crossing to another frame) or the view moves — so looks are made lazily, tile by tile (§12.5) —
+  and, a `base` layer, joins the tile key (§8.8). Its rows carry
+>>>>
+<<<<
+| building | Works `decaying` (on the way to `decayed`) | all | override: the roof with gaps along its ridge, the outline dashed at 30 % |
+====
+| building | Works `decaying` (on the way to `decayed`) | all | override: the roof with gaps along its ridge — where the building's plan is in force, V02 §5.7's holes in their place — the outline dashed at 30 % |
+>>>>
+<<<<
+pattern on a narrower strip, the gap with its rubble, the dashed trace — and that is their second cue. **The greyscale
+bar** (J-V12.91; V12's `T114g.greyscale`): one run rendered in each of two states at the band is compared with itself
+====
+pattern on a narrower strip, the gap with its rubble, the dashed trace — and that is their second cue. **The greyscale
+bar** (J-V12.91; V12's `BenchBarDef` T114-6, its statistic `bar.T114-6`, V12 §3.15.4): one run rendered in each of two
+states at the band is compared with itself
+>>>>
+@@ FILE 9.5.md
+<<<<
+  each — its look's glyph, its condition's name and weeks ("Refugee camp: the Northmarch migration, weeks 12–20"), as
+  DR44 admits it at the viewer's key — which V09's Show crises controls and Find's list of looks read (g item 122 (f));
+====
+  each — its look's glyph, its condition's name and weeks ("Refugee camp: the Northmarch migration, weeks 12–20"), as
+  DR44 admits it at the viewer's key — the one evaluation §11.2's `looks` reader answers to V09's Show crises controls,
+  crisis card and Find's list of looks and to V10's look read (g item 122 (f));
+>>>>

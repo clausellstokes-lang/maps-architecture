@@ -1,0 +1,131 @@
+# §11.2. VKr2-08 (V09 §3.9 named in full); VAF-R2T-06 (`RaisedKind`, §2.7); VRC2T-18 (`FindLayer` dropped for §2.1's
+# `Layer`; elegance); VRC2T-07 (R3-24: the gazetteer's `week`); VAT-r2-05 (R3-16 (a): the view-bound `looks` reader and
+# `LooksAnswer`); VRC2T-12 (`ExportOpts` declared once, with `Format`).
+@@ FILE 11.2.md
+<<<<
+    onProgress?: (p: Progress) => void /* 'undo': a group of `undo` or `redo` events, its events undone or redone of the total (V09 §4.21.9, §3.9) */ }): Promise<ApplyResult>;   // an event may arrive with its `fates` filled (below); `filtered` and `admitAs`: *Knowledge*, below (file f items 470, 572)
+====
+    onProgress?: (p: Progress) => void /* 'undo': a group of `undo` or `redo` events, its events undone or redone of the total (V09 §4.21.9, V09 §3.9) */ }): Promise<ApplyResult>;   // an event may arrive with its `fates` filled (below); `filtered` and `admitAs`: *Knowledge*, below (file f items 470, 572)
+>>>>
+<<<<
+interface ViewOpts { viewAs?: Admission /* a display filter:
+====
+type Format = Exporter<unknown>['id'];   // a registered exporter's id (§14's registry): §11.1's formats, the bridge's `png`, `svg`, `print`, `dd2vtt` and `foundry` among them (§11.3)
+interface ExportOpts {   // every option an export reads, declared once (§11.1's formats, §8.7, §8.9's raster-export request): written by V09 §5.10's dialog, the
+                         // bridge's export.request (§11.3), V08 W81's party pictures and a script's exportDocument; an absent member takes the default its comment gives
+  view?: ViewHandle;     // the view whose look and view state a picture export draws as they stand at the request (§11.1 *Where exports run*) — its sheet (the
+                         // `stylePreset`, else the document's style, §11.3) with the sheet's post operations (§8.2), §8.8's view-state switches and the light;
+                         // absent: the document's own style and saved view section (§2.9); a bridged request reads its frame's view
+  viewPatch?: Partial<ViewState>;   // view keys this export draws otherwise, laid over the view's for this export only and never written back: the year position, the
+                         // festival and crisis displays, `cvdVariant`, `light` and `time` (V09 §5.10's chips)
+  week?: number;         // the drawn week every format exports (§2.9's `week`; V06 §5.3: the frame locate(w) gives); default the view's, else the document's current week
+  knowledge?: Admission; // §11.1 *Knowledge*: admits exactly what both it and the caller's key admit, never more; default the caller's key (an application passes the
+                         // view's effective key, V09 §5.10)
+  displayNames?: Record<string, string>;   // HostContext.displayNames (§14; §11.1 *Display names*): dossier key → text, drawn for this export only, never stored
+  find?: boolean;        // §11.1: absent, Find drawn on a picture export as the view shows it and off on a battle map; false leaves it out; true draws it in a
+                         // battle map's image
+  frame?: BoxCm;         // a picture's frame or a scene's scope in model cm — a district or the selection passed as its box —, cut to the limit bounds (§8.7);
+                         // default the view's frame (a scene's snapped to whole grid squares, §11.1), with no view the limit bounds
+  band?: LodBand;        // SVG's declared band (§11.1): 'city' by default; 'district' after its size estimate; 'neighbourhood' only for a district-sized or smaller frame
+  size?: { px: [number, number] } | { paper: 'A4'|'A3'|'A2'; dpi?: number /* 300 */ };   // PNG and print (§8.7, §8.8): the frame over the size is the export's
+                         // scale, whose zoom stop places the labels (§9.2); default the view's size × 2 (V09 §5.10's "screen")
+  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default those whose `LayerSpec.visible` is on (§8.4); GeoJSON every layer
+  perLayer?: boolean;    // PNG: one transparent PNG per layer, zipped, a raised part its own (§11.1): default false
+  background?: 'paper'|'transparent';   // PNG: default 'paper'
+  furniture?: boolean;   // the picture's furniture (§9.5): default true
+  text?: 'outlines'|'embedded';         // SVG's text (§11.1; J-R32): default 'outlines'
+  lighting?: 'vector'|'raster';         // SVG's light (§11.1): rung 3's vector shadows by default, or one raster lighting layer from the CPU reference
+  anchor?: { latDeg: number; lonDeg: number; bearingDeg: number };   // GeoJSON and CityJSON: the geo anchor (§11.1); default the view key `exportAnchor`, else (0°, 0°, 0°)
+  trees?: 'groups'|'each'|'none';       // GeoJSON (§11.1): one MultiPoint per green entity (default), one Feature per tree, or none
+  exportWhy?: boolean;   // GeoJSON and CityJSON (§11.1; file f item 456): default false
+  compositions?: 'asDrawn'|'derive'|'none';   // glTF and CityJSON with stage 3 registered (§11.1; V02 §5.5): default 'asDrawn'
+  interiors?: boolean;   // glTF (§11.1; V03 §5.3): default false
+  numbering?: boolean;   // the JSON `plan` block's room numbers (V03 §5.3): default the view's `roomNumbers` other than 'off'
+  stride?: number;       // the animated history (APNG; V06 §5.3): an epoch stride in years; absent, every epoch
+  vtt?: { squareM?: number /* 1.5 (5 ft), or 1 */; pxPerSquare?: number /* 100; at least 50 */; plainPng?: boolean /* the `{cols}x{rows}` PNG beside it; false */;
+    scene?: { key: PlatKey } | { depthBand: number } | { building: Id; storey?: number } /* one scene set; absent, every set §11.1's profile writes for the scope */ };   // dd2vtt and Foundry (§11.1's profile)
+}
+interface ViewOpts { viewAs?: Admission /* a display filter:
+>>>>
+<<<<
+  | { kind: 'gazetteer'; text?: string; kinds?: string[]; counts?: boolean /* g item 120 (b): the class counts */;
+      chips?: FindChip[] /* item 120 (g): each chip's match listing; §2.9's FindChip */; gaps?: boolean /* with chips: Show gaps' units, V01 §5.4 (3) */;
+      page?: number }   // answered as GazetteerAnswer (below)
+====
+  | { kind: 'gazetteer'; text?: string; kinds?: string[]; counts?: boolean /* g item 120 (b): the class counts */;
+      chips?: FindChip[] /* item 120 (g): each chip's match listing; §2.9's FindChip */; gaps?: boolean /* with chips: Show gaps' units, V01 §5.4 (3) */;
+      week?: number /* the view's drawn week (§2.9's `week`); absent, the head: *Find's match listing*, below */;
+      page?: number }   // answered as GazetteerAnswer (below)
+  | { kind: 'looks'; view: ViewHandle }   // g items 122 (f), 118: the crisis looks and festivals standing in the view, answered as LooksAnswer (below)
+>>>>
+<<<<
+type FindLayer = 'ground'|'underground'|'sky';   // the arena a row lies on: Find's Ground, Below and Sky (V10's FindAnswer reads it)
+interface GazetteerAnswer {
+  rows: { id: Id; kind: string /* the registry kind when withheld */; name?: string; withheld?: true; cls?: BuildingClass /* a use's or institution's class; absent when withheld */;
+    district?: Id; layer: FindLayer; tier: FactTier }[];   // `text` matched against names, V11 §2.3's labels and synonyms and the dossier's names; `kinds` filtering; kind, then address order; ≤ 64 KB a page
+  classes?: { cls: BuildingClass; count: number; layers: { layer: FindLayer; count: number }[] }[];   // with `counts`: each class of which the document holds an admitted use, its count per layer ("Blacksmith · 4"); a class it lacks is absent
+  matches?: { chip: number /* its index in `chips` */; count: number; layers: { layer: FindLayer; count: number }[];
+====
+interface GazetteerAnswer {
+  rows: { id: Id; kind: string /* the registry kind when withheld */; name?: string; withheld?: true; cls?: BuildingClass /* a use's or institution's class; absent when withheld */;
+    district?: Id; layer: Layer /* §2.1: the arena a row lies on — Find's Ground, Below and Sky */; tier: FactTier }[];   // `text` matched against names, V11 §2.3's labels and synonyms and the dossier's names; `kinds` filtering; kind, then address order; ≤ 64 KB a page
+  classes?: { cls: BuildingClass; count: number; layers: { layer: Layer; count: number }[] }[];   // with `counts`: each class of which the document holds an admitted use, its count per layer ("Blacksmith · 4"); a class it lacks is absent
+  matches?: { chip: number /* its index in `chips` */; count: number; layers: { layer: Layer; count: number }[];
+>>>>
+<<<<
+    ids: Id[] /* this page's matches: the layer the caller names first, then address order */; none?: Id[] /* with `gaps`, a kind chip: V01 §5.4 (3)'s gap units' ids, ≤ limits.members */ }[];
+  page: number; more: boolean }
+====
+    ids: Id[] /* this page's matches: the layer the caller names first, then address order */; none?: Id[] /* with `gaps`, a kind chip: V01 §5.4 (3)'s gap units' ids, ≤ limits.members */ }[];
+  page: number; more: boolean }
+// The standing looks (g items 122 (f), 118 (b); J135): one evaluation in the generation worker — the one `live.crises` draws and §9.5's legend lists (§8.2),
+// DR43's festival list beside it — admitted at the view's effective key by *Knowledge* (below), read by V09's Show crises controls, crisis card, why lines,
+// Find's `crises` section and festival list, and by V10's look read. One answer of ≤ 64 KB.
+interface LooksAnswer {
+  week: number /* §2.9's `week`: the drawn week the conditions' weeks are read against */; yearWeek: number /* §2.9's year position */;
+  festivals: { id: string; name?: string; weeks: [number, number]; shown: boolean /* drawn now under §2.9's `festival` */ }[] /* DR43's list, in window order */;
+  crises: { look: CrisisLookKind /* §10.2 */; condition?: Id /* its ConditionOverlay; absent on a preview */; name?: string /* the condition's name where the dossier gives one (tier dossier) */;
+    source?: { from: CrisisMapRow['from']; key: string } /* the map row that gave the look (§10.2 (b)) */; sinceWeek?: number; untilWeek?: number;
+    severity: number /* 0–1; a preview's `previewSeverity` */; forces?: { headcount: number; groups: number } /* the dossier's sizes where it gives them (item 122 (h)) */;
+    districts?: Id[] /* a disaster look's units: V01's disasterDistricts over the model the view draws, at the village rungs V07's ends; key-filtered, ≤ limits.members */;
+    massed?: true /* part of its camped ground drawn on §8.8's surrounding ring */ }[] /* DR44's standing looks, or the preview, in the legend's order */ }
+>>>>
+<<<<
+  raised: { id: Id; name?: string; kind: 'viaduct'|'elevated'|'aqueduct'; source: 'generated'|'declared' /* file f item 244's derived value */;
+====
+  raised: { id: Id; name?: string; kind: RaisedKind /* §2.7 */; source: 'generated'|'declared' /* file f item 244's derived value */;
+>>>>
+<<<<
+**Knowledge (item 30; J-A30.83, J-A30.85).** `query` answers of every kind — `gazetteer`, `people`, `whereIs`,
+`relations`, `hit`, `inView`, `why`, `brief`, `entity`, `sites`, `measure`, `frame`, `rule`, `profile`, `links`, `plan`,
+`planReport` and the `history` kinds — and hover content list every entity in scope with its kind, address and geometry, but
+====
+**Knowledge (item 30; J-A30.83, J-A30.85).** `query` answers of every kind — `gazetteer`, `looks`, `people`, `whereIs`,
+`relations`, `hit`, `inView`, `why`, `brief`, `entity`, `sites`, `measure`, `frame`, `rule`, `profile`, `links`, `plan`,
+`planReport` and the `history` kinds — and hover content list every entity in scope with its kind, address and geometry, but
+>>>>
+<<<<
+that profession is the place's use. A view-bound reader (`hit`, `inView`, hover) admits at its view's band; `plan` and
+====
+that profession is the place's use. A view-bound reader (`hit`, `inView`, hover) admits at its view's band, and `looks`
+by DR44's admission at its view's effective key, so a condition the key withholds is absent and uncounted; `plan` and
+>>>>
+<<<<
+This listing is T120-2's definition of a chip's matches; V09's panel and `live.find`, V10's `FindAnswer`, V01's
+`gapUnits` (its members) and V12's statistics read it, from the generation worker's Find index, rebuilt once per commit
+(§12.5).
+====
+**At a drawn week** (`week`, g item 120 (f); V06 §3.15.2): where that week's frame is not the head, every row, count,
+match and gap unit is the head index's restricted to the entities the frame holds — one the frame lacks matches nothing
+and counts nothing there, a chip with none there counting 0 — so a reader that passes its view's week (`live.find`,
+V09's panel, V10's `read_map find`) counts, glows, pins, lists and gaps only what the drawn frame holds; absent, the head.
+This listing is T120-2's definition of a chip's matches; V09's panel and `live.find`, V10's `FindAnswer`, V01's
+`gapUnits` (its members) and V12's statistics read it, from the generation worker's Find index, rebuilt once per commit
+(§12.5).
+>>>>
+<<<<
+| `query` | out: one result page | copy | ≤ 64 KB |
+====
+| `query` | out: one result page | copy | ≤ 64 KB |
+| `query { kind: 'looks' }` | out: one answer (`LooksAnswer`) | copy | ≤ 64 KB |
+>>>>

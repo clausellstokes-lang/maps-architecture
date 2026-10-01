@@ -1,0 +1,134 @@
+{
+ "blocks": [
+  "### 6.1 RNG and stream design",
+  "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+  "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+  "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+  "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+ ],
+ "edits": [
+  {
+   "ids": [
+    "VDC2-01",
+    "VDC2-02",
+    "VDC2-04"
+   ],
+   "lines_before": 16,
+   "lines_after": 27,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC2-02"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VV34-r2-16",
+    "VAL-R2-03",
+    "VDC2-06"
+   ],
+   "lines_before": 18,
+   "lines_after": 21,
+   "subs": 2
+  },
+  {
+   "ids": [
+    "VDC2-03"
+   ],
+   "lines_before": 4,
+   "lines_after": 7,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC2-01",
+    "VDC2-04"
+   ],
+   "lines_before": 3,
+   "lines_after": 6,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VKr2-06",
+    "VM-R2T-05"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VKr2-06",
+    "VM-R2T-05"
+   ],
+   "lines_before": 3,
+   "lines_after": 4,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC2-16",
+    "VKr2-04",
+    "VPC-R2-18"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "END VAT-r2-04"
+   ],
+   "lines_before": 2,
+   "lines_after": 3,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC2-11"
+   ],
+   "lines_before": 2,
+   "lines_after": 4,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VPC-R2-02",
+    "VDC2-09",
+    "END VPC-R2-03",
+    "END VAH-r2-02",
+    "VAH-r2-01"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  }
+ ],
+ "words": {
+  "### 6.1 ": [
+   4855,
+   5158
+  ],
+  "### 6.3 ": [
+   4702,
+   4751
+  ],
+  "### 6.5 ": [
+   1955,
+   2060
+  ],
+  "### 7.1 ": [
+   12801,
+   12864
+  ],
+  "### 7.7 ": [
+   14490,
+   14643
+  ]
+ }
+}
