@@ -1,0 +1,124 @@
+89	V07	§3.11	 stretches, V07 §3.4; the supply web's links and stores at village scale, V07 §2.4, §3.8, §3.11; the balance of spread and pull inside 
+89	V07	§3.8	graded stretches, V07 §3.4; the supply web's links and stores at village scale, V07 §2.4, §3.8, §3.11; the balance of spread and pull 
+90	V07	§3.10	ale, V07 §2.4, §3.8, §3.11; the balance of spread and pull inside one district, V07 §2.4, §3.10; the institution ladders' members at vi
+91	V07	§3.11	' members at village rungs, the palisade's replacement by a town wall included, V07 §2.4, §3.11, V07 §3.12); item 109 (caverns and ruin
+97	V07	§3.2	or, V07 §3.10a); item 111 (the crowding map's water pull and the oasis village, V07 §3.3, §3.2 (4)); item 113 (a village over a former
+123	V04	§2.3	nd `cavern`, T2b, T3's F6, T5, T6, T8, T7 on show) with its records and tables (V04 §2.2, §2.3); V11's crypt column (`crypt`, `cryptM2
+146	V04	§3.10	h` (V11 §3.23.8; V07 §2.4); V04's stages in maintenance mode at a village rung (V04 §3.1, §3.10). (2) V11 — the crypt and cellar cells 
+151	V07	§5.1	10 — the unexcavated style, the shade map and link views, and the explanations (V07 §4.5, §5.1). (5) V04 — the arch-vault source regis
+158	V11	§2.9	 the `v.` namespace and `villageForm` naming a `v.` key with its compile check (V11 §2.3, §2.9); `guildhall` without a village form (V
+204	V07	§3.2	 `riverside` | | W7 | `VillagePlan` from VS1 — heart, nuclei, character, `R_s` (V07 §2.3, §3.2) | S1's site, S2's roster, W4 | VS2, VS
+216	V07	§3.11	 W19 | `BuildingClassRow.villageForm` (naming a `v.` key) and the tag fallback (V07 §2.7, §3.11), in the order pseudo-reader → village 
+232	V07	§7	6) | §7.6 (item 377) | — | | W35 | the village budgets and the `B-VILLAGE` bench (V07 §6, §7) | V07 §6's laws | CI tiers; the milest
+234	V07	§3.11	the village rungs' ladder rows — member ranges and step readings (V07 §2.4's third table, §3.11) | V11's step-type table; the dossier's
+240	V07	§5.3	he shipped table; `editTable`; the corpus stage | VS1–VS8, S10–S12, V07 §3.12, V07 §3.16, §5.3 | §7.6 (item 377); reference cells (§7.
+261	V07	§3.6	ranary`) → DR9, DR24 | | W65 | `rules.claimArea` and the market halls' claims (V07 §2.2a, §3.6 (4a)) | the shipped table (the `cloiste
+264	V07	§3.8	nsityPower` and its register entry `cal.village.*.rules.race.densityPower@VG` (V07 §2.2a, §3.8, V07 §3.15) | the shipped table (1 at e
+271	V07	§3.10	climate cell on the sun readings, the wells' arid coverage (V07 §3.1 (1), §3.2 (4), §3.3, §3.10) | the climate row's arid chances, oasi
+271	V07	§3.2	owding map, the climate cell on the sun readings, the wells' arid coverage (V07 §3.1 (1), §3.2 (4), §3.3, §3.10) | the climate row's a
+271	V07	§3.3	, the climate cell on the sun readings, the wells' arid coverage (V07 §3.1 (1), §3.2 (4), §3.3, §3.10) | the climate row's arid chance
+511	V07	§3.3	chMajor: number; stretchMinor: number; boxShare: number; boxMinM: M };   // V07 §3.2 (6), §3.3 mill: { fallM: M; fallWithinM: M; distM
+521	V07	§3.5	 /* δ's multiplier under a `district` request */ };                          // V07 §3.1, §3.5 openShape: { alongRoad: number; spiralG
+528	V07	§3.6	* the claim's depth at most this × the open space's radius */ } };           // V07 §2.4, §3.6 (4a), §3.8 perimeter: { closeM: M /* th
+528	V07	§3.8	's depth at most this × the open space's radius */ } };           // V07 §2.4, §3.6 (4a), §3.8 perimeter: { closeM: M /* the morpholog
+533	V07	§3.10	                                                                   // V07 §2.4, §3.2 (8), §3.10 manor: { moatChance: number; moatWaterM
+533	V07	§3.2	inM: M };                                                                    // V07 §2.4, §3.2 (8), §3.10 manor: { moatChance: number;
+534	V07	§3.9	M: [M, M]; fishpond: number; fishpondM: M; warren: number; gallows: PLaw };  // V07 §3.8, §3.9 (6) presence: { siteReachM: M };  longh
+535	V07	§3.10	: { fallLineSlopeMin: number };                             // V07 §2.4's presence tests, §3.10's pin-record rule; the longhouse's axis
+536	V07	§3.8	er; closeJoin: number; backCloseHa: number; backCloseDepthShare: number };   // V07 §3.7, §3.8 race: { densityPower: number /* unit no
+545	V07	§3.11	ow, high] */ }[] };                                                          // V07 §2.4, §3.11 handoff: { band: number };             
+676	V11	§2.9	h keyed in the **`v.` namespace** (`v.hovel`, `v.smithy`, `v.parish_church`, …; V11 §2.3, §2.9; J-V7.95): a village row and V11's town
+693	V07	§3.6	; no S3 claim exists at a village rung) reads its plot from `rules.claimArea` (V07 §2.2a, §3.6 (4a), §3.8; J-V7.112), as `v.parish_chu
+693	V07	§3.8	im exists at a village rung) reads its plot from `rules.claimArea` (V07 §2.2a, §3.6 (4a), §3.8; J-V7.112), as `v.parish_church` reads 
+760	V07	§3.9	0 soft 0.3 (the lord's mill); its moat and fishponds are `rules.manor`'s draws (V07 §3.8, §3.9 (6)) | | `v.parish_church` | `clientele
+823	V07	§3.9	rosses and the gallows hill — are §4.9's table's village rows, placed by V07 §3.2 (8) and §3.9 (6) (values `rules.pins`, `rules.manor`
+1016	V07	§3.11	dmark yard parts (`net_rack`, `drying_rack`, `timber_stack`) and a named beach (V07 §2.3, §3.11) | S11 (the yard parts in their host's 
+1033	V07	§3.9	) */; orchards?: boolean | 'auto' /* false: no orchard closes or orchard faces (V07 §3.8, §3.9) */; forest?: 'auto'|'many'|'some'|'gro
+1072	V07	§3.10	in at the rungs whose `RungProfile.frameLaw` is `territory`: VS8's rows, V07 §3.6 (5) and §3.10, are the village's whole furniture; ite
+1079	V07	§3.8	age; village RiverStrategy 'course-first'] S2   Programme at village rungs (V07 §3.2 (3), §3.8)                        [base stage; vi
+1085	V07	§3.10	hes, crossings, the wharf and its piers → one L1 batch with the palisade (V07 §3.5, §3.6, §3.10) VS5  Perimeter (interiors over 2 ha cu
+1085	V07	§3.6	pproaches, crossings, the wharf and its piers → one L1 batch with the palisade (V07 §3.5, §3.6, §3.10) VS5  Perimeter (interiors over 
+1154	V07	§3.10	e water for every village rule that reads water (V07 §2.4's `site water`, §3.2 (4), §3.3, §3.10's wells, V07 §3.16 (3)'s well reading) 
+1154	V07	§3.2	 spring and shore water for every village rule that reads water (V07 §2.4's `site water`, §3.2 (4), §3.3, §3.10's wells, V07 §3.16 (3)
+1154	V07	§3.3	d shore water for every village rule that reads water (V07 §2.4's `site water`, §3.2 (4), §3.3, §3.10's wells, V07 §3.16 (3)'s well re
+2923	V07	§4.4	ed (V04 §3.5.5 (b), V04 §3.5.0a) | leave out | T-V7-38, T-V7-60 (g) | | editing (V07 §4.1–§4.4) | none: an undo with no village edit i
+2925	V07	§5.4	tted records only | check | T-V7-61, T-V7-60 (h) | | rendering, labels, exports (V07 §5.1–§5.4) | none: a village with no palisade, gr
+3510	V07	§3	sumes the catacomb's growth | C | V-M3 | | T-V7-44 | rules are data: a scan of V07 §1 and §3 finds no numeric rule constant that is 
+3526	V07	§3.17	 | C, O | V-M3 (with M6-E) | | T-V7-60 | the edge suite (V07 §3.17): each clause runs its §3.17 rows on their edge fixtures at THORP (P
+3650	V07	§2.4	hose X over Y because Z"); the provenance of the constants is in the rows of V07 §2.2 and §2.4. A superseded or amended decision carri
+3660	V07	§3.1	asks for the attested variety and the culture key is a dossier fact to honour | V07 §2.2, §3.1, §3.5 | | J-V7.7 | chose a territory si
+3660	V07	§3.5	or the attested variety and the culture key is a dossier fact to honour | V07 §2.2, §3.1, §3.5 | | J-V7.7 | chose a territory sized by
+3661	V07	§3.2	.9 (1) (the area per head derived from the farm rows, 2.275 ha, never stored) | V07 §2.2, §3.2 (1), §3.9 (1) | | J-V7.8 | chose an exa
+3661	V07	§3.9	e area per head derived from the farm rows, 2.275 ha, never stored) | V07 §2.2, §3.2 (1), §3.9 (1) | | J-V7.8 | chose an exact dwellin
+3663	V07	§2.2	g ranges (4–16 dwellings for a thorp) require fewer dwellings than households | V07 §2.1, §2.2 | | J-V7.10 | chose, when a housing ran
+3669	V07	§3.11	rge's small towns carry wall records; timber and earth remain the norm | V07 §3.4 step 6, §3.11 | | J-V7.16 | chose a defensible-ground
+3671	V07	§3.6	d a southern village's its square, and PART III allows at most one market | V07 §3.1 (5), §3.6 | | J-V7.18 | chose a registered produc
+3678	V07	§5.2	ecause a second composition would duplicate the village's own plot-scale fabric | V07 §1, §5.2 | | J-V7.25 | chose the `painterly` fam
+3684	V07	§4.1	; item 105 (h)'s threshold decides at village rungs as everywhere) | V07 §2.1, V07 §3.12, §4.1 | | J-V7.31 | chose dwellings as link e
+3687	V07	§2.4	 must precede the network's L1 (§3.3's order) and the roads must reach it | V07 §3.2 (7), §2.4 | | J-V7.34 | chose item 102's village 
+3688	V07	§3.3	T-V7-19) — amended by J-V7.134 (the climate cell multiplies each reading) | V07 §3.2 (4), §3.3, §3.9 (2) | | J-V7.35 | chose 2–3 great
+3688	V07	§3.9	9) — amended by J-V7.134 (the climate cell multiplies each reading) | V07 §3.2 (4), §3.3, §3.9 (2) | | J-V7.35 | chose 2–3 great field
+3691	V07	§3.11	cause one roster keeps DR24 one rule and V11 fills the column once (item 430) | V07 §2.7, §3.11 | | J-V7.38 | chose to draw "Palisade o
+3699	V07	§3.4	0 m, because a flat reach would let a thorp's fence run far beyond its houses | V07 §2.2, §3.4 step 5 | | J-V7.46 | chose a light stre
+3701	V07	§2.4	ended by J-V7.136 (the grandeur ceiling rung-stepped by the owner's item 115) | V07 §2.2, §2.4 | | J-V7.48 | chose V04's frame-share c
+3704	V07	§3.2	est must precede the network's L1 while the green is sited after the L0 batch | V07 §3.0, §3.2 (8) | | J-V7.51 | chose to lay the whar
+3708	V07	§3.9	ousehold is housed once and DR7 counts both as the settlement's dwellings | V07 §3.2 (3), §3.9 (5) | | J-V7.55 | chose to trigger DR7'
+3714	V07	§3.2	sing, the sweep is O(cells) per sun position and the sign must be pinned once | V07 §2.3, §3.2 (4) | | J-V7.61 | chose coarse hydrolog
+3715	V07	§6	ause a village's rivers are vector and §12.4's rate prices the frame honestly | V07 §2.2, §6 | | J-V7.62 | chose the worked radius (
+3716	V07	§3.3	and-croft sizes are the attested village plot and the budget follows them | V07 §3.2 (6), §3.3 | | J-V7.63 | chose to keep a shrunk to
+3725	V07	§4.1	ause item 101 R4, R13 and R14 require lassos, held declarations and the badge | V07 §2.3, §4.1–§4.4 | | J-V7.72 | chose explicit reque
+3725	V07	§4.4	item 101 R4, R13 and R14 require lassos, held declarations and the badge | V07 §2.3, §4.1–§4.4 | | J-V7.72 | chose explicit request fi
+3726	V07	§3.1	 while the clean-room rule keeps the reference's vocabulary out of the design | V07 §2.7, §3.1 | | J-V7.73 | chose to specify the pain
+3736	V07	§2.4	or its budget rows only, over two sources for one mapping — amended by J-V7.101 | V07 §1, §2.4 | | J-V7.83 | chose to make a raised wa
+3741	V07	§4.1	able faces above a slope row levelled as contour strips with walls or banks) | V07 §3.8a, §4.1 | | J-V7.88 | chose ramps for the cart 
+3744	V07	§3.2	er's rule allows generated raised ways at CITY and METROPOLIS only (item 290) | V07 §3.5, §3.2 (8) | | J-V7.91 | chose deck plots at v
+3749	V07	§2.7	ce unambiguous; a class named in words in this volume's prose is its `v.` row | V07 §2.4, §2.7 | | J-V7.96 | chose reference cells (§7
+3751	V07	§3.11	— amended by V08 §2.6b (3) (the rule's one home, with its village column) | V07 §3.1 (1), §3.11 DR1 | | J-V7.98 | chose own ops `retire
+3753	V07	§5.1	y holds the geometry; the three yard parts are data rows with their own roles | V07 §2.3, §5.1, §5.4 | | J-V7.100 | chose V11 §3.6.1's
+3753	V07	§5.4	s the geometry; the three yard parts are data rows with their own roles | V07 §2.3, §5.1, §5.4 | | J-V7.100 | chose V11 §3.6.1's `buri
+3755	V07	§10	s rounded count steps inside a band against the smooth-scaling rule (J-V7.47) | V07 §2.4, §10 | | J-V7.102 | chose one translation of
+3758	V07	§3.11	follow the forced one (two `v.parsonage` under two parish churches) | V07 §2.4, §3.2 (3), §3.11 DR11 | | J-V7.105 | chose to key the vi
+3758	V07	§3.2	ers still follow the forced one (two `v.parsonage` under two parish churches) | V07 §2.4, §3.2 (3), §3.11 DR11 | | J-V7.105 | chose to
+3759	V07	§2.4	de GUILD kinds) would otherwise take V11's town range at a village (J-V7.39) | V07 §2.2a, §2.4 | | J-V7.106 | chose to key the tag fal
+3763	V07	§2.2	he fold's product and rung, never the target's rung, choose an epoch's phases | V07 §2.1, §2.2, V07 §3.12 | | J-V7.110 | chose to read
+3764	V07	§3.2	 it in the intent and the epoch's slice and T-V7-3 needs one producer per key | V07 §3.0, §3.2 (4) | | J-V7.111 | chose, at territory 
+3765	V07	§3.11	ad in; the fair field is never what `dist.market` measures to | V07 §2.4, §3.6 (4), (4b), §3.11 | | J-V7.112 | chose a `rules.claimArea
+3765	V07	§3.6	common by the road in; the fair field is never what `dist.market` measures to | V07 §2.4, §3.6 (4), (4b), §3.11 | | J-V7.112 | chose a
+3766	V07	§2.4	ey's precinct, is the village's scale, and a market hall stood on its market | V07 §2.2a, §2.4, §3.6 (4a), §3.8 | | J-V7.113 | chose t
+3766	V07	§3.6	recinct, is the village's scale, and a market hall stood on its market | V07 §2.2a, §2.4, §3.6 (4a), §3.8 | | J-V7.113 | chose that a 
+3766	V07	§3.8	 the village's scale, and a market hall stood on its market | V07 §2.2a, §2.4, §3.6 (4a), §3.8 | | J-V7.113 | chose that a forced seat
+3767	V07	§3.11	er says the parish church is a neighbour's, not that the parish has no priest | V07 §2.4, §3.11 DR11 | | J-V7.114 | chose `calibratable
+3768	V07	§2.4	on run moves, and a calibration must never change how a dossier fact is read | V07 §2.2a, §2.4 | | J-V7.115 | chose to make V11 §3.7.4
+3770	V07	§3.6	e's edge are the historical readings; the phases that run them are J-V7.125's | V07 §2.6, §3.6 (4b), V07 §3.12 | | J-V7.117 | chose th
+3771	V07	§3.11	700 people would override the watchtower's presence law that T-V7-12 bars | V07 §3.2 (3), §3.11 | | J-V7.118 | chose that S11's furnitu
+3772	V07	§3.10	-V7-57 checkable; the light rows are not the furniture step and run unchanged | V07 §3.0, §3.10 | | J-V7.119 | chose one cell, `rules.r
+3773	V07	§3.8	 a parity knob, not a default; the corpus stage (M-CAL) may move the default | V07 §2.2a, §3.8, V07 §3.15, §8 | | J-V7.120 | chose to 
+3773	V07	§8	ot a default; the corpus stage (M-CAL) may move the default | V07 §2.2a, §3.8, V07 §3.15, §8 | | J-V7.120 | chose to ship the `VG` p
+3774	V07	§8	 lands its entries with V-M0; the preset file's data work sits in V-M0's row | V07 §3.15, §8 | | J-V7.121 | chose `calibratable: fal
+3775	V07	§7	75, T-V11-37), and a reference cell's value is its target's, calibrated there | V07 §2.2, §7 | | J-V7.122 | chose stage `VS1` for th
+3777	V07	§8	CG` entry's value, `fixed:`) asks no new judgement of that seat | V07 §1 (11), V07 §3.15, §8, W67 | | J-V7.124 | chose to write no r
+3778	V07	§12	with the `VG` file V-M0 ships, so one change writes every entry once | V07 §8, §2.6, W69, §12 | | J-V7.125 | chose a records placemen
+3778	V07	§2.6	tten whole with the `VG` file V-M0 ships, so one change writes every entry once | V07 §8, §2.6, W69, §12 | | J-V7.125 | chose a record
+3781	V07	§3.10	p, and the chance pins stay chance while the forced one belongs to its record | V07 §2.4, §3.10, V07 §3.12, W25 | | J-V7.128 | chose th
+3782	V07	§3.11	all's claim; one call on both paths keeps one list of what the village places | V07 §2.1, §3.11, V07 §3.12, W70 | | J-V7.129 | chose to
+3783	V07	§2.6	mber's opening keeps V06 §3.9.6's epoch key, since no dossier event causes it | V07 §2.1, §2.6, V07 §3.12 (b), (c), V07 §3.14, W70, W7
+3784	V07	§2.6	; a hall or a cloister stays for item 17's re-use | V07 §2.1, §3.11, V07 §3.12, W25, W70, §2.6, T-V7-13, T-V7-57 | | J-V7.131 | chose 
+3784	V07	§3.11	ld not derive (items 20, 22); a hall or a cloister stays for item 17's re-use | V07 §2.1, §3.11, V07 §3.12, W25, W70, §2.6, T-V7-13, T-
+3785	V07	§3.10	ement issues the church's request itself so the cross follows it in one batch | V07 §2.4, §3.10, §3.11, V07 §3.12, W25, W70, T-V7-13 | 
+3785	V07	§3.11	ssues the church's request itself so the cross follows it in one batch | V07 §2.4, §3.10, §3.11, V07 §3.12, W25, W70, T-V7-13 | | J-V7.
+3786	V07	§1	th M6-E's E2–E4, a village epoch before then taking risk (10)'s fallback | V07 §3.12, §8, §1 (13), W28 | | J-V7.133 | chose to give 
+3786	V07	§8	t with M6-E's E2–E4, a village epoch before then taking risk (10)'s fallback | V07 §3.12, §8, §1 (13), W28 | | J-V7.133 | chose to g
+3787	V07	§2.6	he pin kinds take their words from V08 §4.6's `host.pinKind.<kind>` rows | V07 §2.4, W18, §2.6, T-V7-56 | | J-V7.134 | chose item 111'
+3788	V07	§3.10	he village is byte-identical to the build before item 111 | V07 §3.1 (1), §3.2 (4), §3.3, §3.10 | | J-V7.135 | chose the palisade's con
+3788	V07	§3.2	and the cell 1 the village is byte-identical to the build before item 111 | V07 §3.1 (1), §3.2 (4), §3.3, §3.10 | | J-V7.135 | chose t
+3788	V07	§3.3	ll 1 the village is byte-identical to the build before item 111 | V07 §3.1 (1), §3.2 (4), §3.3, §3.10 | | J-V7.135 | chose the palisad
+3789	V07	§5.1	paired damage, and the parity preset draws VG's whole palisade | V07 §3.4 (8), V07 §3.12, §5.1 | | J-V7.136 | chose item 115's grandeu
+3790	V07	§3.11	its own fact (J-V7.113), and a hand edit is never refused (item 101 R2) | V07 §2.4, §3.8, §3.11 DR6, DR11 | | J-V7.137 | chose the town
+3790	V07	§3.8	nt is its own fact (J-V7.113), and a hand edit is never refused (item 101 R2) | V07 §2.4, §3.8, §3.11 DR6, DR11 | | J-V7.137 | chose t
+3793	V07	§3.3	while the band's weight makes a cell the density formula already implied real | V07 §2.2, §3.3, §3.5 | | J-V7.140 | chose one village 
+3793	V07	§3.5	the band's weight makes a cell the density formula already implied real | V07 §2.2, §3.3, §3.5 | | J-V7.140 | chose one village `WhyPr
+3872	V07	§2.4	 (each with the milestone that measures it): every `own` constant of V07 §2.2, V07 §2.2a, §2.4 and §3 — the household sizes and doubli
+3872	V07	§3	th the milestone that measures it): every `own` constant of V07 §2.2, V07 §2.2a, §2.4 and §3 — the household sizes and doubling shar
+3901	V04	§3.1	ng'`, its counted `v.parish_church` and its maintenance mode are V04 §2.2, V04 §3.5.1 and §3.1; the span rule's `country` reason is §2
+3915	V07	§5.1	 §3.4 step 5) and its "show circuit" control is `LayerSpec.showCircuit` (V07 §3.4 step 7, §5.1); **J-VI.4** — no village tool refuses 
+3917	V07	§4	ier fact and no lock, a raised stroke at a village rung drawn as declared (V07 §3.5a (1), §4); **J-VI.25** — the dossier trace reads

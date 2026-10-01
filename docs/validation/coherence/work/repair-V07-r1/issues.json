@@ -1,0 +1,236 @@
+[
+ {
+  "id": "VAH-20",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "V07 \u00a74.5 (l.3049) says its `info.village.*` rows are 'keyed in V10's catalogue'; the catalogue is V09's (`messages/en.json`, V09 \u00a72.9, \u00a74.9), and V10 renders families V09 carries.",
+  "required_change": "V07 \u00a74.5: '\u2026 as rows of V09 \u00a74.9's catalogue (their words written here)'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-host-r0s"
+ },
+ {
+  "id": "VAL-10",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 \u00a73.16 (3) restates V04 \u00a73.5.7's access rules with different rules. (i) Dig from above: V07 \u2014 \"Every village building standing over a chamber or gallery within `DigRule.reachM` \u2026 of its footprint's floor \u2026 draws once, when it is built\"; V04 \u00a73.5.7 (d) \u2014 every building whose footprint overlaps an element whose top lies below its dig floor, or whose basement ring lies within `DigRule.planReachM` of one, with `depthFactor` 1 to `reachM`, decaying by `decayM` to 0 at `maxM`, and \"the draw is compared at every derivation \u2026 one not yet made appears when the building's chance later rises above its draw\". (iii) Public openings: V07 lists sinkhole, mouth, collapsed shaft, ruin entrance; V04 \u00a73.5.7 (e) also lays a `skylight` (a `mouth` of role `light`) and bounds the collapsed shaft at cover \u2264 15 m. Read as written, V07 seals voids beyond `reachM` and never revisits a draw.",
+  "required_change": "V07 \u00a73.16 (3) (i)\u2013(iii) state the village's rows and readings only and cite the rules: \"(i) Dug from above \u2014 V04 \u00a73.5.7 (d)'s draw, at every village building, with the village classes' `DigRule.classRow` rows below\"; \"(ii) Wells \u2014 V04 \u00a73.5.7 (f)\"; \"(iii) Public openings \u2014 V04 \u00a73.5.7 (e)'s candidates and `OpeningRow` chances (a sinkhole under a field, the green or a common; a cave mouth; a skylight; a collapsed shaft under a field face or the green; a ruin entrance at its marker)\"; the restated eligibility (\"within `DigRule.reachM`\") and timing (\"when it is built\") are dropped.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-layers-r0s"
+ },
+ {
+  "id": "VAL-11",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "The measures of `dist.centre`, `dist.gate`, `dist.market` and `dist.harbour` at the rungs whose `frameLaw` is `territory` (file f item 576 (b)) are written in full twice: model \u00a72.5 (*At the rungs whose `RungProfile.frameLaw` is `territory`* \u2026 the heart, the palisade's gates else the perimeter crossings, the principal market rank else the first nucleus's open space else the heart, the wharf's `quay` way else absent) and V07 \u00a72.4's *profile and authored rows* paragraph (the same four measures restated). The base is the context vector's home (principle (1); the contract's home model \u00a72.5).",
+  "required_change": "V07 \u00a72.4 replaces the four measuring clauses by \"At village rungs `nearCentre`, `nearGate`, `nearMarket` and `nearHarbour` read `dist.centre`, `.gate`, `.market` and `.harbour` as \u00a72.5 measures them at territory rungs (item 576 (b))\", keeping its own rule \"a class row's 'at a port' reads 'a wharf is laid' \u2014 a row with no such form, finding no harbour, takes the base's closest option, reported (J-V7.111)\".",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-layers-r0s"
+ },
+ {
+  "id": "VAL-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 \u00a72.7's `RaisedRead` disagrees with `RaisedWayRecord` (\u00a72.7), the record it reads: its spans are keyed `{ from; to; state }` where the base keys a span by `a`, `b` (the bounding piers' keys) and `DeclineOp`'s `SpanRef` by `from`/`to` support ordinals; its `supports: PolygonCm[]` drops each support's key and `state?: 'ruined'|'cleared'` (V06's decline, BCR-V6-26); its `reason?: string` is the base's `RaisedReasonKey`. V07 \u00a73.5a (3)\u2013(6) then treat every support as an obstacle (turning trackers), as a hole in fields and closes, and as a stretch the palisade abuts \u2014 so a pier V06 has `cleared` (taken down, stone credited) still blocks the village.",
+  "required_change": "V07 \u00a72.7 (or \u00a74.1 once VAL-12 lands) types `supports: { key: number; ring: PolygonCm; state?: 'ruined'|'cleared' }[]`, `spans: { a: number; b: number; state: 'standing'|'ruined'|'cleared' }[]` and `reason?: RaisedReasonKey`; V07 \u00a73.5a (3), (4), (5) and (6) read \"a support whose `state` is absent or `ruined`\" (a `cleared` support is neither an obstacle nor a hole nor a stretch the palisade abuts).",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-layers-r0s"
+ },
+ {
+  "id": "VAL-16",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 \u00a71 *Out of scope*: \"Floating islands (none reaches a village rung: \u00a74.11 fells an island when the CITY band is left, and TOWN holds none)\". \u00a74.11 (*Islands and the underground over epochs*: an island whose settlement falls below the CITY band \"wanes, settles after its dwell band and falls\"), II.6 (6), V05 \u00a73.15 (6) (\"A rung crossing downward makes every island's target 0: they wane, settle and fall over their dwells, never in one epoch\") and V07's own \u00a73.12 (\"An island still waning or settled when the fold gives the village product continues V05's steps\") say an island can stand over a village for its dwell spans.",
+  "required_change": "V07 \u00a71 reads \"Floating islands are V05's: no new island arises at a village rung (`layers.islands` `none`), and an island a fallen city leaves wanes, settles and falls over its dwells at whatever rung (V05 \u00a73.15 (6); V07 \u00a73.12), the village phases reading none\".",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-layers-r0s"
+ },
+ {
+  "id": "VAT0-08",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 describes a village way's retirement as a per-year chance; V06's strike pool, which runs it, has none. V07 \u00a73.12 (l.2479-2481) says the street candidate is 'struck at V06 \u00a73.5.2's street rate per year over the epoch's span (`1 \u2212 (1 \u2212 p)^years`, \u00a74.11 *The clock* (5))'. T-V7-30 (l.3397) and J-V7.98 ('at the street layer's per-year rate') repeat it. V06 \u00a73.5.2, the pool's home, gives each candidate the weight `w = E(x) \u00b7 rate(layer) \u00b7 u`. It takes strikes 'in descending w, ties by address, with no second draw (the `u` inside `w` is the pool's only chance), until the district's `fabric` churn cap'. In \u00a74.11's decline table the persistence rate is a weight, not a per-year chance, and the churn caps carry the scaling by years. V07's formula and bar describe different behaviour from the pool that runs the step.",
+  "required_change": "In V07 \u00a73.12 replace 'struck at V06 \u00a73.5.2's street rate per year over the epoch's span (`1 \u2212 (1 \u2212 p)^years`, \u00a74.11 *The clock* (5))' with 'struck by V06 \u00a73.5.2's strike pool at the `street` persistence row (its weight `E(x) \u00b7 rate \u00b7 u`, under the district's `fabric` churn cap scaled by the epoch's years)'. Apply the same change to T-V7-30's 'struck at V06 \u00a73.5.2's street rate per year over the epoch's span' and to J-V7.98's 'at the street layer's per-year rate'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0s"
+ },
+ {
+  "id": "VAT0-12",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 \u00a73.12 (l.2269-2271) lists the steps a village epoch runs from the engine: 'every other phase \u2014 hazards, demand, the field \u2026, uses, departures, decline, the ladder, the dossier, lapse, character, works \u2014 is the engine's'. The list reads as exhaustive but leaves out `prelude`, `fortification`, `terrainWater`, `raisedWays`, `close` and the participant steps. All of these run at a village epoch under V06 \u00a73.1 (4) and \u00a73.2. V07 relies on two of them elsewhere: V07 \u00a73.4 (8) and \u00a73.12 ('the engine's walls step runs over it at every village epoch', item 114) and V07 \u00a73.12's item-110 paragraph ('`raisedWays` step runs its lapse and repair').",
+  "required_change": "In V07 \u00a73.12 replace the parenthetical enumeration with 'every other step of V06 \u00a73.2's order (V06 \u00a73.1 (4); the participants at their steps) is the engine's', and keep the following clause about the village's `epoch.rows` cell.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0s"
+ },
+ {
+  "id": "VAT0-14",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 writes the `village.pins` participant's pin records with 'author `engine`, cause `rule:village.pins`' (V07 \u00a73.12 *Pins over epochs*, l.2466; V07 \u00a72.6's row 'a village epoch's pins', l.996). \u00a77.1's `EditBase.author` is `'user'|'host'|'epoch'|'migration'` and has no `engine` value (companion of VAT0-13).",
+  "required_change": "At V07 l.2466 and in V07 \u00a72.6's 'a village epoch's pins' row, write 'author `epoch`' (\u00a77.1's `EditBase.author`).",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0s"
+ },
+ {
+  "id": "VAT0-18",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "The product's epoch members are declared twice. V06 \u00a72.1 declares `interface ProductDeclEpoch { phases?; participants?; rows?; records? }` 'on \u00a71.1's ProductDecl'; agreement.json gives its home as V06 ('defined'). V07 \u00a72.1's `interface ProductDecl` (l.359-372) declares the same four members again inline, with the same types. V07's `participants` comment also repeats V06 \u00a73.2's participant table (each participant's step, order and stage).",
+  "required_change": "In V07 \u00a72.1 declare `interface ProductDecl extends ProductDeclEpoch /* V06 \u00a72.1: phases?, participants?, rows?, records? */ { id; rungs; stages; strategies; extraInputs?; tables; version }` and delete the four inline members. State the village's values for them (`siting`/`growth` overrides, the three participants as V06 \u00a73.2's table lists them, the `epoch.rows` cell, `village.records`) once in V07 \u00a73.12, citing V06 \u00a73.2 for steps, orders and stages.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0s"
+ },
+ {
+  "id": "VDC0-15",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V07 re-rolls the woods' trees with `rerollLayer('forest')` bound to T10 `hold` (V07 l.1907, l.2759, l.3129 and its T10 row l.2955), but base \u00a76.1 registers `forest` as a non-rerollable S12 concern \u2014 the rerollable set is exactly naming, render.instances, style.jitter, style.crowns, style.compass, naming.emblem and village.track \u2014 and `rerollLayer`'s concern type is generated from that set with its schema refusing any other key, so V07's action would be refused; V07 l.3129 itself says the trees are `render.instances` draws, which the base binding homes at T12 `dress` (l.9762).",
+  "required_change": "In V07 (l.1907, l.2759, l.3129 and the T10 row) write 're-roll the woods' trees: `rerollLayer('render.instances')` scoped to the wood (base \u00a76.1, T12 `dress`)', and drop 'rerollLayer('forest') \u2026 bound to T10 `hold`'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-determinism-r0s"
+ },
+ {
+  "id": "VEW-16",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "The owner's named combination 'a retaining wall on a cliff edge' has the opposite outcome at village rungs: V07 \u00a73.17 (b) says 'the house platform's wall stands on the cliff's bank segment', while the base's levelling, whose output V07's platforms publish through ('published as levelled ground through the base's S10/S11 levelling output'), raises none 'along a bank of kind `cliff` or a closure arc of kind `cliff` or `sheer` \u2026 \u2014 the cliff face holds the ground' and \u00a74.13's cell repeats it. V07 \u00a73.8a (the home) says nothing of cliffs, so the outcome lives only in the edge table, against the base, and T-V7-47 does not test it.",
+  "required_change": "V07 \u00a73.8a (2) states the cliff case as the base does \u2014 no `RetainingWall` on a house platform's edge along a bank of kind `cliff` or a cliff or sheer arc; the platform keeps the cliff setback and the cliff holds the ground \u2014 and V07 \u00a73.17 (b)'s row cites it; T-V7-47 gains '0 walls on a cliff bank segment' on a cliff-edge village fixture.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-edges-world-r0s"
+ },
+ {
+  "id": "VEW-21",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "V07 \u00a73.17 (b)'s combination table ('combination | defined outcome | test') names no rung, while (a) does; cells such as 'a raised way beside the fair field' ('slides clear \u2026 by F-V-FAIR') and 'a dossier removing what an edit pinned' ('the pin lapses \u2026, reported') are ladder outcomes.",
+  "required_change": "Add a rung column to V07 \u00a73.17 (b), each failure cell naming its rung (F-V-FAIR's, leave out and report, \u2026) and each rule cell '\u2014'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-edges-world-r0s"
+ },
+ {
+  "id": "VPC-06",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "V07 cites the grandeur ceiling's base home as '\u00a74.2 S10b' (l. 272, 1783; copied from the canon's J127 routing line). S10b Placement and its class mix are \u00a74.7's (\u00a74.7's heading 'S9 Corridors \u00b7 S10a Block allocation \u00b7 S10 Plots \u00b7 S10b Placement \u00b7 S11 \u2026'); \u00a74.2 holds S0\u2013S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+  "required_change": "In V07 (l. 272, 1783) replace every '\u00a74.2 S10b' with '\u00a74.7 S10b' (the rung ceiling written there by VPC-01).",
+  "owner": "V07",
+  "reported_by": "coherence/verify-pipeline-r0s"
+ },
+ {
+  "id": "VV78-02",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 119's V07 part ('V07: \u00a76's village budgets', canon dated ruling J130) is absent: V07 \u00a76 has no ten-second comfort level for the village's one-time waits (generate, regenerate, open from SettlementForge, a dossier change applied, an epoch and the history replay of V07 \u00a73.12a, an export, a migration), no 'slower than its target only for a recorded measured gain' rule, no pointer to the progress view past one second (V09 \u00a74.21.9), no statement that the edit, frame and switch budgets are interaction budgets item 119 (d) leaves unchanged; the VILLAGE row and the pre-decided fallback still re-declare a missed bar 'for the owner's veto (D-18's form)', which item 119 (a) turns into a declared TARGET miss inside the comfort level; no bar, decision, W row or price; the head reads 'items 1\u2013118 the owner's'.",
+  "required_change": "Add V07 \u00a76 *One-time waits* (item 119 (a)\u2013(d), (f) at THORP\u2013VILLAGE: the laws above stay the targets; every one-time wait listed \u2264 10 s from click to complete result on \u00a712.1's reference machine; a step slower than its target only with its recorded measured gain (V11's `perf.qualitySpend` row); progress past 1 s by V09 \u00a74.21.9; the edit and switch budgets are interaction budgets, unchanged); change the VILLAGE row's and the fallback's 'for the owner's veto (D-18's form)' to 'a declared target miss inside item 119's comfort level'; add T-V7-67 (every one-time wait at every village rung within 10 s, progress past 1 s, every slower-than-target step tied to its recorded gain), a J-V7.144 row, a \u00a71b W82 row and its V-M3 price in \u00a78; the head's 'items 1\u2013118' \u2192 'items 1\u2013119'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V07 \u00a73.11 DR1 (l.2083-2084) reads '`desert` \u2192 the arid row (V07 \u00a73.1 (1)'s arid water weights), an oasis with `oasis_water` (DR40), and a pond only with it' \u2014 the pre-item-111 clause 'a pond only with `oasis_water`' survives beside item 111's arid weights. V07 \u00a73.1 (1) says an arid village 'still draws a river, a pond or a coast at the arid row's chances'; V08 \u00a72.6's `site` row (l.757-758) 'a river, a lake and a coast all stay possible'; DR40 makes the oasis itself 'a spring-fed pond or small lake'. A dossier desert village's pond is allowed by one statement and forbidden by the other.",
+  "required_change": "V07 \u00a73.11 DR1: replace '`desert` \u2192 the arid row (\u2026), an oasis with `oasis_water` (DR40), and a pond only with it' by '`desert` \u2192 the arid row: S0's water weights re-weighted by V07 \u00a73.1 (1) (a brook, stream, river, pond or coast at the arid row's chances) and the oasis exactly when `oasis_water` is listed (DR40; V08 \u00a72.6's `site` row)'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-05",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V07 \u00a73.4 (8)'s village patch rows disagree with their home, V11 \u00a73.25.3's `walls.patchMaterials` (V11 l.4155-4166): V07 `earthwork` \u2014 `brush`, `turf`; V11 `earthwork` \u2014 `brush_and_turf`, `hurdles`; V07 `inner` \u2014 `timber_hoarding`, `dry_stone`; V11's masonry rows (`inner` among their kinds) \u2014 `timber_hoarding`, `wattle_fence`, `earth_bank`, `dry_stone_infill`, `mudbrick_infill` (culture-gated); V07 \u00a75.1's line styles name `turf` and `dry_stone`, while V11's rows carry `look` roles (`patch.stakes`, `patch.wattle`, `patch.brush`, `patch.earth`, `patch.timber`, `patch.drystone`); V07 never names the table `walls.patchMaterials` (registry row 96). T-V7-62 tests 'its kind's patch rows'.",
+  "required_change": "V07 \u00a73.4 (8): cite `walls.patchMaterials` (V11 \u00a73.25.3) and its ids \u2014 `palisade`: `odd_stakes`, `hurdles`, `brush`; `earthwork`: `brush_and_turf`, `hurdles`; `inner`: V11's masonry rows \u2014 instead of the six ids written there; V07 \u00a75.1 *The run conditions*: draw each patched run by its row's `look` role (\u00a78.2's patch roles), naming no id of its own.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-06",
+  "severity": "major",
+  "kind": "LOST",
+  "claim": "`interface PresenceWhen` is declared nowhere in the set: base \u00a710.2 (l.13530) types `presence?: { member?; when?: PresenceWhen; law: PLaw }[]` and says 'PLaw and PresenceWhen are V07 \u00a72.2's and \u00a72.4's' (item 576 (a)); V07 \u00a72.2 declares `PLaw` (l.427), but V07 \u00a72.4 (l.797-808) gives only prose readings. The typed block lived in archived V07 \u00a710's BCR-V7-36 text (archive l.3903-3906: `gov?: string[]; with?: string; without?: string; site?: 'flowing'|'millSeat'|'water'; noSite?: \u2026; resource?: { key: 'ore'|'stone'|'timber'|'fish'|'clay'|'fertile'; min: number }; road?: string[]; defenceMin?: number; threat?: boolean`, 'every member stated must hold'), which left with the \u00a710 pointer table (inventory V07-0142, V07-0331).",
+  "required_change": "Declare `interface PresenceWhen` in V07 \u00a72.4 beside its readings, as the archived block states it (field names and types, `defenceMin` for 'defence \u2265 v', the resource key enumeration, and 'every member stated must hold').",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-07",
+  "severity": "major",
+  "kind": "LOST",
+  "claim": "Decision rows were thinned beyond narration (principle (9): no reasoned decision dropped or thinned for the shrink goal; inventory V07-0322 \u2013 V07-0324): J-V7.130 lost 'a forced pin \u2026 would otherwise stand with a provenance naming a record the dossier no longer holds' and 'keeping the rank would keep a market the dossier no longer holds and our law would not derive (items 20, 22)'; J-V7.125 lost '(its last rung the base's `dossier` request's closest option), since a declined one would take the S7b claim the village never runs'; J-V7.124 lost 'most cells they bear on are columns of `roster.classes` already bound by V12's lines (the items 103\u2013108 line among them); a V-M2 miss is repaired in the landing change, which the default line's entry does not record (its first history row is M-CAL's)' and 'so one change writes every entry once'; J-V7.123 lost 'and could not land; the rule (VG's code-read behaviour, else the `MFCG` entry's value, `fixed:`) asks no new judgement of that seat'; J-V7.122 lost '`village.json`'s readers stay the village stages, V06 \u00a73.16's fifteen ids gain none'; J-V7.127 lost 'while the forced one belongs to its record'; J-V7.132 lost 'without the hooks the records placement's and the pins' failures return on the village's own milestones'; J-V7.112 lost which classes ('a monastery, a market hall, a slave market') and 'not an abbey's precinct'.",
+  "required_change": "Restore each listed clause in its row (seam and critique ids left out), wording as quoted.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-08",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "V07 \u00a73.17's rows omit edge classes the rewrite reports as closed: M-V07-3052-E4-degenerate (the clerk; routed UNDEFINED \u2014 the clerk row states only data and lifecycle), M-V07-3036-E1-none and M-V07-3036-E5-data (\u00a74.4's edit lifecycle; routed UNTESTED \u2014 the editing row names no none or data case, so T-V7-60, which runs the rows' clauses, tests none), M-V07-3189-E5-data (labels; UNTESTED \u2014 the rendering row has no data clause), M-V07-3207-E2-one (exports; UNTESTED \u2014 no one-item clause).",
+  "required_change": "In V07 \u00a73.17 (a): the clerk row gains 'degenerate: a `why` on a zero-area end or a field with no face answers its anchor's or system's line'; the editing row gains 'none: an undo with no village edit in the log changes nothing; data: an edit whose target a dossier absorb removed is a dry-run F-EDIT naming the absorb'; the rendering row gains 'data: a dossier title word absent \u2192 the rung's word; one: a one-dwelling THORP exports every format'; T-V7-60 covers each clause.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-13",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "`rerollLayer('forest')` names a concern the base does not register and binds it to the wrong tool: V07 \u00a73.9 (2) (l.1907), \u00a73.15 (l.2759), \u00a74.1's T10 row (l.2955) and \u00a75.1 (l.3129) bind it to T10 `hold`, but \u00a76.1's registry (l.8629, l.8700) has no `forest` concern and \u00a77.1 (l.9761) binds `render.instances` and `style.crowns` re-rolls to T12 `dress`; the determinism rewriter's cross-part note asked V07 to change it or request a registry row (V09 l.1651 repeats V07's binding).",
+  "required_change": "In those four places name a registered concern under its bound tool \u2014 the woods' crowns by `rerollLayer('style.crowns')` (or `render.instances`) under T12 `dress` \u2014 or, if the woods must re-roll alone, add a `forest` row to \u00a76.1's registry bound in \u00a77.1 under one tool and cite it; V09's row follows.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-14",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "The ground-datum consumer of the levelled ground (`deriveBase`, base \u00a72.6, which reads `levelledGroundCm`, \u00a74.7) was replaced by the levelled ground itself (inventory V07-0163, V07-0220): W57 lists 'the levelled ground' among its readers, W58 'the levelled ground (\u00a74.7)', \u00a72.6's generated-wall row 'the levelled ground' and its platform row 'the levelled ground (\u00a74.7)' as readers of the levelled ground, and V07 \u00a73.8a (1) says 'which the heights (\u00a72.2's datum) \u2026 read' \u2014 base \u00a72.2 is the plat's arena, the datum is \u00a72.6's.",
+  "required_change": "In W57, W58, \u00a72.6's two rows and V07 \u00a73.8a (1) name the reader as 'the ground datum (\u00a72.6's `deriveBase`)'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-16",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "125 bare list continuations after a volume prefix (the assembler's ambiguous-refs.tsv, V07 rows) read by S7 (bare \u00a7 = base) as base sections that do not state the facts \u2014 e.g. l.89 'V07 \u00a72.4, \u00a73.8, \u00a73.11' (base \u00a73.8/\u00a73.11 are kernel sections), l.144 'V04 \u00a73.1, \u00a73.10', l.3546 'V07 \u00a72.2 and \u00a72.4'; two of them mean the BASE and are misread by V07's own head rule ('a list after a volume prefix stays in that volume'): l.2345 '(\u2026 \u00a76.3)' in a V06 \u00a73.9.6 clause (base \u00a76.3, addresses) and l.2530 '(V06 \u00a73.6's growth, \u00a74.4)' (base \u00a74.4, S5; V06 \u00a74.4 is 'Editing the past'); the assembler's G-cite fix also garbled the head's example into '(`V06 \u00a72.1, V06 \u00a73.5.2` is two sections of V06)'. V10 declares the opposite list rule, so the set has two.",
+  "required_change": "Prefix each of the 123 volume continuations (`Vnn \u00a7x`), write l.2345's and l.2530's base sections in their own parentheses ('(\u00a76.3)', '(\u00a74.4)'), and replace the head's citation sentence by S7's: every volume section carries its prefix, a bare \u00a7 is always the base's.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-18",
+  "severity": "minor",
+  "kind": "ID",
+  "claim": "T-V7-60's clause letters are undefined: V07 \u00a73.17's test column cites 'T-V7-60 (a)' \u2026 '(h)' and the moat combination row 'T-V7-60 (i)', but T-V7-60 (l.3427) defines no clauses \u2014 it calls \u00a73.17's mechanism rows '(a)\u2013(h)' (whereas \u00a73.17's (a) and (b) are its two tables) and its milestone column names only '(g) at V-M2u'. (V08's T-V8-49 defines its (a)\u2013(m).)",
+  "required_change": "T-V7-60 lists its clauses (a)\u2013(i) with the \u00a73.17 rows each runs ((a) records, request block, pipeline; (b) S0, VS1, VS2; (c) VS3, VS4, raised way; (d) open space, VS5, VS6, levelling; (e) hinterland, wharf, deck plots; (f) dossier readings, epochs, ladders; (g) underground; (h) editing, rendering; (i) the combination rows) and the milestone of each.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-19",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "The rewrite truncated V07 \u00a72.2a's `deck` comment (l.560): 'parapetM: M }; // V07 \u00a73.10a (item 110 (d)); the least deck-plot depth is V11 \u00a73.24.4's' \u2014 the archived '`minPlotDepthM` by deck kind: no village cell' is cut off mid-clause (the table row l.597 still states it).",
+  "required_change": "l.560's comment \u2192 '\u2026 the least deck-plot depth is V11 \u00a73.24.4's `minPlotDepthM` by deck kind (no village cell)'.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-20",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "Revision-time narration survives in normative text (principle (5)): '(item 110 (b) as revised ~23:40; J-V7.83)' in \u00a73.5a's heading (l.1543) and 'item 110 (b) as revised ~23:40' in the rung-gate paragraph (l.1511).",
+  "required_change": "Read 'item 110 (b)' in both places.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ },
+ {
+  "id": "VV78-21",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V07-RESTATE-1's canon ruling ('ProductDecl's interface lives in the base (via BCR-V7-11 at \u00a74.12); V07 cites it and states only the 'village' entry's values') is not applied: the interface stays in V07 \u00a72.1 and the base cites it there (\u00a74.12 l.8141, \u00a714 l.17021 'V07 \u00a72.1's type'); the rewriter marked it for the adjudicator under item 202's applied text, leaving the finding open.",
+  "required_change": "Either move `interface ProductDecl` (every member and comment) to \u00a74.12 beside `StrategyRegistry.products`, \u00a714's comment citing \u00a74.12 and V07 \u00a72.1 keeping only the 'village' entry's values \u2014 or the adjudicator rules V07-RESTATE-1 INVALID under item 202's applied text (f item over base home, principle (3)).",
+  "owner": "V07",
+  "reported_by": "coherence/verify-vol-V07-V08-r0s"
+ }
+]
