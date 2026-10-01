@@ -142,16 +142,12 @@ each enceinte's wall LineStrings split per run of equal `condition` and material
 <<<<
 walls, towers and gatehouses as prisms on their bases, a curtain wall's top carrying its walk (`Enceinte.walkCm` wide);
 ====
-walls, towers and gatehouses as prisms on their bases, a curtain wall's top carrying its walk (`Enceinte.walkCm` wide),
-by run (g item 114): a `standing`, `worn` or `patched` run its prism with `extras.condition` and `extras.material` (absent
-when standing and robust), a `breached` or `dismantled` run no prism (its towers standing);
+walls, towers and gatehouses as prisms on their bases, a curtain wall's top carrying its walk (`Enceinte.walkCm` wide), by run (g item 114): a `standing`, `worn` or `patched` run its prism with `extras.condition` and `extras.material` (absent when standing and robust), a `breached` or `dismantled` run no prism (its towers standing);
 >>>>
 <<<<
 `LandUse`, `OtherConstruction` (walls, towers, gatehouses; a retaining wall with `function: 'retainingWall'`),
 ====
-`LandUse`, `OtherConstruction` (walls, towers, gatehouses — an enceinte one object per run that stands, `standing`,
-`worn` or `patched`, with the attributes `condition` and `material`, a `breached` or `dismantled` run none (g item 114);
-a retaining wall with `function: 'retainingWall'`),
+`LandUse`, `OtherConstruction` (walls, towers, gatehouses — an enceinte one object per run that stands, `standing`, `worn` or `patched`, with the attributes `condition` and `material`, a `breached` or `dismantled` run none (g item 114); a retaining wall with `function: 'retainingWall'`),
 >>>>
 @@ FILE 11.6.md
 <<<<

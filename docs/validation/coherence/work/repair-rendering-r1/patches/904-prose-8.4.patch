@@ -1,0 +1,24 @@
+# VRC0S-26: the verbose-prose pass over §8.4 (restatement of §8.8's pyramid shortened to its pointer; meta clause cut).
+@@ FILE 8.4.md
+<<<<
+  reference, the GPU pass and the light map's bake (J-A68.83) — takes that minimum over the surface as a field of
+  constant-height texels, read through the **max-height pyramid** each surface layer carries (§8.8: level 0 its texels,
+  each level above never lower than the four cells beneath it, up to one cell per tile, and beyond the view's first ring
+  the **ring blocks**, whose levels continue above that; each tile's and block's heights raised by its datum, so every
+  cell compares in one frame). A cell the ray crosses over [t_a, t_b] whose greatest height
+====
+  reference, the GPU pass and the light map's bake (J-A68.83) — takes that minimum over the surface as a field of
+  constant-height texels, read through the **max-height pyramid** each surface layer carries and, beyond the view's first
+  ring, the **ring blocks** (§8.8; each height raised by its datum, so every cell compares in one frame). A cell the ray
+  crosses over [t_a, t_b] whose greatest height
+>>>>
+<<<<
+  pyramids and the blocks, which §13.4's tolerance bounds; §12.5 and §12.7 cost this traversal and restate none of its terms. So a
+====
+  pyramids and the blocks, which §13.4's tolerance bounds; §12.5 and §12.7 cost this traversal. So a
+>>>>
+<<<<
+  drawn and light nothing on the visible layers, and they still exist (J-A12.81, J-A15.41).
+====
+  drawn and light nothing on the visible layers, yet they still exist (J-A12.81, J-A15.41).
+>>>>

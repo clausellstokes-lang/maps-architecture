@@ -1,0 +1,10 @@
+# VRC0S-26: the verbose-prose pass over §8.10 — RESTATEMENT: the stamp-tile load's measured cost is §12.7's (its home,
+# with the receipt); §8.10 keeps the mechanism and points to the budget.
+@@ FILE 8.10.md
+<<<<
+  worker takes typed-array views and checks every tile's H128 against the stored value (≈ 0.03–0.06 ms for 8–16 classes,
+  measured cost model; budget §12.7). **Pre-decided fallback** when a tile's hash differs (a damaged bundle): that worker
+====
+  worker takes typed-array views and checks every tile's H128 against the stored value (budget and cost: §12.7).
+  **Pre-decided fallback** when a tile's hash differs (a damaged bundle): that worker
+>>>>

@@ -1,0 +1,17 @@
+# file	token	reason (a token the prose pass removes on purpose: narration or a record id, principle (5))
+8.2.md	2026	the release date of item 69's bands, narration; the date stays in the table's provenance cell
+8.2.md	09	the same date
+8.2.md	64	PROGRESS J64, a record id (narration)
+12.5.md	85	restatement of §12.7's ring-block cost at CITY (§12.7 keeps it)
+12.5.md	181	restatement of §12.7's ring-block cost at the METROPOLIS target (§12.7 keeps it)
+11.2.md	item 63	the removed sentence restated rule (3); the paragraph keeps item 63 (c)
+12.5.md	`amendc_repair_rendering_r3_blocks.out`	the ring-block costs and their receipt are §12.7's, which keeps the citation
+8.4.md	`plotsOnly`	the light-map key's switches are listed at its home, §8.8
+8.4.md	`storey`	the same
+8.10.md	0.03	the stamp-tile load's measured cost is §12.7's (kept there with its receipt)
+8.10.md	0.06	the same
+8.3.md	1.33	receipt evidence restated in the census row; §8.4 (c) cites the same receipts (the figures stay in them), the bar is unchanged
+8.3.md	16	receipt evidence restated in the census row; §8.4 (c) cites the same receipts (the figures stay in them), the bar is unchanged
+8.3.md	169	receipt evidence restated in the census row; §8.4 (c) cites the same receipts (the figures stay in them), the bar is unchanged
+8.3.md	`amendc_verify_rendering_r2_diag.out`	receipt evidence restated in the census row; §8.4 (c) cites the same receipts (the figures stay in them), the bar is unchanged
+8.3.md	`docs/validation/bench/amendc_repair_rendering_r2_traversal.out`	receipt evidence restated in the census row; §8.4 (c) cites the same receipts (the figures stay in them), the bar is unchanged

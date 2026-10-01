@@ -1,0 +1,121 @@
+# VRC0S-26: the verbose-prose pass over §8.2 (part a): roles, palette targets, materials and wealth, post operations.
+@@ FILE 8.2.md
+<<<<
+glyph tone; `glow` the vector rung's glow sprite. On rungs 1–2 of §8.4's ladder the light pass computes light over
+the albedo instead of those tones. **Night and season variants:** a role's `@night` value is read by the vector rung when
+the view is night (rungs 1–2 light the day albedo, so a family's night look is its day palette under the night's light);
+a sheet may state it, else it is derived — the day value in linear light × 0.4, mixed 20 % toward `ambience` — with
+`ink`, `label`, `light` and `glow` keeping their day values (labels are composed after the light, §8.4 (f)). The
+seasons are the season rows below; `tree@autumn` serves only their off form.
+====
+glyph tone; `glow` the vector rung's glow sprite. On rungs 1–2 of §8.4's ladder the light pass computes light over
+the albedo instead of those tones. **Night variants:** the vector rung reads a role's `@night` value when the view is
+night (rungs 1–2 light the day albedo, so a family's night is its day palette under the night's light); a sheet may state
+it, else it is derived — the day value in linear light × 0.4, mixed 20 % toward `ambience` — `ink`, `label`, `light` and
+`glow` keeping their day values (labels are composed after the light, §8.4 (f)). `tree@autumn` serves only the season
+rows' off form (below).
+>>>>
+<<<<
+J-A69.84).** The owner released these bands of the corpus's measured palette on 2026-09-27 (item 69 (a); PROGRESS J64):
+the only corpus content in this design, every other corpus fact staying with the staged calibration phase (§13.9) and
+no corpus file read by the program (the bands came as figures within the owner's item). They are **targets** — bands a
+rendered plate must land in — never a palette to copy; the role values above are our own, placed inside them.
+====
+J-A69.84).** These bands of the corpus's measured palette, released by the owner (item 69 (a)), are the only corpus
+content in this design: every other corpus fact stays with the staged calibration phase (§13.9), and the program reads no
+corpus file (the bands came as figures within the owner's item). They are **targets** — bands a rendered plate must land
+in — never a palette to copy; the role values above are our own, placed inside them.
+>>>>
+<<<<
+**Where they bind.** Every shipped family's paper and ink take the paper and ink targets (J-A69.84) — hence one paper
+value for all three; the `ink` family's other roles keep their L* and hue and take the least chroma scale whose
+plate chroma reaches 20, never past 30, keeping MFCG's restraint in the default map with the corpus's colour at its lower range
+(J-A69.82; J-C2); `lit`, `hatched`, `parchment` — a shipping ink-family variant (the presets table) whose plate is the one
+exception to `ink`'s 20–30 — and the reserved `painterly` aim at the median (43), each by the chroma
+scale nearest it that clips no role in sRGB and puts none above C* 60 (J-A69.83), which on today's values lands `lit`
+at ≈ 29 and `hatched` at ≈ 30 — inside the band, short of the median; the dependent roles (road = paper, ground,
+court, field, building, the shadow alpha) move with them and every contrast-matrix pair is re-checked by the bounded
+repair's L* steps, which leave the new warmths as they are. The plate figures here are a **plate model**'s — the
+city-band role shares of a plate-framed render, stated in the receipt — PLAUSIBLE until the **measurement render**
+confirms them: a fixed render of the `ink`, `lit` and `hatched` families at plate-equivalent resolution and framing
+(the golden TOWN and CITY of §13.3 framed by §9.5's framing rule at 300 dpi on A3, labels and furniture on, default view,
+day, no pointer), measured on the resolution-stable axes only (paper luma and warmth, darkest-ink luma and warmth,
+plate chroma) by our own measurement code written from the definitions above — no corpus instrument enters `plat/`.
+Each family's chroma scale is re-found on that render by a scripted sweep at the milestone that ships its four bands
+(`ink` at M1, where its values ship, and M2b; `lit` at M2b; the ink-family variants at M3b; `hatched` at M5; §13.4's
+bar), the sweep and its receipt re-signing the table's values. The bands were measured by the corpus's own instrument,
+whose definitions are not in this program's reach: a definitional mismatch is re-signed at the reconciliation stage
+(§13.9), never by opening the corpus earlier. MFCG parity stays judged by style class (the `MFCG` preset needs no MFCG
+colours), and §17.1 (5)'s palette audit — no three colours within ΔE2000 2 of a reference palette — compares with the
+references' palettes only (the corpus is the owner's material, no reference).
+====
+**Where they bind.** Every shipped family's paper and ink take the paper and ink targets (J-A69.84), hence one paper
+value for all three. The `ink` family's other roles keep their L* and hue and take the least chroma scale whose plate
+chroma reaches 20, never past 30 — MFCG's restraint in the default map, the corpus's colour at its lower range
+(J-A69.82; J-C2); `lit`, `hatched`, `parchment` (a shipping ink-family variant of the presets table, the one exception
+to `ink`'s 20–30) and the reserved `painterly` aim at the median (43), each by the chroma scale nearest it that clips no
+role in sRGB and puts none above C* 60 (J-A69.83) — on today's values `lit` ≈ 29 and `hatched` ≈ 30, inside the band,
+short of the median. The dependent roles (road = paper, ground, court, field, building, the shadow alpha) move with them,
+and the bounded repair's L* steps re-check every contrast-matrix pair, leaving the new warmths as they are. The plate
+figures are a **plate model**'s — the city-band role shares of a plate-framed render, stated in the receipt — PLAUSIBLE
+until the **measurement render** confirms them: a fixed render of the `ink`, `lit` and `hatched` families at
+plate-equivalent resolution and framing (§13.3's golden TOWN and CITY framed by §9.5's rule at 300 dpi on A3, labels and
+furniture on, default view, day, no pointer), measured on the resolution-stable axes only (paper luma and warmth,
+darkest-ink luma and warmth, plate chroma) by our own code written from the definitions above — no corpus instrument
+enters `plat/`. A scripted sweep re-finds each family's chroma scale on that render at the milestone that ships its four
+bands (`ink` at M1, where its values ship, and M2b; `lit` at M2b; the ink-family variants at M3b; `hatched` at M5;
+§13.4's bar), re-signing the table's values. The corpus's own instrument measured the bands, and its definitions are
+beyond this program's reach: a definitional mismatch is re-signed at the reconciliation stage (§13.9), never by opening
+the corpus earlier. MFCG parity stays judged by style class (the `MFCG` preset needs no MFCG colours), and §17.1 (5)'s
+palette audit — no three colours within ΔE2000 2 of a reference palette — compares with the references' palettes only
+(the corpus is the owner's material, no reference).
+>>>>
+<<<<
+**Materials, season, weather (COV-FTG-F20, K06).** Override rows may key roof and wall colours by `roof.material` and the
+enceinte's wall material. A material is a rendering attribute only (§2.6; item 19): its rows change colour and texture
+roles and never a mark's geometry, so a `setAttr` of a material re-keys the same marks' look and moves nothing.
+**Wealth in the roof's colour, as FTG draws it (§2.6; items 19, 23; J-A19.81).** The `lit` family's default
+sheet keys the `roof` role by the building's prosperity band — one override row per band of the band set
+`prosperity.bands` (§4.5), keyed by the band's name and read from the mark's `prosperity` column banded by §4.5's rule
+(the field, as labels and descriptions read it; never `builtBand`, below) — the richest roofs the deepest clay, the
+poorest the greyest: `rich` `#C17C46`, `prosperous` `#C08051`, `comfortable` `#BD855B` (the role's own value),
+`modest` `#BA8765`, `poor` `#B48B6E`, `squalid` `#AF8E78` — our own calibratable rows, moved by `lit`'s chroma scale with
+its role values (item 69; `amendc_rendering_palette.out`), each passing every
+contrast-matrix pair of the `building` role whose value the lit roof side shares (ground, road, garden, green, ink),
+which the loader checks as it checks any palette. In `lit` the material picks the roof's `pattern` texture and the band
+row its tint, so the two never contend; a sheet that also keys a roof colour by material applies it after the band
+row; a band without a row of its own takes §4.5's interpolation between the nearest rowed bands. `ink` keeps MFCG's
+one roof role and `hatched` NG's two tones.
+====
+**Materials and weather (COV-FTG-F20, K06).** Override rows may key roof and wall colours by `roof.material` and the
+enceinte's wall material. A material is a rendering attribute only (§2.6; item 19): its rows change colour and texture
+roles, never a mark's geometry, so a `setAttr` of a material re-keys the same marks' look and moves nothing.
+**Wealth in the roof's colour, as FTG draws it (§2.6; items 19, 23; J-A19.81).** The `lit` family's default sheet keys
+the `roof` role by the building's prosperity band — one override row per band of `prosperity.bands` (§4.5), keyed by the
+band's name and read from the mark's `prosperity` column banded by §4.5's rule (the field, as labels and descriptions
+read it; never `builtBand`, below) — the richest roofs the deepest clay, the poorest the greyest: `rich` `#C17C46`,
+`prosperous` `#C08051`, `comfortable` `#BD855B` (the role's own value), `modest` `#BA8765`, `poor` `#B48B6E`, `squalid`
+`#AF8E78` — our own calibratable rows, moved by `lit`'s chroma scale with its role values (item 69;
+`amendc_rendering_palette.out`), each passing, as the loader checks, every contrast-matrix pair of the `building` role
+whose value the lit roof side shares (ground, road, garden, green, ink). In `lit` the material picks the roof's
+`pattern` texture and the band row its tint, so the two never contend; a sheet that also keys a roof colour by material
+applies it after the band row; a band without a row takes §4.5's interpolation between the nearest rowed bands. `ink`
+keeps MFCG's one roof role and `hatched` NG's two tones.
+>>>>
+<<<<
+`crosshatchNoise(periodPx, alpha)` — named apart from the per-mark programs `tint` and `vignette` — each applied once to a
+tile's base picture (slots 1–20, below), never to the labels, live overlays and furniture composed over it: by Canvas2D
+in the tile worker after the base's marks (≈ 1–2 ms per 512² tile) where the light pass does not run, and after the light
+pass where it does, in the order §8.4 (f) states, so no light re-colours a greyscale, sepia or tinted base. The cell operations
+(`pixelate`, `dotScreen`) take their cells and weights by §8.4 (f), so a view and an export of one frame agree. PNG export
+applies them per tile; SVG carries greyscale, sepia and wash as one colour-matrix filter over its lit base — the wrapper
+group of §11.1's SVG row — and omits the pixel operations, which the export report lists.
+====
+`crosshatchNoise(periodPx, alpha)` — named apart from the per-mark programs `tint` and `vignette` — each applied once to a
+tile's base picture (slots 1–20, below), never to the labels, live overlays and furniture composed over it: by Canvas2D
+in the tile worker after the base's marks (≈ 1–2 ms per 512² tile) where the light pass does not run, after it where it
+does (§8.4 (f)'s order), so no light re-colours a greyscale, sepia or tinted base. The cell operations (`pixelate`,
+`dotScreen`) take their cells and weights by §8.4 (f), so a view and an export of one frame agree. PNG export applies
+them per tile; SVG carries greyscale, sepia and wash as one colour-matrix filter over its lit base (the wrapper group of
+§11.1's SVG row) and omits the pixel operations, which the export report lists.
+>>>>

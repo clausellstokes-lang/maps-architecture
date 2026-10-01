@@ -36,7 +36,7 @@ height correction). Nothing below moves, adds or removes a mark's geometry or re
 save; the tile worker draws it from the display list (§8.1 item 8), so a week change re-skins tiles (§8.8's key; §12.5)
 and re-emits nothing.
 * **Surfaces through the year (item 117 (f)).** Each land-use, green, garden, orchard and vineyard face, each wood floor
-  and each deciduous crown and hedge reads the V11 `season.surfaces` row its `seasonKind` column names (§8.1): at week w,
+  and each deciduous crown and hedge reads the V11 `season.surfaces` row its `season` column names (§8.1 item 8): at week w,
   the look of the row's last phase whose week — its anchor band's end, plus its offset — lies at or before w, read
   cyclically; a village field by its crop and rotation slot, its strips offset strip by strip (V07 §5.1). The looks,
   each a linear-light lerp of the family's own roles (our own, calibratable):
@@ -50,11 +50,11 @@ and re-emits nothing.
   | `field.stubble` | `field` lerped 35 % toward `paper` | stubble rows: 1-px `field` lines every 3 px |
   | `field.ploughed` | `ground` lerped 18 % toward `ink` | furrows: 1-px lines every 3 px in `ground` lerped 30 % toward `ink` |
   | `meadow.green`, `grass.green`, `garden.green`, `orchard.leaf`, `vine.leaf`, `crown.leaf`, `wood.floor` | the mark's own role | — (the map as drawn) |
-  | `meadow.high` | `green` lerped 25 % toward `tree` | tall-grass ticks: 1 × 2 px every 4 px |
-  | `meadow.mown` | `green` lerped 40 % toward `field` | swaths: 2-px lines every 6 px |
-  | `meadow.winter` | `green` lerped 55 % toward `ground` | — |
-  | `meadow.dry` | `green` lerped 60 % toward `sand` | — |
-  | `grass.autumn` | `green` lerped 45 % toward `field` | — |
+  | `meadow.high` | its fill lerped 25 % toward `tree` | tall-grass ticks: 1 × 2 px every 4 px |
+  | `meadow.mown` | its fill lerped 40 % toward `field` | swaths: 2-px lines every 6 px |
+  | `meadow.winter` | its fill lerped 55 % toward `verge` | — |
+  | `meadow.dry` | its fill lerped 60 % toward `sand` | — |
+  | `grass.autumn` | its fill lerped 45 % toward `field` | — |
   | `commons.bracken` | `green` lerped 45 % toward `leaf.russet` | bracken: 2-px `leaf.russet` ticks every 4 px |
   | `garden.bare` | `garden` lerped 55 % toward `ground` | — |
   | `orchard.blossom` | the crowns | 1-px `paper` dots over 30 % of each crown |
@@ -63,8 +63,9 @@ and re-emits nothing.
   | `orchard.bare`, `vine.bare`, `crown.bare` | the bare-crown symbol in `tree`; a vine's rows as their stakes | — |
   | `wood.floor.leaves` | the wood's fill | the leaf cover (below) |
 
-  A look stands where its role stands, so it takes that role's matrix rows — a field look the field / road and
-  field / ground pairs, a meadow, grass or garden look the `green` or `garden` ones, a crown look the `tree` ones —
+  "Its fill" is the face's own role (`green` or `field`, as the sheet fills that land use). A look stands where its role
+  stands, so it takes that role's matrix rows — a field look the field / road and field / ground pairs, a meadow or grass
+  look those of its fill, a garden look the `garden` ones, a crown look the `tree` ones —
   checked as the palette is; every look passes on the shipped families
   (`docs/validation/bench/coh_repair_rendering_r1_looks.out` (B)).
 * **Autumn's covers (item 117 (f2)).** Through the leaf-colour band each deciduous crown — §8.10's instances whose
@@ -76,7 +77,7 @@ and re-emits nothing.
   at alpha 1 − f over its bare-crown symbol, f rising from 0 to 1 across that third. **Fallen-leaf cover** lies by V11's
   `season.cover` rows on the marks of each surface — `underTrees` (a deciduous crown's footprint × 1.5), the way bodies
   of `street` and `lane` classes, green and lawn faces, garden yard parts, churchyard faces, roofs, and still water (the
-  `pond`, `moat` and `lake` water marks): on a world-aligned grid of 1.5 m cells, a cell within the row's `driftM` of a
+  `pond`, `moat`, `millpond` and `lake` water marks): on a world-aligned grid of 1.5 m cells, a cell within the row's `driftM` of a
   deciduous crown (or under one) takes a 1-px leaf dot where `RH32('leaf.cover', key, salt, cell)` ÷ 2³² is under the
   row's share — `start` at the first leaf-fall week rising linearly to `end` at the last, then fading to none over
   `fadeWk` weeks, none while snow lies — × `edgeFactor` within 1 m of a wall line or a kerb; the dot takes the nearest
@@ -84,18 +85,18 @@ and re-emits nothing.
   building whose draw `RH32('creeper', key, salt)` ÷ 2³² is under 0.15 carries a creeper along its longest street-facing
   wall at the neighbourhood band and finer — in `green` through the leaf weeks, in its `season.leaf` creeper colour
   through the leaf-colour band, gone when bare. Bracken goes rust and stubble gold by their looks above.
-* **Water in winter (item 117 (e)).** Each water mark's `iceKind` (§8.1) — `pond` for a pond, an oxbow or a ditch;
-  `moat`; `millpond` for a canal (a leat or a mill cut); `lake`; `slowRiver` for a river, tributary, distributary or
-  islet-channel reach whose course falls under 0.5 m per km, `river` for its other reaches; `harbourEdge` for a harbour
-  basin; `seaShore` for a sea's or an estuary's `sheltered` shore segments (§8.1 item 2's exposure); none for a water body
-  carrying a `spring`, an oasis, which never freezes — is frozen at week w when the climate's winter is at least its
+* **Water in winter (item 117 (e)).** Each water mark's ice kind (§8.1 item 8's `season` column) — `pond` for a pond,
+  an oxbow or a ditch; `moat`; `millpond` for a canal (a leat or a mill cut); `lake`; `slowRiver` for a river,
+  tributary, distributary or islet channel whose course falls under 0.5 m per km on average, `river` for the rest;
+  `harbourEdge` for a harbour basin; `seaShore` for a sea's or an estuary's `sheltered` shore segments (§8.1 item 2's
+  exposure); none for a water body carrying a `spring`, an oasis, which never freezes — is frozen at week w when the climate's winter is at least its
   `season.water` row's `freezesFrom` and w lies in the climate's ice band shortened by the row's `lagWk` at each end
   (V11 §3.25.6), so still water freezes first and flowing water last; a `harbourEdge` freezes within 20 m of the basin's
   shore and a `seaShore` within 30 m of its segment, the rest of that water staying open (our own cells). A frozen face
   draws by `iceFill`: the `ice` role, crack lines — 1-px hairlines in `water`, three per 1 000 m² of face, each a
   three-segment polyline keyed by `RH32('ice.crack', key, salt, k)` — and, while snow lies, a `snow` stipple over 30 % of
-  it. **Open leads** stay water over the ice: S14's `water.lead` marks (§8.1 item 8) — a river's reaches whose course falls
-  2 m per km or more (its fast current), each water mill's frontage reach (its weir and race), and a 12 m disc at each
+  it. **Open leads** stay water over the ice: S14's `water.lead` marks (§8.1 item 8) — a river's stretches whose course
+  falls 2 m per km or more (its fast current), each water mill's frontage reach (its weir and race), and a 12 m disc at each
   spring point and each outfall (§2.3; II.7.3) — drawn in `water` with a ragged rim. **Boats** (§8.10) are drawn hauled
   up on the bank while their water is frozen.
 * **Snow and the sun (item 117 (g)).** While a viewer has set no `weather`, it is `snow` in the climate row's snow band
@@ -131,7 +132,7 @@ and re-emits nothing.
 <<<<
   attrs: Record<string, Float32Array | Uint32Array>;   // named columns, 4 B per mark each: heightCm, baseCm, eaveCm, ridgeCm, prosperity, class, block, bankKind, waterKind, exposure, knownTo, concealed, worksStage, worksKind, material, tintKey, …
 ====
-  attrs: Record<string, Float32Array | Uint32Array>;   // named columns, 4 B per mark each: heightCm, baseCm, eaveCm, ridgeCm, prosperity, class, block, bankKind, waterKind, exposure, knownTo, concealed, worksStage, worksKind, material, tintKey, seasonKind, iceKind (item 8), …
+  attrs: Record<string, Float32Array | Uint32Array>;   // named columns, 4 B per mark each: heightCm, baseCm, eaveCm, ridgeCm, prosperity, class, block, bankKind, waterKind, exposure, knownTo, concealed, worksStage, worksKind, material, tintKey, season (item 8), …
 >>>>
 <<<<
    `stamp.variant`, `grid.jitter.x`, `grid.jitter.y`, `line.jitter.along`, `line.jitter.across`, `crown.species`,
@@ -149,11 +150,20 @@ and re-emits nothing.
    light-map key (§8.8); a key that does not admit the host sees none of their light, glow or shaft, while a light
    whose host always draws always lights.
 8. **The year position (g item 117).** The display list holds no season: S14 writes, once and for every week, each
-   land-use, green, garden, orchard, vineyard and wood mark's `seasonKind` (its V11 `season.surfaces` row key, absent
-   where it has none) and each water mark's `iceKind` (§8.2's mapping), and emits the `water.lead` marks — chains along a
-   river's fast reaches and each water mill's frontage reach, and 12 m discs at spring points and outfalls — read only
-   while their water is drawn frozen; the tile worker applies the week's looks (§8.2's season rows), so a change of the
-   year position re-skins tiles and emits nothing, and no digest moves.
+   mark's `season` column — in its low 16 bits the index of its V11 `season.surfaces` row (land-use, green, garden,
+   orchard, vineyard, wood and crown marks), in its high 16 its ice kind (water marks, by §8.2's mapping), ~0 where it has
+   none — and emits the `water.lead` marks — chains along a river's stretches whose course falls 2 m per km or more and
+   along each water mill's frontage reach, and 12 m discs at spring points and outfalls — read only while their water is
+   drawn frozen; the tile worker applies the week's looks (§8.2's season rows), so a change of the year position re-skins
+   tiles and emits nothing, and no digest moves.
+>>>>
+@@ FILE 8.1.md
+<<<<
+   and instance tables and geometry: a CITY city band of ≈ 60 000 marks is ≈ 3.2 MB of fixed columns, ≈ 2.4 MB of
+   attributes, ≈ 4 MB of coordinates and ≤ 0.5 MB of label, instance and string rows — ≈ 10 MB; the undrawn caster marks of item 2 add 54 B each and their coordinates,
+====
+   and instance tables and geometry: a CITY city band of ≈ 60 000 marks is ≈ 3.2 MB of fixed columns, ≈ 2.6 MB of
+   attributes (item 8's `season` column among them), ≈ 4 MB of coordinates and ≤ 0.5 MB of label, instance and string rows — ≈ 10 MB; the undrawn caster marks of item 2 add 54 B each and their coordinates,
 >>>>
 @@ FILE 8.4.md
 <<<<
@@ -217,10 +227,10 @@ and re-emits nothing.
 >>>>
 @@ FILE 8.11.md
 <<<<
-| T-ER-22 | wall runs in decay and repair
+| T-ER-22 | wall runs in decay and repair (§8.2's wall rows; g item 114) at every rung THORP to the cap (a village palisade's runs included, V07): a run shorter than the minimum feature; a run whose material no `walls.patchMaterials` row names; a whole enceinte `breached`; save, load, undo, redo, regenerate and migrate of a run's condition and material | drawn 2 px long, centred; its wall kind's first row's look, reported; every run a gap with its rubble, the towers and gates standing; the runs persist as §2.7's profiles, a regeneration keeps them (§7.4's row), an undo restores condition and material, a migrated document draws `standing` and robust — never an error | the fixture of §8.3's wall row at every rung: tiles as stated; the reports present; each lifecycle step's tiles equal to a fresh render of its state |
 ====
+| T-ER-22 | wall runs in decay and repair (§8.2's wall rows; g item 114) at every rung THORP to the cap (a village palisade's runs included, V07): a run shorter than the minimum feature; a run whose material no `walls.patchMaterials` row names; a whole enceinte `breached`; save, load, undo, redo, regenerate and migrate of a run's condition and material | drawn 2 px long, centred; its wall kind's first row's look, reported; every run a gap with its rubble, the towers and gates standing; the runs persist as §2.7's profiles, a regeneration keeps them (§7.4's row), an undo restores condition and material, a migrated document draws `standing` and robust — never an error | the fixture of §8.3's wall row at every rung: tiles as stated; the reports present; each lifecycle step's tiles equal to a fresh render of its state |
 | T-ER-23 | seasons (§8.2, §8.4; g item 117) at every rung THORP to the cap: every week 0–51; a climate band wrapping the year's end; a climate with no ice or snow band; a water mark with no `iceKind`; a crown with no `season.leaf` row; a face with no `seasonKind`; a document with no season tables; save, load, undo, redo, regenerate and migrate | each week's looks by their rows; the band read cyclically; nothing frozen or snowed; that water and that face as drawn; that crown unchanged all year (evergreen); the off form's four named rows; the year position is view state (§2.9) — persisted with the view, in no digest, left as it was by an undo, a redo and a regeneration, kept by a migration — never an error | the season fixture of §8.3 at every rung and every week: tiles as stated, the model digest constant; each lifecycle step's tiles equal to a fresh render of its state |
-| T-ER-22 | wall runs in decay and repair
 >>>>
 @@ FILE 11.1.md
 <<<<
@@ -231,7 +241,8 @@ the rotation.
 the rotation.
 
 **The season and the festival (g items 117 (h), 118 (g)).** Every picture export — PNG, print, SVG and the VTT scene's
-image — draws the request's year position, weather and festival display (the request carries them, §8.9) and names
+image — draws the request's year position, weather and festival display (the request carries them, §8.9; the export's
+transient list holds `live.festival`'s marks over its frame, for SVG as for the raster formats) and names
 them: a line in its legend and in its metadata (SVG `<metadata>`, the PNG's text chunk, the scene's `plat` object) with
 the season's name and week, the weather and, while one shows, the festival's name and weeks. A battle-map export
 (`.dd2vtt`, Foundry) records the season in its `plat` object — `season { week, name, winter }`, `winter` the climate
@@ -251,4 +262,10 @@ measures them). Decorations are drawn lazily, only for the visible tiles and the
 §8.2). These are interaction budgets: item 119's comfort level leaves them as they are.
 
 **Lighting (item 68; §8.4).** The first map above is composed unlit
+>>>>
+@@ FILE 12.10.md
+<<<<
+for every export that draws (up to ≈ 2.4 of the ≈ 10 MB at CITY, §8.1 item 6)
+====
+for every export that draws (up to ≈ 2.6 of the ≈ 10 MB at CITY, §8.1 item 6)
 >>>>

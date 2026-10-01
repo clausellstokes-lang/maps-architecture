@@ -35,13 +35,18 @@
   meadow.green     #B4CC94  L*  79.1  road 18.3; building 24.1
   meadow.high      #A6C08B  L*  74.6  road 20.3; building 23.1
   meadow.mown      #D1D399  L*  83.1  road 13.5; building 21.7
-  meadow.winter    #D3CE9E  L*  82.1  road 11.4; building 19.3
+  meadow.winter    #C8D6A5  L*  83.5  road 14.7; building 24.0
   meadow.dry       #D7D5A6  L*  84.4  road 10.9; building 21.0
   grass.green      #B4CC94  L*  79.1  road 18.3; building 24.1
   grass.autumn     #D5D49A  L*  83.7  road 12.9; building 21.5
   garden.green     #C4CF96  L*  81.1  building 22.5
   garden.bare      #D9CF9F  L*  82.9  building 18.7
   wood.floor       #70946A  L*  57.7  water 29.2; ink 43.1
+  grass.autumn@field   #F5DEA0  L*  89.0  road 10.5; ground  6.2
+  meadow.dry@field     #EEDCAA  L*  88.1  road  8.4; ground  4.7
+  meadow.high@field    #DDCF95  L*  83.0  road 11.8; ground  6.4
+  meadow.mown@field    #F5DEA0  L*  89.0  road 10.5; ground  6.2
+  meadow.winter@field  #E5DEAA  L*  87.9  road  9.9; ground  8.0
 [lit]
   field.sown       #C2B783  L*  74.2  road 14.5; ground  8.0
   field.green      #B5BA5D  L*  73.4  road 21.4; ground 15.8
@@ -52,13 +57,18 @@
   meadow.green     #8AB85D  L*  69.8  road 25.8; building 33.7
   meadow.high      #7DAC55  L*  65.4  road 27.3; building 33.2
   meadow.mown      #B5BA5D  L*  73.4  road 21.4; building 26.5
-  meadow.winter    #B8B77C  L*  73.2  road 17.3; building 22.7
+  meadow.winter    #9ABC6F  L*  72.2  road 23.4; building 31.6
   meadow.dry       #C8C683  L*  78.6  road 16.9; building 25.0
   grass.green      #8AB85D  L*  69.8  road 25.8; building 33.7
   grass.autumn     #B9BA5D  L*  73.7  road 21.1; building 25.7
   garden.green     #7BAF43  L*  66.0  building 34.6
   garden.bare      #B3B375  L*  71.6  building 22.6
   wood.floor       #447F33  L*  47.8  water 46.5; ink 36.4
+  grass.autumn@field   #E3BC5D  L*  77.9  road 19.1; ground 10.8
+  meadow.dry@field     #E5C883  L*  81.6  road 14.9; ground  8.0
+  meadow.high@field    #CAAF55  L*  72.1  road 19.9; ground 11.1
+  meadow.mown@field    #E3BC5D  L*  77.9  road 19.1; ground 10.8
+  meadow.winter@field  #C4BE6F  L*  75.9  road 18.5; ground 12.3
 [hatched]
   field.sown       #E3DDB8  L*  87.7  road 16.2; ground  7.1
   field.green      #CBC567  L*  78.2  road 16.8; ground 18.8
@@ -69,12 +79,17 @@
   meadow.green     #A9B951  L*  72.0  road 20.1; building 33.8
   meadow.high      #9BB14B  L*  68.7  road 20.9; building 34.0
   meadow.mown      #CBC567  L*  78.2  road 16.8; building 30.9
-  meadow.winter    #D8D6A9  L*  84.8  road 16.1; building 32.1
+  meadow.winter    #B1BE69  L*  74.3  road 18.5; building 33.1
   meadow.dry       #D5CF8E  L*  82.2  road 15.3; building 31.0
   grass.green      #A9B951  L*  72.0  road 20.1; building 33.8
   grass.autumn     #CFC669  L*  78.9  road 16.4; building 30.5
   garden.green     #9DB541  L*  69.9  building 35.2
   garden.bare      #D5D4A6  L*  84.0  building 32.0
   wood.floor       #5E9434  L*  55.9  water 42.7; ink 42.7
+  grass.autumn@field   #F3D580  L*  86.1  road 16.0; ground 14.9
+  meadow.dry@field     #EFD99A  L*  87.1  road 14.8; ground 11.1
+  meadow.high@field    #DAC773  L*  80.2  road 14.5; ground 16.5
+  meadow.mown@field    #F3D580  L*  86.1  road 16.0; ground 14.9
+  meadow.winter@field  #D5CB7C  L*  80.9  road 15.4; ground 15.9
 
 failures: 0

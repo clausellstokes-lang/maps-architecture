@@ -209,7 +209,7 @@ LOOKS = {   # look: (base role, toward role or None, share) — identity looks h
     'field.sown': ('ground', 'green', 0.30), 'field.green': ('field', 'green', 0.60), 'field.ripe': ('field', None, 0),
     'field.harvest': ('field', None, 0), 'field.stubble': ('field', 'paper', 0.35), 'field.ploughed': ('ground', 'ink', 0.18),
     'meadow.green': ('green', None, 0), 'meadow.high': ('green', 'tree', 0.25), 'meadow.mown': ('green', 'field', 0.40),
-    'meadow.winter': ('green', 'ground', 0.55), 'meadow.dry': ('green', 'sand', 0.60),
+    'meadow.winter': ('green', 'verge', 0.55), 'meadow.dry': ('green', 'sand', 0.60),
     'grass.green': ('green', None, 0), 'grass.autumn': ('green', 'field', 0.45),
     'garden.green': ('garden', None, 0), 'garden.bare': ('garden', 'ground', 0.55),
     'wood.floor': ('tree', None, 0),
@@ -219,9 +219,27 @@ def pairs_for(role):   # §8.2's matrix rows of the re-skinned role: (other role
     return {'field': [('road', 4, None), ('ground', 4, None)], 'ground': [('road', 6, 5), ('building', 12, 12)],
             'green': [('road', 8, None), ('building', 10, None)], 'garden': [('building', 10, None)],
             'tree': [('water', 10, None), ('ink', 25, 30)]}[role]
+# a meadow, grass or commons face fills in its land use's own role — `field` or `green` by the sheet — so its looks are
+# lerps of that fill: each is checked on both bases, against the matrix rows of the base it stands on
+FILL_BASED = {'meadow.high', 'meadow.mown', 'meadow.winter', 'meadow.dry', 'grass.autumn'}
 for fam, R in FAM.items():
     p(f'[{fam}]')
-    for look, (role, toward, share) in LOOKS.items():
+    extra = []
+    for look in sorted(FILL_BASED):
+        role, toward, share = LOOKS[look]
+        extra.append((look + '@field', ('field', toward, share)))
+    for look, (role, toward, share) in list(LOOKS.items()) + extra:
+        if look.endswith('@field'):
+            h = lerp_lin(R['field'], R[toward], share)
+            rows = pairs_for('field')
+            res = []
+            for other, dmin, lmin in rows:
+                la, lb = rgb2lab(hex2rgb(h)), rgb2lab(hex2rgb(R[other]))
+                d = de2000(la, lb); dl = abs(la[0] - lb[0]); ok = d >= dmin and (lmin is None or dl >= lmin)
+                if not ok: fails += 1
+                res.append(f'{other} {d:4.1f}' + ('' if ok else ' FAIL'))
+            p(f'  {look:20s} {h}  L* {Lstar(h):5.1f}  ' + '; '.join(res))
+            continue
         h = R[role] if not toward else lerp_lin(R[role], R[toward], share)
         # the matrix rows of the role the look re-skins: a field look stands where `field` stands, a sown or ploughed
         # field too (its base tone is ground's, its matrix rows field's), a meadow and grass look where `green` stands

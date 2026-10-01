@@ -1,0 +1,142 @@
+# VRC0S-05 (major, F-MISSING + CONFLICT): g item 119's rendering part — §12's laws kept as the TARGETS; the ten-second
+# COMFORT LEVEL for every one-time wait, past which a wait fails; slower than a target only for a recorded measured gain;
+# the progress rule (citing §11.2's `Progress`, VV910-05); interaction budgets unchanged; the low tier declared per
+# device; D-18's two misses re-declared as target misses inside the comfort level; the export budgets brought inside it;
+# §12.10's rows. The per-visible-epoch-or-whole-run reading of advance and the history replay is NOT decided here (held
+# for the owner, VV56-07): §12 reads it "as V06 §6 states".
+@@ FILE 12.0.md
+<<<<
+about 4 500, 17 700 and 58 800 people, and is slower above them (§12.3). Both misses are stated for the owner to veto
+rather than hidden behind a half-finished picture or a thinner town. Every step has its own budget, measured on one named
+machine. Against MFCG drawing the same number of buildings, PLAT takes about twice as long for towns and cities and five
+====
+about 4 500, 17 700 and 58 800 people, and is slower above them (§12.3). These rules are **targets**: the map is made as
+fast as it can be, and the build keeps pressing every step toward them. What a user sits through once — generating,
+regenerating, opening a map from SettlementForge, a dossier change, advancing time, an export, a migration — has a
+**comfort level** of ten seconds in all, from the click to the finished result; past it a wait fails. Both misses are
+therefore stated as target misses inside the comfort level rather than hidden behind a half-finished picture or a
+thinner town; a step is slower than its target only where it buys a measured gain, which is recorded; a wait longer than
+about a second names the stage it is in, and the screen is never empty; and moment-to-moment work — pan, zoom, drag,
+preview, hover, undo, the season and festival switches — keeps its own budgets (§12.1). Every step has its own budget,
+measured on one named machine. Against MFCG drawing the same number of buildings, PLAT takes about twice as long for towns and cities and five
+>>>>
+@@ FILE 12.1.md
+<<<<
+* **Confirming milestones.** Each budget of §12.3–§12.8 is confirmed by one row of §12.10's register — its measuring
+  milestone and suite, its pass bar, its pre-decided change if it misses and whether the miss goes to the owner's veto
+  (D-18) — and cites that row.
+====
+* **Targets and the comfort level (g item 119; J130; owner: "as fast as possible" — "note where our comfort levels
+  really are").** §12.3's and §12.5's laws and every budget of this section and of every volume are the **targets**: the
+  build works to meet and beat them. The **comfort level** is ten seconds of total time — from the click to the complete
+  result, the map's final complete frame or the file written, on the reference machine — for every wait a user sits
+  through once: a generate; a regenerate or Re-derive; an open from SettlementForge (with its load verification and any
+  migration, §2.9, §11.3); a dossier change applied; an advance of time and item 113's history replay, read as V06 §6
+  states them; an export, in every format the export dialog offers at its sizes up to A2 at 300 dpi, lit included; and a
+  migration — at every size up to the population cap. Past it the wait fails its bar (R12-31) and the owning path takes
+  its pre-decided change; at run time the wait completes and is reported (F-BUDGET-TIME), never answered by a coarser
+  result. A step runs slower than its target only for a **recorded measured gain** inside the comfort level — a row of
+  V11's `perf.qualitySpend` (V11 §3.25.8: the stage, the use, the target, the measured extra cost, the bar the gain is
+  measured by, the gain and the run that measured it), read by §4.1's quality budget and checked by R12-33 — and nothing
+  is made slower otherwise. **Progress:** a wait past about one second (V09's `progress.showAfterMs`, 1 000 ms) names
+  its running stage and never leaves an empty screen: the generation worker posts §11.2's `Progress` as each `StageDecl`
+  starts and, for a wait that is not a stage run, as each of its own steps completes (epochs, replayed epochs, the port's
+  steps, export bands, replayed events), never polled, and V09 §4.21.9 shows it — the current map drawn under the
+  progress strip until the complete result replaces it, a first map's stages filling in, in the ghost style and never
+  presented as the map (§8.5) — so the first picture is still complete (R12-32). **Interaction stays fast:**
+  moment-to-moment budgets are not total time and keep their values — pan and zoom at frame rate, dragging a handle and
+  a tool's live preview, hover and click-to-inspect, undo and redo, the season and festival switches (§12.5, §12.6;
+  R12-34). **Low-end devices:** the low tier aims at the same ten seconds; a size it cannot reach within them is
+  declared per device, the tier and the size recorded beside the measurement (V12 §3.15.9). D-18's two misses (§12.3,
+  §12.5) are target misses inside the comfort level: reported, and no veto question.
+* **Confirming milestones.** Each budget of §12.3–§12.8 is confirmed by one row of §12.10's register — its measuring
+  milestone and suite, its pass bar, its pre-decided change if it misses and whether a miss is declared in D-18 as a
+  target miss — and cites that row.
+>>>>
+@@ FILE 12.3.md
+<<<<
+**Declared for the owner's veto:** every plot, site plan and building stays on the one-click model path at every size
+====
+**The declared target miss (D-18; inside the comfort level, §12.1):** every plot, site plan and building stays on the one-click model path at every size
+>>>>
+@@ FILE 12.5.md
+<<<<
+first map grows by 62 µs per building, to ≈ 2.3 s at the 35 000-building cap (120 000 people). **Declared for the
+owner's veto:** the one-click path stays complete at every size — every plot, site plan and building at city-band detail,
+====
+first map grows by 62 µs per building, to ≈ 2.3 s at the 35 000-building cap (120 000 people). **The declared target
+miss (D-18; inside the comfort level, §12.1):** the one-click path stays complete at every size — every plot, site plan and building at city-band detail,
+>>>>
+<<<<
+**Measurement and fallback (N-2, N-27 c):** R12-6; the table is re-derived from the measured laws and the knee re-stated
+to the owner.
+====
+**Measurement and fallback (N-2, N-27 c):** R12-6; the table is re-derived from the measured laws and the knee re-stated
+in D-18.
+>>>>
+@@ FILE 12.7.md
+<<<<
+  16-MB block cache holds it, at the ring block's rate above), so A2 at 300 dpi of a
+  CITY lit takes ≤ 30 s with the view idle (unlit, the ≤ 20 s below) (R12-18).
+====
+  16-MB block cache holds it, at the ring block's rate above), so A2 at 300 dpi of a
+  CITY lit takes ≤ 10 s with the view idle, the comfort level (§12.1) — at ≤ 60 ms per tile its ≈ 133 tiles' light alone
+  approach 8 s, so R12-18's half-resolution pass (≈ 2 s) is the expected outcome of the measurement (R12-18).
+>>>>
+<<<<
+* **PNG:** A2 at 300 dpi of a CITY in ≤ 20 s on the reference machine **with the view idle**, the peak canvas one tile
+====
+* **PNG:** A2 at 300 dpi of a CITY in ≤ 10 s on the reference machine **with the view idle** — the comfort level
+  (§12.1), as every offered export size at every rung is — the peak canvas one tile
+>>>>
+<<<<
+  is ignored, 5.3 MiB with none, level 1 and level 9 alike — a miss that remains after the filter change re-declares the
+  PNG budget at the measured p95 as a D-18 amendment for the owner's veto. On the synthetic looks None is faster than the
+====
+  is ignored, 5.3 MiB with none, level 1 and level 9 alike — a miss that remains after the filter change caps the export
+  dialog's print sizes at that rung to the largest the measurement holds within ten seconds, the dialog naming it (R12-31;
+  a wait past the comfort level is never offered). The per-row rule's encoding alone takes 10.5 s on the synthetic
+  textured look, so the textured `lit` family is expected to take the first change. On the synthetic looks None is faster than the
+>>>>
+@@ FILE 12.9.md
+<<<<
+  collision-checked labels — which D-7 ranks above speed. Its consequences are the two misses declared for the owner's
+  veto: model time above §12.3's sizes and the first map above §12.5's knee (O12 (g)). Reversing the trade would mean
+====
+  collision-checked labels — which D-7 ranks above speed. Its consequences are the two target misses D-18 declares,
+  inside the comfort level (§12.1): model time above §12.3's sizes and the first map above §12.5's knee (O12 (g)). Reversing the trade would mean
+>>>>
+@@ FILE 12.10.md
+<<<<
+bar, the pre-decided change taken once at that milestone if it misses, and whether the miss goes to the owner's veto
+(a D-18 amendment). Every miss is reported; a change is configuration or a declared shift, never a run-time answer
+(§12.1).
+
+| row | budget (home) | measured at | pass | pre-decided change on a miss | owner's veto |
+====
+bar, the pre-decided change taken once at that milestone if it misses, and whether a miss is declared in D-18 as a
+target miss — which inside the comfort level is no veto question (g item 119 (a)), while a one-time wait past it fails
+(R12-31). Every miss is reported; a change is configuration or a declared shift, never a run-time answer (§12.1).
+
+| row | budget (home) | measured at | pass | pre-decided change on a miss | declared in D-18 |
+>>>>
+<<<<
+| ≤ 2 ms per tile up to 50 lights, ≤ 4 ms up to 200; ≤ 60 ms per export tile; a CITY's lit A2 300 dpi ≤ 30 s |
+====
+| ≤ 2 ms per tile up to 50 lights, ≤ 4 ms up to 200; ≤ 60 ms per export tile; a CITY's lit A2 300 dpi ≤ 10 s |
+>>>>
+<<<<
+an export miss computes its light pass at half resolution, bilinearly upsampled — the reference defined at that resolution on every host, a declared view shift (§13.3) | no |
+====
+an export miss computes its light pass at half resolution, bilinearly upsampled — the reference defined at that resolution on every host, a declared view shift (§13.3); a lit export still past ten seconds caps the dialog's print sizes as R12-19 does | no |
+>>>>
+<<<<
+their bits OR-ed in sun order — the same bits (§6), off the serial path | no |
+====
+their bits OR-ed in sun order — the same bits (§6), off the serial path | no |
+| R12-30 | the season and festival switches (§12.5; g items 117 (i), 118) | at the milestone that lands the season rows (§16), on the golden views of every family at every rung | each switch's re-skin within the settle bound; the leaf cover, the ice and the decorations ≤ 20 % of a tile's raster time | the leaf cover drawn from the neighbourhood band only and the decorations from the district band only, reported | no |
+| R12-31 | the comfort level, ten seconds of total time per one-time wait (§12.1; g item 119) | V12 §3.15.9's wait timer on B-CITY's browser runs and the history and dossier fixtures, five seeds per wait kind at every rung's top and at the population cap, at the milestone that lands each wait: a generate, a regenerate or Re-derive, an open from SettlementForge, a dossier change, an advance of time and the history replay as V06 §6 reads them, an export of every offered format and size, a migration | every p95 ≤ 10 000 ms from the click to the complete result | the owning path's own change first (R12-1, R12-2, R12-6, R12-13, R12-18, R12-19; V06 §6's and V08 §6's rows); an export still past ten seconds has the dialog's sizes capped to what holds within them (R12-19); any other wait still past them fails the release until its path is changed — never a declared miss; a low-tier size that cannot reach it is declared per device | no: a failure |
+| R12-32 | the progress rule (§12.1) | with R12-31's waits (V12 §3.15.9 (3)) | for every wait over 1 000 ms the first progress frame naming its stage within 1 000 ms of the click; every sampled frame the current map or the progress view, never an empty screen | the generation worker also posts `Progress` per district batch of the pooled stages and per export band, so no step passes a second unannounced | no |
+| R12-33 | slower than a target only for a measured gain (§12.1) | the budget-register check at each release (V12 §3.15.9 (4)) over V11's `perf.qualitySpend` rows | every stage running above its §12 target has its row, whose gain the release's runs show and whose step stays inside the comfort level | the stage runs its target path, its row withdrawn | no |
+| R12-34 | the interaction budgets (§12.5, §12.6; g item 119 (d)): pan and zoom (R12-7, R12-9), dragging and a tool's live preview (R12-15; §12.6's warp preview), hover and click-to-inspect (§11.2's `hit` within 1 ms; §8.9's queries), undo and redo (§12.6), the season and festival switches (R12-30) | each row's own run, compared release to release (V12 §3.15.9 (5)) | no row relaxed against the previous release | the row's own change | no |
+>>>>

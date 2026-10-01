@@ -1,0 +1,12 @@
+# VRC0S-26: the verbose-prose pass over §12.5 — RESTATEMENT: the ring blocks' costs and caching are §12.7's (its
+# "≈ 39 / 85 / 181 / 433 ms ... cached per stop and paid again only for the blocks a pan exposes"); §12.5 points there.
+@@ FILE 12.5.md
+<<<<
+view, ≤ 250 ms for a METROPOLIS view, §12.7's bake, first ring and blocks inside it). Blocks are cached per stop, so a
+pan pays only for those it exposes; at a new stop they cost ≈ 1 µs per city-band mark the window reaches (§12.7), up to
+≈ 85 ms at CITY and ≈ 181 ms at the METROPOLIS target where a low sun over high relief reaches the whole frame from the
+1:500 stop (`amendc_repair_rendering_r3_blocks.out` (6)) — PLAUSIBLE until R12-8 measures them. While the pointer moves the cursor sun or the hand lantern, the
+====
+view, ≤ 250 ms for a METROPOLIS view, §12.7's bake, first ring and blocks inside it — the blocks' costs and their
+caching per stop being §12.7's, PLAUSIBLE until R12-8 measures them). While the pointer moves the cursor sun or the hand lantern, the
+>>>>
