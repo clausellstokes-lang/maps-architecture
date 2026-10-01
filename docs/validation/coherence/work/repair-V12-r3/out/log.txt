@@ -1,0 +1,57 @@
+VAP-r2-08 (c) §2.13 item111.water  x1
+VAP-r2-08 (a) §2.13 item113.history  x1
+VAP-r2-08 (a) §2.13 item114.condition  x1
+VAP-r2-08 (a) §2.13 item115.off (the test id moved from the bar column to its suite)  x1
+VAP-r2-08 (a), (b) §2.13 item115.ceiling  x1
+VV1112-r2-08, VV34-r2-15 §2.13 item122.crises  x1
+VV34-r2-15, VV1112-r2-08 §2.13 item123.damage (V12 measures on V03 §7's damage fixtures: one suite, V03's registration)  x1
+VV1112-r2-08 §2.13 item125.host; VV1112-r2-05 (every rung)  x1
+VAP-r2-08, VV34-r2-15, VV1112-r2-08 §3.7.8 list (V02, V03)  x1
+VAP-r2-08, VV1112-r2-08 §3.7.8 list (V08, V11)  x1
+VAP-r2-08, VV34-r2-15, VV1112-r2-08 X-V12-11  x1
+VAP-r2-08, VV1112-r2-08 X-V12-11 (V08, V11)  x1
+VV34-r2-15 §3.15.13  x1
+VV34-r2-15, VV1112-r2-08 §3.15.13 T123-7 (the pin's registrations)  x1
+VV34-r2-15 §3.4.2 damage.* row  x1
+VV34-r2-15 §1b item-123 row  x1
+VAP-r2-12 §3.4.2 find.* row  x1
+VAP-r2-12 §3.15.10 T120-3  x1
+VAP-r2-12 §3.15.10 T120-4  x1
+VAP-r2-12 T-V12-52  x1
+VAP-r2-12 §3.12 Find row (the same measure at its failure row)  x1
+VAP-r2-12 §3.16 row 31 (the lifecycle steps as edges)  x1
+VAP-r2-12, VRC2T-04, VV1112-r2-06 §3.4.2 crisis.* row (ids)  x1
+VAP-r2-12 §3.4.2 crisis.weeks  x1
+VV1112-r2-06, VRC2T-04 §3.4.2 crisis.scale second count, crisis.blocked, crisis.share  x1
+VV1112-r2-12, END VPC-R2-03 (R3-09 (e)), VV1112-r2-06 §3.15.12 head  x1
+VAP-r2-12 §3.15.12 T122-2  x1
+VV1112-r2-06 §3.15.12 T122-5  x1
+VRC2T-04 (R3-14 (3)), VV1112-r2-06 §3.15.12 T122-6  x1
+VAP-r2-12, VRC2T-04, VV1112-r2-06 §3.12 crisis row  x1
+VAP-r2-12, VRC2T-04, VV1112-r2-06 T-V12-54  x1
+VRC2T-04 §3.16 row 33 (the barricade as an edge)  x1
+VV1112-r2-06 J-V12.101 (five statistics)  x1
+END VPC-R2-03 (R3-09 (e)), VV1112-r2-06, VV1112-r2-05 X-V12-5  x1
+END VPC-R2-03 (R3-09 (e)) §1b dossier table  x1
+VV1112-r2-04 (a) §3.11 priority is an enumeration  x1
+VV1112-r2-04 (b), (c) §3.11 ranges by element kind; the settings.weather block  x1
+VV1112-r2-04 §3.15.14 (the same cells at the item's note)  x1
+VV1112-r2-04 §1b item-124 row; VV1112-r2-07 (its tiers)  x1
+VV1112-r2-05 §3.15.15 T125-1  x1
+VV1112-r2-05 T-V12-58  x1
+VV1112-r2-05 §3.16 row 36  x1
+VV1112-r2-05 §3.4.2 port.fallbacks row  x1
+VV1112-r2-05 §1b dossier table (required keys)  x1
+VV1112-r2-05 J-V12.104  x1
+VV1112-r2-07 §3.15.11  x1
+VV1112-r2-07 §6 item-121 row  x1
+VV1112-r2-07 §6 item-123 row  x1
+VV1112-r2-07 §6 item-124 row  x1
+VV1112-r2-07 (§13.8's T125 row), VV1112-r2-05 §6 item-125 row  x1
+VV1112-r2-07 §6 item-126 row  x1
+VV1112-r2-07 §1b item-121 row  x1
+VV1112-r2-07 §1b item-126 row  x1
+VV1112-r2-07 J-V12.100 (the text-layer test at PR)  x1
+VV1112-r2-13 §3.11 item-114 line (twice)  x1
+VV1112-r2-13 T-V12-47  x1
+VV1112-r2-13 §1b history rows  x1

@@ -50,7 +50,7 @@ def apply(sub, after_line):
         "(V03 §8; §16),\non the **damage fixtures** (V03 §7) and from M6-E over H-100's decay runs:")
     sub('VV34-r2-15, VV1112-r2-08 §3.15.13 T123-7 (the pin\'s registrations)',
         "byte-identically to its off-state set at every band and week, the underground's bands and per-band exports registered\n  by V04 (T-V4-82 (g)).",
-        "byte-identically to its off-state set at every band and week, the damage fixtures' plans registered by V03\n  (T-V3-39 (g)), V02's damage sub-fixture's exteriors by V02 (T-V2-59 (d)) and the underground's bands and per-band\n  exports by V04 (T-V4-82 (g)).")
+        "byte-identically to its off-state set at every band and week, the damage fixtures' plans registered by V03\n  (T-V3-39 (g)), the damage sub-fixture's exteriors by V02 (T-V2-59 (d)) and the underground's bands and per-band\n  exports by V04 (T-V4-82 (g)).")
     sub('VV34-r2-15 §3.4.2 damage.* row',
         "| f | on the damage fixtures (V12 §3.15.13): per building at the levels 0, 0.05, …, 1",
         "| f | on V03 §7's damage fixtures (V12 §3.15.13): per building at the levels 0, 0.05, …, 1")
@@ -121,9 +121,9 @@ def apply(sub, after_line):
         "B-CITY-lite's seeds of every rung, an island town and an unwalled place; from M-SF V08's dossier crisis fixtures\n"
         "(V08 §7.1) — a siege by a two-army coalition, a refugee wave, a plague with its affected quarter, a famine, a fire, a\n"
         "flood and an earthquake, each of the last three a calamity with its linked `reconstruction` condition (V08 §3.16 (7)\n"
-        "(b)), and an occupation — each standing through part of the year, a siege, a quarantine and a refugee wave standing at\n"
-        "once in one week at CITY and at the METROPOLIS cap, their camped ground together past `densityCap` (at the village rungs\n"
-        "V07's village fixtures, V07's T-V7-69 taking T122-5's and T122-6's village clauses there):")
+        "(b)), and an occupation — each standing through part of the year, with one week in which a siege, a quarantine and a\n"
+        "refugee wave stand at once at CITY and at the METROPOLIS cap, their camped ground together past `densityCap` (at the\n"
+        "village rungs V07's village fixtures, V07's T-V7-69 taking T122-5's and T122-6's village clauses there):")
     sub('VAP-r2-12 §3.15.12 T122-2',
         "  across each window's ends — a condition with no `untilWeek` and one whose `untilWeek` is not after its `sinceWeek` among\n"
         "  them — 0 mismatched weeks;",
@@ -164,7 +164,7 @@ def apply(sub, after_line):
     # END of VPC-R2-03 (R3-09 (e)) at X-V12-5, with the fixture week VV1112-r2-06's share clause reads and VV1112-r2-05's rungs
     sub('END VPC-R2-03 (R3-09 (e)), VV1112-r2-06, VV1112-r2-05 X-V12-5',
         "its crisis fixtures (conditions standing through part of the year with their severities, the calamities' targets) and force fixtures (single armies, a two-army coalition, a migrant group, an oversized siege) items 122's and 122 (h)–(i)'s (V12 §3.15.12), and its required-keys dossier item 125 (e)'s (V12 §3.15.15);",
-        "its crisis fixtures (conditions standing through part of the year with their severities; each disaster fixture — a fire, a flood, an earthquake — a calamity with its linked `reconstruction` condition (V08 §7.1), its `targets` resolved; one week standing a siege, a quarantine and a refugee wave at once at CITY and at the METROPOLIS cap, their camped ground together past `densityCap`) and force fixtures (single armies, a two-army coalition, a migrant group, an oversized siege) items 122's and 122 (h)–(i)'s (V12 §3.15.12), and its required-keys dossier at every rung item 125 (e)'s (V12 §3.15.15);")
+        "its crisis fixtures (conditions standing through part of the year with their severities; each disaster fixture — a fire, a flood, an earthquake — a calamity with its linked `reconstruction` condition (V08 §7.1), its `targets` resolved; one week standing a siege, a quarantine and a refugee wave at once at CITY and at the METROPOLIS cap, their camped ground together past `densityCap`) and force fixtures (single armies, a two-army coalition, a migrant group, an oversized siege) items 122's and 122 (h)–(i)'s (V12 §3.15.12), and its required-keys dossier, made at every rung, item 125 (e)'s (V12 §3.15.15);")
     sub('END VPC-R2-03 (R3-09 (e)) §1b dossier table',
         "| V08's crisis fixtures in the manifest (M-SF); read as view inputs only, never a calibration target |",
         "| V08's crisis fixtures in the manifest (M-SF), each disaster fixture a calamity with its linked `reconstruction` condition (V08 §3.16 (7) (b)); read as view inputs only, never a calibration target |")
@@ -190,10 +190,15 @@ def apply(sub, after_line):
     # ===================================================================================================================
     sub('VV1112-r2-05 §3.15.15 T125-1',
         "holding only SettlementForge's required keys, in §13.2's frozen manifest) at TOWN, CITY and the METROPOLIS cap generates\n"
-        "  every stage's output,",
+        "  every stage's output, and each field V08's table lists as read that the dossier lacks has its report line naming the\n"
+        "  fallback taken — 0 missing lines, 0 stages without output; with no stamped tick §4.11's clock starts at week 0 and the\n"
+        "  year position is the season control's, midsummer (week 19) by default (§2.9's *The week's source*; DR42);",
         "holding only SettlementForge's required keys, in §13.2's frozen manifest) at every rung — THORP, HAMLET and VILLAGE\n"
         "  through the village product (V07; the port's router hands a dossier below 1 500 people to it, V08 §3.10), TOWN, CITY\n"
-        "  and the METROPOLIS cap — generates every stage's output,")
+        "  and the METROPOLIS cap — generates every stage's output, and each field V08's table lists as read that the dossier\n"
+        "  lacks has its report line naming the fallback taken — 0 missing lines, 0 stages without output; with no stamped\n"
+        "  tick §4.11's clock starts at week 0 and the year position is the season control's, midsummer (week 19) by default\n"
+        "  (§2.9's *The week's source*; DR42);")
     sub('VV1112-r2-05 T-V12-58',
         "On the required-keys dossier `port.fallbacks` is 0 at TOWN, CITY and the cap and fails",
         "On the required-keys dossier `port.fallbacks` is 0 at every rung, THORP to the METROPOLIS cap, and fails")
@@ -215,7 +220,7 @@ def apply(sub, after_line):
     # ===================================================================================================================
     sub('VV1112-r2-07 §3.15.11',
         "This volume measures the other five clauses, from M4 (§16), on\nV09's app harness in §12.1's timing phase, on three **device fixtures**",
-        "This volume measures the other five clauses, from M4 (§16), on\nV09's app harness — T121-2, T121-3 and T121-8 in §12.1's timing phase, T121-5 at PR (§13.8) — on three **device\nfixtures**")
+        "This volume measures the other five clauses, from M4 (§16), on\nV09's app harness — T121-2, T121-3 and T121-8 in §12.1's timing phase, T121-5 at PR (§13.8) — on three\n**device fixtures**")
     sub('VV1112-r2-07 §6 item-121 row',
         "| inside §13.8's timing phase, ≤ 20 min wall per milestone run; the pin ≤ 2 CPU-min nightly | M4 (§16) | the rungs alternate milestone runs; the 5K and 8K fixtures at milestones only |",
         "| T121-2, T121-3 and T121-8 inside §13.8's timing phase, ≤ 20 min wall per milestone run; T121-5's captures at PR, each level on one device fixture, inside V09's PR run of its app harness (T-V9-84 takes the captures); the pin ≤ 2 CPU-min nightly | M4 (§16) | the rungs alternate milestone runs; the 5K and 8K fixtures at milestones only; at PR the levels rotate over runs, every level nightly |")
@@ -224,7 +229,7 @@ def apply(sub, after_line):
         "and `item123.damage` | ≤ 5 CPU-min at PR on the damage fixtures (the 21 levels); H-100's decay runs nightly from M6-E | the V03 step that draws a decayed or ruined plan; M6-E (§16) | every fourth level at PR, all 21 nightly and at milestones |")
     sub('VV1112-r2-07 §6 item-124 row',
         "and `item124.effects` | ≤ 10 CPU-min nightly; the frame cost inside §13.8's timing phase | M3b (§16) | the climate rows alternate nights |",
-        "and `item124.effects` | T124-3, T124-4 and T124-9 at PR on one climate row per run, rotating, and on every row nightly, ≤ 10 CPU-min nightly; `weather.frameMs`, `weather.cover` and `weather.luma` inside §13.8's timing phase and the visual-regression run; the pin's suites nightly | M3b (§16) | the climate rows alternate nights |")
+        "and `item124.effects` | T124-3, T124-4 and T124-9 at PR on one climate row per run, rotating, and nightly on every row, ≤ 10 CPU-min; `weather.frameMs`, `weather.cover` and `weather.luma` inside §13.8's timing phase and the visual-regression run; the pin's suites nightly | M3b (§16) | the climate rows alternate nights |")
     sub('VV1112-r2-07 (§13.8\'s T125 row), VV1112-r2-05 §6 item-125 row',
         "| item 125's measurements (`port.fallbacks` on the required-keys dossier at TOWN, CITY and the cap) and `item125.host` | ≤ 3 CPU-min nightly | M-SF (§16) | — |",
         "| item 125's measurements (`port.fallbacks` on the required-keys dossier at every rung, THORP to the METROPOLIS cap, the village rungs through V07's product) and `item125.host` | `item125.host` at PR on B-DOSSIER-lite; the required-keys dossier at every rung nightly, ≤ 3 CPU-min | M-SF (§16) | — |")

@@ -1,0 +1,105 @@
+{
+ "sha256": {
+  "docs/ARCHITECTURE.md": "4ed292e94f2442e5db7cb25e3da110806f5c5e7ccb9037d6fe32375a51504f76",
+  "docs/ARCHITECTURE-RATIONALE.md": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "docs/volumes/INDEX.md": "1774db18eb14cd3179d29569dc876b00b0d8ae1b603169e1dfa507bec88e83f0"
+ },
+ "blocks": [
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 1.1 What is built, in what order; the two size ladders",
+   "edits": 1,
+   "ids": [
+    "VCS-r2-03"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "edits": 28,
+   "ids": [
+    "VKr2-02",
+    "END VEW-r2-01",
+    "VAP-r2-01",
+    "R3-26",
+    "END VM-R2T-03",
+    "VEW-r2-02",
+    "END VV78-r2-10",
+    "END VV56-r2-01",
+    "VCS-r2-03"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.4 Visual regression, B-ZOOM and the app harness",
+   "edits": 1,
+   "ids": [
+    "VCS-r2-03"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "edits": 3,
+   "ids": [
+    "VKr2-02",
+    "END VEW-r2-01",
+    "VCS-r2-04",
+    "VAP-r2-14"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "edits": 5,
+   "ids": [
+    "END G125-V08",
+    "HANDOFF VRC2T-12"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "edits": 4,
+   "ids": [
+    "VCS-r2-04",
+    "VV12-r2-07",
+    "VV910-r2-07"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+   "edits": 1,
+   "ids": [
+    "VCS-r2-06"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "block": "J-ROWS",
+   "row": "J-A120.01",
+   "ids": [
+    "VCS-r2-01"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE-RATIONALE.md",
+   "block": "RATIONALE-A",
+   "row": "J-A120.01",
+   "ids": [
+    "VCS-r2-01"
+   ]
+  },
+  {
+   "file": "docs/volumes/INDEX.md",
+   "heading": "## 1 The product map",
+   "edits": 1,
+   "ids": [
+    "VV910-r2-07"
+   ]
+  }
+ ],
+ "edits": 44,
+ "rows": 2
+}
