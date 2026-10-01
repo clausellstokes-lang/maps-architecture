@@ -5665,3 +5665,43 @@ the narrow layout class as a map surface and supersedes the phone clauses of ite
 * **V09:** no phone screen, notice, catalogue row or Send button: the narrow layout class retired; below the medium class the medium layout holds at its 600 × 480 minimum and the page scrolls; `refuse.phone` withdrawn (no tool is ever greyed for a phone); item 120's phone sheet and item 124's phone default removed; T-V9-22 keeps its tablet half
 * **V08:** SettlementForge presents no map entry on a phone; the frame carries no phone handling
 * **scope, V04, V12:** as the item-126 routing above, less any phone screen
+
+## Dated ruling 2026-10-01 (adjudication round 2) — binding rulings R2-01 – R2-42 (coherence/adjudicate-r2; J122 where marked)
+
+The full rulings, with the issues each governs and the unit that writes each end, are
+`docs/validation/coherence/adjudication-r2.md`; this entry records what they change in the canon.
+
+* **V07-RESTATE-1 (amended, R2-03):** `ProductDecl`'s interface lives at V07 §2.1 (file f item 202, an applied f item
+  over S3/MC-11); §4.12 owns `StrategyRegistry.products` and `LadderRouter`'s reading and cites V07 §2.1; V06 §2.1 owns
+  `ProductDeclEpoch`. VV78-21 INVALID.
+* **E-27 (completed, R2-04):** a `shed` `Y`'s whole run in both modes (J-V2.109); its equivalences unchanged.
+* **Scope's copies of volume figures (R2-06):** a range naming every test of a volume reads "every T-Vn test (Vnn §7)";
+  §16's prices and totals and INDEX §1's price column are written last in a round, from the volumes' §8 totals as the
+  round leaves them.
+* **Owner-item lists (R2-07):** a list meaning every item of file g states no upper number; a subset list is explicit.
+* **DR44 (R2-11, R2-37):** item 122's crisis-look derivation row.
+* **"Specified" (R2-14):** one home, V08 §3.16 (3); its one gloss as R2-14 words it.
+* **The under-deck strip (R2-26 (d)):** one margin cell, `raisedWays.structure.stripMarginM` (V11 §3.24.2), replacing
+  V01's `raised.stripMarginM` and V07's `stripClearM`.
+* **Item 116 (R2-30, J122):** where no stop fits the bounds, the zoom-out limit is stop 0; no stop is added; item 116 (e)'s
+  "whole bounds" bar narrowed at the cap on a small window.
+* **Item 120 (R2-32 – R2-34, J122):** Find lands at M5; the `find` key's shape `{ chips: FindChip[]; gaps: boolean }`;
+  the per-viewer keys never cross a bridge, the host's view commands do; "served" counted by V11 §2.3 alone.
+* **Items 120–126's base bars (R2-35):** T120-1 – T120-6, T121-1 – T121-8, T122-1 – T122-7, T123-1 – T123-7,
+  T124-1 – T124-9, T125-1 – T125-3, T126-1 – T126-3, with their volume ends.
+* **Placement (R2-36, J122):** item 121 at M4; items 122 and 124's base parts at M3b; item 123 with V03's plan step and
+  V06's decay level at M6-E; item 125's rows with their rows, its bars at M-SF; item 126 at M2a; each volume part with the
+  step that builds its subject.
+* **Item 122 (R2-37):** the routing adds model §2.9's per-viewer `crises` key (Show crises and the preview); §10.2's table
+  `RosterTables.crisis` with `looks`, `map` and `settings`, every value V11's; V01's `disasterDistricts` (whole
+  districts; V07's ends at the village rungs) and `campLand`; V06's `frontierFor`; a look stands while §2.9's `week` lies
+  in [`sinceWeek`, `untilWeek`).
+* **Item 123 (R2-38):** the concern `plan.damage`, t = lo + u·(hi − lo) by element kind (V11's ranges); V06's
+  `decayLevel`, derived and never stored; no re-cut on decay (V03).
+* **Item 124 (R2-39):** no snow, falling or lying, on an `arid` row or a row whose winter does not freeze, whatever the
+  view's `weather` holds; the weather stream seeded per session. VV56-r1-05 INVALID.
+* **Item 125 (R2-40):** the week is the dossier's latest stamped tick, else the season control (week 0 for the clock);
+  `HostContext.customLibrary` is retired as an input with `week` and `realm` (item 125 (e)); `audience`, `displayNames`
+  and `line` stay, none a data input.
+* **Item 126 (R2-41):** every phone clause of every issue is moot under (a2).
+* **INVALID, closed for good:** VDC0-33 (R2-01), VAT-20's rung clause (R2-02), VV78-21 (R2-03), VV56-r1-05 (R2-39 (c)).
