@@ -3232,3 +3232,6 @@
 2026-10-01 22:09 coherence/repair-V08-r6 LANDED docs/validation/coherence/repair-r6-V08.md docs/validation/coherence/results/coherence_repair-V08-r6.json
 2026-10-01 22:09 coherence/repair-V09-r6 CHECKPOINT P0 brief, adjudication-r6 (TOC, Part A, R6-01, R6-02 incl. tables and V09 ends, R6-05, R6-10, R6-11, Part H · V09, Part P) read; next: issue sources, V09 live text, END sources
 2026-10-01 22:09 coherence/orchestrator NOTE repair-V08-r6 landed (11 blocks, 0 ruling requests); launched repair-V07-r6 in its slot
+2026-10-01 22:10 coherence/repair-V07-r6 CHECKPOINT P0 done (brief, adjudication-r6 R6-01/02/05/11, Part H V07, Part P read); next P1 live V07 sections and verifier evidence
+2026-10-01 22:11 coherence/repair-scope-r6 LANDED docs/validation/coherence/repair-r6-scope.md docs/validation/coherence/results/coherence_repair-scope-r6.json
+2026-10-01 22:11 coherence/orchestrator NOTE repair-scope-r6 landed (5 blocks, 0 ruling requests); launched repair-V01-r6 in its slot
