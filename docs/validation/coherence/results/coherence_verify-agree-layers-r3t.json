@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-agree-layers-r3t",
+ "file": "docs/validation/coherence/verify-agree-layers-r3t.md",
+ "issues": [
+  {
+   "id": "VAL-R3-01",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "owner": "V09",
+   "claim": "Find's Go there now writes the edit log. Round 3 changed V09 §4.2's working-layer switch from '(§7.8's layer controls, view state only)' to '(§7.8's layer controls: `LayerSpec.visible`, written by `setLayer`, §8.4)', and V09 row 21 to 'switching the working layer turns its visibility on (by `setLayer`, §8.4)'. This follows the layers-shown ruling: `LayerSpec` is document style state, and a toggle is a logged `setLayer` (§11.3; §7.4's setLayer row: log, inverse). Find's Go there runs that switch. V09 §4.21.10 (8): 'Below sets the working layer to Below and `depthBand` to the match's band (V04 §5.1); Sky sets it to Sky, the island menu's `key` to the match's island and a hidden sky layer visible (V05 §5.6 (3))'. V05 §5.6 (3) (l. 2319): 'Go there turns its visibility on, as switching the working layer does'. The underground layer is hidden by default at every rung (§8.4; V04 §5.1). So the common path is a chip with matches Below, then 'N more Below', then Go there, and it sends a logged, undoable `setLayer` into the document's style state and its edit log. That contradicts the owner rule, item 120 (a): 'Find never changes the model, the document, its hash or the edit log'. It also contradicts the base's Find tool (§9.5, l. 14951-14954): 'It sends no event and changes no model, document, hash or log … Go there sets the working layer and band (V04 §5.1, V05 §5.6) — view changes'. And it contradicts V04 §5.1 (2): Go there sets `depthBand`, 'a view key, never an edit'. A builder of V09 implements the contradiction.",
+   "required_change": "V09 §4.21.10 (8): Go there sets view keys only. These are `workingLayer` (without §4.2's visibility write), `depthBand` for Below (V04 §5.1) and the island menu's `key` for Sky; then it flies. Where the target layer's `LayerSpec.visible` is false, Go there leaves the layer hidden and keeps its ghost pins and count. Beside the count it offers that layer's own visibility toggle, §7.8's layer control: the user's logged `setLayer`, §8.4. Find sends no event (item 120 (a); §9.5). V09 §4.2's 'Switching layer also sets the layer's visibility on' reads 'Switching layer in the view bar also sets the layer's visibility on … (never Find's Go there, V09 §4.21.10 (8))'. V05's END, §5.6 (3): 'and Go there turns its visibility on, as switching the working layer does' → 'and Go there leaves it hidden, offering its visibility toggle (a logged `setLayer` the user sends; V09 §4.21.10 (8)); Find sends no event (item 120 (a))'. T-V9-83 adds: Go there to a hidden Below and to a hidden sky layer logs 0 events and leaves the document's style unchanged. If the adjudicator rules another form, every Find action must still send no logged event."
+  },
+  {
+   "id": "VAL-R3-02",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "model",
+   "claim": "A raised way crossing a village palisade gets two builds. §2.7's support step (3) (l. 2539-2551) gives every course 'across an enceinte's trace — on a gate's line or as an aqueduct's wall arch, the only crossings §4.3 allows' one crossing station on the trace. There 'the wall carries the deck': for a viaduct or an elevated road a raised gate 'whose tower carries the deck', for an aqueduct the curtain under its arch. Every other pier slides out of the wall strip. Support step (6), new this round (l. 2559-2567), re-sites a standing raised way's stations whenever a trace is laid across it. §4's raised-way edge row 'wall' (l. 8886) states the same. The village palisade is an `Enceinte` of stage 1 (V07 §3.4; `VillagePlan.palisade`). V07 §3.5a (4) (l. 1597-1602; J-V7.83; V07 §3.17's row 'a raised way over the palisade'; T-V7-52) rules otherwise for a raised way on a village map, declared or carried down. VS3's palisade 'abuts' each standing support in its band, 'the support is never moved and never a gate', the trace passes beneath every span, and 'a raised way crossing the circuit makes no gate (its deck passes over)'. VS3 lays the palisade across an already standing raised way at every village derivation, and a hand `drawWall` can do the same. Under the base the stations move onto a crossing station whose tower carries the deck on the palisade, and the other piers slide out of its band. Under V07 every support stays where it stands and no gate is drawn. A timber palisade also cannot carry a deck tower.",
+   "required_change": "§2.7's support step (3): after '— on a gate's line or as an aqueduct's wall arch, the only crossings §4.3 allows —' add '(a village map's palisade, `VillagePlan.palisade`, excepted: its trace abuts each support standing in its band where it stands and passes beneath every span, with no crossing station and no gate; V07 §3.5a (4))'. Support step (6)'s list of traces adds '— a village palisade's excepted (V07 §3.5a (4)) —'. Pipeline's END: the raised-way edge row 'wall' (§4, l. 8886) reads 'crosses a town enceinte only on a gate's line or as the aqueduct's arch; no support in a wall strip but the crossing's station on the band (§2.7's support step (3)); a village palisade abuts its supports, the deck passing over with no gate (V07 §3.5a (4))'."
+  },
+  {
+   "id": "VAL-R3-03",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "owner": "V04",
+   "claim": "Missed shared subject: the raised way's stations re-sited by a trace, against V04's arch vaults. §2.7's support step (6), new this round, re-runs (1)-(5) and the span rule on a standing raised way in the commit of any trace or moat laid across it. That covers S5a at generation, an epoch's circuit, contraction or re-anchored stretch (V06 §3.7.6 (5)) and a hand `drawWall`. A station moves onto the trace (key kept) or is added, and the stations in the new strips slide or are omitted. The spans are re-ruled: a merged span over a setback, glacis, berm or channel is `open`. §3.2 (9) and §2.7 `RaisedFoot`, also new this round, extend a deck at a frame growth and re-place its stations. V04's arch vaults are keyed by their span's two pier keys and laid between those piers' inner faces (V04 §3.5.4 (d)). V04 runs `ArchVaults.reconcile` and re-reads `foundationObstacles` in only three places: at T2; at 'a ground edit that adds, removes or re-shapes a raised way or sets a span's `use`' (§1b l. 328, the lifecycle row l. 867, §3.10's edit row l. 2572); and at an epoch over `EpochScope.raised`. That V06 field (V06 l. 465; W64) lists only the ways an op 'created, repaired, neglected, breached, dismantled or removed' or a landfall ruined. A station re-sited by a wall trace, or a deck extended at a frame growth, is none of these. So at an epoch the vaults are never reconciled: a chamber stays under a span that no longer exists, now open over the new setback or moat, a new `vault` span has no chamber, and doors and footprints sit off the moved piers. At a hand `drawWall` the text does not say whether 're-shapes' covers it. V06's 'the epoch-side guarantee … whatever op changed the way' (V06 l. 1036-1042) then fails. This is a hook with one end (principle (7)).",
+   "required_change": "V04's three trigger statements each add 'or whose stations §2.7's support step (6) re-sites (a trace or moat laid across it: a hand `drawWall`, an epoch's circuit, contraction or re-anchored stretch; an S5a trace needs none, T2 following it) or whose deck a frame growth extends (§3.2 (9); §2.7 `RaisedFoot`)'. The three statements are §1b's `ArchVaults.reconcile` row (l. 328), the arch-vault lifecycle row (l. 867) and §3.10's edit row 'a raised way added, removed or re-shaped' (l. 2572). The reconcile and the `foundationObstacles` re-read run in that commit. V06's END: `EpochScope.raised`'s comment (V06 §2.1, l. 465) and W64's derivation add 'or whose stations a circuit, contraction or re-anchored stretch re-sited (§2.7's support step (6)), or whose deck the frame growth extended (§3.2 (9))'. T-V4-63 adds a CITY fixture with a `vault` span under a viaduct crossed by an epoch circuit and by a hand `drawWall`. After each commit, every arch vault's key names a standing span of use `vault`, its footprint lies between that span's piers, and no chamber stands under an `open` span."
+  },
+  {
+   "id": "VAL-R3-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "rendering",
+   "claim": "Damaged doors in the per-band underground VTT scene get two builds. V04 §5.6 (5), the home of the damage below ground, states the per-band VTT rule, and T-V4-82 (e) tests it: 'a door past its threshold no portal (an open gap)'. §11.1's underground-band clause (l. 15976-15981) had its line of sight rewritten this round (VRC2T-06). Its `portals` still sit 'at openings in a wall line — a door access, a door or breach link, an underground building's entrances, each tunnel grille (closed when locked, bricked, gated or secret)' with no damage exception. By contrast, §11.1's per-storey clause writes portals only for 'every entrance whose door that level leaves standing'. A builder of §11.1's profile writes a closed door portal at an underground building's fallen door; V04's builder writes none.",
+   "required_change": "§11.1's underground-band clause: 'an underground building's entrances' → 'an underground building's entrances whose door its own decay level leaves standing (a door past its threshold an open gap, no portal; V04 §5.6 (5))'. V04's END: its §5.5 VTT row may cite the same in one clause; §5.6 (5) already states it."
+  },
+  {
+   "id": "VAL-R3-05",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "owner": "V04",
+   "claim": "Missed shared subject: Find on Below at a drawn week whose frame is not the head. This is V04's end of the class of VV12-r3-03 (V01) and VRC3T-01 (rendering). §11.2 *At a drawn week*, new this round (l. 16292-16297; §8.2's *Find*): at such a week a reader 'counts, glows, pins, lists and gaps only what the drawn frame holds'. The ruling on Find at a drawn week named ends at V01, V09 and V10, not at V04 or V05. V04 §5.1 *Find on Below* gives every Below match's part, depth bands, glow shape and plan anchor through `underFindPlaces(doc, ids)`. Its rows (l. 308, 340, 866) read it 'at each commit that rebuilds Find's index'. V09 §4.21.10 (7) rebuilds the index at each `week` change and calls `underFindPlaces(doc, ids)` without saying which model. At a scrubbed week, the set never says whether the glow shapes, the band ladder's counts, the ghost pins' bands and Go there's `depthBand` come from the head or from the drawn frame. A run, gallery or undercity district that an epoch has since extended or re-cut glows over galleries the frame does not draw, and Go there sends the view to a band the frame lacks, or not. The same holds for V05 §5.6 (2)-(5): an island's matches drawn at its anchor, at the head or in that frame.",
+   "required_change": "V04 §5.1 *Find on Below* adds: 'At a drawn week whose frame is not the head (V06 §3.15.2; §11.2's *At a drawn week*), `underFindPlaces` reads the model the view draws, that frame, for the ids §11.2's listing gives at that week. Each glow shape, depth band, ghost pin's band, the band ladder's counts and Go there's band are then the frame's. Show gaps' units Below are V01's `gapUnits` at that week.' V04's rows at l. 308, 340 and 866 add 'and at each change of §2.9's `week`, over the model the view draws'. V05's END: §5.6 (2)-(5) say the same for the islands (a match glows at its island's anchor in that frame). V09's END: §4.21.10 (7) passes the model the view draws to `underFindPlaces` and to V05 §5.6's places."
+  },
+  {
+   "id": "VAL-R3-06",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "rendering",
+   "claim": "Same defect as VV12-r3-02 (vol-V01-V02), in this lane's rendering–V07 seam, with one more site in the same unit. At THORP, HAMLET and VILLAGE the village is one district, and a disaster look ruins V07 §5.6 (3)'s units: its ends, or in an end-less thorp its toft groups. V07 §5.6 (3) draws item 123's damage on 'every building on a returned unit's plots' and the ruined tone on 'the unit's plots' faces'. §8.2 washes 'the district's faces' (`ruinTone`; the `disaster` row; 'their districts the `ruinTone`'). §8.6 (l. 13984-13988, rewritten this round) damages every 'building of a district a disaster look ruins'. Read at a village rung, one struck end ruins and tones the whole village.",
+   "required_change": "ONE FIX with VV12-r3-02 (its §8.2 and §11.2 text), and §8.6's 'A building of a district a disaster look ruins' → 'A building on a unit a disaster look ruins (§10.2 (d)'s `neighbourhoods`: a district; at THORP, HAMLET and VILLAGE a unit of V07 §5.6 (3) — its ends, or an end-less thorp's toft groups — on the plots `villageUnitPlots` gives it)'."
+  },
+  {
+   "id": "VAL-R3-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "pipeline",
+   "claim": "Same defect as VPC-R3-03 (verify-pipeline), in this lane's pipeline–V07 seam. §10.2 (d), rewritten this round (l. 15512-15516), admits on a way's carriageway 'only a `barricade` across it … — never a camp or any other part'. §8.2's placement sentence (l. 13009-13011) states the same. V07 §5.6 (7) (l. 3494-3495) puts a beast attack's 'stake barricades at its way crossings' where the village has no walled stretch. Those are `stakes` parts (§8.2's glyph) on the carriageways of the ways the perimeter crosses. The base draws none there and V07 draws them.",
+   "required_change": "ONE FIX with VPC-R3-03, in its words: §10.2 (d)'s carriageway rule admits `beast`'s `stakes` where the edge crosses a way (and the quarantine's `cordon`), and §8.2's placement sentence and T-ER-27 follow. V07 §5.6 (7) then stands as written."
+  },
+  {
+   "id": "VAL-R3-08",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "pipeline",
+   "claim": "§10.2 (d)'s `neighbourhoods` bullet (l. 15555-15559) reads 'at THORP, HAMLET and VILLAGE V07's ends (V07). Every building of a returned district draws item 123's damage'. V07 §5.6 (3)'s units are its ends, or in an end-less thorp its toft groups, and a unit's buildings are those on the plots `villageUnitPlots` gives it. The model's §2.6 step 7 (l. 2104-2106) also says 'A building of a district a disaster look ruins'. §10.2 (d)'s lead already reads every place at the village rungs 'as V07 §5.6 (2) states', and that row's `neighbourhoods` is '(3)'s units'. So a builder reaches V07's units and nothing built changes, but the bullet and §2.6 step 7 name a narrower set. The same family as VV12-r3-01 and VV12-r3-04.",
+   "required_change": "§10.2 (d)'s bullet: 'at THORP, HAMLET and VILLAGE V07's ends (V07). Every building of a returned district draws' → 'at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units (`villageDisasterUnits`: its ends, or an end-less thorp's toft groups). Every building of a returned district, or on a returned unit's plots (`villageUnitPlots`), draws'. Model's END: §2.6 step 7's 'A building of a district a disaster look ruins (item 122 (d))' → 'A building on a unit a disaster look ruins (item 122 (d); §10.2 (d)'s `neighbourhoods`, at the village rungs V07 §5.6 (3)'s units)'."
+  },
+  {
+   "id": "VAL-R3-09",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V04",
+   "claim": "V04 §5.6 (1) (l. 2887-2888), new this round, reads: 'An underground building lies in no look's unit — V01's `disasterDistricts` returns ground part 0's districts, at the village rungs V07's ends (V01 §3.16 (1))'. V07 §5.6 (3)'s units are its ends, or in an end-less thorp its toft groups. The conclusion holds either way, since every unit is made of part 0's plots, so nothing built changes, but the list leaves out a unit kind. The same family as VV12-r3-01 and VV12-r3-04.",
+   "required_change": "V04 §5.6 (1): 'at the village rungs V07's ends (V01 §3.16 (1))' → 'at the village rungs V07 §5.6 (3)'s units, its ends or an end-less thorp's toft groups, all of part 0's plots (V01 §3.16 (1))'."
+  },
+  {
+   "id": "VAL-R3-10",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "Same defect as VPC-R3-04 (verify-pipeline), in this lane's pipeline–V07 seam. By the ruling on camp places, every camp place takes its faces from `campLand` alone, and §10.2 (d) reads the village places 'as V07 §5.6 (2) states'. V07 §5.6 (2)'s `beyondWalls` row ('`siegeStandoffM` beyond the palisade's walled stretches') and `approachRoads` row ('the verges of each entry's way beyond the perimeter, one camp per entry') name no `campLand`, and they leave out the base row's division of the camped ground and its placing of the dossier's armies. V07's 'The outskirts' land' paragraph and 'every other rule … unchanged' still give one build.",
+   "required_change": "ONE FIX with VPC-R3-04, in its words: V07 §5.6 (2)'s `beyondWalls` row reads 'the `campLand` faces lying at least `siegeStandoffM` beyond the palisade's walled stretches …'. Its `approachRoads` row reads '`campLand`'s verges of each entry's way beyond the perimeter, one camp per entry, the camped ground and the dossier's armies divided among the entries as §10.2 (d)'s `approachRoads` states; …'."
+  }
+ ]
+}
