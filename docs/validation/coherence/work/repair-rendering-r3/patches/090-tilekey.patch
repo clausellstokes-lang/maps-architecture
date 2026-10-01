@@ -15,6 +15,6 @@
    heights differ between the two weeks and of the lights whose lit bit changes (O(changed Works)); no digest moves (§6.2).
 ====
    { week }`, a scrub — the generation worker re-emits, as a `DisplayDelta`, only the marks of the targets whose stage or
-   heights differ between the two weeks, of the buildings whose damage marks differ between them (V02 §5.7; §8.6) and of
+   heights differ between the two weeks, of the buildings whose damage marks (§8.6, V02 §5.7) differ between them and of
    the lights whose lit bit changes (O(changed Works and damage)); no digest moves (§6.2).
 >>>>

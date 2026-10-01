@@ -27,7 +27,7 @@
 "where": "020-battle-maps.patch:23",
 "file": "11.1.md",
 "old_w": 159,
-"new_w": 236
+"new_w": 237
 },
 {
 "where": "020-battle-maps.patch:47",
@@ -45,7 +45,7 @@
 "where": "030-api.patch:10",
 "file": "11.2.md",
 "old_w": 9,
-"new_w": 686
+"new_w": 689
 },
 {
 "where": "030-api.patch:51",
@@ -94,6 +94,12 @@
 "file": "11.2.md",
 "old_w": 14,
 "new_w": 32
+},
+{
+"where": "030-api.patch:135",
+"file": "11.2.md",
+"old_w": 16,
+"new_w": 40
 },
 {
 "where": "040-host.patch:6",
@@ -198,6 +204,12 @@
 "new_w": 37
 },
 {
+"where": "070-weather.patch:31",
+"file": "8.2.md",
+"old_w": 20,
+"new_w": 29
+},
+{
 "where": "080-resolution.patch:5",
 "file": "8.4.md",
 "old_w": 44,
@@ -267,7 +279,7 @@
 "where": "100-tests.patch:15",
 "file": "8.11.md",
 "old_w": 197,
-"new_w": 496
+"new_w": 505
 },
 {
 "where": "100-tests.patch:20",
@@ -279,6 +291,6 @@
 "where": "100-tests.patch:25",
 "file": "8.11.md",
 "old_w": 120,
-"new_w": 172
+"new_w": 171
 }
 ]

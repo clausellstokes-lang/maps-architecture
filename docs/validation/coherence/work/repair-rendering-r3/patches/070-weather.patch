@@ -26,3 +26,11 @@ drawn week; §6.1's stream —, its strength s by its phase) is
   is, so no label, halo or overlay is dimmed, faded or moved; while the underground layer is drawn none applies (§8.8's
   effects layer; (e)). **On the vector rung** a spell is a wash and the halos only:
 >>>>
+# VDC2-02's rendering side (determinism's issue): the marks' keys named as §6.1's `view.weather` row names them.
+@@ FILE 8.2.md
+<<<<
+(keyed by the spell index and the frame's world-aligned cell), so a spell replays from its session seed and clock
+====
+(keyed by the spell's entity key, from its index, folded with the frame's world-aligned cell — §6.1's `view.weather`
+row), so a spell replays from its session seed and clock
+>>>>

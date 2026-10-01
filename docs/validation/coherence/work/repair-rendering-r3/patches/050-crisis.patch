@@ -47,8 +47,8 @@
   colours by (i − 1) mod 4, so armies i and i + 4 differ in glyph and colour and glyph first repeat together at the 21st
   army — beside its colour, a marked door by its cross, the ruined tone by its rubble —; the parts draw in slot 19b,
   under slot 23's labels and their halos (§9.4), famine's bare fields in slot 15b over the fields' crop stage. The legend
-  lists each look standing by its look's word (`crisis.look.<kind>`, V09) with its condition and weeks (§9.5) — the
-  evaluation §11.2's `looks` reader answers.
+  lists each look standing by its row's `label` (V11 §3.25.9) with its condition and weeks (§9.5) — the evaluation
+  §11.2's `looks` reader answers.
 >>>>
 <<<<
 * **The layer.** `live.crises` runs in the generation worker over the model (the places of §10.2 (d), V01's `campLand`

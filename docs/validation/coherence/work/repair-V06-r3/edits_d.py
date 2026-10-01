@@ -64,9 +64,9 @@ def apply(sub):
         "   epoch does (J-V8.25) — the cadence reported in `EpochReport.advance` and the port's report. Where even one epoch over\n"
         "   the span with its events' term passes the budget (a catch-up of many dossier events: ≈ 10 a CITY year, V08 §6), the\n"
         "   catch-up folds that one epoch, every dossier event still at its own week — never a coarser or shortened result\n"
-        "   (§12.1) — and the wait completes past the comfort level, reported F-BUDGET-TIME; the events' cost is then the trigger\n"
-        "   of V08 §6's pre-decided change for an absorb with epochs (§12.10's R12-31). So no catch-up is refused or shortened\n"
-        "   (item 101 R2; J-V6.136).")
+        "   (§12.1) — and the wait completes past the comfort level, reported F-BUDGET-TIME, §12.10's R12-31 charging the miss to\n"
+        "   its owning path, the per-event absorb of V08 §6's rows. So no catch-up is refused or shortened (item 101 R2;\n"
+        "   J-V6.136).")
 
     # ---- §6.9 — VV56-r2-05, VV56-r2-06: the Works' start weeks and the per-element peak ----------------------------------
     sub('VV56-r2-05 VV56-r2-06 §6.9',
@@ -99,7 +99,8 @@ def apply(sub):
         "reported | every row reported against its target (a miss a declared target miss, D-18); every wait's p95 ≤ 10 000 "
         "ms, its measured time at most its estimate plus its reserve (else the cost rows rise, V06 §6.7's fallback) — a "
         "catch-up's wherever its estimate fits the catch-up's budget, and where it does not (one epoch over the span with its "
-        "events' term passing it) the one-epoch fold, every dossier event at its own week, with its F-BUDGET-TIME report; "
+        "events' term passing it) the one-epoch fold, every dossier event at its own week, with its F-BUDGET-TIME report (the "
+        "miss §12.10's R12-31 charges to V08 §6's per-event absorb); "
         "every catch-up's dossier facts met exactly at its last epoch;")
 
     # ---- T-V6-47 — END of VEW-r2-01 (R3-25 (c)) --------------------------------------------------------------------------
@@ -187,8 +188,8 @@ def apply(sub):
     sub('VV56-r2-04 J-V6.136 tail',
         "; one epoch over the span always fits, so no catch-up is refused or shortened |",
         "; where even one epoch over the span with its events passes the budget, that one epoch is folded and the wait, past "
-        "the comfort level, is reported F-BUDGET-TIME (§12.1: never a coarser or shortened result), the events' cost the "
-        "trigger of V08 §6's pre-decided change — so no catch-up is refused or shortened |")
+        "the comfort level, is reported F-BUDGET-TIME (§12.1: never a coarser or shortened result), §12.10's R12-31 charging "
+        "the miss to the per-event absorb of V08 §6's rows — so no catch-up is refused or shortened |")
     sub('R3-06 R3-08 J-V6.139',
         "the years since its decay run began at V11's rate by material inside that third, a restoration lowering it with its "
         "`repair` Works' progress, `decayPeak` keeping the highest level since the plan was built for item 114's patched "

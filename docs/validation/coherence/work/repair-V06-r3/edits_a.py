@@ -70,3 +70,9 @@ def apply(sub):
         "| the decay level and its peak (`decayLevel`, `decayPeak`; V06 §3.23) | derived from the lineage's lifecycle events "
         "at the weeks their changes show (V06 §3.23 (1)), each element's entry week, a restoring Works' progress and V11's "
         "rates |")
+
+    # ---- §2.12 — VAT2-r2-09 (R3-10): a preview's null overlay ---------------------------------------------------------
+    sub('VAT2-r2-09 §2.12 crisisLookYields row',
+        "| `crisisLookYields` (V06 §3.22 (3)) | derived from a building's Works weeks and the overlay's `sinceWeek` |",
+        "| `crisisLookYields` (V06 §3.22 (3)) | derived from a building's Works weeks and the overlay's `sinceWeek` (false for a "
+        "preview's `null` overlay) |")
