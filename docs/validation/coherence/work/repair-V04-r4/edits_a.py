@@ -17,19 +17,20 @@ S('VAL-R3-03 §1b.2 ArchVaults.reconcile callers',
   "| the tail's T2 vaults step (every raised way); the commit of a ground edit that adds, removes or re-shapes a raised way "
   "or sets a span's `use` (V04 §4.3); V06's `under.extend` at an epoch over `EpochScope.raised` |",
   "| the tail's T2 vaults step (every raised way, after generation's last support run, §2.7's support step (6) (a)); the "
-  "commit of every change to a raised way's `feet`, `supports` or `spans`, whoever makes it (V04 §4.3): an edit that adds, "
-  "removes or re-shapes a raised way or sets a span's `use`, a hand trace through one of its stations (§2.7's support step "
-  "(6) (b) (iii)), and at an epoch V06's `under.extend` over `EpochScope.raised` (an epoch's raised-way op, a landfall, a "
-  "circuit's, contraction's or re-anchored stretch's crossing station, the frame growth's deck extension, §3.2 (9); "
-  "V06 §2.1) |")
+  "commit of every change to a raised way's `feet`, `supports` or `spans`, whoever makes it (V04 §4.3) — among them an "
+  "edit naming it (its add, removal or re-shape; a `setAttr` on its spans, a span's `use` included, crossings, "
+  "`clearanceCm` or `spanSpacingCm`; a hand `repairRaised`), a hand landfall (V05 §3.16 (4)) and a hand trace through "
+  "one of its stations (§2.7's support step (6) (b) (iii)); at an epoch V06's `under.extend` over `EpochScope.raised` "
+  "(an epoch's raised-way op, a landfall, a circuit's, contraction's or re-anchored stretch's crossing station, the "
+  "frame growth's deck extension, §3.2 (9); V06 §2.1) |")
 
 # ---- §1b.3: the raised-way edit row (re-shape and a hand trace's crossing station wired to V04's reconcile)
 S('VAL-R3-03 §1b.3 raised-way edit row',
   "| a raised way added (T4 `road` with `raised`, the aqueduct class) or deleted (generated or drawn): the base's edit, "
   "with V04's arch vaults, their links and accesses as fates in the same commit | T4 `road`; T9 `shape`'s delete | the "
   "base's rows; V04 §2.6's arch-vault row | the replaced scope (the vaults' ids restored) |",
-  "| a raised way added (T4 `road` with `raised`, the aqueduct class), re-shaped (`moveVertex`) or deleted (generated or "
-  "drawn), or crossed by a hand trace through one of its stations (`drawWall`, or `moveVertex` on an enceinte's trace, a "
+  "| a raised way added (T4 `road` with `raised`, the aqueduct class), re-shaped (`moveVertex`; a `setAttr` on its "
+  "`clearanceCm` or `spanSpacingCm`) or deleted (generated or drawn), or crossed by a hand trace through one of its stations (`drawWall`, or `moveVertex` on an enceinte's trace, a "
   "re-anchored stretch among them; §2.7's support step (6) (b) (iii)): the base's edit, with V04's "
   "`ArchVaults.reconcile` and `foundationObstacles` re-read in the same commit (V04 §4.3), the arch vaults, their links "
   "and accesses as fates | T4 `road`; T9 `shape`'s delete; T3 `wall` | the base's rows; V04 §2.6's arch-vault row | the "
@@ -41,11 +42,12 @@ S('VAL-R3-03 §2.6 arch-vault row create',
   "raised way (T4 `road` with `raised`, the aqueduct class; the same span rule), sets a span's `use` to `vault`, or "
   "re-shapes a way; at an epoch through V06's `under.extend` over `EpochScope.raised` |",
   "| U-SYS's vaults step (T2) from the base's `vault` spans; `ArchVaults.reconcile` in the commit of every change to a "
-  "raised way's `feet`, `supports` or `spans`, whoever makes it — an edit that adds a raised way (T4 `road` with "
-  "`raised`, the aqueduct class; the same span rule), sets a span's `use` to `vault`, re-shapes a way or takes a trace's "
-  "crossing station on it (§2.7's support step (6) (b) (iii)); at an epoch through V06's `under.extend` over "
-  "`EpochScope.raised` (its raised-way ops, a landfall, a trace's crossing station, the frame growth's deck extension, "
-  "§3.2 (9)) |")
+  "raised way's `feet`, `supports` or `spans`, whoever makes it — among them an edit that adds a raised way (T4 `road` "
+  "with `raised`, the aqueduct class; the same span rule), re-shapes it, sets its spans (a span's `use` to `vault` "
+  "included), crossings, `clearanceCm` or `spanSpacingCm` or repairs it by hand, a hand landfall (V05 §3.16 (4)), and a "
+  "trace's crossing station taken on it (§2.7's support step (6) (b) (iii)); at an epoch through V06's `under.extend` "
+  "over `EpochScope.raised` (its raised-way ops, a landfall, a trace's crossing station, the frame growth's deck "
+  "extension, §3.2 (9)) |")
 S('VAL-R3-03 §2.6 arch-vault row regenerate',
   "| re-derived with its raised way, its id kept by its key; its closure follows its span at every derivation by "
   "V04 §3.5.4 (d) (2); **removed** in the same commit as its raised way is deleted, generated or drawn, or its span set "
@@ -95,8 +97,9 @@ S('VAL-R3-03 §4.3 one trigger row',
   "catacomb's staying in its extent, V04 §3.5.1 (6)); the excavation reading; the terminal cistern of an aqueduct | the "
   "network (a raised spine is never an edge); every other part |\n"
   "| a span's `use` set | that span's arch vault laid or removed | the rest |\n",
-  "| any change to a raised way's `feet`, `supports` or `spans` by an edit — the way added, removed or re-shaped, generated "
-  "or drawn; a span's `use` set; a hand trace through one of its stations (a `drawWall`, or a moved trace vertex, a "
+  "| any change to a raised way's `feet`, `supports` or `spans` by an edit — among them the way added, removed or "
+  "re-shaped, generated or drawn; a `setAttr` on its spans (a span's `use` set), crossings, `clearanceCm` or "
+  "`spanSpacingCm`; a hand `repairRaised`; a hand landfall (V05 §3.16 (4)); a hand trace through one of its stations (a `drawWall`, or a moved trace vertex, a "
   "re-anchored stretch among them, bent there by §2.7's support step (6) (b) (iii)); the same change at an epoch (V06's "
   "raised-way ops, a landfall, a circuit's, contraction's or re-anchored stretch's crossing station, the frame growth's "
   "deck extension, §3.2 (9)) runs the reconcile and `Foundations.apply` over `EpochScope.raised` instead (V04 §3.10; "
