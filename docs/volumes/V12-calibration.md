@@ -5,7 +5,7 @@
 **How to read this volume.** It builds the calibration harness over the base (`docs/ARCHITECTURE.md` with files f and g
 applied: `docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2026-09-28g.md`). **Citations:** a bare `§n` or `II.n` is the
 base's; `Vnn §n` is a design volume's section, this one included (`V12 §3.11`); a list after a volume prefix stays in that
-volume; `item n` is an amendment item — 1–101 the owner's instructions, 102–119 file g's owner and program rules, 200 and
+volume; `item n` is an amendment item — 1–101 the owner's instructions, 102–120 file g's owner and program rules, 200 and
 above file f's, each the applied text of a volume's base change request (V12 §10 lists this volume's); `J-VI.n` is a
 volumes-integration decision (`docs/volumes/_integrate.md`), cited, never restated. Decisions are J-V12.n (V12 §9), bars
 T-V12-n (V12 §7), owner questions Q-V12-n (V12 §11, every one answered). **Clean room.** This volume is an implementer
@@ -61,11 +61,12 @@ used. MFCG's and FTG's behaviour stays exactly reachable through the parity pres
 own rules — no other generator makes them — and a second test city made from an original sketch (a port with a
 sea-anchored wall, a walled harbour, terraces, a raised road and a stepped temple) must come out as sketched every time,
 as must the first. Water in dry country (item 111), history at generation (item 113), walls that decay into gaps and patchwork and
-recover (item 114), the grandeur ceiling of small places (item 115), the zoom-out limit (item 116), seasons (item 117)
-and festival decorations (item 118) each get their bars here; colour-blind-safe styles (item 112) get their style check's
+recover (item 114), the grandeur ceiling of small places (item 115), the zoom-out limit (item 116), seasons (item 117),
+festival decorations (item 118) and Find, the view that makes what a user looks for glow on the map (item 120), each get
+their bars here; colour-blind-safe styles (item 112) get their style check's
 threshold and the game-master trial's findings in the calibration record; and every one-time wait is timed against its target and the ten-second
-comfort level (item 119). Turning any owner item's new rules off gives back exactly yesterday's towns, and a season or a
-festival never changes the map itself — both proved by byte-for-byte pins.
+comfort level (item 119). Turning any owner item's new rules off gives back exactly yesterday's towns, and a season, a
+festival or a Find view never changes the map itself — both proved by byte-for-byte pins.
 
 **How it feels to the owner.** A one-page dashboard in plain words after each nightly run; the four sittings; and release
 notes that name every number that moved, what it was matched against and by how much, with one plain line for each new
@@ -81,7 +82,7 @@ of every other tendency bar (V12 §3.6b); tuning runs as table-version bumps wit
 drift (V12 §3.8); the owner's sittings as one panel engine (V12 §3.9); the corpus reconciliation as a process (
 V12 §3.10); the calibration register that keeps every provisional number wired to its measurement (V12 §3.11); the
 known-city fixtures' engine (V12 §3.14); the no-op pin engine every owner item's pin registers on (V12 §3.7.8, E-20) and
-the feature switch-on bumps (V12 §3.7.6); the harness parts of items 111–119 (V12 §3.15), the game-master trial's findings in the calibration
+the feature switch-on bumps (V12 §3.7.6); the harness parts of items 111–120 (V12 §3.15), the game-master trial's findings in the calibration
 record among them; and the edges of every mechanism here (V12 §3.16).
 
 **The base hooks consumed** (cited, never restated):
@@ -107,7 +108,7 @@ record among them; and the edges of every mechanism here (V12 §3.16).
 | §2.7 and §3.4 with item 110's `RetainingWall`, raised ways and deck plots (items 244, 245); §5.3's deck invariant | the profile's item-110 kinds; the `raised.*`, `retaining.*`, `deck.*`, `tier.*` metrics |
 | §13.2's T101-6 | the known-city fixtures' engine (V12 §3.14) |
 | §7.5 and §7.1's fate report; the suppression of file f item 260 | a release or a pack never re-opens a suppressed raised way (V12 §4.1) |
-| §8.2's style check and variants (item 112); §2.9's view state (items 117, 118); §8.8's zoom-out limit (item 116) | item 112's register line; the view-invariance pins; item 116's bars (V12 §3.15) |
+| §8.2's style check and variants (item 112); §2.9's view state (items 117, 118, 120); §8.8's zoom-out limit (item 116); §11.2's gazetteer under knowledge admission and §12.5's overlay budget (item 120) | item 112's register line; the view-invariance pins; item 116's bars; item 120's match, knowledge, persistence, pin and cue statistics and its interaction timings (V12 §3.15) |
 
 **Rules from other volumes this volume hosts.** V01's NG rows (T-V1-31) and panel (T-V1-32); V02's Fantasy Manor harness
 and panel (T-V2-31, V02 §7.5); V07's VG rows and panel (T-V7-23, T-V7-29); V03's plan panel (V03 §8, `V3-P6`; Dwellings stays
@@ -127,7 +128,7 @@ transcript V10's.
 **Out of scope.** The stages that produce what is measured (§4, the volumes); the content of any rule table (V11, and
 V04's `CatacombRule`); the owner items' bars as base text (§13.2 states them; this volume gives them their harness and
 default pass rule, item 488); and the other volumes' bars (their own §7), among them every fixture bar of items 105–118
-that is a plain conformance check — a quay reachable, at most one catacomb at TOWN, every catacomb under a cemetery or a
+and 120 that is a plain conformance check — a quay reachable, at most one catacomb at TOWN, every catacomb under a cemetery or a
 CITY or METROPOLIS quarry ossuary and none under a church, the cathedral always crypted with the largest crypt (V04's
 T-V4-50, V06's T-V6-40, V11's T-V11-25), and item 110 (f)'s:
 * generated retaining walls exactly where S10 or S11 levels ground steeper than `terrace.slopeMin` with a step above
@@ -170,7 +171,7 @@ the engines, commands, profiles and metric families that write and read those re
 | the enclosure profile: `closure` and `enclosure` features (2.2) | the GeoJSON export's closing edges (item 447); the MFCG adapter's shore split (3.2.2); a corpus plan's drawn circuit | `walled.share`, `wall.*`, `gate.count`, `wall.barrierShare` (3.4.2); the corpus frames' wall rows (3.10.5) | §2.7 `Enceinte.closure`; §11.1 |
 | the underground profile `undergroundInputOf` (2.2) | the model's underground systems (II.7.6; item 109's `ruin` record and its access records) | `grid.*`, `ruin.blockArea`, `plan.*` (3.4.2) → the paired, two-sample and sweep bars (3.6b) | II.7.6 |
 | the profile's item-110 kinds and properties (2.2) | `measureInputOf`; §11.1's GeoJSON variants (item 447) | the per-part way graphs; `wall.*`, `bldg.*` reading only their kinds; T-V12-4, T-V12-38 | §11.1 |
-| the model metrics `void.*`, `link.*`, `ladder.members`, `crypt.*`, `catacomb.*`, `raised.*`, `retaining.*`, `deck.buildings`, `tier.count`, `crossing.kinds`, `water.needRatio`, `ruin.survival`, `shade.gap` and the item-111–119 metrics (3.4.2, 3.15) | the model's records: V04's `CatacombComplex`, V03's `Basement.crypt`, the raised-way records (item 244; `source` derived at read; the founding rung from the founding epoch's record), S10 and S11's levelling, V02's tiers and deck buildings, the ways' `stair` and `ramp` flags and `W_STEEP_RAMP` reports, S6's water-balance function, the ruin's element records, `Enceinte.condition`, the view state and its renders | the tendency bars (3.6b, 3.15); the guards (3.7.4); the register lines (3.11); the M4-110 and V4-U5 groups' reports; T-V11-33's bench; the nightly statistics | §13.2 bench metrics |
+| the model metrics `void.*`, `link.*`, `ladder.members`, `crypt.*`, `catacomb.*`, `raised.*`, `retaining.*`, `deck.buildings`, `tier.count`, `crossing.kinds`, `water.needRatio`, `ruin.survival`, `shade.gap` and the item-111–120 metrics (3.4.2, 3.15) | the model's records: V04's `CatacombComplex`, V03's `Basement.crypt`, the raised-way records (item 244; `source` derived at read; the founding rung from the founding epoch's record), S10 and S11's levelling, V02's tiers and deck buildings, the ways' `stair` and `ramp` flags and `W_STEEP_RAMP` reports, S6's water-balance function, the ruin's element records, `Enceinte.condition`, the view state and its renders, Find's matches (V09's `live.find` over §11.2's gazetteer) | the tendency bars (3.6b, 3.15); the guards (3.7.4); the register lines (3.11); the M4-110 and V4-U5 groups' reports; T-V11-33's bench; the nightly statistics | §13.2 bench metrics |
 | the metric families `bar.<barId>` and `frame.<table>.<column>` (2.1, 3.4.2) | `plat build` from the registered specs and `BenchBarDef`s and the registry's calibratable columns; values by `plat parity` and, at a corpus run, the frames' rows | the register entries' `metric` lists (V12 §3.11; V02 §3.10.10, V06 §8, V11 §8); the lint (T-V12-20); the exits' history rows; the fallback runs' targets | §13.2; §13.5; §13.9 |
 | the guards: `GuardSet.fixtureSuites` and the TOWN guard setting (2.5, 3.7.4) | B-DOSSIER-lite (§13.2, item 84), the owner-rule hook fixtures, K1 and K2, `tune/<id>/guard/TOWN/…` | a run's acceptance (3.7.5); `guardFlips` | §13.2, §13.8 |
 | the structure engine and its three-path runner (3.14) | `KnownCityFixture`s; V09 §7.2's canvas script; V10's transcript | `StructureResult`s → T-V12-36, the guards, the M4-110 group, `MilestoneRecord.exitCriteria` `T-V12-36:<id>` | §13.2 T101-6 (item 489) |
@@ -178,7 +179,8 @@ the engines, commands, profiles and metric families that write and read those re
 | the switch-on bumps, `ShiftRecord.cause` of the base's kind `feature` (3.7.6) | the release that switches a family on | shift and cascade records; the release notes' plain line (5.5); the pins' off-state sets | §13.3 |
 | the four raised-way bars `T110b.*` (3.6b) | forcing fixture sites (frozen S1), `Level.intent.wealthLevel`, the dossier landmark fixture (DR35) | the `raisedWays` register line (3.11); fallback runs bounded by the owner's floor (3.7.2) | §13.2 T110-3 |
 | the M4 panel's M4-110 group (3.9.1) | the panel engine; K2 and five forcing-site towns | the `panel` stage of the item-110 register lines (3.11) | §13.6 |
-| the wait timer and the budget-register check of item 119 (3.15.9) | §12.1's timing phase on B-CITY's browser runs; §12.10's rows | the `wait.*` report rows; T-V12-50; the release's budget section | §12.1, §12.10 |
+| the wait timer and the budget-register check of item 119 (3.15.9) | §12.1's timing phase on B-CITY's browser runs; V11 §3.25.8's `perf.qualitySpend` rows (registry row 106) with §12.10's rows | the `wait.*` report rows; each `perf.qualitySpend` row's verdict; T-V12-50; the release's budget section | §12.1, §12.10 |
+| item 120's measurements (3.15.10): `item120.find`, the `find.*` statistics and the Find timings | the Find view key (§2.9) set by the fixtures' chip sets; §11.2's gazetteer at the view's key; V09's `live.find` overlay on V09's app harness, its key and click timer | the pin's off-state sets; the nightly statistics' C rows; the timing phase's interaction rows (3.15.9 (5)); T-V12-52 | §2.9, §11.2, §12.5 |
 
 **The dossier.** Calibration never *targets* a dossier fact: the dossier row sets are never a calibration target (§13.9
 (7)), B-DOSSIER-lite's fixtures are not a seed family of any run, so a SettlementForge fixture never moves a default, and
@@ -201,6 +203,7 @@ it the one door for a dossier into `plat/`):
 | the history: `peakTier`, `tierHistory`, `populationHistory`, `calamityHistory`, the lifecycle, the events | §7.7's history rows (DR36 onward) | item 113 (g)'s city-to-village, refounded and symbolic-peak fixtures | V08's history fixtures, registered in the manifest |
 | the defence `readiness` label | §7.7's wall-condition row (item 114 (d)) | item 114's generation-time condition fixtures | fixture records |
 | the calendar week and season; `traditions` | §7.7's season and festival rows (items 117 (c), 118) | a campaign dossier opening on its own week; a festival fixture's window | fixture records; the view-invariance pins read them as view inputs only |
+| the institutions' names and kinds | DR9, DR24 | item 120 (b)'s list entries on the Find fixtures (the dossier's names first; V12 §3.15.10) | a fixture record of the manifest; read as view inputs only, never a calibration target |
 
 ## 2 Data model
 
@@ -593,8 +596,7 @@ type Indicator =                                          // one yes / no per in
   | { kind: 'flowOrder' }                                 // item 104 (h) (8): a chain instance's resource node farther from the principal market than its final seller
   | { kind: 'withinComfort' }                             // items 104 (h) (8), 107 (g): a consumer–provider link's way distance ≤ its good's comfortM
   | { kind: 'voidAccessible' }                            // item 109 (j) (3), (3b): a cavern or ruin system with an access point through an OPEN link, direct or through linked systems (item 113 (e))
-  | { kind: 'voidSealedDeep' }                            // item 109 (j) (5): per DEEP VOID — a connected component of a cavern or ruin system's parts of positive area whose
-                                                          // tops lie deeper than DigRule.reachM below every footprint over them — sealed when no access reaches it
+  | { kind: 'voidSealedDeep' }                            // item 109 (j) (5): per deep void (V12 §3.4.2's `void.*` row defines it) — sealed when no access reaches it
   | { kind: 'ruinChosen' }                                // item 109 (i): an undercity whose first void source is a ruin, where a ruin and a cavern both qualify
   | { kind: 'present'; system: 'cavern' | 'ruin' }        // item 109 (a), (j) (1): the site holds at least one such system
   | { kind: 'raised'; raisedKind: 'viaduct' | 'elevated' | 'aqueduct'; source: 'generated' }   // item 110 (b): the town holds ≥ 1 such generated way
@@ -604,6 +606,7 @@ type Indicator =                                          // one yes / no per in
 type Quantity = 'ladder.members' | 'catacomb.extentM2' | 'catacomb.fill' | 'catacomb.growthM2'   // V12 §3.4.2's model metrics, per record
   | 'season.leafCover'                                     // item 117 (i): per fixture document, its one record, across the leaf-fall weeks
 type Step = 'epoch' | 'regenerate' | { rederive: StageId } | { newRandom: 'system' } | 'upgradeReplay' | { dossierEvent: string } | 'extendGrowth'
+  | { week: number }                                      // item 117: the view's year position 0 – 51, set as the season control sets it — a look: the model, its digest and the save untouched
 type AuthorStep = { edit: string /* an item-101 event kind: 'delete', 'repairWall', … */; target: string /* a fixture address */; args?: Record<string, unknown> }
 interface Level { id: string /* 'mountainous', 'TOWN', 'x1.5', 'w0.9', 'arid' */; rung: Rung; water: WaterSetting; preset: PresetArm;
   site?: Record<string, string | number | boolean>;       // a fixture site override: relief, geology, mining, a ravine across the frame, a forced ruin or cavern source, a climate row
@@ -632,6 +635,9 @@ type ScriptProperty =                                     // each 0 violations o
   | 'voidLostAndRefound'      // item 113 (e): after the step closing a void's last OPEN link its access state is LOST; after a step reopening a link it is restored; dwellings empty, then return
   | 'conditionSustained'      // item 114 (c): a run's condition changes at a step only when its driver has held over the table window before it
   | 'patchesOldestFirst'      // item 114 (c): recovery replaces a wall's patched runs in the order of their epochs of last change
+  | 'noIceSnow'               // item 117 (i): no ice and no snow drawn at any step (`season.iceSnow` 0)
+  | 'iceOrder'                // item 117 (i): every still water's first frozen step at or before every flowing water's, and no ice drawn on a mill race's or a weir's polygon (`season.iceOrder`)
+  | 'seasonStyles'            // item 117 (i): T112-1's style check (`bar.T112-1`) passes at every step
 interface PairedMeasure {   // a ruin's laid plan (a) against the town above within its outline (b), per seed
   metric: 'ruin.blockArea' | 'grid.r4' | 'grid.axis';
   differs: { kind: 'logRatio'; atLeast: number /* ln 1.5 */ } | { kind: 'absDiff'; atLeast: number /* 0.15 */ } | { kind: 'axisDeg'; atLeast: number /* 10 */; skipWhen: 'sharedAxis' } }
@@ -668,7 +674,9 @@ interface PanelSpec {   // @plat/testkit/panels — one per panel, registered by
   groups: PanelGroup[]; questions: ('legibility' | 'realism' | 'charm' | 'reads')[];
   subject?: string;     // the plain words 'reads' asks about ("a floating patch"); required when 'reads' is asked
   strips: string[];     // §13.7 letters shown as threshold strips (§13.6 (8))
-  extras: ('house' | 'labels' | 'ladderStreet' | 'palette')[];
+  extras: ('house' | 'labels' | 'ladderStreet' | 'item110Buildings' | 'styleReference' | 'palette')[];
+                        // 'item110Buildings': V02 §7.5 (3)'s five items, one `reads` answer each; 'styleReference': one
+                        // reference-family image shown beside a SOLO set, never rated (V04 §7's hatched-style render)
   passRule: { perGroup: 'all' | 'rung' | 'template' | 'frame' | 'class' | 'none' /* 'none': a descriptive set, never a gate */ };
              // ⌈2n / 3⌉ better-or-same per group and question, never worse on every pair of a subgroup (§13.6 (6));
              // a SOLO group passes a question with ⌈2n / 3⌉ Yes and no subgroup answered No on every item
@@ -679,11 +687,18 @@ interface PanelGroup { reference: 'MFCG' | 'FTG' | 'NG' | 'FM' | 'VG' | 'DW' | '
 // blind; 'SOLO': one render of ours per item, rated Yes / No per question where no reference and no second recipe exists (V04's panel)
 interface PanelRender { widthPx: 1600; heightPx: 1200; framing: 'walledPlus10' | 'overview' | 'hood' | 'building' | 'village' | 'plan' | 'underground' | 'island';
   mPerPx: 'matched'; labels: false; furniture: false; light: 'fixedSun'; stripMetadata: true }
-// §13.6's D5Pair carries five variants (item 500): FM, VG, DW, AB ('reconcile' | 'history') and SOLO
+type D5PairStaged =     // §13.6's `D5Pair` union names it (file f item 500): the five staged variants, one per pair, in seeds.json and the record
+  | { reference: 'FM'; i: number; refCapture: string; platSeed: string; cls: string }                                     /* V02 §7.5 */
+  | { reference: 'VG'; rung: 'THORP' | 'HAMLET' | 'VILLAGE'; tags: string; i: number; refSeed: string; platSeed: string }   /* V07 §8 */
+  | { reference: 'DW'; i: number; refCapture: string; platSeed: string; cls: string; band: string }                         /* V03 §8, V3-P6 */
+  | { reference: 'AB'; purpose: 'reconcile' | 'history'; rung: Rung; water: WaterSetting; i: number; platSeed: string;
+      a: string; b: string /* each a recipe: output version, preset, and the layer or epoch it differs by */ }              /* V12 §3.10.6; V06 §12 */
+  | { reference: 'SOLO'; rung: Rung; i: number; platSeed: string; recipe: string /* output version, preset, mode */ }     /* V04 §7 */
 interface AnswersFile {   // exported by the sitting page; after the reveal it crosses with key.json into plat/goldens/d5/<panel>/ by V12 §3.3 (item 535)
   panel: string; commitment: Hash128; sessions: { started: string; ended: string }[];
   answers: { pair: number; question: 'legibility' | 'realism' | 'charm' | 'reads'; answer: 'left' | 'right' | 'same' | 'yes' | 'no' /* yes / no: a SOLO item */; note?: string }[];
-  strips: { letter: string; picked: 'A' | 'B' | 'C' | 'same' }[]; house?: 'A' | 'B' | 'C'; ladder?: { seed: string; reads: boolean }[] }
+  strips: { letter: string; picked: 'A' | 'B' | 'C' | 'same' }[]; house?: 'A' | 'B' | 'C'; ladder?: { seed: string; reads: boolean }[];
+  item110?: { item: string /* V02 §7.5 (3)'s item, by its seed label */; reads: boolean }[] }
 // §13.6 (9)'s D5Record holds these answers and verdicts (item 500 (c)); §13.3's MilestoneRecord holds a list of panels per
 // milestone and the register's statuses in its exit rows (item 493)
 ```
@@ -847,8 +862,10 @@ interface NoOpPin {                       // @plat/testkit/noop; test-side
   kind: 'offForm' | 'rungScope' | 'view';
   overlay: { ref: CellRef; value: unknown }[];   // offForm: the item's off form, each cell at its in-range off value where V11 states it (E-20); empty otherwise
   rungs?: Rung[];                         // rungScope: the rungs whose suites stay byte-identical across the item's switch-on bump
-  view?: { key: 'season' | 'festival'; values: string[]; tiles?: true };   // view: the view-state values the model digest and the saved bytes are invariant
-                                          // across; `tiles`: also the view's tiles with no festival against the pre-item tile goldens (item 118 (h))
+  view?: { key: 'season' | 'festival' | 'find'; values: string[]; tiles?: true };   // view: the view-state values the model digest and the saved bytes
+                                          // (the edit log included) are invariant across — weeks; festival displays; Find `off` and each fixture chip
+                                          // set, with `+gaps` for Show gaps on; `tiles`: also the tiles drawn with the view off — no festival
+                                          // (item 118 (h)), Find cleared after its chips were on (item 120 (k)) — against the pre-item tile goldens
   suites: { suite: string; owner: string }[];   // registered by their owners
   switchedOn?: string;                    // the output version whose bump switched the family on; absent before it
   store: string }                         // plat/goldens/noop/<id>/o<k>/ — the off-state digests per output version
@@ -856,18 +873,20 @@ interface NoOpPin {                       // @plat/testkit/noop; test-side
 
 | pin | bar | kind | off form (read from V11 §3.24.0 where V11 states it, else from the cells the bar names — E-20) | suites (their owners register them) |
 |---|---|---|---|---|
-| `item102.sun` | T102-1 | offForm | the cells T102-1 names | the golden suite and hook fixtures (base); the sky goldens (V05); H-100 (V06) |
-| `item103.coverage` | T103-3 | offForm | the cells T103-3 names | the golden suite; B-CITY's 200 seeds per rung (V11) |
-| `item105.web`, `item107.spread` | T105-4, T107-4 | offForm | V11 §3.7.4's web off form; with it, the cells T107-4 names | the golden suite; B-CITY (V11); H-100 (V06) |
-| `item106.barrier` | T106-5 | offForm | the cells T106-5 names | the golden suite; V11's T-V11-19 fixtures |
-| `item109.underground` | T109-6 | offForm | the cells T109-6 names | the underground goldens (V04) |
-| `item110.raised`, `.terrace`, `.deck`, `.stepped` | T110-7 | offForm | V11 §3.24.0's switch table, one row set per family (the stepped family's `roster.specialisations` included, which a pin leaving it on would not isolate) | the golden suite and hook fixtures, B-DOSSIER-lite (base); B-MASS (V02, T-V2-50); the sky goldens (V05, T-V5-15); H-100, H-AQUA, H-TERRACE, H-DECK (V06, T-V6-65); the underground goldens (V04, T-V4-69); V07's village goldens; B-CITY (V11, T-V11-31); K1, K2 (V12) |
-| `item111.water` | T111-5 | offForm | the cells T111-5 names | the golden suite; V07's village goldens; H-100 (V06) |
-| `item113.history` | T113-7 | offForm | the switch T113-7 names (§4.11) | the history fixtures (V06); the golden suite |
-| `item114.condition` | item 114 (g) | offForm | the driver cells item 114 (g)'s no-op bar names (V11's rows) | H-100 and the wall fixtures (V06); V07's palisade goldens |
-| `item115.ceiling` | item 115 (f) | rungScope | — (`rungs`: TOWN, CITY, METROPOLIS) | the golden suite; B-MASS (V02) |
-| `item117.season` | item 117 (i) | view | weeks 0 – 51 | the golden suite; V07's village goldens; the sky goldens (V05) |
-| `item118.festival` | item 118 (h) | view (`tiles`) | display `off`, `follow` in every week, `preview` of each listed festival | the golden suite; V07's village goldens; the festival fixtures |
+| `item102.sun` | T102-1 | offForm | the cells T102-1 names | the golden suite and hook fixtures (base); V05's island fixture (T-V5-19 (c)); H-100 (V06, T-V6-12's `w_sun` clause) |
+| `item103.coverage` | T103-3 | offForm | the cells T103-3 names | the golden suite; B-CITY's 200 seeds per rung (V11, T-V11-13); V05's island fixture (T-V5-22 (b)) |
+| `item105.web`, `item107.spread` | T105-4, T107-4 | offForm | V11 §3.7.4's web off form; with it, the cells T107-4 names | the golden suite; B-CITY (V11); H-100 (V06, T-V6-44); V05's island fixture (T-V5-22 (k)); V07's village goldens (T-V7-33, on `item105.web`) |
+| `item106.barrier` | T106-5 | offForm | the cells T106-5 names | the golden suite; V11's T-V11-19 fixtures; V05's island fixture (T-V5-27) |
+| `item109.underground` | T109-6 | offForm | the cells T109-6 names | the underground goldens (V04, T-V4-47); V07's village goldens (T-V7-38) |
+| `item110.raised`, `.terrace`, `.deck`, `.stepped` | T110-7 | offForm | V11 §3.24.0's switch table, one row set per family (the stepped family's `roster.specialisations` included, which a pin leaving it on would not isolate) | the golden suite and hook fixtures, B-DOSSIER-lite (base); the neighbourhood suite (V01, T-V1-4 (e)); B-MASS (V02, T-V2-50); B-PLAN and B-CITY-lite's plans (V03, T-V3-34); the underground goldens (V04, T-V4-69); the sky goldens (V05, T-V5-15) and V05's island fixture (T-V5-27's item-110 clause, on `.terrace`); H-100, H-AQUA, H-TERRACE, H-DECK (V06, T-V6-65); V07's village goldens (T-V7-52); the known-city canvas scripts (V09, T-V9-57); the reader goldens (V10, T-V10-43); B-CITY (V11, T-V11-31); K1, K2 (V12) |
+| `item111.water` | T111-5 | offForm | V11 §3.24.0's `climate` dry-cell off form (the six cells) | the golden suite; an arid and a temperate site, 200 seeds per rung (V11, T-V11-38 (b)); V05's island fixture (T-V5-33's item-111 clause); H-100 (V06, T-V6-72); V07's village goldens (T-V7-58); V08's port fixtures (T-V8-50); the reader and why goldens (V10, T-V10-45) |
+| `item113.history` | T113-7 | offForm | V11 §3.24.0's `history.replay` false (§4.11) | the golden suite; the underground goldens (V04, T-V4-77 (d)); the history fixtures (V06, T-V6-71); V07's village goldens (T-V7-59) |
+| `item114.condition` | T114-8 | offForm | V11 §3.24.0's `walls.condition` off form | the golden suite (base; T114-8's generation clause); H-100 and H-WALLS, the wall fixtures (V06, T-V6-73); V07's palisade goldens (T-V7-62) |
+| `item115.off` | T115-4 (T-V11-41 (b)) | offForm | V11 §3.24.0's `grandeur.ceiling` `enabled` false on every row | the golden suite; V07's village goldens |
+| `item115.ceiling` | T115-4 | rungScope | — (`rungs`: TOWN, CITY, METROPOLIS) | the golden suite; B-MASS (V02); H-100 over epochs at TOWN and above (V06, T-V6-74); V08's port fixtures at TOWN (T-V8-53) |
+| `item117.season` | T117-1 | view | weeks 0 – 51 | the golden suite; the sky goldens (V05); V07's village goldens (T-V7-65) |
+| `item118.festival` | T118-1 | view (`tiles`) | display `off`, `follow` in every week, `preview` of each listed festival | the golden suite; V07's village goldens (T-V7-66); the festival fixtures |
+| `item120.find` | §13.2's item-120 bar of item 120 (k)'s hash and tiles clauses | view (`tiles`) | Find `off`; each Find fixture's chip sets, Show gaps off and on (V12 §3.15.10) | the golden suite; V07's village goldens |
 
 Registration refuses an `offForm` pin with an empty overlay or an overlay cell outside its column's range, a `rungScope`
 pin without rungs, a `view` pin without values, and a suite no owner registers. A missing off-state set after switch-on
@@ -1101,7 +1120,8 @@ the siting statistics read their `onDeck`; a stepped building's `heightM` is the
 | `tree.nnP1`, `tree.nnMedian`, `tree.pcf` | geo | m | nearest-neighbour distances of tree points; the pair-correlation function at 1 … 20 m (Stoyan and Stoyan's estimator, §17.1 (8)) | FTG (weakness); the sampler | tree scatter |
 | `pop.perBuilding` | geo / model | f | population ÷ buildings | MFCG (weakness); FTG | population and buildings |
 | `time.model`, `time.firstMap`, `time.worst` | timing | — | §12's measures in the timing phase, ÷ the calibration score ratio (§12.1), at every rung (item 119 (f)) | MFCG; FTG; NG | generation time; MFCG-worst configurations; §12's targets |
-| `wait.generate`, `.regenerate`, `.openFromSF`, `.dossierChange`, `.advanceTime`, `.historyReplay`, `.export`, `.migrate`; `wait.progressMs` | timing | — | item 119's one-time waits, click to complete result, on the reference hardware (§12.1), and the time from the click to the first progress frame (V12 §3.15.9) | — (ours) | item 119 (f) |
+| `wait.generate`, `.regenerate`, `.openFromSF`, `.dossierChange`, `.advanceTime`, `.historyReplay`, `.export`, `.migrate`; `wait.progressMs` | timing | — | item 119's one-time waits, click to complete result — `advanceTime` the whole advance and `historyReplay` the replay with the peak's generation before it, each in total (item 119 (a2)) — on the reference hardware (§12.1), and the time from the click to the first progress frame (V12 §3.15.9) | — (ours) | item 119 (f) |
+| `time.findSuggest`, `time.findGlow` | timing | — | item 120 (j)'s interaction times at the METROPOLIS cap on V09's app harness: a key in Find's box to its suggestions drawn; a chip's click to its matches' glow drawn | — (ours) | item 120 (k): §12.5's overlay budget (V12 §3.15.10) |
 | `delivery.tier`, `ladder.use`, `vacancy.share`, `quay.reach`, `residue.share`, `entrance.frontage`, `hidden.share`, `wealth.*` | model | — | from the core statistics record and the report (§13.2, §5.4) | — / FTG descriptive | the C rows of §13.5 |
 | `draw.*`, `label.*` | render / model | — | §8.3's census; §9.4's checks | MFCG; NG | draw style; labels |
 | `variety.dispersion` | geo | f | §7.7's signature vector per town, computed from the input where the source has the kinds; standardised by the rung's pooled deviations; mean pairwise Euclidean distance over the seeds | MFCG; FTG (floors) | between-seed variety |
@@ -1117,7 +1137,7 @@ the siting statistics read their `onDeck`; a stepped building's `heightM` is the
 | `grid.r4`, `grid.axis` | geo | f / deg | inside a region (for a paired bar the ruin's outline, V12 §3.6b; otherwise the enclosure), ways or galleries resampled at 10 m steps; z = e^{4iθ} per step weighted by its length ℓ; R = \|Σ ℓ z\| ÷ Σ ℓ; axis = arg(Σ ℓ z) ÷ 4 folded into [0°, 90°); fewer than 20 steps → `notApplicable` | — (ours: a ruin against the town above) | item 109 (c)'s distinctness bar |
 | `ruin.blockArea` | geo (underground profile) | m | the faces of the gallery graph — every gallery in every state, nodes within 2 m merged — inside the system's outline, median area; no face → `notApplicable`; the town side: `block.area`'s built blocks inside the same outline dilated by 25 m steps (at most 100 m) until it holds ≥ 5 blocks, else `notApplicable` | — | item 109 (c)'s distinctness bar |
 | `plan.rightAngle`, `plan.straight` | geo (underground profile) | f | on every chamber outline and every gallery's two wall lines (its centreline offset by half its width), vertices turning < 1° dropped: the share of the remaining vertices whose turn lies within 5° of ±90°; the share of wall length in straight runs ≥ 4 m (a run keeps within 2° of its first segment's direction) | — (a ruin against a cavern) | item 109 (i)'s structure test |
-| `void.*`, `link.*`, `ladder.members` | model | — | per cavern or ruin system: present by kind, accessible through open links (directly or through linked systems, items 109 (j) (3), (3b), 113 (e)), its access state (open or LOST), buildings over it (footprints whose base lies within `DigRule.reachM` above one of its chambers or galleries); per deep void: whether an access reaches it; per undercity: its first void source; per derived supply link (item 105 (a)): way distance, the good's `comfortM`, within comfort; per chain instance: flow order and spread; a collective record's member count | — | V12 §2.7b's indicators: items 104 (h) (8), 105 (k), 107 (g), 108 (f), 109 (i)–(j), 113 (e) |
+| `void.*`, `link.*`, `ladder.members` | model | — | per cavern or ruin system: present by kind, accessible through open links (directly or through linked systems, items 109 (j) (3), (3b), 113 (e)), its access state (open or LOST), buildings over it (footprints whose base lies within `DigRule.reachM` above one of its chambers or galleries); per deep void (a connected component of a system's parts of positive area whose tops lie deeper than `DigRule.reachM` below every footprint over them): whether an access reaches it; per undercity: its first void source; per derived supply link (item 105 (a)): way distance, the good's `comfortM`, within comfort; per chain instance: flow order and spread; a collective record's member count | — | V12 §2.7b's indicators: items 104 (h) (8), 105 (k), 107 (g), 108 (f), 109 (i)–(j), 113 (e) |
 | `crypt.present`, `crypt.areaM2`, `crypt.rank`, `crypt.joined` | model | f / m / f / f | per building of a church class (V11's crypt column `always` or `basement`): whether it holds `Basement.crypt` (V03), per class the share; each crypt's floor area; the rank of the cathedral's (or great temple's) crypt by area, 1 wherever one stands; whether a (3b) link joins the crypt to a catacomb complex (V04's `cryptJoin`) | — | item 109 (k) (2): V11's T-V11-25, V04's T-V4-50 |
 | `catacomb.count`, `catacomb.source`, `catacomb.rank` | model | f | complexes per settlement; each complex's source kind (V04's `CatacombComplex.source.kind`); whether the largest by `extentFloorM2` lies under the cemetery serving the most burials | — | item 109 (k) (3): V04's T-V4-50, V06's T-V6-40 |
 | `catacomb.extentM2`, `catacomb.fill`, `catacomb.blockedBy`, `catacomb.growthM2` | model | m / f / — / m | per complex keyed by its id (its source lineage, V04 §3.5.1): `extentFloorM2`, the high-water extent over every gallery and chamber in every closure state — silted, caved-in and sealed parts included, the author-deleted area excluded (J-V4.56); its ossuary `fill` in [0, 1]; its `blockedBy` reasons; the area added at a step, with its cap `max(extent × ((1 + growthCapShare)^years − 1), growthFloorM2)` (V04 §2.3's `CatacombRule`, read per year, J-V6.53) | — | item 109 (k) (4)–(6): V04's T-V4-51, T-V4-52; V06's T-V6-38, T-V6-39 |
@@ -1134,6 +1154,7 @@ the siting statistics read their `onDeck`; a stepped building's `heightM` is the
 | `view.limitStop` | model | f | per map, the zoom-out limit's stop (§8.8), whether the whole `bounds` fits the viewport's short side there, and the count of reachable stops beyond it (0 by rule) | — (ours) | item 116 (e) (V12 §3.15.6) |
 | `season.crownColours`, `season.leafCover`, `season.iceOrder`, `season.iceSnow`, `time.reskin` | render / timing | f / f / — / f / — | at a week of the year: the distinct crown colours drawn among deciduous trees; the share of ground, street, green and roof area drawn under leaf cover; per water kind the first week it is drawn frozen; any ice or snow drawn (a count); the re-skin time of cached tiles at a season switch (§12.5) | — (ours) | item 117 (i) (V12 §3.15.7) |
 | `festival.weeks`, `festival.kinds`, `festival.stage`, `festival.blocked` | render / model | — / f / — / f | the weeks a festival's decorations draw; the decoration kinds drawn, by tier; the place its staging landed on and how (named, keyed, fallback); decorations over a gate's passage or a label keep-out (0 by rule) | — (ours) | item 118 (h) (V12 §3.15.8) |
+| `find.matches`, `find.leaks`, `find.held`, `find.pins`, `find.cues` | model (the overlay provider's match set and §11.2's rows) / render (pins, bubbles and cues as drawn) | f | on V09's app harness, per chip of a Find fixture's chip set at a view key: the entities Find draws against the gazetteer query's rows at that key, mismatches counted; under a player view on the knowledge canary fixture, the suggestions, counts, glows, pins and ghost pins naming a withheld entity; over a step script of band and layer changes, commits, an advance and an undo, the steps whose chip set changed or whose matches differ from a fresh evaluation there; at the city band's stops, the matches with neither a pin nor a count bubble; the chips without their own second cue — each 0 by rule | — (ours) | item 120 (k) (V12 §3.15.10) |
 | `street.detour` | geo | m | over 200 node pairs per town drawn by the metric's stream among degree-≥ 3 nodes at least 100 m apart, the way-graph distance ÷ the straight distance; per seed median | NG (§16 M-1's IMPROVEMENTS §7.2 rows) | detour index ⟨M-1⟩ |
 | `street.cyclesPerKm2` | geo | m | independent cycles of the way graph (edges − nodes + components) per km² of the built outline | NG | cycles per km² ⟨M-1⟩ |
 | `plot.minWidth` | geo (NG's plots) / model (ours) | m | per plot the width of its minimum-width enclosing rectangle (rotating calipers, §17.1 (8)); distribution | NG | plot minimum width ⟨M-1⟩ |
@@ -1168,8 +1189,8 @@ V11 §3.24.0's switch table resolves them off in `presets.MFCG`, `presets.FTG` a
 buildings without them; in the default preset they are on, and their metrics are ours only — descriptive or C, never a
 §13.5 row. Items 111 and 113's extensions resolve off in the parity presets the same way (the oasis chance and the water
 pull by §7.6's zeroing; `history.replay` false, §4.11), item 114's wall conditions are no measurement input (V12 §2.2),
-and items 117 and 118 are looks: every `render` metric and panel render draws at the standalone default view — midsummer,
-decorations off, `cvdVariant` `none` — whatever a document's view state holds (V12 §3.16.2 lists every feature a preset
+and items 117 and 118 are looks and item 120 a view: every `render` metric and panel render draws at the standalone
+default view — midsummer, decorations off, Find off, `cvdVariant` `none` — whatever a document's view state holds (V12 §3.16.2 lists every feature a preset
 meets). V06's growth parity (a history's raised-way prevalence within
 ± 15 % of the one-click city's) compares ours with ours and stays V06's.
 
@@ -1406,7 +1427,8 @@ own code):
   The sequence is `levels` (a population sweep on one seed, `sweep/<spec>/any/<i>`) or a **step script** run by the step
   runner on the fixture document — `epoch` (V06's engine), `regenerate`, `{ rederive: S1 }` and `{ rederive: <the
   underground stage> }`, `{ newRandom: 'system' }` on the catacomb system, `upgradeReplay` across an output version (§7.5),
-  `{ dossierEvent: 'burial' }`, `extendGrowth` — the base's own events and commands, never a test-only path. Author edits
+  `{ dossierEvent: 'burial' }`, `extendGrowth`, `{ week }` (item 117's year position, set as V09's season control sets
+  it: a look, the model untouched) — the base's own events, commands and view actions, never a test-only path. Author edits
   never appear in its scripts: the ratchet binds derivations, not the author (J-V4.56). With `where: 'stagnant'` (the
   `fill` form) a step counts only where the record's `blockedBy` is non-empty and its extent held. The runner also runs
   each fixture's **author-delete probe**: deleting n grid nodes lowers `extentFloorM2` by exactly their area, and no later
@@ -1416,7 +1438,8 @@ own code):
 * **exactScript** — a named property (`ScriptProperty`, V12 §2.7b) checked by the same step runner at every step of a
   script that may hold author steps (`AuthorStep`: an item-101 event on a fixture address, applied through §7.1's events
   as a user would), since these properties bind the author's acts too (item 113 (e): a cellar filled; item 114 (f): a
-  repair); 0 violations, each reported with the record, the step and both values (V12 §3.15).
+  repair); 0 violations, each reported with the record, the step and both values (V12 §3.15). A script of `{ week }`
+  steps alone checks a look week by week (item 117 (i): `noIceSnow`, `iceOrder`, `seasonStyles`; V12 §3.15.7).
 * **paired** — per seed holding a ruin, the ruin's laid plan against the town above inside its outline on three measures:
   `ruin.blockArea` against `block.area` (differs at a ratio of 1.5 either way), `grid.r4` (|ΔR| ≥ 0.15) and `grid.axis`
   (folded axes ≥ 10° apart; skipped for a ruin that took the shared-axis chance). Pass when each measure differs in at
@@ -1450,11 +1473,11 @@ parameters; the conformance clauses of the same items stay their owners' checks 
 | 103 (f): a coverage class's served share above random | null, `margin` 0.1 | `servedShare` per coverage class on its own compiled unit (a `settlement`-unit class `notApplicable`), scope `town` | B-CITY, 200 per rung | V11 T-V11-13 |
 | 104 (g), 104 (h) (8): a chain's nodes closer than random | null, rank | `chainSpread`, `lower` | CITY and TOWN custom-chain fixtures (V08's), 50 towns each | V11 T-V11-16 |
 | 104 (h) (8): the flow order holds in most placements | most at 0.75 | `flowOrder` | as above, ≥ 100 effective chain instances | V11 T-V11-16 |
-| 104 (h) (8): a compatible chain's in-town nodes within their links' comfortable distances in most placements | most | `withinComfort` over those links | as above | — |
+| 104 (h) (8): a compatible chain's in-town nodes within their links' comfortable distances in most placements | most | `withinComfort` over those links | as above | base T104-3 (its comfortable-distance clause; the spec's `ownerBar`) |
 | 105 (k): a multi-output producer nearer its dominant output's consumers; a shared provider's consumers nearer it; source-oriented nearer inputs, market-oriented nearer demand — each than random | null, rank | `meanDistToPartners` by role | B-CITY CITY, 200 towns | V11 T-V11-14 |
 | 105 (k): the share of districts holding a dispersed class within tolerance of the base's | noRegression, tolerance 0.05 | `servedShare`, `unit: 'district'`, `minHouseholds: 30`, per dispersed class; `off` = V11 §3.7.4's web off form | CITY and METROPOLIS, 50 towns each | V11 T-V11-18 |
 | 106 (h) | none: fixtures; the enclosure (V12 §2.2) makes their measurements well defined, `wall.barrierShare` reported | — | — | V11 T-V11-19 |
-| 107 (g): a coverage class's served share above random with the web on; a spaced class's nearest-member distance above random | null, rank (scope `town`) | `servedShare` per coverage class on its own unit; `nnSameKind` | B-CITY CITY and METROPOLIS, 50 each | — |
+| 107 (g): a coverage class's served share above random with the web on; a spaced class's nearest-member distance above random | null, rank (scope `town`) | `servedShare` per coverage class on its own unit; `nnSameKind` | B-CITY CITY and METROPOLIS, 50 each | base T107-1 (the `servedShare` specs' `ownerBar`), T107-2 (the `nnSameKind` spec's) |
 | 107 (g): consumer-to-provider distance within `comfortM` in most placements | most at 0.70 | `withinComfort` over every link | B-CITY CITY, ≥ 100 effective links from ≥ 20 towns | V11 T-V11-14 |
 | 108 (f): members rising monotonically across a population sweep | exactMonotone, `levels` | `ladder.members` per COUNT, QUARTER and GUILD record | the surveyed-dossier fixtures at population × 0.5, 0.75, 1, 1.5, 2 (outside [1 500, 120 000]: `notApplicable`) | V11 T-V11-17 |
 | 109 (c), (i): a ruin differs from the town above | paired | the three measures | CITY on a fixture site with a forced ruin source, 50 seeds | V04 T-V4-45; V06 T-V6-37 |
@@ -1611,8 +1634,8 @@ cascades of cause `{ kind: 'feature', ref: 'item 110 (b)' | 'item 110 (a)' | 'it
 Every bump leaves the `MFCG`, `FTG` and `FM` presets' goldens byte-identical (V12 §3.4.4). An owner item whose rows land
 after its suites' first goldens (items 111's water pull at M2b, 113's replay at M6-E, 114's drivers, 115's ceiling table)
 ships the same way, one `feature` cause naming the item; an item whose code lands with its suites' first goldens needs no
-bump. Items 117 and 118 move no model digest: their releases shift only render goldens drawn at a non-default week or
-festival, as declared view shifts (§13.3). The release notes (V12 §5.5) carry one plain line of new behaviour per bump —
+bump. Items 117, 118 and 120 move no model digest: their releases shift only render goldens drawn at a non-default week
+or festival or with a Find chip on, as declared view shifts (§13.3). The release notes (V12 §5.5) carry one plain line of new behaviour per bump —
 for the first: "cities may now build viaducts, raised roads and aqueducts where the ground or the water calls for them;
 you can remove any".
 
@@ -1623,11 +1646,16 @@ the cell. A cell read at S0 – S2 regenerates the whole town.
 
 **3.7.8 No-op pins — one engine for every owner item's pin (J-V12.43; E-20).** Each owner item's "with its rows off,
 byte-identical to the base" bar is a `NoOpPin` registration on this engine (V12 §2.13's set; §13.2's convention (5)), and
-each volume pin that restates one (V02's T-V2-50, V04's T-V4-69, V05's T-V5-15, V06's T-V6-65, V11's T-V11-31, V07's
-village pin) registers its suites here and cites it.
+each volume pin that restates one registers its suites here and cites it, on the pin V12 §2.13 lists it under: V01's
+T-V1-4 (e); V02's T-V2-50; V03's T-V3-34; V04's T-V4-47, T-V4-69 and T-V4-77 (d); V05's T-V5-15, T-V5-19 (c), T-V5-22 (b)
+and (k), T-V5-27 and T-V5-33's item-111 clause; V06's T-V6-12 (its `w_sun` clause), T-V6-44, T-V6-65 and T-V6-71 –
+T-V6-74; V07's pins by its §7 rule (T-V7-33, T-V7-38, T-V7-52, T-V7-58, T-V7-59, T-V7-62, T-V7-65, T-V7-66); V08's
+T-V8-50 and T-V8-53; V09's T-V9-57; V10's T-V10-43 and T-V10-45; V11's T-V11-13, T-V11-31 and T-V11-38 – T-V11-41 (b).
+V02's T-V2-37 and V10's T-V10-10 are unit properties of one cell and register none.
 1. **"Off" is stated once**: V11 §3.24.0's switch table for item 110 (one named off form per row set: `terrace`,
-   `raisedWays`, `deck`, `roster.specialisations`, `deck.landmarks`), V11 §3.7.4's web off form for items 105 and 107, the
-   cells the owner bar names otherwise; each off value lies inside its column's range, never an out-of-range sentinel, and
+   `raisedWays`, `deck`, `roster.specialisations`, `deck.landmarks`) and its rows for items 111, 113, 114 and 115 (the
+   `climate` dry cells, `history.replay`, `walls.condition`, `grandeur.ceiling`), V11 §3.7.4's web off form for items 105
+   and 107, the cells the owner bar names otherwise (items 102, 103, 106 and 109); each off value lies inside its column's range, never an out-of-range sentinel, and
    is the same form the table's parity-neutral default and the parity presets resolve where they resolve it. The owner-stamped
    minima bind calibration, not a pin's overlay (J-V12.56). A pin's overlay sets its item's off values; the cells stay
    editable like any cell (everything is editable).
@@ -1643,13 +1671,15 @@ village pin) registers its suites here and cites it.
 4. **The code properties, asserted by name.** An item's draws come only from its own stream labels (§6.1); an entity kind
    with no instance is absent from the document and from its digest, never serialised as an empty array; no arena part is
    allocated for an absent raised way; an older record gains no written default — the reader supplies it.
-5. **The other kinds.** A `rungScope` pin (item 115) requires its rungs' suites byte-identical across the item's bump, its
-   record naming only the other rungs' seeds. A `view` pin (items 117, 118) opens each suite document at every listed view
-   value and requires one model digest (§6.2) and identical saved bytes at all of them; with `tiles`, the tiles drawn with no
-   festival equal the pre-item tile goldens (§13.4).
+5. **The other kinds.** A `rungScope` pin (item 115's `item115.ceiling`, beside its `offForm` pin `item115.off`) requires
+   its rungs' suites byte-identical across the item's bump, its record naming only the other rungs' seeds. A `view` pin
+   (items 117, 118 and 120) opens each suite document at every listed view value and requires one model digest (§6.2) and
+   identical saved bytes, the edit log included, at all of them; with `tiles`, the tiles drawn with the view off — no
+   festival; Find cleared after its chips were on — equal the pre-item tile goldens (§13.4).
 6. **Tested** by T-V12-37: a planted draw on a shared stream fails the pin, a planted empty array fails it, an unrelated
    planted table shift re-records both sets with matching stage lists, a planted season-dependent model write fails the
-   season pin, and a planted TOWN change fails the rung pin.
+   season pin, a planted chip-dependent model write or log entry fails the Find pin, and a planted TOWN change fails the
+   rung pin.
 
 ### 3.8 Reference drift
 
@@ -1679,10 +1709,10 @@ every release until rated, never blocking the build.
 | M2b | M2b | "the base at parity" | as M1 (`lit` against FTG) | strips due at M2b; labels | base |
 | M4 | M4 | "mastered" | as M2b; plus the **M4-110 group** (SOLO, six items, below), which confirms item 110's register lines and gates nothing of M4's claim | strips; the `house` pick (§13.6 (8)); labels | base; the M4-110 group V12 |
 | M5 | M5 | the stage-2 gate | NG 20 (five per template), `preset: 'NG'` (V01's T-V1-32) | strips (S4 (d)) | base (item 498: its `square` pairs on the carved plaza) |
-| M6 | next gating | "stage 3 at parity" | Fantasy Manor 20 | the ladder street (V02 §7.5 (2)) | V02 (item 499) |
+| M6 | next gating | "stage 3 at parity" | Fantasy Manor 20 | the ladder street and the item-110 buildings (V02 §7.5 (2), (3)) | V02 (item 499) |
 | V-M4 | next gating | the village at parity | VG pairs per V07 §8 | per V07 | V07 |
 | V3-P6 | next gating | diagnostic: the plan rung's soft bands (V03 §8) | DW 20: plans of six classes in three bands beside Dwellings houses of like size | — | V03 |
-| V4-U5 | next gating | diagnostic: the underground reads (V04 §7); rated, it confirms the underground's `panel` register entries, the crypt and catacomb rows among them | SOLO 30: ten CITY and five METROPOLIS underground bands, each seed in the historical and the navigable mode, shuffled, each framed to hold the cathedral's crypt (or the largest church's) and the largest catacomb complex; questions `legibility` and `realism` | — | V04 |
+| V4-U5 | next gating | diagnostic: the underground reads (V04 §7); rated, it confirms the underground's `panel` register entries, the crypt and catacomb rows among them | SOLO 30 as V04 §7 states it: ten CITY and five METROPOLIS underground bands, each seed in the historical and the navigable mode, a ruin among them, shuffled, each framed to hold the cathedral's crypt (or the largest church's) and the largest catacomb complex; questions `legibility` and `realism` | one render in the reference family's hatched style beside the set (`styleReference`, V04 §7) | V04 |
 | M6-sky | next gating | none: a descriptive set, never a gate (V05 §7) | NG 5: island close-ups in `hatched` beside Neighbourhood patches; question `reads`, subject "a floating patch" | — | V05 |
 | V6-E7 | next gating | diagnostic: the histories read as historically faithful (V06 §12) | AB (`history`) 10: ten CITY seeds, each run through H-100's script and shown at its last epoch, against the same seed generated fresh at that epoch's population; questions `realism` and `legibility` | — | V06 |
 | M-CAL (and each later `M-CAL/<layer>`, sat only when that run moved a cell) | next gating | the reconciliation decision (V12 §3.10.6) | AB (`reconcile`): per frame, five seeds per rung the frame covers, `none` water, before against after | re-offered owner-eye strips; the palette pick if V12 §3.10.7 finds a mismatch | this volume |
@@ -1704,7 +1734,7 @@ pack becomes a default; one input (a single strip pick) is recorded and released
 
 **3.9.2 Assembly.** `plat d5 seeds <panel>` writes `seeds.json` from the formulas (§13.6 (2); V12 §2.4), reading only the
 committed numbers-only inputs. `plat d5 render <panel>` renders our side under `PanelRender` (V12 §2.8): 1 600 × 1 200 px
-PNG at the standalone default view (midsummer, decorations off, `cvdVariant` `none`); `walledPlus10` frames the larger
+PNG at the standalone default view (midsummer, decorations off, Find off, `cvdVariant` `none`); `walledPlus10` frames the larger
 side's outermost curtain (or built outline) with a 10 % margin and puts both sides at that metres-per-pixel; `overview` is
 FTG's first capture per rung (§13.6 (3)); `hood`, `building` and `village` fill the frame with the hood, the building or the
 village, sizes matched by count; `plan` fills the frame with the building's footprint plus 10 %, both sides at matched
@@ -1729,10 +1759,12 @@ the two maps side by side, click to view either full screen, three questions wit
 one-line note; a progress bar; answers saved as given in the browser's storage under the panel and its commitment, so a
 closed page resumes where it stopped; up to three sessions within §13.6 (7)'s seven days. After the blind pairs: the
 threshold strips (three renders labelled A, B and C in a shuffled order, pick one or "same"), the `house` sheets at M4 and
-later, the ladder street with M6's panel, and the non-blind label pass. A SOLO item shows one map with Yes / No per
+later, the ladder street and the item-110 buildings with M6's panel (one `reads` answer per item, the stepped temple's
+summit offset shown and named, V02 §7.5 (3)), the hatched-style render beside V4-U5's set, and the non-blind label pass. A SOLO item shows one map with Yes / No per
 question. **The question texts** for the new forms (§13.6 (5)'s rubric is comparative): SOLO `legibility` — "Can you read
 this — its ways, rooms and ways in — at this size?"; SOLO `realism` — "Could this lie in (or under) a real medieval
-town?"; `reads` — "Does this read as {subject}?". **Storage.** The page tests its browser storage on load; where there is
+town?"; `reads` — "Does this read as {subject}?" (each item-110 building's subject V02 §7.5 (3)'s word for it: a stepped
+temple, a terraced palace, a pagoda, an amphitheatre, a bridge street). **Storage.** The page tests its browser storage on load; where there is
 none (a private window, a browser that gives a local file no storage) it says so on the first screen and offers "Export
 answers" after every screen instead. **Returning the answers.** The first screen says in plain words that "Export answers"
 saves one file to the Downloads folder and that the panel seat collects it from there. "Export answers" writes
@@ -1934,8 +1966,8 @@ dossier row set (V11 marks those non-calibratable). It binds, among others, volu
 no line below names; V05 §2.4's values, its `IslandRule` cells `accessSiting.deckGapM` and `lineClearM` among them
 (V05's own, calibrate-later, never V11 rows; J-VI.17 H29); V07 §2.2's and V07 §2.2a's numeric cells other than its one `VG`
 entry — the `FarmTable` village rows among them, while `territory.haPerHead`, derived as their sum, takes no entry (E-38;
-V07 §3.9 (1)); and the calibratable look rows of items 117 and 118 (V11's season, leaf, decoration and motif densities and
-week bands). Volume 8's dossier row sets and volumes 9's and 10's tables take none — every column of V11 §3.1 rows 63–66
+V07 §3.9 (1)); and the calibratable look rows of item 117 (V11's season, leaf and leaf-cover rows, registry rows 98–101: their
+densities and week bands). Volume 8's dossier row sets and volumes 9's and 10's tables take none — every column of V11 §3.1 rows 63–66
 and 86–89 is `calibratable: false` (J-V11.65, J-V11.81). **A later line** for a column the default line bound — a volume
 whose bars confirm the column before its corpus run writes it in V02 §3.10.10's form and registers the bars it names —
 restates that one entry in place while it is `provisional` (after its corpus run only under a new major table version,
@@ -2073,7 +2105,7 @@ and E7 as `V6-E2` and `V6-E7` — while the corpus evidence rules E1 – E5 are 
 | `water`: `wellsPerHa` by geology, `wellYieldM3`, `roofShare`, `captureShare` by biome; `climate` (row 43) `rainMmPerYear` by biome | V11 (V11 §3.24.6, V11 §3.17.1) | as the line above, then `corpus` possibility (E1) at M-CAL | `water.needRatio` | V11 §3.24.6's fallback moves `perHeadL` only; these columns close with its result |
 | `decline` (row 46) structures block: `retaining.holdM`, `retaining.neglectAfterYears`, `retaining.stretchM`, `aqueduct.disuseAfterYears` — written at V11's C3b (M3a) | V11 (V11 §3.18; read by V06 §3.19.2, V06 §3.19.4) | `panel` (V6-E7, AB `history` on H-100) at `V6-E7`, inside M6-E | `retaining.lengthM`, `raised.count` over the epochs | the panel rule |
 | the base decline table's persistence cells `raised`, `retaining` (row 46; §4.11 by file f item 291, STAGED M6-E; V11 §3.18 holds no rate) — written by the seat landing V06's E2 at M6-E | `base` | `panel` (V6-E7, AB `history` on H-100) at `V6-E7`, inside M6-E | `retaining.lengthM`, `raised.count` over the epochs | the panel rule, with V06 §8's stated second value |
-| V04's span-rule constants, the cells `raisedWays.structure.span` (row 80; V11 §3.24.2's name map; their values in §2.7, item 244, from V04's request BCR-V4-45): `vaultShare` by kind (V04's `raised.vaultShare`, scaled by the era and culture `raisedVaultM`), `maxHeightCm`, `minHeadroomCm`, `maxFallCm`, `vaultCap` by rung, `deckDepthCm`, `supportFoundationCm` (J-V4.93) | V04 | `panel` (the M4-110 group) at M4, then `measure` — T-V4-62's conformance, 0 violations — at `V4-U3`, then `panel` (V4-U5, `realism`) at `V4-U5`: three stages in milestone order, the cells landing at M3a (*Staged entries*; V04 §8's row takes this order and cites this line, its home) | `raised.count` | V04 §8's pre-decided fallback, else the panel rule |
+| V04's span-rule constants, the cells `raisedWays.structure.span` (row 80; their values V11 §3.24.2, J-V11.97 — the base's §2.7 support step and span rule, file f item 244 from V04's request BCR-V4-45, and V04 cite the cells): `vaultShare` by kind (`span.vaultShare`, scaled by the era and culture `raisedVaultM`), `maxHeightCm`, `minHeadroomCm`, `maxFallCm`, `vaultCap` by rung, `deckDepthCm`, `supportFoundationCm` (J-V4.93) | V04 | `panel` (the M4-110 group) at M4, then `measure` — T-V4-62's conformance, 0 violations — at `V4-U3`, then `panel` (V4-U5, `realism`) at `V4-U5`: three stages in milestone order, the cells landing at M3a (*Staged entries*; V04 §8's row takes this order and cites this line, its home) | `raised.count` | V04 §8's pre-decided fallback, else the panel rule |
 
 **Items 111–119 by column** (the owner items' register lines; V12 §3.15 gives each item's bars):
 
@@ -2083,12 +2115,15 @@ and E7 as `V6-E2` and `V6-E7` — while the corpus evidence rules E1 – E5 are 
 | item 111's oasis chance and no-other-water factor, the oasis area band, the grove and irrigated-garden rows, and the arid row's river, lake and coast chances | V11 | the default line (`corpus` at M-CAL; T111-3's rate rows at M1 confirm each draw reads its chance, and a miss there is a code defect fixed before M1's exit, moving no cell) | `frame.<table>.<column>`; `water.kinds` reported | the default line's |
 | the deficiency-contrast threshold of §8.2's style check (item 112 (a); its cell in V11's style registry rows) | `base` | `measure` at M3b — T112-1 green on every shipped family's checked variants (`hatched`'s at M5) — with the game-master trial's colour findings appended as `trial` rows (V12 §3.15.2) | `bar.T112-1` | none: moving it moves the bar, so a miss is `not-achieved` (`notAchieved: true`); a failing variant is fixed in its colours, never by the threshold |
 | item 113's cells: `history.epochYears`, the event-to-epoch rows, the burial threshold and its flood, silt, rebuilding and bare-rock factors, the effective peak's sizing quantile (V11's item-113 rows), and every other calibratable column they add | V11 | `measure` at `V6-E9`, where the replay lands (its fixtures pass with the cells as shipped), then `corpus` possibility (E4: a town shrunk inside its old walls, a church too large for its parish, a refounding on the old roads) at its corpus run | `bar.T113-1`, `bar.T113-3`, `bar.T113-4`, `bar.T113-6` | V12 §3.6b's default |
-| item 114's cells: the need and means windows, the neglect, wear, breach, patch and rebuild rates, the patch-replacement rate (V11's item-114 rows) | V11 | `panel` (V6-E7, AB `history` on H-100, whose walls decay and recover) at `V6-E7`, then `corpus` possibility (E4: a poor town's patched circuit) at its corpus run | `wall.condition` over the epochs; `bar.T114g.sustained`, `bar.T114g.oldestFirst` | the panel rule |
-| item 114's generation-time shares (§7.7's condition row from readiness and wealth; V11's rows) | V11 | `measure` at the milestone that lands the derivation row (its seat writes the id, V12 §2.8) on item 114 (g)'s generation-time fixtures, then `corpus` possibility (E4) at M-CAL | `wall.condition`; `bar.T114g.generation` | V12 §3.6b's default |
+| item 114's cells: the need and means windows, the neglect, wear, breach, patch and rebuild rates, the patch-replacement rate (V11's item-114 rows) | V11 | `panel` (V6-E7, AB `history` on H-100, whose walls decay and recover) at `V6-E7`, then `corpus` possibility (E4: a poor town's patched circuit) at its corpus run | `wall.condition` over the epochs; `bar.T114-5`, `bar.T114-4` (their specs `T114g.sustained`, `T114g.oldestFirst`, V12 §3.15.4) | the panel rule |
+| item 114's generation-time shares (§7.7's condition row from readiness and wealth; V11's rows) | V11 | `measure` at M2b, where §7.7's condition row lands (§13.8), on T114-7's readiness × wealth fixture grid, then `corpus` possibility (E4) at M-CAL | `wall.condition`; `bar.T114-7` | V12 §3.6b's default |
 
-Items 115's ceiling table and 118's decoration and staging-keyword tables are enumerations (not calibratable; V11) and take
-no entry; items 116's zoom-out margin stop, item 119's comfort level and every time budget are engineering constants outside
-the register (*The provisional-number lint*), each provenance note naming its confirming bar.
+Item 115's ceiling table and item 118's decoration, staging-keyword, motif and generic-festival tables (registry rows 97 and
+102–105) are enumerations (not calibratable; V11) and take no entry; item 120 adds no line — its search lexicon
+(V11's labels, synonyms and groups) is a word list, and a calibratable cell its rows add takes the default line like any
+column; item 116's zoom-out margin stop, item 119's comfort level, item 120's interaction budgets and every time budget
+are engineering constants outside the register (*The provisional-number lint*), each provenance note naming its
+confirming bar.
 
 **The panel rule** (J-V12.61). Where a line reads "the panel rule": a group rated No on its question moves the line's cells
 once to the owning volume's stated second value where it states one — a declared `fallback` run (V12 §3.7) — and the group
@@ -2111,7 +2146,8 @@ fail); an entry whose last cells row disagrees with its target's compiled cells,
 above. Model constants the volumes keep outside tables, in code, move into a table or take a `thr.` entry. An application
 or engineering constant — a UI threshold, an autosave or export limit, a time budget — that its volume confirms by its own
 test or performance row under D-18 (V09's autosave limits, `raised.previewOnReleaseKm`, the deck scenes' export cap and
-times; V10's T-V10-8 budget row; item 116's margin stop; item 119's comfort level) is outside the register: its provenance
+times; V10's T-V10-8 budget row; item 116's margin stop; item 119's comfort level; item 120's interaction budgets) is
+outside the register: its provenance
 note names that test, and no entry is written (J-V12.81). Every §13.7 letter has an entry; every entry's cell or column
 exists and is calibratable and every metric it names exists — a catalogue id, or a family member that resolves
 (`siting.<spec>` and `bar.<barId>` to a registered bar, `frame.<table>.<column>` to a calibratable column); one mechanism has
@@ -2207,7 +2243,8 @@ No step discards and retries everything: each failure has a bounded ladder (§5'
 | a raised bump moves a THORP – TOWN S4 or S5a – S5d isolated digest | the golden tooling at the bump | none | CI fails: not a declared shift (V12 §3.7.6) |
 | a witnessed form an owner rule excludes | E1, E4 under R6 | none | an `ownerExcluded` row and an owner question; never a known defect or a layer cell |
 | a trial finding naming a calibrated value with no register entry | `plat calibrate register --trial` | none | refused, naming the finding (V12 §2.14) |
-| a one-time wait beyond the ten-second comfort level; a wait over one second with no progress frame; a slower-than-target step with no measured gain | the wait timer and the budget-register check (V12 §3.15.9) | none at the harness: the owning path takes its §12.10 row's change | the bar fails naming the wait, rung and seconds, or the §12.10 row |
+| a one-time wait beyond the ten-second comfort level (advance time and the history replay in total); a wait over one second with no progress frame; a stage above its §12 target with no `perf.qualitySpend` row standing, or a row whose `gainBar` fails, whose gain the release's runs do not show or whose run is absent | the wait timer and the budget-register check (V12 §3.15.9) | none at the harness: the owning path takes its §12.10 row's change, or the row is removed by the fixing change and the stage runs its target path (V11 §3.25.8: the quality path runs only while its row stands) | the bar fails naming the wait, rung and seconds, or the `perf.qualitySpend` row and its §12.10 row |
+| a Find chip whose matches differ from the gazetteer's rows; a withheld entity in a suggestion, count, glow, pin or ghost pin; a chip set lost or a match stale after a band, layer or step; a city-band match with no pin or bubble; a chip without its second cue | the `find.*` statistics (V12 §3.15.10) | none: a property | the bar fails naming the fixture, the chip and the entity or step |
 | a `known-defects.json` entry this volume opened is cleared | the run, report or release that clears it | — | closed, never deleted, listed in `MilestoneRecord.knownDefects.closed` with the clearing id |
 
 Every record of this table is repository data: a document's save, load, undo, regeneration or migration never reads or
@@ -2235,7 +2272,7 @@ structure and our own names: **K1**, J78's (T101-6), and **K2**, item 110 (e)'s 
 pass", item 110 (f)). This section is their one statement of setting, seed, structure list and golden: V09 §7.2 cites it
 for its dedicated-user checklist and thresholds, V10's evaluation group A reads the fixture record; the types are 
 V12 §2.12. Their canvas scripts are V09's content, their transcripts V10's, the building bars on K2 V02's (T-V2-44 –
-T-V2-47), the vault bars V04's (T-V4-62 – T-V4-70), and V01's T-V1-54 re-runs K2's skeleton with stage 2 on at M5.
+T-V2-47, T-V2-51 on its terraced wards and T-V2-42's arena part), the vault bars V04's (T-V4-62 – T-V4-70), and V01's T-V1-54 re-runs K2's skeleton with stage 2 on at M5.
 
 **3.14.2 Inputs, authors and the clean room.**
 * **K2's brief** is written from item 110 (e)'s list alone, in our words, with our own names — drawn from our naming
@@ -2311,12 +2348,13 @@ document, and the skeleton path regenerates from the skeleton file.
 candidate that fails any StructureCheck is rejected (two CITY generations and a few seconds). Both are no-op pin suites
 (V12 §2.13). K2 is the first item of the M4-110 group (V12 §3.9.1). V03's B-PLAN click set includes both from P1.
 
-### 3.15 The owner rules 111–119 on the harness
+### 3.15 The owner rules 111–120 on the harness
 
-Each item's bars are §13.2's (items 111–113 numbered there; items 114–119 by their clauses); this section registers the
-part of each that runs on this volume's machinery — its specs, pins, metrics and register lines — and names the owner of
-every other clause. Spec ids are this volume's (`T111d.walk`, as `T110b.*`), each carrying its base bar as `ownerBar`; their
-seed families follow V12 §2.4 under the spec id. Tiers and milestones are §13.8's.
+Each item's bars are §13.2's — items 111–119 numbered there (T111-1 – T119-5), item 120 by the clauses of its (k); this
+section registers the part of each that runs on this volume's machinery — its specs, pins, metrics and register lines —
+and names the owner of every other clause. Spec ids are this volume's (`T111d.walk`, as `T110b.*`), each a `StatBarSpec`
+or `NullModelSpec` carrying its base bar as `ownerBar`; a base bar registered as a `BenchBarDef` takes the bar's own id
+(V12 §2.1). Their seed families follow V12 §2.4 under the spec id. Tiers and milestones are §13.8's.
 
 **3.15.1 Item 111 — water in dry country.** The levels fix the climate row by a frozen S0–S1 site override (`site.climate`)
 at each rung; the village rungs join from V-M4 (`requires: 'V07'`, V07 running the item at its rungs).
@@ -2324,7 +2362,7 @@ at each rung; the village rungs join from V-M4 (`requires: 'V07'`, V07 running t
   the factor the climate row, arid against temperate, strata TOWN, CITY and METROPOLIS, 200 towns per cell.
 * **T111-2** — conformance (the base's): an oasis stands only on an arid site unless drawn (T2 `ground`'s spring flag) or
   supplied by a dossier's `oasis_water`; `water.kinds` reports every oasis by source, and a `generated` oasis on a non-arid
-  row is the bar's violation.
+  row is the bar's violation; T2's spring-fed oasis is V09's T-V9-71.
 * **T111-3** — `T111d.water.river`, `.lake`, `.coast`: `rate` (`exact`) of the `water` indicator against `waterChance` at
   the arid row, `stopAfter` S1, ≥ 200 towns per kind and rung.
 * **T111-4** — `T111d.rich`: `most` (default 2/3) over the per-town `richNearerWater`, arid TOWN, CITY and METROPOLIS,
@@ -2346,7 +2384,7 @@ enter the calibration record and the fix list** by V12 §2.14's `--trial`: a `tr
 concerns and a `known-defects.json` entry for every finding not yet fixed.
 
 **3.15.3 Item 113 — history at generation.** V06 runs the replay and item 113's bars on its engine; V04 runs T113-4 and
-T113-5 on the underground's output; V08 supplies the dossier's history fixtures. This volume registers:
+T113-5 on the underground's output; V08 supplies the dossier's history fixtures; the History chip is V09's T-V9-73. This volume registers:
 * **T113-2** — the replay's byte-stability: the history fixtures' model digests in §13.8's nightly five-engine digest run,
   compared across engines (C: one digest).
 * **T113-5** — `T113e.lost`: `exactScript` with property `voidLostAndRefound` on V04's LOST fixtures — a void whose last
@@ -2361,88 +2399,144 @@ T113-5 on the underground's output; V08 supplies the dossier's history fixtures.
   item-113 register line names (V12 §3.11), each a `BenchBarDef` its owner registers.
 * **The register line** — V12 §3.11's item-113 line, `measure` at `V6-E9` (the replay's step) on those conformance bars,
   then E4's historical checks at its corpus run.
-* **The replay's budget** — its wait is `wait.historyReplay` (V12 §3.15.9), measured click to complete on the history
-  fixtures at every rung (their peaks up to METROPOLIS) against item 119's ten-second comfort level, with V06 §6.7's
-  replay budget reported beside it as the target; the harness's own cost of the item-113 bars is V12 §6's row.
+* **The replay's budget** — its wait is `wait.historyReplay` (V12 §3.15.9), measured click to complete in total — the
+  peak's generation and every replay epoch, never per epoch (item 119 (a2)) — on the history fixtures at every rung (their
+  peaks up to METROPOLIS) against item 119's ten-second comfort level, with V06 §6.7's replay budget reported beside it as
+  the target and the cadence the run used (V06's coarsening); the harness's own cost of the item-113 bars is V12 §6's row.
 
-**3.15.4 Item 114 — walls that decay and recover.** V06 runs the transitions over epochs and V07 the palisade's; V08
-supplies readiness and wealth. Of item 114 (g)'s bars:
-* a poor, threatened fixture shows patched runs and no robust rebuild; a rich, threatened one rebuilds in stone; a safe one
-  decays through `worn` to `breached` — conformance on V06's wall fixtures, `wall.condition` their statistic;
-* **recovery replaces patches oldest first** — `T114g.oldestFirst`: `exactScript` `patchesOldestFirst` over H-100's epochs
-  and V06's recovery fixture, the order read from each run's epoch of last change;
-* **no condition changes without a sustained driver** — `T114g.sustained`: `exactScript` `conditionSustained` over H-100's
-  epochs and a fixture whose driver alternates across its threshold every epoch (no run changes there);
-* **every state distinguishable in greyscale at the bands stated** — `T114g.greyscale`, a `BenchBarDef` (owner `base`):
-  the style check's pairwise contrast computed on luma alone between the renders of `standing`, `worn` (district band and
+**3.15.4 Item 114 — walls that decay and recover.** V06 runs the transitions over epochs (T-V6-73) and V07 the
+palisade's (T-V7-62); V08 supplies readiness and wealth (T-V8-52). Of item 114's bars:
+* **T114-1 – T114-3** — a poor, threatened fixture shows patched runs and no robust rebuild; a rich, threatened one rebuilds
+  in stone; a safe one decays through `worn` to `breached` — conformance on V06's wall fixtures, `wall.condition` their
+  statistic;
+* **T114-4, recovery replaces patches oldest first** — `T114g.oldestFirst` (`ownerBar` T114-4): `exactScript`
+  `patchesOldestFirst` over H-100's epochs and V06's recovery fixture, the order read from each run's epoch of last change;
+* **T114-5, no condition changes without a sustained driver** — `T114g.sustained` (`ownerBar` T114-5): `exactScript`
+  `conditionSustained` over H-100's epochs and a fixture whose driver alternates across its threshold every epoch (no run
+  changes there);
+* **T114-6, every state distinguishable in greyscale at the bands stated** — the `BenchBarDef` `T114-6` (owner `base`): the
+  style check's pairwise contrast computed on luma alone between the renders of `standing`, `worn` (district band and
   finer), `patched`, `breached` and `dismantled`, at every band where both of a pair draw, against §8.2's threshold;
-* **the generation-time condition derives from readiness and wealth** — `T114g.generation`, a `BenchBarDef`: on the
-  readiness × wealth fixture grid with no replay, each fixture's condition shares by run length equal §7.7's derivation row's
-  table shares within one run's length;
-* **with need and means neutral, the existing neglect and repair reproduced** — the pin `item114.condition`.
-The register lines are V12 §3.11's; the repair tool's material (V09) and the story told (V10) are their volumes' bars.
+* **T114-7, the generation-time condition derives from readiness and wealth** — the `BenchBarDef` `T114-7` (owner `base`):
+  on the readiness × wealth fixture grid with no replay, each fixture's condition shares by run length equal §7.7's
+  derivation row's table shares within one run's length;
+* **T114-8, with need and means neutral, the existing neglect and repair reproduced** — the pin `item114.condition`.
+The register lines are V12 §3.11's; the repair tool's material and the legend (V09's T-V9-74) and the story told (V10's
+T-V10-47) are their volumes' bars.
 
-**3.15.5 Item 115 — the grandeur ceiling.** Item 115 (f)'s rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum —
-no `H`, `U`, court, tower or turret dwelling but the manor; at most one manor, only with a lord or a dossier record; a
-dossier-named hall keeping its design — are V02's and V07's conformance bars on their fixtures, their statistic
-`bldg.grandeur`, which the nightly statistics also report at every rung; "TOWN rungs and above byte-identical" is the rung
-pin `item115.ceiling`. The ceiling table is an enumeration and takes no register entry.
+**3.15.5 Item 115 — the grandeur ceiling.** T115-1 – T115-3 — rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum
+with no `H`, `U`, court, tower or turret dwelling but the manor; at most one manor, only with a lord or a dossier record; a
+dossier-named hall keeping its design — are V02's and V07's conformance bars on their fixtures (V07's T-V7-63; what
+"specified" reads, V08's T-V8-53), their statistic `bldg.grandeur`, which the nightly statistics also report at every
+rung; a hand design beyond the ceiling is V09's T-V9-75 and the clerk's V10's T-V10-48. T115-4 is two pins (V12 §2.13):
+"TOWN rungs and above byte-identical" is the rung pin `item115.ceiling`, and "every ceiling row's `enabled` false,
+byte-identical to the base" — V11 §3.24.0's off form, which T-V11-41 (b) restates — is the `offForm` pin `item115.off`.
+The ceiling table is an enumeration and takes no register entry.
 
-**3.15.6 Item 116 — the zoom-out limit.** Item 116 (e)'s "at every rung from THORP to the cap the limit shows the whole
-bounds and no stop beyond it is reachable" is a conformance sweep on B-ZOOM (§13.4) over B-CITY-lite's seeds of every rung
-and V07's village fixtures, its statistic `view.limitStop` (0 reachable stops beyond the limit; the whole bounds inside the
-limit's view), reported in the nightly statistics; T-ER-08's restatement and "the first view unchanged" are the base's
-render bars. Every panel render and render metric frames within the limit (V12 §3.9.2).
+**3.15.6 Item 116 — the zoom-out limit.** T116-1 — at every rung from THORP to the cap the limit shows the whole bounds and
+no stop beyond it is reachable — is a conformance sweep on B-ZOOM (§13.4) over B-CITY-lite's seeds of every rung and V07's
+village fixtures (V07's T-V7-64), its statistic `view.limitStop` (0 reachable stops beyond the limit; the whole bounds
+inside the limit's view), reported in the nightly statistics; T-ER-08's restatement and T116-2 – T116-4 (the first view
+unchanged, the limit moving with the bounds, every export within it) are the base's render bars; the view controls
+stopping at the limit are V09's T-V9-76. Every panel render and render metric frames within the limit (V12 §3.9.2).
 
-**3.15.7 Item 117 — seasons.** Of item 117 (i)'s bars:
-* the same document hashes identically in all 52 weeks — the pin `item117.season`;
-* an autumn fixture shows at least five distinct crown colours across its deciduous trees (`T117i.crowns`, a `BenchBarDef`:
-  `season.crownColours` at the leaf-colour weeks' middle week) and leaf cover on the ground deepening week by week through
-  the leaf-fall weeks (`T117i.leafCover`: `exactMonotone` over `levels`, the fixture's leaf-fall weeks in order, quantity
-  `season.leafCover`);
-* every climate's season rows cover all 52 weeks with no gap — V11's table compile check;
-* an arid fixture never draws ice or snow — `T117i.arid`: `season.iceSnow` 0 over its 52 weeks;
-* a cold fixture freezes still water before flowing water and keeps open water at mill races and weirs — `T117i.ice`:
-  `season.iceOrder` (every still water's first ice week at or before every flowing water's) and no ice drawn on a mill race's
-  or weir's polygon;
-* a campaign dossier opens on its own week — V08's and V09's conformance;
-* each season's look passes the contrast and colour-blind checks — `T117i.styles`: T112-1's check run at each season's
-  middle week;
-* switching season re-skins cached tiles within §12.5's budget — `time.reskin` in the timing phase, its row §12.10's.
+**3.15.7 Item 117 — seasons.** Of item 117's bars (each `T117i.*` spec a `StatBarSpec` carrying its base bar as
+`ownerBar`, its step script one `{ week }` step per week, V12 §2.7b):
+* **T117-1, the same document hashes identically in all 52 weeks** — the pin `item117.season`;
+* **T117-2, an autumn fixture shows at least five distinct crown colours across its deciduous trees** — the `BenchBarDef`
+  `T117-2` (owner `base`: `season.crownColours` at the leaf-colour weeks' middle week) — **and leaf cover on the ground
+  deepening week by week through the leaf-fall weeks** — `T117i.leafCover` (`ownerBar` T117-2): `exactMonotone` over a
+  step script of the fixture's leaf-fall weeks in order, quantity `season.leafCover`; `bar.T117-2` is the two clauses'
+  vector;
+* **T117-3, every climate's season rows cover all 52 weeks with no gap** — V11's table compile check (T-V11-42);
+* **T117-4, an arid fixture never draws ice or snow** — `T117i.arid` (`ownerBar` T117-4): `exactScript` `noIceSnow` over
+  its 52 weeks (`season.iceSnow` 0 at every step);
+* **T117-5, a cold fixture freezes still water before flowing water and keeps open water at mill races and weirs** —
+  `T117i.ice` (`ownerBar` T117-5): `exactScript` `iceOrder` over its 52 weeks (`season.iceOrder`: every still water's first
+  ice week at or before every flowing water's; no ice drawn on a mill race's or weir's polygon);
+* **T117-6, a campaign dossier opens on its own week** — V08's conformance (T-V8-54) and V09's T-V9-77;
+* **T117-7, each season's look passes the contrast and colour-blind checks** — `T117i.styles` (`ownerBar` T117-7):
+  `exactScript` `seasonStyles`, T112-1's check at each season's middle week;
+* **T117-8, switching season re-skins cached tiles within §12.5's budget** — `time.reskin` in the timing phase, its row
+  §12.10's.
+The village rungs' clauses are V07's T-V7-65 and the explanations V10's T-V10-49.
 
-**3.15.8 Item 118 — festival decorations.** Of item 118 (h)'s bars:
-* the same document hashes identically with decorations on and off and in every week, and with no traditions and no
-  preview the tiles are byte-identical to the base — the pin `item118.festival` (`tiles`);
-* a festival shows exactly in its window's weeks — `T118h.window`: `festival.weeks` equals the dossier fixture's window;
-* the same festival draws identically across views and exports — `T118h.stable`: the fixture's tiles drawn in the view and
-  in an export at one stop are byte-identical per seed;
-* each tier fixture shows its tier's kinds and no larger — `T118h.tier`: `festival.kinds` within the tier's decoration row;
-* staging lands on the named or keyed place, else its fallback — `T118h.stage`: `festival.stage` against the fixture's
+**3.15.8 Item 118 — festival decorations.** Of item 118's bars:
+* **T118-1, the same document hashes identically with decorations on and off and in every week, and with no traditions and
+  no preview the tiles are byte-identical to the base** — the pin `item118.festival` (`tiles`);
+* **T118-2, a festival shows exactly in its window's weeks** — `festival.weeks` equals the dossier fixture's window, a
+  window across the year's end wrapping;
+* **T118-3, the same festival draws identically across views and exports** — the fixture's tiles drawn in the view and in
+  an export at one stop are byte-identical per seed;
+* **T118-4, each tier fixture shows its tier's kinds and no larger** — `festival.kinds` within the tier's decoration row;
+* **T118-5, staging lands on the named or keyed place, else its fallback** — `festival.stage` against the fixture's
   expected place;
-* nothing blocks a gate or covers a keep-out — `festival.blocked` 0.
-Each is a `BenchBarDef` owned by the base on the festival fixtures (V07's at the village rungs), none a register metric.
+* **T118-6, nothing blocks a gate or covers a keep-out** — `festival.blocked` 0.
+T118-2 – T118-6 are each the `BenchBarDef` of that id, owned by the base, on the festival fixtures (V07's at the village
+rungs, T-V7-66), none a register metric; the festival list is V09's T-V9-78, the dossier's `traditions` V08's T-V8-55
+and the explanations V10's T-V10-49.
 
 **3.15.9 Item 119 — as fast as possible; the comfort level.** §12's present laws stay the targets; the harness measures
 them and the comfort level, and moves no interaction budget:
-1. **The targets** — `time.model` and `time.firstMap` at every rung's bottom, default and top in §12.1's timing phase,
-   reported against §12.3's and §12.5's laws as *target met* or *target miss*; a miss is D-18's declared target miss inside
-   the comfort level and gates nothing by itself.
-2. **The comfort level** — each `wait.*` kind (generate, regenerate, open from SettlementForge, a dossier change applied,
-   advance time, the history replay, an export, a migration) timed from the click to the complete result — the map's final
-   complete frame, or the export file written — on the reference hardware (§12.1), five seeds each at every rung's top and
-   at the metropolis cap, on B-CITY's browser runs and the history and dossier fixtures; the bar passes when every p95 is at
-   most 10 000 ms. Past it the wait fails (item 119 (a)). The low tier aims at the same ceiling; a size it cannot reach
-   within it is declared per device (§12.1), recorded beside the measurement.
-3. **Progress** — for every timed wait over 1 000 ms, `wait.progressMs` (click to the first progress frame naming the stage)
-   at most 1 000 ms, and every frame sampled during the wait shows the previous map or the progress view, never an empty
-   screen (V09's progress view; the app harness's frame sampler).
-4. **Slower only for a measured gain** — the budget-register check reads §12.10's rows that declare a step slower than its
-   target and requires each to name its gain: a `bar.<barId>` or a register entry, with the release's run ids showing the
-   bar's statistic with the slower step beyond the one without; a row naming none, or a gain its runs do not show, fails.
-5. **Interaction unchanged** — the same check compares §12.10's interaction rows (frame, pan, zoom, drag, preview, hover,
-   inspect, undo, the season and festival switches) with the previous release's and fails any relaxed row.
-The wait rows are `timing` metrics of the report (V12 §3.4.2), their bar a `BenchBarDef` (`T119f.waits`, owner `base`);
+1. **The targets (T119-1)** — `time.model` and `time.firstMap` at every rung's bottom, default and top in §12.1's timing
+   phase, reported against §12.3's and §12.5's laws as *target met* or *target miss*; a miss is D-18's declared target miss
+   inside the comfort level and gates nothing by itself.
+2. **The comfort level (T119-2)** — each `wait.*` kind (generate, regenerate, open from SettlementForge, a dossier change
+   applied, advance time, the history replay, an export, a migration) timed from the click to the complete result — the
+   map's final complete frame, or the export file written — on the reference hardware (§12.1), five seeds each at every
+   rung's top and at the metropolis cap, on B-CITY's browser runs and the history and dossier fixtures; advance time and the
+   history replay are each timed in total — the whole advance, and the replay with the peak's generation before it — never
+   per epoch (item 119 (a2), J132); the bar passes when every p95 is at most 10 000 ms. Past it the wait fails (item 119
+   (a)). The low tier aims at the same ceiling; a size it cannot reach within it is declared per device (§12.1), recorded
+   beside the measurement.
+3. **Progress (T119-3)** — for every timed wait over 1 000 ms, `wait.progressMs` (click to the first progress frame naming
+   the stage) at most 1 000 ms, and every frame sampled during the wait shows the previous map or the progress view, never
+   an empty screen (V09's progress view, T-V9-79; the app harness's frame sampler).
+4. **Slower only for a measured gain (T119-4)** — the budget-register check reads the one record of a step a stage runs
+   above its §12 target, V11 §3.25.8's `perf.qualitySpend` rows (registry row 106), which also gate that stage's quality
+   path (it runs only while its row stands): each row's `gainBar` resolves to a registered bar (`bar.<gainBar>`,
+   V12 §2.1), its `run` to the `CalibrationRun` that measured the gain, and the release's runs show the bar's statistic with
+   the quality path on beyond the one without by the row's `gain`; a row whose bar fails, whose gain the runs do not show
+   or whose run is absent fails, and so does a stage the timing phase measures above its §12.10 target with no row
+   standing. The check matches each row to §12.10's row for its stage, which cites it.
+5. **Interaction unchanged (T119-5)** — the same check compares §12.10's interaction rows (frame, pan, zoom, drag,
+   preview, hover, inspect, undo, the season and festival switches, Find's suggestions and glow) with the previous
+   release's and fails any relaxed row.
+The wait rows are `timing` metrics of the report (V12 §3.4.2), their bar the `BenchBarDef` `T119-2` (owner `base`);
 their runs sit in §13.8's timing phase, never beside a calibration job (V12 §6).
+
+**3.15.10 Item 120 — Find, a view.** V09 builds Find — its panel, type-ahead, chip grid, results list, phone sheet, the
+`live.find` overlay provider and Coverage folded into Show gaps — and runs its screens' bars; this volume measures item 120
+(k)'s clauses with one pin, five statistics and two timings, each 0 by rule or within its budget, on V09's app harness
+over the Find fixtures: B-CITY-lite's seeds of every rung, V07's village fixtures and a dossier fixture (its institutions'
+names first), each with three chip sets — one institution kind, one named place or area, one chip spanning several kinds
+(an "all smiths") — drawn from the kinds the town holds by the testkit stream `find/<seed>` (V12 §3.13), with Show gaps off
+and on:
+* **the document hashes identically with Find on and off, and turning everything off restores byte-identical tiles** — the
+  pin `item120.find` (`view`, `tiles`; V12 §2.13): each suite document opened with Find `off` and with each of its chip
+  sets gives one model digest and identical saved bytes, the edit log included, and the tiles drawn after Clear equal the
+  pre-item tile goldens (Find is an overlay and never re-renders a base tile);
+* **each chip's matches equal the gazetteer query's rows at the key** — `find.matches`: per chip, the entities Find draws
+  against §11.2's gazetteer rows for the chip's class, name or area at the view's key, mismatches counted;
+* **the knowledge canary never surfaces** — `find.leaks`: on T-V9-66's canary fixture (V10's T-V10-6) under a player view,
+  every suggestion, count, glow, pin and ghost pin naming a withheld entity;
+* **the filter survives every band and layer change and every commit, advance and undo** — `find.held` over a step script
+  on each fixture document: the city, neighbourhood, building and interior bands in turn, Ground, Below and Sky in turn, a
+  commit that adds a match and one that removes one, an `advance` where the document admits one (V06) and an undo — at
+  every step the chip set unchanged and its matches equal to a fresh evaluation there (a new match glowing, a removed one
+  dark);
+* **at the city band every match has a pin or a bubble** — `find.pins`: matches with neither, at every city-band stop from
+  item 116's limit inward;
+* **every chip has its second cue** — `find.cues`: chips without their own glyph and halo dash pattern, over chip sets of
+  one to twelve chips (past eight the colours repeat and the glyph tells them apart);
+* **the interaction budgets of item 120 (j) hold at the metropolis cap** — `time.findSuggest` (a key to its suggestions
+  drawn) and `time.findGlow` (a chip's click to its matches' glow drawn) in §12.1's timing phase at the METROPOLIS cap,
+  against §12.5's overlay budget, their rows among V12 §3.15.9 (5)'s interaction rows.
+The five statistics are C rows of the nightly statistics, each 0 by rule; a non-zero value fails its bar naming the
+fixture, the chip and the entity or step (V12 §3.12). Find adds no `StatBarSpec` (its clauses are properties of one view,
+not tendencies) and no register entry (V12 §3.11). The clerk's "show me" is V10's bar, the list entries V08's, the
+lexicon V11's, the area targets and Show gaps' units V01's, the interior rooms V03's, the matches and ghost pins on Below
+and Sky V04's and V05's, the village rungs V07's — each volume's own part of item 120.
 
 ### 3.16 Edges and combinations (principle (11))
 
@@ -2457,7 +2551,7 @@ everywhere and the rows name only what they add:
 * **Every rung.** Every command runs from THORP to the METROPOLIS cap; the only rung limits are the references' coverage
   (V12 §3.4.4: a row with no reference setting at a rung reports nothing there) and the village rungs' levels,
   `notApplicable` until V-M4.
-* **Every toggle and preset.** Recipe inputs (the preset arms, V12 §3.5.5) and view state (layers, seasons, festivals,
+* **Every toggle and preset.** Recipe inputs (the preset arms, V12 §3.5.5) and view state (layers, seasons, festivals, Find,
   `cvdVariant`) never mix: a harness run generates under its arm and measures the model, and render metrics draw at the
   standalone default view (V12 §3.4.4).
 * **The lifecycle.** The harness's records are repository data changed only by V12 §4.2's verbs, append-only with their
@@ -2496,6 +2590,7 @@ everywhere and the rows name only what they add:
 | 28 | the parity dashboard · no rows, a corrupt history line, every rung, every preset arm | V12 §5.1 | report ("no comparisons this run"; the line skipped and counted) | T-V12-42 (28) |
 | 29 | the reports · no run, one candidate, equal scores, a missing record, regeneration | V12 §5.2 | report; regenerated from records, never edited | T-V12-42 (29) |
 | 30 | release notes and the owner's report · no run, one frame | V12 §5.5 | report ("no calibrated value moved"; one page) | T-V12-42 (30) |
+| 31 | item 120's measurements · no chip, a chip whose last match is removed, a withheld kind, every band and layer, one to twelve chips, the metropolis cap | V12 §3.15.10: no chip is the pin's `off` value; a chip with no match left counts 0 and stays in the set, dark; a withheld kind is never offered, counted or drawn; the city, neighbourhood, building and interior bands and Ground, Below and Sky are steps of the script | report (the statistic's row, counted); never a lost chip or a silent pass | T-V12-52 |
 
 **3.16.2 Features under the parity presets.** A parity preset is cell values — §7.6's preset entries and extension zeroing,
 V11 §3.24.0's switches — never a change of a stage, a rule or a lifecycle. So a feature on a map under a preset is what its
@@ -2692,11 +2787,12 @@ V12 §3.15.9.
 | a known-city fixture's skeleton path (PR): one CITY generation plus the structure checks (≤ 0.5 s) | ≤ 5 s per fixture | M3a | the PR run takes K2 only; K1 runs nightly |
 | both fixtures' three paths (milestone tier) | ≤ 10 min wall, the canvas scripts' 10 minutes being V09's | M3a | the transcript path runs nightly instead |
 | the no-op pins, nightly (the registered suites once more under each overlay) | ≤ the golden job's own time once more | M3a | the pins rotate by item over two nights; the landing gate stays per commit on the two PR golden seeds |
-| the view pins (items 117, 118: each suite document opened at 52 weeks and each festival display, digests only) | ≤ 5 CPU-min nightly | the milestones that land items 117 and 118 | weeks sampled at every fourth week nightly, all 52 at milestones |
-| the render bars of items 114, 117 and 118 (`T114g.greyscale`, `T117i.*`, `T118h.*`) on their fixtures | ≤ 10 CPU-min nightly | the milestones that land them | alternate nights |
+| the view pins (items 117, 118, 120: each suite document opened at 52 weeks, each festival display and each Find chip set, digests only) | ≤ 5 CPU-min nightly | the milestones that land items 117, 118 and 120 | weeks sampled at every fourth week and one chip set per seed nightly, all at milestones |
+| the render bars of items 114, 117 and 118 (T114-6, T117-2 with the `T117i.*` specs, T118-2 – T118-6) on their fixtures | ≤ 10 CPU-min nightly | the milestones that land them | alternate nights |
+| item 120's statistics (`find.*` on V09's app harness over B-CITY-lite's seeds of every rung, the village fixtures and a dossier fixture, three chip sets per seed); its two timings at the METROPOLIS cap | ≤ 10 CPU-min nightly; the timings inside §13.8's timing phase | the milestone that lands Find (V09 §8) | the rungs alternate nights; the timings never leave the phase |
 | the four raised-way bars (≈ 1 700 – 1 900 towns per full run), weekly and at milestones | ≤ 20 CPU-min together, with `stopAfter` the raised-way stage | M3a | the METROPOLIS levels run at milestones only |
 | a TOWN guard setting inside a run (30 towns) | ≤ 1 CPU-min per candidate | M3a | the guard runs on the chosen candidate and the bracket's endpoints only |
-| item 119's wait timing (`wait.*`, five seeds per kind at each rung's top and the metropolis cap) | inside §13.8's timing phase; ≤ 30 min wall per milestone run | M1 (TOWN, CITY), M2b (METROPOLIS); M6-E (the replay) | the kinds split across two timing-phase runs, never outside the phase |
+| item 119's wait timing (`wait.*`, five seeds per kind at each rung's top and the metropolis cap; advance time and the history replay each in total) | inside §13.8's timing phase; ≤ 30 min wall per milestone run | M1 (TOWN, CITY), M2b (METROPOLIS and the cap); each other wait from the milestone that lands it — M3a (a dossier change applied, a migration), M6-E (advance time and the history replay), M-SF (an open from SettlementForge) | the kinds split across two timing-phase runs, never outside the phase |
 | `dist/evidence.json` | ≤ 200 kB shipped | M2b | lines longer than 160 characters truncate at a word and the history keeps its last two rows, the full text staying in the records |
 | milestone parity (100 seeds per setting) | ≤ 60 CPU-min | M2b | 60 seeds per setting |
 | one tuning run | the spec's `budgetCpuH`, default 2 CPU-h (a one-cell golden search ≈ 12 probes × 90 towns ≈ 18 CPU-min before the shortcut) | M2b | V12 §3.7.5's `aborted-budget` |
@@ -2734,7 +2830,7 @@ Classes as §15.2: C conformance, P parity with a measured reference number, O a
 | T-V12-14 | **The correlation rule is calibrated.** On fixture towns with the subject placed uniformly among its eligible sites, ≤ 1 % of 200 bars pass under the rank rule for a normal statistic and for each discrete fixture (members m ∈ {1, 2, 3, 10} × base share q ∈ {0.3, 0.5, 0.85}), and ≤ 1.5 % under the pooled exact test; with a planted pull of 1.0 standard deviation ≥ 95 % pass the rank rule; a pooled spec whose null share exceeds 0.85 is refused at registration; a `servedShare` spec at district scope, with `minHouseholds` off the district unit, or with `expect: 'lower'` and a `minShift` is refused; `unit: 'district'` counts every district of a fixture town and `minHouseholds: 30` only those of thirty households or more; a member with no access point, or a pair the parts do not connect, is left out and counted, and a spec whose every town skips is `insufficient`; T71-3 as a `NullModelSpec` (block scope, 20 permutations, the `margin` rule) gives the base's shuffled-placement result; the rules' code reproduces `critique_v12_nullrule_rank_power.out` and `critique_v12_pooled_exact.out` within two points | C | M2b |
 | T-V12-15 | **The null never tests a hard need.** A spec whose statistic is fixed by a hard need (a watermill's distance to water) gives z = 0 on every town | C | M2b |
 | T-V12-16 | **Seeds by formula.** V12 §2.4's check vectors reproduce; a planted collision is rehashed to `/r1`; the first 50 `bcity` seeds of a setting are B-CITY-lite's | C | PR from M1 |
-| T-V12-17 | **Panels.** `plat d5 seeds` reproduces `seeds.json`; a key differing by one side fails its commitment and voids the panel; a missing answer leaves the panel *provisional — not rated*; verdicts on fixture answers equal the hand-computed §13.6 (6) results for MFCG (20 of 30), FTG (2 of 3 per rung), NG (14 of 20), Fantasy Manor, DW, AB (`reconcile`, `history`) and SOLO (⌈2n ÷ 3⌉ Yes), the M4-110 group included; a `none` panel records answers, no verdict and status `descriptive`; the widened `D5Record` holds a `reads` answer, a SOLO Yes / No, and verdicts grouped by template, frame and class; a milestone with two panels lists both in `MilestoneRecord.d5`; a sitting never holds more than one re-offered earlier panel, and a re-offered panel carries a fresh commitment; registration refuses a panel with a bad id, no group, a group of count 0 or `reads` without a subject; an item whose framing target is absent takes the next seed, recorded; with no owner input every panel stays *provisional — not rated*, and one strip pick is released as a cells row | C | M1 (MFCG, FTG), M4 (the M4-110 group), M5, and each staged panel where it is sat |
+| T-V12-17 | **Panels.** `plat d5 seeds` reproduces `seeds.json`; a key differing by one side fails its commitment and voids the panel; a missing answer leaves the panel *provisional — not rated*; verdicts on fixture answers equal the hand-computed §13.6 (6) results for MFCG (20 of 30), FTG (2 of 3 per rung), NG (14 of 20), Fantasy Manor, DW, AB (`reconcile`, `history`) and SOLO (⌈2n ÷ 3⌉ Yes), the M4-110 group included; the M6 panel's item-110 buildings record one `reads` answer per item in `AnswersFile.item110`, and V4-U5's `styleReference` image is shown and never rated; each of `D5PairStaged`'s five variants round-trips through `seeds.json` and `D5Record.pairs`; a `none` panel records answers, no verdict and status `descriptive`; the widened `D5Record` holds a `reads` answer, a SOLO Yes / No, and verdicts grouped by template, frame and class; a milestone with two panels lists both in `MilestoneRecord.d5`; a sitting never holds more than one re-offered earlier panel, and a re-offered panel carries a fresh commitment; registration refuses a panel with a bad id, no group, a group of count 0 or `reads` without a subject; an item whose framing target is absent takes the next seed, recorded; with no owner input every panel stays *provisional — not rated*, and one strip pick is released as a cells row | C | M1 (MFCG, FTG), M4 (the M4-110 group), M5, and each staged panel where it is sat |
 | T-V12-18 | **Blind renders.** Both sides of every pair have the same pixel size and metres per pixel, no PNG text chunk, the standalone default view, a frame within our map's zoom-out limit (a wider frame clamped, the reference side cropped alike), and our side's label layer is empty | C | M1; the limit clause from item 116's milestone |
 | T-V12-19 | **The sitting page works for the owner.** A three-pair fixture completes keyboard-only; a reload resumes with the answers kept; with browser storage blocked the page says so on its first screen and offers the export after every screen; the first screen says where the export lands; the export matches `AnswersFile`; axe-core finds 0 serious or critical violations (research-side harness) | C | M1 |
 | T-V12-20 | **No provisional number dangles.** `plat calibrate register --check` is green: every calibratable cell is covered by an admissible source, an entry or a `fixed:` note; an `own` calibrate-later fixture cell without an entry fails; two entries or two columns for one knob fail; a cell of an owner-rule hard clause without its `ownerRule` stamp fails; every §13.7 letter has an entry; statuses move legally, and a `trial` row moves none; a fixture milestone with an overdue provisional entry fails its exit, one with an unrated `panel` entry reads *provisional — not rated*; an entry naming `bar.<barId>` with no registered bar, or `frame.<table>.<column>` of a non-calibratable column, fails, and one naming `bar.T-V6-8` with its `BenchBarDef` registered passes; an entry for a base cell whose base change request has not landed fails ("cell exists"); a fixture `siting.web` cell named by no line passes through the items 103–107 line's catch-all, and a column two lines bind fails; an entry naming `frame.*` beside a passing M2b metric is confirmed at M2b with no `frame.*` row until its corpus run, and an entry of `frame.*` metrics alone with a due before M-CAL fails; **the default line:** a registry column no named line binds fails without an entry, naming `plat calibrate register --defaults`, and passes once that command wrote `cal.<table>.*.<column>` (`corpus`, due M-CAL, [`frame.<table>.<column>`], `line: 'default'`), a second run writing nothing; a column of an empty table takes none until the change that ships its first row, whose entry names as `owner` the volume of that file's author seat, a second document's later cells not moving it; the FarmTable village rows take default entries and `territory.haPerHead` none (E-38); a named line restating a default entry in place passes, a named entry beside a default entry fails, and a `line: 'default'` entry with another method, due, metric or fallback fails; **the due's corpus run:** a column first landed after a committed fixture M-CAL record takes, from `--defaults --milestone M6-U`, due `M-CAL/under` and a first row naming M6-U, its landing exit passing, while the same entry due `M-CAL` fails, a default entry due `M-CAL/under` with no M-CAL record committed fails, and a `frame.*`-only named entry due `M-CAL/under` for such a column passes; `--defaults` without `--milestone` refuses writing nothing, `--milestone P1` refuses naming V12 §2.8's form, and such a column takes `M-CAL/M6-P` from `V3-P1`, `M-CAL/sky` from `V5-P1`, `M-CAL/under` from `V4-U3b` and a V11 C8 column `M-CAL/under` from `M6-U`; an entry due `E2`, or a stage due `U5`, fails naming the form, the same due `V6-E2` passing; **a value moved before its due:** a default entry written at M1 whose cells a fixture M5 change moves with no row fails `--check` naming `--defaults --milestone <id>`, and after `--defaults --milestone M5` carries a second cells row `{ date, value, milestone: 'M5', cells: true }`, every other field unchanged, and passes, a second run appending nothing; the command appends nothing to a `confirmed` entry or one whose due's record is committed, listing it as owed to a run, and `--check` fails it naming `plat calibrate run`; a closed default entry whose later rows are metrics rows and whose cells equal its last cells row passes; a named `measure` entry whose one metric is a `bar.` of a `BenchBarDef` with `stages` `[]`, its cells tuned before its exit, fails until `--defaults --milestone V3-P6` appends the cells row, its hand fallback applied in an exit's change closing it `fallback-applied`, while the same move on a named entry whose bar has stages fails as owed to a run and takes no row; rows added at `V3-P1` by another seat to a column whose entry closed at a committed M-CAL record fail until the command appends them, the report listing them "added after close", a changed M2b cell still failing as owed to a run; `--hold` appends one held row and nothing else, the report lists "held: a committed golden reads it", and `--check` passes the unchanged cells; an application constant whose provenance note names its test (V09's `raised.previewOnReleaseKm`, T-V9-3) takes no entry and passes; a confirmed entry whose released strip pick moves one cell passes once `plat calibrate register` appended the pick's cells row and fails before it; **staged entries:** `measure` at M2b, then `panel` at M4, then `corpus` at M-CAL — `provisional` with method `panel` and due M4 after M2b's passing row, `confirmed` at M4's rated pass, then a `frame.*` metrics row at M-CAL with its status kept; with a panel No (no second value) it closes `not-achieved`, its M-CAL row a metrics row; with M4 unrated it reads *provisional — not rated* and passes M4's exit; stages against §16's order (a `V4-U3` stage before an `M4` stage, a `corpus` stage first, an M-CAL stage before an M6-sky stage) are refused naming the pair; two stages at unordered rows (`V5-P1`, `V6-E7`) are each read at whichever exit comes first, while an `M6` stage follows an `M5` stage; an entry without `stages` reads as single-stage; a staged entry whose `due` is not its current stage's fails; **limits:** an absent `register.json` reads empty, every covered cell then failing; a column removed by a major table version fails "cell exists" until closed `fixed` | C | PR from M1 |
@@ -2752,9 +2848,9 @@ Classes as §15.2: C conformance, P parity with a measured reference number, O a
 | T-V12-32 | **Enclosures and way classes are measured by one rule.** On a cliff-closed fixture town (item 106) `walled.share` counts the buildings inside the enclosure, no tower spacing spans the closure, `gate.count` excludes a water gate and the harbour-mouth chain, `wall.barrierShare` equals the fixture's closure length share; the way mapping sends `through` and `primary` to `arterial`, `secondary` to `street`, `cul_de_sac` to `lane`, `path` to `track`, a bridge to its carried class and no `quay` or `pier` into the way graph, and a moat to still water; the five MFCG exports measured through the shore split keep T-V12-6's values, and the coastal city gives the 24 shore vertices and the 20 towers of its README's derivation | C | M1 (MFCG); M2b (ours, with item 106) |
 | T-V12-33 | **The underground profile measures plans.** `undergroundInputOf` on a fixture ruin returns every gallery and chamber in every state; `plan.rightAngle` is 1.0 on a drawn rectangular grid and 0 on a drawn circle; `grid.r4` is 1.0 on an orthogonal grid and below 0.05 on 360 rays at 1° steps; `ruin.blockArea` on a 30 m centreline grid is 900 m²; `plan.*` and `ruin.blockArea` on a ruin with its stepped monument equal the same ruin's values without it; a zero-area void is no void, and an outline too small for 20 steps and a faceless gallery graph read `notApplicable` | C | `V4-U3` |
 | T-V12-34 | **Distinctness and structure rules bite.** A ruin laid from the town's own culture row fails `paired`; a ruin flagged `sharedAxis` is judged on its two other measures; ruins drawn with the cavern's outline fail `twoSample`; a dispersed class whose share drops by 0.10 with the web on fails `noRegression` | C | `V4-U3`; M2b (the web) |
-| T-V12-35 | **The bar map is wired.** Every row of V12 §3.6b's bar map has a registered spec whose owner, owner's bar, rule, parameters and levels match; `plat statbar all` runs each on its tier; a registered spec absent from the map fails; a tendency bar in §13.2 without a spec fails, except a clause on the registry's `conformance` list (§13.2's conformance clauses of items 105 – 118, V12 §1); item 102 (g) has no spec | C | M2b (web, siting, chains, item 111); `V4-U3` (underground); M3a (raised ways) |
+| T-V12-35 | **The bar map is wired.** Every row of V12 §3.6b's bar map has a registered spec whose owner, owner's bar, rule, parameters and levels match; `plat statbar all` runs each on its tier; a registered spec absent from the map fails; a tendency bar in §13.2 without a spec fails, except a clause on the registry's `conformance` list (§13.2's conformance clauses of items 105 – 118 and 120, V12 §1); the 104 (h) (8) comfort row's spec carries `ownerBar` T104-3 and the 107 (g) row's T107-1 and T107-2; item 102 (g) has no spec | C | M2b (web, siting, chains, item 111); `V4-U3` (underground); M3a (raised ways) |
 | T-V12-36 | **Both known-city fixtures pass (item 110 (e), (f)).** For K1 and K2: the skeleton file and V09's canvas script give one model digest under `known/<id>` (differing digests fail naming both); the structure list of V12 §3.14 holds on all three paths and its emulation subset on V09's L2 variant; a failing check names its id and `what`, a degenerate target entity fails its check; `namesClean` finds 0 scanner hits; registration refuses a fixture missing an input file or with an empty list; the exit carries `T-V12-36:<id>` and the research-side "no outline traced" verdict at M3a | C | milestone tier from M3a; PR: K2's skeleton path |
-| T-V12-37 | **The no-op pins and the switch-on bumps.** Before an item's switch-on, a commit landing its code produces zero ShiftRecords on the pin's suites; after it, the suites under the overlay are byte-identical to the off-state set; a planted draw on a shared stream fails the pin, a planted empty array fails it, an unrelated planted table shift re-records both sets with matching stage lists; item 110's four bumps produce records with exactly their own `feature` cause, the raised bump moving no THORP – TOWN S4 or S5a – S5d isolated digest; across the bumps the `MFCG`, `FTG` and `FM` presets' goldens stay byte-identical and no P row's input holds a `retaining` or `raisedSupport` feature, a way with `part` ≠ 0, or any feature its preset resolves off; every registered pin of V12 §2.13 runs — a planted season-dependent model write fails `item117.season`, a planted decoration drawn with no traditions fails `item118.festival`'s tiles, a planted TOWN change at item 115's bump fails `item115.ceiling`; registration refuses an empty overlay, a rung pin without rungs, a view pin without values and an unregistered suite | C | PR (the landing gate, two golden seeds); nightly from M3a; at each bump |
+| T-V12-37 | **The no-op pins and the switch-on bumps.** Before an item's switch-on, a commit landing its code produces zero ShiftRecords on the pin's suites; after it, the suites under the overlay are byte-identical to the off-state set; a planted draw on a shared stream fails the pin, a planted empty array fails it, an unrelated planted table shift re-records both sets with matching stage lists; item 110's four bumps produce records with exactly their own `feature` cause, the raised bump moving no THORP – TOWN S4 or S5a – S5d isolated digest; across the bumps the `MFCG`, `FTG` and `FM` presets' goldens stay byte-identical and no P row's input holds a `retaining` or `raisedSupport` feature, a way with `part` ≠ 0, or any feature its preset resolves off; every registered pin of V12 §2.13 runs — a planted season-dependent model write fails `item117.season`, a planted decoration drawn with no traditions fails `item118.festival`'s tiles, a planted TOWN change at item 115's bump fails `item115.ceiling`, a planted village-rung change with every ceiling row's `enabled` false fails `item115.off`, a planted chip-dependent model write or log entry fails `item120.find`; registration refuses an empty overlay, a rung pin without rungs, a view pin without values and an unregistered suite | C | PR (the landing gate, two golden seeds); nightly from M3a; at each bump |
 | T-V12-38 | **Item 110 measured without disturbing the old metrics.** On a fixture CITY with a viaduct over two streets, an arched aqueduct over two other streets, a terrace crossed by a stair, a mole with deck buildings and a stepped temple: the viaduct adds no node of degree ≥ 3 away from its ramp feet (`raised.junctions` 0); the aqueduct adds no node, edge or length to any way graph (`junction.*`, `street.*`, `sgd.*`, `street.detour` and `street.cyclesPerKm2` equal those of the town with the aqueduct's way deleted); `wall.*`, `gate.count` and `wall.ungated` equal those with its retaining walls deleted; `bldg.*` and the cluster blocks equal those with the supports and spans deleted; T-V12-4's equality holds with every kind and property item 447 exports | C | M3a |
 | T-V12-39 | **The raised-way bars.** The four `T110b.*` specs are registered as mapped; on planted fixtures a viaduct chance at its owner-stamped minimum at CITY passes `presence` with N = min(500, ⌈5 ÷ p⌉) towns on the ravine site, an elevated-road chance flat across `wealthLevel` fails the trend, and a landmark factor of 1 fails `higherWith`; a spec whose ravine site lets a cheap detour win is refused at registration | C | M3a |
 | T-V12-40 | **A suppressed raised way stays suppressed.** On a CITY fixture document with one generated viaduct removed: an upgrade across a release that lowers `viaduct.minDropM` leaves no raised way at that reason; applying a historical pack that doubles the viaduct chance leaves none either; in both the fates list names the held suppression; undoing the apply restores the prior document byte for byte | C | M3a |
@@ -2764,19 +2860,20 @@ Classes as §15.2: C conformance, P parity with a measured reference number, O a
 | T-V12-44 | **Item 111's bars are wired.** `T111d.walk`, `T111d.water.<kind>` and `T111d.rich` are registered as V12 §3.6b's bar map states; on planted fixtures a flat walk-to-water share fails `higherWith`, a river chance drawn at half the arid row's fails its `rate`, and a richest band farther from water than the middle band in most towns fails `most`; `water.kinds` flags a generated oasis on a temperate row; `item111.water` holds; the item-111 register lines are written at M2b | C | M1 (T111-2, T111-3, T111-5); M2b (T111-1, T111-4) |
 | T-V12-45 | **The style line and the trial's findings (item 112).** `bar.T112-1` fails a fixture variant whose one legend pair falls below §8.2's threshold and passes once its colours are fixed, the threshold's entry unmoved; `plat calibrate register --trial` on a fixture `TrialRecord` appends a `trial` row to the threshold's entry for a colour finding, moving no cell and no status, opens a `known-defects.json` entry for an unfixed minor, closed by a fixture change marking it fixed, refuses a finding naming a calibrated value with no entry, and appends nothing on a second run | C | M3b (the line); the release candidate (the trial) |
 | T-V12-46 | **Item 113's registrations.** `T113e.lost` on V04's LOST fixtures: after the sealing epoch and after the author `delete` the void is LOST and its dwellings empty; after the reopening epoch and the dig they return; a planted void staying reachable through a closed link fails; the history fixtures' digests agree on the five engines (T113-2); `item113.history` holds; the item-113 register line's entries take their `V6-E9` row from T113-1, T113-3, T113-4 and T113-6's registered `BenchBarDef`s | C | M6-E (`V6-E9`); M6-U (T113-5, at the later of the two) |
-| T-V12-47 | **Item 114's specs.** On V06's wall fixtures `T114g.oldestFirst` fails a planted recovery that replaces a younger patch first, `T114g.sustained` fails a planted change on a driver alternating across its threshold, `T114g.greyscale` fails a planted `patched` row whose luma equals `standing`'s at a band where both draw, and `T114g.generation` fails a readiness × wealth fixture whose shares differ from the derivation row's by more than one run; `item114.condition` reproduces V06's neglect and repair | C | M6-E; the derivation row's milestone (`T114g.generation`) |
-| T-V12-48 | **Items 115 and 116.** `bldg.grandeur` counts an `H` dwelling, a court and a second manor on a planted rich HAMLET fixture; the rung pin `item115.ceiling` holds TOWN, CITY and METROPOLIS byte-identical across the ceiling table's bump; `view.limitStop` reports the whole bounds inside the limit and 0 reachable stops beyond it at every rung THORP – METROPOLIS, and a planted extra stop fails | C | the milestones that land items 115 and 116 |
-| T-V12-49 | **Items 117 and 118.** `item117.season` and `item118.festival` hold on their suites; `T117i.crowns` counts ≥ 5 colours on the autumn fixture and fails a planted single tint; `T117i.leafCover` fails a planted week whose cover thins; `T117i.arid` fails one planted snowflake; `T117i.ice` fails a planted river frozen before its pond and ice on a mill race; `T117i.styles` runs T112-1 at each season; `T118h.window`, `.stable`, `.tier`, `.stage` and `festival.blocked` each fail their planted breach (a decoration a week outside the window; a differing export tile; a CITY banner at a HAMLET; a staging off its keyed place; a pennant across a gate's passage) | C | the milestones that land items 117 and 118 |
-| T-V12-50 | **Item 119's measurements.** On the timing-phase runs every `wait.*` kind is timed click to complete at every rung's top and the metropolis cap; a planted 11-second wait fails the comfort bar naming the wait and rung; a planted 1.4-second wait with no progress frame fails, and one showing an empty frame fails; a §12.10 row declaring a slower step with no gain, or a gain its runs do not show, fails the budget-register check, and a relaxed interaction row fails it; a target miss inside ten seconds is reported as D-18's declared miss and gates nothing | C | M1 (TOWN, CITY); M2b (METROPOLIS); M6-E (the replay) |
+| T-V12-47 | **Item 114's specs and bench bars.** On V06's wall fixtures `T114g.oldestFirst` fails a planted recovery that replaces a younger patch first and `T114g.sustained` a planted change on a driver alternating across its threshold, `bar.T114-4` and `bar.T114-5` resolving to them; `bar.T114-6` fails a planted `patched` row whose luma equals `standing`'s at a band where both draw, and `bar.T114-7` a readiness × wealth fixture whose shares differ from the derivation row's by more than one run; `item114.condition` holds the golden suite at generation and reproduces V06's neglect and repair | C | M2b (T114-6, T114-7 and the pin's generation clause, with §7.7's condition row and the state rows, §13.8); M6-E (the specs and the pin over epochs) |
+| T-V12-48 | **Items 115 and 116.** `bldg.grandeur` counts an `H` dwelling, a court and a second manor on a planted rich HAMLET fixture; the rung pin `item115.ceiling` holds TOWN, CITY and METROPOLIS byte-identical across the ceiling table's bump, and the off-form pin `item115.off`, with every ceiling row's `enabled` false, holds every rung byte-identical to the base; `view.limitStop` reports the whole bounds inside the limit and 0 reachable stops beyond it at every rung THORP – METROPOLIS, and a planted extra stop fails | C | M1 (item 116); M2b (item 115); the village rungs with volume 7 (§13.8) |
+| T-V12-49 | **Items 117 and 118.** `item117.season` and `item118.festival` hold on their suites; `bar.T117-2` counts ≥ 5 crown colours on the autumn fixture and fails a planted single tint, and `T117i.leafCover` fails a planted week whose cover thins; `T117i.arid` fails one planted snowflake; `T117i.ice` fails a planted river frozen before its pond and ice on a mill race; `T117i.styles` runs T112-1 at each season's middle week and fails a planted season whose one legend pair falls below §8.2's threshold; a `{ week }` step moves no model digest; the `BenchBarDef`s T118-2 – T118-6 each fail their planted breach (a decoration a week outside the window; a differing export tile; a CITY banner at a HAMLET; a staging off its keyed place; a pennant across a gate's passage) | C | M3b (items 117 and 118, §13.8) |
+| T-V12-50 | **Item 119's measurements.** On the timing-phase runs every `wait.*` kind is timed click to complete at every rung's top and the metropolis cap, advance time and the history replay each in total (item 119 (a2)): a planted 60-epoch advance of 0.2 s an epoch (12 s in all) fails the comfort bar though no epoch takes a second; a planted 11-second wait fails the comfort bar naming the wait and rung; a planted 1.4-second wait with no progress frame fails, and one showing an empty frame fails; a `perf.qualitySpend` row whose `gainBar` fails, whose gain its runs do not show or whose `run` is absent fails the budget-register check, as does a stage timed above its §12 target with no row standing, while a row whose gain the runs show passes; a relaxed interaction row fails it; a target miss inside ten seconds is reported as D-18's declared miss and gates nothing | C | M1 (TOWN, CITY); M2b (METROPOLIS and the cap; the budget-register check); each other wait from the milestone that lands it — M3a (a dossier change applied, a migration), M6-E (advance time and the history replay), M-SF (an open from SettlementForge) |
 | T-V12-51 | **The owner's sittings follow J122.** Only M1, M2b, M4 and M5 register `sitting` as themselves; every other panel registers `nextGating` and is batched into the next gating sitting when its build has landed by then; a staged panel whose build lands after M5 stays *provisional — not rated*, re-offered with every release, and never fails an exit | C | M1 |
+| T-V12-52 | **Item 120's measurements (Find).** `item120.find` holds on its suites: a planted chip-dependent model write, saved byte or log entry fails it, and a planted base tile left redrawn after Clear fails its tiles; `find.matches` fails a planted chip drawing an entity the gazetteer does not return and one missing a row; `find.leaks` fails a planted canary in a suggestion and in a count bubble under a player view; `find.held` fails a chip set dropped at a planted layer change and a match left glowing after its entity's removal; `find.pins` fails a planted city-band match with neither pin nor bubble; `find.cues` fails a planted ninth chip without its glyph; a planted suggestion time above §12.5's budget at the METROPOLIS cap fails its timing row, and a relaxed Find row fails V12 §3.15.9 (5)'s comparison; the chip sets drawn by `find/<seed>` reproduce | C | the milestone that lands Find (V09 §8) |
 
 ### 7.2 Parity metrics for this volume's own subject
 
 The subject here is measurement itself, and the reference that owns it is our own recorded measurement of the references:
 T-V12-6 holds the one implementation to the red-team's and the sweep's executed numbers on the same files, and T-V12-3 holds
 it to every M-1 row. The generator's parity against MFCG, FTG, NG, VG and Fantasy Manor is §13.5's rows and the volumes'
-rows, which this harness runs (V12 §3.4.4). The owner's later rules (items 110–119) have no reference at all: their bars are
-ours only — the conformance clauses, the tendency and property specs, the known-city fixtures, the pins and the M4-110 group — and
+rows, which this harness runs (V12 §3.4.4). The owner's later rules (items 110–120) have no reference at all: their bars are
+ours only — the conformance clauses, the tendency and property specs, the known-city fixtures, the pins, the M4-110 group and item 120's Find statistics — and
 the parity presets never show them (T-V12-37, T-V12-43).
 
 ## 8 Build plan
@@ -2787,8 +2884,8 @@ Most of this volume is the base's own verification rig made exact, so it is buil
 M4, and priced as an itemised widening of §16's rig line (file f item 533, stated as deltas; §16's total computed once there, item 568). The known-city fixture engine,
 K2, the no-op pin engine and item 110's measurement profile land at **M3a** with item 110 (a) – (d)'s base parts (the base outline builder's stepped and deck constructions among them, item 229), the four
 raised-way bars and the TOWN guard inside M3a too, where raised-way generation lands (items 244, 290); the M4-110 group at
-M4. The harness parts of items 111–119 land with the milestones that land each item's base part (§13.8's schedule;
-V12 §3.15). The panels of M5, M6, V-M4 and the volumes' steps register on the engine M1 builds; their content is their
+M4. The harness parts of items 111–120 land with the milestones that land each item's base part (§13.8's schedule;
+item 120's with the milestone that lands Find, V09 §8; V12 §3.15). The panels of M5, M6, V-M4 and the volumes' steps register on the engine M1 builds; their content is their
 volumes', and each is sat at the next gating sitting after its build lands (J122; V12 §3.9.1). The corpus reconciliation is
 its own staged milestone, **M-CAL**, after M6-sky in §16's order (J122), its inputs the standalone generators (M4, M5, M6,
 V-M4), and before the SettlementForge stage M-SF (V08, J-V8.39; item 529); its later runs `M-CAL/<layer>` follow the layers that land after it
@@ -2804,7 +2901,7 @@ V-M4), and before the SettlementForge stage M-SF (V08, J-V8.39; item 529); its l
 | W5 — item 110's harness | M3a; M4 | the known-city fixture engine (`KnownCityFixture`, `StructureCheck`, the three paths' runner, the emulation subset), K2's structure list and golden, K1 on the engine; the no-op pin engine and the landing gate; the profile's item-110 kinds (item 447); the four raised-way bars and the TOWN guard; the M4-110 group and the item-110 register lines | T-V12-36 – T-V12-40 and T-V12-11's TOWN clause at M3a; T-V12-17's M4-110 group clause at M4 | 1.25–2 (M3a 1–1.75; M4 0.25) |
 | W4 — notes, audit, drift | M3b – M4 | the release notes' calibration section and new-behaviour lines; the register report; M4's provenance audit reading `evidence`; a rehearsed pin change | the M4 audit green; T-V12-22 on a rehearsal | 0.25–0.5 |
 | W6 — the underground's harness | `V4-U3` – `V4-U5` | `undergroundInputOf` with the monument rule; the crypt and catacomb metrics; the step runner for `exactMonotone` with record identity, `exactBound`, `exactScript` and the author-delete probe | T-V12-33, T-V12-41 | 0.25–0.5 |
-| W7 — the owner rules 111–119 and the edges | M1 (item 111's rate specs and pin; the `--trial` entry; the edge suite's M1 rows); M2b (`T111d.walk`, `T111d.rich`; the wait timer and the budget-register check); M3b (the style line); M6-E and M6-U (`T113e.lost`, the item-113 and item-114 registrations and pins); the milestones that land items 115–118 (`bldg.grandeur`, `view.limitStop`, the rung and view pins, `T117i.*`, `T118h.*`); the release candidate (`plat calibrate register --trial`) | V12 §3.15's registrations, V12 §2.13's pins beyond item 110, V12 §3.16's suites; items 111–113's registrations and the style line ride W2, W3 and W6's engines at no added price (§16's rig line absorbs them), so W7 prices items 114–119's specs and pins, the `exactScript` author steps, the `rungScope` and `view` pin kinds, the wait timer and the edge suite | T-V12-42 – T-V12-50, each at its milestone | 0.75–1.25 |
+| W7 — the owner rules 111–120 and the edges | M1 (item 111's rate specs and pin; item 116's `view.limitStop`; the `--trial` entry; the edge suite's M1 rows); M2b (`T111d.walk`, `T111d.rich`; the wait timer and the budget-register check over `perf.qualitySpend`; T114-6, T114-7 and `item114.condition`'s generation clause; item 115's two pins and `bldg.grandeur`); M3b (the style line; items 117 and 118: the view pins, T117-2, the `T117i.*` specs on `{ week }` steps, T118-2 – T118-6); M6-E and M6-U (`T113e.lost`, the item-113 registrations and pin, item 114's step specs over epochs, the advance's and the replay's total timing); the milestone that lands Find (V09 §8: `item120.find`, `find.*`, the Find timings); the release candidate (`plat calibrate register --trial`) | V12 §3.15's registrations, V12 §2.13's pins beyond item 110, V12 §3.16's suites; items 111–113's registrations and the style line ride W2, W3 and W6's engines at no added price (§16's rig line absorbs them), and item 120's pin, statistics and timings ride the `view` pin kind, the nightly statistics and the timing phase at none either (J-V12.97), so W7 prices items 114–119's specs and pins, the `exactScript` author and week steps, the `rungScope` and `view` pin kinds, the wait timer and the edge suite | T-V12-42 – T-V12-50 and T-V12-52, each at its milestone | 0.75–1.25 |
 | — panels and bars of later stages | M5, M6, V-M4, V3-P6, `V4-U3` – `V4-U5`, M6-sky, `V6-E7` | the NG, Fantasy Manor, VG, Dwellings, SOLO, island and history panel specs on the engine; item 109's bar specs | T-V12-17's clauses for each; T-V12-34, T-V12-35's underground clause | within V01, V02, V07, V03, V04, V05, V06 |
 | M-CAL — the corpus reconciliation (staged) | after M6-sky (§16; J122), its inputs M4, M5, M6, V-M4 | the owner opens it; the adapter, its frames and `frames.json` (research side, 1.5–2.5); measurement and crossing (0.5–1); the corpus runs per frame, upstream first, with the reachability search, R6 and the owner-excluded report (2–3.25); the historical pack in §7.6's packs slot with per-frame adoption (0.25); the M-CAL panel, the palette re-check, the report and the release (0.5–1); the synthetic corpus for T-V12-23 – T-V12-27 is authored at M4 | T-V12-23 – T-V12-27; the M-CAL panel rated or *provisional — not rated* (every frame then `pending-owner`); the `ReconciliationRecord` committed | 4.75–8 |
 | M-CAL/<layer> — the later corpus runs (staged) | after M-CAL and the layer's last milestone, each on the owner's word | one run over the entries due there on M-CAL's frames — the underground's E1 and E4 only, the sky's and the evolution engine's as their frames admit; the pack versions, the panel only when a cell moved, the report and the release | the run's entries closed; its `ReconciliationRecord` committed; its panel rated or *provisional* when held | 0.25–0.75 each |
@@ -2847,8 +2944,8 @@ V-M4), and before the SettlementForge stage M-SF (V08, J-V8.39; item 529); its l
    its fallback — never a looser rule.
 13. **The pins double the golden job's time.** *Pre-decided:* V12 §6's rotation by item; the landing gate never rotates.
 14. **A one-time wait may exceed the ten-second comfort level** (the history replay at METROPOLIS, a large export). The bar
-   fails (item 119 (a)); the owning path takes its §12.10 row's pre-decided change, and a slower step survives only with a
-   recorded measured gain — never a relaxed comfort level.
+   fails (item 119 (a)); the owning path takes its §12.10 row's pre-decided change, and a slower step survives only with its
+   `perf.qualitySpend` row and the gain its bar shows (V11 §3.25.8) — never a relaxed comfort level.
 
 ## 9 Decisions (each vetoable)
 
@@ -2943,16 +3040,18 @@ Each row is in its current form; a row another decision changed carries one mark
 | J-V12.84 | chose to apply J122's sittings (Q-V12-2) as a `sitting` field on every `PanelSpec` — the four gating sittings as themselves, every staged panel `nextGating`, batched into the next gating sitting when its build has landed by then and otherwise *provisional — not rated*, re-offered with every release — over the volume's former seven sittings with short extras, because the owner's delegation decided the schedule (J122 > volume) and §13.6 (7) already keeps an unrated panel from stopping the build or claiming a gate |
 | J-V12.85 | chose V12 §2.11's lifecycle table, with producer and consumers columns, as the one statement of every record's wiring, V12 §1b keeping the engines, commands, profiles and metric families (E-35), over two tables kept in step, because two lists of one record's readers drift; every producer and consumer the two carried is in the merged table |
 | J-V12.86 | chose to read `servedShare`'s `district` unit as every district of the town (V11 §2.3's plot's district), the ≥ 30-households filter a `minHouseholds` parameter only T-V11-18's dispersal reading sets, over a threshold inside the unit, because the mechanism's unit governs its bar and only the dispersal row speaks of districts of that size |
-| J-V12.87 | chose one `NoOpPin` engine for every owner item's "byte-identical with its rows off" bar — kinds `offForm` (items 102–114), `rungScope` (item 115) and `view` (items 117, 118), each off form read from V11 §3.24.0 where V11 states it, else from the cells its bar names (E-20) — over a pin engine per item, because the landing gate, the parallel off-state set and the re-recording rule are the same for every item, while a rung-scoped ceiling and a look-only view need their own comparison, not an overlay |
+| J-V12.87 | chose one `NoOpPin` engine for every owner item's "byte-identical with its rows off" bar — kinds `offForm` (items 102–115, item 115's `enabled` false among them), `rungScope` (item 115's TOWN and above) and `view` (items 117, 118 and 120), each off form read from V11 §3.24.0 where V11 states it, else from the cells its bar names (E-20) — over a pin engine per item, because the landing gate, the parallel off-state set and the re-recording rule are the same for every item, while a rung-scoped ceiling and a look-only view need their own comparison, not an overlay |
 | J-V12.88 | chose to read V09 §7.6's `TrialRecord` as the game-master trial's one record and to enter its findings into the register as `trial` rows and into the fix list as `known-defects.json` entries by `plat calibrate register --trial`, over a second record of the trial in `plat/calibration/`, because one trial has one record (principle (9)), V09 runs it and holds its pass, and the calibration record needs only each finding's row beside the value it concerns |
 | J-V12.89 | chose a property rule `exactScript` whose scripts may hold author steps for item 113 (e)'s LOST state and item 114's sustained-driver and oldest-first rules, on the catacomb ratchet's step runner, over `exactMonotone`, whose scripts refuse author edits, because a cellar filled or a repair is an author's act these properties bind, while the ratchet binds only derivations |
 | J-V12.90 | chose item 111 (d)'s bars as `higherWith` over a per-household indicator deflated by its design effect, a `rate` against the arid row's chance derived from S0's feature table, and `most` over a per-town indicator, over one bar of the town's mean distance, because the owner's clauses compare a share against a baseline, a draw against its chance and the richest band against the middle band in most towns, and households of one town share a town effect |
 | J-V12.91 | chose item 114's greyscale bar as the style check's pairwise contrast on luma alone against §8.2's deficiency-contrast threshold, over a threshold of its own, because one threshold for "distinguishable without hue" keeps items 112 and 114 on one scale |
-| J-V12.92 | chose to measure item 119's comfort level click to complete on the reference hardware, five seeds per wait kind at every rung's top and at the metropolis cap, passing on the p95 ≤ 10 s, with progress within one second, the measured-gain rule read from §12.10's rows and interaction rows compared release to release, over a mean or a single run, because the owner's ceiling is total time a user sits through and a mean hides the slow tail |
+| J-V12.92 | chose to measure item 119's comfort level click to complete on the reference hardware, five seeds per wait kind at every rung's top and at the metropolis cap, advance time and the history replay each in total (item 119 (a2)), passing on the p95 ≤ 10 s, with progress within one second, the measured-gain rule read from V11 §3.25.8's `perf.qualitySpend` rows — the record that gates the stage's quality path — matched to §12.10's rows, and interaction rows compared release to release, over a mean, a single run, a per-epoch time or a check of §12.10's rows alone, because the owner's ceiling is total time a user sits through ("Total", J132), a mean hides the slow tail, and a gain must be checked on the record that admits the slower step |
 | J-V12.93 | chose to ship each cell's register entry id, what measures it, its due and its last three history rows in `dist/evidence.json`, over the tables editor and the clerk reading `register.json`, because the register is repository data that never ships, while V09's cell inspector and V10's provenance answer must explain a value from the shipped files alone |
 | J-V12.94 | chose to state once that a parity preset is cell values — never a stage, rule or lifecycle change — and to define every feature a preset meets by one table of what the preset leaves and what the P rows read, with a leak clause, over a sentence per feature, because the combinations share one mechanism and differ only in which cells the preset zeroes |
 | J-V12.95 | chose §16's starts-after chains (J122's combined order, stated there once) as the stages' order, rows no chain connects unordered, over the former rule leaving every staged row unordered, because the owner's delegation fixed the product order, while M5, the village, M6-E and M6-P's first rungs run side by side and M6-E stands in no chain with M6-sky |
 | J-V12.96 | chose the metric ids `bldg.r4.*` and `bldg.wallAlign`, over `lots.*` (a retired term) or `plot.*`, because the statistics read building axes, not plots, and no baseline row of them exists before M-1 |
+| J-V12.97 | chose to measure item 120 (Find) by one `view` pin (`item120.find`, tiles included), five 0-by-rule statistics (`find.matches`, `.leaks`, `.held`, `.pins`, `.cues`) on V09's app harness over B-CITY-lite's seeds of every rung, the village fixtures and a dossier fixture with three chip sets each, and its two interaction timings at the METROPOLIS cap among item 119's interaction rows, priced inside W7, over `StatBarSpec`s or a register line, because Find is a view — each of item 120 (k)'s clauses a property that holds or fails, none a tendency or a calibratable value — and the view pin kind, the nightly statistics and the timing phase already exist |
+| J-V12.98 | chose to key every base bar this volume registers as a `BenchBarDef` by its §13.2 id (T114-6, T114-7, T117-2, T118-2 – T118-6, T119-2), keeping V12's spec ids (`T114g.*`, `T117i.*`) only for `StatBarSpec`s that carry their base bar as `ownerBar`, and to type item 117's week checks as `exactScript` and `exactMonotone` over `{ week }` steps (`noIceSnow`, `iceOrder`, `seasonStyles`), over spec ids standing for base bars and untyped checks, because `bar.<barId>` resolves only through a registration's `id` or `ownerBar` (V12 §2.1) and a week is a view step the step runner takes as a user does, moving no model digest |
 
 ## 10 Base change requests
 
@@ -2994,32 +3093,32 @@ none of it. The former request ids stay here only as a pointer table, so an olde
 | X-V12-2 | V02, V07 | their panels are `PanelSpec`s on V12 §3.9's engine, their pairs item 500's variants, their reference rows `Baseline` rows of input `counts` or `geo` under `'FM'` and `'VG'` (items 522 and 495) | V02 §7.5; V07 §8 |
 | X-V12-3 | V11 | its column entries land with each content milestone, C6 at M4 auditing them; the ancient-culture rows clear V12 §3.6b's distinctness thresholds against the fabric above the ruin (J-V11.30) | V11 §8; V11 §3.23.4 |
 | X-V12-4 | V03, V04, V05, V06 | their sittings are V12 §3.9.1's `PanelSpec`s, sat at the next gating sitting (J122); V04's item-109 bars are the bar map's `StatBarSpec`s on forced-source sites; V06 lends H-100 and its trajectories | V03 §8; V04 §7; V05 §7; V06 §12 |
-| X-V12-5 | V08 | its surveyed-dossier fixtures are item 108 (f)'s levels (their `@pop×k` derivatives in the manifest), its custom-chain fixtures item 104 (h) (8)'s, its catacomb fixtures (DR32) the step script's, its high-ground landmark fixture (DR35) the elevated road's `higherWith`, its history, readiness, calendar and festival fixtures items 113, 114, 117 and 118's; none a calibration seed family | V08 §7 |
+| X-V12-5 | V08 | its surveyed-dossier fixtures are item 108 (f)'s levels (their `@pop×k` derivatives in the manifest), its custom-chain fixtures item 104 (h) (8)'s, its catacomb fixtures (DR32) the step script's, its high-ground landmark fixture (DR35) the elevated road's `higherWith`, its history, readiness, calendar and festival fixtures items 113, 114, 117 and 118's, and a dossier fixture's institution names item 120 (b)'s list entries (V12 §3.15.10); none a calibration seed family | V08 §7 |
 | X-V12-6 | V09 | the cell inspector reads `dist/evidence.json` (status, what measures it, due, history, evidence lines); the preset dialog lists adopted and selectable historical packs for matching documents only | V09 §4.14 |
 | X-V12-7 | V10 | "why is this value so?" answers from `dist/evidence.json` — `RuleAnswer.register`'s `entry`, `status`, `method` and `due` its shipped copy of the register entry (V12 §2.10) — plain line first, the run id behind "details"; a stamped cell answers "the owner's rule, item …"; the clerk never starts a run | V10 §2.13 |
 | X-V12-8 | V09, V10 | V09 §7.2 cites V12 §3.14's K2 list (K2-4: "≥ 8 jetties outside the basin, deck buildings on ≥ 4") and the path `plat/tests/fixtures/known-city/K2/`; K1's bridge keeps its deck plots; V10's evaluation group A reads `plat/goldens/known/<id>/fixture.json` | V09 §7.2; V10 §7 |
 | X-V12-9 | V11 | the switch table as the item-110 pins' off form; the schema's rung gate; the `ownerRule: '110 (b)'` stamp and the calibration minima on the CITY and METROPOLIS `raisedWays` columns; the owner-rule stamps and the stamped-clause list; `presets.FM` resolving the stepped and deck families off; V11's T-V11-12 – T-V11-18 registering their specs with the bar map (J-VI.10) | V11 §3.24.0, V11 §3.24.2, V11 §2.2 |
 | X-V12-10 | V06, V09 | a generated raised way's suppression keyed to its reason, never its course (V12 §4.1; T-V12-40) | V06 §3.19.1; V09 §4.20 |
-| X-V12-11 | V02, V04, V05, V06, V07, V11 | T-V2-50, T-V4-69, T-V5-15, T-V6-65, V07's village pin and T-V11-31 register their suites on V12 §3.7.8's engine, read "off" as V11 §3.24.0 and follow V12 §3.7.6's bumps | V02 §7; V04 §7; V05 §7; V06 §7; V07 §7; V11 §7 |
+| X-V12-11 | V01 – V11 | every volume pin that restates an owner item's pin — V12 §3.7.8's list: T-V1-4 (e), T-V2-50, T-V3-34, T-V4-47, T-V4-69, T-V4-77 (d), T-V5-15, T-V5-19 (c), T-V5-22 (b) and (k), T-V5-27, T-V5-33's item-111 clause, T-V6-12's `w_sun` clause, T-V6-44, T-V6-65, T-V6-71 – T-V6-74, V07's pins, T-V8-50, T-V8-53, T-V9-57, T-V10-43, T-V10-45, T-V11-13, T-V11-31, T-V11-38 – T-V11-41 (b) — registers its suites on V12 §3.7.8's engine under its V12 §2.13 pin, reads "off" as V11 §3.24.0 (V11 §3.7.4 for items 105 and 107) and follows V12 §3.7.6's bumps | V01 §7; V02 §7; V03 §7; V04 §7; V05 §7; V06 §7; V07 §7; V08 §7; V09 §7; V10 §7; V11 §7 |
 | X-V12-12 | the base | the requests applied as file f items (V12 §10.1); §16's M3a row carries item 110 (a) – (d)'s base parts and K2, raised-way generation at M3a; §13.2's conformance clauses on the harness registry's `conformance` list; V12's deltas in §16's sum | §16; §13.2 |
-| X-V12-13 | V04 | T-V4-54 reads g's *voids* (a deep void a connected component, at most three per town); T-V4-43's and T-V4-58's ± 3 s.e. and 500 seeds as parameters; T-V4-51's step script V12 §3.6b's; `CatacombComplex.id` keeps its source lineage; T-V4-44 never reads a monument's tiers | V04 §7 |
+| X-V12-13 | V04 | T-V4-54 reads g's *voids* (a deep void a connected component as V12 §3.4.2's `void.*` row defines it, at most three per town); T-V4-43's ± 3 s.e. and 500 seeds per rung and T-V4-58's ± 3 s.e. and ≥ 200 undercities as parameters; T-V4-51's step script V12 §3.6b's; `CatacombComplex.id` keeps its source lineage; T-V4-44 never reads a monument's tiers | V04 §7 |
 | X-V12-14 | V07 | the village rungs' levels of item 109's bars join at V-M4 (`notApplicable` before); V07's village pin registers on V12 §3.7.8 | V07 §7 |
-| X-V12-15 | the base, V02, V03, V06, V11 | every bar a register line names as `bar.<id>` that no spec carries registers a `BenchBarDef` with the milestone whose exit writes the entry (the base's T16-4, V11 §8's `detourFactor` line; V02's T-V2-22, -28, -29, -30, -32, -36, -37, -42, -46, -47, -51; V06's T-V6-6 – -10, -13, -16, -18, -28, -31, -32, -40, -43, -54, and T-V6-34 and -37 in their epoch forms; V11's T-V11-30; V03's T-V3-35; the item-111–119 bars of V12 §3.15), each setting's `preset` a `PresetArm` | V02 §3.10.10; V03 §2.4; V06 §8; V11 §8; §13.2 |
+| X-V12-15 | the base, V02, V03, V06, V11 | every bar a register line names as `bar.<id>` that no spec carries registers a `BenchBarDef` with the milestone whose exit writes the entry (the base's T16-4, V11 §8's `detourFactor` line; V02's T-V2-22, -28, -29, -30, -32, -36, -37, -42, -46, -47, -51; V06's T-V6-6 – -10, -13, -16, -18, -28, -31, -32, -40, -43, -54, -62, -72, and T-V6-34 and -37 in their epoch forms; V11's T-V11-30; V03's T-V3-35; the base's bench bars of items 112–119 by their §13.2 ids — T112-1; T113-1, T113-3, T113-4, T113-6; T114-6, T114-7; T117-2; T118-2 – T118-6; T119-2 (V12 §3.15)), each setting's `preset` a `PresetArm` | V02 §3.10.10; V03 §2.4; V06 §8; V11 §8; §13.2 |
 | X-V12-16 | V01, V03, V04, V05, V07 | every milestone landing a registry table or a calibratable column exits with `plat calibrate register --check` green over the cells it lands; V03 writes its own lines, the others take V12 §3.11's named lines or the default line | V01 §8.1 (J-V1.97); V03 §2.4, V03 §8; V04 §8 (J-V4.117); V05 §8 (J-V5.80); V07 §8 (J-V7.124) |
 | X-V12-17 | V01, V03, V04, V05, V06, V07 | the default line dates a column landing after M-CAL's record to its layer's later run (`M-CAL/under`, `M-CAL/sky`, `M-CAL/evolution`, `M-CAL/M6-P`); `--milestone <id>` is required in V12 §2.8's form; the volumes' own lines write their steps so (`V6-E1` – `V6-E8`, `V4-U*`, `V4-U3b`) | closed: the seat writing each entry writes the id, the command refusing any other form; V04 §8 and V06 §8 write the ids |
 | X-V12-18 | V02, V03, V04, V09, V10, V11 | a line of several stages is one staged entry; the span-rule line's order M4, `V4-U3`, `V4-U5`; V03's hand tuning at `V3-P6` and its hand fallback by the moved-value row; rows a later step adds by the rows-added row; V09's and V10's application constants outside the register | closed: V04 §8's span row takes this line's order and cites it; the rest hold as the destinations read |
-| X-V12-19 | V04, V06, the base | V06's lines date by exit step and line `stateSnapCm` at `V6-E2` on `bar.T-V6-62`; V04's span row (J-V4.118) names the cells `raisedWays.structure.span.*` (values in §2.7, item 244); item 244's slide bound and item 245's snap named by their V11 cells | V06 §8; V04 §8; file f items 244, 245 |
+| X-V12-19 | V04, V06, the base | V06's lines date by exit step and line `stateSnapCm` at `V6-E2` on `bar.T-V6-62`; V04's span row (J-V4.118) names the cells `raisedWays.structure.span.*` (values V11 §3.24.2; the rule §2.7, file f item 244); item 244's slide bound and item 245's snap named by their V11 cells | V06 §8; V04 §8; file f items 244, 245 |
 
 ### 10.3 Hand-offs to this volume — closed here
 
 | from | what | closed at |
 |---|---|---|
 | V02 X33 | the metric family `bar.<barId>` naming V02 §3.10.10's lines' bars | V12 §2.1 (J-V12.65); V02 registers its `BenchBarDef`s (X-V12-15) |
-| V06 X9 | T-V6-38 as item 109 (k) (6)'s monotone bar; T-V6-40 (a), (c) as the epoch forms of "at most one catacomb at TOWN" and "the largest under the largest cemetery"; T-V6-34 and T-V6-36 on `voidAccessible` and `voidSealedDeep`; the walled-share growth parity | V12 §3.6b's bar map (the 109 (k) and 109 (j) (5) rows); the growth parity is V06's ours-against-ours bar, a `BenchBarDef` where a line names it, never a parity row (V12 §3.4.4) |
-| V06 X19 | the guards `raised.generatedBelowCity`, `raised.reasonMissing`, `raised.overCap`; T-V6-65's declared shift; the growth parity's raised-way presence row | V12 §3.4.2, V12 §3.7.4; V12 §3.7.6 and V12 §3.7.8; V12 §3.4.4 (no reference row) |
-| V06 X31 | `retaining.holdM`, `.neglectAfterYears`, `.stretchM` and `aqueduct.disuseAfterYears` as V11 §3.18's cells; T-V6-66 – T-V6-69 in the nightly tier | V12 §3.11's `decline` line (owner V11); T-V6-66 – T-V6-69 are V06's, nightly on its fixtures by §13.8, each a `BenchBarDef` where a line names it |
-| V06 X38 | the bar family; the `decline` line split so the base persistence cells are owner `base`, written by the seat landing V06's E2 | V12 §2.1; V12 §3.11 (J-V12.66) |
-| V06 X49 | V06's lines dated by exit step, due `V6-E7`, `V6-E8` or `V6-E9`; `stateSnapCm` at E2 on `bar.T-V6-62` | V12 §2.8; V12 §3.11 (J-V12.82) |
+| V06 §7 (T-V6-34, T-V6-36, T-V6-38, T-V6-40) | T-V6-38 as item 109 (k) (6)'s monotone bar; T-V6-40 (a), (c) as the epoch forms of "at most one catacomb at TOWN" and "the largest under the largest cemetery"; T-V6-34 and T-V6-36 on `voidAccessible` and `voidSealedDeep`; the walled-share growth parity | V12 §3.6b's bar map (the 109 (k) and 109 (j) (5) rows); the growth parity is V06's ours-against-ours bar, a `BenchBarDef` where a line names it, never a parity row (V12 §3.4.4) |
+| V06 §3.19.1 (4); V06 §7 (T-V6-65) | the guards `raised.generatedBelowCity`, `raised.reasonMissing`, `raised.overCap`; T-V6-65's declared shift; the growth parity's raised-way presence row | V12 §3.4.2, V12 §3.7.4; V12 §3.7.6 and V12 §3.7.8; V12 §3.4.4 (no reference row) |
+| V06 §2.2's structure knobs; V06 §7 (T-V6-66 – T-V6-69) | `retaining.holdM`, `.neglectAfterYears`, `.stretchM` and `aqueduct.disuseAfterYears` as V11 §3.18's cells; T-V6-66 – T-V6-69 in the nightly tier | V12 §3.11's `decline` line (owner V11); T-V6-66 – T-V6-69 are V06's, nightly on its fixtures by §13.8, each a `BenchBarDef` where a line names it |
+| V06 §8's register lines (`bar.T-V6-<n>`) | the bar family; the `decline` line split so the base persistence cells are owner `base`, written by the seat landing V06's E2 | V12 §2.1; V12 §3.11 (J-V12.66) |
+| V06 §8's register paragraph and line table (J-V6.126) | V06's lines dated by exit step, due `V6-E7`, `V6-E8` or `V6-E9`; `stateSnapCm` at E2 on `bar.T-V6-62` | V12 §2.8; V12 §3.11 (J-V12.82) |
 | V11 X-V12-1 (its reading) | the compiler's part of X-V12-1 | V12 §2.10 cites V11's compiler |
 | V11 X-V11-12 | every calibratable cell of V11 §3.23 and V11 §3.24 registered; evidence carried; a `corpus` source in pack rows | V12 §3.11's *Items 109 and 110 by column* with their catch-alls; V12 §2.10 |
 | V11 X-V11-14 (c) | the run scope and the cost shortcut read the registry's `readers` StageIds, a module id never counting; V11 §8's bar registrations write `preset: 'default'` | V12 §3.7.2 (4), V12 §3.7.7; V12 §2.1's `PresetArm` |
@@ -3041,7 +3140,7 @@ its body.
 
 **CONFIRMED (read or executed evidence).** Every base section this volume cites was read at its text with files f and g
 applied (§1, §6.4, §7.6, §8.2, §8.8, §11.1, §12.1 – §12.2, §12.9 – §12.10, §13.2 – §13.9, §14, §16, §17.1, the staged table,
-D-2, D-5, D-30, D-31, Appendix A), as were items 102–119, the delegated decisions (J121, J122) and the sibling sections
+D-2, D-5, D-30, D-31, Appendix A), as were items 102–120 (item 119 (a2) and item 120 with their dated routings, J132, J133), the delegated decisions (J121, J122) and the sibling sections
 named in V12 §10.2 and V12 §10.3. `H32` as written from the published algorithm reproduces §13.6's check vectors
 (1221236157, 3998735106, 1965791931 after reduction, 1819777585, 951122398, 3881605733) and SMHasher's verification value
 0xB3ECE62A, and gives V12 §2.4's vectors (`docs/validation/bench/v12_h32_vectors.py`, `v12_rev_h32.out`). Executed, seeded,
@@ -3071,8 +3170,8 @@ opened. The validation records keep the evidence of each review round.
 5. Our own §13.7 values: the distinctness thresholds (1.5, 0.15, 10°), the structure separation, the no-regression
    tolerance; every item-110 threshold and count here (K2's ≥ 8 jetties and ≥ 4 with deck buildings, the 2 % straightness,
    the 1 m anchoring, the 20 % mid-mole tolerance, the 1 ha islet, the 30 TOWN guard towns, 100 and 200 towns per
-   raised-way level); the item-111–119 specs' counts (200 towns per cell, ≥ 200 per rate, ≥ 100 towns for `most`, five
-   seeds per wait kind); the two MFCG shore-end towers (not pixel-checked in the README).
+   raised-way level); the item-111–120 counts (200 towns per cell, ≥ 200 per rate, ≥ 100 towns for `most`, five
+   seeds per wait kind, three Find chip sets per seed); the two MFCG shore-end towers (not pixel-checked in the README).
 6. That every fixture level the bars need can be set as a frozen S1 output or a dossier or declaration input (risk 10);
    that a ravine forcing site always exists on which the detour loses (registration refuses one where it does not).
 7. The staged panels' durations and that they fit the gating sittings' hour (V12 §6); the M4-110 group's minutes.
@@ -3086,6 +3185,18 @@ opened. The validation records keep the evidence of each review round.
    source manifest names belongs to one design document.
 10. That the later corpus runs opening on the owner's word is wanted as M-CAL's is; that a staged layer's last milestone is
    where its run belongs; that volume 7's V-M2u lands only underground cells.
+11. That every bar a register line names has a scalar or per-clause verdict statistic its owner can register; that no
+   register line but V12 §3.11's items 103–107 and item-106 lines names a column of registry rows 14–15, 17's `profile`,
+   19 or 33–37 (the one-knob-one-entry check finds any at C2's and C4's exits); that `tune`'s "no run when the metric
+   holds" clause is wanted only where an owner states it (V07).
+12. That the corpus stage can target the default line's columns (a column no frame's run targets closes `fixed` by the
+   line's fallback); that the empty-table rule leaves no column holding cells without an entry at any exit (the PR-tier
+   per-cell check finds any); that the staged-entry rules, the rows-added row and the extended `--check` behave as written —
+   no fixture has run (T-V12-20 runs from M1); that every legitimate move of a named entry's cells already writes a cells
+   row (a run by V12 §3.7.6 step 5, a restating line, the command), so the check's extension to named entries catches only
+   moves outside a line's method.
+13. That V09's app harness evaluates `live.find` on the fixture documents at every band and layer as its frame sampler does
+   for the progress view, and that three chip sets per seed reach every match kind item 120 (b) lists (V12 §3.15.10).
 
 ## 13 Fix list
 

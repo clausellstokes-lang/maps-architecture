@@ -2,28 +2,13 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_finalize; covered by the whole-design retrovalidation (J84).
 
-PROGRESS (lane `volumes/_finalize`, 2026-09-29)
-- F1 The round-6 material issues fixed in their volumes (14): done
-- F2 File f refreshed (items 202, 226, 244, 245, 317, J-RF2.4; its *Finalization* section): done
-- §1 The product map: done
-- §2 The wiring — base hooks and what each volume feeds: done
-- §3 The dependency graph: done
-- §4 The combined build order after M5, with estimates: done
-- §5 Risks and spikes across volumes: done
-- §6 Owner questions with recommendations: done
-- §7 How the volumes were reconciled, and the fix list: done
-- §8 CONFIRMED versus PLAUSIBLE: done
-- SUMMARY.md (the owner's plain-language summary): done
-- The bundle (tools/bundle_architecture.py, then --check): done
-
 **What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the twelve design volumes
 (`docs/volumes/V01`–`V12`) that take every subject the base carries at hook depth to build depth. It states no mechanism
 of its own — every fact below points at its home (single source) — and it is the second source of the generated bundle
 `docs/ARCHITECTURE-FULL.md` (`tools/bundle_architecture.py`; J89), read after the base and before the volumes. The base
-changes the volumes need are consolidated in `docs/AMENDMENTS-2026-09-28f.md` (file f, items 200–585, not yet applied);
-the owner rules of 2026-09-28 are `docs/AMENDMENTS-2026-09-28g.md` (file g, items 102–113). Both are applied to the base by
-the coherence pass (`workflows/18-coherence.js`), file g first. The plain-language account for the owner is
-`docs/volumes/SUMMARY.md`.
+carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes' base change requests) and g
+(`docs/AMENDMENTS-2026-09-28g.md`, items 102–119, the owner's rules), applied by the coherence pass
+(`workflows/18-coherence.js`). The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -36,22 +21,22 @@ dossier port's creation and absorb halves, and the verification rig; its milesto
 
 | volume | file | the subject it takes to build depth | base hooks it deepens | where it is built (§16) | price (person-weeks, the volume's own) |
 |---|---|---|---|---|---|
-| V01 | `V01-neighbourhoods.md` | stage 2 — neighbourhood composition inside each district: templates as fabric strategies, local places and pins, the close-up workflow, the `hatched` family, item 110's terraced wards, the district supply term, quarter records owning their members | PART II (II.1–II.4), §4.5 S6/S7b, §4.7 S9–S11, §8.5 | **M5** (replacing the base's 14–18 pw M5 row) | 27.25–36.25 |
+| V01 | `V01-neighbourhoods.md` | stage 2 — neighbourhood composition inside each district: templates as fabric strategies, local places and pins, the close-up workflow, the `hatched` family, item 110's terraced wards, the district supply term, quarter records owning their members | PART II (II.1–II.4), §4.5 S6/S7b, §4.7 S9–S11, §8.5 | **M5** | 27.25–36.25 |
 | V02 | `V02-buildings.md` | stage 3 — building massing and composition: wings, towers, courts, roofs, the crypt ladder, stepped massing (temples, terraced palaces, tiered towers), deck-plot buildings, works-and-shop splits | §2.6's stage-3 building hook, §4.7 S11, §8.4 | **M6** (M6a–M6c), with its item-110 building part at **M3a** | 22.5–32.5 (M6 20.5–29.75 with spikes; 2–2.75 at M3a) |
 | V03 | `V03-interiors.md` | the plan rung — floor plans of every building: rooms, stairs, doors, basements and crypts, plans of tiers, stored plans and their re-cuts | §2.6's plan rung, the transient arena, O9 | **M6-P**; its eager plan facts (PE) inside M2b and M3a | 18.5–25.25 (M6-P 17.75–24.25; PE 0.75–1) |
 | V04 | `V04-underground.md` | the underground layer — sewers (II.7), caverns and fissures, underground ruins (item 109), catacombs and crypt joins (109 (k)), access and excavation, the undercity, vaults under raised ways | II.6–II.7, §2.7's staged records, §4.11's decline hook | **M6-U** | 28.25–39.25 |
-| V05 | `V05-sky.md` | the sky layer — floating islands: placement, the underside profile and its shadow under the three suns (J98), the rim as a cliff barrier, access and hand-over to the neighbourhood run | II.6, §8.4 | **M6-sky** | 17.25–23.25 |
-| V06 | `V06-evolution.md` | the evolution engine — epochs: decline and regrowth, uses and the supply web over time, walls over time, ladder steps, hazards, shade and siting drift, catacomb growth, raised ways and terraces over time, history and forks | §4.11's evolution hook (one path built in the base: grow-by-stage) | **M6-E** (E0–E8) | 25.25–35.75 |
-| V07 | `V07-village.md` | the village product — thorp, hamlet, village and the small-town edge: trackers, tofts, fields, the palisade's barrier closure, village institutions and ladders, hand-offs up and down, voids under villages | PART III, §1.1's ladder ends, §4.11, §7.7 | **V-M0 – V-M4** and **V-M2u** | 26.5–36.5 |
-| V08 | `V08-settlementforge.md` | the SettlementForge connection — the host client, the port leader and adapters, custom content and chains, ladders, the dossier's ruin, magic, mining, cathedral and cemetery facts, persistence in the host, the players' view | §7.7 (the dossier), §11.2–§11.3 (the embed and host bridge), §14 | **SF0 – SF7** and **VH** (M-SF) | 15.75–21.5 (map side; SettlementForge's own side 1.5–2.5, the owner's program) |
-| V09 | `V09-application.md` | the application — the shell, every tool of item 101 on the canvas, the message catalogue and its buttons, time, host mode, the layers' and the building band's screens, the roster reader | §9.5, §11.2, §14, §7.1 | inside the base's milestones (its line 16.75–24.75); staged screens with their layers (AP6 at M6-U, AP7 at M6-sky, AP8 at M3c, AP10 at M6) | 19.5–29 |
-| V10 | `V10-clerk.md` | the clerk — the oracle at depth and the built-in assistant: tools, proposals, bends and refusals, explanations ("why is this here"), critique, transcripts, the host seam | §11.2, §7.1, item 101 | C1 inside **M3a**; **M3c** (C0, C2–C5) beside M3b | 13.5–18.5 (14–19 with the command-line clerk) |
-| V11 | `V11-content.md` | the content — the registry, the class rows and profiles, the siting rulebook (item 103), custom-content rows (104), goods and orientation (105), wall rows (106), balance (107), ladders (108), caverns, ruins and catacombs (109), item 110's rows, naming | §10.2, §7.6, §14 | C0–C7 inside M0–M4b; C8 at M6-U; the dossier rows with the SettlementForge stage | 12.25–17.0 |
-| V12 | `V12-calibration.md` | calibration — the capture plan, parity, the owner's panels, tuning runs, the register of every provisional number, the corpus reconciliation | §13 (all), §7.6, §17.1 | base side inside M-1–M4 (+6–9); **M-CAL** staged | 6–9 base side; M-CAL 4.75–8; each later corpus run 0.25–0.75 |
+| V05 | `V05-sky.md` | the sky layer — floating islands: placement, the underside profile and its shadow under the three suns (J98), the rim as a sheer barrier, access, and the island's unit inputs to the neighbourhood run | II.6, §8.4 | **M6-sky** | 17.25–23.25 |
+| V06 | `V06-evolution.md` | the evolution engine — epochs: decline and regrowth, uses and the supply web over time, walls over time, ladder steps, hazards, shade and siting drift, catacomb growth, raised ways and terraces over time, history and forks | §4.11's evolution hook (one path built in the base: grow-by-stage) | **M6-E** (E0–E9) | 29.5–41.75 |
+| V07 | `V07-village.md` | the village product — thorp, hamlet, village and the small-town edge: trackers, tofts, fields, the palisade's barrier closure, village institutions and ladders, hand-offs up and down, voids under villages | PART III, §1.1's ladder ends, §4.11, §7.7 | **V-M0 – V-M4** and **V-M2u** | 29.75–41.75 |
+| V08 | `V08-settlementforge.md` | the SettlementForge connection — the host client, the port leader and adapters, custom content and chains, ladders, the dossier's ruin, magic, mining, cathedral and cemetery facts, persistence in the host, the players' view | §7.7 (the dossier), §11.2–§11.3 (the embed and host bridge), §14 | **SF0 – SF7** and **VH** (M-SF) | 18–24.5 (map side; SettlementForge's own side 1.5–2.5, the owner's program) |
+| V09 | `V09-application.md` | the application — the shell, every tool of item 101 on the canvas, the message catalogue and its buttons, time, host mode, the layers' and the building band's screens, the roster reader | §9.5, §11.2, §14, §7.1 | inside the base's milestones (its line 16.25–24.0); staged screens with their layers (AP5 at M6-E, AP6 at M6-U, AP7 at M6-sky, AP8 at M3c, AP10 at M6); AP11 with the owner items' engines (V09 §8.1) | 21.5–31.75 |
+| V10 | `V10-clerk.md` | the clerk — the oracle at depth and the built-in assistant: tools, proposals, bends and refusals, explanations ("why is this here"), critique, transcripts, the host seam | §11.2, §7.1, item 101 | C1 inside **M3a**; **M3c** (C0, C2–C5) beside M3b | 14.5–20 (15–20.5 with the command-line clerk) |
+| V11 | `V11-content.md` | the content — the registry, the class rows and profiles, the siting rulebook (item 103), custom-content rows (104), goods and orientation (105), wall rows (106), balance (107), ladders (108), caverns, ruins and catacombs (109), item 110's rows, naming | §10.2, §7.6, §14 | C0–C3b and C5–C7 inside M0–M4b, C4's wall rows at M2b; C8 at M6-U; C9 beside each owner item's base milestone; C4's dossier rows with the SettlementForge stage (V11 §8) | 13.0–18.25 |
+| V12 | `V12-calibration.md` | calibration — the capture plan, parity, the owner's panels, tuning runs, the register of every provisional number, the corpus reconciliation | §13 (all), §7.6, §17.1 | base side M-1 – M4, W6 at M6-U's U3 – U5, W7 with each owner item's milestone (V12 §8.2); **M-CAL** staged | 6.75–10.25 base side; M-CAL 4.75–8; each later corpus run 0.25–0.75 |
 
 **Base change requests.** 407 requests in the volumes' `## 10` sections are carried by the 386 items of file f (200–585;
 137 BASE — built inside the base's milestones — and 249 STAGED — applied to the design now, built with the named staged
-milestone). The census was re-run at this lane's close: 0 uncarried, 0 duplicated, no gap.
+milestone); 0 uncarried, 0 duplicated, no gap.
 
 ## 2 The wiring — base hooks and what each volume feeds
 
@@ -75,7 +60,7 @@ Every dossier fact reaches a volume through volume 8's digest and derivation row
 | V11 | §10.2 roster, §7.6 editable tables, §14's `@plat/tables`, every stage's rows | the owner's rules (file g), V08 (the catalogue kinds) | every volume's tables; V12 (the register of every calibratable cell) |
 | V12 | §13 (benches, goldens, parity, the D-5 panel, CI tiers, the corpus interface), §7.6 | every volume's bars and calibratable cells (their register lines) | every volume's provisional numbers (confirmed, tuned, or `not-achieved`) |
 
-**How dense the wiring is** (citations of other volumes in each volume's text, counted by script at this lane's close;
+**How dense the wiring is** (citations of other volumes in each volume's text, counted by script;
 row cites column): the heaviest seams are V09–V10 (685/738), V03–V02 (522), V07–V11 (420), V08–V09 (407), V12–V11
 (400), V05–V01 (396), V06–V07 (253) and V04–V01 (329); the six seam checks of §7 were drawn along exactly these pairs.
 
@@ -84,13 +69,17 @@ row cites column): the heaviest seams are V09–V10 (685/738), V03–V02 (522), 
 ```mermaid
 flowchart LR
   subgraph BASE["base (§16)"]
-    M0["M-1 … M4b"] --> M5["M5 stage 2 (V01)"]
-    M3c["M3c built-in clerk (V10) beside M3b"]
+    M0["M-1, M0"] --> MA["M1 … M3a"]
+    MA --> M3b["M3b"]
+    MA --> M3c["M3c built-in clerk (V10), beside M3b"]
+    M3b --> M4["M4"]
+    M4 --> M4b["M4b content module"]
+    M4 --> M5["M5 stage 2 (V01)"]
   end
   M0 --> VM0["V-M0 tracker spike (V07), right after M0"]
-  M0 --> VM["village V-M1 … V-M4 (V07), after M4"]
-  M0 --> ME["M6-E evolution (V06), after M4"]
-  M0 --> MP0["M6-P P0, P1, P3 on base buildings (V03), after M4"]
+  M4 --> VM["village V-M1 … V-M4 (V07), after M4"]
+  M4 --> ME["M6-E evolution (V06), after M4"]
+  M4 --> MP0["M6-P P0, P1, P3 on base buildings (V03), after M4"]
   M5 --> M6["M6 stage 3 (V02)"]
   M5 --> MU["M6-U underground (V04)"]
   M6 --> MP["M6-P rest (V03)"]
@@ -108,17 +97,15 @@ flowchart LR
 | milestone | may start after | runs beside | its hard dependencies inside (the volume's own §8) |
 |---|---|---|---|
 | M5 (V01) | M4 | the village, M6-E, M6-P's first rungs | W15's V04-reading parts land inert until M6-U |
-| V-M0 (V07) | M0, on M0's kernel, M0 (b)'s tables and its own fixtures | M1 | none from M2b |
-| V-M1 (V07) | M4 | M5 | file g's barrier closure (fallback: VG's water cut) |
-| V-M2 (V07) | V-M1 | M5 | file f item 202's registration hooks (fallback: V07 risk (9)) |
-| V-M3 (V07) | V-M2 | — | its epoch clauses exit with M6-E's E2–E4 |
-| V-M2u (V07) | V04's tail (M6-U) | — | fallback: no cavern or ruin under a village until then |
-| M6-E (V06) | M4 | M5, the village | E4 after item 105's S10b changes land; E8 after V04's U5; E7 after E1–E6 |
+| V-M0 (V07) | M0, on M0's kernel, M0 (b)'s tables and its own fixtures (no M2b input) | M1 | none from M2b |
+| the village, V-M1 – V-M4 (V07) | M4 | M5, M6-E, M6-P's first rungs | V-M1 file g's barrier closure (fallback: VG's water cut); V-M2 file f item 202's registration hooks (fallback: V07 risk (9)); V-M3's epoch clauses exit with M6-E's E2–E4 |
+| V-M2u (V07) | M6-U's tail | — | fallback: no cavern or ruin under a village until then |
+| M6-E (V06) | M4 | M5, the village | E4 after item 105's S10b changes land; E8 after V04's U5; E7 after E1–E6; E9 after E8, V04's `BuriedFormer.lay` and V11's `history.*` cells |
 | M6 (V02) | M5 | M6-U | volume 4's access draw and M6-U before T-V2-36's crypt part |
-| M6-P (V03) | P0, P1, P3 after M4 on base buildings; the rest after M6 | M6 | P2 once V04's access records exist |
-| M6-U (V04) | M5 (or beside it with a second pair: U3's distinctness and U4's undercity parent wait on V01's W15) | M6 | U4 carries the crypt derivation |
-| M6-sky (V05) | M6-U; its P0 spike may run beside M5 | — | V01's unit run |
-| M3c (V10) | M3a (C1 inside M3a) | M3b | V09's AP8 screens |
+| M6-P (V03) | P0, P1 and P3 after M4 on the base's buildings; P2 once volume 4's access records exist; the rest after M6 | M5, M6 | P2 waits on V04's access records |
+| M6-U (V04) | M5 — or beside it with a second pair, its U3 distinctness and U4 undercity parent then waiting on volume 1's W15 | M6 | U4 carries the crypt derivation |
+| M6-sky (V05) | M6-U (its P0 spike may run beside M5) | — | V01's unit run |
+| M3c (V10) | M3a (C1 is inside M3a) | M3b | V09's AP8 screens |
 | M-CAL (V12) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | the corpus interface (§13.9) |
 | M-SF (V08) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | SettlementForge's own side (SettlementForge's program) |
 
@@ -142,19 +129,21 @@ Every volume's §8 lists its risks in order, each with a spike or a measurement 
 |---|---|---|---|
 | 1 | cost at METROPOLIS — the underground's tail (V04 risk 1), the epoch's use phase and link re-binding (V06 risk 1), the sky's light pass (V05), the clerk's scratch memory (V10 risk 4) | U0, E0, P0/P3, C0's S2 | per-volume budget fallbacks in each §6 (coarser rasters, batched re-binding, half resolution, overlay mode) |
 | 2 | a staged volume landing before the one it reads — the village before M6-E (V07 risks 6–10), the drawer before the clerk (V09 risk 5), V06's E4/E8 before V11's rows and V04's U5 (V06 risks 4–7), U3/U4 before V01's W15 (V04 risk 9) | none needed: each order is written out | the reader runs on defaults or inert hooks, reported, and the dependent test clauses move to the first exit after the provider (each named in its volume) |
-| 3 | statistical bars needing rule changes, not only rates (V06 risk 3; V12 risks 1–3) | V12's S-V12-1 (bootstrap), S-V12-2, S-V12-3 at M-1 and M2b; V06's E7 bench | one pre-decided fallback move per register line, a second miss `not-achieved`, reported as a table defect — never a moved threshold (V12 §3.11) |
+| 3 | statistical bars needing rule changes, not only rates (V06 risk 3; V12 risks 1–3) | V12's S-V12-1 (bootstrap) and S-V12-2 at M-1, S-V12-3 and S-V12-4 at M2b; V06's E7 bench | one pre-decided fallback move per register line, a second miss `not-achieved`, reported as a table defect — never a moved threshold (V12 §3.11) |
 | 4 | legibility — the VILLAGE top (V07 risk 1), the dark underground and the ruin program (V04 risk 4), the building band (V03), `hatched` at district scale (V01 risk 4) | V-M0's 20 renders, the owner's panels, S-V1-c | the nucleated law and bent-cut lanes (V07); the plan lines' rules and the panel (V04); the pitch fallback (V01) |
 | 5 | the owner's panel time (V01 risk 5, V12 Q-V12-2) | — | an unrated sitting never stops the build and never lets a gate be claimed (§13.6 (7)) |
-| 6 | the base's own changes (files g and f) landing late or in another shape (V07 risks 6, 8, 9; V09 risk 7; V11 C3b) | the coherence pass applies g, then f, before the staged work | each reader goes through one request's text; the named fallbacks (VG's water cut, item-110 rows off, the palisade's plain enceinte) |
+| 6 | the base's own changes (files g and f) landing late or in another shape (V07 risks 6, 8, 9; V09 risk 7; V11 C3b) | — (files f and g are applied) | each reader goes through one request's text; the named fallbacks (VG's water cut, item-110 rows off, the palisade's plain enceinte) |
 | 7 | SettlementForge's frame policy and conditional write (V08 risks 1–2) | SF0 | a same-site path or a message-port worker; a 30-s renewable lease |
 | 8 | the model provider — direct browser calls, cost, retirement (V10 risks 1, 3, 6) | C0's S1 | the drawer shown unavailable with its reason and the host path kept open; the owner's spending limit; the model id is one table cell re-evaluated before any switch |
 | 9 | content effort and balance — the family weights (V11 R1), aqueducts too rare or common (R5), an ancient culture too like the town (V04 risk 6, V11 R6) | V11's C2 and C3b spikes; T-V4-45, T-V11-24 | halve every family weight; the `perHeadL` fallback; the pre-decided refit |
 | 10 | the default map's look changing at M5 (V01 risk 6) | the M5 panel | the parity presets do not move; the change is declared once (Q-V1-1) |
 
-**Spikes, in the order they run:** V12's S-V12-1 and S-V12-2 (M-1); V01's S-V1-a–c (M5's first weeks); V02's spikes
-(2.25 pw, before M6a); V03's P0; V04's U0; V05's P0 (may run beside M5); V06's E0; V07's V-M0 (the tracker spike); V08's
-SF0; V09's storage and first-five-minutes checks (S-A2, §13.4); V10's C0 (S1, S2); V11's family-weight spike at C2 and the
-aqueduct bench at C3b.
+**Spikes, in the order they run** (each as its volume's §8 states it): V12's S-V12-1 and S-V12-2 (M-1); V07's V-M0 (the
+tracker spike, right after M0); V09's S-A1 and S-A2 (M2a); V12's S-V12-3 and S-V12-4 and V11's family-weight spike at C2
+(M2b); V09's S-A3 and S-A4 and V11's aqueduct bench at C3b (M3a); V10's C0 (S1 – S4, M3c); after M4, V01's S-V1-a – c
+(M5's first weeks), V03's P0 and V06's E0; V05's P0 (beside M5); V04's U0, then its risk spikes at U3's and U3b's starts
+(M6-U); V02's SP-V2-1 (before M6a), SP-V2-2 (in M6a), SP-V2-4 (before M6c) and SP-V2-3 (in M6c); V08's SF0 (M-SF, or
+earlier on the frozen fixtures). The first-five-minutes sessions (§13.4) measure the tools at M2a, M3a and M3c.
 
 ## 6 Owner questions with recommendations
 
@@ -201,17 +190,13 @@ owns it and fixed there.
 
 ## 8 CONFIRMED versus PLAUSIBLE
 
-**CONFIRMED (executed in this lane):** every in-place edit of the finalization an exact-match replacement with its match
-count asserted, on files whose md5 was checked unchanged since the round-6 landings (V01 85b488b3 untouched; V02 65e5ea63,
-V03 eb01b7dc, V04 9cae4284, V06 412a7418, V07 215e9cae, V08 e41d8fb7, V09 9cdc1965, V10 c78aac11, V11 08477df8, V12
-95778f4d, file f 839ccce5 before; backups in this session's `scratchpad/volumes/fin/pre/`); every new decision, test and
-cross-volume row defined exactly once (J-V2.108, J-V3.128–129, J-V6.126, X49, J-V9.125, T-V9-70, J-V10.110, J-V12.82–83,
-X-V12-19); the request census (407 requests, 0 uncarried; items 200–585, 386, no gap or duplicate); the clean-room check
-of the 160 tokens this lane added against the 3 193 reference identifiers (0 hits); the round tallies of §7 (from the
-lane log's landing lines); the wiring density of §2 (a citation count by script); the BASE and STAGED counts of file f (137 and 249, by script); the table-shape check of every changed file (no row off its header's column count, before or after); and `doc_checks.py --heads docs/ARCHITECTURE.md` on each changed file before and after this lane (outputs in this session's `scratchpad/volumes/fin/dc/`): C1, C2 and S1 unchanged (0, except V09's one pre-existing C2 row), C3 up by 1–8 per file (section-number digit runs and ordinary phrases of the new sentences), C4 unchanged except V06's 3 → 5 (ordinary building words — church, hall, house, market, tower — in the rewritten REPLACEMENT row, T-V6-45 and J-V6.125, reviewed: not a copied list), S2 up by 0–5 per file (volume-local pointers such as V6 §2.1 and V9 §4.16 that resolve in their volumes, not the base).
+**CONFIRMED (executed):** the request census of §1 (407 requests carried by the 386 items of file f, 0 uncarried, no
+gap or duplicate; 137 BASE and 249 STAGED) and the wiring density of §2, both by script; each volume's §8 total
+re-summed from its rows by the coherence pass's verifiers. The finalization lane's own record — its ledger, its in-place edits with their asserted match
+counts, its clean-room and document checks — stands in the archived index
+(`docs/archive/volumes-pre-coherence-2026-09-28/INDEX.md`) and the lane log.
 
-**PLAUSIBLE (reasoned, not executed):** the prices and totals of §1 and §4 (each volume's own estimate, summed here by the
-rule file f item 568 states; no milestone has run); that the fix list's items are immaterial as argued (each read in its
-seam's text, none re-traced into untouched text beyond the passages named); that the pairs no seam read together hold no
-semantic conflict sharing no name (J-VI.29; the round-6 seams swept every line changed since round 5, not the whole six
-megabytes again); that the recommended order of §4 is the one the owner will choose.
+**PLAUSIBLE (reasoned, not executed):** every price of §1 (each volume's own §8 estimate) and the two totals §16
+computes once from them (file f item 568) — expert estimates until the milestones run; that the pairs no seam read
+together hold no semantic conflict sharing no name (J-VI.29). The order of §3 and §4 is a decision under the owner's
+delegation (J122), not a measurement.

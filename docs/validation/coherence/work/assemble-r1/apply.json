@@ -1,0 +1,391 @@
+{
+ "base": {
+  "target": "docs/ARCHITECTURE.md",
+  "found": 92,
+  "applied": 91,
+  "skipped": 1,
+  "skipped_detail": [
+   [
+    "repair-r1-determinism.md #14 (l. 2645) MALFORMED === RULING REQUEST VDC0-33 ===",
+    "malformed \"=== \" header line; its text skipped"
+   ]
+  ],
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   132,
+   140
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   2615627,
+   2787468
+  ],
+  "sha256_out": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+  "rationale_unchanged": false,
+  "rationale_sha256_out": "74f41df2a7896ea22c34e4d71157cc6a01980eb396b737f4ba6fe1be564be636",
+  "notes": [
+   "REPLACE retitles the heading",
+   "DUPLICATE ID inserted (an id the table already holds): ['J-A73.06']"
+  ]
+ },
+ "INDEX": {
+  "target": "docs/volumes/INDEX.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   9,
+   9
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   2,
+   2
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   25407,
+   23960
+  ],
+  "sha256_out": "9efc19e34883b52103ee7614578339544676ba8c17c45c9e9ecebd44d4927d8a",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V01-neighbourhoods": {
+  "target": "docs/volumes/V01-neighbourhoods.md",
+  "found": 34,
+  "applied": 34,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   122,
+   123
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   464158,
+   492604
+  ],
+  "sha256_out": "1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": [
+   "REPLACE body holds heading(s) of the target level or higher after its first line: [\"### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)\"]"
+  ]
+ },
+ "V02-buildings": {
+  "target": "docs/volumes/V02-buildings.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   73,
+   73
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   494200,
+   513788
+  ],
+  "sha256_out": "a11f04ccc93d0fcefbef0e58fd633b75a237db3ee1ed2186daf7f15534980a6d",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V03-interiors": {
+  "target": "docs/volumes/V03-interiors.md",
+  "found": 23,
+  "applied": 23,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   46,
+   47
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   388143,
+   413070
+  ],
+  "sha256_out": "eda87a1c8cf0e84bca1431d21b30a948c4f35bddbc95c7cf2e25e2f4b009baeb",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V04-underground": {
+  "target": "docs/volumes/V04-underground.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   460463,
+   488215
+  ],
+  "sha256_out": "47c144776d2085a0bbc3b0f1c4dc89dfd4411dfef3d0faa9f9c035611a1ae856",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V05-sky": {
+  "target": "docs/volumes/V05-sky.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   61,
+   62
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   360317,
+   394900
+  ],
+  "sha256_out": "b5f310b6269b2897d64e5688bab5415faaa691b88cfd62770d5f9a7945c4a84a",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V06-evolution": {
+  "target": "docs/volumes/V06-evolution.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   63,
+   63
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   26,
+   26
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   593982,
+   629860
+  ],
+  "sha256_out": "771887caa2d6ff6c8d815dc8200d0dd474c85e82f23f33d16ec05448922c88a3",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V07-village": {
+  "target": "docs/volumes/V07-village.md",
+  "found": 2,
+  "applied": 1,
+  "skipped": 1,
+  "skipped_detail": [
+   [
+    "repair-r1-V07.md #2 (l. 3922) MALFORMED === RULING REQUEST VV78-21 ===",
+    "malformed \"=== \" header line; its text skipped"
+   ]
+  ],
+  "audit_not_ok": 0,
+  "headings": [
+   56,
+   57
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   16
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   561556,
+   580760
+  ],
+  "sha256_out": "02f8dbb439bce4ae73e010022fc29a93e71f3e8944e0a6b3fbf8df01c8e2d6f8",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V08-settlementforge": {
+  "target": "docs/volumes/V08-settlementforge.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   63,
+   63
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   20,
+   20
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   489825,
+   505231
+  ],
+  "sha256_out": "b96e79d8a7d84deb5c04fce37bd5cbb29e606f104d0ca9d14488f6b0b46df2d2",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V09-application": {
+  "target": "docs/volumes/V09-application.md",
+  "found": 56,
+  "applied": 56,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   110,
+   110
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   635793,
+   659614
+  ],
+  "sha256_out": "c2dc5b806ac1fedf542478dfea7bfd2967c7bf63037448496fd301b0a147fe94",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V10-clerk": {
+  "target": "docs/volumes/V10-clerk.md",
+  "found": 41,
+  "applied": 40,
+  "skipped": 1,
+  "skipped_detail": [
+   [
+    "repair-r1-V10.md #41 (l. 2921) MALFORMED === RULING REQUEST VAT-20 ===",
+    "malformed \"=== \" header line; its text skipped"
+   ]
+  ],
+  "audit_not_ok": 0,
+  "headings": [
+   86,
+   86
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   466617,
+   476312
+  ],
+  "sha256_out": "887b1031b59d114a2fe63a00afd3d998c28dd119f4759bc347098d195b1bd832",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": [
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading"
+  ]
+ },
+ "V11-content": {
+  "target": "docs/volumes/V11-content.md",
+  "found": 29,
+  "applied": 29,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   22,
+   22
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   608701,
+   626514
+  ],
+  "sha256_out": "7f3ee85ebbddb200bffc102f13a79206368eafca9ffee470eabf23a2891f3593",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": []
+ },
+ "V12-calibration": {
+  "target": "docs/volumes/V12-calibration.md",
+  "found": 25,
+  "applied": 25,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   67,
+   67
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   30,
+   30
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   430397,
+   453363
+  ],
+  "sha256_out": "a5e98d8add156a46de6b92e8c4390b993e7a5159fcf55e22eb9a8e97ac3252e0",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+  "notes": [
+   "REPLACE retitles the heading"
+  ]
+ }
+}

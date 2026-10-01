@@ -1,0 +1,199 @@
+{
+ "units": [
+  {
+   "unit": "base",
+   "path": "docs/ARCHITECTURE.md",
+   "old_bytes": 2615627,
+   "new_bytes": 2787468,
+   "old_words": 422575,
+   "new_words": 450409,
+   "old_lines": 20306,
+   "new_lines": 21449
+  },
+  {
+   "unit": "V01",
+   "path": "docs/volumes/V01-neighbourhoods.md",
+   "old_bytes": 464158,
+   "new_bytes": 492604,
+   "old_words": 76024,
+   "new_words": 80754,
+   "old_lines": 3441,
+   "new_lines": 3615
+  },
+  {
+   "unit": "V02",
+   "path": "docs/volumes/V02-buildings.md",
+   "old_bytes": 494200,
+   "new_bytes": 513788,
+   "old_words": 82668,
+   "new_words": 85913,
+   "old_lines": 3759,
+   "new_lines": 3884
+  },
+  {
+   "unit": "V03",
+   "path": "docs/volumes/V03-interiors.md",
+   "old_bytes": 388143,
+   "new_bytes": 413070,
+   "old_words": 65917,
+   "new_words": 70149,
+   "old_lines": 2852,
+   "new_lines": 3002
+  },
+  {
+   "unit": "V04",
+   "path": "docs/volumes/V04-underground.md",
+   "old_bytes": 460463,
+   "new_bytes": 488215,
+   "old_words": 74624,
+   "new_words": 79203,
+   "old_lines": 3335,
+   "new_lines": 3456
+  },
+  {
+   "unit": "V05",
+   "path": "docs/volumes/V05-sky.md",
+   "old_bytes": 360317,
+   "new_bytes": 394900,
+   "old_words": 60743,
+   "new_words": 66710,
+   "old_lines": 2790,
+   "new_lines": 3031
+  },
+  {
+   "unit": "V06",
+   "path": "docs/volumes/V06-evolution.md",
+   "old_bytes": 593982,
+   "new_bytes": 629860,
+   "old_words": 96675,
+   "new_words": 102706,
+   "old_lines": 4112,
+   "new_lines": 4316
+  },
+  {
+   "unit": "V07",
+   "path": "docs/volumes/V07-village.md",
+   "old_bytes": 561556,
+   "new_bytes": 580760,
+   "old_words": 92729,
+   "new_words": 96143,
+   "old_lines": 3809,
+   "new_lines": 3917
+  },
+  {
+   "unit": "V08",
+   "path": "docs/volumes/V08-settlementforge.md",
+   "old_bytes": 489825,
+   "new_bytes": 505231,
+   "old_words": 77159,
+   "new_words": 79800,
+   "old_lines": 3363,
+   "new_lines": 3440
+  },
+  {
+   "unit": "V09",
+   "path": "docs/volumes/V09-application.md",
+   "old_bytes": 635793,
+   "new_bytes": 659614,
+   "old_words": 105485,
+   "new_words": 109155,
+   "old_lines": 4439,
+   "new_lines": 4521
+  },
+  {
+   "unit": "V10",
+   "path": "docs/volumes/V10-clerk.md",
+   "old_bytes": 466617,
+   "new_bytes": 476312,
+   "old_words": 75073,
+   "new_words": 76999,
+   "old_lines": 3347,
+   "new_lines": 3374
+  },
+  {
+   "unit": "V11",
+   "path": "docs/volumes/V11-content.md",
+   "old_bytes": 608701,
+   "new_bytes": 626514,
+   "old_words": 101973,
+   "new_words": 104792,
+   "old_lines": 5069,
+   "new_lines": 5154
+  },
+  {
+   "unit": "V12",
+   "path": "docs/volumes/V12-calibration.md",
+   "old_bytes": 430397,
+   "new_bytes": 453363,
+   "old_words": 69784,
+   "new_words": 73495,
+   "old_lines": 3106,
+   "new_lines": 3217
+  },
+  {
+   "unit": "INDEX",
+   "path": "docs/volumes/INDEX.md",
+   "old_bytes": 25407,
+   "new_bytes": 23960,
+   "old_words": 4250,
+   "new_words": 4026,
+   "old_lines": 217,
+   "new_lines": 202
+  },
+  {
+   "unit": "rationale",
+   "path": "docs/ARCHITECTURE-RATIONALE.md",
+   "old_bytes": 685208,
+   "new_bytes": 688889,
+   "old_words": 115671,
+   "new_words": 116315,
+   "old_lines": 2362,
+   "new_lines": 2369
+  }
+ ],
+ "totals": {
+  "base + volumes": {
+   "old_bytes": 8569779,
+   "new_bytes": 9021699,
+   "old_words": 1401429,
+   "new_words": 1476228,
+   "old_lines": 63728,
+   "new_lines": 66376
+  },
+  "volumes": {
+   "old_bytes": 5954152,
+   "new_bytes": 6234231,
+   "old_words": 978854,
+   "new_words": 1025819,
+   "old_lines": 43422,
+   "new_lines": 44927
+  },
+  "base + volumes + INDEX": {
+   "old_bytes": 8595186,
+   "new_bytes": 9045659,
+   "old_words": 1405679,
+   "new_words": 1480254,
+   "old_lines": 63945,
+   "new_lines": 66578
+  }
+ },
+ "duplicate_definitions": {
+  "base index J rows": [],
+  "base D-n": [],
+  "base T-ER": [],
+  "rationale Part A": [],
+  "V01 T-V/J-V": [],
+  "V02 T-V/J-V": [],
+  "V03 T-V/J-V": [],
+  "V04 T-V/J-V": [],
+  "V05 T-V/J-V": [],
+  "V06 T-V/J-V": [],
+  "V07 T-V/J-V": [],
+  "V08 T-V/J-V": [],
+  "V09 T-V/J-V": [],
+  "V10 T-V/J-V": [],
+  "V11 T-V/J-V": [],
+  "V12 T-V/J-V": [],
+  "_integrate J-VI": []
+ }
+}

@@ -9,7 +9,7 @@ host clerk seam, over the base (`docs/ARCHITECTURE.md`, with files f and g appli
 base or another volume states is cited, never restated; every new fact is stated once, here. **Citations:** a bare `§n`
 or `II.n` is always the base's, also inside a list; `Vnn §n` is a design volume's section, this one included
 (`V10 §3.9`), and every section of a list carries its own prefix (`V09 §2.9, V09 §4.9`); `item n` is an amendment item —
-items 1–119 the owner's instructions and file g's rules, 200 and above file f's, each the applied text of a volume's base
+items 1–120 the owner's instructions and file g's rules, 200 and above file f's, each the applied text of a volume's base
 change request (V10 §10.1 maps this volume's former request ids to them); `J-VI.n` is a volumes-integration decision
 (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V10.n` (V10 §9), tests `T-V10-n` (V10 §7),
 cross-volume requests `CVR-V10-n` (V10 §10.2); the critique rows K1–K18 are this volume's (V10 §3.10); the wiring
@@ -56,6 +56,10 @@ shows that a place once stood higher but nobody recorded how high, it says exact
 once a city; its exact size is not recorded"). It explains the season and a festival as the look they are ("the millpond
 is frozen: it is midwinter, and winters here are cold"; "the streets are hung for the Feast of the Lantern, weeks 20–21")
 — neither ever changes the map.
+
+**Showing you where things are.** Ask "show me the blacksmiths" and the map's Find shows them: everything else dims and
+every smithy glows, on every zoom and layer, until you clear it. It changes what you see, never the map, and it shows only
+what your view may know.
 
 **What it never does.** It never draws a picture — it only writes the same declarations the tools make, so everything it
 proposes can be moved, reshaped and re-rolled afterwards, and every export says which parts you drew, which the rules
@@ -109,8 +113,9 @@ history, as every edit does.
    vocabularies, so the clerk can never emit an event the canvas cannot (J-V10.5).
 3. **The oracle at depth** — the typed answer `WhyAnswer`, the per-kind explainers (`WhyProvider`) registered in §2.8's
    entity registry, the placement solver's read-only `explain` mode with its candidate mode, and the prosperity field's
-   driver decomposition — what §11.2 names ("the rule, its inputs and the alternatives it weighed") and V10 §2.13 types
-   (items 468, 311, 270, 297), with open **sections** so every volume's explainer can say what it knows and a generic
+   driver decomposition — what §11.2 names ("the rule, its inputs and the alternatives it weighed") and declares (item
+   468), the solver's explanation and the providers' interfaces typed in V10 §2.13 (items 311, 270, 297), with open
+   **sections** so every volume's explainer can say what it knows and a generic
    provider for every other kind (item 270), and the placement's order index so a "why" reproduces the score the rules
    computed when they placed it (item 271). It serves the clerk, the application's why card (V09 §2.7) and any host clerk
    alike, and carries the explanations the owner's items assign here: item 102's daylight share, item 103 (e)'s rows that
@@ -142,25 +147,28 @@ history, as every edit does.
 10. **The drawer's harness** — `createClerk(mount)`, this volume's implementation of V09 §2.10's `ClerkHandle` (it adds
     no member), which the drawer drives and which reaches a host's bridge only through `ClerkMount.host` (V10 §2.6).
 11. **Item 110's calls** — the typed forms that declare retaining walls, terraces, islets, raised ways and aqueducts,
-    deck slots, stepped tiers and span uses (V10 §2.12, V10 §4.1); the removal of any generated thing through T10
+    deck slots, stepped tiers and span uses (V10 §2.12, V10 §4.1); the removal of any generated thing through T10 `hold`
     `hold` (item 368); anchors inside raw events, so every geometric kind the escape hatch carries is callable without
     coordinates (J-V10.73); the effects a change has, shown and told before it applies (V10 §3.11); the rule that none of
     these is declared or removed unasked (V10 §3.3 rule 16); and the scripted tool-API transcript of the second
     known-city fixture (V10 §3.15).
+12. **Item 120's Find from words** — the clerk's "show me …" sets the viewer's Find chips through a `find` action, a view
+    action and never an edit, and it reads and says what Find shows (`read_map { kind: 'find' }`; V10 §3.9b (7)).
 
 ### 1.2 The base hooks this volume consumes (cited, never restated)
 
 | base section | what this volume uses |
 |---|---|
-| §7.1 | the event union and `EditBase` (`proposedBy`, `group`, `session`, `author`, `creation`), the points forms, `FieldStroke` with its flatten mode (item 366), the toolkit's twelve tools with the one event → tool binding table and the dry-run outcome table (bends and the two refusals), the sugar events and their expansion (the unnamed roster line, item 571) |
+| §7.1 | the event union and `EditBase` (`proposedBy`, `group`, `session`, `author`, `creation`), the points forms, `FieldStroke` with its flatten mode (item 366), the toolkit's twelve tools with the one event → tool binding table and the dry-run outcome table (its bends, refusals and conflicts), the sugar events and their expansion (the unnamed roster line, item 571) |
 | §7.2 | declared means held (R13): what a clerk-proposed, user-accepted event declares is held like any declaration |
 | §7.3 | §7.3 item 4 (fates and renames the user confirms), §7.3 item 9 (closures), §7.3 item 10 (New random and three variations) |
 | §7.4 | undo and redo as events, groups as one undo step, per-session stacks, the independence check; every edit kind's lifecycle row |
 | §7.7 | intent (layer 1) and its expansion; the precedence line; the dossier contract (one way, existence, rejection, positive placement, knowledge, two tiers, the derivation table DR1–DR35 and item 113's history rows from DR36) |
 | §7.8 | the control registry's parameters that T1 `intend` adjusts |
-| §2.8 | `factTier`, `Provenance` (its `symbolic` flag, item 113), `DerivationRecord` with the placement order index (item 271), `NamingRecord`, lifecycle events, the entity registry with its dossier paths, readable paths and explainers (item 270) |
-| §2.7 | `Enceinte.condition` and each run's material (item 114); the raised ways' parts, `RetainingWall` and the deck plots (items 244–246) |
-| §2.9 | view state: the year position and its follow flag (item 117), the festival display (item 118) |
+| §1.1 | `LadderRouter.route` and the rung table (a description's population routed, V10 §3.7) |
+| §2.8 | `factTier`, `Provenance` (its `symbolic` flag, item 113), `DerivationRecord` with the placement order index `PlacementOrder` (item 271), `NamingRecord`, lifecycle events, the entity registry with its dossier paths, readable paths and explainers (item 270) |
+| §2.7 | `Enceinte.condition` and each run's material (item 114); the raised ways' parts, `RaisedKind`, `RaisedReasonKey`, `RetainingWall` and the deck plots (items 244–246) |
+| §2.9 | view state: the year position and its follow flag (item 117), the festival display (item 118), the view key `find` with its chips and Show gaps switch (item 120) |
 | §4.2 S0, S1, §4.4, §4.5 | the oasis and spring features and the water pull (item 111); the prosperity field and its drivers with item 102's daylight term and item 111's water term and climate cell (item 297); item 72's character and identities |
 | §4.3 | the raised ways' generation and `raisedOutcome` (item 290) |
 | §4.7 S10b | the one placement solver, `PlacementRequest`, `PlacementResult`, closest options, the claims-first order and item 105 (f)'s anchors-first order with its relaxation pass, the read-only `explain` (item 311), the rung ceiling on the class mix (item 115); S11's designation |
@@ -170,7 +178,7 @@ history, as every edit does.
 | §9.2 | the knowledge admission, the one function every reader cites (the clerk reads only through the reader under its viewer's key) |
 | §9.5 | the count badge and the handles a ghost carries; a quarter's size step (item 348) |
 | §11.1 | the skeleton file; authorship and tiers in every export (a clerk-made creation prefix keeps its authorship, item 365); inert exports |
-| §11.2 | the facade (`generate`, `open`, `scratch`, `edit`, `preview`, `confirm`, `undo`, `query`, `report`, `subscribe`, `close`), `PreviewResult`, `ApplyResult`, the *Knowledge* rules and the oracle rules (1)–(4), `admitAs` (item 572), `filtered` (item 470), the reader kinds (items 468, 460, 583), the clerk's tool API paragraph (items 471, J-A101.83) |
+| §11.2 | the facade (`generate`, `open`, `scratch`, `edit`, `preview`, `confirm`, `undo`, `query`, `report`, `subscribe`, `close`), `PreviewResult`, `ApplyResult`, the *Knowledge* rules and the oracle rules (1)–(4), `admitAs` (item 572), `filtered` (item 470), the reader kinds with their answer types (items 468, 460, 583), the gazetteer with its class counts and match listing (item 120), the clerk's tool API paragraph (items 471, J-A101.83) |
 | §11.3 | roles and knowledge keys and their authority, the bridge's `preview` message and `clerk.*` messages (item 473), convergence, logging |
 | §11.4, §11.5 | host inputs (nothing asks the host for a fact); no hosted service |
 | §12.3, §12.6, §12.8 | model, edit and preview budgets; memory lines, the clerk's scratch line (item 481) |
@@ -179,21 +187,21 @@ history, as every edit does.
 | §16 | M3a's tool API; M3c, the built-in clerk, beside M3b (item 531; J122) |
 | §17.1, §17.4 | the clean-room chain; the provider's SDK as a production dependency (item 538) |
 | items 101 (d), (f′) R10, R19; 63 (c); 20, 20 (h) | the clerk's four roles and its limits (preview-first, labelled, optional, never pixels); knowledge gating of concealed uses; the dossier as the only immutable truth |
-| items 102–119 | the explanations listed in V10 §1.1 (3), their base mechanisms read at their homes; item 109 (j) (2)'s "the clerk says so" and (k) (J111); item 110 as revised ~23:40 |
+| items 102–120 | the explanations listed in V10 §1.1 (3) and item 120's Find (V10 §1.1 (12)), their base mechanisms read at their homes; item 109 (j) (2)'s "the clerk says so" and (k) (J111); item 110 as revised ~23:40 |
 
 | volume section | what this volume uses |
 |---|---|
-| V09 §2.7, V09 §2.9, V09 §2.10, V09 §3.9, V09 §4.3, V09 §4.5, V09 §4.8, V09 §4.9, V09 §4.11, V09 §4.20 | the why card's `WhyCardModel` (a projection of `WhyAnswer`); the message catalogue, `MsgRef`, `MsgRow.buttons` and its keys; `ClerkSlot`, `ClerkMount` (`effectiveKey`, `rebuildEvents(seq)`, `host`) and `ClerkHandle`, which this volume's harness implements (V10 §2.6); `forkAt` and `rerunFrom`, which the application runs for the `fork` and `rerun` actions; the tool screens and mode ids; the one-line `roster` a place by a locus emits; the drawer; item 110's canvas gestures and event shapes (items 362, 465, 466, 246) |
+| V09 §2.7, V09 §2.9, V09 §2.10, V09 §3.9, V09 §4.3, V09 §4.5, V09 §4.8, V09 §4.9, V09 §4.11, V09 §4.20 | the why card's `WhyCardModel` (a projection of `WhyAnswer`); the message catalogue, `MsgRef`, `MsgRow.buttons` and its keys; `ClerkSlot`, `ClerkMount` (`effectiveKey`, `rebuildEvents(seq)`, `host`) and `ClerkHandle`, which this volume's harness implements (V10 §2.6); `forkAt` and `rerunFrom`, which the application runs for the `fork` and `rerun` actions; the tool screens and mode ids; the one-line `roster` a place by a locus emits; the drawer; item 110's canvas gestures and event shapes (items 362, 465, 466, 246); the Find panel and its `live.find` overlay provider, which a `find` action drives (item 120) |
 | V11 §2.4, V11 §3.3.1, V11 §3.11, V11 §4.2, V11 §4.5 | the derived-row ids and the families' `says`; the catalogue kinds of V10 §1b.5; the document-only tables `siting.declared` and `siting.linkEdits`; `explainRow` and `profile` |
 | V01 §4.5, V02 §4.5, V02 §4.6, V03 §4.6, V04 §4.5, V05 §4.5, V06 §4.1, V06 §4.5, V07 §4.5 | each volume's explainers, registered as `WhyProvider`s or section providers (V10 §3.9's owed table), and its events reaching the clerk through the tool schemas generated from the registry (V10 §3.4) |
 | V02 §3.16, V02 §4.6 | `DeckContext` and the deck budget, the `tiers` op and a tier's heights, the stepped specialisations, the registry paths `massing/stack` and `deck/landmarks/<head\|mid>` |
 | V02 §3.14.5, V03 §2.1, V03 §3.7.4 | `Basement.crypt`, its rank (the principal crypt), the raised and rim forms and the wet-ground rule — read by V10 §3.9a |
-| V04 §2.2, V04 §3.5, V04 §3.5.7, V04 §4.5, V04 §5.2 | `RuinRecord`, `CatacombComplex`, `AccessCause`, `LinkCause`, `reusedBy`, `excavation(cluster)`, the LOST state (item 113 (e)), the `secret`-only admission of an unexcavated element, `catacombOutcome`; item 110's arch vaults, a ruin's stepped monument, the terminal cistern, a void met by a footing — read, never written, by V10 §3.9a |
+| V04 §2.2, V04 §3.5, V04 §3.5.7, V04 §4.5, V04 §5.2 | `RuinRecord`, `CatacombComplex`, `AccessCause`, `LinkCause`, `reusedBy`, `excavation(doc, cluster)`, the LOST state (item 113 (e)), the `secret`-only admission of an unexcavated element, `catacombOutcome`; item 110's arch vaults, a ruin's stepped monument, the terminal cistern, a void met by a footing — read, never written, by V10 §3.9a |
 | V05 §3.20, V05 §4.2, V05 §4.5 | the daylight term's per-island `sources`; `skyRoute`, the landing a cross-arena pull goes through; the island bend lines |
-| V06 §2.10, V06 §2.11, V06 §2.13, V06 §3.7, V06 §3.15, V06 §3.19, V06 §4.1, V06 §4.5 | `ChronicleEntry`, `LifecycleEvent.detail.why`, `RaisedWayLedger`, `RaisedReasonKey`, `RaisedCandidate`, the suppression `detail.suppress` (item 260), the walls' need and means (item 114), `locate(w)` and the frame builder, the shade masks' history, the replay record (item 113), the bend line of a standalone neighbourhood document's clock |
-| V07 §2.1, V07 §2.7, V07 §4.5 | `LadderRouter.route`, `ProductDecl('village')`, the rung table, `VillageRequest` with its plan forms and field systems, the village `WhyProvider` |
+| V06 §2.10, V06 §2.11, V06 §2.13, V06 §3.7, V06 §3.15, V06 §3.19, V06 §4.1, V06 §4.5 | `ChronicleEntry`, `LifecycleEvent.detail.why`, `RaisedWayLedger`, `RaisedCandidate`, the suppression `detail.suppress` (item 260), the walls' need and means (item 114), `locate(w)` and the frame builder, the shade masks' history, the replay record (item 113), the bend line of a standalone neighbourhood document's clock |
+| V07 §2.1, V07 §2.7, V07 §4.5 | `ProductDecl('village')`, `VillageRequest` with its plan forms and field systems, the village `WhyProvider` |
 | V08 §3.1, V08 §4.4, V08 §5.4 | the frame's content security policy (V10 §3.17's connect rule); SettlementForge's own assistant as a bridge client and the words-only projection of its reads (this volume designs the built-in clerk, the seam that chooses between the two, the host proposal card and the projection rows for its kinds) |
-| V12 §2.6 | the calibration register entry a table cell carries (read by `RuleAnswer`, V10 §2.13) |
+| V12 §2.10 | `dist/evidence.json`, the shipped copy of each table cell's calibration register entry (its `entry`, `status`, `method` and `due`), which `RuleAnswer.register` reads (§11.2; V10 §3.5) |
 
 The runtime targets are the base's two, the browser and the Node command line (§2).
 
@@ -239,7 +247,7 @@ events, so the model digest, the log, undo, migration, rendering and every expor
 | the API key (`ClerkSecret`, V10 §2.2) | the user, through `ClerkHandle.setKey`, validated by a models call (V10 §3.19) | `AnthropicBackend` alone | none: never in a document, export, log, bridge message or report |
 | `ClerkSession`, `ClerkSegment`, `ClerkTurn` (V10 §2.3) | opening the drawer on a document handle (`ClerkSlot.mount`); the turn loop (append-only) | the next request's `messages`, the prompt cache, `TurnView`, `ClerkTranscript`, the usage meter; `ClerkSegment.promptTokens` the segment's length rule (V10 §3.2) | §11.2's handle, role and knowledge key (§11.3) |
 | the effective key (V10 §2.3) | `ClerkMount.effectiveKey()` and `onEffectiveKey` (V09 §2.10, which defines the key, View as included — item 464; CVR-V10-15, met) | `admitAs` on every `query` and every filtered `preview` and `edit` (item 572); the knowledge guard; segment closing and session clearing (V10 §3.12 (6), by V10 §2.3's key order); the transcript's `key` and the stored transcripts' listing (V10 §2.7) | §11.2 *Knowledge*, §11.3 |
-| `Draft`, `DraftItem` with `CreatedRef` placeholders (V10 §2.4) | the twelve tools' calls (V10 §3.5) | `check_draft`, the critique engine, proposal assembly, every preview and acceptance (placeholders resolved, V10 §3.11) | — |
+| `ClerkDraft`, `DraftItem` with `CreatedRef` placeholders (V10 §2.4) | the twelve tools' calls (V10 §3.5) | `check_draft`, the critique engine, proposal assembly, every preview and acceptance (placeholders resolved, V10 §3.11) | — |
 | scratch document (item 469) | `scratch(h)` (edit mode) or `generate(bp, { scratch: true })` (creation mode) | the tools' trial application, `read_map` and `why` on the draft, `check_draft` | §11.2 facade; §12.8's clerk line (item 481) |
 | `Proposal`, `Variation` (V10 §2.5) | proposal assembly at a turn's end (V10 §3.11); a host clerk's `preview { proposal }`, taken from `ClerkMount.host.proposals` (V10 §3.17) | `ProposalView`, `preview` with the view (the ghost), `edit` on accept, the stale watcher, `ClerkMount.host.answer` (posted as `clerk.proposal`) to a host | §11.2 `preview`, `edit`; §8.2 `live.ghost`; §11.3 |
 | `TurnView` (with `refused`), `ProposalView` (bends with their items and actions, lines with actions), `ReplyBlock` (V10 §2.6) | the turn loop; the grounding check — its links, and every `action` block, which only its action step makes, from the model's action form (V10 §3.13 step 4); the harness's `subscribe` watcher (an accepted card's `rebuild`, V10 §4.3) | the drawer (V09 §4.11) through `ClerkHandle.turns`, each card button to its `ClerkHandle` member or `ClerkAction` (V10 §2.6) | — |
@@ -248,15 +256,15 @@ events, so the model digest, the log, undo, migration, rendering and every expor
 | the defect store `plat.clerk.defects` (V10 §2.8) | the preview equality check, a bad-request error, a placeholder that failed to resolve | the drawer's settings list with "Save as file" | device storage only |
 | `MapBrief` (`query brief`, item 468) | the facade over the committed model, filtered by the key at the city band, unexcavated elements removed below `secret` | the prompt's map block (V10 §3.3), the critique engine, the drawer's "What the assistant sees" view, the host projection | §11.2 `Query` |
 | `EntityCard` (`query entity`, item 468) | the facade, filtered — by address, at a point, or by a binding key (item 583), the last for V09's note lines and a host reader, never the model | `read_map`; the drawer's link hover; the spatial resolver (anchor, bounds, ground height); V09's record panel (`members`) | §11.2 `Query` |
-| `SiteCandidate` (`query sites`, item 468) | `PlacementSolver.explain` in candidate mode | `place`'s variations and exact placement (V10 §3.5), "why not there?" answers, V09's T6 alternatives (item 463) | §4.7 S10b, §11.2 |
+| `SiteCandidate` (`query sites`, item 468) | `PlacementSolver.explain` in candidate mode | `place`'s variations and exact placement (V10 §3.5), "why not there?" answers, V09's T6 `place` alternatives (item 463) | §4.7 S10b, §11.2 |
 | `MeasureAnswer` (`query measure`, item 468) | the facade: the two entities' anchors (straight) or S4's router over the committed way graph (street) | `read_map measure`; the claims check's numbers (V10 §3.13) | §4.3 S4, §11.2 |
 | `FrameAnswer` (`query frame`, item 468) | V06's `locate(w)` and frame builder in the generation worker, filtered | `read_map frame` ("what stood here in year N?") | V06 §3.15.2, §11.2 |
-| `RuleAnswer`, `ProfileAnswer` (`query rule`, `query profile`, item 468) | V11's `explainRow` and `profile` over the document's effective tables, citing entities filtered; each cell's calibration register entry from V12 §2.6's `register.json` | `read_map rule`, `read_map profile`; the grader's family words (V10 §7.3) | V11 §4.5, §11.2 |
+| `RuleAnswer`, `ProfileAnswer` (`query rule`, `query profile`, item 468) | V11's `explainRow` and `profile` over the document's effective tables, citing entities filtered; each cell's calibration record from V12 §2.10's `dist/evidence.json` (an absent file, or one of other table versions: the provenance source alone) | `read_map rule`, `read_map profile`; the grader's family words (V10 §7.3) | V11 §4.5, §11.2 |
 | the `chronicle` and `history` reads (V10 §3.5) | `report(h)`'s chronicle entries (V06 §3.15.1, item 339) and the lifecycle block (§2.8), through the guard | `read_map chronicle`, `read_map history` | §5.4, §2.8 |
 | `WhyAnswer` with `mode`, `sections` and paged `history` (`query why`, item 468) | the kind's `WhyProvider` or the generic provider, plus every registered section provider that applies (item 270), filtered by §11.2's oracle rules and V10 §3.12 | the clerk (`why`), the application's why card (V09 §2.7), SettlementForge's assistant (V08 §4.4, projected to words), the graders | §11.2 oracle |
 | `WhySection` rows `underground` and `crypt` (V10 §3.9a) | V04 §4.5's section provider over `RuinRecord`, `CatacombComplex`, `AccessCause`, the excavation reading (its `lost` state, item 113 (e)), the buried former settlements (item 113 (c)) and `catacombOutcome`; V03 §4.6's over `Basement.crypt` and its rank | the clerk's explanations, V09's underground panels and why card, critique rows K15–K17 | item 270's section registry |
-| `MapBrief.raised`, `.terraces`, `.decks` (V10 §2.13; item 468) | the facade over the committed model, filtered by the key; `raised[].source` derived as file f item 244 states, `carriedSince` from the way's lifecycle and the epochs' rungs (V06 §4.5) | the map block (V10 §3.3); K5's part-0 and K7's enceinte counts; rule 16's "read the raised line first" and its kept way (`carriedSince`); the host projection, without lengths | §11.2 `Query` |
-| `MapBrief.salts` (V10 §2.13; item 468) | the facade: §6.1's effective salt of each rerollable concern — the recipe's initial salts advanced by the log's town-wide `rerollLayer` events, the numbers `DisplayList.salts` carries; no name and no place, so no key filters it | the T11 `newNames` town form and the T12 `restyle` encoders (V10 §4.1), which write the concern's salt + 1 as V09's New names, New compass, New emblem, New trees and New decoration do; the host projection (kept, V10 §3.17); never rendered in the map block | §6.1, §11.2 `Query` |
+| `MapBrief.raised`, `.terraces`, `.decks` (§11.2; item 468) | the facade over the committed model, filtered by the key; `raised[].source` derived as file f item 244 states, `carriedSince` from the way's lifecycle and the epochs' rungs (V06 §4.5) | the map block (V10 §3.3); K5's part-0 and K7's enceinte counts; rule 16's "read the raised line first" and its kept way (`carriedSince`); the host projection, without lengths | §11.2 `Query` |
+| `MapBrief.salts` (§11.2; item 468) | the facade: §6.1's effective salt of each rerollable concern — the recipe's initial salts advanced by the log's town-wide `rerollLayer` events, the numbers `DisplayList.salts` carries; no name and no place, so no key filters it | the T11 `name` tool's `newNames` town form and the T12 `dress` tool's `restyle` encoders (V10 §4.1), which write the concern's salt + 1 as V09's New names, New compass, New emblem, New trees and New decoration do; the host projection (kept, V10 §3.17); never rendered in the map block | §6.1, §11.2 `Query` |
 | the `raised` section (V10 §3.9) | item 290's `raisedOutcome` over V06's `RaisedWayLedger`; the raised way's creation event `detail.why` | the clerk's "why" and "why not"; V09's why card and history row; V08's history panel words (V08 §4.6) | item 270's section registry |
 | the `history` section (V10 §3.9b (2)) | §2.7's `HistoryRecord` and `Provenance.symbolic` (§2.8), written by V06's replay (V06 §3.20.6), and the chronicle's `replay`, `destroyed`, `refounded` and `buried` entries (V06 §3.15.1) | the clerk's story; V09's why card; a host assistant (projected); the grounding check's symbolic rule (V10 §3.13 step 3); T-V10-46 | item 270's section registry |
 | the default providers for a raised way, a `RetainingWall` (V01 §4.5's provider from M5; J-V10.120) and a deck plot (V10 §3.9) | the base records, their lifecycle events and V11's `raisedWays`, `terrace.*` and `deck` rows | `why`; V09's why card; a host assistant (projected) | item 270 |
@@ -267,11 +275,13 @@ events, so the model digest, the log, undo, migration, rendering and every expor
 | `DerivationRecord.placements` (item 271) | S10b at every placement run, relaxation pass included | `explain`'s `asPlaced` context; `evaluated.exact` | §2.8, §4.7 S10b |
 | `FieldDrivers` with `sources`, `since`, the water term and `climateSun` (item 297; item 111 (b), (c)) | the prosperity field's `drivers(points)` with the climate row's sunlight cell; V05's per-island attribution; V06's district provider from the shade masks' history and the springs' flow | the prosperity `WhyProvider` ("why is this quarter poor?", item 102 (f); "why rich?", item 111); V09's why card bars (`why.driver.water`) | §4.5 |
 | the default providers' rows for an oasis, a wall's runs and a design above the grandeur ceiling (V10 §3.9; items 111, 114, 115) | §2.3's `WaterBody.spring` with its grove and gardens (`fedBy`; DR40 for a dossier oasis); §2.7's `Enceinte.condition` with §7.7's condition row; V09 §4.21.5 (2)'s ceiling check's lines | `why`; V09's why card; a host assistant (projected); T-V10-45, T-V10-47, T-V10-48 | item 270 |
-| `MapBrief.settlement.arid`, `.history`, `water.lakes[].spring`, `walls[].runs` (V10 §2.13; items 111, 113, 114) | the facade over the committed model: the biome's climate row (§4.2 S0), §2.7's `HistoryRecord`, §2.3's `WaterBody.spring`, §2.7's `Enceinte.condition`; counted after the knowledge filter | the map block (V10 §3.3); prompt rules 16 and 19; the host projection (kept: no geometry) | §11.2 `Query` |
+| `MapBrief.settlement.arid`, `.history`, `water.lakes[].spring`, `walls[].runs` (§11.2; items 111, 113, 114) | the facade over the committed model: the biome's climate row (§4.2 S0), §2.7's `HistoryRecord`, §2.3's `WaterBody.spring`, §2.7's `Enceinte.condition`; counted after the knowledge filter | the map block (V10 §3.3); prompt rules 16 and 19; the host projection (kept: no geometry) | §11.2 `Query` |
 | `LookAnswer` (`read_map look`, V10 §2.13; items 117, 118) | the harness from `ClerkMount.view`: §2.9's year position, follow flag and festival display; the climate row's season cells (§4.2 S0; V11's season tables through `query rule`); the festival list V09 §4.21.8 reads (§7.7's traditions row) | the model's look answers (prompt rule 19); never the map block, an event or the log; T-V10-49 | §2.9 view state |
+| `FindAnswer` (`read_map find`, V10 §2.13; item 120) | the harness from `ClerkMount.view`: §2.9's view key `find` (the viewer's chips and Show gaps switch); each chip's matches by §11.2's gazetteer match listing at the session's effective key, as at the city band | the model's answers about what the map shows (prompt rule 20); never the map block, an event or the log; T-V10-51 | §2.9 view state; §11.2 `Query` |
+| the `find` action (`ClerkAction`, V10 §2.6; item 120) | the grounding check's action step, from the model's `[[do:find:…]]` form with each target checked against the segment's reads (V10 §3.13 step 4) | the application's Find panel (V09), which sets §2.9's view key `find` from it — run once when the reply is complete, then a button; its `live.find` provider draws the veil and the glow; never `ClerkHandle.run`, never an event; T-V10-44, T-V10-51 | §2.9 view state |
 | the grandeur line on a clerk card (item 115) | V09 §4.21.5 (2)'s check over the variation's events, run by the drawer that draws the card | the card (V10 §5.4); T-V10-48 | V09 §4.9's `info.grand.*` |
 | `CritiqueFinding` (V10 §2.9) | the critique engine (V10 §3.10), rows K1–K18 | `check_draft` and `critique` results, the drawer, V09's skeleton-import check | — |
-| `ClerkRefusal` (V10 §2.9) | the encoders, the dry run's F-EDIT (as `MsgRef`), the turn's gate (V10 §3.1 step 1), the model's refusal form — `[[do:refuse:<category>]]` for `dossier` by words, `picture`, `scope` and `knownWork`, turned into the turn's refusal by the grounding check (V10 §3.13 step 4; J-V10.103) — and the provider's `refusal` stop | the drawer's refusal card with its action buttons, its text the dry run's `MsgRef` for an engine refusal (V09 §4.9's `refuse.*` row for the code — the `dossier` row's engine cases, `refuse.roster.dossier` among them, `lock` and `rule`) and `refuse.viewer` for `role`, else the catalogue row `refuse.clerk.<category>` (V10 §3.16) | §5.2 F-EDIT actions |
+| `ClerkRefusal` (V10 §2.9) | the encoders, the dry run's F-EDIT (its `outcome` `MsgRef`, §11.2), the turn's gate (V10 §3.1 step 1), the model's refusal form — `[[do:refuse:<category>]]` for `dossier` by words, `picture`, `scope` and `knownWork`, turned into the turn's refusal by the grounding check (V10 §3.13 step 4; J-V10.103) — and the provider's `refusal` stop | the drawer's refusal card with its action buttons, its text the dry run's `MsgRef` for an engine refusal (V09 §4.9's `refuse.*` row for the code — the `dossier` row's engine cases, `refuse.roster.dossier` among them, `lock` and `rule`) and `refuse.viewer` for `role`, else the catalogue row `refuse.clerk.<category>` (V10 §3.16) | §5.2 F-EDIT actions |
 | `clerk.ops` (`ClerkOps`, V10 §2.10) | shipped rows (provenance `own` or the provider's); the device's preference layer only (§7.6) — a document or host `editTable` on it is refused | the backend, the request builder, the meter, the caps, the store's retention | §7.6's preference layer, `@plat/tables` |
 | `clerk.content` (`ClerkContent`, V10 §2.10) | shipped rows; the preference layer; the document's override layer and a host's rows (§7.6, §11.4 door 3) | the encoders, the resolver, the brief renderer, the critique engine, the grounding check; the system prompt from the shipped and device layers only; a document's or host's rows only as the fenced vocabulary block (V10 §3.3) | §7.6, `@plat/tables` |
 | the tool schemas (V10 §3.4) | generated at build from `@plat/model`'s event schemas, §7.1's toolkit registry and `@plat/tables`' vocabularies, per document's table versions, one set per route | the request's `tools` | §7.1's table (T101-1's registry) |
@@ -281,7 +291,7 @@ events, so the model digest, the log, undo, migration, rendering and every expor
 | filtered dry-run results (`edit`/`preview … { filtered: true }`, item 470, item 461) | the facade under the caller's key, lowered to `admitAs` (item 572), messages as `MsgRef` (item 463) | the knowledge guard's input (V10 §3.12); a bend's `alternatives` the item's `propose` actions — plots as `placeAt`, `bend.under.accessDug`'s buildings as V09 §4.17.4's **Use another building** groups (V10 §3.16) | §11.2 *Knowledge* |
 | a `ClerkAction`'s `label` (every kind; optional on `select` only; V10 §2.6) | the harness, from three sources, stated once each: a V09 §4.9 row's button — a bend's or an engine refusal's — worded by V09 §2.9's *Words* under the session's key (a dry-run action's own `msg`, item 463's `MsgRef` keyed as its button, V09 §4.9; V10 §3.5 step 3); an alternative of a V10 §3.16 row — its `clerk.alt.<category>.<n>` key, the words written in that row; the action form's blocks and the card's history buttons — `clerk.alt.help.useTool`, `clerk.alt.history.rerun` and `.rebuild`, the `fork` block and every **Undo** worded by V09 §4.9's shared `button.openCopy` and `button.undo` (V10 §3.13 step 4; J-V10.112), a critique fix — `clerk.alt.critique.fix` (V10 §3.10), a stale card's retry — `clerk.alt.stale.retry` (V10 §3.11) | the drawer's button words (V10 §5.4, drawn by V09); a `select` without one drawn as its ids' chips (J-V10.100); T-V10-29, T-V10-44 | V09's message catalogue (V09 §2.9, V09 §4.9's table of volume 10's families; CVR-V10-19) |
 | a row's buttons, V09 §2.9's `MsgRow.buttons` (`MsgButton`, its fields V09 §2.9's; CVR-V10-20) | V09's message catalogue (V09 §4.9's button column, in each row's order) | V10 §3.5 step 3's mapping of an engine refusal's or a bend's buttons to `ClerkAction`s — `commit` → `propose`, `why` → `why`, `show` → `select`, `tool` → `useTool` with its `mode` and, for a `subject` button, `ids`, `drop` → the card's **Drop** (J-V10.106); the canvas's card (V09), so both cards read one list; T-V10-4 | V09 §2.9 |
-| `preview … { variations: 3 }` (item 461, merged with item 470 (b)) | the edit engine's §7.3 item 10 variations with their resolved events | proposal variations of the `rerolls` rule (V10 §3.11); the canvas's T8 tray; `thumbnail` | §11.2, §7.3 |
+| `preview … { variations: 3 }` (item 461, merged with item 470 (b)) | the edit engine's §7.3 item 10 variations with their resolved events | proposal variations of the `rerolls` rule (V10 §3.11); the canvas's T8 `fill` tray; `thumbnail` | §11.2, §7.3 |
 | `GenerationReport.prefix` (item 470) | the generation's read-ahead of the creation prefix (§4.1) | `check_draft` in creation mode (V10 §3.5); the skeleton import dialog (V09) | §5.4 |
 | a quarter's `PointsForm.sizeM2` (item 348) | the `sizeBand` variations (V10 §3.11) | §4.5's grower through the `quarter` sugar | §7.1 |
 | bridge `clerk.config`, `clerk.config.refused`, `clerk.needsToken`, `preview { proposal }`, `clerk.proposal` (item 473) | the host's messages, handed to the harness by the embed's bridge handler (V08 §3.1) through `ClerkMount.host` (`config`, `onConfig`, `proposals`); the harness's `needsToken()`, `refused('origin')` and `answer(…)` calls, which that handler posts (V09 §2.10) | `ClerkSettings`' forced fields, `HostProxyBackend`, the meter's host cap, the host proposal card; the host's token refresh and its assistant's follow-up | §11.3; V09 §2.10 |
@@ -305,7 +315,7 @@ events, so the model digest, the log, undo, migration, rendering and every expor
 | `ClerkAction` `rebuild` (V10 §2.6) | `ClerkHandle.run`, previewing the events `ClerkMount.rebuildEvents(seq)` returns (V09 §2.10, by the rule of V09 §4.20.3 (4)) | the removal card's button; the clerk's "put it back" (V10 §4.3) |
 | `ClerkMount.rebuildEvents(seq)` (V09 §2.10) | the application — its one implementation, which the history row's **Build it again** also calls (V09 §4.20.3 (4)) | the harness's `rebuild` action (V10 §2.6, V10 §4.3); T-V10-44 |
 | `ClerkHandle.send`'s `attach.newMap` (V09 §2.10) | the drawer's **Start a new map from this** (V09 §4.11; standalone only) | the turn's mode (V10 §3.1 (4)): creation, its acceptance opening the new document beside the current one (V10 §4.2 (3)) |
-| the `ClerkAction` dispatch (V10 §2.6's table) | the drawer, by `kind`: `propose`, `undo` and `rebuild` to `ClerkHandle.run`; `select`, `why` (the why card of its `id`, V09 §5.8, else the Help page `page`, V09 §5.9), `openSettings`, `useTool` (in its `mode`, its `ids` selected first), `export`, `fork` (`forkAt`) and `rerun` (`rerunFrom`) to the application's own handlers (V09 §3.9, V09 §4.11) | every `action` reply block, refusal card and proposal card button |
+| the `ClerkAction` dispatch (V10 §2.6's table) | the drawer, by `kind`: `propose`, `undo` and `rebuild` to `ClerkHandle.run`; `select`, `why` (the why card of its `id`, V09 §5.8, else the Help page `page`, V09 §5.9), `openSettings`, `useTool` (in its `mode`, its `ids` selected first), `export`, `fork` (`forkAt`), `rerun` (`rerunFrom`) and `find` (the Find panel's chips, item 120) to the application's own handlers (V09 §3.9, V09 §4.11) | every `action` reply block, refusal card and proposal card button |
 | `query(h, q, { admitAs })`; `preview` and `edit` with `admitAs` (item 572) | the facade (§11.2) | the harness, on every read and dry run, at the effective key in V10 §2.3's form (V10 §2.3, V10 §3.12) |
 | `SpatialResolver.resolve` (V10 §3.6) | `@plat/clerk/core` | the twelve encoders |
 | `ToolEncoder` ×12 (V10 §4.1) | `@plat/clerk/core` | the tool executor |
@@ -320,19 +330,20 @@ events, so the model digest, the log, undo, migration, rendering and every expor
 None new. The clerk's twelve declaration tools emit §7.1's events — the kinds each tool's row lists, those the volumes
 add under that row included (V10 §3.4) — through `edit` on the scratch and, on acceptance, on the user's document,
 each carrying `proposedBy: 'clerk'`, the user as `author`, the user's `session` and one `group` per proposal (V10 §4); in
-creation mode the accepted prefix events carry the same marks (item 365). T9's row gains `editTable` restricted to the
+creation mode the accepted prefix events carry the same marks (item 365). T9 `shape`'s row gains `editTable` restricted to the
 document-only tables `siting.declared` and `siting.linkEdits` (V11 §4.2), for the merge, link and siting declarations
 item 105 (h), (j) and item 104 (a) (1) give the author and the clerk (V10 §4.1). Each kind's lifecycle row and undo are
 §7.4's; each is reachable on the canvas by the same tool (§14's rule that no surface has a declaration the others lack).
-T10's row gains `delete` (item 368), so the clerk removes what the Delete key removes, and item 110's event shapes
-(item 362) reach T2, T3, T4 and T9 through typed forms (V10 §4.1), as do item 111's spring flag on T2's lake, item
-113's history on T1 and item 114's repair and wear on T3; the clerk still has no kind of its own. T6's row
+T10 `hold`'s row gains `delete` (item 368), so the clerk removes what the Delete key removes, and item 110's event shapes
+(item 362) reach T2 `ground`, T3 `wall`, T4 `road` and T9 through typed forms (V10 §4.1), as do item 111's spring flag on T2's lake, item
+113's history on T1 `intend` and item 114's repair and wear on T3; the clerk still has no kind of its own. T6 `place`'s row
 carries the one-line `roster` a place by a locus emits, exactly as the canvas's locus drop does (item 570; V10 §4.1).
 
 ### 1b.4 Entity kinds
 
 None new in the model. Two drawn marks, both view state: the "AI" mark on a clerk proposal's ghost (a host clerk's
-included) and the link highlight of an entity the clerk names (V10 §5.1); the transcript file is an export (V10 §5.3).
+included) and the link highlight of an entity the clerk names (V10 §5.1); the transcript file is an export (V10 §5.3). On request
+it sets the viewer's Find chips (item 120; V10 §3.9b (7)), which V09's Find panel draws: view state, never an entity.
 
 ### 1b.5 Dossier facts, traced to their field and derivation row
 
@@ -341,7 +352,7 @@ kind below is V11 §3.11's catalogue key, bound through V08's rows.
 
 | what the clerk reads | the dossier field (§14's `DossierDigest`) and catalogue key | how it reaches the clerk |
 |---|---|---|
-| the settlement's name, tier word, population | `settlement.name`, `settlement.tierWord`, `settlement.population` | `MapBrief.settlement`, tier `dossier`; the population routes a village by `LadderRouter` (V07 §2.1) |
+| the settlement's name, tier word, population | `settlement.name`, `settlement.tierWord`, `settlement.population` | `MapBrief.settlement`, tier `dossier`; the population routes a village by `LadderRouter` (§1.1) |
 | each dossier element's existence, name, kind, state, `knownTo` | `institutions[]` (`name`, `kind`/`kindLabel`, `state`, `knownTo`) and the named-feature claims | `MapBrief.landmarks`, `EntityCard`, `WhyAnswer.facts`, tier `dossier`, filtered by the key (a withheld one by its registry kind only, V10 §3.12) |
 | an element's placement state (placed, rejected site, blocked) | derived (§5.4's `dossier` list) from `institutions[]` | `MapBrief.dossier`, the critique's K10 |
 | the row that derived a map fact from the dossier | the inputs of DR1–DR40 and of the condition, calendar and traditions rows (§7.7 item 10) | `WhyAnswer.facts[].row`, `WhyAnswer.cause[].rule` |
@@ -371,8 +382,8 @@ the records digest, the log or the document, with two exceptions, both the base'
 accepts (with `proposedBy: 'clerk'`, §7.1, creation prefixes included, item 365) and the `clerk.content` rows a
 document's override layer carries (§7.6), which no model stage reads. Every table cell of `clerk.ops` and
 `clerk.content` carries §1.7's `{value, unit, provenance, calibratable}`; the types below show the value types. The
-records this volume types for the base (the reader's answers, the oracle's sections, the placement order index) are
-typed in V10 §2.13, which the base cites (§11.2; items 468, 311, 297, 271).
+reader's answers and the oracle's sections are §11.2's (item 468) and the placement order index §2.8's (item 271); V10
+§2.13 cites them and types the solver's explanation and the providers' interfaces (items 311, 270, 290).
 
 ### 2.1 Package, threads and the dependency rule (item 518)
 
@@ -420,8 +431,7 @@ that a host's `capUsd` replaces the monthly cap for that host (V10 §3.18). The 
 ```ts
 type Knowledge = ViewState['knowledge'];     // §2.9's view key { tier: 'public'|'local'|'secret'; places }
 type Route = 'converse'|'explain'|'critique'|'help';
-type ToolName = 'intend'|'ground'|'wall'|'road'|'quarter'|'place'|'roster'|'fill'|'shape'|'hold'|'name'|'dress'
-  | 'read_map'|'why'|'check_draft'|'critique';
+type ToolName = ToolId /* the twelve tools of §7.1, typed in V09 §2.3 */ | 'read_map'|'why'|'check_draft'|'critique';
 interface ClerkSession {
   id: string;                                // random per opening of the drawer; never persisted in a document
   doc: DocHandle; view?: ViewHandle;         // the user's document and view (a host-mode frame's own view); the view gives reads their box only (V10 §3.12 (1))
@@ -449,7 +459,7 @@ interface ClerkTurn {
   entry: 'drawer'|'why'|'check'|'roster'|'help';   // where the user started it (V10 §3.1)
   route: Route;
   user: { text: string; roster?: string; selected?: Id[] };
-  calls: ToolCallRecord[]; draft?: Draft; proposal?: Proposal;
+  calls: ToolCallRecord[]; draft?: ClerkDraft; proposal?: Proposal;
   reply: ReplyBlock[]; refusal?: ClerkRefusal;
   declined: { model: string; category: string | null }[];   // attempts a classifier declined this turn (stop_details), fallbacks included (V10 §3.1)
   grounding: 'clean'|'repaired'|'partial';   // V10 §3.13
@@ -488,7 +498,7 @@ sorting of a key change into raised or lowered (V10 §3.12 (6)).
 type CreatedRef = { created: { item: string /* 'D<n>' */; event: number /* index into that item's events */; kind: string /* a §2.8 registry kind: 'use', 'district', 'way', 'building' … */;
   nth: number /* the nth address of that kind the event minted, address order; 0 for the one use a placeAt makes */ } };
 type CreatedAddr = { id: Id; event: number /* the index, in the submitted list, of the event that minted it */; kind: string /* its registry kind */ };   // item 470
-interface Draft {
+interface ClerkDraft {
   mode: 'creation'|'edit';
   scratch?: DocHandle;                       // edit: scratch(h) at the first declaration; creation: the last check's generate(bp, { scratch: true })
   forkHead: string;                          // the user document's logHead when the draft began
@@ -586,6 +596,8 @@ type ClerkAction =
       mode?: string;   // a ToolModeRow.id of that tool (V09 §2.3): the mode the button opens — 'access', T6's Below access mode, for Add a way down; absent: the tool as last used (V09 §4.2)
       ids?: Id[];      // selected before the tool is activated: a MsgButton with subject (V10 §3.5 step 3) or a refusal form's address; a contextual tool (T9, T10) acts on them
       label: string }                                // J-V10.107
+  | { kind: 'find'; op: 'set'|'add'|'remove'|'clear'; chips: FindView['chips'] /* empty for clear */; gaps?: boolean; label: string }
+                                                     // item 120: a view action — the application sets §2.9's view key find from it (V10 §3.9b (7)); never an event
   | { kind: 'undo'; group: number; label: string }                       // the last accepted clerk proposal's undo (V10 §4.3)
   | { kind: 'rebuild'; seq: number; label: string };                     // "put it back" after later edits: the removal group whose first seq is seq, rebuilt
                                                                          // from the events ClerkMount.rebuildEvents(seq) returns (V09 §2.10, by the rule of V09 §4.20.3 (4)), previewed as a proposal first (V10 §4.3)
@@ -617,6 +629,7 @@ before it calls anything; V09 §4.11's action list cites this table (CVR-V10-15)
 | `undo` | the harness, `run` | the accepted group's undo (V10 §4.3) |
 | `rebuild` | the harness, `run` | **Put it back**: the events `ClerkMount.rebuildEvents(seq)` returns (V09 §2.10, by the rule of V09 §4.20.3 (4)) previewed as a proposal, committed on Accept (V10 §4.3) |
 | `select` | the application | the ids selected on the map (V09 §4.11) |
+| `find` | the application | the Find panel's chips set from the action — `set` replaces them, `add` and `remove` change them, `clear` empties them and turns Show gaps off; `gaps`, when given, sets the Show gaps switch — §2.9's view key `find` (item 120; V09's Find panel), the panel opening on them; run once when the reply is complete (never again on a redraw of the turn), then on each press of its button; nothing logged or hashed (V10 §3.9b (7)) |
 | `why` | the application | the why card of `id` (V09 §5.8, at the session's key), else the Help page `page` (V09 §5.9): what the canvas's **Show me why** opens for the same row (V10 §3.5 step 3) |
 | `openSettings` | the application | the settings' Assistant section (V09 §5.12) |
 | `useTool` | the application | that tool active in `mode` (else as last used) on that mode's working layer (V09 §4.2), its `ids` selected first, with its options strip (V09 §4.11) |
@@ -630,8 +643,10 @@ The harness needs no callback for the application's kinds: it only places them i
 `acceptLines` → `acceptLines`, `retry` → `retry`, `drop` → `drop`, `why` → the application's why card of what the
 proposal makes, `undo` → `run({ kind: 'undo', group: accepted.group, label })` and `rebuild` → `run({ kind: 'rebuild', seq:
 rebuild.seq, label })`, their labels V09 §4.9's shared `button.undo` ("Undo") and `clerk.alt.history.rebuild` ("Put it
-back"), the words the same actions carry as reply blocks (V10 §3.13 step 4; J-V10.102, J-V10.112). A stale card words `retry` as **Ask
-again** (`clerk.alt.stale.retry`, V10 §3.11). The harness offers `undo` from acceptance on and adds `rebuild` to an accepted removal's card when its
+back"), the words the same actions carry as reply blocks (V10 §3.13 step 4; J-V10.102, J-V10.112). Every card words `retry` as **Ask
+again** (`clerk.alt.stale.retry`, V10 §3.11), "Try again" being New random's label alone (V09 §4.9). The harness offers
+`undo` from acceptance on — to an `editor`'s session only while the group is the session's latest live group (V10 §4.3)
+— and adds `rebuild` to an accepted removal's card when its
 `subscribe` watcher sees a later group land (V10 §4.3). A host's card offers `accept`, `drop` and `why` only — the host's
 assistant re-proposes on its side — and is answered once, when it closes (V10 §3.17; V09 §4.11).
 
@@ -695,7 +710,7 @@ sends them anywhere.
 interface CritiqueFinding { rule: string /* a clerk.content critique row id, K1 … K18 */; severity: 'blocker'|'warn'|'info';
   subject: Id[] /* key-filtered */; msg: MsgRef /* the row's catalogue key with its slots (V09 §2.9) */; fix?: ClerkAction }
 type RefusalCategory = 'dossier'|'lock'|'role'|'knowledge'|'picture'|'scope'|'knownWork'|'model'|'budget'|'offline'|'rule'|'key'|'host';
-interface ClerkRefusal { category: RefusalCategory; msg: MsgRef /* an engine refusal (the dossier row's engine cases, lock, rule): the dry run's MsgRef, V09 §4.9's refuse.* row for the code — refuse.roster.dossier for a roster line or place by a locus naming no element (V10 §3.16); role: refuse.viewer; otherwise the clerk.content refusal row's catalogue key with its slots */;
+interface ClerkRefusal { category: RefusalCategory; msg: MsgRef /* an engine refusal (the dossier row's engine cases, lock, rule): the dry run's outcome (§11.2's ApplyResult.outcome, PreviewResult.outcome), V09 §4.9's refuse.* row for the code — refuse.roster.dossier for a roster line or place by a locus naming no element (V10 §3.16); role: refuse.viewer; otherwise the clerk.content refusal row's catalogue key with its slots */;
   actions: ClerkAction[] /* the closest things the clerk can do instead; at least one for every category but 'model', 'offline', 'host' and 'knownWork' (whose turn goes on, V10 §3.16) */ }
 ```
 
@@ -708,7 +723,7 @@ rendered text, and answers in the user's language.
 Two tables in `@plat/tables` (J-V10.38). **`clerk.ops`** is the assistant's operation — which model it calls, what it may
 spend, what it keeps: shipped rows and the device's preference layer only (§7.6). An `editTable` on it from a document's
 override layer, an imported skeleton or a host (provenance `host`, §11.4 door 3) is refused `invalid` with the catalogue
-line `refuse.clerk.opsDevice` ("Assistant settings belong to this device"), so a shared map can never point the
+line `refuse.clerk.opsDevice` ("Assistant settings belong to this device"; §7.1's outcome row), so a shared map can never point the
 recipient's key at a dearer model, raise its limits or change its prices. **`clerk.content`** is what the assistant says
 and how it reads words: document-overridable like any table; its lexicon and refusal rows reach the model's system
 prompt only from the shipped and device layers, and a document's or host's rows only as the fenced vocabulary block of
@@ -734,7 +749,7 @@ interface ClerkContent {
     terrace: { radiusM: number }; ringSides: 16 | 24 | 32 /* the n-gon of a ring anchor, an islet and a green */;
     islet: { sizeM2: number } /* an islet's area when the words give none */; scopeRingSides: 16 | 24 | 32 /* the ring of a fill scope `around` a point */;
     harbourM2: number; fill: { denser: number; sparser: number; greener: number } };
-  variations: Record<'intend'|'ground'|'wall'|'road'|'quarter'|'place'|'roster'|'fill'|'shape'|'hold'|'name'|'dress', 'rerolls'|'sites'|'sizeBand'|'seeds'|'none'>;
+  variations: Record<ToolId /* V09 §2.3 */, 'rerolls'|'sites'|'sizeBand'|'seeds'|'none'>;
   sizeBand: [number, number, number];        // the quantiles of a kind's size band the three quarter variations take
   critique: { id: string; severity: 'blocker'|'warn'|'info'; applies: ('draft'|'map'|'skeleton')[]; detector: string; msg: string /* catalogue key */; fix: string }[];
   lexicon: { words: string[]; field: string; value: number | string }[];
@@ -748,7 +763,8 @@ interface ClerkContent {
   familyWords: Record<WhyFamily, string /* catalogue key */>;   // the plain words of each pull family, read by the prompt's glossary and the graders (V10 §2.13)
   grounding: { stopWords: string[]; capitalisedNounLocales: string[] /* languages whose nouns are capitalised: 'de', 'lb' */; relationWords: string[] /* 'under', 'beneath', 'below', 'inside', 'next to', 'over', 'across', 'crosses', 'carries', 'feeds' … */ };
   limits: { referents: number; reasonChars: number; resultTokens: number; enumMax: number; historyPage: number; members: number;
-    attrs: number; created: number; defects: number };
+    attrs: number; created: number; defects: number;
+    memoryTokens: number /* a new segment's memory block (V10 §3.2) */; findTargets: number /* the targets of one find form (V10 §3.13 step 4) */ };
 }
 ```
 
@@ -779,7 +795,7 @@ interface ClerkContent {
 | `content.withheldWords` | building → "a building", plot → "a plot", use → "a business", institution → "an institution", district → "a quarter", way → "a street", system → "a passage", any other kind → "a place" | the registry kind's plain word, never a class word (J-V10.41) |
 | `content.familyWords` | V10 §2.13's mapping table, one catalogue key per family | — |
 | `content.grounding` | stop words: weekdays, months, the product's and the provider's names; capitalised-noun locales `de`, `lb`; relation words: under, beneath, below, inside, next to, beside, above, over, across, crosses, carries, feeds, supplies (and their catalogue translations) | J-V10.64; item 110's relation words among them |
-| `content.limits` | referents 32; reason 140 characters; tool-result page 3 000 tokens; enumeration threshold 64 values; history page 16 entries; members per answer 64; attributes per card 40; created addresses 256; defects 100 | our own bounds |
+| `content.limits` | referents 32; reason 140 characters; tool-result page 3 000 tokens; enumeration threshold 64 values; history page 16 entries; members per answer 64; attributes per card 40; created addresses 256; defects 100; memory block 4 000 tokens (`memoryTokens`: the table admits 500 – 16 000, and V10 §3.2 never gives the block more than a quarter of `ops.cache.segmentTokenLimit`, so with every brief of V10 §6.3 a new segment opens below its limit); find targets 16 per form | our own bounds |
 
 ### 2.11 The backend (`@plat/clerk/model`)
 
@@ -813,11 +829,11 @@ fallback (J-V10.24).
 
 ```ts
 // @plat/clerk/core — places in words
-type Bearing8 = 'N'|'NE'|'E'|'SE'|'S'|'SW'|'W'|'NW';
+// Bearing8 is §11.2's (item 468): the eight compass points, model north up
 type Bearing = Bearing8 | { deg: number };           // clockwise from model north (+y, §2.1), in [0, 360)
 type Dist = 'adjacent'|'near'|'short'|'mid'|'far' | { m: number };
 type Ref = string;                                   // an address as the reader printed it (V10 §3.2)
-type Anchor =
+type PlaceAnchor =
   | { at: Ref }                                      // the entity's anchor point
   | { from: Ref | 'centre'; bearing: Bearing; dist: Dist }
   | { between: [Ref, Ref]; t?: number }              // 0–1 from the first; default 0.5
@@ -826,8 +842,8 @@ type Anchor =
   | { frame: Bearing };                              // the frame's edge on that side
 type RawEvent = { t: string } & Record<string, unknown>;   // one event of the tool's row without EditBase fields; checked against @plat/model's schema
                                                      // after its geometry is resolved: a PointCm, PointCm[] or PolygonCm field may carry AnchorGeom (J-V10.73)
-type AnchorGeom = { anchor: Anchor } | { anchor: Anchor }[]           // a point, or a list of points, in words (V10 §3.6)
-  | { ring: { centre: Anchor; radiusM: number; sides?: 16 | 24 | 32 } };  // a polygon: the regular n-gon of the radius (default encoders.ringSides)
+type AnchorGeom = { anchor: PlaceAnchor } | { anchor: PlaceAnchor }[]           // a point, or a list of points, in words (V10 §3.6)
+  | { ring: { centre: PlaceAnchor; radiusM: number; sides?: 16 | 24 | 32 } };  // a polygon: the regular n-gon of the radius (default encoders.ringSides)
 type Locus4 = { rel: 'in'|'on'|'at'|'near'; target: Ref; side?: 'N'|'E'|'S'|'W' };   // §7.1's Locus, its target a Ref
 
 interface IntendInput {  // T1 (L0)
@@ -844,29 +860,29 @@ interface IntendInput {  // T1 (L0)
   events?: RawEvent[] }
 interface GroundInput {  // T2 (L1)
   op: 'raise'|'lower'|'cliff'|'flatten'|'terrace'|'coast'|'lake'|'river'|'harbour'|'islet'|'warp'|'knot'|'events';
-  path?: Anchor[]; radiusM?: number; amountM?: number; share?: number /* flatten: 0–1 toward the mean ground height under the stroke */; water?: 'locked'|'follow';
+  path?: PlaceAnchor[]; radiusM?: number; amountM?: number; share?: number /* flatten: 0–1 toward the mean ground height under the stroke */; water?: 'locked'|'follow';
   level?: 'here' | { upM: number } | { downM: number } /* terrace, only when the user asks for one (rule 16): the level held — 'here' (default) the ground at the path's first point */;
-  at?: Anchor; depthM?: number /* lake: its depth at its point, default 3 */; source?: Anchor; mouth?: Anchor; shore?: Anchor; sizeM2?: number;
+  at?: PlaceAnchor; depthM?: number /* lake: its depth at its point, default 3 */; source?: PlaceAnchor; mouth?: PlaceAnchor; shore?: PlaceAnchor; sizeM2?: number;
   spring?: boolean /* lake: spring-fed — an oasis, with its grove and gardens (item 111 (a)); only when the user asks for an oasis or a spring-fed pool */;
-  warp?: { kernel: WarpKernel; centre: Anchor; radiusM: number; strength: number; drag?: { bearing: Bearing; m: number } };
-  knot?: { water: Ref; ordinal: number; to: Anchor };
+  warp?: { kernel: WarpKernel; centre: PlaceAnchor; radiusM: number; strength: number; drag?: { bearing: Bearing; m: number } };
+  knot?: { water: Ref; ordinal: number; to: PlaceAnchor };
   events?: RawEvent[] }
 interface WallInput {    // T3
-  op: 'wall'|'gate'|'retaining'|'repair'|'wear'|'events'; points?: Anchor[]; kind?: Enceinte['kind'] /* op 'wall' only */; closed?: boolean;
+  op: 'wall'|'gate'|'retaining'|'repair'|'wear'|'events'; points?: PlaceAnchor[]; kind?: Enceinte['kind'] /* op 'wall' only */; closed?: boolean;
   highSide?: 'auto'|'left'|'right' /* retaining, only when the user asks for one (rule 16): the held side, relative to the order of points; default auto */;
-  gate?: { enceinte: Ref; at: Anchor };
-  enceinte?: Ref; run?: Anchor /* repair, wear (item 114): the run of the enceinte's condition profile nearest this point; a repair without one lifts the ring's neglect (Back in use) */;
+  gate?: { enceinte: Ref; at: PlaceAnchor };
+  enceinte?: Ref; run?: PlaceAnchor /* repair, wear (item 114): the run of the enceinte's condition profile nearest this point; a repair without one lifts the ring's neglect (Back in use) */;
   material?: 'robust' | string /* repair: robust (the wall's own material, the default) or a row id of V11's walls.patchMaterials for the enceinte's kind and culture */;
   events?: RawEvent[] }
 interface RoadInput {    // T4
-  from?: Anchor; to?: Anchor; via?: Anchor[]; class?: WayClass /* 'aqueduct' among them (item 362 (b)); it implies raised */; widthM?: number;
+  from?: PlaceAnchor; to?: PlaceAnchor; via?: PlaceAnchor[]; class?: WayClass /* 'aqueduct' among them (item 362 (b)); it implies raised */; widthM?: number;
   raised?: boolean /* only when the user asks for a viaduct, a raised road, arches or an aqueduct (rule 16) */; events?: RawEvent[] }
 interface QuarterInput { // T5
   kind: string /* a DistrictKindRow.kind */; name?: string; band?: string /* a row of §4.5's band set */;
-  seed?: Anchor; corners?: Anchor[]; lasso?: Anchor[]; district?: Ref; events?: RawEvent[] }
+  seed?: PlaceAnchor; corners?: PlaceAnchor[]; lasso?: PlaceAnchor[]; district?: Ref; events?: RawEvent[] }
 interface PlaceInput {   // T6
   class?: string /* BuildingClassRow.id, then V11's composition-bearing specialisations: stepped_temple, terraced_palace, tiered_tower (CVR-V10-12) */; name?: string;
-  where?: { at: Anchor } | { plot: Ref } | { locus: Locus4 } | { free: true }
+  where?: { at: PlaceAnchor } | { plot: Ref } | { locus: Locus4 } | { free: true }
     | { slot: { deck: Ref /* a mole, pier or bridge */; at: 'head'|'mid' } };   // a deck's landmark slot (item 110 (d); V10 §4.1)
   element?: Ref /* a dossier-backed element or assignment member to position */;
   move?: { use: Ref; to: Ref /* a plot */ };
@@ -874,13 +890,13 @@ interface PlaceInput {   // T6
 interface RosterInput {  // T7
   lines: { name: string; class: string; locus?: Locus4; element?: Ref }[] }
 interface FillInput {    // T8
-  scope: Ref | { around: Anchor; radiusM: number };
+  scope: Ref | { around: PlaceAnchor; radiusM: number };
   arrangement?: 'row'|'compound'|'detached'|'hovel'|'tents'|'cluster'; class?: string;
   density?: number; greenery?: number; prosperity?: number /* each a relative change in field units, −1 … 1 (§7.1's FieldStroke.amount); the lexicon gives the defaults */;
-  green?: { kind: Greenery['kind']; at: Anchor; radiusM: number }; events?: RawEvent[] }
+  green?: { kind: Greenery['kind']; at: PlaceAnchor; radiusM: number }; events?: RawEvent[] }
 interface ShapeInput {   // T9
   target: Ref;
-  split?: { through: [Anchor, Anchor] } /* a plot: a cut line through two points */ | { at: Anchor } /* a way: cut at one point */;
+  split?: { through: [PlaceAnchor, PlaceAnchor] } /* a plot: a cut line through two points */ | { at: PlaceAnchor } /* a way: cut at one point */;
   join?: Ref[] /* a plot: fuse it with these neighbours; a way: merge it with these ways, end to end (V10 §4.1) */;
   move?: { bearing: Bearing; m: number }; rotateDeg?: number;
   set?: { path: string; value: unknown }[];
@@ -898,8 +914,9 @@ interface ShapeInput {   // T9
   events?: RawEvent[] }
 interface HoldInput {    // T10
   op: 'lock'|'unlock'|'pin'|'unpin'|'revert'|'regenerate'|'remove' /* remove: only when the user asks to remove that thing (rule 16; item 368) */;
-  targets?: Ref[]; paths?: string[]; mode?: 'keep'|'newRandom'; events?: RawEvent[] }   // no layer re-roll: T10's row lists no rerollLayer;
-                                                     // new names are name.newNames (T11), a display re-roll dress.restyle (T12)
+  targets?: Ref[]; paths?: string[]; mode?: 'keep'|'newRandom'; events?: RawEvent[] }   // the village track's re-roll, §7.1's T10 rerollLayer('village.track'),
+                                                     // reaches the model through events (V10 §4.1's escape hatch); new names are name.newNames (T11),
+                                                     // a display re-roll dress.restyle (T12)
 interface NameInput {    // T11
   target?: Ref; name?: string; displayText?: string; hide?: boolean; group?: { name: string; quarters: Ref[] };
   newNames?: { scope: Ref[] } | { quarter: Ref } | { town: true } /* V09's New names — these, this quarter, the town (V09 §4.5's T11 row); the town only when the user asks for it (rule 5) */; events?: RawEvent[] }
@@ -908,15 +925,15 @@ interface DressInput {   // T12
   export?: { format: string } /* an action, never an event */; events?: RawEvent[] }
 type ReadMapInput =      // one member per kind (J-V10.58); every field is §11.2's Query field of that kind or this volume's (item 468)
   | { kind: 'brief' }
-  | { kind: 'entity'; id?: Ref; at?: Anchor }
+  | { kind: 'entity'; id?: Ref; at?: PlaceAnchor }                // never a dossierKey: a binding key is V09's and a host reader's, never the model's (J-V10.68)
   | { kind: 'gazetteer'; text?: string; kinds?: string[]; page?: number }
   | { kind: 'people'; type?: string; race?: string; gender?: string; profession?: string; workplace?: Ref; ageRange?: [number, number]; household?: Ref; district?: Ref; page?: number }
   | { kind: 'relations'; person: Ref; up: number; down: number }
   | { kind: 'whereIs'; person: Ref; day: string; hour: number }
   | { kind: 'inView' }                                           // the session view's box; admitted as at the city band (V10 §3.12)
-  | { kind: 'sites'; class: string; near?: Anchor; radiusM?: number; district?: Ref; k?: number }
+  | { kind: 'sites'; class: string; near?: PlaceAnchor; radiusM?: number; district?: Ref; k?: number }
   | { kind: 'measure'; from: Ref; to: Ref; by?: 'straight'|'street' }
-  | { kind: 'frame'; week: number; near?: Anchor; radiusM?: number; page?: number }
+  | { kind: 'frame'; week: number; near?: PlaceAnchor; radiusM?: number; page?: number }
   | { kind: 'chronicle'; from?: number; to?: number /* weeks */; ids?: Ref[]; page?: number }
   | { kind: 'history'; id: Ref; page: number }
   | { kind: 'rule'; table: string; key: string }
@@ -924,6 +941,7 @@ type ReadMapInput =      // one member per kind (J-V10.58); every field is §11.
   | { kind: 'report' }
   | { kind: 'tools' }                                            // the help route: each tool's registry row with its catalogue hint (V10 §3.1)
   | { kind: 'look' }                                             // the viewer's season, week and festival display: view state, read by the harness (V10 §3.9b (5))
+  | { kind: 'find'; page?: number }                              // what the viewer's Find shows: view state and §11.2's gazetteer, read by the harness (V10 §3.9b (7))
   | { kind: 'schema'; event?: string; vocabulary?: 'classes'|'districtKinds'|'forms'|'eras'|'biomes'|'bands'|'concerns' };
 // every member also takes committed?: boolean (read the user's document even while a draft exists; default false)
 interface WhyInput { id: Ref; path?: string; mode?: 'asPlaced'|'asNow'; committed?: boolean }
@@ -933,132 +951,20 @@ interface CritiqueInput { target: 'draft'|'map' }
 
 ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)
 
-These are base types — any client, host or clerk reads them — declared here once; §11.2 cites them (item 468).
-Every bearing and distance is measured from the growth centre (S3's root reservation, §4.2) in model metres and model
-north; every name, purpose and reference passes §11.2's *Knowledge* rules under the caller's key as at the city band —
-among them item 468's: a withheld entity carries no purpose, an unexcavated element is absent below `secret`, and
-`anchor`, `bounds` and `groundCm` are the caller's own geometry (J-V10.41, J-V10.42). On these types they reach every
-field: a withheld entity's `kind` is its registry kind (building, plot, use, institution, district, way, system …) in
-every answer, and a signature pair or a supply edge naming its class becomes `fam/<family>` like its class's row ids; an
-unexcavated element is absent from the brief, a link's other end and an explanation's rows as from every list, and at
-`secret` carries `excavation: 'unexcavated'` (V04 §3.5.7 (g)); a client forwarding answers to a model strips the
-geometry (V10 §3.12 (3)).
+The reader's and the oracle's types are §11.2's (file f item 468): the `Query` members `brief`, `entity`, `sites`,
+`measure`, `frame`, `rule` and `profile` with their fields, `why`'s `mode` and `historyPage`, and their answers
+`MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`,
+`WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink` and `FieldDrivers`, with `Bearing8`; `PlacementOrder` is §2.8's
+(item 271). This section declares the volume's own and those file f items 270, 290 and 311 place here. §11.2's
+*Knowledge* rules reach every field of those answers, item 468's among them — a withheld entity carries no purpose, an
+unexcavated element is absent below `secret`, and `anchor`, `bounds` and `groundCm` are the caller's own geometry
+(J-V10.41, J-V10.42): a withheld entity's `kind` is its registry kind (building, plot, use, institution, district, way,
+system …) in every answer, and a signature pair or a supply edge naming its class becomes `fam/<family>` like its class's
+row ids; an unexcavated element is absent from the brief, a link's other end and an explanation's rows as from every
+list, and at `secret` carries `excavation: 'unexcavated'` (V04 §3.5.7 (g)); a client forwarding answers to a model strips
+the geometry (V10 §3.12 (3)).
 
 ```ts
-// @plat/api — new Query kinds (item 468), beside §11.2's; §11.2's why member gains mode and historyPage
-type ClerkQuery =
-  | { kind: 'brief' }
-  | { kind: 'entity'; id?: Id; at?: PointCm; layer?: Layer; below?: boolean; dossierKey?: string }   // by address, or the top of the hit stack at a model point
-                                                                            // (item 466's order: a raised part above ground part 0); below: the next one down;
-                                                                            // dossierKey: by a binding key (item 583): volume 9's note lines and a host reader;
-                                                                            // never in the model-facing read_map entity input (V10 §2.12; J-V10.68)
-  | { kind: 'sites'; cls: string; near?: PointCm; radiusM?: number; district?: Id; k?: number /* 1–8, default 3 */ }
-  | { kind: 'measure'; from: Id; to: Id; by?: 'straight'|'street' }          // default 'street' between two ground entities, else 'straight'
-  | { kind: 'frame'; week: number; near?: PointCm; radiusM?: number; page?: number }
-  | { kind: 'rule'; table: string; key: string }
-  | { kind: 'profile'; cls: string };
-// | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number }   (§11.2's member, extended)
-
-interface MapBrief {
-  settlement: { name: string; tier: FactTier; tierWord?: string; product: 'base'|'village'; rung: string /* THORP … METROPOLIS */; population: number;
-    form: string; era: string; band: string /* the population-weighted mean band */; dossier: boolean; week?: number;
-    arid?: true /* the biome's climate row is arid (§4.2 S0): item 111's oasis chance, water pull and climate cell apply */;
-    history?: { peak?: { rung: string; population?: number /* absent when the peak is symbolic */; symbolic: boolean };
-      refounded: number; buried: number /* counted after the knowledge filter */ } /* item 113: §2.7's HistoryRecord, present when a replay ran */ };
-  frame: { widthM: number; heightM: number; builtRadiusM: number /* the equal-area radius of the districts' union */; centre: Id };
-  water: { setting: WaterSetting; coast?: { side: Bearing8 }; rivers: { id: Id; name?: string; enters: Bearing8; leaves: Bearing8 }[];
-    lakes: { id: Id; name?: string; bearing: Bearing8; distM: number; spring?: true /* an oasis, item 111 */ }[]; harbour?: { id: Id; bearing: Bearing8 } };
-  relief: { class: string; rises: { bearing: Bearing8; distM: number; riseM: number }[] /* the ≤ 3 highest */ };
-  walls: { id: Id; kind: string; closure: string; gates: { id: Id; name?: string; bearing: Bearing8; way?: Id }[];
-    open: { from: Bearing8; to: Bearing8; barrier: 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte' /* J-VI.3, as WhyAnswer.closure */ }[] /* item 106: arcs a barrier closes */;
-    runs?: Partial<Record<'standing'|'worn'|'patched'|'breached'|'dismantled', number>> /* item 114: the runs of Enceinte.condition by state (§2.7), present when any run is not standing */ }[];   // enceintes only: never a RetainingWall
-  districts: { id: Id; name?: string; withheld?: true; kind: string; identity?: string; band: string; bearing: Bearing8; distM: number;
-    areaHa: number; walled: boolean; buildings: number; households: number; neighbours: Id[]; declared: boolean }[];
-  regions: { id: Id; name: string; members: Id[] }[];
-  roads: { id: Id; name?: string; class: WayClass; ends: [string, string] /* a gate id, a district id or a bearing */ }[];   // part-0 ways only
-  raised: { id: Id; name?: string; kind: 'viaduct'|'elevated'|'aqueduct'; source: 'generated'|'declared' /* file f item 244's derived value */;
-    carriedSince?: number /* a generated way standing below CITY: the week the rung first fell below CITY with it standing, derived at
-                             read from its lifecycle and the epochs' rungs (V06 §4.5); the info.raised.carried outcome reads the same */;
-    reason?: 'drop'|'link'|'water' /* J-VI.2 */; ends: [string, string] /* ground way, gate or district ids */; crosses: number /* part-0 ways crossed */ }[];   // item 110 (b)
-  terraces: { district: Id; walls: number; stepMaxM: number }[];            // item 110 (a): counts per district, never each wall (J-V10.77)
-  decks: { host: Id; kind: 'bridge'|'pier'|'mole'|'quay'; plots: number; slots: ('head'|'mid')[] }[];   // item 110 (d): the deck plots and the free landmark slots
-  landmarks: { id: Id; name?: string; withheld?: true; kind: string /* the registry kind when withheld */; district: Id; tier: FactTier; declared: boolean }[];
-  layers: { islands: number;
-    underground: { systems: { id: Id; kind: string /* II.7.6's system kinds, 'ruin' among them (V04 §2.2) */; name?: string; tier: FactTier;
-      excavation?: 'accessible'|'unexcavated'|'lost' /* caverns, ruins and a buried former settlement; 'unexcavated' only at a secret key; 'lost' (item 113 (e)) to the key that admitted it while accessible (V04 §5.2) */;
-      accesses: number; dwellings: number; source?: Id /* a catacomb's burial face or quarry working: CatacombComplex.source.ref */;
-      rank?: number /* a catacomb's */ }[] } };      // computed after the knowledge filter; a crypt is never a system (it is its church's, V10 §3.9a)
-  dossier?: { unplaced: { id: Id; name?: string; kind: string }[]; blocked: { id: Id; rows: string[] }[]; rejected: number };
-  report: { belowFull: { feature: string; delivered: 'degraded'|'omitted' }[]; unplaced: number };
-  counts: { plots: number; buildings: number; households: number; declared: number; clerkProposed: number };
-  salts: Record<RerollableConcern, number>;   // §6.1's effective salt of each rerollable concern (the numbers DisplayList.salts carries); no name, no place:
-                                              // read by the T11 and T12 encoders (V10 §4.1), never rendered in the map block
-}
-interface EntityCard {
-  id: Id; kind: string /* the registry kind when withheld */; withheld?: true;
-  name?: { text: string; tier: FactTier; displayText?: string };
-  attrs: { path: string; value: string | number | boolean; tier: FactTier }[];   // the registry's readable paths, ≤ limits.attrs; a withheld entity's only where purpose is false
-  where: { district?: Id; plot?: Id; quarterNode?: Id; bearing: Bearing8; distM: number };
-  anchor: PointCm; bounds: [PointCm, PointCm]; groundCm?: Cm;                   // the caller's own geometry; stripped from every result a model or host sees
-  lifecycle: { existence: Existence; locked: boolean; pinned: boolean; declared: boolean; assigned: boolean; clerkProposed: boolean };
-  uses?: { id: Id; cls?: string /* absent when the use is withheld */; withheld?: true }[];
-  members?: { id: Id; kind: string; withheld?: true }[];                      // item 108: a record's members, ≤ limits.members — the one owner of a record's members (V09 withdrew its query kind)
-  excavation?: 'accessible'|'unexcavated'|'lost';                              // an element of a cavern or ruin cluster (V04 §3.5.7 (g); 'lost', item 113 (e))
-  dossierKey?: string;                                                         // the binding key (§7.7 item 12): for V09 and a host reader; stripped from the model-facing projection (V10 §3.12 (3))
-  hasBelow?: true;                                                             // entity { at }: another entity lies under this one in the hit stack (a street under a viaduct)
-}
-interface SiteCandidate { plot: Id; district: Id; score: number; hardFails: string[] /* row ids under the withheld rule */; pulls: WhyPull[] /* top 5 */; distM?: number }
-interface MeasureAnswer { from: Id; to: Id; by: 'straight'|'street'; metres: number /* rounded to 10 m */; walkMinutes?: number /* street: metres ÷ 80 m per minute, rounded */;
-  via?: Id[] /* street: the ways followed, key-filtered, ≤ 12 */; unreachable?: true }
-interface FrameAnswer { week: number; epochWeek: number /* the frame locate(w) chose (V06 §3.15.2) */;
-  entities: { id: Id; kind: string; name?: string; withheld?: true; state: string /* standing, begun, ruined … at that week */ }[] /* ≤ 64 per page, address order */;
-  page: number; more: boolean; since?: { removed: number; added: number } /* against the current map, in the same radius */ }
-interface RuleAnswer { table: string; key: string; says?: string; provenance: string; extension: boolean; readers: string[] /* stages and components */;
-  citing: { count: number; ids: Id[] /* ≤ 16, key-filtered: an entity whose purpose the key withholds is absent and uncounted */ };
-  register?: { id: string; status: CalibrationEntry['status']; method: CalibrationEntry['method']; due: string } /* the cell's entry in V12 §2.6's
-    plat/calibration/register.json, where one exists: told plain first, its id and run only behind "details" (V10 §3.5) */ }
-interface ProfileAnswer { cls: string; cells: { column: string; value: unknown; source: string /* family, class delta, custom-resolution rung */ }[] }
-
-// @plat/api — the oracle's answer (item 468), produced by the kind's WhyProvider and the section providers (item 270)
-interface WhyAnswer {
-  id: Id; kind: string; withheld?: true;                                       // §11.2 oracle rule (1): a withheld target carries nothing more
-  mode: 'asPlaced'|'asNow';                                                    // J-V10.44: the score as the rules computed it when they placed it, or as it stands now
-  facts: { path: string; value: string | number | boolean; tier: FactTier; row?: string /* the DRn that derived it (§7.7 item 10) */ }[];
-  cause: WhyCause[];                                                           // how it came to be, oldest first
-  pulls?: WhyPull[];                                                           // items 103 (e), 107: the terms of its placement, largest first
-  links?: WhyLink[];                                                           // item 105 (j)
-  alternatives?: { plot: Id; score: number; hardFails: string[] }[];           // the closest sites weighed (§4.7 S10b), ≤ 3
-  drivers?: FieldDrivers;                                                      // item 102 (f)
-  closure?: { from: Bearing8; to: Bearing8; barrier: 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte'; class: string }[];   // item 106 (g); 'sheer' an island's rim (V05 §3.21)
-  profile?: { rung: 'declaration'|'archetype'|'category'|'tags'|'library'|'keywords'|'fallback';
-    sources: { rung: string; key: string; weight: number }[]; lowConfidence?: true };                                   // item 104 (a)
-  members?: { step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; range?: [number, number]; count: number; ids: Id[] /* ≤ limits.members */ };   // item 108
-  sections?: WhySection[];                                                     // what a volume's provider knows beyond these fields (V10 §3.9)
-  history?: { seq: number; week?: number; kind: string; by: 'generation'|'user'|'clerk'|'host'|'epoch'; change?: { changeId: string; source?: string /* DossierChange.source, §7.7 item 13 */; reason?: string } }[];   // newest first, one page of ≤ limits.historyPage
-  historyMore?: boolean; historyPage?: number;                                 // further pages by query why { historyPage } or read_map history
-  removed?: { seq: number; week?: number; by: 'user'|'clerk'|'host'|'epoch' };  // a tombstoned address a live `delete` removed (V10 §3.9)
-  evaluated: { logHead: string; drifted: boolean; exact: boolean; driftCause?: MsgRef };   // V10 §3.9 step 4
-}
-type WhySection = { kind: string /* registered with its provider: 'underground', 'crypt', 'raised', 'history', 'massing', 'plan', 'fabric', 'island', 'move' … (V10 §3.9, V10 §3.9b) */;
-  rows: { key: string; value: string | number | boolean; unit?: string; tier: FactTier; row?: string /* a table row id */;
-    says?: MsgRef /* V09's catalogue key with its slots */; ref?: Id; purpose?: true /* withheld with its entity */; withheld?: true }[] };
-type WhyCause = { step: string /* a stage id or an event kind */; rule: string /* the rule's name in its home section */;
-  slices: string[] /* SliceRef keys consulted, ≤ 8 */; seq?: number; chance?: string /* the concern whose draw chose among equals */ };
-type WhyFamily = 'nuisance'|'need'|'clientele'|'supply'|'alignment'|'competition'|'coverage'|'sun'   // V11 §2.4's families
-  | 'signature'|'spacing'|'class'|'district'|'field'|'character'|'allocation'|'chance'|'hard';      // the other terms of S10b's score
-type WhyPull = { row: string /* V11 §2.4's derived-row id, or 'fam/<family>' under the withheld rule */; family: WhyFamily /* derived from row, table below */;
-  says: string /* the row's sentence: a family's says, a pair's reason, a class row's note, a supply edge's good (V11 §3.3.1, V11 §2.4) */;
-  share: number /* signed share of the winning score */; target?: Id; withheld?: true; via?: Id /* a cross-arena term's landing access (V05 §3.20) */ };
-type WhyLink = { good?: string /* absent when `other` is withheld */; role: 'provider'|'consumer'; other: Id; withheld?: true; distM: number; comfortM: number; maxM: number;
-  orientation: 'source'|'market'|'balanced'; branchOf?: Id /* item 105 (h): a split works-and-shop */;
-  declared?: 'bindTo'|'avoid'|'cut' /* a siting.linkEdits row pins, avoids or cuts it (item 105 (j)) */; via?: Id /* the landing a cross-arena link crosses */;
-  chain?: { id: string; status: 'impaired'|'vulnerable'; entrepot?: 'consumer'|'provider' } /* item 105 (i): a SettlementForge chain's status and an entrepôt's end; V09's LinkRow.chain cites this type */ };
-interface FieldDrivers { value: number; band: string;                        // item 297
-  terms: { driver: string /* a driver of §4.5's field, 'daylight' (item 102) and 'water' (item 111 (b)) among them, or 'character', 'brush', 'epoch', 'chance' */; delta: number;
-    sources?: { caster: Id | 'terrain' | 'walls' | 'buildings'; samples: number }[] /* daylight: V05 §4.5's per-island attribution */ }[];
-  climateSun?: number /* item 111 (c): the climate row's sunlight cell that multiplies w_sun — 1 in temperate and cold rows, 0 or negative in hot arid rows */;
-  since?: { driver: string; week: number; delta: number }[] /* V06's district provider: the term's change since that week, from the shade masks' history */ }
-
 // @plat/plots — the solver's read-only explanation (item 311)
 interface ExplainRequest { item: PlacementItem; at?: Id /* decompose the score at this plot */; mode: 'asPlaced'|'asNow';
   candidates?: { near?: PointCm; radiusM?: number; district?: Id; k: number } }
@@ -1070,19 +976,32 @@ interface WhySectionProvider { section: string; appliesTo(model: ModelView, id: 
   rows(model: ModelView, id: Id, key: Knowledge): WhySection['rows'] }
 // the base's raised-way package — the single-subject read of V06's RaisedWayLedger (item 290): read-only, no stream advanced
 declare function raisedOutcome(model: ModelView, subject: Id): RaisedOutcome[];   // one entry per reason key the subject takes part in
-type RaisedOutcome = { kind: 'viaduct'|'elevated'|'aqueduct'; key?: RaisedReasonKey /* V06 §2.13 */;
+type RaisedOutcome = { kind: RaisedKind /* §2.7 */; key?: RaisedReasonKey /* §2.7 */;
   outcome: 'built'|'declared'|'carried'|'belowCity'|'reasonNotMet'|'noCourse'|'chance'|'cap'|'suppressed'|'waited';
   value?: number; threshold?: number /* the reading and its bar: drop m, rise m or the need ratio */; strength?: number;
   u?: number; p?: number /* the gate's draw and chance, when the reason was met */; cap?: number; count?: number /* the rung's */;
   ref?: Id /* the raised way built, declared or carried */; week?: number /* when built, carried from or suppressed */; seq?: number /* the suppressing delete */ };
-// @plat/model — the placement order S10b records (item 271), on the DerivationRecord of the plot a use stands on
-type PlacementOrder = { use: Id; seq: number /* the event whose S10b run placed it; 0 at generation */; k: number /* its index in that run's order */; pass: 1 | 2 /* 2: moved by item 105 (f)'s relaxation pass */ };
 // @plat/clerk/core — the look read (V10 §3.9b (5)): view state through ClerkMount.view, never a facade query, never in the map block
 interface LookAnswer { week: number /* 0–51, spring first: §2.9's year position (item 117) */; season: 'spring'|'summer'|'autumn'|'winter';
   follow: boolean /* §2.9's follow flag: the week is the dossier's (§7.7's calendar row) */;
   climate: { row: string; says: string[] /* the season cells in force at that week — winter severity, leaf, growing, harvest, ice and snow weeks (§4.2 S0; V11's season tables) — each its row's says */ };
   festivals: { name: string; weeks: [number, number]; shown: boolean }[] /* the list V09 §4.21.8 reads (§7.7's traditions row, under the session's key), in window order */;
   display: 'follow'|'off'|{ preview: string } /* §2.9's festival display (item 118) */ }
+// @plat/clerk/core — the find read (V10 §3.9b (7); item 120): view state through ClerkMount.view, each chip's matches by §11.2's gazetteer
+// match listing at the session's effective key, as at the city band; never a model fact, never in the map block
+type FindView = ViewState['find'];               // §2.9's view key find (item 120): the viewer's chips and the Show gaps switch
+interface FindAnswer {
+  on: boolean;                                   // at least one chip is set
+  gaps: boolean;                                 // the Show gaps switch (item 120 (i))
+  chips: { label: string /* the chip's words as the Find panel shows them */;
+    classes?: string[] /* a kind chip: its class ids — one, or several for a chip such as "all smiths" (item 120 (c)) */; id?: Id /* a place, an area or a person */;
+    count: number /* its matches the session's key admits */;
+    layers: { layer: 'ground'|'underground'|'sky' /* the arena: the panel's Ground, Below and Sky */; count: number }[] /* each layer holding one of its matches */;
+    none?: Id[] /* Show gaps on, a kind chip: the districts or catchments holding none, key-filtered, ≤ limits.members */ }[];   // the panel's order;
+                                                 // a chip whose target the key does not admit is absent and uncounted (V10 §3.9b (7))
+  matches: { id: Id; kind: string /* the registry kind when withheld */; name?: string; withheld?: true; district?: Id;
+    layer: 'ground'|'underground'|'sky'; chip: number /* its chip's index */ }[];   // ≤ limits.members per page, by chip then address
+  page: number; more: boolean }
 ```
 
 **The family of a row id** (one mapping, read by the providers, the prompt's glossary and the graders; J-V10.49):
@@ -1108,14 +1027,15 @@ Every provider names its pushes by these families, V01's among them (V01 §4.5).
 | `ClerkSettings` | the first opening of the drawer (defaults), the settings panel, a host's `clerk.config` (through `ClerkMount.host`) | the turn loop, the backend selection, the meter, the store | device storage `plat.clerk.settings` (host-forced fields: never) | — | a settings change is immediate and reversible by the user; not an edit | `version`: an unknown version resets to defaults with `consent` cleared |
 | the API key | the user (`setKey`, validated) | `AnthropicBackend` | memory; device only on "remember" | — | "forget key" clears both | none |
 | `ClerkSession`, `ClerkSegment`, `ClerkTurn` | opening the drawer; each segment and turn | the loop, the drawer | memory only | a new segment opens on the V10 §3.2 triggers | the document's undo covers accepted proposals; the session keeps its turns | none (never saved) |
-| `Draft`, scratch document, `CreatedRef`s | the first declaration of a turn | tools, `check_draft`, reads with the draft, every preview and acceptance | memory; the scratch is never saved, bridged or resolved (item 469) | re-made when stale (V10 §3.11); placeholders re-resolved at every preview | `check_draft { drop }` rebuilds the scratch from the kept items; the scratch closes at the turn's proposal end | none |
+| `ClerkDraft`, scratch document, `CreatedRef`s | the first declaration of a turn | tools, `check_draft`, reads with the draft, every preview and acceptance | memory; the scratch is never saved, bridged or resolved (item 469) | re-made when stale (V10 §3.11); placeholders re-resolved at every preview | `check_draft { drop }` rebuilds the scratch from the kept items; the scratch closes at the turn's proposal end | none |
 | `Proposal`, `Variation` | the turn's end; a host clerk's `preview { proposal }` (`ClerkMount.host.proposals`) | the drawer (`ProposalView`, with `accepted` and `rebuild` after acceptance, each bend with its item and actions; the turn's `refused` items beside it), `preview`, accept, `ClerkMount.host.answer` (`clerk.proposal`) | memory; accepted events in the log with `proposedBy: 'clerk'` (§7.1) | re-previewed on a moved `logHead`, placeholders re-resolved (V10 §3.11) | the proposal's group is one undo step (§7.4); a dropped proposal leaves nothing | none |
 | `ClerkTranscript` | each turn; its `key` at opening and at each raised key change, a lowered one ending it (V10 §2.7) | the store (gated by `admitsAll`, V10 §2.3), the export, the harness | memory; device store only with keep history (V10 §3.15) | — | the user deletes entries or all | versions 1 and 2 read as `key: 'secret'`; never rewritten |
 | `UsageTally` | each response's `usage.iterations` | the meter, the caps | session memory; the month in device storage | reset each local calendar month | — | none |
 | `DefectRecord` | the equality check, a bad request, a placeholder failure, a creation digest mismatch | the drawer's settings | device storage `plat.clerk.defects`, ≤ 100, oldest out | — | "Clear" | an unknown shape is dropped |
-| `MapBrief` (its arid mark, history and wall-run lines included), `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer` (sections included, `history` among them), `Explanation`, `FieldDrivers` | on each query | the clerk, V09's panels, a host clerk | never (derived at read from the committed model, its provenance and the log) | recomputed at every read; the segment's rendered brief is refreshed on the V10 §3.2 triggers | — | — |
-| an accepted `delete` of generated content (T10, item 368) | acceptance (V10 §4.2) | the fold, which writes the suppression (item 260's `detail.suppress`); the history; the exports | the log, `proposedBy: 'clerk'` | held through regeneration and every epoch by the suppression (V06 §2.13) | the group's undo restores the thing with its ids; after later edits "put it back" (`rebuild`, V10 §4.3) | §7.5; an older document holds no suppression |
+| `MapBrief` (its arid mark, history and wall-run lines included), `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer` (sections included, `history` among them), `FieldDrivers` (§11.2's), `Explanation` | on each query | the clerk, V09's panels, a host clerk | never (derived at read from the committed model, its provenance and the log) | recomputed at every read; the segment's rendered brief is refreshed on the V10 §3.2 triggers | — | — |
+| an accepted `delete` of generated content (T10 `hold`, item 368) | acceptance (V10 §4.2) | the fold, which writes the suppression (item 260's `detail.suppress`); the history; the exports | the log, `proposedBy: 'clerk'` | held through regeneration and every epoch by the suppression (V06 §2.13) | the group's undo restores the thing with its ids; after later edits "put it back" (`rebuild`, V10 §4.3) | §7.5; an older document holds no suppression |
 | `LookAnswer` (V10 §3.9b (5)) | each `read_map look` | the model's look answers | never: read from the view state (§2.9) and the tables at the moment of the read, never logged, never hashed | re-read at each call; a week or festival change between turns reaches the model only through the next read | — | a document without item 117's or 118's view keys reads midsummer (week 19) with no festival (V09 §4.21.7 (2)) |
+| `FindAnswer` and the `find` action (V10 §3.9b (7); item 120) | each `read_map find`; the action step's `find` block, run by the application when the reply is complete and at each press of its button | the model's answers about what the map shows; the Find panel, which sets §2.9's view key `find` | never by the clerk: the chips are §2.9's view key, kept as view state is (view pins included), never logged, never hashed | re-read at each call; the panel re-evaluates the chips at every commit, regenerate, undo, advance and season change (item 120 (f)), which the next read reports | not an edit: no undo step; the user's chips or **Clear** change the view back, and the reply's button sets it again | a document without the `find` key reads `on: false` with no chip |
 | `RaisedOutcome`, `WhyAnswer.removed`, the `raised` rows, `MapBrief.raised`, `.terraces`, `.decks` | each query | the clerk, V09, V08 | never (derived) | recomputed at every read | — | a document without item 110's records answers with empty lists, and its brief renders byte-identically (T-V10-43) |
 | `DerivationRecord.placements` (item 271) | S10b at every placement run | `explain` in `asPlaced` mode | with the plot's derivation record (records digest, outside the model digest, §2.8) | rewritten by every run that re-places the use | with the event that ran S10b | absent in an older document: `explain` answers `asNow`, `exact: false`, "placement order not recorded" |
 | `clerk.ops` | shipped | the backend, the request builder, the meter | `@plat/tables`, versioned; the device's preference layer only | an edit applies from the next request; it opens a new segment when it changes the tools or the prompt | the preference layer's own undo | keyed row operations (§7.6); a document row on it is refused at load and reported |
@@ -1147,7 +1067,7 @@ failure ladders.
 |---|---|---|
 | the drawer's message box | `converse` | the text; the current selection as `selected` ids |
 | "Ask the assistant" in the application's "why?" panel (V09), which shows `WhyAnswer` without any model | `explain` | the question and the `WhyAnswer` already fetched, as a data block |
-| the roster paste box (T7's panel, or the drawer's "paste a list") | `converse` | the pasted text as `roster` |
+| the roster paste box (T7 `roster`'s panel, or the drawer's "paste a list") | `converse` | the pasted text as `roster` |
 | "Check with the assistant" in the skeleton import dialog (V09) | `critique` | the skeleton, loaded as a creation draft before the first request |
 | "How do I …?" in the drawer's menu and the application's help (V09) | `help` | the question; the route's one tool is `read_map { kind: 'tools' }`, each tool's T101-1 registry row with its V09 catalogue hint; the answer ends with a `useTool` action, written in V10 §3.13 step 4's action form (J-V10.69) |
 
@@ -1227,9 +1147,15 @@ the cached prefix (the operator channel). A longer delta closes the segment (`de
 reaching `cache.segmentTokenLimit` (`length`); a change of the session's effective knowledge key
 (`key`, V10 §2.3, V10 §3.12); a change of `clerk.ops`, `clerk.content` or a vocabulary that feeds the tool schemas (`tables`); a
 delta over its limit (`delta`); the drawer's "new topic" (`user`). A new segment opens with a fresh brief and carries
-forward only a harness-written memory block — the referents with their names (key-filtered) and one line per earlier
-turn of the session (its outcome and its proposal's reason) — never a model-written summary, so nothing unverified is
-carried (J-V10.13).
+forward only a harness-written memory block, never a model-written summary, so nothing unverified is carried (J-V10.13):
+the referents with their names (key-filtered), then, the whole block within `limits.memoryTokens` (4 000; never more
+than a quarter of `cache.segmentTokenLimit`), one line per earlier turn of the session (its outcome and its proposal's
+reason) for the newest turns that fit, the turns before them counted in one harness-written line, "{n} earlier turns:
+{a} accepted, {d} dropped" — `a` the turns whose proposal was accepted, `d` those whose proposal was dropped, superseded
+or stale (J-V10.124). The block is measured as the brief is (V10 §6.3), so a new segment always opens below its limit and no
+opening request grows with the session's length; a `segmentTokenLimit` the device sets below an opening's own size
+(the tools, the system, the brief and this block) makes each turn open a segment of its own (`length`), never a request
+past the model's context (V10 §3.23 row 31).
 
 ### 3.3 The system prompt, the map block and the vocabulary block
 
@@ -1271,7 +1197,8 @@ are binding):
 8. **Link every place you mention** as `[[id]]` or `[[id|words]]`, using ids from tool results; mention no place you have
    not read. The only other bracketed form is the **action form** (V10 §3.13 step 4), written at the reply's end, each on
    its own: `[[do:useTool:<tool>]]`, `[[do:fork:<seq>]]`, `[[do:rerun:<seq>]]`, `[[do:undo]]`, `[[do:rebuild:<id>]]` and
-   `[[do:refuse:<category>]]` — the buttons the user sees under your answer, never a change by itself.
+   `[[do:refuse:<category>]]` — the buttons the user sees under your answer, never a change by itself — and the find
+   forms of rule 20, which also set what the viewer's map shows at once: a view, never a change.
 9. **Words for places.** Use anchors (an entity, `centre`, a bearing and a distance word, between two things, along a
    way, the town's edge, the frame's edge); bearings are compass points with north up; distance words are adjacent,
    near, short, mid, far.
@@ -1298,7 +1225,7 @@ are binding):
     anything only when the user asks to remove that thing. In a city the rules may already have built raised ways: read
     the brief's raised line first, and never declare one for a reason the brief shows built. In a town or a village the
     rules build none (a way kept from when it was a city apart — the raised line's `carriedSince`), so a new one is only ever the user's declaration. Never
-    propose one, or a removal, to fix a finding. A building grander than its rung's ceiling allows (item 115; §4.2 S10b's
+    propose one, or a removal, to fix a finding. A building grander than its rung's ceiling allows (item 115; §4.7 S10b's
     ceiling) is likewise declared only on the user's words — and then as asked, since the ceiling is a default, never a
     refusal: say in one line that it is grander than such a place usually has and kept as asked (V10 §3.9b (4)).
 17. **What if …?** (V06 §4.4). For a question about how the town would be had something in its past
@@ -1318,6 +1245,15 @@ are binding):
     decorations, explain them from its climate rows and festival list, and never declare anything for them; to see
     another week or festival, name the view bar's **Season** control or **Festivals** list in words (V09 §4.21.7,
     V09 §4.21.8) — they are view settings, not tools.
+20. **Showing things on the map** (item 120). When the user asks to see, find, show or highlight where things are ("show
+    me the blacksmiths", "where are the temples?"), read `read_map { kind: 'gazetteer', text }` for what the town holds,
+    say what you found in one sentence with its count, and end with `[[do:find:<targets>]]` — `class:<id>` for a kind of
+    place the read listed, or the ids of places, quarters or people a read returned, joined by commas — which veils the
+    rest of the viewer's map and makes those things glow, on every zoom and layer, until the user clears it; write
+    `[[do:find:add:<targets>]]` or `[[do:find:remove:<targets>]]` when they add or drop things ("the tanners too"),
+    `[[do:find:gaps:<targets>]]` for "where is there no …?" and `[[do:find:clear]]` when asked to clear it. It is a view,
+    never a change: write no events for it, and never set it unasked. To say what the map shows now, read `read_map {
+    kind: 'find' }`; a thing no read returned is never a target, and a town without one has none to show — say so.
 
 **The map block** is `MapBrief` rendered as compact text (its `salts` excepted: the encoders' read, V10 §4.1): fixed
 field order, one line per district, landmark, road, wall (with its runs by state where any run is not `standing`, item
@@ -1340,7 +1276,7 @@ in the drawer's "What the assistant sees". The kept rows are appended to the seg
 block, between fences, as data: `<map-vocabulary>` … `</map-vocabulary>`, one row per line, `words → field = value`.
 Document refusal templates are not used at all (the refusal card's text is the catalogue's, V10 §2.9).
 
-**Default lexicon rows** (`clerk.content.lexicon`; our own values, not calibratable — a word list V12's R4 never calibrates, re-set as a table version by V10 §7.3's evaluation). The size words are one rule with V09's size chips: a `population` value names a rung's default target (§1.1's rung table, as V07 §2.1 cites it) or a quantile of a rung's band read from that table (V09 §4.5's T1 rule, J-V9.56), never a number of its own:
+**Default lexicon rows** (`clerk.content.lexicon`; our own values, not calibratable — a word list V12's R4 never calibrates, re-set as a table version by V10 §7.3's evaluation). The size words are one rule with V09's size chips: a `population` value names a rung's default target (§1.1's rung table, as V07 §2.1 cites it) or a quantile of a rung's band read from that table (V09 §4.5's T1 `intend` rule, J-V9.56), never a number of its own:
 
 | words | field | value |
 |---|---|---|
@@ -1389,14 +1325,18 @@ set per route, each holding only that route's tools):
    `terraced_palace`, `tiered_tower`; V11 §3.24.3; V02's X17), each described in plain words; quarter `kind` from `RosterTables.districtKinds[].kind`; `band` from `prosperity.bands`;
    `form` from the forms catalogue, and V07's plan forms while the village product is registered; `fieldSystem` and the
    village water keys from V07's tables, likewise; `era` and `biome` from their rows; `newNames` and `restyle` from
-   V09's T11 and T12 rows (T10's row lists no layer re-roll, so `hold` has none); `link.op` onto V11 §4.2's
+   V09's T11 `name` and T12 `dress` rows (T10 `hold`'s row homes only the village track's re-roll, which reaches the model
+   through `hold`'s `events`, so `hold` has no typed re-roll); `link.op` onto V11 §4.2's
    `siting.linkEdits` cells; `material` from V11's `walls.patchMaterials` rows and `history.onceA` from the rung table's
    rungs, each list filtered at the turn (the enceinte's kind and culture; the rungs above the town's own); `WayClass`,
    `Enceinte['kind']`, `Greenery['kind']` and `WarpKernel` from `@plat/model`.
 2. Each declaration tool's `events` field is an array of objects whose `t` is an enumeration of **the event kinds its
-   row of §7.1's toolkit table lists** — read from T101-1's tool registry, so a kind a volume registers under a tool (a
-   plan event under T9, an underground tool under T4 or T6, V01's fabric parameter under T8) reaches the clerk with no
-   change here; T9's row carries `editTable` restricted to `siting.declared` and `siting.linkEdits` (V10 §1b.3); the
+   tool's rows of §7.1's binding home** — read from T101-1's tool registry, so a kind a volume registers under a tool (a
+   plan event under T9 `shape`, an underground tool under T4 `road` or T6 `place`, V01's fabric parameter under
+   T8 `fill`) reaches the clerk with no change here; a kind the binding homes at several tools by its target or path takes
+   only the targets its tool's rows name — T10 `hold`'s `rerollLayer` the village track alone, the other concerns being
+   T11 `name`'s and T12 `dress`'s typed forms; T9's row carries `editTable` restricted to `siting.declared` and
+   `siting.linkEdits` (V10 §1b.3); the
    other fields are free (`additionalProperties`), and each element is validated client-side by that kind's
    `@plat/model` schema (minus `EditBase`). The model can ask for a kind's field schema with
    `read_map { kind: 'schema', event }`, which returns it as JSON Schema; the same call with a vocabulary name returns
@@ -1429,7 +1369,7 @@ set per route, each holding only that route's tools):
 | `hold` | Lock or pin what must stay, revert a thing to generated, or re-roll a scope (a block, a quarter, a building); remove a thing, only when the user asks to remove it. |
 | `name` | Rename a thing, set a label's display text, hide a label, group quarters under a region name, or draw new names for some places, for a quarter, or for the whole town when the user asks. |
 | `dress` | The style preset, a display re-roll (a new compass, emblem, trees, or decoration — the lines' wobble and the tree crowns) and layer visibility; propose an export for the user to run. |
-| `read_map` | Read the map: the brief, one thing, the gazetteer, people, candidate sites for a class, a distance, what stood here in a past year, the chronicle, a thing's history, a rule or a class's profile, the generation report, the tools, a schema, or the season and festival the viewer is shown. Reads the draft while one exists. |
+| `read_map` | Read the map: the brief, one thing, the gazetteer, people, candidate sites for a class, a distance, what stood here in a past year, the chronicle, a thing's history, a rule or a class's profile, the generation report, the tools, a schema, the season and festival the viewer is shown, or what the viewer's Find shows. Reads the draft while one exists. |
 | `why` | The rules' own explanation of why something is what and where it is: the rows that pulled it, its links, the alternatives, what lies beneath it, its history. |
 | `check_draft` | Try the draft on a copy of the map: what each declaration made, bends, refusals, counts and the rules check. |
 | `critique` | Check the draft or the map against the rules: quarters missing their defining places, harbours without quays, unplaced elements, coverage gaps, broken chains, misplaced catacombs and crypts, what a removal leaves behind. |
@@ -1463,11 +1403,12 @@ is an edit (an epoch's or a dossier event's `EditRef`), that event's `seq`, so p
 before it; `history` is
 `query why { id, historyPage: page }`'s history page; `report` summarises `report(h)` to the requested features below
 full delivery, the unplaced items and the dossier placement states; `rule` returns V11's row with its `says` and the
-cell's calibration register entry, which the answer tells plain first — "tuned so organic lanes turn as much as the
-reference's streets per 100 m", or for an `owner-set` cell "the owner's rule, item {n}" — its id and run only when the
-user asks for details, the clerk never starting a calibration run (V12 §2.6); `tools` and `schema` are answered by
-`@plat/clerk/core` (the tool registry rows with V09's catalogue hints; the schemas), and `look` by the harness from
-`ClerkMount.view` (V10 §3.9b (5)). `why` takes `mode` (default
+cell's calibration record (`RuleAnswer.register`, its row of V12 §2.10's `dist/evidence.json`), which the answer tells
+plain first — "tuned so organic lanes turn as much as the reference's streets per 100 m", or for an `owner-set` cell "the
+owner's rule, item {n}" — its `entry` and `method` only when the user asks for details; with no such file, or one of
+other table versions, the answer gives the provenance source alone; the clerk never starts a calibration run (V12 §2.6); `tools` and `schema` are answered by
+`@plat/clerk/core` (the tool registry rows with V09's catalogue hints; the schemas), and `look` and `find` by the harness from
+`ClerkMount.view` (V10 §3.9b (5), V10 §3.9b (7)) — `find`'s matches by §11.2's gazetteer at the session's effective key. `why` takes `mode` (default
 `asPlaced` for a placed use, V10 §3.9) and returns the `WhyAnswer` with its sections.
 
 **Declarations in edit mode.**
@@ -1481,8 +1422,8 @@ user asks for details, the clerk never starting a calibration run (V12 §2.6); `
    its `bent` line and its alternatives `propose` actions — for a placement bend each of the preview's plots as
    `placeAt`, for `bend.under.accessDug` each further building as V09 §4.17.4's **Use another building** group (V10
    §3.16, *The dry run's bends*). A `conflict` answer
-   becomes the item's refusal: a dossier-owned refusal is `dossier`, a lock `lock`, any other F-EDIT the dry run does
-   not bend `rule`, each worded by the dry run's `MsgRef` (V09 §4.9's row for the code) and each with the row's
+   becomes the item's refusal: a dossier-owned refusal is `dossier`, a lock's or pin's (`refuse.locked`, `refuse.water`, `refuse.warp`)
+   `lock`, any other F-EDIT the dry run does not bend `rule`, each worded by the dry run's `outcome` (§11.2; V09 §4.9's row for the code) and each with the row's
    buttons turned into `ClerkAction`s. **The buttons** (J-V10.106): the harness reads the row's
    `MsgRow.buttons` — V09 §2.9's `MsgButton` list in the row's order (CVR-V10-20), the one list
    the canvas's card reads — and maps each button by its `does`, as V09 §2.9's *The clerk's reading* states: `commit` → a
@@ -1495,8 +1436,8 @@ user asks for details, the clerk never starting a calibration run (V12 §2.6); `
    `select` of what the button's `arg` names — a `MsgRef` argument's `{ id }` (**Move it**: a selection the user drags,
    V09 §4.6), the preview's alternatives, its created addresses of one kind (**Show the way in**), `dependents` (**Show
    them**) — except `refuse.stale`'s `preview`, which is the card's `focus` (V10 §3.11); `tool` → a `useTool` of the
-   button's `tool` in its `mode` (**Add a way down**: `place` in mode `access`, T6's Below access mode), and for a
-   `subject` button (**Show a different name**, **Change the stairs**, **Change the building's shape**) with `ids` the
+   button's `tool` in its `mode` (**Add a way down**: `place` in mode `access`, T6 `place`'s Below access mode), and for a
+   `subject` button (**Show a different name**, **Change the building's shape**) with `ids` the
    row's first address argument that the session's key admits (V09 §2.9) — a `subject` button whose row has no address
    argument the session's key admits is not offered; `drop` → the card's **Drop**, or in words the model's
    `check_draft` `drop` of the item (**Keep {building}**; V10 §3.16). No `bend.*` or `refuse.*` row a dry run gives the clerk
@@ -1583,7 +1524,7 @@ the brief's `builtRadiusM`.
 The model does the language; the harness enforces the order and the rules. The procedure the prompt states and the
 tools enforce (V10 §3.3 rule 4; V10 §3.5):
 
-1. **Intent (T1).** From the description, through the lexicon: `population` (never a rung alone — size follows
+1. **Intent (T1 `intend`).** From the description, through the lexicon: `population` (never a rung alone — size follows
    population, §1.1), `form` when the description names one ("on a hill with a lower port" → the forms catalogue's
    `citadel-and-port`; "where two rivers meet" → `confluence`; "a green village" → V07's `green`), `water` and
    `coastSide`, `walls`, `wealth`, `planned`, `era`, `biome` ("a desert town" → `arid`, item 111), `magic`, `castle`,
@@ -1592,11 +1533,11 @@ tools enforce (V10 §3.3 rule 4; V10 §3.5):
    (h) applied to words, §7.7 layer 1); the clerk never asks the user for it (V10 §3.3 rule 4). The seed is drawn on the
    first `intend` from the platform's cryptographic random source, as a new town's is, and recorded in the blueprint.
 2. **Routing by population** (J-V10.19, J-V10.51). The encoder routes the blueprint by `LadderRouter.route(population)`
-   (V07 §2.1): below 1 500 people it returns the village product once V07's `ProductDecl('village')` is registered, and
+   (§1.1): below 1 500 people it returns the village product once V07's `ProductDecl('village')` is registered, and
    the draft is a village — `size.rung` THORP, HAMLET or VILLAGE and the village fields in the blueprint's
    `VillageRequest` (V07 §2.7); while no village product is registered, §1.1's clamp applies — a 1 500-person TOWN — and
    the check's reply says so and offers the clamp. A dossier-bound document takes its rung from the dossier (§7.7).
-3. **Bones (T2–T5).** Named terrain ("a hill to the north", "cliffs along the sea") as `ground` strokes by anchors on
+3. **Bones (T2 `ground`, T3 `wall`, T4 `road`, T5 `quarter`).** Named terrain ("a hill to the north", "cliffs along the sea") as `ground` strokes by anchors on
    the frame and the centre; named routes as `road`s from a frame edge to the centre; walls as `wall` points on the
    town's edge (at a village rung, V07's palisade by `intend`); each named or kinded quarter as `quarter` with a seed
    anchor ("the temple quarter on the hill" → seed at the hill's anchor). Terraces, retaining walls, raised ways,
@@ -1607,7 +1548,7 @@ tools enforce (V10 §3.3 rule 4; V10 §3.5):
    the check is read first and a second is declared only when the words ask for more water.
 4. **`check_draft`** — the scratch town, generated from the blueprint and its prefix; each prefix declaration's outcome;
    the findings.
-5. **Programme (T6–T7).** `read_map brief` on the scratch; named places by `place` with a locus on the new quarters,
+5. **Programme (T6 `place`, T7 `roster`).** `read_map brief` on the scratch; named places by `place` with a locus on the new quarters,
    gates and squares, or the pasted list by `roster`.
 6. **`check_draft`** again; fix the blockers and warnings the findings name with further declarations, within the
    check limit.
@@ -1668,7 +1609,7 @@ V01's `RetainingWall` from M5, V06's `Enceinte` from M6-E — and this default a
 | a district | name, kind, identity, band, band range, the character's components | S6's seed kind and grower, or its declaring `quarter` or `drawBoundary` event; S12c's identity with the quarter identity row that won (item 72); on an arid site the growth field's water pull that drew it (S3 (6), item 111 (b)) with its climate row | `drivers` averaged over its plots for `path` `prosperity` or `band` (item 102 (f)); `history` (renames, epochs) |
 | a way | class, width, name | S4's route and the destinations it joins, S5's growth, or its `drawWay` | `history` |
 | an enceinte, gate or tower | kind, closure, the stretch profile; each run's condition and material with its last change (§2.7, item 114) | S3 or S5a's trace from its stage boundary, its gate law, or its `drawWall`/`placeGate`; each run's generation-time condition from §7.7's condition row — the town's defence readiness and wealth at the table's shares (item 114 (d)) — or the event that last changed it (`repairWall`, `wearWall`) | `closure`: each arc a barrier closes with its barrier and defensibility class (item 106 (g)); for a gate, the road that crosses it; each run worded by V09's `info.wall.run` (V10 §3.9b (3)) |
-| a water body | kind, level, bank class; an oasis's `spring` with its `flow`, its grove and gardens by `fedBy` (§2.3, item 111 (a)) | S1 by descent — an oasis by the arid row's chance — its `drawWater` (T2's spring flag for a drawn oasis), or a dossier's `oasis_water` (DR40, tier `dossier`) | DR1 for a dossier site; for an oasis, that it is water to every rule that reads water (V10 §3.9b (1)) |
+| a water body | kind, level, bank class; an oasis's `spring` with its `flow`, its grove and gardens by `fedBy` (§2.3, item 111 (a)) | S1 by descent — an oasis by the arid row's chance — its `drawWater` (T2 `ground`'s spring flag for a drawn oasis), or a dossier's `oasis_water` (DR40, tier `dossier`) | DR1 for a dossier site; for an oasis, that it is water to every rule that reads water (V10 §3.9b (1)) |
 | a name or label (`path` `name`) | the name, its display text, its tier | S13a's draw with its naming record's slices, a claim (item 82), the dossier's name, or the rename event | — |
 | greenery | kind, density | S12b's rule row | — |
 | a plot's prosperity (`path` `prosperity`) | value, band | the field's two passes (§4.5) | `drivers` at the plot's sample points, with the daylight term's `sources`, the water term and the climate cell (`climateSun`; item 111 (b), (c)) |
@@ -1683,9 +1624,9 @@ exactly these; every other kind is answered by the generic provider; J-V10.48):
 |---|---|---|---|
 | `district.fabric`, `block.content`, `block.squareType`, `HoodPlace`, hood pins, `district.terrace`, `RetainingWall` (from M5), `district.raised` (the under-deck strip); section `fabric` | V01 | V01 §4.5 | the fabric pick, quotas, the siting pushes as pulls of V11's families, the naming feature, the pin's gate; the terrace state and its source; a wall's producer, slope and step and each way that crosses it; the raised way over an under-deck strip with its reason |
 | `building` paths `massing`, `wings/<key>`, `composition`; section `massing` | V02 | V02 §4.5, V02 §4.6 (6), V02 §4.6 (7) | the massing family, its rows and alternatives, the rejected tower; item 110's stack facts `massing/stack/*`, `wings/<key>/on`, `wings/<key>/solid`, `massing/stairSteep`, a deck building's `massing/deck`, and the facts `massing/bend/<id>`, `stack.grade` and the derived aspect, each bend of V02 §1b worded by its V09 §4.9 row |
-| `room`, `building` path `plan`; sections `plan` and **`crypt`** | V03 | V03 §4.6 | the programme rows and owed rows; the crypt (V10 §3.9a); item 110's room causes (`info.plan.cause.<cause>`: `landingDoor`, `terraceDoor`, `terraceExit`, `seatingExit`, `walkOut`, `tombDoor`, `gradeFace`, `deckNoCellar`, `stoop`, `exposure`, `stackCarried`) and `PlanReport.notes`' `shrineOneRoom`, `solidMonument` and `stackCarried` by the same ids |
+| `room`, `building` path `plan`; sections `plan` and **`crypt`** | V03 | V03 §4.6 | the programme rows and owed rows; the crypt (V10 §3.9a); item 110's room causes (`info.plan.cause.<cause>`: `landingDoor`, `terraceDoor`, `terraceExit`, `seatingExit`, `walkOut`, `tombDoor`, `gradeFace`, `deckNoCellar`, `stoop`, `exposure`, `stackCarried`) and `PlanReport.notes`' `shrineOneRoom`, `solidMonument` and `stackCarried` (`info.plan.note.<id>`), their words V10 §3.9a's `plan` table |
 | underground systems, `AccessPoint`, `UndergroundLink`, `RuinRecord`, `CatacombComplex`, void clusters; section **`underground`** on burial faces, buildings over a void and districts above a ruin | V04 | V04 §4.5 | V10 §3.9a; item 110's arch vaults with their span and its reason, a ruin's stepped monument (tiers laid, standing, truncated), an aqueduct's terminal cistern, a void met by a support's footing ("the builders filled what they met"); item 113's `lost` clusters and buried former settlements |
-| `SkyIsland`, `SkyAccess`, the `fallen_island` decoration; section `island` on shaded ground | V05 | V05 §4.5 | the island's gate, reason, strip and supply; per-island daylight `sources`; "removed by you" and "raised clear of the aqueduct" |
+| `SkyIsland`, `SkyAccess`, the `fallen_island` decoration; section `island` on shaded ground | V05 | V05 §4.5 | the island's gate, reason, strip and supply; per-island daylight `sources`; "removed by you", "raised clear of the aqueduct", "clearance held by your lock", "held without its institution" and "not yet in the ground's shade" (V05 §4.5) |
 | `Use` (lifecycle `detail.why`), `Enceinte` (pathway, from M6-E), `district` path `prosperity` (`FieldDrivers.since`), `MutationPlan`; section `move` | V06 | V06 §4.5 | the recorded move reasons, the wall's pathway and each run's condition, material and last change (item 114), the shade since year N and the water term's fall ("the spring failed in year N"), a re-plan under the grandeur ceiling; a raised way built at an epoch, a slumped retaining wall, a struck deck |
 | the village records (`VillagePlan`, `VillageField`, `VillageEnd`) | V07 | V07 §4.5 (its `info.village.*` rows; T-V7-61) | the heart's terms, a field's system, an end's reason; a house-platform wall; arches carried from when the place was larger |
 
@@ -1760,14 +1701,14 @@ term and the climate cell (item 111 (b), (c)) among them — summing before the 
 `district` provider fills `since` from the shade masks of the history frames ("the island's shade since year N") and the
 water term's fall ("the spring failed in year N").
 
-### 3.9a The underground and the crypt, explained (item 109; J-V10.40)
+### 3.9a The underground, the crypt and a plan's causes, explained (items 109, 110; J-V10.40)
 
 The clerk explains item 109's subjects only from the records their volumes write — V04's `RuinRecord`, `CatacombComplex`,
 `AccessCause`, `LinkCause`, `reusedBy` and the excavation reading, and §2.6's `Basement.crypt` (item 238; V03) with its rank — and
 from the dry run's bends; it never places, ranks or sources a catacomb or a crypt by a rule of its own, in the prompt or
-in an encoder, since the source rule lives in the engine alone (J111). Two section providers carry the rows — V04 §4.5's
-and V03 §4.6's, which key them — and every row's words are a key of V09's catalogue (`info.under.*`, `info.catacomb.*`,
-`info.crypt.*`), one key per value of every union named below, their `en` words written here once and loaded by V09
+in an encoder, since the source rule lives in the engine alone (J111). Three section providers carry the rows — V04
+§4.5's `underground` and V03 §4.6's `crypt` and `plan`, which key them — and every row's words are a key of V09's
+catalogue (`info.under.*`, `info.catacomb.*`, `info.crypt.*`, `info.plan.*`), one key per value of every union named below, their `en` words written here once and loaded by V09
 §4.9, so the clerk and V09's panels say the same words (T-V10-29).
 
 **`underground`** (V04 §4.5's provider), on a void element, a system, an access, a link, a burial face, a building over a
@@ -1782,6 +1723,7 @@ void and a district above a ruin:
 | a buried former settlement (item 113 (c)) | its burial — the replay epoch that buried it and why (floods, silt, rebuilding on top; DR39) — and the former fabric it lies under, from the `HistoryRecord` (V10 §3.9b (2)): "the old town lies under the new one, buried since the floods of year {n}" |
 | a void with no dwellings | "no dwellings: no way in" while unexcavated (item 109 (j) (4)) or lost ("every way in has closed; its people have left", item 113 (e)); else the undercity's or the scattered dwellings' count |
 | a sealed deep void | "below the reach of every cellar above" (`info.under.deep`) — deeper than `DigRule.maxM` under every building over it (item 109 (j) (5)) |
+| nothing below ground — V04 §4.5's reads holding no element the key admits, and the view's empty band ladder (V04 §5.1) | "Nothing lies beneath this town." (`info.under.none`) |
 | a catacomb (`CatacombComplex`) | **source**, from `source.kind` and `source.ref`: "under the churchyard of {church}", "under the burial ground {name}" (with "outside {gate}" when extramural), "under a ground of the Cemetery network", "under {monastery}'s burial ground", "in an old quarry turned ossuary" (CITY and METROPOLIS only), "kept from an older version of the town" (`legacy`) — never a church building; **rank**: rank 1 "the largest catacomb in {town}, under its largest cemetery that holds one", any other "{n} of {count}", a growth stopped by V04's rank cap (`CatacombRule.rankCap`, `blockedBy: 'rank'`) "it may not outgrow the Catacombs of {largest}"; **the count that admitted it**, as numbers and words — the rung, `churches` counted by V04 §3.5.1 (3) (the cathedral, great-temple and church buildings and each monastery's church, a collective record's members once each), `churchesPer` and the cap: "a town has one catacomb", "a city with {churches} churches may have {count}"; with `overCount`, "kept from when the town was larger; no new catacomb starts until the count allows"; **entrance**: the stair on the face (in its chapel where one stands, V04 §3.5.1 (9)) or the quarry's shaft and surface stair, and each crypt join that reaches it; **extent and state**: `extentFloorM2`, `lastGrowth` against the epoch's cap, `fill`, and the state — `growing` while `blockedBy` is empty, `stopped` when it holds `sourceClosed` ("{cemetery} is closed; its catacomb stays and no longer grows"), else `stagnant` with each `blockedBy` entry worded by V09 §4.17.5's lines (`info.catacomb.blocked.<cause>`; the `rank` entry by this row's rank line); under stagnation "old bones are moved into the ossuaries to make room" (item 109 (k) (5)), never a loss; an author's delete (a tombstone, V04 J-V4.56): "{m²} given up by an edit; it will not dig here again" |
 | a burial face (a churchyard part, a cemetery use, a network ground, a monastery's burial yard) with or without a catacomb | the outcome of V04's candidate pass for the face, from `catacombOutcome(doc, face)` (CVR-V10-1): `holds` (its complex, with the rows above), `countReached` ("the town's catacomb lies under {other}", or "{town} may have {count}; larger grounds hold them"), `wet` ("the ground is too wet"), `age` ("the ground is younger than a century"), `island` (a sky island's ground), `belowTown` ("catacombs come with towns"; a dossier catacomb here is V04's charnel vault, `W_CATACOMB_BELOW_TOWN`), `chance` ("the rules gave it none this time") |
 | a church-class building asked about a catacomb | "a church has a crypt, never a catacomb; catacombs lie under cemeteries", with the nearest burial face's catacomb, if any, as a `ref` |
@@ -1797,6 +1739,28 @@ church-class building (the cathedral, great-temple, church, parish church and mo
 | crypt join | an `AccessPoint` of cause `crypt` (V04 §3.5.7 (c)): "opens into the Catacombs of {cemetery}" |
 | no crypt | "no crypt: its row gave it none" (`info.crypt.none.row`); a church that is not an `always` class on wet ground (V03 §3.7.4): "no crypt on wet ground: its burials are marked by ledger slabs in the chancel floor" (`info.crypt.none.wet`) |
 
+**`plan`** (V03 §4.6's provider; item 110's room causes), on every building with a plan: one row per room cause the plan
+holds, keyed `info.plan.cause.<cause>`, and one per `PlanReport.notes` entry, keyed `info.plan.note.<id>` — the cause and
+the note both called `stackCarried` keep two keys. Each row's `ref` is the thing that set it (the flight, the retaining
+wall, the raised way or bridge, the deck, the chimney), so the words carry no slot:
+
+| key | words (the `en` text) | the fact it states (V03) |
+|---|---|---|
+| `info.plan.cause.landingDoor` | "Its door opens where the outside stair lands." | S6 (a)'s landing door, where a flight arrives on the terrace below (V03 §3.3) |
+| `info.plan.cause.terraceDoor` | "Its door opens onto the terrace below." | S6 (c)'s terrace door (V03 §3.3) |
+| `info.plan.cause.terraceExit` | "The stair comes up in a stair house on the terrace, and a door leads in from there." | S6 (b)'s terrace exit (V03 §3.3) |
+| `info.plan.cause.seatingExit` | "The stair comes out onto the seating." | S6 (d)'s seating exit (V03 §3.3) |
+| `info.plan.cause.walkOut` | "The cellar opens onto the lower ground outside." | `basementDoor(b)`'s walk-out — at a retaining wall's step or where the ground falls; on a church, its door point moved off the crypt's vault (V03 §3.7.1) |
+| `info.plan.cause.tombDoor` | "With no storeyed wing on the ground, the way down is an outside stair to a door at the cellar's floor." | the tomb door (V03 §3.7.1) |
+| `info.plan.cause.gradeFace` | "Built into an arch: its windows and door face the ground under the span." | a grade face of an arch, street or bridge vault (V03 §3.12 (9)) |
+| `info.plan.cause.deckNoCellar` | "It stands on a deck: no cellar and no well." | the deck gate (§2.6) — a fact of the deck, never an edit refusal |
+| `info.plan.cause.stoop` | "The main door stays on the ground storey, up a flight of outside steps." | O1 (e)'s stoop over an `external` basement (V03 §3.6) |
+| `info.plan.cause.exposure` | "No window or door on this side: the ground outside stands above the sill or the floor." | the exposure gate (V03 §3.6) |
+| `info.plan.cause.stackCarried` | "A chimney rises through this tier." | H3's carried stack, the tier it rises through (V03 §3.3) |
+| `info.plan.note.shrineOneRoom` | "Only the shrine stands on the top; the rooms with no storey beneath it were left out." | A5 (b)'s dropped rooms of a stepped temple (V03 §3.2) |
+| `info.plan.note.solidMonument` | "A solid monument: no rooms above the ground." | a building with no storeyed wing (V03 §3.1) |
+| `info.plan.note.stackCarried` | "A chimney is carried up into the wing above." | H4's note of a stack carried into another wing (V03 §3.3) |
+
 **Knowledge.** The crypt rows and a burial face's catacomb rows are `purpose: true` (a crypt names a church): a withheld
 building's answer keeps neither. The underground rows of an unexcavated element exist only at `secret`.
 
@@ -1804,22 +1768,22 @@ building's answer keeps neither. The underground rows of an unexcavated element 
 relation word (`grounding.relationWords`) must name the complex's `source.ref`, its plot, or a church whose crypt join
 reaches it.
 
-### 3.9b Water, a past, walls, grandeur, seasons and festivals, explained (items 111, 113–118)
+### 3.9b Water, a past, walls, grandeur, seasons, festivals and Find, explained (items 111, 113–118, 120)
 
 Each item's mechanism is the base's and its volumes'; this section fixes the clerk's part of each — what it reads, what it
-says, what it may declare — as new design beside item 110's (J-V10.113 – J-V10.117). Every row the drawer shows is a key of
+says, what it may declare — as new design beside item 110's (J-V10.113 – J-V10.117, J-V10.123). Every row the drawer shows is a key of
 V09's catalogue named here; every other sentence is the model's, written from the facts named and checked by V10 §3.13.
 
 1. **Water, the oasis and the climate cell (item 111).**
    * *Why here, why rich.* The prosperity provider's `drivers` carry §4.5's water term and `climateSun`, the climate row's
-     sunlight cell (V10 §2.13). The water term is worded by V09's `why.driver.water` ("the richest houses hold the land
+     sunlight cell (§11.2's `FieldDrivers`). The water term is worded by V09's `why.driver.water` ("the richest houses hold the land
      nearest the water"); where `climateSun` is 0 or negative (a hot arid row) the daylight term pulls nothing or pulls
      toward shade, and the answer says so ("here shade, not sun, is prized; the water draws the wealth") instead of the
      temperate reading. A district's `cause` names S3 (6)'s water pull with its climate row where the site is arid ("the
      town grew along the water"). Over epochs V06's `district` provider adds the term's fall ("the spring failed in year N;
      the quarter has declined since").
    * *The oasis.* V10 §3.9's water-body row answers it: its source — the arid row's chance at S1, a dossier's `oasis_water`
-     (DR40, tier `dossier`, V09's `info.oasis.dossier`), or T2's spring flag (tier `declared`) — its grove and gardens by
+     (DR40, tier `dossier`, V09's `info.oasis.dossier`), or T2 `ground`'s spring flag (tier `declared`) — its grove and gardens by
      `fedBy`, its `spring.flow` where V06's failing spring lowered it, and that it is water to every rule that reads water
      (§2.3): the wells, the water pull, the prosperity term. A sky island has none (§4.2 S0; V05's water).
    * *Declaring one.* `ground { op: 'lake', at, spring: true }` (V10 §4.1), only on the user's words (the lexicon's oasis
@@ -1857,7 +1821,7 @@ V09's catalogue named here; every other sentence is the model's, written from th
      §3.7.7); at generation, V10 §3.9's enceinte row reading §7.7's condition row — the town's defence readiness and its
      wealth at the table's shares (item 114 (d)): "the town is poor and has not been threatened in a generation, so its
      walls are worn". Each run is worded by V09's `info.wall.run` with its state, material and year. The brief's wall line
-     counts the runs by state (V10 §2.13); a state's look and its battle-map reading are §8.2's and §11.1's ("the gap in
+     counts the runs by state (§11.2's `MapBrief.walls`); a state's look and its battle-map reading are §8.2's and §11.1's ("the gap in
      the north wall is a breach: a battle map treats it as an opening").
    * *Repairs and wear.* `wall { op: 'repair' | 'wear', enceinte, run?, material? }` (V10 §4.1) writes V06 §2.8's
      `repairWall` and `wearWall` exactly as V09 §4.21.4's **Repair**, **Wear** and **Back in use** do; the Material words
@@ -1867,7 +1831,7 @@ V09's catalogue named here; every other sentence is the model's, written from th
      `bend.wall.newStretch` (V06 §2.8), reaching the model as any bend.
 
 4. **The grandeur ceiling (item 115).**
-   * *Honoured.* A declaration the user asks for above its rung's ceiling (§4.2 S10b's ceiling; V11's rows) — a place's
+   * *Honoured.* A declaration the user asks for above its rung's ceiling (§4.7 S10b's ceiling; V11's rows) — a place's
      class, a massing or a composition — is encoded and committed as asked: the ceiling is a default, never a refusal
      (item 101 R2), and an epoch never reshapes it down (V06 §3.8.5). The variation's card carries `info.grand.beyondTier`
      by V09 §4.21.5 (2)'s check over the variation's events — the one check for canvas and clerk — or `info.grand.dossier`
@@ -1900,6 +1864,38 @@ V09's catalogue named here; every other sentence is the model's, written from th
    (T-V10-45 – T-V10-49's no-op clauses). A withheld building's ceiling line leaves with its purpose (§11.2's withheld rule,
    item 468); a buried or lost cluster below the key's admission is absent from the history rows as from every list.
 
+7. **Find: showing what the user asks to see (item 120).**
+   * *A view, never an edit.* Find is the viewer's filter view (item 120 (a)): §2.9's view key `find` holds its chips and
+     the Show gaps switch, V09's Find panel edits it, and its `live.find` provider veils the rest of the map and gives the
+     matches their halo-like glow, pins and count bubbles on every band and layer until **Clear** or the panel closes. The
+     clerk changes it only through a `find` action (V10 §2.6) — never an event, so never the model, the document, its hash
+     or the log, and no preview, acceptance or undo step; the viewer's own chip clicks or **Clear** change it back, as for
+     chips they set themselves.
+   * *Setting the chips.* "Show me the blacksmiths", "where are the temples?", "the tanners too", "where is there no
+     smith?", "clear the map" — prompt rule 20 has the model read the gazetteer for what the town holds and end its reply
+     with a find form; V10 §3.13 step 4 checks every target against the segment's reads and makes one `find` block. The
+     application runs it once, when the reply is complete — the user asked to be shown, and it changes only that viewer's
+     own view — opening the Find panel on the chips it set, and draws it as its button (**Show on the map** for a `set`) that runs
+     it again after the viewer changed the chips. A class target becomes the chip the panel makes for that kind, an address
+     the chip for that place, area or person (§2.9's chip; V09's Find panel); `set` replaces the chips, `add` and `remove`
+     change them, `clear` empties them and turns Show gaps off, and the `gaps` form sets them with Show gaps on (item 120
+     (i)).
+   * *Saying what Find shows.* `read_map { kind: 'find' }` answers `FindAnswer` (V10 §2.13) from `ClerkMount.view` — the
+     chips and the switch — with each chip's matches by §11.2's gazetteer match listing at the session's effective key,
+     as at the city band: its count, its count per layer ("2 more Below", "1 on Sky"), its matches (name, kind, district,
+     layer, a page of `limits.members`) and, with Show gaps on, the districts or catchments holding none. The session's
+     key is the effective key the panel admits by, View as included, so the clerk counts exactly what the panel shows
+     (item 120 (k)). None of it enters the map block, the cached prefix or the log.
+   * *Knowledge.* A thing the session's key withholds, or one the document lacks, is never a target: the action step
+     drops it — a concealed use's class is no target, its front's is — and a chip whose target the key does not admit is
+     absent from `FindAnswer` and uncounted, never hinted at, so in a player's view a concealed Thieves' Guild is neither
+     named nor counted (item 120 (h); V10 §3.12).
+   * *Absent and at its limits.* A build without V09's Find panel and §2.9's `find` key renders no rule 20, no find form
+     in the action step and no `find` member in `read_map`'s schema — a build-time switch, so no deployment offers a form
+     its application cannot run; a document without the `find` key reads `on: false` with no chip. A host's own assistant
+     (configuration C) sets the chips as it sets any per-viewer view key, by §11.3's `view.set`; a host proposal carries no
+     find form.
+
 ### 3.10 The critique engine — rules checked by code, explained by the model
 
 `CritiqueEngine.run(target: 'draft'|'map'|'skeleton', doc) → CritiqueFinding[]` is deterministic and model-free: it reads
@@ -1929,8 +1925,8 @@ the gate, §7.3). The templates below are the English text of each row's catalog
 | K12 | info | a declared gate whose stub reaches no way outside the wall's strip | "{gate} opens onto nothing." | `road` from the gate to the frame edge at its bearing |
 | K13 | info | a class with a coverage row (item 103 (f)) serving fewer districts than its target | "{n} districts have no {class}." | without a dossier count for the class: `place` of the class in the first unserved district; where a dossier record owns the class's count (items 103 (f), 108 (c)): `place { move }` of the existing member farthest from any other into the first unserved district (J-V10.70) |
 | K14 | warn | an active chain (items 104 (h), 105) with a node unplaced or a link beyond its `maxDistanceM` | "The {chain} chain is broken at {node}." | `place` of the node near its partner |
-| K15 | warn | a declared undercity or dwelling over an `unexcavated` cluster (a `secret` key; below it the finding is dropped with its subject) | "{void} has dwellings but no way in." | `place` of an access (`placeAccess`, T6) at the nearest building over the void |
-| K16 | warn | a draft or skeleton item declaring a catacomb element (`drawChamber` or `drawTunnel` of system kind `catacomb`, through T6's or T4's `events`) that the dry run bent by V04's catacomb ladder — under a church-class building, over the count, below TOWN, a quarry ossuary below CITY, or on no burial face (V09's bend keys `bend.catacomb.church`, `.join`, `.charnel`, `.belowTown`, `.noGround`) | the bend's catalogue text, e.g. "Churches keep crypts; catacombs lie under cemeteries. This is {church}'s crypt." | the bend's own alternative ("Start a catacomb under {burial face}", "Join it to the Catacombs of {name}") |
+| K15 | warn | a declared undercity or dwelling over an `unexcavated` cluster (a `secret` key; below it the finding is dropped with its subject) | "{void} has dwellings but no way in." | `place` of an access (`placeAccess`, T6 `place`) at the nearest building over the void |
+| K16 | warn | a draft or skeleton item declaring a catacomb element (`drawChamber` or `drawTunnel` of system kind `catacomb`, through T6 `place`'s or T4 `road`'s `events`) that the dry run bent by V04's catacomb ladder — under a church-class building, over the count, below TOWN, a quarry ossuary below CITY, or on no burial face (V09's bend keys `bend.catacomb.church`, `.join`, `.charnel`, `.belowTown`, `.noGround`) | the bend's catalogue text, e.g. "Churches keep crypts; catacombs lie under cemeteries. This is {church}'s crypt." | the bend's own alternative ("Start a catacomb under {burial face}", "Join it to the Catacombs of {name}") |
 | K17 | warn | a draft item whose dry run carries a crypt line: the cathedral's (the principal's) crypt removed or shrunk, or another crypt reaching the principal's area — the dry run's bend `bend.crypt.cathedral` or `bend.crypt.largest` (V09 §4.9, V09 §4.17.5 (e)) | the line's catalogue text, e.g. "A cathedral always keeps its crypt, the largest in {town}." | the line's alternative where it has one ("Make it as small as allowed", "Enlarge the cathedral's crypt too") |
 | K18 | info | a draft item whose dry run lists an effect of kind `lost` or `removed` (item 465) on something the user did not name | "Removing {thing} also {effect}.", e.g. "Removing the aqueduct leaves the fountain on Conduit Square without water." | none: it never proposes to re-add or rebuild; the user may drop the proposal |
 
@@ -2009,7 +2005,8 @@ check (J-V10.10, J-V10.41, J-V10.42):
    `admitAs` in V10 §2.3's form, item 572; §11.2's *Knowledge*) with the admission of the city band, whatever the view's zoom: the session's view gives `inView` its
    bounding box only, never its band, so a name the building band would admit never enters a segment, a referent or a
    transcript (§11.2 requires band-less lists and files to admit as at the city band). The brief, the entity card, the
-   sites, `measure`, `frame`, `rule`, `profile` and every `WhyAnswer` follow the same table (item 468).
+   sites, `measure`, `frame`, `rule`, `profile`, every `WhyAnswer` and the `find` read's matches follow the same table
+   (item 468; V10 §3.9b (7)).
 2. **Purpose is never carried by a withheld entity.** A withheld entity reaches the clerk by address and registry kind
    only (§11.2's withheld rule, item 468; V10 §2.13): its kind word from `clerk.content.withheldWords` ("a building"), its attributes only
    those the registry flags `purpose: false` (item 270), no `cls` on its uses, row ids naming its class replaced by
@@ -2094,7 +2091,7 @@ the existing ones" (J-V10.18, J-V10.70).
    * **SettlementForge.** A sentence that names SettlementForge or the dossier must link at least one `[dossier]` entity
      or state a `settlement` field of the brief (name, tier word, population); otherwise *unsupported*.
 4. **Actions** (J-V10.103). The action form is the model's only way to put an `action` block in a reply (prompt
-   rules 8, 10, 15, 17 and 18): `[[do:<kind>]]` or `[[do:<kind>:<arg>]]` at the reply's end. Each is removed from the
+   rules 8, 10, 15, 17, 18 and 20): `[[do:<kind>]]` or `[[do:<kind>:<arg>]]` at the reply's end. Each is removed from the
    text and, when it meets its condition, becomes one block — in the order written, after the text, labelled under the
    session's key; a repeated form keeps its first block:
    * `[[do:useTool:<tool>]]` — `<tool>` one of the twelve canvas tools (V09 §2.3's `ToolId`; never a read tool):
@@ -2108,7 +2105,8 @@ the existing ones" (J-V10.18, J-V10.70).
      event after `<seq>` among the entries this segment read (V09 §4.10's condition for **Re-run from here**): `{ kind:
      'fork' | 'rerun', seq, label }`, labelled V09 §4.9's shared `button.openCopy`, "Open a copy from here", and
      `clerk.alt.history.rerun`, "Re-run from here" — V09 §3.9's words;
-   * `[[do:undo]]` — the session's last accepted clerk proposal, while its group is not undone: `{ kind: 'undo', group:
+   * `[[do:undo]]` — the session's last accepted clerk proposal, while its group is not undone (for an `editor`, while it
+     is the session's latest live group, V10 §4.3): `{ kind: 'undo', group:
      accepted.group, label }`, labelled V09 §4.9's shared `button.undo`, "Undo";
    * `[[do:rebuild:<id>]]` — `<id>` an address an accepted removal proposal of this session deleted, and
      `ClerkMount.rebuildEvents(seq)` answering at least one event for that proposal's `accepted.seqs[0]`: `{ kind:
@@ -2121,9 +2119,21 @@ the existing ones" (J-V10.18, J-V10.70).
      (`knownWork`, whose turn goes on); the first such form counts, a later one is dropped. An `<id>` that fails the
      check is listed in the repair and, if it still fails, left off: the refusal stands without (3) or (5), and a
      `dossier:count` form without an `<id>` is read as the `dossier` form, so its card keeps (4) (J-V10.107).
+   * `[[do:find:<targets>]]`, `[[do:find:add:<targets>]]`, `[[do:find:remove:<targets>]]`, `[[do:find:gaps:<targets>]]`
+     and `[[do:find:clear]]` (item 120; prompt rule 20) — `<targets>` one to `limits.findTargets` (16) entries joined by
+     commas, each `class:<id>`, a class an admitted entity of a read of this segment carries (a `gazetteer` row, an entity
+     card, a brief line), or an `<id>` checked as a link is (step 1) — a place, an area or a person: `{ kind: 'find', op,
+     chips, gaps, label }`, `op` `set` (with `gaps: true` for the `gaps` form), `add`, `remove` or `clear` (no targets),
+     each target its chip (V10 §3.9b (7)), labelled `clerk.alt.find.show`, "Show on the map", `clerk.alt.find.remove`,
+     "Stop showing these", or `clerk.alt.find.clear`, "Clear the map's filter". A target that fails its check, and every
+     target past the sixteenth, is dropped and listed in the repair (the reply then says the town has none, or names what
+     it read); a form other than `clear` left with no target is dropped; the first find form counts and a later one is
+     dropped. The
+     application runs the block once when the reply is complete (V10 §2.6's dispatch).
    A form that misses its condition, or names another kind, is dropped as an unknown link is — no block — and counted
    as a problem for the repair. The form never carries events: the only map-changing buttons it makes are `undo` of the
-   session's own last accepted proposal and `rebuild`, which previews first; every other button that changes the map is
+   session's own last accepted proposal and `rebuild`, which previews first (a `find` block changes the viewer's view
+   alone); every other button that changes the map is
    the harness's (a proposal card, a refusal's or a bend's alternatives), so text inside a tool result or a label can
    never make one (group H, V10 §7.3).
 5. **Repair.** With any problem, one repair request at the **route's own effort** (the messages cache stays valid, J-V10.54),
@@ -2192,8 +2202,8 @@ the existing ones" (J-V10.18, J-V10.70).
 
 Every refusal is one sentence in plain words and at least one thing the clerk *can* do, as a button (`ClerkAction`),
 except where nothing can be offered (`model`, `offline`, `host`) and for `knownWork`, whose turn goes on. The engine's
-refusals come from the dry run — §7.1's dry-run outcome table, which refuses only for a dossier fact or a lock and bends
-every other case, and §5.2's F-EDIT row citing it, with its actions and closest options as `MsgRef`s — and are worded by that
+refusals come from the dry run — §7.1's dry-run outcome table, which refuses a dossier fact or a lock (item 101 R2) and
+the availability gates its rows name (J-VI.4), and bends every other case, and §5.2's F-EDIT row citing it, with its actions and closest options as `MsgRef`s — and are worded by that
 `MsgRef` alone — V09 §4.9's `refuse.*` row for the code, one sentence per engine code on canvas and clerk (J-V9.79,
 J-V10.93) — so the `dossier` row's engine cases, the `lock` row and the `rule` row add no English of their own (J-V10.94), and the `role` row renders `refuse.viewer`, the sentence every viewer declaration answers on the canvas
 (V09 §2.10); their buttons become actions by V10 §3.5 step 3's reading of the row's `MsgRow.buttons`. The clerk's other
@@ -2209,8 +2219,8 @@ button's words. The English text below is the shipped `en` locale:
 | category | when | what the clerk says (template) | the alternatives offered |
 |---|---|---|---|
 | `dossier` | an engine `dossier-owned` refusal; the user asks in words to add, remove, rename or re-designate a dossier element (the model's form `[[do:refuse:dossier:<id>]]`, prompt rule 6); or asks for a new place of a class whose count a dossier record owns (`[[do:refuse:dossier:count:<id>]]`, J-V10.70); a roster line or a place by a locus that names no element (§7.1's roster rule) | an engine `dossier-owned` refusal renders the dry run's `MsgRef`, V09 §4.9's row for the code — `refuse.dossierOwned`, `refuse.dossierRemove`, and for a roster line or a place by a locus naming no element `refuse.roster.dossier` (its text written once, in V09's catalogue, J-V9.79), its slots filled by V09 §4.9's row (J-V10.93); the clerk's own sentences serve only the model's form, which no engine code words (prompt rules 6 and 10): `refuse.clerk.dossier` "SettlementForge keeps this town's record; the map can move places and show other names, but not change the record." · `refuse.clerk.dossier.count` "SettlementForge sets how many of these {town} has; the map can move one of them, but not add another." (`{town}` the brief's settlement name; slot-free otherwise, since the form names no element; J-V10.104) | engine cases — the row's buttons by V10 §3.5 step 3, kind-aware: for a use, building or plot, `refuse.dossierRemove`'s **Move it** (a `select` of the thing, its handles drawn — the user drags it, V09 §4.6) and **Not here** (a `propose` of `rejectSite`), and `refuse.dossierOwned`'s **Show a different name** (the `setAttr displayText` `propose` with the words the user asked for, under that button's words; without words, the button's `useTool` of `name` in its mode with the thing as `ids` — V10 §3.5 step 3); for a dossier-declared way or wall (a raised way V08's declaration row made), in place of those buttons, (1) "Move it" — a `propose` of the `road` or `wall` re-declaration of its course through the anchor the request named, else a `select` of the way or wall (its handles drawn, V09 §4.6, which the user drags) — never `rejectSite` or `placeAt`; for a roster line or a place by a locus naming no element, `refuse.roster.dossier`'s element picker — the dossier's unplaced elements (§7.1's roster rule), each a `propose` re-previewing the line with its `element` (V10 §4.1's `element` row), worded by that button with the element's admitted name (V10 §3.5 step 3; the former own alternative (2) is retired, since the row's own button now words it) — and its **Put it at {site}**, the same place on the first candidate with no `hardFails` of V10 §4.1's dossier-alternative `sites` query (V09 §4.5's, one text for canvas and clerk), encoded as `where.plot` (a map fact; J-V10.18, J-V10.80) — not offered when none of its candidates is free of hard fails, the unplaced elements remaining. The model's form (V10 §3.13 step 4): `dossier` — (3) "Move {thing}", a `select` of the form's `<id>` (`{thing}` its admitted name at the session's key, else its `withheldWords` word), offered only when the form names one, and (4) "Show another name on this map", a `useTool` of `name` in mode `rename` (the mode of `refuse.dossierOwned`'s **Show a different name**, V09 §4.9) with the form's `<id>` as `ids` when it names one; `dossier:count` — (5) "Move one of the existing ones", a `select` of the form's `<id>`, one existing place of that class (J-V10.70); a `dossier:count` form without an `<id>` is read as the `dossier` form, its sentence and (4) (J-V10.107) |
-| `lock` | an F-EDIT naming a lock | the dry run's `MsgRef` — V09 §4.9's `refuse.locked` | the row's buttons by V10 §3.5 step 3: **Unlock**, a `propose` of the unlock, and **Show me why**, a `why` (V09 §4.9's list for the row; the canvas's card offers no closest alternative, so neither does the clerk's); no own alternative |
-| `rule` | an F-EDIT that is neither dossier-owned nor a lock and that the dry run does not bend (a kept record in the way, a staged layer, the rung, a warp or new water reaching a held record, an undo's dependence, an assignment holding the target) — a placement no plot fits, one over its disruption budget, an occupied join or split and an invalid value are bends, below (file f item 582; J-VI.30) | the engine's `MsgRef` — V09 §4.9's `refuse.*` row for the code (`refuse.kept`, `refuse.staged`, `refuse.islandsRung`, `refuse.warp`, `refuse.water`, `refuse.undo.*`, `refuse.assigned`) — as its sentence | the code's actions (the row's buttons) as `ClerkAction`s, by V10 §3.5 step 3's reading of `MsgRow.buttons`; no own alternative |
+| `lock` | an F-EDIT naming a lock or pin — `refuse.locked`, `refuse.water`, `refuse.warp` (§7.1's first row) | the dry run's `MsgRef` — V09 §4.9's row for the code | the row's buttons by V10 §3.5 step 3 — **Unlock** (a `propose` of the unlock), the closest acceptable declarations that leave the locked thing untouched (each a `propose`, one per alternative of the preview: V09 §4.9's `button.chooseMarked`, **Choose another of the marked places**; item 101 R2) and **Show me why** (a `why`); no own alternative |
+| `rule` | an F-EDIT that is neither dossier-owned nor a lock's or pin's and that the dry run does not bend — an availability gate or conflict of §7.1's outcome table (a kept record in the way, a staged layer, the rung of §7.1's islands row, an undo's dependence, an assignment holding the target, an invalid `editTable` row) — a placement no plot fits, one over its disruption budget, an occupied join or split and an invalid value are bends, below (file f item 582; J-VI.30), and so is a sky quarter declared below CITY, which reaches the card as V05 §3.23's `bend.island.belowCity` | the engine's `MsgRef` — V09 §4.9's `refuse.*` row for the code (`refuse.kept`, `refuse.staged`, `refuse.islandsRung`, `refuse.undo.*`, `refuse.assigned`, `refuse.table.invalid`) — as its sentence | the code's actions (the row's buttons) as `ClerkAction`s, by V10 §3.5 step 3's reading of `MsgRow.buttons`; no own alternative |
 | `role` | a viewer asks for a change (every declaration tool answers `role`, V09 §2.10) | the engine's `MsgRef` — V09 §4.9's `refuse.viewer` | the row's **Show me why** (a `why`, by V10 §3.5 step 3); (1) "See why {thing} is here" — a `why` action with the thing's `id` (the declaration's target; `{thing}` its admitted name or its `withheldWords` word), offered when the declaration names one; and a `select` of it (its chips, J-V10.100) |
 | `knowledge` | the reader withheld what the user asked about | "That place's name isn't known in this view." | a `select` of it on the map (its chips, J-V10.100) |
 | `picture` | a request for an image, a painting, an illustration | "I don't draw pictures; I build the map, which you can style and export." | (1) "Style the map" (`useTool`, `tool: 'dress'`); (2) "Save a picture" (`export`, `format: 'png'`, V09 §5.10's Picture tab) |
@@ -2226,7 +2236,8 @@ button's words. The English text below is the shipped `en` locale:
 where it contradicts a dossier fact or a lock, and every other infeasible one is bent). Every `bend.*` row of V09 §4.9 —
 item 110's (`bend.raised.island`, `bend.aqueduct.uphill`, `bend.retaining.rim`, the massing set of V02 §1b —
 `bend.tiers.*`, `bend.stack.*`, `bend.deck.*` and the rest, which V02 owns — and the rest of V09 §4.20's), V05's island
-lines (`bend.island.keepRoom`, `bend.island.rimStop`, V05 §4.2), V06's line for a standalone neighbourhood document's clock
+lines (every `bend.island.*` row of V09 §4.9 — `keepRoom`, `rimStop`, `handMax`, `belowCity`, `join`, `lastAccess`,
+`footMoved`, `accessKind`; V05 §4.2, V05 §3.23), V06's line for a standalone neighbourhood document's clock
 (`bend.hood.noClock`, "a neighbourhood alone has no history yet — open it in its town to advance time", V06 §4.1), item
 114's `bend.wall.newStretch`, file f item 582's (`bend.place.noSite`, `bend.place.overBudget`, `bend.vacate`),
 `bend.invalid`'s clamp and every other — reaches the model and the card as the item's `bent` line (`DraftItem.bent`,
@@ -2246,7 +2257,7 @@ front** for `bend.tiers.internal` (V02 §4.6 (1)). A `show` button is a `select`
 `bend.under.accessOpening`'s **Show the way in**. A `why` button is a `why` with the canvas's target (a bend row's page:
 the guide page of its key, V10 §3.5 step 3): `bend.under.accessOpening`'s **Show me why**, that row listing no building,
 and `bend.under.noAccess`'s. A `tool` button is a `useTool` in the button's mode: `bend.under.noAccess`'s **Add a way
-down** is `useTool { tool: 'place', mode: 'access' }`, T6's Below access mode as V09 §4.9's `button.addWayDown` names it
+down** is `useTool { tool: 'place', mode: 'access' }`, T6 `place`'s Below access mode as V09 §4.9's `button.addWayDown` names it
 (CVR-V10-20). Each is labelled with its button's words, so the card carries every button of the row,
 as the canvas's does (T101-3). No refusal category is used. An uphill aqueduct's bent result is the well
 at its terminal itself (V09 §4.20.2 (5); J-VI.4 (h)), so no well is offered beside it. `bend.vacate`'s demolition is a fate the card lists and acceptance confirms (V10 §4.2 (1);
@@ -2310,8 +2321,8 @@ events are the one variation */ } }` (item 473 (b)), which the bridge handler ha
 `ClerkMount.host.proposals` (V09 §2.10). For each, the harness builds a `Proposal { source: 'host' }`
 — each variation previewed on the user's document under the session's key exactly as V10 §3.11 (4) previews a built-in
 one, the active one with the view — and shows the same `ProposalView` card through the drawer's `turns` stream (the
-drawer opens in a card-only mode when the built-in clerk is off), with the AI mark and the host's name and without Try
-again (its `actions` are `accept`, `drop` and `why`, V10 §2.6). **Accept** runs V10 §4.2 unchanged (`proposedBy:
+drawer opens in a card-only mode when the built-in clerk is off), with the AI mark and the host's name and without **Ask
+again** (its `actions` are `accept`, `drop` and `why`, V10 §2.6). **Accept** runs V10 §4.2 unchanged (`proposedBy:
 'clerk'`, the DM as author, one group), its events travelling as `doc.changed` (V10 §4.2 (4)). The harness answers
 through `ClerkMount.host.answer(id, status, seqs)`, which the bridge handler posts as `clerk.proposal { id, status:
 'accepted'|'dropped'|'stale'|'failed', seqs? }` (item 473 (b)), so the assistant knows what the DM chose. **A host
@@ -2343,6 +2354,7 @@ the model reasons from names, not from the map's bearings.
 | `WhyAnswer` | `id`, `kind`, `withheld`, `mode`, `facts` without numeric extents, `cause`, `pulls` (row, family, says, share, target, via), `links` without `distM`, `comfortM` and `maxM`, `alternatives` (plot, score, hardFails), `drivers`, `closure` by barrier and class without bearings, `profile`, `members`, `sections` rows without a unit of length, area or height (a `raised` row keeps its outcome, its reason kind and a need ratio), `history`, `evaluated`, `removed` | every distance, bearing and extent inside those fields — a reason's drop, span, metres saved and deck height among them |
 | `MeasureAnswer`, `FrameAnswer`'s radius | — | not offered to a host, as `hit` and `inView` are not (V08 §5.4 (3)): a host `query` of `measure`, `hit` or `inView` is answered `query.result { error: 'E_HOST_KIND' }` (item 473 (c)); `frame` is offered without `near` and `radiusM` (the whole town's entities at that week) |
 | `RuleAnswer`, `ProfileAnswer` | all fields | — |
+| `FindAnswer` (V10 §2.13) | all fields: labels, counts, layers and addresses, no geometry | — |
 
 V08's T-V8-27 fixture list carries these kinds, `rule` and `profile` among them, and the three refused kinds (CVR-V10-3,
 met); T-V10-20 cites it.
@@ -2453,7 +2465,8 @@ T-V10-2 builds the application without the model chunk and runs §13.4's scripte
 The clerk registers no stream concern and draws no random number that reaches the map except a new town's seed, drawn
 as a new town's always is and written into the blueprint (§6.1). Everything it changes arrives as events, so a replay of
 the log reproduces the map without the model (§6.2); scratch documents are never saved and leave no trace in the user's
-document; the look read (V10 §3.9b (5)) reads view state, which no digest holds. The brief, the entity card, the sites,
+document; the look and find reads and the `find` action (V10 §3.9b (5), V10 §3.9b (7)) read and set view state, which no digest
+holds. The brief, the entity card, the sites,
 `measure`, `frame`, `rule`, `profile` and every `WhyAnswer` are pure
 functions of the committed model, the log, the key (admitted as at the city band, never the zoom) and the table versions,
 and are checked by goldens (T-V10-8); `explain`'s `asPlaced` reading depends on the recorded placement order, never on
@@ -2524,6 +2537,8 @@ everywhere, and the rows name only what they add:
 | 28 | exports (V10 §5.3) | no turn; one turn | the Assistant entry disabled; a transcript of one entry | — (defined) | T-V10-50 (19) |
 | 29 | the drawer's text (V10 §5.4) | a turn cancelled before any block | the outcome line alone | — (defined) | T-V10-44 |
 | 30 | creation acceptance (V10 §4.2 (3); EI-V10-EDGE-1) | accepting a creation proposal while the untouched empty-state town is open, then undoing it | the empty-state town is dropped — no local record, no Recent entry (V09 §3.2 (3), J-V9.127); the undo closes the new document and returns to the empty state | — (defined) | T-V9-40; T-V10-50 (24) |
+| 31 | segments (V10 §3.2) | a session whose turn lines exceed `limits.memoryTokens`; a `cache.segmentTokenLimit` the device set below an opening's own size | the memory block carries the newest lines that fit and the count line, so a new segment opens below its limit; each turn opens a segment of its own, never a request past the model's context | simpler shape | T-V10-50 (30) |
+| 32 | Find (V10 §3.9b (7)) | a find form naming a class the town lacks or the key withholds, an address no read returned, or more than `limits.findTargets` targets; a `remove` of a chip not set, a `clear` with none set; a build or a document without Find | the failing target dropped and listed in the repair, a form left with none dropped, the first sixteen kept; the view unchanged, no error; no form and no read offered, the read answering `on: false` | check | T-V10-51; T-V10-50 (31) |
 
 **Combinations** (the clerk over another unit's feature, at every rung the feature exists):
 
@@ -2533,10 +2548,11 @@ everywhere, and the rows name only what they add:
 | C2 | a moat × the clerk (TOWN and up) | a road across a moat is a bridge by §7.1's drawing rule; a deck slot on a draw bridge is never offered (item 246), a `place` by `slot` there bends to the nearest free deck plot as V10 §4.1's slot row states | substitute | T-V10-40; T-V10-50 (26) |
 | C3 | a square × the clerk | a place by locus `in` or `on` a square is the one-line roster (V10 §4.1); `read_map entity` on a square returns its kind and name; K9 reports a locus the plot fails | — (defined) | T-V10-50 (27) |
 | C4 | the frame × the clerk | an anchor beyond the frame is clamped inside with its line (V10 §3.6 (7)); `{ frame }` anchors at the inset frame | repair locally | T-V10-5 |
-| C5 | sewers × the clerk (TOWN and up) | explained by V04's `underground` rows; declared only through T4's or T6's escape hatch (V04 §4.1's kinds), each validated by its schema | — (defined) | T-V10-37; T-V10-50 (28) |
-| C6 | ways down × the clerk | an access point explained by its `cause.rule`; **Add a way down** is `useTool` in T6's `access` mode; a declared dwelling over a void with no way in is K15 | — (defined) | T-V10-4; T-V10-17 |
+| C5 | sewers × the clerk (TOWN and up) | explained by V04's `underground` rows; declared only through T4 `road`'s or T6 `place`'s escape hatch (V04 §4.1's kinds), each validated by its schema | — (defined) | T-V10-37; T-V10-50 (28) |
+| C6 | ways down × the clerk | an access point explained by its `cause.rule`; **Add a way down** is `useTool` in T6 `place`'s `access` mode; a declared dwelling over a void with no way in is K15 | — (defined) | T-V10-4; T-V10-17 |
 | C7 | arch vaults × the clerk | a raised way's span walled up is `shape { span: { use: 'vault' } }`; the vault's building, use and plan follow V04's and V03's knowledge rules in the `underground` rows and the effects list (V10 §3.12 (4)) | — (defined) | T-V10-42; T-V10-40 |
 | C8 | a custom institution × the clerk | never in the `class` enumeration (its name could tell a viewer what the key withholds); placed by `element`; its `why` carries `profile` with its resolution rung (item 104 (a)), `lowConfidence` where the fallback served | — (defined) | T-V10-50 (29) |
+| C9 | Find × the clerk's knowledge (View as) | the clerk's chips and counts are the panel's at the one effective key; a lowered key (V10 §3.12 (6)) clears the conversation but not the viewer's chips, which the panel re-admits itself (item 120 (h)); the next `find` read counts at the new key | — (defined) | T-V10-51 |
 
 ## 4 Editing — the declarations the clerk makes, acceptance, undo and the clerk's view
 
@@ -2547,11 +2563,12 @@ edit.
 ### 4.1 The encoders — each tool's input to its events
 
 `ToolEncoder.encode(input, doc) → WithoutBase<EditEvent>[]` (in `@plat/clerk/core`): anchors resolved by V10 §3.6
-against `doc` (the scratch while a draft exists); every event one of the kinds its tool's row of §7.1's toolkit table
-lists (T101-1, T101-2); an input's `events` array passed through after its `zod` check. Points forms are left for the
+against `doc` (the scratch while a draft exists); every event one of the kinds its tool's rows of §7.1's binding home,
+or one another tool homes that the same mode emits on the canvas too (`toolkit.json`'s `emits`, V09 §2.3; §7.1) — a
+named place's `setAttr` (T101-1, T101-2); an input's `events` array passed through after its `zod` check. Points forms are left for the
 dry run to derive (§7.1), so the scratch and the user's document derive the same shapes; a geometry field the dry run
-resolves is written empty in the points form — `points: []`, `boundary: []`, `add: []` as the base's own events have it,
-and a `placeAt`'s `plot` as `''` (item 367). A reference to what an earlier event of the same draft created is a
+resolves is written empty in the points form, as §7.1's points-form bullet states — `points: []`, `boundary: []`, `add: []`
+— and a `placeAt`'s `plot` as `''` (item 367). A reference to what an earlier event of the same draft created is a
 `CreatedRef` (V10 §2.4); a name travels inside the creating event wherever its kind carries one (the `quarter` sugar
 and the `roster` sugar, a place by a locus included), so the placeholder forms are few: `placeAt`'s name and specialisation, a created raised way's name or span use, and a
 created stepped building's tiers — `CreatedRef` kinds `use`, `way` and `building` (J-V10.45, J-V10.76). Item 110's
@@ -2565,10 +2582,10 @@ text with V09, cited and never restated.
 | T2 `ground` | `raise`, `lower` | `setField { field: 'terrain', stroke: { path, radiusCm, falloff: 'cosine', amount: ±amountM × 100, water } }` — radius and amount default to `encoders.raise`; `water` default `locked` |
 | | `cliff` | the same with `falloff: 'linear'` and `encoders.cliff`'s radius and amount |
 | | `flatten` | `setField { field: 'terrain', stroke: { path, radiusCm, falloff: 'cosine', amount: share ?? encoders.flatten.share, mode: 'flattenTo', water } }` — the terrain under the stroke moves toward the mean ground height under its footprint by `share`, the dry run resolving the level into the event (item 366) |
-| | `terrace` | the `terrace` sugar of item 362 (c): `terrace { stroke: { path, radiusCm: (radiusM ?? encoders.terrace.radiusM) × 100, falloff: 'cosine', amount: 1, water: input.water ?? 'locked' }, levelCm, expansion: sugar.json's current version }` (the stroke's `falloff` and `amount` as volume 9's T2 mapper sets them, V09 §4.20.1 (4), since §7.1's `FieldStroke` requires both; `water` as the `raise` row writes it and as that mapper sets it from T2's water mode, so the canvas's and the clerk's terrace are one byte sequence and a terrace whose water follows can be asked for; J-VI.26) — `levelCm` the `EntityCard.groundCm` of the path's first point, raised by `upM` × 100 or lowered by `downM` × 100; its expansion is one `setField(terrain)` stroke in item 366's flatten mode with `share` 1 and that `levelCm`, and the retaining walls along its edges (item 110 (a)) |
+| | `terrace` | the `terrace` sugar of item 362 (c): `terrace { stroke: { path, radiusCm: (radiusM ?? encoders.terrace.radiusM) × 100, falloff: 'cosine', amount: 1, water: input.water ?? 'locked' }, levelCm, expansion: sugar.json's current version }` (the stroke's `falloff` and `amount` as volume 9's T2 `ground` mapper sets them, V09 §4.20.1 (4), since §7.1's `FieldStroke` requires both; `water` as the `raise` row writes it and as that mapper sets it from T2's water mode, so the canvas's and the clerk's terrace are one byte sequence and a terrace whose water follows can be asked for; J-VI.26) — `levelCm` the `EntityCard.groundCm` of the path's first point, raised by `upM` × 100 or lowered by `downM` × 100; its expansion is one `setField(terrain)` stroke in item 366's flatten mode with `share` 1 and that `levelCm`, and the retaining walls along its edges (item 110 (a)) |
 | | `islet` | `drawWater { kind: the water's kind at the point (its entity card), add: [], subtract: [the ring of radius √(sizeM2 ÷ π) around `at`, `encoders.ringSides` sides] }` — land raised in the water (the base's land brush); `sizeM2` default `encoders.islet.sizeM2` (V10 §2.10) |
-| | `coast` | `drawWater { kind: 'sea', add: [], line: path }` — the shore drawn as a knotted curve (§14's T2 row) |
-| | `lake` | `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm: ground(p) + depthM × 100 } }`, `ground(p)` the `EntityCard.groundCm` of the point; with `spring` the event carries `spring: true` — an oasis with its grove and gardens (§7.1's T2 row; item 111 (a)), byte for byte V09 §4.21.1 (2)'s **Spring-fed (oasis)** mapper |
+| | `coast` | `drawWater { kind: 'sea', add: [], line: path }` — the shore drawn as a knotted curve (§14's T2 `ground` row) |
+| | `lake` | `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm: ground(p) + depthM × 100 } }`, `ground(p)` the `EntityCard.groundCm` of the point; with `spring` the points form carries the flag — `from: { points: [p], levelCm: ground(p) + depthM × 100, spring: true }` (§7.1's `PointsForm.spring`; item 111 (a)) — an oasis with its grove and gardens (§7.1's T2 `ground` row), byte for byte V09 §4.21.1 (2)'s **Spring-fed (oasis)** mapper, which writes the flag in the points form too |
 | | `river` | `drawWater { kind: 'river', add: [], from: { points: [source, mouth] } }` |
 | | `harbour` | `drawWater { kind: 'harbour_basin', add: [], from: { points: [shore], levelCm: the sea's level from its entity card, sizeM2: sizeM2 ?? encoders.harbourM2 } }` |
 | | `warp` | `warp { key: the ground layer's arena key, fromLevel: 1, strokes: [{ kernel, centre, radiusCm, strength, dragCm }] }` |
@@ -2581,7 +2598,7 @@ text with V09, cited and never restated.
 | T5 `quarter` | — | `quarter { boundary: [], from: { points: seed ? [seed] : corners ?? lasso, sizeM2? }, kind, name, band, district, expansion }` (`sizeM2` only in a size variation, item 348); `district` may be a `CreatedRef` to a quarter the draft made |
 | T6 `place` | `where.at` | `placeAt { plot: '', from: { points: [p] }, designation: { cls, use } }` (the plot derived by the dry run, §7.1); then, with a name, `setAttr { id: { created: { item: <this item>, event: 0, kind: 'use', nth: 0 } }, path: 'name', value }` — the one placeholder form |
 | | `where.plot` | `placeAt { plot, designation }`, then the name as above |
-| | `where.locus`, `where.free` | V09 §4.5's one-line roster, one text with the canvas's locus drop: `roster { lines: [{ name, cls, locus }], expansion: sugar.json's current version }` — `cls` the class; `locus` the input's `Locus4`, its `target` resolved to an address (no `locus` for `where.free`); `name` the input's name, or `''` when the user gave none (an unnamed line, item 571; J-V10.81). The sugar's expansion makes the one `assign`, whose id the engine mints from the event's `seq` (§6.3): the clerk never writes an assignment id. T6's row carries the one-line roster (V09's request on §7.1's toolkit table). With a dossier connected the line obeys §7.1's roster rule (item 101: the roster is the dossier's): naming no element, it is refused `dossier-owned` with the unplaced elements offered, and the clerk's `dossier` refusal (V10 §3.16) adds the same place on the first candidate with no `hardFails` of `query({ kind: 'sites', cls, near: the locus target's EntityCard.anchor, district: the target's id when the locus is `in` a quarter, k: 3 }, { admitAs: the session's effective key in V10 §2.3's form })` — V09 §4.5's query, one text for canvas and clerk; for a line with no locus (`where.free`, or a T7 line without one) `near` and `district` are omitted (J-V10.93) — encoded as `where.plot` (a map fact; J-V10.18, J-V10.80); when no candidate is free of hard fails, that alternative is not offered and the unplaced elements remain |
+| | `where.locus`, `where.free` | V09 §4.5's one-line roster, one text with the canvas's locus drop: `roster { lines: [{ name, cls, locus }], expansion: sugar.json's current version }` — `cls` the class; `locus` the input's `Locus4`, its `target` resolved to an address (no `locus` for `where.free`); `name` the input's name, or `''` when the user gave none (an unnamed line, item 571; J-V10.81). The sugar's expansion makes the one `assign`, whose id the engine mints from the event's `seq` (§6.3): the clerk never writes an assignment id. T6 `place`'s row carries the one-line roster (V09's request on §7.1's toolkit table). With a dossier connected the line obeys §7.1's roster rule (item 101: the roster is the dossier's): naming no element, it is refused `dossier-owned` with the unplaced elements offered, and the clerk's `dossier` refusal (V10 §3.16) adds the same place on the first candidate with no `hardFails` of `query({ kind: 'sites', cls, near: the locus target's EntityCard.anchor, district: the target's id when the locus is `in` a quarter, k: 3 }, { admitAs: the session's effective key in V10 §2.3's form })` — V09 §4.5's query, one text for canvas and clerk; for a line with no locus (`where.free`, or a T7 `roster` line without one) `near` and `district` are omitted (J-V10.93) — encoded as `where.plot` (a map fact; J-V10.18, J-V10.80); when no candidate is free of hard fails, that alternative is not offered and the unplaced elements remain |
 | | `where.slot` | a free slot (in `MapBrief.decks[].slots`): `placeAt { plot: the slot's landmark plot, designation }` — the plot read from the deck's `EntityCard.attrs` at `deck/landmarks/<head\|mid>` (CVR-V10-8); a bridge offers `mid` only when it is at least V11's `deck.landmarks/bridgeMid/minSpanM` long (V11 §3.24.4; J-VI.8). A slot the deck does not offer, or one already taken, is not refused (item 101 R2; J-VI.4): it encodes `placeAt { plot: '', from: { points: [the slot's point on the deck — V10 §3.6 (4)'s `{ along: deck, t: 1 }` for `head`, its seaward end, or `t: 0.5` for `mid`, its midpoint] }, designation }`, so the dry run takes the nearest free deck plot and bends it (`bend.deck.full`) as the canvas's drop does (V09 §4.20.4 (1), (3); J-V10.89) |
 | | `class` | a specialisation id (`stepped_temple`, `terraced_palace`, `tiered_tower`) places its first carrier class in the document's class table in V11 §3.24.3's carrier order (`stepped_temple`: `great_temple`, `cathedral`, `church`; `terraced_palace`: `palace`; `tiered_tower`: `tower_house`, `mage_tower`, `watchtower`), then `setAttr { id: <the use's CreatedRef>, path: 'specialisation', value }` — the user-set specialisation V11 §3.24.3 exempts from the chance and the cap; every other class id as written |
 | | `element` | `placeAt { plot: '' or the plot, from?, element }` — positions a dossier element or an assignment member (item 20 (g)); with `where.locus`, the one-line roster of the row above with the line's `element` (§7.1's roster rule) |
@@ -2594,7 +2611,7 @@ text with V09, cited and never restated.
 | | `move`, `rotateDeg` | `moveFootprint { id, deltaCm, rotateCdeg }` |
 | | `set` | one `setAttr { id, path, value }` per entry — a path the registry does not list as editable is refused by the encoder; a dossier path by the engine |
 | | `entrance`, `paint` | `setEntrance { building, op, index, role, side, offsetCm }`; `paint { target, ids: [target], brush: one point at the building's anchor, value }` |
-| | `tiers` | `setMassing { id: target, op: 'tiers', count, insetCm: insetM × 100, top, stairs, stairWidthCm: stairWidthM × 100 }` (V02 §4.6 (1)) — a field left out keeps the stored value; offered only while T9's registry row lists the op (from M6c); V02's bends and refusals reach the model through the item's result |
+| | `tiers` | `setMassing { building: target, op: { op: 'tiers', count, insetCm: insetM × 100, top, stairs, stairWidthCm: stairWidthM × 100 } }` — §7.1's `building` field and `op: MassingOp`, V02 §4.6 (1)'s `tiers` member — a field left out keeps the stored value; offered only while T9 `shape`'s registry row lists the op (from M6c); V02's bends and refusals reach the model through the item's result |
 | | `tier` | `setAttr { id: target, path: 'wings/<key>/heights/floors', value: floors }` or, for a solid tier, `path: 'wings/<key>/heights/eaveCm', value: heightM × 100` — the key of the n-th tier read from the target's `massing/stack` attribute (CVR-V10-8); available from M3a (V02 §4.6 (2)) |
 | | `span` | `setAttr { id: target, path: 'spans/<n>/use', value: use }` on a raised way (item 362 (d)); a held user edit |
 | | `link` | `editTable { table: 'siting.linkEdits', ops: [ pin: an upsert of row `<target address>/<good>` with `{ bindTo: provider }`; avoid: an upsert adding `provider` to the row's `avoid` list; cut: an upsert with `{ cut: true }`; release: a delete of the row ] }` (V11 §4.2's cells) |
@@ -2606,19 +2623,20 @@ text with V09, cited and never restated.
 | | `regenerate` | `regenerate { scope: { ids: targets }, mode: mode ?? 'keep', rerolls: {}, fates: [] }` — rerolls and fates filled by the dry run; a scope that covers the whole town is refused in edit mode ("choose a block or a quarter", R5) |
 | T11 `name` | `name`, `displayText`, `hide` | `setAttr { id: target, path: 'name', value }`; `setAttr { id: the target's label, path: 'displayText', value }`; `hideLabel { id: the label, hidden }` |
 | | `group` | `group { name, quarters: the leaf quarter nodes of the named districts (EntityCard.where.quarterNode), expansion }` |
-| | `newNames` | V09's **New names** in its three scopes (V09 §4.5's T11 row): `scope` → `rerollLayer { concern: 'naming', ids, salt: 0 }`, `ids` the named entities among the resolved addresses (an `EntityCard` with a `name`); `quarter` → the same with `ids` the quarter and every `gazetteer` row not marked `withheld` whose district is the quarter, read with `admitAs` the session's effective key (V10 §2.3; V10 §6.1's row) — the scope V09 §4.5's T11 row writes (J-V10.95); `town` → `rerollLayer { concern: 'naming', salt: MapBrief.salts.naming + 1 }` with no `ids` (J-V10.96). `ids` in address order in both scoped forms (CVR-V10-18 (c)); a scoped `rerollLayer`'s per-entity `salts` are the dry run's (§6.3 case (3)); the town-wide one's renames are on the card, as the canvas's fates sheet lists them, and V10 §4.4 never applies it at once |
+| | `newNames` | V09's **New names** in its three scopes (V09 §4.5's T11 `name` row): `scope` → `rerollLayer { concern: 'naming', ids, salt: 0 }`, `ids` the named entities among the resolved addresses (an `EntityCard` with a `name`); `quarter` → the same with `ids` the quarter and every `gazetteer` row not marked `withheld` whose district is the quarter, read with `admitAs` the session's effective key (V10 §2.3; V10 §6.1's row) — the scope V09 §4.5's T11 row writes (J-V10.95); `town` → `rerollLayer { concern: 'naming', salt: MapBrief.salts.naming + 1 }` with no `ids` (J-V10.96). `ids` in address order in both scoped forms (CVR-V10-18 (c)); a scoped `rerollLayer`'s per-entity `salts` are the dry run's (§6.3 case (3)); the town-wide one's renames are on the card, as the canvas's fates sheet lists them, and V10 §4.4 never applies it at once |
 | T12 `dress` | `preset`, `layer`, `restyle` | the `setStyle` row operation the style dialog emits for choosing a preset (§8.2); `setLayer { layer, spec: { visible } }`; `restyle` → for `style.compass`, `naming.emblem` or `render.instances`, `rerollLayer { concern, salt: MapBrief.salts[concern] + 1 }`, town-wide — the bytes of V09's **New compass**, **New emblem** and **New trees** (J-V10.96); for `decoration`, the group V09 §4.5's T12 row states for **New decoration** (J-V9.115), each concern's salt from `MapBrief.salts` + 1 — one item and so one group on acceptance (V10 §4.2; J-V10.99); any other `concern` fails the schema, an `is_error` result with no event (V10 §3.4 (3)) |
 | | `export` | no event: a `ClerkAction` `export` the user runs |
 
-**Reached only through the `events` escape hatch.** For each tool, the kinds its registry row lists (T101-1) that no
-form above emits reach the model only through the tool's `events` array, the model reading a kind's field schema with
-`read_map { kind: 'schema', event }` first. The list is computed at build — the registry row less the encoders' emitted
-kinds — written into the `events` field's description and checked by T-V10-1, so a kind a volume registers later joins
-it with no change here. Its geometric fields take anchors (`AnchorGeom`, V10 §3.4 (2); J-V10.73). It holds, for example,
-`drawWater` with `subtract` rings (islands) beyond the typed islet under T2; the underground
-kinds V04 §4.1 registers (`drawChamber`, `placeAccess` among them) under T4 and T6; the plan and massing events of V02
-and V03 under T9; the leader-line switch under T11; and the quarter tint and the furniture rows under T12. Each is
-validated by its `@plat/model` schema like any event.
+**Reached only through the `events` escape hatch.** For each tool, the kinds its tool's rows of §7.1's binding home
+(T101-1) that no form above emits reach the model only through the tool's `events` array, the model reading a kind's
+field schema with `read_map { kind: 'schema', event }` first. The list is computed at build — the binding's rows less the
+encoders' emitted kinds — written into the `events` field's description and checked by T-V10-1, so a kind a volume
+registers later joins it with no change here. Its geometric fields take anchors (`AnchorGeom`, V10 §3.4 (2); J-V10.73).
+It holds, for example, `drawWater` with `subtract` rings (islands) beyond the typed islet under T2 `ground`; the
+underground kinds V04 §4.1 registers (`drawChamber`, `placeAccess` among them) under T4 `road` and T6 `place`; the plan
+and massing events of V02 and V03 under T9 `shape`; the village track's `rerollLayer('village.track')` under T10 `hold`;
+and the leader-line switch, the quarter tint and the furniture rows under T12 `dress`. Each is validated by its
+`@plat/model` schema like any event.
 
 ### 4.2 Acceptance — one undo step, authored by the user
 
@@ -2629,8 +2647,8 @@ Accepting a proposal's active variation (the card's **Accept**, or Enter on the 
    dry run — at the effective key (V10 §2.3) — equals the card the user saw (counts, fates by address, renames, and the
    effects' kinds and counts, as V10 §3.11 (4) compares them); a difference makes the proposal `stale` and shows
    the new preview (V10 §3.11), committing nothing. Then `edit(h, events)` with each event's
-   `EditBase` set: `author: 'user'`, the user's `session`, one fresh `group` for the whole proposal (one undo step,
-   §7.4), `proposedBy: 'clerk'`, and the dry run's `fates` and `renames` — which is §11.2's "resubmitting the event with
+   `EditBase` set: `author: 'user'`, the user's `session`, one `group` for the whole proposal (one undo step, §7.4;
+   its value the one the engine writes at commit, §7.1's `group`), `proposedBy: 'clerk'`, and the dry run's `fates` and `renames` — which is §11.2's "resubmitting the event with
    its fates filled", so the user's acceptance is the confirmation §7.3 item 4 requires. `ok` → `accepted` with the
    group and the `seq`s; `confirm` (the state moved) → the proposal becomes `stale` and is shown again (V10 §3.11);
    `conflict` → `failed`, its actions shown as refusals. A host clerk's proposal is accepted the same way and answered
@@ -2653,9 +2671,10 @@ Accepting a proposal's active variation (the card's **Accept**, or Enter on the 
 ### 4.3 Undo
 
 An accepted proposal is one group, so one undo step (§7.4). The card of the last accepted proposal keeps an **Undo**
-action (`ClerkAction` `undo`): when the group is the session's latest, it is the session's `undo`; when later events
-followed, the `owner` role's `undo(h, of)` runs the independence check and shows its conflicts, and an `editor` is sent
-to the history panel, where the group is undone like any other (§7.4). Undoing a creation acceptance closes the new
+action (`ClerkAction` `undo`): when the group is the session's latest live group, it is the session's `undo(h)`; when
+later events followed, the `owner` role's `undo(h, of)` runs the independence check and shows its conflicts; for an
+`editor` the card's **Undo** is drawn only while the group is the session's latest live group, `undo(h)` (§11.2 names an
+earlier event for the `owner` role only, and V09 §4.10's **Undo this** is the owner's). Undoing a creation acceptance closes the new
 document and returns to the one beside which it opened, unchanged — or, where it replaced the untouched empty-state town,
 to the empty state (V09 §3.2).
 
@@ -2685,20 +2704,21 @@ its undo.
 ### 4.5 Locality and scope
 
 Each event's locality is its kind's (§7.3); the clerk adds none and widens none. The encoder never emits an unscoped
-re-roll in edit mode (R5, §7.3 item 10) — a town-wide `rerollLayer` of names, compass, emblem, trees or decoration is scoped
-by its layer (§7.1's New random: a rerollable layer is a scope); an `intend` change of an early parameter arrives with §7.1's Re-derive fates on
+re-roll in edit mode (R5, §7.3 item 10) — a town-wide `rerollLayer` of names, compass, emblem, trees, decoration or the village track (T10 `hold`'s, through
+its `events`, V10 §4.1) is scoped by its layer (§7.1's New random: a rerollable layer is a scope); an `intend` change of an early parameter arrives with §7.1's Re-derive fates on
 the card; a proposal's declared entities are held after acceptance (R13) and every later re-roll keeps them; an accepted
 removal of generated content holds through every regeneration, scoped New random and epoch by the fold's suppression (item
 110 (b); V06 §2.13), and only undo, the history panel or "Put it back" brings it back.
 
 ### 4.6 What is not an edit
 
-Reading, asking why, drafting, trying on a scratch, previewing, flipping variations, dropping, the ghost, the drawer's
-settings, the meter and the transcripts log nothing and change no digest (§6.5 (9)'s rule that viewing logs nothing).
+Reading, asking why, drafting, trying on a scratch, previewing, flipping variations, dropping, the ghost, setting Find's
+chips (a `find` action, V10 §3.9b (7)), the drawer's settings, the meter and the transcripts log nothing and change no
+digest (§6.5 (9)'s rule that viewing logs nothing).
 `clerk.ops` and `clerk.content` are tables: `clerk.content`'s rows change by `editTable` on the document's override
 layer or through the preference layer, `clerk.ops`' through the device's preference layer only (§7.6; a document's or
 host's row on it is refused, V10 §2.10); no model stage reads either, so such an edit re-derives nothing and applies from
-the clerk's next request (V10 §2.14). The T9 `editTable` rows on `siting.declared` and `siting.linkEdits` are edits: they
+the clerk's next request (V10 §2.14). T9 `shape`'s `editTable` rows on `siting.declared` and `siting.linkEdits` are edits: they
 re-derive by V11 §4.3's locality, like any table edit.
 
 ## 5 Rendering, labels, exports
@@ -2716,6 +2736,7 @@ one file.
 | the AI mark on the ghost | the ghost comes from a clerk's `preview` — the built-in clerk's, or a host clerk's `preview { proposal }` (V10 §3.17) | a small "AI" tag beside the count badge (item 518 adds `source: 'clerk'` to the ghost's delivery); the same style role as the badge, so it follows every preset's contrast rules | §8.2, §9.5 |
 | the creation preview | a creation proposal waits | the view shows the active variation's scratch document, read-only, under a banner "Preview — not your map yet"; closing the proposal returns the view to the user's document | V09 draws the banner |
 | a named entity's highlight | the pointer rests on an entity link in the drawer | `live.selection` set to the entity (no model change); a withheld place highlights its geometry, which is never withheld (§9.2) | §8.2 |
+| Find's chips the clerk sets | a `find` block runs (V10 §3.9b (7)) | the application sets §2.9's view key `find`; V09's `live.find` provider draws the veil, the halo-like glow, the pins and the count bubbles (item 120 (e)) — the clerk draws nothing itself | §2.9; V09's Find panel |
 
 ### 5.2 Labels
 
@@ -2746,24 +2767,24 @@ any declared name once accepted.
 tier badge (`dossier` fixed, `declared` yours, `map` derived) — selecting it selects the entity on the map; `unverified`
 spans in a muted style with the note "not found on the map" (for a `claim`, `number` or `relation` span: "not in what
 the map told me"), never with a tier badge; `action` as a button that runs its `ClerkAction`, worded by its `label` (every kind carries
-one but `select`, where it is optional; its sources V10 §2.6's comment names; a `propose` action previews first, like any proposal); a `select` with no `label` (V10 §3.16's `role` and `knowledge`
+one but `select`, where it is optional; its sources V10 §2.6's comment names; a `propose` action previews first, like any proposal; a `find` block runs once when the reply is complete and stays as its button, V10 §3.9b (7)); a `select` with no `label` (V10 §3.16's `role` and `knowledge`
 rows) is drawn as the chips of its ids, as an `entity` block is — the name, or the kind word when withheld — and
 clicking one selects them (J-V10.100). A proposal card shows the reason line, the AI mark, the active
 variation's counts, bends, fates and renames, **What else changes** (its effects: up to ten lines by kind, then "and
 {n} other changes", drawn by V09, V09 §4.11), the findings, the grandeur line — `info.grand.beyondTier`, or
 `info.grand.dossier` — where V09 §4.21.5 (2)'s check finds a design above its rung's ceiling (item 115), the variation chips with their labels, and
-Accept, Try again, Drop and Why, and once accepted **Undo** (V10 §4.3). A removal's card adds V09's `info.remove.holds` line (V09 §4.9: the card's line, while `info.raised.suppressed` is
+Accept, Ask again, Drop and Why, and once accepted **Undo** (V10 §4.3). A removal's card adds V09's `info.remove.holds` line (V09 §4.9: the card's line, while `info.raised.suppressed` is
 the `raised` section's row, V10 §3.9, and V08's history line, V08 §4.6) and, once accepted and no longer the latest group, **Put it back** (V10 §4.3). Every card and message is announced to assistive technology when it arrives (V09's live region).
 The drawer also offers **What the assistant sees**: the live segment's rendered map block and vocabulary block (with any row
 the schema dropped, and why), read-only, so the user can check exactly what description of the map was sent (the
-survey's "visible record of what made the result", §4). A host clerk's card (V10 §3.17) is drawn the same way, without Try
+survey's "visible record of what made the result", §4). A host clerk's card (V10 §3.17) is drawn the same way, without Ask
 again, its AI mark naming the host's assistant.
 
 **The keys of the drawer's words** (for V09 §4.9's table of volume 10's families; CVR-V10-19),
 each `en` text written once where its key stands: `clerk.alt.*` — `clerk.alt.<category>.<n>` (V10 §3.16's alternatives
-column), `clerk.alt.help.useTool` and `clerk.alt.history.rerun` and `.rebuild` (V10 §3.13 step 4; the `fork` block and
+column), `clerk.alt.help.useTool`, `clerk.alt.history.rerun` and `.rebuild` and `clerk.alt.find.show`, `.remove` and `.clear` (V10 §3.13 step 4; the `fork` block and
 every **Undo** are worded by V09 §4.9's shared `button.openCopy` and `button.undo`, J-V10.112),
-`clerk.alt.critique.fix` (V10 §3.10) and `clerk.alt.stale.retry` (V10 §3.11); the notices `clerk.view.cleared` (V10 §3.12
+`clerk.alt.critique.fix` (V10 §3.10) and `clerk.alt.stale.retry`, every card's **Ask again** (V10 §3.11); the notices `clerk.view.cleared` (V10 §3.12
 (6)) and `clerk.applied` (V10 §4.4); and `refuse.clerk.dossier.count` beside `refuse.clerk.<category>` (V10 §3.16). A
 button made from a V09 §4.9 row keeps that row's words by V09 §2.9's *Words* (V10 §3.5 step 3).
 
@@ -2795,6 +2816,7 @@ CITY's, capped), measured by T-V10-8 and T-V10-22.
 | the brief's items 111–114 lines (the arid mark, history, wall runs) | ≤ 1 ms | ≤ 1 ms | ≤ 2 ms | T-V10-8 |
 | the `history` section (the record and the chronicle entries it reads) | ≤ 3 ms | ≤ 5 ms | ≤ 10 ms | T-V10-46 |
 | `read_map look` (view state, the climate row's cells, the festival list) | ≤ 1 ms | ≤ 1 ms | ≤ 1 ms | T-V10-49 |
+| `read_map find` (the view key and one gazetteer listing per chip, measured at 16 chips, a page of matches); a `find` block's glow is the Find panel's, within item 120 (j)'s ≈ 100 ms of the run, as a click's (§12.5; V09) | ≤ 5 ms | ≤ 10 ms | ≤ 25 ms | T-V10-51 |
 | a removal's previews | within V09's Delete row (V09 §6) | same | same | T-V10-38 |
 | field drivers per district | ≤ 3 ms | ≤ 5 ms | ≤ 12 ms | T-V10-10 |
 | the critique engine | ≤ 25 ms | ≤ 50 ms | ≤ 125 ms | T-V10-17 |
@@ -2895,10 +2917,10 @@ appears under `plat/tests/clerk/` (`doc_checks.py`'s copied-list check runs over
 
 | id | what it proves | tier |
 |---|---|---|
-| T-V10-1 | the tool registry: each declaration tool's `events` enumeration equals its row of §7.1's toolkit table (T101-1's registry), `delete` under T10 (item 368) included; every event kind of the twelve rows is reachable through one clerk tool — no surface lacks a declaration (§14); the escape-hatch list in each `events` description equals the row less the encoders' kinds; item 110's discriminating fields — `drawWall.kind: 'retaining'`, `drawWay.raised`, the `aqueduct` class, the `terrace` sugar, `spans/<n>/use`, and `setMassing { op: 'tiers' }` once T9's row lists it — are each emitted by a typed form; T10's enumeration holds no `rerollLayer` and `hold` no layer re-roll; T6's holds the one-line `roster` a place by a locus emits; T9's holds `split` and `merge`, a way's split and join, each emitted by `shape`'s typed form and so absent from T9's escape-hatch list (§7.1's binding table, its ways rows) | PR |
+| T-V10-1 | the tool registry: each declaration tool's `events` enumeration equals its tool's rows of §7.1's binding (T101-1's registry), `delete` under T10 `hold` (item 368) included; every event kind of the twelve rows is reachable through one clerk tool — no surface lacks a declaration (§14); the escape-hatch list in each `events` description equals the row less the encoders' kinds; item 110's discriminating fields — `drawWall.kind: 'retaining'`, `drawWay.raised`, the `aqueduct` class, the `terrace` sugar, `spans/<n>/use`, and `setMassing { op: 'tiers' }` once T9 `shape`'s row lists it — are each emitted by a typed form; T10's enumeration holds `rerollLayer` for the village track alone, reached through `hold`'s `events`, and `hold` no typed layer re-roll; T6 `place`'s holds the one-line `roster` a place by a locus emits; T9's holds `split` and `merge`, a way's split and join, each emitted by `shape`'s typed form and so absent from T9's escape-hatch list (§7.1's binding table, its ways rows) | PR |
 | T-V10-2 | offline: the application built without `@plat/clerk/model` runs §13.4's scripted tasks to the same model digests; the drawer shows its offline line; the "why?" panel and the skeleton check still answer | PR |
 | T-V10-3 | byte-stable prompt and tools: two renders with one set of table versions are byte-identical, per route; a vocabulary edit changes exactly the tools block; a document's or a host's `clerk.content` rows never change the system prompt's bytes (they render only in the fenced vocabulary block, schema-validated); the token budgets of V10 §6.3 hold (milestone, with the provider's counter) | PR, milestone |
-| T-V10-4 | the encoders: for every tool and every input form, a fixture input gives its golden event list; the same declaration made through the scripted canvas (§13.4) and through the clerk's encoder gives one event, byte for byte (T101-3 on the clerk's path) — a place by a locus and V09's locus drop give one `roster` line, named and unnamed, and `shape { siting: { weights } }` and V09's per-kind panel one `siting.declared` upsert; on a dossier-bound fixture the `dossier` alternative of a place by a locus names the plot T-V9-13's **Put it at {site}** names, both from V10 §4.1's `sites` query; a `ground { op: 'terrace' }` and V09 §4.20.1 (4)'s T2 terrace over the same path and level give one `terrace` event, byte for byte, with the water mode at its default (`locked`) and at `follow`; `name { newNames }` in its three forms gives V09's **New names** for these, this quarter and the town, and `dress { restyle }` for `style.compass`, `naming.emblem`, `render.instances` and `decoration` gives V09's **New compass**, **New emblem**, **New trees** and **New decoration** (its two `rerollLayer` events, `style.jitter` then `style.crowns`), byte for byte — the scoped forms with `salt: 0` and `ids` in address order, the town-wide ones with `MapBrief.salts`' value + 1, which equals `DisplayList.salts`' — and a `restyle` with any other `concern` is an `is_error` result with no event; `shape { target: a way, split: { at } }` and `shape { target: a way, join }` give **Split here** at the same point and **Join these** on the same two ways, byte for byte; the this-quarter case runs with View as off and on (CVR-V10-18 (a), met); on T-V9-38's three-building fixture, the clerk's alternatives for a dwelling declaration on the cluster give, for each listed building in the dry run's order, the events V09's **Use another building** commits for it — `[addUndergroundAccess { building }, the declaration]`, the access with no `target` — byte for byte, and none is a `placeAt`; each is labelled by V09 §4.9's `bend.under.accessDug` list form with `{building}` read at the session's effective key (under View as, a withheld building by its `withheldWords` word), and the card carries that row's **Show the way in** as a `select` whose `label` is the button's text, as the canvas's card does; on the same fixture with no building qualifying, `bend.under.accessOpening`'s **Show me why** is a `why` whose target (its `page`, by V10 §3.5 step 3's rule) is the one the canvas's button opens and its **Show the way in** a `select` labelled with the button's text, and `bend.under.noAccess`'s **Add a way down** is a `useTool` of `place` whose `mode` is `access`, T6's Below access mode, the mode the canvas's `button.addWayDown` opens; over every V09 §4.9 row a scripted clerk call meets, each button becomes the action its `MsgButton.does` names — a `tool` button carrying the `MsgButton`'s `tool` and `mode` and, for a `subject` one, the row's first admitted address as `ids` (none offered for a `subject` button whose row has no such address), a button V09 §2.9 does not draw is not offered, and each is worded by V09 §2.9's *Words* — and `refuse.dossierOwned`'s **Show a different name** is the `setAttr displayText` `propose` when the request carried the words, else a `useTool` of `name` with the thing as its `ids`; item 110's other forms are T-V10-40's; the bend actions stand on `ProposalView.variations[].bends` with their item (the dug-access and `bend.under.noAccess` cases above); a two-item draft, one item bent by `bend.place.noSite` and one applied — its **Choose another of the marked places** alternative yields one proposal holding both items, and **Drop** is not offered as the bend's button; a turn with one refused and one applied item carries the refusal in `TurnView.refused` beside the proposal | PR |
+| T-V10-4 | the encoders: for every tool and every input form, a fixture input gives its golden event list; the same declaration made through the scripted canvas (§13.4) and through the clerk's encoder gives one event, byte for byte (T101-3 on the clerk's path) — a place by a locus and V09's locus drop give one `roster` line, named and unnamed, and `shape { siting: { weights } }` and V09's per-kind panel one `siting.declared` upsert; on a dossier-bound fixture the `dossier` alternative of a place by a locus names the plot T-V9-13's **Put it at {site}** names, both from V10 §4.1's `sites` query; a `ground { op: 'terrace' }` and V09 §4.20.1 (4)'s T2 `ground` terrace over the same path and level give one `terrace` event, byte for byte, with the water mode at its default (`locked`) and at `follow`; `name { newNames }` in its three forms gives V09's **New names** for these, this quarter and the town, and `dress { restyle }` for `style.compass`, `naming.emblem`, `render.instances` and `decoration` gives V09's **New compass**, **New emblem**, **New trees** and **New decoration** (its two `rerollLayer` events, `style.jitter` then `style.crowns`), byte for byte — the scoped forms with `salt: 0` and `ids` in address order, the town-wide ones with `MapBrief.salts`' value + 1, which equals `DisplayList.salts`' — and a `restyle` with any other `concern` is an `is_error` result with no event; `shape { target: a way, split: { at } }` and `shape { target: a way, join }` give **Split here** at the same point and **Join these** on the same two ways, byte for byte; the this-quarter case runs with View as off and on (CVR-V10-18 (a), met); on T-V9-38's three-building fixture, the clerk's alternatives for a dwelling declaration on the cluster give, for each listed building in the dry run's order, the events V09's **Use another building** commits for it — `[addUndergroundAccess { building }, the declaration]`, the access with no `target` — byte for byte, and none is a `placeAt`; each is labelled by V09 §4.9's `bend.under.accessDug` list form with `{building}` read at the session's effective key (under View as, a withheld building by its `withheldWords` word), and the card carries that row's **Show the way in** as a `select` whose `label` is the button's text, as the canvas's card does; on the same fixture with no building qualifying, `bend.under.accessOpening`'s **Show me why** is a `why` whose target (its `page`, by V10 §3.5 step 3's rule) is the one the canvas's button opens and its **Show the way in** a `select` labelled with the button's text, and `bend.under.noAccess`'s **Add a way down** is a `useTool` of `place` whose `mode` is `access`, T6 `place`'s Below access mode, the mode the canvas's `button.addWayDown` opens; over every V09 §4.9 row a scripted clerk call meets, each button becomes the action its `MsgButton.does` names — a `tool` button carrying the `MsgButton`'s `tool` and `mode` and, for a `subject` one, the row's first admitted address as `ids` (none offered for a `subject` button whose row has no such address), a button V09 §2.9 does not draw is not offered, and each is worded by V09 §2.9's *Words* — and `refuse.dossierOwned`'s **Show a different name** is the `setAttr displayText` `propose` when the request carried the words, else a `useTool` of `name` with the thing as its `ids`; item 110's other forms are T-V10-40's; the bend actions stand on `ProposalView.variations[].bends` with their item (the dug-access and `bend.under.noAccess` cases above); a two-item draft, one item bent by `bend.place.noSite` and one applied — its **Choose another of the marked places** alternative yields one proposal holding both items, and **Drop** is not offered as the bend's button; a turn with one refused and one applied item carries the refusal in `TurnView.refused` beside the proposal | PR |
 | T-V10-5 | the spatial resolver: golden points for every anchor form on three fixture towns (a coastal TOWN, a river CITY, a hilly METROPOLIS), identical on the five engines; `{ at }` and `{ along }` on a retaining wall; `t: 1` on an aqueduct is its terminal and on a mole its head; a point on a raised deck stays a model point; `{ edge }` ignores raised parts; a `ring` anchor's polygon | PR, nightly |
 | T-V10-6 | the knowledge canary: fixture towns hold `local`, `secret`, concealed and unexcavated places named with unique canary strings, whose class ids, signature-pair ids and goods ids also carry canaries; clerk sessions at `public`, `local` and `secret`, with the view at the city band and at the building band, replay their cassettes; no request body, reply, card, finding, transcript export, stored transcript or defect record contains a canary the key withholds; every withheld `kind` is a registry kind with its `withheldWords` word; a concealed use appears in no result at `public`; an unexcavated ruin appears in nothing at `public` or `local`; a front's `why` is the front's; an owner's `secret` session whose view is set to **View as** `public` (`ViewOpts.viewAs`, item 464) sends, shows and stores nothing a `public` key withholds, every `query` and filtered dry run carrying `admitAs: 'public'`, and choosing View as clears the session while leaving it closes only the segment; and one whose View as is a party's key `{ tier: 'local', places }` (item 464's key form) admits the party's learned places and nothing else a `local` key withholds, every read carrying that key form as `admitAs` and admitting nothing the owner's key would not (J-V10.90); a transcript made under `{ tier: 'public', places: [p] }` is not listed to, nor opened by, a `{ tier: 'public', places: [] }` session, and a View as moved from that key to `{ tier: 'public', places: [q] }` counts as lowered and clears the session | PR (replay), milestone (live) |
 | T-V10-7 | never a dossier write: on B-DOSSIER-lite's fixtures, scripted tool calls that set a dossier path, remove, rename or re-designate a dossier element each return a `dossier` refusal with at least one alternative, kind-aware (a use's **Move it** is a `select` of it and its **Not here** a `propose` of `rejectSite`; a dossier-declared way offers "Move it" — a `propose` of its course through the request's anchor, else a `select` of the way — never `rejectSite`); the model's `[[do:refuse:dossier:<id>]]` gives the card `refuse.clerk.dossier` with (3) "Move {thing}", a `select` of `<id>`, and (4), a `useTool` of `name` with `<id>` as its `ids`, and without an `<id>` (4) alone; a request for a new place of a class whose count a dossier record owns is refused with "move one of the existing ones" (the model's `[[do:refuse:dossier:count:<id>]]`, its card `refuse.clerk.dossier.count` with (5) a `select` of `<id>`, one existing place of that class; a `dossier:count` form without an `<id>` shows the `dossier` form's card with (4); J-V10.104, J-V10.107); K13's fix on a dossier map is a move; a roster line naming no element — and a place by a locus naming none — is refused with the unplaced elements offered and, where a `sites` candidate is free of hard fails, its placement on a plot — a place by a locus and a roster line alike (J-V10.93), a line with no locus querying without `near` and `district` (V10 §4.1) — the card's text V09's `refuse.roster.dossier`, the plot the first candidate with no hard fails of V10 §4.1's query, and no plot offered when none of the three is free of them | PR |
@@ -2914,16 +2936,16 @@ appears under `plat/tests/clerk/` (`doc_checks.py`'s copied-list check runs over
 | T-V10-17 | critique: one fixture per row K1–K18 (K16 one per bend key, K17 one per crypt bend key, `bend.crypt.cathedral` and `bend.crypt.largest`) yields exactly its finding and fix; both known-city skeletons (J78's and item 110 (e)'s) yield no finding above `info`; K5 ignores a raised way over the quarter, and K7 a retaining wall | PR |
 | T-V10-18 | failure ladders: a mock backend raising each SDK error class, returning a `refusal`, a `max_tokens` stop inside a tool input and an unparseable tool input, produces each ladder of V10 §3.19; a cassette with a mid-stream fallback carrying a pre-boundary `tool_use` never runs that call, strips the pre-boundary blocks from what is appended, and meters two iterations; no path changes the user's document | PR |
 | T-V10-19 | caps: scripted usage crosses the warning and the cap; no request is sent past the monthly cap; the turn cap finalises the turn with its draft proposed; each iteration is priced at its own model's row, a fallback's included | PR |
-| T-V10-20 | the host seam: `clerk.config` `off`, `builtin` and `host` show and hide the drawer as V10 §3.17 states; a non-`https`, non-allowlisted or not-in-`connect-src` transport is refused with `clerk.config.refused`; `clerk.needsToken` is sent before expiry; `transport.fallbacks` `server`, `client` and `none` behave as stated; under the proxy the map block and every result pass the host projection rows (T-V8-27's list: `brief`, `entity`, `sites`, `why`, `frame` without radius, `rule` and `profile`, with `measure`, `hit` and `inView` answered `query.result { error: 'E_HOST_KIND' }`); in configuration C the module projects every `query.result` and every `preview.result` before it leaves the frame (asserted on the posted bytes); a host's `preview { proposal }` shows the card without Try again, Accept commits one group and `clerk.proposal` answers `accepted`, a Drop `dropped`, a newer one supersedes it (answered `dropped`) and a proposal left with no variation answers `failed`; a moved town turns the card stale, which posts nothing, and its Drop then answers `stale`, its Accept `accepted` with the fresh preview's `seqs`; closing the harness with the card open answers as its Drop; every host proposal is answered exactly once; with a scripted `ClerkMount.host` the harness takes the transport, its `fallbacks` and `capUsd` from `config()` and `onConfig`, calls `needsToken()` at the lead and on an authentication failure, `refused('origin')` for a refused transport and `answer(id, status, seqs)` for each outcome, and a source scan finds no bridge import and no message post in `@plat/clerk`; in host mode a document holding only its creation prefix gets an `edit`-mode turn; the suite runs under both content security policies (V08's frame and V09's standalone) | PR |
+| T-V10-20 | the host seam: `clerk.config` `off`, `builtin` and `host` show and hide the drawer as V10 §3.17 states; a non-`https`, non-allowlisted or not-in-`connect-src` transport is refused with `clerk.config.refused`; `clerk.needsToken` is sent before expiry; `transport.fallbacks` `server`, `client` and `none` behave as stated; under the proxy the map block and every result pass the host projection rows (T-V8-27's list: `brief`, `entity`, `sites`, `why`, `frame` without radius, `rule` and `profile`, with `measure`, `hit` and `inView` answered `query.result { error: 'E_HOST_KIND' }`); in configuration C the module projects every `query.result` and every `preview.result` before it leaves the frame (asserted on the posted bytes); a host's `preview { proposal }` shows the card without Ask again, Accept commits one group and `clerk.proposal` answers `accepted`, a Drop `dropped`, a newer one supersedes it (answered `dropped`) and a proposal left with no variation answers `failed`; a moved town turns the card stale, which posts nothing, and its Drop then answers `stale`, its Accept `accepted` with the fresh preview's `seqs`; closing the harness with the card open answers as its Drop; every host proposal is answered exactly once; with a scripted `ClerkMount.host` the harness takes the transport, its `fallbacks` and `capUsd` from `config()` and `onConfig`, calls `needsToken()` at the lead and on an authentication failure, `refused('origin')` for a refused transport and `answer(id, status, seqs)` for each outcome, and a source scan finds no bridge import and no message post in `@plat/clerk`; in host mode a document holding only its creation prefix gets an `edit`-mode turn; the suite runs under both content security policies (V08's frame and V09's standalone) | PR |
 | T-V10-21 | privacy and the ops split: across every cassette, no request body holds document bytes, an image block, a coordinate field, a `dossierKey` or the API key; the key reaches device storage only after "remember"; a fixture document carrying `editTable` rows on every `clerk.ops` cell and an instruction inside a lexicon word has every `clerk.ops` row refused with `refuse.clerk.opsDevice`, and the system prompt's bytes equal the shipped render | PR |
 | T-V10-22 | scratch cost: `scratch(h)` time and memory at TOWN, CITY and METROPOLIS within V10 §6.1–V10 §6.2; a forced allocation failure runs overlay mode | milestone |
 | T-V10-23 | roles: a `viewer` session's clerk refuses every declaration tool with `role`, never calls `preview`, and reads and explains | PR |
 | T-V10-24 | segments: roll-over on length, key, tables and delta; the carried memory holds only harness-written lines; a lowered key — the view's, or its View as — clears the session and a raised one closes only the segment | PR |
-| T-V10-25 | scope: the encoder refuses a whole-town `regenerate` in edit mode; every re-roll the clerk proposes is scoped — a town-wide `rerollLayer` (names, compass, emblem, trees) by its layer (V10 §4.5) | PR |
+| T-V10-25 | scope: the encoder refuses a whole-town `regenerate` in edit mode; every re-roll the clerk proposes is scoped — a town-wide `rerollLayer` (names, compass, emblem, trees, decoration and the village track) by its layer (V10 §4.5) | PR |
 | T-V10-26 | the first-five-minutes clerk task: in §13.4's sessions once the clerk exists, each participant asks the clerk for "a walled harbour town with a temple quarter" and makes one follow-up change; pass as §13.4's rule; the preview-first question is answered and V10 §4.4's setting applied if it fails | milestone (human) |
 | T-V10-27 | the evaluation set's pass bars (V10 §7.3) | milestone |
 | T-V10-28 | cache health: in the live run, every segment's second request reads at least the static prefix's tokens from cache; a steady segment writes only what its last turn added; no request of a repaired turn writes the messages cache from before the repair; the gaps between a segment's turns are recorded for the TTL switch (V10 §6.4) | milestone |
-| T-V10-29 | the words, once: every value of `CatacombComplex.source.kind`, `blockedBy`, `AccessPoint.cause.rule`, the crypt form, the burial-face outcome, `RaisedOutcome.outcome`, every critique row, every refusal category but `lock`, `rule` and `role` (with `refuse.clerk.dossier.count`), every `clerk.alt.*` key — V10 §3.16's alternatives column, V10 §3.13 step 4's, `clerk.alt.critique.fix` and `clerk.alt.stale.retry` — the notices `clerk.view.cleared` and `clerk.applied`, and every `withheldWords` kind has a catalogue key in every shipped locale (a compile test); `RefusalCategory` holds no `bend`, every `bend.*` row of V09 §4.9 reached through a scripted clerk call — item 110's and file f item 582's among them — arriving on the card as the item's `bent` line with no refusal; no engine code has a second English sentence in `clerk.content.refusals`: the `lock`, `rule` and `role` rows carry no `msg` (a viewer's declaration shows `refuse.viewer`'s key), and for every engine code a `refuse.*` row of V09 §4.9 renders, a scripted clerk call that meets it shows a card whose `msg.key` is that row's key, never a `refuse.clerk.*` key (the `dossier` row's own sentences are reached only by the model's refusal form, V10 §3.13 step 4) | PR |
+| T-V10-29 | the words, once: every value of `CatacombComplex.source.kind`, `blockedBy`, `AccessPoint.cause.rule`, the crypt form, the burial-face outcome, `RaisedOutcome.outcome`, every critique row, every refusal category but `lock`, `rule` and `role` (with `refuse.clerk.dossier.count`), every `clerk.alt.*` key — V10 §3.16's alternatives column, V10 §3.13 step 4's, `clerk.alt.critique.fix` and `clerk.alt.stale.retry` — the notices `clerk.view.cleared` and `clerk.applied`, every row of V10 §3.9a's `plan` table and `info.under.none`, and every `withheldWords` kind has a catalogue key in every shipped locale (a compile test); `RefusalCategory` holds no `bend`, every `bend.*` row of V09 §4.9 reached through a scripted clerk call — item 110's and file f item 582's among them — arriving on the card as the item's `bent` line with no refusal; no engine code has a second English sentence in `clerk.content.refusals`: the `lock`, `rule` and `role` rows carry no `msg` (a viewer's declaration shows `refuse.viewer`'s key), and for every engine code a `refuse.*` row of V09 §4.9 renders, a scripted clerk call that meets it shows a card whose `msg.key` is that row's key, never a `refuse.clerk.*` key (the `dossier` row's own sentences are reached only by the model's refusal form, V10 §3.13 step 4) | PR |
 | T-V10-30 | the placed set: `explain`'s `asPlaced` placed set comes from `PlacementOrder` and not from the order the reader walks (the same answer with the registry's iteration shuffled); a `pass: 2` item scores against its run's set less itself; `exact` turns false after a later lifecycle event in the item's scope; `drifted` is set only beyond `driftMargin`; a document without placements answers `asNow` with `exact: false` | PR |
 | T-V10-31 | village routing: a description below 1 500 people routes to the village product when `ProductDecl('village')` is registered, V07's fields in the blueprint's `VillageRequest`; while it is not, §1.1's clamp applies with its message; the lexicon's thorp, hamlet and village words reach `size.population` as those rungs' default targets, and every size word as V09 §4.5's quantile — the population V09's chip gives for the same word (J-V10.118) | PR |
 | T-V10-32 | history reads: `chronicle` pages between weeks, `frame` at a week (the frame V06's `locate` chooses; entities with their states at that week, key-filtered, no geometry, `since` counted), `history` pages and `FieldDrivers.since` equal to the shade masks' deltas; the `frame` budget of V10 §6.1 | PR, nightly |
@@ -2937,14 +2959,15 @@ appears under `plat/tests/clerk/` (`doc_checks.py`'s copied-list check runs over
 | T-V10-40 | item 110's encoders: goldens for `wall` `retaining`, `ground` `terrace` and `islet`, `road` `raised` and the `aqueduct` class, `place` by `slot` and by a specialisation class, `shape` `tiers` (from M6c), `tier` and `span`, `hold` `remove`, and the hatch's anchors and rings; each equals the scripted canvas gesture's event byte for byte (T101-3 on the clerk's path); a slot the deck does not offer, or one already taken, encodes the points form at the slot's point, and its dry run places on the plot, with the bend (`bend.deck.full`), that the canvas's drop there gets | PR |
 | T-V10-41 | item 110's explanations: on fixture towns, `why` on a generated viaduct, elevated road and aqueduct names its reason kind and values and the rung's chance and cap; a TOWN's declared way answers "declared by you", a carried one its year, a removed one its removal (`WhyAnswer.removed`); the `raised` section on a gorge-crossing primary way answers `belowCity` at TOWN, `cap` over the cap at CITY and `suppressed` after a removal; on 200 CITY seeds every `raisedOutcome` equals the generator's own ledger decision; the budgets of V10 §6.1 | nightly |
 | T-V10-42 | effects and knowledge: every effect kind of item 465 appears on the card and in the model's item result, filtered; the canary (T-V10-6) gains a concealed use in an arch vault and a void met by a support's footing, both absent at `public`; K18 fires on an effect of kind `lost` or `removed` on a thing the user did not name | PR |
-| T-V10-43 | the no-op pin: with the terrace, raised-way and deck-plot rows off, T-V10-8's reader goldens, the brief's rendered text and the goldens of the encoders that existed before item 110 are byte-identical (the tools block changes once, by the declared shift of V10 §7.2) | PR |
-| T-V10-44 | the action dispatch: `ClerkHandle.run` acts on `propose`, `undo` and `rebuild` and rejects every other kind without effect; with a scripted drawer, `fork` and `rerun` reach V09's `forkAt` and `rerunFrom`, and `select`, `why` (the why card of its `id`, else the page `page`), `openSettings`, `useTool` (its tool active in its `mode` on that mode's working layer, its `ids` selected first) and `export` the application's handlers; no application kind reaches the harness; the card's buttons: an accepted proposal's view carries `accepted` and its Undo runs `{ kind: 'undo', group }`; an accepted removal gains `rebuild` with its group's first `seq` once a later group lands, and Put it back runs `{ kind: 'rebuild', seq }`; a host proposal's `actions` are `accept`, `drop` and `why` only; Put it back previews exactly the events `ClerkMount.rebuildEvents(seq)` returns; over every cassette, every `action` block and every `RefusalView.actions` entry carries a `label` but a `select` of the `role` or `knowledge` rows, and every `useTool.tool` is a canvas tool and its `mode`, when present, a `ToolModeRow.id` of that tool in `toolkit.json` | PR |
-| T-V10-45 | item 111's explanations and forms: on arid fixtures — an oasis the arid row laid, one a dossier's `oasis_water` made (DR40) and one drawn by T2's spring flag — `why` on each names its source (tiers `map`, `dossier`, `declared`), its grove and gardens and its `spring.flow`; the prosperity `drivers` of the quarter by the water carry the water term (`why.driver.water`) and `climateSun` 0 or negative in the hot arid row, 1 in a temperate one; a district's `cause` names the water pull on the arid site only; `ground { op: 'lake', spring: true }` and V09 §4.21.1's toggle give one `drawWater`, byte for byte; the brief marks the site arid and the lake `spring`; with item 111's cells at their no-op values the drivers carry a water term of 0 and `climateSun` 1, and every read and why golden but the brief's arid mark is byte-identical to the pin's (V12's NoOpPin) | PR |
+| T-V10-43 | the no-op pin: with V11 §3.24.0's item-110 switches off, T-V10-8's reader goldens, the brief's rendered text and the goldens of the encoders that existed before item 110 are byte-identical — a `NoOpPin` registration of the reader goldens on V12 §3.7.8's engine (`item110.*`), written by the C1 seat at M3a (the tools block changes once, by the declared shift of V10 §7.2) | PR |
+| T-V10-44 | the action dispatch: `ClerkHandle.run` acts on `propose`, `undo` and `rebuild` and rejects every other kind without effect; with a scripted drawer, `fork` and `rerun` reach V09's `forkAt` and `rerunFrom`, and `select`, `why` (the why card of its `id`, else the page `page`), `openSettings`, `useTool` (its tool active in its `mode` on that mode's working layer, its `ids` selected first), `export` and `find` (the Find panel's chips set, with no event and no log entry) the application's handlers; no application kind reaches the harness; the card's buttons: an accepted proposal's view carries `accepted` and its Undo runs `{ kind: 'undo', group }`; an accepted removal gains `rebuild` with its group's first `seq` once a later group lands, and Put it back runs `{ kind: 'rebuild', seq }`; a host proposal's `actions` are `accept`, `drop` and `why` only; Put it back previews exactly the events `ClerkMount.rebuildEvents(seq)` returns; over every cassette, every `action` block and every `RefusalView.actions` entry carries a `label` but a `select` of the `role` or `knowledge` rows, and every `useTool.tool` is a canvas tool and its `mode`, when present, a `ToolModeRow.id` of that tool in `toolkit.json` | PR |
+| T-V10-45 | item 111's explanations and forms: on arid fixtures — an oasis the arid row laid, one a dossier's `oasis_water` made (DR40) and one drawn by T2 `ground`'s spring flag — `why` on each names its source (tiers `map`, `dossier`, `declared`), its grove and gardens and its `spring.flow`; the prosperity `drivers` of the quarter by the water carry the water term (`why.driver.water`) and `climateSun` 0 or negative in the hot arid row, 1 in a temperate one; a district's `cause` names the water pull on the arid site only; `ground { op: 'lake', spring: true }` and V09 §4.21.1's toggle give one `drawWater`, byte for byte; its flag sits in the points form (§7.1's `PointsForm.spring`); the brief marks the site arid and the lake `spring`; with item 111's cells at their no-op values the drivers carry a water term of 0 and `climateSun` 1, and every read and why golden but the brief's arid mark is byte-identical to the pin's (V12's NoOpPin) | PR |
 | T-V10-46 | item 113's story: on the city-to-village fixture, a refounded fixture and a symbolic-peak fixture, the `history` section gives the peak, the replay epoch that laid the walls with its rung and population, each destruction and refounding and each buried system, each row's key a `report.history.<line>` row that V09's "What its past left" also shows; on the symbolic fixture no answer or card states a population for the peak, a scripted reply stating one is marked *unsupported*, and the words say the size is not recorded; a `lost` cluster answers `lost` with its closing at the key that admitted it while accessible; `intend { history }` gives V09's **History** chip's events byte for byte and is refused `dossier` on a dossier history; with the replay off every golden is byte-identical; the budget of V10 §6.1 | PR |
 | T-V10-47 | item 114's walls: on fixtures with runs `standing`, `worn`, `patched`, `breached` and `dismantled`, at generation and after V06's epochs, `why` on the enceinte words each run's state, material and year (`info.wall.run`), the generation-time reason from §7.7's condition row and, with V06, its last change; the brief counts the runs by state; `wall { op: 'repair' \| 'wear' }` gives V09 §4.21.4's **Repair** (each material), **Wear** and **Back in use** events byte for byte; a patch asked on a `worn` run is written robust with `info.wall.patchOnlyGap`; a repair of a `dismantled` run carries `bend.wall.newStretch` | PR |
 | T-V10-48 | item 115's ceiling: at THORP, HAMLET and VILLAGE a clerk declaration above the ceiling (a tower on a farmhouse, a second manor) commits as asked, its card carrying `info.grand.beyondTier` exactly when V09's canvas card for the same events does, and a dossier-named grand building `info.grand.dossier`; at TOWN and above no line shows; "why are the farmhouses plain?" names the ceiling row by its id; no creation declaration and no critique fix goes above the ceiling on words that ask for none | PR |
 | T-V10-49 | items 117 and 118 as a look: `read_map look` returns the view's week, season and follow flag, the climate row's season cells at that week and the festival list the view shows; its answer follows the view while the brief, every read, every digest and the cached prefix stay byte-identical over all 52 weeks and every festival display; no turn about a season or a festival proposes an event; a document without the view keys reads week 19 with no festival; the budget of V10 §6.1 | PR |
-| T-V10-50 | the edge suite (V10 §3.23): one scripted fixture per numbered clause — rows 1–30 and combinations C1–C8 — each asserting its outcome and its rung and that nothing reaches the user's document without acceptance | PR (the rung and budget clauses nightly) |
+| T-V10-50 | the edge suite (V10 §3.23): one scripted fixture per numbered clause — rows 1–32 and combinations C1–C9 — each asserting its outcome and its rung and that nothing reaches the user's document without acceptance | PR (the rung and budget clauses nightly) |
+| T-V10-51 | item 120's Find from words: on a canary fixture (T-V9-66's) at `public` and `secret` keys and under View as, "show me the blacksmiths" ends in one `find` block whose run sets the Find panel's chips to the blacksmith kind, with no event, no log entry and the document's hash and every digest unchanged; the `add`, `remove`, `clear` and `gaps` forms set, change, empty and switch as V10 §3.9b (7) states; a form naming a class the town lacks, the concealed guild's class at `public`, an address no read of the segment returned, or a seventeenth target leaves no chip for it and is listed in the repair; `read_map find`'s counts, per-layer counts and matches equal §11.2's gazetteer listing at the session's effective key and the panel's own counts, the canary absent below its key; a build without Find renders no rule 20, no find form and no `find` member; a host proxy's projection keeps `FindAnswer` whole; the budget of V10 §6.1 | PR |
 
 ### 7.2 Cassettes and replay
 
@@ -3028,28 +3051,29 @@ and rulings on Fable seats; build, verification and the evaluation on Opus seats
 | milestone | content | exit (executed) | est. |
 |---|---|---|---|
 | **C0 — spikes** | S1: direct browser calls to the provider with the SDK's documented browser opt-in (read from the SDK's repository through the skill's live-sources list, never from memory), on the three browsers of §13.4 — prior evidence: a shipping browser map tool that sends the user's own key from the browser (survey C6a); S2: `scratch(h)` time and memory at TOWN, CITY and METROPOLIS; S3: the token counts of each route's tools and system (item 110's forms, descriptions and lexicon included) and of the brief by rung, with the provider's counter; S4: `explain` cold and warm at CITY | each spike's record in `docs/calibration/`; S1's pre-decided fallback (J-V10.24), S2's (overlay mode at a rung), S3's (V10 §3.4) and S4's (V10 §6.1) applied where a number fails | 0.5 pw |
-| **C1 — the oracle at depth** (inside M3a) | `WhyAnswer` with sections and the generic provider; the default providers, item 110's three among them; the `raised` section with `raisedOutcome` (item 290) and the removed thing's answer; `PlacementSolver.explain` with `asPlaced`, candidate mode and the placement order (item 271); the field's `drivers`; the `brief`, `entity`, `sites`, `measure`, `frame`, `rule` and `profile` reads; filtered dry runs with their effects, created addresses, the prefix outcomes, `preview` variations and a quarter's size target (item 468 – item 470, item 348, item 271, item 290); the item-111 and item-114 rows of the default providers and the `history` section (V10 §3.9b), each live once its record exists | T-V10-8, T-V10-9, T-V10-10, T-V10-30, T-V10-36, T-V10-41 green; V09's "why?" panel reads it | 3.25–5 pw |
+| **C1 — the oracle at depth** (inside M3a) | `WhyAnswer` with sections and the generic provider; the default providers, item 110's three among them; the `raised` section with `raisedOutcome` (item 290) and the removed thing's answer; `PlacementSolver.explain` with `asPlaced`, candidate mode and the placement order (item 271); the field's `drivers`; the `brief`, `entity`, `sites`, `measure`, `frame`, `rule` and `profile` reads; filtered dry runs with their effects, created addresses, the prefix outcomes, `preview` variations and a quarter's size target (item 468 – item 470, item 348, item 271, item 290); the item-111 and item-114 rows of the default providers and the `history` section (V10 §3.9b), each live once its record exists | T-V10-8, T-V10-9, T-V10-10, T-V10-30, T-V10-36, T-V10-41 green, and T-V10-43's reader goldens registered as `item110.*` no-op pins (V12 §3.7.8); V09's "why?" panel reads it | 3.25–5 pw |
 | **M3a's second transcript** (inside M3a) | the scripted tool-API transcript of item 110 (e)'s fixture (V10 §3.15), run by T101-6 (iii) beside J78's | T101-6 (iii) on both fixtures | 0.25 pw |
 | **C2 — the harness core** (M3c) | `@plat/clerk` with its two entry points; `clerk.ops` and `clerk.content`; settings, the data notice and the key check; `AnthropicBackend`; the request builder with the cached prefix; the streaming loop with the fallback boundary; `read_map` and `why`; the explain and help routes; the knowledge guard; the grounding check with its claims step; the meter by iterations and the caps; segments; the transcript and defect stores; the drawer's harness (`ClerkHandle`, with V09); cassettes with version pinning and `ReplayBackend` | T-V10-2, T-V10-3, T-V10-6 (replay), T-V10-16, T-V10-18, T-V10-19, T-V10-21, T-V10-23, T-V10-24, T-V10-29, T-V10-34, T-V10-35 | 2.25–3 pw |
-| **C3 — authoring** (M3c) | the spatial resolver; the twelve encoders, item 110's forms, the hatch's anchors and the generated schemas; drafts in both modes, `check_draft` and placeholders; village routing; the siting, link and merge declarations; proposals, variations, previews with effects, acceptance, undo, `rebuild`, staleness; apply-then-undo with its exceptions; rosters and their cards; `tiers` enabled when T9's registry lists V02's op (M6c); the item-111, -113 and -114 forms (`lake` with `spring`, `intend`'s `history`, `wall`'s `repair` and `wear`) and the specialisation's carrier | T-V10-1, T-V10-4, T-V10-5, T-V10-11, T-V10-13, T-V10-14, T-V10-15, T-V10-22, T-V10-25, T-V10-31, T-V10-33, T-V10-38, T-V10-40, T-V10-42 | 3.5–5 pw |
-| **C4 — critique, iteration, refusals, explanations, transcripts** (M3c) | the critique engine (K1–K18, the fixes rule) and V09's skeleton-import check; prompt rule 16 and the schema triggers; referents and inherited drafts; the refusal rows with their kind-aware alternatives; the item-109 and item-110 sections read from their providers; items 111 and 113–118's explanations (V10 §3.9b): prompt rule 19, the look read, the grounding check's symbolic claim, the ceiling line on the card; the transcript export and skeleton projection | T-V10-7, T-V10-12, T-V10-17, T-V10-32, T-V10-37, T-V10-39, T-V10-45, T-V10-47 – T-V10-49 | 2.25–2.75 pw |
-| **C5 — evaluation and the host seam** (M3c exit) | the 97 cases with their graders, spent in J122's stages (V10 §7.3); the edge suite; live runs; cost, latency and cache measured and V10 §6's tables restated; route efforts tuned by the pre-decided rules; `clerk.config`, `clerk.needsToken`, `clerk.proposal` and the host proposal intake; `HostProxyBackend` with its fallbacks transport; the host projection in configurations B and C; the connect rule; the clerk task in §13.4's session | T-V10-20, T-V10-26, T-V10-27, T-V10-28, T-V10-43, T-V10-50 | 2.5–3.5 pw |
+| **C3 — authoring** (M3c) | the spatial resolver; the twelve encoders, item 110's forms, the hatch's anchors and the generated schemas; drafts in both modes, `check_draft` and placeholders; village routing; the siting, link and merge declarations; proposals, variations, previews with effects, acceptance, undo, `rebuild`, staleness; apply-then-undo with its exceptions; rosters and their cards; `tiers` enabled when T9 `shape`'s registry lists V02's op (M6c); the item-111, -113 and -114 forms (`lake` with `spring`, `intend`'s `history`, `wall`'s `repair` and `wear`) and the specialisation's carrier | T-V10-1, T-V10-4, T-V10-5, T-V10-11, T-V10-13, T-V10-14, T-V10-15, T-V10-22, T-V10-25, T-V10-31, T-V10-33, T-V10-38, T-V10-40, T-V10-42 | 3.5–5 pw |
+| **C4 — critique, iteration, refusals, explanations, transcripts** (M3c) | the critique engine (K1–K18, the fixes rule) and V09's skeleton-import check; prompt rule 16 and the schema triggers; referents and inherited drafts; the refusal rows with their kind-aware alternatives; the item-109 and item-110 sections read from their providers; items 111 and 113–118's explanations (V10 §3.9b): prompt rule 19, the look read, the grounding check's symbolic claim, the ceiling line on the card; item 120's find form and read (V10 §3.9b (7)), built with V09's Find panel; the transcript export and skeleton projection | T-V10-7, T-V10-12, T-V10-17, T-V10-32, T-V10-37, T-V10-39, T-V10-45, T-V10-47 – T-V10-49, T-V10-51 | 2.25–2.75 pw |
+| **C5 — evaluation and the host seam** (M3c exit) | the 97 cases with their graders, spent in J122's stages (V10 §7.3); the edge suite; live runs; cost, latency and cache measured and V10 §6's tables restated; route efforts tuned by the pre-decided rules; `clerk.config`, `clerk.needsToken`, `clerk.proposal` and the host proposal intake; `HostProxyBackend` with its fallbacks transport; the host projection in configurations B and C; the connect rule; the clerk task in §13.4's session | T-V10-20, T-V10-26, T-V10-27, T-V10-28, T-V10-50 | 2.5–3.5 pw |
 
 **Total:** C1 3.25–5 pw and the second transcript 0.25 pw inside M3a (base: +3.5–5.25 pw, item 531); C0 and C2–C5
 11–14.75 pw as the staged M3c; `plat clerk` +0.5 pw at C5 only if spike S1 fails (V10 §3.17) — together **14.5–20 pw**,
 or 15–20.5 with the command-line clerk (PLAUSIBLE, expert estimates on the base's staffing). Of these, item 110's parts
 are about +1.75–2.5 pw (C1 +0.5–0.75, M3a's transcript +0.25, C3 +0.5–0.75, C4 +0.25, C5 +0.25–0.5) and items 111 and
-113–118's about +1–1.5 pw (C1 +0.25–0.5, C3 +0.25, C4 +0.25, C5 +0.25–0.5). The rest of M3c's price is V09's AP8, the
+113–118's about +1–1.5 pw (C1 +0.25–0.5, C3 +0.25, C4 +0.25, C5 +0.25–0.5); item 120's find form and read lie within
+C4's range. The rest of M3c's price is V09's AP8, the
 built-in assistant's screens (1–1.25 pw, V09 §8.1), priced in V09's total and outside this volume's. §16's totals are
 computed once, by file f item 568.
 
 **Dependencies.** C1 needs M3a's solver, knowledge filter and preview, and for item 110 the base's raised-way record,
 item 465's effects, item 466's hit stack and V06's ledger read (item 290) under `raisedOutcome`; C2 needs M3a's
-facade; C3 needs C1, M3a's toolkit events and points forms, item 362's event shapes and item 368's `delete` under T10,
+facade; C3 needs C1, M3a's toolkit events and points forms, item 362's event shapes and item 368's `delete` under T10 `hold`,
 and V02's `tiers` op at M6c for the `tiers` form; C4's sections need V04's `catacombOutcome` and item-110 rows (CVR-V10-1,
 CVR-V10-10) and V03's crypt rows (CVR-V10-2), else they answer from the generic provider; items 111 and 113–118's rows
 need their records — item 111's oasis and water term and item 114's `Enceinte.condition` (the base's parts), V06's
-replay for the `HistoryRecord` (M6-E; T-V10-46 runs from it), V09's season and festival view keys for the look read —
+replay for the `HistoryRecord` (M6-E; T-V10-46 runs from it), V09's season and festival view keys for the look read, V09's Find panel and §2.9's `find` key for the find form and read —
 and answer from the generic provider, or read as absent (V10 §3.9b (6)), before them; C5's host seam needs §11.3's
 bridge (M3a) and V08's projection list (CVR-V10-3).
 
@@ -3066,7 +3090,7 @@ duplicate raised way, terrace or removal — measured by group A's zero-declared
 answer: the descriptions and rule 16 are tightened first, and if the bar still fails, the harness admits `raised`, the
 `aqueduct` class, `terrace`, `retaining` and `remove` only in a turn whose user words match their lexicon rows (a gate
 on the forms, refused `scope` otherwise); (8) V02's `tiers` op arriving late — the `tiers` form stays out of the schema
-until T9's registry lists the op; `tier` works from M3a.
+until T9 `shape`'s registry lists the op; `tier` works from M3a.
 
 ## 9 Decisions (each vetoable)
 
@@ -3155,7 +3179,7 @@ until T9's registry lists the op; `tier` works from M3a.
 | J-V10.81 | chose an unnamed place by a locus as a roster line with the empty name, read by item 571 as an assignment with no name, over requiring the model to invent a name, because the clerk declares only what was asked (rule 4) and a canvas's empty name field writes the same line |
 | J-V10.82 | chose one `ClerkAction` dispatch table — the harness runs `propose`, `undo` and `rebuild`; the application runs `select`, `openSettings`, `useTool`, `export`, `fork` and `rerun` — over the harness running `fork` and `rerun`, because opening a copy and re-running from a point are history actions the shell already runs from its history panel (V09 §3.9), so one code path serves both, and the harness holds no document-opening callback for them |
 | J-V10.83 | chose to read and speak at the effective key — the view's key lowered to its View as (item 464) — passed to the facade as `admitAs` (item 572), over the view's key alone, because an owner looking through a player's eyes must get a player's clerk (items 30, 63 (c)), and over lowering the handle's key, because a lowered key refuses the document formats and stops saving (J-V9.46) |
-| J-V10.84 | chose to drop the layer re-roll from `hold` over asking V09 to list `rerollLayer` under T10, because T10's row (§7.1) lists none and the two layers the clerk re-rolls already have typed forms on the rows that carry them (names on T11, style on T12); a layer re-roll any volume lists on a row later reaches the clerk through that tool's escape hatch with no change here |
+| J-V10.84 | chose to give `hold` no typed layer re-roll over asking V09 to list more `rerollLayer` concerns under T10 `hold`, because T10's row (§7.1) homes only the village track's re-roll, which reaches the clerk through `hold`'s `events` (V10 §4.1's escape hatch), and the two layers the clerk re-rolls by form already have typed forms on the rows that carry them (names on T11 `name`, style on T12 `dress`); a layer re-roll any volume lists on a row later reaches the clerk through that tool's escape hatch with no change here |
 | J-V10.85 | chose a typed `weights` field on `shape`'s `siting` form over the raw escape hatch, because "tanneries should care less about the river" is an ordinary request and V09's per-kind panel offers the same five steps on the same cell |
 | J-V10.86 | chose "assistant" ("Assistant (AI)") as the one user-facing noun in this volume's texts over "clerk", because V09's button, cards, catalogue and settings and V08's "Assistant settings" already use it; "clerk" stays the internal name of the package, its types and its catalogue keys |
 | J-V10.87 | chose to answer a host's `measure`, `hit` or `inView` as `query.result { error: 'E_HOST_KIND' }` — the reply the host's call already awaits, correlated by `re` — over a new refusal message or no answer, because the host's client resolves each query by its reply and a named error is the only answer it can act on (J-V8.84) |
@@ -3167,8 +3191,8 @@ until T9's registry lists the op; `tier` works from M3a.
 | J-V10.93 | chose, for a dossier-owned roster line or place by a locus naming no element, V09's `refuse.roster.dossier` — `{thing}` the line's name or the class's label, `{locus}` the locus in V09's words or, for a line with no locus, the settlement's name — and the alternative from V09 §4.5's `sites` query with `near` and `district` omitted for a line with no locus, over the `dossier` row's template or no alternative, because one engine refusal has one sentence on canvas and clerk, the template's `{name}` has no element to name, and R2 wants a one-click lawful alternative wherever the query finds one |
 | J-V10.94 | chose to word every engine refusal — the `dossier` row's engine cases, the `lock` row and the `rule` row — by the dry run's `MsgRef` alone (V09 §4.9's `refuse.*` row for the code), and to render every `bend.*` row of V09 §4.9, file f item 582's `bend.place.noSite`, `bend.place.overBudget` and `bend.vacate` and `bend.invalid` among them, as the item's `bent` line with its alternatives as `propose` actions, over the clerk's own templates for those codes ("{name} is locked.", "The rules don't allow that there: {rows}.") and a `rule` refusal for a placement no plot fits, one over budget, an occupied join or split or an invalid value, because J-V9.79 and J-V10.93 give one engine code one sentence on canvas and clerk, and J-VI.30 (item 101 R2) bends those placements on every tool, so a guildhall no plot fits would otherwise be refused in the drawer and bent on the canvas; `bend.vacate`'s **Keep {building}** is the card's **Drop** or the model's `check_draft` `drop`, never an empty `propose` |
 | J-V10.95 | chose to read "this quarter"'s names (`newNames { quarter }`) with `admitAs` the session's effective key over the role's key, because every clerk read passes that key (V10 §2.3, V10 §3.12), a rename of a name the session's key withholds would reach no card the user can check (V10 §4.2 compares the filtered card), and V09 §2.7 gives the application's own band-less reads the same key (J-V9.86), so the two surfaces agree once V09's this-quarter read follows it (CVR-V10-18 (a)); with View as off the two keys are one |
-| J-V10.96 | chose to carry the rerollable concerns' effective salts on `MapBrief.salts` (read by the T11 and T12 encoders) over having the dry run fill a town-wide `rerollLayer`'s `salt`, because the base's event carries the new salt as written (§7.1: "town-wide: the concern's new salt") and V09's canvas writes the concern's current salt + 1 itself, so byte equality needs the clerk to read the same number (§6.1's effective salt, which `DisplayList.salts` also carries) before the dry run; the salts hold no name and no place, so no key filters them and the host projection keeps them |
-| J-V10.97 | chose to select a `shape` split or join by the target's registry kind — a plot's two-point cut and fusion, a way's one-point cut (taken to the nearest centre-line point) and `merge` — with a mismatched form an `is_error` result, over a separate way input on `road` or a guess from the anchor count, because §7.1 homes both way kinds on T9, one input name per verb keeps the tool small, and the error teaches the model the form in one round; the centre-line projection is stated once here and cited by V09 (CVR-V10-18 (b)) so **Split here** and "split the road at the bridge" write one point |
+| J-V10.96 | chose to carry the rerollable concerns' effective salts on `MapBrief.salts` (read by the T11 `name` and T12 `dress` encoders) over having the dry run fill a town-wide `rerollLayer`'s `salt`, because the base's event carries the new salt as written (§7.1: "town-wide: the concern's new salt") and V09's canvas writes the concern's current salt + 1 itself, so byte equality needs the clerk to read the same number (§6.1's effective salt, which `DisplayList.salts` also carries) before the dry run; the salts hold no name and no place, so no key filters them and the host projection keeps them |
+| J-V10.97 | chose to select a `shape` split or join by the target's registry kind — a plot's two-point cut and fusion, a way's one-point cut (taken to the nearest centre-line point) and `merge` — with a mismatched form an `is_error` result, over a separate way input on `road` or a guess from the anchor count, because §7.1 homes both way kinds on T9 `shape`, one input name per verb keeps the tool small, and the error teaches the model the form in one round; the centre-line projection is stated once here and cited by V09 (CVR-V10-18 (b)) so **Split here** and "split the road at the bridge" write one point |
 | J-V10.98 | chose to encode `bend.under.accessDug`'s alternatives as V09 §4.17.4's **Use another building** groups — `[addUndergroundAccess { building }, the item's declaration]`, the access with no `target`, one `propose` per listed building, at most three in the dry run's order, each labelled by V09 §4.9's `bend.under.accessDug` row's list form ("Dig down from {building} instead"), `{building}` the building's name read at the session's effective key, or its `clerk.content.withheldWords` word when it has none or the key withholds it, and the row's **Show the way in** carried as a `select` — over reading every bend's alternatives as plots or offering one stepping button as the canvas does, because item 372 fills `PreviewResult.alternatives` with buildings for that bend, a `placeAt` of a building id would be refused or misplaced so the card would differ from the canvas's button (T101-3), and a card shows all its alternatives at once, so each needs its building in its label — worded by V09 §4.9's one row, never a label joined from a button's text and a name, which no catalogue row holds and no locale could reorder |
 | J-V10.99 | chose to type `restyle.concern` as the closed set `'style.compass'\|'naming.emblem'\|'render.instances'\|'decoration'`, `decoration` encoding `style.jitter` then `style.crowns` as one item, over a free string checked by the encoder or one value per display concern, because a free string lets the model name `naming` — a town-wide rename past prompt rule 5 and past the town form's fates on the card — while a closed enum fails the schema before any encoder runs (V10 §3.4 (3)), and the base's word for the pair is "decoration" (§7.4's `rerollLayer` row), which V09's one **New decoration** control writes as one group; so every rerollable concern of §6.1's registry is written by the clerk — `naming` by `name.newNames`, the other five by `restyle` |
 | J-V10.100 | chose to give `ClerkAction`'s `select` an optional `label` — set for every action made from a V09 §4.9 row's button (a bend's or an engine refusal's), its text rendered under the session's key; absent for V10 §3.16's `role` and `knowledge` rows, whose button the drawer draws as its ids' chips — over leaving `select` unlabelled or making the label required, because without it the card cannot tell **Show the way in** from **Show them** (**Show me why** being a `why`, J-V10.101) and would word a bend's buttons unlike the canvas's (T101-3), while a required label would need new catalogue words for the two clerk rows that V09 §4.9's `refuse.clerk.<category>` row does not hold, and a chip already names what those buttons select |
@@ -3178,7 +3202,7 @@ until T9's registry lists the op; `tier` works from M3a.
 | J-V10.104 | chose, for the `dossier` row's own words, two slot-free keyed sentences (`refuse.clerk.dossier`; `refuse.clerk.dossier.count` with `{town}`) reached only by the model's refusal form, with alternatives the map can act on — "Move {thing}" and "Move one of the existing ones" as `select`s of the address the form names, "Show another name on this map" as a `useTool` of `name` — and for a dossier-declared way or wall "Move it" as a `propose` through the request's anchor, else a `select` of it, over the old template "SettlementForge sets {name}; the map can move it, but not {verb} it." with `propose` alternatives, because the old slots had no source, a `propose` needs events the harness cannot know before any tool call, and the engine path — a tool call refused `dossier-owned` — keeps its one-click alternatives by V10 §3.5 step 3 (J-V10.94); the moves are selections by J-V10.107 |
 | J-V10.105 | chose, for the stale card, V09 §4.9's `refuse.stale` row — its **Show the new preview** a `focus` on the fresh preview — with **Ask again** as the card's `retry` and a stale note; for the `role` card, `refuse.viewer` with that row's **Show me why** before the row's own `why` and `select`; and the keys `clerk.view.cleared` and `clerk.applied` for the drawer's two notices, over the clerk's own words for each, because one condition has one sentence on canvas and clerk (J-V10.94) and an unkeyed line cannot be translated ((b), (e)) |
 | J-V10.106 | chose, for a V09 §4.9 row's buttons on the clerk's card, to read V09 §2.9's `MsgRow.buttons` and map each by its `does` — `commit` → `propose` (from a dry-run action its events; from the preview's `alternatives` one per alternative, worded by the button's `each`; from `unplaced` one per unplaced element, worded by the button filled from that element; from `event` the event form the button names), `why` → `why`, `show` → `select`, `tool` → `useTool` with the button's `tool`, `mode` and, for a `subject` button, the row's first admitted address, `drop` → the card's **Drop** or `check_draft`'s `drop` — over this volume's own mapping by what the canvas's button does (J-V10.101's four classes), because V09 owns the rows and both cards must read one list (T101-3, T-V10-4), the prose fitted **Keep {building}** (a withdrawal), **Show a different name** (the display-text tool) and **Choose another of the marked places** (one button per alternative) into none of the four, `drop` needs no new action kind since the card already has **Drop**, and V09 §2.9's *Words* already word one entry of a list (so the `dossier` row's own (2) and the lock row's closest alternative, which the canvas's card no longer offers, are retired); and chose, where the request carried the words, the `dossier` row's `setAttr displayText` `propose` in place of **Show a different name**'s `useTool`, under that button's words, because the user already said what name to show and V10 §3.16's shown-once rule keeps one button. *Amended by J-V10.110*: inside a proposal of several items a bend's buttons act on that item alone — the `commit` replacing its events, **Keep {building}** removing them — never the whole proposal's **Drop** |
-| J-V10.107 | chose to widen `useTool` with `mode` and `ids` over new action kinds, to make every "move" alternative a `select` over a tool, and to give the model's two dossier forms an optional last `<id>` over dropping the move alternatives, because the canvas's tool buttons differ only by mode and by what they act on (V09 §4.2 remembers options per tool, so without `mode` **Add a way down** opens T6 in whatever mode it last had), a move on the canvas is a drag of the selection or its handles (V09 §4.6), and the address is what the user asked about and a read already returned it; chose that a `subject` button whose row has no address argument the session's key admits is not offered, as V09 §2.9 withholds it on the canvas whatever the tool, while a V10 §3.16 alternative's `useTool` without an address (the `dossier` row's (4)) opens with nothing selected; and that a `dossier:count` form without an `<id>` reads as the `dossier` form (its sentence and (4)) over a second repair or a card with no button, so every refusal keeps an alternative (V10 §2.9) at no extra model call; `refusals.actions` carries `tool`, `mode` and `format` so the rows are data the harness reads |
+| J-V10.107 | chose to widen `useTool` with `mode` and `ids` over new action kinds, to make every "move" alternative a `select` over a tool, and to give the model's two dossier forms an optional last `<id>` over dropping the move alternatives, because the canvas's tool buttons differ only by mode and by what they act on (V09 §4.2 remembers options per tool, so without `mode` **Add a way down** opens T6 `place` in whatever mode it last had), a move on the canvas is a drag of the selection or its handles (V09 §4.6), and the address is what the user asked about and a read already returned it; chose that a `subject` button whose row has no address argument the session's key admits is not offered, as V09 §2.9 withholds it on the canvas whatever the tool, while a V10 §3.16 alternative's `useTool` without an address (the `dossier` row's (4)) opens with nothing selected; and that a `dossier:count` form without an `<id>` reads as the `dossier` form (its sentence and (4)) over a second repair or a card with no button, so every refusal keeps an alternative (V10 §2.9) at no extra model call; `refusals.actions` carries `tool`, `mode` and `format` so the rows are data the harness reads |
 | J-V10.108 | chose, for "what if …?", the fork alone (`[[do:fork:<seq>]]` just before the event), in which the user keeps the thing by a lock and advances the copy, with `[[do:rerun:<seq>]]` only when the user asks to re-run the town's history, over offering both, because `rerunFrom` forks and re-appends every later epoch from its stored inputs in one call (V06 §4.4) and with no change reproduces the original's digests (T-V6-22), so a re-run copy dismantles the wall again — a button that answers the question wrongly (V06 §4.4) |
 | J-V10.109 | chose to answer a host proposal once, when its card closes — **Accept** → `accepted` (the fresh preview's `seqs` after staleness), **Drop** → `stale` when the card had turned stale, else `dropped`, superseded → `dropped`, no variation left → `failed`, and the harness's `close` with the card open → as its **Drop** — over posting `stale` when the card turns stale, because V09 and V10 keep the stale host card open with an acceptable fresh preview, so an answer at that moment would close a card the user can still accept, or answer one proposal twice, while V08 §4.4 (3) hands the answer to the host's assistant as "what the DM chose"; and the `close` case, since a card closed with the harness would otherwise never be answered |
 | J-V10.110 | chose to carry a bent or refused draft item's buttons in the drawer's view model — `ProposalView.variations[].bends` as `{ item, msg, actions }`, `lines[].actions`, and `TurnView.refused` holding every refused or conflicting item with its actions — and to scope a bend's `commit` and **Keep {building}** to its own item inside a proposal of several items (the active variation's events with that item's replaced or removed), over a single turn-level refusal and a bend button that supersedes or drops the whole proposal, because the canvas's button replaces only its one draft (V09 §2.9), T-V9-27 compares the two cards button for button, and prompt rule 10 asks the model to offer the alternatives, which step 4 now gives it. |
@@ -3186,7 +3210,7 @@ until T9's registry lists the op; `tier` works from M3a.
 | J-V10.112 | chose V09 §4.9's shared `button.openCopy` and `button.undo` rows to word the `fork` block and every **Undo**, over two `clerk.alt` keys with the same words, because V09 §4.9 limits `clerk.alt.*` to labels no `button.*` row words and a translator should meet one wording once; `.rerun` and `.rebuild` keep their keys, no `button.*` row wording them |
 | J-V10.113 | chose, for item 111, to explain the water through the prosperity field's own terms — the water term and the climate cell carried on `FieldDrivers` — and the oasis through the base's water-body row, with one declared form (`ground`'s `lake` with `spring`) and lexicon rows for the desert and the oasis, over a water section of the clerk's own, because the pull and the wealth already live in §4.5's decomposition and a second explainer could disagree with it |
 | J-V10.114 | chose, for item 113, a `history` section over §2.7's `HistoryRecord` and the chronicle's replay entries, worded by V09's `report.history.<line>` rows, with a symbolic fact told without a number and any number beside it marked unsupported, over a free story the model writes from the chronicle alone, because the panel and the clerk must say one set of lines and the owner's words forbid presenting an unrecorded size as known |
-| J-V10.115 | chose, for item 114, to tell each run's condition from the enceinte's rows — the default provider at generation, V06's over epochs — and to write T3's repair, wear and back-in-use as V09's mappers do, a patch asked for a run that is not breached written robust with V09's `info.wall.patchOnlyGap`, over letting the dry run meet a patch the canvas never sends, because both surfaces must emit one byte sequence (T101-3) |
+| J-V10.115 | chose, for item 114, to tell each run's condition from the enceinte's rows — the default provider at generation, V06's over epochs — and to write T3 `wall`'s repair, wear and back-in-use as V09's mappers do, a patch asked for a run that is not breached written robust with V09's `info.wall.patchOnlyGap`, over letting the dry run meet a patch the canvas never sends, because both surfaces must emit one byte sequence (T101-3) |
 | J-V10.116 | chose, for item 115, to honour a design above the ceiling on the user's words and to put V09 §4.21.5 (2)'s one check's line on the clerk's card, over a clerk-side check or a refusal, because item 101 R2 makes the ceiling a default and one check keeps canvas and clerk saying the same thing |
 | J-V10.117 | chose, for items 117 and 118, a clerk-side `look` read of view state (`ClerkMount.view`) with words only and no declaration, over putting the week into the map block or offering a view action, because the look is per viewer and never the model, a week in the cached prefix would break the cache every time the slider moves, and the Season control and the festival list are V09's view settings, not tools |
 | J-V10.118 | chose one rule for the size words with V09's chips — a rung's default target for thorp, hamlet and village, V09 §4.5's band quantiles for the rest, and for "vast metropolis", which has no chip, the METROPOLIS band's 85th percentile as "large" has in the lower rungs — over the lexicon's own population numbers, because a word asked and a chip picked must give one population (V10-XAGREE-3) |
@@ -3194,6 +3218,8 @@ until T9's registry lists the op; `tier` works from M3a.
 | J-V10.120 | chose one provider per kind at a time — a volume's provider for a base kind takes it over from that volume's milestone, this volume's default answering until then — over two providers merged for one kind, because V01's `RetainingWall` and V06's `Enceinte` providers carry the default's rows and more, and two answers for one kind could disagree |
 | J-V10.121 | chose provider-neutral words for the key's failures and the data notice — "the AI service" the deployment's setup names — over naming one provider, because the service is SettlementForge's AI setup's in its module and any deployment's elsewhere (J121) |
 | J-V10.122 | chose to encode a specialisation class as its first carrier in V11 §3.24.3's order with the use's `specialisation` set by `setAttr`, over a class of its own in the designation, because V11 settles a specialisation as a use's attribute its carriers bear, and a user-set one is exempt from the chance and the cap (V11 §3.24.3) |
+| J-V10.123 | chose, for item 120, to set Find's chips through a `find` action the application runs once when the reply is complete — then a button — and to tell what Find shows through a clerk-side `find` read of view state with the gazetteer's matches at the session's key, over a declaration tool, an event or a button the user must press first, because Find is a per-viewer view that never touches the model, the document, its hash or the log (item 120 (a)), the user's words already asked to be shown (item 120 (i): the clerk's "show me" sets the chips), and one admission key for the panel and the clerk keeps their counts equal (item 120 (h), (k)); its targets are class ids and addresses the segment's reads returned, so a withheld or absent thing is never a chip |
+| J-V10.124 | chose to bound a new segment's memory block by `limits.memoryTokens` (4 000, at most a quarter of the segment limit), the newest turns' lines first and one harness-written count line for the rest, over a line for every earlier turn or a model-written summary, because an unbounded block makes every new segment of a long session open at its limit and in the end past the model's context, while a count keeps nothing unverified (J-V10.13) |
 
 ## 10 Base change requests
 
@@ -3206,7 +3232,7 @@ the staged clerk in the package list, the bridge and the build plan, or gives a 
 
 | former id | subject | applied as | base home |
 |---|---|---|---|
-| BCR-V10-1 | the reader's new kinds and the oracle's typed answer (typed in V10 §2.13) | file f item 468 | §11.2 |
+| BCR-V10-1 | the reader's new kinds and the oracle's typed answer (declared in §11.2) | file f item 468 | §11.2 |
 | BCR-V10-2 | the solver's read-only explanation | file f item 311 | §4.7 S10b |
 | BCR-V10-3 | each kind's explainer in the registry | file f item 270 | §2.8 |
 | BCR-V10-4 | the prosperity field's driver decomposition | file f item 297 | §4.5 |
@@ -3225,14 +3251,14 @@ the staged clerk in the package list, the bridge and the build plan, or gives a 
 | BCR-V10-17 | one flatten mode on a terrain stroke | file f item 366 | §7.1 |
 | BCR-V10-18 | a points-form `placeAt`'s plot | file f item 367 | §7.1 |
 | BCR-V10-19 | the clerk's scratch document in the memory lines | file f item 481 | §12.8 |
-| BCR-V10-20 | `delete` joins T10 | file f item 368 | §7.1 |
+| BCR-V10-20 | `delete` joins T10 `hold` | file f item 368 | §7.1 |
 | BCR-V10-21 | the raised-way outcome, read-only (`raisedOutcome`) | file f item 290 (6) | §4.3 |
 | BCR-V10-22 | a caller may lower a read's admission (`admitAs`) | file f item 572 | §11.2 |
 | BCR-V10-23 | an unnamed roster line | file f item 571 | §7.1 |
 
 The texts once merged with volume 9's requests are one text each in the base: a preview's three variations (file f item
 461, with item 470 (b)); dry-run messages as `MsgRef` (item 463, with item 470 (c)); a quarter's target size (item 348,
-its badge's plus and minus volume 9's part); a record's members (`EntityCard.members` and `WhyAnswer.members`, V10 §2.13,
+its badge's plus and minus volume 9's part); a record's members (`EntityCard.members` and `WhyAnswer.members`, §11.2,
 the `members` query kind withdrawn); item 110's events (item 362, which V10 §4.1 cites); a dry run's effects (item 465,
 filtered by item 470 (b)).
 
@@ -3248,7 +3274,7 @@ Each row is closed at its destination; the validation records keep each row's hi
 | CVR-V10-4 | V09 | the standalone `connect-src`; the drawer's card-only mode; `ClerkHandle`; the keys of this volume's families in every shipped locale | V09 §6.2, V09 §4.11, V09 §2.10, V09 §4.9; T-V9-15 |
 | CVR-V10-5 | V06 | the chronicle through `report(h)`; `locate(w)` and the frame builder for the `frame` read; `FieldDrivers.since`; `LifecycleEvent.detail.why` on moves | V06 §4.5, V06 §3.15 |
 | CVR-V10-6 | V01 | its pushes named by V11's families (`sun`, `nuisance`) | V01 §4.5 |
-| CVR-V10-7 | V09 | `delete` under T10; item 362 as one text; **What else changes**; the hit stack's top for `entity { at }`; `ClerkMount.rebuildEvents(seq)` | §7.1's binding table; V09 §4.11, V09 §4.20.3 (4), V09 §4.20.8 (5), V09 §2.10 |
+| CVR-V10-7 | V09 | `delete` under T10 `hold`; item 362 as one text; **What else changes**; the hit stack's top for `entity { at }`; `ClerkMount.rebuildEvents(seq)` | §7.1's binding table; V09 §4.11, V09 §4.20.3 (4), V09 §4.20.8 (5), V09 §2.10 |
 | CVR-V10-8 | V02 | the registry paths `deck/landmarks/<head\|mid>` and `massing/stack`; the `massing` section's item-110 rows | V02 §4.6 (7) |
 | CVR-V10-9 | V03 | a key for each of item 110's room causes in the `plan` section (the deck's is `deckNoCellar`) | V03 §4.6 |
 | CVR-V10-10 | V04 | `underground` rows for an arch vault, a ruin's stepped monument, an aqueduct's terminal cistern and a void met by a footing, their knowledge rules applied in the effects list too | V04 §4.5; T-V4-78 |
@@ -3259,9 +3285,9 @@ Each row is closed at its destination; the validation records keep each row's hi
 | CVR-V10-15 | V09 | `ClerkMount.effectiveKey()` and `onEffectiveKey`; the action list citing V10 §2.6's dispatch table, `rebuild` among it; `LinkRow.chain` citing `WhyLink.chain`; "Assistant (AI)"; an empty name field writing `name: ''` | V09 §2.10, V09 §4.11, V09 §2.7 |
 | CVR-V10-16 | V11, V09 | one name for the family-weights cell: V11's `familyWeights` with V09's five values | V11 §4.2; V09 §2.6 |
 | CVR-V10-17 | V09 | the `refuse.clerk.<category>` family row (every category but `lock`, `rule` and `role`) and the uphill aqueduct's row | V09 §4.9, V09 §4.20.2 (5); T-V9-15 |
-| CVR-V10-18 | V09 | **New names — this quarter** read at the effective key; **Split here**'s point by V10 §4.1's T9 rule; New names' `ids` in address order | V09 §4.5; T-V10-4 |
+| CVR-V10-18 | V09 | **New names — this quarter** read at the effective key; **Split here**'s point by V10 §4.1's T9 `shape` rule; New names' `ids` in address order | V09 §4.5; T-V10-4 |
 | CVR-V10-19 | V09 | the drawer's `action` blocks, the `why` kind and one why-target rule; the `clerk.alt.*`, `clerk.view.cleared`, `clerk.applied` and `refuse.clerk.dossier.count` rows | V09 §4.11, V09 §2.10, V09 §4.9; T-V9-15, T-V9-27 |
-| CVR-V10-20 | V09 | `MsgRow.buttons` (`MsgButton`) as the clerk reads them; T6's `access` and T11's `rename` mode ids; the `button.*` rows, `button.openCopy` and `button.undo` among them | V09 §2.9, V09 §4.5, V09 §4.9, V09 §4.11 |
+| CVR-V10-20 | V09 | `MsgRow.buttons` (`MsgButton`) as the clerk reads them; T6 `place`'s `access` and T11 `name`'s `rename` mode ids; the `button.*` rows, `button.openCopy` and `button.undo` among them | V09 §2.9, V09 §4.5, V09 §4.9, V09 §4.11 |
 
 **Received and closed here** (principle (10)):
 
@@ -3273,7 +3299,7 @@ Each row is closed at its destination; the validation records keep each row's hi
 | V08 | X11: the `info.raised.*` outcome rows, one key for `info.raised.suppressed` | V10 §3.9 |
 | V09 | XV-V9-7, XV-V9-8, XV-V9-10 – XV-V9-12, XV-V9-18, XV-V9-19, XV-V9-22, XV-V9-30: the harness and its handle, the merged texts, item 362's shapes, the effects card, the item-110 readings, the dispatch, `rebuildEvents` and `attach.newMap`, the reading of `MsgRow.buttons`, AP8's price; XV-V9-32: a replaced empty-state town dropped; XV-V9-33: the size words by quantile | V10 §2.4, V10 §2.6, V10 §3.1, V10 §3.3, V10 §3.5 step 3, V10 §3.16, V10 §3.17, V10 §4.1, V10 §4.2 (3), V10 §4.3, V10 §5.4, V10 §8 |
 | V11 | X-V11-3: `WhyPull.row` with V11 §2.4's ids resolved to their `says`, `explainRow` and `profile` as `query rule` and `query profile`, an unwalled side's `WallBarrierRow` and `arcKind`; X-V11-14 (d): no `clerk.*` cell calibratable by the corpus stage | V10 §2.13, V10 §3.9, V10 §2.10 |
-| V12 | X-V12-7: a table value told plain first, its run behind "details", a stamped cell "the owner's rule", no run started by the clerk; X-V12-8: the known-city fixture records | V10 §2.13's `RuleAnswer.register`, V10 §3.5; V10 §7.3 |
+| V12 | X-V12-7: a table value told plain first, its run behind "details", a stamped cell "the owner's rule", no run started by the clerk; X-V12-8: the known-city fixture records | §11.2's `RuleAnswer.register`, read from V12 §2.10's `dist/evidence.json`, and V10 §3.5; V10 §7.3 |
 
 ## 11 Owner questions
 
@@ -3296,9 +3322,10 @@ tool-API transcript, our own addition.
 ## 12 CONFIRMED versus PLAUSIBLE
 
 **CONFIRMED (read or executed evidence).** Every base section V10 §1.2 names was read at its text as the coherence pass
-states it, with files f and g applied — items 101–119, `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md`
-whole, and the decisions of `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`; the base cites this volume as the home of the
-reader's, the oracle's and the solver's types (§11.2: "exactly as V10 §2.13's `ClerkQuery` gives them"); the sibling
+states it, with files f and g applied — items 101–120, `docs/DEFINITION.md` and `docs/OWNER-INSTRUCTIONS-2026-09-25.md`
+whole, and the decisions of `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`; §11.2 declares the reader's and the oracle's
+types (file f item 468), which V10 §2.13 cites, and this volume types the solver's explanation and the providers'
+interfaces (items 311, 270, 290); the sibling
 sections this volume cites were read at their current texts — the rewritten V01–V09 and V11's and V12's texts as their
 editors leave them (V10 §10.2 names each destination read). Model choice, request shape, caching, effort, fallbacks,
 refusal handling, streaming with eager tool input, prices and the Opus 5.5 facts were taken from the claude-api skill (its
@@ -3316,7 +3343,7 @@ models table cached 2026-06-24), not from memory. The validation records keep ea
 * That the model declares no unasked or duplicate raised way, terrace, removal or design above the grandeur ceiling —
   group A's grader, group D, T-V10-39 and T-V10-48, with risk (7)'s pre-decided gate.
 * The evaluation's bars (V10 §7.3) and the effort defaults (`medium`, `low`) — C5's first live run.
-* That the model writes the action and refusal forms where prompt rules 8, 10, 15, 17 and 18 ask, the dossier forms'
+* That the model writes the action and refusal forms where prompt rules 8, 10, 15, 17, 18 and 20 ask, the dossier forms'
   `<id>` where rule 6 asks, and the look read before speaking of a season or a festival (rule 19) — group C's what-if and
   look cases, group D's undo and put-back, group G and T-V10-35 at C5's first live run; the grounding check drops every
   malformed or unread form by construction (T-V10-16), and a missing `<id>` degrades to the `dossier` form (J-V10.107).
@@ -3341,7 +3368,7 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 | ruling | where it lives |
 |---|---|
 | J-VI.4 — item 110's named refusals are bends: each the item's `bent` line with its alternatives as actions, never "cannot"; an uphill aqueduct's bent result the well itself | V10 §3.16's *The dry run's bends*; V10 §3.3 rule 10 |
-| J-VI.2 — the brief's `raised[].reason` is `drop`, `link` or `water`, absent for a declared way | V10 §2.13 (`MapBrief.raised`) |
+| J-VI.2 — the brief's `raised[].reason` is `drop`, `link` or `water`, absent for a declared way | §11.2 (`MapBrief.raised`), which V10 §2.13 cites |
 | J-VI.5 (V02 X22) — `tiers.stairs` admits `none`; the facts `massing/bend/<id>`, `stack.grade` and the derived aspect read; each bend of V02 §1b worded | V10 §2.12; V10 §3.9's owed table; V10 §3.16 |
 | J-VI.17 — CVR-V10-1, -2, -8, -9 and -12 met at V04, V03, V02 and V11 | V10 §10.2 |
-| J-VI.26 — the T2 `terrace` stroke's `falloff: 'cosine'`, `amount: 1` and `water` as V09's mapper sets them | V10 §4.1's `terrace` row |
+| J-VI.26 — T2 `ground`'s `terrace` stroke: its `falloff: 'cosine'`, `amount: 1` and `water` as V09's mapper sets them | V10 §4.1's `terrace` row |

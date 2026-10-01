@@ -68,6 +68,14 @@ keeps a crypt, and no other church's crypt may outgrow it. Every edit can be und
 — except a cellar edit that opens or seals a way underground, which says so before it happens. Each storey exports as a
 virtual-tabletop scene with its walls, doors, windows and lights.
 
+**Find and speed.** With Find on (item 120), zooming in on a building that holds what you are looking for lights up
+the rooms that do the work — a smithy's forge and shop, an inn's common room and guest rooms, a church's nave and its
+crypt — while the families' own rooms stay under the veil; the storey switcher marks the floors that hold them, and
+Find never changes the plan. Every wait you sit through once — a dossier change that re-cuts many saved plans, an
+export of a tall building's every storey, opening a map saved by an older version — ends within ten seconds at every
+size up to the largest metropolis and shows its progress after the first second (item 119); opening a plan,
+switching storeys and editing stay as quick as before.
+
 ## 1 Scope, the base hooks consumed, and what is out of scope
 
 **Scope.** This volume builds the plan rung — `BuildingGenerator.plan` (§2.6, which names this volume its builder) — to
@@ -84,7 +92,9 @@ II.7.5); the plans of item 110's buildings — stepped tiers, walls against reta
 vaults under raised ways, the aqueduct's cistern and the arena (item 110 (a)–(e) as revised ~23:40); the plan report;
 click-to-elaborate with stale-until-clicked as the viewer experiences it; the plan edits with their tools, bends and
 undo; the room explainer and the clerk's `plan` and `crypt` sections; the plan draw at the building band; the plan
-block, SVG, raster and per-storey VTT scenes; budgets, bars and the build plan. The base states the records (§2.6's
+block, SVG, raster and per-storey VTT scenes; the plan's part of Find, the rooms a match uses at the interior band
+(item 120; V03 §5.5); budgets with the plan's share of the one-time waits (item 119), bars and the build plan. The base
+states the records (§2.6's
 `Plan`, `Storey`, `Room`, `Wall`, `Opening`, `WindowRec`, `StairCore`, `Chimney`, `FurnitureItem`, `InteriorLadderRow`
 and the fields file f items 232–242 add), the rung's steps (§2.6 *The plan rung*), the interior ladder and the one
 capacity function (§2.6), the elaboration record and cache (§2.8, §2.9) and every hook below; this volume cites them.
@@ -124,7 +134,9 @@ capacity function (§2.6), the elaboration record and cache (§2.8, §2.9) and e
 | households, `Household.building`, `Use.specialisation`, `Use.branchOf` (§10.3, §2.7) | units; the specialisation and half keys (A1) |
 | the JSON `plan` block, the `.dd2vtt` per-storey profile, Foundry walls, CityJSON, glTF with `interiors` (§11.1) | V03 §5.3 |
 | the `query` union with `plan` and `planReport`, the oracle rules (§11.2) | V03 §4.6 |
+| the view key `find` (§2.9), the veil, outline and halo rows (§8.2), Find in picture exports (§11.1), the gazetteer's matches under knowledge admission (§11.2), the overlay's budget (§12.5) — item 120 | the rooms a match uses at the interior band (V03 §5.5), T-V3-38 |
 | the plan row, the cache line and the chain count (§12.7, §12.8) | V03 §6 |
+| the targets, the comfort level for one-time waits, the measured-gain and progress rules and the interaction budgets (§12.1, §12.5, §12.6; item 119) | the plan's one-time waits and its interaction rows (V03 §6), T-V3-37 |
 | B-PLAN, T28-1 – T28-19, T63-3, T12-1, the plan soft bands (§13.2, §13.7) | V03 §7 |
 | the input scheme, `keymap.json` with the storey keys' precedence, the interaction contract R1–R19 (R2's bend), WCAG 2.2 AA (§14) | V03 §4.2's bends, V03 §4.5 |
 | underground neighbourhoods and their dwellings, basement accesses, `AccessPoint`, the undercity and its lifelines, the systems and the access edit (II.7.3 – II.7.6) | the heads (V03 §3.7.2); buildings below ground (V03 §3.12) |
@@ -134,14 +146,14 @@ capacity function (§2.6), the elaboration record and cache (§2.8, §2.9) and e
 | *Entrances* rules 1, 4 and 5 as volume 2's BCR-V2-38 and BCR-V2-41 amend them (§2.6) | `Entrance.storey`'s rule and O2's roots (V03 §3.6) |
 | the anchor table's row for a room of a stored plan (§6.3) | the wing-relative re-match (V03 §3.11) |
 
-**Other volumes and file g items read (cited, never restated).** Volume 1: a `RetainingWall`'s step `stepProfile(wall)`
-(BCR-V1-43; V01 §3.11 (7)), read by `basementDoor(b)`'s rule 1; its entrance reserve and close-up digest (V01 §3.8.2
+**Other volumes and file g items read (cited, never restated).** A `RetainingWall`'s step, read by `basementDoor(b)`'s
+rule 1, is §2.7's `stepProfile(wall)` (file f item 245). Volume 1: its entrance reserve and close-up digest (V01 §3.8.2
 step 5, V01 §3.8.3), which read `basementDoor(b)` and `stackAccessDoor(b, a)`. Volume 2: `facadeBays` on every side,
 `dormerPositions`, `bayM` and `endMarginM` (V02 §3.7; BCR-V2-15); `stairTreads` for the exterior flights (V02 §2.6);
 `composition.classFamily` for a `v.` key without a programme row (V02 §3.10.5); `DormerRow` (V02 §2.2; BCR-V2-03);
 `BaseWing.role`, `WingRole` and `BaseWing.key`, wings named by key (BCR-V2-01, BCR-V2-27); `MassingRef.low` (V02 §2.1);
 the composer's rooms `hall`, `gatehall`, `chapel`, `towerRoom`, their ids and the hall's court door (V02 §3.8);
-F-COMPOSE (3)'s omitted rooms and `CompositionRow.rooms.gateHallM` (V02 §3.13, V02 §2.2); each wing's `RoofSpec.kind` as
+F-COMPOSE (3)'s omitted rooms (V02 §3.13) and `CompositionRow.rooms.gateHallM` (V02 §2.3, V02 §3.8); each wing's `RoofSpec.kind` as
 V02 §4.6 (3) edits it; `Porch.kind` (BCR-V2-04); the crypt seed wings `cryptSeedWings(b)` (V02 §2.4, V02 §3.14.5 (c),
 exported by `@plat/plots`) and the wet-ground lift with `Basement.kind 'raised'` (V02 §3.14.5; BCR-V2-28); item 110's
 fold as landed — `BaseWing.on` and `.solid` (BCR-V2-31), the roles `tier`, `shrine` and `stair`, `storeyRange`,
@@ -159,7 +171,8 @@ dig from above, the well through a chamber; V04 §3.5.7 (c), (d), (f)), U-LINK (
 institution access; V04 §3.7) and U-DIG (V04 §3.8); the excavation reading (V04 §3.5.7 (g)); the ruin chambers' column
 points (V04 §3.5.0a); the `archVault` chambers (V04 §3.5.4 (d)) and `Chamber.monument`; its underground light rows
 (V04 §3.9). Volume 5: the island cathedral's rim-slab crypt vault (V05 §3.10 (5)); `levelledGroundCm` (BCR-V5-30).
-Volume 7: the village classes by their `v.` keys (V07 §2.4; V11 §2.9). Volume 10: `WhyProvider`, `WhySectionProvider`
+Volume 7: the village classes by their `v.` keys (V07 §2.4; V11 §2.9). Volume 9: the Find panel and its `live.find`
+overlay, which draw V03 §5.5's rooms (item 120); the progress view of a one-time wait (V09 §4.21.9; item 119). Volume 10: `WhyProvider`, `WhySectionProvider`
 and `WhyAnswer` (V10 §2.13, V10 §3.9, V10 §3.9a; BCR-V10-3). Volume 11: `BuildingClassRow.templateFamily`, `.staff`, `.split`
 (V11 §2.3; BCR-V11-1), the `crypt` column, `cryptM2` and `crypt.rankShare` (BCR-V11-13), `HeightsRow.storeyCm` (V11 §2.8)
 through the designation template's `heights` key, the template families and their structures (V11 §3.6.1), the
@@ -167,7 +180,7 @@ specialisations by band (V11 §3.6.2), the class ladder with `conduit_house` and
 types (V11 §3.12), the scene archetypes and the custom-content resolver (V11 §3.13). File g: item 102 (the sun), item
 104 (h) (5) (a custom service inside its provider), item 105 (h) (split works and shop, `Use.branchOf`), item 108 (a)
 (ladder buildings), item 109 (e), (g), (j) (1)–(5) with (3b), (k) (2) and (6) as revised ~20:05 (J111), item 110 (a)–(f)
-as revised ~23:40.
+as revised ~23:40, item 119 (the plan's one-time waits; J130) and item 120 (Find at the interior band; J133).
 
 **Out of scope, each with its owner.** The composer that makes `Composition.wings`, `towers`, `courts`, dormer rows and
 `Composition.rooms` (volume 2); this volume reads a composition and, where none is stored or composed, the base wings
@@ -181,7 +194,10 @@ class column's rule (§2.6); this volume states the crypt's ring, rank and entry
 construction, the stair wings, the pent skirts and the roofscape's terraces, parapets and stacks (volume 2); retaining
 walls, raised ways and their spans, and deck plots (the base); arch vault chambers and a ruin's stepped monument
 (volume 4) — this volume reads them and plans the rooms inside. The epoch engine that schedules re-lets and excavations
-(§4.11, volume 6). Elevation drawings: the 3-D export reads heights, not plans (§11.1), and this volume adds no elevation
+(§4.11, volume 6); how an epoch run and the history replay are timed against item 119's comfort level (volume 6's
+part of the item). Find's panel, type-ahead, chip grid, results and `live.find` overlay (volume 9), its draw rows (§8.2)
+and its matches (§11.2's gazetteer) — this volume gives the rooms a match uses at the interior band (V03 §5.5).
+Elevation drawings: the 3-D export reads heights, not plans (§11.1), and this volume adds no elevation
 view (J-V3.19).
 
 ## 1b Wiring table
@@ -196,7 +212,7 @@ lifecycle rows cite it.
 |---|---|---|---|
 | `RoomRoleRow` (V03 §2.4) | defaults here; `editTable` | A2–A5 (V03 §3.2), the cutters (`minWidthCm`, `aspectMax`, V03 §3.5), O2–O3 (`door`, `maxDoors`), W1 (`exterior`), H1 (`hearth`), `Room.lit`, F1–F3 (`furnish`), labels (display text, §10.4), the `bias` tie-break (V03 §3.5) | `roomProgram.json` (§14) |
 | the extended `RoomProgramRow` / `RoomRuleRow` cells (`family`, `slot`, `half`, `shared`, `unitHearth`, `unitOneRoom`, `fill`, `staffSleepIn`, `seatingExits`, `perRoom`, `notBasement`, `belowTop`, the optional override cells; V03 §2.4) | defaults here; `editTable` | A1, A2, A5 (V03 §3.2), S6 (d) (V03 §3.3) | §10.2 |
-| the class, family, slot, class-id and village rows; the vacant programme (V03 §2.4) | defaults here, keyed by volume 11's families and classes and volume 7's `v.` keys; for a `v.` key without a row, volume 2's `composition.classFamily` (V02 §3.10.5) | A1 | §10.2 |
+| the class, named, family, slot, class-id and village rows; the vacant programme (V03 §2.4) | defaults here, the class rows keyed by §2.6's `BuildingClass` (volume 11's classes and volume 7's `v.` keys), the family rows by volume 11's families, the named rows by name; for a `v.` key without a row, volume 2's `composition.classFamily` (V02 §3.10.5) | A1 | §10.2 |
 | `PatternRow` (V03 §2.4) | defaults here | the per-piece pattern choice (V03 §3.5) | §2.6 step 4 |
 | `EntranceAnchorRow` (V03 §2.4) | defaults here | A2 (8) (V03 §3.2) | §2.6 step 3 |
 | `WingAffinityRow` (V03 §2.4) | defaults here | A5 (e) | §2.6 step 3; volume 2's `WingRole` |
@@ -221,14 +237,14 @@ lifecycle rows cite it.
 | `Chimney.air` | V03 §3.7.2 (4), V03 §3.12 (3) | the stack draw (§8.6), VTT, the room why |
 | `Chimney.levels` carried through the tiers above | H3 (V03 §3.3) | T-V3-4, volume 2's roofscape drawing the stack over `column` at `levels[1]` (V02 §5.2), VTT, JSON |
 | `ProgramRoom.origin`, `.subLocation`, `.anchor.access` | A2, A6 (V03 §3.2), V03 §3.7.2 | A5, the cutters, P5, the report, the room why |
-| `AccessHead` (declared in V03 §2.1), `Plan.heads` | V03 §3.7.2 from `BuildingInput.accesses` | the anchors (fixed rings), the draw, JSON `accesses`, the VTT portal, the Foundry note, the panel (V03 §4.5), the room why (V03 §4.6), T-V3-22; a head of `storey` null the outline draw, the JSON, the panel and the why only |
+| `AccessHead` (§2.6), `Plan.heads` | V03 §3.7.2 from `BuildingInput.accesses` | the anchors (fixed rings), the draw, JSON `accesses`, the VTT portal, the Foundry note, the panel (V03 §4.5), the room why (V03 §4.6), T-V3-22; a head of `storey` null the outline draw, the JSON, the panel and the why only |
 | `Building.declaredRooms` | `setAttr declaredRooms` via T9 `shape` (V03 §4.2) | A2 (7), `ElaborationRecord.inputs` |
 | `Entrance.faces` `tunnel` | volume 4's entrance derivation for sewer-front, undercity, cavern and ruin buildings (V04 §1b) | V03 §3.12 (4), VTT portals |
 | `Entrance.storey` | §2.6's `deriveEntrances` at S11 (its rule V03 §3.6; built at M3a, V03 §8's PE) | E1, O2's roots, A2 (8), A6, W2's door gate, the switcher's first storey, the VTT scene's elevation, JSON |
 | `Basement.crypt` | the basement function (§2.6 *Basements*; its ring, rank and entry V03 §3.7.4), from volume 11's `crypt` column, `cryptM2`, `crypt.rankShare`, volume 2's `cryptSeedWings(b)` and lift, a dossier crypt record | A2 (9), the crypt plan (V03 §3.7.5), the crypt and choir stairs (V03 §3.7.6), the stair-entered reading, the rank and the crypt-edit dry runs (V03 §3.7.4), volume 4's crypt join (V04 §3.5.7 (c), which reads this field and never a plan room), the `crypt` section (V03 §4.6) and volume 10's why, volume 1's T-V1-47 (no crypt has a place or a pin), `basementDoor(b)`'s vault (V03 §3.7.1), JSON `entities`, T-V3-23 |
 | `BaseWing.partName` | §2.6's outline builder from its template part (S11), passed through by volume 2's M0 (d) and kept by its wing writers (lifecycle V03 §2.5) | A5 (e)'s `part:` affinities, the crypt's seed through volume 2's `cryptSeedWings`, volume 2's M8 (e), the room why (V03 §4.6), the JSON wing record, T-V3-13 |
 | `StairCore.levels` spanning a stack; the landing doors, terrace exits, terrace and seating doors (`Opening`s of V03 §3.3 S6, V03 §3.6 O1 (d)) | S5–S6 | O2's roots, T28-2, the draw, VTT portals, Foundry, the room why (causes `landingDoor`, `terraceExit`, `terraceDoor`, `seatingExit`) |
-| `PlanReport` with `notes` (V03 §2.3; in the elaboration chunk, §2.9) | A1 and every step's failure handling (V03 §3.9) | the panel (V03 §4.5), the clerk's `planReport`, the room why and the `plan` section (V03 §4.6), JSON `report`, §13.7's soft bands, T28-1's reporting clause, T-V3-35 |
+| `PlanReport` with `notes` (V03 §2.3; in the elaboration chunk, §2.9) | A1 and every step's failure handling (V03 §3.9) | the panel (V03 §4.5; each warning its `report.plan.<code>` line), the clerk's `planReport`, the room why and the `plan` section (V03 §4.6), JSON `report`, §13.7's soft bands, T28-1's reporting clause, T-V3-35 |
 
 **Derived pieces** (never stored; computed at the call and consumed — the one list of them)
 
@@ -238,7 +254,7 @@ lifecycle rows cite it.
 | storey heights and `floorCm(w, s)` (V03 §3.3) | volume 2's `deckLevel`, `Heights`, volume 11's `HeightsRow.storeyCm` | O1 (c), W2, `Entrance.storey`, the crypt stairs, the exports' elevations, T-V3-18, T-V3-27 |
 | the roof terraces `T(x)`, their floor, parapet and walkability (V03 §3.4a) | the wings' `on`, each wing's own `RoofSpec.kind` (`MassingRef.stack.top` only for the shrine), `deckLevel`, the family's `parapetCm` | S6 and O1 (d)'s doors, W4, the draw (V03 §5.1), VTT, Foundry, JSON `terraces`, the switcher, T-V3-29 |
 | the outside ground of each exterior wall (V03 §3.6) | `levelledGroundCm(doc, key, p)` (BCR-V5-30), `RetainingWall`s (the chain's far side), a deck's surface, a lower wing's roof | W2's window and door gates, `Entrance.storey`, the walk-out, the outside digest (§2.8), T-V3-30 |
-| `basementDoor(b)` — an `external` basement's outside door (V03 §3.7.1; declared in §2.6) | `Basement.ring`, `.access`, from M6-U the crypt's vault, the `Entrance` records, the wings (`ground(b)`, the stair wings, stair 0's approach), `RetainingWall`s with volume 1's `stepProfile(wall)`, `levelledGroundCm`, the cells `moduleCm`, `door.mainCm`, `cellar.insetCm`, `cellar.depthCm` | the plan rung's step 3 door on storey −1, the crawl hatch (V03 §3.7.7), the crypt's entry where the crypt is not stair-entered (V03 §3.7.6), O2's basement root, volume 1's entrance reserve and close-up digest, the why causes `walkOut` and `tombDoor` (V03 §4.6), T28-3, T-V3-30 |
+| `basementDoor(b)` — an `external` basement's outside door (V03 §3.7.1; declared in §2.6) | `Basement.ring`, `.access`, from M6-U the crypt's vault, the `Entrance` records, the wings (`ground(b)`, the stair wings, stair 0's approach), `RetainingWall`s with §2.7's `stepProfile(wall)` (file f item 245), `levelledGroundCm`, the cells `moduleCm`, `door.mainCm`, `cellar.insetCm`, `cellar.depthCm` | the plan rung's step 3 door on storey −1, the crawl hatch (V03 §3.7.7), the crypt's entry where the crypt is not stair-entered (V03 §3.7.6), O2's basement root, volume 1's entrance reserve and close-up digest, the why causes `walkOut` and `tombDoor` (V03 §4.6), T28-3, T-V3-30 |
 | `stackAccessDoor(b, a)` — a stack-hosted access's outside door (V03 §3.7.2 (1)) | the wings (`on`, `solid`, `role`, their rings), volume 2's `stairChain` (stair 0 and its approach strip, V02 §4.6), `AccessPoint.ground.at`, the cell `moduleCm`; `ground(b)` and `Building.basement` for its domain | `AccessHead.door`, V03 §3.9's row, V03 §5.1, V03 §5.3, volume 1's entrance reserve and close-up digest, T-V3-22 |
 | the door run's point `doorRunPoint` (V03 §3.7.1) | a straight run, a target point, an admissibility test, the cell `moduleCm` | `basementDoor(b)`, `stackAccessDoor(b, a)` |
 | the grade faces of a host chamber (V03 §3.12 (9)) | volume 4's `archVault` chambers (V04 §3.5.4 (d)) | W1–W3 on those faces, the frontage's `faces`, the face flue, T-V3-32 |
@@ -255,6 +271,7 @@ lifecycle rows cite it.
 | the porch outline (V03 §5.1) | volume 2's `Porch` and its kind | the draw under the plan |
 | the inlet mark (V03 §5.1) | an aqueduct-class raised way ending within `access.snapCm` of a cistern | the draw, JSON `inlet` |
 | a split half's programme (`programmeSource.half`) | `Use.branchOf` as S10b's split writes it (item 105 (h)) | A1, the report, the room why |
+| the rooms a Find match uses — `findRooms(plan, b, target)` (V03 §5.5; item 120) | the drawn plan's rooms (`Room.program`'s origins, `Room.subLocation`, `Room.unit`, scope), the match (V09's `live.find` over §11.2's gazetteer at the view's key), §2.9's view key `find`, V03 §5.4's merge | V09's `live.find` overlay with §8.2's veil, outline and halo rows; the storey switcher's and the plan panel's marks (V03 §4.5); the SVG `plan.find` group (V03 §5.2); T-V3-38 |
 
 **Stage outputs** (each consumed; all inside `BuildingGenerator.plan`, §2.6)
 
@@ -283,6 +300,7 @@ lifecycle rows cite it.
 | `basementDoor(b)` (§2.6's declaration; rule V03 §3.7.1) | this volume's rule in `@plat/plots`, re-exported by `@plat/buildings`, built at M3a (V03 §8's PE), its crypt clause at M6-U | the plan rung's step 3, volume 1's entrance reserve and close-up digest (V01 §3.8.2 step 5, V01 §3.8.3), T28-3, T-V3-30 |
 | `stackAccessDoor(b, a)` (V03 §3.7.2 (1)) | this volume's rule in `@plat/plots` beside `basementDoor(b)`, re-exported by `@plat/buildings`, built at M3a | V03 §3.7.2 (1), volume 1's entrance reserve and close-up digest, T-V3-22 |
 | `ground(b)` and the level reading (V03 §3.3), W2's outside sample (V03 §3.6) | this volume's rules in `@plat/plots`, built at M3a | the plan rung, `Entrance.storey`, `basementDoor(b)`, `stackAccessDoor(b, a)`, volume 1's entrance reserve and digest, §2.6's *Basements* (BCR-V2-33) |
+| `findRooms(plan, b, target)` (V03 §5.5) | this volume's pure reading in `@plat/buildings`, landing with Find (V03 §8) | V09's `live.find` overlay, V03 §4.5's switcher and panel, V03 §5.2's SVG exporter |
 
 **Edit kinds**: V03 §4.1's table is their one home (tool, events, semantics, lifecycle row, undo).
 
@@ -294,7 +312,8 @@ mark — are drawn (V03 §5.1) and exported (V03 §5.3), named only through the 
 never persisted: each is re-derived at read from the wings, the openings and the raised ways.
 
 **View state and chrome**: the `roomNumbers` view key (§2.9; V03 §4.5), the storey switcher and the plan panel
-(V03 §4.5), the keymap rows `plan.storeyUp` / `plan.storeyDown` (`keymap.json`, §14).
+(V03 §4.5), the keymap rows `plan.storeyUp` / `plan.storeyDown` (`keymap.json`, §14); the view key `find` (§2.9;
+item 120), read and never written by V03 §5.5.
 
 **The dossier, end to end.** No plan fact is a dossier field: every room, wall and door is `map` tier by `factTier`, an
 edited one `declared` (§2.8; item 101). A dossier change reaches a plan only through the records below, whose change marks
@@ -324,25 +343,8 @@ the plan stale or re-cuts a stored one (§2.8, §7.3). The dossier inputs and th
 and `FurnitureItem`; `Room.nextFurniture` and `Room.name`; `Opening.point`, `.hinge`, `.swing` and `.steps`;
 `WindowRec.kind`; `Chimney.air` and `Chimney.levels` carried through the tiers above; `ProgramRoom.origin`,
 `.subLocation` and `.anchor.access`; `Plan.heads`; `Building.declaredRooms`; `Entrance.faces` `'tunnel'`;
-`Entrance.storey`; `Basement.crypt`. This volume declares `AccessHead` and states what the fields §2.6 points here for
-mean:
-
-```ts
-// on Plan.heads (§2.6): one per AccessPoint the building hosts, in access-id order
-interface AccessHead {
-  access: Id; kind: AccessPoint['kind'];
-  storey: number | null  /* the head's storey (V03 §3.7.2 (1)); null exactly for V03 §3.7.2 (1)'s outside door on a building with
-                            neither a basement nor ground(b) (V03 §3.3), which lies on no storey */;
-  room?: Id              /* the host room (V03 §3.7.2 (6)); absent exactly when storey is null */;
-  door?: { wing: number /* BaseWing.key of the ground-standing wing */; side: number /* the index of that wing's ring side */;
-           at: PointCm /* the door's centre on that side */ } /* present exactly when storey is null: stackAccessDoor(b, a)'s
-                            wing, side and at (V03 §3.7.2 (1)) */;
-  ring?: Polygon         /* the head's fixed ring — a stair or ladder bay, a shaft square or a well disc; absent for a hatch (an Opening
-                            with `point`), a door (an Opening on the wall, or `door` when storey is null) and an air access (it rides a Chimney) */;
-  through: number[]      /* the storeys a well's or shaft's through-ring crosses below its head (V03 §3.7.2 (3)); [] for every other head */;
-  opening?: Id           /* the Opening that enters the head from its host room; absent when storey is null */;
-  distCm: Cm             /* from AccessPoint.ground.at to the head's centre, or to door.at (V03 §3.7.2 (5)); reported */ }
-```
+`Entrance.storey`; `Basement.crypt`; and `AccessHead` on `Plan.heads`, whose fields V03 §3.7.2 places. This volume
+states what the fields §2.6 points here for mean:
 
 * `Room.nextFurniture` — written by F3 and by an `instance` add (V03 §3.8, V03 §4.2). `Room.name` — the author's name
   (`setAttr plan/rooms/<id>/name`, V03 §4.2): the label shows it, the role unchanged.
@@ -409,10 +411,11 @@ interface PlanReport { // kept in the elaboration chunk beside its Plan (§2.9's
     |'landingDoor'|'terraceExit'|'terraceDoor'|'seatingExit'|'tombDoor'|'stoop'|'inlet'; tier: 0|1|2|6; distCm?: Cm; note?: string }[];
   warnings: { code: 'W_TIER_UNREACHED'|'W_STACK_ACCESS'|'W_DECK_ACCESS'|'W_ENTRANCE_NO_STOREY'|'W_CHURCH_CATACOMB_HEAD'
     |'W_GRADE_FACE_TUNNEL'|'W_STOREY_RUN'; wing?: number; entrance?: number; access?: Id;
-    note?: string }[] /* failures V03 §3.9 reports, W_ codes only; each also in the panel's plain words (V03 §4.5) */;
+    note?: string }[] /* failures V03 §3.9 reports, W_ codes only; each also a panel line, keyed report.plan.<code>, its
+                        words V03 §4.5's */;
   notes: { id: 'shrineOneRoom'|'solidMonument'|'stackCarried'; wing?: number; note?: string }[]
-    /* information, no failure (V03 §3.3 S6, H4; V03 §3.9; a room shrineOneRoom drops keeps its tier in owed): the same ids
-       volume 10's why causes read (V03 §4.6) */;
+    /* information, no failure (V03 §3.3 S6, H4; V03 §3.9; a room shrineOneRoom drops keeps its tier in owed): the ids the
+       plan section keys info.plan.note.<id> (V03 §4.6) */;
   patterns: Record<number /* storey */, { piece: number; pattern: LayoutPattern | 'lodgings' }[]> /* per seed piece (V03 §3.5) */;
   datum: { doorsWithSteps: number; joinsRefused: number } /* V03 §3.6 O1 (c) */;
   circulationShare: Record<number /* storey */, number>; attempts: Record<number, number> /* plan.layout attempts per storey */;
@@ -430,8 +433,9 @@ All rows live in `roomProgram.json` (§14), carry provenance (§7.6, §17.1 (6))
 number below is `own` unless marked, with the default shown; its calibration register entry is this section's closing
 *register lines of `roomProgram.json`* — a B-PLAN `measure` at V3-P6 for the columns they name — else V12 §3.11's
 default line.
-Room lists are discrete cells (§4.7 S11): an authored four-column cell reads poor / modest / prosperous / rich, `squalid`
-reading the poor row and `comfortable` the modest row (J-V3.28).
+Room lists are discrete cells, read by §4.5's discrete-cell rule: an authored four-column cell reads poor / modest /
+prosperous / rich, `squalid` reading the poor row and `comfortable` the modest row (the nearest rowed band below;
+J-V3.28).
 
 **Types** (§10.2 lists the tables and extends its two rows by file f item 428).
 
@@ -474,11 +478,13 @@ interface PlanGeometryRow { // one row per table version
     frameShare: number /* 0.6 */; frameStops: [number, number] /* [125, 350]: the zoom-to-plan clamp (V03 §4.5) */ };
   sunTieBreak: boolean /* true; false is a no-op pin (the bias 'sun' ignored) */;
   exposureAllStoreys: boolean /* true: W2's outside-ground gates on every storey and Entrance.storey by the ground (V03 §3.6; item 110 (a));
-                                 false: exposure read on basement walls only and every entrance on storey 0 — the no-op pin of T-V3-34 */ }
+                                 false: exposure read on basement walls only and every entrance on storey 0 — the no-op pin of T-V3-34 and
+                                 the off form of V11 §3.24.0's item-110 row; its presets.MFCG, .FTG and .VG entries false
+                                 (V11 §2.2's preset entries; provenance own, noted 'fixed: the parity off value (V11 §3.24.0)') */ }
 ```
 
-§10.2 declares the extended `RoomProgramRow` and `RoomRuleRow` (file f item 428); their cells mean: `for.cls` a V11
-class id, a §2.6 building class, or `'*'` in a generic slot row; `for.family` a V11 template family key; `for.slot` a
+§10.2 declares the extended `RoomProgramRow` and `RoomRuleRow` (file f item 428); their cells mean: `for.cls` a
+class id of §2.6's `BuildingClass` (volume 11's classes, volume 7's `v.` keys) or `'*'` in a generic slot row; `for.family` a V11 template family key; `for.slot` a
 structure slot role (`#n` the n-th slot of that role in slot order); `for.use` a specialisation name (V11 §3.6.2);
 `shared` the ladder row's shared rooms the key admits (default `'all'`); `unitHearth` whether the poor row's cooking
 place carries a hearth (default true); `unitOneRoom` a unit's rooms delivered as one room (A2 (1); default false);
@@ -582,18 +588,26 @@ order. Unit, shared, staff and circulation rooms come from the interior ladder (
 | cottage | — | hall_and_parlour 3, bisect 1 / bisect 1 / bisect 1 / nave 1 | rear, winder | trapdoor | 1/20 at every band | all, true, false | chamber, store |
 | house | — | rich–comfortable: hall_and_parlour 2, cross_passage 1, spine 0; modest–squalid: hall_and_parlour 1, cross_passage 1, spine 1 / rich–comfortable: bisect 2, spine 0; modest–squalid: bisect 1, spine 2 / bisect 1 / nave 1 | by_entrance, dogleg | core | 1/10, 1/10, 1/8, 1/6, 1/5, 1/5 | all, true, false | chamber, store |
 | row_house | shop × const 1 (soft) where the template's frontage is `shopfront` or `stall` | rich–comfortable: cross_passage 2, follow 1, spine 0; modest–squalid: cross_passage 1, follow 1, spine 1 / bisect 1, spine 1 (spine 0 at rich–comfortable) / bisect 1 / nave 1 | rear, straight | core | as house | all, true, false | chamber, store |
-| hall | hall × 1 (hard; area 40 / 80 / 250; ground, or upper over an undercroft × 1 where floors > 1), counting room × 1, office × 1 (soft), store × perStorey | nave 2, follow 1 / nave 1 / nave 1 / nave 1 | by_entrance, straight | core | 1/10 | all, true, false | store |
 | inn | common room × 1 (hard; area 30 / 45 / 90), kitchen × 1 (hard), buttery × 1, store × 1, guest room × perCapacity (tag tempResidential, perRoom 2), dormitory × 1 (poor, modest), parlour × 1 (prosperous, rich), counting room × 1 (rich) | cross_passage 2, follow 1 / spine 1 / spine 1 / nave 1 | centre, dogleg | core | 3/20 | all, true, false | guest room |
 | workshop | workshop × 1 (hard), store × 1 | follow 2, bisect 1 / bisect 2, spine 1 (spine 0 at comfortable and richer) / bisect 1 / nave 1 | rear, straight | trapdoor | 1/8 | all, true, false | store, chamber |
 | warehouse | store × perStorey (hard), counting room × 1 | nave 2, bisect 1 / nave 1 / nave 1 / nave 1 | by_entrance, straight | core | 1/20 | none, true, false | store |
 | chapel | nave × 1 (hard), sacristy × 1 (soft) | nave 1 everywhere | by_entrance, ladder | trapdoor | 0/1 | none, true, false | — |
-| church, temple | nave × 1 (hard), chancel × 1 (hard), sacristy × 1, chapel × 1 (soft; prosperous, rich) | nave 1 everywhere | tower, spiral (else by_entrance, winder) | core | 1/20 | none, true, false | — |
+| church | nave × 1 (hard), chancel × 1 (hard), sacristy × 1, chapel × 1 (soft; prosperous, rich) | nave 1 everywhere | tower, spiral (else by_entrance, winder) | core | 1/20 | none, true, false | — |
 | manor | (A2 (4): only at the one-household ladder form) hall (area 40 / 80 / 250), solar, parlour, kitchen, buttery × 1 each (hard), chapel × 1 (rich), counting room × 1, garderobe × perStorey, store × 1 | hall_and_parlour 2, cross_passage 1 / enfilade 1, follow 1 / bisect 1 / nave 1 | centre, dogleg (tower, spiral where a tower joins the wing) | core | 1/10 | all, true, false | chamber, parlour, store |
+
+**The named rows** (J-V3.135): four rows in the class rows' notation and columns, keyed by a template family's or a
+structure's name, which no building's class takes (§2.6's `BuildingClass`: a template family is never a class), and
+reached only by name — from the family rows ("= hall", "= keep", "= tower", "= mill"), the slot rows and the class-id
+and specialisation rows that name one; A1 (4) never reaches them:
+
+| named row | own rooms | patterns | stair: placement, kind | basementAccess | circulation | shared, unitHearth, unitOneRoom | fill |
+|---|---|---|---|---|---|---|---|
+| hall | hall × 1 (hard; area 40 / 80 / 250; ground, or upper over an undercroft × 1 where floors > 1), counting room × 1, office × 1 (soft), store × perStorey | nave 2, follow 1 / nave 1 / nave 1 / nave 1 | by_entrance, straight | core | 1/10 | all, true, false | store |
 | keep | hall × 1, guard room × 1, store × perStorey (basement), garderobe × perStorey (hard) | nave 1, bisect 1 / nave 1, bisect 1 / nave 1 / nave 1 | tower, spiral (else centre, winder) | core | 1/20 | all, true, false | chamber, store |
 | tower | towerRoom × perStorey | nave 1 everywhere | centre, spiral | core | 0/1 | none, true, false | — |
 | mill | mill room × 1 (hard), store × 1 | nave 1 / bisect 1 / nave 1 / nave 1 | by_entrance, ladder | trapdoor | 1/20 | none, true, false | store |
 
-Per-band cells: the circulation column gives the six rows' `circulation` (the default band set's order, §4.5); every
+Per-band cells (the class and the named rows): the circulation column gives the six rows' `circulation` (the default band set's order, §4.5); every
 other column holds at every row unless it names rows. The poorest row's circulation is the one §2.6's capacity reads — on PE's register line (V12 §3.11's default line), never
 tuned at V3-P6; the `room` role's area, the capacity's other cell, rides the first register line, measured there and never
 tuned (the register lines below).
@@ -601,7 +615,7 @@ tuned (the register lines below).
 
 **The template-family rows** (`for.family`, V11 §3.6.1's families; the rooms stand in the family's **main slot** — its
 first structure marked required, else its first structure; the other slots take the slot rows below). Four-column
-cells p / m / pr / r; "= X" takes class row X whole:
+cells p / m / pr / r; "= X" takes the class or named row X whole:
 
 | family | main slot | own rooms | patterns | stair | bAcc | circ | fill |
 |---|---|---|---|---|---|---|---|
@@ -641,7 +655,7 @@ cells p / m / pr / r; "= X" takes class row X whole:
 under the building's class id, (2) under its family, (3) the generic slot row below (`for.cls` `'*'`), (4) the building's
 class row; the level is reported): house, farmhouse, close houses, parsonage → the `house` class row at the band; dwelling
 (staff) → the `cottage` class row; hut → `hovel`; shed, sheds → store × 1 (hard), workshop × 1 (soft), nave; hall → the
-`hall` class row; main range → the `court-institution` family row; kitchen → kitchen × 1 (hard), buttery × 1, store × 1
+`hall` named row; main range → the `court-institution` family row; kitchen → kitchen × 1 (hard), buttery × 1, store × 1
 (soft), bisect; stable, stables → stable × 1 (hard), store × 1 (soft, top); store → store × perStorey (hard); cellar store →
 store × perStorey (hard; basement preferred where the building has one); shop-house → the `shopfront` family row;
 workshop, works, works shed → workshop × 1 (hard), store × 1 (soft); forge → forge × 1 (hard), store × 1 (soft); forge or
@@ -649,7 +663,7 @@ workshop → forge × 1 (hard) where the class's V11 profile family is `metalwor
 store × 1 (soft); journeymen → dormitory × 1 (hard), staff chamber × 1 (soft: the foreman's), spine; office → office × 1
 (hard), store × 1 (soft); kiln → kiln × 1 (hard), store × 1 (soft); inn → `inn`; brewhouse → brewhouse × 1 (hard), store
 × 1 (soft, basement); bath hall → the `bath-house` family row; furnace → furnace × 1 (hard); nave, church → the `church`
-class row; nave and choir → the `cathedral` family row; tower, towers → the `tower` class row; porch → porch × 1 (hard);
+class row; nave and choir → the `cathedral` family row; tower, towers → the `tower` named row; porch → porch × 1 (hard);
 chapter house → chapter house × 1 (hard); cloister ring → arcade × 1 (hard), nave; gatehouse → gatehall × 1 (hard),
 guard room × 1 (soft: the porter's); barn, barns → barn floor × 1 (hard), store × 1 (soft, top); byre → byre × 1 (hard),
 store × 1 (soft, top); chapel → the `chapel` class row; block → the `barracks` family row; armoury → armoury × perStorey
@@ -691,12 +705,12 @@ than the main; `staffSleepIn` where not 0). Every other V11 class takes its fami
 | `courthouse` | hall (hard), office, cell × 2 (hard, basement preferred) | — |
 | `archive`, `library` | library × perStorey (hard), office × 1 | — |
 | `school`, `college`, `university`, `scriptorium` | hall (hard; not scriptorium), study × perStorey, library × 1 (soft); college and university: dormitory × perStorey (upper) | — |
-| `mages_guild`, `academy_of_magic`, `mage_tower` | laboratory × 2, library × 1, study × perStorey; guild and academy: hall; the tower: towerRoom × perStorey as the class row | — |
+| `mages_guild`, `academy_of_magic`, `mage_tower` | laboratory × 2, library × 1, study × perStorey; guild and academy: hall; the tower: towerRoom × perStorey as the `tower` named row | — |
 | `hospital`, `foundling_home` | ward × perStorey (hard), chapel × 1 (soft), kitchen × 1, office × 1; foundling home: dormitory for ward | — |
 | `almshouse` | the ladder's units, chapel × 1 (soft), kitchen × 1 (shared) | — |
 | `prison`, `workhouse` | prison: cell × perCapacity (tag tempResidential, perRoom 1), guard room × 2, office; workhouse: dormitory × perStorey, workshop × 2, mess | — |
 | `barracks`, `mercenary_hall`, `training_yard` | the `barracks` family row; mercenary hall: hall, mess, armoury | — |
-| `watchtower`, `tower_house` | the `tower` class row with guard room × 1 (ground) (watchtower) or hall × 1 (first storey, tower house) | — |
+| `watchtower`, `tower_house` | the `tower` named row with guard room × 1 (ground) (watchtower) or hall × 1 (first storey, tower house) | — |
 | `market_hall`, `cloth_hall` | the `market-hall` family row | — |
 | `cathedral`, `great_temple` | the `cathedral` family row | volume 11's crypt column `always`: the crypt from `Basement.crypt` (A2 (9), V03 §3.7.4), the settlement's largest |
 | `church` | nave, chancel / + sacristy / + sacristy, chapel / + sacristy, chapel × 2 | crypt column `basement`: a crypt from `Basement.crypt` exactly where its basement holds one (A2 (9)) |
@@ -707,7 +721,7 @@ than the main; `staffSleepIn` where not 0). Every other V11 class takes its fami
 | `arena` (volume 2's `ovalCourt`) | office × 1 (soft; ground), store × perStorey (soft), cell × 2 (hard; basement preferred), store × 2 (soft; basement); patterns spine 1 everywhere (the ambulatory: the spine corridor along each storeyed ring wing); stair rear (the court side), straight; core; circulation 1/5 at every band; fill store; `seatingExits` true | the seating banks are solid wings (no rooms, V03 §3.4); the arena floor is the composition's court, never a room; the gate halls are volume 2's composer rooms (A2 (11)) with their court arches (V03 §3.6 O1 (b)) |
 | `'*'` · `for.use` `stepped_temple` | chapel × 1 (hard; storey top: the sanctuary, alone on the shrine's top storey), sacristy × 1 (soft; belowTop), store × 1 (soft; belowTop); patterns nave 1 everywhere; stair by_entrance, ladder; trapdoor; 0/1; fill none | on a solid stack the shrine is the only storeyed wing, so the sacristy and the store are dropped (tier 0, `shrineOneRoom`); a crypt by volume 11's column (a great temple's `always`), entered by the tomb door (V03 §3.7.1) |
 | `'*'` · `for.use` `terraced_palace` | the `manor` class row, with hall × 1 (hard; storey ground, affinity `tier:entrance`), solar × 1 and chamber × perStorey (soft; upper); fill chamber, parlour, store | its tiers joined by S5's chain cores and S6's landing doors |
-| `'*'` · `for.use` `tiered_tower` | the `tower` class row (towerRoom × perStorey); stair centre, spiral | one core up every tier it fits (S5 (a)) |
+| `'*'` · `for.use` `tiered_tower` | the `tower` named row (towerRoom × perStorey); stair centre, spiral | one core up every tier it fits (S5 (a)) |
 | `golem_works`, `necro_works` | workshop × 2 (hard), laboratory (hard), store | — |
 
 **The village class rows** (V07 §2.4's classes; J-V3.111). Each row is keyed by the class's **`v.`
@@ -719,7 +733,7 @@ by the slot rows; `v.yeoman_house` — the `house` class row, its barn and dovec
 slot `hall`: hall × 1 (hard; area 40 / 80 / 250), kitchen × 1 (soft), the chamber block, kitchen, barn, stables and
 dovecote by the slot rows; `v.parish_church` — the `church` class row (its west tower a `part:tower` wing, BCR-V3-13);
 `v.parsonage` — the `house` class row; `v.tithe_barn` — barn floor × 1 (hard), store × 1 (soft); `v.watermill`,
-`v.windmill` — the `mill` class row; `v.smithy`, `v.alehouse`, `v.inn` — the town class-id rows `smithy`, `alehouse`,
+`v.windmill` — the `mill` named row; `v.smithy`, `v.alehouse`, `v.inn` — the town class-id rows `smithy`, `alehouse`,
 `inn`; `v.chapel` — the town `chapel` class row; `v.hovel`, `v.cottage` — the town `hovel` and `cottage` class rows;
 `v.bakehouse` (the common oven) — bakehouse × 1 (hard), store × 1 (soft), nave 1 everywhere, by_entrance, ladder,
 trapdoor, 1/20, fill store (J-V3.112); `v.shop` (a general dealer with a stall front) — the `shopfront` family row
@@ -729,7 +743,7 @@ trapdoor, 1/20, fill store (J-V3.112); `v.shop` (a general dealer with a stall f
 `v.tannery`, `v.watchtower` and `v.pound`, and any village class added later) reads, at A1 (3), the row named by
 the composition key volume 2's `composition.classFamily` gives that `v.` key (V02 §3.10.5, keyed by the `v.` keys):
 the template-family row of that name above, else the class row of that name (§2.6's `BuildingClass`, e.g. `manor`,
-`cottage`), else the slot row of that name (e.g. `barn`, `kitchen`); the row reached is reported at level `family` with
+`cottage`) or the named row of that name, else the slot row of that name (e.g. `barn`, `kitchen`); the row reached is reported at level `family` with
 `programmeSource.via` naming the key (V03 §2.3). A composition key that places no building (`yardPart`: `v.pound`, a walled pen)
 yields no plan, as no building stands. A key that names no row here falls on to A1 (4), reported with `via`, which T-V3-1
 fails. The key-to-row lookup reads volume 2's table at run time and restates none of its cells.
@@ -747,7 +761,7 @@ concealed → [concealedFirst]. `crossPassage` is the `cross_passage` strip; `fi
 order on the entrance's storey; `concealedFirst` the concealed suite's first room.
 
 The three `'*'` rows are keyed by specialisation (A1 rule (1)): volume 11 carries `stepped_temple`, `terraced_palace`
-and `tiered_tower` as specialisation values of the classes whose culture and era build in tiers (V11 §3.6.2), not as
+and `tiered_tower` as specialisation values of the classes whose culture builds in tiers (V11 §3.24.3), not as
 class ids, so the specialisation key is the rows' one and final key (J-V3.93). No row names volume 2's `stepped-monument`: a ruin's stepped monument is volume 4's chamber record, not a building, and has no
 plan (V02 §3.15.6; J-V3.96).
 
@@ -812,11 +826,11 @@ due before V3-P6.
 
 | cells — one entry each | method, due | metric | when it cannot confirm |
 |---|---|---|---|
-| every `RoomRoleRow`'s `area` triple (the `room` role's included: measured by T-V3-35 (i) at V3-P6 but never tuned there, since §2.6's capacity reads its minimum from M2b; the column's default entry, written at M2b, restated in place by this line at P1 — V12 §3.11's later-line rule — should M6-P land after M-CAL's record, the restatement ships with a new major version of `roomProgram` (V12 §4.2), the entry `provisional` again), `minWidthCm` and `aspectMax`; the area overrides of the class, family, slot, class-id and village rows; `PlanGeometryRow.unitFloorM2` and `.minRoomWidthCm` (shipped at P1) | `measure` at V3-P6 — T-V3-35 (i) and (ii) on B-PLAN and B-CITY-lite after P6's tuning | `bar.T-V3-35` | the default stays, reported: a cell P6 tuned returns to its shipped default in the same change, the entry closes `fallback-applied` and the miss is reported to the owner (V12 §5.5) (the `room` row, never tuned, never moves) |
+| every `RoomRoleRow`'s `area` triple (the `room` role's included: measured by T-V3-35 (i) at V3-P6 but never tuned there, since §2.6's capacity reads its minimum from M2b; the column's default entry, written at M2b, restated in place by this line at P1 — V12 §3.11's later-line rule — should M6-P land after M-CAL's record, the restatement ships with a new major version of `roomProgram` (V12 §4.2), the entry `provisional` again), `minWidthCm` and `aspectMax`; the area overrides of the class, named, family, slot, class-id and village rows; `PlanGeometryRow.unitFloorM2` and `.minRoomWidthCm` (shipped at P1) | `measure` at V3-P6 — T-V3-35 (i) and (ii) on B-PLAN and B-CITY-lite after P6's tuning | `bar.T-V3-35` | the default stays, reported: a cell P6 tuned returns to its shipped default in the same change, the entry closes `fallback-applied` and the miss is reported to the owner (V12 §5.5) (the `room` row, never tuned, never moves) |
 | the stair cells P1 ships — `stair.goingCm`, `stair.flightCm`, `stair.spiralCm`, `stair.hatchCm` | `measure` at V3-P6 — T-V3-35 (iii) | `bar.T-V3-35` | the default stays, reported |
 | the furnishing cells — every `RoomRoleRow`'s `furnish.density` and `furnish.wallBias` (P1), every `FurnitureRow`'s `wCm`, `dCm`, `clearCm`, `perRoomMax` and `weight` (P2), `PlanGeometryRow.furnish.walkwayCm` (P2) | `measure` at V3-P6 — T-V3-35 (iv) | `bar.T-V3-35` | the default stays, reported |
-| PE's cells and the capacity's own — `stair.ladder`, `stair.landingCm` and each class row's poorest-band `circulation` (§2.6's *One capacity function*, J-A28.28; the capacity's other cell, the `room` role's `area` triple — its min §2.6's `minRoomCm2` — rides its column's entry on the first line above, measured, never tuned) (M2b), `datum.maxSteps`, `stair.riserCm`, `moduleCm`, `door.mainCm` (M3a) | no line here: V12 §3.11's default line, its entries written by the seats landing M2b and M3a (J-V3.118: a retune at V3-P6 would shift the capacity — every shell's household count — the entrance storeys and the outside doors those milestones build) | `frame.roomProgram.<column>` | the default line's: closes `fixed` at M-CAL with "no admissible frame" where no frame's run targets the column |
-| every other calibratable cell — the rest of `PlanGeometryRow` (the corridor, door, window, hearth, access, crypt and view cells), `RoomRoleRow.maxDoors` and `.hosts`, the pattern weights, every `circulation` cell but the class rows' poorest-band ones (PE's line), `staffSleepIn` and `perRoom` | V12 §3.11's default line (`corpus` at M-CAL), written with each cell's landing | `frame.roomProgram.<column>` | as above; §13.7's item-28 plan soft band keeps its own entry (a threshold, `thr.`), whose fallback steps once the `circulation` cell of a band row other than a class row's poorest — never a cell the capacity reads (§13.7's item-28 row) |
+| PE's cells and the capacity's own — `stair.ladder`, `stair.landingCm` and each class and named row's poorest-band `circulation` (§2.6's *One capacity function*, J-A28.28; the capacity's other cell, the `room` role's `area` triple — its min §2.6's `minRoomCm2` — rides its column's entry on the first line above, measured, never tuned) (M2b), `datum.maxSteps`, `stair.riserCm`, `moduleCm`, `door.mainCm` (M3a) | no line here: V12 §3.11's default line, its entries written by the seats landing M2b and M3a (J-V3.118: a retune at V3-P6 would shift the capacity — every shell's household count — the entrance storeys and the outside doors those milestones build) | `frame.roomProgram.<column>` | the default line's: closes `fixed` at M-CAL with "no admissible frame" where no frame's run targets the column |
+| every other calibratable cell — the rest of `PlanGeometryRow` (the corridor, door, window, hearth, access, crypt and view cells), `RoomRoleRow.maxDoors` and `.hosts`, the pattern weights, every `circulation` cell but the class and named rows' poorest-band ones (PE's line), `staffSleepIn` and `perRoom` | V12 §3.11's default line (`corpus` at M-CAL), written with each cell's landing | `frame.roomProgram.<column>` | as above; §13.7's item-28 plan soft band keeps its own entry (a threshold, `thr.`), whose fallback steps once the `circulation` cell of a band row other than a class or named row's poorest — never a cell the capacity reads (§13.7's item-28 row) |
 | the switches `sunTieBreak` and `exposureAllStoreys` | not calibratable (`ColumnSpec.calibratable: false`, as V11 §3.7.4's `orientEnabled`): no entry | — | — |
 | the keys, enumerations and laws — the role names; `RoomRoleRow`'s `scope`, `storey`, `exterior`, `door`, `hearth`, `lit`, `bias` and `furnish.glyphs`; the room lists, count laws and `for` keys of the programme rows; `PatternRow`, `EntranceAnchorRow`, `WingAffinityRow`, `SubLocationRoleRow`, `AccessHostRow`; each `FurnitureRow`'s `glyph`, `shape`, `placement`, `band` and `tall` | not calibratable (keys, enumerations and laws, as V12 §3.11 reads V11's `ColumnSpec`): no entry | — | — |
 
@@ -845,7 +859,7 @@ migration; its row says what moves it.
 | `Entrance.faces` `tunnel` | the underground stages' entrance derivation (V04; II.7.3, II.7.5) | the entrance record | as every entrance | as every entrance | no older document holds it |
 | `roomNumbers` view key | the viewer (V03 §4.5) | view state (§2.9), outside the model hash | — | view keys are not undone (§2.9) | absent: `off` |
 | `PlanReport` | every derivation and re-cut; recomputed on demand for a stored plan (V03 §2.3) | in the elaboration chunk only (non-canonical) | replaced with the chunk | nothing canonical | dropped with a stale chunk |
-| the tables — `RoomRoleRow`, `FurnitureRow`, `PlanGeometryRow`, `PatternRow`, `EntranceAnchorRow`, `WingAffinityRow`, `SubLocationRoleRow`, `AccessHostRow`; the family, slot, class-id and village rows; item 110's rows and cells (the `cistern` role, the `'*'` rows, `conduit_house`, `arena`, `seatingExits`, `belowTop`, `exposureAllStoreys`) | the shipped `roomProgram.json`; `editTable` | the recipe's table pins (§2.9) and row operations (§7.6) | an edit of a slice marks every plan citing it stale (`ElaborationRecord.slices`, §2.8) and re-cuts stored ones (§7.3); an edit of `stair.ladder`, `stair.landingCm` or the `room` role's minimum re-runs the capacity rule's re-homing (§2.6) | `editTable`'s inverse | a version bump is §7.5's; the tables arrive with the output version that ships them; a stored plan citing none re-reads them at its next re-cut |
+| the tables — `RoomRoleRow`, `FurnitureRow`, `PlanGeometryRow`, `PatternRow`, `EntranceAnchorRow`, `WingAffinityRow`, `SubLocationRoleRow`, `AccessHostRow`; the class, named, family, slot, class-id and village rows; item 110's rows and cells (the `cistern` role, the `'*'` rows, `conduit_house`, `arena`, `seatingExits`, `belowTop`, `exposureAllStoreys`) | the shipped `roomProgram.json`; `editTable` | the recipe's table pins (§2.9) and row operations (§7.6) | an edit of a slice marks every plan citing it stale (`ElaborationRecord.slices`, §2.8) and re-cuts stored ones (§7.3); an edit of `stair.ladder`, `stair.landingCm` or the `room` role's minimum re-runs the capacity rule's re-homing (§2.6) | `editTable`'s inverse | a version bump is §7.5's; the tables arrive with the output version that ships them; a stored plan citing none re-reads them at its next re-cut |
 | the plan edits (V03 §4.1's table: tool, events, §7.4 row, undo) | the plan tools, the clerk | the log (§2.9) | kept as edited attributes (§7.2), fixed inputs of the rung's re-derivation | V03 §4.1's undo column | event migration (§7.5) adds nothing: new kinds and parameters only |
 | New random on an edited plan (`regenerate` with `rung` `plan`, `plan.layout`, `plan.roles`, `plan.furnish`) | T10 `hold` | the log | the rung's counter advances; edited and locked parts fixed; §5.1 (6)'s comparison on the stored subtree (V03 §4.3) | the event's undo record (the former plan) | — |
 | `setAttr(basement)`'s consequences for hosted accesses | V03 §4.2 | the access records (V04) and the plan | the underground layer's per-building rules re-run for this building (V03 §4.2) | one undo step restores the basement, the accesses and the plan | — |
@@ -864,6 +878,7 @@ migration; its row says what moves it.
 | `Chimney.levels` through overlying tiers (V03 §3.3 H3) | H3 | with the plan | re-derived with the stacks; a `setHearth` or a `tiers` edit re-cuts every storey the stack crosses | with the storeys | a stored plan whose chimney ends under a tier re-derives its `levels` at the next re-cut |
 | a crypt-only basement set by `setAttr(basement)` on `basement/crypt/ring` (V03 §4.2) | the edit, by the crypt ladder (the ground wings' whole inset where the ring would not be stair-entered, V03 §3.7.4) | with `Basement` in the leaf digest, `crypt.edited` set | an edited attribute (§7.2), kept through re-derivations; announced on a `never` class | one step: basement, crypt and plan | none |
 | a split half's programme (`programmeSource.half`) | at read, from `Use.branchOf` as S10b's split writes it (item 105 (h)) | never (the use is in the leaf digest) | a split or a merge back onto one plot changes `Use.branchOf`, which marks both buildings' plans stale and re-cuts stored ones (§2.8, §7.3) | the causing event's undo restores both uses and both plans | none |
+| the rooms a Find match uses (V03 §5.5) | derived per call from the drawn plan and the view key `find` (§2.9) | never (view state, outside the document, its hash and the log) | re-read at every commit, regenerate, undo, advance of time and season change and with the plan's re-derivation (item 120 (f)) | its inputs' undo; the view key is not undone (§2.9) | none |
 
 **Readers beyond V03 §1b's.** The crypt stairs and choir flights are also read by O2, T28-2 and T-V3-23; the stack cores
 and their doors by T-V3-28; `FurnitureItem.edited` by New random on `plan.furnish` (V03 §4.3). A crypt draws only in a
@@ -932,8 +947,9 @@ vacant programme** (V03 §2.4). The row reached, its level, the slot, the half, 
 `PlanReport.programmeSource`. A concealed use (`Building.concealed`) resolves its own row by the same rule, for A2 (6).
 **Band cells**: an authored four-column cell reads poor / modest / prosperous / rich (`squalid` the poor cell,
 `comfortable` the modest cell, J-V3.28); continuous cells (areas, `sizeFactor`, `furnish.density`) interpolate linearly
-along the field value between the centres of the two bands it lies between (§4.5's centres); discrete cells switch at
-the cut. **Pattern precedence**: at a band whose ladder form is `lodging`, `apartment` or `room`, the ladder row's
+along the field value between the centres of the two bands it lies between (§4.5's centres); discrete cells read §4.5's
+discrete-cell rule (a band without a row reads the nearest rowed band below), so they switch at the lower cut of the next
+rowed band above. **Pattern precedence**: at a band whose ladder form is `lodging`, `apartment` or `room`, the ladder row's
 `circulation.patterns` replace the resolved row's `upper` and `top` cells (the first listed at weight 2, each other at
 weight 1); the resolved row governs every other cell.
 
@@ -1224,7 +1240,7 @@ an attic is a storey only where `floors` counts it, its rooms then taking the `t
 inside the wing it stands on (V02 §3.15.1 ST6), and at its own levels the lower wing reaches nothing, so the clip order
 meets no contained stacked wing: each tier's storeys are cut on its own extent. A storey of one seed piece holding one
 target is that room, cut by nothing; a seed piece the kernel refuses (zero area, below `minEdge`, non-simple after the
-clip — §3.1's `E_DEGENERATE`, `E_BELOW_MIN_EDGE`, `E_NON_SIMPLE`) is left out of its storey and its targets go to the
+clip — `E_DEGENERATE` with detail `seed`, or `overlap` for a piece left with a hole, §3.4) is left out of its storey and its targets go to the
 storey's other pieces by A5 and the no-abort ladder (V03 §3.9), reported, never a whole-map retry (§5.1; T-V3-36 (b)).
 
 ### 3.4a Roof terraces (item 110 (c) "a flat roof or a shrine on the top tier"; J-V3.82)
@@ -1517,8 +1533,8 @@ door at `basementDoor(b)`, below). An access or basement change marks the rung s
   Written `basementDoor(b)` in prose, it is called on the building's own document and arena key — the key its plot lies
   on — which reach the `RetainingWall`s and `levelledGroundCm(doc, key, p)`. It reads `Basement.ring` and `.access`, from
   M6-U the crypt's vault (V03 §3.7.4), the `Entrance` records, the wings (`ground(b)` by V03 §3.3's level reading, the
-  stair wings' rings and stair 0's approach, volume 2's `stairChain`), the `RetainingWall`s with volume 1's
-  `stepProfile(wall)` (V01 §3.11 (7)) and `levelledGroundCm(doc, key, p)` (§4.7 S10, S11), and the cells `moduleCm`,
+  stair wings' rings and stair 0's approach, volume 2's `stairChain`), the `RetainingWall`s with §2.7's
+  `stepProfile(wall)` (file f item 245) and `levelledGroundCm(doc, key, p)` (§4.7 S10, S11), and the cells `moduleCm`,
   `door.mainCm`, `cellar.insetCm` and `cellar.depthCm`; it draws nothing and reads no plan, is implemented in
   `@plat/plots` beside `facadeBays` and re-exported by `@plat/buildings` (§14), and is built with the eager facts at M3a
   (V03 §8's PE), so the plan rung's step 3 (§2.6), volume 1's entrance reserve (V01 §3.8.2 step 5), T28-3 and the exports
@@ -1574,7 +1590,7 @@ one head, in access-id order, placed before any cut:
    deepest basement storey, else level 0 where `ground(b)` exists); with neither — a solid stack without a basement — the
    head is an outside door in the face of a ground-standing wing, its descent inside the mass the access's own stairwell
    (volume 4's), reported `W_STACK_ACCESS`: a head of `storey` null, with no room and no `Opening`, whose `door` 
-   (V03 §2.1) is `stackAccessDoor(b, a)` below — the one point volume 1's entrance reserve reads (V01 §3.8.2 step 5) — drawn
+   (§2.6's `AccessHead`) is `stackAccessDoor(b, a)` below — the one point volume 1's entrance reserve reads (V01 §3.8.2 step 5) — drawn
    `door.entranceCm` wide at its `at` (V03 §5.1).
    **`stackAccessDoor(b, a)`** (J-V3.120) states that door once, as a pure function of eager records:
    ```ts
@@ -1974,8 +1990,8 @@ differences, all else unchanged (J-V3.53):
 ### 3.13 Edges at their limits (principle (11))
 
 Every mechanism of V03 §2–§5 at its limits: its outcome (stated at the section cited, else here), its failure rung (§5's
-ladder: never a whole-map retry) and its test. Degenerate geometry is refused by the kernel (§3.1's `E_DEGENERATE`,
-`E_BELOW_MIN_EDGE`, `E_NON_SIMPLE`) and handled on F-PLAN's ladder at the step that made it (§5.1). T-V3-36 is the bar of
+ladder: never a whole-map retry) and its test. Degenerate geometry is refused by the kernel (§3.1's `E_DEGENERATE` with its §3.4 details on
+the transient arena, `E_INVARIANT` for a §3.10 row) and handled on F-PLAN's ladder at the step that made it (§5.1). T-V3-36 is the bar of
 this table.
 
 | mechanism | edge | outcome | rung | test |
@@ -1993,12 +2009,14 @@ this table.
 | determinism (V03 §3.10) | no draw; one draw | V03 §3.10 | none (no failure) | T-V3-20, T-V3-36 (h) |
 | re-cuts (V03 §3.11) | a prior room's seed piece degenerate or gone; a kept opening's wall gone | V03 §3.11 | leave out and report | T-V3-9, T-V3-36 (i) |
 | below ground (V03 §3.12) | no basement; one grade face; a chamber with none; a grade face shorter than a window bay or a door run; the raised way removed | (1); (9) on that face; (1)–(8); no window or door on it, the frontage entrance at its vertex (§2.6 rule 5); V03 §4.2's dry run and undo | leave out and report | T-V3-24, T-V3-32, T-V3-36 (j) |
-| the edits (V03 §4.1, V03 §4.2) | save, load, undo, redo, regenerate, migrate; geometry the kernel refuses | V03 §2.5's rows; V03 §4.2's degenerate bend (for a crypt ring, the ring step 2 derives), never refused, never partly committed | repair locally | T-V3-11, T-V3-36 (k) |
+| the edits (V03 §4.1, V03 §4.2) | save, load, undo, redo, regenerate, migrate; geometry the kernel refuses; an edit that would leave a room unreached | V03 §2.5's rows; V03 §4.2's degenerate bend (for a crypt ring, the ring step 2 derives) and reach bend (`bend.room.unreachable`), never refused, never partly committed | repair locally | T-V3-11, T-V3-36 (k) |
 | carries (V03 §4.3) | a carry that collapses a room's carried ring | V03 §4.3 | leave out and report | T-V3-36 (l) |
 | the click and the panel (V03 §4.5) | an `absent`, one-storey, empty or `stale` plan; a building smaller than the frame stop can fill | V03 §4.5; the frame clamped to `view.frameStops` | none (no failure) | T-V3-36 (m) |
 | the clerk's queries (V03 §4.6) | an empty plan; a `storey` the plan lacks; after undo, redo, load or regenerate | V03 §4.6 | none (no failure) | T-V3-12, T-V3-36 (n) |
 | the draw, the picture and scene exports (V03 §5.1–§5.3) | an empty plan; one room or storey; a room too small for its label; a degenerate part; `interiors` off and on | V03 §5.1, V03 §5.2, V03 §5.3 | leave out | T-V3-13, T-V3-14, T-V3-36 (o) |
 | concealment (V03 §5.4) | one concealed room; a storey whose every room is concealed | V03 §5.4 | none (no failure) | T-V3-12, T-V3-14, T-V3-36 (p) |
+| Find at the interior band (V03 §5.5) | no chip; one chip and twelve; a match whose rooms lie on another storey only or on none; a plan absent, stale, stored or empty; a concealed use at a public key; save, load, undo, redo, regenerate | V03 §5.5 (1)–(3): where the shown storey holds none of the match's rooms the building's outline glowing and the switcher marking the storeys that do; where the plan does not draw the building glowing whole; no concealed room glowing at a key that withholds it; nothing saved, the view key outside the document | none (no failure) | T-V3-38 |
+| the plan's one-time waits (V03 §6) | a dossier change reaching many stored plans; the largest export; a migration at the metropolis cap | inside the comfort level (V03 §6); a wait past it completes and is reported (§12.1), never answered by a coarser plan (§12.7) | report | T-V3-37 |
 | the plan × a cliff (pipeline) | a wall or basement side over a cliff's drop | V03 §3.6's exposure gates; V03 §3.7.1's drop no step reaches | leave out and report | T-V3-36 (r) |
 | the plan × steep ground (pipeline) | a fall past `cellar.slopeCm`; ground beyond the step tolerance | V03 §3.7.1 rule 3; V03 §3.6's entrance storeys, stoop and `W_ENTRANCE_NO_STOREY` | repair locally | T-V3-30 |
 | the plan × the coast, a moat or an oasis (pipeline) | a wall facing water; wet ground; a deck over water | the water's surface is never walkable, so no door there (V03 §3.6); the wet-ground rule (V03 §3.7.4); the deck rules (V03 §3.7.2 (0)) | none (no failure) | T-V3-31, T-V3-36 (r) |
@@ -2058,6 +2076,11 @@ refuses as degenerate bends to the nearest lawful module position or ring (V03 �
   roof terrace makes it walkable (V03 §3.4a) — and is otherwise bent to the nearest such wall of the same room, named
   ("no door into earth: moved to the street side"); a window set below its outside ground bends up to the lowest bay
   whose sill clears it, else to the nearest wall that has one, named.
+* **Reach** (item 28 (f); §7.1's outcome row `bend.room.unreachable`) — a `setOpening`, `moveWall`, `splitRoom`,
+  `mergeRooms` or `moveStairCore`, or a `setRoomUnit`, that would leave a room the main entrance no longer reaches through
+  O2's tree (V03 §3.6) is bent to the nearest lawful form that keeps every room reached: a door the edit removes or moves
+  is kept where it was, or moved to the nearest wall of the cut-off room whose other side reaches circulation (O3's width
+  and hinge for its kind, O2's forbidden edges kept), named ("kept the door: the store has no other way in").
 * **`moveStairCore`** (with the optional `kind`) — the bay on every storey it serves; each such storey re-partitioned
   around it (V03 §3.11). A kind whose bay does not fit at the requested position takes the nearest kind in S4's order that
   fits there; a position that fits no kind takes S2's nearest candidate; each bend named.
@@ -2157,8 +2180,8 @@ advanced counter; `plan` — all three. Each is compared by §5.1 (6) on the sto
 
 ### 4.4 What is not an edit
 
-Clicking a building, switching storeys, opening the plan panel, turning room numbers on (the `roomNumbers` view key) and
-a clerk's plan or why query log nothing (§4.1, item 28 (c), §2.9's view state). A room's light is the edited attribute of
+Clicking a building, switching storeys, opening the plan panel, turning room numbers on (the `roomNumbers` view key),
+setting Find's chips (the view key `find`, V03 §5.5) and a clerk's plan or why query log nothing (§4.1, item 28 (c), §2.9's view state). A room's light is the edited attribute of
 V03 §4.2; `placeLight` (§7.1, item 68) adds lights of its own and never changes a room's `lit`.
 
 ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience
@@ -2187,7 +2210,8 @@ V03 §4.2; `placeLight` (§7.1, item 68) adds lights of its own and never change
   "Roof terrace"); a building with no storeyed wing lists only its basement storeys, and with no basement has no
   switcher. The current one is checked; the map region's live description gains "storey n of m"; `keymap.json` rows
   `plan.storeyUp` (PageUp) and `plan.storeyDown` (PageDown), editable and versioned, their precedence over the
-  underground layer's band keys (V04 §5.1) stated in §14's keymap; the view key `storey` (§2.9) holds it per viewer.
+  underground layer's band keys (V04 §5.1) stated in §14's keymap; the view key `storey` (§2.9) holds it per viewer. With Find on (item 120), every storey holding a room a match uses
+  carries its chip's glyph (V03 §5.5).
 * **The plan panel** (the context panel's building tab, accessible name "Floor plan"): rooms by storey with their name
   or role, number (when `roomNumbers` is on), unit (the household's name for a viewer admitted to it) and area in m²;
   what the plan owed — `PlanReport.owed` with each row's `delivered` in plain words ("folded into the hall", "no room for
@@ -2198,13 +2222,22 @@ V03 §4.2; `placeLight` (§7.1, item 68) adds lights of its own and never change
   crypt into the catacomb", "added by an edit"), each withheld for a key its `knownTo` does not admit; the crypt, where
   the building has one ("the cathedral's crypt, the largest in the town"; "raised over wet ground"; "entered by a door at
   the platform's foot"); **item 110's lines** — "a solid monument: no rooms above the ground" (`solidMonument`; its crypt
-  under the crypt line), "tier 3 cannot be reached: no stair arrives there" (`W_TIER_UNREACHED`), "stands on the bridge:
-  no cellar and no well" (a deck), "fell with the bridge" (or pier, mole, quay) for a building whose deck is ruined or
+  under the crypt line), "stands on the bridge: no cellar and no well" (a deck), "fell with the bridge" (or pier, mole,
+  quay) for a building whose deck is ruined or
   removed, "backs onto the terrace wall: no windows on that side" (the exposure gate), "a cellar that opens onto the
-  street below" (a walk-out at a wall), "built into an arch of the viaduct" (a grade face). **Room numbers** (J-V3.59):
+  street below" (a walk-out at a wall), "built into an arch of the viaduct" (a grade face); **the plan's warnings** —
+  one line per `PlanReport.warnings` entry (V03 §2.3), each the `en` text of the key `report.plan.<code>` of volume 9's
+  catalogue (V09 §4.9), written here, its slots filled from the entry's `wing`, `entrance` and `access` as the panel names
+  them (the switcher's wing names, the entrance's role, the head's kind): `W_TIER_UNREACHED` "{tier} cannot be reached:
+  no stair arrives there"; `W_STOREY_RUN` "{wing} is too low for its storeys: planned solid, its rooms moved to the other
+  wings"; `W_ENTRANCE_NO_STOREY` "the {role} door meets no floor: left out"; `W_STACK_ACCESS` "no cellar under the
+  tiers: the way down is entered by a door in the outer wall"; `W_DECK_ACCESS` "stands on a deck: a way down here is
+  only a hatch in the floor, and a well only its mark on the map"; `W_GRADE_FACE_TUNNEL` "the door in the arch opens
+  onto the ground under the span, not a tunnel"; `W_CHURCH_CATACOMB_HEAD` "a catacomb stair handed to this church
+  stands in a store: a church reaches the catacomb only through its crypt". **Room numbers** (J-V3.59):
   the per-viewer view key `roomNumbers: 'off'|'storey'|'building'` numbers rooms in reading order (storey, then room
   index; per storey or through the building), with a key table in the panel. Every edit tool of V03 §4.1 acts from the
-  panel or on the canvas.
+  panel or on the canvas. With Find on, each room a match uses carries its chip's glyph in the room list (V03 §5.5).
 * **`elaborate: 'view'`** (J-V3.57) derives (each plan through `wings`, then `rooms`, then `plan`, as a click does) and
   draws plans only at stops of `view.planStop` or finer, and for at most `view.planCap` buildings per view, centre-out,
   within V03 §6's per-frame budget; the rest draw their wings.
@@ -2244,8 +2277,9 @@ facade's `why` query merges after the kind's provider (V10 §3.9) and volume 9's
 of volume 9's catalogue (V09 §4.9), one key per value, their texts written in volume 10:
 * **`plan`**, on every building with a plan: one row per item-110 room cause the plan holds, keyed
   `info.plan.cause.<cause>` for each cause above (`landingDoor`, `terraceDoor`, `terraceExit`, `seatingExit`, `walkOut`,
-  `tombDoor`, `gradeFace`, `deckNoCellar`, `stoop`, `exposure`, `stackCarried`), and the notes `shrineOneRoom`,
-  `solidMonument` and `stackCarried` by the same ids.
+  `tombDoor`, `gradeFace`, `deckNoCellar`, `stoop`, `exposure`, `stackCarried`), and one row per
+  `PlanReport.notes` entry, keyed `info.plan.note.<id>` (`shrineOneRoom`, `solidMonument`, `stackCarried`), so the cause
+  and the note named `stackCarried` keep two keys.
 * **`crypt`**, on every church-class building (V03 §3.7.2 (6)), over `Basement.crypt` and its rank: **presence** — the
   class's crypt value `always`, `basement` or `never`, or a dossier crypt record (`info.crypt.presence.<always|basement|
   never|dossier>`); **area and form** — the ring's area, and the form `full`, `half`, `raised` or on a sky island the
@@ -2331,7 +2365,8 @@ stands in ruin (its piers or arches left) and nothing where the deck is removed;
 **SVG** at the building band: one file per storey on request, or the **all-storeys sheet**: the storeys side by side in
 level order on one sheet, each captioned "Storey n", one scale bar. Groups `layer.plan.floor`, `plan.shade`,
 `plan.furniture`, `plan.stairs`, `plan.heads`, `plan.hearths`, `plan.walls`, `plan.openings`, `plan.windows`,
-`plan.labels`, `plan.lights` and, with numbering on, `plan.key` (the key table: number, name or role, area), with the
+`plan.labels`, `plan.lights`, with numbering on `plan.key` (the key table: number, name or role, area) and with Find on
+`plan.find` (V03 §5.5), with the
 `<metadata>` map to room, wall, opening, head and furniture ids (§11.1's convention). **PNG** by §8.8's tiles at the
 building-band stops, the sheet likewise. A picture export derives the plan as the `plan` query does (V03 §4.6); an empty
 plan (V03 §3.1 step 2) exports the building's outline with its heads of `storey` null and no storey sheet
@@ -2405,6 +2440,67 @@ concealed opening is drawn and exported as wall; the concealed head, its furnitu
 rooms tile its extents with no enclosed room lacking an opening (T-V3-12, T-V3-14, T-V3-36 (p)). For an admitting key
 everything draws as derived.
 
+### 5.5 Find at the interior band (item 120, the plan's part; J-V3.134)
+
+Find is a view, never a change (item 120 (a)): its state is the per-viewer view key `find` (§2.9: the chips and the Show
+gaps switch), outside the document, its hash and the log; this section reads it and writes nothing, and no plan, cache
+chunk or report changes with it. The panel, the type-ahead, the chip grid, the results and the `live.find` overlay are
+volume 9's; the veil, outline, halo, pin and count-bubble rows §8.2's; the matches §11.2's gazetteer rows at the view's
+effective key, under knowledge admission (item 120 (h)). Item 120 (f)'s **interior band** is, for each building, the
+building band at the stops where its plan draws (V03 §5.1: a clicked building's plan, or under `elaborate: 'view'` from
+`planStop`): there a match's glow moves from the building's footprint to the rooms it uses.
+
+**(1) The rooms a match uses** — `findRooms`, a pure reading of the plan as drawn (stored, else the cache), never stored:
+```ts
+// @plat/buildings (V03 §5.5; item 120): the rooms of building b's drawn plan that a Find match uses, by storey; [] when none
+declare function findRooms(plan: Plan, b: Building, target: { kind: 'use'|'subLocation'|'household'|'building'; id: Id }): { storey: number; rooms: Id[] }[];
+```
+* **a use** b holds (a kind chip whose class is the use's, a named institution, the work of a person's chip through
+  volume 9's Where is): the rooms that use's programme made — `Room.program` of origin `programme` (A2 (4); in a split
+  pair its half's rows only, item 105 (h), so a brewer's works glows its brewhouse and its shop the taproom), `sleepIn`
+  (A2 (3b)), `subLocation` (A2 (5)) and `crypt` (A2 (9): a church's crypt and its undercroft) — and, where b houses no
+  household (the shell is the use's), its `declared`, `access` and `composer` rooms too; for a concealed use, at a key
+  admitting it only, A2 (6)'s rooms for that use (by its place in A2 (6)'s per-use order);
+* **a sub-location** (a custom service inside its provider, item 104 (h) (5)): the rooms whose `Room.subLocation` it is;
+* **a household** (a person's home through Where is): its unit's rooms (`Room.unit`);
+* **b itself** (a kind chip whose class is b's own and no use's — a manor, a town house — or a named place that is a
+  building): every room.
+
+A `circulation` room glows for none of them, and the households' rooms — their units (A2 (1), (1′)), shared rooms (A2 (2))
+and the owners' staff rooms (A2 (3)) — never for a use. At a public key the reading follows V03 §5.4's merge: a merged
+room glows as its public reading where its public part is used, so no glow outlines a concealed room or hints at one.
+
+**(2) The look** (item 120 (e); item 112's second cue). On the storey shown, the rooms a chip's match uses lie above the
+veil at full strength with their labels (V03 §5.1), and §8.2's outline and halo in the chip's colour and dash run along
+the outline of their union — one outline round adjacent rooms, none along the walls between them: the plan's `Wall`s
+whose two sides differ (a room the match uses against another room or the outside), read from its wall records with no
+boolean; the rest of the plan lies under the veil. A room two chips match glows as §8.2 draws a match two chips share.
+Where the shown storey holds none of the match's rooms — they lie on another storey, or the plan holds none (a building of the use's plot it does not
+work in, such as a smith's separate house; an empty plan; a use whose programme rooms the fit ladder dropped, V03 §3.9) —
+the building's outline carries the chip's outline and halo above the veil, the building itself under it, so a match is
+never lost; the storey switcher marks every storey that holds one of the rooms with the chip's glyph, its accessible name
+gaining "{n} found" (V03 §4.5), and the plan panel marks each such room in its room list with the same glyph. A matched
+building whose plan does not draw at the view's stop (absent, or coarser than its stops) glows whole by §8.2's
+building-band row. Find never derives a plan: a click or `elaborate: 'view'` does (V03 §4.5).
+
+**(3) Over time and edits** (item 120 (f)). Every commit, regenerate, undo, advance of time and season change
+re-evaluates the chips at once, and the glow reads the plan as drawn — a stale plan's cached rooms under §8.5's marker
+until its re-derivation lands, a re-cut plan's rooms at once — so a room a `relet`, a `setRoomRole`, a declared room or a
+re-cut gives the use glows as it appears and one it takes away goes dark. The glow holds across storey switches and the
+building band's stops; a building below ground (V03 §3.12) glows on its plan at the underground band (V03 §5.1), its ghost
+pin on another layer being volume 4's part of item 120.
+
+**(4) Exports** (item 120 (i)). A picture export of a plan (V03 §5.2) draws Find as the view shows it — the veil, each
+chip's outline and halo on the rooms it uses, the chips in the sheet's legend (§11.1) — in the SVG group `plan.find`,
+absent with Find off, so the file then equals the Find-less export; a `.dd2vtt` or Foundry scene (V03 §5.3) leaves Find
+off unless the export asks for it, and then carries it in the scene's image only, never in its walls, portals or lights;
+the JSON `plan` block, CityJSON and glTF never carry it (a view, never the model).
+
+**(5) Cost** (item 120 (j)). An interaction, not a one-time wait (item 119 (d)): `findRooms` is O(rooms + walls) per drawn
+plan over the stored or cached plan, for at most `view.planCap` plans per view and the clicked ones (V03 §6's Find row), inside
+item 120 (j)'s glow of about 100 ms (§12.5's overlay budget); a chip change redraws no plan tile and rewrites no
+`DisplayDelta` or cache chunk (T-V3-38).
+
 ## 6 Performance budgets
 
 On §12.1's reference hardware, in the derivation pool; the rung's whole budget per plan is §12.7's (× steps for a
@@ -2431,6 +2527,7 @@ chain), which this split must sum inside. PLAUSIBLE until the P0 spike measures 
 | a storey's VTT scene (image excluded) | ≤ 20 ms | walls ≤ 200 segments |
 | `elaborate: 'view'` at a METROPOLIS core at `planStop` | ≤ `view.planCap` plans derived, ≤ 8 per 16 ms pool frame, drawn within §12.5's frame budget | centre-out; measured at P4 on the B-CITY METROPOLIS seeds |
 | the cache (§12.8) | §12.8's line per storey, furniture included; ≈ 0.8 MB for a capped view (`view.planCap` × 3 storeys) | 40 items × 16 B + rooms, walls, openings as §12.8 states |
+| Find's room reading (V03 §5.5; item 120 (j)) | ≤ 0.02 ms per drawn plan; ≤ 2 ms per chip change over a capped view | O(rooms + walls) per plan (≤ 60 rooms) over the stored or cached plan, the union's outline read from its wall records with no boolean, for ≤ `view.planCap` plans and the clicked ones; an overlay reading, no plan redrawn; inside §12.5's glow of about 100 ms; measured at Find's landing (V03 §8) on the B-CITY METROPOLIS seeds |
 
 **Fallbacks, pre-decided:** a class over its row → the module doubles (§12.7's fallback) for that class; a storey over its
 `workLimit` → F-PLAN tier 3 then 4 (V03 §3.9); furnishing over 1.5 ms p95 at P0 → F3's slot scan steps at 2 × module; the
@@ -2439,6 +2536,37 @@ view over §12.5's budget halves `view.planCap`; a chain step over 20 ms p95 →
 for the session; where P0 measures a stacked building above 20 ms p95 per pair of storeys, the module doubles for the
 stacked wings above tier 0 (§12.7's fallback, per class). A run-time miss is reported, never answered by a coarser plan
 (§12.7).
+
+**One-time waits** (item 119, the plan's part; J-V3.133). The rows above and §12.7's plan row (R12-23) stay the
+**targets** — as fast as possible, every path pressed toward them (§12.1; item 119 (a)). The plan rung's share of each
+one-time wait lies inside §12.1's **comfort level** on its reference machine, at every rung up to the metropolis cap
+(T-V3-37):
+* **generate, regenerate and Re-derive** — PE's eager facts (`Entrance.storey`, `basementDoor(b)`, `stackAccessDoor(b,
+  a)`) and the crypt rank pass run inside S11's stage budget (the rows above), so the generation the base times holds
+  them; the plan rung itself runs on no generation (§4.1's lazy policy);
+* **a dossier change applied, and every event that moves a stored plan's inputs** (a `relet`, a designation mutation, a
+  table edit, a retaining wall or a levelling beside the building, the rank's re-cut of the other crypts) — each stored
+  plan it reaches is re-cut inside that event (§7.3; V03 §4.3) at §12.7's chain budget, counted in the event's wait; an
+  unstored plan is only marked stale;
+* **an epoch** — its stored plans' re-cuts and the crypt rank inside its ops (V03 §3.7.4 (3)) count in the epoch's work,
+  timed as volume 6's part of item 119 times an advance of time and the history replay (V06 §6);
+* **a plan export** — a picture or scene export of one building (V03 §5.2, V03 §5.3) derives its plan as the `plan`
+  query does (§12.7's chain budget), then draws or writes it (the per-storey rows above; the raster at §12.7's PNG
+  budget); the whole-document JSON, CityJSON and glTF `interiors` carry the stored plans and the cached ones and derive
+  none (§11.1; J-A28.86), so their plan part is serialisation inside the export's own budget;
+* **a migration on load** — V03 §2.5's migrate cells, `BaseWing.partName` matched per template-family building and
+  `Basement.crypt` re-derived per `always` and `basement` building with a basement (the rank pass once), inside the
+  load's migration step; a cached chunk is non-canonical and is re-derived at its next click (§2.9).
+
+A wait past the comfort level fails its bar (§12.1) and the plan's part takes the pre-decided fallbacks above (the module
+doubled for the class, the steps' memoised chunks kept); at run time the wait completes and is reported, never answered
+by a coarser plan (§12.7). A plan step runs slower than its target only for a measured gain recorded as its
+`perf.qualitySpend` row (V11 §3.25.8; §4.1's quality budget) and still inside the comfort level (item 119 (b)); none
+ships. A wait past about one second shows progress — the stage by name and the map filling in — through V09 §4.21.9's
+progress view (§12.1's progress rule; item 119 (c)). **Interaction stays fast** (item 119 (d)): the click and its plan (a
+stale chain derived in idle frames, the progress tick until it lands), the storey switch, `elaborate: 'view'` within
+§12.5's frame budget, Find's room reading and a plan edit's preview (§12.6) keep the rows above and §12's, none relaxed.
+The low tier aims at the same comfort level, a size it cannot reach declared per device (item 119 (e)).
 
 ## 7 Tests and acceptance bars
 
@@ -2467,7 +2595,7 @@ aborts, and F-PLAN's tier-6 flags are counted and reported per class.
 
 | id | bar | how measured |
 |---|---|---|
-| T-V3-1 | resolution and schema: every class of volume 11's registry, every volume 7 village class (its `v.` key), the classes of the 17 scene archetypes and every `generic-<family>` class, at every band and with every specialisation, slot role and half its templates name, resolves by A1 to a row whose level is reported; every `v.` key resolves to a row of its own or through its `composition.classFamily` key (`via` reported), never to the building-class row or the fallback, `v.pound` (no building) excepted; volume 11's stepped specialisations and volume 2's stepped composition rows resolve at level `specialisation`, no hard room of theirs names a storey rule its fixture's storeyed levels cannot meet, and every `belowTop` room is soft; `conduit_house` and `arena` resolve to their class-id rows; every role named is in the role table and every role row carries every column; every pattern cell states a weight at every band; every `fill`, `shared`, `unitHearth`, `perRoom` and `half` cell present where its law needs it; no class, family or class-id row names the `crypt` role (it comes only from `Basement.crypt`); every `AccessHostRow` reach has a row; every tag of the shipped class table's sub-locations maps or is listed | schema and enumeration test on `roomProgram.json` with volume 11's and volume 7's registries |
+| T-V3-1 | resolution and schema: every class of volume 11's registry, every volume 7 village class (its `v.` key), the classes of the 17 scene archetypes and every `generic-<family>` class, at every band and with every specialisation, slot role and half its templates name, resolves by A1 to a row whose level is reported; every `v.` key resolves to a row of its own or through its `composition.classFamily` key (`via` reported), never to the building-class row or the fallback, `v.pound` (no building) excepted; volume 11's stepped specialisations and volume 2's stepped composition rows resolve at level `specialisation`, no hard room of theirs names a storey rule its fixture's storeyed levels cannot meet, and every `belowTop` room is soft; `conduit_house` and `arena` resolve to their class-id rows; every role named is in the role table and every role row carries every column; every class row's key is a `BuildingClass` id (`roster.classes`) and every named row is reached by name from a family, slot, class-id or specialisation row; every pattern cell states a weight at every band; every `fill`, `shared`, `unitHearth`, `perRoom` and `half` cell present where its law needs it; no class, family or class-id row names the `crypt` role (it comes only from `Basement.crypt`); every `AccessHostRow` reach has a row; every tag of the shipped class table's sub-locations maps or is listed | schema and enumeration test on `roomProgram.json` with volume 11's and volume 7's registries |
 | T-V3-2 | allocation: every household housed (T28-13 widened to every fixture); `lodging` / `apartment` / `room` units fill the top storey down (unit k's storey never below unit k+1's); a `dwelling` pair divides by storey where storeys ≥ 2; a live-in unit never shares a seed piece with the use's hard rooms where an upper storey has capacity; no unit falls a form while a hard non-unit room is delivered on a storey the unit could have used; no staff room on a storey holding the owners' principal rooms while another allowed storey had capacity | the plan's units and rooms against A5 |
 | T-V3-3 | stair bays: every core's bay equals S1's size for its kind and storey height within one module, lies against a wing side or joint along its long side, and overlaps no clearance square, apron, head or flight | geometry test |
 | T-V3-4 | stacks: every chimney's column is one point on every storey of its `levels`; every hearth room touches its stack; no stack without a hearth or an air access; every unit with a cooking place touches a stack or reports a hood; no two stacks share a point unless one `doubleCm` ring; every stack reaches the roof or a terrace over its column — `levels[1]` is the highest level of any storeyed wing whose extent holds the column — and no stack ends under a floor | per plan, the stepped fixtures included |
@@ -2477,8 +2605,8 @@ aborts, and F-PLAN's tier-6 flags are counted and reported per class.
 | T-V3-8 | furniture: every item's rotated footprint inside its room's ring; none over a clearance square, a stair bay, a head or an apron; counts within ± 1 of F1's `n` or reported skipped; no glyph above its `perRoomMax` or outside its `band`; `ledger` only in the chancel of a church-class building without a crypt | per plan |
 | T-V3-9 | re-cuts: (soft, reported) the share of rooms kept by V03 §3.11 on a house → inn designation change and on a one-band fall, by class; (hard) after every re-cut no kept opening joins two units or a concealed room to a public one or exceeds a `maxDoors`; T28-15's exact restoration stands | B-PLAN mutation fixtures |
 | T-V3-10 | basements: a crawl space has exactly one `trapdoor` opening with `point` on the ground storey and no basement storey; every basement room's scope is V03 §3.7.1's; with a secret item-64 access, the public cellar is reached from the core or trapdoor, the access's room only through its concealed opening, and T63-3 holds | the item-64 fixtures of §13.2 |
-| T-V3-11 | edits: each edit of V03 §4.1's table commits, re-cuts only its building (`setAttr(basement)`: plus the named underground consequences) and undoes byte-identically; every bend of V03 §4.2 lands on its nearest lawful form with a one-line reason and none is refused but for V03 §4.2's stated causes; a B-EDIT sequence removing a cellar that holds a void's last access previews that access and the dwellings that would leave; `regenerate` on each rung of an edited plan changes it or reports that nothing changed; item 110's sequences — (i) a retaining wall drawn behind a planned building marks its plan stale, the re-derivation drops the windows below the new ground, and undo restores it byte-identically; (ii) on a church without a basement, a chamber drawn inside its footprint (volume 9's bend) makes a crypt-only basement with the edited ring, announced where the class is `never`, and undo restores it byte-identically; (iii) `setAttr(basement)` on a deck shop bends to the same request on the nearest ground building, named `bend.deck.basement`, and the dry run previews that building's basement; (iv) an `instance` add or move into a room with no free slot bends to the nearest room with one, named, and a building with none keeps the item where it was put, reported; (v) the crypt-edit dry runs (V03 §3.7.4): removing a cathedral's crypt by each of its four edits bends to its smallest lawful size (`bend.crypt.cathedral`); enlarging another church's crypt past the cap bends to `crypt.rankShare` × the principal's area (`bend.crypt.largest`); removing a crypt that holds the crypt join lists the join's closing among its fates; removing a dossier-bound crypt is refused; each undoes byte-identically | B-EDIT plan sequences, 10³ per PR |
-| T-V3-12 | the clerk: `plan` and `planReport` at `public` over a front with a concealed use return no concealed room, door, head or furniture and each storey's answered areas sum to its extents; at `secret` all; neither query nor `why` writes a log entry or changes a digest; `why` on a room returns its facts, cause and rest, with its heads' causes; the `plan` and `crypt` section providers (V03 §4.6) answer on every church-class fixture — presence, area and form, rank, the crypt join or no crypt (dry and wet) — and on every item-110 fixture, each row carrying one catalogue key per value (`info.crypt.*`, `info.plan.cause.*`), no crypt row answering for a withheld building | API test |
+| T-V3-11 | edits: each edit of V03 §4.1's table commits, re-cuts only its building (`setAttr(basement)`: plus the named underground consequences) and undoes byte-identically; every bend of V03 §4.2 lands on its nearest lawful form with a one-line reason and none is refused but for V03 §4.2's stated causes; a B-EDIT sequence removing a cellar that holds a void's last access previews that access and the dwellings that would leave; `regenerate` on each rung of an edited plan changes it or reports that nothing changed; item 110's sequences — (i) a retaining wall drawn behind a planned building marks its plan stale, the re-derivation drops the windows below the new ground, and undo restores it byte-identically; (ii) on a church without a basement, a chamber drawn inside its footprint (volume 9's bend) makes a crypt-only basement with the edited ring, announced where the class is `never`, and undo restores it byte-identically; (iii) `setAttr(basement)` on a deck shop bends to the same request on the nearest ground building, named `bend.deck.basement`, and the dry run previews that building's basement; (iv) an `instance` add or move into a room with no free slot bends to the nearest room with one, named, and a building with none keeps the item where it was put, reported; (v) the crypt-edit dry runs (V03 §3.7.4): removing a cathedral's crypt by each of its four edits bends to its smallest lawful size (`bend.crypt.cathedral`); enlarging another church's crypt past the cap bends to `crypt.rankShare` × the principal's area (`bend.crypt.largest`); removing a crypt that holds the crypt join lists the join's closing among its fates; removing a dossier-bound crypt is refused; each undoes byte-identically; (vi) the reach bend (V03 §4.2): a `setOpening` closing a room's only door, a `moveWall` and a `splitRoom` that would cut a room off and a `setRoomUnit` leaving a room unreached each bend by `bend.room.unreachable` to the nearest lawful form, every room still reached (T28-2), and undo byte-identically | B-EDIT plan sequences, 10³ per PR |
+| T-V3-12 | the clerk: `plan` and `planReport` at `public` over a front with a concealed use return no concealed room, door, head or furniture and each storey's answered areas sum to its extents; at `secret` all; neither query nor `why` writes a log entry or changes a digest; `why` on a room returns its facts, cause and rest, with its heads' causes; the `plan` and `crypt` section providers (V03 §4.6) answer on every church-class fixture — presence, area and form, rank, the crypt join or no crypt (dry and wet) — and on every item-110 fixture, each row carrying one catalogue key per value (`info.crypt.*`, `info.plan.cause.*`, `info.plan.note.*`), no crypt row answering for a withheld building | API test |
 | T-V3-13 | exports: each storey's `.dd2vtt` portals equal the plan's openings and entrances at their plan widths (T28-19), a bricked head none and a head whose element is sealed or collapsed none; `line_of_sight` has no segment across a window or opening; Foundry windows pass sight, a locked head's door is locked; the CityJSON file with storeys, units and rooms validates against CityJSON 2.0 and each `BuildingRoom`'s footprint equals its room's ring; the glTF `interiors` file validates, no window gap exceeds its storey's height less 30 cm, and with `interiors` off the file equals the default; the JSON wing record carries `partName` through a save and load, and a document without it re-derives it by V03 §2.5's migration row, each unmatched wing reported; an empty plan exports a block with no storeys and no scene | validators in CI |
 | T-V3-14 | draw: every B-PLAN fixture at each detail tier's first stop in `ink`, `lit` and `hatched`: the tier's marks and no finer ones; every opening's gap and leaf inside its wall; flights on the lower storey; one label per room inside its ring or none (§8.3's plan-draw row), no label line below §9.4's range; room numbers in reading order when on; at `public` no enclosed room without an opening and the drawn rooms tile each storey; an empty plan draws its outline with its heads | §13.4's visual regression |
 | T-V3-15 | budgets: V03 §6's rows at median and p95 on B-PLAN and B-CITY-lite clicks; the view-cap row on the B-CITY METROPOLIS seeds | the bench, §13.8 nightly |
@@ -2491,7 +2619,7 @@ aborts, and F-PLAN's tier-6 flags are counted and reported per class.
 | T-V3-22 | access heads: on fixtures holding one access of each source and cause — II.7.3's fallback cellar stair; an item-64 access; a catacomb entrance in a cemetery's chapel (V04 §3.5.1 (9)); a crypt join (cause `crypt`); an `addUndergroundAccess` into a building with and one without a basement, its door into the other cellar included (both buildings); a lifeline stair; volume 4's L1 chimney air shaft; an L5 institution; item 109's dug `cellar_stair`, `shaft` and `well`; a 10 m catacomb stair; a hovel's shaft; a kitchen well; a solid stack without a basement hosting one access, and one whose access's `ground.at` lies nearest stair 0's flight; a dug access under a crypt-only cathedral — every hosted access has exactly one head, no wall crosses a head, every head fits its storey, no straight bay exceeds one storey's flight, every through-ring is continuous from its head to the lowest storey, and §13.2's T12-1 fixture passes on its plan side; the solid stack's one head has `storey` null, no room and its `door` equal to `stackAccessDoor(b, a)` — on a non-stair ground wing's outline side, at least one module from each end of its door part and its span one module clear of stair 0's approach strip, never in a flight — is drawn (V03 §5.1) and written in the JSON `accesses` with `storey` null, and no VTT or Foundry scene carries it; the crypt-only cathedral's dug head lies in its undercroft, else its crypt, reported `crypt host`; the `stackAccessDoor(b, a)` clause runs from M3a on the eager records (V03 §8's PE), the head's draw and export from P2 | per plan; the door clause from M3a on eager records |
 | T-V3-23 | the crypt (J111), on B-PLAN, B-CITY-lite and, at the model level with no plan elaborated, 200 CITY and METROPOLIS seeds: (a) every `always` building, and every building a dossier crypt record binds to, has `Basement.crypt` on every terrain class, `damp` and `flood` included (the raised form), and on a sky island; (b) on derived output the principal's crypt ring is strictly the largest in the settlement; (c) a `basement`-class church has a crypt exactly when it has a `full`, `half` or `walkout` basement, and a `never` class never has one — on wet ground no crypt, its chancel with ledger slabs; (d) no church-class building hosts a catacomb access of source `system`, and every catacomb head in a building with a crypt has cause `crypt` and lies in the crypt; (e) when elaborated, every crypt room covers its ring and every chancel is reachable from the main entrance (T28-2) in all three forms, with choir flights wherever the lift exceeds `datum.maxSteps` risers; and a great temple laid with `top` `flat` (V02 §3.15.4's `stepped-temple` row, or its `tiers` op, V02 §4.6) has a plan holding storey −1 with its crypt room, entered from the door at `basementDoor(b)`, directly or through O2's one crypt join, and no level at or above the ground, and T28-1 holds, the `stepped_temple` row's `chapel` listed under `solidMonument` with no tier; (f) no plan derivation changes `Basement.crypt`; (g) with no building elaborated, the set of volume 4's crypt joins equals the set after elaborating every church (V04's T-V4-50 holds the same clause from the join's side), and every cathedral whose crypt ring lies over a catacomb element draws its join; (h) a crypt-only church whose crypt the rank caps keeps `Basement.ring` byte-identical, its capped bays planned as one `undercroft` room under the crypt's column grid, reached from the crypt through V03 §3.7.5's arch (O2's forced edge), and after the principal's area falls (or the church becomes the principal) its crypt ring re-grows to its step-2 ring and the undercroft is gone; (i) the crypt's step-1 seed region lies under the wings volume 2's `cryptSeedWings(b)` returns wherever it returns any — a ranged church's `chancel`, `apse` or `crossing` part and a stepped temple's tier 0 among them — and in the far third only where it returns none; on the `half` and `raised` rungs the derived crypt ring lies under those wings alone — on a cathedral fixture on a `low` plot whose chancel's inset is below its `cryptM2`, the crypt is reported short and lies under no nave; (j) on a walk-out `basement`-class church — fixtures: a church on a slope falling toward its chancel, its crypt longer than half the nave's axis, capped and uncapped — the outside door at `basementDoor(b)` shares no length with the crypt's vault, else the basement takes the reported `trapdoor` fallback; no outside door opens into the vault, which is entered from the church by its crypt stairs, and O2 joins the crypt to no other basement room but its capped bays' undercroft; every basement room is reached (T28-2); on a flat-topped great temple whose cellar draw gives a basement larger than its crypt, capped and uncapped, the crypt and every basement room are reached from the tomb door through exactly one crypt join; on the stepped great temple with a storeyed ground annex, its crypt seeded under the solid tier 0 — with a requested basement (`Basement.access` ≠ `external`; V02's T-V2-44, its *Basement access* clause) and with none (the basement then taking the ground wings' whole inset, never crypt-only) — the crypt is reached (T28-2) through exactly one crypt join from the room the annex's core or the trapdoor fallback enters, and no crypt its crypt stairs enter takes a crypt join; on a `flood` plot, the same temple's basement is the ground wings' whole inset in the `raised` form, the annex's ground storey clearing it by `crypt.clearCm` (V02's T-V2-36), its crypt reached through one crypt join; on a capped walk-out church with a cellar, no tree path joins the crypt or its undercroft to a cellar room, the undercroft reached from the crypt through V03 §3.7.5's arch; the door clause and the basement's extent run from M6-U on the eager records, the reach from P2 | model-level test and per plan |
 | T-V3-24 | buildings below ground: on §13.2's T12-1 fixture and a ruin-dwelling fixture, no window, stack or basement on an underground building; every hearth has a flue to an air access within `hearth.flueReachM` or is a reported brazier; no wall crosses a ruin column; every frontage entrance faces `tunnel` | per plan |
-| T-V3-25 | slots, halves and composer rooms: in the three-slot inn only the main slot holds the common room and the stable block holds its stable; the smithy's separate dwelling takes the `house` row; the split brewer's works holds a brewhouse and no taproom, its shop a taproom and no brewhouse, and a merge back onto one plot marks both plans stale; every composed `gatehall` and `towerRoom` resolves, and the court of a closed family is reached through the gate hall's arches; a rich manor whose occupants fall to the poor band has no `hall` or `solar` room and houses its units in the main range; a closed family whose composer omitted its gate hall (V02 §3.13 F-COMPOSE (3)) still has a `gatehall` with both arches, and an omitted `towerRoom` is still present on every storey its wing reaches; every composer room keeps the `rooms` rung's id, no two rooms of a level share an id, and a stored plan's re-cut that adds a room mints it above the level's highest id; every core and chimney id names its wing by key and survives the removal of another wing unchanged | the named fixtures |
+| T-V3-25 | slots, halves and composer rooms: in the three-slot inn only the main slot holds the common room and the stable block holds its stable; the smithy's separate dwelling takes the `house` row; the split brewer's works holds a brewhouse and no taproom, its shop a taproom and no brewhouse, and a merge back onto one plot marks both plans stale; every composed `gatehall` and `towerRoom` resolves, and the court of a closed family is reached through the gate hall's arches; a rich manor whose occupants fall to the poor band has no `hall` or `solar` room and houses at least three units — the `poor` row's least households per shell (§2.6's interior ladder) — in its main range; a closed family whose composer omitted its gate hall (V02 §3.13 F-COMPOSE (3)) still has a `gatehall` with both arches, and an omitted `towerRoom` is still present on every storey its wing reaches; every composer room keeps the `rooms` rung's id, no two rooms of a level share an id, and a stored plan's re-cut that adds a room mints it above the level's highest id; every core and chimney id names its wing by key and survives the removal of another wing unchanged | the named fixtures |
 | T-V3-26 | fill and vacancy: the rich shell with one household leaves no storey with spare capacity above the smallest fill target; the `squalid` tenement at capacity houses every household at `room` or better; the vacant house's plan has every room scope `service`, no unit and no furniture, labelled by role | the named fixtures |
 | T-V3-27 | tiers nest: every room lies inside the extent of a wing reaching its level; no room, anchor or head lies in a solid wing; each stacked wing's `floorCm` at `s₀` equals `deckLevel` of the wing it stands on within 1 cm, and each wing's storey heights sum to its storey run exactly; each storey's rooms tile the extents of the wings reaching it (the fourth rung); no crypt stair or head descends through a solid wing; the arena's basement is reached by a core in a storeyed range, never by an outside door, and the stepped temple's by the tomb door; on every stepped-temple fixture the shrine's top storey holds exactly one room, of role `chapel` | the stepped fixtures and the arena |
 | T-V3-28 | reach on a stack: every storeyed wing's rooms are reached from the root through cores, landing doors, terrace exits or terrace doors (T28-2); every `stairChain` flight whose head meets a storeyed wing has its landing door; no core bay lies outside the extent of a wing it serves; no entrance door stands more than `datum.maxSteps × riserCm` from its outside ground, the main entrance's stoop excepted and reported; on a solid stack with a stair chain the main entrance stands at stair 0's foot (§2.6 *Entrances* rule 5) with `storey` null and the plan's root is the first landing door; the sealed stack reports `W_TIER_UNREACHED` and nothing else fails | the stepped fixtures |
@@ -2500,9 +2628,11 @@ aborts, and F-PLAN's tier-6 flags are counted and reported per class.
 | T-V3-31 | decks: no basement, head or well in any deck building, the mole-head tower included; every deck building's level-0 floor equals its deck's `surfaceCm` within 1 cm; a ruined deck's buildings draw as V03 §5.1 states and a removed deck's draw nothing; `setAttr(basement)` on a deck shop bends to the nearest ground building with a basement request, named | the bridge-deck row, the jetty shed, the mole-head tower |
 | T-V3-32 | grade faces and the aqueduct's end: the vault building's grade face (`gradeFaces`, V04 §3.5.4 (f)) has its entrance and windows; no `tunnel` face lies on a grade face; every hearth has a face flue, an air-access flue or a brazier; removing the viaduct previews the stored plan's loss and undo restores it byte-identically; the conduit house holds a `cistern` and draws its inlet mark where the aqueduct ends within snap | the viaduct and aqueduct fixtures |
 | T-V3-33 | tier edits keep the author's rooms: on a stored terraced palace with a named room, a locked room and a placed item in tier 2, a `tiers` edit adding a storey to tier 0 keeps all three with their ids at their new levels; removing tier 2 lists them in the preview; each undo restores the plan byte-identically | B-EDIT |
-| T-V3-34 | item 110's no-op pin (item 110 (f)): with no stacked or solid wing, no `RetainingWall`, no deck plot and no raised way, and with `exposureAllStoreys` false, every B-PLAN and B-CITY-lite plan is byte-identical to the plan with this volume's item-110 paths (the level reading's stack cases, S5 (a), S6, V03 §3.4a, the exposure gates, `Entrance.storey`'s ground reading, V03 §3.7.2 (0), V03 §3.12 (9)) removed; with `exposureAllStoreys` true the only differences are windows and entrances on walls whose outside ground lies above their sill or outside the floor tolerance, each listed — the recorded realism change of J-V3.84; from M3a, before any plan exists, the same pin holds on the eager records V03 §8's PE builds: with `exposureAllStoreys` false every `Entrance.storey` is 0 where `ground(b)` exists and no entrance is dropped, and with no `RetainingWall` and no solid ground wing `basementDoor(b)` takes rule 3 only | B-PLAN, B-CITY-lite; from M3a, their eager records |
+| T-V3-34 | item 110's no-op pin (item 110 (f)), its first clause the `item110.*` `NoOpPin` over B-PLAN's and B-CITY-lite's plans, registered on V12 §3.7.8's engine by the P1 seat under the pins V12 §2.13 lists it (its off form V11 §3.24.0's, `exposureAllStoreys` false among it): with no stacked or solid wing, no `RetainingWall`, no deck plot and no raised way, and with `exposureAllStoreys` false, every B-PLAN and B-CITY-lite plan is byte-identical to the plan with this volume's item-110 paths (the level reading's stack cases, S5 (a), S6, V03 §3.4a, the exposure gates, `Entrance.storey`'s ground reading, V03 §3.7.2 (0), V03 §3.12 (9)) removed; with `exposureAllStoreys` true the only differences are windows and entrances on walls whose outside ground lies above their sill or outside the floor tolerance, each listed — the recorded realism change of J-V3.84; from M3a, before any plan exists, the same pin holds on the eager records V03 §8's PE builds: with `exposureAllStoreys` false every `Entrance.storey` is 0 where `ground(b)` exists and no entrance is dropped, and with no `RetainingWall` and no solid ground wing `basementDoor(b)` takes rule 3 only | B-PLAN, B-CITY-lite; from M3a, their eager records |
 | T-V3-35 | the B-PLAN calibration statistics (J-V3.118) — the bar V03 §2.4's register lines name as `bar.T-V3-35`, registered there as a V12 `BenchBarDef`; four clauses, each a share, in this order: (i) of the delivered rooms of every role whose area is not `ring`, the share whose area lies inside the role's [min, max] × the ladder row's `sizeFactor` (A3; the resolved row's override where one is set) — pass ≥ 0.90; (ii) of the households on the fixtures and on a household sweep from 1 to 80 % of each fixture's capacity, the share whose unit is built at its asked form (`PlanReport.units`, `built` = `asked`) — pass ≥ 0.95; (iii) of the cores of buildings on the `house`, `row_house` and `cottage` class rows and the families taking them, the share whose kind S4 dropped to `ladder` or `trapdoor` where the resolved row asked another kind — pass ≤ 1/90 (parity row (d′)'s target made a clause); (iv) Σ `PlanReport.furnitureSkipped` ÷ Σ F1's `n` over the furnished rooms — pass ≤ 0.10, −1 and left out of the verdict until P2 lands F1–F4; the verdict passes when every clause that applies passes (thresholds `own`) | B-PLAN's fixtures and B-CITY-lite, every building's plan derived by the `plan` query (V03 §4.6); at V3-P6's exit (tier `milestone`) |
-| T-V3-36 | edges at their limits (V03 §3.13; principle (11)): (a) a wing whose run is below one riser per storey is planned solid with `W_STOREY_RUN`, its rooms on other wings, every wing standing on it keeping its levels; a heights row with `G + (n − 1) × U` = 0 gives equal storeys; a basement under ground wings of different `baseCm` lies below the lowest; (b) a storey whose wings reach no level has no storey; a one-piece, one-target storey is that room; a seed piece a fixture's edited wing makes degenerate is left out, its targets re-allocated and reported, no other building re-derived; (c) a wing with no flat roof makes no terrace; a degenerate terrace face is roof; save, load, undo and redo of a stepped plan re-derive byte-identical terraces, a regenerate re-derives them with its plan, and a migrated document re-derives them at read equal to a fresh derivation (none is stored); (d) a stored plan with every migrate-cell absence reads its default; a head whose access was removed, furniture whose room was re-cut away and an opening whose wall is gone are re-derived or orphaned and reported; a table cell outside its type fails load (§7.6); (e) a wall shorter than a door and its jambs holds no door, a side with no bay no window, and a room with no wall long enough to a neighbour takes O5's strip or is tier 1, reported; (f) B-CITY-lite at THORP, HAMLET, VILLAGE, TOWN, CITY and the METROPOLIS cap, the village fixtures included, every building clicked: no plan aborts, T28-1 and T28-2 hold, a rung with no `always` building has no principal crypt and no trim, and the METROPOLIS view holds `view.planCap`; (g) furnishing with `n` = 0 places nothing, with `n` = 1 one glyph, on an empty free floor skips every item (counted), and a glyph with no `FurnitureRow` is skipped (counted); (h) an empty plan and a one-draw plan are byte-identical across two runs and across a whole derivation and a local re-derivation; (i) a re-cut whose prior room's seed piece became degenerate or vanished cuts it as new (unstored) or orphans it with its parts (stored), reported, and a kept opening whose wall is gone is removed, reported; (j) an underground building with no basement, with one grade face, in a chamber with none and with a grade face shorter than a door run holds windows and doors only on usable grade faces, its frontage entrance at its vertex; (k) an edit whose geometry the kernel refuses bends to the nearest lawful position or ring, named, and undoes byte-identically, and save, load, undo, redo, regenerate and migrate of each edit kind leave the plan byte-identical to a fresh derivation of the same log; (l) a warp that collapses a stored room's carried ring orphans the room with its parts, reported, the plan re-cut around the rest; (m) an absent, one-storey, empty and stale plan each show V03 §4.5's state, and a building smaller than the frame stop fills is framed inside `view.frameStops`; (n) `plan` on an empty plan returns no storeys, with a `storey` the plan lacks `noStorey`, and after an undo, redo, load or regenerate an answer equal to a fresh derivation's, writing nothing; (o) an empty plan's picture export is its outline with its heads and no storey sheet; (p) one concealed room merges into its neighbour and a wholly concealed storey draws as one public room at a public key; (q) an empty plan, a one-room plan and a building whose class has no row (the fallback, reported); (r) on the cliff-edge row no basement door opens over the drop (the trapdoor fallback or another side, reported) and no window lies below its ground; on the shore, moat-side and oasis fixtures no door opens onto water, no cellar stands on wet ground but an `always` crypt raised, and other churches there have ledger slabs; (s) a building at the frame's edge reads every sample inside the context margin, and an epoch's frame growth leaves every plan's outside digest unchanged (under the re-grid fallback the digests move and each plan goes stale or is re-cut) | the edge fixtures of B-PLAN, B-CITY-lite at every rung, B-EDIT sequences |
+| T-V3-36 | edges at their limits (V03 §3.13; principle (11)): (a) a wing whose run is below one riser per storey is planned solid with `W_STOREY_RUN`, its rooms on other wings, every wing standing on it keeping its levels; a heights row with `G + (n − 1) × U` = 0 gives equal storeys; a basement under ground wings of different `baseCm` lies below the lowest; (b) a storey whose wings reach no level has no storey; a one-piece, one-target storey is that room; a seed piece a fixture's edited wing makes degenerate is left out, its targets re-allocated and reported, no other building re-derived; (c) a wing with no flat roof makes no terrace; a degenerate terrace face is roof; save, load, undo and redo of a stepped plan re-derive byte-identical terraces, a regenerate re-derives them with its plan, and a migrated document re-derives them at read equal to a fresh derivation (none is stored); (d) a stored plan with every migrate-cell absence reads its default; a head whose access was removed, furniture whose room was re-cut away and an opening whose wall is gone are re-derived or orphaned and reported; a table cell outside its type fails load (§7.6); (e) a wall shorter than a door and its jambs holds no door, a side with no bay no window, and a room with no wall long enough to a neighbour takes O5's strip or is tier 1, reported; (f) B-CITY-lite at THORP, HAMLET, VILLAGE, TOWN, CITY and the METROPOLIS cap, the village fixtures included, every building clicked: no plan aborts, T28-1 and T28-2 hold, a rung with no `always` building has no principal crypt and no trim, and the METROPOLIS view holds `view.planCap`; (g) furnishing with `n` = 0 places nothing, with `n` = 1 one glyph, on an empty free floor skips every item (counted), and a glyph with no `FurnitureRow` is skipped (counted); (h) an empty plan and a one-draw plan are byte-identical across two runs and across a whole derivation and a local re-derivation; (i) a re-cut whose prior room's seed piece became degenerate or vanished cuts it as new (unstored) or orphans it with its parts (stored), reported, and a kept opening whose wall is gone is removed, reported; (j) an underground building with no basement, with one grade face, in a chamber with none and with a grade face shorter than a door run holds windows and doors only on usable grade faces, its frontage entrance at its vertex; (k) an edit whose geometry the kernel refuses bends to the nearest lawful position or ring, named, and undoes byte-identically, and save, load, undo, redo, regenerate and migrate of each edit kind leave the plan byte-identical to a fresh derivation of the same log; (l) a warp that collapses a stored room's carried ring orphans the room with its parts, reported, the plan re-cut around the rest; (m) an absent, one-storey, empty and stale plan each show V03 §4.5's state, and a building smaller than the frame stop fills is framed inside `view.frameStops`; a plan reporting each `PlanReport.warnings` code shows one panel line per entry under its `report.plan.<code>` key, every code of V03 §2.3's union having its line; (n) `plan` on an empty plan returns no storeys, with a `storey` the plan lacks `noStorey`, and after an undo, redo, load or regenerate an answer equal to a fresh derivation's, writing nothing; (o) an empty plan's picture export is its outline with its heads and no storey sheet; (p) one concealed room merges into its neighbour and a wholly concealed storey draws as one public room at a public key; (q) an empty plan, a one-room plan and a building whose class has no row (the fallback, reported); (r) on the cliff-edge row no basement door opens over the drop (the trapdoor fallback or another side, reported) and no window lies below its ground; on the shore, moat-side and oasis fixtures no door opens onto water, no cellar stands on wet ground but an `always` crypt raised, and other churches there have ledger slabs; (s) a building at the frame's edge reads every sample inside the context margin, and an epoch's frame growth leaves every plan's outside digest unchanged (under the re-grid fallback the digests move and each plan goes stale or is re-cut) | the edge fixtures of B-PLAN, B-CITY-lite at every rung, B-EDIT sequences |
+| T-V3-37 | the plan's one-time waits (item 119 (f)'s plan clauses; V03 §6), on §12.1's reference machine, five seeds per wait at every rung's top and at the metropolis cap, each timed from the click to the complete result: (a) a dossier change applied on a CITY document of B-EDIT's dossier fixtures (§13.2) given a stored plan on every building of its largest district, whose re-homing relets each of them by one household, so that every stored plan is re-cut inside the event; (b) every plan export of the tallest B-PLAN fixture (the terraced palace's eight storeys) — the SVG storey and all-storeys sheets, the PNG sheet at the export dialog's largest offered size, the `.dd2vtt` and Foundry scenes per storey — and the whole-document JSON, CityJSON and glTF `interiors` with the elaboration cache at its §12.8 cap; (c) a load migrating a document written before M6-U (every `always` and `basement` building's crypt re-derived) and one without `BaseWing.partName` — each within the comfort level (§12.1; T119-2); every such wait past one second shows V09 §4.21.9's progress within a second of the click, never an empty screen (T119-3); every plan step slower than its V03 §6 or §12.7 target has its `perf.qualitySpend` row with its recorded gain, none at shipping (T119-4); the click and a stale chain's derivation, the storey switch, `elaborate: 'view'`'s frame share, Find's room reading and a plan edit's preview hold their V03 §6 and §12 rows, none relaxed against the previous release (T119-5; V12 §3.15.9 (5)); an epoch's re-cuts are timed by volume 6's part of item 119 | §12.1's timing phase with V12 §3.15.9's wait timer (`wait.dossierChange`, `wait.export`, `wait.migrate`), nightly; clause (b) from P5, the rest from P6 |
+| T-V3-38 | Find at the interior band (item 120 (k)'s plan clauses; V03 §5.5), on B-PLAN's fixtures and B-CITY-lite's clicked buildings with chip sets of one to twelve chips: (a) the model digest, every stored plan, cache chunk and `PlanReport` and the saved bytes are identical with Find on and off, and Clear leaves every plan tile byte-identical; (b) `findRooms` returns exactly V03 §5.5 (1)'s set — a `smithy` chip on the smithy with a separate dwelling glows its work building's programme rooms and no room of the dwelling, whose outline alone carries the halo; the split brewer pair glows the brewhouse in the works and the taproom in the shop; a `church` chip on the cruciform church glows its programme's rooms and its crypt; a person's chip glows their unit's rooms; a custom service glows its sub-location's rooms; no `circulation` room glows for a use or a household; (c) at `public` a front's concealed use is offered as no chip and no concealed room glows, a merged room glowing only as its public reading, and at `secret` its A2 (6) rooms glow; (d) on a storey without the match's rooms the building's outline glows and the switcher marks exactly the storeys that hold them, each with its chip's glyph and its accessible name's count, and a building whose plan does not draw glows whole; (e) after a `relet`, a `setRoomRole`, a re-cut, an undo, a regenerate and a load the glowing set equals a fresh reading, and a chip set survives every storey switch and every stop of the building band; (f) an SVG storey sheet with Find on carries `plan.find` and the chips in its legend, with Find off equals the Find-less export byte for byte, and a `.dd2vtt` scene carries no Find unless asked, then in its image only; (g) at the METROPOLIS cap under `view.planCap` a chip's glow over the drawn plans lands within item 120 (j)'s 100 ms (V03 §6's Find row) | B-PLAN, B-CITY-lite and volume 9's app harness; at Find's landing (V03 §8) |
 
 **Parity against the reference that owns the subject (Dwellings; descriptive rows, research-side, never `baselines.json`
 rows — §13.5's note):** (a) *programme realisation* on the twelve footprints the Dwellings exports lane decoded, fed as
@@ -2533,7 +2663,7 @@ PLAUSIBLE, for the builder tier with a verifier seat.
 
 | milestone | content | exit (executed) | pw | depends on |
 |---|---|---|---|---|
-| **PE — the plan rung's eager facts** (J-V3.116) | built into the base within M2b and M3a, not the plan package: **at M2b**, `R(s)` in §2.6's *One capacity function*, with the cells `stair.ladder` and `stair.landingCm` shipped in the base's `roomProgram.json`; **at M3a**, in S11 with item 110 (a), (c) and §2.6 *Entrances* rule 5: `Entrance.storey` with its tolerance cells (`datum.maxSteps`, `stair.riserCm`) and `exposureAllStoreys`, rule 4's non-derivation and V03 §3.6's storey rule; the wall walk-out and `basementDoor(b)` with `doorRunPoint` (V03 §3.7.1) and the cells `moduleCm` and `door.mainCm`; `stackAccessDoor(b, a)` (V03 §3.7.2 (1)) on `moduleCm`; `basementDoor(b)`'s crypt clause is built at M6-U with the crypt derivation, inside its price, its first reading declared in M6-U's shift record (J-V3.125), its door clause of T-V3-23 (j) at M6-U's exit; and the pure readings they need — V03 §3.3's level reading (`ground(b)`) and storey heights (`floorCm`) and W2's outside-ground sample (V03 §3.6) — exported from `@plat/plots`, which P1 imports | at M2b: the capacity with `R(s)` on T28-13's ladder fixtures and the re-homing on an edit of `stair.ladder`, `stair.landingCm` or the `room` role's minimum (V03 §2.5's table row); at M3a: T-V3-30's entrance-storey and walk-out clauses (`basementDoor(b)` included), T-V3-22's `stackAccessDoor(b, a)` clause and T-V3-34, on the eager records of the terrace-wall sub-fixture, the two-street house, the stepped fixtures and B-CITY-lite; at each, the register check green over the cells it lands, on V12 §3.11's default line (V03 §2.4's register lines) | 0.75–1 (M2b 0.25; M3a 0.5–0.75), moved from P1 | the base's *One capacity function* (M2b); item 110 (a)'s `RetainingWall`s and levelling with volume 1's `stepProfile` and `levelledGroundCm`, item 110 (c)'s stacks through volume 2's M3a-V2 (`storeyRange`, `deckLevel`, `BaseWing.on`, `.solid`, `stairChain`) and *Entrances* rule 5 (M3a) |
+| **PE — the plan rung's eager facts** (J-V3.116) | built into the base within M2b and M3a, not the plan package: **at M2b**, `R(s)` in §2.6's *One capacity function*, with the cells `stair.ladder` and `stair.landingCm` shipped in the base's `roomProgram.json`; **at M3a**, in S11 with item 110 (a), (c) and §2.6 *Entrances* rule 5: `Entrance.storey` with its tolerance cells (`datum.maxSteps`, `stair.riserCm`) and `exposureAllStoreys`, rule 4's non-derivation and V03 §3.6's storey rule; the wall walk-out and `basementDoor(b)` with `doorRunPoint` (V03 §3.7.1) and the cells `moduleCm` and `door.mainCm`; `stackAccessDoor(b, a)` (V03 §3.7.2 (1)) on `moduleCm`; `basementDoor(b)`'s crypt clause is built at M6-U with the crypt derivation, inside its price, its first reading declared in M6-U's shift record (J-V3.125), its door clause of T-V3-23 (j) at M6-U's exit; and the pure readings they need — V03 §3.3's level reading (`ground(b)`) and storey heights (`floorCm`) and W2's outside-ground sample (V03 §3.6) — exported from `@plat/plots`, which P1 imports | at M2b: the capacity with `R(s)` on T28-13's ladder fixtures and the re-homing on an edit of `stair.ladder`, `stair.landingCm` or the `room` role's minimum (V03 §2.5's table row); at M3a: T-V3-30's entrance-storey and walk-out clauses (`basementDoor(b)` included), T-V3-22's `stackAccessDoor(b, a)` clause and T-V3-34, on the eager records of the terrace-wall sub-fixture, the two-street house, the stepped fixtures and B-CITY-lite; at each, the register check green over the cells it lands, on V12 §3.11's default line (V03 §2.4's register lines) | 0.75–1 (M2b 0.25; M3a 0.5–0.75), moved from P1 | the base's *One capacity function* (M2b); item 110 (a)'s `RetainingWall`s and levelling with §2.7's `stepProfile(wall)` (file f item 245) and `levelledGroundCm`, item 110 (c)'s stacks through volume 2's M3a-V2 (`storeyRange`, `deckLevel`, `BaseWing.on`, `.solid`, `stairChain`) and *Entrances* rule 5 (M3a) |
 | **P0 — B-PLAN spike** | the synthesis's first experiment (`dwellings-synthesis.md` §6): 24 fixtures, six classes, three bands; A1–A6 with the fit ladder, anchors, `bisect`, `follow`, `spine`, `hall_and_parlour`, O1–O5, F-PLAN; the Dwellings A/B of V03 §7 (a) on the research seat's translated fixture (J-V3.61) | V03 §7 (a)–(d′) measured; T28-1 – T28-4, T-V3-16, T-V3-17 green; V03 §6's per-storey row measured with its fallback decided | 1.5–2 | M4; the base's transient arena (§3.4; priced in §16's unpriced-mechanisms line), M2b's entrances and basements; the fixture file |
 | **P1 — the rung on any wings** | every pattern and `lodgings`; the per-piece rule and the cut machine on bent pieces; S1–S5, H1–H4, E1–E2; floor datums; W1–W4 on volume 2's façade bays (moved forward from its M6b, imported from `@plat/plots`, priced there; V03 §3.6 W2); every row of V03 §2.4 (role, class, family, slot, class-id, village, tables); `PlanReport`; the chain, the kept-room and kept-opening tests; **item 110** — the plan's uses of the level reading, `ground(b)` and the storey heights (their functions imported from PE), the storey run's limit, chain cores (S5 (a)), S6's joins, the roof terraces (V03 §3.4a), stacks through tiers, the window and door exposure gates, the basement door opened at `basementDoor(b)`, the stepped, `conduit_house` and `arena` rows (`Entrance.storey`, the wall walk-out, `basementDoor(b)` and `R(s)` are PE's); the composition clauses — A2 (11)'s composer rooms, W4's `DormerRow` counts, O1 (b)'s court door — run on composed wings from volume 2's M6 | T28-1 – T28-6, T28-13 – T28-17 (F-PLAN clause), T-V3-1 – T-V3-7, T-V3-9, T-V3-16 – T-V3-20, T-V3-25 – T-V3-29, the plan clauses of T-V3-30 and T-V3-34 and T-V3-36 (a)–(c), (e), (h), (q) on B-PLAN, T-V3-25's composer clauses from M6; the known-city click set; the register check green over the cells it lands, T-V3-35's `BenchBarDef` registered and the `area` column's entry restated (V03 §2.4's register lines) | 4–5.5 | P0, PE, M4; volume 2's item-110 fold (`storeyRange`, `deckLevel`, `stairChain`, `landingSide`) and façade bays; volume 2's composer (M6) for composed wings; volume 11's registry (class ids, families, `staff`, `split`, `HeightsRow`); item 110 (a)'s `RetainingWall` |
 | **P2 — basements, heads, the crypt, concealment, furnishing, below ground** | V03 §3.7 but the crypt's derivation (heads of every source, the secret head's room, the crypt's plan and columns, crypt stairs and choir flights, the crawl hatch, the core's join and the tomb door, O2's crypt join and closed vault, the deck rule; `stackAccessDoor(b, a)` is PE's); V03 §3.12 with its grade faces; the concealed sub-graph and V03 §5.4's merge; F1–F4 and the catalogue; and P3's parts that read these — `setAttr(basement)`'s underground preview and the crypt-only basement edit, the crypt-edit dry runs (V03 §3.7.4), the panel's ways down and crypt line, the room why's head causes and the `crypt` section (V03 §4.6), priced in P3's range. `Basement.crypt` with its seed, growth, rank and the stair-entered reading that sets the basement's extent (V03 §3.7.4) is built at M6-U (§2.6; volume 4's crypt derivation line) | T-V3-8, T-V3-10, T-V3-22 – T-V3-24, T-V3-31, T-V3-32, T-V3-11 (ii), (v), T-V3-12's crypt clauses, T-V3-36 (d), (g), (i), (j), (p), (r); the concealed-institutions row of the base's §5.3; T12-1's plan side; the register check green over the cells it lands (V03 §2.4) | 3–4.25 | P1; volume 4's access records (U-SYS, U-ACCESS, U-LINK, U-DIG) and item 64's, and its `archVault` chambers with `gradeFaces` (M6-U); volume 11's crypt column and rows; the crypt derivation and volume 2's lift (M6-U — the crypt's plan and T-V3-23's plan clauses run from that landing) and the deck gate |
@@ -2542,6 +2672,12 @@ PLAUSIBLE, for the builder tier with a verifier seat.
 | **P5 — exports** | the JSON block (with `terraces`, entrance storeys, flights, `inlet`), SVG and PNG with the all-storeys sheet, `.dd2vtt` and Foundry per storey (terraces, landing portals, linked flights, roof levels), CityJSON storeys at their true elevations, units and rooms, glTF interiors | T28-19, T-V3-13, T-V3-29's export clause, T-V3-36 (o) | 1.75–2.25 | P1, P4; §11's exporters (M3b) |
 | **P6 — content and tuning** | the role, class, family, use and catalogue rows and the unit floors tuned on B-PLAN and B-CITY-lite — never the `room` role's area (V03 §2.4's first register line: measured, never tuned) or a class row's poorest-band `circulation` (V03 §2.4's PE line), which §2.6's capacity reads; the soft bands; the owner's panel of twenty plans (six classes, three bands, a church with its crypt) side by side with Dwellings houses of like size — V12 §3.9.1's `PanelSpec` V3-P6 (DW 20), as V12 states it; under J122's sittings its build lands after M5, so the panel runs unrated, its bars "provisional — not rated" (§13.6 (7)), never blocking | §13.7's plan soft bands; T-V3-15; T-V3-35, which confirms V03 §2.4's `measure` entries or opens their fallback, no V03 entry left `provisional` past V3-P6 | 2–3 | P1–P5 |
 | **total** | | | **18.5–25.25** | |
+
+**Items 119 and 120** (J-V3.133, J-V3.134). T-V3-37 times the plan's share of the one-time waits at P5's exit (its
+exports' clause) and P6's (the rest) on V12 §3.15.9's wait timer, inside those milestones' prices. The plan's part of
+Find (V03 §5.5) — `findRooms`, the switcher's and the panel's marks and the SVG `plan.find` group — lands with the later
+of P5 and the milestone that lands Find (V09 §8), inside P4's and P5's prices (one pure reading over the plan's wall
+records, two marks and one SVG group), its exit T-V3-38.
 
 **Against the parity assessment.** docs/confidence/dwellings.md's capability matrix sums to 20.0 pw for
 Dwellings-alone parity (its rows A1–H2, D7 excluded). This volume builds none of rows B1 (ground-plan drafting, 0.8), B2
@@ -2669,7 +2805,7 @@ One row per decision; an amended row carries one mark naming the row that amends
 | J-V3.90 | Chose storey heights from the class's heights row — a principal first storey on every wing, a stacked tier's included, and upper storeys — scaled to sum to the wing's storey run below any parapet, over one mean height per wing, because volume 2 raises each tier from a ground and an upper storey height (J-V2.85) and a parapet is not a storey. |
 | J-V3.91 | Chose, on a solid stack, the main entrance at the stair's foot with no plan door and the plan rooted at the first landing door, and no level at or above the ground and no failure for a building with no storeyed wing, over a main door on the shrine, because rule 1 keeps the main entrance on the footprint and a solid stack has no storey there (§2.6 *Entrances* rule 5). *Amended by J-V3.117.* |
 | J-V3.92 | Chose to single-source the deck rule on volume 2's deck gate (every deck plot, landmarks included) and give a deck building no head and no well, over a landmark exemption, because volume 2 treats no deck — a mole included — as ground (J-V2.68); a cistern inside a mole fort would need J-V2.68 amended, and item 110 (d) names no such need. |
-| J-V3.93 | Chose to key the stepped programmes (`stepped_temple`, `terraced_palace`, `tiered_tower`) as specialisation rows under `'*'`, over rows under class ids, because volume 11 carries them as specialisation values of the classes whose culture and era build in tiers (V11 §3.6.2), not as class ids, so A1's rule (1) reaches them whatever class carries the specialisation. |
+| J-V3.93 | Chose to key the stepped programmes (`stepped_temple`, `terraced_palace`, `tiered_tower`) as specialisation rows under `'*'`, over rows under class ids, because volume 11 carries them as specialisation values of the classes whose culture builds in tiers (V11 §3.24.3), not as class ids, so A1's rule (1) reaches them whatever class carries the specialisation. |
 | J-V3.94 | Chose an `arena` row with an ambulatory by the `spine` pattern, cells and stores below, and a row cell `seatingExits` for the cores' exits onto the seating, over a class-name test or no way onto the seating, because tables carry behaviour (item 23) and an amphitheatre's stairs lead to its banks. |
 | J-V3.95 | Chose a `cistern` role in the conduit house and a derived inlet mark where an aqueduct ends at it, over a store and a workshop, because the aqueduct's end house holds water and generated aqueducts make it common. |
 | J-V3.96 | Chose no plan and no programme row for a ruin's stepped monument, over a `stepped-monument` programme row, because volume 4 keeps the monument as a chamber's record and never as a building (V02 §3.15.6; `Chamber.monument`), so the row would be read by nothing (the wiring rule). |
@@ -2709,6 +2845,9 @@ One row per decision; an amended row carries one mark naming the row that amends
 | J-V3.130 | Chose the crypt-edit dry runs at the crypt's owner (V03 §3.7.4) — a cathedral's crypt kept at its smallest lawful size, another crypt's enlargement bent to the rank's cap `crypt.rankShare` × the principal's area, the crypt join's closing listed among the fates, a dossier-bound crypt's removal refused — over keeping and announcing an author's removal of the cathedral's crypt and over a clamp "just short of" the cathedral's, because the owner's rule gives every cathedral a crypt, the largest in the town (J111), item 101 R2 bends an edit that cannot be done exactly to its nearest lawful form, the cap is the rank's own value (volume 11's cell, one number for the derivation and the edit), and the dossier is the sole immutable truth (§7.7); every other author's crypt edit stays as J-V3.47 keeps it, announced where it breaks a rule. |
 | J-V3.131 | Chose to treat a door side whose outside ground lies more than `datum.maxSteps × riserCm` below the basement's floor as no door side for `basementDoor(b)`'s rules 1 and 3, over a door opening onto a cliff's drop or a tall wall's foot, because an outside door must meet its ground by a stair or a few steps, as every other door of the plan must (V03 §3.6's exposure gate), and §2.6 step 3's trapdoor fallback still reaches the basement from inside; the realism tiebreaker agrees — no door hangs in a cliff face. |
 | J-V3.132 | Chose, under the owner's delegated answer to V03 §11's Q1 (J122), to land P3's parts that read P2's heads and crypt with P2, priced in P3's range, and P1's composition clauses with volume 2's M6, over holding all of P3 until P2, because the decided order runs P3 before P2 and those parts read heads and a crypt that exist only from P2 and M6-U, while the rest of P3 reads P1's plan alone. |
+| J-V3.133 | Chose to read item 119 at the plan rung (V03 §6) as V03 §6's rows and §12.7's plan row kept as the targets and the plan's share of each one-time wait — PE's eager facts inside S11's generation, the stored plans' re-cuts inside a dossier change or any event that moves their inputs, an epoch's re-cuts (timed by volume 6's part of the item), the plan exports and the plan's migration on load — inside §12.1's comfort level, with the click, a stale chain's derivation, the storey switch, `elaborate: 'view'`, Find's room reading and a plan edit's preview kept as interaction budgets, over timing a plan's elaboration on a click as a one-time wait, because a click on a building is click-to-inspect (item 119 (d)), the plan rung runs on no generation (§4.1), and the cache and the idle-frame chain keep it off the user's path, while the waits a user sits through once are the events and exports that carry plans. |
+| J-V3.134 | Chose to make Find's interior-band glow (item 120 (f)) the rooms a match uses in the plan as drawn — a use's programme rooms (origins `programme`, `sleepIn`, `subLocation` and `crypt`; on a shell housing no household its `declared`, `access` and `composer` rooms too), a sub-location's rooms, a household's unit, or every room for a match that is the building — one union outline per chip from the plan's wall records, the building's outline glowing and the switcher marking the storeys where the shown storey holds none, over glowing the whole footprint at every stop or every room of a matched building, because the owner's rule asks that "the rooms an institution uses glow", a smith's house and an inn's family rooms are its households' and not the institution's, and a match must never be lost (item 120 (e)); Find reads the drawn plan and never derives one, so a chip costs no derivation and no tile (item 120 (j)). |
+| J-V3.135 | Chose to key the class rows on §2.6's `BuildingClass` alone — `hall`, `keep`, `tower` and `mill` moved, cell for cell, to named rows in the same columns, reached only by name from the family, slot, class-id and specialisation rows, and `temple` dropped from the church row's key — over re-keying the four rows to classes (`castle`, `tower_house`, `watermill`) or folding them into the family table, because a template family is never a class (§2.6's `BuildingClass`; VAF-R0S-16), no building's class names them, several families, slots and classes take each whole, the family table lacks their `shared` column, and their poorest-band `circulation` stays a capacity cell on PE's register line; no building resolves differently — a great temple reaches its `cathedral` family row at A1 (3) as before, so the church row's `temple` key served no building. |
 
 ## 10 Base change requests
 
@@ -2793,7 +2932,10 @@ such churches (T-V3-23 (j) from M6-U); that a stoop of about fourteen risers rea
 visual bars); that the crypt clause fits inside M6-U's price for the crypt derivation; that the annex temple's crypt
 lies under no storeyed wing in the fixture as built (T-V3-23 (j) holds either way); that a flight laid inside the part of
 the vault a level-0 room stands over fits (V03 §3.7.6's kinds, then tier 6, flagged); that the closed vault leaves every cellar of a capped walk-out church
-reached (T-V3-23 (j), the core's bay and the trapdoor kept outside the vault); that the `half` rung's bound keeps the principal intact (T-V3-23 (b), (i) at M6-U). The historical readings
+reached (T-V3-23 (j), the core's bay and the trapdoor kept outside the vault); that the `half` rung's bound keeps the principal intact (T-V3-23 (b), (i) at M6-U); that the plan's share of each
+one-time wait stays inside item 119's comfort level — a district of stored plans re-cut in one dossier change, the
+largest plan export, a migration at the metropolis cap — until T-V3-37 runs; that `findRooms`'s set reads as where an
+institution is at the interior band, and its cost, until T-V3-38 and P4's visual bars run. The historical readings
 behind the rules (a shared stair hall giving each family its own door, a unit floor of 9–60 m², crypts entered from the
 nave, raised choirs over crypts on wet ground, ledger slabs in a church floor, hill-town houses entered from two streets,
 walk-outs at a terrace edge, arch-vault fronts bricked in with a door, windows and a flue, tomb doors at a stepped
@@ -2814,11 +2956,12 @@ each request another unit made of this one, with where it is closed.
 | to | the rule | status |
 |---|---|---|
 | V04 | the crypt join reads `Basement.crypt` and a dossier crypt record makes its church `always` (V03 §3.7.4); the chapel's catacomb head (V03 §2.4); `tunnel` frontages, `ruinColumns` and `gradeFaces` (V03 §3.12); the join set independent of elaboration (T-V3-23 (g)); the crypt derivation's content in its U4 line (V03 §8's PE) | closed at V04 §3.5.7 (c), V04 §2.3a, V04 §3.5.1 (9), V04 §3.5.0a, V04 §3.5.4 (f), T-V4-50 and V04 §8 |
-| V11 | the crypt column, `cryptM2`, `crypt.rankShare` and the compile bar between `always` and `basement` classes (V03 §3.7.4); `staff`, `split` and `HeightsRow.storeyCm` (V03 §3.2, V03 §3.3); the stepped forms as specialisation values (J-V3.93) | closed at V11 §2.3, V11 §2.8, V11 §3.5, V11 §3.6.2 — nothing owed |
+| V11 | the crypt column, `cryptM2`, `crypt.rankShare` and the compile bar between `always` and `basement` classes (V03 §3.7.4); `staff`, `split` and `HeightsRow.storeyCm` (V03 §3.2, V03 §3.3); the stepped forms as specialisation values (J-V3.93) | closed at V11 §2.3, V11 §2.8, V11 §3.5, V11 §3.24.3 — nothing owed |
 | V06 | the crypt re-derivation and rank inside epochs (V03 §3.7.4 (3)); the outside digest (V03 §2.5); vault buildings of an epoch-added raised way (V03 §3.12 (9)); the wing-relative re-match (V03 §3.11); the stair-entered reading on a wing change (V03 §2.5) | closed at V06 §3.18.3 (2)–(3) and its epoch rows |
 | V01 | crypts read from `Basement.crypt` (T-V1-47); the district-band click (V03 §4.5); the reserve and digest reading `basementDoor(b)` and `stackAccessDoor(b, a)`, and the door's move off a crypt's vault at M6-U (V03 §3.7.1, V03 §8) | closed at V01 §3.7.1, V01 §3.8.1, V01 §3.8.2 step 5, V01 §3.8.3 |
 | V02 | the basement door at `basementDoor(b)` (V03 §3.7.1); F-COMPOSE (3)'s omitted rooms (A2 (11)); the plan stack at `Chimney.levels[1]` (H4); the `tiers` op's orphan list (V03 §4.2); `bend.deck.basement` in its bend list; `facadeBays` built first (V03 §3.6 W2) | closed at V02 §3.13, V02 §5.2, V02 §4.6, V02 §1b and V02 §8 |
 | V09, V10 | the `room` provider and the `plan` and `crypt` sections (V03 §4.6); the panel, switcher and `roomNumbers` key (V03 §4.5); the `drawChamber` bend's crypt-ring edit and the tier and raised-way previews (V03 §4.2); the crypt-edit dry runs' words (V03 §3.7.4) | closed at V09 §4.17.5 and V10 §3.9, V10 §3.9a; the deck cause's one name is this volume's `deckNoCellar`, which V10's rows follow |
+| V09 | the family `report.plan.<code>` in V09 §4.9's family table — one key per `PlanReport.warnings` code, its `en` text V03 §4.5's; Find's `live.find` drawing V03 §5.5's rooms at the interior band, with the switcher's and the panel's marks (item 120) | the other end: V09 §4.9's family table; V09's Find panel and `live.find` |
 | V05, V07, V12 | `levelledGroundCm` read by W2 (V03 §3.6); a new village class's rows (J-V3.111, J-V3.112); the known-city click set (V03 §7) | closed at V05's reader list, V02 §3.10.5 and V12's fixtures (standing rules, nothing owed) |
 | the base (file f) | every request of V03 §10 at its section, with the notes of items 233, 235, 237, 238, 241, 242, 263, 305, 483, 505, 567, 568, 578 and 585 | closed at the base sections of V03 §10 |
 
@@ -2839,6 +2982,13 @@ each request another unit made of this one, with where it is closed.
 | V12 (X-V12-16) | `plat calibrate register --check` green at every exit that lands a calibratable cell | V03 §8's PE, P1, P2 and P6 exits |
 | V12 (X-V12-17) | each register command with the landing change's id (`M2b`, `M3a` for PE; `V3-P0` – `V3-P6`) and a column first compiled after M-CAL's record on `M-CAL/M6-P` | V03 §2.4's register lines; V03 §8 |
 | V12 (X-V12-18) | hand tuning at V3-P6 and its fallback recorded by `--defaults --milestone V3-P6`; rows added to a column take a rows-added cells row | V03 §2.4's register lines |
+| V02 (X30) | T-V3-25 carries the poor manor's three-units clause | T-V3-25 |
+| model (VAF-R0S-03) | `AccessHead` declared at §2.6 and cited here | V03 §2.1, V03 §1b, V03 §3.7.2 (1) |
+| model (VAF-R0S-16) | the class rows keyed on §2.6's `BuildingClass` alone | V03 §2.4's class and named rows (J-V3.135); T-V3-1 |
+| pipeline (VAF-R0S-20) | §4.5's discrete-cell rule cited | V03 §2.4, V03 §3.2 |
+| determinism (VDC0-11) | the plan edits' reach bend `bend.room.unreachable` | V03 §4.2; T-V3-11 (vi) |
+| V10 (VV34-07) | the notes keyed `info.plan.note.<id>` | V03 §4.6, V03 §2.3; T-V3-12 |
+| V11 (VAP-21), V12 | `exposureAllStoreys`'s preset entries false; T-V3-34's first clause the `item110.*` `NoOpPin` on V12 §3.7.8's engine | V03 §2.4; T-V3-34 |
 
 ## Integration notes
 

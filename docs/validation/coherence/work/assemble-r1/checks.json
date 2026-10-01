@@ -1,0 +1,374 @@
+{
+ "corpus_fingerprint_before": [
+  "b2f7e5c5fd256d59a6829f63160cd2ba862d72df1cca093422aab86ec2296e42",
+  128
+ ],
+ "allow": "docs/validation/doc-checks-allow.tsv",
+ "runs": {
+  "untouched-a": {
+   "doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE.md",
+   "sha256": "484af066f0115b1d19ba3a44af4388c9e069e90eb7630ad6ee218476c9b59173",
+   "keys": 34,
+   "key_list": [
+    "ARCHITECTURE",
+    "The whole design",
+    "0",
+    "PART I",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "PART II",
+    "II.1",
+    "II.2",
+    "II.3",
+    "II.4",
+    "II.5",
+    "II.6",
+    "II.7",
+    "PART III",
+    "Delegated decisions",
+    "Judgment calls",
+    "Staged",
+    "Appendix A"
+   ],
+   "exit": 0,
+   "counts": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     1,
+     0
+    ],
+    "C3": [
+     3116,
+     0
+    ],
+    "C4": [
+     8,
+     0
+    ],
+    "S1": [
+     0,
+     0
+    ],
+    "S2": [
+     139,
+     0
+    ]
+   },
+   "header": "doc=/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE.md sections=ARCHITECTURE,The whole design,0,PART I,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,PART II,II.1,II.2,II.3,II.4,II.5,II.6,II.7,PART III,Delegated decisions,Judgment calls,Staged,Appendix A identifiers=36 colours=62 colour_files=102 json_files=6 c3_corpus_3grams=426823 c4_lists=148",
+   "warning": [
+    "WARNING: reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze"
+   ],
+   "not_found": []
+  },
+  "untouched-b": {
+   "doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE.md",
+   "sha256": "484af066f0115b1d19ba3a44af4388c9e069e90eb7630ad6ee218476c9b59173",
+   "keys": 8,
+   "key_list": [
+    "ARCHITECTURE",
+    "PART I",
+    "PART II",
+    "PART III",
+    "Delegated decisions",
+    "Judgment calls",
+    "Staged",
+    "Appendix A"
+   ],
+   "exit": 0,
+   "counts": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     1,
+     0
+    ],
+    "C3": [
+     1614,
+     0
+    ],
+    "C4": [
+     4,
+     0
+    ],
+    "S1": [
+     0,
+     0
+    ],
+    "S2": [
+     139,
+     0
+    ]
+   },
+   "header": "doc=/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE.md sections=ARCHITECTURE,PART I,PART II,PART III,Delegated decisions,Judgment calls,Staged,Appendix A identifiers=36 colours=62 colour_files=102 json_files=6 c3_corpus_3grams=426823 c4_lists=148",
+   "warning": [
+    "WARNING: reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze"
+   ],
+   "not_found": []
+  },
+  "new-a": {
+   "doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/out/docs/ARCHITECTURE.md",
+   "sha256": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+   "keys": 34,
+   "key_list": [
+    "ARCHITECTURE",
+    "The whole design",
+    "0",
+    "PART I",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "PART II",
+    "II.1",
+    "II.2",
+    "II.3",
+    "II.4",
+    "II.5",
+    "II.6",
+    "II.7",
+    "PART III",
+    "Delegated decisions",
+    "Judgment calls",
+    "Staged",
+    "Appendix A"
+   ],
+   "exit": 0,
+   "counts": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     1,
+     0
+    ],
+    "C3": [
+     3202,
+     0
+    ],
+    "C4": [
+     12,
+     0
+    ],
+    "S1": [
+     0,
+     0
+    ],
+    "S2": [
+     183,
+     0
+    ]
+   },
+   "header": "doc=/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/out/docs/ARCHITECTURE.md sections=ARCHITECTURE,The whole design,0,PART I,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,PART II,II.1,II.2,II.3,II.4,II.5,II.6,II.7,PART III,Delegated decisions,Judgment calls,Staged,Appendix A identifiers=36 colours=118 colour_files=102 json_files=6 c3_corpus_3grams=426823 c4_lists=148",
+   "warning": [
+    "WARNING: reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze"
+   ],
+   "not_found": []
+  },
+  "new-b": {
+   "doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/out/docs/ARCHITECTURE.md",
+   "sha256": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+   "keys": 8,
+   "key_list": [
+    "ARCHITECTURE",
+    "PART I",
+    "PART II",
+    "PART III",
+    "Delegated decisions",
+    "Judgment calls",
+    "Staged",
+    "Appendix A"
+   ],
+   "exit": 0,
+   "counts": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     1,
+     0
+    ],
+    "C3": [
+     1657,
+     0
+    ],
+    "C4": [
+     6,
+     0
+    ],
+    "S1": [
+     0,
+     0
+    ],
+    "S2": [
+     183,
+     0
+    ]
+   },
+   "header": "doc=/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/out/docs/ARCHITECTURE.md sections=ARCHITECTURE,PART I,PART II,PART III,Delegated decisions,Judgment calls,Staged,Appendix A identifiers=36 colours=118 colour_files=102 json_files=6 c3_corpus_3grams=426823 c4_lists=148",
+   "warning": [
+    "WARNING: reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze"
+   ],
+   "not_found": []
+  },
+  "combined-a": {
+   "doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/final/docs/ARCHITECTURE.md",
+   "sha256": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+   "keys": 34,
+   "key_list": [
+    "ARCHITECTURE",
+    "The whole design",
+    "0",
+    "PART I",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "PART II",
+    "II.1",
+    "II.2",
+    "II.3",
+    "II.4",
+    "II.5",
+    "II.6",
+    "II.7",
+    "PART III",
+    "Delegated decisions",
+    "Judgment calls",
+    "Staged",
+    "Appendix A"
+   ],
+   "exit": 0,
+   "counts": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     1,
+     0
+    ],
+    "C3": [
+     3202,
+     0
+    ],
+    "C4": [
+     12,
+     0
+    ],
+    "S1": [
+     0,
+     0
+    ],
+    "S2": [
+     183,
+     0
+    ]
+   },
+   "header": "doc=/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/final/docs/ARCHITECTURE.md sections=ARCHITECTURE,The whole design,0,PART I,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,PART II,II.1,II.2,II.3,II.4,II.5,II.6,II.7,PART III,Delegated decisions,Judgment calls,Staged,Appendix A identifiers=36 colours=118 colour_files=102 json_files=6 c3_corpus_3grams=426823 c4_lists=148",
+   "warning": [
+    "WARNING: reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze"
+   ],
+   "not_found": []
+  },
+  "combined-b": {
+   "doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/final/docs/ARCHITECTURE.md",
+   "sha256": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+   "keys": 8,
+   "key_list": [
+    "ARCHITECTURE",
+    "PART I",
+    "PART II",
+    "PART III",
+    "Delegated decisions",
+    "Judgment calls",
+    "Staged",
+    "Appendix A"
+   ],
+   "exit": 0,
+   "counts": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     1,
+     0
+    ],
+    "C3": [
+     1657,
+     0
+    ],
+    "C4": [
+     6,
+     0
+    ],
+    "S1": [
+     0,
+     0
+    ],
+    "S2": [
+     183,
+     0
+    ]
+   },
+   "header": "doc=/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/final/docs/ARCHITECTURE.md sections=ARCHITECTURE,PART I,PART II,PART III,Delegated decisions,Judgment calls,Staged,Appendix A identifiers=36 colours=118 colour_files=102 json_files=6 c3_corpus_3grams=426823 c4_lists=148",
+   "warning": [
+    "WARNING: reference corpus INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze"
+   ],
+   "not_found": []
+  }
+ },
+ "corpus_fingerprint_after": [
+  "b2f7e5c5fd256d59a6829f63160cd2ba862d72df1cca093422aab86ec2296e42",
+  128
+ ],
+ "one_snapshot": true
+}

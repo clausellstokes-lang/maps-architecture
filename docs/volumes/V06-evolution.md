@@ -5,9 +5,9 @@
 **How to read this volume.** It builds, to implementation depth, the evolution engine the base (`docs/ARCHITECTURE.md`,
 with files f and g applied: `docs/AMENDMENTS-2026-09-28f.md`, `docs/AMENDMENTS-2026-09-28g.md`) carries at hook depth in
 §4.11. The implementer holds the base and this volume and nothing else (§17.1). Every fact the base or another volume
-states is cited, never restated; every new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's;
-`Vnn §n` is a design volume's section, this one included (`V06 §3.2`); a list after a volume prefix stays in that volume
-(`V04 §3.5, §3.10` is two sections of volume 4); `item n` is an amendment item — items 1–116 the owner's, items 200 and
+states is cited, never restated; every new fact is stated once, here. **Citations** (canon S7): a bare `§n` or `II.n` is
+always the base's; a design volume's section always carries its prefix, `Vnn §n` — this one's included (`V06 §3.2`), and in
+a list too (`V04 §3.5, V04 §3.10`); `item n` is an amendment item — items 1–119 the owner's, items 200 and
 above file f's, each the applied text of a volume's base change request (V06 §10 lists this volume's); `J-VI.n` is a
 volumes-integration decision (`docs/volumes/_integrate.md`), cited and never restated. Decisions are `J-V6.n` (V06 §9),
 tests `T-V6-n` (V06 §7), wiring rows `Wn` (V06 §1b; another unit writes `V06 Wn`).
@@ -27,7 +27,8 @@ shrinks it to what it is today. What it is today matches the campaign exactly; w
 houses, a church too big for its congregation, street lines kept as field tracks, ruins on the surface or — after a
 century — buried underneath. A place destroyed outright is refounded on its own ruins, reusing the old roads and gate
 gaps. Every step is recorded, so the map can tell the story ("the walls were built when this was a city of twelve
-thousand"), and the whole replay takes seconds for a town and under a minute for a metropolis, with a progress bar.
+thousand"), and the whole replay, with the town built at its start, finishes within ten seconds at any size — in steps
+longer than a decade where a long history needs them, the steps it took reported — with a progress bar.
 
 **When the town grows**, it fills itself before it spreads: empty houses are taken first, ruins are repaired or rebuilt
 on their old foundations, gaps along the old streets are built up, and only when the old plan is full does a new ring of
@@ -108,7 +109,8 @@ stood there then, down to the lane given up or the wall stretch pulled down in t
 event you can inspect ("why did this inn move?", "when did this wall come down?" — the answer is kept with the map, so it
 survives saving and reloading), undo while it is the latest thing that happened, or branch from ("what if the town had
 grown instead?"). Before you advance, the card shows you where the town will end up and how many houses it gains or
-loses. Anything the history does, you can also do by hand, and anything you lock or pin, the history leaves alone.
+loses; an advance of any length finishes within ten seconds, in longer steps where it must, and says how long its steps
+were. Anything the history does, you can also do by hand, and anything you lock or pin, the history leaves alone.
 
 ## 1 Scope, the base hooks consumed, and what is out of scope
 
@@ -116,16 +118,16 @@ loses. Anything the history does, you can also do by hand, and anything you lock
 
 The **evolution engine** — the owner-staged strategy behind §4.11's `EvolutionStrategy` slot — at build depth:
 1. **The epoch runner's phase contract** and the engine's phases in the base's epoch order (a)–(j), with the prelude and
-   the hazard, fortification and terrain-and-water phases placed in it (V06 §3.1–§3.2; file f item 317).
+   the hazard, fortification and terrain-and-water phases placed in it (V06 §3.1–V06 §3.2; file f item 317).
 2. **Epoch inputs**: the dossier-bound cadence (the port's, §4.11 *The clock* (4)), the standalone **trajectory** that
    expands an "advance time" request into dated epochs, the circumstance events (`EpochInputs.events`) as typed hazard
    rows, the town wealth level over time (file f item 343) (V06 §3.3).
 3. **Growth**: the growth quantum, crowding before sprawl, the new stage's regime, the decision to build a new enceinte,
    the absorption of suburbs, the obsolete-wall pathway (gates to junctions, stretches dismantled, the ring road of
-   `wallToWay` or the absorbed wall of `absorbWall`) (V06 §3.6–§3.7).
+   `wallToWay` or the absorbed wall of `absorbWall`) (V06 §3.6–V06 §3.7).
 4. **Decline**: the departure matching that turns the roster's suffix into vacated dwellings, the per-layer candidates of
    the strike pool (building, plot boundary, street, wall), the shorter wall ring (`contractWall`)'s trigger and trace
-   (V06 §3.5, §3.7).
+   (V06 §3.5, V06 §3.7).
 5. **Regrowth**: the ordering inside each tier of the base's regrowth-first order, the re-upgrade of downgraded ways, the
    crowding tier, the overflow ladder that never leaves a household unhoused (V06 §3.8).
 6. **Uses that move** (item 17) with the siting rulebook of item 103 and its coverage rows (f), and custom content over
@@ -140,8 +142,9 @@ The **evolution engine** — the owner-staged strategy behind §4.11's `Evolutio
 11. **Works scheduling** (item 67): start weeks, ordering on one target, part programmes, retirement (V06 §3.13).
 12. **People over time**: ageing and the derived succession of household members (§10.3; V06 §3.14).
 13. **The history record, replay and time scrubbing**: the epoch report and chronicle, the history index, history frames,
-    the timeline bar, then-and-now, forks, the animated export (V06 §3.15, §5).
-14. **Budgets** for an epoch and a century per rung (V06 §6).
+    the timeline bar, then-and-now, forks, the animated export (V06 §3.15, V06 §5).
+14. **Budgets** — the targets for an epoch and a century per rung, and the ten-second comfort level that `advance` and the
+    history replay each keep in total by one estimate that coarsens their cadence (item 119 (a), (a2); V06 §6).
 15. **The hinterland over epochs** (item 26): fields follow the food demand, a fallow ladder in decline and its reversal
     in regrowth (V06 §3.5.3).
 16. **Editing the past**: forks and the re-run of a history from an earlier point, dossier events included (V06 §4.4);
@@ -165,14 +168,14 @@ The **evolution engine** — the owner-staged strategy behind §4.11's `Evolutio
     ratchet, the primary complex and stagnation; crypts under churches — the cathedral's crypt the largest at every epoch,
     and the crypt join (V06 §3.18).
 23. **Households between the steps of an epoch**: the typed displaced pool and demand reservations, and the underground
-    crowding hook before the growth decision (V06 §2.1, §3.6, V06 §3.8.1).
+    crowding hook before the growth decision (V06 §2.1, V06 §3.6, V06 §3.8.1).
 24. **The base hooks left for the engine**: `raiseGrade` after a great fire or flood, and passages sealed and reopened by
     decline and regrowth (V06 §3.11.6, V06 §3.5.2).
 25. **Item 110 over epochs**: the `raisedWays` step that founds viaducts, elevated roads and aqueducts at a CITY or
     METROPOLIS epoch where a reason arises, by one fixed uniform per reason key, within the rung's caps, the displaced
     re-housed in the same epoch; a user's removal of a generated one held as a suppressed reason key; raised ways in
     disuse, decline and repair; retaining walls and deck plots over epochs; walls, hazards, participants and the dossier
-    where they meet these (V06 §3.19, V06 §3.7.6 (5), §3.11, §3.2).
+    where they meet these (V06 §3.19, V06 §3.7.6 (5), V06 §3.11, V06 §3.2).
 26. **The history replay at generation** (item 113): the engine's side of §4.11's history-first generation — the replay
     plan of coarse epochs, the event-to-epoch mapping, the generation budget with lazy detail, destruction and refounding
     run as epochs, and the replay record the report and the clerk read (V06 §3.20).
@@ -193,7 +196,7 @@ The **evolution engine** — the owner-staged strategy behind §4.11's `Evolutio
 | regrowth-first siting order (0)–(6) | §4.11 | the siting phase's order inside each tier (V06 §3.8) |
 | `ConversionOp` with `LadderOp`, `DeclineOp`, `UseConversionOp`, `TerrainWaterOp`, `HiddenOp`, `EvolveOp` | §4.11 (file f item 209) | every change the engine makes is one of these |
 | the use step, `Use`, `UseRuleRow`, *Dossier content across epochs* | §4.11, §2.7, §10.2 (file f item 429) | the use phase (V06 §3.9) |
-| the epoch-spread mutation, §4.7 S11's `MutationRecord` | §4.11, §4.7 (file f items 264, 266) | `MutationPlan` (V06 §2.5, §3.10) |
+| the epoch-spread mutation, §4.7 S11's `MutationRecord` | §4.11, §4.7 (file f items 264, 266) | `MutationPlan` (V06 §2.5, V06 §3.10) |
 | the terrain-water kinds and trigger rows; the oxbow; `WaterBody.spring` | §4.11, §2.3 (file f item 206; item 111) | candidate evaluation, the oxbow, springs over epochs (V06 §3.12) |
 | Works, `WorksTable`, the week, the calendar row, `stageAt`, `heightsAt`, the retain window | §4.11, §2.7 (file f item 321) | Works scheduling (V06 §3.13) |
 | `wallToWay`, `gateToJunction`, `contractWall`, `Enceinte.supersededBy`, S5a's trace, `EnceinteStrategy`, `Enceinte.pathway`, `Enceinte.condition` | §4.11, §2.7, §4.4 (file f items 254, 575) | the fortification phase (V06 §3.7) |
@@ -203,15 +206,16 @@ The **evolution engine** — the owner-staged strategy behind §4.11's `Evolutio
 | the undo record, independence, groups, checkpoints, replay mode | §7.4, §7.3 | the `advance` group, history frames (V06 §4, V06 §3.15) |
 | the `week` view key, the scrub rule | §2.9, §4.11 *Works* (9) | the timeline bar (V06 §3.15) |
 | the prosperity field, its drivers (item 102's daylight share, item 111's water term), S12c's character step | §4.5 | re-evaluated each epoch; the building shade mask (V06 §3.4); the spring's flow (V06 §3.12.1) |
-| items 103–108's base mechanisms (siting profiles and coverage, custom content, the supply web, barrier closure, balance, ladders); their rows V11's | §4.7 S10a/S10b, §4.4 S5a, §4.8, §7.7, §10.2 | their epoch halves (V06 §3.7.6, §3.9) |
-| item 109's ruin system, caverns, optional access, catacombs and crypts; their build depth V04's, V02's and V03's | II.7.3, II.7.5, II.7.6; V04 §2.2–§2.3, §3.5, §3.10 | the underground over epochs (V06 §3.18) |
-| `Features.sewers` and the TOWN law; the crowding hook; `raiseGrade`; `sealPassage` / `openPassage` | II.7.1, II.7.3 (c), II.7.6, §4.11 *Hidden plots over epochs* (file f items 550, 574) | the prelude, the crowding hook, the two conversions (V06 §3.2, §3.6, V06 §3.11.6, V06 §3.5.2) |
+| items 103–108's base mechanisms (siting profiles and coverage, custom content, the supply web, barrier closure, balance, ladders); their rows V11's | §4.7 S10a/S10b, §4.4 S5a, §4.8, §7.7, §10.2 | their epoch halves (V06 §3.7.6, V06 §3.9) |
+| item 109's ruin system, caverns, optional access, catacombs and crypts; their build depth V04's, V02's and V03's | II.7.3, II.7.5, II.7.6; V04 §2.2–V04 §2.3, V04 §3.5, V04 §3.10 | the underground over epochs (V06 §3.18) |
+| `Features.sewers` and the TOWN law; the crowding hook; `raiseGrade`; `sealPassage` / `openPassage` | II.7.1, II.7.3 (c), II.7.6, §4.11 *Hidden plots over epochs* (file f items 550, 574) | the prelude, the crowding hook, the two conversions (V06 §3.2, V06 §3.6, V06 §3.11.6, V06 §3.5.2) |
 | item 110's base half — the raised way, its supports and spans, the course solver, the hand operator, `RetainingWall`, S10–S11's levelling, deck plots | §2.7, §4.3, §4.5, §4.7 S10–S11, §4.8, §5.3 (file f items 244–246, 290, 291) | the `raisedWays` step and the pool's raised, retaining and deck kinds (V06 §3.19) |
 | history-first generation, the history rows, the replay's record | §4.11, §7.7 DR36–DR39, II.7.6, §6.1 (item 113) | the replay engine (V06 §3.20) |
 | the rebase point `Base`, the upgrade's per-epoch diff | §2.9, §7.4, §7.5 | history across a rebase and an upgrade (V06 §3.15.5) |
 | people: `derivePerson`, the key with its birth epoch | §10.3 (file f item 443) | lifespan and succession (V06 §3.14) |
 | §5's no-whole-map-retry rule, the work limits, the report | §5.1, §5.4 (file f item 339) | the epoch's failure ladder and report (V06 §3.17) |
-| the other volumes' epoch functions: `IslandEpochStep` (V05 §3.15); V04's `UndergroundFade`, `Foundations.apply`, `ArchVaults.reconcile`, `SewerStrategy.derive` / `.extend`, `CatacombGrowth.grow`, `QuarryWorkings.extend`, `AccessPass.run`, `UndercityEpoch.reread` (V04 §1b.2, §3.10); S7c and S9b through `hood.fabric` (V01 §3.3.6, V01 §3.5.11); V07's `village.plan`, `village.density`, `village.pins`, `village.records` (V07 §3.12) | the other volumes | the participants of V06 §3.2's table; V02's W10 is no participant — its steps run through S11's mutator from the ladder's `MutationPlan` steps (V06 §3.10) |
+| §12's targets and its ten-second comfort level for one-time waits, the progress rule, the measured-gain rule | §12 (item 119 (a)–(f); the owner's "Total" for long runs of time, item 119 (a2)) | the targets of V06 §6.1–V06 §6.7; the comfort estimate that coarsens an `advance`'s cadence and the replay's epoch length (V06 §6.8) |
+| the other volumes' epoch functions: `IslandEpochStep` (V05 §3.15); V04's `UndergroundFade`, `Foundations.apply`, `ArchVaults.reconcile`, `SewerStrategy.derive` / `.extend`, `CatacombGrowth.grow`, `QuarryWorkings.extend`, `AccessPass.run`, `UndercityEpoch.reread` (V04 §1b.2, V04 §3.10); S7c and S9b through `hood.fabric` (V01 §3.3.6, V01 §3.5.11); V07's `village.plan`, `village.density`, `village.pins`, `village.records` (V07 §3.12) | the other volumes | the participants of V06 §3.2's table; V02's W10 is no participant — its steps run through S11's mutator from the ladder's `MutationPlan` steps (V06 §3.10) |
 | the village product's `ProductDecl`, its rung path and the product fold with its hand-off band | V07 §2.1, V07 §3.12 (file f items 202, 322) | the epoch's product and rung (V06 §3.1) |
 | the explanation interface `WhyProvider` | V10 §2.13 (file f item 270) | this volume's providers (V06 §4.5) |
 
@@ -221,7 +225,7 @@ The **evolution engine** — the owner-staged strategy behind §4.11's `Evolutio
   volume 5's (`IslandEpochStep`, V05 §3.15). This volume calls it at its step and reads the island shade the base's
   sampler computes (item 102 (b)).
 * **The underground's fade, extension and undercity re-read** — volume 4's (V04 §3.10), called at their steps; so are
-  V04's access pass, catacomb growth, the ruin plan, the dig, opening and overlap rules and their tables (V04 §2.3, §3.5),
+  V04's access pass, catacomb growth, the ruin plan, the dig, opening and overlap rules and their tables (V04 §2.3, V04 §3.5),
   the buried former-town ruins and the `lost` access state (item 113 (c), (e); V04). This volume schedules them over
   epochs, supplies the epoch's scope, cap and cause, and owns only the timeline rules of V06 §3.18 (when a draw happens,
   what binds across epochs, what an epoch outcome records).
@@ -263,18 +267,18 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | # | new piece (home) | fed by (producer) | feeds (consumers) | base hook |
 |---|---|---|---|---|
 | W1 | `HistoryEngine`, the `'history'` `EvolutionStrategy` (V06 §3.1) | the epoch runner of `@plat/edit`'s fold, at an `epoch` event's log position | the phase list W2; the batches of the epoch event | §4.11 `EvolutionStrategy`, §4.12 registry (file f item 317) |
-| W2 | `EpochPhase`, `EpochContext`, `EpochOps` (V06 §2.1, §3.2); `ProductEpochContext`, the part a product's phases, participants and records placement read | W1; before M6-E, M4's grow path fills `ProductEpochContext` at file f item 202's call points | the runner, which commits each phase's ops as batches in phase order; a product's phases and participants (V07's `village.*`) on either path | §3.3's batches; §7.4's epoch row; §4.11's grow path (item 202) |
-| W3 | `EpochParticipant` registrations (V06 §2.1, §3.2's participant table) | `@plat/sky`: `sky.islands` (V05 §3.15), `sky.clearance`; `@plat/hood`: `hood.fabric` (V01's S7c on the districts the epoch made outside S7b, S9b on the blocks in `EpochScope.recut`); `@plat/evolve`'s thin adapters: `under.fade` (V04's `UndergroundFade.candidates` / `.apply`), `under.extend` (in V04 §3.10's order: `Foundations.apply` over the epoch's scope, `ArchVaults.reconcile` over `scope.raised`, `SewerStrategy.derive` at the first sewers epoch else `.extend` with its wall drops, `CatacombGrowth.grow` under V06 §3.18.2, `QuarryWorkings.extend`, V04's maintenance mode at a village rung), `under.access` (`AccessPass.run`, V06 §3.18.1), `under.undercity` (`UndercityEpoch.reread` and U-FRONT F6's void dwellings, V06 §3.18.1 (4)); `@plat/village`: `village.plan`, `village.density`, `village.pins` (V07 §2.1, V07 §3.12), each run at every epoch and gating itself by V06 §3.2's scopes; each registration carries the `stage` V06 §3.16 names (`SKY`, `S9b`, `U-FADE`, `VS1`, `VS2`, `VS8`) | W2 at the steps `afterField`, `decline`, `afterGrowth` in (order, id) order | §4.12's `StrategyRegistry` |
-| W4 | `Trajectory` and the `advance` request (V06 §2.3, V06 §3.3.2, §4.1) | T1 `intend`'s time card (the app), the clerk's `advance` tool (§11.2), the CLI | `epoch` events appended one at a time in one `group`, each with its `EpochInputs` | §11.2's facade, §14's T1 row (file f item 458); §7.7's circumstance timeline |
-| W5 | `HazardRow`, the calamity table `tables/evolution.json#calamities` and the typed reading of `EpochInputs.events` (V06 §2.4, §3.11) | timeline entries and `advance` (standalone); the dossier's calamity records the port carries (V08 §3.6), mapped by the calamity table (DR28); the spontaneous hazard draw (V06 §3.11.1, standalone only); the replay's mapped history events (W85) | the hazard phase's `burn`, `inundate`, `topple` ops and the F5 targets struck in place; `raiseGrade` (W49); a calamity's `deaths` into the catacomb need (W48); the chronicle W19 | §4.11 `EpochInputs.events` (file f item 573); rung 3's destructive circumstance event; §7.7 F5 |
-| W6 | `BuildingShadeMask` (V06 §2.6, §3.4) | the field phase at each epoch, from the buildings standing when it runs (after this epoch's hazards), per wing, on the ground arena and on every island arena | §4.5's daylight driver (item 102) as its building casters — the field, the due marks, S10b's sunlit preference, the character step; V09's shade map view; V10's "why is this quarter poor" | item 102 (b), (e); §2.9's `fields` chunk (file f item 275) |
+| W2 | `EpochPhase`, `EpochContext`, `EpochOps` (V06 §2.1, V06 §3.2); `ProductEpochContext`, the part a product's phases, participants and records placement read | W1; before M6-E, M4's grow path fills `ProductEpochContext` at file f item 202's call points | the runner, which commits each phase's ops as batches in phase order; a product's phases and participants (V07's `village.*`) on either path | §3.3's batches; §7.4's epoch row; §4.11's grow path (item 202) |
+| W3 | `EpochParticipant` registrations (V06 §2.1, V06 §3.2's participant table) | `@plat/sky`: `sky.islands` (V05 §3.15), `sky.clearance`; `@plat/hood`: `hood.fabric` (V01's S7c on the districts the epoch made outside S7b, S9b on the blocks in `EpochScope.recut`); `@plat/evolve`'s thin adapters: `under.fade` (V04's `UndergroundFade.candidates` / `.apply`), `under.extend` (in V04 §3.10's order: `Foundations.apply` over the epoch's scope, `ArchVaults.reconcile` over `scope.raised`, `SewerStrategy.derive` at the first sewers epoch else `.extend` with its wall drops, `CatacombGrowth.grow` under V06 §3.18.2, `QuarryWorkings.extend`, V04's maintenance mode at a village rung), `under.access` (`AccessPass.run`, V06 §3.18.1), `under.undercity` (`UndercityEpoch.reread` and U-FRONT F6's void dwellings, V06 §3.18.1 (4)); `@plat/village`: `village.plan`, `village.density`, `village.pins` (V07 §2.1, V07 §3.12), each run at every epoch and gating itself by V06 §3.2's scopes; each registration carries the `stage` V06 §3.16 names (`SKY`, `S9b`, `U-FADE`, `VS1`, `VS2`, `VS8`) | W2 at the steps `afterField`, `decline`, `afterGrowth` in (order, id) order | §4.12's `StrategyRegistry` |
+| W4 | `Trajectory` and the `advance` request (V06 §2.3, V06 §3.3.2, V06 §4.1) | T1 `intend`'s time card (the app), the clerk's `advance` tool (§11.2), the CLI | `epoch` events appended one at a time in one `group`, each with its `EpochInputs`, at the cadence W91's estimate admits | §11.2's facade, §14's T1 row (file f item 458); §7.7's circumstance timeline |
+| W5 | `HazardRow`, the calamity table `tables/evolution.json#calamities` and the typed reading of `EpochInputs.events` (V06 §2.4, V06 §3.11) | timeline entries and `advance` (standalone); the dossier's calamity records the port carries (V08 §3.6), mapped by the calamity table (DR28); the spontaneous hazard draw (V06 §3.11.1, standalone only); the replay's mapped history events (W85) | the hazard phase's `burn`, `inundate`, `topple` ops and the F5 targets struck in place; `raiseGrade` (W49); a calamity's `deaths` into the catacomb need (W48); the chronicle W19 | §4.11 `EpochInputs.events` (file f item 573); rung 3's destructive circumstance event; §7.7 F5 |
+| W6 | `BuildingShadeMask` (V06 §2.6, V06 §3.4) | the field phase at each epoch, from the buildings standing when it runs (after this epoch's hazards), per wing, on the ground arena and on every island arena | §4.5's daylight driver (item 102) as its building casters — the field, the due marks, S10b's sunlit preference, the character step; V09's shade map view; V10's "why is this quarter poor" | item 102 (b), (e); §2.9's `fields` chunk (file f item 275) |
 | W7 | the departure matching (V06 §3.5.1) | the roster's suffix (S2's delta demand), the exposure field `E(x)` | `relet` down and `vacate` ops, household relocations | §4.11 step (c) (file f item 479) |
 | W8 | the per-layer candidate sets of the strike pool (V06 §3.5.2), with the `raised`, `retaining`, `deck` and `landfall` kinds (V06 §3.19.2, V06 §3.19.4, V06 §3.19.5) | lifecycle states, finished `decay` Works, salvage demand, vacancy spans, a raised way's disuse, a terrace's abandonment, a deck's dead crossing, a `fallen_island` decoration's members (V05 §3.16); the epoch product's rows (`ProductEpochRows`) | the base's pool → `DeclineOp` (with file f item 291's raised, retaining and deck members), `plotToGarden`, `amalgamate`, `downgradeWay` (or the product's `retireWay` and `effaceWay`), wall ops; the landfall clearance's `setAttr` pairs, `repairRetaining`, the decoration's tombstone and the quarry face's `retypeLand` | §4.11 *The strike pool* |
-| W9 | `Enceinte.pathway` (V06 §2.7, §3.7) | the growth phase's wall decision (a superseded ring), the fortification phase (neglected), `contractWall` (contracted), a hand `setAttr` | the fortification phase (`gateToJunction`, `dismantle`, `wallToWay`, `absorbWall`); §8.2's wall rows; exports; the clerk | §2.7 `Enceinte` (file f item 254) |
+| W9 | `Enceinte.pathway` (V06 §2.7, V06 §3.7) | the growth phase's wall decision (a superseded ring), the fortification phase (neglected), `contractWall` (contracted), a hand `setAttr` | the fortification phase (`gateToJunction`, `dismantle`, `wallToWay`, `absorbWall`); §8.2's wall rows; exports; the clerk | §2.7 `Enceinte` (file f item 254) |
 | W10 | the ops `absorbWall`, `downgradeWay`, `upgradeWay`, `burn`, `repairWall` (with a stretch, or with none to lift a neglect), `retypeLand`, `repairRaised`, `repairRetaining` (V06 §2.8) | the fortification, decline, siting, hazard, hinterland, terrain-and-water and `raisedWays` steps; the `dossier` step's product placement and V07's siting step (m) (`retypeLand` of the village's fair field, V07 §3.12 (a)); the re-levelling ops and the landfall clearance (`repairRetaining`); the pathway's clearing (the no-stretch `repairWall`, V06 §3.7.5); a hand `convert` (T3's "repair" and "back in use", V06 §4.2) | the base's convert operators; lifecycle events; undo records; the renderer's rows; exports | §4.11 `ConversionOp` (file f item 209) |
 | W11 | `Way.formerClass` (§2.4; V06 §2.8) | `downgradeWay`; V05's `fallIsland` convert (a covered way dropped to `track`, V05 §3.16 (4)) | `upgradeWay` in regrowth tier (5′); the landfall clearance (V06 §3.5.2); the renderer (drawn by its current class); GeoJSON `plat:formerClass` | §2.4 way record (file f item 209) |
-| W12 | `Use.strain` (V06 §2.9, §3.9) | the use phase | the use phase's closing rule; the `use` `WhyProvider` (V06 §4.5) for V10's `why`; CSV and GeoJSON `plat:strain` | §2.7 `Use` (file f item 429) |
-| W13 | `MutationPlan` (V06 §2.5, §3.10) | the use phase (an opening or a relocation into another designation), a hand `mutate … spread: 'epochs'` — a dossier re-designation is a host change, decided at once (§4.7 S11 (6)) | the ladder phase's mutation step → `mutate` events and their Works; the description line; exports; the clerk | §4.11 *The epoch-spread mutation*; §2.8 registry (file f items 264, 266) |
+| W12 | `Use.strain` (V06 §2.9, V06 §3.9) | the use phase | the use phase's closing rule; the `use` `WhyProvider` (V06 §4.5) for V10's `why`; CSV and GeoJSON `plat:strain` | §2.7 `Use` (file f item 429) |
+| W13 | `MutationPlan` (V06 §2.5, V06 §3.10) | the use phase (an opening or a relocation into another designation), a hand `mutate … spread: 'epochs'` — a dossier re-designation is a host change, decided at once (§4.7 S11 (6)) | the ladder phase's mutation step → `mutate` events and their Works; the description line; exports; the clerk | §4.11 *The epoch-spread mutation*; §2.8 registry (file f items 264, 266) |
 | W14 | the growth decision: quantum, crowding, regime (V06 §3.6) | the residual after regrowth-first siting; building capacities; the stage history | S5a–S5d for a new stage with its regime row; the crowding `relet`s | §4.11 step (g); §4.4 (file f items 293, 336) |
 | W15 | the wall decision and the suburbs' absorption (V06 §3.7.1) | the threat slice (DR2), the extramural households, the prosperity mean, the era row | a walled stage (S5a trace, S7 furniture); W9 on the superseded ring; the character step re-typing absorbed districts | §4.4 S5a; §4.8 S7; §4.5 S12c |
 | W16 | the contraction trigger and trace (V06 §3.7.4) | the intramural occupied share over years, threat | `contractWall` with its trace | §4.11 `contractWall` |
@@ -288,7 +292,7 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | W24 | the animated history export (APNG) (V06 §5.3) | W21 frames at a stride | a file | §11.1 PNG export (file f item 409) |
 | W25 | `EvolutionTable` (`tables/evolution.json`) (V06 §2.2) | shipped defaults; `editTable` | every phase | §7.6 tables with provenance |
 | W26 | the `evolution.*` parameters (V06 §2.2) | the advanced panel; T1's time card | the runner (strategy, cadence, hazard mode) | §2.9 `Recipe.params`; §7.8 control registry |
-| W27 | `EpochInputs.wealthLevel` and the timeline entry's (V06 §2.3, §3.3) | the port — V08 §3.5's diff row `wealth` (`label` → `attr`, response `epoch`) through `tables/dossier/wealth` (DR6; receipt F9) — or the timeline and trajectory | the field phase's layer-1 expansion (`field.characterOffset`) | §4.11 `EpochInputs`, §7.7 (file f item 343) |
+| W27 | `EpochInputs.wealthLevel` and the timeline entry's (V06 §2.3, V06 §3.3) | the port — V08 §3.5's diff row `wealth` (`label` → `attr`, response `epoch`) through `tables/dossier/wealth` (DR6; receipt F9) — or the timeline and trajectory | the field phase's layer-1 expansion (`field.characterOffset`) | §4.11 `EpochInputs`, §7.7 (file f item 343) |
 | W28 | the engine's stage ids for its phases (V06 §3.16) | the stage registry (append-only) | every `epoch.transform` stream the engine's phases open | §6.1 stream key's stage id (file f item 342) |
 | W29 | the derived member succession and lifespan (V06 §3.14) | `derivePerson`'s appended lifespan draw; the epoch weeks | the gazetteer and family tree (§10.3, the app); people exports; the clerk | §10.3 (file f item 443) |
 | W30 | the naming feature `formerWall` and the chronicle templates (V06 §5.2) | `wallToWay`, `absorbWall` | S13a's grammar guard (rows V11's); the chronicle's lines | §9.6, §10.4 (file f item 409) |
@@ -298,10 +302,10 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | W34 | custom chains over epochs (item 104 (e), (h) (3), (h) (7); V06 §3.9.8) | the dossier's custom records and chain activation carried by an epoch (V08); the chain's placed nodes | the use phase's re-score (chain links on, off), the revision re-site, the character step's quarter emergence (never an assignment), the chronicle | §4.11 step (e); item 104's `SupplyEdge`s; item 72's threshold |
 | W35 | the hinterland over epochs — fallow ladder and re-take (item 26; V06 §3.5.3) | the S2 demand's farm households and food need at the epoch; `LandUse` faces and their owners | `retypeLand` ops; S12a's new fields on new ground; the renderer's land-use rows | §4.9's hinterland unit |
 | W36 | the base phases (`prelude`'s base part, `demand`, `field`'s base part, `dossier`, `siting`'s base tiers, `growth`'s base path, `lapse`, `character`, `works`'s base part), built once in `@plat/edit` (V06 §3.1) | the base's §4.11 steps | `'grow-by-stage'` (all of them) and `'history'` (reused where V06 §3.2 marks "base") | §4.11 *The epoch's order* (file f item 317) |
-| W37 | `ProductDecl.phases` and `.participants` (V06 §2.1, §3.1) | a product's registration (V07's village product) | the runner at an epoch whose product, by V07 §2.1's fold (the hand-off band), is that product — its phases and epoch rows (`rows`, read by the decline and hinterland steps, V06 §3.5.2, V06 §3.5.3); its participants run at every epoch and gate themselves by V06 §3.2's scopes | §1.1's product router; V07 §2.1 (file f items 202, 317) |
+| W37 | `ProductDecl.phases` and `.participants` (V06 §2.1, V06 §3.1) | a product's registration (V07's village product) | the runner at an epoch whose product, by V07 §2.1's fold (the hand-off band), is that product — its phases and epoch rows (`rows`, read by the decline and hinterland steps, V06 §3.5.2, V06 §3.5.3); its participants run at every epoch and gate themselves by V06 §3.2's scopes | §1.1's product router; V07 §2.1 (file f items 202, 317) |
 | W38 | the feature re-resolution (V06 §3.2 row 1) | the epoch's rung (the fold's, V06 §3.1 (3)); the creation's `blueprint.features` draw | `Features.sewers`; `under.extend`'s first-epoch U-NET; the catacomb count's rung (V06 §3.18.2); the report and the chronicle | II.7.1 (file f item 550) |
-| W39 | `HouseholdLedger` (`EpochContext.households`), `EpochOps.displaced`, `EpochOps.demandTaken`, `Household.transit` (V06 §2.1, V06 §3.8.1) | hazards, contraction strips, Works, `sky.islands` (V05 §3.15), `under.fade`'s sealing of a lived void, clearances (a raised way's land, V06 §3.19 (7); a struck deck's buildings, V06 §3.19.5) | `siting` (the pool first, the delta less the taken); the report's household counts; T-V6-52 | §2.7 `Household`, §5.3 (file f item 335) |
-| W40 | the underground crowding hook before the growth decision (V06 §3.6 (1)) | the residual's poorest-band households; U-FRONT's free capacity on lived and reopened runs and accessible void clusters (V04 §3.4, §3.10) | S7b (6)'s underground allocation and U-FRONT's placement; `R` less the seated | §4.11's regrowth order (6); II.7.3 (c); §4.5 S7b (6) (file f item 574) |
+| W39 | `HouseholdLedger` (`EpochContext.households`), `EpochOps.displaced`, `EpochOps.demandTaken`, `Household.transit` (§2.7) (V06 §2.1, V06 §3.8.1) | hazards, contraction strips, Works, `sky.islands` (V05 §3.15), `under.fade`'s sealing of a lived void, clearances (a raised way's land, V06 §3.19 (7); a struck deck's buildings, V06 §3.19.5) | `siting` (the pool first, the delta less the taken); the report's household counts; T-V6-52 | §2.7 `Household`, §5.3 (file f item 335) |
+| W40 | the underground crowding hook before the growth decision (V06 §3.6 (1)) | the residual's poorest-band households; U-FRONT's free capacity on lived and reopened runs and accessible void clusters (V04 §3.4, V04 §3.10) | S7b (6)'s underground allocation and U-FRONT's placement; `R` less the seated | §4.11's regrowth order (6); II.7.3 (c); §4.5 S7b (6) (file f item 574) |
 | W41 | the overflow backlog (V06 §3.6 (1)) | the households the overflow ladder housed in earlier epochs (their tenure and lifecycle causes `rule:overflow`) | the growth decision's quantum; the stage's relocations out of tents and informal plots | §4.11 (file f item 336) |
 | W42 | link re-binding, the epoch's opening order, the relaxation pass, split and merge over epochs (V06 §3.9.10) | every committed `openUse`, `closeUse`, `relocateUse`; `siting.web` (V11); the class orientation rows | S10b's scores; `UseMove.why` link rows; split-threshold crossings → `openUse` (cause `split`) and `closeUse` (cause `merge`); the report | item 105 (a)–(h) |
 | W43 | nearest-provider catchments for strain (V06 §3.9.2) | one labelled multi-source Dijkstra per class | `Use.strain`; the surplus order; the report | §12.6's cost unit; item 107 (c) |
@@ -320,7 +324,7 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | W56 | the calamity table (V06 §2.4) | the dossier's calamity records (`calamityHistory[]` entries the port carries) | `EpochInputs.events` typed as hazard events with place and severity; the F5 exemption list | DR28 (file f items 383, 388) |
 | W57 | the `raisedWays` step and its pass (V06 §3.2 row 10a, V06 §3.19) | the epoch's rung (the fold's, read at `prelude`), the state after `terrainWater`, the field (prosperity), the ground hydrology's eager need reading, W58's ledger, V11's `raisedWays` rows, the dossier's water-system record, landmarks and era and culture rows (the trace below); item 244's support step on each solved course — its stations, pier rings and `raised_too_tall` drop (V06 §3.19 (5)) | repairs (W63), then the hand operator's creation events (cause `rule:raisedWay`) and the clearance ops before them; `EpochScope.raised` (W64); the report's `raised` section (its `suppressedFired` entries for V09 §4.10's `epoch` row lines and V08 §4.6 item 3) and the chronicle's `raisedWay` lines (W19); `under.extend`, `sky.clearance` and `hood.fabric` through the scope | item 110 (b); the base's course solver, item 244's support step and the hand operator (file f items 244, 290) |
 | W58 | `RaisedWayLedger` (V06 §2.13) | the model (standing raised ways, their `reason` and lifecycle cause) and the log's live removals (W60) | the pass's admission (W57); generation's S4 and S6 and a new stage's S5b (file f item 290); V10's "why is there no viaduct here"; the report's `aboveCap`, `suppressedHeld` and `suppressedFired` — the last read by V09 §4.10's `epoch` row lines and V08 §4.6 item 3 (V06 §3.19.3 (2)) | file f item 290 |
-| W59 | `RaisedReasonKey` and its one uniform (V06 §2.13, V06 §3.16) | the candidate's kind and the lineages it names; the base's raised-way stream, epoch component 0 | the gate `u < p` (a suppressed key's too, for `suppressedFired`); the raised way's lineage (its derivation unit); the suppression's key (W60); `rerunFrom`'s re-apply (V06 §4.4); the base raised-way record's `reason` | §6.1, §6.3 (file f item 290) |
+| W59 | `RaisedReasonKey` and its one uniform (V06 §2.13, V06 §3.16) | the candidate's kind and the lineages it names; `raised.reason` (§6.1), epoch component 0 | the gate `u < p` (a suppressed key's too, for `suppressedFired`); the raised way's lineage (its derivation unit); the suppression's key (W60); `rerunFrom`'s re-apply (V06 §4.4); the base raised-way record's `reason` | §6.1, §6.3 (file f item 290) |
 | W60 | `LifecycleEvent.detail.suppress` — a removal of a generated raised way, harbour-mouth chain, quay wall, retaining wall or deck plot (V06 §2.13, V06 §3.19.3) | a `delete` of such an entity from V09 §4.3's delete, the clerk or the CLI | W58's suppressed set, so every generator skips the key and counts it as filled; the retaining-wall re-derivation where an epoch levels (V06 §3.19.4 (1)) and tier (5)'s deck faces (V06 §3.19.5 (1)) skip theirs; the serving test of the user's re-adds — V09 §4.20.3 (4)'s Build it again and V10's Put it back (V06 §3.19.3 (3), (7)); `rerunFrom`'s re-apply; the dry run's line (V09's `info.remove.holds`); V10's "removed by you" | §2.8's lifecycle block (file f item 260) |
 | W61 | the three candidate readings — viaduct, elevated road, aqueduct (V06 §3.19 (2)) | standing way chains of V11's `viaduct.routeClasses` (V11 §3.24.2) and the ravine and valley features they cross; high wards, terraces and the citadel's and great temples' reservations; the ground's springs (their `spring.flow`, V06 §3.12.1) and rivers within `sourceReachKm` and the need ratio | W57's gate, order and course solves; the why rows (W31) | item 110 (b) |
 | W62 | the pool's `raised`, `retaining` and `deck` candidates and file f item 291's `DeclineOp` members (V06 §3.19.2, V06 §3.19.4, V06 §3.19.5) | a raised way's disuse (W67), a terrace's abandonment, a deck's dead crossing; the salvage demand; hazards (topple, inundate, burn) | `neglect`, `breach` and `dismantle` on spans, supports and retaining stretches; `breach` and `ruin` on decks; V04's vault collapse in the same batch; the deck plots' ruin; the chronicle (`raisedWay`, `retainingSlump`, `deck`); `EpochScope.raised` | §4.11 decline table and `DeclineOp` (file f item 291) |
@@ -334,7 +338,7 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | W70 | retaining walls over epochs (V06 §3.19.4) | the levelling ops of the epoch (a new stage's S10–S11, a re-levelling rung-3 re-cut or rebuild, `raiseGrade`) | the walls made, re-derived or restored there, a suppressed wall skipped; `amalgamate`'s filter; the re-cut's fixed lines; the walls inside a `raiseGrade` region tombstoned, read by V04's buried-system builder as steps in the buried floor; `scope.levelled` | item 110 (a); §4.7 S10–S11 (file f item 245) |
 | W71 | hazards on decks and terraces (V06 §3.11.2 (2), V06 §3.11.3, V06 §3.11.4) | the deck's carriageway and faces; each building's datum `baseCm` (V02's `deriveBase`, file f item 370); supports' heights and materials | fire spreading along a bridge row; the flood's depth at the datum; a toppled support breaking its spans; a timber deck or support broken by a flood | §4.11 *Works* (4); V02 |
 | W72 | the raised way's `detail.why` rows and the ledger reading for V10's raised-way provider (V06 §4.5) | W57's creation events; W58; the lifecycle (carried down, removed by hand) | V10's "why is this aqueduct here", "why is there no viaduct here" and "carried from year N"; V09's explanation panel | V10 §3.9 (file f item 265) |
-| W73 | underground households at an epoch (V06 §3.18.1 (4), (6)) | F6's new void dwellings after `under.access`; the district's poorest-band ground households (`E(x)` order) up to V04's `voidDwellings.share`; the households `under.undercity`'s re-read, a foundation collapse or a void made `lost` (item 113 (e)) vacates | `relocate` events into the void dwellings (the `use` cap); the in-participant re-homing on ground stock by §4.7's overflow pass; the report's `households.undergroundVacated`; T-V6-52 | V04 §3.4 F6, §3.10; §4.7 |
+| W73 | underground households at an epoch (V06 §3.18.1 (4), (6)) | F6's new void dwellings after `under.access`; the district's poorest-band ground households (`E(x)` order) up to V04's `voidDwellings.share`; the households `under.undercity`'s re-read, a foundation collapse or a void made `lost` after `siting` (item 113 (e)) vacates | `relocate` events into the void dwellings (the `use` cap); the in-participant re-homing on ground stock by §4.7's overflow pass; the report's `households.undergroundVacated`; T-V6-52 | V04 §3.4 F6, V04 §3.10; §4.7 |
 | W74 | `EpochScope.recut` and `EpochScope.workings` (V06 §2.1) | derived from the epoch event's lifecycle entries: the blocks a rung-3 op re-cut or redeveloped; the mining and quarry uses whose workings an op opened | `hood.fabric`'s S9b (V01 §3.3.6 (2)); `under.access`'s mine breaches (V06 §3.18.1 (2c)) | §4.11's epoch fold |
 | W75 | `ProductDeclEpoch.rows` and `ProductEpochRows` (V06 §2.1), and `ProductDeclEpoch.records` with its `EpochPlacement` | a product's registration (V07 §2.2's `epoch.rows` cell; V07's `village.records`, V07 §2.1) | the `dossier` step's call of the product's placement for each record it adds, before the base's placement, and of its `remove` for each record it removes, after the base's removal — on an absorb without an epoch the base's *One path* placement and §7.7 item 2's removal making the same calls — keyed by the dossier event's `seq` (V06 §3.2 row 12, V06 §3.16's *Keys*; V07 §3.12 *Records at a village epoch*); the decline step's per-class persistence multipliers and street ops — the retirement with its stricter test and the effacement (V06 §3.5.2); regrowth's reopening — tier (5′) and the placement rule over every placement an epoch makes (V06 §3.8.2); the hinterland step's slack, order and cap (V06 §3.5.3) | §1.1's `ProductDecl` (file f items 202, 317) |
 | W76 | the `landfall` candidate kind and its clearance (V06 §3.5.2) | a `fallen_island` decoration's members (V05 §3.16 (5); `DecorationMember`, file f item 252 — an `Id` for a way, plot, reservation, land use or retaining wall, `{ raised, span: [a, b] }` for a raised span and `{ raised, support }` for a support, on item 244's support keys): covered ways, plots, reservations, land uses, raised spans and supports, retaining walls; `Way.formerClass` the landfall wrote; the salvage ledger's demand and the landfall's credit; `land.scrubAfterYears`; the ops that end a member's cover (`retypeLand`, `repairRetaining`, `repairRaised`, `dismantle`, any tombstoning op); the accesses V04 §3.10 bricked under the members | `setAttr` pairs restoring a way's class and surface (cause `rule:landfall`); `repairRetaining` on a covered wall; plots released to regrowth tier (3); each member's leaving (`setAttr` of `members`) in the batch of the op that ends its cover; the decoration's tombstone with its last member; the quarry face to `commons`; each bricked access back to `open` (`locked` when secret) with its host, and the host's face in `EpochScope.surfaceChanged` → `under.access`'s excavation reading and openings; the report's `landfall` counts; the chronicle `landfallCleared` | §4.11 *The strike pool*, *Salvage*; V05 §3.16 |
@@ -342,16 +346,17 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | W78 | a deck's condition — its host's lifecycle existence (V06 §2.12) | the pool's deck strike (`ruin`), a hazard (`breach`, `ruin`), V05's landfall, `repairRaised`'s deck form | V01's close-ups, V02's deck buildings, V05, the renderer's deck state rows, tier (5)'s deck faces, the exports | item 246's `Plot.deck.host` (file f item 291) |
 | W79 | an enceinte's condition by run (`Enceinte.condition`, a stretch-state profile, §2.2 rule 5; V06 §2.12, V06 §3.7.2–V06 §3.7.5) | `breach` (V06 §3.7.3's neglect, a contracted ring's decay), `dismantle` (V06 §3.7.2 (2)), V05's landfall (V05 §3.16 (4)), `repairWall` (V06 §3.7.5, a hand `convert`) | V06 §3.7.5's repair of a pathway ring and of a ring in use (the `breached` runs, in chain order); the pathway's clearing and, in its batch, `repairWall`'s no-stretch form lifting the neglect (existence in use when every run is `standing`, else `decayed`); V06 §3.7.2 (3)'s dismantling on a cleared record, a stretch under a raised gate whose deck stands excepted (V06 §3.7.6 (5)); the towers and gates drawn by their runs; T-V6-6's wall struck share; §8.2's gap glyph and trace discs; §11.1's per-run LineStrings; the `enceinte` provider (V06 §4.5); the report's `walls.repairedInUse` | file f item 575 (§2.7 `Enceinte`) |
 | W80 | the bench bars' registrations — one V12 `BenchBarDef` per bar V06 §8's register lines name as `bar.T-V6-<n>` (T-V6-6 – T-V6-10, -13, -16, -18, -28, -31, -32, -40, -43, -54, -62, -72, and the epoch forms of T-V6-34 and T-V6-37) | the seats landing E2, E3, E4, E5 and E8, each registering, in the same change, the bars its exit's lines name (V06 §8's registration table) | `plat parity`'s `bar.` rows (V12 §1b); V12's register lint (T-V12-20), each `bar.T-V6-<n>` entry resolving to its registration; E7's bench verdicts and `fallback` runs (V12 §3.7.1 (b)) | V12 §2.1 (`@plat/testkit/bars`); §13.2's statistics bench |
-| W81 | the `field` phase's way-surface re-lay (V06 §3.2 row 4, §3.4 (9)) | S6's re-banding at the epoch (the plots whose `fieldBand` changed, §4.11 (a)); volume 1's `way.surface` rows (V11 row 90, whose `S6` epoch reader this is), the era row, the field as S6 reads it; each way's edit mark on `surface` | `setAttr` ops on `Way.surface` (author `engine`, cause `rule:field`) in the phase's batch; S14's road programs (V01 §5.1.2) through the epoch's `DisplayDelta`; exports and the reader; the report's `shade.surfacesRelaid` and `.surfacesHeld` (read by the app's history panel and the clerk); the epoch's undo record | §4.11 step (a) with §4.5's hysteresis; V01 §3.7.3's epoch clause; file f item 207 (a) |
+| W81 | the `field` phase's way-surface re-lay (V06 §3.2 row 4, V06 §3.4 (9)) | S6's re-banding at the epoch (the plots whose `fieldBand` changed, §4.11 (a)); volume 1's `way.surface` rows (V11 row 90, whose `S6` epoch reader this is), the era row, the field as S6 reads it; each way's edit mark on `surface` | `setAttr` ops on `Way.surface` (author `epoch`, §7.1's `EditBase.author`; cause `rule:field`) in the phase's batch; S14's road programs (V01 §5.1.2) through the epoch's `DisplayDelta`; exports and the reader; the report's `shade.surfacesRelaid` and `.surfacesHeld` (read by the app's history panel and the clerk); the epoch's undo record | §4.11 step (a) with §4.5's hysteresis; V01 §3.7.3's epoch clause; file f item 207 (a) |
 | W82 | springs and oases over epochs — a spring's failure, recovery and loss (V06 §3.12.1) | `WaterBody.spring.flow` (§2.3); the `terrainWater` phase's spring reading (V06's `spring.*` rows, the climate row's aridity, a `siltReach` or `shiftCourse` that moves the course off the spring); a dossier's removal of `oasis_water` (DR40) or a `drought` calamity (DR28's `spring` row); a hand `setAttr` of `spring.flow` (T2 `ground`) | `setAttr` of `spring.flow` (cause `rule:spring`); the base's water pull and prosperity water term weighted by `flow` (§4.2 S3 (6), §4.5) — so the field's next evaluation and the next stage's boundary; the grove's and gardens' `retypeLand` (V06 §3.12.1 (4)); the aqueduct's runs-dry rule (W67); the report's `water` section; the chronicle `spring` | §2.3 `WaterBody.spring` (item 111); §4.5's water term |
 | W83 | `ReplayPlan` (V06 §2.14, V06 §3.20.1) | DR36's peak (`HistoryHint.peak`, V08) or the blueprint's history option (§4.2 S0); DR37's inputs — `history.ageYears`, the history's events, `tierHistory`, `populationHistory`, `calamityHistory` (V08); DR38's destruction evidence; V11's `history.*` cells | the replay runner (W84); the generation report's `replay` section; T-V6-71 | §4.11 *History-first generation* (1)–(2); §7.7 DR36–DR38 |
 | W84 | the replay runner at generation (V06 §3.20.3) | W83; the creation's model after S0–S13a at the plan's start population | the creation prefix's `epoch` events (flag `creation`, §7.4), each with `EpochInputs.replay`, folded by the ordinary runner W1; `HistoryRecord` (W87); the report's `epochs` list (§5.4) | §4.11 (2); §7.4 *Replay semantics* |
 | W85 | the event-to-epoch mapping (V06 §3.20.2) | the history's events (type, years ago, severity); V11's `HistoryEventRow`s (V06 §2.14's shape); the calamity table (W56) for `calamityHistory` | each replay epoch's `EpochInputs.events` (hazard kinds), its population factor, its slice change, its use openings, and the refounding path (W86); the `HistoryRecord.epochs[].events`; the chronicle `replay` lines | §7.7 DR37 |
 | W86 | destruction and refounding at generation (V06 §3.20.5) | DR38's evidence (terminal death and resettlement, a catastrophic event, an ancient "Fall of" on the site); the history's culture rows | the old geometry to ruins in one refounding epoch (`ruin` on every building, a way to its trace); the new settlement's stages at the refounded population with §4.4's `existingFabricCost` at V11's `history.reuseCost`; `reuse … build` first; the salvage ledger's credit; `HistoryRecord.refounded`; the burial (W87's `buried`, II.7.6 through V04) | §4.11 (4)–(5); II.7.6 |
 | W87 | the `HistoryRecord` writer (V06 §3.20.6) | W84's epochs, W85's events, W83's peak, W86's refoundings, II.7.6's buried systems | `HistoryRecord` (§2.7): read by V10's story ("the walls were built when this was a city of twelve thousand"; "its exact size is not recorded"), the reader, the exports (§11.1's history block), §7.7's history rows; `Provenance.symbolic` on the facts a symbolic peak sized | §2.7 `HistoryRecord`, §2.8 `Provenance.symbolic` (item 113) |
-| W88 | the replay's generation budget and lazy detail (V06 §3.20.4, V06 §6.7) | V11's `history.epochYears`; the rung; §12's generation budget; §4.1's laziness contract | the phases a coarse epoch runs or defers; the coarsening rung (fewer, longer epochs) when the estimate exceeds the budget; the report's `replay.ms`, `replay.coarsened`; T-V6-71's budget clause | §4.1 (laziness); §12.6 |
+| W88 | the replay's budget and lazy detail (V06 §3.20.4, V06 §6.7) | V11's `history.epochYears`; the rung; W91's estimate against `replay.budgetMs`; §4.1's laziness contract | the phases a coarse epoch runs or defers; the coarsening rung (fewer, longer epochs) when the estimate exceeds the budget; `ReplayPlan.epochYears` and `.coarsened`, the report's `replay.epochYears` and `.coarsened` (V06 §2.10); T-V6-71's budget clause | §4.1 (laziness); §12 (item 119's comfort level); §12.6 |
 | W89 | an enceinte's condition by need and means (V06 §3.7.7; item 114) | NEED from the epochs' slices (DR2's threat, readiness folded in by V08); MEANS from the wealth level in force (the log); each run's bounding districts' prosperity (the local weight); V11's `walls.condition` cells and `walls.patchMaterials` rows | `wearWall`, `breach` and `repairWall { material }` ops on the runs, each writing the run's material and last-change epoch (§2.7); the report's `walls.worn`, `.patched`, `.rebuilt`; the chronicle `wallWorn`, `wallPatched`, `wallRebuilt`; the `enceinte` provider → V10's run story; §8.2's state rows and §11's exports through the record | §2.7 `Enceinte.condition` (item 114); §4.11's decline table |
-| W90 | the grandeur ceiling read at the epoch's rung (V06 §3.8.5; item 115 (e)) | the fold's rung (V06 §3.1 (3)); the ceiling table (V11) as §4.2 S10b, §10.2 and V02's composition rows read it; V08's "specified" | every design an epoch derives — S10b's class mix and S11 for the siting tiers, a new stage, tier (3)'s rebuilds, rung 3, the use phase's openings, `MutationPlan` steps (a re-plan when a stored record exceeds it) | §4.2 S10b, §10.2 (item 115) |
+| W90 | the grandeur ceiling read at the epoch's rung (V06 §3.8.5; item 115 (e)) | the fold's rung (V06 §3.1 (3)); the ceiling table (V11) as §4.7 S10b, §10.2 and V02's composition rows read it; V08's "specified" | every design an epoch derives — S10b's class mix and S11 for the siting tiers, a new stage, tier (3)'s rebuilds, rung 3, the use phase's openings, `MutationPlan` steps (a re-plan when a stored record exceeds it) | §4.7 S10b, §10.2 (item 115) |
+| W91 | the comfort estimate and the cadence it chooses — `advance` and the history replay each inside the ten-second comfort level in total (item 119 (a2); V06 §3.3.2, V06 §3.20.4, V06 §6.8) | an `advance` request's epochs (V06 §3.3.2's expansion) or the replay plan's (V06 §3.20.1); the rung of each epoch's target; the islands that may stand (from the first CITY or METROPOLIS epoch, with the recipe's island setting) and the islands and hand-placed accesses standing at an `advance`'s request; the rises in the targets; `epoch.costMs`, `epoch.islandMs`, `epoch.handAccessMs`, `epoch.stageMs`, `epoch.stageMsPerBuilding`, `advance.budgetMs`, `replay.budgetMs` (V06 §2.2) | the cadence an `advance` group folds at (its epochs' weeks, W4) and the replay's epoch length (W83); the card's and the clerk's bend line naming the cadence chosen; the report's `advance` section and `replay.epochYears` (V06 §2.10), read by the history panel and the clerk; V09's progress view, counting the epochs at that cadence; T-V6-23, T-V6-24, T-V6-71 | §12 (item 119's comfort level); §4.11 *The clock* |
 
 **The dossier trace** — every dossier fact the engine reads, with its field and derivation row (§7.7's table; the engine
 never writes one and never asks for one):
@@ -392,12 +397,13 @@ memory (§2.9) and is never hashed.
 
 ### 2.1 The engine's interfaces (`@plat/evolve`)
 
-These are the declarations §4.11 names as this volume's (file f item 317).
+These are the declarations §4.11 names as this volume's (file f item 317). `EvolutionStrategy` itself is §4.11's (its
+phase rule is V06 §3.1 (4)'s); `DisplaceCause` — every cause a household enters the ledger with, `destruction` (the
+replay's destruction epoch, V06 §3.20.5 (2)) among them — and `Household.transit` are §2.7's (file f item 335).
 
 ```ts
 type EpochStep = 'prelude'|'hazards'|'demand'|'field'|'afterField'|'uses'|'departures'|'decline'|'fortification'
   |'terrainWater'|'raisedWays'|'ladder'|'dossier'|'siting'|'growth'|'afterGrowth'|'lapse'|'character'|'works'|'close';   // V06 §3.2's order (twenty steps); fixed
-interface EvolutionStrategy { id: string; phases: EpochPhase[] /* one per step it implements, in EpochStep order; a step with no phase runs nothing (V06 §3.1) */ }
 interface EpochPhase { id: string /* registered phase id, e.g. 'base.dossier', 'history.uses', 'village.siting' — what ProductDecl.phases names */;
   step: EpochStep; stage: StageId /* its registered stage id — the stream key's stage component (§6.1; file f item 342) */;
   run(ctx: ProductEpochContext /* a product's phase: the grow path's context before M6-E, EpochContext after (which extends it), reading the extension only where present; the engine's own phases run only on V06's runner and read the whole EpochContext */): KernelResult<EpochOps> }
@@ -426,7 +432,6 @@ interface EpochOps { ops: (ConversionOp | EditEvent)[] /* committed in this orde
   waited: Id[] /* candidates a cap or a work limit held back, address order — first in line next epoch */; report: Partial<EpochReport>;
   displaced?: { household: Id; cause: DisplaceCause; from: Id /* the building left */ }[] /* households this phase's ops emptied out of their dwelling without housing them: they enter the ledger (V06 §3.8.1) */;
   demandTaken?: { band: string; count: number }[] /* households a participant takes up from the epoch's delta demand (V05 §3.15's refloat or raise): `siting` subtracts them */ }
-type DisplaceCause = 'fire'|'flood'|'topple'|'contraction'|'works'|'island'|'void'|'clearance'|'redevelopment';
 interface HouseholdLedger {   // EpochContext.households — the epoch's one channel for households between batches (V06 §3.8.1; J-V6.67)
   displace(ids: Id[], cause: DisplaceCause, from: Id): void /* the runner calls it for every EpochOps.displaced row, after the batch commits */;
   take(band: string, count: number, by: string /* participant or phase id */): void /* the runner calls it for every EpochOps.demandTaken row */;
@@ -455,11 +460,10 @@ interface EpochContext extends ProductEpochContext {   // V06's runner's context
   households: HouseholdLedger; churn: ChurnLedger; report: EpochReportSink }
 interface ChurnLedger { remaining(district: Id, kind: 'geometry'|'fabric'|'use'): number; take(district: Id, kind: 'geometry'|'fabric'|'use', n: number): number /* granted ≤ n; §4.11's caps scaled by years, the fractional extra drawn as the base states */;
   block(block: Id): number /* the per-block maximum left this epoch */ }
-// on §2.7's Household (file f item 335): epoch-local, never in a snapshot
-transit?: { cause: DisplaceCause; since: number /* the week it was displaced */ }
+// DisplaceCause and Household.transit (epoch-local, never in a snapshot) are §2.7's; the ledger above writes and clears transit
 ```
 
-`Household.transit` is written by the batch that displaces a household (the ledger's `displace`) and cleared by the batch
+`Household.transit` (§2.7) is written by the batch that displaces a household (the ledger's `displace`) and cleared by the batch
 that places it, both inside one epoch; the runner's close asserts the ledger's pool is empty, so no household is in
 transit when the epoch event ends (§5.3's scoped row; T-V6-52). A household a hand edit displaces between epochs is
 re-homed inside that edit by §4.7's overflow pass and never takes the field.
@@ -484,12 +488,12 @@ values, the cells "0 in the parity presets" among them, file f item 581):
 
 | row | default | what it governs (V06 section) |
 |---|---|---|
-| `growth.quantumShare` | 0.03 | a new stage grows only when the residual households reach this share of the town's households … (§3.6) |
-| `growth.quantumHouseholds` | 40 | … or this count, whichever is smaller (§3.6) |
-| `growth.crowdFactor` | 1.5 | a dwelling of the crowding bands may take up to ⌈its band row's households × factor⌉, never above §2.6's capacity (§3.6) |
-| `growth.crowdBands` | the bands up to and including the settlement's middle band (§4.5) | who crowds (§3.6) |
-| `growth.crowdShareMax` | 0.12 | crowding beyond this share of households forces a stage whatever the quantum (§3.6) |
-| `growth.ribbonMaxHouseholds` | 150 | an unwalled stage for fewer residual households takes the `ribbon` regime, else `suburb` (§3.6) |
+| `growth.quantumShare` | 0.03 | a new stage grows only when the residual households reach this share of the town's households … (V06 §3.6) |
+| `growth.quantumHouseholds` | 40 | … or this count, whichever is smaller (V06 §3.6) |
+| `growth.crowdFactor` | 1.5 | a dwelling of the crowding bands may take up to ⌈its band row's households × factor⌉, never above §2.6's capacity (V06 §3.6) |
+| `growth.crowdBands` | the bands up to and including the settlement's middle band (§4.5) | who crowds (V06 §3.6) |
+| `growth.crowdShareMax` | 0.12 | crowding beyond this share of households forces a stage whatever the quantum (V06 §3.6) |
+| `growth.ribbonMaxHouseholds` | 150 | an unwalled stage for fewer residual households takes the `ribbon` regime, else `suburb` (V06 §3.6) |
 | `growth.ringBlockM` | 40 | the depth of new land kept between the standing fabric and a new circuit's inner strip (V06 §3.7.1) |
 | `walls.threatMin` | 0.35 | the threat a new circuit needs (V06 §3.7.1) |
 | `walls.extramuralShareMin` | 0.20 | the share of households outside the outermost enceinte a new circuit needs (V06 §3.7.1) |
@@ -519,12 +523,12 @@ values, the cells "0 in the parity presets" among them, file f item 581):
 | `streets.abandonAfterYears` | 20 | a lane serving only empty plots this long is a candidate (V06 §3.5.2) |
 | `streets.classes` | `lane`, `alley`, `cul_de_sac`, `track` | the only classes that downgrade (V06 §3.5.2) |
 | `uses.byClientele` | V06 §3.9.9's table | the use step's defaults a class row may override (V11) |
-| `hazards` | V06 §2.4's rows | the hazard operators (§3.11) |
-| `shade.rasterM` · `shade.ruinShare` | 4 · 0.5 | the caster raster's cell; a ruin's caster height as a share of its eave (§3.4); the reach is the sampler's one law (§4.5; V05 §3.19 (1)), for the buildings as for V05's island strips |
+| `hazards` | V06 §2.4's rows | the hazard operators (V06 §3.11) |
+| `shade.rasterM` · `shade.ruinShare` | 4 · 0.5 | the caster raster's cell; a ruin's caster height as a share of its eave (V06 §3.4); the reach is the sampler's one law (§4.5; V05 §3.19 (1)), for the buildings as for V05's island strips |
 | `uses.closeSurplusBy` | `strain` | which surplus use of a class closes first when the manifest falls: the most strained, then the most over-served coverage unit, then address (V06 §3.9.4) |
 | `uses.moveWhyRows` | 5 | the contributions kept per opening, move or closing for the "why" answer, stored on its lifecycle event (V06 §3.9.7) |
 | `uses.openCandidates` | 64 | an opening fully scores this many candidates, the best by S10a's class raster (V06 §3.9.6; the cost bound of V06 §6.1) |
-| `mutation.stepYears` | occupy 0 · adapt [1, 3] · extend [3, 10] · rebuild [8, 25] | the years after a plan's creation at which each later step falls due, drawn once per plan (§3.10) |
+| `mutation.stepYears` | occupy 0 · adapt [1, 3] · extend [3, 10] · rebuild [8, 25] | the years after a plan's creation at which each later step falls due, drawn once per plan (V06 §3.10) |
 | `fire.rebuildYears` · `fire.rebuildShift` | 30 · 1 | for this many years after a fire, a rebuild on a burned plot takes the next less flammable roof covering its class row admits (V06 §3.11.2) |
 | `land.fallowAfterYears` · `land.scrubAfterYears` · `land.woodAfterYears` | [3, 8] · [15, 40] · [40, 100] | a field beyond the hinterland's demand turns pasture, then commons, then wildwood (V06 §3.5.3) |
 | `oxbow.marshAfterYears` | [30, 80] | an oxbow lake left by a cut-off silts to marsh (V06 §3.12) |
@@ -536,13 +540,13 @@ values, the cells "0 in the parity presets" among them, file f item 581):
 | `spring.droughtShare` | minor 0.1 · moderate 0.3 · major 0.5 · catastrophic 0.8 | the share of every ground spring's flow a drought takes, by severity (V06 §3.11.7, V06 §3.12.1) |
 | `spring.droughtPerYear` | 0.01 | the spontaneous drought's chance on an arid site at `evolution.hazards` `full`, standalone only, severity `moderate` (V06 §3.11.1) |
 | `spring.dryMarshAfterYears` | [10, 30] | a spring at flow 0 this long silts its pond to marsh (V06 §3.12.1) |
-| `spring.gardenMinFlow` · `spring.groveMinFlow` | 0.5 · 0.25 | below these flows, held `land.fallowAfterYears`, an oasis's gardens turn `commons` and its grove thins (V06 §3.12.1) |
+| `spring.gardenMinFlow` · `spring.groveMinFlow` | 0.5 · 0.25 | below these flows — held `land.fallowAfterYears` — an oasis's gardens turn `commons`, and — held `land.scrubAfterYears` — its grove thins (V06 §3.12.1) |
 | `spring.aqueductMinFlow` | 0.5 | an aqueduct whose source is a spring below this flow runs dry (V06 §3.12.1, V06 §3.19.2 (2)) |
 | `works.partStartAt` | `roofed` | a part programme's next part starts when the previous part reaches this stage (V06 §3.13) |
 | `chronicle.declineShare` · `chronicle.regrowthShare` · `chronicle.significanceMin` | 0.10 · 0.10 · 0.6 | a district's household fall or reoccupation per epoch that earns a chronicle line; the significance (item 72) from which a single use's opening, closing or move is its own line (V06 §3.15.1) |
-| `overflow.tentBeltM` | 60 | the depth of the edge belt the overflow ladder's last rung pitches on (§3.6) |
+| `overflow.tentBeltM` | 60 | the depth of the edge belt the overflow ladder's last rung pitches on (V06 §3.6) |
 | `history.checkpointStride` | 10 | a history keyframe every this many epochs (V06 §3.15.2); the output never depends on it |
-| `advance.maxEpochs` | 200 | the most epochs one `advance` expands to; above it the cadence bends (V06 §3.3.2) |
+| `advance.maxEpochs` | 200 | the most epochs one `advance` expands to; above it the cadence bends (V06 §3.3.2) — at the reference cost rows the comfort estimate binds first (V06 §6.8) |
 | `decline.turnoverVacancy` | poorest band 0.05 · every other band 0.01 · 0 in the parity presets | the share of each band's dwellings regrowth tier (1) leaves vacant, so a steady town keeps some abandoned stock (V06 §3.8.2) |
 | `uses.splitHysteresis` | 0.10 | a split pair merges back only when its split index falls below its class's compiled `profile.split.threshold` (V11 §2.3, V11 §3.5.2) minus this (V06 §3.9.10 (3)) |
 | `raise.fireBuildings` · `raise.floodShare` · `raise.minHa` · `raise.chance` | 60 · 0.3 · 1 · 0.3 | a burnt connected region of at least this many buildings, or a flood whose collapse share exceeds this over at least this area, raises the ground at this chance (V06 §3.11.6) |
@@ -552,14 +556,20 @@ values, the cells "0 in the parity presets" among them, file f item 581):
 | `replay.maxEpochs` | 60 | the most coarse epochs one history replay runs; above it the epoch length grows to fit (V06 §3.20.1) |
 | `replay.symbolicPeakAgeShare` | 0.5 | where no evidence dates the peak, it stood this share of the settlement's age before the present (V06 §3.20.1) |
 | `replay.detailRetainYears` | 50 | a replay epoch ending more than this before the present runs its phases at model level, with no Works and no lazy rung derived (V06 §3.20.4) |
-| `replay.epochCostMs` | TOWN and the village rungs 140 · CITY 420 · METROPOLIS 1 300 | the per-epoch cost the replay's estimate sums, by the epoch's rung (V06 §3.20.4, V06 §6.7) |
-| `replay.budgetMs` | TOWN and below 5 000 · CITY 20 000 · METROPOLIS 40 000 | the replay's budget by the peak's rung; above it the epochs coarsen (V06 §3.20.4, V06 §6.7) |
+| `epoch.costMs` | TOWN and the village rungs 150 · CITY 430 · METROPOLIS 1 310 | the per-epoch cost both comfort estimates sum — an `advance`'s and the history replay's — by the rung of the epoch's target: V06 §6.1's total with V06 §6.2's participants, rounded up to the next 10 ms (V06 §6.7, V06 §6.8) |
+| `epoch.islandMs` | TOWN and CITY 230 · METROPOLIS 260 | added per epoch for each island that may stand: one resize with its generated accesses' tops and feet (V06 §6.2's worst case) (V06 §6.8) |
+| `epoch.handAccessMs` | 60 | added per epoch for each hand-placed access standing at the request: its top's and its foot's placements at V05 §6's 30 ms each, at its island's resize (V06 §6.2, V06 §6.8) |
+| `epoch.stageMs` · `epoch.stageMsPerBuilding` | 6 · 0.06 | the growth stages in the estimate: per epoch whose target rises, plus per building the rises add (§12.6's scoped law; V06 §6.2, V06 §6.8) |
+| `advance.budgetMs` | 9 000 | an `advance`'s share of item 119's ten-second comfort level; above it the cadence coarsens (V06 §3.3.2, V06 §6.8) |
+| `replay.budgetMs` | TOWN and below 9 000 · CITY 8 500 · METROPOLIS 7 000 | the replay's share of the comfort level by the peak's rung — the ten seconds less the peak's generation and first map at the rung's band top (§12.3, §12.5) and a 500 ms reserve; above it the epochs coarsen (V06 §3.20.4, V06 §6.7, V06 §6.8) |
 
-**Not calibratable** (J-V6.111). Sixteen columns and one row set carry `calibratable: false` in their `ColumnSpec`
+**Not calibratable** (J-V6.111). Twenty-one columns and one row set carry `calibratable: false` in their `ColumnSpec`
 (V11 §2.1), so V12 §3.11's lint asks no register entry of them and no run may name them (V12 §3.7.2 (1)): the cost and
 recording bounds `advance.maxEpochs`, `history.checkpointStride`, `uses.openCandidates`, `uses.moveWhyRows`,
-`replay.maxEpochs`, `replay.detailRetainYears`, `replay.epochCostMs`, `replay.budgetMs` and the `chronicle.*` shares (they shape the cost or the non-canonical
-report, never a history's meaning); the rules `growth.crowdBands`, `streets.classes`, `uses.closeSurplusBy`,
+`replay.maxEpochs`, `replay.detailRetainYears`, the comfort estimate's `epoch.costMs`, `epoch.islandMs`,
+`epoch.handAccessMs`, `epoch.stageMs`, `epoch.stageMsPerBuilding`, `advance.budgetMs` and `replay.budgetMs`, and the
+`chronicle.*` shares (they shape the cost, the cadence a long run takes under item 119's comfort level, or the
+non-canonical report, never a history's rules); the rules `growth.crowdBands`, `streets.classes`, `uses.closeSurplusBy`,
 `works.partStartAt` and `replay.symbolicPeakAgeShare` (a band set, a class set, an order, a stage, and a dating convention
 with no corpus to measure it); and the `calamities` rows, a mapping of the dossier's calamities (item 20: a derivation rule,
 as V11 §3.1 holds every `dossier.*` column). Every other column is calibratable, its register entry as V06 §8 lists it.
@@ -567,8 +577,9 @@ as V11 §3.1 holds every `dossier.*` column). Every other column is calibratable
 The four structure knobs `retaining.holdM`, `retaining.neglectAfterYears`, `retaining.stretchM` and
 `aqueduct.disuseAfterYears` are V11's cells (V11 §3.18), read there by V06 §3.19.2 and V06 §3.19.4; item 113's `history.*`
 cells (`epochYears`, `burialYears` with its factors, `symbolicQuantile`, `reuseCost`, `replay`) and its event rows are
-V11's (V06 §2.14). The history store's memory and frame settings are per-device app settings (V09 §9), outside the recipe,
-the log and every digest: they change what is cached, never what is drawn.
+V11's (V06 §2.14). The history store's memory and the frames kept in memory are per-device app settings — V09 §5.12's,
+by default 256 MB on the desktop tier, 96 MB on the low-end tier and 8 frames (V09 §2.11's `AppPrefs.history`) — outside
+the recipe, the log and every digest: they change what is cached, never what is drawn.
 
 ### 2.3 The trajectory and the `advance` event
 
@@ -721,7 +732,7 @@ interface EpochReport { epoch: number; seq: number; week: number; years: number;
   phases: { step: EpochStep; participant?: string; ops: number; waited: number; blocked: number; ms: number }[];
   households: { arrived: number; left: number; relocated: number; crowded: number; overflow: number /* housed by the overflow ladder's rungs (ii)–(iii) */;
     underground: number /* seated by the crowding hook */; voidDwellers: number /* relocated into F6's new void dwellings (V06 §3.18.1 (4)) */;
-    undergroundVacated: number /* vacated by under.undercity's re-read, a foundation collapse or a void made lost, and re-housed inside the participant (V06 §3.18.1 (4), (6)) */;
+    undergroundVacated: number /* vacated by under.undercity's re-read, a foundation collapse or a void made lost after `siting`, and re-housed inside the participant (V06 §3.18.1 (4), (6)) */;
     backlog: number /* housed by the overflow ladder at the epoch's end */; inTransit: 0 /* always 0 at the close; asserted */ };
   buildings: Record<'built'|'extended'|'repaired'|'vacated'|'decayed'|'ruined'|'cleared'|'reused'|'burned'|'demolished', number>;
   plots: { joined: number; split: number; toGarden: number; gardensReused: number };
@@ -751,7 +762,10 @@ interface EpochReport { epoch: number; seq: number; week: number; years: number;
   landfall: { membersCleared: number /* every member that left a decoration this epoch, by any op */; ways: number; walls: number; plots: number;
     raised: number /* span and support members that left by repairRaised or dismantle */; decorationsCleared: number; quarriesToCommons: number;
     accessesReopened: number /* bricked accesses returned with their host */ } /* V06 §3.5.2's landfall candidate */;
-  replay?: { index: number; of: number; events: number; refounded: boolean; buried: number /* BuriedFormer.lay systems laid */; detail: 'model'|'full' /* V06 §3.20.4 */ } /* a replay epoch only (V06 §3.20) */;
+  replay?: { index: number; of: number; events: number; refounded: boolean; buried: number /* BuriedFormer.lay systems laid */; detail: 'model'|'full' /* V06 §3.20.4 */;
+    epochYears: number /* the plan's epoch length (ReplayPlan.epochYears) */; coarsened: boolean /* longer than history.epochYears (V06 §3.20.1 (3), V06 §6.8) */ } /* a replay epoch only (V06 §3.20) */;
+  advance?: { index: number; of: number; cadenceWeeks: number /* the cadence the group folds at */; requestedWeeks: number /* the cadence asked, after advance.maxEpochs' bend */;
+    estimateMs: number /* V06 §6.8's estimate at cadenceWeeks */ } /* an advance group's epochs (V06 §3.3.2): the cadence chosen reported, coarsened when cadenceWeeks > requestedWeeks */;
   chronicle: ChronicleEntry[] }   // §5.4's per-event report gains this section (file f item 339)
 type WhyRow = NonNullable<LifecycleEvent['detail']['why']>[number];   // §2.8's why row (file f item 265): { row, family, share, good?, other? }
 interface UseMove { use: Id; op: 'open'|'relocate'|'close'; from?: Id; to?: Id /* plots */;
@@ -811,13 +825,13 @@ writers and readers, values and knot roles.
 | `Enceinte.underuseSince` | the fortification phase | the contraction trigger | model data | kept; cleared by any hand change to the ring's trace (`drawWall`, `contractWall`, a `convert` on it) and re-derived at the next epoch | restored by the epoch's undo | absent = not under-used |
 | an enceinte's condition by run (`Enceinte.condition`: `standing` · `worn` · `patched` · `breached` · `dismantled`, knot role `wall_state_knot`, each run's material and last-change epoch; file f item 575, item 114) | `wearWall` (V06 §3.7.7 (2) → `worn`), `breach` (V06 §3.7.3's neglect, V06 §3.7.7 (2)'s decay and a contracted ring's decay → `breached`), `dismantle` (V06 §3.7.2 (2) → `dismantled`), V05's landfall (→ `breached`, V05 §3.16 (4)) and `repairWall` (→ `standing` robust or `patched` by its material, V06 §3.7.5, V06 §3.7.7 (3)); the record's lifecycle rules: `abandoned` on neglect, `decayed` while a run is not `standing`, lifted by the no-stretch `repairWall` (V06 §2.8) | V06 §3.7.5's repair (the `breached` runs, in chain order, of a pathway ring and of a ring in use), V06 §3.7.7's decay and repair (the runs' condition, material and last change: patches rebuilt oldest first), the pathway's clearing and end (V06 §3.7.2 (3)), the no-stretch `repairWall`'s existence test, V06 §3.7.2 (2)'s candidates (a stretch under a standing raised gate kept), the towers and gates drawn by their run, T-V6-6's wall struck share, §8.2's `decayed` row (gap glyphs on breached runs, dismantled towers as trace discs), §11.1's per-run LineStrings with id and run, the `enceinte` provider and the clerk | §2.2 rule 5 | §2.2 rule 5 | the op's undo restores the former profile, materials and last-change epochs; `repairWall`'s undo restores the `breached` run and the record's former lifecycle | §2.2 rule 5 (absent = `standing` throughout; an absent material reads robust) |
 | `Way.formerClass` | `downgradeWay`; V05's `fallIsland` (a covered way dropped to `track`; a way already carrying one keeps it) | `upgradeWay`, regrowth tier (5′), the landfall clearance (V06 §3.5.2), exports | model data | kept | the writing event's undo restores the prior value (absent where that event wrote the first) | absent |
-| `Way.surface` — volume 1's field (V01 §2.7; file f item 207), this volume one of its epoch writers | at an epoch: the `field` phase's re-lay (V06 §3.4 (9): a `setAttr`, author `engine`, cause `rule:field`, on a candidate whose rule value changed) and the landfall clearance's pair (V06 §3.5.2) | S14's road programs (V01 §5.1.2), the reader, exports | model data (V01's) | V01's: a re-derivation re-runs V01 §3.7.3 at S10a's end, an edited `surface` kept | the epoch's undo record restores the prior value | V01's (absent → the rule's value at load) |
+| `Way.surface` — volume 1's field (V01 §2.7; file f item 207), this volume one of its epoch writers | at an epoch: the `field` phase's re-lay (V06 §3.4 (9): a `setAttr`, author `epoch`, cause `rule:field`, on a candidate whose rule value changed) and the landfall clearance's pair (V06 §3.5.2) | S14's road programs (V01 §5.1.2), the reader, exports | model data (V01's) | V01's: a re-derivation re-runs V01 §3.7.3 at S10a's end, an edited `surface` kept | the epoch's undo record restores the prior value | V01's (absent → the rule's value at load) |
 | `Use.strain` | the use phase | the use phase | model data | kept | restored by the epoch's undo | absent |
 | `WaterBody.spring.flow` — the base's field (§2.3; item 111), this volume its epoch writer | the `terrainWater` phase's spring rule and the `hazards` phase's `dry` operator (V06 §3.12.1, V06 §3.11.7), cause `rule:spring` or the drought's cause; the `dossier` step's reading of a removed `oasis_water`; a hand `setAttr` (T2 `ground`) | the base's water pull and water term (weighted by `flow`); the aqueduct's runs-dry rule; the gardens' and grove's thresholds; the report; V10's why | model data (the base's) | kept (a generated oasis re-derived with the site keeps its `flow` by the spring's lineage; a hand-made one is re-applied from its event, §2.3) | the writing event's undo | absent `flow` (a spring older than item 111) reads 1 |
 | `EpochReport`, `ChronicleEntry` | every epoch (the replay's included) | the history panel, the clerk, `chronicle.csv` | non-canonical report block (§5.4) | rebuilt by replay | removed with the epoch | rebuilt |
 | `HistoryIndex` | load and every fold | the timeline bar, `locate` | never | — | recomputed | — |
 | `HistoryFrame` | a scrub outside the retain window, the APNG export | the renderer, then-and-now | never (memory) | dropped | dropped when its epoch is undone | dropped |
-| `HistoryStore` images and keyframes | every committed event's commit (images); every `history.checkpointStride`-th epoch (keyframes); the verification replay after a load | `locate`, the frame builder and a group's undo after a reload (V06 §3.15.2, §4.1) | memory, spilled to the app's disk cache — never in the document | rebuilt by replay | an undone event's image is dropped with it | dropped (a new output version replays) |
+| `HistoryStore` images and keyframes | every committed event's commit (images); every `history.checkpointStride`-th epoch (keyframes); the verification replay after a load | `locate`, the frame builder and a group's undo after a reload (V06 §3.15.2, V06 §4.1) | memory, spilled to the app's disk cache — never in the document | rebuilt by replay | an undone event's image is dropped with it | dropped (a new output version replays) |
 | an `advance` request's epochs | T1's time card, the clerk, the CLI — appended one `epoch` event at a time in one `group` | the fold | log (the epochs, each with `EpochInputs.advance`; `stoppedAt` on a stopped group's last) | — | one step while the last is the latest live event (V06 §4.1): in the session, the checkpoint before the group's first epoch is restored; after a reload, the state before the group is rebuilt from the nearest keyframe at or before it (the verification replay's, else the base) and the events between replayed; an unshared document then truncates the group, a shared one appends the `undo` and keeps the group in the log (§7.4 *Truncation*) | the epochs replay like any (§7.5); nothing is re-expanded |
 | `Household.transit` | the displacing batch (the ledger's `displace`) | `siting`; the occupancy readers (§10.3) | never: empty at every epoch's end | — | the epoch's record | absent |
 | `EpochOps.displaced`, `EpochOps.demandTaken`, the ledger | any phase or participant | the runner, `siting` | inside the epoch event only | recomputed by a replay of the epoch | the epoch event's undo | — |
@@ -827,11 +841,11 @@ writers and readers, values and knot roles.
 | a catacomb's extent over epochs (V04's `CatacombComplex`) | V04's record | `under.extend` | V04's record | never below `extentFloorM2` (V06 §3.18.2 (4)) | the event's record | V04's rule |
 | `EffectiveWeek` | derived from a change's lifecycle event | the frame builder, the scrubber, exports | never | — | — | — |
 | `ProductDecl.phases`, `.participants`, `.rows` | a product's registration | the runner; the decline and hinterland steps (`rows`) | code; the rows a versioned table in the recipe's pins (§7.6) | — | — | an absent `rows`: the engine's own rules |
-| the device's history settings (store MB, frames) | V09's settings panel (V09 §9) | the history store, the frame cache | device storage | — | the setting's own | defaults |
+| the device's history settings (store MB, frames) | V09's settings panel (V09 §5.12; V09 §2.11's `AppPrefs.history`) | the history store, the frame cache | device storage | — | the setting's own | defaults |
 | `EvolutionTable` rows, `evolution.*` params | shipped; `editTable`, `adjust` | every phase | tables in the recipe's pins and the log (§7.6) | an edit applies from the next epoch; standing history is never re-run (J-V6.28) | the edit's undo | §7.5's table migration |
 | a suppression (`LifecycleEvent.detail.suppress`, §2.8; file f item 260) | the `delete` of a generated raised way, harbour-mouth chain, quay wall, retaining wall or deck plot (V09 §4.3's delete, the clerk, the CLI) — written by the delete operator when the entity's lifecycle cause is a generation or epoch rule | `RaisedWayLedger` and the fortification phase's waterfront rule at every epoch; the retaining-wall re-derivation where an epoch levels (V06 §3.19.4 (1)) and tier (5)'s deck faces (V06 §3.19.5 (1)); generation's S4, S6, S10–S11 and a new stage's S5b; `rerunFrom`'s re-apply; V10's "removed by you" | model data, identity layer, on the delete's lifecycle event (in the log) | read again at every regeneration: the log's live removals are replayed with it, and the generator skips the key | §2.8's one lift rule; **served** — never generated again, counted once — while the user's re-add stands, per kind as V06 §3.19.3 (3), (7) name the forms V09 §4.20.3 (4)'s Build it again emits (`drawWay { raised: true }`, `drawWall`, `placeGate`, `drawWall { kind: 'retaining' }`, `drawFootprint` on the deck), deleting the re-add leaving the removal in force | absent in an older document: no suppression exists |
 | `RaisedWayLedger` | derived at each epoch's `raisedWays` step and at each generation | the pass and the generators; the report; V10 | never | re-derived | — | — |
-| a reason key's uniform | the base's raised-way stream, keyed by the `RaisedReasonKey`, epoch component 0 (V06 §3.16) | the gate at every generation and epoch | never: re-drawn identically from its key | the same value | — | — |
+| a reason key's uniform | `raised.reason` (§6.1), keyed by the `RaisedReasonKey`, epoch component 0 (V06 §3.16) | the gate at every generation and epoch | never: re-drawn identically from its key | the same value | — | — |
 | the raised way's `reason` and `underuseSince` (the base record's fields, file f item 244) | `reason`: the generating rule (generation or the pass); `underuseSince`: the pass when the lapse condition first holds, cleared when it ends | the pass (disuse, repair, the count); V10; exports (item 447's `reason` word and `underuseSince`, V06 §5.3) | model data | `reason` kept (it is the lineage); `underuseSince` kept, re-evaluated at the next epoch | restored by the writing event's undo | absent: a declared or pre-item-110 way (no reason), not under-used |
 | a span's and a support's condition (`state`, file f item 291) | the pool's `breach` and `dismantle`, `topple`, `inundate`, the landfall (V05) | the pass's repair and count; V04's arch vaults; the renderer; item 447's span and support `state` | model data on the raised way record | kept | the op's undo | absent = standing |
 | a retaining stretch's condition (`RetainingWall.state`: `standing` · `decayed` · `ruined`, knot role `retaining_state_knot`; file f item 245) | the pool's `breach` (slump → `decayed`) and `dismantle` (stone taken → `ruined`) — V07's house-platform walls through this pool; V05's landfall (`decayed`); `repairRetaining` (→ `standing`); the restoration rule writes `standing` over the re-levelled length (V06 §3.19.4 (6)) | the pool, the restoration rule (V06 §3.19.4 (6)), V04's foundations (a footing stands while the wall stands), the renderer's decayed and ruined rows, item 447's retaining `state`, the clerk | §2.2 rule 5 | §2.2 rule 5 — a generated wall's re-derivation keeps its profile keyed by the wall's lineage until the restoration re-derives it intact | the op's undo; `repairRetaining`'s undo restores the former state | §2.2 rule 5 (absent = standing) |
@@ -844,8 +858,7 @@ writers and readers, values and knot roles.
 ### 2.13 Item 110's epoch records — the reason key and the ledger
 
 ```ts
-type RaisedKind = 'viaduct'|'elevated'|'aqueduct';
-interface RaisedReasonKey { kind: RaisedKind; a: Id; b?: Id }
+// RaisedKind and RaisedReasonKey { kind: RaisedKind; a: Id; b?: Id } are §2.7's (beside RaisedWayRecord); this volume's readings fill a and b:
   // viaduct: a = the carried way's lineage, b = the crossed ravine or valley feature (the terrain's lineage and the feature's ordinal in Terrain.features);
   // elevated: a, b = its two endpoints' lineages (a high ward's district, a terrace district, the citadel's or a great temple's reservation), in address order;
   // aqueduct: a = the settlement root, b = the source (a spring as S1 records it, or a river WaterBody's lineage).
@@ -879,7 +892,8 @@ interface ReplayPlan {   // derived at generation (V06 §3.20.1) from the recipe
   peak: { rung: Rung; population: number; symbolic: boolean; evidence: string[]; yearsAgo: number /* when it stood: dated by its evidence, else replay.symbolicPeakAgeShare × the age */ } | null;
   start: { yearsAgo: number; population: number; from: 'founding'|'peak' /* the model S0–S13a builds before the first replay epoch */ };
   epochs: ReplayEpoch[] /* oldest first, contiguous, the last ending at the present (yearsAgo 0) */;
-  coarsened: boolean /* the span needed more than replay.maxEpochs epochs of history.epochYears, so the epoch length grew (V06 §3.20.1) */ }
+  epochYears: number /* the epoch length the plan runs at: history.epochYears, or the coarsened length (V06 §3.20.1 (3)) */;
+  coarsened: boolean /* epochYears > history.epochYears: the span needed more than replay.maxEpochs epochs, or the estimate exceeded replay.budgetMs (V06 §3.20.1 (3), V06 §6.8) */ }
 interface ReplayEpoch { index: number; fromYearsAgo: number; toYearsAgo: number /* the span it covers, (to, from] in years ago */;
   populationTarget: number /* populationHistory's value at its end where given, else interpolated (V06 §3.20.1 (3)); the present's at the last */;
   events: ReplayEventRef[] /* the history's events inside its span, oldest first (V06 §3.20.2) */;
@@ -893,7 +907,7 @@ interface HistoryEventRow { type: string;
   populationFactor?: number /* effect 'population': × the epoch's target when populationHistory gives no value there — plague_years, trade_collapse, market_crash, demographic_pressure (> 1) */;
   slice?: Partial<CircumstanceSlice> /* effect 'slice': applied from the epoch on — external_threat, occupation_legacy raise the threat */;
   uses?: { cls: string; perThousand: number /* households per opening */ }[] /* effect 'uses': openings of these classes in the epoch — pilgrimage_surge's hostels, occupation_legacy's garrison */;
-  severityScale: [number, number] /* the effect's scale at severity 0 and 1, linear between */ }
+  severityScale: [number, number] /* the effect's scale at severity 0 and 1, linear between; for effect 'destroy', the first end is the severity at or above which the event destroys, below it recorded only (V11 §3.25.2) */ }
 // on EpochInputs (beside `advance`, V06 §2.3): a replay epoch's provenance
 replay?: { index: number; of: number; fromYearsAgo: number; toYearsAgo: number; events: ReplayEventRef[];
   destruction?: ReplayEpoch['destruction']; refound?: ReplayEpoch['refound'] }
@@ -930,7 +944,8 @@ file f item 317). This volume fixes what happens inside that fold:
    own rung row at the edge of its range inside the band; J-V6.97), the household ledger empty.
 4. **Phases.** For each `EpochStep` in order (V06 §3.2): the phase for that step — **the product's override** when the
    epoch's product declares one in `ProductDecl.phases` (V07's village declares `siting` and `growth`), **else the
-   strategy's**; a step for which neither registers a phase runs nothing — then, at `afterField`, `decline` and
+   strategy's** (one phase per step the strategy implements, in `EpochStep` order — §4.11's `EvolutionStrategy.phases`);
+   a step for which neither registers a phase runs nothing — then, at `afterField`, `decline` and
    `afterGrowth`, **every** registered `EpochParticipant` of that step (the product's included, whatever the epoch's
    product — a scoped participant gates itself) in `(order, id)` order. Each returns `EpochOps`; the runner commits the ops
    **in the order given** as single-level batches of this one event (§3.3), each through the same operator a hand
@@ -972,7 +987,7 @@ The base's order (a)–(j) (§4.11 *The epoch's order*) with the engine's additi
 | 9 | `fortification` | — | superseded and neglected rings: gates, stretches, final conversion; contraction under barrier closure and water access; wall repair under renewed threat; the waterfront grade and the harbour-mouth chain; closure re-evaluated after last epoch's shoreline change | V06 §3.7.2–V06 §3.7.6 |
 | 10 | `terrainWater` | — | the base's trigger rows on this volume's candidates; the springs' failure, loss and recovery (V06 §3.12.1); a replay epoch's burial of former fabric (V06 §3.20.5 (4)) | V06 §3.12, V06 §3.20 |
 | 10a | `raisedWays` | — | the raised-way pass: an aqueduct whose source was lost runs dry; disuse marks; repairs of raised ways with a ruined span (or abandoned) and struck decks whose reason or crossing is live again; then, at a CITY or METROPOLIS rung (the fold's) only, new raised ways by reason, gate, order and cap, their land cleared and its households into the ledger | V06 §3.19 |
-| 11 | `ladder` | (d) | the wealth ladder's rungs on due blocks (base's rules); `MutationPlan` steps that fall due | V06 §3.8.4, §3.10 |
+| 11 | `ladder` | (d) | the wealth ladder's rungs on due blocks (base's rules); `MutationPlan` steps that fall due | V06 §3.8.4, V06 §3.10 |
 | 12 | `dossier` | (e) | the dossier events carried by the epoch (base) — each `assign` the step places (a record it adds, a member a count step adds, or the greater a REPLACEMENT re-key places new: V08 §3.5.1 (c)'s second and third cases, (d); V07 §3.12 item 4) offered first, at an epoch whose product declares one, to the product's `records` placement (V07's `village.records` at a village rung), which places it or declines it to the base's placement (§7.7's *One path*); a re-key whose greater keeps the lesser's thing (V08's first case) is a `rebind`, never offered and never placed (V06 §3.9.11); keyed by the adding event's `seq`, and each record the step removes handed, after the base's removal (§7.7 item 2's `closeUse`), to that placement's `remove` — then this volume's readings of them: the ladder steps (V06 §3.9.11), `activeChains` re-bound (V06 §3.9.10 (5)), a walls record's circuit trigger (V06 §3.7.6 (4)), a see's crypt (V06 §3.18.3 (1)), a removed `oasis_water` (V06 §3.12.1 (2)) | base + V06 |
 | 13 | `siting` | (f) | the ledger's pool, then the delta demand less the households taken, in the regrowth-first order with this volume's tiers | V06 §3.8 |
 | 14 | `growth` | (g) | the underground crowding hook, then the growth decision on the residual and the backlog; a new stage — walled or not — through S5–S13 on its new faces | V06 §3.6, V06 §3.7.1 |
@@ -1051,7 +1066,16 @@ the slices and the calamities are the dossier's; everything else the map derives
 **3.3.2 Standalone: `advance(trajectory)`.** The request expands, before anything is appended, into `n = ⌈spanYears × 52 ÷
 cadenceWeeks⌉` epochs. Above `advance.maxEpochs` the request **bends**: the cadence becomes the smallest whole number of
 weeks that fits, `⌈spanYears × 52 ÷ advance.maxEpochs⌉`, and the card and the clerk say so in one line ("a 500-year history
-runs in 130-week steps") — item 101 R2's bend, never a refusal. With `W0` the document's week and `P0` its population (the
+runs in 130-week steps") — item 101 R2's bend, never a refusal. **Then the comfort level** (item 119 (a2), the owner's
+"Total"; J132; J-V6.135): V06 §6.8's estimate of those epochs, their targets by the rules below, is compared with
+`advance.budgetMs`; above it the cadence
+becomes the smallest whole number of weeks, tried upward from the cadence so far, whose epochs' estimate fits — fewer,
+longer epochs, as V06 §3.20.1 (3) coarsens the replay; one epoch at the span's end always fits (V06 §6.8 (3)) — and the
+card and the clerk say so in the same one line with the cadence chosen ("a century runs in 5-year steps to finish within
+ten seconds"): a bend, never a refusal and never a shorter span. The estimate reads the request and the document at the
+request only, never a measured time, so the cadence is deterministic and a replay of the log folds the same epochs; every
+epoch of the group reports the cadence it folds at and the one asked (`EpochReport.advance`, V06 §2.10). `cadenceWeeks`
+below is the cadence so chosen. With `W0` the document's week and `P0` its population (the
 last epoch's `populationTarget`, else the population the recipe resolves at S2), epoch `i` (1 … n) sits at
 `W_i = W0 + min(i × cadenceWeeks, spanYears × 52)` (integer weeks; `spanYears × 52` rounded half-up to a whole week), with
 `f_i = (W_i − W0) ÷ (W_n − W0)` and:
@@ -1081,13 +1105,16 @@ the rest. A trajectory whose every epoch is clamped to the present population ap
 events and slices apply), and the preview says the population holds.
 
 The app appends the epochs one at a time in one `group` (§7.4), each folded before the next is built, so a century runs
-as a cancellable background job whose progress is visible and whose completed epochs stand if it is stopped (V06 §4.1). A
+as a cancellable background job whose progress shows past one second (V09 §4.21.9's progress view, counting the epochs at
+the cadence chosen) and whose completed epochs stand if it is stopped (V06 §4.1). A
 replay folds the stored epochs; the trajectory rides only as provenance on epoch 1 (`EpochInputs.advance`).
 
 **3.3.3 Growing from a founding.** At creation, T1's card may set "start small": the document is created at the founding
 population (default the lowest registered ladder's floor — 1 500 with the town product alone, a hamlet's with volume 7's)
 under the same recipe, and an `advance` with a `target` trajectory to the requested population over the requested span
-(default 200 years at 52-week cadence) follows as its first group. The town that results is a history the user chose to
+(default 200 years at 52-week cadence, coarsened under the comfort level as any `advance`; the founding's generation,
+§12.3's law at the ladder's floor, fits inside `advance.budgetMs`'s one-second reserve, V06 §6.8) follows as its first
+group. The town that results is a history the user chose to
 watch, beside the one-click town at that size and beside history-first generation (V06 §3.20), which replays a *recorded*
 history at creation; all three are offered (J-V6.4 superseded by item 113; J-V6.127).
 
@@ -1164,7 +1191,7 @@ buildings cast shade too**, frozen in a stored mask until the next epoch (item 1
    fronting blocks by V01 §3.7.3's area-weighted reading over the field as S6 now reads it. A plot's band moves only past
    §4.5's hysteresis, and a way is re-read only when a fronting plot's band has so moved, so the way's surface follows the
    hysteresis without a band memory of its own and never flickers at a cut. Where the rule's value differs from the stored
-   `surface`, the phase writes one `setAttr` of `Way.surface` (author `engine`, cause `rule:field`); a way whose value is
+   `surface`, the phase writes one `setAttr` of `Way.surface` (author `epoch`, cause `rule:field`); a way whose value is
    unchanged is not touched. A raised road (its surface is its record's, by its material) and an aqueduct (none) are never
    candidates; a way with an edited `surface` keeps it and is reported (`shade.surfacesHeld`). The write draws nothing, so
    the same epoch re-lays the same ways; it is in the epoch's undo record as every op is; the road programs (V01 §5.1.2)
@@ -1325,7 +1352,7 @@ exceptions (file f item 336): the overflow backlog and decrowding.
    together with any household of the ledger's pool (V06 §3.8.1) those tiers could not place. **The underground crowding
    hook comes first** (the base's order (6); II.7.3 (c); file f item 574): `crowdingShare` (II.7.4's row) of `R₀`'s
    poorest-band households, rounded half up, are offered underground — S7b (6)'s underground allocation and U-FRONT's
-   placement (V04 §3.4, §3.10) seat them on lived runs, then reopened runs (both only where `Features.sewers` is on),
+   placement (V04 §3.4, V04 §3.10) seat them on lived runs, then reopened runs (both only where `Features.sewers` is on),
    then **accessible** void clusters (at any rung of the base product, whether or not the town has sewers) only (V04's
    excavation reading `accessible`, item 109 (j) (4)); the seated leave `R₀`, the rest stay (J-V6.67). `R` = what
    remains. `B` = the **overflow backlog**: the households the overflow ladder (2) housed in earlier epochs and still
@@ -1576,9 +1603,11 @@ over epochs (J-V6.131); every chance is per year and every stretch a `walls.dism
    * a `dismantled` run stays a gap unless a hand edit or a new wall decision rebuilds it (V06 §3.7.5).
    V06 §3.7.5's renewed-threat and ring-in-use repairs are the NEED-`high` rows above: robust with the means, patched
    without them.
-4. **Neutral values** (the no-op pin): `walls.condition.meansLow` 0 (MEANS never `low`), `wearChancePerYear` null (a
-   neglected `standing` stretch breaches directly at `walls.breachChancePerYear`) and `needReturnYears` 0 reproduce the
-   rules before item 114 byte for byte (T-V6-73; V12 registers the pin).
+4. **Neutral values** (the no-op pin): V11 §3.24.0's `walls.condition` off form — `atGeneration` false (every run
+   `standing` at generation), `meansLow` 0 (MEANS never `low`), `wearChancePerYear` null (a neglected `standing` stretch
+   breaches directly at `walls.breachChancePerYear`) and `needReturnYears` 0 — reproduces the rules before item 114 byte
+   for byte (T-V6-73); V06's E3 seat registers H-100 and H-WALLS on V12 §2.13's `item114.condition` (V12 §3.7.8's
+   engine).
 5. **Report, story and replay.** The report counts `walls.worn`, `walls.patched`, `walls.rebuilt`; the chronicle writes
    `wallWorn` (a ring's first worn run), `wallPatched` ("{year}: the breaches in {subject} are patched with {material}")
    and `wallRebuilt` ("{year}: {subject} is rebuilt in {material}"); the `enceinte` provider reads each run's material and
@@ -1604,7 +1633,9 @@ band (descending), ties by address:
   exposed first by `E(x)`, so a steady town keeps some abandoned and derelict stock as FTG's poorest pools do
   (`research/findings/ftg-docs-params.md` §3.3 *Dependency graph*). A vacant building whose rear plots a sealed passage
   served is taken only after `openPassage` reopens it (the passage first, regrowth-first; V06 §3.5.2);
-* (2) `reoccupy` derelict ones (a repair, a ledger debit);
+* (2) `reoccupy` derelict ones (a repair, a ledger debit) — a building with no storeyed wing (V02 §3.15's solid
+  monument, every wing `solid`) takes no roof step: its decay removes no roof it lacks and a repair (`reoccupy` from
+  derelict) adds none, so a solid monument is never re-roofed (V02 X23);
 * (3) `rebuild` or `reuse … build` on ruins, burned shells and cleared traces — the class by S10b's class mix at the
   plot's field band (item 71); the footprint kept when the class's template admits it, else S11 on the plot (the successor
   at the trace's address, §6.3);
@@ -1662,7 +1693,7 @@ table) and the purchase's relocations fit the `use` cap. After the rungs, the `M
 yard; no `back_court`) runs, a `relet` stays within the deck building's capacity, a `MutationPlan` step and a `rebuild`
 run through S11's capped mutator (V02 §3.16 (3)), and a rung-3 re-cut keeps the deck plots inside the deck's width.
 
-**3.8.5 The grandeur ceiling across a rung change (item 115 (e)).** The ceiling on dwelling grandeur by rung (§4.2 S10b,
+**3.8.5 The grandeur ceiling across a rung change (item 115 (e)).** The ceiling on dwelling grandeur by rung (§4.7 S10b,
 §10.2; V02's composition rows; V07's village class mix; V11's ceiling table) is an input of every design an epoch derives,
 read at the epoch's rung — the fold's (V06 §3.1 (3)), so inside the hand-off band the previous product's rung row: S10b's
 class mix and S11's design for every placement of the siting tiers and a new stage, tier (3)'s `rebuild` and `reuse …
@@ -1729,7 +1760,7 @@ target (S2's roster, prefix-stable). Two cases:
   site, a chain node, an import store) within its `maxDistanceM` by its mode.
 * The strain is set to `{ kind, sinceWeek: week }` when `ρ < closeShare` (kind `demand`) or the supply fails (kind
   `supply`) and none is present; its kind is updated (its `sinceWeek` kept) when the other condition takes over; it is
-  cleared when neither holds. Each write is a `setAttr` op on `Use.strain` (author `engine`), so it has the epoch's undo
+  cleared when neither holds. Each write is a `setAttr` op on `Use.strain` (author `epoch`), so it has the epoch's undo
   and a user can clear it by hand ("give this shop time").
 
 **3.9.3 Closing a failing use.** A use that is neither dossier-backed nor pinned closes (`closeUse`, `leave: 'vacant'`,
@@ -2139,9 +2170,10 @@ boundary with no rule of this volume's. This volume writes `flow` over epochs, o
      `garden` once the flow has stood at or above the threshold for its drawn `land.fallowAfterYears` (keyed with the epoch
      it rose);
    * the **grove** (the `Greenery` rows of kind `grove` whose `fedBy` is the spring's body) thins when the flow has stayed
-     below `spring.groveMinFlow` for its drawn `land.scrubAfterYears`: its rows tombstoned (cause `rule:spring`); a thinned
-     grove is re-laid on the shore by S12b's grove rule (§4.9), keyed by the spring's lineage, once the flow has stood at
-     or above the threshold for its drawn `land.fallowAfterYears`;
+     below `spring.groveMinFlow` for its drawn `land.scrubAfterYears` (drawn once on `stream(EVO_TERRAIN, water body)`
+     keyed with the epoch the flow fell below): its rows tombstoned (cause `rule:spring`); a thinned grove is re-laid on
+     the shore by S12b's grove rule (§4.9), keyed by the spring's lineage, once the flow has stood at or above the
+     threshold for its drawn `land.fallowAfterYears` (drawn likewise, keyed with the epoch it rose);
    * a spring at `flow` 0 for its drawn `spring.dryMarshAfterYears` (drawn once on `stream(EVO_TERRAIN, water body)` keyed
      with the epoch it reached 0) silts its pond to marsh by the oxbow's path — `siltReach` shrinking its shore, the water
      face removed below 0.1 ha and the land typed `marsh`; the spring goes with its body;
@@ -2154,7 +2186,7 @@ boundary with no rule of this volume's. This volume writes `flow` over epochs, o
      by the same rules.
 5. **Only where water is scarce is it felt.** The pull is `w_water` × flow (§4.2 S3 (6)), near zero in wet climate rows, so
    a failing spring in a wet country changes the field by near nothing; a site with no ground spring runs none of this
-   (no op and no draw — T-V6-72's no-op pin).
+   (no op and no draw — T-V6-72's spring-less-site clause).
 6. **Report and story.** `water.springsFailed` (a drought or a loss this epoch), `.springsRecovered` (back to 1),
    `.springsLost`, `.gardensDried`, `.gardensRetaken`, `.grovesThinned`, `.pondsSilted`; the chronicle's `spring` line
    ("{year}: the spring at {subject} fails; its gardens dry") and `drought`; V10's water-pull why row reads the present
@@ -2173,7 +2205,9 @@ the one place the engine creates them, after every other phase has committed its
    dismantling are drawn at their effective week — an engine op's epoch week (V06 §2.11), exactly as a new circuit — and
    the decades a wall or an aqueduct takes to go are the per-stretch and per-span events across epochs. The buildings on
    deck plots are buildings and keep their Works (V02 §3.16). A replay epoch ending more than `replay.detailRetainYears`
-   before the present creates no Works: its changes apply finished (V06 §3.20.4).
+   before the present creates no Works: its changes apply finished (V06 §3.20.4). A building with no storeyed wing (V02
+   §3.15's solid monument, every wing `solid`) takes no roof step: its decay removes no roof it lacks and a repair
+   (`reoccupy` from derelict) adds none — a solid monument is never re-roofed (V02 X23).
 2. **Start weeks.** The first change on a target in an epoch starts at the offset drawn first on the `works` concern (§6.1)
    — uniform over the span `(prevWeek, week]`, as *Works* (10) states; a hazard's changes start at the hazard's week (V06
    §3.11.1). A **later change on the same target in the same epoch** — a build after its plot's demolition, a rebuild
@@ -2271,14 +2305,14 @@ edit's is its event's week. The frame for `w` applies the `before` image of ever
 week falls after `w` (the images path holds those records), so a scrub never draws a change before it happened. Events
 between two epochs are in the prefix at their log positions, so a hand edit made after epoch e − 1 shows from then on. The
 frame builder (in the generation worker) makes the model for an epoch `e` by the cheapest of:
-1. a cached `HistoryFrame` (LRU, the device's frame setting, V09 §9);
+1. a cached `HistoryFrame` (LRU, the device's frame setting, V09 §5.12);
 2. the **images path** — from the nearest cached frame, keyframe or the current model, applying the `HistoryStore`'s
    images of the events between them (the `before` images backward, the `after` images forward): record and face swaps of
    each event's touched set, no derivation, then the indexes of the touched chunks rebuilt (§3.3);
 3. the **replay path** — from the nearest checkpoint or keyframe at or before `e`, folding the log forward through the
    session's code path (§7.3 item 2's replay mode), the images captured as it goes.
 The images are written at every commit (the touched set's records and faces before and after it; V06 §2.11); the
-verification replay after a load (§12.6) rebuilds them as a side effect; past the device's store setting (V09 §9) they
+verification replay after a load (§12.6) rebuilds them as a side effect; past the device's store setting (V09 §5.12) they
 spill to the app's disk cache and are fetched back on demand; if they are gone the replay path serves. A keyframe is a
 copy-on-write chunk table (§7.4's checkpoint form) taken at every `history.checkpointStride`-th epoch and kept while the
 store's memory allows (the oldest dropped first; the output never depends on which are kept). The display for a frame is a
@@ -2322,7 +2356,7 @@ replaces it when the pointer settles (120 ms, as §12.6's previews do).
   `EVO_FIELD`, `EVO_USES`, `EVO_DEPARTURES`, `EVO_DECLINE`, `EVO_FORT`, `EVO_TERRAIN`, `EVO_LADDER`, `EVO_MUTATION`,
   `EVO_SITING`, `EVO_GROWTH`, `EVO_WORKS`, `EVO_UNDER` (the underground adapters' own draw: excavation by demand, V06
   §3.18.1 — their calls into volume 4 draw under `U-FADE`, below) and `EVO_RAISED` (the `raisedWays` phase's stage, V06
-  §3.19; its gate draws stay the base's raised-way stream's, keyed by the reason key — *Identity* below), in that order.
+  §3.19; its gate draws stay `raised.reason`'s (§6.1), keyed by the reason key — *Identity* below), in that order.
   The underground's per-element draws keep V04's keys on the `sewer` concern (item 109 (j) (3): the dig draw per building
   lineage, the catacomb source per cemetery or quarry lineage, the crypt join per (church, complex) pair — each fixed by
   its key, never repeated). A phase's draws use its stage id as the stream key's stage component (§6.1); **participants
@@ -2346,7 +2380,8 @@ replaces it when the pointer settles (120 ms, as §12.6's previews do).
   event's `seq` as creation index, epoch component 0 — on the epoch path and the absorb path alike (§6.1, §6.3; §7.7 item
   6, J-A22.76), so two absorbs between the same epochs never share an address and an event carried by an epoch keys as it
   would folded standalone (V07 J-V7.129). Town-level draws (the circuit chance, hazard counts, ignitions, `raiseGrade`) use
-  the town root's key. A replay epoch keys as any epoch, its epoch component its place in the log (V06 §3.20.3). Within a
+  the town root's key. A replay epoch r (r = 1 … R, V06 §3.20.3) keys its draws with §6.1's replay epoch component for r — the upper half of
+the epoch component's range, reserved to the history replay (J-A113.61) — so no replay draw equals a live epoch's. Within a
   stream, each phase draws in the order this section states, one stream per (entity, stage) per epoch, continued.
 * **Order.** Phases in V06 §3.2's order; inside a phase, address order unless the section states another deterministic
   order (the key order of the departure matching and the strike pool, item 105 (f)'s order of openings, BFS rings in
@@ -2359,7 +2394,7 @@ replaces it when the pointer settles (120 ms, as §12.6's previews do).
   `RaisedReasonKey` (V06 §2.13), its creation index 0 and its epoch component 0, whichever path founds it — generation's
   S4 or S6, a new stage's S5b, or V06 §3.19's pass — so a way generated at creation and one an epoch founds for the same
   reason share an address, and a removal, a re-apply and V04's arch-vault keys (the way's lineage and its supports'
-  lineages) agree on both paths. Its gate draw is one uniform per reason key on the base's raised-way stream with epoch
+  lineages) agree on both paths. Its gate draw is one uniform per reason key on `raised.reason` (§6.1) with epoch
   component 0, drawn once and never re-drawn. The ground part number (item 110 (b): allocated once, never reused) takes no
   part in the matching. A way founded after an earlier one of the same key was released (V06 §3.19.1 (3)) takes §6.3's
   collision suffix `~k`; its key is unchanged.
@@ -2382,7 +2417,8 @@ replaces it when the pointer settles (120 ms, as §12.6's previews do).
    its id, and the epoch continues.
 5. **Inputs.** An unknown hazard kind and an unmapped calamity are reported and ignored; a `populationTarget` outside every
    registered ladder never reaches an epoch (the port refuses it, §7.7 item 15) and a standalone trajectory's is clamped to
-   the registered ladders (J-V6.5, J-V6.61); a degenerate `advance` request bends or is a no-op by V06 §3.3.2's rules; a
+   the registered ladders (J-V6.5, J-V6.61); a degenerate `advance` request bends or is a no-op by V06 §3.3.2's rules, and one whose estimate exceeds `advance.budgetMs`
+   coarsens its cadence by them (V06 §6.8), never shortened or refused; a
    `params.week` outside the span is clamped (V06 §3.11.1); a dossier event the base cannot apply follows §7.7's ladders.
 6. **The report.** Every skip, wait, hit, clamp, re-plan and held entity is an entry of the `EpochReport` with its cause;
    nothing the engine declined to do is silent.
@@ -2403,8 +2439,8 @@ replaces it when the pointer settles (120 ms, as §12.6's previews do).
 
 ### 3.18 The underground over epochs (item 109 (h), (j) (1)–(5) with (3b), (k) (1)–(6); item 113 (d), (e); J-V6.50–J-V6.53, J-V6.62–J-V6.66)
 
-Volume 4 owns the underground's systems, their rules and tables and their build-depth algorithms (V04 §2.2–§2.3, §3.5,
-§3.8, §3.10: `AccessPass`, `CatacombGrowth`, `UndergroundFade`, the `DigRule`, `OpeningRow`, `LinkRule`, `RuinRule` and
+Volume 4 owns the underground's systems, their rules and tables and their build-depth algorithms (V04 §2.2–V04 §2.3,
+V04 §3.5, V04 §3.8, V04 §3.10: `AccessPass`, `CatacombGrowth`, `UndergroundFade`, the `DigRule`, `OpeningRow`, `LinkRule`, `RuinRule` and
 `CatacombRule` tables, `AccessCause`, `LinkCause`, `RuinRecord`, `CatacombComplex`, the excavation reading with its
 `lost` state); volume 3 `Basement.crypt` (derived with the basement; the plan draws it), laid by volume 2's crypt ladder.
 This section owns their **epoch half**: when each rule runs over epochs, what binds from one epoch to the next, and what an
@@ -2423,11 +2459,13 @@ and `under.undercity` at `afterGrowth`), each an adapter over V04's functions gi
 2. **The access pass** (`under.access`, order 20; V04's `AccessPass.run` over the epoch's scope), in this order:
    a. **Dig from above.** V04's dig rule (V04 §3.5.7 (d)) is evaluated for every building in `scope.built` or
       `scope.basementGrown` that stands over a cavern or ruin element: its **one uniform per (building lineage, `dig`,
-      void kind)** on the `sewer` concern is fixed by its key — never re-drawn — and compared with the building's chance
-      (the class row × the basement factor × the depth factor, capped), so an access appears when a building is built over
-      a void, or later when its chance rises above its draw (a basement added, a deeper cellar), and a building never draws
-      twice for one kind: `reoccupy`, `relet` and a repair change nothing, while a rebuild on a trace (a successor lineage,
-      §6.3) and every new stage's buildings bring new draws. A success is V04's `AccessPoint` of source `dig` with
+      void kind)**, its key carrying the wing key of a wing V02's mutator adds (V04 §3.5.7 (d); J-VI.17 H2), on the
+      `sewer` concern is fixed by its key — never re-drawn — and compared with the building's chance (the class row × the
+      basement factor × the depth factor, capped), so an access appears when a building is built over a void, or later
+      when its chance rises above its draw (a basement added, a deeper cellar). A building draws once per void kind, plus
+      once for each wing V02's mutator adds over a void (a `MutationPlan` step or a rung-3 op, in `scope.basementGrown`):
+      `reoccupy`, `relet` and a repair change nothing, while a rebuild on a trace (a successor lineage, §6.3) and every new
+      stage's buildings bring new draws. A success is V04's `AccessPoint` of source `dig` with
       `AccessCause { rule: 'dig', system: <the void's>, event: <the epoch's seq> }`. Because each new building over a void
       adds a draw, the share of voids with an access rises as the town grows (T-V6-34) — a settlement that grows over a
       sealed or lost void keeps testing it — and because the chance falls steeply with depth (`DigRule.decayM`, `maxM`),
@@ -2479,7 +2517,11 @@ and `under.undercity` at `afterGrowth`), each an adapter over V04's functions gi
    path, a sewer sealed), the reading turns `lost` in that batch (item 113 (e)), and the fade adapter vacates the void's
    dwellings **in the same batch** by II.7.3's vacancy rules, returning their households as `EpochOps.displaced` (cause
    `void`), re-housed at `siting` in the same epoch (V06 §3.8.1); chronicled `voidLost` and `voidVacated`, counted
-   `under.voidsLost`. A `lost` void holds no dwelling until an open path exists again; its dwellings may return by this rule
+   `under.voidsLost`. A cluster turned `lost` in an `afterGrowth` participant's commit (`under.extend`'s
+   `Foundations.apply` or `ArchVaults.reconcile`, `under.access`, `under.undercity`) has its dwellings vacated in that
+   batch and its households re-housed inside that participant by the in-participant rule below, never through the ledger
+   (whose pool `siting` has already drained); chronicled and counted the same. A `lost` void holds no dwelling until an
+   open path exists again; its dwellings may return by this rule
    when it is refound.
    **Whose households** (J-V6.100). `under.undercity` runs after `siting`, so it takes no household from the ledger: F6's
    dwellings an epoch opens in an accessible cluster are filled by **relocating** households of the same district's
@@ -2488,8 +2530,9 @@ and `under.undercity` at `afterGrowth`), each an adapter over V04's functions gi
    charged to the district's `use` cap (the rest wait for the next epoch); never new households, so ground + underground +
    sky still equal the target (T-V6-52); their ground dwellings are left vacant for the next epoch's regrowth. The crowding
    hook (V06 §3.6 (1)) also seats households on accessible void clusters, whether or not the town has sewers (file f item
-   574). Households that `UndercityEpoch.reread` vacates (a shrinking undercity, `clearUndercity`, a hand-down's bound 0)
-   and those on a floor a foundation collapses ((6)) are **re-housed inside the participant**, in its batch, by §4.7's
+   574). Households that `UndercityEpoch.reread` vacates (a shrinking undercity, `clearUndercity`, a hand-down's bound 0),
+   those on a floor a foundation collapses ((6)) and those of a cluster turned `lost` after `siting` (above) are
+   **re-housed inside the participant**, in its batch, by §4.7's
    overflow pass on ground stock (the base's in-event re-homing, as a hand edit's; a tent only if that pass fails,
    reported), counted `households.undergroundVacated` — never left for `close`.
 5. **Ruins over epochs** (item 109 (h), (c)). A ruin's ancient plan changes only by decay (`under.fade` over its elements at
@@ -2547,7 +2590,7 @@ Inside `under.extend` (order 10), after the sewer's extension; the complex is V0
    over the epoch's span**, so the same century grows the same at any cadence (J-V6.53). This volume passes this cap, the
    primary (3a) and the calamity deaths to `CatacombGrowth.grow` (V04 §3.10 names the input).
    **3a. The primary complex.** At each epoch the **primary** is the complex whose cemetery serves the most burials now,
-   ties by source address; another complex becomes the primary only when its served burials exceed the current primary's
+   ties by rank (V04 §3.5.1 (5): the formation order, rank 1 at generation); another complex becomes the primary only when its served burials exceed the current primary's
    by `catacomb.primaryHysteresis`. The primary grows by its full cap; every other complex grows only while its extent
    stays below V11 §3.23.8's `rankCap` (V04's `CatacombRule` field) × the primary's — **the rank cap stops growth and never
    reduces an extent** (the ratchet); a held complex is stagnant with `blockedBy` `rank`, its unmet need going to its fill.
@@ -2688,7 +2731,7 @@ epoch that carries a town across into CITY is the first that may found one.
      `T` (the nearer first), then by the key's address. After each aqueduct admitted this epoch, `r` is re-read with its
      delivery counted, so a second aqueduct is founded only while the need remains.
 3. **The gate first** (J-V6.68's idiom). Each met candidate's `RaisedReasonKey` (V06 §2.13) holds one uniform `u`, drawn on
-   the base's raised-way stream with epoch component 0 — the same draw generation makes, never re-drawn (V06 §3.16;
+   `raised.reason` (§6.1) with epoch component 0 — the same draw generation makes, never re-drawn (V06 §3.16;
    J-V6.84). The candidate is **live** only while `u < p`, `p` V11 §3.24.2's chance at the epoch's rung — its "chance,
    stated once" over `chance[rung, kind]`, `pMax` and the kind's factor (the ends' mean band, the landmarks and the culture
    for an elevated road; the era and the culture for an aqueduct — the dossier's water-system record makes the need count
@@ -2714,7 +2757,7 @@ epoch that carries a town across into CITY is the first that may found one.
    item 244: `clearanceCm` for the crossed class, a generated way holding none and so taking volume 11's
    `raisedWays.structure` cell, plus the deck's depth — the deck's lower bound there). **Item 244's support step** (file f
    item 244; J-VI.27) then lays the stations and pier rings on the solved course — a generated way holds no
-   `spanSpacingCm`, so its pitch is the one uniform the step draws on the raised-way stream keyed by the way's lineage (its
+   `spanSpacingCm`, so its pitch is the one uniform the step draws on `raised.reason` (§6.1) keyed by the way's lineage (its
    reason key, (8)) and `pitch`, inside its material's `pierSpacingM` band — and a course one of whose piers stands higher
    than `maxPierM` for its kind is dropped (`raised_too_tall`, volume 11) and the candidate **waits** (`raised.waited`; its
    `u` unchanged). The spans' use (`open` or `vault`) is then the base's span rule on that course. A candidate with no
@@ -2726,7 +2769,7 @@ epoch that carries a town across into CITY is the first that may found one.
    fountain centrepiece when it has one** (no second fountain). The terminal is never an institution the roster or the
    dossier does not hold.
 7. **Clearing the land.** The land the base reserves under the raised part — its support footprints (the support step's
-   pier rings, (5)) and its under-deck strip (the deck's width plus `raised.stripMarginM` each side) — is cleared **before**
+   pier rings, (5)) and its under-deck strip (the deck's width plus V01 §3.14's `raised.stripMarginM` each side) — is cleared **before**
    the commit, in address order: a vacant, derelict, ruined or cleared building there takes `demolish`; an occupied one
    takes `demolish` only after its households are displaced into the ledger (`EpochOps.displaced`, cause `clearance`) and
    any dossier-backed use in it is relocated (*Dossier content across epochs*). Each demolition is charged to the
@@ -2750,8 +2793,8 @@ epoch that carries a town across into CITY is the first that may found one.
 **The rows the pass reads** are V11 §3.24.2's `raisedWays` table and settings, the era and culture factors (V11 §3.19.1,
 V11 §3.20.3), V11 §3.24.7 (3)–(4) for the dossier's water system and landmarks on high ground, and V11 §3.18's structures
 block for the disuse and slump cells; this volume keeps no copy (one knob, one table). The rung gate is the owner's (CITY
-and METROPOLIS only), never a cell. The one row not V11's is `raised.stripMarginM` (1 m), the base's under-deck strip row
-(§4.3).
+and METROPOLIS only), never a cell. The strip margin is V01 §3.14's `raised.stripMarginM` (V01 §3.17.3 (2)'s under-deck
+strip).
 
 **3.19.1 The cap and the count** (item 110 (f): "within the rung's cap"; J-V6.86, J-V6.95).
 1. **The cap bounds foundations, never survivals** (J-V6.64's rule). A kind's **count** is its standing generated ways plus
@@ -2782,13 +2825,13 @@ and METROPOLIS only), never a cell. The one row not V11's is `raised.stripMargin
 
 **3.19.2 Raised ways in disuse, decline and repair** ("arches fall by stretch while piers persist"; J-V6.87, J-V6.94).
 1. **Only generated ways decay by disuse**; a declared way is held (item 101 R13) — it breaks only by a hazard or the
-   landfall, and the user repairs it by hand (T4's inspector, "repair").
+   landfall, and the user repairs it by hand (T9 `shape`'s inspector, **Repair**; V06 §4.2).
 2. **Lapse and disuse**, in (A), for each standing generated way in address order:
    * **the lapse condition** — a **viaduct or an elevated road**: its carried way has been downgraded (or retired to a
      hollow way, V07 §3.12 — read as downgraded), or neither end's foot junction has an incident part-0 way fronting an
      occupied plot; a viaduct carrying a primary never lapses by the second test (primaries never downgrade, V06 §3.5.2 —
      such bridges were kept in use); an **aqueduct**: its need ratio `r` below 1;
-   * the base record's **`underuseSince`** is set to the epoch's week by a `setAttr` (author `engine`) when the condition
+   * the base record's **`underuseSince`** is set to the epoch's week by a `setAttr` (author `epoch`) when the condition
      first holds, and cleared when it ends;
    * a way is **disused** at once when its carried way was downgraded, and otherwise when `(week − underuseSince) ÷ 52`
      reaches `streets.abandonAfterYears` (viaduct, elevated road) or V11 §3.18's `aqueduct.disuseAfterYears`; a disused
@@ -3006,7 +3049,7 @@ resettlement, `peakTier`) or the blueprint's history option (§4.2 S0) — and V
    `HistoryHint` scars, §4.11 (1)).
 3. **The epochs.** The span from the start to the present is cut into `n = ⌈span ÷ history.epochYears⌉` epochs, oldest
    first, the last ending at the present; when the budget (V06 §3.20.4) or `replay.maxEpochs` would be exceeded, the epoch
-   length grows to the smallest whole number of years that fits both, `coarsened` set and reported. Each epoch's
+   length grows to the smallest whole number of years that fits both, `coarsened` set and the length chosen reported (`ReplayPlan.epochYears`; the report's `replay.epochYears`). Each epoch's
    `populationTarget` is `populationHistory`'s value at its end where given (linear between records); else the piecewise
    linear curve through the peak (at its year), the population effects of the mapped events (V06 §3.20.2) at their
    epochs, and the present population at the present; the last epoch's target is the present's exactly (the roster's,
@@ -3031,7 +3074,8 @@ span. Its **effect**, scaled linearly between the row's `severityScale` ends by 
   wall decision may build a circuit, V06 §3.7.1; the era and culture rows);
 * `uses` — openings of the row's classes, ⌈households ÷ 1 000 × `perThousand`⌉ each, as deficits of this epoch's `uses`
   phase (V06 §3.9.6): a pilgrimage surge's hostels, an occupation's garrison;
-* `destroy` — the destruction path (V06 §3.20.5), where the row's severity threshold is met;
+* `destroy` — the destruction path (V06 §3.20.5), where the event's severity is at or above the row's threshold, the
+  first end of its `severityScale` (V06 §2.14; V11 §3.25.2); an event below it is recorded only;
 * `none` — recorded only.
 Several events of one epoch apply in week order, then type order. The same history maps the same way at every run: the
 mapping draws nothing.
@@ -3051,7 +3095,8 @@ circumstances, events, dossier?, replay }`:
 * `dossier` — only on the last replay epoch: the dossier's present records (the creation's `assign` events and their
   receipts), applied at its `dossier` step by least disruption (§4.11 (2): the present institutions by the last epoch's
   step (e)), so the replay ends meeting the dossier's present facts exactly (item 20);
-* `replay` — V06 §2.14's provenance.
+* `replay` — V06 §2.14's provenance; the epoch's draws are keyed with §6.1's replay epoch component for its index
+  (V06 §3.16).
 Every phase and participant runs as at a live epoch (V04's, V05's, V01's and V07's included), so growth, decline, walls
 (item 114's transitions among them), the underground (a sewer reopened before a new one is dug, item 113 (d); a void made
 `lost`, item 113 (e)), islands and raised ways follow the recorded history; the hand-off band and the village product
@@ -3059,11 +3104,14 @@ carry a place across rungs (V07 at village rungs). The document's history index 
 past (V06 §3.15.4), and a frame of any of them can be scrubbed.
 
 **3.20.4 The budget and lazy detail.** The replay runs in the generation worker with progress, before the first map; the
-one-click budgets (§12.3, §12.5) are the path without a known history, and a history-first generation's are these:
-* **The estimate** — `Σ replay.epochCostMs[rung of the epoch's target]` over the plan's epochs (V06 §6.7's per-epoch
-  costs), a function of the plan only, so the coarsening it decides is deterministic; when it exceeds
-  `replay.budgetMs[the peak's rung]` (V06 §6.7), the epoch length grows (V06 §3.20.1 (3)) until it fits. The measured time
-  is a bar (T-V6-71), never an input.
+one-click budgets (§12.3, §12.5) are the path without a known history, and a history-first generation's — the whole wait,
+the start's generation, the replay and the first map, inside item 119's ten-second comfort level (item 119 (a2); V06 §6.8)
+— are these:
+* **The estimate** — V06 §6.8's estimate over the plan's epochs (`epoch.costMs` by the rung of each epoch's target, the
+  islands that may stand, the growth stages), a function of the plan and the recipe only, so the coarsening it decides is
+  deterministic; when it exceeds `replay.budgetMs[the peak's rung]` — the comfort level's share left after the peak's
+  generation and the first map (V06 §6.8 (2)) — the epoch length grows (V06 §3.20.1 (3)) until it fits. The measured
+  time is a bar (T-V6-24, T-V6-71), never an input.
 * **Lazy detail** — a replay epoch ending more than `replay.detailRetainYears` before the present runs its phases at
   model level: the `works` phase creates no Works (its changes apply finished, V06 §3.13 (1)), no lazy rung (wings,
   rooms, plans, close-ups) is derived for its buildings (§4.1's laziness contract derives them on demand, for the present
@@ -3094,8 +3142,10 @@ one-click budgets (§12.3, §12.5) are the path without a known history, and a h
    `history.reuseCost`), its own plan and culture where they differ; the pool quarries the ruins by salvage demand (the
    salvage ledger, §4.11). The old plan persists wherever it helps and decays by the ordinary pool elsewhere.
 4. **Burial** (DR39; item 113 (c)). At each replay epoch's `terrainWater` step, each **former fabric** — the records one
-   destruction ruined, or the ruins one district's decline left in one epoch (its ruined buildings, its ways effaced to
-   traces, its dismantled enceinte stretches and ruined gates) — whose years since it was ruined first pass V11's
+   destruction ruined, or the ruins one district's decline left in one epoch (its ruined buildings, its ways retired or
+   effaced to traces, its enceinte runs whose condition is `dismantled` — and, for a destruction's fabric, the runs
+   V06 §3.20.5 (2) left `breached` — with the towers and gates drawn on them; a tower or a gate carries no state, file f
+   item 575) — whose years since it was ruined first pass V11's
    `history.burialYears` as the site's factors set it (shortened by floods, river silt and rebuilding on top, lengthened on
    bare rock) is buried: the runner calls V04's `BuriedFormer.lay(doc, epoch, former)` in that batch (V04 §3.5.5 (b)) and
    clears the listed surface records (existence `cleared`, cause `rule:burial`), as `raiseGrade` clears its region; a
@@ -3125,14 +3175,14 @@ describing the replay that made the map, and the report and the clerk say the re
 from the site to replay it") — a Re-derive from S1 re-runs the replay whole (V04 §1b.5 reads the same rule;
 J-V6.134). A `forkAt` at a seq inside the creation prefix bends to the prefix's end (the creation is indivisible), with
 its line. With `history.replay` false the generation is the base's one-click path and byte-identical to it (T-V6-71's
-no-op pin; V12 registers it).
+no-op pin `item113.history`, registered by V06's E9 seat on V12 §3.7.8's engine).
 
 ### 3.21 Edges — every mechanism at its limits (principle (11))
 
 Each row states the outcome, the failure rung (§5.1: check, repair locally, retry that piece, simpler shape, substitute,
 leave out and report — never a whole-map retry) and the test; T-V6-70 is the edge suite (V06 §7), one fixture per clause
 named. **Degenerate geometry (E4) everywhere in the engine** follows the base's general rule (§5.1): every op commits
-through kernel transactions, a degenerate result the kernel refuses (`E_DEGENERATE`, `E_BELOW_MIN_EDGE`, `E_NON_SIMPLE` …)
+through kernel transactions, a degenerate result the kernel refuses (`E_DEGENERATE`, `E_BELOW_MIN_EDGE`, `E_SELF_INTERSECT`, `E_INVARIANT` …)
 is that op's refusal — rolled back alone and reported (V06 §3.17 (1)) — and the phase goes on; the rows below name each
 mechanism's own degenerate cases.
 
@@ -3141,15 +3191,15 @@ mechanism's own degenerate cases.
 | mechanism | the edge | outcome | rung | test |
 |---|---|---|---|---|
 | the engine's interfaces (V06 §2.1) | a phase or participant returning an op on a tombstoned or unknown id; a `displaced` row whose household is not in its `from` building; `demandTaken` above the band's remaining delta; a malformed result | the operator refuses the stale op (skipped, reported); the bad `displaced` row dropped, reported; `demandTaken` clamped to the remaining delta, reported; a malformed result isolated as a participant error (V06 §3.17 (4)) | check → leave out and report | T-V6-70 (a); T-V6-52 |
-| the trajectory and `advance` (V06 §2.3, V06 §3.3.2) | a span not above 0 or not finite, under half a week; a cadence below 1 week or fractional; unsorted, repeated or past points; `perYear` below −1; an overflowing rate; a negative target; every epoch clamped | V06 §3.3.2's *Degenerate requests*: a no-op with its line, one week, a floored cadence with its line, sorted points (the last kept, past ones dropped), −1 read, the ladder top, the clamp; time still passes when the population holds | repair locally (bend or no-op) | T-V6-23 |
+| the trajectory and `advance` (V06 §2.3, V06 §3.3.2) | a span not above 0 or not finite, under half a week; a cadence below 1 week or fractional; unsorted, repeated or past points; `perYear` below −1; an overflowing rate; a negative target; every epoch clamped; an estimate above `advance.budgetMs` at the cadence asked | V06 §3.3.2's *Degenerate requests*: a no-op with its line, one week, a floored cadence with its line, sorted points (the last kept, past ones dropped), −1 read, the ladder top, the clamp; time still passes when the population holds; the cadence coarsened to the smallest that fits, one epoch at the span's end the floor (V06 §6.8 (3)), its line naming the cadence chosen | repair locally (bend or no-op); simpler shape (coarser epochs) | T-V6-23; T-V6-24 |
 | an advance group after a save, and in a shared document | the group's undo after a reload (its checkpoint gone); the undo in a shared document | rebuilt from the nearest keyframe at or before the group (else the base) and the events between replayed, then truncated in an unshared document; in a shared one an `undo` event is appended, the group kept in the log, the independence check applied (§7.4) | retry that piece (rebuild by replay) | T-V6-23 |
 | hazard and calamity rows (V06 §2.4) | an unknown kind; a row's missing param; a calamity whose severity is not one of the four bands; a `drought` on a map with no spring | reported and ignored; the operator's default; read `moderate`, reported; no op, reported `droughtNoSpring` | leave out and report | T-V6-27; T-V6-70 (b) |
-| `MutationPlan` (V06 §2.5, §3.10) | a plan whose stored record is missing (a migrated or truncated log); its plot or building tombstoned; a step due before the plan's creation; a plan with no step left; a single-step plan | re-planned from the present design (V06 §3.10.3), reported; cancelled; clamped to the creation week; none made; applied at its week | repair locally | T-V6-15 |
-| the building shade mask (V06 §2.6, §3.4) | absent; a sampler mismatch; a field grid that grew with the frame; a zero-height or zero-area caster; every rung | zero building shade; recomputed whole at the next epoch (V06 §3.4 (5)); the new cells read zero until the next epoch rewrites the mask whole; no shade; the mask runs wherever the field phase runs, every rung of every product, inert at `w_sun` 0 or item 111 (c)'s cell 0 | substitute (zero) until the next epoch | T-V6-12 |
+| `MutationPlan` (V06 §2.5, V06 §3.10) | a plan whose stored record is missing (a migrated or truncated log); its plot or building tombstoned; a step due before the plan's creation; a plan with no step left; a single-step plan | re-planned from the present design (V06 §3.10.3), reported; cancelled; clamped to the creation week; none made; applied at its week | repair locally | T-V6-15 |
+| the building shade mask (V06 §2.6, V06 §3.4) | absent; a sampler mismatch; a field grid that grew with the frame; a zero-height or zero-area caster; every rung | zero building shade; recomputed whole at the next epoch (V06 §3.4 (5)); the new cells read zero until the next epoch rewrites the mask whole; no shade; the mask runs wherever the field phase runs, every rung of every product, inert at `w_sun` 0 or item 111 (c)'s cell 0 | substitute (zero) until the next epoch | T-V6-12 |
 | the conversion kinds (V06 §2.8) | an op on a tombstoned target; `retypeLand` to its present kind; `upgradeWay` with no `formerClass`; `downgradeWay` of a path; `wearWall` on a run not `standing`; `repairWall` with no neglect to lift | refused (skipped, reported); each other a no-op with its line ("this way has no former class", "this wall is in use") | leave out and report | T-V6-70 (c); T-V6-11 |
 | the report and the chronicle (V06 §2.10) | an epoch with nothing to report; a chronicle kind without a template; a lost report block | a report of zeros and an empty chronicle, written; forbidden by T-V6-26's wiring bar; rebuilt by replay, the pre-rebase ones reported lost | substitute (rebuild) | T-V6-26; T-V6-70 (d) |
 | item 110's records (V06 §2.13) | a raised way with no `reason`; a suppression whose key no generator produces; a reason key whose lineage no longer exists (a spring lost, a feature removed) | counted as declared; held, reported only when its reading is met; the reading unmet, the key held | check | T-V6-58; T-V6-60 |
-| the runner and the phase order (V06 §3.1–§3.2) | an epoch with no change of input (the target held, no event, no dossier event); a degenerate op | every phase runs — spans run, strain ages, Works retire — nothing re-rolled; the general E4 rule | — | T-V6-70 (e); T-V6-3 |
+| the runner and the phase order (V06 §3.1–V06 §3.2) | an epoch with no change of input (the target held, no event, no dossier event); a degenerate op | every phase runs — spans run, strain ages, Works retire — nothing re-rolled; the general E4 rule | — | T-V6-70 (e); T-V6-3 |
 | epoch inputs (V06 §3.3) | no `week` on a standalone call; one epoch; a target at a ladder end; a rung crossing | the base's `previous + round(52 × years)`; one epoch folded; the clamp reported; the fold's product and rung (V06 §3.1 (3)) | repair locally | T-V6-23; T-V6-51 |
 | decline (V06 §3.5) | no candidate; one leaving household; the cap spent; a building whose `decay` Works was retired; every rung; an undone decline epoch; a save and load between epochs | nothing struck, the cap unused; one `relet`; the rest wait in key order; its span read from its lifecycle block; the village rows at a village rung; the epoch's undo; the keys re-derived identically | check | T-V6-5; T-V6-6; T-V6-70 (f) |
 | growth (V06 §3.6) | no residual; a residual of one; crowding at capacity; a band row missing; every rung; the parity presets; the backlog after a reload | no stage; overflow rung (i); rung (ii) then (iii); the middle band's row; V07's growth override at a village rung, the base regimes at TOWN and above; `decline.turnoverVacancy` 0 and the suburb regime by file f item 293; the backlog derived from its records, never stored | repair locally; the overflow ladder's last rung cannot fail | T-V6-8; T-V6-31; T-V6-32; T-V6-70 (g) |
@@ -3187,7 +3237,7 @@ mechanism's own degenerate cases.
 | square × the history and its Works | a square is never a pool candidate and takes no Works; a market's square outlives its institution (§4.11); a gate junction's square is made by `gateToJunction`; the replay keeps squares too large for their markets | T-V6-70 (n) |
 | oasis × the history and its Works | V06 §3.12.1: the spring's failure, loss and recovery; the gardens and grove; the pond silting; no Works on water or land uses | T-V6-72 |
 | frame × the history and its Works | the frame never shrinks (§4.11 *The rung at an epoch*); a stage grows inside it or grows it by the base's frame rule; no Works outside it; bounds an epoch grows move the zoom-out limit (§8.8; item 116 (d)) | T-V6-70 (n) |
-| a standalone neighbourhood document × the history | no clock: the bend (V06 §1.3, §4.1); `forkAt` and the timeline over its events work | T-V6-23 |
+| a standalone neighbourhood document × the history | no clock: the bend (V06 §1.3, V06 §4.1); `forkAt` and the timeline over its events work | T-V6-23 |
 | neighbourhood fabric, terraced wards × the history | `hood.fabric` re-derives S7c and S9b on new and re-cut faces and on districts a raised part crosses (V06 §3.2); a terraced ward's walls follow V06 §3.19.4; in the replay the participant runs at every replay epoch | T-V6-64; T-V6-62 |
 | composed buildings, stacked tiers, crypts, plans × the history | designation changes through `MutationPlan` steps and S11's mutator (V06 §3.10); `rebaseStack` before the casters (V06 §3.4 (2)); stack Works in stack order (V06 §3.13 (4)); tiers re-match stored plans by wing-relative storey and a levelling re-cuts or stales plans (V06 §3.19.4 (5)); crypts by V06 §3.18.3; in the replay the lazy rungs stay underived (V06 §3.20.4) | T-V6-15; T-V6-55; T-V6-62 |
 | sewer, cavern, ruin, catacomb, undercity, void, access, vault × the history | V06 §3.18: access by dig, overlap, breach and opening, excavation, dwellings only after access, a void `lost` when its last open link closes and refound, sewers reopened before new ones are dug, catacombs by the count, ratchet and primary, crypts, the arch-vault reconcile; in the replay the same participants, and burial lays the former settlement (V06 §3.20.5 (4)) | T-V6-33–T-V6-40; T-V6-64; T-V6-71 |
@@ -3218,9 +3268,10 @@ are used as they stand.
   history yet — open it in its town to advance time" (item 101 R2; V09's `bend.*` row and V10's bend row carry the line),
   and a skeleton file's `history` block is bent to none with that line; `forkAt`, the timeline bar over its existing events
   and the history panel still work (T-V6-23).
-* **What it appends.** One `group` (§7.4) of `epoch` events, one per cadence step (V06 §3.3.2), each folded before the
-  next is built and each carrying `EpochInputs.advance`; the trajectory rides on the first. The app runs it as a
-  cancellable background job in the generation worker with a progress bar over the epochs; **Stop** ends the job after
+* **What it appends.** One `group` (§7.4) of `epoch` events, one per step of the cadence V06 §3.3.2 chooses (the comfort
+  level's coarsening included, V06 §6.8), each folded before the next is built and each carrying `EpochInputs.advance`;
+  the trajectory rides on the first. The app runs it as a cancellable background job in the generation worker, the
+  progress view (V09 §4.21.9) counting its epochs past one second; **Stop** ends the job after
   the running epoch, and the epochs already folded stand as a shorter group, the last carrying `stoppedAt` (J-V6.2's
   refusal on a dossier-bound document holds: its host owns time).
 * **Preview** (item 101 R3, R14). Before commit, the card and the clerk run the whole request on a **scratch fork in the
@@ -3229,8 +3280,13 @@ are used as they stand.
   walled share, and the raised ways built (by kind) — so a hundred-year advance previews its hundredth year, not its
   first; the history panel lists their `raisedWay` lines. The clerk offers three variations — the logistic, linear and
   front-loaded shapes of the same change (V06 §2.3) — and the card one; accept appends the chosen one's epochs to the
-  document (item 101's three-variations rule applied to time). Above `advance.maxEpochs` the card bends the cadence and
-  says so (V06 §3.3.2). On a dossier-bound document the card is replaced by its alternative, "Make a what-if copy and
+  document (item 101's three-variations rule applied to time). Where `advance.maxEpochs` or the comfort level needs a
+  coarser cadence, the card bends it and says so with the cadence chosen (V06 §3.3.2); each variation's run takes its own
+  estimate's cadence (V06 §6.8), the first shown as it completes. **Accept** appends the chosen variation's epochs: while
+  the document's head is still the preview fork's base, the commit takes the fork's folded state with its history images
+  and reports — the same events folded from the same state give the same bytes (§6.5), and the verification replay
+  re-checks them off the path (V06 §3.15.2) — so the accept's wait is its commit; otherwise the epochs fold again under
+  the estimate the preview ran with. On a dossier-bound document the card is replaced by its alternative, "Make a what-if copy and
   advance it" (a detached `forkAt` at the head, V06 §4.4).
 * **Undo** (§7.4). The group is one undo step while its last epoch is the latest live event. In the session, the undo
   **restores the checkpoint taken before the group's first epoch** (the base takes it), so undoing a hundred-epoch group
@@ -3253,7 +3309,7 @@ are used as they stand.
 | a ring's fate — road, absorb, keep — and its week | T3 `wall`'s inspector on a ring: a three-way chip and a year field | `setAttr` on `Enceinte.pathway` (`source: 'edit'`) | the event's undo; the engine never redraws an edited fate (V06 §2.7) |
 | a ring road now, an absorbed wall now, a shorter ring | T3's inspector: "make a road", "build over it"; drawing a shorter ring with T3 | `convert` `wallToWay` / `absorbWall` (V06 §2.8) / `contractWall` (§4.11) | the convert's undo record (§7.4) |
 | repair a breach, patch it, rebuild a patch; wear a stretch; put a neglected wall back in use | T3's grip on a run: "repair" with a material chip ("in stone" — robust — or a patch row: "patch with timber", "with wattle", "with an earth bank"), "wear"; T3's inspector on a neglected ring: "back in use" | `convert` `repairWall { stretch, material }` / `wearWall` (with no stretch, "back in use": the neglect lifted and the pathway cleared, V06 §2.8) | the convert's undo (the former condition, material, existence and pathway restored); on a dismantled stretch it bends to a new stretch drawn on its line (`drawWall`, "its stone is gone; a new stretch is built here"; J-VI.4); a no-stretch repair on a ring with nothing to lift is a no-op with its line ("this wall is in use") |
-| let a lane go, bring it back | T4 `road`'s class chip on a way (`path` ↔ its former class) | `convert` `downgradeWay` / `upgradeWay` | the convert's undo; a `setAttr` of `class` clears `formerClass` |
+| let a lane go, bring it back | T9 `shape`'s class chip on a selected way (`path` ↔ its former class; §7.1's binding, V09 §4.3) | `convert` `downgradeWay` / `upgradeWay` | the convert's undo; a `setAttr` of `class` clears `formerClass` |
 | a fire, a flood, a collapse, a drought | a hazard tray on the history panel: drop a spark, draw a flood depth, tap a tower, "a dry year" | the operator's dry run (V06 §3.11) — a ghost of the spread with three variations (the spread's draws keyed by the event's `seq` and the variation's reroll, §7.3 item 10) — committed as `convert` `burn`, or the `decay`, `flood`, `ruin`, `breach` or `dry` ops it resolved to | one step; the displaced households' re-homing and the uses' relocations are in the same undo record (§7.4's capacity re-homing rule) |
 | a spring that fails or recovers; an oasis added or removed | T2 `ground`'s spring form on a spring-fed pond: a flow slider ("the spring fails", "the spring runs again"); the point-and-level form with its spring flag (§7.1) | `setAttr` on `WaterBody.spring.flow`; the base's T2 events for the oasis | the event's undo; a hand flow is the spring's state from then on, the engine's rules (V06 §3.12.1) acting on it from the next epoch |
 | a field left fallow, taken back | T2 `ground`'s land-use chip on a hinterland face | `convert` `retypeLand` | the convert's undo |
@@ -3276,7 +3332,7 @@ are used as they stand.
 | add a raised way | T4 `road` with `raised` (a viaduct or an elevated road), or the aqueduct class (item 110 (b)) | the base's hand operator's event (cause `edit`: declared) | its undo; held (item 101 R13); counts toward its kind's cap (V06 §3.19.1 (2)); a re-add serving a suppressed reason holds that key (V06 §3.19.3 (3)) |
 | remove a generated raised way, harbour-mouth chain, quay wall, retaining wall or deck plot | V09 §4.3's delete on it; the clerk; the CLI | `delete`, carrying `detail.suppress` (§2.8; file f item 260) — its dry run V09's `info.remove.holds` line with its `{kind}` slot (a deck plot's wording V09's variant row), with the fates of the vaults, the route and the terminal (V06 §3.19.3 (6)) | the delete's undo lifts the suppression and restores the entity at its address (V06 §3.19.3) |
 | build a removed generated thing again — a raised way, a quay wall, a harbour-mouth chain, a retaining wall, a deck plot | V09 §4.20.3 (4)'s **Build it again** on the removal's history row (where Undo this is refused as dependent); volume 10's **Put it back** (the same events, `ClerkMount.rebuildEvents`) | the declared re-add by its own tool, filled from the removed thing's last record: `drawWay { raised: true }` or the aqueduct class, `drawWall`, `placeGate`, `drawWall { kind: 'retaining' }`, `drawFootprint` on the deck (V09 §4.20.3 (4)'s rows) | the re-add's own undo; held (item 101 R13); while it stands it serves the removal's key — never generated again, counted once — and deleting it leaves the removal in force (V06 §3.19.3 (3), (7)) |
-| repair a raised way or a deck by hand | T4's inspector on a raised way ("repair"), on a bridge or pier ("rebuild the deck") | `convert` `repairRaised` (V06 §2.8) | the convert's undo; on a dismantled span or a cleared support it bends to a new raised part on the way's line through the hand operator ("rebuilt as a new span"; J-VI.4) |
+| repair a raised way or a deck by hand | T9 `shape`'s inspector on a raised way (**Repair**), on a bridge or pier (**Rebuild the deck**; §7.1's binding, V09 §4.3) | `convert` `repairRaised` (V06 §2.8) | the convert's undo; on a dismantled span or a cleared support it bends to a new raised part on the way's line through the hand operator ("rebuilt as a new span"; J-VI.4) |
 | repair a retaining wall | T3 `wall`'s inspector on a retaining wall's decayed stretch: "repair" | `convert` `repairRetaining` (V06 §2.8) | the convert's undo; on a ruined stretch it bends to a new drawn stretch on its line ("its stone is gone; a new stretch is built here"; J-VI.4) |
 | a retaining wall | T3 `wall` in its `retaining` kind; the edge of a T2 `ground` terrace stroke (item 110 (a)) | the base's events | the event's undo; a drawn wall is held and never slumps (V06 §3.19.4 (3)) |
 | a building on a deck face | T6 `place` on a deck plot | `build` / `openUse` through S11's deck rule (V02 §3.16) | the event's undo; a use the per-use `deckOk` does not admit (V11 §3.24.4) bends to the nearest admitted class — a use whose effective crypt is `always` to land, by V09's T6 landward bend — said in one line (item 101 R2) |
@@ -3383,7 +3439,7 @@ lifecycle's `move` rows — a raised way built at an epoch, a slumped retaining 
 cause for the same provider (V10's CVR-V10-11). The underground's answers — why a void is sealed, lost or open, a catacomb
 stagnant, a crypt capped or joined — are V04's and V02's and V03's providers reading the causes this volume's epochs record
 (`AccessCause.event`, `blockedBy`, the link's lifecycle, volume 3's crypt rank). The clerk proposes `advance`, `forkAt`,
-`rerunFrom` and the hand forms of 4.2 as ghosts; nothing applies silently (§14's clerk row).
+`rerunFrom` and the hand forms of V06 §4.2 as ghosts; nothing applies silently (§14's clerk row).
 
 ## 5 Rendering, labels and exports
 
@@ -3491,8 +3547,13 @@ bar is hidden until the document has its first epoch or scheduled Works.
 ## 6 Performance budgets
 
 Measured on §12.1's reference hardware at the port's cadence (52 weeks), PLAUSIBLE until the E0 spike (V06 §8) times them
-on the golden TOWN, B-CITY and METROPOLIS seeds with a scripted 100-year history (+1 % a year, then −1 %, then +1 %);
-every miss re-declares its row for the owner's veto with the fallback stated (D-18).
+on the golden TOWN, B-CITY and METROPOLIS seeds with a scripted 100-year history (+1 % a year, then −1 %, then +1 %).
+Every row below is a **target** — as fast as possible (item 119 (a)); the two waits a user sits through once that this
+volume makes, an `advance` and a history-first generation, each finish inside §12's ten-second **comfort level** in total,
+whatever their span, by V06 §6.8's estimate and coarsening (item 119 (a2); J132). A row E0 measures above its target is a
+declared target miss inside the comfort level (D-18), with its pre-decided fallback stated; a step runs slower than its
+target only for a recorded measured gain (item 119 (b); §12.10); the interactive rows of 6.4 keep their budgets (item 119
+(d)).
 
 **6.1 One epoch** (model work in the generation worker; a new stage's S5–S13 excluded — it is §12.6's scoped-regeneration
 law over the stage's buildings; the participants in 6.2). **The work sizes** the rows assume (PLAUSIBLE until E0; the
@@ -3525,14 +3586,14 @@ thriving use is scored against its ≤ 40 candidates only when its move-chance g
 
 *Pre-decided fallback* (uses over budget at METROPOLIS): the link re-binding is batched per class at the end of each
 class's openings (one re-bind per class instead of per op; output changes only in visiting order through re-binds — a
-declared shift for the owner's veto); then the move re-score visits each use every `k`-th epoch in address-hash rotation
+declared shift by §13.3's protocol, the miss it answers a declared target miss inside the comfort level); then the move re-score visits each use every `k`-th epoch in address-hash rotation
 (`k` = 2, then 4), a use under strain every epoch; the ladder's fallback is §12.6's. *Pre-decided fallback* for
 `raisedWays` over budget: its candidates are read only for the ways, wards and sources an op of the epoch changed (the
 suppressed keys excepted, read at every epoch, V06 §3.19.3 (2)), and in full every `k`-th epoch (`k` = 4) in address-hash
 rotation — a declared shift in when a reason is first seen, never in its gate draw.
 
 **6.2 Participants and a century.** The participants' per-epoch budgets (their volumes' own rows govern when they land;
-these are the sums this volume's century bound assumes, PLAUSIBLE until E0):
+these are the sums this volume's century targets and V06 §6.8's `epoch.costMs` assume, PLAUSIBLE until E0):
 
 | participant | TOWN | CITY | METROPOLIS | source |
 |---|---|---|---|---|
@@ -3543,35 +3604,69 @@ these are the sums this volume's century bound assumes, PLAUSIBLE until E0):
 | `under.undercity` (incl. F6's relocations and the in-participant re-homing, ≤ 1 ms at CITY) | 1 | 4 | 8 | V04 §6's T4 row |
 | `hood.fabric` (S7c and S9b on the new faces; the close-ups a raised part crosses) | 2 | 5 | 8 | V01 §6's rows per new district |
 | `sky.clearance` (≤ 3 islands) | 3 | 3 | 3 | ≤ 1 ms per island (V05 §6) |
-| **participants total** (the per-event island work excluded) | **≤ 34** | **≤ 75** | **≤ 151** | |
+| `village.plan` (scope: a village rung) | 0 | 0 | 0 | V07 §6: no ops at TOWN and above — its gate's one early return |
+| `village.density` (scope: a superseded `VillagePlan`, under any product) | 6 | 6 | 6 | V07 §6: ≤ 6 ms p95 at a base-product epoch while a superseded `VillagePlan` stands (VS2's raster over the old core's box); 0 without one |
+| `village.pins` (scope: a village rung) | 0 | 0 | 0 | V07 §6: no ops at TOWN and above (≤ 2 ms inside a village epoch) |
+| **participants total** (the per-event island work excluded) | **≤ 40** | **≤ 81** | **≤ 157** | |
+
+A village-rung epoch is V07 §6's (≤ 60 ms at the VILLAGE target, its participants inside), below TOWN's row, which bounds
+it in V06 §6.8's estimate.
 
 **A century** (100 epochs at the port's 52-week cadence at a town growing 1 % a year, growth stages and participants
 included; hand edits during the span excluded — each is an edit at its own row; item 110's rows add ≈ 0.7 / 1.3 / 2.6 s of
 epoch work and at most one course solve per founding, ≤ 4 per century at METROPOLIS):
-* **The sky's island events** are priced at V05 §6's rows, cited by name as the century's inputs (V05 §6 is their home;
-  J-V6.118): "a resize, a rim reshape" (a growing resize with every re-claimed yard's top placed and every foot re-landed
-  ≤ 228 ms at CITY and ≤ 255 ms at METROPOLIS; a shrink ≤ 209 / 227 ms), "`fallIsland`" (≤ 80 / 110 ms), and a raise at
-  `raiseIsland`'s parts bounded by "declaring an island after generation" (≤ 120 / 160 ms); a TOWN reads CITY's rows (its
-  islands no larger). The worst case is every island resized at every epoch, since V05 §4.2's re-landing rule bounds nothing
-  below one re-landing per foot per resize (a rim moving ≤ 0.025 · r a year crosses a 3 m plot within a century) and a
-  fall, which ends a settled dwell of at least 10 unresized years (V05 §3.15 (3)–(4)), costs less than the resizes it
-  forgoes: **CITY** 3 × 100 × 228 ms ≈ 68.4 s; **METROPOLIS** 3 × 100 × 255 ms ≈ 76.5 s; **TOWN**, whose rung row admits
-  no island (V05 §3.15 (1)), each of ≤ 3 carried or declared islands waning once — a shrink at each of ≤ 15 epochs of the
-  longest waning dwell — then settling and falling: 3 × (15 × 209 + 80) ms ≈ 9.6 s. In a history whose islands resize one
-  epoch in five or fewer, the sky's share is about a fifth of these.
+* **The sky's island events**, derived from V05 §6's rows (their home; J-V6.118), the CITY / METROPOLIS columns, a TOWN
+  reading CITY's (its islands no larger): "a resize, a rim reshape" — ≤ 5 ms + §12.6's scoped regeneration of each
+  receiving district and of the district whose institution claim is re-searched (at most k ≤ 3 in all) + §12.6's
+  scoped-regeneration law once over the plots the event re-cuts outside those districts + 30 ms per re-claimed landing
+  yard's top placement (one per access) + 30 ms per re-landed foot's placement; "`fallIsland`" ≤ 80 / 110 ms; a raise at
+  `raiseIsland`'s parts, bounded by "declaring an island after generation" ≤ 120 / 160 ms. With an island's buildings
+  ≤ 5 % of the town's (V05 §6's unit-run row: ≈ 2–5 % of the town's plots) at the default request's buildings (§12.5's
+  table: ≈ 1 500 at TOWN, ≈ 6 000 at CITY, ≈ 15 000 at METROPOLIS), ≤ 300 / 750 at CITY / METROPOLIS, §12.6's law
+  (≤ 3 ms + 60 µs × the buildings in scope, plus ≤ 3 ms of deltas, once per district) gives a growing resize re-deriving
+  all three of its districts ≈ 3 × 6 ms + 60 µs × 300 / 750 ≈ 36 / 63 ms, and a shrink re-deriving at most the claim's
+  district (a third of the island) ≈ 12 / 21 ms; the plots re-cut outside those districts, one scope, are a growing
+  resize's yards' (≤ 3 plots a yard by V05 §6's basis, ≤ 9 buildings: ≈ 7 ms) and a shrink's rim ring (its eroded band
+  ≤ 0.025 · r a year, below; at most a third of the island: ≈ 12 / 21 ms). **The access bound:** the century is priced
+  on an island's **generated** accesses, at most `accessCount.max` (3; V05 §2.4) — each yard's top placed and each foot
+  re-landed, 3 × 30 ≈ 90 ms for the tops and as much for the feet — so a growing resize costs ≈ 5 + 36 + 7 + 90 + 90 ≈
+  228 ms at CITY and ≈ 5 + 63 + 7 + 90 + 90 ≈ 255 ms at METROPOLIS, a shrink ≈ 5 + 12 + 12 + 90 + 90 ≈ 209 ms and
+  ≈ 5 + 21 + 21 + 90 + 90 ≈ 227 ms. **Each hand-placed access** (at most `accessCount.handMax`, 6 an island; V05 §4.2,
+  J-V5.82) is the user's own edit, priced beside the bound at V05 §6's row: 30 ms for its top and 30 ms for its foot at
+  each resize of its island, ≈ 60 ms a resize (its yard's ≤ 3 plots inside the rounding) — at the cap + 360 ms a resize
+  (≈ 588 ms for a growing resize at CITY), so an island with six hand-placed accesses resized at every epoch adds
+  ≈ 36 s to a century at the port's cadence; V06 §6.8's estimate charges it for the accesses that stand
+  (`epoch.handAccessMs`).
+* **V05 §4.2's re-landing rule bounds nothing below one re-landing per foot per resize.** A vertical access's foot
+  re-lands only when its top's move leaves its landing plot (a slanted one only past its run), but a resize moves the rim
+  by the buffer distance, at most `growthPerYear` · years · A ÷ P ≤ 0.025 · years · r for the disc of the island's area
+  (the least perimeter for an area; V05 §2.4's dynamics row), ≈ 4.5 m a year at CITY's `areaHaMax` and ≈ 6.3 m at
+  METROPOLIS's, while a ground plot may be 3 m wide (§15.2's O5 (b)), and a top moves along its ray at least as far as the
+  rim does, so one resize can carry a foot off its plot; over a century the rim can travel 2.5 · r (≈ 450 / 630 m),
+  ≈ 150 / 210 least plot widths, more than the century's 100 resizes; and a target that moves back and forth carries a
+  foot across the same plot line at every resize. So the worst case is every island resized at every epoch with every
+  yard's top placed and every foot re-landed. **A fall does not raise it:** a fall ends a settled dwell of at least 10
+  years in which the island is not resized (V05 §3.15 (3)–(4); V05 §2.4's dynamics row), and a fall with a raise in one
+  epoch (≈ 80 + 120 / 110 + 160 ms) costs less than the ten resizes the dwell forgoes. So, at worst: **CITY** 3 × 100 ×
+  228 ms ≈ 68.4 s; **METROPOLIS** 3 × 100 × 255 ms ≈ 76.5 s; **TOWN**, whose rung row admits no island (V05 §3.15 (1): the
+  target 0, and no slot re-opens), each of ≤ 3 carried or declared islands waning once — a shrink at each of ≤ 15 epochs of
+  the longest waning dwell — then settling and falling: 3 × (15 × 209 + 80) ms ≈ 9.6 s. In a history whose islands resize
+  one epoch in five or fewer (V05's hysteresis 0.05 against a target that follows a town growing 1 % a year), the sky's
+  share is about a fifth of these.
 * **The growth stages** at §12.6's law (V06 §6.1): ≤ one stage an epoch at ≤ 6 ms each plus 60 µs × the buildings the
   century adds (≈ 1.7 × the default request: ≈ 2 500 / 10 000 / 25 000) ≈ 0.75 / 1.2 / 2.1 s.
-* **The sum**: TOWN 100 × (103 + 34) ms + 0.7 s + 9.6 s + 0.75 s ≈ 24.8 s; CITY 100 × (343 + 75) ms + 1.3 s + 68.4 s + 1.2 s
-  ≈ 112.7 s; METROPOLIS 100 × (1 150 + 151) ms + 2.6 s + 76.5 s + 2.1 s ≈ 211.3 s. **The bounds: TOWN ≤ 25 s, CITY ≤ 115 s,
-  METROPOLIS ≤ 215 s** (the sums rounded up to the next 5 s, for the owner's veto; D-18; J-V6.118); if E0 measures a sum
-  above its bound, the bound is re-declared at the measured sum for the owner's veto (D-18).
-The century runs as a background job with progress, never blocking the picture or an edit on another document; the map
-redraws each epoch's `DisplayDelta` as it folds (the user watches the town grow). `advance.maxEpochs` bounds one request's
-epochs; a longer span bends its cadence (V06 §3.3.2).
+* **The sum** — the century's cost at the port's cadence, the target its rows add up to: TOWN 100 × (103 + 40) ms +
+  0.7 s + 9.6 s + 0.75 s ≈ 25.4 s; CITY 100 × (343 + 81) ms + 1.3 s + 68.4 s + 1.2 s ≈ 113.3 s; METROPOLIS 100 × (1 150 +
+  157) ms + 2.6 s + 76.5 s + 2.1 s ≈ 211.9 s, each hand-placed access adding its 60 ms a resize beside them. No user waits for
+  these sums: an `advance` of a century folds at the cadence V06 §6.8's estimate admits, inside the ten-second comfort level
+  in total — in steps of several years where these sums say a year at a time would not fit (V06 §6.8 (4)).
+The century runs as a background job with progress past one second (V09 §4.21.9), never blocking the picture or an edit
+on another document; the map redraws each epoch's `DisplayDelta` as it folds (the user watches the town grow).
+`advance.maxEpochs` bounds one request's epochs; a longer span bends its cadence (V06 §3.3.2).
 
 **6.3 Replay and load.** Under the `'history'` strategy an epoch's replay cost `c(e)` in §12.6's law is its compute above
 plus its participants' (it is recomputed, not read; file f item 478), so a century-old CITY document verifies within V06
-§6.2's CITY century bound after load (its island events included), off the path to the picture (§12.6, §2.9 step 3),
+§6.2's CITY century sum after load (its island events included), off the path to the picture (§12.6, §2.9 step 3),
 rebuilding the history store as it goes. A `'grow-by-stage'` epoch keeps §12.6's scoped bound. A replayed document's
 creation prefix verifies at V06 §6.7's replay cost.
 
@@ -3582,7 +3677,7 @@ CITY; the replay path ≤ the epochs' compute, with progress. Play at one epoch 
 image-built frames and at METROPOLIS from cached frames. *Pre-decided fallback:* the stride halves (5) while the store's
 memory allows; failing that, play steps through keyframes only.
 
-**6.5 Memory.** The history store ≤ the device's setting (V09 §9) in memory, the rest on the app's disk cache. An epoch's
+**6.5 Memory.** The history store ≤ the device's setting (V09 §5.12: 256 MB desktop, 96 MB low-end; V06 §2.2) in memory, the rest on the app's disk cache. An epoch's
 images ≈ 0.5–2 MB compressed at CITY (pass ≤ 1.5 MB mean) and ≈ 2–6 MB at METROPOLIS (pass ≤ 4 MB mean) — so the desktop
 store holds ≈ 150 CITY or ≈ 60 METROPOLIS epochs before spilling; a keyframe is the chunks changed since the previous one
 (≈ 5–15 MB at CITY, ≈ 15–40 MB at METROPOLIS over 10 epochs, copy-on-write); frames ≤ the device's frame setting × the
@@ -3600,22 +3695,85 @@ reported.
 
 **6.7 The history replay at generation** (item 113; V06 §3.20.4). A coarse replay epoch costs about one epoch of 6.1 and
 6.2 at its rung — its phases run once however many years it spans, only its deltas growing — plus its stage at §12.6's
-law, and less at model level (no Works, no lazy rung, no images). The per-epoch cost rows
-`replay.epochCostMs` (our own, not calibratable: a cost bound) are TOWN and the village rungs 140 ms, CITY 420 ms,
-METROPOLIS 1 300 ms (6.1's total with 6.2's participants, rounded up); the budget `replay.budgetMs` by the peak's rung is
-TOWN and below 5 s, CITY 20 s, METROPOLIS 40 s (our own, for the owner's veto; D-18). So, at the owner's decade: a town
-history of up to 300 years (30 epochs) ≈ 4.2 s; a city's of up to 470 years (47 epochs) fits whole, a 500-year one
-coarsened to 11-year epochs; a metropolis's of up to 300 years at decades (30 epochs), an 800-year one in 27-year epochs.
-The peak's generation (S0–S13a) is §12.3's one-click cost at the peak's size, before the replay. The replay runs with
-progress in the generation worker before the first map (V06 §3.20.4); PLAUSIBLE until E0 times the three golden
-histories of T-V6-71 (a city-to-village history, a refounded one, a metropolis in decline), and a measured sum above its
-budget re-declares the row (D-18). *Pre-decided fallback:* `replay.detailRetainYears` halves (fewer full epochs), then the
-per-epoch cost rows rise to the measured costs, coarsening further — the history's events and targets kept, only its
-grain coarser.
+law, and less at model level (no Works, no lazy rung, no images). The per-epoch cost rows `epoch.costMs` (our own, not
+calibratable: a cost bound; read by both of V06 §6.8's estimates) are TOWN and the village rungs 150 ms, CITY 430 ms,
+METROPOLIS 1 310 ms — 6.1's total with 6.2's participants (≤ 143 / 424 / 1 307 ms), rounded up to the next 10 ms; the
+replay's share of the comfort level, `replay.budgetMs` by the peak's rung, is TOWN and below 9 s, CITY 8.5 s,
+METROPOLIS 7 s (V06 §6.8 (2)). So, at the owner's decade (V11's `history.epochYears`), the sky layer off: a town's
+history of 300 years (30 epochs at TOWN, ≈ 4.5 s, with its growth's stages ≈ 4.8 s) fits whole; a city-to-village history
+like H-HISTORY's (25 epochs, about ten of them at CITY: ≈ 4.3 + 2.3 ≈ 6.6 s) fits whole; a metropolis grown from its
+founding over 300 years — about ten epochs each at TOWN, CITY and METROPOLIS, ≈ 18.9 s, and its 35 000 buildings' stages
+≈ 2.1 s — runs in 50-year epochs (six, ≈ 5.9 s); with the sky layer on, every epoch from the first at CITY also charges
+three islands' resizes (V06 §6.8 (1)), coarsening a city's or a metropolis's history further. The peak's generation
+(S0–S13a) is §12.3's one-click cost at the peak's size, before the replay, and the present's first map §12.5's, after it
+— both inside the ten seconds by `replay.budgetMs`'s derivation. The replay runs with progress in the generation worker
+before the first map (V06 §3.20.4); PLAUSIBLE until E0 times the three golden histories of T-V6-71 (a city-to-village
+history, a refounded one, a metropolis in decline), the measured wait a bar (T-V6-24), never an input. *Pre-decided
+fallback:* `replay.detailRetainYears` halves (fewer full epochs), then the per-epoch cost rows rise to the measured costs,
+coarsening further — the history's events and targets kept, only its grain coarser.
+
+**6.8 The comfort level — `advance` and the history replay in total** (item 119 (a), (a2): the owner's "Total",
+2026-10-01; J132; J-V6.135). §12's ten-second comfort level binds each of this volume's two one-time waits, from the click
+to the complete result — the map's final complete frame — on §12.1's reference hardware, at every rung to the metropolis
+cap: an **`advance`** (the time card's Accept, the clerk's, the CLI's; V12's `wait.advanceTime`) and a **history-first
+generation** (the start's generation, the replay and the present's first map; V12's `wait.historyReplay`). The rows of
+6.1–6.7 stay the targets; this is how both waits stay inside the ten seconds whatever span they are given:
+1. **The estimate** — one function for both, of the epochs it is given and of the document (an `advance`) or the recipe
+   (the replay) at the request, never of a measured time, so the cadence it decides is deterministic and a replay of the
+   log folds the same epochs:
+   `E = Σ_i (epoch.costMs[r_i] + I_i × epoch.islandMs[r_i] + H × epoch.handAccessMs) + epoch.stageMs × g +
+   epoch.stageMsPerBuilding × ΔB`, where
+   * `r_i` is the rung of epoch i's target by the registered products' ladders (§1.1's router; a village rung reads TOWN's
+     row);
+   * `I_i` is the islands that may stand at epoch i: V05's three slots (V05 §3.2) at every epoch from the first whose rung
+     is CITY or METROPOLIS while the recipe's `layers.islands` is on — islands carried below CITY wane, settle and fall over
+     later epochs (V05 §3.15) — and before it the islands standing at the request: an `advance`'s document's, none in a
+     replay (a start below CITY generates none, II.6 (2)); each may resize at every epoch (V06 §6.2's worst case);
+   * `H` is the hand-placed accesses standing at the request (an `advance` only; a replay runs before any edit), each
+     re-landed at each resize of its island (V06 §6.2's edit-borne cost);
+   * `g` is the epochs whose target rises above the previous one (each may grow a stage) and `ΔB` the buildings the rises
+     add, Σ max(0, target_i − target_{i−1}) ÷ 3.4 (§12.2's persons a building) — §12.6's scoped law for the stages
+     (V06 §6.2's growth term), the one part a coarser cadence does not shrink.
+2. **The budgets.** `advance.budgetMs` (9 000 ms) leaves one second of the ten for the expansion and the estimate, the
+   last epoch's redraw (§12.5's settle, ≤ 250 ms at METROPOLIS) and the group's commit; `replay.budgetMs` by the peak's
+   rung (TOWN and below 9 000, CITY 8 500, METROPOLIS 7 000 ms) leaves the start's generation and the present's first map
+   at the rung's band top (§12.5's T(B): 246 / 589 / 2 290 ms) and a 500 ms reserve for the `HistoryRecord`, the report
+   and the commit. The history images an epoch writes (V06 §3.15.2) are captured in its commit as copy-on-write
+   references and compressed into the store after the wait completes, at background priority, so no image costs the
+   wait (the store is non-canonical; until compressed, a frame reads the references).
+3. **The coarsening.** An `advance`'s cadence (V06 §3.3.2) becomes the smallest whole number of weeks, tried upward from
+   the cadence asked (after `advance.maxEpochs`' bend), whose epochs' `E` is at most `advance.budgetMs`; the replay's
+   epoch length (V06 §3.20.1 (3)) the smallest whole number of years, tried upward from `history.epochYears`, whose
+   epochs' `E` is at most `replay.budgetMs[the peak's rung]` and whose count is at most `replay.maxEpochs`. One epoch over
+   the whole span always fits: its `E` is at most 1 310 + 3 × 260 + 18 × 60 + 6 + 0.06 × 35 000 ≈ 5.3 s at the metropolis
+   cap with the hand-placed cap on three islands, inside both budgets — so no request is refused and no span shortened
+   (item 101 R2). The cadence chosen is reported: the card's and the clerk's one line, `EpochReport.advance`,
+   `ReplayPlan.epochYears` and the report's `replay.epochYears` (V06 §2.10, V06 §2.14); V09's progress view counts the
+   epochs at it.
+4. **What a user sees** (at the reference rows; PLAUSIBLE until E0): a century held at its size, the sky layer off, folds
+   at TOWN in 87-week steps (60 epochs, ≈ 9.0 s), at CITY in 5-year steps (20, ≈ 8.6 s) and at METROPOLIS in ≈ 17-year
+   steps (6, ≈ 7.9 s); with the sky layer on, at CITY in 12½-year steps (8) and at METROPOLIS in 25-year steps (4); a
+   growing century coarser by its stages' share; a ten-year advance at TOWN keeps its yearly cadence (≈ 1.5 s); the
+   replay as 6.7's examples.
+5. **Progress and Stop** — past one second, the progress view (V09 §4.21.9): an `advance`'s epochs ("Year {year} of
+   {years}", at the cadence chosen), each epoch's `DisplayDelta` drawn as it folds; the replay's ("Replaying the town's
+   past: {year}"); Stop ends an `advance` after the running epoch (V06 §4.1); a cancelled history-first generation leaves
+   no document (V06 §3.20.4).
+6. **Slower only for a measured gain; the low tier; the dossier's clock** (item 119 (b), (e)). This volume declares no
+   step slower than its target for a gain; a cost row E0 raises (the fallbacks of 6.1 and 6.7) coarsens the cadence further,
+   inside the comfort level, never relaxing it. The low tier aims at the same ten seconds; a size it cannot reach is
+   declared per device (§12.1). A dossier-bound document's epochs are the port's cadence (§4.11 *The clock*) and are never
+   coarsened — the host's clock owns its time (item 20) — each priced at 6.1–6.2 inside §12's waits for a dossier change
+   and an open from SettlementForge.
 
 ## 7 Tests and acceptance bars
 
-Families as §13 names them: **property** (§13.1's fast-check), **hook and invariant** (§13.2), **statistics bench** (§13.2's
+They take over the base's evolution bars as §13.2 names them (the take-over table, the evolution row: T8-1 – T8-7, T17-2,
+T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12,
+T67-1 – T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause, T81-1, T108-4 over
+epochs, T111-1 – T111-5's epoch form, T113-1 – T113-3, T113-6, T113-7, T114-1 – T114-5 and T114-8's epoch clause, and
+T115-1 and T115-2 across a rung change), each test naming the bar and the clause it takes; the table after the fixtures
+maps them. Families as §13 names them: **property** (§13.1's fast-check), **hook and invariant** (§13.2), **statistics bench** (§13.2's
 many-seed bench; item 103 (e)'s form — measured shifts against a baseline, never guarantees), **B-EDIT** (§13.2),
 **goldens** (§13.3), **visual** (§13.4), **performance** (§12, §13.8's tiers). The fixtures: the golden TOWN, B-CITY and
 METROPOLIS seeds; **H-100** — a scripted standalone history of 100 epochs (+1 % a year for 40 years, −1.5 % for 30, +1 % for
@@ -3643,42 +3801,76 @@ town destroyed by a catastrophic event 200 years ago and resettled 150 years ago
 120 years at the wealth maximum. CI tiers: per-commit T-V6-1–4, 12, 21, 26, 38, 52, 53, 58, 65, 70's pins and 71's no-op
 pin; nightly the rest; the statistics bench weekly on 200 seeds (§13.8).
 
+**The base bars these tests take** (§13.2's take-over table, the evolution row; each test names the bar and the clause it
+takes there too):
+
+| base bar | taken by | the clause it takes |
+|---|---|---|
+| T8-1 | T-V6-70 (f) | every `DeclineOp` kind the strike pool applies over H-100's decline undone with its epoch to byte identity |
+| T8-2 | T-V6-7 | the regrowth-first fixture over epochs: no new face while the old plan holds capacity, each band's vacancy share kept |
+| T8-3 | T-V6-3 | over H-100's epochs every ruin, trace and superseded ring keeps its address; no cleared building tombstoned unless demolished or succeeded; a front building made a trace or demolished frees its passage |
+| T8-4 | T-V6-5 | the exposure field monotone in each driver's weight, its chance share the table's |
+| T8-5 | T-V6-6 | the salvage ledger's credits equal the yields of the robbed and the cleared, never negative, every shortfall reported |
+| T8-6 | T-V6-30 | a CITY fallen below 10 000 inhabitants loses its islands over their dwell spans, never in one epoch |
+| T8-7 | T-V6-5 | after a fall no building with a surviving household reads `vacant`; every `relet` down stales an unstored plan and re-cuts a stored one inside its event |
+| T17-2 | T-V6-4; T-V6-13 | a pinned assignment never moves under an epoch (T-V6-4); the `use` row of the churn cap holds (T-V6-13) |
+| T17-3 | T-V6-2 | one seed with one circumstance timeline replays to one digest of openings, closings and moves |
+| T18-1 – T18-4, the epoch-spread form | T-V6-15 | each `MutationPlan` step keeps the kept parts byte-identical, touches nothing outside its scope and never subtracts a locked part; the return applies the inverse; the steps in full equal the one-shot mutation of the same record |
+| T20-2, its epoch clause | T-V6-27 | a rejection lapses at the first epoch past the roster tolerance and on no drift inside it; the undo of a lapsing epoch with no dossier event restores the hold |
+| T20-6, its epoch clause | T-V6-27; T-V6-4 | a dossier-backed use never closed, its building emptied or removed only after it moved (T-V6-4, T-V6-27); an `undo` naming an epoch that carried a dossier event F-EDIT (T-V6-27) |
+| T25-1 | T-V6-18 | an epoch's `reclaim` and `siltReach` byte-identical outside their footprint and undone exactly with the epoch |
+| T31-2, T31-3, T31-9 – T31-11 | T-V6-29 | granularity within each band's target; the churn caps per kind, district and block; the floor's bars — at every epoch of the soak |
+| T31-8 | T-V6-26 | every class's replaceability and every ladder row's durations present, as the ladder phase reads them |
+| T31-12 | T-V6-1 | with no epoch, `builtBand` the generation band and the geometry band the field band |
+| T67-1, T67-3 | T-V6-21 | the stage drawn at week w a pure function of the Works and w; the old boundary shown until clearing |
+| T67-2, T67-4, T67-6 | T-V6-19 | access at every week; rehousing before a demolition's first stage; the epoch's Works share and a decay Works' dwell band |
+| T67-5 | T-V6-1; the parity paragraph below | no Works at generation and none under the parity presets |
+| T70-1 – T70-4, over epochs | T-V6-32 | every informal cluster the overflow ladder or a stage makes over epochs |
+| T72-1 – T72-9, their epoch clauses | T-V6-29 | the character step's output after every epoch of the soak |
+| T76-1, its per-year clause | T-V6-25 | per-year rates give equal expected firings at 13-, 52- and 520-week cadence |
+| T81-1 | T-V6-50 | a rung-crossing epoch grows the frame by §3.2 (9)'s batches, every address and ring outside the growth kept |
+| T108-4, over epochs | T-V6-45 | a promotion or a demotion by least disruption |
+| T111-1 – T111-5, the epoch form | T-V6-72 | a failing spring weakens its pull over epochs; the `item111.water` pin on H-100 |
+| T113-1 – T113-3, T113-6, T113-7 | T-V6-71 | the city-to-village fixture; one digest per seed and history on the five engines; the refounded fixture; a symbolic peak only with evidence; the `item113.history` pin |
+| T114-1 – T114-5, T114-8 (item 114 (g)) | T-V6-73 | the transitions over epochs on H-WALLS; the `item114.condition` pin |
+| T115-1, T115-2, across a rung change | T-V6-74 | no grand dwelling but the one manor at a village epoch, the manor only with a lord or a dossier record, across H-RUNG's rung changes |
+
 | id | family | what | bar |
 |---|---|---|---|
-| T-V6-1 | goldens | the `'grow-by-stage'` strategy through the phase interface (its nine base phases) reproduces M4's grow path, including a **dossier-bound catch-up epoch carrying two dossier events** (both applied at step (e), the lapse, character and Works steps run) | byte-identical model digest to the M4 golden on every M4 fixture and on the catch-up fixture's log |
-| T-V6-2 | property | determinism: the same seed and inputs fold to the same digest per epoch; a replay from the log and a replay from any checkpoint agree; the fold is identical on every host (§6.5); a failure at an epoch recurs identically at replay (V06 §3.17) | 0 mismatches over H-100 and 50 random trajectories |
-| T-V6-3 | hook | no re-roll and locality: every entity outside an epoch's touched set is byte-identical (leaf digests) across it; every survivor keeps its address and lineage; an epoch with an empty touched set records its week and report and changes nothing else | 0 violations over H-100 |
-| T-V6-4 | hook | protection: a locked or pinned entity, a declared place (item 101 R13), a dossier-backed use and its building before its relocation are never struck, converted, closed or moved by the engine; holding one entity changes no other entity's draws | 0 violations; a lock toggled on an entity the history never touches leaves every other entity's history byte-identical |
-| T-V6-5 | statistics | departures follow exposure: the mean `E(x)` of the dwellings emptied in a fall exceeds that of those kept; extramural and flood-band dwellings empty first; a core dwelling can still empty | on 200 seeds: emptied-minus-kept mean `E` ≥ 0.1; core share of emptied > 0 in ≥ 5 % of seeds |
-| T-V6-6 | statistics | the persistence order over a long decline: a layer's **struck share** per decade = its entities stepped down (by the pool or, for walls, by the pathway's breaches and dismantles, counted by `walls.dismantleStretchM` stretches) ÷ its live entities at the decade's start; the shares order use > building > plot boundary > street > wall | ordered, each adjacent pair within a declared tolerance of 0.01 absolute, in ≥ 90 % of seeds over a 60-year decline |
-| T-V6-7 | hook | regrowth-first: after decline then growth, no new face is built while tiers (0)–(5″) hold capacity beyond `decline.turnoverVacancy`; the old plan's vacancies are refilled first, each band keeping its turnover share vacant | 0 violations; ≥ 80 % of pre-decline plots reoccupied before the first new stage in H-100; the poorest band's vacant share ≥ 0.05 − 1 dwelling at every steady epoch (0 in the parity presets) |
+| T-V6-1 | goldens | the `'grow-by-stage'` strategy through the phase interface (its nine base phases) reproduces M4's grow path, including a **dossier-bound catch-up epoch carrying two dossier events** (both applied at step (e), the lapse, character and Works steps run); with no epoch every plot's `builtBand` equals its generation band and its geometry band its field band, a town and a metropolis each resolving their own middle band (T31-12) | byte-identical model digest to the M4 golden on every M4 fixture and on the catch-up fixture's log; exact (T31-12) |
+| T-V6-2 | property | determinism: the same seed and inputs fold to the same digest per epoch; a replay from the log and a replay from any checkpoint agree; the fold is identical on every host (§6.5); a failure at an epoch recurs identically at replay (V06 §3.17); one seed with one circumstance timeline replays to one digest of openings, closings and moves (T17-3) | 0 mismatches over H-100 and 50 random trajectories |
+| T-V6-3 | hook | no re-roll and locality: every entity outside an epoch's touched set is byte-identical (leaf digests) across it; every survivor keeps its address and lineage; an epoch with an empty touched set records its week and report and changes nothing else; over H-100 every ruin, trace and superseded ring keeps its address, no cleared building is tombstoned unless demolished or succeeded, and a front building the pool makes a footprint trace or demolishes leaves its passage with no `frontBuilding` and no base wing spanning it (T8-3's epoch form) | 0 violations over H-100 |
+| T-V6-4 | hook | protection: a locked or pinned entity, a declared place (item 101 R13), a dossier-backed use and its building before its relocation are never struck, converted, closed or moved by the engine; holding one entity changes no other entity's draws (T17-2; T20-6's epoch clause) | 0 violations; a lock toggled on an entity the history never touches leaves every other entity's history byte-identical |
+| T-V6-5 | statistics | departures follow exposure: the mean `E(x)` of the dwellings emptied in a fall exceeds that of those kept; extramural and flood-band dwellings empty first; a core dwelling can still empty; the exposure field is monotone in each driver's weight and its chance share equals the table's (T8-4); after each fall of H-100 no building with a surviving household reads `vacant`, and every `relet` down marks an unstored plan rung `stale` and re-cuts a stored plan inside its own event (T8-7's epoch form) | on 200 seeds: emptied-minus-kept mean `E` ≥ 0.1; core share of emptied > 0 in ≥ 5 % of seeds; exact (T8-4, T8-7) |
+| T-V6-6 | statistics | the persistence order over a long decline: a layer's **struck share** per decade = its entities stepped down (by the pool or, for walls, by the pathway's breaches and dismantles, counted by `walls.dismantleStretchM` stretches) ÷ its live entities at the decade's start; the shares order use > building > plot boundary > street > wall; the salvage ledger's credits equal the yields of the robbed and the cleared at every epoch, are never negative, and every shortfall is reported (T8-5) | ordered, each adjacent pair within a declared tolerance of 0.01 absolute, in ≥ 90 % of seeds over a 60-year decline; exact (T8-5) |
+| T-V6-7 | hook | regrowth-first: after decline then growth, no new face is built while tiers (0)–(5″) hold capacity beyond `decline.turnoverVacancy`; the old plan's vacancies are refilled first, each band keeping its turnover share vacant (T8-2's epoch form) | 0 violations; ≥ 80 % of pre-decline plots reoccupied before the first new stage in H-100; the poorest band's vacant share ≥ 0.05 − 1 dwelling at every steady epoch (0 in the parity presets) |
 | T-V6-8 | statistics | crowding before sprawl: households per dwelling of the crowding bands rise before a stage grows; decrowding moves households to the new stage; the rich bands never crowd | on 200 seeds: crowding precedes ≥ 80 % of stages; 0 rich-band crowding |
 | T-V6-9 | hook + statistics | a new circuit and its suburbs absorbed: grown under threat 0.6, a ring encloses every earlier stage on its approachable arcs and its inner strip crosses no standing footprint; the old ring enters its pathway (`keep` while threat ≥ 0.6); then threat held at 0.4 (below `walls.keepThreat`) for 40 years: the `keep` fate is re-drawn at the first epoch below and splits road : absorb ≈ 0.7 : 0.3; on H-CLIFF the ring has zero wall edges on sheer arcs and walls a river loop at its neck only | 0 footprints crossed; fate share within ± 0.08 over 200 seeds after the re-draw; 0 sheer-arc edges |
 | T-V6-10 | hook | a shorter ring: its trace passes through no occupied footprint and leaves every live quay reachable; a contraction that cannot is retraced at most three times and then waits (never forced); on H-CLIFF it walls only approachable arcs | 0 occupied footprints crossed; 100 % of quays reachable; 0 sheer-arc edges |
 | T-V6-11 | hook | renewed threat repairs breaches (`repairWall`, the `breached` runs of the ring's `condition` in chain order) and never rebuilds a dismantled stretch; the record's lifecycle returns to its former state only when every run is `standing`; a hand `repairWall` on a dismantled stretch bends to a new stretch drawn on its line, and a hand `repairRaised` on a dismantled span to a new raised part, each dry run naming the bend (J-VI.4); a hand no-stretch `repairWall` on a ring with no neglect to lift is a no-op with its line ("this wall is in use"), never a refusal; on a sky fixture whose island falls at year 30 across a live ring (threat 0.6, no pathway) covering a stretch and a gatehouse, with one of the ring's runs `dismantled` by hand beforehand: the stretch and the gatehouse are `standing` again at the next epoch, the dismantled run is still a gap, and `walls.repairedInUse` counts the repaired runs; **0 Works whose target is a wall, a tower or a gate** at any batch, and after `absorbWall` every run is `dismantled` in time but one holding a raised gate under a standing deck, which is taken from the epoch after that raised way's removal (on H-METRO, the superseded curtain's fate set to `absorb` by a hand `setAttr` and a viaduct crossing it by a raised gate); a neglected ring under renewed threat is in its pre-neglect existence once its pathway is cleared — `decayed` while a dismantled run remains — also when no run was ever breached, **0 rings with no pathway in existence `abandoned`** at every batch, and a hand "back in use" lifts the neglect and clears the pathway, V06 §3.7.3 neglecting that ring again only `walls.neglectAfterYears` after the lift | exact on a scripted threat cycle; 0 refusals outside dossier facts and locks; exact on the landfall fixture; 0 wall Works and 0 abandoned rings without a pathway |
-| T-V6-12 | property + hook | the shade mask: the incremental mask equals a full recomputation bit for bit, including on a fixture whose Works span the epoch's week and on an island arena; the mask survives a save and a load between epochs unchanged, and a sampler change — or a field grid grown with the frame — reads as zero building shade until the next epoch rewrites it whole; `w_sun` = 0, or item 111 (c)'s climate cell 0, leaves the field and the town byte-identical to a history without the mask; on a **near-cut fixture** (a quarter whose value sits within `w_sun` × Δshade above a band cut, tall houses built to its south): the field band falls at the first epoch after the mask records them, never in the epoch that built them; rung 1 acts in that same epoch; rung 2 only after the ladder table's years; on a **stepped temple** (three massing tiers, item 110 (c)) the incremental mask equals the full one and each tier's top is its own datum plus its height, so each casts its own shadow; **way surfaces follow the field** (V06 §3.4 (9)): on H-100 with a prosperity `setField` brush lowering one district by two bands in year 40 and one of its lanes' `surface` edited beforehand, at the first epoch after the brush every other way fronted only by that district's plots carries V01 §3.7.3's value for its class, era and new fronting band (a `cobble` lane at `comfortable` now `dirt`), the edited lane keeps its surface (counted in `shade.surfacesHeld`), and no way fronted by no re-banded plot changes surface; the mask runs at a THORP epoch of H-VILLAGE | exact; exact; exact; exact on the fixture's epochs; exact, one shadow per tier; exact, 0 edited surfaces rewritten |
-| T-V6-13 | statistics | uses over time (items 17, 103, 107): after growth on one side, the mean distance from households to their nearest daily-local use falls within 3 epochs; a tannery on a river town ends downstream of the housing more often than the baseline; measured at every tenth epoch of H-100 with the web's weights on: a coverage class's `servedShare` on its own coverage unit (V12 §3.6) stays above its random baseline, a spaced class's nearest-member distance stays above its baseline, and consumer-to-provider distance lies within `comfortM` in most placements; the `use` cap holds per district | measured shifts ≥ the bench's declared deltas (item 103 (e), 107 (g)); comfort ≥ 0.7 of placements; cap 0 violations |
+| T-V6-12 | property + hook | the shade mask: the incremental mask equals a full recomputation bit for bit, including on a fixture whose Works span the epoch's week and on an island arena; the mask survives a save and a load between epochs unchanged, and a sampler change — or a field grid grown with the frame — reads as zero building shade until the next epoch rewrites it whole; `w_sun` = 0, or item 111 (c)'s climate cell 0, leaves the field and the town byte-identical to a history without the mask (the no-op pin `item102.sun`: H-100, registered by V06's E5 seat on V12 §3.7.8's engine); on a **near-cut fixture** (a quarter whose value sits within `w_sun` × Δshade above a band cut, tall houses built to its south): the field band falls at the first epoch after the mask records them, never in the epoch that built them; rung 1 acts in that same epoch; rung 2 only after the ladder table's years; on a **stepped temple** (three massing tiers, item 110 (c)) the incremental mask equals the full one and each tier's top is its own datum plus its height, so each casts its own shadow; **way surfaces follow the field** (V06 §3.4 (9)): on H-100 with a prosperity `setField` brush lowering one district by two bands in year 40 and one of its lanes' `surface` edited beforehand, at the first epoch after the brush every other way fronted only by that district's plots carries V01 §3.7.3's value for its class, era and new fronting band (a `cobble` lane at `comfortable` now `dirt`), the edited lane keeps its surface (counted in `shade.surfacesHeld`), and no way fronted by no re-banded plot changes surface; the mask runs at a THORP epoch of H-VILLAGE | exact; exact; exact; exact on the fixture's epochs; exact, one shadow per tier; exact, 0 edited surfaces rewritten |
+| T-V6-13 | statistics | uses over time (items 17, 103, 107): after growth on one side, the mean distance from households to their nearest daily-local use falls within 3 epochs; a tannery on a river town ends downstream of the housing more often than the baseline; measured at every tenth epoch of H-100 with the web's weights on: a coverage class's `servedShare` on its own coverage unit (V12 §3.6) stays above its random baseline, a spaced class's nearest-member distance stays above its baseline, and consumer-to-provider distance lies within `comfortM` in most placements; the `use` cap holds per district (T17-2's churn-cap clause) | measured shifts ≥ the bench's declared deltas (item 103 (e), 107 (g)); comfort ≥ 0.7 of placements; cap 0 violations |
 | T-V6-14 | hook | custom chains over epochs (item 104): an inactive chain's nodes keep their sites; a chain switched off and on with nothing else changed returns every node to its site; an anchor moved re-sites the chain in item 105 (f)'s order; a revision re-sites by least disruption | exact |
-| T-V6-15 | hook | `MutationPlan`: steps apply in order at their weeks; each applies exactly its parts of the stored record; an incompatible present design opens the use at its first compatible step (a relocating use open at its former site until then); a hand edit between steps makes the next re-plan; a use leaving cancels the plan with done steps standing; the building's return to its former designation applies the inverse of the done steps; an always-crypt target carries its crypt from the occupy step; undo restores; a plan whose stored record is missing is re-planned, reported; a step due before the plan's creation clamps to it | exact |
+| T-V6-15 | hook | `MutationPlan`: steps apply in order at their weeks; each applies exactly its parts of the stored record; an incompatible present design opens the use at its first compatible step (a relocating use open at its former site until then); a hand edit between steps makes the next re-plan; a use leaving cancels the plan with done steps standing; the building's return to its former designation applies the inverse of the done steps; an always-crypt target carries its crypt from the occupy step; undo restores; a plan whose stored record is missing is re-planned, reported; a step due before the plan's creation clamps to it; each step keeps every kept part byte-identical, touches nothing outside its event's effective scope and never subtracts a locked part, and the steps applied in full give the design the one-shot mutation of the same record gives, byte-identical (T18-1 – T18-4's epoch-spread form) | exact |
 | T-V6-16 | hook + statistics | fire: the spread never crosses a way corridor ≥ `breakM` or open water; `minor` never exceeds 6 buildings; the burnt plots are rung-3 eligible and rebuilt by tier (3); the rebuild shift lowers flammability for 30 years; on H-DECK a fire lit in the timber row on the bridge spreads along the row over the water and stops at the stone bridgehead, and a burn of every building on the timber deck chars the deck to `decayed` | 0 violations; on 200 seeds the mean fire size falls with the share of stone and tile; exact on the bridge fixture |
 | T-V6-17 | hook | flood and collapse: only buildings whose depth at their datum (the water level less `baseCm`) reaches `collapseDepthCm` collapse, only of the listed wall materials; a deck building whose deck stands above the water level never collapses; a terrace building is judged at its platform, never at the unlevelled ground; `topple` strikes the chosen count, and a toppled support breaks both its spans; underground, on a flood fixture over a shallow sewer gallery and a deep catacomb: only elements whose ceiling lies within `surfaceClearCm` take `flood`, and only where V04 §2.3 admits it (else `W_VOID_UNDER_WATER`); the deep catacomb stays dry; the epoch's flood and the same flood drawn by hand reach the same elements | exact |
-| T-V6-18 | hook + statistics | terrain and water: a cut-off leaves an oxbow that silts to marsh; reclamation fires only with a shortfall and a `modest` band; the rates over 1 000 seed-centuries lie within ± 30 % of the table's | exact; within tolerance |
-| T-V6-19 | property + hook | Works scheduling: start offsets are uniform over the span (KS test); a chained Works starts after its predecessor finishes; a chained Works not started when the next epoch changes its target is removed, its change drawn finished and the new Works starting from the prior started Works' stage; the retirement rule keeps every Works that ran in the epoch's span in that epoch's model at any cadence (13, 52, 520 weeks); no Works leaves a plot without access (T67-2) | KS p > 0.01; exact |
+| T-V6-18 | hook + statistics | terrain and water: a cut-off leaves an oxbow that silts to marsh; reclamation fires only with a shortfall and a `modest` band; the rates over 1 000 seed-centuries lie within ± 30 % of the table's; every epoch-applied `reclaim` and `siltReach` is byte-identical outside its footprint, in the carve fixtures' form, and undoes exactly with its epoch (T25-1's epoch form) | exact; within tolerance |
+| T-V6-19 | property + hook | Works scheduling: start offsets are uniform over the span (KS test); a chained Works starts after its predecessor finishes; a chained Works not started when the next epoch changes its target is removed, its change drawn finished and the new Works starting from the prior started Works' stage; the retirement rule keeps every Works that ran in the epoch's span in that epoch's model at any cadence (13, 52, 520 weeks); no Works leaves a plot without access (T67-2); a demolition's households are rehoused before its first stage (T67-4); on the hook fixture an epoch's share of buildings in works lies within ± 3 s.e. of growth × mean duration ÷ span, and a decay Works within its dwell band (T67-6) | KS p > 0.01; exact; within ± 3 s.e. |
 | T-V6-20 | property | people: a person's key, age and succession are pure functions; the same week gives the same household members from any replay **and at any cadence** (the same 100-year history at 13, 52 and 520 weeks gives the same successors, keyed by death week); a pinned person is never succeeded | exact |
-| T-V6-21 | property + visual | frames: `frame(w)` by the images path equals the replayed prefix's model digest (with the effective-week before-images) for random `w`; scrubbing forward and back draws byte-identical images (§13.4's week-scrub harness); then-and-now equals the lifecycle entries between the two weeks; at a 13-week and a 520-week cadence, a scrub to a week before the epoch of a ring-road conversion, a way downgrade, a waterfront wall and (on H-AQUA) the aqueduct's founding draws the before state, and a PNG and GeoJSON export at that week does too; a frame drawn after an undo and after a reload equals the replayed prefix's | exact |
+| T-V6-21 | property + visual | frames: `frame(w)` by the images path equals the replayed prefix's model digest (with the effective-week before-images) for random `w`; scrubbing forward and back draws byte-identical images (§13.4's week-scrub harness); then-and-now equals the lifecycle entries between the two weeks; at a 13-week and a 520-week cadence, a scrub to a week before the epoch of a ring-road conversion, a way downgrade, a waterfront wall and (on H-AQUA) the aqueduct's founding draws the before state, and a PNG and GeoJSON export at that week does too; a frame drawn after an undo and after a reload equals the replayed prefix's; the stage drawn at week w is a pure function of the Works record and w, reached directly or by scrubbing, and no model digest moves (T67-1); a merge or a split shows the old boundary until its clearing stage (T67-3) | exact |
 | T-V6-22 | hook | `forkAt` gives the prefix's digest, and one at a seq inside a replayed document's creation prefix bends to the prefix's end with its line; `rerunFrom` with no change reproduces the original history's digests epoch for epoch, also after a save and a reload; on H-DOSSIER, `rerunFrom` at a point before an institution was added (by a standalone dossier event between epochs), with one wall locked, reproduces every dossier-backed use; a re-apply of a hand edit resolves by carry-over matching or returns F-EDIT with alternatives; a dossier-bound fork receives no later dossier event; before a rebase point both bend to the earliest seq with the line "the copy starts at year N" | exact; 100 % of dossier-backed uses |
-| T-V6-23 | hook | `advance`: the expansion's weeks, targets and events equal V06 §3.3.2's formulas; the shape table's mappings (V06 §2.3); a span above `maxEpochs` bends its cadence and says so; a clamp is reported; each degenerate request bends or is a no-op with its line as V06 §3.3.2 states (a span of 0, of −1, of a third of a week; a cadence of 0 and of 2.5 weeks; points unsorted, repeated and in the past; `perYear` −2; a rate that overflows; a target of −10) and never yields a non-finite target or a 0 ÷ 0; refused on a dossier-bound document with the what-if offer; `from: founding` on an existing document bends to "Start a new town small" (a new document, the present one byte-identical); on a standalone neighbourhood document the time card is absent and `advance` and a skeleton's `history` block bend to none with the line "a neighbourhood alone has no history yet — open it in its town to advance time", while `forkAt` and the timeline work; Stop keeps the folded epochs and writes `stoppedAt`; the group undoes as one step by its checkpoint; after a save and a reload the group undoes to the pre-group digest (rebuilt from a keyframe), truncating in an unshared document; in a shared document the undo appends an `undo` event, keeps the group in the log, and lists another author's later dependent edit; the preview's end state equals the committed end state | exact |
-| T-V6-24 | performance | V06 §6's rows on the reference hardware, V06 §6.7's replay budget included | each row within budget or re-declared (D-18) |
-| T-V6-25 | statistics | cadence independence (item 76 (5)): the same 100-year trajectory at 13, 52 and 520-week cadence gives towns whose household count, built area, ruin share and walled share agree; the share of households housed by the overflow ladder agrees at every common epoch week; no tent belt at any cadence of H-100's +1 % a year while crowding capacity remains; the catacomb extent agrees | within ± 10 % on 100 seeds; overflow share within ± 2 percentage points; 0 tent belts; extent within ± 10 % |
-| T-V6-26 | hook (wiring) | every registered strategy has a phase for every step it must run — `'grow-by-stage'` for its nine base steps, `'history'` for every step of V06 §3.2 — and every product override names a registered phase; every participant id of V06 §3.2's table is registered by its package **and every registered participant is in the table** (`village.density` and `village.pins` included); every product's `records` names a registered `EpochPlacement`; every `ProductEpochRows` member a product declares is read by the decline or hinterland step; every `EpochInputs.events` entry kind the port or the replay writes has its reader; every `EvolutionTable` row is read by a phase (a source scan); every new record, field, op and edit kind has its registry row, its renderer row, its export mapping and its lifecycle row (§13.2's path-completeness test extended); every `ChronicleKind` has a template (the item 110, 111, 113 and 114 kinds included); every row of V06 §1b's dossier trace names a field the port's digest carries and a phase that reads it; every `HistoryEventRow` effect has its reader (V06 §3.20.2); the `raisedWays` step has its phase, `sky.clearance` its registration, `repairRaised`, `repairRetaining`, `wearWall` and file f item 291's members their registry, renderer, export and lifecycle rows, `detail.suppress` a reader for each of its five kinds, the `landfall` candidate its report and chronicle rows | 0 missing |
-| T-V6-27 | hook | dossier-bound: no spontaneous hazard (an `adjust` to `minor` or `full` refused); every mapped calamity strikes at its targets' centroid and its targets are struck in place, never relocated; an unmapped calamity is reported and changes nothing else; a calamity with no severity band reads `moderate`; every engine change's cause is a rule or a dossier fact (the report's causes); no dossier-backed use closes or goes unplaced at any batch (§5.3's row) | 0 violations on H-DOSSIER |
+| T-V6-23 | hook | `advance`: the expansion's weeks, targets and events equal V06 §3.3.2's formulas; the shape table's mappings (V06 §2.3); a span above `maxEpochs` bends its cadence and says so; a clamp is reported; each degenerate request bends or is a no-op with its line as V06 §3.3.2 states (a span of 0, of −1, of a third of a week; a cadence of 0 and of 2.5 weeks; points unsorted, repeated and in the past; `perYear` −2; a rate that overflows; a target of −10) and never yields a non-finite target or a 0 ÷ 0; refused on a dossier-bound document with the what-if offer; `from: founding` on an existing document bends to "Start a new town small" (a new document, the present one byte-identical); on a standalone neighbourhood document the time card is absent and `advance` and a skeleton's `history` block bend to none with the line "a neighbourhood alone has no history yet — open it in its town to advance time", while `forkAt` and the timeline work; Stop keeps the folded epochs and writes `stoppedAt`; the group undoes as one step by its checkpoint; after a save and a reload the group undoes to the pre-group digest (rebuilt from a keyframe), truncating in an unshared document; in a shared document the undo appends an `undo` event, keeps the group in the log, and lists another author's later dependent edit; the preview's end state equals the committed end state, and an accept on an unchanged head takes the preview's folded state byte-identical to a re-fold; **the comfort level** (V06 §3.3.2, V06 §6.8): a request whose estimate exceeds `advance.budgetMs` folds at the smallest cadence that fits — the same cadence on every host and in a replay of the log, its epochs' weeks at it — its one line naming the cadence chosen and every epoch's `EpochReport.advance` carrying it and the cadence asked; a 500-year METROPOLIS request with three islands and the hand-placed cap folds, never refused or shortened | exact |
+| T-V6-24 | performance | V06 §6's rows on the reference hardware as targets (item 119 (f): its bars T119-1 – T119-5, §13.2, are taken by V12's T-V12-50 and V09's T-V9-79; this test is the volume's own measurement, read beside them): each row reported target met or target miss, a slower row only with its recorded gain, the interactive rows of V06 §6.4 unchanged; **the comfort level** (V06 §6.8): an `advance` of 1, 10, 100 and 500 years — held, growing 1 % a year and falling 1 % a year — and a history-first generation of H-HISTORY, H-REFOUND and a metropolis grown from its founding over 300 years, each at every rung's band top and at the metropolis cap, the sky layer off and on, timed from the click to the complete result (V12's `wait.advanceTime`, `wait.historyReplay`) | every row reported against its target (a miss a declared target miss, D-18); every wait's p95 ≤ 10 000 ms, its measured time at most its estimate plus its reserve (else the cost rows rise, V06 §6.7's fallback); progress within 1 000 ms of the click for every wait over one second |
+| T-V6-25 | statistics | cadence independence (item 76 (5); T76-1's per-year clause): the same 100-year trajectory at 13, 52 and 520-week cadence gives towns whose household count, built area, ruin share and walled share agree; the share of households housed by the overflow ladder agrees at every common epoch week; no tent belt at any cadence of H-100's +1 % a year while crowding capacity remains; the catacomb extent agrees | within ± 10 % on 100 seeds; overflow share within ± 2 percentage points; 0 tent belts; extent within ± 10 % |
+| T-V6-26 | hook (wiring) | every registered strategy has a phase for every step it must run — `'grow-by-stage'` for its nine base steps, `'history'` for every step of V06 §3.2 — and every product override names a registered phase; every participant id of V06 §3.2's table is registered by its package **and every registered participant is in the table** (`village.density` and `village.pins` included); every product's `records` names a registered `EpochPlacement`; every `ProductEpochRows` member a product declares is read by the decline or hinterland step; every `EpochInputs.events` entry kind the port or the replay writes has its reader; every `EvolutionTable` row is read by a phase or V06 §6.8's estimate (a source scan), every class carrying a replaceability and every ladder row a duration per direction and replaceability as the ladder phase reads them (T31-8); every new record, field, op and edit kind has its registry row, its renderer row, its export mapping and its lifecycle row (§13.2's path-completeness test extended); every `ChronicleKind` has a template (the item 110, 111, 113 and 114 kinds included); every row of V06 §1b's dossier trace names a field the port's digest carries and a phase that reads it; every `HistoryEventRow` effect has its reader (V06 §3.20.2); the `raisedWays` step has its phase, `sky.clearance` its registration, `repairRaised`, `repairRetaining`, `wearWall` and file f item 291's members their registry, renderer, export and lifecycle rows, `detail.suppress` a reader for each of its five kinds, the `landfall` candidate its report and chronicle rows | 0 missing |
+| T-V6-27 | hook | dossier-bound: no spontaneous hazard (an `adjust` to `minor` or `full` refused); every mapped calamity strikes at its targets' centroid and its targets are struck in place, never relocated; an unmapped calamity is reported and changes nothing else; a calamity with no severity band reads `moderate`; every engine change's cause is a rule or a dossier fact (the report's causes); no dossier-backed use closes or goes unplaced at any batch (§5.3's row); a rejection lapses at the first epoch whose population target has moved past the roster tolerance (± 5 %) from the one it recorded, a drift inside it lapsing nothing, and an undo of a lapsing epoch that carried no dossier event restores the hold (T20-2's epoch clause); an `undo` naming an epoch that carried a dossier event returns F-EDIT and changes nothing (T20-6's epoch clause) | 0 violations on H-DOSSIER |
 | T-V6-28 | hook | the hinterland: surplus fields step down the fallow ladder farthest-first at their drawn spans; growth re-takes pasture and commons before S12a opens new fields; wildwood is never re-taken | exact |
-| T-V6-29 | property | a 500-year soak of alternating growth and decline: every §5.3 invariant holds after every batch; plot counts stay within the ladder's bounds; the digest is stable across replays | 0 violations |
-| T-V6-30 | hook | participants: each is called at its step in (order, id) order — `sky.clearance` at `afterGrowth` order 50, after `hood.fabric`; an erroring participant is isolated and reported; the island and underground laws' ops commit in their step (V05 §3.15, V04 §3.10) | exact |
+| T-V6-29 | property | a 500-year soak of alternating growth and decline: every §5.3 invariant holds after every batch; plot counts stay within the ladder's bounds; the digest is stable across replays; at every epoch granularity lies within each band's target ± tolerance and the churn caps hold per kind, district and block (T31-2, T31-3); the floor's bars hold over the soak — no rung-1 or rung-2 event moves a plot's frontage edge or shrinks a shell toward a poorer band, `builtBand` is the new stock's after a building rung 3 and the kept member's after an `amalgamate` that builds nothing, and a rich → poor → rich run with no rung-3 event leaves rings and shells byte-identical (T31-9 – T31-11); the character step's output after every epoch passes T72-1 – T72-9's epoch clauses — the vector recomputed from the saved model equal, a name changed only past the hysteresis or by a rename, every building's prosperity-driven state inside its district's band range, every household an epoch places inside its district's written range | 0 violations |
+| T-V6-30 | hook | participants: each is called at its step in (order, id) order — `sky.clearance` at `afterGrowth` order 50, after `hood.fabric`; an erroring participant is isolated and reported; the island and underground laws' ops commit in their step (V05 §3.15, V04 §3.10); on the sky fixture a CITY dropped below 10 000 inhabitants loses its islands over their dwell spans — waning, settled, fallen — never in one epoch (T8-6) | exact |
 | T-V6-31 | statistics | growth reads as historical: over H-100, while the extramural households number fewer than 2 × `growth.ribbonMaxHouseholds`, the share of extramural buildings within 100 m of a gate road stays in MFCG's ribbon band (§4.4's ribbon row: 71–85 %), falling only once suburb stages grow; walled towns add circuits only under threat | the share in [0.6, 0.9] at every such epoch on ≥ 90 % of seeds; 0 circuits below `walls.threatMin` |
-| T-V6-32 | hook | the overflow ladder never leaves a household unhoused: a population jump of +40 % in one epoch on a frame with no free land houses everyone (tent belt) and reports it | 0 unhoused |
+| T-V6-32 | hook | the overflow ladder never leaves a household unhoused: a population jump of +40 % in one epoch on a frame with no free land houses everyone (tent belt) and reports it; every informal cluster the overflow ladder or a stage makes over epochs gives each structure its own door on a footpath reaching an access edge, keeps the fire-gap minimum and the households per structure within its row and capacity, and stands on no plot whose geometry floor is the middle band or above, in no district whose band range excludes the squalid band and in no wall strip (T70-1 – T70-4 over epochs) | 0 unhoused; 0 violations |
 | T-V6-33 | hook | dwellings only after access (item 109 (j) (4); item 113 (e)): on H-VOID, zero dwellings in an `unexcavated` or `lost` cavern or ruin cluster after every batch; a cluster whose last open path `under.fade` seals turns `lost` in that batch, is vacated in the same batch and its households re-housed at `siting` the same epoch; when a later epoch's dig or excavation refinds it, it reads `accessible` and may take dwellings again | 0 violations; 0 households left in transit |
-| T-V6-34 | statistics | access grows with the settlement (item 109 (j) (3), (5)): across H-VOID's growth from a hamlet's population, the share of voids with an access rises monotonically with the number of buildings over them (V12's `trend` on `voidAccessible`); every access carries its cause with the epoch's seq; a lineage draws its dig once in its life across replays | monotone (V12's trend bar); 100 % causes; exactly one draw per (lineage, void kind) |
+| T-V6-34 | statistics | access grows with the settlement (item 109 (j) (3), (5)): across H-VOID's growth from a hamlet's population, the share of voids with an access rises monotonically with the number of buildings over them (V12's `trend` on `voidAccessible`); every access carries its cause with the epoch's seq; a lineage draws its dig once per void kind in its life across replays, plus once for each wing V02's mutator adds over a void | monotone (V12's trend bar); 100 % causes; exactly one draw per (lineage, void kind, added-wing key) |
 | T-V6-35 | hook | overlap access (item 109 (j) (3b)): a sewer extension crossing a sealed ruin chamber at a shared depth yields a breach link whose lifecycle seq is the epoch's, and makes that chamber and every void linked beyond it accessible; at different depths no link (bar the row's shaft chance); the sewer's course is unchanged by the ruin | exact on the fixture |
 | T-V6-36 | statistics | depth keeps secrets (item 109 (j) (5)): at every METROPOLIS epoch of H-METRO, the sealed share of voids deeper than `DigRule.reachM` is at least `DigRule.sealedFloor` (V12's `floor` on `voidSealedDeep`) | ≥ the floor on ≥ 95 % of seeds |
 | T-V6-37 | hook + statistics | caverns and ruins at any tier and a distinct ruin over time (item 109 (j) (1), (c)): caverns and ruins are present at every rung of a growth from 1 500 to 120 000 (and at volume 7's rungs when it is registered, H-VILLAGE); at every tenth epoch of H-100 on H-VOID, the ruin differs from the town as it then stands in block size, grid regularity and orientation by V12's distinctness bar; the ruin's plan changes only by decay, excavation and collapse; excavation by demand fires at most once per epoch and only within `excavate.reachM` | present at every rung; distinct at every sampled epoch; exact |
@@ -3688,13 +3880,13 @@ pin; nightly the rest; the statistics bench weekly on 200 seeds (§13.8).
 | T-V6-41 | hook | links re-bind (item 105 (a)): after a provider closes, every former consumer is bound to its nearest live provider at the end of the same epoch | 0 stale links against a fresh S10b binding |
 | T-V6-42 | hook | the relaxation pass (item 105 (f)): on the loop fixture, the epoch's relaxation stays within `relaxPasses`, the second pass moves fewer members than the first, every move stays inside its district, byte-stable across replays | exact |
 | T-V6-43 | hook + statistics | split sites over epochs (item 105 (h)): split pairs appear only past the class's compiled `profile.split.threshold` (V11 §2.3; the web's `splitThreshold` its default) and never in the parity presets; a merge-back (below the threshold minus `uses.splitHysteresis`) leaves the shop's plot vacant; an author's merge-back declaration holds at every epoch; closing the institution closes both; undo restores both; with V11 §3.7.4's `splitEnabled` set false by a table edit mid-history, every generated pair merges at the next `uses` phase (cause `merge`, within the `use` cap, the rest the epoch after) while a declared split stands, and no pair opens until the switch is on again | exact |
-| T-V6-44 | goldens | the web's no-op pin: with V11 §3.7.4's web off form applied an epoch is byte-identical to the history without item 105 | byte-identical |
-| T-V6-45 | hook | ladders over epochs (item 108): on H-DOSSIER's COUNT record, the members lie inside the range at every epoch, rise monotonically across the growth phase and fall across the decline without going below the range's minimum; no ladder pair is double-counted at any batch (no generator use of a covered class); a SIZE record is one building; a promotion and a demotion change the members by least disruption (member `#1`'s building kept where the greater's thing is the lesser's; V08 §3.5.1 (c)); on a `town-1` mutation whose `Hedge wizard` a receipt promotes to `Wizard's tower`, the house is converted in place and no second building stands; a REPLACEMENT whose greater V08 §3.5.1 (d) places new: on a hamlet fixture whose `Wayside shrine` record a `promotedFrom` receipt promotes to `Parish church` at the epoch that brings the village rung, one new church stands bound to the record's key, one churchyard `cross` is laid for the record with no binding row, the roadside shrine pin stands unbound, no `convert` runs on any building, and at every batch the church is counted once and neither pin as a church; on a village fixture whose `Fish market` arrives beside a standing `Fishmonger`, one hall on the market's rim binds the fish market, the fishmonger's key is its alias and its shop keeps its use, unbound | 0 violations |
+| T-V6-44 | goldens | the web's and the spread's no-op pins, `item105.web` and `item107.spread` (H-100, registered by V06's E4 seat on V12 §3.7.8's engine): with V11 §3.7.4's web off form applied an epoch is byte-identical to the history without item 105, and with T107-4's cells at 0 too, to the history without items 105 and 107 | byte-identical |
+| T-V6-45 | hook | ladders over epochs (item 108): on H-DOSSIER's COUNT record, the members lie inside the range at every epoch, rise monotonically across the growth phase and fall across the decline without going below the range's minimum; no ladder pair is double-counted at any batch (no generator use of a covered class); a SIZE record is one building; a promotion and a demotion change the members by least disruption (member `#1`'s building kept where the greater's thing is the lesser's; V08 §3.5.1 (c)); on a `town-1` mutation whose `Hedge wizard` a receipt promotes to `Wizard's tower`, the house is converted in place and no second building stands; a REPLACEMENT whose greater V08 §3.5.1 (d) places new: on a hamlet fixture whose `Wayside shrine` record a `promotedFrom` receipt promotes to `Parish church` at the epoch that brings the village rung, one new church stands bound to the record's key, one churchyard `cross` is laid for the record with no binding row, the roadside shrine pin stands unbound, no `convert` runs on any building, and at every batch the church is counted once and neither pin as a church; on a village fixture whose `Fish market` arrives beside a standing `Fishmonger`, one hall on the market's rim binds the fish market, the fishmonger's key is its alias and its shop keeps its use, unbound (T108-4 over epochs) | 0 violations |
 | T-V6-46 | hook | water access (item 106): H-PORT declines to 40 %; after its contraction every quay is reachable through a gate or an open front | 100 % |
 | T-V6-47 | hook | barrier closure on a new circuit: H-CLIFF's new circuit has zero wall edges on sheer arcs and its stretches end on tower anchors; the river loop is walled at its neck only; on H-AQUA an aqueduct crosses both a new circuit and a later contraction: each trace crosses it under a span, with one wall opening each; a viaduct crossed by a trace gets one raised gate; `wallToWay` of a crossed ring leaves the raised way standing with no junction to the ring road | 0 sheer-arc edges; 0 supports crossed; exactly one opening or raised gate per crossing; exact |
 | T-V6-48 | hook | the waterfront over epochs: a rise in sea threat past a quay-wall row gives a quay wall with sea gates within one epoch; a later fall below every row for `walls.neglectAfterYears` neglects it (never demolishes); a walled port gains its harbour-mouth chain the first epoch its mouth is enclosed, anchored on a tower or fort already standing at a mole head; a reclamation that changes a closing shoreline re-evaluates the closure the next epoch; a deleted generated chain or quay wall stays absent for 100 epochs while its condition holds, and undo restores it | exact; 0 duplicate towers at a mole head; 0 re-additions |
 | T-V6-49 | hook | the dossier gate (DR2): on H-DOSSIER no circuit or waterfront wall appears that the walls records do not admit, and the walls REPLACEMENT yields one ring the same epoch | 0 violations; exact |
-| T-V6-50 | hook | rung crossings: a TOWN without sewers that grows past CITY has `Features.sewers` on and a laid network from that epoch on; a TOWN whose creation draw `u` lies below its law at a later population turns them on at that epoch at any cadence | 100 % of seeds; exact |
+| T-V6-50 | hook | rung crossings: a TOWN without sewers that grows past CITY has `Features.sewers` on and a laid network from that epoch on; a TOWN whose creation draw `u` lies below its law at a later population turns them on at that epoch at any cadence; an epoch whose target crosses a band upward changes the rung's row and grows the frame by §3.2 (9)'s batches, every entity outside the growth's region keeping its address and every face outside it its ring, owner and nested faces (T81-1) | 100 % of seeds; exact |
 | T-V6-51 | hook | products (V07): with volume 7 registered, H-VILLAGE hands up when the target reaches 1 575 and down when it falls below 1 425 (V07 §2.1's fold) through the product overrides; a target alternating 1 480 / 1 520 never changes the product (a 1 440-person town runs the base product's phases on the TOWN row) and one alternating 1 400 / 1 600 changes it at every epoch, each a whole hand-off; a town handed down grows no underground element (every inherited system in V04's maintenance mode, a catacomb stagnant with `blockedBy` `'rung'`); at a village epoch the church's and the manor's strike weights carry V07's persistence rows and the hinterland steps by V07's slack, order and cap; with the town product alone it clamps at 1 500, reported; on H-DESERT: every retirement is a `retireWay`, a hollow way struck a second time is `effaceWay`d to `decayed` and never struck a third time, no way carrying an entry, approach or landing is ever retired and no retirement leaves a gate, a frame exit or an occupied plot without a path (at every batch), and in the rise every hollow way bounding a face that tier (5) cuts is reopened by `reopenWay` before the cut — at the village rungs and after the hand-up alike; at every batch of the rise, 0 occupied plots whose only access runs over an `abandoned` or `decayed` way — a toft reoccupied, a house platform rebuilt, a vacant plot built or a close infilled (tiers (0)–(4), V07's (6v)–(8v)), and a use opened or moved onto a house platform or a cleared trace (the use phase's openings, moves, relaxation and split shop) or a dossier-backed use relocated there, on a hollow way has that way, and any hollow way on its path to the ways in use, reopened in the same batch; at a village epoch a `cloister` opening — a roster member in the `uses` step; a record through the product's `records` placement in the `dossier` step — takes a plot joined with its vacant neighbours up to `claimArea.cloister` at its band, or V07 §3.12 (c)'s outside plot, never a smaller plot, a record placed in the epoch it arrives; a `cloister` record added at a village epoch whose district's `geometry` cap that epoch's earlier batches have spent still takes its joined plot in that epoch — its joins in the event's `EditBase.disruption`, the district's `geometry` count in the churn ledger unchanged by them, the event reported over budget where they pass the `dossier` row's budget and never refused — and the same record on an absorb without an epoch does the same; every participant runs at every epoch and gates itself: after H-VILLAGE hands up, `village.density` runs at the base-product epochs while the superseded `VillagePlan` stands (its `afterField` ops committed, the old core's density raster re-derived on its recorded inputs), and at a TOWN epoch `village.plan` and `village.pins` return no ops, the epoch's digest equal to that of a run with them unregistered | exact |
 | T-V6-52 | property | households: across every epoch of H-100, H-VOID and a sky fixture, ground + underground + sky households equal the epoch's target at the epoch's end, and no household is in transit after any epoch; on H-VOID, an epoch that opens an access fills F6's new dwellings by relocation only (the total unchanged, ≤ `voidDwellings.share` of the district's poorest band), and a clearance epoch (the undercity shrinking, a pier founded over a lived chamber) re-houses every vacated underground household inside the participant, none in a tent while ground capacity exists; a phase's `displaced` row naming a household not in its building is dropped and `demandTaken` above the delta clamped, each reported | 100 %; 0 in transit |
 | T-V6-53 | hook | the why answers persist: the four providers' answers (a moved use, an enceinte with its runs' materials, a district's prosperity with its shade and water, a plan) are identical before and after a save, a load and a rebase, at a TOWN and at a village rung | exact |
@@ -3714,11 +3906,11 @@ pin; nightly the rest; the statistics bench weekly on 200 seeds (§13.8).
 | T-V6-67 | hook | foundations at an epoch: a raised way founded at an epoch over a lived cavern chamber, a basement grown over a ruin gallery and a terrace levelled over a cavern each collapse exactly the elements V04's rule collapses at a regeneration of the same state (the same element set), the dwellings on collapsed floors vacated and re-housed in the participant | exact; epoch = regeneration |
 | T-V6-68 | hook | a village mine breach: on H-VILLAGE with a forced cavern within `breachM` of a mining use opened at an epoch, the working breaks in when its depth reaches the cavern — one `AccessPoint` at the working, cause `mineBreach` with the epoch's seq, no link record — and never when it does not | exact |
 | T-V6-69 | hook | calamity deaths (file f item 573): on H-DOSSIER, a calamity's `deaths` raise the catacomb need of the epoch at its week by each cemetery's `burialShare` of them, never the cap; an event with no `deaths` reads 0 | exact |
-| T-V6-70 | hook | **the edge suite** (V06 §3.21, one fixture per clause): (a) a phase returning an op on a tombstoned id, a stray `displaced` row and an over-large `demandTaken` — skipped, dropped, clamped, each reported; (b) a hazard of an unknown kind, a row with a missing param and a `drought` on a map with no spring — reported, defaulted, a no-op; (c) each conversion kind on a tombstoned target and in its no-op case, each with its line; (d) an epoch with nothing to report, and a lost report block rebuilt by replay; (e) an epoch with no change of input — every phase run, nothing re-rolled; (f) decline with no candidate, one leaver and a spent cap, undone and reloaded; (g) growth with no residual, a residual of one and a missing band row; (h) a hazard placed outside the frame and a hazard epoch undone and replayed; (i) a reach with coincident knots, an oxbow born under 0.1 ha and a spring on its shore; (j) Works on a target a later op of the epoch tombstoned, retired and then undone; (k) a document with no epoch, `diff(w, w)` and a frame whose images are gone; (l) a raised-way course of one station and a `SpanRef` with equal ends; (m) the hand forms' no-op cases (a strain cleared that is absent); (n) the combinations of V06 §3.21 (b) the other tests do not name — a moat after `wallToWay`, a square across a decline, a frame reached by a stage, steep ground under a new stage at each rung | exact; 0 crashes, hangs, lost data, silent wrong results or whole-map retries |
-| T-V6-71 | goldens + hook | **the history replay at generation** (item 113; V06 §3.20): on H-HISTORY, the present population and every dossier fact match exactly after the replay, walls and street lines stand beyond the present fabric, the church is oversized for the present congregation, the peak is `symbolic` (CITY's range at `history.symbolicQuantile`) and every fact it sized carries `Provenance.symbolic`, and the `HistoryRecord` holds the peak, the epochs with their mapped events (the fire, the plague years and the trade collapse in their epochs) and the buried systems; two runs of the same seed and history are byte-identical, epoch by epoch; on H-REFOUND the new settlement's ways run on the old traces where they serve (a share of its way length on old traces above the one-click baseline), it builds on old foundations first, and the ruins older than the burial threshold are buried by `BuriedFormer.lay` and cleared on the ground, younger ones standing; a fixture whose void's last open link a replay epoch closes reads `lost` and one that reopens it `accessible`; with no evidence of a higher tier no peak and no `symbolic` fact; a history with a founding after its present replays nothing, reported; with `history.replay` false generation is byte-identical to the base (the no-op pin, V12's registration); the estimate stays within `replay.budgetMs` by coarsening, and the measured time within the budget on the reference hardware | exact; byte-identical; the reuse share above the baseline on 50 seeds; within budget (or re-declared, D-18) |
-| T-V6-72 | hook | **springs and oases over epochs** (item 111 (b); V06 §3.12.1), on H-OASIS: the drought of year 30 multiplies each spring's flow by (1 − its share) and no spring recovers in that epoch; the flow recovers `spring.recoverPerYear` a year after; the spring the wadi's shift moves off is lost (flow 0) and never recovers by rule, its pond silting to marsh after its drawn years; the gardens it fed turn `commons` after their drawn years below `spring.gardenMinFlow` and are re-taken when the flow returns, the grove thinning and re-laid likewise; the prosperity field near the failed spring falls at the next field evaluation and its quarters' bands drift down only through the ladder; a site with no spring — and a wet-climate site with one — shows no change (the no-op pin: byte-identical with the springs' rules removed on a spring-less site) | exact; byte-identical |
-| T-V6-73 | hook | **walls by need and means** (item 114; V06 §3.7.7), on H-WALLS: the low-low run decays fastest, through `worn` to `breached`; the high-low run patches its breaches (every patched run's material a patch row of its kind and culture) and never rebuilds robust; the high-high run rebuilds breaches robust and replaces patches oldest first at ≤ ⌈`rebuildRunsPerYear` × years⌉ an epoch within the `fabric` cap; the low-high run restores its worn runs while in use, and once neglected keeps decaying; a driver held at its threshold for one epoch changes no run (no flicker across two epochs); every run's material and last change are recorded and the `enceinte` provider tells its story; the item-114 cells at their neutral values reproduce the rules before item 114 byte for byte (the no-op pin) | exact; byte-identical |
-| T-V6-74 | hook | **the grandeur ceiling across a rung change** (item 115 (e); V06 §3.8.5), on H-RUNG at the wealth maximum: at the village epochs no dwelling but the one manor (with a lord or a dossier record) takes an `H`, `U`, court, tower or turret design, and the manor count never rises with wealth; from the first TOWN epoch, buildings new or rebuilt may take the town's designs; every standing grand building of the town is byte-identical (leaf digest) across the hand-down, and every building new or rebuilt after it follows the village ceiling; a plan made at the town rung whose next step falls due at the village rung is re-planned under the ceiling; a dossier-named hall and a hand-drawn grand house keep their designs at every epoch; a history that never stands below TOWN is byte-identical with the ceiling on and off | exact; byte-identical |
+| T-V6-70 | hook | **the edge suite** (V06 §3.21, one fixture per clause): (a) a phase returning an op on a tombstoned id, a stray `displaced` row and an over-large `demandTaken` — skipped, dropped, clamped, each reported; (b) a hazard of an unknown kind, a row with a missing param and a `drought` on a map with no spring — reported, defaulted, a no-op; (c) each conversion kind on a tombstoned target and in its no-op case, each with its line; (d) an epoch with nothing to report, and a lost report block rebuilt by replay; (e) an epoch with no change of input — every phase run, nothing re-rolled; (f) decline with no candidate, one leaver and a spent cap, undone and reloaded, and every `DeclineOp` kind the pool applies over H-100's decline undone with its epoch to byte identity (T8-1's epoch form); (g) growth with no residual, a residual of one and a missing band row; (h) a hazard placed outside the frame and a hazard epoch undone and replayed; (i) a reach with coincident knots, an oxbow born under 0.1 ha and a spring on its shore; (j) Works on a target a later op of the epoch tombstoned, retired and then undone; (k) a document with no epoch, `diff(w, w)` and a frame whose images are gone; (l) a raised-way course of one station and a `SpanRef` with equal ends; (m) the hand forms' no-op cases (a strain cleared that is absent); (n) the combinations of V06 §3.21 (b) the other tests do not name — a moat after `wallToWay`, a square across a decline, a frame reached by a stage, steep ground under a new stage at each rung | exact; 0 crashes, hangs, lost data, silent wrong results or whole-map retries |
+| T-V6-71 | goldens + hook | **the history replay at generation** (item 113; V06 §3.20; takes T113-1, T113-2, T113-3, T113-6 and T113-7): on H-HISTORY, the present population and every dossier fact match exactly after the replay, walls and street lines stand beyond the present fabric, the church is oversized for the present congregation, the peak is `symbolic` (CITY's range at `history.symbolicQuantile`) and every fact it sized carries `Provenance.symbolic`, and the `HistoryRecord` holds the peak, the epochs with their mapped events (the fire, the plague years and the trade collapse in their epochs) and the buried systems; two runs of the same seed and history are byte-identical, epoch by epoch, on the five engines (T113-2); on H-REFOUND the new settlement's ways run on the old traces where they serve (a share of its way length on old traces above the one-click baseline), it builds on old foundations first, and the ruins older than the burial threshold are buried by `BuriedFormer.lay` and cleared on the ground, younger ones standing; a fixture whose void's last open link a replay epoch closes reads `lost` and one that reopens it `accessible`; with no evidence of a higher tier no peak and no `symbolic` fact; a history with a founding after its present replays nothing, reported; with `history.replay` false generation is byte-identical to the base (the no-op pin `item113.history`: the history fixtures, registered by V06's E9 seat on V12 §3.7.8's engine); the estimate stays within `replay.budgetMs` by coarsening, the epoch length chosen reported (`ReplayPlan.epochYears`, `replay.epochYears`), and the whole wait inside the comfort level (T-V6-24) | exact; byte-identical; the reuse share above the baseline on 50 seeds; within the comfort level |
+| T-V6-72 | hook | **springs and oases over epochs** (item 111 (b); V06 §3.12.1; takes T111-1 – T111-5's epoch form), on H-OASIS: the drought of year 30 multiplies each spring's flow by (1 − its share) and no spring recovers in that epoch; the flow recovers `spring.recoverPerYear` a year after; the spring the wadi's shift moves off is lost (flow 0) and never recovers by rule, its pond silting to marsh after its drawn years; the gardens it fed turn `commons` after their drawn years below `spring.gardenMinFlow` and are re-taken when the flow returns, the grove thinning and re-laid likewise; the prosperity field near the failed spring falls at the next field evaluation and its quarters' bands drift down only through the ladder; a site with no spring — and a wet-climate site with one — shows no change (a conformance clause: byte-identical with the springs' rules removed on a spring-less site); the no-op pin `item111.water` (H-100, registered by V06's E5 seat on V12 §3.7.8's engine): with V11 §3.24.0's `climate` dry cells off, H-100 is byte-identical to its off-state set | exact; byte-identical; byte-identical |
+| T-V6-73 | hook | **walls by need and means** (item 114; V06 §3.7.7; takes T114-1 – T114-5 and T114-8), on H-WALLS: the low-low run decays fastest, through `worn` to `breached`; the high-low run patches its breaches (every patched run's material a patch row of its kind and culture) and never rebuilds robust; the high-high run rebuilds breaches robust and replaces patches oldest first at ≤ ⌈`rebuildRunsPerYear` × years⌉ an epoch within the `fabric` cap; the low-high run restores its worn runs while in use, and once neglected keeps decaying; a driver held at its threshold for one epoch changes no run (no flicker across two epochs); every run's material and last change are recorded and the `enceinte` provider tells its story; V11 §3.24.0's `walls.condition` off form reproduces the rules before item 114 byte for byte (the no-op pin `item114.condition`: H-100 and H-WALLS, registered by V06's E3 seat on V12 §3.7.8's engine) | exact; byte-identical |
+| T-V6-74 | hook | **the grandeur ceiling across a rung change** (item 115 (e); V06 §3.8.5; takes T115-1 and T115-2 across a rung change), on H-RUNG at the wealth maximum: at the village epochs no dwelling but the one manor (with a lord or a dossier record) takes an `H`, `U`, court, tower or turret design, and the manor count never rises with wealth; from the first TOWN epoch, buildings new or rebuilt may take the town's designs; every standing grand building of the town is byte-identical (leaf digest) across the hand-down, and every building new or rebuilt after it follows the village ceiling; a plan made at the town rung whose next step falls due at the village rung is re-planned under the ceiling; a dossier-named hall and a hand-drawn grand house keep their designs at every epoch; a history that never stands below TOWN is byte-identical with the ceiling on and off | exact; byte-identical |
 
 **Parity (B-REF).** Neither reference has time, so the parity bars are the static ones: with no epoch every golden is
 unchanged (§13.3; T-V6-1 and the base's T67-5), and the parity presets create no Works and no hazards and run no replay.
@@ -3741,34 +3933,34 @@ delegation, J122: V06 §11): after M4 four streams run side by side — M5 (V01)
 plan rung's P0, P1 and P3 (V03) — in §16's combined order (INDEX §4). It needs M4 (the one incremental path, the Works and
 clock hooks and the hand forms of every conversion) and M3a (editing, the API, the authoring toolkit); the participants
 join as their volumes land (volume 5's P6, volume 4's time step, volume 1's fabric hooks with M5 — before M5 the new faces
-take the base's bent-cut fabric and the `hood.fabric` participant is simply absent). Priced below at **29.5–41.75
-person-weeks**, the owner's items 111 and 113–115 included — this volume's own estimate; §16 computes the program's
+take the base's bent-cut fabric and the `hood.fabric` participant is simply absent). Priced below at **29.75–42.25
+person-weeks**, the owner's items 111, 113–115 and 119 included — this volume's own estimate; §16 computes the program's
 totals once (file f item 568).
 
 | milestone | contents | tests | person-weeks |
 |---|---|---|---|
-| E0 — spikes | the epoch's cost at TOWN, CITY and METROPOLIS on the scripted history (the use phase's labelled Dijkstras, gated re-scores, openings and link re-binding; the ladder; the mask on every arena); the history image size per epoch at CITY and METROPOLIS; the mask's full and incremental cost; a coarse replay epoch's cost at each rung (V06 §6.7) | T-V6-24 (first cut) | 1–1.5 |
+| E0 — spikes | the epoch's cost at TOWN, CITY and METROPOLIS on the scripted history (the use phase's labelled Dijkstras, gated re-scores, openings and link re-binding; the ladder; the mask on every arena); the history image size per epoch at CITY and METROPOLIS; the mask's full and incremental cost; a coarse replay epoch's cost at each rung (V06 §6.7); the history images' capture and compression per epoch; the `epoch.*` cost rows set from the measured costs (V06 §6.8) | T-V6-24 (first cut) | 1–1.5 |
 | E1 — the runner | `@plat/evolve` and the phase interface (file f item 317), the base phases built once in `@plat/edit` and shared by both strategies, the no-phase rule, the product overrides (`ProductDecl.phases`) re-using `ProductEpochContext`, `EpochPhase`, `EpochParticipant`, `EpochPlacement` and `ProductDeclEpoch` as file f item 202 landed them, the runner inside the epoch fold, the stage ids (file f item 342), participant registration and the adapters' shells, the household ledger (file f item 335), the effective parameters, protection filters, the report and chronicle skeleton (file f item 339), `'grow-by-stage'` through phases with the dossier-bound catch-up; the product fold at each epoch (file f item 322) and `ProductDeclEpoch.rows`; `EpochInputs.events` as file f item 573 types it | T-V6-1–4, 26, 30, 52 | 2.25–2.75 |
 | E2 — decline and regrowth | departures, the pool's candidates (garden reuse, passages), the siting tiers with crowding, the way upgrade and the turnover vacancy, the growth decision (crowding hook, backlog quantum, rich ribbon, overflow order, decrowding; file f items 336, 293, 479), the overflow ladder, the hinterland ladder, `downgradeWay` / `upgradeWay` / `retypeLand`; retaining walls and decks in decline and regrowth (the `retaining` and `deck` candidates, the plot operations that keep walls, tier (5)'s deck faces, the deck budget's binding, `repairRaised`'s deck form, a deck's condition as its host's existence); the product rows in the pool and the hinterland; `repairRetaining` and the restoration rule; the `landfall` candidate and its clearance — every member leaving by the op that ends its cover and the accesses bricked under it reopened with their host; the retaining-wall and deck-plot suppressions; the hollow-way ladder's issuer — the stricter retirement test, the effacement and tier (5′)'s reopening; the grandeur ceiling across a rung change (item 115, V06 §3.8.5) | T-V6-5–8, 28, 31, 32, 54 (passages), 62, 63, 66, 74 | 4.25–6 |
 | E3 — fortification and raised ways | the circuit decision and absorption on approachable arcs, the pathway (gates, stretches, the end), `absorbWall` with `plot_line` rows, contraction with water access, repair, the waterfront at each epoch, the harbour-mouth chain with its anchor reuse, shoreline re-evaluation, the dossier gate (file f items 254, 209, 575); condition by need and means (item 114, V06 §3.7.7: the drivers, `wearWall`, patches and their materials, rebuilding oldest first); the `raisedWays` step — the ledger, the reason keys, the three readings, the gate, order and caps, the course and the clearing, the suppression (file f items 260, 290), disuse, the `raised` candidates and `repairRaised` (file f item 291); raised ways on every wall trace | T-V6-9–11, 46–49, 57–61, 73 | 4.5–6.75 |
 | E4 — uses, the web, ladders and mutations | counts with record ownership, labelled strain, closings, gated moves, openings in item 105 (f)'s order, the why rows on the lifecycle (file f item 265), the clientele defaults, custom chains over epochs, link re-binding, relaxation, splits and merges, `activeChains`, the ladder steps, consecrated ground, `MutationPlan` with occupy-when-compatible and the inverse (file f items 429, 264, 266) | T-V6-13–15, 41–45, 53 | 4–5.5 |
 | E5 — time, hazards, water, people | the shade mask on every arena (file f item 275) with the stacked caster top, the field phase's way-surface re-lay (V06 §3.4 (9)), the hazards with the deck and terrace rules (fire over a deck, the flood at the datum, supports toppled and scoured, decks broken and charred), the calamity table (file f item 388), `raiseGrade` with its buried walls, the terrain candidates and the oxbow (file f item 206), springs and oases over epochs with the drought (item 111, V06 §3.11.7, V06 §3.12.1), Works scheduling and the retirement rule (file f item 321), the derived succession by death week (file f item 443), the wealth level and `advance` provenance (file f item 343) | T-V6-12, 16–20, 25, 27, 54 (raise), 72 | 3.25–4.5 |
-| E6 — history and the app | the history index, store and frames with the effective week; rebase and upgrade; the timeline bar, history panel and past-view forward path; then-and-now (file f item 409); `advance` on T1 with the end-state preview, the clerk and the CLI; `forkAt` and `rerunFrom` with dossier events and re-apply (file f item 458); the bends of J-V6.98 and the standalone neighbourhood document's bend; the undo of a group after a reload and in a shared document; the four `WhyProvider`s; the exports (item 447's raised-way properties) | T-V6-21–23, 53 | 3–4.25 |
+| E6 — history and the app | the history index, store and frames with the effective week; rebase and upgrade; the timeline bar, history panel and past-view forward path; then-and-now (file f item 409); `advance` on T1 with the end-state preview, the clerk and the CLI; `forkAt` and `rerunFrom` with dossier events and re-apply (file f item 458); the bends of J-V6.98 and the standalone neighbourhood document's bend; the undo of a group after a reload and in a shared document; the four `WhyProvider`s; the exports (item 447's raised-way properties); the comfort estimate and the coarsened cadence of an `advance` with its one line, the report's `advance` section and the accept's adoption of the preview's fold (item 119 (a2); V06 §6.8) | T-V6-21–24, 53 | 3.25–4.75 |
 | E7 — calibration, bars and edges | the statistics bench on 200 seeds confirms each `tables/evolution.json` entry by its bar (`bar.T-V6-<n>`, V12's bar family) or the V6-E7 panel (V12 §3.9); a failing bar opens V12 §3.7.1 (b)'s `fallback` run (a `CalibrationRun` of kind `fallback`) applying the entry's stated fallback (the table below) — no reference tuning, since no reference evolves a town; the performance tiers; the edge suite | T-V6-5–10, 12, 13, 16, 18, 24, 25, 28, 29, 31, 32, 36, 43, 54, 62, 70 | 2–2.75 |
 | E8 — the underground over epochs | the feature re-resolution and first-epoch U-NET (file f item 550); the `under.*` adapters over V04's functions with the epoch scope (`raised` and `levelled` included: the arch-vault reconcile, the invert drops); the `sky.clearance` registration and `hood.fabric`'s crossed close-ups; the access pass's epoch rules, excavation by demand, dwellings only after access and vacated on sealing, the `lost` reading; ruins over epochs; catacombs over epochs (count, source draw, age, span cap, primary, invariant, stagnation, freezing); crypts over epochs (the seat's crypt in its batch, the rank inside the causing event, the no-vault-lost trim, the see-move filter, the crypt join's epoch evaluation); the foundations act (`Foundations.apply`), F6's dwellings by relocation and the in-participant re-homing, the village maintenance mode, the village mine breaches, the calamity deaths in the need, the flood's underground reach | T-V6-33–40, 50, 51, 55, 56, 64, 67–69 | 2.75–4.25 |
-| E9 — the history replay at generation | item 113 (V06 §3.20): the replay plan (the peak, the start, the epochs, the targets), the event-to-epoch mapping on V11's rows, the runner at generation (the creation prefix, the last epoch's dossier step), the budget, its coarsening and lazy detail, destruction and refounding, burial through V04's `BuriedFormer.lay`, the `HistoryRecord` and `Provenance.symbolic`, the replay's frames and the story's reads, the no-op pin | T-V6-71 | 2.5–3.5 |
-| **total** | | | **29.5–41.75** |
+| E9 — the history replay at generation | item 113 (V06 §3.20): the replay plan (the peak, the start, the epochs, the targets), the event-to-epoch mapping on V11's rows, the runner at generation (the creation prefix, the last epoch's dossier step), the budget — the comfort level's share, its coarsening reported (item 119 (a2); V06 §6.8) — and lazy detail, destruction and refounding, burial through V04's `BuriedFormer.lay`, the `HistoryRecord` and `Provenance.symbolic`, the replay's frames and the story's reads, the no-op pin | T-V6-71; T-V6-24's replay clause | 2.5–3.5 |
+| **total** | | | **29.75–42.25** |
 
 **Exits and the calibration register** (V12 §3.11, its lint T-V12-20, PR tier from M1). Each of E1–E9 exits only with
 `plat calibrate register --check` green over the rows it lands — one `target.column` entry per calibratable column family
-of `tables/evolution.json` (registry row 60; V06 §2.2, §2.4, V06 §3.9.9), written by the seat that lands the milestone, owner
+of `tables/evolution.json` (registry row 60; V06 §2.2, V06 §2.4, V06 §3.9.9), written by the seat that lands the milestone, owner
 `V06` unless the line says otherwise, in V12 §3.11's form (the table below); the columns and the row set V06 §2.2 marks
 `calibratable: false` take no entry (`advance.maxEpochs` and `chronicle.*` land at E1, `growth.crowdBands` and
 `streets.classes` at E2, `uses.openCandidates`, `uses.moveWhyRows` and `uses.closeSurplusBy` at E4, `calamities` and
-`works.partStartAt` at E5, `history.checkpointStride` at E6, the `replay.*` rows at E9). **E2** also writes the entry of
+`works.partStartAt` at E5, `history.checkpointStride`, the `epoch.*` rows and `advance.budgetMs` at E6, the `replay.*` rows at E9). **E2** also writes the entry of
 **the base decline table's persistence cells `raised` and `retaining`** (owner `base`, V12 §3.11's `decline` line: the seat
 that lands a base change request writes its cells' entries; file f item 291). **E7** moves the statuses the bench's bars,
-the V6-E7 panel and any `fallback` run decide (V12 §3.7.1 (b), §3.9), each entry's history row appended. The cells this
+the V6-E7 panel and any `fallback` run decide (V12 §3.7.1 (b), V12 §3.9), each entry's history row appended. The cells this
 volume reads from V11 (V11 §3.18's structures block, V11 §3.23.8, V11 §3.24, item 113's `history.*` cells and event rows, item 114's
 `walls.condition` cells and `walls.patchMaterials` rows) are registered by V11's seats, never here. No milestone adds a row
 without its entry. Each line's entry is written, and each bar it names registered, by the seat landing its exit step
@@ -3792,6 +3984,12 @@ fixture's own with `preset` `'default'` — the recipe with no V11 `PresetId` ap
 web and item 110 off (V11 §3.7.4). A seat whose line names a bar it has not registered fails V12's lint (T-V12-20) and does
 not exit.
 
+**The no-op pins** (E-20; V12 §2.13): each seat registers its pins' suites on V12 §3.7.8's engine in the change that lands
+its exit, each `NoOpPin` reading its off form from V11 §3.24.0 where V11 states it — E1 `item110.raised`, `.terrace`,
+`.deck` and `.stepped` (H-100, H-AQUA, H-TERRACE, H-DECK; T-V6-65), E3 `item114.condition` (H-100, H-WALLS; T-V6-73),
+E4 `item105.web` and `item107.spread` (H-100; T-V6-44), E5 `item102.sun` and `item111.water` (H-100; T-V6-12, T-V6-72),
+E9 `item113.history` (the history fixtures; T-V6-71).
+
 | metric | statistic (unit) | towns — family (rungs) | stages | exit |
 |---|---|---|---|---|
 | `bar.T-V6-6` | the five layers' struck shares per decade, as the four adjacent pairs' order margins (share) | `golden` under the row's scripted 60-year decline, −1.5 % a year (TOWN, CITY) | `EVO_DECLINE`, `EVO_FORT` | E2 |
@@ -3809,7 +4007,7 @@ not exit.
 | `bar.T-V6-18` | each terrain and water rate over the table's (ratio vector) | `H-RIVER`, 1 000 seed-centuries (the row's count; TOWN) | `EVO_TERRAIN` | E5 |
 | `bar.T-V6-54` | violations on forced draws (count) | `golden` with the row's forced draws (TOWN) | `EVO_HAZARD`, `EVO_DECLINE`, `EVO_SITING` | E5 |
 | `bar.T-V6-72` | the springs' violations — drought, loss, recovery, gardens, grove, silting, the field's fall (count vector) | `H-OASIS` (TOWN, CITY) | `EVO_HAZARD`, `EVO_TERRAIN`, `EVO_FIELD` | E5 |
-| `bar.T-V6-34` (epoch form) | the access trend over the buildings above each void (V12's `trend` on `voidAccessible`); causes recorded; one draw per (lineage, void kind) (none, share, count) | `H-VOID` from a hamlet's population to CITY | `EVO_UNDER` | E8 |
+| `bar.T-V6-34` (epoch form) | the access trend over the buildings above each void (V12's `trend` on `voidAccessible`); causes recorded; one draw per (lineage, void kind, added-wing key) (none, share, count) | `H-VOID` from a hamlet's population to CITY | `EVO_UNDER` | E8 |
 | `bar.T-V6-37` (epoch form) | caverns and ruins present at every rung; the ruin distinct at every tenth epoch (share, share) | `H-VOID` and `H-100` (every rung reached) | `EVO_UNDER` | E8 |
 | `bar.T-V6-40` | violations of clauses (a)–(c) (count vector) | `H-100`, 50 random trajectories, `H-DOSSIER` (TOWN to METROPOLIS) | `EVO_UNDER` | E8 |
 
@@ -3848,11 +4046,12 @@ tables package the founding step (C) is absent and reported, as it is until the 
 transitions need §2.7's extended `Enceinte.condition` and V11's `walls.condition` and `walls.patchMaterials` rows** (until
 they land the neutral values hold: the rules before item 114). E2's deck and retaining parts need the base's deck faces,
 deck plots and `RetainingWall` (item 110 at M3a) and V11's `deck`, `deckOk` and `terrace` rows (V02 §3.16's fallbacks until
-then); E2's ceiling part needs §4.2 S10b's ceiling and V11's ceiling table (item 115). E5's springs need the base's oasis
+then); E2's ceiling part needs §4.7 S10b's ceiling and V11's ceiling table (item 115). E5's springs need the base's oasis
 and `WaterBody.spring` (item 111). T-V6-65's no-op pin runs from E1 on.
 
 **Risks and their spikes.** (1) *The epoch's cost at METROPOLIS* (the use phase, the link re-binding) — E0 measures;
-fallback: the per-class batched re-binding, then the re-score rotation of V06 §6.1, for the owner's veto. (2) *History
+fallback: the per-class batched re-binding, then the re-score rotation of V06 §6.1 — a declared target miss inside the
+comfort level (D-18), V06 §6.8's coarsening absorbing it. (2) *History
 memory* — E0 measures the images at CITY and METROPOLIS; fallback: images at every fifth epoch (V06 §6.5). (3) *The
 statistical bars may need rule changes, not just rates* — E7 runs the bench before the rules freeze; a failing bar takes
 its register line's fallback run, and a second miss is reported `not-achieved` with its measured shift (V12 §5.5).
@@ -3868,7 +4067,7 @@ declared shift). (8) *Item 110's base half* (the raised-way solver, the hand ope
 ledger's generation-side use, the retaining walls and deck plots) — the `raisedWays` step and the pool's item-110
 candidates are absent and reported until it lands, as the underground participants are before V04's U5; T-V6-57–65 wait
 for it. (9) *The replay's cost at METROPOLIS* — E0 times a coarse epoch; fallback: V06 §6.7's (fewer full epochs, then
-coarser ones), for the owner's veto.
+coarser ones) — the wait inside the comfort level by V06 §6.8, only its grain coarser.
 
 ## 9 Decisions (each "chose X over Y because Z"; vetoable)
 
@@ -3993,7 +4192,7 @@ A superseded or amended decision carries one mark (E-24); the governing row keep
 | J-V6.115 | chose to make `repairWall`'s stretch optional — with none, the ring's latest unlifted `neglect` lifted, its existence back to the state before that neglect (read from the ring's lifecycle block) when every run is `standing`, else `decayed`; with nothing to lift, a no-op with its line "this wall is in use" — issued by the engine in the batch that clears a pathway (also when no run was ever breached; cause `rule:threat`) and by hand as T3's "back in use", where it also clears the pathway whatever its cause and restarts V06 §3.7.3's neglect clock, over leaving a repaired ring `abandoned` or a separate "unneglect" op, because a defended ring must read as in use to every existence reader, `repairRaised` has the same no-span form, one op keeps one hand form and one undo, and a hand declaration that a wall is in use must not be undone by the engine's next pathway step |
 | J-V6.116 | chose to name each suppressed key's serving re-add as the event V09 §4.20.3 (4)'s Build it again emits — `drawWall` on the waterfront arc, `placeGate` across the basin's mouth, `drawWall { kind: 'retaining' }` on the former chain, `drawFootprint` fitted at the deck slot — each served by the rule's own reading (the arc walled, the mouth enclosed, the chain's line covered, the slot's plot declared), counted once and holding the key only while the re-add stands, over a geometric tolerance of our own or lifting the suppression outright, because volume 10's Put it back takes exactly those events, the generators already read those conditions, and a re-add deleted later must leave the owner's removal in force as for a raised way |
 | J-V6.117 | chose to register each bar V06 §8 names as a V12 `BenchBarDef` in the change that lands its line's exit — tier `'milestone'`, 200 seeds per setting on the bar's own fixture family, stages the phases' `EVO_*` ids, preset `'default'` (a parity preset would switch the web and item 110 off) — T-V6-34 and T-V6-37 registered as epoch forms beside V04's bar-map rows, over one descriptive metric per line or a registration pass at E7, because V12's lint fails an entry naming an unregistered bar and each seat exits green with its own bars |
-| J-V6.118 | chose to price every island event an epoch runs — a raise at `raiseIsland`'s parts (bounded by V05 §6's "declaring an island after generation" row); a `resizeIsland` growing or shrinking at every rung where an island stands (a wane's shrinks at TOWN included) at V05 §6's "a resize, a rim reshape" row with its yards' top placements, re-cut plots, re-landed feet and scoped re-derivations; a fall at its row; a wane, settle and refloat inside the step's per-island row — per event outside the `sky.islands` row's cells, the row citing V05 §6's rows by name and restating no figure, and to derive the century's worst case from those rows (every island resized at every epoch with every yard's top placed and every foot re-landed: a fall needs a resize-free settled dwell of ≥ 10 years, and V05 §4.2's re-landing rule bounds nothing below one re-landing per foot per resize over plots ≥ 3 m wide), the century bounds TOWN ≤ 25 s, CITY ≤ 115 s, METROPOLIS ≤ 215 s under D-18, over excluding the island events from the century bound, raising the per-epoch row to the worst case, keeping the bounds on a typical-case figure (a resize one epoch in five), or asking volume 5 to defer its re-landings, because the century bound is what a user waits for and only the worst case is proved by the rows, a per-epoch worst case would overstate every other epoch, and the re-landing is volume 5's rule (J-V5.81) |
+| J-V6.118 | chose to price every island event an epoch runs — a raise at `raiseIsland`'s parts (bounded by V05 §6's "declaring an island after generation" row); a `resizeIsland` growing or shrinking at every rung where an island stands (a wane's shrinks at TOWN included) at V05 §6's "a resize, a rim reshape" row with its yards' top placements, re-cut plots, re-landed feet and scoped re-derivations; a fall at its row; a wane, settle and refloat inside the step's per-island row — per event outside the `sky.islands` row's cells, the row citing V05 §6's rows by name and restating no figure, and to derive the century's worst case from those rows on an island's generated accesses (≤ `accessCount.max`: every island resized at every epoch with every yard's top placed and every foot re-landed — a fall needs a resize-free settled dwell of ≥ 10 years, and V05 §4.2's re-landing rule bounds nothing below one re-landing per foot per resize over plots ≥ 3 m wide), each hand-placed access (≤ `accessCount.handMax`) priced beside it as the user's edit at 60 ms a resize of its island, the century's sums at the port's cadence the targets (TOWN ≈ 25.4 s, CITY ≈ 113.3 s, METROPOLIS ≈ 211.9 s) and the same worst case charged per epoch by V06 §6.8's comfort estimate where islands may stand (J-V6.135), over excluding the island events from the century, raising the `sky.islands` row to the worst case, keeping a typical-case figure (a resize one epoch in five), pricing every island at the nine-access worst case, or asking volume 5 to defer its re-landings, because what a user waits for is the comfort level (item 119 (a2)) and only the worst case is proved by the rows, a per-epoch row at the worst case would overstate every epoch without an island, a hand-placed access is the user's own edit (J-V5.82) whose cost the estimate charges only where it stands, and the re-landing is volume 5's rule (J-V5.81) |
 | J-V6.119 | chose to have V06 §3.9.6's openings at a village rung read V07's `rules.claimArea` for the `cloister` and `market-hall` families — a candidate taken with its vacant neighbours joined by S10 (7)'s law up to the family's area, a roster member's joins on the `geometry` cap (a record's its dossier event's disruption, J-V6.123), no joinable candidate handing the opening to V07 §3.12 (c)'s outside plot — over opening such a class only on a vacant plot already of its area, because both families' `underSize` is `refuse` (V11), so without the join a friary could open only on a manor's toft, and V07's placement rule for the village's halls and fair needs this opening to finish its (c) |
 | J-V6.120 | chose to report a suppressed raised-way key as one `{ removal, week }` entry of `EpochReport.raised.suppressedFired` at each epoch in which its met reading's gate passes — its keyed uniform drawn as for any other key, no course solved, no cap taken — over an entry only at the first firing, an entry for every met reading whatever its gate, or a per-way `why` query from the history panel, because the gate is where the city "would have founded it" without spending a course solve or a cap slot the suppression already holds, a keyed draw moves no other draw, an epoch row read alone (V08 §4.6's absorb group lists only the absorb's epochs) must carry its own line, and V09 §4.10 reads the epoch report for each row (J-V9.113) |
 | J-V6.121 | chose to re-lay way surfaces as the `field` phase's last act — only the ways fronted by a plot whose `fieldBand` S6 changed, by volume 1's rule over the field as S6 now reads it, an edited `surface` kept, one `setAttr` per changed way (cause `rule:field`) — over a base change to §4.5's epoch mode, a re-lay in the ladder step at the due blocks' rung, or a full re-run over every way at every epoch, because the plot's band already carries §4.5's hysteresis (so the way needs no band memory), the field phase is where the re-banding happens and V11 row 90 names S6 as the reader, the ladder's rungs act on buildings years later while a street's surface follows its frontage at once as the owner's slow drift allows, and a candidate set keeps the step under a millisecond |
@@ -4010,6 +4209,7 @@ A superseded or amended decision carries one mark (E-24); the governing row keep
 | J-V6.132 | chose to read the grandeur ceiling at the epoch's rung (the fold's) for every design an epoch derives — lifted for buildings new or rebuilt from the first TOWN epoch; a shrinking town's grander buildings kept as they stand; a stored `MutationPlan` designing beyond the ceiling re-planned by V06 §3.10.3's rule; a dossier-named or hand-made design exempt (V06 §3.8.5) — over reshaping standing buildings at a rung change or freezing the ceiling at creation, because item 115 lifts the ceiling from an epoch on and never reshapes down, a rung crossing is no op, and the ceiling is a default, never a refusal (item 101 R2) |
 | J-V6.133 | chose to run history-first generation as this engine's epochs — a creation prefix of `epoch` events folded by the ordinary runner under `'history'`, every participant running, the dossier's present records at the last epoch's `dossier` step, coarsened to a budget deterministically from the plan, detail kept lazy before `replay.detailRetainYears` (V06 §3.20) — over a separate simplified simulator of the past or a static aging pass over the one-click map, because one engine gives the replayed past and a live epoch the same rules (walls, underground, islands, raised ways and the village product included), the replay ends meeting the dossier's present facts exactly (item 20), the history index shows and scrubs the replayed epochs, and a coarsening decided from the plan alone keeps the map byte-stable per seed and history |
 | J-V6.134 | chose that a dossier event changing the recorded history after creation changes no geometry and rewrites no `HistoryRecord` — the report and the clerk saying the history has changed, a Re-derive from S1 replaying it whole — with the creation prefix never an undo target and indivisible (a `forkAt` inside it bends to its end), over re-running the replay in place at the event, because a changed past would otherwise rebuild a map the user has edited behind them, while the dossier's present facts still reach the map by the ordinary fold (item 22) |
+| J-V6.135 | chose, for item 119's comfort level on long runs of time (the owner's "Total", J132), one deterministic estimate for both waits — `epoch.costMs` by the rung of each epoch's target (the replay's per-epoch rows, renamed as both estimates now read them, re-summed with V07's participants), the islands that may stand at V06 §6.2's worst case, the hand-placed accesses standing at the request, and the growth stages at §12.6's law — that coarsens an `advance`'s cadence to the smallest whole number of weeks, and the replay's epoch length to the smallest whole number of years, whose estimate fits `advance.budgetMs` (9 s) or `replay.budgetMs` by the peak's rung (9 / 8.5 / 7 s: the ten seconds less the peak's generation and first map at the rung's band top and a reserve), the cadence chosen reported and the accept adopting the preview's fold on an unchanged head (V06 §3.3.2, V06 §3.20.4, V06 §4.1, V06 §6.8), over a fixed cadence with the ten seconds a target only, a comfort level per visible step, an adaptive cadence timed on the running machine, or refusing a long request, because the owner chose a total wait, a cadence timed on the machine would fold different epochs on different hosts (a replay and §6.5's engines must agree), an estimate charging the worst case keeps the ten seconds a ceiling on the reference hardware, and one epoch over the whole span always fits, so no request is refused or shortened (item 101 R2) |
 
 ## 10 Base change requests
 
@@ -4047,16 +4247,17 @@ and restates none of it. The former request ids stay here only as a pointer tabl
 | BCR-V6-27 | an epoch event that carries a calamity | file f item 573 | §4.11 (`EpochInputs.events`) |
 | BCR-V6-28 | the crowding hook's void part at any rung (applied before file f item 319) | file f item 574 | §4.11 (6); II.7.3 (c); §4.5 S7b (6) |
 
-Items 111, 113, 114 and 115 of file g are applied to the base by the coherence pass at their homes (§2.3's
+Items 111, 113, 114, 115 and 119 of file g are applied to the base by the coherence pass at their homes (§2.3's
 `WaterBody.spring`; §4.11 *History-first generation*, §7.7's DR36–DR40, §2.7's `HistoryRecord`, §2.8's
-`Provenance.symbolic`; §2.7's `Enceinte.condition` ladder and §7.7's condition row; §4.2 S10b's ceiling and §10.2's
-table); this volume holds only their epoch halves (V06 §3.7.7, V06 §3.8.5, V06 §3.11.7, V06 §3.12.1, V06 §3.20).
+`Provenance.symbolic`; §2.7's `Enceinte.condition` ladder and §7.7's condition row; §4.7 S10b's ceiling and §10.2's
+table; §12's targets and comfort level); this volume holds only their epoch halves (V06 §3.7.7, V06 §3.8.5, V06 §3.11.7,
+V06 §3.12.1, V06 §3.20, V06 §6.8).
 
 ## 11 Owner questions
 
 | question | decision |
 |---|---|
-| Q1 — when is the evolution engine built? | (a) right after M4, beside M4b and M5 (J122). It is priced at 29.5–41.75 person-weeks (V06 §8), in four streams from M4: E1–E7 with the stage-2 fabric joining as a participant when M5 lands; E8 after volume 4's U5; E3's raised-way pass after item 110's base half at M3a; E9, the history replay, after E8 and after V04's `BuriedFormer.lay` and V11's `history.*` cells — none blocking the rest. A SettlementForge campaign advances weekly, and the engine is what makes the campaign map live through its years. |
+| Q1 — when is the evolution engine built? | (a) right after M4, beside M4b and M5 (J122). It is priced at 29.75–42.25 person-weeks (V06 §8), in four streams from M4: E1–E7 with the stage-2 fabric joining as a participant when M5 lands; E8 after volume 4's U5; E3's raised-way pass after item 110's base half at M3a; E9, the history replay, after E8 and after V04's `BuriedFormer.lay` and V11's `history.*` cells — none blocking the rest. A SettlementForge campaign advances weekly, and the engine is what makes the campaign map live through its years. |
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
@@ -4066,17 +4267,20 @@ exist at their sections, with the file f items of V06 §10 applied as written; �
 exist as V06 §3.20 and V06 §3.12.1 read them; V04's `BuriedFormer.lay` and its excavation reading `lost` (V04 §3.5.5 (b));
 file f item 575's `condition` profile and file f item 244's support step on every path (J-VI.27); volume 3's crypt rank
 (V03 §3.7.4); volume 4's catacomb fields with V11 §3.23.8's values; V07 §2.1's fold and hand-off band and V07 §3.12's ways
-ladder and records placement; V05 §6's rows that V06 §6.2 names, with the words cited; V08 §3.5.1 (c)–(d) and §3.6's
-`CalamityRef`; V11's cells this volume reads (§2.3's `split.threshold`, V11 §3.7.4, V11 §3.18, V11 §3.23.8, V11 §3.24); V12's
-`BenchBarDef`, `CalibrationRun` kinds and register lint as V06 §8 names them.
+ladder and records placement; V05 §6's rows that V06 §6.2 names, with the words cited; V08 §3.5.1 (c)–(d) and V08 §3.6's
+`CalamityRef`; V11's cells this volume reads (V11 §2.3's `split.threshold`, V11 §3.7.4, V11 §3.18, V11 §3.23.8, V11 §3.24); V12's
+`BenchBarDef`, `CalibrationRun` kinds and register lint as V06 §8 names them; file g's item 119 (a) and (a2) as V06 §6.8
+applies them.
 
 **PLAUSIBLE** (reasoning, each measured or calibrated by its stated protocol with its pre-decided fallback):
-1. every budget of V06 §6 — the per-epoch rows, §6.2's century bounds (TOWN ≤ 25 s, CITY ≤ 115 s, METROPOLIS ≤ 215 s,
-   derived by hand from V05 §6's rows with an island's buildings ≤ 5 % of the default request's), V06 §6.7's replay budget,
-   the history image size per epoch at CITY and METROPOLIS, the way-surface re-lay under a millisecond, and one early
-   return per scoped participant costing nothing measurable — until E0 and E9 time them;
-2. that §6.2's worst case (every island resized at every epoch, every foot re-landed) bounds every history;
-3. every default of V06 §2.2's table, §2.4's hazard and calamity rows and V06 §3.9.9's clientele table (our own, calibratable
+1. every budget of V06 §6 — the per-epoch rows (the targets), V06 §6.2's century sums at the port's cadence (TOWN ≈ 25.4 s,
+   CITY ≈ 113.3 s, METROPOLIS ≈ 211.9 s, derived by hand from V05 §6's rows with an island's buildings ≤ 5 % of the default
+   request's and its generated accesses), V06 §6.8's cost rows and budgets — that its estimate bounds the measured waits on
+   the reference hardware —, the history image size per epoch at CITY and METROPOLIS, the way-surface re-lay under a
+   millisecond, and one early return per scoped participant costing nothing measurable — until E0 and E9 time them;
+2. that V06 §6.2's worst case (every island resized at every epoch, every foot re-landed, each hand-placed access priced
+   beside it) bounds every history;
+3. every default of V06 §2.2's table, V06 §2.4's hazard and calamity rows and V06 §3.9.9's clientele table (our own, calibratable
    by V06 §8's register) — among them `decline.turnoverVacancy`, `uses.splitHysteresis`, `uses.openCandidates`, `raise.*`,
    `excavate.*`, `catacomb.primaryHysteresis`, the flood row's `timberScourCm`, the landfall's rate and the `spring.*` and
    `replay.*` rows; V11's cells this volume reads (the structures block, the catacomb and raised-way rows, `history.*`,
@@ -4095,7 +4299,7 @@ ladder and records placement; V05 §6's rows that V06 §6.2 names, with the word
 None open. Every finding against this volume — its critiques', its seam rounds' and the coherence pass's — is fixed in the
 text above, and every hand-off this volume named for a sibling volume or the base is closed at its destination; the
 validation records keep the disposition of each. What remains is measurement, not design: V06 §12's PLAUSIBLE budgets and
-defaults, each with its protocol and pre-decided fallback (V06 §6, §8).
+defaults, each with its protocol and pre-decided fallback (V06 §6, V06 §8).
 
 ## Integration notes
 
@@ -4108,5 +4312,5 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 | J-VI.17 H20 — `sky.clearance` at `afterGrowth` order 50 with `reclearIsland`; the raised-way pass on the ground arena, `skyAccessObstacles` | V06 §3.2; V06 §3.19 (5) |
 | J-VI.17 H19 — tiers re-match stored plans by wing-relative storey; the outside-ground plan beside levelled faces | V06 §3.19.4 (5) |
 | J-VI.17 H21 — T-V6-65's "off" reads volume 11's switch table | T-V6-65 |
-| J-VI.12 — "Open a copy from here" (a `forkAt`) | V06 §4.1; §5.1 |
+| J-VI.12 — "Open a copy from here" (a `forkAt`) | V06 §4.1; V06 §5.1 |
 | J-VI.2, J-VI.14, J-VI.13 — the raised way's `reason` this volume's; islands and accesses keep volume 5's record form under one lift rule; DR28 | V06 §2.13; V06 §1b (DR28) |

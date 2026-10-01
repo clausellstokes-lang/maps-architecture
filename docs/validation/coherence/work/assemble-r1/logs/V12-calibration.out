@@ -1,0 +1,13 @@
+files 1; blocks 25 found, 25 applied, 0 skipped
+  NOTE repair-r1-V12.md #14 (l. 1384) REPLACE ### 3.15 The owner rules 111–119 on the harness — REPLACE retitles the heading ['### 3.15 The owner rules 111–119 on the harness' -> '### 3.15 The owner rules 111–120 on the harness']
+audit: 25 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 781
+  Part A duplicate ids: []
+headings 67 -> 67 (+1 / -1); fences balanced True (30 -> 30 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 430397 -> 453363 bytes, 3106 -> 3217 lines, sha256 a5e98d8add156a46de6b92e8c4390b993e7a5159fcf55e22eb9a8e97ac3252e0
+rationale 685208 -> 685208 bytes, 2362 -> 2362 lines, sha256 adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564
