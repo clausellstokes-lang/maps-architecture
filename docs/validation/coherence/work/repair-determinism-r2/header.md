@@ -146,7 +146,7 @@
 # - Every one of the 23 fixed ids is carried by at least one asserted edit (gen-log.json; 47 edits, each old text found
 #   exactly once in its live subsection). A residue scan of the patched unit finds no `HostContext.week`,
 #   `HostContext.customLibrary` as an input, "realm cell", "realm partners", "realm gates", "realm block's" input,
-#   `'realm'` source, "North first", `refuse.table.ownerRule`, a second `refuse.water` row, "the base's raised-way
+#   `'realm'` as a source value (its one mention the schema chain's read rule), "North first", `refuse.table.ownerRule`, a second `refuse.water` row, "the base's raised-way
 #   stream's", "V06 §2.13" for `RaisedReasonKey`, `Household.transit`'s "V06 §2.1", "§4.6 step 8 (a)'s area bound",
 #   `E_NO_PATH` in F-RIVER, or "formerly ignored".
 # - doc_checks over §5.2, §5.3, §5.4, §6.1, §6.2, §6.3, §6.5, §7.1, §7.4, §7.7 on the patched copy: C1 5/0, C2 1/0,
