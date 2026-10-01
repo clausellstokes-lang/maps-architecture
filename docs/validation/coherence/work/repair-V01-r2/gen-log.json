@@ -1,5 +1,5 @@
 {
- "edits": 83,
+ "edits": 84,
  "tags": [
   "VV12-r1-04 §0",
   "VAH-r1-12 §1.2 hook row",
@@ -83,7 +83,8 @@
   "G122-V01 §12 CONFIRMED",
   "G122-V01 §12 PLAUSIBLE constants",
   "G122-V01 §12 PLAUSIBLE lines",
-  "G122-V01 §12 PLAUSIBLE patterns"
+  "G122-V01 §12 PLAUSIBLE patterns",
+  "G122-V01 §12 PLAUSIBLE early reads"
  ],
  "blocks": 28,
  "inventory": [
@@ -241,7 +242,7 @@
    "kind": "REPLACE",
    "target": "## 9 Decisions",
    "lines": 112,
-   "words": 8630
+   "words": 8626
   },
   {
    "kind": "REPLACE",
@@ -253,11 +254,11 @@
    "kind": "REPLACE",
    "target": "## 12 CONFIRMED versus PLAUSIBLE",
    "lines": 47,
-   "words": 785
+   "words": 794
   }
  ],
  "orig_sha": "1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de",
- "new_sha": "f7602e5339f288d9f3b5869a9193c45c1fcb4860600d108b3c81b9c854857fd4",
+ "new_sha": "9099ef9ab64dac4c3b093d6e01867b8084735f314bac929355ee7aad12e2db4f",
  "words_before": 80754,
- "words_after": 84614
+ "words_after": 84619
 }
