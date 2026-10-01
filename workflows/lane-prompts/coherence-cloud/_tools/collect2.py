@@ -1,4 +1,4 @@
-# Round-1 → round-2 collection: the workflow's grouping by owner (normUnit), plus
+# Round-n → round-n+1 collection (owner-item auto-add only when n = 1): the workflow's grouping by owner (normUnit), plus
 # (1) identical (owner, id) pairs merged (reported_by joined), (2) every owner-item part the canon routes
 # for items 120 (units whose round-1 repair predated it), 121, 122, 122 (h)-(i), 123, 124, 125 added where no
 # verifier raised it, (3) orchestrator notes attached to named issues.
@@ -38,7 +38,7 @@ canon = open(CANON).read()
 sections = re.findall(r'### g item ([0-9]+(?: \(h\)–\(i\))?) — (?:every unit named writes its part|routing completed[^\n]*)\n((?:\* .*\n?)+)', canon)
 added = []
 PRE120 = {'model','rendering','scope','V09','determinism','pipeline','V06'}
-for item, body in sections:
+for item, body in (sections if R == '1' else []):
     tag = 'G' + item.replace(' (h)–(i)', 'h')
     num = item.split()[0]
     if num not in ('120','121','122','123','124','125','126'): continue
