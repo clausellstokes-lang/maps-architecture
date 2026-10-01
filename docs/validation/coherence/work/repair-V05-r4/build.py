@@ -65,7 +65,7 @@ EDITS = [
      1, 'sweep R4-01 (2) of R4-02: §3.23 light-and-shadow row'),
     (H323,
      "a hidden sky layer: its matches still counted and shown as ghost pins;",
-     "a hidden sky layer that is not the working layer: its matches still counted and shown as ghost pins, and Go there "
+     "a hidden sky layer with Ground or Below working: its matches still counted and shown as ghost pins, and Go there "
      "makes Sky the working layer, drawn whatever its visibility, no event sent;",
      1, 'sweep R4-01 (2) of R4-02: §3.23 Find-on-Sky row'),
     (H51,
@@ -203,9 +203,9 @@ EDITS = [
      "  ground's streets and plots added or removed beyond the tombstoned deck plots' lines. **A raised gate** (T114-3's\n"
      "  landfall clause): on a fixture whose footprint covers a viaduct's crossing station on a raised gate, the station's\n"
      "  stretch is `breached` by the wall row and the spans either side of it `ruined` with it, the station's `supports` entry\n"
-     "  carrying no `state` and `members` holding no `{ raised, support }` for it; then the deck's repair, by hand and, on a\n"
-     "  second run, by V06 §3.19.2 (5) at the next epoch: each `repairRaised` beside the station repairs its stretch first by\n"
-     "  `repairWall` in the same batch (§2.7's support step (3)) — the stretch repaired with the deck, never a deck on a\n"
+     "  carrying no `state` and `members` holding no `{ raised, support }` for it; then the deck's repair (§2.7's support step\n"
+     "  (3)), by hand and, on a second run, by V06 §3.19.2 (5) at the next epoch: each `repairRaised` beside the station\n"
+     "  repairs its stretch first by `repairWall` in the same batch — the stretch repaired with the deck, never a deck on a\n"
      "  `breached` run at any commit — and the landfall's undo restores the stretch and both spans.\n"
      "* **T-V5-15 — goldens",
      1, "scope's hand-off (R4-09, END of VEW-r3-04): T-V5-14's raised-gate landfall fixture"),

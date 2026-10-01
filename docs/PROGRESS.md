@@ -661,3 +661,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-10-01 ~12:20 UTC** — Coherence repair round 3 complete: all eighteen units repaired under adjudication-r3.md (0 ruling requests); assemble-r3 applying them to the live design.
 - **2026-10-01 ~12:30 UTC** — assemble-r3 landed (202/202 repair blocks applied, none skipped, no conflicts, 0 broken references; design 9.51 MB). Verify round 3 started (20 seats, six at a time).
 - **2026-10-01 ~13:45 UTC** — Coherence verify round 3 complete: 145 findings (5 blocker — three distinct defects, two reported twice — 61 major, 79 minor) against round 2's 215; two checks (scope, town fabric) had no blocker or major. Round 4 starts with adjudicate-r4.
+- **2026-10-01 ~15:30 UTC** — Coherence repair round 4 complete (18/18, 0 ruling requests; a container restart cost V01, V05 and kernel one relaunch each, no work lost); assemble-r4 applying them.
