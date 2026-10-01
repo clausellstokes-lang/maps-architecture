@@ -1,0 +1,53 @@
+# §8.11 T-ER-25 (VRC4T-04, R5-05 (b)–(c)): the drawn week's re-evaluation timed at the METROPOLIS cap, and the scrub
+# clauses scheduled with V06's frames.
+@@ FILE 8.11.md
+<<<<
+the scrub fixture's counts, glows and pins those of the drawn frame's listing |
+====
+the scrub fixture's counts, glows and pins those of the drawn frame's listing, and at the METROPOLIS cap the chips re-evaluated within ≈ 100 ms of each scrubbed frame being drawn, the frame never waiting (R12-35) — the scrub clauses from the later of M5 and V06's E6 (V06 §3.15.2's frames) |
+>>>>
+# §8.11 T-ER-26 (VRC4T-01): a monitor change with the view idle within 10 s of a loop step-down, one-to-one in input,
+# outcome and bar.
+<<<<
+a monitor change mid-gesture, and one with the view idle;
+====
+a monitor change mid-gesture, one with the view idle, and one with the view idle within 10 s of a loop step-down;
+>>>>
+<<<<
+refitted at once, applied at the settle, and with the view idle applied within one frame of the decision;
+====
+refitted at once, applied at the settle, with the view idle applied within one frame of the decision, and within 10 s of a loop step-down applied within one frame once 10 s have passed since that step-down;
+>>>>
+<<<<
+with the view idle the DPR change and the step-down each applied within one frame of the decision (T121-2, T121-7);
+====
+with the view idle the DPR change and the step-down each applied within one frame of the decision, and a monitor change within 10 s of a step-down within one frame once those 10 s have passed (T121-2, T121-7);
+>>>>
+# §8.11 T-ER-27 (VV910-r4-02, R5-08 (b)): one look's marks told apart; R5-05 (c): the drawn-week clause scheduled
+# with V06's frames.
+<<<<
+several crises at once past the density cap;
+====
+several crises at once past the density cap; a siege and a refugee camp standing together;
+>>>>
+<<<<
+by priority under the cap, the rest on the ring;
+====
+by priority under the cap, the rest on the ring; every mark carrying its own look's overlay in `entity`, one look's box holding its parts alone;
+>>>>
+<<<<
+the cached district-band tile redrawn at each toggle and each View as change |
+====
+the cached district-band tile redrawn at each toggle and each View as change; with a siege and a refugee camp standing together, every `live.crises` mark carries its own look's overlay, and the box of one look's marks holds that look's parts alone; the drawn-week clause from the later of M3b and V06's E6 (V06 §3.15.2's frames) |
+>>>>
+# §8.11 T-ER-28 END of R5-04 (the tests' blind spot): the element a restoring re-cut mints while its `repair` Works runs.
+<<<<
+an element a restoring re-cut or an `extend` adds after its building's damage left;
+====
+an element a restoring re-cut mints while its `repair` Works still runs, and one a re-cut or an `extend` adds after its building's damage left;
+>>>>
+<<<<
+drawn as built, never as a repair (V06 §3.23 (3));
+====
+drawn as built in every week, never damaged by that restoration nor as a repair (V06 §3.23 (3));
+>>>>

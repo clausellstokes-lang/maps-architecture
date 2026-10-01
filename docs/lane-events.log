@@ -3015,3 +3015,11 @@
 2026-10-01 17:37 coherence/repair-pipeline-r5 CHECKPOINT 25 edits over 10 subsections generated (repair-r5-pipeline.md); next checks on scratch copies, then header (dispositions, END lines, sweep, hand-offs, receipts)
 2026-10-01 17:37 coherence/repair-model-r5 LANDED docs/validation/coherence/repair-r5-model.md docs/validation/coherence/work/repair-model-r5/ docs/validation/coherence/results/coherence_repair-model-r5.json
 2026-10-01 17:37 coherence/orchestrator NOTE repair-model-r5 landed (2 blocks: §2.7's support step rewritten whole to R5-02's one rule, and §2.9); launched repair-V08-r5 in its slot
+2026-10-01 17:38 coherence/repair-V09-r5 CHECKPOINT P1 done (10 issues, 4 END lines, V09 sites read); P2 generator built (12 REPLACE blocks, 50 count-asserted substitutions); next dry run and checks
+2026-10-01 17:38 coherence/repair-V08-r5 CHECKPOINT P0 done (brief, adjudication-r5 R5-01/03/07/10 and Part H V08 read); next P1 verifier evidence and live V08 text
+2026-10-01 17:39 coherence/repair-rendering-r5 CHECKPOINT patches 010-090 written and applied (9 issues + 4 END lines + sweeps); next: review diffs, gen blocks, dry run on copies
+2026-10-01 17:41 coherence/repair-rendering-r5 CHECKPOINT 11 REPLACE blocks generated; dry run on copies 11/11 applied, audit OK; doc_checks C3 191/0 S2 280/0 (corpus incomplete, provisional); next: combined dry run with sibling drafts, preamble, result
+2026-10-01 17:41 coherence/repair-V07-r5 CHECKPOINT 12 blocks written and dry-run applied clean on a copy (identical to independent application); next save result JSON and land
+2026-10-01 17:42 coherence/repair-V07-r5 LANDED docs/validation/coherence/repair-r5-V07.md docs/validation/coherence/results/coherence_repair-V07-r5.json
+2026-10-01 17:42 coherence/repair-V09-r5 LANDED docs/validation/coherence/repair-r5-V09.md docs/validation/coherence/results/coherence_repair-V09-r5.json
+2026-10-01 17:42 coherence/orchestrator NOTE repair-V07-r5 landed (12 blocks, 0 ruling requests); launched repair-determinism-r5 in its slot

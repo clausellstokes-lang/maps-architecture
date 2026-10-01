@@ -1,0 +1,15 @@
+# §9.5 VAT-r4-02 (2): the annotation layer is the view pins, in a picture only with `ExportOpts.pins`.
+@@ FILE 9.5.md
+<<<<
+* **Annotation layer** (numbered markers and a separate legend sheet); **north arrow**.
+====
+* **Annotation layer** (numbered markers and a separate legend sheet; the view pins, §2.9; V09 §4.19 — in a picture
+  only with `ExportOpts.pins`, §11.2); **north arrow**.
+>>>>
+# §9.5 sweep (R5-01 (2) with R5-05 (a)): the Find bullet's restatement of the match source reads the drawn week.
+<<<<
+  matches are §11.2's gazetteer match listing at the view's effective key; its marks are §8.2's *Find* rows, drawn by
+====
+  matches are §11.2's gazetteer match listing at the view's effective key and drawn week; its marks are §8.2's *Find*
+  rows, drawn by
+>>>>

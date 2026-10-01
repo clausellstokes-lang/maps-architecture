@@ -42,8 +42,8 @@ E(H43, "After S7's batches and before S7b, §2.7's support step runs once more\n
 E(H43, "crosses a moat or a city wall only as the aqueduct's wall\n"
        "  arch or on a gate's line,",
        "crosses a moat or a city wall standing when it is laid only as the\n"
-       "  aqueduct's wall arch or on a gate's line (a moat or wall laid after the raised way passes beneath it or stops at its\n"
-       "  under-deck strip, §2.7's support step (6) (b), (d)),",
+       "  aqueduct's wall arch or on a gate's line (a wall laid after the raised way runs on beneath its deck, and a moat laid\n"
+       "  after it passes beneath it or stops at its under-deck strip; §2.7's support step (6) (b), (d)),",
   'sweep (P12)')
 
 # ───────────────────────────── §4.4 ─────────────────────────────
@@ -127,7 +127,7 @@ E(H411, "towers are\nremoved; gates become junctions with a `square` option.",
         "towers are\nremoved; gates become junctions with a `square` option — save the stretch held under a raised way's crossing station\n"
         "while its deck stands (a raised gate with its tower, the curtain under an aqueduct's arch), which stays as a free-standing\n"
         "gate tower or arch carrying the deck, the new ring road taking no junction with the raised way (§2.7's support step (3);\n"
-        "V06 §3.7.6 (5)).",
+        "V06 §3.7.6 (5) gives its form).",
   'VDC4-05 (P11)')
 # The carve's way rule: P10.
 R(H411, "A raised way the\n  channel passes under keeps its course;",

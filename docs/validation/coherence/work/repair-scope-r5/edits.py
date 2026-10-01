@@ -10,7 +10,7 @@ E(DOC, H131,
    kept, the arena by the new law's margin, neither shrinking; §3.2 (9)); a part-0 warp under a raised way (its feet
    held, §3.6); a raised way crossing part-0 ways (no junction, the two parts sharing no topology; §3.4, §3.10).""",
   """   its peak (frame and arena kept, nothing runs, no chain stripped; §3.2 (9)) —, a village → town fold (the frame kept,
-   the arena by the new law's margin, neither shrinking; §3.2 (9)), and the reverse — a TOWN made at 9 000 people handed
+   the arena by the new law's margin, neither shrinking; §3.2 (9)), and its reverse — a TOWN made at 9 000 people handed
    down to the village product, falling below 400 and re-crossing it (the frame grown to the territory law's 3 373 m
    square, the arena kept at 4 293 m: (a) and (c) only, `Plat.frame` the new frame as (c) commits, its `marginShare` the
    kept arena's share; the hand-off up at 1 575 then growing the arena by (b) to 5 397 m; §3.2 (9)); a part-0 warp under
@@ -211,8 +211,8 @@ E(DOC, H132,
   _wrap("an epoch folds at each 52-week boundary, at a population move past the roster tolerance and at the week of each "
         "newly carried calamity no other epoch falls on (one dated at or before the last epoch's week folding none at its "
         "own week: it rides, at that epoch's first week, the first epoch its absorb folds where the absorb's week is after "
-        "the last epoch's (one folded at the absorb's week where no other is), else the first a later absorb folds, held "
-        "meanwhile in `DossierBinding.lateCalamities`; §4.11 *The clock* (4)), none on a 2 % drift, with `years` = Δweeks "
+        "the last epoch's (one folded at the absorb's week where no other is), else the first epoch a later absorb folds, "
+        "held meanwhile in `DossierBinding.lateCalamities`; §4.11 *The clock* (4)), none on a 2 % drift, with `years` = Δweeks "
         "÷ 52 — on fixtures adding a calamity carried at a mid-year week with no population crossing (one epoch at its "
         "week, the calamity in its `EpochInputs.events`), one at a week-52 boundary (no second epoch), one inside a "
         "coarsened catch-up (riding the coarse epoch that holds its week, V06 §6.8 (6); from M6-E), a calamity carried "

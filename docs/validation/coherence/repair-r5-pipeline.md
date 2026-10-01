@@ -366,8 +366,8 @@ raised water channel of the same kind. It is drawn above what it crosses, with i
 * **Where it may not go.** A raised part's course treats the harbour basin and its mouth — between the mole heads or
   shores that carry item 106's harbour-mouth gate — as excluded (masts must pass; a stroke across it is bent to end at
   its last ground vertex before the basin, named in one line), crosses a moat or a city wall standing when it is laid only as the
-  aqueduct's wall arch or on a gate's line (a moat or wall laid after the raised way passes beneath it or stops at its
-  under-deck strip, §2.7's support step (6) (b), (d)), and stands no support on a square, a reservation or an oasis's water; a river or canal it may
+  aqueduct's wall arch or on a gate's line (a wall laid after the raised way runs on beneath its deck, and a moat laid
+  after it passes beneath it or stops at its under-deck strip; §2.7's support step (6) (b), (d)), and stands no support on a square, a reservation or an oasis's water; a river or canal it may
   span between supports on the two banks within `viaduct.maxSpanM` and §2.7's clear-span bound
   (`raisedWays.structure.maxClearSpanM` by material class: a generated course past it drops, `raised_too_long`; a declared
   one bends); the obstacles a support slides off or is omitted over are §2.7's support step's.
@@ -2343,7 +2343,7 @@ with the rest of their finer content, and S9's `corridorUnion` re-derives the ri
 removed; gates become junctions with a `square` option — save the stretch held under a raised way's crossing station
 while its deck stands (a raised gate with its tower, the curtain under an aqueduct's arch), which stays as a free-standing
 gate tower or arch carrying the deck, the new ring road taking no junction with the raised way (§2.7's support step (3);
-V06 §3.7.6 (5)). A barrier arc the wall left unwalled (§4.4) carries no way. **Clearance
+V06 §3.7.6 (5) gives its form). A barrier arc the wall left unwalled (§4.4) carries no way. **Clearance
 (GEO-38):** the new corridor needs half its width on each side of the old wall line; where the half-band plus setback on a
 side is narrower, plots meeting the new corridor are clipped along its edge — a plot keeps its id when its frontage anchor
 survives (O8 g), and footprints that no longer fit are demolished with lifecycle events (cause `convert:wallToWay`).
