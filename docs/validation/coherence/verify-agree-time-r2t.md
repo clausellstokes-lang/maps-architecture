@@ -40,9 +40,8 @@ a defect in this lane, I list it under *Confirmed peer findings* and do not rais
 ## Outcome
 
 **9 issues: 2 blocker, 5 major, 2 minor.**
-- **Owners:** V06 5, pipeline 2, V07 1, and one further V06 minor.
-- **By kind:** 4 DISAGREE, 1 MATRIX-GAP, 1 CONFLICT (with an owner's words), 1 BROKEN-REFERENCE, 1 EDGE-UNDEFINED, and 1
-  DISAGREE paired with the matrix gap.
+- **Owners:** V06 6, pipeline 2, V07 1.
+- **By kind:** 5 DISAGREE, 1 MATRIX-GAP, 1 CONFLICT (with an owner's words), 1 BROKEN-REFERENCE, 1 EDGE-UNDEFINED.
 
 **Round-1 findings.** All 20 are closed in the live text. The seven disagreements are fixed as their rulings word them,
 and the 13 F-MISSING parts are written at build depth (verdicts below).
