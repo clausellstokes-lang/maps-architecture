@@ -116,7 +116,7 @@ the staged screens' pricing hand-off XV-V9-8 (VAL-21); V12 §2.13's item 111, 11
 
 | id | sev | kind | owner | subject |
 |---|---|---|---|---|
-| VAP-01 | major | HANDOFF-OPEN | V06 | take-over table, evolution row: no T-V6 test names its 47 base bars |
+| VAP-01 | major | HANDOFF-OPEN | V06 | take-over table, evolution row: 47 of its 49 base bars named by no T-V6 test |
 | VAP-02 | major | HANDOFF-OPEN | V04 | take-over, underground row: T63-4, T109-1 – T109-6 never named by V04 |
 | VAP-03 | major | HANDOFF-OPEN | V02 | take-over, stage-3 row: T110-4, T110-5 never named by V02 |
 | VAP-04 | major | HANDOFF-OPEN | V08 | take-over, SettlementForge row: T108-1 – T108-4 never named by V08 |
