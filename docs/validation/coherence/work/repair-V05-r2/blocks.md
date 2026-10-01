@@ -308,8 +308,8 @@ what the sky offers and how a match on an island reads.
 4. **Show gaps** (item 120 (i)). On an island Show gaps' units are V01 §5.4 (3)'s `gapUnits` over the island's arena,
    restating none: its districts for a class with no coverage row or a row counted by district or neighbourhood; the
    whole island as one unit for a row counted by walking radius (V01 §3.16; the route to the ground passes every walking
-   radius, V05 §3.5 (3)), so a member on the island serves every residential plot of it and one on the ground beneath
-   serves none; and V01's per-plot `households` reading over the island's plots for a row counted by households — each
+   radius, V05 §3.5 (3)), so a member on the island serves every residential plot of it, a member beneath it on the
+   ground none; and V01's per-plot `households` reading over the island's plots for a row counted by households — each
    unit with no member of the class outlined dashed along its land's edge and labelled "none here", a per-plot row's
    gap the unserved plots of each district as V01 §5.4 (3) draws it. A class `IslandRule.carry.never` excludes reads as
    any gap; the clerk's why names the carry rule (V05 §4.5).
