@@ -60,13 +60,33 @@ No round-0 finding of this seat was answered by a RULING REQUEST, and none of it
 
 ## 2. New problems (r1 ids) and the owner items
 
-**Blockers: none. Majors:**
+There are **29 open issues**: VPC-01 (persisting, now minor), G122-pipeline and 27 new r1 findings.
 
-- **G122-pipeline (F-MISSING).** Item 122 (J135) routes "§10.2 (the crisis look table: kinds by archetype, scale by severity and tier, placement rules and priorities, the density cap)" to this unit. The part has no occurrence of a crisis look, as expected: no round-1 repair carried it.
+| severity | count |
+|---|---:|
+| blocker | 0 |
+| major | 4 |
+| minor | 25 |
+
+| owner | count |
+|---|---:|
+| pipeline | 16 |
+| V11 | 4 |
+| model | 3 |
+| V06 | 2 |
+| V07 | 1 |
+| V01 | 1 |
+| determinism | 1 |
+| scope | 1 |
+
+**Majors:**
+
+- **G122-pipeline (F-MISSING).** Item 122 (J135) routes "§10.2 (the crisis look table: kinds by archetype, scale by severity and tier, placement rules and priorities, the density cap)" to this unit. The part has no occurrence of a crisis look, as expected: no round-1 repair carried it. The later ruling J138 (item 122 (h)–(i), committed during this run) adds to the same §10.2 part the area per head (45 m²), the engine rate (one per 1 500 besiegers) and the coalition's spread round the town; the finding's required change includes them.
 - **VPC-R1-02 (CONFLICT).** The new closed-arc rules — §4.2 S3 (4), (7), (9) and §4.4 S5a — say "every arc closes → the stage walls nothing, no `Enceinte`".
   - They count a `cliff`, a `marsh` (and a steep slope, by §4.4's table) as closing barriers.
   - V11 §3.16.1, §4.8 *Graded by stretch* and §4.4 step 1 itself wall those closing arcs with a parapet or a light wall. Only `sheerCliff`, `deepWater` and `gorge` close with no wall.
   - So a cliff-ringed mesa below the sheer test gets "no wall, no gate" by (9) and a parapet by §4.8. A walled ring of closing arcs also has no gate, since picks fall only on approachable arcs.
+- **VPC-R1-27 (CONFLICT, owner rule 125).** §4.11 *The clock* still takes a dossier-bound map's week from the campaign's `calendar.elapsedWeeks` through `HostContext.week`: (1)'s creation week, (2)'s last dating rung and `EpochInputs.week`'s comment. Item 125 (J139, filed during this run) retires `HostContext.week` as an input; the week comes from the dossier's own stamped ticks. J139 routes no pipeline part, so the base's one statement of the map's clock contradicts the owner rule. The canon's routing should add pipeline §4.11.
 - **VPC-R1-23 (EDGE-UNDEFINED).** II.7.6's access-edit connector (step 3) defines a route longer than 2 × `digReachM` but not the path search's `E_NO_PATH`, for example a basement ring enclosed by neighbours' footprints. The kernel repair recorded this observation.
 
 **Minors (pipeline):**
@@ -103,7 +123,8 @@ Exact required changes are in the result file, `results/coherence_verify-pipelin
 |---|---|---|
 | 120 (J133) | no | none |
 | 121 (J134) | no | none |
-| 122 (J135) | yes, §10.2 | G122-pipeline |
+| 122 (J135; (h)–(i) J138) | yes, §10.2 | G122-pipeline |
+| 125 (J139) | no | none (but §4.11 contradicts it: VPC-R1-27) |
 | 123 (J136) | no | none |
 | 124 (J137) | no | none |
 

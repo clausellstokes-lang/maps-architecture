@@ -1,0 +1,238 @@
+{
+ "key": "coherence/verify-pipeline-r1t",
+ "file": "docs/validation/coherence/verify-pipeline-r1t.md",
+ "issues": [
+  {
+   "id": "VPC-01",
+   "severity": "minor",
+   "kind": "F-MISSING",
+   "claim": "Partly fixed. Item 115's mechanism is now written: S2's manor count (§4.2 S2, l. 5070), S10b's class mix (3), S11's dwelling caps and §10.2's *Grandeur ceiling* bullet. But the ceiling table's SHAPE, which item 115's HOMES and the canon's routing (J127: 'pipeline: … §10.2 (the ceiling table's shape)') give to §10.2, is not declared there. §10.2 cites it as 'V11 §2.8d's shape', while V07 (l. 274 W78; l. 1785 'the rung ceiling table (§10.2's ceiling shape, V11's rows …)') and V11 (registry row 97, l. 979; §3.25.4's head, l. 4233: 'the table's shape §10.2 as item 115 homes it') cite §10.2 as the shape's home. The pointers disagree on the home, and the owner rule's named home lacks its part. The canon's 'cited, never restated' clause covers a volume carrying its OWN part; the shape is the pipeline's part, not V11's (V11's part is 'the ceiling table by rung').",
+   "required_change": "In §10.2's code block, after `SquareQuotaRow`, declare the two shapes exactly as V11 §2.8d (l. 745–750) declares them, with VV1112-09's extension: `interface GrandeurCeilingRow { rung: Rung; enabled: boolean /* false on every row = no ceiling (the no-op pin); the parity presets false */; dwellingFamilies: string[] | 'all' /* V02's composition families a dwelling other than the manor may take */; towers: boolean; turrets: boolean; gatehouse: boolean; courts: boolean /* on a dwelling other than the manor */; manor: { max: number | 'unbounded'; requires: 'specified'|'lordOrSpecified'|'none' }; allManorsRow: boolean /* S10b's rich row \"all manors\" applies */ }   // table 'grandeur.ceiling' (V11 registry row 97); key 'rung'; rows V11 §3.25.4 (item 115)` and `interface GrandeurCeilingSettings { grandClasses: string[] /* the classes whose dossier-bound record SPECIFIES a grand building (V08 §3.16 (3)); live roster.classes keys, V11 §3.25.4 */ }   // the named row 'settings' of the same table`. In the `RosterTables` comment, move `GrandeurCeilingRow` out of the list 'as V11 §2.8d gives them'. In the *Grandeur ceiling* bullet, replace '(V11 §2.8d's shape; its rows V11 §3.25.4, registry row 97)' with '(its shape above, with the `settings` row's `grandClasses`; its rows V11 §3.25.4, registry row 97)'. V11 then cites the declaration (VPC-R1-01).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-01",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V11 §2.8d (l. 745–750) declares `GrandeurCeilingRow` and `GrandeurCeilingSettings`. Item 115's HOMES and the canon (J127) home 'the ceiling table's shape' at the base's §10.2, and V11's own registry row 97 and §3.25.4's head say 'the table's shape §10.2 as item 115 homes it'. V11 therefore both declares the shape and points away from itself for it. Once §10.2 declares it (VPC-01), V11 holds a second home (principle (1)).",
+   "required_change": "In V11 §2.8d replace the `GrandeurCeilingRow` and `GrandeurCeilingSettings` declarations with the comment line `// GrandeurCeilingRow and its named row 'settings' (GrandeurCeilingSettings, grandClasses): §10.2's shape (item 115 homes it there); table 'grandeur.ceiling' (registry row 97), rows V11 §3.25.4`. Keep registry row 97's and §3.25.4's pointers to §10.2 as they are.",
+   "owner": "V11"
+  },
+  {
+   "id": "G122-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 (crisis looks; J135; canon's dated ruling 'File g items 121, 122 and 123 routed') routes 'pipeline: §10.2 (the crisis look table: kinds by archetype, scale by severity and tier, placement rules and priorities, the density cap)'. The pipeline part has no occurrence of a crisis look: §10.2 names no crisis table, `RosterTables` has no member for it, and no placement or priority rule exists. No round-1 repair carried the item, which was filed after the repairs began. The later ruling J138 (item 122 (h)–(i)) adds to the same §10.2 part 'the area per head, the engine rate, the coalition's spread round the town', also absent.",
+   "required_change": "In §10.2 add `crisis: { looks: CrisisLookRow[]; settings: CrisisLookSettings } /* item 122: a look only, below (*Crisis looks*) */` to `RosterTables`. Declare `interface CrisisLookRow { kind: 'siege'|'blockade'|'refugeeCamp'|'quarantine'|'famine'|'beast'|'raiders'|'disaster'|'occupation'|'rebellion'|'boom'|'bust' /* the look kinds of item 122 (b); §7.7's derivation row maps every SettlementForge stressor type and condition archetype to one kind or 'none' */; place: 'beyondWalls'|'approachRoads'|'approachByGate'|'outside'|'affectedQuarter'|'fields'|'edge'|'outlyingFarms'|'gatesAndKeep'|'streets'|'neighbourhoods'; band: 'city'|'district'|'neighbourhood' /* the coarsest band it shows at (item 122 (d)) */; scale: Record<Rung, [number, number]> /* its extent at severity 0 and 1, linear between: a hamlet a war band's camp, a city a full siege line */; priority: number /* the outskirts' order: siege, then quarantine, then refugees */ }` and `interface CrisisLookSettings { densityCap: number /* the share of the outskirts' free land the crisis looks may take together */; siegeStandoffM: number /* ≈ 300, beyond bowshot */ }` (values V11's look, symbol, scale and placement tables). Add a bullet *Crisis looks (item 122; J135)* stating:\n(a) A look only. The table is read by §8.2's crisis look rows, §11's picture exports, the battle-map image and Find's listing, never by a stage, so no crisis changes the model or its hash. A look is drawn from the `ConditionOverlay`s standing in the view's week (§2.7, §2.9's `yearWeek`), and the aftermath reaches the map only through the epoch path (V06).\n(b) Every stressor type and archetype has a row or 'none'; the regional_* pressures are 'none'.\n(c) Placement is by keyed draws from the seed, the condition's id and the place (item 118 (e)'s keying). Scale follows severity and tier. Several crises share the outskirts by `priority` under `densityCap`. Nothing is placed on water, a gate's passage or a label's keep-out.\n(d) A siege's camps stand `siegeStandoffM` beyond the walls, with its line of trenches round the town and its engines facing the gates or the weakest stretch (item 114's condition); an unwalled place gets blockade camps on its approach roads.\n(e) A refugee camp stands on common or fallow land along the main approach road by a gate, where V06's growth frontier would build.\n(f) Famine overrides item 117's crop stage.\n(g) A disaster ruins whole neighbourhoods by a share of its severity: fire downwind through contiguous blocks, flood the low ground by the water, earthquake scattered. The calamity's `targets` win where the dossier names the place hit.\n(h) Item 122 (h), J138: where the dossier gives a force's or a group's size, the look is sized by headcount, never by severity guesswork. `CrisisLookSettings` gains `areaPerHeadM2: number /* 45: each army's camp area per head; a travelling group's camp (migrants, pilgrims, a caravan) at the same rate */` and `enginesPerBesiegers: number /* 1 500: about one siege engine per this many besiegers, capped by the gates and wall stretches they can face */`. Two armies joined make twice the camped ground. A coalition's armies each keep their own camp and colours, spread round the town, the larger the coalition the fuller the ring. Where no size is given, (b)'s scale by severity and tier holds, with the calamity's or condition's own counts (`exodus`, arrivals) where it has them. Camps stay on the land the map holds; a force too large for the frame and its margin fills it out to the margin, the rest drawn by §8.8's massed marks.\nName §13.2's item-122 rows as its bars.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "The closed-arc rules repair r1 added (VEW-03) contradict the wall grading. §4.2 S3 (4) counts 'a cliff, a gorge, a marsh, a sheer face, a river's banks round a loop' as closing arcs and allows picks only on approachable arcs. S3 (9) says 'Every arc closed (a mesa town; …): the stage walls nothing — no Enceinte is recorded for it and it has no gate', and §4.4 S5a step 1 says 'a stage whose every arc closes walls nothing and records no enceinte'. But §4.4 S5a step 1 itself says 'a steep slope or marsh closes behind a light wall', §4.8 *Graded by stretch* lays 'a lighter parapet on cliff tops, steep slopes and waterfronts', and V11 §3.16.1's rows give `cliff` 'closes: yes, wall: parapet' and `steepSlope`/`marsh` 'closes: yes, wall: light'. Only `sheerCliff`, `deepWater` and `gorge` close with no wall. So a mesa ringed by `cliff`-class arcs (≥ 60 % over ≥ 6 m, below the sheer test), or a marsh-ringed town, is walled by §4.8 and V11 but unwalled with no Enceinte by S3 (9). If walled, it has no gate, because no pick may fall on a closing arc: an undefined outcome either way.",
+   "required_change": "In §4.2 S3 (9) and §4.4 S5a step 1, make 'every arc closed' mean every arc whose defensibility row (V11 §3.16.1) has wall `none` (`sheerCliff`, `deepWater`, `gorge`); for those, keep the text ('walls nothing … no Enceinte … no gate'). Add, in (9): 'Where every arc closes but some carry a parapet or light wall (the `cliff`, `steepSlope` or `marsh` rows), the stage is walled on those arcs by §4.8's grade and records its Enceinte. It takes N₁ = 1 gate, picked on its walled closing arcs, least defensible first (`steepSlope`, then `marsh`, then `cliff`; then the pick contour's order), its route reaching it within §4.3's class grade limit, else by F-ROUTE's ladder. Reported (`W_WALLED_BY_BARRIERS`).' In (4), state which arcs are approachable: those whose row does not close, plus a sea or lake shore as (4) already counts it. Add a mesa below the sheer test and a marsh-ringed town to EP-21's fixtures.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-03",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "§4.11 *Survivors*' walls ladder (l. 8235–8236) reads '(`decayed` while any run is not standing: the run's `Enceinte.condition` profile, `breached` or `dismantled`, §2.7, item 575)'. It names only the pre-item-114 values. The model's §2.7 (l. 2427–2428, item 114) makes the ring `decayed` 'while any run is not `standing`', `worn` and `patched` included, and the model repair's hand-off ('§4.11's walls ladder names item 114's worn and patched runs') was not closed. A reader of §4.11 alone takes a ring with only `worn` or `patched` runs as not decayed.",
+   "required_change": "In §4.11's walls ladder replace '(`decayed` while any run is not standing: the run's `Enceinte.condition` profile, `breached` or `dismantled`, §2.7, item 575)' with '(`decayed` while any run is not `standing` — `worn` or `patched` (item 114), `breached` or `dismantled`: the run's `Enceinte.condition` profile, §2.7, item 575)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-04",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V04's repair r1 renamed its opening row `OpeningRow` to `UnderOpeningRow` (V04 l. 694, §2.3; 0 `OpeningRow` left in V04) to end the clash with §2.6's opening-hours `OpeningRow { dayType; openH; closeH }` (l. 1365). It handed the base the change (V04 l. 3426: 'II.7.6's `AccessPassStrategy` reading `openings: UnderOpeningRow[]`'). II.7.6 (l. 20277–20278) still reads `openings: OpeningRow[]` and '// … DigRule, OpeningRow and CatacombRule are V04 §2.3's', so the signature now resolves to §2.6's opening-hours row.",
+   "required_change": "In II.7.6's `AccessPassStrategy` replace `openings: OpeningRow[]` with `openings: UnderOpeningRow[]`, and in its comment replace 'DigRule, OpeningRow and CatacombRule are V04 §2.3's' with 'DigRule, UnderOpeningRow and CatacombRule are V04 §2.3's'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-05",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "After V04's rename of its opening row to `UnderOpeningRow` (V04 §2.3, l. 694), V06 still names V04's row `OpeningRow` (l. 2443 '… the `DigRule`, `OpeningRow`, `LinkRule`, `RuinRule` …'; l. 2490 'V04's `OpeningRow` draws'). In the set `OpeningRow` now resolves only to §2.6's opening-hours row.",
+   "required_change": "In V06 l. 2443 and l. 2490 replace V04's `OpeningRow` with `UnderOpeningRow`.",
+   "owner": "V06"
+  },
+  {
+   "id": "VPC-R1-06",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "After V04's rename to `UnderOpeningRow` (V04 §2.3), V07 §3.16 (3) (iii) (l. 2850) still reads 'V11 §3.23.7's `OpeningRow` chances'. V04's hand-off row to V07 (l. 3420) names `UnderOpeningRow` in V07 §1b (W46) and V07 §3.16 (3) (iii).",
+   "required_change": "In V07 l. 2850 replace `OpeningRow` with `UnderOpeningRow`, and likewise in W46 (V07 §1b) if it names the row.",
+   "owner": "V07"
+  },
+  {
+   "id": "VPC-R1-07",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "After V04's rename to `UnderOpeningRow` (V04 §2.3), V11 still names the row `OpeningRow`: l. 177 (W31 'V04 §2.3's `OpeningRow`'), l. 616 (§2.8b), l. 940 (registry row 58a's shape column), l. 3611 and l. 3705 (§3.23.7). V04's hand-off row to V11 (l. 3424) asks for 'registry row 58a and V11 §3.23.7 naming `UnderOpeningRow`'.",
+   "required_change": "In V11 l. 177, 616, 940, 3611 and 3705 replace `OpeningRow` (V04's opening row) with `UnderOpeningRow`.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-R1-08",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V04's hand-off to the base (V04 l. 3426: 'II.7.4's `UndergroundRule` writing `accessForecastMin`'s default (0.5) beside `forecastSafety`'s') is not closed. V04 states the cell is II.7.4's (l. 634) and cites its value as '(II.7.4's `UndergroundRule`, 0.5)' (l. 1180), but II.7.4's declaration (l. 19848) reads `accessForecastMin: number; forecastSafety: number /* 0.85 */`, and no base text states 0.5. The cell's one home lacks its value.",
+   "required_change": "In II.7.4's `UndergroundRule` read `accessForecastMin: number /* 0.5: P7's access-forecast floor — a cavern or ruin void counts toward the void-dwelling part only when its forecast access chance reaches it (V04 §3.3 P7) */; forecastSafety: number /* 0.85 */`.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-09",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "II.1's closing comment (l. 19132), written by repair r1, reads '// DistrictContext is V01 §2.3's and TypedBoundary V01 §2.5's'. `TypedBoundary` is declared in the base's §2.5 (l. 1121: '… assembled from District.seams on demand; V01 §2.3 cites it'), and V01 §2.5 ('The close-up's records') does not declare it; V01 l. 341 also says it is the base's.",
+   "required_change": "In II.1 l. 19132 read '// DistrictContext is V01 §2.3's and TypedBoundary §2.5's; Pin is §2.7's …'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "`OutlineTemplateId` is declared twice, with different types, both added in round 1:\n- §2.9 (l. 2951): `type OutlineTemplateId = string;   // a row key … — star, star_round, street_strip, plaza_frame, disc, D-shape, lozenge, crescent, spindle …`.\n- §4.2 S1 (2) (l. 4873): `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'`.\nOne is an open string key, the other a closed union, and the two spell the D-shape differently ('D-shape' against `d_shape`). V01 (l. 342) names §4.2 S1 (2) as its home ('`OutlineTemplateId` is §4.2 S1 (2)'s row key').",
+   "required_change": "In §2.9 replace the line `type OutlineTemplateId = string; // …` with the comment `// OutlineTemplateId is §4.2 S1 (2)'s (the outline template rows' key: star, star_round, street_strip, plaza_frame, disc, d_shape, lozenge, crescent, spindle; the standalone rows V01 §3.10.2's)`.",
+   "owner": "model"
+  },
+  {
+   "id": "VPC-R1-11",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "`SquareQuotaRow` is now declared twice. §10.2 (l. 14378) declares it as the base table read from M2b (VAF-R0S-15, option 1), and V01 §2.2 (l. 387) still declares the identical shape. The pipeline repair's hand-off ('V01: §2.2 cites §10.2's `SquareQuotaRow` instead of declaring it') was not applied (principle (1)).",
+   "required_change": "In V01 §2.2 replace the `interface SquareQuotaRow { … }` line with `// SquareQuotaRow is §10.2's (the base table 'squares.quota', read by S7b (3) from M2b and S9b); this volume authors its default rows (V01 §3.5.2; V11 registry row 91)`.",
+   "owner": "V01"
+  },
+  {
+   "id": "VPC-R1-12",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "`DistrictKind` is used as a type by §2.5 (`District.kind`, l. 1099; `districtKind`, l. 1200), §2.9's `HoodRecipe.kind` (l. 2944), §10.2's new `SquareQuotaRow.kind: Partial<Record<DistrictKind, number>>` (l. 14379) and V01 (l. 365, 387, 407, 437, 590). It is declared nowhere in the set; its values live only in §2.5's comment ('central, market …, docks, gate, …'). The pipeline repair observed this as the model's.",
+   "required_change": "In §2.5 declare `type DistrictKind = string /* a hood.kinds / district-kind row key, data-defined, never a social class: central, market, docks, gate, riverbank, … (the values §2.5's District.kind comment lists; the rows V01 §3.10.1 and §10.2's districtKinds) */` beside `District`, and make `District.kind`'s comment cite it.",
+   "owner": "model"
+  },
+  {
+   "id": "VPC-R1-13",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "§4.5 (3) (l. 6050) scores a kind-less district-defining row 'by its defining class's own relation rows (§10.2's brothel rows; J-A72.51)'. Repair r1 cut §10.2's restatement of those rows (the *Quarter identities* bullet no longer says '… scores its district by the brothel class row's soft `nearHarbour`, `nearGate` and `near` an inn rows'), so §10.2 now mentions no brothel row. The rows are V11 §3.5's (l. 1543: `nearHarbour` 300, `nearGate` 200, `near` → inn 100, soft).",
+   "required_change": "In §4.5 (3) replace '(§10.2's brothel rows; J-A72.51)' with '(the `brothel` class row's soft `nearHarbour`, `nearGate` and `near` an inn rows, V11 §3.5; J-A72.51)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-14",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Repair r1 cut §10.2's placement examples (VAF-R0S-23: 'the rows and their values are V11 §3.5's'), but V11 §3.5's class rows still annotate their placement cells '(§10.2's example)' or '(§10.2's example as file f item 440 rewrites it)', pointing at text §10.2 no longer holds: `bakery` l. 1460, `brewery` l. 1466, `maltings` l. 1467, `watermill` l. 1469, `tannery` l. 1487, `market_hall` l. 1524, `warehouse` l. 1528, `inn` l. 1539. The pipeline repair's hand-off ('V11: rows drop \"(§10.2's example)\"') was not applied.",
+   "required_change": "In V11 §3.5's class table delete '(§10.2's example)' from the `bakery`, `brewery`, `maltings`, `watermill`, `market_hall` and `warehouse` rows and '(§10.2's example as file f item 440 rewrites it)' from the `tannery` and `inn` rows, keeping 'file f item 440' where it is the row's provenance.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-R1-15",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Two V11 registry rows miss what pipeline r1 added at their base homes, and the pipeline repair's hand-offs to V11 were not applied:\n(a) Row 13 `walls` lists `castle.minInnerM`, `wall.smoothPasses`, the gates' waterfront share and spacing, but not the two new cells §4.2 S3 (10) reads, `moat.waterReachM` (400 m) and `moat.maxFallCm` (400 cm).\n(b) Row 81 `ways.crossing` lists its readers where a way crosses a retaining wall and at the raised ways' ends, but not the new class grade limit's readers: §4.3 *Lattice and costs* makes `rampMaxGrade` the routed class's grade limit, read by S3 (5)'s gate routes, S4's routes, S5b and S5c, and §7.3 (a) 5's steepness report.",
+   "required_change": "(a) Registry row 13's cell list adds '`moat.waterReachM`, `moat.maxFallCm` (§4.2 S3 (10))'. (b) Row 81's readers add 'S3 (5), S4, S5b and S5c (the class grade limit on routed edges, §4.3 *Lattice and costs*), §7.3 (a) 5 (the steepness report)'.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-R1-16",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "II.7.2 (l. 19633–19635, repair r1) reads 'A settlement with no admitted water outfall takes a moat outfall at its penalty, else one field outfall beyond the outermost enceinte's outer strip — the cess field of a dry town (V04 §3.2 N2; F-NET, §5.2)'. V04 §3.2 N2, its cited home, applies the fallbacks per bank: the parts of the graph the water divides; each bank with none admitted takes its moat candidates, else makes ONE field outfall of its own; a bank whose stretch lies wholly on water and holds no candidate makes none and drains by gutter and pit, reported unsewered. For a river town whose candidates all fail admission, the base gives one field outfall and V04 one per bank, plus the no-candidate island case the base omits.",
+   "required_change": "In II.7.2 replace that sentence with: 'A bank of the network (the parts of the graph the water divides, V04 §3.2 N3) with no admitted water outfall takes its moat outfalls at their penalty, else one field outfall beyond the outermost enceinte's outer strip — the cess field of a dry town; a bank whose stretch lies wholly on water and holds no candidate makes none, its plots draining by gutter and pit, reported unsewered (V04 §3.2 N2; F-NET, §5.2); V04's T-V4-2 no-water fixture names the case.'",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-17",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§2.3's `WaterBody.spring.flow` (l. 965) is ranged '(0, 1]; 1 when made', excluding 0. V06 §3.12.1, the field's one epoch writer (V06 l. 2159), sets a lost spring's `flow` to 0 and keeps a spring at `flow` 0 for `spring.dryMarshAfterYears` (l. 2177). The pipeline's repaired S3 (6) and EP-14 read that case: 'a spring at `flow` 0 pulls nothing while its water body stands'. The model's range makes the value both other units write impossible.",
+   "required_change": "In §2.3 change the comment to '`flow: number /* share of the spring's full flow, [0, 1]; 1 when made; 0 a lost spring (V06 §3.12.1), its body standing */`'.",
+   "owner": "model"
+  },
+  {
+   "id": "VPC-R1-18",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "Two term slips in repair r1's text:\n(a) §4.8 (l. 7402) 'a quay stands only where the bank class is `quay`'. §4.2 S1 (7) keeps 'class' for the shore class (`bay`/`headland`/`straight`, `shoreClass`); `quay` is a bank KIND (`bankKinds`, §2.3).\n(b) §4.11 *Regrowth-first* (l. 8298–8300), appended from BCR-V6-18, reads 'the reopening of retired ones (V07's hollow ways …)' and 'whose access edge is a retired way reopens that way, with any retired way on its path'. The canon retires 'retired way' for 'hollow way' (G-hollow; the ops keep their names).",
+   "required_change": "(a) §4.8: 'a quay stands only where the bank kind is `quay` (§4.2 S1 (7))'. (b) §4.11: 'the reopening of hollow ones (V07's hollow ways, `reopenWay`)' and 'whose access edge is a hollow way reopens that way, with any hollow way on its path'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-19",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "§5.2's F-CUT test column cites '§4.6 step 8 (a)'s bars on 10⁵ random concave and holed faces (the kernel-call bound; …)'. Step 8's ladder rung (a) is the turned frame; the bars (VPC-18's fix) stand at the end of step 8, after rung (d) ('**Bars (F-CUT, M0 (b); §5.2 cites them):** …', l. 6314).",
+   "required_change": "In §5.2's F-CUT row replace '§4.6 step 8 (a)'s bars' with '§4.6 step 8's bars'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VPC-R1-20",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "Repair r1 declared `wealthLevel?`, `advance?` and `replay?` on §4.11's `EpochInputs` (file f items 343 and item 113, VPC-22 (b)). V06 still declares the same fields 'on EpochInputs': §2.3 (l. 597–600) declares `wealthLevel` and `advance`, and §2.14 (l. 911–913) declares `replay`. The same fields now have two homes (principle (1)), and the pipeline repair's hand-off ('V06: §2.3 and §2.14 cite §4.11's EpochInputs …') was not applied.",
+   "required_change": "In V06 §2.3 replace the `wealthLevel?` and `advance?` declarations (the block headed '// on EpochInputs (file f item 343)') with '// EpochInputs.wealthLevel and EpochInputs.advance are §4.11's (file f item 343); this volume writes them (V06 §3.3.5, §3.3.2)'. In §2.14 replace the `replay?` declaration with '// EpochInputs.replay is §4.11's (item 113); ReplayEventRef and ReplayEpoch are declared above'.",
+   "owner": "V06"
+  },
+  {
+   "id": "VPC-R1-21",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "The model repair's hand-off ('pipeline §4.3 and §4.13 (river, square, wall, oasis cells) cite §2.7's support step and clear-span bound') is not closed. §4.3 *Where it may not go* (l. 5465–5466) still lets a river or canal be spanned 'between supports on the two banks within `viaduct.maxSpanM`', and §4.13's river, coast, moat cell (l. 8631) says the same. §2.7's support step (l. 2451–2455) also bounds a merged clear span by `raisedWays.structure.maxClearSpanM` per material class: a generated course past it drops (`raised_too_long`), a declared one bends. It says 'so a river is spanned within that bound and `viaduct.maxSpanM` both (§4.3)', citing §4.3 for a bound §4.3 does not state.",
+   "required_change": "In §4.3 *Where it may not go* read '… a river or canal it may span between supports on the two banks within `viaduct.maxSpanM` and §2.7's clear-span bound (`raisedWays.structure.maxClearSpanM` by material class: a generated course past it drops, `raised_too_long`; a declared one bends); the obstacles a support slides off or is omitted over are §2.7's support step's'. In §4.13's river, coast, moat cell read 'within `viaduct.maxSpanM` and §2.7's clear-span bound'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-22",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "§4.7 S11's culture specialisation (l. 6835–6836) states the exemption as 'a user-set, declared or keyword specialisation is exempt from the chance and the cap and never overwritten'. V11 §3.24.3, which names §4.7 S11 as the home of the draw and the cap, adds 'An exempt use is held (item 101 R13) and not counted toward the cap'. V11's repair handed the clause to the base ('pipeline: §4.7 S11's exemption adds \"and not counted toward the cap\"', VAF-R0S-19). Whether an exempt use consumes the cap's quota is not stated at the home.",
+   "required_change": "In §4.7 S11 read 'a user-set, declared or keyword specialisation is exempt from the chance and the cap, is not counted toward the cap, and is never overwritten (item 101 R13)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-23",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "II.7.6 *The pieces an access edit generates*, step 3 (l. 20242–20247) has no defined outcome when no route exists. The connector is routed by the kernel's path search with infinite cost within `foundationClearM` of every other footprint, basement ring and dug passage, and wherever the water table lies above the floor. The step defines one outcome only: 'a route longer than 2 × `digReachM` is a refusal with the reason'. It defines none when the search finds no route (`E_NO_PATH`, §3.1), for example a basement ring enclosed on every side by neighbours' footprints within 0.5 m, or the water table above every floor between it and the target. No test covers it (§13.2's T66 group covers only the over-long route). The kernel repair recorded this as an observation for the pipeline.",
+   "required_change": "In II.7.6 step 3, after 'a route longer than 2 × `digReachM` is a refusal with the reason', add: 'and so is a route the search does not find (`E_NO_PATH`, §3.1: the basement ring enclosed within `foundationClearM` by other footprints, basement rings or dug passages, or the water table above every floor between it and the target): the dry run refuses with its reason, naming the blocking building or the water table (F-EDIT, §5.2), never silently and never a whole-map retry; the basement of step 1 is not laid'. Name §13.2's T66 group as its test, gaining an enclosed-basement fixture (scope's row).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-24",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Repair r1's S8 rule (§4.6, l. 6165–6170) makes every raised part's under-deck strip a hole 'widened by `raised.stripMarginM` each side (a `hood.constants` cell in `@plat/tables`; …)', with or without stage 2. §4.13's named fixture runs it at M3a: 'a CITY viaduct at M3a with stage 2 unregistered — 0 plots and 0 footprints in its strip'. `hood.constants` is V01's table (V11 registry row 62, owner V01; its settings row written by V01's seat). Under V11 §2.1's empty-table rule a table whose rows-home milestone has not landed ships empty, and 'a reader that meets an empty table reads no rows'. So the base S8 reads, from M3a, a cell that exists only from V01's milestone: a dangling input before M5.",
+   "required_change": "Home the strip margin where the base can read it from M3a. Move the cell to item 110's `raisedWays.structure` (V11 §3.24.2, shipped with item 110's rows) as `raisedWays.structure.stripMarginM` (1 m), cited in §4.6 as '(`raisedWays.structure.stripMarginM`, V11 §3.24.2; V01 §3.17.3 (2) reads the same strip)'. V01 §3.14 and V06 then cite it there (their hand-offs).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-25",
+   "severity": "minor",
+   "kind": "EDGE-UNTESTED",
+   "claim": "EP-26 (§4.13, repair r1) tests the new last rung of S10b's `dossier` request with one fixture, 'a THORP dossier with 40 custom institutions absorbed at once'. The base refuses a dossier below 1 500 unless the village product is registered (§4.11: 'a dossier below 1 500 is routed to the village product when one is registered (V07 §2.1, V07 §3.11), else refused (SCOPE-C01)'), so the fixture runs only with V07. The base's own case at its rungs is untested: a TOWN-or-larger dossier with more dossier elements than the map has seats.",
+   "required_change": "In EP-26 add a base fixture: 'a 1 500-person TOWN dossier listing more dossier institutions than its plots (every one placed, the report naming each edge plot)'. Mark the THORP fixture as run with V07 registered (V07's village rows).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R1-26",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "Determinism's repair r1 (VEL0-06) moved the history replay's epoch keys to the u32 range: §6.1 (l. 9049) reads 'keys its coarse epochs r = 1 … R with `0x8000_0000 + r`, the upper half of the u32 range reserved to it', and §7.4 (l. 9746–9747) follows. The judgment index row J-A113.61 (l. 21356) and its Part A row (ARCHITECTURE-RATIONALE.md l. 805) still say '`0x8000 + r`, the u16 range's upper half'.",
+   "required_change": "In the judgment index row J-A113.61 and its Part A row replace '`0x8000 + r`, the u16 range's upper half' with '`0x8000_0000 + r`, the u32 range's upper half (§6.1)'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VPC-R1-27",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§4.11 *The clock* reads the campaign's calendar through the host. (1) (l. 8086–8088): 'For a dossier-bound map it is SettlementForge's `calendar.elapsedWeeks` … and its creation week is the port's `HostContext.week` (§14) or 0'. (2) (l. 8097) has the dating rung '… then `HostContext.week`, then none'. `EpochInputs.week`'s comment (l. 7997) says 'a dossier-bound map's is SettlementForge's calendar.elapsedWeeks'. V08 (l. 278, 645) and DR42 identify `HostContext.week` as 'the campaign's `calendar.elapsedWeeks`', a host input. Owner rule 125 (filed 2026-10-01, J139) rules: '(a) ONE SOURCE. At run time the map reads SettlementForge only through the dossier: never its campaign state … `HostContext.week` and `HostContext.realm` stop being inputs; every fact they supplied is taken from the dossier where the dossier carries it, otherwise supplied by our map code'; and '(b) … the WEEK … is the dossier's own latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks)'. The canon's J139 routing names no pipeline part, so §4.11's clock, the base's one statement of the map's week, still contradicts the owner rule (principle (3): owner rules first).",
+   "required_change": "Apply item 125 at §4.11 *The clock* (the canon's J139 routing should add 'pipeline: §4.11 *The clock* (1)–(2) and `EpochInputs.week`'). (1): 'For a dossier-bound map it is the week the dossier's own stamped ticks give — its latest tick (its conditions' `triggeredAt`, its calamities' and its history's ticks) is the present week (item 125 (a), (b)) — never the campaign's calendar, `elapsedMonths` or `history.age`; a dossier with no stamped tick, and a standalone map, starts at week 0'. (2): delete the rung 'then `HostContext.week`', so the rungs read '… then the week suffix of the change's outcome id, then none'. `EpochInputs.week`'s comment: 'a dossier-bound map's from the dossier's ticks (*The clock* (1); item 125)'. J-A76.41's index and Part A rows (scope) and V08 W64 and l. 645 (V08) follow under their own items.",
+   "owner": "pipeline"
+  }
+ ]
+}

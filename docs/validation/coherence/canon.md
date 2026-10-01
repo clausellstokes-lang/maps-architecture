@@ -5646,3 +5646,6 @@ are retired as inputs; every used field has a standalone fallback; the embedding
 * **scope:** §13.2 (the bars of item 125 (e)); the judgment index row
 * **V08:** every digest row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from the dossier's ticks; the final local check's brief (item 125 (d))
 * **V09:** the season control as the week's fallback; **V12:** bars
+
+### g item 125 — routing completed (orchestrator, 2026-10-01; verify-pipeline-r1t VPC-R1-27)
+* **pipeline:** §4.11 *The clock* (1)–(2) and `EpochInputs.week` — the dossier-bound map's present week from the dossier's own stamped ticks (item 125 (b)), the `HostContext.week` rung removed; J-A76.41's rows (scope) and V08 W64 follow
