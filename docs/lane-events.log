@@ -3023,3 +3023,6 @@
 2026-10-01 17:42 coherence/repair-V07-r5 LANDED docs/validation/coherence/repair-r5-V07.md docs/validation/coherence/results/coherence_repair-V07-r5.json
 2026-10-01 17:42 coherence/repair-V09-r5 LANDED docs/validation/coherence/repair-r5-V09.md docs/validation/coherence/results/coherence_repair-V09-r5.json
 2026-10-01 17:42 coherence/orchestrator NOTE repair-V07-r5 landed (12 blocks, 0 ruling requests); launched repair-determinism-r5 in its slot
+2026-10-01 17:43 coherence/repair-scope-r5 LANDED docs/validation/coherence/repair-r5-scope.md docs/validation/coherence/results/coherence_repair-scope-r5.json docs/validation/coherence/work/repair-scope-r5/
+2026-10-01 17:43 coherence/repair-rendering-r5 LANDED docs/validation/coherence/repair-r5-rendering.md docs/validation/coherence/results/coherence_repair-rendering-r5.json (opus seat, PENDING FABLE REVIEW; 11 REPLACE blocks over §8.2, §8.4, §8.6, §8.8, §8.11, §9.5, §11.1, §11.2, §11.6, §12.5, §12.10; 9 issues fixed, 4 END lines, 0 ruling requests; dry run 11/11 and 23/23 with r5 model+pipeline drafts; hand-offs to scope T120-6, V12 time.findGlow, model (6)(d) readers)
+2026-10-01 17:43 coherence/orchestrator NOTE repair-V09-r5 landed (12 blocks, 0 ruling requests) and repair-scope-r5 landed (5 blocks, 0 ruling requests); launched repair-V12-r5 and repair-V10-r5 in their slots
