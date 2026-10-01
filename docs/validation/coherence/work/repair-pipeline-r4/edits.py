@@ -143,7 +143,7 @@ E(H413, """never out over the sea (its ends are ground vertices); a moat spanned
 E(H102, """by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); at the
   village rungs""",
 """by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); until V06's E2 (M6-E) a building leaves the
-  `disaster` look by the hand-over read directly over the base's records (`Building.works`, §2.6; the lifecycle's weeks
+  `disaster` look by the yield read directly over the base's records (`Building.works`, §2.6; the lifecycle's weeks
   once a record retires, §4.11 *Works* (9)) — V06 §3.22 (3)'s rule: a Works other than a `decay` Works begun on it by
   the view's week and not finished before the overlay's `sinceWeek`, never for a preview — so §8.2's `ruinTone`, the
   buildings' damage and V09's rows read one answer from the look's first milestone; at the
