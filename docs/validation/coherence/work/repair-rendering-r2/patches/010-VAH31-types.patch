@@ -1,0 +1,30 @@
+# VAH-31 (a)–(c), VV910-02 (= VAH-31 (b)), VV1112-r1-06 (= VAH-31 (c)); R2-10. §11.2's reader and oracle types.
+@@ FILE 11.2.md
+<<<<
+      arcs?: { kind: 'walled'|'barrier'; grade?: 'full'|'light'|'closure'; barrier?: 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte' /* J-VI.3 */; points: PointCm[] }[];   // a `drawWall` or `placeGate` preview: the derived circuit's arcs, typed by g item 106 (a)'s closure and (c)'s grade (file f item 462)
+====
+      arcs?: { kind: 'walled'|'barrier'; grade?: 'full'|'light'|'closure'; barrier?: BarrierKind /* §2.7 */; points: PointCm[] }[];   // a `drawWall` or `placeGate` preview: the derived circuit's arcs, typed by g item 106 (a)'s closure and (c)'s grade (file f item 462)
+>>>>
+<<<<
+    open: { from: Bearing8; to: Bearing8; barrier: 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte' /* J-VI.3, as WhyAnswer.closure */ }[] /* item 106: arcs a barrier closes */;
+====
+    open: { from: Bearing8; to: Bearing8; barrier: BarrierKind /* §2.7 */ }[] /* item 106: arcs a barrier closes */;
+>>>>
+<<<<
+  register?: { id: string; status: CalibrationEntry['status']; method: CalibrationEntry['method']; due: string } /* the cell's entry in V12 §2.6's
+    plat/calibration/register.json, where one exists: told plain first, its id and run only behind "details" (V10 §3.5) */ }
+====
+  register?: { status: CalibrationEntry['status'] | 'owner'; entry?: string /* absent for a stamped or ref: cell */; method?: CalibrationEntry['method']; due?: string }
+    /* the cell's row in V12 §2.10's dist/evidence.json, where one exists; an absent file, or one of other table versions: the provenance source
+       alone; told plain first, its entry and method only behind "details" (V10 §3.5) */ }
+>>>>
+<<<<
+  closure?: { from: Bearing8; to: Bearing8; barrier: 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte'; class: string }[];   // item 106 (g); 'sheer' an island's rim (V05 §3.21)
+====
+  closure?: { from: Bearing8; to: Bearing8; barrier: BarrierKind /* §2.7 */; class: string }[];   // item 106 (g)
+>>>>
+<<<<
+  members?: { step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; range?: [number, number]; count: number; ids: Id[] /* ≤ limits.members */ };   // item 108
+====
+  members?: { step: LadderStep /* V11 §2.6 */; range?: [number, number]; count: number; ids: Id[] /* ≤ limits.members */ };   // item 108
+>>>>

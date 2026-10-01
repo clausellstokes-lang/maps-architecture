@@ -1,0 +1,114 @@
+# VRC1T-10 (§8.2 cvdVariant's default); VAL-R1-05 (R2-29 (a): slot resolution); VAL-R1-11 and VAL-R1-12 (R2-29 (b): the
+# village readings in §8.2's place table and season rows; §8.1 item 8 cites §8.2's leads); VRC1T-04 (the sun's altitude
+# clamped); VRC1T-03 (the parity presets switch the new rows of ours off).
+@@ FILE 8.2.md
+<<<<
+palette — selected by the per-viewer view key `cvdVariant` (`'none'` default; V09's view settings), which joins the tile
+====
+palette — selected by the per-viewer view key `cvdVariant` (§2.9's key: absent, V09's machine default `AppPrefs.cvdDefault`;
+V09 §4.21.2), which joins the tile
+>>>>
+<<<<
+river's casing and body in slot 7; and the sky's entries in every shipped sheet (`ink`, `lit`, `hatched`, `night` and the
+parity presets) — `sky.island.land` slot 3, `sky.island.underside` slot 2, `sky.island.rim` and `sky.mist` slot 8,
+`sky.island.shadow` slot 10, `sky.island.tether` slot 17, `sky.fall` and `sky.access.*` slot 19,
+`sky.island.shadeStrip` and `sky.island.shadePending` slot 25, each with the per-family facts of V05 §5.1's slot table
+(M6-sky; file f item 408). A CI test
+====
+river's casing and body in slot 7; the sky's entries in every shipped sheet — the presets table's `ink`, `lit`,
+`hatched`, the ink-family variants `parchment`, `bw-print` and `night`, `painterly` once volume 7 ships it (V07 §8's
+V-M1), and the parity presets — `sky.island.land` slot 3, `sky.island.underside` slot 2, `sky.island.rim` and `sky.mist`
+slot 8, `sky.island.shadow` slot 10, `sky.island.tether` slot 17, `sky.fall` and `sky.access.*` slot 19,
+`sky.island.shadeStrip` and `sky.island.shadePending` slot 25, each with the per-family facts of V05 §5.1's slot table
+(M6-sky; file f item 408); and the underground's `under.*` entries in every shipped sheet, drawn in the underground
+layer's own order (V04 §5.2) with V04 §5.2's per-family facts (M6-U). A CI test
+>>>>
+<<<<
+  band elapsed up to its middle week (none past it). From the leaf-fall band's last third the crowns thin: each is drawn
+  at alpha 1 − f over its bare-crown symbol, f rising from 0 to 1 across that third. **Fallen-leaf cover** lies by V11's
+  `season.cover` rows on the marks of each surface — `underTrees` (a deciduous crown's footprint × 1.5), the way bodies
+  of `street` and `lane` classes, green and lawn faces, garden yard parts, churchyard faces, roofs, and still water (the
+  `pond`, `moat`, `millpond` and `lake` water marks): on a world-aligned grid of 1.5 m cells, a cell within the row's `driftM` of a
+  deciduous crown (or under one) takes a 1-px leaf dot where `RH32('leaf.cover', key, salt, cell)` ÷ 2³² is under the
+  row's share — `start` at the first leaf-fall week rising linearly to `end` at the last, then fading to none over
+  `fadeWk` weeks, none while snow lies — × `edgeFactor` within 1 m of a wall line or a kerb; the dot takes the nearest
+  deciduous crown's leaf colour, so the cover deepens week by week and gathers at walls and kerbs. **Creepers:** a
+====
+  band elapsed up to its middle week (none past it). From the leaf-fall band's last third the crowns thin: each is drawn
+  at alpha 1 − f over its bare-crown symbol, f rising from 0 to 1 across that third. **Fallen-leaf cover** lies by V11's
+  `season.cover` rows on the marks of each surface — `underTrees` (a deciduous crown's footprint × 1.5); `street`, the way
+  bodies of the `through`, `primary` and `secondary` classes (§2.4's `WayClass`); `lane`, those of the `lane`, `alley`,
+  `cul_de_sac` and `track` classes; `green` and `lawn`, green and lawn faces and a village's crofts and closes; `garden`,
+  garden yard parts and a village's toft yard parts (V07 §5.1 names which faces are crofts, closes and toft yards);
+  `churchyard`, churchyard faces; `roof`, roofs; and `stillWater`, the `pond`, `moat`, `millpond` and `lake` water marks:
+  on a world-aligned grid of 1.5 m cells, a cell within the row's `driftM` of a
+  deciduous crown (or under one) takes a 1-px leaf dot where `RH32('leaf.cover', key, salt, cell)` ÷ 2³² is under the
+  row's share — `start` at the first leaf-fall week rising linearly to `end` at the last, then fading to none over
+  `fadeWk` weeks, none while snow lies — × `edgeFactor` within 1 m of a wall line (a palisade's and a yard wall's among
+  them), a hedge or a kerb; the dot takes the nearest deciduous crown's leaf colour, so the cover deepens week by week and
+  gathers at walls, hedges and kerbs. **Creepers:** a
+>>>>
+<<<<
+  falls 2 m per km or more (its fast current), each water mill's frontage reach (its weir and race), and a 12 m disc at each
+  spring point and each outfall (§2.3; II.7.3) — drawn in `water` with a ragged rim. **Boats** (§8.10) are drawn hauled
+====
+  falls 2 m per km or more (its fast current), each water mill's frontage reach (its weir and race), and a 12 m disc at each
+  spring point, each outfall (§2.3; II.7.3) and each leat's take-off (the weir where a mill's canal leaves its river; V07
+  §5.1 names a village's leat) — drawn in `water` with a ragged rim. **Boats** (§8.10) are drawn hauled
+>>>>
+<<<<
+  | place | where it stands |
+  |---|---|
+  | `heart` | the root reservation's square (§4.2 S3); at a village rung V07's heart |
+  | `square` | the main square (the root plaza); a staging `hall` key's square before the hall |
+  | `market` | the market squares, highest `rank` first (§4.2) |
+  | `green` | the greens, largest first; at a village rung V07's green |
+====
+  | place | where it stands |
+  |---|---|
+  | `heart` | the root reservation's square (§4.2 S3); at a village rung V07's heart |
+  | `square` | the main square (the root plaza); a staging `hall` key's square before the hall; at a village rung the open space that carries the market, else the flanking square, else a street market's frontage by the heart (V07 §5.1) |
+  | `market` | the market squares, highest `rank` first (§4.2); at a village rung as `square` |
+  | `green` | the greens, largest first; at a village rung V07's green, else the first nucleus's open space, else the heart |
+>>>>
+<<<<
+  | `gate`, `gates` | the gates on `through` and `primary` ways |
+  | `fairField` | the fair field where one stands (V07), else the largest green outside the walls |
+  | `castle` | the castle's bailey |
+====
+  | `gate`, `gates` | the gates on `through` and `primary` ways; at a village rung the palisade's gate on the through road, else the through road's perimeter entry |
+  | `fairField` | the fair field where one stands (V07), else the largest green outside the walls |
+  | `castle` | the castle's bailey; at a village rung the manor house's plot |
+>>>>
+@@ FILE 8.1.md
+<<<<
+   none — and emits the `water.lead` marks — chains along a river's stretches whose course falls 2 m per km or more and
+   along each water mill's frontage reach, and 12 m discs at spring points and outfalls — read only while their water is
+   drawn frozen; the tile worker applies the week's looks (§8.2's season rows), so a change of the year position re-skins
+====
+   none — and emits the `water.lead` marks where §8.2's *Water in winter* lays its open leads, read only while their water
+   is drawn frozen; the tile worker applies the week's looks (§8.2's season rows), so a change of the year position re-skins
+>>>>
+@@ FILE 8.4.md
+<<<<
+  +23.44° at midsummer (19), −23.44° at midwinter (45): the fixed sun stands at `altitudeCdeg` + δ(w) (45° in every
+  shipped sheet: 68.4° at midsummer, 21.6° at midwinter); the cursor sun's h₀ is `heightRatio` × tan(that altitude) ÷
+  tan(`altitudeCdeg`), so its shadows lengthen in winter in the same proportion; the path sun reads `dayOfYear` = 80 +
+====
+  +23.44° at midsummer (19), −23.44° at midwinter (45): the fixed sun stands at `altitudeCdeg` + δ(w) (45° in every
+  shipped sheet: 68.4° at midsummer, 21.6° at midwinter), clamped to [atan ⅛ ≈ 7.1°, 89°] — the altitude at which the
+  8 × shadow cap above starts — so the drawn sun stays above the horizon in every week of any sheet; the cursor sun's h₀ is
+  `heightRatio` × tan(that clamped altitude) ÷ tan(max(`altitudeCdeg`, 7.1°)), so its shadows lengthen in winter in the
+  same proportion. The sheet loader clamps a `SunSpec.altitudeCdeg` outside (0°, 90°) into [7.1°, 89°] and reports it
+  (a sheet is data: saved, edited or a preset's). The path sun reads `dayOfYear` = 80 +
+>>>>
+<<<<
+  those readings enters a cell. Every default row of ours — the field model, the cursor sun, the moon, the point lights,
+  the ambient, occlusion and spill terms — carries the `extension` marker, so the parity presets switch it off.
+====
+  those readings enters a cell. Every default row of ours — the field model, the cursor sun, the moon, the point lights,
+  the ambient, occlusion and spill terms, item 117's season rows and sun through the year (§8.2, *Sun* below), item 118's
+  decorations (`live.festival`), item 122's crisis looks (`live.crises`), item 124's weather effects (§8.8) and §8.10's
+  boats — carries the `extension` marker, so the parity presets switch it off: a parity preset draws the map as drawn,
+  under its sheet's sun, in every week. Find (item 120) is a tool's overlay, not a look, and draws under every preset.
+>>>>

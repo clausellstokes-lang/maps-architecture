@@ -1,0 +1,163 @@
+{
+ "doc_sha256": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+ "blocks": [
+  {
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "ids": [
+    "VKr1-04",
+    "VKr1-08",
+    "VAL-R1-14"
+   ]
+  },
+  {
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "ids": [
+    "VAL-R1-08",
+    "VAF-R1T-04",
+    "VPC-R1-02",
+    "VEW-r1-01"
+   ]
+  },
+  {
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "ids": [
+    "VPC-R1-21",
+    "VM-R1T-08"
+   ]
+  },
+  {
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "ids": [
+    "VPC-R1-02"
+   ]
+  },
+  {
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "ids": [
+    "VAL-R1-14",
+    "VKr1-08",
+    "VPC-R1-13"
+   ]
+  },
+  {
+   "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+   "ids": [
+    "VPC-R1-24",
+    "VEW-r1-06"
+   ]
+  },
+  {
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "ids": [
+    "VEW-r1-04",
+    "VEW-r1-06",
+    "VAL-R1-14",
+    "VKr1-08",
+    "VAF-R0S-19",
+    "VPC-R1-22",
+    "R2-13",
+    "VAF-R1T-04"
+   ]
+  },
+  {
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "ids": [
+    "VAL-R1-14",
+    "VKr1-08",
+    "VPC-R1-18",
+    "R2-27"
+   ]
+  },
+  {
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "ids": [
+    "VEL1-02",
+    "G125-pipeline",
+    "VPC-R1-27",
+    "R2-31",
+    "VPC-R1-03",
+    "VPC-R1-18"
+   ]
+  },
+  {
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "ids": [
+    "VEW-r1-01",
+    "VPC-R1-02",
+    "VEW-r1-04",
+    "VEW-r1-06",
+    "VPC-R1-25",
+    "G122-pipeline",
+    "G122h-pipeline",
+    "VM-R1T-08",
+    "VPC-R1-21",
+    "R2-26"
+   ]
+  },
+  {
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "ids": [
+    "VPC-01",
+    "G122-pipeline",
+    "VAL-R1-14",
+    "VKr1-08",
+    "R2-13",
+    "G122h-pipeline",
+    "G125-pipeline"
+   ]
+  },
+  {
+   "heading": "### 10.3 People, households, relations, sub-locations, schedules",
+   "ids": [
+    "VDC1-21"
+   ]
+  },
+  {
+   "heading": "## II.1 The district → neighbourhood interface",
+   "ids": [
+    "VAF-R0S-08",
+    "VPC-R1-09",
+    "VV12-r1-02"
+   ]
+  },
+  {
+   "heading": "## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+   "ids": [
+    "VAL-R1-14",
+    "VKr1-08"
+   ]
+  },
+  {
+   "heading": "### II.7.2 The network stage: the gate, the underground arena's levels, the tunnel profile, depth and outfalls, editing",
+   "ids": [
+    "VAL-R1-07",
+    "VPC-R1-16"
+   ]
+  },
+  {
+   "heading": "### II.7.4 The hook interfaces and the base's part",
+   "ids": [
+    "VAL-05",
+    "VPC-R1-08"
+   ]
+  },
+  {
+   "heading": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+   "ids": [
+    "VPC-R1-23",
+    "VAL-R1-08",
+    "VAL-R1-02",
+    "VAL-08",
+    "VPC-R1-04"
+   ]
+  },
+  {
+   "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "ids": [
+    "VAL-R1-14",
+    "VKr1-08"
+   ]
+  }
+ ],
+ "edits": 68
+}

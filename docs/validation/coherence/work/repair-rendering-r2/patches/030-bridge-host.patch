@@ -1,0 +1,58 @@
+# VRC1T-02 (R2-33 (b)); G125-rendering (R2-40 (2), R2-33 (b)): §11.3's travelling keys, the host's view commands, §11.4's
+# one data input; §11.1's realm-fit default re-sourced (HostContext.realm retired).
+@@ FILE 11.3.md
+<<<<
+  `doc.apply { baseLogHead, events }`, `view.set { patch }`, `export.request { fmt, opts }`, `query { q }`,
+====
+  `doc.apply { baseLogHead, events }`, `view.set { patch }`, `entity.select { ids }` (the host's selection, item 125 (c):
+  the frame selects those entities as a user's list pick would, leaves out an id it does not hold or the viewer's key does
+  not admit, and reports the selection by `entity.selected`), `export.request { fmt, opts }`, `query { q }`,
+>>>>
+<<<<
+* **View state.** Every view key of §2.9 (its view section, outside the model hash; each last-writer-wins by (Lamport
+  counter, session id)), the per-viewer keys among them, travels as `view.set` / `view.changed`, except the pointer that
+  moves the cursor sun and the `underlay` image (§9.5), which never cross the bridge. The key `time` is set by
+  `view.set { time }` and advanced by the module-tier message `sim.advance { hours }` (§10.3). **The host's clock (item 67; J-A67.82).** The clock the design calls
+====
+* **View state.** Every view key of §2.9 (its view section, outside the model hash; each last-writer-wins by (Lamport
+  counter, session id)) travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun, the
+  `underlay` image (§9.5), the weather spell in force (item 124; session state) and the per-viewer keys a viewer's client
+  keeps — `yearWeek`, `seasonFollow`, `festival`, `cvdVariant`, `find` and `crises` (§2.9), `thematic`, `workingLayer`,
+  `showUnexcavated` and V09 §4.19's per-viewer keys —, which never cross the bridge; `knowledge`, which the host sets per
+  viewer (below; J-A30.82), travels. The key `time` is set by `view.set { time }` and advanced by the module-tier message
+  `sim.advance { hours }` (§10.3). **The host's view commands (item 125 (c); J139).** A host drives the view as a user
+  would — a week (`view.set { week }`, item 67), the layers shown (`view.set` of the layer choices, §8.4's
+  `LayerSpec.visible`), a selection (`entity.select`) — and these are commands, never inputs: the map never needs them,
+  and no document a dossier makes depends on them (§11.4). **The host's clock (item 67; J-A67.82).** The clock the design calls
+>>>>
+@@ FILE 11.4.md
+<<<<
+**A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
+prefix, and door (2)'s events and epochs, are produced by `@plat/port` (§14, item 73): the host passes the whole dossier
+and, when it has them, the optional fields of `HostContext` — the week, the realm block, the audience, display names, the
+product line — and nothing else; SettlementForge's map comes through doors (1) and (2), which the port produces;
+====
+**A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
+prefix, and door (2)'s events and epochs, are produced by `@plat/port` (§14, item 73) from the whole dossier, **the
+port's only data input** (item 125 (a); J139): the map reads SettlementForge only through it — never its campaign state,
+simulator, derived reads, realm map or code — and every fact it uses comes from the dossier where the dossier carries it,
+else from the generator's own fallback, exactly as on a map made without a dossier, the fallback reported and never a
+refusal (item 125 (b); §7.7's derivation table, DR1, DR3, DR19, DR29 and DR42 among its rows; the week by §4.11 *The
+clock*). Beside the dossier a host may pass three fields of `HostContext` (§14), none a data input and none able to change
+a document a dossier makes: `audience` (the role and knowledge key it sets per viewer, view state that travels, §11.3;
+J-A30.82), `displayNames` (inside one export request, never stored, §11.1; item 85) and `line` (which adapter reads the
+dossier; with none, the dossier's own version stamps pick it, and a `line` no adapter supports, or one the stamps
+contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs, a custom
+definition reaching the map only from the dossier's own entries (§7.7 item 1). A host's view commands (§11.3) stay
+commands. The port's adapter imports and reads nothing but the dossier (T125-3). SettlementForge's map comes through doors (1) and (2), which the port produces;
+>>>>
+@@ FILE 11.1.md
+<<<<
+for a real place. For a dossier-bound map whose host supplies the optional realm block (item 77; §14), the port's realm
+fit sets the anchor's `bearingDeg` — the turn of model north that fits the derived gates to the partners' true
+bearings (§7.7 layer 2) — as the key's documented default; no geometry moves for it.
+====
+for a real place. For a dossier-bound map whose dossier carries its partners' true bearings (§7.7 layer 2's *Bearing*;
+item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those
+bearings, as the key's documented default; with none the default stands; no geometry moves for it.
+>>>>

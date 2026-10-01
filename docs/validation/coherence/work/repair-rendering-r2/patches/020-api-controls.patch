@@ -1,0 +1,62 @@
+# VDC1-15 and VAT-R1-01 (R2-21 (e)); VV910-r1-01, VRC1T-06 and R2-42's receiving end of VV910-r1-02 (stopAfter). §11.2.
+@@ FILE 11.2.md
+<<<<
+  | { wait: 'epoch'|'history'|'dossier'|'export'|'migrate'; done: number; of: number };   // a wait that is not a stage run: its own steps (epochs, replayed epochs, the port's steps, export bands, replayed events)
+====
+  | { wait: 'epoch'|'history'|'dossier'|'export'|'migrate'|'verify'|'undo'; done: number; of: number };   // a wait that is not a stage run: its own steps of their total (epochs, replayed epochs, the port's steps, export bands, a migration's replayed events, an open's load-verification replay's events, a grouped undo's or redo's events)
+>>>>
+<<<<
+    scratch?: boolean /* a scratch document, as `scratch` below (M3c; file f item 469) */ }): Promise<DocHandle>;
+====
+    scratch?: boolean /* a scratch document, as `scratch` below (M3c; file f item 469) */;
+    signal?: AbortSignal /* Stop (V09 §4.21.9): the run ends and the call rejects with an `AbortError`, no handle and no document made — a stopped history-first generation's app then shows `info.history.cancelled` (V06 §3.20.4) */ }): Promise<DocHandle>;
+>>>>
+<<<<
+    onProgress?: (p: Progress) => void /* the replay of load verification and a migration ('migrate') */ }): Promise<DocHandle>;             // .plat or CBOR twin; bytes transferred in
+  edit(h: DocHandle, e: EditEvent | EditEvent[], opts?: { filtered?: boolean; admitAs?: Admission }): Promise<ApplyResult>;   // an event may arrive with its `fates` filled (below); `filtered` and `admitAs`: *Knowledge*, below (file f items 470, 572)
+====
+    onProgress?: (p: Progress) => void /* a migration's replay ('migrate'), before the handle returns; the load verification's replay ('verify'), which runs after it, off the path (§2.9 step 3) */ }): Promise<DocHandle>;             // .plat or CBOR twin; bytes transferred in
+  edit(h: DocHandle, e: EditEvent | EditEvent[], opts?: { filtered?: boolean; admitAs?: Admission;
+    onProgress?: (p: Progress) => void /* 'undo': a group of `undo` or `redo` events, its events undone or redone of the total (V09 §4.21.9, §3.9) */ }): Promise<ApplyResult>;   // an event may arrive with its `fates` filled (below); `filtered` and `admitAs`: *Knowledge*, below (file f items 470, 572)
+>>>>
+<<<<
+type ConflictAction = { kind: 'moveTo'|'unlock'|'unassign'|'reroute'|'stale'|'invalid'; target?: Id; at?: PointCm; message: string /* the English default */; msg: MsgRef /* its own button's words (V09 §2.9) */ };
+====
+type ConflictAction = { kind: 'moveTo'|'unlock'|'unassign'|'stale'|'invalid' /* §7.1's returned kinds: a route is bent, never refused */; target?: Id; at?: PointCm; message: string /* the English default */; msg: MsgRef /* its own button's words (V09 §2.9) */ };
+>>>>
+<<<<
+  export(h: DocHandle, fmt: Format, opts?: ExportOpts & { onProgress?: (p: Progress) => void /* 'export': bands done of total */ }): Promise<ArrayBuffer>;              // transferred out
+====
+  export(h: DocHandle, fmt: Format, opts?: ExportOpts & { onProgress?: (p: Progress) => void /* 'export': bands done of total */;
+    signal?: AbortSignal /* Stop: the export ends and the call rejects with an `AbortError`, nothing written */ }): Promise<ArrayBuffer>;              // transferred out
+>>>>
+<<<<
+  advance(h: DocHandle, req: AdvanceRequest, opts?: { onProgress?: (p: Progress) => void /* wait 'epoch': epochs done of total */ }): Promise<ApplyResult>;   // refused on a dossier-bound document; V06 §4 (M6-E; file f item 458)
+====
+  advance(h: DocHandle, req: AdvanceRequest, opts?: { onProgress?: (p: Progress) => void /* wait 'epoch': epochs done of total */;
+    stopAfter?: number /* fold at most this many epochs, the last carrying `stoppedAt` as Stop leaves it (V06 §2.3, §4.1): a journalled stopped advance re-issued (V09 §3.8 (3)) */ }): Promise<ApplyResult>;
+    // V06 §4 (M6-E; file f item 458). On a dossier-bound document nothing runs and the call answers { status: 'conflict', outcome: { key: 'refuse.dossierClock' },
+    // actions: [] } — the host's clock owns its time (V06 §2.3; J-V6.2), a gate outside the dry run (§7.1's outcome table); the what-if copy is that catalogue row's button (V09 §4.9)
+>>>>
+<<<<
+| `generate` | in: the blueprint; out: the handle, progress events | copy | < 64 KB; < 1 KB per event |
+| `open` | in: the document bytes; out: the handle, progress events | transfer; events copied | the document's size; < 1 KB per event |
+====
+| `generate` | in: the blueprint (a `signal` stops it); out: the handle, progress events | copy | < 64 KB; < 1 KB per event |
+| `open` | in: the document bytes; out: the handle, progress events (`migrate`, then `verify`) | transfer; events copied | the document's size; < 1 KB per event |
+>>>>
+<<<<
+| `advance` | in: an `AdvanceRequest`; out: `ApplyResult`, progress per epoch (`Progress` `epoch`) | copy | < 64 KB; V06 §6's time |
+====
+| `advance` | in: an `AdvanceRequest`; out: `ApplyResult` — or the dossier-clock conflict on a dossier-bound document —, progress per epoch (`Progress` `epoch`) | copy | < 64 KB; V06 §6's time |
+>>>>
+<<<<
+| `export` | out: the file bytes, progress per band (`Progress` `export`) | transfer; events copied | the format's size; < 1 KB per event |
+====
+| `export` | out: the file bytes, progress per band (`Progress` `export`); a `signal` stops it | transfer; events copied | the format's size; < 1 KB per event |
+>>>>
+<<<<
+counts per fate, the resolved scope); `regenerate` and `adjust` progress events | copy | < 64 KB per batch; longer fate lists by `query({ kind: 'fates' })` pages; < 1 KB per event |
+====
+counts per fate, the resolved scope); `regenerate` and `adjust` progress events, and `edit`'s for a group of `undo` or `redo` events | copy | < 64 KB per batch; longer fate lists by `query({ kind: 'fates' })` pages; < 1 KB per event |
+>>>>
