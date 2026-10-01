@@ -1,0 +1,16 @@
+# §11.3 VRC3T-07: one slot for the lowering and the display names — `export.request`'s `opts` (§11.2's ExportOpts).
+# Sweep (R4-02 (a), (d)): the host's layer command sets a layer's visibility (what the view draws is §8.4's).
+@@ FILE 11.3.md
+<<<<
+  `export.request` becomes `export.request { fmt, opts, displayNames?, knowledge?: Admission, bundle?: true }` (§11.1's
+  *Knowledge*: `knowledge` lowers the requester's key for that export only; `displayNames` as §11.1's *Display names*);
+====
+  `export.request` becomes `export.request { fmt: Format, opts?: ExportOpts, bundle?: true }` — the requester's
+  `knowledge` (lowering its key for that export only, §11.1's *Knowledge*) and `displayNames` (§11.1's *Display names*)
+  being `opts`' members (§11.2) —;
+>>>>
+<<<<
+  `yearWeek` or `seasonFollow`), the layers shown (a `setLayer { layer, spec: { visible } }` sent by `doc.apply`, as a
+====
+  `yearWeek` or `seasonFollow`), a layer's visibility (a `setLayer { layer, spec: { visible } }` sent by `doc.apply`, as a
+>>>>

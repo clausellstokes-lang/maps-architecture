@@ -1,0 +1,16 @@
+# §11.1 VAL-R3-04: an underground building's entrance whose door its own decay level fells is an open gap, no portal
+# (V04 §5.6 (5)), as the per-storey clause has it. VRC3T-07's sweep: the bridge's request carries the lowering in its `opts`.
+@@ FILE 11.1.md
+<<<<
+  `portals` only at openings in a wall line — a door access, a door or breach link,
+  an underground building's entrances, each tunnel grille (closed when locked, bricked, gated or secret); every vertical
+====
+  `portals` only at openings in a wall line — a door access, a door or breach link,
+  an underground building's entrances whose door its own decay level leaves standing (a door past its threshold an open
+  gap, no portal; V04 §5.6 (5)), each tunnel grille (closed when locked, bricked, gated or secret); every vertical
+>>>>
+<<<<
+never above the caller's; the bridge's `export.request` carries the same field; an application passes the view's
+====
+never above the caller's; the bridge's `export.request` carries it in its `opts`, §11.3; an application passes the view's
+>>>>

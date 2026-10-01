@@ -1,0 +1,38 @@
+# §8.4 VAL-R3-01's END (R4-02 (b)): the view draws its working layer whatever its `LayerSpec.visible`; switching it writes
+# nothing. Sweep (R4-02 (d)): the underground's depth band, a layer's lights and casters and the sun's floor over the
+# islands read the layers the view draws.
+@@ FILE 8.4.md
+<<<<
+  toggle never creates what the settlement lacks (at TOWN the *Sewers* control is a model setting, II.7.1; whether
+  islands exist is the model setting `recipe.layers.islands`, II.6). The per-viewer view key
+====
+  toggle never creates what the settlement lacks (at TOWN the *Sewers* control is a model setting, II.7.1; whether
+  islands exist is the model setting `recipe.layers.islands`, II.6). The view's working layer (§2.9's per-viewer
+  `workingLayer`, V09 §4.2) is drawn in that view whatever its `LayerSpec.visible`, every other layer by its
+  `LayerSpec.visible`; switching the working layer — V09's view bar, Find's **Go there**, a clerk's `useTool` — sets view
+  keys only and never writes `LayerSpec`, so it sends no event and a viewer switches as an owner does (§11.3), and Find
+  changes no document, hash or log (item 120 (a)); a layer's own visibility changes only by its toggle (§7.8's layer
+  controls, T12 `dress`) or a host's layer command, each a logged `setLayer`. The per-viewer view key
+>>>>
+<<<<
+  layer is hidden by default at every rung; when shown, the cut-away or overlay draws one **depth band** at a time
+====
+  layer is hidden by default at every rung; when drawn — visible, or Below the view's working layer — the cut-away or
+  overlay draws one **depth band** at a time
+>>>>
+<<<<
+  lighting model's slab, below) and §8.2's `states` row lowers its alpha. A hidden layer's lights and casters are not
+  drawn and light nothing on the visible layers, yet they still exist (J-A12.81, J-A15.41).
+====
+  lighting model's slab, below) and §8.2's `states` row lowers its alpha. The lights and casters of a layer the view does
+  not draw — hidden and not its working layer — are not drawn and light nothing on the layers drawn, yet they still exist
+  (J-A12.81, J-A15.41).
+>>>>
+<<<<
+  G = V + s · u, height H = max(h₀ · D · s, 1.5 × the list's `surfaceTopCm` above the view's ground whenever the sky layer
+  is visible and the document holds an island that is not fallen, whatever is in view) (h₀ = `sun.heightRatio`; the
+====
+  G = V + s · u, height H = max(h₀ · D · s, 1.5 × the list's `surfaceTopCm` above the view's ground whenever the sky layer
+  is drawn — visible, or Sky the view's working layer — and the document holds an island that is not fallen, whatever is
+  in view) (h₀ = `sun.heightRatio`; the
+>>>>

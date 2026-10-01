@@ -1,0 +1,29 @@
+# §8.6 VV34-r3-02: the floor-area row picks the damaged form by the element's kind (V03 §5.6 (1)) — an `upperFloor` a
+# hole, a `groundFloor` a walkable rotten patch at ground level, under it, or a wing's first storey on a solid wing — and
+# the `ruined` sentence keeps a solid wing's first storey walkable. VAL-R3-06 (R4-04 (a), (b)): a building a disaster look
+# stands over (§10.2 (d)'s units; (f)'s hand-over), never "a district" at the village rungs.
+@@ FILE 8.6.md
+<<<<
+| floor area | on any storey above ground level, a hole: the area filled in `void` under a dense `ink` cross-hatch at α 0.4 (the drop), its edge a broken hairline, the storey below seen through it as `trace` hairlines; at ground level and under it, a rotten patch in `ground` stipple, still walkable |
+====
+| floor area | an `upperFloor` element (V03 §5.6 (1)): a hole: the area filled in `void` under a dense `ink` cross-hatch at α 0.4 (the drop), its edge a broken hairline, the storey below seen through it as `trace` hairlines; a `groundFloor` element — at ground level, under it, or a wing's first storey on a solid wing — a rotten patch in `ground` stipple, still walkable |
+>>>>
+<<<<
+fragments over the hole's cross-hatch — leaving the ground storey the only one that can be walked, cellars and crypts by their own
+====
+fragments over the hole's cross-hatch — leaving the ground storey — with a solid wing's first storey — the only one that can be walked, cellars and crypts by their own
+>>>>
+<<<<
+(`decayPeak` never reads a look; V03 §5.6 (2) (b)). Every room, wall, opening and id is the plan in force's (T123-1). A
+building of a district a disaster look ruins draws the same layer at its row's `lookLevel` by severity, or at its own
+level where that is higher, until the look leaves it (V06 §3.22 (3)'s `crisisLookYields`; a preview never hands over;
+§8.2's *Crisis looks*) — in the drawing only: a battle map's walls, portals and lights read its own level (§11.1;
+V03 §5.3). A building never decayed draws byte-identically to its plan without the layer (`item123.damage`; T123-7);
+====
+(`decayPeak` never reads a look; V03 §5.6 (2) (b)). Every room, wall, opening and id is the plan in force's (T123-1). A
+building a disaster look stands over (§10.2 (d)'s units; (f)'s hand-over: until V06 §3.22 (3)'s `crisisLookYields`
+turns true on it, a preview never handing over; §8.2's *Crisis looks*) draws the same layer at its row's `lookLevel` by
+severity, or at its own level where that is higher — in the drawing only: a battle map's walls, portals and lights read
+its own level (§11.1; V03 §5.3). A building never decayed draws byte-identically to its plan without the layer
+(`item123.damage`; T123-7);
+>>>>
