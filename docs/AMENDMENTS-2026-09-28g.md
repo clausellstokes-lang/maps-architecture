@@ -1012,6 +1012,11 @@ vetoable interpretation.
      113's history replay, an export, a migration — takes at most TEN SECONDS from the click to the complete result on the reference
      hardware (§12.1), at every size up to the metropolis cap; past it a wait is a failure. D-18's two misses stay declared as TARGET
      misses, now inside the comfort level (no longer a veto question).
+     **(a2) LONG RUNS OF TIME — owner's choice, 2026-10-01: "Total".** Asked whether advancing time and item 113's history replay
+     take the comfort level per visible step or in total, the owner chose TOTAL: an `advance` request and a history-first generation
+     each complete within ten seconds from the click to the complete result on the reference hardware, like every other one-time wait.
+     Where the epochs at the requested detail would not fit, the run COARSENS its cadence (fewer, longer epochs, as V06 §3.20.1 (3)
+     already coarsens the replay) until its estimate fits, the cadence chosen reported; progress is shown past one second.
      **(b) SLOWER ONLY FOR A MEASURED GAIN.** A step may run slower than its target only where it buys a measured gain (a calibration
      bar met or raised, §13, V12) and stays inside the comfort level, recorded as such (the step, its cost, its gain); nothing is made
      slower otherwise, and the build keeps pressing every path toward its target.

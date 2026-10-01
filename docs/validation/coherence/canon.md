@@ -5551,3 +5551,8 @@ items 111–118. §12's present laws stay the TARGETS; D-18's misses stay declar
 * **V06:** advance time and the history replay within the ceiling; **V07:** §6's village budgets; **V09:** the progress view
 * **V01, V02, V03, V04, V05:** their budget sections read the ceiling for one-time waits and keep their interactive budgets
 * **V12:** the bars and how each is measured
+
+### g item 119 (a2) — long runs of time: TOTAL (owner, 2026-10-01: "Total"; J132)
+* **V06:** `advance` and the history replay (with the peak's generation before it) each complete within the ten-second comfort level in total; an estimate over it coarsens the cadence (V06 §3.20.1 (3)'s coarsening, `replay.budgetMs` and `advance.maxEpochs` read against the comfort level), the cadence chosen reported; §0's sentence, §2.2's `replay.budgetMs`, §6.2's century bounds, §6.7 and J-V6.118 rewritten accordingly (VV56-07)
+* **V09:** the progress view shows the coarsened cadence; **rendering:** §12 lists advance and the replay among the one-time waits in total; **V12:** T-V12-50 times each in total
+
