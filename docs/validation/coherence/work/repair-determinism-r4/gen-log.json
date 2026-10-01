@@ -1,0 +1,198 @@
+{
+ "blocks": [
+  "### 5.1 Principles and the seven tiers (G-P7)",
+  "### 6.1 RNG and stream design",
+  "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+  "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+  "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+  "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+  "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+  "### 7.5 Migration and upgrade (G-P9)",
+  "### 7.6 The override layer and editable tables (G-P12; owner amendment 5)",
+  "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+ ],
+ "edits": [
+  {
+   "ids": [
+    "VDC3-08"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-08"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-01",
+    "VDC3-09"
+   ],
+   "lines_before": 15,
+   "lines_after": 18,
+   "subs": 3
+  },
+  {
+   "ids": [
+    "VDC3-02"
+   ],
+   "lines_before": 7,
+   "lines_after": 8,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-02"
+   ],
+   "lines_before": 1,
+   "lines_after": 2,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-01"
+   ],
+   "lines_before": 6,
+   "lines_after": 7,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VV1112-r3-04"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-05",
+    "END VEW-r3-01"
+   ],
+   "lines_before": 1,
+   "lines_after": 4,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-07",
+    "VM-R3T-09"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "END VM-R3T-06"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-08"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-08"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-08"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-08"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "END VEL3-r3-02"
+   ],
+   "lines_before": 2,
+   "lines_after": 3,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC3-04",
+    "VAH-r3-07"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 3
+  },
+  {
+   "ids": [
+    "VDC3-03"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  }
+ ],
+ "words": {
+  "### 5.1 ": [
+   1639,
+   1638
+  ],
+  "### 6.1 ": [
+   5158,
+   5237
+  ],
+  "### 6.3 ": [
+   4751,
+   4787
+  ],
+  "### 6.5 ": [
+   2060,
+   2100
+  ],
+  "### 7.1 ": [
+   12864,
+   13106
+  ],
+  "### 7.3 ": [
+   7502,
+   7562
+  ],
+  "### 7.4 ": [
+   10606,
+   10620
+  ],
+  "### 7.5 ": [
+   2206,
+   2205
+  ],
+  "### 7.6 ": [
+   2480,
+   2478
+  ],
+  "### 7.7 ": [
+   14643,
+   14716
+  ]
+ }
+}

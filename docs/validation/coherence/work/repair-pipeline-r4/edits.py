@@ -15,14 +15,16 @@ E(H43, """no relaxation reaches takes F-ROUTE's last rung (`unserved`, reported)
 epoch 0""",
 """no relaxation reaches takes F-ROUTE's last rung (`unserved`, reported). A standing
 raised way's support rings, ramps, stairs and feet (`RaisedWayRecord.feet`) and the under-deck strips of its `vault`
-spans are impassable to every route and growth proposal on ground part 0 once generation has ended (the raised way
-held, §2.7's support step (6) (b); at generation the support step's last run, *The slot* below, slides its supports off
-the ways the later stages laid instead, (6) (a)). The rest of its under-deck strip (§4.6) is crossed
-only under an `open` span whose clear width is at least the way's width + `raisedWays.structure.clearWidthM` and whose
-soffit meets §2.7's *The clearance* for the crossed way, within ± `raisedWays.structure.squareDeg` of square to the deck
-(V11 §3.24.2), never along the strip: the route's crossing shifts along the strip to the nearest such span, else the
-route takes another course by F-ROUTE's ladder (§5.2) — the one rule S5c's proposals (§4.4) and stage 2's ways (V01
-§3.17.3 (3)) keep. At
+spans are impassable to every route and growth proposal on ground part 0 once generation has ended, and at generation
+where the raised way is locked or pinned (held, §2.7's support step (6) (b)); elsewhere its under-deck strip (§4.6) is
+crossed only under an `open` span whose clear width is at least the way's width + `raisedWays.structure.clearWidthM` and
+whose soffit meets §2.7's *The clearance* for the crossed way, within ± `raisedWays.structure.squareDeg` of square to
+the deck (V11 §3.24.2), never along the strip. At generation, before the span rule has run, a later stage's way keeps
+off an unlocked raised way's ramps, stairs and feet and crosses its strip only where the deck's soffit meets *The
+clearance* for it, never along the strip, and the support step's last run (*The slot*, below) slides the supports off
+it ((6) (a)). A route's crossing shifts along the
+strip to the nearest crossing these admit, else the route takes another course by F-ROUTE's ladder (§5.2) — the one
+rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep. At
 epoch 0""", 'VEW-r3-01')
 
 # The slot: the support step's last run at generation (END of VEW-r3-02, R4-09).
@@ -38,20 +40,22 @@ E(H44, """treats the moat as water. The carve clears no raised-way support: §2.
 commit; a stage gate""",
 """treats the moat as water. The carve clears no raised-way support: §2.7's support step (6) (a) re-sites one first in the
 same commit, and where a crossing's spans or piers cannot keep their bounds, or the berm or channel would meet a ramp, a
-stair or a foot, the berm and channel stop at the under-deck strip's edges, reported (`W_RAISED_CROSSING`); at an epoch,
-across a standing raised way, the trace passes through its station on the deck at its level nearest where it would
+stair or a foot, the berm and channel stop at the under-deck strip's edges, reported (`W_RAISED_CROSSING`); after
+generation, or across a locked or pinned raised way, the trace passes through its station on the deck at its level nearest where it would
 cross, and the berm and channel pass under the deck only where the span is `open` and no other support, ramp, stair or
-foot stands in them, else stop alike (§2.7's support step (6) (b)); a stage gate""", 'VM-R3T-04', 'sweep')
+foot stands in them, else stop alike (§2.7's support step (6) (b));
+a stage gate""", 'VM-R3T-04', 'sweep')
 
 # S5c's legality: a proposal meets a standing raised way's strip as a reservation, crossing only under a qualifying
 # open span (VEW-r3-01 per R4-09).
 E(H44, """a proposal meeting a
   shore or a reservation at ≥ 30° ends there (a street arriving at the quay). A wall is never crossed""",
 """a proposal meeting a
-  shore or a reservation at ≥ 30° ends there (a street arriving at the quay). After generation a standing raised way is
-  crossed only as §4.3 *Lattice and costs* states: a proposal meeting its supports, ramps, stairs, feet or a `vault` span's strip, or
-  meeting its under-deck strip anywhere but under an `open` span that holds it, is deflected along the strip to the
-  nearest such span, or ends at the strip as at a reservation. A wall is never crossed""", 'VEW-r3-01')
+  shore or a reservation at ≥ 30° ends there (a street arriving at the quay). A standing raised way is crossed only as
+  §4.3 *Lattice and costs* states: a proposal meeting what that rule makes impassable (its supports, ramps, stairs, feet
+  or a `vault` span's strip where it is held; else, at generation, its ramps, stairs and feet), or meeting its under-deck strip
+  anywhere else than where that rule admits a crossing, is deflected along the strip to the nearest crossing it admits,
+  or ends at the strip as at a reservation. A wall is never crossed""", 'VEW-r3-01')
 
 # ───────────────────────────── §4.8 ─────────────────────────────
 # The lead: the support step's last run at generation (END of VEW-r3-02, R4-09).
@@ -87,7 +91,8 @@ E(H48, """part-0 way beneath, if any, taking its own ground gate by the gate law
 E(H411, """§10.2 — prefix-stable, so no
 survivor's use is withdrawn by arithmetic)""",
 """§10.2 — prefix-stable, read over
-the households the town holds where a fall held one (V06 §3.5.1 (1)) — so no survivor's use is withdrawn by arithmetic)""",
+the households the town holds where a fall held one (V06 §3.5.1 (1)) — so no
+survivor's use is withdrawn by arithmetic)""",
   'VEL3-r3-01 (END)')
 
 # The carve and a raised way's support (END of R4-09's sweep).
@@ -113,10 +118,11 @@ E(H411, """   dossier event still at its own week; a calamity then riding the co
 """, 'VAT3-r3-01')
 
 # The rung at an epoch: part 0's two L0 batches and the raised parts' re-derivation (VKr3-01).
-E(H411, """an L0 batch replacing the `margin` chain, an
+E(H411, """, an L0 batch replacing the `margin` chain, an
 L1 batch replacing the `border` chain""",
-"""an L0 batch replacing the `margin` chain (on part 0 two, a raised way's ring-end foot moved between
-them, §3.2 (9)), an L1 batch replacing the `border` chain""", 'VKr3-01')
+""",
+an L0 batch replacing the `margin` chain (on part 0 two, a raised way's ring-end foot moved between them, §3.2 (9)), an
+L1 batch replacing the `border` chain""", 'VKr3-01')
 E(H411, """`corridorUnion` (§3.7), which draws nothing); every face outside the region""",
 """`corridorUnion` (§3.7), which draws nothing; on each raised part of the ground layer §3.2 (9) grows, its raised way's
 re-derivation (§3.4) for that part's cleared faces, which also extends a deck ending on the old ring to the new ring and
@@ -142,11 +148,12 @@ E(H413, """never out over the sea (its ends are ground vertices); a moat spanned
 # Crisis looks' lead: the hand-over before V06's E2 (VPC-R3-02 per R4-04 (d)).
 E(H102, """by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); at the
   village rungs""",
-"""by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); until V06's E2 (M6-E) a building leaves the
-  `disaster` look by the yield read directly over the base's records (`Building.works`, §2.6; the lifecycle's weeks
-  once a record retires, §4.11 *Works* (9)) — V06 §3.22 (3)'s rule: a Works other than a `decay` Works begun on it by
-  the view's week and not finished before the overlay's `sinceWeek`, never for a preview — so §8.2's `ruinTone`, the
-  buildings' damage and V09's rows read one answer from the look's first milestone; at the
+"""by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer);
+  until V06's E2 (M6-E) a building leaves the `disaster` look by the yield read directly over the base's records
+  (`Building.works`, §2.6; the lifecycle's weeks once a record retires, §4.11 *Works* (9)) — V06 §3.22 (3)'s rule: a
+  Works other than a `decay` Works begun on it by the view's week and not finished before the overlay's `sinceWeek`,
+  never for a preview — so §8.2's `ruinTone`, the buildings' damage and V09's rows read one answer from the look's
+  first milestone; at the
   village rungs""", 'VPC-R3-02')
 
 # (c): the neighbourhoods place's count (VV1112-r3-02 per R4-13).
@@ -154,7 +161,8 @@ E(H102, """V01 §3.16 (5)'s count, one rule for every place at
   every rung. **By headcount**""",
 """V01 §3.16 (5)'s count, one rule for every place at
   every rung; the `neighbourhoods` place then draws at least every matched target (max(k, |`matched`|), k that count)
-  and, by fire, stops where its order ends, the shortfall reported (V01 §3.16 (5)). **By headcount**""", 'VV1112-r3-02')
+  and, by fire, stops where its order ends, the shortfall reported (V01 §3.16 (5)).
+  **By headcount**""", 'VV1112-r3-02')
 
 # (d): a barrier across a way (VPC-R3-03 per R4-06; closes VAL-R3-07).
 E(H102, """and on a way's carriageway only a
@@ -173,7 +181,8 @@ E(H102, """leaving the settlement (V01 §3.16 (2)), one camp per road""",
 E(H102, """else its camped ground ÷ `areaPerHeadM2`): where the next
     growth would seat""",
 """else its camped ground ÷ `areaPerHeadM2`), at least 1, so a
-    camp smaller than one household is seated where the next household would be: where the next growth would seat""",
+    camp smaller than one household is seated where the next household would be:
+    where the next growth would seat""",
   'VV56-r3-03')
 
 # (d) `neighbourhoods`: the look's units and the buildings it stands over (VV12-r3-05 per R4-04; closes VAL-R3-08).
@@ -188,8 +197,9 @@ E(H102, """at THORP, HAMLET and VILLAGE V07's
 
 # (f) `quarantine`: the cordon closing the quarter (VPC-R3-03 per R4-06).
 E(H102, """marked doors and a cordon in the `affectedQuarter`.""",
-"""marked doors and a cordon closing the `affectedQuarter` — along its boundary on the quarter's side of each bounding way's
-  corridor, across each way that enters it.""", 'VPC-R3-03')
+"""marked doors and a cordon closing the
+  `affectedQuarter` — along its boundary on the quarter's side of each bounding way's corridor, across each way that
+  enters it.""", 'VPC-R3-03')
 
 # (f) `disaster`: the base's statement of "a building a disaster look stands over" (sweep, R4-04 (b)).
 E(H102, """`disaster`: (d)'s
@@ -211,4 +221,5 @@ E(H102, """(model §2.9; the limit's stop 0 where nothing fits,""",
 E(H102, """a headcount of 0 or
   none: (c);""",
 """a headcount of 0 or
-  none: (c); a camp smaller than one household: by the gate, `approachByGate`'s `h` at least 1 ((d));""", 'VV56-r3-03')
+  none: (c); a camp smaller than one household: by the gate, `approachByGate`'s `h` at least 1
+  ((d));""", 'VV56-r3-03')

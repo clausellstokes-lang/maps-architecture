@@ -2812,3 +2812,11 @@
 2026-10-01 14:32 coherence/repair-V06-r4 CHECKPOINT P0 done (brief, adjudication-r4 rulings R4-01/03/07/09/16, Part H V06 read); next: read live V06 sections and issue sources
 2026-10-01 14:33 coherence/repair-scope-r4 LANDED docs/validation/coherence/repair-r4-scope.md docs/validation/coherence/results/coherence_repair-scope-r4.json (opus seat, PENDING FABLE REVIEW; 6 REPLACE blocks — §0.2, §13.1, §13.2, §13.8, §14, §16; 13 FIX, 4 END lines; 0 ruling requests; apply 6/6 audit 0, refs BROKEN 0, doc_checks provisional with 1 proposed C3 allow row; +770 words)
 2026-10-01 14:33 coherence/orchestrator NOTE repair-scope-r4 landed (6 blocks, 0 ruling requests); launched repair-V10-r4 in its slot (queue: V11 V12 V03 V04 V02 V01 V05 kernel)
+2026-10-01 14:34 coherence/repair-V10-r4 CHECKPOINT P0 done (brief, adjudication-r4 R4-01..R4-05, Part H V10 read); next: issue sources and live V10 units
+2026-10-01 14:35 coherence/repair-V08-r4 CHECKPOINT P2 done: 17 REPLACE blocks written to repair-r4-V08.md, dry run 17/17 OK; next: id/table/refs/doc checks and header
+2026-10-01 14:35 coherence/repair-pipeline-r4 CHECKPOINT blocks final candidate (8 blocks: 7 REPLACE + RATIONALE-A); dry run 8/8, audit 0, doc_checks exit 0 (provisional), refs 0 broken, scans 0; next: final read, header, result, LANDED
+2026-10-01 14:36 coherence/repair-determinism-r4 CHECKPOINT P1 done (sources and live §5.1, §6.1, §6.3, §6.5, §7.1, §7.3–§7.7 read whole; agreement with landed model/V09/scope/V08 r4 checked); next: count-asserted edits in work/repair-determinism-r4/
+2026-10-01 14:37 coherence/repair-V07-r4 CHECKPOINT P1 done (sources, V07 §4.5, §5.6, ## 1b, ## 7, base §10.2 (d) read); next: build blocks on a copy
+2026-10-01 14:40 coherence/repair-V07-r4 CHECKPOINT P2-P3 done (4 REPLACE blocks, dry run identical); next: save result, LANDED
+2026-10-01 14:40 coherence/repair-V07-r4 LANDED docs/validation/coherence/repair-r4-V07.md docs/validation/coherence/results/coherence_repair-V07-r4.json
+2026-10-01 14:40 coherence/orchestrator NOTE repair-V07-r4 landed (4 blocks, 0 ruling requests); launched repair-V11-r4 in its slot (queue: V12 V03 V04 V02 V01 V05 kernel)

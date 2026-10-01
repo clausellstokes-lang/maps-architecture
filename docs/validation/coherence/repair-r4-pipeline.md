@@ -256,14 +256,16 @@ way's end ramps and by §7.3 (a) 5's steepness report; the field `T` reads no li
 rung (§5.2) relaxes a route's limit to the next class's in the order `through`, `primary`, `track`, `path`; a destination
 no relaxation reaches takes F-ROUTE's last rung (`unserved`, reported). A standing
 raised way's support rings, ramps, stairs and feet (`RaisedWayRecord.feet`) and the under-deck strips of its `vault`
-spans are impassable to every route and growth proposal on ground part 0 once generation has ended (the raised way
-held, §2.7's support step (6) (b); at generation the support step's last run, *The slot* below, slides its supports off
-the ways the later stages laid instead, (6) (a)). The rest of its under-deck strip (§4.6) is crossed
-only under an `open` span whose clear width is at least the way's width + `raisedWays.structure.clearWidthM` and whose
-soffit meets §2.7's *The clearance* for the crossed way, within ± `raisedWays.structure.squareDeg` of square to the deck
-(V11 §3.24.2), never along the strip: the route's crossing shifts along the strip to the nearest such span, else the
-route takes another course by F-ROUTE's ladder (§5.2) — the one rule S5c's proposals (§4.4) and stage 2's ways (V01
-§3.17.3 (3)) keep. At
+spans are impassable to every route and growth proposal on ground part 0 once generation has ended, and at generation
+where the raised way is locked or pinned (held, §2.7's support step (6) (b)); elsewhere its under-deck strip (§4.6) is
+crossed only under an `open` span whose clear width is at least the way's width + `raisedWays.structure.clearWidthM` and
+whose soffit meets §2.7's *The clearance* for the crossed way, within ± `raisedWays.structure.squareDeg` of square to
+the deck (V11 §3.24.2), never along the strip. At generation, before the span rule has run, a later stage's way keeps
+off an unlocked raised way's ramps, stairs and feet and crosses its strip only where the deck's soffit meets *The
+clearance* for it, never along the strip, and the support step's last run (*The slot*, below) slides the supports off
+it ((6) (a)). A route's crossing shifts along the
+strip to the nearest crossing these admit, else the route takes another course by F-ROUTE's ladder (§5.2) — the one
+rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep. At
 epoch 0 S3's plaza-rooted Dijkstra tree gives every plaza-anchored route; a tree path that crosses a claim or water S3
 added after the tree (the castle bailey, a moat) is re-solved by heap A\*, as are routes without a plaza end and every
 route at epoch > 0 (with `existingFabricCost`). At village rungs the village product's VS4 replaces S4 and calls this
@@ -509,10 +511,11 @@ stretch a dry `ditch` (§4.7 S10 (0)) whose arterials take no deck) through thos
 perpendicular to the channel and continuing its gate's passage across. S7 builds the bridge furniture (§4.8) and S5c
 treats the moat as water. The carve clears no raised-way support: §2.7's support step (6) (a) re-sites one first in the
 same commit, and where a crossing's spans or piers cannot keep their bounds, or the berm or channel would meet a ramp, a
-stair or a foot, the berm and channel stop at the under-deck strip's edges, reported (`W_RAISED_CROSSING`); at an epoch,
-across a standing raised way, the trace passes through its station on the deck at its level nearest where it would
+stair or a foot, the berm and channel stop at the under-deck strip's edges, reported (`W_RAISED_CROSSING`); after
+generation, or across a locked or pinned raised way, the trace passes through its station on the deck at its level nearest where it would
 cross, and the berm and channel pass under the deck only where the span is `open` and no other support, ramp, stair or
-foot stands in them, else stop alike (§2.7's support step (6) (b)); a stage gate on a raised arterial is a raised gate whose tower carries the deck, the deck itself crossing the
+foot stands in them, else stop alike (§2.7's support step (6) (b));
+a stage gate on a raised arterial is a raised gate whose tower carries the deck, the deck itself crossing the
 channel (no part-0 deck added for it), the part-0 way beneath taking its own ground gate (S7 lays both, §4.8 *Gates*).
 Nothing finer than L1 exists yet, so the carve's footprint clears nothing else. The innermost
 enceinte's moat is S3's (§4.2 S3 (10)).
@@ -561,10 +564,11 @@ arterial junction or gate plaza) grows nothing, and S5d prices its land as it st
   regime's separation, and the same clearance applies to shores, wall setback bands, reservations and the stage boundary:
   a proposal running within `max(minimum block depth of the regime, separation / 2) + half its corridor` of any of them
   and within 30° of parallel is deflected or rejected, so no strip thinner than a plot depth is left; a proposal meeting a
-  shore or a reservation at ≥ 30° ends there (a street arriving at the quay). After generation a standing raised way is
-  crossed only as §4.3 *Lattice and costs* states: a proposal meeting its supports, ramps, stairs, feet or a `vault` span's strip, or
-  meeting its under-deck strip anywhere but under an `open` span that holds it, is deflected along the strip to the
-  nearest such span, or ends at the strip as at a reservation. A wall is never crossed except at a gate: a
+  shore or a reservation at ≥ 30° ends there (a street arriving at the quay). A standing raised way is crossed only as
+  §4.3 *Lattice and costs* states: a proposal meeting what that rule makes impassable (its supports, ramps, stairs, feet
+  or a `vault` span's strip where it is held; else, at generation, its ramps, stairs and feet), or meeting its under-deck strip
+  anywhere else than where that rule admits a crossing, is deflected along the strip to the nearest crossing it admits,
+  or ends at the strip as at a reservation. A wall is never crossed except at a gate: a
   proposal reaching the setback band stops there. Snap to a junction within `0.35 · step`. **Crossings follow the preset's
   crossing matrix** (proposal class × crossed class → stop in a T, cross with a materialised crossroads, or deflect):
   organic crosses only a lower-or-equal class collinear within 6° (the rare crossroads, O4 b); `ringed` crosses radials
@@ -688,7 +692,7 @@ furniture, at
 generation as at an epoch, in the form V06 §3.7.6 (5) gives it: for an aqueduct a **wall opening** — an arch in the curtain under the
 deck, no gate (no portal, no gate law); for a viaduct or an elevated road a **raised gate** at deck level — a gate whose
 tower carries the deck, its portal on the raised part only, the raised arterial's crossing of the trace (S5b) — the
-part-0 way beneath, if any, taking its own ground gate by the gate law (§4.2 S3 (4); §4.4 *Outer moats*). The F-WALL ladder's last
+part-0 way beneath, if any, taking its own ground gate (§4.4 *Outer moats*) by §4.2 S3 (4)'s gate law. The F-WALL ladder's last
 rung is §5.2's.
 
 **Towers** — a row per enceinte kind and rung: at every trace vertex whose turn exceeds a threshold and along straight runs
@@ -775,7 +779,8 @@ records every cut, never a silent overwrite.
 **The one built path: add a growth stage (GEO-27, LC-12, FTG-4, FTG-14).** `grow(doc, epochInputs)` appends an `epoch`
 event to the log and runs at that log position (§7.1, §7.4) on the persisted model with the epoch sub-stream: S2 (**delta
 demand** = the suffix of the sequential roster between the old and the new population, §10.2 — prefix-stable, read over
-the households the town holds where a fall held one (V06 §3.5.1 (1)) — so no survivor's use is withdrawn by arithmetic) → S5 for the new stage, when a residual remains after the regrowth-first order
+the households the town holds where a fall held one (V06 §3.5.1 (1)) — so no
+survivor's use is withdrawn by arithmetic) → S5 for the new stage, when a residual remains after the regrowth-first order
 below (S5a: the boundary grown from the previous one and, if walled, its trace and gates; **S5b**, the main-road step, so
 each epoch can add main roads; S5c with the built-face legality below; S5d) → S6 (districts extend over the new faces,
 existing districts keep their ids; the field's drivers are re-evaluated with the new circumstances, the brush strokes kept
@@ -1284,8 +1289,9 @@ crossing upward whose town the frame no longer holds grows the frame to the one 
 terrain, water and the hinterland's ground on the ring between the old margin and its successor — the same terrain field
 continued, each water body continued across the old margin with its inner reaches fixed — and the kernel grows the frame by
 §3.2 (9)'s single-level batches over one clear region (J-A81.31) — an L1 batch clearing the finer content of the whole L1
-faces beside a lapsing stretch of the old chains or under the new rectangle, an L0 batch replacing the `margin` chain (on part 0 two, a raised way's ring-end foot moved between
-them, §3.2 (9)), an L1 batch replacing the `border` chain — each raster growing by whole cells as §3.2 (9) states, every stored height unchanged
+faces beside a lapsing stretch of the old chains or under the new rectangle,
+an L0 batch replacing the `margin` chain (on part 0 two, a raised way's ring-end foot moved between them, §3.2 (9)), an
+L1 batch replacing the `border` chain — each raster growing by whole cells as §3.2 (9) states, every stored height unchanged
 and the flow fields recomputed over the grown grid. The pipeline then continues on that region and the ring: S4 continues
 every through-road from its old end to the new margin, S12a sites the hinterland on the ring; the stages that own the
 cleared faces re-derive them (the hinterland unit for the hinterland's, a district's S8–S12b for a district's; on each
@@ -2183,11 +2189,12 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   decoration engine, the `map` rows with the port at M-SF (§16); before them the `map` set is empty and every condition
   reads `none`. Until V01's W10 (M5) the `disaster` look draws no district (its legend line and Find's listing stand) and
   `affectedQuarter` is the district with the most households per hectare; until V06's E2 (M6-E) `approachByGate` ranks
-  the main approach road's `campLand` faces by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); until V06's E2 (M6-E) a building leaves the
-  `disaster` look by V06 §3.22 (3)'s rule read directly over the base's records — a Works other than a `decay` Works
-  begun on it by the view's week and not finished before the overlay's `sinceWeek` (`Building.works`, §2.6; the
-  lifecycle's weeks once a record retires, §4.11 *Works* (9)), never for a preview — so §8.2's `ruinTone`, the
-  buildings' damage and V09's rows read one answer from the look's first milestone; at the
+  the main approach road's `campLand` faces by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer);
+  until V06's E2 (M6-E) a building leaves the `disaster` look by the yield read directly over the base's records
+  (`Building.works`, §2.6; the lifecycle's weeks once a record retires, §4.11 *Works* (9)) — V06 §3.22 (3)'s rule: a
+  Works other than a `decay` Works begun on it by the view's week and not finished before the overlay's `sinceWeek`,
+  never for a preview — so §8.2's `ruinTone`, the buildings' damage and V09's rows read one answer from the look's
+  first milestone; at the
   village rungs before V07's step the village draws no disaster unit — a part whose subject is not yet built draws
   nothing (§16).
   (a) **A look only.** The table is read by §7.7's DR44, §8.2's crisis look rows, §11's picture exports (a battle map's
@@ -2209,7 +2216,8 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   `outside`, `gatesAndKeep`'s camp), else the share of its place's units ((d)) — a share s of a place's n units takes
   round(s × n) clamped to [1, n] where s > 0 and none where s ≤ 0, V01 §3.16 (5)'s count, one rule for every place at
   every rung; the `neighbourhoods` place then draws at least every matched target (max(k, |`matched`|), k that count)
-  and, by fire, stops where its order ends, the shortfall reported (V01 §3.16 (5)). **By headcount** (item 122 (h)): where the dossier gives a force's or a group's size (V08's fields, in
+  and, by fire, stops where its order ends, the shortfall reported (V01 §3.16 (5)).
+  **By headcount** (item 122 (h)): where the dossier gives a force's or a group's size (V08's fields, in
   development, confirmed by item 125 (d)), its camp is sized by it, never by severity — each army its own camp of
   `areaPerHeadM2` × its heads, a travelling group's (migrants, pilgrims, a caravan) at the same rate, so two armies
   joined make twice the camped ground; where it gives none, the condition's or calamity's own count (`exodus`, arrivals)
@@ -2246,7 +2254,8 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   * `approachByGate` — the `campLand` faces along the main approach road by its gate, nearest V06's
     `frontierFor(doc, h)`, `h` the households the sequential roster adds between the present population and that
     population plus the camp's heads (its headcount by (c), else its camped ground ÷ `areaPerHeadM2`), at least 1, so a
-    camp smaller than one household is seated where the next household would be: where the next growth would seat the camp's people (V06 §3.22 (2)); with no main approach road, nearest `frontierFor`'s answer, else
+    camp smaller than one household is seated where the next household would be:
+    where the next growth would seat the camp's people (V06 §3.22 (2)); with no main approach road, nearest `frontierFor`'s answer, else
     nearest the reference point;
   * `outside` — the `campLand` faces furthest from the main approach road (with none, from the reference point), beyond
     the outermost standing town enceinte's outer strip or, unwalled, the built edge;
@@ -2280,8 +2289,9 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   armies each pitch their own camp in their own colours (§8.2), spread round the town at bearings evenly spaced from a
   keyed start, so the larger the coalition the fuller the ring; a `siege` of a place with no standing town enceinte
   draws the `blockade` row. `quarantine`: a fenced camp with huts, a pest-house, fresh grave rows and smoke at its
-  place, and inside, at the neighbourhood band, marked doors and a cordon closing the `affectedQuarter` — along its boundary on the quarter's side of each bounding way's
-  corridor, across each way that enters it. `famine`: its fields
+  place, and inside, at the neighbourhood band, marked doors and a cordon closing the
+  `affectedQuarter` — along its boundary on the quarter's side of each bounding way's corridor, across each way that
+  enters it. `famine`: its fields
   bare, over item 117's crop stage (§8.2), empty pens and the principal market's stalls shuttered. `disaster`: (d)'s
   `neighbourhoods`; the look **stands over** a building of one of its units until V06 §3.22 (3)'s `crisisLookYields`
   turns true on it — a Works other than a `decay` Works begun on it by the view's week, unless finished before the
@@ -2299,7 +2309,8 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   enceinte (a mesa whose every arc is a closure feature and an unwalled town with a castle among them): the `blockade`
   row by `approachRoads`' rule, no engines; a place no way leaves: every camp measured from the reference point ((d));
   THORP to the METROPOLIS cap: each rung's `scale` cell, and no siege line at THORP and HAMLET; a headcount of 0 or
-  none: (c); a camp smaller than one household: by the gate, `approachByGate`'s `h` at least 1 ((d)); an unmapped source: (b); a condition whose `untilWeek` is not after its `sinceWeek`: never stands; no
+  none: (c); a camp smaller than one household: by the gate, `approachByGate`'s `h` at least 1
+  ((d)); an unmapped source: (b); a condition whose `untilWeek` is not after its `sinceWeek`: never stands; no
   condition and no preview: every tile byte-identical to the base (`item122.crises`).
   (i) **Bars**: §13.2's T122-1 – T122-7 and V12's item-122 (h)–(i) measurements.
 * **Rows at their limits (EP-18).** V11's compiler checks every row set before a model reads it (V11 §3.1, T-V11 bars): a
