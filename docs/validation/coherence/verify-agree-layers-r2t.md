@@ -97,8 +97,8 @@ words are scope's statements that no phone view exists, l. 94, 265, 313, 18210, 
 
 ## Agreement confirmed in the repaired text (no issue)
 
-* The access pass's slot: one signature at II.7.6, cited by name and parameters in V04 §1b.2, §3.5.7, §3.10, V06 §2.1's
-  table, W3 and §3.2 (order 20); `UnderOpeningRow` the one name for V04's row everywhere.
+* The access pass's slot: one signature at II.7.6, cited by name and parameters in V04 §1b.2, §3.5.7 and §3.10 and in
+  V06 l. 227, 1028 and 2485 (`under.access`, order 20); `UnderOpeningRow` the one name for V04's row everywhere.
 * The outfalls per bank and the moat's level: II.7.2 cites V04 §3.2 N2–N3 (J-V4.129); V04 N7 (1) and T-V4-2 read the moat's
   derived level of §4.2 S3 (10), as §2.6's water table does (R2-25 (a)).
 * The mining flag: one test at S1 (10); §2.3, V04, V07 and V11 read `Terrain.mining`, the cell named once at V11.
@@ -260,7 +260,8 @@ line, since the cells are camped-ground areas. So the base and V07 draw a hamlet
 3. (f)'s `siege` reads "at VILLAGE and above, a line of trenches and earthworks round the walled arcs at it — none at
    THORP and HAMLET, item 122 (c)'s war band's camp (V07 §5.6 (1))".
 4. (h) adds "and no siege line at THORP and HAMLET".
-5. §8.2's siege row adds "(at VILLAGE and above, §10.2 (f))" after "the siege line".
+
+§8.2's siege row draws the line where §10.2 (d)–(f) place it, so it needs no change.
 
 ### VAL-R2-07 — major — DISAGREE — owner rendering
 
