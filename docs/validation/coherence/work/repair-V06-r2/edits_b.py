@@ -84,16 +84,17 @@ decayPeak(doc: DocView, lineage: Id, week: number): number    // the highest dec
    and thatch faster than stone. Years only add and the ladder only climbs, so the level never falls while the run lasts
    (item 123 (b)). A run that begins before a restoration has finished starts from the level that restoration left: its
    level is the larger of the formula and that level. Outside a run, a standing building's level is 0.
-3. **Restoration.** A restoring event — `reoccupy` from vacant or derelict, a repair, a reuse — lowers the level. Shown
-   by a `repair` Works (§4.11 *Works* (5)), the level from that Works' start week `S` is `L × (1 − f(w))`, `L` the level
-   at the week before `S` and `f` the Works' working-week fraction (§4.11 *Works* (2)), 0 at FINISHED; with no Works (an
-   undated hand edit, the parity presets, `works.enabled` false) it is 0 from the event's effective week. As the level
-   falls past each threshold that element leaves the damage, so the damage leaves in reverse threshold order, the highest
-   first. `decayPeak` keeps the highest level since the plan was built: an element whose threshold lies above the present
-   level and at or below the peak is drawn repaired, in patch material (item 114's patchwork; V03's drawing), until the
-   plan itself changes — a `rebuild`, a demolition, or a successor raised on the trace (§6.3: its own lineage and plan,
-   level and peak 0). A trace worked as a garden, orchard or field (`reused`) and a `cleared` or demolished building have
-   no plan to damage, and no reader asks their level.
+3. **Restoration** (item 123 (b): `reused`, a repair). A `reoccupy` from vacant or derelict (V06 §3.8.2 (1)–(2)) or a
+   hand repair lowers the level, shown by the `repair` Works it starts (§4.11 *Works* (4)–(5)): from that Works' start
+   week `S` the level is `L × (1 − f(w))`, `L` the level at the week before `S` and `f` the Works' working-week fraction
+   (§4.11 *Works* (2)), 0 at FINISHED; with no Works (an undated hand edit, the parity presets, `works.enabled` false) it
+   is 0 from the event's effective week. As the level falls past each threshold that element leaves the damage, so the
+   damage leaves in reverse threshold order, the highest first. `decayPeak` keeps the highest level since the plan was
+   built: an element whose threshold lies above the present level and at or below the peak is drawn repaired, in patch
+   material (item 114's patchwork; V03's drawing), until the plan itself changes — a `rebuild`, a demolition, or a
+   successor raised on the trace (§6.3: its own lineage and plan, level and peak 0). `reused` — the trace worked as a
+   garden, orchard or field (§2.6) — like `cleared` and a demolition leaves no plan to damage: its level and peak read 0
+   from the event's effective week, and its damage leaves with the building.
 4. **No decay run in the log.** A building generated `abandoned`, `decayed` or `ruined`, or first met so in item 113's
    replay, reads its state at V11's default age `D`: (2) with `w − A = 52 × D`, its plan the one it had when built, then
    that damage (item 123 (a); V03). Every reader reads every building so until this volume's E2 lands (M6-E): the
@@ -157,7 +158,7 @@ def apply(sub, after_line):
         "     carrying the deck, its pier the wall's band (§2.7's support step (3)) — its run left as it stands, drawn by its\n"
         "     `condition`, and takes it, by the same draw, from the first epoch after that raised way is removed or its crossing\n"
         "     span `dismantled` — after `wallToWay` as after `absorbWall`, the fortification loop keeping the record while such a\n"
-        "     stretch stands (J-V6.114).")
+        "     stretch stands (J-V6.114; J-V6.140).")
     sub('VAT1-05 R2-20 R2-27 (e) §3.7.7 (3) oldest patch first by week',
         "oldest patch first (by the run's last-change epoch, ties in chain order),",
         "oldest patch first (by the week of the run's last-change epoch — `EpochRecord.week` of its `conditionEpoch`, generation's\n"

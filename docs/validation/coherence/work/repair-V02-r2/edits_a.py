@@ -33,11 +33,12 @@ def build(text):
         "the cell-wise interpolation of modest and prosperous at its band centre (V11 §3.6.1's derivation, one band-anchoring\n"
         "rule for every template-like table). Continuous cells interpolate along the value; a discrete cell takes the richer\n"
         "anchor's value from the band's upper half (J-A19.43's switch at the cut). A class the class mix never places at a band\n"
-        "still has its row",
+        "still has its row (its nearest anchor's), because a designation change or an assignment can put it there. Notation\n",
         "rich** — the same anchors as the templates whose budgets it must meet; `squalid` reads the poor row and `comfortable`\n"
         "the modest row for its discrete cells and the cell-wise interpolation of modest and prosperous at its band centre for its\n"
         "continuous cells (§4.5's band-set paragraph and its discrete-cell rule — one band-anchoring rule for every template-like\n"
-        "table). Continuous cells interpolate along the value. A class the class mix never places at a band still has its row", 1))
+        "table). Continuous cells interpolate along the value. A class the class mix never places at a band still has its row\n"
+        "(its nearest anchor's), because a designation change or an assignment can put it there. Notation\n", 1))
     E.append(('VAF-R1T-01 §2.3 CompositionRow comment',
         "continuous cells interpolate along the prosperity value between band centres (§4.5), discrete cells switch at the cut (item 19)\n",
         "continuous cells interpolate along the prosperity value between band centres (§4.5), discrete cells read §4.5's discrete-cell rule (item 19)\n", 1))

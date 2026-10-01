@@ -1,0 +1,97 @@
+{
+ "doc_sha256": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+ "blocks": [
+  {
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "ids": [
+    "VDC1-09",
+    "VPC-R1-19",
+    "VDC0-27",
+    "VKr1-01",
+    "VDC1-08",
+    "VDC1-05"
+   ]
+  },
+  {
+   "heading": "### 5.3 The invariant suite, by scope (SCL-1)",
+   "ids": [
+    "VM-R1T-11",
+    "R2-18 (a) (VEL1-01, its §5.3 end)"
+   ]
+  },
+  {
+   "heading": "### 5.4 The generation report",
+   "ids": [
+    "VDC1-07"
+   ]
+  },
+  {
+   "heading": "### 6.1 RNG and stream design",
+   "ids": [
+    "VDC1-06 (b)",
+    "VAT0-07 (R2-20)",
+    "VDC1-03",
+    "G125-determinism (R2-40 (3))",
+    "VDC1-06 (a), (c)",
+    "VM-R1T-11",
+    "G123-determinism (R2-38 (2))",
+    "G124-determinism (R2-39 (d))",
+    "G124-determinism (R2-39 (d), R2-35 T124-9)"
+   ]
+  },
+  {
+   "heading": "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+   "ids": [
+    "G123-determinism (R2-38 (2), R2-35 T123-3)"
+   ]
+  },
+  {
+   "heading": "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+   "ids": [
+    "VAT0-07 (R2-20)",
+    "G123-determinism (R2-35 T123-3)",
+    "G124-determinism (R2-35 T124-9)"
+   ]
+  },
+  {
+   "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+   "ids": [
+    "VAH-r1-06 (R2-21 (a))",
+    "VDC1-02 (R2-21 (b))",
+    "VDC1-04 (R2-21 (c))",
+    "VDC1-01 (R2-21 (c))",
+    "VEL1-03 (R2-21 (c))",
+    "VDC1-03 (R2-21 (c))"
+   ]
+  },
+  {
+   "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "ids": [
+    "VKr1-06 (R2-24)"
+   ]
+  },
+  {
+   "heading": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+   "ids": [
+    "G125-determinism (R2-40 (1))",
+    "G125-determinism (R2-40 (3): DR3)",
+    "G125-determinism (R2-40 (2)–(3): the realm block retired)",
+    "G125-determinism (R2-40 (2))",
+    "VDC1-12 (R2-18 (b), (d))",
+    "VDC1-10",
+    "G125-determinism (R2-40 (3))",
+    "G122-determinism (R2-11)",
+    "G125-determinism (R2-40 (3): DR1)",
+    "G125-determinism (item 125 (a): DR2)",
+    "G125-determinism (R2-40 (3): DR19)",
+    "VDC1-08",
+    "G125-determinism (R2-40 (3): DR29)",
+    "G125-determinism (item 125 (a): DR34)",
+    "G125-determinism (R2-40 (1), (3): DR42)",
+    "G125-determinism (R2-40 (3): DR42)",
+    "G122-determinism (R2-37 (3), R2-11)"
+   ]
+  }
+ ],
+ "edits": 46
+}

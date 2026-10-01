@@ -109,6 +109,7 @@ REPLACED = [
     '## 12 CONFIRMED versus PLAUSIBLE',
 ]
 NEW_AFTER = '### 3.21 Edges — every mechanism at its limits (principle (11))'
+PARENT = '## 3 Generation — the evolution engine'   # the new §3.22–§3.23 append to their parent section (V03 §5.5's precedent)
 
 # the new subsections V06 §3.22 and §3.23 sit after §3.21 in the edited volume; they travel in one APPEND block
 lines = doc.split('\n')
@@ -127,7 +128,7 @@ for h in REPLACED:
         sys.exit(f'STOP: REPLACE of an unchanged subsection: {h!r}')
     blocks.append(f'=== REPLACE {h} ===\n{new_sec}\n=== END ===')
     if h == NEW_AFTER:
-        blocks.append(f'=== APPEND TO SECTION {h} ===\n{new_sections}\n=== END ===')
+        blocks.append(f'=== APPEND TO SECTION {PARENT} ===\n{new_sections}\n=== END ===')
 
 open(os.path.join(OUT, 'V06-expected.md'), 'w', encoding='utf-8').write(doc)
 open(os.path.join(OUT, 'blocks.md'), 'w', encoding='utf-8').write('\n'.join(blocks) + '\n')

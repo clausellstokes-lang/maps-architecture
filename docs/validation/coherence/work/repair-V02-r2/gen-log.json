@@ -1,0 +1,216 @@
+{
+ "edits": 42,
+ "tags": [
+  "VAF-R0S-03/VM-R1T-05 §2.2 lead",
+  "VAF-R0S-03/VM-R1T-05 §2.2 code",
+  "VAF-R0S-03/VM-R1T-05 §2.6 code",
+  "VAF-R1T-01 §3.10.1",
+  "VAF-R1T-01 §2.3 CompositionRow comment",
+  "VAF-R1T-01 §3.2 step 3",
+  "VAH-r1-13 §4.5",
+  "VV12-r1-05 §6.4",
+  "G122/G123 §0",
+  "G122/G123 §1a",
+  "G122/G123 §1b row",
+  "G122/G123 §1c rows",
+  "G122/G123 §1d",
+  "G122/G123 §2.4",
+  "G122/G123 §2.5 row",
+  "G122/G123 §3.11",
+  "G122 §3.18 (b) village",
+  "G122 §3.18 (b) tests",
+  "G122 §3.18 (c) row",
+  "G122 §3.18 (c) tests",
+  "G122/G123 §3.18 (d)",
+  "G122/G123 §3.18 (e) rows",
+  "G122/G123 §3.18 (f) rows",
+  "G122/G123 §5.1",
+  "G123/G122 §5.3 cell",
+  "G122/G123 §5.5 SVG",
+  "G122/G123 §5.5 glTF",
+  "G122/G123 §5.5 CityJSON",
+  "G122/G123 §5.5 VTT",
+  "G122/G123 §5.5 pictures",
+  "G122/G123 §5.7",
+  "G122/G123 §6 head",
+  "G122/G123 §6.6",
+  "G122/G123 §7.1",
+  "G122/G123 §7.8",
+  "G122/G123 §8.3 effort",
+  "G122/G123 §8.6",
+  "G122/G123 §9 rows",
+  "G122/G123 §12 confirmed",
+  "G122/G123 §12 plausible",
+  "G122/G123 §12 census",
+  "G122/G123 §13 rows"
+ ],
+ "blocks": 27,
+ "inventory": [
+  {
+   "kind": "REPLACE",
+   "target": "## 0 In plain words",
+   "lines": 109,
+   "words": 1944
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1a Scope",
+   "lines": 37,
+   "words": 596
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "lines": 121,
+   "words": 5098
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1c The base hooks consumed (by section)",
+   "lines": 45,
+   "words": 1514
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1d Out of scope (and where it lives)",
+   "lines": 37,
+   "words": 533
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.2 The composition's records (lazy; stored only when edited)",
+   "lines": 24,
+   "words": 296
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.3 The composition tables (`composition.json`, `@plat/tables`)",
+   "lines": 84,
+   "words": 1644
+  },
+  {
+   "kind": "APPEND TO SECTION",
+   "target": "### 2.4 Derived at read (never stored)",
+   "lines": 15,
+   "words": 207
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.5 Identity and lifecycle of every state field",
+   "lines": 32,
+   "words": 1280
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))",
+   "lines": 137,
+   "words": 2921
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.2 The row a building reads, and its band",
+   "lines": 96,
+   "words": 1451
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.10 The default rows — the diversity ladder from hovel to giant manor",
+   "lines": 409,
+   "words": 10221
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.11 Elaboration by click, staleness and the canonical prior",
+   "lines": 40,
+   "words": 692
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "lines": 119,
+   "words": 3769
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 4.5 The canvas, the clerk and the skeleton file",
+   "lines": 35,
+   "words": 585
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.1 What each band draws (§8.5's bands, with stage 3)",
+   "lines": 22,
+   "words": 431
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.3 Style rows and paint programs",
+   "lines": 31,
+   "words": 467
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.5 Exports (item 449)",
+   "lines": 15,
+   "words": 718
+  },
+  {
+   "kind": "APPEND TO SECTION",
+   "target": "## 5 Rendering, labels, exports",
+   "lines": 92,
+   "words": 1548
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 6 Performance budgets",
+   "lines": 149,
+   "words": 2651
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 7.1 Fixtures",
+   "lines": 25,
+   "words": 398
+  },
+  {
+   "kind": "APPEND TO SECTION",
+   "target": "## 7 Tests and acceptance bars",
+   "lines": 47,
+   "words": 820
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 8.3 Milestones",
+   "lines": 16,
+   "words": 886
+  },
+  {
+   "kind": "APPEND TO SECTION",
+   "target": "## 8 Build plan",
+   "lines": 9,
+   "words": 164
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 9 Decisions",
+   "lines": 120,
+   "words": 8910
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 12 CONFIRMED versus PLAUSIBLE",
+   "lines": 68,
+   "words": 1120
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 13 Fix list",
+   "lines": 63,
+   "words": 2261
+  }
+ ],
+ "orig_sha": "a11f04ccc93d0fcefbef0e58fd633b75a237db3ee1ed2186daf7f15534980a6d",
+ "new_sha": "e526e001aab31ce463ae7ab7dc7d530ccc5762e90d2ac83f1ab4cad68acd4bd5",
+ "words_before": 85913,
+ "words_after": 91566
+}
