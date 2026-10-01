@@ -51,21 +51,21 @@ GROUPS = """  * *Find (item 120; §2.9, §8.2, §9.5, §11.1, §11.2, §12.5) �
     one, every camp inside the opening view, Fit and the limit while a look stands, the limit restored when none stands).
     Volume 12 runs T122-1 – T122-3 and T122-5 – T122-7 (T-V12-54), volume 11 T122-4's compile check (T-V11-46) and
     volume 8 its census of the baseline's lists (T-V8-59), volume 9 T122-2's interface clause (T-V9-85), volume 6
-    T122-1's hand-over clause (T-V6-75) and volume 7 T122-5 and T122-6 at the village rungs (T-V7-69); volume 1's units
-    and land (T-V1-60), volume 2's ruined look (T-V2-60), volume 3's look damage, volume 8's forces (T-V8-60) and volume
-    10's explanations (T-V10-52) test their own parts.
+    T122-1's hand-over clause (T-V6-75), volume 7 T122-5 and T122-6 at the village rungs (T-V7-69) and volume 3 the plan
+    clauses of T122-1 – T122-3 (T-V3-40); volume 1's units and land (T-V1-60), volume 2's ruined look (T-V2-60), volume
+    8's forces (T-V8-60) and volume 10's explanations (T-V10-52) test their own parts.
   * *A ruined building's plans (item 123; §2.6 step 7, §6.3, §8.6, §11.1) — the plan as built, damaged, never redrawn;
-    built with volume 3's damaged-plan step, the decay level with M6-E.* (T123-1) room, wall and opening ids are identical
+    built with volume 3's P4 and P5, the decay level with M6-E.* (T123-1) room, wall and opening ids are identical
     between the intact and the damaged plan, and a building first met ruined — generated as a ruin, or reached by item
     113's replay — carries the plan it had when built; (T123-2) damage is monotone in the decay level: a higher level's
     damaged set ⊇ a lower's, on every element (`damage.nested` 0); (T123-3) for a seed each element breaks at one level —
     one threshold per element, keyed by lineage and element id (§6.3's `plan.damage`) — on every engine and across
     regeneration, load, undo and migration (`damage.breakLevel` 0; §6.5 (9)); (T123-4) restoring — `reused`, `reoccupy`,
     a repair — lowers the level and removes the damage in reverse threshold order, each repaired element drawn in item
-    114's patch material; (T123-5) the exterior agrees with the plan: a roof hole over a room is a hole in the roof from
-    above, a broken outer wall a gap in the footprint's outline; (T123-6) battle-map exports' line of sight passes fallen
-    wall runs, a doorless opening is a gap, and rubble heaps and floor holes are image only (§11.1); (T123-7) a building
-    never decayed is byte-identical to its plan without item 123 (the pin `item123.damage`, a `NoOpPin` of kind
+    114's patch material; (T123-5) the exterior agrees with the plan: a roof hole over a room shows from above as an
+    opening in its roof, and a fallen run of outer wall as an open stretch of the footprint's edge; (T123-6) battle-map exports' line of sight passes fallen
+    wall runs, a doorless opening is a gap, and rubble heaps and floor holes are image only (§11.1); (T123-7) a never-decayed
+    building keeps its plan byte for byte as it is without item 123 (the pin `item123.damage`, a `NoOpPin` of kind
     `entityScope`). @@V03_123@@
   * *Light weather (item 124; §2.9, §6.1, §8.2, §8.4, §8.8, §11, §12.5) — a view layer only; built at M3b.* (T124-1)
     the document's hash and every tile are identical with the effects on and off, the tile cache untouched by a spell
@@ -125,8 +125,8 @@ ROWS = [
      "| §15.2's stage-2 letters S1–S6, T119-2 and T119-3's stage-2 clauses (T-V1-29), T120-2's and T120-4's town clauses (T-V1-59) | stage 2 (volume 1, M5) | every T-V1 test (V01 §7) |",
      'VCS-10'),
     # village (V07)
-    ("T117-1 – T117-8 (T-V7-65) and T118-1 – T118-6 (T-V7-66) | the village product (volume 7) | T-V7-1 – T-V7-66, with B-VILLAGE and B-VG |",
-     "T117-1 – T117-8 (T-V7-65) and T118-1 – T118-6 (T-V7-66), T114-9's village clause (T-V7-59), T119-2 – T119-4's village clauses (T-V7-67), T120-1's and T120-4's village clauses (T-V7-68) and T122-5's and T122-6's village clauses (T-V7-69) | the village product (volume 7) | every T-V7 test (V07 §7), with B-VILLAGE and B-VG |",
+    ("the village halves of T113-1 and T113-3 (T-V7-59), and the village clauses of T114-1 – T114-8 (T-V7-62), T115-1 – T115-4 (T-V7-63), T116-1 – T116-4 (T-V7-64), T117-1 – T117-8 (T-V7-65) and T118-1 – T118-6 (T-V7-66) | the village product (volume 7) | T-V7-1 – T-V7-66, with B-VILLAGE and B-VG |",
+     "the village halves of T113-1 and T113-3 and T114-9's village clause (T-V7-59), and the village clauses of T114-1 – T114-8 (T-V7-62), T115-1 – T115-4 (T-V7-63), T116-1 – T116-4 (T-V7-64), T117-1 – T117-8 (T-V7-65), T118-1 – T118-6 (T-V7-66), T119-2 – T119-4 (T-V7-67), T120-1 and T120-4 (T-V7-68) and T122-5 and T122-6 (T-V7-69) | the village product (volume 7) | every T-V7 test (V07 §7), with B-VILLAGE and B-VG |",
      'VCS-10 / V07 hand-off'),
     # SettlementForge (V08)
     ("T117-1 and T117-6 (T-V8-54) and T118-1, T118-2 and T118-5 (T-V8-55) | the SettlementForge connection (volume 8, M-SF) | T-V8-1 – T-V8-57, on the host harness |",
@@ -150,11 +150,11 @@ ROWS = [
      'VCS-10 / V11 hand-off'),
 ]
 
-V03_123 = ("Volume 3 runs T123-1, T123-4, T123-6 and T123-7's plan suite (T-V3-39), volume 4 T123-1, T123-2 and T123-6 below\n"
-           "    ground (T-V4-82), volume 2 T123-5 (T-V2-59), volume 6 T123-4's epoch clause (T-V6-76), determinism §6.5 (9)\n"
+V03_123 = ("Volume 3 runs the plan clauses of T123-1, T123-2, T123-4, T123-6 and T123-7 (T-V3-39), volume 4 T123-1, T123-2\n    and T123-6 below"
+           " ground (T-V4-82), volume 2 T123-5 (T-V2-59), volume 6 T123-4's epoch clause (T-V6-76), determinism §6.5 (9)\n"
            "    T123-3's engine clause and volume 12 T123-2, T123-3 and T123-7 (T-V12-56); volumes 9 and 10 test their lines\n"
            "    (T-V9-86, T-V10-53).")
-V03_ROW = ", T123-1, T123-4, T123-6 and T123-7's plan clauses (T-V3-39)"
+V03_ROW = ", T122-1's, T122-2's and T122-3's plan clauses (T-V3-40), T123-1's, T123-2's, T123-4's, T123-6's and T123-7's plan clauses (T-V3-39)"
 
 
 def register(E):

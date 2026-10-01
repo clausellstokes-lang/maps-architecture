@@ -113,6 +113,22 @@ if __name__ == '__main__':
     if a.out:
         open(a.out, 'w', encoding='utf-8').write(txt)
         print('wrote', a.out, sha(txt)[:16])
+    # table integrity: an added line inside a table must be a whole row
+    import difflib
+    bad = 0
+    for file, heading, t, before in blocks:
+        new = t.split('\n'); old = set(before.split('\n'))
+        for i, l in enumerate(new):
+            if l in old:
+                continue
+            prev_t = i > 0 and new[i - 1].startswith('|'); next_t = i + 1 < len(new) and new[i + 1].startswith('|')
+            if l.startswith('|') and not l.rstrip().endswith('|'):
+                print('TABLE? row not closed:', heading[:40], l[:100]); bad += 1
+            if not l.startswith('|') and l.strip() and (prev_t and next_t):
+                print('TABLE? broken row:', heading[:40], l[:100]); bad += 1
+            if not l.startswith('|') and l.strip() and prev_t and not new[i-1].rstrip().endswith('|'):
+                print('TABLE? continuation:', heading[:40], l[:100]); bad += 1
+    print('table check: problems', bad)
     if a.diff:
         import difflib
         for file, heading, t, before in blocks:

@@ -526,5 +526,467 @@
   "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
   "tag": "J-A568.04 amended",
   "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "VCS-08 J-A568.01",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+  "tag": "J-A568.02 amended",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 calendar (115–158 = the first total ÷ 2)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 item 126 at M2a",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VV1112-r1-01 M2b",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-11 M2b",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M2b",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-11 M3b",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 items 122, 124 at M3b",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M3b",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 item 121 at M4",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M4",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-32 / R2-36 carried AP11",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "V11 C9 carried",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "V12 W7 carried",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) carried",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-32 M5 Find",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-10 / R2-06 (a) M5 exit",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M5",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-32 (2) M3c",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M3c",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VAL-R1-13 / VV78-12 village (R2-07)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 M6-E",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 M6-E",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 M6-P",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M6",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) M6-U",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VAL-R1-13 / VCS-08 M6-sky",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 M-SF",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) staged screens",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VAP-r1-15 / R2-17 staged row",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 O12 widenings",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "item 120 O12 absorbed",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) O12",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "items 120, 122, 124, 125 O11 absorbed",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "item 125 O10 absorbed",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VV1112-r1-01 content line",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) content",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "G126-scope app line",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) app line",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "G126 / R2-06 (b) app basis",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "V12 W7 rig line (R2-07)",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) rig",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 base subtotal",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) stage 2",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 first total",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) V02",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) V03",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) V04",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VAL-R1-13 V05",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 V06",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VAL-R1-13 / VV78-12 V07",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) V08",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) V10",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) V09 staged",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VV1112-r1-01 staged content",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 staged total",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "VCS-08 whole program",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-36 the rule applied to items 120–126",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "## §16 Build plan — calibration and spikes first, then a viewable town, then edi",
+  "tag": "R2-06 (b) cuts",
+  "count": 1
+ },
+ {
+  "file": "ARCHITECTURE.md",
+  "section": "# Delegated decisions (the owner deferred all judgment; each is final unless vet",
+  "tag": "VCS-08 D-20",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-07 INDEX intro",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V01",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V02",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V03",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V04",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "VCS-18 / VAL-R1-13 V05",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "VCS-18 V06",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "VCS-18 / VAL-R1-13 / VV78-12 V07",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V08",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V09 line",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V09",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) / R2-32 V10",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "VAP-r1-15 / R2-17 / VV1112-r1-01 V11",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 (b) V12",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "VV56-r1-09",
+  "count": 1
+ },
+ {
+  "file": "INDEX.md",
+  "section": "# Index of the design volumes — the product map, the wiring, the build order",
+  "tag": "R2-06 INDEX §6 figure",
+  "count": 1
  }
 ]

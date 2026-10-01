@@ -22,7 +22,7 @@ NEW_ROWS = (
     "| T125-1 – T125-3 | PR on B-DOSSIER-lite (T125-1's required-keys dossier at every rung nightly) | M-SF |\n"
     "| T126-1 – T126-3 | PR on volume 9's app harness | M2a (with the medium layout) |\n"
 )
-V03_STEP = "volume 3's damaged-plan step (V03 §8, inside M6-P)"
+V03_STEP = "volume 3's P4, the step that draws a decayed or ruined plan (V03 §8, inside M6-P)"
 
 
 def register(E):

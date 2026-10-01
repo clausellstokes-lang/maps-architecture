@@ -20,7 +20,7 @@ def register(E):
       "               live in @plat/layout and @plat/model]", 'VV12-r1-09 / V01 §8.3')
     # VAL-R1-01: the underground stages in V04 §3.1's order
     a("/* II.7.4–II.7.6: registered after the network stage by declared I/O — the systems, II.7.3's sewer-front neighbourhoods, the access pass, the undercity, then the connection stage —",
-      "/* II.7.4–II.7.6: registered after the network stage by declared I/O in V04 §3.1's order — the systems, the access pass (U-ACCESS), II.7.3's sewer-front neighbourhoods (U-FRONT), the undercity, then the connection stage —",
+      "/* II.7.4–II.7.6: registered after the network stage by declared I/O in their order (V04 §3.1) — the systems, the access pass (U-ACCESS), II.7.3's sewer-front neighbourhoods (U-FRONT), the undercity, then the connection stage —",
       'VAL-R1-01')
     # VM-R0S-17: FabricStrategyId is §2.5's
     a("FabricStrategyId is a row key of hood.templates (V01 §2.1)",
@@ -59,7 +59,7 @@ def register(E):
       "   export request and never stored, the document keeping the dossier's names (item 85 (b); J-A85.02); `line` choosing\n"
       "   the adapter; `customLibrary` the author's library definition fields (V08 §2.8).",
       "5. **`HostContext`** is optional in every field (item 20 (h) (iv)) and carries no data input: the dossier is the port's\n"
-      "   only one (item 125 (a); J139), and none of the three fields changes a document a dossier makes (T125-2). `audience`\n"
+      "   only one (item 125 (a); J139), and no field of the three changes a document a dossier makes (T125-2). `audience`\n"
       "   is the role and knowledge key the host sets per viewer by the table below — view state that travels (§11.3;\n"
       "   J-A30.82); `displayNames` — dossier key → text — are applied inside ONE export request and never stored, the document\n"
       "   keeping the dossier's names (item 85 (b); J-A85.02); `line` picks the adapter (V08 §2.4) — with no host context the\n"

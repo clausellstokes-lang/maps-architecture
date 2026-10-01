@@ -22,4 +22,4 @@ def register(E):
     E.add(B, S134,
           "*touch editing* — two participants per session work on a tablet; every tool\n  takes touch,",
           "*touch editing* — two participants per session work on a tablet, and every session\n"
-          "  runs on tablets and desktops only (item 126; §1.1); every tool takes touch,", 1, 'G126-scope §13.4')
+          "  runs on tablets and desktops only (item 126; §1.1); every tool\n  takes touch,", 1, 'G126-scope §13.4')

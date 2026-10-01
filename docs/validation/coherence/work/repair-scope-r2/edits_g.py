@@ -15,7 +15,7 @@ def register(E):
     j("B-ZOOM run from each map's limit | §13.2, §13.4, §16 |",
       "B-ZOOM run from each map's limit — *amended by J-A116.02* | §13.2, §13.4, §16 |", 'R2-30 J-A116.01')
     j("| J-A76.41 | the map's week is SettlementForge's `calendar.elapsedWeeks` (never `elapsedMonths` or `history.age`) | §4.11, §10.3 |",
-      "| J-A76.41 | the map's week is SettlementForge's `calendar.elapsedWeeks` (never `elapsedMonths` or `history.age`) — *amended by J-A125.01* | §4.11, §10.3 |",
+      "| J-A76.41 | the map's week is SettlementForge's own week with no conversion — a dossier-bound map's present week the dossier's latest stamped tick (item 125), never `elapsedMonths` or `history.age` | §4.11, §10.3 |",
       'R2-40 J-A76.41 (pipeline hand-off)')
     j("| J-A77.06 | `RealmBlock.mPerRealmUnit` dropped: the host client's `realmBlockFrom` turns the realm scale into each partner's `distanceM` | §14 |",
       "| J-A77.06 | `RealmBlock.mPerRealmUnit` dropped: the host client's `realmBlockFrom` turns the realm scale into each partner's `distanceM` — *superseded by J-A125.01* | §14 |",
@@ -36,7 +36,7 @@ def register(E):
     # ---- §0.2's rows 20, 114, 117, 118 ----
     s = lambda old, new, tag: E.add(B, S02, old, new, 1, tag)
     s("re-application, precedence; T20-1 – T20-6; **(h)**",
-      "re-application, precedence (a dossier event supersedes a lock on what it changes); T20-1 – T20-6 and T20-14 –\nT20-16; **(h)**",
+      "re-application, precedence (a dossier event supersedes a lock on what it changes); T20-1 – T20-6 and T20-14 – T20-16; **(h)**",
       'R2-18 row 20')
     s("§7.1 and §7.4 (`repairWall`'s material, `wearWall`), §7.7 (the condition row), §8.2 (the state rows, the legend), §11 (exports); T114-1 – T114-8;",
       "§5.3 (the wall-crossing row), §7.1 and §7.4 (`repairWall`'s material, `wearWall`), §7.7 (DR41), §8.2 (the state rows, the legend), §11 (exports); T114-1 – T114-10;",

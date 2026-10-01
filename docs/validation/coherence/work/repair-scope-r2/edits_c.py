@@ -21,7 +21,7 @@ def register(E):
     a("one fixture per row of §4.13's edge table (EP-01 – EP-19) and per cell of its combination\n  table,",
       "one fixture per row of §4.13's edge table (its EP rows) and per cell of its combination\n  table,", 'R2-06 (a) B-EDGE (pipeline hand-off)')
     a("* **The rendering, label and export edges** — T-ER-01 – T-ER-12 (§8.11), T-ER-13 – T-ER-18 (§9.7) and T-ER-19 – T-ER-21\n  (§11.6): census rows",
-      "* **The rendering, label and export edges** — the T-ER rows of §8.11, §9.7 and §11.6: census rows", 'VRC1T-09 / R2-06 (a)')
+      "* **The rendering, label and export edges** — the T-ER rows of §8.11, §9.7 and\n  §11.6: census rows", 'VRC1T-09 / R2-06 (a)')
 
     # ---- R2-18 (d), R2-19: T20-2, T20-6 and T20-14 – T20-16 ----
     a("and an undo of a lapsing epoch that carried no dossier event restores the hold, while an `undo` naming a lapsing dossier event returns F-EDIT (§7.4);",
@@ -55,7 +55,7 @@ def register(E):
 
     # ---- VM-R1T-10 and R2-26 (b)–(c): T110-2 and T110-5 ----
     a("a declared course drawn beyond the frame bent to the ring; (T110-3)",
-      "a declared course drawn beyond the frame bent to the ring — and the support step's obstacles and bounds (§2.7): a\n"
+      "a declared course drawn beyond the frame bent to the ring; the support step's obstacles and bounds (§2.7): a\n"
       "    viaduct over a square and an aqueduct over an oasis's grove, 0 piers in either, each span over one `open` with\n"
       "    reason `clear`; a generated viaduct and aqueduct over a 200 m river dropped (`raised_too_long`, the epoch candidate\n"
       "    waiting as `raised_too_tall`'s does), a declared one bent to a course whose clear spans fit\n"
@@ -74,7 +74,7 @@ def register(E):
     a("derives from the dossier's readiness and the wealth by §7.7's condition\n    row at its table shares",
       "derives from the dossier's readiness and the wealth by §7.7's DR41\n    at its table shares", 'R2-11 DR41')
     a("byte-identical to the build without item 114 (a `NoOpPin`,\n    `item114.condition`).",
-      "byte-identical to the build without item 114 (a `NoOpPin`,\n    `item114.condition`); (T114-9) a way crosses an enceinte only at a gate or an opening of item 114: a refounded\n"
+      "byte-identical to the build without item 114 (a `NoOpPin`,\n    `item114.condition`); (T114-9) a way crosses an enceinte at a gate or at an opening of item 114 and nowhere else: a refounded\n"
       "    village's tracker crossing a ruined former enceinte at a `breached` run and at a gate gap commits with 0 violations\n"
       "    of §5.3's wall-crossing row, and a TOWN epoch beside a `breached` run grows no way through the breach (§5.3; §4.4\n"
       "    S5c's legality); (T114-10) on a CITY fixture with an `on_enceinte` castle at a vulnerable, poor town's generation\n"
