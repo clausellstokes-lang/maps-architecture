@@ -2,7 +2,8 @@
 """repair-r4-V01 generator (coherence/repair-V01-r4): count-asserted substitutions over the live V01 (V01.orig.md =
 assemble-r3's install), producing V01.new.md and diff.txt, then the subsection blocks (blocks.txt) whose application to
 V01.orig.md must give V01.new.md byte for byte (checked with the BLOCK PROTOCOL's apply-blocks.py on a copy).
-Edits: edits_a (the two routed issues and the one END line of adjudication-r4's Part H · V01, with their sweeps).
+Edits: edits_a (the two routed issues and the one END line of adjudication-r4's Part H · V01, with their sweeps); edits_b
+(the continuation run's sweep: §6's Find cell, the crisis services' memo keys).
 Untouched text stays byte-identical."""
 import os, re, sys, difflib, hashlib, json
 S = os.path.dirname(os.path.abspath(__file__))
@@ -13,9 +14,8 @@ orig = open(os.path.join(S, 'V01.orig.md'), encoding='utf-8').read()
 assert open(LIVE, encoding='utf-8').read() == orig, "the live V01 is no longer assemble-r3's install"
 sha = lambda s: hashlib.sha256(s.encode('utf-8')).hexdigest()
 
-import edits_a
-mods = [edits_a]
-edits_b = None
+import edits_a, edits_b
+mods = [edits_a, edits_b]
 text = orig
 log = []
 for mod in mods:

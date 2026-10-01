@@ -168,12 +168,47 @@ EDITS = [
     (H7,
      "  the METROPOLIS cap (V05 §6's Find row).\n",
      "  the METROPOLIS cap (V05 §6's Find row); (i) at a drawn week whose frame is not the head (V05 §5.6 (5)), on (f)'s\n"
-     "  fixture after an `advance` whose epochs raise one island and resize another and on T-V5-14's falling CITY, each\n"
-     "  scrubbed to a week before those epochs: every sky match, glow, pin, ghost pin and gap unit those of §11.2's\n"
-     "  listing at that week, drawn on its island's land and at its anchor in that frame, the raised island offering none\n"
-     "  and the fallen island's matches on Sky as the frame holds it, never its landfall on Ground; the head's reading back\n"
-     "  when the scrub returns to the head.\n",
+     "  fixture after an `advance` whose epochs raise one island and resize another, then a hand move of one island and\n"
+     "  the removal of another, and on T-V5-14's falling CITY, each scrubbed to a week before those epochs: every sky\n"
+     "  match, glow, pin, ghost pin and gap unit those of §11.2's listing at that week, drawn on its island's land and at\n"
+     "  its anchor in that frame — the raised island offering none, the moved one's at its former anchor, the removed one's\n"
+     "  offered, and the fallen island's on Sky as the frame holds it, never its landfall on Ground; the head's reading\n"
+     "  back when the scrub returns to the head.\n",
      1, 'R4-12 test (principle (11)): T-V5-36 (i)'),
+
+    # ---------------------------------------------------------------- scope's HAND-OFF of VEW-r3-04's END (R4-09):
+    # §13.2's item-114 group now gives T114-3's landfall clause to T-V5-14 (scope's take-over row; V06's T-V6-73 reads
+    # "save T114-3's landfall clause"), so V05 §7 runs it.
+    (H7,
+     "T118-1 – T118-6 (T-V5-35) and T119-2 – T119-5 (T-V5-18), and T120-1's registration with T120-4's and T120-5's sky\n"
+     "clauses (T-V5-36), as §13.2's take-over table names them. Every clause that restates an owner item's\n"
+     "no-op or view pin registers its fixture on V12 §3.7.8's engine under its V12 §2.13 pin, naming the pin, its off form and\n"
+     "the seat that writes the registration (X-V12-11): T-V5-15's item-110 clause, T-V5-19 (c), T-V5-22 (b) and (k), T-V5-27's\n"
+     "two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.\n",
+     "T118-1 – T118-6 (T-V5-35) and T119-2 – T119-5 (T-V5-18), T114-3's landfall clause (T-V5-14), and T120-1's registration\n"
+     "with T120-4's and T120-5's sky clauses (T-V5-36), as §13.2's take-over table names them. Every clause that restates an\n"
+     "owner item's no-op or view pin registers its fixture on V12 §3.7.8's engine under its V12 §2.13 pin, naming the pin, its\n"
+     "off form and the seat that writes the registration (X-V12-11): T-V5-15's item-110 clause, T-V5-19 (c), T-V5-22 (b) and\n"
+     "(k), T-V5-27's two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.\n",
+     1, "scope's hand-off (R4-09, END of VEW-r3-04): §7's take-over list"),
+    (H7,
+     "* **T-V5-14 — over time** [C]. T8-6 stands (a CITY dropping below 10 000 loses its islands through waning, settled and\n"
+     "  fallen over their dwells); on the hook fixture a settled island refloats before any island is raised; a resize keeps\n",
+     "* **T-V5-14 — over time** (takes T114-3's landfall clause) [C]. T8-6 stands (a CITY dropping below 10 000 loses its\n"
+     "  islands through waning, settled and fallen over their dwells); on the hook fixture a settled island refloats before\n"
+     "  any island is raised; a resize keeps\n",
+     1, "scope's hand-off (R4-09, END of VEW-r3-04): T-V5-14's head"),
+    (H7,
+     "  ground's streets and plots added or removed beyond the tombstoned deck plots' lines.\n* **T-V5-15 — goldens",
+     "  ground's streets and plots added or removed beyond the tombstoned deck plots' lines. **A raised gate** (T114-3's\n"
+     "  landfall clause): on a fixture whose footprint covers a viaduct's crossing station on a raised gate, the station's\n"
+     "  stretch is `breached` by the wall row and the spans either side of it `ruined` with it, the station's `supports` entry\n"
+     "  carrying no `state` and `members` holding no `{ raised, support }` for it; then the deck's repair, by hand and, on a\n"
+     "  second run, by V06 §3.19.2 (5) at the next epoch: each `repairRaised` beside the station repairs its stretch first by\n"
+     "  `repairWall` in the same batch (§2.7's support step (3)) — the stretch repaired with the deck, never a deck on a\n"
+     "  `breached` run at any commit — and the landfall's undo restores the stretch and both spans.\n"
+     "* **T-V5-15 — goldens",
+     1, "scope's hand-off (R4-09, END of VEW-r3-04): T-V5-14's raised-gate landfall fixture"),
 ]
 
 ORDER = [H1B, H316, H323, H51, H52, H53, H54, H56, H6, H7, H9]

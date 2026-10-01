@@ -1,5 +1,5 @@
 --- docs/volumes/V05-sky.md	2026-10-01 12:16:33.049494592 +0000
-+++ /tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/r4V05/V05.expected.md	2026-10-01 15:05:59.131285941 +0000
++++ /tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/V05r4/V05.expected.md	2026-10-01 15:16:40.317441396 +0000
 @@ -302,7 +302,7 @@
  | the F-SKY rows and the sky invariants (V05 §3.17) | every SKY step | §5.4's report; the dry run | §5.2, §5.3 (file f item 331) |
  | the island's seasonal look (V05 §5.1 *Seasons on the island*) | §2.9's year position and follow flag (DR42); the document's one climate row as DR42 resolves it; §8.2's season rows with V11 §3.25.6's tables; the island's crowns, faces, water and roofs | S14's sky marks' `season` column (§8.1 item 8) and the tile worker's re-skin of the sky base and surface layer; picture exports; the clerk's seasonal line (V10) | §2.9, §8.2, §12.5 |
@@ -153,6 +153,23 @@
  | memory | ≤ 5.2 MB for three islands (the strips ≤ 30 KB each, `shadeBasis` ≤ 2.5 KB each) | ≤ 9.3 MB (≤ 60 KB each; bases ≤ 2.5 KB each) | an island's arena ≈ 0.5 MB per district's worth; its rasters ≤ 0.1 MB; the sky surface layers only on covered tile positions, inside §8.8's canvas budget B |
  | document | ≤ §2.9's 320 B per island building, plus ≤ 2 KB per island record and ≤ 2.5 KB for its `shadeBasis` (the rim copy ≤ 256 vertices × 8 B, the rest ≤ 0.5 KB) | same | |
  
+@@ -2414,11 +2421,11 @@
+ 
+ §13's families; each bar's class — **C** conformance, **P** parity, **O** outcome — in brackets. They take over the base's
+ island bars T10-1, T13-1, T15-1 and T102-2 (file f item 476), the island clauses of T117-1 – T117-8 (T-V5-34),
+-T118-1 – T118-6 (T-V5-35) and T119-2 – T119-5 (T-V5-18), and T120-1's registration with T120-4's and T120-5's sky
+-clauses (T-V5-36), as §13.2's take-over table names them. Every clause that restates an owner item's
+-no-op or view pin registers its fixture on V12 §3.7.8's engine under its V12 §2.13 pin, naming the pin, its off form and
+-the seat that writes the registration (X-V12-11): T-V5-15's item-110 clause, T-V5-19 (c), T-V5-22 (b) and (k), T-V5-27's
+-two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.
++T118-1 – T118-6 (T-V5-35) and T119-2 – T119-5 (T-V5-18), T114-3's landfall clause (T-V5-14), and T120-1's registration
++with T120-4's and T120-5's sky clauses (T-V5-36), as §13.2's take-over table names them. Every clause that restates an
++owner item's no-op or view pin registers its fixture on V12 §3.7.8's engine under its V12 §2.13 pin, naming the pin, its
++off form and the seat that writes the registration (X-V12-11): T-V5-15's item-110 clause, T-V5-19 (c), T-V5-22 (b) and
++(k), T-V5-27's two, T-V5-33's item-111 clause and T-V5-34 – T-V5-36.
+ 
+ * **T-V5-1 — the gate** [C]. TOWN and every village rung never carry a sky allocation; a CITY with the setting off carries
+   none and its ground digest equals the realism golden (T13-1); the `MFCG` and `FTG` presets carry none; a dossier-bound
 @@ -2486,7 +2493,8 @@
    reference viewport on 100 % of visible islands whose land face holds it.
  * **T-V5-12 — labels and occlusion** [C]. Under `opaque`, 0 ground labels drawn inside a visible island's land face;
@@ -163,7 +180,7 @@
    sheet of §8.2's presets table — V05 §5.1's list, the ink-family variants `parchment`, `bw-print` and `night` and, from
    volume 7's V-M1, `painterly` among them — loads at every band with every sky semantic resolved, and the `fallen` row
    draws over the landfall's members; a strip with no three-sample cell draws no outline.
-@@ -2502,7 +2510,8 @@
+@@ -2502,10 +2510,12 @@
    outside the root's projection is lit (V > 0); (f) the penumbra's width at 200 m altitude exceeds that at 100 m; (g) the
    `flat` island with a 30 m rim against a 10 m rim: at 15° its shadow reaches 20 m · cot 15° farther toward the sun within
    1 px (the owner's "thickness"); (h) at 15° the `root`'s rung-3 shadow is one connected region (the prism form); (i) with
@@ -171,9 +188,30 @@
 +  the sky layer hidden and Ground the working layer no slab is lit or drawn and the ground's picture equals the map
 +  without islands, and with no island
    no second base exists; §13.4's base island-shadow golden stands.
- * **T-V5-14 — over time** [C]. T8-6 stands (a CITY dropping below 10 000 loses its islands through waning, settled and
-   fallen over their dwells); on the hook fixture a settled island refloats before any island is raised; a resize keeps
-@@ -2784,7 +2793,8 @@
+-* **T-V5-14 — over time** [C]. T8-6 stands (a CITY dropping below 10 000 loses its islands through waning, settled and
+-  fallen over their dwells); on the hook fixture a settled island refloats before any island is raised; a resize keeps
++* **T-V5-14 — over time** (takes T114-3's landfall clause) [C]. T8-6 stands (a CITY dropping below 10 000 loses its
++  islands through waning, settled and fallen over their dwells); on the hook fixture a settled island refloats before
++  any island is raised; a resize keeps
+   every plot address away from the rim (100 %); after a growing and a shrinking resize and a rim reshape on the hook
+   fixture's institution island, the rim strip lies `rimStripM` inside the new rim everywhere and every landing yard meets
+   its top on it (100 %), the rim walk stands on the re-laid strip — one `esplanade` and one `street_trees` `Greenery` after
+@@ -2543,7 +2553,13 @@
+   lineages; the covered spans, piers and walls in `members` as `{ raised, span: [a, b] }`, `{ raised, support }` and `Id`s,
+   the same members after a re-derivation of the viaduct, each leaving in the batch of the op that ends its cover (V06
+   §3.5.2), the deck plots listed as fates, never members; all of it in V05 §5.5's per-landfall CSV, and 0 edges of the
+-  ground's streets and plots added or removed beyond the tombstoned deck plots' lines.
++  ground's streets and plots added or removed beyond the tombstoned deck plots' lines. **A raised gate** (T114-3's
++  landfall clause): on a fixture whose footprint covers a viaduct's crossing station on a raised gate, the station's
++  stretch is `breached` by the wall row and the spans either side of it `ruined` with it, the station's `supports` entry
++  carrying no `state` and `members` holding no `{ raised, support }` for it; then the deck's repair, by hand and, on a
++  second run, by V06 §3.19.2 (5) at the next epoch: each `repairRaised` beside the station repairs its stretch first by
++  `repairWall` in the same batch (§2.7's support step (3)) — the stretch repaired with the deck, never a deck on a
++  `breached` run at any commit — and the landfall's undo restores the stretch and both spans.
+ * **T-V5-15 — goldens and determinism** [C]. Two sky fixtures join §13.3's goldens — a CITY with a prosperity island and a
+   conjured river; a METROPOLIS with a palace island and a prison island — identical on the five engines; every stream key
+   distinct (§6.1's sky fixture); a one-island document draws slot 1's indices only; an island raised after a fall takes a
+@@ -2784,7 +2800,8 @@
    §2.13; a `view` pin with its `tiles` clause), written by the M6-sky seat landing P3; (b) each chip's sky matches equal
    §11.2's gazetteer rows on the islands at the key, the panel's "on Sky" count their number; (c) with Ground working,
    every sky match shows a ghost pin at its drawn position under each occlusion mode, with the sky layer shown and hidden,
@@ -183,21 +221,22 @@
    each carrying its chip's second cue, and no bubble joins two islands' or two layers' pins; (e) under a player view on
    an island form of T-V9-66's knowledge canary — a `secret` access's landing yard and a concealed use on an island —
    nothing withheld surfaces in a suggestion, count, glow, pin or ghost pin; (f) (T120-4) the chips survive every band
-@@ -2796,7 +2806,12 @@
+@@ -2796,7 +2813,13 @@
    walking-radius row every residential plot of an island holding no member, whatever the ground beneath holds, and none
    of one holding a member; under a households row each district's unserved plots by V01's per-plot reading — a class
    `IslandRule.carry.never` excludes among them; (h) item 120 (j)'s suggestion and glow timings hold with three islands at
 -  the METROPOLIS cap (V05 §6's Find row).
 +  the METROPOLIS cap (V05 §6's Find row); (i) at a drawn week whose frame is not the head (V05 §5.6 (5)), on (f)'s
-+  fixture after an `advance` whose epochs raise one island and resize another and on T-V5-14's falling CITY, each
-+  scrubbed to a week before those epochs: every sky match, glow, pin, ghost pin and gap unit those of §11.2's
-+  listing at that week, drawn on its island's land and at its anchor in that frame, the raised island offering none
-+  and the fallen island's matches on Sky as the frame holds it, never its landfall on Ground; the head's reading back
-+  when the scrub returns to the head.
++  fixture after an `advance` whose epochs raise one island and resize another, then a hand move of one island and
++  the removal of another, and on T-V5-14's falling CITY, each scrubbed to a week before those epochs: every sky
++  match, glow, pin, ghost pin and gap unit those of §11.2's listing at that week, drawn on its island's land and at
++  its anchor in that frame — the raised island offering none, the moved one's at its former anchor, the removed one's
++  offered, and the fallen island's on Sky as the frame holds it, never its landfall on Ground; the head's reading
++  back when the scrub returns to the head.
  
  **Parity.** No reference has islands (II.6 (8)), so no parity number binds them. The nearest look is Neighbourhood's lone
  patch — its own ground tone and a drop shadow marking its extent on an empty field (`research/findings/vg-ng-devlogs.md`
-@@ -2889,7 +2904,7 @@
+@@ -2889,7 +2912,7 @@
  | J-V5.11 | Chose to make the landfall a conversion of everything it covers, one outcome per covered kind (V05 §3.16 (4)), the stone credited to the salvage ledger and no edge added or removed, over cutting a new ruin face, leaving no mark, or covering plots and fields only, because it stays local, undoes exactly, keeps the old plan for regrowth, ties the fall into the ledger's salvage demand, and leaves no intact wall or open street standing in a field of fallen rock. |
  | J-V5.12 | Chose to draw everything on existing concerns (`island.place`, `terrain.noise`, `water.river`, `field.chance`, `naming`) with named creation indices, over a new concern, because §6.1's registry already reserves `island.place` for the islands and no draw here reads another concern's order. |
  | J-V5.13 | Chose to redraw only empty slots at an epoch, a supplied island staying, over reading that a slot may close and send its island down the decline ladder, because an island falls for want of magic, never by chance while it is paid for. |

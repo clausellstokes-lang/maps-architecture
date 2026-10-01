@@ -65,7 +65,8 @@ NEW_TEXT = (
     "move one of its sides out by at most `attractCm` ((2); measured on the lattice); the new arena is the new frame plus "
     "the current law's margin, kept at the current arena where that is no larger or would move one of its sides out by at "
     "most `attractCm` — so no new chain is laid within attraction of the chain it replaces, which §3.6's vertex and "
-    "stretch attraction would merge into it before the strip removes its rows, and no through-road's continuation (§4.11) or raised foot's move "
+    "stretch attraction would merge into it before the strip removes its rows, and no through-road's continuation (§4.11) "
+    "or raised foot's move "
     "(below) spans `attractCm` or less. So a frame and its arena never shrink — a change of frame law included (item "
     "322's product fold, §4.11) — each new one encloses its predecessor, and where neither grows, nothing runs. The range "
     "bound of (1) holds for every grown coordinate. The")

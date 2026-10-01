@@ -1,5 +1,5 @@
 {
- "edits": 28,
+ "edits": 38,
  "tags": [
   "1.2-v11-item110-row (END VEW-r3-01)",
   "1.2-item120-row (VV12-r3-03)",
@@ -28,7 +28,17 @@
   "6-findAreas-row (VV12-r3-03, sweep)",
   "7-T-V1-51c (END VEW-r3-01, sweep)",
   "7-T-V1-59f (VV12-r3-03)",
-  "12-plausible-list (END VEW-r3-01, sweep)"
+  "12-plausible-list (END VEW-r3-01, sweep)",
+  "6-findAreas-row-where (VV12-r3-03, sweep)",
+  "2.3-disaster-comment (VV12-r3-03, root cause)",
+  "3.16-crisis-memo (VV12-r3-03, root cause)",
+  "3.16-campLand-memo (VV12-r3-03, root cause)",
+  "6-crisis-row-memo (VV12-r3-03, root cause)",
+  "1.2-v11-row-ref-form (END VEW-r3-01, form)",
+  "1b-find-row-form (VV12-r3-03, form)",
+  "5.4-lead-form (VV12-r3-03, form)",
+  "5.4-3-form (VV12-r3-03, form)",
+  "7-T-V1-59f-form (VV12-r3-03, form)"
  ],
  "blocks": 11,
  "inventory": [
@@ -42,13 +52,13 @@
    "kind": "REPLACE",
    "target": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
    "lines": 103,
-   "words": 4385
+   "words": 4383
   },
   {
    "kind": "REPLACE",
    "target": "### 2.3 Views and services (derived, never stored)",
    "lines": 135,
-   "words": 2618
+   "words": 2620
   },
   {
    "kind": "REPLACE",
@@ -60,7 +70,7 @@
    "kind": "REPLACE",
    "target": "### 3.16 Services other volumes call (`@plat/hood`)",
    "lines": 113,
-   "words": 1936
+   "words": 1941
   },
   {
    "kind": "REPLACE",
@@ -78,19 +88,19 @@
    "kind": "REPLACE",
    "target": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
    "lines": 112,
-   "words": 1960
+   "words": 1958
   },
   {
    "kind": "REPLACE",
    "target": "## 6 Performance budgets",
    "lines": 52,
-   "words": 2296
+   "words": 2315
   },
   {
    "kind": "REPLACE",
    "target": "## 7 Tests and acceptance bars",
    "lines": 76,
-   "words": 7677
+   "words": 7675
   },
   {
    "kind": "REPLACE",
@@ -100,7 +110,7 @@
   }
  ],
  "orig_sha": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
- "new_sha": "0329ce115c37fcac3ca50549af677dfd50247261588cef7f94666d65fdb746aa",
+ "new_sha": "a0c15b713802a1ed08037da66475e87d2abfaf07c3a111182c85ed210cc02ce5",
  "words_before": 85852,
- "words_after": 86419
+ "words_after": 86439
 }
