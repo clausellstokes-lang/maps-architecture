@@ -5610,3 +5610,18 @@ same plan, monotone in the decay level). Interaction budgets stay as item 119 (d
 * **V06:** the decay level over time per lineage (existence state, years since abandoned) and restoration; **V02:** the exterior agreeing with the plan's damage
 * **V04:** cellars, crypts and underground buildings by their own thresholds; **V11:** the thresholds' tables by material and element kind
 * **V09:** the panel lines; **V10:** the explanations; **V12:** bars
+
+## Dated ruling 2026-10-01 (later still) — File g item 124 routed (orchestrator under J122; J137)
+
+The owner's rule 124 (intermittent light weather tied to season and region, with fog that scatters light, switchable in the advanced
+panel) is routed like items 111–123. The animated effects are a VIEW layer only: never the model, the document, its hash or any tile;
+the existing `weather` key stays the seasonal cover. No snow where winter does not freeze; rain rare in arid country.
+
+### g item 124 — every unit named writes its part
+* **model:** §2.9 (the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover)
+* **determinism:** §6.1 (the view-only, session-seeded weather stream, replayable from seed and clock, never touching the model's streams)
+* **rendering:** §8.2 (the effects' marks per style family); §8.4 (the shower's dimming, fog's scattering and night halos as per-frame light terms; the vector rung's wash); §8.8 (the layer above tiles, below labels and overlays, never in the tile key); §11 (exports leave the effects out); §12.5 (≈ 1 ms per frame at the densest spell; first in item 121 (e)'s order)
+* **scope:** §13.2 (the bars of item 124 (i)); the judgment index row
+* **V11:** the climate row's weather columns per week band and the two hard rules
+* **V09:** the advanced panel's switch, Start a shower now, the defaults (on with headroom; off on the low tier, phones and reduced motion)
+* **V12:** the bars and how each is measured

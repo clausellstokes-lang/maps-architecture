@@ -1255,3 +1255,60 @@ vetoable interpretation.
      the plan's exports, the panel lines), V06 (the decay level over time; restoration), V02 (the exterior agreeing), V04 (cellars,
      crypts and underground buildings), V11 (the thresholds' tables by material and element kind), V09 (the panel lines), V10 (the
      explanations), V12 (bars). Applied by the coherence pass like items 111–122 (J136).
+
+124. **OWNER RULE — Intermittent light weather, tied to season and region, switchable in the advanced panel (owner, 2026-10-01).**
+     Owner: "and according to the seasons, can we get intermitten weather, very light effects such as rain, snow, etc, toggle on and
+     off the advance panel?" / "maybe a fog sometmimes that scatters light" / "that should be tied to seasons and region... for
+     example, a desert or arid land rarely gets rain, and definetly no snow" / asked to confirm the shape below: "yes". **What the
+     design has (CONFIRMED):** the view keys `season` and `weather` ∈ {clear, overcast, snow} (§2.9, §8.2): snow lays the `snow` role
+     over ground, fields and roofs, overcast removes the global light's direct term; both select override rows and so are part of the
+     tile key (§8.8); item 117's year position and its climate row with season columns (the biome's climate row, item 111, holding
+     aridity; SettlementForge's `terrainType` and its optional realm climate digest feeding it; V08 reading the campaign week); §8.4's
+     global light and hand lantern as per-frame GPU terms that move without invalidating any cached tile; the night view's placed
+     `LightSource`s.
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its numbers our defaults, vetoable under J122):
+     **(a) COVER AND PRECIPITATION, KEPT APART.** The existing `weather` key stays the seasonal COVER (snow lying, the overcast look
+     a user picks), part of the tile key as today. The new WEATHER EFFECTS are a separate, animated, intermittent layer — light rain,
+     drizzle, falling snow, drifting mist, fog, wind-blown autumn leaves, cloud shadows, and in dry country heat shimmer and dust haze
+     — which never changes a tile, the model, the document or its hash.
+     **(b) INTERMITTENT.** While the map is open, a weather timeline (a view-only random stream seeded per session, deterministic for
+     a given seed and clock so tests replay it) brings spells and lets them go: a few minutes clear, a 30–90 s shower fading in and
+     out over several seconds; a fog that rolls in and lifts over a few minutes. During a shower the global light's direct term dims
+     and the shadows soften, then return — per frame on the GPU, never a re-raster.
+     **(c) TIED TO SEASON AND REGION (the owner's rule).** The climate row gains weather columns per band of weeks (V11; our own
+     defaults): how often each kind comes and how long it lasts. Two hard rules: **no snow, falling or lying, where the climate's
+     winter does not freeze**; **in arid country rain is rare** — a few brief showers in its short wet weeks and none in its dry
+     months. Defaults: desert and arid — clear most of the year, rare short showers in the wet weeks, never snow or frost, occasional
+     heat shimmer and dust haze; coastal — morning sea fog, frequent rain in autumn and winter, snow only where winter freezes;
+     riverside and lowland — morning mist on the water, autumn fog, spring showers; temperate plains — spring showers, the odd
+     summer downpour, autumn fog and blowing leaves, winter snow where it freezes and rain where it does not; hills and mountains —
+     snow through winter into early spring, valley fog, low cloud shadows; forest — mist and drizzle, leaves in autumn; cold
+     climates — snow most of winter, frozen fog on still days. The weeks turn gradually (a first flurry before deep snow, a thaw
+     bringing rain). With a SettlementForge campaign, the week and the region follow the dossier (item 117 (c)).
+     **(d) FOG THAT SCATTERS LIGHT (the owner's words).** Fog comes mostly on cool mornings, in autumn and over low ground by water,
+     and burns off through the day; while it stands, the sun's shadows go soft and faint, the map fades gently toward the fog's
+     colour away from the view's centre (depth), and at night every lantern and window light (`LightSource`) gains a soft halo —
+     drawn in §8.4's per-frame light terms; on the vector rung, a wash and the halos only.
+     **(e) VERY LIGHT, NEVER IN THE WAY.** Low density and opacity; drawn in the style's own hand — fine ink strokes for rain, dots
+     for snow, stipple for mist in `ink` and `hatched`, soft translucent streaks in `lit` — with faint ripples on water during rain.
+     The layer sits above the map's tiles and below labels, the chrome and every overlay (item 120's halo, the handles), so no text
+     is ever covered. No lightning or other flashes (photosensitivity): every change of light takes seconds.
+     **(f) CHEAP.** A GPU layer of its own, about 1 ms per frame at its densest on the reference hardware (§12.5); never in the tile
+     key; under item 121 (e) it is the FIRST thing Auto gives up, before lighting detail and sharpness.
+     **(g) THE SWITCH.** **Weather effects** on / off in the advanced panel (device state, `AppPrefs`), with **Start a shower now**
+     (a spell of the season's commonest kind, for a screenshot or the table's mood). Default ON where the tier has headroom; OFF by
+     default on the low tier, on phones, and wherever the system asks to reduce motion.
+     **(h) EXPORTS.** Picture, print and battle-map exports never draw the animated effects (the season's cover still applies, as
+     today); an export is byte-identical with the effects on or off.
+     **(i) BARS.** The hash and every tile identical with the effects on and off (the tile cache untouched by a spell); the frame cost
+     within (f)'s budget at the densest spell; no falling or lying snow in a climate row whose winter does not freeze, at any week;
+     arid rain frequency within its row; off by default under reduced motion, on the low tier and on phones; labels and chrome never
+     covered (a pixel test); no luminance step faster than the photosensitivity limit; exports byte-identical on and off; the
+     timeline replays from its seed and clock.
+     **HOMES:** §2.9 (the switch as device state; the spell in force as session-transient view state), §6.1 (the view-only weather
+     stream, never touching the model's streams), §8.2 (the effects' marks per style family), §8.4 (the shower's dimming, fog's
+     scattering and halos as per-frame light terms; the vector rung's wash), §8.8 (the layer's place above tiles and below labels and
+     overlays; never in the tile key), §11 (exports leave it out), §12.5 (its frame budget; item 121 (e)'s order), §13.2 (bars), the
+     judgment index. Volumes: V11 (the climate row's weather columns and the two hard rules), V09 (the advanced panel's switch, Start a
+     shower now, the defaults by tier, phone and reduced motion), V12 (bars and how each is measured). Applied by the coherence pass
+     like items 111–123 (J137).
