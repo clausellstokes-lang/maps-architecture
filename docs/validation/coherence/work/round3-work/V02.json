@@ -1,0 +1,47 @@
+[
+ {
+  "id": "VAP-r2-02",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V02",
+  "claim": "T-V2-58 (V02 l. 3451) opens \"(item 115 (f); takes T115-1's composed-shape clause, \u00a713.2's stage-3 row)\" while its (f) re-runs T115-4's rung pin: \"TOWN, CITY and METROPOLIS byte-identical across the ceiling table's bump: B-MASS registered on the rung pin `item115.ceiling` (V12 \u00a72.13; T115-4)\" \u2014 no seat, and not in R2-09's form, so V12 lists the suite as \"B-MASS (V02)\" with no test id and \u00a73.7.8 omits it (VAP-r2-08). T-V2-59 (l. 3682) \"takes T123-5\" while its (d) runs \"T123-7's no-op\" on the exteriors.",
+  "required_change": "T-V2-58's head reads \"(item 115 (f); takes T115-1's composed-shape clause and T115-4's rung clause on B-MASS, \u00a713.2's stage-3 row)\"; its (f) ends \"\u2014 the `item115.ceiling` registration of B-MASS on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the M6a seat (T115-4)\". T-V2-59's head reads \"(item 123 (d), (f); takes T123-5 and T123-7's exterior clause)\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VCS-r2-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a713.2's item-119 runs list (\"volume 2 the stage-3 waits (T-V2-22, T-V2-24)\") and the stage-3 take-over row (\"T119-2's stage-3 clauses (T-V2-22, T-V2-24)\"), written this round per VAP-r1-09, name T-V2-24 as taking T119-2. T-V2-24 (V02 \u00a77, l. 3536) times every export format within ten seconds at every rung's top and the cap \u2014 item 119's comfort level \u2014 but names no base bar, while R2-08 makes the volume test the home of which base-bar clauses it runs (its head, or the clause re-running one, naming each). T-V2-22 names T119-2 in its wait clause; T-V2-24 does not.",
+  "required_change": "V02 \u00a77's T-V2-24: its export-wait clause reads \"\u2026 completes within ten seconds from the click to the file written (T119-2's stage-3 export clause; V12 \u00a73.15.9's wait timer, five seeds each; R12-31) \u2026\"; nothing else changes.",
+  "owner": "V02",
+  "reported_by": "verify-scope-r2t"
+ },
+ {
+  "id": "VV12-r2-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "V02",
+  "claim": "V02 \u00a75.7 (4), \u00a72.4's `ExteriorDamage.look.kind` comment and X35 take the disaster's kind from 'the calamity's type V01's `disasterDistricts` reads for its pattern'. But `disasterDistricts` returns only `Id[]` (V01 \u00a72.3; R2-37 (4)). The calamity and its pattern are `disasterSource(doc, overlay, key)`'s `calamity` and `pattern` (V01 \u00a72.3, whose comments name V02 \u00a75.7 (4) as their reader), and V02 \u00a71b's input cell does not name `disasterSource`. A raw `type` word also leaves the fire flavour undefined for 'blaze', 'conflagration' or 'burning', which V06 \u00a72.4's table reads as `fire` and V01's `pattern` already classifies.",
+  "required_change": "V02 \u00a75.7 (4) reads: \"Its kind \u2014 V01's `disasterSource(doc, overlay, key).pattern` (V01 \u00a72.3, V01 \u00a73.16 (2): the calamity's type through V06 \u00a72.4's calamity table; `scatter` for a preview) \u2014 adds one flavour: a `fire` pattern blackens, \u2026; a `flood` and a `scatter` (an earthquake, every other kind, a preview) draw the damage alone\". \u00a72.4's `look.kind` becomes `pattern: 'fire'|'flood'|'scatter'` with the comment \"V01's `DisasterSource.pattern`\". V02 \u00a71b's input cell and X35 name `disasterSource` beside `disasterDistricts`.",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV12-r2-05",
+  "severity": "major",
+  "kind": "WIRING",
+  "owner": "V02",
+  "claim": "`exteriorDamage(doc, b, view, opts)` (V02 \u00a72.4) reads state that lives only in the generation worker: the document; V06's `decayLevel` and `decayPeak` over the lineage's lifecycle events; the plan in force from the elaboration cache (\u00a72.8: the document's non-canonical blocks); V01's `disasterDistricts` and V06's `crisisLookYields`. Its consumer is 'V02 \u00a75.7's drawing in the tile rasteriser' (V02 \u00a71b). Its holes and gaps are 'memoised beside its roofscape' (V02 \u00a75.7 (8), \u00a76.6), which the tile worker derives from the display list (V02 \u00a73.1's roofscape row; V02 \u00a76.3); the tile worker holds no document, cache or lifecycle block. V02 names no path by which a building's damage reaches the tile worker (no mark, column or `DisplayDelta` group). Nor does it say when the damage is sent again: the drawn week crossing an element's threshold or a look's week edge, `crises` or the effective key changing, a plan coming into force (a click, `elaborate: 'view'`) or leaving it (eviction), a restoration. \u00a78.1 item 7 re-emits only Works targets' marks on a week change. Producer and consumer sit in two workers with no wire between them.",
+  "required_change": "V02 \u00a75.7 (8) and \u00a72.4 state four things. (1) `exteriorDamage` runs in the generation worker, where its inputs live, over the buildings of the tiles the view requests. (2) Its result reaches the tile worker as the building's damage marks \u2014 `level`, `reading`, the hole and patched rings, the gap spans, and the look's tone, dash and fire flags \u2014 in the building's group of a `DisplayDelta` (\u00a78.1, \u00a78.9). (3) It is re-emitted for exactly the buildings whose `ExteriorDamage` changes: when the drawn week moves (beside \u00a78.1 item 7's Works re-emission), when `crises` or the effective knowledge key changes, when a plan enters or leaves force, and after a commit that moves a level or a look's units. (4) The tile worker clips the marks against the roofscape it memoises (V02 \u00a76.3), the tile keyed as VV12-r2-06 states. V02 \u00a71b's row names this path. V02 \u00a76.6 adds the generation-worker cost per changed building. T-V2-59 (e) and T-V2-60 (g) add an eviction of the plan in force and a `crises` toggle, the tile redrawn after each.",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV1112-r2-09",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "R2-09: \"A volume test that re-runs a no-op or rung pin states, in one clause, '\u2014 the `<pin>` registration of <suite> on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by <seat>'.\" V02's T-V2-59 (d) re-runs T123-7's no-op and T-V2-60 (c) T122-7's on V02's own fixtures, each saying only \"the pin is V12's\" \u2014 registering nothing, so V12's union cannot list them.",
+  "required_change": "T-V2-59 (d) reads \"\u2026 at level 0 every tile byte-identical to the same fixture without item 123 (T123-7's no-op) \u2014 the `item123.damage` registration of the damage sub-fixture's exteriors on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the seat landing V02's item-123 exterior step\"; T-V2-60 (c)'s parenthesis reads \"\u2014 the `item122.crises` registration of the look fixture's exteriors on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the seat landing V02's ruined-look step\".",
+  "owner": "V02",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ }
+]

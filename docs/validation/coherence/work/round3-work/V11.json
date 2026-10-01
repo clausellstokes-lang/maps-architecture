@@ -1,0 +1,92 @@
+[
+ {
+  "id": "VAP-r2-09",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V11",
+  "claim": "X-V12-11 hands every volume pin that restates an owner item's pin \u2014 \"T-V11-13, T-V11-31, T-V11-38 \u2013 T-V11-41 (b)\" among them \u2014 to register its suites on V12 \u00a73.7.8's engine, closed at \"V11 \u00a77\", and R2-09 makes the restating test the home of that registration: \"states, in one clause, '\u2014 the `<pin>` registration of <suite> on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by <seat>'\". V11's six state none: T-V11-13 (l. 4974: \"with `coverage.rosterWeight` 0 the roster, and with the coverage family's weight 0 the placement, byte-identical\"), T-V11-31 (l. 4988: item 110's six switches off, \"byte-identical to the pre-110 goldens\"), T-V11-38 (b) \u2013 T-V11-41 (b) (l. 5007\u20135010: \"the no-op pin \u2014 \u2026\"). \u00a77.4's lead (\"each no-op pin is a NoOpPin registration on V12 \u00a73.7.8's engine\") names no pin, suite or seat, and T-V11-39 (b) \u2013 T-V11-41 (b) name no fixtures, so V12 cannot list them (VAP-r2-08).",
+  "required_change": "Each clause ends in R2-09's form: T-V11-13 \"\u2014 the `item103.coverage` registration of B-CITY's 200 seeds per rung on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the C2 seat\"; T-V11-31 \"\u2014 the `item110.raised`, `.terrace`, `.deck` and `.stepped` registration of B-CITY's 200 seeds per rung \u2026, written by the C3b seat\"; T-V11-38 (b) \"\u2014 the `item111.water` registration of the arid and temperate sites' 200 seeds per rung \u2026, written by the C9 seat\"; T-V11-39 (b) \"on clause (a)'s four fixtures \u2014 the `item113.history` registration of them \u2026, written by the C9 seat\"; T-V11-40 (b) \"on B-CITY's 200 seeds per rung \u2014 the `item114.condition` registration of them \u2026, written by the C9 seat\"; T-V11-41 (b) \"on B-CITY's 200 seeds per rung \u2014 the `item115.off` registration of them and, at TOWN, CITY and METROPOLIS, the `item115.ceiling` registration \u2026, written by the C9 seat\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VAP-r2-11",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V11",
+  "claim": "V11 \u00a78's C9 row (l. 5034) exits \"T-V11-38 \u2013 T-V11-44 and T-V11-46 \u2013 T-V11-48 at the exits of the milestones that build each item's base mechanism (\u2026 items 122 and 124's with \u00a78.2's crisis looks and weather effects at M3b \u2026)\", so T-V11-46 runs whole at M3b. Its clause (a) \u2014 \"the closed mapping: every word of the catalogue manifest's `sf.stressors@<line>` list has its `stressor` row \u2026\", which takes T122-4 \u2014 needs V08's census lists and the `crisis.map` rows, which are C4b's: the C4b row (l. 5029) exits \"T-V11-46 (a) \u2026 on \u2026 V08's census lists\" at M-SF, and \u00a713.8 schedules \"T122-4 | PR (volume 11's compile check over volume 8's census lists) | M-SF (with the map rows)\". One clause, two milestones; at M3b it has no input.",
+  "required_change": "C9's exit cell reads \"T-V11-38 \u2013 T-V11-44, T-V11-46 (b) \u2013 (d), T-V11-47 and T-V11-48 at the exits of the milestones that build each item's base mechanism (\u2026); T-V11-46 (a), the closed mapping over V08's census lists, is C4b's at M-SF; the register green (below)\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VEL2-r2-02",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "A table edit or a pack's patch can delete a row that items 122 and 123 read, and no fallback is defined. - **Why the delete goes through.** V11 \u00a74.1 (l.4808-4814) refuses a delete in only four cases: a `defaultRow`, an `allowFallback` target, a `TotalityRule`'s only cover, or a non-`mayEmpty` table's last row. `crisis.looks` (registry row 107) and `damage.elements` (row 109) declare no `defaultRow`; V11 \u00a72.1's list (l.287-289) names none for them. They declare no `TotalityRule` either: `coversEnum` appears only in the interface (l.277). Their \"one row per `CrisisLookKind`\" and \"one row per `DamageElementKind`\" are compile checks of the shipped rows (T-V11-46 (b), T-V11-47 (a)), not rules a document's `editTable` meets. - **What follows.** A delete of `crisis.looks`' `siege` row, of `damage.elements`' `roofBay` row, or of either table's named `settings` row is accepted. Then: - DR44 maps a standing siege condition through its `crisis.map` row to a look kind that has no row; - \u00a76.3's threshold t = lo + u \u00b7 (hi \u2212 lo) has no [lo, hi] for any roof bay; - `densityCap`, `previewSeverity`, `areaPerHeadM2`, `enginesPerBesiegers` or `defaultAgeYears` has no value. - **Why no fallback covers it.** V11 \u00a73.26's general rule (l.4711-4714) sends a reader that meets an absent row to the table's `defaultRow` or to \"the row's neutral value (V11 \u00a73.2.3 (c)\u2013(d))\". \u00a73.2.3 (d) defines a neutral value only for a derived family row. - **What the text already covers.** \u00a72.9's `crises` key covers only a `preview` whose look is \"gone after a table edit\". Neither DR44's `follow` path nor a damage element is covered, and EI-V11-EDGE-4 and -5 do not list the delete.",
+  "required_change": "1. **The totality rules.** V11 \u00a72.1's registry gives row 107 (`crisis.looks`) `totality: [{ kind: 'coversEnum', column: 'kind', of: 'CrisisLookKind' }]` and row 109 (`damage.elements`) `totality: [{ kind: 'coversEnum', column: 'kind', of: 'DamageElementKind' }]`. T-V11-46 (b)'s and T-V11-47 (a)'s one-row-per-kind clauses are then these rules' compile form. 2. **V11 \u00a74.1's required-row sentence** adds \"or of a table's named row (`settings`, `structure`; V11 \u00a72.1's settings form)\". A delete of a look kind's row, an element kind's row or either table's `settings` row \u2014 by `editTable` or a pack's patch \u2014 is then refused with `refuse.table.required`. The refusal names the readers and offers \"edit its cells\": - for `crisis.looks`: DR44, \u00a710.2 and \u00a78.2's look rows; - for `damage.elements`: \u00a76.3's thresholds, V06 \u00a73.23, V03, V02 and V04. 3. **The edge rows.** EI-V11-EDGE-4 and EI-V11-EDGE-5 each add \"a delete of a kind's row or of the `settings` row\" with that outcome. 4. **The test.** T-V11-45 (s) adds three tables-editor deletes: `crisis.looks`' `siege` row, `damage.elements`' `roofBay` row and `crisis.looks`' `settings` row. Each is refused and the tables are unchanged.",
+  "owner": "V11",
+  "reported_by": "verify-edges-life-r2t"
+ },
+ {
+  "id": "VPC-R1-01",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Partly fixed. V11 \u00a72.8d (l. 775) now carries only the comment citing \u00a710.2 for `GrandeurCeilingRow` and `GrandeurCeilingSettings`, as R2-13 rules. Two V11 pointers still name V11 \u00a72.8d as their home: \u00a73.25.4's *settings* bullet (l. 4303: 'The `settings` row (V11 \u00a72.8d's `GrandeurCeilingSettings`)') and \u00a73.25's lead (l. 4146\u20134147: 'the types are V11 \u00a72.8 and V11 \u00a72.8d's'). Item 115's ceiling shapes and item 122's crisis shapes are \u00a710.2's (l. 15005\u201315027), so both pointers resolve to a comment.",
+  "required_change": "V11 l. 4303: read 'The `settings` row (\u00a710.2's `GrandeurCeilingSettings`)'. V11 l. 4146\u20134147: read 'the types are V11 \u00a72.8 and V11 \u00a72.8d's, and \u00a710.2's for item 115's ceiling and item 122's crisis tables'.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-06",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "\u00a74.7's new step regions (l. 6743\u20136745) split a step above `stepMaxCm` into \u2308step \u00f7 `stepMaxCm`\u2309 equal parts, 'so every wall on the line retains more than `stepMaxCm` \u00f7 2 and at most `stepMaxCm`'. \u00a74.7 (l. 6731\u20136732) and V11 (l. 3858) also say a step below `terrace.stepMinCm` is never a wall (the plinth). T-V11-32 (a) (l. 3855) bounds only `plinthCm < stepMinCm < skirtMaxCm < stepMaxCm`. A lawful edited row therefore yields an intermediate wall retaining less than `stepMinCm`: the base's `skirtMaxCm` is 300 cm and `stepMaxCm` 400, so `stepMinCm` 250 passes, and a 450 cm step splits into two 225 cm walls. That contradicts the stepMinCm rule, and EP-24's bar (every wall's `stepProfile` in (`stepMinCm`, `stepMaxCm`]) fails. The pipeline repair handed V11 the guard; it was not applied.",
+  "required_change": "V11 T-V11-32 (a), l. 3855: add '`stepMinCm` < `stepMaxCm` \u00f7 2 (so every intermediate wall of \u00a74.7's step regions, more than `stepMaxCm` \u00f7 2, is a wall)'. The tables editor's clamp (l. 3860) and V11 \u00a73.24.1's range column then hold it.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-13",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "V11's lists of the tables carrying the display cells disagree. The lifecycle row (l. 860) lists crisis looks among the tables with `label` and `icon?`. W77 (l. 235) and \u00a72.3's *display cells* paragraph (l. 440\u2013443: 'the profile families, the goods, the district kinds, the style sheets and the patch materials') omit them, although \u00a73.25.9's rows carry `label`.",
+  "required_change": "V11 l. 235 (W77) and l. 440\u2013443: add 'and the crisis looks (V11 \u00a73.25.9)' to the tables that carry `label` and `icon?`.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VV78-r2-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V11",
+  "claim": "The crisis census has two names and two totality scopes. V08 \u00a72.4 declares the catalogue manifest's census as `crisis: { stressors; archetypes; events }`, and V08 \u00a73.16 (7) (a) says V11's compile check makes 'every census word' have its row. T-V11-46 (a) and V11 \u00a73.25.9's *Totality* check 'the catalogue manifest's `sf.stressors@<line>` list' and 'its `sf.conditionArchetypes@<line>` list' \u2014 names V08 never declares \u2014 and do not check the `events` list. The `event` rows (`PLAGUE`, `REFUGEE_WAVE`, `RAID_OR_MONSTER_ATTACK`) are therefore never proven total against the census.",
+  "required_change": "T-V11-46 (a) and V11 \u00a73.25.9's *Totality*: 'the catalogue manifest's `sf.stressors@<line>` list' \u2192 'the catalogue manifest's `crisis.stressors` list (V08 \u00a72.4)'; '`sf.conditionArchetypes@<line>` list' \u2192 '`crisis.archetypes` list'; add 'and every word of its `crisis.events` list its `event` row'. Registry row 77's reader column adds 'the `crisis.map` compile check (T-V11-46 (a))'.",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ },
+ {
+  "id": "VV1112-r2-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "V11 \u00a73.25.11 gives each weather kind `hours` \u2014 \"the hours of the view's day a spell may start in, read only under `light: 'time'` (\u00a72.9), so fog and mist come on cool mornings\" (`mist` and `fog` 4\u201311, `shimmer` 10\u201318) \u2014 but its timeline rule reads \"At a week the kinds whose band holds it are live, each at its `perHour` \u00d7 the largest factor of the sites \u2026; with R their sum, the clear time after a spell (and from the map's opening) is exponential with mean 3 600 \u00f7 R s, the next kind is k with chance perHour_k \u00f7 R\". `hours` enters neither R nor the kind's chance, so when a gap ends at a view hour outside the drawn kind's hours (fog drawn at 14:00 under `light: 'time'`) the spell \"may\" not start and nothing says whether it is dropped, deferred to the next admitted hour or redrawn; EI-V11-EDGE-6 covers only \"a `light` other than `'time'`\". The base end is verify-determinism-r2t's VDC2-01 (\u00a76.1 *The weather stream*: liveness including the kinds' `hours`, the gap spent at the live rate); V11's own rule must say the same (R2-05).",
+  "required_change": "In V11 \u00a73.25.11's *The columns* bullet replace \"At a week the kinds whose band holds it are live, each at its `perHour` \u00d7 the largest factor of the sites that apply (below); with R their sum, the clear time after a spell (and from the map's opening) is exponential with mean 3 600 \u00f7 R s, the next kind is k with chance perHour_k \u00f7 R\" with \"At a moment the kinds whose band holds the view's week and \u2014 under `light: 'time'` \u2014 whose `hours` hold the view's hour are live, each at its `perHour` \u00d7 the largest factor of the sites that apply (below); with R their sum, the clear time after a spell (and from the map's opening) is spent at that live rate (\u00a76.1: a unit exponential spent as the integral of R \u00f7 3 600 over view time, none spent while R is 0), and the next kind is k with chance perHour_k \u00f7 R at the moment the gap ends\". In *The kinds*' head, \"`hours` the hours of the view's day a spell may start in\" \u2192 \"`hours` the hours of the view's day in which the kind is live\". EI-V11-EDGE-6 adds the case \"a kind whose `hours` exclude the view's hour\" with the outcome \"not live then: it adds nothing to R and is never drawn at that hour\", and T-V11-45 (v) adds that fixture.",
+  "owner": "V11",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-02",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V11 \u00a73.25.9's `archetype` rows hold twenty-two words and no `occupation`. Item 122's *What SettlementForge gives* lists `occupation` among `activeConditions[]`'s archetypes (\"war_pressure, famine, plague, regional_migration_pressure, rebellion, occupation, reconstruction, \u2026\"), and V08 \u00a72.4's crisis census lists `occupation` among the archetypes the line defines (l. 704). The closed table claims \"every SettlementForge stressor type and condition archetype has one row\", and V11 \u00a712 states the twenty-two as the list; a census carrying `occupation` fails the build at T-V11-46 (a) on a word both the owner's text and the port name.",
+  "required_change": "V11 \u00a73.25.9's `archetype` row adds \"`occupation` \u2192 `occupation`\" (item 122 (b)'s occupation, read beside `vassal_extraction`); V11 \u00a712's CONFIRMED line \"the twenty-two condition archetypes the port's research lists\" reads \"the twenty-two condition archetypes the port's research lists and `occupation`, which item 122's text and V08 \u00a72.4's census name\".",
+  "owner": "V11",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V11 \u00a73.1's never-calibrated list ends \"Every other row of items 111\u2013119 and 122\u2013124 is calibratable but for its enumeration columns (V11 \u00a73.25.9, V11 \u00a73.25.10), its register entry V12 \u00a73.11's.\" Row 43's two item-124 caps, `aridRainMaxPerHour` and `aridRainMaxWeeks`, are no enumeration and are `calibratable: false` (provenance `owner`, `ownerRule: '124 (c)'`, V11 \u00a73.25.11). The sentence states them calibratable, with a register entry.",
+  "required_change": "In V11 \u00a73.1 replace \"is calibratable but for its enumeration columns (V11 \u00a73.25.9, V11 \u00a73.25.10)\" by \"is calibratable but for its enumeration columns (V11 \u00a73.25.9, V11 \u00a73.25.10) and row 43's two owner-stamped weather caps `aridRainMaxPerHour` and `aridRainMaxWeeks` (item 124 (c); V11 \u00a73.25.11)\".",
+  "owner": "V11",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ }
+]

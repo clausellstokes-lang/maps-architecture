@@ -1,0 +1,92 @@
+[
+ {
+  "id": "VAP-r2-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "J-V4.114 (V04 l. 3367) records \"the underground's price at 28.25\u201339.25 pw (V04 \u00a78's table) \u2026 the epoch contracts (0.25\u20130.5 pw in U5, U5 at 3\u20134.25 pw) \u2026\". Round 2 added item 123's damage below ground to U5 (+0.25 pw; J-V4.130): V04 \u00a78's U5 reads 3.25\u20134.5 and its total \"**28.5\u201339.5** (accepted, owner question 2, J122 \u2026)\", V04 \u00a711's Q2 \"its cost, 28.5\u201339.5 pw \u2014 answered (J122): accepted \u2014 it carries owner rules 109 and 110 (J-V4.114) and item 123's part below ground (J-V4.130)\", and \u00a716 and INDEX \u00a71 carry 28.5\u201339.5. The decision the owner's acceptance rests on states the old price.",
+  "required_change": "J-V4.114 reads \"chose the underground's price at 28.5\u201339.5 pw (V04 \u00a78's table) \u2026 the epoch contracts (0.25\u20130.5 pw in U5, U5 at 3.25\u20134.5 pw); \u2026 and g item 113's parts absorbed in U3, U3b and U5 (J-V4.122), and g item 123's damage below ground (0.25 pw in U5; J-V4.130) \u2014 accepted by the owner's delegation (owner question 2, J122)\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VEW-r2-04",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "V04",
+  "claim": "The per-bank field outfall can lie in, and run along, the water its bank's admission refused. V04 \u00a73.2 N2 (V04 l.985\u2013991) takes 'the D8 path of the cell of largest accumulation \u2026 among its stretch's cells not on water', follows it 'outward to its first cell outside R and beyond the outermost enceinte's outer strip', and lets 'its outfall run follow that D8 path back to the stretch's cell'. A cell 'not on water' still has its steepest-descent neighbour where the terrain sends it, and on a river bank that is the river: water faces lie outside R, so the path runs down the river bed until it passes the walls. For a river town whose candidates on one bank all lie upstream of a mill intake or harbour mouth (N2's outfall.below), with no moat, that bank's field outfall is { into: 'field', water: null } at a river cell and its outfall run lies over the water face \u2014 against N3's 'no edge lies over water' (J-V4.129), UC19 (V04 l.2444: 'no sewer edge, run \u2026 lies over a water face') and T-V4-80 (j)'s '0 sewer edges \u2026 over a water face'. The construction gives no fallback for it.",
+  "required_change": "V04 \u00a73.2 N2's field outfall: 'the D8 path is followed over land only: the field outfall is the first cell of the path outside R and beyond the outermost enceinte's outer strip reached without entering a water face; a stretch cell whose path enters a water face first is passed over for the next by accumulation (ties by address); where every stretch cell's path does, the bank drains by gutter and pit, its area reported unsewered (F-NET's truncate rung)'. UC19 cites it. T-V4-80 (j) adds a river-town fixture whose bank's river candidates all lie upstream of a mill intake, moat: 'none': the field outfall on land beyond the strip and 0 outfall-run edges over a water face, or the bank unsewered and reported.",
+  "reported_by": "verify-edges-world-r2t"
+ },
+ {
+  "id": "VKr2-09",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V04",
+  "claim": "V04's round-2 damage rows (item 123) name `bandUnion` for underground bands in two places. The `cellarWall` kind (V04 l. 2886) reads 'an underground building's wall run on a footprint side that lies on its part's rock (outside the part's `bandUnion`, \u00a73.7)'. The read map (V04 l. 308) reads 'each underground building's footprint sides on its part's rock (\u00a73.7's `bandUnion`)'. But \u00a73.7 gives `bandUnion` the wall bands, glacis, tower and gatehouse footprints (l. 4440\u20134441). A tunnel's or gallery's band \u2014 bore plus wall, whose outer ring is the kerb \u2014 is committed by `corridorUnion` (\u00a73.7, l. 4445\u20134451; \u00a72.2 rule 1's underground parts; V04's own l. 1135 and l. 2010). The rows name the wrong kernel function for the band a footprint side is tested against.",
+  "required_change": "V04 l. 2886: replace '(outside the part's `bandUnion`, \u00a73.7)' with '(off its tunnel's or gallery's band, which `corridorUnion` commits, \u00a73.7)'. V04 l. 308: replace '(\u00a73.7's `bandUnion`)' with '(off the bands `corridorUnion` commits, \u00a73.7)'.",
+  "reported_by": "verify-kernel-r2t"
+ },
+ {
+  "id": "VV34-r2-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "A disaster's look below ground has two rules. V03 \u00a75.6 (4) draws a look-ruined building's damage layer \"at the look's `lookLevel` by severity, or at its own level where that is higher (`PlanDamage.level`), on every element\", and V03 \u00a75.1 *The plan in ruin* draws \"one a disaster's look ruins\" with \"below level 0 the cellars and the crypt\" \u2014 so its storeys below 0 take the look. V04 \u00a75.6 (1) gives a storey below 0 \"that building's level, `decayLevel(doc, its lineage, week)`\" and nothing else; V04 has 0 mentions of item 122, a disaster or `lookLevel`. R2-37 (7) names \"V04 below ground\" among the ends of the look's damage. A cellar or crypt under a look is drawn damaged by V03's rule and intact by V04's.",
+  "required_change": "V04 \u00a75.6 (1), after the underground building's sentence: \"Under a disaster's look over its building (V03 \u00a75.6 (4); item 122 (d)), a storey below 0 draws at its building's drawn level \u2014 `PlanDamage.level`, the higher of its own level and the look's `lookLevel` by severity \u2014 its kinds' thresholds unchanged, the look leaving no patch; the per-storey scene's walls, portals and lights stay at the own level, the look in its image only (V03 \u00a75.3; V03 \u00a75.6 (2) (d)). An underground building lies in no look's unit (V01's `disasterDistricts` returns the ground arena's districts), so it reads its own level only.\" Add the hook to V04 \u00a71.2 (\u00a72.7's `ConditionOverlay`, \u00a72.9's `crises`, \u00a77.7's DR44, \u00a710.2's `lookLevel`, read through V03 \u00a75.6 (4)); UE33 an E9 (a church in a ruined district: its crypt at the look's level in the condition's weeks and at its own outside them, no patch, its join kept); T-V4-82 a clause (i) on that fixture; J-V4.130 one sentence.",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-02",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V04 \u00a75.6 (2) lists \"an access head\" among the elements below ground that \"keep their V03 kind and range\", and \u00a75.6 (3) and UC21 draw \"a damaged \u2026 access head below 0\" as rubble. V03 \u00a75.6 (1), the home of the plan's element kinds, makes an access head no element (\"its state is its access's, V03 \u00a73.7.2 (7); V04 \u00a75.6 (4)\"), and V11 \u00a72.8d's `DamageElementKind` has no head kind. An access head has no threshold, so \"a damaged access head\" names nothing.",
+  "required_change": "V04 \u00a75.6 (2): drop \"an access head\" from the list and add \"an access head is no element (V03 \u00a75.6 (1)): its state is its access's\". V04 \u00a75.6 (3): \"a stair core whose `levels` include a storey below 0, once damaged, draws as rubble over its steps below 0, a way still climbable, an access head standing on it drawn with it\". UC21: \"a damaged stair core below 0, with any access head on it, draws as rubble over steps still climbable\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-03",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "V04 \u00a75.6 (2) keys a `cryptVault` element by \"(its room's id, the cell's grid node (i, j))\". A grid cell has four corner nodes, and neither V04 nor V03 \u00a73.7.5 (\"a grid of pitch `crypt.bayCm` centred on that OBB\") says which node names the cell or where (0, 0) lies. The key fixes the element's one threshold (\u00a76.3), so the text leaves an element's identity open.",
+  "required_change": "V04 \u00a75.6 (2), the `cryptVault` row's id cell: \"(its room's address, (i, j)) \u2014 i and j the cell's lowest-leftmost corner node in whole pitches along the step-2 ring's OBB axes, counted from the grid node at the OBB's centre (V03 \u00a73.7.5's centring) \u2014 a key, never a new id\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "T-V4-82 (b) checks \"each element damaged exactly when the level \u2265 its threshold\". \u00a76.3 *Plan damage* (the home), V03 \u00a75.6 (2) (a) and V11 \u00a73.25.10 state \"while the level is above 0 and at least t\", and V11 allows a range edited to `lo` = 0. With such a row, (b) requires an element damaged at level 0, which (g)'s byte-identical never-decayed control (`item123.damage`) forbids. This is the same defect VDC2-07, VDC2-08 and VRC2T-13 raise at \u00a72.6 and \u00a78.6.",
+  "required_change": "T-V4-82 (b): \"each element damaged exactly while the level is above 0 and at least its threshold (\u00a76.3)\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-05",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "T-V4-82 (g) re-runs the `item123.damage` pin below ground as \"(`item123.damage`, V12's pin)\". V12 \u00a72.13's row, V12 \u00a73.7.8's list, V12 \u00a73.15.13 and X-V12-11 all name T-V4-82 (g) as V04's registration of the underground's bands and per-band exports. R2-09 requires the restating clause to state that registration, as T-V4-47 does.",
+  "required_change": "T-V4-82 (g): \"\u2026 draw and export byte-identically to the build without the layer \u2014 the `item123.damage` registration of the underground's bands and per-band exports on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the U5 seat\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-06",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "V04 \u00a75.6 (6) and \u00a78's U5 row land the damage below ground at U5 and defer only \"a plan's storeys below 0\" to V03's item-123 step. The underground view's damaged footprints and per-band exports read the plan's damage elements (V03 \u00a75.6's `planDamage` and kinds), \u00a76.3's `plan.damage`, \u00a72.6 step 7 and \u00a78.6. R2-36 and \u00a716's M6-P row land all of these with V03's P4, \"the rest after M6\", while M6-U runs beside M6 (\u00a716). So U5 can land a part, and T-V4-82 run on it, before its base parts exist. V02 states its own case: \"at the later of M6b and V03's item-123 plan step\".",
+  "required_change": "V04 \u00a75.6 (6): \"It lands at the later of U5 and V03's P4 \u2014 the step that draws a decayed or ruined plan, with which \u00a72.6 step 7, \u00a76.3's `plan.damage` and \u00a78.6 land (R2-36; \u00a716) \u2014 the underground view's footprints and the per-band exports with it \u2026; before it nothing of this section is drawn\"; the same in \u00a78's U5 content cell (\"the damage below ground at the later of U5 and V03's P4\") and J-V4.130's landing clause.",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-07",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "V04 \u00a712 (l. 3464) reads \"file g's items 102\u2013126 are read whole in `docs/AMENDMENTS-2026-09-28g.md`\". It means every item of file g, and R2-07 says such a list states no upper number. It will be stale at item 127.",
+  "required_change": "V04 \u00a712: \"file g's items are read whole in `docs/AMENDMENTS-2026-09-28g.md`\" (the subset list that follows, \"the underground parts of items 113, 119, 120 and 123\", stays).",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ }
+]

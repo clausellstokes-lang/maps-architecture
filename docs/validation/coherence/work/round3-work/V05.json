@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VAL-R2-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V05",
+  "claim": "R2-07 (a canon change): a list meaning every owner item states no upper number, and a subset list is brought to item 126 this round. Assemble set 'items below 200 the owner's' in the title blocks of V04, V06, V07 and V08; V05, whose seat sent no note, still reads at l. 11 (its reading guide) 'items 1\u2013120 the owner's, items 200 and above file f's', which leaves items 121\u2013126 in no class; at l. 198 (\u00a71.2's hook table) 'items 102\u2013120 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts'; and at l. 3015 (\u00a712's reading record) 'items 102\u2013120 of `docs/AMENDMENTS-2026-09-28g.md`'.",
+  "required_change": "V05 l. 11: 'items 1\u2013120 the owner's' \u2192 'items below 200 the owner's' (the title block's form in V04, V06, V07 and V08; Assemble's to set, R2-07); l. 198: 'items 102\u2013120 of `docs/AMENDMENTS-2026-09-28g.md`' \u2192 'file g's items'; l. 3015: 'items 102\u2013120 of `docs/AMENDMENTS-2026-09-28g.md`' \u2192 'file g's items in `docs/AMENDMENTS-2026-09-28g.md`'.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VKr2-07",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V05",
+  "claim": "V05 \u00a73 (d) (V05 l. 1687) argues 'No raised way reaches an island' from the premise 'A raised part's two ends are ramps or stairs joined to ground vertices (item 110 (b))'. That premise restates \u00a72.7 without its ring-end foot (R2-26 (a)). The conclusion holds either way, since every foot lies on ground part 0.",
+  "required_change": "V05 l. 1687: replace 'A raised part's two ends are ramps or stairs joined to ground vertices (item 110 (b))' with 'A raised part's two ends are its feet on ground part 0 (\u00a72.7's `RaisedWayRecord.feet`; item 110 (b))'.",
+  "reported_by": "verify-kernel-r2t"
+ }
+]

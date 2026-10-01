@@ -1,0 +1,254 @@
+[
+ {
+  "id": "VAF-R2T-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "\u00a78.6 *The damaged plan* (l.13839\u201313841) draws \"each plan element whose threshold t \u2026 its decay level reaches \u2026 damaged, every other element as built\". That forbids V03 \u00a75.6 (2) (c)'s and V02 \u00a75.7 (2)'s roofless rule: a roof bay of a roofless wing below its threshold is drawn as built (a ceiling) by \u00a78.6 and open by V03, under an exterior V02 draws with no roof. Same defect as VAF-R2T-01, at the drawing's base home.",
+  "required_change": "\u00a78.6: \"\u2026 is drawn damaged \u2014 and every roof bay over a room of a roofless wing of a `decayed` or `ruined` building, whatever its t (\u00a72.6 step 7's one case without a threshold; V03 \u00a75.6 (2) (c)) \u2014 every other element as built.\"",
+  "owner": "rendering",
+  "reported_by": "verify-agree-fabric-r2t"
+ },
+ {
+  "id": "VAF-R2T-06",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "\u00a711.2's `MapBrief` writes `raised[].kind: 'viaduct'|'elevated'|'aqueduct'` inline (l.15965). \u00a72.7 declares `type RaisedKind = 'viaduct'|'elevated'|'aqueduct'` (l.2283), and V01, V06 and V11 cite it. The enumeration has two homes, the class R2-13 closes (\"a type the base declares is cited by the volumes, never declared twice\"). Noted for other seats in round 1 and raised by none.",
+  "required_change": "\u00a711.2 l.15965: `kind: RaisedKind /* \u00a72.7 */`.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-fabric-r2t"
+ },
+ {
+  "id": "VAL-R2-01",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "rendering",
+  "claim": "Missed shared subject: item 124's weather effects layer over V04's underground view has no stated outcome. \u00a78.8 *The weather effects layer* (l. 14097\u201314109) draws the spell every frame 'above the tiles and below the labels, the chrome and every overlay'; \u00a78.4 (i) (l. 13599\u201313617) adds per-frame terms beyond the direct-light multiplier \u2014 fog and mist fading the picture toward `fog` from the view's centre, at night a soft halo on 'every drawn LightSource (\u00a78.1 item 7)', heat shimmer offsetting 'the base's sampling', dust fading toward `sand`; \u00a78.2 *Weather effects* gives the falling marks and ripples. None names a layer. V04 \u00a75.1 draws the underground, when visible, as `cutaway` (ground ghosted), `overlay` or `solo` ('the underground alone', the export default), and \u00a78.4 (e) says 'Underground there is no global light at any setting'. So with Below shown it is undefined whether rain and snow fall over a sewer's plan, fog fades the band and haloes the undercity's torches, or shimmer moves the rock. No test sweeps it: T-ER-29 (\u00a78.11) names no layer, V12 \u00a73.15.14's edge row 35 lists no layer, V04 \u00a73.11 and \u00a75.1 are silent. Principle (11): every layer on and off has a defined outcome and test; the effects layer is rendering's (canon routing of item 124).",
+  "required_change": "\u00a78.8 *The weather effects layer* adds: 'While the underground layer is drawn (V04 \u00a75.1's `cutaway`, `overlay` or `solo`), the spell draws nothing over the view \u2014 no mark, ripple, fog, mist or dust fade, shimmer or night halo \u2014 and \u00a78.4 (i)'s terms are not applied (the underground has no global light, \u00a78.4 (e)); the effects return when the underground layer is hidden, the spell's timeline running on (\u00a76.1's `view.weather`).' \u00a78.4 (i) states the same in one clause; T-ER-29 adds 'the underground layer drawn in each of its three modes during a spell' with 'nothing drawn, the underground tiles and light byte-identical with the effects on and off'; V04 \u00a75.1 cites \u00a78.8's rule in one clause (V04's end, R2-05).",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAL-R2-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "rendering",
+  "claim": "`depthBand` crosses the bridge under round 2's \u00a711.3, against the units that make it per viewer. Before round 2, \u00a711.3's *View state* sent every view key across but the pointer and `underlay`; VRC1T-02 (R2-33 (b)) rewrote it (l. 16277\u201316281) to name 'the per-viewer keys a viewer's client keeps \u2014 `yearWeek`, `seasonFollow`, `festival`, `cvdVariant`, `find` and `crises` (\u00a72.9), `thematic`, `workingLayer`, `showUnexcavated` and V09 \u00a74.19's per-viewer keys \u2014, which never cross the bridge'. The list leaves out `depthBand`, the underground's drawn band, which \u00a78.4 (l. 13368) calls 'the per-viewer view key `depthBand` (\u00a72.9)', V04 \u00a71b.3 (l. 373) groups with `showUnexcavated` as set 'by V09's per-viewer controls', and V09's `WorkingLayer` (V09 l. 518) keeps as the band of the per-viewer working layer ('the view key `depthBand` alone (\u00a72.9), never copied here'); V09 \u00a74.19's table, to which \u00a711.3 delegates, does not carry it, and \u00a72.9's entry (l. 3293) does not mark it per viewer. Read by \u00a711.3 \u2014 the key's home for what travels (R2-33 (b)) \u2014 a host's or another viewer's band change moves this viewer's drawn band and Find's Go there target while that viewer's working layer stays: the two readings sync the view differently.",
+  "required_change": "\u00a711.3's never-cross list adds `depthBand` beside `workingLayer` and `showUnexcavated`: '\u2026 `thematic`, `workingLayer`, `depthBand` (the underground's drawn band, V04 \u00a75.1), `showUnexcavated` and V09 \u00a74.19's per-viewer keys \u2014, which never cross the bridge'. \u00a72.9's entry needs no change (it defers which keys travel to \u00a711.3).",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAL-R2-07",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "rendering",
+  "claim": "Same defect as VRC2T-06 (b) (verify-rendering), this lane's rendering\u2013V04 seam. \u00a711.1's underground band scene (l. 15806\u201315808) takes `line_of_sight` from 'every underground building's footprint less its doors and the runs its damage layer draws broken (V04, by their own thresholds; \u00a78.6)', and the per-storey scene (l. 15820\u201315821) removes 'the wall runs and partitions \u00a78.6's damage layer draws broken'. V04 \u00a75.6 (2) draws a damaged `cellarWall` or `cryptWall` run as 'the run's middle third broken over a rubble spill \u2026, still a wall to sight and passage' (l. 2886, 2888), and V04 \u00a75.6 (5) and V04 \u00a75.5's VTT row (l. 2922, 2852) keep its segment ('a `cellarWall` run keeps its segment'); an underground building's runs on its rock are `cellarWall`. Under \u00a711.1 those runs leave the battle map's walls; under V04 they stay, so the exported scene differs.",
+  "required_change": "ONE FIX with VRC2T-06 (b): \u00a711.1's underground band clause reads '\u2026 every underground building's footprint less its doors and the outer wall runs its damage layer fells (V04 \u00a75.6 (5)) \u2014 a `cellarWall` run keeping its segment \u2014', and the per-storey clause adds '`cellarWall` and `cryptWall` runs keeping their segments (V04 \u00a75.6 (2))'.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAT-r2-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "rendering",
+  "claim": "The host's 'layers shown' command writes a field the set writes only by a logged event. \u00a711.3 *The host's view commands* (l.16282\u201316285, new this round for item 125 (c)) has a host drive 'the layers shown (`view.set` of the view's layer choices, \u00a78.4's `LayerSpec.visible`)'. Elsewhere `LayerSpec` is the document's style state, written by the logged `setLayer`: \u00a77.1's binding (T12 `dress`); \u00a77.4's row (l.11019: 'setLayer \u2026 style state (canonical, outside the model digest) | log | \u2026 | inverse'); II.7 (l.20565: the underground toggle 'sets the underground `LayerSpec.visible` through `setLayer`'); V09 \u00a74.3 and l.4050 ('the style's layer spec (`setLayer`, logged)', J-V9.54); V10 \u00a74.1's T12 `layer` \u2192 `setLayer { layer, spec: { visible } }`. `view.set` patches only the view keys that travel (\u00a711.3, l.16195), and `LayerSpec` is no view key. So a host's toggle changes neither the log nor the style state, while the same toggle by a user or the clerk is a logged, undoable event that travels as `doc.changed`: one command, two meanings, and a reload or another client shows different layers. \u00a77.7 item 1 (l.11687) and V08 (`setView`'s comment l.489; \u00a73.16 (4), (6) (g)) restate the three commands as `view.set`, and V09 \u00a74.2 (l.1654) calls the visibility a layer switch sets 'view state only'.",
+  "required_change": "One path for a layer's visibility, the one \u00a77.1, \u00a77.4 and \u00a78.4 give. (1) \u00a711.3 *The host's view commands*: 'the layers shown (`view.set` of the view's layer choices, \u00a78.4's `LayerSpec.visible`)' \u2192 'the layers shown (a `setLayer { layer, spec: { visible } }` sent by `doc.apply`, as a user's layer toggle is that logged event \u2014 \u00a77.1's binding, T12 `dress`; \u00a77.4's `setLayer` row; `LayerSpec` is the document's style state, \u00a78.4, and no view key, so `view.set` never carries it)'. The week (`view.set { week }`) and the selection (`view.set { select }`) stay `view.set` commands, keeping R2-33 (b)'s three commands. (2) The restatements follow the same form: \u00a77.7 item 1, V08's `setView` comment and its \u00a73.16 (4) and (6) (g). (3) V09 \u00a74.2's '(\u00a77.8's layer controls, view state only)' reads '(\u00a77.8's layer controls: `LayerSpec.visible`, written by `setLayer`, \u00a78.4)'.",
+  "reported_by": "verify-agree-tools-r2t"
+ },
+ {
+  "id": "VAT-r2-05",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "rendering",
+  "claim": "Two lists derived for the view \u2014 DR44's standing crisis looks and DR43's festival list \u2014 are read by three members, and no member produces them through an interface. `live.crises` evaluates DR44 in the generation worker over the model, the view state and the key (\u00a78.2 *The layer*, l.12931). V09's Show crises controls, crisis card, why lines and Find's `crises` section read 'the legend's crisis entries (\u00a79.5: the values drawn) \u2026 one evaluation' (V09 \u00a74.21.12 (3), l.3571\u20133572; \u00a72.12 l.1005: the card 'derived from the standing overlays by DR44 at `effectiveKey()`'). V10's `read_map { kind: 'look' }` takes `LookAnswer.crises` 'by \u00a79.5's legend entries' (V10 \u00a73.5 l.1441; \u00a71.2 l.185), needing each look's condition id, map row, severity, weeks and a disaster's districts (V10 \u00a72.13 l.1001\u20131011). But \u00a79.5's legend is a drawn furniture panel (a glyph, a name and weeks) that no data structure holds, and \u00a711.2 has no query kind, answer type or event returning the standing looks. The main thread does not hold the model, \u00a710.2's crisis table, V01's `disasterDistricts` or V06's `frontierFor`, so neither reader can run DR44 itself. The festival list is the same: V09 \u00a74.21.8 (1) and V10's `LookAnswer.festivals` read 'DR43 \u2026 from the dossier', with no read on the API. These are dangling inputs (principle (7)). V10's hand-off CVR-V10-22 asked V09 to expose the evaluation; V09 cites only the legend. VV910-r2-04 covers only V09's missing citation of V01's districts.",
+  "required_change": "\u00a711.2 adds one view-bound reader kind, `{ kind: 'looks'; view: ViewHandle }`, answered as `LooksAnswer { week: number /* \u00a72.9's week */; yearWeek: number; festivals: { id: string; name?: string; weeks: [number, number]; shown: boolean }[] /* DR43's list in window order */; crises: { look: CrisisLookKind; condition?: Id; source?: { from: 'stressor'|'archetype'|'event'; key: string }; sinceWeek?: number; untilWeek?: number; severity: number; forces?: { headcount: number; groups: number }; districts?: Id[]; massed?: true }[] /* DR44's standing looks, or the preview, in the legend's order */ }`. It is computed in the generation worker by the same evaluation `live.crises` draws and \u00a79.5's legend lists, admitted at the view's effective key by *Knowledge* (a withheld condition absent and uncounted); its call-table row reads 'out: one answer, \u2264 64 KB'. The readers cite it in place of 'the legend's entries': V09 \u00a74.21.8 (1), \u00a74.21.12 (3)\u2013(7) and \u00a72.12's crisis-card row; V10 \u00a72.13 (`LookAnswer.festivals` and `.crises` as projections of `LooksAnswer`) and \u00a73.5's `look` read; V10 \u00a71.2's \u00a79.5 row becomes a \u00a711.2 row.",
+  "reported_by": "verify-agree-tools-r2t"
+ },
+ {
+  "id": "VDC2-08",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a78.6 *The damaged plan* reads \"(V06's `decayLevel`; level \u2265 t, the one comparison every reader makes)\". As VDC2-07: \u00a76.3, V03 \u00a75.6 (2) (a) and V11 \u00a73.25.10 state \"the level above 0 and at least t\", and \"level \u2265 t\" damages an element of a never-decayed building when its threshold is 0, against `item123.damage`.",
+  "required_change": "\u00a78.6: \"(V06's `decayLevel`; level \u2265 t, the one comparison every reader makes)\" \u2192 \"(V06's `decayLevel`; the level above 0 and at least t, the one comparison every reader makes, \u00a76.3)\".",
+  "owner": "rendering",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-12",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a711.1 (rendering, this round) says \"For a dossier-bound map whose dossier carries its partners' true bearings (\u00a77.7 layer 2's *Bearing*; item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those bearings, as the key's documented default\". Every other statement says no such input exists: - \u00a77.7 layer 2: \"No input sends a true bearing after creation (item 125 (a)): \u2026 the geo anchor's `bearingDeg` (\u00a711.1) stays a user setting\". - Item 125 (b) and V08 \u00a73.16 (9) make the neighbours' bearings the generator's or the user's. - The dossier carries no partner bearing (V08 \u00a72.4's field table). - J-A125.01 retires \"the realm fit's north-first turn\". The clause names a producer that does not exist and contradicts \u00a77.7. The hand-offs of determinism's and V08's repairs name it.",
+  "required_change": "\u00a711.1: replace \"For a dossier-bound map whose dossier carries its partners' true bearings (\u00a77.7 layer 2's *Bearing*; item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those bearings, as the key's documented default; with none the default stands; no geometry moves for it.\" with \"No input sets it \u2014 a dossier carries no true bearing and a host sends none (item 125 (a), (b); \u00a77.7 layer 2's *Bearing*) \u2014 so the anchor stays (0\u00b0, 0\u00b0, 0\u00b0) until the user sets it; no geometry moves for it.\"",
+  "owner": "rendering",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VKr2-08",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "rendering",
+  "claim": "Round 2's \u00a711.2 `apply` signature (R2-42) has `onProgress` for a `'undo'` wait (l. 15850): 'a group of `undo` or `redo` events, its events undone or redone of the total (V09 \u00a74.21.9, \u00a73.9)'. Under canon S7 the bare \u00a73.9 reads as the kernel's *Geometry in the document*, which says nothing of undo progress. The meant section is V09 \u00a73.9 *Undo, redo, restore points and \"open a copy from here\"* (V09 l. 1312). It is the list-continuation class of VKr1-08, new this round.",
+  "required_change": "\u00a711.2, l. 15850: replace '(V09 \u00a74.21.9, \u00a73.9)' with '(V09 \u00a74.21.9, V09 \u00a73.9)'.",
+  "reported_by": "verify-kernel-r2t"
+ },
+ {
+  "id": "VPC-R2-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a78.2 *Crisis looks* (l. 12924\u201312925) ends the disaster look 'in the week its `reconstruction` Works begins (V06)'. V06 \u00a73.22 (3) ends it per building through `crisisLookYields` (see VPC-R2-09) and names \u00a78.2's disaster look row as a reader of `crisisLookYields`. \u00a78.2's `live.crises` input list (l. 12931\u201312933: \u00a710.2's places, V01's `campLand` and `disasterDistricts`, V06's `frontierFor`, the walls and gates) omits `crisisLookYields`, so this reader's end of the hook is unwritten.",
+  "required_change": "\u00a78.2, l. 12924\u201312925: read 'each building's ruin ends in the week a rebuild Works on it begins (V06 \u00a73.22 (3)'s `crisisLookYields`)'. In *The layer*, l. 12932, add 'V06's `frontierFor` and `crisisLookYields`'.",
+  "owner": "rendering",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VRC2T-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Find's chip cues repeat with the colours' period, so chips past eight are told apart by nothing (item 120 (d): 'past eight chips the colours repeat and the glyph tells them apart'). \u00a78.2 *Each chip's colour and second cue*: chip k draws in `find.((k \u2212 1) mod 8 + 1)`, its glyph from eight glyphs (circle, square, triangle, diamond, star, cross, hexagon, bar) 'cycling by k', its dash pattern from eight 'by ((k \u2212 1) mod 8)' \u2014 so chips k and k + 8 share colour, glyph and dash, while the same sentence claims 'two chips that share a colour past eight differ in glyph'. T-ER-25's 'nine or more chips \u2192 each chip told by its glyph and dash' cannot pass.",
+  "required_change": "\u00a78.2's *Each chip's colour and second cue* draws chip k's glyph from nine glyphs \u2014 circle, square, triangle, diamond, star, cross, hexagon, bar and ring \u2014 by (k \u2212 1) mod 9, its colour by (k \u2212 1) mod 8 and its dash pattern by (k \u2212 1) mod 8 as now, so chips k and k + 8 (one colour, one dash) differ in glyph and no two of the first 72 chips share colour and glyph; T-ER-25's 'nine or more chips' row checks chips 1 and 9 (and 8 and 16) differ in glyph on their pins, in the legend and in V09's panel.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Crisis looks: the barricades item 122 (b) asks for ('raiders \u2014 \u2026 barricaded roads'; 'rebellion \u2014 street barricades') stand on a way's carriageway, which \u00a78.2 and T-ER-27 forbid. \u00a78.2's *Placement, scale and the land* says a look stands 'never on water, a way's carriageway, a gate's passage or a label's keep-out', while \u00a78.2's look table draws 'a `barricade` across the road' (`blockade`), 'a `barricade` across each approach road' (`raiders`) and 'a `barricade` at each junction of the principal market's streets' (`rebellion`) \u2014 the glyph 'a 1.5 px `ink` zig-zag across the way' \u2014 and puts the `blockade` city-band `campCluster` 'across each approach road' where \u00a710.2 (d)'s `approachRoads` places camps on the verges. T-ER-27's bar '0 look pixels on water, a carriageway, a gate's passage or a keep-out' fails on any such look (its siege of an unwalled place draws `blockade`; its fixtures test neither `raiders` nor `rebellion`).",
+  "required_change": "\u00a78.2's placement bullet reads '\u2026 never on water, a gate's passage or a label's keep-out, and on a way's carriageway only a `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`, `rebellion`; \u00a710.2 (d)) \u2014 no camp, tent, cart, engine or other part'; the look table's `blockade` city-band cell reads 'a `campCluster` on each approach road's verges (\u00a710.2 (d)'s `approachRoads`)'; T-ER-27's bar reads '0 look pixels on water, a gate's passage or a keep-out, and none on a carriageway but a barricade's', and its fixtures add `raiders` and `rebellion` (each previewed at every rung) beside the unwalled siege's `blockade`.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-05",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Item 121's 'one order' gives up full precision first, but full precision is not a quality option in the design: \u00a78.4 (g) holds it only on 'a tier whose GPU pass misses \u00a713.4's tolerance' (one-byte pyramids move a far shadow tip \u2248 10 px), and such a tier 're-measured and, still missing, draws rung 3 (J-A68.85)' \u2014 never the standard surface. \u00a78.8's *Fitting the need \u2014 one order* and Auto's ladder (\u00a78.4 (g), \u00a78.8) now take 'full precision (to the standard surface)' first, and the worked cases draw exactly that: 'a tier that took full precision gives it up first: the reference view is lit on the standard surface at DPR 2 on the high tier \u2026 the low-end device at 1 366 \u00d7 768 on the standard surface at DPR 1 (\u2026 where full precision's 106.5 MB drew the vector rung before)' (receipt `coh_repair_rendering_r2_resolution.out`: 'mid full: d = 1, drawn lit'). On every such tier the lit view then lies outside \u00a713.4's tolerance, against \u00a78.4 (g)'s rule and T-ER-10's bar ('CPU reference = GPU within \u00a713.4's tolerance' on each rung), and differs from every export (the CPU reference).",
+  "required_change": "\u00a78.4 (g) and \u00a78.8 state that the standard surface is no lawful rung on a tier whose GPU pass misses \u00a713.4's tolerance (the only tiers that take full precision): there Auto's ladder and \u00a78.8's fitting order pass over it as they pass over a step that frees nothing \u2014 lighting detail is given up from full precision to rung 2's half-resolution global term at full precision, then sharpness, then the light pass (rung 3) \u2014 so no lit frame outside \u00a713.4's tolerance is drawn (item 121 (e)'s order kept for every tier that passes the tolerance); \u00a78.8's full-precision worked cases are restated by that rule (the low-end 1 366 \u00d7 768 device at full precision on rung 3, as J-A68.89 had it; the high and mid tiers' full-precision reference view at the DPR where 6.5P + 7 MB + Q_f plus the text layer fits, else rung 3), the resolution receipt re-run; T-ER-26 adds a full-precision tier under Auto and under a manual level it cannot hold: every lit frame within \u00a713.4's tolerance.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-06",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a711.1's battle-map damage clauses (item 123 (e), new this round) disagree with item 122 (f) and with V03 \u00a75.3 / V04 \u00a75.6, which own the plan's scenes. \u00a711.1 takes `line_of_sight` 'minus \u2026 the outer-wall runs \u00a78.6's damage layer draws broken at the export's drawn week', per storey 'minus \u2026 the wall runs and partitions \u00a78.6's damage layer draws broken', an underground building 'less \u2026 the runs its damage layer draws broken (V04, by their own thresholds; \u00a78.6)', and 'the stair core a named portal \u2026 while its flights stand'. But (a) \u00a78.6 draws a building of a disaster look's district at the higher of the look's `lookLevel` and its own level, so a cosmetic look would remove walls and portals from a VTT scene \u2014 against item 122 (f) ('battle-map exports draw them in the image only, never as walls or obstacles') and \u00a711.1's own crisis paragraph; V03 \u00a75.3 and J-V3.138 take walls, portals and lights from the building's OWN level, the look in the image only; (b) V04 \u00a75.6 (2) keeps every `cellarWall` and `cryptWall` run 'still a wall to sight and passage' though drawn damaged, and an underground building's runs on its rock are `cellarWall`; (c) V04 \u00a75.6 (3) / V03 \u00a75.3 keep a broken stair below level 0 as climbable rubble that stays a portal; (d) V03 \u00a75.6 (6) writes no room light for a building in a decay run, which \u00a711.1's `lights` rule does not state.",
+  "required_change": "\u00a711.1's damage clauses read: `line_of_sight` leaves out the wall runs and partitions the building's OWN decay level breaks (V06's `decayLevel` at the export's drawn week; \u00a76.3's comparison) \u2014 never a crisis look's `lookLevel`, which the scene's image alone draws (item 122 (f)) \u2014, `cellarWall` and `cryptWall` runs keeping their segments (V04 \u00a75.6 (2)); `portals` none for a door that level breaks (a gap), the stair core a named portal while its flights at or above level 0 stand and a broken flight below level 0 a portal still (climbable rubble, V04 \u00a75.6 (3)); `lights` none for a room of a building in a decay run (V03 \u00a75.6 (6)); the image draws the drawn level (V03 \u00a75.3; J-V3.138); T-ER-28 adds a disaster-look fixture whose battle-map scene's walls and portals equal its own-level scene's.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-07",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "Find at a scrubbed week (principle (11): two units' features at their limits). \u00a72.9's `week` is the week drawn, which a user scrubs (item 67), and at a week before the last epoch the renderer draws V06 \u00a73.15.2's history frame \u2014 another model (V06 W21; V06's `frontierFor` reads 'the model the view draws (the head, or a history frame)'). \u00a78.2's *Find* re-runs `live.find` 'at every commit, regenerate, undo, redo, advance, load and migration, whenever the key, band, layer or year position changes, and when the view moves' \u2014 not when `week` changes \u2014 over \u00a711.2's gazetteer match listing, which answers over the head (no week), from an index 'rebuilt once per commit'. So on a scrubbed frame Find glows, pins and counts buildings the frame does not hold and misses ones it holds; no outcome is stated and T-ER-25 tests no `week` change. The same reading is open for \u00a78.2's *Crisis looks* layer, whose placement services run 'over the model' with no frame named.",
+  "required_change": "\u00a78.2's *Find* adds the `week` change to `live.find`'s re-runs and states the outcome at a drawn week whose frame is not the head (V06 \u00a73.15.2): each chip's matches are \u00a711.2's listing restricted to the entities the drawn frame holds \u2014 one the frame lacks is not drawn, pinned or counted there, a chip with none reads count 0 for that frame, the head's chips unchanged \u2014, and \u00a78.2's *Crisis looks* places over the model the view draws (the head, or that frame), as V06's `frontierFor` already reads; T-ER-25 adds a scrub to a week before a matched building was built and after a closed use's end; V09 \u00a74.21.10 (7)'s triggers add the `week` change (V09's end).",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-08",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "Item 121's Auto changes and a device-pixel-ratio change have no application moment while no gesture runs. \u00a78.8: 'A change is applied only when the view settles (*Gestures*, below)'; *Gestures* defines the settle as the animation '120 ms after input stops' a pinch, wheel or pan; and 'A device-pixel-ratio change (the window moved to another monitor) refits d at once, applied at the next settle (T121-7)'. A window dragged to another monitor, or an idle view whose frame-time p95 passes its budget (a weather spell or the path or cursor sun animating, item 124 (b)), is followed by no gesture, so 'the next settle' may never come: the view keeps a DPR fitted for the old screen and Auto never steps down, while T121-7 requires 'a device-pixel-ratio change re-evaluates at once'. T-ER-26 tests the monitor change only mid-gesture.",
+  "required_change": "\u00a78.8 states that the view is settled whenever no gesture runs: a change Auto's loop decides is applied at once when the view is idle (still at most once in 10 s, never during a pan, zoom or drag) and at the gesture's settle otherwise, and a device-pixel-ratio change is refitted and applied at once when idle, at the settle when a gesture runs; T-ER-26 adds a DPR change with the view idle and a loop step-down reached while idle under a weather spell: each applied within one frame of the decision (T121-2, T121-7).",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-09",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a78.2's *Find* starts `live.find` 'While \u00a72.9's per-viewer key `find` holds a chip, or Show gaps is on', and its first mark is the veil 'over the view, cut out at each match's shapes'; so Show gaps with no chip \u2014 the state an older view's `thematic: 'coverage'` opens in (\u00a72.9; V09 \u00a74.21.10 (10)) \u2014 veils the whole map with nothing lifted. Item 120 (e) and V09 \u00a74.21.10 (6) draw the veil only 'while any chip is on', and V09 disables Show gaps with no kind chip; T-ER-25's 'Show gaps with no kind chip' row states 'no gap drawn' but not the veil.",
+  "required_change": "\u00a78.2's *Find* opens 'While \u00a72.9's per-viewer key `find` holds a chip, the overlay provider `live.find` \u2026' and its no-op sentence reads 'with no chip it delivers nothing \u2014 Show gaps reads the kind chips (V09 \u00a74.21.10 (10)), so `gaps` alone draws no veil \u2014 the tiles byte-identical'; T-ER-25's row adds 'and no veil' to that case's outcome.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "A coalition of five or more armies draws two armies identically, against item 122 (h) ('a coalition's armies each keep their own camp and colours'). \u00a78.2 colours an army by `crisis.army.*` 'by the army's index in its coalition, cycling past four' and gives its banner a glyph 'plain, cross, chevron, saltire, cycling by its index in the coalition' \u2014 four colours and four glyphs on the same period, so armies i and i + 4 share colour and glyph and nothing tells them apart (item 112's second cue). T-ER-27 tests a two-army coalition only.",
+  "required_change": "\u00a78.2's banner glyphs number five \u2014 plain, cross, chevron, saltire and pale \u2014 by (i \u2212 1) mod 5 against the four `crisis.army.*` colours by (i \u2212 1) mod 4, so armies i and i + 4 differ in glyph (colour and glyph first repeat together at the 21st army); T-ER-27 adds a five-army coalition whose armies are each told by colour or glyph.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-11",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a711.1's geo-anchor default (rewritten this round for item 125) reads 'For a dossier-bound map whose dossier carries its partners' true bearings (\u00a77.7 layer 2's *Bearing*; item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those bearings'. The cited home says the opposite: \u00a77.7 layer 2's *Bearing* takes a partner's bearing from the user's setting, else a draw on `gate.pick`, 'no host input gives one', and 'No input sends a true bearing after creation (item 125 (a)): \u2026 the geo anchor's `bearingDeg` (\u00a711.1) stays a user setting'; item 125 (b) makes 'the neighbours' bearings \u2026 our generator's defaults or the user's settings'. \u00a711.1's rule has no producer and contradicts \u00a77.7.",
+  "required_change": "\u00a711.1's sentence reads 'No input gives a true bearing (\u00a77.7 layer 2's *Bearing*; item 125 (a)\u2013(b)), so a dossier-bound map's anchor takes the same default (0\u00b0, 0\u00b0, 0\u00b0) and stays a user setting; no geometry moves for it.'",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-12",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "`ExportOpts` is read and extended but declared nowhere in the set: \u00a711.1 reads `ExportOpts.find` (new this round) and `ExportOpts.knowledge`, \u00a711.2's `export(h, fmt, opts?: ExportOpts & {\u2026})`, \u00a711.4's `exportDocument(doc, fmt, opts?: ExportOpts)` and V08 W81 / \u00a73.14 (`ExportOpts.knowledge`) use it, and \u00a714's `Exporter<Opts>` is generic \u2014 no `interface ExportOpts` exists (repair-r2-rendering's own hand-off records the gap). The frame, scale, DPI, layers and sheet \u00a78.7 and \u00a78.9's raster-export request carry have no typed home on the API.",
+  "required_change": "\u00a711.2 declares once `interface ExportOpts` with every member the set reads \u2014 `knowledge?: Admission` (\u00a711.1 *Knowledge*; V08 \u00a73.14), `find?: boolean` (\u00a711.1: absent = drawn on a picture export, off on a battle map), and the frame, scale, DPI, layers, sheet and post operations \u00a78.7 and \u00a78.9's raster-export request carry, each with its default \u2014 and \u00a711.4's `exportDocument`, \u00a714's `Exporter` registry and V08 W81 cite it.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-13",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a78.6 restates item 123's comparison as 'level \u2265 t, the one comparison every reader makes'; its home, \u00a76.3 *Plan damage*, says 'the element shows damaged exactly while the level is above 0 and at least t \u2014 a level of 0 damages nothing \u2026 whatever its kinds' ranges' (V03 \u00a75.6 (2) (a) the same). V11's `DamageElementRow.range` allows lo = 0, so an element whose t is 0 is damaged at level 0 by \u00a78.6's wording, breaking the no-op pin `item123.damage` (T123-7) that \u00a78.6 states two paragraphs later.",
+  "required_change": "\u00a78.6's parenthesis reads '(V06's `decayLevel`; damaged while the level is above 0 and at least t \u2014 \u00a76.3's one comparison every reader makes)'.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-15",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a78.6 draws 'each repaired element \u2026 in item 114's patch material' after a restoration but never says which elements are repaired; the predicate is V06's `decayPeak` (V06 \u00a73.23; V03 \u00a75.6 (2) (b): 'an element whose threshold lies above the own level and at or below `decayPeak` is drawn repaired \u2026 until the plan itself changes'; 'A look leaves no patch'), and V06's W94 lists '\u00a78.6's drawing and \u00a711.1's battle maps' among `decayPeak`'s readers. The base drawing's home reads only `decayLevel`, so W94's reader end at \u00a78.6 is one-ended.",
+  "required_change": "\u00a78.6's restoration sentence reads 'A restoration lowers the level and the damage leaves in reverse threshold order: an element whose threshold lies above the own level and at or below V06's `decayPeak` is drawn repaired, in item 114's patch material (\u2026), until the plan changes (a rebuild, a demolition, a successor on the trace); a look leaves no patch (`decayPeak` never reads a look; V03 \u00a75.6 (2) (b))'.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-17",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "\u00a78.2's *Weather effects* takes the spell's kind 'from V11's climate weather columns for the climate row at the view's week'; \u00a72.9 keeps `week` (the absolute week drawn, against which crisis looks are read) and `yearWeek` (the year position) apart and says the two are never interchanged, and \u00a76.1's weather stream draws the kind 'for the week band of \u00a72.9's `yearWeek`'. 'The view's week' names the wrong key.",
+  "required_change": "\u00a78.2's *Weather effects* reads '\u2026 its kind from V11's climate weather columns for the climate row at the year position (\u00a72.9's `yearWeek`; \u00a76.1's stream) \u2026'.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-18",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "claim": "\u00a711.2 declares `type FindLayer = 'ground'|'underground'|'sky'` for the gazetteer's and Find's `layer` fields \u2014 the same three values as the model's `Layer` (\u00a72.1: `layer \u2208 {underground, ground, sky}`), the type `PlatKey.layer`, `setLayer` and `TileRasterOpts.layers` already use; no rule, value or lifecycle separates them (R2-13's class: a type the base declares is cited, never declared twice). V10 \u00a72.13's `FindAnswer` repeats the union inline twice.",
+  "required_change": "\u00a711.2 drops `FindLayer` and types `GazetteerAnswer.rows[].layer`, `classes[].layers[].layer` and `matches[].layers[].layer` as `Layer` (\u00a72.1: Find's Ground, Below and Sky); V10 \u00a72.13's `FindAnswer` cites \u00a72.1's `Layer` for its two inline unions (V10's end).",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VRC2T-19",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "The repair's vetoable design calls on items 121, 122 (i) and 124 are recorded in no J row, and one contradicts a standing row. J-A68.89 (rationale Part A) still gives its worked case 'the reference view lit \u2026 at 1.5 on the mid tier, 123.25 MB', while \u00a78.8 now lights the mid tier's reference view (device ratio 2) at DPR 1 with item 121's text layer (103.75 MB) and gives full precision up first. The split composition and its mid-tier consequence, full precision first in the one order, the loop's 60-s doubling hold, the text layer stepping down where nothing fits, the ultra tier's bar (\u2265 8 GB, \u2264 8 ms probe), the weather layer's coverage weighting and the ring outside the margin live only in repair-r2-rendering.md's 'Interpretations and judgment calls 1\u20137'; J-A121.01 records placement and bars only.",
+  "required_change": "Rationale Part A gains rows (J-A121.02 onward, with their judgment-index lines) recording each of those calls with the alternative it was chosen over, and J-A68.89's worked mid-tier clause reads 'at 1.5 on the mid tier on a device of ratio 1.5, 123.25 MB (at the reference ratio 2, DPR 1 with item 121's text layer, 103.75 MB, \u00a78.8)'.",
+  "owner": "rendering",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VV12-r2-06",
+  "severity": "major",
+  "kind": "WIRING",
+  "owner": "rendering",
+  "claim": "V02 \u00a713's X37 (V02 \u00a75.7 (2), (8)) asks the base for two ends, and neither is written. (1) \u00a78.2's Works `decaying` row still reads 'override: the roof with gaps along its ridge, the outline dashed at 30 %', with no word that, where the building's plan is in force, its ridge gaps are V02 \u00a75.7's holes; a `decaying` building with its plan in force would draw two different sets of roof gaps. (2) \u00a78.8's tile key carries the drawn week for 'a building drawn under item 123's damage layer', but not `crises` or the effective knowledge key for a tile holding a building under a disaster look. At the district band the `disaster` row draws no `live.crises` mark ('\u2014 (its buildings' damage, below)', \u00a78.2's *Crisis looks* table), so `live.crises`' share of the key does not move when Show crises turns `off`, a preview starts or View as withholds the condition. The cached tile keeps drawing ruined roofs the view has switched off.",
+  "required_change": "\u00a78.2's Works `decaying` row reads \"override: the roof with gaps along its ridge \u2014 where the building's plan is in force, V02 \u00a75.7's holes in their place \u2014 the outline dashed at 30 %\". \u00a78.8's tile-key list reads \"\u2026 the drawn week where the tile holds a Works mark (\u00a78.1 item 7) or a building drawn under item 123's damage layer, whose decay level is read at it (\u00a72.6 step 7; \u00a78.6), and `crises` and the effective knowledge key where it holds a building under a disaster look (V02 \u00a75.7 (8)) \u2026\". \u00a78.1 item 7's week re-emission adds the buildings whose damage marks differ between the two weeks (V02 \u00a75.7). T-ER-27 gains a case: Show crises toggled, and View as changed, over a cached district-band tile of a struck district, with the tile redrawn each time.",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV56-r2-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "\u00a78.2's crisis rows (l. 12922\u201312925): \"A disaster's buildings draw item 123's damage layer at its row's `lookLevel` \u2026 and their districts the `ruinTone` at the city band; the look ends in the week its `reconstruction` Works begins (V06)\". V06 \u00a73.22 (3) and J-V6.138 \u2014 with V02 \u00a75.7 (6), V03 \u00a75.6 (4), V07 \u00a75.6 (3) and V10 l. 1997 \u2014 end the look building by building, when `crisisLookYields(doc, building, overlay, week)` turns true (a Works other than a `decay` Works begun on that building), a building no rebuild reaches keeping the look until its condition ends; V06 \u00a73.22 (3) and W93 name \"\u00a78.2's disaster look row\" as a reader, but \u00a78.2 never reads `crisisLookYields` (`live.crises`' inputs, l. 12931\u201312932, name `frontierFor` only). Read literally, \u00a78.2 drops the whole look \u2014 every building's damage and every district's tone \u2014 at the first rebuild while V02 and V03 keep drawing it on the others; under per-building yields the end of a district's `ruinTone` is stated nowhere, and `live.crises` re-runs only \"when the week crosses a condition's edge\", so a scrubbed week crossing a building's Works start leaves stale tiles.",
+  "required_change": "\u00a78.2: \"\u2026 the look leaves each building in the week V06 \u00a73.22 (3)'s `crisisLookYields` turns true on it \u2014 a Works other than a `decay` Works begun on it \u2014 so no week draws both the look and the rebuild's stage; a building no rebuild reaches keeps it until its condition no longer stands; a district's `ruinTone` stands while any of its buildings still draws the look\"; *The layer*'s inputs add \"V06's `crisisLookYields`\", and its re-run triggers add \"the week crossing a Works' start week on a building of a standing disaster look\".",
+  "reported_by": "verify-vol-V05-V06-r2t"
+ }
+]
