@@ -1,0 +1,13 @@
+INDEX final: C1: 0/0 C2: 0/0 C3: 21/17 C4: 0/0 S1: 0/0 S2: 0/0 
+V01-neighbourhoods final: C1: 0/0 C2: 0/0 C3: 391/333 C4: 2/0 S1: 0/0 S2: 215/3 
+V02-buildings final: C1: 0/0 C2: 0/0 C3: 561/503 C4: 1/0 S1: 0/0 S2: 110/0 
+V03-interiors final: C1: 0/0 C2: 0/0 C3: 330/279 C4: 2/0 S1: 0/0 S2: 63/0 
+V04-underground final: C1: 0/0 C2: 0/0 C3: 191/170 C4: 0/0 S1: 0/0 S2: 91/9 
+V05-sky final: C1: 0/0 C2: 0/0 C3: 238/227 C4: 0/0 S1: 0/0 S2: 254/13 
+V06-evolution final: C1: 0/0 C2: 0/0 C3: 261/243 C4: 0/0 S1: 0/0 S2: 348/59 
+V07-village final: C1: 0/0 C2: 0/0 C3: 349/318 C4: 1/0 S1: 0/0 S2: 339/0 
+V08-settlementforge final: C1: 0/0 C2: 0/0 C3: 164/158 C4: 2/0 S1: 0/0 S2: 209/8 
+V09-application final: C1: 1/0 C2: 1/0 C3: 245/234 C4: 0/0 S1: 0/0 S2: 354/105 
+V10-clerk final: C1: 0/0 C2: 0/0 C3: 152/143 C4: 0/0 S1: 0/0 S2: 287/17 
+V11-content final: C1: 0/0 C2: 0/0 C3: 279/254 C4: 3/0 S1: 0/0 S2: 291/49 
+V12-calibration final: C1: 8/0 C2: 0/0 C3: 126/114 C4: 2/0 S1: 0/0 S2: 107/12 
