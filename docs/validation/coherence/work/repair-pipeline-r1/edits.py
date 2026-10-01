@@ -46,8 +46,8 @@ E(H41, "on the island's own arena, from V05's hand-over (V05 §3.1; V01 §3.10),
 E(H42, """biome /* its climate row: aridity, the arid water chances, the water pull and
 the sunlight cell (items 102, 111; V11) */""",
 """biome /* its climate row: aridity, the arid water chances, the water pull and
-the sunlight cell (items 102, 111), and the season columns (item 117: §10.2's `ClimateSeasonCells` — the winter's
-severity and the weeks, 0–51 spring first, of leaf colour, leaf fall, blossom, growing, harvest, hay, ice and snow, a band
+the sunlight cell (items 102, 111), and the season columns (item 117; J128: `ClimateRow.seasons`, V11 §2.8's
+`ClimateSeasonCells` — the winter's severity and the weeks, 0–51 spring first, of leaf colour, leaf fall, blossom, growing, harvest, hay, ice and snow, a band
 wrapping the year's end — read only by §8.2's season rows, §11's exports and §7.7's season derivation row, never by a
 stage, so no season changes the model or its hash, item 117 (a)); V11 */""", 'VPC-02')
 
@@ -327,3 +327,183 @@ E(H45, """its
    band, granularity, greenery and lighting rows are the defining kind's; its identity's source is `dossier`. The slums, a
    foreign quarter and a guild district are naming claims whose kind bias reaches their identity rows (§7.7 item 16; V11
    §3.10), never district-defining instances.""", 'VPC-12')
+
+# ───────────────────────────── §4.6 ─────────────────────────────
+E(H46, """district except its reservations (a reservation inside a face is a hole; a `landing` reservation's attach vertex that no""",
+"""district except its reservations and its raised ground (a reservation inside a face is a hole; so is every committed
+raised part's under-deck strip — the deck's ground projection over its piers and spans, widened by `raised.stripMarginM`
+each side (a `hood.constants` cell in `@plat/tables`; V01 §3.17.3 (2) reads the same strip) — with its pier footprints on
+ground part 0 (§2.7): no block interior, plot, seed or footprint lies in it, so S10 and S11, which build only inside S8's
+blocks, never cut a plot or stand a building there, with or without stage 2, and a strip crossing a face from boundary to
+boundary cuts it; a `landing` reservation's attach vertex that no""", 'VEW-08')
+
+E(H46, """No rung restarts anything above F. Every district reports the share of its built
+   land left as court or green by substitution (soft bound ≤ 5 %), so MFCG's "empty areas inside city walls" cannot return
+   silently.""",
+"""No rung restarts anything above F. Every district reports the share of its built
+   land left as court or green by substitution (soft bound ≤ 5 %), so MFCG's "empty areas inside city walls" cannot return
+   silently. **Bars (F-CUT, M0 (b); §5.2 cites them):** on 10⁵ random concave and holed faces the ladder ends in ≤ 6 kernel
+   calls and the face count never decreases; each district reports its substitution residue share, soft bound ≤ 5 %.""",
+  'VDC0-01', 'VPC-18')
+
+E(H46, """**The deep-interior rule (IMP-8, GEO-25; J-P15).** When recursion stops and a block's local thickness exceeds twice its
+band's plot depth, the district's band row chooses the interior **now, in S8**, by target shares:""",
+"""**The deep-interior rule (IMP-8, GEO-25; J-P15).** When recursion stops, S8 writes each block's `Block.depthClass` (§2.5)
+with its `interior`: `deep` when the block's local thickness exceeds twice its band's plot depth, else `standard`. For a
+`deep` block the district's band row chooses the interior **now, in S8**, by target shares:""", 'VM-R0S-26', 'VPC-26')
+
+# ───────────────────────────── §4.7 ─────────────────────────────
+E(H47, """Every plot: `minPlotWidth` 2.5 m and `minInteriorAnglePlot` 12°; every way class c:""",
+"""Every plot: `minPlotWidth` 2.5 m and `minInteriorAnglePlot` 12° (FTG's sheared quads, worst-corner p95 22.9°, stay
+legal — invariants police validity, not regularity, §5.1 (4)); every way class c:""", 'VK0-02')
+
+E(H47, """a slope steeper than `stepMaxCm ÷ minTerraceDepthM` is not levelled (the base's skirt and stepped wings, or no
+plot, reported).""",
+"""a slope steeper than `stepMaxCm ÷ minTerraceDepthM` is not levelled (the base's skirt and stepped wings, or no
+plot, reported). **A step above `stepMaxCm`** takes ⌈step ÷ `stepMaxCm`⌉ − 1 intermediate terraces, each at least
+`minTerraceDepthM` deep and each edge a wall of at most `stepMaxCm`, laid inside the two units; where they do not fit
+inside the two units, those units are not levelled on that line (the base's skirt and stepped wings, reported). **A
+levelled unit's edge against unlevelled ground** — a way corridor it does not front, a square, a green, an under-deck
+strip, a field — takes one `RetainingWall` on the unit's side of the line where the step to the unlevelled ground there
+exceeds `terrace.stepMinCm`, by the same rule (up to `stepMaxCm` one wall, above it the terraces, else not levelled), and
+none below `stepMinCm` (the base's plinth). **A cliff inside a district** — a `SiteFeature` of kind `cliff` (§2.3) or
+ground over the `walls.barriers` table's `cliff` threshold (V11 §3.16.1) — is a hard line as a cliff bank is: no
+`RetainingWall` stands on it and no unit is levelled across it; S10's per-frontage regions ((4)) end `shoreSetback`'s
+`cliff` distance (§4.2 S1 (8)) short of it, so plots back onto it at that setback from its top and from its foot and none
+is cut across it, the band between typed as the shore setback is; so a building's massing stays off the cliff face (V02
+§3.18 (f)).""", 'VEW-05')
+
+E(H47, """already holds the ground), on a `reserve` run (the reservation levels itself, S11), or along a bank of kind `cliff` or a
+closure arc of kind `cliff` or `sheer` (§4.4) — the cliff face holds the ground.""",
+"""already holds the ground), on a `reserve` run (the reservation levels itself, S11), or along a bank of kind `cliff`, a
+closure arc of kind `cliff` or `sheer` (§4.4) or a cliff inside a district (above) — the cliff face holds the ground.""",
+  'VEW-05')
+
+E(H47, """  `dossier` request, which places at its first closest option with the hard rows it fails reported (§7.7's precedence,
+  J-A20.71);""",
+"""  `dossier` request, which places at its first closest option with the hard rows it fails reported (§7.7's precedence,
+  J-A20.71) — a plot holding a dossier-backed use is never a closest option for another dossier element, a building
+  holding one use; **when the map has no seat for a dossier element** (every plot of the current map fails it after the
+  displacement at depth 1 and a JOIN, as when a DM adds a few dozen custom institutions to a THORP or HAMLET dossier or a
+  hamlet lists more institutions than plots), the element takes a new outside plot the hinterland unit's S10 cuts (§4.9)
+  from the hinterland face nearest its affinity district along the busiest arterial leaving the settlement perimeter — the
+  edge-belt placement of V06 §3.6 (2) (iii)'s overflow ladder — at its class's plot area, its building by S11's template,
+  reported `dossier_edge`: the hinterland always has ground, so this last rung never fails and no dossier element is ever
+  left unplaced (§7.7 item 2); a later epoch's siting may move it inward by the least-disruption order;""", 'VEL0-09')
+
+E(H47, """keyed by band with its continuous columns interpolated along the plot's prosperity value and its discrete
+columns switching at the band cut (§4.5)""",
+"""keyed by band with its continuous columns interpolated along the plot's prosperity value and its discrete
+columns read by §4.5's discrete-cell rule (a band without a row reads the nearest rowed band below)""", 'VAF-R0S-20')
+
+E(H47, """and a detached, hovel or compound main
+slot's front stands `h` behind the template's setback""",
+"""and a detached, hovel or compound main
+slot's front stands `h` behind the template's setback (the plot face inset by its per-edge setbacks with `offsetFace`,
+§3.4, §3.7)""", 'VK0-12')
+
+E(H47, """`attractCm` (26 cm, §3.2) would be shared""", """`attractCm` (§2.2's `LatticeSpec`; its meaning §3.2 (2)) would be shared""", 'VK0-18')
+
+E(H47, """S11 passes in `BuildingInput` (§2.6) the slot's composition row key,""",
+"""S11 passes in `BuildingInput` (§2.6) the slot's composition row key — for a dwelling other than the manor capped by the
+rung's grandeur ceiling (S10b's class mix (3): the row's `dwellingFamilies`, `towers`, `turrets`, `gatehouse` and `courts`,
+which V02's composition chain reads; item 115 (a), (b)) —""", 'VPC-01')
+
+E(H47, """The default rows raise the larger classes
+   monotonically through every band — just above the prosperous cut mostly houses with a few manors, the manor share rising
+   toward the rich row, which is all manors (the owner's "a very prosperous location may simply have all manors"); the same
+   at every band edge (modest houses among the poor near the modest cut). J-A19.41 holds within a class — its template's
+   discrete columns switch at the cut — while the class itself follows the gradient.""",
+"""The default rows raise the larger classes
+   monotonically through every band — just above the prosperous cut mostly houses with a few manors, the manor share rising
+   toward the rich row, which is all manors at TOWN and above (the owner's "a very prosperous location may simply have all
+   manors"; below TOWN, the rung ceiling, (3)); the same at every band edge (modest houses among the poor near the modest
+   cut). J-A19.41 holds within a class — its template's discrete columns read §4.5's discrete-cell rule — while the class
+   itself follows the gradient.""", 'VPC-01', 'VAF-R0S-20')
+
+E(H47, """   metropolis's prosperous quarter holds more manors than a poor town's.
+3. **Largest classes on the prime frontages,""",
+"""   metropolis's prosperous quarter holds more manors than a poor town's.
+3. **The rung ceiling (item 115; J127).** Before the class draw, S10b reads the settlement's rung row of
+   `grandeur.ceiling` (§10.2 *Grandeur ceiling*; its rows V11 §3.25.4). On a row that is `enabled` and not
+   `allManorsRow` — the THORP, HAMLET and VILLAGE rows — the manor class is admitted only up to the row's `manor.max` and
+   only where its `manor.requires` is met (`lordOrSpecified`: a `seigneurial` government or a specified manor;
+   `specified`: a specified manor only — a dossier manor, hall or similar record, or a government whose `villageSeat`
+   names the manor; V08 §3.16 (3)); the manor's weight in the drawn row goes to the row's largest admitted class, so the
+   capped row's rich anchor is that class; `wealthShift` ((2)) moves a dwelling only along its capped row and never raises
+   the manor count (item 115 (d)); and S11 caps every other dwelling's composition by the row (S11 *Footprints and
+   heights*; item 115 (a), (b)). The "all manors" rich row stands only where the row's `allManorsRow` is true (TOWN and
+   above). A dossier-named or hand-placed grand building keeps its design — the ceiling is a default, never a refusal
+   (item 101 R2), explained by the clerk (V10). Across a rung change the ceiling applies to the buildings new or rebuilt
+   from that epoch, the standing ones keeping their design (item 115 (e); V06 §3.8.5). A row `enabled` false is no
+   ceiling — S10b reads the mix as at TOWN (the no-op pin; the parity presets disable every row). The bars are §13.2's
+   item-115 rows and T-V11-41.
+4. **Largest classes on the prime frontages,""", 'VPC-01')
+
+E(H47, """4. **Households and buildings (item 71 (d); J-A71.44).**""", """5. **Households and buildings (item 71 (d); J-A71.44).**""", 'VPC-01')
+E(H47, """5. **Emulation.** The mix is our extension:""", """6. **Emulation.** The mix is our extension:""", 'VPC-01')
+
+# ───────────────────────────── §4.8 ─────────────────────────────
+E(H48, """**Graded by stretch (item 106 (c)).** The wall's thickness, height, walk and tower spacing are a `ChainProfile` along the
+trace (§2.7), keyed by each arc's defensibility class (§4.4):""",
+"""**Graded by stretch (item 106 (c)).** The grade is `Enceinte.stretchClass` (§2.7), a `'full'|'parapet'` step profile on
+`wall_class_knot` vertices that S7 writes with the trace's furniture; the wall's thickness, height, walk and tower spacing
+read its class's row (V11's `walls.barriers`), keyed by each arc's defensibility class (§4.4):""", 'VPC-26')
+
+E(H48, """At village kinds the light section reads `village.json`'s
+`palisade.lightHeightCm`, and item 106 (b)'s reach cap reads `R_s` for the stage radius and `palisade.barrierReachShare`
+for the share (V07 §2.2, §3.4).""",
+"""At village kinds the light section reads `village.json`'s
+`palisade.lightHeightCm`, and item 106 (b)'s reach cap reads `R_s` for the stage radius and `palisade.barrierReachShare`
+for the share (V07 §2.2, §3.4).
+
+**Condition at generation (item 114 (d); J127).** S3 and S5a lay every trace `standing`. With no history replay, S7 then
+writes each run's `Enceinte.condition` and material (§2.7; item 114 (b)) from §7.7's condition row — the dossier's defence
+readiness and wealth (or the blueprint's stand-ins) mapped to the table shares of `walls.condition`'s `generation` cells
+(V11 §3.25.3), a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture; with the
+replay, the replay writes them (§4.11 *History-first generation*). With the row absent, its switch `atGeneration` false,
+or its inputs neutral, every run stays `standing` in its robust material (the no-op pin).""", 'VPC-31')
+
+E(H48, """piers as `pier` ways at 12–20 m spacing, straight or branching, on the
+harbour and on the open coast (FTG's ≈ 75 m length as a reference), timber or stone by era, each pier carrying its deck
+height like a bridge (read by the shadow pass and the 3-D export, §8.4, §11.1);""",
+"""piers as `pier` ways at 12–20 m spacing, straight or branching, on the
+harbour and on the open coast (FTG's ≈ 75 m length as a reference), timber or stone by era, each pier carrying its deck
+height like a bridge (read by the projected shadows (`shadowPass`) and the 3-D export, §8.4, §11.1); no pier, mole or
+breakwater arm is rooted on a bank of kind `cliff` (§4.2 S1 (7)) — a cliff-bound shore takes none, so it offers no deck
+plot (§4.7 *Deck plots*; §4.13) — and a quay stands only where the bank class is `quay`;""", 'VPC-16', 'VEW-06')
+
+# ───────────────────────────── §4.9 ─────────────────────────────
+E(H49, """`FarmTable { arableHaPerCapita (era, with provenance), householdsPerFarmstead,
+  fieldHaPerFarmstead, fuelM3PerCapitaYear, timberM3PerCapitaYear, coppiceM3PerHaYear, woodM3PerHaYear, extent:
+  'fill'|'demand', reserveArable: boolean }` is the only source of the countryside's numbers:""",
+"""`FarmTable { arableHaPerCapita (era, with provenance), householdsPerFarmstead,
+  fieldHaPerFarmstead, fuelM3PerCapitaYear, timberM3PerCapitaYear, coppiceM3PerHaYear, woodM3PerHaYear,
+  meadowHaPerCapita?, pastureHaPerCapita? /* ha per head of meadow, and of pasture and commons: the village rows' cells
+  (V07 §3.9 (1)), read at the village rungs by V07 §3.2 (1)'s land law and V07 §3.9 (1)'s land budget (E-38's derived
+  2.275 ha per head is the sum of the village rows' five land cells); absent on the base rungs' rows, where the land-use
+  rings lay meadow, pasture and commons on the land the fields leave, as below */, extent: 'fill'|'demand', reserveArable:
+  boolean }` is the only source of the countryside's numbers:""", 'VAL-14')
+
+E(H49, """land: 'fertile'|'poor'; form?: PlanForm /* read only at village rungs */;""",
+"""land: 'fertile'|'poor'; form?: PlanForm /* V07 §2.2's plan forms; read only at village rungs (V07 §3.2 (3)) */;""",
+  'VAL-15')
+
+E(H49, """Around an oasis (§4.2 S1 (2)) S12a sites irrigated gardens — `garden_irrigated`
+  land-use faces (§2.7) fed by short channels from the spring, within the climate row's channel reach of the water, sized
+  by the oasis's area band (V11) —""",
+"""Around an oasis (§4.2 S1 (2)) S12a sites irrigated gardens — `LandUse` faces of
+  kind `garden` (§2.7) whose `fedBy` names the oasis's water body, fed by short channels drawn from that link (§8.2),
+  within the climate row's channel reach of the water, sized by the oasis's area band (V11) —""", 'VM-R0S-12', 'VPC-24')
+
+E(H49, """| oasis grove (item 111 (a)) | climate row | the shore band of an oasis | `grove` of the climate row's grove trees (palms or the culture's) |""",
+"""| oasis grove (item 111 (a)) | climate row | the shore band of an oasis | `grove` of the climate row's grove trees (palms or the culture's), its `Greenery` naming the water body in `fedBy` (§2.7) |""",
+  'VPC-24')
+
+E(H49, """scatter densities, and the dry-country cells (aridity, the arid water chances, the oasis rows, the water-pull weights,
+  the sunlight cell; items 102, 111; V11);""",
+"""scatter densities, the dry-country cells (aridity, the arid water chances, the oasis rows, the water-pull weights,
+  the sunlight cell; items 102, 111; V11) and the season columns (item 117; J128: `ClimateRow.seasons`, the shape V11
+  §2.8's `ClimateSeasonCells`, its values V11 §3.25.6 — the winter's severity and the leaf, blossom, growing, harvest,
+  hay, ice and snow weeks; read only by §8.2's season rows, §11's exports and §7.7's season derivation row, never by a
+  stage, so no season changes the model or its hash, item 117 (a));""", 'VPC-02')

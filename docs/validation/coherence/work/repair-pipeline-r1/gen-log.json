@@ -59,7 +59,48 @@
     "VAL-03",
     "VPC-12"
    ]
+  },
+  {
+   "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+   "ids": [
+    "VEW-08",
+    "VDC0-01",
+    "VPC-18",
+    "VM-R0S-26",
+    "VPC-26"
+   ]
+  },
+  {
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "ids": [
+    "VK0-02",
+    "VEW-05",
+    "VEL0-09",
+    "VAF-R0S-20",
+    "VK0-12",
+    "VK0-18",
+    "VPC-01"
+   ]
+  },
+  {
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "ids": [
+    "VPC-26",
+    "VPC-31",
+    "VPC-16",
+    "VEW-06"
+   ]
+  },
+  {
+   "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "ids": [
+    "VAL-14",
+    "VAL-15",
+    "VM-R0S-12",
+    "VPC-24",
+    "VPC-02"
+   ]
   }
  ],
- "edits": 44
+ "edits": 67
 }

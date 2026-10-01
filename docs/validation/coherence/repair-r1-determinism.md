@@ -9,8 +9,39 @@
 # PROGRESS
 # - P0 brief read whole; 62 issues parsed; skeleton written: done
 # - P1 issue sources and live §5–§7 read: done
-# - P2 blocks: §5.1–§5.4 written; §6, §7 in progress
-# - P3 checks on a copy, result saved, LANDED: pending
+# - P2 blocks: §5.1–§5.4, §6.1–§6.3, §6.5, §7.1, §7.4–§7.7 written; 61 issues fixed in text, VDC0-33 a RULING REQUEST: done
+# - P3 continuation sweep (after the 01:21 usage-limit cut): every issue re-checked against its substitutions; §7.7's
+#   dossier-existence clause reconciled with VEL0-01's supersession, a protected dwelling's last household stated, DR42's
+#   height correction extended to upland (item 117 (d): "mountain and upland colder"); the layer table's dropped
+#   citations restored in the binding (item 110 (b); the one-line roster's locus); the binding's `epoch` producer row
+#   names the history replay's runner (with VAT0-15); VEL0-05's sentence tightened: done
+# - P4 checks on a copy (13/13 applied, refs, doc_checks), result saved, LANDED: see the lane log
+#
+# CROSS-UNIT NOTES (hand-offs for the destination units; nothing here is applied; each is the other end of a fix below)
+# - V08: §1.2 and §3.6 (1) cite "F-V8-1 – F-V8-8" (VAH-01; §7.7 item 13 now holds F-V8-8: `site`, `history`, `tradition`).
+# - V09 §4.9: one row per new E-07 key (VAH-11, VAT-10, VDC0-11, VDC0-36, VEL0-04; with VAH-12): `refuse.capacity.household`,
+#   `refuse.works.access`, `refuse.host.cap`, `refuse.upgrade.packCap`, `bend.warp.halved`, `refuse.bug`, `refuse.table.rung`,
+#   `refuse.table.ownerRule`, `refuse.table.invalid`, `refuse.style.order`, `refuse.table.knowledge`, `bend.room.unreachable`,
+#   `bend.frame.held`; `bend.invalid`'s producer reads "a value outside its declared range, clamped" (E-07's row), the
+#   `ConflictAction` kind `invalid` now being the three rows of E-07's *The returned kinds*.
+# - V09 §4.3: a row per binding pair VAT-08 added (`moveVertex` on a shore or coast, an enceinte's trace, a way's, raised
+#   way's or tunnel's chain, an island's key; `instance` on a hood pin and on decoration instances, add/move/remove/restyle).
+# - V09 §3.3 step 7 and V10 §4.2 (1) cite §7.1's `group` for its value (VAT-11); V10 §4.1 cites §7.1's points-form
+#   bullet for the empty geometry fields (VAT-09); V10 §4.1 (l.2550, l.2613–2616) and T-V10-1 read "its tool's rows of
+#   §7.1's binding" (VAT-07).
+# - V03 §4.2: the bend `bend.room.unreachable` (VDC0-11).
+# - V07, V11: cite §7.6's `type TableId` (VM-R0S-31; MC-11).
+# - V06 §3.5.1 (4): under a dossier fall a protected dwelling's last household leaves too, its building relet to none and
+#   never vacated (§7.7's precedence, VEL0-01) — the volume's "never a `vacate` … by this step" read so.
+# - scope: §13.2 T101-1 and T101-2 read "the binding (§7.1)" (VAT-07); §13.2's T20 group gains VEL0-01's fixtures (§7.7's
+#   precedence: a dossier rename on a locked name path; `ruined` and `removed` on an institution whose building is locked; the
+#   population fall over locked dwellings); J-DET-11's "a host that must override a lock sends an unlock first" limited to a
+#   host's MAP events (VEL0-01); J-A113.61 reads "`0x8000_0000 + r`, the u32 range's upper half" (VEL0-06); J-A73.06 per
+#   the RULING REQUEST VDC0-33 below.
+# - kernel: §3.2 (9) adds "a re-derivation never shrinks the frame below its protected content" (VEL0-04; §7.4's frame row).
+# - rendering: §11.2's `ConflictAction.kind` `reroute` has no producing row (E-07's *The returned kinds*: a route is bent,
+#   never refused) — retire it or name its row (VDC0-36); §8.2 and §9.2 cite E-07's `refuse.style.order` and
+#   `refuse.table.knowledge` rows, V10 §2.10 its `refuse.clerk.opsDevice` row (VAT-10).
 
 === REPLACE ### 5.1 Principles and the seven tiers (G-P7) ===
 ### 5.1 Principles and the seven tiers (G-P7)
@@ -1496,16 +1527,16 @@ read it):
 | T1 `intend` | `adjust` (intent, recipe, layers, islands, the sewer family, ruins, a standalone neighbourhood document's outline) — the basic panel's Adjust and Re-derive events |
 | T2 `ground` | `setField(terrain)` (its `flattenTo` mode), `terrace` (item 110 (a)), `warp`, `drawWater` (its points and level forms; a lake's `spring`, an oasis), `moveCourseKnot`; `moveVertex` on a shore or coast; `setAttr` on `geology`, a bank class, a site feature, `WaterBody.spring.flow` (item 111; V06 §4.2); `convert` `reclaim`, `siltReach`, `shiftCourse`, `digCanal`, `retypeLand` (item 209) |
 | T3 `wall` | `drawWall` (every kind, its points form, `retaining` included, item 110 (a)), `placeGate`; `moveVertex` on an enceinte's trace — a stretch's anchor vertex and a gate's crossing among them — or a retaining wall's chain; `setAttr` on a retaining wall, on the castle (`site`, `baileyArea`) and on `Enceinte.pathway` (a ring's fate and its week; V06 §4.2); `convert` `wallToWay`, `gateToJunction`, `neglect`, `breach`, `dismantle`, `contractWall`, `absorbWall`, `wearWall`, `repairWall` (with its material: robust, or a patch row of V11's `walls.patchMaterials`; item 114), `repairRetaining` |
-| T4 `road` | `drawWay` (every class — a road across water a bridge, by the drawing rule above —, its points form, `raised`, the `aqueduct` class, V07's walk mode), `drawTunnel`, `addLink`, `placeSkyAccess`; `moveVertex` on a way's, a raised way's (its ends onto ground vertices) or a tunnel's chain |
+| T4 `road` | `drawWay` (every class — a road across water a bridge, by the drawing rule above —, its points form, `raised`, the `aqueduct` class, item 110 (b), V07's walk mode), `drawTunnel`, `addLink`, `placeSkyAccess`; `moveVertex` on a way's, a raised way's (its ends onto ground vertices) or a tunnel's chain |
 | T5 `quarter` | `quarter`, `drawBoundary`, `declareEnd` (at a village rung); `setAttr` on a district (kind, identity, `DistrictIntent`, band); `merge` and `split` of districts |
-| T6 `place` | `placeAt` (its point form, and its `lift`), `assign`, `unassign`, `build`, `drawFootprint`, `rejectSite` (and its `lift`), `drawChamber`, `placeAccess`, `addUndergroundAccess`, `instance` on a hood pin (add, move, remove, restyle; V01's furniture stamp, item 349), `roster` of one line (a place by a locus, V09 §4.5; item 570); `convert` `relet` (item 353), `openUse`, `closeUse`, `relocateUse`, `mutate`; `swapUse`; `setAttr` on a market's `rank`, a use's `concealment` and `front`, an institution's `powers` |
+| T6 `place` | `placeAt` (its point form, and its `lift`), `assign`, `unassign`, `build`, `drawFootprint`, `rejectSite` (and its `lift`), `drawChamber`, `placeAccess`, `addUndergroundAccess`, `instance` on a hood pin (add, move, remove, restyle; V01's furniture stamp, item 349), `roster` of one line (a place by a locus — the drop target or the typed words, V09 §4.5; item 570); `convert` `relet` (item 353), `openUse`, `closeUse`, `relocateUse`, `mutate`; `swapUse`; `setAttr` on a market's `rank`, a use's `concealment` and `front`, an institution's `powers` |
 | T7 `roster` | `roster` of any number of lines |
 | T8 `fill` | `fill`, `setField` (density, greenery, prosperity), `drawGreen`, `setAttrMany` of land use, `instance` on trees and §8.10's other decoration instances (add, move, remove, restyle; the tree brush's groups); `setAttr(fabric)`, `setAttr(fabricParams.*)`, `setAttr(terrace)` with their `regenerate` (each pair one undo group: the layout card, the Terraces chip) |
 | T9 `shape` | `split`, `join` and `merge` of ways and plots; `moveFootprint`, `setEntrance`, `paint`; `setAttr` on the shape paths (a building's class, heights, roof and basement; a plot's tenure, reach and front jitter; a way's class, width, surface and name; a bridge's kind; a square's type; a block's content; a raised way's spans, crossings, `clearanceCm` and `spanSpacingCm`; a wall stretch's grade; an access point's paths; a catacomb's `fill`; an island's and a sky access's paths; a mutation plan's step); `moveVertex` on an access point and on an island's key; `setMassing`, `setComposition`; the plan events, `setHearth`, `instance` on furniture; `drawPassage`; `convert` `sealPassage`, `openPassage`, `densify`, `thin`, `subdivide`, `amalgamate`, `plotToGarden`, the decline kinds, `rebuild`, `burn`, `downgradeWay`, `upgradeWay`, `repairRaised`, the tunnel and island kinds, `raiseGrade`, `clearUndercity`; `startWorks`, `cancelWorks`, `setAttr` on a Works; `editTable` on `siting.declared` and `siting.linkEdits`; `delete` of an access point or of catacomb galleries; every `setAttr` path no other row homes (a person's attributes, a use's specialisation) |
 | T10 `hold` | `lock`, `unlock`, `pin`, `unpin`, `revert`, `regenerate` (keep, New random, a rung, a tunnel run or system, an island's `shade`, a household's people — the scope `people`, §10.3), `rerollLayer('village.track')`, `delete` of anything else (a dossier-backed element's recorded as `rejectSite`, a dossier-declared record's refused, a generated removal holding — *Delete* above; item 368) |
 | T11 `name` | `setAttr(name)` (a room's on `plan/rooms/<id>/name`, V03 §4.2; a new `HoodPlace`'s, V01), `setAttr(displayText)`, `setAttr(knownTo)` on a plot, building or institution, `moveLabel`, `hideLabel`, `group`, `rerollLayer(naming)` |
 | T12 `dress` | `setStyle`, `setLayer`, `paintGround`, `placeLight`, `setAttr` and `delete` of a light, `rerollLayer` of `style.compass`, `naming.emblem`, `render.instances`, `style.jitter` and `style.crowns` |
-| no tool — its producer | `setAttrMany` other than land use (the multi-selection's context panel); `closeup` (the first presentation edit inside a close-up); `editTable`, `editPreset` (the tables editor and the presets dialog, §7.6); `epoch` (V06's `advance` from T1 `intend`'s time card, a timeline entry, the port's cadence); `undo`, `redo` (the undo keys, the API, a host's `doc.apply`); `upgrade`, `rebase` (the upgrade offer, the load-mismatch choice, the frozen view, Rebuild around my drawings); `dossierFacts`, `dossierRecord` and every dossier event (the port only); `convert` from an epoch (the engine) |
+| no tool — its producer | `setAttrMany` other than land use (the multi-selection's context panel); `closeup` (the first presentation edit inside a close-up); `editTable`, `editPreset` (the tables editor and the presets dialog, §7.6); `epoch` (V06's `advance` from T1 `intend`'s time card, a timeline entry, the port's cadence; the history replay's runner at generation, §4.11 *History-first generation* (2), §7.4's `epoch` row); `undo`, `redo` (the undo keys, the API, a host's `doc.apply`); `upgrade`, `rebase` (the upgrade offer, the load-mismatch choice, the frozen view, Rebuild around my drawings); `dossierFacts`, `dossierRecord` and every dossier event (the port only); `convert` from an epoch (the engine) |
 
 * **Sugar events** (J-A101.72; the one statement of their expansion) are logged as themselves — one undo step, one fate
   report — and expanded at their fold into the events they stand for by the sugar expansion table (`sugar.json`, §7.6)
@@ -1577,8 +1608,8 @@ dossier step (e) by least disruption, so the replay ends meeting the dossier's p
 or `revert` target and never truncated — a blueprint assignment is removed by `unassign` (§7.3 item 8's mutation), a
 skeleton's declaration by a later declaration or a `delete`, a dossier element only by a dossier event (§7.7 item 2);
 a replay epoch of the creation prefix is a `creation` event like the rest. Every event of the port's reserved session
-`host:port` (§7.1; V08 §3.6 (6)) — dossier events, `dossierFacts`, `dossierRecord` and the port's epochs alike, so every
-epoch that carried a dossier change in `EpochInputs.dossier`, whether or not a given port epoch carried one — is likewise
+`host:port` (§7.1; V08 §3.6 (6)) — dossier events, `dossierFacts`, `dossierRecord` and the port's epochs alike, whether or not
+a port epoch carried a dossier change in `EpochInputs.dossier` — is likewise
 no `undo`, `redo` or `revert` target of a map event, named by the undo key, an owner's `undo(h, of)` (§11.2) or V09's
 *Go back to here* alike, because undoing one would change dossier content or the host's clock without a dossier
 instruction (item 20 (c)); the undo key and `revert` skip all of them, and the port's events sit on no user's stack.
@@ -2230,7 +2261,8 @@ assignment on a locked entity (or a locked attribute path) is refused with the a
 acceptable declarations that leave the locked entity untouched (item 20 (g)), or keep the lock (§7.1's outcome table);
 the dispersed solver never places a member on a locked entity. A host's map event (no `EditBase.dossier`) that must
 override a lock sends an unlock first, and the log records it (J-DET-11). **Dossier existence** — with every dossier-owned value (§7.7 item 11)
-— sits below the lock and above every assignment, drawn shape and rule (the one statement): a dossier-backed element is
+— sits below the lock for every map event, re-derivation and epoch (a dossier event that changes a locked value
+supersedes that lock, below) and above every assignment, drawn shape and rule (the one statement): a dossier-backed element is
 never removed by anything on the map and never placed on a locked entity — it takes the best unlocked site the hard rows
 allow and, when no site passes them, its first closest option — the fewest hard rows failed, then the best score, in
 §4.7 S10b's order — with the rows it fails reported (§5.2 F-SITING), never omitted (J-A20.71).
@@ -2243,12 +2275,13 @@ history (§7.7 item 5), its other paths still held: a dossier rename lands on a 
 change re-classes a locked class path, a dossier `knownTo` replaces a locked one. A lock on anything else the event
 touches is honoured, the event applied around it by its least-disruption order. A dossier population is met through the
 epoch's departures and arrivals: where the unlocked dwellings cannot absorb a fall, the leaving households (the roster's
-suffix, §4.11) leave locked and pinned dwellings too, each building keeping its shell, existence and every other locked
-path (V06 §3.5.1 (4)), counted held by protection in the epoch's report — the population is the dossier's (item 8 (f)).
+suffix, §4.11) leave locked and pinned dwellings too, by V06 §3.5.1 (4)'s `relet` down — a protected dwelling's last
+household leaving as well, its building then standing empty but never `vacate`d, so it keeps its state, shell, existence
+and every locked path — counted `uses.heldByProtection` in the epoch's report; the population is the dossier's (item 8 (f)).
 *Fixtures (B-DOSSIER-lite, §13.2's T20 group):* a dossier rename on a locked name path, and a `ruined` and a `removed`
 state on an institution whose building is locked — each lands, the lock reported orphaned, every other locked entity
 byte-identical; a dossier population fall over a town whose remaining households all live in locked dwellings — the
-population met within the roster tolerance, every locked building's shell byte-identical.
+population met within the roster tolerance, every locked building's state and shell byte-identical.
 
 **One path — placement, then mutation (items 16, 18).** A blueprint's assignments and edits, every element of a dossier
 a new document starts from — the port's creation half (§14, item 73) builds that blueprint and this prefix through the
@@ -2487,7 +2520,7 @@ from the dossier and in accordance with our rules").
 | DR39 | burial: when the former settlement's ruins lie underground (item 113 (c)) | the ruins' ages from the replay; floods, river silt and rebuilding on top; bare rock (`site.terrain`) | II.7.6's buried former settlement, derived from the former geometry at its old ground level, past V11's burial threshold (a century by default, shortened by floods, silt and rebuilding, lengthened on bare rock); distinct from DR30's older civilisation | none | buried ruins only past the threshold, matching the former geometry |
 | DR40 | an oasis (item 111 (a)) | `site.deposits`'s `oasis_water`; `site.terrain` (an arid site) — the site itself DR1's | S0's and S1's oasis feature (§4.2): a spring-fed pond or small lake in a hollow or at a fault line, its grove and irrigated gardens | none with the deposit; standalone, `blueprint.features` at the arid row's chance | a dossier with `oasis_water` has an oasis; an oasis only on an arid site unless drawn or supplied |
 | DR41 | the enceinte runs' generation-time condition (item 114 (d); the item-114 row) | `defence.readiness` (V08's `readiness` row: its band; standalone, the band the creation slice's `threat` gives by that row); `wealth.label` (DR6's `intent.wealthLevel`, its MEANS class against V11's `walls.condition.meansLow` and `meansHigh`); `site.culture` (the patch rows admitted); the enceintes and their stretches (DR2) | S3 and S7 lay each run's condition — `standing`, `worn`, `patched` or `breached` — from V11's `walls.condition` generation shares for (readiness band, MEANS class), and a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture (V11 §3.25.3), each run's last-change epoch 0; with `atGeneration` false every run `standing`; under history-first generation the replay's condition instead (V06 §3.7.7 (5)); over epochs the need reads max(`threat`, `PortValues.readiness`) and the means the wealth level in force (V06 §3.7.7; V08 §3.16 (2)) | `walls.condition` (§6.1) | a `vulnerable`, poor town shows patched and breached runs; a `fortress` in a rich city stands whole; with `atGeneration` false every run stands (the no-op pin) |
-| DR42 | the default view season (item 117: a look only, never in the model or its hash; the item-117 row) | `HostContext.week` (the campaign's `calendar.elapsedWeeks`, §14); the `calendar` row (`sf445`); the climate: `site.climate` (SettlementForge's climate word through the `climates` row), else the `climates` row's terrain column for `site.terrain`, else the blueprint's choice; S0's relief class | §2.9's view state: under its "follow SettlementForge" flag the year position is `week mod 52` on the `sf445` year (52 weeks, 13-week seasons from spring); with no week the view keeps its own position, midsummer by default; the biome's climate row is the first of the climate's sources present, set at creation (§4.2 S0); the season look reads that row's season columns (V11's), except that a `mountainous` relief whose row came from the climate word or the blueprint reads the next colder row's — warm → temperate → cold → severe, an arid or semi-arid row unchanged — the height correction, which never changes the model's row (the terrain column's `mountain` row already reads `cold`); §8.2's season rows draw it; a later climate word is reported (`frozen_fact_changed`, V08 §3.5), never re-drawn | none | a dossier map opens on its campaign's week; the same document hashes identically in all 52 weeks |
+| DR42 | the default view season (item 117: a look only, never in the model or its hash; the item-117 row) | `HostContext.week` (the campaign's `calendar.elapsedWeeks`, §14); the `calendar` row (`sf445`); the climate: `site.climate` (SettlementForge's climate word through the `climates` row), else the `climates` row's terrain column for `site.terrain`, else the blueprint's choice; S0's relief class | §2.9's view state: under its "follow SettlementForge" flag the year position is `week mod 52` on the `sf445` year (52 weeks, 13-week seasons from spring); with no week the view keeps its own position, midsummer by default; the biome's climate row is the first of the climate's sources present, set at creation (§4.2 S0); the season look reads that row's season columns (V11's), except that a `hilly` or `mountainous` relief (S0's class; item 117 (d)'s "mountain and upland colder") reads the next colder row's — warm → temperate → cold → severe, an arid or semi-arid row unchanged — the height correction, applied whichever source gave the row but once: a `mountain` terrain's terrain-column row, which already reads `cold` by its height, is not corrected again; the correction never changes the model's row; §8.2's season rows draw it; a later climate word is reported (`frozen_fact_changed`, V08 §3.5), never re-drawn | none | a dossier map opens on its campaign's week; the same document hashes identically in all 52 weeks; a temperate row on hilly or mountainous relief draws the `cold` row's season cells, a `mountain` terrain's `cold` row is not corrected to `severe` |
 | DR43 | festival decorations (item 118: a look only, never in the model or its hash; the item-118 row) | the carried `tradition` facts (`trad:` keys: the name, the kind by the `festivals` row, the weeks of the `sf445` year, the staging keys, the deity; V08 §2.3, V08 §3.16 (5)); `site.culture`; the view's year position (DR42) | §2.9's festival display (follow, off, or preview one festival): following, a festival's decorations show while the view's week lies inside its weeks — a window whose end precedes its start wrapping past week 51 — drawn by §8.2's festival rows from §10.2's decoration table by tier and kind at the place its staging keys name, else the festival kind's fallback, never over a keep-out or a gate's passage, their colours and motifs by `site.culture` and the deity; two festivals in one week both show; a tradition with no readable week is unscheduled, shown only in preview; standalone no tradition exists and none is invented | `render.instances` (view draws only: §8.10's keyed placement, as §8.2's festival rows key it) | no festival changes a digest; a festival shows exactly in its weeks |
 
    **The history replay's record.** A settlement generated from its history (DR36–DR39) carries the replay's record —
