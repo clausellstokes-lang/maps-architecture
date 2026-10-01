@@ -4,9 +4,8 @@
 <<<<
   `doc.apply { baseLogHead, events }`, `view.set { patch }`, `export.request { fmt, opts }`, `query { q }`,
 ====
-  `doc.apply { baseLogHead, events }`, `view.set { patch }`, `entity.select { ids }` (the host's selection, item 125 (c):
-  the frame selects those entities as a user's list pick would, leaves out an id it does not hold or the viewer's key does
-  not admit, and reports the selection by `entity.selected`), `export.request { fmt, opts }`, `query { q }`,
+  `doc.apply { baseLogHead, events }`, `view.set { patch }` (a patch of the view keys that travel, or `select`, the
+  host's selection command; *View state*, below), `export.request { fmt, opts }`, `query { q }`,
 >>>>
 <<<<
 * **View state.** Every view key of §2.9 (its view section, outside the model hash; each last-writer-wins by (Lamport
@@ -21,9 +20,11 @@
   `showUnexcavated` and V09 §4.19's per-viewer keys —, which never cross the bridge; `knowledge`, which the host sets per
   viewer (below; J-A30.82), travels. The key `time` is set by `view.set { time }` and advanced by the module-tier message
   `sim.advance { hours }` (§10.3). **The host's view commands (item 125 (c); J139).** A host drives the view as a user
-  would — a week (`view.set { week }`, item 67), the layers shown (`view.set` of the layer choices, §8.4's
-  `LayerSpec.visible`), a selection (`entity.select`) — and these are commands, never inputs: the map never needs them,
-  and no document a dossier makes depends on them (§11.4). **The host's clock (item 67; J-A67.82).** The clock the design calls
+  would — a week (`view.set { week }`, item 67), the layers shown (`view.set` of the view's layer choices, §8.4's
+  `LayerSpec.visible`), a selection (`view.set { select: ids }`: the frame selects those entities as a user's list pick
+  would, leaves out an id it does not hold or the viewer's key does not admit, and reports the selection by
+  `entity.selected`; a command, never a stored key) — and these are commands, never inputs: the map never needs them, and
+  no document a dossier makes depends on them (§11.4; R2-33 (b)). **The host's clock (item 67; J-A67.82).** The clock the design calls
 >>>>
 @@ FILE 11.4.md
 <<<<
