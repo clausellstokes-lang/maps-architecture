@@ -1,0 +1,270 @@
+{
+ "key": "coherence/verify-agree-fabric-r1t",
+ "file": "docs/validation/coherence/verify-agree-fabric-r1t.md",
+ "issues": [
+  {
+   "id": "VAF-R0S-03",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "Persists in part. Under MC-11 the model's repair declared `DormerRow` and `DormerKind` at §2.6 (l.1377–1386, \"declared here, V02 §2.2 cites it\") and `TierLay` and `LaidWing` at §2.7 (l.2346–2347, \"declared here, V02 §2.6 cites it\"), but V02 §2.2 (l.412–422) and §2.6 (l.649–650) still declare all four: two homes of each record (the texts agree today; = VM-R1T-05). The V01 half (V01 §2.6 still declaring `HoodRecipe`, its comments now differing from §2.9's) is VM-R1T-03 / VM-R1T-02.",
+   "required_change": "V02 §2.2: delete the `interface DormerRow { … }` and `type DormerKind …` declarations (with DormerKind's two comment lines) and add \"`DormerRow`, `DormerKind` and `PorchKind` are §2.6's\" to the lead sentence's list; V02 §2.6: delete the `LaidWing` and `TierLay` lines and write \"// `TierLay` and `LaidWing` are §2.7's (V02 §3.15.1 lays them)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VAF-R0S-04",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "Persists in part. §2.7 now declares `type RaisedKind = 'viaduct'|'elevated'|'aqueduct'` (l.2227) and V06 and V11 cite it, but V01 §2.3 restates the enumeration inline twice: `DistrictContext.raised[].kind: 'viaduct'|'elevated'|'aqueduct'` (l.455) and `WayNamingContext.raised?: 'viaduct'|'elevated'|'aqueduct'` (l.525) — model's hand-off (\"V01 §2.3's DistrictContext.raised.kind and WayNamingContext.raised read RaisedKind (§2.7)\") not applied.",
+   "required_change": "V01 §2.3 l.455: `kind: RaisedKind /* §2.7 */`; l.525: `raised?: RaisedKind /* §2.7: a raised way's kind, for naming.way's guard (V01 §3.7.2) */`.",
+   "owner": "V01"
+  },
+  {
+   "id": "VAF-R0S-08",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Fixed wrongly. II.1's closing comment (l.19132), rewritten this round, reads \"DistrictContext is V01 §2.3's and TypedBoundary V01 §2.5's\"; `TypedBoundary` is declared at the base's §2.5 (l.1121, \"V01 §2.3 cites it\"); V01 §2.5 holds the close-up's records (= VPC-R1-09, VV12-r1-02).",
+   "required_change": "II.1 l.19132: \"// DistrictContext is V01 §2.3's and TypedBoundary §2.5's; Pin is §2.7's …\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-13",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Persists at V11. V02 removed `deck.fallbackM2` / `deck.fallbackFloors` and states \"No deck plot without a `deck` row … V02 keeps no stand-in\" (V02 §3.16 (3), l.2319–2321), but V11 §3.24.4 still says \"The footprints bracket V02's stopgap band ([20, 60] m²)\" (l.3977–3978) and V11 §10b keeps X-V11-7, \"`deck.fallbackM2` and `deck.fallbackFloors` are read only while the `deck` table is unregistered\" (l.5037) — V02's repair handed V11 the removal (= VV12-r1-07).",
+   "required_change": "V11 §3.24.4 (l.3977–3978): delete the sentence \"The footprints bracket V02's stopgap band ([20, 60] m²), and V02's T-V2-47 reads whichever row is loaded.\" (with no stand-in there is no other row; T-V2-47 reads the `deck` row); V11 §10b: delete the X-V11-7 row.",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R0S-15",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "Persists in part. §10.2 now declares `SquareQuotaRow` (l.14378, the base table read from M2b; pipeline's choice of the issue's first option), and V01 §2.2 (l.387) still declares the identical shape: two homes of one record (= VPC-R1-11). The registry row's pointer to V01 §2.2 is VAF-R1T-06.",
+   "required_change": "V01 §2.2: replace the `interface SquareQuotaRow { … }` line by \"// SquareQuotaRow is §10.2's (the base table `squares.quota`, read by S7b (3) from M2b and by S9b); this volume authors its default rows (V01 §3.5.2; V11 registry row 91)\", keeping the two comment lines above it.",
+   "owner": "V01"
+  },
+  {
+   "id": "VAF-R0S-19",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Persists at pipeline. V11 §3.24.3 now cites §4.7 S11 for the draw and the cap and keeps \"An exempt use is held (item 101 R13) and not counted toward the cap\" (l.3949–3950), handing pipeline \"§4.7 S11's exemption adds 'and not counted toward the cap'\". S11 (l.6835–6836) says only \"exempt from the chance and the cap and never overwritten\": whether a user-set, declared or keyword specialisation consumes the cap's quota is stated only outside the mechanism's home (= VPC-R1-22).",
+   "required_change": "§4.7 S11: \"a user-set, declared or keyword specialisation is exempt from the chance and the cap, is not counted toward the cap, and is never overwritten (item 101 R13)\"; then V11 §3.24.3's sentence may become a pointer.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-20",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Persists at V11. §4.5 (l.5879–5883) now states the discrete-cell rule once — a discrete cell at a band without a row reads the nearest rowed band below, `squalid` the poor cell and `comfortable` the modest cell — naming \"V11 §3.6.1\" among its readers; pipeline's repair handed V11 the citation. V11 §3.6.1 (l.1910–1912) still reads \"`squalid` reads the poor row, `comfortable` the interpolation), continuous columns interpolated along the value, discrete columns switching at the cut (§4.7 S11)\", and V11 §2.1's `ColumnSpec.interp` (l.256) \"step: switches at the cut\" — neither says which value a compiled `comfortable` row's discrete column takes.",
+   "required_change": "V11 §3.6.1: \"(§4.5's four-row tables: continuous columns interpolated along the value — `comfortable` the interpolation of modest and prosperous —, discrete columns read by §4.5's discrete-cell rule: `squalid` the poor row's, `comfortable` the modest row's)\"; V11 §2.1 l.256: \"step: read by §4.5's discrete-cell rule (a band without a row reads the nearest rowed band below)\".",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R0S-23",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Persists at V11. §10.2's *Relation templates* paragraph no longer restates V11's rows (l.14428–14431, \"the rows and their values are V11 §3.5's, by class\"), but V11 §3.5's class rows still annotate their placement cells \"(§10.2's example)\" or \"(§10.2's example as file f item 440 rewrites it)\" — at `bakery` l.1460, `brewery` l.1466, `maltings` l.1467, `watermill` l.1469, `tannery` l.1487, `market_hall` l.1524, `warehouse` l.1528, `inn` l.1539 — pointing at text §10.2 no longer holds (pipeline's hand-off to V11 not applied; = VPC-R1-14).",
+   "required_change": "Delete \"(§10.2's example)\" from those rows, and \"(§10.2's example as file f item 440 rewrites it)\" down to \"(file f item 440)\" where that is the row's provenance.",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R1T-01",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "claim": "Three statements of one rule, and V02's now contradicts the base's home. §4.5 (l.5879–5883, new this round, VAF-R0S-20's fix) rules for every rule table: a discrete cell at a band without a row reads the nearest rowed band below — under the four-row tables `comfortable` reads the modest cell — \"so a discrete column switches at the lower cut of the next rowed band above\". V02 §3.10.1 (l.1499–1502) compiles its six-band `CompositionRow`s from the same four anchors by another rule: \"`comfortable` the cell-wise interpolation of modest and prosperous at its band centre …; a discrete cell takes the richer anchor's value from the band's upper half (J-A19.43's switch at the cut)\". A plot in the upper half of the comfortable band reads the prosperous anchor's discrete cells (`axis`, roof kind, tower counts …) by V02 and the modest anchor's by §4.5, so the massing differs. J-A19.43 (manifested versus field band) says nothing about cuts; pipeline's hand-off named V03 and V11 only, so V02 was left on the old reading. V02 §2.3's `CompositionRow` comment (l.453) and §3.2 step 3 (l.815) say \"discrete cells switch at the cut (item 19)\" without naming the rule.",
+   "required_change": "V02 §3.10.1: \"`squalid` reads the poor row and `comfortable` the modest row for its discrete cells and the cell-wise interpolation of modest and prosperous at its band centre for its continuous cells (§4.5's band-set paragraph and its discrete-cell rule — one band-anchoring rule for every template-like table)\"; delete \"a discrete cell takes the richer anchor's value from the band's upper half (J-A19.43's switch at the cut)\"; V02 l.453 and l.815: \"discrete cells read §4.5's discrete-cell rule (item 19)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VAF-R1T-02",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "The matrix rules `ClimateTable` / `ClimateRow` agreeing (pairs pipeline–V11, V02–V11); one field disagrees and has no authored value. §4.9 (l.7504–7506, l.7587) types the climate row's farm-mode override `farmLayout: 'rows'|'perimeter'|'rivers'` — the arid row `rivers`, the cold row `perimeter` (FTG's Desert and Polar presets), a temperate row's `rows` leaving the rung × landscape choice — and S12a's farm-mode choice reads it. V11 §2.8 declares `farmLayout: string /* a §4.9 farm-mode override key or 'none' */` (l.565: a different \"no override\" value, `'none'`, and `rows` is no farm mode of §4.9's `FarmModeRow.mode` `'fill'|'perimeter'|'rivers'`), and V11 §3.17.1's climate table — the rows' home — has no `farmLayout` column at all (l.3358–3365), so the arid and cold overrides §4.9 states are held by no cell. Verdict: disagree (pipeline's repair recorded it as observed, not routed).",
+   "required_change": "V11 §2.8: `farmLayout: 'rows'|'perimeter'|'rivers' /* §4.9: the farm modes' climate override; 'rows' leaves the rung × landscape choice */`; V11 §3.17.1's table gains the column `farm layout` — `temperate-deciduous`, `temperate-coniferous`, `mixed`, `maritime` `rows`; `arid` `rivers`; `cold` `perimeter` (`ref:FTG Desert and Polar presets`; not calibratable, an enumeration) — and registry row 43's readers name S12a's farm modes (§4.9).",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R1T-03",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "V11's repair (VM-R0S-16) added the `village` district-kind row (V11 §3.9 l.2301: affinity `village` 1.0, set by VS5, never scored; display word \"village\") and handed model \"§2.5's `village` kind comment cites V11 §3.9's row\". §2.5's `District.kind` comment (l.1100) still names the village pseudo-district by PART III (4) and V07 §3.7 only, while it names the sky kinds by their §10.2 rows.",
+   "required_change": "§2.5 l.1100: \"village (the village product's one district covering its settlement, PART III (4), V07 §3.7; its row V11 §3.9's)\".",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R1T-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "\"Specified\" under the grandeur ceiling has its one home at V08 §3.16 (3): exactly (a) a dossier-bound record whose class is in `grandeur.ceiling`'s `settings.grandClasses` (`manor`, `tower_house`, `castle`, `palace`, `v.manor_house`; V11 §3.25.4) and (b) a dossier government whose `villageSeat` names the manor house, seigneurial or crown — with an explicit list of what is NOT a specification. §4.2 S2 (l.5072–5074) and §4.7 S10b (3) (l.7243–7245) restate it as \"a dossier manor, hall or similar record, or a government's `villageSeat` naming the manor\", then cite V08 §3.16 (3): \"hall or similar record\" admits records V08 excludes (a `town_hall` or `guildhall` record, a custom record whose resolution lands on no grand class) and is vaguer than the home (principle (9)'s guard); VCS-r1-03's proposed T115-2 copies the same gloss.",
+   "required_change": "§4.2 S2 and §4.7 S10b (3): replace the parenthesis by \"(V08 §3.16 (3): a dossier-bound record of a `settings.grandClasses` class, or a dossier government whose `villageSeat` names the manor house)\"; scope's T115-2 (VCS-r1-03) to cite the same, not the gloss.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R1T-05",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "Pipeline's repair (VPC-14, VAF-R0S-08) declared `NeighbourhoodRequest` and `NeighbourhoodResult` at II.1 (l.19116–19131) with their presence rules as comments — `seam`, `context`, `params` and `closeup` absent exactly when `laid` is empty, the unit runner building each district's `DistrictContext` and `SeamContract` from `SkyUnitInput` or `HoodRecipe`; `hoodPins` refine-only; `districts` in partition order, written by SKY-F to `SkyIsland.districts`; \"the mode is derived, never passed (J-V1.3) …\"; \"A sky island's reason is SkyIsland.reason (§2.7), not a request field\" — and `SeamReport.landingsReached` (l.19113). V01 §2.4 (l.550–560) states every one of these again in prose; the interface now has two homes.",
+   "required_change": "V01 §2.4: \"`NeighbourhoodRequest`, `NeighbourhoodResult` and `SeamReport` are II.1's (item 539), with their fields' presence rules and the derived mode (J-V1.3); this volume's unit runner, close-ups and SKY-F hand-over fill them (V01 §3.8–V01 §3.11)\" — delete the restated presence, mode and reason sentences.",
+   "owner": "V01"
+  },
+  {
+   "id": "VAF-R1T-06",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Pipeline's repair handed V11 \"row 24's shape now §10.2's `RosterSettings`; row 91's owner stays 'base'\". V11 §3.1 row 24's row-type column (l.905) still lists the seven cells (\"one row: `rosterMode`, …, `coverage.rosterWeight`\") where every other row names its type, and row 91's row-type column (l.973) still reads \"`SquareQuotaRow` (V01 §2.2: `band`, `haPer1000`, the `kind` factors; key `band`)\", homing the shape at V01 §2.2 though §10.2 declares it (l.14378; VAF-R0S-15).",
+   "required_change": "Row 24's row type: \"`RosterSettings` (§10.2; its one row `settings`, cells V11 §3.5.1)\"; row 91's row type: \"`SquareQuotaRow` (§10.2; key `band`)\".",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R1T-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Build-plan dependency of item 120's parts. V03 lands its part of Find \"with the later of P5 and the milestone that lands Find (V09 §8)\" and holds T-V3-38 at that exit (V03 §8, l.2675–2680). V01 puts T-V1-59 in W11, M5's verification (\"T-V1-59 Find's, on V09's app harness from V09's Find\", l.3317) and states the M5 total and §16's M5 row unchanged (l.3326–3328), so M5's exit carries a bar that needs V09's Find panel and `live.find` — and V09 §8 places Find at no milestone (G120-V09). If Find lands after M5, M5's exit cannot close.",
+   "required_change": "V01 §8.2's W11 line and §7's T-V1-59 row: \"T-V1-59 joins the exit of the later of M5 and the milestone that lands Find (V09 §8), as T-V3-38 does (V03 §8)\"; `findAreas` and `gapUnits` stay in W10 at M5.",
+   "owner": "V01"
+  },
+  {
+   "id": "G120-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 120 (J133) routes \"model: §2.9 (the per-viewer view key `find` — chips and the gaps switch — outside the document, its hash and the log; kept in view pins)\". §2.9's view state has no `find` key (\"`find`\" 0 times in §2), while V01 §5.4, V03 §5.5 (and V04, V05, V07) read \"§2.9: the chips and the Show gaps switch\" and V03 §2.5 \"the view key is not undone (§2.9)\".",
+   "required_change": "§2.9: the per-viewer key `find` — `{ chips: { kind: 'class'|'area'|'place'|'person'|'institution'; ids: string[] /* class ids, a FindArea.id (V01 §5.4), an address, a dossier binding key */ }[]; showGaps: boolean }` — outside every digest, the log and undo, kept in view pins like the other view keys, never over a bridge unless §11.3 says so; written by V09's Find panel and V10's \"show me\"; read by V09's `live.find`, V01 §5.4, V03 §5.5, V04, V05, V07 and §11.1's picture exports (item 120 (a), (i)).",
+   "owner": "model"
+  },
+  {
+   "id": "G122-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 (J135) routes \"model: §2.7 (`ConditionOverlay` read for the look; nothing added to the model)\". `ConditionOverlay` (§2.7 l.2364) names its readers as \"§8.2's thematic overlay, §4.11's Works share and the clerk\"; the crisis look is not among them and §2 says nothing of item 122.",
+   "required_change": "§2.7 `ConditionOverlay`'s comment adds \"the crisis look (item 122: drawn while the view's week lies in [sinceWeek, untilWeek), §8.2's look rows, §10.2's look table; a look only — nothing added to the model or its hash)\".",
+   "owner": "model"
+  },
+  {
+   "id": "G122-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 routes \"pipeline: §10.2 (the crisis look table: kinds by archetype, scale by severity and tier, placement rules and priorities, the density cap)\". §10.2 has no such table (\"item 122\" 0 times in §4, §10, PART II).",
+   "required_change": "§10.2 declares the crisis look table (`RosterTables.crisis`, rows V11's): one row per SettlementForge stressor type and condition archetype — its look kind or `none` (item 122 (b)), its scale by severity and tier, its placement rule (beyond bowshot, approach road, common land, contiguous blocks downwind, low ground …), its priority among concurrent looks (siege camp, quarantine, refugees), the density cap — a look only, read by §8.2 and §11, never by a stage; its bars §13.2's item-122 rows.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "G122-V01",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 routes \"V01: neighbourhoods as disaster targets; the outskirts' common land\". V01 has no part (\"item 122\" 0 times).",
+   "required_change": "V01 states the disaster look's units — which neighbourhoods (districts) a disaster's ruined share takes, by the calamity's `targets` first, else the pattern (fire downwind through contiguous blocks, flood the low ground by the water, earthquake scattered) — and the outskirts' common or fallow land a refugee camp may take (item 122 (a)–(c)), with its test.",
+   "owner": "V01"
+  },
+  {
+   "id": "G122-V02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 routes \"V02: the ruined look of a disaster's buildings\". V02 has no part (\"item 122\" 0 times).",
+   "required_change": "V02 states the temporary ruined look of a disaster's buildings (roofs, walls, rubble per band; never a change of `Building.massing` or the hash), with its test.",
+   "owner": "V02"
+  },
+  {
+   "id": "G122-V03",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 routes \"V03: item 123's damage as a look in a disaster's buildings\" (item 122 (d)). V03 has no part (\"item 122\" 0 times).",
+   "required_change": "V03 states that a plan in a disaster's ruined neighbourhood draws item 123's damage layer as a look while the condition stands (a decay level from severity, never stored), and its test.",
+   "owner": "V03"
+  },
+  {
+   "id": "G122-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 routes \"V11: the look, symbol, scale and placement tables\". V11 has none (\"item 122\" 0 times; no registry row).",
+   "required_change": "V11 writes the crisis look rows (one per stressor type and archetype, the closed mapping), their symbols, scale by severity and tier, placement and priority cells and the density cap, with a registry row, lifecycle row and compile test.",
+   "owner": "V11"
+  },
+  {
+   "id": "G122h-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 (h)–(i) (J138) routes \"model: §2.9 (the default framing and the widened zoom-out limit as view state while a look stands)\". §2.9 has neither.",
+   "required_change": "§2.9: the opening view, Fit and item 116's zoom-out limit read the bounds of the town and its crisis camps while a look stands, and return to item 116's when it ends; a view the user moved is never changed (item 122 (i)).",
+   "owner": "model"
+  },
+  {
+   "id": "G122h-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 (h)–(i) routes \"pipeline: §10.2 (the area per head, the engine rate, the coalition's spread round the town)\". §10.2 has none (verify-pipeline-r1t extended G122-pipeline with it; raised here under its own id as the brief routes it).",
+   "required_change": "§10.2's crisis look table adds the camp area per head (45 m², item 122 (h)), the engine rate (one per 1 500 besiegers, capped by the gates and wall stretches faced), each army of a coalition its own camp spread round the town, a travelling group's camp at the same rate, and the fallback to (b)'s severity and tier scale with no headcount.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "G122h-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 122 (h)–(i) routes \"V11: the rates\". V11 has none.",
+   "required_change": "V11 writes the rates' cells (area per head, engine rate, the ring's massed-mark threshold) with ranges, provenance and register entries.",
+   "owner": "V11"
+  },
+  {
+   "id": "G123-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 123 (J136) routes \"model: §2.6 (step 7: the damage layer over the same plan; the decay level read)\". §2.6's plan rung step 7 still draws \"a `decayed` or `ruined` building its fallen walls and open rooms — a drawing of the same plan\" uniformly; no decay level, no damage layer.",
+   "required_change": "§2.6 step 7: the damage layer over the same plan — every element's keyed threshold (§6.3) against the building's decay level (0–1, from its existence state and years since abandoned, V06; material rates V11), monotone, no new ids, restoration reversing it in patch material; never a re-derivation of the plan.",
+   "owner": "model"
+  },
+  {
+   "id": "G123-V02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 123 (d) routes \"V02: the exterior agreeing with the plan's damage\". V02 has no part (\"item 123\" 0 times).",
+   "required_change": "V02 states that the building band's exterior draws the plan's damage — a roof hole over a room a hole in the roof, a fallen outer wall run a gap in the footprint's outline — from the same thresholds, and its test.",
+   "owner": "V02"
+  },
+  {
+   "id": "G123-V03",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 123 routes \"V03: the damage layer, its drawing at every state (abandoned, decayed, ruined, restored with patches), the plan's exports, the panel lines\". V03 §5.1 still draws a decayed or ruined plan uniformly.",
+   "required_change": "V03 writes item 123's damage layer at build depth (element thresholds, the states' looks, cellars and crypts by their own thresholds, battle-map line of sight, the panel and clerk lines) with T-V3 bars for item 123 (f).",
+   "owner": "V03"
+  },
+  {
+   "id": "G123-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 123 routes \"V11: the thresholds' tables by material and element kind\". V11 has none.",
+   "required_change": "V11 writes the damage-threshold rows by material and element kind (timber faster than stone), with a registry row, ranges and register entries.",
+   "owner": "V11"
+  },
+  {
+   "id": "G124-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 124 (J137) routes \"model: §2.9 (the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover)\". §2.9 lists `weather` with no statement that it stays the seasonal cover and names neither the switch nor the spell.",
+   "required_change": "§2.9: `weather` stays the seasonal cover (part of the tile key); the weather-effects switch is device state (`AppPrefs`, V09); the spell in force is session-transient view state, never in a document, digest or tile key (item 124 (a), (g)).",
+   "owner": "model"
+  },
+  {
+   "id": "G124-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 124 routes \"V11: the climate row's weather columns per week band and the two hard rules\". `ClimateRow` (V11 §2.8 l.562–567) has no weather columns.",
+   "required_change": "V11 adds the climate row's weather columns per band of weeks (each kind's frequency and duration) with item 124 (c)'s defaults, and the two hard rules (no falling or lying snow where winter does not freeze; arid rain rare) as compile bars.",
+   "owner": "V11"
+  },
+  {
+   "id": "G125-model",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 125 (J139) routes \"model: §2.9 (the week's source: the dossier's latest stamped tick, else the user's season control)\". §2.9 still defaults `yearWeek` under `seasonFollow` to \"§7.7's DR42 (the campaign week mod 52)\" and the `week` key to \"a campaign's under a host\" — the `HostContext.week` source item 125 retires.",
+   "required_change": "§2.9: the dossier-bound map's week is the dossier's latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks), else the user's season control (standalone midsummer); `seasonFollow` follows that week; no host input.",
+   "owner": "model"
+  },
+  {
+   "id": "G125-pipeline",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 125, its routing completed (canon, \"routing completed\"): \"pipeline: §4.11 *The clock* (1)–(2) and `EpochInputs.week`\". §4.11 (1) still takes a dossier-bound map's creation week from \"the port's `HostContext.week`\" (l.8087) and (2)'s dating rungs end on `HostContext.week` (l.8097) (= VPC-R1-27).",
+   "required_change": "§4.11 *The clock* (1)–(2): the present week from the dossier's own stamped ticks (item 125 (b)), else the user's season control; remove the `HostContext.week` rung; `EpochInputs.week` likewise.",
+   "owner": "pipeline"
+  }
+ ]
+}
