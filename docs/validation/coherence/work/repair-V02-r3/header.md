@@ -157,7 +157,7 @@ rewrite's.
   (2) (b); V06 §3.22 (3), §3.23 (3), §2.4; V01 §2.3, §3.16 (2); V08 §3.16 (7) (b); V12 §2.13, §3.7.8; base §2.6 step 7,
   §6.3 *Plan damage*, §8.1 items 4, 6, 7, §8.2's slot resolution, §8.8, §8.9; T115-4, T119-2, T122-1, T122-7, T123-5,
   T123-7.
-* **Scans.** No `R2-nn`, `R3-nn` or verifier id in V02; no "look.kind", "the calamity's type V01's `disasterDistricts`
+* **Scans.** No `R2-nn`, `R3-nn` or verifier id in V02; no `look.kind` field, "the calamity's type V01's `disasterDistricts`
   reads", "that look's kind", "the model's `decayed`, `ruined` and `charred` states", "the pin is V12's" or "its pin is
   V12's" left.
 * **doc_checks** (WARNING printed: reference corpus INCOMPLETE — captures, research/patreon, research/devlogs,
