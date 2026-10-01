@@ -2849,3 +2849,5 @@
 2026-10-01 14:55 coherence/orchestrator NOTE repair-V12-r4 (12 blocks) and repair-V03-r4 (10 blocks) landed, 0 ruling requests; launched repair-V01-r4, -V05-r4 (END lines only), -kernel-r4 — the last three (queue empty; running: V06 V11 V04 V02 V01 V05 kernel)
 2026-10-01 14:55 coherence/repair-V01-r4 CHECKPOINT P0 started (opus seat); brief, adjudication-r4 TOC, R4-01/R4-09/R4-12, Part H V01 read; next issue sources and live V01 text
 2026-10-01 14:55 coherence/orchestrator NOTE correction: launching V05 and kernel together put 7 seats over the cap of 6; repair-kernel-r4 stopped by the orchestrator within two minutes of launch and re-queued (its CONTINUE rule picks up any partial file); running: V06 V11 V04 V02 V01 V05
+2026-10-01 14:56 coherence/repair-V11-r4 LANDED docs/validation/coherence/repair-r4-V11.md docs/validation/coherence/results/coherence_repair-V11-r4.json
+2026-10-01 14:56 coherence/orchestrator NOTE repair-V11-r4 landed (10 blocks, 0 ruling requests); relaunched repair-kernel-r4 in its slot (queue empty; running: V06 V04 V02 V01 V05 kernel)
