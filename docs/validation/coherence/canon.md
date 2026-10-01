@@ -5864,3 +5864,61 @@ adjudication-r2's, -r3's and -r4's rulings stand except where named below.
 * **Fixtures (R5-10):** the three-crisis week at the METROPOLIS cap on a mutated copy of `metropolis-3`; the fires
   `crisis.scale` names; H-AQUA's raised gate by V06's founding, never a declaration.
 * **INVALID:** none this round.
+
+## Dated ruling 2026-10-01 (adjudication round 6) — binding rulings R6-01 – R6-11 (coherence/adjudicate-r6; J122 where marked)
+
+The full rulings, with the issues each governs, the owner rules each was checked against and the END lines each unit
+writes, are `docs/validation/coherence/adjudication-r6.md`; this entry records what they change in the canon.
+adjudication-r2's – r5's rulings stand except where named below.
+
+* **The sweep's four blind spots and supersession (R6-01):** the three of R5-01 plus the base's own summaries and index
+  rows (§7.7's derivation index, §14's comments, §13.8's rows, §5.3's rows); a site restating a ruled rule is reduced to a
+  citation of its home. Superseded by name: R5-02 (but its held raised way, (6) (a)–(c), (7), P1, P2, P4, P6, P10),
+  R3-25 (d), R5-03's hold, V06's J-V6.91, J-V6.114 and J-V6.140 (amended). One group graded once: the Find chips'
+  drawn-week timing MAJOR.
+* **Raised ways and walls — the crossing table (R6-02, J122, vetoable; supersedes R5-02 as above and R3-25 (d)):** a
+  raised way and a wall never bear on each other, whichever is laid first. There is no crossing station, raised gate,
+  wall opening or held stretch. Home: §2.7's support step (6) (d), **§2.7's crossing table** (rows the wall events,
+  columns the raised-way states, every cell an outcome and a test) with four outcomes — *over the band* (an aqueduct
+  created across a standing wall keeps its supports, ramps, stairs and feet off the band, whatever its condition, and
+  crosses it on a span: item 110 (b)'s arch is its own; its under-deck strip clear of the wall's gates and towers), *down before the wall* (a road
+  deck never crosses a trace standing — at S5b picked — when its course is laid: it comes down and crosses on ground part
+  0 through the gate, file f item 363's rule now for generated roads too; a generated course that cannot is re-routed or
+  not built), *beneath* (a wall laid after: its strips and band laid as anywhere, the band laid through each support,
+  ramp, stair or foot in it, the run capped at a standing span's soffit and at its own top beneath a fallen one, no arch
+  vault in a `vault` span under the wall, no gate or tower in the under-deck strip, no gate on the deck, gates counted
+  on ground part 0, derived at read) and *unchanged meeting* (a wall op writes only its own records). The setback,
+  glacis and berm are no obstacle to a support and are no longer stopped at the under-deck strip (a span over the band
+  alone fits `maxClearSpanM`). **§2.7's way-and-channel table** (support step (6) (a)–(b)): ways by §4.3's crossing rule,
+  a hand way's `bend.raised.underSpan` / `.around`, the ring road `wallToWay` makes re-routed or ended at the strip, S5b's
+  spawned primary down before its boundary (so `N_k` gates on ground part 0), a channel beneath where it meets no part
+  of the reservation (a hand carve moved, else stopped); a lock or pin never refuses work passing beneath. A frame
+  growth's extension carries the old end span's `state` and hold (§2.7's support step (7)). `bend.wall.held` is gone.
+  Behaviour changes said plainly in R6-02, each with its veto option.
+* **The late calamity (R6-03; supersedes R5-03's hold and `DossierBinding.lateCalamities`):** an absorb whose week is
+  not after the last epoch's carries neither the late calamity, nor its F5 targets' records, nor a condition naming it
+  (noted `lateDeferred`); the first later absorb whose week passes the last epoch's carries them late, the calamity riding
+  its first epoch (one folded at its week where none other is) at that epoch's first week with its targets struck in
+  place. Nothing is held in the binding, so no fork, migration or no-epoch rule is owed. A target an earlier F5 record
+  ruined is struck by no op, kept `ruined` (V06 §3.11.1). The document's current week is the greatest week the folded
+  events carry (§4.11 *The clock* (1)). Home §4.11 *The clock* (1), (4).
+* **Find's chips at a drawn week (R6-04):** T120-6, §13.8's row and V12's `time.findGlow` take R12-35's drawn-week clause,
+  from the later of M5 and V06's E6.
+* **The crisis line's forms and the open card (R6-05):** V07 and V10 name V09 §4.21.12 (4)'s forms of the `ruinedFor`
+  row; T-V9-85 runs the unnamed forms; a view-bound why answer is re-asked at each change of its view's week, year
+  position, festival or crises while its card is open.
+* **A famine's bare field (R6-06):** V10's `look` read takes `field`, the clerk naming the famine on a bare field as the
+  card does; §11.2's `looks` answers `over` absent where its building or field names none; the fixture's famine is at
+  severity 0.5.
+* **The plan's damage (R6-07):** "under no disaster look" and the element's entry week at every restatement (T123-7, V03,
+  V04, V11, V12).
+* **Item 125's summaries (R6-08):** §7.7 item 10 and §14's `field_fallback` comment read a record's sub-field by its row.
+* **Scheduling (R6-09):** V02 §8.6, V03 §8's P4 and P5 cells, V06 §8's E3 cell and T76-1's burial-need clause each name
+  the exit after their provider.
+* **Rendering's readers (R6-10):** a public note in a picture is a numbered marker keyed on the legend sheet; a look's
+  Show frames by V09's rule; trees and pins are drawing groups switched by `StyleSheet.groups` through a logged
+  `setStyle`, never `setLayer`; crisis marks are no hit-test target; V09 states §8.8's 10-s DPR rule.
+* **Fixtures and bars (R6-11):** the cases T-V7-69, T-V1-59 (f), T-V8-61 (a) and T-V9-85 name are held by their fixtures;
+  §13.2's manifest holds derived fixtures (kind `'derived'`); T-V12-57's planted case passes as written; V12's pin row and
+  V06's E1 line name H-AQUA without its two raised-way edits.
+* **INVALID:** none this round.
