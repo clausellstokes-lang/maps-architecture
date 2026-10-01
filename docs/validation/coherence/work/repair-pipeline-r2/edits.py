@@ -14,7 +14,7 @@ E(H42, """**Mining** (item 109 (a) (2)): the site holds mining where
 `SiteResources.ore` ≥ 0.5 over the frame, the roster holds a mining class, or the dossier lists a mining deposit (iron,
 precious metals, gemstones, coal, copper);""",
 """**Mining** (item 109 (a) (2)): the site holds mining where
-the share of the frame's land cells with `SiteResources.ore` ≥ 0.5 reaches `miningCellShare` (V11 §3.23.1's `under.systems`
+at least `miningCellShare` of the frame's land cells hold `SiteResources.ore` ≥ 0.5 (V11 §3.23.1's `under.systems`
 cavern-row cell, II.7.6's `UndergroundSystemRow.params`), the roster holds a mining class, or the dossier lists a mining
 deposit (iron, precious metals, gemstones, coal, copper) — this test's one statement, which every reader takes through
 the flag;""", 'VAL-R1-08')
@@ -201,7 +201,8 @@ E(H48, """(V11 §3.25.3), a `patched` run's material from `walls.patchMaterials`
 replay, the replay writes them""",
 """(V11 §3.25.3), a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture — along an
 `on_enceinte` castle's shared stretch (`Castle.cityWeld`) one draw, on the town enceinte, sets the stretch's condition and
-material and the bailey's profiles there mirror them in the same batch (§2.7 *An enceinte's condition by run*); with the
+material and the bailey's profiles there mirror them in the same batch (§2.7 *An enceinte's condition by run*: the
+castle's welded stretch); with the
 replay, the replay writes them""", 'R2-27')
 
 # ───────────────────────────── §4.11 ─────────────────────────────
@@ -234,8 +235,8 @@ E(H411, """1. **The week.** The map's time is an integer week. For a dossier-bou
 """1. **The week.** The map's time is an integer week, in SettlementForge's own weeks — no conversion; never
    `elapsedMonths`, never `history.age`. A dossier-bound map's present week is the dossier's own latest stamped tick — the
    greatest of its conditions' `triggeredAt`, its calamities' and its history's ticks (item 125 (a), (b)), never the
-   campaign's calendar or any host input; with none, the clock starts at week 0 and the year position is the user's season
-   control (§2.9's `yearWeek`: midsummer, week 19, by default). Its creation week is the present week of the dossier it is
+   campaign's calendar or any host input; with none, the clock starts at week 0 and the user's season control sets
+   the year position (§2.9's `yearWeek`: midsummer, week 19, by default). Its creation week is the present week of the dossier it is
    created from; a standalone map starts at week 0.""", 'G125-pipeline', 'VPC-R1-27')
 
 E(H411, """then the week suffix of the change's outcome id, then `HostContext.week`, then none:""",
@@ -333,7 +334,7 @@ interface CrisisLookRow {   // table 'crisis.looks'; key 'kind'; its rows V11's 
   kind: CrisisLookKind; place: CrisisPlace /* where its main part stands; a kind's further parts are (f)'s */;
   band: 'city'|'district'|'neighbourhood' /* the coarsest band it shows at (item 122 (d)); §8.2's look rows add detail at each finer band */;
   scale: Record<Rung, [number, number]> /* its extent at severity 0 and 1, linear between — m² of camped ground at a camp place, else the share of its place's units ((c)) */;
-  priority: number /* the order in which the camp looks take the outskirts, lowest first: siege, then quarantine, then refugees ((e)) */;
+  priority: number /* the camp looks' turn on the outskirts, lowest first: siege, then quarantine, then refugees ((e)) */;
   lookLevel?: [number, number] /* the disaster row only: item 123's decay level its districts' buildings draw at severity 0 and 1, linear between */ }
 interface CrisisMapRow {   // table 'crisis.map'; key 'from/key': the closed mapping, a dossier row set read at the pinned baseline (V08; its rows V11's)
   from: 'stressor'|'archetype'|'event' /* a SettlementForge stressor type, condition archetype or simulator event */; key: string; look: CrisisLookKind | 'none' }
@@ -373,8 +374,8 @@ E(H102, """* **Rows at their limits (EP-18).**""",
   (a) **A look only.** The table is read by §7.7's DR44, §8.2's crisis look rows, §11's picture exports (a battle map's
   image only, never its walls or obstacles), V09's Find listing and the placement services below — never by a stage — so
   no crisis moves, adds or removes a building, way, wall, plot or water edge or changes the model, a digest or the hash,
-  and a look stores nothing. What stands in a view is DR44's: each `ConditionOverlay` standing in the view's week (§2.7's
-  reader comment) whose map row gives a look, admitted at the viewer's key (a withheld condition is never drawn, listed,
+  and a look stores nothing. What stands in a view is DR44's: each `ConditionOverlay` whose weeks hold the view's week (§2.7's
+  reader comment) and whose map row gives a look, admitted at the viewer's key (a withheld condition is never drawn, listed,
   counted or named); §2.9's `crises` key switches the looks off or previews one look with no condition, at
   `previewSeverity` and the map's rung. What a crisis leaves reaches the map only through the epoch path (V06's
   hand-over). An edited row (§7.6) redraws the looks and changes nothing else.
@@ -383,7 +384,7 @@ E(H102, """* **Rows at their limits (EP-18).**""",
   archetype (V08 §3.11) — and draws the look its row names, or nothing for `none`; the regional_* pressures are `none`. A
   source with no row reads `none`, reported `unmapped_word` (V08), so nothing falls through (T122-4).
   (c) **Scale.** A look's extent at the map's rung is its row's `scale` at severity 0 and 1, linear between (severity
-  clamped to [0, 1]): m² of camped ground at a camp place (`beyondWalls`, `approachRoads`, `approachByGate`, `outside`,
+  clamped into [0, 1]): camped ground in m² at a camp place (`beyondWalls`, `approachRoads`, `approachByGate`, `outside`,
   `gatesAndKeep`'s camp), else the share of its place's units ((d)). **By headcount** (item 122 (h)): where the dossier
   gives a force's or a group's size (V08's fields, in development, confirmed by item 125 (d)), its camp is sized by it,
   never by severity — each army its own camp of `areaPerHeadM2` × its heads, a travelling group's (migrants, pilgrims, a
@@ -442,7 +443,7 @@ E(H102, """* **Rows at their limits (EP-18).**""",
   (g) **Framing** (item 122 (i)). The placed camps' bounds are the camps §2.9's opening view, Fit and item 116's zoom-out
   limit take in with the town while a look stands (model §2.9; the limit's stop 0 where nothing fits, §8.8).
   (h) **At its limits** (EP-27). No outskirts land left, an island town with no land beyond its shore, or a force larger
-  than the frame and its margin: what does not fit is (e)'s ring marks; a siege of a place with no standing enceinte (a
+  than the frame and its margin: the remainder drawn as (e)'s ring marks; a siege of a place with no standing enceinte (a
   mesa whose every arc is a closure feature among them): the `blockade` row by `approachRoads`' rule, no engines; THORP to
   the METROPOLIS cap: each rung's `scale` cell; a headcount of 0 or none: (c); an unmapped source: (b); a condition whose
   `untilWeek` is not after its `sinceWeek`: never stands; no condition and no preview: every tile byte-identical to the
