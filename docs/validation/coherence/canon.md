@@ -5705,3 +5705,65 @@ The full rulings, with the issues each governs and the unit that writes each end
   and `line` stay, none a data input.
 * **Item 126 (R2-41):** every phone clause of every issue is moot under (a2).
 * **INVALID, closed for good:** VDC0-33 (R2-01), VAT-20's rung clause (R2-02), VV78-21 (R2-03), VV56-r1-05 (R2-39 (c)).
+
+## Dated ruling 2026-10-01 (adjudication round 3) — binding rulings R3-01 – R3-27 (coherence/adjudicate-r3; J122 where marked)
+
+The full rulings, with the issues each governs and the END lines each unit writes, are
+`docs/validation/coherence/adjudication-r3.md`; this entry records what they change in the canon. adjudication-r2's
+rulings stand except where named below.
+
+* **Design text names homes, never review ids (R3-02):** no `R2-nn`, `R3-nn` or verifier issue id in design text;
+  decision, request and hand-off records keep theirs.
+* **Grading (R3-03):** J141's standard; a bookkeeping list gap is MINOR; two units stating two outcomes for one case is
+  MAJOR however rare the case.
+* **Item 123's comparison (R3-04; supersedes R2-38 (4)'s wording):** an element is damaged while the decay level is above
+  0 and at least its threshold t (§6.3 *Plan damage*), the one wording at every reader.
+* **The roofless wing (R3-05):** while a building is `decayed` or `ruined`, every roof bay over a room of a wing whose
+  `RoofSpec.kind` is `none` is damaged whatever its t; home §2.6 step 7.
+* **The decay run (R3-06; supersedes R2-38 (3)'s default-age sentence):** V06 §3.23 is the home; a run starts at the
+  week its change shows; a building item 113's replay ruins has its run from that replay epoch's week; a building
+  generated abandoned, decayed or ruined reads a run begun V11's default age before the week it is first met, aging
+  from then.
+* **The plan under decay (R3-07; supersedes R2-38 (1)'s gloss):** the plan last lived in, at the occupant inputs of the
+  week before the run (V03 §3.11).
+* **Restoration (R3-08, J122; supersedes R2-38 (3)'s list):** item 123 (b)'s "reused" is the building put back to use (a
+  `reoccupy`) beside a repair; §2.8's `reused` trace holds no plan; `decayPeak` is per element, since its entry into the
+  plan; a restored building's head word is `restored`.
+* **The disaster look's source (R3-09, J122):** a condition linked to a carried calamity (V08 §3.16 (7) (d)) whose own
+  row is `none` carries `event` `calamity` and draws `disaster`, one look per calamity (the earliest-triggered linked
+  condition); a calamity linked to no condition draws no look; the look's calamity is read from the carried fact through
+  that link; the base names the source word V08 §3.16 (7) (b) gives.
+* **The disaster look's end (R3-10; supersedes R2-37 (6)):** building by building, by V06 §3.22 (3)'s `crisisLookYields`;
+  a preview never hands over.
+* **`regional_migration_pressure` (R3-11):** draws the refugee camp; the other regional_* pressures `none`.
+* **A stressor and a condition of one look kind (R3-12, J122):** one look, the condition's; the stressor's resumes when
+  the condition ends.
+* **A condition's knowledge tier (R3-13):** its home is DR44 (public with a look, secret with `none`, a listing key form
+  admitting it).
+* **The camp places (R3-14; amends R2-37 (5)'s gloss):** `campLand` is the commons and the fields in their fallow course
+  and is every camp's one land; a siege reads the enceintes other than baileys; a barricade is the one look on a
+  carriageway; a share of n units takes round(s × n) clamped to [1, n]; no siege line at THORP and HAMLET; at an unserved
+  mesa the places measure from the boundary point closest to the growth centre.
+* **Before the services land (R3-15):** R2-36's "draws nothing of that part" written at §10.2 *Crisis looks*.
+* **The standing looks (R3-16):** one producer on the API, §11.2's `looks` reader (`LooksAnswer`); the why card's `plan`
+  section keeps the building's own level.
+* **The cadence (R3-17):** §4.11 *The clock* (4) also folds at a newly carried calamity's week.
+* **The creation week (R3-18):** the week of the document's `generate` event; the present at creation is a separate value.
+* **Locks under a fall (R3-19):** only a dossier population fall reaches a locked or pinned household or empties a locked
+  or pinned dwelling.
+* **Item 125 (e) (R3-20; amends R2-40 (2)'s `line` clause):** `HostContext.line` is checked against the dossier's own
+  selection, never chosen from; every dossier field has its fallback, `id` and the version stamps included (never a
+  refusal; B3 only for what is no dossier at all).
+* **The host's commands (R3-21; amends R2-33 (b)–(c)):** a week and a selection by `view.set`; the layers shown by a
+  logged `setLayer` sent by `doc.apply`; `depthBand` never crosses a bridge.
+* **Item 125's retirements (R3-22):** no input gives a true bearing, a river course or a latitude after creation.
+* **The weather timeline (R3-23):** §6.1's gap spent at the live rate; a kind live by its week band and, under
+  `light: 'time'`, its hours; Start a shower now starts none where none is live, its button disabled with its reason.
+* **Find at a drawn week (R3-24):** §11.2's `gazetteer` takes the drawn week and restricts to the entities its frame
+  holds.
+* **Raised ways (R3-25):** the feet cited from §2.7 only; the frame growth moves a ring-end foot between two L0 batches;
+  a later trace or moat re-runs the support step ((6)); the band under a crossing station is held while its deck stands.
+* **Pins and take-overs (R3-26):** the union of registering clauses written this round; V12 takes §13.8's tiers.
+* **Other supersessions:** R2-32 (2)'s "V10 C3" reads C4 (VV910-r2-07); R2-30's stop-0 clause binds the view bar only —
+  an export frames within the limit bounds whatever the window, or with none (VEW-r2-02).
+* **INVALID:** none this round.

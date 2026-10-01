@@ -3,12 +3,12 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/adjudicate-r3; covered by the whole-design retrovalidation (J84).
 
 PROGRESS (lane `coherence/adjudicate-r3`, 2026-10-01)
-- P0 brief read whole; inputs located (round3-work 18 files, 214 issues; repair-r2 ×18; verify r2t ×20; adjudication-r2; canon's dated rulings): done
-- P1 ruling requests of round 2's repair files collected and ruled: pending
-- P2 every issue read whole; multi-reporter and ping-pong groups found: pending
-- P3 binding rulings (R3-nn): pending
-- P4 Part H, every issue's disposition, severity regrades, END lines per unit: pending
-- P5 canon dated ruling appended; result saved; LANDED: pending
+- P0 brief read whole; inputs located (round3-work 18 files, 214 issues; repair-r2 ×18; verify r2t ×20; adjudication-r2; canon's dated rulings; file g items 122–126): done
+- P1 ruling requests of round 2's repair files: none filed (all eighteen searched): done
+- P2 every issue read whole; multi-reporter, ping-pong and one-sided hand-off groups found; round 2's HAND-OFFS sections read for ends nobody raised: done
+- P3 binding rulings R3-01 – R3-27: done
+- P4 Part H, all 214 issues (183 FIX, 31 MERGED, 0 INVALID), J141 regrades (64), 55 END lines under their units: done
+- P5 canon dated ruling "2026-10-01 (adjudication round 3)" appended; result saved; LANDED: done
 
 ## How to read this file
 
@@ -38,7 +38,62 @@ vetoable. adjudication-r2.md stays binding except where an entry below supersede
 **No ruling id in design text.** Every text below that a seat writes into the design names a design home, never an
 `R3-nn` or `R2-nn` id (R3-02).
 
-<!-- SUMMARY-AND-TOC -->
+## Summary
+
+* **Ruling requests:** none filed in round 2's eighteen repair files (Part A).
+* **27 binding rulings** (R3-01 – R3-27). The look-first defects of the brief are ruled: the disaster look ends building by
+  building, by V06's `crisisLookYields`, a preview never handing over (R3-10, superseding R2-37 (6)); `regional_migration_pressure`
+  draws the refugee camp, the other regional_* pressures none (R3-11); the damage comparison is "the level above 0 and at least t"
+  everywhere (R3-04, superseding R2-38 (4)'s wording); the why card's `plan` section keeps the building's own level, the plan panel
+  showing the look (R3-16 (c)); a disaster overlay takes the calamity V08 links to its condition, read from the carried fact (R3-09
+  (b)), and a dossier calamity reaches the look through its linked none-row condition, one look per calamity (R3-09 (a)); item 123
+  (b)'s "reused" is read under J122 as the building put back to use (a `reoccupy`) beside a repair, §2.8's `reused` trace keeping its
+  meaning and holding no plan (R3-08 (a)). Other recurring classes ended: hand-off ends written at one side only (R3-01, END
+  lines); review ids in design text (R3-02); the decay run's start, the aging default age and the replay's ruins (R3-06); the plan
+  last lived in (R3-07); the per-element repair peak (R3-08 (b), a blocker); the cadence's calamity week (R3-17); the two meanings
+  of "the creation week" (R3-18, a blocker); locks under a standalone fall (R3-19); the adapter picked by the dossier alone and a
+  fallback for every field, `id` and the version stamps included (R3-20, owner item 125 over a verifier's proposed refusal); the
+  host's layers by `setLayer` (R3-21); item 125's retirements (R3-22); the weather's live rate (R3-23); Find at a scrubbed week
+  (R3-24); raised ways crossed by a later trace (R3-25, a blocker); the pin and take-over unions (R3-26); two residual hand-offs (R3-27).
+* **Dispositions of the 214 issues:** 183 FIX (91 under a ruling as written, 8 amended by a ruling), 31 MERGED into a
+  sibling id, 0 INVALID. Parts of required changes not written (each in its issue's note): VPC-R2-16's bearing source, VPC-R2-18's
+  key, VDC2-15's setting, G125-V08's refusal of an empty `id` or stamp, VKr2-01's alternative form, VM-R2T-10's restated order,
+  VAT2-r2-02's trigger list, VV12-r2-01's reading from epoch events, VV910-r2-04's main-thread call, VV910-r2-01's key name.
+* **Grades (J141):** reported 4 blocker, 90 major, 120 minor; graded 3 blocker, 128 major, 83 minor — 64 regraded
+  (50 raised, chiefly two units stating two outcomes for one case; 14 lowered, chiefly bookkeeping lists, and VAT2-r2-01 from
+  blocker). The three blockers: VEW-r2-01, VAT2-r2-03, VV56-r2-06.
+* **END lines:** 55, under 15 unit headings (two of them the adjudicator's own residual ends, R3-27).
+* **Canon:** one dated ruling appended to `canon.md` (Part I).
+
+## Table of contents by unit
+
+Each row: the issues the unit owns, the END lines it writes for others, and the rulings it applies whole; then its heading in
+Part H. Every seat reads R3-01 – R3-03.
+
+| unit | issues | END lines | rulings binding it | its heading |
+|---|---|---|---|---|
+| scope (base §0–§1, §13–§17, the index, INDEX.md) | 10 | 5 | R3-08, R3-15, R3-20, R3-25, R3-26 | Part H · scope |
+| model (base §2) | 10 | 1 | R3-04, R3-05, R3-06, R3-07, R3-08, R3-25 | Part H · model |
+| kernel (base §3) | 2 | 0 | R3-25 | Part H · kernel |
+| pipeline (base §4, §10, PART II, PART III) | 28 | 5 | R3-09, R3-10, R3-11, R3-12, R3-14, R3-15, R3-17, R3-18, R3-22, R3-25, R3-27 | Part H · pipeline |
+| determinism (base §5–§7) | 16 | 3 | R3-09, R3-11, R3-12, R3-13, R3-21, R3-22, R3-23, R3-25 | Part H · determinism |
+| rendering (base §8, §9, §11, §12) | 28 | 6 | R3-04, R3-05, R3-08, R3-09, R3-10, R3-14, R3-16, R3-20, R3-21, R3-22, R3-23, R3-24, R3-27 | Part H · rendering |
+| V01 | 5 | 5 | R3-09, R3-10, R3-14, R3-24 | Part H · V01 |
+| V02 | 5 | 3 | R3-05, R3-08, R3-09, R3-10, R3-26 | Part H · V02 |
+| V03 | 7 | 3 | R3-05, R3-08, R3-10, R3-26 | Part H · V03 |
+| V04 | 10 | 2 | R3-04, R3-23, R3-26 | Part H · V04 |
+| V05 | 2 | 0 | R3-25 | Part H · V05 |
+| V06 | 18 | 6 | R3-04, R3-06, R3-08, R3-09, R3-10, R3-14, R3-17, R3-18, R3-19, R3-22, R3-25, R3-26 | Part H · V06 |
+| V07 | 9 | 0 | R3-19, R3-22 | Part H · V07 |
+| V08 | 12 | 3 | R3-09, R3-12, R3-13, R3-20, R3-21, R3-26 | Part H · V08 |
+| V09 | 22 | 6 | R3-04, R3-06, R3-08, R3-13, R3-16, R3-21, R3-23, R3-24, R3-26 | Part H · V09 |
+| V10 | 9 | 4 | R3-04, R3-06, R3-08, R3-13, R3-16, R3-24, R3-26 | Part H · V10 |
+| V11 | 10 | 2 | R3-06, R3-09, R3-23, R3-26 | Part H · V11 |
+| V12 | 11 | 1 | R3-09, R3-13, R3-14, R3-26 | Part H · V12 |
+
+Parts: A the ruling requests · B the whole round (R3-01 – R3-03) · C item 123 (R3-04 – R3-08) · D item 122 (R3-09 – R3-16) ·
+E time, epochs, locks and the host (R3-17 – R3-22) · F weather, Find and the world's edges (R3-23 – R3-25) · G bars, pins and
+residual hand-offs (R3-26, R3-27) · H per-unit dispositions · I canon changes.
 
 ## Part A — the ruling requests
 
@@ -554,3 +609,466 @@ ClimateSeasonCells, item 117, and WeatherSpells, item 124) and ClimateSettings";
 repair-r2-V12's hand-off): §8.2's greyscale bar (l. 13116) cites "V12's `T114g.greyscale`", which V12 does not define —
 it reads "V12's `BenchBarDef` T114-6 (its statistic `bar.T114-6`, V12 §3.15.4)". The other round-2 hand-offs are either
 raised by a round-3 issue (and ruled in Part H) or found written.
+
+## Part H — per-unit dispositions (all 214 issues)
+
+### scope (base §0–§1, §13–§17, the index, INDEX.md)
+
+Rulings: R3-01, R3-02, R3-03, R3-08, R3-15, R3-20, R3-25, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAP-r2-01 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 | its table and runs-list texts as written |
+| VAP-r2-14 | major | major | DISAGREE | FIX |  |
+| VEW-r2-02 | major | major | EDGE-UNDEFINED | FIX | R2-30's stop-0 clause stays in T116-1's view bar only (canon) |
+| VKr2-02 | major | major | EDGE-UNTESTED | FIX per R3-25 (b) | bars VKr2-01's first form |
+| VCS-r2-01 | minor | minor | CONFLICT | FIX |  |
+| VCS-r2-03 | minor | **major** — two units state two outcomes (§13.4's pointer-only fabric and finish layers against V09 §4.12's switchable default), §13.4's against item 126 (e) | CONFLICT | FIX | V09's end is an END line under V09 |
+| VCS-r2-04 | minor | minor | WIRING | FIX per R3-15 | every "(R2-36)" written "(§16)"; its M5 clause closes VV12-r2-07 |
+| VCS-r2-06 | minor | minor | COHESION | FIX |  |
+| VV12-r2-07 | minor | minor | COHESION | MERGED into VCS-r2-04 | the M5 row's item-122 clause written once |
+| VV910-r2-07 | minor | minor | COHESION | FIX | supersedes R2-32 (2)'s "V10 C3" (canon) |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VV56-r2-01 (V06): §13.2's T123-4 reads "(T123-4) restoring — a `reoccupy` back into use (item 123 (b)'s "reused") or a repair — lowers the level and removes the damage in reverse threshold order, each repaired element drawn in item 114's patch material". *(R3-08 (a))*
+* END of VEW-r2-01 (model): §13.2's T110-2 adds "a CITY c14 fixture whose S4 viaduct over a valley is crossed at a gate by stage 2's moated ring, and an epoch circuit across a standing aqueduct — each crossing's one station on the trace, 0 piers in a setback, glacis, berm or moat, the raised way kept". *(R3-25 (c))*
+* END of VM-R2T-03 (model): §13.2's item-114 group gains "a neglected, poor CITY ring over 20 epochs with a masonry aqueduct through its wall arch and a viaduct on a raised gate: the stretch under each crossing station never `breached` or `dismantled` while its deck stands, every other stretch decaying as T114-1 states". *(R3-25 (d))*
+* END of G125-V08 (V08): §14's `HostContext.line` comment (l. 19161) reads "the SettlementForge line the host runs: checked against the dossier's own selection (V08 §2.4), never chosen from; a line no adapter supports, or one the dossier's stamps contradict: `E_LINE_UNSUPPORTED`; a registered, accepting line that differs leaves the selection standing, both reported"; §14's port item (l. 19274–19276) reads "`line` is checked against the dossier's own selection (V08 §2.4), never chosen from — a `line` no adapter supports, or one the stamps contradict, refuses with `E_LINE_UNSUPPORTED`", the rest as it stands. *(R3-20 (1))*
+* END of VV78-r2-10 (V11): §13.2's T122-4 reads "every SettlementForge stressor type, condition archetype and crisis event at the pinned baseline has its row in §10.2's closed map …" (V08's census holds the three lists).
+
+### model (base §2)
+
+Rulings: R3-01, R3-02, R3-03, R3-04, R3-05, R3-06, R3-07, R3-08, R3-25.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAF-R2T-01 | major | major | DISAGREE | FIX per R3-05 | VAF-R2T-01's sentence, its scope "decayed or ruined" however V06 §3.23 reads the level |
+| VDC2-07 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | CONFLICT | MERGED into VM-R2T-02 |  |
+| VEW-r2-01 | blocker | blocker | EDGE-UNDEFINED | FIX per R3-25 (c) | BLOCKER kept (supports left in a moat or setback: a silent wrong result); its ends at pipeline, V06 and scope |
+| VM-R2T-01 | major | major | CONFLICT | FIX per R3-07 | its texts (1) and (2), whole |
+| VM-R2T-02 | major | major | CONFLICT | FIX per R3-06 | §2.6 step 7's level sentence is R3-06's binding text, which carries R3-04, R3-07, R3-08 (a)–(b) and R3-05's roofless sentence; closes VDC2-07 and VRC2T-14 |
+| VM-R2T-03 | major | major | EDGE-UNDEFINED | FIX per R3-25 (d) | its ends at V06 and scope are END lines there |
+| VM-R2T-08 | minor | minor | CONFLICT | FIX |  |
+| VM-R2T-10 | minor | minor | RESTATEMENT | FIX, amended | §2.7's *Readers* reads "volume 6's transitions (V06 §3.7.7 (3), which orders the patches' rebuilding)" and restates no order (principle (1)); V06 §3.7.7 (3) already states generation's epoch 0 first |
+| VRC2T-14 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | CONFLICT | MERGED into VM-R2T-02 |  |
+| VRC2T-16 | minor | **major** — two units state two outcomes (§8.8 frames the ring's arcs, §2.9 does not) | CONFLICT | FIX | its §10.2 (g) end is an END line under pipeline |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VV56-r2-01 (V06), VV56-r2-06 (V06), VAT2-r2-05 (V06) and VAT2-r2-06 (V06): written inside R3-06's binding text for §2.6 step 7 (the restoration clause, the per-element peak, the replay's ruins and the default age that ages), applied under VM-R2T-02.
+
+### kernel (base §3)
+
+Rulings: R3-01, R3-02, R3-03, R3-25.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VKr2-01 | major | major | EDGE-UNDEFINED | FIX per R3-25 (b) | its first form (two L0 batches, each ring-end foot moved between them); the alternative is not written |
+| VKr2-03 | minor | minor | CONFLICT | FIX |  |
+
+**END lines under this heading:** none.
+
+### pipeline (base §4, §10, PART II, PART III)
+
+Rulings: R3-01, R3-02, R3-03, R3-09, R3-10, R3-11, R3-12, R3-14, R3-15, R3-17, R3-18, R3-22, R3-25, R3-27.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAF-R2T-04 | major | major | DISAGREE | FIX per R3-14 (1) | §10.2 (d)'s bullets are R3-14's binding text; V01 §1b's end is an END line under V01 |
+| VAL-R2-06 | major | major | HANDOFF-OPEN | MERGED into VV78-r2-05 |  |
+| VAL-R2-08 | major | major | DISAGREE | MERGED into VPC-R2-08 |  |
+| VAT2-r2-01 | blocker | **major** — BLOCKER → MAJOR: two units state two cadences; no rule is impossible or crashing, and its named consequence no longer follows (R3-17) | MATRIX-GAP | FIX per R3-17 |  |
+| VAT2-r2-03 | blocker | blocker | DISAGREE | FIX per R3-18 | BLOCKER kept (a negative first span); EP-15 as written |
+| VDC2-10 | minor | **major** — two outcomes for the owner's archetype, R3-11 | CONFLICT | MERGED into VPC-R2-01 |  |
+| VDC2-13 | minor | minor | CONFLICT | FIX per R3-22 (a) | closes VPC-R2-16 |
+| VEW-04 | major | major | EDGE-UNTESTED | FIX | its EP-22 text (the fuller); closes VM-R2T-06 |
+| VEW-r2-03 | major | major | EDGE-UNDEFINED | FIX per R3-14 (6) | the reference point so named; EP-27 here; V06's and T-ER-27's ends are END lines |
+| VEW-r2-05 | major | major | EDGE-UNDEFINED | FIX per R3-14 (2) | EP-27 here; T-ER-27's fixtures an END line under rendering |
+| VKr2-05 | minor | minor | CONFLICT | FIX per R3-25 (a) | with VM-R2T-04's §4.6 clause in R3-25 (a)'s words |
+| VM-R2T-04 | minor | **major** — §4.6 as written builds a ramp at a ring-end foot, which §2.7 forbids | CONFLICT | MERGED into VKr2-05 |  |
+| VM-R2T-06 | major | major | EDGE-UNTESTED | MERGED into VEW-04 |  |
+| VPC-R2-01 | major | major | CONFLICT | FIX per R3-11, R3-09 (d) | §10.2 (b)'s source sentence names the source word V08 §3.16 (7) (b) gives, the regional clause and R3-12's pairing cited; closes VDC2-10, VV56-r2-08 |
+| VPC-R2-04 | minor | **major** — two outcomes for a route crossing a barrier in an unwalled k ≥ 2 stage | CONFLICT | FIX |  |
+| VPC-R2-08 | minor | **major** — two outcomes for a bank whose stretch is empty | CONFLICT | FIX | closes VAL-R2-08 |
+| VPC-R2-09 | minor | **major** — two units end the disaster look differently | CONFLICT | FIX per R3-10 | §10.2 (f) in R3-10's text; closes VV56-r2-03 |
+| VPC-R2-11 | minor | **major** — an input with no producer from M3b to M5 and no stated outcome, R3-15 | WIRING | FIX per R3-15 | "(R2-36)" written "(§16)" |
+| VPC-R2-12 | minor | minor | CONFLICT | FIX |  |
+| VPC-R2-14 | minor | **major** — one army on one road or on four: two builds | CONFLICT | FIX per R3-14 (7) | in R3-14's `approachRoads` bullet |
+| VPC-R2-15 | minor | **major** — S1 writes `Terrain.mining` from M1 with no outcome while the cavern row is absent | WIRING | FIX |  |
+| VPC-R2-16 | minor | minor | CONFLICT | MERGED into VDC2-13 | DR3 reads no bearing; its "trade slice's partner bearing" is not written |
+| VPC-R2-17 | minor | minor | TERM | FIX |  |
+| VRC2T-03 | major | major | CONFLICT | FIX per R3-14 (3) | with R3-14 (2)'s footprint clause in the same sentence |
+| VV56-r2-03 | minor | **major** — two units end the disaster look differently | CONFLICT | MERGED into VPC-R2-09 |  |
+| VV56-r2-07 | minor | **major** — the count passed to `frontierFor` was a dangling input of a two-ended hook | WIRING | FIX per R3-14 (7) | in R3-14's `approachByGate` bullet |
+| VV56-r2-08 | minor | **major** — two outcomes for the owner's archetype, R3-11 | CONFLICT | MERGED into VPC-R2-01 |  |
+| VV78-r2-05 | major | major | CONFLICT | FIX per R3-14 (4)–(5) | closes VAL-R2-06 |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VEW-r2-01 (model): §4.4 S5a *Outer moats* reads, in place of "Nothing finer than L1 exists yet, so the carve's footprint clears nothing": "the carve clears no raised-way support: §2.7's support step (6) re-sites one first in the same commit; a stage gate on a raised arterial is a raised gate whose tower carries the deck, the deck itself crossing the channel (no part-0 deck added for it), the part-0 way beneath taking its own ground gate"; §4.8 S7 lays the raised gate and the aqueduct's wall opening as generation furniture, in V06 §3.7.6 (5)'s form. *(R3-25 (c))*
+* END of VRC2T-16 (model): §10.2 (g)'s "The placed camps' bounds" reads "The placed camps' and the ring arcs' bounds".
+* END of VV12-r2-02 (V01): §10.2 (d)'s outskirts sentence reads "The outskirts' land is V01's `campLand(doc)` (V01 §3.16): the `commons` faces and the fields in their fallow course within `camp.reachM` of the built edge and along the approach roads by the gates — every camp place below takes its faces from it and from nothing else." *(R3-14 (1))*
+* END of VPC-R2-03 (V08) and VAH-r2-02 (V08): §10.2 (b)'s source sentence (written under VPC-R2-01) reads "An overlay reads the `map` row of the source word V08 §3.16 (7) (b) gives it (a stressor's type, a simulator crisis event, the `calamity` word of a linked condition, else its archetype) and draws the look its row names, or nothing for `none` — `regional_migration_pressure` the refugee camp (item 122 (b)'s mass immigration), the other regional_* pressures `none`; a stressor's overlay draws no look while a condition's overlay of the same look kind stands (V08 §3.16 (7) (b))", its unmapped-word sentence unchanged. *(R3-09 (d), R3-12)*
+* END of ADJ-r3-01 (adjudicator): §10.2's comment naming the types V11 declares (l. 14936) reads "… ClimateRow (with its ClimateSeasonCells, item 117, and WeatherSpells, item 124) and ClimateSettings …". *(R3-27)*
+
+### determinism (base §5–§7)
+
+Rulings: R3-01, R3-02, R3-03, R3-09, R3-11, R3-12, R3-13, R3-21, R3-22, R3-23, R3-25.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAH-r2-01 | major | major | MATRIX-GAP | FIX per R3-13 | V08's citation is an END line under V08 |
+| VAL-R2-03 | minor | **major** — read as exhaustive, every crypt bay falls at one level: two builds | AMBIGUOUS | MERGED into VV34-r2-16 |  |
+| VDC2-01 | major | major | EDGE-UNDEFINED | FIX per R3-23 (a) |  |
+| VDC2-02 | minor | minor | WIRING | FIX |  |
+| VDC2-03 | minor | minor | WIRING | FIX |  |
+| VDC2-04 | minor | **major** — the base states no outcome where V09 and V11 state two | CONFLICT | FIX, amended per R3-23 (b) | "in a week with no live kind" reads "at a moment with no live kind (R = 0)" |
+| VDC2-06 | minor | minor | CONFLICT | FIX |  |
+| VDC2-09 | minor | **major** — two outcomes for the owner's archetype, R3-11 | CONFLICT | MERGED into VPC-R2-02 |  |
+| VDC2-11 | minor | minor | CONFLICT | FIX per R3-22 (a) |  |
+| VDC2-16 | minor | minor | WIRING | FIX | its three keys (`bend.under.basement`, `refuse.under.basement`, `refuse.under.route`); closes VKr2-04 and VPC-R2-18, whose `refuse.access.route` is not written |
+| VKr2-04 | minor | minor | WIRING | MERGED into VDC2-16 |  |
+| VKr2-06 | minor | minor | CONFLICT | FIX per R3-25 (a) | closes VM-R2T-05 |
+| VM-R2T-05 | minor | minor | CONFLICT | MERGED into VKr2-06 |  |
+| VPC-R2-02 | major | major | CONFLICT | FIX per R3-11, R3-09 (d) | DR44's map-row clause names the source word V08 §3.16 (7) (b) gives, with the regional clause; closes VDC2-09 |
+| VPC-R2-18 | minor | minor | WIRING | MERGED into VDC2-16 |  |
+| VV34-r2-16 | minor | **major** — two builders key a crypt's vault cells differently (one threshold or one per cell) | CONFLICT | FIX | closes VAL-R2-03; the node naming a cell is V04's (VV34-r2-03) |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VAH-r2-02 (V08): DR44's source clause adds "; a stressor's overlay draws no look while a condition's overlay whose map row gives the same look kind stands (V08 §3.16 (7) (b))". *(R3-12)*
+* END of VPC-R2-03 (V08): written under VPC-R2-02 — DR44 names "the `map` row of the source word V08 §3.16 (7) (b) gives the overlay (a stressor's type, a simulator crisis event, the `calamity` word of a linked condition, else its archetype)". *(R3-09 (d))*
+* END of VAT-r2-04 (rendering): §7.7 item 1's "the host's view commands (§11.2, §11.3: a week, the layers shown, a selection)" reads "the host's commands (§11.3: a week and a selection by `view.set`, the layers shown by a logged `setLayer` sent by `doc.apply`, as a user's toggle)", the rest as it stands. *(R3-21)*
+
+### rendering (base §8, §9, §11, §12)
+
+Rulings: R3-01, R3-02, R3-03, R3-04, R3-05, R3-08, R3-09, R3-10, R3-14, R3-16, R3-20, R3-21, R3-22, R3-23, R3-24, R3-27.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAF-R2T-02 | major | major | DISAGREE | FIX per R3-05 |  |
+| VAF-R2T-06 | major | **minor** — the inline union equals §2.7's `RaisedKind` value for value; nothing built changes | DUPLICATE-HOME | FIX |  |
+| VAL-R2-01 | major | major | MATRIX-GAP | FIX per R3-23 (d) | V04's end is an END line under V04 |
+| VAL-R2-02 | major | major | DISAGREE | FIX per R3-21 (d) |  |
+| VAL-R2-07 | major | major | DISAGREE | MERGED into VRC2T-06 |  |
+| VAT-r2-04 | major | major | DISAGREE | FIX per R3-21 (a) | its ends at determinism, V08 and V09 are END lines; T-ER-21's outcome for the host's commands reads "the week and the selection view state that travels, the layers a logged `setLayer`; never an input" |
+| VAT-r2-05 | major | major | MATRIX-GAP | FIX per R3-16 (a) | §8.2's legend sentence in R3-16 (a)'s words; V09's and V10's ends are END lines |
+| VDC2-08 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | CONFLICT | MERGED into VRC2T-13 |  |
+| VDC2-12 | minor | minor | CONFLICT | MERGED into VRC2T-11 |  |
+| VKr2-08 | minor | minor | BROKEN-REFERENCE | FIX |  |
+| VPC-R2-10 | minor | **major** — two units end the disaster look differently | CONFLICT | MERGED into VV56-r2-02 |  |
+| VRC2T-01 | major | major | CONFLICT | FIX | V09's panel end is an END line under V09 |
+| VRC2T-02 | major | major | CONFLICT | FIX per R3-14 (3) |  |
+| VRC2T-05 | major | major | CONFLICT | FIX | the resolution receipt re-run; VRC2T-19's J-A68.89 clause takes its figures |
+| VRC2T-06 | major | major | CONFLICT | FIX | closes VAL-R2-07 |
+| VRC2T-07 | major | major | EDGE-UNDEFINED | FIX per R3-24 | with §11.2's `gazetteer` `week?` option (R3-24); V01's, V09's and V10's ends are END lines or their own issues |
+| VRC2T-08 | major | major | EDGE-UNDEFINED | FIX |  |
+| VRC2T-09 | minor | **major** — §8.2 veils the whole map where V09 draws no veil | CONFLICT | FIX |  |
+| VRC2T-10 | minor | **major** — armies i and i + 4 drawn alike, against item 122 (h)'s own camp and colours | CONFLICT | FIX |  |
+| VRC2T-11 | minor | minor | CONFLICT | FIX per R3-22 (a) | closes VDC2-12 |
+| VRC2T-12 | minor | minor | WIRING | FIX |  |
+| VRC2T-13 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | CONFLICT | FIX per R3-04 | closes VDC2-08 |
+| VRC2T-15 | minor | **major** — W94's reader end at §8.6 was one-ended: repaired elements undrawn or drawn by another rule | WIRING | FIX per R3-08 (b) | "at or below V06's per-element `decayPeak` (since its entry into the plan, V06 §3.23 (3))" |
+| VRC2T-17 | minor | **major** — the kind read at the absolute week gives another season than §6.1's `yearWeek` | TERM | FIX per R3-23 (c) |  |
+| VRC2T-18 | minor | minor | ELEGANCE | FIX | elegance, its equivalence: `FindLayer` and §2.1's `Layer` hold the same three values with no rule, value or lifecycle apart; every field keeps its place and meaning; V10's end is an END line |
+| VRC2T-19 | minor | minor | CONFLICT | FIX | J-A68.89's worked clause in VRC2T-05's re-run figures |
+| VV12-r2-06 | major | major | WIRING | FIX |  |
+| VV56-r2-02 | major | major | CONFLICT | FIX per R3-10 | closes VPC-R2-10 |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of G125-V08 (V08): §11.3's sentence (l. 16347–16349) reads "… and `line` (checked against the dossier's own selection, V08 §2.4, never chosen from; a `line` no adapter supports, or one the dossier's stamps contradict, refuses with `E_LINE_UNSUPPORTED`)". *(R3-20 (1))*
+* END of VEW-r2-03 (pipeline): T-ER-27 adds "the unserved mesa with a refugee camp and a quarantine standing" with the outcome "each on `campLand`, else on the ring marks, never undefined". *(R3-14 (6))*
+* END of VEW-r2-05 (pipeline): T-ER-27 adds "an unwalled TOWN with an inside castle, a walled CITY with an outside castle, a twin town with two rings, a walled town with extramural ribbons inside the standoff" with the outcome "0 look pixels on a building footprint; the blockade at the castle-only town". *(R3-14 (2))*
+* END of VPC-R2-03 (V08): T-ER-27's fixtures read "a fire, a flood and an earthquake by their calamities, each with its linked `reconstruction` condition (V08 §3.16 (7) (b))". *(R3-09 (e))*
+* END of VV56-r2-06 (V06): written inside VRC2T-15's sentence. *(R3-08 (b))*
+* END of ADJ-r3-02 (adjudicator): §8.2's greyscale bar (l. 13116) reads "(J-V12.91; V12's `BenchBarDef` T114-6, its statistic `bar.T114-6`, V12 §3.15.4)" in place of "V12's `T114g.greyscale`". *(R3-27)*
+
+### V01
+
+Rulings: R3-01, R3-02, R3-03, R3-09, R3-10, R3-14, R3-24.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VPC-R2-05 | minor | **major** — an edge on a normal path (a cliff inside a district) with no outcome for V01's fabrics | WIRING | FIX |  |
+| VV12-r2-01 | major | major | CONFLICT | FIX, amended per R3-09 (b) | the calamity read from the carried calamity fact the condition's `calamity` field names, not from the committed `epoch` events |
+| VV12-r2-02 | major | major | CONFLICT | FIX per R3-14 (1) |  |
+| VV12-r2-03 | minor | **major** — a bar its own fixture fails | CONFLICT | FIX |  |
+| VV78-r2-06 | major | major | CONFLICT | FIX per R3-14 (5) |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VAF-R2T-04 (pipeline): V01 §1b's `campLand` row reads "`approachRoads`" for "`approachRoads`' fallback".
+* END of VPC-R2-09 (pipeline): V01 §3.16's "The look's end in the week the `reconstruction` Works begins is V06's hand-over, which this service does not read" reads "The look leaves each building by V06 §3.22 (3)'s `crisisLookYields` (V06's hand-over), which this service does not read". *(R3-10)*
+* END of VV12-r2-04 (V02): V01 §2.3's `DisasterSource.calamity` comment reads "the overlay's calamity (V01 §3.16 (2)): null for a preview, a stressor's overlay or a condition with no `calamity` field"; `pattern`'s comment names §8.2's disaster row and V02 §5.7 (4) as its readers. *(R3-09 (c))*
+* END of VRC2T-07 (rendering): V01 §3.16 states once that the crisis services' `doc` is the model the view draws — the head, or the history frame V06 §3.15.2 gives at a scrubbed week (§8.2). *(R3-24)*
+* END of VPC-R2-03 (V08): T-V1-60's fixture calamities are each linked to a `reconstruction` condition (V08 §3.16 (7) (b)), a preview beside them. *(R3-09 (e))*
+
+### V02
+
+Rulings: R3-01, R3-02, R3-03, R3-05, R3-08, R3-09, R3-10, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAP-r2-02 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 |  |
+| VCS-r2-05 | minor | minor | CONFLICT | FIX |  |
+| VV12-r2-04 | minor | minor | WIRING | FIX per R3-09 (c) |  |
+| VV12-r2-05 | major | major | WIRING | FIX |  |
+| VV1112-r2-09 | minor | minor | WIRING | FIX per R3-26 |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VAF-R2T-01 (model): V02 §5.7 (2) and X34 cite §2.6 step 7 for the roofless case — "every roof bay over a room of a wing whose `RoofSpec.kind` is `none`, while the building is `decayed` or `ruined` (§2.6 step 7)" — and restate no other scope. *(R3-05)*
+* END of VAT2-r2-09 (V06): V02 §5.7 (1)'s "and has not handed over ((6))" reads "and has not handed over ((6); a preview never hands over, V06 §3.22 (3))". *(R3-10)*
+* END of VV56-r2-06 (V06): V02 §5.7 (2)'s patched rings read V06's per-element `decayPeak` through V03 §5.6 (2) (b): an element added after the damage left is drawn as built. *(R3-08 (b))*
+
+### V03
+
+Rulings: R3-01, R3-02, R3-03, R3-05, R3-08, R3-10, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAF-R2T-03 | major | major | DISAGREE | FIX per R3-05 | its parenthesis read "however V06 §3.23 reads its level" |
+| VAP-r2-03 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 |  |
+| VV34-r2-08 | major | major | CONFLICT | FIX |  |
+| VV34-r2-09 | major | major | EDGE-UNTESTED | FIX |  |
+| VV34-r2-10 | minor | **major** — two rules for `storeyGone` in one volume: a walkable ground storey named gone | CONFLICT | FIX |  |
+| VV34-r2-11 | minor | **major** — a solid wing's first storey drawn as a hole onto fill by one rule, a walkable patch by the kind's | NEW-PROBLEM | FIX |  |
+| VV34-r2-12 | minor | minor | WIRING | FIX per R3-26 |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VV56-r2-06 (V06): V03 §5.6 (2) (b) passes each element's entry week to V06's `decayPeak` — the as-built plan's elements at the lineage's build, a re-cut's or an `extend`'s at that change's effective week — and reads the per-element peak; an element added after the damage left is drawn as built. *(R3-08 (b))*
+* END of VAT2-r2-09 (V06): V03 §5.6 (4)'s "not yet handed over" test adds "(a preview never hands over, V06 §3.22 (3))". *(R3-10)*
+* END of R3-08 (c) (adjudicator): V03 §4.6's head row reads "`info.damage.head.<state>` — its `Existence`, `restored` for a standing building restored with patches —".
+
+### V04
+
+Rulings: R3-01, R3-02, R3-03, R3-04, R3-23, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAP-r2-13 | major | **minor** — a stale price in a decision row, R3-03 (a) | DISAGREE | FIX |  |
+| VEW-r2-04 | major | major | EDGE-UNDEFINED | FIX |  |
+| VKr2-09 | minor | **major** — the wrong kernel union classifies a building's sides, so which runs stay walls to sight differs | CONFLICT | FIX |  |
+| VV34-r2-01 | major | major | CONFLICT | FIX |  |
+| VV34-r2-02 | minor | minor | CONFLICT | FIX |  |
+| VV34-r2-03 | minor | **major** — an element's key left open: two builders give a crypt bay two thresholds | NEW-PROBLEM | FIX | the node naming a cell for §6.3's key (VV34-r2-16) |
+| VV34-r2-04 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | CONFLICT | FIX per R3-04 |  |
+| VV34-r2-05 | minor | minor | WIRING | FIX per R3-26 |  |
+| VV34-r2-06 | minor | minor | COHESION | FIX |  |
+| VV34-r2-07 | minor | minor | NEW-PROBLEM | FIX |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of R3-04 (adjudicator): V04 §5.6's lead (l. 2868) reads "… damaged while the decay level is above 0 and at least the element's keyed threshold (§6.3 *Plan damage*'s comparison; §2.6 step 7) …" in place of "reaches the element's keyed threshold, the one comparison every reader makes".
+* END of VAL-R2-01 (rendering): V04 §5.1 adds "while the underground layer is drawn (`cutaway`, `overlay` or `solo`) the weather effects draw nothing over the view (§8.8)". *(R3-23 (d))*
+
+### V05
+
+Rulings: R3-01, R3-02, R3-03, R3-25.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAL-R2-04 | minor | minor | COHESION | FIX | l. 11 is Assemble's (R2-07): the V05 seat records it as an ASSEMBLE NOTE; l. 198 and l. 3015 are its own |
+| VKr2-07 | minor | minor | CONFLICT | FIX per R3-25 (a) |  |
+
+**END lines under this heading:** none.
+
+### V06
+
+Rulings: R3-01, R3-02, R3-03, R3-04, R3-06, R3-08, R3-09, R3-10, R3-14, R3-17, R3-18, R3-19, R3-22, R3-25, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAP-r2-04 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 |  |
+| VAT2-r2-02 | major | major | DISAGREE | FIX, amended per R3-17 | V06 §3.3.1 cites §4.11 *The clock* (4) and lists no trigger |
+| VAT2-r2-04 | major | major | DISAGREE | FIX per R3-18 |  |
+| VAT2-r2-05 | major | major | DISAGREE | FIX per R3-06 (b) | its model end inside R3-06's binding text; its V11 end an END line under V11 |
+| VAT2-r2-06 | major | major | CONFLICT | FIX per R3-06 (c) | the creation week is R3-18's; its V11 end an END line under V11 |
+| VAT2-r2-08 | minor | minor | BROKEN-REFERENCE | FIX |  |
+| VAT2-r2-09 | minor | **major** — a preview is a normal path, and its two callers pass a value the callee does not take | EDGE-UNDEFINED | FIX per R3-10 | V02's and V03's ends are END lines |
+| VDC2-14 | minor | minor | CONFLICT | FIX per R3-22 (b) |  |
+| VEL2-r2-01 | major | major | EDGE-UNDEFINED | FIX per R3-19 | its texts 1–6 whole; closes VPC-R2-07 |
+| VPC-R2-07 | minor | **major** — two outcomes for a standalone fall at a protected dwelling | CONFLICT | MERGED into VEL2-r2-01 |  |
+| VV56-r2-06 | blocker | blocker | EDGE-UNDEFINED | FIX per R3-08 (b) | BLOCKER kept (a silent wrong result on every restoration that re-cuts); its ends at V03, V02, rendering and model |
+| VV56-r2-01 | major | major | CONFLICT | FIX per R3-08 (a) | a J-V6 row records the reading (J122); its ends at model and scope |
+| VV56-r2-04 | major | major | EDGE-UNDEFINED | FIX | V08's end is an END line under V08 |
+| VV56-r2-05 | major | major | CONFLICT | FIX per R3-06 (a) |  |
+| VV56-r2-09 | minor | minor | CONFLICT | FIX |  |
+| VV56-r2-10 | minor | **major** — two answers of the frontier left unstated on a normal path | EDGE-UNDEFINED | FIX per R3-14 (7) |  |
+| VV78-r2-07 | minor | **major** — two units could seat the refugee camp at different entries | CONFLICT | FIX per R3-14 (5) |  |
+| VV1112-r2-15 | minor | minor | CONFLICT | FIX per R3-08 (d) |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VEW-r2-01 (model): V06 §3.7.1's footprint-distance test excepts the supports of a raised way the trace crosses, within one strip width of the crossing (VEW-r2-01's text); V06 §3.7.6 (5)'s second bullet reads "a trace crosses a raised way at one **crossing station** on the trace (§2.7's support step (3), (6): the nearest interior station within half a pitch moved there, keeping its key, else one added; the stations in the new strip's setback, glacis, berm or channel re-sited), never along its under-deck strip"; its continuity bullet reads "a trace that cannot cross every raised way it meets so — where (6) cannot keep each span within `maxClearSpanM` and each pier within `maxPierM` — retraces by the margin rule (V06 §3.7.4 (3)) and then **waits** …", the rest as it stands; T-V6-47's "each trace crosses it under a span" reads "each trace crosses it at one crossing station, its pier the wall's band, 0 supports in the new strip's setback, glacis, berm or channel", its bar cell's "0 supports crossed" reading "0 supports in the strip". *(R3-25 (c))*
+* END of VM-R2T-03 (model): V06 §3.7.7 (2)'s breach order adds "passing over a stretch under a crossing station while its deck stands (§2.7's support step (3)), as V06 §3.7.6 (5)'s dismantling does". *(R3-25 (d))*
+* END of VEW-r2-03 (pipeline): V06 §3.22 (2) d. adds "with no arterial leaving the settlement (S3 (9) (a)'s unserved mesa), the belt's faces nearest the boundary point closest to the growth centre (S3's root reservation, §4.2)". *(R3-14 (6))*
+* END of VEL2-r2-03 (V09): V06 §3.20.4's *Cancel* reads "cancelling a standalone history-first generation leaves no document; …" and adds "A host creation offers no cancel; its replay is coarsened to fit the comfort level (V06 §6.8; V09 §4.21.9)."
+* END of R3-04 (adjudicator): V06 §3.23's lead (l. 3348) reads "… each element shown damaged while the building's decay level is above 0 and at least its keyed threshold (§6.3 *Plan damage*'s comparison) …".
+* END of VPC-R2-03 (V08): T-V6-75's "a fire calamity under a `disaster` condition over its quarter" reads "a fire calamity over its quarter with its linked `reconstruction` condition (V08 §3.16 (7) (b), (d))". *(R3-09 (e))*
+
+### V07
+
+Rulings: R3-01, R3-02, R3-03, R3-19, R3-22.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAL-R2-05 | major | **minor** — V07 builds no persistence of the key; its words only misstate §2.9's | DISAGREE | MERGED into VV78-r2-04 |  |
+| VAL-R2-09 | major | **minor** — the readers V07 names (DR42, W80) read the dossier's week; only the trace's words and a test's wording name the retired source | DISAGREE | MERGED into VV78-r2-03 |  |
+| VAT2-r2-07 | major | major | DISAGREE | FIX, amended per R3-19 | the dossier and standalone falls told apart in V07 l. 2542–2543 and T-V7-16 as R3-19 words them |
+| VDC2-15 | minor | minor | CONFLICT | MERGED into VV78-r2-02 | its "taken only when the blueprint or the user sets it" names a setting that does not exist and is not written |
+| VM-R2T-11 | minor | minor | CONFLICT | MERGED into VV78-r2-04 |  |
+| VV78-r2-01 | minor | minor | CONFLICT | FIX per R3-22 (b) |  |
+| VV78-r2-02 | minor | minor | WIRING | FIX per R3-22 (c) | closes VDC2-15 |
+| VV78-r2-03 | minor | minor | CONFLICT | FIX per R3-22 (d) | closes VAL-R2-09 |
+| VV78-r2-04 | minor | minor | CONFLICT | FIX | closes VAL-R2-05 and VM-R2T-11 |
+
+**END lines under this heading:** none.
+
+### V08
+
+Rulings: R3-01, R3-02, R3-03, R3-09, R3-12, R3-13, R3-20, R3-21, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| G125-V08 | major | major | F-MISSING | FIX, amended per R3-20 | clause (1) in VCS-r2-02's words; clause (2) with R3-20 (2)'s `id` and version-stamp fallbacks (never a refusal); a J-V8 row; closes VCS-r2-02 |
+| VAH-r2-02 | major | major | HANDOFF-OPEN | FIX per R3-12 | the rule without a promotion link; a J-V8 row |
+| VAH-r2-03 | minor | minor | DISAGREE | FIX |  |
+| VAH-r2-09 | minor | minor | DISAGREE | FIX |  |
+| VAH-r2-10 | minor | minor | DISAGREE | FIX |  |
+| VAP-r2-05 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 |  |
+| VCS-r2-02 | major | major | CONFLICT | MERGED into G125-V08 | the confirmation it asked for is R3-20 (1) |
+| VPC-R2-03 | major | major | WIRING | FIX per R3-09 (a) | with the one-look-per-calamity clause; a J-V8 row; closes VV78-r2-09 |
+| VV78-r2-09 | major | major | WIRING | MERGED into VPC-R2-03 |  |
+| VV78-r2-11 | minor | minor | NEW-PROBLEM | FIX per R3-02 |  |
+| VV1112-r2-10 | minor | minor | WIRING | FIX per R3-26 |  |
+| VV1112-r2-11 | major | major | WIRING | FIX per R3-09 (e) | the fire, flood and earthquake fixtures each a calamity with its linked `reconstruction` condition |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VAT-r2-04 (rendering): V08's `setView` comment (l. 489) reads "view.set: a view command over the keys that travel — a week (`{ week }`) and a selection (`{ select }`) (§11.3; item 125 (c)); the layers shown go as a logged `setLayer` by `doc.apply` (§8.4); never an input, and the map never needs one"; §3.16 (4) (l. 2413) and (6) (g) (l. 2484) read R3-21's sentence ("a host sets the frame's view only by §11.3's commands — `view.set { week }`, `view.set { select }` and the layers shown by a logged `setLayer` sent by `doc.apply`; the per-viewer keys, `find`, `crises` and `depthBand` among them, never cross the bridge (§11.3; J-V8.127)"). *(R3-21)*
+* END of VAH-r2-01 (determinism): V08 §3.16 (7) (e) reads as a citation: "DR44 admits a condition at the viewer's effective key at the tier DR44 states — `public` where its map row gives a look, `secret` where it is `none`, a key form listing the overlay's address admitting it whatever its tier (J-V8.128)". *(R3-13)*
+* END of VV56-r2-04 (V06): V08 §6's absorb-with-epochs row cites V06 §6.8 (1) and (6) — the events' absorb term in the catch-up's estimate, the one-epoch fold and its F-BUDGET-TIME report where even that passes the catch-up's budget.
+
+### V09
+
+Rulings: R3-01, R3-02, R3-03, R3-04, R3-06, R3-08, R3-13, R3-16, R3-21, R3-23, R3-24, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAF-R2T-05 | major | **minor** — a wiring table's gloss; both readers already read V08 §3.16 (3) | DISAGREE | FIX |  |
+| VAF-R2T-07 | minor | minor | BROKEN-REFERENCE | FIX |  |
+| VAH-r2-04 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | DISAGREE | MERGED into VAT-r2-02 |  |
+| VAH-r2-08 | major | major | DISAGREE | FIX |  |
+| VAP-r2-06 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 |  |
+| VAP-r2-07 | major | major | HANDOFF-OPEN | FIX | MAJOR kept: V12's T-V12-54, -57 and -59 have no harness without it |
+| VAT-r2-02 | major | major | DISAGREE | FIX per R3-04 | closes VAH-r2-04 |
+| VAT-r2-06 | minor | minor | NARRATION | FIX per R3-02 | R3-02's table gives each home |
+| VDC2-05 | minor | **major** — the volumes state two outcomes for one press | CONFLICT | MERGED into VV910-r2-01 |  |
+| VDC2-17 | minor | minor | WIRING | FIX | VDC2-16's keys: `bend.under.basement`, `refuse.under.basement`, `refuse.under.route` |
+| VEL2-r2-03 | major | major | EDGE-UNDEFINED | FIX | "(§11.2; R2-42)" written "(§11.2)"; V06's end is an END line under V06 |
+| VM-R2T-09 | minor | minor | NEW-PROBLEM | FIX per R3-02 |  |
+| VV34-r2-13 | major | major | CONFLICT | FIX per R3-16 (c) | with VV910-r2-05's §4.21.13 (3) and T-V9-86 texts (one fix) |
+| VV34-r2-14 | minor | **major** — T-V9-15's literal check cannot pass | CONFLICT | FIX |  |
+| VV78-r2-08 | minor | **major** — the village card shows the row twice by one unit, once by the other | COHESION | FIX per R3-16 (e) |  |
+| VV910-r2-01 | major | major | CONFLICT | FIX, amended per R3-23 (b) | the key `settings.weather.noneNow`, "No weather comes here at this time of year or day."; closes VDC2-05 |
+| VV910-r2-02 | major | major | CONFLICT | FIX per R3-21 (b) |  |
+| VV910-r2-04 | minor | **major** — Show had no stated frame for a `disaster` look, which has no camps | WIRING | FIX, amended per R3-16 (b) | the units read from `LooksAnswer.crises[].districts`, never by calling V01 on the main thread |
+| VV910-r2-05 | minor | **major** — two units list different damage for one building | CONFLICT | MERGED into VV34-r2-13 |  |
+| VV910-r2-08 | minor | **major** — the entry's input (a `WhyAnswer`) does not exist for a look | WIRING | FIX per R3-16 (d) |  |
+| VV910-r2-09 | major | major | EDGE-UNDEFINED | FIX per R3-24 | it passes the view's drawn week to §11.2's `gazetteer` query |
+| VV1112-r2-14 | minor | minor | CONFLICT | FIX |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VCS-r2-03 (scope): V09 §4.12's coarse-pointer default reads "`AppPrefs.touch.editFabric` defaults to false for coarse pointers … switchable back on and never removed (item 126 (e))"; T-V9-22's T126-1 clause reads "… completes its canvas script with touch events, with `AppPrefs.touch.editFabric` on (T126-1)".
+* END of VAT-r2-04 (rendering): V09 §4.2's "(§7.8's layer controls, view state only)" reads "(§7.8's layer controls: `LayerSpec.visible`, written by `setLayer`, §8.4)"; V09 §3.16 row 21's "(view state only)" reads "(by `setLayer`, §8.4)". *(R3-21 (a))*
+* END of VAT-r2-05 (rendering): V09 §4.21.8 (1), §4.21.12 (3)–(7) and §2.12's crisis-card row read the standing looks and festivals from §11.2's `looks` reader (`LooksAnswer`) in place of "the legend's crisis entries"; §4.21.12 (3)'s "one evaluation" is that reader's. *(R3-16 (a))*
+* END of VAH-r2-07 (V10): T-V9-85's "under a player view a withheld condition is never drawn, listed, named or counted" reads "under a player view a none-row condition carried beside the three looks (an infiltrated stressor) is named in no line, card or count at public, and only at secret (DR44)". *(R3-13)*
+* END of VRC2T-01 (rendering): V09 §4.21.10's chip cue draws chip k's glyph from §8.2's nine glyphs by (k − 1) mod 9.
+* END of R3-06 and R3-08 (c) (adjudicator): V09 §4.9's head entry reads `head.restored` "In use again{, years}" in place of `head.reused`; V09 §4.21.13 (1)'s head sentence reads "(`abandoned`, `decayed`, `ruined`, or `restored` for one restored with patches), its `{, years}` clause the whole years of its decay run at the drawn week (V06 §3.23 (1), (4)), dropped before V06's level lands (the existence state alone)".
+
+### V10
+
+Rulings: R3-01, R3-02, R3-03, R3-04, R3-06, R3-08, R3-13, R3-16, R3-24, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAH-r2-05 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | DISAGREE | MERGED into VAT-r2-03 |  |
+| VAH-r2-06 | minor | minor | DISAGREE | FIX | its first form (the shapes as stored) |
+| VAH-r2-07 | major | major | DISAGREE | FIX per R3-13 |  |
+| VAP-r2-10 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a); the suite's failing half is VAP-r2-08 (c), at V12 | HANDOFF-OPEN | FIX per R3-26 |  |
+| VAT-r2-01 | major | major | DISAGREE | FIX |  |
+| VAT-r2-03 | minor | **major** — two units state two outcomes for one case (t = 0 at level 0), R3-03 (b) | AMBIGUOUS | FIX per R3-04 | closes VAH-r2-05 |
+| VM-R2T-07 | minor | minor | BROKEN-REFERENCE | FIX |  |
+| VV910-r2-03 | minor | minor | CONFLICT | FIX |  |
+| VV910-r2-06 | minor | minor | ID | FIX |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VAT-r2-05 (rendering): V10 §2.13's `LookAnswer.festivals` and `.crises` are projections of §11.2's `LooksAnswer` (`.crises.looks[].districts` from `LooksAnswer.crises[].districts`); §3.5's `look` read and §1.2's §9.5 row read §11.2's `looks` reader (a §11.2 row). *(R3-16 (a))*
+* END of VRC2T-18 (rendering): V10 §2.13's `FindAnswer` cites §2.1's `Layer` for its two inline layer unions.
+* END of VV910-r2-09 (V09): V10 §3.9b (7)'s `read_map find` passes the view's drawn week to §11.2's `gazetteer` query, so the clerk counts what the panel shows at a frame that is not the head. *(R3-24)*
+* END of R3-06 and R3-08 (c) (adjudicator): V10 §3.9a's head row (l. 1814) reads "the building's existence state, `restored` for a standing building with a repaired element, and the whole years of its decay run at the drawn week (V06 §3.23 (1), (4)); the years dropped before V06's level lands".
+
+### V11
+
+Rulings: R3-01, R3-02, R3-03, R3-06, R3-09, R3-23, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAP-r2-09 | major | **minor** — bookkeeping: the test already runs the clause; only a list or head lacks the id, R3-03 (a) | HANDOFF-OPEN | FIX per R3-26 |  |
+| VAP-r2-11 | major | major | DISAGREE | FIX |  |
+| VEL2-r2-02 | major | major | EDGE-UNDEFINED | FIX |  |
+| VPC-R1-01 | minor | minor | BROKEN-REFERENCE | FIX |  |
+| VPC-R2-06 | major | major | EDGE-UNDEFINED | FIX | §3.24.1's restating bullet (l. 3855) and the editor's clamp take the inequality T-V11-32's §7 row already holds |
+| VPC-R2-13 | minor | minor | COHESION | FIX |  |
+| VV78-r2-10 | minor | **major** — T122-4 passes with a crisis event word unmapped | CONFLICT | FIX | §13.2's T122-4 end is an END line under scope |
+| VV1112-r2-01 | major | major | EDGE-UNDEFINED | FIX per R3-23 (a) |  |
+| VV1112-r2-02 | minor | **major** — a census carrying `occupation` fails the build at T-V11-46 (a) | CONFLICT | FIX |  |
+| VV1112-r2-03 | minor | minor | CONFLICT | FIX |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VAT2-r2-05 and VAT2-r2-06 (V06): V11 §3.25.10's `settings` row (`defaultAgeYears`) reads "the years a building generated abandoned, decayed or ruined reads at the week it is first met so, aging from then as any run (V06 §3.23 (4)); a building item 113's replay abandons or ruins ages from that replay epoch's week". *(R3-06)*
+* END of VPC-R2-03 (V08): V11 §3.25.9's `event` row reads "`calamity` (a condition linked to a carried calamity whose own row is `none`, V08 §3.16 (7) (b)) → `disaster`", and *The readings*' "Every calamity draws `disaster`, …" reads "A calamity draws `disaster` through the condition linked to it (V08 §3.16 (7) (b), (d)), its districts the calamity's `targets` first, else its pattern by its type (V01's `disasterDistricts`, §10.2 (d)); a calamity linked to no condition draws no look, its aftermath DR28's". *(R3-09 (a))*
+
+### V12
+
+Rulings: R3-01, R3-02, R3-03, R3-09, R3-13, R3-14, R3-26.
+
+| id | sev | grade | kind | disposition | note |
+|---|---|---|---|---|---|
+| VAP-r2-08 | major | major | DISAGREE | FIX per R3-26 | MAJOR kept for (c): a suite registered whole that the pin's byte-identity fails |
+| VAP-r2-12 | major | major | DISAGREE | FIX | its withheld-condition case is a planted fault (a look-bearing condition is never withheld at a real key, R3-13) |
+| VRC2T-04 | minor | **major** — T122-6's measure fails every lawful barricade | CONFLICT | FIX per R3-14 (3) |  |
+| VV34-r2-15 | minor | minor | WIRING | FIX per R3-26 |  |
+| VV1112-r2-04 | minor | **major** — the register lint (T-V12-20) meets the weather block's cells with no line | CONFLICT | FIX |  |
+| VV1112-r2-05 | major | major | EDGE-UNTESTED | FIX |  |
+| VV1112-r2-06 | major | major | EDGE-UNTESTED | FIX |  |
+| VV1112-r2-07 | minor | minor | COHESION | FIX |  |
+| VV1112-r2-08 | minor | minor | WIRING | FIX per R3-26 |  |
+| VV1112-r2-12 | minor | minor | COHESION | FIX |  |
+| VV1112-r2-13 | minor | minor | TERM | FIX |  |
+
+**END lines under this heading** (other units' fixes this seat writes):
+
+* END of VPC-R2-03 (V08): V12 §3.15.12's crisis fixtures and X-V12-5 name each disaster fixture (a fire, a flood, an earthquake) as a calamity with its linked `reconstruction` condition (V08 §7.1). *(R3-09 (e))*
+
+## Part I — canon changes (appended to canon.md as one dated ruling)
+
+The dated ruling "2026-10-01 (adjudication round 3)" at the end of `docs/validation/coherence/canon.md` records, by
+pointer to the rulings above: the narration rule (R3-02); the grading rule (R3-03); item 123's one comparison (R3-04,
+superseding R2-38 (4)'s wording), the roofless case (R3-05), the decay run (R3-06) and the plan under decay (R3-07),
+superseding R2-38 (1) and (3) where named; the `reused` reading, the per-element peak and the head word (R3-08, J122);
+the disaster look's source and calamity (R3-09, J122) and its per-building end (R3-10, superseding R2-37 (6));
+`regional_migration_pressure` (R3-11); one look for a stressor and a condition of one kind (R3-12, J122); DR44 as the home
+of a condition's tier (R3-13); the camp places (R3-14, amending R2-37 (5)'s gloss); the looks before their services land
+(R3-15); the `looks` reader (R3-16); the calamity week in the cadence (R3-17); the creation week (R3-18); locks under a
+fall (R3-19); `line` checked, never chosen, and a fallback for every field (R3-20, amending R2-40 (2)); the host's
+commands (R3-21, amending R2-33 (b)–(c)); item 125's retirements (R3-22); the weather timeline (R3-23); Find at a drawn
+week (R3-24); raised ways (R3-25); the pin and take-over unions (R3-26); R2-32 (2)'s C3 → C4 and R2-30's view-only stop-0
+clause. Nothing is ruled INVALID this round.
