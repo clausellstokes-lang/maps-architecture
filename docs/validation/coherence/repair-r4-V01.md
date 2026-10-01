@@ -3,14 +3,124 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V01-r4; covered by the whole-design retrovalidation (J84).
 
 # Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
-# ignored; the FILE line routes every block to docs/volumes/V01-neighbourhoods.md. (Header being written; see PROGRESS.)
+# ignored; the FILE line routes every block to docs/volumes/V01-neighbourhoods.md. Live unit: V01 as assemble-r3 left it
+# (sha256 8260b2a828b75099…, 523 442 bytes, 3 742 lines). Each REPLACE body is the live subsection with count-asserted
+# substitutions (docs/validation/coherence/work/repair-V01-r4/gen.py over edits_a.py and edits_b.py: 38 edits, each
+# applied exactly its asserted count, each tagged with its issue id or END line; gen-log.json, diff.txt there); every
+# untouched line is verbatim. Blocks: 11, all REPLACE of leaf subsections — §1.2, §1b, §2.3, §3.14, §3.16, §3.17.3,
+# §3.18, §5.4, ## 6, ## 7, ## 12. No heading retitled or added, no whole-volume REPLACE, the title block untouched.
+# Ruling requests: 0. END lines written: 1 of 1. Binding rulings applied (adjudication-r4, Part H · V01): R4-01, R4-09,
+# R4-12; R3-01 – R3-03 stand.
 #
 # PROGRESS (lane `coherence/repair-V01-r4`, 2026-10-01)
-# - P0 brief read whole; adjudication-r4's TOC, R4-01, R4-09, R4-12 and Part H · V01 read whole: done
-# - P1 issue sources and live text read: done (first run); re-verified in the continuation run: done
-# - P2 edits (work/repair-V01-r4/gen.py over edits_a.py + edits_b.py: 33 edits, 11 REPLACE blocks): done
-# - P3 dry run, references, doc_checks, words: in progress
-# - P4 report, result saved, LANDED: open
+# - P0 brief read whole (2 issues routed; ROUND-4 NOTES, NEW OWNER RULES, ORCHESTRATION NOTES); adjudication-r4's TOC,
+#   R4-01, R4-09, R4-12 and Part H · V01 (2 FIX, 1 END line) read whole: done
+# - P1 issue sources (verify-vol-V01-V02-r3t: VV12-r3-03; verify-agree-fabric-r3t: VAF-R3T-01; verify-edges-world-r3t:
+#   VEW-r3-01 for the END line; verify-rendering-r3t: VRC3T-01) and the live text read whole: V01 §1.2, §1b, §2.3, §3.14,
+#   §3.16, §3.17.3 – §3.17.5, §3.18, §5.4, ## 6, ## 7 (T-V1-51, T-V1-59), ## 12; the landed round-4 texts this unit meets —
+#   rendering's §8.2 *Find* and §11.2 *Find's match listing* with *At a drawn week*, model's §2.7 *The clearance* and
+#   support step (6), pipeline's §4.3 crossing rule, V11's §3.24.2 `raisedWays.structure.clearWidthM` / `.squareDeg` and
+#   its §12, V09's §1b and §4.21.10 (3), (7), (10); the live base §10.2 (d) (town enceintes), §2.9's `week`, V06
+#   §3.15.2: done (the first run, to its P1 checkpoint; the continuation run re-read and re-verified every edit it saved)
+# - P2 the count-asserted edit set (edits_a: 28; edits_b, the continuation run's: 10), 11 blocks: done
+# - P3 dry run on a copy, references, doc_checks, words: done
+# - P4 report, result saved, LANDED: done
+#
+# DISPOSITIONS — Part H · V01: 2 issues, both FIX, each FIXED in the text (none INVALID, none MERGED); 1 END line written.
+#
+# ISSUES → WHERE FIXED
+#  VV12-r3-03 (major; FIX per R4-12)  Find at a drawn week reads the frame. §5.4 (3) is `gapUnits(chip, key, week?)`
+#        with the required text verbatim ("`week` is the view's drawn week (§2.9's `week`), absent the head: at a drawn
+#        week whose frame is not the head (V06 §3.15.2) the members are §11.2's match listing at that week and the units
+#        only those the frame holds — a district, parish cell or residential plot the frame lacks is no unit (§11.2's *At a
+#        drawn week*)"), adding "`catchmentOf`'s discs and cells are read over that frame"; memoised per commit, key and
+#        drawn frame (§5.4's lead, §3.16's bullet); §2.3's signature and comment, §3.16's bullet and §5.4 (3)'s head follow.
+#        §5.4 (6): the Show frame is the union of its units' `FindArea`s at the view's drawn week, with the required
+#        sentence "at a scrubbed week whose frame is not the head, a unit's Ground shape is its faces in that frame (V06
+#        §3.15.2), so a district the head no longer holds is still framed". §3.18 (e)'s Find row adds the case "a scrubbed
+#        week whose frame is not the head" and its outcome "the frame's areas, members and units (§11.2's *At a drawn
+#        week*, V01 §5.4 (1) and (3)), a disaster look framed by its units' faces in that frame (V01 §5.4 (6))" — 13 cases,
+#        13 outcomes, paired. T-V1-59 gains (f) **at a drawn week**: on a B-EDIT CITY document whose epoch after the drawn
+#        week split a district, built the only member of a chip's class in a second district and closed the only one in a
+#        third — `findAreas` lists the split district once with its frame faces and no district the split made;
+#        `gapUnits`' members equal §11.2's listing at that week, the second district a gap, the third none, no district the
+#        split made a unit; a disaster look over the split district framed whole by its frame faces; the head's readings
+#        back at the head; its fixture column gains B-EDIT. The root cause, so the finding cannot recur at a neighbouring
+#        home (brief note (6); R4-12: "every Find reader at a drawn week reads that listing over the model the view
+#        draws"): §5.4 (6) frames by `FindArea`s, so `findAreas` takes the week too — `findAreas(key, week?)` (§2.3, §3.16,
+#        §5.4 (1)'s head), §5.4 (1) adding **At a drawn week** (the frame's districts, city-cut quarters and region groups,
+#        each area's `shapes` its faces in that frame; a district split or merged after the week listed whole, one made
+#        after it not listed; an area chip's matches §11.2's listing at that week); and the crisis services, whose `doc` is
+#        already the model the view draws (§3.16), had memo keys naming only the commit, so their memo keys gain the drawn
+#        frame (§2.3's disaster comment, §3.16's pair and `campLand`, §6's row) — no behaviour moves. V09 §4.21.10 (10)'s
+#        call passing the week is V09's END line (written in repair-r4-V09, `gapUnits(chip, key, week)`).
+#  VAF-R3T-01 (minor; FIX)  §3.16 `campLand` (1): "… or the outermost town enceinte's outer strip where that lies beyond
+#        it (§10.2 (d): the enceintes of kinds other than `bailey`, `outermost` the outer envelope of their walled arcs)";
+#        §1b's `campLand` row: "the outermost town enceinte's outer strip (§10.2 (d))". Both as required; §10.2 (d)'s live
+#        text defines the town enceintes and "outermost" in those words.
+#
+# END LINES (adjudication-r4, Part H · V01: 1 of 1 written as given)
+#  END of VEW-r3-01 (pipeline; R4-09)  §3.17.3 (3) reads "crosses a strip by §4.3's rule: only through an `open` span (…)
+#        whose clear width is ≥ the way's width + `raisedWays.structure.clearWidthM` and whose soffit meets §2.7's *The
+#        clearance* for the crossed way, within ± `raisedWays.structure.squareDeg` of square to the deck (V11 §3.24.2);
+#        never along the strip, never through a pier"; the ladder (F-TEMPLATE rungs 1–2, §4.6's for a bent-cut lane) is
+#        V01's, unchanged. Equivalence: the values (1 m, 30°), ranges, unit and provenance now stand at V11 §3.24.2 (repair-
+#        r4-V11, its END line); the clearance clause V01 spelled out ("the way's held `clearanceCm` first, else volume 11's
+#        `raisedWays.structure.clearanceCm` for the crossed class (cart or foot)") is §2.7's *The clearance* word for word
+#        in meaning (held value, else V11's for the crossed class, cart or foot), so it is cited. The sweep (R4-01 (2)) for
+#        the two cells: §3.14's row `raised.clearWidthM`; `raised.squareDeg` withdrawn and the lead's cited V11 cells name
+#        `clearWidthM`, `squareDeg`; §1.2's V11 item-110 row names the two cells and "crossings under arches by §4.3's
+#        crossing rule (V01 §3.17.3)"; T-V1-51 (c) reads "meeting §4.3's crossing rule — the clear width
+#        (`raisedWays.structure.clearWidthM`), §2.7's *The clearance* and ± `raisedWays.structure.squareDeg` (30°) of
+#        square"; §12's PLAUSIBLE list drops "the raised-way constants (`raised.clearWidthM`, `.squareDeg`)" — V11 §12's
+#        PLAUSIBLE list carries "item 110's cells", so the status is kept at the cells' home. No other unit cites the old
+#        names (a search of the base, the rationale, every volume and every round-4 repair file finds none).
+#
+# THE SWEEP (R4-01 (2)) — beyond the lines above: R4-09's changed terms (the support step, re-siting, a held raised way,
+#  `W_RAISED_CROSSING`) searched in V01: §3.17.3 (1) ("Its piers are those item 244's support step lays") and J-VI.27's
+#  citation still hold under "supports placed last at generation"; §3.17.3 (2)'s strip, (3)'s ladder and §3.17.4 – §3.17.5
+#  restate nothing R4-09 changed. R4-12's changed terms (`findAreas`, `gapUnits`, memo keys, the drawn week) conformed at
+#  §1.2's item-120 row, §1b's Find row (its inputs the model the view draws; §2.9's view keys `find` and `week`), §3.18
+#  (d)'s Find toggle row ("recomputed per commit and drawn week"), §5.4 (4) (a change of the drawn week re-evaluates both
+#  services; a chip whose area the head no longer holds reads the frame's area at a drawn week whose frame holds its id),
+#  §6's `findAreas` row (per commit, key and drawn frame; once per drawn week a scrub settles on whose frame is not the
+#  head).
+#
+# REQUIRED CHANGES NOT APPLIED AS WORDED: none. (VV12-r3-03's V09 clause is V09's END line, not V01's text.)
+#
+# HAND-OFFS (for round 5's verifiers; R4-01 (2): ends this seat cannot write)
+#  (1) V09: §1b's Find-panel row (live l. 311; repair-r4-V09 l. 172) and §4.21.10 (3) (iii) (live l. 3475; repair-r4-V09
+#      l. 1361) call `findAreas(key)` while their lists are built at the view's drawn week; with `findAreas(key, week?)`
+#      (V01 §5.4 (1)) the call should pass the week as §4.21.10 (10) now does for `gapUnits` — `findAreas(key, week)`.
+#      V09 §4.21.10 (7)–(8) ("an area's shapes by V01's `findAreas`", each passed the model the view draws) already agree.
+#  (2) Checked and left: V01's deck-plot ownership ("the town's outermost enceinte", §1b's deck row, §3.17.6 (1) and the
+#      sky unit run's island bridge citing it) is a different rule from `campLand`'s built edge, homed at base §4.7's deck
+#      row; no finding names it.
+#
+# WORDS (V01, whitespace-split): 85 852 → 86 439 (+587, +0.68 %). The fixes add content (the drawn-week readings of
+#  §5.4 (1), (3), (4), (6), T-V1-59 (f), §3.16's bullet, §1b's rows). Removed, 64 words: RESTATEMENT 58 (§3.14's row of
+#  the two cells now V11's, §3.17.3 (3)'s clearance clause now cited from §2.7, §12's two cell names), VERBOSE PROSE 6
+#  (the dash joins of the first edit set); NARRATION 0; DUPLICATED MECHANISMS 0. A repair round with two content fixes is
+#  not a shrink step; nothing irreducible is cut.
+#
+# CHECKS (scratch rV01r4)
+# - apply-blocks (docs/validation/amendments-b/apply-blocks.py) dry run over a copy of the live V01 with these blocks:
+#   12 found, 11 applied, 1 skipped (the FILE routing line, read by the assembler, never a block), audit not-OK 0;
+#   headings 123 → 123, fences balanced (12 → 12), title block unchanged, PENDING FABLE REVIEW lines 1 → 1; output
+#   byte-identical to the generator's V01.new.md (sha256 a0c15b713802a1ed…, 526 767 bytes, 3 757 lines); the rationale (a
+#   throwaway input) unchanged. The live V01 was unchanged (8260b2a8…) from the first run's snapshot to the dry run.
+# - references (assemble-r3's refs.py on mirrors of the live set and of the set with this V01): V01 resolved 3 352 →
+#   3 388, ambiguous 15 → 15, external 17 → 17, broken 0; every other unit's counts unchanged. The added lines' 26 section
+#   references resolve (V01 against the new text, other volumes against their live text plus their round-4 repair files,
+#   the base against the live base plus the round-4 base repair files).
+# - ids: no T-V1 or J-V1 id added or removed; T-V1-59 gains clause (f); no review id (R3-nn, R4-nn, a verifier id) and no
+#   deferral wording in any added line.
+# - doc_checks (docs/validation/bench/doc_checks.py --heads docs/ARCHITECTURE.md, before and after): WARNING — reference
+#   corpus INCOMPLETE (captures, research/patreon, research/devlogs, research/ftg-docs, research/external missing), so the
+#   clean-room result is NOT authoritative (provisional). C1 0, C2 0, C4 2 hits 0 unreviewed, S1 0 — unchanged; C3 403 →
+#   406 hits, 347 → 351 unreviewed: the four new runs are section numbers and function words ("5 4 1 and 3", "5 4 1 3 6",
+#   "and of the model the", "s at the view s"), no identifier, grammar, palette or word list; S2's three `§2.0` pointers
+#   pre-exist (moved lines only).
 
 === FILE docs/volumes/V01-neighbourhoods.md ===
 
