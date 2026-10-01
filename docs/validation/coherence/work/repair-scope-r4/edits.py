@@ -102,8 +102,8 @@ E(DOC, H132,
 # T121-2: a change lands while the view is settled (VRC3T-03 per R4-10).
 E(DOC, H132,
   """    pan, zoom or drag is in progress — a change lands only at §8.8's settle — and on a fixture loaded at its threshold at""",
-  """    pan, zoom or drag is in progress — a change lands only while the view is settled: at once when no gesture runs, at
-    the gesture's settle otherwise (§8.8) — and on a fixture loaded at its threshold at""",
+  """    pan, zoom or drag is in progress — a change lands only while the view is settled (§8.8): at once when no gesture
+    runs, at the gesture's settle otherwise — and on a fixture loaded at its threshold at""",
   'VRC3T-03', 'R4-10')
 
 # T122-2: no key withholds a look-bearing condition (END of R4-11).
