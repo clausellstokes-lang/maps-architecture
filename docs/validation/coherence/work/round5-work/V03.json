@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VAP-r4-02",
+  "severity": "minor",
+  "kind": "MATRIX-GAP",
+  "claim": "Round 4 made T-V3-40 (b) run two fixture parts that V03's fixture list does not hold. Shared subject: T-V3-40's disaster fixture (V03, and V09 reading it). (1) R4-11's text (V03 l. 2907): 'a `none`-row condition carried beside it draws, lists and counts nothing at any key'. V03's edge row (l. 2095) lists 'a `none`-row condition carried beside the look, and View as at each key'. (2) T-V3-40 (b)'s hand-over ('after the hand-over (`crisisLookYields`)') and 'a `disaster` preview draws its ruin over a building under a rebuild Works'. V09's T-V9-86, rewritten this round (l. 4409), now reads 'on T-V3-40's fixture with a rebuild begun on one building of the disaster's units'. The damage fixtures V03 \u00a77 defines for T-V3-40 (l. 2848\u20132853) hold 'a district of houses ruined by a fixture calamity through its linked `reconstruction` condition's `ConditionOverlay` \u2026 and under a `disaster` preview': no `none`-row condition and no rebuild Works. Volume 2's look fixture for the same subject states both: 'an `infiltrated` stressor (a `none`-row condition, V11's map rows) carried beside the looks' and 'a rebuild's `repair` Works beginning in week 18 on half the struck buildings' (V02 l. 3743\u20133752). A fixture list omitting what its own test runs: the test text names the parts, so nothing built changes.",
+  "required_change": "V03 \u00a77's damage fixtures (l. 2851\u20132853): '\u2026 and a district of houses ruined by a fixture calamity through its linked `reconstruction` condition's `ConditionOverlay` (V08 \u00a73.16 (7) (b): `event` `calamity`; \u00a72.7: its weeks and severity) and under a `disaster` preview' \u2192 '\u2026 (V08 \u00a73.16 (7) (b): `event` `calamity`; \u00a72.7: its weeks and severity), a rebuild's `repair` Works begun on one of its buildings inside the condition's weeks (V06 \u00a73.22 (3)'s hand-over) and an `infiltrated` stressor (a `none`-row condition, V11's map rows) carried beside it in its weeks, and under a `disaster` preview'.",
+  "owner": "V03",
+  "reported_by": "verify-agree-proof-r4t"
+ }
+]

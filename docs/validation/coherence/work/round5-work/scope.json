@@ -1,0 +1,92 @@
+[
+ {
+  "id": "VAF-R4T-04",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "claim": "repair-r4-V03's HAND-OFF 1 (round 5's verifiers): \u00a716's M3b row (l. 20181) lands \"the `disaster` look's districts (\u00a710.2's `neighbourhoods`) with volume 1's `disasterSource` and `disasterDistricts` at M5 (W10)\". At THORP, HAMLET and VILLAGE the look's units are V07 \u00a75.6 (3)'s and land at V-M3. V03 \u00a78 (l. 2959\u20132960, P4's exit), T-V3-40's timing cell, J-V3.140, V02 \u00a78.6 (l. 3893\u20133894), T-V1-60 and T-V7-69 all say so, as does \u00a710.2's lead (\"at the village rungs before V07's step the village draws no disaster unit\"). The base's build-plan row names neither the village units nor their milestone, and it writes \"districts\" where R4-04 (a)'s phrase is \"the look's units\". \u00a710.2's lead states the landing, so nothing built changes.",
+  "required_change": "\u00a716's M3b row: \"the `disaster` look's districts (\u00a710.2's `neighbourhoods`) with volume 1's `disasterSource` and `disasterDistricts` at M5 (W10)\" \u2192 \"the `disaster` look's units (\u00a710.2's `neighbourhoods`) with volume 1's `disasterSource` and `disasterDistricts` at M5 (W10) \u2014 at the village rungs volume 7's `villageDisasterUnits` and `villageUnitPlots`, V-M3 (V07 \u00a75.6 (8)) \u2014\", the rest as it stands.",
+  "owner": "scope",
+  "reported_by": "verify-agree-fabric-r4t"
+ },
+ {
+  "id": "VAH-r4-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "R4-15 (d) splits the port's two shape refusals by the required keys: a dossier lacking a `requiredKeys` key of every registered adapter is `E_UNKNOWN_SHAPE` (B3); one holding every required key of a line that no registered adapter accepts is `E_LINE_UNSUPPORTED` (B5). V08 \u00a72.4 *Selection* (l. 696\u2013698), \u00a73.5 steps 1 and 3 (l. 1601, 1605), B3 and B5 (l. 2044, 2046) and T-V8-14 state it. \u00a714's port item 2 (base l. 19705\u201319706), which names `select` as V08 \u00a72.4's, still reads 'A shape no adapter recognises is refused `E_UNKNOWN_SHAPE` (a hand-made teaching file among them), a line no adapter serves `E_LINE_UNSUPPORTED`.' `recognise` is the adapter's shape test (V08 l. 579\u2013582: the required keys, the readable stamps, the institution record shape), so 'a shape no adapter recognises' reads as every dossier no adapter accepts: a dossier holding every required key whose readable `schemaVersion` no adapter serves, or whose institution records no adapter's `recognise` accepts, is `E_LINE_UNSUPPORTED` by V08 and `E_UNKNOWN_SHAPE` by \u00a714's words. `select`'s home is V08 \u00a72.4, which a builder of the port follows, so nothing built changes.",
+  "required_change": "\u00a714 port item 2, l. 19705\u201319706: 'A shape no adapter recognises is refused `E_UNKNOWN_SHAPE` (a hand-made teaching file among them), a line no adapter serves `E_LINE_UNSUPPORTED`.' \u2192 '`select` refuses a dossier that lacks a required key of every registered adapter \u2014 no dossier of any registered line, a hand-made teaching file among them \u2014 `E_UNKNOWN_SHAPE`, and one that holds every required key of a line but no registered adapter accepts `E_LINE_UNSUPPORTED` (V08 \u00a72.4).'",
+  "reported_by": "verify-agree-host-r4t"
+ },
+ {
+  "id": "VAH-r4-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "\u00a714's `PortNote` kind `field_fallback` (base l. 19606) reads 'a field the port reads that the dossier lacks, leaves empty or gives unreadable, its fallback taken \u2014 at an absorb the carried fact standing (V08 \u00a72.4, V08 \u00a73.5)'. V08 \u00a73.5's absorb rule (l. 1674\u20131683), the home R4-15 (a) made, defines the case \u2014 'its path absent, or its value of no form its row reads: an empty string, a `null` (save where its row reads `null` as a value), a wrong type \u2026' \u2014 and adds 'An empty list is a value \u2014 the dossier lists none \u2014 and is compared as read'; the field table's lead (l. 626\u2013627), its one-input edge row (l. 2686) and T-V8-61 (a) ('one whose `activeConditions` is `[]` and `stressors` `null` retires every carried condition and stressor overlay') say the same. Read by \u00a714's words, `activeConditions: []` at an absorb \u2014 the ordinary dossier after its last crisis ends \u2014 'leaves empty' a read field, takes its fallback and keeps every carried condition standing, where V08 retires them. The note's emission and the diff are V08 \u00a73.5's, which \u00a714 cites, so nothing built changes; the comment's 'empty' is wider than the home's.",
+  "required_change": "\u00a714 l. 19606, the `field_fallback` comment: 'a field the port reads that the dossier lacks, leaves empty or gives unreadable, its fallback taken \u2014 at an absorb the carried fact standing (V08 \u00a72.4, V08 \u00a73.5)' \u2192 'a field the port reads that the dossier lacks, leaves empty or gives unreadable (V08 \u00a73.5: its path absent or its value of no form its row reads; an empty list is a value, compared as read), its fallback taken \u2014 at an absorb the carried fact standing (V08 \u00a72.4, V08 \u00a73.5)'.",
+  "reported_by": "verify-agree-host-r4t"
+ },
+ {
+  "id": "VAP-r4-01",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Round 4 wrote both regrowth branches of a raised way's repair beside a crossing station. V06 \u00a73.19.2 (5) (V06 l. 2935\u20132943, the END of VEW-r3-04): 'beside a crossing station whose stretch is `breached` or `dismantled`, a `repairWall` of that stretch first, in the same batch, \u2026 a `dismantled` stretch taking the op's bend, a new stretch drawn on its line (V06 \u00a72.8) \u2014 so no deck stands on a fallen wall'. The `dismantled` stretch is reachable on the ordinary decline and regrowth path. T114-3's new clause (base l. 18469\u201318471) lets a crossing station whose spans have both fallen keep its stretch 'as a wall run', and T-V6-11's second run (V06 l. 4119) dismantles it by `absorbWall` 'from the epoch after both spans beside its crossing station have fallen'. A raised way whose reason is live again is then repaired by (5). Only the `breached` branch has a bar: T114-3's landfall clause on T-V5-14 (V05 l. 2556\u20132562), by hand and by V06 \u00a73.19.2 (5). The `dismantled` branch runs a different op, `repairWall`'s bend drawing a new stretch on the line, and no bar or volume test runs it. T-V6-11 runs a hand `repairRaised` on a dismantled span and a hand `repairWall` on a dismantled stretch, each alone; T-V6-61 runs ruined spans with no station; T-V6-73 runs only the station's decay. The model seat's round-4 HAND-OFF to scope names this fixture ('a `repairRaised` beside a station whose stretch is `dismantled` (the stretch re-laid with the deck, never a deck on a gap)'). Its sibling fixture (a locked Re-derive) is the peer's VM-R4T-02; this one is open. Principle (11): an untested edge is a MAJOR.",
+  "required_change": "\u00a713.2's item-114 group, T114-3, after '\u2026 the stretch repaired with the deck, never a deck on a breached run;': add 'its regrowth clause: on a CITY fixture whose aqueduct crosses the ring at a crossing station, both spans beside the station toppled (as T-V6-11's second run), then the curtain absorbed (`absorbWall`, the stretch `dismantled`), then the aqueduct repaired \u2014 by a hand `repairRaised` and, on a second run, by V06 \u00a73.19.2 (5) at the first epoch its reason is live \u2014 the stretch re-laid on its line by `repairWall`'s bend in the same batch before the spans (item 114's patch material), never a deck over a gap at any commit, and the hand repair's undo restoring the gap and both fallen spans;'. The runs sentence (l. 18491): 'Volume 6 runs T114-1 \u2013 T114-5 save T114-3's landfall clause, \u2026' keeps T114-3's regrowth clause with volume 6 (T-V6-73). \u00a713.8's T114-1 \u2013 T114-5 row adds 'and T114-3's regrowth clause on volume 6's engine' to its tier cell. V06's end, for an END line: T-V6-73 adds after its crossing-station clause '**the station's regrowth** (T114-3's regrowth clause): on H-AQUA's ring, both spans beside the aqueduct's crossing station toppled and the curtain absorbed, then the aqueduct repaired by hand and, on a second run, by V06 \u00a73.19.2 (5) with its reason live \u2014 the stretch re-laid by `repairWall`'s bend in the batch before its spans, never a deck over a gap, the hand repair's undo restoring the gap and the spans', and V06 \u00a77's table row for T114-1 \u2013 T114-5 adds 'the station's regrowth on H-AQUA'.",
+  "owner": "scope",
+  "reported_by": "verify-agree-proof-r4t"
+ },
+ {
+  "id": "VDC3-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "scope",
+  "claim": "Persists at its second end. \u00a77.7 item 12's key cell (l. 12119), fixed this round per R4-15 (c), keeps a key minted at creation 'for the document's life (a later readable `id` neither replaces it nor is checked against it)', and V08 \u00a72.4's `id` row (l. 634) says the same. \u00a714 states `E_OTHER_SETTLEMENT` twice: the `PortResult` comment (l. 19600, 'an absorb whose digest's settlement key differs from the binding's \u2014 never for an offer whose `id` fell back (V08 \u00a72.4)') and the absorb paragraph (l. 19722). The exception covers only an offer whose own `id` fell back. Take a map created from an id-less dossier (`settlement:map:<mapId>`) that later absorbs the same dossier now carrying a readable `id`. The offer's `id` did not fall back, and its digest's key `settlement:<id>` differs from the binding's, so \u00a714 refuses it; \u00a77.7 item 12 and V08 absorb it. Two units state two outcomes for one case (R3-03 (b)). Round 3's second end, which R4-15 (c) took verbatim, named only the offer's fallback.",
+  "required_change": "\u00a714 l. 19600: 'never for an offer whose `id` fell back (V08 \u00a72.4)' \u2192 'never for an offer whose `id` fell back, nor against a settlement key minted at the document's creation (`settlement:map:<mapId>`), which a later readable `id` is not checked against (\u00a77.7 item 12; V08 \u00a72.4)'. \u00a714 l. 19722: '(never for an offer whose `id` fell back, V08 \u00a72.4)' \u2192 '(never for an offer whose `id` fell back, nor against a key minted at the document's creation, which a later readable `id` is not checked against; \u00a77.7 item 12, V08 \u00a72.4)'.",
+  "reported_by": "verify-determinism-r4t"
+ },
+ {
+  "id": "VKr4-02",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "\u00a713.1's kernel set (l. 17594\u201317595) grows a frame at a change of law only in 'a village \u2192 town fold (the frame kept, the arena by the new law's margin, neither shrinking; \u00a73.2 (9))', the case where only (b) runs. No fixture runs the reverse, where only (a) and (c) run (VKr4-01): T-V7-14's 1 400 / 1 600 alternation never regrows inside the village product, T-V7-64 grows a village's frame under one law, and T81-1 and T110-2 grow across a crossing under one law. An untested edge is a MAJOR (principle (11)).",
+  "required_change": "\u00a713.1, l. 17594\u201317595: replace 'and a village \u2192 town fold (the frame kept, the arena by the new law's margin, neither shrinking; \u00a73.2 (9));' with 'a village \u2192 town fold (the frame kept, the arena by the new law's margin, neither shrinking; \u00a73.2 (9)), and the reverse \u2014 a TOWN made at 9 000 people handed down to the village product, falling below 400 and re-crossing it (the frame grown to the territory law's 3 373 m square, the arena kept at 4 293 m: (a) and (c) only, `Plat.frame` the new frame as (c) commits, its `marginShare` the kept arena's share; the hand-off up at 1 575 then growing the arena by (b) to 5 397 m; \u00a73.2 (9));'.",
+  "owner": "scope",
+  "reported_by": "verify-kernel-r4t"
+ },
+ {
+  "id": "VM-R4T-02",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "scope",
+  "claim": "\u00a72.7's support step (6) (a) (l. 2591-2594; the model's judgment (3)) makes a locked or pinned raised way at a Re-derive 'crossed at generation as a standing one ((b)), and the run after S7 moves none of its stations, every S7 part one meets giving way'; \u00a74.3 (l. 5624-5626: impassable 'at generation where the raised way is locked or pinned') and \u00a74.4 S5a *Outer moats* (l. 5878-5879: 'across a locked or pinned raised way, the trace passes through its station') state the same branch. No bar exercises it: T110-2 (4) locks the raised way only for an epoch circuit and a hand `drawWall` (l. 18413-18418), T-V6-47 likewise; no fixture regenerates a stage trace across a locked raised way (the model's round-4 HAND-OFFS name it).",
+  "required_change": "\u00a713.2's T110-2 adds '(6) a Re-derive from S4 of (1)'s c15 fixture with its S4 timber viaduct locked: stage 2's ring through one station on the deck at its level, the trace bent to it; no station moved, added or omitted and no key minted; the berm and channel passing under the deck only under `open` spans with no support, ramp, stair or foot in them, stopped at the under-deck strip's edges elsewhere (`W_RAISED_CROSSING`); after the last support run every S7 part a station meets cut round its ring or ended at it; 0 S5b or S5c way corridors over a support ring, ramp, stair or foot'.",
+  "reported_by": "verify-model-r4t"
+ },
+ {
+  "id": "VRC4T-05",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "scope",
+  "claim": "\u00a78.1 now declares Box among the types 'declared in @plat/model (\u00a714), so @plat/labels and @plat/render share them', and labels' own ObstacleSource (\u00a714 l. 19654\u201319655) takes Box, but \u00a714's @plat/model line (l. 19396: 'the shared view vocabulary LodBand, Role, ZoomStop and the label-row tables'), its dependency rule (l. 19529: 'the types both use (LodBand, Role, ZoomStop, LabelEntity, the label-row tables and LabelRows) come from model') and the type index (l. 19662: 'LodBand, Role, ZoomStop, LabelTable, StringTable, GeomTable: \u00a78.1, \u00a78.2, \u00a78.8') name no Box.",
+  "required_change": "Each of the three lists adds Box after LodBand: 'the shared view vocabulary LodBand, Box, Role, ZoomStop \u2026'; '(LodBand, Box, Role, ZoomStop, LabelEntity, \u2026)'; 'LodBand, Box, Role, ZoomStop, LabelTable, StringTable, GeomTable: \u00a78.1, \u00a78.2, \u00a78.8'.",
+  "reported_by": "verify-rendering-r4t"
+ },
+ {
+  "id": "VRC4T-06",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "scope",
+  "claim": "T121-3 (\u00a713.8 l. 18583) reads 'over \u00a712.5's reference views'; the canon's G-refview retires 'reference view' for 'reference viewport' (\u00a712.5's home), and every other site in the set now reads 'reference viewport(s)' (repair-r4-rendering's hand-off named this site).",
+  "required_change": "T121-3 reads 'over \u00a712.5's reference viewports'.",
+  "reported_by": "verify-rendering-r4t"
+ },
+ {
+  "id": "VCS-r4-01",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "T121-3 (\u00a713.2, base l. 18583) reads \"Auto holds \u00a712.5's frame budget at p95 on the reference and the low-end device over \u00a712.5's reference views (`resolution.p95`)\". \u00a712.5 names the object \"the reference viewport\" (l. 17056), and the canon retires \"reference view\" for it (G-refview). This round's rendering sweep changed the same phrase \"\u00a712.5's reference views\" to \"reference viewports\" in T-ER-26 (l. 14703) and R12-36 (l. 17466), and V12's T121-3 bullet reads \"each reference viewport\" (V12 l. 2660). Scope's bar is now the only design-text survivor. The canon's pattern `reference view\\b(?!port)` misses the plural. Nothing built or tested changes (J141 minor).",
+  "required_change": "In \u00a713.2's T121-3, replace \"over \u00a712.5's reference views (`resolution.p95`)\" with \"over \u00a712.5's reference viewports (`resolution.p95`)\"; nothing else changes.",
+  "owner": "scope",
+  "reported_by": "verify-scope-r4t"
+ }
+]

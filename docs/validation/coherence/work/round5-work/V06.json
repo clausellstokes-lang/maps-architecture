@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VV56-r4-02",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V06",
+  "claim": "Round 4 put two new clauses on H-AQUA that run on raised ways its definition does not hold. T-V6-47's 'later work across a standing raised way' (l. 4155; T110-2 (4)\u2013(5), the END line placing them on H-AQUA) runs 'an epoch circuit across its standing aqueduct and one across a standing timber elevated road \u2026 an epoch route re-solved under a viaduct'. T-V6-73's 'under a crossing station' clause (l. 4181; VAP-r3-06) runs 'on H-AQUA's ring \u2026 its masonry aqueduct through the wall arch, its viaduct on a raised gate'. V06 \u00a77 (l. 4056\u20134057) defines H-AQUA only as a town below a spring 4 km upslope, growing TOWN to CITY to METROPOLIS and back to TOWN over 200 years, its reach silted in year 170: an aqueduct, but no viaduct, raised gate or timber elevated road. T-V6-57 and T-V6-61 also name only its aqueduct. A generated viaduct or elevated road appears only where its reason holds (T110-3's drop and link reasons and the prosperity and landmark tendencies), which the definition does not state. So the viaduct, raised-gate and elevated-road parts of both clauses can run on nothing and pass vacuously. The tests name the parts, so a build agent would add them: the class of a fixture list omitting what its own clause runs.",
+  "required_change": "V06 \u00a77's H-AQUA definition adds, after 'in year 170': '; from CITY its walled ring is crossed by its masonry aqueduct through a wall opening and, where its main approach road crosses a valley, by a viaduct on a raised gate, and from METROPOLIS a timber elevated road stands between two of its landmarks \u2014 each declared in the fixture's recipe where generation does not lay it (a declared raised way is held, V06 \u00a73.19.2 (1))'. T-V6-47's and T-V6-73's H-AQUA clauses then name 'its viaduct' and 'its timber elevated road' as these.",
+  "reported_by": "verify-vol-V05-V06-r4t"
+ },
+ {
+  "id": "VV56-r4-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V06",
+  "claim": "V06 \u00a76.8 (6) (l. 4015\u20134021) says: 'Where even one epoch over the span with its events' term passes the budget (a catch-up of many more dossier events than T-V6-24's fixtures carry), the catch-up folds that one epoch \u2026'. Round 4 gave T-V6-24 a fourth catch-up fixture for exactly this branch: 100 years carrying 5 000 dossier events at the METROPOLIS cap, with an estimate of at least 19 310 ms. So 'than T-V6-24's fixtures carry' is now false of T-V6-24's own fixture. The paragraph's next sentence and T-V6-24's bar both say 'three catch-up fixtures'. Nothing built changes.",
+  "required_change": "In V06 \u00a76.8 (6), replace '(a catch-up of many more dossier events than T-V6-24's fixtures carry)' with '(a catch-up of many more dossier events than T-V6-24's three catch-up fixtures carry, as its over-budget fixture of 5 000 at the METROPOLIS cap)'.",
+  "reported_by": "verify-vol-V05-V06-r4t"
+ }
+]

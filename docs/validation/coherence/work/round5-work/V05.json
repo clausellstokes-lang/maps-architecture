@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VAL-R4-09",
+  "severity": "minor",
+  "kind": "NARRATION",
+  "owner": "V05",
+  "claim": "Two canon conflict ids stand in V05's design text: l. 313 '(file f item 251; MC-07: the island arena's own ring, no stored position)' and l. 685's row '`ContextVector.arena 'sky'` (\u00a72.5, file f item 213; MC-05)'. This is against R3-02 (no review id in design text) and principle (5). assemble-r4 \u00a78 lists both. Round 3's census for this lane missed them.",
+  "required_change": "V05 l. 313: '(file f item 251; MC-07: the island arena's own ring, no stored position)' \u2192 '(file f item 251: the island arena's own ring, no stored position)'. l. 685: '(\u00a72.5, file f item 213; MC-05)' \u2192 '(\u00a72.5, file f item 213)'.",
+  "reported_by": "verify-agree-layers-r4t"
+ },
+ {
+  "id": "VAP-r4-07",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "As VAP-r4-06, at V05. Round 4 (R4-12) gave T-V5-36 clause (i) (V05 l. 2816\u20132822): 'at a drawn week whose frame is not the head (V05 \u00a75.6 (5)), on (f)'s fixture after an `advance` whose epochs raise one island and resize another \u2026, each scrubbed to a week before those epochs'. It reads V06 \u00a73.15.2's frames, built at V06's E6 with `advance` on T1 (V06 \u00a78). V05 \u00a78 lands T-V5-36 'with P3 at M6-sky' (l. 2865; P3's tests cell, l. 2841). \u00a716 orders M6-sky after M6-U and orders M6-E only after M4, so P3 can exit before E6. INDEX \u00a75 risk 2 moves the clause to the first exit after the provider, 'each named in its volume', and V05 names none for (i). Nothing built changes.",
+  "required_change": "T-V5-36 (i): '(i) at a drawn week whose frame is not the head (V05 \u00a75.6 (5)), on (f)'s' \u2192 '(i) from the later of P3 and V06's E6 (its `advance` and history frames, V06 \u00a73.15.2), at a drawn week whose frame is not the head (V05 \u00a75.6 (5)), on (f)'s'. V05 \u00a78's sentence 'so T-V5-36 lands with P3 at M6-sky' \u2192 'so T-V5-36 lands with P3 at M6-sky, its (i) at the later of P3 and V06's E6'.",
+  "owner": "V05",
+  "reported_by": "verify-agree-proof-r4t"
+ }
+]
