@@ -16,7 +16,7 @@ S('VV34-r2-01 §1.2 hook row',
 # ---- §1b.1: the read map's rock sides (VKr2-09)
 S('VKr2-09 §1b.1 belowKind row',
   "each underground building's footprint sides on its part's rock (§3.7's `bandUnion`)",
-  "each underground building's footprint sides on its part's rock (V04 §5.6 (2): off the bands `corridorUnion` commits and the chambers' floors, §3.7)")
+  "each underground building's footprint sides on its part's rock (off the bands `corridorUnion` commits and the chambers' floors, §3.7; V04 §5.6 (2))")
 
 # ---- §3.2 N2: the field outfall's D8 path over land only (VEW-r2-04)
 S('VEW-r2-04 §3.2 N2 field outfall',
