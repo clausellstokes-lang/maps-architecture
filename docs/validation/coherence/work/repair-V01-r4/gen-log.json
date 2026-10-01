@@ -1,0 +1,106 @@
+{
+ "edits": 28,
+ "tags": [
+  "1.2-v11-item110-row (END VEW-r3-01)",
+  "1.2-item120-row (VV12-r3-03)",
+  "1b-find-row-inputs (VV12-r3-03)",
+  "1b-find-row-hooks (VV12-r3-03)",
+  "1b-campLand-row (VAF-R3T-01)",
+  "2.3-find-comment (VV12-r3-03)",
+  "2.3-findAreas-signature (VV12-r3-03, sweep)",
+  "2.3-gapUnits-signature (VV12-r3-03)",
+  "3.14-lead-cited-cells (END VEW-r3-01)",
+  "3.14-row-withdrawn (END VEW-r3-01)",
+  "3.16-find-bullet (VV12-r3-03)",
+  "3.16-campLand-built-edge (VAF-R3T-01)",
+  "3.17.3-3-by-4.3 (END VEW-r3-01)",
+  "3.18d-toggle-row (VV12-r3-03, sweep)",
+  "3.18e-find-row-case (VV12-r3-03)",
+  "3.18e-find-row-outcome (VV12-r3-03)",
+  "5.4-lead (VV12-r3-03)",
+  "5.4-1-head (VV12-r3-03, sweep)",
+  "5.4-1-drawn-week (VV12-r3-03, sweep)",
+  "5.4-3-head (VV12-r3-03)",
+  "5.4-3-week (VV12-r3-03)",
+  "5.4-4-week-trigger (VV12-r3-03, sweep)",
+  "5.4-4-held-area (VV12-r3-03, sweep)",
+  "5.4-6-frame (VV12-r3-03)",
+  "6-findAreas-row (VV12-r3-03, sweep)",
+  "7-T-V1-51c (END VEW-r3-01, sweep)",
+  "7-T-V1-59f (VV12-r3-03)",
+  "12-plausible-list (END VEW-r3-01, sweep)"
+ ],
+ "blocks": 11,
+ "inventory": [
+  {
+   "kind": "REPLACE",
+   "target": "### 1.2 The base hooks this volume consumes",
+   "lines": 55,
+   "words": 2065
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "lines": 103,
+   "words": 4385
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.3 Views and services (derived, never stored)",
+   "lines": 135,
+   "words": 2618
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.14 Constants (with provenance and table home)",
+   "lines": 76,
+   "words": 2105
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.16 Services other volumes call (`@plat/hood`)",
+   "lines": 113,
+   "words": 1936
+  },
+  {
+   "kind": "REPLACE",
+   "target": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+   "lines": 35,
+   "words": 524
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "lines": 127,
+   "words": 4512
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "lines": 112,
+   "words": 1960
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 6 Performance budgets",
+   "lines": 52,
+   "words": 2296
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 7 Tests and acceptance bars",
+   "lines": 76,
+   "words": 7677
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 12 CONFIRMED versus PLAUSIBLE",
+   "lines": 47,
+   "words": 802
+  }
+ ],
+ "orig_sha": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
+ "new_sha": "0329ce115c37fcac3ca50549af677dfd50247261588cef7f94666d65fdb746aa",
+ "words_before": 85852,
+ "words_after": 86419
+}

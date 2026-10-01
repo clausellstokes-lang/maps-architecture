@@ -33,7 +33,7 @@ S('VAL-R3-03 §1b.3 raised-way edit row',
   "`clearanceCm` or `spanSpacingCm`) or deleted (generated or drawn), or crossed by a hand trace through one of its stations (`drawWall`, or `moveVertex` on an enceinte's trace, a "
   "re-anchored stretch among them; §2.7's support step (6) (b) (iii)): the base's edit, with V04's "
   "`ArchVaults.reconcile` and `foundationObstacles` re-read in the same commit (V04 §4.3), the arch vaults, their links "
-  "and accesses as fates | T4 `road`; T9 `shape`'s delete; T3 `wall` | the base's rows; V04 §2.6's arch-vault row | the "
+  "and accesses as fates | T4 `road`; T9 `shape` (its `setAttr` and delete); T3 `wall` | the base's rows; V04 §2.6's arch-vault row | the "
   "replaced scope (the vaults' ids and footprints restored) |")
 
 # ---- §2.6: the arch-vault lifecycle row (create and regenerate cells)
@@ -183,9 +183,11 @@ S('R4-02 sweep T-V4-81 (b) Go there',
 
 # ---- §5.1 *Find on Below*: the model read, the week's re-read and the drawn week (R4-12)
 S('VAL-R3-05 §5.1 doc is the model the view draws',
-  "(`@plat/under`, never stored): for each matched id on an underground part — an underground building and its use (a sewer\n",
+  "(`@plat/under`, never stored): for each matched id on an underground part — an underground building and its use (a sewer\n"
+  "dwelling, an F4, F6 or C4 building, an undercity institution), an undercity or sewer-front district, a named system or\n",
   "(`@plat/under`, never stored; `doc` the model the view draws, (7)): for each matched id on an underground part — an\n"
-  "underground building and its use (a sewer\n")
+  "underground building and its use (a sewer dwelling, an F4, F6 or C4 building, an undercity institution), an undercity or\n"
+  "sewer-front district, a named system or\n")
 S('VAL-R3-05 §5.1 (6) and new (7)',
   "   underground epoch participant's — and the chips re-evaluate then (V09).\n",
   "   underground epoch participant's — and the chips re-evaluate then (V09); and at each change of §2.9's `week` (a\n"
@@ -207,8 +209,8 @@ S('VAL-R3-05 T-V4-81 (j)',
   "pins and ghost pins closer than about 24 px merge into a count bubble whose number equals its members (item 120 (e), "
   "(k)) | PR (fixtures), nightly |",
   "pins and ghost pins closer than about 24 px merge into a count bubble whose number equals its members (item 120 (e), "
-  "(k)); (j) at a drawn week whose frame is not the head (V04 §5.1 (7)) — the METROPOLIS fixture scrubbed to a week "
-  "before an epoch that extended its catacomb complex and re-cut an undercity district —: the glow shapes, depth bands, "
+  "(k)); (j) at a drawn week whose frame is not the head (V04 §5.1 (7)) — the METROPOLIS fixture advanced over epochs, one "
+  "of which extends its catacomb complex and re-cuts an undercity district, and scrubbed to a week before that epoch —: the glow shapes, depth bands, "
   "ghost pins' bands, the band ladder's counts and **Go there**'s band those of `underFindPlaces` over that frame for "
   "§11.2's listing at that week, no glow over a gallery the frame lacks, the gaps Below V01's `gapUnits` at that week, "
   "and the head's reading back when the scrub returns to the head | PR (fixtures), nightly |")
@@ -218,11 +220,13 @@ S('VAL-R3-05 T-V4-81 (j)',
 # =====================================================================================================================
 S('VAL-R3-09 §5.6 (1) stands over',
   "   collapses; its restoration is V06 §3.23 (3)'s, as for every building. Under a disaster's look over its building\n"
-  "   (V03 §5.6 (4); item 122 (d)), a storey below 0 draws at its building's drawn level — `PlanDamage.level`, the higher of\n",
+  "   (V03 §5.6 (4); item 122 (d)), a storey below 0 draws at its building's drawn level — `PlanDamage.level`, the higher of\n"
+  "   its own level and the look's `lookLevel` by severity — its kinds' thresholds unchanged, the look leaving no patch; the\n",
   "   collapses; its restoration is V06 §3.23 (3)'s, as for every building. Where a disaster look stands over its building\n"
   "   (item 122 (d): a building of one of the look's units, §10.2 (d), on which V06 §3.22 (3)'s `crisisLookYields` is not\n"
   "   yet true, and every building of a preview's units; V03 §5.6 (4)), a storey below 0 draws at its building's drawn\n"
-  "   level — `PlanDamage.level`, the higher of\n")
+  "   level — `PlanDamage.level`, the higher of its own level and the look's `lookLevel` by severity — its kinds'\n"
+  "   thresholds unchanged, the look leaving no patch; the\n")
 S('VAL-R3-09 §5.6 (1) units',
   "An underground building lies in no look's unit — V01's `disasterDistricts` returns ground part 0's\n"
   "   districts, at the village rungs V07's ends (V01 §3.16 (1)) — so it reads its own level only.",
@@ -248,3 +252,36 @@ S('VAP-r3-05 T-V4-82 (i)',
   "the church hands it over (V06 §3.22 (3)'s `crisisLookYields`; this clause once V06's E2 has landed); under View as at "
   "`public`, `local` and `secret` the same drawing, the condition `public` (§7.7's DR44), and a `none`-row condition "
   "carried beside it changing no crypt's drawing at any key; no element drawn repaired")
+
+# =====================================================================================================================
+# R4-02 sweep (R4-01 (2)) — V04's "active layer" is the canon's working layer (V09 §4.2's `workingLayer`, a view key),
+# switched only by V09's view bar, Find's Go there or a clerk's useTool; a hidden layer that is the working layer is drawn
+# in that view (§8.4). V04 §4.1's coupling of the visibility toggle to the working layer and the two edge rows that read
+# "hidden" as "not worked on" are conformed.
+# =====================================================================================================================
+S('R4-02 sweep §1.2 working layer',
+  "While the underground is the active layer the tools pick ground buildings and points only (V04 §4.1).",
+  "While Below is the working layer the tools pick ground buildings and points only (V04 §4.1).")
+S('R4-02 sweep §1.3 working layer control',
+  "* **The controls** for `showUnexcavated` and for the active layer are V09's;",
+  "* **The controls** for `showUnexcavated` and for the working layer (`workingLayer`, V09 §4.2) are V09's;")
+S('R4-02 sweep §4.1 working layer',
+  "The toolkit's layer: showing the underground layer makes it the active layer\n"
+  "until the user picks another (the active-layer control is V09's); while it is active the road tool T4 draws a tunnel or a\n"
+  "link,",
+  "The toolkit's layer is the view's working layer\n"
+  "(V09 §4.2's switch, a per-viewer view key; Below drawn whatever its visibility, §8.4): while Below is the working layer\n"
+  "the road tool T4 draws a tunnel or a link,")
+S('R4-02 sweep §5.1 PageUp working layer',
+  "otherwise, with the underground layer active, the band.",
+  "otherwise, with Below the working layer, the band.")
+S('R4-02 sweep UE20 E7',
+  "E7: with the underground hidden the tools act on the ground (T4 draws a way);",
+  "E7: with Ground the working layer the tools act on the ground (T4 draws a way), the underground hidden or shown; with "
+  "Below the working layer they act Below, a hidden underground drawn in that view (§8.4);")
+S('R4-02 sweep UE27 E7',
+  "E7: the layer hidden, each `underView` mode,",
+  "E7: the layer hidden — not drawn, or drawn in a view whose working layer is Below (§8.4) —, each `underView` mode,")
+S('R4-02 sweep ## 13 V09 row',
+  "| V09 | the `showUnexcavated` and active-layer controls;",
+  "| V09 | the `showUnexcavated` and working-layer controls;")

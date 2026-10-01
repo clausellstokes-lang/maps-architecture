@@ -1,0 +1,208 @@
+--- docs/volumes/V05-sky.md	2026-10-01 12:16:33.049494592 +0000
++++ /tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/r4V05/V05.expected.md	2026-10-01 15:05:59.131285941 +0000
+@@ -302,7 +302,7 @@
+ | the F-SKY rows and the sky invariants (V05 §3.17) | every SKY step | §5.4's report; the dry run | §5.2, §5.3 (file f item 331) |
+ | the island's seasonal look (V05 §5.1 *Seasons on the island*) | §2.9's year position and follow flag (DR42); the document's one climate row as DR42 resolves it; §8.2's season rows with V11 §3.25.6's tables; the island's crowns, faces, water and roofs | S14's sky marks' `season` column (§8.1 item 8) and the tile worker's re-skin of the sky base and surface layer; picture exports; the clerk's seasonal line (V10) | §2.9, §8.2, §12.5 |
+ | the islands' pennant places — the rim run and the landing tops (V05 §5.1 *Festival pennants*) | the island's rim chain, its landing yards and the waterfall's lip (V05 §3.8, V05 §3.10); §2.9's festival display with DR43's schedule; V11 §3.25.7's `SKY` row and motif rows | `live.festival`'s places `rims` and `landings` (§8.2), so its marks on the sky base; picture exports | §8.2, §2.9, §7.7 |
+-| Find on Sky — the sky's matches, ghost pins, bubbles and gaps units (V05 §5.6) | V09's `live.find` over §11.2's gazetteer at the view's key; the committed island records and their arenas; V01 §5.4 (3)'s `gapUnits` over each island's arena (V05 §5.6 (4)) | the glow, pins and bubbles on the sky layer; the ghost pins of sky matches on Ground and Below; the panel's "on Sky" count and **Go there** (V09) | §2.9, §8.2, §11.2 |
++| Find on Sky — the sky's matches, ghost pins, bubbles and gaps units (V05 §5.6) | V09's `live.find` over §11.2's gazetteer at the view's key and drawn week; the committed island records and their arenas — at a drawn week whose frame is not the head, that frame's (V06 §3.15.2; V05 §5.6 (5)); V01 §5.4 (3)'s `gapUnits` over each island's arena at that week (V05 §5.6 (4)) | the glow, pins and bubbles on the sky layer; the ghost pins of sky matches on Ground and Below; the panel's "on Sky" count and **Go there** (V09) | §2.9, §8.2, §11.2 |
+ | the budgets and the comfort level (V05 §6) | M6-sky's measurements; §12.1's comfort level | §12's rows; T-V5-18; V06 §6.8's estimate (the resize row's figures) | §12.1, §12.4, §12.6 (file f item 476) |
+ 
+ ## 2 Data model
+@@ -1339,7 +1339,7 @@
+    | tower; gate of any kind (`main`, `postern`, `water`, `gatehouse`, `castle`) | no state of its own (§2.7): the `breached` length on its stretch is extended over the chord of its footprint along the trace, so every covered tower's vertex and gate's junction lies inside a `breached` run; one covered while its stretch is not has `breached` written over its footprint's chord alone | by its run's `condition` | standing again with its run (V06 §3.7.5) |
+    | bridge, pier, mole or quay-platform deck | `ruined` (the deck falls; under a bridge the river stays one L0 face and the way's crossing is closed) | its own state row | volume 6's `repairRaised` (item 246) |
+    | deck plot on a covered deck | falls with its deck by item 110 (d)'s least disruption: its households relocated first ((3)), its building demolished, the plot **tombstoned with the deck**, as volume 6 does for a struck deck (V06 §3.19.5 (3)); never a vacant plot left on a ruined deck | nothing | a repaired deck re-offers its faces; the buildings raised on them are new lineages (V06 §3.19.5 (1), (4); V02 §3.16 (7)) |
+-   | raised span (its deck band's plan projection, in a ground part ≥ 1) and raised-way pier (its footprint) | `ruined` (item 244's span and support `state`); a span whose pier is ruined becomes `ruined` with it (arches fall with their piers, whatever their own cover); a raised way with a ruined span has its crossing closed — it has no junctions with the ways beneath, so the `track` fallback does not apply to it, and the ways beneath are touched only where the footprint covers them; an aqueduct ruined this way loses its terminal's supply, a listed fate ("the fountain in <square> runs dry") | item 110's state rows | volume 6's `repairRaised`; the vaults beneath follow the span's state by volume 4's rule (this volume writes nothing underground) |
++   | raised span (its deck band's plan projection, in a ground part ≥ 1) and raised-way pier (its footprint; a crossing station's support is its wall stretch, §2.7: the wall row's breach) | `ruined` (item 244's span and support `state`); a span whose pier is ruined — or whose crossing station's stretch the wall row breaches — becomes `ruined` with it (arches fall with their piers, whatever their own cover); a raised way with a ruined span has its crossing closed — it has no junctions with the ways beneath, so the `track` fallback does not apply to it, and the ways beneath are touched only where the footprint covers them; an aqueduct ruined this way loses its terminal's supply, a listed fate ("the fountain in <square> runs dry") | item 110's state rows | volume 6's `repairRaised`; the vaults beneath follow the span's state by volume 4's rule (this volume writes nothing underground) |
+    | `RetainingWall` stretch, generated or drawn (its band) | `decayed` over its covered length (item 245's state, the `breach` op's result; a state, no edge removed), keyed by the wall's lineage address, so a later re-derivation of a generated wall keeps it `decayed` until an epoch's restoration re-derives it (V06 §3.19.4 (6)); a drawn wall is restored by hand | its state row | volume 6's restoration or `repairRetaining` |
+    | another island's ground landing plot, yard or access foot | the plot's use closed with its building demolished like any covered building; in the `fallIsland` batch the access is re-landed as a move re-lands it (V05 §4.2): a slanted access at the nearest admissible point outside the covered set within its run; a vertical access becomes a `ropeway` from the same top where its row admits one, else F-SKY-ACCESS's ladder from its top; an access no rung places is dropped, reported, and an island left with none is reported `unreachable` (V05 §3.17) | its new landing's rows | its island's own re-derivation (V05 §3.10) |
+ 
+@@ -1349,8 +1349,9 @@
+ 5. **The landfall record** (§2.7, file f item 252; J-V5.76). One ground `Decoration` of kind `fallen_island` whose
+    `members` (`DecorationMember[]`) are the covered plots, land uses, reservations, ways and retaining walls, each by its
+    `Id`, and the covered raised spans and raised-way piers, each by its raised way and item 244's support keys (`{ raised,
+-   span: [a, b] }`, `{ raised, support }`) — never a deck plot, which is tombstoned with its deck and listed as a fate —
+-   `source` the island's address and `name` the grammar's fallen form of its name. Each member leaves the list in the
++   span: [a, b] }`, `{ raised, support }`) — never a deck plot, which is tombstoned with its deck and listed as a fate,
++   nor a crossing station's support, which is its wall stretch (the wall row) — `source` the island's address and
++   `name` the grammar's fallen form of its name. Each member leaves the list in the
+    batch of the op that ends its cover (volume 6's member-leaving `setAttr`, V06 §3.5.2; J-V6.108). §8.2's `fallen` row
+    draws its rubble over the members' faces and bands — a raised member's the span's deck band in plan or the support's
+    `ring`; the walls with their towers and gates by their runs' `condition`, the bridges, raised parts and retaining walls
+@@ -1783,7 +1784,7 @@
+ | the dossier | no deposits, no node term; more eligible institutions than slots are drawn among by V05 §3.4, three at most; many nodes add one bonus; a dossier population at a village or TOWN rung fails the gate (`gated: rung`); a derivation record written under the working name DR-SKY reads as DR27 (file f item 383); an absorb's changes reach the islands at the next epoch and undo with it | check | T-V5-25; T-V5-33 |
+ | the clerk | an island without a basis is named "not yet in the ground's shade"; one caster over a point gives one attribution; a removed island answers "removed by you"; answers are the same before and after a save and load | check | T-V5-33 |
+ | marks | a strip with no cell at three samples draws no outline; an unfallen island draws its land, rim and shadow at every band; every shipped sheet of §8.2's presets table (V05 §5.1's list, the ink-family variants and `painterly` among them) resolves every sky semantic (a user sheet missing one resolves it by §8.2's slot resolution); no island, no sky mark; the parity presets carry the rows; marks are view data rebuilt by S14 after undo and redo | check | T-V5-12 |
+-| light and shadow | no island, no slab and no second base, and the cursor sun's floor is off; a degenerate tier ring drops its slab; a hidden sky layer's slabs light nothing and are not drawn (§8.4), the model's strips unchanged; each occlusion mode lights as V05 §5.3 states | check | T-V5-13 |
++| light and shadow | no island, no slab and no second base, and the cursor sun's floor is off; a degenerate tier ring drops its slab; a sky layer the view does not draw (hidden, and not the view's working layer; §8.4): its slabs light nothing and are not drawn, the model's strips unchanged; each occlusion mode lights as V05 §5.3 states | check | T-V5-13 |
+ | exports | with the setting on and no island the `sky` FeatureCollection is present and empty, with it off absent; a strip with no cells omits its MultiPolygon features; the parity presets export no sky content; an export mid-lag writes `basisCurrent` false, and an export after a load equals the one before | check | T-V5-17 |
+ | a lock against a dossier removal | V05 §3.15 (1b)'s lock clause | check | T-V5-14 |
+ | a landfall on another island's landing | V05 §3.16 (4)'s row | substitute; leave out and report | T-V5-14 |
+@@ -1791,7 +1792,7 @@
+ | a lock under `sky.clearance` | V05 §3.9 (5)'s lock clause | check | T-V5-31 (f) |
+ | the seasonal look (V05 §5.1) | every week of 0–51 the same model, hash, save, bases and strips; an arid row draws no ice and no snow on an island; a week in no band of a phase keeps the row's last phase (§8.2's cyclic read); a document whose pinned tables hold no item-117 rows draws §8.2's four override rows on the island as on the ground; a river all of whose stretches are fast draws no ice, a spring pond freezes as any `pond`; a `settled` or `waning` island dresses as a floating one; a `fallen` or `removed` island has no sky look (its landfall takes the ground's); a moved island's leaf cover moves with it | check | T-V5-34 |
+ | the pennants (V05 §5.1) | no festival in the view's week, or the display off: none; two festivals in one week: both, in window order (§8.2); an island with no landing: rim pennants only; a rim stretch wholly inside landing yards or the waterfall's lip: none there; a `fallen` or `removed` island: none; an island an epoch carried below CITY: V11's `SKY` row as at any rung; a ground landing: none of the `SKY` row's | check; leave out and report | T-V5-35 |
+-| Find on Sky (V05 §5.6) | no island: no sky entry and no "on Sky" count; one island: its matches alone; a hidden sky layer: its matches still counted and shown as ghost pins; a bubble never joins two islands' or two layers' pins; a match withheld by the key: absent everywhere; a `fallen` island: its matches dark, its landfall a Ground place; a `removed` island: never offered; Show gaps on an island (V05 §5.6 (4)): V01 §5.4 (3)'s `gapUnits` over its arena — under a walking-radius row an island holding no member a gap over every residential plot of it, whatever the ground beneath holds, and one holding a member no gap; under a households row each district's unserved plots; a district with no residential plot no per-plot unit; a class `IslandRule.carry.never` excludes a gap like any other | check | T-V5-36 |
++| Find on Sky (V05 §5.6) | no island: no sky entry and no "on Sky" count; one island: its matches alone; a hidden sky layer that is not the working layer: its matches still counted and shown as ghost pins, and Go there makes Sky the working layer, drawn whatever its visibility, no event sent; a bubble never joins two islands' or two layers' pins; a match withheld by the key: absent everywhere; a `fallen` island: its matches dark, its landfall a Ground place; a `removed` island: never offered; Show gaps on an island (V05 §5.6 (4)): V01 §5.4 (3)'s `gapUnits` over its arena — under a walking-radius row an island holding no member a gap over every residential plot of it, whatever the ground beneath holds, and one holding a member no gap; under a households row each district's unserved plots; a district with no residential plot no per-plot unit; a class `IslandRule.carry.never` excludes a gap like any other; at a drawn week whose frame is not the head, an island raised, resized, moved, fallen or removed since that week: its matches, pins and gaps §11.2's listing at that week, drawn on its land and at its anchor in that frame (V05 §5.6 (5)), one raised since offering none | check | T-V5-36 |
+ | the one-time waits (V05 §6) | each wait at CITY and METROPOLIS with three islands, up to the population cap, within §12.1's comfort level, a row past its target only with its recorded measured gain; a wait past one second shows progress; the interactive rows never relaxed | check | T-V5-18 |
+ 
+ **(b) The combinations** (every one at CITY and METROPOLIS, where islands exist).
+@@ -2200,8 +2201,9 @@
+   island's way stays clear. A ground landing carries none of the `SKY` row's.
+ Colours and motifs are §8.2's — the festival's culture and deity rows with the season's motifs (V11 §3.25.7). The
+ pennants are `live.festival`'s marks on the sky base (§8.2's slot 19b, under every label), drawn in the island's frame
+-and displaced with it under `offset`, faded with the sky layer under `ghost`, and none while the sky layer is hidden;
+-the seed, the festival and the island fix them, so they draw the same in every view and export (byte-stable tiles) and a
++and displaced with it under `offset`, faded with the sky layer under `ghost`, and none while the view does not draw the
++sky layer (hidden, and not the view's working layer; §8.4); the seed, the festival and the island fix them, so they
++draw the same in every view and export (byte-stable tiles) and a
+ moved island carries its pennants with it. Picture exports draw them and a VTT island scene in its image only (V05 §5.5;
+ §11.1); their cost is V05 §6's pennant row.
+ 
+@@ -2211,8 +2213,8 @@
+ overrides. In `offset` the island's marks, labels and shadow-free silhouette draw displaced by `elevation ×
+ offsetPerMetre`, while its cast shadow stays where the sun truly puts it; the sky base is **lit at the island's true
+ position** and drawn displaced (V05 §5.3 (2)), and every pointer and tool point on it is un-displaced before the anchor
+-conversion (V05 §4.2). A hidden sky layer draws and lights nothing (§8.4); the islands still exist and the model is
+-unchanged (T15-1).
++conversion (V05 §4.2). A sky layer the view does not draw — hidden, and not the view's working layer (§8.4) — draws and
++lights nothing; the islands still exist and the model is unchanged (T15-1).
+ 
+ ### 5.3 Light and shadow — the underside's shadow (the owner's J98)
+ 
+@@ -2242,9 +2244,10 @@
+    row of beads. Only when §8.4's rung-3 budget fallback fires is the `drop` form used, and then the tiers are subdivided
+    so that no tier's sweep `(t − b) · c` exceeds its ring's inradius, which keeps successive drops overlapping.
+ 4. **The cursor sun under an island** (J-V5.14). The cursor sun's height is floored by §8.4 (d) at 1.5 × the list's
+-   `surfaceTopCm` above the view's ground whenever the sky layer is visible and the document holds an island that is not
+-   fallen — whatever is in view — so no sun ever stands below a floating island and panning never changes `H`: it moves
+-   with the zoom alone; the path and fixed suns are unchanged.
++   `surfaceTopCm` above the view's ground whenever the view draws the sky layer (visible, or Sky the view's working
++   layer, §8.4) and the document holds an island that is not fallen — whatever is in view — so no sun ever stands below
++   a floating island and panning never changes `H`: it moves with the zoom alone; the path and fixed suns are
++   unchanged.
+ 5. **The picture and the model agree.** The light pass's shadow (from the rough tiers, at any sun) and the model's strip
+    (from the smooth tiers, at the sampler's fixed suns, V05 §3.19) read one solid: under the path sun set to the equinox at
+    a sample's hour, the style's `sun.latitudeDeg` set to the site latitude, the rung-3 shadow of the smooth tiers on flat
+@@ -2256,10 +2259,10 @@
+ The island's `quarter` label draws at the city band along its long axis (§9.3's area rule on its land face), its
+ districts' labels from the district band, an institution's `landmark` label, a landfall's `place` label; accesses carry
+ no label, and neither does a strip (the shade map view's legend names the islands). Candidates of sky entities are held in
+-the island's local frame and translated by S14 (§9.1; file f item 415). §9.2's candidate set: sky rows only while the sky
+-layer is visible; under `opaque`, a ground row whose anchor lies inside a visible island's drawn land face is no candidate;
+-under `ghost` both are candidates, the sky rows at 1.5 × their priority; under `offset`, sky candidates at their displaced
+-positions at the stop.
++the island's local frame and translated by S14 (§9.1; file f item 415). §9.2's candidate set: sky rows only while the
++view draws the sky layer (visible, or Sky the view's working layer, §8.4); under `opaque`, a ground row whose anchor
++lies inside a visible island's drawn land face is no candidate; under `ghost` both are candidates, the sky rows at 1.5
++× their priority; under `offset`, sky candidates at their displaced positions at the stop.
+ 
+ ### 5.5 Exports (§11.1's rows, file f item 415)
+ 
+@@ -2295,8 +2298,9 @@
+ switch), outside the document, its hash and the log, kept across bands, layers, weeks, epochs and edits until **Clear**
+ or the panel's close. The panel, the type-ahead, the chip grid, the results and the `live.find` overlay provider are
+ V09's; the veil, halo, outline, pin and count-bubble rows §8.2's; the gazetteer's class counts and its match listing by
+-class, area and layer §11.2's, under knowledge admission at the view's effective key (item 120 (h)). This section states
+-what the sky offers and how a match on an island reads.
++class, area and layer §11.2's, under knowledge admission at the view's effective key (item 120 (h)) and at its drawn
++week (§2.9's `week`; §11.2's *At a drawn week*). This section states what the sky offers and how a match on an island
++reads.
+ 1. **What the sky offers** (item 120 (b)), by §11.2's gazetteer over the committed records of every island not `fallen`
+    or `removed` (V05 §4.5's island entries): **kinds** — the uses on the islands' plots by their classes, the island
+    institution's and the landing tops' (`sky_landing_top`) among them, each class counted once over all layers with
+@@ -2316,7 +2320,8 @@
+    panel counts it "on Sky"; **Go there** sets V09 §4.2's working layer to Sky with its island menu's `key` on the
+    match's island and flies to the band that shows it. With Sky working, the ground's and the underground's matches
+    show as ghost pins and counts in turn. A hidden sky layer (§8.4) keeps its matches' ghost pins and counts, so a match
+-   is never lost, and Go there turns its visibility on, as switching the working layer does.
++   is never lost, and Go there makes Sky the working layer, which the view draws whatever its visibility (§8.4), no
++   event sent (item 120 (a)).
+ 4. **Show gaps** (item 120 (i)). On an island Show gaps' units are V01 §5.4 (3)'s `gapUnits` over the island's arena,
+    restating none: its districts for a class with no coverage row or a row counted by district or neighbourhood; the
+    whole island as one unit for a row counted by walking radius (V01 §3.16; the route to the ground passes every walking
+@@ -2325,14 +2330,16 @@
+    unit with no member of the class outlined dashed along its land's edge and labelled "none here", a per-plot row's
+    gap the unserved plots of each district as V01 §5.4 (3) draws it. A class `IslandRule.carry.never` excludes reads as
+    any gap; the clerk's why names the carry rule (V05 §4.5).
+-5. **Over time, edits and knowledge** (item 120 (f), (h)). Every commit, regenerate, undo and epoch re-evaluates the
+-   chips: a raised or declared island's matches glow in its commit, a moved island's glow moves with it, a fallen
+-   island's go dark with its landfall then offered on Ground, and a removed island offers nothing. A `secret` access's
++5. **Over time, edits and knowledge** (item 120 (f), (h)). Every commit, regenerate, undo, epoch and change of the drawn
++   week (§2.9's `week`) re-evaluates the chips: a raised or declared island's matches glow in its commit, a moved
++   island's glow moves with it, a fallen island's go dark with its landfall then offered on Ground, and a removed island
++   offers nothing. At a drawn week whose frame is not the head (V06 §3.15.2), an island's matches, glow, pins, ghost
++   pins and gaps are §11.2's listing at that week, each drawn at its island's anchor in that frame. A `secret` access's
+    landing yards, and a concealed use or institution on an island, are never suggested, counted, glowed or pinned under
+    a key that withholds them (V05 §5.5's *Knowledge*; §11.2).
+ 6. **Exports and cost** (item 120 (i), (j)). A picture export draws Find on the sky layer as shown (V05 §5.5); the
+-   islands' entities join `live.find`'s index, rebuilt once per commit, and the overlay never re-renders the sky base —
+-   V05 §6's Find row.
++   islands' entities join `live.find`'s index, rebuilt once per commit and at each change of the drawn week (V09
++   §4.21.10 (7)), and the overlay never re-renders the sky base — V05 §6's Find row.
+ 
+ ## 6 Performance budgets
+ 
+@@ -2371,7 +2378,7 @@
+ | Update shade now | ≤ the field pass 2 row for one island + the field's recomputation over the two windows (≤ 2 ms) + §12.6's rate for the blocks it re-derives | same | a scoped evaluation, never a whole pass |
+ | the season switch, on a tile an island covers (item 117) | within §12.5's re-skin budget (R12-30) for the sky base and surface layer with the ground's; the island's leaf cover and ice inside R12-30's 20 % of the tile's raster time | same | a re-skin of the sky marks' `season` column and the sky surface layer's light at the week's view sun; no S14 re-emit, no model work |
+ | the pennants, on a tile an island covers (item 118) | inside R12-30's 20 % with the ground's decorations, made lazily per visible tile (§12.5) | same | `live.festival`'s run on the rim and the pennants at ≤ 9 landing tops an island (`accessCount.max` + `accessCount.handMax`): a few dozen glyphs an island at V11's `SKY` row |
+-| Find on Sky (item 120) | inside item 120 (j)'s overlay budget (§12.5: suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of the click) with three islands at the METROPOLIS cap | same | the islands' entities in `live.find`'s index, rebuilt once per commit (≈ 2–5 % of the town's plots, the unit-run row's basis); an overlay above the sky base, which is never re-rendered |
++| Find on Sky (item 120) | inside item 120 (j)'s overlay budget (§12.5: suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of the click) with three islands at the METROPOLIS cap | same | the islands' entities in `live.find`'s index, rebuilt once per commit and at each change of the drawn week (≈ 2–5 % of the town's plots, the unit-run row's basis); an overlay above the sky base, which is never re-rendered |
+ | memory | ≤ 5.2 MB for three islands (the strips ≤ 30 KB each, `shadeBasis` ≤ 2.5 KB each) | ≤ 9.3 MB (≤ 60 KB each; bases ≤ 2.5 KB each) | an island's arena ≈ 0.5 MB per district's worth; its rasters ≤ 0.1 MB; the sky surface layers only on covered tile positions, inside §8.8's canvas budget B |
+ | document | ≤ §2.9's 320 B per island building, plus ≤ 2 KB per island record and ≤ 2.5 KB for its `shadeBasis` (the rim copy ≤ 256 vertices × 8 B, the rest ≤ 0.5 KB) | same | |
+ 
+@@ -2486,7 +2493,8 @@
+   reference viewport on 100 % of visible islands whose land face holds it.
+ * **T-V5-12 — labels and occlusion** [C]. Under `opaque`, 0 ground labels drawn inside a visible island's land face;
+   under `ghost`, a sky label wins a collision against a ground label of equal priority; under `offset`, sky labels drawn at
+-  their displaced positions; with the sky layer hidden, 0 sky labels and no model digest changed (T15-1); every shipped
++  their displaced positions; with the sky layer hidden and Ground the working layer, 0 sky labels and no model digest
++  changed (T15-1); every shipped
+   sheet of §8.2's presets table — V05 §5.1's list, the ink-family variants `parchment`, `bw-print` and `night` and, from
+   volume 7's V-M1, `painterly` among them — loads at every band with every sky semantic resolved, and the `fallen` row
+   draws over the landfall's members; a strip with no three-sample cell draws no outline.
+@@ -2502,7 +2510,8 @@
+   outside the root's projection is lit (V > 0); (f) the penumbra's width at 200 m altitude exceeds that at 100 m; (g) the
+   `flat` island with a 30 m rim against a 10 m rim: at 15° its shadow reaches 20 m · cot 15° farther toward the sun within
+   1 px (the owner's "thickness"); (h) at 15° the `root`'s rung-3 shadow is one connected region (the prism form); (i) with
+-  the sky layer hidden no slab is lit or drawn and the ground's picture equals the map without islands, and with no island
++  the sky layer hidden and Ground the working layer no slab is lit or drawn and the ground's picture equals the map
++  without islands, and with no island
+   no second base exists; §13.4's base island-shadow golden stands.
+ * **T-V5-14 — over time** [C]. T8-6 stands (a CITY dropping below 10 000 loses its islands through waning, settled and
+   fallen over their dwells); on the hook fixture a settled island refloats before any island is raised; a resize keeps
+@@ -2784,7 +2793,8 @@
+   §2.13; a `view` pin with its `tiles` clause), written by the M6-sky seat landing P3; (b) each chip's sky matches equal
+   §11.2's gazetteer rows on the islands at the key, the panel's "on Sky" count their number; (c) with Ground working,
+   every sky match shows a ghost pin at its drawn position under each occlusion mode, with the sky layer shown and hidden,
+-  and Go there sets Sky with the match's island; (d) (T120-5) at the city band every sky match has a pin or a bubble,
++  and Go there sets Sky with the match's island — Sky then drawn whatever its visibility, 0 events logged and its
++  `LayerSpec.visible` unchanged (V05 §5.6 (3)); (d) (T120-5) at the city band every sky match has a pin or a bubble,
+   each carrying its chip's second cue, and no bubble joins two islands' or two layers' pins; (e) under a player view on
+   an island form of T-V9-66's knowledge canary — a `secret` access's landing yard and a concealed use on an island —
+   nothing withheld surfaces in a suggestion, count, glow, pin or ghost pin; (f) (T120-4) the chips survive every band
+@@ -2796,7 +2806,12 @@
+   walking-radius row every residential plot of an island holding no member, whatever the ground beneath holds, and none
+   of one holding a member; under a households row each district's unserved plots by V01's per-plot reading — a class
+   `IslandRule.carry.never` excludes among them; (h) item 120 (j)'s suggestion and glow timings hold with three islands at
+-  the METROPOLIS cap (V05 §6's Find row).
++  the METROPOLIS cap (V05 §6's Find row); (i) at a drawn week whose frame is not the head (V05 §5.6 (5)), on (f)'s
++  fixture after an `advance` whose epochs raise one island and resize another and on T-V5-14's falling CITY, each
++  scrubbed to a week before those epochs: every sky match, glow, pin, ghost pin and gap unit those of §11.2's
++  listing at that week, drawn on its island's land and at its anchor in that frame, the raised island offering none
++  and the fallen island's matches on Sky as the frame holds it, never its landfall on Ground; the head's reading back
++  when the scrub returns to the head.
+ 
+ **Parity.** No reference has islands (II.6 (8)), so no parity number binds them. The nearest look is Neighbourhood's lone
+ patch — its own ground tone and a drop shadow marking its extent on an empty field (`research/findings/vg-ng-devlogs.md`
+@@ -2889,7 +2904,7 @@
+ | J-V5.11 | Chose to make the landfall a conversion of everything it covers, one outcome per covered kind (V05 §3.16 (4)), the stone credited to the salvage ledger and no edge added or removed, over cutting a new ruin face, leaving no mark, or covering plots and fields only, because it stays local, undoes exactly, keeps the old plan for regrowth, ties the fall into the ledger's salvage demand, and leaves no intact wall or open street standing in a field of fallen rock. |
+ | J-V5.12 | Chose to draw everything on existing concerns (`island.place`, `terrain.noise`, `water.river`, `field.chance`, `naming`) with named creation indices, over a new concern, because §6.1's registry already reserves `island.place` for the islands and no draw here reads another concern's order. |
+ | J-V5.13 | Chose to redraw only empty slots at an epoch, a supplied island staying, over reading that a slot may close and send its island down the decline ladder, because an island falls for want of magic, never by chance while it is paid for. |
+-| J-V5.14 | Chose to floor the cursor sun's height at 1.5 × the display list's top whenever the sky layer is visible and the document holds an island that is not fallen, over letting the sun stand below an island at close zooms or flooring it only while an island is in view, because a sun below a floating island casts its shadow upward and reads as an error, and a floor that switched on as an island panned into view would jolt every shadow on screen mid-pan. |
++| J-V5.14 | Chose to floor the cursor sun's height at 1.5 × the display list's top whenever the view draws the sky layer (visible, or Sky the view's working layer) and the document holds an island that is not fallen, over letting the sun stand below an island at close zooms or flooring it only while an island is in view, because a sun below a floating island casts its shadow upward and reads as an error, and a floor that switched on as an island panned into view would jolt every shadow on screen mid-pan. |
+ | J-V5.15 | Chose an underside of nested prism tiers following a profile function (cone, bowl, root, flat), over the base's one slab and over a full mesh in the light pass, because the tiers give the rock's silhouette to the existing slab traversal at a few records per island. |
+ | J-V5.16 | Chose a second base and surface layer only on tiles an island covers, lit separately and composed by the occlusion mode, over lighting the ghosted ground as the island's surface, because the ground seen through a ghosted island must take its own light and the island's shadow. |
+ | J-V5.17 | Chose to claim the ground landing yards at SKY, before S8, touching a way spine, over placing landings after the plots are cut, because the yard then fronts a way by construction and no plot is re-cut. |
