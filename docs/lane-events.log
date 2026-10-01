@@ -3062,3 +3062,7 @@
 2026-10-01 18:02 coherence/repair-V05-r5 CHECKPOINT live text read whole (V05 §2.1, §2.6, §5.6, ## 7 T-V5-36, ## 8); claim verified (V06 §8 E6, §16 M6-E/M6-sky, INDEX §5 risk 2); census done (MC-05/MC-07 only); next: generate 4 REPLACE blocks (§2.1, §2.6, ## 7, ## 8), dry-apply on a copy
 2026-10-01 18:02 coherence/repair-V08-r5 LANDED docs/validation/coherence/repair-r5-V08.md docs/validation/coherence/results/coherence_repair-V08-r5.json
 2026-10-01 18:02 coherence/orchestrator NOTE repair-V08-r5 landed (14 blocks, 0 ruling requests); launched repair-kernel-r5 in its slot
+2026-10-01 18:03 coherence/repair-V02-r5 CHECKPOINT P1-P3 done (END line at §5.7 (2); sweep conforms §3.18's restoration row, §7.8's damage sub-fixture and T-V2-59 (c); 3 REPLACE blocks built from count-asserted edits; dry run 3/3 applied, byte-identical, doc_checks provisional); next P4 write report + blocks, result file, LANDED
+2026-10-01 18:04 coherence/repair-kernel-r5 CHECKPOINT P0 done (brief, adjudication-r5 Part H · kernel: VKr4-01 FIX amended, 0 END lines); skeleton docs/validation/coherence/repair-r5-kernel.md; next P1 evidence + live §3.2 + sweep
+2026-10-01 18:04 coherence/repair-V04-r5 LANDED docs/validation/coherence/repair-r5-V04.md docs/validation/coherence/results/coherence_repair-V04-r5.json
+2026-10-01 18:04 coherence/orchestrator NOTE repair-V04-r5 landed (10 blocks, 0 ruling requests); launched repair-V11-r5 in its slot (queue now empty)
