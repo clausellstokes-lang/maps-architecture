@@ -128,7 +128,7 @@ document or its hash.
 
 ## 5. Issues
 
-Twelve open: 0 blocker, 5 major, 7 minor. By owner: V07 4, V08 3, pipeline 1, V01 1, V06 1, V09 1, V11 1. The exact
+Twelve open: 0 blocker, 4 major, 8 minor. By owner: V07 4, V08 3, pipeline 1, V01 1, V06 1, V09 1, V11 1. The exact
 required changes are in `docs/validation/coherence/results/coherence_verify-vol-V07-V08-r2t.json`; each claim in short:
 
 | id | sev | kind | owner | claim |
