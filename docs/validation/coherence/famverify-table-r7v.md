@@ -113,7 +113,9 @@ All seven are fixed; none persists.
   strip "only to cross its deck line — entering on one long side, leaving by the other", so no anchor lies in an
   aqueduct's strip whatever its arches clear. Part L's correction 7 (Part L l. 697–700: a fixed place under the aqueduct
   "only in an over crossing whose spans clear it, …, never an anchor (law 1 (4) …)") and the restated veto list's item 7
-  (Part L l. 742–743: "an anchor, which ends its wall's line, under none") say so, and the bars run it — T110-2 (1)'s
+  (Part L l. 742–743: "an anchor, which ends its wall's line, under none") say so, as Part P closed it (PRB7F-GEN-08,
+  `adjudication-r7.md` l. 3687: "an anchor ends its wall's line, so none stands in any raised way's strip"), and the bars
+  run it — T110-2 (1)'s
   variant (l. 19307–19310: "its course bent so that the anchor lies outside its under-deck strip and the water gate and
   the weld vertex outside it save under an arch that clears them") and T110-2 (4)'s refusal of "a hand stretch whose
   anchor lies inside its under-deck strip" (l. 19461–19463). The two sentences, the second naming the anchor's tower,
