@@ -9,7 +9,7 @@ Part L has since been refined three times: against probe pass 4 (Part P pass 4),
   - docs/validation/coherence/probe-r7f-time.md (PRB7F-TIM-*);
   - docs/validation/coherence/probe-r7f-locks.md (PRB7F-LCK-*);
   - docs/validation/coherence/probe-r7f-gen.md (PRB7F-GEN-*).
-Their results are in results/coherence_probe-r7f-{time,locks,gen}.json. Majors per pass so far: 31 (pass 3), 29 (pass 4), 19 (pass 5). You are the adjudicator's amending hand. You refine Part L so that every one of them is decided, and you amend adjudication-r7.md IN PLACE.
+Their results are in results/coherence_probe-r7f-{time,locks,gen}.json. Majors per pass so far: 31 (pass 3), 29 (pass 4), 19 (pass 5), 15 (pass 6: 23 findings, 0 blockers, 15 majors, 8 minors). Several pass-6 findings are one defect seen from two lenses (PRB7F-LCK-08 with PRB7F-GEN-06; PRB7F-TIM-03 with PRB7F-LCK-03's proposed law 1 (11)): close each once. You are the adjudicator's amending hand. You refine Part L so that every one of them is decided, and you amend adjudication-r7.md IN PLACE.
 
 READ FIRST, WHOLE:
   1. The three pass-6 probe files.
