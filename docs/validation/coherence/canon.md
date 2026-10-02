@@ -5922,3 +5922,61 @@ adjudication-r2's – r5's rulings stand except where named below.
   §13.2's manifest holds derived fixtures (kind `'derived'`); T-V12-57's planted case passes as written; V12's pin row and
   V06's E1 line name H-AQUA without its two raised-way edits.
 * **INVALID:** none this round.
+
+## Dated ruling 2026-10-02 (adjudication round 7, family-only) — binding rulings R7-01 – R7-07 (coherence/adjudicate-r7; J144 binding, J122 where marked)
+
+The full rulings, with the issues each governs, the owner rules each was checked against and the END lines each unit
+writes, are `docs/validation/coherence/adjudication-r7.md`; this entry records what they change in the canon.
+adjudication-r2's – r6's rulings stand except where named below. This round worked the raised-way × wall family alone
+(the owner, J144); 28 round-6 findings are held for round 8, not ruled.
+
+* **The family round (R7-01):** five blind spots (V07's village restatements; V09's panels and V10's clerk; tests,
+  fixtures and milestone cells; the base's summaries and index rows; V11's registry readers and V12's statistics).
+  Superseded by name: R6-02's (D5) lock-row parenthesis, its C8 column, its bent-group list in *beneath*, its *No gate
+  and no tower* clause as it stood, W2's, W8's and W13's cells, the way-and-channel table's row (c) outcome and row (e)
+  report clause; V04 §3.11's UC18 for a wall coming to stand over an arch vault's span; V06 §3.19 (5)'s impassable list
+  for held walls and ground ways; every clause that makes a lock or pin refuse, skip or alter a meeting of a wall and a
+  raised way.
+* **The lock sentence (R7-02; the owner's rule J144, binding; its reading J122, vetoable):** walls of every kind and the
+  raised ways with their supports, ramps, stairs, feet, spans and arch vaults are **the similar structures**; a lock, pin
+  or declaration holds their **placement** (a wall's trace and course, a raised way's course and deck line, an arch
+  vault's span), never their **shape** where they meet; a reshaped held thing stays held. Guards: **(G1)** local — inside
+  the under-deck strip and the nearest points clear of it; **(G2)** shown — the new edit fate **reshaped** (§7.3 item 4)
+  by hand, the new `ReportEntry` kind `reshaped` (§5.4) otherwise, undone by the event's undo; **(G3)** no lawful local
+  shape — the op creating the meeting gives way: by hand the new key `refuse.raised.meeting`, at generation not built or
+  F-WALL, at an epoch `raised.waited` or `walls.waited`. Buildings stay held; a wall gives way to a held building seated
+  in an arch vault (its span's strip, widened by the wall strips, impassable to a trace; by hand `refuse.locked`). A
+  locked arch vault under a wall laid after keeps its span and lock, its chamber not laid while the wall stands. A road
+  deck's carried way that comes down before a held wall makes its gate there (*reshaped*). A retaining wall meets a raised
+  way by no row (the deck over it, a support built against it, no ground levelled in an under-deck strip). Home: §2.7's
+  crossing table.
+* **The bent-group sentence (R7-02, J122):** a stretch laid by neither the pull nor a cost field (VS3's palisade, a
+  re-anchored stretch, the quay wall, a hand `drawWall`, a moved trace vertex, `repairWall`'s new stretch, a run a carve or
+  a moved river re-traces) keeps only **lawful crossings** inside an under-deck strip; an unlawful crossing moves to the
+  nearest lawful one, a part along beneath or entering and leaving on one side moves to the strip's edge, an end inside
+  moves to the edge, a gate the user places or slides moves along the trace with its way following (row W13).
+* **The fixed-place sentence (R7-02, J122):** a river's water gate, a stretch's anchor with its tower and a castle's weld
+  vertex never move along the trace and never stand in a raised way's **fixed-place zone** (its under-deck strip widened
+  by the wall strips' widths): a trace laid later moves the place along the river, barrier or bailey arc; a raised way
+  laid later keeps its zone clear of them.
+* **The tables complete (R7-02):** the crossing table's 13 rows × 13 columns over every path (generation, regeneration,
+  epoch, village, hand) and the lock axis as one case (C8, either side held); the way-and-channel table with "whatever a
+  span's `state`" at its lead; every cell's test holding its case through **the state sweep** (§13.2's T110-2 lead; V06's,
+  V07's and V05's row tests run it).
+* **Generation order (R7-03):** S3's gate route whose first point on the stage-1 boundary lies on a priced deck is
+  re-solved with no deck across the boundary (the boundary standing from S3 (7)); S5a's pull keeps each arterial's
+  crossing as the picked boundary had it; T110-2 (6)'s New random reads the pull's own path.
+* **Epochs and decay (R7-04):** a landfall only steps a part down its ladder (a `cleared` part kept, no member); an absorbed
+  ring's arch vault is read `open` while a run of it not yet `dismantled` crosses its strip and is laid again when the last
+  is dismantled (J122, vetoable); a frame growth's extension past a bound bends to a fitting course, else keeps its course
+  with a support in water or a pier past `maxPierM`, reported `raised.extendedPastBound` (J122, vetoable); `wallToWay`'s dry
+  run reads the state the op leaves; a cleared span at a village is crossed by the base's rule.
+* **Readers (R7-05):** GeoJSON and the clerk read a `vault` span under a wall `open`; the span rule's home is §2.7 at V01's
+  hook row; V11's row 80 names S3, VS3 and V07's village stages among `stripMarginM`'s readers.
+* **Tests (R7-06):** one wording for the arch-vault bars (a vault `collapsed` under a fallen span, none where its span is
+  gone, `open` or under a wall; home V04 §3.5.4 (d)); the state sweep's schedule (its `topple` runs at E5, its arch-vault
+  runs at U3).
+* **Bookkeeping (R7-07):** `W_RAISED_CROSSING` — S7 counts trace crossings, S3 and S5a their stopped channels; §4.13's rung
+  with (G3); the stopped moat's strip by its glacis line; the slide bound reads the `pierSpacingM` band; row (a)'s test;
+  `EpochScope.raised` at its caller.
+* **INVALID:** none this round.
