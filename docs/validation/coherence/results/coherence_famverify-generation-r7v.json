@@ -1,0 +1,79 @@
+{
+ "key": "coherence/famverify-generation-r7v",
+ "file": "docs/validation/coherence/famverify-generation-r7v.md",
+ "issues": [
+  {
+   "id": "VF7-GEN-01",
+   "severity": "major",
+   "kind": "TWO READINGS (law 1 (2)); persists, partly fixed",
+   "owner": "pipeline",
+   "claim": "§4.4 S5a Trace (2) (ARCHITECTURE.md l. 6601) now names, where an aqueduct's channel runs above the wall's top, 'its standing supports and the strip of each span whose soffit does not clear the wall's top' as impassable to the pulled line, but widens neither (only the ramps are 'widened by the wall strips' width'). Law 1 (2) (l. 2705-2715) keeps them off the BAND: 'no standing support in the band there and every span above the band clearing the wall's top'. *beneath*'s list (l. 3077-3085), which names itself 'the list §4.4 S5a Trace (2) gives', widens both ('each widened so that the band's half at most touches the ring or that strip, the edge'), and V06 §3.7.6 (5) (V06 l. 1605-1608) takes S5a's list 'each widened as it says'. A builder of S5a's words passes the line 1 m from a ring or beside a low span: the band lies over the ring or under the low arch, law 1 (2) is false, §5.3's law-1 row (l. 9940) raises E_INVARIANT on New random, Regenerate, a prefix's generation, every epoch circuit and a hand contractWall, and T110-2 (6) (l. 19506) rejects it. E-P9's widening (PRB7B-12) was lost in the J149 and pass-6 rewrites; r7v's M8 widened *beneath* for exactly this case and P1 left S5a unwidened.",
+   "required_change": "§4.4 S5a Trace (2) (l. 6601): \"where an aqueduct's channel runs above the wall's top (its crossing there over), its standing supports and the strip of each span whose soffit does not clear the wall's top (law 1 (2): a crossing that fits neither form unlawful),\" -> \"where an aqueduct's channel runs above the wall's top (its crossing there over), its standing supports and the strip of each span whose soffit does not clear the wall's top, each widened so that the band's half at most touches the ring or that strip (*the edge*; law 1 (2): a crossing that fits neither form unlawful),\". V06 §3.7.6 (5) and *beneath* then read one list and need no words."
+  },
+  {
+   "id": "VF7v-GEN-01",
+   "severity": "major",
+   "kind": "TWO READINGS (law 1 (4), (10))",
+   "owner": "pipeline",
+   "claim": "The same S5a list (l. 6601) keeps only the line off 'its strip but to cross its deck line once' and 'a shape-locked raised way's vault-use spans' strips'. Law 1 (4) (l. 2721-2723) lets the BAND lie in a raised way's strip only to cross its deck line; law 1 (10) (l. 2739-2743) bars 'a wall-like line, band or strip newly across the strip of a vault-use span' of a shape-held raised way (the lock sentence l. 2942-2944, *beneath* l. 3119-3121). A held building's strip is widened by definition (l. 2642-2643); a shape-locked span's is not. *beneath* covers its unwidened items by *Line and band* (l. 3067-3073); S5a has no such sentence. A builder of S5a's words lets a pulled line run beside the strip within half the band (band in the strip without crossing: law 1 (4) false) and cross under the span next to a shape-locked vault-use span with its band and wall strips across that span (law 1 (10) false); §5.3's law-1 row fails it on a regeneration, New random, a prefix's generation and (V06's cost field) an epoch circuit, paths T110-4 (c) runs with a shape-locked raised way. S5a (1)'s anchor rule ('never in a standing raised way's strip', l. 6585) is closed by the same widening.",
+   "required_change": "§4.4 S5a Trace (2) (l. 6601): (1) \"its strip but to cross its deck line once,\" -> \"its strip, widened each side by the band's half there, but to cross its deck line once (law 1 (4)),\"; (2) \"every held building's strip and a shape-locked raised way's `vault`-use spans' strips)\" -> \"every held building's strip and a shape-locked raised way's `vault`-use spans' strips, each widened all round by the wall strips' width there (law 1 (10): no line, band or wall strip across one))\". V06 §3.7.6 (5) reads them by 'each widened as it says'; *beneath* needs no words."
+  },
+  {
+   "id": "VF7v-GEN-02",
+   "severity": "minor",
+   "kind": "EXAMPLE (law 1 (10))",
+   "owner": "model",
+   "claim": "The bent-group sentence's lawful crossing (l. 3187-3189) keeps 'its band and wall strips never on the ends (law 1 (4)), and its line never in a held building's widened strip nor newly across a shape-locked raised way's vault-use span's strip'. The held building's strip is pre-widened; the shape-locked span's strip is not, so a crossing under the neighbouring span lays its band and wall strips across it, against law 1 (10) (l. 2741-2742). An example: the laws govern and §5.3's row with T110-4 (c) catches a wrong build.",
+   "required_change": "§2.7's bent-group sentence (l. 3188-3189): \"and its line never in a held building's widened strip nor newly across a shape-locked raised way's `vault`-use span's strip (law 1 (9), (10))\" -> \"its line never in a held building's widened strip, and neither its line nor its band nor its wall strips newly across a shape-locked raised way's `vault`-use span's strip (law 1 (9), (10))\"."
+  },
+  {
+   "id": "VF7v-GEN-03",
+   "severity": "minor",
+   "kind": "VALID CHOICE (law 2 (a), (c))",
+   "owner": "pipeline",
+   "claim": "S5a Trace (2) (l. 6602) moves a pin (stage k >= 2, and stage 1 through S3 (9)) only where its crossing 'falls on a ramp, stair or foot' or its gate's footprint meets an under-deck strip; S3 (7)'s picked trigger (l. 6226; VF7-GEN-05) also takes a crossing 'nearer its foot than the first point beyond the foot' and 'the band or wall strips there over the ends'. A pin a metre past a viaduct's foot, or whose wall strips cover another raised way's ramp, is not moved: no lawful line passes it (law 1 (4)), F-WALL's raised-way rung re-pulls with the pins fixed and leaves the stage unwalled, where law 2 (a) would move the pin along its arterial (law 3: 'a gate the op's own wall lays on a standing way, along that way'). Both keep law 1 and pass §5.3; T110-2 (3)'s ramp variant puts the crossing on the ramp (l. 19342-19345).",
+   "required_change": "§4.4 S5a Trace (2) (l. 6602): \"one whose crossing falls on a ramp, stair or foot pins its gate\" -> \"one whose crossing falls on a ramp, stair or foot, or nearer its foot than the first point beyond the foot, pins its gate\"; and \"meets a raised way's under-deck strip where §2.7's laws bar a gate (law 1 (5): any but under an aqueduct's arch that clears it) moves along its arterial until that footprint is clear\" -> \"meets a raised way's under-deck strip where §2.7's laws bar a gate (law 1 (5): any but under an aqueduct's arch that clears it), or whose band or wall strips there would lie over a raised way's ends (law 1 (4)), moves along its arterial until both are clear\". Alternatively list the two outcomes in fix-list.md's builders' choices."
+  },
+  {
+   "id": "VF7v-GEN-04",
+   "severity": "minor",
+   "kind": "VALID CHOICE / TESTS (law 2 Carried way, (a), (b))",
+   "owner": "pipeline (END scope)",
+   "claim": "At stage 1, S3 (7) (l. 6226) re-routes a carried way 'where §2.7's laws give it no lawful gate', while S5a's pin rule, which S3 (9) runs for 'S3's gates' (l. 6602), first moves 'a carried way's pin' whose footprint meets a strip along its way within the search band and re-routes only after (as Carried way's 'law 2 (a) leaves the way no lawful gate in it', l. 2790). Re-route at the barred point, or a gate moved along the way: both keep law 1 and pass §5.3's gate row. T110-2 (6)'s third run (l. 19528-19531) asserts the re-route on a seed 'searched so that §2.7's laws admit no gate for that way where the boundary crosses its ground course' — read at the point, it may leave the moved gate lawful and reject the build the laws give (r7v S1's note, l. 359-361, meant to exclude it): a case a fixture may not hold.",
+   "required_change": "(pipeline) §4.2 S3 (7) (l. 6226): \"where §2.7's laws give it no lawful gate, the way is re-routed through one of the stage's gates\" -> \"its pin moved along the way within (9)'s search band where its gate's footprint meets a strip (§4.4 S5a *Trace* (2)), and where §2.7's laws give it no lawful gate so, the way is re-routed through one of the stage's gates\". END (scope) T110-2 (6) (l. 19528-19529): \"whose seed is searched so that §2.7's laws admit no gate for that way where the boundary crosses its ground course\" -> \"whose seed is searched so that §2.7's laws admit no gate for that way where the boundary crosses its ground course nor at any point of that way within the pull's search band\"."
+  },
+  {
+   "id": "VF7v-GEN-05",
+   "severity": "minor",
+   "kind": "VALID CHOICE (law 2 (a), (c))",
+   "owner": "pipeline",
+   "claim": "S3 (7) (l. 6226) re-solves a barred gate route 'whole as (5) solves it' through its pick, 'a search over the routes whose first point at T = t_1 §2.7's laws admit', and sends 'a route the re-solve cannot serve' to F-ROUTE's ladder, whose rungs (l. 9850: site, bridge, slope, then 'keeps its gate at the re-solved route's first point at T = t_1, its outward arterial unserved') treat an unreachable destination, not a pick under a standing road deck's strip or ramp (a creation prefix's or a regeneration-kept one) where T passes t_1 inside the strip. S3 (4)'s re-draw rule for a pick that 'gives no gate' (l. 6227-6228) names closed arcs and coincident gates only. Two lawful outcomes: F-ROUTE's last rung with its search over lawful first points (a gate beside the strip, the route unserved, reported), or the pick re-drawn as a closed arc's is (law 2 (a): a siting's candidates), then dropped and reported (law 2 (c)); both pass §5.3's rows.",
+   "required_change": "§4.2 S3 (7) (l. 6226): \"and a route the re-solve cannot serve takes F-ROUTE's ladder (§5.2), reported\" -> \"and a route the re-solve cannot serve takes F-ROUTE's ladder (§5.2), reported — save one whose pick no route crosses `T = t_1` from where §2.7's laws admit a gate, whose pick is re-drawn as a pick on a closed arc is (≤ 3 attempts, then dropped and reported; §2.7's laws, law 2 (a), (c))\". Alternatively list the two outcomes in fix-list.md's builders' choices."
+  },
+  {
+   "id": "VF7v-GEN-06",
+   "severity": "minor",
+   "kind": "READERS (law 2 Carried way)",
+   "owner": "pipeline",
+   "claim": "S5a Outer moats (l. 6632-6642): 'Its way rule meets only arterials here ... so every way is kept with a deck and nothing is cut: the L1 batch places each deck's two pinned bank vertices on its arterial'. At stage k >= 2 a carried way's lawful pin is one of the stage's gates (S5a Trace (2), l. 6602; S5b's c, l. 6650), and §4.11's way rule (l. 8941-8948) decks only through and primary ways and a sole connection, cutting every other class, so a lower-class carried way is cut outside its own gate; S3 (10) decks a carried way's gate at stage 1 (l. 6297). Decked or cut: both keep law 1.",
+   "required_change": "§4.4 S5a Outer moats (l. 6633-6636): \"Its way rule meets only arterials here — each just outside one of the stage's gates, the stage's secondaries not yet grown — so every way is kept with a deck and nothing is cut: the L1 batch places each deck's two pinned bank vertices on its arterial\" -> \"Its way rule meets only arterials and a carried way standing before the stage here — each just outside one of the stage's gates, the stage's secondaries not yet grown — so every way is kept with a deck and nothing is cut, a carried way decked at its gate as at stage 1 (§4.2 S3 (10); §2.7's laws, law 2 *Carried way*): the L1 batch places each deck's two pinned bank vertices on its arterial or carried way\"."
+  },
+  {
+   "id": "VF7v-GEN-07",
+   "severity": "minor",
+   "kind": "READERS (law 2 Not yet built)",
+   "owner": "pipeline",
+   "claim": "S3 (10) (l. 6297) reads 'at generation, besides, the raised stretches of (5)'s routes', while S3 (7) (l. 6226) has S3 (10)'s channels read those stretches on every run, and a regeneration re-solves those routes (W3·C2, l. 3342); the laws name 'generation' and 'a regeneration' as two paths (law 2 (c), l. 2827). A builder may carve a regeneration's city moat through a (5) route's future ramp or support rather than stop it at the under-deck strip (row (e)); the W_RAISED_CROSSING count differs and no law-1 invariant is crossed.",
+   "required_change": "§4.2 S3 (10) (l. 6297): \"at generation, besides, the raised stretches of (5)'s routes\" -> \"at generation and at a regeneration, besides, the raised stretches of (5)'s routes\"."
+  },
+  {
+   "id": "VF7v-GEN-08",
+   "severity": "minor",
+   "kind": "READERS (warnings; law 2 (c))",
+   "owner": "determinism",
+   "claim": "Law 2 (c) (l. 2827-2829) gives at generation 'a castle's claim passed for the siting's next candidate, then F-CASTLE's ladder', and the fixed-place sentence (l. 3249-3251) 'F-CASTLE's ladder from its re-site rung (§5.2: re-sited, reported, else kept without a bailey, reported)'; §5.2's F-CASTLE row (l. 9853) detects only compactness and overlap with water or the plaza, and §5.4 (l. 9982) gives W_RAISED_MEETING as 'each outcome of §2.7's laws, law 2 (c), at generation ...' but lists four outcomes without the castle's. One builder enters F-CASTLE and counts W_RAISED_MEETING for a castle a raised way bars at every candidate, another neither; no bar counts it.",
+   "required_change": "§5.4 (l. 9982): \"; a harbour-mouth chain not laid, §4.8)\" -> \"; a harbour-mouth chain not laid, §4.8; a castle §4.2 S3 (8)'s filter rejects at every candidate, re-sited or kept without a bailey by F-CASTLE's ladder)\"; §5.2's F-CASTLE detection (l. 9853): \"the claim overlaps water or the plaza\" -> \"the claim overlaps water or the plaza; no candidate §4.2 S3 (8)'s filter admits for a raised way (§2.7's laws, law 2 (c); its worked example the fixed-place sentence), entering at the re-site rung\"."
+  }
+ ],
+ "held_notes": []
+}
