@@ -126,9 +126,11 @@
 #      S9's binding text ("V06 §3.1, §3.2, §3.7.5"); proposed allow row (docs/validation/doc-checks-allow.tsv is shared,
 #      so not written here):
 #   C3	3 1 3 2 3 7	coherence/repair-scope-r7w (proposed): §13.2's T110-2 (1), adjudication-r7w's binding S9 text ("V06 §3.1, §3.2, §3.7.5"); section pointers (facts, not creative content)
-#  (4) Combined dry run with the base units' r7w block files that held blocks at landing (rendering: §8.2, §8.3; model,
-#      determinism and pipeline still held none): 4 blocks found, 4 applied, 0 skipped, audit 4 OK; no other r7w block
-#      file targets §13.2 or §13.8 (determinism's CHECKPOINT names §5.2, §5.4, §7.1, §7.4).
+#  (4) Combined dry run with every base unit's r7w block file as landed (model: §2.7; pipeline: §4.1, §4.2, §4.4,
+#      II.7.6; determinism: §5.2, §5.4, §7.1, §7.4; rendering: §8.2, §8.3; scope: §13.2, §13.8): 13 blocks found,
+#      13 applied, 0 skipped, audit 13 OK; headings 153 → 153, fences balanced, index 805 rows, no duplicate id; no two
+#      blocks target one heading. The seat's scratch work sits in its own folder (scratchpad/coherence/scope-r7w), since
+#      the shared scratch folder's dry/ files are other seats' too.
 
 === REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT ===
 ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT
