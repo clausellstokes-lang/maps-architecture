@@ -1,0 +1,63 @@
+{
+ "key": "coherence/famverify-table-r7",
+ "file": "docs/validation/coherence/famverify-table-r7.md",
+ "issues": [
+  {
+   "id": "VF7-TBL-01",
+   "severity": "minor",
+   "kind": "citation (laws not stated as Part L gives them)",
+   "owner": "model",
+   "claim": "E-M1 writes Part L in its words, markers dropped. Four live parentheticals in §2.7's laws add \"the owner's rule(s)\" where Part L cites the J-row bare or names the text the program's: l. 2634 \"* **The tiers** (the owner's rule, J148).\" (Part L l. 387: \"(J148: the owner's rule and choice; the tier texts the program's)\"); l. 2651 \"**Held** is locked, on the axis named, and nothing else (the owner's rule, J147):\" (Part L l. 405 \"(J147)\"; PROGRESS J147 calls this sentence its PROGRAM READING, J122, vetoable); l. 2704 \"nothing of either record written (the owner's rule, J149)\" (Part L l. 458 \"(J149)\"; J149: the forms' texts the program's); l. 2741 \"(the owner's rules, J147, J150);\" (Part L l. 496 bare; Part P pass 8 l. 3938 flags law 1 (10)'s \"that changes it\" as the program's reading of J150, vetoable). Nothing built changes; four vetoable readings are marked as the owner's.",
+   "required_change": "§2.7's support step (6) (0): l. 2634 \"(the owner's rule, J148)\" → \"(J148: the owner's rule and choice; the tier texts the program's)\"; l. 2651 \"(the owner's rule, J147)\" → \"(J147)\"; l. 2704 \"(the owner's rule, J149)\" → \"(J149)\"; l. 2741 \"(the owner's rules, J147, J150)\" → \"(J147, J150)\"."
+  },
+  {
+   "id": "VF7-TBL-02",
+   "severity": "minor",
+   "kind": "example and restatements differ from law 1 (2)",
+   "owner": "model",
+   "claim": "Law 1 (2) (l. 2703–2711): over \"where its channel there lies above the wall's top — no standing support in the band there and every span above the band clearing the wall's top\"; merged \"where its channel lies within the wall's height\"; \"a crossing that fits neither form is unlawful\" — so where the channel runs above the top but a span's soffit does not clear it, no line may cross. *beneath*'s list of \"the impassables these laws give a trace\" (l. 3072–3079) names for an aqueduct only \"an aqueduct's standing supports where its channel runs above the wall's top\"; §4.4 S5a (2) restates it (l. 6589) and V06's cost field takes it (V06 l. 1605–1607); V06 restates the form as \"over where its channel runs above the wall's top, else merged\" (V06 l. 1609, l. 2847–2848; T-V6-11 l. 4172, T-V6-47 l. 4208, T-V6-73 l. 4234), filing the neither case under over. *Where the line crosses* (l. 3056–3057), the bent group (l. 3177–3178) and T110-2 (4) (l. 19363–19364) carry the clearing condition. The laws decide (law 2 (a), l. 2810–2811) and a pull built from the list fails §5.3's law-1 row (l. 9928), so no wrong build passes: minor.",
+   "required_change": "(model) *beneath* l. 3075–3077: \"an aqueduct's standing supports where its channel runs above the wall's top (each widened so that the band's half at most touches the ring, *the edge*)\" → \"where an aqueduct's channel runs above the wall's top, its standing supports (each widened so that the band's half at most touches the ring, *the edge*) and each of its spans whose soffit does not clear the wall's top (law 1 (2): a crossing that fits neither form)\". (END pipeline) §4.4 S5a (2) l. 6589: \"an aqueduct's standing supports where its channel runs above the wall's top (its crossing there over)\" → \"where an aqueduct's channel runs above the wall's top (its crossing there over), its standing supports and each span whose soffit does not clear the wall's top\". (END V06) at V06 l. 1609, l. 2847–2848, T-V6-11, T-V6-47 and T-V6-73: \"over where its channel runs above the wall's top, else merged\" → \"over where its channel runs above the wall's top and every span over the band clears it, merged where its channel runs within the wall's height\"."
+  },
+  {
+   "id": "VF7-TBL-03",
+   "severity": "minor",
+   "kind": "example contradicts law 1 (5)",
+   "owner": "model",
+   "claim": "Row W7's last column (l. 3335): \"gates become junctions (none under a deck)\". Law 1 (5) (l. 2722–2723) admits a gate in an aqueduct's over crossing whose every span over it clears its top; W6·C2 (l. 3334) opens such a gate into \"a junction there\" and T-V6-47 runs it (V06 l. 4208). `wallToWay` of a ring with such a gate leaves a junction under the aqueduct's deck, which W7 denies. The laws govern; no bar fails a correct build.",
+   "required_change": "Row W7's last column: \"gates become junctions (none under a deck)\" → \"gates become junctions (none under a road deck; one under an aqueduct's arch that clears it a junction there, as W6·C2)\"."
+  },
+  {
+   "id": "VF7-TBL-04",
+   "severity": "minor",
+   "kind": "example contradicts law 4's (G2)",
+   "owner": "model",
+   "claim": "*Paths and tests* (l. 3314–3318) gives C1's and C11's records as \"nothing of the wall written but *down before the wall*'s gate, nothing reported\"; W1·C1 (l. 3329) and W3·C1 (l. 3331) read \"a placement-locked wall … met as an unlocked one\", *over the band* (l. 3024–3025) likewise. A merge round an aqueduct's arch changes the wall's shape (*The soft readings* l. 2774–2775; *shape* l. 2662–2663) and law 4's (G2) (l. 2865–2869) shows every such change to a placement-locked structure other than the op's target — the fate *reshaped* by hand, a `reshaped` entry otherwise. An aqueduct created across a placement-locked wall where its channel runs within the wall's height owes it; the example withholds it. T110-2's lead (l. 19260) and T110-4 (c) (l. 19532–19533) require it, so a correct build passes.",
+   "required_change": "l. 3317: \"nothing of the wall written but *down before the wall*'s gate, nothing reported —\" → \"nothing of the wall written but *down before the wall*'s gate, nothing reported but each reshape of a placement-locked wall law 4's (G2) shows (a wall the new aqueduct merges round its arch: by hand the fate *reshaped*, else a `reshaped` entry) —\"; in W1·C1 and W3·C1 \"met as an unlocked one\" → \"met as an unlocked one, each reshape of it shown (law 4's (G2))\"; in *over the band* \"a placement-locked wall is met as an unlocked one\" → \"a placement-locked wall is met as an unlocked one, a merge round the aqueduct's arch shown by law 4's (G2)\"."
+  },
+  {
+   "id": "VF7-TBL-05",
+   "severity": "minor",
+   "kind": "example contradicts law 2 (a) (a valid choice the laws already pick, J151)",
+   "owner": "model",
+   "claim": "The fixed-place sentence (l. 3228–3232) places a later trace's river crossing and anchor \"at the nearest point clear of the zone, a trace by the pull or a cost field treating the river's water and the barrier's edge inside the zone as no crossing or anchor site\", and *Strips, zones and nearest points* (l. 2995–3001) sends \"a river crossing along the river, an anchor along its barrier's edge\" to \"the nearest point of that line … from where the rule would place it\". Law 2 (a) (l. 2808–2811) gives the nearest place only to a place an event or costless rule sets; \"every other op (a pull or cost field, a route solve, a siting, a points-form `drawWall`'s trace) searches only shapes law 1 admits, its own cost choosing among them\" (Part P pass 8's pick, PRB7H-GEN-03). A snap-to-nearest build and a constrained-search build differ; both keep law 1 and pass T110-2 (3) (l. 19325–19327); the laws pick the second, so the example is corrected: minor.",
+   "required_change": "l. 3229–3232: \"— at the nearest point clear of the zone, a trace by the pull or a cost field treating the river's water and the barrier's edge inside the zone as no crossing or anchor site, a stretch of the bent group bent locally to the moved place\" → \"— clear of the zone: a place an event or costless rule sets (a stroke's crossing or anchor) at the nearest point clear of it (law 2 (a), law 3), a stretch of the bent group bent locally to the moved place, and a trace by the pull or a cost field treating the river's water and the barrier's edge inside the zone as no crossing or anchor site, its own cost choosing among the rest (law 2 (a))\"; l. 2996–2997: \"(law 2 (a); a standing one is never moved, law 1 (11))\" → \"(law 2 (a): a place an event or costless rule sets, a pull's or cost field's place being its own cost's; a standing one is never moved, law 1 (11))\"."
+  },
+  {
+   "id": "VF7-TBL-06",
+   "severity": "minor",
+   "kind": "citation",
+   "owner": "model",
+   "claim": "The support step's (3) (l. 2544–2545): \"that band as it stood over each run of the absorbed record not yet `dismantled` (the crossing table, row W8)\" cites an example with no law, though E-M1 (adjudication l. 2029–2031) has (3)'s obstacle list cite \"these laws\" with the law's number where it cites the crossing table, as (3)'s other citations do. The rule illustrated is the laws' *what stands of a wall* (l. 2593–2596).",
+   "required_change": "(3): \"(the crossing table, row W8)\" → \"(these laws' *what stands of a wall*; its worked example the crossing table, row W8)\"."
+  },
+  {
+   "id": "VF7-TBL-07",
+   "severity": "minor",
+   "kind": "wording",
+   "owner": "model",
+   "claim": "(6)'s lead (l. 2564–2568) \"(6) **Held from its creation; later work gives way.** … it is **held**:\" and (7) (l. 3353) \"the way being held ((6))\" use \"held\", which the laws define as \"locked, on the axis named, and nothing else\" (l. 2651) and of this keeping say \"is no hold\" (l. 2657–2658). The laws decide, so nothing built changes; a builder reading (6)'s bold term in the laws' sense would show every raised way's soft readings by law 4's (G2).",
+   "required_change": "\"(6) **Held from its creation; later work gives way.**\" → \"(6) **Kept from its creation; later work gives way.**\"; \"it is **held**:\" → \"it is **kept**:\"; (7) \"the way being held ((6))\" → \"the way being kept ((6))\"."
+  }
+ ],
+ "held_notes": []
+}
