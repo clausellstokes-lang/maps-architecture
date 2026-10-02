@@ -16,7 +16,8 @@ PROGRESS (lane `coherence/adjudicate-r7`, 2026-10-02; a fresh run under J144 —
 problem first before moving on?"). Each repair seat of round 7 reads (1) its row of the table of contents, (2) R7-01 and
 R7-02 whole, and every other ruling its row lists, and (3) its unit's heading in Part H: the disposition of each issue it
 owns, then its **END lines** — the exact text this unit writes for a fix another unit owns. A seat's whole work is under
-its own heading; a unit that owns no issue but holds END lines runs (R7-01 (4)). R3-01 – R3-03, R4-01, R5-01 and R6-01
+its own heading; a unit that owns no issue but holds END lines runs (R7-01 (4)). Part P (the probe passes' decisions)
+records why each spot marked "(amended, PRB7-nn)" changed; the text a seat writes is the amended text in place. R3-01 – R3-03, R4-01, R5-01 and R6-01
 stand: every FIX and END line under a heading is applied in the same round; an END line is written as given; no review
 id in design text; J141's grades.
 
@@ -42,13 +43,17 @@ the program (J122) says so and is **vetoable**; the family's veto list is restat
 stay binding except where an entry below supersedes one of their rulings, cells or END lines by name.
 
 **No ruling id in design text** (R3-02, kept). Every text below that a seat writes into the design names a design home,
-never an `R7-nn`, `R6-nn`, `PRB6-nn` or verifier id. J-rows (J122, J144) are design citations and may be written. The new
+never an `R7-nn`, `R6-nn`, `PRB6-nn`, `PRB7-nn` or verifier id; the markers "(amended, PRB7-nn)" that Part P leaves at
+each amended spot are this file's and are never written into the design (a seat drops them as it writes the text). J-rows (J122, J144) are design citations and may be written. The new
 design names this round introduces — each defined once at §2.7 and cited everywhere else — are: **the lock sentence**
 (§2.7's crossing table, with its guards (G1) *local*, (G2) *shown* and (G3) *no lawful local shape*); **the similar
 structures**; **the bent-group sentence** (with *the bent group* and *a lawful crossing*); **the fixed-place sentence**
 (with *fixed places* and *the fixed-place zone*); the edit fate **reshaped** (§7.3 item 4); the report entry kind
 `reshaped` (§5.4); the refusal key `refuse.raised.meeting` (§7.1, V09 §4.9); the epoch count
-`raised.extendedPastBound` (V06 §2.10); and **the state sweep** (§13.2's T110-2). A citation writes "(§2.7's crossing
+`raised.extendedPastBound` (V06 §2.10); and **the state sweep** (§13.2's T110-2); and, added by Part P (amended, PRB7-01,
+PRB7-08, PRB7-16): **a held building's widened strip**, **the edge** and *Line and band* (at §2.7's *beneath*), the lock
+sentence's *Its reach*, *Strips, zones and nearest points* (before the four outcomes), F-WALL's raised-way
+rung with the warning `W_RAISED_MEETING` (§5.2, §5.4) and V07's ladder row F-V-RAISED (V07 §3.13). A citation writes "(§2.7's crossing
 table, the lock sentence)", "(§2.7's crossing table, the bent-group sentence)", "(§2.7's crossing table, row W8)", never a
 restatement.
 
@@ -67,7 +72,8 @@ restatement.
   to the strip's edge by one rule, a gate the user places or slides moving along the trace. **The fixed-place
   sentence** — a river's water gate, an anchor's tower and a weld vertex never move along the trace: whichever of the
   wall and the raised way comes later keeps them out of the strip widened by the wall strips. Both tables are written
-  complete over the four axes the round asks — every wall event (13 rows, a retaining wall's sentence), every raised-way
+  complete over the four axes the round asks — every wall event (14 rows — W14, a wall re-sectioned on its kept trace,
+  added by Part P (amended, PRB7-07) — and a retaining wall's sentence), every raised-way
   state (13 columns), every path (generation, regeneration, epoch, village, hand) and the lock axis (one case, column
   C8) — each cell an outcome and a test that holds it, the volume and base tests running each row over **the state
   sweep** (§13.2) so that no cell names a test that never sets up its state.
@@ -80,6 +86,8 @@ restatement.
   arch-vault bars; the state sweep; castle paths; the scheduling cells); bookkeeping (`W_RAISED_CROSSING` by stage;
   §4.13's rung; the stopped moat's strip; the slide bound; row (a)'s test; `EpochScope.raised` at the caller).
 * **Dispositions of the 53 family issues:** see Part H's totals. **Held for round 8:** 28 ids, listed, not ruled.
+* **Probe pass 1 (Part P):** 29 findings of `probe-r7.md` decided — 13 ACCEPT, 15 ACCEPT AMENDED, 1 REJECT — and amended
+  in place, each amended spot marked "(amended, PRB7-nn)".
 * **Canon:** one dated ruling appended to `canon.md` (Part I).
 
 ## Table of contents by unit
@@ -90,21 +98,21 @@ heading in Part H.
 
 | unit | issues | texts under its heading | rulings binding it (with R7-01, R7-02) | its heading |
 |---|---|---|---|---|
-| scope (base §0–§1, §13–§17, the index, INDEX.md) | 8 | E-S0 – E-S10 | R7-03, R7-04, R7-06 | Part H · scope |
-| model (base §2) | 12 (2 merged) | R7-02's Blocks 1–2, (M1)–(M2); (7)'s and (3)'s sentences | R7-04, R7-07 | Part H · model |
+| scope (base §0–§1, §13–§17, the index, INDEX.md) | 8 | E-S0 – E-S12 (E-S11 – E-S12 amended, PRB7-05, PRB7-16) | R7-03, R7-04, R7-06 | Part H · scope |
+| model (base §2) | 12 (2 merged) | R7-02's Blocks 1–2, (M1)–(M2), (M5) (amended, PRB7-18); (7)'s and (3)'s sentences | R7-04, R7-07 | Part H · model |
 | kernel (base §3) | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08, V12 |
 | pipeline (base §4, §10, PART II, PART III) | 8 (1 merged) | its FIXes; E-P1 – E-P8 | R7-03, R7-04, R7-07 | Part H · pipeline |
-| determinism (base §5–§7) | 2 | E-D1 – E-D10 | R7-07 | Part H · determinism |
+| determinism (base §5–§7) | 2 | E-D1 – E-D11 (E-D11 amended, PRB7-16) | R7-07 | Part H · determinism |
 | rendering (base §8, §9, §11, §12) | 1 | its FIX | R7-05 | Part H · rendering |
 | V01 | 1 | its FIX | R7-05 | Part H · V01 |
 | V02 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08, V12 |
 | V03 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08, V12 |
 | V04 | 4 | E-V4-1 – E-V4-7 | R7-04, R7-06 | Part H · V04 |
 | V05 | 1 | its FIX | R7-04 | Part H · V05 |
-| V06 | 9 | E-V6-1 – E-V6-13, its FIXes | R7-04, R7-06, R7-07 | Part H · V06 |
-| V07 | 4 | E-V7-1 – E-V7-3, its FIXes | R7-04, R7-06 | Part H · V07 |
+| V06 | 9 | E-V6-1 – E-V6-15, its FIXes (E-V6-14 – E-V6-15 amended, PRB7-05, PRB7-16) | R7-04, R7-06, R7-07 | Part H · V06 |
+| V07 | 4 | E-V7-1 – E-V7-4, its FIXes (E-V7-4 amended, PRB7-16) | R7-04, R7-06 | Part H · V07 |
 | V08 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08, V12 |
-| V09 | 1 | E-V9-1 – E-V9-6 | R7-05 | Part H · V09 |
+| V09 | 1 | E-V9-1 – E-V9-7 (E-V9-7 amended, PRB7-21) | R7-05 | Part H · V09 |
 | V10 | 1 | its FIX | R7-05 | Part H · V10 |
 | V11 | 1 | its FIX (amended) and one END | R7-05 | Part H · V11 |
 | V12 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08, V12 |
@@ -112,7 +120,7 @@ heading in Part H.
 Parts: A ruling requests and hand-offs · B the round (R7-01) · F THE FAMILY RULING (R7-02: the lock, bent-group and
 fixed-place sentences, both tables complete, the attack, the equivalence, the veto list) · C the other rulings (R7-03
 generation order, R7-04 epochs and decay, R7-05 readers, R7-06 tests and the state sweep, R7-07 bookkeeping) · H
-per-unit dispositions and END lines · Held for round 8 · I canon.
+per-unit dispositions and END lines · Held for round 8 · P the probe's findings and their decisions · I canon.
 
 ## Part A — the ruling requests and the family's open hand-offs
 
@@ -217,7 +225,8 @@ home sentence or one cell, and the tables are written over all four axes.
   and the vault timing at an absorb are program design under J122 (**vetoable**).
 
 **What changes in behaviour, said plainly — the owner's veto list for the family, restated whole.** R6-02's eight changes
-stand as amended by its Part P; R7 adds 9–17. Each may be vetoed by naming it.
+stand as amended by its Part P; R7 adds 9–17, and its Part P 18–19 (each change Part P makes to 9–17 marked there).
+Each may be vetoed by naming it.
 1. No crossing station, raised gate or wall opening anywhere; a priced road deck comes down before a standing trace, a road
    deck with fixed ends is not built across one (at an epoch it waits). *Veto option:* R5-02's raised gate.
 2. An aqueduct created across a standing wall crosses it on a span, its supports off the band; the run beneath is not
@@ -234,32 +243,53 @@ stand as amended by its Part P; R7 adds 9–17. Each may be vetoed by naming it.
 9. **(new, J144 — the owner's rule; its reading vetoable)** A lock, pin or declaration on a wall, a raised way or an arch
    vault never refuses or skips a meeting between them: an aqueduct drawn or founded across a drawn or locked wall
    crosses it on a span (no `refuse.locked`, no wait), and a locked arch vault under a wall laid after it keeps its span
-   and lock but has no chamber while the wall stands. *Veto option:* UC18's locked vault kept with its chamber in the
-   band, the epoch's trace keeping off its under-deck strip instead (repair-r6-V04's option (b)).
-10. **(new)** A road deck's carried way that comes down before a held wall makes its gate there, the wall reshaped and kept
-    locked (G2's fate *reshaped*). *Veto option:* the gate refused on a held wall (§7.1's lock row), the user unlocking
-    first.
+   and lock but has no chamber while the wall stands; a founded course meets a held retaining wall or another held raised
+   way as an unheld one (amended, PRB7-20). The lock reaches only meetings (amended, PRB7-03, PRB7-04): a hand op whose
+   own target the user locked or pinned is still refused by §7.1's lock row, a drawn wall or declared raised way being
+   changed by its author's new declaration; a landfall, decay or an epoch's conversion keeps every lock as before.
+   *Veto option:* UC18's locked vault kept with its chamber in the band, the epoch's trace keeping off its under-deck
+   strip instead (repair-r6-V04's option (b)).
+10. **(new)** A road deck's carried way that comes down before a held wall makes its gate there by hand, the wall reshaped
+    and kept locked (G2's fate *reshaped*); at generation, a regeneration and an epoch its route passes through a gate its
+    path's own gate law gives, so no gate is made in a held wall but by hand (amended, PRB7-06). *Veto option:* the gate
+    refused on a held wall (§7.1's lock row), the user unlocking first.
 11. **(new)** The reshape of a held thing is always shown — a new edit fate, *reshaped*, which the user confirms, and a
     `reshaped` entry in the report's changes — and where no local shape exists the op is refused by a new key,
-    `refuse.raised.meeting`. *Veto option:* the existing fates and bend lines alone.
-12. **(new)** A wall gives way to a held building seated in an arch vault: the trace crosses the deck under another span,
-    else waits or takes F-WALL's ladder, and by hand is refused with the building as the blocking entity.
+    `refuse.raised.meeting`, or off the hand path takes its ladder — at generation a stage's trace re-pulled round the
+    raised way, else that stage left unwalled and reported (`W_RAISED_MEETING`), at an epoch waiting, at a village the
+    palisade omitted (amended, PRB7-16). *Veto option:* the existing fates and bend lines alone.
+12. **(new)** A wall gives way to a held building seated in an arch vault: the trace keeps its band and strips off the
+    building's span, crossing the deck under another span — by hand moved there, a fate (amended, PRB7-01) — else waits or
+    takes F-WALL's ladder, and by hand, with no other span, is refused with the building as the blocking entity.
 13. **(new)** A hand or re-traced wall stretch is never left running along beneath a raised way, entering and leaving on
-    one side, or ending under it: those parts move to the under-deck strip's edge; a gate the user places or slides into
-    the strip moves back along the wall, its road following. *Veto option:* such a drawing refused with its nearest lawful
+    one side, or ending under it: those parts move to the under-deck strip's edge, the wall's band kept outside it
+    (amended, PRB7-08); a gate the user slides into the strip moves back to the edge it came from, one placed there to the
+    nearer edge, its road following (amended, PRB7-10). *Veto option:* such a drawing refused with its nearest lawful
     alternative.
 14. **(new)** A river's water gate, an anchor's tower and a castle's weld are never moved along the wall for a raised way:
     a wall laid later crosses the river or anchors on its barrier at the nearest point clear of the strip, and a raised
-    way laid later keeps its strip clear of them. *Veto option:* a water gate lawful under a span whose soffit clears its
-    gatehouse, capped like the run.
+    way laid later keeps its fixed-place zone clear of them (amended, PRB7-09); the strip and zone hold under a fallen span
+    too, so no gate, tower or fixed place stands under a span that is later repaired (amended, PRB7-14). *Veto option:* a
+    water gate lawful under a span whose soffit clears its gatehouse, capped like the run.
 15. **(new)** An absorbed ring's arch vault returns when the last run of the old wall over it is dismantled, not when the
     wall is absorbed. *Veto option:* the vault laid again in `absorbWall`'s own commit, the standing run passing through
     its chamber's footprint.
 16. **(new)** A frame growth's extension that meets a river or valley past a structural bound bends to the nearest course
-    that fits; with none, it keeps its course, a pier standing in the water or past `maxPierM` kept and reported.
+    that fits, meeting every standing wall as a course laid then (amended, PRB7-15); with none, it keeps its course, each
+    station slid off every obstacle but the water or height it fails, a pier standing in the water or past `maxPierM` kept
+    and reported.
     *Veto option:* a merged span past `maxClearSpanM` kept instead of a pier in the water.
 17. **(new)** At generation, a gate route whose first point on the stage-1 boundary lies on a viaduct is re-solved with no
-    deck across that boundary, its gate on the ground.
+    deck across that boundary, its gate on the ground; the gate routes' raised stretches then stand for the castle and the
+    stage-1 trace, which are laid after them (amended, PRB7-02).
+18. **(new, Part P — PRB7-13)** An arch vault comes back only once nothing crosses its span's strip: a way or channel that
+    passed under the span while a wall stood over it (an intervallum, a street, a lane, the moat) keeps the span open after
+    the wall goes, and the chamber is laid again when that way or water goes. *Veto option:* the chamber laid again when the
+    wall goes, each such way re-routed off its strip and the channel stopped at its edges, as `wallToWay`'s ring road is.
+19. **(new, Part P — PRB7-07)** A wall re-sectioned on its trace — a palisade rebuilt in stone, a stretch re-graded, its kind
+    changed — keeps its trace where its new, wider band still crosses a raised way lawfully, and is re-traced locally by
+    the bent-group sentence where it would not. *Veto option:* the old section kept under the span (the run narrowed
+    there), its trace unchanged.
 
 #### The texts §2.7 carries — written by the model in these words
 
@@ -281,17 +311,27 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     declaration (§7.2; item 101 R13) holds a similar structure's **placement** — a wall's trace and course, a raised way's
     course and deck line, an arch vault's span — and never its **shape** where two of them meet: each change this table
     makes at a meeting — a gate or tower moved along, a stretch bent locally, a support slid off a band, a `vault` span
-    read `open` with no chamber while a wall stands over it and its chamber laid again once none does, a gate made where a
-    road deck's carried way crosses a wall — is made whether either side is locked, pinned, declared or neither, and what
+    read `open` with no chamber while a wall stands over it and its chamber laid again once none does, a gate made by hand
+    where a road deck's carried way crosses a wall (*down before the wall*) (amended, PRB7-06) — is made whether either
+    side is locked, pinned, declared or neither, and what
     it reshapes stays locked, pinned or declared (a locked arch vault's lock kept with its key, so the chamber V04 lays
     again carries it). No meeting of two similar structures is refused, skipped or altered for a lock: the lock axis is one
-    case (column C8). Three guards bound it. **(G1) Local:** the reshape of a held similar structure stays inside the
+    case (column C8). **Its reach** (amended, PRB7-03, PRB7-04): the lock sentence reaches only the changes a meeting
+    makes. Whether an event may act on its own target at all is decided before any meeting, as anywhere: by hand, an op
+    whose own target — the wall it converts, deletes, repairs, gates, re-sections, moves or re-anchors, the raised way it
+    edits — the user locked or pinned (T10 `hold`) is refused by §7.1's lock row, nothing written (a carve re-tracing such
+    a run, §4.11 *Other crossings*' conflict), while a drawn wall or a declared raised way is changed by its author's new
+    declaration (§7.2 *Declared means held*: a handle drag, a re-shape, a stepper, a `setAttr`, a `convert`, a `delete`, a
+    `repairWall` or a `placeGate`) and its event then takes its cell; by the engine or a hazard, a held target is kept as
+    §7.2 *Protection*, V06 §3.1 and V05 §3.16 (2) keep it — never struck, converted, decayed or covered by a landfall, the
+    ruin lapping round it. Once the event acts, the meeting it makes takes its cell. Three guards bound it. **(G1) Local:** the reshape of a held similar structure stays inside the
     raised way's under-deck strip (§4.6: the deck's plan widened each side by `raisedWays.structure.stripMarginM`) and the
     nearest points clear of it that *down before the wall*, the bent-group sentence and the fixed-place sentence move to;
     a held thing's course or trace is never re-routed elsewhere. **(G2) Shown:** each reshape of a held similar structure
     is shown where the user sees it — by hand as the fate **reshaped** in the dry run (§7.3 item 4), naming the held thing
-    and its change beside its row's bend line; at generation, at a regeneration and at an epoch as a `reshaped` entry in
-    the report's changes (§5.4's `ReportEntry`) — and the event's undo restores it. **(G3) No lawful local shape:** where
+    and its change beside its row's bend line; at generation, at a regeneration, at an epoch and at a village derivation
+    (amended, PRB7-23) as a `reshaped` entry in the report's changes (§5.4's `ReportEntry`) — and the event's undo restores
+    it. **(G3) No lawful local shape:** where
     no reshape inside (G1) makes the meeting coherent, the op that would create the meeting gives way, never a held thing:
     by hand its dry run is refused with the nearest lawful declarations (`refuse.raised.meeting`, §7.1; item 101 R2); at
     generation or a regeneration the newer structure is not built (a raised way, reported) or its trace takes F-WALL's
@@ -300,11 +340,23 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     other declared placement are no similar structure and stay held as §7.2 holds them; a wall gives way to one
     (*beneath*, *A held building in an arch vault*). A **retaining wall** has no band, strip, gate, tower or closure, so
     no row of this table reads it: the deck passes over it as over the ground it levels and a support stands on its line
-    built against it, its height read at its station ((4)); generated levelling never reaches an under-deck strip (a hole
+    built against it, its height read at its station on the low side ((4): the deck's level less the lower
+    `levelledGroundCm` there) (amended, PRB7-28); generated levelling never reaches an under-deck strip (a hole
     for S10 and S11, §4.6); a retaining wall drawn across a standing raised way (T3 `retaining`, a T2 terrace stroke)
     levels no ground inside its under-deck strip and passes beneath it as any part-0 line, nothing of the raised way
     written; and its own events (`DeclineOp`'s retaining member, `repairRetaining`, a landfall's row) write it alone
     (T110-1).
+
+    **Strips, zones and nearest points** (amended, PRB7-10, PRB7-14). A raised way's under-deck strip — and with it its
+    fixed-place zone and a held building's widened strip (*beneath*) — is read from its record whatever its spans' and
+    supports' `state` (the deck's plan, §4.6, as the way-and-channel table's lead reads a fallen span's strip), so every
+    rule below that keeps a gate, a tower, a fixed place or a line out of one holds under a fallen span as under a standing
+    one, and a span or support `repairRaised` raises again stands over none of them. Wherever a rule below moves a thing
+    along a line to the nearest point clear of a strip or zone — a tower along the trace, a gate along its way or along
+    the trace, a river crossing along the river, an anchor along its barrier's edge, a weld vertex along the bailey's outer
+    arc — it goes to the nearer of the two points clear of it on that line, ties to the one nearer the line's first vertex
+    in its vertex order; a gate the user slides into a strip goes back to the strip's edge on the side its grip came from;
+    the bent-group sentence's moves keep their own ties.
 
     **The four outcomes** (each defined here once; every other text cites the outcome's name):
 
@@ -313,46 +365,65 @@ below, and conforms the sentences after them as (M1)–(M6) say.
       course (§4.3 *Where it may not go*: a course crosses a standing band only on a span), whatever the runs' condition,
       so the band lies beneath a span — an aqueduct's arch (item 110 (b)) — and each span over the band is ruled by the
       span rule as anywhere, a `vault` one read `open` while the wall stands (*beneath*); its under-deck strip keeps clear
-      of the trace's gates and towers and of its fixed places (§4.3 *Where it may not go*; V06 §3.19 (5); the fixed-place
-      sentence; a hand course bent there, §7.1) — and at generation, where S7 lays the towers after an aqueduct at S6's
-      end, a tower its spacing would place in the strip is moved along the trace to the nearest point clear of it, as
-      *beneath* moves one, unreported, S6's aqueduct having kept its strip clear of the anchors and weld vertices the
-      trace records —; nothing of the wall is written, the run beneath keeping its own condition (a `breached` or
+      of the trace's gates and towers, and its fixed-place zone of the trace's fixed places (amended, PRB7-09) (§4.3
+      *Where it may not go*; V06 §3.19 (5); the fixed-place sentence; a hand course bent there, §7.1) — and at generation,
+      where S7 lays the towers after an aqueduct at S6's end, a tower its spacing would place in the strip is moved along
+      the trace to the nearest point clear of it, as *beneath* moves one, unreported, S6's aqueduct having kept its
+      fixed-place zone clear of the anchors, water gates and weld vertices the trace records —; nothing of the wall is
+      written, the run beneath keeping its own condition (a `breached` or
       `dismantled` run a gap beneath the arch); the meeting then reads as *beneath*. A course that cannot keep its supports
-      off the band within (3)'s and (4)'s bounds, or its strip clear of the gates, towers and fixed places, is (3)'s and
+      off the band within (3)'s and (4)'s bounds, or its strip clear of the gates and towers and its fixed-place zone of
+      the fixed places, is (3)'s and
       (4)'s: a generated one dropped (at an epoch waiting, `raised.waited`), a declared one bent to the nearest course that
       can, else refused (G3).
     * ***down before the wall*** — a road deck (a viaduct's or an elevated road's) never crosses a trace standing when its
       course is laid — at S3 (7) the stage-1 boundary (from S3 (9) on, its trace) and at S5b the stage's picked boundary
       counting as standing; a frame growth's extension, which keeps the deck's course, is no course laid (C12). A deck that
       is a priced option of a route's solve (S4's or S5b's viaduct, an epoch route's) comes down to a ground vertex before
-      the trace, its route crossing the trace on ground part 0 through the gate there (§4.3 *Where it may not go*; an S3
-      gate route by §4.2 S3 (7)'s re-solve) — a gate made there in a held wall too, its `reshaped` entry (the lock
-      sentence) —, one that cannot is re-routed by the solver's ladder or not built, reported; a raised way whose two ends
+      the trace (§4.3 *Where it may not go*), its route crossing the trace on ground part 0 at a gate of its path's own
+      gate law (§5.3's gate row; §4.8 *Gates*) (amended, PRB7-06): at generation, and at a regeneration that re-derives the
+      trace, a gate the stage's gate law places (S3's — a gate route re-solved by §4.2 S3 (7) —, S5a's pins, S5b's
+      spawned primaries' gates); at an epoch, and at a regeneration under a held trace, a gate standing in that trace (an
+      epoch's growth crossing at gates alone; a held wall's gates its own), the route solved to one of them — so a deck
+      makes no gate its path's gate law would not, and a gate is made in a held wall by hand alone —; one that cannot is
+      re-routed by the solver's ladder or not built, reported; a raised way whose two ends
       are fixed before its course is solved — an elevated road (`P1` to `P2`) at S6's end or founded, V06 §3.19's founded
       viaduct (`A` to `B`) — is not built where its course would cross a standing trace: at generation not built,
       reported; at an epoch waiting (`raised.waited`, V06 §3.19 (5)). By hand the course comes down before the trace (§7.1,
-      `bend.raised.wall`), its ground way making its gate there — in a held wall the fate *reshaped* (G2) — and a course
-      that cannot come down there is refused (`refuse.raised.meeting`, G3). The meeting does not arise.
+      `bend.raised.wall`), its ground way making its gate there by §7.3's S7 operator as any drawn way's (§5.3's gate row)
+      — in a held wall the fate *reshaped* (G2), §7.1's lock row not refusing it (the lock sentence) (amended, PRB7-06) —
+      and the stroke's course beyond the trace carried on as that ground way on ground part 0 to the stroke's end, a second
+      raised way only by a second declaration (amended, PRB7-27); a course that cannot come down there is refused
+      (`refuse.raised.meeting`, G3). The meeting does not arise.
     * ***beneath*** — a wall's run and a standing raised way, read from what stands, never stored: the trace keeps its
       course but where a crossing below bends it, and its strips, band, towers and gates are laid as anywhere (S7, S10,
       VS3, V06 §3.7, §7.3's S7 operator). *Where the line crosses*: a trace's line never crosses a raised way's ramp, stair
       or foot, nor an aqueduct's standing support (its `state` absent or `ruined`). It crosses an aqueduct's deck line
-      under a span, so an aqueduct crosses every wall through one of its arches (item 110 (b); the program's reading,
-      J122), a trace passing round its end crossing nothing of it; a road deck's deck line under a span or at a support;
+      under a span or through a `cleared` support's ring (open ground: both its spans fallen, C5) (amended, PRB7-11), so an
+      aqueduct crosses every wall through one of its arches, or through their gap where they have fallen with the support
+      between them (item 110 (b); the program's reading, J122), a trace passing round its end crossing nothing of it; a
+      road deck's deck line under a span or at a support;
       and a road deck's carried way on its ground course beyond a foot, through a gate there on ground part 0 clear of the
-      ramp, stair, foot and under-deck strip. A trace laid by the `EnceinteStrategy`'s pull or a cost field — S3's and
-      S5a's at generation and at a regeneration, an epoch's circuit, contraction or dossier-admitted circuit — treats a
-      standing raised way's ramps, stairs and feet and an aqueduct's standing supports as impassable (as V06 §3.7.4 (2)'s
-      cost field treats every standing support); S5a's pull keeps each arterial's crossing of the boundary as the stage's
+      ramp, stair, foot and under-deck strip. **Line and band** (amended, PRB7-08): every keep-clear this table states for
+      a trace's line off a ramp, stair, foot or standing support holds for its band — the line kept from each by the
+      band's half there (§4.8's rows along the stretch profile) — save a road deck's support, which the band is laid
+      through; a held building's widened strip and the bent group's strip each count the band's half already, so a line
+      is kept out of them as they are drawn. A trace laid by the `EnceinteStrategy`'s pull or a cost field — S3's (reading the raised
+      stretches of (5)'s routes, re-solved by §4.2 S3 (7), as standing) (amended, PRB7-02) and S5a's at generation and at a
+      regeneration, an epoch's circuit, contraction, re-anchored stretch (V06 §3.7.6 (1)) (amended, PRB7-12) or
+      dossier-admitted circuit, and a hand `contractWall`'s (§4.11: S5a's trace step) (amended, PRB7-26) — treats a
+      standing raised way's ramps, stairs and feet, each widened by the band's half there, an aqueduct's standing supports,
+      each widened so that the band's half at most touches the ring (*the edge*), and every held building's widened strip
+      (below) as impassable to its line (as V06 §3.7.4 (2)'s cost field treats every standing support); S5a's pull keeps each arterial's crossing of the boundary as the stage's
       picked boundary had it, at its pin or under its deck (§4.4 S5a *Trace* (2)); and where S5a pins gates, an arterial
       whose crossing of the boundary falls on a ramp, stair or foot pins its gate on its ground course beyond the foot,
       the trace laid through it (a way S5a pins no gate for meets the trace as anywhere on ground part 0). A stretch laid
-      by neither takes the bent-group sentence (below). The band is laid through every support standing in it — a road
-      deck's, or the edge of an aqueduct's that its band's half meets — built into the run's line, never cut round it, so
-      where one goes the run stands whole across its footprint. *The cap*: beneath a standing part of the deck — a span
-      whose `state` is absent, or a support whose `state` is absent bearing a standing span — the run's top and walk are
-      the lower of its own top and the lowest soffit there (the span's own, or that of each standing span the support
+      by neither takes the bent-group sentence (below). The band is laid through every road deck's support standing in it,
+      and against an aqueduct's support whose ring its band's half touches at **the edge** (the ring's boundary, the band
+      entering no further) (amended, PRB7-08), built into the run's line, never cut round it, so where one goes the run
+      stands whole across its footprint. *The cap*: beneath a standing part of the deck — a span whose `state` is absent,
+      or a support whose `state` is absent bearing a standing span — the run's top and walk, wherever any part of its band
+      lies beneath it (amended, PRB7-08), are the lower of its own top and the lowest soffit there (the span's own, or that of each standing span the support
       bears) (the soffit lower: the arch walled up to its crown; the run lower: the arch open above it); beneath a fallen
       span, a support bearing none or no deck, its own top (§4.5's daylight casters, §8.4's casters and heightfield,
       §11.1's glTF wall and CityJSON wall objects read it). *A `vault` span under the wall* — one whose under-deck strip a
@@ -363,18 +434,27 @@ below, and conforms the sentences after them as (M1)–(M6) say.
       tellings of V09 §4.20.6 (2) and V10's raised-way read, its under-deck strip no reservation ((6)'s lead) and an `open`
       span to §4.3's crossing rule, the way-and-channel table and V01 §3.17.3 (2)–(3), the band, strips and moat laid
       through it; its record unchanged (the span rule never reads a wall: its step (2), below), so it reads `vault` again,
-      V04 laying its chamber again, once none lies there. A locked or pinned arch vault (V04 §3.11's UC18) is read so too,
+      V04 laying its chamber again, once none lies there and no way's corridor or channel laid while it read `open` (an
+      intervallum, a quay, a street, a lane, a track, the moat) crosses its under-deck strip — such a span read `open`
+      while that corridor or water lies there, so no chamber is laid across a way or in water, and a removal or re-route of
+      that way or channel off the strip running V04's reconcile (V04 §1b.2) — every "laid again" of this table meaning so
+      (amended, PRB7-13). A locked or pinned arch vault (V04 §3.11's UC18) is read so too,
       by the lock sentence: its span held, its chamber not laid while a wall stands over it, its lock kept with its key so
       the chamber laid again carries it; each removal and re-lay of a held raised way's or a held arch vault's chamber is
       shown by (G2). *A held building in an arch vault* — a `vault` span whose chamber seats a held building (a declared
-      placement, V04 §3.5.4 (d)) — holds its span against every wall, the building being no similar structure: a trace
-      laid by the pull or a cost field treats that span's under-deck strip, widened each side by the wall strips' widths
-      (§4.8: the band's half and the wider of the inner setback and the outer setback with its glacis or berm), as
-      impassable; for the bent group it is no lawful crossing; a trace that can then cross the deck nowhere takes its own
-      ladder (F-WALL at generation and at a regeneration, `walls.waited` at an epoch), and by hand the stroke is refused by
-      §7.1's lock row (`refuse.locked`, the building the blocking entity); so the building, its chamber and its door stand
-      and no footprint enters a band or setback (§5.3). *No gate and no tower in the under-deck strip* — one the wall's law
-      would place there moves to the nearest point clear of it: a tower along the trace (S7's towers beside a trace an
+      placement, V04 §3.5.4 (d)) — holds its span against every wall, the building being no similar structure. **A held
+      building's widened strip** is that span's under-deck strip widened all round by the wall strips' widths (§4.8: the
+      band's half and the wider of the inner setback and the outer setback with its glacis or berm), so a line kept out of
+      it keeps a wall's band and strips off that span's strip (amended, PRB7-01): a trace laid by the pull or a cost field
+      treats it as impassable; a stretch of the bent group keeps its line out of it, a crossing that would enter it moved
+      by the bent-group sentence's (i) to the nearest lawful crossing (by hand a fate in `bend.wall.raisedCrossing`'s
+      line); a trace that can then cross the deck nowhere takes its own ladder (F-WALL at generation and at a regeneration,
+      `walls.waited` at an epoch, VS3's at a village), and by hand a stroke that a lawful crossing would admit but for held
+      buildings' widened strips is refused by §7.1's lock row (`refuse.locked`, the nearest such building the blocking
+      entity), any other stroke with no lawful crossing taking (G3); so the building, its chamber and its door stand and no
+      footprint enters a band or setback (§5.3). *No gate and no tower in the under-deck strip* — under a standing span
+      or a fallen one — one the wall's law would place there moves to the nearest point clear of it (*Strips, zones and
+      nearest points*: the nearer point, its ties, a slid gate's way back) (amended, PRB7-10, PRB7-14): a tower along the trace (S7's towers beside a trace an
       aqueduct at S6's end crossed among them, *over the band*); a gate along its way, the trace passing through it there —
       at generation and in an epoch circuit S5a's pin moved and the trace laid through it (§4.4 S5a *Trace* (2)), a trace
       laid through no pin (a contraction, a dossier-admitted circuit by the hand operator's path, a stretch of the bent
@@ -389,22 +469,28 @@ below, and conforms the sentences after them as (M1)–(M6) say.
       `breached` or `dismantled` run a gap beneath the deck, the deck on its own supports). *Reported* once per crossing of
       a trace laid after a raised way with that raised way's deck line, a trace crossing one deck line twice reported
       twice: at generation and at a regeneration in S7's `W_RAISED_CROSSING` (S3's and S5a's traces alike, §4.8; §5.4), at
-      an epoch in `walls.raisedCrossings` (V06 §2.10), by hand in `bend.wall.raisedCrossing`'s line at the dry run; each
-      reshape of a held thing besides by (G2).
+      an epoch in `walls.raisedCrossings` (V06 §2.10), by hand in `bend.wall.raisedCrossing`'s line at the dry run (a hand
+      `contractWall`'s in its dry run's effects, amended, PRB7-26); each reshape of a held thing besides by (G2).
     * ***unchanged meeting*** — the event writes only its own records, as on any run or gate; nothing of the raised way is
       written or passed over and nothing is bent for it; the meeting re-reads as *beneath*.
 
     **The bent-group sentence.** The **bent group** is every stretch laid by neither the `EnceinteStrategy`'s pull nor a
-    cost field: VS3's palisade, a re-anchored stretch, V06 §3.7.6 (3)'s quay wall, a hand `drawWall` (a village T3 `wall`
-    among them), a moved trace vertex, `repairWall`'s new stretch, and a run a carve or a moved river re-traces (§4.11
-    *Other crossings*; §7.3 (b) 3). Whatever its shape — crossing the deck, running along beneath it, entering and leaving
-    on one side, ending at a support, or carrying a gate into the strip — it meets a standing raised way by one rule:
-    **inside the raised way's under-deck strip its line holds lawful crossings only.** A **lawful crossing** is a part of
-    the line that enters the strip on one long side and leaves it on the other, meeting the deck line once: under an
-    aqueduct's span, its band's half at most meeting a standing support's edge; under a road deck's span or at its
-    support (the band laid through the support); never on a ramp, stair or foot widened by the strip margin, and never in a
-    `vault` span whose chamber seats a held building. (The strip's long sides are its edges left and right of the deck in
-    spine order; a point on an end cap belongs to the nearer long side.) Every other part of the line inside the strip is
+    cost field: VS3's palisade, a stretch re-anchored by hand (an epoch's re-anchored stretch is the
+    `EnceinteStrategy`'s, V06 §3.7.6 (1), and takes *beneath*'s pull) (amended, PRB7-12), V06 §3.7.6 (3)'s quay wall, a
+    hand `drawWall` (a village T3 `wall` among them), a moved trace vertex, `repairWall`'s new stretch, a run a carve or a
+    moved river re-traces (§4.11 *Other crossings*; §7.3 (b) 3), and a run re-sectioned on its kept trace (row W14)
+    (amended, PRB7-07). Whatever its shape — crossing the deck, running along beneath it, entering and leaving on one
+    side, ending at a support, or carrying a gate into the strip — it meets a standing raised way by one rule: **inside
+    the raised way's strip its line holds lawful crossings only**, the strip here being the under-deck strip widened each
+    side by the band's half there (§4.8's rows along the stretch profile) together with every held building's widened
+    strip that meets it (*beneath*), so that every part and edge below is the band's (amended, PRB7-08, PRB7-01). A
+    **lawful crossing** is a part of the line that enters the strip on one long side and leaves it on the other, meeting
+    the deck line once: under an aqueduct's span or through a `cleared` support's ring (open ground, C5) (amended,
+    PRB7-11), its band's half at most touching a standing support's ring (*the edge*); under a road deck's span or at its
+    support (the band laid through the support); its band never on a ramp, stair or foot widened by the strip margin, and
+    its line never in a held building's widened strip. (The strip's long sides are its edges left and right of the deck
+    in spine order, each passing outside every held building's widened strip on its side; a point on an end cap belongs
+    to the nearer long side.) Every other part of the line inside the strip is
     replaced, between the points where the line enters and leaves the strip: (i) an unlawful crossing by the nearest lawful
     one along the deck from the point where it met the deck line (ties: nearer the deck's first foot in spine order) — the
     line from its entry point along that side's edge to it, across the strip there and along the other edge to its exit
@@ -417,12 +503,13 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     an anchor or weld vertex so moved being the fixed-place sentence's; (iv) a gate inside the strip by *beneath*'s *No
     gate and no tower* — one the user places or slides along the trace, its stub or way following (row W13); one the
     stretch makes for a ground way crossing it inside the strip along that way, the line bent through it by (i)'s path.
-    Each move is a fate by hand, named in `bend.wall.raisedCrossing`'s one line, and counted at an epoch
-    (`walls.raisedCrossings`); a moved line stays within (G1)'s reach. With no lawful crossing along the deck — which
+    Each move is a fate by hand, named in `bend.wall.raisedCrossing`'s one line, and at an epoch the stretch's crossings
+    of the deck line are counted in `walls.raisedCrossings` as *Reported* says, a move being no count (amended, PRB7-24);
+    a moved line stays within (G1)'s reach. With no lawful crossing along the deck — which
     cannot occur while every span's clear width between standing rings exceeds the wall's band, as V11 §3.24.2's and
     §4.8's rows give, and which a table edit can make occur — (G3) holds: by hand `refuse.raised.meeting`; at an epoch the
     stretch's op waits (`walls.waited`) or, for a run a moved river re-traces, F-REDERIVE's ladder (§5.2); at a village
-    derivation VS3's ladder (V07 §3.13).
+    derivation VS3's ladder (V07 §3.13's F-V-RAISED) (amended, PRB7-16).
 
     **The fixed-place sentence.** **Fixed places** are what the wall's own law fixes: a river's water gate (the trace's
     crossing of a river, its bank vertices `Gate.banks`, §4.4 *Water and the waterfront*), a stretch's anchor on its
@@ -438,10 +525,11 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     and the barrier's edge inside the zone as no crossing or anchor site, a stretch of the bent group bent locally to the
     moved place (by hand a fate in `bend.wall.raisedCrossing`'s line); with no such point within the trace's reach (its
     search band; `wall.barrierReachM` for an anchor), the trace takes (G3) (F-WALL at generation and at a regeneration,
-    `walls.waited` at an epoch, `refuse.raised.meeting` by hand). **A raised way created after the wall** keeps every
+    `walls.waited` at an epoch, F-V-RAISED at a village, `refuse.raised.meeting` by hand) (amended, PRB7-16). **A raised way created after the wall** keeps every
     fixed place outside its own fixed-place zone and off its ramps, stairs and feet widened by the strip margin, as it
-    keeps its strip clear of the trace's gates and towers (*over the band*; at generation S6's aqueduct reads the anchors
-    and weld vertices the trace records before S7 lays their towers), a course that cannot taking (G3).
+    keeps its strip clear of the trace's gates and towers (*over the band*; at generation S6's aqueduct reads the anchors,
+    water gates and weld vertices the trace records before S7 lays their towers), a course that cannot taking (G3); every
+    text that keeps a raised way's strip clear of fixed places means this zone (amended, PRB7-09).
 
     **What *beneath* reads from each raised-way state** (the columns): C1 created across the wall, held or not, and C11
     created across a `breached` or `dismantled` run — *over the band* or *down before the wall*; C2 standing, in use or
@@ -456,13 +544,20 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     wall, V04's vaults of the way gone with it, a suppressed generated way staying removed (item 110 (f), T110-3); the
     column's cells name no test of this table, the event's own wall tests at its home holding it (§4.8, §4.11, V06 §3.7,
     V07 §3.4); C8 held — the raised way, the wall or both locked, pinned or declared (a drawn wall locked by its drawing,
-    §7.2) — as the same cell unheld, by the lock sentence: no refusal, each reshape of the held thing shown (G2); an op
-    that targets a held thing itself — a `convert`, `delete`, `repairWall` or `placeGate` on a locked wall, an edit of a
-    locked raised way — is §7.1's lock row's, no meeting; C9 carried down to the village product — as C2 (V07 §3.12: the
-    standing fabric unchanged); C10 repaired by `repairRaised` — as C2, the repair writing the raised way alone; C12
-    extended by a frame growth — the old deck as it stood; the extension keeps the deck's course ((7)), so it is no course
-    laid: where it crosses a band its new supports are slid off that band by (3), aqueduct or road deck alike, and the run
-    beneath is read by *beneath*; C13 edited by its own op — a hand re-shape of its course (`moveVertex` on a course
+    §7.2) — as the same cell unheld, by the lock sentence: no refusal of the meeting, each reshape of the held thing shown
+    (G2); whether the row's event may act on its own target at all is the lock sentence's reach (amended, PRB7-03): an op
+    whose own target — a wall it converts, deletes, repairs, gates, re-sections, moves or re-anchors, a raised way it edits
+    — the user locked or pinned is refused by §7.1's lock row before any meeting, nothing written, while a drawn wall or a
+    declared raised way changed by its author's new declaration (§7.2 *Declared means held*) takes its cell; so "no
+    `refuse.locked`" in a C8 cell means the meeting refuses nothing, and each C8 cell's outcome holds once its event acts;
+    C9 carried down to the village product — as C2 (V07 §3.12: the standing fabric unchanged); C10 repaired by
+    `repairRaised` — as C2, the repair writing the raised way alone, the span or support standing again over a strip this
+    table kept clear whatever its state (*Strips, zones and nearest points*), and a hand repair of a dismantled span or a
+    `cleared` support, which bends to a new raised part on the way's line (V06 §2.8), being that part's creation, C1
+    (amended, PRB7-14); C12 extended by a frame growth — the old deck as it stood; the extension keeps the deck's course
+    ((7)), so it is no course laid: where it crosses a band its new supports are slid off that band by (3), aqueduct or
+    road deck alike, and the run beneath is read by *beneath*; past a bound the extension that bends by (7)'s bound
+    sentence is a course laid then, meeting each standing wall as C13's re-shaped stretch does (amended, PRB7-15); C13 edited by its own op — a hand re-shape of its course (`moveVertex` on a course
     vertex), `spanSpacingCm` (V09's Arch spacing) or `clearanceCm` (Deck height) — the support step re-run where (1)–(5)
     say, against the obstacles standing then: a station in a band laid after slid off it, the band whole across its old
     footprint (*beneath*); a re-shaped aqueduct stretch across a standing band *over the band*; a re-shaped road deck
@@ -481,8 +576,8 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     founding, by hand its declaration's commit), nothing of the wall written but *down before the wall*'s gate, nothing
     reported — `W_RAISED_CROSSING` and `walls.raisedCrossings` count only a trace laid after a raised way crossing its deck
     line (*beneath*) and a channel stopped at an under-deck strip (row e) —; by hand its dry run bends the course, one line
-    each: an aqueduct's supports off the band and its strip clear of the towers, gates and fixed places
-    (`bend.wall.aqueductArch`), a road deck down before the trace (`bend.raised.wall`); a course that cannot is refused by
+    each: an aqueduct's supports off the band, its strip clear of the towers and gates and its fixed-place zone of the
+    fixed places (amended, PRB7-09) (`bend.wall.aqueductArch`), a road deck down before the trace (`bend.raised.wall`); a course that cannot is refused by
     hand (`refuse.raised.meeting`), at generation not built, reported, and at an epoch waits (`raised.waited`, V06 §3.19
     (5)). C12's and C13's records are the raised way's own op's ((7); its edit event). The last column gives what the event
     itself writes (its op and records), the gates and §5.3's checks, and a hand edit's bend, fate and report — the same for
@@ -490,19 +585,20 @@ below, and conforms the sentences after them as (M1)–(M6) say.
 
     | wall event (paths) | C1 created across it | C2 standing | C3 one span fallen | C4 all spans fallen | C5 support cleared or toppled | C6 `vault` span breached | C7 deleted or suppressed | C8 held (either side) | C9 carried down | C10 repaired | C11 created across a breached or dismantled run | C12 frame growth | C13 edited by its own op | the event's op and records · gates and §5.3 · bend, fate and report |
     |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-    | **W1** a trace the engine lays — S3's or S5a's with S7's strips, towers and gates and S10's band (G); VS3's palisade (V); an epoch's circuit, contraction or re-anchored stretch (V06 §3.7), V06 §3.7.6 (3)'s waterfront quay wall and (4)'s dossier-admitted circuit (laid through the hand `drawWall` operator's path, counted in `walls.raisedCrossings`, no bend line), and a run an epoch's moved river or carve re-traces (E); a regeneration's is W3 | *over the band* (an aqueduct at S6's end, its strip clear of the trace's gates, towers and fixed places, S7's towers after it moved clear; or V06's founding) or *down before the wall* (S4's viaducts, an S3 gate route re-solved by §4.2 S3 (7), and S5b's come down; S6's elevated road and a founded road deck, their ends fixed, not built, at an epoch waiting); a held wall met as an unlocked one · T110-2 (1), (2) | *beneath* · T110-2 (3) (G), T110-2 (4) and T-V6-47 (E), T-V7-48 (V) | *beneath*, own top beneath the fallen span (at a first generation it cannot occur: every raised way is new) · T110-2 (4)·S, T110-2 (7), T-V6-47 | *beneath*, own top · T110-2 (4)·S | *beneath*, the band whole across the footprint; through a `cleared` ring as open ground, a `ruined` stump met as a standing support · T110-2 (4)·S, T110-2 (7), T-V6-47 | *beneath*, no chamber, read as C3 · T110-2 (4)·S, T-V4-63 | no meeting · — | as W1·C2, by the lock sentence (nothing is held at a first generation) · T110-2 (4)·S (E), T-V7-48 (V: its declared raised ways held) | *beneath* (VS3's palisade laid after it) · T-V7-48 | as W1·C2 (a repaired span stands) · T110-2 (4)·S | *over the band*, the gap left a gap, no repair; a road deck *down before the wall* · T110-2 (1), (2), T-V6-73 | the extension keeping the deck's course, its new supports off a standing band, the run beneath *beneath*; the old deck as it stood · T110-2's frame clause | as W1·C2 on the edited deck · T110-2 (4)·S | the trace's own batches (S3 or S5a L1; S7's L1 strips, towers and gates; S10's band; VS3's; V06's fortification batch; S1's water operator's re-trace) · gates on ground part 0: S5a pins none on a deck and one beyond a foot where its crossing falls on a ramp, stair or foot, S5b spawns to `N_k` (way-and-channel table, row d); §5.3's gate row on ground part 0 · reported by *beneath* (S7's `W_RAISED_CROSSING` at G, `walls.raisedCrossings` at E), each held thing's reshape a `reshaped` entry (G2); no bend (the bent group's local moves are no hand bend); no lawful shape: (G3) |
-    | **W2** a hand stretch (H) — a `drawWall` (a village T3 `wall` among them), a moved trace vertex, a re-anchored stretch, and a run a hand carve or a moved river re-traces (§4.11 *Other crossings*; §7.3 (b) 3); a gate's slid crossing is W13 | — | *beneath*, the stretch by the bent-group sentence (beyond a road deck's foot, under an aqueduct's nearest lawful span, along the strip's edge, an end moved to it, through a gate moved clear of the strip); an arch vault in a `vault` span now under the wall removed by V04's reconcile in the commit · T110-2 (4), T110-2 (5) (a carve's re-trace), T-V9-52, T-V4-63 | *beneath*, own top beneath the fallen span · T110-2 (4)·S | *beneath*, own top · T110-2 (4)·S | *beneath*, the band whole; a `cleared` ring open ground, a `ruined` stump a standing support · T110-2 (4)·S | *beneath*, no chamber · T110-2 (4)·S | no meeting · — | as W2·C2, no `refuse.locked`; a locked arch vault's chamber removed, the fate *reshaped* · T110-2 (4)·S | *beneath* (a village T3 `wall`) · T-V7-48 | as W2·C2 · T110-2 (4)·S | — | as W2·C2 · T110-2's frame clause (its ring drawn by hand) | as W2·C2 · T110-2 (4)·S | §7.3's S7 operator over the run (a carve's or a moved river's re-trace by §4.11 *Other crossings*, a standing raised way and its reservation no F-EDIT conflict) · a gate it makes for a ground way inside the under-deck strip moved along that way clear of it, the stretch bent through it; §5.3's gate row on ground part 0 · `bend.wall.raisedCrossing`, one line; each local move and a vault's removal a fate, a held thing's *reshaped*; no lawful shape: `refuse.raised.meeting`; the undo restores the run and the vault with the same id |
+    | **W1** a trace the engine lays — S3's or S5a's with S7's strips, towers and gates and S10's band (G); VS3's palisade (V); an epoch's circuit, contraction or re-anchored stretch (V06 §3.7), V06 §3.7.6 (3)'s waterfront quay wall and (4)'s dossier-admitted circuit (laid through the hand `drawWall` operator's path, counted in `walls.raisedCrossings`, no bend line), and a run an epoch's moved river or carve re-traces (E); a hand `contractWall` (H: S5a's trace step, §4.11) (amended, PRB7-26); a regeneration's is W3 | *over the band* (an aqueduct at S6's end, its strip clear of the trace's gates and towers and its fixed-place zone of the fixed places (amended, PRB7-09), S7's towers after it moved clear; or V06's founding) or *down before the wall* (S4's viaducts, an S3 gate route re-solved by §4.2 S3 (7), and S5b's come down; S6's elevated road and a founded road deck, their ends fixed, not built, at an epoch waiting); a held wall met as an unlocked one · T110-2 (1), (2) | *beneath* · T110-2 (3) (G), T110-2 (4) and T-V6-47 (E), T-V7-48 (V) | *beneath*, own top beneath the fallen span (at a first generation it cannot occur: every raised way is new) · T110-2 (4)·S, T110-2 (7), T-V6-47, T-V7-48·S (V) (amended, PRB7-21) | *beneath*, own top · T110-2 (4)·S, T-V7-48·S (V) | *beneath*, the band whole across the footprint; through a `cleared` ring as open ground, a `ruined` stump met as a standing support · T110-2 (4)·S, T110-2 (7), T-V6-47, T-V7-48·S (V) | *beneath*, no chamber, read as C3 · T110-2 (4)·S, T-V4-63, T-V7-48·S (V) | no meeting · — | as W1·C2, by the lock sentence (nothing is held at a first generation) · T110-2 (4)·S (E), T-V7-48 (V: its declared raised ways held) | *beneath* (VS3's palisade laid after it) · T-V7-48 | as W1·C2 (a repaired span stands) · T110-2 (4)·S | *over the band*, the gap left a gap, no repair; a road deck *down before the wall* · T110-2 (1), (2), T-V6-73 | the extension keeping the deck's course, its new supports off a standing band, the run beneath *beneath*; the old deck as it stood · T110-2's frame clause (the extension after the trace), T110-2 (4)·S (E) and T-V7-48's frame-growth clause (V) (the trace after the extension) (amended, PRB7-21) | as W1·C2 on the edited deck · T110-2 (4)·S | the trace's own batches (S3 or S5a L1; S7's L1 strips, towers and gates; S10's band; VS3's; V06's fortification batch; S1's water operator's re-trace) · gates on ground part 0: S5a pins none on a deck and one beyond a foot where its crossing falls on a ramp, stair or foot, S5b spawns to `N_k` (way-and-channel table, row d); §5.3's gate row on ground part 0 · reported by *beneath* (S7's `W_RAISED_CROSSING` at G, `walls.raisedCrossings` at E), each held thing's reshape a `reshaped` entry (G2); no bend (the bent group's local moves are no hand bend); a hand `contractWall`'s dry run a hand `convert`'s line, its crossings in its effects, each held thing's change the fate *reshaped* (amended, PRB7-26); no lawful shape: (G3) |
+    | **W2** a hand stretch (H) — a `drawWall` (a village T3 `wall` among them), a moved trace vertex, a re-anchored stretch, and a run a hand carve or a moved river re-traces (§4.11 *Other crossings*; §7.3 (b) 3); a gate's slid crossing is W13, a run re-sectioned on its kept trace W14 (amended, PRB7-07) | — | *beneath*, the stretch by the bent-group sentence (beyond a road deck's foot, under an aqueduct's nearest lawful span, along the strip's edge, an end moved to it, through a gate moved clear of the strip); an arch vault in a `vault` span now under the wall removed by V04's reconcile in the commit · T110-2 (4), T110-2 (5) (a carve's re-trace), T-V9-52, T-V4-63 | *beneath*, own top beneath the fallen span · T110-2 (4)·S | *beneath*, own top · T110-2 (4)·S | *beneath*, the band whole; a `cleared` ring open ground, a `ruined` stump a standing support · T110-2 (4)·S | *beneath*, no chamber · T110-2 (4)·S | no meeting · — | as W2·C2, no `refuse.locked`; a locked arch vault's chamber removed, the fate *reshaped* · T110-2 (4)·S | *beneath* (a village T3 `wall`) · T-V7-48 | as W2·C2 · T110-2 (4)·S | — | as W2·C2 · T110-2's frame clause (its ring drawn by hand: the extension after the stretch), T110-2 (4)·S (the stretch after the extension) (amended, PRB7-21) | as W2·C2 · T110-2 (4)·S | §7.3's S7 operator over the run (a carve's or a moved river's re-trace by §4.11 *Other crossings*, a standing raised way and its reservation no F-EDIT conflict) · a gate it makes for a ground way inside the under-deck strip moved along that way clear of it, the stretch bent through it; §5.3's gate row on ground part 0 · `bend.wall.raisedCrossing`, one line; each local move and a vault's removal a fate, a held thing's *reshaped*; no lawful shape: `refuse.raised.meeting`; the undo restores the run and the vault with the same id |
     | **W3** a regeneration re-deriving a ring under a held raised way (R: Regenerate (keep), New random, a re-derivation from a stage, a village Regenerate) | — (a held way is not re-created; a generated one the regeneration lays is W1·C1, a held wall standing before every stage met as an unlocked one) | *beneath*, laid by W1's rules after the held way: nothing of the meeting reads the order, so a ring re-derived on its old trace reproduces its strips, band, towers, gates and vaults; the routes it is derived from are laid after the held raised way and cross it by §4.3's crossing rule (way-and-channel table, row a), so a route the raised way crossed where that rule does not admit it is re-solved, and the boundary and ring with it, every meeting still *beneath*; a pulled trace crosses an aqueduct under a span, never at a support, by its own path · T110-2 (6) | *beneath* as read · T110-2 (6)·S | *beneath* as read · T110-2 (6)·S | *beneath* as read: through a `cleared` ring as open ground, clear of a `ruined` stump as of a standing support · T110-2 (6)·S | *beneath* as read, no chamber · T110-2 (6)·S | a suppressed way stays removed · T110-3 | as W3·C2, a locked arch vault's chamber under the ring not laid (a `reshaped` entry) · T110-2 (6)·S | as W3·C2 (a village Regenerate) · T-V7-48's Regenerate clause | as W3·C2 · T110-2 (6)·S | as W3·C2 (the held way as it stands) · T110-2 (6) | as W3·C2 · T110-2 (6)·S | as W3·C2 (the held way as its edits left it) · T110-2 (6)·S | the regenerated stages' batches; the held raised way written by none; V04's T2 vaults step reads the trace · gates on ground part 0 · reported as W1; no bend |
-    | **W4** `DeclineOp`'s `breach` or `dismantle` of a run (E: the pathway's dismantling, V06 §3.7.2 (2); H: a `convert`); a breach by decay is W5 | — | *unchanged meeting* · T110-2 (4) (H), T114-3, T-V6-11 (E) | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | no meeting · — | *unchanged meeting*, no `refuse.locked` · T110-2 (4)·S | *unchanged meeting* · T-V7-48's hand `breach` and `dismantle` clause | *unchanged meeting* · T110-2 (4)·S | — | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | the runs' `condition`, `conditionEpoch` and material over the op's stretch (§2.7), nothing passed over; the `dismantle` that takes the last run of an absorbed record over a `vault` span lays its chamber again (row W8) · gates unchanged · a hand op's line as any `convert`; no bend |
-    | **W5** V06 §3.7.7's decay (`wearWall`, a breach by neglect or poverty) (E; V: V07 §3.4 (8)) | — | *unchanged meeting* · T114-3, T-V6-73 | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | no meeting · — | *unchanged meeting* · T-V6-73·S | *unchanged meeting* (V07 §3.4 (8)'s decay) · T-V7-48's decay clause | *unchanged meeting* · T-V6-73·S | — | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | the draws over every run alike, none filtered for a deck · gates unchanged · — |
+    | **W4** `DeclineOp`'s `breach` or `dismantle` of a run (E: the pathway's dismantling, V06 §3.7.2 (2); H: a `convert`); a breach by decay is W5 | — | *unchanged meeting* · T110-2 (4) (H), T114-3, T-V6-11 (E) | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | no meeting · — | *unchanged meeting*, no `refuse.locked` · T110-2 (4)·S | *unchanged meeting* · T-V7-48's hand `breach` and `dismantle` clause | *unchanged meeting* · T110-2 (4)·S | — | *unchanged meeting* · T110-2 (4)·S | *unchanged meeting* · T110-2 (4)·S | the runs' `condition`, `conditionEpoch` and material over the op's stretch (§2.7), nothing passed over; the `dismantle` that takes the last run of an absorbed record over a `vault` span lays its chamber again (row W8) · gates unchanged · a hand op's line as any `convert`, a chamber it lays again a fate (a held one's *reshaped*; at an epoch a held one's `reshaped` entry) (amended, PRB7-29); no bend |
+    | **W5** V06 §3.7.7's decay (`wearWall`, a breach by neglect or poverty) (E; V: V07 §3.4 (8); H: a hand `convert` `wearWall` or `neglect`, amended, PRB7-26) | — | *unchanged meeting* · T114-3, T-V6-73, T110-2 (4) (H) | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | no meeting · — | *unchanged meeting* · T-V6-73·S | *unchanged meeting* (V07 §3.4 (8)'s decay) · T-V7-48's decay clause | *unchanged meeting* · T-V6-73·S | — | *unchanged meeting* · T-V6-73·S | *unchanged meeting* · T-V6-73·S | the draws over every run alike, none filtered for a deck · gates unchanged · by hand a `convert`'s line; no bend |
     | **W6** V06 §3.7.2 (1)'s gate opening, `gateToJunction` (E; H: a `convert`) | — | *unchanged meeting*: no gate stands in an under-deck strip, so none it opens lies under a deck · T-V6-47 | as W6·C2 · T-V6-47·S | as W6·C2 · T-V6-47·S | as W6·C2 · T-V6-47·S | as W6·C2 · T-V6-47·S | no meeting · — | as W6·C2 · T-V6-47·S | as W6·C2, by a hand `convert` only (V07 runs no pathway) · T-V7-48's hand `gateToJunction` clause | as W6·C2 · T-V6-47·S | — | as W6·C2 · T-V6-47·S | as W6·C2 · T-V6-47·S | the junction (and square) as at any gate · gates on ground part 0 · a hand `convert`'s line; no bend |
-    | **W7** `wallToWay` (E; H: a `convert`) | — | the ring road by the way-and-channel table (row c), read in the dry run as after the op: each `vault` span the old wall stood over read `vault`, its chamber laid again by V04 in the commit and the ring road kept off its strip · T110-2 (8), T-V6-47 | as W7·C2 at that state, a re-laid vault `collapsed` where its span or a bounding support has fallen (V04 §3.5.4 (d) (2)) · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | no meeting · — | as W7·C2, no `refuse.locked` · T110-2 (8)·S | as W7·C2, by a hand `convert` only (V07 runs no pathway) · T-V7-48's hand `wallToWay` clause | as W7·C2 · T110-2 (8)·S | — | as W7·C2 · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | `retypeEdges`, S9's `corridorUnion`, the ring road's re-route by §7.3's S4 operator in the dry run · gates become junctions (none under a deck); no junction with the raised way · the re-route and the vault a fate (a held vault's *reshaped*) |
-    | **W8** `absorbWall` (E; H: a `convert`) | — | *unchanged meeting*: the band and strips merged into the blocks (V06 §2.8), the runs standing and dismantled in time as any (row W4); a `vault` span the old wall stood over read `open` while a run of the absorbed record not yet `dismantled` crosses its under-deck strip (*beneath*), V04 laying its chamber again in the commit of the `dismantle` that takes the last such run, or in `absorbWall`'s own where none is left · T-V6-11 | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | no meeting · — | as W8·C2 · T-V6-11·S | as W8·C2, by a hand `convert` only (V07 runs no pathway) · T-V7-48's hand `absorbWall` clause | as W8·C2 · T-V6-11·S | — | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | `absorbWall` (V06 §2.8) and V06 §3.7.2 (2)–(3)'s dismantling · gates go with their runs · a hand `convert`'s line |
+    | **W7** `wallToWay` (E; H: a `convert`) | — | the ring road by the way-and-channel table (row c), read in the dry run as after the op: each `vault` span the old wall stood over read as *beneath* reads it then (amended, PRB7-13, PRB7-25) — `vault` where no other wall's band, strip or standing run and no way's corridor or channel laid while it read `open` crosses its strip, its chamber laid again by V04 in the commit and the ring road kept off its strip; else `open`, the ring road crossing under it by the crossing rule · T110-2 (8), T-V6-47 | as W7·C2 at that state, a re-laid vault `collapsed` where its span or a bounding support has fallen (V04 §3.5.4 (d) (2)) · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | no meeting · — | as W7·C2, no `refuse.locked` · T110-2 (8)·S | as W7·C2, by a hand `convert` only (V07 runs no pathway) · T-V7-48's hand `wallToWay` clause | as W7·C2 · T110-2 (8)·S | — | as W7·C2 · T110-2 (8)·S | as W7·C2 · T110-2 (8)·S | `retypeEdges`, S9's `corridorUnion`, the ring road's re-route by §7.3's S4 operator in the dry run · gates become junctions (none under a deck); no junction with the raised way · the re-route and the vault a fate (a held vault's *reshaped*) |
+    | **W8** `absorbWall` (E; H: a `convert`) | a raised way created across the absorbed record's line (V06 §3.19's founding; a hand declaration) meets each of its runs not yet `dismantled` as a standing wall — the band as it stood over that run before the absorb an obstacle of (3) ((M5)), so an aqueduct *over the band* and a road deck *down before the wall* (that run's line a standing trace), its strip clear of their towers and gates and its fixed-place zone of their fixed places —, a `dismantled` run none (amended, PRB7-18) · T-V6-11 | *unchanged meeting*: the band and strips merged into the blocks (V06 §2.8), the runs standing and dismantled in time as any (row W4); a `vault` span the old wall stood over read `open` while a run of the absorbed record not yet `dismantled` crosses its under-deck strip (*beneath*), V04 laying its chamber again in the commit of the `dismantle` that takes the last such run, or in `absorbWall`'s own where none is left · T-V6-11 | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | no meeting · — | as W8·C2 · T-V6-11·S | as W8·C2, by a hand `convert` only (V07 runs no pathway) · T-V7-48's hand `absorbWall` clause | as W8·C2 · T-V6-11·S | as W8·C1, a `breached` run standing and a `dismantled` one none (amended, PRB7-18) · T-V6-11 | as W8·C2 · T-V6-11·S | as W8·C2 · T-V6-11·S | `absorbWall` (V06 §2.8) and V06 §3.7.2 (2)–(3)'s dismantling · gates go with their runs · a hand `convert`'s line, a chamber laid again by hand a fate (a held one's *reshaped*; at an epoch a held one's `reshaped` entry) (amended, PRB7-29) |
     | **W9** the hand-off down that makes the enceinte the village's palisade (E) | — | *unchanged meeting* (V07 §3.12: the standing fabric unchanged); VS3's later re-lay is W1·C9 · T-V7-48 | as W9·C2 · T-V7-48·S | as W9·C2 · T-V7-48·S | as W9·C2 · T-V7-48·S | as W9·C2 · T-V7-48·S | no meeting · — | as W9·C2 · T-V7-48·S | as W9·C2 (this column) · T-V7-48 | as W9·C2 · T-V7-48·S | — | as W9·C2 · T-V7-48's frame-growth clause | as W9·C2 · T-V7-48·S | the plan's revival (V07 §3.12) · the palisade's gates on ground part 0 · — |
     | **W10** `repairWall` (E; H) — on a `dismantled` run its bend, a new stretch drawn on its line | — | *unchanged meeting*; the bend's new stretch is a stretch of the bent group, W2·C2 · T110-2 (4), T114-3's landfall clause (E) | as W10·C2 · T110-2 (4)·S | as W10·C2 · T110-2 (4)·S | as W10·C2 · T110-2 (4)·S | as W10·C2 · T110-2 (4)·S | no meeting · — | as W10·C2 · T110-2 (4)·S | as W10·C2 · T-V7-48's `repairWall` clause | as W10·C2, neither repair waiting on the other · T110-2 (4)·S | — | as W10·C2 · T110-2 (4)·S | as W10·C2 · T110-2 (4)·S | `repairWall` (V06 §2.8) · gates unchanged · `bend.wall.newStretch` on a dismantled run, its new stretch's moves in `bend.wall.raisedCrossing`'s line |
-    | **W11** a hand `delete` of a run or of the enceinte (H) | — | *unchanged meeting*: the run (its band, towers, gates) removed, the raised way untouched; V04 lays again an arch vault the run stood over · T110-2 (4), T-V4-63 | as W11·C2, a re-laid vault `collapsed` where its span has fallen · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | no meeting · — | as W11·C2 · T110-2 (4)·S | as W11·C2 · T-V7-48's hand `delete` clause | as W11·C2 · T110-2 (4)·S | — | as W11·C2 · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | §7.1's `delete` · its gates go with it · fates in the dry run; no bend; the undo restores the run and removes the vault again |
-    | **W12** V05's landfall over a run beneath a deck (V05 §3.16 (4)) (E) | — | *unchanged meeting* for each record: the run `breached` by the landfall's wall row, the spans and supports its footprint covers `ruined` by theirs — one already `ruined` kept, one already `cleared` kept `cleared` and no member (V05 §3.16 (4)) —, each repaired by its own op (`repairWall`, `repairRaised`), neither waiting on the other · T114-3's landfall clause, T-V5-14 | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | no meeting · — | as W12·C2 · T-V5-14 | as W12·C2 (`sky.islands` runs at every rung, V06 §3.2) · T-V5-14 | as W12·C2 · T114-3's landfall clause | — | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | the landfall's batch (V05 §3.16 (4)–(5)) · a covered tower or gate lies inside its `breached` run (no state of its own), as on any landfall · its undo restores the run and the raised way's parts |
-    | **W13** a hand `placeGate` (§7.1's sugar: a stub crossing the trace at `at`), or a gate's crossing slid along the trace by its grip (`moveVertex`, §7.1's T3 row) (H) | — | at an `at` or a slide's end inside the under-deck strip, moved along the trace to the nearest point clear of it, the stub or the gate's way following, the trace unchanged; elsewhere *unchanged meeting* · T110-2 (4), T-V9-52 | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | no meeting · — | as W13·C2, no `refuse.locked` · T110-2 (4)·S | as W13·C2 · T-V7-48's bar (0 gates in an under-deck strip) | as W13·C2 · T110-2 (4)·S | — | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | the sugar's expansion (§7.3's S7 operator makes the gate at the stub's crossing, §7.1) or the slide's `moveVertex` · gates on ground part 0, none in an under-deck strip · `bend.wall.raisedCrossing`'s gate form, one line |
+    | **W11** a hand `delete` of a run or of the enceinte (H) | — | *unchanged meeting*: the run (its band, towers, gates) removed, the raised way untouched; V04 lays again an arch vault the run stood over · T110-2 (4), T-V4-63 | as W11·C2, a re-laid vault `collapsed` where its span has fallen · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | no meeting · — | as W11·C2 · T110-2 (4)·S | as W11·C2 · T-V7-48's hand `delete` clause | as W11·C2 · T110-2 (4)·S | — | as W11·C2 · T110-2 (4)·S | as W11·C2 · T110-2 (4)·S | §7.1's `delete` · its gates go with it · fates in the dry run, a chamber laid again among them (a held one's *reshaped*) (amended, PRB7-29); no bend; the undo restores the run and removes the vault again |
+    | **W12** V05's landfall over a run beneath a deck (V05 §3.16 (4)) (E) | — | *unchanged meeting* for each record: the run `breached` by the landfall's wall row, the spans and supports its footprint covers `ruined` by theirs — one already `ruined` kept, one already `cleared` kept `cleared` and no member (V05 §3.16 (4)) —, each repaired by its own op (`repairWall`, `repairRaised`), neither waiting on the other · T114-3's landfall clause, T-V5-14 | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | no meeting · — | the held side kept, never covered — content the ruin laps around, no member (V05 §3.16 (2); F-SKY-LANDFALL; the lock sentence's reach) — and the other side as W12·C2: a held raised way's spans and supports kept and the run beneath `breached`, a held run kept and the spans and supports over it `ruined` (amended, PRB7-04) · T-V5-14 | as W12·C2 (`sky.islands` runs at every rung, V06 §3.2) · T-V5-14 | as W12·C2 · T114-3's landfall clause | — | as W12·C2 · T-V5-14 | as W12·C2 · T-V5-14 | the landfall's batch (V05 §3.16 (4)–(5)) · a covered tower or gate lies inside its `breached` run (no state of its own), as on any landfall · its undo restores the run and the raised way's parts |
+    | **W13** a hand `placeGate` (§7.1's sugar: a stub crossing the trace at `at`), or a gate's crossing slid along the trace by its grip (`moveVertex`, §7.1's T3 row) (H) | — | at an `at` or a slide's end inside the under-deck strip, moved along the trace clear of it — a placed gate to the nearer edge, ties by *Strips, zones and nearest points*, a slid one back to the edge its grip came from (amended, PRB7-10) —, the stub or the gate's way following, the trace unchanged; elsewhere *unchanged meeting* · T110-2 (4), T-V9-52 | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | no meeting · — | as W13·C2, no `refuse.locked` · T110-2 (4)·S | as W13·C2 · T-V7-48's hand `placeGate` clause and its bar (0 gates in an under-deck strip) | as W13·C2 · T110-2 (4)·S | — | as W13·C2 · T110-2 (4)·S | as W13·C2 · T110-2 (4)·S | the sugar's expansion (§7.3's S7 operator makes the gate at the stub's crossing, §7.1) or the slide's `moveVertex` · gates on ground part 0, none in an under-deck strip · `bend.wall.raisedCrossing`'s gate form, one line |
+    | **W14** a standing wall re-sectioned on its kept trace (amended, PRB7-07) — a hand `setAttr` of a stretch's grade (`profile/<arc ordinal>/grade`) or of the enceinte's kind, re-derived by §7.3's S7 operator (H); V07 §3.11's palisade REPLACEMENT, rebuilt in stone on the palisade's trace (E: a village epoch) | — | the run laid again in its new section on its kept trace as a stretch of the bent group (the bent-group sentence: its line kept where its new band crosses lawfully, re-traced locally where it would not), its towers and gates by *No gate and no tower*, each `vault` span its new band or strips meet read `open` and each they leave laid again (*beneath*) · T110-2 (4) (H), T-V7-48 (E) | as W14·C2 · T110-2 (4)·S | as W14·C2 · T110-2 (4)·S | as W14·C2 · T110-2 (4)·S | as W14·C2 · T110-2 (4)·S | no meeting · — | as W14·C2 · T110-2 (4)·S | as W14·C2 (the REPLACEMENT under a carried-down raised way) · T-V7-48 | as W14·C2 · T110-2 (4)·S | — | as W14·C2 · T110-2 (4)·S | as W14·C2 · T110-2 (4)·S | §7.3's S7 operator over the run, its strips re-cut by S10's step (0); V07's REPLACEMENT batch · gates kept, on ground part 0 · by hand `bend.wall.raisedCrossing`'s line, each local move a fate (a held thing's *reshaped*); at an epoch each crossing counted in `walls.raisedCrossings` and each held thing's reshape a `reshaped` entry; no lawful shape: (G3) |
 
 **Block 2 — (6) (a)–(b), the way-and-channel table, whole:**
 
@@ -517,14 +613,15 @@ below, and conforms the sentences after them as (M1)–(M6) say.
     along the strip), whatever a span's `state`: a `ruined` or `cleared` span's strip is crossed by this rule as a standing
     one's, a `vault` span's kept closed by its `collapsed` arch vault (V04 §3.5.4 (d) (2)). Throughout this table, and in
     every bar that counts way corridors over a support ring or a `vault` span's strip, a ring is a standing support's and a
-    `vault` span under a wall is read `open` (the crossing table, *beneath*). A lock or pin on the raised way never refuses
-    any row (none changes it).
+    `vault` span is read as the crossing table's *beneath* reads it — `open` under a wall, and while a way's corridor or a
+    channel laid while it read so crosses its strip (amended, PRB7-13). A lock or pin on the raised way never refuses any
+    row (none changes it).
 
     | row | outcome | ladder · bend | gates | test |
     |---|---|---|---|---|
     | **(a)** a route, S5c's proposal, a stage-2 seed's way, a village tracker, S7's quay, intervallum or castle path | crosses the under-deck strip only by the crossing rule | its own ladder: §4.3's F-ROUTE for a route; §4.4's deflection along the strip or its end there for S5c; V01 §3.17.3 (3)'s F-TEMPLATE rungs and §4.6's lane ladder; V07 §3.5a (3)'s turn; S7's way ending at the strip as at a reservation (an intervallum ending so, the inner strip bounded across the under-deck strip by its inner setback line, §4.8's lead) | — | T110-2 (3) (the intervallum and the castle paths), (5); T-V1-51 (c); T-V7-48 |
     | **(b)** a hand `drawWay` or a moved way | the same | `bend.raised.underSpan` (moved along the deck to cross under the nearest span that admits it); none admits it: `bend.raised.around` (another course by §4.3's router, round the raised way, else the nearest routable pair, §4.3 *Two-point roads*) | a way crossing a trace makes its gate there on ground part 0 (§7.3's S7 row), never inside an under-deck strip: a crossing of the trace there is moved along the deck to the nearest crossing clear of the strip (`bend.raised.underSpan`, its wall form), else the way takes another course (`bend.raised.around`); a `placeGate`'s stub and a slid gate are the crossing table's row W13 | T110-2 (4), (5); T-V9-52 |
-    | **(c)** the ring road `wallToWay` makes | the same, the old line being where it is laid, read as after the op: each `vault` span the old wall stood over read `vault` (no band, strip or run lies there once the op commits; the crossing table, *beneath*), its strip closed and its chamber laid again by V04 in the commit | in the dry run its spine there is re-routed by §7.3's S4 local operator, between its nearest nodes on either side of the under-deck strip, to cross under the nearest span the rule admits; none admits it: it ends at the strip's edges as at a reservation, reported | its gates become junctions on ground part 0; none with the raised way | T110-2 (8); T-V6-47 |
+    | **(c)** the ring road `wallToWay` makes | the same, the old line being where it is laid, read as after the op: each `vault` span the old wall stood over read as the crossing table's *beneath* reads it once the op commits (amended, PRB7-13, PRB7-25) — `vault`, its strip closed and its chamber laid again by V04 in the commit, where no other wall's band, strip or standing run and no way's corridor or channel laid while it read `open` crosses its strip; else `open` (the ring road itself read as laid after the op) | in the dry run its spine there is re-routed by §7.3's S4 local operator, between its nearest nodes on either side of the under-deck strip, to cross under the nearest span the rule admits; none admits it: it ends at the strip's edges as at a reservation, reported | its gates become junctions on ground part 0; none with the raised way | T110-2 (8); T-V6-47 |
     | **(d)** S5b's spawned primary | its course comes down before the stage's picked boundary (*down before the wall*), so it crosses the boundary on ground part 0 | §4.3's ladder | each spawned primary a main gate; an earlier arterial crossing the new boundary on a deck is no gate and no part of `c`, so the stage reaches `N_k` gates on ground part 0 (§4.4 S5b; §4.8 *Gates*; §5.3's gate row) | T110-2 (2) |
     | **(e)** a channel — a moat (S3 (10)'s; S5a's outer moat), a canal or a hand carve | passes beneath where its crossing of the under-deck strip meets no support, ramp, stair, foot or `vault` span's strip; elsewhere it stops at the strip's edges, ending against the ground as against a berm (§4.2 S3 (10)) — a moat stopped so leaving the wall's outer strip closed across the under-deck strip by its glacis line and typed there as on a dry stretch (§4.7 S10 (0); §4.8 *Wall strips*); a raised way created across a standing channel keeps its supports out of its water ((3)); a stopped channel reported by what carves it: S3's or S5a's `W_RAISED_CROSSING` at generation and at a regeneration (§4.2 S3 (10); §4.4 *Outer moats*), `walls.raisedCrossings` at an epoch | a hand carve: its crossing first moved along the deck to the nearest crossing that meets none of these (`bend.raised.underSpan`), else stopped at the strip's edges (`bend.raised.around`) | an arterial's deck across a moat by S5a *Outer moats* | T110-2 (1), (3), (5), (6) |
 
@@ -541,6 +638,10 @@ below, and conforms the sentences after them as (M1)–(M6) say.
   lock sentence);".
 * **(M3)** (3)'s slide bound — the text Part H · model gives (this file's pointer; no id is written into §2.7).
 * **(M4)** (7)'s extension past a bound — the sentence R7-04 (c) gives (this file's pointer; no id is written into §2.7).
+* **(M5)** (amended, PRB7-18) (3)'s obstacle list: "an enceinte's band (`Enceinte.band`, or before S10 has built it the
+  band beside the standing trace, its half-widths by §4.8's rows along the stretch profile), whatever its runs' condition"
+  → "…, whatever its runs' condition — and, once `absorbWall` has merged a ring's band into the blocks (V06 §2.8), that
+  band as it stood over each run of the absorbed record not yet `dismantled` (the crossing table, row W8) —".
 
 #### Attacking the tables (round-7 note (5)): what a second builder would build from the words, and the words that close it
 
@@ -552,14 +653,16 @@ below, and conforms the sentences after them as (M1)–(M6) say.
 3. *An epoch circuit passes under a locked arch vault: keep the chamber in the band, or remove it?* Neither moves the
    other: the vault's span is held, its chamber not laid while the wall stands, its lock kept with its key; a `reshaped`
    entry; the chamber laid again, locked, when the wall goes (T110-2 (4), T-V4-80 (i)).
-4. *A held building seated in that vault?* The wall gives way: its trace keeps the span's strip and the wall strips' widths
-   clear, crosses under another span, else its ladder; by hand `refuse.locked` naming the building (T110-2 (4)).
+4. *A held building seated in that vault?* The wall gives way: its trace keeps the building's widened strip clear and
+   crosses under another span — by hand moved there, a fate in `bend.wall.raisedCrossing`'s line — else its ladder; by
+   hand with no other span, `refuse.locked` naming the building (T110-2 (4)) (amended, PRB7-01).
 5. *A hand wall drawn along beneath an aqueduct through two piers?* (ii): moved to the strip's edge on its entry side; a
    fate in `bend.wall.raisedCrossing`'s line; T110-2 (4).
 6. *Ending at a pier?* (iii): the end moved to the edge on its entry side. *Wholly inside the strip?* The side nearer its
    first vertex, ties left in spine order.
-7. *A gate's grip slid into the strip: the wall bends or the gate goes back?* The gate goes back along the trace, its road
-   following, the trace unchanged (W13; V09's gate form; T110-2 (4), T-V9-52).
+7. *A gate's grip slid into the strip: the wall bends or the gate goes back?* The gate goes back along the trace to the
+   strip's edge its grip came from (a placed gate to the nearer edge), its road following, the trace unchanged (W13;
+   V09's gate form; T110-2 (4), T-V9-52) (amended, PRB7-10).
 8. *A carve's re-traced run meeting a locked aqueduct's supports in its new strips: F-EDIT conflict or *beneath*?*
    *Beneath*, row W2, no conflict: §4.11 *Other crossings* and §7.3 (b) 3 except a standing raised way and its
    reservation (T110-2 (5)).
@@ -570,7 +673,8 @@ below, and conforms the sentences after them as (M1)–(M6) say.
 11. *Which test runs W5·C5?* T-V6-73's clause over the state sweep's C5: the support `cleared` after both its spans fell
    and, on a second run, `ruined` by a topple — no cell names a test that never sets up its state.
 12. *A hand `convert` `breach` of a run beneath a locked viaduct?* No `refuse.locked` (C8), run by T110-2 (4)·S; a
-   `breach` of a locked run is the op's own target, §7.1's lock row, no meeting.
+   `breach` of a run the user locked is the op's own target, §7.1's lock row, no meeting; of a drawn run, its author's
+   new declaration, the cell's outcome (the lock sentence's reach) (amended, PRB7-03).
 13. *`absorbWall` under an aqueduct's `vault` span: when does the vault return?* When the dismantling takes the last
    run of the old wall there (W8), counted into `EpochScope.raised` by V06 (R7-04); T-V6-11·S runs it.
 14. *A road deck's re-spacing that can place no station off a band within the slide bound?* The spacing bent to the
@@ -588,7 +692,8 @@ below, and conforms the sentences after them as (M1)–(M6) say.
   every other clause (U-FADE, other reconciles and regenerations, the removal of a raised way or a span's `open` under a
   locked vault) stands.
 * V06 §3.19 (5)'s impassable list → impassable to supports, ramps, stairs, feet and the clearing; a held wall met by the
-  crossing table; a held ground way passed over (§7.4).
+  crossing table; a held ground way passed over (§7.4); a held retaining wall or raised way met as an unheld one, and
+  each fixed place impassable to the course's fixed-place zone (amended, PRB7-20, PRB7-09).
 * The bent group's "bent locally, between its nearest points clear … to cross … under the nearest span … beyond the foot
   … through a gate there" → the bent-group sentence's (i), whole; (ii)–(iv) new edges closed; the tie rule kept.
 * *No gate and no tower*: every clause kept; W13's slid gate and the fixed places added.
@@ -605,7 +710,11 @@ E-D7 (§5.4's `reshaped` entry), E-D8 (§7.2), E-D9 (§5.3's declared row), E-D1
 VPC-r6-03's §4.11 *Other crossings*; **scope** E-S0 (the state sweep), E-S1, E-S3, E-S4, E-S5, E-S9; **V04** E-V4-2,
 E-V4-4, E-V4-6, E-V4-7; **V06** E-V6-4, E-V6-5, E-V6-9, E-V6-12; **V07** E-V7-2; **V09** E-V9-1 – E-V9-6; **V11** its
 §3.24.2 END and VV1112-r6-02's amendment. The repair seats apply the lock sentence's (G2) and (G3) names (*reshaped*,
-`reshaped`, `refuse.raised.meeting`) exactly as these ENDs write them.
+`reshaped`, `refuse.raised.meeting`) exactly as these ENDs write them. Part P (probe pass 1) adds (amended): **determinism**
+E-D11 (§5.2's F-WALL raised-way rung and §5.4's `W_RAISED_MEETING`); **scope** E-S11 (the set's lock bars),
+E-S12 ((G3) off the hand path); **V04** E-V4-1's and E-V4-5's further changes; **V06** E-V6-14 (T-V6-4 and the history
+× locks row), E-V6-15 (§2.10's `waited` counts); **V07** E-V7-4 (F-V-RAISED); **V09** E-V9-7 (T-V9-13); and the model's
+(M5) and row W14.
 
 ## Part C — the family's other rulings
 
@@ -626,7 +735,12 @@ whole as (5) solves it, every deck edge whose two ends lie on either side of the
 counting as standing, §4.3 *Where it may not go*; §2.7's crossing table, *down before the wall*); its gate is the
 re-solved route's first point at `T = t_1`, on ground part 0, which the rest of this step reads as any gate; `T` and the
 boundary keep (5)'s routes and are not re-derived, and a route the re-solve cannot serve takes F-ROUTE's ladder (§5.2),
-reported." And **§4.3 *Where it may not go***: "(at S5b the stage's picked boundary counting as standing;" → "(at S3 (7)
+reported. The raised stretches of (5)'s routes, so re-solved, stand for every later step of S3 as raised ways laid before
+the stage-1 trace: (8)'s siting filter and (9)'s pull, anchors and water gates read their ramps, stairs, feet, supports,
+under-deck strips and fixed-place zones as §2.7's crossing table's *beneath* and fixed-place sentence read a standing
+raised way's (the pull keeping each such route's crossing of the boundary as §4.4 S5a *Trace* (2) keeps an arterial's),
+and S4 commits them unchanged; a raised stretch S4 solves on a route of its own is laid after the trace and meets it as
+one (*down before the wall*; the fixed-place sentence)." (amended, PRB7-02) And **§4.3 *Where it may not go***: "(at S5b the stage's picked boundary counting as standing;" → "(at S3 (7)
 the stage-1 boundary — from S3 (9) on, its trace — and at S5b the stage's picked boundary counting as standing;". The
 model's *down before the wall* carries the same words (R7-02). The same rule holds at every regeneration that re-lays S4's
 viaducts (row W1·C1 through W3). **Ends:** scope's T110-2 (2) (Part H · scope, E-S2).
@@ -680,9 +794,14 @@ stand in a river. Home text, **model, §2.7's support step (7)**, after "against
 (3)'s clear-span bound or (4)'s pier bound fails on it (a water face or a valley the grown frame reveals), the way being
 held ((6)), the extension is neither dropped nor left waiting: its course bends, as (3) and (4) bend a declared course, to
 the nearest course from that station to the new ring whose clear spans and piers fit, its ring-end foot re-placed where
-that course meets the new rings (`RaisedFoot`); with none, it keeps the straight course, each station (1)–(2) place
-standing where it falls — a support in a water face kept there, a pier past `maxPierM` kept — and each is reported
-(`raised.extendedPastBound`, V06 §2.10; at a hand Re-derive, a row of its dry run's effects) —". T110-2's bound bar
+that course meets the new rings (`RaisedFoot`), and meeting each standing wall as a course laid then — an aqueduct *over
+the band*, a road deck never across a standing trace, its strip clear of gates and towers and its fixed-place zone of
+fixed places (§2.7's crossing table, C12, C13); with none, it keeps its course (the way's line), each station (1)–(2)
+place slid by (3) off every obstacle but the water or valley whose bound it fails, never omitted — a support in a water
+face kept there, a pier past `maxPierM` kept — and each is reported
+(`raised.extendedPastBound`, V06 §2.10; at a hand Re-derive, a row of its dry run's effects) —" (amended, PRB7-15: the
+bent course meets the walls; "its course" for "the straight course"; the stations slid by (3) but off the failed bound).
+T110-2's bound bar
 reads "every clear span and pier within its bound, and no support in water, but a frame growth's extension past a bound
 with no fitting course, reported (§2.7's support step (7))". **Ends:** scope (E-S8), V06 (E-V6-13), pipeline (E-P8).
 
@@ -690,8 +809,10 @@ with no fitting course, reported (§2.7's support step (7))". **Ends:** scope (E
 line, so the crossing rule reads a `vault` span under it `open`; in the commit V04 lays that span's chamber across the new
 road. **Decision:** the dry run reads the state the op leaves. Home text, **pipeline, §4.11 `wallToWay`**: "to cross under
 the nearest span §4.3's crossing rule admits" → "to cross under the nearest span §4.3's crossing rule admits, reading the
-state the op leaves: each `vault` span the old wall stood over read `vault` (no band, strip or run lies there once the op
-commits; §2.7's crossing table, *beneath*), so the ring road keeps off the strip of the chamber V04 lays again"; the
+state the op leaves: each `vault` span the old wall stood over read as §2.7's crossing table's *beneath* reads it once the
+op commits — `vault`, so the ring road keeps off the strip of the chamber V04 lays again, where no other wall's band,
+strip or standing run and no way's corridor or channel laid while it read `open` crosses its strip; else `open`, the ring
+road crossing under it by the crossing rule" (amended, PRB7-13, PRB7-25); the
 model's row (c) carries it (R7-02 Block 2). **Ends:** scope's T110-2 (8) (E-S7).
 
 **(e) A cleared span at a village (VAL-R6-02).** V07 §3.5a (3) frees a `cleared` span's ground; the base's crossing rule
@@ -726,9 +847,14 @@ the clause's fixture, the state made by scripted ops before the clause's wall ev
 `ruined` by a `DeclineOp` `breach` and, on a second run, `cleared` by its `dismantle` after it; C4, every span over the
 line `ruined`; C5, the support nearest the line `cleared` — both its spans `ruined` first, then its `dismantle` (V06
 §3.19.2 (3)) — and, on a second run, `ruined` by a `topple` (V06 §3.11; it and both its spans, V06 §3.19.2 (4)); C6, a
-`vault` span over the line breached with its arch vault (the fixture's seed searched so that one reads `vault`); C8, the
-raised way locked and, on a second run, pinned — and, in a clause whose event creates or edits the raised way, the wall
-locked; C10, C3's `ruined` span repaired by `repairRaised`; C12, the deck extended by a frame growth; C13, the raised
+`vault` span over the line breached — with its arch vault where no wall of the clause stood over the span before the
+event, else with none, the span read `open` — (the fixture's seed searched so that one reads `vault`) (amended, PRB7-21);
+C8, the raised way locked and, on a second run, pinned; on a third, an arch vault in a `vault` span over the line locked
+by the user before any wall of the clause stood over it; in a clause whose event lays a trace, on a fourth, a declared
+placement seated in that vault before the event; and, in a clause whose event creates or edits the raised way, the wall
+locked (amended, PRB7-17); C10, C3's `ruined` span repaired by `repairRaised`, and, in a clause whose event lays a trace,
+the C3 run once more with that span repaired after the event — no gate, tower or fixed place under it (amended,
+PRB7-14); C12, the deck extended by a frame growth; C13, the raised
 way's Arch spacing edited, on a second run its Deck height, on a third its course re-shaped by a hand `moveVertex`. Each
 run takes its cell of §2.7's crossing table: the event's own records only, nothing of the raised way written but a
 chamber the table removes or lays again (`collapsed` where its span or a bounding support has fallen), the run's top
@@ -743,16 +869,19 @@ E-S4, E-S6, E-S7, E-S10), V06 (E-V6-3, E-V6-7, E-V6-8, E-V6-11), V07 (E-V7-1, E-
 **(b) One wording for the arch-vault bars (VAT6-r6-01 = VAP-r6-04).** T-V4-63's "names a standing span" and T-V6-64's
 "none under a fallen one" fail a correct build: V04 §3.5.4 (d) (2) keeps a `collapsed` vault under a fallen span, and
 §4.11's `DeclineOp` collapses it in the batch. **Decision:** one wording, home V04 §3.5.4 (d), each bar citing it: "every
-arch vault's key names a span of the way whose `use` is `vault` and over which no wall stands — its chamber open under a
-standing span, `collapsed` under one whose span or a bounding support is `ruined` or `cleared` (V04 §3.5.4 (d) (2)) — and
-no arch vault stands where its span no longer exists, is `open` or lies under a wall (V04 §3.5.4 (d) (3))". T-V4-63's bar
+arch vault's key names a span of the way whose `use` is `vault` and which §2.7's crossing table's *beneath* reads `vault`
+— its chamber open under a standing span, `collapsed` under one whose span or a bounding support is `ruined` or `cleared`
+(V04 §3.5.4 (d) (2)) — and no arch vault stands where its span no longer exists or is `open` or read `open` (V04 §3.5.4
+(d) (3))" (amended, PRB7-13: *beneath* is cited, not restated, so the reading under a wall and under a way or channel laid
+while it read `open` are both held). T-V4-63's bar
 and T-V6-64's clause take it; V06 §3.19.2 (3)'s "so no chamber stands under a fallen span at any batch" → "so no chamber
 stands open under a fallen span at any batch" (blind spot (c)).
 
 **(c) The other test findings**, each its `required_change` as Part H rules: regeneration at fallen states and the
 re-laid vault after `wallToWay` (VEL6-r6-02, VM-R6T-02: T110-2 (6)·S and (8)); castle paths (VAF-R6T-03: T110-2 (3));
 the hand rows locked and pinned and over the sweep (VAP-r6-01, VAP-r6-02: T110-2 (4), (8)); a re-shape across a standing
-ring (VCS-r6-01, amended: a locked raised way's own re-shape is §7.1's lock row's — the user unlocks first — so the
+ring (VCS-r6-01, amended: a raised way the user locked has its own re-shape refused by §7.1's lock row — the user
+unlocks first — while a declared one is re-shaped by its author (the lock sentence's reach; amended, PRB7-03), so the
 lock run locks the ring); the arch-vault clauses' exit (VCS-r6-03); V06's W5, W6, W8 rows (VV56-r6-03, by the sweep);
 T-V6-47's script and the cells' order (VV56-r6-04 with VCS-r6-04, one text); H-AQUA's `vault` spans (VV56-r6-05);
 `raised.waited` at the epochs that can wait (VV56-r6-06); T-V7-48's hand-off at each state and its report (VAL-R6-06 with
@@ -793,7 +922,7 @@ as it stands; a quoted old text may run across a line break in the live file.
 | VAP-r6-02 | minor | minor | FIX per R7-06 | E-S4 and E-S7: the hand rows and `wallToWay` over the state sweep, in place of the clause lists the issue writes; the model's cells are R7-02's table |
 | VEL6-r6-02 | major | major | FIX per R7-06 | E-S6 (row W3 over the state sweep), one text with VM-R6T-02 (1) |
 | VM-R6T-02 | major | major | FIX per R7-04, R7-06 | (1) E-S6 with VEL6-r6-02; (2) E-S7's `vault`-span case, which reads the vault as the dry run reads it after the op (R7-04 (d)) |
-| VCS-r6-01 | major | major | FIX, amended | E-S4's re-shape clause; amended: a locked raised way's own re-shape is §7.1's lock row's (it targets the locked thing; the user unlocks), so the lock run locks the ring, drawn by hand, and checks no `refuse.locked` for the meeting |
+| VCS-r6-01 | major | major | FIX, amended | E-S4's re-shape clause; amended: a raised way the user locked has its own re-shape refused by §7.1's lock row (it targets the locked thing; the user unlocks), a declared one being re-shaped by its author (the lock sentence's reach; amended, PRB7-03), so the lock run locks the ring, drawn by hand, and checks no `refuse.locked` for the meeting |
 | VCS-r6-02 | major | major | FIX | E-S6's first change, as written |
 | VCS-r6-03 | minor | minor | FIX per R7-06 | E-S10, generalised to every arch-vault clause and the sweep's runs |
 
@@ -804,15 +933,21 @@ VDC6-02 and VV56-r6-06 included):
   way corridors over a support ring or a `vault` span's strip reading standing rings and `vault` spans no wall stands
   over):" → "**the wall and later work** (§2.7's crossing and way-and-channel tables, with the crossing table's lock,
   bent-group and fixed-place sentences; every count below of way corridors over a support ring or a `vault` span's strip
-  reading standing rings and `vault` spans no wall stands over; **the state sweep** — where a clause runs over it, the
+  reading standing rings and `vault` spans as the crossing table's *beneath* reads them (amended, PRB7-13); **the state
+  sweep** — where a clause runs over it, the
   clause's case run once more for each of these states of its raised way, each on its own run of the clause's fixture,
   the state made by scripted ops before the clause's wall event: C3, a span over the wall's line `ruined` by a
   `DeclineOp` `breach` and, on a second run, `cleared` by its `dismantle` after it; C4, every span over the line
   `ruined`; C5, the support nearest the line `cleared` — both its spans `ruined` first, then its `dismantle` (V06 §3.19.2
   (3)) — and, on a second run, `ruined` by a `topple` (V06 §3.11; it and both its spans, V06 §3.19.2 (4)); C6, a `vault`
-  span over the line breached with its arch vault (the fixture's seed searched so that one reads `vault`); C8, the raised
-  way locked and, on a second run, pinned — and, in a clause whose event creates or edits the raised way, the wall
-  locked; C10, C3's `ruined` span repaired by `repairRaised`; C12, the deck extended by a frame growth; C13, the raised
+  span over the line breached — with its arch vault where no wall of the clause stood over the span before the event,
+  else with none, the span read `open` — (the fixture's seed searched so that one reads `vault`) (amended, PRB7-21); C8,
+  the raised way locked and, on a second run, pinned; on a third, an arch vault in a `vault` span over the line locked by
+  the user before any wall of the clause stood over it; in a clause whose event lays a trace, on a fourth, a declared
+  placement seated in that vault before the event; and, in a clause whose event creates or edits the raised way, the
+  wall locked (amended, PRB7-17); C10, C3's `ruined` span repaired by `repairRaised`, and, in a clause whose event lays a
+  trace, the C3 run once more with that span repaired after the event — no gate, tower or fixed place under it (amended,
+  PRB7-14); C12, the deck extended by a frame growth; C13, the raised
   way's Arch spacing edited, on a second run its Deck height, on a third its course re-shaped by a hand `moveVertex`.
   Each run takes its cell of §2.7's crossing table: the event's own records only, nothing of the raised way written but a
   chamber the table removes or lays again (`collapsed` where its span or a bounding support has fallen), the run's top
@@ -828,7 +963,8 @@ VDC6-02 and VV56-r6-06 included):
   anchor"; and "the same aqueduct founded by V06 §3.19 at a CITY epoch across the ring where its run is `breached` and, on
   a second run, `dismantled` — the gap left a gap beneath the arch, no `repairWall`" → "… no `repairWall`, and on a third
   run across a ring drawn by hand (locked by its drawing) — *over the band*, no wait, nothing of the ring written (V06
-  §3.19 (5))".
+  §3.19 (5)), and on a fourth across a retaining wall drawn by hand — passed over, a support on its line built against
+  it, nothing of it written (the lock sentence's retaining wall; V06 §3.19 (5))" (amended, PRB7-20).
 * **E-S2 — (2) *down before the wall*.** "a CITY whose S4 route's best course crosses a valley at S3's gate, its deck down
   before the trace and its route through the gate on ground part 0" → "a CITY whose S4 route's best course crosses a
   valley at S3's gate, its deck down before the trace and its route through the gate on ground part 0 — S3's gate route,
@@ -837,16 +973,24 @@ VDC6-02 and VV56-r6-06 included):
   epoch" → "not founded, `raised.waited` at each CITY and METROPOLIS epoch while the CITY ring's trace stands"; and after
   "0 road decks across a trace standing when laid;" add " a hand raised road drawn across a wall drawn by hand where no
   gate stands on its ground course — brought down before it, its ground way's gate made in the held wall with the fate
-  *reshaped* naming it (the lock sentence), the undo restoring the wall;".
+  *reshaped* naming it (the lock sentence), its course beyond the wall a ground way on ground part 0 to the stroke's end,
+  the undo restoring the wall; a regeneration (keep) of a CITY whose stage-1 ring was drawn by hand, an S4 route priced on
+  a deck across it — the deck down before the ring and the route through one of the ring's standing gates, no gate made,
+  the ring's gate count unchanged — and an epoch route priced on a deck across a standing ring, through a standing gate
+  likewise (§2.7's crossing table, *down before the wall*; §5.3's gate row);" (amended, PRB7-06, PRB7-27).
 * **E-S3 — (3) *beneath* at generation.** After "no ramp, stair or foot in the band or the channel, the stage's `N_k`
   gates on ground part 0;" add " a variant whose picked boundary crosses that deck within the pull's search band of the
   valley's rim — the pulled trace crossing it under the deck and never on its ground course beyond the foot, the stage's
   gates exactly `N_k`, 0 non-gate crossings (§4.4 S5a *Trace* (2)); a stage-2 ring whose boundary crosses the river under
   an S4 viaduct's span and, on a second run, is anchored on that river's bank inside the viaduct's fixed-place zone — the
   river crossing with its water gate, and the anchor with its tower, moved along the river clear of the zone, the trace
-  laid to them; a spur town whose gorge-side stretch anchors on the rim where S4's priced viaduct would cross the gorge —
-  the viaduct, laid after the stage-1 trace, keeping that anchor outside its fixed-place zone — and a stage-2 ring
-  anchored on that rim after the viaduct, the anchor moved along the rim clear of the zone with its tower; 0 gates,
+  laid to them; a spur town whose gorge-side stretch would anchor on the rim where a gate route's priced viaduct crosses
+  the gorge — the anchor, laid after that viaduct (§4.2 S3 (9) after (5)), moved along the rim clear of its fixed-place
+  zone with its tower — and, on a second run, where a viaduct on an S4 route of its own would cross there, that viaduct,
+  laid after the stage-1 trace, keeping the anchor outside its fixed-place zone (amended, PRB7-02); and a stage-2 ring
+  anchored on that rim after the viaduct, the anchor moved along the rim clear of the zone with its tower; an
+  `on_enceinte` castle sited at generation beside a gate route's viaduct, its weld vertices outside the viaduct's
+  fixed-place zone (§4.2 S3 (8)'s filter) (amended, PRB7-02); 0 gates,
   towers, anchors or weld vertices in a fixed-place zone (the fixed-place sentence); a CITY fixture holding a declared
   masonry aqueduct across a corner of a castle's bailey (*over the band*), regenerated (keep), so that S7 lays the
   castle's internal paths (keep ↔ gatehouse ↔ wall stairs, §4.8) after it: each path crossing the under-deck strip under
@@ -857,27 +1001,36 @@ VDC6-02 and VV56-r6-06 included):
 * **E-S4 — (4) *beneath* by hand and at an epoch.** After "and the viaduct's Arch spacing changed after the wall was
   drawn — its station in the band slid off it, the band whole there" add "; the hand rows of §2.7's crossing table on
   this clause's standing aqueduct with a `vault` span in its line and on its declared viaduct — a hand `convert` `breach`
-  and `dismantle` of the run beneath (W4), a `repairWall` of the breached run and of the `dismantled` one, its new
-  stretch drawn on its line and meeting the raised way as a hand `drawWall` does (W10), a hand `delete` of the run (W11),
-  a hand `placeGate` inside the under-deck strip and a gate of that wall slid by its grip into the strip — moved back
-  along the trace clear of it, its road following, the trace unchanged, with `bend.wall.raisedCrossing`'s gate form
-  (W13) — together with the epoch circuit and the hand `drawWall` above (W1, W2), each run over the state sweep: each its
-  cell's outcome, no `refuse.locked` with the raised way locked or pinned, an arch vault a delete lays again `collapsed`
-  where its span has fallen; a hand `drawWall` drawn along beneath a standing aqueduct through two of its supports, one
+  and `dismantle` of the epoch circuit's run beneath (W4), a hand `convert` `wearWall` and `neglect` of it (W5), a
+  `repairWall` of the breached run and of the `dismantled` one, its new stretch drawn on its line and meeting the raised
+  way as a hand `drawWall` does (W10), a hand `delete` of the run (W11), a hand `placeGate` inside the under-deck strip
+  and a gate of that wall slid by its grip into the strip — the placed gate moved along the trace to the strip's nearer
+  edge and the slid one back to the edge its grip came from, its road following, the trace unchanged, with
+  `bend.wall.raisedCrossing`'s gate form (W13) —, a hand `contractWall` of the ring across the aqueduct (W1 by hand) and
+  a hand `setAttr` re-grading a `light` stretch of the hand `drawWall` above to `full` under the aqueduct — its wider band kept
+  to a lawful crossing by the bent-group sentence, re-traced locally where it would not cross lawfully, a fate (W14) —,
+  together with the epoch circuit and the hand `drawWall` above (W1, W2), each run over the state sweep: each its cell's
+  outcome, no `refuse.locked` with the raised way locked or pinned, an arch vault a delete lays again `collapsed` where
+  its span has fallen; each hand row run again on the hand `drawWall`'s run (drawn, so changed by its author: the
+  cell's outcome) and on a run the user locked (§7.1's lock row: `refuse.locked`, nothing written) (the lock sentence's
+  reach); a hand `drawWall` drawn along beneath a standing aqueduct through two of its supports, one
   entering and leaving its under-deck strip on one side, and one ending at a support — each such part moved to the
-  strip's edge on its entry side, a fate in `bend.wall.raisedCrossing`'s line, every station, key and span unchanged (the
-  bent-group sentence); an epoch circuit across a standing aqueduct whose `vault` span holds a locked arch vault — the
+  strip's edge on its entry side, its band outside the under-deck strip, a fate in `bend.wall.raisedCrossing`'s line,
+  every station, key and span unchanged (the bent-group sentence); an epoch circuit across a standing aqueduct whose `vault` span holds a locked arch vault — the
   circuit crossing under that span, its chamber not laid while the wall stands, its lock and id kept, a `reshaped` entry
   naming it, and after a hand `delete` of that run the chamber laid again, locked, with the same id; the same by a hand
   `drawWall`, with the fate *reshaped*; on a second run with a declared placement seated in that vault — the circuit
-  crossing under another span, the building, its chamber and its door unchanged, 0 footprints in a band or setback, and a
-  hand `drawWall` across that span refused `refuse.locked` naming the building; and, on a CITY fixture whose standing
+  crossing under another span, the building, its chamber and its door unchanged, 0 footprints in a band or setback, no
+  band or wall strip of a crossing at the neighbouring span over its span's strip, and a hand `drawWall` across that span
+  moved to cross under the nearest span clear of the building's widened strip, a fate in `bend.wall.raisedCrossing`'s
+  line, the building, its chamber and its door unchanged, and on a one-span way the same stroke refused `refuse.locked`
+  naming the building; and, on a CITY fixture whose standing
   ring was drawn by hand (locked by its drawing), a standing aqueduct's course re-shaped by hand so that a stretch of it
-  crosses the ring — that stretch *over the band*, its supports off the band and its under-deck strip clear of the
-  ring's gates, towers and fixed places — and a standing declared viaduct's course re-shaped so that a stretch of it
+  crosses the ring — that stretch *over the band*, its supports off the band, its under-deck strip clear of the ring's
+  gates and towers and its fixed-place zone of the ring's fixed places — and a standing declared viaduct's course re-shaped so that a stretch of it
   crosses the ring — brought down before the trace, its way through a gate there on ground part 0, a gate made in the
   held ring with the fate *reshaped*, with `bend.raised.wall` —, no `refuse.locked` (§2.7's crossing table, C13 and the
-  lock sentence)".
+  lock sentence)" (amended, PRB7-01, PRB7-03, PRB7-07, PRB7-08, PRB7-09, PRB7-10, PRB7-26).
 * **E-S5 — (5) ways and channels.** After "and one wider than the clear width between every two of its supports," add " a
   hand carve of a canal across a ring beneath which a standing aqueduct passes, its re-traced run's new strips meeting the
   aqueduct's supports — the run meeting it by §2.7's crossing table (*beneath*, row W2), bent where the bent-group
@@ -892,11 +1045,19 @@ VDC6-02 and VV56-r6-06 included):
   through the cleared ring as open ground and crossing the deck line clear of the stump as of a standing support, the
   band whole across each former footprint, the run at its own top beneath each fallen span, no chamber in the breached
   `vault` span, each S4 route the regeneration re-solves crossing the deck under a span §4.3 admits, its clear width read
-  between standing rings, every station, key, span and state of the aqueduct unchanged".
+  between standing rings, every station, key, span and state of the aqueduct unchanged; and a CITY whose stage-1 ring
+  was drawn by hand, regenerated (keep) and given New random — the ring held before every stage, (1)'s S6 aqueduct *over
+  the band* with its strip clear of the ring's standing towers and gates and its fixed-place zone of the ring's fixed
+  places, an S4 route priced on a deck across it brought down before it through a standing gate, nothing of the held
+  ring changed but by the lock sentence" (amended, PRB7-17).
 * **E-S7 — (8) `wallToWay`.** After "no junction with the raised way" (the clause's end, before "(T110-3)") add "; the
-  same on a fixture whose old line passed under a `vault` span of a standing aqueduct — the dry run reading that span
-  `vault` (the state the op leaves), the ring road re-routed under another span, the arch vault laid again with its id in
-  the commit, 0 way corridors over its strip (§2.7's way-and-channel table, row c); and (3)'s `wallToWay` run over the
+  same on a fixture whose old line passed under a `vault` span of a standing aqueduct with no other way or channel under
+  it — the dry run reading that span `vault` (the state the op leaves), the ring road re-routed under another span, the
+  arch vault laid again with its id in the commit, 0 way corridors over its strip (§2.7's way-and-channel table, row c);
+  on a second run with the intervallum also passing under that span — the span read `open` while the intervallum lies
+  there, no chamber over the lane, the ring road crossing under it by the crossing rule, and a hand `delete` of the
+  intervallum then laying the chamber again with its id; on a third with the moat passing under it — the span read
+  `open` while its water lies there, no chamber in the water (§2.7's crossing table, *beneath*) (amended, PRB7-13); and (3)'s `wallToWay` run over the
   state sweep, its viaduct locked and pinned among them — the ring road by row (c) read at that state, a re-laid vault
   `collapsed` where its span has fallen, no `refuse.locked`".
 * **E-S8 — the frame clause and the bound bar.** In T110-2's frame clause, after "and the same with that ring drawn by
@@ -904,7 +1065,9 @@ VDC6-02 and VV56-r6-06 included):
   `raisedWays.structure.maxClearSpanM` and, on a second run, a valley deeper than its `maxPierM` — first with a fitting
   course in reach, then with none — the extension bent to the nearest course whose clear spans and piers fit, both ends of
   its ring-end foot on the new rings, and, with none, kept on its course with its support in the water and its pier past
-  the bound, each counted in `raised.extendedPastBound`, the aqueduct kept and nothing waiting (§2.7's support step (7))";
+  the bound, each counted in `raised.extendedPastBound`, the aqueduct kept and nothing waiting (§2.7's support step (7)),
+  and, on a variant whose fitting course crosses a standing ring, that course *over the band* as a course laid then
+  (§2.7's crossing table, C12)" (amended, PRB7-15);
   and in the support step's clause "a declared one bent to a course whose clear spans fit
   `raisedWays.structure.maxClearSpanM`, no support in water;" → "a declared one bent to a course whose clear spans fit
   `raisedWays.structure.maxClearSpanM`, no support in water but a frame growth's extension with no fitting course
@@ -918,6 +1081,20 @@ VDC6-02 and VV56-r6-06 included):
   E3" add "; the state sweep's `topple` runs at the later of their milestone and M6-E's E5, which builds the hazards, and
   every arch-vault clause — (1)'s, (4)'s, (6)'s, (8)'s and the sweep's C6 runs — at the later of their milestone and
   M6-U's U3, which lays the arch vaults (V04 §8)".
+* **E-S11 — the set's lock bars** (amended, PRB7-05; blind spot (c)). §15.2's O9 (b) "locked preserved 100 %" →
+  "locked preserved 100 % (a wall, a raised way or an arch vault in its placement, its shape where they meet §2.7's
+  crossing table's: its lock sentence)"; §13.2's T101-5 "no declaration contradicts a dossier fact or a lock without a
+  refusal" → "no declaration contradicts a dossier fact or a lock without a refusal (a meeting of a wall and a raised way
+  contradicting no lock: §2.7's crossing table, its lock sentence)".
+* **E-S12 — (G3) off the hand path** (amended, PRB7-16). T110-2 (3) adds at its end: "; on a variant whose
+  `raisedWays.structure.pierSpacingM` band a table edit narrows so that no span of an S4 viaduct across the stage-2
+  boundary admits the wall's band — F-WALL's raised-way rung: the boundary re-pulled once round the viaduct, else the
+  stage left unwalled and `W_RAISED_MEETING` reported, nothing of the viaduct changed (§5.2; §2.7's crossing table,
+  (G3))"; T110-2 (6) adds: "; and that variant regenerated (keep) with its viaduct held — the same rung"; T110-2 (4) adds:
+  "; on the same table edit, an epoch circuit across the standing aqueduct waiting (`walls.waited`), and a hand
+  `drawWall` across it and a hand stretch whose anchor lies inside its fixed-place zone with no clear point within
+  `wall.barrierReachM`, each refused `refuse.raised.meeting` with the nearest lawful declarations, nothing of either
+  written". V07's run is E-V7-1's (F-V-RAISED).
 * **Sweep (blind spots (c), (d)).** §13.2's take-over row and the runs sentence stand (they name T110-2's clauses, whose
   numbers are kept). No other scope text restates a rule R7-02 homes (searched: §0–§1, §13–§17, the index, INDEX.md).
 
@@ -941,7 +1118,9 @@ VDC6-02 and VV56-r6-06 included):
 **What the model writes** (one block at §2.7): R7-02's **Block 1** in place of the support step's (6) (d) bullet, from
 "(d) *a wall and a raised way* meet by this table" through the crossing table's last row (W13); R7-02's **Block 2** in
 place of its (6) (a)–(b) bullet with the way-and-channel table; **(M1)** and **(M2)** as R7-02 words them; R7-04 (c)'s
-sentence in (7); VM-R6T-04's word in (3). The table cells are R7-02's, every cell. **Sweep:** §2.7's other mentions — the
+sentence in (7); VM-R6T-04's word in (3); **(M5)** in (3)'s obstacle list (amended, PRB7-18). The table cells are R7-02's,
+every cell, row W14 among them (amended, PRB7-07), and Block 1 carries Part P's amended sentences (the lock sentence's
+reach, *Strips, zones and nearest points*, *Line and band*, a held building's widened strip, the bent group's strip). **Sweep:** §2.7's other mentions — the
 support step's (3) obstacle list and merged-span clause, the span rule's step (2) and last sentence, `RaisedFoot`, the
 *Readers* and *Source and lifecycle* bullets — stand (each already cites the crossing table or reads no lock); §2.6's
 arch-vault row cites V04 §1b.2's trigger list, which V04 conforms (E-V4-1). No END line from another unit lands here.
@@ -963,8 +1142,9 @@ arch-vault row cites V04 §1b.2's trigger list, which V04 conforms (E-V4-1). No 
 * **E-P1 — §4.3 *Where it may not go*** (with R7-03 (a)'s change): "an aqueduct crossing a standing wall's band on a span,
   its ramps, stairs and feet off the band and its under-deck strip clear of the trace's gates and towers (*over the
   band*)" → "an aqueduct crossing a standing wall's band on a span, its ramps, stairs and feet off the band and its
-  under-deck strip clear of the trace's gates, towers and fixed places, a held wall as an unlocked one (*over the band*;
-  the crossing table's lock and fixed-place sentences) — and every raised way's course, a viaduct's priced in a route's
+  under-deck strip clear of the trace's gates and towers and its fixed-place zone of the trace's fixed places, a held
+  wall as an unlocked one (*over the band*; the crossing table's lock and fixed-place sentences) (amended, PRB7-09) — and
+  every raised way's course, a viaduct's priced in a route's
   solve among them, keeping each fixed place of a standing trace outside its fixed-place zone".
 * **E-P2 — §4.4 S5a (1)**: "each stretch's ends anchored on its barrier (the existing anchor kinds) with a tower at each
   anchor (§4.8)" → "… with a tower at each anchor (§4.8), never inside a standing raised way's fixed-place zone (§2.7's
@@ -973,8 +1153,9 @@ arch-vault row cites V04 §1b.2's trigger list, which V04 conforms (E-V4-1). No 
   passes:" → "The trace never crosses water except at a **water gate** where a river passes — never inside a standing
   raised way's fixed-place zone (§2.7's crossing table, the fixed-place sentence):".
 * **E-P4 — §4.2 S3 (8)**: "under a hard filter that no (5) route crosses the claim" → "under a hard filter that no (5)
-  route crosses the claim and no weld vertex lies in a standing raised way's fixed-place zone (a held one at a
-  regeneration; §2.7's crossing table, the fixed-place sentence)".
+  route crosses the claim and no weld vertex lies in a standing raised way's fixed-place zone (the raised stretches of
+  (5)'s routes at generation, a held one at a regeneration too; §2.7's crossing table, the fixed-place sentence)"
+  (amended, PRB7-02).
 * **E-P5 — §4.8's lead**: "(one the spacing or the gate law would place there moved clear of it)" → "(one the spacing or
   the gate law would place there moved clear of it; a water gate's river crossing, an anchor with its tower and a weld
   vertex never moved along, the trace keeping them out of its fixed-place zone — the fixed-place sentence)" (VM-R6T-01's
@@ -1004,30 +1185,37 @@ arch-vault row cites V04 §1b.2's trigger list, which V04 conforms (E-V4-1). No 
   stretch passing beneath a locked or pinned raised way's deck, which changes none of its parts: §2.7's crossing and
   way-and-channel tables, bent by the rows below as beneath an unlocked one)," → "— a drawn way across a locked entity
   (never a meeting of two similar structures — a wall and a raised way, either locked, pinned or declared, which meet by
-  §2.7's crossing table with their placement held and their shape changed there: its lock sentence —, nor a ground way
-  or a carve passing beneath a locked or pinned raised way's deck, nor a raised way's deck passing over a locked or
-  pinned ground way (§7.4's raised-way row), none of which changes what it passes; each bent by the rows below as with an
-  unlocked one),".
+  §2.7's crossing table with their placement held and their shape changed there, a raised road's ground way making its
+  gate by hand in a held wall it comes down before among them: its lock sentence —, nor a ground way or a carve passing
+  beneath a locked or pinned raised way's deck, nor a raised way's deck passing over a locked or pinned ground way (§7.4's
+  raised-way row), none of which changes what it passes; each bent by the rows below as with an unlocked one; nor its
+  author's new declaration changing a drawn wall or a declared raised way, §7.2 *Declared means held* — the lock
+  sentence's reach),"; and the row "| a declaration contradicting a dossier fact or a lock (item 101) |" → "| a
+  declaration contradicting a dossier fact or a lock (item 101; a meeting of a wall and a raised way contradicting no
+  lock: §2.7's crossing table, its lock sentence) |" (amended, PRB7-03, PRB7-06).
 * **E-D2 — §7.1 *Raised ways, aqueducts and retaining walls***: "a course meeting an enceinte's trace comes down to a
   ground vertex before it and passes through the gate its ground way makes there, while an aqueduct crosses a standing
   wall on a span over its band, its course bent clear of that wall's towers and gates, never a gate" → "a course meeting
   an enceinte's trace comes down to a ground vertex before it and passes through the gate its ground way makes there — in
   a held wall too, the fate *reshaped* —, while an aqueduct crosses a standing wall on a span over its band, its course
-  bent clear of that wall's towers, gates and fixed places, a held wall as an unlocked one, never a gate (§2.7's crossing
-  table, its lock and fixed-place sentences)"; and the catch-all's "the span an aqueduct drawn across a standing wall takes
-  over its band, clear of its towers and gates" → "the span an aqueduct drawn across a standing wall takes over its band,
-  clear of its towers, gates and fixed places".
+  bent clear of that wall's towers and gates and its fixed-place zone clear of the wall's fixed places, a held wall as an
+  unlocked one, never a gate (§2.7's crossing table, its lock and fixed-place sentences)"; and the catch-all's "the span
+  an aqueduct drawn across a standing wall takes over its band, clear of its towers and gates" → "the span an aqueduct
+  drawn across a standing wall takes over its band, clear of its towers and gates, its fixed-place zone clear of its fixed
+  places" (amended, PRB7-09).
 * **E-D3 — §7.1's `bend.wall.raisedCrossing` row** (VEL6-r6-04, VAT-r6-02 = VV910-r6-01, the lock sentence) → "| a hand
-  `drawWall`, a moved trace vertex, a re-anchored stretch or a run a hand carve or moved river re-traces across or beneath
-  a standing raised way, or a `placeGate` or a gate's slid crossing inside its under-deck strip, either side locked,
-  pinned or neither (§2.7's crossing table, *beneath*, the bent-group sentence, rows W2 and W13) | bent | the stretch's
+  `drawWall`, a moved trace vertex, a re-anchored stretch, a run a hand carve or moved river re-traces or a run a hand
+  `setAttr` re-sections on its kept trace, across or beneath a standing raised way, or a `placeGate` or a gate's slid
+  crossing inside its under-deck strip, either side locked, pinned or neither (§2.7's crossing table, *beneath*, the
+  bent-group sentence, rows W2, W13 and W14) | bent | the stretch's
   line inside the strip held to lawful crossings by the bent-group sentence — an unlawful crossing moved to the nearest
   lawful one (under an aqueduct's span, beyond a road deck's foot through a gate there), a part along beneath or entering
   and leaving on one side moved to the strip's edge, an end moved to the edge, a fixed place kept out of the fixed-place
   zone, a gate it makes for a ground way inside the strip moved along that way clear of it — each a fate, an arch vault in
-  a `vault` span under it removed (a fate; a held one's the fate *reshaped*); a `placeGate` or a slid gate moved along the
-  trace clear of the under-deck strip, its stub or way following, the trace unchanged; the raised way unchanged; named in
-  one line | `bend.wall.raisedCrossing` |".
+  a `vault` span under it removed (a fate; a held one's the fate *reshaped*); a slid gate moved back along the trace to
+  the strip's edge its grip came from and a `placeGate`'s gate to the nearer edge (§2.7's crossing table, row W13), its
+  stub or way following, the trace unchanged; the raised way unchanged; named in one line | `bend.wall.raisedCrossing` |"
+  (amended, PRB7-07, PRB7-10).
 * **E-D4 — §7.1, a new row after it** (the lock sentence's (G3)): "| a meeting of a wall and a raised way that no shape
   inside the raised way's under-deck strip and the points the crossing table moves to makes lawful — an aqueduct whose
   supports cannot leave a standing band within (3)'s and (4)'s bounds, a road deck that cannot come down before a
@@ -1046,7 +1234,8 @@ arch-vault row cites V04 §1b.2's trigger list, which V04 conforms (E-V4-1). No 
   declared wall, raised way or arch vault whose shape a meeting changed (§2.7's crossing table, the lock sentence's (G2))
   */; met: Id /* the structure it met */; change: 'chamberRemoved' | 'chamberLaid' | 'gateMade' | 'gateMoved' |
   'towerMoved' | 'stretchBent' | 'supportSlid' }" — derived, as every entry is, from the lifecycle event the change writes
-  on the held entity at generation, a regeneration or an epoch.
+  on the held entity, or, for a held raised way's chamber, on the chamber (`entity` the raised way, `met` the wall), at
+  generation, a regeneration, an epoch or a village derivation (amended, PRB7-23).
 * **E-D8 — §7.2's protections** (blind spot (d)): *Protection*'s "A **locked** entity — or the locked attribute paths of one
   — is a fixed input: regeneration never changes it" → "… regeneration never changes it (a wall, a raised way or an arch
   vault in its placement only: its shape where they meet is §2.7's crossing table's, the lock sentence)"; *Declared means
@@ -1061,6 +1250,14 @@ arch-vault row cites V04 §1b.2's trigger list, which V04 conforms (E-V4-1). No 
   from its creation (§2.7's support step (6)); a raised way over a locked way keeps its span `open`" → "its deck and piers
   held, as every raised way is from its creation (§2.7's support step (6)), its shape where a wall meets it changing by
   the crossing table (its lock sentence); a raised way over a locked way keeps its span `open`".
+* **E-D11 — §5.2's F-WALL row and §5.4's warnings** (amended, PRB7-16; the lock sentence's (G3) off the hand path).
+  F-WALL's detection cell adds "; a trace with no lawful crossing of a standing raised way, a fixed place with no clear
+  point in reach, or a held building's widened strip it cannot keep clear (§2.7's crossing table, (G3); *beneath*)"; its
+  ladder, before "→ last rung: cut a way", adds "→ for a raised-way meeting: the boundary re-pulled once with that raised
+  way's under-deck strip impassable but at its lawful crossings and its fixed-place zone no crossing or anchor site →
+  that stage left unwalled, reported (`W_RAISED_MEETING`)"; its tests cell adds "; T110-2 (3)'s and (6)'s table-edit
+  runs (the raised-way rung)". §5.4's `warnings` comment, after S5a's and S7's `W_RAISED_CROSSING`, adds "S3's and S5a's
+  `W_RAISED_MEETING` (a stage F-WALL's raised-way rung left unwalled, §5.2; §2.7's crossing table, (G3))".
 * **Sweep (blind spot (d)).** §5.3's gate and way-and-trace rows, §5.4's other comments, §7.1's `bend.raised.underSpan`
   row, §7.3's S7 row and §7.7 stand (searched: no lock refusal of a meeting).
 
@@ -1093,7 +1290,10 @@ No END line lands here; §3.17.3 (2)–(3) and (6) stand (they cite the crossing
 **Texts V04 writes** (its own FIXes, and the ends of VAL-R6-01 = VEW-r6-02 and VV56-r6-02):
 * **E-V4-1 — §1b.2's `ArchVaults.reconcile` row** (VV34-r6-03 per R7-04 (b)): "`wallToWay`, an absorbed record dropped;" →
   "`wallToWay`, `absorbWall` where no run of the old wall over the span is left, and the `dismantle` (an epoch's or a hand
-  `convert`'s) that takes the last run of an absorbed record over it (§2.7's crossing table, row W8);".
+  `convert`'s) that takes the last run of an absorbed record over it (§2.7's crossing table, row W8); the commit of every
+  way's corridor or channel removed, re-routed or filled off a `vault` span's under-deck strip that §2.7's crossing
+  table's *beneath* read `open` (a hand `delete` or move of the way, a carve's fill, an epoch's `retireWay`, `effaceWay`
+  or re-route);" (amended, PRB7-13).
 * **E-V4-2 — the arch-vault entity row (l. 867)**: "a wall the epoch laid, moved or removed over a `vault` span, V06 §2.1)"
   → "a wall the epoch laid, moved, absorbed or removed over a `vault` span — the last run of an absorbed record it
   dismantled among them —, V06 §2.1)"; and "or a wall comes to stand over its span (laid again, its id kept by its key,
@@ -1113,26 +1313,36 @@ No END line lands here; §3.17.3 (2)–(3) and (6) stand (they cite the crossing
   whose aqueduct's `vault` span holds a locked arch vault, an epoch circuit and, on a second run, a hand `drawWall`
   across that span: the chamber not laid while the wall stands, its lock and id kept, a `reshaped` entry and the fate
   *reshaped*, the wall's delete laying it again locked with the same id; and with a declared placement seated in that
-  vault, the circuit crossing under another span and the hand `drawWall` refused `refuse.locked` naming the building —,".
+  vault, the circuit crossing under another span and the hand `drawWall` moved to cross under the nearest span clear of
+  the building's widened strip, a fate, and on a one-span way refused `refuse.locked` naming the building —," (amended,
+  PRB7-01).
 * **E-V4-5 — T-V4-63** (VAT6-r6-01, VV34-r6-01): "after each commit every arch vault's key names a standing span of use
-  `vault`" → "after each commit every arch vault's key names a span of the way whose `use` is `vault` and over which no
-  wall stands — its chamber open under a standing span, `collapsed` under one whose span or a bounding support is
-  `ruined` or `cleared` (V04 §3.5.4 (d) (2)) — and no arch vault stands where its span no longer exists, is `open` or lies
-  under a wall (V04 §3.5.4 (d) (3))"; "a span's `use` edit lays or removes exactly that vault and survives a regeneration"
-  → "a span's `use` edit lays or removes exactly that vault (none in a span a wall stands over, V04 §3.5.4 (d) (1)) and
-  survives a regeneration"; "the arch vault of every old `vault` span between two of them (§2.7's support step (7))" →
-  "the arch vault of every old `vault` span between two of them that no wall stands over (§2.7's support step (7); V04
-  §3.5.4 (d) (1))".
+  `vault`" → "after each commit every arch vault's key names a span of the way whose `use` is `vault` and which §2.7's
+  crossing table's *beneath* reads `vault` — its chamber open under a standing span, `collapsed` under one whose span or a
+  bounding support is `ruined` or `cleared` (V04 §3.5.4 (d) (2)) — and no arch vault stands where its span no longer
+  exists or is `open` or read `open` (V04 §3.5.4 (d) (3))"; "a span's `use` edit lays or removes exactly that vault and
+  survives a regeneration" → "a span's `use` edit lays or removes exactly that vault (none in a span *beneath* reads
+  `open`, V04 §3.5.4 (d) (1)) and survives a regeneration"; "the arch vault of every old `vault` span between two of them
+  (§2.7's support step (7))" → "the arch vault of every old `vault` span between two of them that *beneath* reads `vault`
+  (§2.7's support step (7); V04 §3.5.4 (d) (1))" (amended, PRB7-13: R7-06 (b)'s one wording as amended).
 * **E-V4-6 — §3.5.4 (d) (1) and (3)**: (1)'s "the span is read `open` while a wall's band or strip lies there" → "the span
   is read `open` while a wall's band or strip lies there, or a run of an absorbed record not yet `dismantled` crosses it
-  (§2.7's crossing table, row W8), a locked chamber too (its lock sentence)"; (3)'s "or over which a wall now stands," →
-  "or over which a wall now stands (a locked one too, its lock kept with its key for its re-lay),".
+  (§2.7's crossing table, row W8), or a way's corridor or a channel laid while it read `open` crosses its under-deck
+  strip (§2.7's crossing table, *beneath*: no chamber across a way or in water), a locked chamber too (its lock
+  sentence)" (amended, PRB7-13); and (1)'s lead "Each span of use `vault` that no wall stands over — none of whose
+  under-deck strip an enceinte's band or wall strip meets —" → "Each span of use `vault` that §2.7's crossing table's
+  *beneath* reads `vault` — none of whose under-deck strip a wall's band, wall strip or absorbed run, or a way's corridor
+  or channel laid while it read `open`, meets —" (amended, PRB7-13); (3)'s "or over which a wall now stands," → "or over
+  which a wall now stands (a locked one too, its lock kept with its key for its re-lay),".
 * **E-V4-7 — §3.5.4 (d)'s declared placement**: after "seats the use on one plot equal to the chamber's floor and one
   single-storey building under its ceiling" add "— the span then held against every wall (§2.7's crossing table,
   *beneath*: a held building in an arch vault) —".
-* **Sweep (blind spot (c)).** T-V4-62's "an arch vault in exactly each `vault` span no wall stands over" and "each
-  `collapsed` exactly when V04 §3.5.4 (d) (2) says so" stand (they already read R7-06 (b)'s wording); the edit row (l.
-  2529) stands.
+* **Sweep (blind spot (c)).** T-V4-62's "each `collapsed` exactly when V04 §3.5.4 (d) (2) says so" and the edit row (l.
+  2529) stand. (amended, PRB7-13) Every "`vault` span no wall stands over" and "over which no wall stands" in the unit —
+  T-V4-62's "an arch vault in exactly each `vault` span no wall stands over", §3.10's "those of one no wall stands over
+  any more" (with E-V4-3's addition), the upgrade note's "that no wall stands over" (l. 2668) — reads "that §2.7's
+  crossing table's *beneath* reads `vault`" (or "*beneath* no longer reads `open`"), so the reading under a wall and
+  under a way or channel laid while it read `open` is cited once, never restated.
 
 ### V05
 
@@ -1161,7 +1371,9 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
 * **E-V6-1 — §2.1's `EpochScope.raised` and W64**: "or whose `vault` span a wall the epoch laid, moved or removed now stands
   over or no longer stands over (V04 §3.5.4 (d) (1))" → "or whose `vault` span a wall the epoch laid, moved, absorbed or
   removed — the last run of an absorbed record it dismantled among them — now stands over or no longer stands over (V04
-  §3.5.4 (d) (1); §2.7's crossing table, row W8)", in both places.
+  §3.5.4 (d) (1); §2.7's crossing table, row W8), or off whose under-deck strip the epoch retired, effaced, re-routed or
+  filled a way or channel that kept it read `open` (§2.7's crossing table, *beneath*)", in both places (amended,
+  PRB7-13).
 * **E-V6-2 — §2.8's `absorbWall` comment**: "its strips re-join the blocks beside them" → "its strips, the band with them,
   re-join the blocks beside them (a `vault` span the old wall stood over is read `open` while a remaining run crosses it
   and laid again when the last is `dismantled`: §2.7's crossing table, row W8)".
@@ -1169,20 +1381,27 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
   dropped" → "V04 laying again the arch vault of a `vault` span the old wall stood over in the epoch whose dismantling
   takes the last run of the absorbed ring over it (§2.7's crossing table, row W8; H-AQUA's span over its CITY ring), and
   the same absorb over the state sweep (§13.2; rows W8 and W4 at an epoch) — each an *unchanged meeting*, the runs
-  dismantled in time as any, the vault laid again so, `collapsed` where its span has fallen".
-* **E-V6-4 — §3.19 (5)** (VEW-r6-04): "Locked, pinned and declared entities, dossier-listed buildings, every other raised
-  way's supports, enceinte towers and gates, and V05's `skyAccessObstacles` (V05 §2.3b) are **impassable**" → "Locked,
-  pinned and declared entities, dossier-listed buildings, every other raised way's supports, enceinte towers, gates and
-  fixed places (§2.7's crossing table, the fixed-place sentence), and V05's `skyAccessObstacles` (V05 §2.3b) are
-  **impassable** to the course's supports, ramps, stairs and feet and to its clearing ((7)); a course passes over a
-  locked, pinned or declared ground way on a span, as over any way (item 244's clearance; §7.4's raised-way row), and
-  meets a locked, pinned or declared wall by §2.7's crossing table as an unlocked one (its lock sentence), nothing of
-  either written"; and "its under-deck strip clear of the curtain's towers and gates (impassable above)" → "its under-deck
-  strip clear of the curtain's towers, gates and fixed places (impassable above)".
+  dismantled in time as any, the vault laid again so, `collapsed` where its span has fallen; and an aqueduct founded by
+  V06 §3.19 across the absorbed ring's line while a `breached` run there stands — its supports off that run's former
+  band, a span over it, *over the band*, and over a `dismantled` run none (§2.7's crossing table, row W8's C1 and C11)"
+  (amended, PRB7-18).
+* **E-V6-4 — §3.19 (5)** (VEW-r6-04; amended, PRB7-09, PRB7-18, PRB7-20): "Locked, pinned and declared entities,
+  dossier-listed buildings, every other raised way's supports, enceinte towers and gates, and V05's `skyAccessObstacles`
+  (V05 §2.3b) are **impassable**" → "Locked, pinned and declared entities — but a wall, a retaining wall and another raised
+  way, which a course meets as unheld ones (§2.7's crossing table, its lock sentence: a wall by the table, a retaining
+  wall passed over with a support on its line built against it, another raised way's supports impassable as every
+  raised way's) —, dossier-listed buildings, every other raised way's supports, enceinte towers and gates, and V05's
+  `skyAccessObstacles` (V05 §2.3b) are **impassable** to the course's supports, ramps, stairs and feet and to its
+  clearing ((7)), and each fixed place of a standing curtain to its fixed-place zone (§2.7's crossing table, the
+  fixed-place sentence); a course passes over a locked, pinned or declared ground way on a span, as over any way (item
+  244's clearance; §7.4's raised-way row), and meets a standing curtain — locked, pinned, declared or not, the runs of an
+  absorbed record not yet `dismantled` among them (row W8) — by §2.7's crossing table, nothing of either written"; and "its
+  under-deck strip clear of the curtain's towers and gates (impassable above)" → "its under-deck strip clear of the
+  curtain's towers and gates and its fixed-place zone of the curtain's fixed places (impassable above)".
 * **E-V6-5 — §3.7.1**: "a standing raised way's under-deck strip, supports, ramps, stairs and feet excepted where the
   trace meets it (§2.7's crossing table, *beneath*)" → "… excepted where the trace meets it (§2.7's crossing table,
-  *beneath*) — never a `vault` span whose chamber seats a held building, whose strip widened by the wall strips' widths
-  the trace keeps clear, nor a fixed place's zone (*beneath*; the fixed-place sentence) —".
+  *beneath*) — never a held building's widened strip, which the trace keeps clear, and no fixed place of the trace in a
+  standing raised way's fixed-place zone (*beneath*; the fixed-place sentence) —" (amended, PRB7-01, PRB7-22).
 * **E-V6-6 — §3.19.2 (3) and (4)**: (4)'s "a landfall ruins the spans and supports it covers whatever their state" → "a
   landfall ruins the spans and supports it covers, standing or already `ruined`, a `cleared` one kept `cleared` (V05
   §3.16 (4))" (VV56-r6-01's end); (3)'s "so no chamber stands under a fallen span at any batch" → "so no chamber stands
@@ -1212,9 +1431,10 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
   in an arch vault (*beneath*);".
 * **E-V6-10 — T-V6-64** (VAP-r6-04): "(a chamber under every standing `vault` span no wall stands over, none under a fallen
   one or under a wall, §2.7's crossing table)" → "(every arch vault's key names a span of the way whose `use` is `vault`
-  and over which no wall stands — its chamber open under a standing span, `collapsed` under one whose span or a bounding
-  support is `ruined` or `cleared` (V04 §3.5.4 (d) (2)) — and no arch vault stands where its span no longer exists, is
-  `open` or lies under a wall, V04 §3.5.4 (d) (3); §2.7's crossing table)".
+  and which §2.7's crossing table's *beneath* reads `vault` — its chamber open under a standing span, `collapsed` under one
+  whose span or a bounding support is `ruined` or `cleared` (V04 §3.5.4 (d) (2)) — and no arch vault stands where its span
+  no longer exists or is `open` or read `open`, V04 §3.5.4 (d) (3))" (amended, PRB7-13: R7-06 (b)'s one wording as
+  amended).
 * **E-V6-11 — §8's E3 and E8 cells** (VAT6-r6-03): as written, and E3's cell adds "; the state sweep's `topple` runs of
   T-V6-11, T-V6-47 and T-V6-73 at E5, which builds the hazards".
 * **E-V6-12 — §3.1's *Protection***: "a locked or pinned entity is never struck, converted or moved" → "a locked or pinned
@@ -1223,8 +1443,23 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
 * **E-V6-13 — §2.10's `raised` section** (VAT6-r6-02's end): add `extendedPastBound: number /* frame-growth extensions
   kept past a support-step bound with no fitting course — a support in water or a pier past maxPierM (§2.7's support step
   (7)) */`.
+* **E-V6-14 — the lock bars** (amended, PRB7-05; blind spot (c)). T-V6-4's "are never struck, converted, closed or moved
+  by the engine" → "are never struck, converted, closed or moved by the engine — a wall, a raised way or an arch vault
+  held in its placement, its shape changing where they meet by §2.7's crossing table (its lock sentence), each change a
+  `reshaped` entry —"; and the edge row *the history × locks*' "a locked or pinned entity is never struck, converted or
+  moved (V06 §3.1)" → "a locked or pinned entity is never struck, converted or moved (V06 §3.1; a wall, a raised way or
+  an arch vault in its placement, its shape where they meet §2.7's crossing table's, the lock sentence)".
+* **E-V6-15 — §2.10's `waited` counts** (amended, PRB7-16). `walls.waited`'s comment "none waits for a raised way" →
+  "and traces that no lawful crossing of a standing raised way or clear point for a fixed place admits, or that a held
+  building in an arch vault turns back (§2.7's crossing table, (G3), *beneath*; V06 §3.7.6 (5))"; `raised.waited`'s
+  comment, after "or a road deck's that would cross a standing curtain (§2.7's crossing table, *down before the wall*)",
+  adds ", or one whose under-deck strip or fixed-place zone no course keeps clear of a standing trace's gates, towers or
+  fixed places (§2.7's crossing table, *over the band*)".
 * **Sweep (blind spots (a)–(c)).** W68's middle cell, §3.19's lead, §3.19 (7), §3.2's reconcile paragraph, J-V6.91, J-V6.114
-  and J-V6.140, V06 §7's T110-2 and T114 rows and §7's lead stand (searched).
+  and J-V6.140, V06 §7's T110-2 and T114 rows and §7's lead stand (searched). (amended, PRB7-13) Every "`vault` span no
+  wall stands over" in the unit — *The arch-vault reconcile's place* (its "a chamber for each standing `vault` span no
+  wall stands over" and "every `vault` span no wall stands over has its chamber") — reads "that §2.7's crossing table's
+  *beneath* reads `vault`".
 
 ### V07
 
@@ -1243,7 +1478,13 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
   handed down over the state sweep (§13.2; row W9), each state made before the hand-off — the hand-off writing nothing of
   the raised way or the ring's runs, and the palisade read by §2.7's crossing table, *beneath*, at that state (its run at
   its own top beneath each fallen span, no chamber under the `vault` span, the band whole across a cleared support's
-  footprint);".
+  footprint);"; and after that addition add " VS3's later re-lay of the palisade on that fixture over the state sweep —
+  the palisade by §2.7's crossing table, *beneath*, at each state (row W1 at a village); the palisade's REPLACEMENT under
+  the declared aqueduct, rebuilt in stone on its trace (V07 §3.11) — its band at most touching a support's ring, re-traced
+  locally by the bent-group sentence where its new band would not cross lawfully (row W14); and, on a variant whose
+  `raisedWays.structure.pierSpacingM` band a table edit narrows so that no span of the declared aqueduct admits the
+  palisade's band, F-V-RAISED's ladder — the ring re-laid once round the aqueduct, else the palisade omitted and reported
+  (V07 §3.13; §2.7's crossing table, (G3));" (amended, PRB7-07, PRB7-16, PRB7-21).
 * **E-V7-2 — §3.5a (4)**: "its line bent locally to cross an aqueduct under a span and a road deck's carried way beyond its
   foot, never across a ramp, stair or foot;" → "its line by the crossing table's bent-group sentence — crossing an aqueduct
   under a span and a road deck's carried way beyond its foot, never across a ramp, stair or foot, never running along
@@ -1253,6 +1494,11 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
   span,".
 * **E-V7-3 — ## 8 and §1 (14)** (VV78-r6-02): as written, ## 8's V-M3 cell adding "and T-V7-48's state-sweep runs, its
   `topple` runs at the later of that exit and V06's E5".
+* **E-V7-4 — §3.13's ladder table** (amended, PRB7-16): after F-V-ANCHOR's row add "| F-V-RAISED a palisade line with no
+  lawful crossing of a standing raised way, a fixed place with no clear point in reach, or a held building's widened
+  strip it cannot keep clear (§2.7's crossing table, (G3); *beneath*) | VS3 | the ring re-laid once with the raised way's
+  under-deck strip impassable but at its lawful crossings and its fixed-place zone no anchor or crossing site → the
+  palisade omitted, reported | T-V7-48 |".
 * **Sweep (blind spot (a)).** §3.12's hand-off, §3.12a (4)'s ruin abutment, §3.17's palisade row and §3.5a (5) stand
   (searched; §3.5a (5)'s readers are V11's END, VV1112-r6-02).
 
@@ -1267,10 +1513,12 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
 * **E-V9-1 — §4.9's `bend.wall.raisedCrossing` row**: after its gate form add "— and, for a stretch moved off the under-deck
   strip (one along beneath it, entering and leaving it on one side, or ending under it), "The wall keeps clear of {way},
   {m} m off your line." —"; its source cell → "§7.1's outcome row for a hand stretch across or beneath a standing raised
-  way, or a `placeGate` or a gate's slid crossing inside its under-deck strip, either side locked, pinned or neither
-  (§2.7's crossing table, *beneath*, the bent-group sentence, rows W2 and W13)".
+  way, a run re-sectioned on its kept trace, or a `placeGate` or a gate's slid crossing inside its under-deck strip,
+  either side locked, pinned or neither (§2.7's crossing table, *beneath*, the bent-group sentence, rows W2, W13 and
+  W14)" (amended, PRB7-07).
 * **E-V9-2 — T-V9-52**: after "with `bend.wall.raisedCrossing`'s gate form," add " a gate of that wall slid by its grip into
-  the strip moves back along the trace clear of it, its road following, the trace unchanged, with the same form, a wall
+  the strip moves back along the trace to the strip's edge its grip came from (a placed one to the nearer edge), its
+  road following, the trace unchanged, with the same form (amended, PRB7-10), a wall
   drawn along beneath the viaduct moves to the strip's edge with the line's keep-clear form, and an aqueduct drawn across a
   wall drawn by hand crosses it on one of its arches with no `refuse.locked`,"; and VAT-r6-04's "in its wall form".
 * **E-V9-3 — §4.9, a new row after `bend.raised.around`**: "| `refuse.raised.meeting` | "{thing} cannot meet {other} here
@@ -1285,7 +1533,15 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
   name.
 * **E-V9-6 — §4.20.2 (4)'s last words**: "— each the same on a raised way locked, pinned or neither." → "— each the same
   with either side locked, pinned or neither, a held thing's change shown as the fate *reshaped* (§2.7's crossing table,
-  the lock sentence)."
+  the lock sentence)."; and (amended, PRB7-22) its aqueduct clause "an aqueduct drawn across a standing wall crosses it on
+  one of its arches, its supports off the band and its course clear of that wall's towers and gates, never a gate (*over
+  the band*;" → "an aqueduct drawn across a standing wall, held or not, crosses it on one of its arches, never a gate
+  (*over the band*, §2.7's crossing table: its supports off the band, its strip clear of the wall's towers and gates and
+  its fixed-place zone of its fixed places;", and §4.9's `bend.wall.aqueductArch` source cell "an aqueduct drawn across a
+  standing wall" → "an aqueduct drawn across a standing wall, held or not".
+* **E-V9-7 — T-V9-13** (amended, PRB7-21): its list "`refuse.locked`, `refuse.warp`, `refuse.water` —" →
+  "`refuse.locked`, `refuse.warp`, `refuse.water`, and `refuse.raised.meeting` (§7.1's row for a meeting of a wall and a
+  raised way that no local shape makes lawful) —".
 * **Sweep (blind spot (b)).** `bend.raised.wall`, `bend.wall.aqueductArch`, `bend.raised.underSpan` (VAT-r6-04) and
   `bend.raised.around` stand otherwise; §4.20.6 (2)'s panel and why card stand.
 
@@ -1304,8 +1560,9 @@ No other END line lands here (blind spot (b) searched: V10 states no crossing or
 | VV1112-r6-02 | minor | minor | FIX, amended | row 80's reader cell and W50 as written, and "S5a and S7 (a wall meeting a raised way's under-deck strip at `structure.stripMarginM`" → "S3, S5a and S7 (a wall meeting a raised way's under-deck strip, and its fixed-place zone, at `structure.stripMarginM` — S3's trace at a regeneration among them" (the crossing table's fixed-place sentence and the lock sentence's (G1) read the margin) |
 
 **END line V11 writes:** §3.24.2's readers: "(`stripMarginM`, §4.6; a wall meeting it by §2.7's crossing table, its gates
-and towers kept out of it)" → "(`stripMarginM`, §4.6; a wall meeting it by §2.7's crossing table, its gates, towers and
-fixed places kept out of it and a held thing's reshape bounded by it)".
+and towers kept out of it)" → "(`stripMarginM`, §4.6; a wall meeting it by §2.7's crossing table, its gates and towers
+kept out of it, its fixed places out of the fixed-place zone it bounds, and a held thing's reshape bounded by it)"
+(amended, PRB7-09).
 
 ### kernel, V02, V03, V08, V12
 
@@ -1316,8 +1573,9 @@ these seats do not run.
 
 53 issues: **50 FIX** (21 as written, 27 per a ruling, 2 amended — each named in its note), **3 MERGED**
 (VEW-r6-02 into VAL-R6-01, VV910-r6-01 into VAT-r6-02, VPC-r6-06 into VAL-R6-07), **0 INVALID**. Grades: reported 28
-major, 25 minor; graded the same (no regrade). END lines: under scope (11), pipeline (7, and E-P7 a text confirmed), determinism (10), V04 (7), V06
-(13), V07 (3), V09 (6), V11 (1).
+major, 25 minor; graded the same (no regrade). END lines: under scope (13), pipeline (7, and E-P7 a text confirmed), determinism (11), V04 (7), V06
+(15), V07 (4), V09 (7), V11 (1) — Part P's E-S11, E-S12, E-D11, E-V6-14, E-V6-15, E-V7-4 and E-V9-7 among them (amended,
+Part P pass 1).
 
 ## Held for round 8
 
@@ -1327,6 +1585,69 @@ V01 — VAT-r6-03, VV12-r6-01, VV910-r6-03; V02 — VV12-r6-02; V03 — VAF-R6T-
 VAL-R6-04; V08 — VAH-r6-01, VAH-r6-02, VEL6-r6-03, VV78-r6-03; V09 — VAT-r6-06, VV910-r6-02; V10 — VAT-r6-05,
 VV910-r6-04, VV910-r6-05; V11 — VV1112-r6-03; V12 — VV1112-r6-01; determinism — VAH-r6-03; rendering — VAT-r5-02,
 VAT-r6-01, VRC6T-01, VRC6T-02, VRC6T-03, VRC6T-04; scope — VAP-r6-03, VCS-r6-05.
+
+## Part P — the probe's findings and their decisions
+
+Each pass of `coherence/probe-r7` attacks the family's ruling (R7-02 – R7-07 and the Part H END lines that carry them)
+before any repair seat writes against it; `coherence/adjudicate-r7-amend` decides each finding here and amends the ruling
+in place, each amended spot marked "(amended, PRB7-nn)" (a marker of this file, never written into the design). The
+owner's rule J144 and its guardrails (G1)–(G3) are kept in their words; no owner rule is changed, and every reading of
+the owner's words stays the program's (J122, vetoable).
+
+### Pass 1 — `probe-r7.md` (coherence/probe-r7, 2026-10-02; 29 findings: 0 blocker, 20 major, 9 minor)
+
+**Flagged — the exception (a rule that could not hold).** Three findings showed the table's own rule admitting a shape
+that clashes with item 110 (b) as the program reads it ("crossing the wall through an arch": every aqueduct crosses every
+wall under one of its arches, never at a pier) or with item 110 (f)'s bars as T110-2 (3) carries them ("no ramp, stair or
+foot in the band"): **PRB7-08** — a pulled trace's band, tested only by its line, laid through an aqueduct's pier and over
+a ramp; **PRB7-07** — a wall re-sectioned on its trace, its wider band through a pier, with no row to rule it;
+**PRB7-18** — an aqueduct founded across an absorbed record's standing runs standing a pier on a run, its "—" cell
+deferring to a case that does not arise. Each is restored by the narrowest change: one sentence testing the band
+(*beneath*'s *Line and band*, with the bent group's strip widened by the band's half), one row citing the bent-group
+sentence (W14), and one obstacle clause ((M5)) with W8's C1 and C11 cells. No cell is left without a lawful outcome.
+
+**How this pass closes by construction.** Six general sentences settle classes rather than cells: the lock sentence's
+**reach** (whether an event may act on its own target is §7.1's, §7.2's, V06 §3.1's and V05 §3.16 (2)'s, before any
+meeting — PRB7-03, PRB7-04 and every C8 cell); **Strips, zones and nearest points** (strips and zones read whatever a
+span's state; one nearest-point and tie rule; a slid gate goes back — PRB7-10, PRB7-14); **Line and band** with the bent
+group's widened strip (PRB7-08, PRB7-01); *down before the wall*'s gate by its path's own gate law (PRB7-06); *beneath*'s
+`vault` reading cited by every reader, never restated (PRB7-13, PRB7-25); and the fixed-place sentence's "this zone"
+(PRB7-09).
+
+**Totals.** 13 ACCEPT, 15 ACCEPT AMENDED, 1 REJECT. Behaviour changes touched (the family's veto list): 9, 10, 11, 12, 13,
+14, 16, 17, and new 18 (PRB7-13) and 19 (PRB7-07).
+
+| id | sev | decision | reason | ruling text, cell, Part H entry and END lines changed |
+|---|---|---|---|---|
+| PRB7-01 | major | ACCEPT AMENDED | The held building's span now has one outcome on every path. *Beneath* defines **a held building's widened strip** — the span's under-deck strip widened **all round** (the probe's "each side" would leave a crossing at the neighbouring span laying its setback or glacis along the deck over the span) — which a pulled line treats as impassable and a bent-group line never enters: a crossing that would is moved by the bent-group sentence's (i), a fate, and `refuse.locked` names the building only for a stroke a lawful crossing would admit but for held buildings' widened strips; any other stroke with none takes (G3). The bent group's strip takes the widened strip in, so (ii)–(iii)'s edges pass outside it. | R7-02: *beneath* (*A held building in an arch vault*), the bent-group sentence (its strip, its lawful crossing, its long sides), the new-names list, veto 12, attack 4 · Part H: E-S4, E-V4-4, E-V6-5 |
+| PRB7-02 | major | ACCEPT | The base's own S3 order — (5) solved, (7) re-solved, (8)–(9) laid, S4 committing (5) "without re-solving" — makes the gate routes' raised stretches the earlier structure. R7-03 (a)'s home text now says so once: S3 (8)'s siting filter and S3 (9)'s pull, anchors and water gates read them as standing raised ways (the pull keeping their boundary crossings as S5a *Trace* (2) does), S4 commits them unchanged, and a raised stretch on an S4 route of its own is laid after the trace. E-S3 runs both orders and the castle's weld. | R7-03 (a)'s home text · R7-02: *beneath*'s pulled list, veto 17 · Part H: E-P4, E-S3 |
+| PRB7-03 | major | ACCEPT AMENDED | One sentence instead of a patch per C8 cell: the lock sentence's **reach** — whether an event may act on its own target is decided before any meeting, as anywhere. A hand op on a wall or raised way the user locked or pinned (T10 `hold`) is refused by §7.1's lock row, nothing written; a drawn wall or a declared raised way is changed by its author's new declaration, as §7.2 *Declared means held* already says ("Its author changes it by a new declaration (a handle drag, §7.1)"), and takes its cell. The C8 lead says "no `refuse.locked`" in a cell is the meeting's. E-D1 carries the author's clause and the declaration row's exemption. The probe's alternative (a drawing's lock refusing its author) is not taken: it contradicts §7.2's words and would stop E-S4's declared viaduct and T110-2 (4)'s re-spacing. | R7-02: the lock sentence (*Its reach*), C8's column description, attack 12, veto 9 · R7-06 (c) · Part H: scope's VCS-r6-01 note, E-S4, E-D1 |
+| PRB7-04 | major | ACCEPT | A landfall is no meeting of two similar structures: the lock sentence's reach keeps V05 §3.16 (2)'s rule (a held part never covered, the ruin lapping round it), and W12·C8 now gives the held side kept and the other side W12·C2's outcome — what T-V5-14 already runs ("With the aqueduct locked, it is kept as content the ruin laps around … and the run beneath is `breached` all the same"). | R7-02: the lock sentence (*Its reach*), W12·C8, veto 9 |
+| PRB7-05 | major | ACCEPT | E-V6-12 conformed V06 §3.1 but not the bars that count locks; each now reads a wall's, a raised way's and an arch vault's placement held and its shape where they meet the crossing table's. | Part H: E-S11 (§15.2's O9 (b), §13.2's T101-5), E-V6-14 (T-V6-4, the *history × locks* row); R7-02's ENDs paragraph |
+| PRB7-06 | major | ACCEPT AMENDED | One rule rather than a gate named per path: a priced deck's route crosses the trace at a gate of its path's own gate law (§5.3's gate row; §4.8 *Gates*) — the stage's at generation and at a regeneration that re-derives the trace, a standing one at an epoch ("an epoch's growth crosses at gates alone") and under a held trace — so a deck makes no gate its path would not, and a gate is made in a held wall by hand alone, by §7.3's S7 operator, §7.1's lock row not refusing it (veto 10 kept, its reach stated). E-S2 runs the regeneration and the epoch. | R7-02: the lock sentence's list of changes, *down before the wall*, veto 10 · Part H: E-D1, E-S2 |
+| PRB7-07 | major | ACCEPT AMENDED | A wall whose band widens on a kept trace is a missing row: **W14** added (a hand grade or kind `setAttr` re-derived by S7's operator; V07 §3.11's REPLACEMENT). Its cell cites the bent-group sentence — a re-sectioned run joins the bent group — instead of restating the moves, so the new band is kept to a lawful crossing, re-traced locally where it would not cross lawfully, and the vault and tower rules follow from *beneath*. Flagged (above). | R7-02: the Summary's row count, the bent-group list, row W14, W2's event cell, veto 19 (new) · Part H: the model's heading, E-S4, E-D3, E-V7-1, E-V9-1 |
+| PRB7-08 | major | ACCEPT AMENDED | One sentence, *Line and band*, makes every keep-clear of a trace's line off a ramp, stair, foot or standing support hold for its band (the line kept by the band's half there; a road deck's support the band is laid through); the pulled impassables are widened so, the band only touching an aqueduct's ring at **the edge**; the bent group's strip is the under-deck strip widened by the band's half, so its edges and (ii)–(iii)'s moves keep the band outside the under-deck strip; *the cap* reads any part of the band beneath. This replaces the probe's offset per rule with one widening. Flagged (above). | R7-02: *beneath* (*Line and band*, the pulled impassables, the band at *the edge*, *the cap*), the bent-group sentence, the new-names list, veto 13 · Part H: E-S4 |
+| PRB7-09 | major | ACCEPT | The fixed-place sentence is the home: every text that kept a raised way's "strip" clear of fixed places now says its fixed-place zone, and the sentence says once that such a text means the zone. | R7-02: *over the band*, the fixed-place sentence, the paths note, W1·C1, veto 14, the equivalence · Part H: E-P1, E-D2, E-S4, E-V6-4, E-V9-6, V11's END |
+| PRB7-10 | major | ACCEPT AMENDED | One rule for every "nearest point clear" along a line — the nearer of the two points, ties to the one nearer the line's first vertex in vertex order — and a slid gate back to the edge its grip came from, stated once (*Strips, zones and nearest points*); W13, *No gate and no tower*, attack 7, veto 13 and the ENDs read it. | R7-02: *Strips, zones and nearest points*, *No gate and no tower*, W13·C2, attack 7, veto 13 · Part H: E-D3, E-S4, E-V9-2 |
+| PRB7-11 | major | ACCEPT | C5 and T110-2 (4) keep a trace through a `cleared` support's ring (open ground, both its spans fallen); the lawful crossing and *Where the line crosses* now admit it. | R7-02: *beneath* (*Where the line crosses*), the bent-group sentence's lawful crossing |
+| PRB7-12 | major | ACCEPT | V06 §3.7.6 (1) makes an epoch's re-anchored stretch the `EnceinteStrategy`'s: the bent group lists a stretch re-anchored by hand only, and *beneath*'s pulled list the epoch's. | R7-02: the bent-group list, *beneath*'s pulled list |
+| PRB7-13 | major | ACCEPT AMENDED | *Beneath* reads a `vault` span `open` also while a way's corridor or a channel laid while it read `open` crosses its strip, so no chamber is laid across a lane or in water, and every "laid again" of the table is *beneath*'s. Beyond the probe's words: the removal, re-route or fill of such a way or channel runs V04's reconcile (E-V4-1, E-V6-1), and every bar and reader cites *beneath*'s reading instead of restating "no wall stands over" (R7-06 (b)'s one wording, V04's and V06's sweeps); veto 18 records the behaviour. | R7-02: *beneath*, Block 2's lead, row (c), W7·C2, veto 18 (new) · R7-04 (d) · R7-06 (b) · Part H: E-S0, E-S7, E-V4-1, E-V4-5, E-V4-6, V04's sweep, E-V6-1, E-V6-10, V06's sweep |
+| PRB7-14 | major | ACCEPT AMENDED | *Strips, zones and nearest points* reads a raised way's strip, its fixed-place zone and a held building's widened strip whatever a span's or support's `state`, so no gate, tower or fixed place is laid under a fallen span that its repair would stand over; C10 adds that a hand repair of a `cleared` support or dismantled span, which bends to a new raised part (V06 §2.8), is that part's creation (C1), its supports off any band; the sweep runs the repair after the event. | R7-02: *Strips, zones and nearest points*, *No gate and no tower*, C10, veto 14 · R7-06 (a) · Part H: E-S0 |
+| PRB7-15 | major | ACCEPT AMENDED | The bent extension is a course laid then, meeting each standing wall as C13's re-shape does; "the straight course" reads "its course (the way's line)"; with no fitting course each station is slid by (3) off every obstacle but the water or valley whose bound it fails, never omitted. | R7-02: C12, veto 16 · R7-04 (c)'s home text · Part H: E-S8 |
+| PRB7-16 | major | ACCEPT AMENDED | (G3)'s ladders off the hand path get their detection and rung: F-WALL's raised-way rung (re-pulled once round the raised way, else that stage left unwalled, `W_RAISED_MEETING`), V06's `waited` counts, V07's F-V-RAISED, and a table-edit run on every path. Amended: the probe's pipeline END is homed at determinism, §5.2 and §5.4 being base §5's (E-D11). | R7-02: the fixed-place sentence's and the bent group's (G3) citations, the new-names list, veto 11 · Part H: E-D11, E-S12, E-V6-15, E-V7-1, E-V7-4 |
+| PRB7-17 | major | ACCEPT AMENDED | The sweep's C8 gains a user-locked arch vault and, in a clause whose event lays a trace, a held building seated in it (amended: under a standing run there is no chamber to seat one in, so the probe's fourth run is set up only where the event lays the trace); E-S6 runs a held ring at a regeneration. | R7-06 (a) · Part H: E-S0, E-S6 |
+| PRB7-18 | major | ACCEPT | An absorbed record's runs not yet `dismantled` are a standing wall to a raised way created across them: W8·C1 and C11 written, (3)'s obstacle list carries the old band over those runs ((M5)), V06's founding names them. Flagged (above). | R7-02: W8·C1, W8·C11, (M5) · Part H: the model's heading, E-V6-3, E-V6-4 |
+| PRB7-19 | major | REJECT | (G3) is J144's recorded guardrail in its own words — "by hand refused with the nearest lawful alternative, item 101 R2" (PROGRESS J144) — which this pass keeps intact; the ruling already reads R2 so for a meeting no lawful local shape admits ("(G3)'s refusal offers the nearest lawful declarations", R7-02's owner rules checked; J122, vetoable by veto 11), and the bend asked would pick for the user a declaration that no longer makes the meeting declared. | — |
+| PRB7-20 | major | ACCEPT | V06 §3.19 (5)'s first clause made a held retaining wall or raised way impassable to a founded course where an unheld one is not — a lock altering a meeting; both are now met as unheld ones, the retaining wall passed over with a support on its line. | R7-02: veto 9, the equivalence · Part H: E-V6-4, E-S1 |
+| PRB7-21 | minor | ACCEPT AMENDED | W1·C12 and W2·C12 name both orders' tests; W1·C3 – C6 name T-V7-48's sweep run at a village (E-V7-1); the sweep's C6 under a standing run has no chamber; T-V9-13 lists `refuse.raised.meeting`. Amended: W13·C9 needs no new run — T-V7-48 already runs "a hand `placeGate` whose `at` lies in its under-deck strip" on its village map; the cell now names that clause. | R7-02: W1·C3 – C6, W1·C12, W2·C12, W13·C9 · R7-06 (a) · Part H: E-S0, E-V7-1, E-V9-7 |
+| PRB7-22 | minor | ACCEPT AMENDED | V09 §4.20.2 (4)'s aqueduct clause is reduced toward the citation (*over the band*, held or not, its fixed-place zone named) rather than given a longer restatement; E-V6-5 names a held building's widened strip and the raised way's fixed-place zone. | Part H: E-V9-6, E-V6-5 |
+| PRB7-23 | minor | ACCEPT | E-D7 derives a held raised way's chamber entry from the chamber's own event; (G2) names the village derivation. | R7-02: (G2) · Part H: E-D7 |
+| PRB7-24 | minor | ACCEPT | The epoch count is *Reported*'s, a move no count. | R7-02: the bent-group sentence |
+| PRB7-25 | minor | ACCEPT AMENDED | Closed with PRB7-13's reading: `wallToWay`'s dry run reads each span as *beneath* reads it once the op commits — another wall's band, strip or run, or a way or channel laid while it read `open`, keeping it `open`. | R7-02: row (c), W7·C2 · R7-04 (d) |
+| PRB7-26 | minor | ACCEPT | W1 names a hand `contractWall` (S5a's trace step, a pulled trace) and W5 a hand `wearWall` and `neglect`, each with its dry-run line. | R7-02: W1's event and last cells, *beneath*'s pulled list and *Reported*, W5's paths, W5·C2 and its last cell · Part H: E-S4 |
+| PRB7-27 | minor | ACCEPT | The hand stroke beyond the trace is carried on as the ground way to its end; a second raised way only by a second declaration. | R7-02: *down before the wall* · Part H: E-S2 |
+| PRB7-28 | minor | ACCEPT | A support on a retaining wall's line reads its height on the low side. | R7-02: the lock sentence's retaining-wall clause |
+| PRB7-29 | minor | ACCEPT AMENDED | A chamber laid again is a fate by hand and, at an epoch, a held one's `reshaped` entry (no fate off the hand path). | R7-02: W4's, W8's and W11's last cells |
 
 ## Part I — canon changes (appended to canon.md as one dated ruling)
 
@@ -1344,4 +1665,5 @@ rows (c) and (e) where R7-02 rewrites them, UC18 for a wall over an arch vault, 
 held walls and ground ways); generation order (R7-03); the landfall's ladder, the absorbed ring's vault, the frame
 growth's bound, `wallToWay`'s dry run, a cleared span at a village (R7-04); the span's `use` at every reader (R7-05); the
 arch-vault bars' one wording and every family test (R7-06); and the bookkeeping (R7-07). Nothing is ruled INVALID this
-round; 28 findings are held for round 8.
+round; 28 findings are held for round 8. (amended, Part P) Part P's decisions amend the rulings above in place; the dated
+ruling cites them by pointer, so it carries them unchanged, and the amend seat does not rewrite `canon.md`.
