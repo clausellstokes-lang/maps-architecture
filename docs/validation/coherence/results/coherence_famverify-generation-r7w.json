@@ -1,0 +1,64 @@
+{
+ "key": "coherence/famverify-generation-r7w",
+ "file": "docs/validation/coherence/famverify-generation-r7w.md",
+ "issues": [
+  {
+   "id": "VF7w-GEN-01",
+   "severity": "major",
+   "kind": "TWO READINGS (law 2 (a)-(c))",
+   "owner": "pipeline; END determinism",
+   "claim": "§4.4 S5a Trace (2) (l. 6603) sends an ordinary arterial whose pin no lawful place admits within the pull's search band straight to F-WALL's raised-way rung (cited '(a), (c)'); only a carried way is first re-routed. Law 2 (l. 2752-2754) tries (b) before (c) 'for every op on every path', and (b) (l. 2815-2821) re-routes 'a ground way not shape-locked' (Tier 3 = every ground way, l. 2639-2640) by the router that laid it. F-WALL (l. 9855) detects only 'a carried way given no lawful gate and no re-route' and leaves the stage unwalled. S5b's c and row (d) (l. 6653, 2916) leave out of c a ramp crossing whose pin is not lawful and spawn a primary for it, but nothing re-routes that arterial through it. Builder 1 (S5a's words): rung, re-pull up to wall.barrierReachM, else stage unwalled (at an epoch, via beneath's No gate and no tower l. 3142-3143, the circuit waits). Builder 2 (the laws): arterial re-routed by (b), stage walled in its 40 m band. Builder 1 leaves a stage to F-WALL's rung, and sometimes unwalled, where (b) gives a lawful shape, which PRB7H-GEN-04 (i) ruled against J144 as the program reads it (the r7w regrade of VF7v-GEN-03). No valid choice; §5.3's law-1 row and T110-4 pass both builds.",
+   "required_change": "(pipeline, §4.4 S5a Trace (2), l. 6603) \"else — a carried way's pin first re-routed as §2.7's laws, law 2 *Carried way*, says — that crossing takes F-WALL's raised-way rung (§2.7's laws, law 1 (5); law 2 *Not yet built*, (a), (c))\" → \"else its way re-routed by §2.7's laws, law 2 (b) — an arterial by the router that laid it, between its nearest unmoved nodes either side, to cross the boundary where those laws admit its gate (a gate S5b spawned among them), a carried way as law 2 *Carried way* says —, and only where that leaves it no lawful gate does that crossing take F-WALL's raised-way rung (§2.7's laws, law 1 (4), (5); law 2 *Not yet built*, (a)–(c))\"; END (determinism, §5.2's F-WALL detection, l. 9855) \"or a carried way given no lawful gate and no re-route\" → \"or an arterial or a carried way given no lawful gate and no re-route\"."
+  },
+  {
+   "id": "VF7w-GEN-02",
+   "severity": "major",
+   "kind": "TWO READINGS (law 1 (9), law 2 (a))",
+   "owner": "pipeline",
+   "claim": "P2's widening at §4.4 S5a Trace (2) (l. 6602), 'every held building's strip and a shape-locked raised way's vault-use spans' strips, each widened all round by the wall strips' width there (law 1 (10): ...)', reads 'each' over both items or over the vault-use spans' strips alone. A held building's strip is already 'widened all round by the meeting wall's strips' width' (term, l. 2642-2643). Law 1 (9) bars the line from it (l. 2736-2738). beneath keeps a line out of it 'as [it is] drawn' (l. 3073-3074, 3124-3128). The pipeline seat's 'never twice' (assemble-r7w §8) is not in the text. Builder 1 widens it twice (up to ~20 m more each side), so the pull searches a strict subset of the shapes law 1 admits (law 2 (a), l. 2812-2813). Near a held building in an arch vault it lays a different trace. Where the doubled strips close the last lawful crossing, it sends the stage to F-WALL's raised-way rung, sometimes unwalled, at generation from a prefix and at a regeneration; an epoch circuit waits (V06 l. 1611-1613 takes this list 'each widened as it says'). A lawful trace existed: PRB7H-GEN-04 (i)'s class, as VF7w-GEN-01. Bars pass both builds. No valid choice. (The same sentence as VF7w-TBL-02 and VF7w-TST-01.)",
+   "required_change": "(pipeline, §4.4 S5a Trace (2), l. 6602) \"every held building's strip and a shape-locked raised way's `vault`-use spans' strips, each widened all round by the wall strips' width there (law 1 (10): no line, band or wall strip across one)\" → \"a shape-locked raised way's `vault`-use spans' strips, each widened all round by the wall strips' width there (law 1 (10): no line, band or wall strip across one), and every held building's strip as its term widens it, never again (law 1 (9))\"."
+  },
+  {
+   "id": "VF7w-GEN-03",
+   "severity": "minor",
+   "kind": "READERS (law 2 (c))",
+   "owner": "pipeline",
+   "claim": "Three pipeline summaries omit an outcome or class their rules name. (a) §4.13's raised-way × wall cell (l. 9712) cites 'law 1 (2)–(9)' for a wall laid after a raised way (law 1 (10), (11) bind it too). Its Rung names only a road deck that cannot come down, omitting an aqueduct dropped for a meeting (§5.4 l. 9985) and the wall's law 2 (c) rung: F-WALL's raised-way rung and an unwalled stage (l. 9855), F-V-RAISED, walls.waited. (b) §4.1's S3 row (l. 5709) lists F-SITE, F-WALL, F-CASTLE, F-RIVER while F-ROUTE's row (l. 9853) names 'S3 (7)'s re-solve of a gate route'. (c) §4.8 The harbour mouth (l. 8404) gives every walled port its chain unconditionally while §5.4 (l. 9985) cites §4.8 for 'a harbour-mouth chain not laid' (fixed-place sentence l. 3254-3257; F-WALL l. 9855). The laws, §5.2 and §5.4 decide each; no bar reads these summaries.",
+   "required_change": "(§4.13, l. 9712) \"a wall laid after it — a village palisade among them — by law 1 (2)–(9)\" → \"a wall laid after it — a village palisade among them — by law 1 (2)–(11)\"; and \"*Rung:* leave out and report (a road deck that cannot come down before a standing trace, at generation; at an epoch it waits, V06 §3.19 (5));\" → \"*Rung:* leave out and report (a road deck that cannot come down before a standing trace, and an aqueduct that cannot cross at its level, at generation; at an epoch it waits, V06 §3.19 (5); a wall laid after it with no lawful shape taking F-WALL's raised-way rung at generation and a regeneration, else its stage left unwalled, `W_RAISED_MEETING`, F-V-RAISED at a village, at an epoch waiting, `walls.waited`: §2.7's laws, law 2 (c));\". (§4.1's S3 row, l. 5709) \"| F-SITE, F-WALL, F-CASTLE, F-RIVER |\" → \"| F-SITE, F-ROUTE (§4.2 S3 (7)'s re-solve of a gate route), F-WALL, F-CASTLE, F-RIVER |\". (§4.8 The harbour mouth, l. 8404) \"and a chain between them:\" → \"and a chain between them — at the nearest heads or shore points along the entrance whose gate and towers §2.7's laws admit, else not laid and reported (`W_RAISED_MEETING`; law 1 (5), (6), law 2 (c); its worked example the fixed-place sentence) —:\"."
+  },
+  {
+   "id": "VF7w-GEN-04",
+   "severity": "minor",
+   "kind": "READERS (citation rule)",
+   "owner": "pipeline",
+   "claim": "Six pipeline sites cite §2.7's way-and-channel table without the laws, against Part H's citation rule (§2.7 l. 2924-2927; the class VF7-GEN-08, VF7v-RDR-02 and VF7v-EPO-03 fixed elsewhere): l. 6407 (§4.3 Lattice and costs: S7's quays, intervallum and castle paths), l. 6503 (§4.3 Where it may not go), l. 6658 (§4.4 S5b), l. 6693 (§4.4 S5c), l. 8954 (§4.11 cut), l. 9710 (§4.13's river cell). Nothing built changes.",
+   "required_change": "l. 6407 \"(§2.7's way-and-channel table, row a)\" → \"(§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (a))\"; l. 6503 \"(a channel laid after it by §2.7's way-and-channel table)\" → \"(a channel laid after it by §2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (e))\"; l. 6658 \"(§2.7's way-and-channel table, row d)\" → \"(§2.7's laws, law 1 (3); its worked example the way-and-channel table's row (d))\"; l. 6693 \"(§2.7's way-and-channel table, row a)\" → \"(§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (a))\"; l. 8954 \"the channel meets it by §2.7's way-and-channel table (row e)\" → \"the channel meets it by §2.7's laws (law 1 (1), (8); its worked example the way-and-channel table's row (e))\"; l. 9710 \"and one laid after the course by §2.7's way-and-channel table (row e)\" → \"and one laid after the course by §2.7's laws (law 1 (1), (8); its worked example the way-and-channel table's row (e))\"."
+  },
+  {
+   "id": "VF7w-GEN-05",
+   "severity": "minor",
+   "kind": "TESTS (state sweep C12)",
+   "owner": "scope",
+   "claim": "W3·C12 (l. 3342) names T110-2 (6)·S. The state sweep makes C12 'on the clause's variant whose raised way ends on the frame's outer ring' (l. 19287-19288), but T110-2 (6) (l. 19527-19568) names no such variant (its fixtures, (1)'s c15 and (3)'s c14 towns, have none). T110-2 (4) (l. 19397-19499), named '·S' by W2, W4, W10, W11, W13 and W14·C12, has none either. A builder must invent the variant or skip the state. The cell's outcome ('as W3·C2') is the laws', and T110-4 (c) checks law 1 after a frame growth then a regeneration: a case a fixture may not hold.",
+   "required_change": "(scope, §13.2 T110-2's lead, l. 19287-19288) \"C12, the deck extended by a frame growth (on the clause's variant whose raised way ends on the frame's outer ring, §2.7 *At the frame*, the frame grown by an epoch before the event)\" → \"C12, the deck extended by a frame growth (on the clause's variant whose raised way ends on the frame's outer ring, §2.7 *At the frame* — on a clause whose fixture names none, a variant whose raised way is declared to end there, as T110-2's frame clause's aqueduct does —, the frame grown by an epoch before the event)\"."
+  },
+  {
+   "id": "VF7w-GEN-06",
+   "severity": "major",
+   "kind": "TWO READINGS (law 1 (4))",
+   "owner": "pipeline",
+   "claim": "Law 1 (4) (l. 2721-2723) keeps an enclosing wall's line, band and wall strips off a raised way's ends, and the terms (l. 2617-2618) define the ends as its ramps, stairs and feet 'each widened by the same margin' (raisedWays.structure.stripMarginM, 1 m as shipped, V11 l. 708, 863). Beyond the foot (l. 2619-2622), the pin rule (l. 6603) and S3 (7) (l. 6227) read the ends. The one list at §4.4 S5a Trace (2) (l. 6602) instead reads 'a standing raised way's ramps, stairs and feet widened by the wall strips' width there', and §4.3 Where it may not go (l. 6503), the course rule of S6's aqueduct and of every aqueduct laid after a standing wall, reads 'its ramps, stairs and feet off the band and wall strips'. A build of these words buffers the bare ramp. The pull (S3 (9), S5a, a regeneration; V06's cost field taking the list) may lay its wall strips over an end's margin, and S6's aqueduct may stand its end's margin under a standing wall strip. Law 1 (4) is then false and §5.3's law-1 row (l. 9943) raises E_INVARIANT. One reading breaks a law-1 invariant: major, as VF7-GEN-01 was graded. (The same defect as VF7w-TBL-01, re-verified on the generation paths.)",
+   "required_change": "(pipeline, §4.4 S5a Trace (2), l. 6602) \"a standing raised way's ramps, stairs and feet widened by the wall strips' width there,\" → \"a standing raised way's ends (§2.7's laws' terms: its ramps, stairs and feet widened by `raisedWays.structure.stripMarginM`) widened by the wall strips' width there (law 1 (4)),\"; (pipeline, §4.3 *Where it may not go*, l. 6503) \"its ramps, stairs and feet off the band and wall strips\" → \"its ends (§2.7's laws' terms: its ramps, stairs and feet widened by `raisedWays.structure.stripMarginM`) off the band and wall strips\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "base §4.3 Trade flow (l. 6529-6533) × §4.2 S3 (13) (l. 6365-6366) × S3 (7) (l. 6227)",
+   "note": "A road partner goes to the land gate whose bearing is nearest, 'the gate S3 (4) picked for that bearing', and each gate is a destination 'and its bearing'. A carried way's stage-1 gate is no pick and has no bearing, so as a `main` gate (VF7-GEN-06's listed choice) its trade weight and destination bearing are undefined (trade flow, outside the family)."
+  },
+  {
+   "site": "adjudication-r7v.md held items 1-3 (generation)",
+   "note": "Stand as written: S3 (9)'s Test against F-WALL's non-raised rung (l. 6278-6281); a (5) route's re-crossing of T = t_1; S3 (5)'s raised stretch over a canal dropped at S4."
+  }
+ ]
+}

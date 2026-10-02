@@ -55,9 +55,10 @@ anchors and outer moats; S5b's `c` and spawned primaries; S5c's legality at a st
 roads and aqueducts; S7's strips, gate plazas, towers, intervallum, castle paths and chain; S10 (0)'s band; §5.2's
 F-ROUTE, F-WALL, F-CASTLE rungs; §5.3's way-and-trace, water, law-1, gate and distance rows; §5.4's counts; a generation
 from a creation prefix; Regenerate (keep), New random and a re-derivation from a stage under a kept raised way (W3), under
-a kept wall, and with the routes re-solved; *Order* and *Newer* as END-L2 left them. Five findings follow, all new: two
-major (one class: a pipeline step that sends a stage to law 2 (c) where the laws give a lawful shape first) and three
-minor. None is a blocker.
+a kept wall, and with the routes re-solved; *Order* and *Newer* as END-L2 left them. Six findings follow, all new. Three
+are major. Two of these are one class: a pipeline step that sends a stage to law 2 (c) where the laws give a lawful shape
+first (VF7w-GEN-01, -02). The third is a law-1 invariant the one list leaves open (VF7w-GEN-06). Three are minor. None is a
+blocker.
 
 ### VF7w-GEN-01 · major · TWO READINGS (law 2 (a)–(c)) · owner pipeline; END determinism
 
@@ -117,7 +118,8 @@ the fix pass already graded.
 ### VF7w-GEN-02 · major · TWO READINGS (law 1 (9), law 2 (a)) · owner pipeline
 
 **The pull list's new widening reads over a held building's strip as well, a strip the laws have already widened. Read
-so, the pull widens it twice and searches fewer shapes than law 1 admits.**
+so, the pull widens it twice and searches fewer shapes than law 1 admits.** The table and tests lenses raise the same
+sentence as VF7w-TBL-02 and VF7w-TST-01. This lens found it on its own, on the generation and regeneration paths.
 
 *The text.* The fix pass's P2 wrote at §4.4 S5a *Trace* (2) (l. 6602): "every held building's strip and a shape-locked
 raised way's `vault`-use spans' strips, each widened all round by the wall strips' width there (law 1 (10): no line, band
@@ -236,6 +238,44 @@ the event)" → "C12, the deck extended by a frame growth (on the clause's varia
 outer ring, §2.7 *At the frame* — on a clause whose fixture names none, a variant whose raised way is declared to end
 there, as T110-2's frame clause's aqueduct does —, the frame grown by an epoch before the event)".
 
+### VF7w-GEN-06 · major · TWO READINGS (law 1 (4)) · owner pipeline
+
+**The one list keeps the line off a raised way's bare ramps, stairs and feet by the wall strips' width. Law 1 (4) keeps
+the wall strips off its ends, which the terms widen by the strip margin. §4.3's aqueduct course rule has the same gap.**
+The table lens raises the same defect as VF7w-TBL-01. I re-verified it here on the generation paths.
+
+*What the laws say.*
+* Law 1 (4) (l. 2721–2723): "no enclosing wall's line, band or wall strips lie over a raised way's ends".
+* The terms (l. 2617–2618): "**the ends** are its ramps, stairs and feet, each widened by the same margin". The margin is
+  `raisedWays.structure.stripMarginM`, 1 m as shipped (V11 l. 708, 863).
+* *Beyond the foot* (l. 2619–2622), the pin rule (l. 6603: "over a raised way's ends") and S3 (7) (l. 6227: "the band
+  or wall strips there over the ends") all read the ends.
+
+*What the pipeline says.*
+* §4.4 S5a *Trace* (2) (l. 6602): "a standing raised way's ramps, stairs and feet widened by the wall strips' width
+  there".
+* §4.3 *Where it may not go* (l. 6503), the course rule for S6's aqueduct and for every aqueduct laid after a standing
+  wall: "its ramps, stairs and feet off the band and wall strips".
+
+*Two builds.*
+* **Builder 1** buffers the bare ramp.
+  * The pull may lay the trace's line at exactly the wall strips' width from a ramp's bare edge. This applies to S3 (9)'s
+    pull, S5a's, a regeneration's, and V06's cost field, which takes this list. The wall strips then lie over the end's
+    1 m margin.
+  * S6's aqueduct may stand its ramp just clear of a standing wall's glacis line, so the margin of its end lies under the
+    wall strip.
+  * Either way, law 1 (4) is false at the stage end, and §5.3's law-1 row (l. 9943) raises `E_INVARIANT`.
+* **Builder 2** reads the ends and keeps law 1.
+
+One reading of the builder's text breaks a law-1 invariant, so the finding is major, as VF7-GEN-01 was graded.
+
+**Required change** (pipeline):
+* (§4.4 S5a *Trace* (2), l. 6602) "a standing raised way's ramps, stairs and feet widened by the wall strips' width
+  there," → "a standing raised way's ends (§2.7's laws' terms: its ramps, stairs and feet widened by
+  `raisedWays.structure.stripMarginM`) widened by the wall strips' width there (law 1 (4)),".
+* (§4.3 *Where it may not go*, l. 6503) "its ramps, stairs and feet off the band and wall strips" → "its ends (§2.7's
+  laws' terms: its ramps, stairs and feet widened by `raisedWays.structure.stripMarginM`) off the band and wall strips".
+
 ## Part 3 — cases of this lens the laws decide (no finding)
 
 * **S3 (5)–(7).** Gate routes are re-solved where law 1 bars the gate, as the trigger was picked. Their raised stretches,
@@ -246,14 +286,15 @@ there, as T110-2's frame clause's aqueduct does —, the frame grown by an epoch
 * **S3 (8).** The filter reads every raised way standing before the stage. The castle's curtain is dated by its claim;
   no (5) route crosses the claim. A welded stretch has two dates, and the earlier one bars any deck dated between them, so
   no case turns on which date a builder reads.
-* **S3 (9) and S5a.** The one list widens every item as law 1 keeps the line, band and wall strips (VF7w-GEN-02 aside).
+* **S3 (9) and S5a.** The one list widens every item as law 1 keeps the line, band and wall strips (VF7w-GEN-02 and -06
+  aside).
   The F-WALL rung's widened stretch is excepted from the 40 m **Test**. Pins moved by S3 (9) are part of "the stage plan
   S3 (6)–(9) fixed" that the check's (11) reads.
 * **S4 and S5b decks.** S4 decks are dated after the stage-1 trace and come down before it. S5b decks come down before the
   picked boundary, and a pin nearer such a foot than the first point beyond it moves there (P3). Older decks pass over a
   stage-k trace, built through their supports and capped beneath their spans.
-* **S6's end.** An aqueduct crosses each standing trace at its level, plans round its gates and fixed places, and is
-  dropped where no course can (`W_RAISED_MEETING`). S7's towers, laid later, are placed clear. An elevated road whose ends
+* **S6's end.** An aqueduct crosses each standing trace at its level, plans round its gates and fixed places, keeps its
+  ends off the band and wall strips (VF7w-GEN-06 aside), and is dropped where no course can (`W_RAISED_MEETING`). S7's towers, laid later, are placed clear. An elevated road whose ends
   are fixed is not built across a trace.
 * **S7 and S10 (0).** Gatehouses are built as their pins read them. Gate plazas are cut round supports and ends. The
   intervallum and castle paths follow row (a). The band is laid through a road deck's support and round a merged pier. A
@@ -287,9 +328,14 @@ S3 (7) moves a carried way's gate before re-routing it, and its bar's seed condi
 a carried way. S3 (10) reads (5)'s stretches at a regeneration. §5.4 and F-CASTLE carry the castle's law 2 (c) outcome.
 Attacking the laws through the pipeline in the order it runs, and through a regeneration under a kept raised way, gives
 one lawful outcome or a listed valid choice almost everywhere, with every law-1 invariant checked by §5.3's row and
-T110-4. Two places in S5a *Trace* (2) still send a stage to law 2 (c) where the laws give a lawful shape first:
-* the pin rule skips law 2 (b) for an ordinary arterial (VF7w-GEN-01);
-* the new widening, read over a held building's strip, widens it a second time (VF7w-GEN-02).
-Each is the outcome that Part P pass 8 and the r7w regrade of VF7v-GEN-03 hold against J144 as the program reads it, so
-both are **major**, and each closes in one sentence. The three minors are summaries and citations, plus one sweep state
-whose fixture is missing. This lens finds the family **not yet free of majors**: two remain, both in S5a's one sentence.
+T110-4. Three majors remain, all in S5a *Trace* (2)'s one sentence, and one of them also in §4.3's aqueduct course
+rule:
+* The pin rule skips law 2 (b) for an ordinary arterial (VF7w-GEN-01).
+* The new widening, read over a held building's strip, widens it a second time (VF7w-GEN-02).
+* The list, and §4.3's course rule, buffer a raised way's bare ramps where law 1 (4) keeps the wall strips off its
+  margin-widened ends (VF7w-GEN-06; the same defect as VF7w-TBL-01).
+
+The first two send a stage to law 2 (c) where the laws give a lawful shape first. Part P pass 8 and the r7w regrade of
+VF7v-GEN-03 hold that outcome against J144 as the program reads it. The third breaks law 1 (4) on one reading of the text.
+Each closes with a few words. The three minors are two summaries and a set of citations, plus one sweep state whose fixture
+is missing. This lens finds the family **not yet free of majors**.
