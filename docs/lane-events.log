@@ -3814,3 +3814,7 @@
 2026-10-02 22:41 coherence/repair-scope-r7y CHECKPOINT started (opus stand-in): brief and adjudication-r7y.md read whole (Part H · scope S1-S5); skeleton docs/validation/coherence/repair-r7y-scope.md written; next: issue sources and the live §13.2 T110 bullet, §13.8's T110 row
 2026-10-02 22:41 coherence/repair-model-r7y CHECKPOINT started (opus stand-in): brief read; adjudication-r7y Part H model M1-M10 read; next: famverify-table/epochs-r7x sources, live §2.7 support step whole, F6 sweep of base §2
 2026-10-02 22:41 coherence/repair-pipeline-r7y CHECKPOINT started fresh (no output, no LANDED); brief and adjudication-r7y Part H read; next: issue sources, live §4.1–§4.4, §4.8, blocks
+2026-10-02 22:41 coherence/repair-determinism-r7y CHECKPOINT started fresh; brief, adjudication-r7y (D1–D10), issue sources read; next: locate live texts, generate blocks
+2026-10-02 22:41 coherence/repair-V05-r7y CHECKPOINT started fresh (opus stand-in); brief, adjudication-r7y Part H · V05 (V5-1) and VF7x-TST-04's source read; skeleton docs/validation/coherence/repair-r7y-V05.md written; next: block for T-V5-14, F6 sweep of V05
+2026-10-02 22:43 coherence/repair-V05-r7y LANDED docs/validation/coherence/repair-r7y-V05.md docs/validation/coherence/results/coherence_repair-V05-r7y.json
+2026-10-02 22:43 coherence/orchestrator NOTE repair-V05-r7y landed (1 block, 0 ruling requests); 7 repair-r7y seats running
