@@ -17,6 +17,6 @@ for key, (name, code, body) in LENSES.items():
            f"PRB{R}{L.upper()}-{code}-nn. Read Part P of adjudication-r{R}.md and every earlier probe file of this round first; attack "
            f"the AMENDED text above all and do not re-raise a finding Part P closed unless its closure fails. Stay inside your lens "
            f"(two other seats cover the rest); within it, be exhaustive.\nYOUR LENS: {body}\n\n")
-    out = pre + base.replace(f'probe-{BASEKEY}.md', f'probe-r{R}{L}-{key}.md').replace(f'coherence_probe-{BASEKEY}.json', f'coherence_probe-r{R}{L}-{key}.json').replace(f'coherence/probe-{BASEKEY}', f'coherence/probe-r{R}{L}-{key}').replace('PRB7D-nn', f'PRB{R}{L.upper()}-{code}-nn')
+    out = pre + base.replace(f'probe-{BASEKEY}.md', f'probe-r{R}{L}-{key}.md').replace(f'coherence_probe-{BASEKEY}.json', f'coherence_probe-r{R}{L}-{key}.json').replace(f'coherence/probe-{BASEKEY}', f'coherence/probe-r{R}{L}-{key}').replace(f'PRB{R}{L.upper()}-nn', f'PRB{R}{L.upper()}-{code}-nn').replace('PRB7D-nn', f'PRB{R}{L.upper()}-{code}-nn')
     open(f'{D}/coherence_probe-r{R}{L}-{key}.prompt.txt', 'w').write(out)
     print(key, len(out))
