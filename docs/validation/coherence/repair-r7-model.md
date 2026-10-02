@@ -3,15 +3,145 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-model-r7; covered by the whole-design retrovalidation (J84).
 
 # Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header
-# is ignored. Base: docs/ARCHITECTURE.md sha256 f39f1c30126976c0… (assemble-r6's output, the live file).
+# is ignored. Base: docs/ARCHITECTURE.md sha256 f39f1c30126976c0… (assemble-r6's output, the live file, unmodified in the
+# checkout). 3 REPLACE blocks (§2.2, §2.7, §2.8), 0 RULING REQUEST blocks. Each REPLACE body is the live subsection with
+# count-asserted substitutions (generator in the seat's scratch); in §2.7 the support step's (1)–(7) is re-composed —
+# (1)–(5) the live text with its edits, (6)'s lead, (0) §2.7's laws, the worked examples, (M1) and (7) — and every
+# other line is verbatim. Binding: adjudication-r7.md Part L (normative, as adjudicate-r7-laws6 left it), R7-01, R7-02
+# (Blocks 1–2, (M1)–(M6)), R7-04 (c), R7-07, Part H · model (E-M1, E-M2), Part P passes 1–8 with *J147/J148/J149
+# applied*; the owner's J144 – J151; R3-01 – R3-03, R4-01, R5-01, R6-01 standing.
 #
 # PROGRESS (lane coherence/repair-model-r7, 2026-10-02)
 # - [x] P0 brief read whole (with its ROUND-7 NOTES and ORCHESTRATION NOTES); no output and no LANDED line existed (fresh run)
 # - [x] P1 adjudication-r7 read: How to read, Summary, TOC, Part A, R7-01, Part L whole (Terms through The check, the
 #       worked-examples note with corrections 1–7, the restated veto list), R7-02 whole (Blocks 1–2, (M1)–(M6), the
-#       attack, the equivalence), R7-03 – R7-07, Part H · model (E-M1, E-M2), Part P passes 1–8 with J147/J148/J149 applied
-# - [x] P2 live §2.7 read whole where touched; owner rows J144 – J151 in docs/PROGRESS.md
-
+#       attack, the equivalence), R7-03 – R7-07, Part H · model (E-M1, E-M2) and the pipeline/determinism ENDs it meets,
+#       Part P passes 1–8 with J147, J148 and J149 applied, Part I
+# - [x] P2 live §2 read where touched (§2.2's ChainProfile, vertex role row and stretch-state rule; §2.7's records, the
+#       support step (1)–(7), the span rule, Readers, Source and lifecycle; §2.8's registry); docs/PROGRESS.md J144 – J151
+#       read whole; §7.5's schema-transform table read (hand-off below)
+# - [x] P3 blocks composed: Part L word-diffed against adjudication-r7 (only its markers, "§2.7's laws" → "these laws",
+#       "T110-4" → "§13.2's T110-4", the adjudication file's own part and round names and four owner-rule citations differ);
+#       R7-02's Blocks 1–2 word-diffed against the examples written (corrections 1–7 and the markers only)
+# - [x] P4 dry run on a copy: apply-blocks.py — 3 found, 3 applied, 0 skipped, audit OK; headings 153 → 153; fences
+#       balanced 140 → 140; title block unchanged; document 23,140 → 23,789 lines; both tables 15 and 5 columns on every
+#       row. doc_checks.py on the result, sections 2.2, 2.7, 2.8 — WARNING: reference corpus INCOMPLETE (captures,
+#       research/patreon, research/devlogs, research/ftg-docs, research/external absent): NOT authoritative, provisional.
+#       Counts (live → result): C1 5 → 5 (0 unreviewed); C2 1 → 1 (0); C3 111 → 153, 46 unreviewed — every one a common
+#       English or numeric run of the laws' own words ("at the end of every", "only on the axis the", "law 1 2 4 9",
+#       "3 7 2 3 and" …), none a copied phrase, listed for the assemble seat's allow file; C4 1 → 1 (0); S1 0 → 0; S2 298 →
+#       309 (0 unreviewed)
+# - [x] P5 report, result saved, LANDED
+#
+# DISPOSITIONS — 12 routed issues: 10 FIXED, 2 MERGED (closed by their primaries' fixes, no block of their own),
+# 0 INVALID, 0 ruling requests. All land in the §2.7 block, as Part H · model rules them and Part L governs.
+# - VAF-R6T-02 (minor; FIX): the way-and-channel table's row (a) test cell "T110-2 (3) (the intervallum and the castle
+#   paths), (5); T-V1-51 (c); T-V7-48".
+# - VAL-R6-01 (major; FIX per R7-02): no lock refuses or alters a meeting (these laws, law 2 *Entry*); *beneath*'s
+#   *A `vault` span under the wall*: a placement-locked or pinned arch vault's span held, its chamber not laid while the
+#   span reads `open`, its lock kept with its key so the chamber laid again carries it, each removal and re-lay shown by
+#   (G2); C8; W2·C8, W3·C8. V04's side is E-V4-4 (V04's seat), scope's E-S4.
+# - VEW-r6-02 (major): MERGED into VAL-R6-01; its held-building case is *A held building in an arch vault* (law 1 (9):
+#   the wall gives way; a held building is one the user locked, J147).
+# - VAT6-r6-02 (major; FIX per R7-04): (7)'s bound sentence, R7-04 (c)'s words — the extension's course bent to the nearest
+#   fitting course (a course laid then, meeting each standing wall by these laws), else kept with each station slid off
+#   every obstacle but the failed bound and off every Tier-1 footprint, reported `raised.extendedPastBound` (law 2 (c)).
+# - VAT-r6-02 (major; FIX per R7-02): row W13 takes a gate's crossing slid by its grip (moved back along the trace on the
+#   side its grip came from, its way following, the trace unchanged, else refused); W2's event cell "a gate's slid
+#   crossing is W13". Ends: determinism E-D3, scope E-S4, V09 E-V9-2 (their seats).
+# - VV910-r6-01 (major): MERGED into VAT-r6-02.
+# - VEL6-r6-04 (major; FIX per R7-02): the bent-group sentence's (ii)–(iii) (a part along beneath or entering and leaving
+#   on one side by that side's edge; an end inside the strip to the edge on its entry side) — law 2 (a) with law 3.
+# - VEW-r6-03 (major; FIX per R7-02): the fixed-place sentence (anchors with their towers, weld vertices, a castle's
+#   town-side gate and vertex towers, the harbour-mouth chain) and *over the band*'s course kept clear of them — read by
+#   law 1 (6) and (11): a road deck's zone, an aqueduct's strip but under arches that clear them; none ever moved.
+# - VM-R6T-01 (major; FIX per R7-02): the same sentence (a river's water gate placed along the river by a trace laid
+#   later; an anchor along its barrier's edge), *No gate and no tower*.
+# - VM-R6T-03 (minor; FIX): W11·C2's test "T110-2 (4), T-V4-63".
+# - VM-R6T-04 (minor; FIX): (3)'s "× the `pierSpacingM` band's upper bound ((1))".
+# - VV56-r6-02 (major; FIX per R7-04): W8·C2 — the vault laid again in the commit of the `dismantle` that takes the last
+#   run of the absorbed record over it, or in `absorbWall`'s own where none is left; *beneath* reads such a run across
+#   (and these laws' *what stands of a wall*); (3)'s obstacle list carries the old band over those runs. Ends: V04
+#   E-V4-1 – E-V4-3, V06 E-V6-1 – E-V6-3 (their seats).
+#
+# END LINES WRITTEN (Part H · model):
+# - E-M1: (6)'s first bullet "* (0) **§2.7's laws** — the raised-way × wall family's laws, normative (J146):" with Part L
+#   from **Terms** through **The check** as adjudicate-r7-laws6 left it, every "(J146, PRB7…)", "(amended, …)", "(J148)",
+#   "(J149)", "(J150)" and "(J151)" marker unwritten, "§2.7's laws" read "these laws", the property bar "§13.2's T110-4",
+#   "§2.7's support step (6)" read "(6)'s lead" and "§2.7's span rule (1)" "the span rule's (1), below"; then the line
+#   "**Worked examples** (non-normative: …):" before the (a)–(b) bullet; Blocks 2 and 1, (M1)–(M6) and (7) after it. The
+#   (c) *a face* bullet stays where it stands, between (a)–(b) and (d); its rules' normative homes are §4.6 (S8's holes),
+#   §4.7 and §4.8 (squares, plazas, roots), which it cites, so nothing normative is lost by its place.
+#   (6)'s lead per E-M1 and (M2): "a wall meets it, whichever was laid first and with either side held, by these laws
+#   ((0); their worked example the crossing table, (d)). A lock holds the same, on its axis — a placement lock or pin its
+#   placement, never its shape where a wall meets it, a shape lock its outline and size besides (these laws, law 2, law 1
+#   (10); …); at a regeneration a raised way stands before every stage as these laws' *Newer* gives it (§7.2)."; (M6) at
+#   the reservation sentence and the span rule's last sentence; the span rule's step (2) and (3)'s obstacle list and
+#   merged-span clause cite "these laws" with the law's number; (7) per E-M1 ("— or, wherever a wall-like structure
+#   crosses the old end span, from the old foot's point, that span kept as it stands (these laws, law 2 (c)) —") and R7-04
+#   (c)'s bound sentence.
+# - E-M2: `Enceinte.laidAt?` (after `conditionEpoch?`), `RaisedWayRecord.courseAt?` (after `spanSpacingCm?`) and
+#   `type Order` (after `RaisedKind`), in E-M2's words with its pass-6 addition (a stretch an op moves keeps its former
+#   order at each crossing; an undo or redo restores or re-applies its target's), and its lifecycle sentence (hashed with
+#   the record, restored by an undo record, written on an older document by its upgrade, §7.5; §5.3's law-1 row reads them)
+#   as a comment line after `type Order`.
+#
+# NOTES (each a reading the seat made, named for the verifiers):
+# 1. E-M1's "(§7.2's words until round 8)" is written "(§7.2)": "until round 8" is the program's schedule, not design —
+#    principle (5) keeps review rounds out of design text and principle (6) bars wording that leaves a choice for later —
+#    and J150 says to write nothing for the round-8 hand-off; its meaning stands in *Newer* ("each one §7.2 keeps so").
+#    For the same reason Part L's "— its two axes round 8's (Part A)" (*Entry*), "until round 8 rules the two-axis lock
+#    there, Part A" (*Newer*) and law 1 (10)'s "J150: its behaviour under the ops Part A names round 8's, this rule
+#    reading each meanwhile" are unwritten (E-M1: "no id of this file written"); law 1 (10) reads "no op", so it binds
+#    every op meanwhile, and law 4 refuses an undo or redo where law 1 would not hold.
+# 2. Owner rules are cited once each where Part L's markers named them: *held* "(the owner's rule, J147)", *the tiers*
+#    "(the owner's rule, J148)", law 1 (2) "(the owner's rule, J149)", law 1 (10) "(the owner's rules, J147, J150)";
+#    "J144" kept where Part L writes it; law 1 (2)'s "as the program reads it" written "the program's reading, J122".
+# 3. E-M2 wiring completed at the model's own homes (principle (7)): `ChainProfile<T>`'s constraint (§2.2) admits
+#    `Order` (step only, hashed as `seq` then `step`) — E-M2's `ChainProfile<Order>` does not type-check against
+#    `T extends number | string` —; knot roles `wall_order_knot` (`Enceinte.laidAt`) and `deck_order_knot`
+#    (`RaisedWayRecord.courseAt`) named in the field comments and registered in §2.2's vertex role row; §2.2's
+#    stretch-state profiles rule lists both fields; §2.8's registry lists them (no edit kind of their own, their migration
+#    hook the upgrade's, §7.5); the lifecycle comment says none is absent on a current document.
+# 4. Part L's seven corrections applied as the examples are written (E-M1): (1, J148) no standing gate, postern or tower
+#    moved — the lock sentence's "a gate or tower moved along" struck, *Nearest points* and *No gate and no tower* reading
+#    only what the op itself lays or places, a standing one never moved (law 1 (11)), W13 "else refused"; (3) ramps,
+#    stairs and feet kept off by the wall strips' width (*Line and band*, the pull's list, the lawful crossing); (5)
+#    every move of the op's own stroke "part of its bend"; (6, J147) held = locked on the axis named — "locked, pinned or
+#    declared" → placement-locked in the lock sentence, C8, W1·C1, W1·C8 ("a creation prefix's declared walls and raised
+#    ways … each locked one on its axis"), W2·C8, W3, W4, W7, W8, W11, W12 and W14's last cells; a shape lock honoured
+#    (law 1 (10)) in the lock sentence, C8, the retaining-wall clause, *A `vault` span under the wall*, the lawful
+#    crossing, the pull's list, W1·C1, W2·C8, W3·C1 and C8, C10 and (M1); (7, J149) an aqueduct crossed at its level,
+#    over or merged — *over the band*, *Where the line crosses*, *Line and band*, *the edge* (over only), *the cap*
+#    (beneath a road deck only), the lawful crossing, W2·C2, W3·C2, W8·C1, W1·C11, row (b)'s and W13's gates, the
+#    fixed-place zone a road deck's (an aqueduct's strip admitting what law 1 (5), (6) admit), the paths note's
+#    `bend.wall.aqueductArch`. Corrections 2 and 4 needed no further change (R7-02's text already carried them).
+# 5. R7-02's pointer "((M5))" in W8·C1 is written "of (3)" (no ruling id in design text); "(the lock sentence's reach)"
+#    citations stand, with "law 2 *Entry*" beside them where a cell names a lock.
+# 6. Each example names the law it illustrates (R7-02's banner map): the lock sentence law 2, *Strips, zones and nearest
+#    points* the terms and law 3, *over the band* law 1 (2), (4)–(6) with law 2 (a)–(b), *down before the wall* law 1 (3)
+#    with law 2 (a) and *Carried way*, *beneath* law 1 (2)–(9) with law 2 (a)–(b), *unchanged meeting* law 4, the
+#    bent-group sentence law 2 (a) with law 3, the fixed-place sentence law 1 (6) with law 2, the columns a state law 1
+#    reads (C8 law 2's *Entry*), the rows law 4's re-check, the way-and-channel table law 1 (1), (8) with §4.3's rule.
+#
+# SWEEP (R7-01 (2), the model's unit): §2's other mentions read against the rulings — §2.2, §2.4's `aqueduct` class and
+# `raised` field, §2.6's arch-vault row (V04 §1b.2's trigger list, conformed by V04's E-V4-1), §2.7's `RaisedFoot`,
+# *Readers*, *At the frame* and `DecorationMember` cite no rule the rulings changed and stand. §2.7's *Source and
+# lifecycle* ("declared ways are held") and *Retaining walls* ("drawn ones are held") are readers of the two-axis lock
+# outside the family's meetings — Part A's round-8 hand-off (J147, J150): their words stand, nothing written for them.
+#
+# HAND-OFFS (one):
+# - determinism (§7.5, *The schema transforms*): E-M2's fields are "written on an older document by its upgrade (§7.5)";
+#   the table has no row for them. Add the row: "| an enceinte's `laidAt`; a raised way's `courseAt` | each run's line
+#   and each deck stretch dated by the last event in its log that fixed or moved it (§2.7's laws' *Order*: a re-trace, a
+#   re-shape, a warp, a `revert` or a bent extension), else by the record's creation | — | 110 (b) |".
+#
+# WORDS (principle (9)'s report): base §2 67,283 → 81,951 (+14,668, +21.8%): §2.2 6,949 → 6,985; §2.7 16,809 → 31,413;
+# §2.8 5,845 → 5,873. The growth is the content the owner's J146 put at §2.7: Part L's laws, 5,887 words of new normative
+# text, and R7-02's worked examples, 12,776 words against the live (6) (a)–(d)'s 4,902 (R7-02's 14-row, 13-column table
+# with its sentences, written whole as ruled, plus Part L's corrections). Removed: narration only (every adjudication
+# marker); nothing restated was cut, R7-02 writing its examples whole. The unit is not in the shrink band: the J146 laws
+# and examples are new content, and the compression pass J145 (c) schedules once the family closes reduces restatement.
 === REPLACE ### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices ===
 ### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices
 
@@ -1083,8 +1213,8 @@ without a junction, its two ends ramps or stairs joined to ground vertices, or a
     meeting — by hand a target the user locked (T10 `hold`) refused by §7.1's lock row, nothing written, and a target
     drawn or declared and not locked changed as an unlocked one, its event then taking its cell; a carve or a moved
     river that would re-trace a run of a locked wall refused as across any locked wall (`refuse.water`; §4.11 *Other
-    crossings*), so the bent group's carved or river-moved run is never locked; by the engine or a hazard a locked
-    target kept as §7.2 *Protection*, V06 §3.1 and V05 §3.16 (2) keep it, the ruin lapping round it. Once the event
+    crossings*), so the bent group's carved or river-moved run is never locked; by the engine or a hazard a target §7.2
+    *Protection*, V06 §3.1 and V05 §3.16 (2) protect kept as they keep it, the ruin lapping round it. Once the event
     acts, the meeting it makes takes its cell. **The three guards** are J144's guardrails as these laws state them:
     **(G1) Local** is law 2 (a)–(b)'s reach — a held structure's shape changed only inside the meeting's reach, its
     course or trace never re-routed; **(G2) Shown** is law 4's (G2) — the fate **reshaped** by hand (§7.3 item 4), a
@@ -1190,21 +1320,21 @@ without a junction, its two ends ramps or stairs joined to ground vertices, or a
       never stored: the trace keeps its course but where a crossing below bends it, and its strips, band, towers and
       gates are laid as anywhere (S7, S10, VS3, V06 §3.7, §7.3's S7 operator). *Where the line crosses* (law 1 (2)–(4)):
       a trace's line never crosses a raised way's ramp, stair or foot, its band and wall strips kept off them too (law 1
-      (4)). It crosses an aqueduct's deck line once wherever it meets it, entering its strip on one long side and
-      leaving by the other, in the form the aqueduct's level there gives (law 1 (2)): over where its channel runs above
-      the wall's top — under a span that clears the wall's top, or through a `cleared` support's ring (open ground: both
-      its spans fallen, C5), never through a standing support (its `state` absent or `ruined`) —; merged where its
-      channel runs within the wall's height, the band built up to and around the arch or pier there; so an aqueduct
-      crosses every wall through one of its arches, over it or within it (item 110 (b); the program's reading, J122), a
-      trace passing round its end crossing nothing of it; a road deck's deck line under a span or at a support, the
-      trace's run dated after that stretch of the deck (law 1 (3)); and a road deck's carried way on its ground course
-      beyond a foot, through a gate there on ground part 0 (these laws' *beyond the foot*). **Line and band**: every
-      keep-clear this table states for a trace's line holds for its band and wall strips — the line kept from a ramp,
-      stair or foot by the wall strips' width there (law 1 (4)), and from an aqueduct's standing support, where the
-      crossing is over, by the band's half there (§4.8's rows along the stretch profile; *the edge*) —; a road deck's
-      support keeps nothing off (the band laid through it, law 1 (3)), nor an aqueduct's where the crossing is merged
-      (the band built round it, law 1 (2)); a held building's widened strip and the bent group's strip each count the
-      band's half already, so a line is kept out of them as they are drawn. A trace laid by the `EnceinteStrategy`'s
+      (4)). It crosses an aqueduct's deck line wherever it meets it, entering its strip on one long side, leaving by the
+      other and meeting the deck line once there, in the form the aqueduct's level there gives (law 1 (2)): over where
+      its channel runs above the wall's top — under a span that clears the wall's top, or through a `cleared` support's
+      ring (open ground: both its spans fallen, C5), never through a standing support (its `state` absent or `ruined`)
+      —; merged where its channel runs within the wall's height, the band built up to and around the arch or pier there;
+      so an aqueduct crosses every wall through one of its arches, over it or within it (item 110 (b); the program's
+      reading, J122), a trace passing round its end crossing nothing of it; a road deck's deck line under a span or at a
+      support, the trace's run dated after that stretch of the deck (law 1 (3)); and a road deck's carried way on its
+      ground course beyond a foot, through a gate there on ground part 0 (these laws' *beyond the foot*). **Line and
+      band**: every keep-clear this table states for a trace's line holds for its band and wall strips — the line kept
+      from a ramp, stair or foot by the wall strips' width there (law 1 (4)), and from an aqueduct's standing support,
+      where the crossing is over, by the band's half there (§4.8's rows along the stretch profile; *the edge*) —; a road
+      deck's support keeps nothing off (the band laid through it, law 1 (3)), nor an aqueduct's where the crossing is
+      merged (the band built round it, law 1 (2)); a held building's widened strip and the bent group's strip each count
+      the band's half already, so a line is kept out of them as they are drawn. A trace laid by the `EnceinteStrategy`'s
       pull or a cost field — S3's (reading the raised stretches of (5)'s routes, re-solved by §4.2 S3 (7), as standing)
       and S5a's at generation and at a regeneration, an epoch's circuit, contraction, re-anchored stretch (V06 §3.7.6
       (1)) or dossier-admitted circuit, and a hand `contractWall`'s (§4.11: S5a's trace step) — treats as impassable to
