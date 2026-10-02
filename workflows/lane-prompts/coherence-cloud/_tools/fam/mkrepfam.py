@@ -14,7 +14,7 @@ for lens in ['table', 'generation', 'epochs', 'hand', 'readers', 'tests']:
     p = f'{FAM}/coherence_famverify-{lens}-r{PREV}.json'
     if not os.path.exists(p): continue
     for i in json.load(open(p))['issues']:
-        owner = re.split(r'[\s(]', i.get('owner', '').strip())[0]
+        owner = re.split(r'[\s(]', i.get('owner', '').strip())[0].rstrip(';,:.')
         i2 = dict(i); i2['reported_by'] = [f'coherence/famverify-{lens}-r{PREV}']
         issues_by_unit.setdefault(owner, []).append(i2)
 for u in UNITS:
