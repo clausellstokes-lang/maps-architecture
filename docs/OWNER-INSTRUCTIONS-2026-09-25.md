@@ -273,3 +273,5 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   until it is solved (J144).
 - (2026-10-02 ~06:40) On the program's three speed-ups (parallel probe lenses, a higher lane cap, a compression pass): "do those"
   (J145; the cap set to 10 by the program, vetoable).
+- (2026-10-02 ~08:05) Offered three ways to close the raised-way × wall family after probe pass 3 did not converge (laws plus
+  examples, keep amending the table, repair now as is): "Laws + examples (Recommended)" (J146).
