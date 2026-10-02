@@ -3629,3 +3629,6 @@
 2026-10-02 18:02 coherence/repair-V06-r7v CHECKPOINT P0-P2 done (brief, adjudication-r7v V6-1 – V6-9, famverify epochs/tests evidence, live V06 sections and sweep); next: P3 build blocks
 2026-10-02 18:02 coherence/repair-V04-r7v LANDED docs/validation/coherence/repair-r7v-V04.md docs/validation/coherence/results/coherence_repair-V04-r7v.json
 2026-10-02 18:03 coherence/repair-pipeline-r7v LANDED docs/validation/coherence/repair-r7v-pipeline.md docs/validation/coherence/results/coherence_repair-pipeline-r7v.json
+2026-10-02 18:03 coherence/repair-V05-r7v CHECKPOINT P1-P2 done (## 7 read whole, sweep clean, 1 REPLACE block generated count-asserted and dry-applied: 1 applied, audit not-OK 0, doc_checks unchanged); next: P3 write report and block file, save result, LANDED
+2026-10-02 18:04 coherence/repair-model-r7v CHECKPOINT composed: docs/validation/coherence/repair-r7v-model.md, 1 REPLACE (§2.7) carrying M1–M11 (24 substitutions); next: dry run on a copy, result, LANDED
+2026-10-02 18:04 coherence/repair-V05-r7v LANDED docs/validation/coherence/repair-r7v-V05.md docs/validation/coherence/results/coherence_repair-V05-r7v.json
