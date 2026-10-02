@@ -1,0 +1,152 @@
+[
+ {
+  "path": "docs/ARCHITECTURE.md",
+  "sha256_before": "03573b4f209a0cef3024adaa2ec10f431b9c6f96ab22aaaae0899aee8de075af",
+  "sha256_after": "c13613c5771a99e583726d3258b55700eb68afd793e0933a7aaa0f162e6d147d",
+  "changed": true,
+  "bytes_before": 3209864,
+  "bytes_after": 3218661,
+  "words_before": 522396,
+  "words_after": 523926
+ },
+ {
+  "path": "docs/ARCHITECTURE-RATIONALE.md",
+  "sha256_before": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "sha256_after": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "changed": false,
+  "bytes_before": 704813,
+  "bytes_after": 704813,
+  "words_before": 119127,
+  "words_after": 119127
+ },
+ {
+  "path": "docs/volumes/V01-neighbourhoods.md",
+  "sha256_before": "5c0ea6757d0cb7cc3a866131961f817cb031919d1276b0dc33def3e95c3b9b1a",
+  "sha256_after": "5c0ea6757d0cb7cc3a866131961f817cb031919d1276b0dc33def3e95c3b9b1a",
+  "changed": false,
+  "bytes_before": 529232,
+  "bytes_after": 529232,
+  "words_before": 86896,
+  "words_after": 86896
+ },
+ {
+  "path": "docs/volumes/V02-buildings.md",
+  "sha256_before": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "sha256_after": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "changed": false,
+  "bytes_before": 565121,
+  "bytes_after": 565121,
+  "words_before": 94571,
+  "words_after": 94571
+ },
+ {
+  "path": "docs/volumes/V03-interiors.md",
+  "sha256_before": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "sha256_after": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "changed": false,
+  "bytes_before": 467810,
+  "bytes_after": 467810,
+  "words_before": 79495,
+  "words_after": 79495
+ },
+ {
+  "path": "docs/volumes/V04-underground.md",
+  "sha256_before": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+  "sha256_after": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+  "changed": false,
+  "bytes_before": 536518,
+  "bytes_after": 536518,
+  "words_before": 87473,
+  "words_after": 87473
+ },
+ {
+  "path": "docs/volumes/V05-sky.md",
+  "sha256_before": "1931fec160a4b146d1778deac28413dc329bae2868d8542f4967116a695e671f",
+  "sha256_after": "4517619dfe10fe5c5273e800e65eb09c331a9332397aea355a45bea55defe940",
+  "changed": true,
+  "bytes_before": 404696,
+  "bytes_after": 404941,
+  "words_before": 68398,
+  "words_after": 68441
+ },
+ {
+  "path": "docs/volumes/V06-evolution.md",
+  "sha256_before": "58f0fb64092942c2a93f9881486ea67e9640d6e4fab76b101b5ca9ef8872baeb",
+  "sha256_after": "72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6",
+  "changed": true,
+  "bytes_before": 710168,
+  "bytes_after": 710864,
+  "words_before": 116276,
+  "words_after": 116393
+ },
+ {
+  "path": "docs/volumes/V07-village.md",
+  "sha256_before": "6202d46df5b3eabf034ec388adbdb11e83d0295b4b80e0901031d309cbacf5ba",
+  "sha256_after": "a93d1f64212153ee5c594762050286b2624bba4e408d9c599257630ce3a198c7",
+  "changed": true,
+  "bytes_before": 622038,
+  "bytes_after": 622965,
+  "words_before": 103040,
+  "words_after": 103193
+ },
+ {
+  "path": "docs/volumes/V08-settlementforge.md",
+  "sha256_before": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "sha256_after": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "changed": false,
+  "bytes_before": 582193,
+  "bytes_after": 582193,
+  "words_before": 92453,
+  "words_after": 92453
+ },
+ {
+  "path": "docs/volumes/V09-application.md",
+  "sha256_before": "da502c0a32e9ad7dba2a694b05967adf830bba30035ce450db13688a2ec02f62",
+  "sha256_after": "1394a5ee0e0e25cbdf5c884ebc0052f84d5a4c56df5718d84319bb669358dfd0",
+  "changed": true,
+  "bytes_before": 779775,
+  "bytes_after": 781054,
+  "words_before": 128782,
+  "words_after": 129020
+ },
+ {
+  "path": "docs/volumes/V10-clerk.md",
+  "sha256_before": "cb4d9cffb49f1bc3cb489a515a316f2e7046f6c44a4116cd895d891022762bc0",
+  "sha256_after": "cb4d9cffb49f1bc3cb489a515a316f2e7046f6c44a4116cd895d891022762bc0",
+  "changed": false,
+  "bytes_before": 524582,
+  "bytes_after": 524582,
+  "words_before": 84926,
+  "words_after": 84926
+ },
+ {
+  "path": "docs/volumes/V11-content.md",
+  "sha256_before": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+  "sha256_after": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+  "changed": false,
+  "bytes_before": 681994,
+  "bytes_after": 681994,
+  "words_before": 113932,
+  "words_after": 113932
+ },
+ {
+  "path": "docs/volumes/V12-calibration.md",
+  "sha256_before": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "sha256_after": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "changed": false,
+  "bytes_before": 526016,
+  "bytes_after": 526016,
+  "words_before": 85347,
+  "words_after": 85347
+ },
+ {
+  "path": "docs/volumes/INDEX.md",
+  "sha256_before": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "sha256_after": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "changed": false,
+  "bytes_before": 24074,
+  "bytes_after": 24074,
+  "words_before": 4054,
+  "words_after": 4054
+ }
+]

@@ -1,0 +1,133 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7y/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "58f0fb64092942c2a93f9881486ea67e9640d6e4fab76b101b5ca9ef8872baeb",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7y/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7y-V06.md",
+   "sha256": "e6fe44ded5f62e74a90f4e278878be2e590229e88a7d482345a26825d8d69e97",
+   "lines": 806,
+   "blocks": 3,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7y-V06.md #1 (l. 1) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "b-repair-r7y-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 232,
+   "body_sha256": "3fe7e45420c22210b161240a79192a53b7ef1dad9d93abc0d7fbc3770d4724c7",
+   "target_line": 1453,
+   "section_old": "1453–1685",
+   "section_old_n": 233,
+   "section_new_n": 233,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7y-V06.md #2 (l. 235) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+   "file": "b-repair-r7y-V06.md",
+   "index": 2,
+   "line": 235,
+   "kind": "REPLACE",
+   "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+   "body_lines": 381,
+   "body_sha256": "e27098508e6c31984e756677e881dfe7ec83823cb023ef65c8dd04cd428234f3",
+   "target_line": 2755,
+   "section_old": "2755–3135",
+   "section_old_n": 381,
+   "section_new_n": 382,
+   "new_headings": [
+    "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7y-V06.md #3 (l. 618) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7y-V06.md",
+   "index": 3,
+   "line": 618,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 186,
+   "body_sha256": "5ffc012faced5be7de0d52875b3ceed696785e68af92a6f9fe540d643f084dc2",
+   "target_line": 4078,
+   "section_old": "4078–4264",
+   "section_old_n": 187,
+   "section_new_n": 187,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7y-V06.md #1 (l. 1) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V06.md #2 (l. 235) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+    "kind": "REPLACE",
+    "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V06.md #3 (l. 618) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 710168,
+  "doc_bytes_after": 710864,
+  "doc_lines_before": 4666,
+  "doc_lines_after": 4667,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 3,
+  "blocks_applied": 3,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

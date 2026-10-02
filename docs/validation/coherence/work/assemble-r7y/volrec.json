@@ -1,0 +1,207 @@
+{
+ "V05-sky": {
+  "recorded": "1 found, 1 applied, 0 skipped, audit not-OK 0; headings 62 \u2192 62; fences balanced (14 \u2192 14); 3 096 \u2192 3 098 lines, 404 696 \u2192 404 941 bytes (sha256 4517619dfe10fe5c\u2026); the rationale file untouched; `diff` of live and output shows the one line (live l. 2579) become three",
+  "got": {
+   "bytes": 404941,
+   "lines": 3098,
+   "sha256": "4517619dfe10fe5c5273e800e65eb09c331a9332397aea355a45bea55defe940",
+   "touched": [
+    2579
+   ],
+   "inserts_after": [],
+   "words": [
+    68398,
+    68441
+   ],
+   "wc_words": [
+    67258,
+    67301
+   ]
+  },
+  "equals_recorded": true
+ },
+ "V06-evolution": {
+  "recorded": "After the blocks: sha256 72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6, 710 864 bytes, 4 667 lines; 3 applied, audit not OK 0, headings 65 \u2192 65, fences balanced (28 \u2192 28); V06 116 276 \u2192 116 393 words (whitespace-split); \u00a73.7 3 776 \u2192 3 779, \u00a73.19 6 668 \u2192 6 676, ## 7 15 087 \u2192 15 193",
+  "got": {
+   "bytes": 710864,
+   "lines": 4667,
+   "sha256": "72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6",
+   "touched": [
+    1586,
+    1587,
+    1588,
+    2806,
+    2807,
+    2808,
+    2809,
+    2810,
+    2811,
+    2812,
+    2850,
+    2851,
+    2852,
+    2853,
+    2854,
+    2855,
+    2856,
+    2857,
+    2858,
+    2859,
+    2860,
+    2861,
+    2862,
+    2863,
+    2864,
+    2865,
+    2866,
+    2867,
+    2868,
+    2869,
+    4219,
+    4220
+   ],
+   "inserts_after": [],
+   "words": [
+    116276,
+    116393
+   ],
+   "wc_words": [
+    114379,
+    114496
+   ],
+   "sections": {
+    "### 3.7 ": [
+     3776,
+     3779
+    ],
+    "### 3.19 ": [
+     6668,
+     6676
+    ],
+    "## 7 ": [
+     15087,
+     15193
+    ]
+   }
+  },
+  "equals_recorded": true
+ },
+ "V07-village": {
+  "recorded": "7 blocks found, 7 applied, 0 skipped; audit not-OK 0; headings 58 \u2192 58; fences balanced (18 \u2192 18); 622 038 \u2192 622 965 bytes, 4 124 \u2192 4 132 lines (output sha256 a93d1f64212153ee\u2026); the diff touches exactly live lines 1577\u20131578, 1616\u20131621, 2312\u20132320, 2769, 3026, 3257\u20133265, 3709 and 4122\u20134124; V07 101 097 \u2192 101 249 words (wc -w)",
+  "got": {
+   "bytes": 622965,
+   "lines": 4132,
+   "sha256": "a93d1f64212153ee5c594762050286b2624bba4e408d9c599257630ce3a198c7",
+   "touched": [
+    1577,
+    1578,
+    1616,
+    1617,
+    1618,
+    1619,
+    1620,
+    1621,
+    2312,
+    2313,
+    2314,
+    2315,
+    2316,
+    2317,
+    2318,
+    2319,
+    2320,
+    2769,
+    3026,
+    3257,
+    3258,
+    3259,
+    3260,
+    3261,
+    3262,
+    3263,
+    3264,
+    3265,
+    3709,
+    4122,
+    4123,
+    4124
+   ],
+   "inserts_after": [],
+   "words": [
+    103040,
+    103193
+   ],
+   "wc_words": [
+    101097,
+    101249
+   ],
+   "all_touched_in_ranges": true,
+   "each_range_touched": true,
+   "wc_words_recorded": [
+    101097,
+    101249
+   ],
+   "wc_words_equal_recorded": true
+  },
+  "equals_recorded": true
+ },
+ "V09-application": {
+  "recorded": "3 found, 3 applied, 0 skipped, audit OK (not OK 0); headings 110 \u2192 110; fences balanced (24 \u2192 24); title block unchanged; lines 5,045 \u2192 5,049; \u00a74.9 13,268 \u2192 13,342; \u00a74.20.2 1,340 \u2192 1,443; \u00a77.1 11,622 \u2192 11,683; the volume 126,345 \u2192 126,579 words (wc)",
+  "got": {
+   "bytes": 781054,
+   "lines": 5049,
+   "sha256": "1394a5ee0e0e25cbdf5c884ebc0052f84d5a4c56df5718d84319bb669358dfd0",
+   "touched": [
+    2104,
+    2105,
+    3018,
+    3019,
+    3020,
+    3021,
+    3022,
+    3023,
+    3024,
+    3025,
+    3026,
+    3027,
+    3028,
+    3029,
+    3030,
+    3031,
+    3032,
+    3033,
+    3034,
+    3035,
+    4428
+   ],
+   "inserts_after": [],
+   "words": [
+    128782,
+    129020
+   ],
+   "wc_words": [
+    126345,
+    126579
+   ],
+   "sections": {
+    "### 4.9 ": [
+     13268,
+     13342
+    ],
+    "#### 4.20.2 ": [
+     1340,
+     1443
+    ],
+    "### 7.1 ": [
+     11622,
+     11683
+    ]
+   },
+   "vol_words_recorded": [
+    126345,
+    126579
+   ]
+  },
+  "equals_recorded": true
+ }
+}

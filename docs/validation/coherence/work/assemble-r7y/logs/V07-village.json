@@ -1,0 +1,242 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7y/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "6202d46df5b3eabf034ec388adbdb11e83d0295b4b80e0901031d309cbacf5ba",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7y/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7y-V07.md",
+   "sha256": "862e33447adebcff2449a80c0ee3fc8c5554eb1dcee211c3e736b9ff32956fd2",
+   "lines": 769,
+   "blocks": 7,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7y-V07.md #1 (l. 2) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "file": "b-repair-r7y-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "body_lines": 113,
+   "body_sha256": "992cf61cb5b66bc745899ebc644e1c7a97f0678a57397639ac3ed481ac9c6ce2",
+   "target_line": 1567,
+   "section_old": "1567–1678",
+   "section_old_n": 112,
+   "section_new_n": 114,
+   "new_headings": [
+    "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7y-V07.md #2 (l. 118) REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+   "file": "b-repair-r7y-V07.md",
+   "index": 2,
+   "line": 118,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+   "body_lines": 202,
+   "body_sha256": "967404b8eebb7596af1dbabf879207399d0142440df1af9d3e5f5ff5cda6848a",
+   "target_line": 2122,
+   "section_old": "2122–2324",
+   "section_old_n": 203,
+   "section_new_n": 204,
+   "new_headings": [
+    "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7y-V07.md #3 (l. 323) REPLACE ### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+   "file": "b-repair-r7y-V07.md",
+   "index": 3,
+   "line": 323,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+   "body_lines": 25,
+   "body_sha256": "3f4d9d709ef4b473ed365e83bd7a54eed385acca8da4b97b4f359135595bcc98",
+   "target_line": 2761,
+   "section_old": "2761–2786",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7y-V07.md #4 (l. 351) REPLACE ## 4 Editing — declarations, events, locality, undo and the clerk's view",
+   "file": "b-repair-r7y-V07.md",
+   "index": 4,
+   "line": 351,
+   "kind": "REPLACE",
+   "heading": "## 4 Editing — declarations, events, locality, undo and the clerk's view",
+   "body_lines": 170,
+   "body_sha256": "c4d68a244b0b5053a0528ee0707090425e068120ccac29921da7bb8e82834301",
+   "target_line": 3024,
+   "section_old": "3024–3194",
+   "section_old_n": 171,
+   "section_new_n": 172,
+   "new_headings": [
+    "## 4 Editing — declarations, events, locality, undo and the clerk's view",
+    "### 4.1 The twelve tools on a village",
+    "### 4.2 The new event forms",
+    "### 4.3 Locality — what each village edit re-derives",
+    "### 4.4 Lifecycle of every village edit kind (§7.4's columns)",
+    "### 4.5 The clerk's view"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "b-repair-r7y-V07.md #5 (l. 524) REPLACE ### 5.1 The look — the `painterly` family built, `ink` one click away",
+   "file": "b-repair-r7y-V07.md",
+   "index": 5,
+   "line": 524,
+   "kind": "REPLACE",
+   "heading": "### 5.1 The look — the `painterly` family built, `ink` one click away",
+   "body_lines": 123,
+   "body_sha256": "bb4cd8dcd3243d4ad47119a34dbecfdb47cadf32458fbf3241052ddddc1d2aaa",
+   "target_line": 3198,
+   "section_old": "3198–3319",
+   "section_old_n": 122,
+   "section_new_n": 124,
+   "new_headings": [
+    "### 5.1 The look — the `painterly` family built, `ink` one click away"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "b-repair-r7y-V07.md #6 (l. 650) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7y-V07.md",
+   "index": 6,
+   "line": 650,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "06cd6b613bf5106ccd68d59ebab506e3d6b524980aa64c0ab8c877dc7dbd4dfa",
+   "target_line": 3652,
+   "section_old": "3652–3753",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "b-repair-r7y-V07.md #7 (l. 753) REPLACE ## Integration notes",
+   "file": "b-repair-r7y-V07.md",
+   "index": 7,
+   "line": 753,
+   "kind": "REPLACE",
+   "heading": "## Integration notes",
+   "body_lines": 14,
+   "body_sha256": "b3bf07414bc8c14fbdd340f590d11222c9afd0fba9c30172e61f202c0e735ae1",
+   "target_line": 4119,
+   "section_old": "4119–4131",
+   "section_old_n": 13,
+   "section_new_n": 15,
+   "new_headings": [
+    "## Integration notes"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7y-V07.md #1 (l. 2) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "kind": "REPLACE",
+    "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V07.md #2 (l. 118) REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V07.md #3 (l. 323) REPLACE ### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V07.md #4 (l. 351) REPLACE ## 4 Editing — declarations, events, locality, undo and the clerk's view",
+    "kind": "REPLACE",
+    "heading": "## 4 Editing — declarations, events, locality, undo and the clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V07.md #5 (l. 524) REPLACE ### 5.1 The look — the `painterly` family built, `ink` one click away",
+    "kind": "REPLACE",
+    "heading": "### 5.1 The look — the `painterly` family built, `ink` one click away",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V07.md #6 (l. 650) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V07.md #7 (l. 753) REPLACE ## Integration notes",
+    "kind": "REPLACE",
+    "heading": "## Integration notes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 622038,
+  "doc_bytes_after": 622965,
+  "doc_lines_before": 4124,
+  "doc_lines_after": 4132,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 7,
+  "blocks_applied": 7,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a93d1f64212153ee5c594762050286b2624bba4e408d9c599257630ce3a198c7",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

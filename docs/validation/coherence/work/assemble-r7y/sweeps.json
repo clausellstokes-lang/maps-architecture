@@ -1,0 +1,58 @@
+[
+ {
+  "entry": "model X1",
+  "file": "docs/ARCHITECTURE.md",
+  "old_before": 1,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ },
+ {
+  "entry": "model X2",
+  "file": "docs/ARCHITECTURE.md",
+  "old_before": 1,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ },
+ {
+  "entry": "model X3",
+  "file": "docs/ARCHITECTURE.md",
+  "old_before": 1,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ },
+ {
+  "entry": "model X4",
+  "file": "docs/ARCHITECTURE.md",
+  "old_before": 2,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ },
+ {
+  "entry": "model X5",
+  "file": "docs/ARCHITECTURE.md",
+  "old_before": 1,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ },
+ {
+  "entry": "pipeline SW1",
+  "file": "docs/ARCHITECTURE.md",
+  "old_before": 1,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ },
+ {
+  "entry": "V07 sweep (F-V-RAISED)",
+  "file": "docs/volumes/V07-village.md",
+  "old_before": 1,
+  "old_after": 0,
+  "new_before": 0,
+  "new_after": 1
+ }
+]

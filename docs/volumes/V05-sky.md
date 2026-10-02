@@ -2576,7 +2576,9 @@ off form and the seat that writes the registration (X-V12-11): T-V5-15's item-11
   dwell's end (V05 §3.15 (4)). Each is an *unchanged meeting*: the run `breached` by the wall row and the covered spans
   and supports by theirs, the wall row writing nothing of the raised way and the raised rows nothing of the run. With
   the aqueduct locked, it is kept as content the ruin laps around (V05 §3.16 (2); F-SKY-LANDFALL), `members` holding
-  none of its parts, and the run beneath is `breached` all the same.
+  none of its parts, and the run beneath is `breached` all the same. With the run beneath locked instead, the run is
+  kept as content the ruin laps around, no member, and the span and the supports over it are `ruined` all the same
+  (§2.7's laws, law 2 *Entry*; its worked example the crossing table's W12·C8).
 * **T-V5-15 — goldens and determinism** [C]. Two sky fixtures join §13.3's goldens — a CITY with a prosperity island and a
   conjured river; a METROPOLIS with a palace island and a prison island — identical on the five engines; every stream key
   distinct (§6.1's sky fixture); a one-island document draws slot 1's indices only; an island raised after a fall takes a
