@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE (kept current; last updated 2026-10-02 ~15:50 UTC)
+## RESUME HERE (kept current; last updated 2026-10-02 ~21:45 UTC)
 
 **Where things stand.** The coherence pass's Verify/Repair loop is run BY HAND from a cloud session (branch
 `claude/ecstatic-gates-iyenrz`, draft PR #2). Every seat is an opus seat. The tools are in
@@ -28,20 +28,28 @@ The owner's decisions since:
   owner if a laws probe pass still finds 10 or more majors.
 
 **Round 7 (family-only).** Its work set is the 53 family findings; the other 28 round-6 findings are held for round 8 in
-`docs/validation/coherence/work/held-r8/`. adjudication-r7.md carries Part L (the laws, ~9,360 words) and Part P passes
-1–7 with "J147/J148/J149 applied". Laws probe majors per pass: 31, 29, 19, 15, 14 (pass 7; 3 handed to round 8 by J150).
-Probe pass 8 (probe-r7h-{locks,gen,time}, ids PRB7H-*) is running; its laws seat brief is
-coherence_adjudicate-r7-laws6.prompt.txt (Part L must not grow). Next:
-* if pass 8 finds 10 or more majors, report to the owner (J150) before laws6; else run laws6, then another probe
-  (`_tools/fam/mkprobe.py 7 <letter> <base key>` renders the three lenses from coherence_probe-r7<letter>.prompt.txt);
-* when a probe pass finds no major: repair — the family's units — as below;
-* `_tools/mkrep.py 7 docs/validation/coherence/adjudication-r7.md <END-only units>` renders the repairs (the units in
-  repair-in-r7, plus any with END lines only); run them, up to 10 at once;
-* `_tools/mkasm.py 7 <sha256 of docs/ARCHITECTURE.md> <units>` renders assemble-r7; run it;
-* `_tools/fam/mkfam.py 7` renders the six family checks (famverify-{table,generation,epochs,hand,readers,tests}-r7); run them;
-* if they find majors, collect their findings and run a family round 8, likewise;
-* once they find none: the compression pass (J145), then round 8 or the next full round, with the 28 held findings and a
-  full sweep of all twenty seats.
+`docs/validation/coherence/work/held-r8/`. adjudication-r7.md carries Part L (the laws, ~9,350 words; the design states them
+at §2.7's support step (6)) and Part P passes 1–8 with "J147/J148/J149 applied". Laws probe majors per pass: 31, 29, 19, 15,
+14, 12 (a plateau). The owner then ruled J151: where EVERY outcome keeps the law-1 invariants and owner rules, passes the
+check and fails no named test, the case is a MINOR valid choice (the builder picks; fix-list.md lists it); probes stopped and
+the family was repaired (14 seats) and assembled (assemble-r7).
+
+The family loop since: six family checks (`famverify-{table,generation,epochs,hand,readers,tests}-r<label>`), then a fix
+pass — adjudicate-r<next> → repairs → assemble-r<next> — then the checks again. Majors per check run: r7 13, r7v 8, r7w 4
+distinct (all restatements of the laws; fix pass r7x replaced them with citations of the laws and swept the family).
+famverify-*-r7x is the current check run. To run another fix pass (label `7y`, after checks `7x`):
+* write `coherence_adjudicate-r7y.prompt.txt` from r7x's brief (counts, the r7x check files) and run it;
+* `python3 _tools/fam/mkrepfam.py 7y 7x <units with work>` (run from a scratchpad copy beside prompts.mjs and finalize.py)
+  renders the repair briefs; run them, up to 10 at once;
+* build `coherence_assemble-r7y.prompt.txt` from r7x's (base = assemble-r7x's install, its sha256) and run it;
+* `python3 _tools/fam/mkfam.py 7y` renders the six checks; run them.
+Builders' choices collected for fix-list.md so far: VF7-GEN-06, VF7-RDR-07 (adjudication-r7v.md); VF7v-TBL-04, -TBL-05,
+-GEN-05, -EPO-06, -RDR-05 (adjudication-r7w.md); and any in adjudication-r7x.md. Held notes for the next full round are in
+each fix pass's "Held for the next full round".
+
+Once the checks find no major: the family closes (J144); then the compression pass (J145); then round 8 — the 28 held
+findings, J150's round-8 hand-offs (the two-axis lock and its readers; lock behaviour under undo, redo, re-grade and repair),
+the held notes — and a full sweep of all twenty seats, looped to J141's bar.
 
 **THE BAR (owner, J141).** The pass stops when a FULL SWEEP of all twenty verify seats finds ZERO blockers and ZERO majors
 and the final validator signs off. Minors still open at the stop go to `docs/validation/coherence/fix-list.md`. FEATURE
