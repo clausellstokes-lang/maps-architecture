@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE (kept current; last updated 2026-10-02 ~10:45 UTC)
+## RESUME HERE (kept current; last updated 2026-10-02 ~15:50 UTC)
 
 **Where things stand.** The coherence pass's Verify/Repair loop is run BY HAND from a cloud session (branch
 `claude/ecstatic-gates-iyenrz`, draft PR #2). Every seat is an opus seat. The tools are in
@@ -22,15 +22,19 @@ The owner's decisions since:
 * J147: drawing or dragging holds nothing; locks have two axes, placement and shape (outline and plot size; cosmetics follow
   the neighbourhood); a shape lock is honoured where a raised way meets a wall. The family's laws adopt it now; the two-axis
   lock itself and its readers outside the family are a hand-off to round 8.
+* J148: gates, posterns, towers and fixed places never move for a meeting (three tiers). J149: an aqueduct crosses a wall
+  over (an arch clearing it) or merged (the wall built round its arch), by its level. J150: one plain shape-lock rule in
+  the family; lock behaviour under undo, redo, re-grade and repair designed in round 8; Part L must not grow; back to the
+  owner if a laws probe pass still finds 10 or more majors.
 
 **Round 7 (family-only).** Its work set is the 53 family findings; the other 28 round-6 findings are held for round 8 in
-`docs/validation/coherence/work/held-r8/`. adjudication-r7.md has landed, with Part L (the laws) and Part P (passes 1–4,
-the re-checks, and "J147 applied"). Probe passes so far: 1 (20 major), 2 (13), 3 (31; then the laws), 4 — the laws probe —
-41 (2 blockers that were one defect, 29 major, 10 minor; all terms, order, ties and timing, no missing ops), decided by
-coherence/adjudicate-r7-laws2 (30 refined by class, 10 closed by law). Probe pass 5 (probe-r7e-{locks,gen,time}, ids
-PRB7E-*) is running. Next:
-* if pass 5 finds majors, a laws seat refines Part L again (brief: coherence_adjudicate-r7-laws2.prompt.txt with the
-  pass's files), then another probe (`_tools/fam/mkprobe.py 7 <letter> <base key>` renders the three lenses);
+`docs/validation/coherence/work/held-r8/`. adjudication-r7.md carries Part L (the laws, ~9,360 words) and Part P passes
+1–7 with "J147/J148/J149 applied". Laws probe majors per pass: 31, 29, 19, 15, 14 (pass 7; 3 handed to round 8 by J150).
+Probe pass 8 (probe-r7h-{locks,gen,time}, ids PRB7H-*) is running; its laws seat brief is
+coherence_adjudicate-r7-laws6.prompt.txt (Part L must not grow). Next:
+* if pass 8 finds 10 or more majors, report to the owner (J150) before laws6; else run laws6, then another probe
+  (`_tools/fam/mkprobe.py 7 <letter> <base key>` renders the three lenses from coherence_probe-r7<letter>.prompt.txt);
+* when a probe pass finds no major: repair — the family's units — as below;
 * `_tools/mkrep.py 7 docs/validation/coherence/adjudication-r7.md <END-only units>` renders the repairs (the units in
   repair-in-r7, plus any with END lines only); run them, up to 10 at once;
 * `_tools/mkasm.py 7 <sha256 of docs/ARCHITECTURE.md> <units>` renders assemble-r7; run it;
