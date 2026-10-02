@@ -1,0 +1,59 @@
+SEAT coherence/probe-r7 — the Maps program's coherence pass, round 7 (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS.
+For six rounds the raised-way × wall family drew new majors from each round's own ruling. After round 6 the owner narrowed it (J142; docs/validation/coherence/narrowing-r7.md, whose scope is binding):
+  - raised ways no longer change over time: their decay, salvage, falls, landfall damage and repair are deferred to a later milestone;
+  - hand edits that would push a wall into a standing raised way are refused, with the nearest lawful alternative shown;
+  - generation and hand creation stay as item 110 (b) states them.
+Round 7's adjudicator wrote two things in docs/validation/coherence/adjudication-r7.md:
+  - the narrowed crossing table, with the deferral texts and the refusals;
+  - the rest of its rulings.
+You attack the narrowed table, the deferral and the refusals BEFORE any repair seat writes against them. Whatever you find, the adjudicator's amend seat fixes now, so the round-7 verify does not find it later. You change no design text.
+
+READ FIRST, WHOLE:
+  1. docs/validation/coherence/adjudication-r7.md: the narrowed crossing table ruling (with its deferral texts and refusals) and Part H's END lines for it. Read the rest of the file only as far as it touches these. Then docs/validation/coherence/narrowing-r7.md, the owner's scope.
+  2. The owner rules: docs/AMENDMENTS-2026-09-28g.md item 110 (all of (a)–(f)), item 114 (decay and repair of walls) and item 125 (the dossier is the only SettlementForge data input; a readable value it gives is never replaced). Also docs/OWNER-INSTRUCTIONS-2026-09-25.md's J122 and J141 entries.
+  3. The round-6 findings the narrowed table must close or remove. They are listed in the adjudicator's ROUND-7 NOTES (4), in workflows/lane-prompts/coherence-cloud/coherence_adjudicate-r7.prompt.txt. Each finding's text is in docs/validation/coherence/verify-*-r6t.md.
+  4. The live text each ruling replaces or cites: docs/ARCHITECTURE.md §2.7's support step, §4.3, §4.4 S5a–S5b, §4.8, §4.11 (`wallToWay`, `absorbWall`, the carve, *The clock*), §5.3's gate row, §7.1's bend and lock rows, §7.2, §7.7 `DossierBinding`; V06 §3.7, §3.11.1, §3.19; V07 §3.5a, §3.12; V08 §2.3–§2.6, §3.6, §3.8; and the tests the rulings name. Use grep to find each.
+
+ATTACK, CELL BY CELL.
+For each cell of the narrowed table, each refusal and each deferral text, ask:
+  (a) TWO READINGS — could two build agents, reading only the ruled words, build different behaviour? Look at the built form, the records written, which op writes each record, gate counts, §5.3's checks, the dry-run fate or refusal and its nearest lawful alternative, the message key, and undo.
+  (b) MISSING CELL — is there a wall event, raised-way state or combination left in scope with no cell? Try:
+      - a held raised way under each wall event;
+      - epoch, hand and generation paths;
+      - CITY, METROPOLIS and the village hand-off down;
+      - a regeneration after each history;
+      - a founding across a decayed run (C11);
+      - a frame growth (C12);
+      - each refused hand edit with the raised way locked.
+  (c) OWNER RULE — does any cell or refusal contradict:
+      - item 110 (b) as written ("crossing the wall through an arch"; the user may add or remove a raised way; zero junctions);
+      - item 110 (f)'s bars;
+      - item 101 R2 (the nearest lawful declaration) or R13 (a held thing is held);
+      - item 114 (walls decay and recover);
+      - the narrowing's scope lines?
+  (d) DEFERRAL COMPLETE — grep the base and all twelve volumes for every removed state and op. Each site must be removed or marked reserved by an END. Sites to check:
+      - `state` writers (`ruined`, `cleared` on spans and supports);
+      - `repairRaised`;
+      - lapse, `underuseSince`, the strike's `raised` kind;
+      - `topple` on supports, landfall over raised ways;
+      - `collapsed` arch vaults;
+      - `raised.waited`, `released`, standing/released counts;
+      - every T- test, fixture, statistic, guard and milestone cell naming them.
+    A site left behind is a finding.
+  (e) READERS — does every live site that restates the crossing rule get an END that reduces it to a citation of the narrowed table? Grep for: crossing station, raised gate, under-deck, `bend.raised`, `bend.wall.raisedCrossing`, laid after, *beneath*, *over the band*, *down before the wall*.
+  (f) TESTS — does each remaining cell and refusal name a test that runs it, on a fixture that holds the case?
+  (g) CLOSURE — does every round-6 finding that the adjudication marks "removed under J142" really lose its case? Does every finding left in scope map to a ruling that closes it?
+
+GRADE by the J141 SEVERITY STANDARD:
+  - blocker: cannot be built as written, or gives a wrong result on a common path;
+  - major: two builders would build different behaviour;
+  - minor: nothing built or tested changes.
+
+WRITE (the only files you write):
+  1. docs/validation/coherence/probe-r7.md. Per finding: an id PRB7-nn, its severity, the cell or step (row × column, or the step's name), the claim with line-cited evidence, and the exact amended words for adjudication-r7.md. End with a one-paragraph verdict: is the narrowed table complete; is the deferral complete; is each refusal well defined.
+  2. docs/validation/coherence/results/coherence_probe-r7.json, of the form {"key": "coherence/probe-r7", "file": "docs/validation/coherence/probe-r7.md", "issues": [{"id", "severity", "cell", "claim", "required_change"}]}.
+Append to docs/lane-events.log a CHECKPOINT line after reading, in the form `<UTC date time> coherence/probe-r7 CHECKPOINT <what is done; what is next>`, and a LANDED line naming both files when done. If docs/validation/coherence/probe-r7.md already exists with a CHECKPOINT line of yours in the log, RESUME from it: never redo what it records.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Change no design text. Record no interpretation of an owner rule as the owner's. Your final message must be exactly the JSON result object, nothing else.
