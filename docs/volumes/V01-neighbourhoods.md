@@ -2470,8 +2470,9 @@ before it commits (item 245), so no degenerate wall reaches stage 2.
    worked example *beneath*) (item 110 (b): "the spaces between piers stay open or hold the base's vaults").
    `DistrictContext.areaM2` and the pre-claim template face exclude it.
 3. **Crossing under an arch.** A part-0 way this volume lays (a seed, a fan, a bent-cut lane) crosses a strip only
-   where §4.3's crossing rule admits it (*Lattice and costs*; §2.7's way-and-channel table, row a), a `vault` span
-   read as §2.7's laws read it (law 1 (8); its worked example *beneath*). A seed that would cross elsewhere takes F-TEMPLATE
+   where §4.3's crossing rule admits it (*Lattice and costs*; §2.7's laws, law 1 (1), (8); its worked example the
+   way-and-channel table's row (a)), a `vault` span read as §2.7's laws read it (law 1 (8); its worked example
+   *beneath*). A seed that would cross elsewhere takes F-TEMPLATE
    rung 1 (redraw), then rung 2 (its crossing shifted along the strip to the nearest qualifying span); a bent-cut lane
    takes §4.6's ladder and, finding no span, ends at the strip's edge as at a reservation.
 4. **Ends.** Each ramp or stair end is a ground vertex on part 0 (item 110 (b)); V01 §3.6 (4)'s portal gap applies to it
@@ -2902,7 +2903,8 @@ family defines all four bands).
 | building | per-facet hatching as at the neighbourhood band; the plan rung as `ink`'s (§8.2's presets row) once stage 3 exists |
 
 **Item 110's marks**: retaining walls from the district band (`retaining`); raised parts at every band by §8.5's way
-selection, drawn above the ground ways with their shadow (`raisedWay`); stair and ramp intervals from the district band
+selection, drawn above what they cross with their shadow (`raisedWay`; §8.2's slot 19a); stair and ramp intervals from
+the district band
 (`way.stair`); deck plots and their buildings as any plot and building; each stepped building's tiers in stack order with
 their shadows (V01 §5.1.3).
 
@@ -2973,8 +2975,8 @@ their shadows (V01 §5.1.3).
   line at the thin stroke across the way's body, drawn from the district band.
 * **`way.stair`, `retaining`, `raisedWay`** (§8.2's programs, item 110): in `hatched`, a retaining wall's shadow is drawn
   in slot 9, cast from the high side's level onto the low side along the sheet's light vector by the pins' prism law,
-  its height the derived step (`stepProfile`, §2.7); a raised part's piers take slot 11 and its deck slot 14, its shadow by
-  the prism law from the deck's height in the pass before slot 14.
+  its height the derived step (`stepProfile`, §2.7); a raised part's piers take slot 11 and its deck slot 19a (§8.2's
+  slot 19a), its shadow by the prism law from the deck's height in the pass before slot 19a.
 * **Pin symbols** (model pins and hood pins alike, sized by their model size): `well` — a round (by the render key's
   parity) or square stone rim in `wall` with an `ink` α 0.8 shaft; `pump` — a small square with a handle tick; `trough` —
   a thin rectangle in `wall` with a `water` inner strip; `fountain` — a stone disc with a `water` basin shaded toward its
@@ -3021,12 +3023,13 @@ buildings → buildings → chimneys → block trees → title) is a subsequence
 | 11 | landmark footprints; raised-way piers (in `wall`) | — |
 | 12 | buildings: roof faces, outlines, hatching — each building's wings in stack order, with its upper tiers' shadows (below) | NG: houses |
 | 13 | chimneys and roof detail | NG: props |
-| 14 | piers and bridges; raised decks (`raisedWay`), their shadows drawn in a pass just before this slot over everything below, roofs included | a deck may stand above the roofs beside it |
+| 14 | piers and bridges | — |
 | 15 | fields | — |
 | 16 | block trees (Greenery instances; group `trees`) | NG: trees above the houses |
 | 17 | boundary treatments | — |
 | 18 | curtain walls | — |
 | 19 | towers and gate blocks | — |
+| 19a | raised decks (`raisedWay`), their shadows drawn in a pass just before this slot over everything below, roofs, walls, towers and gate blocks included | drawn above what it crosses, as §8.2's slot 19a, this order's one home, places it (item 110 (b)) |
 | 20 | grid | — |
 | 21–25 | scale bar, compass, labels, title and legend, live layers | as §8.2's list |
 

@@ -1,0 +1,36 @@
+OK  §8.2's slot 19a (layer-order row)                            home base  defined False->True cites 0->8 {'base': 3, 'V01': 5}
+OK  V01 §5.1.3's row 19a                                         home V01   defined False->True cites 0->8 {'base': 3, 'V01': 5}
+OK  §4.4 S5a *Trace* (2)                                         home base  defined True->True cites 10->12 {'base': 11, 'V06': 1}
+OK  V04 §3.5.4 (d) (1) (the lay rule: an inset rectangle below ` home V04   defined True->True cites 67->69 {'base': 11, 'V03': 2, 'V04': 37, 'V06': 8, 'V07': 7, 'V09': 1, 'V10': 3}
+OK  V06 §3.7.5 (the ring repair)                                 home V06   defined True->True cites 23->26 {'base': 2, 'V05': 7, 'V06': 16, 'V07': 1}
+OK  V06 §3.19 (2)                                                home V06   defined True->True cites 6->7 {'base': 1, 'V06': 6}
+OK  §7.4 *Independence*                                          home base  defined True->True cites 2->2 {'base': 2}
+OK  `refuse.undo.dependent` (§7.1's outcome table)               home base  defined True->True cites 5->6 {'base': 4, 'V09': 2}
+OK  `refuse.raised.meeting` (§7.1)                               home base  defined True->True cites 31->31 {'base': 25, 'V04': 1, 'V07': 2, 'V09': 2, 'V10': 1}
+OK  `bend.wall.raisedCrossing` (§7.1 row)                        home base  defined True->True cites 26->26 {'base': 17, 'V07': 2, 'V09': 7}
+OK  `bend.wall.raisedCrossing` (V09 §4.9 row)                    home V09   defined True->True cites 26->26 {'base': 17, 'V07': 2, 'V09': 7}
+OK  `bend.wall.aqueductArch` (V09 §4.9 row)                      home V09   defined True->True cites 8->8 {'base': 4, 'V09': 4}
+OK  `bend.raised.underSpan` (V09 §4.9 row)                       home V09   defined True->True cites 17->17 {'base': 9, 'V09': 8}
+OK  `W_RAISED_MEETING` (§5.4's warnings)                         home base  defined True->True cites 9->9 {'base': 7, 'V07': 2}
+OK  F-CASTLE (§5.2 row)                                          home base  defined True->True cites 11->12 {'base': 12}
+OK  F-WALL (§5.2 row)                                            home base  defined True->True cites 25->25 {'base': 19, 'V06': 3, 'V07': 1, 'V11': 2}
+OK  F-REDERIVE (§5.2 row)                                        home base  defined True->True cites 30->30 {'base': 28, 'V02': 1, 'V09': 1}
+OK  F-V-RAISED (V07 §3.13 row)                                   home V07   defined True->True cites 11->11 {'base': 6, 'V07': 5}
+OK  `raisedWays.structure.span.deckDepthCm`                      home base, V09 defined True->True cites 16->17 {'base': 4, 'V09': 1, 'V11': 10, 'V12': 2}
+OK  **the edge** (*beneath*)                                     home base  defined True->True cites 4->4 {'base': 4}
+OK  the fixed-place sentence                                     home base  defined True->True cites 22->26 {'base': 18, 'V06': 5, 'V07': 2, 'V09': 1}
+OK  the bent-group sentence                                      home base  defined True->True cites 20->20 {'base': 13, 'V06': 1, 'V07': 4, 'V09': 2}
+OK  `walls.waited` (V06 §2.10's report: walls { … waited })      home V06   defined True->True cites 14->15 {'base': 11, 'V06': 3, 'V07': 1}
+OK  `raised.waited` (V06 §2.10's report: raised { … waited })    home V06   defined True->True cites 16->16 {'base': 6, 'V06': 10}
+OK  T-V6-73                                                      home V06   defined True->True cites 37->37 {'base': 15, 'V06': 13, 'V11': 4, 'V12': 5}
+OK  T-V6-48                                                      home V06   defined True->True cites 3->3 {'base': 1, 'V06': 2}
+OK  T-V6-47                                                      home V06   defined True->True cites 27->29 {'base': 18, 'V06': 11}
+OK  T-V6-11                                                      home V06   defined True->True cites 26->26 {'base': 14, 'V05': 1, 'V06': 11}
+OK  T-V10-41 (c14 span)                                          home V10   defined True->True cites 9->9 {'base': 2, 'V10': 7}
+OK  T110-2 (§13.2)                                               home base  defined True->True cites 124->127 {'base': 111, 'V06': 13, 'V09': 1, 'V10': 1, 'V12': 1}
+OK  T110-4 (§13.2)                                               home base  defined True->True cites 10->11 {'base': 10, 'V02': 1}
+OK  §4.2 S3 (10)                                                 home base  defined True->True cites 26->27 {'base': 21, 'V04': 4, 'V07': 1, 'V11': 1}
+OK  §4.2 S3 (8)'s filter                                         home base  defined True->True cites 12->14 {'base': 14}
+OK  `undo(h, of)`                                                home base  defined True->True cites 6->7 {'base': 4, 'V09': 2, 'V10': 1}
+OK  §2.7's support step (6)                                      home base  defined True->True cites 9->9 {'base': 6, 'V01': 1, 'V06': 2}
+undefined at home (installed): 0

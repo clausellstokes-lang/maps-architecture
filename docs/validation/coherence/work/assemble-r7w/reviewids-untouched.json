@@ -1,0 +1,1050 @@
+{
+ "review_id_tokens_known": 9217,
+ "prb_sites": 0,
+ "prb": [],
+ "markers": [
+  {
+   "unit": "base",
+   "line": 2579,
+   "kind": "bare (Jn)",
+   "text": "(J146)",
+   "context": "(0) **§2.7's laws** — the raised-way × wall family's laws, normative (J146):"
+  },
+  {
+   "unit": "base",
+   "line": 2653,
+   "kind": "bare (Jn)",
+   "text": "(J147)",
+   "context": "* **Held** is locked, on the axis named, and nothing else (J147): **held in placement** is"
+  },
+  {
+   "unit": "base",
+   "line": 2655,
+   "kind": "bare (Jn)",
+   "text": "(J144)",
+   "context": "shape still changing at a meeting (J144); **held in shape** is shape-locked and holds its"
+  },
+  {
+   "unit": "base",
+   "line": 2706,
+   "kind": "bare (Jn)",
+   "text": "(J149)",
+   "context": "level there gives, nothing of either record written (J149) — its levels read from the records,"
+  },
+  {
+   "unit": "base",
+   "line": 2740,
+   "kind": "bare (Jn)",
+   "text": "(J144)",
+   "context": "at names it — a meeting changing a placement-held thing's shape alone (J144) —, and no op"
+  },
+  {
+   "unit": "base",
+   "line": 2743,
+   "kind": "(Jn, …)",
+   "text": "(J147, J150)",
+   "context": "it, a gate made in it (J147, J150);"
+  },
+  {
+   "unit": "base",
+   "line": 19264,
+   "kind": "(Jn, …)",
+   "text": "(J147, J150)",
+   "context": "(J147, J150), on a second run shape-locked; on a third, an arc"
+  },
+  {
+   "unit": "base",
+   "line": 19590,
+   "kind": "bare (Jn)",
+   "text": "(J147)",
+   "context": "law 1 (11)); nothing held because it was drawn or declared (J147); each undo and each redo restoring the prior"
+  },
+  {
+   "unit": "V07",
+   "line": 2314,
+   "kind": "bare (Jn)",
+   "text": "(J148)",
+   "context": "-traced locally where not, its gates kept — never moved for a meeting (J148): where a"
+  }
+ ],
+ "j144_151_mentions": [
+  {
+   "unit": "base",
+   "line": 2579,
+   "id": "J146",
+   "context": "(0) **§2.7's laws** — the raised-way × wall family's laws, normative (J146):"
+  },
+  {
+   "unit": "base",
+   "line": 2635,
+   "id": "J148",
+   "context": "* **The tiers** (J148: the owner's rule and choice; the tier texts the"
+  },
+  {
+   "unit": "base",
+   "line": 2653,
+   "id": "J147",
+   "context": "* **Held** is locked, on the axis named, and nothing else (J147): **held in placement** is"
+  },
+  {
+   "unit": "base",
+   "line": 2655,
+   "id": "J144",
+   "context": "shape still changing at a meeting (J144); **held in shape** is shape-locked and holds its"
+  },
+  {
+   "unit": "base",
+   "line": 2706,
+   "id": "J149",
+   "context": "level there gives, nothing of either record written (J149) — its levels read from the records,"
+  },
+  {
+   "unit": "base",
+   "line": 2740,
+   "id": "J144",
+   "context": "t names it — a meeting changing a placement-held thing's shape alone (J144) —, and no op"
+  },
+  {
+   "unit": "base",
+   "line": 2743,
+   "id": "J147",
+   "context": "it, a gate made in it (J147, J150);"
+  },
+  {
+   "unit": "base",
+   "line": 2743,
+   "id": "J150",
+   "context": "it, a gate made in it (J147, J150);"
+  },
+  {
+   "unit": "base",
+   "line": 2759,
+   "id": "J144",
+   "context": "re, a raised way or an arch vault refuses, skips or alters a meeting (J144: it holds placement,"
+  },
+  {
+   "unit": "base",
+   "line": 2929,
+   "id": "J144",
+   "context": "**The lock sentence** (these laws, law 2; the owner's rule, J144: \"Locked regarding walls and aqueduct and similar"
+  },
+  {
+   "unit": "base",
+   "line": 2952,
+   "id": "J144",
+   "context": "acts, the meeting it makes takes its cell. **The three guards** are J144's guardrails as these laws state them:"
+  },
+  {
+   "unit": "base",
+   "line": 11483,
+   "id": "J144",
+   "context": "(law 2; its worked example the crossing table's lock sentence; J144) —, the regenerate brush skips it, and the fates"
+  },
+  {
+   "unit": "base",
+   "line": 19264,
+   "id": "J147",
+   "context": "(J147, J150), on a second run shape-locked; on a third,"
+  },
+  {
+   "unit": "base",
+   "line": 19264,
+   "id": "J150",
+   "context": "(J147, J150), on a second run shape-locked; on a third, an ar"
+  },
+  {
+   "unit": "base",
+   "line": 19564,
+   "id": "J146",
+   "context": "map); (T110-4) **the family's laws** (§2.7's laws; J146): §5.3's law-1 row passes after every commit — (a"
+  },
+  {
+   "unit": "base",
+   "line": 19574,
+   "id": "J147",
+   "context": "the shape-locked runs from the milestone that carries the shape lock, J147, J150) and a village rung — its ops drawn"
+  },
+  {
+   "unit": "base",
+   "line": 19574,
+   "id": "J150",
+   "context": "ape-locked runs from the milestone that carries the shape lock, J147, J150) and a village rung — its ops drawn"
+  },
+  {
+   "unit": "base",
+   "line": 19589,
+   "id": "J150",
+   "context": "outside this bar, J150), and no gate, postern, tower or fixed place move"
+  },
+  {
+   "unit": "base",
+   "line": 19590,
+   "id": "J147",
+   "context": "law 1 (11)); nothing held because it was drawn or declared (J147); each undo and each redo restoring the prior"
+  },
+  {
+   "unit": "base",
+   "line": 19592,
+   "id": "J150",
+   "context": "§2.7's laws, law 4; a lock's behaviour under either outside this bar, J150); and each"
+  },
+  {
+   "unit": "V06",
+   "line": 2934,
+   "id": "J147",
+   "context": "J147): a locked one no disuse, hazard or landfall brea"
+  },
+  {
+   "unit": "V07",
+   "line": 1628,
+   "id": "J147",
+   "context": "sentence; J147) — crosses it in the form the aqueduct's level th"
+  },
+  {
+   "unit": "V07",
+   "line": 2314,
+   "id": "J148",
+   "context": "traced locally where not, its gates kept — never moved for a meeting (J148): where a"
+  },
+  {
+   "unit": "V11",
+   "line": 863,
+   "id": "J148",
+   "context": "ith a wall-like structure resolved by §2.7's laws (law 4; law 1 (11), J148; law 2 (a)–(c), by hand the edit refused), never"
+  }
+ ],
+ "end_ids": [
+  {
+   "unit": "V09",
+   "line": 4629,
+   "id": "E-S33",
+   "context": "| a multi-level tabletop scene (Part II, E-S33, E-S34) | — | a raised way's deck scene, a level"
+  },
+  {
+   "unit": "V09",
+   "line": 4629,
+   "id": "E-S34",
+   "context": "| a multi-level tabletop scene (Part II, E-S33, E-S34) | — | a raised way's deck scene, a level with it"
+  }
+ ],
+ "pass_round_part": [
+  {
+   "unit": "base",
+   "line": 5592,
+   "text": "pass 1",
+   "context": "─► S6 Districts, quarters, field pass 1 ─► S7 Wall strips + fortification lines ─► S7b Al"
+  },
+  {
+   "unit": "base",
+   "line": 5597,
+   "text": "pass 2",
+   "context": "Block allocation (its hook S9b Block dispatch after step (i)) + field pass 2 (+ the way-surface rule)"
+  },
+  {
+   "unit": "base",
+   "line": 5655,
+   "text": "pass 1",
+   "context": "bisection; GEO-18, MFP-2; J-P3). (e) Districts and field pass 1 before infill (the infill's block band is the dis"
+  },
+  {
+   "unit": "base",
+   "line": 5715,
+   "text": "pass 2",
+   "context": "a, S10b, S12c, S7c, S9b (hooks) | none — decisions and records (field pass 2 is a raster; S12c's character records, §4.5); the"
+  },
+  {
+   "unit": "base",
+   "line": 6713,
+   "text": "pass 1",
+   "context": "h face's band is the driver-only prosperity field at its centroid (S6 pass 1's kernels) cut by"
+  },
+  {
+   "unit": "base",
+   "line": 6836,
+   "text": "pass 1",
+   "context": "e-box blur. It is computed in **two declared eager passes** (LC-2): **pass 1** at S6 — first the"
+  },
+  {
+   "unit": "base",
+   "line": 6838,
+   "text": "pass 1",
+   "context": ", the district-type term `characterOffset(district)`, which completes pass 1 (S8's"
+  },
+  {
+   "unit": "base",
+   "line": 6839,
+   "text": "pass 1",
+   "context": "block bands read pass 1 complete); **pass 2** at S10a (§4.7), adding the"
+  },
+  {
+   "unit": "base",
+   "line": 6839,
+   "text": "pass 2",
+   "context": "block bands read pass 1 complete); **pass 2** at S10a (§4.7), adding the kernels around the n"
+  },
+  {
+   "unit": "base",
+   "line": 6841,
+   "text": "pass 2",
+   "context": "he shade strip of every live sky island (V05 §3.19). S10 onward reads pass 2."
+  },
+  {
+   "unit": "base",
+   "line": 6843,
+   "text": "pass 1",
+   "context": "w alone and never stored (V05 §3.15 (1)); at S7b the supply law reads pass 1, which holds no island bits."
+  },
+  {
+   "unit": "base",
+   "line": 6858,
+   "text": "pass 1",
+   "context": "never alone moves a plot across two bands; terrain and wall shade in pass 1, island shade in pass 2; the island supply law re"
+  },
+  {
+   "unit": "base",
+   "line": 6858,
+   "text": "pass 2",
+   "context": "t across two bands; terrain and wall shade in pass 1, island shade in pass 2; the island supply law reads the field before the"
+  },
+  {
+   "unit": "base",
+   "line": 6880,
+   "text": "pass 2",
+   "context": "(an `S10a.afterDrivers` hook's, V01's S9b, where one reads them, else pass 2's), and held for pass 2's fold and"
+  },
+  {
+   "unit": "base",
+   "line": 6880,
+   "text": "pass 2",
+   "context": "hook's, V01's S9b, where one reads them, else pass 2's), and held for pass 2's fold and"
+  },
+  {
+   "unit": "base",
+   "line": 6886,
+   "text": "pass 1",
+   "context": "(§4.3), in pass 1, and floating islands, in pass 2. Ordinary buildi"
+  },
+  {
+   "unit": "base",
+   "line": 6886,
+   "text": "pass 2",
+   "context": "(§4.3), in pass 1, and floating islands, in pass 2. Ordinary buildings do not cast in generation (th"
+  },
+  {
+   "unit": "base",
+   "line": 6951,
+   "text": "pass 1",
+   "context": "'s district-type term is applied after typing as the last step of its pass 1, as above."
+  },
+  {
+   "unit": "base",
+   "line": 6963,
+   "text": "pass 1",
+   "context": "from pass 1, less its expected dispatch land (its sub-block s"
+  },
+  {
+   "unit": "base",
+   "line": 7134,
+   "text": "pass 2",
+   "context": "rovisional reading, never stored; S10a, which writes `bandRange` from pass 2 at its step (ii), moves any household S7b"
+  },
+  {
+   "unit": "base",
+   "line": 7159,
+   "text": "pass 2",
+   "context": "w_i(p) × (A_p − 1)` scales its institution attractor kernel in field pass 2 and steps its"
+  },
+  {
+   "unit": "base",
+   "line": 7162,
+   "text": "pass 1",
+   "context": "r`) adds `dial.quarterWeight × (A_p − 1)` to its `characterOffset` in pass 1 — at generation"
+  },
+  {
+   "unit": "base",
+   "line": 7185,
+   "text": "pass 1",
+   "context": "`pressure.retain` 0.5; the next epoch's pass 1 adds `pressure.weight × pressure` (0.5) to the di"
+  },
+  {
+   "unit": "base",
+   "line": 7488,
+   "text": "pass 2",
+   "context": "**S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district'"
+  },
+  {
+   "unit": "base",
+   "line": 7493,
+   "text": "pass 2",
+   "context": "§3.5); (ii) **field pass 2** adds their kernels to pass 1 (§4.5), from which"
+  },
+  {
+   "unit": "base",
+   "line": 7493,
+   "text": "pass 1",
+   "context": "§3.5); (ii) **field pass 2** adds their kernels to pass 1 (§4.5), from which each district's band range is"
+  },
+  {
+   "unit": "base",
+   "line": 7495,
+   "text": "pass 2",
+   "context": "workplaces, shops — by capacity per band under pass 2, sub-districts receiving contiguous block groups"
+  },
+  {
+   "unit": "base",
+   "line": 9329,
+   "text": "pass 2",
+   "context": "` low, damp or flood +; downwind +; near the noxious kernels of field pass 2 +; the intramural periphery (`dist.wall` small in"
+  },
+  {
+   "unit": "base",
+   "line": 9879,
+   "text": "pass 2",
+   "context": "[V05 §3.17] | S7b (5), SKY, SKY-F, the unit run, `fallIsland`, field pass 2 and each epoch's `sky.clearance` (item 331) | V05"
+  },
+  {
+   "unit": "base",
+   "line": 14135,
+   "text": "pass 1",
+   "context": "| 5 | way casings (`way.*`, pass 1), every class drawn at the band | MFCG: road casi"
+  },
+  {
+   "unit": "base",
+   "line": 14136,
+   "text": "pass 2",
+   "context": "| 6 | way bodies (`way.*`, pass 2) | MFCG: road body |"
+  },
+  {
+   "unit": "base",
+   "line": 14177,
+   "text": "pass 3",
+   "context": "entries in slot 14 outranking the prefix, and `way.stair` in slot 6's pass 3; one entry with no `passes` for a"
+  },
+  {
+   "unit": "base",
+   "line": 17798,
+   "text": "pass 1",
+   "context": "| S6's daylight term, pass 1 (g item 102 (a)–(c): terrain and wall shade) | §4"
+  },
+  {
+   "unit": "base",
+   "line": 17798,
+   "text": "pass 2",
+   "context": "prisms at ≈ 20 ns per cell and sun (PLAUSIBLE); the island strips at pass 2 are V05 §6's; budget TOWN ≤ 5 ms, CITY ≤ 12 ms, M"
+  },
+  {
+   "unit": "base",
+   "line": 20640,
+   "text": "pass 2",
+   "context": "volume 1's S9b, else field pass 2) and at each epoch's re-evaluation, `skyRoute` by"
+  },
+  {
+   "unit": "base",
+   "line": 22006,
+   "text": "pass 2",
+   "context": "enters §4.5's daylight term in field pass 2 only (V05 §3.19; item 102 (c)), after the island"
+  },
+  {
+   "unit": "base",
+   "line": 23853,
+   "text": "pass 2",
+   "context": "| J-A72.40 | the dials' passes: the institution dial on pass 2's institution kernels … | §4.5 |"
+  },
+  {
+   "unit": "base",
+   "line": 24041,
+   "text": "round 2",
+   "context": "| J-A568.05 | round 2's figures: volume 9's AP11 (4.5–6.25 pw) split 3."
+  },
+  {
+   "unit": "V01",
+   "line": 189,
+   "text": "pass 1",
+   "context": "| g item 102 (a)–(d) | `shade(x)` from terrain and walls (field pass 1) and island strips (pass 2); the sunlit-side pref"
+  },
+  {
+   "unit": "V01",
+   "line": 189,
+   "text": "pass 2",
+   "context": "| `shade(x)` from terrain and walls (field pass 1) and island strips (pass 2); the sunlit-side preference | `DistrictContext.s"
+  },
+  {
+   "unit": "V01",
+   "line": 333,
+   "text": "pass 1",
+   "context": "culture`) | DR29 | item 102's model-side sampler, through the field's pass 1 and volume 5's strips |"
+  },
+  {
+   "unit": "V01",
+   "line": 462,
+   "text": "pass 2",
+   "context": "prosperity: number /* area-weighted pass-1 value; pass 2 once S10a (ii) has run */; band: string; density:"
+  },
+  {
+   "unit": "V01",
+   "line": 480,
+   "text": "pass 1",
+   "context": "hted mean of item 102's shade(x) over D from terrain and walls (field pass 1's sampler); on a sky arena"
+  },
+  {
+   "unit": "V01",
+   "line": 687,
+   "text": "pass 2",
+   "context": "order; Block.content, square types, void corners] ─► S10a (ii) field pass 2"
+  },
+  {
+   "unit": "V01",
+   "line": 1200,
+   "text": "pass 2",
+   "context": "ing classes and the institutions below a block, **before (ii)'s field pass 2** (J-V1.40; §4.7, item 300) —"
+  },
+  {
+   "unit": "V01",
+   "line": 1290,
+   "text": "pass 2",
+   "context": "ch's, V05 §3.19 (6)) at S9b's first read, by the same pure call field pass 2 makes, and held for it, so no strip is"
+  },
+  {
+   "unit": "V01",
+   "line": 1529,
+   "text": "pass 2",
+   "context": "At S10a's end, after field pass 2, every way without an edited `surface` takes the"
+  },
+  {
+   "unit": "V01",
+   "line": 1824,
+   "text": "pass 1",
+   "context": "6), once field pass 1 has given the capacity per band —: with `L_hood`"
+  },
+  {
+   "unit": "V01",
+   "line": 1827,
+   "text": "pass 1",
+   "context": "` of it); households fill the residential capacity by band from field pass 1's shares; `singular` and"
+  },
+  {
+   "unit": "V01",
+   "line": 1839,
+   "text": "pass 1",
+   "context": "5. **S6.** One district: the outline face; kind from S0; field pass 1 with `characterOffset = intent.wealth − 0.5` plus"
+  },
+  {
+   "unit": "V01",
+   "line": 3015,
+   "text": "pass 1",
+   "context": "| 6 | way casings (`way.*`, pass 1) | — |"
+  },
+  {
+   "unit": "V01",
+   "line": 3016,
+   "text": "pass 2",
+   "context": "| 7 | way bodies, square faces and road surfaces (`way.*`, pass 2; `ground.square`) | NG: roads |"
+  },
+  {
+   "unit": "V01",
+   "line": 3254,
+   "text": "pass 2",
+   "context": "d once per shade evaluation at S9b's first read and shared with field pass 2, V01 §3.5.5) — ≈ 5 ms at CITY | a row of §12.4 (i"
+  },
+  {
+   "unit": "V01",
+   "line": 3389,
+   "text": "pass 2",
+   "context": "by S9 for every way and the way-surface rule (V01 §3.7.3) with field pass 2, since"
+  },
+  {
+   "unit": "V01",
+   "line": 3454,
+   "text": "pass 2",
+   "context": "hade term, S9b's sun and siting factors, the strips shared with field pass 2, S9b's move after S10a (i) with its hook point, t"
+  },
+  {
+   "unit": "V01",
+   "line": 3539,
+   "text": "pass 2",
+   "context": "created (S4, S5, S8) before the field that should set it exists, and pass 2 is the first reading every block shares (V01 §3.7"
+  },
+  {
+   "unit": "V01",
+   "line": 3582,
+   "text": "pass 2",
+   "context": "evaluation (V05 §3.19 (6)) at S9b's first read and shared with field pass 2 (on a sky arena every reader reads V05's `shadeSk"
+  },
+  {
+   "unit": "V01",
+   "line": 3582,
+   "text": "pass 2",
+   "context": "arena every reader reads V05's `shadeSky`, J-V1.87), over waiting for pass 2, because the rich must seek the sun where the dis"
+  },
+  {
+   "unit": "V05",
+   "line": 153,
+   "text": "pass 2",
+   "context": "field pass 2; the sky receivers' shade; its lag behind edits,"
+  },
+  {
+   "unit": "V05",
+   "line": 225,
+   "text": "pass 1",
+   "context": "t, the model sampler, the climate cell, the terrain and wall shade of pass 1,"
+  },
+  {
+   "unit": "V05",
+   "line": 260,
+   "text": "pass 1",
+   "context": "| `S_town` (V05 §3.3) | field pass 1 over built district cells; at an epoch the re-eva"
+  },
+  {
+   "unit": "V05",
+   "line": 565,
+   "text": "pass 2",
+   "context": "| `landingKernel` | weight 0.05, radius 150 m | same | field pass 2 (V05 §3.10 (6)) |"
+  },
+  {
+   "unit": "V05",
+   "line": 657,
+   "text": "pass 2",
+   "context": "| `altitudeCm`, `groundRefCm` | V05 §3.9 at SKY, before field pass 2; the clearance rule (V05 §3.9 (5)); `setAttr`; a"
+  },
+  {
+   "unit": "V05",
+   "line": 673,
+   "text": "pass 2",
+   "context": "the hinterland unit's S12a (the plot); S11 (the landing house); field pass 2's landing kernel | model digest (the allocation)"
+  },
+  {
+   "unit": "V05",
+   "line": 700,
+   "text": "pass 2",
+   "context": "| **S10a** — the strips onto the ground and their fold into field pass 2 (§4.5 *Fields*) | S10a, after SKY and before the"
+  },
+  {
+   "unit": "V05",
+   "line": 767,
+   "text": "pass 1",
+   "context": "pass 1, at an epoch the re-evaluated field's island-free"
+  },
+  {
+   "unit": "V05",
+   "line": 1114,
+   "text": "pass 2",
+   "context": "6. **The ground's field** gains, at field pass 2 (S10a), a positive kernel at each ground landing"
+  },
+  {
+   "unit": "V05",
+   "line": 1463,
+   "text": "pass 2",
+   "context": "islands (never by pass 2, so no hook of S10a reads a strip built from the"
+  },
+  {
+   "unit": "V05",
+   "line": 1470,
+   "text": "pass 2",
+   "context": "`afterDrivers` hook, between step (i) and field pass 2, where it is registered (its manor sun factor, V0"
+  },
+  {
+   "unit": "V05",
+   "line": 1471,
+   "text": "pass 2",
+   "context": "field pass 2 — by the one pure call, and **held** for pass 2's"
+  },
+  {
+   "unit": "V05",
+   "line": 1471,
+   "text": "pass 2",
+   "context": "field pass 2 — by the one pure call, and **held** for pass 2's fold and every later reader of the same evaluat"
+  },
+  {
+   "unit": "V05",
+   "line": 1472,
+   "text": "pass 2",
+   "context": "ctContext.shade.islandShare`, V01 §3.8.2, V01 §2.3): S9b's strips and pass 2's are the"
+  },
+  {
+   "unit": "V05",
+   "line": 1482,
+   "text": "pass 1",
+   "context": "field.** For each ground cell, each bit of the daylight term's mask — pass 1's terrain and wall"
+  },
+  {
+   "unit": "V05",
+   "line": 1487,
+   "text": "pass 1",
+   "context": "at generation S7b (5) reads pass 1, which has no island bits by construction. **On a"
+  },
+  {
+   "unit": "V05",
+   "line": 1803,
+   "text": "pass 1",
+   "context": "are the unlevelled raster, bilinear across the cliff; terrain shade (pass 1) and the island's bits are OR-ed, a point counted"
+  },
+  {
+   "unit": "V05",
+   "line": 2360,
+   "text": "pass 2",
+   "context": "| field pass 2: the strips onto the ground, per island (and per"
+  },
+  {
+   "unit": "V05",
+   "line": 2375,
+   "text": "pass 2",
+   "context": "nversions at the rows above | same | the epoch's strips are the field pass 2 row |"
+  },
+  {
+   "unit": "V05",
+   "line": 2378,
+   "text": "pass 2",
+   "context": "the shade map view's pending strip after an island edit | ≤ the field pass 2 row, computed only while that view is shown | sam"
+  },
+  {
+   "unit": "V05",
+   "line": 2379,
+   "text": "pass 2",
+   "context": "| Update shade now | ≤ the field pass 2 row for one island + the field's recomputation ov"
+  },
+  {
+   "unit": "V05",
+   "line": 2619,
+   "text": "pass 2",
+   "context": "every strip is empty and the field byte-identical to the base's pass 2 (no-op pins) — this fixture's NoOpPin"
+  },
+  {
+   "unit": "V05",
+   "line": 2654,
+   "text": "pass 2",
+   "context": "b registered, the strips S9b's manor sun factor reads and those field pass 2 folds are the"
+  },
+  {
+   "unit": "V05",
+   "line": 2858,
+   "text": "pass 2",
+   "context": "ips from the bases on the unlevelled receivers, their fold into field pass 2 and the island-free value; the sky receivers; F-S"
+  },
+  {
+   "unit": "V05",
+   "line": 2951,
+   "text": "pass 2",
+   "context": "ter allowance, over reading the built casters at SKY-F, because field pass 2 must read the island's shade before any plot is c"
+  },
+  {
+   "unit": "V05",
+   "line": 2960,
+   "text": "pass 1",
+   "context": "into the daylight term sample by sample, over adding their shares to pass 1's, because a cell in a hill's shade and an island"
+  },
+  {
+   "unit": "V05",
+   "line": 2993,
+   "text": "pass 2",
+   "context": "S9b at S10a's `afterDrivers` hook where it is registered, else field pass 2 — and hold them for every later reader, and at a"
+  },
+  {
+   "unit": "V05",
+   "line": 2993,
+   "text": "pass 2",
+   "context": "ore step (i) and every hook, over computing bases and strips at field pass 2 alone, because S9b's manor sun factor, the hood p"
+  },
+  {
+   "unit": "V05",
+   "line": 2993,
+   "text": "pass 2",
+   "context": "e gate and `DistrictContext.shade.islandShare` read the strips before pass 2, and a re-derivation from S10a would otherwise le"
+  },
+  {
+   "unit": "V06",
+   "line": 3871,
+   "text": "pass 2",
+   "context": "| 20 | 25 | V05 §6's rows \"`IslandEpochStep`, per island\" and \"field pass 2: the strips onto the ground, per island (and per"
+  },
+  {
+   "unit": "V07",
+   "line": 225,
+   "text": "pass 1",
+   "context": "7 §3.12's retype at the hand-off | `District.kind` (item 214); §4.5's pass 1 | DR5 (one district) |"
+  },
+  {
+   "unit": "V07",
+   "line": 253,
+   "text": "pass 1",
+   "context": "5's rule, a recorded input | VS1's heart score, VS2's sun term, VS5's pass 1, V07 §3.9's suitability — each × the climate row'"
+  },
+  {
+   "unit": "V07",
+   "line": 286,
+   "text": "pass 1",
+   "context": "d (§4.2 S1 (10)) | S0's water draw; VS1's heart; VS2's density; VS5's pass 1 (the base's water term); V07 §3.9's suitability;"
+  },
+  {
+   "unit": "V07",
+   "line": 1107,
+   "text": "pass 1",
+   "context": "(interiors over 2 ha cut out), the one `village` district, prosperity pass 1 (V07 §3.7)"
+  },
+  {
+   "unit": "V07",
+   "line": 1146,
+   "text": "pass 1",
+   "context": "the deck faces of V07 §3.10a (5)), `perimeter`, `fields.prosperity` (pass 1), `reservations.fair` (V07 §3.6 (4b)) | `field.ch"
+  },
+  {
+   "unit": "V07",
+   "line": 1271,
+   "text": "pass 1",
+   "context": "(nothing built exists yet; the palisade's shade enters VS5's pass 1, V06's building mask the epochs). Every village r"
+  },
+  {
+   "unit": "V07",
+   "line": 1760,
+   "text": "pass 1",
+   "context": "3. **Prosperity, pass 1.** §4.5's field over the district and its margin,"
+  },
+  {
+   "unit": "V07",
+   "line": 1765,
+   "text": "pass 2",
+   "context": "band capacity and demand agree by construction; pass 2 is S10a's, as in the base (the institution kernel"
+  },
+  {
+   "unit": "V07",
+   "line": 1780,
+   "text": "pass 1",
+   "context": "frontage centre of the band its prosperity (pass 1) reads, and the institutions' slots as the Σ of t"
+  },
+  {
+   "unit": "V07",
+   "line": 1815,
+   "text": "pass 2",
+   "context": "drive prosperity's pass 2); then the source-oriented classes by depth from"
+  },
+  {
+   "unit": "V07",
+   "line": 2171,
+   "text": "pass 1",
+   "context": "views\") → a `claim` end on the plots of highest mean prosperity (pass 1), on the high ground, its band bias applied to th"
+  },
+  {
+   "unit": "V09",
+   "line": 4938,
+   "text": "adjudication-r2",
+   "context": "ount — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's renderin"
+  },
+  {
+   "unit": "V11",
+   "line": 942,
+   "text": "pass 2",
+   "context": "(with S7b (2)'s sub-districts), S10a (the noxious-first order, field pass 2's kernels), S10b, S11 (with §2.6's basement funct"
+  },
+  {
+   "unit": "V11",
+   "line": 1016,
+   "text": "pass 2",
+   "context": "e f item 207) | S10a (the way-surface rule at S10a's end, after field pass 2); S6 (an epoch's field step re-bands, and the way"
+  },
+  {
+   "unit": "V11",
+   "line": 1423,
+   "text": "pass 2",
+   "context": "field pass 2's kernels)."
+  },
+  {
+   "unit": "V11",
+   "line": 4818,
+   "text": "pass 2",
+   "context": "ll (V11 §3.3.5, V11 §3.25.1) | CITY–METROPOLIS (the islands' shade in pass 2) |"
+  }
+ ],
+ "part_h_line_ids": [
+  {
+   "unit": "V10",
+   "line": 1745,
+   "text": "V10-15",
+   "context": "V10-15), the committed uses whose own order `(seq, k)` p"
+  }
+ ],
+ "design_text_sites": 0,
+ "design_text_by_unit": {},
+ "in_records": 25,
+ "in_records_by_unit": {
+  "V03": 9,
+  "V09": 15,
+  "V10": 1
+ },
+ "sites": [],
+ "record_sites": [
+  {
+   "unit": "V03",
+   "line": 3131,
+   "id": "VAF-R0S-16",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": ", because a template family is never a class (§2.6's `BuildingClass`; VAF-R0S-16), no building's class names them, several familie"
+  },
+  {
+   "unit": "V03",
+   "line": 3282,
+   "id": "VAF-R0S-03",
+   "section": "## 13 Fix list",
+   "context": "| model (VAF-R0S-03) | `AccessHead` declared at §2.6 and cited here |"
+  },
+  {
+   "unit": "V03",
+   "line": 3283,
+   "id": "VAF-R0S-16",
+   "section": "## 13 Fix list",
+   "context": "| model (VAF-R0S-16) | the class rows keyed on §2.6's `BuildingClass`"
+  },
+  {
+   "unit": "V03",
+   "line": 3284,
+   "id": "VAF-R0S-20",
+   "section": "## 13 Fix list",
+   "context": "| pipeline (VAF-R0S-20) | §4.5's discrete-cell rule cited | V03 §2.4, V0"
+  },
+  {
+   "unit": "V03",
+   "line": 3285,
+   "id": "VDC0-11",
+   "section": "## 13 Fix list",
+   "context": "| determinism (VDC0-11) | the plan edits' reach bend `bend.room.unreacha"
+  },
+  {
+   "unit": "V03",
+   "line": 3286,
+   "id": "VV34-07",
+   "section": "## 13 Fix list",
+   "context": "| V10 (VV34-07) | the notes keyed `info.plan.note.<id>` | V03 §4"
+  },
+  {
+   "unit": "V03",
+   "line": 3287,
+   "id": "VAP-21",
+   "section": "## 13 Fix list",
+   "context": "| V11 (VAP-21), V12 | `exposureAllStoreys`'s preset entries fal"
+  },
+  {
+   "unit": "V03",
+   "line": 3293,
+   "id": "VV56-r2-06",
+   "section": "## 13 Fix list",
+   "context": "| V06 (VV56-r2-06, VAT2-r2-09) | `decayPeak` read per element from"
+  },
+  {
+   "unit": "V03",
+   "line": 3293,
+   "id": "VAT2-r2-09",
+   "section": "## 13 Fix list",
+   "context": "| V06 (VV56-r2-06, VAT2-r2-09) | `decayPeak` read per element from each element"
+  },
+  {
+   "unit": "V09",
+   "line": 4878,
+   "id": "V09-XAGREE-3",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "end owns its id and a key no producer emits is a row no user can see (V09-XAGREE-3) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4886,
+   "id": "R2-41",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "no phone default, since no map is offered on a phone (item 126 (a2); R2-41) — with Start a shower now enabled only while the"
+  },
+  {
+   "unit": "V09",
+   "line": 4887,
+   "id": "VAH-r1-04",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "outcome and the clerk's cards read the same buttons (V10 §3.5 step 3; VAH-r1-04) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4888,
+   "id": "VAT-08",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "e`'s `moveVertex` on an island's key, which no other gesture reaches (VAT-08) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4889,
+   "id": "R2-22",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "ple acts on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4889,
+   "id": "VAH-r1-03",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "s on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4891,
+   "id": "R2-42",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "Stop ended with `advance`'s `stopAfter` (its journalled count; §11.2, R2-42) over a timed `cancelAdvance` on the job's progre"
+  },
+  {
+   "unit": "V09",
+   "line": 4891,
+   "id": "VV910-r1-02",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "och starts, so only a count reproduces the journalled `logHeadAfter` (VV910-r1-02) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4904,
+   "id": "V09-XCONF-1",
+   "section": "## 10 Base change requests",
+   "context": "d's `PlatKey`, or the underground, its band the view key `depthBand`; V09-XCONF-1) and `restore/<id>` | file f item 277 | §2.9 *Vie"
+  },
+  {
+   "unit": "V09",
+   "line": 4932,
+   "id": "V01-XCONF-2",
+   "section": "## 10 Base change requests",
+   "context": "| BCR-V9-31 | item 110 in the formats (with the one VTT rule of V01-XCONF-2: a retaining wall joins `line_of_sight` where its"
+  },
+  {
+   "unit": "V09",
+   "line": 4938,
+   "id": "VV910-r1-02",
+   "section": "## 10 Base change requests",
+   "context": "vance's epoch count — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the cohere"
+  },
+  {
+   "unit": "V09",
+   "line": 4938,
+   "id": "R2-42",
+   "section": "## 10 Base change requests",
+   "context": "`stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's rendering repair"
+  },
+  {
+   "unit": "V09",
+   "line": 4950,
+   "id": "V09-XAGREE-1",
+   "section": "## 10 Base change requests",
+   "context": "dTo?, avoid?, cut? }` with their three meanings | V11 §4.2, the union V09-XAGREE-1 rules; V09 §2.6 cites it |"
+  },
+  {
+   "unit": "V09",
+   "line": 4953,
+   "id": "V09-XAGREE-2",
+   "section": "## 10 Base change requests",
+   "context": "runs of V09 §4.17.5 (e) | V03 §3.7.4 (the rank cap `crypt.rankShare`; V09-XAGREE-2) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4970,
+   "id": "V10-XAGREE-3",
+   "section": "## 10 Base change requests",
+   "context": "the size words name V09 §4.5's quantiles, never a population number (V10-XAGREE-3) | V10 §3.3 |"
+  },
+  {
+   "unit": "V10",
+   "line": 3416,
+   "id": "V10-XAGREE-3",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "ers, because a word asked and a chip picked must give one population (V10-XAGREE-3) |"
+  }
+ ]
+}

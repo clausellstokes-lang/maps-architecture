@@ -1,0 +1,19 @@
+# volchecks-final.txt (coherence/assemble-r7w, P5 (b')) — doc_checks.py over each volume, INDEX and the rationale, whole document,
+# untouched (S2 against the untouched base) vs installed (S2 against the installed base). Information; not held to exit 0.
+# PROVISIONAL: doc_checks warns the reference corpus is INCOMPLETE in this checkout.
+INDEX: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 21/17 -> 21/17, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 0/0 -> 0/0; new unreviewed pairs 0, gone 0
+V01-neighbourhoods: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 407/352 -> 407/352, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 286/3 -> 286/3; new unreviewed pairs 0, gone 0
+V02-buildings: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 601/537 -> 601/537, C4 1/0 -> 1/0, S1 0/0 -> 0/0, S2 214/10 -> 214/10; new unreviewed pairs 0, gone 0
+V03-interiors: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 367/281 -> 367/281, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 200/0 -> 200/0; new unreviewed pairs 0, gone 0
+V04-underground: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 225/199 -> 225/199, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 155/2 -> 155/2; new unreviewed pairs 0, gone 0
+V05-sky: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 237/225 -> 237/225, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 269/1 -> 269/1; new unreviewed pairs 0, gone 0
+V06-evolution: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 296/270 -> 297/271, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 431/16 -> 432/16; new unreviewed pairs 1, gone 0
+   + C3 | law 1 2 4 6 10
+V07-village: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 367/321 -> 367/321, C4 1/0 -> 1/0, S1 0/0 -> 0/0, S2 419/0 -> 419/0; new unreviewed pairs 0, gone 0
+V08-settlementforge: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 183/155 -> 183/155, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 284/2 -> 284/2; new unreviewed pairs 0, gone 0
+V09-application: exit 1 -> 1; C1 1/0 -> 1/0, C2 1/0 -> 1/0, C3 303/276 -> 303/276, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 457/89 -> 457/89; new unreviewed pairs 0, gone 0
+V10-clerk: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 167/146 -> 167/146, C4 0/0 -> 0/0, S1 0/0 -> 0/0, S2 334/12 -> 334/12; new unreviewed pairs 0, gone 0
+V11-content: exit 1 -> 1; C1 0/0 -> 0/0, C2 0/0 -> 0/0, C3 308/280 -> 308/280, C4 5/0 -> 5/0, S1 0/0 -> 0/0, S2 334/33 -> 334/33; new unreviewed pairs 0, gone 0
+V12-calibration: exit 1 -> 1; C1 8/0 -> 8/0, C2 0/0 -> 0/0, C3 142/128 -> 142/128, C4 2/0 -> 2/0, S1 0/0 -> 0/0, S2 119/11 -> 119/11; new unreviewed pairs 0, gone 0
+rationale (unchanged this round; one run, --heads the installed base): exit 1; C1 0/0, C2 0/0, C3 493/320, C4 0/0, S1 0/0, S2 17/15
+total new distinct unreviewed pairs in the volumes and INDEX: 1
