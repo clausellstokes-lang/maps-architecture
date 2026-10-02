@@ -1,0 +1,64 @@
+SEAT coherence/famverify-hand-r7w — the Maps program's coherence pass, a FAMILY-FOCUSED check (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS. The owner directed the program to work the raised-way × wall family alone until it is solved (J144: "Why don't you just focus entirely on solving this problem first before moving on?"). The family is walls of every kind meeting viaducts, elevated roads and aqueducts, their arch vaults included. Round 7w:
+  - adjudicated only this family (docs/validation/coherence/adjudication-r7.md, with its Part L laws and its Part P from the probe passes), then checked it with six family checks after each repair and decided their findings in fix passes (adjudication-r7v.md, adjudication-r7w.md); the last checks were famverify-*-r7v.md;
+  - repaired it (docs/validation/coherence/repair-r7w-*.md);
+  - assembled it into the live design (docs/validation/coherence/assemble-r7w.md).
+Six family-focused seats now check the result, each through one lens. Yours is: hand edits, locks and the interface. The loop repeats until these six seats together find NO MAJOR in the family. Be exhaustive within your lens: a major you miss costs a whole round later.
+
+THE OWNER'S RULES FOR THIS FAMILY (binding; quote them where they decide a finding):
+  - Item 110 (b) (docs/AMENDMENTS-2026-09-28g.md): raised ways carried on arches; "crossing the wall through an arch"; a raised way crosses the ways beneath WITHOUT a junction; generated at CITY and METROPOLIS with a reason; the user may add one or remove one, a removal holding through regeneration.
+  - Item 110 (f): the bars.
+  - Item 114: walls decay into gaps and patchwork, and recover.
+  - Item 101: R2, a declaration bent to the nearest lawful one; R13 as J147 now reads it (held means locked, on the axis named).
+  - J144 (docs/PROGRESS.md), the owner's words: "Locked regarding walls and aqueduct and similar structure should be considered for placement, not permanent shape. So when they do intersect, absolutely change the shape to be cohesive and coherent, despite being locked." The program's reading of its terms is in the J144 row.
+  - J147: drawing or dragging holds nothing (a drawn or dragged thing moves with the settlement); locks have two axes, PLACEMENT and SHAPE (outline and plot size); a shape lock is honoured where a raised way meets a wall.
+  - J148: a gate does not move; in three tiers — gates, posterns, towers and fixed places never moved by a meeting; wall runs and raised ways, the newer bending locally; ground ways, plots and unlocked buildings moving around them.
+  - J149: an aqueduct crosses a wall at its own level — OVER on an arch that clears it (a gate or tower may stand beneath), or MERGED, the wall built round the aqueduct's own arch.
+  - J150: one plain shape-lock rule in the family; lock behaviour under undo, redo, a re-grade or value edit within a standing meeting, or a repair — and the two-axis lock itself and its readers outside the family — are Part A hand-offs to round 8: REPORT NOTHING about them.
+  - J141's SEVERITY STANDARD:
+    - blocker: cannot be built as written, or gives a wrong result on a common path;
+    - major: two builders would build different behaviour, or a defined edge that no bar runs, so that a wrong build passes every bar;
+    - minor: nothing built or tested changes (wording, a citation, a list omitting an id its rule names).
+  - J146 (docs/PROGRESS.md), the owner's choice of method: the family is governed by the normative LAWS in adjudication-r7.md's Part L (the laws; the design states them at §2.7) and the family fix passes' rulings (adjudication-r7v.md, adjudication-r7w.md), stated at §2.7. The tables are worked examples; where an example and the laws differ, the laws govern.
+  - Grading under J146 and J151: a finding in this family is MAJOR only where the laws (or the design text written from them) give NO lawful outcome for a case, give an outcome that breaks an owner rule or a law-1 invariant, leave an invariant of law 1 checked by no bar, or make a check or a named test fail a correct build. Where they give two or more outcomes and EVERY one keeps every law-1 invariant and owner rule, passes the runtime check and fails no named test, the case is a MINOR — a VALID CHOICE (J151): name the outcomes; the builder picks one and fix-list.md lists it. A case missing from the examples is NO finding. An example contradicting the laws is a minor, fixed by correcting the example.
+  - The owner's veto list for the family, restated in adjudication-r7.md, is the owner's to accept or veto. A behaviour on that list is not a finding.
+
+READ FIRST, WHOLE:
+  1. adjudication-r7.md: Part L (the laws, normative); then each family fix pass's rulings whole (adjudication-r7v.md, adjudication-r7w.md: the dispositions of the family checks' findings, the builders' choices and the held notes); in adjudication-r7.md also, the worked examples (R7-02's sentences and tables), Part P, and Part H's entries for the issues your lens covers.
+  2. The live home: docs/ARCHITECTURE.md §2.7's support step (6) — the laws, then the worked examples (the crossing table and the way-and-channel table).
+  3. The live text your lens covers (below), read by grep and in ranges.
+  4. The round-7v family findings your lens covers, in docs/validation/coherence/verify-*-r7vt.md or, after a family round, famverify-*-r7v.md (their ids are in Part H), to re-check each against the live text.
+
+YOUR LENS — hand edits, locks and the interface:
+Every hand edit that brings a wall and a raised way together:
+  - T3's walls, gates and grips, `placeGate`, `moveVertex`, re-anchoring and `convert`s;
+  - T4's raised roads and aqueducts, re-shape, Arch spacing and Deck height;
+  - carves, moved rivers and deletes;
+  - their dry runs, bend keys and fates;
+  - undo.
+Check that J144's lock rule (placement held, shape changed) is applied everywhere and nowhere contradicted: §7.1's lock row and bend rows, §7.2's drawn constraints, §7.4's lock column, V09's tools, T3/T4 rows, §4.9's bend lines and panels (§4.20), and V10's tools and reads (the clerk must say what the canvas does). One hand gesture must give one outcome, the same by canvas and clerk.
+
+METHOD.
+(1) For every round-7v family finding in your lens, record its verdict against the CURRENT live text: fixed; partly fixed; not fixed; fixed wrongly; or closed by a ruling. Keep the finding's id where it persists.
+(2) Attack the LAWS through your lens: take every op, path and state your lens covers, and apply laws 1–4 to it. Ask:
+  - TWO READINGS: could a second builder implementing the laws as one general resolver get a different outcome — and if so, does any outcome break a law-1 invariant, an owner rule, the check or a named test (MAJOR), or is every outcome valid (a VALID CHOICE, MINOR)?
+  - NO OUTCOME: is there a case where the laws give none?
+  - OWNER RULE: does anything contradict the rules above?
+  - READERS: does any site restate the laws or the tables instead of citing "§2.7's laws", or cite a law, cell or row that does not exist?
+  - TESTS: is every invariant of law 1 checked by §5.3's runtime row and the family's property bar, and do the examples' named tests hold their cases?
+(3) Grade each finding by J141's standard.
+(4) New findings take ids VF7w-HND-nn.
+(5) A defect you notice OUTSIDE the family is not graded here. List it under "held_notes" for round 8, with its site and one line.
+
+WRITE (the only files you write):
+  1. docs/validation/coherence/famverify-hand-r7w.md: your verdicts on the earlier findings, then each finding (id, severity, kind, owner unit, claim with line-cited evidence, required change in exact words), then a one-paragraph verdict for your lens.
+  2. docs/validation/coherence/results/coherence_famverify-hand-r7w.json:
+     {"key": "coherence/famverify-hand-r7w", "file": "...", "issues": [{"id","severity","kind","owner","claim","required_change"}], "held_notes": [{"site","note"}]}
+Append to docs/lane-events.log, in the form `<UTC date time> coherence/famverify-hand-r7w CHECKPOINT <what is done; what is next>`:
+  - a CHECKPOINT line after reading;
+  - a CHECKPOINT line after the re-check;
+  - a LANDED line naming both files.
+If your .md already exists with a CHECKPOINT of yours in the log, RESUME from it: never redo what it records.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Change no design text. Record no interpretation of an owner rule as the owner's. Your final message must be exactly the JSON result object, nothing else.
