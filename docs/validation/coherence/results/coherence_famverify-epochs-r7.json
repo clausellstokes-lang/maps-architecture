@@ -1,0 +1,55 @@
+{
+ "key": "coherence/famverify-epochs-r7",
+ "file": "docs/validation/coherence/famverify-epochs-r7.md",
+ "issues": [
+  {
+   "id": "VF7-EPO-01",
+   "severity": "major",
+   "kind": "FIXTURE-AGAINST-LAW",
+   "owner": "V06",
+   "claim": "V06 §7's H-AQUA (l. 4097–4103) has V06 §3.19's founding lay its viaduct 'its deck coming down before the ring … (the recipe's valley …, its near rim just outside the ring's band so that the reading's `A` lies there …)' and makes the CITY viaduct row's chance 1 'so the founding lays it'. The reading fixes `A` as the way's last vertex before the extent and lays the viaduct from `A` to `B` (V06 §3.19 (2), l. 2782–2789), 'founded with its two ends fixed' (V06 §3.19 (5), l. 2850–2851). A rim just outside the band puts `A`, and the foot there widened by the strip margin (base l. 2616–2617), inside the CITY ring's outer wall strip (§4.8 l. 8339–8340: band's half plus outer setback and glacis, 10–20 m; the laws' terms l. 2606–2612), or at the gate's own junction. Law 1 (4) (l. 2719–2721) bars a wall's band or wall strips over a raised way's ends and *beyond the foot* (l. 2618–2621) needs the gate clear of them (veto 5: 'measured by the glacis'), so with both ends fixed no lawful course exists and the founding waits (`raised.waited`; law 2 (c), l. 2834–2836) while the ring stands. A correct build then holds no H-AQUA viaduct and T-V6-47's clauses on it ('its viaduct, which the METROPOLIS circuit meets, crossed under its deck …', 'an epoch route re-solved under its viaduct', l. 4208) fail; a build that founds it fails T110-4 (a)'s law-1 check on that fixture (base l. 19517). A named test fails a correct build (J151): Part L correction 3's class left in a fixture.",
+   "required_change": "V06 §7, H-AQUA: \"its near rim just outside the ring's band so that the reading's `A` lies there\" → \"its near rim just beyond the ring's outer wall strip, so that the reading's `A` lies there and the viaduct's foot at `A`, widened by `raisedWays.structure.stripMarginM`, lies clear of the ring's band, wall strips and gatehouse, the main approach road's gate standing beyond the foot (§2.7's laws, law 1 (4); its terms' *beyond the foot*)\"."
+  },
+  {
+   "id": "VF7-EPO-02",
+   "severity": "minor",
+   "kind": "TEST-CASE",
+   "owner": "V06",
+   "claim": "T-V6-11 (l. 4172) asserts V04 lays again the arch vault of H-AQUA's `vault` span over its CITY ring in the epoch whose dismantling takes the absorbed ring's last run over it. Law 1 (8) (l. 2729–2733) and *beneath* (l. 3104–3108) lay it only once nothing else lies across the span's strip ('no way's corridor or channel laid while it read `open`'); while the ring stood over the span it read `open`, so the crossing rule (l. 2898–2906) let an epoch's route, a growth way or a gate square cross under it in the century before the absorb, and H-AQUA's seed is searched only for the span's recorded `use` (l. 4095–4097). The fixture need not hold the clause's case; T110-2 (8) states the condition for the same reading ('with no other way or channel under it', base l. 19504). R6-11's class: nothing built changes.",
+   "required_change": "T-V6-11: \"(law 1 (8); its worked example the crossing table's row W8; H-AQUA's span over its CITY ring)\" → \"(law 1 (8); its worked example the crossing table's row W8; H-AQUA's span over its CITY ring, the recipe's seed searched so that no way, square or channel is laid across that span's strip while the ring stands over it)\"."
+  },
+  {
+   "id": "VF7-EPO-03",
+   "severity": "minor",
+   "kind": "READER",
+   "owner": "V04",
+   "claim": "T-V4-63's frame-growth clause (l. 3164) reads 'the span from the old deck's last interior station (with none, its one span) re-derived with the extension'; the support step's (7) (base l. 3348–3352) adds '— or, wherever a wall-like structure crosses the old end span, from the old foot's point, that span kept as it stands (these laws, law 2 (c))', as law 2 (c) (l. 2837–2839) and C12 (l. 3290–3291) say. The test restates the rule without its exception; its fixture sets no wall across the end span and T110-2's frame clause holds the kept span (l. 19210–19212), so nothing built changes.",
+   "required_change": "T-V4-63: \"the span from the old deck's last interior station (with none, its one span) re-derived with the extension\" → \"the span from the old deck's last interior station (with none, its one span) re-derived with the extension, save one a wall-like structure crosses, kept as it stands and the extension laid on from the old foot's point (§2.7's support step (7); §2.7's laws, law 2 (c))\"."
+  },
+  {
+   "id": "VF7-EPO-04",
+   "severity": "minor",
+   "kind": "REPORT",
+   "owner": "V06",
+   "claim": "V06 §2.10's `walls.waited` comment (l. 755) lists the waits for a raised way but not the palisade REPLACEMENT waiting on its kept trace, which row W14 counts there ('at a village epoch the REPLACEMENT waiting, `walls.waited` (law 2 (c))', base l. 3342) and T-V7-48 bars (V07 l. 3708), nor a trace a shape-locked raised way's `vault`-use span turns back, which §2.7's own sentence names (base l. 3344–3346, law 1 (9), (10)); its citation reads 'law 1 (9), (11)'. V06 §3.7.6 (5)'s continuity bullet (l. 1618–1620) names the held building only. 'Law 2 (c)' covers both cases; nothing built changes.",
+   "required_change": "V06 §2.10, `walls.waited`'s comment: \"or that a held building in an arch vault turns back, and the water ops\" → \"or that a held building in an arch vault or a shape-locked raised way's `vault`-use span turns back, a re-section on a kept trace with no lawful shape (V07 §3.11's palisade REPLACEMENT; row W14), and the water ops\"; and \"(§2.7's laws, law 2 (c), law 1 (9), (11);\" → \"(§2.7's laws, law 2 (c), law 1 (9)–(11);\". V06 §3.7.6 (5)'s continuity bullet: \"or for a held building in an arch vault (law 1 (9); its worked example *beneath*)\" → \"or for a held building in an arch vault or a shape-locked raised way's `vault`-use span (law 1 (9), (10); its worked example *beneath*)\"."
+  },
+  {
+   "id": "VF7-EPO-05",
+   "severity": "minor",
+   "kind": "EXAMPLE-AGAINST-LAW",
+   "owner": "V06",
+   "claim": "V06 ## 9's J-V6.91 (l. 4493), let stand by Part H's V06 sweep before J149 and law 2 (c), records 'an aqueduct created across a standing curtain crosses it on a span over its band, … a trace laid after a raised way runs on beneath its deck, crossing an aqueduct under one of its arches …, with continuity a hard rule (… never a trace waiting; §2.7's crossing table)'. Law 1 (2) (l. 2703–2713) merges a wall laid after an aqueduct round 'the aqueduct's arch or pier' where its channel lies within the wall's height, and law 2 (c) (l. 2834–2836) makes a trace with no lawful shape wait (`walls.waited`), as V06 §3.7.6 (5) says (l. 1618). The laws govern (l. 2891–2892); an example contradicting them is a minor.",
+   "required_change": "J-V6.91: \"chose that a raised way and a curtain never bear on each other — an aqueduct created across a standing curtain crosses it on a span over its band, a road deck comes down before it, and a trace laid after a raised way runs on beneath its deck, crossing an aqueduct under one of its arches and a road deck's carried way beyond its foot, a road deck's supports in its band built into its line — with continuity a hard rule (a moat that cannot pass beneath stopped at the under-deck strip's edges and reported, never a trace waiting; §2.7's crossing table),\" → \"*amended by §2.7's laws.* Chose that a raised way and a curtain never bear on each other — they meet by §2.7's laws (law 1 (2)–(4): an aqueduct crossing a curtain at its own level, over it on an arch or merged into it, whichever was laid first; a road deck coming down before a curtain standing when its course is laid and passing over one laid after it, its supports in the band built into its line; a road deck's carried way crossing beyond its foot) — with continuity a hard rule (a moat that cannot pass beneath stopped at the under-deck strip's edges and reported; a trace waiting only by §2.7's laws, law 2 (c)),\", the rest of the row as it stands."
+  },
+  {
+   "id": "VF7-EPO-06",
+   "severity": "minor",
+   "kind": "CITATION",
+   "owner": "V06",
+   "claim": "Part H's head binds every family text to cite '§2.7's laws' with the law's number, the outcome, row or cell following as its worked example. Eight sites in this lens cite the table alone (one restating law 1 (1)): V06 W68 (l. 351, and its last cell); V06 §3.7.4 (4) (l. 1532–1533); V06 §3.17 (9) (l. 2503–2504); V06 §3.19's lead (l. 2756); V06 §3.21's raised-way row (l. 3328); V06 §7's take-over row (l. 4151); V06 J-V6.114 and J-V6.140 (l. 4516, 4542: '*amended by §2.7's crossing table.*'); V05 T-V5-14 (l. 2565, 2567). Each resolves to an existing outcome or row; nothing built changes.",
+   "required_change": "V06 W68: \"the meeting by §2.7's crossing table (*beneath*; a founding *over the band* or *down before the wall*)\" → \"the meeting by §2.7's laws (laws 1–2; their worked examples *beneath*, a founding's *over the band* or *down before the wall*)\", and its last cell's \"§2.7's crossing table\" → \"§2.7's laws\". V06 §3.7.4 (4): \"a deck passing over the trace takes none, §2.7's crossing table\" → \"a deck passing over the trace takes none, §2.7's laws, law 1 (1)\". V06 §3.17 (9): \"(§2.7's crossing table, *down before the wall*; V06 §3.19 (5))\" → \"(§2.7's laws, law 1 (3), law 2 (c); its worked example *down before the wall*; V06 §3.19 (5))\". V06 §3.19's lead: \"a wall meets it by §2.7's crossing table (V06 §3.7.6 (5))\" → \"a wall meets it by §2.7's laws (V06 §3.7.6 (5))\". V06 §3.21's raised-way row: \"(`raised.waited`; §2.7's crossing table, *down before the wall*)\" → \"(`raised.waited`; §2.7's laws, law 1 (3), law 2 (c); its worked example *down before the wall*)\". V06 §7's take-over row: \"*beneath* (§2.7's crossing table)\" → \"*beneath* (§2.7's laws, law 1; its worked example the crossing table's *beneath*)\". J-V6.114 and J-V6.140: \"*amended by §2.7's crossing table.*\" → \"*amended by §2.7's laws.*\". V05 T-V5-14: \"(§2.7's crossing table, *unchanged meeting*)\" → \"(§2.7's laws, law 4; its worked example *unchanged meeting*)\", and \"§2.7's crossing table (row W12) names this clause\" → \"§2.7's laws' worked example, the crossing table's row W12, names this clause\"."
+  }
+ ],
+ "held_notes": []
+}
