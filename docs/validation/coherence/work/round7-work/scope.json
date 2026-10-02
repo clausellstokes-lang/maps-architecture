@@ -27,15 +27,6 @@
   "reported_by": "verify-agree-proof-r6t"
  },
  {
-  "id": "VAP-r6-03",
-  "severity": "minor",
-  "kind": "MATRIX-GAP",
-  "claim": "Round 6 wrote VAP-r5-05's manifest row (\u00a713.2, l. 18364\u201318365): \"Their `manifest.json` holds one row per file, and one per derived fixture a volume names \u2014 a run-time, test-side mutation of one file, never written as a file (V12 \u00a71b's `<dossier>@pop\u00d7k` levels; V08 \u00a77.1's crisis, force and required-keys fixtures)\".\nThe volumes name many more run-time mutations than the parenthesis lists, and V08 keeps two classes:\n- V08 \u00a77.1 (l. 3243\u20133247): \"Fixtures are \u00a713.2's frozen dossier set \u2026 plus test-side mutations of a fixture's digest or JSON made by the harness at run time, never written back into a fixture file. V12's item-122 and item-125 fixtures are test-side mutations made here (X-V12-5), each in \u00a713.2's frozen manifest\". So some mutations are registered and the rest are not.\n- The tests name further mutations of their own: T-V7-69's two village mutations (written this round), T-V9-85's copy whose reconstruction condition the dossier names not (this round), T-V10-52's copy whose plague is unnamed, T-V8-36's `city-1` mutated to 8 000 people, and T-V8-61 (a)'s reductions and status mutations.\nRead literally, \"one per derived fixture a volume names\" gives each of these a manifest row. Read with V08 \u00a77.1 and the parenthesis, only those that V12's specs look up by id take one. V12's spec field `dossier` is \"a fixture id of the frozen manifest\" (V12 l. 633). One harness registers every test's mutation and another only V12's ids. Nothing in the product or in a bar's outcome changes, so the grade is minor.",
-  "required_change": "\u00a713.2's sentence: \"and one per derived fixture a volume names \u2014 a run-time, test-side mutation of one file, never written as a file (V12 \u00a71b's `<dossier>@pop\u00d7k` levels; V08 \u00a77.1's crisis, force and required-keys fixtures):\" \u2192 \"and one per derived fixture a spec or bar refers to by its fixture id \u2014 a run-time, test-side mutation of one file, never written as a file (V12 \u00a71b's `<dossier>@pop\u00d7k` levels; V08 \u00a77.1's crisis, force and required-keys fixtures, X-V12-5); a mutation a test makes inside its own run and names only in its own text (V08 \u00a77.1's other test-side mutations; V07's T-V7-69, V09's T-V9-85 and V10's T-V10-52 copies) takes no row:\". This can be written in the same block as VCS-r6-05's field comments.",
-  "owner": "scope",
-  "reported_by": "verify-agree-proof-r6t"
- },
- {
   "id": "VEL6-r6-02",
   "severity": "major",
   "kind": "EDGE-UNTESTED",
@@ -78,15 +69,6 @@
   "owner": "scope",
   "claim": "Two T110-2 clauses new this round read V04's arch vaults. T110-2 (4) (base l. 18570\u201318573) asserts that a hand `drawWall` across an aqueduct with a `vault` span in its line removes 'the `vault` span's arch vault \u2026 in the wall's commit (a fate in the hand dry run, the hand undo restoring it with the same id)'. T110-2 (1) (l. 18543) asserts 'a `vault` one read `open` with no chamber'. The arch vault and `ArchVaults.reconcile` land at V04's U3 (V04 l. 3207: 'the arch vaults and `ArchVaults.reconcile`'), inside M6-U, which \u00a716 puts after M5. \u00a713.8's T110 row (l. 19455) runs T110-2 at M3a. It names a later exit only for the epoch clauses (M4; M6-E's E2 and E3), and R6-09's sweep scheduled only those. Before U3 no arch vault exists, so (4)'s clause cannot run and (1)'s holds vacuously. INDEX \u00a75 risk 2 and R5-05 (c) move such a clause to the first exit after its provider. V04's T-V4-63 runs the same case at its own step, so nothing built changes (VCS-r5-01's class, R6-09).",
   "required_change": "\u00a713.8's T110 row, timing cell: after '\u2026 those of (1), (2), (4), (5), (7) and (8) on volume 6's engine with M6-E's E2 and E3' add '; (1)'s and (4)'s arch-vault clauses at the later of their milestone and M6-U's U3, which lays the arch vaults (V04 \u00a78)'.",
-  "reported_by": "verify-scope-r6t"
- },
- {
-  "id": "VCS-r6-05",
-  "severity": "minor",
-  "kind": "NEW-PROBLEM",
-  "owner": "scope",
-  "claim": "VAP-r5-05's new row type (\u00a713.2, base l. 18369\u201318374) adds `kind: 'derived'` and `derivedFrom?: { file; mutation }`. A derived fixture is 'never written as a file'. `DossierFixtureRow` still requires `file`, `seed` ('the synthetic seed the file was generated from'), `config`, `generatedBy`, `population` and `ourRung` on every row, and says nothing of them for a derived row. V12 \u00a71b names a derived fixture by its id, '`<dossier>@pop\u00d7k`' (V12 l. 633: 'a fixture id of the frozen manifest'), and the row has no id field but `file`. A `@pop\u00d7k` row's population and rung are not its source's. One harness keys the row by its source's file, another by the derived id, and V12's `dossier` lookup misses in one of them. This is test-kit only.",
-  "required_change": "\u00a713.2's `DossierFixtureRow`, two comment changes. (1) `file: string` takes the comment '/* the row's fixture id (V12 \u00a71b's `dossier`): a file's name, or for a `derived` row the id its volume names \u2014 `<file>@pop\u00d7k`, or V08 \u00a77.1's fixture name \u2014 naming no file */'. (2) `derivedFrom`'s comment adds '; its provenance fields (`sfLine` to `generatedBy`) are its source row's, its `population`, `tierWord` and `ourRung` those of the mutated dossier'.",
   "reported_by": "verify-scope-r6t"
  }
 ]

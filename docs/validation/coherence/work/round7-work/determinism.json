@@ -1,14 +1,5 @@
 [
  {
-  "id": "VAH-r6-03",
-  "severity": "minor",
-  "kind": "DISAGREE",
-  "owner": "determinism",
-  "claim": "R6-03's residue in the base's one statement of the port. \u00a77.7 item 1 (base l. 11946\u201311950): 'the port DIFFS the incoming dossier against the dossier facts the map already carries \u2026 writes one `DossierChange` per changed element (\u00a77.7 item 13), dates it by \u00a74.11's dating rungs (item 76) and emits its events'; \u00a714 port item 4 (l. 19919\u201319920) says 'into one `DossierChange` per changed element (\u00a77.7 item 13)'. Since round 6, an absorb whose week is not after the last epoch's writes no change for three things it finds changed: a late calamity, its F5 targets' records and a condition naming it. Their carried facts stay as they were, and the next absorb past that week carries them (\u00a74.11 *The clock* (4), l. 8531; V08 \u00a73.6 (3), (4), l. 1873\u20131876, 1927\u20131928; V08 \u00a73.2, l. 1530\u20131531). R6-01 (2) (d) puts the base's summaries in each ruling's sweep. R6-03's sweep searched \u00a77.7 item 10 and \u00a714's port comments for a held list, but not item 1's 'one per changed element'. Read alone, item 1 writes a `DossierChange` for each of the three, and the ledger fold (`carried[key] = after`) would then carry them. A port builder follows \u00a74.11 (4) and V08 \u00a73.6 (3), which item 1 cites by '\u00a74.11', so nothing built changes. \u00a714 item 4's 'groups them by \u00a74.11's cadence' carries the exception by citation; its 'one per changed element' does not.",
-  "required_change": "Determinism, \u00a77.7 item 1: 'writes one `DossierChange` per changed element (\u00a77.7 item 13), dates it by \u00a74.11's dating rungs (item 76)' \u2192 'writes one `DossierChange` per changed element (\u00a77.7 item 13) \u2014 none, in an absorb whose week is not after the last epoch's, for a late calamity, its F5 targets' records and a condition naming it, which the next absorb past that week carries (\u00a74.11 *The clock* (4)) \u2014 dates it by \u00a74.11's dating rungs (item 76)'. Second end, scope: \u00a714 port item 4, 'into one `DossierChange` per changed element (\u00a77.7 item 13)' \u2192 'into one `DossierChange` per changed element (\u00a77.7 item 13; none for what \u00a74.11 *The clock* (4) leaves uncarried)'.",
-  "reported_by": "verify-agree-host-r6t"
- },
- {
   "id": "VDC6-01",
   "severity": "major",
   "kind": "CONFLICT",

@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VV1112-r6-03",
+  "severity": "minor",
+  "kind": "EDGE-UNTESTED",
+  "owner": "V11",
+  "claim": "This round's sweep (R6-07) added two outcomes to EI-V11-EDGE-5 (l. 4784): at decay level 0, \"a building under a disaster look drawn at the look's level (V11 \u00a73.25.9)\"; at level 1, \"each from its entry week into the plan (V03 \u00a75.6 (2) (a)\u2013(b))\". Its test cell still reads \"T-V11-47; T-V11-45 (s), (u)\", and neither test runs either case. T-V11-47 is a compile bar over the two tables. T-V11-45 (u) (l. 5044) lists \"the damage tables' edges (levels 0 and 1, a material with no row, a range edited out of its shares)\" under the bar \"every stated outcome\"; no disaster look and no late-entering element is among its cases. The outcomes are V03's and \u00a710.2's, run by T-V3-40 (b) (V03 l. 2907: \"a building under the look and its own decay draws the higher level on every element\") and T-V3-39 (c) (an element a re-cut or `extend` adds, from its entry week). The row names neither. One builder of T-V11-45 (u) builds a disaster-look fixture to meet \"every stated outcome\"; another does not. Nothing built changes: a test list omitting a case its own row names (R6-01), MINOR.",
+  "required_change": "EI-V11-EDGE-5's test cell (l. 4784): \"T-V11-47; T-V11-45 (s), (u)\" \u2192 \"T-V11-47; T-V11-45 (s), (u); T-V3-40 (b) (a building under a disaster look at the look's level), T-V3-39 (c) (an element compared from its entry week)\".",
+  "reported_by": "verify-vol-V11-V12-r6t"
+ }
+]

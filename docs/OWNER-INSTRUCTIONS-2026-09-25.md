@@ -266,3 +266,8 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   docs/validation/coherence/narrowing-r7.md).
 - (2026-10-02 ~04:25) After asking how walls and viaducts met "in literal history": "I think I take back what I said, keep
   iterating" — J142 withdrawn; the raised-way × wall family keeps its full scope and is iterated (J143).
+- (2026-10-02 ~04:55) "Locked regarding walls and aqueduct and similar structure should be considered for placement, not
+  permanent shape. So when they do intersect, absolutely change the shape to be cohesive and coherent, despite being locked."
+  / "The rest just seems you need to make specific rules. Why don't you just focus entirely on solving this problem first before
+  moving on?" — a lock on these structures holds placement, not shape; the coherence loop works the raised-way × wall family alone
+  until it is solved (J144).

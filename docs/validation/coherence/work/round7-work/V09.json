@@ -7,23 +7,5 @@
   "required_change": "V09. (1) \u00a74.9's `bend.raised.underSpan` row, after its line, adds: '\u2014 and, for a way whose crossing of a wall's trace was moved clear of the under-deck strip, \"{name} crosses {wall} at a gate clear of {way}, {m} m off your line.\" (`{wall}` as in `bend.wall.raisedCrossing`'s gate form) \u2014 the line taking its form by what was moved'. (2) T-V9-52: 'a road drawn across that wall there crosses it clear of the strip, with `bend.raised.underSpan`' adds ' in its wall form'.",
   "owner": "V09",
   "reported_by": "verify-agree-tools-r6t"
- },
- {
-  "id": "VAT-r6-06",
-  "severity": "minor",
-  "kind": "DISAGREE",
-  "claim": "One word, 'Pins', now names two concepts on V09's screens (principle (2)). The Dress panel's new switch for \u00a78.2's `StyleSheet.groups.pins` \u2014 model pins, hood pins and ground-access symbols \u2014 is labelled **Pins** (l. 1742, l. 1825, l. 4003). \u00a74.19's **Pins** control (l. 2908: 'Add a pin', view pins) and the Picture tab's **pins and public notes** (l. 4071; \u00a711.2's `ExportOpts.pins`) mean the view pins. A user who turns the Dress panel's Pins off sees every view pin still drawn. Nothing built changes; the label names the wrong concept.",
-  "required_change": "V09: the Dress panel's switch '**Pins**' \u2192 '**Map symbols**' (\u00a78.2's `StyleSheet.groups.pins`: model pins, hood pins and ground-access symbols). At l. 1742 (the T12 `dress` sources cell): 'the Dress panel's **Trees** and **Map symbols** switches'. At l. 1825: the controls cell 'the **Trees** and **Map symbols** switches' and the events cell 'Trees and Map symbols \u2192 `setStyle` of `StyleSheet.groups` (`trees`, `pins`; \u00a78.2)'. At l. 4003: 'the **Trees** and **Map symbols** switches'. The record's member name `pins` stands.",
-  "owner": "V09",
-  "reported_by": "verify-agree-tools-r6t"
- },
- {
-  "id": "VV910-r6-02",
-  "severity": "major",
-  "kind": "WIRING",
-  "claim": "Round 6 makes an open card re-ask its view-bound answer \"at each change of that view's \u00a72.9 `week`, `yearWeek`, `festival` or `crises` \u2026 so V07 \u00a74.5's crisis, season and festival rows \u2026 state the view on screen\" (V09 \u00a72.7, l. 622\u2013625), and \u00a72.12's `WhyCardModel` row (l. 989) otherwise rebuilds only \"on `doc.changed` naming the subject\". At THORP, HAMLET and VILLAGE the card's crisis row is not its own: \"a `VillageField`'s and a `VillageEnd`'s row is the village `WhyProvider`'s answer row (V07 \u00a74.5), shown once, the card adding none of its own\" (V09 \u00a74.21.12 (4), \u00a75.8). V07 \u00a74.5 (l. 3138\u20133146) computes that row from `crisisLookYields` on the end's buildings (`villageUnitPlots`) and from the view's `looks` answer. Both change at a `doc.changed` that names neither the end nor the field: a commit beginning a Works on the end's last building not yet handed over (it names the building and its Works), an absorb that adds or ends a condition (it names the overlay), and their undo. So a card left open on an end keeps \"For now: Ruined quarters, \u2026\" after the look has left every building, or never shows a famine an absorb brings. At TOWN and above the same card's crisis `facts` row is re-read \"at each `doc.changed`\" (\u00a72.12's crisis row, l. 1010, which names the Works hand-over), so one owner rule (item 122 (f): the card names the crisis) gets two behaviours by rung. A build agent following \u00a72.12 builds the stale card; T-V9-65's view-bound clause runs view-key changes only.",
-  "required_change": "(1) V09 \u00a72.7: \"\u2014 a scrub, the Season control, a festival or crisis preview, **Show crises** \u2014 as a cached answer is at `onEffectiveKey`\" \u2192 \"\u2014 a scrub, the Season control, a festival or crisis preview, **Show crises** \u2014 and at each `doc.changed` (a commit, an absorb, an undo or redo, a regenerate), at which \u00a711.2's `looks` evaluation it reads is re-read as the crisis card's is (V09 \u00a72.12), as a cached answer is at `onEffectiveKey`\". (2) \u00a72.12's `WhyCardModel` row: \"on `doc.changed` naming the subject\" \u2192 \"on `doc.changed` naming the subject (a view-bound answer on each `doc.changed`, V09 \u00a72.7)\". (3) T-V9-65's view-bound clause: \"\u2026 and `crises` and draws each change's rows (V09 \u00a72.7)\" \u2192 \"\u2026 and `crises`, and at a `doc.changed` naming another entity whose commit changes the provider's view-bound rows, and draws each change's rows (V09 \u00a72.7)\".",
-  "owner": "V09",
-  "reported_by": "verify-vol-V09-V10-r6t"
  }
 ]

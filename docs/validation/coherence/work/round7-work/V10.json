@@ -1,14 +1,5 @@
 [
  {
-  "id": "VAT-r6-05",
-  "severity": "major",
-  "kind": "MATRIX-GAP",
-  "claim": "The shared subject `StyleSheet.groups` stops at the canvas and never reaches the clerk's tool. R6-10 made the trees and pins drawing groups style state, switched by a logged `setStyle` of `StyleSheet.groups`, 'and no drawing group by `setLayer`' (\u00a78.4 l. 13677\u201313678; \u00a72.1 l. 555\u2013556; \u00a78.2 l. 12601). V09's T12 `dress` gained the **Trees** and **Pins** switches (l. 1825: 'Trees and Pins \u2192 `setStyle` of `StyleSheet.groups`'). V10's T12 tool did not follow. `DressInput` (l. 935) has `layer?: { layer: string; visible: boolean }`, encoded as `setLayer { layer, spec: { visible } }` (V10 \u00a74.1's T12 row, l. 2821), and no member for a group. The tool description (l. 1425) offers 'layer visibility'. So 'hide the trees' asked of the clerk has no encoder form. One builder passes `layer: 'trees'` into a `setLayer` whose `Layer` (\u00a72.1: underground, ground, sky) does not admit it, and the request fails where V09's switch succeeds. Another reaches for the escape hatch with a guessed row operation. Canvas and clerk then write different bytes for one declaration (T101-3). T-V10-4, which runs 'every tool and every input form', has no such form to run. R6-10's sweep reached V01, V04, V09, model and pipeline, but not V10's `dress`.",
-  "required_change": "V10. (1) `DressInput`: 'layer?: { layer: string; visible: boolean }' \u2192 'layer?: { layer: Layer /* \u00a72.1: underground, ground or sky; a drawing group's name fails the schema, an is_error result with no event (V10 \u00a73.4 (3)) */; visible: boolean }; groups?: { trees?: boolean; pins?: boolean } /* T12's Trees and Pins switches: \u00a78.2's StyleSheet.groups \u2014 trees every tree instance and block tree, pins every model pin, hood pin and ground-access symbol */'. (2) \u00a74.1's T12 `dress` row: the inputs cell '`preset`, `layer`, `restyle`' \u2192 '`preset`, `layer`, `groups`, `restyle`'. The events cell adds '; `groups` \u2192 the `setStyle` of `StyleSheet.groups` that V09's Trees and Pins switches emit, one row operation per member given (\u00a78.2; V09 \u00a74.5's T12 row), the bytes of those switches'. (3) The `dress` tool description (l. 1425): 'and layer visibility' \u2192 ', layer visibility and the trees and pins switches'. (4) T-V10-4 adds: '`dress { groups: { trees: false } }` and V09's Trees switch give one `setStyle`, byte for byte; `dress { layer: { layer: 'trees', visible: false } }` gives an is_error result with no event'.",
-  "owner": "V10",
-  "reported_by": "verify-agree-tools-r6t"
- },
- {
   "id": "VEL6-r6-01",
   "severity": "major",
   "kind": "EDGE-UNDEFINED",
@@ -16,23 +7,5 @@
   "required_change": "1. V10 l. 1686, the raised-way row's last cell: \"each span's use with its reason (`open` by way, water, flood, tall, low, slope or land; `vault`; `user`) from the base's span record\" \u2192 \"each span's use with its reason (`open` by way, water, flood, tall, low, slope or land; `vault`; `user`) from the base's span record \u2014 but a span whose under-deck strip a wall's band or wall strip meets is told `open` while that band or strip lies there, with \"a wall runs under this arch\", whatever its recorded `use`, and no arch vault named in it (\u00a72.7's crossing table, *beneath*; V09 \u00a74.20.6 (2))\". 2. T-V10-41 adds: \"on T110-2 (3)'s c14 fixture with a `vault` span of its S4 viaduct under stage 2's ring, the clerk's read of the viaduct tells that span `open` with \"a wall runs under this arch\", as its V09 panel and why card do, and after a hand `delete` of that run tells it `vault` with its arch vault\".",
   "owner": "V10",
   "reported_by": "verify-edges-life-r6t"
- },
- {
-  "id": "VV910-r6-04",
-  "severity": "minor",
-  "kind": "EDGE-UNTESTED",
-  "claim": "Round 6's T-V10-50 (33) (l. 3165) adds \"with both \u2014 a building a disaster look stands over and a field a famine look draws bare \u2014 each look's `over` as asked with that one alone\", run \"on T-V10-52's fixtures\". T-V10-52's B-DOSSIER-lite fixture carries no famine, and V08 \u00a77.1's crisis fixtures (l. 3246\u20133253; V12 \u00a73.15.12, l. 2694\u20132699) carry the famine and the fire \"each standing through part of the year\", the one week named for standing together being the siege's, the quarantine's and the refugee wave's. No cited fixture names a week in which a disaster look and a famine look stand at once, so the clause may run with one of them absent (R5-10, kept by R6-11: a test that names a case runs it on a fixture that holds it; R6-01 grades the omission minor).",
-  "required_change": "T-V10-50, clause (33): \"with both \u2014 a building a disaster look stands over and a field a famine look draws bare \u2014\" \u2192 \"with both \u2014 on a test-side copy of V08 \u00a77.1's famine fixture whose fire's linked `reconstruction` condition stands in the famine's weeks, a building that disaster look stands over and a field the famine look draws bare \u2014\".",
-  "owner": "V10",
-  "reported_by": "verify-vol-V09-V10-r6t"
- },
- {
-  "id": "VV910-r6-05",
-  "severity": "minor",
-  "kind": "NEW-PROBLEM",
-  "claim": "Round 6 gives the look read a `field` (\u00a72.12, l. 954; \u00a72.13's `over` comment; \u00a73.5; R6-06), but \u00a72.13's code header for the read (l. 1000\u20131002) still reads \"the festivals and the crisis looks projected from \u00a711.2's `looks` reader (LooksAnswer) at the session's effective key, with the read's `building` where it names one\". The repair's sweep conformed the `over` and projection comments below it but not this line. Wording only.",
-  "required_change": "V10 \u00a72.13's look-read comment: \"with the read's `building` where it names one, its parts read as those sections state\" \u2192 \"with the read's `building` where it names one and its `field` where it names one, its parts read as those sections state\".",
-  "owner": "V10",
-  "reported_by": "verify-vol-V09-V10-r6t"
  }
 ]
