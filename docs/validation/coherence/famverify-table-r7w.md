@@ -79,9 +79,9 @@ Three fixed, two closed by a ruling, one partly fixed (VF7v-TBL-02, its residue 
   §3.19 (5) ("a curtain's line, band or wall strips would lie over an end of it"), and the fixed-place sentence, l.
   3260–3261 ("its ramps, stairs and feet widened by the strip margin (law 1 (4), (6))"). A builder who builds the list
   and §4.3 as written buffers the bare ramp, stair or foot: a pull or cost field, which runs its least-cost line along
-  an impassable's boundary wherever that boundary is on its way, lays the wall strips (or, past a stair, the band)
-  inside the strip margin round the end, and an aqueduct course laid by §4.3 stands its ramp's or foot's margin under a
-  standing wall's setback or glacis. Both break law 1 (4), and §5.3's law-1 row fails that build at the commit
+  an impassable's boundary wherever that boundary is on its way, lays its wall strips up to the bare ramp, stair or
+  foot, inside the strip margin round it, and an aqueduct course laid by §4.3 stands its ramp's or foot's margin under
+  a standing wall's setback or glacis. Both break law 1 (4), and §5.3's law-1 row fails that build at the commit
   (`E_INVARIANT`). The second reading (the ends) is lawful. One reading of a text a builder builds breaks a law-1
   invariant: not a valid choice (J151) — MAJOR, as the first fix pass graded the same list's missing over-crossing
   spans (`adjudication-r7v.md`, VF7-GEN-01). No earlier check named it: Part L's correction 3 (Part L l. 669–672) itself
