@@ -18,8 +18,15 @@
 #       -generation-r7 VF7-GEN-01); live §2.7 read at every site (l. 2290–2311, 2525–3404)
 # - [x] P3 block composed (count-asserted substitutions on the live §2.7; each old text found exactly as the
 #       adjudication quotes it, each new text present once after)
-# - [ ] P4 dry run on a copy (apply-blocks.py)
-# - [ ] P5 result saved; LANDED
+# - [x] P4 dry run on a copy: apply-blocks.py — 1 found, 1 applied, 0 skipped, audit OK; headings 153 → 153; fences
+#       balanced 140 → 140; title block unchanged; rationale unchanged; document 24,062 → 24,074 lines; every line outside
+#       §2.7 byte-identical, §2.7 equal to the generated body. doc_checks.py on §2.7 — WARNING: reference corpus
+#       INCOMPLETE (captures, research/patreon, research/devlogs, research/ftg-docs, research/external absent): NOT
+#       authoritative, provisional. Counts (live → result): C1 5 → 5 (0 unreviewed); C2 1 → 1 (0); C3 82 → 83, 1
+#       unreviewed — "fields outside the model digest and inside the records digest" (M11's adjudicated words), shared only
+#       with the program's own research/findings/dwellings-synthesis.md, which uses this design's digest terms: no
+#       reference text; C4 1 → 1 (0); S1 0 → 0; S2 314 → 314 (0)
+# - [x] P5 result saved (docs/validation/coherence/results/coherence_repair-model-r7v.json); LANDED
 #
 # EDITS (adjudication-r7v Part H · model; live line numbers; every one inside §2.7)
 # - M1  VF7-TBL-01 FIX — the laws' four citations in Part L's words: *The tiers* (l. 2634) "(J148: the owner's rule and
