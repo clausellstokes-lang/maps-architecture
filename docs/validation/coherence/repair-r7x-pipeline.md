@@ -8,7 +8,8 @@
 # PROGRESS
 # - P1 brief read whole; adjudication-r7x.md read (head, decision table, root cause F1–F5, Part H · pipeline P1–P9, held
 #   notes, builders' choices): done
-# - P2 issue sources (famverify-table-r7w, famverify-generation-r7w, famverify-tests-r7w) and the live subsections: next
-# - P3 blocks composed by count-asserted substitutions; R7-01 (2) sweep of the unit: pending
+# - P2 issue sources (famverify-table-r7w, famverify-generation-r7w, famverify-tests-r7w) and the live subsections: done
+# - P3 blocks composed by count-asserted substitutions (7 REPLACE, 26 edits); R7-01 (2) sweep of the unit: done
+#   (blocks in scratch coherence/r7x-pipe/blocks.txt; next: dry run, then append them here)
 # - P4 dry run on a scratch copy, receipts: pending
 # - P5 result file and LANDED: pending
