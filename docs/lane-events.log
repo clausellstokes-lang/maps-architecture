@@ -3826,3 +3826,4 @@
 2026-10-02 22:47 coherence/repair-pipeline-r7y CHECKPOINT 5 REPLACE blocks composed (29 adjudication edits P1–P14 + 1 sweep edit), dry run clean (5/5 applied, audit 0 not OK), doc_checks exit 0 with 2 proposed allow rows; next: anchors check, write block file, result, LANDED
 2026-10-02 22:47 coherence/repair-determinism-r7y LANDED docs/validation/coherence/repair-r7y-determinism.md docs/validation/coherence/results/coherence_repair-determinism-r7y.json
 2026-10-02 22:47 coherence/orchestrator NOTE repair-determinism-r7y landed (5 blocks, 0 ruling requests); 6 repair-r7y seats running
+2026-10-02 22:47 coherence/repair-V06-r7y LANDED docs/validation/coherence/repair-r7y-V06.md docs/validation/coherence/results/coherence_repair-V06-r7y.json
