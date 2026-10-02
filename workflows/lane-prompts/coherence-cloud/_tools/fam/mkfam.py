@@ -1,6 +1,6 @@
 # Render the six family-focused verify briefs.  Usage: python3 mkfam.py R
 import sys, os, datetime
-SP = os.path.dirname(os.path.abspath(__file__)); R = int(sys.argv[1]); P = R - 1
+SP = os.path.dirname(os.path.abspath(__file__)); R = sys.argv[1]; P = R[:-1] if R.endswith('v') else str(int(R) - 1)   # '7v': round 7's family fix pass, its earlier findings famverify-*-r7
 OUT = '/home/user/maps-architecture/workflows/lane-prompts/coherence-cloud'
 LENSES = [
  ('table', 'TBL', 'the laws and their examples', """§2.7's support step (6): the LAWS as the design now states them (terms, laws 1–4 with law 1 (1)–(11), the tiers, the check, the corrections and the veto list), then the worked examples — the crossing table, the way-and-channel table and the lock, bent-group and fixed-place sentences — read as a builder would build them.
@@ -45,5 +45,11 @@ for lens, code, name, body in LENSES:
     t = open(f'{SP}/template.txt').read()
     t = (t.replace('@@LENS@@', lens).replace('@@LENSCODE@@', code).replace('@@LENSNAME@@', name).replace('@@LENSBODY@@', body)
            .replace('@@R@@', str(R)).replace('@@P@@', str(P)).replace('@@DATE@@', datetime.date.today().isoformat()))
+    if R.endswith('v'):
+        L = R[:-1]
+        t = (t.replace(f"adjudication-r{R}.md's Part L", f"adjudication-r{L}.md's Part L (the laws; the design states them at §2.7) and adjudication-r{R}.md (the fix pass's rulings)")
+               .replace(f"  1. adjudication-r{R}.md: Part L (the laws, normative)", f"  1. adjudication-r{L}.md: Part L (the laws, normative); then adjudication-r{R}.md whole (the fix pass's dispositions of the round-{L} family checks' findings, its builders' choices and its held notes); in adjudication-r{L}.md also")
+               .replace(f"restated in adjudication-r{R}.md", f"restated in adjudication-r{L}.md")
+               .replace(f"(docs/validation/coherence/adjudication-r{R}.md, with its Part P from the probe passes)", f"(docs/validation/coherence/adjudication-r{L}.md, with its Part L laws and its Part P from the probe passes), then checked it with six family checks (famverify-*-r{L}.md) and decided their findings in a fix pass (adjudication-r{R}.md)"))
     open(f'{OUT}/coherence_famverify-{lens}-r{R}.prompt.txt', 'w').write(t)
     print(lens, len(t))
