@@ -3623,3 +3623,6 @@
 2026-10-02 18:01 coherence/repair-V09-r7v LANDED docs/validation/coherence/repair-r7v-V09.md docs/validation/coherence/results/coherence_repair-V09-r7v.json
 2026-10-02 18:01 coherence/repair-V12-r7v LANDED docs/validation/coherence/repair-r7v-V12.md docs/validation/coherence/results/coherence_repair-V12-r7v.json
 2026-10-02 18:01 coherence/repair-V01-r7v LANDED docs/validation/coherence/repair-r7v-V01.md docs/validation/coherence/results/coherence_repair-V01-r7v.json
+2026-10-02 18:02 coherence/repair-V05-r7v CHECKPOINT P0 done (brief, adjudication-r7v Part H · V05: one END V5-1 for VF7-EPO-06; issue list empty; skeleton written); next: P1 read live ## 7 whole, sweep
+2026-10-02 18:02 coherence/repair-V07-r7v CHECKPOINT P0-P1 done (brief, adjudication-r7v V7-1/V7-2, famverify-tests-r7); next: read live V07 sites
+2026-10-02 18:02 coherence/repair-determinism-r7v CHECKPOINT P1 done (live §5.2, §5.3, §5.4, §6.2, §7.1, §7.3 read whole); P2 blocks generated (6 REPLACE, 14 count-asserted edits, word-level check OK); next: dry run on a copy, sweep, report
