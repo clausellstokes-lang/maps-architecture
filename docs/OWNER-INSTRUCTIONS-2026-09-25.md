@@ -296,3 +296,6 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
 - (2026-10-02 ~15:20) After the program reported the laws probe's plateau (majors per pass 31, 29, 19, 15, 14): "Defer + cap
   growth (Recommended)" — one plain shape-lock rule in the family, lock behaviour under undo, redo, re-grade and repair designed
   in round 8 with the two-axis lock; Part L must not grow; back to the owner if a pass still finds 10 or more majors (J150).
+- (2026-10-02 ~17:50) After laws probe pass 8 (12 majors, falling about one a pass): "Valid-choice minor + repair
+  (Recommended)" — where every reading gives a valid map the case is a minor the builder picks and fix-list.md lists; real
+  defects stay major; the focused probes stop; the laws go into the design and the six family checks judge it (J151).
