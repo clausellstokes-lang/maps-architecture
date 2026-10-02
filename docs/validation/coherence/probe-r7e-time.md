@@ -18,11 +18,12 @@
 
 **Line references.** `adj l.` = `docs/validation/coherence/adjudication-r7.md` at commit `687ade0` (J147 applied); `base
 l.` = `docs/ARCHITECTURE.md`; `Vnn l.` = `docs/volumes/Vnn-*.md`; `PROGRESS l.` = `docs/PROGRESS.md`. Part L's terms are
-adj l. 260–343 (*what stands of a wall* 272–277, *the band* 278–289, *anything across a strip* 308–312, *held* 313–321,
-*placement* and *shape* 322–326, *order* 327–337, *commit* 338–343), law 1 l. 345–372, law 2 l. 374–441, law 3 l. 443–456,
+adj l. 263–343 (*what stands of a wall* 272–277, *the band* and *the wall strips* 278–288, *the strip*, *a span's strip*
+and *beyond the foot* 289–296, *the zone* 304–305, *a held building's strip* 306–307, *anything across a strip* 308–312,
+*held* 313–321, *placement* and *shape* 322–326, *order* 327–337, *commit* 338–343), law 1 l. 345–372, law 2 l. 374–441, law 3 l. 443–456,
 law 4 with (G2) l. 458–473, the check l. 475–483, the veto list l. 515–605.
 
-**Grading (J146 applied to J141; adj l. 246–250, the brief).** MAJOR only where (a) the laws, run as one resolver, give two
+**Grading (J146 applied to J141; adj l. 247–250, the brief).** MAJOR only where (a) the laws, run as one resolver, give two
 outcomes or none, (b) a law contradicts an owner rule (item 110 (b), (f); item 114; item 101 R2; J144; J147), or (c) a law-1
 invariant is unchecked by §5.3's row and T110-4; a blocker is a law that cannot be built or that gives a wrong result on a
 common path. MINOR: (d) an example contradicts a law. A case missing from the examples is no finding.
@@ -85,10 +86,10 @@ line (W7's "—" C1: a founding, an epoch route's priced deck, a hand declaratio
    `walls.fateWeights`: the common epoch path. A wrong result on a common path is a blocker (the grading).
 2. A replay's burial lists **runs** — a former fabric is "the ruins one district's decline left in one epoch (… its enceinte
    runs whose condition is `dismantled` …) — with the towers and gates drawn on them", and the runner "clears the listed
-   surface records (existence `cleared`, cause `rule:burial`)" (V06 l. 3215–3224) — while the term decides by the
+   surface records (existence `cleared`, cause `rule:burial`)" (V06 l. 3216–3224) — while the term decides by the
    **record**. Where one district's decline left some runs of a ring `dismantled` and its other runs stand, either (A) the
    record is cleared and the whole ring "stands nowhere": its standing runs are no obstacle, and an aqueduct founded later
-   may stand a pier on one (law 1 (2) silent, against item 110 (b) as veto 4 reads it, adj l. 527–530); or (B) the record
+   may stand a pier on one (law 1 (2) silent, against item 110 (b) as veto 4 reads it, adj l. 528–530); or (B) the record
    is not cleared and its buried runs "stand whole": every `vault` span over them `open` for ever — PRB7C-TIM-09's closure
    ("it clears the runs, so nothing lies across (law 1 (8)) and the chamber is laid again in the burial's commit", adj l.
    2606) failing again.
@@ -111,7 +112,7 @@ across, the ring road a way laid after the raised way, row (c)).
 **Law or term.** *Anything across a strip* (adj l. 308–312): "whatever is laid on the ground within it, and wet ground: …
 a reservation, a plot or building, a grove, another raised way's support, ramp, stair or foot"; law 1 (8) (adj l.
 363–367); law 1 (9): "nothing lies across the strip of the span whose chamber seats it" (adj l. 368–369); law 2's *A
-`vault` span's reading* (adj l. 398–399); *Several raised ways* (adj l. 260–262: "a span's strip is its own").
+`vault` span's reading* (adj l. 398–399); the Terms' lead (adj l. 263–265: "a span's strip is its own").
 
 **The case.** (1) A declared placement seated in an arch vault (T6 `place`, a skeleton `placeAt`; V04 §3.5.4 (d)),
 locked or not, at every commit after it is seated — the arch vaults over time. (2) Two raised ways whose decks cross,
@@ -124,7 +125,7 @@ reservation, an oasis's grove", base l. 2733–2734, and A's strip read `open` i
 **Claim.**
 1. A declared placement "seats the use on one plot equal to the chamber's floor and one single-storey building under its
    ceiling" (V04 l. 1722–1724), the floor lying "between the raised-way piers' inner faces (the deck's plan outline on
-   ground part 0)" (V04 l. 1699–1700) — the span's own strip by the term (adj l. 294–296). By the term that plot and
+   ground part 0)" (V04 l. 1699–1700) — the span's own strip by the term (adj l. 291–292). By the term that plot and
    building lie across the span's own strip, so law 1 (8) reads it `open`: no chamber, so no seat, so nothing across, so
    `vault`, so a chamber and a seat — no fixed point; and law 1 (9)'s "nothing lies across the strip of the span whose
    chamber seats it" is broken by the building it protects. The laws give no outcome for any seated arch vault.
@@ -134,7 +135,7 @@ reservation, an oasis's grove", base l. 2733–2734, and A's strip read `open` i
    reservation iff B reads `vault` iff A's strip is none iff A reads `open` — two fixed points (A `vault` and B `open`, or
    A `open` and B `vault`). Both pass §5.3's row ("a `vault` span with anything across its own strip read `open`, one
    with nothing across read `vault`", E-D13, adj l. ~1966), so which chamber V04 lays, every reader of `use` (§11.1's
-   GeoJSON `span` and CityJSON `BridgeRoom`, E-R2, adj l. 2014–2019; V09's panel and V10's told `use`, E-V9-8, adj l.
+   GeoJSON `span` and CityJSON `BridgeRoom`, E-R2, adj l. 2014–2018; V09's panel and V10's told `use`, E-V9-8, adj l.
    2352–2360; V01's crossing rule, E-V1-1) and the model digest turn on the reconcile's order. Read the other way — "a
    reservation" as §2.5's `Reservation` only, the list naming another raised way's support, ramp, stair and foot alone —
    both read `vault` and V04 lays two arch vaults on one ground. The term says neither, and law 3 orders lawful shapes,
@@ -153,14 +154,14 @@ after it."
 **Law or term.** *The band* (adj l. 278–282): "its section there by the rows of the derivation that laid it or last
 re-sectioned it (its derivation record, §2.8) — V07 §3.4's for a village enceinte, one VS3 laid or V07 §3.11's
 REPLACEMENT rebuilt …, and §4.8's along its stretch profile for every other, a town's `inner` ring among them"; the wall
-strips' width "for a village enceinte `palisade.bandM` from its line" (adj l. 283–289); the zone (adj l. 302–303), the
-ends' keep-clear (law 1 (4)), *beyond the foot* (adj l. 297–299) and a held building's strip (adj l. 304–306), each sized
+strips' width "for a village enceinte `palisade.bandM` from its line" (adj l. 283–288); the zone (adj l. 304–305), the
+ends' keep-clear (law 1 (4)), *beyond the foot* (adj l. 294–296) and a held building's strip (adj l. 306–307), each sized
 by them.
 
 **The case.** W2 by hand at a village rung — a village T3 `wall` (`drawWall` with kind `palisade`, `earthwork` or
 `inner`, V07 l. 3008); W1 at a village epoch's `dossier` step or a dossier absorb — the palisade a new wall record
 builds; W10 at a village rung — `repairWall`'s bend on a dismantled run of a village enceinte, a new stretch "drawn on
-its line through `drawWall`" (V06 l. 723); each beside a declared or carried-down raised way (C2, C9).
+its line through `drawWall`" (V06 l. 722–723); each beside a declared or carried-down raised way (C2, C9).
 
 **Claim.** V07 lays each by VS3's construction outside the VS3 stage: "`drawWall` (village kinds) | VS3's form, then S7"
 (V07 l. 3056); the palisade's closure and profile come from "VS3 (V07 §3.4 steps 5–6) or `drawWall`'s derived form" (V07
@@ -173,7 +174,7 @@ term's own "(its derivation record, §2.8)" — the record of the table slices t
 water gate of a palisade drawn beside a declared viaduct is kept out of one zone or the other (law 1 (6)), its strips
 off one end-width or the other (law 1 (4)), the gate where a road comes down at one *beyond the foot* or the other.
 PRB7D-TIM-04's closure (adj l. 2693, "the band by its derivation") fails for every village-kind enceinte that the VS3
-stage did not lay; E-V7-7 (adj l. 2303–2310: "the wall strips of a village enceinte VS3 laid or §3.11's REPLACEMENT
+stage did not lay; E-V7-7 (adj l. 2303–2309: "the wall strips of a village enceinte VS3 laid or §3.11's REPLACEMENT
 rebuilt") carries the same gap.
 
 **Required change (Part L, *the band*, adj l. 279–281).** "— V07 §3.4's for a village enceinte, one VS3 laid or V07
@@ -265,14 +266,14 @@ l. 1002), `terrainWater`'s fill, silting or burial, a river's `shiftCourse` or a
 
 **Claim.** The provider is designed — V04's reconcile is to run over "one of whose `vault` spans §2.7's laws read
 otherwise after the epoch's ops than before them … a way or channel retired, effaced, re-routed, filled or silted off it"
-(E-V6-1, adj l. 2133–2140; E-V4-2) — but nothing checks it. The row queries only touched family parts: where the
+(E-V6-1, adj l. 2133–2137; E-V4-2) — but nothing checks it. The row queries only touched family parts: where the
 reconcile misses such a span it touches no arch vault, so the span is never queried, and a chamber stays missing under a
 span read `vault` (or stands in water a moved river laid across a span read `vault`) with every bar passing. T110-4 runs
 the same row. The arch-vault bars test one direction only — "every arch vault's key names a span … which §2.7's crossing
 table's *beneath* reads `vault` … and no arch vault stands where its span … is `open` or read `open`" (E-V4-5's T-V4-63,
 adj l. 2075–2082; E-V6-10's T-V6-64, adj l. 2195–2200) — and T-V4-62's "an arch vault in exactly each `vault` span" is a
 generation bar (V04 l. 3155). So law 1 (8)'s "a span read `vault` has its chamber", after any op outside the family,
-is an invariant no bar checks: a wrong build passes every bar (R7-01's grading, adj l. 233–236).
+is an invariant no bar checks: a wrong build passes every bar (R7-01's grading, adj l. 235–237).
 
 **Required change (Part L, the check, adj l. 475–477).** "— its spatial clauses by query against the union of every
 standing raised way's strips, zones and ends and each span's own strip;" → "— its spatial clauses by query against the
