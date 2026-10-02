@@ -16,10 +16,12 @@ THE OWNER'S RULES FOR THIS FAMILY (binding; quote them where they decide a findi
     - blocker: cannot be built as written, or gives a wrong result on a common path;
     - major: two builders would build different behaviour, or a defined edge that no bar runs, so that a wrong build passes every bar;
     - minor: nothing built or tested changes (wording, a citation, a list omitting an id its rule names).
+  - J146 (docs/PROGRESS.md), the owner's choice of method: the family is governed by the normative LAWS in adjudication-r@@R@@.md's Part L, stated at §2.7. The tables are worked examples; where an example and the laws differ, the laws govern.
+  - Grading under J146: a finding in this family is MAJOR only where the laws give two outcomes or none for a case, contradict an owner rule, or no bar checks an invariant of law 1. A case missing from the examples is NO finding. An example contradicting the laws is a minor, fixed by correcting the example.
   - The owner's veto list for the family, restated in adjudication-r@@R@@.md, is the owner's to accept or veto. A behaviour on that list is not a finding.
 
 READ FIRST, WHOLE:
-  1. adjudication-r@@R@@.md: the family ruling (the lock, bent-group and fixed-place sentences, both tables), Part P, and Part H's entries for the issues your lens covers.
+  1. adjudication-r@@R@@.md: Part L (the laws, normative), the worked examples (R7-02's sentences and tables), Part P, and Part H's entries for the issues your lens covers.
   2. The live home: docs/ARCHITECTURE.md §2.7's support step and its crossing table and way-and-channel table.
   3. The live text your lens covers (below), read by grep and in ranges.
   4. The round-@@P@@ family findings your lens covers, in docs/validation/coherence/verify-*-r@@P@@t.md or, after a family round, famverify-*-r@@P@@.md (their ids are in Part H), to re-check each against the live text.
@@ -29,12 +31,12 @@ YOUR LENS — @@LENSNAME@@:
 
 METHOD.
 (1) For every round-@@P@@ family finding in your lens, record its verdict against the CURRENT live text: fixed; partly fixed; not fixed; fixed wrongly; or closed by a ruling. Keep the finding's id where it persists.
-(2) Attack every cell, sentence and test of the family in your lens. Ask:
-  - TWO READINGS: what would a second builder build from these words?
-  - MISSING CASE: is there a combination with no outcome?
+(2) Attack the LAWS through your lens: take every op, path and state your lens covers, and apply laws 1–4 to it. Ask:
+  - TWO READINGS: could a second builder implementing the laws as one general resolver get a different outcome?
+  - NO OUTCOME: is there a case where the laws give none?
   - OWNER RULE: does anything contradict the rules above?
   - READERS: does any site restate the tables instead of citing them, or cite a cell that does not exist?
-  - TESTS: does a named test hold its case on a fixture that holds it?
+  - TESTS: is every invariant of law 1 checked by §5.3's runtime row and the family's property bar, and do the examples' named tests hold their cases?
 (3) Grade each finding by J141's standard.
 (4) New findings take ids VF@@R@@-@@LENSCODE@@-nn.
 (5) A defect you notice OUTSIDE the family is not graded here. List it under "held_notes" for round 8, with its site and one line.
