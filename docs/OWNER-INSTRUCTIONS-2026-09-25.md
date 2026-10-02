@@ -289,3 +289,7 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   eaiser of the two things to move is what is moved and or avoiding conflict before it happens in such cases. what do you think?"
   Then "Three tiers (Recommended)" — gates, posterns, towers and fixed places never move for a meeting; walls and raised ways:
   the newer bends locally; roads, plots and unlocked buildings move around them; plan around hard things first (J148).
+- (2026-10-02 ~11:30) "also can't we just have higher than the wall aquaduct in such specific cases?" / "or an aquaduct that
+  integrates into the wall (like a tunnel through the wall) that it pierces?" / "are there historical precedences for this?" /
+  "then yes do those if they help" — an aqueduct crosses a wall at its own level: over it on an arch (a gate or tower may stand
+  under the arch), merged into it (the wall built around the aqueduct's own arch, as at Porta Maggiore), or beneath it (J149).
