@@ -3620,3 +3620,6 @@
 2026-10-02 18:00 coherence/repair-V12-r7v CHECKPOINT P3-P4 done (2 REPLACE blocks written to repair-r7v-V12.md; dry run clean); next final dry run of the landed file, result JSON, LANDED
 2026-10-02 18:01 coherence/repair-pipeline-r7v CHECKPOINT P1 done (brief, adjudication-r7v pipeline P1–P7, sources, §2.7 laws, live sites located; skeleton written); next: P2 compose 5 REPLACE blocks by count-asserted substitutions
 2026-10-02 18:01 coherence/repair-rendering-r7v LANDED docs/validation/coherence/repair-r7v-rendering.md docs/validation/coherence/results/coherence_repair-rendering-r7v.json
+2026-10-02 18:01 coherence/repair-V09-r7v LANDED docs/validation/coherence/repair-r7v-V09.md docs/validation/coherence/results/coherence_repair-V09-r7v.json
+2026-10-02 18:01 coherence/repair-V12-r7v LANDED docs/validation/coherence/repair-r7v-V12.md docs/validation/coherence/results/coherence_repair-V12-r7v.json
+2026-10-02 18:01 coherence/repair-V01-r7v LANDED docs/validation/coherence/repair-r7v-V01.md docs/validation/coherence/results/coherence_repair-V01-r7v.json

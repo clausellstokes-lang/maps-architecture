@@ -27,11 +27,12 @@ PROGRESS (lane `coherence/repair-V12-r7v`, 2026-10-02)
   (V12 §2.2 l. 350, l. 385). The finding's third text (base §13.5's "towers and gates" row) is the scope unit's S12 END
   ("§13.5's half is S12"); V12 writes no base block. No other unit's Part H asks an END of V12, and no END-L touches
   V12. J150's round-8 hand-offs: V12 writes nothing for them. No review id is written into design text.
-* **Words** (`wc -w` over the volume): 83 730 → 83 777 (+47, +0.06 %); §3.4 6 522 → 6 563 (+41), §3.11 7 052 → 7 059
-  (+7). Every added word is ruled text: V12-1 adds 43 (the cell's qualifier and parenthesis, the reading rule's clause)
-  and V12-2 a net 4 (the parenthesis naming what reads no margin, less "and a held building's strip" in the list). No
-  shrink source applies this pass (a qualifier added to a definition and a reader list corrected); no unit shrank, so
-  no nuance audit applies.
+* **Words** (`wc -w` over the volume): 83 730 → 83 777 (+47, +0.06 %); by whitespace tokens 85 299 → 85 347 (+48, the
+  C-locale `wc` not counting the lone "≥"); §3.4 6 522 → 6 563 (+41), §3.11 7 052 → 7 059 (+7), by tokens. Every added
+  word is ruled text: V12-1 adds 41 (the cell's qualifier and parenthesis, +29; the reading rule's clause, +12) and V12-2
+  a net 7 (the parenthesis naming what reads no margin, less ", the zone and a held building's strip" reworded as "and
+  the zone"). No shrink source applies this pass (a qualifier added to a definition and a reader list corrected); no
+  unit shrank, so no nuance audit applies.
 
 ## Issues → where fixed
 
