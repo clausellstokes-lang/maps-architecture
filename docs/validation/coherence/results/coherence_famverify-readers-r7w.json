@@ -1,0 +1,52 @@
+{
+ "key": "coherence/famverify-readers-r7w",
+ "file": "docs/validation/coherence/famverify-readers-r7w.md",
+ "issues": [
+  {
+   "id": "VF7w-RDR-01",
+   "severity": "minor",
+   "kind": "RESTATEMENT",
+   "owner": "V09",
+   "claim": "V09 §2.7's why-card decidedBy row (V09 l. 648) words the span line by a narrower reading of law 1 (8): \"a span walled up by the rules (one read `vault`: none under a wall, V09 §4.20.6 (2))\". Law 1 (8) reads a `vault` span `open` while anything lies across its strip — a street, channel, square, marsh or another raised way's support, not a wall alone (base l. 2731–2735; the term *anything across a strip*, l. 2644–2652) — and *beneath* has every reader cite that reading and never restate its cases (l. 3103–3105); V09 §4.20.6 (2), which the cell cites, reads it so for the why card (V09 l. 3206–3212). A builder taking the parenthesis as the test labels a `vault` span with a street across it \"walled up as a vault\". Minor: the cited §4.20.6 (2) governs; nothing built in the model changes.",
+   "required_change": "V09 l. 648: \"a span walled up by the rules (one read `vault`: none under a wall, V09 §4.20.6 (2))\" → \"a span walled up by the rules (one §2.7's laws read `vault`, law 1 (8); its worked example *beneath*; V09 §4.20.6 (2))\"."
+  },
+  {
+   "id": "VF7w-RDR-02",
+   "severity": "minor",
+   "kind": "REGISTRY READERS",
+   "owner": "V11",
+   "claim": "V11 §3.1's *Readers* makes row 80's reader cell the one list of a table's readers, a read recorded under the StageId of the stage function that reads, an epoch phase by its own id (V11 l. 898–912, J-V11.109), and T-V11-1 (b) fails '0 unlisted stage readers' over the golden fixtures with three history epochs (V11 l. 4983). Row 80 (V11 l. 1006) and W50 (V11 l. 208) list the readers of `structure.stripMarginM` and `structure.span.deckDepthCm` through §2.7's laws as S3, S5a, S7 and VS3 only. Missing: EVO_FORT — V06 §3.7.6 (5) has every fortification trace and (3)'s harbour-mouth chain meet the standing raised ways by §2.7's laws (V06 l. 1606–1608), the shorter ring traced by the EnceinteStrategy with the cost field in the fortification phase (V06 l. 1526) whose impassables are §4.4 S5a *Trace* (2)'s one list — a raised way's strip and ends widened by the margin and each span's soffit (base l. 6602, 3080, 2614–2618, 2296) — and row 14 already records that trace's barrier-closure reads under EVO_FORT (V11 l. 939); and S1 — §5.2's F-REDERIVE reads a wall run S1's water operator re-traces against a raised way's strip and fixed-place zone (base l. 9872; §7.3 (b) 3). A correct build so records (EVO_FORT, raisedWays) or (S1, raisedWays), which row 80's stageReaders lack. Minor: a list omitting an id its rule names; T-V11-1 (b) fails a correct build only on a golden history epoch laying a fortification trace or chain, or re-tracing a run, beside a standing raised way, and a builder reading the strip from S8's stored hole records no read — a case the fixture may not hold.",
+   "required_change": "V11 row 80 (V11 l. 1006), its readers cell: after \"by §2.7's laws, law 1 (2), (4)–(7), V07 §3.5a (4)),\" insert \" EVO_FORT (V06 §3.7's circuits, shorter rings, re-anchored and repaired stretches, quay walls and harbour-mouth chains meeting a raised way's under-deck strip, ends and fixed-place zone at `structure.stripMarginM`, and each span's soffit by `structure.span.deckDepthCm`, by §2.7's laws, law 1 (2), (4)–(7); V06 §3.7.6 (5)), S1 (a wall run S1's water operator re-traces beside a standing raised way, read against its strip and fixed-place zone at `structure.stripMarginM` by §2.7's laws, law 1 (4)–(6); §7.3 (b) 3, §5.2's F-REDERIVE),\"; and W50 (V11 l. 208): \"§2.7's laws at S3, S5a, S7 and VS3 (law 1 (4)–(6); its worked example the crossing table)\" → \"§2.7's laws at S3, S5a, S7, VS3, EVO_FORT and S1 (law 1 (4)–(6); its worked example the crossing table)\"."
+  },
+  {
+   "id": "VF7w-RDR-03",
+   "severity": "minor",
+   "kind": "CLASS (test and fixture)",
+   "owner": "scope",
+   "claim": "The class ruling at T110-2's lead binds 'every clause of T110-1, T110-2 and T110-4, and every volume bar that takes one of them or cites §2.7's laws' to assert the outcome those laws give its fixture (base l. 19256–19263). §8.11's T-ER-12 — the exports' bar, a base bar and so outside 'every volume bar' — takes T110-2 (4)'s and (3)'s fixtures and cites §2.7's laws (base l. 15489): 'T110-2 (4)'s hand `drawWall` across its standing aqueduct with a `vault` span in its line … that span `open` in GeoJSON's `span` feature, closed by no end walls in glTF and no `BridgeRoom` in CityJSON …, and after the hand undo the span `vault`, closed by its end walls and, from M6-U, its arch vault a `BridgeRoom`'. Its fixture's stated geometry fixes neither: where the channel there runs above the wall's top and that span does not clear it, law 1 (2) with law 3 moves the crossing to another span (T110-2 (4)'s own C1 clause, base l. 19409–19413), leaving the span `vault`; and a span too small for a chamber holds none (V04 §3.5.4 (d) (1); law 1 (8)), so no `BridgeRoom` follows the undo — the members VF7v-RDR-04 and C1 fixed elsewhere. The class sweep did not read T-ER-12 (adjudication-r7w.md l. 133–157). Minor: a case the fixture may not hold.",
+   "required_change": "§13.2, T110-2's lead (base l. 19256–19257): \"every clause of T110-1, T110-2 and T110-4, and every volume bar that takes one of them or cites §2.7's laws, asserting the outcome those laws give its fixture\" → \"every clause of T110-1, T110-2 and T110-4, and every bar of the base or a volume that takes one of them or cites §2.7's laws (§8.11's T-ER-12 among them), asserting the outcome those laws give its fixture\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V04 l. 2892 (§5.5's CityJSON row) × base §11.1's CityJSON row (l. 16729)",
+   "note": "Persisting (adjudication-r7w held note 4): V04 exports an arch vault as a TunnelHollowSpace of the vaults system's Tunnel, the base as a BridgeRoom of its raised way's Bridge — two objects or two forms for one chamber."
+  },
+  {
+   "site": "V04 l. 222–223, 2727–2728 × base §8.2's raisedWay program (l. 13557–13560)",
+   "note": "Persisting (held note 5): V04 leaves the vault's infill wall and door on the ground view to the base, whose program draws neither."
+  },
+  {
+   "site": "V09 l. 3258 and base §11.2 l. 17108; V09 l. 4434 (T-V9-58); base l. 6888, 14412–14413, 14637–14638",
+   "note": "adjudication-r7v held notes 5–7 persist: the hit stack's span path spans/<n> / 'spans/<ordinal>' against §7.1's binding spans/<a>-<b>; T-V9-58's fixture needs the street under a neighbouring span; §4.5's and §8.4's casters on a breached or dismantled run."
+  },
+  {
+   "site": "base §8.2 slot resolution (l. 14182–14183) × slot 10 (l. 14149) × slot 19a (l. 14161)",
+   "note": "New: a sheet is refused when one derived kind is placed in two slots of a band; slot 10 holds derived 'shadow' over the casters (raised ways among §8.4's casters, l. 14640–14641) while slot 19a draws the decks' shadows 'in a derived pass just before this slot' with no derived kind named — as slot 14 did before; raised-way drawing, no wall meeting."
+  },
+  {
+   "site": "base §8.2 OrderSlot.slot: number (l. 13314) × lettered rows 8b, 9b, 13b, 15b, 19a, 19b",
+   "note": "New: no numeric form of a lettered slot is stated; 19a is the first 'a' beside a 'b', its place before 19b given by the table's order alone."
+  }
+ ]
+}
