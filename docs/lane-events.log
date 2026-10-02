@@ -3695,3 +3695,5 @@
 2026-10-02 19:37 coherence/repair-model-r7w CHECKPOINT sources read (famverify-table/-generation/-epochs/-hand-r7v findings; live §2.7 support step (6) whole, l. 2534–3403); sweep done (restatements: W8·C1, Paths and tests' C1 bend, (7)'s extension — same 'but where its arches clear them' rule as M3, to conform); next: generator and block
 2026-10-02 19:37 coherence/repair-V09-r7w LANDED docs/validation/coherence/repair-r7w-V09.md docs/validation/coherence/results/coherence_repair-V09-r7w.json
 2026-10-02 19:38 coherence/repair-V04-r7w CHECKPOINT V4-1 block composed in scratch (3 substitutions in ## 7); next: dry run on a copy, checks, write repair file
+2026-10-02 19:38 coherence/repair-determinism-r7w CHECKPOINT blocks generated (4 REPLACE: §5.2, §5.4, §7.1, §7.4; D1 – D6, 12 count-asserted edits); dry run alone 4/4 applied, audit not OK 0; next: combined dry run, sweep notes, doc_checks, report, LANDED
+2026-10-02 19:38 coherence/repair-rendering-r7w LANDED docs/validation/coherence/repair-r7w-rendering.md docs/validation/coherence/results/coherence_repair-rendering-r7w.json
