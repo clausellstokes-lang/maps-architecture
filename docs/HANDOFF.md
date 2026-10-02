@@ -1,29 +1,44 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE (kept current; last updated 2026-10-01 ~10:40 UTC)
+## RESUME HERE (kept current; last updated 2026-10-02 ~06:45 UTC)
 
-**Where things stand.** The coherence pass is in its Verify/Repair loop, run BY HAND from a cloud session (branch
-`claude/ecstatic-gates-iyenrz`, draft PR #2), every seat an opus seat rendered from `workflows/18-coherence.js` itself
-(tools in `workflows/lane-prompts/coherence-cloud/_tools/`; briefs `coherence_<lane>.prompt.txt` beside them). History of
-findings: round 0's verify 501; round 1's 446 (306 merged); round 2's verify (seats `verify-*-r2t`) in progress — the twelve
-base and volume seats landed with 150 (1 blocker, 42 major, 107 minor; the same seats held 193 in round 1); the six agreement
-seams and two edge groups are running or queued. Rewrite, assemble r0–r2 and repairs r1–r2 are LANDED; the live design is
-assemble-r2's output.
+**Where things stand.** The coherence pass's Verify/Repair loop is run BY HAND from a cloud session (branch
+`claude/ecstatic-gates-iyenrz`, draft PR #2). Every seat is an opus seat. The tools are in
+`workflows/lane-prompts/coherence-cloud/_tools/` (family tools in `_tools/fam/`), and the briefs, `coherence_<lane>.prompt.txt`,
+sit beside them.
 
-**THE BAR (owner, 2026-10-01, J141):** the pass stops when a FULL SWEEP of all twenty verify seats finds ZERO blockers and
-ZERO majors and the final validator signs off; every finding raised before the stop is still repaired in the next round;
-minors still open at the stop go to `docs/validation/coherence/fix-list.md` (the builders' known-issues list); FEATURE
-FREEZE until the pass closes (ideas to `docs/PARKED-IDEAS.md`). This revises J123's zero of any severity.
+Findings per round: 501 → 446 → 215 → 145 → 91 → 73 → 81. Round 6 had 0 blockers, 39 majors and 42 minors; about 30 of
+the majors were in the raised-way × wall family.
 
-**Next steps.** (1) Finish verify round 2 (queue in the orchestrator's scratch; each seat's brief is
-`coherence_verify-<key>-r2t.prompt.txt`). (2) `python3 _tools/collect2.py 2` → repair-in-r3; `python3 _tools/mkadj3.py <round-2 raw>`
-renders adjudicate-r3 (a ROUTING adjudication: Part H with each unit's FIX/MERGED/INVALID and the END lines other units' issues
-ask of it); run it. (3) `python3 _tools/mkrep.py 3 docs/validation/coherence/adjudication-r3.md <units with ENDs only>` renders the
-repair-r3 briefs; run them (≤ 6 at once); then assemble-r3; then verify r3 on the touched units (tag `t`), and a full sweep (tag `s`)
-once a touched verify finds no blocker or major. (4) At a clean sweep: write fix-list.md from the sweep's minors, run validate-v0,
-then SUMMARY.md and validate.md for the owner. (5) LAST: the SettlementForge compatibility check (item 125 (d); V08 §3.16 (9);
-"read it from local") on the owner's Mac against the local settlement-engine checkout. The Fable review stays the owner's call.
-Never run `tools/progress.py` in the cloud; seats run no state-changing git.
+The owner's decisions since:
+* J142, narrowing that family: proposed, then withdrawn.
+* J143: keep iterating.
+* J144: a lock on walls, aqueducts and similar structures holds placement, not shape, with the program's guardrails G1–G3.
+  The loop works this family ALONE until six family-focused checks find no major in it.
+* J145: probes split into three parallel lenses; lane cap 10; a compression pass after the family closes.
+
+**Round 7 (family-only).** Its work set is the 53 family findings; the other 28 round-6 findings are held for round 8 in
+`docs/validation/coherence/work/held-r8/`. adjudication-r7.md (7 rulings: R7-02 is the family ruling) has landed. Probe
+pass 1 (probe-r7.md: 20 major) and amend pass 1 (Part P) have landed; probe pass 2 (probe-r7b) is running. Next:
+* amend pass 2;
+* if majors remain, probe pass 3 as three parallel lens seats, then amend pass 3;
+* `_tools/mkrep.py 7 docs/validation/coherence/adjudication-r7.md <END-only units>` renders the repairs (the units in
+  repair-in-r7, plus any with END lines only); run them, up to 10 at once;
+* `_tools/mkasm.py 7 <sha256 of docs/ARCHITECTURE.md> <units>` renders assemble-r7; run it;
+* `_tools/fam/mkfam.py 7` renders the six family checks (famverify-{table,generation,epochs,hand,readers,tests}-r7); run them;
+* if they find majors, collect their findings and run a family round 8, likewise;
+* once they find none: the compression pass (J145), then round 8 or the next full round, with the 28 held findings and a
+  full sweep of all twenty seats.
+
+**THE BAR (owner, J141).** The pass stops when a FULL SWEEP of all twenty verify seats finds ZERO blockers and ZERO majors
+and the final validator signs off. Minors still open at the stop go to `docs/validation/coherence/fix-list.md`. FEATURE
+FREEZE until the pass closes.
+
+**At a clean sweep.** Write fix-list.md, run validate-v0, then write SUMMARY.md and validate.md for the owner. LAST comes the
+SettlementForge compatibility check (item 125 (d); "read it from local"), on the owner's Mac. The Fable review stays the
+owner's call.
+
+**Never** run `tools/progress.py` in the cloud. Seats run no state-changing git.
 
 ## Earlier resume notes (superseded by the block above)
 

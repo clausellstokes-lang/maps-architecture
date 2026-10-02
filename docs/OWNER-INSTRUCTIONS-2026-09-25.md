@@ -271,3 +271,5 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   / "The rest just seems you need to make specific rules. Why don't you just focus entirely on solving this problem first before
   moving on?" — a lock on these structures holds placement, not shape; the coherence loop works the raised-way × wall family alone
   until it is solved (J144).
+- (2026-10-02 ~06:40) On the program's three speed-ups (parallel probe lenses, a higher lane cap, a compression pass): "do those"
+  (J145; the cap set to 10 by the program, vetoable).
