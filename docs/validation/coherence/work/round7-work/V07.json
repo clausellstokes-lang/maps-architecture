@@ -1,0 +1,47 @@
+[
+ {
+  "id": "VAL-R6-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "V07 \u00a73.5a (3) *Under a span* (l. 1591\u20131595) defers to \u00a74.3 *Lattice and costs* ('A tracker crosses the under-deck strip only where \u00a74.3 \u2026 admits a part-0 way'), then ends 'a `cleared` span's ground is free, as a `cleared` support's is ((2))'. The base's crossing rule \u2014 \u00a74.3 (l. 5743\u20135747) and the way-and-channel table's lead (l. 2573\u20132578), whose `cleared` clause this round wrote for supports only \u2014 keeps a `vault` span's under-deck strip impassable (and, by (6)'s lead, a reservation) whatever the span's `state`, and lets a way cross the rest only under a span within clear width, clearance and `squareDeg`, never along the strip. A cleared `vault` span keeps its arch vault, `collapsed` (V04 \u00a73.5.4 (d) (2)). So after V06 \u00a73.19.2's decline clears a span at a village, the village tracker may cross a cleared `vault` span's strip over its chamber, and a cleared `open` span's at any angle; the base forbids the first and bounds the second. Two builders build different village networks.",
+  "required_change": "V07 \u00a73.5a (3) *Under a span*: replace 'a `cleared` span's ground is free, as a `cleared` support's is ((2))' with 'a `cleared` support's ring is open ground ((2); \u00a74.3 *Lattice and costs*), and a span is crossed by this rule whatever its `state`'. (If the program rules instead that a cleared span's strip is open ground at every rung, \u00a74.3 *Lattice and costs* and the way-and-channel table's lead say so, V04 \u00a73.5.4 (d) (3) removes a collapsed arch vault a way comes to cross, and V07 keeps its clause citing \u00a74.3.)",
+  "reported_by": "verify-agree-layers-r6t"
+ },
+ {
+  "id": "VAL-R6-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "V07 \u00a75.1 (l. 3248\u20133249) calls the shade map 'a `setLayer` toggle, never on by default'. The shade map is V09 \u00a75.4's thematic view, chosen by the per-viewer view key `thematic` at `shade` (\u00a72.9, l. 3500; \u00a74.5, l. 6239), which sends no event; `setLayer` is a logged edit of a model layer's `LayerSpec` (\u00a78.4, l. 13677, which now adds 'no drawing group by `setLayer`', the thematic overrides being \u00a72.1's drawing groups). V05 (l. 228) calls it volume 9's. The village supplies only VS1's `daylight.terrain`, so nothing built changes.",
+  "required_change": "V07 \u00a75.1: replace 'a `setLayer` toggle, never on by default' with 'shown by the per-viewer view key `thematic` at `shade` (\u00a72.9; V09 \u00a75.4), `none` by default'.",
+  "reported_by": "verify-agree-layers-r6t"
+ },
+ {
+  "id": "VAL-R6-06",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V07",
+  "claim": "The crossing table's row W9, the hand-off down (l. 2706), names T-V7-48 in C3, C4, C5, C6, C8, C10 and C13, each 'as C2'. T-V7-48 (l. 3683) hands down a CITY fixture only with its raised way standing (C2), with its frame growth (C12) and in a later Regenerate. No clause hands down a raised way with a span fallen, a support cleared or toppled, a `vault` span breached, or the way held, repaired or edited. R6-02 (b) (i) asks each cell to name a test that runs it; V05 did this for W12, V07 not for W9. The outcome is the same as C2's by construction, so this is a test list omitting a case its cell names.",
+  "required_change": "T-V7-48 adds, after 'carried down and meeting the palisade as a standing raised way does;': 'the carried-down CITY fixture handed down again with, before the hand-off, a span over the planned palisade's band `ruined` and, on further runs, every such span fallen, a support by the band `cleared` and one `ruined`, its `vault` span breached, the raised way locked, repaired by `repairRaised`, and its Arch spacing edited \u2014 each an *unchanged meeting* at the hand-off (\u00a72.7's crossing table, row W9), the palisade then meeting it as *beneath* reads that state;'.",
+  "reported_by": "verify-agree-layers-r6t"
+ },
+ {
+  "id": "VV78-r6-01",
+  "severity": "minor",
+  "kind": "EDGE-UNTESTED",
+  "claim": "\u00a72.7's crossing table gives the hand-off down (row W9) for every raised-way state, and its cells W9\u00b7C3 (one span over the band fallen), C4 (every span fallen), C5 (a support in or by the band cleared or toppled), C6 (a `vault` span breached) and C8 (held) each read \"as C2 \u00b7 T-V7-48\". T-V7-48 holds the hand-off down only with a standing deck \u2014 \"the carried-down raised way meeting the palisade as it met its CITY fixture's innermost ring\" \u2014 and with a frame-grown one (C12); its clause \"after a support is `cleared` the band stands whole across its footprint\" is tied to no hand-off. So no bar runs the hand-off of a ring whose span over it has fallen, whose support is cleared or whose raised way is locked. Likewise W1's last column reports `W_RAISED_CROSSING` once per crossing of a deck line for every W1 trace, VS3's palisade among them, and the village cell W1\u00b7C2 names T-V7-48, whose palisade clauses assert no report. Each outcome is defined (*unchanged meeting*, read as *beneath*), the readings are run at a town (T110-2 (7)) and the hand-off's unchanged fabric by T-V7-51, so nothing built changes: a cell naming a test for a case the test does not hold (R6-11's class), MINOR.",
+  "required_change": "V07 ## 7, T-V7-48: after \"its line bent to cross the declared aqueduct under a span and to pass beyond each ramp's foot, no ramp, stair or foot in it,\" add \"each crossing of the palisade's line with a deck line reported `W_RAISED_CROSSING` once (\u00a72.7's crossing table, W1),\"; and after \"its deck extended by a frame growth before the hand-off down, carried down and meeting the palisade as a standing raised way does;\" add \"that CITY fixture also handed down after V06 \u00a73.19.2's decline, scripted, has left one span over its innermost ring `ruined` (a `vault` span in one variant), every span over that ring fallen, or a support in the ring's band `cleared`, and once with the raised way locked \u2014 in each the hand-off writing nothing of the raised way or the ring's runs, and the palisade read by \u00a72.7's crossing table, *beneath* (its run at its own top beneath each fallen span, no chamber under the `vault` span, the band whole across the cleared support's footprint);\".",
+  "owner": "V07",
+  "reported_by": "verify-vol-V07-V08-r6t"
+ },
+ {
+  "id": "VV78-r6-02",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "VAL-R5-03's T-V7-48 text (as Part H words it) adds clauses that run V06's E3 steps on the carried-down fixture: \"a V07 \u00a73.4 (8) decay \u2026 of the palisade's run beneath the carried-down deck\" (V06 \u00a73.7's walls step at a village epoch, V06 \u00a73.7.7, E3) and \"`absorbWall` of the palisade beneath it\" (V06 \u00a72.8's EvolveOp, built at E3, V06 \u00a78's E3 row); the fixture itself is handed down by V06's epochs, as T-V7-51's is. T-V7-48's tier cell reads \"C | V-M3\". V07 ## 8's V-M3 exit names \"the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-50's desertion clause, T-V7-35's promotion clause over epochs, T-V7-51, T-V7-59, T-V7-62's epoch clause) at V-M3's exit where M6-E's E2\u2013E4 have landed, else at the first V07 exit after E4\", and V07 \u00a71 (14) lists the V06 steps V-M3's clauses run; neither names T-V7-48's clauses or the walls step, and risk (8) moves only T-V7-48's arch-vault and decline readings. R5-05 (c) and R6-09: a clause whose provider lands later runs at the first exit after it, each named in its volume. A milestone cell omitting a clause; MINOR.",
+  "required_change": "V07 ## 8's V-M3 exit cell: \"the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-50's desertion clause\" \u2192 \"the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-48's carried-down clauses \u2014 the CITY fixture handed down, its frame growth, the palisade's decay beneath its deck and the hand `absorbWall` \u2014, T-V7-50's desertion clause\". T-V7-48's tier cell \"V-M3\" \u2192 \"V-M3 (its carried-down clauses as ## 8's V-M3 exit states)\". V07 \u00a71 (14): \"and a carried raised way's decline (V06 \u00a73.19.2, E3);\" \u2192 \", a carried raised way's decline (V06 \u00a73.19.2, E3) and the walls step's condition and `absorbWall` on the palisade (V06 \u00a73.7.7, V06 \u00a72.8, E3);\".",
+  "owner": "V07",
+  "reported_by": "verify-vol-V07-V08-r6t"
+ }
+]

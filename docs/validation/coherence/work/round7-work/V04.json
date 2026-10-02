@@ -1,0 +1,47 @@
+[
+ {
+  "id": "VAT6-r6-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "T-V4-63 (V04 l. 3156), rewritten this round by R6-02's (V4-8) with VV34-r5-02, adds two clauses that leave an arch vault `collapsed` under a fallen span: 'the circuit's case run again with that `vault` span breached with its chamber first (`ruined`, its arch vault `collapsed`) \u2026 (\u00a72.7's crossing table, W1\u00b7C6)', and the frame growth's 'each new span taking that end span's `state` \u2026 a vault laid in a `ruined` or `cleared` one `collapsed` (V04 \u00a73.5.4 (d) (2))'. Its bar, kept from round 4, still reads 'after each commit every arch vault's key names a standing span of use `vault`'. In the set a standing span is one whose `state` is absent (V06 \u00a73.19.1 (3) 'every span standing or ruined'; V06 \u00a73.19.2 (3) 'each standing span \u2026 \u2192 breach'; V06 \u00a73.2 l. 1038 'a chamber for each standing `vault` span \u2026, a collapse under a `ruined` or `cleared` span'). V04 \u00a73.5.4 (d) (2)\u2013(3) keep a collapsed vault in a ruined or cleared span; only a span gone, set `open` or under a wall removes it. So after the breach commit and after the frame growth's commit the test's own fixtures hold a collapsed vault keyed to a `ruined` span, and the bar fails on a correct build. One builder keeps the bar and suppresses those vaults, against (d) (1)\u2013(2) and the clause's own words; another reads 'standing' as 'existing'. Two builds.",
+  "required_change": "T-V4-63's bar 'after each commit every arch vault's key names a standing span of use `vault`' \u2192 'after each commit every arch vault's key names a span of the way whose `use` is `vault` and over which no wall stands \u2014 standing, or `ruined` or `cleared` with that vault `collapsed` (V04 \u00a73.5.4 (d) (2))'.",
+  "reported_by": "verify-agree-time-r6t"
+ },
+ {
+  "id": "VV34-r6-01",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "The round's sweep put \"no wall stands over\" (V04 \u00a73.5.4 (d) (1)) on every restatement of the lay rule except two clauses of T-V4-63's own bar (l. 3156). The sweep covered \u00a71b.3, \u00a74.1, \u00a74.2, \u00a74.6, T-V4-62, and T-V4-63's \"a user-added raised way's `vault` spans\" and \"each new `vault` span\". The first missed clause is \"a span's `use` edit lays or removes exactly that vault and survives a regeneration\": on a span under a wall a `use` set to `vault` lays nothing (\u00a71b.3 l. 370, \u00a74.2 l. 2557: \"none in a span a wall stands over\"). The second is the frame growth's \"with the same id and footprint, the arch vault of every old `vault` span between two of them\". The span rule never reads a wall (base l. 2733\u20132736), so a span between two old stations under a ring the old deck crosses can be `vault` in its record yet holds no vault (base l. 2746). Read literally, both clauses expect a vault that a correct build never lays, and the same bar's next clause (\"no chamber stands \u2026 in a `vault` span a wall stands over\") contradicts them. The mechanism is (d) (1)'s, so nothing built changes.",
+  "required_change": "T-V4-63: \"a span's `use` edit lays or removes exactly that vault and survives a regeneration\" \u2192 \"a span's `use` edit lays or removes exactly that vault (none in a span a wall stands over, V04 \u00a73.5.4 (d) (1)) and survives a regeneration\"; and \"the arch vault of every old `vault` span between two of them (\u00a72.7's support step (7))\" \u2192 \"the arch vault of every old `vault` span between two of them that no wall stands over (\u00a72.7's support step (7); V04 \u00a73.5.4 (d) (1))\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r6t"
+ },
+ {
+  "id": "VV34-r6-02",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "R6-07 puts \"and under no disaster look\" on every \"never decayed \u21d2 unchanged\" statement (item 122 (d)). The round wrote the condition on the building subject of UE33's E1 (l. 2435) and on T-V4-82 (g)'s never-decayed control (l. 3175). It did not write it on their second subject: E1's \"an underground none of whose buildings has decayed\" and (g)'s \"every band of an underground with no decayed building\", each said to draw (and export) byte-identically. Under a look, a storey below 0 reads its building's drawn level, the higher of its own and the look's (J-V4.130; V04 \u00a75.6 (6): \"the look over a storey below 0 with V03 \u00a75.6 (4)'s\"). T-V4-82 (i) draws a never-decayed church's crypt at the look's level. So such an underground is not byte-identical while a look stands over it. T-V4-82 (i) runs the look, and (g)'s fixture holds none, so nothing built or tested changes.",
+  "required_change": "UE33's E1: \"and an underground none of whose buildings has decayed, draw byte-identically\" \u2192 \"and an underground none of whose buildings has decayed or stands under a disaster look, draw byte-identically\". T-V4-82 (g): \"and every band of an underground with no decayed building draw and export byte-identically\" \u2192 \"and every band of an underground with no decayed building and none under a disaster look draw and export byte-identically\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r6t"
+ },
+ {
+  "id": "VV34-r6-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "One fix with VV56-r6-02 (major, model), at a V04 site its END list does not name (that END names only \u00a73.10's bullet, l. 2285\u20132294). V04 \u00a71b.2's `ArchVaults.reconcile` trigger list (l. 328) is the list \u00a72.6's arch-vault row cites as the commits that remove or lay a vault under a wall. It names \"an absorbed record dropped\". No op drops a cleared enceinte record: `absorbWall` takes it to existence `cleared` and keeps it (V06 l. 717; V06 \u00a73.7.2 (3), l. 1488\u20131499: \"the fortification phase keeps the cleared record in its loop \u2026 until every run is `dismantled`\", then the `enceinte` provider reads it). The same cell's general words (\"the commit of every enceinte band or wall strip laid, moved or removed over a `vault` span's under-deck strip\") make `absorbWall`'s own commit the trigger, since its strips re-join the blocks (V06 \u00a72.8's op comment). A hand `convert` `absorbWall` (T3 `wall`'s convert kinds, base l. 10588; the crossing table's W8\u00b7C9) runs no `EpochScope.raised`, so l. 328 alone decides it. One builder re-lays the vault in the absorb's commit; another waits for an event no op makes.",
+  "required_change": "V04 \u00a71b.2's trigger cell (l. 328): \"`wallToWay`, an absorbed record dropped;\" \u2192 \"`wallToWay`, `absorbWall` (in its commit, its strips merged into the blocks);\", written with VV56-r6-02's ruling of the crossing table's W8\u00b7C2. If that ruling names another event, l. 328 names the same one in W8's words.",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r6t"
+ },
+ {
+  "id": "VV34-r6-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "T-V4-63 (l. 3156) has clauses that run on V06's epoch ops: \"an epoch that founds a raised way (V06's `under.extend`) lays its vaults in the epoch's commit\"; \"passed beneath by an epoch circuit\" (V06 \u00a73.7; the crossing table's W1: \"an epoch's circuit \u2026 (V06 \u00a73.7)\"); and, new this round, \"the circuit's case run again with that `vault` span breached with its chamber first\" (a `DeclineOp` breach, which E3 builds, as R6-09 schedules T110-2's lapse). V04 \u00a78's U5 cell (l. 3210) runs T-V4-63 whole at U5, where V04 runs the epoch reconcile \"by hand and on M4's grow path\". V06's `under.*` adapters, which run the arch-vault reconcile over `EpochScope.raised`, land at V06's E8 (V06 \u00a78's E8 row), and INDEX \u00a74 puts E8 after V04's U5. So these clauses are scheduled before their provider: R6-09's class (INDEX \u00a75 risk 2; R5-05 (c)), the mirror of VAT6-r6-03's V06 clauses. Nothing built changes.",
+  "required_change": "V04 \u00a78's U5 tests cell: \"T-V4-63, T-V4-70\" \u2192 \"T-V4-63 (its clauses on V06's epoch ops \u2014 the founding, the epoch circuit and its run with the span breached first \u2014 at V06's E8, which builds `under.extend`'s reconcile over `EpochScope.raised`), T-V4-70\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r6t"
+ }
+]

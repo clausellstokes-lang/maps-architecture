@@ -46,6 +46,15 @@ enough for a builder?" The assessment was that the design is clear on content bu
 7. **The thin slice first.** One town generated, drawn, saved and reloaded identically, before the wider build. The
    look is checked against it at set points.
 
+## C. Deferred to a later milestone by the owner (J142, 2026-10-02)
+
+* **Raised ways changing over time.** Disuse and lapse, the strike, salvage, fallen spans, toppled piers, landfall damage to
+  a raised way, and its repair (V06 §3.19.2; V05 §3.16 (4)'s raised row; the span and support `state` writers; the collapsed
+  arch vault). Until it is taken up, a raised way stands as created until the user or a regeneration removes it.
+* **Hand edits that bring a wall into a standing raised way** (a stretch drawn, moved or re-anchored into its footprint, a gate
+  placed or slid under a deck, a wall along beneath an aqueduct, a raised way re-shaped or re-spaced onto a wall). They are refused
+  for now with the nearest lawful alternative; bending them is the later milestone's.
+
 ## Not parked (already scheduled)
 
 * **The final SettlementForge check** (item 125 (d); owner: "read it from local"). It runs after the pass's verdict, on

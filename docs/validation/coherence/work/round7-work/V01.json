@@ -1,0 +1,38 @@
+[
+ {
+  "id": "VAF-R6T-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V01",
+  "claim": "V01 \u00a71.2's hook row (l. 205) reads '| V04 \u00a73.5.4 (item 244's span rule) | a raised part's spans with their `use` (`open`, `vault`) | crossings through `open` spans only (V01 \u00a73.17.3) |'. The span rule's home is the base's \u00a72.7 (l. 2729, '**The span rule**, run eagerly at the end of the raised way's generation \u2026'). V04 \u00a73.5.4 (d) (V04 l. 1689\u20131690) is a reader of it: 'The base fixes each span's `use` eagerly by \u00a72.7's span rule (item 244)'. This round makes the home matter more. A span's `use` is now read together with \u00a72.7's crossing table (a `vault` span under a wall is read `open`; the span rule 'never reads a wall', l. 2644\u20132645), and V01 \u00a73.17.3 (3) cites \u00a72.7 for that reading, while the hook row still sends a builder to V04. The repair left the row as it stands, since it cites V01 \u00a73.17.3 for its use; its provider column is the mis-citation. Nothing built changes.",
+  "required_change": "V01 \u00a71.2's row: \"V04 \u00a73.5.4 (item 244's span rule)\" \u2192 \"\u00a72.7's span rule (item 244; a `vault` span under a wall read `open`, \u00a72.7's crossing table, *beneath*)\", the other two cells as they stand.",
+  "reported_by": "verify-agree-fabric-r6t"
+ },
+ {
+  "id": "VAT-r6-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "Two words at V01 left behind by R6-10's END. (a) V01 \u00a75.1.3 (l. 3037\u20133039) now reads 'the hood pins, model pins and access symbols belong to the `pins` group and block trees to the `trees` group, so the view bar hides them as Neighbourhood's keys do'. The switches are the Dress panel's (T12 `dress`: V09 l. 1825, l. 4003; \u00a78.4 l. 13677). V09's view bar (l. 3799) holds the layer toggles (\u00a77.8) and no group switch, and 'Neighbourhood's keys' names nothing in the set. (b) \u00a73.18 (c)'s row (l. 2624) gives the group switches the outcome 'view only'. The same table's Find row uses 'view only' to mean the log is byte-identical, yet each switch is a logged `setStyle` (\u00a78.2 l. 12601; T-V1-56 (c): 'logged as one `setStyle`'). A builder follows \u00a78.2 and T-V1-56, so nothing built changes.",
+  "required_change": "V01. (1) \u00a75.1.3: 'so the view bar hides them as Neighbourhood's keys do' \u2192 'so the Dress panel's switches hide them (V09 \u00a74.5's T12 `dress` row)'. (2) \u00a73.18 (c): split the row '| the `pins` and `trees` group switches (`StyleSheet.groups`); the style's `details` and `shadows` | view only (V01 \u00a75.1.2, V01 \u00a75.1.3) |' into '| the `pins` and `trees` group switches (`StyleSheet.groups`) | style only: one logged `setStyle` each, undone as a style edit, the model digest unchanged (\u00a77.4's style row; V01 \u00a75.1.3) |' and '| the style's `details` and `shadows` | view only (V01 \u00a75.1.2, V01 \u00a75.1.3) |'.",
+  "owner": "V01",
+  "reported_by": "verify-agree-tools-r6t"
+ },
+ {
+  "id": "VV12-r6-01",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V01",
+  "claim": "R6-10's END rewrote V01 \u00a75.1.3's lead to '**Group switches** (T12's `setStyle` of `StyleSheet.groups`, \u00a78.2; NG F1): the hood pins, model pins and access symbols belong to the `pins` group and block trees to the `trees` group', but left the sentence's end, 'so the view bar hides them as Neighbourhood's keys do' (l. 3037\u20133039). The switches are the Dress panel's: V09 \u00a74.5's T12 `dress` row (l. 1825: 'the **Trees** and **Pins** switches (V01 \u00a75.1.3's group switches \u2026)') and \u00a75.7 (l. 4003), base \u00a78.2's `groups` comment ('T12 `dress`'s switches hide \u2026') and base l. 13676\u201313678 (a layer's own visibility by '\u00a77.8's layer controls \u2026 a logged `setLayer`; the trees and pins drawing groups \u2026 switched by `StyleSheet.groups` \u2026 and no drawing group by `setLayer`'). V09's view bar (l. 3799) holds the layer toggles (\u00a77.8) and no group switch. V01 now says one panel and V09 another; the switch's builder follows V09, the interface's home, so nothing built changes. The same defect as verify-agree-tools-r6t's VAT-r6-03 (1) and verify-vol-V09-V10-r6t's VV910-r6-03 (one fix).",
+  "required_change": "V01 \u00a75.1.3: \"so the view bar hides them as Neighbourhood's keys do\" \u2192 \"so the Dress panel's **Trees** and **Pins** switches hide them (V09 \u00a74.5's T12 row), as Neighbourhood's keys do\".",
+  "reported_by": "verify-vol-V01-V02-r6t"
+ },
+ {
+  "id": "VV910-r6-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V01 \u00a75.1.3's *Group switches* (l. 3037\u20133039), rewritten this round from layers to groups, still reads \"the hood pins, model pins and access symbols belong to the `pins` group and block trees to the `trees` group, so the view bar hides them as Neighbourhood's keys do\". V09, the interface's home, puts the switches in the Dress panel (T12 `dress`: \u00a74.5's T12 row, l. 1825; \u00a75.7, l. 4003; \u00a74.3's row, l. 1742), base \u00a78.2 (l. 12601) names \"T12 `dress`'s switches\", and R6-10 rules that no drawing group is switched by `setLayer`, the view bar's layer control. The builder of the switch follows V09, so nothing built changes: a restatement differing in form.",
+  "required_change": "V01 \u00a75.1.3: \"so the view bar hides them as Neighbourhood's keys do\" \u2192 \"so the Dress panel's **Trees** and **Pins** switches hide them (V09 \u00a74.5's T12 row), as Neighbourhood's keys do\".",
+  "owner": "V01",
+  "reported_by": "verify-vol-V09-V10-r6t"
+ }
+]

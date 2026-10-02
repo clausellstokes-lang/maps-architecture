@@ -1,0 +1,71 @@
+ROUND-7 NOTES (orchestrator, 2026-10-02):
+
+(1) WHY THIS ADJUDICATION RUNS. The orchestrator runs it for routing, as in rounds 3–6. Counts per round: 501 → 446 → 215 → 145 → 91 → 73 → 81. Round 6 stood at 0 blockers, 39 majors and 42 minors. On the same seats:
+  - R6-03's removal of the held late calamity converged that family, 6 majors → 1;
+  - every other area went 11 → 8;
+  - the raised-way × wall family went about 23 → 30. R6-02's single crossing table removed round 5's contradictions, but the rule's reach (generation, epochs, decay, locks, hand edits, regeneration) opened as many new edges.
+R4-01's duties stand: check every ruling against the owner rules it touches, quoting the item, and sweep the set for every reader of what it changes before writing it.
+
+(2) THE OWNER'S NARROWING — BINDING (J142). The owner chose to narrow the raised-way × wall family and approved its scope word for word: docs/validation/coherence/narrowing-r7.md. Read it whole. It is the owner's decision; the exact texts that state it are yours (J122).
+(a) Rewrite §2.7's crossing table to that scope, as one ruling in full:
+  - drop the changed-state columns C3, C4, C5, C6 and C10, and row W12;
+  - keep C1, C2, C7, C8, C9, C11, C12 and C13, the last only as a re-shape or re-spacing refused where it would put a part on a wall's band;
+  - restate the hand rows (W2, W13, and a re-shape) as the refusals the scope lists, each with its nearest lawful alternative stated once. A single crossing under one span stays `bend.wall.raisedCrossing`.
+(b) Remove the deferred features from the design text, each with an END at its home:
+  - V06 §3.19.2 (disuse, lapse, the strike, salvage, hazards on raised ways, repair) and `repairRaised`;
+  - V05 §3.16 (4)'s raised row;
+  - every writer of a span's or support's `state`, and the arch vault's collapse under a fallen span (V04 §3.5.4 (d) (2));
+  - their tests (T110-2 (7), T114-3's raised clauses, T-V6-11/-47/-61/-64/-73's raised clauses, T-V4-62/-63's collapse clauses, T-V5-14's raised clauses, T-V7-48's fallen-state clauses);
+  - their statistics, guards and report fields.
+Keep the `state` fields in the record as reserved, never written, if removing them costs more than it saves, and say which you chose. Add one line at each removed site's home naming the later milestone (docs/PARKED-IDEAS.md §C).
+(c) A round-6 finding whose case the narrowing removes is closed by the ruling that removes it. Its Part H entry reads "FIX per R7-nn (removed under J142)", and its owner's repair deletes or narrows the text. A finding the narrowing leaves in scope is ruled as usual. List which is which.
+(d) Supersede R6-02 by name where narrowed. Behaviour change 3 (a wall laid after a road deck passes beneath it ungated) and the item 110 (b) reading (behaviour change 8: a later wall crosses an aqueduct under an arch, never at a pier) stand as the owner was told. Restate the owner's veto list for the narrowed family in one place.
+
+(3) A PROBE WILL ATTACK YOUR TABLE. As in round 6, a probe seat attacks the narrowed table and the deferral texts before any repair writes, and an amend seat decides its findings into a Part P. Write cells two builders build alike. For each refusal, name its nearest lawful alternative and its message key.
+
+(4) KNOWN MULTI-REPORTER GROUPS. Rule each group once: MERGE inside a unit, END across units. Name in Part H which groups J142 closes.
+  - Raised ways × walls:
+    - the slid gate grip: VAT-r6-02 = VV910-r6-01;
+    - a held arch vault under a later wall: VAL-R6-01 = VEW-r6-02;
+    - a locked wall under a created raised way: VDC6-01 (hand) with VEW-r6-04 (epoch founding);
+    - a water gate or anchor tower in an under-deck strip: VM-R6T-01 with VEW-r6-03;
+    - `absorbWall`'s vault re-lay: VV56-r6-02 = VV34-r6-03;
+    - collapsed-vault bars: VAT6-r6-01, VAP-r6-04;
+    - the regeneration and `wallToWay` cells' tests: VEL6-r6-02, VM-R6T-02;
+    - the span's `use` read `open` at readers: VAL-R6-03 (GeoJSON) and VEL6-r6-01 (V10);
+    - `W_RAISED_CROSSING`'s counting: VDC6-02 = VPC-r6-05;
+    - §4.13's rung: VAL-R6-07 = VPC-r6-06;
+    - cells naming tests that do not hold their case: VV56-r6-03, VAP-r6-01, VAP-r6-02, VV78-r6-01, VAL-R6-06, VAF-R6T-02, VCS-r6-01.
+  - Pictures and annotations:
+    - public notes, their anchors and the party pictures: VRC6T-02, VAT-r5-02, VAT-r6-01 (`EntityCard.anchor`), VAH-r6-01, VAH-r6-02;
+    - drawing-group switches: VRC6T-03, VRC6T-04, VAT-r6-05, VAT-r6-03, VAT-r6-06, VV910-r6-03, VV12-r6-01.
+  - Other groups:
+    - `looks` over: VRC6T-01 with T-V10-50's fixture, VV910-r6-04;
+    - the late calamity's leftovers: VEL6-r6-03 (what "a condition naming it" means), VAH-r6-03;
+    - clauses scheduled before their provider: VCS-r6-03, VAT6-r6-03, VV34-r6-04, VAF-R6T-01, VAT6-r6-04, VV78-r6-02, VV78-r6-03;
+    - Find's drawn-week timing: VV1112-r6-01.
+
+(5) THE SWEEP'S BLIND SPOTS stand:
+  - (a) V07's village restatements;
+  - (b) V09's panels and V10's clerk;
+  - (c) the tests, fixture lists and milestone cells;
+  - (d) the base's own summaries and index rows.
+For the deferral, add (e): V12's statistics and guards, V11's registry readers and settings rows, V08's party pictures, and every T- test, fixture and milestone cell that names a removed state or op. A clause left naming a removed feature is next round's finding.
+
+(6) OWNER RULES FIRST. File g items 102–126, their canon routings, and J142's scope decide.
+  - Item 110 (b) as written stays whole.
+  - Item 114: walls decay and recover; this is unchanged.
+  - Item 101: R2's bend to the nearest lawful declaration is what the refusals' nearest lawful alternative serves. R13: a declared or pinned thing is held.
+  - Item 120 (a): Find never changes the model.
+  - Item 122: crisis looks are looks.
+  - Item 125: the dossier is the only SettlementForge input.
+  - Item 126 (a2): no map view on a phone.
+adjudication-r2.md – r6.md stay binding except where you supersede an entry by name. R6-02's Part P amendments stand except where J142 removes their case.
+
+(7) THE BAR AND SEVERITY (J141). The pass stops at a full sweep with zero blockers and zero majors. Grade by the SEVERITY STANDARD. Where a grade contradicts it, regrade with a one-line reason. A regrade never skips a repair.
+
+(8) WRITE docs/validation/coherence/adjudication-r7.md with:
+  - a table of contents by unit;
+  - the rulings (R7-01 …), each naming its issue ids, the owner rule checked, the single correct text, the unit that states it and every END;
+  - the narrowed crossing table as its own ruling, in full, with the deferral texts and the refusals;
+  - PART H for EVERY issue, under its owner's heading, with END lines under each receiving unit's heading, each unit's section self-contained.

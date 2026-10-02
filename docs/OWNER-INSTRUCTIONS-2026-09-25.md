@@ -259,3 +259,8 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   pool?" / "Goal" / "Change the goal to what you suggest" — the coherence pass's exit bar is now zero blockers and zero majors on a
   full sweep with the validator's sign-off; minors are repaired each round and those left at the stop are listed for the
   builders (fix-list.md); feature freeze until the pass closes (J141; revises the 2026-09-29 zero of any severity, J123).
+- (2026-10-02 ~01:20) Offered three courses for the raised-way × wall family after round 6 (narrow it, keep iterating, stop
+  blocking on it): "Narrow it (Recommended)"; then, on the drafted scope: "Approve as drafted (Recommended)" — raised ways
+  stay as item 110 (b) states them at generation and by hand; their decay over time is deferred to a later milestone; hand edits
+  that push a wall into a standing raised way are refused with the nearest lawful alternative (J142;
+  docs/validation/coherence/narrowing-r7.md).
