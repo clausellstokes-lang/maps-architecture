@@ -78,8 +78,8 @@
 # THE SWEEP (class (A): "each repair seat greps its own unit for 'bar', 'barred', 'admit' and 'law 1 (' and every
 # parenthesis '(law 1 (…)' that follows a bar or admit test, writes each bar test it finds in F6 in the same block, and
 # names each in its report (site, old → new); it leaves pointers as they are"). Searched V07 whole for those words and
-# for "§2.7's laws", "law 2", "lawful", "clear point", "clear of", "keep(s)/kept clear", "refuse", "contradicts" (58 + 31
-# hits read in their sentences).
+# for "§2.7's laws", "law 2", "lawful", "clear point", "clear of", "keep(s)/kept clear", "refuse", "contradicts" (95
+# distinct lines, each read in its sentence).
 #  ONE FURTHER SITE, written in this file's ### 3.13 block:
 #   * ### 3.13, the F-V-RAISED row's detection (l. 2769): "a fixed place with no clear point in reach" → "a fixed place with
 #     no point in reach that §2.7's laws admit". A ladder's detection deciding whether a fixed place has a lawful point is a

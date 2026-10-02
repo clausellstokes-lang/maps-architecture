@@ -138,8 +138,10 @@
 #      Output: C1 5/0, C2 1/0, C3 81/0, C4 0/0, S1 0/0, S2 317/0, exit 0 — no new hit.
 #  (4) Combined check: no other repair-r7y block file targets §13.2 or §13.8 (model §2.7, pipeline §4, determinism §5.2,
 #      §5.4, §7.1, §7.3, §7.7; V05, V06, V07, V09 their volumes), so these REPLACE bodies apply unchanged after them in
-#      name order; at this seat's close the other base seats' block files held no block yet. The seat's scratch work
-#      sits in its own folder (scratchpad/coherence/scope-r7y).
+#      name order; a combined dry run with the base seats' block files as they stood at this seat's close
+#      (determinism 5 blocks, model 0, pipeline 5, scope 2): 12 found, 12 applied, 0 skipped, audit 12 OK, headings
+#      153 → 153, fences balanced, title block unchanged, rationale unchanged. The seat's scratch work sits in its own
+#      folder (scratchpad/coherence/scope-r7y).
 
 === REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT ===
 ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT
