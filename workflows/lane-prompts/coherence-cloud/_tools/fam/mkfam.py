@@ -3,13 +3,13 @@ import sys, os, datetime
 SP = os.path.dirname(os.path.abspath(__file__)); R = int(sys.argv[1]); P = R - 1
 OUT = '/home/user/maps-architecture/workflows/lane-prompts/coherence-cloud'
 LENSES = [
- ('table', 'TBL', 'the tables themselves', """§2.7's support step, its crossing table and way-and-channel table, and the lock, bent-group and fixed-place sentences, read as a builder would build them.
-Check that the tables are complete over every axis:
+ ('table', 'TBL', 'the laws and their examples', """§2.7's support step (6): the LAWS as the design now states them (terms, laws 1–4 with law 1 (1)–(11), the tiers, the check, the corrections and the veto list), then the worked examples — the crossing table, the way-and-channel table and the lock, bent-group and fixed-place sentences — read as a builder would build them.
+Check that the laws decide every case on every axis (the examples need not list it):
   - every wall event;
   - every raised-way state;
   - every path: generation, regeneration, epoch and hand;
-  - every lock: none or either side, which J144 makes one case.
-Check that each cell gives one outcome — the built form, the records and the op that writes each, gate counts, the bend key and dry-run fate, and undo — and that "as Wn·Cm" references resolve. Check the support step's own rules (1)–(7), the span rule, *over the band*, *down before the wall*, *beneath* and *unchanged meeting* against one another. Check the sentences against item 110 (b), (f) and J144."""),
+  - every lock: none, placement or shape, on either side (J144, J147, J150).
+Check that each cell gives one outcome — the built form, the records and the op that writes each, gate counts, the bend key and dry-run fate, and undo — and that "as Wn·Cm" references resolve. Check the support step's own rules (1)–(7), the span rule, *over the band*, *down before the wall*, *beneath* and *unchanged meeting* against one another. Check the laws and the examples against item 110 (b), (f), J144 and J147–J149, and that the design text states the laws exactly as adjudication-r7.md's Part L gives them."""),
  ('generation', 'GEN', 'generation and regeneration', """The generation pipeline's meetings of walls and raised ways, in the order it actually runs: S3's gate routes and boundary, S4's routes and viaducts, S5a's trace and pull, S5b's spawned primaries, S6's elevated roads and aqueducts, S7's strips, towers and gates, and S10's band. Then a regeneration under a held raised way (§7.2), and its routes re-solved.
 Read §4.1, §4.2 S3, §4.3 (*The slot*, *Where it may not go*, *Lattice and costs*), §4.4 S5a–S5c, §4.6, §4.7 S10, §4.8, §4.13, §5.2's ladders, §5.3's gate and way-and-trace rows, §5.4's warnings, §7.2 and §7.3's operators. Gate counts (`N_k`), §5.3's checks and the warnings must agree with the tables."""),
  ('epochs', 'EPO', 'epochs, decay and the village', """Walls and raised ways over time:
