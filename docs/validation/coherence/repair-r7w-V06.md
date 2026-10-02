@@ -23,7 +23,7 @@ PROGRESS (lane `coherence/repair-V06-r7w`, 2026-10-02)
   no `####` headings, so a block is the whole section; every line outside the edited items is verbatim). No retitle, no
   insert, no append. **Ruling requests: 0.**
 * **Live file** (assemble-r7v's output): sha256 132b96bb…a447b2824, 708 994 bytes, 4 667 lines. After the blocks: sha256
-  abce709f…0a3b2264455 (full: abce709f7c49a3a0d29edfd48aaada44dbf7a40bdd43298cd9bd3c86a0264455), 710 863 bytes, 4 676
+  abce709f…6a0264455 (full: abce709f7c49a3a0d29edfd48aaada44dbf7a40bdd43298cd9bd3c86a0264455), 710 863 bytes, 4 676
   lines (`docs/validation/amendments-c/apply-blocks.py` dry run on a copy: 7 headers found, 6 applied, the `=== FILE` line
   reported malformed by that base-only applier as expected; audit not OK 0; headings 65 → 65; fences balanced; output
   byte-identical to the build).
@@ -122,8 +122,8 @@ None needed. **Searched and left as they stand** (each greps the volume for a re
   where a chain's gate and towers stand; §2.10's `harbourChains` count untouched.
 * ## 7's T114 take-over row ("its aqueduct founded across the decayed ring (T110-2 (1))") — a pointer to T-V6-73's
   clause, which carries the lock.
-* ## 8's other cells — no other mention of T-V6-47's `shiftCourse` clause or of T-V6-73's new take-overs needing a cell
-  (T-V6-73 runs at E3, after the growth and route re-solve its new take-overs read).
+* ## 8's other cells — no other mention of T-V6-47's `shiftCourse` clause; T-V6-73's new take-overs stay in the bar's E3
+  cell, as T-V6-47's epoch stage and route clauses do (no ruling moves either).
 
 ## HAND-OFFS (each written by its own unit under adjudication-r7w)
 
