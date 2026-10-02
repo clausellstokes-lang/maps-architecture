@@ -275,3 +275,11 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   (J145; the cap set to 10 by the program, vetoable).
 - (2026-10-02 ~08:05) Offered three ways to close the raised-way × wall family after probe pass 3 did not converge (laws plus
   examples, keep amending the table, repair now as is): "Laws + examples (Recommended)" (J146).
+- (2026-10-02 ~10:00) After the program listed the lock issues of probe pass 4: "i think something you drew vs something you
+  locked are different. If you drew something, it should be able to move with the settlemetn. if things are locked, its placement
+  is locked." / "but its shape may evolve" / "the same things to things you drag. you have to drag it to a new location and lock
+  it to pin it." / "but its shape may evolve, and that means that if it is locked, it participates in division and merging of
+  plots and adjusts its cosmetics like the rest of the neighborhood. I think a seperate lock should exist for the shape/plot size
+  rather than placement. two different axis." Then "Shape lock honoured (Recommended)" and "Outline and size only (Recommended)"
+  — drawing or dragging holds nothing; locks have two axes, placement and shape (outline and plot size; cosmetics still follow
+  the neighbourhood); a placement-locked thing's shape evolves; a shape lock is honoured where a raised way meets a wall (J147).
