@@ -1,6 +1,426 @@
-# Repair round 7 — V12 (calibration)
+# Repair round 7 — V12 (calibration) — lane coherence/repair-V12-r7
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V12-r7; covered by the whole-design retrovalidation (J84).
 
-PROGRESS: [x] brief read whole · [x] Part H V12 read (no issue; E-V12-1) · [ ] Part L terms checked · [ ] blocks written · [ ] applied on a copy · [ ] result saved, LANDED
+PROGRESS (lane `coherence/repair-V12-r7`, 2026-10-02)
+- P0 brief read whole, its ROUND-7 NOTES and ORCHESTRATION NOTES included; resume check: no output, no LANDED line: fresh
+  start: done
+- P1 adjudication-r7 read: Part H's head (the citation rule, *One rule for the rest*), Part H · V12, its Totals and
+  *Held for round 8*; R7-01 whole; Part L's Terms and laws 1–2 (its *Carried way* included); E-V11-1, E-P15, E-D18 and
+  E-D19 (the texts that meet V12's); Part P's rows naming E-V12-1 (PRB7C-TIM-13, PRB7G-TIM-05): done
+- P2 live V12 §3.11 read whole (l. 2013–2302); the sweep's sites read whole where a hit could restate a family rule (§1's
+  conformance list, §2.2's profile and reading rules, §3.4.2's head and item-110 reading rules, the wall and gate rows,
+  §3.6b's raised-way bars, §3.15.4, §3.16.2's table, T-V12-38); V11 §3.24.0 and its preset paragraph (the parity
+  presets' raised-way off form): done
+- P3 block built (scratch generator: 2 count-asserted substitutions on 1 live unit, each found exactly once in the unit
+  and in the volume; every other line verbatim): done
+- P4 checks (dry run of `docs/validation/amendments-b/apply-blocks.py` on copies; diff against the live file; ids and
+  scans; doc_checks): done
+- P5 report, result JSON, LANDED: done
 
+## Summary
+
+* **Blocks:** 1 `REPLACE` block on `docs/volumes/V12-calibration.md` — §3.11 (no retitle, no insert, no append, no base
+  block). **Ruling requests: 0.**
+* **Live file** (assemble-r6's output): `docs/volumes/V12-calibration.md` sha256 006b8ef1d304… (the output repair-r6-V12
+  expected); the REPLACE body is the live unit with two count-asserted substitutions.
+* **Binding rulings applied:** Part H · V12 — E-V12-1 as amended in place by pass 7 (J146, PRB7G-TIM-05); Part H's head
+  (the citation rule and *One rule for the rest*, J148, J149); R7-01 (2) (both ends; the seat's own sweep, blind spot (e)
+  "V12's statistics" among the five). Round-7 note (7) (e): J150's Part A hand-offs (a lock under undo, redo, a re-grade
+  or a repair; the two-axis lock and its readers outside the family) — V12 writes nothing for them and holds no lock text.
+  No ruling, probe or review id is written into design text.
+* **Words** (wc over the volume): 83 697 → 83 730 (+33, +0.04 %); §3.11 6 894 → 6 927. Every added word is E-V12-1's
+  ruled text. No shrink source applies this round (the unit owns no issue and the END adds readers); no unit shrank, so
+  no nuance audit for a cut over half applies.
+
+## Issues → where fixed (adjudication-r7 Part H · V12: no issue; one END line)
+
+No issue is routed to V12 this round (the lane's issue list is `[]`; Part H · V12: "No issue; one END line
+(PRB7C-TIM-13), so V12 runs this round"). V12's one round-6 finding, VV1112-r6-01, is *Held for round 8* (J144: not ruled
+this round) — no block is written for it.
+
+## END lines written (Part H · V12)
+
+* **E-V12-1 — §3.11's `raisedWays.structure` line** (PRB7C-TIM-13; amended, J146 pass 7, PRB7G-TIM-05) — both texts, as
+  given:
+  * the `raisedWays.structure` row's `stripMarginM` parenthesis (live l. 2177): "(the under-deck strip's one margin cell,
+    read by §4.6 S8, shipped with item 110's rows from M3a)" → "(the under-deck strip's one margin cell, read by §4.6 S8
+    and by §2.7's laws — the strip, the ends, the zone and a held building's strip of their terms —, shipped with item
+    110's rows from M3a)";
+  * the span-rule constants' row (`raisedWays.structure.span`, row 80; live l. 2188): after "and V04 cite the cells" adds
+    " — `deckDepthCm`, every span's soffit, read by §2.7's laws, law 1 (2), (5), (7) —".
+* **The citation rule (Part H's head), checked:** the first text cites the laws' **Terms** (*the strip*, *the ends*, *the
+  zone*, *a held building's strip* — Part L's Terms, which no numbered law holds, so no law number is due); the second
+  cites "§2.7's laws, law 1 (2), (5), (7)" with its numbers. Neither cites the crossing table, an outcome, the lock,
+  bent-group or fixed-place sentence, (G1)–(G3) or a row, and neither restates a law; neither holds a clause Part L's
+  correction 1 or 7 names (*One rule for the rest*). **So both are written exactly as given; no change is made under the
+  rule.**
+* **Both ends:** the laws' readers named here agree with the laws' own Terms (Part L: *the strip* "widened each side by
+  `raisedWays.structure.stripMarginM` (§4.6)", *the ends* "each widened by the same margin", *the zone* the strip
+  widened) and with law 1 (2), (5) and (7) (each reads a span's soffit: (2) "each span's soffit standing or fallen", (5)
+  "every span over it clears its top", (7) "no higher than the lowest road deck's soffit there"). The far ends are the
+  model's §2.7 support step (6) (E-M1) and V11's row 80 readers and row 863 pattern (E-V11-1).
+
+## The sweep (R7-01 (2); blind spot (e), V12's statistics): restatements found and conformed
+
+Searched V12 whole for: raised, aqueduct, viaduct, elevated road, soffit, under-deck, `stripMarginM`, arch vault, vault
+span, `gateMoved`, `towerMoved`, `stretchBent`, `supportSlid`, fixed place, merged, `deckDepthCm`, wall's top, §2.7,
+postern, gatehouse, `wallToWay`, `absorbWall`, wall-like, crossing table, way-and-channel, `raisedCrossing`, bent group,
+`bend.wall`, lock, held, pin, gate, `wall.*`, `gate.count`, `wall.ungated`, `crossing.kinds`, T114-3, H-AQUA. **V12
+states no rule of how a wall-like structure and a raised way meet, and holds no lock, hold or pin of a structure** (its
+"pins" are the no-op pins of V12 §2.13 and its "held" a register entry's hold), so nothing beyond E-V12-1 is conformed.
+Each hit that could bear on the family, and why it stands:
+* **§3.11's other cells:** the default line's `raisedWays.structure.clearWidthM` and `.squareDeg` (§4.3's crossing cells,
+  cell names only); J-V12.82, X-V12-19 and §10.3's X-V11-17 (f) row (the span-rule line's naming choice, unchanged — E-V12-1
+  adds readers, not a cell).
+* **The wall and gate statistics (§3.4.2):** `gate.count` counts gates of class `land` ("a main gate is a gate of class
+  `land`", §3.4.2's head). A carried way's gate (§2.7's laws, law 2 *Carried way*; E-P15, E-D18) is a `land` gate "counted
+  as the harbour gate is", so the metric reads it as the base's gate count now does. No P row meets one: under the MFCG,
+  FTG and VG presets every `raisedWays` chance is 0 (V11 §3.24.0), so a parity town holds no generated road deck, and
+  stage k ≥ 2's carried-way gate is one of S5b's `c`. `wall.ungated` ("arterial ways crossing a curtain at no gate"):
+  a road deck passing over a wall laid after it is ungated by law 1 (1) and (3), but no P row meets one for the same
+  reason, and T-V12-38's fixture holds no curtain under a deck. So both statistics stand with no change of any bar.
+  `wall.condition` (per run, by condition) reads each record's own condition, as law 1 (2) keeps it (item 114).
+* **§3.15.4's T114-1 – T114-3 bullet** ("T114-3's crossing clause on H-AQUA"): a pointer to the base's clause and V06's
+  fixture, neither renamed this round. It stands.
+* **§3.14's K2-8** (the declared raised road crossing ≥ 2 part-0 ways, no wall named) and **§3.6b's four `T110b.*`
+  bars** (presence and trend of generated raised ways, `stopAfter` the raised-way stage; "the rung gate" and "the walled
+  supply" are not wall terms): each counts or places a raised way and never states a meeting. They stand.
+* **§1's item-110 (f) conformance list** ("a raised part's zero junctions with part 0", §3.4, §5.3), **§2.2's profile**
+  (`raisedSupport`, `span`, `part`, `raisedKind`) and **§3.4.2's item-110 reading rules** (way graphs per part; a viaduct
+  over a ground node makes no junction): these are measurement shapes of item 110 (f), which law 1 (1) keeps. They stand.
+* **§0, §1's hook rows, §1b, §3.7's TOWN guard and bumps, §3.10's corpus rows, §4.1's suppression, §3.16's rows, T-V12-38
+  – T-V12-40, §8 and §9:** each names raised ways as generated, measured, tuned or suppressed, and never states a meeting
+  with a wall. They stand.
+
+## Observations for the adjudicator (written as given; no block, no ruling request)
+
+Two points in E-V12-1's own text, each MINOR at most (a reader list; nothing built or tested changes). Both are recorded
+for the adjudicator's round-8 sweep:
+1. **"a held building's strip" among `stripMarginM`'s readers.** Part L's Terms define *a held building's strip* as "the
+   strip of a `vault` span … widened all round by the meeting wall's strips' width", and *a span's strip* as "the deck's
+   plan between its two piers' inner faces **without that margin**". As the Terms read, the held building's strip takes
+   no `stripMarginM`. V11's E-V11-1 names only "the widened strip, zone or ends" as the cell's meetings. If the adjudicator
+   agrees, the closing words are: drop "and a held building's strip" ("— the strip, the ends and the zone of their terms
+   —").
+2. **Law 1 (10) among `deckDepthCm`'s readers.** Law 1 (10) reads a soffit too ("a soffit lowered over a run of it", of a
+   shape-held thing), and V11's E-V11-1 names "law 1 (2), (5), (7), (10)" for the same cell. If the adjudicator agrees,
+   the closing words are: "law 1 (2), (5), (7), (10)".
+
+## HAND-OFFS
+
+None. E-V12-1's far ends are already other seats' END lines this round: the model's E-M1 (§2.7's laws at the support step
+(6)) and V11's E-V11-1 (row 863's pattern and its `deckDepthCm` exception).
+
+## Checks
+
+* **Dry run** (`apply-blocks.py`, unchanged, on a copy of the live V12 with the live rationale): 1 of 1 block applied,
+  audit 1/1 OK (the `=== FILE` routing line reported MALFORMED and skipped, as the router consumes it); headings 67 → 67;
+  fences balanced 30 → 30; title block unchanged; PENDING FABLE REVIEW lines 1 → 1; rationale unchanged (sha256
+  a3f45a3f3ad6…); output 3 560 → 3 560 lines, sha256 66e2ca404b1f…. A character diff of the output against the live
+  file shows only the two inserted spans, at l. 2177 and l. 2188.
+* **Ids:** no id added or removed (every T-V12, J-V12 and X-V12 id's count unchanged across the volume). The new pointers
+  resolve: §2.7's laws (the model's E-M1, at §2.7's support step (6)), law 1 (2), (5), (7) and the Terms *the strip*,
+  *the ends*, *the zone* and *a held building's strip* (Part L).
+* **Design text scans** over both changed lines: no review, ruling or probe id; no deferral wording; no phone.
+* **doc_checks** (`--doc` the volume, `--heads docs/ARCHITECTURE.md`; WARNING printed: reference corpus INCOMPLETE —
+  captures, research/patreon, research/devlogs, research/ftg-docs, research/external missing — results NOT
+  authoritative, PROVISIONAL; exit 1 for the unreviewed C3 runs, as in every round): live → output C1 8/0 → 8/0, C2 0 →
+  0, C3 140/126 → 141/127, C4 2/0 → 2/0, S1 0 → 0, S2 119/11 → 119/11. The one new C3 run, "law 1 2 5 7", is the
+  ruled citation "law 1 (2), (5), (7)". Its three 3-grams come from three different findings files ("law 1 2"
+  profile-village, "1 2 5" several, "2 5 7" code-ftg-client and code-manor), and no single source holds the run. It is
+  generic numbering, not reference wording, and it cannot be reordered without changing the ruled text.
+
+=== FILE docs/volumes/V12-calibration.md ===
+
+=== REPLACE ### 3.11 The calibration register — no provisional number dangles ===
+### 3.11 The calibration register — no provisional number dangles
+
+**Entries.** One per provisional number: every §13.7 letter (owner `base`); every §13.5 row whose fallback moves a
+mechanism; §1.1's rung modifiers; every volume's calibrate-later model constant (never an application or engineering
+constant, *The provisional-number lint* below) — written, with its default, its measurement (its metric ids), its due
+milestone and its fallback, by the seat that lands that volume's milestone, `owner` naming the volume — from a named
+register line, else from the default line below; the siting weights files g items 103–108 mark "general historical
+knowledge, not corpus-witnessed" (`method: 'corpus'`, due M-CAL); the thresholds of V12 §3.6b's rules (owner `V12`, §13.7
+rows by item 501); and each owner strip pick (`owner-set`).
+
+**The default line** (J-V12.71). A calibratable column (V11's `ColumnSpec`) of a registry table (V11 §3.1) that no register
+line names — this section's lines with their catch-all, V11 §8's non-g lines, V02 §3.10.10's, V06 §8's, V07's one
+`rules.race.densityPower@VG` entry (V07 §3.15), or a line a volume writes in V02 §3.10.10's form (in its own §8, or beside
+its table as V03 §2.4 does for `roomProgram.json`, J-V3.118) — takes its one entry from this line, so no landing seat
+invents a method, a metric or a fallback: id `cal.<table>.*.<column>`; `target.column` with `rows` absent; `owner` the
+document whose source file holds the column's cells when the entry is written — the source manifest's author seat for that
+file (V11 §3.2.1 step 1), as its volume, or `base` for a base section's seat — and, where two documents' files hold them,
+the first the table's `rowsHome` names (V11 §2.1); a document that writes the column's cells later never moves it
+(J-V12.73); `method: 'corpus'`; `due` M-CAL — or, for a column whose first compiled cell lands after M-CAL's
+`ReconciliationRecord` is committed, the later run that takes its layer by *The due's corpus run* below (J-V12.75);
+`metric` [`frame.<table>.<column>`]; `fallback` { mechanism: "at its due corpus run the run that targets the column moves
+it under V12 §3.10's rules; a column no frame's run targets closes `fixed` with 'no admissible frame'", `notAchieved: false`
+}; `line: 'default'`. The seat that lands the column's first compiled cell writes it in the same change with `plat calibrate
+register --defaults --milestone <id>` (the landing change's milestone in V12 §2.8's form), after its named lines' entries:
+the command writes this entry for every calibratable column that holds at least one compiled cell and has no entry — a
+column of an empty table (V11 §2.1: every registry row ships as its schema's empty table until its rows-home milestone)
+takes none until the change that ships its first row — in table-id then column order, never touches an existing entry
+except to append the moved-value or rows-added row below, is idempotent, and lists the ids it wrote or appended to in the
+register report (V12 §5.2). This floor is no measurement plan: its corpus run moves no owner-stamped cell or gate and no
+value below an owner-stamped minimum (V12 §3.10.3 R6), and it binds no key, law, enumeration, switch, word list or
+dossier row set (V11 marks those non-calibratable). It binds, among others, volume 1's `hood.*` default rows; V11's
+`raisedWays.structure.clearWidthM` and `.squareDeg` (§4.3's crossing cells); volume 3's
+`roomProgram.json` columns its V03 §2.4 lines leave (PE's cells among them; J-V3.118); V04 §2.3's rule-table columns
+no line below names; V05 §2.4's values, its `IslandRule` cells `accessSiting.deckGapM` and `lineClearM` among them
+(V05's own, calibrate-later, never V11 rows; J-VI.17 H29); V07 §2.2's and V07 §2.2a's numeric cells other than its one `VG`
+entry — the `FarmTable` village rows among them, while `territory.haPerHead`, derived as their sum, takes no entry (E-38;
+V07 §3.9 (1)); and the calibratable look rows of item 117 (V11's season, leaf and leaf-cover rows, registry rows 98–101: their
+densities and week bands). Volume 8's dossier row sets and volumes 9's and 10's tables take none — every column of V11 §3.1 rows 63–66
+and 86–89 is `calibratable: false` (J-V11.65, J-V11.81). **A later line** for a column the default line bound — a volume
+whose bars confirm the column before its corpus run writes it in V02 §3.10.10's form and registers the bars it names —
+restates that one entry in place while it is `provisional` (after its corpus run only under a new major table version,
+V12 §4.2): the same id, the line's `owner`, method, metric, due and fallback, `line` dropped, a cells row appended with the
+column's value and the restating milestone; never a second entry.
+
+**The due's corpus run** (J-V12.75, J-V12.78). `--milestone <id>` is required: `--defaults` without it refuses, writing
+nothing and naming the flag, and a volume's short citation of the command runs with it. `<id>` is the landing change's
+milestone in V12 §2.8's form (`M1`, `M2b`, `M3a`, `M3a-V2`, `M5`, `V-M0`, `V-M2u`, `V3-P1`, `V4-U3b`, `V5-P2`, `V6-E2` …); an
+id that is neither one of §16's ids nor volume-qualified by V12 §2.8's rule — a bare `P1` — is refused, naming the form.
+`--defaults --milestone <id>` writes each entry's first history row `{ date, value: the column's compiled cells by row key,
+milestone: <id>, cells: true }` and its `due` from that milestone: `M-CAL` while no M-CAL `ReconciliationRecord` is
+committed; once one is, the later run that takes the landing milestone's layer:
+
+| the landing milestone | `due` once M-CAL's record is committed |
+|---|---|
+| M6-U and `V4-U0` – `V4-U5` (`V4-U3b` among them); `V-M2u` | `M-CAL/under` |
+| M6-sky and `V5-P0` – `V5-P6` | `M-CAL/sky` |
+| M6-E and `V6-E0` – `V6-E9` | `M-CAL/evolution` |
+| M6-P and `V3-P0` – `V3-P6` (PE is built inside M2b and M3a and lands under their ids) | `M-CAL/M6-P` |
+| any other milestone | `M-CAL/<that milestone's id>` |
+
+The same substitution holds on every named line: a line's `corpus` stage or due at M-CAL, on a column whose first compiled
+cell lands after M-CAL's record is committed, falls at that column's run by this table, and the seat landing the column
+writes that due. A column landing before M-CAL's record stays due at M-CAL.
+
+**A value moved by its owning seat before its due** (J-V12.77). (1) *When.* The seat that owns a calibratable column (its
+entry's `owner`) whose entry carries `line: 'default'`, is `provisional` and is not yet due — no `ReconciliationRecord` of
+its `due` is committed — may change the column's compiled cells in its table's source outside any run (V12 §3.7), only when
+the change's golden check (§6.4's stage-isolated digests at PR tier, over the main set, the no-op pins' sets and the
+known-city fixtures') finds no digest of a golden committed before the change moved by the new value — a column a
+committed stage already reads may so move where no golden's digest depends on the moved cells (`terrace.siteShare`, read
+from M3a by `terraceState` for the base's district-edge source, V01 §8.1, BCR-V1-42, matters only where an authored
+`terrace` site primitive covers a district); a reader stage the same change lands records its first golden, or its
+feature's declared shift, with the moved value. Volume 1's M5 tunings are the case (V01 §8.1): `land.spineFactor`,
+`land.ringSlack`, `land.smallShare`, `terrace.askGain`, `terrace.siteShare` and `ng.plazaM2` of `hood.constants` (entries
+written at M1) and S7c's `select.*` weights of `hood.templates` (written at M3a), each tuned to that volume's own acceptance
+bars inside the work item that lands its reader, before M5's exit. **Held:** should the golden check find a committed
+digest moved by such a tuning, the tuning is not landed — the cell keeps its landed value, the change records the hold
+with `plat calibrate register --hold <entry id> --milestone <id>` (one row `{ date, value: null, milestone, held: true }`,
+its only change), the register report lists the entry "held: a committed golden reads it" until a later cells row, and the
+owning volume's bar reads the shipped value (V01's T-V1-50). A move that would shift a committed golden is a run — a
+`fallback` or `reference` run with its declared shift (V12 §3.7.6) — never this row; the command below does not read
+goldens, the golden check does. A named line's entry moves its cells by its line's method — a run, the panel rule's stated
+second value — and, on a `measure` line whose owning volume states a tuning before its exit and whose bars no run may name
+(every `BenchBarDef.stages` `[]`, V12 §3.7.2 (4): V03 §2.4's lines, tuned at `V3-P6`), by its owning seat inside the exit's
+milestone under this clause's golden test, and by the line's stated fallback applied in the exit's change (*Milestone
+exits*); each such move appends (2)'s cells row by the same command while the entry is `provisional`, and (3)'s check
+covers the entry. (2) *The row.* The change that moves the value runs `plat calibrate register --defaults --milestone
+<id>`, `<id>` its own milestone. For an existing default entry, or a named entry (1)'s last sentence admits — one whose
+current stage is `measure` and every metric of which that stage reads is a `bar.` member whose bar's `stages` is `[]` (the
+command reads the registered `BenchBarDef`s; that the owning volume states the tuning is the landing review's check) —
+whose target's compiled cells differ, on the row keys its last cells row holds, from that row's `value`, the command
+appends `{ date, value: the column's compiled cells by row key, milestone: <id>, cells: true }` — its only change to an
+existing entry: `status`, `due`, the first row, `owner`, method, metric and fallback stay as written. For such an entry
+that is not `provisional`, or whose due's record was committed before the change (a default entry's
+`ReconciliationRecord`; a named entry's current stage's `MilestoneRecord`), it appends nothing and lists the entry as a
+move owed to a run (`plat calibrate run`). A second run of the command appends nothing. (2′) *Rows added* (J-V12.80). A
+change whose compiled cells hold row keys an entry's last cells row lacks, every row key that row holds unchanged, adds
+rows: the command appends the cells row to that entry — default or named, whatever its status or due, whichever seat lands
+the rows (V03's `V3-P1` band rows of `roomProgram.circulation`, whose poorest-band rows landed at M2b under owner `base`;
+V11's C3 rows of a column its C1 rows opened) — and changes nothing else. Rows added after the entry left `provisional`
+keep their authored values and are reported "rows added after close", a later major table version restating the entry for
+them (V12 §4.2). A change that also changes a cell of a row key that row holds is a move, which (1) and (2) decide, one
+cells row recording both; (1)'s owner condition and (2)'s "owed to a run" read only the changed cells of held row keys.
+(3) *The check.* `plat calibrate register --check` compares, for every entry whose target is a cell or a column without
+`preset` and whose history holds a cells row, its target's compiled cells with its last cells row: a changed or removed
+cell of a row key that row holds fails — naming `plat calibrate register --defaults --milestone <id>` for a default entry,
+or a named entry (1)'s last sentence admits, while it is `provisional` and not yet due, and `plat calibrate run`
+otherwise; a compiled row key the row lacks fails naming the command, which appends it by (2′). It compares the last cells
+row, not the last row of any kind: after its corpus run a default entry's later rows record metric readings and its status,
+while that run's changes ship as historical packs (V12 §3.10.3 R1) and leave the column's cells as its last cells row holds
+them — so a closed entry passes until someone moves its cells in place outside a run.
+
+**Lines by column family.** A table column whose cells share one measurement is one entry (`target.column`), written by the
+seat that lands the table; V11's column entries land with each content milestone and C6 at M4 audits them (V11 §8). A
+line's method cell writes `CalibrationEntry.method` by name — `measure`, `panel`, `corpus` — and a line whose method is a
+`reference` run writes `method: 'tune'`. **The catch-all rule** (J-V12.69): a line ending "and every other calibratable
+column" (of the tables or columns it names) binds every calibratable column of those tables or columns that no other
+register line names — this section's, V11 §8's non-g lines, V02 §3.10.10's, V06 §8's — each as its own entry, id
+`cal.<table>.*.<column>`, with that line's method, metric and fallback; keys, laws, enumerations, switches and the dossier
+row sets take none, and a column two lines bind fails the lint as two entries for one knob (V12 §2.6):
+
+| rows (their content is the owning volume's) | method, due | the confirming measurement | when it cannot confirm |
+|---|---|---|---|
+| items 103–107: siting-family and signature-pair weights, coverage targets, item 105's web weights, `comfortM` and orientation factors, item 107's spacing radii, and every other calibratable column of the tables and columns items 103–107 add — registry rows 33–37 (`siting.profiles`, `.families`, `.pairs`, `.web`, `.custom`: `siting.web`'s `relaxPasses`, `relaxGain`, `splitThreshold`, `reverseShare`, `valuableSecurity` and every `siting.custom` rule cell among them), row 19 (`roster.resources`: `maxDistanceM` and every other goods column), row 17's `profile` columns (V11 §2.3's `SitingProfile`) and row 24's `coverage.rosterWeight` (V11 §2.3 – V11 §2.5, V11 §3.3 – V11 §3.8, V11 §3.13) (V11) | `measure` at M2b for the direction (the bar map's null and share bars, V12 §3.6b), then `corpus` at M-CAL for the value (the frames' `siting.*` and `link.*` rows) | `siting.<spec>` and `bar.<barId>` of the bar map's rows; `frame.*` (a column the catch-all binds names the bar map's rows of its item and its own `frame.<table>.<column>`) | a failing bar's fallback; a column no frame measures closes `fixed` at M-CAL with "no admissible frame" |
+| item 106: the defensibility thresholds, `wall.barrierReachM`, the waterfront size threshold, and every other calibratable column of `walls.barriers` and `walls.waterfront` (rows 14–15, the thickness · height and tower-spacing factors among them; V11 §2.7, V11 §3.16) (V11) | `corpus` at M-CAL | `wall.barrierShare` and `walled.share` on walled frames; each column's own `frame.<table>.<column>` | as above |
+| item 108: the ladder pairs and subsumption rules (provenance `sf:`, V11 §2.2); the port's ranges for unnumbered qualifiers | never entries: the first move only with the port's baseline (V12 §3.7.2 rule 2), the second are the port's derivation rules (item 20 (h)); `calibratable: false` on every `dossier.*` column (V11 §3.1) | — | — |
+| item 102: `w_sun` (`prosperity.drivers`' row `sun`, V11 §3.3.5; owner V11), `sun.samples` and the `roster.classMix` prestige key `sun` (V11); V05's and V06's own shade cells by their volume's own lines where one names them (V06 §8), else by the default line | `measure` at M2b with V11's C2: T-V11-30 (`w_sun` at its default against 0 under common random numbers on B-CITY — the term alone moves no plot across two bands); then item 102 (g)'s fixtures, `measure` at `V5-P1` (V05's island, T-V5-19) and `measure` at `V6-E7` (V06's drift fixture's `shade.gap` on E7's bench, T-V6-12) — two stages at unordered rows, each read at its own exit (*Staged entries*) | `bar.T-V11-30` at M2b; the fixtures' `shade.gap` at their stages | V11 §3.3.5's stated fallback: halve `w_sun` once, then its stated floor, each followed by a re-run |
+
+**Items 109 and 110 by column.** Every calibratable column of the underground's tables and of item 110's is one
+`target.column` entry, id `cal.<table>.*.<column>` (`rows` absent), written by the seat landing the owning content
+milestone — V11's C8 for item 109 (M6-U), C3b for item 110 (M3a) with the era's and the culture's item-110 factors, C1 for
+`climate` (V11 §8); V04's and V02's seats for their own cells; and a base cell that a volume's base change request adds,
+owner `base`, by the seat landing that request, once the cell exists (V06's E2 at M6-E for BCR-V6-26's persistence cells,
+file f item 291; J-V12.66) — with the method, metric and fallback of its line; a line ending "and every other calibratable
+column" binds by the catch-all rule. `retaining.settings.stateSnapCm` (row 79; file f item 245; owner `base`, whose value it
+holds): the default line's entry at M3a, restated in place at `V6-E2` by V06 §8's line on `bar.T-V6-62` (J-RF2.4's
+measurement), due `V6-E7` — an entry written at M3a cannot name a bar V06 registers at E2 (J-V12.82); V11 §3.24.1 cites
+this line for it. `owner` is the volume whose values the cells hold, the schema's volume named in brackets. No entry of these
+lines names a preset entry (V11's preset entries are `fixed:` off values, V11 §2.2) or moves an owner-stamped cell or gate
+or a value below an owner-stamped minimum. A line's step is written into its entries' `due` (and a staged line's into each
+stage's) in V12 §2.8's form — "at U3" as `V4-U3`, "at U3b" as `V4-U3b`, "at U4" as `V4-U4`, "at U5" as `V4-U5`, V06's E2
+and E7 as `V6-E2` and `V6-E7` — while the corpus evidence rules E1 – E5 are rules, not milestones.
+
+| table (registry row) · columns — one entry each | owner (schema) | method, due | metric | fallback |
+|---|---|---|---|---|
+| `s0.features`' relief and geology rows' item-109 (a) values — P(soluble), P(volcanic) by relief (row 9); `under.systems`' cavern row `mineBoost`, `mineCap`, `fissureChance`, `breachM` (row 59) | `base` (item 109 (a)'s values; V04's `params` names) | `measure` at `V4-U3` (the bar map's 109 (a) `trend` and `higherWith` rows; T-V4-55), then `panel` (V4-U5, `realism`) at `V4-U5` | `void.*` (cavern present) | V12 §3.6b's default, then *not produced*; unrated: the panel rule |
+| `under.systems`' cavern `miningCellShare` (row 59) | V11 (V11 §3.23.1) | `measure` at `V4-U3` (the `higherWith` row's mining factor) | `void.*` (cavern present) | V12 §3.6b's default |
+| `under.ruin` (row 58a) `chance`: `magic`, `history`, `delvingFactor`, every `blueprint` rung × relief cell | V11 (V11 §3.23.2; V04 §2.3) | `measure` at `V4-U3` (the 109 (j) (1) `rate` rows on forced-source sites confirm each draw reads its chance), then `panel` (V4-U5, `realism`) at `V4-U5`, then `corpus` possibility (E1) at M-CAL | `void.*` (ruin present) | the panel rule; a reachability gap enters `known-defects.json` |
+| `under.ruin` `cultures` (`CultureRow`): `blockPitchM`, `streetCm`, `aspect`, `roomM`, `columnPitchM`, `hallShare`, `terraceRiseM`, `weight`, `monument`, and every other calibratable column of the row | V11 (V11 §3.23.4; V04 §2.3) | `measure` at `V4-U3` — T-V11-24's distinctness against the town's fabric above the ruin (`paired`; T-V4-45) — then `panel` (V4-U5) at `V4-U5` | `ruin.blockArea`, `grid.r4`, `grid.axis` | V11 §3.23.4's: the failing row's `blockPitchM` moves 25 % away from the town's median block pitch once and the bench re-runs; a second failure drops the row's weight to 0, reported to the owner as a table defect |
+| `under.ruin` `survival` (the eight persistence classes) | V11 (V11 §3.23.5; V04 §2.3) | `panel` (V4-U5, `realism`) at `V4-U5`; the order is T-V11-23's compile bar | `ruin.survival` | the panel rule, every move keeping V11 §3.23.5's order |
+| `under.ruin` `sourceWeight` | V11 (V11 §3.23.6; V04 §2.3) | `measure` at `V4-U4`, the step whose exit runs that bar (the 109 (i) `rate` row: T-V4-58), then `panel` (V4-U5) at `V4-U5` | `void.*` (an undercity's first void source) | the panel rule |
+| `under.ruin` V04's cells: `ancientYears`, `significance`, `maxFrameShare`, `maxChambers`, `forecastFloorShare`, `depthM`, `burialByAge`, `smoothM`, `sharedAxisChance`, `ageRefYears`, `coverKeep`, `distinct`, `fadeFactor`, `magicLightChance`, `monument` (`clearM`, `tierDecay`, `ceilingClearCm`, `moundShare`), and every other calibratable column | V04 (V04 §2.3) | `measure` at `V4-U3` (T-V4-45, T-V4-68; T-V4-62 reads the span-rule line's cells), then `panel` (V4-U5) at `V4-U5` | `ruin.blockArea`, `grid.axis`, `void.*` | V04 §8's pre-decided fallbacks, else the panel rule |
+| `under.openings` (row 58a) each kind's `chance` | V11 (V11 §3.23.7; V04 §2.3) | `measure` at `V4-U3b`, the step whose exit runs those bars (the bar map's 109 (j) (5) `trend` and `floor`: T-V4-49, T-V4-54), then `panel` (V4-U5) at `V4-U5` | `void.*` (accessible; deep voids sealed) | V12 §3.6b's default |
+| `under.openings` `coverM` | V04 (V04 §2.3) | as the line above | `void.*` | as the line above |
+| `under.dig` (row 58a): `cap`, `reachM`, `decayM`, `maxM`, `basementFactor`, every resolved `classRow` | V11 (V11 §3.23.7; V04 §2.3) | as the `under.openings` line | `void.*` (accessible; deep voids sealed) | V12 §3.6b's default, every move keeping T-V11-23's non-increasing depth factor |
+| `under.dig` `sealedFloor` — the floor the `voidSealedDeep` bar reads (item 109 (j) (5)) | V11 (V11 §3.23.7) | `panel` (V4-U5) at `V4-U5` | `void.*` (deep voids sealed) | none: moving it moves the bar's threshold, so a miss is `not-achieved` (`notAchieved: true`) |
+| `under.dig` `planReachM` | V04 (V04 §2.3) | as the `under.openings` line | `void.*` | V12 §3.6b's default |
+| `under.catacomb` (row 58a): `count` (`churchesPer`, `cap`), the `chance` cells, `rankCap`, `growthCapShare` (per year), `growthFloorM2`, `plagueNeedFactor`, `cryptJoin` (`own`, `other`), `charnelMaxM2`, and every other calibratable column — never the owner-stamped gates (the TOWN rung, the cemetery-only sources, the cathedral's `always`) | V11 (V11 §3.23.8, J-VI.6; V04 §2.3) | `panel` (V4-U5, `realism`; its framing holds the cathedral's crypt and the largest complex) at `V4-U5`, then `corpus` possibility (E4's crypt and catacomb checks) at M-CAL | `catacomb.count`, `catacomb.extentM2`, `catacomb.growthM2`, `crypt.joined` | the panel rule; the bar map's catacomb properties are exact conformance and move no cell |
+| `under.catacomb` `ossuaryReachM` | V04 (V04 §3.5.1) | as the line above | `catacomb.fill` | as the line above |
+| the crypt columns of item 109 (k) (2): the crypt chance per church class (the `basement` classes' cellar rows), `cryptM2` by class and band (`roster.classes`), `crypt.rankShare` (`roster.settings`) | V11 (V11 §3.5.8, V11 §3.5.1) | as the `under.catacomb` line | `crypt.present`, `crypt.areaM2`, `crypt.rank` | as the `under.catacomb` line |
+| V04's other item-109 cells (`voidDwellings`, `under.layout`'s `overlapShaftM` and `overlapShaftChance`, the fade rows); and `accessForecastMin`, `under.rule`'s base cell (registry row 57; II.7.4's `UndergroundRule`, its default written there beside `forecastSafety`'s), its entry landed at `V4-U3b`, the step of its reader P7 | V04; `accessForecastMin` `base` | the default line — `corpus` at M-CAL, or at `M-CAL/under` for a step landing after M-CAL's record — unless V04 §8 writes its own line for the column in V02 §3.10.10's form, which then restates the entry in place | `frame.<table>.<column>`, else that line's | closes `fixed` at its corpus run with "no admissible frame", else that line's |
+| `terrace`: `slopeMin`, `stepMinCm`, `stepMaxCm`, `minTerraceDepthM` (`enabled` is a switch, not calibratable, and takes no entry — V11 §3.24.1); `retainingReachM`, `flatDepthM`, `coverShare` (V09 §4.20.1 (3)'s flat-ground bends); `s0.features`' relief column `terracedEdges` (row 9); and every other calibratable column | V11 (V11 §3.24.1) | `panel` (the M4 panel's M4-110 group; K2 its item) at M4, then `corpus` possibility (E1) at M-CAL | `retaining.lengthM` (and `retaining.onFlatM`, 0 by T110-1) | the panel rule, every move clamped by T-V11-32 (a)'s inequalities |
+| `retaining` (row 79) by band: material weights, `batter`, `thicknessShare`, buttress `fromCm` and `spacingM`, `parapetCm`, towers per 100 m and their least step, and every other calibratable column but `settings.stateSnapCm` | V11 (V11 §3.24.1) | `panel` (the M4-110 group) at M4 | `retaining.lengthM` | the panel rule |
+| `raisedWays` (row 80) rows, CITY and METROPOLIS × kind: `chance`, `cap`, `pMax`; `raisedWays.settings`: `totalCap`, `viaduct.minDropM`, `viaduct.spanCostFactor`, `viaduct.maxSpanM`, `elevated.minRiseM`, `elevated.maxSpanM`, `elevated.bandFactor`, `elevated.landmarkFactor`, `elevated.landmarkMinSignificance` (DR35's threshold), `landmarkMax`, `elevated.highGroundM`, `aqueduct.sourceReachKm`, `aqueduct.needRatioMin`, `aqueduct.minFallPerKm`, `aqueduct.gradient`, `aqueduct.capPerSizeMember`, `aqueduct.terminal`, and every other calibratable settings column — the chances and caps at or above their owner-stamped minima (J-V12.42); the rung gate is V11's schema, never a cell; no `aqueduct.dossierFactor` cell exists — the aqueduct takes no dossier factor (V11 §3.24.7 (3)) | V11 (V11 §3.24.2) | `measure` at M3a, where raised-way generation lands (the four raised-way bars; V06's growth parity reads the ways over the epochs by the `decline` lines below, never a stage of this line), then `panel` (the M4-110 group) at M4, then `corpus` possibility (E1, E4) at M-CAL | `raised.count` | V12 §3.6b's default bounded by the owner's minima — a presence bar still failing at the floor is *not produced*; unrated: *provisional — not rated*; a reachability gap enters `known-defects.json` |
+| `raisedWays.structure`: `clearanceCm` (cart, foot), `parapetCm`, `channelWallCm`, `channelCm`, `deckExtraCm`, `maxPierM` by kind, `pierSpacingM` by material, `pierWidthShare`, `pierMinCm`, `material` by band, `slideMaxFactor` (file f item 244), `stripMarginM` (the under-deck strip's one margin cell, read by §4.6 S8 and by §2.7's laws — the strip, the ends, the zone and a held building's strip of their terms —, shipped with item 110's rows from M3a), and every other calibratable column but the `span` block (the span-rule line's) and `clearWidthM` and `squareDeg` (§4.3's crossing cells, the default line's, `corpus` at M-CAL, as when V01 held them; J-V1.97) | V11 (V11 §3.24.2) | `panel` (the M4-110 group) at M4 | `raised.count` (a course needing a taller pier than `maxPierM` drops, reported `raised_too_tall`) | the panel rule |
+| `era` (row 50) `aqueductM`, `raisedVaultM`; the culture rows' `building` block (row 71) `aqueductM`, `elevatedM`, `raisedVaultM` | V11 (V11 §3.19.1, V11 §3.20.3) | `panel` (the M4-110 group) at M4, then `corpus` possibility (E1: a frame's era and region reach its raised-way rates) at M-CAL | `raised.count` | the panel rule |
+| `ways.crossing` (row 81) by way class: `rampMaxGrade`, the stair's riser, tread, landing interval and landing length, and every other calibratable column | V11 (V11 §3.24.5) | `panel` (the M4-110 group; K2's stairs and ramps) at M4 | `crossing.kinds` | the panel rule; a cart class never takes a stair (V11 §3.24.5's failure rule, the owner's words) |
+| `deck` (row 82) by kind: `offer` per rung, footprint and floors by band, `frontageM`, `minPlotDepthM`, `fill`, `endClearM`, and every other calibratable column | V11 (V11 §3.24.4) | `panel` (the M4-110 group) at M4, then `corpus` possibility (E1) at M-CAL | `deck.buildings` | the panel rule |
+| `deck.landmarks` (row 83): each slot's claimant chances, `minSpanM`, and every other calibratable column | V11 (V11 §3.24.4) | `panel` (the M4-110 group; K2's mole head, mid-mole and islet slots) at M4 | `deck.buildings` | the panel rule |
+| `roster.specialisations` (row 84): each row's `chance`, `capShare`, `capMin` | V11 (V11 §3.24.3) | `panel` (the M4-110 group; its stepped-temple item) at M4 | `tier.count` | the panel rule |
+| the stepped tiers: V11's `stepped-shrine` heights row (V11 §3.6.4); V02's stepped compositions (V02 §3.15) take V02 §3.10.10's stepped line, never this one | V11 | `panel` (the M4-110 group; the stepped-temple item) at M4 | `tier.count` | the panel rule |
+| `water` (row 85) `perHeadL` | V11 (V11 §3.24.6) | `measure` at M3a — T-V11-33's bench at the start of V11's C3b (arid METROPOLIS seeds with an aqueduct candidate ≥ 0.5; temperate alluvial CITY seeds ≤ 0.2) | `water.needRatio` | V11 §3.24.6's: `perHeadL` moves by 5 litres once toward the missed side and the bench re-runs; a second miss is reported to the owner with both measurements |
+| `water`: `wellsPerHa` by geology, `wellYieldM3`, `roofShare`, `captureShare` by biome; `climate` (row 43) `rainMmPerYear` by biome | V11 (V11 §3.24.6, V11 §3.17.1) | as the line above, then `corpus` possibility (E1) at M-CAL | `water.needRatio` | V11 §3.24.6's fallback moves `perHeadL` only; these columns close with its result |
+| `decline` (row 46) structures block: `retaining.holdM`, `retaining.neglectAfterYears`, `retaining.stretchM`, `aqueduct.disuseAfterYears` — written at V11's C3b (M3a) | V11 (V11 §3.18; read by V06 §3.19.2, V06 §3.19.4) | `panel` (V6-E7, AB `history` on H-100) at `V6-E7`, inside M6-E | `retaining.lengthM`, `raised.count` over the epochs | the panel rule |
+| the base decline table's persistence cells `raised`, `retaining` (row 46; §4.11 by file f item 291, STAGED M6-E; V11 §3.18 holds no rate) — written by the seat landing V06's E2 at M6-E | `base` | `panel` (V6-E7, AB `history` on H-100) at `V6-E7`, inside M6-E | `retaining.lengthM`, `raised.count` over the epochs | the panel rule, with V06 §8's stated second value |
+| V04's span-rule constants, the cells `raisedWays.structure.span` (row 80; their values V11 §3.24.2, J-V11.97 — the base's §2.7 support step and span rule, file f item 244 from V04's request BCR-V4-45, and V04 cite the cells — `deckDepthCm`, every span's soffit, read by §2.7's laws, law 1 (2), (5), (7) —): `vaultShare` by kind (`span.vaultShare`, scaled by the era and culture `raisedVaultM`), `maxHeightCm`, `minHeadroomCm`, `maxFallCm`, `vaultCap` by rung, `deckDepthCm`, `supportFoundationCm` (J-V4.93) | V04 | `panel` (the M4-110 group) at M4, then `measure` — T-V4-62's conformance, 0 violations — at `V4-U3`, then `panel` (V4-U5, `realism`) at `V4-U5`: three stages in milestone order, the cells landing at M3a (*Staged entries*; V04 §8's row takes this order and cites this line, its home) | `raised.count` | V04 §8's pre-decided fallback, else the panel rule |
+
+**Items 111–119 by column** (the owner items' register lines; V12 §3.15 gives each item's bars):
+
+| table · columns — one entry each | owner (schema) | method, due | metric | fallback |
+|---|---|---|---|---|
+| item 111's pull and term cells: the water-pull weights by climate row (the growth field's and the crowding map's), the prosperity water term's weight, item 102's sunlight cell per climate row, the well-yield weighting and the arid walking-coverage factor (V11's item-111 rows), and every other calibratable column they add but the oasis, grove and garden rows | V11 | `measure` at M2b — T111-1 (`higherWith`) and T111-4 (`most`) — then `corpus` (an arid frame's `water.distByBand`, where one exists) at M-CAL | `bar.T111-1`, `bar.T111-4`, `water.walkShare`, `water.distByBand`; `frame.*` | V12 §3.6b's default (the weight doubles once, clamped), then *not produced* |
+| item 111's oasis chance and no-other-water factor, the oasis area band, the grove and irrigated-garden rows, and the arid row's river, lake and coast chances | V11 | the default line (`corpus` at M-CAL; T111-3's rate rows at M1 confirm each draw reads its chance, and a miss there is a code defect fixed before M1's exit, moving no cell) | `frame.<table>.<column>`; `water.kinds` reported | the default line's |
+| the deficiency-contrast threshold of §8.2's style check (item 112 (a); its cell in V11's style registry rows) | `base` | `measure` at M3b — T112-1 green on every shipped family's checked variants (`hatched`'s at M5) — with the game-master trial's colour findings appended as `trial` rows (V12 §3.15.2) | `bar.T112-1` | none: moving it moves the bar, so a miss is `not-achieved` (`notAchieved: true`); a failing variant is fixed in its colours, never by the threshold |
+| item 113's cells: `history.epochYears`, the event-to-epoch rows, the burial threshold and its flood, silt, rebuilding and bare-rock factors, the effective peak's sizing quantile (V11's item-113 rows), and every other calibratable column they add | V11 | `measure` at `V6-E9`, where the replay lands (its fixtures pass with the cells as shipped), then `corpus` possibility (E4: a town shrunk inside its old walls, a church too large for its parish, a refounding on the old roads) at its corpus run | `bar.T113-1`, `bar.T113-3`, `bar.T113-4`, `bar.T113-6` | V12 §3.6b's default |
+| item 114's cells: the need and means windows, the neglect, wear, breach, patch and rebuild rates, the patch-replacement rate (V11's item-114 rows) | V11 | `panel` (V6-E7, AB `history` on H-100, whose walls decay and recover) at `V6-E7`, then `corpus` possibility (E4: a poor town's patched circuit) at its corpus run | `wall.condition` over the epochs; `bar.T114-5`, `bar.T114-4` (their specs `T114g.sustained`, `T114g.oldestFirst`, V12 §3.15.4) | the panel rule |
+| item 114's generation-time shares (§7.7's DR41 from readiness and wealth; V11's rows) | V11 | `measure` at M2b, where §7.7's DR41 lands (§13.8), on T114-7's readiness × wealth fixture grid, then `corpus` possibility (E4) at M-CAL | `wall.condition`; `bar.T114-7` | V12 §3.6b's default |
+
+Item 115's ceiling table and item 118's decoration, staging-keyword, motif and generic-festival tables (registry rows 97 and
+102–105) are enumerations (not calibratable; V11) and take no entry; item 120 adds no line — its search lexicon
+(V11's labels, synonyms and groups) is a word list, and a calibratable cell its rows add takes the default line like any
+column; item 116's zoom-out margin stop, item 119's comfort level, item 120's interaction budgets and every time budget
+are engineering constants outside the register (*The provisional-number lint*), each provenance note naming its
+confirming bar. Items 121 – 126 add no line either. The look cells of items 122, 123 and 124 — item 122's look rows'
+`scale` and `lookLevel` and its settings `densityCap`, `siegeStandoffM`, `areaPerHeadM2`,
+`enginesPerBesiegers` and `previewSeverity` (§10.2's `RosterTables.crisis`), item 123's threshold ranges by element kind,
+its decay rates by material and its default age, item 124's climate rows' weather columns and the numbers of the
+climate table's `settings.weather` block (the kinds' `lengthS` and `hours`, the site factors and `forestShareMin`; not
+its two owner-stamped caps, V11 §3.25.11) —
+take the default line like item 117's look rows: V12 §3.15's bars check that the drawing follows them, never their
+values; item 122's `map` rows are a dossier row set and take none. Item 121's ladder, tier ceilings, 4K ceiling and Auto
+loop thresholds, item 124's frame cost and item 126's medium-class minimum are engineering constants outside the
+register, each provenance note naming its confirming bar (T121-2, T121-3, T121-8; T124-2; T126-2); item 125 adds no
+cell (its fallbacks are the generator's own choices).
+
+**The panel rule** (J-V12.61). Where a line reads "the panel rule": a group rated No on its question moves the line's cells
+once to the owning volume's stated second value where it states one — a declared `fallback` run (V12 §3.7) — and the group
+re-sits at the next sitting; where no second value is stated, the entry becomes `not-achieved` and the group's finding
+reaches the owner as a table defect in the reconciliation report (V12 §5.5); an unrated group leaves the entry *provisional
+— not rated*, which never fails an exit (V12 §2.6).
+
+**The provisional-number lint** (`plat calibrate register --check`, PR tier). **Every** compiled cell whose column is
+`calibratable` passes only when its provenance source is `ref:…`, `owner`, `owner-eye`, `host`, `corpus` (item 69's palette
+exception, or a historical pack's cell) or `sf:⟨file⟩@⟨baseline⟩`, or an entry names it directly or by its column, or its
+provenance note begins `fixed:` with its reason; everything else fails — so an `own` calibrate-later cell never dangles. A
+cell no entry covers fails naming its column and `plat calibrate register --defaults --milestone <id>`; an entry carrying
+`line: 'default'` whose method, due, metric or fallback differs from the default line's (its due `M-CAL`, or — only once
+M-CAL's record is committed — the `M-CAL/<layer>` its first history row's milestone gives; a default entry due `M-CAL` still
+`provisional` once that record is committed fails, owing its layer's run), or whose `owner` is no document whose source file
+holds the column's cells, fails (a hand-edited default is a named line without its section); a default entry beside a named
+entry for one column fails as two entries for one knob; an entry, or a stage of one, whose `due` is none of §16's ids, 
+V12 §2.8's volume-qualified ids or a `CorpusRunId` fails, naming V12 §2.8's form (`E2`, `U5` and "the raised-way milestone"
+fail); an entry whose last cells row disagrees with its target's compiled cells, or lacks a compiled row key, fails by (3)
+above. Model constants the volumes keep outside tables, in code, move into a table or take a `thr.` entry. An application
+or engineering constant — a UI threshold, an autosave or export limit, a time budget — that its volume confirms by its own
+test or performance row under D-18 (V09's autosave limits, `raised.previewOnReleaseKm`, the deck scenes' export cap and
+times; V10's T-V10-8 budget row; item 116's margin stop; item 119's comfort level; item 120's interaction budgets; item
+121's ladder, ceilings and Auto loop thresholds; item 124's frame cost; item 126's medium-class minimum) is outside the
+register: its provenance
+note names that test, and no entry is written (J-V12.81). Every §13.7 letter has an entry; every entry's cell or column
+exists and is calibratable and every metric it names exists — a catalogue id, or a family member that resolves
+(`siting.<spec>` and `bar.<barId>` to a registered bar, `frame.<table>.<column>` to a calibratable column); one mechanism has
+one entry and one column; every cell that encodes an OWNER RULE item's hard clause carries its `ownerRule` stamp — the check
+reads the stamped-clause list V11's compiler writes; status moves only provisional → confirmed | fallback-applied |
+not-achieved | owner-set | fixed (a `corpus` entry closed at its corpus run, with its reason), and confirmed → owner-set (a
+later pick) — a staged entry's advance from stage to stage is no status move; a history row is appended, never removed.
+
+**Milestone exits.** At the exit the landing seat appends to each `measure` entry due there — on a staged entry, to each
+stage due there — one history row holding each metric it names as the milestone's `ParityReport` gives it (a `bar.` metric:
+its bar's statistic and verdict); the entry moves to `confirmed` when every `bar.` metric it names passes and every other
+metric meets the condition its line states, and otherwise its fallback opens (V12 §3.7.1 (b)) — or, for an entry whose
+cells no run may name (every metric its stage reads a `bar.` member whose bar's `stages` is `[]`), its line's stated
+fallback is applied by the exit's seat in the exit's change, recorded by (2)'s cells row, the entry closing
+`fallback-applied`. A `frame.*` metric is read only at a `corpus` stage (M-CAL, or the later run that takes its column): at
+an earlier exit it is not read and does not hold the entry back, and its history row is appended at that run; an entry
+whose every metric is a `frame.*` member is due at its corpus run, and the lint refuses any other due for it (J-V12.70).
+`MilestoneRecord.exitCriteria` (§13.3) gains one row per entry due at that milestone, with its status and evidence
+(`result` widened to carry `not-achieved`, `owner-set`, `fixed` and `provisional-not-rated`, item 493); an entry still
+`provisional` past its due milestone fails the exit — §13.7's JT ("no acceptance run treats an unset value as passed") made
+mechanical — except a `panel` entry whose panel is unrated, which reads *provisional — not rated* and never fails an exit.
+**Every volume's landing exits green:** a milestone of any volume that lands a registry table, or a calibratable column of
+one, exits with `plat calibrate register --check` green over the cells it lands — T-V12-20 runs at PR tier from M1, so the
+landing change carries its named lines' entries and the default line's (each owner's §8 exit cells carry it). The register
+check needs no input to pass: with no calibratable cell compiled it passes empty.
+
+**Staged entries** (J-V12.79). A line that names more than one stage — "`measure` at `V4-U3` …, then `panel` (V4-U5) at
+`V4-U5`, then `corpus` possibility at M-CAL" — writes each of its entries with `stages`, one per stage in the line's order:
+its method, its due (a `corpus` stage's a `CorpusRunId` by *The due's corpus run*), its panel on a `panel` stage,
+`possibility: true` where the line says "possibility", and `metric` where the line gives the stage metrics of its own; a line
+of one stage writes none. The entry's `method`, `due` and `panel` hold its current stage's: the first stage with no passing
+row. A stage is read at its milestone's exit, or at its sitting for a `panel` stage, and appends its row with
+`stage: { index, outcome }`: (1) a pass that leaves a non-`corpus` stage unpassed appends `pass` and advances `method`, `due`
+and `panel` to the first unpassed stage, the entry staying `provisional`; (2) the pass that leaves no non-`corpus` stage
+unpassed confirms the entry; (3) a failing stage applies the line's "when it cannot confirm" there — its fallback (a
+`fallback` run, or the hand fallback of *Milestone exits* where no run may name the cells), the panel rule's stated second
+value, or `not-achieved` — and so closes the entry (`fallback-applied` or `not-achieved`), its later stages still read at
+their exits as metrics or panel rows that move no cell and no status; (4) an unrated `panel` stage appends `unrated` and
+holds the entry *provisional — not rated*, never failing an exit, its later stages still read at their own exits, and a
+later sitting's rated pass (V12 §3.9.1's re-offers) passing it; (5) a `corpus` stage is read at its corpus run whatever the
+entry's status then is — a `frame.*` metrics row, and for a `possibility` stage that run's reachability rows (E1) and checks
+(E4) — and moves cells only as V12 §3.10 lets a corpus run, into historical packs (R1), never re-opening, closing or
+advancing the entry (V12 §3.10.1's closing by the run's record binds entries whose only stage is `corpus`). A staged entry
+holding a non-`corpus` stage due at a milestone whose `MilestoneRecord` is committed, with no row of that stage, fails that
+exit as an entry past its due.
+
+**The order**, which the lint holds, is §16's (J122's combined order, stated there once): a stage sits at the §16 row it is
+built inside — a §16 id at itself; `M3a-V2` at M3a; volume 2's `M6a` – `M6c` at M6, before M6's own exit; `V3-P*` at M6-P
+(P0, P1 and P3 after M4, the rest after M6), `V4-U*` at M6-U, `V5-P*` at M6-sky, `V6-E*` at M6-E; `V-M0` after M0 and
+`V-M1` – `V-M4`, `V-M2u` in their own order; volume 11's steps at their §16 ids — two stages at one row following their step
+numbers (`V4-U3` before `V4-U3b` before `V4-U4`), volume 6's steps by V06 §8's *Order and dependencies* instead (E2, E3,
+E5 and E6 in any order after E1, E4 after E1, E7 after E1 – E6, E8 unordered against E7, E9 after E8). A row precedes every row that
+starts after it in §16's table, directly or through a chain (M-1 – M4 in their order before every other row; M6 and M6-U
+after M5; M6-sky after M6-U; M-CAL after M6-sky; M-SF after M-CAL; M3c after M3a); rows no chain connects are unordered —
+M5, the village, M6-E and M6-P's first rungs, which J122 runs side by side after M4; M6-E against M6, M6-U and M6-sky; M6-U
+against M5 where it runs beside it with a second pair — and two stages at unordered rows are each read at their own exit,
+whichever comes first (the item-102 line's island and drift stages); a `corpus` stage follows every other. The lint refuses a
+`stages` list the order places the wrong way round, naming the pair (a `V4-U3` stage before an `M4` stage), a `corpus` stage
+before a stage of another method, a stage whose `due` fails the due test, and a staged entry whose `method`, `due` or
+`panel` is not its current stage's.
+=== END ===
