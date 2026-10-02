@@ -1,12 +1,12 @@
 SEAT coherence/adjudicate-r7-amend — the Maps program's coherence pass, round 7 (orchestrator brief, 2026-10-02).
 
-WHAT THIS SEAT IS. adjudicate-r7 wrote docs/validation/coherence/adjudication-r7.md: its rulings and Part H for all 81 round-6 issues, among them the raised-way × wall family's ruling: the crossing table and the way-and-channel table as amended, and three cross-cutting sentences (locks, the bent group, what the wall's law fixes in place). Before any repair seat writes against it, coherence/probe-r7 attacked that ruling. Its findings are in docs/validation/coherence/probe-r7.md (results in results/coherence_probe-r7.json). You are the adjudicator's amending hand. Decide each probe finding and amend adjudication-r7.md IN PLACE, so the file the repair seats read is already whole.
+WHAT THIS SEAT IS. adjudicate-r7 wrote docs/validation/coherence/adjudication-r7.md: its rulings and Part H for the 53 round-6 issues of the raised-way × wall family (a family-only round under the owner's J144; the other 28 are held for round 8), among them the raised-way × wall family's ruling: the crossing table and the way-and-channel table as amended, and three cross-cutting sentences (locks, the bent group, what the wall's law fixes in place). Before any repair seat writes against it, coherence/probe-r7 attacked that ruling. Its findings are in docs/validation/coherence/probe-r7.md (results in results/coherence_probe-r7.json). You are the adjudicator's amending hand. Decide each probe finding and amend adjudication-r7.md IN PLACE, so the file the repair seats read is already whole.
 
 READ FIRST, WHOLE:
   1. docs/validation/coherence/probe-r7.md.
   2. docs/validation/coherence/adjudication-r7.md: its general ruling, the family's ruling, any Part A hand-offs, an existing Part P (an earlier probe pass's decisions), and each Part H section a probe finding touches. docs/validation/coherence/narrowing-r7.md is WITHDRAWN (J143) and not binding.
   3. The round-7 orchestrator notes, at the end of workflows/lane-prompts/coherence-cloud/coherence_adjudicate-r7.prompt.txt: their duties bind you as they bound the adjudicator.
-  4. The owner rules each finding cites: docs/AMENDMENTS-2026-09-28g.md items 110, 114, 122 and 125; docs/OWNER-INSTRUCTIONS-2026-09-25.md's J122 and J141 entries.
+  4. The owner rules each finding cites — among them J144 (docs/PROGRESS.md: a lock on walls, aqueducts and similar structures holds placement, not shape; where they meet the shape changes, locked or not): docs/AMENDMENTS-2026-09-28g.md items 110, 114, 122 and 125; docs/OWNER-INSTRUCTIONS-2026-09-25.md's J122 and J141 entries.
   5. The live text each finding cites, by grep.
 
 DECIDE EACH PROBE FINDING, PRB7-01 onwards:
