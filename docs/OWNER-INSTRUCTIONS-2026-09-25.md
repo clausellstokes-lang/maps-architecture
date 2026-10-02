@@ -283,3 +283,9 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   rather than placement. two different axis." Then "Shape lock honoured (Recommended)" and "Outline and size only (Recommended)"
   — drawing or dragging holds nothing; locks have two axes, placement and shape (outline and plot size; cosmetics still follow
   the neighbourhood); a placement-locked thing's shape evolves; a shape lock is honoured where a raised way meets a wall (J147).
+- (2026-10-02 ~10:55) "um... i would like to say that logically, a gate shouldn't move and everything else can should revolve
+  around that logically. Because, how hard was it to make and close up a gate in history. I think its easy to create a gate, but
+  its hard to make one. So anything that requires a gate to move or an aqueduct or something else that is a hard structure, the
+  eaiser of the two things to move is what is moved and or avoiding conflict before it happens in such cases. what do you think?"
+  Then "Three tiers (Recommended)" — gates, posterns, towers and fixed places never move for a meeting; walls and raised ways:
+  the newer bends locally; roads, plots and unlocked buildings move around them; plan around hard things first (J148).
