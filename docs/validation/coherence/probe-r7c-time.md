@@ -272,7 +272,7 @@ obstacle ((3), base l. 2537–2538) and *the edge* (adj l. 479–481), read for 
 
 **Claim.** The table reads "the band's half there (§4.8's rows along the stretch profile)" (adj l. 467) and an
 enceinte's band "its half-widths by §4.8's rows along the stretch profile" (base l. 2538). §4.8 sends village kinds to
-`village.json` ("At village kinds the light section reads `village.json`'s `palisade.lightHeightCm`", base l. 7716–7717).
+`village.json` ("At village kinds the light section reads `village.json`'s `palisade.lightHeightCm`", base l. 7715–7716).
 V07 gives two widths and calls only one "the band": the section — "`palisade` (timber stakes, 300 cm, 40 cm thick),
 `earthwork` (a bank 4 m wide … with its ditch 3 m wide outside), `inner` (… 500 cm, 120 cm thick …)" — and "The band
 `palisade.bandM` (8.5 m) each side of every walled stretch is the no-build band every later stage reads" (V07
@@ -485,7 +485,7 @@ reconcile".
 
 **Claim.** A frame growth extends only a deck with "an end on the arena's outer ring" (base §2.7 *At the frame*; "(7)
 A frame growth's extension … from the old deck's last interior station … to the deck's new end on the new ring", base
-l. 2712–2715). None of the sweep's clauses says its raised way ends on the frame's outer ring (H-AQUA's spring lies
+l. 2711–2715). None of the sweep's clauses says its raised way ends on the frame's outer ring (H-AQUA's spring lies
 "inside the S3 lattice", V06 l. 4057; its viaduct runs from `A` to `B`, V06 l. 4060–4064), while T-V5-14 names the
 variant it needs ("a variant whose raised way over the run has a foot on the old frame ring", V05 l. 2565–2566). Every
 C12 cell of W4–W14 is "as Wn·C2", the same by construction, so nothing built changes: MINOR (R7-01).
