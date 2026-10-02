@@ -1,0 +1,973 @@
+[
+ {
+  "unit": "model",
+  "old": "and its ramps, stairs and feet kept by its course off the band and the wall strips (law 1 (4); §4.3 *Where it may not go*)",
+  "new": "and its ends kept by its course off the band and the wall strips (law 1 (4), these laws' *ends*; §4.3 *Where it may not go*)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a gate, postern, tower or fixed place of the trace stands under it only where the crossing is over and its arches clear them, the course otherwise keeping clear",
+  "new": "a gate, postern, tower or fixed place of the trace stands under it only where these laws admit it, the course otherwise keeping clear of it (law 1 (4)–(6), read",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a tower its spacing or a turn would place in the strip where the arches do not clear it is placed along the trace at the nearest lawful point (law 2 (a), law 3)",
+  "new": "a tower its spacing or a turn would place where law 1 (5) bars it is placed along the trace at the nearest lawful point (law 2 (a), law 3)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a trace's line never crosses a raised way's ramp, stair or foot, its band and wall strips kept off them too (law 1 (4))",
+  "new": "a trace's line, band and wall strips never lie over a raised way's ends (law 1 (4), these laws' *ends*)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "every keep-clear this table states for a trace's line holds for its band and wall strips — the line kept from a ramp, stair or foot by the wall strips' width th",
+  "new": "every keep-clear these laws state for a wall's line, band or wall strips binds its line — a line admitted only where it and the band and wall strips it carries ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "treats as impassable to its line the impassables these laws give a trace, each widened as the one list of them, §4.4 S5a *Trace* (2), states it (law 1 (2)–(4), ",
+  "new": "searches only the shapes these laws admit, its line read with the band and wall strips it carries there (law 1 (2)–(6), (9)–(11) and *Carried way*, read with th",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "— under a standing span or a fallen one, but under an aqueduct's arches that clear it and the wall (law 1 (5)) —",
+  "new": "— wherever law 1 (5) bars it —",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "at generation and in an epoch circuit S5a's pin moved and the trace laid through it (§4.4 S5a *Trace* (2))",
+  "new": "at generation and in an epoch circuit S5a's pin resolved by law 2 in its order and the trace laid through it (§4.4 S5a *Trace* (2))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "whichever is laid later keeps it out of a road deck's zone, and out of an aqueduct's strip but under arches that clear it, an anchor's tower out of it always (l",
+  "new": "whichever is laid later keeps it where law 1 (4)–(6) admit it (the fixed-place sentence)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "— an aqueduct's over crossing admitting, under arches that clear them by each span's recorded soffit, what law 1 (5) and (6) admit —",
+  "new": "— an aqueduct's over crossing admitting what law 1 (5) and (6) admit, each span read by its recorded soffit —",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "an aqueduct has none, a fixed place standing in its strip only under arches that clear it and the wall (law 1 (5), (6))",
+  "new": "an aqueduct has none, a fixed place standing in its strip only where law 1 (4)–(6) admit it",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "takes no claim whose weld vertices lie where law 1 (6) bars them (in a standing road deck's zone, or in an aqueduct's strip but under arches that clear them),",
+  "new": "takes no claim whose weld vertices lie where law 1 (6) bars them,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a road deck keeps each outside its zone and an aqueduct each out of its strip but under arches that clear it, an anchor out of it always (law 1 (4)), and either",
+  "new": "it keeps each where law 1 (4)–(6) admit it (its zone, strip and ends read by these laws' terms), as it keeps the trace's gates and towers where law 1 (5) admits",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "the strip here being the under-deck strip widened each side by the band's half there (§4.8's rows along the stretch profile) together with every held building's",
+  "new": "the strip here being the under-deck strip widened each side by the band's half there (§4.8's rows along the stretch profile) together with every place meeting i",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "each passing outside every held building's widened strip on its side;",
+  "new": "each passing outside every such place on its side;",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "A **lawful crossing** is a part of the line that enters the strip on one long side and leaves it on the other, meeting the deck line once (law 1 (2)–(4)): of an",
+  "new": "A **lawful crossing** is a part of the line that enters the strip on one long side and leaves it on the other, meeting the deck line once, where these laws admi",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "and a crossing on a road deck's ramp, stair or foot by the nearer, by law 3, of the first lawful crossing under its deck and the one beyond the foot",
+  "new": "and a crossing over a road deck's ends (these laws' term) by the nearer, by law 3, of the first lawful crossing under its deck and the one beyond the foot",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a trace laid after a support is `cleared` passes through its ring as open ground,",
+  "new": "a trace laid after a support is `cleared` meets its ring as open ground, crossing through it only where these laws admit the crossing (law 1 (2); *Where the lin",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "through a `cleared` ring as open ground,",
+  "new": "a `cleared` ring open ground, crossed where *Where the line crosses* admits it,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 2,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "*beneath* as read: through a `cleared` ring as open ground,",
+  "new": "*beneath* as read: a `cleared` ring open ground, crossed where *Where the line crosses* admits it,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "never where these laws bar a gate (law 1 (5): in a road deck's under-deck strip, or in an aqueduct's unless its arches there clear the gate and the wall and the",
+  "new": "never where these laws bar a gate (law 1 (5), read with their terms; a gate's way under an aqueduct passing the strip by the crossing rule, law 2 (a))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "and one whose crossing falls on a ramp, stair or foot, pinned by S5a at the first point beyond the foot (these laws, law 1 (4)), is a gate and one of `c` where ",
+  "new": "and one whose gate these laws bar where the boundary crosses it (law 1 (1), (4), (5)) is a gate and one of `c` where S5a moves its pin to a lawful place (law 2 ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "S5a pins none on a deck and one beyond a foot where its crossing falls on a ramp, stair or foot, S5b spawns to `N_k`",
+  "new": "S5a pins none on a deck and resolves a pin these laws bar by law 2 in its order (§4.4 S5a *Trace* (2)), S5b spawns to `N_k`",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a gate, tower or fixed place of the trace under it only where its arches clear them,",
+  "new": "a gate, tower or fixed place of the trace under it only where law 1 (4)–(6) admit it,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "no gate, tower or fixed place of theirs under it but where an aqueduct's arches clear them, an anchor under none (law 1 (4)),",
+  "new": "no gate, tower or fixed place of theirs under it but where law 1 (4)–(6) admit it,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "where law 1 (5) bars a gate (inside a road deck's under-deck strip, or an aqueduct's unless its arches there clear the gate and the wall and its way passes the ",
+  "new": "where law 1 (5) bars a gate (read with these laws' terms; its way under an aqueduct passing the strip by the crossing rule, law 2 (a)),",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "would lie where law 1 (5) bars it (in a road deck's under-deck strip, or in an aqueduct's but under arches that clear it),",
+  "new": "would lie where law 1 (5) bars it,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "no gate, postern, tower or fixed place under it but where its arches clear them, an anchor under none (law 1 (4); `bend.wall.aqueductArch`),",
+  "new": "no gate, postern, tower or fixed place under it but where law 1 (4)–(6) admit it (`bend.wall.aqueductArch`),",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "no gate, postern, tower or fixed place under it but where an aqueduct's arches clear them, an anchor under none (law 1 (4))",
+  "new": "no gate, postern, tower or fixed place under it but where law 1 (4)–(6) admit it",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "*unchanged meeting* · T110-2 (4) (H), T114-3, T-V6-11 (E)",
+  "new": "*unchanged meeting* · T110-2 (4) (H), T-V6-11 (E)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "a shape-locked one never merged into (law 1 (10)) · T110-2 (1), (2) |",
+  "new": "a shape-locked one never merged into (law 1 (10)) · T110-2 (1), (2), T-V7-48 (V) |",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "*unchanged meeting* · T114-3, T-V6-73, T110-2 (4) (H) |",
+  "new": "*unchanged meeting* · T114-3, T-V6-73, T110-2 (4) (H), T-V7-48's decay clause (V) |",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "read across the span's strip by law 1 (8) · T-V6-47 |",
+  "new": "read across the span's strip by law 1 (8) · T-V6-47, T110-2 (4) (H) |",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "or in `absorbWall`'s own where none is left · T-V6-11 |",
+  "new": "or in `absorbWall`'s own where none is left · T-V6-11, T110-2 (4) (H) |",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "model",
+  "old": "A line's part inside a strip that crosses no deck line there goes to the strip's edge on the side it entered from.",
+  "new": "A line's part inside a strip that crosses no deck line there leaves it on the side it entered from.",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "the impassables §2.7's laws give a trace (law 1 (2)–(4), law 1 (9) and (10); the one list of them, which every pull, cost field and reader of them cites) impass",
+  "new": "searching only the shapes §2.7's laws admit, its line read with the band and wall strips it carries there (law 1 (2)–(6), (9)–(11) and law 2 *Carried way*, read",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "— on ground part 0, a raised way met by §2.7's laws (law 1 (1), (3)–(5); its worked example *beneath*): an arterial crossing the boundary on a raised deck pins ",
+  "new": "— on ground part 0, a raised way met by §2.7's laws (law 1 (1), (3)–(5); its worked example *beneath*): an arterial crossing the boundary on a raised deck pins ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "meets a wall by §2.7's laws (their worked example the crossing table) — an aqueduct crossing a standing wall at its own level, over the band on an arch or merge",
+  "new": "meets a wall by §2.7's laws — its course, a viaduct's priced in a route's solve among them, searching only the courses those laws admit (law 1 (2)–(6), (9)–(11)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "(a channel laid after it by §2.7's way-and-channel table)",
+  "new": "(a channel laid after it by §2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (e))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "a wall laid after it — a village palisade among them — by law 1 (2)–(9)",
+  "new": "a wall laid after it — a village palisade among them — by law 1 (2)–(11)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "*Rung:* leave out and report (a road deck that cannot come down before a standing trace, at generation; at an epoch it waits, V06 §3.19 (5));",
+  "new": "*Rung:* leave out and report (a raised way §2.7's laws give no lawful course, at generation; at an epoch it waits, V06 §3.19 (5); a wall laid after it with no l",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "| F-SITE, F-WALL, F-CASTLE, F-RIVER |",
+  "new": "| F-SITE, F-ROUTE (§4.2 S3 (7)'s re-solve of a gate route), F-WALL, F-CASTLE, F-RIVER |",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "and a chain between them:",
+  "new": "and a chain between them — at the nearest heads or shore points along the entrance whose gate and towers §2.7's laws admit, else not laid, reported (`W_RAISED_M",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "(§2.7's way-and-channel table, row a)",
+  "new": "(§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (a))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 2,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "(§2.7's way-and-channel table, row d)",
+  "new": "(§2.7's laws, law 1 (3); its worked example the way-and-channel table's row (d))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "the channel meets it by §2.7's way-and-channel table (row e)",
+  "new": "the channel meets it by §2.7's laws (law 1 (1), (8); its worked example the way-and-channel table's row (e))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "and one laid after the course by §2.7's way-and-channel table (row e)",
+  "new": "and one laid after the course by §2.7's laws (law 1 (1), (8); its worked example the way-and-channel table's row (e))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "or would put its gate where §2.7's laws admit none: on a ramp or stair, nearer its foot than the first point beyond the foot, or with its gate's footprint in a ",
+  "new": "or would put its gate where §2.7's laws admit none (law 1 (1), (4), (5), read with their terms: its footprint, band and wall strips as the gatehouse and band ro",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "(8)'s siting filter and (9)'s pull, anchors and water gates read their ramps, stairs, feet, under-deck strips and fixed-place zones",
+  "new": "(8)'s siting filter and (9)'s pull, anchors and water gates read their ends, under-deck strips and fixed-place zones",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "its gate, where law 1 (4) or (5) bars it there, moved along the way within (9)'s search band as S5a's pin is (§4.4 S5a *Trace* (2); §2.7's laws, law 2 (a)), and",
+  "new": "its gate, where §2.7's laws bar it there (law 1 (4), (5)), resolved as S5a's pin is (§4.4 S5a *Trace* (2)) — by those laws, law 2, in its order: (a) moved along",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "and no weld vertex lies where §2.7's laws bar a fixed place — in a standing road deck's zone, or in an aqueduct's strip but where law 1 (5) admits a gate or tow",
+  "new": "and no weld vertex lies where §2.7's laws bar a fixed place — law 1 (4)–(6), read with their terms; its worked example the fixed-place sentence —",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "never in a standing raised way's strip nor a road deck's zone (§2.7's laws, law 1 (4), (6); its worked example the fixed-place sentence)",
+  "new": "never where §2.7's laws bar an anchor (law 1 (4)–(6), read with their terms; its worked example the fixed-place sentence)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "— never in a standing road deck's zone, nor in an aqueduct's strip but where law 1 (5) admits a gate there (§2.7's laws, law 1 (5), (6); its worked example the ",
+  "new": "— never where §2.7's laws bar a fixed place (law 1 (4)–(6), read with their terms; its worked example the fixed-place sentence):",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "(a crossing on a raised deck no gate, and one on a ramp, stair or foot, pinned beyond the foot, one of them where that pin is lawful — S5a *Trace* (2); §2.7's l",
+  "new": "(a crossing on a raised deck no gate, and one whose gate §2.7's laws bar where the boundary crosses it, one of them only where S5a *Trace* (2) moves its pin to ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "pipeline",
+  "old": "no gate's, postern's or tower's footprint in its under-deck strip but under an aqueduct's arch that clears it (law 1 (5); one whose footprint the spacing or the",
+  "new": "no gate's, postern's or tower's footprint where law 1 (5) bars it (one whose footprint the spacing or the gate law would place there moved to the nearest place ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "determinism",
+  "old": "| bent | the stretch's line inside the strip held to lawful crossings (§2.7's laws, law 2 (a), law 3; its worked example the bent-group sentence) — an unlawful ",
+  "new": "| bent | the op's own stroke, drag or edit bent to the nearest lawful shape §2.7's laws give (law 1 (2)–(6), (9)–(11), law 2 (a), law 3, read with their terms; ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "determinism",
+  "old": "(law 2 (c); its worked example the crossing table's lock sentence's (G3)) — an aqueduct, or a hand repair's",
+  "new": "(law 2 (c); its worked example the crossing table's lock sentence's (G3)) — among them an aqueduct, or a hand repair's",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "determinism",
+  "old": "a course meeting an enceinte's trace comes down to a ground vertex before it and passes through the gate its ground way makes there",
+  "new": "a course meeting an enceinte's trace comes down to a ground vertex before it, its ends where §2.7's laws admit them (law 1 (3), (4)), and passes through the gat",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "determinism",
+  "old": "never a gate, a course that cannot cross so — an over crossing whose span over the band would not clear the wall's top, a gate, postern, tower or fixed place it",
+  "new": "never a gate, a course §2.7's laws do not admit bent to the nearest course they admit, else refused (item 363; §2.7's laws, law 1 (2)–(6), (9)–(11); law 2 (a), ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "determinism",
+  "old": "or a carried way given no lawful gate and no re-route",
+  "new": "or an arterial or a carried way given no lawful gate and no re-route",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 1
+ },
+ {
+  "unit": "determinism",
+  "old": "on each standing raised way the new run meets, the meeting by §2.7's laws (law 2 (a); its worked example the crossing table's *beneath*)",
+  "new": "on each standing raised way the new run meets, the meeting by §2.7's laws (law 2, in its order; its worked example the crossing table's *beneath*)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "determinism",
+  "kind": "insert after",
+  "old": "reading then as §4.2 S3 (9) (a)'s unwalled stage (§2.7's laws, law 2 (c));",
+  "new": " at an epoch it takes no rung of it: the epoch's circuit, contraction or stretch waits that epoch, counted `walls.waited` (V06 §2.10; V06 §3.7.1; §2.7's laws, l",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "scope",
+  "old": "a gate the wall makes for a ground way laid clear of the under-deck strip, or under an aqueduct's arch that clears it (§2.7's laws, law 1 (5), law 2 (a))",
+  "new": "a gate the wall makes for a ground way laid at the nearest point along that way at which §2.7's laws admit its footprint (§2.7's laws, law 1 (5), law 2 (a), law",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "C12, the deck extended by a frame growth (on the clause's variant whose raised way ends on the frame's outer ring, §2.7 *At the frame*, the frame grown by an ep",
+  "new": "C12, the deck extended by a frame growth (on the clause's variant whose raised way ends on the frame's outer ring, §2.7 *At the frame* — on a clause whose fixtu",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "V06 §3.1, §3.2, V06 §3.7.5",
+  "new": "V06 §3.1, V06 §3.2, V06 §3.7.5",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "every clause of T110-1, T110-2 and T110-4, and every volume bar that takes one of them or cites §2.7's laws, asserting the outcome those laws give its fixture",
+  "new": "every clause of T110-1, T110-2 and T110-4, and every bar of the base or a volume that takes one of them or cites §2.7's laws (§8.11's T-ER-12 among them), asser",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "(§2.7's laws, law 1 (5): clear of the strip, or under an aqueduct's arch that clears it)",
+  "new": "(§2.7's laws, law 1 (5), read with its terms)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "its seed searched so that the new ring's boundary meets one of the aqueduct's supports where its channel runs above the ring's top —",
+  "new": "its seed searched so that the new ring's boundary meets one of the aqueduct's supports and its channel runs above the ring's top wherever S3's pull's search ban",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "and on (1)'s variant the crossing merged wherever the boundary meets the deck line where its channel runs within the ring's height",
+  "new": "and on (1)'s variant, its channel within the ring's height wherever that search band meets the aqueduct, the crossing merged wherever the trace crosses the deck",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "a hand `delete` of the run (W11), a hand `placeGate` inside the under-deck strip",
+  "new": "a hand `delete` of the run (W11), a hand `convert` `gateToJunction` of a gate of that run beside the raised way (W6) and a hand `convert` `absorbWall` of its ri",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "— no gate, tower or fixed place under it save under an aqueduct's arch that clears it (§2.7's laws, law 1 (5), (6)) —",
+  "new": "— no gate, tower or fixed place under it but where §2.7's laws admit it (law 1 (4)–(6)) —",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "the water gate and the weld vertex outside it save under an arch that clears them (§2.7's laws, law 1 (4)–(6), law 2 (a);",
+  "new": "the water gate and the weld vertex in it only where §2.7's laws admit them (law 1 (4)–(6), law 2 (a);",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "no ramp, stair or foot under the band, its wall strips or the channel (§2.7's laws, law 1 (4)),",
+  "new": "no raised way's ends under the band, its wall strips or the channel (§2.7's laws, law 1 (4); these laws' *ends*),",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "in a road deck's fixed-place zone or in an aqueduct's under-deck strip but where §2.7's laws, law 1 (5) and (6), admit one, and 0 gates' or towers' footprints i",
+  "new": "where §2.7's laws, law 1 (4)–(6), bar one, and 0 gates' or towers' footprints where law 1 (5) bars one (§2.7's laws, law 1 (5), (6);",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "of the ring's gates, towers and fixed places save under an arch that clears them (§2.7's laws, law 1 (2), (5), (6), law 2 (a);",
+  "new": "of the ring's gates, towers and fixed places but where §2.7's laws admit them (law 1 (2), (4)–(6), law 2 (a);",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "old": "clear of the ring's standing towers, gates and fixed places save under an arch that clears them (§2.7's laws, law 1 (2), (5), (6);",
+  "new": "clear of the ring's standing towers, gates and fixed places but where §2.7's laws admit them (law 1 (2), (4)–(6);",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "scope",
+  "kind": "insert after",
+  "old": "the gate on ground part 0 and S4 committing the re-solved route",
+  "new": ", and the same on a variant whose route's first point at `T = t_1` lies past its deck's foot but nearer it than the first point beyond the foot (§4.2 S3 (7); §2",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "scope",
+  "kind": "insert after",
+  "old": "on ground part 0;",
+  "new": " the same on a variant whose boundary crosses that arterial past the ramp's foot but nearer it than the first point beyond the foot and, on a second run, where ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "scope",
+  "kind": "insert after",
+  "old": "no weld vertex or gate moved after siting (§2.7's laws, law 1 (5), (6), law 2 (a));",
+  "new": " and on that fixture a castle sited by hand (`setAttr(castle, 'site')`) so that a weld vertex of its claim falls in that strip — the claim moved whole to the ne",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "scope",
+  "kind": "insert before",
+  "old": "; and (3)'s table-edit variant regenerated",
+  "new": "; on a fourth run whose seed is searched so that §2.7's laws bar that way's gate where the stage-1 boundary crosses its ground course (law 1 (4) or (5)) but adm",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "V04",
+  "old": "passed beneath by an epoch circuit and, on a second run, by a hand `drawWall`",
+  "new": "passed beneath by an epoch circuit (its seed searched so that the circuit's line crosses the deck line under that span; §2.7's laws, law 2 (a)) and, on a second",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "and V06 §3.7.4 (2)'s cost field takes as **impassable** the impassables §2.7's laws give a trace (law 1 (2)–(4), (9), (10); the list §4.4 S5a *Trace* (2) gives ",
+  "new": "and V06 §3.7.4 (2)'s cost field searches only the shapes §2.7's laws admit, its line read with the band and wall strips it carries there (law 1 (2)–(6), (9)–(11",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "the trace meets it by §2.7's laws — an aqueduct crossed where the trace's line crosses its deck line, at the aqueduct's level in the form that level gives: over",
+  "new": "the trace, its gates, posterns and towers and its fixed places meet it by §2.7's laws, each taking only a shape those laws admit (law 1 (1)–(6), (9)–(11), read ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "a standing raised way's under-deck strip, supports, ramps, stairs and feet excepted where the trace meets it (§2.7's laws, law 1 (2)–(4); its worked example the",
+  "new": "a standing raised way's under-deck strip, supports and ends excepted where the trace meets it as §2.7's laws admit, and only so, the trace and its fixed places ",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "F-WALL's ladder (§5.2) binds the trace; a trace that fails it leaves the stage unwalled, the circuit re-evaluated at the next growth (reported).",
+  "new": "F-WALL's ladder (§5.2) binds the trace; a trace that fails it leaves the stage unwalled, the circuit re-evaluated at the next growth (reported) — one §2.7's law",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "a circuit whose trace fails leaves the stage unwalled (V06 §3.7.1)",
+  "new": "a circuit whose trace fails leaves the stage unwalled (V06 §3.7.1; one §2.7's laws give no lawful meeting with a standing raised way counted `walls.waited`, nev",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "and each fixed place of a standing curtain, with its footprint, to a road deck's fixed-place zone and to an aqueduct's under-deck strip but where law 1 (5) admi",
+  "new": "and each fixed place of a standing curtain, with its footprint, to the course's strip, zone and ends wherever §2.7's laws bar it there (law 1 (4)–(6), read with",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "— by §2.7's laws, nothing of either written (law 1 (2)–(6), law 2): an aqueduct *over the band* (J-V6.140), crossing the curtain at its own level in the form th",
+  "new": "— by §2.7's laws, nothing of either written, its course searching only the courses those laws admit against every standing curtain (law 1 (2)–(6), (9)–(11), rea",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "and the founding across a retaining wall drawn by hand and placement-locked,",
+  "new": "and the foundings across a ring and a retaining wall drawn by hand and placement-locked,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "V06 §3.1, §3.2, V06 §3.7.5",
+  "new": "V06 §3.1, V06 §3.2, V06 §3.7.5",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "no ramp, stair or foot under the wall's line, band or wall strips (law 1 (4)),",
+  "new": "no raised way's ends under the wall's line, band or wall strips (law 1 (4); §2.7's laws' *ends*),",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V06",
+  "old": "0 trace lines, bands or wall strips over a ramp, stair or foot (law 1 (4))",
+  "new": "0 trace lines, bands or wall strips over a raised way's ends (law 1 (4))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V07",
+  "old": "of the palisade's run beneath the carried-down deck",
+  "new": "of the palisade's run beneath the carried-down deck and, on a second run, beneath the declared viaduct",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 1
+ },
+ {
+  "unit": "V07",
+  "old": "its line by §2.7's laws (law 1 (2)–(4), law 2 (a), law 3; its worked example the bent-group sentence) — crossing an aqueduct's deck line in the form the aqueduc",
+  "new": "its line, band and wall strips by §2.7's laws, taking only shapes they admit (law 1 (2)–(4), (9)–(11), read with their terms; law 2 (a), law 3; its worked examp",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V07",
+  "old": "placed by §2.7's laws (law 1 (5), law 2 (a), law 3: off a road deck's under-deck strip and `raised.supportClearM` off a support's ring, under an aqueduct's arch",
+  "new": "placed where §2.7's laws admit it (law 1 (5), read with its terms; law 2 (a), law 3) and `raised.supportClearM` off a support's ring, as VS4's tracker keeps (V0",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V07",
+  "old": "no ramp, stair or foot in it,",
+  "new": "no raised way's ends under its line, band or wall strips (§2.7's laws, law 1 (4)),",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V07",
+  "old": "0 gates in an under-deck strip but under an aqueduct's arch clearing the palisade and the gate (§2.7's laws, law 1 (5)),",
+  "new": "0 gates where §2.7's laws, law 1 (5), bar one,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "old": "a span walled up by the rules (one read `vault`: none under a wall, V09 §4.20.6 (2))",
+  "new": "a span walled up by the rules (one §2.7's laws read `vault`, law 1 (8); its worked example *beneath*; V09 §4.20.6 (2))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "old": "for a crossing moved along {way} to the nearest lawful one (under an arch that clears the wall, or beyond a road deck's foot through a gate there)",
+  "new": "for a crossing moved along {way} to the nearest lawful one (§2.7's laws, law 1 (2)–(4), law 3; its worked example the bent-group sentence (i))",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "old": "an aqueduct drawn across a standing wall, held or not (§7.1's *Raised ways, aqueducts and retaining walls*; §2.7's laws, law 1 (2), (5), (6), (10), law 2 (a); i",
+  "new": "an aqueduct drawn across a standing wall, placement-locked or not, a shape-locked one never merged into (§7.1's *Raised ways, aqueducts and retaining walls*; §2",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "old": "— crosses it clear of the strip, with `bend.raised.underSpan` in its wall form,",
+  "new": "— crosses it at the nearest point at which §2.7's laws admit its gate (law 1 (5), law 2 (a), law 3), with `bend.raised.underSpan` in its wall form,",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "old": "never a gate, a course that cannot cross so bent to the nearest course that can, else refused (§2.7's laws, law 1 (2), (5), (6), (10), law 2 (a), (c);",
+  "new": "never a gate, a course §2.7's laws do not admit bent to the nearest course they admit, else refused (§2.7's laws, law 1 (2)–(6), (9)–(11), law 2 (a), (c), law 3",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "old": "either side locked, pinned or neither (§2.7's laws, law 1 (4)–(6), law 2 (a), law 3;",
+  "new": "either side locked, pinned or neither (§2.7's laws, law 1 (2)–(6), (9)–(11), law 2 (a), law 3;",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V09",
+  "kind": "insert after",
+  "old": "for its Arch spacing, Deck height or width bent to the nearest lawful value, \"{way}'s {measure} is {v}, the nearest that {wall} allows.\"",
+  "new": " — and, for a raised or aqueduct stroke bent where §2.7's laws, law 1 (4), bar it (along a wall, or an end under its band or wall strips), \"{way} keeps clear of",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "V09",
+  "kind": "insert after",
+  "old": "(§2.7's laws, law 2 (a), law 3; its worked example the crossing table's C13)",
+  "new": "; a raised or aqueduct stroke bent off a wall it would run along or end under (§2.7's laws, law 1 (4), law 2 (a), law 3)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ },
+ {
+  "unit": "V11",
+  "old": "§2.7's laws at S3, S5a, S7 and VS3 (law 1 (4)–(6); its worked example the crossing table)",
+  "new": "§2.7's laws at S3, S5a, S7, VS3, EVO_FORT and S1 (law 1 (4)–(6); its worked example the crossing table)",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 1,
+  "old_count_after": 0
+ },
+ {
+  "unit": "V11",
+  "kind": "insert after",
+  "old": "by §2.7's laws, law 1 (2), (4)–(7), V07 §3.5a (4)),",
+  "new": " EVO_FORT (V06 §3.7.6 (5): the fortification phase's traces and harbour-mouth chains meeting a raised way's under-deck strip, ends and fixed-place zone at `stru",
+  "new_present": true,
+  "missing_new_segments": [],
+  "old_count_before": 0,
+  "old_count_after": 1
+ }
+]

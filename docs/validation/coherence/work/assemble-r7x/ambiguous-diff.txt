@@ -1,0 +1,10 @@
+ambiguous-form references: untouched 98, final 97
+NEW  V06 l. 1612 §2.7 | …cost field searches only the shapes §2.7's laws admit, its line read with the ba
+NEW  V07 l. 3709 §2.7 | …duct — each an *unchanged meeting* (§2.7's laws, law 4), the deck unchanged; a h
+NEW  V11 l. 1006 §2.7 | …by `structure.span.deckDepthCm`, by §2.7's laws, law 1 (2), (4)–(7) — a trace it
+NEW  V11 l. 208 §2.7 | …§3.17.3 (2), V06 §3.19's clearance, §2.7's laws at S3, S5a, S7, VS3, EVO_FORT an
+GONE V06 (was l. 1612) §2.7 | …s as **impassable** the impassables §2.7's laws give a trace (law 1 (2)–(4), (9)
+GONE V06 (was l. 4255) §3.2 | …ep, repairs no run of it: V06 §3.1, §3.2, V06 §3.7.5; §2.7's laws, law 2 *Entry*
+GONE V07 (was l. 3710) §2.7 | …deck — each an *unchanged meeting* (§2.7's laws, law 4), the deck unchanged; a h
+GONE V11 (was l. 208) §2.7 | …§3.17.3 (2), V06 §3.19's clearance, §2.7's laws at S3, S5a, S7 and VS3 (law 1 (4
+GONE base (was l. 19310) §3.2 | …ep, repairs no run of it: V06 §3.1, §3.2, V06 §3.7.5; a lock decides no meeting,

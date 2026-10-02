@@ -1,0 +1,100 @@
+{
+ "docs/ARCHITECTURE.md": {
+  "before": 153,
+  "after": 153,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/INDEX.md": {
+  "before": 9,
+  "after": 9,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V01-neighbourhoods.md": {
+  "before": 123,
+  "after": 123,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V02-buildings.md": {
+  "before": 77,
+  "after": 77,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V03-interiors.md": {
+  "before": 48,
+  "after": 48,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V04-underground.md": {
+  "before": 59,
+  "after": 59,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V05-sky.md": {
+  "before": 62,
+  "after": 62,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V06-evolution.md": {
+  "before": 65,
+  "after": 65,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V07-village.md": {
+  "before": 58,
+  "after": 58,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V08-settlementforge.md": {
+  "before": 63,
+  "after": 63,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V09-application.md": {
+  "before": 110,
+  "after": 110,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V10-clerk.md": {
+  "before": 86,
+  "after": 86,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V11-content.md": {
+  "before": 58,
+  "after": 58,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V12-calibration.md": {
+  "before": 67,
+  "after": 67,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ }
+}

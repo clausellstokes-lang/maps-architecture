@@ -1,0 +1,81 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7x/before/docs/volumes/V04-underground.md",
+ "input_doc_sha256": "caf4af3c0221629dbbec859d06a8542e60db394b8b3d751e74700449ee12a43a",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7x/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7x-V04.md",
+   "sha256": "dc54e09c4e7bdd4428a76d33c0dde4b7ed9b24732595935ae214d35129607c19",
+   "lines": 119,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7x-V04.md #1 (l. 2) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7x-V04.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 114,
+   "body_sha256": "901ebfd30b0a06a9ea197bd1f5ab21e7b49e4dc2cc63bc9732d4883caac1198a",
+   "target_line": 3077,
+   "section_old": "3077–3191",
+   "section_old_n": 115,
+   "section_new_n": 115,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7x-V04.md #1 (l. 2) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 59,
+  "headings_after": 59,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 536408,
+  "doc_bytes_after": 536518,
+  "doc_lines_before": 3644,
+  "doc_lines_after": 3644,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 1,
+  "blocks_applied": 1,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

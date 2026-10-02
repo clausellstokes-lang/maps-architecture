@@ -1,0 +1,107 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7x/before/docs/volumes/V11-content.md",
+ "input_doc_sha256": "67c7c0b837e1c53a1c428d75485da9c5e54c193428a0c9ba86a36f71aae86dfc",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7x/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7x-V11.md",
+   "sha256": "1dba5ee018e14c755921b8df982d4e33c80ebd7e2ac26b55db93699cc714e950",
+   "lines": 287,
+   "blocks": 2,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7x-V11.md #1 (l. 2) REPLACE ### 1b Wiring table",
+   "file": "b-repair-r7x-V11.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1b Wiring table",
+   "body_lines": 99,
+   "body_sha256": "7ffbba4ccc04f9bdcd1e041be71249546f8edf6afba7566465eb1bcb3bab140d",
+   "target_line": 150,
+   "section_old": "150–249",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7x-V11.md #2 (l. 104) REPLACE ### 3.1 The complete catalogue of tables",
+   "file": "b-repair-r7x-V11.md",
+   "index": 2,
+   "line": 104,
+   "kind": "REPLACE",
+   "heading": "### 3.1 The complete catalogue of tables",
+   "body_lines": 181,
+   "body_sha256": "9e5c2f6960528c4a88726e72c44d30b3c2b53c78c197f4cc811d84e0a10f2c7d",
+   "target_line": 891,
+   "section_old": "891–1072",
+   "section_old_n": 182,
+   "section_new_n": 182,
+   "new_headings": [
+    "### 3.1 The complete catalogue of tables"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7x-V11.md #1 (l. 2) REPLACE ### 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "### 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7x-V11.md #2 (l. 104) REPLACE ### 3.1 The complete catalogue of tables",
+    "kind": "REPLACE",
+    "heading": "### 3.1 The complete catalogue of tables",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 22,
+  "fence_lines_after": 22,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 681412,
+  "doc_bytes_after": 681994,
+  "doc_lines_before": 5470,
+  "doc_lines_after": 5470,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 2,
+  "blocks_applied": 2,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

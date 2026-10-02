@@ -1,0 +1,85 @@
+{
+ "3 7 1 2 7": {
+  "final_sites": [
+   9852
+  ],
+  "untouched_containing_runs": []
+ },
+ "5 is a gate and": {
+  "final_sites": [
+   2916
+  ],
+  "untouched_containing_runs": []
+ },
+ "a run of the hand": {
+  "final_sites": [
+   19418
+  ],
+  "untouched_containing_runs": []
+ },
+ "is moved to the nearest": {
+  "final_sites": [
+   2978
+  ],
+  "untouched_containing_runs": []
+ },
+ "it is placed along the": {
+  "final_sites": [
+   3023
+  ],
+  "untouched_containing_runs": [
+   {
+    "run": "clear it is placed along the",
+    "line": 3022,
+    "reviewed": true
+   }
+  ]
+ },
+ "law 1 2 4 6": {
+  "final_sites": [
+   19484,
+   19578
+  ],
+  "untouched_containing_runs": [
+   {
+    "run": "band law 1 2 4 6",
+    "line": 3011,
+    "reviewed": true
+   }
+  ]
+ },
+ "law 1 2 6 9": {
+  "final_sites": [
+   3082,
+   6500,
+   6599,
+   11150,
+   11339
+  ],
+  "untouched_containing_runs": []
+ },
+ "law 1 2 where the": {
+  "final_sites": [
+   3272
+  ],
+  "untouched_containing_runs": []
+ },
+ "one at a point of": {
+  "final_sites": [
+   19591
+  ],
+  "untouched_containing_runs": []
+ },
+ "route and the same on a": {
+  "final_sites": [
+   19333
+  ],
+  "untouched_containing_runs": []
+ },
+ "through it and the stage": {
+  "final_sites": [
+   19370
+  ],
+  "untouched_containing_runs": []
+ }
+}

@@ -1,0 +1,190 @@
+{
+ "V04-underground": {
+  "recorded": "1 block found, 1 applied, 0 skipped, audit not-OK 0; headings 59 \u2192 59; fences balanced (12 \u2192 12); title block unchanged; rationale byte-identical; 3 644 \u2192 3 644 lines, 536 408 \u2192 536 518 bytes; the diff touches exactly l. 3164",
+  "got": {
+   "bytes": 536518,
+   "lines": 3644,
+   "sha256": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+   "touched": [
+    3164
+   ],
+   "inserts_after": [],
+   "words": [
+    87453,
+    87473
+   ],
+   "wc_words": [
+    87453,
+    87473
+   ]
+  },
+  "equals_recorded": true
+ },
+ "V06-evolution": {
+  "recorded": "After the blocks: sha256 58f0fb64092942c2a93f9881486ea67e9640d6e4fab76b101b5ca9ef8872baeb, 710 168 bytes, 4 666 lines; 4 applied, audit not OK 0, headings 65 \u2192 65, fences balanced (28 \u2192 28)",
+  "got": {
+   "bytes": 710168,
+   "lines": 4666,
+   "sha256": "58f0fb64092942c2a93f9881486ea67e9640d6e4fab76b101b5ca9ef8872baeb",
+   "touched": [
+    1471,
+    1472,
+    1473,
+    1474,
+    1475,
+    1476,
+    1477,
+    1478,
+    1479,
+    1480,
+    1612,
+    1613,
+    1614,
+    1615,
+    1616,
+    1617,
+    1618,
+    1619,
+    1620,
+    1621,
+    1622,
+    1623,
+    2497,
+    2498,
+    2854,
+    2855,
+    2856,
+    2857,
+    2858,
+    2859,
+    2860,
+    2861,
+    2862,
+    2863,
+    2864,
+    2865,
+    2866,
+    2867,
+    2868,
+    2869,
+    2870,
+    2871,
+    2872,
+    2873,
+    2874,
+    2875,
+    2876,
+    2877,
+    2878,
+    2879,
+    4173,
+    4229,
+    4255
+   ],
+   "inserts_after": [],
+   "words": [
+    116420,
+    116276
+   ],
+   "wc_words": [
+    116420,
+    116276
+   ]
+  },
+  "equals_recorded": true
+ },
+ "V07-village": {
+  "recorded": "2 blocks found, 2 applied, 0 skipped; audit not-OK 0; headings 58 \u2192 58; fences balanced (18 \u2192 18); 622 153 \u2192 622 038 bytes, 4 125 \u2192 4 124 lines; the diff touches exactly live lines 1615\u20131618, 1621\u20131622 (re-wrapped as 1615\u20131617, 1620\u20131621) and 3710",
+  "got": {
+   "bytes": 622038,
+   "lines": 4124,
+   "sha256": "6202d46df5b3eabf034ec388adbdb11e83d0295b4b80e0901031d309cbacf5ba",
+   "touched": [
+    1615,
+    1616,
+    1617,
+    1618,
+    1621,
+    1622,
+    3710
+   ],
+   "inserts_after": [],
+   "words": [
+    103064,
+    103040
+   ],
+   "wc_words": [
+    103064,
+    103040
+   ]
+  },
+  "equals_recorded": true
+ },
+ "V09-application": {
+  "recorded": "4 found, 4 applied, 0 skipped, audit OK (not OK 0); headings 110 \u2192 110; fences balanced (24 \u2192 24); title block unchanged; lines 5,045 \u2192 5,045; \u00a72.7 1,606 \u2192 1,611; \u00a74.9 13,199 \u2192 13,268; \u00a74.20.2 1,339 \u2192 1,340; \u00a77.1 11,607 \u2192 11,622 (its volume figure '126,256 to 126,345 words (wc)', +89, is another count than the volume's wc)",
+  "got": {
+   "bytes": 779775,
+   "lines": 5045,
+   "sha256": "da502c0a32e9ad7dba2a694b05967adf830bba30035ce450db13688a2ec02f62",
+   "touched": [
+    648,
+    2102,
+    2103,
+    2104,
+    3022,
+    3023,
+    4428
+   ],
+   "inserts_after": [],
+   "words": [
+    128692,
+    128782
+   ],
+   "wc_words": [
+    128692,
+    128782
+   ],
+   "sections": {
+    "### 2.7 ": [
+     1606,
+     1611
+    ],
+    "### 4.9 ": [
+     13199,
+     13268
+    ],
+    "#### 4.20.2 ": [
+     1339,
+     1340
+    ],
+    "### 7.1 ": [
+     11607,
+     11622
+    ]
+   }
+  },
+  "equals_recorded": true
+ },
+ "V11-content": {
+  "recorded": "2 found, 2 applied, 0 skipped, audit not-OK 0; headings 58 \u2192 58, fences balanced (22 \u2192 22), title block unchanged; 5,470 \u2192 5,470 lines; 681,412 \u2192 681,994 bytes, output sha256 da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080; the only changed lines are l. 208 and l. 1006",
+  "got": {
+   "bytes": 681994,
+   "lines": 5470,
+   "sha256": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+   "touched": [
+    208,
+    1006
+   ],
+   "inserts_after": [],
+   "words": [
+    113848,
+    113932
+   ],
+   "wc_words": [
+    113848,
+    113932
+   ]
+  },
+  "equals_recorded": true
+ }
+}
