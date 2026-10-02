@@ -1,3 +1,6 @@
+> **WITHDRAWN by the owner, 2026-10-02 (J143: "I think I take back what I said, keep iterating").** Kept as a record only;
+> nothing below is binding. The raised-way × wall family keeps its full scope (R6-02 with adjudication-r6.md's Part P).
+
 # Raised ways × walls — the owner's narrowing (J142, 2026-10-02)
 
 The owner's decision, approved word for word as drafted below ("Narrow it (Recommended)", then "Approve as drafted

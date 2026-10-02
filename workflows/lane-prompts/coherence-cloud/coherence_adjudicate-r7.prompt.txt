@@ -9,30 +9,33 @@ STAND-IN NOTICE: you run on opus standing in for the Fable seat coherence/adjudi
 
 ROUND-7 NOTES (orchestrator, 2026-10-02):
 
+(0) START FRESH. A first run of this seat under the owner's narrowing (J142) was stopped when the owner withdrew it (J143). That run's CHECKPOINT line in docs/lane-events.log is VOID, and its skeleton is archived as adjudication-r7-withdrawn-J142.md. Never resume from either, and never read docs/validation/coherence/narrowing-r7.md as binding.
+
 (1) WHY THIS ADJUDICATION RUNS. The orchestrator runs it for routing, as in rounds 3–6. Counts per round: 501 → 446 → 215 → 145 → 91 → 73 → 81. Round 6 stood at 0 blockers, 39 majors and 42 minors. On the same seats:
   - R6-03's removal of the held late calamity converged that family, 6 majors → 1;
   - every other area went 11 → 8;
   - the raised-way × wall family went about 23 → 30. R6-02's single crossing table removed round 5's contradictions, but the rule's reach (generation, epochs, decay, locks, hand edits, regeneration) opened as many new edges.
 R4-01's duties stand: check every ruling against the owner rules it touches, quoting the item, and sweep the set for every reader of what it changes before writing it.
 
-(2) THE OWNER'S NARROWING — BINDING (J142). The owner chose to narrow the raised-way × wall family and approved its scope word for word: docs/validation/coherence/narrowing-r7.md. Read it whole. It is the owner's decision; the exact texts that state it are yours (J122).
-(a) Rewrite §2.7's crossing table to that scope, as one ruling in full:
-  - drop the changed-state columns C3, C4, C5, C6 and C10, and row W12;
-  - keep C1, C2, C7, C8, C9, C11, C12 and C13, the last only as a re-shape or re-spacing refused where it would put a part on a wall's band;
-  - restate the hand rows (W2, W13, and a re-shape) as the refusals the scope lists, each with its nearest lawful alternative stated once. A single crossing under one span stays `bend.wall.raisedCrossing`.
-(b) Remove the deferred features from the design text, each with an END at its home:
-  - V06 §3.19.2 (disuse, lapse, the strike, salvage, hazards on raised ways, repair) and `repairRaised`;
-  - V05 §3.16 (4)'s raised row;
-  - every writer of a span's or support's `state`, and the arch vault's collapse under a fallen span (V04 §3.5.4 (d) (2));
-  - their tests (T110-2 (7), T114-3's raised clauses, T-V6-11/-47/-61/-64/-73's raised clauses, T-V4-62/-63's collapse clauses, T-V5-14's raised clauses, T-V7-48's fallen-state clauses);
-  - their statistics, guards and report fields.
-Keep the `state` fields in the record as reserved, never written, if removing them costs more than it saves, and say which you chose. Add one line at each removed site's home naming the later milestone (docs/PARKED-IDEAS.md §C).
-(c) A round-6 finding whose case the narrowing removes is closed by the ruling that removes it. Its Part H entry reads "FIX per R7-nn (removed under J142)", and its owner's repair deletes or narrows the text. A finding the narrowing leaves in scope is ruled as usual. List which is which.
-(d) Supersede R6-02 by name where narrowed. Behaviour change 3 (a wall laid after a road deck passes beneath it ungated) and the item 110 (b) reading (behaviour change 8: a later wall crosses an aqueduct under an arch, never at a pier) stand as the owner was told. Restate the owner's veto list for the narrowed family in one place.
+(2) THE RAISED-WAY × WALL FAMILY — FULL SCOPE, ITERATED (J143). The owner considered narrowing this family (J142) and withdrew it: "keep iterating". Nothing of it is deferred or refused. R6-02's crossing table and its way-and-channel table, as adjudication-r6.md's Part P amended them, are the home and stand. Rule each round-6 finding in the family as a cell, a row or a column of those tables, and amend the tables in place, never in a second text. The family's round-6 findings are the groups of (4).
+(a) WHY ROUND 6 DID NOT CONVERGE, and what this round changes. R6-02 removed round 5's contradictions inside the rule. Round 6's majors are the table meeting the machinery around it:
+  - generation order (S3's gate routes before any boundary, VPC-r6-01);
+  - S5a's pull and anchors (VEW-r6-01, VEW-r6-03, VM-R6T-01);
+  - locks (VDC6-01, VEW-r6-04, VAL-R6-01 = VEW-r6-02, VAP-r6-01);
+  - hand edits that the bent group did not reach (VEL6-r6-04, VAT-r6-02, VPC-r6-03, VCS-r6-01);
+  - epochs and decay states (VV56-r6-01, -02, VAT6-r6-02, VPC-r6-02);
+  - readers and tests (VAL-R6-03, VEL6-r6-01, VM-R6T-02, VEL6-r6-02, VAT6-r6-01, VAP-r6-04).
+  Rule them in three cross-cutting sentences before the cells, each stated once at §2.7 and cited by the cells:
+  - THE LOCK SENTENCE: what a lock or pin on either side — raised way, wall, arch vault, a declared placement — changes in any meeting. Nothing writes the other side's records, so a lock never refuses a meeting that writes nothing of the locked thing. Where a meeting would write the locked thing, say what happens instead.
+  - THE BENT-GROUP SENTENCE: every hand or non-pulled stretch, whatever its shape — a crossing, running along beneath, ending at a pier, a re-traced run, a slid gate, a placed gate, a re-shape — and its one outcome.
+  - THE FIXED-PLACE SENTENCE: what the wall's own law fixes in place inside an under-deck strip — a water gate, an anchor's tower, a weld vertex — and how the trace moves to avoid it.
+(b) Generation order. Make *down before the wall* reach S3's own gate routes (VPC-r6-01), by the narrowest change.
+(c) Every cell must name a test that holds its case on a fixture that holds it. Where several cells share one test, write that test's clause list in full. The test-gap findings (VV56-r6-03, VAP-r6-01, -02, VV78-r6-01, VAL-R6-06, VAF-R6T-02, VCS-r6-01, -02) close only that way.
+(d) Restate the owner's veto list for the family in one place, R6-02's behaviour changes as amended.
 
-(3) A PROBE WILL ATTACK YOUR TABLE. As in round 6, a probe seat attacks the narrowed table and the deferral texts before any repair writes, and an amend seat decides its findings into a Part P. Write cells two builders build alike. For each refusal, name its nearest lawful alternative and its message key.
+(3) PROBE UNTIL DRY (J143). As in round 6, a probe seat attacks the family's rulings before any repair writes, and an amend seat decides its findings into a Part P. This round the probe and amend repeat, up to three passes, until a probe finds no major in the family. Write cells two builders build alike. For each hand outcome, name its bend key and its dry-run fate.
 
-(4) KNOWN MULTI-REPORTER GROUPS. Rule each group once: MERGE inside a unit, END across units. Name in Part H which groups J142 closes.
+(4) KNOWN MULTI-REPORTER GROUPS. Rule each group once: MERGE inside a unit, END across units.
   - Raised ways × walls:
     - the slid gate grip: VAT-r6-02 = VV910-r6-01;
     - a held arch vault under a later wall: VAL-R6-01 = VEW-r6-02;
@@ -59,24 +62,24 @@ Keep the `state` fields in the record as reserved, never written, if removing th
   - (b) V09's panels and V10's clerk;
   - (c) the tests, fixture lists and milestone cells;
   - (d) the base's own summaries and index rows.
-For the deferral, add (e): V12's statistics and guards, V11's registry readers and settings rows, V08's party pictures, and every T- test, fixture and milestone cell that names a removed state or op. A clause left naming a removed feature is next round's finding.
+Add (e): V11's registry readers and settings rows, and V08's party pictures.
 
-(6) OWNER RULES FIRST. File g items 102–126, their canon routings, and J142's scope decide.
+(6) OWNER RULES FIRST. File g items 102–126 and their canon routings decide.
   - Item 110 (b) as written stays whole.
   - Item 114: walls decay and recover; this is unchanged.
-  - Item 101: R2's bend to the nearest lawful declaration is what the refusals' nearest lawful alternative serves. R13: a declared or pinned thing is held.
+  - Item 101: R2 bends a declaration to the nearest lawful one; R13: a declared or pinned thing is held.
   - Item 120 (a): Find never changes the model.
   - Item 122: crisis looks are looks.
   - Item 125: the dossier is the only SettlementForge input.
   - Item 126 (a2): no map view on a phone.
-adjudication-r2.md – r6.md stay binding except where you supersede an entry by name. R6-02's Part P amendments stand except where J142 removes their case.
+adjudication-r2.md – r6.md stay binding except where you supersede an entry by name. R6-02 and adjudication-r6.md's Part P stand except where you amend them by name.
 
 (7) THE BAR AND SEVERITY (J141). The pass stops at a full sweep with zero blockers and zero majors. Grade by the SEVERITY STANDARD. Where a grade contradicts it, regrade with a one-line reason. A regrade never skips a repair.
 
 (8) WRITE docs/validation/coherence/adjudication-r7.md with:
   - a table of contents by unit;
   - the rulings (R7-01 …), each naming its issue ids, the owner rule checked, the single correct text, the unit that states it and every END;
-  - the narrowed crossing table as its own ruling, in full, with the deferral texts and the refusals;
+  - the crossing table and the way-and-channel table as amended, as their own ruling in full, with the three cross-cutting sentences of (2) (a);
   - PART H for EVERY issue, under its owner's heading, with END lines under each receiving unit's heading, each unit's section self-contained.
 
 NEW OWNER RULES 114–116 (2026-09-30, after the canon): docs/AMENDMENTS-2026-09-28g.md items 114 (walls decay into gaps and patchwork when poor and safe, and recover), 115 (a ceiling on building grandeur by settlement tier) and 116 (a per-map zoom-out limit) are routed by the dated ruling near the end of docs/validation/coherence/canon.md ("Dated ruling 2026-09-30 — File g items 114–116 routed"), and item 117 (seasons: a look only, following SettlementForge's calendar, climate deciding what a season looks like) by the dated ruling after it ("File g item 117 routed"), and item 118 (festival decorations: a look only, in the weeks a SettlementForge festival is scheduled, at every tier) by the ruling after that ("File g item 118 routed"), and item 119 (as fast as possible: §12's budgets stay the targets; ten seconds of total time for one-time waits is the comfort level; slower only for a measured gain; interaction budgets unchanged) by the last ruling ("File g item 119 routed"), exactly like items 111–113: every unit that ruling names writes its part at build depth as new design (an addition, never a change of another decision), and a verifier raises F-MISSING where a named part is absent.

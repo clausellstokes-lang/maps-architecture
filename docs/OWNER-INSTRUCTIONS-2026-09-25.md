@@ -264,3 +264,5 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   stay as item 110 (b) states them at generation and by hand; their decay over time is deferred to a later milestone; hand edits
   that push a wall into a standing raised way are refused with the nearest lawful alternative (J142;
   docs/validation/coherence/narrowing-r7.md).
+- (2026-10-02 ~04:25) After asking how walls and viaducts met "in literal history": "I think I take back what I said, keep
+  iterating" — J142 withdrawn; the raised-way × wall family keeps its full scope and is iterated (J143).
