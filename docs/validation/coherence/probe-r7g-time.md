@@ -96,7 +96,7 @@ span over it", standing or fallen.
      the landfall, which V05 §3.16 decides and no law lets wait in substance (an island held aloft by a wall), has no lawful
      outcome at all.
 2. **A founding across a gap, then the wall's recovery** (W1·C11 at an epoch; W10 × C2). V06 §3.19 founds an aqueduct
-   across a ring where its run is `breached` (T110-2 (1), base l. 18545 – 18546; T-V6-73: "the gap left a gap beneath the
+   across a ring where its run is `breached` (T110-2 (1), base l. 18546 – 18547; T-V6-73: "the gap left a gap beneath the
    arch"). Under (B) the gap's top is the ground, so an arch whose soffit lies below the ring's section top but whose
    channel lies above it is lawful over the gap. V06 §3.7.5's repair under renewed threat or §3.7.7 (3)'s rebuild (item
    114's recovery) then raises the run to its section: channel above the top, soffit below it — neither form; the repair
@@ -111,7 +111,7 @@ span over it", standing or fallen.
    the strike, the topple and the landfall over a merged crossing wait — against *The soft readings* ("each follows of
    itself from what stands") and law 1 (10)'s "a fall, decay, ruin or repair … its readings then following what stands".
    The circuit an epoch lays under such a fallen merged-level span (E-V6-8 (2)'s "an epoch circuit laid across the
-   aqueduct after a span over its planned band fell `ruined`", adj l. 2435 – 2438) is lawful under (A) and bent or waiting
+   aqueduct after a span over its planned band fell `ruined`", adj l. 2435 – 2437) is lawful under (A) and bent or waiting
    under (B).
 4. **A wall laid under a fallen span, then the span's repair** (W1 at an epoch × C3, C4, C10). Law 1 (2) tests "every
    standing span above the band", so a circuit laid under a `ruined` span of an aqueduct whose channel lies above the
@@ -131,7 +131,7 @@ every op but a frame growth wait. So (1) and (3) give two outcomes — the condi
 gives way (and the landfall none) — the second breaking item 114 (walls decay into gaps; T-V6-73 asserts the first), and
 (2) and (4) give a lawful laying that makes a later recovery or repair impossible, against item 114's "recover" and the
 examples. Pass 6's own verdict names this attack ("a wall's top changed by decay … beneath a standing arch", adj
-l. 3601 – 3602). Two builds differ on every merged crossing whose run decays and every repair over a run laid under a fall;
+l. 3601 – 3603). Two builds differ on every merged crossing whose run decays and every repair over a run laid under a fall;
 §5.3's row passes each by its own reading.
 
 **Required change (Part L).**
@@ -174,7 +174,7 @@ new ring … Across a band the extension keeps the deck's course, its new suppor
 obstacles (base l. 2534 – 2540) name "an enceinte's band" and no gate, postern or tower. E-V6-13's count (adj l. 2459 –
 2461): "a support in water or a pier past maxPierM".
 
-**The case** (C12 × W1 at an epoch, the extension after the trace — T110-2's frame clause, base l. 18531 – 18534, run on an
+**The case** (C12 × W1 at an epoch, the extension after the trace — T110-2's frame clause, base l. 18531 – 18533, run on an
 aqueduct). An aqueduct sourced beyond the frame ends on the arena's outer ring (*At the frame*, base l. 2793 – 2797); a
 stage ring laid after it crosses its end span (the last interior station to the foot) over — the channel above the ring's
 top, the end span clearing it — with one of the ring's towers or a gatehouse under that span, its top cleared (law 1 (5)'s
@@ -192,7 +192,7 @@ obstacle" is (3)'s list, which holds no gate or tower and no clearance. So a bui
 (2) or (5) false at the epoch's end (§5.3's row failing a build that follows (7)), reports it under
 `raised.extendedPastBound` (a count E-V6-13 defines for a pier in water or past `maxPierM` only), or leaves the deck short of
 the new ring (T110-2: "the deck reaching the new ring"). Pass 6's verdict listed "a frame growth's end span over a high
-crossing" for this probe (adj l. 3602); law 1 (10) already names the re-derived end span for a shape-held thing (adj
+crossing" for this probe (adj l. 3601 – 3603); law 1 (10) already names the re-derived end span for a shape-held thing (adj
 l. 462), law 2 (c) for nothing else.
 
 **Required change (Part L).**
@@ -216,7 +216,7 @@ l. 462), law 2 (c) for nothing else.
 or removed by a meeting"; law 2 (a) (adj l. 520 – 521): "planned round every Tier-1 thing standing as the commit began that
 it does not lay again"; *commit* (adj l. 409 – 412): an epoch is one commit "from its first batch through `afterGrowth`'s
 `under.extend`"; the check (adj l. 603 – 604): "(9) – (11) by what the commit made newly or moved, against what stood as it
-began"; T110-4 (E-S13, adj l. 1902 – 1904): "no gate, postern, tower or fixed place moved for a meeting, locked or not
+began"; T110-4 (E-S13, adj l. 1905 – 1906): "no gate, postern, tower or fixed place moved for a meeting, locked or not
 (law 1 (11))". J148, the owner's (PROGRESS l. 207): "a gate does not move … every new thing first plans around the hard
 ones".
 
@@ -260,8 +260,8 @@ aqueduct's arch that clears it (§2.7's laws, law 1 (5)) becomes a junction ther
 across the span's strip by law 1 (8) · T-V6-47"; and W14·C2 (adj l. 1285) at a village epoch, the REPLACEMENT waiting where
 "its new top would rise past the soffit of an aqueduct's arch over a kept gate … T-V7-48 (E)". Neither named test holds a
 gate under an aqueduct's arch. T-V6-47's H-AQUA ring (V06 l. 4170) has "no gate or tower in the under-deck strip", and
-E-V6-8 (2)'s W6 run adds "no gate it opens under a deck" (adj l. 2443 – 2444); T-V7-48 (V07 l. 3683) has "0 gates in an
-under-deck strip", and E-V7-1's REPLACEMENT run (adj l. 2528 – 2531) sets up no gate under the declared aqueduct. Each cell
+E-V6-8 (2)'s W6 run adds "no gate it opens under a deck" (adj l. 2438 – 2439); T-V7-48 (V07 l. 3683) has "0 gates in an
+under-deck strip", and E-V7-1's REPLACEMENT run (adj l. 2527 – 2529) sets up no gate under the declared aqueduct. Each cell
 names a test that never sets up its state (R7-06's class), and the J149 cases — a junction's square keeping a `vault`-use
 span open after its run goes, a REPLACEMENT barred by a kept gate under a low arch — run on no fixture.
 
