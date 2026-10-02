@@ -28,6 +28,13 @@ PROGRESS (lane `coherence/adjudicate-r7-j147`, 2026-10-02, the owner's J147 appl
 - [x] K2 Part L re-run by axis: *held* (placement, shape; nothing else), *a held building's strip*, law 1 (9)–(10), law 2 *Entry*, *Newer*, (b), *Carried way*, law 4's (G2), the check and T110-4, corrections 5 and 6; veto list 1–23 (10, 11, 12, 15, 20 changed, 23 new); Part L 6,200 → 6,763 words
 - [x] K3 PRB7D-LCK-04 superseded and decided again (J147); 6 pass-4 and 7 earlier rows superseded in part; Part A's round-8 hand-off; "### J147 applied (2026-10-02)" after Part P's pass 4; examples and ENDs conformed (R7-06 (a), E-S0, E-S4, E-S9, E-S13, E-V4-4, E-V4-7, E-V6-18); result saved, LANDED
 
+PROGRESS (lane `coherence/adjudicate-r7-laws3`, 2026-10-02, the owner's J148 and J149 applied and the laws refined against probe pass 5; the first run stopped by an interrupt after its 11:28 CHECKPOINT, resumed from it)
+- [x] N1 read whole: the brief; PROGRESS J144 – J149; probe-r7e-time, -locks, -gen (29: 2 blockers, 19 major, 8 minor); Part L, R7-02's banner and sentences, R7-03 – R7-07, Part H's END lines, Part P passes 1–4 and *J147 applied*; items 110 (b), (f), 114, 101 R2 and R13; J141; the live text each finding cites, by range
+- [x] N2 J148 applied to Part L by tiers — law 2 (a) the newer planned round Tier 1 and the other side's Tier 2, (b) Tier-3 things moved, (c) the op giving way; every move of a standing gate, postern or tower withdrawn with what only it needed (14 clauses; veto 20 withdrawn) — and J149 — law 1 (2)'s over and merged by the aqueduct's level, (5) – (7), the zone, (10); beneath left out (10 clauses; correction 7 new)
+- [x] N3 Part L refined by class against pass 5 (what stands run by run; the band by its construction; beyond the foot and its first point; the zone off the line; anything across a strip never a raised way's own reservation, chamber or seat, another raised way's strip by *Order*; placement and shape as record fields; *Order* by the fixing step; *Newer* at a regeneration; law 1 (9), (10) by the lines a commit lays or moves; (a)'s reach a bound, (b)'s Tier-3 passable set and own reach, (c)'s rung reach; the check's queried spans and record fields); Part L 6,763 → 8,672 words
+- [x] N4 "Part P — Pass 5: the laws probe again, J148 and J149" after *J147 applied*: 29 decided — 9 CLOSED BY LAW, 20 LAW REFINED, 0 OWNER-RULE CLASH, 0 REJECTED; the eight minors' examples or ENDs corrected; passes 1–4 re-checked, 36 rows superseded in part (PRB7D-LCK-04 (J147) whole)
+- [x] N5 ENDs: E-V6-20 new; E-M1, E-M2, E-P1, E-P9, E-D2, E-D3, E-D6, E-D7, E-D11, E-D13, E-S0, E-S2, E-S3, E-S6, E-V7-4, E-V7-6, E-V7-7 and E-V11-1 amended; R7-02, R7-03 (a) and R7-06 (a) conformed; Part H's head (one rule for every other END line and FIX); veto list 1–23 (20 withdrawn); header, contents, Summary, Part I; result saved, LANDED
+
 
 ## How to read this file
 
@@ -61,13 +68,13 @@ id); MERGED is used only inside one unit. In a table cell, `\|` stands for the `
 **Grades** (J141's SEVERITY STANDARD). The `sev` column is the reporter's; the `grade` column is this adjudicator's, with a
 one-line reason where it differs. A regrade never changes the disposition.
 
-**Precedence used** (principle (3)): the owner's words (J144 and J146 above all for this family; file g items 101, 110, 114) > an f item or a J-VI decision > (J146) Part L's laws (their home §2.7's support step (6)) > their worked examples > the base's canonical home > a volume's restatement. A reading of the owner's words made by
+**Precedence used** (principle (3)): the owner's words (J144 and J146 – J149 above all for this family; file g items 101, 110, 114) > an f item or a J-VI decision > (J146) Part L's laws (their home §2.7's support step (6)) > their worked examples > the base's canonical home > a volume's restatement. A reading of the owner's words made by
 the program (J122) says so and is **vetoable**; the family's veto list is restated in Part L (J146; R7-02's list 1–22 kept as the record). adjudication-r2.md – r6.md
 stay binding except where an entry below supersedes one of their rulings, cells or END lines by name.
 
 **No ruling id in design text** (R3-02, kept). Every text below that a seat writes into the design names a design home,
-never an `R7-nn`, `R6-nn`, `PRB6-nn`, `PRB7-nn`, `PRB7B-nn`, `PRB7C-nn`, `PRB7D-nn` or verifier id; the markers "(amended, PRB7-nn)",
-"(amended, PRB7B-nn)" and "(J146, PRB7D-nn)" that Part P leaves at each amended spot are this file's and are never written into the design (a seat drops them as it writes the text). J-rows (J122, J144) are design citations and may be written. The new
+never an `R7-nn`, `R6-nn`, `PRB6-nn`, `PRB7-nn`, `PRB7B-nn`, `PRB7C-nn`, `PRB7D-nn`, `PRB7E-nn` or verifier id; the markers "(amended, PRB7-nn)",
+"(amended, PRB7B-nn)", "(J146, PRB7D-nn)", "(J146, PRB7E-nn)", "(J148)" and "(J149)" that Part P leaves at each amended spot are this file's and are never written into the design (a seat drops them as it writes the text). J-rows (J122, J144) are design citations and may be written. The new
 design names this round introduces — each defined once at §2.7 and cited everywhere else — are: **the lock sentence**
 (§2.7's crossing table, with its guards (G1) *local*, (G2) *shown* and (G3) *no lawful local shape*); **the similar
 structures**; **the bent-group sentence** (with *the bent group* and *a lawful crossing*); **the fixed-place sentence**
@@ -83,7 +90,8 @@ structure*, *road deck*, *the band*, *the wall strips*, *the strip*, *the ends*,
 *footprint*, *fixed place*, *the zone*, *a held building's strip*, *anything across a strip*, *placement*, *shape*, *the
 reach*, *newer*; and, refined by pass 4, *what stands of a wall*, *a span's strip*, *standing span*, *open ground*,
 *held* and *explicit hold*, *order* with the fields `Enceinte.laidAt` and `RaisedWayRecord.courseAt`, *commit*, and law
-2's *A warp*), §5.3's law-1 row and §13.2's **T110-4**. A citation writes "(§2.7's crossing
+2's *A warp*; and, by J148, J149 and pass 5, *the tiers* (Tier 1 – Tier 3), law 2's *The soft readings*, law 1 (2)'s forms
+**over** and **merged**, and *the first point beyond the foot*), §5.3's law-1 row and §13.2's **T110-4**. A citation writes "(§2.7's crossing
 table, the lock sentence)", "(§2.7's crossing table, the bent-group sentence)", "(§2.7's crossing table, row W8)", never a
 restatement.
 
@@ -125,7 +133,7 @@ restatement.
   once, normatively, at §2.7's support step (6) as **§2.7's laws**: law 1, what a valid meeting is (ten invariants after
   every commit on every path, over terms defined once as functions of what stands — a fixed place a class, several raised
   ways their union, a village kind its section); law 2, one way to resolve any meeting (the newer structure laid lawfully
-  first, else the standing one's gates, posterns and towers moved along its line, else the op gives way by path, a road
+  first, else the standing one's gates, posterns and towers moved along its line (withdrawn by J148: Tier-3 things move instead, below), else the op gives way by path, a road
   deck's carried way gated by the gate law — never a placement, a fixed place, a support or a held building); law 3, one tie-break (least
   displacement, then a fixed order); law 4, every op on every path re-checks in its own commit, every held reshape shown.
   Law 1 is checked at runtime (a §5.3 row) and by one property bar, T110-4. R7-02 – R7-07 and Part P become worked
@@ -141,10 +149,19 @@ restatement.
   flagged), 0 REJECTED; seven earlier rows superseded in part; the veto list now 1–22.
 * **(J147) The owner's two-axis lock applied (*J147 applied*, after Part P's pass 4):** *held* is locked, on the axis
   named — placement or shape — and nothing else; a drawn, dragged, declared or placed thing holds nothing unless
-  locked; a shape lock is honoured (law 2 (b) passes a shape-locked thing over; the newer bends itself or gives way); a
+  locked; a shape lock is honoured (law 2 (b) passes a shape-locked thing over — since J148, takes no soft reading from a later meeting; the newer bends itself or gives way); a
   placement-locked thing still reshapes at a meeting (J144). Twelve clauses of Part L changed, PRB7D-LCK-04's clash
   reversed, thirteen more rows superseded in part, the veto list now 1–23; the lock itself and every reader outside the
   family's meetings handed to round 8 (Part A).
+* **(J148, J149) The owner's tiers and aqueduct forms applied, and probe pass 5 decided (Part P's pass 5):** no meeting
+  moves a gate, postern, tower or fixed place (Tier 1); where wall runs and raised ways (Tier 2) meet, the newer bends
+  itself locally, else the soft things (ground ways, plots, unlocked buildings: Tier 3) move, else the op gives way — law
+  2 (a)–(c) by tiers, every former move of a standing gate or tower withdrawn (14 clauses; veto 20 withdrawn). An
+  aqueduct crosses a wall at its own level, over it on an arch (a gate or tower standing under an arch that clears it)
+  or merged into it, read from what stands; beneath — a buried channel, no raised way at the wall — is left out (10
+  clauses; correction 7). Pass 5's 29 findings of `probe-r7e-time.md`, `probe-r7e-locks.md` and `probe-r7e-gen.md` (2
+  blockers, 19 major, 8 minor) decided by refining Part L by class — 9 CLOSED BY LAW, 20 LAW REFINED, 0 OWNER-RULE
+  CLASH, 0 REJECTED; 36 earlier rows superseded in part; the veto list 1–23 with item 20 withdrawn.
 * **Canon:** one dated ruling appended to `canon.md` (Part I).
 
 ## Table of contents by unit
@@ -155,29 +172,29 @@ heading in Part H.
 
 | unit | issues | texts under its heading | rulings binding it (with R7-01, R7-02) | its heading |
 |---|---|---|---|---|
-| scope (base §0–§1, §13–§17, the index, INDEX.md) | 8 | E-S0 – E-S16 (E-S11 – E-S12 amended, PRB7-05, PRB7-16; E-S0, E-S2 – E-S5, E-S9 and E-S12 amended, Part P pass 2; E-S13 – E-S16 new and E-S0, E-S4, E-S9, E-S10 amended, J146; E-S0, E-S9, E-S13, E-S14 amended, J146 pass 4) | Part L, R7-03, R7-04, R7-06 | Part H · scope |
-| model (base §2) | 12 (2 merged) | E-M1 (J146: Part L's laws at (6), normative; refined, pass 4); E-M2 (J146, pass 4: the order fields); R7-02's Blocks 1–2 as worked examples, (M1)–(M2), (M5) (amended, PRB7-18), (M6) (amended, PRB7B-11); (7)'s and (3)'s sentences | Part L, R7-04, R7-07 | Part H · model |
+| scope (base §0–§1, §13–§17, the index, INDEX.md) | 8 | E-S0 – E-S16 (E-S11 – E-S12 amended, PRB7-05, PRB7-16; E-S0, E-S2 – E-S5, E-S9 and E-S12 amended, Part P pass 2; E-S13 – E-S16 new and E-S0, E-S4, E-S9, E-S10 amended, J146; E-S0, E-S9, E-S13, E-S14 amended, J146 pass 4; E-S0, E-S2, E-S3, E-S6 amended, J146 pass 5) | Part L, R7-03, R7-04, R7-06 | Part H · scope |
+| model (base §2) | 12 (2 merged) | E-M1 (J146: Part L's laws at (6), normative; refined, pass 4); E-M2 (J146, pass 4: the order fields); E-M1 and E-M2 amended (J148, J149, J146 pass 5); R7-02's Blocks 1–2 as worked examples, (M1)–(M2), (M5) (amended, PRB7-18), (M6) (amended, PRB7B-11); (7)'s and (3)'s sentences | Part L, R7-04, R7-07 | Part H · model |
 | kernel (base §3) | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08 |
-| pipeline (base §4, §10, PART II, PART III) | 8 (1 merged) | its FIXes; E-P1 – E-P14 (E-P9 – E-P10 amended, PRB7B-12, PRB7B-11; E-P11 – E-P14 new and E-P4 amended, J146) | Part L, R7-03, R7-04, R7-07 | Part H · pipeline |
-| determinism (base §5–§7) | 2 | E-D1 – E-D16 (E-D11 amended, PRB7-16; E-D12 amended, PRB7B-08; E-D13 – E-D16 new and E-D1, E-D3, E-D4, E-D6, E-D10, E-D11 amended, J146; E-D17 new and E-D1, E-D3, E-D6, E-D7, E-D11, E-D13 amended, J146 pass 4) | Part L, R7-07 | Part H · determinism |
+| pipeline (base §4, §10, PART II, PART III) | 8 (1 merged) | its FIXes; E-P1 – E-P14 (E-P9 – E-P10 amended, PRB7B-12, PRB7B-11; E-P11 – E-P14 new and E-P4 amended, J146; E-P1, E-P9 amended, J149) | Part L, R7-03, R7-04, R7-07 | Part H · pipeline |
+| determinism (base §5–§7) | 2 | E-D1 – E-D16 (E-D11 amended, PRB7-16; E-D12 amended, PRB7B-08; E-D13 – E-D16 new and E-D1, E-D3, E-D4, E-D6, E-D10, E-D11 amended, J146; E-D17 new and E-D1, E-D3, E-D6, E-D7, E-D11, E-D13 amended, J146 pass 4; E-D2, E-D3, E-D6, E-D7, E-D11, E-D13 amended, J148, J149, J146 pass 5) | Part L, R7-07 | Part H · determinism |
 | rendering (base §8, §9, §11, §12) | 1 | its FIX (per R7-05); E-R1 (amended, PRB7B-11); E-R2 (J146) | Part L, R7-05 | Part H · rendering |
 | V01 | 1 | its FIX (per R7-05); E-V1-1 (amended, PRB7B-11) | R7-05 | Part H · V01 |
 | V02 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08 |
 | V03 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08 |
 | V04 | 4 | E-V4-1 – E-V4-8 (E-V4-8 amended, PRB7B-11; E-V4-2, E-V4-4 and the sweep amended, J146; the sweep amended, J146 pass 4) | Part L, R7-04, R7-06 | Part H · V04 |
 | V05 | 1 | its FIX | R7-04 | Part H · V05 |
-| V06 | 9 | E-V6-1 – E-V6-19, its FIXes (E-V6-14 – E-V6-15 amended, PRB7-05, PRB7-16; E-V6-16 amended, PRB7B-12; E-V6-17 – E-V6-19 new and E-V6-1, E-V6-8, E-V6-11, VAL-R6-05 and the sweep amended, J146) | Part L, R7-04, R7-06, R7-07 | Part H · V06 |
-| V07 | 4 | E-V7-1 – E-V7-7, its FIXes (E-V7-4 amended, PRB7-16; E-V7-1 and E-V7-4 amended, Part P pass 2; E-V7-5 – E-V7-7 new, J146; E-V7-4, E-V7-7 amended, J146 pass 4) | Part L, R7-04, R7-06 | Part H · V07 |
+| V06 | 9 | E-V6-1 – E-V6-19, its FIXes (E-V6-14 – E-V6-15 amended, PRB7-05, PRB7-16; E-V6-16 amended, PRB7B-12; E-V6-17 – E-V6-19 new and E-V6-1, E-V6-8, E-V6-11, VAL-R6-05 and the sweep amended, J146; E-V6-20 new, J146 pass 5) | Part L, R7-04, R7-06, R7-07 | Part H · V06 |
+| V07 | 4 | E-V7-1 – E-V7-7, its FIXes (E-V7-4 amended, PRB7-16; E-V7-1 and E-V7-4 amended, Part P pass 2; E-V7-5 – E-V7-7 new, J146; E-V7-4, E-V7-7 amended, J146 pass 4; E-V7-4, E-V7-6, E-V7-7 amended, J148, J146 pass 5) | Part L, R7-04, R7-06 | Part H · V07 |
 | V08 | 0 | — | — (does not run) | Part H · kernel, V02, V03, V08 |
 | V09 | 1 | E-V9-1 – E-V9-9 (E-V9-7 amended, PRB7-21; E-V9-8 amended, PRB7B-11; E-V9-9 new and E-V9-3, E-V9-5, E-V9-6, E-V9-8 amended, J146; E-V9-8 amended, J146 pass 4) | Part L, R7-05 | Part H · V09 |
 | V10 | 1 | its FIX (per R7-05); E-V10-1, E-V10-2 (J146) | Part L, R7-05 | Part H · V10 |
-| V11 | 1 | its FIX (amended), one END and E-V11-1 (J146, pass 4) | R7-05 | Part H · V11 |
+| V11 | 1 | its FIX (amended), one END and E-V11-1 (J146, pass 4; amended, J148) | R7-05 | Part H · V11 |
 | V12 | 0 | E-V12-1 (J146) | Part L (runs, J146) | Part H · V12 |
 
 Parts: A ruling requests and hand-offs · B the round (R7-01) · **L the family's laws (J146: normative, with the restated veto list)** · F THE FAMILY RULING (R7-02: the lock, bent-group and
 fixed-place sentences, both tables complete, the attack, the equivalence, the veto list) · C the other rulings (R7-03
 generation order, R7-04 epochs and decay, R7-05 readers, R7-06 tests and the state sweep, R7-07 bookkeeping) · H
-per-unit dispositions and END lines · Held for round 8 · P the probe's findings and their decisions (passes 1–2), Pass 3 under the laws (J146), Pass 4, the laws probe (J146), and J147 applied · I canon. (J146) Every seat reads Part L whole first: it is normative, and R7-02 – R7-07 and Part P are its worked examples.
+per-unit dispositions and END lines · Held for round 8 · P the probe's findings and their decisions (passes 1–2), Pass 3 under the laws (J146), Pass 4, the laws probe (J146), J147 applied, and Pass 5, the laws probe again, J148 and J149 (J148 applied, J149 applied) · I canon. (J146) Every seat reads Part L whole first: it is normative, and R7-02 – R7-07 and Part P are its worked examples.
 
 ## Part A — the ruling requests and the family's open hand-offs
 
@@ -481,8 +498,8 @@ round the hard ones, then the soft ones moved, then the op giving way (J148).
     things passable that (b) may move — a ground way not shape-locked (a wall's own way, a road deck's carried way), a
     plot, an unlocked building —, every other thing as impassable to it as to (a) (J146, PRB7E-LCK-02, PRB7E-GEN-06),
     a searched shape by its own cost, a given one by law 3; and each such thing that shape meets is moved by its own law
-    inside the meeting's reach (G1): a ground way re-routed by the router that laid it (§4.3; by hand §7.3's S4
-    operator) between its nearest unmoved nodes either side — a placement-locked one's local course a shape change
+    within its own reach (G1; J146, PRB7E-LCK-03): a ground way re-routed by the router that laid it (§4.3; by hand §7.3's S4
+    operator) between its nearest unmoved nodes either side (a carried way as *Carried way* says) — a placement-locked one's local course a shape change
     shown by law 4's (G2) —, a plot re-cut (S10 on the touched blocks), an unlocked building moved as its kind's are.
     Never a Tier-1 thing, a Tier-2 structure's line, band, supports, spans or ends, a held building or anything
     shape-locked (law 1 (9), (10)); the soft readings follow as at (a).
@@ -667,8 +684,9 @@ another (bookkeeping, report counts) are dropped.
     at an epoch it waits — a river shift that would leave a wall with no lawful shape waits too. *Veto options:* the
     existing fates and bends alone [11]; the river moved and the run left breached across it [22]. [11, 22]
 14. **(law 3)** Each choice is the nearest lawful shape — an op's own shape bent before the value it set, and that before
-    its course or trace —, then a fixed order (the smaller value, then the place first by x, then y, then the lower
-    address): the same map every time, on every host (J146, PRB7D-LCK-11, PRB7D-GEN-08). [—]
+    its course or trace —, then a fixed order (the lower address, then the smaller value, then the place first by x,
+    then y; J146, pass 5: law 3's key (3) in its own order): the same map every time, on every host (J146, PRB7D-LCK-11,
+    PRB7D-GEN-08). [—]
 15. **(law 4)** Every reshape of something the user placement-locked is shown — the fate *reshaped* by hand, a report
     entry otherwise — and undone by undo, a locked wall's top cut down under a deck and a locked part of the user's own
     structure among them; the user's own stroke, bent, shows as its bend, never as a fate, and a change of something
@@ -1346,8 +1364,8 @@ Kept, all; the rulings are program design under J122.
 reaches `T = t_1`; on a valley site that point can lie on a deck S4's cost function priced. *Down before the wall* names
 only S5b's picked boundary, so nothing brings that deck down. **Decision:** the stage-1 boundary counts as standing from
 S3 (7), and a gate route whose gate would fall on a raised stretch is re-solved with no deck across the boundary. Home
-text, **pipeline, §4.2 S3 (7)**, after "the gate keeps the pick's identity, ordinal, bearing and route.": "A route whose first point at `T = t_1` lies on a raised stretch of its solved course (a viaduct (5)'s solve priced, §4.3) — or would put its gate where §2.7's laws admit none: on a ramp or stair, nearer its foot than beyond the foot, or with the gate's footprint or the band there over the ends or in the strip (law 1 (1), (4), (5); J146) — is re-solved
-whole as (5) solves it, every deck edge whose two ends lie on either side of the stage-1 boundary, or with an end nearer the boundary than beyond the foot there (§2.7's laws' terms, read with the band and gatehouse rows there), excluded — a search over the routes whose first point at `T = t_1` §2.7's laws admit (law 2 (a); J146, PRB7D-GEN-09) — (the boundary
+text, **pipeline, §4.2 S3 (7)**, after "the gate keeps the pick's identity, ordinal, bearing and route.": "A route whose first point at `T = t_1` lies on a raised stretch of its solved course (a viaduct (5)'s solve priced, §4.3) — or would put its gate where §2.7's laws admit none: on a ramp or stair, nearer its foot than the first point beyond the foot (J146, PRB7E-GEN-03), or with the gate's footprint or the band there over the ends or in the strip (law 1 (1), (4), (5); J146) — is re-solved
+whole as (5) solves it, every deck edge whose two ends lie on either side of the stage-1 boundary, or with an end nearer the boundary than the first point beyond the foot there (§2.7's laws' terms; J146, PRB7E-GEN-03; read with the band and gatehouse rows there), excluded — a search over the routes whose first point at `T = t_1` §2.7's laws admit (law 2 (a); J146, PRB7D-GEN-09) — (the boundary
 counting as standing, §4.3 *Where it may not go*; §2.7's crossing table, *down before the wall*); its gate is the re-solved route's first point at `T = t_1`, on ground part 0, which the rest of this step reads as any gate; the harbour gate of (7) is placed likewise, where `L*`, re-solved with every deck edge across the stage-1 boundary excluded, first reaches `T = t_1` (a search over lawful points, §2.7's laws, law 1 (1), law 2 (a); J146); `T` and the
 boundary keep (5)'s routes and are not re-derived, and a route the re-solve cannot serve takes F-ROUTE's ladder (§5.2),
 reported. The raised stretches of (5)'s routes, so re-solved, stand for every later step of S3 as raised ways laid before
@@ -1562,7 +1580,22 @@ E-V6-8, E-V6-11, E-V9-3, E-V9-5, E-V9-6, E-V9-8, VAL-R6-05's and VPC-r6-05's not
 E-D6, E-D7, E-D11, E-D13, E-S0, E-S9, E-S13, E-S14, E-V7-4, E-V7-7, E-V9-8 and V04's sweep; each spot marked "(J146,
 PRB7D-…)", a marker of this file never written into the design. (J147) Amended in place: E-S0, E-S4, E-S9, E-S13,
 E-V4-4, E-V4-7 and E-V6-18 (a held building or way only where the user locks it; T110-4 on both lock axes), each marked
-"(J147)".
+"(J147)". (J148, J149; J146, PRB7E-…) New: E-V6-20 (a burial removes the runs it lists). Amended in place: E-M1 (§2.7's
+laws as J148 and J149 apply them and pass 5 refines them; (6)'s lead citing *Newer*), E-M2 (the order fields dated by
+the fixing step; the upgrade's dates), E-P1, E-P9, E-D2 and E-D3 (an aqueduct across a wall over or merged, J149),
+E-D6 and E-D7 (no fate or entry for a moved gate or tower, J148; a reading's entry derived from the op that changed
+what stands), E-D11 and E-V7-4 (the raised-way rung's reach), E-D13 (§5.3's law-1 row a citation of *The check*), E-S0
+and R7-06 (a) (the sweep's C8 per axis; the `reshaped` entries), E-S2, E-S3 and E-S6 (fixtures placement-locked),
+E-V7-6 (the REPLACEMENT's gates kept), E-V7-7 (the band by VS3's construction) and E-V11-1 (no gate or tower moved);
+each spot marked "(J148)", "(J149)" or "(J146, PRB7E-…)". **One rule for the rest (J148, J149).** In every END line's
+quoted new text and every FIX under this file, a clause that Part L's correction 1 or 7 names — a standing gate,
+postern or tower (a fixed place among them) moved along its line for a meeting, with a gate's way following it or a
+`gateMoved`, `towerMoved`, `stretchBent` or `supportSlid` entry; an aqueduct's supports kept off a wall's band or
+impassable to a trace, a wall bent or a course searched so that a wall crosses an aqueduct only under a span or through
+a `cleared` support's gap, a run capped beneath an aqueduct's span, a gate, tower or fixed place kept out of an
+aqueduct's strip or zone where its arches clear it, or an aqueduct refused, not built or waiting for want of a course
+whose supports keep off a band — is written as that correction reads it, citing §2.7's laws (law 1 (2), (5)–(7); law 2
+(a)–(c)); a road deck's clause stands (J149: road decks unchanged); the seat names each such change in its report.
 
 ### scope (base §0–§1, §13–§17, the index, INDEX.md)
 
@@ -1907,7 +1940,13 @@ extension, else the record's creation; J146, PRB7E-TIM-07); §5.3's law-1 row re
   under-deck strip clear of the trace's gates and towers and its fixed-place zone of the trace's fixed places, a held
   wall as an unlocked one (*over the band*; the crossing table's lock and fixed-place sentences) (amended, PRB7-09) — and
   every raised way's course, a viaduct's priced in a route's
-  solve among them, keeping each fixed place of a standing trace outside its fixed-place zone".
+  solve among them, keeping each fixed place of a standing trace outside its fixed-place zone". (J149) That new text
+  reads instead "an aqueduct crossing a standing wall at its own level, over the band on an arch or merged into it, its
+  ramps, stairs and feet off the band and wall strips and no gate, postern, tower or fixed place of the trace under it
+  but where its arches clear them, a placement-locked wall as an unlocked one and a shape-locked one never merged into
+  (§2.7's laws, law 1 (2), (4)–(6), (10); its worked example *over the band*) — and every road deck's course, a
+  viaduct's priced in a route's solve among them, keeping each fixed place of a standing trace outside its zone (law 1
+  (6))".
 * **E-P2 — §4.4 S5a (1)**: "each stretch's ends anchored on its barrier (the existing anchor kinds) with a tower at each
   anchor (§4.8)" → "… with a tower at each anchor (§4.8), never inside a standing raised way's fixed-place zone (§2.7's
   crossing table, the fixed-place sentence)".
@@ -1938,7 +1977,11 @@ extension, else the record's creation; J146, PRB7E-TIM-07); §5.3's law-1 row re
   way's ramps, stairs and feet and an aqueduct's standing supports impassable to it: §2.7's crossing table, *beneath*" →
   "the impassables §2.7's crossing table's *beneath* gives the pull impassable to it — a standing raised way's ramps,
   stairs and feet, an aqueduct's standing supports and every held building's widened strip, each widened as its *Line
-  and band* says". S3 (9) and a hand `contractWall` run it there; no other text restates the list.
+  and band* says". S3 (9) and a hand `contractWall` run it there; no other text restates the list. (J149) That new text
+  reads instead "the impassables §2.7's laws give a trace (law 1 (2), (4), (9), (10)) impassable to it — a standing
+  raised way's ramps, stairs and feet widened by the wall strips' width there, every held building's strip, a
+  shape-locked raised way's `vault`-use spans' strips, and an aqueduct's strip but to cross its deck line once, its
+  supports no obstacle (the crossing over or merged at the aqueduct's level)".
 * **E-P10 — the `vault` reading at §4.3 and II.7.6** (amended, PRB7B-11). §4.3 *Lattice and costs*: "the under-deck strips
   of its `vault` spans but one under a wall, read `open` (§2.7's crossing table, *beneath*), are impassable" → "the
   under-deck strips of its `vault` spans but one §2.7's crossing table's *beneath* reads `open`, are impassable"; II.7.6:
@@ -1994,7 +2037,11 @@ extension, else the record's creation; J146, PRB7E-TIM-07); §5.3's law-1 row re
   unlocked one, never a gate (§2.7's crossing table, its lock and fixed-place sentences)"; and the catch-all's "the span
   an aqueduct drawn across a standing wall takes over its band, clear of its towers and gates" → "the span an aqueduct
   drawn across a standing wall takes over its band, clear of its towers and gates, its fixed-place zone clear of its fixed
-  places" (amended, PRB7-09).
+  places" (amended, PRB7-09). (J149) The first new text's aqueduct clause reads instead "while an aqueduct crosses a
+  standing wall at its own level, over it on an arch or merged into it, never a gate, its course bent clear only of a
+  gate, postern, tower or fixed place its arches would not clear (§2.7's laws, law 1 (2), (5), (6); law 2 (a))", and the
+  catch-all's new text "the course an aqueduct drawn across a standing wall takes over or through it (§2.7's laws, law
+  1 (2), (5))".
 * **E-D3 — §7.1's `bend.wall.raisedCrossing` row** (VEL6-r6-04, VAT-r6-02 = VV910-r6-01, the lock sentence) → "| a hand
   `drawWall`, a moved trace vertex, a re-anchored stretch, `repairWall`'s new stretch on a dismantled run (row W10)
   (amended, PRB7B-15), a run a hand carve or moved river re-traces or a run a hand
@@ -2002,7 +2049,7 @@ extension, else the record's creation; J146, PRB7E-TIM-07); §5.3's law-1 row re
   crossing inside its under-deck strip, either side locked, pinned or neither (§2.7's crossing table, *beneath*, the
   bent-group sentence, rows W2, W10, W13 and W14) | bent | the stretch's
   line inside the strip held to lawful crossings by the bent-group sentence — an unlawful crossing moved to the nearest
-  lawful one (under an aqueduct's span; under a road deck's span or beyond its foot through a gate there, whichever law 3 finds nearer — J146, PRB7D-LCK-20), a part along beneath or entering
+  lawful one (an aqueduct's deck line crossed once anywhere, over or merged — §2.7's laws, law 1 (2); J149 —; under a road deck's span or beyond its foot through a gate there, whichever law 3 finds nearer — J146, PRB7D-LCK-20), a part along beneath or entering
   and leaving on one side moved to the strip's edge, an end moved to the edge, a fixed place kept out of the fixed-place
   zone, a gate it makes for a ground way inside the under-deck strip moved along that way clear of it (amended,
   PRB7B-02) — each part of the bend, never a fate (J146: §2.7's laws, law 4), an arch vault in a `vault` span under it removed (one of the edit's consequences, a held one's the fate *reshaped*: §2.7's laws, law 4's (G2); J146, PRB7D-LCK-07); a slid gate moved back along the trace to
@@ -2052,8 +2099,8 @@ extension, else the record's creation; J146, PRB7E-TIM-07); §5.3's law-1 row re
   the crossing table (its lock sentence); a raised way over a locked way keeps its span `open`"; and (J146; PRB7C-LCK-15) the retaining-wall row's lock cell "a locked wall masks the stroke on its high side" → "a locked wall masks the stroke on its high side; with a raised way, its placement held and its shape at the meeting §2.7's laws' (law 2)", and after the raised-way row two rows: "| an enceinte (its stretches, gates and towers) | §7.1's T3 rows | its placement held, its shape where a raised way meets it §2.7's laws' (law 2) | the event's inverse | a held one stands before every stage (§7.2) |" and "| an arch vault | a span's `use`; V04's reconcile | its span and key held, its chamber not laid while §2.7's laws read the span `open` (law 1 (8)) | the event's inverse, its id kept by its key | V04 lays it by the span rule |".
 * **E-D11 — §5.2's F-WALL row and §5.4's warnings** (amended, PRB7-16; the lock sentence's (G3) off the hand path).
   F-WALL's detection cell adds "; a trace with no lawful crossing of a standing raised way, a fixed place with no clear
-  point in reach, or a held building's widened strip it cannot keep clear (§2.7's crossing table, (G3); *beneath*)"; its ladder adds, at its head (amended, PRB7B-09): "at generation, a regeneration and a village derivation (J146: a hand op that runs F-WALL — a hand `contractWall`, a terrain stroke's cliff re-anchor — refused `refuse.raised.meeting` once its own re-pull fails, never a stage left unwalled: §2.7's laws, law 2 (c)), a raised-way meeting (the detection's last clause) takes its own rung alone, none of the rungs below running on it: the boundary re-pulled once with law 1's exclusions impassable (§2.7's laws,
-  law 2 (c); J146, PRB7D-GEN-10) → that stage left unwalled, reported (`W_RAISED_MEETING`), and read then as §2.7's laws, law 2 (c), read an unwalled stage (J146: no `Enceinte` or `Gate` for it, its routes ungated, no harbour gate, moat or chain, the harbour route an unwalled town's, a welded castle re-sited by F-CASTLE else kept `inside`, `requestedVsBuilt`); every rung below, run for another
+  point in reach, or a held building's widened strip it cannot keep clear (§2.7's crossing table, (G3); *beneath*)"; its ladder adds, at its head (amended, PRB7B-09): "at generation, a regeneration and a village derivation (J146: a hand op that runs F-WALL — a hand `contractWall`, a terrain stroke's cliff re-anchor — refused `refuse.raised.meeting` once its own re-pull fails, never a stage left unwalled: §2.7's laws, law 2 (c)), a raised-way meeting (the detection's last clause) takes its own rung alone, none of the rungs below running on it: the boundary re-pulled once with law 1's exclusions impassable and its search band widened to `wall.barrierReachM` beyond the stage's boundary, so that it may pass round the raised way (§2.7's laws,
+  law 2 (c); J146, PRB7D-GEN-10; PRB7E-GEN-08) → that stage left unwalled, reported (`W_RAISED_MEETING`), and read then as §2.7's laws, law 2 (c), read an unwalled stage (J146: no `Enceinte` or `Gate` for it, its routes ungated, no harbour gate, moat or chain, the harbour route an unwalled town's, a welded castle re-sited by F-CASTLE else kept `inside`, `requestedVsBuilt`); every rung below, run for another
   detection, lays a trace that meets every standing raised way as the pull's does (§2.7's crossing table: *beneath*'s
   widened impassables, the fixed-place zone, held buildings' widened strips, several raised ways read together), a rung
   whose trace would not passed over for the next;"; its tests cell adds "; T110-2 (3)'s and (6)'s table-edit runs (the
@@ -2398,8 +2445,8 @@ VAP-r6-01, VAP-r6-02, the bent-group and fixed-place sentences):
 * **E-V7-4 — §3.13's ladder table** (amended, PRB7-16): after F-V-ANCHOR's row add "| F-V-RAISED a palisade line with no
   lawful crossing of a standing raised way, a fixed place with no clear point in reach, or a held building's widened
   strip it cannot keep clear (§2.7's crossing table, (G3); *beneath*) | VS3 | its rung alone, no other rung of this table
-  running on it (amended, PRB7B-09): the ring re-laid once with law 1's exclusions impassable (§2.7's laws, law 2 (c); J146,
-  PRB7D-GEN-10) →
+  running on it (amended, PRB7B-09): the ring re-laid once with law 1's exclusions impassable and its search band widened to VS3's barrier reach, so that it may pass round the raised way (§2.7's laws, law 2 (c); J146,
+  PRB7D-GEN-10; PRB7E-GEN-08) →
   the palisade omitted, reported (VS3's `W_RAISED_MEETING`, §5.4) (amended, PRB7B-16) | T-V7-48 |"; every other rung of
   the table re-lays the palisade by VS3, so by §2.7's crossing table as VS3's line meets it.
 * **E-V7-5 — §3.5a (3) and T-V7-48's reading of a `vault` span** (J146; PRB7C-TIM-07). (3)'s "(impassable by §4.3
@@ -2959,6 +3006,346 @@ shape-locked structure never changes — no gate made or moved, no tower moved, 
 never left open — the newer bending itself, else giving way; its veto option the program's reading of what a shape lock
 holds narrowed to the outline).
 
+## Part P — Pass 5: the laws probe again, J148 and J149
+
+`coherence/adjudicate-r7-laws3` (2026-10-02; its first run stopped by an interrupt after its 11:28 CHECKPOINT and was
+resumed from it) applies the owner's J148 and J149 (PROGRESS J148, J149, read whole) to Part L by class, then decides
+probe pass 5 — the laws probe's second pass, three lenses that attacked Part L as pass 4 and J147 left it:
+`probe-r7e-time.md` (8: PRB7E-TIM-01 – 08), `probe-r7e-locks.md` (9: PRB7E-LCK-01 – 09) and `probe-r7e-gen.md` (12:
+PRB7E-GEN-01 – 12); 29 findings, 2 blockers (PRB7E-GEN-01 — the defect PRB7E-LCK-06 and PRB7E-TIM-02 (1) also report:
+a span's own reservation, chamber and seat counted as across its own strip — and PRB7E-TIM-01), 19 major, 8 minor.
+Part L is amended in place, never by adding cases, each change marked "(J148)", "(J149)" or "(J146, PRB7E-…)":
+**CLOSED BY LAW n** where the laws as J148, J149 and this pass leave them decide the case uniquely; **LAW REFINED** where
+Part L now carries the refinement quoted; **OWNER-RULE CLASH** where a law crossed an owner rule; **REJECTED** with the
+reason. The first run wrote J148, J149 and the pass-5 refinements into Part L and conformed most examples and END lines;
+the resumed run completed what it had left half-done — law 2 (b)'s Tier-3 moves each within its own reach (PRB7E-LCK-03),
+veto 14's fixed order conformed to law 3's key (3), R7-03 (a)'s trigger at the first point beyond the foot
+(PRB7E-GEN-03), E-D11's and E-V7-4's rung reach (PRB7E-GEN-08), E-P1, E-P9, E-D2 and E-D3 read by J149, and Part H's
+head (the J148/J149 list and one rule for every other END line and FIX). No owner rule is changed, and every reading of
+the owner's words stays the program's (J122, vetoable).
+
+**Owner-rule clashes (flagged at the head, as J146's grading asks): none.** Two findings raised an owner rule on one
+reading, and the refined laws take the reading that keeps it: PRB7E-LCK-04 (item 110 (b), "the user may add or remove a
+raised way" as R7-02 quotes it — a shape-locked run's cap refusing the removal of the deck above it) and PRB7E-TIM-04
+(item 110 (b)'s "arches fall by stretch while piers persist" as R7-04 checks it — a lock on the wall holding an unlocked
+arch up). Law 1 (10) now holds against a shape-held thing only what a line laid or moved after its lock would impose,
+the readings it had from what stood before following what stands, so the removal, the fall, the decay and the repair
+apply. No refinement crosses J144 (no placement lock refuses a meeting), J147 (held is locked, per axis; a shape lock
+honoured), J148 (no meeting moves a Tier-1 thing) or J149 (nothing hard moves; road decks unchanged).
+
+**Totals.** 29 decided: **9 CLOSED BY LAW** (the eight minors and PRB7E-GEN-07 — law 1: 5; law 2: 2; law 4: 2), **20 LAW
+REFINED** (both blockers and 18 majors), **0 OWNER-RULE CLASH**, **0 REJECTED**; the eight minors' examples or END texts
+corrected to the laws. Part L: 6,763 words before this seat, 8,672 after (its markers included; J148, J149 and pass 5
+together). J148 changed 14 clauses of Part L and J149 10. The veto list runs 1–23 with item 20 withdrawn — 22 in
+force; items 4, 6 – 12, 14, 18, 22 and 23 amended. Rows of passes 1–4 superseded in part: 36 (below).
+
+### J148 applied (2026-10-02)
+
+**The owner's rule** (PROGRESS J148): a gate does not move — everything else revolves around it; where a meeting would
+need a hard structure (a gate, an aqueduct or the like) to move, the easier of the two to move is the one moved, or the
+conflict is avoided before it happens; the owner chose the program's three tiers (Tier 1, never moved by a meeting:
+gates, posterns, towers and the fixed places; Tier 2, hard: wall runs and raised ways, the newer bending locally where
+they meet; Tier 3, soft: ground ways, plots and unlocked buildings, which move round the hard ones; every new thing
+first planning round the hard ones). **The program's** (J122, vetoable): the tier texts, and the reading that law 2
+(b)'s moves of a standing wall's gates, posterns and towers are withdrawn, a meeting the newer's own local shape or a
+Tier-3 move cannot resolve taking law 2 (c), the soft readings kept, J144's rule (a lock refuses no meeting) and J147's
+axes standing. Applied by class: law 2's order is the tiers' order; every clause that moved a standing Tier-1 thing, and
+what only that move needed, is withdrawn; nothing else of J144 or J147 changes — J147's "a placement-locked wall still
+reshapes at a meeting" now means its soft readings only.
+
+**Clauses changed in Part L (14), each marked "J148" there:**
+1. The lead: J144's rule "is law 2's *Entry* and *The soft readings* (J148)" — replacing "is law 2's entry and (b)" —
+   and one sentence: "(J148) The owner's rule J148 … is law 2's order: (a) the newer structure's own shape planned round
+   the hard ones, (b) the soft ones moved, (c) the op giving way; no meeting moves a gate, postern, tower or fixed
+   place."
+2. *Fixed place*: "so that it is laid only along that tie … Every other gate, postern and tower is laid along its
+   wall's line by the law that lays it; none, once standing, is moved by a meeting (J148)" — replacing "so that it can
+   move only along that tie … Every other gate, postern and tower moves along its wall's line."
+3. *The tiers* (new): "**Tier 1** — gates (posterns, water gates and a harbour-mouth chain among them), towers and the
+   fixed places — is never moved by a meeting. **Tier 2** — wall runs (their lines, bands and strips) and raised ways
+   (their courses, supports, spans and ends) — is hard: where two meet, the newer bends itself locally. **Tier 3** —
+   ground ways (a wall's own ways and a road deck's carried way among them), plots and unlocked buildings — is soft,
+   moved round the hard ones. A held building and anything shape-locked is moved by no meeting (law 1 (9), (10)); every
+   new thing first plans round the hard ones (law 2 (a))."
+4. *Shape* and *the reach*: "**shape** is what a meeting may change of a standing thing — the soft readings (law 2), an
+   arch vault's chamber with them and a Tier-3 thing's local course (law 2 (b)) — …"; the reach "the strips, zones,
+   ends and Tier-1 footprints it meets" — replacing "**shape** is what a meeting may change — law 2 (b)'s moves, a gate
+   law 2's *Carried way* makes, and the readings law 1 (7) and (8) give" and "the strips, zones and ends it meets".
+5. Law 2's lead adds: "— the newer bending itself round the hard ones, then the soft ones moved, then the op giving way
+   (J148)".
+6. *Newer*: "a structure it changes only at the meeting (a gate *Carried way* makes, a Tier-3 thing law 2 (b) moves, a
+   soft reading) is the standing side" — replacing "(a gate *Carried way* makes, a gate or tower (b) moves)".
+7. *The soft readings* (replacing *A `vault` span's reading*): "A `vault` span read `open` with no chamber (law 1 (8)),
+   a wall merged round an aqueduct's arch or pier (law 1 (2)), a run's top capped beneath a road deck's span (law 1 (7))
+   and a gate *Carried way* makes by hand are no move: each follows of itself from what stands, at every step …, so
+   law 3 never ranks them, and none falls on a shape-held thing from a meeting made after its lock (law 1 (10))."
+8. *Carried way*: "a placement-locked one too (a soft reading of that wall, shown by law 4's (G2)), never in a
+   shape-locked one, where the carried way — a Tier-3 way — is re-routed by law 2 (b) …" — replacing "(a shape change of
+   that wall, …), never in a shape-locked one, where the declared way is bent by law 2 (a) to cross through a gate that
+   wall has".
+9. Law 2 (a): "planned round every Tier-1 thing and the other side's Tier-2 structure (J148): each thing it lays or
+   places — a gate, postern or tower of its own along its own wall's line, a fixed place along its tie, … — moved along
+   that line or tie" — replacing "each part it changes moved along its own line or tie".
+10. Law 2 (b): "Failing that, the soft give way to the hard (J148): the op's shape is taken as (a) would take it with
+    those Tier-3 things passable that (b) may move — a ground way not shape-locked (a wall's own way, a road deck's
+    carried way), a plot, an unlocked building —, every other thing as impassable to it as to (a) …; and each such thing
+    that shape meets is moved by its own law within its own reach (G1): a ground way re-routed by the router that laid
+    it … between its nearest unmoved nodes either side (a carried way as *Carried way* says) …, a plot re-cut (S10 on
+    the touched blocks), an unlocked building moved as its kind's are. Never a Tier-1 thing, a Tier-2 structure's line,
+    band, supports, spans or ends, a held building or anything shape-locked (law 1 (9), (10)); the soft readings follow
+    as at (a)." — replacing "with the standing structure's gates, posterns and towers passable … each gate (its way
+    following it, …), postern and tower that shape meets moves along its line by law 3 … Never a fixed place, a support,
+    a held building, or anything shape-locked …, which (b) passes over as it passes a fixed place".
+11. Law 3's key (2): "a thing moved along a line (a gate, postern or tower the op lays or places, along its own wall's
+    line; … a fixed place the op lays, along its tie; …) measured along that line (J148)" — replacing "a gate, postern
+    or tower along its wall's line, … a fixed place along its tie".
+12. Law 4's (G2): "or a placement-locked part of the op's own (an arch vault; J148: no meeting moves a gate or tower)" —
+    replacing "(an arch vault, a gate, a tower)".
+13. Correction 1 (rewritten): "(J148) Every example that moves a standing wall's gate, postern or tower along its line
+    for a meeting — law 2 (b)'s former moves, a gate's way following it, a fate or `reshaped` entry `gateMoved` or
+    `towerMoved` — or that drops, refuses or waits a newer structure only because one stands in its way, reads by law
+    2: the gate, postern or tower stays (Tier 1); the newer bends itself (law 2 (a); an aqueduct passing over one its
+    arches clear, law 1 (5)), else Tier-3 things move (b), else the op gives way (c). A gate, postern or tower the op
+    itself lays or places … is law 2 (a)'s and stands" — replacing "… that outcome follows law 2 (b): the gate, postern
+    or tower moved along its wall inside the meeting's reach where (a) leaves the newer no lawful shape of its own …".
+14. Correction 4: (G1) is "law 2 (a)–(b)'s reach (J148)" — replacing "law 2 (b)".
+
+**Withdrawn with the moves** — what only a moved Tier-1 thing needed: a gate's way following its gate (law 2 (b)); law
+3's measure of a standing gate, postern or tower moved along its wall (key (2) now measures only a thing the op lays or
+places); the `reshaped` changes `'gateMoved'` and `'towerMoved'` (E-D7; with `'stretchBent'` and `'supportSlid'`, which
+no meeting makes either, J149) and the fate *reshaped* for a gate or tower of the op's own (law 4's (G2), E-D6); (b)'s
+passing-over of a fixed place, a support, a held building or a shape-locked part (nothing hard is moved, so nothing is
+passed over); W14's and V07 §3.11's gates "moved along where their stone footprints meet a strip" (the REPLACEMENT waits:
+W14, E-V7-6); E-V11-1's "a gate or tower moved along". The examples that moved one read by correction 1, the END lines
+by Part H's head.
+
+**Rows superseded by J148** (in the re-check table below): PRB7D-LCK-04 (J147) whole — a gate whose way is unlocked or
+placement-locked moved along its wall, one whose way is shape-locked passed over: now every gate stands, its way kept or,
+where it is an unlocked Tier-3 way, re-routed by (b) round the hard ones —; and in part PRB7D-LCK-01, PRB7D-GEN-02,
+PRB7D-LCK-03, PRB7D-LCK-06, PRB7D-LCK-08, PRB7D-LCK-10, PRB7D-GEN-03, PRB7C-GEN-10, PRB7C-LCK-08, PRB7C-LCK-09 and
+PRB7C-TIM-05.
+
+**Veto items (J148):** **20 withdrawn** ("A gate whose road the user shape-locked is never moved for a raised way … a
+gate whose road is unlocked or placement-locked moves along the wall …" — no gate moves for a meeting, so none is passed
+over); **6** rewritten — "No gate, postern or tower stands under a deck, standing or fallen, but under an aqueduct's arch
+that clears it (J149), and none, once standing, is moved for a meeting: a raised way or a wall laid later plans round
+them by its own course or line …, else the soft things (a ground way, a plot, an unlocked building) move round them,
+else the later thing gives way"; its veto option "none beyond the tier texts (J148 is the owner's rule)" — replacing
+"whichever is laid later moves along the wall … moving one along the wall only where no course of its own is lawful";
+**11** (the locked thing takes the soft readings — "a gate or tower moved" struck); **12** (in a shape-locked wall the
+road re-routed through the nearest gate that wall has along its line); **18** (a re-sectioned wall keeps its trace, gates
+and towers, waiting or refused where a standing gate's or tower's new footprint would meet a strip); **22** (a warp's
+gates and towers kept clear by its own course, a standing one never moved); **23** ("no gate made or moved in it, no tower
+moved" → "no gate made in it").
+
+### J149 applied (2026-10-02)
+
+**The owner's approval** (PROGRESS J149): an aqueduct crosses a wall at its own level, in one of three forms — **over**
+(its channel above the wall's top, on an arch that clears the wall, a gate, postern or tower whose top it clears standing
+under the arch), **merged** (its channel within the wall's height, the wall built up to and around the aqueduct's own arch
+or pier, the water passing through it — the Porta Maggiore form) and **beneath** (a conduit under the wall); nothing hard
+moves (J148); viaducts and elevated roads are unchanged; "then yes do those if they help". **The program's** (J122,
+vetoable): the forms' texts; applying "if they help" — a form written where it removes more cases than it adds; and the
+reading that the merged arch is the aqueduct's own masonry (item 114), no gate and no junction (item 110 (f)), never on a
+gate's passage or in a tower, never into a shape-locked wall (J147), and taken by a wall laid later as by an aqueduct.
+
+**The forms written: over and merged; beneath left out.**
+* **Over** is written because it removes cases and adds none: a gate, postern or tower — Tier 1 since J148 — may stand
+  under an arch that clears its top, so an aqueduct meeting a ring's gate or tower need not bend off it or give way (the
+  commonest hand aqueduct gesture, PRB7E-LCK-01's case (2)), and S7 need not keep a gate out of an aqueduct's strip where
+  its arches clear it; the form is read from what stands (the standing spans' soffits against the wall's top), nothing
+  stored.
+* **Merged** is written because, with over, it makes every crossing of an aqueduct's deck line lawful, so no op bends,
+  slides, waits or is refused for one: it removes every clause that kept an aqueduct's supports off a band and every
+  case those clauses made — a support slid off the band, *the edge*, a pulled trace treating supports as impassable, a
+  wall bent to pass under an arch, the gap through a `cleared` support as a crossing's exception, an aqueduct refused or
+  not built where no course keeps its supports off a band, and the cap beneath an aqueduct's span. It adds one soft
+  reading (*The soft readings*) and two exclusions law 1 (5) and (10) already give (no merge on a gate's passage or in a
+  tower; none into a shape-locked wall after its lock).
+* **Beneath** is left out because it would add cases and remove none: an aqueduct whose channel runs under the ground
+  where it meets a wall is no raised way there — its buried stretch "stays a line on ground part 0" (§2.4's `aqueduct`
+  class), its reach V04's foundations' (`conduitClearCm`) — so it makes no meeting of this family and the laws have
+  nothing to decide; writing it would bring a buried stretch, its descent from the arcade and its foundation reach into
+  the family as new cases, while every level of a raised channel at a wall is already above the wall's top (over) or
+  within its height (merged). An aqueduct that goes underground before a wall meets it only by its ends (law 1 (4));
+  what its buried stretch meets under the wall is the base's and V04's, never a meeting these laws decide.
+
+**Clauses changed in Part L (10), each marked "J149" there:**
+1. The lead: "(J149) The owner's J149 (PROGRESS J149: an aqueduct crosses a wall at its own level) is law 1 (2), (5) and
+   (6): the forms **over** and **merged** are written, **beneath** is left out …".
+2. Law 1 (2): "an enclosing wall's line meets an aqueduct's strip only to cross its deck line — entering on one long
+   side, leaving by the other, meeting the deck line once there — and crosses it at the aqueduct's level, in one of two
+   forms read from what stands, nothing of either record written (J149): **over**, where no standing support stands in
+   the band there and every standing span above the band clears the wall's top, the band passing beneath the arch; else
+   **merged**, the band built up to and around the aqueduct's arch or pier there at the wall's own top, the water passing
+   through it in the aqueduct's channel — no gate (no way passes it), each keeping its own condition (item 114) —; so
+   every aqueduct crosses every wall through an arch, over it or within it" — replacing "an enclosing wall's line meets
+   an aqueduct's deck line only under a span or through a `cleared` support's ring, and its band meets a standing
+   aqueduct support's ring at most along the ring's boundary".
+3. Law 1 (5): "… under a standing span or a fallen one, but under an aqueduct whose every span over it clears its top,
+   never on a support's ring (law 1 (2)'s over; J149)".
+4. Law 1 (6): "no fixed place, with its footprint, lies in a road deck's zone, nor in an aqueduct's strip but where law 1
+   (5) admits a gate or tower there (J149)" — replacing "lies in a zone".
+5. Law 1 (7): "beneath a standing span of a road deck … ; beneath an aqueduct the wall keeps its own top (law 1 (2);
+   J149)" — replacing "beneath a standing span".
+6. *The zone*: "**The zone** of a road deck … ; an aqueduct has none (law 1 (6); J149)" — replacing "**The zone** of a
+   raised way".
+7. *The soft readings*: "a wall merged round an aqueduct's arch or pier (law 1 (2))" among them.
+8. Law 1 (10): "no such aqueduct merged into it" — a shape-held wall merged into by no aqueduct laid or moved after its
+   lock (J147 with J149).
+9. Correction 3 (narrowed): "a support is kept off by nothing (law 1 (2), (3): a road deck's laid through, an
+   aqueduct's merged; J149)" — replacing "a support still by the band's half (law 1 (2))".
+10. Correction 7 (new): "(J149) Every example that keeps an aqueduct's supports off a wall's band (*the edge*, a support
+    slid off the band, the band's half at a support's ring), bends a wall or a course so that a wall crosses an aqueduct
+    under a span or through a `cleared` support's gap, caps a run beneath an aqueduct's span, or keeps a fixed place out
+    of an aqueduct's zone, reads law 1 (2), (5) and (6) …; a road deck's examples stand (J149: road decks unchanged)."
+
+**Withdrawn or narrowed to what remains** — every clause that existed only for the old aqueduct crossing: a support slid
+off the band (kept off nothing; correction 3), a wall bent to pass under an arch (it crosses wherever its line crosses
+the deck line once), a wall's top capped beneath an aqueduct's span (law 1 (7) caps beneath a road deck only), the gap
+through a `cleared` support as a lawful crossing's exception (a `cleared` ring stays open ground, the crossing there
+over), and an aqueduct's fixed-place zone (none); a gate, postern or tower admitted under an aqueduct's arch that clears
+it (law 1 (5)). Examples read by correction 7; END lines by Part H's head, E-P1, E-P9, E-D2 and E-D3 rewritten.
+
+**Rows superseded by J149, in part** (in the re-check table below): PRB7-07, PRB7-08, PRB7-09, PRB7-14, PRB7-18,
+PRB7B-02, PRB7B-03, PRB7B-06, PRB7B-12 and PRB7D-TIM-06.
+
+**Veto items (J149):** **4** rewritten — "Every aqueduct crosses every town, castle, village or quay wall at its own
+level, in either order, wherever the wall's line crosses its deck line: over the wall on an arch that clears its top,
+else merged — the wall built up to and around the aqueduct's arch or pier, the water passing through it (the Porta
+Maggiore form: no gate, the aqueduct standing whatever becomes of the wall); nothing of either moves for it, and no wall
+runs along beneath an aqueduct or ends under it", its veto option "the merged form left out — an aqueduct whose arch
+cannot clear the wall bending its course to one that does, else not built (at an epoch waiting)" — replacing "under one
+of its arches (or through the gap a cleared pier left), never at a pier, in either order: one built across a wall keeps
+its piers off the wall, a wall laid later is bent to pass under an arch"; **6** (but under an aqueduct's arch that clears
+it); **7** (never under an aqueduct whose arches do not clear them; the veto option a road deck's span); **8** ("beneath
+an aqueduct it keeps its own top, over or merged"); **11** (a wall merged among the soft readings).
+
+### The pass-5 decisions (J146)
+
+**How this pass closes by class.** *One defect, three lenses:* *anything across a strip* never counts a raised way's own
+reservation, its arch vault or what the chamber seats, and counts another raised way's whole strip only across a span
+whose deck was fixed after it — so law 1 (8) has one fixed point for every span, whatever stands on it or crosses over it
+(PRB7E-GEN-01, -LCK-06, -TIM-02). *Terms by what stands, once each:* what stands of a wall run by run (a conversion, a
+burial or a delete removing runs, an absorbed record's runs until dismantled); the band by the construction that laid it
+(VS3's wherever it runs); beyond the foot a region with its first point; the zone off the wall's line; placement and
+shape as record fields. *One order, dated where it is fixed:* *Order* by the step that fixes a line, each stage's S5 steps
+its own, and *Newer* at a regeneration for every structure it keeps where it stands. *Law 2 by tiers:* (a)'s reach a
+bound that admits local re-lays, (b)'s passable set the Tier-3 things it may move and each moved within its own reach,
+(c)'s rung with a reach of its own. *No date or frozen reading the commit cannot see:* law 1 (9) and (10) read only the
+lines a commit lays or moves and the holds at its end, the readings from before following what stands; the check queries
+every span a commit changes the ground under and compares record fields.
+
+| id | sev | decision | how the laws decide it | text changed (J146) |
+|---|---|---|---|---|
+| PRB7E-GEN-01 | blocker | LAW REFINED | Terms, *anything across a strip*: "a reservation other than a raised way's, a plot or building, a grove; … A raised way's own reservation (its supports, ends and `vault` spans' under-deck strips, §2.7's support step (6)) and its own arch vault with what the chamber seats (a declared placement's plot and building, V04 §3.5.4 (d)), its door, links and accesses are never across its own strips, so no span's reading turns on its own chamber or on a raised way fixed after it". Law 1 (8) has one fixed point for every `vault` span — its own reservation and seat follow its reading —, and §5.3's row reads it so. One defect with PRB7E-LCK-06 and PRB7E-TIM-02 (1). | Part L (terms, veto 9) |
+| PRB7E-GEN-02 | major | LAW REFINED | *Order*: "then a generation run's, a regeneration's or a village derivation's steps in the order it runs them — S3's numbered steps, S4, then for each stage k in turn its S5a boundary, S5b, S5a trace, S5c and S5d, then S6 onward …; two lines one step fixes are ordered by address … A line is dated by the step that fixes it, whichever step commits it: a stage's trace by the step that picked its boundary (S3 (6) for stage 1, whose trace S5a commits for k = 1; stage k's S5a boundary, before its own S5b), a castle's curtain, inner ward and arcs by its claim (S3 (8), or a stage citadel's trace batch), a raised stretch by the step that fixed its course (S3 (5)'s gate routes' by S3 (7))"; law 1 (3): "a stage's trace dated by its boundary's pick, so never at a boundary its stage picked before solving the deck's route". An S4 deck comes down before the stage-1 ring, an S6 elevated road before a castle's curtain; a stage k + 1 trace passes beneath a stage-k S5b deck; the row reads the two fields. | Part L (terms, law 1 (3), *Newer*) · Part H: E-M2, E-D13 |
+| PRB7E-GEN-03 | major | LAW REFINED | Terms: "A point of a road deck's carried way past its foot is **beyond the foot** where a wall's line, band and wall strips and a gate's footprint there are all clear of the ends and the strip; the nearest such point is **the first point beyond the foot**, which every rule that places or moves a crossing or a gate there takes (S5a's pin, the bent group's (i))". Law 1 (3)'s and *Carried way*'s gate stands at any point beyond the foot; R7-03 (a)'s trigger and exclusion read the first point. | Part L (terms) · R7-03 (a) |
+| PRB7E-GEN-04 | major | LAW REFINED | *Newer*: "Between structures standing before the op the newer is the later by *Order* where they meet — a creation prefix's declarations before every stage, and at a regeneration every structure it keeps where it stands (each locked one, on either axis, and each one §7.2 keeps so until round 8 rules the two-axis lock there, Part A) older than every stage, keeping its date, one it lays again taking the stage's"; *Order*: "at a regeneration a structure it keeps where it stands" keeps its date. A drawn ring or declared road kept where it stands is older than every stage; one §7.2 re-derives with the settlement is the stage's. The model's (6) lead cites *Newer*. | Part L (*Newer*, *Order*) · Part H: E-M1 |
+| PRB7E-GEN-05 | major | LAW REFINED | Terms, *meeting*: "the way it carries (by hand, the declared way to its stroke's end; a generated road deck's, the route it was priced on, past each foot)"; *Carried way*: "a generated deck's route is solved again by its stage and meets the deck by the way-and-channel table's row (a) and law 1 (3), a lock on the deck holding its parts, never its route". One outcome, the probe's builder 2's. | Part L (terms, *Carried way*, veto 12) |
+| PRB7E-GEN-06 | major | LAW REFINED (J148) | Law 2 (b): "the op's shape is taken as (a) would take it with those Tier-3 things passable that (b) may move — a ground way not shape-locked (a wall's own way, a road deck's carried way), a plot, an unlocked building —, every other thing as impassable to it as to (a)". No gate, postern, tower or fixed place is passable or moved (J148), so (b)'s search and its moves read one set; an aqueduct whose (a) and (b) find nothing takes (c). One class with PRB7E-LCK-02. | Part L (law 2 (b)) |
+| PRB7E-GEN-07 | major | CLOSED BY LAW 2 (J148) | No meeting moves a gate (*the tiers*: Tier 1; law 2 (b) moves Tier-3 things only), so no moat deck has to follow one: a gate fixed to its moat deck stands with it, and the aqueduct bends (a), moves a Tier-3 thing (b) or gives way (c). | — (Part L's *the tiers*, law 2 (b)) |
+| PRB7E-GEN-08 | major | LAW REFINED | Law 2 (c): "re-laid once with law 1's exclusions impassable and its search band widened to `wall.barrierReachM` beyond the stage's boundary (§4.4 S5a (1)'s reach to a barrier; at a village VS3's), so that it may pass round the raised way, else the stage left unwalled". E-S12's "re-pulled once round the viaduct" is its example. | Part L (law 2 (c)) · Part H: E-D11, E-V7-4 |
+| PRB7E-GEN-09 | major | LAW REFINED | Terms: "**Placement** is where a structure is, as its record's fields hold it — a wall-like structure's trace (its line's vertices) with the places of its gates, posterns and towers, a raised way's course, deck line, stations, keys and feet, an arch vault's span and key, a ground way's two ends; **shape** is what a meeting may change of a standing thing — the soft readings (law 2), an arch vault's chamber with them and a Tier-3 thing's local course …"; the check: "(10) by each held structure the commit touched against its record as the event began — a hand edit's or an epoch's undo record (§7.4 *Application*), at a generation's or a regeneration's stage the record the event keeps, no stage laying it —: the fields of its placement, and of a shape-held one's outline and size, unchanged unless the event names it as its own target (a generation, a regeneration and a village derivation naming none)". W3·C8's unlaid chamber passes (a chamber is shape); a re-laid locked ring fails. | Part L (terms, the check) · Part H: E-D13 |
+| PRB7E-GEN-10 | major | LAW REFINED | Terms, *the zone*: "of a road deck, for a fixed place of a wall, is its strip widened each side by that wall's strips' width at that place — at a place off the wall's line (a harbour-mouth chain across an entrance the trace does not reach), the width at the point of the line nearest it". | Part L (terms) |
+| PRB7E-GEN-11 | minor | CLOSED BY LAW 2 | *Newer* and *held* (J147): a regeneration keeps a locked ring or aqueduct where it stands; E-S2's, E-S3's and E-S6's fixtures now say "placement-locked by the user", so their outcomes are the laws'. | Part H: E-S2, E-S3, E-S6 |
+| PRB7E-GEN-12 | minor | CLOSED BY LAW 1 | Law 1 (3) reads the order: W3·C2 now says the re-derived ring passes beneath a held road deck's deck line because it is laid after it (*Order*), keeps off its ends (law 1 (4)) and takes the carried way's gate by *Carried way*. | R7-02: W3·C2 |
+| PRB7E-LCK-01 | major | LAW REFINED | Law 2 (a): "each thing it lays or places — a gate, postern or tower of its own along its own wall's line, a fixed place along its tie, a crossing along the line it crosses, a station along its deck, an end back along its own line — moved along that line or tie, and each stretch of its own line, course or way it changes re-laid only locally, between the nearest points clear of what it meets on either side (a bent-group move, a re-section's local re-trace, a course bent clear of a gate or tower); every change no further than the meeting's nearest clear points (*the reach*), within the bound its own law gives it"; law 3's key (1): "or re-lays it only locally (law 2 (a))". The reach is a bound: the edge path, the bent course and the local re-trace are admitted, law 3 ranking them. | Part L (law 2 (a), law 3) |
+| PRB7E-LCK-02 | major | LAW REFINED (J148) | As PRB7E-GEN-06: (b)'s passable set is the Tier-3 things (b) may move, every other thing impassable as in (a), and (b) moves only them — a fixed place, a support, a held building and anything shape-locked neither passable nor moved. | Part L (law 2 (b)) |
+| PRB7E-LCK-03 | major | LAW REFINED | *Carried way*: "never in a shape-locked one, where the carried way — a Tier-3 way — is re-routed by law 2 (b), by §7.3's S4 operator from the first point beyond the foot through the nearest gate that wall has along its line, either way and never past its ends, else the stroke, or the re-shape that moves its foot, takes law 2 (c)"; law 2 (b): each Tier-3 thing "moved by its own law within its own reach (G1): a ground way re-routed … between its nearest unmoved nodes either side (a carried way as *Carried way* says)". The deck keeps the course the op gives it; the re-route to a gate 180 m along is the way's own reach, ties by law 3's key (3). | Part L (*Carried way*, law 2 (b), veto 12) |
+| PRB7E-LCK-04 | major | LAW REFINED | Law 1 (10): "a shape-held thing takes no soft reading from a line a commit lays or moves (its `laidAt` or `courseAt` that commit's) — no such wall-like line, band or strip across the strip of a `vault`-use span of it, no such aqueduct merged into it, no gate made in it —, and the readings it had from what stood before follow what stands (law 2 *The soft readings*)"; *held in shape* "holds its outline and size". Deleting, moving or converting the wall under a shape-locked aqueduct's open-read span applies, the span read `vault` and its chamber laid; deleting a road deck over a shape-locked capped run applies, its top back up; item 110 (b) kept. | Part L (terms, law 1 (10), *Entry*, the check, veto 23) |
+| PRB7E-LCK-05 | major | LAW REFINED | Law 1 (9): "no wall's line a commit lays or moves (its `laidAt` that commit's) lies in the held building's strip of a building held at that commit's end — so a wall laid while the building was unlocked stays lawful once it is locked again, by a lock, a redo or an undo alike". No lock order is read: the undo of the unlock, its redo and a fresh lock all apply. | Part L (law 1 (9), veto 10) |
+| PRB7E-LCK-06 | major | LAW REFINED | As PRB7E-GEN-01: a span's own reservation, its chamber, the plot and building a declared placement seats in it, its door, links and accesses are never across its own strip, so law 1 (9)'s "nothing lies across the strip of the span whose chamber seats it" holds of a seated building, locked or not. | as PRB7E-GEN-01 |
+| PRB7E-LCK-07 | minor | CLOSED BY LAW 1 | *The check*: E-D13 now writes §5.3's row as a citation of law 1 (1)–(10) and *The check* (its queried parts, the stored order fields, a held structure's record fields), never restating a clause, so no refinement can leave it stale. | Part H: E-D13 |
+| PRB7E-LCK-08 | minor | CLOSED BY LAW 1 | Law 1 (10): correction 6 now also reads every example that says a lock or pin holds placement and never shape, or makes, caps, merges or leaves open something it calls locked, as placement-locked, a shape-locked side taking no soft reading from a later meeting and every complete list holding its `vault`-use spans' strips and its wall unmergeable — one class with J147's correction (the probe's seventh correction folded into the sixth; the seventh is J149's); R7-02's banner and E-M1 read "seven since J149". | Part L (correction 6) |
+| PRB7E-LCK-09 | minor | CLOSED BY LAW 1 | Law 1 (9) and *a span's strip*: R7-02's held-building example now widens the span's own strip (between its piers' inner faces) and bends the raised way's own edit to keep law 1 (9) for that building; C13 cites it. | R7-02: *A held building in an arch vault*, C13 |
+| PRB7E-TIM-01 | blocker | LAW REFINED | Terms: "**What stands of a wall** is read run by run … Each run of a wall record stands, whatever its condition, with its line, its band, its wall strips and the gates, towers and fixed places on it — save a run its record no longer has (a hand `delete` of a run, or a burial of the runs it lists, V06 §3.20.5 (4), cause `rule:burial`) and every run of a record tombstoned, `converted` by `wallToWay` (its line the ring road's spine, a way) or cleared by any cause but `absorbWall`, which stand nowhere; and a run of a record `absorbWall` cleared …, which stands while its condition is not `dismantled` … A gate `gateToJunction` converted is a junction, no gate." W7·C2 and R7-04 (d) hold as written (the chamber laid again, the ring road a way); a partly buried ring keeps its unlisted runs. | Part L (terms, veto 9) · Part H: E-V6-20 (new) |
+| PRB7E-TIM-02 | major | LAW REFINED | (1) As PRB7E-GEN-01. (2) Terms, *anything across a strip*: "of another raised way, its supports, ramps, stairs and feet and, across a span whose deck was fixed after that raised way's there (*Order*), its whole under-deck strip, whatever its spans' reading". Where two decks cross, the later's span reads `open`, the earlier's by what else lies across it: one fixed point, one chamber. | Part L (terms, veto 9) |
+| PRB7E-TIM-03 | major | LAW REFINED | Terms, *the band*: "by the rows of the construction that laid it or last re-sectioned it … — V07 §3.4's for an enceinte laid by VS3's construction (VS3 at a village derivation, and every op that runs VS3's form at a village rung: a village kind's `drawWall`, by hand or for a dossier wall record, and `repairWall`'s new stretch, V07's edit table) or rebuilt by V07 §3.11's REPLACEMENT …, and §4.8's along its stretch profile for every other (a town's `inner` ring, and a village kind drawn at a TOWN rung or above, among them)". | Part L (terms) · Part H: E-V7-7 |
+| PRB7E-TIM-04 | major | LAW REFINED | As PRB7E-LCK-04, law 1 (10): a shape lock holds against what a line laid or moved after it would impose, and the readings it had from what stood before follow what stands — a span's fall, topple, landfall or repair, the last dismantle, delete, conversion or burial under a shape-locked aqueduct, an `inundate`, and a frame growth's re-derived end span (which keeps its course, so dates nothing) apply, no op waiting for a reading; the check reads (10)'s later lines by the `laidAt` and `courseAt` the commit wrote. | Part L (terms, law 1 (10), *The soft readings*, the check, veto 23) |
+| PRB7E-TIM-05 | major | LAW REFINED | The check: "the parts queried being every wall-like structure, gate, tower, fixed place, raised way, arch vault and held building the commit touched and, for (8) and (9), every span whose own strip meets anything the commit laid, moved, re-classed or removed, whatever the op". A way retired, water moved or a square cleared off a span is queried at that commit; T110-4 runs the same row. | Part L (the check) · Part H: E-D13 |
+| PRB7E-TIM-06 | minor | CLOSED BY LAW 4 | Law 4's (G2) shows a placement-held run's cap or merge — a reading, never stored — by a `reshaped` entry derived from the lifecycle event of the op that changed what stands over or under it (`entity` the run, `met` the raised way); E-D7 says so. | Part H: E-D7 |
+| PRB7E-TIM-07 | minor | CLOSED BY LAW 1 | *Order* dates a line by the last event that fixed or moved it (law 1 (3) reading it); E-M2's upgrade writes `laidAt` and `courseAt` from the last event in the log that fixed or moved each run's line and deck stretch, else the record's creation. | Part H: E-M2 |
+| PRB7E-TIM-08 | minor | CLOSED BY LAW 4 | Law 4's (G2): the sweep's epoch-locked run is the unlocked cell's but for the `reshaped` entries (G2) writes for a placement-locked thing; C8 runs placement-locked (a pin is one) and, from the milestone that carries the shape lock, shape-locked. | R7-06 (a) · Part H: E-S0 |
+
+### Passes 1–4 re-checked against the refined laws, J148 and J149
+
+Every Part P row of passes 1–4 and *J147 applied* was read against Part L as J148, J149 and this pass leave it. All
+stand as worked examples **save thirty-six, superseded in part** (one, PRB7D-LCK-04 (J147), whole); the rest of each row
+stands, and each spot corrected is marked "(J148)", "(J149)" or "(J146, PRB7E-…)" or read by Part L's corrections 1, 3
+and 7 and Part H's head:
+
+| id | the part superseded | by |
+|---|---|---|
+| PRB7-01 | the held building's widened strip as "the span's under-deck strip widened all round" | law 1's term: the span's own strip widened by the wall strips' width (PRB7E-LCK-09) |
+| PRB7-07 | the flagged clash: a re-sectioned wall's wider band through an aqueduct's pier | law 1 (2)'s merged form: lawful (J149); W14 stands for ends, gates and towers |
+| PRB7-08 | the flagged clash's premise ("never at a pier"), *the edge* and *Line and band*'s and the bent group's widening by the band's half at an aqueduct's support | law 1 (2): over or merged, a support kept off by nothing (J149; correction 3); its ramp and road-deck parts stand (law 1 (3), (4)) |
+| PRB7-09 | an aqueduct's fixed-place zone | law 1 (6): an aqueduct has none; a fixed place under its arch only where the arch clears it (J149) |
+| PRB7-14 | no gate, tower or fixed place under a fallen span | law 1 (5): but under an aqueduct whose every span over it clears its top (J149) |
+| PRB7-18 | the flagged clash: an aqueduct's pier kept off an absorbed record's standing run | law 1 (2)'s merged form (J149); the runs as a standing wall stand |
+| PRB7B-02 | a water gate's or anchor tower's footprint kept off an aqueduct's under-deck strip | law 1 (5), (6): but where its arches clear it (J149) |
+| PRB7B-03 | a castle sited clear of an aqueduct's fixed-place zone | law 1 (6): an aqueduct has none (J149); a road deck's zone stands |
+| PRB7B-05 | the raised way's own edit bent to keep "a standing trace's line" out of the widened strip | law 1 (9): nothing across the span's own strip, and no line a commit lays in the held building's strip (PRB7E-LCK-09, PRB7E-LCK-05) |
+| PRB7B-06 | the repaired span's new supports "slid off every band" | law 1 (2), (3): a support kept off by nothing (J149; correction 3) |
+| PRB7B-12 | an aqueduct's supports impassable to the pull and the cost field | law 1 (2): crossed over or merged (J149); E-P9 rewritten, E-V6-16 by Part H's head |
+| PRB7C-GEN-05 | beyond the foot as "the nearest point" | a region with its first point (PRB7E-GEN-03) |
+| PRB7C-GEN-10 | "Law 2 (b) and law 3 move a postern along its wall's line" | J148: a standing postern never moved; one the op lays placed along its line (law 2 (a)) |
+| PRB7C-LCK-08 | a fixed place a re-section's new widths bring into the zone moved along its tie | J148: it stands; the re-section bends locally, else gives way (law 2 (c); veto 18) |
+| PRB7C-LCK-09 | a retaining wall's decorative tower moved along its line out of a strip | J148: a standing tower never moved; one the op lays placed clear (law 2 (a)) |
+| PRB7C-TIM-05 | the REPLACEMENT's gates "moved along where their stone footprints meet a strip" | J148: gates kept, the REPLACEMENT waiting (law 2 (c); W14, E-V7-6) |
+| PRB7D-TIM-02 | what stands of a wall by the record's existence and cause | run by run (PRB7E-TIM-01) |
+| PRB7D-TIM-03 | "a reservation" of any kind across a strip | never a raised way's own reservation, chamber or seat; another raised way's strip by *Order* (PRB7E-GEN-01, -LCK-06, -TIM-02) |
+| PRB7D-TIM-04 | the band "one VS3 laid" | by VS3's construction wherever it runs (PRB7E-TIM-03) |
+| PRB7D-TIM-06 | *the cap* beneath an aqueduct's standing span | law 1 (7): beneath a road deck only (J149) |
+| PRB7D-LCK-01, PRB7D-GEN-02 | correction 1's and veto 6's gate, postern or tower moved along by (b) | J148: correction 1 and veto 6 rewritten; law 2's one order stands |
+| PRB7D-LCK-02 | (a)'s reach as "each part it changes moved along its own line or tie" | a bound admitting local re-lays (PRB7E-LCK-01) |
+| PRB7D-LCK-03 | a widening only the old width makes lawful "moves the ring's gate along (b)" | J148: (b) moves Tier-3 things only, else (c) |
+| PRB7D-LCK-04 (J147) | whole: a gate whose way is unlocked or placement-locked moved along its wall, one whose way is shape-locked passed over | J148: no gate moves; veto 20 withdrawn |
+| PRB7D-LCK-06 | a placement-locked gate or tower of the op's own shown *reshaped* | J148: an arch vault only (law 4's (G2)) |
+| PRB7D-LCK-08 | *shape* as "law 2 (b)'s moves, a gate law 2's *Carried way* makes, and the readings" | J148 and PRB7E-GEN-09: the soft readings and a Tier-3 thing's local course; placement and shape as record fields |
+| PRB7D-LCK-09, PRB7D-GEN-06 | *Order* by "the commit that last laid its line", `step` the pipeline step | the step that fixes a line, each stage's steps its own (PRB7E-GEN-02) |
+| PRB7D-LCK-10 | *Newer*'s "a gate or tower (b) moves" as the standing side | J148: a Tier-3 thing (b) moves, a soft reading |
+| PRB7D-LCK-11 | law 3's key (1) "bends it only locally" | "re-lays it only locally (law 2 (a))" (PRB7E-LCK-01) |
+| PRB7D-LCK-15 | law 1 (9) by the lock's (before J147 the seat's) order | the lines a commit lays and the holds at its end (PRB7E-LCK-05) |
+| PRB7D-LCK-16 | the check's (10) by "the leaf digests of its placement" | the record fields of placement and outline and size (PRB7E-GEN-09) |
+| PRB7D-GEN-03 | (b)'s shape with gates, posterns and towers passable, each moved along its line | J148: Tier-3 things passable and moved (PRB7E-GEN-06, -LCK-02) |
+| PRB7D-GEN-07 | the carried way of "a locked road deck's at a regeneration" | a carried way kept where it stands; a generated deck's route solved again (PRB7E-GEN-04, -GEN-05) |
+| PRB7D-GEN-10 | the rung "re-laid once with law 1's exclusions impassable" | its search band widened to the barrier reach (PRB7E-GEN-08) |
+
+Checked and standing: PRB7C-TIM-09 (a burial's chamber laid again) now holds run by run with E-V6-20; PRB7C-TIM-08 (a
+chain laid after a raised way along its tie) is law 2 (a)'s — the op lays it; PRB7-10's and W13's slid gate back to its
+edge is the op's own (law 2 (a), law 3's drag clause); PRB7-11 (a trace through a `cleared` ring) stands, the crossing
+there over; PRB7-06 and PRB7C-LCK-12 (a gate made by hand in a placement-locked wall, never in a shape-locked one) stand
+as J147 left them, the gate a soft reading (J148); PRB7-15's bent extension and PRB7B-06's repair keeping its course are
+*Order*'s; PRB7-16, PRB7B-08 and PRB7B-09's rungs stand with law 2 (c)'s reach; PRB7D-TIM-01's commit stands, its vault
+reading now *The soft readings*; PRB7-19's REJECT stands.
+
+**Verdict.** With J148, J149 and these refinements the laws are complete and determinate for every case the three lenses
+ran. Every term is defined once, as a function of what stands — read run by run where a record holds runs — or of a
+stored field: what stands of a wall, the band by its construction, beyond the foot with its first point, the zone on and
+off the line, anything across a strip with its exclusions and its order between raised ways, placement and shape as
+record fields, order by the step that fixes a line; law 2 resolves every meeting in the tiers' order — the newer
+planned round the hard ones within a bounded reach that admits local re-lays, then only Tier-3 things passable and
+moved, each within its own reach, then the op giving way, its generation rung with a reach of its own; law 1 (9) and (10)
+read only the lines a commit lays or moves and the holds at its end, so no lock order or frozen reading is needed; and
+the check queries every span whose ground a commit changes and compares record fields. The classes the pass raised close
+at once: no span's reading can turn on itself or on two raised ways' order; no term can split over a record's existence,
+the site a construction runs at, or a point read as a region; no meeting moves a gate, postern, tower or fixed place
+(J148), so nothing that follows a moved gate — its way, its moat deck, its fate or entry, a passed-over set — can be
+raised again; no aqueduct crossing has a case beyond its level (J149: over or merged, read from what stands); a lock made
+live again by an undo or a redo cannot split law 1 (9); and a shape lock cannot hold a reading up against a fall, a
+removal or a repair. Of J149's forms, over and merged were written, each removing cases and adding none the laws did not
+already give; beneath was left out, a buried channel being no raised way at the wall (§2.4) and its form adding cases
+without removing any. A further probe should attack the new texts themselves: *the tiers* against every op that lays a
+Tier-1 thing of its own (S7's towers by spacing after a re-trace, a re-section's re-derived gatehouse, a castle re-sited,
+a warp) — whether "laid" and "moved" split there, and whether any bar observes a meeting that moves an unheld Tier-1
+thing (law 1 (10) sees it only for a held one); law 1 (2)'s over and merged at a fallen or `ruined` span, a support
+straddling the band's edge, a gatehouse taller than the wall and a run that decays beneath a merged arch; law 2 (b)'s
+Tier-3 moves (a plot re-cut, an unlocked building moved) at an epoch and at a village, and how they are reported; the
+region beyond the foot against S4's and S5b's gate choice; *Order*'s steps inside an epoch's new walled stage and a
+village derivation; and *anything across a strip*'s order between raised ways where three decks cross or a re-shape
+re-dates a deck.
+
 ## Part I — canon changes (appended to canon.md as one dated ruling)
 
 The dated ruling "2026-10-02 (adjudication round 7, family-only under J144)" at the end of
@@ -2980,4 +3367,6 @@ ruling cites them by pointer, so it carries them unchanged, and the amend seat d
 the family's laws, normative, with R7-02 – R7-07 and Part P as their worked examples — is carried the same way: the dated
 ruling's pointers to R7-02 now read through Part L, and `canon.md` is not rewritten by the laws seat (the orchestrator
 may append a one-line J146 pointer). (J146, pass 4) Part L's refinement against the laws probe (Part P's pass 4) is
-carried the same way, by pointer: `canon.md` is not rewritten by this seat.
+carried the same way, by pointer: `canon.md` is not rewritten by this seat. (J148, J149; J146, pass 5) The owner's
+tiers (J148), the aqueduct's over and merged forms (J149) and Part L's refinement against probe pass 5 (Part P's pass 5)
+are carried the same way, by pointer; `canon.md` is not rewritten by `coherence/adjudicate-r7-laws3`.
