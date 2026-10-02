@@ -2562,21 +2562,21 @@ off form and the seat that writes the registration (X-V12-11): T-V5-15's item-11
   (T114-3's landfall clause): on a fixture whose footprint covers an aqueduct's span and the run beneath it, the run
   `breached` by the wall row and the span and the supports it covers `ruined` by theirs, `members` holding the span and
   the supports; then the deck's repair, by hand and, on a second run, by V06 §3.19.2 (5) at the next epoch —
-  `repairRaised` alone, no `repairWall` (§2.7's crossing table, *unchanged meeting*) — and the landfall's undo restoring
-  the run and the span. The other way round, the run stands again by its `repairWall` (V06 §3.7.5) with the span still
-  `ruined`, no `repairRaised` in that batch. §2.7's crossing table (row W12) names this clause for the raised way's
-  other states too, each on its own run of that fixture: a span over the run already `ruined` and, on a second run,
-  `cleared` (kept `cleared`, no member, its way still released, V06 §3.19.1 (3); on a third run, one whose record reads
-  `vault`, read `open` under the wall, so no chamber stands under it); every span over the run fallen; a support by the
-  run's band `cleared` (kept `cleared`, no member) and, on a second run, `ruined` with both its spans as a topple leaves
-  it; the deck extended by a frame growth before the fall (a variant whose raised way over the
-  run has a foot on the old frame ring) and, on another, re-spaced by a hand edit of its `spanSpacingCm`; and, from the
-  later of P6 and V07's V-M3 (which builds the hand-off down), a VILLAGE whose hand-off down carried the raised way and
-  made the ring its palisade (V07 §3.12), a settled island falling there at its dwell's end (V05 §3.15 (4)). Each is an
-  *unchanged meeting*: the run `breached` by the wall row and the covered spans and supports by theirs, the wall row
-  writing nothing of the raised way and the raised rows nothing of the run. With the aqueduct locked, it is kept as
-  content the ruin laps around (V05 §3.16 (2); F-SKY-LANDFALL), `members` holding none of its parts, and the run beneath
-  is `breached` all the same.
+  `repairRaised` alone, no `repairWall` (§2.7's laws, law 4; its worked example *unchanged meeting*) — and the
+  landfall's undo restoring the run and the span. The other way round, the run stands again by its `repairWall` (V06
+  §3.7.5) with the span still `ruined`, no `repairRaised` in that batch. §2.7's laws' worked example, the crossing
+  table's row W12, names this clause for the raised way's other states too, each on its own run of that fixture: a span
+  over the run already `ruined` and, on a second run, `cleared` (kept `cleared`, no member, its way still released, V06
+  §3.19.1 (3); on a third run, one whose record reads `vault`, read `open` under the wall, so no chamber stands under
+  it); every span over the run fallen; a support by the run's band `cleared` (kept `cleared`, no member) and, on a
+  second run, `ruined` with both its spans as a topple leaves it; the deck extended by a frame growth before the fall (a
+  variant whose raised way over the run has a foot on the old frame ring) and, on another, re-spaced by a hand edit of
+  its `spanSpacingCm`; and, from the later of P6 and V07's V-M3 (which builds the hand-off down), a VILLAGE whose
+  hand-off down carried the raised way and made the ring its palisade (V07 §3.12), a settled island falling there at its
+  dwell's end (V05 §3.15 (4)). Each is an *unchanged meeting*: the run `breached` by the wall row and the covered spans
+  and supports by theirs, the wall row writing nothing of the raised way and the raised rows nothing of the run. With
+  the aqueduct locked, it is kept as content the ruin laps around (V05 §3.16 (2); F-SKY-LANDFALL), `members` holding
+  none of its parts, and the run beneath is `breached` all the same.
 * **T-V5-15 — goldens and determinism** [C]. Two sky fixtures join §13.3's goldens — a CITY with a prosperity island and a
   conjured river; a METROPOLIS with a palace island and a prison island — identical on the five engines; every stream key
   distinct (§6.1's sky fixture); a one-island document draws slot 1's indices only; an island raised after a fall takes a

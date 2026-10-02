@@ -198,7 +198,7 @@ Each row names the hook's home and what this volume does with it; the hook's con
 | V10 §2.13 | `WhyProvider` | V01's providers (V01 §4.5) |
 | V11 §2.3 (`naming.district`, `naming.way`, `naming.place`) | the grammar slices | the features V01 derives for them (V01 §3.7) |
 | g item 110 (a)–(e); items 244, 245, 246, 260, 290, 302 | `RetainingWall` and S10–S11's levelling with its district-edge source; raised ways with their generator, supports, spans and suppression; deck plots with the `deck` row; stepped tiers; the second known-city fixture | the terrace state and the contour series (V01 §3.17.1, V01 §3.4.3); held walls, strips, crossings, the parts each reader reads, their land and removal (V01 §3.17.2–V01 §3.17.5, V01 §2.3); deck ownership (V01 §3.17.6); stack order and tier shadows (V01 §5.1.3); T-V1-50–T-V1-54 |
-| V11's item-110 rows | `terrace` (`slopeMin`, `stepMinCm`), the relief rows' `terracedEdges`, `ways.crossing` (`rampMaxGrade`, `stair`), `raisedWays.structure` (`clearanceCm`, `clearWidthM`, `squareDeg`), `aqueduct.terminal` | `terraceState` (V01 §2.3), the stair-stepped way (V01 §3.6 (3)), crossings under arches by §4.3's crossing rule (V01 §3.17.3), the terminal (V01 §3.17.8) |
+| V11's item-110 rows | `terrace` (`slopeMin`, `stepMinCm`), the relief rows' `terracedEdges`, `ways.crossing` (`rampMaxGrade`, `stair`), `raisedWays.structure` (`clearanceCm`, `stripMarginM`, `clearWidthM`, `squareDeg`), `aqueduct.terminal` | `terraceState` (V01 §2.3), the stair-stepped way (V01 §3.6 (3)), crossings under arches by §4.3's crossing rule (V01 §3.17.3), the under-deck strip (V01 §3.17.3 (2)), the terminal (V01 §3.17.8) |
 | V02 §2.1, V02 §2.6, V02 §3.7, V02 §3.11, V02 §3.15–V02 §3.17, V02 §5.2–§5.3 | the wings' canonical order by key, `BaseWing.on` and `solid`, each wing's `RoofSpec.kind`, the `stairFlight` program and `stairTreads(w)`, `DeckContext` (item 305), `PorchKindRow` and the secondary porch, the `wings` rung's triggers, `roofscape` facets and the `roofConstruction` switch, `MassingRef.family` `ovalCourt` | stack ties, tier shadows, the ridgeless hatch and the treads (V01 §5.1.2–V01 §5.1.3); deck buildings in the owner's close-up (V01 §3.17.6); the entrance reserve (V01 §3.8.2 step 5); the outline close-up's trigger (V01 §3.8.1); the arena floor's exclusion (V01 §3.8.2 step 1) |
 | V03 §3.3, V03 §3.7.1–V03 §3.7.3, V03 §5.1, V03 §5.4, O1 (e), J-V3.73 | the access head at the building band, the ground predicate `ground(b)`, `stackAccessDoor(b, a)`, `basementDoor(b)` (both over V03 §3.7.1's one door helper), the stoop, the church class | one mark per access (V01 §3.8.8); the entrance reserve (V01 §3.8.2 step 5); the church class in V01 §3.7.1 |
 | V07 (item 506) | `FabricStrategy.levelledUnits`, `terracedEdges` | `TemplateFabric` returns the bent cut's levelled units and declares terraced edges (V01 §3.17.1 (4)) |
@@ -975,7 +975,7 @@ piece) leaves D without a template face: the seeds lay nothing and F-TEMPLATE's 
 **(a) Portals and anchors.** A portal is **usable** when its vertex lies on a chain bounding the template face and its
 class is `lane` or above. Its **rank**: `through` 5, `primary` 4, `secondary` and `quay` 3, `lane` 2, others 1; a gate
 portal + 2; a bridge portal + 1 — gates and bridges read on part 0 by V01 §2.3's parts table: a part-0 gate (every gate
-is one: no gate stands on a deck, §2.7's crossing table) and a part-0 deck over water; a raised road's ramp or stair end
+is one: no gate stands on a deck, §2.7's laws, law 1 (1)) and a part-0 deck over water; a raised road's ramp or stair end
 is an ordinary junction ranked by its carried class, and an aqueduct end is never a portal. **A landing's attach
 vertex** — a sky island's (V01 §3.10.3) or a ground landing's S8 destination (§4.6: a `landing` reservation's attach
 that no way meets when S8 starts) — ranks as a gate portal (+ 2 on `lane`) and must be reached by a seed or a lane; **on
@@ -1420,8 +1420,9 @@ them. The features run in S8's district batch (§4.6's strategy slot, item 298).
 4. **Bridge approach.** The portal gap (§4.6 step 7) keeps lanes off a bridge end; S9b's `bridgehead` squares and the
    `bridgehead` template read it — a part-0 deck over water (V01 §2.3's parts table). A raised road's ramp or stair end
    takes the portal gap extended over its rise (V01 §3.17.3 (4)).
-5. **Gate approach.** The base's gate plaza (§4.8); nothing added. An aqueduct's arch over a curtain wall is no gate: no
-   gate portal, no gate plaza and no wall-side feature reads it (V01 §3.17.3 (6)).
+5. **Gate approach.** The base's gate plaza (§4.8); nothing added. An aqueduct's arch over or in a curtain wall is no
+   gate: no gate portal, no gate plaza and no wall-side feature reads the arch (V01 §3.17.3 (6)); a gate standing
+   beneath it is a gate as any (§2.7's laws, law 1 (5)).
 6. **Sky.** No portals but the landings' attach vertices; the outline's seams are `sky` (hard); the rim strip (volume 5)
    lies along them, and a margin band only where a run has no rim strip (V01 §3.10.3).
 7. **Barrier edges** (item 106 (a), (f)). A boundary run on a barrier-closure arc is typed by its barrier kind by II.1's
@@ -2465,9 +2466,9 @@ before it commits (item 245), so no degenerate wall reaches stage 2.
    crosses, as an S7b claim is (V01 §3.4.1): where it crosses a face from boundary to boundary it cuts it; no plot, block
    interior, seed or hood pin lies in it; the base's arch vaults (II.7.6; volume 4's `vault` spans) fill it where they
    exist — none in a span §2.7's laws read `open` (law 1 (8); its worked example *beneath*) — and an `open` span stays
-   open ground, a way passing under it, bare ground or a wall's run beneath it (§2.7's crossing table, *beneath*)
-   (item 110 (b): "the spaces between piers stay open or hold the base's vaults"). `DistrictContext.areaM2` and the
-   pre-claim template face exclude it.
+   open ground, a way passing under it, bare ground or a wall's run beneath it (§2.7's laws, law 1 (7), (8); its
+   worked example *beneath*) (item 110 (b): "the spaces between piers stay open or hold the base's vaults").
+   `DistrictContext.areaM2` and the pre-claim template face exclude it.
 3. **Crossing under an arch.** A part-0 way this volume lays (a seed, a fan, a bent-cut lane) crosses a strip only
    where §4.3's crossing rule admits it (*Lattice and costs*; §2.7's way-and-channel table, row a), a `vault` span
    read as §2.7's laws read it (law 1 (8); its worked example *beneath*). A seed that would cross elsewhere takes F-TEMPLATE
@@ -2478,9 +2479,11 @@ before it commits (item 245), so no degenerate wall reaches stage 2.
    junction of its carried class (V01 §2.3's parts table).
 5. **Pins.** V01 §3.8.2 step 5's clearance holds every pier footprint and the whole strip: no hood pin stands under a
    deck.
-6. **A raised way over a wall is no gate.** A raised way meets a wall by §2.7's crossing table, never with a gate or an
-   opening: an aqueduct's arch over a curtain and a deck over a wall laid after it give no gate portal, no `gate` rank
-   or kind factor, no gate plaza, no wall-side feature and no S9b square.
+6. **A raised way over a wall is no gate.** A raised way meets a wall by §2.7's laws (its worked example the crossing
+   table), never with a gate or an opening (§2.7's laws, law 1 (1), (2)): an aqueduct crossing a curtain, over it on an
+   arch or merged into it, and a deck over a wall laid after it give no gate portal, no `gate` rank or kind factor, no
+   gate plaza, no wall-side feature and no S9b square — a gate standing beneath an aqueduct's arch that clears it
+   (law 1 (5)) being a part-0 gate as any, with its portal, rank and plaza.
 7. **Boundaries.** A raised part never bounds a district (V01 §3.11 (8)).
 
 A raised part whose strip lies wholly on hinterland land-use faces crosses no district: stage 2 reads nothing of it (the
