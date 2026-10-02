@@ -128,7 +128,11 @@ def table():
 def main():
     os.makedirs(os.path.dirname(DOC), exist_ok=True)
     s = open(DOC).read() if os.path.exists(DOC) else ""
-    if BEGIN in s and END in s:
+    # A checkout without the local-only corpus (captures/ is kept off the repository; a cloud session) cannot see what
+    # landed there, and its file times are the checkout's: keep the tables as they are and only append the log line.
+    if BEGIN in s and END in s and not os.path.isdir(os.path.join(BASE, "captures")):
+        print("captures/ is absent (a checkout without the local corpus): tables kept as they are")
+    elif BEGIN in s and END in s:
         s = s[:s.index(BEGIN)] + table() + s[s.index(END) + len(END):]
     else:
         s = (s.rstrip() + "\n\n" if s else "") + table() + "\n\n## Hand log (append-only, newest last)\n"
