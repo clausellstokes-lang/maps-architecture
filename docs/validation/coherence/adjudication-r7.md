@@ -3,7 +3,7 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/adjudicate-r7; covered by the whole-design retrovalidation (J84).
 
 PROGRESS (fresh run under J144; the two earlier runs' CHECKPOINT lines are void and their skeletons are not resumed)
-- [ ] P1 inputs: adjudication-r6 (R6-02, Part P, Part H family), round-6 repair ruling requests, the 53 family findings whole
+- [x] P1 inputs: adjudication-r6 (R6-02 whole, Part P), round-6 repair files (0 ruling requests in 17 files; family hand-offs: V04 locked arch vault, V06↔scope take-over row and V06 §7's lead, determinism→pipeline S3 (10), determinism→V09 `bend.raised.underSpan`, model→pipeline/V11 row-a citations), the 53 family findings read whole
 - [ ] P2 live text: §2.7 crossing table, §7.1 lock row, C8, V04 §3.11 UC18, V06 §3.19 (5), bent group, and every cited site
 - [ ] P3 the family ruling: lock sentence, bent-group sentence, fixed-place sentence, tables complete
 - [ ] P4 rulings R7-xx by group
