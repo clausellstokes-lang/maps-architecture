@@ -15,8 +15,8 @@ PROGRESS (lane `coherence/famverify-hand-r7`, 2026-10-02, the assembled design a
   F-WALL and F-REDERIVE, §5.4's `reshaped`, T110-1, T110-2 (1), (2), (4), (5), (7), (8), T110-4; V04 UC18 and the
   raised-way edit row; V06 §3.19 (5), T-V6-47, T-V6-73; V07 T-V7-48; V09 §3.5, §4.3, §4.5's T3/T4 rows, §4.9, §4.20.2,
   §4.20.6, §5.5, T-V9-13, T-V9-52; V10 §3.16, §4.1's encoders, the read rows, T-V10-41
-- [x] H3 re-check: the eighteen round-6 ids of this lens against the live text (section 1) — sixteen fixed, one merged
-  pair fixed, VPC-r6-03 partly fixed
+- [x] H3 re-check: the eighteen round-6 ids of this lens against the live text (section 1) — seventeen fixed (three
+  merged pairs among them), VPC-r6-03 partly fixed
 - [x] H4 attack: every hand op of the lens (T3's walls, gates and grips, `placeGate`, `moveVertex`, re-anchoring and the
   `convert`s; T4's raised roads and aqueducts, re-shape, Arch spacing and Deck height; carves, moved rivers, deletes;
   their dry runs, bend keys and fates; undo; the clerk's encoders) under laws 1–4, J144 and J147 – J149; nothing reported
@@ -108,9 +108,9 @@ along the river; §7.1's words give it no move (no zone), leaving it where law 1
 bends a lawful declaration or passes a nearer lawful place, against item 101 R2's "nearest lawful one" — the pattern
 Part P's pass 8 ruled not a valid choice (PRB7H-LCK-03) — and in (a)–(b) fails T110-2 (4)'s and T-V7-48's placed-gate
 clauses; in (c) no bar runs the case (T-V9-52 and T110-2 (5), l. 19446–19448, run road decks), so a build of §7.1's
-row passes every bar; in (d) its words give no lawful outcome. Two builders, two outcomes on a common hand gesture (a
-gate placed or a road drawn through a wall an aqueduct passes over, the commonest J149 case, *J149 applied*'s
-"Over").
+row passes every bar; in (d) its words give no lawful outcome. Two builders, two outcomes on a plain hand gesture (a
+gate placed, slid or made by a road through a wall an aqueduct passes over — the case J149's over form was written to
+admit, *J149 applied*'s "Over").
 
 **Required change.**
 1. §7.1's `bend.wall.raisedCrossing` row (l. 11323), its cause: "or a `placeGate` or a gate's slid crossing inside its
@@ -268,7 +268,7 @@ The family's hand path is coherent with J144 throughout: no text of the lens let
 skip or alter a meeting; the clerk sends the canvas's events and renders its catalogue, so a gesture's outcome never
 splits by surface; the laws reach every hand op of the lens (T3's walls, gates and grips, re-anchoring and conversions,
 T4's raised roads, aqueducts, re-shapes and measures, carves, moved rivers, deletes, warps and undo) with one outcome, and
-§5.3's law-1 row and T110-4 (hand ops sent as gestures and as clerk calls, each undone) check every invariant. Sixteen of
+§5.3's law-1 row and T110-4 (hand ops sent as gestures and as clerk calls, each undone) check every invariant. Seventeen of
 the eighteen round-6 ids of the lens are fixed; VPC-r6-03 persists for the moved river. Three majors remain, each a
 §7.1 text the repairs did not conform to a law Part P refined late: §7.1's bend rows still push a hand gate, a hand
 road's gate and a hand fixed place out of an aqueduct's strip where J149's over crossing admits them (VF7-HND-01, item
