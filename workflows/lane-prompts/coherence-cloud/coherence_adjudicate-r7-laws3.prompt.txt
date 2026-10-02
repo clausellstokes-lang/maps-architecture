@@ -1,0 +1,57 @@
+SEAT coherence/adjudicate-r7-laws3 — the Maps program's coherence pass, round 7 (family-only): the LAWS, refined against probe pass 5 and the owner's J148 (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS
+The owner directed the program to work the raised-way × wall family alone until it is solved (J144), with the lock rule: a lock on walls, aqueducts and similar structures holds placement, not shape. The owner then chose LAWS PLUS EXAMPLES (J146, docs/PROGRESS.md; the owner's words: "Laws + examples (Recommended)"):
+  - normative laws in docs/validation/coherence/adjudication-r7.md's Part L decide every meeting;
+  - R7-02's tables and Part P's amendments are worked examples; the laws govern where they differ;
+  - a finding in this family is MAJOR only where the laws give two outcomes or none for a case, contradict an owner rule, or leave an invariant of law 1 unchecked. A case missing from the examples is no finding.
+coherence/adjudicate-r7-laws wrote Part L and decided probe pass 3 under it; coherence/adjudicate-r7-laws2 refined it by class against probe pass 4 (Part P pass 4) and applied the owner's J147 ("### J147 applied": drawing or dragging holds nothing; two lock axes, placement and shape; a shape lock honoured at a meeting). Probe pass 5 — three lenses in parallel — then attacked the refined laws:
+  - docs/validation/coherence/probe-r7e-time.md (PRB7E-TIM-*);
+  - docs/validation/coherence/probe-r7e-locks.md (PRB7E-LCK-*);
+  - docs/validation/coherence/probe-r7e-gen.md (PRB7E-GEN-*).
+Their results are in results/coherence_probe-r7e-{time,locks,gen}.json.
+WHILE PASS 5 RAN, THE OWNER RULED J148 (docs/PROGRESS.md; read its row WHOLE — its RULE and the choice are the owner's, the tier texts the program's): a gate does not move, everything else revolves around it; where a meeting would need a hard structure to move, the easier of the two is moved, or the conflict avoided before it happens — in three tiers:
+  - TIER 1, never moved by a meeting: gates, posterns, towers and the fixed places;
+  - TIER 2, hard: wall runs and raised ways — where they meet, the newer bends locally, as the laws already say;
+  - TIER 3, soft: ground ways, plots and unlocked buildings — these move around the hard ones;
+  - every new thing first plans around the hard ones.
+You are the adjudicator's amending hand. FIRST apply J148 to Part L by class: rewrite law 2 so its steps are (a) the newer structure's own lawful shape, planned around every Tier-1 thing and the other side's Tier-2 thing; (b) Tier-3 things moved (a ground way re-routed, a plot re-cut, an unlocked building moved) and the soft readings (a vault span read open, a wall's top capped beneath a span, a carried way's gate made by hand); (c) the op gives way. Withdraw every move of a standing wall's gate, postern or tower along its line, and with it what only that move needed (a gate's way following it, law 3's measures and ties for such moves, the fates and report entries for moved gates and towers, veto items that state it). Keep J144 (a lock refuses no meeting) and J147's axes. THEN decide every pass-5 finding against the laws as J148 leaves them — a finding about a gate or tower move J148 withdraws is CLOSED BY LAW (J148), saying so in one line. Amend adjudication-r7.md IN PLACE.
+
+READ FIRST, WHOLE:
+  1. The three pass-5 probe files, and J147's and J148's rows in docs/PROGRESS.md.
+  2. adjudication-r7.md: Part L (terms, laws 1–4, the check, the five corrections, the veto list), R7-02's banner and sentences, Part P (passes 1–4, the re-checks and "J147 applied"), and each Part H section a finding touches.
+  3. docs/PROGRESS.md: the J144 – J148 rows.
+  4. The owner rules: docs/AMENDMENTS-2026-09-28g.md items 110 (b), (f) and 114; item 101 (R2, and R13 as J144 reads it); J141's severity standard (docs/OWNER-INSTRUCTIONS-2026-09-25.md).
+  5. The live text each finding cites, by grep and in ranges (docs/ARCHITECTURE.md is about 9.7 MB: never read it whole).
+
+HOW TO REFINE — CLOSE BY CLASS, NOT BY CASE. The enumerated table failed because every fix opened a new case. Do not repeat that inside the laws. Every refinement you write must settle every case of its kind at once:
+  - A TERM is defined once, as a function of what stands. Where the base or a volume defines it a second way (a span's strip, the band of a village kind, "standing", "cleared"), Part L picks one and an END makes the other text cite it.
+  - LAW 2's ORDER is stated once, and the five corrections and the veto list are made to agree with it. If (b) must come before (a) for some class of meetings, say which class by a rule, not by a list of ops.
+  - LAW 3 ends in a TOTAL ORDER: after least displacement, a canonical key that two distinct candidates can never share (for example: a value's ties to the smaller; a place's ties by a fixed comparison of its canonical coordinates; then address). Give every candidate kind one unit, or an explicit order between units. After this, no tie finding can be raised.
+  - THE CHECK must be computable from what the commit leaves plus the event: if law 1 needs a date, a "before" or a held set, either a record stores it (name the field and its writer) or the law is restated so that it does not need it.
+  - TIMING: define once what "a commit" is on each path and which providers run inside it, so that law 1 binds only where its providers have run (the time lens's blocker).
+  - A HAND OP THAT CANNOT BE RESOLVED is refused (law 2 (c)), an UNDO that would break law 1 is resolved as any op or refused with its reason, and a WARP is one op whose result law 2 resolves — state each once.
+  - Prefer replacing a clause to adding one. Part L may grow, but report its word count before and after; a refinement that adds a case list is wrong.
+A finding whose case the laws as written already decide uniquely is CLOSED BY LAW: say how in one line. A finding that shows a law crossing an owner rule is the exception: rule the narrowest change that restores the rule and flag it at the head. Never change an owner rule. Never record your reading of the owner's words as the owner's.
+
+THE EXAMPLES. A minor of grading clause (d) — an example that contradicts a law — is fixed by correcting or striking the example sentence, never the law. Where a refinement makes an example, a correction or a veto item wrong, correct it in the same pass.
+
+DECIDE EVERY PASS-5 FINDING. Add "## Part P — Pass 5: the laws probe again, and J148" after "### J147 applied" and before Part I. Open it with "J148 applied": the clauses changed (quoted), the rows and veto items withdrawn. Head it with the owner-rule clashes (or "none") and the totals. One row per PRB7E id, in the form of Pass 3's table:
+  - CLOSED BY LAW n: the laws decide it uniquely; say how in one line;
+  - LAW REFINED: quote the refinement written into Part L;
+  - OWNER-RULE CLASH: flagged at the head;
+  - REJECTED: with the reason, citing the law's words.
+Then re-check passes 1–4's rows against the refined laws and J148, and list any you supersede. Mark each change in Part L, the examples, the veto list and Part H "(J148)" or "(J146, PRB7E-…)". Update the END lines a refinement moves, so that the design's home (§2.7's support step (6)) states the refined laws and every reader still cites "§2.7's laws".
+
+VERDICT. End Part P pass 5 with one paragraph: are the laws now complete and determinate; which classes of finding the refinements close at once; what a further probe should attack.
+
+OUTPUT. adjudication-r7.md, amended in place. Write results/coherence_adjudicate-r7-laws3.json:
+  {"file": "docs/validation/coherence/adjudication-r7.md", "j148_clauses_changed": n, "pass5": {"closed_by_law": n, "law_refined": n, "owner_clash": n, "rejected": n, "minor_examples_fixed": n}, "superseded_amendments": [ids], "part_l_words": {"before": n, "after": n}, "veto_items": n}
+Log lines to docs/lane-events.log, in the form `<UTC date time> coherence/adjudicate-r7-laws3 <KIND> <text>`:
+  - a CHECKPOINT after reading;
+  - a CHECKPOINT after J148 is applied and Part L's refinements;
+  - a CHECKPOINT after the pass-5 decisions;
+  - a LANDED line naming both files.
+If a "Part P — Pass 5" with your CHECKPOINT already exists, RESUME from it: never redo a decided row.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Write only adjudication-r7.md, the result JSON and the log lines. Change no design text. Your final message must be exactly the JSON result object, nothing else.
