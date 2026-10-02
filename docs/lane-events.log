@@ -3811,3 +3811,6 @@
 2026-10-02 22:40 coherence/orchestrator NOTE repair-r7y launched: 8 seats (model, pipeline, determinism, scope, V05, V06, V07, V09); mkrepfam.py now strips trailing punctuation from an issue's owner token ("pipeline;" routed to pipeline)
 2026-10-02 22:40 coherence/repair-V09-r7y CHECKPOINT started (opus stand-in): brief read; next: adjudication-r7y Part H V09, famverify-hand-r7x, V09 §4.9
 2026-10-02 22:41 coherence/repair-V06-r7y CHECKPOINT skeleton written; P0-P1 done (brief, adjudication-r7y Part H V06 V6-1..V6-5, class (A) F6); next: P2 sources and live V06 sites
+2026-10-02 22:41 coherence/repair-scope-r7y CHECKPOINT started (opus stand-in): brief and adjudication-r7y.md read whole (Part H · scope S1-S5); skeleton docs/validation/coherence/repair-r7y-scope.md written; next: issue sources and the live §13.2 T110 bullet, §13.8's T110 row
+2026-10-02 22:41 coherence/repair-model-r7y CHECKPOINT started (opus stand-in): brief read; adjudication-r7y Part H model M1-M10 read; next: famverify-table/epochs-r7x sources, live §2.7 support step whole, F6 sweep of base §2
+2026-10-02 22:41 coherence/repair-pipeline-r7y CHECKPOINT started fresh (no output, no LANDED); brief and adjudication-r7y Part H read; next: issue sources, live §4.1–§4.4, §4.8, blocks
