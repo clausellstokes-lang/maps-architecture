@@ -3628,3 +3628,4 @@
 2026-10-02 18:02 coherence/repair-determinism-r7v CHECKPOINT P1 done (live §5.2, §5.3, §5.4, §6.2, §7.1, §7.3 read whole); P2 blocks generated (6 REPLACE, 14 count-asserted edits, word-level check OK); next: dry run on a copy, sweep, report
 2026-10-02 18:02 coherence/repair-V06-r7v CHECKPOINT P0-P2 done (brief, adjudication-r7v V6-1 – V6-9, famverify epochs/tests evidence, live V06 sections and sweep); next: P3 build blocks
 2026-10-02 18:02 coherence/repair-V04-r7v LANDED docs/validation/coherence/repair-r7v-V04.md docs/validation/coherence/results/coherence_repair-V04-r7v.json
+2026-10-02 18:03 coherence/repair-pipeline-r7v LANDED docs/validation/coherence/repair-r7v-pipeline.md docs/validation/coherence/results/coherence_repair-pipeline-r7v.json
