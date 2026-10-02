@@ -136,10 +136,11 @@
 # WORDS (principle (9)): the five subsections 26 677 → 27 237 (+560); the unit (§4, §10, PART II, PART III; l.
 # 5571–9719, 15931–16703, 21796–23078) 118 513 → 119 073 (+560, +0.47 %). Sources: RESTATEMENT 0, NARRATION 0,
 # DUPLICATED MECHANISMS 0, VERBOSE PROSE 0 removed; +560 content the rulings require — class (B)'s missing resolutions
-# (P2 +214, P6 +89, P11 +49), VF7x-GEN-03's cross wall through S3 (7) and §4.3 (+66), VF7x-GEN-05's batch writes (+39),
-# VF7x-EPO-03's refusal (+18), VF7x-GEN-04's re-route (+21, with F6), VF7x-GEN-06's pick (+14), and F6's citations at
-# fourteen sites (+50). The unit's irreducible content holds it against the shrink band in this pass, whose fixes add
-# outcomes the laws already decide and citations.
+# (P2 +214, P3's reader +14, P6 +89, P11 +49), VF7x-GEN-03's cross wall through S3 (7) and §4.3 (+62), VF7x-GEN-05's
+# batch writes (+39), VF7x-EPO-03's refusal (+18), VF7x-GEN-04's re-route with its F6 bar (+21), VF7x-GEN-06's pick
+# (+14), and F6's citations at twelve further sites (+40: P1 items 2, 6, 8, P4, P10, P12, P13, P14, SW1). The unit's
+# irreducible content holds it against the shrink band in this pass, whose fixes add outcomes the laws already decide
+# and citations.
 
 === REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker ===
 ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker
