@@ -1,0 +1,431 @@
+{
+ "swaps": [
+  {
+   "note": "repair-r7-scope.md, NOTE FOR ASSEMBLE (1) (J-A110.01, judgment index and Part A)",
+   "script": "work/assemble-r7/swap_restated.py (work/repair-scope-r3/swap_restated.py with IDS = ['J-A110.01'])",
+   "before_base_sha256": "99242252fcbf93949edfc109cf8611c478ec2dff46d65dd79615a7304851c2b9",
+   "before_rationale_sha256": "5ce118b29c37d9f2ef5406fcbc5d0a0d1456b02e70a2a4565a378ba361d475ac",
+   "stdout": [
+    "judgment index: J-A110.01: l. 23938 <- l. 23996",
+    "Part A: J-A110.01: l. 794 <- l. 852",
+    "judgment index rows 805 duplicates []",
+    "Part A rows 805 duplicates []",
+    "ids in one and not the other []",
+    "base sha256 45a3f366a7ffa206ffcac8ab94e6ba0c8de080366399a758bf95f711253f59f5",
+    "rationale sha256 7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+   ],
+   "base_sha256": "45a3f366a7ffa206ffcac8ab94e6ba0c8de080366399a758bf95f711253f59f5",
+   "rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+  }
+ ],
+ "notes_for_assemble": [
+  "repair-r7-scope.md: NOTE FOR ASSEMBLE (1) — the J-A110.01 swap, here",
+  "repair-r7-scope.md: NOTE FOR ASSEMBLE (2) — twelve proposed allow rows, P5 (allowrows.py)",
+  "repair-r7-determinism.md: four proposed allow rows for the assembler's review, P5 (allowrows.py)"
+ ],
+ "checks": {
+  "ids": {
+   "index_before": 805,
+   "part_a_before": 805,
+   "index_after": 805,
+   "part_a_after": 805,
+   "index_duplicates": [],
+   "part_a_duplicates": [],
+   "one_id_set": true,
+   "id_set_unchanged": true,
+   "index_order_unchanged": true,
+   "part_a_order_unchanged": true,
+   "index_rows_unchanged_but_swapped": true,
+   "swapped_index_row_position": [
+    747,
+    747
+   ],
+   "swapped_part_a_position": [
+    747,
+    747
+   ],
+   "rationale_lines": [
+    2387,
+    2387
+   ],
+   "rationale_lines_changed": [
+    [
+     794,
+     true
+    ]
+   ],
+   "index_row_after": "| J-A110.01 | item 110's base bars T110-1 – T110-8, its tendency specs keeping volume 12's ids `T110b.*` | §13.2 |",
+   "index_row_before": "| J-A110.01 | item 110's base bars T110-1 – T110-7, its tendency specs keeping volume 12's ids `T110b.*` | §13.2 |",
+   "ok": true,
+   "index_row_equals_block_row": true,
+   "part_a_row_equals_block_row": true
+  },
+  "combined_runs": {
+   "determinism+rendering": [
+    11,
+    10,
+    1,
+    0
+   ],
+   "determinism+pipeline+rendering": [
+    21,
+    20,
+    1,
+    0
+   ],
+   "all five": [
+    30,
+    29,
+    1,
+    0
+   ]
+  },
+  "alone": {
+   "model": {
+    "found": 3,
+    "applied": 3,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23140,
+     23789
+    ],
+    "bytes": [
+     3052639,
+     3137969
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "2e314faf6cbbbc9187b492fd65ded720941d80f7154dd176be4d66ed748666af",
+    "rationale_unchanged": true,
+    "hunks": 22,
+    "changed_old_lines_n": 186,
+    "inserts": [
+     [
+      2271,
+      1
+     ],
+     [
+      2299,
+      2
+     ]
+    ],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "3 found, 3 applied, 0 skipped, audit OK; headings 153 → 153; fences balanced 140 → 140; title block unchanged; document 23,140 → 23,789 lines",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     630,
+     848,
+     849,
+     850,
+     851,
+     852,
+     853,
+     901,
+     2298,
+     2538,
+     2539,
+     2540
+    ]
+   },
+   "determinism": {
+    "found": 8,
+    "applied": 7,
+    "skipped": 1,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23140,
+     23167
+    ],
+    "bytes": [
+     3052639,
+     3065459
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "b41375dbd8f18d5484e8aa6c5f91946f9d6505f9344517b125823eb949f44d35",
+    "rationale_unchanged": true,
+    "hunks": 27,
+    "changed_old_lines_n": 85,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "alone 7/7 REPLACE applied, audit \"OK (present once)\" ×7, headings 153 → 153, fences balanced, title block unchanged (its RULING REQUEST block the one skip); with the landed repair-r7-rendering.md 10/10 applied, audit OK",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     9201,
+     9203,
+     9220,
+     9275,
+     9287,
+     9290,
+     9300,
+     9332,
+     9352,
+     9389,
+     9390,
+     9391
+    ]
+   },
+   "pipeline": {
+    "found": 10,
+    "applied": 10,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23140,
+     23128
+    ],
+    "bytes": [
+     3052639,
+     3063170
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "66e6db2ab5cd5626bfb324b1162e5f4d8a9dd267b87fd1156c872cf8799d0a75",
+    "rationale_unchanged": true,
+    "hunks": 30,
+    "changed_old_lines_n": 45,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "10 blocks found, 10 applied, 0 skipped; audit 0 not OK; headings 153 → 153; fences balanced (140 → 140); title block unchanged; document 23 140 → 23 128 lines, 3 052 639 → 3 063 170 bytes; rationale unchanged (805 index rows = 805 Part A rows, no duplicate id); combined with repair-r7-determinism and repair-r7-rendering: every section block applied, audit 0 not OK, determinism's one skip its own RULING REQUEST header",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     5049,
+     5565,
+     5582,
+     5589,
+     5590,
+     5631,
+     5632,
+     5633,
+     5639,
+     5662,
+     5663,
+     5742
+    ]
+   },
+   "rendering": {
+    "found": 3,
+    "applied": 3,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23140,
+     23140
+    ],
+    "bytes": [
+     3052639,
+     3053688
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2386
+    ],
+    "base_sha256": "330c1ee6675e026c9604014364a2a8534944e8da2e03bb231e493791b5866134",
+    "rationale_unchanged": true,
+    "hunks": 5,
+    "changed_old_lines_n": 8,
+    "inserts": [],
+    "index_rows": 805,
+    "part_a_rows": 805,
+    "duplicates": [],
+    "notes": [],
+    "recorded": "3 found, 3 applied, 0 skipped, audit not OK 0, headings 153 → 153, fences balanced, title block unchanged, the rationale byte-identical; the diff touches exactly lines 13722–13723, 13947–13948, 14799, 16034, 16038–16039 of the live file",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     13722,
+     13723,
+     13947,
+     13948,
+     14799,
+     16034,
+     16038,
+     16039
+    ]
+   },
+   "scope": {
+    "found": 6,
+    "applied": 6,
+    "skipped": 0,
+    "audit_not_ok": 0,
+    "headings": [
+     153,
+     153
+    ],
+    "lines": [
+     23140,
+     23399
+    ],
+    "bytes": [
+     3052639,
+     3084830
+    ],
+    "fences": [
+     140,
+     140
+    ],
+    "fences_balanced": true,
+    "title_block_unchanged": true,
+    "rat_lines": [
+     2386,
+     2387
+    ],
+    "base_sha256": "13fe762ee776f086cac753f2e5fa1a22bd168cd2668de72645d73173ca9838e4",
+    "rationale_unchanged": false,
+    "hunks": 8,
+    "changed_old_lines_n": 154,
+    "inserts": [
+     [
+      23073,
+      1
+     ]
+    ],
+    "index_rows": 806,
+    "part_a_rows": 806,
+    "duplicates": [
+     "J-A110.01"
+    ],
+    "notes": [
+     "DUPLICATE ID inserted (an id the table already holds): ['J-A110.01']",
+     "DUPLICATE ID inserted (an id the table already holds): ['J-A110.01']"
+    ],
+    "swap": {
+     "stdout": [
+      "judgment index: J-A110.01: l. 23274 <- l. 23332",
+      "Part A: J-A110.01: l. 794 <- l. 852",
+      "judgment index rows 805 duplicates []",
+      "Part A rows 805 duplicates []",
+      "ids in one and not the other []",
+      "base sha256 42653662da07851fd2e64f8371b0ec8bbf4dcb05b052338bacb035ee53f97533",
+      "rationale sha256 7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+     ],
+     "lines_after_swap": 23398,
+     "rat_lines_after_swap": 2386,
+     "index_rows": 805,
+     "part_a_rows": 805,
+     "one_id_set": true,
+     "duplicates": []
+    },
+    "recorded": "6 found, 6 applied, 0 skipped, audit not-OK 0 (the two expected DUPLICATE ID notes for J-A110.01, resolved by the swap), headings 153 → 153, fences balanced (140 → 140), title block unchanged; document 23 140 → 23 399 lines, rationale 2 386 → 2 387 (2 386 after the swap); the swap: index l. 23274 ← l. 23332; Part A l. 794 ← l. 852; index 805 rows, Part A 805 rows, one id set, no duplicate",
+    "equals_recorded": true,
+    "changed_old_lines_sample": [
+     249,
+     18440,
+     18441,
+     18442,
+     18443,
+     18444,
+     18445,
+     18446,
+     18447,
+     18448,
+     18449,
+     18450
+    ]
+   }
+  },
+  "combined_lines": {
+   "before": 23140,
+   "after_blocks": 24063,
+   "after_swap": 24062,
+   "sum_of_alone_growths": 923,
+   "equal": true
+  },
+  "all_five_equals_apply_out": true
+ },
+ "carried_unchanged": [
+  "docs/volumes/V02-buildings.md",
+  "docs/volumes/V03-interiors.md",
+  "docs/volumes/V08-settlementforge.md",
+  "docs/volumes/INDEX.md"
+ ],
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "45a3f366a7ffa206ffcac8ab94e6ba0c8de080366399a758bf95f711253f59f5",
+  "docs/ARCHITECTURE-RATIONALE.md": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "docs/volumes/V01-neighbourhoods.md": "7b63780f96353d9aeb8cc64d5b5aa029af541968a0c65a87545da91ccd421778",
+  "docs/volumes/V02-buildings.md": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "docs/volumes/V03-interiors.md": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "docs/volumes/V04-underground.md": "18b739064e67f21b49960a9a108a6ebecddc1d6d7ceb42c0931e3ebb8b594a71",
+  "docs/volumes/V05-sky.md": "618925836a8e0688ea01e3a9e542bfbcf06efea4f4177d4aac42c6ba4c404206",
+  "docs/volumes/V06-evolution.md": "324609e5ef5b1ff164f56dfcd6edae152f043d6608bbd0ea4372100f1e402f4b",
+  "docs/volumes/V07-village.md": "346c8b5a2dabff46a2bf52387a1a295d1fba91cd674ae308ea0066c8ba68ac3d",
+  "docs/volumes/V08-settlementforge.md": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "docs/volumes/V09-application.md": "371946d55b244c26db9b4e433a885e8f63cde9f770563a688784bf0fd367585f",
+  "docs/volumes/V10-clerk.md": "4988e5ae15e19a0e3b7977a673785d83cbd92e9e03d38ae93130511f0b65a019",
+  "docs/volumes/V11-content.md": "67c7c0b837e1c53a1c428d75485da9c5e54c193428a0c9ba86a36f71aae86dfc",
+  "docs/volumes/V12-calibration.md": "66e2ca404b1f9d19f6f9d56beebd73445a9a0375992d45ea1c2b754083446eff",
+  "docs/volumes/INDEX.md": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3"
+ },
+ "out_equals_final": {
+  "docs/ARCHITECTURE.md": false,
+  "docs/ARCHITECTURE-RATIONALE.md": false,
+  "docs/volumes/V01-neighbourhoods.md": true,
+  "docs/volumes/V02-buildings.md": false,
+  "docs/volumes/V03-interiors.md": false,
+  "docs/volumes/V04-underground.md": true,
+  "docs/volumes/V05-sky.md": true,
+  "docs/volumes/V06-evolution.md": true,
+  "docs/volumes/V07-village.md": true,
+  "docs/volumes/V08-settlementforge.md": false,
+  "docs/volumes/V09-application.md": true,
+  "docs/volumes/V10-clerk.md": true,
+  "docs/volumes/V11-content.md": true,
+  "docs/volumes/V12-calibration.md": true,
+  "docs/volumes/INDEX.md": false
+ }
+}

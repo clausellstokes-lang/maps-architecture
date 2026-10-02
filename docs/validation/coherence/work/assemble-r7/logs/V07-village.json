@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "46dfede9907ee1a6602f79f10eadcd0f492c212bc16e3adc45ee15ddb5d28996",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0",
+ "files": [
+  {
+   "file": "b-repair-r7-V07.md",
+   "sha256": "12057c9444790ca72a7e711bc4c7544eef13504422991984cb2d67a8cc70fce6",
+   "lines": 977,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7-V07.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed and what is out of scope",
+   "file": "b-repair-r7-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed and what is out of scope",
+   "body_lines": 127,
+   "body_sha256": "2fac4b0bd5f58f8b8328bf948124b5d6b05a6c95a8c43932ffa3f8c17c0db500",
+   "target_line": 75,
+   "section_old": "75–202",
+   "section_old_n": 128,
+   "section_new_n": 129,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed and what is out of scope"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7-V07.md #2 (l. 132) REPLACE ### 3.4 VS3 — the palisade, before the roads",
+   "file": "b-repair-r7-V07.md",
+   "index": 2,
+   "line": 132,
+   "kind": "REPLACE",
+   "heading": "### 3.4 VS3 — the palisade, before the roads",
+   "body_lines": 83,
+   "body_sha256": "ff7e8a23cb3731980550e63390db0dbb8ec8010a39ce1f69c5e58f7b9c4d06a2",
+   "target_line": 1362,
+   "section_old": "1362–1441",
+   "section_old_n": 80,
+   "section_new_n": 84,
+   "new_headings": [
+    "### 3.4 VS3 — the palisade, before the roads"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7-V07.md #3 (l. 218) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "file": "b-repair-r7-V07.md",
+   "index": 3,
+   "line": 218,
+   "kind": "REPLACE",
+   "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "body_lines": 112,
+   "body_sha256": "a0cd751799f602c90a28df0e983c12ebcd4638979395cd6fcb7e92c7b0362a0f",
+   "target_line": 1565,
+   "section_old": "1565–1665",
+   "section_old_n": 101,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7-V07.md #4 (l. 333) REPLACE ### 3.8a Levelling and retaining walls at village rungs (item 110 (a); J-V7.84 – J-V7.89)",
+   "file": "b-repair-r7-V07.md",
+   "index": 4,
+   "line": 333,
+   "kind": "REPLACE",
+   "heading": "### 3.8a Levelling and retaining walls at village rungs (item 110 (a); J-V7.84 – J-V7.89)",
+   "body_lines": 67,
+   "body_sha256": "ed75a764fa1ef2cf4df8e8cbbfb22b4164c905a216b4724704cff7028acd8f65",
+   "target_line": 1860,
+   "section_old": "1860–1926",
+   "section_old_n": 67,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 3.8a Levelling and retaining walls at village rungs (item 110 (a); J-V7.84 – J-V7.89)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "b-repair-r7-V07.md #5 (l. 403) REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+   "file": "b-repair-r7-V07.md",
+   "index": 5,
+   "line": 403,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+   "body_lines": 201,
+   "body_sha256": "4c79b060ffc7feb287b9defd1fb0836b6cd7fd9f6faf1288991688a6985b83a5",
+   "target_line": 2119,
+   "section_old": "2119–2317",
+   "section_old_n": 199,
+   "section_new_n": 203,
+   "new_headings": [
+    "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "b-repair-r7-V07.md #6 (l. 607) REPLACE ### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's par",
+   "file": "b-repair-r7-V07.md",
+   "index": 6,
+   "line": 607,
+   "kind": "REPLACE",
+   "heading": "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)",
+   "body_lines": 65,
+   "body_sha256": "3ab9ee247c275afcdd21d40ba1517d0b510878897c6485a796fae0ef4a71e64f",
+   "target_line": 2690,
+   "section_old": "2690–2756",
+   "section_old_n": 67,
+   "section_new_n": 67,
+   "new_headings": [
+    "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "b-repair-r7-V07.md #7 (l. 675) REPLACE ### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+   "file": "b-repair-r7-V07.md",
+   "index": 7,
+   "line": 675,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+   "body_lines": 25,
+   "body_sha256": "0412fcf0e22b25bc9b60d9d09c2e6b23a8842fcfa9f9aed3f5ab400f934c833f",
+   "target_line": 2757,
+   "section_old": "2757–2780",
+   "section_old_n": 24,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "b-repair-r7-V07.md #8 (l. 703) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "b-repair-r7-V07.md",
+   "index": 8,
+   "line": 703,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 67,
+   "body_sha256": "c4bf4a23bb9bdaeceb8d783542397168e2f7081607dbf7c1a7550bae9d3b5f2f",
+   "target_line": 2951,
+   "section_old": "2951–3019",
+   "section_old_n": 69,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "b-repair-r7-V07.md #9 (l. 773) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7-V07.md",
+   "index": 9,
+   "line": 773,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "086a1946a8ece643b538271737ae9a86f4ed69079d673fbecee109613543e1fd",
+   "target_line": 3645,
+   "section_old": "3645–3746",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "b-repair-r7-V07.md #10 (l. 876) REPLACE ## 8 Build plan",
+   "file": "b-repair-r7-V07.md",
+   "index": 10,
+   "line": 876,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 99,
+   "body_sha256": "71c48b03c33f8a5f79e20f8f710aca37121b0bfba5dc00b4adcf56877910c74c",
+   "target_line": 3747,
+   "section_old": "3747–3846",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7-V07.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #2 (l. 132) REPLACE ### 3.4 VS3 — the palisade, before the roads",
+    "kind": "REPLACE",
+    "heading": "### 3.4 VS3 — the palisade, before the roads",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #3 (l. 218) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "kind": "REPLACE",
+    "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #4 (l. 333) REPLACE ### 3.8a Levelling and retaining walls at village rungs (item 110 (a); J-V7.84 – J-V7.89)",
+    "kind": "REPLACE",
+    "heading": "### 3.8a Levelling and retaining walls at village rungs (item 110 (a); J-V7.84 – J-V7.89)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #5 (l. 403) REPLACE ### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #6 (l. 607) REPLACE ### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's par",
+    "kind": "REPLACE",
+    "heading": "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #7 (l. 675) REPLACE ### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #8 (l. 703) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #9 (l. 773) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V07.md #10 (l. 876) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 613621,
+  "doc_bytes_after": 621436,
+  "doc_lines_before": 4098,
+  "doc_lines_after": 4123,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "346c8b5a2dabff46a2bf52387a1a295d1fba91cd674ae308ea0066c8ba68ac3d",
+  "output_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+ }
+}

@@ -791,7 +791,7 @@ The consistency pass of 2026-09-26 added seven rows for inline passages that had
 | J-A73.06 | Chose to drop `government.previous` over naming a reader, because no mechanism of the set reads it and inventing one is new design; the adapter still reads `powerStructure.previousGovernments[].tick` as a dating rung (§4.11). |
 | J-A77.06 | Chose to drop `RealmBlock.mPerRealmUnit`, because the host client already turns the scale into distances and no module reads it. |
 | J-A102.01 | Chose `T⟨item⟩-⟨n⟩` ids for items 102–113 with each group naming the volume tests that take it over, because the base's bar family is that form and principle (10) needs the takeover named. |
-| J-A110.01 | Chose to keep volume 12's `T110b.*` spec ids for item 110's tendency bars beside T110-1 – T110-7, because V12's bar map already registers them as base bars. |
+| J-A110.01 | Chose to keep volume 12's `T110b.*` spec ids for item 110's tendency bars beside T110-1 – T110-8, because V12's bar map already registers them as base bars. |
 | J-A111.01 | Chose M1 for the oasis and spring (with the S0–S1 site features), M2b for the water pull and term (with the field) and M3a for T2's spring flag (with the ground tool), because each lands with the stage it belongs to. |
 | J-A112.01 | Chose the public release inside SettlementForge as the trial's gate, its timing SettlementForge's, because J121 makes the product's release SettlementForge's and item 112 (b) asks the trial before it. |
 | J-A113.01 | Chose M6-E for the replay and M6-U for the buried former settlement, because the replay is volume 6's engine and the ruins are volume 4's layer. |

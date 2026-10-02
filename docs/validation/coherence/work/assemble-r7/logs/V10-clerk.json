@@ -1,0 +1,185 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/volumes/V10-clerk.md",
+ "input_doc_sha256": "1014b64c7dc80feef334168db444130e22c8d25bf28c3787ca3e61798978c364",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0",
+ "files": [
+  {
+   "file": "b-repair-r7-V10.md",
+   "sha256": "5d958e7182bcfd5e754f6357128bcd90d8265c55cbd652ccb70924d65b6fbbbf",
+   "lines": 459,
+   "blocks": 5,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7-V10.md #1 (l. 2) REPLACE ### 2.6 The drawer's view model and the harness it drives (session memory; drawn by V09)",
+   "file": "b-repair-r7-V10.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The drawer's view model and the harness it drives (session memory; drawn by V09)",
+   "body_lines": 106,
+   "body_sha256": "38ebf2733e896cfbf6968edc30ad33bf777a1236d74be0ce0eafa70c5eb29bce",
+   "target_line": 567,
+   "section_old": "567–673",
+   "section_old_n": 107,
+   "section_new_n": 107,
+   "new_headings": [
+    "### 2.6 The drawer's view model and the harness it drives (session memory; drawn by V09)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7-V10.md #2 (l. 112) REPLACE ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+   "file": "b-repair-r7-V10.md",
+   "index": 2,
+   "line": 112,
+   "kind": "REPLACE",
+   "heading": "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+   "body_lines": 124,
+   "body_sha256": "eee24e7fdc25ed2960eef848acb5a4f69ddc87793f411b047f63d56d49ff4787",
+   "target_line": 1649,
+   "section_old": "1649–1773",
+   "section_old_n": 125,
+   "section_new_n": 125,
+   "new_headings": [
+    "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7-V10.md #3 (l. 240) REPLACE ### 3.16 Refusals with alternatives",
+   "file": "b-repair-r7-V10.md",
+   "index": 3,
+   "line": 240,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Refusals with alternatives",
+   "body_lines": 74,
+   "body_sha256": "ec5c5a25b391cc73706db5b1282fcbc9f7f1b66c01cffff85069ac8e08bbb1a1",
+   "target_line": 2390,
+   "section_old": "2390–2464",
+   "section_old_n": 75,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 3.16 Refusals with alternatives"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7-V10.md #4 (l. 318) REPLACE ### 4.1 The encoders — each tool's input to its events",
+   "file": "b-repair-r7-V10.md",
+   "index": 4,
+   "line": 318,
+   "kind": "REPLACE",
+   "heading": "### 4.1 The encoders — each tool's input to its events",
+   "body_lines": 77,
+   "body_sha256": "c54f0d082ed4a0c9b71c52bf805a3f26ed8a113453e835accaf67bfedfb65709",
+   "target_line": 2757,
+   "section_old": "2757–2834",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 4.1 The encoders — each tool's input to its events"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "b-repair-r7-V10.md #5 (l. 399) REPLACE ### 7.1 Tests",
+   "file": "b-repair-r7-V10.md",
+   "index": 5,
+   "line": 399,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Tests",
+   "body_lines": 57,
+   "body_sha256": "33b3b5be177c6ac9260ed4892330fa6d167d341ca80fa1f1149d57fc7d67fef8",
+   "target_line": 3112,
+   "section_old": "3112–3169",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 7.1 Tests"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7-V10.md #1 (l. 2) REPLACE ### 2.6 The drawer's view model and the harness it drives (session memory; drawn by V09)",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The drawer's view model and the harness it drives (session memory; drawn by V09)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V10.md #2 (l. 112) REPLACE ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+    "kind": "REPLACE",
+    "heading": "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V10.md #3 (l. 240) REPLACE ### 3.16 Refusals with alternatives",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Refusals with alternatives",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V10.md #4 (l. 318) REPLACE ### 4.1 The encoders — each tool's input to its events",
+    "kind": "REPLACE",
+    "heading": "### 4.1 The encoders — each tool's input to its events",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V10.md #5 (l. 399) REPLACE ### 7.1 Tests",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Tests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 86,
+  "headings_after": 86,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 522915,
+  "doc_bytes_after": 524498,
+  "doc_lines_before": 3580,
+  "doc_lines_after": 3580,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 5,
+  "blocks_applied": 5,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "4988e5ae15e19a0e3b7977a673785d83cbd92e9e03d38ae93130511f0b65a019",
+  "output_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+ }
+}
