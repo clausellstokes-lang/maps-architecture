@@ -128,7 +128,8 @@ Three fixed, two closed by a ruling, one partly fixed (VF7v-TBL-02, its residue 
   against J144 as the program reads it (PRB7H-GEN-04 (i)) and the second fix pass held no valid choice (VF7v-GEN-03,
   VF7v-GEN-06). So not every outcome keeps the owner rules: MAJOR. (T110-2 (4)'s held-building circuit, l. 19451–19456,
   asserts only that the circuit crosses "clear of that span's strip", which both builds may meet on its fixture; no bar
-  separates them.)
+  separates them.) The tests lens landed the same defect as VF7w-TST-01 (`famverify-tests-r7w.md`, major); one fix
+  closes both.
 * **Required change (pipeline).** §4.4 S5a *Trace* (2) (l. 6602): "every held building's strip and a shape-locked
   raised way's `vault`-use spans' strips, each widened all round by the wall strips' width there (law 1 (10): no line,
   band or wall strip across one)" → "every held building's strip (widened by its own definition, §2.7's laws' terms;
@@ -231,8 +232,9 @@ Three fixed, two closed by a ruling, one partly fixed (VF7v-TBL-02, its residue 
   it"), so the wall bends, else law 2 (c) — one outcome, as the first round-7v check read the warp.
 * **The cells.** Every row of both tables has its 15 and 5 cells; every "as Wn·Cm" resolves (method (3)); each cell
   gives one built form, its writing op and records, its gates on ground part 0, its bend key or fate by law 4 and its
-  undo — where a cell omits one, law 4 and law 1 (8) supply it — but for the cells VF7v-TBL-02 names. The named tests
-  hold their cases where checked (W1·C8 → T110-4 (c)'s village rung, now holding a declared viaduct and aqueduct, one
+  undo — where a cell omits one, law 4 and law 1 (8) supply it — but for the cells VF7v-TBL-02 names. The cells' named
+  tests are the tests lens's to grade (its VF7w-TST-05 names five cells, W1·C1, W4·C2, W5·C2, W6·C2 and W8·C2, whose
+  tests leave a path unrun); those this lens checked hold their cases (W1·C8 → T110-4 (c)'s village rung, now holding a declared viaduct and aqueduct, one
   placement-locked; row (d) → T110-2 (2), (3); W3·C2 → T110-2 (6)'s carried-way runs; W14 → T110-2 (4)'s re-grade and
   T-V7-48's REPLACEMENT; W8·C1 / C2 → T-V6-11; W2·C2 → T-V4-63), every family clause now asserting the laws' outcome
   for its fixture (T110-2's lead, `adjudication-r7w.md` S0).
