@@ -469,8 +469,9 @@ chamber stands.
 **Claim.** Law 1 (9): "a held building's chamber, footprint and door are unchanged by any meeting, so no wall's line lies
 in a held building's strip" — that strip being the span's strip "widened all round by the meeting wall's strips' width",
 the width "the band's half there plus the wider of the inner setback and the outer setback with its glacis or berm"
-(10–20 m, base l. 7699): 11–21.5 m. The seat makes (9)'s second clause false at once though nothing changed the chamber —
-the "so" is a stronger condition, not a consequence. The laws give it no outcome: `placeAt` is in law 4's list only if
+(10–20 m, base l. 7699): 11–21.5 m, so wherever the outer setback with its glacis reaches 14 m the 15 m span lies inside
+it, and the seat makes (9)'s second clause false at once though nothing changed the chamber — the "so" is a stronger
+condition, not a consequence. The laws give it no outcome: `placeAt` is in law 4's list only if
 seating a building changes a raised way's "held state" (unsaid); §5.3's law-1 row (E-D13) checks only "a held building's
 chamber, footprint and door unchanged by any meeting", not the line clause, so nothing fails — (c); and the next op on
 that wall, a gate slid or a stretch re-graded, re-checks law 1 for its meeting, finds (9) false and is refused for a state
