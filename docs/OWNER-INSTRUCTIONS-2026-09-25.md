@@ -293,3 +293,6 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
   integrates into the wall (like a tunnel through the wall) that it pierces?" / "are there historical precedences for this?" /
   "then yes do those if they help" — an aqueduct crosses a wall at its own level: over it on an arch (a gate or tower may stand
   under the arch), merged into it (the wall built around the aqueduct's own arch, as at Porta Maggiore), or beneath it (J149).
+- (2026-10-02 ~15:20) After the program reported the laws probe's plateau (majors per pass 31, 29, 19, 15, 14): "Defer + cap
+  growth (Recommended)" — one plain shape-lock rule in the family, lock behaviour under undo, redo, re-grade and repair designed
+  in round 8 with the two-axis lock; Part L must not grow; back to the owner if a pass still finds 10 or more majors (J150).

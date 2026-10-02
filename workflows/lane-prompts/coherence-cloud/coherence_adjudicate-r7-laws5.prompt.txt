@@ -14,7 +14,7 @@ Their results are in results/coherence_probe-r7g-{time,locks,gen}.json. Majors p
 READ FIRST, WHOLE:
   1. The three pass-7 probe files.
   2. adjudication-r7.md: Part L (terms, laws 1–4, the check, the five corrections, the veto list), R7-02's banner and sentences, Part P (passes 1–6, the re-checks, "J147 applied", "J148 applied" and "J149 applied"), and each Part H section a finding touches.
-  3. docs/PROGRESS.md: the J144 – J149 rows.
+  3. docs/PROGRESS.md: the J144 – J150 rows.
   4. The owner rules: docs/AMENDMENTS-2026-09-28g.md items 110 (b), (f) and 114; item 101 R2; J144, J147, J148 and J149; J141's severity standard (docs/OWNER-INSTRUCTIONS-2026-09-25.md).
   5. The live text each finding cites, by grep and in ranges (docs/ARCHITECTURE.md is about 9.7 MB: never read it whole).
 
@@ -25,22 +25,28 @@ HOW TO REFINE — CLOSE BY CLASS, NOT BY CASE. The enumerated table failed becau
   - THE CHECK must be computable from what the commit leaves plus the event: if law 1 needs a date, a "before" or a held set, either a record stores it (name the field and its writer) or the law is restated so that it does not need it.
   - TIMING: define once what "a commit" is on each path and which providers run inside it, so that law 1 binds only where its providers have run (the time lens's blocker).
   - A HAND OP THAT CANNOT BE RESOLVED is refused (law 2 (c)), an UNDO that would break law 1 is resolved as any op or refused with its reason, and a WARP is one op whose result law 2 resolves — state each once.
-  - Prefer replacing a clause to adding one. Part L is now about 9,400 words, four times the two pages the laws began as; it must not grow by more than a tenth in this pass. Where a refinement can replace two clauses with one, do so. Report its word count before and after; a refinement that adds a case list is wrong.
+  - PART L MUST NOT GROW (the owner's J150). It is now about 9,400 words. Every word a refinement adds must be paid for by merging or striking clauses elsewhere in Part L, so that its word count after this pass is no higher than before. Report both counts. A refinement that adds a case list is wrong.
 A finding whose case the laws as written already decide uniquely is CLOSED BY LAW: say how in one line. A finding that shows a law crossing an owner rule is the exception: rule the narrowest change that restores the rule and flag it at the head. Never change an owner rule. Never record your reading of the owner's words as the owner's.
 
+THE OWNER'S J150 (docs/PROGRESS.md; read its row WHOLE). Part L keeps ONE plain rule for a shape lock: no op makes or deepens a meeting with a shape-locked thing (by hand refused, at generation not built or the stage's ladder, at an epoch it waits). How a lock, on either axis, behaves under undo, redo, a re-grade or value edit within a standing meeting, and a repair is designed once in round 8 with the two-axis lock (J147's Part A hand-off). So:
+  - replace every clause of Part L that defines those behaviours (the shape lock's readings that follow what stands, "newly" and "deepened" as they bear on locks, a lock's order under undo, a repair after a lock, and the like) by the one plain rule and a citation of the round-8 hand-off, keeping only what law 1 and the check need to stay determinate;
+  - widen the existing Part A hand-off to round 8 to name these behaviours;
+  - decide each pass-7 finding that turns only on them as HANDED OFF (J150), with one line naming the hand-off — PRB7G-LCK-01, -02 and -05 among them, as far as they turn on locks;
+  - no family check reports them before round 8.
 THE EXAMPLES. A minor of grading clause (d) — an example that contradicts a law — is fixed by correcting or striking the example sentence, never the law. Where a refinement makes an example, a correction or a veto item wrong, correct it in the same pass.
 
 DECIDE EVERY PASS-7 FINDING. Add "## Part P — Pass 7: the laws probe (J146)" after Part P pass 6 and before Part I. Head it with the owner-rule clashes (or "none") and the totals. One row per PRB7G id, in the form of Pass 3's table:
   - CLOSED BY LAW n: the laws decide it uniquely; say how in one line;
   - LAW REFINED: quote the refinement written into Part L;
   - OWNER-RULE CLASH: flagged at the head;
-  - REJECTED: with the reason, citing the law's words.
+  - REJECTED: with the reason, citing the law's words;
+  - HANDED OFF (J150): turns only on lock behaviour under undo, redo, re-grade or repair; name the hand-off.
 Then re-check passes 1–6's rows against the refined laws and list any you supersede. Mark each change in Part L, the examples, the veto list and Part H "(J146, PRB7G-…)". Update the END lines a refinement moves, so that the design's home (§2.7's support step (6)) states the refined laws and every reader still cites "§2.7's laws".
 
 VERDICT. End Part P pass 7 with one paragraph: are the laws now complete and determinate; which classes of finding the refinements close at once; what a further probe should attack.
 
 OUTPUT. adjudication-r7.md, amended in place. Write results/coherence_adjudicate-r7-laws5.json:
-  {"file": "docs/validation/coherence/adjudication-r7.md", "pass7": {"closed_by_law": n, "law_refined": n, "owner_clash": n, "rejected": n, "minor_examples_fixed": n}, "superseded_amendments": [ids], "part_l_words": {"before": n, "after": n}, "veto_items": n}
+  {"file": "docs/validation/coherence/adjudication-r7.md", "pass7": {"closed_by_law": n, "law_refined": n, "owner_clash": n, "rejected": n, "minor_examples_fixed": n, "handed_off_j150": n}, "superseded_amendments": [ids], "part_l_words": {"before": n, "after": n}, "veto_items": n}
 Log lines to docs/lane-events.log, in the form `<UTC date time> coherence/adjudicate-r7-laws5 <KIND> <text>`:
   - a CHECKPOINT after reading;
   - a CHECKPOINT after Part L's refinements;
