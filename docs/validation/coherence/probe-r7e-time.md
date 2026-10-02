@@ -14,7 +14,10 @@
 > below), and reports nothing against §7.1–§7.4's, §5.3's declared row's or V09's and V10's lock texts (Part A's round-8
 > hand-off). It changes no design text. Every reading of an owner's words below is the program's (J122), never the
 > owner's. (The brief's WRITE section names this file `probe-r7e-time-time.md`; its first paragraph, which sets files and
-> ids, names `probe-r7e-time.md`, as passes 3 and 4 read the same slip.)
+> ids, names `probe-r7e-time.md`, as passes 3 and 4 read the same slip.) The owner's J148 and J149 (PROGRESS l. 207–208),
+> recorded while this seat ran, are the next laws seat's to apply: no finding here is graded against them, and none of the
+> eight turns on a gate's or tower's move or on an aqueduct's form at a wall — PRB7E-TIM-04's readings are what J148's
+> program reading calls the "soft readings" it keeps, without saying what a shape lock holds of them.
 
 **Line references.** `adj l.` = `docs/validation/coherence/adjudication-r7.md` at commit `687ade0` (J147 applied); `base
 l.` = `docs/ARCHITECTURE.md`; `Vnn l.` = `docs/volumes/Vnn-*.md`; `PROGRESS l.` = `docs/PROGRESS.md`. Part L's terms are
@@ -81,8 +84,8 @@ line (W7's "—" C1: a founding, an epoch route's priced deck, a hand declaratio
    Reading B — the wall is gone (base l. 8278–8282; W7; R7-04 (d)) — lays the chamber and admits the deck. The two builds
    differ, and each fails a bar: the base-following one at §5.3's law-1 row (a chamber in a span the term keeps across, "a
    `vault` span with anything across its own strip read `open`", E-D13, adj l. ~1966), the term-following one at T110-2 (8).
-   A CITY's or METROPOLIS's aqueduct crosses every ring between its source and its terminal, a third or more of its spans
-   drawn `vault` (`span.vaultShare`, base l. 2740–2742), and a superseded ring's pathway ends in `wallToWay` by
+   A CITY's or METROPOLIS's aqueduct crosses every ring between its source and its terminal, its spans drawn `vault` at
+   `span.vaultShare[kind]` (base l. 2740–2742), and a superseded ring's pathway ends in `wallToWay` by
    `walls.fateWeights`: the common epoch path. A wrong result on a common path is a blocker (the grading).
 2. A replay's burial lists **runs** — a former fabric is "the ruins one district's decline left in one epoch (… its enceinte
    runs whose condition is `dismantled` …) — with the towers and gates drawn on them", and the runner "clears the listed
@@ -310,8 +313,7 @@ stretch", "a re-shape, a warp, a `revert`, a re-trace and an extension bent past
 327–337); law 1 (3) and the check read the fields (adj l. 352–356, 477). E-M2 has an older document's upgrade write them
 "from each record's creating event" (adj l. 1777). On an older document whose ring run a carve or a moved river re-traced
 under a viaduct declared before it — a crossing *beneath* lawful then — the upgrade dates the run before the viaduct, so
-law 1 (3) fails at the upgrade's own commit (§5.3's row, `E_INVARIANT`), and a road deck re-shaped across a ring laid
-since its creation is read the other way. **Required change (E-M2, adj l. 1776–1777):** "and written on an older document
+law 1 (3) fails at the upgrade's own commit (§5.3's row, `E_INVARIANT`) on a document every law held on. **Required change (E-M2, adj l. 1776–1777):** "and written on an older document
 by its upgrade (§7.5) from each record's creating event;" → "and written on an older document by its upgrade (§7.5) from
 the last event in its log that laid or moved each run's line and each deck stretch (§2.7's laws' *Order*: a re-trace, a
 re-shape, a warp, a `revert` or a bent extension, else the record's creation);".
