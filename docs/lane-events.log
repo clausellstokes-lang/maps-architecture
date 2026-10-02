@@ -3636,3 +3636,6 @@
 2026-10-02 18:06 coherence/repair-scope-r7v LANDED docs/validation/coherence/repair-r7v-scope.md docs/validation/coherence/results/coherence_repair-scope-r7v.json
 2026-10-02 18:06 coherence/repair-determinism-r7v LANDED docs/validation/coherence/repair-r7v-determinism.md docs/validation/coherence/results/coherence_repair-determinism-r7v.json
 2026-10-02 18:06 coherence/repair-V07-r7v LANDED docs/validation/coherence/repair-r7v-V07.md docs/validation/coherence/results/coherence_repair-V07-r7v.json
+2026-10-02 18:07 coherence/repair-V06-r7v CHECKPOINT P3 done (9 REPLACE blocks built, 33 count-asserted edits, minimal-churn re-wrap; apply-blocks dry run 9/9 applied, byte-identical); next: P4 doc_checks, report, LANDED
+2026-10-02 18:09 coherence/repair-V06-r7v LANDED docs/validation/coherence/repair-r7v-V06.md docs/validation/coherence/results/coherence_repair-V06-r7v.json
+2026-10-02 18:10 coherence/orchestrator NOTE repair-r7v complete: 12 seats landed (model 1, pipeline 5, determinism 6, rendering 2, scope 3, V01 4, V04 1, V05 1, V06 9, V07 3, V09 3, V12 2 — 40 blocks, 0 ruling requests). Next: assemble-r7v
