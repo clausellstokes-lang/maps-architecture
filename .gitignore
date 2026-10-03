@@ -27,3 +27,9 @@ backups/
 *.lock
 __pycache__/
 *.pyc
+# The build (plat/): installable dependencies and build output are restored by `pnpm install` and `pnpm build`
+node_modules/
+.pnpm-store/
+plat/**/dist/
+*.tsbuildinfo
+plat/**/coverage/
