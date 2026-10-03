@@ -2039,3 +2039,10 @@
 2026-10-03 02:18 coherence/verify-edges-world-r0 CHECKPOINT P1 catalogue extracted (822 open edges, 222 owned combos); skeleton written; next: P2 edge sections
 2026-10-03 02:20 coherence/verify-edges-life-r0 CHECKPOINT P1 determinism (2 issues: EL-01 dossier vs lock, EL-02 epoch/salt u16 caps) and P2 scope (0) written; next: P3 V06
 2026-10-03 02:21 coherence/verify-agree-time-r0 CHECKPOINT P1 base §4.11/§6/§7.4 read; AT-01 (item 266 epoch-spread timing), AT-02 (history step list) written; next: V06 §3.11-§3.21, §4
+2026-10-03 02:22 coherence/verify-vol-V09-V10-r0 CHECKPOINT P2 mechanical: ids clean (J-V9.1-134, T-V9-1-78, J-V10.1-119, T-V10-1-49), refs (5 V09 bare list continuations), terms clean, no deferral; token/row/sentence diffs built in scratch; next: P3 V09 review of row diffs and low-match units
+2026-10-03 02:23 coherence/verify-agree-proof-r0 CHECKPOINT P1 census done (T-V ids unique per volume; ranges V01 58, V02 55, V03 37, V04 79, V05 34, V06 74, V07 65, V08 51, V09 78, V10 49, V11 0-40, V12 48; base §13 takeover table and §16 M5 exit stale); P2 §13.2 table, §13.8 schedule, §16, INDEX read; volume cross-part notes to scope collected; next: per-volume §7/§8 comparison V03-V12
+2026-10-03 02:23 coherence/verify-edges-life-r0 CHECKPOINT P3 V06 (0) and P4 V08 (EL-03 untested rows, EL-04 dossier vs lock row) written; next: P5 V09
+2026-10-03 02:23 coherence/verify-agree-time-r0 CHECKPOINT AT-03..AT-06 written (items 479, 429 (c), 336 unapplied in §4.11; shade casters); next: remaining V06 BCRs vs base (26, 7, 9, 11, 20, 24), then V06 §3.11-§3.21, §4
+2026-10-03 02:24 coherence/verify-edges-life-r0 CHECKPOINT P5 V09 written (EL-05 two tabs one town, EL-06 T-V9-74 scope); next: P6 V10
+2026-10-03 02:25 coherence/verify-vol-V09-V10-r0 CHECKPOINT P3 V09: §9 decision audit done (V09-DEC-1 blocker: reasons/alternatives thinned in ~110 rows); refs issue noted; next: V09 row diffs from rowdiff2 l.199, then §0-§8 prose alignment
+2026-10-03 02:25 coherence/verify-agree-time-r0 CHECKPOINT AT-07, AT-08 (slower dwell bands; pool membership) written; next: V06 §3.11-§3.21, §4
