@@ -1,3 +1,4 @@
 - step 1: driver started: every rewrite LANDED; the loop begins at assemble round 0
 - step 1: launched assemble round 0 as run wf_e4e72074-623 (2026-10-03 01:50 UTC)
 - step 1: assembled round 0: 9062 KB → 8227 KB; broken references 25; doc-check hits 0; unplaced 13
+- step 2: launched verify round 0 (full sweep) as runs wf_1040b9c6-b9b, wf_a5117cac-477, wf_ff39e5b0-7c5 (2026-10-03 02:15 UTC)

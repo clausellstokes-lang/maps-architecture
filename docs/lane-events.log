@@ -2028,3 +2028,9 @@
 2026-10-03 02:09 coherence/assemble-r0 CHECKPOINT P7 doc_checks U/N/C run (provisional corpus); S1 fixed in the live base (two pipes escaped in §11.1's 3-D row code span); next: review rows for C2 1, C4 1, S2 21, C3 385, re-run
 2026-10-03 02:10 coherence/assemble-r0 CHECKPOINT P7 doc_checks exit 0 (N2, C2, U2; provisional corpus): 408 reviewed allow rows appended (C3 385, S2 21, C2 1, C4 1); next: bundle
 2026-10-03 02:13 coherence/assemble-r0 LANDED docs/ARCHITECTURE.md docs/ARCHITECTURE-RATIONALE.md docs/volumes/V01-V12 docs/volumes/INDEX.md docs/ARCHITECTURE-FULL.md docs/validation/doc-checks-allow.tsv docs/validation/coherence/assemble-r0.md docs/validation/coherence/results/coherence_assemble-r0.json (base+volumes 9062 -> 8227 KB; 25 broken refs listed; doc checks exit 0, provisional)
+2026-10-03 02:15 coherence/verify-edges-world-r0 STARTED (cloud continuation; first edge check after the rewrite)
+2026-10-03 02:15 coherence/verify-vol-V09-V10-r0 STARTED (cloud continuation; verifier V09+V10)
+2026-10-03 02:15 coherence/verify-agree-time-r0 STARTED (cloud continuation; first check after the rewrite)
+2026-10-03 02:15 coherence/verify-edges-life-r0 STARTED (cloud continuation; first edge check after the rewrite; members determinism, scope, V06, V08, V09, V10, V11, V12)
+2026-10-03 02:15 coherence/verify-agree-proof-r0 STARTED (cloud continuation; first agreement check after the rewrite: proof and plan)
+2026-10-03 02:15 coherence/verify-scope-r0 STARTED docs/validation/coherence/verify-scope-r0s.md (cloud continuation; scope part verifier after assemble-r0; scratch scratchpad/coherence/vs0/)
