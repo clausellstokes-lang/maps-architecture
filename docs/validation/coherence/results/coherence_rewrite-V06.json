@@ -1,0 +1,38 @@
+{
+ "key": "coherence/rewrite-V06",
+ "dir": "docs/validation/coherence/new/volumes",
+ "old_kb": 650.1,
+ "new_kb": 565.0,
+ "facts_mapped": 502,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "46 f items cited as base text at their V06 sections, none restated: 202 206 209 226 244 245 246 252 254 260 263 264 265 266 268 270 274 275 290 291 293 317 318 319 321 322 335 336 339 342 343 347 370 388 409 429 443 458 478 479 550 568 573 574 575 581 (also cited where they govern: 207 296 346 408 436 447)",
+  "V06 §10 replaced by a pointer table: BCR-V6-1..28 -> items 317 321 254 429 209 206 264 342 343 443 458 388 275 339 409 550 335 336 293 265 266 478 479 260 290 291 573 574, each with its base section and this volume's side; the 5 588-word request texts removed",
+  "g item 113 (new design, V06's part): V06 §3.20 the history replay at generation (plan, coarse epochs within replay.maxEpochs 60, signed weeks before creation, event-to-epoch effect kinds, lazy detail, destruction/refounding/burial with V04's LOST state, HistoryRecord written once at the last coarse epoch's close, read-only past range), §2.14 ReplayPlan types, epoch keys 0x8000+r, §6.7 budget <=10/30/90 s, W83-W87, T-V6-70 and T-V6-72 (E9), E9 2.75-4.25 pw, J-V6.127-131 and J-V6.135; J-V6.4 superseded (V06-XCONF-1)",
+  "g item 111 (b) (new design, V06's part): V06 §3.12.1 failing springs and oases (drought years, over-draw, the dossier's oasis_water deposit, a hand flow held; gardens wither to commons and are re-taken; the quarters decline through the prosperity water term, no own term; drying), spring.* rows in §2.2, HazardRow drought, W82, T-V6-71 (E5), J-V6.132 and J-V6.134",
+  "elegance: E-01 (stretch-state rows cite §2.2 rule 5), E-02 (suppression kept apart from V05's island record; one lift rule, item 260), E-24 (J-V6.4 superseded by J-V6.127; J-V6.5 and J-V6.111 amended; reverse marks removed), E-39 (closure states kept apart; LOST cited at V04)",
+  "conflicts: V06-ICONF-1 (no-stretch repairWall a no-op with its line), V06-ICONF-2 (J-V6.92 reworded), V06-ICONF-3 (advance.stoppedAt?), V06-ICONF-4 (Open a copy from here), V06-XCONF-1 (item 113 written), V06-XCONF-2 (DR28/DR29), V06-AGREE-1 (info.remove.holds), CANON-C02 (a standalone neighbourhood document has no clock; bend line), CANON-C03 (Q1 answered: J122 (a) right after M4; 29-41.5 pw)",
+  "wiring: W-DOS-02 (wealth diff row read), W-DOS-09 (DR36-DR39), W-DOS-10d (DR33-DR35 by number), V06-WGAP-1a/1b (V06 end stated; V09/V10 rows noted), V06-WGAP-2 (X1-X49 each verified at its target; table removed; §13 none open)",
+  "edges: V06 §3.21 defines 110 mechanism edges (46 UNDEFINED, 64 UNTESTED) plus EI-V06-EDGE-1/-2, 42 owned combinations and the owner's two; tests T-V6-73 (a)-(q), T-V6-74 (a)-(f), T-V6-23 (h)-(i)",
+  "19 incoming hand-offs closed; 51 routed findings fixed; integration notes IN-V06-1..7 folded (rebaseStack and stack Works, reclearIsland, skyAccessObstacles, wing-relative storey re-match added to the body); references: every list element prefixed, 0 bare V06-only refs; words 106 357 -> 93 952 (-11.7 %; about -23 % before the mandated additions); doc_checks provisional C1 0 C2 0 C4 0 S1 0 (corpus absent)"
+ ],
+ "conflicts_resolved": 9,
+ "cross_notes": [
+  "pipeline §4.11 / model §2.8 (item 209). The landed base names `EvolveOp` in `ConversionOp`'s union and defers its members to V06 (model §2.8's cause comment; determinism §7.1 \"V06's EvolveOp\"); V06 §2.8 is the statement. If the base takes the members, V06 §2.8 becomes a citation.",
+  "model §2.7 (items 429, 335). `Use.strain?` and `Household.transit?` are stated at V06 §2.9 and V06 §2.1; model §2.7's `Use` and `Household` should declare them citing V06 (or carry them and V06 cites).",
+  "V09 and V10 (V06-WGAP-1a / 1b, X30, CANON-C02). V09's `bend.*` rows need the line \"a neighbourhood alone has no history yet — open it in its town to advance time\" and V10's bend category its clerk row, citing V06 §4.1.",
+  "V09 (V06-AGREE-1). A deck-plot variant row of `info.remove.holds` (\"No house will be built on this spot of the bridge\"); model §2.8 and determinism §7.1, which quote \"The city will not rebuild …\", should cite V09's key.",
+  "pipeline §4.11 (item 343). `EpochInputs` lacks `wealthLevel?` and `advance? { group, index, of, stoppedAt?, trajectory? }`; V06 §2.3 states them (V06-ICONF-3's `stoppedAt?` included).",
+  "V08 §3.5 (W-DOS-02). The settlement diff table's `wealth` row (`label` → `attr`, response `epoch`) feeding `EpochInputs.wealthLevel` through `tables/dossier/wealth` (DR6).",
+  "pipeline §4.11 (items 266, 336, 479, 264 (b), 206 (b)). The landed base still reads the epoch-spread mutation \"over the ladder's rung durations\", lacks tiers (5′) / (5″) and the two stage exceptions, keeps \"deciding whose households leave first\" in step (c), lacks `mutate`'s `step` field and the oxbow minted by `shiftCourse`; V06 §3.10, §3.6 / §3.8.2, §3.5.1 and §3.12 state V06's side.",
+  "model §2.7 (item 409 (c)). The naming feature `formerWall` (V06 §5.2) has no base row.",
+  "model §2.7's `Enceinte.underuseSince` comment names \"V11's `contract.occupiedShareMax`\"; the row is V06 §2.2's (`tables/evolution.json`, V11 registry row 60).",
+  "pipeline / model LandUse kinds. Pipeline writes `garden_irrigated` where model's `LandUse` kind is `garden` (V06 §3.12.1 reads `garden` with `fedBy`).",
+  "II.7.6 (item 113 (c)). `RaiseGrade.cause` needs `'burial'` for the replay's burial (V06 §3.20.5).",
+  "pipeline §4.11 *The clock*. Signed weeks before creation (the replay's coarse epochs) and the week-of-year by floor-mod.",
+  "V11 (item 113, item 111). The history cells V06 reads: `history.epochYears`, `.burialYears`, `.symbolicQuantile`, `.reuseCost`, `.replay`, a `history.defaultAgeYears` per rung, the burial factors (flood, silt, rebuild, rock), the event-to-epoch rows for SettlementForge's 29 history event types (effect kind and parameters), the citadel and hostel classes. (The `spring.*` rows are V06 §2.2's, in `tables/evolution.json`, V11's registry row 60.)",
+  "scope §16 / INDEX §4 (item 568). M6-E's price is 29–41.5 pw (E9 and the spring line added); §16's totals move by the same amount; scope §13's test range \"T-V6-1 – T-V6-69\" reads \"T-V6-1 – T-V6-74\".",
+  "V12. Register `bar.T-V6-71` (E5) and `bar.T-V6-72` (E9) and the `V6-E9` due; the `spring.*` register line at E5.",
+  "V08 (history reading). DR36 – DR39's inputs read by the port (the history events' types, years ago and severity; the peak; destruction and resettlement)."
+ ]
+}

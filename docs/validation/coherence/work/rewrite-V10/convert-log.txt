@@ -1,0 +1,750 @@
+OWN l51 §1b ctx='cratchpad/volumes/revise-v10/V10-pre-revision.md) — done\n- R1 §0, §1, §1b (wiring, do'
+OWN l54 §3.22 ctx=', request, prompt, tools, reads, oracle, providers) — done\n- R4 §3.10–§3.22 (critique r'
+OWN l74 §1b ctx='minors; one line per step: planned | done):\n- R3-1 every seam edit in §1b–§13 — done\n'
+INHERIT l74 V10 §13 ctx='rs; one line per step: planned | done):\n- R3-1 every seam edit in §1b–§13 — done\n- R3'
+OWN l80 §3.16 ctx="10-7, (c) `ClerkTranscript.key`, (e) T-V10-7 — done\n- R4-2 SR3-07 (d) §3.16's slot clau"
+OWN l86 §1b ctx=' only; one line per step: planned | done):\n- R2b-1 every seam edit in §1b–§13 and IN-'
+INHERIT l86 V10 §13 ctx='y; one line per step: planned | done):\n- R2b-1 every seam edit in §1b–§13 and IN-V10-'
+OWN l92 §1b ctx='– (d); one line per step: planned |\ndone):\n- R3b-1 every seam edit in §1b–§13 — done\n'
+INHERIT l92 V10 §13 ctx='); one line per step: planned |\ndone):\n- R3b-1 every seam edit in §1b–§13 — done\n- R3'
+OWN l97 §1b.1 ctx='– (c); one line per step: planned | done):\n- R4b-1 every seam edit in §1b.1, §2.6, §3.5'
+INHERIT l97 V10 §2.6 ctx='one line per step: planned | done):\n- R4b-1 every seam edit in §1b.1, §2.6, §3.5, §3.1'
+INHERIT l97 V10 §3.5 ctx='ne per step: planned | done):\n- R4b-1 every seam edit in §1b.1, §2.6, §3.5, §3.16, §5.'
+INHERIT l97 V10 §3.16 ctx=' step: planned | done):\n- R4b-1 every seam edit in §1b.1, §2.6, §3.5, §3.16, §5.4, T-V1'
+INHERIT l97 V10 §5.4 ctx='planned | done):\n- R4b-1 every seam edit in §1b.1, §2.6, §3.5, §3.16, §5.4, T-V10-4, J'
+INHERIT l241 V10 §4.1 ctx='ys and aqueducts, deck slots, stepped tiers and span uses (V10 §2.12, §4.1); the remov'
+INHERIT l278 V02 §4.6 ctx=' `ClerkMount.rebuildEvents(seq)` (V09 §2.10; V10 §4.3) |\n| V02 §3.16, §4.6, X17, X22 |'
+INHERIT l279 V06 §3.19 ctx="ions and the `massing` section's stack facts |\n| V06 §2.13 (W58–W60), §3.19 | `RaisedWa"
+INHERIT l282 V08 §4.4 ctx='owser and the Node command line — the only two (C10-19) |\n| V08 §3.1, §4.4, §5.4 | the'
+INHERIT l282 V08 §5.4 ctx='and the Node command line — the only two (C10-19) |\n| V08 §3.1, §4.4, §5.4 | the frame'
+INHERIT l283 V09 §2.9 ctx='st proposal card and the projection rows for its kinds) |\n| V09 §2.7, §2.9, §2.10, §3.'
+INHERIT l283 V09 §2.10 ctx='posal card and the projection rows for its kinds) |\n| V09 §2.7, §2.9, §2.10, §3.9, §4.5'
+INHERIT l283 V09 §3.9 ctx='ard and the projection rows for its kinds) |\n| V09 §2.7, §2.9, §2.10, §3.9, §4.5, §4.8'
+INHERIT l283 V09 §4.5 ctx='d the projection rows for its kinds) |\n| V09 §2.7, §2.9, §2.10, §3.9, §4.5, §4.8 | the'
+INHERIT l283 V09 §4.8 ctx='projection rows for its kinds) |\n| V09 §2.7, §2.9, §2.10, §3.9, §4.5, §4.8 | the why c'
+INHERIT l284 V11 §3.3.1 ctx="-23), which lowers the clerk's effective key (V10 §2.3) |\n| V11 §2.4, §3.3.1, §3.11, §4."
+INHERIT l284 V11 §3.11 ctx="ich lowers the clerk's effective key (V10 §2.3) |\n| V11 §2.4, §3.3.1, §3.11, §4.2, §4.5"
+INHERIT l284 V11 §4.2 ctx="ers the clerk's effective key (V10 §2.3) |\n| V11 §2.4, §3.3.1, §3.11, §4.2, §4.5 | the"
+INHERIT l284 V11 §4.5 ctx="e clerk's effective key (V10 §2.3) |\n| V11 §2.4, §3.3.1, §3.11, §4.2, §4.5 | the deriv"
+INHERIT l285 V04 §3.5 ctx='red` and `siting.linkEdits`; `explainRow` and `profile` |\n| V04 §2.2, §3.5, §3.5.7, §4'
+INHERIT l285 V04 §3.5.7 ctx='nd `siting.linkEdits`; `explainRow` and `profile` |\n| V04 §2.2, §3.5, §3.5.7, §4.5, §5.2'
+INHERIT l285 V04 §4.5 ctx='ng.linkEdits`; `explainRow` and `profile` |\n| V04 §2.2, §3.5, §3.5.7, §4.5, §5.2 | `Ru'
+INHERIT l285 V04 §5.2 ctx='kEdits`; `explainRow` and `profile` |\n| V04 §2.2, §3.5, §3.5.7, §4.5, §5.2 | `RuinReco'
+INHERIT l286 V03 §3.7.4 ctx='lement — read, never written, by V10 §3.9a |\n| V02 §3.14.5, V03 §2.1, §3.7.4 | `Basement'
+INHERIT l287 V05 §4.5 ctx="ised and rim forms — read by V10 §3.9a's crypt section |\n| V05 §3.20, §4.5 | the dayli"
+INHERIT l288 V06 §2.11 ctx='skyRoute`, the landing a cross-arena pull goes through |\n| V06 §2.10, §2.11, §3.15, §4.'
+INHERIT l288 V06 §3.15 ctx='e`, the landing a cross-arena pull goes through |\n| V06 §2.10, §2.11, §3.15, §4.5 | `Ch'
+INHERIT l288 V06 §4.5 ctx=' landing a cross-arena pull goes through |\n| V06 §2.10, §2.11, §3.15, §4.5 | `Chronicl'
+INHERIT l289 V07 §2.7 ctx='`, `frame` and `history` reads and `FieldDrivers.since` |\n| V07 §2.1, §2.7, §4.5 | `La'
+INHERIT l289 V07 §4.5 ctx='ame` and `history` reads and `FieldDrivers.since` |\n| V07 §2.1, §2.7, §4.5 | `LadderRo'
+INHERIT l290 V06 §4.5 ctx='ms |\n| V01 §4.5, V02 §4.5, V03 §4.6, V04 §4.5, V05 §4.5, V06 §4.1 and §4.5, V07 §4.5 |'
+INHERIT l298 V08 §5.4 ctx=', rights and the projection of its reads to words — is V08 §4.4 and\n  §5.4; here only '
+INHERIT l342 V06 §11.2 ctx='ered | `read_map frame` ("what stood here in year N?") | V06 §3.15.2, §11.2 |\n| `RuleAn'
+INHERIT l343 V11 §11.2 ctx=" `read_map profile`; the grader's family words (V10 §7.3) | V11 §4.5, §11.2 |\n| the `ch"
+INHERIT l353 V10 §7.3 ctx="wn-city fixture's scripted transcript and evaluation case (V10 §3.15, §7.3) | authored"
+INHERIT l366 V09 §4.9 ctx=" (J-V10.100); T-V10-29, T-V10-44 | V09's message catalogue (V09 §2.9, §4.9's table of "
+INHERIT l381 V10 §3.17 ctx='posal intake (`proposals`) and `clerk.proposal` (`answer`) (V10 §2.6, §3.17; SR-07) |\n|'
+INHERIT l390 V10 §4.3 ctx="o calls (V09 §4.20.3 (4)) | the harness's `rebuild` action (V10 §2.6, §4.3); T-V10-44 "
+INHERIT l392 V09 §4.11 ctx="nd `rerun` (`rerunFrom`) to the application's own handlers (V09 §3.9, §4.11) | every `a"
+INHERIT l393 V10 §3.12 ctx=" read and dry run, at the effective key in V10 §2.3's form (V10 §2.3, §3.12) |\n| `Spati"
+INHERIT l439 V04 §3.5.2 ctx='ving institutions, the mining deposits (DR1, DR19, DR24; V04 §3.5.0a, §3.5.2) | the `und'
+INHERIT l694 V10 §3.11 ctx='.1 (4)); `accept`, `acceptLines`, `retry` and `drop` are V10 §4.2 and §3.11; `focus(pro'
+INHERIT l733 V10 §3.19 ctx=" transport's `expiresAt` and on an authentication failure (V10 §3.17,\n§3.19); `refused("
+INHERIT l1132 V11 §2.4 ctx=" pair's reason, a class row's note, a supply edge's good (V11 §3.3.1, §2.4) */;\n  shar"
+INHERIT l1237 V09 §4.11 ctx=' map from this** sent the message\n   with `attach.newMap` (V09 §2.10, §4.11; standalone'
+INHERIT l1239 V09 §4.11 ctx=' the empty-state town, and\n   no turn enters creation mode (V09 §3.9, §4.11; XV-V9-22 ('
+INHERIT l1300 V10 §3.12 ctx="; a change of the session's effective knowledge key\n(`key`, V10 §2.3, §3.12); a change "
+OWN l1336 §3.16 ctx='dossier]]`; the card offers what the map can do (V10 §3.13\n   step 4, §3.16). With a\n  '
+OWN l1540 §3.16 ctx="ther building as V09 §4.17.4's **Use another building** group (V10\n   §3.16, *The dry r"
+INHERIT l1735 V02 §4.6 ctx='g`, `wings/<key>`, `composition`; section `massing` | V02 | V02 §4.5, §4.6 (6); CVR-V1'
+INHERIT l1893 V09 §4.17.5 ctx=" run's bend `bend.crypt.cathedral` or `bend.crypt.largest` (V09 §4.9, §4.17.5 (e); SS-18)"
+INHERIT l2304 V08 §4.4 ctx="eads the stored party gazetteer on SettlementForge's side (V08 §3.14, §4.4 (1);\nSR2-05"
+INHERIT l3023 V10 §3.12 ctx="r the role's key, because every clerk read passes that key (V10 §2.3, §3.12), a rename "
+INHERIT l3029 V09 §4.9 ctx="cause the canvas's button opens a card and changes nothing (V09 §3.3, §4.9; J-V9.44), "
+INHERIT l3029 V09 §5.9 ctx='.44), the application owns the why card and the Help pages (V09 §5.8, §5.9), the `role'
+INHERIT l3030 V10 §3.13 ctx='d `undo` and `rebuild` now also reach the reply as blocks (V10 §3.14, §3.13 step 4), so'
+INHERIT l3349 V09 §4.11 ctx="V05's and V07's parts open |\n| CVR-V10-15 | V09 | **Met** (V09 §2.10, §4.11, `LinkRow`,"
+CHECK-BASE l3444 §4.20 ctx="S2 164 pointers, each\n  this volume's own section (`V10 §n`) or V09's §4.20. The study-"
+INHERIT l3447 V10 §2.15 ctx='ces-r0.md` (§0–§3, SS-01 – SS-27 with their required changes); V10 §0–§2.15,\n  §3.1–§3.'
+INHERIT l3448 V10 §3.1 ctx='` (§0–§3, SS-01 – SS-27 with their required changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10'
+INHERIT l3448 V10 §3.4 ctx='–§3, SS-01 – SS-27 with their required changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.1'
+INHERIT l3448 V10 §3.10 ctx='S-01 – SS-27 with their required changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.1'
+INHERIT l3448 V10 §3.13 ctx=' SS-27 with their required changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.'
+INHERIT l3448 V10 §3.16 ctx='with their required changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.2'
+INHERIT l3448 V10 §3.20 ctx='eir required changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.22, §4, '
+INHERIT l3448 V10 §3.22 ctx='quired changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.22, §4, §5, §7'
+INHERIT l3448 V10 §4 ctx='changes); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.22, §4, §5, §7.1, '
+INHERIT l3448 V10 §5 ctx="ges); V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.22, §4, §5, §7.1, §9's"
+INHERIT l3448 V10 §7.1 ctx="; V10 §0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.22, §4, §5, §7.1, §9's rows,"
+INHERIT l3448 V10 §9 ctx="§0–§2.15,\n  §3.1–§3.4, §3.10–§3.13, §3.16, §3.20–§3.22, §4, §5, §7.1, §9's rows, §10"
+INHERIT l3449 V09 §3.7 ctx="d its integration notes (md5 e5edacf6… before this round); V09 §2.10, §3.7, §4.5's T6 "
+INHERIT l3449 V09 §4.5 ctx="integration notes (md5 e5edacf6… before this round); V09 §2.10, §3.7, §4.5's T6 and T7"
+CHECK-BASE l3459 §4.17.3 ctx="erdict and the defect members), §4.11's\n  cards and card-only drawer, §4.17.3's cause tab"
+CHECK-BASE l3459 §4.20.3 ctx="17.3's cause table, §4.9's `info.under.*` and `info.catacomb.*` rows, §4.20.3 (4),\n  §4.2"
+CHECK-BASE l3460 §4.20.4 ctx="ble, §4.9's `info.under.*` and `info.catacomb.*` rows, §4.20.3 (4),\n  §4.20.4, BCR-V9-27'"
+INHERIT l3471 V10 §2.3 ctx="SR2-19 with their required changes, §5's J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2"
+INHERIT l3472 V10 §2.6 ctx="ith their required changes, §5's J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9"
+INHERIT l3472 V10 §2.7 ctx="eir required changes, §5's J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.1"
+INHERIT l3472 V10 §2.9 ctx="quired changes, §5's J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3."
+INHERIT l3472 V10 §2.14 ctx=" changes, §5's J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.1"
+INHERIT l3472 V10 §3.1 ctx="s, §5's J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3."
+INHERIT l3472 V10 §3.12 ctx='s J-SS2.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3'
+INHERIT l3472 V10 §3.15 ctx='.1 – J-SS2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3.17, §4'
+INHERIT l3472 V10 §3.17 ctx='S2.6); V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3.17, §4.1 – §4.'
+INHERIT l3472 V10 §4.1 ctx='V10 §1b, §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3.17, §4.1 – §4.3, §5.'
+INHERIT l3472 V10 §4.3 ctx=', §2.3,\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3.17, §4.1 – §4.3, §5.3, §7.1'
+INHERIT l3472 V10 §5.3 ctx=",\n  §2.6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3.17, §4.1 – §4.3, §5.3, §7.1's T-V"
+INHERIT l3472 V10 §7.1 ctx=".6, §2.7, §2.9, §2.14, §3.1, §3.12, §3.15 – §3.17, §4.1 – §4.3, §5.3, §7.1's T-V10-4, "
+INHERIT l3476 V08 §4.4 ctx='.roster.dossier`\n  row, T-V9-13 and XV-V9-19 (a) – (d); V08 §3.14 and §4.4 (1) (a play'
+INHERIT l3486 V10 §2.6 ctx="andle.send`'s\n  `attach.newMap` as this volume cites them (V10 §1b.2, §2.6, §3.1 (4), "
+INHERIT l3486 V10 §3.1 ctx="send`'s\n  `attach.newMap` as this volume cites them (V10 §1b.2, §2.6, §3.1 (4), §4.3):"
+INHERIT l3486 V10 §4.3 ctx='`attach.newMap` as this volume cites them (V10 §1b.2, §2.6, §3.1 (4), §4.3): V09 §2.10'
+OWN l3491 §3.16 ctx="uired changes, §5's J-SS3.1 – J-SS3.5); V10 §2.3's\n  key order, §2.7, §3.16, T-V10-7, J"
+CHECK-BASE l3493 §4.20.8 ctx="Map`),\n  §4.3's `delete` row with T10, §4.11's **What else changes**, §4.20.8 (5), BCR-V9"
+OWN l3495 §3.16 ctx="V09 §4.9's `refuse.roster.dossier` row with its slots (SR3-04), which §3.16 now cites.\n"
+INHERIT l3505 V10 §2.6 ctx="d\n  changes; this volume's SS-28, SS-33, SS-36 and SS-37); V10 §1b.1, §2.6, §2.9, §2.1"
+INHERIT l3505 V10 §2.9 ctx="anges; this volume's SS-28, SS-33, SS-36 and SS-37); V10 §1b.1, §2.6, §2.9, §2.10, §3."
+INHERIT l3505 V10 §2.10 ctx=" this volume's SS-28, SS-33, SS-36 and SS-37); V10 §1b.1, §2.6, §2.9, §2.10, §3.1, §3.3"
+INHERIT l3505 V10 §3.1 ctx="olume's SS-28, SS-33, SS-36 and SS-37); V10 §1b.1, §2.6, §2.9, §2.10, §3.1, §3.3's rul"
+INHERIT l3505 V10 §3.3 ctx="s SS-28, SS-33, SS-36 and SS-37); V10 §1b.1, §2.6, §2.9, §2.10, §3.1, §3.3's rules,\n  "
+OWN l3506 §3.13 ctx="and SS-37); V10 §1b.1, §2.6, §2.9, §2.10, §3.1, §3.3's rules,\n  §3.5, §3.13, §3.16, §4."
+INHERIT l3506 V10 §3.16 ctx="37); V10 §1b.1, §2.6, §2.9, §2.10, §3.1, §3.3's rules,\n  §3.5, §3.13, §3.16, §4.1's T2 "
+INHERIT l3506 V10 §4.1 ctx="0 §1b.1, §2.6, §2.9, §2.10, §3.1, §3.3's rules,\n  §3.5, §3.13, §3.16, §4.1's T2 rows, "
+INHERIT l3517 V10 §3.13 ctx='ry phrase "and the rest of") and S2 282 → 295 (pointers to V10 §2.10, §3.13 and\n  §3.16'
+INHERIT l3518 V10 §3.16 ctx='nd the rest of") and S2 282 → 295 (pointers to V10 §2.10, §3.13 and\n  §3.16 and to V09\''
+INHERIT l3521 V10 §2.12 ctx="\n  SR-36 with their required changes, J-SS1.4 – J-SS1.10); V10 §1b.1, §2.12, §2.13's `M"
+INHERIT l3521 V10 §2.13 ctx="6 with their required changes, J-SS1.4 – J-SS1.10); V10 §1b.1, §2.12, §2.13's `MapBrief"
+OWN l3521 §2.14 ctx="d changes, J-SS1.4 – J-SS1.10); V10 §1b.1, §2.12, §2.13's `MapBrief`, §2.14, §3.3's\n  r"
+INHERIT l3521 V10 §3.3 ctx="es, J-SS1.4 – J-SS1.10); V10 §1b.1, §2.12, §2.13's `MapBrief`, §2.14, §3.3's\n  rule 5 "
+OWN l3522 §3.16 ctx="§2.13's `MapBrief`, §2.14, §3.3's\n  rule 5 and map block, §3.4, §3.6, §3.16, §3.17's pr"
+INHERIT l3522 V10 §3.17 ctx=" `MapBrief`, §2.14, §3.3's\n  rule 5 and map block, §3.4, §3.6, §3.16, §3.17's projectio"
+INHERIT l3550 V10 §2.6 ctx=", its disposition, pairs\n  and order, J-SS2.7 – J-SS2.12); V10 §1b.1, §2.6's `ClerkAct"
+OWN l3550 §2.12 ctx="rs\n  and order, J-SS2.7 – J-SS2.12); V10 §1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3."
+INHERIT l3550 V10 §2.13 ctx="d order, J-SS2.7 – J-SS2.12); V10 §1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5"
+INHERIT l3550 V10 §3.4 ctx=", J-SS2.7 – J-SS2.12); V10 §1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.1"
+INHERIT l3550 V10 §3.5 ctx="2.7 – J-SS2.12); V10 §1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.16, §4."
+INHERIT l3550 V10 §3.16 ctx="J-SS2.12); V10 §1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.16, §4.1,\n  §4"
+INHERIT l3550 V10 §4.1 ctx="2); V10 §1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.16, §4.1,\n  §4.2, §4"
+INHERIT l3551 V10 §4.2 ctx="§1b.1, §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.16, §4.1,\n  §4.2, §4.5, §6.1"
+INHERIT l3551 V10 §4.5 ctx=" §2.6's `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.16, §4.1,\n  §4.2, §4.5, §6.1's row"
+INHERIT l3551 V10 §6.1 ctx="s `ClerkAction`, §2.12, §2.13, §3.4, §3.5, §3.16, §4.1,\n  §4.2, §4.5, §6.1's rows, T-V"
+INHERIT l3566 V10 §2.6 ctx='3-10 – SR3-15, their pairs and order, J-SS3.6 – J-SS3.11); V10 §1b.1, §2.6 (`ClerkActi'
+OWN l3567 §3.16 ctx='); V10 §1b.1, §2.6 (`ClerkAction`, the\n  dispatch table), §2.9, §3.5, §3.16 (its openin'
+OWN l3580 §2.10 ctx="4…`, unchanged since\n  the seam read it), V09 §2.3's `ToolRow.label`, §2.10's `ClerkMou"
+OWN l3581 §3.12 ctx="entence,\n  §3.9's **Open a copy from here** and **Re-run from here**, §3.12's **Fix**, "
+CHECK-BASE l3582 §5.8 ctx="on, its table of volume 10's families, §4.10's controls, §4.11 whole, §5.8, §5.9,\n  §5"
+CHECK-BASE l3582 §5.9 ctx="s table of volume 10's families, §4.10's controls, §4.11 whole, §5.8, §5.9,\n  §5.15's "
+CHECK-BASE l3583 §5.15 ctx="of volume 10's families, §4.10's controls, §4.11 whole, §5.8, §5.9,\n  §5.15's guide-pag"
+INHERIT l3586 V10 §3.16 ctx=' the `why` kind, the labels and the `clerk.alt.*` family\n  (V10 §2.6, §3.16, §5.4), the'
+INHERIT l3586 V10 §5.4 ctx='hy` kind, the labels and the `clerk.alt.*` family\n  (V10 §2.6, §3.16, §5.4), the actio'
+OWN l3591 §2.10 ctx=") and S2 331 → 424 (ninety-three more pointers to\n  this volume's own §2.10 and §3.11 –"
+INHERIT l3591 V10 §3.11 ctx="31 → 424 (ninety-three more pointers to\n  this volume's own §2.10 and §3.11 – §3.16 and"
+INHERIT l3591 V10 §3.16 ctx=" (ninety-three more pointers to\n  this volume's own §2.10 and §3.11 – §3.16 and to V09 "
+INHERIT l3591 V09 §5.8 ctx="ters to\n  this volume's own §2.10 and §3.11 – §3.16 and to V09 §2.10, §5.8, §5.9 and §"
+INHERIT l3591 V09 §5.9 ctx="o\n  this volume's own §2.10 and §3.11 – §3.16 and to V09 §2.10, §5.8, §5.9 and §5.15, "
+INHERIT l3591 V09 §5.15 ctx="volume's own §2.10 and §3.11 – §3.16 and to V09 §2.10, §5.8, §5.9 and §5.15, which reso"
+OWN l3596 §3.16 ctx="'s *Mode ids* and §4.9's button lists, to which V10\n  §3.5 step 3 and §3.16 were aligne"
+CHECK-BASE l3597 §5.10 ctx=" and its handles, §4.9's rows with buttons, §4.11's `useTool` bullet, §5.10's\n  Picture"
+OWN l3605 §2.10 ctx="es) and S2\n  424 → 455 (thirty-one more pointers to this volume's own §2.10, §3.11 – §3"
+INHERIT l3605 V10 §3.11 ctx=" S2\n  424 → 455 (thirty-one more pointers to this volume's own §2.10, §3.11 – §3.17 and"
+INHERIT l3605 V10 §3.17 ctx="4 → 455 (thirty-one more pointers to this volume's own §2.10, §3.11 – §3.17 and to V09 "
+INHERIT l3605 V09 §4.5 ctx="e pointers to this volume's own §2.10, §3.11 – §3.17 and to V09 §2.9, §4.5 and §5.10, "
+INHERIT l3605 V09 §5.10 ctx="s to this volume's own §2.10, §3.11 – §3.17 and to V09 §2.9, §4.5 and §5.10, which\n  re"
+OWN l3633 §3.16 ctx='met on that live text; the lane had not landed) — V10 §3.5 step 3 and §3.16 are aligned'
+INHERIT l3652 V09 §2.6 ctx=' (one name for the family-weights cell); both are now met (V09 §2.10,\n§2.6, §4.11), so'
+INHERIT l3652 V09 §4.11 ctx='name for the family-weights cell); both are now met (V09 §2.10,\n§2.6, §4.11), so no int'
+OWN l3711 §3.16 ctx='t lane in flight), marked **Met** in its row, and V10 §3.5 step 3 and §3.16 are aligned'
+OWN l3746 §1b.2 ctx='`rerun` (`rerunFrom`); `run` rejects any other kind; T-V10-44 | §2.6, §1b.2, §1.2, J-V1'
+INHERIT l3746 V10 §1.2 ctx=' (`rerunFrom`); `run` rejects any other kind; T-V10-44 | §2.6, §1b.2, §1.2, J-V10.82, '
+OWN l3747 §1b.1 ctx='oses the segment; T-V10-6 and T-V10-24 gain the View as cases | §2.3, §1b.1, §3.2, §3.1'
+INHERIT l3747 V10 §3.2 ctx='e segment; T-V10-6 and T-V10-24 gain the View as cases | §2.3, §1b.1, §3.2, §3.12 (1),'
+INHERIT l3747 V10 §3.12 ctx='ent; T-V10-6 and T-V10-24 gain the View as cases | §2.3, §1b.1, §3.2, §3.12 (1), (4), ('
+OWN l3748 §1b.3 ctx="f the user's own going on a plot as the refusal's alternative | §4.1, §1b.3, §3.3 rule "
+INHERIT l3748 V10 §3.3 ctx="ser's own going on a plot as the refusal's alternative | §4.1, §1b.3, §3.3 rule 6, §3."
+OWN l3748 §3.13 ctx="ng on a plot as the refusal's alternative | §4.1, §1b.3, §3.3 rule 6, §3.13, §3.16, T-V"
+INHERIT l3748 V10 §3.16 ctx=" plot as the refusal's alternative | §4.1, §1b.3, §3.3 rule 6, §3.13, §3.16, T-V10-4, T"
+OWN l3749 §2.12 ctx='hold` description and prompt rule 5 no longer offer a layer re-roll | §2.12, §3.3, §3.4'
+INHERIT l3749 V10 §3.3 ctx='escription and prompt rule 5 no longer offer a layer re-roll | §2.12, §3.3, §3.4, §4.1'
+INHERIT l3749 V10 §3.4 ctx='tion and prompt rule 5 no longer offer a layer re-roll | §2.12, §3.3, §3.4, §4.1, T-V1'
+INHERIT l3749 V10 §4.1 ctx='nd prompt rule 5 no longer offer a layer re-roll | §2.12, §3.3, §3.4, §4.1, T-V10-1, J'
+OWN l3750 §3.16 ctx='usal category is used; integration note IN-V10-1 corrected to match | §3.16, IN-V10-1, '
+OWN l3753 §2.13 ctx="nor | `MapBrief.walls[].open[].barrier` typed as J-VI.3's six kinds | §2.13 |\n| SS-21 |"
+OWN l3754 §2.13 ctx="ulnerable` and an optional `entrepot` end, cited by V09's `LinkRow` | §2.13, CVR-V10-15"
+OWN l3755 §3.16 ctx='ript export; "clerk" stays the internal name | §0, §3.1, §3.3, §3.11, §3.16, §3.19, §3.'
+INHERIT l3755 V10 §3.19 ctx='port; "clerk" stays the internal name | §0, §3.1, §3.3, §3.11, §3.16, §3.19, §3.20, §5.'
+INHERIT l3755 V10 §3.20 ctx='clerk" stays the internal name | §0, §3.1, §3.3, §3.11, §3.16, §3.19, §3.20, §5.3, §5.4'
+INHERIT l3755 V10 §5.3 ctx='stays the internal name | §0, §3.1, §3.3, §3.11, §3.16, §3.19, §3.20, §5.3, §5.4, J-V1'
+INHERIT l3755 V10 §5.4 ctx='the internal name | §0, §3.1, §3.3, §3.11, §3.16, §3.19, §3.20, §5.3, §5.4, J-V10.86 |'
+OWN l3758 §2.12 ctx='orm gains `weights`, encoded into the same `siting.declared` upsert | §2.12, §4.1, T-V1'
+INHERIT l3758 V10 §4.1 ctx='ns `weights`, encoded into the same `siting.declared` upsert | §2.12, §4.1, T-V10-4, T'
+OWN l3776 §3.17 ctx="ery.result { error: 'E_HOST_KIND' }`, a new error form of that reply; §3.17's door-1 pa"
+OWN l3776 §1b.1 ctx=", a new error form of that reply; §3.17's door-1 paragraph and table, §1b.1's row and T"
+OWN l3776 §3.17 ctx=' row and T-V10-20 follow; CVR-V10-3 marked met | §10.1 BCR-V10-7 (c), §3.17, §1b.1, T-V'
+INHERIT l3776 V10 §1b.1 ctx='d T-V10-20 follow; CVR-V10-3 marked met | §10.1 BCR-V10-7 (c), §3.17, §1b.1, T-V10-20, '
+OWN l3777 §1b.2 ctx="gin')`, `proposals` for the intake and `answer` for `clerk.proposal`; §1b.2 gains the m"
+OWN l3777 §1b.1 ctx="nswer` for `clerk.proposal`; §1b.2 gains the mount's row | §1.1 (10), §1b.1, §1b.2, §2."
+INHERIT l3777 V10 §1b.2 ctx="for `clerk.proposal`; §1b.2 gains the mount's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6"
+INHERIT l3777 V10 §2.2 ctx="erk.proposal`; §1b.2 gains the mount's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.1"
+INHERIT l3777 V10 §2.6 ctx="oposal`; §1b.2 gains the mount's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.11, §2."
+INHERIT l3777 V10 §2.11 ctx="`; §1b.2 gains the mount's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.11, §2.14, §3."
+INHERIT l3777 V10 §2.14 ctx="2 gains the mount's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.11, §2.14, §3.17, §3."
+INHERIT l3777 V10 §3.17 ctx=" the mount's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.11, §2.14, §3.17, §3.18, §3."
+INHERIT l3777 V10 §3.18 ctx="unt's row | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.11, §2.14, §3.17, §3.18, §3.19, T-V"
+INHERIT l3777 V10 §3.19 ctx='ow | §1.1 (10), §1b.1, §1b.2, §2.2, §2.6, §2.11, §2.14, §3.17, §3.18, §3.19, T-V10-20, '
+OWN l3778 §3.17 ctx='ted; §4.3 names the view field and each `delete` of the group | §2.6, §3.17, §4.3, §5.4'
+INHERIT l3778 V10 §4.3 ctx='.3 names the view field and each `delete` of the group | §2.6, §3.17, §4.3, §5.4, §1b.'
+INHERIT l3778 V10 §5.4 ctx='es the view field and each `delete` of the group | §2.6, §3.17, §4.3, §5.4, §1b.1, §2.'
+INHERIT l3778 V10 §1b.1 ctx=' view field and each `delete` of the group | §2.6, §3.17, §4.3, §5.4, §1b.1, §2.14, T-V'
+INHERIT l3778 V10 §2.14 ctx='ield and each `delete` of the group | §2.6, §3.17, §4.3, §5.4, §1b.1, §2.14, T-V10-44 |'
+OWN l3779 §3.9a ctx='der.deep`; the stagnant state cites `info.catacomb.blocked.<cause>` | §3.9a |\n| SR-18 |'
+OWN l3780 §1b.1 ctx="Mount.effectiveKey()` without restating V09's definition, in §2.3 and §1b.1; §4.1's `si"
+OWN l3780 §1b.1 ctx=' key (BCR-V10-22 rewritten; T-V10-6 gains the party-key case) | §2.3, §1b.1, §1b.2, §3.'
+INHERIT l3780 V10 §1b.2 ctx='CR-V10-22 rewritten; T-V10-6 gains the party-key case) | §2.3, §1b.1, §1b.2, §3.12 (1),'
+INHERIT l3780 V10 §3.12 ctx='22 rewritten; T-V10-6 gains the party-key case) | §2.3, §1b.1, §1b.2, §3.12 (1), (4), §'
+OWN l3782 §2.13 ctx='ry[].change` gains `source?` (`DossierChange.source`, §7.7 item 13) | §2.13 |\n| SR-21 |'
+OWN l3784 §1b.1 ctx="erived); `info.raised.carried` unchanged; the map block's rule 16 and §1b.1 read it | §"
+OWN l3784 §2.13 ctx="aised.carried` unchanged; the map block's rule 16 and §1b.1 read it | §2.13, §1b.1, §3."
+INHERIT l3784 V10 §1b.1 ctx="arried` unchanged; the map block's rule 16 and §1b.1 read it | §2.13, §1b.1, §3.3 rule "
+INHERIT l3784 V10 §3.3 ctx=" unchanged; the map block's rule 16 and §1b.1 read it | §2.13, §1b.1, §3.3 rule 16 |\n\n"
+INHERIT l3802 V08 §4.4 ctx="eads the stored party gazetteer on SettlementForge's side (V08 §3.14, §4.4 (1)) | §3.1"
+OWN l3802 §3.17 ctx="red party gazetteer on SettlementForge's side (V08 §3.14, §4.4 (1)) | §3.17 |\n| SR2-08 "
+OWN l3803 §3.12 ctx='oth) and read by the listing and opening of stored transcripts and by §3.12 (6), where '
+OWN l3803 §2.14 ctx=' the form-to-form lowering, T-V10-34 the version-2 case | §2.3, §2.7, §2.14, §1b.1, §3.'
+INHERIT l3803 V10 §1b.1 ctx='rm-to-form lowering, T-V10-34 the version-2 case | §2.3, §2.7, §2.14, §1b.1, §3.12 (6),'
+INHERIT l3803 V10 §3.12 ctx='orm lowering, T-V10-34 the version-2 case | §2.3, §2.7, §2.14, §1b.1, §3.12 (6), (8), §'
+OWN l3803 §3.15 ctx='V10-34 the version-2 case | §2.3, §2.7, §2.14, §1b.1, §3.12 (6), (8), §3.15, §3.20, §5.'
+INHERIT l3803 V10 §3.20 ctx='the version-2 case | §2.3, §2.7, §2.14, §1b.1, §3.12 (6), (8), §3.15, §3.20, §5.3, T-V1'
+INHERIT l3803 V10 §5.3 ctx='sion-2 case | §2.3, §2.7, §2.14, §1b.1, §3.12 (6), (8), §3.15, §3.20, §5.3, T-V10-6, T'
+OWN l3804 §3.16 ctx="free of hard fails; a line with no locus omits `near` and `district`; §3.16's row cites"
+OWN l3804 §3.16 ctx="T-V9-13's **Put it at {site}**, T-V10-7 the no-candidate case | §4.1, §3.16, T-V10-4, T"
+OWN l3805 §1b.1 ctx="09's words or the settlement's name; `ClerkRefusal.msg`'s comment and §1b.1's `ClerkRef"
+OWN l3805 §3.16 ctx="kRefusal.msg`'s comment and §1b.1's `ClerkRefusal` row list the key | §3.16, §2.9, §1b."
+INHERIT l3805 V10 §2.9 ctx="l.msg`'s comment and §1b.1's `ClerkRefusal` row list the key | §3.16, §2.9, §1b.1, T-V"
+INHERIT l3805 V10 §1b.1 ctx="'s comment and §1b.1's `ClerkRefusal` row list the key | §3.16, §2.9, §1b.1, T-V10-7, J"
+OWN l3806 §1b.2 ctx="y (V09 §2.7); (c) §4.3, §2.6's `rebuild` comment and dispatch row and §1b.2 cite `Clerk"
+OWN l3806 §1b.2 ctx='nd dispatch row and §1b.2 cite `ClerkMount.rebuildEvents(seq)` (a new §1b.2 row names i'
+OWN l3806 §1b.2 ctx='econd-round bullet moved to CONFIRMED | §2.6, §10.1 BCR-V10-22, §4.3, §1b.2, §1.2, §3.1'
+INHERIT l3806 V10 §1.2 ctx='ound bullet moved to CONFIRMED | §2.6, §10.1 BCR-V10-22, §4.3, §1b.2, §1.2, §3.1, §10.'
+INHERIT l3806 V10 §3.1 ctx='ullet moved to CONFIRMED | §2.6, §10.1 BCR-V10-22, §4.3, §1b.2, §1.2, §3.1, §10.2, §12'
+INHERIT l3806 V10 §10.2 ctx='moved to CONFIRMED | §2.6, §10.1 BCR-V10-22, §4.3, §1b.2, §1.2, §3.1, §10.2, §12, T-V10'
+INHERIT l3806 V10 §12 ctx='o CONFIRMED | §2.6, §10.1 BCR-V10-22, §4.3, §1b.2, §1.2, §3.1, §10.2, §12, T-V10-38, '
+OWN l3826 §3.16 ctx="V10 §2.3's key order is stated over that form, never a bare tier; (d) §3.16's `dossier`"
+OWN l3826 §3.16 ctx='ing without `near` and `district` | §12, §10.2 CVR-V10-7, §2.7, §2.3, §3.16, T-V10-7 |\n'
+OWN l3855 §3.16 ctx='gine code has a second English sentence in `clerk.content.refusals` | §3.16, §3.5, §3.3'
+INHERIT l3855 V10 §3.5 ctx='de has a second English sentence in `clerk.content.refusals` | §3.16, §3.5, §3.3 rule '
+INHERIT l3855 V10 §3.3 ctx=' a second English sentence in `clerk.content.refusals` | §3.16, §3.5, §3.3 rule 10, §2'
+OWN l3855 §2.10 ctx='ntence in `clerk.content.refusals` | §3.16, §3.5, §3.3 rule 10, §2.9, §2.10, §1b.1, T-V'
+INHERIT l3855 V10 §1b.1 ctx='in `clerk.content.refusals` | §3.16, §3.5, §3.3 rule 10, §2.9, §2.10, §1b.1, T-V10-29, '
+OWN l3857 §3.16 ctx='4 |\n| SS-33 | minor | "Dig a well at {terminal} instead" dropped from §3.16\'s bends and'
+OWN l3857 §3.16 ctx='sult — the well itself — is cited to V09 §4.20.2 (5) and J-VI.4 (h) | §3.16, IN-V10-1 |'
+OWN l3884 §2.13 ctx="; `'carried'` survives only as `RaisedOutcome`'s outcome, unchanged | §2.13 (no edit) |"
+OWN l3885 §2.12 ctx=' for byte; T-V10-8 checks `brief.salts` against `DisplayList.salts` | §2.12, §2.13, §1b'
+INHERIT l3885 V10 §2.13 ctx='te; T-V10-8 checks `brief.salts` against `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.'
+INHERIT l3885 V10 §1b.1 ctx='10-8 checks `brief.salts` against `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4'
+INHERIT l3885 V10 §3.3 ctx='ecks `brief.salts` against `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4, §3.1'
+INHERIT l3885 V10 §3.4 ctx='brief.salts` against `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4, §3.17, §4.'
+INHERIT l3885 V10 §3.17 ctx='salts` against `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4, §3.17, §4.1, §4.5'
+INHERIT l3885 V10 §4.1 ctx='against `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4, §3.17, §4.1, §4.5, §6.1'
+INHERIT l3885 V10 §4.5 ctx='t `DisplayList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4, §3.17, §4.1, §4.5, §6.1, T-V1'
+INHERIT l3885 V10 §6.1 ctx='playList.salts` | §2.12, §2.13, §1b.1, §3.3, §3.4, §3.17, §4.1, §4.5, §6.1, T-V10-4, -'
+OWN l3886 §2.12 ctx=' `merge`; T-V10-4 compares a way split and a way join byte for byte | §2.12, §3.4, §3.6'
+INHERIT l3886 V10 §3.4 ctx='`; T-V10-4 compares a way split and a way join byte for byte | §2.12, §3.4, §3.6, §4.1'
+INHERIT l3886 V10 §3.6 ctx='10-4 compares a way split and a way join byte for byte | §2.12, §3.4, §3.6, §4.1, T-V1'
+INHERIT l3886 V10 §4.1 ctx='ompares a way split and a way join byte for byte | §2.12, §3.4, §3.6, §4.1, T-V10-1, T'
+OWN l3887 §3.16 ctx='d to its foot" (`bend.raised.island`; V09 §4.20.2 (6); J-VI.4 (d)) in §3.16\'s *The dry '
+OWN l3887 §3.16 ctx="2 (6); J-VI.4 (d)) in §3.16's *The dry run's bends* and in IN-V10-1 | §3.16, IN-V10-1 |"
+OWN l3914 §1b.1 ctx="ing`'s buttons are `select` actions; §3.5 step 3 cites the two cases; §1b.1's filtered "
+OWN l3914 §1b.1 ctx=' for byte with **Use another building** and no `placeAt` among them | §1b.1, §3.5, §3.1'
+INHERIT l3914 V10 §3.5 ctx='te with **Use another building** and no `placeAt` among them | §1b.1, §3.5, §3.16, T-V'
+INHERIT l3914 V10 §3.16 ctx='h **Use another building** and no `placeAt` among them | §1b.1, §3.5, §3.16, T-V10-4, J'
+OWN l3915 §1b.1 ctx='eads "(with `at`, `layer`, `below` and, by BCR-V9-36, `dossierKey`)", §1b.1\'s `EntityCa'
+OWN l3915 §1b.1 ctx=" `dress` description, prompt rule 5, §4.5's layer-scoped re-rolls and §1b.1's `MapBrief"
+OWN l3915 §1b.1 ctx="low; T-V10-4's restyle case adds `decoration` and the refused value | §1b.1, §2.12, §2."
+INHERIT l3915 V10 §2.12 ctx="V10-4's restyle case adds `decoration` and the refused value | §1b.1, §2.12, §2.13, §3."
+INHERIT l3915 V10 §2.13 ctx=' restyle case adds `decoration` and the refused value | §1b.1, §2.12, §2.13, §3.3, §3.4'
+INHERIT l3915 V10 §3.3 ctx='e case adds `decoration` and the refused value | §1b.1, §2.12, §2.13, §3.3, §3.4, §4.1'
+INHERIT l3915 V10 §3.4 ctx=' adds `decoration` and the refused value | §1b.1, §2.12, §2.13, §3.3, §3.4, §4.1, §4.5'
+INHERIT l3915 V10 §4.1 ctx='`decoration` and the refused value | §1b.1, §2.12, §2.13, §3.3, §3.4, §4.1, §4.5, §6.1'
+INHERIT l3915 V10 §4.5 ctx='ation` and the refused value | §1b.1, §2.12, §2.13, §3.3, §3.4, §4.1, §4.5, §6.1, §10.'
+INHERIT l3915 V10 §6.1 ctx=' and the refused value | §1b.1, §2.12, §2.13, §3.3, §3.4, §4.1, §4.5, §6.1, §10.1 BCR-'
+INHERIT l3915 V10 §10.1 ctx='he refused value | §1b.1, §2.12, §2.13, §3.3, §3.4, §4.1, §4.5, §6.1, §10.1 BCR-V10-1, '
+OWN l3934 §1b.1 ctx='d, 0 invalid, 0 on the\nfix list. New here: decision J-V10.100 and one §1b.1 row. No new'
+OWN l3940 §3.16 ctx='eam-surfaces-r3 SR3-11) — T-V10-4\'s three-building case decides"; (b) §3.16 and J-V10.9'
+OWN l3940 §3.16 ctx='t and a name; J-V10.98\'s reason names the one-row rule (J-SS3.9); (c) §3.16 reads "`ben'
+OWN l3940 §3.16 ctx='use checks the list-form labels (View as included) and the `select` | §3.16, J-V10.98, '
+OWN l3946 §3.16 ctx="t` made from a bend's or an engine refusal's button (V10\n§3.5 step 3, §3.16); absent fo"
+OWN l3947 §1b.1 ctx="5.4 now draws as its ids'\nchips, as an `entity` block is (J-V10.100); §1b.1 gains the l"
+OWN l3969 §1b.2 ctx="h table gains its row, `run` rejects it with the application's kinds, §1b.2's dispatch "
+OWN l3969 §3.16 ctx="e, else the page the row names or its key's `@plat/docs` guide page); §3.16's bends par"
+OWN l3969 §1b.2 ctx="V10-4's new clause on T-V9-38's fixture with no building qualifying | §1b.2, §2.6, §2.1"
+INHERIT l3969 V10 §2.6 ctx=" new clause on T-V9-38's fixture with no building qualifying | §1b.2, §2.6, §2.10, §3."
+INHERIT l3969 V10 §2.10 ctx="lause on T-V9-38's fixture with no building qualifying | §1b.2, §2.6, §2.10, §3.5, §3.1"
+INHERIT l3969 V10 §3.5 ctx="n T-V9-38's fixture with no building qualifying | §1b.2, §2.6, §2.10, §3.5, §3.16, T-V"
+INHERIT l3969 V10 §3.16 ctx="-38's fixture with no building qualifying | §1b.2, §2.6, §2.10, §3.5, §3.16, T-V10-4, T"
+OWN l3970 §3.16 ctx="rnative → `clerk.alt.<category>.<n>`, its `en` words quoted as (n) in §3.16's alternati"
+OWN l3970 §1b.1 ctx="very action by its label and names the families for V09 §4.9's table; §1b.1's label row"
+OWN l3970 §1b.1 ctx='iew.actions` entry but a `select` of the `role` or `knowledge` rows | §1b.1, §2.6, §2.1'
+INHERIT l3970 V10 §2.6 ctx='ions` entry but a `select` of the `role` or `knowledge` rows | §1b.1, §2.6, §2.10, §3.'
+INHERIT l3970 V10 §2.10 ctx='entry but a `select` of the `role` or `knowledge` rows | §1b.1, §2.6, §2.10, §3.10, §3.'
+INHERIT l3970 V10 §3.10 ctx='ut a `select` of the `role` or `knowledge` rows | §1b.1, §2.6, §2.10, §3.10, §3.16, §5.'
+INHERIT l3970 V10 §3.16 ctx='elect` of the `role` or `knowledge` rows | §1b.1, §2.6, §2.10, §3.10, §3.16, §5.4, T-V1'
+INHERIT l3970 V10 §5.4 ctx='of the `role` or `knowledge` rows | §1b.1, §2.6, §2.10, §3.10, §3.16, §5.4, T-V10-29, '
+OWN l3971 §1b.1 ctx="if answer ending with `fork` and `rerun` at the seq before the event; §1b.1's `ReplyBlo"
+OWN l3971 §1b.1 ctx='ock and its label; group C gains "what if the old wall had stayed?" | §1b.1, §3.1, §3.3'
+INHERIT l3971 V10 §3.1 ctx=' its label; group C gains "what if the old wall had stayed?" | §1b.1, §3.1, §3.3, §3.5'
+INHERIT l3971 V10 §3.3 ctx='abel; group C gains "what if the old wall had stayed?" | §1b.1, §3.1, §3.3, §3.5, §3.1'
+INHERIT l3971 V10 §3.5 ctx='group C gains "what if the old wall had stayed?" | §1b.1, §3.1, §3.3, §3.5, §3.13, §6.'
+INHERIT l3971 V10 §3.13 ctx='C gains "what if the old wall had stayed?" | §1b.1, §3.1, §3.3, §3.5, §3.13, §6.1, T-V1'
+INHERIT l3971 V10 §6.1 ctx=' "what if the old wall had stayed?" | §1b.1, §3.1, §3.3, §3.5, §3.13, §6.1, T-V10-16, '
+OWN l3972 §2.10 ctx='ck` and `rule`; T-V10-29 reads "but `lock`, `rule` and `role`"; §2.9, §2.10, §1b.1 and '
+INHERIT l3972 V10 §1b.1 ctx=' `rule`; T-V10-29 reads "but `lock`, `rule` and `role`"; §2.9, §2.10, §1b.1 and the §3.'
+OWN l3972 §3.16 ctx='-29 reads "but `lock`, `rule` and `role`"; §2.9, §2.10, §1b.1 and the §3.16 intro follo'
+OWN l3972 §2.10 ctx=' `role`"; §2.9, §2.10, §1b.1 and the §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.'
+INHERIT l3972 V10 §3.11 ctx='"; §2.9, §2.10, §1b.1 and the §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.12, §3.'
+INHERIT l3972 V10 §3.12 ctx=', §2.10, §1b.1 and the §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.12, §3.16, §4.'
+INHERIT l3972 V10 §3.16 ctx=', §1b.1 and the §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.12, §3.16, §4.4, §5.4'
+INHERIT l3972 V10 §4.4 ctx=' and the §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.12, §3.16, §4.4, §5.4, T-V1'
+INHERIT l3972 V10 §5.4 ctx='he §3.16 intro follow | §2.6, §2.9, §2.10, §3.11, §3.12, §3.16, §4.4, §5.4, T-V10-29, '
+OWN l4006 §1b.2 ctx="}[]`, the picture row's (1) `tool: 'dress'` and (2) `format: 'png'` | §1b.2, §2.6, §2.1"
+INHERIT l4006 V10 §2.6 ctx="he picture row's (1) `tool: 'dress'` and (2) `format: 'png'` | §1b.2, §2.6, §2.10, §3."
+INHERIT l4006 V10 §2.10 ctx="ture row's (1) `tool: 'dress'` and (2) `format: 'png'` | §1b.2, §2.6, §2.10, §3.3, §3.1"
+INHERIT l4006 V10 §3.3 ctx="w's (1) `tool: 'dress'` and (2) `format: 'png'` | §1b.2, §2.6, §2.10, §3.3, §3.13, §3."
+INHERIT l4006 V10 §3.13 ctx=") `tool: 'dress'` and (2) `format: 'png'` | §1b.2, §2.6, §2.10, §3.3, §3.13, §3.16, T-V"
+INHERIT l4006 V10 §3.16 ctx=": 'dress'` and (2) `format: 'png'` | §1b.2, §2.6, §2.10, §3.3, §3.13, §3.16, T-V10-4, T"
+OWN l4008 §3.17 ctx='tale; its Drop answers `stale`, its Accept `accepted`" | §2.6, §3.11, §3.17, T-V10-20, '
+OWN l4009 §3.16 ctx="t button's words; the why target reads the button's own `page` first; §3.16's intro and"
+OWN l4009 §1b.1 ctx="et reads the button's own `page` first; §3.16's intro and `rule` row, §1b.1's label row"
+OWN l4009 §1b.1 ctx="0 §8's total names V09's AP8 (1–1.25 pw) as the rest of M3c's price | §1b.1, §3.5, §3.1"
+INHERIT l4009 V10 §3.5 ctx="total names V09's AP8 (1–1.25 pw) as the rest of M3c's price | §1b.1, §3.5, §3.13, §3."
+INHERIT l4009 V10 §3.13 ctx="names V09's AP8 (1–1.25 pw) as the rest of M3c's price | §1b.1, §3.5, §3.13, §3.16, §5."
+INHERIT l4009 V10 §3.16 ctx="09's AP8 (1–1.25 pw) as the rest of M3c's price | §1b.1, §3.5, §3.13, §3.16, §5.4, §8, "
+INHERIT l4009 V10 §5.4 ctx="8 (1–1.25 pw) as the rest of M3c's price | §1b.1, §3.5, §3.13, §3.16, §5.4, §8, T-V10-"
+INHERIT l4009 V10 §8 ctx=".25 pw) as the rest of M3c's price | §1b.1, §3.5, §3.13, §3.16, §5.4, §8, T-V10-4, J"
+OWN l4015 §3.16 ctx=' now reads as the\n`dossier` form, whose (4) stands (V10 §3.13 step 4, §3.16, J-V10.107)'
+OWN l4047 §3.16 ctx="'s events and **Keep {building}** removes only them (V10 §3.5 step 3; §3.16), a refused"
+OWN l4047 §1b.1 ctx=" step 4 gives the model each bent item's action labels; §3.11 step 1, §1b.1's view-mode"
+OWN l4047 §2.14 ctx="each bent item's action labels; §3.11 step 1, §1b.1's view-model row, §2.14's Proposal "
+G-clerkhandle 14
+G-offline 0
+NARR-PAREN removed ['revise-V10'] from 'revise-V10, 2026-09-28'
+NARR-PAREN removed ['C10-01'] from 'C10-01'
+NARR-PAREN removed ['C10-02'] from 'C10-02'
+NARR-PAREN removed ['C10-03'] from 'C10-03'
+NARR-PAREN removed ['C10-04'] from 'C10-04'
+NARR-PAREN removed ['C10-10'] from 'C10-10'
+NARR-PAREN removed ['revise-V10'] from 'revise-V10, 2026-09-29, step R5b'
+NARR-PAREN removed ['C10-65'] from 'C10-65'
+NARR-PAREN removed ['revise-V10'] from 'revise-V10; one line per step: planned | done'
+NARR-PAREN removed ['reconcile-V10-r1', 'SS-10', 'SS-12', 'SS-14', 'SS-18 – SS-21'] from 'reconcile-V10-r1, 2026-09-29, against `docs/volumes/critique/seam-surfaces-r0.md`: SS-09,\nSS-10, SS-12, SS-14, SS-17 majors; SS-18 – SS-21, SS-24 – SS-27 minors'
+NARR-PAREN removed ['reconcile-V10-r2', 'SR-07'] from 'reconcile-V10-r2, 2026-09-29, against `docs/volumes/critique/seam-surfaces-r1.md`:\nSR-01, SR-07, SR-11 majors; SR-17 – SR-21 minors; and `docs/volumes/critique/'
+NARR-PAREN removed ['reconcile-V10-r3', 'SR2-05', 'SR2-12'] from 'reconcile-V10-r3, 2026-09-29, against `docs/volumes/critique/seam-surfaces-r2.md`:\nSR2-08, SR2-10 majors; SR2-05, SR2-12, SR2-17 minors; one line per step: plan'
+NARR-PAREN removed ['reconcile-V10-r4'] from 'reconcile-V10-r4, 2026-09-29, against `docs/volumes/critique/seam-surfaces-r3.md`:\nSR3-07 minor, parts (a) – (e); one line per step: planned | done'
+NARR-PAREN removed ['reconcile-V10-r2', 'SR-31'] from 'reconcile-V10-r2, 2026-09-29, against the continuation of\n`docs/volumes/critique/seam-surfaces-r1.md`: SR-26, SR-28 majors; SR-31, SR-33 minors; and TR-25 of `s'
+NARR-PAREN removed ['reconcile-V10-r3'] from 'reconcile-V10-r3, 2026-09-29, against the continuation of\n`docs/volumes/critique/seam-surfaces-r2.md`: SR2-22 major; SR2-25 minor, parts (a) – (d); one line per'
+NARR-PAREN removed ['reconcile-V10-r4'] from 'reconcile-V10-r4, 2026-09-29, against the continuation of\n`docs/volumes/critique/seam-surfaces-r3.md`: SR3-14 minor, parts (a) – (c); one line per step: planned'
+NARR-PAREN removed ['reconcile-V10-r5', 'SR4-02'] from 'reconcile-V10-r5, 2026-09-29, against `docs/volumes/critique/seam-surfaces-r4.md`:\nSR4-01, SR4-02, SR4-03 majors; SR4-04 minor, parts (a) – (e); one line per st'
+NARR-PAREN removed ['reconcile-V10-r6', 'SR5-03'] from 'reconcile-V10-r6, 2026-09-29, against `docs/volumes/critique/seam-surfaces-r5.md`:\nSR5-02, SR5-03, SR5-05 majors; SR5-06 minor, parts (a) – (e); one line per st'
+NARR-PAREN removed ['critique-V4 C4-110-1 – C4-110-12'] from 'critique-V4 C4-110-1 – C4-110-12'
+NARR-PAREN removed ['C10-19'] from 'C10-19'
+NARR-PAREN removed ['SR2-17'] from 'SR2-17'
+NARR-PAREN removed ['SS-10'] from 'V10 §2.3; SS-10'
+NARR-PAREN removed ['SR2-08'] from 'V10 §2.7; SR2-08'
+NARR-PAREN removed ['seam SR6-01'] from 'bends with their items and actions, lines with actions; seam SR6-01'
+NARR-PAREN removed ['SR4-03'] from 'V10 §3.13 step 4; SR4-03'
+NARR-PAREN removed ['SR-11'] from "an accepted card's `rebuild`, V10 §4.3; SR-11"
+NARR-PAREN removed ['SR2-08'] from 'version 3, V10 §2.7; SR2-08'
+NARR-PAREN removed ['SR2-25 (c)'] from 'BCR-V9-36; SR2-25 (c)'
+NARR-PAREN removed ['TR-25'] from 'V06 §4.5; TR-25'
+NARR-PAREN removed ['SR-26'] from 'V10 §2.13; BCR-V10-1; SR-26'
+NARR-PAREN removed ['SR2-25 (d)'] from 'SR2-25 (d)'
+NARR-PAREN removed ['C10-65'] from 'C10-65'
+NARR-PAREN removed ['SS-28'] from "V09 §4.9's `refuse.*` row for the code — the `dossier` row's engine cases, `refuse.roster.dossier` among them (SR2-12), `lock` and `rule`; SS-28"
+NARR-PAREN removed ['SR4-04 (e)'] from 'SR4-04 (e)'
+NARR-PAREN removed ['SR2-22'] from 'V10 §3.16; SR2-22'
+NARR-PAREN removed ['SR4-02'] from 'every kind; optional on `select` only; V10 §2.6; SR4-02'
+NARR-PAREN removed ['SR3-14, SR4-01, SR5-06 (a)'] from "a dry-run action's own `message`, BCR-V9-12; V10 §3.5 step 3; SR3-14, SR4-01, SR5-06 (a)"
+NARR-PAREN removed ['seam-surfaces-r5 SR5-01'] from '`MsgButton`: `key`, `does`, `from`, `each`, `event`, `page`, `arg`, `tool`, `mode`, `subject`, `when`; seam-surfaces-r5 SR5-01; CVR-V10-20'
+NARR-PAREN removed ['SR-07'] from 'V09 §2.10; SR-07'
+NARR-PAREN removed ['SR-01'] from 'SR-01'
+NARR-PAREN removed ['SR-07'] from 'V10 §2.6, V10 §3.17; SR-07'
+NARR-PAREN removed ['SR2-14'] from 'V09 §2.10, by the rule of V09 §4.20.3 (4); SR2-14'
+NARR-PAREN removed ['SR2-14'] from 'V09 §2.10; SR2-14'
+NARR-PAREN removed ['SR2-13'] from 'V09 §2.10; SR2-13'
+NARR-PAREN removed ['SS-09'] from "V10 §2.6's table; SS-09"
+NARR-PAREN removed ['SR4-01'] from 'the why card of its `id`, V09 §5.8, else the Help page `page`, V09 §5.9; SR4-01'
+NARR-PAREN removed ['SR5-02'] from 'in its `mode`, its `ids` selected first; SR5-02'
+NARR-PAREN removed ['seam SS-13'] from "V09's request on §7.1's\ntoolkit table, seam SS-13; V10 §4.1"
+NARR-PAREN removed ['C8-02'] from 'C8-02'
+NARR-PAREN removed ['SS-10', 'SR-18'] from 'SS-10; J-V10.83; SR-18'
+NARR-PAREN removed ['SR2-08', 'SR3-07'] from 'SR2-08; J-V10.91; SR3-07'
+NARR-PAREN removed ['seam SR6-01'] from 'seam SR6-01'
+NARR-PAREN removed ['SR-11'] from 'V10 §4.3; SR-11'
+NARR-PAREN removed ['seam SR6-01'] from 'seam SR6-01'
+NARR-PAREN removed ['SR-19'] from 'SR-19'
+NARR-PAREN removed ['C10-53'] from 'C10-53'
+NARR-PAREN removed ['seam SR6-01'] from 'seam SR6-01'
+NARR-PAREN removed ['SR4-02'] from 'SR4-02; J-V10.102'
+NARR-PAREN removed ['SR4-01'] from 'SR4-01'
+NARR-PAREN removed ['SR3-14'] from 'T101-3; SR3-14'
+NARR-PAREN removed ['SR5-02 (b)'] from "the dossier row's (1) fallback, (3) and (5): a move is a\n                                                     // selection the user drags, V09 §4.6; SR5-02 (b)"
+NARR-PAREN removed ['SR4-01 (e)'] from 'SR4-01 (e)'
+NARR-PAREN removed ['SR2-14'] from 'V09 §2.10, by the rule of V09 §4.20.3 (4); SR2-14'
+NARR-PAREN removed ['SR2-13'] from 'V09 §2.10; SR2-13'
+NARR-PAREN removed ['SS-09'] from 'SS-09; J-V10.82'
+NARR-PAREN removed ['SR2-17 (a)'] from 'SR2-17 (a); XV-V9-19 (a)'
+NARR-PAREN removed ['SR2-14'] from 'V09 §2.10, by the rule of V09 §4.20.3 (4); SR2-14'
+NARR-PAREN removed ['SR4-01'] from 'V10 §3.5 step 3; SR4-01'
+NARR-PAREN removed ['SR5-02 (a)'] from 'V09 §4.11; SR5-02 (a)'
+NARR-PAREN removed ['SR-11'] from 'SR-11'
+NARR-PAREN removed ['SR-07'] from 'SR-07; XV-V9-18; J-V10.88'
+NARR-PAREN removed ['SR2-08', 'SR3-07'] from 'J-V10.67; SR2-08; SR3-07'
+NARR-PAREN removed ['SR2-08'] from 'SR2-08; J-V10.67, J-V10.92'
+NARR-PAREN removed ['J-SS2.5'] from 'J-SS2.5'
+NARR-PAREN removed ['SR2-12', 'SS-28'] from 'V10 §3.16; SR2-12; SS-28'
+NARR-PAREN removed ['SR4-04 (e)'] from 'SR4-04 (e)'
+NARR-PAREN removed ['SS-28', 'SR4-04 (e)'] from 'V10 §3.16; SS-28; SR4-04 (e)'
+NARR-PAREN removed ['SR4-02, SR5-02 (d)'] from 'V10 §3.5 step 3; SR4-02, SR5-02 (d)'
+NARR-PAREN removed ['SCC-R1C-3'] from 'provenance `own` unless named; no row calibratable by the corpus stage — V11 §3.1 registers `clerk.ops` and `clerk.content` as rows 88–89 with `calibratable: fa'
+NARR-PAREN removed ['C10-29'] from 'C10-29'
+NARR-PAREN removed ['SR-28'] from 'SR-28'
+NARR-PAREN removed ['SS-14'] from 'SS-14'
+NARR-PAREN removed ['SR-26'] from "V09 §4.5's T11 row; SR-26"
+NARR-PAREN removed ['SR2-26'] from "V09 §4.3's T12 row; SR2-26"
+NARR-PAREN removed ['SR2-25 (d)'] from 'SR2-25 (d)'
+NARR-PAREN removed ['SR2-25 (c)'] from 'V10 §2.12; J-V10.68; SR2-25 (c)'
+NARR-PAREN removed ['SS-20'] from 'SS-20'
+NARR-PAREN removed ['TR-25'] from 'V06 §4.5; TR-25'
+NARR-PAREN removed ['SR-26'] from 'V10 §4.1; SR-26'
+NARR-PAREN removed ['SR-20'] from 'SR-20'
+NARR-PAREN removed ['C10-52'] from 'V10 §3.9; C10-52'
+NARR-PAREN removed ['SS-21'] from 'SS-21'
+NARR-PAREN removed ['seam SR6-01'] from "`ProposalView`, with `accepted` and `rebuild` after acceptance, each bend with its item and actions; the turn's `refused` items beside it, seam SR6-01"
+NARR-PAREN removed ['J-SS2.5'] from 'J-SS2.5'
+NARR-PAREN removed ['SR4-03'] from 'J-V10.69; SR4-03'
+NARR-PAREN removed ['SR2-17 (d)'] from 'V09 §2.10, V09 §4.11; standalone only; SR2-17 (d)'
+NARR-PAREN removed ['SR4-03, SR5-03'] from 'V06 §4.4; SR4-03, SR5-03'
+NARR-PAREN removed ['SCC-R1C-3'] from "`clerk.content.lexicon`; our own values, not calibratable — a word list V12's R4 never calibrates, re-set as a table version by V10 §7.3's evaluation; V11's rou"
+NARR-PAREN removed ['SS-14'] from "T10's row lists no layer re-roll, so `hold` has none; SS-14"
+NARR-PAREN removed ['C10-61'] from "measured by the provider's\ntoken counter at spike S3, item 110's forms, descriptions and lexicon rows included, C10-61"
+NARR-PAREN removed ['C10-55'] from 'C10-55'
+NARR-PAREN removed ['SR4-03'] from 'SR4-03'
+NARR-PAREN removed ['SR2-22'] from "V10\n   V10 §3.16, *The dry run's bends*; SR2-22"
+NARR-PAREN removed ['SS-28'] from "V09 §4.9's row for the code; SS-28"
+NARR-PAREN removed ['SR5-06 (a), SR5-02 (a)'] from 'SR5-06 (a), SR5-02 (a); J-V10.106'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-01'] from 'seam-surfaces-r5 SR5-01; CVR-V10-20'
+NARR-PAREN removed ['SR3-14, SR4-02'] from 'SR3-14, SR4-02'
+NARR-PAREN removed ['seam SR6-01 (b)', 'J-SS6.2'] from 'seam SR6-01 (b); J-SS6.2; J-V10.110'
+NARR-PAREN removed ['seam SR6-01 (c)'] from 'seam SR6-01 (c)'
+NARR-PAREN removed ['C10-52 (4)'] from 'C10-52 (4)'
+NARR-PAREN removed ['critique-V4 C4-110-1'] from 'critique-V4 C4-110-1'
+NARR-PAREN removed ['C10-52'] from "this volume's `WhySectionProvider`; C10-52; J-V10.74"
+NARR-PAREN removed ['C8-47'] from "one key with V08's history panel, C8-47; CVR-V10-14"
+NARR-PAREN removed ['C10-52 (6), C10-63'] from 'C10-52 (6), C10-63'
+NARR-PAREN removed ['SR-17'] from 'V09 §4.9; this volume writes no words for them, SR-17'
+NARR-PAREN removed ['SR4-02'] from '"Fix", the word V09 §3.12\'s dialog\nshows; SR4-02'
+NARR-PAREN removed ['SS-18'] from 'V09 §4.9, V09 §4.17.5 (e); SS-18'
+NARR-PAREN removed ['C10-53'] from 'C10-53'
+NARR-PAREN removed ['seam SR6-01'] from 'seam SR6-01'
+NARR-PAREN removed ['SR4-04 (a)'] from 'SR4-04 (a)'
+NARR-PAREN removed ['SR5-05'] from 'V10 §3.17; SR5-05'
+NARR-PAREN removed ['SS-10'] from 'SS-10'
+NARR-PAREN removed ['SR2-08'] from 'SR2-08'
+NARR-PAREN removed ['SR4-04 (b)'] from 'its words\n   written here once; SR4-04 (b)'
+NARR-PAREN removed ['SR2-08'] from "V10 §2.3's `admitsAll`; V10 §3.15;\n   J-V10.67; SR2-08"
+NARR-PAREN removed ['SR5-06 (b)'] from 'SR5-06 (b)'
+NARR-PAREN removed ['C10-60'] from 'C10-60'
+NARR-PAREN removed ['SR4-03'] from 'SR4-03; J-V10.103'
+NARR-PAREN removed ['SR4-02'] from 'SR4-02'
+NARR-PAREN removed ['SR5-02 (b)'] from 'V10 §3.16; SR5-02 (b)'
+NARR-PAREN removed ['SR5-06 (c)'] from 'group H, V10 §7.3; SR5-06 (c)'
+NARR-PAREN removed ['C10-50'] from 'item 110 (b); C10-50'
+NARR-PAREN removed ['SR2-08'] from "V10 §2.3's `admitsAll`; SR2-08"
+NARR-PAREN removed ['SS-28'] from 'SS-28;\nJ-V10.94'
+NARR-PAREN removed ['SR4-04 (e), J-SS4.5'] from 'V09 §2.10; SR4-04 (e), J-SS4.5'
+NARR-PAREN removed ['SR5-06 (a)'] from 'SR5-06 (a)'
+NARR-PAREN removed ['SR4-02'] from "SR4-02; J-V10.102; the `dossier` row's (2), round 6"
+NARR-PAREN removed ['SR2-12', 'SR3-04', 'SS-28'] from 'SR2-12; SR3-04; J-V10.93; SS-28'
+NARR-PAREN removed ['C10-62'] from 'C10-62'
+NARR-PAREN removed ['SR5-02 (b)'] from 'its handles drawn, V09 §4.6, which the user drags; SR5-02 (b)'
+NARR-PAREN removed ['SR5-06 (a)'] from "V10 §3.5 step 3; the former own alternative (2) is retired, since the row's own button now words it, SR5-06 (a)"
+NARR-PAREN removed ['SR2-10'] from 'SR2-10'
+NARR-PAREN removed ['SR5-02 (b)'] from 'V10 §3.13 step 4; SR5-02 (b)'
+NARR-PAREN removed ['SS-28'] from 'SS-28'
+NARR-PAREN removed ['SR5-06 (a)'] from "V09 §4.9's list for the row; the canvas's card offers no closest alternative, so neither does the clerk's, SR5-06 (a)"
+NARR-PAREN removed ['SS-28'] from 'SS-28'
+NARR-PAREN removed ['SR4-04 (e)', 'J-SS4.5'] from 'SR4-04 (e); J-SS4.5'
+NARR-PAREN removed ['C10-62', 'SS-17, SS-28'] from 'C10-62; SS-17, SS-28; **J-VI.4**, **J-VI.30**: item 101 R2 — a declaration is refused only\nwhere it contradicts a dossier fact or a lock, and every other infeas'
+NARR-PAREN removed ['SR4-01, SR5-06 (a)'] from 'SR4-01, SR5-06 (a)'
+NARR-PAREN removed ['SR3-12\n(e)'] from '`button.digDownFrom`, "Dig down from {building} instead"; SR3-12\n(e)'
+NARR-PAREN removed ['SR2-22, SR3-14'] from 'J-V10.98; SR2-22, SR3-14'
+NARR-PAREN removed ['SR-31'] from 'V09 §4.20.2 (6); J-VI.4 (d); SR-31'
+NARR-PAREN removed ['SR5-02 (a)'] from 'SR5-02 (a); CVR-V10-20'
+NARR-PAREN removed ['SR3-14, SR4-01'] from 'T101-3; SR3-14, SR4-01'
+NARR-PAREN removed ['SS-33'] from 'V09 §4.20.2 (5); J-VI.4 (h); SS-33'
+NARR-PAREN removed ['seam SR6-01 (b)'] from 'V10 §3.5 step 3; seam SR6-01 (b)'
+NARR-PAREN removed ['SR5-05'] from 'SR5-05; J-V10.109'
+NARR-PAREN removed ['SR-01'] from 'SR-01; J-V10.87'
+NARR-PAREN removed ['SR-26'] from 'numbers only; SR-26'
+NARR-PAREN removed ['C10-63'] from 'C10-63'
+NARR-PAREN removed ['SR2-05'] from 'V08 §3.14, V08 §4.4 (1);\nSR2-05'
+NARR-PAREN removed ['SS-24'] from 'SS-24; J-V10.86'
+NARR-PAREN removed ['SS-36'] from "the stroke's `falloff` and `amount` as volume 9's T2 mapper sets them, V09 §4.20.1 (4), since §7.1's `FieldStroke` requires both; `water` as the `raise` row wri"
+NARR-PAREN removed ['SS-12'] from 'SS-12'
+NARR-PAREN removed ['SS-13'] from "V09's request on §7.1's toolkit table, SS-13"
+NARR-PAREN removed ['SR2-10'] from 'SR2-10'
+NARR-PAREN removed ['SS-19'] from 'V11 §3.24.4; J-VI.8; SS-19'
+NARR-PAREN removed ['SR-21'] from 'V09 §4.20.4 (1), (3); SR-21; J-V10.89'
+NARR-PAREN removed ['SR-28', 'J-SS1.6'] from "§7.1's ways row; SR-28; J-SS1.6"
+NARR-PAREN removed ['critique-V4 C4-110-1'] from 'critique-V4 C4-110-1'
+NARR-PAREN removed ['SS-27'] from 'V11 §4.2; V09 §2.6; CVR-V10-16, met; SS-27'
+NARR-PAREN removed ['SR-26'] from "V09 §4.5's T11 row after SR-29; SR-26"
+NARR-PAREN removed ['J-SS1.8', 'SR2-25 (b)'] from 'J-SS1.8; J-V10.95; SR2-25 (b)'
+NARR-PAREN removed ['SR-26'] from 'SR-26; J-V10.96'
+NARR-PAREN removed ['SR2-26', 'J-SS2.9'] from 'SR2-26; J-SS2.9; J-V10.99'
+NARR-PAREN removed ['SR2-25 (d)'] from 'V10 §3.4 (3); SR2-25 (d)'
+NARR-PAREN removed ['SS-26'] from "counts, fates by address, renames, and the\n   effects' kinds and counts, as V10 §3.11 (4) compares them; SS-26"
+NARR-PAREN removed ['C10-50 (4)'] from 'item 110 (b); C10-50 (4)'
+NARR-PAREN removed ['SR-11'] from 'V10 §2.6; SR-11'
+NARR-PAREN removed ['SR2-14'] from 'V09 §2.10, by the rule of V09 §4.20.3 (4); SR2-14'
+NARR-PAREN removed ['SR4-04 (b)'] from 'SR4-04 (b)'
+NARR-PAREN removed ['SR4-04 (c)'] from 'SR4-04 (c)'
+NARR-PAREN removed ['C10-53'] from 'C10-53; J-V10.75; the\nsurvey\'s "destructive operations need confirmation"'
+NARR-PAREN removed ['SR2-08'] from '`key`, V10 §2.7; SR2-08'
+NARR-PAREN removed ['SR4-02'] from "every kind carries\none but `select`, where it is optional; its sources V10 §2.6's comment names; a `propose` action previews first, like any proposal; SR4-02"
+NARR-PAREN removed ['SS-25'] from "V09 §4.9: the card's line, while `info.raised.suppressed` is\nthe `raised` section's row, V10 §3.9, and V08's history line, CVR-V10-14; SS-25"
+NARR-PAREN removed ['SR4-02 (c), SR4-04 (b)'] from "for V09 §4.9's table of volume 10's families; SR4-02 (c), SR4-04 (b); CVR-V10-19"
+NARR-PAREN removed ['SR5-06 (a)'] from 'V10 §3.5 step 3; SR5-06 (a)'
+NARR-PAREN removed ['C10-30'] from 'C10-30'
+NARR-PAREN removed ['SR-26, SR2-25 (b)'] from 'our own, calibrate-later; SR-26, SR2-25 (b)'
+NARR-PAREN removed ['C10-65'] from "C10-65; `doc_checks.py`'s copied-list check runs over that directory"
+NARR-PAREN removed ['SS-14'] from 'SS-14'
+NARR-PAREN removed ['SS-13'] from 'SS-13'
+NARR-PAREN removed ['SR-28'] from "V09 §4.3's ways row after SR-27; SR-28"
+NARR-PAREN removed ['SS-12'] from 'SS-12'
+NARR-PAREN removed ['SS-27'] from 'SS-27'
+NARR-PAREN removed ['SR2-10'] from 'SR2-10'
+NARR-PAREN removed ['SS-36'] from 'SS-36'
+NARR-PAREN removed ['SR2-26'] from 'its two `rerollLayer` events, `style.jitter` then `style.crowns`; SR2-26'
+NARR-PAREN removed ['SR-26'] from 'SR-26'
+NARR-PAREN removed ['SR2-25 (d)'] from 'SR2-25 (d)'
+NARR-PAREN removed ['SR-28'] from 'SR-28'
+NARR-PAREN removed ['SR2-25 (a)'] from 'CVR-V10-18 (a), met; SR2-25 (a)'
+NARR-PAREN removed ['SR2-22'] from 'SR2-22'
+NARR-PAREN removed ['SR3-14'] from 'SR3-14'
+NARR-PAREN removed ['SR4-01 (f), SR5-02 (a)'] from 'SR4-01 (f), SR5-02 (a)'
+NARR-PAREN removed ['SR5-06 (a)'] from 'SR5-06 (a)'
+NARR-PAREN removed ['seam SR6-01 (d)'] from 'seam SR6-01 (d)'
+NARR-PAREN removed ['SS-10'] from 'SS-10'
+NARR-PAREN removed ['SR-06'] from "BCR-V9-23's key form, SR-06"
+NARR-PAREN removed ['SR2-08'] from 'SR2-08'
+NARR-PAREN removed ['SR5-02 (b)'] from 'SR5-02 (b)'
+NARR-PAREN removed ['SR2-12'] from 'SR2-12'
+NARR-PAREN removed ['SR2-10'] from 'SR2-10'
+NARR-PAREN removed ['SR-26'] from 'SR-26'
+NARR-PAREN removed ['SS-26'] from 'V10 §4.2 (1); SS-26'
+NARR-PAREN removed ['C10-06'] from 'C10-06'
+NARR-PAREN removed ['SR4-03'] from 'SR4-03'
+NARR-PAREN removed ['SR5-02 (b)'] from 'SR5-02 (b)'
+NARR-PAREN removed ['SR5-05'] from 'SR5-05'
+NARR-PAREN removed ['SR-07'] from 'SR-07'
+NARR-PAREN removed ['SS-10'] from 'SS-10'
+NARR-PAREN removed ['SR-26'] from 'V10 §4.5; SR-26'
+NARR-PAREN removed ['SR4-02, SR4-04'] from 'a compile test; SR4-02, SR4-04'
+NARR-PAREN removed ['SS-17, SS-28'] from 'SS-17, SS-28'
+NARR-PAREN removed ['SR4-04 (e)'] from "a viewer's declaration shows `refuse.viewer`'s key; SR4-04 (e)"
+NARR-PAREN removed ['SS-28'] from 'SS-28'
+NARR-PAREN removed ['J-SS2.5'] from 'J-SS2.5'
+NARR-PAREN removed ['SR4-03'] from 'SR4-03'
+NARR-PAREN removed ['SR-21'] from 'SR-21'
+NARR-PAREN removed ['SS-09'] from 'SS-09'
+NARR-PAREN removed ['SR4-01'] from 'the why card of its `id`, else the page `page`; SR4-01'
+NARR-PAREN removed ['SR5-02 (a)'] from "its tool active in its `mode` on that mode's working layer, its `ids` selected first; SR5-02 (a)"
+NARR-PAREN removed ['SR-11'] from 'SR-11'
+NARR-PAREN removed ['SR2-14'] from 'SR2-14'
+NARR-PAREN removed ['SR4-01 (e), SR4-02, SR5-02 (a)'] from 'SR4-01 (e), SR4-02, SR5-02 (a)'
+NARR-PAREN removed ['C10-46'] from 'C10-46; J-V10.59'
+NARR-PAREN removed ['C10-58 (2)'] from 'item 110; C10-58 (2)'
+NARR-PAREN removed ['SR4-03'] from 'a town whose chronicle dismantled a wall at an epoch; SR4-03'
+NARR-PAREN removed ['SR5-03'] from 'prompt rule 17; SR5-03'
+NARR-PAREN removed ['C10-48'] from 'C10-48; J-V10.69'
+NARR-PAREN removed ['C10-58 (3)'] from "C1 +0.5–0.75, M3a's transcript\n+0.25, C3 +0.5–0.75, C4 +0.25, C5 +0.25–0.5; C10-58 (3)"
+NARR-PAREN removed ['SR5-06 (e)'] from "XV-V9-8's V10 part; SR5-06 (e)"
+NARR-PAREN removed ['C10-19'] from '§2; C10-19'
+NARR-PAREN removed ['SR4-03'] from '88 until reconciliation round 5 added the what-if case, SR4-03'
+NARR-PAREN removed ['SS-12'] from 'reconciliation round 1, SS-12'
+NARR-PAREN removed ['C10-04'] from 'C10-04'
+NARR-PAREN removed ['C10-01'] from 'item 63 (c); C10-01'
+NARR-PAREN removed ['C10-02'] from 'item 109 (j) (2); C10-02'
+NARR-PAREN removed ['C10-03'] from 'C10-03'
+NARR-PAREN removed ['C10-05'] from 'C10-05'
+NARR-PAREN removed ['C10-06'] from 'C10-06'
+NARR-PAREN removed ['C10-07'] from 'C10-07'
+NARR-PAREN removed ['SR-01'] from 'and every `preview.result`, SR-01'
+NARR-PAREN removed ['C10-08'] from 'J86; C10-08'
+NARR-PAREN removed ['C10-11'] from 'C10-11'
+NARR-PAREN removed ['C10-12'] from 'C10-12'
+NARR-PAREN removed ['C10-42'] from 'C10-42'
+NARR-PAREN removed ['C10-14'] from 'C10-14'
+NARR-PAREN removed ['C10-25'] from 'C10-25; the skill'
+NARR-PAREN removed ['C10-16'] from 'C10-16'
+NARR-PAREN removed ['C10-17'] from 'C10-17'
+NARR-PAREN removed ['C10-18'] from 'C10-18'
+NARR-PAREN removed ['C10-23'] from 'C10-23'
+NARR-PAREN removed ['SR-07'] from 'SR-07; J-V10.88'
+NARR-PAREN removed ['C10-20'] from 'C10-20'
+NARR-PAREN removed ['C10-22'] from 'C10-22'
+NARR-PAREN removed ['C10-46'] from 'C10-46'
+NARR-PAREN removed ['C10-24'] from 'C10-24'
+NARR-PAREN removed ['C10-26'] from 'C10-26'
+NARR-PAREN removed ['C10-28'] from 'C10-28'
+NARR-PAREN removed ['C10-33'] from 'C10-33'
+NARR-PAREN removed ['C10-34'] from 'C10-34'
+NARR-PAREN removed ['C10-35'] from 'C10-35'
+NARR-PAREN removed ['C10-36'] from 'C10-36'
+NARR-PAREN removed ['C10-37'] from 'C10-37'
+NARR-PAREN removed ['J-SS2.5'] from 'J-SS2.5'
+NARR-PAREN removed ['SR2-08'] from 'SR2-08'
+NARR-PAREN removed ['C10-38'] from 'C10-38'
+NARR-PAREN removed ['C10-48'] from 'C10-48'
+NARR-PAREN removed ['C10-43'] from 'item 103 (f), item 108 (c); C10-43'
+NARR-PAREN removed ['C10-44'] from 'item 20 (h); C10-44'
+NARR-PAREN removed ['C10-50'] from 'C10-50'
+NARR-PAREN removed ['C10-51'] from 'C10-51'
+NARR-PAREN removed ['C10-52'] from 'C10-52'
+NARR-PAREN removed ['C10-53'] from 'C10-53'
+NARR-PAREN removed ['C10-54'] from 'C10-54'
+NARR-PAREN removed ['C10-55'] from 'C10-55'
+NARR-PAREN removed ['C10-56'] from 'the 23:24 note (7); C10-56'
+NARR-PAREN removed ['C10-57'] from 'C10-57'
+NARR-PAREN removed ['SS-12'] from 'SS-12'
+NARR-PAREN removed ['SS-09'] from 'SS-09'
+NARR-PAREN removed ['SS-10'] from 'SS-10'
+NARR-PAREN removed ['SS-14'] from 'SS-14'
+NARR-PAREN removed ['SS-27'] from 'SS-27'
+NARR-PAREN removed ['SS-24'] from 'SS-24'
+NARR-PAREN removed ['SR-01'] from 'SR-01; J-V8.84'
+NARR-PAREN removed ['SR-07'] from 'SR-07; XV-V9-18'
+NARR-PAREN removed ['SR-21'] from 'SR-21'
+NARR-PAREN removed ['SR-06'] from 'SR-06'
+NARR-PAREN removed ['SR-18'] from 'SR-18, found in passing'
+NARR-PAREN removed ['SR2-08'] from 'SR2-08'
+NARR-PAREN removed ['SR2-08'] from 'SR2-08'
+NARR-PAREN removed ['SR2-12'] from 'SR2-12'
+NARR-PAREN removed ['SR2-10'] from 'SR2-10'
+NARR-PAREN removed ['SS-28'] from 'SS-28'
+NARR-PAREN removed ['SR-26'] from 'SR-26'
+NARR-PAREN removed ['SR-26'] from 'SR-26'
+NARR-PAREN removed ['J-SS1.6'] from 'J-SS1.6'
+NARR-PAREN removed ['SR-28'] from 'SR-28'
+NARR-PAREN removed ['SR3-12 (e)'] from '"Dig down from {building} instead"; SR3-12 (e)'
+NARR-PAREN removed ['SR3-14 (c)'] from 'SR3-14 (c)'
+NARR-PAREN removed ['SR2-22, SR3-14', 'J-SS2.11, J-SS3.9'] from 'SR2-22, SR3-14; J-SS2.11, J-SS3.9'
+NARR-PAREN removed ['J-SS2.9'] from 'J-SS2.9'
+NARR-PAREN removed ['SR2-25 (d)'] from 'SR2-25 (d)'
+NARR-PAREN removed ['SR3-14 (c)'] from 'T101-3; SR3-14 (c)'
+NARR-PAREN removed ['SR3-14 (c)'] from 'SR3-14 (c)'
+NARR-PAREN removed ['seam-surfaces-r4 SR4-01', 'J-SS4.1, J-SS4.2'] from 'seam-surfaces-r4 SR4-01; J-SS4.1, J-SS4.2; CVR-V10-19 (b)'
+NARR-PAREN removed ['SR5-06 (a)'] from 'five classes, `drop` added; SR5-06 (a)'
+NARR-PAREN removed ['SS-16'] from 'SS-16'
+NARR-PAREN removed ['SR4-02', 'J-SS4.3'] from 'SR4-02; J-SS4.3; the undo and rebuild labels found beside'
+NARR-PAREN removed ['SR4-03'] from 'SR4-03'
+NARR-PAREN removed ['SR5-03'] from 'a re-run only when asked, prompt rule 17; SR5-03'
+NARR-PAREN removed ['J-SS4.4', 'SR5-06 (c)'] from 'J-SS4.4; SR5-06 (c)'
+NARR-PAREN removed ['SR5-02 (b)'] from 'SR5-02 (b)'
+NARR-PAREN removed ['J-SS4.5'] from 'J-V10.94; J-SS4.5'
+NARR-PAREN removed ['SR4-04 (a)'] from 'SR4-04 (a), (b), (e)'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-01, SR5-06 (a)', 'J-SS5.2'] from 'seam-surfaces-r5 SR5-01, SR5-06 (a); J-SS5.2'
+NARR-PAREN removed ['seam-surfaces-r6 SR6-01 (b)', 'J-SS6.2'] from 'seam-surfaces-r6 SR6-01 (b); J-SS6.2'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-02', 'J-SS5.3, J-SS5.8'] from 'seam-surfaces-r5 SR5-02; J-SS5.3, J-SS5.8'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-03', 'J-SS5.4'] from 'seam-surfaces-r5 SR5-03; J-SS5.4; V06 §4.4 as SR5-09 revised it'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-05', 'J-SS5.5'] from 'seam-surfaces-r5 SR5-05; J-SS5.5'
+NARR-PAREN removed ['seam-surfaces-r6 SR6-01'] from 'seam-surfaces-r6 SR6-01'
+NARR-PAREN removed ['J-SS6.2'] from 'J-SS6.2'
+NARR-PAREN removed ['C10-21'] from 'C10-21'
+NARR-PAREN removed ['SR-26'] from "with its item-110 lists `raised`, `terraces`, `decks` and `walls` listing\nenceintes only, and `salts`, §6.1's effective salt of each rerollable concern; SR-26"
+NARR-PAREN removed ['C10-01, C10-02, C10-52 (4), C10-55 (3)'] from 'J-V10.41, J-V10.42; C10-01, C10-02, C10-52 (4), C10-55 (3)'
+NARR-PAREN removed ['C10-01 (2), C10-11'] from 'C10-01 (2), C10-11;\nJ-V10.41, J-V10.48'
+NARR-PAREN removed ['C10-21 (1)'] from 'C10-21 (1)'
+NARR-PAREN removed ['C10-07, C10-08, C10-18,\nC10-28'] from 'C10-07, C10-08, C10-18,\nC10-28; J-V10.46, J-V10.47, J-V10.55, J-V10.62'
+NARR-PAREN removed ['SR-01'] from '`query.result` gains that error form, correlated by `re` like any reply; SR-01, J-V10.87'
+NARR-PAREN removed ['C10-57 (2)'] from 'item 110 (e); C10-57 (2); J-V10.79'
+NARR-PAREN removed ['C10-21 (3)'] from 'C10-21 (3)'
+NARR-PAREN removed ['SS-37'] from 'item 348; SS-37'
+NARR-PAREN removed ['C10-09 (1)'] from 'C10-09 (1); J-V10.39'
+NARR-PAREN removed ['C10-09 (2)'] from 'C10-09 (2)'
+NARR-PAREN removed ['C10-05'] from 'C10-05; J-V10.44'
+NARR-PAREN removed ['C10-24'] from 'C10-24; J-V10.60'
+NARR-PAREN removed ['C10-39 (1), C10-51 (2)'] from 'C10-39 (1), C10-51 (2)'
+NARR-PAREN removed ['C10-41'] from 'C10-41'
+NARR-PAREN removed ['C10-32'] from 'C10-32'
+NARR-PAREN removed ['C10-50'] from 'item 110 (b) as revised ~23:40; C10-50; J-V10.72'
+NARR-PAREN removed ['C10-52 (3)'] from 'C10-52 (3); J-V10.74'
+NARR-PAREN removed ['SS-10'] from 'SS-10; J-V10.83; J-V10.90'
+NARR-PAREN removed ['SR2-17 (b)'] from 'SR2-17 (b); XV-V9-19 (c).'
+NARR-PAREN removed ['SS-12'] from 'SS-12; J-V10.81'
+NARR-PAREN removed ['SR-33'] from "V08 §3.1's `connect-src` with the clerk origins by configuration, T-V8-27's list with `measure`, `hit` and `inView` refused `E_HOST_KIND`, V08 §4.4 (4)'s no-pro"
+NARR-PAREN removed ['SR4-04 (d)'] from "V09 §6.2's *The page's `connect-src`*, V09 §4.11's card-only drawer, V09 §2.10's `ClerkHandle`, V09 §4.9's table of volume 10's families, T-V9-15; read in recon"
+NARR-PAREN removed ['C10-15'] from 'C10-15'
+NARR-PAREN removed ['C8-47'] from 'C8-47'
+NARR-PAREN removed ['SS-43, SR-33'] from 'V08 §4.6, X11, T-V8-45; SS-43, SR-33'
+NARR-PAREN removed ['SS-10'] from "SS-10, beside SS-07's mount change"
+NARR-PAREN removed ['SS-09'] from 'SS-09'
+NARR-PAREN removed ['SS-21'] from 'SS-21'
+NARR-PAREN removed ['SS-24'] from 'SS-24'
+NARR-PAREN removed ['SR-33'] from "V09 §4.9's family row, T-V9-15, V09 §4.20.2 (5); landed 08:54, V09 `94ce6753…`; SR-33"
+NARR-PAREN removed ['SS-28'] from 'SS-28'
+NARR-PAREN removed ['SS-33'] from 'SS-33'
+NARR-PAREN removed ['SR2-25 (a)'] from "V09 §4.5's T11 row and J-V9.110 for (a); the T9 row citing V10 §4.1's T9 rule for (b); address order in both scoped forms for (c); reconcile-V09-r2 landed 09:49"
+NARR-PAREN removed ['SR-26, SR-28'] from 'SR-26, SR-28'
+NARR-PAREN removed ['C10-21'] from 'C10-21'
+NARR-PAREN removed ['SS-37'] from 'item 348; SS-37'
+NARR-PAREN removed ['reconcile-V10-r1'] from 'reconcile-V10-r1, 2026-09-29'
+NARR-PAREN removed ['reconcile-V10-r2'] from 'reconcile-V10-r2, 2026-09-29'
+NARR-PAREN removed ['reconcile-V09-r2'] from 'reconcile-V09-r2, landed 05:16'
+NARR-PAREN removed ['reconcile-V10-r3'] from 'reconcile-V10-r3, 2026-09-29'
+NARR-PAREN removed ['reconcile-V09-r3'] from 'reconcile-V09-r3, landed 06:25'
+NARR-PAREN removed ['SR3-07 (a)'] from 'V09 md5 6b762ccf…, read in\n  reconciliation round 4; SR3-07 (a)'
+NARR-PAREN removed ['reconcile-V10-r4'] from 'reconcile-V10-r4, 2026-09-29'
+NARR-PAREN removed ['SR3-04'] from 'SR3-04'
+NARR-PAREN removed ['reconcile-V10-r1'] from 'reconcile-V10-r1, 2026-09-29, 08:33'
+NARR-PAREN removed ['SS-33', 'SS-36 and SS-37'] from "the continuation's method and SS-28 – SS-46 with their required\n  changes; this volume's SS-28, SS-33, SS-36 and SS-37"
+NARR-PAREN removed ['reconcile-V09-r1'] from "md5 629ab776…, not edited by\n  this lane; its own second brief, reconcile-V09-r1, runs beside this one for SS-29 – SS-46's V09 share"
+NARR-PAREN removed ['reconcile-V10-r2'] from 'reconcile-V10-r2, 2026-09-29, 09:25'
+NARR-PAREN removed ['reconcile-V10-r3'] from 'reconcile-V10-r3, 2026-09-29, 10:36'
+NARR-PAREN removed ['reconcile-V09-r3', 'SR2-26 – SR2-28'] from 'md5 4d08c4fa…, not edited by this lane; its own second brief, reconcile-V09-r3, runs beside this one\n  for SR2-23, SR2-26 – SR2-28'
+NARR-PAREN removed ['reconcile-V10-r4'] from 'reconcile-V10-r4, 2026-09-29, 11:42'
+NARR-PAREN removed ['SR3-15'] from 'reconcile-BASE-F-r3, landed 10:39; its *Needed by* now also names V04, SR3-15'
+NARR-PAREN removed ['SR3-12 (e)'] from 'SR3-12 (e)'
+NARR-PAREN removed ['seam-surfaces-r4 SR4-01 – SR4-04'] from 'seam-surfaces-r4 SR4-01 – SR4-04'
+NARR-PAREN removed ['md5 `f16fc374…`'] from 'md5 `f16fc374…`, unchanged since\n  the seam read it'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-02, SR5-03, SR5-05, SR5-06'] from 'seam-surfaces-r5 SR5-02, SR5-03, SR5-05, SR5-06'
+NARR-PAREN removed ['seam-surfaces-r3 SR3-11'] from 'seam-surfaces-r3 SR3-11'
+NARR-PAREN removed ['SR2-13, SR2-14'] from 'SR2-13, SR2-14'
+NARR-PAREN removed ['SR-33'] from 'V09 `94ce6753…`; CVR-V10-17 marked\n**Met**, SR-33'
+NARR-PAREN removed ['SR2-25 (a)'] from 'V09 `4d08c4fa…`; CVR-V10-18 marked\n**Met**, SR2-25 (a)'
+NARR-PAREN removed ['SR2-26'] from 'SR2-26'
+NARR-PAREN removed ['SR2-21, SR2-20'] from 'SR2-21, SR2-20'
+NARR-PAREN removed ['J-SS3.9'] from "V09 §4.9's `bend.under.accessDug` row, J-V9.118;\nJ-SS3.9"
+NARR-PAREN removed ['SR-31', 'SS-33'] from '"Draw a road to its foot" for `bend.raised.island`, V09 §4.20.2 (6), J-VI.4 (d) —\n  reconciliation round 2, second brief, SR-31; "Stairs along the\n  front"; an '
+NARR-PAREN removed ['TR-25'] from 'TR-25'
+NARR-PAREN removed ['SR-06'] from 'SR-06'
+NARR-PAREN removed ['J-SS2.5'] from 'J-SS2.5'
+NARR-PAREN removed ['SR3-04'] from 'SR3-04'
+NARR-PAREN removed ['SS-36'] from 'reconciliation round 1, SS-36'
+NARR-PAREN removed ['SS-28 – SS-46'] from 'its §5, SS-28 – SS-46, read\nin the live text after reconciliation round 4 and the integration continuation'
+NARR-PAREN removed ['SS-09 – SS-27'] from 'SS-09 – SS-27,\nlanded 04:03'
+NARR-PAREN removed ['SR-01', 'SR-07', 'SR-11', 'SR-17 – SR-21 and TR-25'] from 'SR-01, SR-07, SR-11,\nSR-17 – SR-21 and TR-25, landed 05:03'
+NARR-PAREN removed ['SR2-05', 'SR2-08', 'SR2-10', 'SR2-12 and\nSR2-17'] from 'SR2-05, SR2-08, SR2-10, SR2-12 and\nSR2-17, landed 06:25'
+NARR-PAREN removed ['SR2-26'] from 'SR2-26'
+NARR-PAREN removed ['SR2-21,\nSR2-20'] from 'SR2-21,\nSR2-20'
+NARR-PAREN removed ['SR3-07'] from 'SR3-07, landed 07:38'
+NARR-PAREN removed ['seam-surfaces-r3 SR3-11'] from 'seam-surfaces-r3 SR3-11'
+NARR-PAREN removed ['SR3-12 (e)'] from '"Dig down from {building} instead"; SR3-12 (e)'
+NARR-PAREN removed ['J-SS3.9'] from 'J-SS3.9'
+NARR-PAREN removed ['SR3-12 (e)'] from 'SR3-12 (e)'
+NARR-PAREN removed ['SR4-01 – SR4-06'] from 'SR4-01 – SR4-06, raised 12:18 on V10\n`0edd1635…`'
+NARR-PAREN removed ['seam-surfaces-r4 SR4-05'] from 'seam-surfaces-r4 SR4-05'
+NARR-PAREN removed ['SR5-01 – SR5-09'] from 'SR5-01 – SR5-09, raised on V10 `c5aa04a6…`'
+NARR-PAREN removed ['seam-surfaces-r5 SR5-01 (b)'] from 'seam-surfaces-r5 SR5-01 (b);\nJ-V9.123'
+NARR-PAREN removed ['seam-surfaces-r6'] from 'seam-surfaces-r6, major'
+NARR-PAREN removed ['J-SS6.2'] from 'J-SS6.2'
