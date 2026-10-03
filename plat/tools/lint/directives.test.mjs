@@ -105,6 +105,16 @@ describe('the whole-tree check inline-directives', () => {
     expect(directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/src/index.ts')).toEqual({ directives: [] });
   }, LINT);
 
+  it('reads no JSON data the closure reaches: C-0005\'s registries are data, not model code (the checker\'s B1, C-0131)', () => {
+    const root = tree({
+      'packages/kernel/src/arena/roles.json': '{ "version": 1, "roles": [{ "id": 0, "name": "zz-wall" }] }\n',
+      'packages/kernel/src/arena/zz-read.ts': "import roles from './roles.json';\nexport const zzRoleCount: number = roles.roles.length;\n",
+      'packages/tables/data/zz.json': '{ "n": 1 }\n',
+      'packages/tables/src/zz-read.mjs': "import t from '../data/zz.json' with { type: 'json' };\nexport const n = t.n;\n",
+    });
+    expect(checkInlineDirectives(root)).toEqual({ ok: true, problems: [], counts: { files: 2, directives: 0 } });
+  }, LINT);
+
   it('passes the real plat/ tree', () => {
     const r = checkInlineDirectives(PLAT_ROOT);
     expect(r.problems).toEqual([]);

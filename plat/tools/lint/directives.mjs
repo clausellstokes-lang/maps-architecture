@@ -7,7 +7,8 @@
 // naming that one rule and carrying its reason after `--`, which the review reads (C-0125 (6)). The directives are the
 // ones ESLint itself recognises (SourceCode#getInlineConfigNodes), read with inline configuration off, so no directive
 // can hide another from this check; every other plat/ file keeps ESLint's directives (the tree lint's
-// reportUnusedDisableDirectives still refuses an unused one everywhere).
+// reportUnusedDisableDirectives still refuses an unused one everywhere). The closure's `files` are its code files only:
+// the JSON data it reaches (C-0005's registries) carries no directive and is not read here (C-0131).
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { Linter } from 'eslint';

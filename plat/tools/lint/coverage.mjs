@@ -13,6 +13,9 @@
 // the root's. A file is refused, not linted on the side: the tree lint (with its type information, dependency-direction
 // and repository-path) stays the one judge of model code, and the file moves out of the ignored folder. The files the
 // vendored scan reads (a code file of `vendor/<name>@<version>/`; §6.5 (4)) are the scan's, and are counted apart.
+// What the closure reaches that is not code is not model code (C-0131): its JSON data (`closure.data`, C-0005's
+// registries) carries nothing a model rule judges and is counted only; any other file that is neither code nor JSON
+// (`closure.unjudged`: a WebAssembly module, a native addon, an asset) is refused, since no rule can judge it.
 import { join, resolve } from 'node:path';
 import { ESLint } from 'eslint';
 import { stableJson } from '../vendor/common.mjs';
@@ -55,6 +58,9 @@ export async function checkModelCoverage(root = PLAT_ROOT, { eslint = new ESLint
       problems.push(`${rel}: a second ESLint configuration — ESLint looks a configuration up from each file's folder, so it replaces plat/'s eslint.config.js for its folder; plat/ has one (C-0130)`);
     }
   }
+  for (const rel of closure.unjudged ?? []) {
+    problems.push(`${rel}: a file model code (the digest closure) reaches that is neither code the tree lint reads nor JSON data (a WebAssembly module, a native addon, an asset), so no model rule can judge it (§6.5 (3), C-0131)`);
+  }
   for (const rel of closure.files) {
     if (isScannedFile(root, rel)) {
       vendored += 1;
@@ -71,7 +77,7 @@ export async function checkModelCoverage(root = PLAT_ROOT, { eslint = new ESLint
       continue;
     }
     if (ignored) {
-      problems.push(`${rel}: model code (the digest closure) that the tree lint never reads — eslint.config.js ignores it (a test/fixtures/, dist/, coverage/ or node_modules/ folder, or vendor/ outside a scanned library), so no model rule reaches it; move it out of the ignored folder (§6.5 (3), C-0130)`);
+      problems.push(`${rel}: model code (the digest closure) that the tree lint never reads — eslint.config.js ignores it (a test/fixtures/, dist/, coverage/ or node_modules/ folder, or vendor/ outside a scanned library), or no configuration entry matches it, so no model rule reaches it; move it where the tree lint reads it (§6.5 (3), C-0130, C-0131)`);
       continue;
     }
     const missing = config === undefined ? Object.keys(MODEL_RULES).sort(byCodeUnit) : missingModelRules(config);
@@ -81,7 +87,7 @@ export async function checkModelCoverage(root = PLAT_ROOT, { eslint = new ESLint
     }
     linted += 1;
   }
-  return { ok: problems.length === 0, problems, counts: { files: closure.files.length, linted, vendored } };
+  return { ok: problems.length === 0, problems, counts: { files: closure.files.length, linted, vendored, data: closure.data?.length ?? 0 } };
 }
 
 export const check = {

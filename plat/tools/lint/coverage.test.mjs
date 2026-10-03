@@ -5,7 +5,7 @@
 // in force — so a file under a package's test/fixtures/ or dist/ that a model source reaches is ignored exactly as in
 // plat/. Nothing is written into plat/. Every test that loads ESLint carries an explicit timeout (wall time grows with
 // the load of the shared machine).
-import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -13,6 +13,7 @@ import { ESLint } from 'eslint';
 import { afterAll, describe, expect, it } from 'vitest';
 import { CONFIG_FILE, check, checkModelCoverage, missingModelRules, normalizedSetting } from './coverage.mjs';
 import { digestClosure } from './digest-closure.mjs';
+import { checkInlineDirectives } from './directives.mjs';
 import { MODEL_RULES } from './rules/index.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
 import { isScannedFile } from './vendor-scan.mjs';
@@ -65,6 +66,7 @@ function brief(p) {
   const without = / lints without (.+?) at the model setting/.exec(rest);
   if (without) return `${rel} without ${without[1]}`;
   if (/^a second ESLint configuration/.test(rest)) return `${rel} second configuration`;
+  if (/neither code the tree lint reads nor JSON data/.test(rest)) return `${rel} unjudged`;
   if (/cannot be computed/.test(rest)) return `${rel} no configuration`;
   return `${rel} ?? ${rest}`;
 }
@@ -184,7 +186,132 @@ describe('the whole-tree check model-coverage', () => {
     const r = await checkModelCoverage(root, { eslint: failing });
     expect(r.problems.map(brief)).toEqual(['packages/kernel/src/a.mjs no configuration']);
     expect(r.ok).toBe(false);
+    // Not ignored, yet no configuration computed (unreachable in ESLint 10.12, the closing check's note N3): every model
+    // rule is missing, so the file is refused, not counted as linted.
+    const unmatched = { isPathIgnored: async () => false, calculateConfigForFile: async () => undefined };
+    const u = await checkModelCoverage(root, { eslint: unmatched });
+    expect(u.problems.map(brief)).toEqual([`packages/kernel/src/a.mjs without ${ALL}`]);
+    expect(u).toMatchObject({ ok: false, counts: { files: 1, linted: 0 } });
   });
+
+  // C-0005's registries: versioned JSON inside @plat/kernel that the kernel reads (model code may not import node:fs).
+  const JSON_DATA = {
+    'eslint.config.js': treeConfig(),
+    // the checker's plant (checks/M0-d-07.md, closing round r3, B1), at C-0005's path
+    'packages/kernel/src/arena/roles.json': '{ "version": 1, "roles": [{ "id": 0, "name": "zz-wall" }] }\n',
+    'packages/kernel/src/arena/zz-read.ts': "import roles from './roles.json';\nexport const zzRoleCount: number = roles.roles.length;\n",
+    'packages/kernel/src/registry/stages.json': '{ "version": 1, "stages": ["S0"] }\n',
+    'packages/kernel/src/registry/zz-stages.ts': "import stages from './stages.json';\nexport const zzStageCount: number = stages.stages.length;\n",
+    // the same in @plat/tables, a JSON file outside a package's src/, and one in an ignored folder: all data
+    'packages/tables/src/zz-table.json': '{ "cells": [1, 2] }\n',
+    'packages/tables/src/zz-read.ts': "import table from './zz-table.json';\nexport const zzCells: number = table.cells.length;\n",
+    'packages/kernel/data/zz-outside.json': '{ "n": 1 }\n',
+    'packages/kernel/src/zz-outside.ts': "import outside from '../data/zz-outside.json';\nexport const zzN: number = outside.n;\n",
+    'packages/site/test/fixtures/zz/table.json': '{ "n": 2 }\n',
+    'packages/site/src/zz-fixture.ts': "import table from '../test/fixtures/zz/table.json';\nexport const zzT: number = table.n;\n",
+  };
+  const DATA = ['packages/kernel/data/zz-outside.json', 'packages/kernel/src/arena/roles.json', 'packages/kernel/src/registry/stages.json', 'packages/site/test/fixtures/zz/table.json', 'packages/tables/src/zz-table.json'];
+
+  it('passes model code that imports its JSON data (C-0005\'s registries) through the tree lint, inline-directives and model-coverage (the checker\'s B1, C-0131)', async () => {
+    const root = tree(JSON_DATA);
+    const closure = digestClosure(root);
+    expect(closure.data).toEqual(DATA);
+    expect(closure.files).toEqual(['packages/kernel/src/arena/zz-read.ts', 'packages/kernel/src/registry/zz-stages.ts', 'packages/kernel/src/zz-outside.ts', 'packages/site/src/zz-fixture.ts', 'packages/tables/src/zz-read.ts']);
+    expect(closure.outside).toEqual([]); // no JSON file in the plat/digest-closure entry: ESLint would parse it as code
+    expect(closure.unjudged).toEqual([]);
+
+    // The tree lint through plat/'s own configuration array: every source read, nothing reported, no JSON parsed as code.
+    const results = await new ESLint({ cwd: root }).lintFiles(['.']);
+    expect(results.map((x) => x.filePath.slice(root.length + 1)).sort()).toEqual(['eslint.config.js', ...closure.files]);
+    expect(results.flatMap((x) => x.messages)).toEqual([]);
+
+    expect(checkInlineDirectives(root)).toEqual({ ok: true, problems: [], counts: { files: 5, directives: 0 } });
+    const r = await check.run(root); // the check as `corepack pnpm lint` runs it
+    expect(r).toEqual({ ok: true, problems: [], counts: { files: 5, linted: 5, vendored: 0, data: 5 } });
+  }, LINT);
+
+  it('still refuses a code file reached the same way under test/fixtures/ (C-0130 (1), C-0131)', async () => {
+    const root = tree({
+      ...JSON_DATA,
+      'packages/kernel/test/fixtures/zz-q/x.mjs': 'export const q = Math.cos(1);\n',
+      'packages/kernel/src/arena/zz-code.ts': "export { q } from '../../test/fixtures/zz-q/x.mjs';\n",
+    });
+    const closure = digestClosure(root);
+    expect(closure.data).toEqual(DATA);
+    expect(closure.outside).toEqual(['packages/kernel/test/fixtures/zz-q/x.mjs']);
+    const r = await check.run(root);
+    expect(r.problems.map(brief)).toEqual(['packages/kernel/test/fixtures/zz-q/x.mjs ignored']);
+    expect(r).toMatchObject({ ok: false, counts: { files: 7, linted: 6, vendored: 0, data: 5 } });
+  }, LINT);
+
+  it('refuses a file model code reaches that is neither code nor JSON data (C-0131)', async () => {
+    const root = tree({
+      'eslint.config.js': treeConfig(),
+      'packages/kernel/src/accel.wasm': '\0asm',
+      'packages/kernel/src/addon.node': 'native',
+      'packages/kernel/src/zz-accel.ts': "import accel from './accel.wasm';\nimport addon = require('./addon.node');\nexport const a = [accel, addon];\n",
+    });
+    const closure = digestClosure(root);
+    expect(closure).toMatchObject({ files: ['packages/kernel/src/zz-accel.ts'], data: [], unjudged: ['packages/kernel/src/accel.wasm', 'packages/kernel/src/addon.node'] });
+    const r = await check.run(root);
+    expect(r.problems.map(brief)).toEqual(['packages/kernel/src/accel.wasm unjudged', 'packages/kernel/src/addon.node unjudged']);
+    expect(r).toMatchObject({ ok: false, counts: { files: 1, linted: 1, vendored: 0, data: 0 } });
+    expect(checkInlineDirectives(root)).toMatchObject({ ok: true, counts: { files: 1 } }); // read by neither check as code
+  }, LINT);
+
+  it('takes a path into node_modules for the vendored library it names when its bytes are the library\'s (the closing check\'s note N4, C-0131)', async () => {
+    const root = tree({
+      'eslint.config.js': treeConfig(),
+      'vendor/zz-lib@1.0.0/package.json': '{ "name": "zz-lib", "version": "1.0.0" }\n',
+      'vendor/zz-lib@1.0.0/index.js': 'export default 1;\n',
+      'packages/kernel/package.json': '{ "name": "@plat/kernel", "dependencies": { "zz-lib": "workspace:*" } }\n',
+      // the adapter's node_modules spelling, which dependency-direction allows (C-0129 (3))
+      'packages/kernel/src/adapters/zz-lib.ts': "export { default } from '../../node_modules/zz-lib/index.js';\n",
+      // a copy of the library's name that is not the vendored bytes: still model code the tree lint never reads
+      'packages/layout/node_modules/zz-lib/index.js': 'export default Math.sin(1);\n',
+      'packages/layout/src/zz-copy.ts': "export { default as c } from '../node_modules/zz-lib/index.js';\n",
+      // a link of the name into the library's own node_modules, whose files the scan does not read: the same
+      'vendor/zz-lib@1.0.0/node_modules/zz-lib/index.js': 'export default Math.cos(1);\n',
+      'packages/site/src/zz-inner.ts': "export { default as i } from '../node_modules/zz-lib/index.js';\n",
+      // a link of the name to another vendored library's folder: not the named library's bytes, the same
+      'vendor/zz-other@1.0.0/package.json': '{ "name": "zz-other", "version": "1.0.0" }\n',
+      'vendor/zz-other@1.0.0/index.js': 'export default 2;\n',
+      'packages/tables/src/zz-other.ts': "export { default as o } from '../node_modules/zz-lib/index.js';\n",
+    });
+    mkdirSync(join(root, 'packages/kernel/node_modules'), { recursive: true });
+    symlinkSync('../../../vendor/zz-lib@1.0.0', join(root, 'packages/kernel/node_modules/zz-lib'));
+    mkdirSync(join(root, 'packages/site/node_modules'), { recursive: true });
+    symlinkSync('../../../vendor/zz-lib@1.0.0/node_modules/zz-lib', join(root, 'packages/site/node_modules/zz-lib'));
+    mkdirSync(join(root, 'packages/tables/node_modules'), { recursive: true });
+    symlinkSync('../../../vendor/zz-other@1.0.0', join(root, 'packages/tables/node_modules/zz-lib'));
+
+    const closure = digestClosure(root);
+    expect(closure).toMatchObject({
+      files: [
+        'packages/kernel/src/adapters/zz-lib.ts',
+        'packages/layout/node_modules/zz-lib/index.js', 'packages/layout/src/zz-copy.ts',
+        'packages/site/node_modules/zz-lib/index.js', 'packages/site/src/zz-inner.ts',
+        'packages/tables/node_modules/zz-lib/index.js', 'packages/tables/src/zz-other.ts',
+      ],
+      vendored: ['zz-lib'],
+      data: [],
+      unjudged: [],
+    });
+    // The library's folder is judged by its real path: the same closure through a root reached by a link.
+    const alias = join(realpathSync(tmpdir()), `plat-coverage-alias-${process.pid}-${Date.now()}`);
+    symlinkSync(root, alias);
+    temps.push(alias);
+    expect(digestClosure(alias)).toEqual(closure);
+
+    // The adapter passes the tree lint and both checks; the copy and the two other links fail closed in both.
+    const [adapter] = await new ESLint({ cwd: root }).lintFiles(['packages/kernel/src/adapters/zz-lib.ts']);
+    expect(adapter.messages).toEqual([]);
+    const unread = ['packages/layout/node_modules/zz-lib/index.js', 'packages/site/node_modules/zz-lib/index.js', 'packages/tables/node_modules/zz-lib/index.js'];
+    const r = await check.run(root);
+    expect(r.problems.map(brief)).toEqual(unread.map((f) => `${f} ignored`));
+    const d = checkInlineDirectives(root);
+    expect(d.problems.map((p) => p.replace(/ \(No matching configuration found.*$/, ''))).toEqual(unread.map((f) => `${f}:0: cannot be read`));
+  }, LINT);
 
   it('reads ESLint\'s settings and the configuration files\' names', () => {
     expect(normalizedSetting('error')).toEqual([2]);

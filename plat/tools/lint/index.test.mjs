@@ -17,7 +17,7 @@ import { afterAll, describe, expect, it, vi } from 'vitest';
 import { digestClosure } from './digest-closure.mjs';
 import plugin, { closure, recommendedFor } from './index.mjs';
 import { MODEL_RULES, MODEL_RULE_NAMES, rules } from './rules/index.mjs';
-import { CODE_EXTENSIONS, PLAT_ROOT } from './rules/shared.mjs';
+import { CODE_EXTENSIONS, CODE_FILE, PLAT_ROOT } from './rules/shared.mjs';
 
 const LINT = 60_000;
 const temps = [];
@@ -148,6 +148,11 @@ describe('the digest closure', () => {
     expect(closure.outside).toEqual([]);
     expect(closure.external).toEqual([]);
     expect(closure.unresolved).toEqual([]);
+    // Its files are code only: JSON data (C-0005's registries, from wave 3) is listed apart and nothing else non-code
+    // is reached (C-0131).
+    expect(closure.files.every((f) => CODE_FILE.test(f))).toBe(true);
+    expect(closure.data.every((f) => f.endsWith('.json'))).toBe(true);
+    expect(closure.unjudged).toEqual([]);
   });
 
   it('finds a module outside the model packages that a model file imports, of every code extension', () => {

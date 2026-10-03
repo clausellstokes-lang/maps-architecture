@@ -1,21 +1,21 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-d-07",
-  "lane": "build/M0-d-07-fix3",
-  "lanes": ["build/M0-d-07", "build/M0-d-07-fix1", "build/M0-d-07-fix2", "build/M0-d-07-fix3"],
+  "lane": "build/M0-d-07-fix4",
+  "lanes": ["build/M0-d-07", "build/M0-d-07-fix1", "build/M0-d-07-fix2", "build/M0-d-07-fix3", "build/M0-d-07-fix4"],
   "wave": "wave-1",
   "snapshotTaken": "2026-10-03T19:45:17.444Z",
-  "date": "2026-10-03T22:09:48.608Z",
+  "date": "2026-10-03T22:35:38.047Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/tools/lint/ (rules/, fixtures/, index.mjs, vendor-scan.mjs, paths.mjs, licences.mjs)", "plat/packages/kernel/vendor-audit.json"],
   "counts": { "created": 104, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/kernel/vendor-audit.json", "status": "created", "sha256": "b62b05008e05c1c7bdbbc11719fcc8635df79eb9aab91b01b9029ccec330cdbe", "size": 11883 },
-    { "path": "plat/tools/lint/coverage.mjs", "status": "created", "sha256": "137082ac81c01cec1c471848442ad6fc763f786e00a81d9de189d9867f5741f3", "size": 5248 },
-    { "path": "plat/tools/lint/coverage.test.mjs", "status": "created", "sha256": "2e2c638e5bc2ca54e1e90f58b5a69dcde0b9f4d3cc080dfa5713260bb729a272", "size": 12022 },
-    { "path": "plat/tools/lint/digest-closure.mjs", "status": "created", "sha256": "4e5924032c8db128623e0788c0098460ad53190469182f6977b4155f23da2fd7", "size": 4113 },
-    { "path": "plat/tools/lint/directives.mjs", "status": "created", "sha256": "b6e4970510c6130058015df180c94e79c9fe3c7e8283bae2f41e2494f3fd4b92", "size": 4512 },
-    { "path": "plat/tools/lint/directives.test.mjs", "status": "created", "sha256": "f0b1296a4f94c815f8624c990a60abde0bd6dc590f249649b6074e0091c555d1", "size": 6643 },
+    { "path": "plat/tools/lint/coverage.mjs", "status": "created", "sha256": "0af31d1f0f0ef1b7cdfa7bbe10a6d5360a5582a8212fc20c778be67537cf5fa9", "size": 5954 },
+    { "path": "plat/tools/lint/coverage.test.mjs", "status": "created", "sha256": "cd7fbab092e8e919baeda12b462d44229bdb276fc6bf807a4bea69613f83e5c0", "size": 21376 },
+    { "path": "plat/tools/lint/digest-closure.mjs", "status": "created", "sha256": "c07f6bed2fb591bbc3ddb89f7c52d8ffea3db7c389dac4a2b1d4fffc7e0bab70", "size": 6869 },
+    { "path": "plat/tools/lint/directives.mjs", "status": "created", "sha256": "c98fb6a7eb08529c5bde6a1133910ef8cb7735ac492e16949ef994557f7d622d", "size": 4661 },
+    { "path": "plat/tools/lint/directives.test.mjs", "status": "created", "sha256": "9eb9c1ed59f0b9abf04ae6fcfc5d96b8576f7698fb610b29c69fbaeacbe0accb", "size": 7362 },
     { "path": "plat/tools/lint/fixtures/README.md", "status": "created", "sha256": "87d7493ed4a712e703e627f5f8a33ea9a93344449f02eefee215ae25582b6dd6", "size": 1566 },
     { "path": "plat/tools/lint/fixtures/dependency-direction/fail-bench-adapter.ts", "status": "created", "sha256": "02f410455912d3f25be457e634367a429d368b1cb321662b5d714148ace951f0", "size": 193 },
     { "path": "plat/tools/lint/fixtures/dependency-direction/fail-bench-node-modules.ts", "status": "created", "sha256": "d0c91e4ef7080689cf46617056199c85fb2d3562d77292421526981f72a5a27f", "size": 338 },
@@ -92,7 +92,7 @@
     { "path": "plat/tools/lint/fixtures/vendor-scan/simplex-noise@4.0.3-unpatched/esm/simplex-noise.js", "status": "created", "sha256": "64e571e6d28da06fdd230110b8ce242285e76137e7258938f3b68a0fd6ff8146", "size": 18735 },
     { "path": "plat/tools/lint/fixtures/vendor-scan/simplex-noise@4.0.3-unpatched/simplex-noise.ts", "status": "created", "sha256": "54ed75fe5352210fb47247c38d2cc0e8ab565f469e6515ddcea04e24d44313ea", "size": 18056 },
     { "path": "plat/tools/lint/index.mjs", "status": "changed", "sha256": "07c7f8220205075f8142a47c487f64795840ce98bd55f6c477f3316ad23af22d", "size": 5338 },
-    { "path": "plat/tools/lint/index.test.mjs", "status": "created", "sha256": "3436935fd6b97d542452195b53f62f81a065c596def6534d3662a442223d0a04", "size": 15412 },
+    { "path": "plat/tools/lint/index.test.mjs", "status": "created", "sha256": "4e7514d33e4a6d749460c1687662da836f15aaf90ca140faf267c2e0474e6fa5", "size": 15753 },
     { "path": "plat/tools/lint/licences.mjs", "status": "created", "sha256": "d8473246550eef75cf8ac5f251d0efac716c847b5521b77ccd776e5e96f50711", "size": 2288 },
     { "path": "plat/tools/lint/licences.test.mjs", "status": "created", "sha256": "480c313b9cf7d9223e11f7e0c74c9fddf0431c5ca76d7cd220e37de0221f7c25", "size": 1275 },
     { "path": "plat/tools/lint/no-bare-pnpm.test.mjs", "status": "created", "sha256": "cb197575ef6427c892063bf5b209cc054470164d44d9890c05e4f2c91a2141d1", "size": 5381 },
@@ -119,14 +119,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0022", "L-0024", "L-0026", "L-0028"],
-      "lines": ["c16879cf14e2b5c3", "a22ffa6ced1f7e90", "043a3c38061a5307", "8ecc4e22389e7b67"],
+      "ids": ["L-0022", "L-0024", "L-0026", "L-0028", "L-0030"],
+      "lines": ["c16879cf14e2b5c3", "a22ffa6ced1f7e90", "043a3c38061a5307", "8ecc4e22389e7b67", "e2559e06a49af189"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0125", "C-0126", "C-0127", "C-0128", "C-0129", "C-0130"],
-      "lines": ["f1a3430afa5c576b", "1839fe190169abe7", "8f1f98502dde151f", "64dffc93fb282433", "275cafc0571bf5ef", "68323edefeedc3ff"],
+      "ids": ["C-0125", "C-0126", "C-0127", "C-0128", "C-0129", "C-0130", "C-0131"],
+      "lines": ["f1a3430afa5c576b", "1839fe190169abe7", "8f1f98502dde151f", "64dffc93fb282433", "275cafc0571bf5ef", "68323edefeedc3ff", "bcd2fcc28f403eab"],
       "removed": []
     }
   ]
