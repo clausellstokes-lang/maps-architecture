@@ -1127,6 +1127,9 @@
     "VV12-01",
     "VV12-08",
     "VV1112-06"
+   ],
+   "kernel": [
+    "VK0-04"
    ]
   },
   "runs": [
@@ -1182,6 +1185,15 @@
      "VV12-01",
      "VV12-08",
      "VV1112-06"
+    ]
+   },
+   {
+    "script": "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/restore-r1-03.js",
+    "units": [
+     "kernel"
+    ],
+    "findings": [
+     "VK0-04"
     ]
    }
   ]

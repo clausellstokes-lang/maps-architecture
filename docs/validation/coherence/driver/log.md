@@ -8,3 +8,6 @@
 - restore round 1 (J130): run 1 launched for determinism, rendering, V02, scope, V03, V06, V09, V10, V12 at 05:59 UTC (run wf_50c9d859-98a)
 - step 2: restore round 1 planned: 8 finding(s) of kinds NUANCE-LOST, LOST, CHANGED over model, pipeline in 1 run(s)
 - restore round 1 (J130): run 2 launched for pipeline, model at 06:01 UTC (run wf_7c97b5a1-549); VM0-21 (LOST, owned by determinism, raised by the model checker after determinism's restore seat started) waits for a round-2 restore of late findings
+- step 2: restore round 1 planned: 1 finding(s) of kinds NUANCE-LOST, LOST, CHANGED over kernel in 1 run(s)
+- restore round 1 (J130): run 3 planned for kernel; late findings for units already planned (determinism VM0-21; rendering VK0-03, VK0-13) wait for a round-2 restore
+- restore round 1 (J130): run 3 launched for kernel at 06:01 UTC (run wf_d9c99ba1-4da)
