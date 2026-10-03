@@ -785,3 +785,50 @@ vetoable interpretation.
      access), V07 (a village over a former city; refounding at village rungs), V11 (event-to-epoch rows, burial thresholds), V09 (the
      history option in the editor), V10 (the story told), V12 (the bars and the replay's budget). Applied by the coherence pass to base
      and volumes like items 111 and 112 (J124).
+
+114. **OWNER RULE — What the town builds by itself is a list of switches; deleting one is for now, not forever (owner, 2026-10-02
+     ~22:30 EDT, filed 2026-10-03 02:35 UTC).** Owner, on the suppression rule (a deleted aqueduct, viaduct, retaining wall, quay
+     wall, harbour chain or deck plot never rebuilt until undone): "I don't know. What if they don't want it now but they want it
+     later how could they walk it back? Rather somewhere in the advance, there should just be a comprehensive list of these extra
+     drawings that they can toggle for it to be on and off. Deleting it from a map just means that it's not there at that time and
+     it could be built somewhere else or at another time if it's still toggled on." Program's interpretation under the owner's
+     delegation (J122; vetoable):
+     **(a) THE LIST.** The advanced panel (V09 §4.14) gains one group, **Built by the town**, listing every kind of thing the
+     generator adds by its own rules that no dossier record requires — one row per kind, each **on** (as the rules say) or **off**
+     (the generator never builds that kind). The list is COMPREHENSIVE: it is assembled from the whole set (every re-adding
+     generator, every existence chance or rule that adds a feature the dossier does not bind), and every such kind has its row; a
+     kind the dossier makes exist is not on the list (the dossier is the sole truth, items 20, 22) and its dossier-bound
+     instances are never touched by a switch. Provisional groups, to be completed by that enumeration: raised ways (viaducts,
+     elevated roads, aqueducts — today's single row "Raised ways the town builds by itself: as the rules say · none" is split into
+     its kinds and joins the list), terrace retaining walls, building plots on bridges and decks, quay walls with their sea gates,
+     the harbour-mouth chain, oases, floating islands and their sky accesses, and the underground's optional systems. Each row's
+     default is its kind's current default, so a document that never touches the list generates exactly as before (no-op pin).
+     **(b) A SWITCH.** A setting of the map, on the settings layers of §7.6 (this town; your preferences as the default for new
+     maps; a preset may set it), never written to the dossier (map-side, item 22), changed by one `adjust` event, previewed and
+     undone as any other. Turning a kind OFF removes the generator's standing instances of that kind (each listed in the preview)
+     and never an instance the author drew or one the dossier binds; turning it back ON lets the generator build that kind again
+     at the next derivation (the preview lists what it adds). The clerk answers "why is there no aqueduct?" with the switch.
+     **(c) DELETING ONE IS FOR NOW.** A delete of one generated instance removes that instance as any generated content and holds
+     while the town is unchanged — a plain Regenerate, a reload and crash recovery give the map as the author left it — and LAPSES
+     when the town next changes in a way that re-reads that kind: the next growth or decline step (an epoch), a New random over a
+     place it crossed, or a Re-derive of the stage that builds it. The generator then decides afresh and, while the kind is on,
+     may build one again, on another course or the same. A deleted instance never counts against its kind's caps. The
+     reason-keyed suppression that held a deletion forever (`LifecycleEvent.detail.suppress`, file f item 260, J-VI.14; V06
+     §2.13's suppressed set; the islands' and sky accesses' removed slots counted as filled, V05 §2.1) is WITHDRAWN: what the
+     author never wants is the switch's job. The islands keep their archived arena part and households for undo. Undo restores
+     a deleted instance; **Build it again** stays, and makes the instance the author's own (held as drawn content).
+     **(d) WORDS.** The delete preview and the history row say it plainly: "Removed for now — the town may build one again when
+     it changes. To stop it building {kind}s, turn them off in Advanced › Built by the town." (V09's `info.remove.holds` row
+     rewritten in these terms; V06's dry-run lines and the clerk's lines use the same row.)
+     **(e) BARS.** A kind switched off: none of it over the calibration seeds at every rung and every epoch; switched back on: it
+     returns at the next derivation; a delete then a plain Regenerate: byte-identical and still absent; a delete then one epoch:
+     the generator may rebuild it and the deleted one counts against no cap; a dossier-bound instance survives every switch; the
+     switches never reach the dossier; a document with every row at its default is byte-identical to the base (no-op pin); an
+     older document's suppression records migrate as plain deletions that lapse at the next change.
+     **HOMES:** §2.8 (the suppression bullet replaced by (c)), §7.1 and §7.4 (the delete's dry run and lifecycle rows), §7.6 and
+     §7.8 (the switch rows in the settings registry), every stage that builds a listed kind (reads its switch), §13.2 (bars).
+     Volumes: V09 (the list in §4.14, §4.20.3's delete, the history row), V06 (§2.13's ledger and §3.19 without the suppressed
+     set), V05 (islands and accesses: removed slots not counted as filled), V04 (the underground's optional systems on the
+     list), V07 (the kinds a village builds), V08 (map-side, never the dossier), V10 (the clerk's answers), V11 (the switch
+     rows and their defaults), V12 (the bars). Applied by the coherence pass to the base and the volumes like items 111 to 113
+     (J126); as an owner rule it takes precedence over file f item 260 and J-VI.14.

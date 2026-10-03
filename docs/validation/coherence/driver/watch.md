@@ -32,3 +32,12 @@ item 106), and item 106 (g)'s unwalled sides are among the clerk's explained sub
 item is closed in its rewrite; OP-1 and OP-2 remain for the loop.
 
 Not findings (kept for the record): assemble r0's live-versus-source note (the live files are authoritative after assembly), the size (−7.8 % by words: base +13.3 % with files f and g applied, volumes −14.9 %; the validator judges the shortfall under principle (9); §0 −52.3 % and the judgment index −36.8 % go to the verifiers' nuance audit) and the provisional doc checks (corpus absent here).
+
+## Owner rule 114 (J126) — to be routed into the first repair round
+
+Filed 2026-10-03 02:35 UTC, while the round-0 sweep ran (its seats read file g when they started, so most will not check
+it). After the sweep, and before the repair round is planned: an enumeration over the live base and volumes lists every
+kind the generator adds by its own rules that no dossier record binds (re-adding generators, existence chances), with each
+kind's current default, the stage that builds it and today's removal behaviour; then the per-unit changes of item 114's
+HOMES become operator findings (kind F-MISSING, one per unit, each with the exact required change), checked against the
+sweep's own findings so nothing is doubled. From round 1 on, every verifier reads item 114 in file g and checks it.
