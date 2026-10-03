@@ -1,0 +1,8 @@
+defined {"steps": ["0", "1", "2", "3", "4", "5", "6", "7"], "cross_rows": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "cross_cols": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "wc_rows": ["a", "b", "c", "d", "e"], "sentences": {"lock": true, "bent-group": true, "fixed-place": true}, "bent_group_items": ["i", "ii", "iii", "iv"], "italic_names": 167}
+worked-example citations by unit {'base': 124, 'V01': 6, 'V04': 13, 'V05': 1, 'V06': 46, 'V07': 23, 'V09': 20, 'V10': 1, 'V11': 4} total 238
+targets {'the crossing table': 78, 'lock sentence': 31, 'italic name': 120, 'col Cm': 12, 'fixed-place sentence': 23, 'way-and-channel': 33, 'wc row': 28, 'row Wn': 58, 'bent-group sentence': 13, 'bent-group item': 3}
+support step (n) citations {'base': 17, 'V01': 1, 'V04': 5, 'V06': 5, 'V11': 2} total 30
+bad 0
+unparsed 1
+  ? V07 1612 | §2.7's crossing table
+(6)'s held sites 0

@@ -1,0 +1,19 @@
+# §11.1 VRC4T-02: the GeoJSON row, the base's list of the exporter's features, names the `supplyLink` feature.
+@@ FILE 11.1.md
+<<<<
+per active chain whose every joined node the key admits (V08 §5.2; SettlementForge stage, file f item 410);
+====
+per active chain whose every joined node the key admits (V08 §5.2; SettlementForge stage, file f item 410); with `ExportOpts.links` (§11.2), one LineString of kind `supplyLink` per supply link within the export's scope — `good`, `consumer`, `provider`, `satisfaction`, `declared`, as the `links` query reads them (§11.2), a withheld end by address and kind and a concealed use's links left out;
+>>>>
+# §11.1 END of R5-02 (R1): the 3-D row's wall run beneath a raised way's span exported topped at its soffit; the sweep
+# (R5-01 (2)) carries it to CityJSON's wall objects, which the row's "glTF and CityJSON agree by construction" binds.
+<<<<
+a curtain wall's top carrying its walk (`Enceinte.walkCm` wide), by run (g item 114):
+====
+a curtain wall's top carrying its walk (`Enceinte.walkCm` wide) and a run beneath a raised way's span topped at that span's soffit (§2.7's support step (6) (d)), by run (g item 114):
+>>>>
+<<<<
+a `breached` or `dismantled` run none (g item 114);
+====
+a `breached` or `dismantled` run none (g item 114), a run beneath a raised way's span topped at its soffit as in glTF (§2.7's support step (6) (d));
+>>>>

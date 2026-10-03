@@ -1,0 +1,796 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V02-buildings.md",
+ "input_doc_sha256": "a11f04ccc93d0fcefbef0e58fd633b75a237db3ee1ed2186daf7f15534980a6d",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V02.md",
+   "sha256": "e651a346fe6160346c743b3e117e6265a9b836ba2269137d479228e172c58dd5",
+   "lines": 2138,
+   "blocks": 28,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V02.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r2-V02.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 109,
+   "body_sha256": "340b35b0a8a1c21d609d0ade95b08ab72a14a2cbf1956c21e90148d247694bef",
+   "target_line": 12,
+   "section_old": "12–112",
+   "section_old_n": 101,
+   "section_new_n": 110,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V02.md #2 (l. 114) REPLACE ### 1a Scope",
+   "file": "repair-r2-V02.md",
+   "index": 2,
+   "line": 114,
+   "kind": "REPLACE",
+   "heading": "### 1a Scope",
+   "body_lines": 37,
+   "body_sha256": "6b900d5a05db9dad9e282c7e0808a57868b0e1d6cdd37a553c2b43a66f29c0e6",
+   "target_line": 124,
+   "section_old": "124–157",
+   "section_old_n": 34,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 1a Scope"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V02.md #3 (l. 154) REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r2-V02.md",
+   "index": 3,
+   "line": 154,
+   "kind": "REPLACE",
+   "heading": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 121,
+   "body_sha256": "56ce02efd34a20825689d966e9b44b2d5981f0158b6b9c165d13fa0210a5e40a",
+   "target_line": 162,
+   "section_old": "162–282",
+   "section_old_n": 121,
+   "section_new_n": 122,
+   "new_headings": [
+    "### 1b The wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V02.md #4 (l. 278) REPLACE ### 1c The base hooks consumed (by section)",
+   "file": "repair-r2-V02.md",
+   "index": 4,
+   "line": 278,
+   "kind": "REPLACE",
+   "heading": "### 1c The base hooks consumed (by section)",
+   "body_lines": 45,
+   "body_sha256": "55190f82aab0b06a1f63a9e6bd9d741223a02c90a36da27f6604909a2c7f5c3f",
+   "target_line": 284,
+   "section_old": "284–325",
+   "section_old_n": 42,
+   "section_new_n": 46,
+   "new_headings": [
+    "### 1c The base hooks consumed (by section)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V02.md #5 (l. 326) REPLACE ### 1d Out of scope (and where it lives)",
+   "file": "repair-r2-V02.md",
+   "index": 5,
+   "line": 326,
+   "kind": "REPLACE",
+   "heading": "### 1d Out of scope (and where it lives)",
+   "body_lines": 37,
+   "body_sha256": "aa924d69ea9af0e985023aae6e1a34caceeef5740bd0ae82d675f1743043a296",
+   "target_line": 330,
+   "section_old": "330–359",
+   "section_old_n": 30,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 1d Out of scope (and where it lives)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V02.md #6 (l. 366) REPLACE ### 2.2 The composition's records (lazy; stored only when edited)",
+   "file": "repair-r2-V02.md",
+   "index": 6,
+   "line": 366,
+   "kind": "REPLACE",
+   "heading": "### 2.2 The composition's records (lazy; stored only when edited)",
+   "body_lines": 24,
+   "body_sha256": "64686dea3319e3b18fca41a40078f4a2d5ae75d43034cc9419d147e8b39aeeb6",
+   "target_line": 431,
+   "section_old": "431–465",
+   "section_old_n": 35,
+   "section_new_n": 25,
+   "new_headings": [
+    "### 2.2 The composition's records (lazy; stored only when edited)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V02.md #7 (l. 393) REPLACE ### 2.3 The composition tables (`composition.json`, `@plat/tables`)",
+   "file": "repair-r2-V02.md",
+   "index": 7,
+   "line": 393,
+   "kind": "REPLACE",
+   "heading": "### 2.3 The composition tables (`composition.json`, `@plat/tables`)",
+   "body_lines": 84,
+   "body_sha256": "4d1c1b57cbda7754b91e6b95453788e64be54481f5c5496607a821c1c38fc42e",
+   "target_line": 456,
+   "section_old": "456–540",
+   "section_old_n": 85,
+   "section_new_n": 85,
+   "new_headings": [
+    "### 2.3 The composition tables (`composition.json`, `@plat/tables`)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V02.md #8 (l. 480) APPEND TO SECTION ### 2.4 Derived at read (never stored)",
+   "file": "repair-r2-V02.md",
+   "index": 8,
+   "line": 480,
+   "kind": "APPEND TO SECTION",
+   "heading": "### 2.4 Derived at read (never stored)",
+   "body_lines": 15,
+   "body_sha256": "cb8c950b4e2ac84799bb66990eaf84b14aaca5529a2d1518b384187e5b7df049",
+   "target_line": 541,
+   "section_old": "541–557",
+   "section_old_n": 17,
+   "inserted_at_line": 557,
+   "lines_inserted": 16,
+   "new_headings": []
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V02.md #9 (l. 498) REPLACE ### 2.5 Identity and lifecycle of every state field",
+   "file": "repair-r2-V02.md",
+   "index": 9,
+   "line": 498,
+   "kind": "REPLACE",
+   "heading": "### 2.5 Identity and lifecycle of every state field",
+   "body_lines": 32,
+   "body_sha256": "ffdbc28a669db8172bac8184e1ce5dd67dc7dd631cda4f1bad1874ecc58b04b2",
+   "target_line": 574,
+   "section_old": "574–605",
+   "section_old_n": 32,
+   "section_new_n": 33,
+   "new_headings": [
+    "### 2.5 Identity and lifecycle of every state field"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V02.md #10 (l. 533) REPLACE ### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))",
+   "file": "repair-r2-V02.md",
+   "index": 10,
+   "line": 533,
+   "kind": "REPLACE",
+   "heading": "### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))",
+   "body_lines": 137,
+   "body_sha256": "7b56ea72499438cec63a5109c4ab2aa9a6e1c362016d09baad22ece819ae6ae0",
+   "target_line": 607,
+   "section_old": "607–745",
+   "section_old_n": 139,
+   "section_new_n": 138,
+   "new_headings": [
+    "### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-V02.md #11 (l. 673) REPLACE ### 3.2 The row a building reads, and its band",
+   "file": "repair-r2-V02.md",
+   "index": 11,
+   "line": 673,
+   "kind": "REPLACE",
+   "heading": "### 3.2 The row a building reads, and its band",
+   "body_lines": 96,
+   "body_sha256": "8c869d83294371ac568d22ff3c26d4f889e0c6f40ff74137e12226c4c029a300",
+   "target_line": 766,
+   "section_old": "766–862",
+   "section_old_n": 97,
+   "section_new_n": 97,
+   "new_headings": [
+    "### 3.2 The row a building reads, and its band"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-V02.md #12 (l. 772) REPLACE ### 3.8 The `rooms` rung — the composer's principal rooms",
+   "file": "repair-r2-V02.md",
+   "index": 12,
+   "line": 772,
+   "kind": "REPLACE",
+   "heading": "### 3.8 The `rooms` rung — the composer's principal rooms",
+   "body_lines": 52,
+   "body_sha256": "d87f4b27d58ed98ab13c0a74365038ff57aba3dd58b99bad6590e87055741d88",
+   "target_line": 1383,
+   "section_old": "1383–1434",
+   "section_old_n": 52,
+   "section_new_n": 53,
+   "new_headings": [
+    "### 3.8 The `rooms` rung — the composer's principal rooms"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-V02.md #13 (l. 827) REPLACE ### 3.10 The default rows — the diversity ladder from hovel to giant manor",
+   "file": "repair-r2-V02.md",
+   "index": 13,
+   "line": 827,
+   "kind": "REPLACE",
+   "heading": "### 3.10 The default rows — the diversity ladder from hovel to giant manor",
+   "body_lines": 409,
+   "body_sha256": "690aa2ccfc8b74159f906d4d98ea45594f85a24ac4bd21a3e66f5dc6534b152d",
+   "target_line": 1525,
+   "section_old": "1525–1934",
+   "section_old_n": 410,
+   "section_new_n": 410,
+   "new_headings": [
+    "### 3.10 The default rows — the diversity ladder from hovel to giant manor"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-V02.md #14 (l. 1239) REPLACE ### 3.11 Elaboration by click, staleness and the canonical prior",
+   "file": "repair-r2-V02.md",
+   "index": 14,
+   "line": 1239,
+   "kind": "REPLACE",
+   "heading": "### 3.11 Elaboration by click, staleness and the canonical prior",
+   "body_lines": 42,
+   "body_sha256": "4d98982132951540d4b341b9d3b8b5396b1991870d1043d7d6c159e4da9c6ce8",
+   "target_line": 1935,
+   "section_old": "1935–1970",
+   "section_old_n": 36,
+   "section_new_n": 43,
+   "new_headings": [
+    "### 3.11 Elaboration by click, staleness and the canonical prior"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r2-V02.md #15 (l. 1284) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r2-V02.md",
+   "index": 15,
+   "line": 1284,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 120,
+   "body_sha256": "d9c4311f237bdc25bf32cb0f3ef452190ec31287c0b209e17a9a5cf0bd01d6b6",
+   "target_line": 2423,
+   "section_old": "2423–2528",
+   "section_old_n": 106,
+   "section_new_n": 121,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r2-V02.md #16 (l. 1407) REPLACE ### 4.5 The canvas, the clerk and the skeleton file",
+   "file": "repair-r2-V02.md",
+   "index": 16,
+   "line": 1407,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The canvas, the clerk and the skeleton file",
+   "body_lines": 35,
+   "body_sha256": "ea39f3545630e816be963036d90fac32a73d07b04e7073030e42d7363c86a132",
+   "target_line": 2676,
+   "section_old": "2676–2711",
+   "section_old_n": 36,
+   "section_new_n": 36,
+   "new_headings": [
+    "### 4.5 The canvas, the clerk and the skeleton file"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r2-V02.md #17 (l. 1445) REPLACE ### 5.1 What each band draws (§8.5's bands, with stage 3)",
+   "file": "repair-r2-V02.md",
+   "index": 17,
+   "line": 1445,
+   "kind": "REPLACE",
+   "heading": "### 5.1 What each band draws (§8.5's bands, with stage 3)",
+   "body_lines": 22,
+   "body_sha256": "5172aa321284444498c2d648fb2691290b2ea34157649a429b8ae7550a6e9939",
+   "target_line": 2837,
+   "section_old": "2837–2855",
+   "section_old_n": 19,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 5.1 What each band draws (§8.5's bands, with stage 3)"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r2-V02.md #18 (l. 1470) REPLACE ### 5.3 Style rows and paint programs",
+   "file": "repair-r2-V02.md",
+   "index": 18,
+   "line": 1470,
+   "kind": "REPLACE",
+   "heading": "### 5.3 Style rows and paint programs",
+   "body_lines": 31,
+   "body_sha256": "a96818da7d3508ada2d46b126cdefda4c710b1a69b96059351b3c419f305ff66",
+   "target_line": 2934,
+   "section_old": "2934–2964",
+   "section_old_n": 31,
+   "section_new_n": 32,
+   "new_headings": [
+    "### 5.3 Style rows and paint programs"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r2-V02.md #19 (l. 1504) REPLACE ### 5.5 Exports (item 449)",
+   "file": "repair-r2-V02.md",
+   "index": 19,
+   "line": 1504,
+   "kind": "REPLACE",
+   "heading": "### 5.5 Exports (item 449)",
+   "body_lines": 15,
+   "body_sha256": "5accf45732b32c7aeaf3e6abda0dd101bd2c84942879c8a49a72dc5927a69391",
+   "target_line": 2977,
+   "section_old": "2977–2991",
+   "section_old_n": 15,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 5.5 Exports (item 449)"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r2-V02.md #20 (l. 1522) APPEND TO SECTION ## 5 Rendering, labels, exports",
+   "file": "repair-r2-V02.md",
+   "index": 20,
+   "line": 1522,
+   "kind": "APPEND TO SECTION",
+   "heading": "## 5 Rendering, labels, exports",
+   "body_lines": 92,
+   "body_sha256": "dfd5f5171d2b887e419b963ebbee51869453c9099a8cf7116ca00252f474c836",
+   "target_line": 2835,
+   "section_old": "2835–3015",
+   "section_old_n": 181,
+   "inserted_at_line": 3015,
+   "lines_inserted": 93,
+   "new_headings": [
+    "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r2-V02.md #21 (l. 1617) REPLACE ## 6 Performance budgets",
+   "file": "repair-r2-V02.md",
+   "index": 21,
+   "line": 1617,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 149,
+   "body_sha256": "9fa4e8ff4ba4a36f8da79363fab3d2c00b3422cf362c6dab19abd899bcc84de5",
+   "target_line": 3109,
+   "section_old": "3109–3240",
+   "section_old_n": 132,
+   "section_new_n": 150,
+   "new_headings": [
+    "## 6 Performance budgets",
+    "### 6.1 The massing (eager, on the first map's path)",
+    "### 6.2 The composer, the rooms rung and the roofscape (lazy)",
+    "### 6.3 Memory",
+    "### 6.4 Edits and exports",
+    "### 6.5 Stacks and deck buildings",
+    "### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r2-V02.md #22 (l. 1769) REPLACE ### 7.1 Fixtures",
+   "file": "repair-r2-V02.md",
+   "index": 22,
+   "line": 1769,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Fixtures",
+   "body_lines": 25,
+   "body_sha256": "bdd604b5aaadf0d8e0969758744ad81ecde4ed7be3a9f1055daa6cf73cee9b97",
+   "target_line": 3264,
+   "section_old": "3264–3289",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 7.1 Fixtures"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r2-V02.md #23 (l. 1797) APPEND TO SECTION ## 7 Tests and acceptance bars",
+   "file": "repair-r2-V02.md",
+   "index": 23,
+   "line": 1797,
+   "kind": "APPEND TO SECTION",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 48,
+   "body_sha256": "356fbb7d78e2d94ecfd9b8562c2759129701dd9e0b1735162cd639f986013f28",
+   "target_line": 3259,
+   "section_old": "3259–3668",
+   "section_old_n": 410,
+   "inserted_at_line": 3668,
+   "lines_inserted": 49,
+   "new_headings": [
+    "### 7.8 Ruin and disaster on the exterior"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r2-V02.md #24 (l. 1848) REPLACE ### 8.3 Milestones",
+   "file": "repair-r2-V02.md",
+   "index": 24,
+   "line": 1848,
+   "kind": "REPLACE",
+   "heading": "### 8.3 Milestones",
+   "body_lines": 16,
+   "body_sha256": "716271d861dd4b56142bc55333df543b4f3a77b74f5e4b335b4ba2f2a9cb2e64",
+   "target_line": 3747,
+   "section_old": "3747–3762",
+   "section_old_n": 16,
+   "section_new_n": 17,
+   "new_headings": [
+    "### 8.3 Milestones"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r2-V02.md #25 (l. 1867) APPEND TO SECTION ## 8 Build plan",
+   "file": "repair-r2-V02.md",
+   "index": 25,
+   "line": 1867,
+   "kind": "APPEND TO SECTION",
+   "heading": "## 8 Build plan",
+   "body_lines": 9,
+   "body_sha256": "e0c8697a5d088e268851f84d360196bc3438281b3394d6d5b37782bf6e4211b7",
+   "target_line": 3718,
+   "section_old": "3718–3794",
+   "section_old_n": 77,
+   "inserted_at_line": 3794,
+   "lines_inserted": 10,
+   "new_headings": [
+    "### 8.6 Ruin and disaster in the build (items 123, 122)"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "repair-r2-V02.md #26 (l. 1879) REPLACE ## 9 Decisions",
+   "file": "repair-r2-V02.md",
+   "index": 26,
+   "line": 1879,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions",
+   "body_lines": 120,
+   "body_sha256": "fd02881d3b194bf09fd1d1f59d9c0a818ecc32846700325f9c8089f4ee3bfc3c",
+   "target_line": 3805,
+   "section_old": "3805–3923",
+   "section_old_n": 119,
+   "section_new_n": 121,
+   "new_headings": [
+    "## 9 Decisions"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "repair-r2-V02.md #27 (l. 2002) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r2-V02.md",
+   "index": 27,
+   "line": 2002,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 68,
+   "body_sha256": "9a6eb5077d1349c6760a9a856b6e4417e420c2bf4ba106ac89177b5fb896cec4",
+   "target_line": 3985,
+   "section_old": "3985–4049",
+   "section_old_n": 65,
+   "section_new_n": 69,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  },
+  {
+   "seq": 28,
+   "block": "repair-r2-V02.md #28 (l. 2073) REPLACE ## 13 Fix list",
+   "file": "repair-r2-V02.md",
+   "index": 28,
+   "line": 2073,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 63,
+   "body_sha256": "69ad951114459a1fe7bc83390c477d3156795be686064043aecd15b64ff5041f",
+   "target_line": 4054,
+   "section_old": "4054–4113",
+   "section_old_n": 60,
+   "section_new_n": 64,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V02.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #2 (l. 114) REPLACE ### 1a Scope",
+    "kind": "REPLACE",
+    "heading": "### 1a Scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #3 (l. 154) REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #4 (l. 278) REPLACE ### 1c The base hooks consumed (by section)",
+    "kind": "REPLACE",
+    "heading": "### 1c The base hooks consumed (by section)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #5 (l. 326) REPLACE ### 1d Out of scope (and where it lives)",
+    "kind": "REPLACE",
+    "heading": "### 1d Out of scope (and where it lives)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #6 (l. 366) REPLACE ### 2.2 The composition's records (lazy; stored only when edited)",
+    "kind": "REPLACE",
+    "heading": "### 2.2 The composition's records (lazy; stored only when edited)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #7 (l. 393) REPLACE ### 2.3 The composition tables (`composition.json`, `@plat/tables`)",
+    "kind": "REPLACE",
+    "heading": "### 2.3 The composition tables (`composition.json`, `@plat/tables`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #8 (l. 480) APPEND TO SECTION ### 2.4 Derived at read (never stored)",
+    "kind": "APPEND TO SECTION",
+    "heading": "### 2.4 Derived at read (never stored)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #9 (l. 498) REPLACE ### 2.5 Identity and lifecycle of every state field",
+    "kind": "REPLACE",
+    "heading": "### 2.5 Identity and lifecycle of every state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #10 (l. 533) REPLACE ### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))",
+    "kind": "REPLACE",
+    "heading": "### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #11 (l. 673) REPLACE ### 3.2 The row a building reads, and its band",
+    "kind": "REPLACE",
+    "heading": "### 3.2 The row a building reads, and its band",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #12 (l. 772) REPLACE ### 3.8 The `rooms` rung — the composer's principal rooms",
+    "kind": "REPLACE",
+    "heading": "### 3.8 The `rooms` rung — the composer's principal rooms",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #13 (l. 827) REPLACE ### 3.10 The default rows — the diversity ladder from hovel to giant manor",
+    "kind": "REPLACE",
+    "heading": "### 3.10 The default rows — the diversity ladder from hovel to giant manor",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #14 (l. 1239) REPLACE ### 3.11 Elaboration by click, staleness and the canonical prior",
+    "kind": "REPLACE",
+    "heading": "### 3.11 Elaboration by click, staleness and the canonical prior",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #15 (l. 1284) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #16 (l. 1407) REPLACE ### 4.5 The canvas, the clerk and the skeleton file",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The canvas, the clerk and the skeleton file",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #17 (l. 1445) REPLACE ### 5.1 What each band draws (§8.5's bands, with stage 3)",
+    "kind": "REPLACE",
+    "heading": "### 5.1 What each band draws (§8.5's bands, with stage 3)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #18 (l. 1470) REPLACE ### 5.3 Style rows and paint programs",
+    "kind": "REPLACE",
+    "heading": "### 5.3 Style rows and paint programs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #19 (l. 1504) REPLACE ### 5.5 Exports (item 449)",
+    "kind": "REPLACE",
+    "heading": "### 5.5 Exports (item 449)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #20 (l. 1522) APPEND TO SECTION ## 5 Rendering, labels, exports",
+    "kind": "APPEND TO SECTION",
+    "heading": "## 5 Rendering, labels, exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #21 (l. 1617) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #22 (l. 1769) REPLACE ### 7.1 Fixtures",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Fixtures",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #23 (l. 1797) APPEND TO SECTION ## 7 Tests and acceptance bars",
+    "kind": "APPEND TO SECTION",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #24 (l. 1848) REPLACE ### 8.3 Milestones",
+    "kind": "REPLACE",
+    "heading": "### 8.3 Milestones",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #25 (l. 1867) APPEND TO SECTION ## 8 Build plan",
+    "kind": "APPEND TO SECTION",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #26 (l. 1879) REPLACE ## 9 Decisions",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #27 (l. 2002) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V02.md #28 (l. 2073) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 73,
+  "headings_after": 77,
+  "headings_added": [
+   "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "### 7.8 Ruin and disaster on the exterior",
+   "### 8.6 Ruin and disaster in the build (items 123, 122)"
+  ],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 16,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 513788,
+  "doc_bytes_after": 547405,
+  "doc_lines_before": 3884,
+  "doc_lines_after": 4126,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 28,
+  "blocks_applied": 28,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "dad2b5bce0a72f006eac1a330608b88ebf1a9cefcc17d1e2552fe591efeb48c7",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

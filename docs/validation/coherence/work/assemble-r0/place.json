@@ -1,0 +1,556 @@
+{
+ "base": [
+  {
+   "line": 1,
+   "heading": "# ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and what a village would need (later)",
+   "file": "docs/validation/coherence/new/base/scope/01-title.md",
+   "old_bytes": 1827,
+   "new_bytes": 2063,
+   "old_words": 264,
+   "new_words": 302
+  },
+  {
+   "line": 20,
+   "heading": "## The whole design in one page (plain words)",
+   "file": "docs/validation/coherence/new/base/scope/02-summary.md",
+   "old_bytes": 11433,
+   "new_bytes": 10317,
+   "old_words": 1944,
+   "new_words": 1732
+  },
+  {
+   "line": 131,
+   "heading": "## §0 Provenance",
+   "file": "docs/validation/coherence/new/base/scope/03-s0.md",
+   "old_bytes": 35077,
+   "new_bytes": 15915,
+   "old_words": 5689,
+   "new_words": 2716
+  },
+  {
+   "line": 264,
+   "heading": "# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with our improvements",
+   "file": "docs/validation/coherence/new/base/scope/04-part1.md",
+   "old_bytes": 92,
+   "new_bytes": 91,
+   "old_words": 17,
+   "new_words": 17
+  },
+  {
+   "line": 266,
+   "heading": "## §1 Scope, product shape, fusion thesis, stack",
+   "file": "docs/validation/coherence/new/base/scope/05-s1.md",
+   "old_bytes": 34720,
+   "new_bytes": 34526,
+   "old_words": 5570,
+   "new_words": 5580
+  },
+  {
+   "line": 469,
+   "heading": "## §2 Domain model and schemas",
+   "file": "docs/validation/coherence/new/base/model/01-domain-model-and-schemas.md",
+   "old_bytes": 268918,
+   "new_bytes": 343686,
+   "old_words": 42526,
+   "new_words": 54155
+  },
+  {
+   "line": 2452,
+   "heading": "## §3 Geometry kernel",
+   "file": "docs/validation/coherence/new/base/kernel/01-geometry-kernel.md",
+   "old_bytes": 144633,
+   "new_bytes": 152949,
+   "old_words": 23820,
+   "new_words": 25103
+  },
+  {
+   "line": 3680,
+   "heading": "## §4 Generation pipeline",
+   "file": "docs/validation/coherence/new/base/pipeline/01-s4-generation-pipeline.md",
+   "old_bytes": 361429,
+   "new_bytes": 444530,
+   "old_words": 58407,
+   "new_words": 71900
+  },
+  {
+   "line": 6794,
+   "heading": "## §5 Failure handling — no whole-map discard-and-retry",
+   "file": "docs/validation/coherence/new/base/determinism/01-s5-failure-handling.md",
+   "old_bytes": 66904,
+   "new_bytes": 67853,
+   "old_words": 11083,
+   "new_words": 11178
+  },
+  {
+   "line": 7031,
+   "heading": "## §6 Determinism",
+   "file": "docs/validation/coherence/new/base/determinism/02-s6-determinism.md",
+   "old_bytes": 81400,
+   "new_bytes": 86680,
+   "old_words": 12912,
+   "new_words": 13952
+  },
+  {
+   "line": 7795,
+   "heading": "## §7 Editing and regeneration locality — everything is editable",
+   "file": "docs/validation/coherence/new/base/determinism/03-s7-editing.md",
+   "old_bytes": 245809,
+   "new_bytes": 307748,
+   "old_words": 39122,
+   "new_words": 48968
+  },
+  {
+   "line": 9515,
+   "heading": "## §8 Rendering and the style system",
+   "file": "docs/validation/coherence/new/base/rendering/01-s08-rendering-and-the-style-system.md",
+   "old_bytes": 190859,
+   "new_bytes": 220234,
+   "old_words": 31909,
+   "new_words": 36725
+  },
+  {
+   "line": 11047,
+   "heading": "## §9 Labels and map furniture",
+   "file": "docs/validation/coherence/new/base/rendering/02-s09-labels-and-map-furniture.md",
+   "old_bytes": 39996,
+   "new_bytes": 43567,
+   "old_words": 6554,
+   "new_words": 7160
+  },
+  {
+   "line": 11435,
+   "heading": "## §10 Simulation and content layer (FTG parity, with restraint)",
+   "file": "docs/validation/coherence/new/base/pipeline/02-s10-simulation-content.md",
+   "old_bytes": 55335,
+   "new_bytes": 71652,
+   "old_words": 8236,
+   "new_words": 10599
+  },
+  {
+   "line": 11889,
+   "heading": "## §11 Export and interop",
+   "file": "docs/validation/coherence/new/base/rendering/03-s11-export-and-interop.md",
+   "old_bytes": 58250,
+   "new_bytes": 84513,
+   "old_words": 9320,
+   "new_words": 13478
+  },
+  {
+   "line": 12324,
+   "heading": "## §12 Performance budgets",
+   "file": "docs/validation/coherence/new/base/rendering/04-s12-performance-budgets.md",
+   "old_bytes": 63761,
+   "new_bytes": 70066,
+   "old_words": 11375,
+   "new_words": 12641
+  },
+  {
+   "line": 12916,
+   "heading": "## §13 Testing and verification",
+   "file": "docs/validation/coherence/new/base/scope/06-s13.md",
+   "old_bytes": 166566,
+   "new_bytes": 205967,
+   "old_words": 26850,
+   "new_words": 33251
+  },
+  {
+   "line": 14222,
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "file": "docs/validation/coherence/new/base/scope/07-s14.md",
+   "old_bytes": 50932,
+   "new_bytes": 65451,
+   "old_words": 7391,
+   "new_words": 9200
+  },
+  {
+   "line": 14631,
+   "heading": "## §15 Parity matrix and improvement matrix",
+   "file": "docs/validation/coherence/new/base/scope/08-s15.md",
+   "old_bytes": 49075,
+   "new_bytes": 50351,
+   "old_words": 8436,
+   "new_words": 8692
+  },
+  {
+   "line": 14865,
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "file": "docs/validation/coherence/new/base/scope/09-s16.md",
+   "old_bytes": 47550,
+   "new_bytes": 51588,
+   "old_words": 7565,
+   "new_words": 8258
+  },
+  {
+   "line": 14969,
+   "heading": "## §17 Clean-room and legal posture; third-party licences",
+   "file": "docs/validation/coherence/new/base/scope/10-s17.md",
+   "old_bytes": 22831,
+   "new_bytes": 25369,
+   "old_words": 3383,
+   "new_words": 3755
+  },
+  {
+   "line": 15186,
+   "heading": "# PART II — STAGE 2: the city composed of neighbourhoods (interface depth; built after the base)",
+   "file": "docs/validation/coherence/new/base/pipeline/03-part-ii.md",
+   "old_bytes": 851,
+   "new_bytes": 914,
+   "old_words": 133,
+   "new_words": 147
+  },
+  {
+   "line": 15196,
+   "heading": "## II.1 The district → neighbourhood interface",
+   "file": "docs/validation/coherence/new/base/pipeline/04-ii1-district-neighbourhood-interface.md",
+   "old_bytes": 11456,
+   "new_bytes": 11828,
+   "old_words": 1753,
+   "new_words": 1858
+  },
+  {
+   "line": 15294,
+   "heading": "## II.2 Templates as fabric strategies (NG B2, B7, B8)",
+   "file": "docs/validation/coherence/new/base/pipeline/05-ii2-templates.md",
+   "old_bytes": 4482,
+   "new_bytes": 5178,
+   "old_words": 739,
+   "new_words": 852
+  },
+  {
+   "line": 15334,
+   "heading": "## II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)",
+   "file": "docs/validation/coherence/new/base/pipeline/06-ii3-block-dispatch.md",
+   "old_bytes": 1961,
+   "new_bytes": 2489,
+   "old_words": 308,
+   "new_words": 392
+  },
+  {
+   "line": 15354,
+   "heading": "## II.4 The render tier, the workflow and the close-up's persistence status (stage-2 features S5, S6)",
+   "file": "docs/validation/coherence/new/base/pipeline/07-ii4-render-tier-workflow.md",
+   "old_bytes": 3633,
+   "new_bytes": 3872,
+   "old_words": 578,
+   "new_words": 618
+  },
+  {
+   "line": 15389,
+   "heading": "## II.5 What the base already carries for stage 2 (all base requirements in PART I)",
+   "file": "docs/validation/coherence/new/base/pipeline/08-ii5-base-carries.md",
+   "old_bytes": 2707,
+   "new_bytes": 2848,
+   "old_words": 405,
+   "new_words": 422
+  },
+  {
+   "line": 15418,
+   "heading": "## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+   "file": "docs/validation/coherence/new/base/pipeline/09-ii6-staged-layers.md",
+   "old_bytes": 17569,
+   "new_bytes": 18083,
+   "old_words": 2822,
+   "new_words": 2895
+  },
+  {
+   "line": 15573,
+   "heading": "## II.7 The sewer layer — existence by tier, the network stage, the underground neighbourhoods (staged, with its base hooks)",
+   "file": "docs/validation/coherence/new/base/pipeline/10-ii7-sewer-layer.md",
+   "old_bytes": 72352,
+   "new_bytes": 87759,
+   "old_words": 11334,
+   "new_words": 13822
+  },
+  {
+   "line": 16189,
+   "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "file": "docs/validation/coherence/new/base/pipeline/11-part-iii.md",
+   "old_bytes": 7600,
+   "new_bytes": 6801,
+   "old_words": 1204,
+   "new_words": 1067
+  },
+  {
+   "line": 16268,
+   "heading": "# Delegated decisions (the owner deferred all judgment; each is final unless vetoed)",
+   "file": "docs/validation/coherence/new/base/scope/11-delegated.md",
+   "old_bytes": 19170,
+   "new_bytes": 19863,
+   "old_words": 3005,
+   "new_words": 3107
+  },
+  {
+   "line": 16484,
+   "heading": "# Judgment calls (\"chose X over Y because Z\"; each vetoable)",
+   "file": "docs/validation/coherence/new/base/scope/12-judgment.md",
+   "old_bytes": 149419,
+   "new_bytes": 88961,
+   "old_words": 25908,
+   "new_words": 16156
+  },
+  {
+   "line": 17239,
+   "heading": "# Staged by the owner's roadmap (this document defers nothing)",
+   "file": "docs/validation/coherence/new/base/scope/13-staged.md",
+   "old_bytes": 11597,
+   "new_bytes": 8165,
+   "old_words": 1779,
+   "new_words": 1296
+  },
+  {
+   "line": 17261,
+   "heading": "# Appendix A — reading record, and CONFIRMED versus PLAUSIBLE",
+   "file": "docs/validation/coherence/new/base/scope/14-appendixA.md",
+   "old_bytes": 4215,
+   "new_bytes": 3553,
+   "old_words": 657,
+   "new_words": 549
+  }
+ ],
+ "volumes": [
+  {
+   "live": "docs/volumes/V01-neighbourhoods.md",
+   "new": "docs/validation/coherence/new/volumes/V01-neighbourhoods.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V01-neighbourhoods.md",
+   "old_bytes": 585123,
+   "new_bytes": 463678,
+   "old_words": 93140,
+   "new_words": 75904,
+   "old_lines": 4454,
+   "new_lines": 3441,
+   "old_first": "# Volume 1 — Stage 2: the city composed of neighbourhoods (NG-class close-ups on the base)",
+   "new_first": "# Volume 1 — Stage 2: the city composed of neighbourhoods (NG-class close-ups on the base)"
+  },
+  {
+   "live": "docs/volumes/V02-buildings.md",
+   "new": "docs/validation/coherence/new/volumes/V02-buildings.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V02-buildings.md",
+   "old_bytes": 637179,
+   "new_bytes": 494156,
+   "old_words": 103630,
+   "new_words": 82657,
+   "old_lines": 4829,
+   "new_lines": 3759,
+   "old_first": "# Volume 2 — Stage 3: building composition at every scale, from a giant manor to a small hovel",
+   "new_first": "# Volume 2 — Stage 3: building composition at every scale, from a giant manor to a small hovel"
+  },
+  {
+   "live": "docs/volumes/V03-interiors.md",
+   "new": "docs/validation/coherence/new/volumes/V03-interiors.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V03-interiors.md",
+   "old_bytes": 505716,
+   "new_bytes": 388139,
+   "old_words": 82788,
+   "new_words": 65916,
+   "old_lines": 3855,
+   "new_lines": 2852,
+   "old_first": "# V03 — Interiors: floor plans, rooms, households and furnishing (the plan rung, Dwellings-class)",
+   "new_first": "# V03 — Interiors: floor plans, rooms, households and furnishing (the plan rung, Dwellings-class)"
+  },
+  {
+   "live": "docs/volumes/V04-underground.md",
+   "new": "docs/validation/coherence/new/volumes/V04-underground.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V04-underground.md",
+   "old_bytes": 530576,
+   "new_bytes": 460463,
+   "old_words": 83966,
+   "new_words": 74624,
+   "old_lines": 4168,
+   "new_lines": 3335,
+   "old_first": "# Design volume 4 — The underground: sewers, tunnels, underground neighbourhoods, catacombs, caverns, quarries and the u",
+   "new_first": "# Design volume 4 — The underground: sewers, tunnels, underground neighbourhoods, catacombs, caverns, quarries and the u"
+  },
+  {
+   "live": "docs/volumes/V05-sky.md",
+   "new": "docs/validation/coherence/new/volumes/V05-sky.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V05-sky.md",
+   "old_bytes": 495910,
+   "new_bytes": 360109,
+   "old_words": 81161,
+   "new_words": 60691,
+   "old_lines": 3808,
+   "new_lines": 2790,
+   "old_first": "# Design volume 5 — Floating islands: the sky layer",
+   "new_first": "# Design volume 5 — Floating islands: the sky layer"
+  },
+  {
+   "live": "docs/volumes/V06-evolution.md",
+   "new": "docs/validation/coherence/new/volumes/V06-evolution.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V06-evolution.md",
+   "old_bytes": 665661,
+   "new_bytes": 593342,
+   "old_words": 106357,
+   "new_words": 96515,
+   "old_lines": 4631,
+   "new_lines": 4112,
+   "old_first": "# Design volume 6 — Evolution: growth, decline and regrowth over time, and transitions on the weekly clock",
+   "new_first": "# Design volume 6 — Evolution: growth, decline and regrowth over time, and transitions on the weekly clock"
+  },
+  {
+   "live": "docs/volumes/V07-village.md",
+   "new": "docs/validation/coherence/new/volumes/V07-village.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V07-village.md",
+   "old_bytes": 648060,
+   "new_bytes": 561232,
+   "old_words": 104422,
+   "new_words": 92648,
+   "old_lines": 4520,
+   "new_lines": 3809,
+   "old_first": "# V07 — The village product: thorp, hamlet and village in their landscape (VG-class)",
+   "new_first": "# V07 — The village product: thorp, hamlet and village in their landscape (VG-class)"
+  },
+  {
+   "live": "docs/volumes/V08-settlementforge.md",
+   "new": "docs/validation/coherence/new/volumes/V08-settlementforge.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V08-settlementforge.md",
+   "old_bytes": 545534,
+   "new_bytes": 489737,
+   "old_words": 84356,
+   "new_words": 77137,
+   "old_lines": 3864,
+   "new_lines": 3363,
+   "old_first": "# Design volume 8 — The SettlementForge stage: connecting the map to the host end to end",
+   "new_first": "# Design volume 8 — The SettlementForge stage: connecting the map to the host end to end"
+  },
+  {
+   "live": "docs/volumes/V09-application.md",
+   "new": "docs/validation/coherence/new/volumes/V09-application.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V09-application.md",
+   "old_bytes": 690061,
+   "new_bytes": 635793,
+   "old_words": 111610,
+   "new_words": 105485,
+   "old_lines": 4919,
+   "new_lines": 4439,
+   "old_first": "# Design volume 9 — The application: the map editor a casual user opens, and the authoring toolkit as screens and flows",
+   "new_first": "# Design volume 9 — The application: the map editor a casual user opens, and the authoring toolkit as screens and flows"
+  },
+  {
+   "live": "docs/volumes/V10-clerk.md",
+   "new": "docs/validation/coherence/new/volumes/V10-clerk.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V10-clerk.md",
+   "old_bytes": 538604,
+   "new_bytes": 466617,
+   "old_words": 84658,
+   "new_words": 75073,
+   "old_lines": 4047,
+   "new_lines": 3347,
+   "old_first": "# Design volume 10 — The AI clerk: reading, explaining, authoring and critiquing through the tool vocabulary",
+   "new_first": "# Design volume 10 — The AI clerk: reading, explaining, authoring and critiquing through the tool vocabulary"
+  },
+  {
+   "live": "docs/volumes/V11-content.md",
+   "new": "docs/validation/coherence/new/volumes/V11-content.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V11-content.md",
+   "old_bytes": 650238,
+   "new_bytes": 608669,
+   "old_words": 106185,
+   "new_words": 101965,
+   "old_lines": 5411,
+   "new_lines": 5069,
+   "old_first": "# Design volume 11 — The content system: every rule and content table, its schema, its rows and its authoring plan",
+   "new_first": "# Design volume 11 — The content system: every rule and content table, its schema, its rows and its authoring plan"
+  },
+  {
+   "live": "docs/volumes/V12-calibration.md",
+   "new": "docs/validation/coherence/new/volumes/V12-calibration.md",
+   "archived": "docs/archive/volumes-pre-coherence-2026-09-28/V12-calibration.md",
+   "old_bytes": 482479,
+   "new_bytes": 430397,
+   "old_words": 76414,
+   "new_words": 69784,
+   "old_lines": 3566,
+   "new_lines": 3106,
+   "old_first": "# Design volume 12 — Calibration, reconciliation and parity measurement: how the built generator is tuned against the re",
+   "new_first": "# Design volume 12 — Calibration, reconciliation and parity measurement: how the built generator is tuned against the re"
+  }
+ ],
+ "index": [
+  {
+   "heading": "## 1 The product map",
+   "file": null,
+   "old_bytes": 5551,
+   "new_bytes": 5551,
+   "old_words": 875,
+   "new_words": 875
+  },
+  {
+   "heading": "## 2 The wiring — base hooks and what each volume feeds",
+   "file": null,
+   "old_bytes": 5157,
+   "new_bytes": 5157,
+   "old_words": 823,
+   "new_words": 823
+  },
+  {
+   "heading": "## 3 The dependency graph",
+   "file": "docs/validation/coherence/new/index/03-dependency-graph.md",
+   "old_bytes": 2216,
+   "new_bytes": 2296,
+   "old_words": 415,
+   "new_words": 436
+  },
+  {
+   "heading": "## 4 The combined build order after M5, with estimates",
+   "file": "docs/validation/coherence/new/index/04-combined-build-order.md",
+   "old_bytes": 3292,
+   "new_bytes": 964,
+   "old_words": 615,
+   "new_words": 160
+  },
+  {
+   "heading": "## 5 Risks and spikes across volumes",
+   "file": null,
+   "old_bytes": 3464,
+   "new_bytes": 3464,
+   "old_words": 629,
+   "new_words": 629
+  },
+  {
+   "heading": "## 6 Owner questions with recommendations",
+   "file": "docs/validation/coherence/new/index/06-owner-questions.md",
+   "old_bytes": 4856,
+   "new_bytes": 3278,
+   "old_words": 870,
+   "new_words": 610
+  },
+  {
+   "heading": "## 7 How the volumes were reconciled, and the fix list",
+   "file": "docs/validation/coherence/new/index/07-reconciliation.md",
+   "old_bytes": 5736,
+   "new_bytes": 545,
+   "old_words": 1024,
+   "new_words": 77
+  },
+  {
+   "heading": "## 8 CONFIRMED versus PLAUSIBLE",
+   "file": null,
+   "old_bytes": 2331,
+   "new_bytes": 2331,
+   "old_words": 366,
+   "new_words": 366
+  }
+ ],
+ "base_total": {
+  "old_bytes": 2304442,
+  "new_bytes": 2615497,
+  "old_words": 372998,
+  "new_words": 422543,
+  "old_lines": 17297,
+  "new_lines": 20306,
+  "fence_lines": 132
+ },
+ "index_total": {
+  "old_bytes": 34420,
+  "new_bytes": 25403,
+  "old_words": 5890,
+  "new_words": 4249
+ },
+ "volume_post_edits": [
+  {
+   "file": "docs/validation/coherence/new/volumes/V06-evolution.md",
+   "old": "| — |\n```\n\n### 2.13 Item 110's epoch records",
+   "new": "| — |\n\n### 2.13 Item 110's epoch records"
+  }
+ ]
+}

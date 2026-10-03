@@ -1,0 +1,1 @@
+{"file": "docs/validation/coherence/adjudication-r7y.md", "fix": 21, "valid_choice_picked": 1, "valid_choice_listed": ["VF7x-TBL-05"], "merged": 1, "invalid": 0, "regraded": ["VF7x-TST-05"], "units": ["model", "pipeline", "determinism", "scope", "V05", "V06", "V07", "V09"]}

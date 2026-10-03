@@ -1,0 +1,110 @@
+# VRC0S-26: the verbose-prose pass over §8.2 (part b): live layers, thematic layers, the state notes, light by family,
+# `lit` on the reference backend. (Also: `live.people`'s registration clause regrammared around the new `live.festival`;
+# the ink family's "two thirds" read at the fixed sun's 45°, which item 117's sun now moves by the week.)
+@@ FILE 8.2.md
+<<<<
+adds display-list groups that are view data (never hashed). Providers run in the generation worker, which calls one when
+the view state it reads, the model, the visible region (dilated by one tile) or — for a provider that declares
+`readsElaborations`, such as `live.stale` — the elaboration records (`Document.derived.elaborations`, §2.8, §2.9; passed
+to it as `elaborations`) change, so a click that writes only the cache (§7.3) re-runs it; it delivers its marks as a
+====
+adds display-list groups that are view data (never hashed). Providers run in the generation worker, which calls one when
+the view state it reads, the model, the visible region (dilated by one tile) or — for a provider declaring
+`readsElaborations`, such as `live.stale` — the elaboration records (`Document.derived.elaborations`, §2.8, §2.9; passed
+as `elaborations`) change, so a click that writes only the cache (§7.3) re-runs it; it delivers its marks as a
+>>>>
+<<<<
+a dashed ghost from the earlier frame, `.changed` as a tint; M6-E); and `live.people` (overlay: favourite persons'
+positions from the occupancy at the view-state hour, one categorical colour per person), which the simulation module
+registers through §14's `LiveLayerProvider` registry (§10.3); and `live.festival` (base; g item 118: the festival
+decorations, below). The model view a provider receives offers
+====
+a dashed ghost from the earlier frame, `.changed` as a tint; M6-E); `live.people` (overlay: favourite persons' positions
+from the occupancy at the view-state hour, one categorical colour per person; registered by the simulation module
+through §14's `LiveLayerProvider` registry, §10.3); and `live.festival` (base; g item 118: the festival decorations,
+below). The model view a provider receives offers
+>>>>
+<<<<
+`epoch`, `owner`, `material`) — data, not code; the tile worker applies them over a mark's programs from its `attrs`
+columns, and §9.5's legend reads their `legend` and `cue` cells. A row keyed by `use` or `owner` skips a mark whose
+`knownTo` column (§8.1) §9.2's admission function does not admit at the band, drawing it unthemed, and a theme's legend key lists only
+the values drawn, so no theme colour and no legend key names a withheld purpose; while such a row is active the
+knowledge key joins the tile key (§8.8) (J-A30.85). A front's building themes as its front, and its concealed use
+(item 63; §9.2) has no theme colour and no legend key for a key that does not admit it. **Character themes (item 72; J-A72.81):**
+rows keyed by a district's `identity`, by the share of a power (`CircumstanceSlice.powers`, §7.7) or of a sector among
+its significance-weighted plots, and by its band range (§4.5) — data rows like FTG D7's matchers, which stay override rows
+of the same kind. **Conditions (item 88; staged):** a `ConditionOverlay` (§2.7) is drawn as a settlement-wide thematic
+row — a settlement-wide `wash` plus a legend row, keyed by its archetype and severity, no geometry — the rows
+schema-complete and empty in the base until the port fills the records; the shipped rows `condition.siege`,
+====
+`epoch`, `owner`, `material`) — data, not code; the tile worker applies them over a mark's programs from its `attrs`
+columns, and §9.5's legend reads their `legend` and `cue` cells. A row keyed by `use` or `owner` draws unthemed a mark
+whose `knownTo` column (§8.1) §9.2's admission function does not admit at the band, and a theme's legend key lists only
+the values drawn, so no theme colour and no legend key names a withheld purpose; while such a row is active the
+knowledge key joins the tile key (§8.8) (J-A30.85). A front's building themes as its front; its concealed use (item 63;
+§9.2) has no theme colour and no legend key for a key that does not admit it. **Character themes (item 72; J-A72.81):**
+override rows keyed by a district's `identity`, by the share of a power (`CircumstanceSlice.powers`, §7.7) or of a
+sector among its significance-weighted plots, and by its band range (§4.5), like FTG D7's matchers. **Conditions
+(item 88; staged):** a `ConditionOverlay` (§2.7) draws as a settlement-wide thematic row — a `wash` plus a legend row,
+keyed by its archetype and severity, no geometry — the rows schema-complete and empty in the base until the port fills
+the records; the shipped rows `condition.siege`,
+>>>>
+<<<<
+A Works stage named like a ladder state — the decay Works' `abandoned` and the demolition's `cleared` — takes that
+state's row above; `before` draws the target's prior state and `finished` the target's own programs, the two stages
+§8.3's census exempts as undeclined (item 67 (f)). A row that names a `worksKind` is the one exception to one row per
+(kind, state): it matches only a target whose running Works is of that kind and is laid over the row its stage resolves
+without it (J-A67.83), so a repair draws the decay stages backwards under its scaffold.
+No reference draws a declined, worn or hidden state, a building in progress or an underground (item 23): the rows are
+ours, they act only on an entity that carries the state or a running Works, and a town that never passes an epoch, a
+scheduled edit or a hand conversion renders as the references' would.
+====
+A Works stage named like a ladder state — the decay Works' `abandoned` and the demolition's `cleared` — takes that
+state's row above; `before` draws the target's prior state and `finished` its own programs, the two stages §8.3's census
+exempts as undeclined (item 67 (f)). A row naming a `worksKind` is the one exception to one row per (kind, state): it
+matches only a target whose running Works is of that kind and is laid over the row its stage resolves without it
+(J-A67.83), so a repair draws the decay stages backwards under its scaffold. No reference draws a declined, worn or
+hidden state, a building in progress or an underground (item 23): the rows are ours and act only on an entity carrying
+the state or a running Works, so a town that never passes an epoch, a scheduled edit or a hand conversion renders as the
+references' would.
+>>>>
+<<<<
+default and cast shadows on (J-A68.81; J-C1): `ink` in value only (`mono`) and gently (ambient 1.3, so a day shadow on
+open ground keeps roughly two thirds of its lit value — the ink family's shadow alpha 0.35), `lit` in colour (ambient
+0.85); `hatched` by its own vector prism pass (`LightingSpec.model 'vector'`, §8.4 (g); the look of NG 1.2.2, §8.4 (h))
+with its night glow; each family's night is its
+day albedo under the night's light (its `@night` roles on the vector rung). The `MFCG` preset draws no cast shadow and
+no light; the `FTG` preset draws FTG's sun, moon, weather rule and entrance window lights (§8.4 (h)).
+====
+default and cast shadows on (J-A68.81; J-C1): `ink` in value only (`mono`) and gently (ambient 1.3, so a day shadow on
+open ground keeps roughly two thirds of its lit value under the fixed sun's 45° — the ink family's shadow alpha 0.35),
+`lit` in colour (ambient 0.85); `hatched` by its own vector prism pass (`LightingSpec.model 'vector'`, §8.4 (g); the
+look of NG 1.2.2, §8.4 (h)) with its night glow; each family's night is its day albedo under the night's light (its
+`@night` roles on the vector rung). The `MFCG` preset draws no cast shadow and no light; the `FTG` preset draws FTG's
+sun, moon, weather rule and entrance window lights (§8.4 (h)).
+>>>>
+<<<<
+**`lit` on the reference backend (VIS-7).** Every `lit` program — every mark of every family — runs on Canvas2D: the
+lighting comes as a post operation over the Canvas2D base, never a second drawing path (§8.4; J-R4, J-A68.82).
+Textures are `pattern` fills of greyscale seamless tiles tinted by the role colour (multiply); rungs 1–2 light them as
+*Paint programs* states; on the vector rung lighting is `faceLight` per face
+from stored geometry, one directional light from the sheet's sun (with a `path` sun, its light step, §8.4), and soft
+shadows are `shadowPass` polygons
+with `penumbraPx` — the shadow polygon plus two outward offset rings at ½ and 1 penumbra with α ⅔ and ⅓, vector, no
+bitmap filter (avoiding Fantasy Manor's ≈ 90 % bitmap-shadow cost); canopy shading is baked into the crown sprites per
+(style, light step) (§8.10); water depth ramp and foam are `ramp` and `foam` over the shore-distance field, per tile
+(≈ 1.3 ms per 512² tile). Relief lighting across roofs and walls comes from the light pass and the surface layer's
+normals; the programs draw no normal-map texture, and on the vector rung the style dialog says the light is per
+face (J-R4). **Texture set** (our own, procedural: generated by
+====
+**`lit` on the reference backend (VIS-7).** Every `lit` program — every mark of every family — runs on Canvas2D, the
+lighting a post operation over the Canvas2D base, never a second drawing path (§8.4; J-R4, J-A68.82). Textures are
+`pattern` fills of greyscale seamless tiles tinted by the role colour (multiply), which rungs 1–2 light as *Paint
+programs* states; on the vector rung lighting is `faceLight` per face from stored geometry, one directional light from
+the sheet's sun (with a `path` sun, its light step, §8.4), and soft shadows are `shadowPass` polygons with `penumbraPx`
+— the shadow polygon plus two outward offset rings at ½ and 1 penumbra with α ⅔ and ⅓, vector, no bitmap filter
+(avoiding Fantasy Manor's ≈ 90 % bitmap-shadow cost); canopy shading is baked into the crown sprites per (style, light
+step) (§8.10); water depth ramp and foam are `ramp` and `foam` over the shore-distance field, per tile (≈ 1.3 ms per 512²
+tile). Relief lighting across roofs and walls comes from the light pass and the surface layer's normals, with no
+normal-map texture; on the vector rung the style dialog says the light is per face (J-R4). **Texture set** (our own, procedural: generated by
+>>>>

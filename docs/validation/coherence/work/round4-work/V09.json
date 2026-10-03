@@ -1,0 +1,155 @@
+[
+ {
+  "id": "VAH-r3-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V09",
+  "claim": "R3-10 ends a disaster's ruined look building by building: once a Works other than a `decay` Works has begun on a building, V06 \u00a73.22 (3)'s `crisisLookYields` is true and the look leaves that building. V03 \u00a75.6 (4) (l. 2722\u20132734: a building draws the look only while 'not yet handed over'; `PlanDamage.level` falls to the own level, `PlanDamage.look` to null), V10 \u00a73.9a (l. 1852\u20131855: 'each until its rebuilding Works begins') and \u00a73.9b (8), \u00a710.2 (f), \u00a78.2 and V02 \u00a75.7 (1) all take it. V09 decides by district alone: \u00a74.21.13 (3) (l. 3668\u20133672: 'In a district a disaster look ruins, the plan panel \u2026 shows the building's lines at the look's `lookLevel` \u2026 under the head `info.crisis.ruinedFor`'), \u00a74.21.12 (4) (l. 3604\u20133609) and \u00a75.8 (l. 3952\u20133953) give 'a building in a district a disaster look ruins' the why card's 'For now: {look}, {condition}, weeks {a}\u2013{b}' row, and \u00a71b's and \u00a72.12's damage-lines rows (l. 378, 1008) read the look's `lookLevel` 'over the look's `districts`'; row 92 and T-V9-86 test no building under its rebuild. So for a building of a struck district whose rebuild Works has begun \u2014 the normal path of the `reconstruction` condition that is the look's own source (R3-09) \u2014 V09 lists ruin lines at `lookLevel` and calls it ruined for now, while V03 draws its plan at its own level, V02 and \u00a78.2 draw it under scaffolding and V10 tells the user the look has left it: two members, two outcomes for one case.",
+  "required_change": "V09 \u00a74.21.13 (3): 'On a building a disaster look stands over \u2014 one of the look's `districts` (\u00a711.2's `looks` reader), not yet handed over to a Works (V06 \u00a73.22 (3)'s `crisisLookYields`, read through V03's `planDamage`: `PlanDamage.look` set; a preview never hands over) \u2014 the plan panel shows its lines at `PlanDamage.level` (the look's `lookLevel` by severity, or its own level where higher) under the head `info.crisis.ruinedFor`; once handed over it shows its own lines and head (V09 \u00a74.21.13 (1))', the rest as it stands. V09 \u00a74.21.12 (4) and \u00a75.8: the `facts` row `info.crisis.ruinedFor` is given to 'a building a disaster look stands over (one of its `districts`, not yet handed over, V06 \u00a73.22 (3); V03 \u00a75.6 (4))'. \u00a71b's and \u00a72.12's damage-lines rows name `PlanDamage.look` as the input. \u00a73.16 row 92 adds 'a building of a struck district whose rebuild Works has begun \u2192 its own level's lines and head, no `info.crisis.ruinedFor`'. T-V9-86 adds that clause on T-V3-40's (or T-V6-75's) fixture, a rebuild begun on one building of the district.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VAH-r3-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V09",
+  "claim": "V09 \u00a74.21.13 (1) (l. 3649\u20133651) glosses the damaged set as '\u00a76.3 *Plan damage*'s comparison \u2014 an element shows damaged while the building's decay level is above 0 and at least its threshold t'. It omits \u00a72.6 step 7's one case with no threshold (R3-05): while a building is `decayed` or `ruined`, every roof bay over a room of a wing whose `RoofSpec.kind` is `none` is damaged whatever its t. V10 \u00a73.9a states the case (l. 1821\u20131822, and its kind row), and V03's `planDamage`, which V09's lines read, carries it (V03 \u00a75.6 (2) (c)). For a roofless decayed wing below a bay's t, V09's text gives no `roofBay` line and V10's rows give one. Nothing built changes (V09's lines are V03's layer); only the gloss is narrower. Same omission as VDC3-02 at \u00a76.3; one fix with it.",
+  "required_change": "V09 \u00a74.21.13 (1), after '(a level of 0 damages nothing, so a never-decayed building draws its plan unchanged)': '; and, while the building is `decayed` or `ruined`, every roof bay over a room of a roofless wing (`RoofSpec.kind` `none`) whatever its threshold (\u00a72.6 step 7)'.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VAL-R3-01",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "owner": "V09",
+  "claim": "Find's Go there now writes the edit log. Round 3 changed V09 \u00a74.2's working-layer switch from '(\u00a77.8's layer controls, view state only)' to '(\u00a77.8's layer controls: `LayerSpec.visible`, written by `setLayer`, \u00a78.4)', and V09 row 21 to 'switching the working layer turns its visibility on (by `setLayer`, \u00a78.4)'. This follows the layers-shown ruling: `LayerSpec` is document style state, and a toggle is a logged `setLayer` (\u00a711.3; \u00a77.4's setLayer row: log, inverse). Find's Go there runs that switch. V09 \u00a74.21.10 (8): 'Below sets the working layer to Below and `depthBand` to the match's band (V04 \u00a75.1); Sky sets it to Sky, the island menu's `key` to the match's island and a hidden sky layer visible (V05 \u00a75.6 (3))'. V05 \u00a75.6 (3) (l. 2319): 'Go there turns its visibility on, as switching the working layer does'. The underground layer is hidden by default at every rung (\u00a78.4; V04 \u00a75.1). So the common path is a chip with matches Below, then 'N more Below', then Go there, and it sends a logged, undoable `setLayer` into the document's style state and its edit log. That contradicts the owner rule, item 120 (a): 'Find never changes the model, the document, its hash or the edit log'. It also contradicts the base's Find tool (\u00a79.5, l. 14951-14954): 'It sends no event and changes no model, document, hash or log \u2026 Go there sets the working layer and band (V04 \u00a75.1, V05 \u00a75.6) \u2014 view changes'. And it contradicts V04 \u00a75.1 (2): Go there sets `depthBand`, 'a view key, never an edit'. A builder of V09 implements the contradiction.",
+  "required_change": "V09 \u00a74.21.10 (8): Go there sets view keys only. These are `workingLayer` (without \u00a74.2's visibility write), `depthBand` for Below (V04 \u00a75.1) and the island menu's `key` for Sky; then it flies. Where the target layer's `LayerSpec.visible` is false, Go there leaves the layer hidden and keeps its ghost pins and count. Beside the count it offers that layer's own visibility toggle, \u00a77.8's layer control: the user's logged `setLayer`, \u00a78.4. Find sends no event (item 120 (a); \u00a79.5). V09 \u00a74.2's 'Switching layer also sets the layer's visibility on' reads 'Switching layer in the view bar also sets the layer's visibility on \u2026 (never Find's Go there, V09 \u00a74.21.10 (8))'. V05's END, \u00a75.6 (3): 'and Go there turns its visibility on, as switching the working layer does' \u2192 'and Go there leaves it hidden, offering its visibility toggle (a logged `setLayer` the user sends; V09 \u00a74.21.10 (8)); Find sends no event (item 120 (a))'. T-V9-83 adds: Go there to a hidden Below and to a hidden sky layer logs 0 events and leaves the document's style unchanged. If the adjudicator rules another form, every Find action must still send no logged event.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAT-r3-01",
+  "severity": "blocker",
+  "kind": "NEW-PROBLEM",
+  "owner": "V09",
+  "claim": "R3-21's END for V09 \u00a74.2 (l. 1652\u20131653) makes the working-layer switch write the document: 'Switching layer also sets the layer's visibility on (\u00a77.8's layer controls: `LayerSpec.visible`, written by `setLayer`, \u00a78.4)'. `setLayer` is a logged, undoable style event (\u00a77.4). Find's Go there works through that switch: V09 \u00a74.21.10 (8) (l. 3514\u20133516: 'Below sets the working layer to Below \u2026; Sky sets it to Sky, \u2026 and a hidden sky layer visible'); V05 \u00a75.6 (3) (l. 2319: 'Go there turns its visibility on, as switching the working layer does'); T-V9-83 (g) ('a hidden sky layer shown'). The underground is hidden by default at every rung (II.7.1, D-3), so the common case, Go there on a Below match, now appends a `setLayer` to the edit log. This contradicts owner item 120 (a) ('Find never changes the model, the document, its hash or the edit log'), \u00a79.5's Find ('It sends no event and changes no \u2026 log \u2026 Go there sets the working layer and band \u2014 view changes'), V09 \u00a74.21.10 (1) and V04 \u00a75.1 ('a view key, never an edit'). T-V9-83 (g) and (i) ('the log unchanged by Find') cannot both pass. A viewer may never edit (\u00a711.3 Roles; \u00a711.2 `edit` is an editing role's call), so a viewer's working-layer switch, or Go there to a hidden layer, needs an event its role cannot send, and no outcome is defined. Before this round V09 called the visibility 'view state only', and the paths did not meet. Grade: an owner rule contradicted where a builder following V09 and V05 would implement it, on a common path; at the least MAJOR (a bar that cannot pass).",
+  "required_change": "Keep visibility as document style state, written only by a deliberate T12 `dress` toggle (R3-21); neither Find nor a viewer writes it. (1) V09 \u00a74.2: 'Switching layer also sets the layer's visibility on (\u00a77.8's layer controls: `LayerSpec.visible`, written by `setLayer`, \u00a78.4) and dims the other layers to 35 % opacity.' \u2192 'Switching layer dims the other layers to 35 % opacity and writes nothing to the document. A layer whose `LayerSpec.visible` is false (\u00a78.4: document style state, written only by T12 `dress`'s logged `setLayer`) stays hidden, and the switch shows `info.layer.hidden` (\"{layer} is hidden on this map.\"). For a role that may write style (owner, editor; \u00a711.3), it also offers **Show it** \u2014 T12 `dress`'s toggle, `setLayer { layer, spec: { visible: true } }`, its own undo step. A viewer gets no **Show it**.' (2) V09 \u00a74.21.10 (8): 'Sky sets it to Sky, the island menu's `key` to the match's island and a hidden sky layer visible (V05 \u00a75.6 (3))' \u2192 'Sky sets it to Sky and the island menu's `key` to the match's island \u2014 view keys only, never a `setLayer` (item 120 (a)). On a hidden layer the flight lands on its ghost pins with V09 \u00a74.2's `info.layer.hidden` and its **Show it**, which is T12 `dress`'s edit, not Find's.' (3) V09 \u00a73.16 row 21's outcome 'switching the working layer turns its visibility on (by `setLayer`, \u00a78.4)' \u2192 'the layer stays hidden, with `info.layer.hidden` and, for an owner or editor, **Show it** (a logged `setLayer`); a viewer's switch writes nothing'. (4) T-V9-83 (g): '(a hidden sky layer shown)' \u2192 '(on a hidden layer `info.layer.hidden`, no event logged)'; (i) stands. (5) V09 \u00a74.9 adds the row `info.layer.hidden`. (6) END at V05 \u00a75.6 (3): 'and Go there turns its visibility on, as switching the working layer does' \u2192 'and Go there leaves its visibility as it stands (V09 \u00a74.2: visibility is document style, which only T12 `dress`'s `setLayer` writes), the flight landing on its ghost pins'.",
+  "reported_by": "verify-agree-tools-r3t"
+ },
+ {
+  "id": "VAT-r3-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V09",
+  "claim": "V09's crisis card, why lines, legend entries and Find list read \u00a711.2's `looks` reader, 'the one evaluation `live.crises` draws'. \u00a78.2 re-runs that evaluation 'when the week crosses a condition's edge \u2026, the crisis display or the key changes, the model the view draws changes (a commit, or the week crossing to another frame)'. V09 \u00a72.12's rows re-read it on fewer triggers: l. 1005 (card and lines) 'rebuilt at each week change, absorb and `onEffectiveKey`' \u2014 no `crises` change, no commit; l. 1008 (damage lines, whose plan-panel look lines read the look's `districts` and `lookLevel`) \u2014 no `crises` change. Two normal paths diverge. Preview a crisis, or Show crises off, changes `crises`: the map draws the new looks while the card, Find's list and the plan panel keep the old ones, though V09 \u00a74.21.12 (2) and (4) promise the preview's line. A commit that splits or merges a struck district changes a disaster's units 'at that commit' (V01 \u00a73.16): the map draws the new districts while the card's `facts` row and the plan panel's look lines keep the old list until the next week change. One builder follows the row, another \u00a78.2.",
+  "required_change": "V09 \u00a72.12 l. 1005: 'rebuilt at each week change, absorb and `onEffectiveKey`' \u2192 're-read whenever the evaluation \u00a78.2's `live.crises` runs changes: each change of \u00a72.9's `week` or `crises` (**Show crises**, **Preview a crisis**), each `doc.changed` (a commit, an absorb, an undo or redo, a regenerate \u2014 an edit that splits or merges a struck district changes a disaster's units at that commit, V01 \u00a73.16) and each `onEffectiveKey`'. l. 1008 adds '; for the plan panel's look lines, at each re-read of \u00a711.2's `looks` reader (the row above)'. T-V9-85 adds: a preview picked and the switch turned off with the card open each update the card and Find's list at once, and a district split on a dossier fixture with a disaster standing updates the card's `facts` row at that commit.",
+  "reported_by": "verify-agree-tools-r3t"
+ },
+ {
+  "id": "VAT-r3-06",
+  "severity": "minor",
+  "kind": "NARRATION",
+  "owner": "V09",
+  "claim": "R3-02 (principle (5)) keeps review-process ids out of design text, and VAT-r2-06's fix removed every `R2-nn` from V09. Assemble-r3's census (section 8) leaves four canon conflict and agreement ids in V09's design text for the verifiers: l. 598 '(V09-XAGREE-1)', l. 2120 '(V06-AGREE-1)', l. 3283 '(V09-ICONF-4's rule)', l. 3844 '(V09-ICONF-4)'. Each stands beside its design home, which already gives the rule. The base's six sites of the class are VDC3-08. No rule changes.",
+  "required_change": "V09 l. 598: 'is V11 \u00a74.2's (V09-XAGREE-1):' \u2192 'is V11 \u00a74.2's:'. l. 2120: 'V06 \u00a73.19.3 (6) and V06 \u00a74.2 (V06-AGREE-1)' \u2192 'V06 \u00a73.19.3 (6) and V06 \u00a74.2'. l. 3283: 'one channel per cue (V09-ICONF-4's rule); the' \u2192 'one channel per cue; the'. l. 3844: 'carries the goods family only (V09-ICONF-4).' \u2192 'carries the goods family only.'",
+  "reported_by": "verify-agree-tools-r3t"
+ },
+ {
+  "id": "VDC3-06",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "The receiving end of VDC3-05. V09 \u00a74.9's catalogue has no row for either bend \u00a72.7's support step now gives a hand wall op: a decline op meeting a held stretch under a crossing station, or a hand `drawWall` whose crossing of a standing raised way does not fit. T-V9-15 requires a row for every key E-07 names.",
+  "required_change": "V09 \u00a74.9: add `bend.wall.held` (the op's stretch shortened round the stretch held under the raised way, naming the way, e.g. \"{way} still rests on this stretch, so it stays standing.\") and `bend.wall.raisedCrossing` (the trace moved to where its crossing of {way} fits) in V09's own words, each ending with `button.showWhy`, and cite them from V09's wall tool flow (T3 `wall`).",
+  "owner": "V09",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VDC3-11",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V09 \u00a74.21.14 (4) (l.3700\u20133701) ends \"The press is recorded in session state, so the timeline replays from its seed, its clock and the presses (T124-9)\". \u00a76.1 *The weather stream*, the home, names the climate row, year position, sites and view hour in force at each moment as inputs too. The restatement is narrower than its home. Determinism's repair hands this end to the verifiers.",
+  "required_change": "V09 \u00a74.21.14 (4): \"so the timeline replays from its seed, its clock and the presses (T124-9)\" \u2192 \"so the timeline replays from its seed, its clock and the presses with the climate row, year position, sites, light mode and view hour in force (\u00a76.1 *The weather stream*; T124-9)\".",
+  "owner": "V09",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VRC3T-04",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "T-V9-84 (V09 l. 4367): 'a device-pixel-ratio change re-evaluates within one frame and the level changes only at the next settle (T121-7)', unqualified, while \u00a78.8 applies a DPR change 'at once while the view is idle, at the settle while a gesture runs' and T-ER-26 requires the idle change 'applied within one frame of the decision'. On an idle view T-V9-84 fails the design's behaviour or makes the builder wait for a gesture. (V09's edge row 89 and V12's edge row 32 speak of a change during a gesture and agree.)",
+  "required_change": "T-V9-84's clause reads 'a device-pixel-ratio change re-evaluates within one frame and the level changes at once when the view is idle, at the gesture's settle when one runs (\u00a78.8; T121-7)'.",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VV34-r3-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "V03 counts `storeyGone` per storey 'every `upperFloor` area of which is damaged' (V03 \u00a74.6, l. 2381; \u00a74.5, l. 2294, 'V03 \u00a74.6's `storeyGone` rule'), so the ground storey, whose floors are `groundFloor` and only rot (\u00a78.6), is never 'gone'. V09 \u00a74.21.13 (1), which builds the plan panel's lines, reads '`storeyGone` once every floor area of a storey has fallen' (l. 3652\u20133653), its `floor` line now saying floors are 'rotten or fallen through' (l. 2187): at level 1 every floor area of the ground storey is damaged, so one builder names the walkable ground storey 'The ground floor is gone' and the other does not (the same for a solid wing's first storey), while V03 \u00a75.6 (7) has one reading feed the panel and the `plan` section. V03 \u00a713's row (l. 3250) names V09 \u00a74.21.13 (1) as the other end; it is unwritten.",
+  "required_change": "V09 \u00a74.21.13 (1): '(`floor`, and `storeyGone` once every `upperFloor` area of a storey shows damaged (V03 \u00a74.6's rule) \u2014 \"the upper floor is gone\")'; T-V9-86 adds 'a `ruined` building at level 1 shows no `storeyGone` line for its ground storey'.",
+  "reported_by": "verify-vol-V03-V04-r3t"
+ },
+ {
+  "id": "VV56-r3-02",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "V09 \u00a74.21.9 (1) (l. 3416\u20133417): 'an advance of time, a history-first generation and a dossier catch-up each complete within it in total, coarsened to fit by V06 \u00a76.8' \u2014 V06 \u00a76.8 (6) now folds a catch-up whose events push even one epoch over its budget as one epoch that completes past the comfort level, reported F-BUDGET-TIME.",
+  "required_change": "V09 \u00a74.21.9 (1): '\u2026 each complete within it in total, coarsened to fit by V06 \u00a76.8 \u2014 but a dossier catch-up whose events' absorb term passes its budget, which folds one epoch over the span and completes past it, reported F-BUDGET-TIME, its progress view unchanged (V06 \u00a76.8 (6))'.",
+  "reported_by": "verify-vol-V05-V06-r3t"
+ },
+ {
+  "id": "VV910-r3-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "V09",
+  "claim": "V09 \u00a74.21.12 (5) (l.3617\u20133619) frames the crisis card's Show by \"the look's place \u2014 its camps, or for a `disaster` look the union of its units' `FindArea` shapes (V01 \u00a75.4 (6))\", and (7)'s Find Go to \"frames it as the card's Show does\". Six of \u00a710.2's twelve look kinds take no camp land and are not `disaster` \u2014 `famine` (`fields`), `beast` (`edge`), `raiders` (`outlyingFarms`), `rebellion`, `boom` and `bust` (`streets`) (V11 \u00a73.25.9 l.4531\u20134537: \"the other looks take no camp land\") \u2014 so their Show and Go to have no stated frame; and nothing gives V09 one look's camps either (`LooksAnswer.crises[]` carries no extent; \u00a72.9's crisis framing is the union over every look). Round 3 closed the `disaster` case only (R3-16 (b)); the adjudicator graded that same gap MAJOR.",
+  "required_change": "V09 \u00a74.21.12 (5)'s Show reads \"**Show**, framing the look's place \u2014 the box of the marks `live.crises` draws for that look (\u00a78.2's look rows, keyed by its condition, a preview by its look kind: its camps, siege line and engines, its bare fields, torn edge runs, burned farmsteads, barricades, scaffolds or shutters, and its massed marks on \u00a78.8's ring), or for a `disaster` look the union of its units' `FindArea` shapes (V01 \u00a75.4 (6)) \u2014 as **Fit the town** frames the town\"; \u00a71b's crisis-lines row (l.377) adds the input \"`live.crises`'s marks by look (\u00a78.2), for **Show**'s frame\"; \u00a73.16 row 91 adds the edge \"**Show** on a look that takes no camp land (a famine, a rebellion)\" with the outcome \"framed on the marks drawn for it\"; T-V9-85 adds \"a previewed `famine`'s and `rebellion`'s **Show** framing their bare fields and their barricades\".",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV910-r3-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "R3-10 rules that a disaster look leaves each building in the week V06 \u00a73.22 (3)'s `crisisLookYields` turns true on it (a Works other than a `decay` Works begun on it), a preview never handing over; the base (\u00a78.2 l.13013\u201313016, \u00a78.6 l.13986, \u00a710.2 (f) l.15575), V03 \u00a75.6 (4) (l.2726), V02 \u00a75.7, V01 \u00a73.16 and V10 (\u00a73.9a l.1852\u20131855; \u00a73.9b (8) l.2020\u20132025, \"the drawn ruin leaving with the condition or its rebuilding Works\") all state it. V09 states it nowhere (0 hits of `crisisLookYields`, \"reconstruction\" or a hand-over): \u00a74.21.12 (4) (l.3604\u20133609) puts `info.crisis.ruinedFor` on the why card \"of a building in a district a disaster look ruins\"; \u00a74.21.13 (3) (l.3668\u20133673) has the plan panel show \"the building's lines at the look's `lookLevel` \u2026 under the head `info.crisis.ruinedFor`\" for every building of such a district; \u00a75.8 (l.3951\u20133953) likewise; row 92 and T-V9-86 test no handed-over building; \u00a72.12's crisis-card row (l.1005) re-reads only \"at each week change, absorb and `onEffectiveKey`\" (a commit that begins a Works is no trigger) and its damage-lines row (l.1008) not at a change of the `crises` key. For a building whose rebuild Works has begun, V09's panel and card show the ruin and \"For now: Ruined quarters, \u2026\" while the map draws its scaffolding (\u00a78.2) and the clerk says the look has left it (V10): two outcomes for one case (R3-03 (b)).",
+  "required_change": "V09 \u00a74.21.12 (4): \"\u2026 as a `facts` row on the why card of a building a disaster look still draws ruined \u2014 one of the look's `districts` in \u00a711.2's `looks` reader (\u2026), not yet handed over to its rebuilding (V06 \u00a73.22 (3)'s `crisisLookYields`, evaluated in the generation worker: the look's `yielded` buildings; a preview never hands over) \u2014 or of a field a famine leaves bare \u2026\"; \u00a74.21.13 (3): \"In a district a disaster look ruins, until the look leaves the building (V06 \u00a73.22 (3)'s `crisisLookYields`: a Works other than a `decay` Works begun on it; a preview never hands over), the plan panel (V03 \u00a74.5) shows \u2026; once it has left, the panel shows the building's own level's lines and the card no `info.crisis.ruinedFor` row (V03 \u00a75.6 (4); V10 \u00a73.9a)\"; \u00a75.8's \"for a building in a district a disaster look ruins\" reads \"for a building a disaster look still draws ruined (V09 \u00a74.21.12 (4))\"; \u00a72.12's crisis-card row adds \"each `doc.changed`\" to its triggers and its damage-lines row \"each change of the `crises` key\"; \u00a73.16 row 92 adds the edge \"a building of the district whose rebuilding Works has begun\" with the outcome \"its own level's lines, no look, no `info.crisis.ruinedFor`\"; T-V9-86 adds \"a building of the disaster's district under its `reconstruction` Works shows its own level's lines and no `info.crisis.ruinedFor`, and under a `disaster` preview the look\". END (rendering): \u00a711.2's `LooksAnswer.crises[]` gains `yielded?: Id[] /* a disaster look: the buildings of its districts V06 \u00a73.22 (3)'s crisisLookYields has handed over at the drawn week; key-filtered; absent on a preview */`.",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV910-r3-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "V09 \u00a73.16 row 93's outcome (l.1611, \"the commonest live kind (heat shimmer in an arid row's dry weeks)\") and T-V9-87 (l.4370, \"heat shimmer in an arid row's dry weeks\") omit the hour V09 \u00a74.21.14 (4)'s own rule reads: under `light: 'time'` shimmer is live only in its hours 10\u201318 (V11 \u00a73.25.11's kinds table, l.4677), while dust (no hours, weeks 13\u201338 at 1 an hour, l.4691) stays live, so at night there the commonest live kind is dust haze; a fixture run at a night hour fails the bar against a correct build.",
+  "required_change": "Row 93's parenthesis reads \"(heat shimmer in an arid row's dry weeks by day, dust haze there at night under `light: 'time'`)\"; T-V9-87's \"heat shimmer in an arid row's dry weeks\" reads \"heat shimmer in an arid row's dry weeks at midday, and dust haze there at midnight under `light: 'time'`\".",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV910-r3-07",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "owner": "V09",
+  "claim": "V09 \u00a74.21.12 (4) (l.3598\u20133600) reads `{condition}` \"by the look's `condition` (the overlay's binding key, \u00a72.7's `ConditionOverlay.key`) through \u00a711.2 at `effectiveKey()`\" \u2014 a second read of a fact \u00a711.2's `LooksAnswer.crises[].name` already carries (\"the condition's name where the dossier gives one (tier dossier)\"), which V10 \u00a72.13 projects; and `LooksAnswer.crises[].condition` is the overlay's `Id`, not its binding key (\u00a72.7: `id` and `key` are two fields). \u00a71b's crisis-lines row (l.377, \"each condition's name read through \u00a711.2 at `effectiveKey()`\") and \u00a74.9's `info.crisis.<line>` codes cell (l.2186, \"with the condition's entity read\") follow it.",
+  "required_change": "V09 \u00a74.21.12 (4) reads \"`{condition}` the look's `name` in \u00a711.2's `looks` reader (the condition's name as V08 carries it from the dossier, tier `dossier`)\" and `info.crisis.lineUnnamed` \"for a look that carries no `name`\"; \u00a71b's row reads \"each look's `name`\"; \u00a74.9's codes cell reads \"the standing looks of \u00a711.2's `looks` reader, `{condition}` each look's `name`, `{look}` each look row's `label` (V11 \u00a73.25.9)\".",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV910-r3-08",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "V09 \u00a74.21.13 (1) (l.3649\u20133652) states which elements show damaged by R3-04's comparison alone; \u00a72.6 step 7 (l.2091) adds the one case with no threshold \u2014 while a building is `decayed` or `ruined`, every roof bay over a room of a wing whose `RoofSpec.kind` is `none` is damaged whatever its t (R3-05) \u2014 which V03 \u00a75.6 (2) (c) draws and V10 \u00a73.9a (l.1821\u20131823) now states for the same `info.damage.roofBay` lines.",
+  "required_change": "V09 \u00a74.21.13 (1): after \"(a level of 0 damages nothing, so a never-decayed building draws its plan unchanged)\" add \"; while the building is `decayed` or `ruined`, every roof bay over a room of a wing whose `RoofSpec.kind` is `none` shows damaged whatever its threshold (\u00a72.6 step 7)\".",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV1112-r3-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V09",
+  "claim": "V09's `refuse.table.required` row (l. 2003) restates V11 \u00a74.1's cases \u2014 \"(V11 \u00a74.1: a `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty`)\" \u2014 without the named row V11 \u00a74.1 now refuses, and its words \"{row} is what {readers} fall back to\" do not fit a named row whose readers have no fallback. The key is the same, so nothing built changes.",
+  "required_change": "The row's third cell: \"(V11 \u00a74.1: a `defaultRow`, an `allowFallback` target, a totality rule's only cover, a table's named row, the last row of a table not `mayEmpty`)\"; its text: \"{row} is what {readers} fall back to or read, so it stays; edit its cells instead.\"",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]

@@ -1,0 +1,691 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V12-calibration.md",
+ "input_doc_sha256": "996dee3b5baba28b5658b300f85c0550adb5d798a00f353e28c51f4e755d6fa4",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V12.md",
+   "sha256": "86d7b94f4a1ed665a5018a90154ab628b0bf75ed00c0074c150e800c3d498e46",
+   "lines": 1973,
+   "blocks": 24,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V12.md #1 (l. 1) REPLACE ## 0 In plain words",
+   "file": "repair-r2-V12.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 63,
+   "body_sha256": "7770aef85db81701ea10a4a8eced8d1c4436a0c3d15abdfd801c297c487f6a29",
+   "target_line": 16,
+   "section_old": "16–74",
+   "section_old_n": 59,
+   "section_new_n": 64,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V12.md #2 (l. 66) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r2-V12.md",
+   "index": 2,
+   "line": 66,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 81,
+   "body_sha256": "83aba42d0ee555e15157158f72e77bfd656a1b305c153b9cbec2e94a605f95f8",
+   "target_line": 80,
+   "section_old": "80–155",
+   "section_old_n": 76,
+   "section_new_n": 82,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V12.md #3 (l. 149) REPLACE ## 1b Wiring table",
+   "file": "repair-r2-V12.md",
+   "index": 3,
+   "line": 149,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 65,
+   "body_sha256": "e1f1d6ab5fda9af240404a2e06affb781980aa4b3fedc75acd4967eaaa5a2b00",
+   "target_line": 162,
+   "section_old": "162–218",
+   "section_old_n": 57,
+   "section_new_n": 66,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V12.md #4 (l. 216) REPLACE ### 2.8 Panels and sittings",
+   "file": "repair-r2-V12.md",
+   "index": 4,
+   "line": 216,
+   "kind": "REPLACE",
+   "heading": "### 2.8 Panels and sittings",
+   "body_lines": 60,
+   "body_sha256": "29f2e1a187158d5916ea6c08dd76db693120862df0b4031912580e134098a8e8",
+   "target_line": 686,
+   "section_old": "686–745",
+   "section_old_n": 60,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 2.8 Panels and sittings"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V12.md #5 (l. 278) REPLACE ### 2.10 Provenance evidence (item 381)",
+   "file": "repair-r2-V12.md",
+   "index": 5,
+   "line": 278,
+   "kind": "REPLACE",
+   "heading": "### 2.10 Provenance evidence (item 381)",
+   "body_lines": 31,
+   "body_sha256": "62a4d4c22e953fe30c39198dc5a2c8061dade4dfc1b589caa9a627334c068471",
+   "target_line": 782,
+   "section_old": "782–813",
+   "section_old_n": 32,
+   "section_new_n": 32,
+   "new_headings": [
+    "### 2.10 Provenance evidence (item 381)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V12.md #6 (l. 311) REPLACE ### 2.11 Lifecycle and wiring of every record (E-35)",
+   "file": "repair-r2-V12.md",
+   "index": 6,
+   "line": 311,
+   "kind": "REPLACE",
+   "heading": "### 2.11 Lifecycle and wiring of every record (E-35)",
+   "body_lines": 26,
+   "body_sha256": "b552b467ad8b9be3edc80afb204e98b7af73202965fffce6545b5b4da0c95b44",
+   "target_line": 814,
+   "section_old": "814–840",
+   "section_old_n": 27,
+   "section_new_n": 27,
+   "new_headings": [
+    "### 2.11 Lifecycle and wiring of every record (E-35)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V12.md #7 (l. 339) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "file": "repair-r2-V12.md",
+   "index": 7,
+   "line": 339,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "body_lines": 65,
+   "body_sha256": "b172baa05c50115680634f98c7bcb59965a9c9060bde9af0ec17e4b4ba9359ff",
+   "target_line": 877,
+   "section_old": "877–915",
+   "section_old_n": 39,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 2.13 The no-op pins (V12 §3.7.8; E-20)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V12.md #8 (l. 406) REPLACE ### 3.4 The metric suite",
+   "file": "repair-r2-V12.md",
+   "index": 8,
+   "line": 406,
+   "kind": "REPLACE",
+   "heading": "### 3.4 The metric suite",
+   "body_lines": 173,
+   "body_sha256": "c1aff493ca3227730730844a59fa2af6a2d0f1a99bcadeedd2139191e3d571be",
+   "target_line": 1081,
+   "section_old": "1081–1244",
+   "section_old_n": 164,
+   "section_new_n": 174,
+   "new_headings": [
+    "### 3.4 The metric suite"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V12.md #9 (l. 581) REPLACE ### 3.7 Tuning runs — table-version bumps with declared shifts",
+   "file": "repair-r2-V12.md",
+   "index": 9,
+   "line": 581,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+   "body_lines": 170,
+   "body_sha256": "4b923af5206fccb105f468613cc7336040a395f91312428a379ae2b0af7c07c5",
+   "target_line": 1590,
+   "section_old": "1590–1741",
+   "section_old_n": 152,
+   "section_new_n": 171,
+   "new_headings": [
+    "### 3.7 Tuning runs — table-version bumps with declared shifts"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V12.md #10 (l. 753) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+   "file": "repair-r2-V12.md",
+   "index": 10,
+   "line": 753,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The calibration register — no provisional number dangles",
+   "body_lines": 286,
+   "body_sha256": "63bf5a93c7bef659ae2f010b285cbaa6fdd21275d16e4331f8dbe28af9f2ce87",
+   "target_line": 2011,
+   "section_old": "2011–2288",
+   "section_old_n": 278,
+   "section_new_n": 287,
+   "new_headings": [
+    "### 3.11 The calibration register — no provisional number dangles"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-V12.md #11 (l. 1041) REPLACE ### 3.12 Failure handling — every failure, its rung, its report",
+   "file": "repair-r2-V12.md",
+   "index": 11,
+   "line": 1041,
+   "kind": "REPLACE",
+   "heading": "### 3.12 Failure handling — every failure, its rung, its report",
+   "body_lines": 47,
+   "body_sha256": "57ffd43851466f5996a9f91544823a794a95918066c81bf8cb53078356ed2f89",
+   "target_line": 2298,
+   "section_old": "2298–2339",
+   "section_old_n": 42,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 3.12 Failure handling — every failure, its rung, its report"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-V12.md #12 (l. 1090) REPLACE ### 3.15 The owner rules 111–120 on the harness",
+   "file": "repair-r2-V12.md",
+   "index": 12,
+   "line": 1090,
+   "kind": "REPLACE",
+   "heading": "### 3.15 The owner rules 111–120 on the harness",
+   "body_lines": 354,
+   "body_sha256": "ac3d9c2611fccc25b263d4643182f953b5b1f54796f9bbdc4efdc09c4a33f236",
+   "target_line": 2443,
+   "section_old": "2443–2632",
+   "section_old_n": 190,
+   "retitled_to": "### 3.15 The owner rules 111–126 on the harness",
+   "section_new_n": 355,
+   "new_headings": [
+    "### 3.15 The owner rules 111–126 on the harness"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-V12.md #13 (l. 1446) REPLACE ### 3.16 Edges and combinations (principle (11))",
+   "file": "repair-r2-V12.md",
+   "index": 13,
+   "line": 1446,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Edges and combinations (principle (11))",
+   "body_lines": 92,
+   "body_sha256": "10f2a032cafa0b00c45e7fddc83f4332d4defc6cd4d9698d28e15ab92e19e369",
+   "target_line": 2798,
+   "section_old": "2798–2884",
+   "section_old_n": 87,
+   "section_new_n": 93,
+   "new_headings": [
+    "### 3.16 Edges and combinations (principle (11))"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-V12.md #14 (l. 1540) REPLACE ### 4.4 The clerk's view and the cell inspector",
+   "file": "repair-r2-V12.md",
+   "index": 14,
+   "line": 1540,
+   "kind": "REPLACE",
+   "heading": "### 4.4 The clerk's view and the cell inspector",
+   "body_lines": 13,
+   "body_sha256": "38cb3cfb0fc1bf0b9a8e26b6807cac63dab54f66f09ea824e6fe302da08d1ecd",
+   "target_line": 2940,
+   "section_old": "2940–2953",
+   "section_old_n": 14,
+   "section_new_n": 14,
+   "new_headings": [
+    "### 4.4 The clerk's view and the cell inspector"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r2-V12.md #15 (l. 1555) REPLACE ### 5.2 Run, register and correlation reports",
+   "file": "repair-r2-V12.md",
+   "index": 15,
+   "line": 1555,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Run, register and correlation reports",
+   "body_lines": 20,
+   "body_sha256": "3adc75b464f64b35df0123ac8c04b020338a9d842264c36a5cb20558c0f33ee4",
+   "target_line": 2972,
+   "section_old": "2972–2991",
+   "section_old_n": 20,
+   "section_new_n": 21,
+   "new_headings": [
+    "### 5.2 Run, register and correlation reports"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r2-V12.md #16 (l. 1577) REPLACE ## 6 Performance budgets",
+   "file": "repair-r2-V12.md",
+   "index": 16,
+   "line": 1577,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 47,
+   "body_sha256": "a0a1934a1cb0d0bb46dc9b4c19dc4cf9f37222c8a87d76fe68261e1b362b0fad",
+   "target_line": 3031,
+   "section_old": "3031–3072",
+   "section_old_n": 42,
+   "section_new_n": 48,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r2-V12.md #17 (l. 1626) REPLACE ### 7.1 The bars",
+   "file": "repair-r2-V12.md",
+   "index": 17,
+   "line": 1626,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars",
+   "body_lines": 65,
+   "body_sha256": "d51dd269f56ca2067652b6f310b703c6db5cdc55855f6d76eee4e909d6ef1a74",
+   "target_line": 3081,
+   "section_old": "3081–3139",
+   "section_old_n": 59,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 7.1 The bars"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r2-V12.md #18 (l. 1693) REPLACE ### 7.2 Parity metrics for this volume's own subject",
+   "file": "repair-r2-V12.md",
+   "index": 18,
+   "line": 1693,
+   "kind": "REPLACE",
+   "heading": "### 7.2 Parity metrics for this volume's own subject",
+   "body_lines": 9,
+   "body_sha256": "84d2522307b6f278ef1d9d3b7188143579cc503593a6b4c58026a9764b6c6df9",
+   "target_line": 3147,
+   "section_old": "3147–3155",
+   "section_old_n": 9,
+   "section_new_n": 10,
+   "new_headings": [
+    "### 7.2 Parity metrics for this volume's own subject"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r2-V12.md #19 (l. 1704) REPLACE ### 8.1 Where it slots into §16",
+   "file": "repair-r2-V12.md",
+   "index": 19,
+   "line": 1704,
+   "kind": "REPLACE",
+   "heading": "### 8.1 Where it slots into §16",
+   "body_lines": 14,
+   "body_sha256": "086559dd0a48bac93c3464cfa53a24d7e56fa0a89ba328f732386d970f63d758",
+   "target_line": 3159,
+   "section_old": "3159–3171",
+   "section_old_n": 13,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 8.1 Where it slots into §16"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r2-V12.md #20 (l. 1720) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r2-V12.md",
+   "index": 20,
+   "line": 1720,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 17,
+   "body_sha256": "e95326e78757bc41e779c9b32208dd4acf0f06063315b45a43ab40ae21adbfbc",
+   "target_line": 3174,
+   "section_old": "3174–3188",
+   "section_old_n": 15,
+   "section_new_n": 18,
+   "new_headings": [
+    "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r2-V12.md #21 (l. 1739) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r2-V12.md",
+   "index": 21,
+   "line": 1739,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 113,
+   "body_sha256": "32c6c52f75c908d6c915f6e794dd7afd0b8489043c524c0558df356bb89d700e",
+   "target_line": 3233,
+   "section_old": "3233–3338",
+   "section_old_n": 106,
+   "section_new_n": 114,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r2-V12.md #22 (l. 1854) REPLACE ### 10.2 Hand-offs from this volume — each closed at its destination",
+   "file": "repair-r2-V12.md",
+   "index": 22,
+   "line": 1854,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Hand-offs from this volume — each closed at its destination",
+   "body_lines": 24,
+   "body_sha256": "ccf41aff36c3109de3794da2a2968b05d804a85d0432695c07a07f33adbe8832",
+   "target_line": 3379,
+   "section_old": "3379–3402",
+   "section_old_n": 24,
+   "section_new_n": 25,
+   "new_headings": [
+    "### 10.2 Hand-offs from this volume — each closed at its destination"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r2-V12.md #23 (l. 1880) REPLACE ### 10.3 Hand-offs to this volume — closed here",
+   "file": "repair-r2-V12.md",
+   "index": 23,
+   "line": 1880,
+   "kind": "REPLACE",
+   "heading": "### 10.3 Hand-offs to this volume — closed here",
+   "body_lines": 19,
+   "body_sha256": "485bc5c2ca149ca73691b6b36915cff6fa97ac0c8cd44b44bc32508807bf594d",
+   "target_line": 3404,
+   "section_old": "3404–3419",
+   "section_old_n": 16,
+   "section_new_n": 20,
+   "new_headings": [
+    "### 10.3 Hand-offs to this volume — closed here"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r2-V12.md #24 (l. 1901) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r2-V12.md",
+   "index": 24,
+   "line": 1901,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 70,
+   "body_sha256": "9c7efd6005accc279a60dd74042b72a36aacf221680c770ccbbc6cbc4a285491",
+   "target_line": 3435,
+   "section_old": "3435–3496",
+   "section_old_n": 62,
+   "section_new_n": 71,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r2-V12.md #12 (l. 1090) REPLACE ### 3.15 The owner rules 111–120 on the harness",
+   "note": "REPLACE retitles the heading",
+   "old": "### 3.15 The owner rules 111–120 on the harness",
+   "new": "### 3.15 The owner rules 111–126 on the harness"
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V12.md #1 (l. 1) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #2 (l. 66) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #3 (l. 149) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #4 (l. 216) REPLACE ### 2.8 Panels and sittings",
+    "kind": "REPLACE",
+    "heading": "### 2.8 Panels and sittings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #5 (l. 278) REPLACE ### 2.10 Provenance evidence (item 381)",
+    "kind": "REPLACE",
+    "heading": "### 2.10 Provenance evidence (item 381)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #6 (l. 311) REPLACE ### 2.11 Lifecycle and wiring of every record (E-35)",
+    "kind": "REPLACE",
+    "heading": "### 2.11 Lifecycle and wiring of every record (E-35)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #7 (l. 339) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #8 (l. 406) REPLACE ### 3.4 The metric suite",
+    "kind": "REPLACE",
+    "heading": "### 3.4 The metric suite",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #9 (l. 581) REPLACE ### 3.7 Tuning runs — table-version bumps with declared shifts",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #10 (l. 753) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The calibration register — no provisional number dangles",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #11 (l. 1041) REPLACE ### 3.12 Failure handling — every failure, its rung, its report",
+    "kind": "REPLACE",
+    "heading": "### 3.12 Failure handling — every failure, its rung, its report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #12 (l. 1090) REPLACE ### 3.15 The owner rules 111–120 on the harness",
+    "kind": "REPLACE",
+    "heading": "### 3.15 The owner rules 111–120 on the harness",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #13 (l. 1446) REPLACE ### 3.16 Edges and combinations (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Edges and combinations (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #14 (l. 1540) REPLACE ### 4.4 The clerk's view and the cell inspector",
+    "kind": "REPLACE",
+    "heading": "### 4.4 The clerk's view and the cell inspector",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #15 (l. 1555) REPLACE ### 5.2 Run, register and correlation reports",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Run, register and correlation reports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #16 (l. 1577) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #17 (l. 1626) REPLACE ### 7.1 The bars",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #18 (l. 1693) REPLACE ### 7.2 Parity metrics for this volume's own subject",
+    "kind": "REPLACE",
+    "heading": "### 7.2 Parity metrics for this volume's own subject",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #19 (l. 1704) REPLACE ### 8.1 Where it slots into §16",
+    "kind": "REPLACE",
+    "heading": "### 8.1 Where it slots into §16",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #20 (l. 1720) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #21 (l. 1739) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #22 (l. 1854) REPLACE ### 10.2 Hand-offs from this volume — each closed at its destination",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Hand-offs from this volume — each closed at its destination",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #23 (l. 1880) REPLACE ### 10.3 Hand-offs to this volume — closed here",
+    "kind": "REPLACE",
+    "heading": "### 10.3 Hand-offs to this volume — closed here",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V12.md #24 (l. 1901) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 67,
+  "headings_after": 67,
+  "headings_added": [
+   "### 3.15 The owner rules 111–126 on the harness"
+  ],
+  "headings_removed": [
+   "### 3.15 The owner rules 111–120 on the harness"
+  ],
+  "fences_balanced": true,
+  "fence_lines_before": 30,
+  "fence_lines_after": 30,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 453363,
+  "doc_bytes_after": 512827,
+  "doc_lines_before": 3217,
+  "doc_lines_after": 3522,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 24,
+  "blocks_applied": 24,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "5285ff5bdbe28e2ed0836c17e3a62c4db42c508ee10a5ca83190b3f3bea4abfd",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

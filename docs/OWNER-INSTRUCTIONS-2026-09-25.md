@@ -255,3 +255,47 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
 - (2026-09-29 ~14:20) "P can simply be used symbolically for a difference in tier" — item 113 (f) revised: a symbolic peak (the
   higher tier at a representative size) where evidence shows a higher former tier but no peak was recorded (J125).
 - (2026-09-29 ~14:22) "Or effectively" — item 113 (f)'s tier difference is the EFFECTIVE peak for everything the replay builds (J125).
+- (2026-10-01 ~10:30) "do you think it's even possible to get rid of all of the findings or to fix them all? Or should I change the
+  pool?" / "Goal" / "Change the goal to what you suggest" — the coherence pass's exit bar is now zero blockers and zero majors on a
+  full sweep with the validator's sign-off; minors are repaired each round and those left at the stop are listed for the
+  builders (fix-list.md); feature freeze until the pass closes (J141; revises the 2026-09-29 zero of any severity, J123).
+- (2026-10-02 ~01:20) Offered three courses for the raised-way × wall family after round 6 (narrow it, keep iterating, stop
+  blocking on it): "Narrow it (Recommended)"; then, on the drafted scope: "Approve as drafted (Recommended)" — raised ways
+  stay as item 110 (b) states them at generation and by hand; their decay over time is deferred to a later milestone; hand edits
+  that push a wall into a standing raised way are refused with the nearest lawful alternative (J142;
+  docs/validation/coherence/narrowing-r7.md).
+- (2026-10-02 ~04:25) After asking how walls and viaducts met "in literal history": "I think I take back what I said, keep
+  iterating" — J142 withdrawn; the raised-way × wall family keeps its full scope and is iterated (J143).
+- (2026-10-02 ~04:55) "Locked regarding walls and aqueduct and similar structure should be considered for placement, not
+  permanent shape. So when they do intersect, absolutely change the shape to be cohesive and coherent, despite being locked."
+  / "The rest just seems you need to make specific rules. Why don't you just focus entirely on solving this problem first before
+  moving on?" — a lock on these structures holds placement, not shape; the coherence loop works the raised-way × wall family alone
+  until it is solved (J144).
+- (2026-10-02 ~06:40) On the program's three speed-ups (parallel probe lenses, a higher lane cap, a compression pass): "do those"
+  (J145; the cap set to 10 by the program, vetoable).
+- (2026-10-02 ~08:05) Offered three ways to close the raised-way × wall family after probe pass 3 did not converge (laws plus
+  examples, keep amending the table, repair now as is): "Laws + examples (Recommended)" (J146).
+- (2026-10-02 ~10:00) After the program listed the lock issues of probe pass 4: "i think something you drew vs something you
+  locked are different. If you drew something, it should be able to move with the settlemetn. if things are locked, its placement
+  is locked." / "but its shape may evolve" / "the same things to things you drag. you have to drag it to a new location and lock
+  it to pin it." / "but its shape may evolve, and that means that if it is locked, it participates in division and merging of
+  plots and adjusts its cosmetics like the rest of the neighborhood. I think a seperate lock should exist for the shape/plot size
+  rather than placement. two different axis." Then "Shape lock honoured (Recommended)" and "Outline and size only (Recommended)"
+  — drawing or dragging holds nothing; locks have two axes, placement and shape (outline and plot size; cosmetics still follow
+  the neighbourhood); a placement-locked thing's shape evolves; a shape lock is honoured where a raised way meets a wall (J147).
+- (2026-10-02 ~10:55) "um... i would like to say that logically, a gate shouldn't move and everything else can should revolve
+  around that logically. Because, how hard was it to make and close up a gate in history. I think its easy to create a gate, but
+  its hard to make one. So anything that requires a gate to move or an aqueduct or something else that is a hard structure, the
+  eaiser of the two things to move is what is moved and or avoiding conflict before it happens in such cases. what do you think?"
+  Then "Three tiers (Recommended)" — gates, posterns, towers and fixed places never move for a meeting; walls and raised ways:
+  the newer bends locally; roads, plots and unlocked buildings move around them; plan around hard things first (J148).
+- (2026-10-02 ~11:30) "also can't we just have higher than the wall aquaduct in such specific cases?" / "or an aquaduct that
+  integrates into the wall (like a tunnel through the wall) that it pierces?" / "are there historical precedences for this?" /
+  "then yes do those if they help" — an aqueduct crosses a wall at its own level: over it on an arch (a gate or tower may stand
+  under the arch), merged into it (the wall built around the aqueduct's own arch, as at Porta Maggiore), or beneath it (J149).
+- (2026-10-02 ~15:20) After the program reported the laws probe's plateau (majors per pass 31, 29, 19, 15, 14): "Defer + cap
+  growth (Recommended)" — one plain shape-lock rule in the family, lock behaviour under undo, redo, re-grade and repair designed
+  in round 8 with the two-axis lock; Part L must not grow; back to the owner if a pass still finds 10 or more majors (J150).
+- (2026-10-02 ~17:50) After laws probe pass 8 (12 majors, falling about one a pass): "Valid-choice minor + repair
+  (Recommended)" — where every reading gives a valid map the case is a minor the builder picks and fix-list.md lists; real
+  defects stay major; the focused probes stop; the laws go into the design and the six family checks judge it (J151).

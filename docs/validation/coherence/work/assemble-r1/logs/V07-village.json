@@ -1,0 +1,150 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "4c802a4660cfb3ed63dda1c2c1bc1a5d22a17b107088ca6e23c59ad23a839ef8",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+ "files": [
+  {
+   "file": "repair-r1-V07.md",
+   "sha256": "84cbbef4106f0ae9bcb705467d7dbcb345749c2f14b8b6e5ce9b452f6b295f44",
+   "lines": 3948,
+   "blocks": 2,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r1-V07.md #1 (l. 2) REPLACE # V07 — The village product: thorp, hamlet and village in their landscape (VG-class)",
+   "file": "repair-r1-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "# V07 — The village product: thorp, hamlet and village in their landscape (VG-class)",
+   "body_lines": 3917,
+   "body_sha256": "e7f3c904f0329aa6bc3012c27effaa03dd4e93d8b1c55d7c762312ae6ee5f492",
+   "target_line": 1,
+   "section_old": "1–3810",
+   "section_old_n": 3810,
+   "section_new_n": 3918,
+   "new_headings": [
+    "# V07 — The village product: thorp, hamlet and village in their landscape (VG-class)",
+    "## 0 In plain words",
+    "## 1 Scope, the base hooks consumed and what is out of scope",
+    "## 1b Wiring table",
+    "## 2 Data model",
+    "### 2.1 The village ladder, the product registration and the population floor",
+    "### 2.2 The village rung table (`village.json`) — every village-specific rule value, as data",
+    "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+    "### 2.3 Records",
+    "### 2.4 The village classes and their siting (the village part of items 103 and 104)",
+    "### 2.5 Identity and addresses",
+    "### 2.6 Lifecycle of every new state field",
+    "### 2.7 The request block, the field groups and the class column",
+    "## 3 Generation",
+    "### 3.0 The village pipeline — stages, order and data keys",
+    "### 3.1 S0 — the village draws",
+    "### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill seat",
+    "### 3.3 VS2 — the density raster",
+    "### 3.4 VS3 — the palisade, before the roads",
+    "### 3.5 VS4 — the tracker-steered network",
+    "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "### 3.6 The open space — a green or a small square",
+    "### 3.7 VS5 — the perimeter and the one village district",
+    "### 3.8 VS6 and S9–S11 — houses along ways: tofts, crofts and the slot race",
+    "### 3.8a Levelling and retaining walls at village rungs (item 110 (a); J-V7.84 – J-V7.89)",
+    "### 3.9 S12a and the hinterland unit at village rungs — fields, meadow, commons, woods, outlying farms",
+    "### 3.10 The wharf and piers (VS4's step); VS8 — ends, pins and names",
+    "### 3.10a Deck plots at village rungs (item 110 (d); J-V7.91)",
+    "### 3.11 The SettlementForge small-settlement dossiers — what the village product accepts, and how",
+    "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+    "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)",
+    "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "### 3.14 Determinism — streams, addresses, locality",
+    "### 3.15 The `VG` parity preset",
+    "### 3.16 Caverns and ruins under a thorp, hamlet or village (item 109 (a), (b), (j), (3b); V04's systems)",
+    "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "## 4 Editing — declarations, events, locality, undo and the clerk's view",
+    "### 4.1 The twelve tools on a village",
+    "### 4.2 The new event forms",
+    "### 4.3 Locality — what each village edit re-derives",
+    "### 4.4 Lifecycle of every village edit kind (§7.4's columns)",
+    "### 4.5 The clerk's view",
+    "## 5 Rendering, labels and exports",
+    "### 5.1 The look — the `painterly` family built, `ink` one click away",
+    "### 5.2 Bands, the first view and level of detail",
+    "### 5.3 Labels and map furniture",
+    "### 5.4 Exports",
+    "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "## 6 Performance budgets",
+    "## 7 Tests and acceptance bars",
+    "## 8 Build plan",
+    "## 9 Decisions",
+    "## 10 Base change requests",
+    "## 11 Owner questions",
+    "## 12 CONFIRMED versus PLAUSIBLE",
+    "## 13 Fix list",
+    "## Integration notes"
+   ]
+  }
+ ],
+ "skipped": [
+  {
+   "block": "repair-r1-V07.md #2 (l. 3922) MALFORMED === RULING REQUEST VV78-21 ===",
+   "file": "repair-r1-V07.md",
+   "line": 3922,
+   "kind": "MALFORMED",
+   "reason": "malformed \"=== \" header line; its text skipped"
+  }
+ ],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r1-V07.md #1 (l. 2) REPLACE # V07 — The village product: thorp, hamlet and village in their landscape (VG-class)",
+    "kind": "REPLACE",
+    "heading": "# V07 — The village product: thorp, hamlet and village in their landscape (VG-class)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 781,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 56,
+  "headings_after": 57,
+  "headings_added": [
+   "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)"
+  ],
+  "headings_removed": [
+   "### 3.5a A raised way on a village map (item 110 (b) as revised ~23:40; J-V7.83)"
+  ],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 16,
+  "title_block_unchanged": false,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 561556,
+  "doc_bytes_after": 580760,
+  "doc_lines_before": 3809,
+  "doc_lines_after": 3917,
+  "rationale_bytes_before": 685208,
+  "rationale_bytes_after": 685208,
+  "rationale_lines_before": 2362,
+  "rationale_lines_after": 2362,
+  "blocks_total": 2,
+  "blocks_applied": 1,
+  "blocks_skipped": 1,
+  "output_doc_sha256": "02f8dbb439bce4ae73e010022fc29a93e71f3e8944e0a6b3fbf8df01c8e2d6f8",
+  "output_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564"
+ }
+}

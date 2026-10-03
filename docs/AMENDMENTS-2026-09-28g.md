@@ -785,3 +785,669 @@ vetoable interpretation.
      access), V07 (a village over a former city; refounding at village rungs), V11 (event-to-epoch rows, burial thresholds), V09 (the
      history option in the editor), V10 (the story told), V12 (the bars and the replay's budget). Applied by the coherence pass to base
      and volumes like items 111 and 112 (J124).
+
+114. **OWNER RULE — Walls decay into gaps and patchwork when a settlement is poor and safe, and recover when it is not (owner,
+     2026-09-30).** Owner: "the walls, if there are walls, the visual of those over a long time if the prosperity and defense of a
+     settlement is low over enough time should show deterioration in walls and recovery when they go back up. what do you think as an
+     added extra variable?" / "deterioration like broken down sections or walls or pallisades using patchwork material rather than
+     robust material. visual gaps that a user can internalize" / "yes". **What the design has (CONFIRMED):** V06 §3.7.3 neglects an
+     outermost ring after `walls.neglectAfterYears` (30) at `threat ≤ walls.neglectThreatMax` (0.20) and breaches it per 120 m stretch
+     at `walls.breachChancePerYear` (0.01); V06 §3.7.5 repairs breached runs when threat returns (`repairWall`, no Works, the `fabric`
+     cap); a `dismantled` run stays a gap; file f item 575's `Enceinte.condition` is a step profile along the trace (`standing` ·
+     `breached` · `dismantled`); §8.2's state row draws a gap glyph over a breached run and a dismantled run's towers as trace discs;
+     palisades, earthworks and walls are one `Enceinte` record. Prosperity plays no part, and the look jumps from whole to gap.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) TWO DRIVERS.** NEED — the settlement's defence need (its threat as §7.7 derives it, with the dossier's defence readiness)
+     — decides whether a gap is closed; MEANS — its prosperity (the settlement's wealth level at the epoch, the districts the run
+     bounds weighting it locally) — decides what it is closed with. Both are read as values sustained over a table window of years,
+     so a run's condition never flickers between epochs at a threshold.
+     **(b) THE CONDITION LADDER** per run of the enceinte, extending item 575's profile by the same knot mechanism: `standing` (the
+     wall's own robust material) · `worn` (weathered, parapet broken; still a wall) · `patched` (a former gap closed in a cheaper
+     material than the wall's own: timber hoarding, a wattle or hurdle fence, an earth-and-turf bank or dry-stone infill in a masonry
+     wall; odd stakes, hurdles or brush in a palisade — the patch material a table row by wall kind and culture) · `breached` (a gap
+     with rubble) · `dismantled` (stone taken; a gap for good). Each run records its material (robust or a patch row) and the
+     epoch of its last change.
+     **(c) TRANSITIONS** (rates and windows are table cells, our own defaults, calibratable): low need sustained → neglect, as now, now
+     through `worn` before `breached`; low means sustained, even under threat → `worn`, then `breached` at a lower rate than neglect;
+     both low → fastest. Need returns with low means → breached runs are `patched`, not rebuilt; need with means → breached and
+     patched runs are rebuilt robust (patches replaced oldest first, at a table rate, within the `fabric` cap); means without need →
+     a wall still in use has its `worn` runs restored, while a neglected wall keeps decaying (a rich place without fear lets its wall
+     go). A `dismantled` run stays a gap unless a hand edit or a new wall decision rebuilds it.
+     **(d) AT GENERATION.** A map generated as the present with no replay takes each run's condition from the same two drivers through
+     a derivation row (§7.7): the dossier's defence readiness (SettlementForge's `readiness` label) and wealth, at table shares (a
+     vulnerable, poor town shows patched and breached runs; a fortress in a rich city stands whole). With item 113's history replay
+     the condition comes from the replay.
+     **(e) THE LOOK, legible at every zoom.** A `breached` run is a clear break in the wall line with a rubble spill; a `patched` run is
+     drawn in its patch material's own line style and colour (thinner, lighter and irregular — timber, wattle or earth reads apart
+     from stone), so a user sees at a glance where the wall is makeshift; `worn` shows at the district band and finer only (weathering,
+     broken crenellations); `dismantled` as now. The legend names each; item 112's colour-blind rule holds (pattern, never colour
+     alone).
+     **(f) TOOLS, CLERK, EXPORTS.** The wall tool's repair takes a material (robust or a patch row); the clerk tells each run's story
+     ("patched with timber in the lean years; rebuilt in stone after the siege"); exports carry condition and material (a battle-map
+     export treats a patch as a wall and a breach as an opening).
+     **(g) BARS.** A poor, threatened fixture shows patched runs and no robust rebuild; a rich, threatened one rebuilds in stone; a
+     safe one decays through `worn` to `breached`; recovery replaces patches oldest first; no condition changes without a sustained
+     driver (no flicker across two epochs at a threshold); every state distinguishable in greyscale at the bands stated; the
+     generation-time condition derives from readiness and wealth; with need and means at neutral values the existing neglect and
+     repair behaviour is reproduced (no-op pin).
+     **HOMES:** §2.7 (`Enceinte.condition`'s values and each run's material), §7.1 and §7.4 (`repairWall`'s material, lifecycle rows),
+     §7.7 (the derivation row from readiness and wealth), §8.2 (state rows, legend), §11 (exports), §13.2 (bars). Volumes: V06 (§3.7's
+     transitions with need and means), V07 (the palisade's patches), V08 (readiness and wealth read from the dossier), V11 (patch
+     materials by wall kind and culture; rates and windows), V09 (the repair tool's material; the legend), V10 (the story told), V12
+     (register lines and bars). Applied by the coherence pass to base and volumes like items 111–113 (J127).
+
+115. **OWNER RULE — Small settlements are not grand: a ceiling on building grandeur by settlement tier (owner, 2026-09-30).**
+     Owner: "And to clarify, buildings from village and lower tiers generally not have grand building designs, unless specified, even
+     if high in prosperity correct? like they can be high in prosperity but that doesn't mean that everything is a manor for a village
+     and especially so for a hamlet." / "yes". **What the design has (CONFIRMED):** a building's shape starts from its class (V02 §3.10's
+     rows by template family, four prosperity anchors); the `dwelling-compound` family, which `v.yeoman_house` and `v.manor_house`
+     read through `composition.classFamily`, reaches `H` .15 and `U` .15 at the rich anchor, and `dwelling-detached` reaches `H` .1;
+     the base's S10b class mix makes the rich row all manors (the owner's town rule) with cuts relative to the settlement; V07's
+     `bandShares` (rich 0 / 0.02 / 0.03 at THORP / HAMLET / VILLAGE) shift with DR6's wealth; `v.manor_house` is a singleton sited by
+     seigneurial government (a small chance by population otherwise). So a very wealthy hamlet could show several manor-like farms.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) QUALITY, NOT GRANDEUR.** Prosperity in small places shows as larger plots and ranges within the class's own row, more
+     outbuildings, hearths, dormers and porches, better roofs and materials — never a courtyard plan, an `H` or `U` plan, a tower, a
+     turret or a gatehouse on a dwelling.
+     **(b) THE CEILING** (a table by rung; our own defaults): THORP and HAMLET — every dwelling at most `single`, `L` or `T`; no `H`,
+     `U`, courts, towers or turrets; no manor-class dwelling unless specified. VILLAGE — at most one manor house, only with a lord
+     (seigneurial government) or when specified; every other dwelling at most `L` or `T`; the manor alone takes the grand
+     arrangements. TOWN and above — unchanged (the "all manors" rule stands there).
+     **(c) "UNLESS SPECIFIED."** A grand building the dossier names (a manor, hall or similar record), or one the user places or
+     reshapes by hand, keeps its full design: the ceiling is a default, never a refusal (item 101 R2); the clerk says it exceeds the
+     tier's usual.
+     **(d) WEALTH IN VILLAGES.** DR6 still shifts the band shares, but a band only moves a dwelling along its capped row (the richest
+     farmhouse is the capped row's rich anchor), and the manor count never rises with wealth.
+     **(e) OVER EPOCHS.** A village that grows into a town lifts the ceiling for buildings new or rebuilt from that epoch; a town that
+     shrinks to a village keeps its grander buildings as they stand (history, item 113) and never reshapes them down; new ones follow
+     the village ceiling.
+     **(f) BARS.** Rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum: no `H`, `U`, court, tower or turret dwelling but the
+     manor; at most one manor, only with a lord or a dossier record; a dossier-named hall keeps its design; TOWN rungs and above
+     byte-identical (no-op pin).
+     **HOMES:** §4.2 S10b (the rung ceiling on the class mix; the "all manors" rule scoped to TOWN and above), §10.2 (the ceiling
+     table's shape), §13.2 (bars). Volumes: V02 (the composition rows' ceiling by rung in the resolution chain), V07 (the village
+     class mix, the manor's singleton rule, the wealth shift), V08 (what "specified" reads from the dossier), V11 (the ceiling table),
+     V06 (epochs across a rung change), V09 and V10 (a hand edit beyond the ceiling honoured and explained), V12 (bars). Applied by the
+     coherence pass like items 111–113 (J127).
+
+116. **OWNER RULE — A zoom-out limit: a map never zooms out past its own land (owner, 2026-09-30).** Owner: "oh and regarding how in
+     a village and lower it would be a speck in the overall map, just zoom in and set a ceiling to the maximum zoom, or a ceiling to
+     the amount of total land to render. is that a problem you were facing?" / "yes". **What the design has (CONFIRMED):** V07 §5.2
+     (J-V7.4) opens a village on its perimeter × 1.6 (at least 400 m) at the district band, the township one zoom-out away; the
+     territory law bounds the land by population and rung, and beyond `bounds` is paper; §9.5's framing (A06) opens a town on its
+     settlement; §8.8's pyramid runs 35 stops from 1:50 000 to about 1:125, the same at every rung (T-ER-08: "every rung draws every
+     stop"), so a thorp can be zoomed out to a speck.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) THE LIMIT.** Each map's zoom-out limit is the stop at which its whole `bounds` (a village's township, a town's frame) fits
+     the viewport's short side, plus one stop of margin (a table cell); the view never settles beyond it and the pyramid draws no
+     tile past it. The zoom-in end is unchanged.
+     **(b) THE LAND** is already capped by the frame laws (the territory law per head and per rung; the town frame): stated, not added.
+     **(c) EXPORTS** frame within the same limit (the whole bounds at most).
+     **(d) GROWTH** — an epoch or a hand edit that grows the bounds moves the limit with them.
+     **(e) BARS.** At every rung from THORP to the cap the zoom-out limit shows the whole bounds and no stop beyond it is reachable in
+     the view; T-ER-08 restated (every rung draws every stop from its limit inward); the first view unchanged.
+     **HOMES:** §8.8 (the per-map limit on the pyramid), §9.5 (framing), §12.5 (budget: fewer stops, never more), §13.2 (T-ER-08
+     restated). Volumes: V07 (§5.2's township view is the limit's view less its margin), V09 (the view controls stop there), V12
+     (bars). Applied by the coherence pass like items 111–113 (J127).
+
+117. **OWNER RULE — Seasons: the map dressed for the time of year, following SettlementForge's calendar (owner, 2026-09-30).**
+     Owner: "oh and the last big thing... seasons! lakes freeze during winter, fall leaves during fall, growing season during spring,
+     we have seasons in settlementforge. can those be integrated in?" **What SettlementForge gives (CONFIRMED, research/sf):** one tick
+     is one week; `worldState.calendar` carries `season` (spring | summer | autumn | winter, thirteen weeks each, spring first; the
+     4-4-5 month grid) and the week; the settlement's `config.terrainType` (plains, coastal, riverside, hills, mountain, forest,
+     desert) feeds our biome; the realm map's optional climate and biome digests exist behind a flag. **What the design has
+     (CONFIRMED):** §8.2's view keys `season` ∈ {spring, summer, autumn, winter} and `weather` ∈ {clear, overcast, snow} (§2.9 view
+     state) select override rows — autumn and winter re-skin deciduous crowns (autumn tint; winter a bare-crown symbol), snow lays the
+     `snow` role over ground, fields and roofs, overcast removes direct light; the model and its hash are untouched; V06 reads
+     SettlementForge's season for a campaign week (item 67 (b): masonry pauses in winter); the biome's climate row (item 111) holds
+     aridity. Missing: frozen water, fields and gardens through the growing year, the season following SettlementForge, climate
+     deciding what a season looks like, and the low winter sun.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) A LOOK, NEVER A CHANGE OF THE MAP.** A season dresses the same map: it never moves, adds or removes a building, way, wall,
+     field boundary or water edge, never changes the model or its hash, and a save is the same save in every season. It lives in view
+     state and in exports.
+     **(b) THE YEAR POSITION.** The view's season is a week of the year (0–51, spring first, SettlementForge's grid); the four named
+     seasons are picks of their middle weeks. Every seasonal effect is a band of weeks per climate, so the year turns gradually: leaves
+     colour, then fall; the first ice on ponds before lakes; the fields green, ripen and are cut.
+     **(c) FOLLOWING SETTLEMENTFORGE.** With a dossier from a campaign, the default season is the dossier's current week and season
+     (a derivation row, §7.7); the user may pick another (view state) or set it to follow SettlementForge again. Standalone, the
+     default is midsummer and the season is a picker.
+     **(d) CLIMATE DECIDES.** The biome's climate row gains season columns (a table, our own defaults): how cold its winter is (none,
+     mild, cold, severe), the weeks of leaf colour and fall, of the growing season and harvest, of ice and snow. Arid and warm climates
+     never freeze and rarely snow; a mild winter freezes only ponds and moats in its coldest weeks; a cold one freezes ponds, moats,
+     millponds, lakes and slow wide rivers; a severe one freezes rivers and the harbour's edge too. The climate comes from
+     SettlementForge's climate digest when present, else from its terrain type with the site's height (mountain and upland colder),
+     else the user's choice.
+     **(e) WATER IN WINTER.** Still water freezes first and flowing water last: ice drawn in an `ice` role with crack lines and a
+     snow-dusted surface where snow lies; open leads kept at a river's fast current, weirs, mill races, springs and outfalls; the sea
+     frozen only in a severe climate and only along sheltered shores. Boats drawn hauled up on the banks while their water is frozen.
+     **(f) THE GROWING YEAR.** Fields, gardens, orchards, meadows and commons carry season rows by their kind: spring — fresh green and
+     sown strips, orchard blossom; summer — full crops, meadows high; late summer to autumn — ripening gold, then stubble and stooks after
+     the harvest weeks; winter — ploughed brown and bare fallow (under snow where it lies). Deciduous trees, hedges and vines follow the
+     leaf weeks; evergreens stay. Gardens and greens follow their climate.
+     **(f2) AUTUMN, A PLETHORA OF FALL COVERS — ADDED 2026-09-30 (owner: "for autumn make it a plethora of fall covers").** Autumn is
+     the richest season, never one flat tint: each deciduous tree takes its own colour, drawn per tree by a keyed draw from a
+     species palette (gold, amber, orange, scarlet, crimson, russet, bronze and brown, with some crowns still green in the first
+     weeks), so a wood or an avenue reads as many colours at once; fallen leaves COVER the ground under and around the trees and
+     drift along streets, lanes, greens, lawns, gardens, churchyards and roofs and gather at walls and kerbs, thin at first and
+     deepening through the leaf-fall weeks, and float on still water near trees; creepers on walls turn red; hedges, vines and orchards
+     turn; bracken on the commons goes rust and the stubble fields gold; late autumn thins the crowns toward winter's bare ones. All of
+     it by the climate's leaf weeks (item 117 (d)), a look only (item 117 (a)); the leaf palettes and cover densities are table rows.
+     **(g) LIGHT AND WEATHER.** The rendered sun's default height follows the week (low in winter, long shadows; high in summer) — the
+     view's light only, never item 102's model-side daylight, which stays fixed so the map never changes with the season; `snow`
+     weather defaults on in the snow weeks of a cold or severe climate and off in arid ones, and remains the user's to switch.
+     **(h) EXPORTS, TOOLS AND CLERK.** Image and print exports draw the chosen season and name it; battle-map exports record it (ice
+     is walkable ground in a severe winter, water otherwise); the editor shows the season control and a "follow SettlementForge"
+     switch; the clerk explains a seasonal look ("the millpond is frozen: it is midwinter, and winters here are cold").
+     **(i) BARS.** The same document hashes identically in all 52 weeks; an autumn fixture shows at least five distinct crown colours across its deciduous trees and leaf cover on the ground that deepens week by week through the leaf-fall weeks; every climate's season rows cover all 52 weeks with no gap;
+     an arid fixture never draws ice or snow; a cold fixture freezes still water before flowing water and keeps open water at mill
+     races and weirs; a campaign dossier opens on its own week; each season's look passes the contrast and colour-blind checks
+     (item 112); switching season re-skins cached tiles within §12.5's budget.
+     **HOMES:** §2.9 (view state: the year position, "follow SettlementForge"), §7.7 (the derivation row: the dossier's week and season;
+     the climate's source), §8.2 (the season rows: water and ice, fields, gardens, orchards and trees through the year, snow by climate;
+     the sun's default height), §4.2 S0 and §10.2 (the climate row's season columns), §11 (exports), §12.5 (the re-skin budget), §13.2
+     (bars). Volumes: V07 (the village's fields, strips, commons, green and pond through the year), V08 (reading SettlementForge's
+     calendar and climate), V11 (the season tables by climate and by field, garden and water kind), V09 (the season control), V10
+     (the explanations), V05 (the sky islands' seasonal look), V12 (bars). Applied by the coherence pass like items 111–116 (J128).
+
+118. **OWNER RULE — Festival decorations: procedural, purely decorative, shown in the weeks a SettlementForge festival is scheduled,
+     at every tier (owner, 2026-09-30).** Owner: "and some procedural festival decorations for all levels. Note that we have festivals
+     in settlementforge. so purely decorative that coincide with the week a festival is scheduled." **What SettlementForge gives
+     (CONFIRMED from research/sf; the record's full field list to be read from SettlementForge's code at the pinned baseline,
+     read-only, as every port read is):** `traditions[]` on the dossier (and in the custom-content traditions bucket), each festival
+     with a week-bearing `window` and its staging described in prose places ("long tables set in the square"); the campaign clock
+     (`calendar`: week and season); `culturalIdentity` and deities. **What the design has (CONFIRMED):** `traditions` sits on the
+     port's ignore-list (research/sf/mapping.md: "nor are npcLadder, traditions, …"); no festival look exists; item 117 makes the view
+     a week of the year that follows SettlementForge's calendar.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) A LOOK, NEVER A CHANGE OF THE MAP** (as item 117): decorations never move, add or remove a building, way, wall, plot or
+     water edge, never change the model or its hash; they are drawn from view state and the dossier's festival schedule.
+     **(b) WHEN.** A festival's decorations show while the view's week (item 117's year position) falls inside its `window`; with the
+     season following SettlementForge, a campaign map opens dressed when a festival is on that week. The user may switch decorations
+     off, or preview any listed festival (view state). Standalone, with no dossier, the user may preview a small set of generic
+     festivals chosen by the culture and season (spring, midsummer, harvest, midwinter).
+     **(c) WHERE.** The staging prose maps to a place kind by a keyword table (square, market, green, church or temple, the deity's
+     temple, river or harbour, gate, fair field, the castle), with a fallback by the festival's kind (religious → its temple and a
+     procession route from it to the main square along primary ways; market or fair → the market square or fair field; harvest → the
+     green and the field edge; water → the waterfront); the dossier's named places win where it names one. Never over a label's
+     keep-out or a gate's passage.
+     **(d) WHAT, BY TIER** (a table; our own defaults): THORP — a garland or bonfire at the heart; HAMLET — a maypole or bonfire on the
+     green, garlands on doors; VILLAGE — maypole, bunting along the church lane, stalls and tables on the green; TOWN — bunting across
+     streets between facing fronts, banners on the gates and the hall, stalls in the market square, lantern strings; CITY and
+     METROPOLIS — the procession route lined with banners, pennants on towers and walls, pavilions and stages in the squares, lanterns
+     along main ways, decorated boats on the water. Sky islands carry pennants on their rims and landings.
+     **(e) PROCEDURAL AND STABLE.** Every decoration is placed by rule from the seed, the festival's id and the place (keyed draws), so
+     a festival looks the same each time it is shown and in every export, and different festivals look different; its colours and
+     motifs come from the culture (`culturalIdentity`) and the deity where one is named, and the season adds its own (flowers in
+     spring, sheaves in harvest, evergreen boughs and lanterns in winter).
+     **(f) AT EVERY ZOOM.** The city band shows the festival as colour along the procession route and pennants on towers; the district
+     band adds bunting, stalls and pavilions; the neighbourhood band adds lanterns, tables and garlands; item 112's colour-blind rule
+     holds (shape and pattern, never colour alone).
+     **(g) EXPORTS, TOOLS AND CLERK.** Image and print exports draw the decorations shown and name the festival; battle-map exports
+     draw them in the image only (never walls or obstacles); the editor lists the festivals with their weeks and the switch; the clerk
+     says what is on ("the streets are hung for the Feast of the Lantern, weeks 20–21; the tables are in the market square").
+     **(h) BARS.** The same document hashes identically with decorations on and off and in every week; a festival shows exactly in its
+     window's weeks; the same festival draws identically across views and exports (byte-stable tiles per seed); each tier fixture
+     shows its tier's kinds and no larger; staging lands on the named or keyed place, else its fallback; nothing blocks a gate or
+     covers a keep-out; with no traditions and no preview, byte-identical to the base (no-op pin).
+     **HOMES:** §2.9 (view state: festival display follow / off / preview), §7.7 (`traditions` moved from the ignore-list to a consumed
+     input — its window and staging — with a derivation row; the ignore-list entry amended), §8.2 (the decoration rows by tier and
+     band), §10.2 (the decoration table and the staging keyword table), §11 (exports), §12.5 (budget: decorations drawn lazily per
+     visible tile), §13.2 (bars). Volumes: V07 (the village and smaller: maypole, bonfire, the green, the church lane), V08 (reading
+     `traditions` and the custom-content traditions at the baseline; the window and staging mapping), V11 (the decoration, staging and
+     culture tables), V05 (the sky islands' pennants), V09 (the festival list and switch), V10 (the explanations), V12 (bars). Applied by
+     the coherence pass like items 111–117 (J129).
+
+119. **OWNER RULE — As fast as possible; ten seconds of total time is the comfort level (owner, 2026-09-30).** Owner: "also note
+     that to a suer, the difference between milliseconds and 10 seconds is negligable and both are percieved effectively as instant.
+     Even more so if the longer time correlates to a better product." / "that is for total time" / "i would still ask for it to be as fast as possible but note where our comfort levels really are". **What the design has
+     (CONFIRMED):** §12.3's model budgets on the one-click path (p95: TOWN 100 ms, CITY 300 ms, METROPOLIS 800 ms, laws up to 1.9 s at
+     the 35 000-building cap) and §12.5's first-map law (up to ≈ 2.3 s at the metropolis cap), with two declared misses at the
+     largest sizes left for the owner's veto (D-18); frame, pan, zoom and edit budgets beside them.
+     Program's interpretation (vetoable; decided under J122):
+     **(a) TWO LINES — REVISED 2026-09-30 (owner: "i would still ask for it to be as fast as possible but note where our comfort
+     levels really are").** The TARGET is as fast as possible: §12's present laws (§12.3's model budgets, §12.5's first-map law and
+     every volume's) remain the targets the build works to meet and beat. The COMFORT LEVEL is ten seconds of total time: every wait a
+     user sits through once — generate, regenerate, open a map from SettlementForge, a dossier change applied, advance time and item
+     113's history replay, an export, a migration — takes at most TEN SECONDS from the click to the complete result on the reference
+     hardware (§12.1), at every size up to the metropolis cap; past it a wait is a failure. D-18's two misses stay declared as TARGET
+     misses, now inside the comfort level (no longer a veto question).
+     **(a2) LONG RUNS OF TIME — owner's choice, 2026-10-01: "Total".** Asked whether advancing time and item 113's history replay
+     take the comfort level per visible step or in total, the owner chose TOTAL: an `advance` request and a history-first generation
+     each complete within ten seconds from the click to the complete result on the reference hardware, like every other one-time wait.
+     Where the epochs at the requested detail would not fit, the run COARSENS its cadence (fewer, longer epochs, as V06 §3.20.1 (3)
+     already coarsens the replay) until its estimate fits, the cadence chosen reported; progress is shown past one second.
+     **(b) SLOWER ONLY FOR A MEASURED GAIN.** A step may run slower than its target only where it buys a measured gain (a calibration
+     bar met or raised, §13, V12) and stays inside the comfort level, recorded as such (the step, its cost, its gain); nothing is made
+     slower otherwise, and the build keeps pressing every path toward its target.
+     **(c) FEEDBACK DURING THE WAIT.** A wait beyond about one second shows progress — the stage by name and the map filling in —
+     and never an empty screen; the first picture is still always complete, never a rough preview (§8.5).
+     **(d) INTERACTION STAYS FAST.** Moment-to-moment feedback is not total time and keeps its budgets: pan and zoom at frame rate,
+     dragging a handle and a tool's live preview, hover and click-to-inspect, undo and redo, the season and festival switches.
+     **(e) LOW-END DEVICES.** The low tier (§12.1) aims at the same ceiling; a size it cannot reach within it is declared per device,
+     as today.
+     **(f) BARS.** §12's target laws measured and reported at every rung; every one-time wait at every rung within the ten-second
+     comfort level on the reference hardware; progress shown past one second; every step slower than its target tied to its recorded
+     measured gain; interaction budgets unchanged.
+     **HOMES:** §12 (the targets kept, the comfort level, the measured-gain rule, the progress rule; D-18 re-declared inside the comfort level), §1 (the performance statement), §13.2 (bars),
+     the judgment index. Volumes: V06 (advance time and the history replay within the ceiling), V07 (§6's village budgets), V09 (the
+     progress view), V01–V05 (their budget sections read the ceiling for their one-time waits and keep their interactive ones), V12
+     (bars and how they are measured). Applied by the coherence pass like items 111–118 (J130).
+
+120. **OWNER RULE — Find: a filter view that picks out institutions, places and areas with a halo-like glow, across every zoom
+     and layer, until closed (owner, 2026-10-01).** Owner: "a filter view for specific institutions in a map. What it looks like is
+     that if a user just wants to find where all of the blacksmiths are and not have to search for themselves, the map should already
+     reference what's in the dossier and have a list of the institutions or districts or neighborhoods or whatever, they can type it
+     in or quick [dictation: pick] what they're looking for, and it would have an auto fill feature. When they click it and it's also a grid like you
+     can select multiple things and deselect them, the map would turn slightly opaque and the plots of land, whether you're in the city
+     view or the neighborhood view turned into producer. He look like [dictation, the owner's correction below: produce a halo-like glow]
+     effect on the plots that are being asked to find. This process even if
+     you're going through different layers. Until you decide to close the filter or deselect everything." / asked what the effect
+     was: "I meant to produce a halo like glow effect" / asked to confirm the shape below (the list from what the town holds, the
+     type-ahead, the chip grid, the veil and the halo, pins at the city zoom, persistence across zooms and layers, the knowledge
+     filter, Coverage folded in, the clerk and exports): "And yes". **What the design has (CONFIRMED):** `query({ kind: 'gazetteer',
+     text, kinds })` with knowledge admission on every answer (§11.2); the class rows' display labels and synonyms (V11 §2.3), already
+     matched by the roster reader (V09 §4.16); the Show menu's thematic views as live-layer providers, among them **Coverage** (a
+     selected class's districts with and without a member, V09 §5.4); the People panel's "Where is" (V09 §4.18); View as (V09 §4.8);
+     item 112's second-cue rule; item 116's zoom ceiling.
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its defaults vetoable under J122):
+     **(a) A VIEW, NEVER A CHANGE.** Find never changes the model, the document, its hash or the edit log; it is per-viewer view
+     state (view key `find`: the chips and the gaps switch), kept while the viewer zooms, pans, changes layer, changes the season,
+     advances time or edits, saved in view pins like the other view keys, and ended only by **Clear** (deselect everything) or
+     closing the panel.
+     **(b) THE LIST — FROM WHAT THE TOWN HOLDS.** The Find panel lists what this document contains at the view's effective key, by
+     the gazetteer query: institution kinds present, each with its count ("Blacksmith · 4"); named institutions (the dossier's names
+     first, as SettlementForge gives them); districts, neighbourhoods and quarters; named places (squares, gates, temples, bridges,
+     harbours); people, through "Where is" (home and work). Nothing the town lacks is offered. With the box empty, the panel shows the
+     institution kinds as a browsable grid, grouped (crafts, trade, faith, rule, defence, learning, health, lodging, the rest; V11's
+     groups).
+     **(c) TYPE-AHEAD.** As the user types, suggestions match display labels, V11's synonyms ("forge", "smithy" → Blacksmith),
+     the dossier's names and the place names — prefix and whole-word matches, one-letter typos forgiven in words of five letters or
+     more — grouped by kind with their counts; arrow keys and Enter add the highlighted suggestion as a chip. A word matching several
+     kinds ("smith": black-, silver-, gold-, locksmith) offers each and an "all smiths" chip.
+     **(d) THE CHIP GRID.** Each selection is a chip in a grid; click to add, click again (or its ×) to deselect; any number at once,
+     shown as their union. Each chip has its own colour from the thematic palette and its own second cue (a glyph on its pins, a
+     dash pattern on its halo's outline, item 112); past eight chips the colours repeat and the glyph tells them apart.
+     **(e) THE LOOK — THE VEIL AND THE HALO.** While any chip is on, everything else lies under a veil (the style's paper colour at
+     α 0.55; our default) — the "slightly opaque" map; every match is drawn above the veil at full strength with a HALO-LIKE GLOW
+     (owner's words): a soft outer glow in its chip's colour fading to nothing over about 8 px of screen, inside a 2 px outline,
+     its label kept above the veil. An area chip (a district, neighbourhood or quarter) lifts the whole area from the veil and glows
+     along its boundary. At the city zoom, where a plot is under about 6 px, each match also carries a pin with its chip's glyph,
+     and pins closer than about 24 px merge into a count bubble ("12") that zooms in when clicked — so a match is never a lost speck
+     (with item 116's ceiling).
+     **(f) ACROSS ZOOMS AND LAYERS.** The filter holds from the city band to the interior band and on Ground, Below and Sky: matches on
+     the layer shown glow; matches on another layer show as faint ghost pins where they lie, and the panel says "2 more Below" / "1 on
+     Sky" with **Go there**; at the interior band, the rooms an institution uses glow. Every commit, regenerate, undo, advance of time
+     and season change re-evaluates the chips at once — a new smithy glows as it appears, a closed one goes dark.
+     **(g) THE RESULTS.** Under the chips, the matches are listed (name, kind, district) with **Go to** (flies to the band that shows
+     it), **Next** and **Previous** (keyboard too), and each chip's count.
+     **(h) WHAT THE VIEWER MAY KNOW.** The list, the suggestions, the counts, the glow, the pins and the ghost pins all pass the same
+     knowledge admission as every query (§11.2, View as V09 §4.8): a thing the key withholds is never suggested, counted, drawn or
+     hinted at — in a player view, a concealed Thieves' Guild is not in the list.
+     **(i) ONE MECHANISM.** The Show menu's **Coverage** view becomes Find's **Show gaps** switch (for each chip's class, the districts
+     or catchments with none: outlined dashed and labelled "none here"), so the two never coexist; Find draws over whichever Show view
+     is on. The clerk's "show me the blacksmiths" sets the chips (a view action, never an edit) and it can say what Find shows. A
+     picture export draws Find as shown, with the chips in the legend (a player handout: "where the smiths are"); battle-map exports
+     leave it off unless asked.
+     **(j) SPEED.** Interaction, not total time (item 119 (d)): suggestions within about 50 ms of a key, a chip's glow drawn within
+     about 100 ms of the click; Find is an overlay provider and never re-renders the base tiles; its index is rebuilt once per commit.
+     The phone shows the panel as a bottom sheet under V09's phone policy.
+     **(k) BARS.** The document hashes identically with Find on and off; turning everything off restores byte-identical tiles; each
+     chip's matches equal the gazetteer query's rows at the key; the knowledge canary (T-V9-66's fixture) never surfaces in a
+     suggestion, count, glow or pin under a player view; the filter survives every band and layer change and every commit, advance and
+     undo; at the city band every match has a pin or a bubble; every chip has its second cue; the interaction budgets of (j) hold at
+     the metropolis cap.
+     **HOMES:** §2.9 (the view key `find`, outside the document and its hash), §8.2 (the veil, halo, outline, pin and bubble rows;
+     second cues), §9.5 (the Find tool among the furniture and tools), §11.2 (the gazetteer's class counts and match listing by class,
+     area and layer, under knowledge admission), §11.1 (picture exports draw it), §12.5 (the overlay's budget), §13.2 (bars), the
+     judgment index. Volumes: V09 (the Find panel, type-ahead, chip grid, results, the `live.find` overlay provider, Coverage folded
+     into Show gaps, the phone sheet), V11 (the labels, synonyms and groups as the search lexicon), V08 (the dossier's names as list
+     entries), V10 (the clerk's "show me" sets the chips), V01 (districts, neighbourhoods, quarters and catchments as area targets and
+     gaps), V03 (the rooms an institution uses, at the interior band), V04 and V05 (ghost pins and matches on Below and Sky), V07 (the
+     village and smaller rungs), V12 (bars). Applied by the coherence pass like items 111–119 (J133).
+
+121. **OWNER RULE — A resolution adjuster, automatic and manual; Auto the default; the live view up to 4K (owner, 2026-10-01).**
+     Owner: "there needs to be a resolution adjuster both automatic and manual since we are asking to use GPU. I would like for it
+     to go as high as HD or 4k but I'll leave that decision to you. Default should be set to an autoadjustment. What are your
+     thoughts?" / asked to confirm the shape below: "both and the above are yes". **What the design has (CONFIRMED):** §8.8's
+     hardware tiers (low, mid, high), each with a canvas ceiling (72 / 128 / 192 MB) and a tile-DPR cap (1 / 2 / 3); the tile DPR is
+     the device's pixel ratio capped by the tier and stepped down (3 → 2 → 1.5 → 1) until §8.8's canvas need fits; the tier picked
+     once at app start from `bench/calibrate` (§12.1) and the device memory, overridable only in the advanced panel and shown with
+     the tile DPR in the view status (J-R22); §8.4 (g)'s light ladder (the GPU pass at the tile DPR → a half-resolution global term →
+     the vector rung); exports at any DPI (§8.7). By §8.8's formula a native 4K view (3 840 × 2 160 device px, P = 54) needs about
+     169 MB unlit (inside the high tier), about 257 MB lit and about 399 MB at full precision (beyond every tier).
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its numbers our defaults, PLAUSIBLE until M2b's canvas
+     measurement, vetoable under J122):
+     **(a) THE SETTING.** Settings › Display › **Resolution**: **Auto** (the default) · **4K** · **1440p** · **1080p (HD)** · **720p**,
+     device state (`AppPrefs.resolution`), never in the document, its hash or the log; a map opened on another machine takes that
+     machine's setting. A manual level sets the tile DPR d = min(the device pixel ratio, the level's height ÷ the screen's height in
+     CSS px), rounded down to the ladder 3 · 2 · 1.5 · 1 · 0.75 · 0.5 (the two steps below 1 are new: tiles drawn below CSS density
+     and scaled up). Levels above the screen's own resolution are shown greyed ("your screen is 1440p"). The view status shows the
+     level in force ("Auto · 1440p"), its tooltip saying why Auto chose it.
+     **(b) THE CEILING — 4K FOR THE LIVE VIEW (the owner left it to us).** The live view never draws more than the 4K pixel count
+     (3 840 × 2 160 ≈ 8.3 million device px for the whole view); a larger screen (5K, 6K, 8K) draws at the 4K-equivalent tile DPR and
+     is scaled up — invisible at map-viewing distance, at a half to a quarter of the graphics memory. Exports are not bound by it
+     (§8.7's any DPI stands).
+     **(c) A TOP TIER SO 4K IS REAL.** A fourth hardware tier, **ultra** — canvas ceiling 512 MB, tile-DPR cap 3 (under (b)'s
+     ceiling) — chosen at app start by `bench/calibrate` only where the device reports the memory and the benchmark clears the
+     tier's bar, so a strong GPU holds native 4K with the light pass on, at full precision.
+     **(d) AUTO ADJUSTS LIVE.** Beyond the start-up pick, Auto watches frame times: a frame-time p95 over the tier's frame budget
+     (§12.5: 60 fps on the reference and higher tiers, 30 fps on the low tier) through 2 s steps one rung down; a p95 under 60 % of the
+     budget through 10 s, with the canvas need fitting, steps one rung up. A change is applied only when the view settles (§8.8's
+     settle after a gesture), never during a pan, zoom or drag, and at most once every 10 s, so nothing flickers; a change of the
+     device pixel ratio (the window moved to another monitor) re-evaluates at once.
+     **(e) WHAT AUTO GIVES UP, IN ORDER.** The frame rate is protected first; then Auto gives up lighting detail (full precision →
+     the standard surface → §8.4 (g)'s half-resolution global term), then sharpness (the tile-DPR steps down to 1), then the light
+     pass (the vector rung), then the steps below 1. **Labels, text, the chrome and every overlay (the halo of item 120, the
+     handles, the ghost) are always drawn at the device's full pixel ratio**, whatever the level: only the map's painted tiles soften.
+     **(f) A MANUAL CHOICE HOLDS.** Choosing a level turns Auto off; where the device cannot hold that level's canvas need, the view
+     draws the nearest level that fits and says so ("4K needs more graphics memory than this device has; showing 1440p") — never a
+     refusal, never a crash.
+     **(g) EXPORTS ARE UNAFFECTED.** A picture, print or battle-map export is byte-identical whatever the display setting.
+     **(h) BARS.** Auto is the default on a fresh install; no level change during a gesture; at most one change per 10 s on a
+     fixture loaded at its threshold (no oscillation); Auto holds the frame budget's p95 on the reference and low devices over
+     §12.5's reference views; a manual level is honoured or its explanation shown; labels and chrome at the device pixel ratio at
+     every level (a pixel test); exports byte-identical across settings; a pixel-ratio change re-evaluates; native 4K lit at full
+     precision on the ultra tier within its 512 MB.
+     **HOMES:** §8.8 (the setting's ladder, the steps below 1, the ultra tier, the 4K ceiling, the live Auto loop), §8.4 (g) (the
+     order of what Auto gives up), §12.1 (calibration picks ultra), §12.5 (the frame budgets the loop holds; the settle rule),
+     §12.8 (memory per tier, ultra included), §13.2 (bars), the judgment index. Volumes: V09 (Settings › Display, the view-status
+     chip and its why, the message of (f), `AppPrefs.resolution`), V12 (bars and how each is measured). Applied by the coherence pass
+     like items 111–120 (J134).
+
+122. **OWNER RULE — Crisis looks: SettlementForge's stressors and conditions drawn while they last, purely cosmetic (owner,
+     2026-10-01).** Owner: "We have some stressors in settlement forge such as siege, disease outbreak, mass immigration, under famine,
+     beast and raider effect, disaster, etc that could benefit from some cosmetic visuals. for example, for a siege, having some
+     generated military camps and siege apparatuses outside of the settlement, for mass immigration, having something like a bunch of
+     tents in hte outskirts of the city, for disease having a dedicated and segrated area outside of the city for plagued citizens, for
+     disaster, random combination of whole neighborhoods all having a temporary ruined cosmetic state, for famine, if any fields are
+     shown then having them be bare, etc. What do you think?" / asked to confirm the shape below: "both and the above are yes".
+     **What SettlementForge gives (CONFIRMED from research/sf; the full type lists to be read from SettlementForge's code at the
+     pinned baseline, read-only, as every port read is):** `stressors` (fifteen types, fourteen seen in the census), normalised by
+     the port into `conditions[]`; `activeConditions[]` (archetype, severity, status, its tick and duration — war_pressure, famine,
+     plague, regional_migration_pressure, rebellion, occupation, reconstruction, boom, bust, resource_strike, vein_exhausted and the
+     regional_* archetypes); `calamityHistory[]` (type, tick, deaths, exodus, `targets`); the simulator's PLAGUE, REFUGEE_WAVE and
+     RAID_OR_MONSTER_ATTACK events. **What the design has (CONFIRMED):** the port writes each condition on a `ConditionOverlay`
+     (§2.7: archetype, severity 0–1, sinceWeek, untilWeek; no geometry), read today only as item 67's share of buildings in Works;
+     calamities go to V06's hazard phase through `EpochInputs.events` (DR28); item 118's decoration engine (keyed placement, staging
+     by place kind, never over a keep-out or a gate's passage, a look only).
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its defaults vetoable under J122):
+     **(a) A LOOK WHILE IT LASTS; THE AFTERMATH IS REAL.** A crisis look never moves, adds or removes a building, way, wall, plot or
+     water edge and never changes the model or its hash; it is drawn from the `ConditionOverlay`s standing in the view's week (item
+     117's year position, following SettlementForge's calendar). What the crisis LEAVES — deaths, ruined institutions, a burned
+     quarter, settled newcomers — reaches the map only by the existing path (the calamity and the population change into the next
+     epoch, V06's hazard phase and growth), so the look hands over to the real thing: a disaster's ruined look gives way to the Works
+     scaffolding of `reconstruction`; a refugee camp is placed where V06's growth frontier would build, so newcomers who stay become
+     the next epoch's suburb.
+     **(b) THE CLOSED TABLE.** Every SettlementForge stressor type and condition archetype has one row — a look or an explicit "no
+     look" — so nothing falls through; our default looks: **siege** (war_pressure with a siege, the siege stressor) — besiegers' camps
+     beyond bowshot (≈ 300 m from the walls), a line of trenches and earthworks round the town, siege engines facing the gates or the
+     weakest wall stretch (item 114's), burned farmsteads outside; an unwalled place gets blockade camps on its approach roads;
+     **mass immigration** (regional_migration_pressure, REFUGEE_WAVE) — a tent and shanty camp on common or fallow land along the main
+     approach road by a gate, carts and cooking fires, its size by the arrivals; **disease** (plague) — a fenced quarantine camp
+     outside the town with huts and a pest-house, fresh grave rows and smoke, and inside, at the neighbourhood band, marked doors in
+     the affected quarter and a cordon; **famine** — fields bare and withered (overriding item 117's crop stage), empty pens, shuttered
+     market stalls; **beast attack** — torn palisade sections, watch-fires along the edge, stake barricades; **raiders** — burned
+     outlying farms, smoke, abandoned carts, barricaded roads; **disaster** — whole neighbourhoods in a temporary ruined state, the
+     share by severity, the pattern by the disaster: fire spreads through contiguous blocks downwind, flood takes the low ground by
+     the water (the terrain raster), earthquake scatters; the calamity's `targets` win where the dossier names the place hit;
+     **occupation** — foreign banners on gates and keep, a garrison camp; **rebellion** — street barricades; **boom** — scaffolding;
+     **bust** — shuttered shops; the regional_* pressures — no look (nothing physical).
+     **(c) PROCEDURAL AND STABLE.** Every element is placed by rule from the seed, the condition's id and the place (keyed draws, as
+     item 118 (e)), so a crisis looks the same in every view and export; the scale follows severity and tier (a hamlet gets a war
+     band's camp, a city a full siege line); several crises at once share the outskirts by priority (the siege camp, then the
+     quarantine camp, then refugees) under a density cap; never on water, a gate's passage or a label's keep-out.
+     **(d) AT EVERY ZOOM.** The city band shows camps as clusters, the siege line, smoke and the ruined neighbourhoods' tone; the
+     district band adds engines, tents and fences; the neighbourhood band adds marked doors, rubble and detail; item 112's second
+     cues hold. Interiors in a disaster's ruined neighbourhood show item 123's damage as a look while it lasts.
+     **(e) SWITCH, PREVIEW, KNOWLEDGE.** A **Show crises** switch (on by default); a manual crisis preview for maps without a dossier
+     (as item 118 (b)); a condition the viewer's key withholds is not drawn (View as, §11.2's admission).
+     **(f) EXPLAINED, FOUND, EXPORTED.** The "Why?" card and the clerk name the crisis and its weeks ("Refugee camp: the Northmarch
+     migration, weeks 12–20"); Find (item 120) lists the crisis looks; picture exports draw them; battle-map exports draw them in the
+     image only, never as walls or obstacles.
+     **(g) BARS.** The same document hashes identically with crises on and off and in every week; each look shows exactly in its
+     condition's weeks; byte-stable per seed across views and exports; every SettlementForge type and archetype has its row; tier
+     and severity scaling; nothing on water, a gate's passage or a keep-out; with no condition and no preview, byte-identical to the
+     base (no-op pin).
+     **HOMES:** §2.7 (`ConditionOverlay` read for the look; nothing added to the model), §7.7 (the derivation row: every stressor type
+     and archetype → its look kind; knowledge admission), §10.2 (the crisis look table and its placement rules), §8.2 (the look rows by
+     tier and band), §11 (exports), §12.5 (budget: drawn lazily per visible tile), §13.2 (bars). Volumes: V08 (reading every stressor
+     type and archetype and the calamities' targets at the baseline; the closed mapping), V11 (the look, symbol, scale and placement
+     tables), V06 (the hand-over: aftermath through the epoch path; the camp at the growth frontier; reconstruction as Works), V01
+     (neighbourhoods as disaster targets; the outskirts' common land), V02 (the ruined look of a disaster's buildings), V03 (item
+     123's damage as a look inside them), V07 (the village and smaller rungs), V09 (Show crises, the preview, the why lines, Find),
+     V10 (the explanations), V12 (bars). Applied by the coherence pass like items 111–121 (J135).
+
+123. **OWNER RULE — A ruined building's floor plans show its ruin, and are the SAME plans amended, never redrawn (owner,
+     2026-10-01).** Owner: "if you have a buiilding in a ruined state, make sure that hte floor plans generated also have things like
+     dilapiated floors, broken rooms etc. If it was priorly generated, then the same generated floorplans have to be amended rather
+     than redrawn as new. what do you think?" / "both and the above are yes". **What the design has (CONFIRMED):** `Existence`
+     (§2.7: generated · built · altered · converted · abandoned · decayed · ruined · cleared · reused · demolished); V03 §5.1 already
+     draws a `decayed` or `ruined` building's plan as "a drawing of the same plan" — fallen walls as broken ink over rubble stipple,
+     open rooms without labels (§2.6 step 7, §8.6) — uniformly, with no floors, no partial damage and no progression; a collapsed
+     access head drawn as a trace with rubble (V03 §5.3).
+     Program's interpretation (vetoable; decided under J122):
+     **(a) ONE PLAN, DAMAGED.** A building's floor plans are derived once from what it was built as (its built band and era) and
+     never re-derived because it decays: ruin is a damage layer over the same plan — every room, wall, opening and id unchanged
+     (V03 §2.2's identity). A building first met already ruined (generated as a ruin, or reached by item 113's history replay) still
+     gets the plan it had when built, then its damage, so scrubbing history shows one plan aging.
+     **(b) PROGRESSIVE AND MONOTONE.** Each plan element (each wall run, floor area, door, window, stair, roof bay over a room,
+     furniture piece) draws ONE keyed threshold (by lineage and element id); the building's **decay level** (0–1, from its
+     existence state and the years since it was abandoned, V06; timber rotting faster than stone, V11) shows every element whose
+     threshold it has passed. Damage therefore only accumulates as decay goes on and is never relocated: what was broken stays
+     broken in the same place. Restoration (`reused`, a repair) lowers the level and the damage leaves in reverse order, a repaired
+     element drawn in patch material (item 114's patchwork).
+     **(c) WHAT IT LOOKS LIKE.** `abandoned` — dust and debris, broken furniture, doors off their hinges; `decayed` — rotten floor
+     patches and holes, partition walls down, roof holes open to the sky, some rooms marked unsafe; `ruined` — outer walls broken,
+     upper storeys mostly floorless (fragments over the void), rubble heaps, the ground floor the only walkable storey, cellars and
+     crypts intact or partly collapsed by their own thresholds (a ruined church keeps its crypt, V03 §5.1).
+     **(d) INSIDE AND OUTSIDE AGREE.** The building band's exterior (V02) draws the same damage — a roof hole over a room is a hole in
+     the roof seen from above, a broken outer wall a gap in the footprint's outline.
+     **(e) EXPORTS AND PLAY.** Battle-map exports follow the damage: a fallen wall run leaves line-of-sight; a doorless opening is a
+     gap; rubble heaps and floor holes are drawn in the image (never invented as walls); the panel and the clerk say it ("roof fallen
+     in over the hall; the upper floor is gone").
+     **(f) BARS.** Room, wall and opening ids identical between the intact and the damaged plan; damage monotone in the decay level
+     (a higher level's damage ⊇ a lower's, on every element); the same element breaks at the same level for a given seed; restoring
+     reverses it; the exterior agrees with the plan; exports' line of sight follows fallen walls; a building never decayed is
+     byte-identical to today's plan (no-op pin).
+     **HOMES:** §2.6 (step 7: the damage layer on the same plan), §6.3 (the keyed thresholds by lineage and element id; no new ids),
+     §8.6 (drawing), §11.1 (battle-map walls, portals and line of sight), §13.2 (bars). Volumes: V03 (the damage layer, its drawing,
+     the plan's exports, the panel lines), V06 (the decay level over time; restoration), V02 (the exterior agreeing), V04 (cellars,
+     crypts and underground buildings), V11 (the thresholds' tables by material and element kind), V09 (the panel lines), V10 (the
+     explanations), V12 (bars). Applied by the coherence pass like items 111–122 (J136).
+
+124. **OWNER RULE — Intermittent light weather, tied to season and region, switchable in the advanced panel (owner, 2026-10-01).**
+     Owner: "and according to the seasons, can we get intermitten weather, very light effects such as rain, snow, etc, toggle on and
+     off the advance panel?" / "maybe a fog sometmimes that scatters light" / "that should be tied to seasons and region... for
+     example, a desert or arid land rarely gets rain, and definetly no snow" / asked to confirm the shape below: "yes". **What the
+     design has (CONFIRMED):** the view keys `season` and `weather` ∈ {clear, overcast, snow} (§2.9, §8.2): snow lays the `snow` role
+     over ground, fields and roofs, overcast removes the global light's direct term; both select override rows and so are part of the
+     tile key (§8.8); item 117's year position and its climate row with season columns (the biome's climate row, item 111, holding
+     aridity; SettlementForge's `terrainType` and its optional realm climate digest feeding it; V08 reading the campaign week); §8.4's
+     global light and hand lantern as per-frame GPU terms that move without invalidating any cached tile; the night view's placed
+     `LightSource`s.
+     Program's interpretation (approved by the owner's "yes", 2026-10-01; its numbers our defaults, vetoable under J122):
+     **(a) COVER AND PRECIPITATION, KEPT APART.** The existing `weather` key stays the seasonal COVER (snow lying, the overcast look
+     a user picks), part of the tile key as today. The new WEATHER EFFECTS are a separate, animated, intermittent layer — light rain,
+     drizzle, falling snow, drifting mist, fog, wind-blown autumn leaves, cloud shadows, and in dry country heat shimmer and dust haze
+     — which never changes a tile, the model, the document or its hash.
+     **(b) INTERMITTENT.** While the map is open, a weather timeline (a view-only random stream seeded per session, deterministic for
+     a given seed and clock so tests replay it) brings spells and lets them go: a few minutes clear, a 30–90 s shower fading in and
+     out over several seconds; a fog that rolls in and lifts over a few minutes. During a shower the global light's direct term dims
+     and the shadows soften, then return — per frame on the GPU, never a re-raster.
+     **(c) TIED TO SEASON AND REGION (the owner's rule).** The climate row gains weather columns per band of weeks (V11; our own
+     defaults): how often each kind comes and how long it lasts. Two hard rules: **no snow, falling or lying, where the climate's
+     winter does not freeze**; **in arid country rain is rare** — a few brief showers in its short wet weeks and none in its dry
+     months. Defaults: desert and arid — clear most of the year, rare short showers in the wet weeks, never snow or frost, occasional
+     heat shimmer and dust haze; coastal — morning sea fog, frequent rain in autumn and winter, snow only where winter freezes;
+     riverside and lowland — morning mist on the water, autumn fog, spring showers; temperate plains — spring showers, the odd
+     summer downpour, autumn fog and blowing leaves, winter snow where it freezes and rain where it does not; hills and mountains —
+     snow through winter into early spring, valley fog, low cloud shadows; forest — mist and drizzle, leaves in autumn; cold
+     climates — snow most of winter, frozen fog on still days. The weeks turn gradually (a first flurry before deep snow, a thaw
+     bringing rain). With a SettlementForge campaign, the week and the region follow the dossier (item 117 (c)).
+     **(d) FOG THAT SCATTERS LIGHT (the owner's words).** Fog comes mostly on cool mornings, in autumn and over low ground by water,
+     and burns off through the day; while it stands, the sun's shadows go soft and faint, the map fades gently toward the fog's
+     colour away from the view's centre (depth), and at night every lantern and window light (`LightSource`) gains a soft halo —
+     drawn in §8.4's per-frame light terms; on the vector rung, a wash and the halos only.
+     **(e) VERY LIGHT, NEVER IN THE WAY.** Low density and opacity; drawn in the style's own hand — fine ink strokes for rain, dots
+     for snow, stipple for mist in `ink` and `hatched`, soft translucent streaks in `lit` — with faint ripples on water during rain.
+     The layer sits above the map's tiles and below labels, the chrome and every overlay (item 120's halo, the handles), so no text
+     is ever covered. No lightning or other flashes (photosensitivity): every change of light takes seconds.
+     **(f) CHEAP.** A GPU layer of its own, about 1 ms per frame at its densest on the reference hardware (§12.5); never in the tile
+     key; under item 121 (e) it is the FIRST thing Auto gives up, before lighting detail and sharpness.
+     **(g) THE SWITCH.** **Weather effects** on / off in the advanced panel (device state, `AppPrefs`), with **Start a shower now**
+     (a spell of the season's commonest kind, for a screenshot or the table's mood). Default ON where the tier has headroom; OFF by
+     default on the low tier, on phones, and wherever the system asks to reduce motion.
+     **(h) EXPORTS.** Picture, print and battle-map exports never draw the animated effects (the season's cover still applies, as
+     today); an export is byte-identical with the effects on or off.
+     **(i) BARS.** The hash and every tile identical with the effects on and off (the tile cache untouched by a spell); the frame cost
+     within (f)'s budget at the densest spell; no falling or lying snow in a climate row whose winter does not freeze, at any week;
+     arid rain frequency within its row; off by default under reduced motion, on the low tier and on phones; labels and chrome never
+     covered (a pixel test); no luminance step faster than the photosensitivity limit; exports byte-identical on and off; the
+     timeline replays from its seed and clock.
+     **HOMES:** §2.9 (the switch as device state; the spell in force as session-transient view state), §6.1 (the view-only weather
+     stream, never touching the model's streams), §8.2 (the effects' marks per style family), §8.4 (the shower's dimming, fog's
+     scattering and halos as per-frame light terms; the vector rung's wash), §8.8 (the layer's place above tiles and below labels and
+     overlays; never in the tile key), §11 (exports leave it out), §12.5 (its frame budget; item 121 (e)'s order), §13.2 (bars), the
+     judgment index. Volumes: V11 (the climate row's weather columns and the two hard rules), V09 (the advanced panel's switch, Start a
+     shower now, the defaults by tier, phone and reduced motion), V12 (bars and how each is measured). Applied by the coherence pass
+     like items 111–123 (J137).
+
+122 (h)–(i). **ITEM 122 AMENDED — Crisis looks scale with the forces and groups the dossier gives, and set the map's framing
+     (owner, 2026-10-01).** Owner: "regarding some stressor cosmetics such as immigration and undersiege, we have in the works varying
+     sizes of armies or coalitions of armies and group travel populations that should scale and determine teh size of the visuals as
+     in if we have two armies joining together, then that means double the size of (theoretically) of the visual. The additions of
+     these extra cosmetcis should also set the default zoom scaling of the map at that time, and the ceiling where appropriate. I
+     defer all decisiosn to you". **What SettlementForge gives:** armies, coalitions of armies and travelling groups with their sizes
+     are IN DEVELOPMENT in SettlementForge (owner); their dossier fields are to be confirmed by the final local check (item 125 (d)).
+     Program's decisions (delegated by the owner: "I defer all decisiosn to you"; our numbers, calibratable):
+     **(h) SCALE BY HEADCOUNT.** Where the dossier gives a force's or a group's size, the look is sized by it, never by guesswork:
+     each army pitches its own camp, its area proportional to its headcount at **45 m² a head** (tents, lines, horses and lanes; Roman
+     marching camps and present-day refugee-camp standards both sit near 30–45 m² a head), so two armies joined make twice the camped
+     ground; a coalition's armies each keep their own camp and colours, spread round the town (the larger the coalition, the fuller
+     the ring); siege engines number about one per 1 500 besiegers, capped by the gates and wall stretches they can face; a travelling
+     group's camp (migrants, pilgrims, a caravan) is sized by its people at the same rate. Where the dossier gives no size, item 122
+     (b)'s scale by severity and tier holds, with the calamity's or condition's own counts (`exodus`, arrivals) where it has them.
+     **(i) FRAMING AND THE CEILING.** While crisis looks stand, the map's default framing — the view it opens at and the **Fit**
+     button — takes in the town and its camps, and item 116's zoom-out limit widens to the bounds of town and camps together; when
+     the crisis ends, both return to item 116's. A view the user has already moved is never yanked: only the opening view, Fit and
+     the limit change. Camps stay on the land the map holds (the frame and its margin); a force too large for that land fills it out
+     to the margin and the rest is drawn as massed camp marks on the surrounding ring at the city band, the panel giving the full
+     number ("about 24 000 besiegers, three armies"). All of it remains a look: the frame, the model and the hash never change.
+     **HOMES (added to item 122's):** §10.2 (the area per head, the engine rate, the coalition's spread), §8.8 (the ring's massed
+     marks), §2.9 (the default framing and the widened limit as view state while a look stands). Volumes: V08 (the force, coalition
+     and travelling-group sizes read from the dossier when present, confirmed by item 125 (d)), V11 (the rates), V09 (Fit, the
+     opening view, the limit, the panel's numbers), V12 (bars: the camped area proportional to headcount within 10 %; two armies
+     twice one; the opening view contains every camp; the limit restored when the crisis ends). Applied by the coherence pass with
+     item 122 (J138).
+
+125. **OWNER RULE — The dossier is the only input; what it does not give, our map supplies (owner, 2026-10-01).** Owner: "note that
+     when it comes to making sure that everything is seamless with settlementforge inputs from dossier! and note that I want you only
+     read from the dossier, anything that is not given from the dossier, it is up to our map code to supplement." / "I defer all
+     decisiosn to you". **What the design has (CONFIRMED):** the port reads the dossier into `DossierDigest` (V08 §2.5) and ignores
+     SettlementForge's campaign state, derived reads and internals (V08's ignore-list: `worldState.spatialLedgers`, the district,
+     map and causal profiles, `simulationTrace`, …); but it also reads two host inputs that are not the dossier — `HostContext.week`
+     (the campaign's `calendar.elapsedWeeks`, item 117 (c)) and `HostContext.realm` (campaign placements, realm and latitude scale,
+     the spatial digest's words and climate word: DR1, DR3, DR19, DR29, item 117 (d)).
+     Program's decisions (delegated by the owner):
+     **(a) ONE SOURCE.** At run time the map reads SettlementForge only through the dossier: never its campaign state, simulator,
+     derived reads, realm map or code. `HostContext.week` and `HostContext.realm` stop being inputs; every fact they supplied is
+     taken from the dossier where the dossier carries it, otherwise supplied by our map code (b).
+     **(b) WHAT THE MAP SUPPLIES.** Every dossier field the map uses has a stated standalone fallback — the generator's own choice,
+     exactly as on a map made without a dossier — so a missing or empty field never refuses, never stalls, and is reported. In
+     particular: the WEEK (items 117, 118, 122, 124) is the dossier's own latest stamped tick (its conditions' `triggeredAt`, its
+     calamities' and history's ticks) where it has one, else the user's season control (standalone midsummer); the CLIMATE is the
+     dossier's terrain type with our biome rules (item 117 (d)'s rows); the LATITUDE, the realm placement and the neighbours' bearings
+     are our generator's defaults or the user's settings.
+     **(c) THE HOST STILL DRIVES THE VIEW.** A host embedding the map may still send the embedding API's view commands (§11.2, §11.3:
+     a week, a layer, a selection), as a user would; these are commands, not inputs, and the map never needs them.
+     **(d) THE FINAL CHECK.** The program's last step (after the coherence pass's verdict; owner: "read it from local") reads
+     SettlementForge's LOCAL checkout on the owner's computer, read-only, and confirms, field by field, that every dossier field the
+     port reads exists with the shape and values the port expects, that every field it needs and the dossier lacks has its fallback
+     under (b), and which in-development fields (item 122 (h)'s forces, coalitions and travelling groups; a current-week stamp) the
+     dossier now carries — a table of matches, mismatches and fixes.
+     **(e) BARS.** A dossier with only SettlementForge's required keys generates a full map, every absent field reported with the
+     fallback taken; the same dossier with and without a host context yields the identical document and hash; no code path of the
+     port reads anything but the dossier (a static check of the adapter's imports and reads).
+     **HOMES:** §11.3 and §11.4 (host inputs: the dossier the only data input; the view commands kept), §7.7 (the derivation rows
+     DR1, DR3, DR19, DR29, DR42 re-sourced to the dossier or to the generator's fallback), §2.9 (the week's source), §13.2 (bars).
+     Volumes: V08 (the digest's every row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from
+     the dossier's ticks; the final check's brief), V09 (the season control as the fallback), V12 (bars). Applied by the coherence
+     pass like items 111–124 (J139).
+
+126. **OWNER RULE — The map is seen only on a tablet or a desktop; there is no map view on a phone (owner, 2026-10-01).** Owner:
+     "note that we have removed map view from a phone." / "so it can only be seen in a tablet or desktop". **What the design has
+     (CONFIRMED):** V09 §4.12 (J-V9.9) gives three layout classes — **wide** (≥ 1024 CSS px) and **medium** (600–1023 px, ≥ 480 px
+     high) with every tool, and **narrow** (< 600 px wide or < 480 px high, "a phone in either orientation") as a viewer with light
+     edits (the map, the gazetteer, layers and thematic views, T1, T5's seed, T6, T7, T10–T12, exports, share, the clerk drawer),
+     the withheld tools showing `refuse.phone`; item 120 (j) gives Find a phone bottom sheet; item 124 (g) turns weather effects off
+     by default on phones; V12 and T-V9-22 test the narrow class.
+     Program's interpretation (vetoable; decided under J122; the owner: "I defer all decisiosn to you"):
+     **(a) NO MAP BELOW THE MEDIUM CLASS.** The map — every view, tool, panel and the clerk drawer — needs a viewport of at least the
+     medium class (≥ 600 × 480 CSS px). The **narrow** class is retired as a map surface: on a phone the application shows no map, no
+     editing and no export, only a plain screen — the town's name, "This map opens on a tablet or computer", and **Send to another
+     device** (V09's share link) — so a phone user can pass the town on and open it where it can be seen.
+     **(b) A SMALL WINDOW ON A TABLET OR DESKTOP** shows the same screen worded for the window ("Make this window larger to see the
+     map"), the map returning, unchanged, when the window reaches the medium class; nothing is lost or re-generated.
+     **(c) SETTLEMENTFORGE** does not mount the map on a phone (the owner: "we have removed map view from a phone"); a host that mounts
+     the frame in a viewport below the medium class gets (a)'s screen, never a map.
+     **(d) WHAT GOES.** The narrow layout class's tool list and light edits (V09 §4.12, J-V9.9), `refuse.phone`'s per-tool line (one
+     screen-level line instead), item 120 (j)'s phone bottom sheet, item 124 (g)'s phone default (moot), the narrow clauses of T-V9-22
+     and of every test, edge and budget row that names a phone viewport; tablets (medium and wide, touch and pen, V09 §4.12's gestures)
+     keep every tool as now.
+     **(e) BARS.** Below the medium class no map tile, tool, panel or clerk drawer is mounted and the screen of (a) or (b) shows; at
+     the medium class every tool works under touch (T-V9-22's tablet half); resizing across the threshold keeps the document, view and
+     selection byte-identical.
+     **HOMES:** §1 (the supported devices: tablets and desktops), §13 (bars; §13.4's sessions on tablets and desktops only), §16 (the
+     narrow class's work dropped). Volumes: V09 (§2.2's layout classes, §4.12, J-V9.9, the screen and its catalogue rows, item 120's
+     sheet and item 124's phone default removed, T-V9-22), V08 (the host mounts no map on a phone; the frame's screen below the
+     medium class), V04 and V12 (their "phone sheet" mentions and phone fixtures dropped). Applied by the coherence pass like items
+     111–125 (J140); it supersedes the phone clauses of items 120 (j) and 124 (g).
+     **(a2) REVISED — owner, 2026-10-01: "rather, we will simply not have the option of viewing the map in the phone in the first
+     place".** (a)–(c) above are replaced: there is NO phone screen, notice, message or **Send to another device** button — the
+     option to view the map is never offered on a phone. SettlementForge presents no map entry on a phone, and the map product
+     designs nothing for phones: no phone layout, no phone catalogue line, no phone default and no phone test. The narrow layout
+     class is retired. A tablet or desktop window smaller than the medium class (600 × 480 CSS px) keeps the medium layout at that
+     minimum size and the page scrolls — no separate screen, nothing lost or re-generated. (d) stands; (e) reads: no phone layout,
+     screen or catalogue row exists; at the medium class every tool works under touch (T-V9-22's tablet half); below it the medium
+     layout holds at its minimum and the document, view and selection are byte-identical across a resize. HOMES unchanged, less the
+     screen's catalogue rows.
+
+127. **OWNER RULE — What the town builds by itself is a list of switches; deleting one is for now, not forever (owner, 2026-10-03
+     ~02:30 UTC, filed 2026-10-03 ~06:40 UTC; given in a session that had started from the stale `main`, carried here; J152).**
+     Owner, on the rule that a deleted generated aqueduct, viaduct, retaining wall, quay wall, harbour chain or deck plot is never
+     rebuilt until undone: "I don't know. What if they don't want it now but they want it later how could they walk it back? Rather
+     somewhere in the advance, there should just be a comprehensive list of these extra drawings that they can toggle for it to be on
+     and off. Deleting it from a map just means that it's not there at that time and it could be built somewhere else or at another
+     time if it's still toggled on." Program's interpretation under the owner's delegation (J122; vetoable):
+     **(a) THE LIST.** The advanced panel (V09 §4.14) gains one group, **Built by the town**: one row per kind of thing the generator
+     adds by its own rules that no dossier record requires, each **on** (as the rules say) or **off** (the generator never builds that
+     kind); COMPREHENSIVE — assembled from the whole set by an enumeration (every re-adding generator, every existence chance or rule
+     for a feature the dossier does not bind); a kind the dossier makes exist is not listed and its dossier-bound instances are never
+     touched (items 20, 22, 125). Provisional groups: raised ways (viaducts, elevated roads, aqueducts — today's single row "Raised
+     ways the town builds by itself: as the rules say · none" split into its kinds and moved into the list), terrace retaining walls,
+     building plots on bridges and decks, quay walls with their sea gates, the harbour-mouth chain, oases, floating islands and their
+     sky accesses, the underground's optional systems; item 114's wall decay, item 117's seasons dressing, item 118's festival
+     decorations, item 122's crisis looks and item 124's light weather are checked against the list by the enumeration (switch them
+     here or cite their own switch — one setting per concept). Each row's default is its kind's current default (no-op pin).
+     **(b) A SWITCH** is a map-side setting on §7.6's layers (this town; your preferences; a preset), never written to the dossier,
+     changed by one `adjust` event, previewed and undone; OFF removes only the generator's standing instances of the kind (never a
+     drawn, locked or dossier-bound one); ON re-admits the kind at the next derivation. The clerk answers "why is there no …?" with it.
+     **(c) DELETING ONE IS FOR NOW.** A delete of one generated instance holds while the town is unchanged — a plain Regenerate, a
+     reload and crash recovery give the map as the author left it — and LAPSES when the town next changes in a way that re-reads the
+     kind (an epoch, a New random over a place it crossed, a Re-derive of the stage that builds it); the generator then decides
+     afresh and, while the kind is on, may build one again, on another course or the same. A deleted instance counts against no cap.
+     This REPLACES the removal that holds through regeneration (item 110 (b)'s "a removal holding through regeneration", file f
+     item 260's `LifecycleEvent.detail.suppress`, J-VI.14, V06 §2.13's suppressed set, V05's removed slots counted as filled): what
+     the author never wants is the switch's job; what the author wants kept is a lock (J144, J147). Undo restores a deleted instance;
+     **Build it again** stays and makes the instance the author's own.
+     **(d) WORDS.** The delete preview and history row: "Removed for now — the town may build one again when it changes. To stop it
+     building {kind}s, turn them off in Advanced › Built by the town." (V09's `info.remove.holds` row and V06's and V10's lines alike.)
+     **(e) BARS.** A kind switched off: none of it over the calibration seeds at every rung and every epoch; switched back on: it
+     returns at the next derivation; a delete then a plain Regenerate: byte-identical and still absent; a delete then one epoch: it
+     may return and counts against no cap; dossier-bound and locked instances survive every switch; the switches never reach the
+     dossier; every row at its default is byte-identical to the base; an older document's suppression records migrate as plain
+     deletions that lapse at the next change.
+     **HOMES:** §2.8 (the suppression bullet), §2.7's raised-way support step where it states the removal (the raised-way × wall
+     family's laws, Part L), §7.1, §7.4, §7.6, §7.8, every stage that builds a listed kind, §13.2; V05, V06, V07, V08, V09, V10, V11,
+     V12 and V04 for its optional systems. Applied through the build-time fix list (J153), not by a further coherence round.

@@ -1,0 +1,159 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "285e2f6fe9dd744be31d1d5db7073d16c958cd2f67d956e9a6da935b091a0b5a",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V07.md",
+   "sha256": "41b42f2550c8c2b8328f4156146dbf48fa9bba53efb9cdc936557743ec99fc2f",
+   "lines": 418,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r4-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 127,
+   "body_sha256": "f80a770c3c8eb5b5e970436eb3c13e6d841499fea6c25e54cba07560c79a1e5f",
+   "target_line": 203,
+   "section_old": "203–331",
+   "section_old_n": 129,
+   "section_new_n": 129,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V07.md #2 (l. 132) REPLACE ### 4.5 The clerk's view",
+   "file": "repair-r4-V07.md",
+   "index": 2,
+   "line": 132,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The clerk's view",
+   "body_lines": 63,
+   "body_sha256": "c590a1a9063125322ebae86a8b63d31b3099bcd4eb2628693d45eceb5941017f",
+   "target_line": 3084,
+   "section_old": "3084–3146",
+   "section_old_n": 63,
+   "section_new_n": 65,
+   "new_headings": [
+    "### 4.5 The clerk's view"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V07.md #3 (l. 198) REPLACE ### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+   "file": "repair-r4-V07.md",
+   "index": 3,
+   "line": 198,
+   "kind": "REPLACE",
+   "heading": "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+   "body_lines": 115,
+   "body_sha256": "988bf939d553e1838fb073bc840c75d8637a2971e4bfc69e340056dc253ae915",
+   "target_line": 3395,
+   "section_old": "3395–3510",
+   "section_old_n": 116,
+   "section_new_n": 116,
+   "new_headings": [
+    "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V07.md #4 (l. 316) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V07.md",
+   "index": 4,
+   "line": 316,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "3d986cd292703b61e0ff65acffc760ad983e674e80cd16b76426941d8c6c88d6",
+   "target_line": 3592,
+   "section_old": "3592–3693",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V07.md #2 (l. 132) REPLACE ### 4.5 The clerk's view",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V07.md #3 (l. 198) REPLACE ### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V07.md #4 (l. 316) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 603780,
+  "doc_bytes_after": 605033,
+  "doc_lines_before": 4066,
+  "doc_lines_after": 4068,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a55c4d0803b7a755922816fc0eacbf8f8a962395fc8e9a73c889a62190d2ba2b",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

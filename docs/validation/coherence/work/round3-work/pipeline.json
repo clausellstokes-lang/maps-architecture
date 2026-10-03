@@ -1,0 +1,254 @@
+[
+ {
+  "id": "VAF-R2T-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Two units disagree on what land a camp may take. V01 \u00a73.16 calls `campLand` \"the outskirts' land a camp look may take\" (l.2360\u20132371). It is never wood, marsh, quarry, garden or orchard, and lies within `camp.reachM`. V01 \u00a71b's wiring row (l.283) names `beyondWalls` among its readers, and R2-37 (5) rules \"The outskirts' land is V01's `campLand` \u2026 \u00a710.2's placement rules rank them\". But \u00a710.2 *Crisis looks* (d)'s `beyondWalls` (l.15376\u201315378) takes \"the land faces at least `siegeStandoffM` beyond \u2026 (`campLand`'s **and the hinterland's land-use faces** there)\": any wood, orchard, quarry, marsh or crop field, at any distance. `approachRoads` (l.15379) defines a second, unbounded set of \"verges of each arterial\" beside `campLand` (2)'s. (e)'s cap, \"`densityCap` of the outskirts' free land\" (l.15399), then has no single denominator. So the siege camps stand on land V01 says no camp takes, and the cap's base differs with the reader.",
+  "required_change": "\u00a710.2 *Crisis looks* (d): \"`beyondWalls` \u2014 the `campLand` faces (V01 \u00a73.16) lying at least `siegeStandoffM` beyond the outermost standing enceinte's outer strip along its walled arcs; a closure arc with no wall draws none\"; \"`approachRoads` \u2014 `campLand`'s verges of each arterial leaving the settlement (V01 \u00a73.16 (2)), one camp per road; a road with none, and a place no road reaches (\u2026), take the `campLand` nearest its boundary\"; (e): \"together at most `densityCap` of `campLand`'s free land\". (f)'s trenches, earthworks and burned farmsteads, which are no camp, keep their own places. V01 \u00a71b's `campLand` row then reads \"`approachRoads`\" for \"`approachRoads`' fallback\" (V01's end, R2-05).",
+  "owner": "pipeline",
+  "reported_by": "verify-agree-fabric-r2t"
+ },
+ {
+  "id": "VAL-R2-06",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "pipeline",
+  "claim": "Same defect as VV78-r2-05 (vol-V07-V08), a rung rule shared by this lane's members. V07 \u00a71 (15) (l. 197\u2013200) hands \u00a710.2 'its places read at the village rungs as V07 \u00a75.6 (2) states'. \u00a710.2 *Crisis looks*, the placement home, does not carry that end: (d) defines the main approach road by \u00a74.3's `TradeFlow` and `affectedQuarter` as 'the district \u2026', and only `neighbourhoods` cites V07; (f) draws `siege`'s 'line of trenches and earthworks round the walled arcs' at every rung with walled arcs, which \u00a78.2's siege row (l. 12892) draws. V07 \u00a75.6 (1) (l. 3400\u20133402) and T-V7-69 draw no siege line at THORP or HAMLET \u2014 item 122 (c)'s 'a hamlet gets a war band's camp, a city a full siege line', which \u00a713.2's T122-5 (l. 18159) also quotes \u2014 and no V11 `scale` cell can suppress the line (they are camped-ground areas). The base and V07 draw a hamlet's siege differently.",
+  "required_change": "ONE FIX with VV78-r2-05, in its words: \u00a710.2 (c) adds that a share s of a place's n units takes round(s \u00d7 n) clamped to [1, n] where s > 0 and none where s \u2264 0 (V01 \u00a73.16 (5)'s count); (d) adds 'at THORP, HAMLET and VILLAGE the main approach road, the outskirts' land and each place below read on the village's records as V07 \u00a75.6 (2) states, `affectedQuarter` a unit of V07 \u00a75.6 (3)'; (f)'s `siege` reads 'at VILLAGE and above, a line of trenches and earthworks round the walled arcs at it \u2014 none at THORP and HAMLET, item 122 (c)'s war band's camp (V07 \u00a75.6 (1))'; (h) adds 'and no siege line at THORP and HAMLET'. \u00a78.2's siege row draws the line where \u00a710.2 places it and needs no change.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAL-R2-08",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "pipeline",
+  "claim": "Same defect as VPC-R2-08 (verify-pipeline): a residual of this lane's VAL-R1-07 made by round 2's other end. II.7.2 (l. 20638\u201320639; VAL-R1-07's text, R2-25 (b)) gives gutter and pit only to 'a bank whose stretch of the boundary lies wholly on water and that holds no candidate'. Round 2's V04 \u00a73.2 N2 (l. 990\u2013991; VV34-r1-08), the fallbacks' home, reads 'A bank whose stretch is empty or lies wholly on water \u2026 and that holds no candidate makes none', and T-V4-80 (j) tests 'a stretch empty or wholly on water'. The base sends an empty-stretch bank to 'its own field outfall', which N2 builds from a stretch cell's D8 path, and such a bank has none.",
+  "required_change": "ONE FIX with VPC-R2-08: II.7.2 reads '\u2026 and a bank whose stretch of the boundary is empty or lies wholly on water and that holds no candidate drains by gutter and pit, its area reported unsewered \u2026'.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAT2-r2-01",
+  "severity": "blocker",
+  "kind": "MATRIX-GAP",
+  "owner": "pipeline",
+  "claim": "The dossier cadence has three triggers in its producer and two in its home. V08 \u00a73.6 (3) (l.1826-1840) folds an epoch at each year end, at each \u00b1 5 % population crossing, 'and an epoch at the week of each newly carried calamity that no other epoch falls on (a destructive event is epoch content, \u00a74.11's rung at an epoch)'. J-V8.55 (V08 l.3416) records this as citing '\u00a74.11's cadence \u2014 \u2026 plus one at each new calamity's week'. \u00a74.11 *The clock* (4) (l.8293-8299), the cadence's home, states only a 52-week boundary or a population move past the roster tolerance ('No epoch is folded per tick'). V06 \u00a73.3.1 restates those two triggers (VAT2-r2-02), and `EpochInputs.events[].week` 'in (the previous epoch's week, week]' (l.8184) reads a calamity as riding the epoch whose span holds it. A port built from the home therefore folds a calamity of week 10 into the next year-end epoch, and while the dossier's present lies before that year end the calamity is not in the model at all. A port built from V08 folds it in its own week. Every reader of that epoch is affected: V06 \u00a73.22 (1)'s aftermath, V06 \u00a73.13 (2)'s hazard week, V04's burial deaths, and V01 \u00a73.16 (2)'s disaster calamity read from 'the committed `epoch` events' (V01 l.2327-2330, l.343). At the present week of a fresh calamity no committed event holds it, so the look strikes the scatter pattern with no matched target, against item 122 (b)'s 'the calamity's `targets` win', and changes its units when the epoch later folds. The agreement matrix has no cadence row.",
+  "required_change": "\u00a74.11 *The clock* (4): after 'by more than the **roster tolerance**, \u00b1 5 % (J-A76.43; the one number \u00a77.7 item 3's lapse reads too)' insert '\u2014 and at the week of each newly carried calamity that no other epoch falls on (DR28: a destructive event is epoch content; V08 \u00a73.6 (3); J-V8.55)'. Keep the catch-up clause 'coarsened under item 119's comfort level by V06 \u00a76.8 (6)'; a coarse catch-up carries a calamity in the coarse epoch that holds its week. V06 \u00a73.3.1 states the same three triggers in the same round (VAT2-r2-02; R2-05).",
+  "reported_by": "verify-agree-time-r2t"
+ },
+ {
+  "id": "VAT2-r2-03",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "owner": "pipeline",
+  "claim": "'The creation week' has two meanings, and the first epoch's span reads it. (1) The present: \u00a74.11 *The clock* (1) (l.8275-8276) says 'Its creation week is the present week of the dossier it is created from; a standalone map starts at week 0'. V06 \u00a73.20.3 (l.3117) takes `W_p` as 'the present \u2014 the document's creation week (\u00a74.11 *The clock* (1))', and V06 l.409 and EP-15 (l.8801, 'a replay starting 300 years before a week-0 creation') use the same meaning. (2) The first model's week: a history-first document's `generate` event stands at `W_p \u2212 round(52 \u00d7 start.yearsAgo)` (V06 \u00a73.20.3). V06 \u00a72.11's `HistoryIndex.creationWeek` (l.809) is 'the week of the log's first model: a replayed document's first replay epoch's start', and V06 \u00a73.15.2's `locate` (l.2317-2319) and \u00a73.15.4's bar (l.2352) read that meaning. The span: `EpochInputs.years` is '(week \u2212 the previous epoch's week, or the creation week) \u00f7 52' (l.8182), and V06's `ProductEpochContext.prevWeek` (l.467) and V06 \u00a73.1 (3) (l.953-955) say the same. Under the home's definition the first replay epoch's `years` is (W_p \u2212 52\u00b7toYearsAgo\u2081 \u2212 W_p) \u00f7 52, which is below 0. Every per-year chance `1 \u2212 (1 \u2212 p)^years` (\u00a74.11 *The clock* (5)) and every churn cap scaled by `years` then runs on a negative span. Under V06 \u00a72.11's meaning, `years` is the first epoch's span.",
+  "required_change": "\u00a74.11 *The clock* (1): replace 'Its creation week is the present week of the dossier it is created from; a standalone map starts at week 0.' with 'Its present at creation is the dossier's present week (a standalone map's, week 0). Its **creation week** \u2014 the week of its `generate` event, its first model's \u2014 is that present, except on a history-first document, whose `generate` event stands at the replay's start, `W_p \u2212 round(52 \u00d7 start.yearsAgo)` (V06 \u00a73.20.3); the first epoch's `prevWeek` and `years` (above) read the creation week, and a replayed past lies between it and the present.' In EP-15 (l.8801), 'before a week-0 creation' reads 'before a week-0 present'. V06's end is VAT2-r2-04 (R2-05).",
+  "reported_by": "verify-agree-time-r2t"
+ },
+ {
+  "id": "VDC2-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a710.2 *Crisis looks* (b) ends \"the regional_* pressures are `none`\". As VDC2-09, this contradicts item 122 (b) and V11 \u00a73.25.9's `regional_migration_pressure` \u2192 `refugeeCamp` row. V11's repair hands it to pipeline.",
+  "required_change": "\u00a710.2 *Crisis looks* (b): \"the regional_* pressures are `none`\" \u2192 \"`regional_migration_pressure` reads its `refugeeCamp` row (item 122 (b)'s mass immigration) and the other regional_* pressures are `none`\".",
+  "owner": "pipeline",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-13",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a74.7's *Custom chains* bullet (l.6901) feeds an import's first consumer \"through a store (a warehouse, a yard) at the gate or quay facing its partner's bearing (the realm block's, items 77, 85), else the main gate or the harbour\". Item 125 (a) retires the realm block as an input (\u00a77.7 item 1; J-A125.01), and a partner's bearing is now \u00a77.7 layer 2's (the user's setting, else `gate.pick`). The parenthesis names a source that no longer exists, so read literally the store always falls back to the main gate.",
+  "required_change": "\u00a74.7 *Custom chains*: \"facing its partner's bearing (the realm block's, items 77, 85)\" \u2192 \"facing its partner's bearing (\u00a77.7 layer 2's *Bearing*; items 77, 85)\".",
+  "owner": "pipeline",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VEW-04",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "pipeline",
+  "claim": "Partly fixed (round-0 id kept; same defect as peer VM-R2T-06). R2-25 (a) rules '\u00a72.6's water table (VEW-04's text, with its EP-22 fixture)'. \u00a72.6 now reads a moat's one derived level (base l.1901\u20131902), but the fixture was not written: the model seat handed it to pipeline (repair-r2-model HAND-OFFS) and \u00a74.13's EP-22 row (l.8808) still names only 'a hill town with moat: all, an arid town with no river with moat: inner' and the dry-ditch rung. No other bar tests a plot beside a wet moat (T-V4-80 (j) tests sewer outfalls only), so the moat \u00d7 slope edge, whose old outcome was a silent wrong cellar rung, has its outcome but no test.",
+  "required_change": "\u00a74.13, EP-22's case cell: the hill-town fixture adds 'a plot within `waterTableM` of a wet moat on the slope reads the moat's derived level (\u00a74.2 S3 (10)) + `freeboardCm` as its water table, never its bank top \u2014 its cellar or crypt taking the full rung where that level allows (\u00a72.6)'; its outcome cell adds '\u00a72.6's water table'.",
+  "reported_by": "verify-edges-world-r2t"
+ },
+ {
+  "id": "VEW-r2-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "Two crisis places have no reference line at a town no road reaches. \u00a710.2 Crisis looks (d) defines the main approach road as 'the arterial out of the gate of greatest trade weight \u2026, else the way of greatest trade weight leaving the built edge' (base l.15373\u201315375) and builds two places on it: approachByGate, the refugee camp ('the campLand faces along the main approach road by its gate, nearest V06's frontierFor', l.15381\u201315382), and outside, the quarantine camp ('the campLand faces furthest from the main approach road', l.15383). S3 (9) (a)'s mesa 'has no road in at generation and says so' (l.5381\u20135391), so no way leaves its built edge. Only approachRoads has a fallback there ('a place no road reaches (S3 (9) (a)'s unserved mesa) takes the campLand nearest its boundary'); V01 \u00a73.18 defines campLand with no approach road and V07 \u00a75.6 (7) the village rungs ('no entry \u2014 every camp on the campLand nearest the perimeter'), but at TOWN and above the refugee and quarantine camps have no line to rank by, and V06's frontierFor has no answer either (its no-frontier case is 'the approach road by a gate', R2-37 (6)). EP-27 names this mesa only for a siege; T-ER-27 has no such fixture.",
+  "required_change": "\u00a710.2 (d): 'With no main approach road (no way leaves the built edge \u2014 S3 (9) (a)'s unserved mesa), approachByGate takes the campLand faces nearest frontierFor's answer, else nearest the boundary point closest to the centre, and outside the campLand faces furthest from that point'. V06 \u00a73.22 (2) (V06's end): frontierFor's no-frontier answer is then that boundary point. EP-27 and T-ER-27 add the unserved mesa with a refugee camp and a quarantine standing: each on campLand, else on the ring marks, never undefined.",
+  "reported_by": "verify-edges-world-r2t"
+ },
+ {
+  "id": "VEW-r2-05",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "A siege's places read 'the outermost (standing) enceinte' \u2014 beyondWalls (base l.15376), outside (l.15383), edge (l.15388) and 'a siege of a place with no standing enceinte draws the blockade row' (l.15408) \u2014 undefined or wrong wherever a place's enceintes are not one nested series. Enceinte.kind includes bailey (\u00a72.7 l.2236; Castle.curtain), so an unwalled town with a castle has a standing enceinte: its siege draws the trench and earthwork line 'round the walled arcs at the standoff', about 300 m round the castle, across the town's own plots and buildings, against the owner's 'an unwalled place gets blockade camps on its approach roads' (item 122 (b)). Rings that are not nested have no one outermost ring: a castle outside the town wall, a twin town's two rings (F-SITE's 'walls apart by the floor', l.8965), an aroundStage ring (\u00a72.7 l.2242). And the siege line is kept off 'water, a way's carriageway, a gate's passage or a label's keep-out' only ((d), l.15370\u201315371), so it is drawn across extramural ribbon plots and buildings within the standoff of an ordinary walled town.",
+  "required_change": "\u00a710.2 (d): 'The walls a siege reads are the place's enceintes of kinds other than bailey (a castle's curtain only along its shared stretch with the town wall, Castle.cityWeld; its keep is gatesAndKeep's); outermost is the outer envelope of their walled arcs \u2014 for rings that are not nested, the walled arcs of each ring that no other ring encloses'; 'a place with no standing enceinte' reads 'no standing town enceinte', so an unwalled town with a castle draws the blockade on its approach roads; and the siege line and every camp are never drawn on a building footprint (burned farmsteads draw on their own), the line broken where it would cross an extramural plot's building. EP-27 and T-ER-27 add: an unwalled TOWN with an inside castle, a walled CITY with an outside castle, a twin town with two rings, and a walled town with extramural ribbons inside the standoff \u2014 0 look pixels on a building footprint and the blockade at the castle-only town.",
+  "reported_by": "verify-edges-world-r2t"
+ },
+ {
+  "id": "VKr2-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a74.3 *Raised ways* (l. 5572\u20135573) still reads 'its two ends are ramps or stairs joined to ground vertices \u2014 each of its two feet a vertex on part 0 joined by record to one on its part (\u00a73.4) \u2014'. R2-26 (a) makes \u00a72.7's `RaisedWayRecord.feet` the one statement, which \u00a73.4 and \u00a74.1 now cite without restating. \u00a72.7's opening line (l. 2510) now adds 'or an end on the arena's outer ring'. \u00a74.3 thus restates the feet, leaves out the ring end, and cites \u00a73.4 rather than the record's home. It is the same defect as VKr1-04.",
+  "required_change": "\u00a74.3: replace 'its two ends are ramps or stairs joined to ground vertices \u2014 each of its two feet a vertex on part 0 joined by record to one on its part (\u00a73.4) \u2014,' with 'its two ends are its feet on ground part 0 (`RaisedWayRecord.feet`, \u00a72.7),'.",
+  "reported_by": "verify-kernel-r2t"
+ },
+ {
+  "id": "VM-R2T-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a72.7 now lets a raised way's deck end on the arena's outer ring with no ramp or stair (`RaisedFoot`, *At the frame*; VKr1-02, R2-26 (a)). \u00a74.3 (l. 5572) still says 'its two ends are ramps or stairs joined to ground vertices \u2014 each of its two feet a vertex on part 0 \u2026' and \u00a74.6's way-crossing rule (l. 6569) 'a raised way's two ends (\u00a74.3) are ramps or stairs by the same rule' \u2014 no exception, so the ramp-or-stair rule would build a ramp at the ring end that \u00a72.7 says is never drawn.",
+  "required_change": "\u00a74.3: 'its two ends are ramps or stairs joined to ground vertices, or an end on the arena's outer ring with neither (\u00a72.7's `RaisedFoot`; *At the frame*) \u2014 each of its two feet a vertex on part 0 \u2026'; \u00a74.6: 'a raised way's two ends (\u00a74.3) are ramps or stairs by the same rule, but an end on the arena's outer ring, where none is drawn (\u00a72.7's `RaisedFoot`)'.",
+  "owner": "pipeline",
+  "reported_by": "verify-model-r2t"
+ },
+ {
+  "id": "VM-R2T-06",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "VEW-04 persists in part: its required change and R2-25 (a) ('\u00a72.6's water table (VEW-04's text, with its EP-22 fixture)') give \u00a72.6's new rule \u2014 a plot near a wet moat reads the moat's derived level, not its bank top \u2014 a fixture in EP-22's hill town. The model wrote \u00a72.6's end and handed the fixture on (repair-r2-model HAND-OFFS); \u00a74.13's EP-22 row (l. 8808) still carries only the dry-ditch fallback, and no other bar tests the water table beside a moat (T-V4-80 (j) tests sewer outfalls only). The moat \u00d7 slope edge, whose old outcome was a silent wrong cellar rung, has its outcome but no test.",
+  "required_change": "\u00a74.13, EP-22's fixtures: add 'a plot within `waterTableM` of a wet moat on the hill town's slope reads the moat's derived level (\u00a74.2 S3 (10)) + `freeboardCm` as its water table, never its bank top; its cellar or crypt takes the full rung where that level allows (\u00a72.6)'.",
+  "owner": "pipeline",
+  "reported_by": "verify-model-r2t"
+ },
+ {
+  "id": "VPC-R2-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a710.2 *Crisis looks* (b) (l. 15358) reads 'the regional_* pressures are `none`'. Owner rule 122 (b) maps mass immigration from 'regional_migration_pressure, REFUGEE_WAVE' to the refugee camp, and gives 'no look' only to the other regional_* pressures. V11 \u00a73.25.9, which holds the values, maps `regional_migration_pressure` \u2192 `refugeeCamp` (l. 4559) and says 'the other `regional_*` pressures are its no look' (l. 4562\u20134563). The base rule, read as written, sends the owner's mass-immigration archetype to `none`, so a regional migration would silently draw no camp. Owner rules come first (principle (3)).",
+  "required_change": "\u00a710.2 *Crisis looks* (b), l. 15358: replace 'the regional_* pressures are `none`' with 'the regional_* pressures other than `regional_migration_pressure` \u2014 item 122 (b)'s mass immigration, a refugee camp \u2014 are `none`'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a74.4 S5a step 1 (l. 5715\u20135719) ends the stage-k \u2265 2 rule with 'a stage with no approachable arc takes \u00a74.2 S3 (9)'s *every arc closed* \u2014 walled on the closing arcs whose row carries a wall, with one gate there, or walling nothing and recording no enceinte where no closing row carries one \u2014 and the arcs a land barrier closes are impassable to routes as the wall is (\u00a74.2 S3 (7), (9))'. The last clause is unscoped, so it also covers S3 (9) (a)'s unwalled stage. But S3 (9) (a) (l. 5385\u20135390) lets that stage's routes 'enter across the barriers where \u00a74.3's class grade limit admits an edge', and S3 (7) states the impassable rule only 'In a walled stage' (l. 5351). For an unwalled k \u2265 2 stage ringed by sheer faces or gorges, the two texts give opposite outcomes for a route crossing a barrier.",
+  "required_change": "\u00a74.4 S5a step 1, l. 5718\u20135719: replace '\u2014 and the arcs a land barrier closes are impassable to routes as the wall is (\u00a74.2 S3 (7), (9))' with '\u2014 and in a walled stage the arcs a land barrier closes are impassable to routes as the wall is (\u00a74.2 S3 (7)), while an unwalled one's routes cross them where \u00a74.3's class grade limit admits an edge, else F-ROUTE's `unserved` (\u00a74.2 S3 (9) (a))'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-08",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "II.7.2's per-bank outfall sentence (l. 20636\u201320642, VAL-R1-07's text under R2-25 (b)) gives the no-outfall case only to 'a bank whose stretch of the boundary lies wholly on water and that holds no candidate'. Its home, V04 \u00a73.2 N2 (l. 990\u2013991), reads 'A bank whose stretch is empty or lies wholly on water \u2026 and that holds no candidate makes none', and T-V4-80 (j) tests 'a stretch empty or wholly on water'. The base text sends an empty-stretch bank down 'else its own field outfall', but a field outfall follows a stretch cell's D8 path, so such a bank has none to follow. The base thus gives a different outcome from its home.",
+  "required_change": "II.7.2, l. 20638\u201320639: read 'and a bank whose stretch of the boundary is empty or lies wholly on water and that holds no candidate drains by gutter and pit, its area reported unsewered'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-09",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a710.2 *Crisis looks* (f) (l. 15412) ends the disaster look as a whole: '`disaster`: (d)'s `neighbourhoods`, ending in the week its `reconstruction` Works begins (V06: no week draws both)'. V06 \u00a73.22 (3) (l. 3326\u20133336) and J-V6.138 (l. 4383) instead end the look building by building. Each building's ruin ends when `crisisLookYields` turns true, that is when a Works other than `decay` has started on it, and 'a building no rebuild reaches keeps the look until its condition ends'. J-V6.138 records this as chosen over 'ending the whole look in the week the first rebuild's Works begins'. Read literally, the base ends every building's ruin at the first rebuild's week, which disagrees with V06, the look's hand-over home.",
+  "required_change": "\u00a710.2 *Crisis looks* (f), l. 15412: read '`disaster`: (d)'s `neighbourhoods`, each building's ruin ending in the week a rebuild Works on it begins (V06 \u00a73.22 (3)'s `crisisLookYields`; a `decay` Works never ends it) and a building no rebuild reaches keeping it until its condition ends, so no week draws both'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-11",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "Inputs dangle before their milestones. \u00a710.2's crisis looks land at M3b (l. 15345\u201315346; R2-36). Their placement reads V01's `disasterDistricts` for `neighbourhoods` and for `affectedQuarter`'s target matching (l. 15385, 15393), which V01 builds in W10 at M5 (V01 l. 3418), and V06's `frontierFor` for `approachByGate` (l. 15381\u201315382), which V06 builds in E2 at M6-E (V06 l. 4112). The village rungs' units are V07's later steps. From M3b to those milestones these inputs are absent and the base states no outcome, so between M3b and M5 a standing disaster condition or a preview has no districts to ruin, and a refugee camp has no ranking. R2-36's 'a look or view whose subject is not yet built draws nothing of that part' is written in no design text.",
+  "required_change": "\u00a710.2 *Crisis looks*, after 'every condition reads `none`' (l. 15347): add 'Until V01's W10 (M5) the `disaster` look draws no district (its legend line and Find's listing stand) and `affectedQuarter` is the district with the most households per hectare; until V06's E2 (M6-E) `approachByGate` ranks the main approach road's `campLand` faces by nearness to its gate (V06 \u00a73.22 (2) (d)'s no-frontier answer); at the village rungs before V07's step the village draws no disaster unit \u2014 a part whose subject is not yet built draws nothing (R2-36)'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-12",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "The declared shape and its rows disagree on their columns. \u00a710.2's `CrisisLookRow` (l. 15014\u201315019) declares `kind`, `place`, `band`, `scale`, `priority` and `lookLevel?`. V11 \u00a73.25.9's look rows, which cite it as their shape (V11 l. 796\u2013797), also carry a `label` column ('Siege camps', \u2026, l. 4518\u20134530), listed among 'the display cells (`label`, `icon?` \u2026 on \u2026 crisis looks)' (V11 l. 860). Registry row 107 says V09's Show crises list and 'Find's list of looks by `label`' read it (l. 1029), and \u00a78.2's legend names each look standing. The base shape has no such field (principle (10): the same table and columns).",
+  "required_change": "\u00a710.2's `CrisisLookRow`: add `label: string; icon?: string /* the display cells (V11 \u00a72.3, V11 \u00a73.1's *Display cells*): the words V09's Show crises list, Find's list of looks and \u00a78.2's legend give the look; read by no stage */`.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-14",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a710.2 *Crisis looks* is ambiguous about how a look's camped ground divides among its camps. (c) (l. 15363\u201315365) sizes by headcount with 'each army its own camp of `areaPerHeadM2` \u00d7 its heads', but (d)'s `approachRoads` (l. 15379\u201315380) places 'one camp per road'. With the dossier's forces given, a one-army blockade of a town with four approach roads is one camp by (c) and four by (d). With none given, the text does not say whether the row's `scale` (the look's camped ground at the rung, V11 l. 4515\u20134517) is divided among the roads' camps or taken by each.",
+  "required_change": "\u00a710.2 *Crisis looks* (d), `approachRoads`: read '\u2014 the verges of each arterial leaving the settlement beyond its built edge, one camp per road, the look's camped ground divided equally among them (the remainder to the roads in trade-weight order); with the dossier's forces, each army's camp (c) whole on one road, the armies in descending size onto the roads in trade-weight order, a road taking a second army only when every road holds one; \u2026'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-15",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "Repair r2 (R2-28 (a)) makes S1 (10)'s mining test read `miningCellShare`, 'V11 \u00a73.23.1's `under.systems` cavern-row cell' (l. 5123\u20135125), and S1 runs at every generation from M1. The cell is a value of `under.systems`' cavern row (registry row 59), which ships with the underground layer's rows (V04's U3; V12 l. 2156 measures it 'at `V4-U3`'). The text states no outcome when that row is absent: before the layer's rows ship, or in a pack without the cavern row. 'At least `miningCellShare` of the frame's land cells' then has no value, and S1 still writes `Terrain.mining`.",
+  "required_change": "\u00a74.2 S1 (10): after the test add 'with no `under.systems` cavern row (before the underground layer's rows ship), the ore clause reads false and the flag rests on the roster and dossier clauses \u2014 its one reader, II.7.6's cavern rule, runs only with that layer, and \u00a77.6's table-edit invalidation re-derives S1 when the row lands'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-16",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a74.7 S10b's supply web (l. 6900\u20136901) places an import's store 'at the gate or quay facing its partner's bearing (the realm block's, items 77, 85)'. Owner rule 125 (a) retires the realm block as an input: \u00a77.7 item 1 (l. 11704\u201311707) says 'item 396's realm block is no input: the bearings \u2026 are the dossier's where it carries them, else the generator's defaults or the user's settings (DR1, DR3, DR19\u2026)', and J-A125.01 records 'the realm block and `realmBlockFrom` retired'. The base thus still names a retired source for the partner's bearing.",
+  "required_change": "\u00a74.7, l. 6901: replace '(the realm block's, items 77, 85)' with '(the trade slice's partner bearing, \u00a77.7 layer 2 and DR3; item 77)'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-17",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "R2-11 (canon change): \u00a77.7's derivation rows are cited by number (J-VI.13). The item-117 week-and-season row is DR42, the item-114 generation-condition row DR41, and the unnumbered '\u00a77.7's calendar row' wording is retired. This unit still cites rows by description in four places: \u00a74.2 S0 (l. 4943), \u00a74.9 (l. 7773) and \u00a710.2 *Seasons* (l. 15332) read '\u00a77.7's season derivation row'; \u00a74.8 *Condition at generation* (l. 7493) reads '\u00a77.7's condition row'.",
+  "required_change": "l. 4943, 7773 and 15332: replace '\u00a77.7's season derivation row' with '\u00a77.7's DR42'. l. 7493: replace '\u00a77.7's condition row' with '\u00a77.7's DR41'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VRC2T-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a710.2 *Crisis looks* (d) \u2014 the placement rule's home \u2014 says 'A look stands only on the ground arena's part 0 and never on water, a way's carriageway, a gate's passage \u2026 or a label's keep-out', while its own (f) draws `raiders` 'barricaded roads' and `rebellion` 'street barricades' (item 122 (b)), and \u00a78.2's table draws them as a `barricade` across the way; the two statements of one table contradict each other, and V12's T122-6 measure inherits the carriageway clause (VRC2T-02, VRC2T-04 are its other ends).",
+  "required_change": "\u00a710.2 (d)'s sentence reads '\u2026 never on water, a gate's passage (its opening and 4 m along its way each side \u2026) or a label's keep-out, and on a way's carriageway only a `barricade` across it ((f)'s `raiders` barricaded roads and `rebellion` street barricades, \u00a78.2's `blockade` barricade; item 122 (b)) \u2014 never a camp or any other part'.",
+  "owner": "pipeline",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VV56-r2-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (f) (l. 15411\u201315412): \"`disaster`: (d)'s `neighbourhoods`, ending in the week its `reconstruction` Works begins (V06: no week draws both)\" \u2014 the whole look at one week; V06 \u00a73.22 (3) (R2-37 (6)'s home) ends it per building by `crisisLookYields`, as V06's hand-off to pipeline asked.",
+  "required_change": "\u00a710.2 (f): \"`disaster`: (d)'s `neighbourhoods`, each building leaving the look in the week a Works other than a `decay` Works begins on it (V06 \u00a73.22 (3)'s `crisisLookYields`), so no week draws both\".",
+  "reported_by": "verify-vol-V05-V06-r2t"
+ },
+ {
+  "id": "VV56-r2-07",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (d)'s `approachByGate` ranks `campLand` \"nearest V06's `frontierFor(doc, households)`: where the next growth would seat the camp's people\". The camp is sized in heads or camped m\u00b2 ((c): headcount, else `exodus` or arrivals, else severity and tier), while V06 \u00a73.22 (2) (a) takes \"the roster's next `households` ordinals above the present population\"; no unit says which count the caller passes (a dangling input of a two-ended hook).",
+  "required_change": "\u00a710.2 (d): \"`approachByGate` \u2014 the `campLand` faces along the main approach road by its gate, nearest V06's `frontierFor(doc, h)`, `h` the households the sequential roster adds between the present population and that population plus the camp's heads (its headcount by (c), else its camped ground \u00f7 `areaPerHeadM2`): where the next growth would seat the camp's people (V06 \u00a73.22 (2))\".",
+  "reported_by": "verify-vol-V05-V06-r2t"
+ },
+ {
+  "id": "VV56-r2-08",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (b) (l. 15358): \"the regional_* pressures are `none`\". Item 122 (b) names \"**mass immigration** (regional_migration_pressure, REFUGEE_WAVE)\" a refugee camp, and V11 \u00a73.25.9 (l. 4559, 4562) maps `regional_migration_pressure` \u2192 `refugeeCamp` (\"the other `regional_*` pressures are its 'no look'\"); T-V6-75's camp fixture uses that condition.",
+  "required_change": "\u00a710.2 (b): \"\u2026 the other `regional_*` pressures are `none` (`regional_migration_pressure` is item 122 (b)'s mass immigration and draws the refugee camp, V11 \u00a73.25.9)\".",
+  "reported_by": "verify-vol-V05-V06-r2t"
+ },
+ {
+  "id": "VV78-r2-05",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 *Crisis looks*, the placement home, does not carry V07 \u00a75.6's village readings, so V07's part has no implementer at its base end. These are V07's repair HAND-OFFS, not closed at their destination (principle (10)). (c) states no count for 'the share of its place's units': at small n (three outlying farms, a handful of palisade runs) a positive share can round to nothing while the look 'stands' \u2014 an undefined edge at every rung. V07 \u00a75.6 (1) applies V01 \u00a73.16 (5)'s round(s \u00d7 n) clamped to [1, n] at the village rungs only. (d) defines the main approach road by \u00a74.3's `TradeFlow` (a town's) and `affectedQuarter` as 'the district \u2026'; a village holds one district, so `affectedQuarter` is the whole village. V07 \u00a75.6 (2) reads them as the DR3-weighted `through` entry and one end; only `neighbourhoods` cites V07. (f) draws `siege`'s 'line of trenches and earthworks round the walled arcs' at every rung with walled arcs, and \u00a78.2's siege row draws it. But item 122 (c) gives 'a hamlet \u2026 a war band's camp, a city a full siege line', and V07 \u00a75.6 (1) and T-V7-69 (a) require no line at THORP or HAMLET. No V11 `scale` cell can suppress the line (they are camped-ground areas).",
+  "required_change": "\u00a710.2 *Crisis looks*: (c) after 'else the share of its place's units ((d))' add 'a share s of a place's n units takes round(s \u00d7 n) clamped to [1, n] where s > 0 and none where s \u2264 0 \u2014 V01 \u00a73.16 (5)'s count, one rule for every place at every rung'. (d) after 'Each place ranks its land or units, ties by the keyed draw:' add 'at THORP, HAMLET and VILLAGE the main approach road, the outskirts' land and each place below read on the village's records as V07 \u00a75.6 (2) states, `affectedQuarter` a unit of V07 \u00a75.6 (3)'. (f) `siege`: 'a line of trenches and earthworks round the walled arcs at it' \u2192 'at VILLAGE and above, a line of trenches and earthworks round the walled arcs at it \u2014 none at THORP and HAMLET, item 122 (c)'s war band's camp (V07 \u00a75.6 (1))'. (h): 'THORP to the METROPOLIS cap: each rung's `scale` cell' \u2192 '\u2026, and no siege line at THORP and HAMLET'.",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ }
+]

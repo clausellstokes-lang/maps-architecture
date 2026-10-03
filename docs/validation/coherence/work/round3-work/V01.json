@@ -1,0 +1,47 @@
+[
+ {
+  "id": "VPC-R2-05",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "This hook has one end. Repair r2 made every cliff inside a district S8's hole (\u00a74.6, l. 6332\u20136339), and the base adds 'V01's fabrics read the band's two edges as V01 \u00a73.6 (7)'s hard `cliff` run'. V01 \u00a73.6 (7) (l. 1428\u20131432) types only 'A boundary run on a barrier-closure arc \u2026 by II.1's seam typing'. The cliff band's edges lie inside a district and are no boundary run, so V01 never reads them: the rear-plot rule, portal-free and no wall street are undefined there for V01's fabrics. V01's combination row (l. 2680) likewise covers only 'a cliff and a district (a hard `cliff` run)'. The pipeline repair recorded this as a HAND-OFF to V01, which was not applied.",
+  "required_change": "V01 \u00a73.6 (7): add 'The two edges of \u00a74.6 S8's cliff band inside a district \u2014 an S1 `cliff` feature or ground over `walls.barriers`' `cliff` threshold, widened by `shoreSetback`'s `cliff` distance \u2014 read the same way: a hard `cliff` run, portal-free, the rear-plot rule, never a wall street; no seed, fan or lane of a fabric lies in or crosses the band (\u00a74.6)'. Extend the combination row at l. 2680 to 'a cliff inside a district or on its boundary', with T-V1-45 gaining a fixture of a cliff across a district's interior.",
+  "owner": "V01",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VV12-r2-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V01",
+  "claim": "Two units pick a disaster overlay's calamity by different rules. V01 \u00a73.16 (2) takes the latest `CalamityRef` among the committed `epoch` events whose week lies inside the overlay's weeks [`sinceWeek`, `untilWeek`), ties by severity band then id; J-V1.104 records it 'over a new field on `ConditionOverlay`', and \u00a71b's dossier row and \u00a73.18 (e)'s 'no calamity in the overlay's weeks' follow it. V08 \u00a73.16 (7) (d) is the port's home for the condition's crisis fields (V08 \u00a72.3's carried `condition` fact `calamity`; W97; the `calamityHistory[]` field-table row). It links a condition to 'the carried calamity whose week equals its `triggeredAt.tick`, else \u2026 the latest carried calamity in the 52 weeks up to its `sinceWeek`', and states that DR44 reads that calamity's `targets` ('which V01's `disasterDistricts` takes first') and its type for the pattern. The rules disagree twice. V08's fallback window lies before `sinceWeek`, where V01 never looks. And where a disaster condition's weeks also hold a later calamity (a plague, a war, a second fire), V01 takes the later one: its targets are struck and its hazard's pattern is drawn (a plague's null hazard gives `scatter` for a great fire's look). Which districts look ruined depends on which unit's rule is built.",
+  "required_change": "V01 \u00a73.16 (2) reads: \"**The calamity.** The overlay's calamity is the carried calamity its condition's `calamity` crisis field names (V08 \u00a72.3's `condition` fact under the overlay's key; V08 \u00a73.16 (7) (d)), read as the `CalamityRef` of that id among the committed `epoch` events' `calamity` entries (\u00a74.11; V08 \u00a73.6). An overlay whose condition carries no `calamity`, a named calamity no committed event holds, and a preview give no calamity.\" The pattern sentence is kept. J-V1.104's clause from 'to find the overlay's calamity' to 'the port carries' reads: \"to take the overlay's calamity from its condition's carried `calamity` field (V08 \u00a73.16 (7) (d)) and read its pattern through V06 \u00a72.4's calamity table, over an association of this volume's own by week or a second table of calamity words, because the port alone reads the condition's trigger tick, item 122 adds nothing to the model (\u00a72.7) and V06's table already types every calamity word the port carries\". \u00a71b's dossier row names \"`activeConditions[]`' crisis field `calamity` (V08 \u00a73.16 (7) (d))\" beside `calamityHistory[]`. \u00a73.18 (e)'s case 'no calamity in the overlay's weeks' reads 'no calamity linked to the condition'. T-V1-60 (d) adds a disaster condition whose weeks also hold a later calamity of another type: the linked calamity's targets are struck, with its pattern.",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV12-r2-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V01",
+  "claim": "Item 122 (b), approved by the owner, places mass immigration's look as 'a tent and shanty camp on common or fallow land along the main approach road by a gate'. V01 \u00a73.16 `campLand` (2) counts as 'verges of the approach roads' every `meadow`, `pasture`, `arable` and `strip_field` face bordering an arterial within `camp.reachM`. That includes arable and strip fields in crop, outside their fallow course. \u00a710.2 (d)'s `approachByGate` (the refugee camp), `approachRoads`' fallback, `outside` and `gatesAndKeep`'s camp take those faces, so a refugee camp may stand on a field in crop, against the owner's words. J-V1.105 ('the open verges of the arterials') and T-V1-60 (e) carry V01's reading.",
+  "required_change": "V01 \u00a73.16 `campLand` (2) reads: \"the **verges of the approach roads** \u2014 the `commons` faces, and the `arable` and `strip_field` faces in their rotation's fallow course (\u00a74.9), bordering an arterial that leaves the settlement, within `camp.reachM` of where it leaves (its gate, else the built edge)\". Its 'Never a face of another kind' sentence adds 'nor a field in crop'. J-V1.105 adds \"and to take the land beside the road only where it is common or fallow, because the owner's camps stand on common or fallow land (item 122 (b))\". T-V1-60 (e) asserts 0 `arable` or `strip_field` faces outside their fallow course and 0 `meadow` or `pasture` faces in `campLand`. \u00a73.18 (e)'s outskirts row gains the case 'neither common nor fallow land within reach', whose outcome is the empty list (\u00a710.2 (h)'s ring marks).",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV12-r2-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V01",
+  "claim": "V01 \u00a73.16 (4) opens the strike order with every matched unit, by ascending u, then grows by the pattern. A fire whose calamity names two districts that are not adjacent therefore strikes a set that is not connected. T-V1-60 (a) nonetheless asserts 'a fire's set connected over district adjacency, each unit after the first the frontier's farthest downwind of the seed'. T-V1-60 (d)'s own fixture (a calamity naming a district's institution) breaks that bar as soon as it names two.",
+  "required_change": "T-V1-60 (a)'s fire clause reads: \"a fire's units after its matched ones each adjacent to a unit before it in the order and each the frontier's farthest downwind of the seed (nearest under calm); with at most one matched unit, the set connected over district adjacency\".",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV78-r2-06",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V01",
+  "claim": "V01 \u00a73.16, the hub every reader of a disaster's units goes through, does not wire V07 \u00a75.6 (3) and (2), which V07's repair handed off. (a) \u00a73.16 (1) says the village rungs' units are 'V07's \u2014 its ends (`VillageEnd`, V07 \u00a73.10)'. It names neither V07's builder `villageDisasterUnits` nor the unit's land `villageUnitPlots`, and V02 \u00a75.7, V03 \u00a75.6 and \u00a78.2's disaster row read 'every building of each' returned unit by district. So at a village rung no reader finds an end's buildings and plots: one-ended hooks. (b) \u00a73.16 (3) maps a target 'a use, or any entity on a plot, by its plot's district'. At a village rung that is the one `village` district, which is no unit, so a calamity's named target is reported `unmatched` and the pattern strikes instead. V07 \u00a75.6 (3) matches it to the unit holding its plot: a targeted disaster ruins a different end in the two units, and the first `matched` unit `affectedQuarter` reads is empty. (c) `campLand` reads the districts' outer boundary and arterials and states no village reading. V07 \u00a75.6 (2) reads the perimeter or the palisade's outer strip, the fallow furlongs and the entries' ways.",
+  "required_change": "V01 \u00a73.16 `disasterSource` (1): 'the units are V07's \u2014 its ends (`VillageEnd`, V07 \u00a73.10), or in an end-less thorp its contiguous toft groups \u2014 in the same shape' \u2192 'the units are V07 \u00a75.6 (3)'s `villageDisasterUnits` \u2014 its ends, or in an end-less thorp its toft groups \u2014 in the same shape, each unit's land `villageUnitPlots` (V07 \u00a75.6 (3)), whose buildings and faces V02 \u00a75.7, V03 \u00a75.6 and \u00a78.2's disaster row read for a returned unit'. (3): add 'At THORP, HAMLET and VILLAGE a use or any entity on a plot names the unit holding its plot, and a target naming the `village` district names every unit (V07 \u00a75.6 (3))'. `campLand`: add 'At THORP, HAMLET and VILLAGE it reads the village's records as V07 \u00a75.6 (2) states \u2014 the perimeter (V07 \u00a73.7), or the palisade's outer strip where that lies beyond it, as the built edge; the furlongs in their fallow course as the fallow faces; the entries' ways as the approach roads'.",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ }
+]

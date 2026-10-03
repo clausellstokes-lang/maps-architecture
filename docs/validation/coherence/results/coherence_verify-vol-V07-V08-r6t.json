@@ -1,0 +1,30 @@
+{
+ "key": "coherence/verify-vol-V07-V08-r6t",
+ "file": "docs/validation/coherence/verify-vol-V07-V08-r6t.md",
+ "issues": [
+  {
+   "id": "VV78-r6-01",
+   "severity": "minor",
+   "kind": "EDGE-UNTESTED",
+   "claim": "§2.7's crossing table gives the hand-off down (row W9) for every raised-way state, and its cells W9·C3 (one span over the band fallen), C4 (every span fallen), C5 (a support in or by the band cleared or toppled), C6 (a `vault` span breached) and C8 (held) each read \"as C2 · T-V7-48\". T-V7-48 holds the hand-off down only with a standing deck — \"the carried-down raised way meeting the palisade as it met its CITY fixture's innermost ring\" — and with a frame-grown one (C12); its clause \"after a support is `cleared` the band stands whole across its footprint\" is tied to no hand-off. So no bar runs the hand-off of a ring whose span over it has fallen, whose support is cleared or whose raised way is locked. Likewise W1's last column reports `W_RAISED_CROSSING` once per crossing of a deck line for every W1 trace, VS3's palisade among them, and the village cell W1·C2 names T-V7-48, whose palisade clauses assert no report. Each outcome is defined (*unchanged meeting*, read as *beneath*), the readings are run at a town (T110-2 (7)) and the hand-off's unchanged fabric by T-V7-51, so nothing built changes: a cell naming a test for a case the test does not hold (R6-11's class), MINOR.",
+   "required_change": "V07 ## 7, T-V7-48: after \"its line bent to cross the declared aqueduct under a span and to pass beyond each ramp's foot, no ramp, stair or foot in it,\" add \"each crossing of the palisade's line with a deck line reported `W_RAISED_CROSSING` once (§2.7's crossing table, W1),\"; and after \"its deck extended by a frame growth before the hand-off down, carried down and meeting the palisade as a standing raised way does;\" add \"that CITY fixture also handed down after V06 §3.19.2's decline, scripted, has left one span over its innermost ring `ruined` (a `vault` span in one variant), every span over that ring fallen, or a support in the ring's band `cleared`, and once with the raised way locked — in each the hand-off writing nothing of the raised way or the ring's runs, and the palisade read by §2.7's crossing table, *beneath* (its run at its own top beneath each fallen span, no chamber under the `vault` span, the band whole across the cleared support's footprint);\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VV78-r6-02",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "VAL-R5-03's T-V7-48 text (as Part H words it) adds clauses that run V06's E3 steps on the carried-down fixture: \"a V07 §3.4 (8) decay … of the palisade's run beneath the carried-down deck\" (V06 §3.7's walls step at a village epoch, V06 §3.7.7, E3) and \"`absorbWall` of the palisade beneath it\" (V06 §2.8's EvolveOp, built at E3, V06 §8's E3 row); the fixture itself is handed down by V06's epochs, as T-V7-51's is. T-V7-48's tier cell reads \"C | V-M3\". V07 ## 8's V-M3 exit names \"the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-50's desertion clause, T-V7-35's promotion clause over epochs, T-V7-51, T-V7-59, T-V7-62's epoch clause) at V-M3's exit where M6-E's E2–E4 have landed, else at the first V07 exit after E4\", and V07 §1 (14) lists the V06 steps V-M3's clauses run; neither names T-V7-48's clauses or the walls step, and risk (8) moves only T-V7-48's arch-vault and decline readings. R5-05 (c) and R6-09: a clause whose provider lands later runs at the first exit after it, each named in its volume. A milestone cell omitting a clause; MINOR.",
+   "required_change": "V07 ## 8's V-M3 exit cell: \"the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-50's desertion clause\" → \"the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-48's carried-down clauses — the CITY fixture handed down, its frame growth, the palisade's decay beneath its deck and the hand `absorbWall` —, T-V7-50's desertion clause\". T-V7-48's tier cell \"V-M3\" → \"V-M3 (its carried-down clauses as ## 8's V-M3 exit states)\". V07 §1 (14): \"and a carried raised way's decline (V06 §3.19.2, E3);\" → \", a carried raised way's decline (V06 §3.19.2, E3) and the walls step's condition and `absorbWall` on the palisade (V06 §3.7.7, V06 §2.8, E3);\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VV78-r6-03",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "VEL5-r5-03's fix split T-V8-11's tier: \"nightly, SF3; the uncarried-calamity clause nightly, SF4\" (the strike needs SF4's calamities into `EpochInputs`, T-V8-42). V08's other split tiers (T-V8-18, T-V8-40, T-V8-46, T-V8-53) have their later clauses named in the later milestone's exit cell (the VH row: \"T-V8-40's, T-V8-46's, T-V8-53's and T-V8-18's village clauses\"). SF4's exit cell — \"T-V8-16, T-V8-18, …, T-V8-59, T-V8-60\" — does not name T-V8-11's clause, and SF3's names T-V8-11 whole, so the milestone table schedules the clause at SF3, before its provider. A milestone cell omitting a clause its test's tier names; MINOR.",
+   "required_change": "V08 ## 8's SF4 row, its exit cell: \"T-V8-16, T-V8-18,\" → \"T-V8-11's uncarried-calamity clause, T-V8-16, T-V8-18,\"; and SF3's exit cell \"T-V8-11,\" → \"T-V8-11 (its uncarried-calamity clause at SF4),\".",
+   "owner": "V08"
+  }
+ ]
+}

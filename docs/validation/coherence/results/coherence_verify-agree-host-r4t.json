@@ -1,0 +1,38 @@
+{
+ "key": "coherence/verify-agree-host-r4t",
+ "file": "docs/validation/coherence/verify-agree-host-r4t.md",
+ "issues": [
+  {
+   "id": "VAH-r4-01",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V09",
+   "claim": "R4-03 makes an element a restoring event's re-cut mints enter the damage at the week that restoration ends: 'an element is compared with the level only from its entry week' (V03 §5.6 (2) (a), END written) and is 'never drawn damaged by that restoration nor repaired' (§2.6 step 7, base l. 2099–2101; V06 §3.23 (3)). V10, a reader of the same lines, took both (§3.9a l. 1829 'shown damaged, from its entry week into the plan'; l. 1856 'or that a restoring re-cut minted, never among them'). V09 took neither: §4.21.13 (1) (l. 3678–3680) 'an element shows damaged while the building's decay level is above 0 and at least its threshold t'; §4.21.13 (2) (l. 3698–3699) 'an element the plan gained after its damage left is drawn as built'; row 92 (l. 1612) the same. For a `reoccupy` whose re-cut is made while its `repair` Works runs, V09's gloss draws the minted partitions, doors and furniture damaged where V03, V06, §2.6 and V10 draw them as built. V09's lines are V03's damage layer (§1b l. 378; §2.12 l. 1010), so nothing built changes; only V09's gloss is narrower. It is VDC4-01's omission (§6.3) at V09, one fix with it.",
+   "required_change": "V09 §4.21.13 (1), after 'at least its threshold t': ', compared from its entry week into the plan (V03 §5.6 (2) (a)–(b); for an element a restoring event's re-cut mints, the week that restoration ends, V06 §3.23 (3))'. §4.21.13 (2): 'an element the plan gained after its damage left is drawn as built' → 'an element the plan gained after its damage left, or that a restoring event's re-cut minted, is drawn as built — never damaged by that restoration nor repaired'. Row 92's restored outcome: 'an element the plan gained after its damage left drawn as built' → 'an element the plan gained after its damage left, or a restoring re-cut minted, drawn as built'."
+  },
+  {
+   "id": "VAH-r4-02",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V10",
+   "claim": "R4-12 amends R3-24's 'restricted to the entities that frame holds': at a drawn week whose frame is not the head a chip's matches are §11.2's listing at that week — the frame's own, 'a building matched by its use at that week, never its head use, and an entity or use the frame holds matched though the head has since closed, moved or demolished it' (§11.2 *At a drawn week*, base l. 16455; §8.2 l. 13150–13154); V09 §4.21.10 (8) took the END line. V10, bound by no R4-12 text, keeps the superseded form and cites the panel for it: §3.9b (7) (l. 2002–2004) 'at a drawn week whose frame is not the head (V06 §3.15.2) each chip counts, lists and gaps only the entities that frame holds … as the panel does (V09 §4.21.10 (8))'; T-V10-51 (l. 3141) 'they equal the panel's over that frame's entities'. 'Only the entities that frame holds' restricts the head's matches, so a use closed since that week, or a building whose use changed, is unmatched where §11.2, §8.2 and V09 match it. The read passes the week to §11.2's gazetteer and reports its answer, so nothing built changes; the gloss and the bar's wording are R3-24's.",
+   "required_change": "V10 §3.9b (7): 'so at a drawn week whose frame is not the head (V06 §3.15.2) each chip counts, lists and gaps only the entities that frame holds — a chip with none there counting 0 for that week' → 'so at a drawn week whose frame is not the head (V06 §3.15.2) each chip's count, matches and gaps are §11.2's listing at that week (*At a drawn week*: the frame's matches, a building matched by its use at that week, never its head use) — a chip with none there counting 0 for that week', the rest as it stands. T-V10-51: 'they equal the panel's over that frame's entities' → 'they equal the panel's — §11.2's listing at that week, a building whose use changed since matched by its use then'."
+  },
+  {
+   "id": "VAH-r4-03",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "scope",
+   "claim": "R4-15 (d) splits the port's two shape refusals by the required keys: a dossier lacking a `requiredKeys` key of every registered adapter is `E_UNKNOWN_SHAPE` (B3); one holding every required key of a line that no registered adapter accepts is `E_LINE_UNSUPPORTED` (B5). V08 §2.4 *Selection* (l. 696–698), §3.5 steps 1 and 3 (l. 1601, 1605), B3 and B5 (l. 2044, 2046) and T-V8-14 state it. §14's port item 2 (base l. 19705–19706), which names `select` as V08 §2.4's, still reads 'A shape no adapter recognises is refused `E_UNKNOWN_SHAPE` (a hand-made teaching file among them), a line no adapter serves `E_LINE_UNSUPPORTED`.' `recognise` is the adapter's shape test (V08 l. 579–582: the required keys, the readable stamps, the institution record shape), so 'a shape no adapter recognises' reads as every dossier no adapter accepts: a dossier holding every required key whose readable `schemaVersion` no adapter serves, or whose institution records no adapter's `recognise` accepts, is `E_LINE_UNSUPPORTED` by V08 and `E_UNKNOWN_SHAPE` by §14's words. `select`'s home is V08 §2.4, which a builder of the port follows, so nothing built changes.",
+   "required_change": "§14 port item 2, l. 19705–19706: 'A shape no adapter recognises is refused `E_UNKNOWN_SHAPE` (a hand-made teaching file among them), a line no adapter serves `E_LINE_UNSUPPORTED`.' → '`select` refuses a dossier that lacks a required key of every registered adapter — no dossier of any registered line, a hand-made teaching file among them — `E_UNKNOWN_SHAPE`, and one that holds every required key of a line but no registered adapter accepts `E_LINE_UNSUPPORTED` (V08 §2.4).'"
+  },
+  {
+   "id": "VAH-r4-04",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "scope",
+   "claim": "§14's `PortNote` kind `field_fallback` (base l. 19606) reads 'a field the port reads that the dossier lacks, leaves empty or gives unreadable, its fallback taken — at an absorb the carried fact standing (V08 §2.4, V08 §3.5)'. V08 §3.5's absorb rule (l. 1674–1683), the home R4-15 (a) made, defines the case — 'its path absent, or its value of no form its row reads: an empty string, a `null` (save where its row reads `null` as a value), a wrong type …' — and adds 'An empty list is a value — the dossier lists none — and is compared as read'; the field table's lead (l. 626–627), its one-input edge row (l. 2686) and T-V8-61 (a) ('one whose `activeConditions` is `[]` and `stressors` `null` retires every carried condition and stressor overlay') say the same. Read by §14's words, `activeConditions: []` at an absorb — the ordinary dossier after its last crisis ends — 'leaves empty' a read field, takes its fallback and keeps every carried condition standing, where V08 retires them. The note's emission and the diff are V08 §3.5's, which §14 cites, so nothing built changes; the comment's 'empty' is wider than the home's.",
+   "required_change": "§14 l. 19606, the `field_fallback` comment: 'a field the port reads that the dossier lacks, leaves empty or gives unreadable, its fallback taken — at an absorb the carried fact standing (V08 §2.4, V08 §3.5)' → 'a field the port reads that the dossier lacks, leaves empty or gives unreadable (V08 §3.5: its path absent or its value of no form its row reads; an empty list is a value, compared as read), its fallback taken — at an absorb the carried fact standing (V08 §2.4, V08 §3.5)'."
+  }
+ ]
+}

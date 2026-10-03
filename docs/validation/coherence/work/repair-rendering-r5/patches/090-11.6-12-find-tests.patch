@@ -1,0 +1,43 @@
+# §11.6 T-ER-19 VRC4T-03: `vtt.squareM` 1.25 and a `NaN` `vtt.pxPerSquare`; VAT-r4-02 (4): a picture of a map holding
+# view pins with `pins` absent and true — one-to-one in input, outcome and bar.
+@@ FILE 11.6.md
+<<<<
+`vtt.pxPerSquare` 30, `vtt.squareM` 2,
+====
+`vtt.pxPerSquare` 30, `vtt.squareM` 2, `vtt.squareM` 1.25, a `NaN` `vtt.pxPerSquare`,
+>>>>
+<<<<
+a `frame` outside the limit bounds |
+====
+a `frame` outside the limit bounds; a picture of a map holding view pins with `pins` absent and with `pins` true |
+>>>>
+<<<<
+clamped where a nearest lawful value exists (50 px, 1.5 m, the district band), the file made at it and the clamp named in its `plat.clamped`, else refused with `E_EXPORT_OPTION` naming the member, nothing written — never a crash or a hang |
+====
+clamped where a nearest lawful value exists (50 px, 1.5 m — 1.25 m to 1.5 m, the default —, the district band), the file made at it and the clamp named in its `plat.clamped`, else refused with `E_EXPORT_OPTION` naming the member (the `NaN` member among them, never clamped), nothing written — never a crash or a hang; no annotation drawn, then every pin drawn |
+>>>>
+<<<<
+each out-of-range request clamped and named or refused as stated |
+====
+each out-of-range request clamped and named or refused as stated; the pins picture as stated |
+>>>>
+# §12.5 VRC4T-04 (R5-05 (a)–(b)): the index's triggers (a commit and a change of the effective key) and the drawn
+# week's re-evaluation budget, the chip glow's ≈ 100 ms (item 119 (d)'s budgets unchanged); the index's sources read
+# R5-05 (a)'s one reader list (V07 §5.5's village reading added).
+@@ FILE 12.5.md
+<<<<
+V01's areas and gaps and V04's and V05's places) rebuilt by the generation worker once per commit, off the commit's
+path; no base tile re-rastered for a chip (R12-35).
+====
+V01's areas and gaps, V04's and V05's places and V07 §5.5's village reading) rebuilt by the generation worker once per
+commit and at each change of the effective key, off the commit's path; each change of the drawn week re-evaluates the
+chips' listing (§11.2's *At a drawn week*) off the scrub's path, within ≈ 100 ms of the frame being drawn at the
+METROPOLIS cap (V06 §6.4), the frame never waiting for it; no base tile re-rastered for a chip (R12-35).
+>>>>
+# §12.10 R12-35 VRC4T-04 (R5-05 (b)–(c)): the drawn week's re-evaluation timed, at the later of M5 and V06's E6.
+@@ FILE 12.10.md
+<<<<
+| R12-35 | Find's overlay budget: suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of its click, the index once per commit (§12.5; g item 120 (j)) | V12 §3.15.10's `time.findSuggest` and `time.findGlow` on V09's app harness at the METROPOLIS cap, in §12.1's timing phase, at M5 (§16) | p95 ≤ 50 ms and ≤ 100 ms (T120-6); 0 base tiles re-rastered by a chip change |
+====
+| R12-35 | Find's overlay budget: suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of its click, the index once per commit and at each change of the effective key, a drawn week's chips re-evaluated ≈ 100 ms of its frame being drawn (§12.5; g item 120 (j)) | V12 §3.15.10's `time.findSuggest` and `time.findGlow` (the glow from a chip's click, and from a scrubbed week's frame being drawn) on V09's app harness at the METROPOLIS cap, in §12.1's timing phase, at M5 (§16), the scrubbed week's from the later of M5 and V06's E6 (V06 §3.15.2's frames) | p95 ≤ 50 ms, ≤ 100 ms and ≤ 100 ms (T120-6; T-ER-25), the frame never waiting for Find; 0 base tiles re-rastered by a chip change |
+>>>>

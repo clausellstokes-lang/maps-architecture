@@ -1,0 +1,17 @@
+files 6; blocks 47 found, 47 applied, 0 skipped
+  NOTE repair-r3-kernel.md #3 (l. 199) J-ROWS — DUPLICATE ID inserted (an id the table already holds): ['J-A81.31']
+  NOTE repair-r3-kernel.md #4 (l. 203) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-A81.31']
+  NOTE repair-r3-rendering.md #14 (l. 2813) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-A68.89']
+  NOTE repair-r3-scope.md #8 (l. 2001) J-ROWS — DUPLICATE ID inserted (an id the table already holds): ['J-A120.01']
+  NOTE repair-r3-scope.md #9 (l. 2005) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-A120.01']
+audit: 47 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: ['J-A68.89']
+  j_ids_in_two_blocks: {}
+  document index rows: 807
+  document index duplicate ids: ['J-A120.01', 'J-A81.31']
+  Part A rows: 808
+  Part A duplicate ids: ['J-A120.01', 'J-A68.89', 'J-A81.31']
+headings 153 -> 153 (+0 / -0); fences balanced True (140 -> 140 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 0 -> 0
+document 2934933 -> 2975078 bytes, 22470 -> 22733 lines, sha256 e849c43589789bbead1fdd124f89b9bc7a5976794444e5a8a99001cd7b5092a0
+rationale 697152 -> 709638 bytes, 2378 -> 2389 lines, sha256 19f3bb8660ec57da6e06a8bfe823fa5a8cb09a5c773824ec53c222a6e48442a9

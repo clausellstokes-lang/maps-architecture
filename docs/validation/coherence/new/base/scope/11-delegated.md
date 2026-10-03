@@ -92,7 +92,7 @@ stream; a counter-based RNG. Reverse: high after M1.
 enceinte traced before its stage's growth; inside the walls district-scale secondaries plus NG 1.2.2's bent-cut infill,
 its mechanism restated in our metric terms (J-A33.01), outside them FTG-shaped growth with explicit legality and stage
 regimes; districts grown over the coarse skeleton at MFCG 12710731's per-kind growth rates, typed feature-named before
-placement and, after it, named and described by the identity their lots, powers, trade and economy give them (item 72;
+placement and, after it, named and described by the identity their plots, powers, trade and economy give them (item 72;
 J-A72.05), and grouped into quarters; frontage-first plots with the granularity law (§1.4, §4).
 Rejected: the four rejected shapes of §1.4; FTG growth down to block scale inside the walls. Reverse: high (the layout
 core) — hence M0 and M1's fusion gate.

@@ -1,0 +1,177 @@
+{
+ "blocks": [
+  "### 5.3 The invariant suite, by scope (SCL-1)",
+  "### 5.4 The generation report",
+  "### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)",
+  "### 6.5 Floating-point policy, determinism lint, determinism tests (G-P10)",
+  "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+  "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+  "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+  "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+ ],
+ "edits": [
+  {
+   "ids": [
+    "R5-02 sweep"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 2
+  },
+  {
+   "ids": [
+    "R5-02 D4"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 2
+  },
+  {
+   "ids": [
+    "VM-R4T-04",
+    "VPC-R4-03"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC4-01"
+   ],
+   "lines_before": 22,
+   "lines_after": 24,
+   "subs": 2
+  },
+  {
+   "ids": [
+    "R5-04 sweep"
+   ],
+   "lines_before": 5,
+   "lines_after": 5,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-03 END (VAT4-r4-01)"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC4-04"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-02 D1 (END of VEW-r4-01)"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VDC4-03"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "END of VDC4-06"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-02 D2"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-03 END (VAT4-r4-01)"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-02 D3"
+   ],
+   "lines_before": 1,
+   "lines_after": 1,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-03 END (VAT4-r4-01)"
+   ],
+   "lines_before": 1,
+   "lines_after": 2,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "VRC4T-07"
+   ],
+   "lines_before": 2,
+   "lines_after": 2,
+   "subs": 1
+  },
+  {
+   "ids": [
+    "R5-03 sweep"
+   ],
+   "lines_before": 3,
+   "lines_after": 4,
+   "subs": 1
+  }
+ ],
+ "words": {
+  "### 5.3 ": [
+   4136,
+   4217
+  ],
+  "### 5.4 ": [
+   1321,
+   1333
+  ],
+  "### 6.3 ": [
+   4787,
+   4830
+  ],
+  "### 6.5 ": [
+   2100,
+   2104
+  ],
+  "### 7.1 ": [
+   13106,
+   13266
+  ],
+  "### 7.3 ": [
+   7562,
+   7543
+  ],
+  "### 7.4 ": [
+   10620,
+   10644
+  ],
+  "### 7.7 ": [
+   14716,
+   14776
+  ]
+ }
+}

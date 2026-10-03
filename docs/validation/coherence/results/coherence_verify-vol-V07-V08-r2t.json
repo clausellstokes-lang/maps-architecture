@@ -1,0 +1,102 @@
+{
+ "key": "coherence/verify-vol-V07-V08-r2t",
+ "file": "docs/validation/coherence/verify-vol-V07-V08-r2t.md",
+ "issues": [
+  {
+   "id": "G125-V08",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V08",
+   "claim": "Persists from round 1 in two parts; the rest of G125-V08 is fixed (the fallback column, `field_fallback`, `presentWeek`, `week`/`realm`/`customLibrary` retired at every site, the final-check brief, T-V8-61). (1) Clause (4), fixed against the owner's bar. V08 §2.4's *Selection* tries `HostContext.line` first and says 'only where two registered lines accept one dossier … does `line` decide which line's reading builds it (B19)'. T-V8-11 likewise: 'HostContext.line picks when given'. So in that case one dossier makes a different document with and without a host context. That contradicts item 125 (e) ('the same dossier with and without a host context yields the identical document and hash'), R2-40 (2) (`line` is among the fields 'none able to change a document a dossier makes'), V08's own J-V8.130 ('a host input must never change a map a dossier makes (T125-2)') and V08 §3.17's one-input row ('a host context present and absent give the identical document and hash'). T-V8-61 (b) tests T125-2 only with `line` the pinned line. Same defect as verify-scope-r2t VCS-r2-02. (2) Clause (2) and R2-40 (3) ('every field has its standalone fallback, reported'), against item 125 (b) ('a missing or empty field never refuses'). The field table's `id`, `population`, `_seed` and `schemaVersion`/`generatorVersion`/`simulationVersion` rows read 'none — a required key', and §3.5 step 3 refuses with `E_UNKNOWN_SHAPE` an empty or non-integer `population`, a malformed `id`, a non-array `institutions` and a non-string `name` or `tier`. Yet §2.4's own lead says the fallback 'serves an empty or unreadable value', and J-V8.130 says 'the generator already has a standalone choice for every field'. T-V8-61 (a) empties only 'every empty-able value'.",
+   "required_change": "(1) ONE FIX with VCS-r2-02, as it words it. V08 §2.4's *Selection*: the dossier's own shape and stamps select the adapter in every case — (1) the document's bound line when its adapter accepts, (2) the single registered adapter that accepts, (3) at a creation with several accepting, the newest registered line, recorded and noted `line_defaulted`. `HostContext.line` is checked, never chosen from: a named line no adapter supports, or one the dossier's stamps contradict, refuses `E_LINE_UNSUPPORTED` (B5); a named line that is registered and accepts but differs from the selection leaves the selection standing, the report naming both lines. Replace 'only where two registered lines accept one dossier … does `line` decide which line's reading builds it (B19), SettlementForge's own statement of its line, reported' by 'with several registered lines accepting one dossier the dossier's own selection still decides, so one dossier makes the same document and hash with and without a host context (item 125 (e); T125-2)'. B19 reads 'two registered adapters accept a new settlement's dossier, a line named or not'. T-V8-11's two-adapter clause: 'the same document and hash with `HostContext.line` naming either line and with none'. T-V8-61 (b) adds that two-adapter fixture. In §3.16 (9) (a) and J-V8.130, '`line` (which picks the adapter, V08 §2.4)' / '`line` stays the one host field, picking the adapter' read '`line`, which the selection checks (V08 §2.4)'. (2) The `population` row's fallback: empty, non-integer or outside [0, 10⁷] → the population at the midpoint of the tier word's rung range (DR23), else the blueprint's default population, noted `field_fallback`. The `_seed` row: empty or unreadable → H32 of the settlement key, noted. The `institutions` row: not an array → read as absent (S2's roster, as standalone), noted. Delete those three cases, and a non-string `name` or `tier` (their rows' fallbacks), from §3.5 step 3's refusal list. For `id` and the three version stamps — the line's identity, which `recognise` and the key law read — add one J-V8 row recording why an unreadable value is no dossier of the line (B3, B5) under item 125 (b), and cite it in their fallback cells. T-V8-61 (a) adds a fixture with `population` empty and `_seed` empty that generates a full map, each noted."
+  },
+  {
+   "id": "VV78-r2-09",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V08",
+   "claim": "Item 122 (b)'s disaster look ('whole neighbourhoods in a temporary ruined state … the calamity's `targets` win') has no dossier source, so a dossier calamity never draws it; only a preview does. V11 §3.25.9's `crisis.map` maps no stressor or archetype to `disaster` (`reconstruction` and `custom_crisis` read `none`). Its one `disaster` row is `event` · `calamity`. But V08 sets a condition's `event` only from `triggeredAt.sourceEventType` when the census lists it (§2.5's comment l. 731; §3.16 (7) (b)), and the census's crisis events are `PLAGUE`, `REFUGEE_WAVE` and `RAID_OR_MONSTER_ATTACK`. No unit writes an overlay whose `event` is `calamity`. Yet V08 §3.16 (7) (d) ('the calamity behind a disaster look'), §2.4's `calamityHistory` row ('DR44's disaster look — a linked condition's calamity'), V01 §3.16 (2) and V07 §5.6 (3) all presuppose such an overlay. Same defect as verify-pipeline-r2t VPC-R2-03.",
+   "required_change": "ONE FIX with VPC-R2-03, as it words it. V08 §3.16 (7) (b), after 'every other condition reads the `archetype` row of its archetype', add: 'except that a condition linked to a carried calamity by (d) whose own row is `none` — the `reconstruction` condition SettlementForge raises after a calamity among them — carries `event` `calamity` and reads that row, so the disaster look stands for that condition's weeks, its districts the calamity's `targets` first (V01's `disasterDistricts`), each building's ruin yielding to its rebuild (V06 §3.22 (3)); a calamity linked to no condition draws no look, its aftermath DR28's epoch event'. V08 §2.5's `event` comment (l. 731) names the `calamity` word. T-V8-59 gains a calamity-linked `reconstruction` fixture that draws `disaster`. The base's §10.2 *Crisis looks* (b) and DR44 cite V08 §3.16 (7) (b) for an overlay's source (VPC-R2-03's base end)."
+  },
+  {
+   "id": "VV78-r2-05",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "pipeline",
+   "claim": "§10.2 *Crisis looks*, the placement home, does not carry V07 §5.6's village readings, so V07's part has no implementer at its base end. These are V07's repair HAND-OFFS, not closed at their destination (principle (10)). (c) states no count for 'the share of its place's units': at small n (three outlying farms, a handful of palisade runs) a positive share can round to nothing while the look 'stands' — an undefined edge at every rung. V07 §5.6 (1) applies V01 §3.16 (5)'s round(s × n) clamped to [1, n] at the village rungs only. (d) defines the main approach road by §4.3's `TradeFlow` (a town's) and `affectedQuarter` as 'the district …'; a village holds one district, so `affectedQuarter` is the whole village. V07 §5.6 (2) reads them as the DR3-weighted `through` entry and one end; only `neighbourhoods` cites V07. (f) draws `siege`'s 'line of trenches and earthworks round the walled arcs' at every rung with walled arcs, and §8.2's siege row draws it. But item 122 (c) gives 'a hamlet … a war band's camp, a city a full siege line', and V07 §5.6 (1) and T-V7-69 (a) require no line at THORP or HAMLET. No V11 `scale` cell can suppress the line (they are camped-ground areas).",
+   "required_change": "§10.2 *Crisis looks*: (c) after 'else the share of its place's units ((d))' add 'a share s of a place's n units takes round(s × n) clamped to [1, n] where s > 0 and none where s ≤ 0 — V01 §3.16 (5)'s count, one rule for every place at every rung'. (d) after 'Each place ranks its land or units, ties by the keyed draw:' add 'at THORP, HAMLET and VILLAGE the main approach road, the outskirts' land and each place below read on the village's records as V07 §5.6 (2) states, `affectedQuarter` a unit of V07 §5.6 (3)'. (f) `siege`: 'a line of trenches and earthworks round the walled arcs at it' → 'at VILLAGE and above, a line of trenches and earthworks round the walled arcs at it — none at THORP and HAMLET, item 122 (c)'s war band's camp (V07 §5.6 (1))'. (h): 'THORP to the METROPOLIS cap: each rung's `scale` cell' → '…, and no siege line at THORP and HAMLET'."
+  },
+  {
+   "id": "VV78-r2-06",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V01",
+   "claim": "V01 §3.16, the hub every reader of a disaster's units goes through, does not wire V07 §5.6 (3) and (2), which V07's repair handed off. (a) §3.16 (1) says the village rungs' units are 'V07's — its ends (`VillageEnd`, V07 §3.10)'. It names neither V07's builder `villageDisasterUnits` nor the unit's land `villageUnitPlots`, and V02 §5.7, V03 §5.6 and §8.2's disaster row read 'every building of each' returned unit by district. So at a village rung no reader finds an end's buildings and plots: one-ended hooks. (b) §3.16 (3) maps a target 'a use, or any entity on a plot, by its plot's district'. At a village rung that is the one `village` district, which is no unit, so a calamity's named target is reported `unmatched` and the pattern strikes instead. V07 §5.6 (3) matches it to the unit holding its plot: a targeted disaster ruins a different end in the two units, and the first `matched` unit `affectedQuarter` reads is empty. (c) `campLand` reads the districts' outer boundary and arterials and states no village reading. V07 §5.6 (2) reads the perimeter or the palisade's outer strip, the fallow furlongs and the entries' ways.",
+   "required_change": "V01 §3.16 `disasterSource` (1): 'the units are V07's — its ends (`VillageEnd`, V07 §3.10), or in an end-less thorp its contiguous toft groups — in the same shape' → 'the units are V07 §5.6 (3)'s `villageDisasterUnits` — its ends, or in an end-less thorp its toft groups — in the same shape, each unit's land `villageUnitPlots` (V07 §5.6 (3)), whose buildings and faces V02 §5.7, V03 §5.6 and §8.2's disaster row read for a returned unit'. (3): add 'At THORP, HAMLET and VILLAGE a use or any entity on a plot names the unit holding its plot, and a target naming the `village` district names every unit (V07 §5.6 (3))'. `campLand`: add 'At THORP, HAMLET and VILLAGE it reads the village's records as V07 §5.6 (2) states — the perimeter (V07 §3.7), or the palisade's outer strip where that lies beyond it, as the built edge; the furlongs in their fallow course as the fallow faces; the entries' ways as the approach roads'."
+  },
+  {
+   "id": "VV78-r2-01",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "Item 125's retirements reach V07. V07 §3.0's VS1 row (l. 1138) restates V08 §2.5's latitude rule as '(`CircumstanceSlice.port.latitudeDeg`, else the blueprint's `Intent.latitudeDeg`, else 50)'. V08's round-2 repair retired `PortValues.latitudeDeg`, and V08 §2.5 now reads 'the site latitude — Intent.latitudeDeg (DR29), else 50' ('no later latitude arrives', item 125 (a)). J-V7.110's reason 'the port already delivers it in the intent and the epoch's slice' is likewise no longer true. V08's repair handed this off to V07.",
+   "required_change": "V07 VS1 row (l. 1138): '(`CircumstanceSlice.port.latitudeDeg`, else the blueprint's `Intent.latitudeDeg`, else 50)' → '(`Intent.latitudeDeg`, DR29, else 50)'. J-V7.110 gains the mark '— amended by item 125: the port delivers the latitude in the intent alone (DR29; V08 §2.5), no slice carries one'."
+  },
+  {
+   "id": "VV78-r2-02",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "V07",
+   "claim": "V07 §3.2 (2) (l. 1231–1232): 'The option `river: 'descent'` (the base's descent trace) is taken when a dossier's realm block gives a river course (V07 §3.11)'. Item 125 (a) retired the realm block, V08 §2.6b (3) dropped its course line this round, and V07 §3.11 states no such trigger. The option has no producer: a dangling input. No blueprint, request or user setting selects a village's `RiverStrategy` (the base names 'descent' nowhere; V07 registers 'course-first'). Same defect as verify-determinism-r2t VDC2-15, whose wording 'taken only when the blueprint or the user sets it' would name a setting that does not exist.",
+   "required_change": "ONE FIX with VDC2-15, in this form. V07 §3.2 (2): replace the sentence 'The option `river: 'descent'` (the base's descent trace) is taken when a dossier's realm block gives a river course (V07 §3.11).' by 'No input selects the base's descent trace at the village rungs: every village river is course-first (item 125 (a) retired the realm block's river course; V08 §2.6b (3)).'"
+  },
+  {
+   "id": "VV78-r2-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "V07 reads the week as the campaign calendar's — `HostContext.week`, the campaign's `calendar.elapsedWeeks`, which item 125 (a) retired. The dossier trace (l. 324–325) reads 'the campaign calendar's week and season → §7.7's DR42 → W80', and W80's dossier column (l. 288) 'the campaign calendar's week and season (V08)'. T-V7-65 says 'a campaign dossier opens on its own week'. R2-40 (1) ('the week, one sentence in every unit'), DR42 and V08 §3.16 (4) make it the dossier's latest stamped tick, else week 0 on the season control's midsummer.",
+   "required_change": "V07 §1b's dossier trace: 'the campaign calendar's week and season → §7.7's DR42 → W80' → 'the dossier's present week — its latest stamped tick (V08 §3.16 (4); item 125 (b)) → §7.7's DR42 → W80'. W80's dossier column: 'the dossier's present week, its latest stamped tick (V08 §3.16 (4))'. T-V7-65: 'a campaign dossier opens on its own week' → 'a dossier village opens on its present week (its latest stamped tick), one with no stamped tick on the season control's midsummer'."
+  },
+  {
+   "id": "VV78-r2-04",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "V07 §5.5 (l. 3324–3325) says Find's key is 'saved only in view pins — never in the document, its hash or the log', and V07 §3.17's Find row (l. 2948) 'the `find` key never in the document — saved in view pins only'. §2.9, the key's home, saves it 'with the other view keys (`Document.view`; item 120 (a))' — the document's view section, outside every digest — and item 120 (a) says 'saved in view pins like the other view keys'. Same defect as verify-model-r2t VM-R2T-11, which names §5.5 only.",
+   "required_change": "ONE FIX with VM-R2T-11. V07 §5.5: '… until **Clear** or the panel's close, and saved only in view pins — never in the document, its hash or the log' → '… until **Clear** or the panel's close, and saved with the other view keys in the document's `view` section and in view pins (§2.9) — never in its canonical form, a digest, its hash or the log'. V07 §3.17's Find row: 'the `find` key never in the document — saved in view pins only' → 'the `find` key in no digest — saved with the other view keys (§2.9) and in view pins'."
+  },
+  {
+   "id": "VV78-r2-07",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V06",
+   "claim": "V06 §3.22 (2) d. gives `frontierFor`'s village answer as 'the belt … along the busiest arterial, by the gate or boundary crossing it leaves through — item 122 (b)'s approach road by a gate (at a village rung, the through road's entry)'. V07 §5.6 (2) and (4) state that this answer, at a village rung, is the entry of V07's main approach road: the `through` entry by DR3's partner of greatest weight, else the nearest `through`, then `neighbour`, entry. V06 does not cite it, and 'the through road's entry' is ambiguous at a crossroads village with two `through` entries — the two units can place the refugee camp at different entries. This is V07's repair hand-off, not closed.",
+   "required_change": "V06 §3.22 (2) d.: '(at a village rung, the through road's entry)' → '(at a village rung, the entry of V07 §5.6 (2)'s main approach road)'."
+  },
+  {
+   "id": "VV78-r2-08",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "V09",
+   "claim": "`info.crisis.ruinedFor` is put on one why card twice at the village rungs. V09 §4.21.12 (4) and V09 §5.8 add it among the card's facts 'for a building in a district a disaster look ruins or a field a famine leaves bare'. V07 §4.5's village `WhyProvider` answer for a `VillageField` a famine look leaves bare (and a `VillageEnd` a disaster ruins) also carries it, as 'the one row its why card shows for it'. V07's repair handed this off ('shown once'); V09 does not say so.",
+   "required_change": "V09 §4.21.12 (4) and V09 §5.8, after 'or of a field a famine leaves bare': add '— at THORP, HAMLET and VILLAGE a `VillageField`'s and a `VillageEnd`'s row is the village `WhyProvider`'s answer row (V07 §4.5), shown once, the card adding none of its own'."
+  },
+  {
+   "id": "VV78-r2-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V11",
+   "claim": "The crisis census has two names and two totality scopes. V08 §2.4 declares the catalogue manifest's census as `crisis: { stressors; archetypes; events }`, and V08 §3.16 (7) (a) says V11's compile check makes 'every census word' have its row. T-V11-46 (a) and V11 §3.25.9's *Totality* check 'the catalogue manifest's `sf.stressors@<line>` list' and 'its `sf.conditionArchetypes@<line>` list' — names V08 never declares — and do not check the `events` list. The `event` rows (`PLAGUE`, `REFUGEE_WAVE`, `RAID_OR_MONSTER_ATTACK`) are therefore never proven total against the census.",
+   "required_change": "T-V11-46 (a) and V11 §3.25.9's *Totality*: 'the catalogue manifest's `sf.stressors@<line>` list' → 'the catalogue manifest's `crisis.stressors` list (V08 §2.4)'; '`sf.conditionArchetypes@<line>` list' → '`crisis.archetypes` list'; add 'and every word of its `crisis.events` list its `event` row'. Registry row 77's reader column adds 'the `crisis.map` compile check (T-V11-46 (a))'."
+  },
+  {
+   "id": "VV78-r2-11",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "owner": "V08",
+   "claim": "V08's round-2 blocks cite adjudication-ruling ids in design text eight times — narration, which principle (5) removes, since the validation records keep it. The base and ten volumes cite none; V09's 56 are model's VM-R2T-09 class. Sites: l. 619 '(R2-40)', l. 2178 'retired, R2-40', l. 2412 '(R2-40)', l. 2551 '(R2-40)', l. 3278 '; R2-36', l. 3297 ', R2-32', l. 3489 '(R2-37 (3))', l. 3491 '(R2-40)'.",
+   "required_change": "V08 l. 619 '(R2-40)' → '(item 125 (a); J-V8.130)'; l. 2178 '(`HostContext.customLibrary` is retired, R2-40)' → '(`HostContext.customLibrary` is retired, item 125 (a))'; l. 2412 '(R2-40)' → '(item 125 (a))'; l. 2551 '(R2-40)' → '(item 125 (a); J-V8.130)'; l. 3278 '(a dossier row set at M-SF; R2-36)' → '(a dossier row set at M-SF; §16)'; l. 3297 'item 120, which lands at M5 before M-SF, R2-32;' → 'item 120, which lands at M5 before M-SF (§16's M5 row);'; l. 3489 '(R2-37 (3))' → '(§10.2 *Crisis looks*; V11 §3.25.9)'; l. 3491 '`realm_block_used` (R2-40)' → '`realm_block_used` (item 125 (a))'."
+  }
+ ]
+}

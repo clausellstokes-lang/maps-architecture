@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VKr3-02",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "\u00a73.2 (9) (l. 3579\u20133583) keeps the frame or arena only 'where that is no larger'; a growth that moves a side out by no more than attractCm (26 cm) has no defined outcome. It is reachable: a frame never shrinks and grows at an upward crossing (\u00a74.11), so a CITY made at 10 005 people that declines below 10 000 and re-crosses at 10 007 moves each frame side \u2248 17.7 cm (law 25 km\u00b2 \u00d7 P \u00f7 20 000) and each arena side \u2248 28 cm; at CITY \u2192 METROPOLIS each person above the old peak moves a side \u2248 5 cm. Then (c)'s new rectangle has its corners within attractCm of the old ones (25.0 cm) and its sides within attractCm of the old sides, so \u00a73.6 steps 2\u20133 move it onto and share the old rectangle (W_STRETCH_SHARED), and 'strips the old rectangle's border rows alike' strips the only border. Either role consistency fails and (c) is rejected with no failure class for an epoch's growth, after Plat.frame took the new frame as (b)'s last batch committed, or a border survives at the old place under a Plat.frame naming the new one. (b) behaves alike when the arena's sides move no more than attractCm. Principle (11); observed in passing by repair-r3-kernel.md.",
+  "required_change": "\u00a73.2 (9), l. 3580\u20133581: replace 'kept at the current frame where that is no larger; the new arena is the new frame plus the current law's margin, kept at the current arena where that is no larger.' with 'kept at the current frame where that is no larger or would move any side out by at most `attractCm` ((2); measured on the lattice); the new arena is the new frame plus the current law's margin, kept at the current arena where that is no larger or would move any side out by at most `attractCm` \u2014 so no new chain is laid within attraction of the chain it replaces, which \u00a73.6 steps 2\u20133 would merge into it before the strip removes its rows.'",
+  "owner": "kernel",
+  "reported_by": "verify-kernel-r3t"
+ }
+]

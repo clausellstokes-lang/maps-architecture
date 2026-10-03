@@ -1,0 +1,218 @@
+[
+{
+"where": "010-8.2-crisis-marks-find-budget.patch:4",
+"file": "8.2.md",
+"old_w": 12,
+"new_w": 96
+},
+{
+"where": "010-8.2-crisis-marks-find-budget.patch:15",
+"file": "8.2.md",
+"old_w": 30,
+"new_w": 9
+},
+{
+"where": "020-8.4-wall-soffit-fades.patch:4",
+"file": "8.4.md",
+"old_w": 17,
+"new_w": 29
+},
+{
+"where": "020-8.4-wall-soffit-fades.patch:10",
+"file": "8.4.md",
+"old_w": 18,
+"new_w": 34
+},
+{
+"where": "020-8.4-wall-soffit-fades.patch:18",
+"file": "8.4.md",
+"old_w": 48,
+"new_w": 82
+},
+{
+"where": "030-8.6-entry-week.patch:4",
+"file": "8.6.md",
+"old_w": 32,
+"new_w": 67
+},
+{
+"where": "030-8.6-entry-week.patch:15",
+"file": "8.6.md",
+"old_w": 18,
+"new_w": 23
+},
+{
+"where": "040-8.8-dpr-window.patch:3",
+"file": "8.8.md",
+"old_w": 44,
+"new_w": 73
+},
+{
+"where": "050-8.11-tests.patch:4",
+"file": "8.11.md",
+"old_w": 14,
+"new_w": 52
+},
+{
+"where": "050-8.11-tests.patch:11",
+"file": "8.11.md",
+"old_w": 10,
+"new_w": 22
+},
+{
+"where": "050-8.11-tests.patch:16",
+"file": "8.11.md",
+"old_w": 19,
+"new_w": 38
+},
+{
+"where": "050-8.11-tests.patch:21",
+"file": "8.11.md",
+"old_w": 20,
+"new_w": 39
+},
+{
+"where": "050-8.11-tests.patch:28",
+"file": "8.11.md",
+"old_w": 8,
+"new_w": 16
+},
+{
+"where": "050-8.11-tests.patch:33",
+"file": "8.11.md",
+"old_w": 10,
+"new_w": 26
+},
+{
+"where": "050-8.11-tests.patch:38",
+"file": "8.11.md",
+"old_w": 14,
+"new_w": 57
+},
+{
+"where": "050-8.11-tests.patch:44",
+"file": "8.11.md",
+"old_w": 14,
+"new_w": 25
+},
+{
+"where": "050-8.11-tests.patch:49",
+"file": "8.11.md",
+"old_w": 10,
+"new_w": 18
+},
+{
+"where": "060-9.5-annotation-find.patch:3",
+"file": "9.5.md",
+"old_w": 12,
+"new_w": 26
+},
+{
+"where": "060-9.5-annotation-find.patch:10",
+"file": "9.5.md",
+"old_w": 19,
+"new_w": 22
+},
+{
+"where": "070-11.1-supplylink-soffit.patch:3",
+"file": "11.1.md",
+"old_w": 18,
+"new_w": 60
+},
+{
+"where": "070-11.1-supplylink-soffit.patch:10",
+"file": "11.1.md",
+"old_w": 14,
+"new_w": 32
+},
+{
+"where": "070-11.1-supplylink-soffit.patch:15",
+"file": "11.1.md",
+"old_w": 9,
+"new_w": 28
+},
+{
+"where": "080-11.2-api.patch:3",
+"file": "11.2.md",
+"old_w": 9,
+"new_w": 63
+},
+{
+"where": "080-11.2-api.patch:12",
+"file": "11.2.md",
+"old_w": 44,
+"new_w": 29
+},
+{
+"where": "080-11.2-api.patch:20",
+"file": "11.2.md",
+"old_w": 29,
+"new_w": 35
+},
+{
+"where": "080-11.2-api.patch:26",
+"file": "11.2.md",
+"old_w": 23,
+"new_w": 38
+},
+{
+"where": "080-11.2-api.patch:33",
+"file": "11.2.md",
+"old_w": 48,
+"new_w": 72
+},
+{
+"where": "080-11.2-api.patch:39",
+"file": "11.2.md",
+"old_w": 14,
+"new_w": 38
+},
+{
+"where": "080-11.2-api.patch:45",
+"file": "11.2.md",
+"old_w": 18,
+"new_w": 55
+},
+{
+"where": "080-11.2-api.patch:54",
+"file": "11.2.md",
+"old_w": 60,
+"new_w": 90
+},
+{
+"where": "090-11.6-12-find-tests.patch:4",
+"file": "11.6.md",
+"old_w": 4,
+"new_w": 9
+},
+{
+"where": "090-11.6-12-find-tests.patch:9",
+"file": "11.6.md",
+"old_w": 7,
+"new_w": 22
+},
+{
+"where": "090-11.6-12-find-tests.patch:14",
+"file": "11.6.md",
+"old_w": 43,
+"new_w": 66
+},
+{
+"where": "090-11.6-12-find-tests.patch:19",
+"file": "11.6.md",
+"old_w": 11,
+"new_w": 16
+},
+{
+"where": "090-11.6-12-find-tests.patch:28",
+"file": "12.5.md",
+"old_w": 29,
+"new_w": 81
+},
+{
+"where": "090-11.6-12-find-tests.patch:39",
+"file": "12.10.md",
+"old_w": 72,
+"new_w": 131
+}
+]

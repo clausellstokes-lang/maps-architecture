@@ -1,0 +1,56 @@
+[
+ {
+  "id": "VDC4-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "determinism",
+  "claim": "\u00a76.3 *Plan damage* (l. 9969\u20139973), the comparison's home, says each element 'shows damaged exactly while the level is above 0 and at least t', with only the roofless case excepted. R4-03's END lines this round added a second case. V03 \u00a75.6 (2) (a) (V03 l. 2692\u20132694) reads 'an element is compared with the level only from its entry week ((b); V06 \u00a73.23 (3))'. V06 \u00a73.23 (3) (l. 3436\u20133442) makes an element a restoring event's re-cut mints enter the damage only at the week that restoration ends, 'Before that week it is drawn as built'. \u00a72.6 step 7 (l. 2099\u20132101) agrees. So during a `reoccupy` whose `repair` Works still runs, a minted partition whose t the level still reaches is drawn damaged by \u00a76.3's 'exactly' and drawn as built by V03, V06 and \u00a72.6. Two outcomes for one case: the class R4-14 graded major for VDC3-02, and R4-03's sweep did not list \u00a76.3. The same paragraph also concludes 'so a building never decayed draws its plan unchanged', while \u00a72.6 step 7, \u00a78.6 and V03 \u00a75.6 (2) (a) ('never decayed and under no look') draw it damaged under a disaster look.",
+  "required_change": "\u00a76.3 *Plan damage*: 'the element shows damaged exactly while the level is above 0 and at least t \u2014 but for \u00a72.6 step 7's one case without a threshold' \u2192 'the element shows damaged exactly while the level is above 0 and at least t, compared only from its entry week into the plan (V03 \u00a75.6 (2) (b); for an element a restoring event's re-cut mints, the week that restoration ends, before which it draws as built, V06 \u00a73.23 (3)) \u2014 but for \u00a72.6 step 7's one case without a threshold'; and 'A level of 0 damages nothing else, so a building never decayed draws its plan unchanged (`item123.damage`)' \u2192 'A level of 0 damages nothing else, so a building never decayed and under no disaster look (\u00a72.6 step 7) draws its plan unchanged (`item123.damage`)'.",
+  "reported_by": "verify-determinism-r4t"
+ },
+ {
+  "id": "VDC4-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "determinism",
+  "claim": "\u00a77.1's new `bend.raised.underSpan` row (l. 10594) sends a ground `drawWay`, a moved way or a carve 'to cross under the nearest `open` span that holds it'. It gives no outcome where no `open` span of the raised way holds it: every span `vault`, or none of the clear width (the way's width + `clearWidthM`) or soffit \u00a74.3 (l. 5627\u20135629) requires. A `primary` street drawn across a timber elevated road whose open spans are narrower than its corridor is an ordinary hand edit that meets this. The catch-all row's cause is 'every other infeasible declaration', so it excludes the case this row names. \u00a74.3 gives generation's routes an else rung ('else the route takes another course by F-ROUTE's ladder'); the hand case has none, so builders would refuse, route round, or leave the crossing. The repair seat flagged this as a hand-off.",
+  "required_change": "\u00a77.1's `bend.raised.underSpan` row, third cell: 'the way or channel moved to cross under the nearest `open` span that holds it, named in one line' \u2192 'the way or channel moved to cross under the nearest `open` span that holds it; where no `open` span of the raised way holds it (every span `vault`, or none of the clear width or soffit \u00a74.3 requires), a way takes another course by F-ROUTE's ladder as a route re-solve does (\u00a74.3; \u00a75.2) \u2014 round the raised way's feet, else the ladder's last rung (`unserved`, reported) \u2014 and a carve's channel stops at the edges of the under-deck strip, ending against the ground as against a berm (\u00a72.7's support step (6) (a)), reported; named in one line'. (Second end for the adjudicator: T-V9-52 or T110-2's clause (5) adds 'a road wider than every `open` span's clear width drawn across a viaduct: routed round its feet, with `bend.raised.underSpan`'.)",
+  "reported_by": "verify-determinism-r4t"
+ },
+ {
+  "id": "VDC4-04",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "determinism",
+  "claim": "\u00a72.7's support step (3) (l. 2552\u20132556) holds the band's stretch under a crossing station while the deck stands: 'no writer of its condition but a landfall leaves it `breached` or `dismantled`'. The station's support is that stretch, and its `supports` entry 'reads its stretch's `condition`'. This round \u00a77.1 gained `bend.wall.held` (l. 10592) for a hand `convert` `breach` or `dismantle` only. A `delete` of the enceinte, or of the raised gate or wall opening there, is no condition write, and \u00a77.1 *Delete* (l. 10469\u201310476) and the outcome table give it no rule. V06 \u00a73.7.6 (5) (l. 1605\u20131612; J-V6.114, J-V6.140) keeps such a stretch through `wallToWay` and `absorbWall` as a free-standing arch or gate tower. Read literally, a hand delete of a town wall that an aqueduct passes by its arch removes the deck's support: the deck is left on a station with no ring, and a `supports` entry reads a stretch that no longer exists, an impossible structure. A builder might refuse instead. The outcome is undefined on an ordinary CITY edit.",
+  "required_change": "\u00a77.1's `bend.wall.held` row, cause cell: 'a hand `convert` `breach` or `dismantle` of an enceinte stretch meeting the stretch held under a raised way's crossing station while its deck stands (\u00a72.7's support step (3))' \u2192 'a hand `convert` `breach` or `dismantle` of an enceinte stretch, or a `delete` of the enceinte or of its raised gate or wall opening there, meeting the stretch held under a raised way's crossing station while its deck stands (\u00a72.7's support step (3))'. Outcome cell, after 'an op wholly on the held stretch changes nothing, with its line', add '; a `delete` takes the rest and leaves the held stretch standing as a free-standing gate tower or arch carrying the deck, as `wallToWay` and `absorbWall` leave it (V06 \u00a73.7.6 (5)), the enceinte's record kept while such a stretch stands'. (Second end for the adjudicator: T-V9-52 adds 'a wall deleted while a viaduct's deck stands on its raised gate: the gate tower kept, carrying the deck, with `bend.wall.held`'.)",
+  "reported_by": "verify-determinism-r4t"
+ },
+ {
+  "id": "VM-R4T-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "determinism",
+  "claim": "\u00a75.4's `GenerationReport.stages[].warnings` comment (l. 9253) lists the stages' own non-kernel warning codes (S3's `W_WALLED_BY_BARRIERS` and `W_MOAT_DRY`, S10b's `W_DOSSIER_EDGE`, the underground's) but not `W_RAISED_CROSSING`, which \u00a72.7's support step (6) (a) and \u00a74.4 S5a *Outer moats* now issue at S5a and at S7's last support run (named in the model's round-4 HAND-OFFS).",
+  "required_change": "The comment adds \"S5a's and S7's `W_RAISED_CROSSING` (\u00a72.7's support step (6) (a); \u00a74.4 *Outer moats*)\".",
+  "reported_by": "verify-model-r4t"
+ },
+ {
+  "id": "VPC-R4-03",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "Round 4 adds the warning `W_RAISED_CROSSING`. S5a's carve reports it (\u00a74.4 *Outer moats*, l. 5878), and so does the last support run after S7 (\u00a72.7 (6) (a); \u00a74.8's lead 'reported'). \u00a75.4's `stages[].warnings` comment (l. 9253) lists a stage's own non-kernel warning codes: S3's `W_WALLED_BY_BARRIERS` and `W_MOAT_DRY`, S10b's `W_DOSSIER_EDGE` and the underground's. It does not list `W_RAISED_CROSSING`, so the list omits a code its own rule reports (R3-03's minor class).",
+  "required_change": "\u00a75.4 l. 9253, the `warnings` comment: after 'S10b's `W_DOSSIER_EDGE` (\u00a74.7 S10b)' add ', S5a's and S7's `W_RAISED_CROSSING` (\u00a72.7's support step (6); \u00a74.4 *Outer moats*; \u00a74.8)'.",
+  "owner": "determinism",
+  "reported_by": "verify-pipeline-r4t"
+ },
+ {
+  "id": "VRC4T-07",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "determinism",
+  "claim": "\u00a77.7 (l. 11873\u201311874): 'the host's commands (\u00a711.3: a week and a selection by view.set, the layers shown by a logged setLayer \u2026)'. Under R4-02 a host's layer command sets a layer's visibility, while the view draws its working layer whatever its visibility (\u00a78.4); \u00a711.3 and T-ER-21 now say 'a layer's visibility'. A restatement left in the older form.",
+  "required_change": "The parenthesis reads '(\u00a711.3: a week and a selection by view.set, a layer's visibility by a logged setLayer sent by doc.apply, as a user's toggle)'.",
+  "reported_by": "verify-rendering-r4t"
+ }
+]

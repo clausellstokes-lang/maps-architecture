@@ -1,0 +1,25 @@
+sections 24 edits 59
+   11 ## 0 In plain words
+   79 ## 1 Scope, the base hooks consumed, and what is out of scope
+   203 ## 1b Wiring table
+   367 ### 2.2 Identity of the plan's parts
+   430 ### 2.4 The rule tables and the default rows
+   837 ### 2.5 Lifecycle of every new state field
+   924 ### 3.2 A — the programme
+   1927 ### 3.11 Re-cuts — the chain steps, the kept-room test and the kept openings
+   1990 ### 3.13 Edges at their limits (principle (11))
+   2150 ### 4.3 Locality, stored plans, carries, New random and undo
+   2181 ### 4.4 What is not an edit
+   2187 ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience
+   2245 ### 4.6 The clerk's view — plan queries and "why?"
+   2296 ### 5.1 The plan at the building band
+   2363 ### 5.2 Picture exports
+   2375 ### 5.3 Interchange and scene exports
+   2430 ### 5.4 Concealment at a public key
+   2504 ## 6 Performance budgets
+   2571 ## 7 Tests and acceptance bars
+   2653 ## 8 Build plan
+   2710 ## 9 Decisions (each vetoable)
+   2893 ## 11 Owner questions
+   2904 ## 12 CONFIRMED versus PLAUSIBLE
+   2947 ## 13 Fix list

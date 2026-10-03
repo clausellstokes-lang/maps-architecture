@@ -1,0 +1,125 @@
+{
+ "head": "96bdae2608a9388d94d966e076515ff6562ae235",
+ "files": [
+  {
+   "path": "docs/ARCHITECTURE.md",
+   "bytes": 2974590,
+   "words": 481868,
+   "sha256": "593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/ARCHITECTURE-RATIONALE.md",
+   "bytes": 704669,
+   "words": 119102,
+   "sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V01-neighbourhoods.md",
+   "bytes": 523442,
+   "words": 85852,
+   "sha256": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V02-buildings.md",
+   "bytes": 561207,
+   "words": 93940,
+   "sha256": "4696951caa15e7ffe32522c2f5159b676a8c0da14ad45a4f10d2febe45d82e40",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V03-interiors.md",
+   "bytes": 464396,
+   "words": 78943,
+   "sha256": "f4458cf438971b111959196b5ae575b36ea6da248a5e72289c45dc565d80c2e3",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V04-underground.md",
+   "bytes": 520064,
+   "words": 84623,
+   "sha256": "0e3bcacd8f5cc61680509b213757a3cc3a94252d6647acd26938bce7b263f162",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V05-sky.md",
+   "bytes": 398194,
+   "words": 67249,
+   "sha256": "cc1dfa61fe882bcb8767901e0d5624fcfc7776d6cc1a4256d6eca269a89aad28",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V06-evolution.md",
+   "bytes": 680177,
+   "words": 111109,
+   "sha256": "8f92dd3809e03132e1d710d49e11ccf8ccce394b5dd7ceb8b7d73e2234299feb",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V07-village.md",
+   "bytes": 603780,
+   "words": 99932,
+   "sha256": "285e2f6fe9dd744be31d1d5db7073d16c958cd2f67d956e9a6da935b091a0b5a",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V08-settlementforge.md",
+   "bytes": 559089,
+   "words": 88612,
+   "sha256": "bf9fa7be4ae8c3b9977d0b2e9a6938a0be34b43df607d10c9364c64c6d0a47fe",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V09-application.md",
+   "bytes": 749608,
+   "words": 123687,
+   "sha256": "cfe4df195892ff4f0943cf98764a0b4d36d22af02f11d51d4eeed6acf3675b04",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V10-clerk.md",
+   "bytes": 510631,
+   "words": 82629,
+   "sha256": "382ea60eedc48fa960654297ec9d6d9ffdecf80a608b3a656fc8ea93d1ea75e7",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V11-content.md",
+   "bytes": 674664,
+   "words": 112787,
+   "sha256": "1671da41b1f28eeda542e2946004dd94ccdc424dde2c940c16d87619a1a790d9",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/V12-calibration.md",
+   "bytes": 519356,
+   "words": 84312,
+   "sha256": "90a61a9c9232f349e475123a98d52d43a5827823622b66a4434e85cb90c897b5",
+   "equals_head": true,
+   "copy_identical": true
+  },
+  {
+   "path": "docs/volumes/INDEX.md",
+   "bytes": 24074,
+   "words": 4054,
+   "sha256": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+   "equals_head": true,
+   "copy_identical": true
+  }
+ ]
+}

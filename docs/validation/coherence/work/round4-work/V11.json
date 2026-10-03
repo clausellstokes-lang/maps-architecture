@@ -1,0 +1,56 @@
+[
+ {
+  "id": "VAF-R3T-02",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "V11 \u00a73.25.9's `disaster` look row (l.4535) reads 'share of the districts \u2014 at THORP, HAMLET and VILLAGE of V07's ends \u2014'. \u00a73.26's C-crisis-tables row (l.4802) reads 'at THORP, HAMLET and VILLAGE a disaster's units V07's ends'. V07 \u00a75.6 (3), the home, and V01 \u00a73.16 (1), rewritten this round, make the village units `villageDisasterUnits`: the ends, or in an end-less thorp its toft groups. V01 \u00a73.16 (5) computes the share over those units, so nothing built changes. The gloss is a narrower restatement. Its siblings at V02, V03 and \u00a710.2 (d) are VV12-r3-01, -04 and -05; V11's two sites were not raised.",
+  "required_change": "l.4535's cell: 'share of the districts \u2014 at THORP, HAMLET and VILLAGE of V07 \u00a75.6 (3)'s units (its ends, or an end-less thorp's toft groups) \u2014 0.05\u20130.5 at every rung; `lookLevel` 0.67\u20130.95'. l.4802: 'at THORP, HAMLET and VILLAGE a disaster's units V07 \u00a75.6 (3)'s `villageDisasterUnits` (its ends, or an end-less thorp's toft groups)'.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r3t"
+ },
+ {
+  "id": "VAH-r3-06",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V11",
+  "claim": "At THORP, HAMLET and VILLAGE a disaster look's units are V07 \u00a75.6 (3)'s `villageDisasterUnits` \u2014 'its ends, or in an end-less thorp its toft groups' (V07 l. 3448; V01 l. 2330). V08 \u00a73.16 (7) (b) (l. 2514) and V09 \u00a74.21.12 (4) say 'V07's units'. V11 \u00a73.25.9's `disaster` row (l. 4535: 'share of the districts \u2014 at THORP, HAMLET and VILLAGE of V07's ends') and its C-crisis-tables row (l. 4802), V10 \u00a72.13's `LookAnswer.crises.looks[].districts` comment (l. 1014), V08 \u00a73.17's combinations row (l. 2688) and \u00a711.2's `LooksAnswer.crises[].districts` comment (base l. 16163), which V10 restates, say 'V07's ends'. At an end-less thorp these read as no unit, where V07 and V01 ruin its toft groups. The placement reads V01's `disasterDistricts`, so nothing built changes. Same slip VV12-r3-01 and VV12-r3-04 raised as behaviour at V02 and V03.",
+  "required_change": "V11 l. 4535 and l. 4802 read 'V07's units (V07 \u00a75.6 (3): its ends, or an end-less thorp's toft groups)'. Second ends for the adjudicator: V10 l. 1014 and V08 l. 2688 read 'V07's units'; \u00a711.2's `LooksAnswer.crises[].districts` comment (rendering) reads 'at the village rungs V07 \u00a75.6 (3)'s units'.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VAP-r3-07",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V11",
+  "claim": "R2-09 / R3-26: a volume test restating an owner item's pin states '\u2014 the `<pin>` registration of <suite> on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by <seat>', and V12's lists are exactly the union of those clauses. V12 \u00a72.13 lists two V11 suites no V11 clause registers: under `item105.web`, `item107.spread` 'B-CITY (V11)' \u2014 V11's restating test is T-V11-21 (l. 4999: 'byte-identical to the base's without item 105 (item 105 (k)'s no-op pin)'; V11 l. 2270 names it so), which states no registration; under `item106.barrier` 'V11's T-V11-19 fixtures' \u2014 T-V11-19 (l. 4997) states no pin. V12 \u00a72.13's registration refuses a suite no owner registers.",
+  "required_change": "T-V11-21's last clause ends '\u2026 (item 105 (k)'s no-op pin) \u2014 the `item105.web` registration of B-CITY's 200 seeds per rung on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the C2 seat'; T-V11-19 adds '; with `barrier` closure and the stretch profile off, item 106 (h)'s barrier fixtures byte-identical to the base \u2014 the `item106.barrier` registration of them on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the C4a seat (T106-5)'. (V12's end is VAP-r3-08.)",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAT3-r3-09",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V11",
+  "claim": "V11 \u00a73.25.10's `settings` row (l.4617-4618; R3-06's END text) reads 'a building item 113's replay abandons or ruins ages from that replay epoch's week' \u2014 the same restatement as VAT3-r3-08, against V06 \u00a73.23 (4) (from the week its change shows in that replay epoch, which is the Works' start in a replay epoch within `replay.detailRetainYears` of the present).",
+  "required_change": "V11 \u00a73.25.10's `settings` row: 'ages from that replay epoch's week' \u2192 'ages from the week its change shows in that replay epoch (V06 \u00a73.23 (4))'.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VCS-r3-05",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V11",
+  "claim": "T-V11-38 \u2013 T-V11-41's heads (V11 l. 5024\u20135027) name no base bar. Their (b) clauses register `item111.water`, `item113.history`, `item114.condition`, and `item115.off` with `item115.ceiling`, which scope's take-over table and runs lists assign as T111-5's, T113-7's, T114-8's and T115-4's registrations (R3-26). V11's other take-over heads use \"(takes \u2026)\" (T-V11-42, -46, -48). Bookkeeping (R2-08; R3-03 (a)).",
+  "required_change": "Heads: \"item 111's rows (takes T111-5's `item111.water` registration):\", \"item 113's rows (takes T113-7's `item113.history` registration):\", \"item 114's rows (takes T114-8's `item114.condition` registration):\" and \"item 115's rows (takes T115-4's `item115.off` and `item115.ceiling` registrations):\". Each (b) clause names its bar before \"registration\" (T111-5's, T113-7's, T114-8's, T115-4's).",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VV1112-r3-06",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "V11",
+  "claim": "Since this round a weather kind is live only while \"its `hours` hold the view's hour\" (V11 \u00a73.25.11 *The columns*; base \u00a76.1 in the same words), so the `hours` band now decides R and every draw. Neither *The kinds* (`mist` and `fog` 4\u201311, `shimmer` 10\u201318; l. 4664) nor \u00a72.8's `hours?: [number, number]` says how a band holds an hour: whether the end hour b is live through its whole hour (fog at 11:30 under `light: 'time'`, whose `time` key counts hours, \u00a72.9), whether a band with a > b wraps midnight (the week bands state \"includes both ends and wraps the year's end when a > b\"; the hours do not), or what range an edited `hours` cell is clamped to (no `range` is declared; V11 \u00a74.1 clamps only to a declared range, and V12 \u00a73.11 now places these cells under its default line). Two builders read the shipped cells differently, and an edit to, say, 20\u20138 for night fog has no defined outcome; EI-V11-EDGE-6 and T-V11-45 (v) carry neither case.",
+  "required_change": "V11 \u00a73.25.11 *The kinds*' head, after \"in which the kind is live\": \"\u2014 whole hours of the view's day, each end in [0, 23] (its declared range): the kind is live while the hour of \u00a72.9's `time` key, rounded down, lies in a \u2026 b, both ends included, wrapping midnight when a > b, as a band of weeks wraps the year's end\"; \u00a72.8's `hours` comment adds \"whole hours 0\u201323, both ends included, a > b wrapping midnight\"; EI-V11-EDGE-6 adds the case \"an `hours` band with a > b; an edited end outside [0, 23]\" with the outcome \"wraps midnight; clamped into [0, 23] (V11 \u00a74.1)\", and T-V11-45 (v) adds both fixtures.",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]

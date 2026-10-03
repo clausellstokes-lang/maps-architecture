@@ -1,0 +1,81 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V02-buildings.md",
+ "input_doc_sha256": "fb46c67694cfe88d0691ec57c5cedcbfde0c263b994018dfeb38a4a2c83302c7",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V02.md",
+   "sha256": "abd3a2fe2601ccb53cc947905792f7db0975396292809f54a4bc1b2f300630ff",
+   "lines": 20,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V02.md #1 (l. 2) REPLACE ### 8.6 Ruin and disaster in the build (items 123, 122)",
+   "file": "repair-r6-V02.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+   "body_lines": 16,
+   "body_sha256": "ca966c8e2f5f42cd55d098faa5c72bf20ac000e143ae947b5aae3ffa67ffda2e",
+   "target_line": 3889,
+   "section_old": "3889–3899",
+   "section_old_n": 11,
+   "section_new_n": 17,
+   "new_headings": [
+    "### 8.6 Ruin and disaster in the build (items 123, 122)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V02.md #1 (l. 2) REPLACE ### 8.6 Ruin and disaster in the build (items 123, 122)",
+    "kind": "REPLACE",
+    "heading": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 77,
+  "headings_after": 77,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 16,
+  "fence_lines_after": 16,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 564391,
+  "doc_bytes_after": 565121,
+  "doc_lines_before": 4221,
+  "doc_lines_after": 4227,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 1,
+  "blocks_applied": 1,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

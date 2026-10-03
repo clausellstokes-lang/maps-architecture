@@ -1,0 +1,41 @@
+VAP-r3-01, END VAP-r3-09 §3.15.12 head  x1
+VAP-r3-01 T-V12-54 milestone  x1
+VAP-r3-01 §6 item-122 row milestone  x1
+VAP-r3-01 W7 M3b cell  x1
+VAP-r3-01 W7 M5 cell  x1
+VAP-r3-01 sweep §3.15 lead  x1
+VAP-r3-01 sweep §8.1  x1
+VAP-r3-02 §3.4.2 layout.touch row  x1
+VAP-r3-02 §3.15.16 T126-1 bullet  x1
+VAP-r3-02 T-V12-59  x1
+VAP-r3-02 sweep §3.12 item-126 row  x1
+VAP-r3-02 sweep §3.16 edge row 37  x1
+VAP-r3-08 §2.13 item105.web, item107.spread  x1
+VAP-r3-08 §2.13 item106.barrier  x1
+VAP-r3-08 §3.7.8 list  x1
+VAP-r3-08 X-V12-11  x1
+VAP-r3-10 §3.15.6  x1
+VAT3-r3-04 §3.15.4 T114g.oldestFirst  x1
+VAT3-r3-04 T-V12-47 planted fault  x1
+VAT3-r3-04 sweep §2.7b patchesOldestFirst  x1
+VCS-r3-02 T-V12-44 head  x1
+VCS-r3-02 T-V12-45 head  x1
+VCS-r3-02 T-V12-46 head  x1
+VCS-r3-02 T-V12-47 head  x1
+VCS-r3-02 T-V12-49 head  x1
+VV1112-r3-01 §3.4.2 crisis.* row  x1
+VV1112-r3-01 §3.15.12 T122-5 bullet  x1
+VV1112-r3-01 T-V12-54 passing cases  x1
+END VPC-R3-03 (R4-06) §3.4.2 crisis.* row  x1
+END VPC-R3-03 (R4-06) §3.12 planted-fault row  x1
+END VPC-R3-03 (R4-06) §3.15.12 T122-6  x1
+END VPC-R3-03 (R4-06) §3.16 edge row 33 case  x1
+END VPC-R3-03 (R4-06) §3.16 edge row 33 outcome  x1
+END VPC-R3-03 (R4-06) T-V12-54  x1
+END R4-11 §3.4.2 crisis.weeks knowledge clause  x1
+END R4-11 §3.15.12 T122-2 bullet  x1
+END R4-11 §3.12 planted-fault row  x1
+END R4-11 §3.16 edge row 33 case  x1
+END R4-11 §3.16 edge row 33 outcome  x1
+sweep R4-11 T-V12-54 crisis.weeks planted case  x1
+hand-off rendering r4 G-refview (§3.4.2 x3, §3.15.11 x4, §3.15.14 x1, §6 x1)  x9

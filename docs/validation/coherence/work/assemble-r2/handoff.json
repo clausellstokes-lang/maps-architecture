@@ -1,0 +1,183 @@
+{
+ "swap": {
+  "index": {
+   "ids_swapped": [],
+   "swaps": [],
+   "rows_after": 797,
+   "duplicate_ids_after": []
+  },
+  "part_a": {
+   "ids_swapped": [
+    "J-A76.41",
+    "J-A568.01",
+    "J-A114.01",
+    "J-A113.61",
+    "J-A20.71",
+    "J-DET-11"
+   ],
+   "swaps": [
+    {
+     "id": "J-A76.41",
+     "older_line": 635,
+     "appended_line": 849,
+     "old_row_sha256": "e92edc3ca0a1d7941b681c932864d22d7c30bd61ee8a400640987bea90825e8a",
+     "new_row_sha256": "5b77406dca4ef410d1ccc56e2e8ce60ae9c1ae655da84f8e16530dbd5fd567e9"
+    },
+    {
+     "id": "J-A568.01",
+     "older_line": 802,
+     "appended_line": 848,
+     "old_row_sha256": "3503c0914e3bbbad185e033c18b4351b9056adda738d574279137f0a665ea97e",
+     "new_row_sha256": "0d1c8b4e588e5ebe0e4601bdcbcc592d569d6adcf87bb7e61f3bd6e40ff14749"
+    },
+    {
+     "id": "J-A114.01",
+     "older_line": 828,
+     "appended_line": 847,
+     "old_row_sha256": "b3ef91f439a9c667b4d5c4d8ce39bb8b929adf9b757ce85a2514fd104bdd380d",
+     "new_row_sha256": "46833336ab4d6dc0a26abff373cfaa8df2f4b9f054e9c34ce9b3da64ec1eb903"
+    },
+    {
+     "id": "J-A113.61",
+     "older_line": 805,
+     "appended_line": 846,
+     "old_row_sha256": "4659feda7f7eb5ccda5eaebe9fc370a1bb58ada75cce86598002fa0d8eefb8fa",
+     "new_row_sha256": "ac67defd68ce04af75e0458abf8a4195c72b78d1188e3d908bd1f320e48d5dd3"
+    },
+    {
+     "id": "J-A20.71",
+     "older_line": 327,
+     "appended_line": 845,
+     "old_row_sha256": "886998591dcca3561bf9e4f8fbf5c31058528ff4b00252006a9221666d66c863",
+     "new_row_sha256": "61c811bba0700b66d31fd37e1e916c98922d3fc8df894070b149f496544b6b88"
+    },
+    {
+     "id": "J-DET-11",
+     "older_line": 111,
+     "appended_line": 844,
+     "old_row_sha256": "19e512a7d623bb87104141b03a80a49b96ca6103698f42bf7604f01f34002363",
+     "new_row_sha256": "833183b6e0679760aa561adb4abd1899df7d5618e73c1bb8d52a6708bda8d903"
+    }
+   ],
+   "rows_after": 797,
+   "duplicate_ids_after": []
+  },
+  "index_equals_part_a": true,
+  "only_in_index": [],
+  "only_in_part_a": []
+ },
+ "r25": {
+  "heading": "#### R25 — §7.7 → J-DET-11",
+  "line": 1895,
+  "old_sha256": "cf9e158bdd65f77b02ee7ddfe198d69c3ad2d12c94c3daa978949b53172c4280",
+  "new_sha256": "b0b29a406d0d9be282f1e4156a98768dca5503f2c6cf5471f6987edbf1912896"
+ },
+ "substitutions": [
+  {
+   "file": "docs/volumes/V02-buildings.md",
+   "line": 7,
+   "lines_spanned": 1,
+   "old": "owner items 1–101, file g 102–120, file f 200–585",
+   "new": "owner items 1–101, file g, file f 200–585",
+   "requested_by": "repair-r2-V02.md header, ASSEMBLE NOTE (R2-07; VV12-r1-06): line 7 — replace the one occurrence of 'owner items 1–101, file g 102–120, file f 200–585' with 'owner items 1–101, file g, file f 200–585'"
+  },
+  {
+   "file": "docs/volumes/V04-underground.md",
+   "line": 9,
+   "lines_spanned": 2,
+   "old": "items 1–120 the\nowner's rules (item 112 the program's, under J122), items 200 and above file f's",
+   "new": "items numbered below 200 the\nowner's rules (item 112 the program's, under J122), items 200 and above file f's",
+   "requested_by": "repair-r2-V04.md header, HAND-OFFS, 'Assemble (R2-07 …)': the reading note's 'items 1–120 the owner's rules (item 112 the program's, under J122), items 200 and above file f's' in R2-07's form reads 'items numbered below 200 the owner's rules (item 112 the program's, under J122), items 200 and above file f's'"
+  },
+  {
+   "file": "docs/volumes/V06-evolution.md",
+   "line": 10,
+   "lines_spanned": 1,
+   "old": "items 1–119 the owner's",
+   "new": "items below 200 the owner's",
+   "requested_by": "repair-r2-V06.md header, ASSEMBLE NOTE (R2-07): l. 10's 'items 1–119 the owner's' reads 'items below 200 the owner's'"
+  },
+  {
+   "file": "docs/volumes/V07-village.md",
+   "line": 10,
+   "lines_spanned": 1,
+   "old": "items 1–120 the owner's, items 200 and",
+   "new": "items below 200 the owner's, items 200 and",
+   "requested_by": "repair-r2-V07.md header, NOTE FOR ASSEMBLE (R2-07): head l. 10, 'items 1–120 the owner's, items 200 and' → 'items below 200 the owner's, items 200 and'"
+  },
+  {
+   "file": "docs/volumes/V08-settlementforge.md",
+   "line": 10,
+   "lines_spanned": 1,
+   "old": "items 1–120 the owner's",
+   "new": "items below 200 the owner's",
+   "requested_by": "repair-r2-V08.md header, ASSEMBLE NOTE (R2-07): l. 10–11's 'items 1–120 the owner's' reads 'items below 200 the owner's'"
+  },
+  {
+   "file": "docs/volumes/V08-settlementforge.md",
+   "line": 15,
+   "lines_spanned": 1,
+   "old": "`DR1`–`DR43`",
+   "new": "`DR1`–`DR44`",
+   "requested_by": "repair-r2-V08.md header, ASSEMBLE NOTE (R2-07, R2-11): l. 15's '`DR1`–`DR43`' reads '`DR1`–`DR44`' (R2-11's DR44)"
+  },
+  {
+   "file": "docs/volumes/V09-application.md",
+   "line": 11,
+   "lines_spanned": 1,
+   "old": "102–119 file g's owner and program rules,",
+   "new": "file g's items, from 102, its owner and program rules,",
+   "requested_by": "repair-r2-V09.md header, HAND-OFFS, 'Assemble (R2-07)': the title block's '… 102–119 file g's owner and program rules, 200 and above file f's'; in R2-07's form the g clause states no upper number ('file g's items, from 102, its owner and program rules')"
+  },
+  {
+   "file": "docs/volumes/V10-clerk.md",
+   "line": 12,
+   "lines_spanned": 1,
+   "old": "items 1–120 the owner's instructions and file g's rules",
+   "new": "items below 200 the owner's instructions and file g's items",
+   "requested_by": "repair-r2-V10.md header, ASSEMBLE NOTE (R2-07): l. 12's 'items 1–120 the owner's instructions and file g's rules'; in R2-07's form it names no upper number for file g (the note's own wording: 'items below 200 the owner's instructions and file g's items')"
+  },
+  {
+   "file": "docs/volumes/V11-content.md",
+   "line": 11,
+   "lines_spanned": 2,
+   "old": "items 1–101 the owner's instructions, 102–120\nfile g's owner and program rules",
+   "new": "items 1–101 the owner's instructions,\nfile g's items the owner's and program rules",
+   "requested_by": "repair-r2-V11.md header, ASSEMBLE NOTE (R2-07): l. 12's 'items 1–101 the owner's instructions, 102–120 file g's owner and program rules' reads 'items 1–101 the owner's instructions, file g's items the owner's and program rules'"
+  },
+  {
+   "file": "docs/volumes/V12-calibration.md",
+   "line": 8,
+   "lines_spanned": 1,
+   "old": "1–101 the owner's instructions, 102–120 file g's owner and program rules, 200 and",
+   "new": "1–101 the owner's instructions, file g's items, from 102, its owner and program rules, 200 and",
+   "requested_by": "repair-r2-V12.md header, ASSEMBLE NOTE (R2-07): line 8's '1–101 the owner's instructions, 102–120 file g's owner and program rules, 200 and above file f's' reads '1–101 the owner's instructions, file g's items, from 102, its owner and program rules, 200 and above file f's'"
+  }
+ ],
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "4ed292e94f2442e5db7cb25e3da110806f5c5e7ccb9037d6fe32375a51504f76",
+  "docs/ARCHITECTURE-RATIONALE.md": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+  "docs/volumes/V02-buildings.md": "c4d398371f6549f3c3b538ba0771170eb344e899f945f167cd5a29e23acca9a3",
+  "docs/volumes/V04-underground.md": "2786cc53670c4db923fc1607e6b958a6ee9c8790d9fd075b76dcb3db1c7fb905",
+  "docs/volumes/V06-evolution.md": "d12c382be27e78351c5b0c020b8aae7432f888f6d67f5c32ec0571f31aa10e52",
+  "docs/volumes/V07-village.md": "8a4302dc1cd9f98d2cf06aa96aa3f4470f2fee6717c7af96ab6804b5bca28394",
+  "docs/volumes/V08-settlementforge.md": "f92c2a85e2d098627d608acbe5c5d35414046ea3bf5ae5a8c4038b5b81854a47",
+  "docs/volumes/V09-application.md": "23398a30e3926569be252c029e1c11593c91e76d091977e6c262f71eee6c91ef",
+  "docs/volumes/V10-clerk.md": "6efb987b252f4536fdbed4aa8a30c8665543d8af4716f7635285f9866d39c993",
+  "docs/volumes/V11-content.md": "7842179aaa80abfcf1e85dda0ab46c2fa6555b24c874527c2833c02a832b67b4",
+  "docs/volumes/V12-calibration.md": "1428f0ef5e147158d11d1773077d9e3c2b04bb92216e78a872b9821d6f23735c"
+ },
+ "out_equals_final": {
+  "docs/ARCHITECTURE.md": true,
+  "docs/ARCHITECTURE-RATIONALE.md": false,
+  "docs/volumes/V02-buildings.md": false,
+  "docs/volumes/V04-underground.md": false,
+  "docs/volumes/V06-evolution.md": false,
+  "docs/volumes/V07-village.md": false,
+  "docs/volumes/V08-settlementforge.md": false,
+  "docs/volumes/V09-application.md": false,
+  "docs/volumes/V10-clerk.md": false,
+  "docs/volumes/V11-content.md": false,
+  "docs/volumes/V12-calibration.md": false
+ }
+}

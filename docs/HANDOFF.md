@@ -1,8 +1,71 @@
 # HANDOFF — town-generator research program
 
-> **THE LIVE WORK IS NOT ON THIS BRANCH (pointer added 2026-10-03 ~06:30 UTC, with the owner's approval).** `main` stops at the 2026-09-29 pause. The program continued in cloud sessions on **`claude/ecstatic-gates-iyenrz`** (draft PR #2: the coherence pass's seven verify/repair rounds, owner rules to 126+, rulings to J151+). A new session must check that branch out and read ITS docs/HANDOFF.md — never resume from the RESUME HERE block below, which is stale. (`claude/gallant-dirac-w8i53u` is a superseded duplicate started from this stale `main`; `claude/great-heisenberg-rcagps` and `main-8c2bmp` are earlier cloud attempts.) Check `git branch -r` for anything newer before starting.
+## RESUME HERE (kept current; last updated 2026-10-03 ~07:30 UTC)
 
-## RESUME HERE (kept current; last updated 2026-09-29 20:15 EDT)
+**CURRENT (2026-10-03) — THE COHERENCE PASS HAS ENDED; THE BUILD IS STARTING.** By the owner's ruling J153 the loop ended with family check run r7y (all six checks landed: 3 majors, 18 minors, no blocker). Everything still open is in `docs/validation/coherence/fix-list.md` (62 findings: 0 blockers, 27 major — 13 of them owner rule 127's pending changes — 35 minor; 25 builders' valid choices; 28 held notes; J150's two round-8 hand-offs), written by `tools/coherence_fixlist.py`; the M0 subset is `plat/docs/build/open-design-findings.md`. No further fix pass, compression pass, round 8 or full sweep runs now; findings are fixed as the build reaches them. Owner rulings of the day: item 127 / J152 (the "Built by the town" switch list; delete-for-now), J153 (end the loop, build), J154 (how to build: agent teams, `plat/` here, §17.1's clean room, §0's stack), J155 (the duplicate session that started from the stale `main`), J156 (a scope line until M1 — new ideas to `docs/BACKLOG.md`; tangled features staged; the design a reference, not a contract — builders' choices in `plat/docs/build/choices.md`; `main` is the truth, merged at each milestone). **Next:** `workflows/20-build-m0-spec.js` (the M0 build spec deciding every M0 finding, the `plat/` scaffold, an independent checker); then the M0 work items in waves. M-1 and M0 (b), (c) need the reference corpus on the owner's Mac. The Fable review and item 125 (d)'s SettlementForge compatibility check stay pending. The block below is the coherence pass's record.
+
+**Where things stand.** The coherence pass's Verify/Repair loop is run BY HAND from a cloud session (branch
+`claude/ecstatic-gates-iyenrz`, draft PR #2). Every seat is an opus seat. The tools are in
+`workflows/lane-prompts/coherence-cloud/_tools/` (family tools in `_tools/fam/`), and the briefs, `coherence_<lane>.prompt.txt`,
+sit beside them.
+
+Findings per round: 501 → 446 → 215 → 145 → 91 → 73 → 81. Round 6 had 0 blockers, 39 majors and 42 minors; about 30 of
+the majors were in the raised-way × wall family.
+
+The owner's decisions since:
+* J142, narrowing that family: proposed, then withdrawn.
+* J143: keep iterating.
+* J144: a lock on walls, aqueducts and similar structures holds placement, not shape, with the program's guardrails G1–G3.
+  The loop works this family ALONE until six family-focused checks find no major in it.
+* J145: probes split into three parallel lenses; lane cap 10; a compression pass after the family closes.
+* J146: after probe pass 3 (40 findings, 31 major; the enumerated table did not converge, 20 → 13 → 31), the family is
+  governed by normative LAWS (adjudication-r7.md's Part L); R7-02's tables are worked examples. A family major is only a case
+  the laws decide two ways or not at all, an owner-rule clash, or an unchecked law-1 invariant.
+* J147: drawing or dragging holds nothing; locks have two axes, placement and shape (outline and plot size; cosmetics follow
+  the neighbourhood); a shape lock is honoured where a raised way meets a wall. The family's laws adopt it now; the two-axis
+  lock itself and its readers outside the family are a hand-off to round 8.
+* J148: gates, posterns, towers and fixed places never move for a meeting (three tiers). J149: an aqueduct crosses a wall
+  over (an arch clearing it) or merged (the wall built round its arch), by its level. J150: one plain shape-lock rule in
+  the family; lock behaviour under undo, redo, re-grade and repair designed in round 8; Part L must not grow; back to the
+  owner if a laws probe pass still finds 10 or more majors.
+
+**Round 7 (family-only).** Its work set is the 53 family findings; the other 28 round-6 findings are held for round 8 in
+`docs/validation/coherence/work/held-r8/`. adjudication-r7.md carries Part L (the laws, ~9,350 words; the design states them
+at §2.7's support step (6)) and Part P passes 1–8 with "J147/J148/J149 applied". Laws probe majors per pass: 31, 29, 19, 15,
+14, 12 (a plateau). The owner then ruled J151: where EVERY outcome keeps the law-1 invariants and owner rules, passes the
+check and fails no named test, the case is a MINOR valid choice (the builder picks; fix-list.md lists it); probes stopped and
+the family was repaired (14 seats) and assembled (assemble-r7).
+
+The family loop since: six family checks (`famverify-{table,generation,epochs,hand,readers,tests}-r<label>`), then a fix
+pass — adjudicate-r<next> → repairs → assemble-r<next> — then the checks again. Majors per check run: r7 13, r7v 8, r7w 4
+distinct (all restatements of the laws; fix pass r7x replaced them with citations of the laws and swept the family).
+famverify-*-r7x is the current check run. To run another fix pass (label `7y`, after checks `7x`):
+* write `coherence_adjudicate-r7y.prompt.txt` from r7x's brief (counts, the r7x check files) and run it;
+* `python3 _tools/fam/mkrepfam.py 7y 7x <units with work>` (run from a scratchpad copy beside prompts.mjs and finalize.py)
+  renders the repair briefs; run them, up to 10 at once;
+* build `coherence_assemble-r7y.prompt.txt` from r7x's (base = assemble-r7x's install, its sha256) and run it;
+* `python3 _tools/fam/mkfam.py 7y` renders the six checks; run them.
+Builders' choices collected for fix-list.md so far: VF7-GEN-06, VF7-RDR-07 (adjudication-r7v.md); VF7v-TBL-04, -TBL-05,
+-GEN-05, -EPO-06, -RDR-05 (adjudication-r7w.md); and any in adjudication-r7x.md. Held notes for the next full round are in
+each fix pass's "Held for the next full round".
+
+Once the checks find no major: the family closes (J144); then the compression pass (J145); then round 8 — the 28 held
+findings, J150's round-8 hand-offs (the two-axis lock and its readers; lock behaviour under undo, redo, re-grade and repair),
+the held notes — and a full sweep of all twenty seats, looped to J141's bar.
+
+**THE BAR (owner, J141).** The pass stops when a FULL SWEEP of all twenty verify seats finds ZERO blockers and ZERO majors
+and the final validator signs off. Minors still open at the stop go to `docs/validation/coherence/fix-list.md`. FEATURE
+FREEZE until the pass closes.
+
+**At a clean sweep.** Write fix-list.md, run validate-v0, then write SUMMARY.md and validate.md for the owner. LAST comes the
+SettlementForge compatibility check (item 125 (d); "read it from local"), on the owner's Mac. The Fable review stays the
+owner's call.
+
+**Never** run `tools/progress.py` in the cloud. Seats run no state-changing git.
+
+## Earlier resume notes (superseded by the block above)
+
+## RESUME HERE (2026-09-29) (kept current; last updated 2026-09-29 20:15 EDT)
 
 **Where things stand — PAUSED at a clean point at the owner's request (2026-09-29 ~20:10).** (1) The twelve design volumes are DONE
 (docs/volumes/V01–V12, INDEX.md, SUMMARY.md, file f items 200–582, the bundle `docs/ARCHITECTURE-FULL.md` current as of 15:44).

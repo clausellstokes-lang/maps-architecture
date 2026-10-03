@@ -1,0 +1,35 @@
+# VRC0S-26: the verbose-prose pass — RESTATEMENT and ELEGANCE: the light-map key was spelled out in full in both §8.4 (f)
+# and §8.8, each citing the other; its one home is §8.8's *Cache and invalidation*, which now carries §8.4's nuance (the
+# knowledge-key switch taken over the dilated tile); §8.4 (f) points to it. Equivalence: the key's parts (the surface key,
+# its content version over the dilated tile, the `light` marks' revisions, the drawn week and hour, the `light` key), the
+# switches that re-bake (model-layer toggles, `plotsOnly`, `storey`, `depthBand`, the knowledge key while a concealed or
+# key-admitted mark or such a light lies in the dilated tile) and the dirty-box rule all stand in §8.8.
+@@ FILE 8.4.md
+<<<<
+  (the Σ over point lights of their terms with their visibility, and `O`) by the tile worker, once per **light-map key** (§8.8): its tile's surface key — §8.8's base key, its content version
+  taken over the tile dilated by the largest radius among the lights that reach it — plus the revisions of the `light`
+  marks reaching the tile, the drawn week, the drawn hour and the `light` key, so a view switch or an edit that changes the
+  surface a light's traversal reads or the lights that draw (a model-layer toggle, `plotsOnly`, `storey`, `depthBand`, the
+  knowledge key while a concealed mark, a mark drawn only for a key that admits it or a light whose host is either lies in
+  the dilated tile, §8.1 item 7) re-bakes it — a light entering a tile's bake only when its
+====
+  (the Σ over point lights of their terms with their visibility, and `O`) by the tile worker, once per **light-map key**
+  (§8.8), so a view switch or an edit that changes the surface a light's traversal reads or the lights that draw (§8.1
+  item 7) re-bakes it — a light entering a tile's bake only when its
+>>>>
+@@ FILE 8.8.md
+<<<<
+  **light map** by its **light-map key** (§8.4 (f)) — its tile's
+  surface key, whose content version is taken over the tile dilated by the largest radius among the lights that reach
+  it, plus the revisions of the `light` marks reaching the tile, the drawn week, the drawn hour and the `light` key — and a
+  dirty box invalidates every light map whose dilated tile it meets; so a view switch that changes a surface or the lights
+  that draw (a model-layer toggle, `plotsOnly`, `storey`, `depthBand`, the knowledge key over a concealed mark, a mark
+  drawn only for a key that admits it or a light whose host is either) re-bakes the light maps that read it, while a moving
+====
+  **light map** (§8.4 (f)) by its **light-map key** — its tile's surface key with its content version and its switches
+  taken over the tile dilated by the largest radius among the lights that reach it, plus the revisions of the `light`
+  marks reaching the tile, the drawn week, the drawn hour and the `light` key — and a dirty box invalidates every light map
+  whose dilated tile it meets; so a view switch that changes a surface or the lights that draw (a model-layer toggle,
+  `plotsOnly`, `storey`, `depthBand`, the knowledge key while a concealed mark, a mark drawn only for a key that admits
+  it or a light whose host is either lies in the dilated tile) re-bakes the light maps that read it, while a moving
+>>>>

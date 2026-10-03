@@ -1,0 +1,40 @@
+{
+ "key": "coherence/famverify-epochs-r7y",
+ "file": "docs/validation/coherence/famverify-epochs-r7y.md",
+ "issues": [
+  {
+   "id": "VF7y-EPO-01",
+   "severity": "minor",
+   "kind": "readers (a gloss wider than the law it cites: a founded course meets a wall \"as an unheld one\", a shape lock J147 (3) honours)",
+   "owner": "V06",
+   "claim": "V06 §3.19 (5), the founding's course (V06 l. 2844–2847): \"Locked, pinned and declared entities — but a wall, a retaining wall and another raised way, which a course meets as unheld ones (§2.7's laws, law 2 *Entry*; its worked example the crossing table's lock sentence: a wall by §2.7's laws, …) —, … are **impassable** to the course's supports, ramps, stairs and feet and to its clearing\". The gloss predates J147's split of the lock (PRB7-20, R7-02). Since J147 the laws' *held* is \"locked, on the axis named, and nothing else\", \"held in shape\" holding outline and size (l. 2653–2656); the law the gloss cites says \"No placement lock or pin … refuses, skips or alters a meeting (J144: it holds placement, not shape); a shape lock is honoured (law 1 (10))\" (law 2 *Entry*, l. 2758–2760); law 1 (10) forbids \"an aqueduct merged into\" a shape-held thing (l. 2739–2743); J147 (3) (owner): \"where a raised way meets a wall with a shape lock, the shape lock is honoured … at an epoch it waits\". \"Meets as unheld ones\" reads a shape-locked wall as unlocked. The step's deciding clause holds the case — \"its course searching only the courses those laws admit against every standing curtain (law 1 (2)–(6), (9)–(11), …; law 2 (a)): an aqueduct *over the band* …; a candidate with no such course … waits, `raised.waited`\" (V06 l. 2855–2860), law 1 (10) in F1's set, *over the band* saying \"a shape-locked one never merged into (law 1 (10))\" (l. 3032–3033) — and the gloss sits in the impassable list, whose bands the support step's (3) keeps every station off anyway (l. 2539–2547). T110-4 (c) runs the case (\"the ring both meet shape-locked … and an aqueduct is founded across it at an epoch\", l. 19695–19697) and §5.3's law-1 row checks law 1 (10) at the epoch's commit (l. 9950). Minor: a gloss contradicting the law it cites, the step's own search and named outcome deciding it, its wrong build failing T110-4 (c). The meeting itself, not a lock under undo, redo, re-grade or repair (J150).",
+   "required_change": "V06 §3.19 (5) (V06 l. 2844–2846): \"but a wall, a retaining wall and another raised way, which a course meets as unheld ones (§2.7's laws, law 2 *Entry*; its worked example the crossing table's lock sentence:\" → \"but a wall, a retaining wall and another raised way, which a course meets by §2.7's laws, a placement lock or pin deciding no meeting and a shape lock honoured (law 2 *Entry*, law 1 (10); its worked example the crossing table's lock sentence:\"."
+  },
+  {
+   "id": "VF7y-EPO-02",
+   "severity": "minor",
+   "kind": "list (the REPLACEMENT's wait names a kept gate, not a kept tower — the palisade's anchor end posts — which row W14's cell names)",
+   "owner": "V07 (END at model)",
+   "claim": "Row W14's cell gives a re-section on its kept trace \"its standing towers and gates kept, a re-section whose new footprint of one would lie where law 1 (5) bars it, or whose new top would leave one in a crossing law 1 (5) bars (an aqueduct's arch no longer clearing the wall), having no lawful shape there (law 2 (c))\" (l. 3359). The REPLACEMENT that row's E path names lists one wait case, V07 §3.11 (V07 l. 2316–2318): \"(c) else, and wherever a kept gate would then stand where those laws bar one (law 1, read with its terms; chiefly (5)), the REPLACEMENT waiting (`walls.waited`)\"; W14's head gives that path a gate alone: \"the REPLACEMENT waiting where a standing gate's stone footprint would lie where law 1 (5) bars it, or its new top would rise past the soffit of an aqueduct's arch over a kept gate (law 1 (5))\" (l. 3359). A palisade's towers are its anchors' end posts (V07 §3.4 step 5 d, V07 l. 1405–1406: \"an end post for `palisade` and `earthwork`, a small tower for `inner`\"); an end post is a tower to law 1 (5) (*footprint*: \"a tower's (`Tower.footprint`, an end post's, …)\", l. 2623) and an anchor a fixed place (l. 2627–2629) that law 1 (6) admits in an aqueduct's strip only \"where law 1 (5) admits a gate or tower there\" (l. 2726–2727). An anchor under an aqueduct's arch in an over crossing that clears it is barred once the stone circuit's new top puts the crossing in law 1 (2)'s merged form (\"no gate, postern or tower in it (law 1 (5))\", l. 2711–2712), and no meeting moves it (law 1 (11)). V07's \"(c) else\" reaches the case and §5.3's row checks law 1 (5), (6) at the village epoch's commit; T-V7-48's REPLACEMENT variants run a kept gate only (V07 l. 3715). Minor: a list naming fewer of the wait's cases than the worked-example cell it cites.",
+   "required_change": "V07 §3.11 (V07 l. 2317): \"(c) else, and wherever a kept gate would then stand where those laws bar one (law 1, read with its terms; chiefly (5)),\" → \"(c) else, and wherever a kept gate or tower — an anchor's end post among them — would then stand where those laws bar one (law 1, read with its terms; chiefly (5), (6)),\". END at model, row W14's head (l. 3359): \"the REPLACEMENT waiting where a standing gate's stone footprint would lie where law 1 (5) bars it, or its new top would rise past the soffit of an aqueduct's arch over a kept gate (law 1 (5))\" → \"the REPLACEMENT waiting where a standing gate's stone footprint, or a standing tower's (an anchor's end post among them), would lie where law 1 (5) or (6) bars it, or its new top would rise past the soffit of an aqueduct's arch over a kept gate or tower (law 1 (5), (6))\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V06 §3.7.1 (V06 l. 1477–1480) × §3.7.6 (2) (V06 l. 1569–1574) × §3.17 (3), (7) (V06 l. 2491–2493, 2504–2506)",
+   "note": "Persisting (adjudication-r7y.md's note 1): for a circuit that cannot hold water access and the occupied-footprint rule, whether the walled stage grows unwalled that epoch or waits whole, and whether the circuit is tried again at the next epoch or only at the next growth, is unstated — wall × water and footprints."
+  },
+  {
+   "site": "V07 §3.5a (5), (7) (V07 l. 1636–1653) × §2.7's support step (6)'s lead (l. 2575–2578); V06 §3.11.6 and II.7.6's `raiseGrade`",
+   "note": "Persisting (adjudication-r7y.md's note 2): a plot under a `vault` span at a village rung; what a raised region does to a run or a raised way standing in it — raised way × plots, wall × terrain."
+  },
+  {
+   "site": "V07 §3.12 *Item 110's state* (V07 l. 2672–2674) × §2.7's support step (6)'s lead (l. 2565–2571) and V07 §3.5a (7) (V07 l. 1649–1651)",
+   "note": "New: \"its arch vaults are re-derived with it by the span rule\" can read as the span rule re-run on a carried way at a village rung (its `country` reason \"at every rung\"), which (6) forbids (\"nothing laid later re-runs this step on it, … re-rules a span\"); whether a carried city aqueduct's span over the shrunk town's new hinterland faces keeps its recorded `use` is left to the reader — a raised way's spans over time, no wall."
+  },
+  {
+   "site": "V06 §3.19.3 (V06 l. 2993–3054), §3.1's suppression sentence (V06 l. 984–986), §3.7.6 (3)'s \"a removal holds\" (V06 l. 1589–1593), V07 §3.5a (10) (V07 l. 1672–1675), V07 §3.12 *Item 110's state* (V07 l. 2667–2669), T-V6-58 (V06 l. 4231) × item 127 (AMENDMENTS-2026-09-28g.md; PROGRESS J152)",
+   "note": "New, routed by J152/J153, not graded: the reason-keyed removal that holds through regeneration, which these texts implement (with §2.7's C7, the table seat's note), is replaced by item 127's switch list and delete-for-now; J153 sends item 127's changes to fix-list.md. The brief predates J152."
+  }
+ ]
+}

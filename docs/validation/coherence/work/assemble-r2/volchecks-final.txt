@@ -1,0 +1,13 @@
+INDEX-final.out C1: 0 /0 C2: 0 /0 C3: 21 /17 C4: 0 /0 S1: 0 /0 S2: 0 /0  exit 1
+V01-neighbourhoods-final.out C1: 0 /0 C2: 0 /0 C3: 401 /345 C4: 2 /0 S1: 0 /0 S2: 255 /3  exit 1
+V02-buildings-final.out C1: 0 /0 C2: 0 /0 C3: 586 /528 C4: 1 /0 S1: 0 /0 S2: 156 /9  exit 1
+V03-interiors-final.out C1: 0 /0 C2: 0 /0 C3: 367 /280 C4: 2 /0 S1: 0 /0 S2: 169 /0  exit 1
+V04-underground-final.out C1: 0 /0 C2: 0 /0 C3: 214 /190 C4: 0 /0 S1: 0 /0 S2: 127 /2  exit 1
+V05-sky-final.out C1: 0 /0 C2: 0 /0 C3: 238 /226 C4: 0 /0 S1: 0 /0 S2: 260 /1  exit 1
+V06-evolution-final.out C1: 0 /0 C2: 0 /0 C3: 282 /261 C4: 0 /0 S1: 0 /0 S2: 408 /16  exit 1
+V07-village-final.out C1: 0 /0 C2: 0 /0 C3: 363 /318 C4: 1 /0 S1: 0 /0 S2: 401 /0  exit 1
+V08-settlementforge-final.out C1: 0 /0 C2: 0 /0 C3: 181 /155 C4: 2 /0 S1: 0 /0 S2: 258 /2  exit 1
+V09-application-final.out C1: 1 /0 C2: 1 /0 C3: 282 /263 C4: 0 /0 S1: 0 /0 S2: 426 /92  exit 1
+V10-clerk-final.out C1: 0 /0 C2: 0 /0 C3: 162 /142 C4: 0 /0 S1: 0 /0 S2: 304 /13  exit 1
+V11-content-final.out C1: 0 /0 C2: 0 /0 C3: 302 /275 C4: 4 /0 S1: 0 /0 S2: 313 /33  exit 1
+V12-calibration-final.out C1: 8 /0 C2: 0 /0 C3: 141 /127 C4: 2 /0 S1: 0 /0 S2: 113 /11  exit 1

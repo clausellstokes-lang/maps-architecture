@@ -1,0 +1,10 @@
+[
+ {
+  "line": 2428,
+  "run": "law 1 2 where the",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7x (2026-10-02): the assembler's review — §2.7's crossing table, the C5 column's lead, adjudication-r7x M9's text: \"only where these laws ad"
+ }
+]

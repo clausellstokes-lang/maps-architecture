@@ -1,0 +1,246 @@
+{
+ "key": "coherence/verify-vol-V05-V06-r0s",
+ "file": "docs/validation/coherence/verify-vol-V05-V06-r0s.md",
+ "issues": [
+  {
+   "id": "VV56-01",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "V05 §2.6's lifecycle table lost the island name's row. The archive's row (l. 776) read \"`name` | S13a | labels, gazetteer | model digest with its naming record | §6.3's naming cases | inverse | —\"; the rewrite (V05-DUP-3's merge of §1b into §2.6) dropped it, the mapping table still sends V05-0153 (\"name: S13a; §6.3 naming cases\") to \"V05 §2.6\", and §1b's row names only producer and consumers, so the field's persist, regenerate and undo cells are stated nowhere.",
+   "required_change": "Restore in V05 §2.6, after the `accesses` row: \"| `name` (§2.7's `SkyIsland.name`) | S13a (V05 §3.14) | labels, the gazetteer, exports | model digest with its naming record | §6.3's naming cases | inverse | — |\".",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-02",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "The history store's and frame cache's default device settings are lost from the set. The archive's V06 §2.2 (l. 685) and §6.5 stated them — \"256 MB desktop, 96 MB on the low-end tier\" and \"the frames kept in memory (8)\"; the rewrite moved them to \"V09 §9\" (V06 §2.2 l. 570, §6.5), while V09 §2.11 (l. 892: `history: { storeMB; frames }` — \"their defaults and ranges are V06 §2.2's\") and l. 3592 point back to V06 §2.2. Neither file states a value, and V06 §6.5's \"≈ 150 CITY or ≈ 60 METROPOLIS epochs before spilling\" now rests on an unstated store size.",
+   "required_change": "V06 §2.2 states the device defaults as V09 l. 892 says: \"The history store's memory (256 MB on the desktop tier, 96 MB on the low-end tier) and the frames kept in memory (8) are per-device app settings (V09 §9), outside the recipe, the log and every digest …\"; V06 §6.5 reads \"≤ the device's setting (256 MB desktop, 96 MB low-end; V06 §2.2, V09 §9)\".",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-03",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "V06 §6.2's century bound lost its derivation and its worst-case argument was blurred. The archive (l. 3220–3245) derived the per-resize figures from V05 §6's row — island buildings ≤ 5 % of the default request (≤ 300 / 750), §12.6's law 3 × 6 ms + 60 µs × the buildings ≈ 36 / 63 ms, the yards' re-cut plots ≈ 7 ms, ≤ 3 accesses (`accessCount.max`) × 30 ms for the tops and as much for the feet: 5 + 36 + 7 + 90 + 90 ≈ 228 ms (CITY), ≈ 255 ms (METROPOLIS), shrinks ≈ 209 / 227 ms — and proved the worst case: a resize moves the rim ≤ 0.025 · years · r, ≈ 4.5 m a year at CITY and ≈ 6.3 m at METROPOLIS, against 3 m plots (§15.2 O5 (b)), so one resize can carry a foot off its plot, and a century's rim travel (≈ 450 / 630 m) exceeds its 100 resizes. The live text keeps only the results and replaces the argument by \"(a rim moving ≤ 0.025 · r a year crosses a 3 m plot within a century)\", which understates the per-resize claim the worst case needs; the constants and the access bound behind 228 / 255 ms are gone (cf. VV56-08).",
+   "required_change": "Restore V06 §6.2's derivation as V06's own text (it computes from V05 §6's row; nothing of that row is quoted): the per-resize sums with their inputs (the island's buildings ≤ 5 % of §12.5's default request, §12.6's law per district, the yards' re-cut plots, the access count and 30 ms per top and per re-landed foot), and the worst-case argument with its numbers (\"≈ 4.5 m a year at CITY's `areaHaMax` and ≈ 6.3 m at METROPOLIS's, against a 3 m plot, so one resize can carry a foot off its plot; over a century the rim can travel ≈ 450 / 630 m\"), re-computed with the access bound VV56-08 sets.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-04",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 117's V05 part is absent (canon, dated ruling J128: \"V05: the sky islands' seasonal look\"). No V05 text names a season, the year position, ice, snow, leaf fall or the growing year; V05 §5.1's sky semantics, §5.5's exports and §6's budgets have no season row, and §1.2 and §12 still read \"items 102–111\".",
+   "required_change": "Write V05's item-117 part at build depth as new design: V05 §5.1 — the island's own fabric (trees, gardens, fields, the rim walk's greenery) takes §8.2's season rows by the island's climate (the ground's biome row, item 117 (d)), including autumn's per-tree crown colours and leaf cover (item 117 (f2)); the island's conjured river and spring pond freeze by §8.2's ice rule at the ground climate's ice weeks (open water kept at the waterfall's outfall, item 117 (e)); snow lies on the island's land and roofs in the snow weeks; all a look (view state, §2.9), never the model or its hash; V05 §5.5 — exports draw the chosen season (§11); V05 §6 — the re-skin of the sky surface layer inside §12.5's budget; a T-V5 clause (the same document hashes identically in every week; an island's trees and water follow the ground climate's rows; arid: no ice or snow); a J-V5 row; V05 §8's P3 price; §1.2's and §12's item range \"102–119\".",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-05",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 118's V05 part is absent (canon, dated ruling J129: \"V05: the sky islands' pennants\"; item 118 (d): \"Sky islands carry pennants on their rims and landings\"). No V05 text names a festival, a decoration or a pennant.",
+   "required_change": "Write V05's item-118 part at build depth: V05 §5.1 — while the view's week lies inside a festival's window (§2.9's festival display; §7.7's `traditions` row), an island carries pennants on its rim and at its landing tops, placed by rule from the seed, the festival's id and the island's address (keyed draws), colours and motifs from §8.2's decoration rows (culture, deity, season; V11's tables), drawn at the city band and finer per §8.2, never over a label keep-out or across a landing yard's passage, displaced with the island under `offset`; a look only; V05 §5.5 — image exports draw them, battle-map exports in the image only (§11); a T-V5 clause (hash identical with decorations on and off and in every week; pennants exactly in the window's weeks; byte-stable tiles per seed); a J-V5 row; V05 §8's P3 price.",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-06",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 119's V05 part is absent (canon, dated ruling J130: \"V01, V02, V03, V04, V05: their budget sections read the ceiling for one-time waits and keep their interactive budgets\"). V05 §6 states no comfort level and ends \"any other row missed is re-declared at its measured value for the owner's veto (D-18)\" (l. 2233–2234), against item 119 (a): D-18's misses are now target misses inside the comfort level, no veto question.",
+   "required_change": "V05 §6: state that every one-time wait the sky adds — a generation or a Re-derive from S7b with islands at CITY and METROPOLIS, declaring an island, `fallIsland`, an epoch's island work (inside V06's advance), an export with the sky layer — completes within §12's ten-second comfort level from the click to the complete result on §12.1's hardware, the rows kept as targets; a row slower than its target only for a recorded measured gain; the interactive rows (`setAttr`, a move, a resize, a rim reshape, New random, the pending strip) keep their budgets; the last sentence reads \"… re-declared at its measured value as a target miss inside the comfort level (D-18)\"; T-V5-18 measures the comfort level at every island rung.",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-07",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 119's V06 part is absent (canon J130: \"V06: advance time and the history replay within the ceiling\"), and V06's budgets contradict the owner rule: §6.2's century bounds \"TOWN ≤ 25 s, CITY ≤ 115 s, METROPOLIS ≤ 215 s\" (J-V6.118: \"the century bound is what a user waits for\"), §6.7's and §2.2's `replay.budgetMs` \"CITY 20 000 · METROPOLIS 40 000\", §0's \"under a minute for a metropolis\" (l. 30), and §6's \"every miss re-declares its row for the owner's veto (D-18)\" (l. 3495; also l. 3528, 3566–3567, 3606, 3855, 3871). Item 119 (a) lists \"advance time and item 113's history replay\" among the waits that take at most ten seconds from the click to the complete result, D-18 no longer a veto question.",
+   "required_change": "Write V06's item-119 part at build depth: V06 §6 states the comfort level for `advance` (any request, every rung to the metropolis cap) and for a history-first generation (the replay with the peak's generation before it), each ≤ 10 s from the click to the complete result on §12.1's hardware, the per-epoch rows and today's sums kept as targets; the mechanism that brings them inside it (e.g. an `advance` whose estimate exceeds the comfort level coarsens its cadence as V06 §3.20.1 (3) coarsens the replay, `replay.budgetMs` re-set so the replay plus the peak's generation fit, `advance.maxEpochs` read against it), progress past one second (the time card, the generation's progress), a step slower than its target only for a recorded measured gain; §0's sentence, §2.2's `replay.budgetMs` row, §6.2's bounds, §6.7, J-V6.118 and the \"owner's veto\" phrases rewritten accordingly; a T-V6 clause measuring both waits at every rung; a J-V6 row; V06 §8's price and §8's \"items 111 and 113–115\" → \"111, 113–115 and 119\".",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-08",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V06 §6.2 prices \"a growing resize with every re-claimed yard's top placed and every foot re-landed ≤ 228 ms at CITY and ≤ 255 ms at METROPOLIS\", figures derived (archive) from ≤ 3 accesses an island (`accessCount.max`). The V05 rewrite added `accessCount.handMax` (6 hand-placed accesses an island; V05 §2.4, §4.2, J-V5.82) and V05 §6's resize row now charges 30 ms per re-claimed yard's top and per re-landed foot with no access bound (its \"≤ `accessCount.max`\" dropped); every yard is re-claimed at a resize (V05 §4.2), so an island with 9 accesses costs ≈ 5 + 36 + 7 + 270 + 270 ≈ 588 ms a growing resize at CITY, and §6.2's worst case and bounds (3 × 100 × 228 ms) no longer hold.",
+   "required_change": "V06 §6.2 states the access bound its century assumes and recomputes: either the worst case with ≤ `accessCount.max` + `accessCount.handMax` accesses an island (re-deriving the per-resize figures and the sums), or the century priced on the generated accesses with each hand-placed access's re-landings priced at V05 §6's row as an edit-borne cost stated beside the bound; J-V6.118 updated; then item 119's comfort level applies (VV56-07).",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-09",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V06 §3.16 *Keys* (l. 2349): \"A replay epoch keys as any epoch, its epoch component its place in the log (V06 §3.20.3)\". The base's canonical rule (§6.1, l. 8621–8623; J-A113.61) keys the history replay's coarse epochs r = 1 … R with the epoch component `0x8000 + r`, \"the upper half of the u16 range reserved to it, so no replay draw can equal a live epoch's\"; the determinism rewrite's cross-part note to V06 asked for it. Two implementations following the two texts draw different values.",
+   "required_change": "V06 §3.16 reads: \"A replay epoch r (r = 1 … R, V06 §3.20.3) keys its draws with the epoch component `0x8000 + r` (§6.1; J-A113.61), so no replay draw equals a live epoch's\"; V06 §3.20.3 cites it.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-10",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V06 §4.2's hand forms bind the engine's way and raised-way edits to T4: \"let a lane go, bring it back | T4 `road`'s class chip on a way\" (`convert downgradeWay` / `upgradeWay`, l. 3256) and \"repair a raised way or a deck by hand | T4's inspector on a raised way ('repair'), on a bridge or pier ('rebuild the deck')\" (`convert repairRaised`, l. 3279). The application's binding homes them on T9 `shape` — V09 §4.3 (l. 1624: \"`convert downgradeWay`, `upgradeWay`, `repairRaised` | T9 `shape` … **Repair** on a raised way, **Rebuild the deck**\"; XV-V9-34 names V06 §4.2 as its destination), beside §7.1's binding of a way's class `setAttr` to T9 (l. 9758).",
+   "required_change": "V06 §4.2's two rows read \"T9 `shape`'s class chip on a selected way (`path` ↔ its former class; V09 §4.3)\" and \"T9 `shape`'s inspector on a raised way (**Repair**), on a bridge or pier (**Rebuild the deck**; V09 §4.3)\".",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-11",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V05 §3.9 (5) and §3.23 state that a locked island (or a lock on its `altitudeCm` path) the clearance rule cannot raise \"stays where it hangs … exempt from the clearance invariant (§5.3, file f item 331) as a held island is from the supply invariant\", and T-V5-31 (f) asserts \"the invariant suite passes by the island's exemption\". Base §5.3's sky row (l. 8429) exempts only the supply clause (\"unless held by a lock or declaration\") and states \"every island's apex clears the tallest caster beneath by `clearanceM`\" without exception, so a locked island the clearance cannot raise fails the stage-end invariant. V05's cross-part note to determinism asked for the exemption; it was not applied.",
+   "required_change": "§5.3's sky row reads \"… every island's apex clears the tallest caster beneath by `clearanceM`, unless a lock holds it (V05 §3.9 (5); listed `clearance held by your lock`); …\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VV56-12",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V05's head (l. 9–10) says \"`item n` is an amendment item — items 1–113 the owner's\"; the owner's items now run to 119 (114–119 filed 2026-09-30), and §1.2's last base-hook row and §12's CONFIRMED paragraph read \"items 102–111\".",
+   "required_change": "The head reads \"items 1–119 the owner's\"; §1.2's row and §12 read \"items 102–119\" (with VV56-04 – VV56-06 written).",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-13",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V06's head (l. 9) says \"items 1–116 the owner's\"; the owner's items run to 119.",
+   "required_change": "The head reads \"items 1–119 the owner's\".",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-14",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "64 list continuations in V05 cite a bare `§x` that exists in the base, which canon S7 (\"A volume: 'Vnn §x.y' everywhere\") reads as the base's section, while the author meant the head volume's (e.g. l. 154 \"(V05 §3.8 (4), §3.11)\" — base §3.11 is the kernel's limits; l. 189 \"V06 §2.1 …, §2.8, … §3.2, §3.4\"; l. 2779 \"V04 §3.5.1, §3.10; V06 §2.1, §3.2, §3.4 (8)\"). The head (l. 9–10) states the opposite convention (\"a list after a volume prefix stays in that volume\"), so the citations have two readings. (Assembler list `ambiguous-refs.tsv`; l. 1721 \"§5.1's ladder\" and l. 2687 \"§4.3's slot\" are the base's and stay bare.)",
+   "required_change": "Prefix each with its volume: l. 124 V05 §3.4; 128 V05 §3.7; 136 V05 §3.11; 142 V05 §8; 147 V05 §3.5; 154 V05 §3.11; 162 V05 §3.2, V05 §3.7; 174 V05 §3.5; 180 V05 §2.5; 182 V05 §5.3; 184 V05 §8; 186 V01 §3.1, V01 §3.2; 188 V04 §3.10; 189 V06 §2.8, V06 §3.2, V06 §3.4; 190 V08 §3.5; 191 V09 §4.9, V09 §5.4, V09 §6.4; 193 V11 §3.5, V11 §3.9; 194 V12 §3.11; 228 V05 §3.11; 235 V05 §2.2; 256 V05 §3.11; 271 V06 §3.2; 276, 279 V05 §3.10; 439 V01 §2.3; 464 V05 §4.2; 480 V05 §2.1; 495 V05 §3.5, V05 §3.10; 525 V05 §3.9; 546 V05 §4.2; 550 V05 §3.5, V05 §3.10; 675, 715 V05 §3.7; 964 V05 §3.10; 1187 V05 §4.2; 1204 V06 §3.2; 1445 V01 §2.3; 1468 V05 §4.5; 1651, 1682 V05 §3.10; 1709 V05 §3.10, V05 §4.2; 1720 V05 §5; 1734 V05 §2.6; 2004 V05 §3.10; 2546 V05 §3.11; 2612 V05 §3.9; 2775 V05 §3.9, V05 §6; 2779 V04 §3.10, V06 §3.2, V06 §3.4; 2780 V06 §6.2, V09 §5.4; 2788 V05 §3.10, V05 §4.2 — and the head's citation sentence states S7's rule (\"every item of a list carries its volume's prefix\").",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-15",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "46 list continuations in V06 cite a bare `§x` that exists in the base, read by canon S7 as the base's, where the head volume's is meant (e.g. l. 175 \"(V06 §3.19, V06 §3.7.6 (5), §3.11, §3.2)\" — base §3.11 and §3.2 are the kernel's; l. 4070 \"V11's cells (§2.3's `split.threshold`, …)\"); the head (l. 9) states the contrary convention. (l. 3169 \"§5.2's F-UNDER\" and l. 3574 \"§2.9 step 3\" are the base's and stay bare.)",
+   "required_change": "Prefix each: l. 119 V06 §3.2; 125, 128 V06 §3.7; 143 V06 §5; 168 V06 §3.6; 175 V06 §3.11, V06 §3.2; 196 V06 §3.10; 206 V06 §3.9; 207 V04 §2.3, V04 §3.5, V04 §3.10; 208 V06 §3.6; 214 V04 §3.10; 224 V04 §3.5; 266, 267 V06 §3.2; 268 V06 §4.1; 269 V06 §3.11; 270 V06 §3.4; 273 V06 §3.7; 276 V06 §3.9; 277 V06 §3.10; 291 V06 §3.3; 301 V06 §3.1; 304, 337 V04 §3.10; 345 V06 §3.4; 820 V06 §4.1; 975 V06 §3.10; 1328 V04 §3.10; 2406 V04 §2.3, V04 §3.5; 2407 V04 §3.8, V04 §3.10; 3147 V06 §3.10; 3148 V06 §3.4; 3152 V06 §3.2; 3190 V06 §4.1; 3764 V06 §2.4; 3771 V12 §3.9; 4069 V08 §3.6; 4070 V11 §2.3; 4074 V06 §6.2; 4079 V06 §2.4; 4098 V06 §8 — and the head's citation sentence states S7's rule.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-16",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V05 §10's BCR-V5-23 row reads \"carried by volume 6 (V06 X10)\"; the V06 rewrite removed its X1–X49 hand-off table (ID-WX; V06 §13), so `V06 X10` resolves nowhere.",
+   "required_change": "The row's third cell reads \"carried by volume 6 (V06 §2.1's `EpochOps.demandTaken`, V06 §3.8.1)\".",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-17",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "E-24's one mark (\"superseded by X\" / \"amended by X\" on the decision row; V06 §9 writes \"*amended by J-V6.61.*\" at the row's head) is written in V05 as a trailing sentence in three forms: J-V5.40 \"… Amended by J-VI.13: the row is DR27 …\", J-V5.61 \"… Amended by J-VI.4: …\", J-V5.62 \"… Amended by J-VI.14: …\".",
+   "required_change": "Each of the three rows opens with the one mark \"*amended by J-VI.13.*\", \"*amended by J-VI.4.*\", \"*amended by J-VI.14.*\", the amending decision's effect kept as the row's last clause.",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-18",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V05 §3.16 (4)'s wall row writes `breached` over a covered run of `Enceinte.condition` but not the run's last-change epoch, which item 114 (b) records on every run (\"each run records its material … and the epoch of its last change\"; V06 §2.12's condition row; V06 §3.7.7's oldest-patch-first order reads it); a landfall-breached run then carries the stale epoch of its last robust or patched state.",
+   "required_change": "V05 §3.16 (4)'s wall-stretch row adds: \"the run's last-change epoch written as the fall's epoch (its material kept), item 114 (b)\"; V05 §3.16 (8)'s undo list includes it.",
+   "owner": "V05"
+  },
+  {
+   "id": "VV56-19",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V06 §2.2's row \"`spring.gardenMinFlow` · `spring.groveMinFlow` | 0.5 · 0.25 | below these flows, held `land.fallowAfterYears`, an oasis's gardens turn `commons` and its grove thins\" disagrees with V06 §3.12.1 (4), where the grove thins after its drawn `land.scrubAfterYears` ([15, 40] years, not [3, 8]); and §3.12.1 names no stream or key for the grove's drawn spans (the gardens' are `stream(EVO_TERRAIN, landUse)` keyed with the epoch).",
+   "required_change": "§2.2's row reads \"… held `land.fallowAfterYears` an oasis's gardens turn `commons`, held `land.scrubAfterYears` its grove thins (V06 §3.12.1)\"; §3.12.1 (4)'s grove bullet names its draws: \"drawn once on `stream(EVO_TERRAIN, water body)` keyed with the epoch the flow fell below (the re-lay's with the epoch it rose)\".",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-20",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V06 §2.14 declares `HistoryEventRow.severityScale` as \"the effect's scale at severity 0 and 1, linear between\", and §3.20.2 applies `destroy` \"where the row's severity threshold is met\" without saying what the threshold is; V11 §3.25.2 (the rows' home, l. 4092–4095) reads the field otherwise for `destroy`: \"the scale's first end is the threshold at or above which the event destroys\" (V11's cross-part note 4 to V06).",
+   "required_change": "V06 §2.14's comment reads \"… linear between; for effect `destroy`, the first end is the severity at or above which the event destroys (V11 §3.25.2)\", and §3.20.2's `destroy` bullet cites it.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-21",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "V06 §6.7 sets `replay.epochCostMs` \"METROPOLIS 1 300 ms (6.1's total with 6.2's participants, rounded up)\", but 6.1's METROPOLIS total ≤ 1 150 plus 6.2's ≤ 151 is 1 301 ms; 1 300 is rounded down (TOWN 137 → 140 and CITY 418 → 420 are rounded up); the same value stands in §2.2's row.",
+   "required_change": "METROPOLIS 1 310 ms (or 1 350) in §6.7 and §2.2's `replay.epochCostMs` row, the §6.7 examples re-checked (a 300-year metropolis at decades: 30 × 1 310 ≈ 39.3 s against its budget, after VV56-07).",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-22",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V07's cross-part note 11 asked V06 §6.2's participant table to carry V07's participants; the table (l. 3539–3546) lists `sky.islands`, `under.*`, `hood.fabric` and `sky.clearance` only, while V06 §3.2 registers `village.plan`, `village.density` and `village.pins` as participants and V07 §6 (l. 3341–3344) prices them for it — `village.density` ≤ 6 ms p95 at a base-product epoch, `village.plan` no ops there, \"V06 §6.2's participant row cites these figures\" — so the \"participants total\" the century sums assumes omits registered participants.",
+   "required_change": "Add the rows `village.plan`, `village.density`, `village.pins` to §6.2's table, each citing V07 §6's figure (0 where its scope gates it off at TOWN and above, `village.density` ≤ 6 ms where a superseded `VillagePlan` exists), and the totals re-summed.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-23",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "Scope's cross-part note asked V06 §7 to name each base bar and clause its tests take (the take-over table's evolution row: T8-1 – T8-7, T17-2, … T67-1 – T67-6, T113-1 – T113-3, T113-6, T113-7); V06 §7 names none, so which T-V6 test takes which base bar (T113's clauses by T-V6-71, T111's epoch form by T-V6-72, the T114 and T115 clauses by T-V6-73, -74) cannot be checked from V06.",
+   "required_change": "V06 §7 opens with one sentence naming the base bars its tests take, as V05 §7 does (\"They take over the base's … as §13.2 names\"), and T-V6-71 – T-V6-74 each name the base bar clauses they carry.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV56-24",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V05 §4.5 says its bend rows \"are V09 §4.9's lines, carried in V10's `bend` category\", and V05 §3.23 / §4.2 define two new bend lines — the hand-placed cap (\"An island takes at most {n} ways up by hand; moved {access} here\", alternative \"Delete one first\") and the rung bend (\"Floating islands need a city; this quarter is laid on the ground\") — but V09's message catalogue has no key for either (V05's cross-part note 9; `bend.island.keepRoom` and `.rimStop` are present, l. 2039–2040).",
+   "required_change": "V09 §4.9 adds two rows: `bend.island.handMax` — \"An island takes at most {n} ways up by hand; moved {access} here.\" with the alternative \"Delete one first\" (V05 §4.2, §3.23; J-V5.82) — and `bend.island.belowCity` — \"Floating islands need a city; this quarter is laid on the ground.\" (V05 §3.23's events row), each \"its text, single source, loaded from volume 5\"; T-V9-13's bend list includes them.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV56-25",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V10's `bend` category lists V05's `bend.island.keepRoom` and `bend.island.rimStop` (l. 2229) but not the hand-placed-cap and rung bends V05 §4.5 says it carries, and V10's island row (l. 1688) names only \"removed by you\" and \"raised clear of the aqueduct\" of V05 §4.5's island lines (\"clearance held by your lock\", \"held without its institution\", \"not yet in the ground's shade\" absent; V05's cross-part note 10).",
+   "required_change": "V10 l. 2229's list adds the two keys of VV56-24, and l. 1688's island row adds \"clearance held by your lock\", \"held without its institution\" and \"not yet in the ground's shade\" (V05 §4.5).",
+   "owner": "V10"
+  },
+  {
+   "id": "VV56-26",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V11's registry row 56 (`islands.json`, l. 901) notes \"its `accessSiting.deckGapM` and `lineClearM` are V05's own cells\" but not the rewrite's new own cell `accessCount.handMax` (V05 §2.4; V05's cross-part note 11).",
+   "required_change": "Row 56's description reads \"… (its `accessSiting.deckGapM`, `lineClearM` and `accessCount.handMax` are V05's own cells)\".",
+   "owner": "V11"
+  },
+  {
+   "id": "VV56-27",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11's hand-off closure rows cite V06's removed hand-off ids — \"V06 X1\", \"V06 X8\", \"V06 X20\", \"V06 X31\", \"V06 X35\", \"V06 X43\", \"V06 X45\" (l. 4975–4981); the V06 rewrite removed X1–X49 from the volume (ID-WX), so they resolve nowhere.",
+   "required_change": "Each row's first cell names the V06 rule it closes instead of the removed id (e.g. \"V06 §3.19.4's retaining knobs\" for X31, \"V06 §3.18.2's catacomb rows\" for X1), or the rows go to the validation records with the ids.",
+   "owner": "V11"
+  },
+  {
+   "id": "VV56-28",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V12's hand-off rows cite V06's removed ids \"V06 X9\", \"V06 X19\", \"V06 X31\", \"V06 X38\", \"V06 X49\" (l. 3018–3022), which no longer exist in V06 (ID-WX).",
+   "required_change": "As VV56-27: cite the V06 section each closes (e.g. V06 §8's register lines, T-V6-62's guards) in place of the X ids.",
+   "owner": "V12"
+  },
+  {
+   "id": "VV56-29",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V02 cites \"V06 X3\" and \"V06 X24\" (l. 3733–3734), removed from V06 by its rewrite (ID-WX).",
+   "required_change": "Cite the V06 rule each closes (V06 §3.18.3 (1)'s crypt rank inside the causing op; V06 §3.10's deck-plot buildings through S11's mutator) in place of the X ids.",
+   "owner": "V02"
+  },
+  {
+   "id": "VV56-30",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "INDEX.md §1's V05 row (l. 43) describes the volume as \"… the rim as a cliff barrier, access and hand-over to the neighbourhood run\": the rim's barrier kind is `sheer` (J-VI.3; V05 §3.21 (1)) and \"hand-over\" for the unit-run view is retired (G-unitinput: \"the island's unit inputs\").",
+   "required_change": "The row reads \"… the rim as a sheer barrier, access, and the island's unit inputs to the neighbourhood run\".",
+   "owner": "scope"
+  }
+ ]
+}

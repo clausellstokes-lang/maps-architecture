@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VAT-r6-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "`bend.raised.underSpan`'s line does not fit the case round 6 added. \u00a77.1's row (l. 10675) and \u00a72.7's way-and-channel table row (b)'s gates cell now send a hand way 'crossing an enceinte's trace inside that strip' to `bend.raised.underSpan`, its crossing of the trace 'moved along the deck to the nearest crossing clear of the strip'. V09 \u00a74.9's row (l. 2104) copies that source cell, but its one line, '{name} passes under {way} through its nearest open arch, {m} m off your line.', words only the arch case. A road moved to cross the wall at a gate clear of the deck's strip is told it passes through an arch. The key, its event and the bend are the same, so nothing built changes; the sentence is wrong for the case (T-V9-52's 'a road drawn across that wall there crosses it clear of the strip, with `bend.raised.underSpan`').",
+  "required_change": "V09. (1) \u00a74.9's `bend.raised.underSpan` row, after its line, adds: '\u2014 and, for a way whose crossing of a wall's trace was moved clear of the under-deck strip, \"{name} crosses {wall} at a gate clear of {way}, {m} m off your line.\" (`{wall}` as in `bend.wall.raisedCrossing`'s gate form) \u2014 the line taking its form by what was moved'. (2) T-V9-52: 'a road drawn across that wall there crosses it clear of the strip, with `bend.raised.underSpan`' adds ' in its wall form'.",
+  "owner": "V09",
+  "reported_by": "verify-agree-tools-r6t"
+ }
+]

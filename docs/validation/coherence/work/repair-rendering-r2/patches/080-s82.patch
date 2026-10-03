@@ -1,0 +1,233 @@
+# §8.2: G120-rendering + VV34-r1-04 (the Find rows: veil, halo, area lift, pins, count bubbles, ghost pins with a Below
+# match's band label, Show gaps' outline, each chip's colour and second cue; `live.find` replacing `live.coverage`, the
+# Coverage view's one successor); G122-rendering (the crisis look rows by band, glyphs, second cues, `live.crises`, the
+# switch and preview, admission); G124-rendering (the effects' marks per family; the hard rule, R2-39 (a)); the new roles
+# and their values (receipt coh_repair_rendering_r2_roles.out); the layer order's slots 15b and 19b.
+@@ FILE 8.2.md
+<<<<
+festival roles `festival.a`, `festival.b`, `festival.c`, `festival.d` and `festival.sacred` (g item 118; V11's
+`festival.motifs` rows name them, never a colour). A role never
+====
+festival roles `festival.a`, `festival.b`, `festival.c`, `festival.d` and `festival.sacred` (g item 118; V11's
+`festival.motifs` rows name them, never a colour); the eight **chip colours** `find.1` … `find.8` (g item 120 (d): a Find
+chip's colour by its index); the crisis roles `crisis.tent`, `crisis.ash` (burned and ruined ground, the ruined tone),
+`crisis.mark` (a marked door's cross, a cordon) and `crisis.army.a` … `crisis.army.d` (a coalition's armies; g item
+122); and `fog` (fog's colour, §8.4 (i); g item 124). A role never
+>>>>
+<<<<
+| festival.* / road; festival.* / ground | 15 | — |
+====
+| festival.* / road; festival.* / ground | 15 | — |
+| find.* / paper, road and ground (a chip's halo and pin on the veiled map); crisis.army.*, crisis.mark / road and ground | 15 | — |
+>>>>
+<<<<
+| festival.a / .b / .c / .d / .sacred | `#9E5652` / `#A38852` / `#15719F` / `#3C8463` / `#60578D` | `#B94142` / `#AD8617` / `#0872A1` / `#26865E` / `#605790` | as `lit` |
+====
+| festival.a / .b / .c / .d / .sacred | `#9E5652` / `#A38852` / `#15719F` / `#3C8463` / `#60578D` | `#B94142` / `#AD8617` / `#0872A1` / `#26865E` / `#605790` | as `lit` |
+| find.1 … find.8, in order | `#AE6160` / `#996E41` / `#717D41` / `#398562` / `#02848B` / `#157FAD` / `#7271AB` / `#A2628B` | `#D0474F` / `#AA6805` / `#668101` / `#02885B` / `#02848B` / `#0580AE` / `#646DD4` / `#C0499B` | as `lit` |
+| crisis.army.a / .b / .c / .d; crisis.mark | `#9D5156` / `#666C31` / `#027477` / `#5B649D`; `#964E49` | `#BF3249` / `#616F01` / `#027477` / `#3D62C7`; `#B53335` | as `lit` |
+| crisis.tent / crisis.ash / fog | `#D9C8AD` / `#B4A080` / `#D1C6B2` | `#CFBCA3` / `#A48D6E` / `#CFC5B6` | `#D1BDA2` / `#BFB5A2` / `#D0C5B4` |
+>>>>
+<<<<
+leaf.* / water ≥ 32.0, ink / leaf.* ≥ 26.9 (ΔL* ≥ 30.9), festival.* / road ≥ 16.7 and / ground ≥ 18.9.
+====
+leaf.* / water ≥ 32.0, ink / leaf.* ≥ 26.9 (ΔL* ≥ 30.9), festival.* / road ≥ 16.7 and / ground ≥ 18.9. The rows of items
+120, 122 and 124 are placed by rule too (`docs/validation/bench/coh_repair_rendering_r2_roles.out`): `find.k` the CIELCh
+hue 25° + 45° (k − 1) at L* 50, `crisis.army.a` … `.d` the hues 20°, 110°, 200° and 290° at L* 44 and `crisis.mark` 30°
+at L* 42, each at the family's chroma cap or the largest chroma sRGB holds there; `crisis.tent`, `crisis.ash` and `fog`
+`plank` lerped 50 % toward `paper`, `ink` lerped 55 % toward `ground` and `paper` lerped 35 % toward `ambience`, in
+linear light. Their pairs pass: find.* among themselves ≥ 14.3, find.* / paper, road and ground ≥ 21.9, find.* / ink
+≥ 31.1; crisis.army.* among themselves ≥ 26.1 and / road and ground ≥ 30.4; crisis.mark / road and ground ≥ 35.7;
+crisis.ash / road and ground ≥ 8.9 (drawn with its rubble stipple); `crisis.tent` and `fog` lie 3.4–11.1 from road and
+ground and are never a mark's only cue (a tent has its ink rim, fog is a wash).
+>>>>
+<<<<
+  when the winter is `cold` or `severe`, and `clear` otherwise — an arid row never snows by default; a viewer's value
+  stands until the viewer changes it. The view sun's default height follows the week (§8.4's *Sun*); item 102's model
+====
+  when the winter is `cold` or `severe`, and `clear` otherwise — an arid row never snows by default; a viewer's value
+  stands until the viewer changes it, except on an `arid` row and on any row whose winter does not freeze (`winter`
+  `none`, or no `snow` band; V11 §3.25.6), where a `snow` value draws as `clear` in every week whatever the view holds:
+  no snow lies there and none falls (*Weather effects*, below; item 124 (c); T124-3). The view sun's default
+  height follows the week (§8.4's *Sun*); item 102's model
+>>>>
+<<<<
+supply links as curved provider-to-consumer arcs by volume and good — V09 §5.4); `live.coverage` (overlay; g item 103 (f):
+for a selected class, the catchments that lack a member, from V01's `catchmentOf`); `live.voids` (overlay: the
+====
+supply links as curved provider-to-consumer arcs by volume and good — V09 §5.4); `live.find` (overlay; g item 120: V09's
+provider of Find's marks, drawn by *Find* below — the veil, the halos, the pins, count bubbles and ghost pins, and Show
+gaps' dashed outlines, which are the Coverage view's one successor: item 103 (f)'s catchments that lack a member of a
+class, V01 §5.4 (3)'s `gapUnits` over V01's `catchmentOf`, item 120 (i)); `live.voids` (overlay: the
+>>>>
+<<<<
+through §14's `LiveLayerProvider` registry, §10.3); and `live.festival` (base; g item 118: the festival decorations,
+below). The model view a provider receives offers
+====
+through §14's `LiveLayerProvider` registry, §10.3); `live.festival` (base; g item 118: the festival decorations, below);
+and `live.crises` (base; g item 122: the crisis looks, below). The model view a provider receives offers
+>>>>
+<<<<
+**Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
+====
+**Crisis looks (g item 122, with (h)–(i); J135, J138): a look, never a change of the map.** While a crisis look stands —
+a `ConditionOverlay` whose weeks hold the view's week (§2.7's reader comment: §2.9's `week` in [`sinceWeek`, `untilWeek`),
+never `yearWeek`) whose `crisis.map` row gives a look, admitted at the viewer's key by §7.7's DR44 — or one is
+previewed, under §2.9's per-viewer key `crises` (`follow` draws the standing looks, `off` none, `preview` one look kind
+at §10.2's `previewSeverity` whatever the week, with or without a dossier), the base live layer `live.crises` draws it:
+its kind's row of §10.2's `crisis.looks` — its place, band, scale by severity and rung or by headcount, and priority —
+placed by §10.2's *Crisis looks* (d)–(f) on the render keys (render tag `crisis.place`, §8.1), the camped ground that
+does not fit drawn on §8.8's surrounding ring. Nothing reaches a model value, a digest or a save; a condition the key
+withholds is never drawn, legended or counted; with no look standing and none previewed nothing is drawn, the tiles
+byte-identical (`item122.crises`; T122-7).
+* **By band** (item 122 (d)). A look shows from its row's `band` (V11's value: the first column below holding a part)
+  and adds detail at each finer band; its parts:
+
+  | look | city band | district band adds | neighbourhood band adds |
+  |---|---|---|---|
+  | `siege` | each army's camp a `campCluster` under its smoke; the siege line — the trench a 1.5 px `ink` line, its earthwork bank a 3 px `crisis.ash` band 6 m outward — round the walled arcs at the standoff; burned farmsteads as `crisis.ash` footprints | the tents in rows, the horse lines, the engines facing their gate or wall run, each army's banners | fires, carts, the trench's spoil |
+  | `blockade` | a `campCluster` across each approach road | its tents; a `barricade` across the road | fires, carts |
+  | `refugeeCamp` | the camp's `campCluster` on its land by the gate, its smoke | tents and `shanty` glyphs in rows along lanes; carts | cooking fires |
+  | `quarantine` | the fenced camp's `campCluster`, its smoke | its fence, `hut` glyphs, the `pestHouse`, the `graveRow`s | in the affected quarter, `markedDoor`s and the `cordon` |
+  | `famine` | its fields bare (`bareField`, over item 117's crop stage) | its pens empty (`emptyPen`) | the principal market's stalls under `shutter` bars |
+  | `beast` | — | the edge's torn palisade sections (the `breached` wall-run row, below), `watchFire`s along the edge | `stakes` barricades |
+  | `raiders` | burned outlying farms (`crisis.ash` footprints), smoke | abandoned carts; a `barricade` across each approach road | — |
+  | `disaster` | its districts in the `ruinTone` | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
+  | `occupation` | the garrison camp's `campCluster` | its tents; foreign `banner`s on the main gates and the castle, else the principal plaza | — |
+  | `rebellion` | — | a `barricade` at each junction of the principal market's streets | — |
+  | `boom` | — | `scaffold` on the frontages (the Works rows' program, below) | — |
+  | `bust` | — | `shutter` bars on the shops' frontages | — |
+
+* **The glyphs** (our own; each at least 3 px at 1×; never drawn coarser than its look's band): `campCluster` a camp's
+  camped ground as its hull at α 0.35 — in its army's colour (`crisis.army.*` by the army's index in its coalition,
+  cycling past four), else in `crisis.tent` with an `ink` rim — dotted in `ink`, one 1-px dot per 400 m² of camp; `tent` a 4 × 3 m
+  `crisis.tent` rectangle with an `ink` rim and a ridge tick; `shanty` a 3 × 3 m `plank` square with a broken rim; `hut` a
+  4 × 4 m `plank` square with an `ink` rim; `pestHouse` an 8 × 6 m `plank` rectangle with a cross tick; `engine` a 6 m
+  `plank` frame with a throwing-arm tick toward its target (a trebuchet), or, aimed at a gate, a 6 × 3 m roofed shed
+  (a ram); `banner` the festival banner's panel on a pole tick (above) in its army's colour, bearing its army's glyph;
+  `fire` a 2 m star in `light`; `smoke` a 40 m plume of 1-px `ambience` stipple at α 0.35, thinning outward and leaning
+  downwind; `cart` a 2 × 1 m `plank` rectangle with two wheel ticks; `fence` a 1 px `ink` line with a post every 2 m;
+  `cordon` a dashed `crisis.mark` line with a post every 5 m; `graveRow` a row of 1 × 2 m `ground` mounds with `ink` rims;
+  `markedDoor` a `crisis.mark` cross over the door's entrance tick; `barricade` a 1.5 px `ink` zig-zag across the way;
+  `stakes` a row of 1 px `ink` ticks at 45°; `watchFire` a `fire` on a 2 m `crisis.ash` disc; `shutter` a 1.5 px `ink`
+  bar across a frontage; `bareField` the field's own texture at 40 % of its contrast over `field` lerped 40 % toward
+  `crisis.ash`; `emptyPen` the pen's outline with no stock; `ruinTone` the district's faces under a `crisis.ash` wash at
+  α 0.35 with 1-px `ink` rubble dots where `RH32('crisis.place', key, salt, cell)` ÷ 2³² < 0.15.
+* **Placement, scale and the land** are §10.2's: keyed, by severity and rung — a hamlet's war band, a city's full siege
+  line — or by the dossier's headcounts at `areaPerHeadM2` (two armies twice the ground; engines one per
+  `enginesPerBesiegers`), several looks sharing the outskirts by `priority` under `densityCap`, never on water, a way's
+  carriageway, a gate's passage or a label's keep-out. A disaster's buildings draw item 123's damage layer at its row's
+  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; item 122 (d)), and their districts the
+  `ruinTone` at the city band; the look ends in the week its `reconstruction` Works begins (V06).
+* **Read without colour; never over a label** (item 122 (d); item 112). Each look is told by its glyph shapes — an army
+  by its banner's glyph (plain, cross, chevron, saltire, cycling by its index in the coalition) beside its colour, a
+  marked door by its cross, the ruined tone by its rubble —; the parts draw in slot 19b, under slot 23's labels and
+  their halos (§9.4), famine's bare fields in slot 15b over the fields' crop stage. The legend lists each look standing
+  with its condition and weeks (§9.5), which V09's Show crises controls and Find's list of looks read.
+* **The layer.** `live.crises` runs in the generation worker over the model (the places of §10.2 (d), V01's `campLand`
+  and `disasterDistricts`, V06's `frontierFor`, the walls and gates), the view state (`week`, `crises`, the key) and
+  DR44's standing looks; it delivers marks of semantics `crisis.<part>` for the visible region dilated by one tile,
+  re-run when the week crosses a condition's edge, the crisis display or the key changes, the model changes or the view
+  moves — so looks are made lazily, tile by tile (§12.5) — and, a `base` layer, joins the tile key (§8.8). Its rows carry
+  the `extension` marker (§8.4 (h)): the parity presets draw no crisis look. Show crises and the preview land at M3b
+  (§16).
+
+**Find (g item 120; J133): a view, never a change.** While §2.9's per-viewer key `find` holds a chip, or Show gaps is
+on, the overlay provider `live.find` (V09's) delivers the marks below for the visible region dilated by one tile, over
+each chip's matches as §11.2's gazetteer match listing gives them at the view's effective key — §9.2's admission, so a
+thing the key withholds is never suggested, counted, drawn or hinted at (no glow, pin, ghost pin, gap or legend chip of
+it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, whenever the key,
+band, layer or year position changes, and when the view moves (item 120 (f)). An `overlay` layer, it is composed with the
+labels (§8.8) — at the device's pixel ratio — and never re-renders a base tile; with no chip and Show gaps off it
+delivers nothing, the tiles byte-identical (`item120.find`; T120-1). It draws over whichever Show view is on, and under
+every style preset (§8.4 (h)).
+* **The veil** (item 120 (e)). `paper` at α 0.55 (our default) over the view, cut out at each match's shapes — a
+  building's footprint, a plot's or place's face, a way's body, an area's faces — so the matches show undimmed
+  while everything else reads slightly opaque; on the underground layer it lies over the band's rock, voids and the
+  cut-away's ghost alike (V04 §5.1).
+* **The halo.** Round each match's shapes, a 2 CSS-px outline in its chip's colour in its chip's dash pattern, and
+  outside it a soft glow in that colour fading from α 0.6 to 0 over 8 CSS px; the match's placed label glyphs (§9.2, at
+  the stop) are drawn again over the veil. At the interior band the rooms a matched institution uses glow on the storey
+  shown (V03 §5.5's `findRooms`).
+* **An area chip** — a district, neighbourhood, quarter or region (V01 §5.4's `FindArea`), an island (V05 §5.6), a
+  village's end (V07 §5.5) — lifts its whole area from the veil and draws the halo along its boundary; a hole in it
+  stays under the veil.
+* **Pins and count bubbles** (the city band). A match whose drawn extent at the stop is under 6 CSS px — or an area
+  whose shape is — also carries a **pin** at its anchor (a building's footprint pole of inaccessibility, an area's
+  `FindArea.anchor`): a 14 CSS-px teardrop in its chip's colour with an `ink` rim and its chip's glyph in `paper`. Pins
+  whose anchors lie closer than 24 CSS px merge, greedily in address order, into a **count bubble** — a 20 CSS-px `ink`
+  disc holding the count in `paper` —, only among pins of one layer and, on Sky, of one island (V05 §5.6 (2)); a click on a
+  bubble zooms to the stop at which its pins part. So no match is a lost speck, at item 116's limit or at the METROPOLIS
+  cap (T120-5).
+* **Ghost pins** (item 120 (f)). A match on a layer not shown is its pin at α 0.35, with no halo, at the anchor where
+  its marks are drawn (an island's displaced under `offset`, V05 §5.6 (3)); a match Below that holds no element in the
+  band shown — from Ground, from Sky, or on Below itself — carries beside its glyph its shallowest band's depth range as
+  the band ladder writes it, kept above the veil (V04 §5.1 (2)–(3)).
+* **Show gaps' outline** (item 120 (i)). With `gaps` on, each of V01 §5.4 (3)'s gap units for each kind chip, on the
+  layer shown, is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
+  component — overlay text at the component's pole of inaccessibility, composed after the labels from the glyph atlas at
+  the point labels' floor (6 px cap, §9.4), and left out at a stop where its box meets a placed label's (it is view data, never a
+  `LabelEntity`, §9.1) — while a unit holding a match lies lifted with its matches.
+* **Each chip's colour and second cue** (item 120 (d); g item 112). Chip k, its index in `chips` from 1, draws in
+  `find.((k − 1) mod 8 + 1)`; its second cue is its **glyph** on its pins — circle, square, triangle, diamond, star,
+  cross, hexagon, bar, cycling by k, so two chips that share a colour past eight differ in glyph — and its **dash
+  pattern** on its halo's outline — solid, long dash, short dash, dash-dot, dot, dash-dot-dot, long-short, double, by
+  ((k − 1) mod 8) — so a chip never rests on hue alone; the legend and V09's panel show both beside the colour (§9.5).
+* **Layer and budget.** The marks' semantics `find.veil`, `find.halo`, `find.pin`, `find.bubble`, `find.ghost` and
+  `find.gap` draw in slot 25, the veil first and the gaps last; never in a base raster, a light pass or a digest; the
+  interaction budget §12.5's (suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of the click, the index rebuilt
+  once per commit). Find lands at M5 (§16).
+
+**Weather effects (g item 124; J137): drawn over the map, never in it.** The spell in force (§2.9's *Weather effects*:
+its kind from V11's climate weather columns for the climate row at the view's week, its strength s by its phase) is
+drawn by §8.8's effects layer every frame, light in density and opacity, in each family's own hand — its marks here, its
+light terms §8.4 (i). Positions, lengths and sways come from the spell's own draws on §6.1's `view.weather` stream
+(keyed by the spell index and the frame's world-aligned cell), so a spell replays from its session seed and clock
+(T124-9):
+
+  | kind | `ink`, `hatched` and the ink-family variants | `lit` | densest, per 10 000 CSS px² |
+  |---|---|---|---|
+  | `rain` | fine `ink` strokes 8–12 CSS px long, 1 px, at α 0.3, slanted by the wind ≤ 20° from the vertical, falling 600 CSS px a second | soft translucent streaks of `paper`, 10–16 px, at α 0.25 | 5 |
+  | `drizzle` | as rain, 4–6 px, α 0.2 | as rain, 6–10 px, α 0.18 | 8 |
+  | `snow` | `ink` dots of 1.5 px at α 0.3, drifting down at 40 CSS px a second with a sideways sway | `snow` dots of 2 px with a 1-px soft edge at α 0.7 | 4 |
+  | `mist` | 1-px `ink` stipple at α 0.12 drifting slowly, beside its light term | a translucent `fog` band at α 0.15, beside its light term | — |
+  | `fog`, `dust`, `cloudShadow`, `shimmer` | their light terms (§8.4 (i)); `dust` adds `sand` motes of 1 px at α 0.15 | the same | `dust` 1 |
+  | `leaves` | 2-px dots in the leaf colours V11's `season.leaf` row weights for the climate row, tumbling with the wind | the same at 3 px | 0.5 |
+
+  The densities are s × the column's figure. During rain each water cell of §8.8's water mask may draw a **ripple** —
+  a 1-px ring in `ink` (`lit`: `paper`) at α 0.2 growing from 0 to 6 CSS px over 0.6 s — at most 2 per 10 000 CSS px² of
+  water.
+* **The hard rules** (item 124 (c)). On an `arid` row and on any row whose winter does not freeze, no snow
+  falls — a `snow` spell there draws nothing, and V11's compile check makes none — and none lies (*Snow and the sun*,
+  above); rain in arid country comes only as V11's row allows it (T124-3, T124-4).
+* **Never in the way** (item 124 (e)). The layer lies above the tiles and below the labels, the chrome and every overlay
+  (§8.8; T124-6); no lightning or flash (§8.4 (i)); its rows carry the `extension` marker, so the parity presets draw
+  none (§8.4 (h)); it is off with V09's switch (`AppPrefs.weatherEffects`: off by default on the low tier and under
+  reduced motion; T124-5) and the first thing Auto gives up (§8.4 (g)); no export draws it (§11.1). It lands at M3b
+  (§16).
+
+**Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
+>>>>
+<<<<
+| the procession route's colour (g item 118) | its chevrons; every other decoration its glyph shape |
+====
+| the procession route's colour (g item 118) | its chevrons; every other decoration its glyph shape |
+| a Find chip's colour (g item 120) | its glyph on its pins and its dash pattern on its halo's outline (*Find* above) |
+| a crisis look's colours (g item 122) | an army's banner glyph; a marked door's cross; the ruined tone's rubble stipple (*Crisis looks* above) |
+>>>>
+<<<<
+| 15 | fields and hinterland land use | MFCG: fields |
+====
+| 15 | fields and hinterland land use | MFCG: fields |
+| 15b | famine's bare fields (`live.crises`' `crisis.bareField`; g item 122) | new: over the fields' crop stage, under the trees |
+>>>>
+<<<<
+| 19b | festival decorations (`live.festival`; g item 118) | new: over everything built, under the grid, labels and furniture |
+====
+| 19b | festival decorations and crisis looks (`live.festival`, `live.crises`; g items 118, 122) | new: over everything built, under the grid, labels and furniture |
+>>>>
+<<<<
+| 25 | live layers, annotations, measure overlay | new: view data on top |
+====
+| 25 | live layers (Find's marks, `live.find`, among them), annotations, measure overlay | new: view data on top |
+>>>>

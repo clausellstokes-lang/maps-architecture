@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-model-r3t",
+ "file": "docs/validation/coherence/verify-model-r3t.md",
+ "issues": [
+  {
+   "id": "VM-R3T-01",
+   "severity": "minor",
+   "kind": "TERM",
+   "owner": "model",
+   "claim": "Repair round 3 renamed the plan rung's Works input 'its running build Works' stage' (a `decay` or `repair` Works is none) at §2.8's `ElaborationRecord.inputs` (l. 2856) and stale list (l. 2864) and at §2.6 step 7's drawing sentence (l. 2068-2069), but the two other statements of the same input keep the old term: §2.6's `BuildingInput.stage` (l. 1489: 'its running Works' stage at the drawn week (§4.11), which the plan's drawing shows') and §2.6 step 1's inputs (l. 1991: 'the running Works' stage (item 67)'). Read literally they hand volume 3's plan() a `decay` Works' stage as a plan input, which §2.8, step 7 and V03 §3.11 (b) exclude; 'build Works' is also defined nowhere against `Works.kind`'s seven values (l. 2425).",
+   "required_change": "§2.6 `BuildingInput.stage` comment: 'item 67: its running build Works' stage at the drawn week (§4.11; a `decay` or `repair` Works is none, step 7), which the plan's drawing shows (below)'; §2.6 step 1: 'the running build Works' stage (item 67; a `decay` or `repair` Works is none, step 7)'; §2.6 step 7's first use: 'A building whose running build Works — a Works of any kind but `decay` and `repair` (§2.7's `Works.kind`) — stands before FINISHED …'."
+  },
+  {
+   "id": "VM-R3T-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "model",
+   "claim": "R3-18 (written at §4.11 *The clock* (1), l. 8330-8334) makes 'the creation week' the week of the `generate` event — on a history-first document the replay's start, W_p − round(52 × start.yearsAgo) — and 'the present at creation' the dossier's present week, 'one name each, everywhere'. §2.7's `HistoryHint.calamities` (l. 2452) still reads 'calamityHistory before the creation week (DR36's losses; DR37's events)', and V08 §3.15 (l. 2318), which writes it, the same. Under the ruled meaning a history-first document's hint holds only calamities before the replay's start, yet V06 §3.20.2 maps each `calamityHistory` entry into the replay epochs between the start and the present (one before the start is not replayed) and DR37 reads them from `Recipe.history` (item 125: the port is the dossier's only reader): one builder replays every calamity, another none. `HistoryHint.ageYears`' 'the settlement's age at creation' (l. 2444) has the same two readings, while V06 §3.20.1 (2) reads it as 'history.ageYears before the present'.",
+   "required_change": "§2.7 `HistoryHint.ageYears`: 'the settlement's age at the present at creation (§4.11 *The clock* (1)) — never advanced by §4.11's clock'; `HistoryHint.calamities`: 'calamityHistory before the present at creation (§4.11 *The clock* (1); DR36's losses; DR37's events)'; V08 §3.15 (l. 2318): '`calamities` — `calamityHistory[]` before the present at creation (§4.11 *The clock* (1)), …' (V08's end, written in the same round)."
+  },
+  {
+   "id": "VM-R3T-03",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V06",
+   "claim": "§2.7's support step (3) (round 3, R3-25 (d); l. 2552-2553) releases the band's stretch under a crossing station 'from the first epoch after the raised way is removed or the spans on both sides of the station have fallen (`ruined` or `cleared`)'. V06 §3.7.2 (2) (l. 1472) and V06 §3.7.6 (5) (l. 1599-1600), with J-V6.114 and J-V6.140, release the same stretch from dismantling 'until that raised way is removed or its crossing span `dismantled`': a span has no `dismantled` state (§2.7's `spans[].state` is 'ruined'|'cleared') and, since round 2's crossing station, no span crosses the trace — the station carries a span on each side. One builder never releases the stretch, another at one span's fall, a third at both; the model's round-3 HAND-OFFS named it and V06 did not write it.",
+   "required_change": "V06 §3.7.2 (2) (l. 1472): 'until that raised way is removed or the spans on both sides of its crossing station have fallen (`ruined` or `cleared`; §2.7's support step (3))'; V06 §3.7.6 (5) (l. 1599-1600): 'from the first epoch after that raised way is removed or the spans on both sides of its crossing station have fallen (`ruined` or `cleared`; §2.7's support step (3))'; J-V6.114's and J-V6.140's 'its crossing span `dismantled`' → 'the spans on both sides of its crossing station fallen (§2.7's support step (3))'."
+  },
+  {
+   "id": "VM-R3T-04",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "pipeline",
+   "claim": "§2.7's new support step (6) has a trace that would leave a crossing's clear span past `maxClearSpanM` (or a pier past `maxPierM`) give way, at generation by 'S5a: its stage trace takes the next lattice boundary node off that span, reported' (l. 2564-2565). §4.4 S5a, the stage trace's home (named in the model's round-3 HAND-OFFS), states none of it: which node is next, in what order, how many are tried, the warning key, or the outcome where none fits. None fits wherever the ground the outer span must clear is wider than the bound all round the ring: a timber course (maxClearSpanM timber 20 m, V11 §3.24.2) crossed by a stage-2 ring with `moat: 'all'` at a c14 or c15 width (8-16 / 10-18 m, V11 §3.19.1) beyond a 2-5 m berm and the band's half (§4.8) — up to about 24.5 m from the crossing station to the first lawful pier, the same at every node. Step (6) forbids dropping the standing raised way and forcing the span, and S5a has no later epoch to wait for: an undefined outcome on a generation path (CITY and METROPOLIS, item 110's raised ways, an outer moat).",
+   "required_change": "§4.4 S5a *Outer moats*, after '(S7 lays both, §4.8 *Gates*).': 'Where §2.7's support step (6) finds a crossing of a standing raised way whose clear span would pass `maxClearSpanM` or whose pier would pass `maxPierM`, S5a moves that crossing to the stage boundary's lattice nodes off that span, nearest first along the boundary (ties to the lower node index), each tried once, between the gates on either side, reported (`W_RAISED_CROSSING`); where none fits, the stage's outer strip is not laid under the deck — its glacis line and the moat's channel stop on either side of the raised way's under-deck strip, the channel ending there against the ground as against a berm (§4.2 S3 (10)) — so the outer span clears only the band's half and the berm, reported; the raised way and the stage's wall both stand.' §2.7's step (6) cites it ('S5a: §4.4 *Outer moats*'s walk and last rung'); §13.2's T110-2 gains (scope's end) 'a CITY c15 town with `moat: 'all'` whose S4 timber viaduct is crossed by stage 2's ring at the widest moat row: the crossing found by the walk or the strip stopped at the deck, every clear span within 20 m, no support in water, the viaduct kept, reported'. (The adjudicator may rule another last rung, provided it keeps the raised way, lays no span or pier past its bound and is stated with its warning.)"
+  },
+  {
+   "id": "VM-R3T-05",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "scope",
+   "claim": "No bar exercises §2.7 support step (6)'s giving way. T110-2's step-(6) fixtures (an S4 viaduct crossed by stage 2's moated ring; an epoch circuit across a standing aqueduct; l. 18227-18230) and V06's T-V6-47 are crossings that fit. V06's 'retraces by the margin rule … and then waits for a later epoch, reported (`walls.waited`)' for a raised-way crossing that cannot keep its bounds (V06 §3.7.6 (5), l. 1590-1593) and a hand `drawWall`'s bend 'to the nearest one whose crossing fits' (l. 2566-2567) have no fixture (no T-V6 bar names `walls.waited`).",
+   "required_change": "§13.2's T110-2 adds 'an epoch circuit across a standing timber elevated road whose crossing cannot keep its clear spans within `maxClearSpanM`: the circuit retraced by the margin rule, then waiting (`walls.waited` counted), the raised way's stations and keys unchanged; a hand `drawWall` across it bent to the nearest trace whose crossing fits, named in one line (item 101 R2)'; V06's T-V6-47 takes the epoch clause on H-AQUA (V06's end)."
+  },
+  {
+   "id": "VM-R3T-06",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "model",
+   "claim": "§2.7 support step (6) re-runs (1)-(5) on any standing raised way a trace crosses — 'the nearest interior station within p ÷ 2 moved there, keeping its key, else one added', the stations in the new strips 'slid or omitted by (3)' — with no exception for a locked or pinned raised way, whose deck and piers §7.4's lock column holds (l. 11261: 'its deck and piers held') and which V06 §3.1's *Protection* ('a locked or pinned entity is never struck, converted or moved') keeps out of every engine change. An epoch circuit, or a Re-derive's S5a trace, across a locked aqueduct has two contradictory rules — move the held piers, or cross with no station on the trace and piers left in the new strip (against (3)) — and no third outcome: step (6)'s give-way names only the span and pier bounds. A hand `drawWall` across it meets E-07's lock row, which step (6) does not cite.",
+   "required_change": "§2.7's support step (6), after 'slid or omitted by (3);': 'a locked or pinned raised way (its deck and piers held, §7.4) is never re-sited: where its crossing would need a station moved, added or omitted, the trace gives way as where a span would pass its bound (S5a's walk, §4.4; V06: it retraces and waits, `walls.waited`), and a hand `drawWall` across it is E-07's lock conflict (`refuse.locked`, its action `unlock`);'; §13.2's T110-2 gains (scope's end) 'a locked aqueduct crossed by an epoch circuit: no pier moved or added, the circuit retraced or waiting, reported'."
+  },
+  {
+   "id": "VM-R3T-07",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "model",
+   "claim": "§2.6 step 7 (l. 2104-2106): 'A building of a district a disaster look ruins (item 122 (d)) draws the same layer at the look's level by severity … — a look only.' R3-10 makes the look leave building by building (V06 §3.22 (3)'s `crisisLookYields`: a Works other than a `decay` Works begun on it), a preview never handing over; §10.2 (f) and V03 §5.6 (4) (l. 2722-2727) say so, step 7 still covers every building of the district (and its build-stage sentence gives such a building a second drawing). Minor: V03 §5.6 (4), which builds the drawing, states the hand-over.",
+   "required_change": "§2.6 step 7: 'A building of a district a disaster look ruins (item 122 (d))' → 'A building over which a disaster look stands (item 122 (d); §10.2 (f): each building of its districts until V06 §3.22 (3)'s `crisisLookYields` turns true on it, a preview never handing over)'."
+  },
+  {
+   "id": "VM-R3T-08",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "pipeline",
+   "claim": "§2.7's support step (3) (l. 2547-2548) makes S7's generation row read a `breached` draw on the band's stretch under a crossing station as `worn` while the deck stands; §4.8 *Condition at generation* (l. 7541-7549), the row's home, cites §2.7 for the castle's welded stretch but not for this exception (named in the model's round-3 HAND-OFFS).",
+   "required_change": "§4.8 *Condition at generation*, after 'a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture': '— a `breached` draw on the band's stretch under a raised way's crossing station read as `worn` while its deck stands (§2.7's support step (3)) —'."
+  },
+  {
+   "id": "VM-R3T-09",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "determinism",
+   "claim": "§7.3's locality row for S7 (l. 10741: `drawWall`, a moved trace vertex, …) lists what a wall edit re-derives — the run between the nearest unaffected towers, the strips' lines, the strip blocks' S10 step (0) — but not the re-run §2.7's support step (6) makes 'in the same commit' on a standing raised way the new run crosses (l. 2559-2562).",
+   "required_change": "§7.3's S7 row, its re-derived column, adds 'and §2.7's support step and span rule on each standing raised way the new run crosses (§2.7's support step (6))'."
+  },
+  {
+   "id": "VM-R3T-10",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "owner": "pipeline",
+   "claim": "VRC2T-16's end at §10.2 (g) (l. 15581-15583) keeps '(model §2.9; the limit's stop 0 where nothing fits, §8.8)': 'model' is the coherence pass's unit key, not a design home (R3-02: design text names the design home).",
+   "required_change": "§10.2 (g): '(model §2.9; …' → '(§2.9's *The crisis framing*; …'."
+  }
+ ]
+}

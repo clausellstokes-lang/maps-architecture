@@ -1,0 +1,210 @@
+{
+ "base": {
+  "target": "docs/ARCHITECTURE.md",
+  "found": 17,
+  "applied": 17,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   140,
+   140
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   3194446,
+   3201924
+  ],
+  "sha256_out": "2612044ee57e7324f1e40e0b5329d1f55360ce9b95a8c70c7d30969a0299b9d0",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V01-neighbourhoods": {
+  "target": "docs/volumes/V01-neighbourhoods.md",
+  "found": 4,
+  "applied": 4,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   123,
+   123
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   528635,
+   529041
+  ],
+  "sha256_out": "b8430af89b39c5933d50eb939d806e43a348e7b9d34ebce9ba1701e7fa5a1bb4",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V04-underground": {
+  "target": "docs/volumes/V04-underground.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   59,
+   59
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   535373,
+   535894
+  ],
+  "sha256_out": "c9c990b288b0e66f000127acf79ed94ab10551921737512b56eb728fa75cafd2",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V05-sky": {
+  "target": "docs/volumes/V05-sky.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   62,
+   62
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   404653,
+   404696
+  ],
+  "sha256_out": "1931fec160a4b146d1778deac28413dc329bae2868d8542f4967116a695e671f",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V06-evolution": {
+  "target": "docs/volumes/V06-evolution.md",
+  "found": 9,
+  "applied": 9,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   65,
+   65
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   28,
+   28
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   706957,
+   708994
+  ],
+  "sha256_out": "132b96bbcd7239eeee139171bedcec11695e69e9e509695d4753e76a447b2824",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V07-village": {
+  "target": "docs/volumes/V07-village.md",
+  "found": 3,
+  "applied": 3,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   18,
+   18
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   621436,
+   621938
+  ],
+  "sha256_out": "a8cb10b027f8c04e79f9a9c6472c0cf2b3d64d45c4a3bc92b6f17b64b3db2d7d",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V09-application": {
+  "target": "docs/volumes/V09-application.md",
+  "found": 3,
+  "applied": 3,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   110,
+   110
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   776936,
+   778754
+  ],
+  "sha256_out": "bf6d52c1fbb76402b2c4db6306a635458a3151e1a3839245ecdf44a34874aced",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V12-calibration": {
+  "target": "docs/volumes/V12-calibration.md",
+  "found": 2,
+  "applied": 2,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   67,
+   67
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   30,
+   30
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   525763,
+   526016
+  ],
+  "sha256_out": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ }
+}

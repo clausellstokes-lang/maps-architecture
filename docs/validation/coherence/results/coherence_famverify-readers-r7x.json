@@ -1,0 +1,48 @@
+{
+ "key": "coherence/famverify-readers-r7x",
+ "file": "docs/validation/coherence/famverify-readers-r7x.md",
+ "issues": [
+  {
+   "id": "VF7x-RDR-01",
+   "severity": "minor",
+   "kind": "BAR READER",
+   "owner": "determinism",
+   "claim": "§7.7's derivation table gives each row \"the coherence bar it never contradicts (§7.7 item 11)\" (base l. 12791–12792), and T20-7 runs every one on the dossier fixtures and, standalone, on blueprints: \"every derivation row's bar holds\" (l. 19030–19032). DR2's bar ends \"every walled port gets its harbour-mouth chain (item 106 (e))\" (l. 12813). §2.7's laws leave a chain out where a raised way bars it: law 2 (c) (l. 2825–2842); the fixed-place sentence's worked example, \"with none it is not laid at generation (`W_RAISED_MEETING`), waits at an epoch (`walls.waited`)\" (l. 3254–3257); §4.8 *The harbour mouth*, \"else not laid, reported\" (l. 8402); F-WALL's detection (l. 9852); §5.4's `W_RAISED_MEETING` list (l. 9982). T106-3, the same bar at §13.2, carries the exception since the first fix pass (\"save one §2.7's laws leave out for a raised way, reported (`W_RAISED_MEETING`; law 2 (c))\", l. 19177–19179); DR2's cell, swept by no fix pass, asserts it without one. Minor: a correct build fails T20-7's reading of DR2's bar only on a dossier fixture or blueprint whose raised way leaves no lawful heads for the chain, a case the fixtures may not hold (VF7-GEN-07's grade for T106-3); law 1 and every owner rule hold.",
+   "required_change": "Base l. 12813, DR2's last cell: \"every walled port gets its harbour-mouth chain (item 106 (e))\" → \"every walled port gets its harbour-mouth chain (item 106 (e)), save one §2.7's laws leave out for a raised way, reported (law 2 (c): `W_RAISED_MEETING` at generation, `walls.waited` at an epoch)\"."
+  },
+  {
+   "id": "VF7x-RDR-02",
+   "severity": "minor",
+   "kind": "CITATION",
+   "owner": "V07",
+   "claim": "§8.2's slot 19a is the one home of a raised deck's draw order — \"drawn above what it crosses (§4.3; item 110 (b)) — … a wall running beneath it … and a gate, postern or tower under an aqueduct's arch that clears it draw beneath it (§2.7's laws, law 1 (2), (3), (5)); every other list that places raised decks cites this slot\" (base l. 14157) — and V01's lists cite it (V01 l. 2906, 2978–2979, 3032). V07 §5.1's painterly family, whose \"roles, programs, layer order\" are §8.2's data (V07 l. 3198), places the deck in its own words: \"**`raised.deck`** (the raised way's deck): the deck band drawn above everything it crosses, in the way's tone\" (V07 l. 3257), citing no slot. Its order is slot 19a's, so walls, palisades, towers and gate blocks beneath a deck draw beneath it in every build. Minor: a citation; nothing built or tested changes.",
+   "required_change": "V07 l. 3257: \"**`raised.deck`** (the raised way's deck): the deck band drawn above everything it crosses, in the way's tone\" → \"**`raised.deck`** (the raised way's deck): the deck band drawn above everything it crosses, as §8.2's slot 19a, this order's one home, places it (item 110 (b)), in the way's tone\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V12 l. 1195 (`raised.junctions`) and T-V12-38 (V12 l. 3163) × §2.7's `RaisedFoot` (base l. 2311), §4.6's ramp-or-stair rule and V01 §3.17.3 (4) (V01 l. 2478)",
+   "note": "New: the metric counts nodes of degree ≥ 3 joining a part ≥ 1 to part 0 \"anywhere but a ramp foot\" (\"away from its ramp feet\" in T-V12-38), while a raised way's ends are ramps or stairs, each \"an ordinary junction of its carried class\"; an elevated road's stair foot at a node of degree ≥ 3 reads as a junction — a raised way with a ground way, no wall."
+  },
+  {
+   "site": "V04 l. 2892 (§5.5's CityJSON row) × base §11.1's CityJSON row (l. 16725)",
+   "note": "Persisting (adjudication-r7x.md held note 6): V04 exports an arch vault as a TunnelHollowSpace of the vaults system's Tunnel, the base as a BridgeRoom of its raised way's Bridge — two objects for one chamber."
+  },
+  {
+   "site": "V04 l. 222–223, 395, 2727–2728 × base §8.2's `raisedWay` program (l. 13553–13557)",
+   "note": "Persisting (adjudication-r7x.md held note 7): V04 leaves the vault's infill wall and door on the ground view to the base, whose program draws neither."
+  },
+  {
+   "site": "V09 l. 559, 3258 and base §11.2's hit `sub` (l. 17104); T-V9-58 (V09 l. 4434); base §4.5 (l. 6885) and §8.4 (l. 14408–14409, 14633–14634)",
+   "note": "Persisting (adjudication-r7v.md held notes 5–7; adjudication-r7x.md held note 8): the span paths `spans/<n>` and `'spans/<ordinal>'` against §7.1's binding `spans/<a>-<b>`; T-V9-58's walled-up span fixture; the casters on a `breached` or `dismantled` run."
+  },
+  {
+   "site": "Base §8.2's slot resolution (l. 14178–14179) × slot 10 (l. 14145) × slot 19a (l. 14157)",
+   "note": "Persisting (adjudication-r7x.md held note 9): a sheet is refused when one `derived` kind is placed in two slots of a band, while slot 19a draws the decks' shadows in a derived pass with no `derived` kind named — a raised way's drawing, no wall meeting."
+  },
+  {
+   "site": "Base §8.2's `OrderSlot.slot: number` (l. 13309–13313) × the lettered rows 8b, 9b, 13b, 15b, 19a, 19b",
+   "note": "Persisting (adjudication-r7x.md held note 10): no numeric form of a lettered slot is stated."
+  }
+ ]
+}

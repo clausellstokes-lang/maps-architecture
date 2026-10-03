@@ -1,0 +1,32 @@
+SEAT coherence/adjudicate-r7w — the Maps program's coherence pass, round 7's SECOND FAMILY FIX PASS (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS
+Round 7 works the raised-way × wall family alone (the owner's J144). Its laws (docs/validation/coherence/adjudication-r7.md's Part L, under J146 with J147–J151) were refined through eight probe passes, written into the design by fourteen repair seats and assembled (docs/validation/coherence/assemble-r7.md). Six family-focused checks then read the live design (famverify-*-r7.md: 50 findings, 13 major), a first fix pass decided them (docs/validation/coherence/adjudication-r7v.md), twelve repair seats wrote the fixes and assemble-r7v installed them. The six checks ran again on that design, re-checking every earlier finding first:
+  - docs/validation/coherence/famverify-{table,generation,epochs,hand,readers,tests}-r7v.md (new ids VF7v-*, persisting ids kept).
+Their results are in docs/validation/coherence/results/coherence_famverify-*-r7v.json. The majors are texts, lists, fixtures and tests that do not yet conform to the laws, not defects of the laws. You decide every finding so that repair seats can write the fixes, and the six checks can run again. The loop ends when they find no major (J144, J151).
+
+READ FIRST, WHOLE:
+  1. The six famverify-*-r7v files, and docs/validation/coherence/adjudication-r7v.md whole (the first fix pass).
+  2. adjudication-r7.md: Part L (the laws: the design's home is now §2.7's support step (6)), Part H's head (the citation rule: every family text cites "§2.7's laws" with the law's number, the example after it), the restated veto list, and Part P pass 8's verdict.
+  3. docs/PROGRESS.md: the J144 – J151 rows (J151's grading: a case where EVERY outcome keeps every law-1 invariant and owner rule, passes the runtime check and fails no named test is a minor VALID CHOICE; no lawful outcome, an outcome breaking an owner rule or a law-1 invariant, an unchecked invariant, or a check or named test failing a correct build is MAJOR).
+  4. The live text each finding cites, by grep and in ranges (docs/ARCHITECTURE.md is about 9.9 MB: never read it whole).
+
+DECIDE EVERY FINDING of the r7v checks (VF7-* persisting, VF7v-* new) — one row each:
+  - FIX: the finding stands; give the exact words the owning unit writes (the finding's required change, or your own where its words would open a new case — say why).
+  - FIX, VALID CHOICE PICKED: a valid choice (J151) whose pick costs nothing and keeps the laws whole; give the words.
+  - VALID CHOICE LISTED: a valid choice left to the builder; give one line naming the outcomes for fix-list.md's builders' choices.
+  - MERGED: the same defect as another id; name it.
+  - INVALID: the laws or a ruling already close it, or its change would break an owner rule; say why in one line.
+Re-grade any finding graded against J151, naming the reason. CLOSE BY CLASS: the r7v tests lens found every one of its majors in one class — a test clause that pins one outcome where the laws choose by law 3's nearest or by the aqueduct's level, or that asserts a chamber laid again while law 1 (8) still reads its span open; the epochs lens found one more member, a fixture whose scripted state an earlier step of the same epoch changes before the asserted op (VF7v-EPO-01: the fortification step repairing a breach before the raisedWays step founds across it). Rule the class once: every test clause of this family asserts the outcome §2.7's laws give for its fixture (the shape law 3 picks; the form the level gives; a chamber only once nothing lies across its strip; a fixture's state as the epoch's own step order leaves it), naming a particular shape or form only where its fixture's stated geometry fixes it; then give each clause's exact words, and sweep the family's other test clauses (T110-2, T110-4, T-V4-*, T-V6-*, T-V7-*, T-V9-*, T-V10-*) for the same class, writing their fixes too, so the next check cannot raise it again. Close the readers lens's draw-order major (a raised deck drawn above what it crosses, item 110 (b)) with its §8.2/V01 order in one place, and the generation lens's S5a list (every impassable widened as *beneath* widens it) the same way: one list, stated once, with every reader citing it. Where two lenses report one defect, decide it once. A finding whose fix needs a change to the laws themselves is the exception: rule the narrowest change as an END line for the model unit (§2.7's support step (6)), and keep the laws from growing (J150). Never change an owner rule. Never record the program's reading of the owner's words as the owner's (VF7-TBL-01 is such a case: fix it).
+
+WRITE docs/validation/coherence/adjudication-r7w.md:
+  1. A head: what this pass is, its grading, the totals by disposition.
+  2. A table: one row per id — severity, disposition, one-line reason.
+  3. Part H by unit (model, kernel, pipeline, determinism, rendering, scope, V01 … V12): under each unit that has work, every FIX and every END line it writes, each with the site and the exact words; for a unit with none, say so. Every END that another unit's finding asks of a unit is written under THAT unit.
+  4. "Builders' choices for fix-list.md": every VALID CHOICE LISTED, one line each.
+  5. "Held for the next full round": every famverify held_note, with its site and one line (outside the family; never graded here).
+Write docs/validation/coherence/results/coherence_adjudicate-r7w.json:
+  {"file": "docs/validation/coherence/adjudication-r7w.md", "fix": n, "valid_choice_picked": n, "valid_choice_listed": [ids], "merged": n, "invalid": n, "regraded": [ids], "units": [the units with work]}
+Log to docs/lane-events.log, in the form `<UTC date time> coherence/adjudicate-r7w <KIND> <text>`: a CHECKPOINT after reading, a CHECKPOINT after the table, and a LANDED line naming both files. If adjudication-r7w.md exists with your CHECKPOINT in the log, RESUME from it: never redo a decided row.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Write only the two files above and the log lines. Change no design text. Your final message must be exactly the JSON result object, nothing else.

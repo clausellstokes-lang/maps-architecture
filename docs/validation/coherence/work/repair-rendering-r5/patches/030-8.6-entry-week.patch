@@ -1,0 +1,20 @@
+# §8.6 VAF-R4T-03 (R5-04): the lead's restatement of §6.3's comparison carries the element's entry week, a restoring
+# re-cut's minted element from the week that restoration ends.
+@@ FILE 8.6.md
+<<<<
+decay level reaches at the drawn week (V06's `decayLevel`; damaged while the level is above 0 and at least t — §6.3
+*Plan damage*'s one comparison every reader makes) is drawn damaged
+====
+decay level reaches at the drawn week (V06's `decayLevel`; damaged while the level is above 0 and at least t, compared
+from the element's entry week into the plan (V03 §5.6 (2) (a)–(b); an element a restoring event's re-cut mints from the
+week that restoration ends, before which it draws as built, V06 §3.23 (3)) — §6.3 *Plan damage*'s one comparison every
+reader makes) is drawn damaged
+>>>>
+# §8.6 sweep (R5-01 (2) with R5-04's decision): a building never decayed draws its plan unchanged only under no
+# disaster look — the sentence follows the look's own, which draws such a building at `lookLevel`.
+<<<<
+its own level (§11.1; V03 §5.3). A building never decayed draws byte-identically to its plan without the layer
+====
+its own level (§11.1; V03 §5.3). A building never decayed and under no disaster look draws byte-identically to its plan
+without the layer
+>>>>

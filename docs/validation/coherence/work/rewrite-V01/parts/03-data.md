@@ -7,7 +7,7 @@ recomputed from persisted state and never stored.
 ### 2.1 Identifiers and the fabric table
 
 `FabricStrategyId` (a `hood.templates` row key), `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in
-§2.5 (MC-11); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
+§2.5 (item 505); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
 
 ```ts
 type HoodSite = 'court'|'plotYard'|'yardBlock'|'square'|'green'|'cemetery'|'fieldEdge'|'outsideYard';   // hood-pin sites (V01 §3.8.2); the last three hinterland
@@ -62,7 +62,7 @@ interface DispatchRow { band: string;
 interface SquareRow { type: SquareType; m2PerInhabitant: number /* the square-sizing row S4 (d)'s fallback rescales (§13.7) */; minM2: number; maxShareOfFace: number;
   centrepiece: { kind: Pin['kind']; weight: number }[] /* S11's centrepiece draw on `pin.centrepiece`; II.2's centrepiece rule reads this row (item 542) */ }
   // a place's knowledge defaults from `hood.placeKnowledge`, not from this row
-// ---- `hood.pins` — the neighbourhood-tier pin rows (V01 §3.8.2; II.3's gate and decay); arena-keyed; the underground rows are volume 4's, which ships none (V01 §3.8.2)
+// ---- `hood.pins` — the neighbourhood-tier pin rows (V01 §3.8.2; II.3's gate and decay); arena-keyed, the underground's rows as V01 §3.8.2 states
 interface HoodPinRow { kind: Pin['kind'] /* well, pump, trough, fountain, large_tree, statue, monument, bandstand, cross, shrine */; arena: 'ground'|'sky'|'underground';
   sites: HoodSite[]; gate: { band: string; p: number }[] /* per-site probability at the band for square, yard-block and green sites, interpolated; court, plot-yard and
     hinterland sites × `hood.constants`' pin.courtFactor */;
@@ -95,7 +95,7 @@ row that laid it; kind `park` for a green-mode plaza, planted by §4.9's parks r
 
 ### 2.3 Views and services (derived, never stored)
 
-`DistrictContext` is the district-level view over the one context vector (§2.5): its `kind`, `prosperity`, `band`,
+`DistrictContext` is the district-level view over the one context vector, `ContextVector` (§2.5): its `kind`, `prosperity`, `band`,
 `density`, `growthStage` and `arena` read the same fields the context vector samples per plot, aggregated over D, never a
 second copy; the rest are stage 2's own reads of committed state. `TypedBoundary` is assembled from `District.seams` on
 demand (§2.5).

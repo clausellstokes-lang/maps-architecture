@@ -1,0 +1,14 @@
+files 1; blocks 27 found, 27 applied, 0 skipped
+  NOTE repair-r2-V11.md #9 (l. 545) REPLACE ### 2.8d The row types of items 113–119 — REPLACE retitles the heading ['### 2.8d The row types of items 113–119' -> '### 2.8d The row types of items 113–119 and 122–124']
+  NOTE repair-r2-V11.md #18 (l. 2145) REPLACE ### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119) — REPLACE retitles the heading ["### 3.25 The rows of the owner's rules of 29 and 30 Septembe" -> "### 3.25 The rows of the owner's rules of 29 September to 1 "]
+audit: 27 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 788
+  Part A duplicate ids: []
+headings 58 -> 58 (+2 / -2); fences balanced True (22 -> 22 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 626514 -> 668874 bytes, 5154 -> 5433 lines, sha256 db2ccf012142718e91fdd59ebffc8d2e5344627018602a6b127cedaf70762fac
+rationale 688889 -> 688889 bytes, 2369 -> 2369 lines, sha256 630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928

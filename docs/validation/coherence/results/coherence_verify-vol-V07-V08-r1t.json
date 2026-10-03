@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-vol-V07-V08-r1t",
+ "file": "docs/validation/coherence/verify-vol-V07-V08-r1t.md",
+ "issues": [
+  {
+   "id": "VV78-04",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V11",
+   "claim": "Persists from round 0, now at V11's end. V07 §3.8 now cites V08 §3.16 (3), and V08 §3.16 (3) (b), J-V8.122, W63, T-V8-53 and the V08 §3.17 items row admit a dossier government whose villageSeat names the manor house, seigneurial or crown (V11 §3.21.1 maps both to v.manor_house), at every village rung. V11's round-1 repair (VV1112-09) restated V08's pre-round reading: V11 W83 (l.229, last column) and V11 §3.25.4's 'Specified' bullet (l.4251-4252) read 'a dossier-bound record of a grandClasses class, or a seigneurial government's forced manor'. So a crown HAMLET dossier's manor is specified by V08 and V07 and not by V11. V08's repair landed after V11's and handed this off to V11.",
+   "required_change": "In V11 W83's last column and V11 §3.25.4's 'Specified' bullet, cite V08 §3.16 (3) without restating it: \"'specified' is V08 §3.16 (3)'s reading\". If a gloss is kept, it must read 'a dossier-bound record of a grandClasses class, or a dossier government whose villageSeat names the manor house — seigneurial or crown (V11 §3.21.1)'."
+  },
+  {
+   "id": "VV78-12",
+   "severity": "major",
+   "kind": "COHESION",
+   "owner": "scope",
+   "claim": "Persists for V07's line. V07 §8's milestones now sum to 30.25-42.5 pw (V-M0 1.25-1.75, V-M1 9-11.25, V-M2 7.5-10.75, V-M2u 1-1.5, V-M3 9.5-14.25, V-M4 2-3); round 1 added +0.25 for item 119's one-time waits and +0.25-0.5 for item 120's Find. §16's staged-milestones row (l.18743), §16's totals table (l.18786) and INDEX §1 (l.30) still read 29.75-41.75. §16 l.18743 still says 'items 111 and 113-118 at the village rungs'. The staged total (182.5-255.75) and the whole program (408-562.75) omit V07's +0.5-0.75. V08's 18-24.5 now agrees everywhere. Same defect as verify-scope-r1t VCS-08 and VCS-18.",
+   "required_change": "§16 l.18743: 'items 111 and 113-120 at the village rungs | 30.25-42.5 pw with V-M0 and V-M2u'. §16 l.18786: '30.25-42.5'. INDEX §1's V07 row: '30.25-42.5'. Re-sum §16's staged total and second total with every round-1 volume price (V07 adds +0.5/+0.75; VCS-08 lists the others)."
+  },
+  {
+   "id": "VV78-21",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "V07-RESTATE-1's canon ruling ('ProductDecl's interface lives in the base (via BCR-V7-11 at §4.12); V07 cites it and states only the 'village' entry's values') is not applied. The interface is still declared in V07 §2.1, now as 'interface ProductDecl extends ProductDeclEpoch', and the base cites it there (§4.12; §14's 'V07 §2.1's type'). V07's repair wrote a RULING REQUEST instead of a fix, and assemble-r1 skipped that block by rule.",
+   "required_change": "Either move interface ProductDecl (every member and comment) to §4.12 beside StrategyRegistry.products, with §14 citing §4.12 and V07 §2.1 keeping only the 'village' entry's values; or the adjudicator rules V07-RESTATE-1 INVALID under item 202's applied text (an f item over a base home, principle (3)). (Ruling requested by V07: see repair-r1-V07.md.)"
+  },
+  {
+   "id": "VV78-r1-01",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "Two V07 texts restate 'specified' (item 115 (c)) more narrowly than its home. J-V7.136 says \"'specified' meaning a dossier manor or hall record, a dossier government's villageSeat naming the manor, or the author's placement\". W78 (l.274) names 'a dossier's manor record or villageSeat' as producer and 'a manor or hall record' in its dossier column. V08 §3.16 (3) (a) counts any dossier-bound record of a grandClasses class (V11 §3.25.4: manor, tower_house, castle, palace, v.manor_house), every placed member of a collective record included. A town class plays itself at a village rung (V07 §3.11 step 3), so a castle or tower-house record at a HAMLET is specified by V08 and not by J-V7.136. V07 §3.8, by contrast, now cites V08 §3.16 (3) correctly.",
+   "required_change": "J-V7.136: replace \"and 'specified' meaning a dossier manor or hall record, a dossier government's villageSeat naming the manor, or the author's placement\" with \"and 'specified' read as V08 §3.16 (3) reads it, or the author's placement\". W78's producer column: 'a dossier's specification (V08 §3.16 (3))'. W78's dossier column: \"a record of a grandClasses class; a government's villageSeat manor (V08 §3.16 (3))\"."
+  },
+  {
+   "id": "VV78-r1-02",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "owner": "V07",
+   "claim": "V07 §8 l.3574, in the paragraph this round extended for items 119 and 120, reads \"§16's village line and INDEX §4 carry it (item 568 computes the totals once)\". INDEX §4 states no price ('Every milestone's price is its volume's own §8 estimate, and §16 computes the two totals'). The village's price is carried by INDEX §1's product map (l.30).",
+   "required_change": "V07 §8 l.3574: \"§16's village line and INDEX §1 carry it\". l.3555's 'INDEX §4 carry the same slot' stays."
+  },
+  {
+   "id": "VV78-r1-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "V04's repair (VAL-08) renamed V04's opening record UnderOpeningRow. Its hand-off to V07 asked W46 and V07 §3.16 (3) (iii) to read that name, and the hand-off was not closed. V07 W46 (l.242) and V07 §3.16 (3) (iii) (l.2850, in the subsection this round rewrote) still say 'OpeningRow'. In the base, OpeningRow is now only the model's opening-hours row (§2.6, l.1365: dayType, openH, closeH), so V07's name points at a different record.",
+   "required_change": "V07 W46 and V07 §3.16 (3) (iii): 'UnderOpeningRow' (V04 §2.3; its chances V11 §3.23.7)."
+  },
+  {
+   "id": "G122-V07",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "V07",
+   "claim": "File g item 122 (crisis looks; canon dated ruling 'File g items 121, 122 and 123 routed', J135: 'V07: the village and smaller rungs') has no V07 part: 'item 122' and every crisis look occur 0 times in V07.",
+   "required_change": "Write V07's part at build depth (item 122 (a)-(g) at THORP, HAMLET and VILLAGE). (1) Scale and sharing: each look's scale at the village rungs (a hamlet gets a war band's camp, never a siege line) and the shared-outskirts priority (siege, quarantine, refugees) under the density cap within the territory frame. (2) Placement of each look of item 122 (b) on V07's own features: blockade camps on the approach roads, torn palisade runs, stake barricades and burned outlying farmsteads for a siege or raid at an unwalled or palisaded village; the refugee camp on the common or fallow by the main road's entry, where V07 §3.12's village growth would build; the quarantine camp outside the perimeter, with marked doors in the affected end and a cordon; famine's bare and withered fields, strips and meadow overriding item 117's crop stage in V07 §5.1, with empty pens and shuttered stalls on the green; a disaster's ruined tofts and ends by its pattern (fire downwind through contiguous tofts, flood on the low ground by the brook, the calamity's targets); occupation, rebellion, boom and bust; never on water, a gate's passage, a keep-out or the green's keep-outs. (3) Hand-over: the aftermath through V07 §3.12's epoch path, desertion included; the camp at the village growth frontier; reconstruction as Works. (4) The looks at the township view, the district band and finer, in painterly and ink. (5) Show crises and the preview at the village rungs; the village WhyProvider's crisis lines (V07 §4.5); Find's listing (V07 §5.5); exports (V07 §5.4: pictures draw them, VTT in the image only). (6) Records: a V07 §3.17 row, a §1b W row, a T-V7 bar for item 122 (g)'s village clauses (hash identical with crises on and off and in every week; each look exactly in its condition's weeks; no-op pin with no condition and no preview), a J-V7 row, the V-M3 price, §1's scope list, and the head's owner range to '1-125'."
+  },
+  {
+   "id": "G122-V08",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "V08",
+   "claim": "File g item 122's V08 part ('every stressor type and archetype and the calamities' targets read at the baseline; the closed mapping'; J135) is absent. V08 reads stressors, activeConditions and calamityHistory (with targets) only for the conditions row, the threats row and DR28. It writes no crisis-look reading and no closed table ('item 122' occurs 0 times).",
+   "required_change": "Write V08's part. Reading: every SettlementForge stressor type and every condition archetype, read at the pinned baseline, read-only (war_pressure, famine, plague, regional_migration_pressure, rebellion, occupation, reconstruction, boom, bust, resource_strike, vein_exhausted, the regional_* archetypes, and the simulator's PLAGUE, REFUGEE_WAVE and RAID_OR_MONSTER_ATTACK where the dossier carries them), and the calamities' targets resolved to binding keys. Closed mapping: every type and archetype maps to its look kind or to an explicit 'no look', with §7.7's derivation row (determinism's), so nothing falls through; a type the table lacks is noted unmapped_word and drawn as no look. Knowledge: the condition's knowledge admission. Weeks: each look's weeks from the carried condition facts' sinceWeek and untilWeek, the week taken by item 125 (b). Records: the field-table rows, a W row, a §2.7 lifecycle row, a V08 §3.17 edge row, a T-V8 bar (every type and archetype has its row; each look shows only in its weeks), a J-V8 row, SF4's content, and the head's range '1-125'."
+  },
+  {
+   "id": "G122h-V08",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "V08",
+   "claim": "Item 122 (h)-(i)'s V08 part ('force, coalition and travelling-group sizes read from the dossier when present, confirmed by item 125 (d)'; J138) is absent: V08 reads no army, coalition or travelling-group size.",
+   "required_change": "Read each force's headcount, each coalition's member armies and each travelling group's size from the dossier where present, into the carried facts the crisis look reads (item 122 (h): 45 m2 a head; a coalition's armies each their own camp). Where absent, read the condition's or calamity's own counts (exodus, arrivals), else item 122 (b)'s severity-and-tier scale, the absence reported. Name these in-development fields with their fallback for the final local check (item 125 (d)). Add the field-table rows, a W row, a T-V8 clause and a J-V8 row."
+  },
+  {
+   "id": "G125-V08",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "V08",
+   "claim": "Item 125's V08 part (J139: 'every digest row with its fallback column; HostContext.week and .realm retired as inputs; the week from the dossier's ticks; the final local check's brief') is absent. V08 still reads HostContext.week and HostContext.realm as inputs: field table l.645-646; W42 realmBlockFrom; W64; §3.5's dating rungs (l.1768, l.1777); §3.11 (l.1999); §3.15 (l.2262); §3.16 (4)'s week (l.2354); §2.3's history.atWeek (l.515); §2.7's view row (l.1265). The field table has no fallback column, and V08 writes no brief for the final check. V08 §3.16 (4) and (6) (g) say no host message sets the frame's view but view.set { week }, while item 125 (c) keeps the embedding API's view commands (a week, a layer, a selection) as commands, never inputs.",
+   "required_change": "(1) Retire HostContext.week and HostContext.realm as inputs at every site listed: the week is the dossier's latest stamped tick (conditions' triggeredAt, the calamities' and history's ticks), else the user's season control (standalone midsummer); the climate is the dossier's terrain with item 117 (d)'s rows; latitude, realm placement and neighbours' bearings are the generator's defaults or the user's settings. (2) Give every field-table row a standalone-fallback column (the generator's own choice, reported). (3) Re-read V08 §3.16 (4) and (6) (g) under item 125 (c): view commands are commands; Find's chips are set by no host command. (4) State how HostContext.line and HostContext.customLibrary stand under item 125 (a) and (e); (e) requires the identical document and hash with and without a host context, and the library's admitted fields today become carried custom-def facts. (5) Write the final local check's brief (item 125 (d)): every path the port reads, its expected shape and values, its fallback, and the in-development fields to look for (item 122 (h)'s forces, coalitions and travelling groups; a current-week stamp). (6) Add T-V8 bars for item 125 (e): a dossier with only the required keys generates a full map, each absent field reported with its fallback; the identical document and hash with and without a host context; a static check that the adapter reads only the dossier. (7) Add a J-V8 row, and set the head's range to '1-125'."
+  }
+ ]
+}

@@ -1,0 +1,278 @@
+{
+ "key": "coherence/verify-agree-host-r0s",
+ "file": "docs/validation/coherence/verify-agree-host-r0s.md",
+ "issues": [
+  {
+   "id": "VAH-01",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "claim": "The port emits dossier changes the base's change envelope cannot type. V08 §2.3 (l.511-513) carries the fact kinds `site`, `history` and `tradition`; V08 §3.5's diff table (l.1609-1611) turns their changes into `attr`, `add` and `remove` changes that the absorb's `dossierFacts` ledger event carries (V08 §3.6 (4), l.1779-1781), and V08 §3.6 (1) (l.1753) dates them by 'row F-V8-8'. Base §7.7's `DossierChange.element.kind` (l.10861) has no 'site', 'history' or 'tradition', and the receipt table stops at F-V8-7 (`ReceiptRow` comment l.10864; item 13's data rows l.11176-11180; V08 §1.2 l.168 likewise cites F1-F22, F-V8-1-F-V8-7). A schema generated from §7.7 refuses the ledger event of any absorb whose dossier changed a tradition (item 118's schedule), a frozen site field or the history, so `carried` never takes the new schedule.",
+   "required_change": "§7.7: `DossierChange.element.kind` gains `'site'|'history'|'tradition'`. Item 13 gains the data row F-V8-8: the `site`, `history` and `tradition` kinds, dated by arrival, response `none` (the ledger event only: `carried` updated; a site or history change noted `frozen_fact_changed`; a tradition's new schedule read by the festival display), citing V08 §3.5 and V08 §3.6 (1). The `ReceiptRow` comment reads 'F1 … F22, F-V8-1 … F-V8-8'. V08 §1.2 (l.168) and V08 §3.6 (1) (l.1750) cite 'F-V8-1 – F-V8-8'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-02",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "The port's never-read list has two homes that differ. §7.7 item 1 (l.10918-10927) enumerates the paths the port never reads and names V08 §2.4's field table as 'the list'; V08 §2.4's `ignored` row (l.641) is read by `AdapterManifest.keyList`, T-V8-20's ignore clause and the key-list lint. The base names `mapEdits`, `fogSessions`, every `worldState.spatialLedgers.*` sub-ledger and the host's derived reads (district profile, map profile, causal state, system state, capacities, daily life, threat profiles, the spine), none of which V08's row lists. V08's row names `arrivalScene`, `culturalIdentity`, `culturalNotes`, `pressureSentence`, `settlementReason`, `stress`, `spatialLayout.layout`, `spatialLayout.tradeAccess` and the top-level `factions`, none of which the base lists. The `defenseProfile`/`traditions` part is VV78-10's.",
+   "required_change": "§7.7 item 1 keeps the reason categories (a host's map-side layers and derived reads, its generation log and internals, the NPC social layer, raw inputs, copies and generation scores, the host's verdicts, the lived keys, prose beyond a description seed) and the closed-digest rule, and cites V08 §2.4's field table for the paths, enumerating none of them (principle (1)). With VAH-03 the field table becomes the one complete list.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-03",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V08 §2.4's field table calls itself 'the one list' of the paths the port reads or ignores (read by `keyList`, T-V8-20 and §14's lint), but its `ignored` row (l.641) omits paths base §7.7 item 1 (l.10918-10922) puts on the never-read list: `mapEdits`, `fogSessions`, every `worldState.spatialLedgers.*` sub-ledger (the spatial substrate included), and the derived reads (the district profile, the map profile, the causal state, the system state, capacities, daily life, threat profiles, the spine).",
+   "required_change": "V08 §2.4's `ignored` row adds `mapEdits`, `fogSessions`, `worldState.spatialLedgers.*` and the host's derived reads (district profile, map profile, causal state, system state, capacities, daily life, threat profiles, the spine), each with §7.7 item 1's reason. Where SettlementForge keeps one of them outside the dossier, the row says so (no dossier path).",
+   "owner": "V08"
+  },
+  {
+   "id": "VAH-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§7.7 item 8 (l.11031-11033) lists `HistoryHint` among the staged records 'each written only by `dossierRecord`', but §7.1's `dossierRecord` event (l.9450) has no history kind ('condition'|'deposit'|'powerRelation'|'person'|'customChain'|'customService'), and V08 writes `HistoryHint` once, at creation, into `Recipe.history` (V08 §2.5's staged-record list without it, W39 l.250, V08 §3.15 (2)). Base §2.7's own list (l.2425) places it 'on the recipe, §2.9'.",
+   "required_change": "§7.7 item 8: '… `ConditionOverlay`, `DepositSite`, `PowerRelation`, the dossier-backed `Person`, `CustomChainRecord` and `CustomServiceRecord` (§2.7; items 88, 256), each written only by `dossierRecord`, and `HistoryHint` on the recipe (§2.9), written once by the port's creation (V08 §3.15) …'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-05",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "V08's wiring row W34 (l.245) lists `HistoryHint` among the staged records filled 'by `dossierRecord` puts and retires', while V08 §2.5's staged-record event names six records without it, W39 (l.250) fills it at `creation` into `Recipe.history`, and §7.1's `dossierRecord.kind` has no history kind.",
+   "required_change": "W34's piece column drops `HistoryHint` (W39 is its row).",
+   "owner": "V08"
+  },
+  {
+   "id": "VAH-06",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Base §7.7's `CircumstanceSlice.port` comment (l.10841) restates `PortValues`' fields as 'crime, food import, food chains, legitimacy, latitude'. V08 §2.5's `PortValues`, the type's home, has two more: `threats` (DR2's waterfront) and `readiness` (item 114's need). A reader of the base takes the slice to carry five values.",
+   "required_change": "l.10841's comment: 'port: PortValues | null /* V08 §2.5's per-settlement values; null standalone (item 389) */', with no field list.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§7.7 item 12 calls its table 'the KEY LAW, stated here' (l.11142-11151), but V08 §2.3 (l.516-525) adds key forms the table neither lists nor cites: the port's singletons `trade`, `port-values`, `deity`, `evidence`, `site`, `history`; `relation:<a>|<b>`; `cond:stress:<type>`; `chain:cat:<chainId>`; `dep:<institution key>|<slug(resource)>`; `calamity:<week>:<slug(name)>`; `trad:<id>`; and (V08 §2.5) `res:derived:<landuse>`. Base §7.7's own `DossierChange.element.kind` and receipt rows F-V8-1-F-V8-7 use these kinds, so the base key law is incomplete at its home.",
+   "required_change": "§7.7 item 12's table gains one row: 'the port's own keys — the singletons and pair keys of V08 §2.3 and the derived deposit key of V08 §2.5 | V08 §2.3 (cited, not restated) | none'. The sentence reads 'the KEY LAW for SettlementForge's records, stated here, with the port's own keys V08 §2.3's'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-08",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "claim": "The lock refusals give no closest alternative, against an owner rule. Item 101 R2 (docs/AMENDMENTS-2026-09-27e.md l.102-104): the tool 'refuses only what item 20 forbids (dossier facts) and what a lock protects, always with the closest alternatives (item 20 (g))'; T101-5 (l.16035): 'no declaration contradicts a dossier fact or a lock without a refusal carrying its reason and at least one closest alternative'; E-07's own row 6 (l.9676: 'the lock or the dossier fact it meets, with the closest acceptable declarations'). E-07's first row (l.9671), which `refuse.locked`, `refuse.water` and `refuse.warp` word, gives only 'unlock, choose another target, or keep the lock'. V09's rows and V10's lock row follow it (VAH-09, VAH-10), so a lock refusal on canvas or from the clerk carries no closest alternative and T101-5 fails.",
+   "required_change": "E-07 row 1's action column: 'the blocking lock — unlock, or one of the closest acceptable declarations that leave the locked entity untouched (item 20 (g); `PreviewResult.alternatives`), or keep the lock; a host that must override a lock sends an unlock first'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-09",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.9's `refuse.locked` (l.1884), `refuse.warp` (l.1894) and `refuse.water` (l.1895) rows offer only `button.unlock` and `button.showWhy`. That contradicts item 101 R2's 'always with the closest alternatives', E-07 row 6 and T101-5's 'at least one closest alternative'.",
+   "required_change": "Each of the three rows' button lists gains `button.chooseMarked` commit(`alternatives`, each `button.putAt`), the form `bend.place.noSite` uses, before `button.showWhy`, so the closest acceptable declarations of the dry run (VAH-08) are offered.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-10",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §3.16's `lock` row (l.2212) states '(the canvas's card offers no closest alternative, so neither does the clerk's); no own alternative', against item 101 R2, T101-5 and E-07 row 6.",
+   "required_change": "The `lock` row's alternatives cell: 'the row's buttons by V10 §3.5 step 3 — **Unlock** (a `propose` of the unlock), the closest acceptable declarations (each a `propose`, item 101 R2) and **Show me why**; no own alternative'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-11",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "E-07 ('the one home of every refusal, conflict and bend cause', l.9663) disagrees with the members on what is refused. (a) It has no row for refusals other members state and word: the viewer role (§11.2's `role`; V09 `refuse.viewer`; V10 §3.16's `role` row); the island rung gate (V09 `refuse.islandsRung`, which V10 §3.16's `rule` row lists among the dry run's engine refusals); and V11 §4.1's table-edit refusals (item 110 (b)'s rung gate on a `raisedWays` row below CITY with the alternative 'declare the raised way', also V11 §4.4's lifecycle row; a stamped owner-rule cell; a dangling `ref` or a type error, refused F-EDIT naming the rule). (b) Six rows carry no key ('—'), four of them conflicts a user reads: the household capacity conflict, the Works conflict, the upgrade's pack-cap conflict and the host provider cap; the other two are the bug abort and the halved warp step. This is against V09 §4.9's 'every line a user reads … is a row' and T-V9-15's 'every outcome row has its key'. (c) Its lead says a declaration is refused 'only where it contradicts a dossier fact or a lock', while its own rows refuse an assignment-drift edit, a staged layer, an undo of a creation or dossier event and the host cap, and V09 §4.9 (l.1847-1849) lists 'a dossier fact, a lock or an assignment, a dependent later change, the viewer role, a staged layer, the rung and the screen — availability gates (J-VI.4)'. The stale base is VDC0-36's.",
+   "required_change": "E-07 gains rows, each with its key: a declaration from a viewer role (refused `role`; `refuse.viewer`); an islands `adjust` below CITY from any client (refused, the rung; `refuse.islandsRung`); a `raisedWays` row set below CITY, a stamped owner-rule cell, and a dangling reference or type error in an `editTable` (refused F-EDIT naming the rule; the keys of VAH-12). Each '—' row names its key, or states that it carries no catalogue line and why. The lead reads: 'refused only where it contradicts a dossier fact or a lock (item 101 R2), or where an availability gate stops it — an assignment's bounds, a dependent later change, the role, a staged layer, the rung (J-VI.4); every other infeasible declaration is bent'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-12",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.9's sentence 'One row per outcome (E-07): each `bend.*` and `refuse.*` row is the message key of one row of §7.1's dry-run outcome table … T-V9-15 checks the two sets one to one' (l.1850) and T-V9-15's E-07 clause (l.3814) are contradicted by both texts, so the bar cannot pass. (a) V09 rows word no outcome row: `refuse.exportTier` (§11.1's E_KNOWLEDGE_TIER), `refuse.phone` and `refuse.layer` (the shell), `refuse.restore.dossier` (V09 §3.9) and `refuse.clerk.*` (V10 §3.16). (b) E-07 keys several rows by one key: `refuse.locked` rows 1 and 6; `refuse.water` rows 1 and 2; `refuse.dossierOwned` rows 4, 6 and 8. (c) V11 §4.1's table-edit refusals have no row here.",
+   "required_change": "V09 §4.9's sentence and T-V9-15's clause: 'every key in §7.1's outcome table has its row here, one key wording each outcome row that names it; every `bend.*` and `refuse.*` row here names its producer — an outcome row of §7.1, §11.1's export rule (`refuse.exportTier`), the shell (`refuse.phone`, `refuse.layer`), V09 §3.9 (`refuse.restore.dossier`) or V10 §3.16 (`refuse.clerk.*`)'. Add one `refuse.*` row, with its buttons by V09 §4.9's rules (at least **Show me why**), for each of V11 §4.1's refusals: a `raisedWays` row below CITY (with the alternative 'declare the raised way' as a T4 Raised `tool` button), a stamped owner-rule cell, and a dangling reference or type error. E-07's new rows (VAH-11) name these keys.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-13",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 states the dry run's refusals as two, against its own table and E-07. §1.2 (l.155) reads '(bends and the two refusals)' and §3.16 (l.2195) '§7.1's dry-run outcome table, which refuses only for a dossier fact or a lock and bends every other case'. V10's own `rule` row (l.2213) then lists engine refusals that are neither (a kept record, a staged layer, the rung, an undo's dependence, an assignment), its `role` row renders `refuse.viewer`, and E-07's rows refuse the same causes.",
+   "required_change": "§1.2's cell: '… the dry-run outcome table (its bends, refusals and conflicts)'. §3.16: '… §7.1's dry-run outcome table, which refuses a dossier fact or a lock (item 101 R2) and the availability gates its rows name (J-VI.4), and bends every other case …'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-14",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "`setAttr` on `Enceinte.pathway` (a ring's fate: road, absorb, keep, and its week; §2.8 l.2690 lists it as an edit path) has its home tool T3 `wall` in V06 §4.2 (l.3253: 'T3 `wall`'s inspector on a ring') and V09 §4.3 (l.1620). §7.1's binding (E-04, the one home) names it in no row: its T3 row (l.9752) homes `setAttr` only 'on a retaining wall and on the castle'. Its T9 row (l.9758) takes 'every `setAttr` path no other row homes', so the base homes it at T9. T-V9-12 checks the two tables pair by pair and fails.",
+   "required_change": "§7.1's binding T3 row adds '`setAttr` on `Enceinte.pathway` (a ring's fate and week; V06 §4.2)'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-15",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "`setAttr` on `WaterBody.spring.flow` (item 111; V06 §3.12.1's failing spring, V06 §4.2 l.3258 'T2 `ground`'s spring form … a flow slider') is homed at T2 `ground` by V06 §4.2 (also V06 l.3289 '`WaterBody.spring.flow` (`setAttr`, T2)') and V09 §4.3 (l.1615). §7.1 names it nowhere. The edit-target water row (l.9627) lists `setAttr` (bank class) only, and the binding's T2 row (l.9751) homes `setAttr` 'on `geology`, a bank class, a site feature'. A spring's flow is a `WaterBody` field, not a site feature, so the base homes it at T9 by the catch-all.",
+   "required_change": "§7.1: the edit-target water row adds '`setAttr` on `WaterBody.spring.flow` (item 111; V06 §4.2)', and the binding's T2 row adds '`setAttr` on `WaterBody.spring.flow`'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAH-16",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.3's T10 row (l.1651) binds `rerollLayer('forest')` to T10 `hold`, as V07 does. Base §6.1 registers no `forest` concern (the rerollable set is naming, render.instances, style.jitter, style.crowns, style.compass, naming.emblem, village.track), so `rerollLayer`'s schema refuses it. §7.1 binds `render.instances` to T12 `dress`. VDC0-15 and VV78-13 rule V07's half; V09's row is its own text.",
+   "required_change": "V09 §4.3's T10 row drops `rerollLayer('forest')`. The village **Try again** chip for the woods' trees issues `rerollLayer('render.instances')` scoped to the wood, homed at T12 `dress` (§6.1, §7.1's T12 row), the binding VDC0-15 gives V07.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-17",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.3's `delete` row (l.1659) homes `delete` at T10 `hold` 'on any thing', while §7.1's binding (keyed by event kind and target class, V09-ICONF-2) homes T10's `delete` only 'of anything else' and gives the delete of an access point and of catacomb galleries to T9 `shape` and the delete of a light to T12 `dress`. V09's own rows (access point, catacomb galleries, light) say the same, so the table homes one (kind, target) pair at two tools and T-V9-12 cannot pass.",
+   "required_change": "V09 §4.3's `delete` row: 'T10 `hold` … on any thing but an access point and catacomb galleries (T9 `shape`) and a light (T12 `dress`), as §7.1's binding keys it; a dossier-backed thing takes `rejectSite`, an island V05's `convert removeIsland`'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-18",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §4.1's escape-hatch paragraph (l.2620) places 'the leader-line switch under T11'. The leader-line switch is a `setStyle` row (§9.4); §7.1's binding homes `setStyle` at T12 `dress`, and V09 §4.3 lists 'the leader-line switch (a style row, §9.4)' in the T12 row.",
+   "required_change": "V10 §4.1: '… the plan and massing events of V02 and V03 under T9; and the leader-line switch, the quarter tint and the furniture rows under T12'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-19",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Missed shared subject: the `info.village.*` explanation rows (verdict: open hand-off; no catalogue home). V07 §4.5 (l.3049-3076) defines `info.village.heart`, `.form`, `.roads`, `.end`, `.field`, `.platformWall`, `.raisedCarried`, `.belowCity`, `.palisadeRun`, `.unwalled`, `.ceiling`, `.remnant`, `.superseded`, `.season`, `.festival` 'as rows keyed in V10's catalogue'. V10 §3.9 (l.1690) points back to V07 §4.5. V09 §4.9, the catalogue's one home (`messages/en.json`), has no `info.village.*` row and no `info.village.*` line in its family table of keys whose words another volume writes (l.2165-2177). A shipped locale therefore lacks those keys, and T-V9-15's 'every key of every family' has none to check.",
+   "required_change": "V09 §4.9's family table gains '| `info.village.*` | each row of V07 §4.5's list | V07 §4.5 |'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-20",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "V07 §4.5 (l.3049) says its `info.village.*` rows are 'keyed in V10's catalogue'; the catalogue is V09's (`messages/en.json`, V09 §2.9, §4.9), and V10 renders families V09 carries.",
+   "required_change": "V07 §4.5: '… as rows of V09 §4.9's catalogue (their words written here)'.",
+   "owner": "V07"
+  },
+  {
+   "id": "VAH-21",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V09 §4.9 (l.2156) says the `host.*` rows' text is 'volume 8's (V08 §13 X12: …)'. V08's rewrite removed its X table: V08 §13 (l.3335-3351) holds no X12, so the pointer resolves nowhere. The texts stand at V08 §3.9, §4.2, §4.6 and §5.1.",
+   "required_change": "V09 §4.9: '… its text volume 8's (V08 §3.9's held reasons, V08 §4.2's controls and undo words, V08 §4.6's notes and history lines, V08 §5.1's strips and banner rows; `host.locked`) …'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-22",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "V09 §2.6 (l.578) declares itself 'their one home' for the family multipliers: `familyWeights` holds, per family, one of 0, 0.5, 1, 2, 3, multiplying that family's soft terms, hard needs never scaled. V11 §4.2, the tables' owner (S2), declares the same cell with the same values and meaning: `familyWeights?: Record<string, 0|0.5|1|2|3> /* per family, × that family's soft terms …; hard needs unscaled */`. One cell, two homes.",
+   "required_change": "V09 §2.6: 'The family multipliers. `familyWeights` is V11 §4.2's cell (its values and meaning there); V09 §4.7's chips word its five values Ignore 0 · Less 0.5 · Normal 1 · More 2 · Much more 3 …'. The words stay V09's, the values and meaning V11's.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-23",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "One name, two records: V09 §2.4 (l.494) declares `interface Draft` (the canvas's live gesture: tool, mode, params, layer, points, strokes …; `DraftMirror` its copy), and V10 §2.4 (l.491) declares `interface Draft` (the clerk's multi-item draft: mode, scratch, forkHead, blueprint, items, checks). The matrix rows both as one shared subject `Draft` with verdict agree. The canon's glossary carries two 'draft' entries (V09-1083, V10-0787). V09 §2.10 names its types 'so that none collides with volume 10's'.",
+   "required_change": "V10 renames its record `ClerkDraft` (with `ClerkSession`, `ClerkTurn`) at its declaration and every V10 use. `DraftItem`, `DraftCheck` and `CreatedRef` keep their names. The glossary's V10 term reads 'clerk draft (`ClerkDraft`)'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-24",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "`MsgRef` is declared twice: base §11.2 (l.14299, 'declared in @plat/model', `key: string`), which base records use (§5.2's F-EDIT, §11.2's `PreviewResult`), and V09 §2.9 (l.704, `key: MsgKey`, `MsgKey = string`). The matrix homes it at V09 (pairs V08-V09, V08-V10, V09-V10), but MC-11 puts a type a base record uses in the base.",
+   "required_change": "V09 §2.9 replaces its `type MsgRef` declaration by 'MsgRef is §11.2's (`@plat/model`); its `key` is a `MsgKey`', keeping `MsgKey` and its comment on rendering a withheld `{ id }` argument.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAH-25",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Missed shared subject (model-V10): `PlacementOrder`, declared in base §2.8 (l.2486) and again in V10 §2.13 (l.1079). Verdict: duplicate home, and the copy's comment dropped 'claims first, then item 105 (f)'s anchors first' from `k`.",
+   "required_change": "V10 §2.13 replaces its `type PlacementOrder` line by a citation: '`PlacementOrder` is §2.8's (item 271)'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-26",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "`RaisedKind = 'viaduct'|'elevated'|'aqueduct'` is declared in V06 §2.13 (l.847) and again in V11 §2.8c (l.626). The base's own record types the same union inline (§2.7 `RaisedWayRecord.kind`, l.2132). The matrix homes it at V11 (V06-V11, V09-V11) with verdict agree; MC-11 puts a type a base record uses in the base.",
+   "required_change": "§2.7 declares `type RaisedKind = 'viaduct'|'elevated'|'aqueduct'` beside `RaisedWayRecord` and types `kind` with it. V06 §2.13 and V11 §2.8c replace their declarations by 'RaisedKind is §2.7's'.",
+   "owner": "model"
+  },
+  {
+   "id": "VAH-27",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "One name, two records (pair model-V11, matrix verdict agree): base §2.2 (l.577) declares `type RoleRow = { role: RoleName; entity: Id; ordinal?: number }`, the kernel's role rows; V11 §2.8 (l.549) declares `interface RoleRow`, a structure role's defaults that the compiler writes into `DesignationTemplateRow.structures`.",
+   "required_change": "V11 renames its record `StructureRoleRow` at its declaration and every V11 use (V11 §3.6.5 among them).",
+   "owner": "V11"
+  },
+  {
+   "id": "VAH-28",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "One name, two records (pair V01-V10, matrix verdict agree, a pair no agreement seat's members cover): V01 §2.2 (l.361) declares `type Anchor = 'portal:best'|'portal:gate'|'portal:bridge'|'pair:1'|'pair:2'|'axis'`, a template primitive's portal anchor; V10 §2.12 (l.820) declares `type Anchor` as the clerk's words-to-points input (`{ at }`, `{ from, bearing, dist }`, `{ between }`, `{ along }`, `{ edge }`, `{ frame }`).",
+   "required_change": "V10 renames its type `PlaceAnchor` at its declaration (l.820), in `AnchorGeom` and at every V10 use.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-29",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V10 §1.2's volume table (l.194) lists `LadderRouter.route` under 'V07 §2.1, V07 §2.7, V07 §4.5'. `LadderRouter` is the base's: §1.1 (l.342-349), §14 (l.14720 'requests outside the ladder are routed or clamped by §1.1's `LadderRouter`'), cited as §1.1's by V07 (l.103, l.356) and V08 §3.10. The matrix's home 'V07' is wrong too.",
+   "required_change": "V10 §1.2 moves `LadderRouter.route` to a base row ('§1.1 | `LadderRouter.route` and the rung table'); the V07 row keeps `ProductDecl('village')`, `VillageRequest` and the village `WhyProvider`.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-30",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11 §10c (l.4982-4993) cites requests by ids their volumes no longer carry: 'V08 X1', X2, X4, X5, X6, X9, X14, X19, X22, X25 (V08's rewrite removed its X table, and V08 §13 holds no rows) and 'V07 FL-2', 'V07 FL-3' (V07 holds no FL rows). These are prefixed citations that resolve nowhere. VV56-27 covers V11's citations of V06's removed X ids.",
+   "required_change": "V11 §10c's request column names each by its subject and the requesting section instead of a removed id, for example 'V08's ladder re-check (V08 §3.5.1)', 'V08's `chainStatus` `sustained` (V08 §2.6)', 'V07's counted village church (V07 §3.16)'. The validation records keep the former ids.",
+   "owner": "V11"
+  },
+  {
+   "id": "VAH-31",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "V10 §2.13's `WhyAnswer.closure[].barrier` (l.1032) restates the union 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte' inline. It is base §2.7's `BarrierKind` (l.2096, J-VI.3), which §11.2's preview arcs also restate inline (l.14313). The values agree today; the restatement keeps two copies to keep in step.",
+   "required_change": "V10 types the field `barrier: BarrierKind /* §2.7 */`.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAH-32",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "The ladder step enumeration 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT' (item 108) is written inline five times in four units: V11 §2.6's `LadderStepRow.step` (l.477), V08 §2.3's `CarriedFact` (l.489), V08 §2.5's `DossierInstitution.step` (l.669), V10 §2.13's `WhyAnswer.members.step` (l.1035) and V01 §2.3's district view (l.450). No named type exists. The values agree.",
+   "required_change": "V11 §2.6 declares `type LadderStep = 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'` beside `LadderStepRow`, typing `step` with it. V08 §2.3, V08 §2.5, V10 §2.13 and V01 §2.3 type their fields `LadderStep` (V11 §2.6).",
+   "owner": "V11"
+  },
+  {
+   "id": "VAH-33",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Build-plan dependency. V08 §8.1 (l.3021-3027) lists what M-SF needs as M3a, M3b, M4, M6-E, M-CAL and V11's C4, but SF6 (l.3046) wires `ClerkMount.host` and `HostSlots` and the host clerk's proposals, whose other ends are built at M3c: V10's C5 (the host proposal intake, `clerk.config`, `clerk.needsToken`, `clerk.proposal`; V10 §8) and V09's AP8 (the card-only drawer and the host channel, 'M3c (staged; with V10's C2-C5 — C5 for the host channel …)'). V09's AP5b (l.4087) runs 'M-SF (with V08's SF4 and SF6; V08 §8.1)', but V08 §8.1 names no V09 step.",
+   "required_change": "V08 §8.1's list adds 'M3c (V10's C5 host seam and V09's AP8 card-only drawer, which SF6's host clerk and `ClerkMount.host` drive)' and 'V09's AP5b, the host shell verified on `embed.html` with SF4 and SF6'.",
+   "owner": "V08"
+  },
+  {
+   "id": "VAH-34",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V08 §8.1 (l.3027-3028) says V11's C4 holds 'the rows items 111 and 113–118 read'. V11 §8's C4 (l.4680) holds only the SettlementForge vocabulary (`dossier.kinds`, archetypes, category synonyms, keywords, good words, ladders, the wall barrier and waterfront rows); the rows of items 111 and 113–119 are C9 (l.4685), priced at the milestones that build each item's base mechanism. So M-SF's dependency names the wrong V11 step.",
+   "required_change": "V08 §8.1: '… and V11's **C4** — the SettlementForge rows: `dossier.kinds`, archetypes, category synonyms, keywords, good words, ladders, the wall barrier and waterfront rows — and **C9**'s rows that items 111 and 113–118's port readings use (V11 §8, priced there, not here)'.",
+   "owner": "V08"
+  }
+ ]
+}

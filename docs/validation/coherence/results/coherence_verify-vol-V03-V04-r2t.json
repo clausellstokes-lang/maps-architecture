@@ -1,0 +1,134 @@
+{
+ "key": "coherence/verify-vol-V03-V04-r2t",
+ "file": "docs/validation/coherence/verify-vol-V03-V04-r2t.md",
+ "issues": [
+  {
+   "id": "VV34-r2-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "A disaster's look below ground has two rules. V03 §5.6 (4) draws a look-ruined building's damage layer \"at the look's `lookLevel` by severity, or at its own level where that is higher (`PlanDamage.level`), on every element\", and V03 §5.1 *The plan in ruin* draws \"one a disaster's look ruins\" with \"below level 0 the cellars and the crypt\" — so its storeys below 0 take the look. V04 §5.6 (1) gives a storey below 0 \"that building's level, `decayLevel(doc, its lineage, week)`\" and nothing else; V04 has 0 mentions of item 122, a disaster or `lookLevel`. R2-37 (7) names \"V04 below ground\" among the ends of the look's damage. A cellar or crypt under a look is drawn damaged by V03's rule and intact by V04's.",
+   "required_change": "V04 §5.6 (1), after the underground building's sentence: \"Under a disaster's look over its building (V03 §5.6 (4); item 122 (d)), a storey below 0 draws at its building's drawn level — `PlanDamage.level`, the higher of its own level and the look's `lookLevel` by severity — its kinds' thresholds unchanged, the look leaving no patch; the per-storey scene's walls, portals and lights stay at the own level, the look in its image only (V03 §5.3; V03 §5.6 (2) (d)). An underground building lies in no look's unit (V01's `disasterDistricts` returns the ground arena's districts), so it reads its own level only.\" Add the hook to V04 §1.2 (§2.7's `ConditionOverlay`, §2.9's `crises`, §7.7's DR44, §10.2's `lookLevel`, read through V03 §5.6 (4)); UE33 an E9 (a church in a ruined district: its crypt at the look's level in the condition's weeks and at its own outside them, no patch, its join kept); T-V4-82 a clause (i) on that fixture; J-V4.130 one sentence.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-02",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V04 §5.6 (2) lists \"an access head\" among the elements below ground that \"keep their V03 kind and range\", and §5.6 (3) and UC21 draw \"a damaged … access head below 0\" as rubble. V03 §5.6 (1), the home of the plan's element kinds, makes an access head no element (\"its state is its access's, V03 §3.7.2 (7); V04 §5.6 (4)\"), and V11 §2.8d's `DamageElementKind` has no head kind. An access head has no threshold, so \"a damaged access head\" names nothing.",
+   "required_change": "V04 §5.6 (2): drop \"an access head\" from the list and add \"an access head is no element (V03 §5.6 (1)): its state is its access's\". V04 §5.6 (3): \"a stair core whose `levels` include a storey below 0, once damaged, draws as rubble over its steps below 0, a way still climbable, an access head standing on it drawn with it\". UC21: \"a damaged stair core below 0, with any access head on it, draws as rubble over steps still climbable\".",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-03",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "V04 §5.6 (2) keys a `cryptVault` element by \"(its room's id, the cell's grid node (i, j))\". A grid cell has four corner nodes, and neither V04 nor V03 §3.7.5 (\"a grid of pitch `crypt.bayCm` centred on that OBB\") says which node names the cell or where (0, 0) lies. The key fixes the element's one threshold (§6.3), so the text leaves an element's identity open.",
+   "required_change": "V04 §5.6 (2), the `cryptVault` row's id cell: \"(its room's address, (i, j)) — i and j the cell's lowest-leftmost corner node in whole pitches along the step-2 ring's OBB axes, counted from the grid node at the OBB's centre (V03 §3.7.5's centring) — a key, never a new id\".",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-04",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "T-V4-82 (b) checks \"each element damaged exactly when the level ≥ its threshold\". §6.3 *Plan damage* (the home), V03 §5.6 (2) (a) and V11 §3.25.10 state \"while the level is above 0 and at least t\", and V11 allows a range edited to `lo` = 0. With such a row, (b) requires an element damaged at level 0, which (g)'s byte-identical never-decayed control (`item123.damage`) forbids. This is the same defect VDC2-07, VDC2-08 and VRC2T-13 raise at §2.6 and §8.6.",
+   "required_change": "T-V4-82 (b): \"each element damaged exactly while the level is above 0 and at least its threshold (§6.3)\".",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-05",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "T-V4-82 (g) re-runs the `item123.damage` pin below ground as \"(`item123.damage`, V12's pin)\". V12 §2.13's row, V12 §3.7.8's list, V12 §3.15.13 and X-V12-11 all name T-V4-82 (g) as V04's registration of the underground's bands and per-band exports. R2-09 requires the restating clause to state that registration, as T-V4-47 does.",
+   "required_change": "T-V4-82 (g): \"… draw and export byte-identically to the build without the layer — the `item123.damage` registration of the underground's bands and per-band exports on V12 §3.7.8's engine (V12 §2.13), written by the U5 seat\".",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-06",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V04 §5.6 (6) and §8's U5 row land the damage below ground at U5 and defer only \"a plan's storeys below 0\" to V03's item-123 step. The underground view's damaged footprints and per-band exports read the plan's damage elements (V03 §5.6's `planDamage` and kinds), §6.3's `plan.damage`, §2.6 step 7 and §8.6. R2-36 and §16's M6-P row land all of these with V03's P4, \"the rest after M6\", while M6-U runs beside M6 (§16). So U5 can land a part, and T-V4-82 run on it, before its base parts exist. V02 states its own case: \"at the later of M6b and V03's item-123 plan step\".",
+   "required_change": "V04 §5.6 (6): \"It lands at the later of U5 and V03's P4 — the step that draws a decayed or ruined plan, with which §2.6 step 7, §6.3's `plan.damage` and §8.6 land (R2-36; §16) — the underground view's footprints and the per-band exports with it …; before it nothing of this section is drawn\"; the same in §8's U5 content cell (\"the damage below ground at the later of U5 and V03's P4\") and J-V4.130's landing clause.",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-07",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "V04 §12 (l. 3464) reads \"file g's items 102–126 are read whole in `docs/AMENDMENTS-2026-09-28g.md`\". It means every item of file g, and R2-07 says such a list states no upper number. It will be stale at item 127.",
+   "required_change": "V04 §12: \"file g's items are read whole in `docs/AMENDMENTS-2026-09-28g.md`\" (the subset list that follows, \"the underground parts of items 113, 119, 120 and 123\", stays).",
+   "owner": "V04"
+  },
+  {
+   "id": "VV34-r2-08",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V03 §5.6 (1) gives `roofBay` to \"the roof over each room that no storeyed room of its building lies above\", with no level limit. A room below level 0 that no storeyed room covers is such a room: a crypt or cellar under a solid monument's tiers, or under a stack with no storeyed wing (V03 §4.5; item 110's stepped temple and its `top: 'flat'` crypt planned alone, V03 §7). V04 §5.6 (2) gives the same ceiling `cellarVault` or `cryptVault` (V11: 0.75–1, 0.88–1, `ruined`). So one ceiling has two elements with two thresholds. Its `roofBay` (V11 0.40–0.66, `decayed`) opens a crypt beneath solid masonry \"to the sky\" (§8.6) at `decayed`, against V04 §5.6 (2) (\"a cellar and a crypt stand intact through `abandoned` and `decayed`\") and item 123 (c). V02 §5.7 (2) then reads the bay as a roof hole.",
+   "required_change": "V03 §5.6 (1), the `roofBay` row: \"the roof over each room at or above level 0 that no storeyed room of its building lies above, pitched or flat, a terrace's included; a room below level 0 has no roof bay, its ceiling being V04 §5.6 (2)'s `cellarVault` or `cryptVault`\". J-V3.136 reads \"the roof over a room at or above level 0 …\". V03 §3.13's damage-layer row adds the edge \"a crypt under solid tiers or under a stack with no storeyed wing\" with the outcome \"its ceiling V04's vault kinds, never a roof bay\". T-V3-39 (d) adds \"the stepped temple's crypt (V03 §7's item-110 fixture) intact through `decayed`\".",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-r2-09",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "claim": "V03 §3.13's look row lists \"save, load, undo, redo, regenerate\" but not migrate, as principle (11) requires. T-V3-40, its test, has no clause for an undo, a redo or a migration ((c): two views, a scrub, a save and load, a regenerate). The damage-layer row lists \"save, load, undo, redo, regenerate, migrate\", but its named test T-V3-39 has no lifecycle clause. V12's `damage.breakLevel` (T123-3) runs those steps on V12's own fixtures and is not cited.",
+   "required_change": "V03 §3.13, the look row: add \"migrate\" to the edges and \"a document from before item 122's step reads `crises` absent as `follow` (§2.9), its overlays drawn as any\" to the outcome. T-V3-40 (c): \"… a save and load, an undo and a redo of an unrelated edit, a regenerate and a migration\". T-V3-39 gains (h): \"save, load, undo, redo, regenerate and migrate at the levels 0, ½ and 1 re-read the same damaged set, drawing and exports, every element breaking at the same level (V12's `damage.breakLevel`, T123-3, on these fixtures)\". The damage-layer row's test cell reads \"T-V3-39 (h), T-V12-56\".",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-r2-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "`storeyGone` has two rules in V03. V03 §4.6 counts \"per storey every `upperFloor` area of which is damaged\", as V10 §3.9a and V09 (\"the upper floor is gone\") read it. V03 §4.5's switcher (l. 2294–2295) and §3.13's damage-layer row describe \"A storey every floor area of which is damaged\" by `info.damage.storeyGone`. At level 1 every `groundFloor` area of the ground storey is damaged: a rotten patch, still walkable (§8.6; T-V3-39 (d)). So §4.5 names the walkable ground storey \"The ground floor is gone\".",
+   "required_change": "V03 §4.5: \"A storey every `upperFloor` area of which is damaged (V03 §4.6's `storeyGone` rule) keeps its option, its accessible description the `info.damage.storeyGone` line\". V03 §3.13's damage-layer row: \"a storey every `upperFloor` area of which is damaged\".",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-r2-11",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "V03 §5.1 *The plan in ruin* draws each damaged element \"in §8.6's damaged form for its kind\". §8.6 has one floor-area row keyed by position: \"on any storey above ground level, a hole … the storey below seen through it; at ground level and under it, a rotten patch … still walkable\". V03 §5.6 (1) makes the floor of the first storey of a wing standing on a solid wing `groundFloor` (J-V3.136: a floor on solid support; V11's late range). That storey lies above ground level, so §8.6's position rule draws it as a hole onto a \"storey below\" that is solid fill. Kind and form disagree for the item-110 shrines and tiers on solid platforms.",
+   "required_change": "V03 §5.1 *The plan in ruin*, after \"every other as built\": \"a damaged `groundFloor` element takes §8.6's ground-level form (a rotten patch, still walkable) at whatever level it lies, a solid wing's first storey included, and a damaged `upperFloor` element §8.6's hole\".",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-r2-12",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "T-V3-39 (g) runs T123-7's plan clause as \"V12's `item123.damage` pin over these fixtures\", and T-V3-40 (f) runs T122-7 over plan tiles as \"V12's `item122.crises` pin\". R2-35 gives T123-7 to V03 and V12, and the base's take-over row (l. 18223) has V03 run T123-7's plan clauses. R2-09 makes a restating volume test the home of its registration, \"— the `<pin>` registration of <suite> on V12 §3.7.8's engine (V12 §2.13), written by <seat>\". Neither clause registers, and V12 runs neither pin on V03's fixtures or plan tiles.",
+   "required_change": "T-V3-39 (g): \"… — the `item123.damage` registration of V03's damage fixtures (their plans drawn and exported at every level) on V12 §3.7.8's engine (V12 §2.13), written by the P4 seat\". T-V3-40 (f): \"… — the `item122.crises` registration of the damage fixtures' disaster district (its plan tiles at the building band, no condition and no preview) on V12 §3.7.8's engine (V12 §2.13), written by the P4 seat\".",
+   "owner": "V03"
+  },
+  {
+   "id": "VV34-r2-13",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "The why card's `plan` section has two rules for a disaster's look. V09 §4.21.13 (1) shows the damage lines in \"the plan panel … and the why card's `plan` section\", and (3) gives \"a building's lines\" in a ruined district at the look's `lookLevel` under `info.crisis.ruinedFor`. V09's wiring rows (l. 378, l. 1008) feed \"a disaster look's `lookLevel`\" to both. T-V9-86 checks \"the plan panel and the why card's `plan` section … a building in a district a disaster look ruins shows the look's lines\". V03 §4.6 (\"A disaster's look is no row … the panel shows it\"), V10 §3.9a (\"a look the `plan` rows never carry\"), T-V3-40 (d) (\"the JSON block and the `plan` section carry no look\") and J-V3.139 exclude it. T-V9-86 and T-V3-40 (d) cannot both pass.",
+   "required_change": "V09 §4.21.13 (3): \"In the plan panel (V03 §4.5), in a district a disaster look ruins, a building's lines are those of its damage at the look's `lookLevel` by severity, or at its own level where that is higher, under the head `info.crisis.ruinedFor` …; the why card's `plan` section keeps the own level's rows (V03 §4.6; V10 §3.9a: a look the `plan` rows never carry), the look told by the look read (V10 §3.9b (8))\". The wiring rows l. 378 and l. 1008: the look's `lookLevel` feeds \"the plan panel's lines\" only. T-V9-86: \"… shows the look's lines under `info.crisis.ruinedFor` in the plan panel, the why card's `plan` section the own level's rows only\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV34-r2-14",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.9's `info.damage.<kind>` row is \"one per damaged element kind of V03's damage layer\", and T-V9-15 checks \"every damaged element kind of V03's damage layer its `info.damage.<kind>` row\". Its keys are line kinds (`floor`, `storeyGone`, `unsafe`, `cellar`, `crypt` …); V11 §2.8d's fourteen `DamageElementKind` values include `groundFloor`, `upperFloor`, `cellarWall`, `cellarVault`, `cryptWall`, `cryptVault` and `cryptTomb`, which have no same-named row. The mapping is V03 §4.6's (`floor` for `upperFloor` and `groundFloor`; `cellar`, `crypt`), so T-V9-15's literal check fails. `floor`'s words \"Floor fallen through in {rooms}\" are also false for a `groundFloor` element, which §8.6 draws as \"a rotten patch, still walkable\".",
+   "required_change": "V09 §4.9's row: \"one per line kind V03 §4.6 maps the damaged element kinds to (`upperFloor` and `groundFloor` → `floor`; `cellarWall`, `cellarVault` → `cellar`; `cryptWall`, `cryptVault`, `cryptTomb` → `crypt`; each other kind its own key), with `storeyGone` and `unsafe`\"; `floor` reads \"Floors rotten or fallen through in {rooms}\". T-V9-15: \"every `DamageElementKind` of V11 §2.8d reaches an `info.damage.<kind>` row by V03 §4.6's mapping\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV34-r2-15",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V03 §7 defines \"the damage fixtures\" (T-V3-39, T-V3-40; \"read by volume 9's T-V9-86 and V12 §3.15.13\"): the re-let town house, the building generated ruined, the ruined row with party walls, the ruined deck shop and the staged disaster district among them. V12 §3.15.13 defines its own, narrower \"damage fixtures\" (\"B-PLAN's seeds holding a building of every element kind …\") without citing V03 §7. V12 §2.13's `item123.damage` and `item122.crises` rows and V12 §3.7.8's list of registering volume pins (with X-V12-11) name T-V4-82 (g) but not T-V3-39 (g) or T-V3-40 (f), which run those pins on V03's fixtures (R2-09: the list is exactly the union of the volumes' registering clauses).",
+   "required_change": "V12 §3.15.13: \"on the damage fixtures (V03 §7) — …\", the restated list cut to that citation. V12 §2.13's `item123.damage` row adds \"V03's damage fixtures (T-V3-39 (g))\" and `item122.crises` adds \"the damage fixtures' disaster district at the building band (T-V3-40 (f))\". V12 §3.7.8's list and X-V12-11 add \"V03's … T-V3-39 (g) and T-V3-40 (f)\".",
+   "owner": "V12"
+  },
+  {
+   "id": "VV34-r2-16",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§6.3 *Plan damage* keys each element's draw by its kind and \"V03 §2.2's plan-part id (`wall:`, `op:`, `win:`, `core:`, `furn:`), a floor area and the roof bay over a room by their room's address\". It omits three element ids its units key: V03 §5.6 (1)'s choir flight (kind `stair`, \"a flight by its room's address\"); V04 §5.6 (2)'s `cellarVault` (the room's id); and V04 §5.6 (2)'s `cryptVault` cell (\"(its room's id, the cell's grid node (i, j))\").",
+   "required_change": "§6.3 *Plan damage*: \"the id's parts — its element kind and V03 §2.2's plan-part id (`wall:`, `op:`, `win:`, `core:`, `furn:`); a floor area, the roof bay over a room, a choir flight and a cellar vault by their room's address; a crypt vault cell by its room's address and its grid node (V04 §5.6 (2)) — folded into the key …\".",
+   "owner": "determinism"
+  }
+ ]
+}

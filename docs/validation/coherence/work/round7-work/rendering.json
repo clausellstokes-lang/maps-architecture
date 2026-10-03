@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VAL-R6-03",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "rendering",
+  "claim": "The crossing table's *beneath* (l. 2640\u20132646) rules a `vault` span under a wall 'read `open` by every reader of its `use` \u2026 its record unchanged' (the record keeps `use: 'vault'`, l. 2293). R6-02's (R3) conformed \u00a711.1's 3-D row ('closed by its end walls but one under a wall, read `open`'), but \u00a711.1's GeoJSON row (l. 16034), the GeoJSON exporter's home, still exports 'each span a Polygon of kind `span` (`use`, `state` \u2026)'. A builder serialises the record's `vault` there, another writes `open`; the first contradicts the same map's glTF (open, no end walls) and CityJSON (no `BridgeRoom`). The matrix lists no subject for the span's `use` between model and rendering.",
+  "required_change": "\u00a711.1's GeoJSON row: replace 'each span a Polygon of kind `span` (`use`, `state` \u2014 item 244's, absent when standing)' with 'each span a Polygon of kind `span` (`use` as \u00a72.7's crossing table reads it \u2014 `open` for a `vault` span under a wall (*beneath*) \u2014, `state` \u2014 item 244's, absent when standing)'.",
+  "reported_by": "verify-agree-layers-r6t"
+ }
+]

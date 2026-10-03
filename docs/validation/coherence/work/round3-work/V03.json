@@ -1,0 +1,65 @@
+[
+ {
+  "id": "VAF-R2T-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V02 and V03 scope the roofless rule differently. V02 \u00a75.7 (2), X34 (l.4095) and T-V2-59 (b) (l.3686) apply it to every roofless building \u2014 \"roof kind `none`, the model's `decayed`, `ruined` and `charred` states\" \u2014 so its plan's every roof bay is open. V03 \u00a75.6 (2) (c) (l.2697) and its hand-off row to V02 (l.3236, \"a wing a decay run leaves roofless\") apply it only \"in a decay run\". V06 \u00a73.23 (4) puts several buildings in no run: those generated `decayed` or `ruined`, those first met so in item 113's replay, and every building before M6-E. Each reads at V11's default age (`defaultAgeYears` 40). A masonry one then lands below the `roofBay` range: ashlar 0.008 \u00d7 40 \u2192 1/3, rubble 0.44, brick 0.48, against 0.40\u20130.66, and before V11's rows ship every `decayed` building sits at 1/3. For such a building, V03 leaves roof bays intact in the plan where V02's exterior shows no roof, and T-V2-59 (b) fails on the fixture V03 draws.",
+  "required_change": "V03 \u00a75.6 (2) (c): \"**(c) Roofless** \u2014 while the building is `decayed` or `ruined` (in a decay run, or read at V11's default age with no run in the log, V06 \u00a73.23 (4)) and a wing's roof kind is `none` (\u00a72.6's `RoofSpec`: \u2026), every roof bay over a room of that wing is damaged whatever its threshold (\u00a72.6 step 7) \u2026; once the building's state is `decayed`, each such bay counts as reached for (b) \u2026\". V03 \u00a713's V02 row (l.3236): \"every roof bay of a roofless wing of a `decayed` or `ruined` building damaged\". V03 \u00a73.13's damage-layer row adds the edge \"a building generated `decayed` in masonry, and every `decayed` building before M6-E: every roof bay of its roofless wings damaged\". T-V3-39 (b) adds that fixture.",
+  "owner": "V03",
+  "reported_by": "verify-agree-fabric-r2t"
+ },
+ {
+  "id": "VAP-r2-03",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V03",
+  "claim": "T-V3-37 (V03 l. 2885) opens \"the plan's one-time waits (item 119 (f)'s plan clauses; V03 \u00a76)\" and takes no bar, while its clauses name T119-2 (each wait within the comfort level), T119-3 (progress past one second), T119-4 (the `perf.qualitySpend` rows) and T119-5 (the interaction rows); the base names \"T119-2's plan clauses (T-V3-37)\" only. T-V3-40 (l. 2888) \"takes T122-1's, T122-2's and T122-3's plan clauses\" while its (f) re-runs \"V12's `item122.crises` pin (V12 \u00a72.13; T122-7)\" over the plan tiles.",
+  "required_change": "T-V3-37's head reads \"the plan's one-time waits (item 119 (f)'s plan clauses; V03 \u00a76; takes T119-2 \u2013 T119-5's plan clauses)\"; T-V3-40's head reads \"\u2026 takes T122-1's, T122-2's, T122-3's and T122-7's plan clauses)\". (The registration form of (f) is the peer's VV34-r2-12.)",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VV34-r2-08",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V03 \u00a75.6 (1) gives `roofBay` to \"the roof over each room that no storeyed room of its building lies above\", with no level limit. A room below level 0 that no storeyed room covers is such a room: a crypt or cellar under a solid monument's tiers, or under a stack with no storeyed wing (V03 \u00a74.5; item 110's stepped temple and its `top: 'flat'` crypt planned alone, V03 \u00a77). V04 \u00a75.6 (2) gives the same ceiling `cellarVault` or `cryptVault` (V11: 0.75\u20131, 0.88\u20131, `ruined`). So one ceiling has two elements with two thresholds. Its `roofBay` (V11 0.40\u20130.66, `decayed`) opens a crypt beneath solid masonry \"to the sky\" (\u00a78.6) at `decayed`, against V04 \u00a75.6 (2) (\"a cellar and a crypt stand intact through `abandoned` and `decayed`\") and item 123 (c). V02 \u00a75.7 (2) then reads the bay as a roof hole.",
+  "required_change": "V03 \u00a75.6 (1), the `roofBay` row: \"the roof over each room at or above level 0 that no storeyed room of its building lies above, pitched or flat, a terrace's included; a room below level 0 has no roof bay, its ceiling being V04 \u00a75.6 (2)'s `cellarVault` or `cryptVault`\". J-V3.136 reads \"the roof over a room at or above level 0 \u2026\". V03 \u00a73.13's damage-layer row adds the edge \"a crypt under solid tiers or under a stack with no storeyed wing\" with the outcome \"its ceiling V04's vault kinds, never a roof bay\". T-V3-39 (d) adds \"the stepped temple's crypt (V03 \u00a77's item-110 fixture) intact through `decayed`\".",
+  "owner": "V03",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-09",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "V03 \u00a73.13's look row lists \"save, load, undo, redo, regenerate\" but not migrate, as principle (11) requires. T-V3-40, its test, has no clause for an undo, a redo or a migration ((c): two views, a scrub, a save and load, a regenerate). The damage-layer row lists \"save, load, undo, redo, regenerate, migrate\", but its named test T-V3-39 has no lifecycle clause. V12's `damage.breakLevel` (T123-3) runs those steps on V12's own fixtures and is not cited.",
+  "required_change": "V03 \u00a73.13, the look row: add \"migrate\" to the edges and \"a document from before item 122's step reads `crises` absent as `follow` (\u00a72.9), its overlays drawn as any\" to the outcome. T-V3-40 (c): \"\u2026 a save and load, an undo and a redo of an unrelated edit, a regenerate and a migration\". T-V3-39 gains (h): \"save, load, undo, redo, regenerate and migrate at the levels 0, \u00bd and 1 re-read the same damaged set, drawing and exports, every element breaking at the same level (V12's `damage.breakLevel`, T123-3, on these fixtures)\". The damage-layer row's test cell reads \"T-V3-39 (h), T-V12-56\".",
+  "owner": "V03",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "`storeyGone` has two rules in V03. V03 \u00a74.6 counts \"per storey every `upperFloor` area of which is damaged\", as V10 \u00a73.9a and V09 (\"the upper floor is gone\") read it. V03 \u00a74.5's switcher (l. 2294\u20132295) and \u00a73.13's damage-layer row describe \"A storey every floor area of which is damaged\" by `info.damage.storeyGone`. At level 1 every `groundFloor` area of the ground storey is damaged: a rotten patch, still walkable (\u00a78.6; T-V3-39 (d)). So \u00a74.5 names the walkable ground storey \"The ground floor is gone\".",
+  "required_change": "V03 \u00a74.5: \"A storey every `upperFloor` area of which is damaged (V03 \u00a74.6's `storeyGone` rule) keeps its option, its accessible description the `info.damage.storeyGone` line\". V03 \u00a73.13's damage-layer row: \"a storey every `upperFloor` area of which is damaged\".",
+  "owner": "V03",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-11",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "V03 \u00a75.1 *The plan in ruin* draws each damaged element \"in \u00a78.6's damaged form for its kind\". \u00a78.6 has one floor-area row keyed by position: \"on any storey above ground level, a hole \u2026 the storey below seen through it; at ground level and under it, a rotten patch \u2026 still walkable\". V03 \u00a75.6 (1) makes the floor of the first storey of a wing standing on a solid wing `groundFloor` (J-V3.136: a floor on solid support; V11's late range). That storey lies above ground level, so \u00a78.6's position rule draws it as a hole onto a \"storey below\" that is solid fill. Kind and form disagree for the item-110 shrines and tiers on solid platforms.",
+  "required_change": "V03 \u00a75.1 *The plan in ruin*, after \"every other as built\": \"a damaged `groundFloor` element takes \u00a78.6's ground-level form (a rotten patch, still walkable) at whatever level it lies, a solid wing's first storey included, and a damaged `upperFloor` element \u00a78.6's hole\".",
+  "owner": "V03",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV34-r2-12",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "T-V3-39 (g) runs T123-7's plan clause as \"V12's `item123.damage` pin over these fixtures\", and T-V3-40 (f) runs T122-7 over plan tiles as \"V12's `item122.crises` pin\". R2-35 gives T123-7 to V03 and V12, and the base's take-over row (l. 18223) has V03 run T123-7's plan clauses. R2-09 makes a restating volume test the home of its registration, \"\u2014 the `<pin>` registration of <suite> on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by <seat>\". Neither clause registers, and V12 runs neither pin on V03's fixtures or plan tiles.",
+  "required_change": "T-V3-39 (g): \"\u2026 \u2014 the `item123.damage` registration of V03's damage fixtures (their plans drawn and exported at every level) on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the P4 seat\". T-V3-40 (f): \"\u2026 \u2014 the `item122.crises` registration of the damage fixtures' disaster district (its plan tiles at the building band, no condition and no preview) on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the P4 seat\".",
+  "owner": "V03",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ }
+]

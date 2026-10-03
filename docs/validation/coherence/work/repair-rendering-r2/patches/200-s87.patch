@@ -1,0 +1,12 @@
+# §8.7: G122h-rendering (R2-37 (8)): an export frames within the limit bounds, town and camps while a crisis look stands.
+@@ FILE 8.7.md
+<<<<
+export scale. VTT exports carry model widths only, on a declared grid with exact pixels per cell (§11.1). Every export
+frames within the map's zoom-out limit — the whole `bounds` at most (g item 116 (c); §8.8): a requested frame reaching
+past `bounds` is cut to them, and one that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §9.5's.
+====
+export scale. VTT exports carry model widths only, on a declared grid with exact pixels per cell (§11.1). Every export
+frames within the map's zoom-out limit — the whole limit bounds at most, `bounds`, or while a crisis look stands the
+bounds of town and camps (g items 116 (c), 122 (i); §8.8): a requested frame reaching past them is cut to them, and one
+that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §9.5's.
+>>>>

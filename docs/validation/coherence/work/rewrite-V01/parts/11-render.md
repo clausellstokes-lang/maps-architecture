@@ -62,7 +62,7 @@ their shadows (V01 §5.1.3).
   `details` off **no hatching draws**, the ridge tapers included (NG E1, E6); with `shadows` off the hatch turns 90° to the
   eave (NG's own switch). The parity subset below `hatch.minPx` and the `details` and `shadows` switches apply to every
   facet.
-* **Stair flights** (volume 2's `stairFlight`; V02 X24). The flight's facet as volume 2 paints it, its treads hatched
+* **Stair flights** (volume 2's `stairFlight`, V02 §2.6). The flight's facet as volume 2 paints it, its treads hatched
   across the flight by volume 2's `stairTreads(w)` (its `n − 1` lines at its `goingCm`, V02 §2.6), no ridge tapers; below
   2 px of plan per tread the lines are omitted as volume 2's `stairFlight` omits them; drawn after the wing it rises from
   and before the wing it lands on (V01 §5.1.3).
@@ -146,8 +146,8 @@ buildings → buildings → chimneys → block trees → title) is a subsequence
 | 20 | grid | — |
 | 21–25 | scale bar, compass, labels, title and legend, live layers | as §8.2's list |
 
-**Stacks in slot 12** (item 110 (c), (f); V02 X24). A building's wings are drawn in stack order by `BaseWing.on` depth
-(V02 §2.6; §8.6, item 419) — a wing before the wings standing on it, ties by wing key (V02 §2.1's canonical order) — and
+**Stacks in slot 12** (item 110 (c), (f)). A building's wings are drawn in stack order by `BaseWing.on` depth
+(V02 §2.6; §8.6, items 227, 419) — a wing before the wings standing on it, ties by wing key (V02 §2.1's canonical order; item 216) — and
 after each wing that carries others, the prism shadows of the wings standing on it are drawn clipped to that wing's roof,
 in the shadow tone at the sheet's shadow alpha (slot 9's law), so each tier casts its own visible shadow on the tier below;
 slot 9 keeps only the building's ground shadow, cast from its stack's envelope. A stair flight is drawn after the wing it
@@ -257,13 +257,13 @@ building count in scope.
 | the surface marks of one opened district (stamps, kerb dots, stair-stepped ticks) | ≤ 3 ms at 450 buildings | inside the display-list line above | M5 | a flat surface tone at the district band until the view settles |
 | the walls and raised parts of one opened district (item 110) | ≤ 1 ms at 450 buildings, inside the display-list line; the same per district at METROPOLIS | §12.5 | M5, B-ZOOM | one path per district for all its walls |
 | METROPOLIS: the largest district's open; its replace close-up; a large standalone neighbourhood document's first map (≈ 1 300 buildings) | open: the law above at its B; replace: §12.6's scoped law × the fabric's factor at its B; first map ≤ 0.8 s p95 | §12.5, §12.6 | M5, B-CITY (METROPOLIS) | open: hood pins derived for the visible blocks first, the rest on idle; replace: the dry run's overlay reused at commit; the hood: the one-district pool path skipped |
-| per building (S5 (b)) | generation ≤ 75 µs (the standalone path, model only) and rendering ≤ 85 µs at the neighbourhood band | §12.5 | M5 on standalone medium hoods | as above |
+| per building (S5 (b)) | generation ≤ 75 µs (the standalone path, model only) and rendering ≤ 85 µs at the neighbourhood band | §12.5 | M5 on medium standalone neighbourhood documents | as above |
 | draw calls and uploads (S5 (c)) | ≤ 80 path calls per tile (hatch batched per role) and ≤ 25 canvas operations per wing as the ceiling (II.4); uploads within §12.5's ≤ 4 per frame while moving | §12.5 | M5 census | the hatch's parity rule starts at 2 px instead of 1.5 px on screen (every second line drawn sooner) |
 | a replace close-up (a fabric change, New random on a district) | §12.6's scoped law × the template's factor — `ring` 1.5, `crossroads`, `landmark` 1.2, others 1.1 — plus S9b's and S13a's deltas: ≤ 45 ms for a ring district of 450 buildings; its dry run the same, the commit reusing the dry run's overlay (≤ 2 ms) | §12.6 | M5, B-EDIT | as §12.6's fallbacks |
 | a block's content edit | D from S10a: ≤ 3 ms + 60 µs × the buildings of the blocks whose allocation changes | §12.6 | M5 | — |
 | a hood-pin edit | ≤ 1 ms model, the district's chunk re-derived ≤ its open line | §12.6's single-plot line | M5 | — |
 | the stage-2 switch's edit (V01 §3.15) | a Re-derive from S2 of the whole document: §12.6's ≤ M(B) for a Re-derive from Sk, stage 2's per-district lines above included, the underground tail's after it | §12.6 | M5 (T-V1-4's switch clause, timed) | none needed: a rare parity edit whose dry run shows its fates before it commits |
-| a standalone neighbourhood document | first map ≤ 0.5 s p95 for a medium hood (≈ 750 buildings; S6 (b)); model ≤ 75 µs × B | §12.5's first-map law applied to the unit | M5 | the one-district pool path is skipped (the unit runs single-worker) when that is faster, measured |
+| a standalone neighbourhood document | first map ≤ 0.5 s p95 for a medium one (`size.medium` buildings, V01 §3.14; S6 (b)); model ≤ 75 µs × B | §12.5's first-map law applied to the unit | M5 | the one-district pool path is skipped (the unit runs single-worker) when that is faster, measured |
 | a sky island's districts | **generation**: the unit run ≈ 8–12 ms per island at CITY, ≈ 12–18 ms at METROPOLIS (≤ 3 districts' worth, ≈ 2–5 % of the town's plots, at this table's per-district rates), on the generation worker concurrent with the pool — the figure V05 §6 cites for its critical path; **after generation** (V01 §3.10.3 (6)): a raise, a late declaration or New random on an island runs the unit run inside its commit at these rates plus §12.6's commit overhead (II.6's `raiseIsland` line); a growing resize or a rim reshape costs §12.6's scoped law once per receiving district — for a resize every district bordering the rim — plus once for the district whose institution claim is re-searched where that district receives no face, at most k ≤ 3 in all, and a shrinking resize none but the district whose claim is re-searched, where one is (its plot clearing, re-cut and way cut-back are volume 5's, V05 §6); `plantRimWalk` adds ≤ 0.2 ms, once per event and once per unit run | §12.4 (inside SKY's line, V05 §6); §12.6 | with volume 5's stage (its fixture island first, T-V1-21) | the island's S12b and S13a join the ground's pooled batch instead of running serially on the worker |
 | memory | the close-up chunk ≤ `closeup.chunkKB` per district inside §12.8's 8 MB elaboration cache (LRU); `Block.content` and flags 2 B per block; `HoodPlace` ≈ 80 B; `CloseupRecord` ≈ 40 B + 24 B per override row | §12.8 | M5 | the cache's existing halving fallback |
 | document size | ≤ 1 KB per edited close-up; the town's document growth from stage 2 ≤ 2 % at CITY (places and flags) | §12.8's document line | M5 | place names stored by naming-record reference only |

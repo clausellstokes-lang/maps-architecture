@@ -1,0 +1,94 @@
+{
+ "key": "coherence/verify-agree-host-r2t",
+ "file": "docs/validation/coherence/verify-agree-host-r2t.md",
+ "issues": [
+  {
+   "id": "G125-V08",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "V08",
+   "claim": "Persists in part (round-1 id). The item-125 part is written: the fallback column, field_fallback, presentWeek, the retired week/realm/customLibrary, the final check's brief and T-V8-61. Two parts still contradict item 125 and R2-40. (1) V08 §2.4's Selection (l.684-695) tries HostContext.line first and lets line decide which registered line's reading builds a dossier both accept (B19), so one dossier makes a different document with and without a host context — against item 125 (e), R2-40 (2), §14's HostContext and V08's own J-V8.130. (2) The field table's id, population, _seed and version-stamp rows read 'none — a required key' (l.627-632), and V08 §3.5 step 3 refuses empty or unreadable values, against item 125 (b) ('a missing or empty field never refuses') and R2-40 (3). Same defect and id as verify-vol-V07-V08-r2t's G125-V08; its clause (1) is VCS-r2-02.",
+   "required_change": "As verify-vol-V07-V08-r2t's G125-V08 words it. Clause (1), one fix with VCS-r2-02: the dossier's own shape and stamps select the adapter in every case (bound line, single accepting adapter, at creation the newest line noted line_defaulted); HostContext.line is checked, never chosen from (an unsupported or contradicting line refuses E_LINE_UNSUPPORTED; a differing accepted line leaves the selection standing, both lines reported); B19, T-V8-11 and T-V8-61 (b) follow, and a J-V8 row records it. Clause (2): fallbacks for population (the tier word's rung midpoint, else the blueprint default), _seed (H32 of the settlement key) and institutions (read as absent), each noted field_fallback and removed from §3.5 step 3's refusal list; one J-V8 row records why an unreadable id or version stamp is no dossier of the line (B3, B5); T-V8-61 (a) adds an empty population and an empty _seed."
+  },
+  {
+   "id": "VAH-r2-01",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "owner": "determinism",
+   "claim": "A condition's knowledge tier is a shared subject the matrix missed, and its routed home states nothing. The canon routes 'knowledge admission of a condition' for item 122 to determinism §7.7 (canon.md l.5595). DR44 (base l.11896) says only 'knowledge admission at the viewer's effective key (§9.2's admission function, §11.2)'. §9.2's admit(knownTo, key, band) reads a target's knownTo; ConditionOverlay (§2.7, l.2424) carries none, and §9.2 names no source for one. The one rule is V08 §3.16 (7) (e) (l.2513-2517; J-V8.128): public where the crisis.map row gives a look, secret where it is none, a key form listing the overlay admitting it whatever its tier. V08 words it as 'DR44 admits a condition … at the tier its look gives it', a statement DR44 does not hold. DR44's admission therefore has a dangling input, and its readers (V09 §4.21.12 (6), V10 §3.9b (8), §10.2 (a), §8.2's look rows) cite DR44 for a rule only V08 writes. Verdict: the members agree in substance; the home is DR44.",
+   "required_change": "DR44's rule cell, after 'knowledge admission at the viewer's effective key (§9.2's admission function, §11.2)', adds: 'a condition's knownTo is public where its map row gives a look (a camp, a quarantine, smoke and ruins are sights) and secret where the row is none; a key form listing the overlay's address admits it whatever its tier (V08 §3.16 (7) (e); J-V8.128)'. V08 §3.16 (7) (e) then reads as a citation of DR44."
+  },
+  {
+   "id": "VAH-r2-02",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "owner": "V08",
+   "claim": "V11's repair handed V08 the rule 'a stressor and the condition it was promoted into draw one look' (repair-r2-V11.md HAND-OFFS, l.169-171); no unit states it. V08 §3.11 (l.2050-2064) and §3.5 step 3 (l.1627-1628) put each stressor as its own overlay cond:stress:<type> beside the conditions' cond:<id> overlays, and V08 §3.16 (7) (b) gives each overlay its own map row. V11 §3.25.9 maps both the under_siege stressor and the war_pressure archetype to siege (item 122 (b): 'war_pressure with a siege, the siege stressor'), plague_onset and plague to quarantine, and mass_migration and regional_migration_pressure to refugeeCamp. §10.2 Crisis looks (a), (d), (e) and DR44 draw each standing overlay's look, and no rule merges two overlays of one crisis. A siege reported both as a stressor and as a condition therefore draws two siege looks, each with camps sized by its own severity: the camped ground doubles against item 122 (c)'s 'the scale follows severity and tier', and two 'Siege camps' lines appear on the card, in Find's crises section, in the legend and in V10's look read. V08's edge row (l.2632) covers only 'a stressor listed twice is one overlay'.",
+   "required_change": "V08 §3.16 (7) (b) adds the pairing rule: state how the digest recognises a stressor and the condition SettlementForge promoted it into (the condition whose archetype is the stressor's type, or whose triggeredAt names the stressor, as SF0's census confirms). While both stand, the pair draws ONE look — the condition's, with its name, weeks and forces. The stressor's overlay draws none, and its look resumes if the condition ends while the stressor is still listed. DR44's source clause cites the rule; V08 §3.17's crisis row adds the edge; T-V8-59 gains a stressor-and-condition pair that draws one siege."
+  },
+  {
+   "id": "VAH-r2-03",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V08",
+   "claim": "V08 §2.7's lifecycle row for CircumstanceSlice.port (l.1284) gives its undo cell as 'an epoch that carries dossier events is no undo target (§7.4)'. The cited home says more: §7.4 Replay semantics and E-07's row (base l.10376) cover any undo, redo or revert naming an event of session host:port — a dossier event, dossierFacts, dossierRecord, or a port epoch 'whether or not it carried a dossier change'. R2-19 rules that every restating sentence cites §7.4 Replay semantics. The port slice rides every cadence epoch, including those carrying only port-values; V08's cell implies those epochs are undo targets.",
+   "required_change": "V08 l.1284's undo cell reads: 'no event of the port's session host:port — a port epoch with or without dossier events among them — is an undo, redo or revert target (§7.4 Replay semantics)'."
+  },
+  {
+   "id": "VAH-r2-04",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V09",
+   "claim": "V09 §4.21.13 (1) (l.3616-3617) states item 123's comparison as 'an element shows damaged when the level is at or above its threshold'. Its home, §6.3 Plan damage (base l.9798), reads 'while the level is above 0 and at least t — a level of 0 damages nothing … whatever its kinds' ranges'. V11 §3.25.10 says the same, and V11's DamageElementRow.range admits lo = 0. With a range edited to lo = 0, V09's plan panel would show damage lines for a never-decayed building whose plan §6.3 draws unchanged, breaking V09's own row 92 and T-V9-86. Same class as VDC2-07, VDC2-08 and VRC2T-13 at the other readers.",
+   "required_change": "V09 §4.21.13 (1): '… by §6.3's one comparison — an element shows damaged while the level is above 0 and at least its threshold (§6.3 Plan damage) — …'."
+  },
+  {
+   "id": "VAH-r2-05",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V10",
+   "claim": "V10 §3.9a's 'A ruined plan's damage' (l.1805-1808) states the comparison as 'each plan element shown damaged once the building's decay level … reaches the element's one keyed threshold … the one comparison every reader makes'. The home is §6.3's 'above 0 and at least t' (base l.9798). At lo = 0, 'reaches' damages an element at level 0, against V10's own row 35 and T-V10-53 ('a building never decayed … no damage row'). Same class as VAH-r2-04.",
+   "required_change": "V10 l.1807: '… is above 0 and reaches the element's one keyed threshold (§6.3 Plan damage's comparison) …'."
+  },
+  {
+   "id": "VAH-r2-06",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V10",
+   "claim": "V10's LookAnswer types two of §2.9's view keys in a shape §2.9 does not give them, while its comments say they are those keys: 'display: 'follow'|'off'|{ preview: string } /* §2.9's festival display (item 118) */' (l.1000), and, new this round, 'crises.display: 'follow'|'off'|{ preview: CrisisLookKind } /* §2.9's crisis display crises (item 122 (e)) */' (l.1002). §2.9 (base l.3343, l.3349) declares festival: { mode: 'follow'|'off'|'preview'; id?: string } and crises: { mode: 'follow'|'off'|'preview'; look?: string }, and V09 §4.21.8 (2) and §4.21.12 (1)-(2) write those shapes. The harness fills LookAnswer from ClerkMount.view (V10 l.288) with no mapping between the two shapes stated anywhere. The festival display predates this round; the crisis display repeats the pattern.",
+   "required_change": "V10 l.1000 reads 'display: { mode: 'follow'|'off'|'preview'; id?: string } /* §2.9's festival display (item 118), as stored */'; l.1002 reads 'display: { mode: 'follow'|'off'|'preview'; look?: CrisisLookKind /* §10.2 */ } /* §2.9's crisis display crises (item 122 (e)), as stored */'. Alternatively, V10 states the projection from §2.9's shape to its own in the comments."
+  },
+  {
+   "id": "VAH-r2-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V10",
+   "claim": "T-V10-52 (l.3094) cannot be built against V08's tier rule. Its fixture carries 'a plague condition withheld at public' and asserts 'the withheld plague absent at public from every read, request, reply, card and transcript'. Under V08 §3.16 (7) (e) (J-V8.128) and T-V8-59 (l.3226), 'a condition whose row gives a look is admitted at public and one whose row is none only at secret'; plague maps to quarantine (V11 §3.25.9), so a plague condition is public at every key. No mechanism in the set withholds a look-bearing condition, so the fixture asserts something the design forbids. V10 §3.23 row 34 ('a condition the key withholds') and V09's T-V9-85 clause ('under a player view a withheld condition is never drawn …', on a fixture of siege, refugees and plague) presuppose the same thing; they are vacuous rather than contradictory.",
+   "required_change": "T-V10-52's knowledge clause reads: 'at public every look-bearing condition — the siege, the refugee wave and the plague — is listed with its name and weeks (V08 §3.16 (7) (e)); a none-row condition carried beside them (an infiltrated stressor) is named in no read, request, reply, card or transcript at public, and only at secret'. The fixture loses 'a plague condition withheld at public'. V10 §3.23 row 34's 'a condition the key withholds' reads 'a none-row condition, admitted only at secret'."
+  },
+  {
+   "id": "VAH-r2-08",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V09",
+   "claim": "The two members disagree on what a player's view may read in a ruined building's damage lines. V10 §3.9a (l.1832-1836) rules that on a building the key withholds the rows that name rooms — roofBay, floor, partition, furniture, unsafe — are purpose: true and leave with its purpose (§11.2's withheld rule), while its state, level, storeys and the other rows' counts stay, and that the crypt row is purpose: true. V09 §4.21.13 (1) (l.3612-3626) gives the plan panel's damage lines — derived from V03's damage layer at V06's decayLevel (V09 §2.12) — 'the rooms named in plan order' with no knowledge rule, though V09 §4.21.13 (4) promises one sentence everywhere from the same reading as V10's. Under View as a party key, V09's plan panel therefore names the rooms of a withheld building that V10's clerk withholds. V09's own lines carry the room slot ('Roof fallen in over {rooms}' and the rest, l.2186); V09 §3.16 row 92 and T-V9-86 test no key.",
+   "required_change": "V09 §4.21.13 (1) adds: 'Every line reads at effectiveKey() (V09 §2.10). On a building the key withholds, the lines that name rooms — roofBay, floor, partition, furniture, unsafe — and the crypt line are not drawn (purpose withheld; §11.2's withheld rule; V10 §3.9a). The head line, storeyGone, outerWall, door, window, stair and cellar stay — a ruin is seen by everyone — and a room the key does not admit is never named (V03 §5.4).' V09 §3.16 row 92 adds the edge 'a building the key withholds' with that outcome; T-V9-86 adds the clause under View as on a withheld ruined building."
+  },
+  {
+   "id": "VAH-r2-09",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V08",
+   "claim": "V08 §2.4's field table is 'the one list' of what each dossier path feeds, but it names fewer derivation rows than the rows' own input cells in §7.7 (base l.11853-11896), so the dossier trace (item 20 (h); principle (7)) disagrees between the two members. A scripted comparison of each DR row's input cell with the field table's feeds column finds: config.cultureProfileKey → site.culture (l.638) omits DR1, DR41 (the patch rows admitted) and DR43 (the festivals' colours and motifs, which V08 §3.16 (5) itself states and V11 W85 traces to this path); config.terrainType → site.terrain (l.633) omits DR34 and DR40; economicState.prosperity → wealth.label (l.643) omits DR9; config.magicLevel → site.magic (l.637) omits DR27; config.nearbyResources* → site.deposits (l.639) omits DR27 (a magical_node) and DR34 (the hot_springs deposits). Three cells name DR rows by alias, not by number, against R2-11's rule: defenseProfile.readiness (l.664) 'item 114's generation-time condition row', economicState.prosperity 'item 114's means', and traditions[] (l.665) 'item 118's traditions row'. Most of this predates round 2.",
+   "required_change": "In V08 §2.4's field table: the config.cultureProfileKey row's feeds adds 'DR1, DR41 (the patch rows), DR43 (the decorations' colours and motifs)'; config.terrainType adds 'DR34, DR40'; economicState.prosperity adds 'DR9' and reads 'DR41's MEANS' for 'item 114's means'; config.magicLevel adds 'DR27'; config.nearbyResources* adds 'DR27 (magical_node), DR34 (hot_springs)'; defenseProfile.readiness reads 'DR41 (item 114's generation-time condition) and V06's need'; traditions[] reads 'DR43 (V08 §3.16 (5))'."
+  },
+  {
+   "id": "VAH-r2-10",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V08",
+   "claim": "V08 names the wrong home tool for adjust. V08 §3.5's latitude paragraph (l.1712: 'A DM who wants another latitude sets it by T7 adjust (§7.1)') and T-V8-22 (l.3189: 'T7 adjust sets it as a map edit') give adjust to T7. §7.1's binding (E-04) homes adjust on T1 intend (base l.10464; V09 §4.3 l.1686), and T7 is roster (base l.10470). A scan of the five members finds no other mismatched tool number. J-V8.34 (l.3395) carries the same words as a decision record. Predates round 2.",
+   "required_change": "V08 l.1712 and T-V8-22 read 'T1 intend's adjust'; J-V8.34 keeps its wording as a record."
+  }
+ ]
+}

@@ -1,0 +1,140 @@
+{
+ "alone": {
+  "model": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "audit_not_ok": 0,
+   "headings": [
+    153,
+    153
+   ],
+   "fences": [
+    140,
+    140
+   ],
+   "fences_balanced": true,
+   "title_block_unchanged": true,
+   "lines": [
+    24192,
+    24202
+   ],
+   "bytes": [
+    3209864,
+    3210610
+   ],
+   "sha256": "c8adfad71824721df69f0921bf69238d7a6f08a49ae4f9415003372c38e341e8",
+   "rationale_unchanged": true,
+   "changed_old_lines": "2914, 2916, 2944, 2991–2992, 3020–3021, 3118–3119, 3123–3124, 3146–3148, 3181–3183, 3272–3273, 3281, 3328–3330, 3338, 3351, 3365–3368",
+   "n_changed_old_lines": 29,
+   "inserts_after_old_lines": [],
+   "recorded": "1 block found, 1 applied, 0 skipped; audit not OK 0; headings 153 → 153; fences balanced; title block unchanged; document 24 192 → 24 202 lines; rationale unchanged; every line before and after §2.7 byte-identical to the live file",
+   "equals_recorded": true
+  },
+  "determinism": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "audit_not_ok": 0,
+   "headings": [
+    153,
+    153
+   ],
+   "fences": [
+    140,
+    140
+   ],
+   "fences_balanced": true,
+   "title_block_unchanged": true,
+   "lines": [
+    24192,
+    24195
+   ],
+   "bytes": [
+    3209864,
+    3210749
+   ],
+   "sha256": "6b90e0714630a696f9ae53bd33afb24435681f19f5b48b9f63cac96a860d5108",
+   "rationale_unchanged": true,
+   "changed_old_lines": "9851–9852, 9869, 9982, 11145–11148, 11339–11341, 11693–11694, 11701–11702, 12813",
+   "n_changed_old_lines": 16,
+   "inserts_after_old_lines": [],
+   "recorded": "5/5 REPLACE applied, 0 skipped, audit not OK 0, headings 153 → 153, fences balanced (140 → 140), title block unchanged, rationale unchanged; document 24 192 → 24 195 lines; hunks (live lines) 9851 – 9852 (D2; D4, D1), 9869 (D4), 9982 (D3), 11145 – 11148 → 6 lines (D6), 11339 – 11341 (D8, D9, D10), 11693 – 11694, 11701 – 11702 (D5), 12813 (D7)",
+   "equals_recorded": true
+  },
+  "pipeline": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "audit_not_ok": 0,
+   "headings": [
+    153,
+    153
+   ],
+   "fences": [
+    140,
+    140
+   ],
+   "fences_balanced": true,
+   "title_block_unchanged": true,
+   "lines": [
+    24192,
+    24192
+   ],
+   "bytes": [
+    3209864,
+    3212949
+   ],
+   "sha256": "bbb6e8b5d48821adbba0ea25981ae344f8cb1a9c14a0e277f95e08b0a2b471f6",
+   "rationale_unchanged": true,
+   "changed_old_lines": "5708, 5795, 6222, 6224, 6241, 6248, 6413–6414, 6422, 6500, 6583, 6600, 6603, 6605, 6615, 6636, 6642, 6650, 6718, 8344, 8402",
+   "n_changed_old_lines": 21,
+   "inserts_after_old_lines": [],
+   "recorded": "5 blocks found, 5 applied, 0 skipped; audit not OK: 0; headings 153 → 153; fences balanced (140 → 140); title block unchanged; rationale byte-identical; 24 192 → 24 192 lines; 3 209 864 → 3 212 949 bytes; diff live → patched exactly on 21 lines — l. 5708, 5795, 6222, 6224, 6241, 6248, 6413, 6414, 6422, 6500, 6583, 6600, 6603, 6605, 6615, 6636, 6642, 6650, 6718, 8344, 8402",
+   "equals_recorded": true
+  },
+  "scope": {
+   "found": 2,
+   "applied": 2,
+   "skipped": 0,
+   "audit_not_ok": 0,
+   "headings": [
+    153,
+    153
+   ],
+   "fences": [
+    140,
+    140
+   ],
+   "fences_balanced": true,
+   "title_block_unchanged": true,
+   "lines": [
+    24192,
+    24228
+   ],
+   "bytes": [
+    3209864,
+    3213945
+   ],
+   "sha256": "e2c6ce59cdaa6172ba81425e1b1656f680f2ae542eee278092f913e7d49036c7",
+   "rationale_unchanged": true,
+   "changed_old_lines": "19302, 19334, 19366–19367, 19390–19391, 19411, 19595–19596, 19647–19650, 20507",
+   "n_changed_old_lines": 14,
+   "inserts_after_old_lines": [
+    19320
+   ],
+   "recorded": "2 blocks found, 2 applied, 0 skipped; audit 2 OK (not OK 0); headings 153 → 153; fences balanced (140 → 140); title block unchanged; document 24 192 → 24 228 lines (3 209 864 → 3 213 945 bytes, sha256 e2c6ce59…); rationale unchanged; 9 hunks, 8 inside §13.2's T110 bullet (l. 19302 – 19650) and 1 in §13.8's T110 row (l. 20507)",
+   "equals_recorded": true,
+   "hunks": 9
+  }
+ },
+ "summary": {
+  "pairwise_intersections": [],
+  "combined_changed_old_lines": 80,
+  "union_of_alone": 80,
+  "union_equal": true,
+  "sum_of_growths": 49,
+  "combined_growth": 49,
+  "growth_equal": true
+ }
+}

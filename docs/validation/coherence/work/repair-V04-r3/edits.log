@@ -1,0 +1,37 @@
+edits_a	VV34-r2-01 §1.2 hook row	1	'| V04 §5.6 (the kinds below ground, the level each element reads, the drawing in'
+edits_a	VKr2-09 §1b.1 belowKind row	1	"each underground building's footprint sides on its part's rock (§3.7's `bandUnio"
+edits_a	VEW-r2-04 §3.2 N2 field outfall	1	"took the town's waste; J-V4.7). With none of those either, U-NET makes that bank"
+edits_a	VEW-r2-04 §3.11 outfall ladder	1	"its gutters and pits where its stretch of `R`'s boundary is empty or lies wholly"
+edits_a	VEW-r2-04 UC19	1	'a bank with none takes its own moat candidates, then its own field outfall, and '
+edits_a	VV34-r2-01 UE33 look	1	'E7: every toggle and preset alike, the parity presets included (a look); the lay'
+edits_a	VV34-r2-02 UC21	1	'a damaged stair core or access head below 0 draws as rubble over steps still cli'
+edits_a	END VAL-R2-01 §5.1	1	"The adjacent bands' traces are §8.4's. The **band ladder** in the layer panel li"
+edits_a	END R3-04 §5.6 lead	1	"Item 123's damage layer — one plan, never redrawn; each plan element shown damag"
+edits_a	VV34-r2-01 §5.6 (1)	1	"   collapses; its restoration is V06 §3.23 (3)'s, as for every building. No leve"
+edits_a	VKr2-09 §5.6 (2) cellarWall	1	"an underground building's wall run on a footprint side that lies on its part's r"
+edits_a	VV34-r2-03 §5.6 (2) cellarVault id	1	'| `cellarVault` | the ceiling over each room of a storey below 0 outside the cry'
+edits_a	VV34-r2-03 §5.6 (2) cryptVault id	1	"| (its room's id, the cell's grid node (i, j)), or its room's id — a key, never "
+edits_a	VV34-r2-02 §5.6 (2) access head	1	'Every other element below ground keeps its V03 kind and range: a partition, an o'
+edits_a	VV34-r2-02 §5.6 (3) stair core	1	'   for one rule: a stair core whose `levels` include a storey below 0, and an ac'
+edits_a	V06-r3 hand-off (a) §5.6 (3) peak	1	'   its threshold above the level and at or below `decayPeak` (V06 §3.23 (3)) — i'
+edits_a	VV34-r2-06 §5.6 (6)	1	'6. **Landing, budget, edges, bar.** It lands at U5 (V04 §8): the underground vie'
+edits_a	VEW-r2-04 T-V4-2	1	'a moat or field outfall only where none was admitted on its bank;'
+edits_a	VEW-r2-04 T-V4-80 (j)	1	'(j) on river-town fixtures whose kept outfalls lie on one bank (a town astride a'
+edits_a	VV34-r2-01 T-V4-82 head	1	"| T-V4-82 | damage below ground (g item 123 (b), (c), (e), (f); takes T123-1's, "
+edits_a	VV34-r2-04 T-V4-82 (b)	1	'each element damaged exactly when the level ≥ its threshold,'
+edits_a	V06-r3 hand-off (a) T-V4-82 (f)	1	'each element between the level and `decayPeak` drawn in patch material;'
+edits_a	VV34-r2-05 T-V4-82 (g)	1	'draw and export byte-identically to the build without the layer (`item123.damage'
+edits_a	VV34-r2-01 T-V4-82 (i)	1	"re-read the same drawing, within V04 §6's *Damage below ground* | PR (fixtures),"
+edits_a	VV34-r2-06 §8 U5 content	1	"**the damage below ground** (item 123: `belowKind`, the underground view's damag"
+edits_a	VV34-r2-06 §8 U5 exit	1	'T-V4-80 (g)–(i) and (k), T-V4-81, T-V4-82; the epoch clauses'
+edits_a	VAP-r2-13 J-V4.114 total	1	"| J-V4.114 | chose the underground's price at 28.25–39.25 pw (V04 §8's table)"
+edits_a	VAP-r2-13 J-V4.114 U5	1	'the epoch contracts (0.25–0.5 pw in U5, U5 at 3–4.25 pw);'
+edits_a	VAP-r2-13 J-V4.114 item 123	1	"and g item 113's parts absorbed in U3, U3b and U5 (J-V4.122) — accepted by the o"
+edits_a	VEW-r2-04 J-V4.129	1	"N2's moat and field fallbacks taken per bank, the outfall cap keeping each bank'"
+edits_a	VV34-r2-01 J-V4.130 look	1	"the lowest storey's floor no element; a storey below 0 reading its building's le"
+edits_a	VV34-r2-06 J-V4.130 landing	1	'so a scrubbed week never opens or closes a way; 0.25 pw in U5 |'
+edits_a	VV34-r2-07 §12	1	"file g's items 102–126 are read whole in\n  `docs/AMENDMENTS-2026-09-28g.md`, the"
+edits_a	form §5.6 (6) join	1	'   below ground*,\n   its edges UE33 and UC21 (V04 §3.11), its bar T-V4-82.'
+edits_a	form §5.6 (3) join	1	"   (4). The rubble below ground is the `ruin`\n   program's stipple in the `rock`"
+edits_a	form §5.6 (3) rewrap	1	'   collapse below ground; a repaired element —\n   its threshold above the level '
+edits_a	form §5.1 rewrap	1	'effects draw nothing over the view (§8.8). The **band ladder** in the layer pane'

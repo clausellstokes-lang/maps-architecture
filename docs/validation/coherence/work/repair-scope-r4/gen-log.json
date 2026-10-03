@@ -1,0 +1,81 @@
+{
+ "sha256": {
+  "docs/ARCHITECTURE.md": "593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+  "docs/ARCHITECTURE-RATIONALE.md": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+  "docs/volumes/INDEX.md": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3"
+ },
+ "blocks": [
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)",
+   "edits": 1,
+   "ids": [
+    "VAP-r3-09"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+   "edits": 1,
+   "ids": [
+    "VKr3-03"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "edits": 15,
+   "ids": [
+    "VPC-R3-01",
+    "R4-08",
+    "VM-R3T-05",
+    "R4-09",
+    "VCS-r3-06",
+    "VCS-r3-01",
+    "END VEW-r3-04",
+    "VAT3-r3-03",
+    "VRC3T-03",
+    "R4-10",
+    "END R4-11",
+    "VCS-r3-08",
+    "VV1112-r3-08",
+    "R4-06",
+    "VAP-r3-09",
+    "VDC3-10"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "edits": 3,
+   "ids": [
+    "VPC-R3-01",
+    "VM-R3T-05",
+    "VCS-r3-06",
+    "R4-09",
+    "END VAP-r3-06",
+    "END VEW-r3-04"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "edits": 6,
+   "ids": [
+    "END VDC3-03",
+    "R4-15",
+    "VV78-r3-05"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "edits": 1,
+   "ids": [
+    "VV34-r3-04"
+   ]
+  }
+ ],
+ "edits": 27,
+ "rows": 0
+}

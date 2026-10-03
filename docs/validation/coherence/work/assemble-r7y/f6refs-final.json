@@ -1,0 +1,518 @@
+{
+ "f6": [
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": " part 0 (§7.3's S7 row), never where these laws bar a gate (law 1, read with its terms, chiefly (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "to the nearest crossing at which these laws admit its gate (law 1, read with its terms, chiefly (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1",
+    "4",
+    "5"
+   ],
+   "text": "ne whose gate these laws bar where the boundary crosses it (law 1, read with its terms; chiefly (1), (4), (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "aws admit it against each, never in another's that bars it (law 1, read with its terms; chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "se laws admit it, the course otherwise keeping clear of it (law 1, read with its terms, chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "9",
+    "10"
+   ],
+   "text": "very place meeting it where these laws bar the line itself (law 1, read with its terms; chiefly each place from which its band or wall strips would lie over a raised way's ends (4), a held building's widened strip (9) and, of a shape-locked raised way, eac"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "2"
+   ],
+   "text": "ossing through it only where these laws admit the crossing (law 1, read with its terms; chiefly (2)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "ower or fixed place under it but where these laws admit it (law 1, read with its terms; chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": false,
+   "pointers": [],
+   "text": "oup sentence), and its gate, where those laws bar it there (law 1, read with its terms"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1",
+    "4",
+    "5"
+   ],
+   "text": "— or would put its gate there where §2.7's laws admit none (law 1, read with its terms, chiefly (1), (4), (5): its footprint, band and wall strips as the gatehouse and band rows there will build them"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1"
+   ],
+   "text": "ches `T = t_1` (a search over the points §2.7's laws admit, law 1, read with its terms, chiefly (1)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5"
+   ],
+   "text": "(9)'s pull keeps; its gate, where §2.7's laws bar it there (law 1, read with its terms; chiefly (4), (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "d no weld vertex lies where §2.7's laws bar a fixed place — law 1, read with its terms, chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": " its footprint, lies where §2.7's laws admit a fixed place (law 1, read with its terms; chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": " each anchor (§4.8), never where §2.7's laws bar an anchor (law 1, read with its terms, chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1",
+    "3",
+    "4",
+    "5"
+   ],
+   "text": " way*) — on ground part 0, a raised way met by §2.7's laws (law 1, read with its terms, chiefly (1), (3)–(5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1",
+    "4",
+    "5"
+   ],
+   "text": "d from the gatehouse row and section they will be built by (law 1, read with its terms, chiefly (1), (4), (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": false,
+   "pointers": [],
+   "text": "carries there, would take a shape §2.7's laws do not admit (law 1, read with its terms"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": false,
+   "pointers": [],
+   "text": " a pinned vertex or leave a shape §2.7's laws do not admit (law 1, read with its terms"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "a river passes — never where §2.7's laws bar a fixed place (law 1, read with its terms, chiefly (4)–(6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "th it takes its own ground gate where those laws admit one (law 1, read with its terms; chiefly (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": false,
+   "pointers": [],
+   "text": "laws admit (one this step spawns among them) — §2.7's laws, law 1, read with its terms (chiefly (1), (4), (5)), law 2 (a), (b), *Not yet built*"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "s, postern's or tower's footprint where §2.7's laws bar it (law 1, read with its terms, chiefly (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5",
+    "6"
+   ],
+   "text": "'s laws admit, else not laid, reported (`W_RAISED_MEETING`; law 1, read with its terms, chiefly (5), (6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "6"
+   ],
+   "text": "r gate with no point within the run that §2.7's laws admit (law 1, read with its terms; chiefly (6)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "3",
+    "4"
+   ],
+   "text": "nd vertex before it, its ends where §2.7's laws admit them (law 1, read with its terms; chiefly (3), (4)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5",
+    "10"
+   ],
+   "text": "te *reshaped* (law 4's (G2)); a gate §2.7's laws bar there (law 1, read with its terms; chiefly (5), (10): a shape-locked wall's among them"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": " a gate's slid crossing where §2.7's laws bar a gate there (law 1, read with its terms; chiefly (5)"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "6"
+   ],
+   "text": "site' \\| 'baileyArea')`) whose claim §2.7's laws bar there (law 1, read with its terms; chiefly (6)"
+  },
+  {
+   "unit": "base",
+   "law": "3",
+   "chiefly": false,
+   "pointers": [],
+   "text": "shape §2.7's laws give (law 1 (2)–(6), (9)–(11), law 2 (a), law 3, read with their terms"
+  },
+  {
+   "unit": "base",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1",
+    "5",
+    "8"
+   ],
+   "text": "'s trace where §2.7's laws bar its gate there (§2.7's laws, law 1, read with its terms, chiefly (1), (5), (8)"
+  },
+  {
+   "unit": "V06",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5",
+    "6"
+   ],
+   "text": "ts gate and towers stand only where §2.7's laws admit them (law 1, read with its terms; chiefly (5), (6)"
+  },
+  {
+   "unit": "V06",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "6"
+   ],
+   "text": "and the castle's fixed places where §2.7's laws admit them (law 1, read with its terms, chiefly (4), (6)"
+  },
+  {
+   "unit": "V06",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "e's strip, zone and ends wherever §2.7's laws bar it there (law 1, read with its terms, chiefly (4)–(6)"
+  },
+  {
+   "unit": "V07",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "4",
+    "5",
+    "6"
+   ],
+   "text": "ntence), and its anchors only where §2.7's laws admit them (law 1, read with its terms; chiefly (4)–(6)"
+  },
+  {
+   "unit": "V07",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "ck, and a gate VS4 makes placed where §2.7's laws admit it (law 1, read with its terms, chiefly (5)"
+  },
+  {
+   "unit": "V07",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "ever a kept gate would then stand where those laws bar one (law 1, read with its terms; chiefly (5)"
+  },
+  {
+   "unit": "V09",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": " a gate's slid crossing where §2.7's laws bar a gate there (law 1, read with its terms; chiefly (5)"
+  },
+  {
+   "unit": "V09",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "1",
+    "5",
+    "8"
+   ],
+   "text": "g an enceinte's trace where §2.7's laws bar its gate there (law 1, read with its terms, chiefly (1), (5), (8)"
+  },
+  {
+   "unit": "V09",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5",
+    "10"
+   ],
+   "text": "e the ground way makes there, a gate §2.7's laws bar there (law 1, read with its terms; chiefly (5), (10): a shape-locked wall's among them"
+  },
+  {
+   "unit": "V09",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "bent-group sentence), a placed or slid gate by §2.7's laws (law 1, read with its terms, chiefly (5)"
+  },
+  {
+   "unit": "V09",
+   "law": "1",
+   "chiefly": true,
+   "pointers": [
+    "5"
+   ],
+   "text": "k moved to the nearest at which §2.7's laws admit its gate (law 1, read with its terms, chiefly (5)"
+  }
+ ],
+ "f3": [
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "-routed, law 2 *Carried way*), else giving way (law 1 (10); law 2, in its order). A thing drawn, dragged, declared or p"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "f, else the soft things moved, else giving way (law 1 (10); law 2, in its order). *A held building in an arch vault* (l"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "f, else the soft things moved, else giving way (law 1 (10); law 2, in its order; *Carried way*); whether the row's even"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "ct's arch over a kept gate (law 1 (5)) (E: a village epoch; law 2, in its order) | — | the run laid again in its new se"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "here it stands; §2.7's laws, law 2 *Newer*) by §2.7's laws, law 2, in its order: (a) its line, read with the band and w"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "ved as S5a's pin is (§4.4 S5a *Trace* (2)) — by those laws, law 2, in its order: (a) moved along the way within (9)'s s"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": ", (5); law 2 *Not yet built*) — is resolved by §2.7's laws, law 2, in its order: (a) moved along its arterial to the ne"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": " example the crossing table's row W2), bent where they say (law 2, in its order, law 3; its worked example the bent-gro"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": ": a shape-locked wall's among them) resolved by those laws, law 2, in its order: (a) the way's crossing of the wall mov"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "g raised way the new run meets, the meeting by §2.7's laws (law 2, in its order; its worked example the crossing table'"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "he new strips will meet (the raised way met by §2.7's laws, law 2, in its order — a run with no lawful shape taking F-R"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "ts reservation, which a re-traced run meets by §2.7's laws, law 2, in its order; its worked example the crossing table'"
+  },
+  {
+   "unit": "V07",
+   "law": "2",
+   "text": "run laid again in its new section, resolved by §2.7's laws, law 2, in its order — (a) its line kept where its new band "
+  },
+  {
+   "unit": "V09",
+   "law": "2",
+   "text": ": a shape-locked wall's among them) resolved by those laws, law 2, in its order — the crossing moved, else the way re-r"
+  },
+  {
+   "unit": "V09",
+   "law": "2",
+   "text": "hored across a standing raised way meets it by §2.7's laws (law 2, in its order, law 3; its worked examples *beneath* a"
+  },
+  {
+   "unit": "V09",
+   "law": "2",
+   "text": "te by §2.7's laws (law 1, read with its terms, chiefly (5); law 2, in its order, law 3); its worked example row W13 (`b"
+  }
+ ],
+ "bad": [],
+ "by_unit_f6": {
+  "V06 chiefly": 3,
+  "V07 chiefly": 3,
+  "V09 chiefly": 5,
+  "base chiefly": 26,
+  "base whole": 5
+ },
+ "by_unit_f3": {
+  "base": 12,
+  "V07": 1,
+  "V09": 3
+ },
+ "pointer_counts": {
+  "5": 30,
+  "1": 7,
+  "4": 17,
+  "6": 14,
+  "9": 1,
+  "10": 3,
+  "2": 1,
+  "3": 2,
+  "8": 2
+ }
+}

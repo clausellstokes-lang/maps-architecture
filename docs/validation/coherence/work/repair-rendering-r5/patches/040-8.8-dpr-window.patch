@@ -1,0 +1,12 @@
+# §8.8 VRC4T-01: the device-pixel-ratio change keeps the loop's 10 s window (R4-10's phrase whole; J-A121.07).
+@@ FILE 8.8.md
+<<<<
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once and is applied while the view is settled — at once when no gesture runs, at the gesture's settle otherwise
+  (T121-7). Each change and
+====
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once and is applied while the view is settled — at once when no gesture runs, at the gesture's settle otherwise —
+  and at most once in 10 s, counted with the loop's changes, so one coming within 10 s of the last change applies when
+  those 10 s end (T121-7). Each change and
+>>>>

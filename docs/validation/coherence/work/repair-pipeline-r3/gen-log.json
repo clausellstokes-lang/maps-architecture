@@ -1,0 +1,107 @@
+{
+ "doc_sha256": "4ed292e94f2442e5db7cb25e3da110806f5c5e7ccb9037d6fe32375a51504f76",
+ "blocks": [
+  {
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "ids": [
+    "VPC-R2-17",
+    "VPC-R2-15"
+   ]
+  },
+  {
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "ids": [
+    "VKr2-05",
+    "VM-R2T-04"
+   ]
+  },
+  {
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "ids": [
+    "VPC-R2-04",
+    "END VEW-r2-01"
+   ]
+  },
+  {
+   "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+   "ids": [
+    "VKr2-05",
+    "VM-R2T-04"
+   ]
+  },
+  {
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "ids": [
+    "VDC2-13",
+    "VPC-R2-16"
+   ]
+  },
+  {
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "ids": [
+    "VPC-R2-17",
+    "END VEW-r2-01"
+   ]
+  },
+  {
+   "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "ids": [
+    "VPC-R2-17"
+   ]
+  },
+  {
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "ids": [
+    "VAT2-r2-03",
+    "VAT2-r2-01"
+   ]
+  },
+  {
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "ids": [
+    "VAT2-r2-03",
+    "VEW-04",
+    "VM-R2T-06",
+    "VEW-r2-03",
+    "VEW-r2-05",
+    "VV78-r2-05",
+    "VAL-R2-06",
+    "VRC2T-03"
+   ]
+  },
+  {
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "ids": [
+    "END ADJ-r3-01",
+    "VPC-R2-12",
+    "VPC-R2-17",
+    "VPC-R2-11",
+    "VPC-R2-01",
+    "VDC2-10",
+    "VV56-r2-08",
+    "END VPC-R2-03",
+    "END VAH-r2-02",
+    "VRC2T-03",
+    "VEW-r2-05",
+    "VAF-R2T-04",
+    "VEW-r2-03",
+    "VPC-R2-14",
+    "VV56-r2-07",
+    "VV78-r2-05",
+    "VAL-R2-06",
+    "END VV12-r2-02",
+    "END VRC2T-16",
+    "VPC-R2-09",
+    "VV56-r2-03"
+   ]
+  },
+  {
+   "heading": "### II.7.2 The network stage: the gate, the underground arena's levels, the tunnel profile, depth and outfalls, editing",
+   "ids": [
+    "VPC-R2-08",
+    "VAL-R2-08"
+   ]
+  }
+ ],
+ "edits": 30
+}

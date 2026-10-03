@@ -1,0 +1,278 @@
+{
+ "key": "coherence/verify-pipeline-r0s",
+ "file": "docs/validation/coherence/verify-pipeline-r0s.md",
+ "issues": [
+  {
+   "id": "VPC-01",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 115's pipeline part is absent (canon, dated ruling 2026-09-30, J127: 'pipeline: §4.2 S10b (the rung ceiling on the class mix; the \"all manors\" rule scoped to TOWN and above); §10.2 (the ceiling table's shape)'). §4.7 S10b *Class mix inside a band* (1)–(2) (l. 6887–6897) and §10.2's *Class mix* bullet (l. 13835–13838) still make the rich row 'all manors' at every rung, with no rung ceiling; the base text holds no occurrence of 'item 115', 'grandeur' or `grandeur.ceiling`, while V11 §3.25.4 (row 97), V07 §3.8, V06 §3.8.5, V08 §3.16 (3) and V09 §4.21.5 all cite the base's S10b rung ceiling and §10.2's shape.",
+   "required_change": "At §4.7 S10b *Class mix inside a band*, add a step (after (2)): 'The rung ceiling (item 115; J127). Before the class draw, S10b reads the `grandeur.ceiling` row of the settlement's rung (§10.2's shape; V11 §3.25.4 rows): at a rung whose row is enabled and not `allManorsRow`, the manor class is admitted only up to `manor.max` and only where `manor.requires` is met (a `seigneurial` government, or \"specified\" — a dossier manor, hall or similar record, or a `villageSeat`, V08 §3.16 (3)); its weight in the drawn row goes to the largest admitted class, so the rich row is the capped row's rich anchor; `wealthShift` (2) moves a dwelling only along its capped row and never raises the manor count (item 115 (d)); S11 hands V02's composition chain the row's `dwellingFamilies`, `towers`, `turrets`, `gatehouse`, `courts` for every dwelling but the manor (item 115 (a), (b)). The \"all manors\" rich row stands only where the row's `allManorsRow` is true (TOWN and above). A dossier-named or hand-placed grand building keeps its design — a default, never a refusal (item 101 R2), explained (V10). Across a rung change the ceiling applies to buildings new or rebuilt from that epoch; standing ones keep their design (item 115 (e); V06 §3.8.5). Off form: every row `enabled` false reads TOWN's row (no-op pin, §13.2).' In (1) change 'which is all manors' to 'which is all manors at TOWN and above (below, the rung ceiling)'. In §10.2 add the shape `interface GrandeurCeilingRow { rung: Rung; enabled: boolean; dwellingFamilies: string[] | \"all\"; towers: boolean; turrets: boolean; gatehouse: boolean; courts: boolean; manor: { max: number | \"unbounded\"; requires: \"specified\" | \"lordOrSpecified\" | \"none\" }; allManorsRow: boolean }` with `grandeur: GrandeurCeilingRow[]` on `RosterTables` (values V11 §3.25.4, registry row 97) and a *Grandeur ceiling (item 115)* bullet citing V11 §3.25.4 for the rows; name §13.2's item-115 bars and T-V11-41 as its test. Also name the table's other base readers (V11 row 97): §4.2 S2 at the `territory` rungs caps the manor class's presence at the row's `manor.max` with its requirement (V07 §3.8), and §4.7 S11 passes the row's dwelling limits to V02's composition chain.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 117's pipeline part is absent (canon, dated ruling J128: 'pipeline: §4.2 S0 and §10.2 (the biome climate row's season columns: winter severity; leaf, growing, harvest, ice and snow weeks)'). §4.2 S0's biome comment (l. 4570–4571) lists only 'aridity, the arid water chances, the water pull and the sunlight cell (items 102, 111; V11)'; §4.9 *Species and climate* (l. 7215–7220) and §10.2 name no season column; the pipeline part carries no 'item 117', while V11 §2 declares `ClimateRow.seasons: ClimateSeasonCells` (V11 §3.25.6) and cites the base's climate row as its home.",
+   "required_change": "In §4.2 S0's circumstances, extend the biome comment to '/* its climate row: aridity, the arid water chances, the water pull and the sunlight cell (items 102, 111), and the season columns (item 117: winter severity none|mild|cold|severe; the weeks, 0–51 spring first, of leaf colour, leaf fall, blossom, growing, harvest, hay, ice and snow — bands wrapping the year end; read only by §8.2's season rows, §11's exports and §7.7's season derivation row, never by a stage, so no season changes the model or its hash, item 117 (a)); V11 */'. In §10.2 declare the columns on `ClimateRow` — `seasons: { winter: \"none\"|\"mild\"|\"cold\"|\"severe\"; leafColour: [number, number] | null; leafFall: [number, number] | null; blossom: [number, number] | null; grow: [number, number]; harvest: [number, number]; hay: [number, number] | null; ice: [number, number] | null; snow: [number, number] | null }` (values V11 §3.25.6; an arid row has `ice` and `snow` null) — and add the same clause to §4.9 *Species and climate*'s row list; name §13.2's item-117 bars and T-V11-42 as its test.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-03",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 118's pipeline part is absent (canon, dated ruling J129: 'pipeline: §10.2 (the decoration table by tier and kind; the staging keyword table and the fallbacks by festival kind)'). §10.2 names no decoration or staging table and the pipeline part has no occurrence of 'festival', 'traditions' or 'item 118'; V11 §3.25.7 (rows 102–105) and V08 cite the base's §10.2 shapes.",
+   "required_change": "In §10.2 add, as a LOOK-only table set read by §8.2's decoration rows (never by a stage; item 118 (a)): `interface DecorationRow { rung: Rung | \"SKY\"; item: string /* a §8.2 decoration glyph key */; place: StagingPlace | \"heart\"|\"doors\"|\"churchLane\"|\"towers\"|\"walls\"|\"gates\"|\"hall\"|\"mainWays\"|\"boats\"|\"rims\"|\"landings\"; band: \"city\"|\"district\"|\"neighbourhood\"; per: \"place\"|\"per100m\"|\"perSquare\"|\"perTower\"|\"perBoat\"; count: [number, number]; alt?: string; weight?: number }`, `type StagingPlace = \"square\"|\"market\"|\"green\"|\"church\"|\"temple\"|\"deityTemple\"|\"waterfront\"|\"gate\"|\"fairField\"|\"castle\"|\"fieldEdge\"|\"processionRoute\"`, `interface StagingKeywordRow { key: string; place: StagingPlace }` with its named row `fallback: Record<FestivalKind, StagingPlace[]>` (religious → its temple and the procession route to the main square along primary ways; market → the market square or fair field; harvest → the green and the field edge; water → the waterfront), `type FestivalKind = \"religious\"|\"market\"|\"harvest\"|\"water\"`, and `MotifRow`/`GenericFestivalRow`, on `RosterTables` as `festival: { decorations, staging, motifs, generic }` (values V11 §3.25.7, rows 102–105; each tier draws its own rows and never a larger tier's, item 118 (d)); a *Festival decorations (item 118)* bullet stating that the dossier's named place wins, else the keyword row, else the fallback, and never over a keep-out or a gate's passage; name §13.2's item-118 bars and T-V11-43.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-04",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 119's pipeline part is absent (canon, dated ruling J130: 'pipeline: §4.1 (where stages may spend the quality budget, each use a table cell with its measured gain)'). §4.1 names §12's budgets only as 'first-map times are §12.5's (J-R7)' (l. 4448) but no quality budget, no comfort level and no `perf.qualitySpend` reader; V11 §3.25.8 (row 106) and V11's W86 cite '§4.1, §12 (item 119)' as the reader.",
+   "required_change": "In §4.1 (after the laziness contract's first-map sentence) add: 'The quality budget (item 119; J130). Every stage works to its §12 target; a stage runs a quality path slower than its target only where a `perf.qualitySpend` row names it (§10.2 shape `QualitySpendRow { stage: StageId; use: string; targetMs: number; extraMs: number; gainBar: string; gain: number; run: string }`; V11 §3.25.8, registry row 106, shipped empty, `calibratable: false`) — the row recording the use, its measured extra cost, the bar the gain is measured by and the `CalibrationRun` that measured it (V12) — and only inside §12's ten-second comfort level for one-time waits; with no row the stage runs its target path (the no-op pin). `StageReport` records each quality path taken (§12.4 timings). Interaction budgets are never spent (§12).' Name §12.10's register rows and T-V11-44 (b) as its tests.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-05",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V06 cites the grandeur ceiling's base home as '§4.2 S10b' (l. 354, 1665, 3851, 4052; copied from the canon's J127 routing line). S10b Placement and its class mix are §4.7's (§4.7's heading 'S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 …'); §4.2 holds S0–S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+   "required_change": "In V06 (l. 354, 1665, 3851, 4052) replace every '§4.2 S10b' with '§4.7 S10b' (the rung ceiling written there by VPC-01).",
+   "owner": "V06"
+  },
+  {
+   "id": "VPC-06",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V07 cites the grandeur ceiling's base home as '§4.2 S10b' (l. 272, 1783; copied from the canon's J127 routing line). S10b Placement and its class mix are §4.7's (§4.7's heading 'S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 …'); §4.2 holds S0–S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+   "required_change": "In V07 (l. 272, 1783) replace every '§4.2 S10b' with '§4.7 S10b' (the rung ceiling written there by VPC-01).",
+   "owner": "V07"
+  },
+  {
+   "id": "VPC-07",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V08 cites the grandeur ceiling's base home as '§4.2 S10b' (l. 274, 2320; copied from the canon's J127 routing line). S10b Placement and its class mix are §4.7's (§4.7's heading 'S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 …'); §4.2 holds S0–S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+   "required_change": "In V08 (l. 274, 2320) replace every '§4.2 S10b' with '§4.7 S10b' (the rung ceiling written there by VPC-01).",
+   "owner": "V08"
+  },
+  {
+   "id": "VPC-08",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V09 cites the grandeur ceiling's base home as '§4.2 S10b' (l. 260, 351, 386, 3180; copied from the canon's J127 routing line). S10b Placement and its class mix are §4.7's (§4.7's heading 'S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 …'); §4.2 holds S0–S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+   "required_change": "In V09 (l. 260, 351, 386, 3180) replace every '§4.2 S10b' with '§4.7 S10b' (the rung ceiling written there by VPC-01).",
+   "owner": "V09"
+  },
+  {
+   "id": "VPC-09",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V10 cites the grandeur ceiling's base home as '§4.2 S10b' (l. 1301, 1870; copied from the canon's J127 routing line). S10b Placement and its class mix are §4.7's (§4.7's heading 'S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 …'); §4.2 holds S0–S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+   "required_change": "In V10 (l. 1301, 1870) replace every '§4.2 S10b' with '§4.7 S10b' (the rung ceiling written there by VPC-01).",
+   "owner": "V10"
+  },
+  {
+   "id": "VPC-10",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11 cites the grandeur ceiling's base home as '§4.2 S10b' (l. 101, 227, 943, 4174; copied from the canon's J127 routing line). S10b Placement and its class mix are §4.7's (§4.7's heading 'S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 …'); §4.2 holds S0–S3 only, so the citation points at a section that does not state the rule (the base part itself is missing, VPC-01).",
+   "required_change": "In V11 (l. 101, 227, 943, 4174) replace every '§4.2 S10b' with '§4.7 S10b' (the rung ceiling written there by VPC-01).",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-11",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "§4.11 *Survivors* — *What writes `builtBand`* (J-A31.44; l. 7408): the archive stated the value rung 2 writes — \"rung 2's `densify … back_court`, for the rear plots it creates only (their new stock's band; the front plot keeps its own)\" — and repeated it in the next sentence (\"a completed upward refurbishment raises it, and rung 2's rear plots take their stock's band\"). The rewrite cut both parentheticals (verbose-prose/shrink), leaving \"rung 2's `densify … back_court`, for the rear plots it creates only\" with no value, so a reader can take the rear plots' `builtBand` from the list's first writer (\"generation (the plot's band at S10)\", i.e. the field band) instead of the new stock's band — two values that differ whenever a poor rear row is built on a richer plot's yard.",
+   "required_change": "In §4.11 *What writes `builtBand`*, restore the value: \"rung 2's `densify … back_court`, for the rear plots it creates only (their new stock's band; the front plot keeps its own)\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-12",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "File f item 442 (BCR-V11-25) is applied only in part, and what remains contradicts V11. The BCR's new text: 'the paragraph's rows are volume V11 §3.10's …; the paragraph keeps one sentence naming the identities and points to V11 §3.10 for the rows'. §10.2's *Quarter identities (item 72)* bullet (l. 13855–13862) still restates rows — 'the defined districts (the red-light district `definedBy` its brothels, with no `kind` …; the slums `definedBy` the dossier's slum kind, kind `shanty`, the squalid band's rows)' — while V11 §3.10 states '`slums`, `foreign` and `guild-district` have no `definedBy`' (reached by the dossier's quarter naming claims) and V11 §3.5 marks no class `def` (a QUARTER record's members are the district-defining instances, f item 441). §4.5 (3) (l. 5734–5746) likewise still gives 'a class that IS a district (a red-light district, the slums, a foreign quarter, a guild district: dossier institution kinds)', 'the slums at the poorest edge, by the `shanty` kind's rows' and 'the slums: the squalid band through the kind's `characterOffset`' as district-defining instances, so the base and V11 disagree on how a dossier's slums, foreign quarter and guild district get their district.",
+   "required_change": "(1) §10.2 *Quarter identities (item 72)*: reduce to one sentence naming the identities and the pointer — 'The identity rows are V11 §3.10's, their family keys V11 §3.4's profile families: the religious, craftsmen's, merchants', harbour, garrison, learned and arcane quarters (the arcane `magicOnly`, the row a Mages' Quarter naming claim biases toward, item 82), the defined districts (red-light, by its QUARTER record, J-A72.51) and the quarter-claim identities (slums, foreign, guild district), and the plain residential identities, one per band, lowest priority; each row's `naming` slice is our naming pack's (§10.4).' (2) §4.5 (3): replace '(a red-light district, the slums, a foreign quarter, a guild district: dossier institution kinds), and a ladder QUARTER record …' by '(a dossier QUARTER record's district — a red-light district over its brothels, V11 §3.12 — whose record also owns its trade's members)'; in the claim sentence keep only 'a red-light district near the docks, the gates and the inns'; delete '(the slums: the squalid band through the kind's `characterOffset`, and §4.7 S11's cluster rows, item 70)'; add 'The slums, a foreign quarter and a guild district are naming claims whose kind bias reaches their identity rows (§7.7 item 16; V11 §3.10), never district-defining instances.'",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-13",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11 §3.10 (the `slums` row and the paragraph after the table, 'V11 §3.10 … `slums`, `foreign` and `guild-district` have no `definedBy`: §7.7 item 14's quarter biases (V08's `quarters` rows)') cites §7.7 item 14, which is *A listed element's state* (item 80); the quarter naming claims with their kind bias are §7.7 item 16 (*Quarters and landmarks — naming claims*, item 82).",
+   "required_change": "In V11 §3.10 (the `slums`, `foreign`, `guild-district` rows and the closing paragraph) replace '§7.7 item 14's quarter biases' with '§7.7 item 16's naming claims (their kind bias)'.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-14",
+   "severity": "blocker",
+   "kind": "LOST",
+   "claim": "`NeighbourhoodRequest` and `NeighbourhoodResult` are declared nowhere in the set. The canon homes both at pipeline II.1 (PIPELINE-0642, PIPELINE-0643: role home, home_sec II.1), and file f item 539 (V01 BCR-2 (a)) says to REPLACE the archived II.1 interfaces with volume 1's revised ones (derived `mode`, no `reason`, `seam`/`context`/`params`/`closeup` absent exactly when `laid` is empty, the result's `districts`). The rewrite deleted the II.1 declarations and left only a comment 'NeighbourhoodRequest and NeighbourhoodResult, with DistrictContext and TypedBoundary, are V01 §2.4's' (l. 18009–18011), while the V01 rewrite deleted its §2.4 code block and states 'NeighbourhoodRequest, NeighbourhoodResult and SeamReport are II.1's (item 539)' — a circular pointer. Lost with it: every field (`district`, `key: PlatKey`, `layer: 'ground'|'sky'|'underground'`, `boundary: TypedBoundary`, `laid { blocks, plots, alleys }`, `strategy?: FabricStrategyId`, `params?`, `closeup?: CloseupParams`, `outlineTemplate?`, `lod: 'neighbourhood'`; the result's `mode`, `blocks`, `ways`, `plots`, `buildings`, `greens`, `pins`, `hoodPins`, `places`, `labels`, `seams`, `report`, `districts`), although II.1 rule (5), II.6, II.7.3, V01 §3.8–§3.10 and V05 call them — an interface with an implementer and callers and no declaration (principle (7)).",
+   "required_change": "In II.1's code block replace the two comment lines after `interface NeighbourhoodStrategy` with the declarations of archived V01 §2.4 (f item 539's text): `interface NeighbourhoodRequest { district: Id; key: PlatKey; layer: 'ground'|'sky'|'underground'; boundary: TypedBoundary; seam?: SeamContract; context?: DistrictContext /* absent exactly when laid is empty: the unit runner builds them after its partition (V01 §3.10) */; laid: { blocks: Id[]; plots: Id[]; alleys: Id[] }; strategy?: FabricStrategyId; params?: Record<string, number>; closeup?: CloseupParams /* 'refine' only */; outlineTemplate?: OutlineTemplateId /* standalone unit runs only */; lod: 'neighbourhood' }` with the comment 'the mode is derived, never passed (J-V1.3): unit when laid is empty; refine when strategy equals the committed fabric; replace otherwise; a sky island's reason is SkyIsland.reason (§2.7)', and `interface NeighbourhoodResult { mode: 'refine'|'replace'|'unit'; blocks: Block[]; ways: Way[]; plots: Plot[]; buildings: Building[]; greens: Greenery[]; pins: Pin[]; hoodPins: HoodPin[] /* refine only, derived */; places: HoodPlace[]; labels: LabelEntity[] /* §9.1 */; seams: SeamReport; report: StageReport; districts: Id[] /* unit mode: in partition order, written by SKY-F to SkyIsland.districts (V05 §3.12) */ }`; keep 'DistrictContext and TypedBoundary are V01 §2.3's' as the pointer.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-15",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "PART III *Not-precluded checks* (l. 19218) reads '(the parity judge's 44 / 44; V07 §15)'. V07 has no §15 (its sections end at §13, the fix list and *Integration notes*; its VG parity preset is V07 §3.15), and no V07 text states the five not-precluded checks or the judge's 44 / 44 — the pointer was added by the rewrite from the canon's reference row for PIPELINE-0800, whose target section does not exist (assemble-r0 left it as the one broken reference). The checks are stated here, their only home.",
+   "required_change": "In PART III *Not-precluded checks*, delete '; V07 §15' so the parenthesis reads '(the parity judge's 44 / 44)'; the checks stay stated at their home in PART III (as PIPELINE-0796, -0798 and -0799 were kept).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-16",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "Three retired terms survive in the pipeline part: (a) G-shadows — §4.8 (l. 7037) 'each pier carrying its deck height like a bridge (read by the shadow pass and the 3-D export, §8.4, §11.1)'; (b) G-unitinput — §4.1 (l. 4507) 'each sky island's districts run … from V05's hand-over (V05 §3.1; V01 §3.10)', the unit-run view the canon renames `SkyUnitInput` ('handover' keeps only the reservation passing); (c) G-standalone — §4.2 S1 (2) (l. 4640) '(a standalone neighbourhood's, drawn by its fabric, V01 §3.10.2)'.",
+   "required_change": "(a) l. 7037: 'read by the projected shadows (`shadowPass`) and the 3-D export'; (b) l. 4507: 'from its `SkyUnitInput` (V05 §2.3; V01 §3.10)'; (c) l. 4640: '(a standalone neighbourhood document's, drawn by its fabric, V01 §3.10.2)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-17",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§4.12's closing list of owner-staged registrations (l. 8185–8188) names 'after the network stage `UndergroundSystemStrategy` (the void systems), `UndergroundStrategy` (the sewer-front neighbourhoods), `UndercityStrategy` and last `UndergroundLinkStrategy`' but omits the access pass `AccessPassStrategy` (file f item 562), which II.7.6 (l. 19058, 19146) declares and orders 'after the void systems and before the undercity' (after II.7.3's stage), and which §14's `StrategyRegistry.underground` map and II.7.4's registration slots list. The one list of the tail's registrations is short one stage, so its order no longer matches II.7.6's.",
+   "required_change": "In §4.12's last paragraph read: 'and after the network stage `UndergroundSystemStrategy` (the void systems), `UndergroundStrategy` (the sewer-front neighbourhoods), `AccessPassStrategy` (the access pass, II.7.6), `UndercityStrategy` and last `UndergroundLinkStrategy`, each by declared I/O and `phase: 'tail'` (II.6, II.7.3–II.7.6)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-18",
+   "severity": "major",
+   "kind": "LOST",
+   "claim": "F-CUT's acceptance bar is stated nowhere. The archive's §5.2 F-CUT row read: 'on 10⁵ random concave and holed faces the ladder ends in ≤ 6 kernel calls and the face count never decreases; the built-area share left as court or green residue reported per district (soft band ≤ 5 %)'. The determinism rewrite replaced it by '§4.6 step 8 (a)'s bars on 10⁵ random concave and holed faces (the kernel-call bound; the face count never decreasing; the residue band per district)' (l. 8356) and its cross-part note says '§4.6 step 8 (a) states F-CUT's constants (… the six-call bound …)'; §4.6 step 8 (l. 5973–5998) states the 36° frames, the (d) area bound and the ≤ 5 % residue share but no kernel-call bound, no 10⁵-face sample and no 'face count never decreases' — so the bound '≤ 6 kernel calls' is lost from the set and §5.2 cites a bar §4.6 does not hold.",
+   "required_change": "At the end of §4.6 step 8 add: '**Bars (F-CUT; §5.2 cites them):** on 10⁵ random concave and holed faces the ladder ends in ≤ 6 kernel calls and the face count never decreases; the built-area share left as court or green by substitution is reported per district, soft band ≤ 5 % (above).'",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-19",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "Two tool-id uses break the canon's ID-TOOL ruling ('bare T1–T12 are item 101's tools, always written with the tool word …; T8 `fill`') and the scope editor's hand-off (rewrite-scope.md, cross-part notes, Pipeline) was not applied: (a) §4.2 S2 *Ladder records' members* (l. 4822) 'A collective record (§7.7 T9, DR9)' — T9 here is research/sf/mapping.md's granularity table, not the tool T9 `shape`; (b) II.4 *Workflow* (l. 18175) 'a layout card is T8 `fabric`'s parameter and a block's content T9's (V01 §4)' — §7.1's tools are T8 `fill` and T9 `shape`.",
+   "required_change": "(a) l. 4822: '(DR9; V08 §2.6's `distribution` row set)'; (b) l. 18175: 'a layout card is T8 `fill`'s `fabric` parameter and a block's content T9 `shape`'s (V01 §4)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-20",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "II.6 (5) (l. 18302–18304) sets 'the altitude `elevationCm = E_min + (E_max − E_min) · h(S_town)`', but the model (§2.7, l. 2215: '`elevationCm` read as groundRefCm + altitudeCm') and V05 §2.1 (`altitudeCm` 'the surface datum above groundRefCm — the law's altitude floored by the rim, the root and the clearance (V05 §3.9 (4))'; 'elevationCm is derived at read: groundRefCm + altitudeCm') make `elevationCm` a derived value and the law's output `altitudeCm`; §4.11's own `IslandOp`s already write `altitudeCm` (l. 7946–7950). Read as written, II.6 stores the law's value in the derived field and drops the ground reference and the clearance floor (V05-XCONF / rewrite-V05 cross-part note 1 (5)).",
+   "required_change": "In II.6 (5) read: 'and the altitude `altitudeCm = E_min + (E_max − E_min) · h(S_town)` above the island's `groundRefCm`, floored by V05 §3.9 (4) (`elevationCm` derived as `groundRefCm + altitudeCm`, §2.7)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-21",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "Hand-offs from V05 to II.6 not closed at their destination (rewrite-V05.md cross-part note 1): II.6 (3) still restates `node.bonus` '(0.25, clamped to 1)' (l. 18289) whose home is V05 §2.4's `IslandRule.node.bonus` (V05-RESTATE-3), and II.6 (6) restates 'hysteresis (0.05 of its area)' (l. 18310), V05 §2.4's `hysteresis` cell; II.6's own code comment (l. 18322) already says the bonus is V05's row.",
+   "required_change": "II.6 (3): 'raises `h(S_town)` by the rule's `node.bonus` (V05 §2.4; clamped to 1)'; II.6 (6): 'shrinks by more than the rule's `hysteresis` (V05 §2.4) of its area'; the code comment after (7) (l. 18322) '… its node.bonus is (3)'s' → '… (3) reads its `node.bonus`'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-22",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Five file-f items whose texts edit §4.11 were routed to other units (canon f_routing: 209 → model, 266 → model, 336 → determinism, 343 → determinism, 479 → rendering) and their editors handed the §4.11 part to pipeline by cross-part note (rewrite-V06.md §9 'pipeline §4.11' (a)–(d); rewrite-determinism.md 'pipeline'; rewrite-model.md J-RM15; rewrite-rendering.md 'pipeline'), but none is applied: (a) f 209 (BCR-V6-5 (a)) — the `ConversionOp` union (l. 7480) still ends '| ClearUndercity;' without `EvolveOp` (`absorbWall`, `downgradeWay`, `upgradeWay`, `burn`, `repairWall`, `retypeLand`, `repairRaised`, `repairRetaining`; V06 §2.8), each usable by hand through `convert` with its undo record and cause `convert:<op>`; (b) f 343 (BCR-V6-9) — `EpochInputs` (l. 7619) lacks `wealthLevel?` and `advance? { group; index; of; trajectory?; stoppedAt? }`, and item 113's `replay?` (V06 §2.14); (c) f 336 (BCR-V6-18) — *Regrowth-first* (l. 7891–7903) lacks the history engine's two exceptions (the overflow-backlog stage, the decrowding stage) and tiers (5′) the upgrade and reopening of ways and (5″) crowding, and the reopening of a retired way under a placement; (d) f 266 (BCR-V6-21) — *The epoch-spread mutation* (l. 7796–7802) still reads 'over the ladder's rung durations … Each of those events decides and records its step at once' instead of 'decided once at the creating op … due at the evolution table's `mutation.stepYears` rows … Each of those events applies and records its step at once', and lacks the relocating use staying until the first compatible step and the cancelled plan keeping its done steps (item 18 (e)); (e) f 479 (BCR-V6-23) — step (c) (l. 7433–7434) still says 'the strike pool (below) draws per building, deciding whose households leave first', contradicting V06 §3.5.1, where the departure matching decides which dwellings empty.",
+   "required_change": "In §4.11 apply the five texts as the BCRs give them: (a) the union '| LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity | EvolveOp;' with 'EvolveOp as V06 §2.8 states it (absorbWall, downgradeWay, upgradeWay, burn, repairWall { enceinte, stretch?, material? }, wearWall (item 114), retypeLand, repairRaised, repairRetaining), each usable by hand through `convert` (§7.1) with an undo record (§7.4) and the cause `convert:<op>`; a hand repair of stone that is gone bends (item 101 R2) to a new stretch or part on its line'; (b) in `EpochInputs` add `wealthLevel?: number /* the intent wealth level at the epoch (§7.7 layer 1): the dossier's wealth.label by DR6, or a standalone trajectory's; absent: the level in force; applied past dial.hysteresis before S6 (V06 §3.3.5) */; advance?: { group: string; index: number; of: number; trajectory?: Trajectory; stoppedAt?: number } /* provenance of an epoch an advance request appended (V06 §2.3) */; replay?: { index: number; of: number; fromYearsAgo: number; toYearsAgo: number; events: ReplayEventRef[]; destruction?: ReplayEpoch['destruction']; refound?: ReplayEpoch['refound'] } /* a replay epoch's provenance, item 113 (V06 §2.14 declares ReplayEventRef and ReplayEpoch) */`; (c) append BCR-V6-18's sentence to *Regrowth-first*'s residual sentence verbatim; (d) replace *The epoch-spread mutation*'s text by BCR-V6-21's new text; (e) step (c): 'which dwellings empty is decided by the evolution engine's departure matching (V06 §3.5.1: the roster's suffix matched to exposure-weighted dwellings by band), and the strike pool (below) strikes fabric only, by its exposure (item 28 (f) with item 8; J-A28.45)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-23",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "§4.11 *The clock* (3) (l. 7713) gives the week of the year as '`(week mod 52) + 1`', but under history-first generation the replayed past lies at negative weeks (a standalone map's creation week is 0 and the replay epochs precede it; V06 §3.20.3), and `mod` of a negative integer is left undefined (a truncating remainder yields 0 … −51, so `+ 1` gives weeks ≤ 0 that no `CalendarRow` season holds). The season read by the Works' pauses and §8.2's season rows is then undefined for every replayed epoch; V06's cross-part note (e) asks for a floored modulo and it was not applied.",
+   "required_change": "In *The clock* (3) read: '`CalendarRow` gives the week of the year, `floorMod(week, 52) + 1` (the floored modulo, so a negative week of the replayed past maps into 1…52; V06 §3.20.3)'; add the case to EP-15 (history-first generation) with its B-EDGE fixture (a replay starting 300 years before a week-0 creation reads a valid season at every epoch).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-24",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§4.9 *An oasis's gardens* (l. 7155) calls the irrigated gardens '`garden_irrigated` land-use faces (§2.7)', but the model's record (§2.3, l. 980: gardens 'as `LandUse` faces of kind `garden`, §2.7 … each grove and garden naming its water body in `fedBy`'; J-RM7) and V11 §3.17.2 / §3.25.1 (V11-BREF-1) use the kind `garden` with `fedBy`; no `garden_irrigated` kind exists in §2.7's `LandUse` union, and §4.9 never names the `fedBy` link its S12a and S12b write.",
+   "required_change": "In §4.9 read: 'S12a sites irrigated gardens — `LandUse` faces of kind `garden` (§2.7) whose `fedBy` names the oasis's water body, fed by short channels drawn from that link (§8.2), within the climate row's channel reach …'; and in S12b's grove row add 'its `Greenery` naming the water body in `fedBy`'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-25",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "`WaterBody.spring.flow` has a written reader that the pipeline does not implement. The model (§2.3, l. 986: read by 'the water pull on the growth field (§4.2 S3, §4.4), the prosperity field's water term (§4.5), wells …' — 'the pull weighted by `spring.flow`; volume 6's failing spring lowers `flow` over epochs'), V06 §3.12.1 (flow's only writer) and the rewrite-model/-V06 cross-part notes make S3 (6)'s `q(x)` and §4.5's water term weight a spring or oasis by `flow`; S3 (6) (l. 4927–4934) defines `q(x)` as '1 on a river bank, a lake or oasis shore, a spring or ground of the top well-yield class' with no `flow`, and §4.5's water term (l. 5552–5553) only says 'a spring or oasis that fails weakens its pull (V06)' without the mechanism. So item 111 (b)'s weakening pull has no defined rule in the base and `flow` is an orphan field on the pipeline side.",
+   "required_change": "In §4.2 S3 (6) define `q(x)` for a spring or an oasis shore as `flow × (1 − d ÷ pullRadius)` — `flow` the body's `spring.flow` (§2.3; 1 when made, lowered by V06 §3.12.1) — and read the same `q(x)` in §4.5's water term; state in §4.5 'a failing spring weakens its pull through `spring.flow` (§2.3; V06 §3.12.1)'; add EP-14's companion case (a spring at `flow` 0 pulls nothing, its oasis kept as a lake) to §4.13.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-26",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Three record fields the model now names the pipeline as the producer of are not named at their producer (rewrite-model.md cross-part notes, J-RM6, J-RM10): (a) `Enceinte.arcs` and `Enceinte.anchors[].end` — §2.7 (l. 2101) says 'written with the anchors by S5a's classification (§4.4)', but §4.4 S5a step 1 (l. 5247–5262) classifies the arcs without saying it records them; (b) `Enceinte.stretchClass` (a `'full'|'parapet'` step profile on the knot role `wall_class_knot`, §2.7 l. 2108) — §4.8 *Graded by stretch* (l. 6949–6955) speaks of 'a `ChainProfile` along the trace' without naming the field or the knot role; (c) `Block.depthClass` — §2.5 (l. 1111) says it is written with `interior` by S8's deep-interior test, but §4.6's deep-interior rule never names it.",
+   "required_change": "(a) §4.4 S5a step 1: add 'and records them as `Enceinte.arcs` (each arc by its two anchor ends and its `BarrierKind`) with the stretch anchors `anchors[].end` (§2.7)'; (b) §4.8 *Graded by stretch*: 'The grade is `Enceinte.stretchClass` (§2.7), a `'full'|'parapet'` step profile on `wall_class_knot` vertices written with the trace; the wall's thickness, height, walk and tower spacing read its class's row (V11 `walls.barriers`)'; (c) §4.6 *The deep-interior rule*: 'S8 writes `Block.depthClass` (`deep` when the rule fires, else `standard`, §2.5) with the block's `interior`'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-27",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V06's hand-off on the daylight mask is not closed at its destination (rewrite-V06.md §9 'pipeline §4.5'; J-V6.129): §4.5 *The daylight term* (iv) (l. 5534–5536) says 'a mask whose digest differs is recomputed whole', which a reader can take as a recompute at read time by any pass, while the building-shade mask's one writer is V06's epoch field phase (V06 §3.4; file f item 275) and V06 reads a stale mask as zero building shade until that phase runs; the sentence naming 'the previous epoch's buildings (V06 §3.4)' does not say V06 §3.4 writes the mask.",
+   "required_change": "In §4.5 (iv) read: '… and a mask whose digest differs is recomputed whole by its writer — the terrain, wall and island masks by the pass that reads them; the building-shade mask, whose one writer is V06 §3.4's epoch field phase (file f item 275), counts as zero building shade until the next epoch's field phase recomputes it (J-V6.129)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-28",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "Closing WG-PIPE-05, the rewrite added strategy signatures to §4.12 that contradict the declarations §14 already carries (unchanged from the archive, l. 14349–14350 there): `PlotStrategy` is `{ plots(block: Block, alloc: Allocation, ctx: StageContext, k: Kernel): KernelResult<Plot[]> }` in §4.12 (l. 8156) but `{ subdivide(block: Block, ctx: BlockContext, claims: Claim[], sc: StageContext, k: Kernel): KernelResult<{ plots: Plot[]; alleys: Way[]; residue: Residue[] }> }` in §14 (l. 17027); `SitePlanStrategy` is `{ sitePlan(plot: Plot, to: Designation, ctx: StageContext, k: Kernel): KernelResult<MutationRecord> }` in §4.12 (l. 8157) but `{ plan(plot: Plot, ctx: ContextVector, tables: TableView, rng: Stream, k: Kernel): KernelResult<SitePlan> }` in §14 (l. 17028). One interface, two method names, arguments and results — an implementer cannot satisfy both (principles (1), (10)); WG-PIPE-05's ruling allowed 'state that §14 declares them'.",
+   "required_change": "In §4.12's code block delete the `PlotStrategy` and `SitePlanStrategy` lines and add the comment '// PlotStrategy (S10 (1)–(10)) and SitePlanStrategy (S11, through the designation mutator) are §14's declarations'; keep §4.12's `TerrainStrategy`, `CoastStrategy`, `RiverStrategy` and `ManifestStrategy`, which §14 does not declare.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-29",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Types the pipeline part's interfaces use are declared nowhere in the set (principle (7): every interface has a declaration its implementer and caller share; WG-PIPE-12's list missed them): `StageId` (§4.12 `StageDecl.id`, `StageHookDecl.id`, §3.3's `BatchScope`, V11's `QualitySpendRow.stage` and T-V11-44), `SubLocationRow` and `OpeningRow` (§10.2 `BuildingClassRow.subLocations`, `openingHours`); and §10.2's closing comment (l. 13527) says '`RosterSettings` … declared as V11 §2.8 … gives them', but V11 §2.8 declares no `RosterSettings` (V11 cites it only as `roster.settings`, V11 §3.5.1), so the pointer resolves to nothing — its fields exist only in the `settings` comment.",
+   "required_change": "In §4.12's code block add `type StageId = string /* a registered stage's id: 'S0' … 'S15', a hook's own id, a product's stage (V07 §3.0), a tail stage (II.7) */`; in §10.2 declare `interface SubLocationRow { role: string; tags: string[]; capacity: number }` and `interface OpeningRow { days: string[]; from: number; to: number }` with the fields §2.6's `SubLocation` and §10.3's schedules read (or cite their declaring section if another unit holds them), and in the closing comment move `RosterSettings` out of the 'declared as V11 §2.8' list: '`RosterSettings` is the `settings` field's own shape (its cells V11 §3.5.1)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-30",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Types the base's stage and edit interfaces use, whose comments name a determinism section as their home, are declared nowhere in the set: `Invariant` (§4.12 `StageDecl.invariants: Invariant[] /* each with its scope, §5.3 */`), `EntityKind` (`StageDecl.lineageUnit: EntityKind /* §6.3 */`), `EditId` (§3.3's `BatchScope`, II.1's `SeamAmendment.cause`), `TableView` (§4.12 `ManifestStrategy`, §14's `SitePlanStrategy` and `ContentProvider`) and `TableId` (§2.8 `SliceRef.table`, §10.4 `tablePatch.table`; canon MC-11 has §7.6 declare `type TableId = string`, not done).",
+   "required_change": "Declare at their named homes: §5.3 `interface Invariant { id: string; scope: 'stage'|'district'|'block'|'plot'|'building'|'document'; check: string }` (the suite's row shape); §6.3 `type EntityKind` as the union of the lineage-unit kinds its keying table lists; §7.1 `type EditId = number /* an event's seq */`; §7.6 `type TableId = string` (MC-11) and `interface TableView { get(table: TableId, key: string): unknown; version(table: TableId): string }` (the read-only view over the resolved tables every reader takes).",
+   "owner": "determinism"
+  },
+  {
+   "id": "VPC-31",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Item 114 (d)'s generation-time wall condition has no stage-side call point. The canon routes its derivation row to determinism §7.7 ('defence readiness and wealth → the generation-time condition at table shares'; J127) and V11's registry row 95 names its readers 'where the enceinte and its stretches are laid (S3, S7)' (rewrite-V11.md cross-part note 5), but the stages that write `Enceinte` at generation — §4.2 S3 (9)'s trace, §4.4 S5a's stage traces and §4.8's S7 furniture — say nothing of writing each run's `condition` and material, so once §7.7's row lands it has no named producer stage (a one-ended hook). (The item's model, determinism, rendering and scope parts are absent from the whole base too — theirs to raise.)",
+   "required_change": "In §4.8 (S7, per enceinte), after the stretch profile: 'At generation with no history replay, each run's `Enceinte.condition` and material (§2.7; item 114 (b)) are written here from §7.7's condition row (the dossier's readiness and wealth at table shares; item 114 (d)) — with the replay, the replay's (§4.11); `standing` robust everywhere when the row is absent or its inputs neutral (the no-op pin)'; and in §4.2 S3 (9) and §4.4 S5a note that the trace is laid `standing` and S7 applies the row.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-32",
+   "severity": "minor",
+   "kind": "F-MISSING",
+   "claim": "File f item 268 (BCR-V7-32 (b); canon routes the item to model, whose editor handed the §4.11 part on — rewrite-model.md cross-part note 'pipeline': 'f 268 (b)'s `DeclineOp` members') is not applied: §4.11's `DeclineOp` (l. 7939–7944) has the enceinte member and V06's three item-110 members but no way member, while V06 §2.x's `street.op: 'downgradeWay'|'retireWay'`, its tier counters (`retired`, `effaced`, `reopened`) and V06 §3.8's hollow-way rules (l. 1238–1239, 1619 there) name 'V07's `DeclineOp` members' as the base union's.",
+   "required_change": "In §4.11's `DeclineOp`, after the item-110 members, add: '| { op: 'retireWay' | 'effaceWay' | 'reopenWay'; way: Id }   // a way of a land class on ground part 0 at a village rung (V07 §3.12): retire — in use → abandoned (a hollow way, read by no router, tracker or merge test); efface — abandoned → decayed; reopen — a hollow way back to built, regrowth first; issued through the product's epoch rows (V06's ProductDeclEpoch.rows) or by hand through `convert`; never on a deck, a ford or a raised part'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-33",
+   "severity": "minor",
+   "kind": "F-MISSING",
+   "claim": "File f item 409 (c) (BCR-V6-15 (c); routed to rendering, handed to pipeline by rewrite-rendering.md's cross-part note) is not applied: §10.4's *Local names* (l. 13992–14000) have no `formerWall`, while V06 (l. 294, 1423, 3434 there: 'S13a names the way made by `wallToWay` with the naming feature `formerWall` (§9.6, §10.4 …)') and V11 row 68 (`naming.formerWall`) cite §10.4 for it — a feature with a reader and rows but no base statement.",
+   "required_change": "In §10.4 *Local names*, after the district features: 'and a way made by `wallToWay` (§4.11; V06) carries the naming feature `formerWall`, S13a naming it from the `naming.formerWall` slice (V11 row 68) — the old wall's ring road'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-34",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "II.5 (l. 18212–18214) still reads 'opening a district ≤ NG's recorded 10–96 ms at comparable counts, and per-district regeneration ≤ 30 ms (§12.6)', but file f item 474 (V01 BCR-19 (b), (c)) — applied by rendering at §12.5 (l. 14914–14916: 'from M5 … opening one district — model and display list ≤ 6 ms + 0.06 ms × its buildings (a `ring` district ≤ 10 ms + 0.07 ms × B), its first visible tiles rastered ≤ NG's 73–111 ms') and §12.6 (l. 14951–14952: 'A replace close-up costs the scoped law × its template's factor') — changes II.5's figure to 'within §12.6's scoped law × its fabric's factor (≤ 30 ms for a `bent-cut` district of 450 buildings, ≤ 45 ms for a `ring` district)'. II.5 restates superseded budgets.",
+   "required_change": "In II.5 read: 'opening a district within §12.5's neighbourhood-band law, and per-district regeneration within §12.6's scoped law × its fabric's factor (≤ 30 ms for a `bent-cut` district of 450 buildings, ≤ 45 ms for a `ring` district; V01 J-V1.34)'.",
+   "owner": "pipeline"
+  }
+ ]
+}

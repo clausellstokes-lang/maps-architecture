@@ -1,0 +1,55 @@
+# §11.1. VRC2T-06 (with VAL-R2-07, MERGED): the battle-map damage clauses read the building's OWN decay level, never a
+# look's `lookLevel` (item 122 (f); V03 §5.3, §5.6 (2) (d)); `cellarWall` and `cryptWall` runs keep their segments
+# (V04 §5.6 (2), (5)); a broken flight below level 0 stays a portal (V04 §5.6 (3)); no room light in a decay run
+# (V03 §5.6 (6)). VRC2T-11 = VDC2-12 (R3-22 (a)): the geo anchor's default with no bearing input.
+@@ FILE 11.1.md
+<<<<
+  `line_of_sight` — polylines in grid units from building footprint edges (minus door openings and the outer-wall runs
+  §8.6's damage layer draws broken at the export's drawn week: a fallen run leaves line of sight, item 123 (e)), enceinte faces along
+====
+  `line_of_sight` — polylines in grid units from building footprint edges (minus door openings and the outer-wall runs
+  the building's own decay level breaks at the export's drawn week — V06's `decayLevel`, §6.3 *Plan damage*'s
+  comparison: a fallen run leaves line of sight, item 123 (e) — never a crisis look's `lookLevel`, which the scene's
+  image alone draws, item 122 (f); V03 §5.3), enceinte faces along
+>>>>
+<<<<
+  item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
+  building's footprint less its doors and the runs its damage layer draws broken (V04, by their own thresholds; §8.6);
+====
+  item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
+  building's footprint less its doors and every outer wall run its own decay level fells (V04 §5.6 (5)) — a `cellarWall`
+  run keeping its segment —;
+>>>>
+<<<<
+  `line_of_sight` from its walls minus their openings and the wall runs and partitions §8.6's damage layer draws broken
+  at the export's drawn week, `portals` from every opening and every entrance whose door the layer leaves standing — a
+  doorless opening is a gap, no portal —; the stair core a named portal on both storeys' scenes while its flights
+  stand; floor holes, rubble and debris appear in the image only, never invented as walls (g item 123 (e); T123-6);
+  `lights` — one per lit room (`Room.lit`, §2.6) that draws for the export's key (a concealed room's only for a key that admits it, §8.1 item 7) at its spine summit (§3.8's
+  `spine` reader, its sampled medial axis on a downgrade; §8.5), `{ position, range, intensity: 1, color, shadows: true }`
+  as the scene-level `lights` above, `range` being the room's diameter in squares and `color` the `glow` role's; the
+  walls keep their centimetre positions and only the scene's grid snaps.
+====
+  `line_of_sight` from its walls minus their openings and the wall runs and partitions the building's own decay level
+  breaks at the export's drawn week (V03 §5.3's `ownDamaged`: V06's `decayLevel`, §6.3 *Plan damage*'s comparison —
+  never a crisis look's `lookLevel`, item 122 (f)), `cellarWall` and `cryptWall` runs keeping their segments
+  (V04 §5.6 (2)); `portals` from every opening and every entrance whose door that level leaves standing — a doorless
+  opening is a gap, no portal —; the stair core a named portal on both storeys' scenes while its flights at or above
+  level 0 stand, a broken flight below level 0 a portal still (climbable rubble, V04 §5.6 (3)); floor holes, rubble and
+  debris appear in the image only, never invented as walls (g item 123 (e); T123-6), the image drawing the drawn level,
+  a disaster's look in it only (V03 §5.3; J-V3.138); `lights` — one per lit room (`Room.lit`, §2.6) that draws for the
+  export's key (a concealed room's only for a key that admits it, §8.1 item 7), none for any room while its building is
+  in a decay run (V03 §5.6 (6)), at its spine summit (§3.8's `spine` reader, its sampled medial axis on a downgrade; §8.5),
+  `{ position, range, intensity: 1, color, shadows: true }` as the scene-level `lights` above, `range` being the room's
+  diameter in squares and `color` the `glow` role's; the walls keep their centimetre positions and only the scene's grid
+  snaps.
+>>>>
+<<<<
+for a real place. For a dossier-bound map whose dossier carries its partners' true bearings (§7.7 layer 2's *Bearing*;
+item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those
+bearings, as the key's documented default; with none the default stands; no geometry moves for it. Each model vertex (x, y) in metres, rotated by the bearing, is taken as a transverse Mercator easting
+====
+for a real place. No input gives a true bearing (§7.7 layer 2's *Bearing*; item 125 (a)–(b)), so a dossier-bound map's
+anchor takes the same default (0°, 0°, 0°) and stays a user setting; no geometry moves for it. Each model vertex (x, y)
+in metres, rotated by the bearing, is taken as a transverse Mercator easting
+>>>>

@@ -1,0 +1,65 @@
+# doc_checks.py --doc <volume> --heads <base>, whole document, information runs (not held to exit 0); PROVISIONAL (reference corpus incomplete)
+volume	copy	C1	C2	C3	C4	S1	S2	exit	new distinct unreviewed (check, run) pairs, final minus untouched
+INDEX	untouched	0/0	0/0	21/17	0/0	0/0	0/0	1	
+INDEX	final	0/0	0/0	21/17	0/0	0/0	0/0	1	0
+V01-neighbourhoods	untouched	0/0	0/0	401/345	2/0	0/0	255/3	1	
+V01-neighbourhoods	final	0/0	0/0	403/347	2/0	0/0	286/3	1	3
+V02-buildings	untouched	0/0	0/0	586/528	1/0	0/0	156/9	1	
+V02-buildings	final	0/0	0/0	598/534	1/0	0/0	194/10	1	7
+V03-interiors	untouched	0/0	0/0	367/280	2/0	0/0	169/0	1	
+V03-interiors	final	0/0	0/0	367/281	2/0	0/0	183/0	1	1
+V04-underground	untouched	0/0	0/0	214/190	0/0	0/0	127/2	1	
+V04-underground	final	0/0	0/0	218/194	0/0	0/0	147/2	1	4
+V05-sky	untouched	0/0	0/0	238/226	0/0	0/0	260/1	1	
+V05-sky	final	0/0	0/0	237/225	0/0	0/0	260/1	1	1
+V06-evolution	untouched	0/0	0/0	282/261	0/0	0/0	408/16	1	
+V06-evolution	final	0/0	0/0	289/268	0/0	0/0	421/16	1	8
+V07-village	untouched	0/0	0/0	363/318	1/0	0/0	401/0	1	
+V07-village	final	0/0	0/0	365/319	1/0	0/0	404/0	1	1
+V08-settlementforge	untouched	0/0	0/0	181/155	2/0	0/0	258/2	1	
+V08-settlementforge	final	0/0	0/0	183/155	2/0	0/0	273/2	1	0
+V09-application	untouched	1/0	1/0	282/263	0/0	0/0	426/92	1	
+V09-application	final	1/0	1/0	290/270	0/0	0/0	443/92	1	7
+V10-clerk	untouched	0/0	0/0	162/142	0/0	0/0	304/13	1	
+V10-clerk	final	0/0	0/0	163/144	0/0	0/0	315/13	1	1
+V11-content	untouched	0/0	0/0	302/275	4/0	0/0	313/33	1	
+V11-content	final	0/0	0/0	304/277	5/0	0/0	326/33	1	2
+V12-calibration	untouched	8/0	0/0	141/127	2/0	0/0	113/11	1	
+V12-calibration	final	8/0	0/0	141/127	2/0	0/0	115/11	1	0
+
+# the new distinct unreviewed pairs (new text of this round's volume blocks; no seat proposed a row)
+V01-neighbourhoods	UNREVIEWED C3	5 6 2 3 s
+V01-neighbourhoods	UNREVIEWED C3	it in the order and each
+V01-neighbourhoods	UNREVIEWED C3	read the same way a
+V02-buildings	UNREVIEWED C3	8 1 for the buildings
+V02-buildings	UNREVIEWED C3	drawn in the view and
+V02-buildings	UNREVIEWED C3	hash of the building s leaf digest
+V02-buildings	UNREVIEWED C3	of the building s plan
+V02-buildings	UNREVIEWED C3	read in the generation worker
+V02-buildings	UNREVIEWED C3	s outline and the plan s open
+V02-buildings	UNREVIEWED C3	when a building s plan
+V03-interiors	UNREVIEWED C3	7 and a building in a
+V04-underground	UNREVIEWED C3	0 and 1 in the
+V04-underground	UNREVIEWED C3	5 6 2 6 3 s
+V04-underground	UNREVIEWED C3	5 6 4 s and
+V04-underground	UNREVIEWED C3	of its own and the
+V05-sky	UNREVIEWED C3	in docs amendments 2026 09
+V06-evolution	UNREVIEWED C3	3 5 1 1 4
+V06-evolution	UNREVIEWED C3	3 5 1 1 4 5
+V06-evolution	UNREVIEWED C3	3 5 1 1 4 5 and
+V06-evolution	UNREVIEWED C3	3 5 1 1 4 5 the
+V06-evolution	UNREVIEWED C3	3 5 1 1 and
+V06-evolution	UNREVIEWED C3	3 7 6 5 s
+V06-evolution	UNREVIEWED C3	down and the building s
+V06-evolution	UNREVIEWED C3	down to 0 at its
+V07-village	UNREVIEWED C3	down to 0 and the building
+V09-application	UNREVIEWED C3	10 1 5 7 8
+V09-application	UNREVIEWED C3	22 7 1 the bars
+V09-application	UNREVIEWED C3	at the building s own
+V09-application	UNREVIEWED C3	at the edge of the map the
+V09-application	UNREVIEWED C3	is in the way the
+V09-application	UNREVIEWED C3	made in the generation worker
+V09-application	UNREVIEWED C3	table and the basement is not
+V10-clerk	UNREVIEWED C3	and at the view s
+V11-content	UNREVIEWED C3	by its own row its
+V11-content	UNREVIEWED C3	row and the last row

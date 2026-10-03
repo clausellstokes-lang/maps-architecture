@@ -1,0 +1,1966 @@
+# repair-r7-scope — lane coherence/repair-scope-r7 (unit scope: base §0–§1, §13–§17, the index, INDEX.md)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-scope-r7; covered by the whole-design retrovalidation (J84).
+
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
+# ignored. Every section block targets docs/ARCHITECTURE.md (live target: assemble-r6's output, sha256 f39f1c30…,
+# unchanged at landing); the RATIONALE-A row targets docs/ARCHITECTURE-RATIONALE.md (sha256 a3f45a3f…). Every REPLACE
+# body is the live subsection with count-asserted substitutions (each old text found exactly once where it was applied;
+# a touched paragraph re-wrapped at 120 characters from its first changed line, its words outside the edits unchanged);
+# every untouched line is verbatim. The END texts were taken from adjudication-r7.md Part H · scope as written, then
+# conformed only as Part H's head and Part L require (listed under END LINES below). Generator and inputs: the seat's
+# scratch folder (gen.py, edits_t110.py, swap.py; not part of the set).
+# Blocks: 4 REPLACE (§0.2, §13.2, §13.8, §15.2), 1 J-ROWS (1 row, restated), 1 RATIONALE-A (1 row, restated).
+# Ruling requests: 0.
+# Binding rulings applied: adjudication-r7's Part L (laws 1–4, the terms, the check, corrections 1–7), R7-01, R7-02 (as
+# worked examples), R7-03, R7-04, R7-06, J147 – J151 as applied there, Part H's head (the J146 citation rule and the one
+# rule for corrections 1 and 7), Part H · scope (8 dispositions, E-S0 – E-S16), Part P passes 1–8 as folded into those
+# texts; R3-01 – R3-03, R4-01, R5-01, R6-01 standing; Part A's J147/J150 hand-off (no lock behaviour under undo, redo,
+# re-grade or repair written; §7.1–§7.4's words left as they stand).
+#
+# PROGRESS
+# - P0 brief read whole (8 routed issues; ROUND-7 NOTES (1)–(7) with (7) (a)–(e); NEW OWNER RULES 114–116; ORCHESTRATION
+#   NOTES); adjudication-r7's head, How to read, Summary, contents, Part A, R7-01, Part L whole, R7-02 whole, R7-03 –
+#   R7-07, Part H's head, Part H · scope (E-S0 – E-S16) and · model (E-M1, E-M2), E-D11 – E-D13, E-P9, the held list,
+#   *J147 applied*, *J148 applied*, *J149 applied*, every Part P row naming a scope text: done
+# - P1 live text whole where touched (§13.2's item-101, item-110 and item-114 bullets and the take-over table; §13.8's
+#   tiers, schedule rule and T110/T114 rows; §15.2's O9 row; §0.2's item-110 row; J-A110.01 in the index and Part A);
+#   the issue sources (verify-scope-r6t, -agree-fabric-r6t, -edges-life-r6t, -model-r6t, -agree-proof-r6t); round7-work's
+#   scope.json (no also_reported, no orchestrator_note); the unit swept (SWEEP below): done
+# - P2 count-asserted edits (37) and two restated rows: done
+# - P3 dry runs on copies, the swap, references, document checks, hygiene (CHECKS below): done
+# - P4 result saved, LANDED: done
+#
+# DISPOSITIONS (adjudication-r7 Part H · scope) — 8 FIX, 0 MERGED, 0 INVALID; every id closed by the text named
+#  VAF-R6T-03 (FIX per R7-06) — E-S3's castle-path text in T110-2 (3): a CITY fixture holding a declared masonry aqueduct
+#        the user placement-locked across a corner of a castle's bailey, regenerated (keep), S7 laying the internal paths
+#        (keep ↔ gatehouse ↔ wall stairs) after it — each path crossing under a span §4.3 admits or ending at the strip as
+#        at a reservation, 0 path corridors over a support ring, ramp, stair, foot or `vault` span's strip.
+#  VAP-r6-01 (FIX per R7-02, R7-06) — E-S4 and E-S7: the hand rows W4, W5, W10, W11, W13, W1 by hand and W14 and the
+#        `wallToWay` run over the state sweep, whose C8 runs the raised way placement-locked (a pin is one) and, from the
+#        milestone carrying the shape lock, shape-locked — no `refuse.locked` for the meeting. The model's cells (W4·C8,
+#        W10·C8 → T110-2 (4)) are R7-02's table (model); V06's END is E-V6-8 (V06).
+#  VAP-r6-02 (FIX per R7-06) — the same E-S4 and E-S7 texts: every other state (C3–C6, C10, C12, C13) of those rows by
+#        the state sweep (E-S0), in place of the issue's clause lists.
+#  VEL6-r6-02 (FIX per R7-06) — E-S6: (1)'s c15 fixture with its aqueduct placement-locked, regenerated (keep) and given
+#        New random over the state sweep (row W3) — the cleared ring open ground, the stump a standing support, the band
+#        whole across each former footprint, the run at its own top, no chamber in the breached `vault` span.
+#  VM-R6T-02 (FIX per R7-04, R7-06) — (1) the same E-S6 text; (2) E-S7's `vault`-span case in T110-2 (8): the dry run
+#        reading the span as the op leaves it, the arch vault laid again with its id in the commit, the ring road off its
+#        strip, and the intervallum and moat runs.
+#  VCS-r6-01 (FIX, amended) — E-S4's re-shape clause in T110-2 (4), on a ring drawn by hand and placement-locked by the
+#        user: a re-shaped aqueduct stretch crossing the ring at the aqueduct's level, and a re-shaped declared viaduct
+#        bent back along its drag (else `refuse.raised.meeting`, a 3 m nudge keeping its crossing), no `refuse.locked`.
+#  VCS-r6-02 (FIX) — E-S6's first change in T110-2 (6), as written, then read by Part H's one rule (correction 7, J149):
+#        the pull treats the aqueduct's standing supports as impassable where its channel runs above the ring's top (over),
+#        no standing support in the band, and on (1)'s low variant the crossing merged; *the edge* clause gone with J149.
+#  VCS-r6-03 (FIX per R7-06) — E-S10 in §13.8's T110 row: every arch-vault clause (T110-1's `vault`-span clauses,
+#        T110-2 (1)'s, (4)'s, (6)'s, (8)'s and the sweep's C6 runs) at the later of its milestone and M6-U's U3.
+#
+# END LINES (Part H · scope; each written). Every END text is written as given save, as Part H's head requires: (J146)
+# each citation of the crossing table, an outcome, a sentence, (G1)–(G3), a row or a cell carries "§2.7's laws, law n;"
+# before it and "its worked example …" after (76 citations in the item-110 bullet); no adjudication marker ("(amended,
+# PRB7…)", "(J146, PRB7…)", "J146:"), review id or round number is written; and the conformances named per line.
+#  E-S0 (T110-2's lead, the state sweep) — written. "(round 8)" → "(J147, J150)" (the owner's rows; no review round in
+#        design text); correction 7: C10's "no gate, tower or fixed place under it" (twice) → "… save under an aqueduct's
+#        arch that clears it (§2.7's laws, law 1 (5), (6))" / "but as … law 1 (5) and (6), admit", and "no gate's or
+#        tower's footprint in the under-deck strip" → "… but where §2.7's laws, law 1 (5), admit one"; correction 6: "each
+#        held thing's reshape shown" → "each reshape of a placement-locked thing shown"; "the run's top read by *beneath*"
+#        cites law 1 (7).
+#  E-S1 (T110-2 (1)) — written. Correction 6: "a wall drawn by hand (locked by its drawing, §7.2)" → "a wall drawn by hand,
+#        which holds nothing unless locked (§2.7's laws' *held*)"; "one the user locked" → "placement-locked"; the
+#        founding's "a ring drawn by hand (locked by its drawing)" and "a retaining wall drawn by hand" → "… drawn by hand
+#        and placement-locked by the user" (the lock case kept, as PRB7E-GEN-11 did for E-S2, E-S3, E-S6). Correction 7:
+#        "*over the band*" → "crossing it at the aqueduct's level (… law 1 (2); its worked example *over the band*)";
+#        "its course bent so that each lies outside its fixed-place zone" → "… the anchor lies outside its under-deck strip
+#        and the water gate and the weld vertex outside it save under an arch that clears them (law 1 (4)–(6), law 2 (a))"
+#        (an aqueduct has no zone, J149). The refusal clause stands (PRB7F-LCK-10). ", and on a third run" / ", and on a
+#        fourth" → "; on a third run" / "; on a fourth" (punctuation only; see CHECKS, references).
+#  E-S2 (T110-2 (2)) — written; "made in the held wall" → "made in the placement-locked wall" (correction 6).
+#  E-S3 (T110-2 (3)) — written, VAF-R6T-03's text inside it. Correction 7: the regeneration castle "beside a held aqueduct
+#        whose fixed-place zone holds …" → "beside an aqueduct the user placement-locked whose under-deck strip, under
+#        arches that do not clear the castle's walls, holds …", its gate "clear of that strip"; the bar "0 fixed places …
+#        in a fixed-place zone, and 0 gates' or towers' footprints in an under-deck strip" → "… in a road deck's
+#        fixed-place zone or in an aqueduct's under-deck strip but where law 1 (5) and (6) admit one, and 0 … footprints in
+#        an under-deck strip save under an aqueduct's arch that clears them"; the bailey aqueduct's "(*over the band*)" →
+#        "crossing its curtain at the aqueduct's level (law 1 (2); its worked example *over the band*)".
+#  E-S4 (T110-2 (4)) — written. Correction 5: each "a fate" for a move of the user's own stroke → "part of its bend";
+#        correction 6: "locked" → "placement-locked" for the raised way and the arch vault, "(drawn, so changed by its
+#        author: …)" → "(drawn and not locked, so changed as an unlocked run: …)", the C13 ring "(locked by its drawing)"
+#        → "drawn by hand and placement-locked by the user"; correction 7: W13's placed and slid gate → "to the nearest place
+#        §2.7's laws admit it (law 1 (5): clear of the strip, or under an aqueduct's arch that clears it)", the held
+#        building's circuit "crossing under another span" → "crossing the deck line clear of that span's strip at the
+#        aqueduct's level", the hand stroke "moved to cross under the nearest span clear of …" → "moved along the deck line
+#        to the nearest crossing clear of …", and the re-shaped aqueduct stretch "*over the band*, its supports off the
+#        band, its under-deck strip clear of the ring's gates and towers and its fixed-place zone of the ring's fixed
+#        places" → "crossing the ring at the aqueduct's level, its supports off the band (§2.7's support step (3)), over
+#        where its channel runs above the ring's top, every span over the band clearing it, else merged, and its
+#        under-deck strip clear of the ring's gates, towers and fixed places save under an arch that clears them".
+#  E-S5 (T110-2 (5)) — written; correction 6: "the same carve across a ring drawn by hand — refused" → "… a ring the user
+#        placement-locked — refused" (a drawn ring holds nothing under the laws; §7.1's and §4.11's own words stand until
+#        Part A's round-8 ruling, so no family bar asserts the drawn case either way).
+#  E-S6 (T110-2 (6)) — written, VCS-r6-02's text read by correction 7 (DISPOSITIONS); "with its aqueduct locked" →
+#        "placement-locked"; "(1)'s S6 aqueduct *over the band* with its strip clear of the ring's standing towers and gates
+#        and its fixed-place zone of the ring's fixed places" → "(1)'s S6 aqueduct crossing it at the aqueduct's level with
+#        its supports off the band and its strip clear of the ring's standing towers, gates and fixed places save under an
+#        arch that clears them".
+#  E-S7 (T110-2 (8)) — written; "its viaduct locked and pinned" → "placement-locked and pinned" (correction 6).
+#  E-S8 (the frame clause and the bound bar) — written; "that course *over the band* as a course laid then" → "that course
+#        crossing it at the aqueduct's level as a course laid then" (correction 7).
+#  E-S9 (T110-1) — written.
+#  E-S10 (§13.8's T110 row) — written, with JUDGMENT 6's T110-1 clauses in its list.
+#  E-S11 (§15.2's O9 (b), §13.2's T101-5) — written; O9 (b) "its shape where they meet §2.7's crossing table's: its lock
+#        sentence" → "and its shape where they meet as §2.7's laws give it: law 1 (10), law 2; its worked example the
+#        crossing table's lock sentence" (J146's form; J147's shape lock is law 1 (10)); T101-5's "contradicting no lock" →
+#        "contradicting no placement lock" (correction 6: a meeting that would change a shape-locked thing is refused with
+#        its reason and nearest alternatives, law 2 (c) — T101-5's own bar).
+#  E-S12 ((G3) off the hand path) — (4)'s and the F-REDERIVE runs written, (4)'s read by correction 7; (3)'s and (6)'s
+#        corrected to the laws (JUDGMENT 2).
+#  E-S13 (T110-4, the laws' bar) — written after T110-3's clause. "the shape-locked runs from the milestone that carries the
+#        shape lock, round 8's ruling; J147" → "…, J147, J150"; "its behaviour under an undo, … and a repair round 8's,
+#        J150" → "… outside this bar, J150" (J150 hands that behaviour to round 8 and no family check reports it). The
+#        sentence after its closing quotation mark is the adjudicator's note, not design text.
+#  E-S14 (§13.8's T110 row) — written in the same cell after E-S10's texts.
+#  E-S15 (T101-4) — written.
+#  E-S16 (T110-2 (7)) — written at both places; "the aqueduct then locked by the script" → "placement-locked" (correction
+#        6).
+#  Live words conformed under Part H's one rule (corrections 1 and 7 read into the bars the END lines append to) and the
+#  sweep (corrections 3 and 5):
+#   (1) "crosses S3's ring:" → "crosses S3's ring with its channel there above the ring's top (… law 1 (2): over):", "every
+#       span over the band clearing the ring's top" added; "the run beneath at the lower of its own top and the soffit" →
+#       "the run beneath at its own top (law 1 (7))" (an aqueduct caps none); "S7's towers clear of its under-deck strip,
+#       one its spacing placed there moved along the trace" → "a tower S7's spacing places under it standing there only
+#       where every span over it clears the tower's top, else laid along the trace at the nearest point the laws admit it
+#       (law 1 (5), law 2 (a), law 3)" (a tower S7 lays is its own op's, law 2 (a)); the merged form added for the low
+#       aqueduct (correction 7's "else merged"); "its course bent clear of a tower" → "… a tower whose top its arches would
+#       not clear (law 1 (5), law 2 (a))".
+#   (3) "no ramp, stair or foot in it" → "… under its band or wall strips (law 1 (4))"; "no ramp, stair or foot in the band
+#       or the channel" → "… under the band, its wall strips or the channel (law 1 (4))" (correction 3).
+#   (4) "each run again with the raised way locked" → "placement-locked"; "(a fate in the hand dry run, …)" → "(one of the
+#       hand op's consequences in its dry run, the fate *reshaped* on the locked and pinned runs, …; law 1 (8), law 4)"
+#       (correction 5, law 4's (G2)); "a gate the wall makes for a ground way moved clear of the under-deck strip" → "…
+#       laid clear of the under-deck strip, or under an aqueduct's arch that clears it (law 1 (5), law 2 (a))"; the hand
+#       stroke through an aqueduct's support → bent under the nearest clearing span where the channel runs above the
+#       wall's top, and on a second run with a low channel kept on its line, merged round the support (law 1 (2), law
+#       3); "each a fate in `bend.wall.raisedCrossing`'s line" → "each move part of its bend, named in …'s line (law 4)";
+#       "a hand `drawWall` across a raised way with a `ruined` span …, the cap …, no vault fate" → "… across a viaduct …,
+#       the cap read from standing spans only (law 1 (7)), the trace through the cleared ring as open ground, no fate"
+#       (the cap is a road deck's); the ground-way gate clause's "a fate" → "part of its bend".
+#   (5) "each hand case run again with the raised way locked" → "placement-locked".
+#   (6) "with its aqueduct locked" and "with its viaduct locked" → "placement-locked"; "every meeting *beneath*" → "every
+#       meeting by §2.7's laws (law 1; its worked example *beneath*)".
+#   (7) "at its own top beneath each fallen span, …, the delete's undo restoring the cap; then the lapsed span repaired
+#       by `repairRaised` — the cap back, no wall op" → "at its own top throughout, …, the delete's undo restoring the
+#       aqueduct and, where its crossing is merged, the band built round its arch and piers again (law 1 (2), (7)); then
+#       … — the span over the run again, the run at its own top, no wall op" (an aqueduct caps none, J149).
+#   T114-3: "(§2.7's crossing table, *unchanged meeting*)" → "(§2.7's laws, law 1 (2), law 4; its worked example the
+#       crossing table's *unchanged meeting*)".
+#
+# SWEEP (R7-01 (2); blind spots (c), (d): §0–§1 with the one-page summary, §13–§17, the delegated decisions, the judgment
+# index, the roadmap list, Appendix A and INDEX.md — prose, tables, tests, fixture lists, milestone cells, index rows)
+#  Searched: "crossing table", "way-and-channel", "lock sentence", "bent-group", "bent group", "fixed-place", "over the
+#  band", "down before the wall", "*beneath*", "unchanged meeting", "under-deck strip", "raisedCrossing", "aqueductArch",
+#  "W_RAISED", "raised.meeting", "reshaped", "state sweep", "locked by its drawing", "declared means held", "supports off
+#  the band", "the edge", "raised way", "aqueduct", "viaduct", "elevated road", "T110-", "cap", "fate".
+#  Conformed: the item-110 bullet (above), T114-3's citation, §0.2's item-110 row and J-A110.01 (T110-1 – T110-8,
+#  JUDGMENT 1), the take-over table's stage-3 row (T110-4 → T110-8, JUDGMENT 1), §13.8's T110 row (E-S10, E-S14,
+#  JUDGMENTS 1, 5, 6).
+#  Stand: §13.1's kernel property clauses (a part-0 warp under a raised way, a raised way crossing part-0 ways: no wall
+#  meeting); T101-8 and §13.4's and §14's "declared means held" (§7.2's own reading, Part A's round-8 hand-off: no family
+#  check reports it against Part L); the take-over table's evolution row and the runs sentence (Part H's sweep: they name
+#  T110-2's clause numbers, kept); J-A81.31, J-C4, J-A110.21, J-A110.22, J-A110.42 (no wall meeting); INDEX.md (no rule of
+#  the family). The held VAP-r6-03 and VCS-r6-05 are round 8's (Part H's held list) and were not touched.
+#
+# JUDGMENT CALLS (vetoable; none adds design beyond the issues' and rulings' texts)
+#  1. A test id the END lines would duplicate. E-S13 writes "(T110-4) **the family's laws**" after T110-3, but T110-4 is
+#     the live stepped-building bar ("a stepped building's tiers nest and cast one shadow each"), taken by V02's T-V2-44
+#     and named in the take-over table — two bars under one id (principle (4)). The laws' bar keeps T110-4, because
+#     Part L's *The check*, R7-02's cells (W4·C9, W6·C9, W7·C9, W8·C9) and E-M1 ("the property bar named §13.2's
+#     T110-4", which the model writes at §2.7 this round) cite it by that id; the stepped-building bar, cited only by §13.2's take-over row and V02's T-V2-44, takes the next free id,
+#     T110-8, placed after T110-7 with its words unchanged. The ranges that list item 110's bars follow: §0.2's item-110
+#     row, §13.8's T110 row and J-A110.01 (index row and Part A entry, restated) read "T110-1 – T110-8". V02's END is a
+#     HAND-OFF below.
+#  2. E-S12's generation and regeneration runs corrected to the laws. E-S12 asks T110-2 (3) for F-WALL's raised-way rung
+#     on "a variant whose `raisedWays.structure.pierSpacingM` band a table edit narrows so that no span of an S4 viaduct
+#     across the stage-2 boundary admits the wall's band", and (6) for the same on regeneration. A viaduct is a road deck:
+#     a wall laid after it crosses beneath at any point, its band built through each support (§2.7's laws, law 1 (3); the
+#     bent-group sentence's lawful crossing "under a road deck's span or at its support"; E-P9's pulled impassables keep
+#     no road-deck support), so narrowed spans leave a lawful crossing and the rung never runs — a bar a correct build
+#     fails (J141: MAJOR). Part H's head and Part L's lead: where an example and the laws differ, the laws govern and the
+#     example is corrected to them. The run is kept on the same path and stage with a case E-D11's detection names ("a
+#     fixed place with no clear point in reach"): on the river variant E-S3 adds, a table edit widens
+#     `raisedWays.structure.stripMarginM` (a cell T110-4 (c) already edits) so that the S4 viaduct's fixed-place zone
+#     holds every point of the river within the pull's search band — the boundary re-pulled once with its band widened
+#     to `wall.barrierReachM`, its water gate clear of the zone, and on a second run with the widened reach inside the zone
+#     too, the stage unwalled and `W_RAISED_MEETING` reported; (6) runs that variant regenerated (keep) with its viaduct
+#     placement-locked. E-D11's tests cell ("T110-2 (3)'s and (6)'s table-edit runs (the raised-way rung)") resolves to
+#     them unchanged. (4)'s epoch, hand and anchor runs keep E-S12's narrowed spans, on an aqueduct whose channel runs
+#     above the ring's top (over, J149: a low channel crosses merged anywhere and nothing waits), stated on its own
+#     variant since (3) no longer carries that edit; its anchor "inside its fixed-place zone" reads "inside its under-deck
+#     strip" (an aqueduct has no zone, J149; an end in a strip is barred by law 1 (4)).
+#  3. No round number in design text (principle (5); R3-02): E-S0's "(round 8)" and E-S13's "round 8's ruling" and
+#     "round 8's, J150" are written as citations of the owner's rows J147 and J150 (the base cites owner rows, e.g. J140);
+#     the meaning — the shape-locked runs start with the milestone that carries the shape lock, and T110-4 asserts no
+#     lock behaviour under an undo, a redo, a re-grade or a repair — is unchanged.
+#  4. Correction 6 read into E-S1, E-S5 (and the live words of (4)–(8)): a thing drawn by hand holds nothing unless the user
+#     locks it, so each fixture that meant a held wall says "drawn by hand and placement-locked by the user" (PRB7E-GEN-11's
+#     own treatment of E-S2, E-S3 and E-S6), each "locked" that means the placement lock says so, and E-S5's refused carve
+#     is asserted on a placement-locked ring only — the drawn-and-unlocked case being where §7.1's and §4.11's live words
+#     (refused) and Part L (changed as an unlocked run) differ until Part A's round-8 ruling, which no family bar may
+#     assert meanwhile.
+#  5. §13.8's T110 row's tier cell adds "T110-4 (c)'s 32 seeds nightly and its epoch and replay runs in the milestone tier
+#     (the schedule's rule above)": §13.8's own bar-schedule rule ("a seed sweep, a cross-engine digest or a many-seed
+#     statistic runs nightly, a sweep over epochs in the milestone tier") places them; the row's "PR" would otherwise put a
+#     32-seed, 20-epoch METROPOLIS sequence inside the 15-minute PR budget.
+#  6. E-S10 generalises VCS-r6-03 to "every arch-vault clause"; its list names T110-2's. E-S9 puts two arch-vault clauses
+#     into T110-1 (a retaining stroke across a `vault` span; an aqueduct drawn across a retaining wall), whose provider
+#     is the same U3, so the list adds "T110-1's `vault`-span clauses" (blind spot (c): a milestone cell that omits a
+#     clause the same rule names).
+#  7. W1·C12's test holds its case (round-7 note (7) (c)): the frame clause's declared-viaduct fixture adds "and that end
+#     span as it stood, laid on from the old foot's point (§2.7's support step (7))", the support step's (7) as E-M1 now
+#     words it (a wall-like structure crossing the old end span keeps it as it stood, law 2 (c)).
+#  8. (1) runs the merged form on a variant whose channel lies within the ring's height (correction 7's "else merged" read
+#     into (1)'s live words, which fix the over case on its own fixture); (6)'s VCS-r6-02 clause reads the same variant.
+#     T110-4 (a)'s merged ring holds the decay ops; (1)'s holds the creation.
+#
+# HAND-OFFS (R7-01 (2); none is open wording in the design)
+#  * V02 (does not run this round) — V02 §7's T-V2-44: "(item 110 (f); takes T110-4)" → "(item 110 (f); takes T110-8)"
+#    (JUDGMENT 1). Until it lands, V02's T-V2-44 cites the base's T110-4, now the laws' bar (a minor: a citation).
+#  * determinism — E-D11's F-WALL tests cell names "T110-2 (3)'s and (6)'s table-edit runs (the raised-way rung)"; those
+#    runs now hold the detection's fixed-place clause (JUDGMENT 2). No text change is needed; a verifier checks the cell
+#    and the runs agree.
+#  * canon — the glossary's G-bend row retires `refuse.raised.*` (pattern `refuse\.(?:raised|aqueduct|retaining|stack)\.`),
+#    while the canon's dated ruling "2026-10-02 (adjudication round 7, family-only)" introduces `refuse.raised.meeting` by
+#    name; the pattern flags it (6 hits in this file's text, 40 in adjudication-r7). G-bend's pattern should except
+#    `refuse.raised.meeting`.
+#  * model, pipeline, determinism, V04, V06, V07, V09, V12 — the names T110-1 – T110-4 cite as their seats write them this
+#    round: §2.7's laws (laws 1–4, their terms *held*, *Order*, *Entry*, *Newer*, *Carried way*, *The soft readings*,
+#    *Several raised ways*) and its worked examples (the four outcomes, the lock, bent-group and fixed-place sentences,
+#    rows W2, W3, W14, cells C12, C13, W1·C12, the way-and-channel table's rows (a), (c), (d), (G2), (G3)); §2.7's
+#    support step (3) and (7) as E-M1 words them; §4.4 S5a *Trace* (2) as E-P9 words it; §5.2's F-WALL and F-REDERIVE
+#    raised-way rungs (E-D11, E-D12); §5.3's law-1 row (E-D13); `refuse.raised.meeting`, *reshaped*, `reshaped`,
+#    `W_RAISED_MEETING`, `raised.extendedPastBound`; V12's `raisedWays.structure` rows (E-V12-1). A verifier checks each
+#    landed as cited.
+#
+# NOTE FOR ASSEMBLE
+#  (1) Restated rows (assemble-r1's swap rule). The J-ROWS block restates the judgment-index row of J-A110.01 and the
+#      RATIONALE-A block its Part A entry (JUDGMENT 1: "T110-1 – T110-7" → "T110-1 – T110-8"; nothing else changes). After
+#      every block file is applied, each appended row takes its older row's place and the older row is deleted — the logic
+#      of docs/validation/coherence/work/repair-scope-r3/swap_restated.py with `IDS = ['J-A110.01']`. Dry run (this file
+#      alone): index l. 23274 ← l. 23332; Part A l. 794 ← l. 852; index 805 rows, Part A 805 rows, one id set, no
+#      duplicate.
+#  (2) Proposed allow rows (docs/validation/doc-checks-allow.tsv; the corpus here is incomplete, so provisional). Twelve C3
+#      runs, each plain English of the END texts or a numbered law pointer of the citation form Part H's head binds:
+#   C3	a variant of the river	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (3), the F-WALL raised-way rung's table-edit run ("on a variant of the river ring above") — our own plain English, no reference phrasing
+#   C3	clear of the building s	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (4), E-S4's held-building clause as conformed ("the nearest crossing clear of the building's widened strip") — our own plain English, no reference phrasing
+#   C3	clear of the ring s	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (4) and (6), J149's form read into E-S4 and E-S6 ("its strip clear of the ring's gates, towers and fixed places") — our own plain English, no reference phrasing
+#   C3	crossing of the ring s	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (3), adjudication-r7's binding E-S3 text ("each crossing of the ring's trace with a deck line") — our own plain English, no reference phrasing
+#   C3	every point of the river	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (3), the F-WALL raised-way rung's table-edit run ("holds every point of the river within the pull's search band") — our own plain English, no reference phrasing
+#   C3	law 1 2 5 6	coherence/repair-scope-r7 (proposed): §13.2's T110-2, the citation form "(§2.7's laws, law 1 (2), (5), (6) …)" Part H's head binds — numbered law pointers, no reference phrasing
+#   C3	law 1 2 5 the same	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (1), a citation "(§2.7's laws, law 1 (2), (5))" followed by the live words "the same aqueduct" — numbered law pointers and plain English, no reference phrasing
+#   C3	law 1 2 7 8	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (6), the citation "(§2.7's laws, law 1 (2), (7), (8) …)" — numbered law pointers, no reference phrasing
+#   C3	law 1 2 7 then	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (7), the citation "(§2.7's laws, law 1 (2), (7))" followed by the live word "then" — numbered law pointers, no reference phrasing
+#   C3	one of the ring s	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (2), adjudication-r7's binding E-S2 text ("the route through one of the ring's standing gates") — our own plain English, no reference phrasing
+#   C3	the wall and the way	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (2), the citation "the crossing table's *down before the wall* and the way-and-channel table's row (d)" — our own section names, no reference phrasing
+#   C3	way the same on a	coherence/repair-scope-r7 (proposed): §13.2's T110-2 (8), the live "no junction with the raised way" followed by adjudication-r7's binding E-S7 text ("the same on a fixture") — our own plain English, no reference phrasing
+#
+# CHECKS (executed on copies in the seat's scratch folder; nothing live was written but this file, the result and the log)
+#  - apply-blocks.py (unchanged) alone on the live base + rationale: 6 found, 6 applied, 0 skipped, audit not-OK 0 (the two
+#    expected DUPLICATE ID notes for J-A110.01, resolved by the swap), headings 153 → 153, fences balanced (140 → 140),
+#    title block unchanged; document 23 140 → 23 399 lines, rationale 2 386 → 2 387 (2 386 after the swap).
+#  - The swap (NOTE (1)) on that output: J-A110.01 once in each table, 805 = 805 rows, one id set, no duplicate.
+#  - Test ids: "(T110-1)" … "(T110-8)" each once as a bar label in the result ("(T110-2)" also cited once by §2.7's (6)).
+#  - References (assemble-r6's refs.py and mirror.sh on mirrors of the set, live and with these blocks): base resolved
+#    18 455 → 18 601, external 30 → 30, ambiguous 14 → 14, resolved-form 5 → 5, BROKEN 0 → 0; every volume and INDEX.md
+#    unchanged (no volume block). One "§2.7's laws" first read as ambiguous inside the open list "V06 §3.19 …" in (1); the
+#    list is closed by a semicolon (E-S1's punctuation, above).
+#  - doc_checks.py --sections "0.2,13.2,13.8,15.2,Judgment calls": live exit 0 (C1 5/0, C2 1/0, C3 164/0, C4 0/0, S1 0/0,
+#    S2 298/0); with these blocks C3 179/14 (the twelve texts of NOTE (2)), S2 300/0, the rest unchanged — exit 0 with the
+#    twelve proposed rows on a copy of the allow file. **WARNING printed: reference corpus INCOMPLETE (captures,
+#    research/patreon, research/devlogs, research/ftg-docs, research/external missing) — NOT authoritative;
+#    provisional.**
+#  - Added text: no review id, ruling id, probe id or adjudication marker; no round number; no deferral wording (every
+#    "later" is temporal order: "the later of …", "the later wall or raised way"; "later work" is the live clause name);
+#    no phone, mobile or small-screen clause; the canon's 35 retired-term patterns: six hits, all `refuse.raised.meeting`
+#    (HAND-OFFS, canon). Every new or re-wrapped line ≤ 120 characters; no wrapped line opens with a list, heading or
+#    table marker; every code span kept on one line.
+#
+# SIZES (wc words; principle (9)'s report) — the touched text GROWS by 5 403 words (+16.5 % of the touched sections,
+#  32 705 → 38 108): §0.2 3 160 → 3 160, §13.2 22 471 → 27 619 (+5 148), §13.8 2 737 → 2 956 (+219), §15.2 4 337 →
+#  4 373 (+36); J-A110.01's index row and Part A entry unchanged in length. Of §13.2's growth, the item-110 bullet takes
+#  +5 054 (2 172 → 7 226): the END texts as given ≈ +4 450 (E-S0's state sweep ≈ 700, E-S4's hand rows, held vault,
+#  re-shape and several-raised-ways runs ≈ 1 300, E-S13's T110-4 ≈ 490, E-S3 ≈ 600, E-S2 ≈ 250, E-S6 ≈ 280, E-S7 ≈ 200,
+#  E-S1 ≈ 240, E-S8 ≈ 150, E-S9 ≈ 210, E-S12 ≈ 250, E-S16 ≈ 60); the J146 citation form ≈ +230 (76 citations); the
+#  laws' readings of the live words (corrections 3, 5, 6, 7) ≈ +300; the old end span ≈ +15; T101-4 and T101-5 +84,
+#  T114-3 +10. §13.8's +219 is E-S10, E-S14 and JUDGMENT 5. Nothing was removed but text the laws withdrew (the cap
+#  beneath an aqueduct, *the edge*, an aqueduct's fixed-place zone, a fate for the user's own stroke) — each replaced by
+#  the laws' reading, not cut; no restatement, narration or verbose prose stood in the touched text to remove. What
+#  holds the unit's growth is irreducible content the rulings require: a bar for every cell of the crossing table on a
+#  fixture that holds it (the state sweep), the laws' property bar and its schedule.
+=== REPLACE ### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f) ===
+### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)
+
+Every clause of every rule is checked at its landing; where a rule has several clauses its home carries a clause map.
+Each row names the home that states the mechanism; the sections that carry a pointer, a hook field or one line of the
+rule, and the item's tests (§13.2's `T⟨item⟩-⟨n⟩` bars), cite the item by number. Items 1–7 are
+`docs/AMENDMENTS-2026-09-25.md`, 8–32 `AMENDMENTS-2026-09-25b` (item 32 landed with 33–72), 32–72 `AMENDMENTS-2026-09-27c`,
+73–88 `-27d`, 101 `-27e`, 102 onward `docs/AMENDMENTS-2026-09-28g.md` (file g) and 200–585
+`docs/AMENDMENTS-2026-09-28f.md` (file f). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
+adopts a mechanism re-derived in our own terms, keeps ours with its reason, or calibrates a default to a read fact with
+its `(code)` provenance (§17.1 (6)); a part a reader only inferred entered only as Fable's evidence gate released it,
+labelled as an inference, and the gate's one rejection (item 49's deletion) is honoured. Items 63–72, 101, 102–111 and
+113–126 are the owner's rules, 20 (h) the owner's refinement of item 20 and 112 a program rule under the owner's delegation
+(J122): the owner's words are the authority, their mechanisms the program's vetoable interpretation. Items 73–88, the
+dossier port and its seam, extend 20 (h) under the owner's rulings of 2026-09-28 (the first SettlementForge line, door 1
+closed, a dossier below 1 500 people refused while no village product is registered, a resettled site one map, the
+placeholder direction phrase, SettlementForge's own district names never matched).
+
+| item | home — the mechanism | clause map |
+|---|---|---|
+| 1 greenery by prosperity | §4.9 S12b's rule table (the prosperity field and the district kind; yard planting by plot class); §15.2 O19 | §4.9 |
+| 2 floating islands (a toggle) | II.6 (the staged layers' hooks) with §2.7's `SkyIsland`; built by volume 5 | II.6 |
+| 3 heights for shadows | §2.6's heights and ground datum on every building, wing, tower and roof; §8.4's projected shadows (`shadowPass`) | §2.6 |
+| 4 size ladders | §1.1 (both ladders; `RungProfile`; size within a rung follows population); §12.2; PART III and volume 7 (the village ladder) | §1.1 |
+| 5 everything editable | §7.1 (the edit targets and their table), §7.2–§7.6, §2.8's registry paths | §7.1 |
+| 6 prosperity a gradient and a band | §4.5 (the field, its drivers, bands only where a table needs one, continuous interpolation) | §4.5 |
+| 7 adopted defaults | D-1–D-7, each tied to its mechanism | D-1–D-7 |
+| 8 decline and regrowth | §4.11 — the decline table, the persistence order, the salvage ledger, the dwell lag, the regrowth-first siting, `DeclineOp`; T8-1 – T8-7; the engine volume 6 | §4.11 |
+| 9 size set by population within each tier | satisfied by §1.1 (size within a rung follows population; every budget a law of the building count) and §13.6 (3) (pairs matched by building count); no change (J-A9.01) | §1.1 |
+| 10 floating islands a product of prosperity | II.6 — the island rule's two supplies, supported area and altitude, re-read at each epoch; T10-1; volume 5 | II.6 |
+| 11 the underground fades like the walls | II.6 — the tunnel ladder, never demolished by the engine, reopened by growth; T11-1; volumes 4 and 6 | II.6 |
+| 12 underground neighbourhoods along the sewers | II.7.3 — the owner's three rules as invariants U1–U3; T12-1; volume 4 | II.7.3 |
+| 13 islands only in cities and metropolises | II.6 (2) — the rung gate `RungProfile.layers.islands` (§1.1); T13-1 | II.6 (2) |
+| 14 sewers by tier | II.7.1 — existence by tier, the toggle as visibility, the `drain` rule; `RungProfile.layers.sewers`; T14-1 | II.7.1 |
+| 15 not every city has islands | II.6 (1), (4) — a model setting off by default; the count 0–3 by ordered slots; T15-1 | II.6 |
+| 16 assignments obey spatial and supply-chain rules | §4.7 S10b — the one placement solver; T16-1 – T16-4 | §4.7 S10b |
+| 17 uses move as the city grows and declines | §4.11 — the epoch's use step, `UseConversionOp`; T17-1 – T17-3; volume 6 | §4.11 |
+| 18 a plot's buildings mutate to match a new designation | §4.7 S11 — the designation mutator; T18-1 – T18-4 | §4.7 S11 |
+| 19 every designation scales with prosperity | §4.7 S11 — the designation-template table by class and band; §2.6's material rule; T19-1 – T19-4 | §4.7 S11 |
+| 20 one-way data flow; the dossier is the authority | §7.7 — dossier-backed existence, rejection and its lapse, positive placement, re-application, precedence (a dossier event supersedes a lock on what it changes); T20-1 – T20-6 and T20-14 – T20-16; **(h)** (2026-09-27): §7.7 items 9–11 — two tiers of fact, derive before invent, the coherence rows and the "dossier-owned" refusal, `factTier` (§2.8); T20-7 – T20-13; **the port and its seam (items 73–88):** `@plat/port` (§14), §7.7 items 1–16, the frozen fixtures and B-DOSSIER-lite (§13.2); volume 8 | §7.7 |
+| 21 licence | satisfied by the owner's ruling of 2026-09-27 (private for now; J-A21.01): §17.3 and D-22; the licence for users' maps follows SettlementForge's terms (J121); the separate program with its data-only bridge (§11.3) retained by choice; §3.1's skeleton row keeps CGAL's licence ground (J-A21.31) | §17.3 |
+| 22 dossier changes mutate the existing map | §7.7 — dossier events as least-disruption mutations, `DisruptionBudgetRow`, the report; T22-1 – T22-4 | §7.7 |
+| 23 emulation-first defaults | §7.6 — the defaults layer is the emulation baseline, extensions marked, the parity presets `MFCG` and `FTG`; T23-1 | §7.6 |
+| 24 several markets | §4.2 — S2's market demand and S3 (12)'s principal-market score; T24-1 – T24-3 | §4.2 |
+| 25 terrain and water change slowly | §4.11 — `reclaim`, `siltReach`, `shiftCourse`, `digCanal`; T25-1 | §4.11 |
+| 26 the hinterland decided with the town, drawn after it | §4.9 — FTG's order and `FarmModeRow`; T26-1 – T26-3 | §4.9 |
+| 27 prosperity maps onto the references' wealth models | §4.5 — the default band set and `FieldBands.middle`; T27-1, T27-2 | §4.5 |
+| 28 floor plans and elaboration by click; (f) the interior has no floor | §2.6 — the fourth rung `plan`, the interior ladder, `ElaborationRecord`; T28-1 – T28-19; built by volume 3 | §2.6 |
+| 29 entrances and basements | §2.6 — `entrances` under the five rules, `Basement`; T29-1 – T29-5 | §2.6 |
+| 30 hidden plots and clandestine places | §4.6 — hidden shares, exposure, passages; §9.2 — the knowledge label policy; T30-1 – T30-5 | §4.6; §9.2 |
+| 31 prosperity change drives fusion and splitting | §4.11 — the DUE trigger, the three rungs, churn caps, `LadderOp`, the geometry floor; T31-1 – T31-12 | §4.11 |
+| 32 the compiled code read to understand it | §17.1 (1); §0.3; D-29; Appendix A | §17.1 (1) |
+| 33 the bent cut's citations; the slope term ours | §4.6's recipe and step 1's slope term (provenance `own`) | §4.6 |
+| 34 the stop test | §4.6 step 1 — `τ = e_lo · (e_hi / e_lo)^g` per face on `cut.stop`; T34-1 | §4.6 step 1 |
+| 35 where the cut falls | §4.6 step 2 with its holed law; II.2's slit | §4.6 step 2 |
+| 36 a deterministic start | §4.6 step 3; `cut.side` retired (§6.1); T36-1 | §4.6 step 3 |
+| 37 the corner first, the far side from it | §4.6 steps 4–5 — `cut.bendMode`, `cut.flattenM` 0.7 m (an inference Fable released); `cut.farSideAlt` retired; T37-1 | §4.6 steps 4–5 |
+| 38 the fillet by deflection and leg | §4.6 step 6; T38-1 | §4.6 step 6 |
+| 39 rung (a): a turned frame | §4.6 step 8; F-CUT (§5.2); T39-1 | §4.6 step 8 |
+| 40 the lane width | §4.6 step 9 — a saturating power law; T40-1 | §4.6 step 9 |
+| 41 the streams and the parity rows | §13.5's bent-cut row with the fillet share; T41-1 | §13.5 |
+| 42 NG's frontage-less lot leaves are its courts | §4.7 S10 (10) | §4.7 S10 (10) |
+| 43 the front line | §4.7 S11 — an area-scaled, floored recession; T43-1 – T43-5 | §4.7 S11 |
+| 44 the compound enclosure is ours | §4.7 S11's set-back compound row (provenance `own`, an extension); T44-1 | §4.7 S11 |
+| 45 the castle repair | §4.8's compactness — a thinness bloat, then the fitted regular polygon (`regularFit`, §3.4); T45-1 | §4.8 |
+| 46 the gate law's waterfront reduction; three smoothing passes | §4.2 S3 (4) and §4.4's trace; T46-1 | §4.2 S3 (4) |
+| 47 district growth rates by seed kind | §4.5's grower; T47-1 | §4.5 |
+| 48 MFCG's population is six people for every lot | §13.5's population row | §13.5 |
+| 49 FTG's "lots" were ground-cover patches | §13.5's blocks and plot-area rows, their 441 m² figures withdrawn; the 49 % share kept, cited to its source | §13.5 |
+| 50 FTG's "entrance" is its night-light anchor | §2.6's *Entrances* — the main door by the owner's rule; §13.5's entrance row, class C | §2.6 |
+| 51 the retry and stream citations | §5.1 (1) | §5.1 (1) |
+| 52 session-history independence | §6.5 (9)'s test | §6.5 (9) |
+| 53 the Poisson annulus | §8.10's sampling; D-11 | §8.10 |
+| 54 the raised under-copy by class | §8.2's class ratios and `raised(offset, classRatio)`; T54-1 | §8.2 |
+| 55 the horizontal spine | §9.3's area labels; T55-1 | §9.3 |
+| 56 the MFCG naming row | §15.1's MFCG D1 | §15.1 |
+| 57 the sector look's two sources; fields claimed outward | §4.9; T57-1 | §4.9 |
+| 58 stage 2: ring courses, greens, pins, render notes | II.2's `RingFabric` and II.3; volume 1 | II.2 |
+| 59 the stage-3 hook: Fantasy Manor's layout families | §2.6's stage-3 hook; volume 2 | §2.6 |
+| 60 the plan rung's Dwellings baselines | §2.6's basements note and plan step 5; §13.5's entrances-and-basements row | §2.6 |
+| 61 VG 1.6.9's observations | PART III item 2; volume 7 | PART III |
+| 62 the `(code)` provenance form | §17.1 (6) and (8) | §17.1 (6) |
+| 63 clandestine institutions: a front and a hidden function | §4.7's *Concealed institutions*; T63-1 – T63-4 | §4.7 |
+| 64 basement access to the sewer grid | II.7.3's *Basement accesses*; T64-1 – T64-3; volume 4 | II.7.3 |
+| 65 the underground as a family of systems; the undercity | II.7.5 and II.7.6; `RungProfile.layers.undercity` (§1.1); the geology flag and relief toggle (§4.2 S0, S1); T65-1 – T65-8; volume 4 | II.7.5, II.7.6 |
+| 66 an access edit generates everything it needs | §7.3 item 9 — the closure rule; T66-1 – T66-6 | §7.3 item 9 |
+| 67 transitions on a weekly clock | §4.11's *Works*; T67-1 – T67-6; volume 6 | §4.11 |
+| 68 light: day and night, the cursor sun, point lights, height-aware shadows | §8.4 — the lighting model, the light pass and its fallback ladder; `LightSource` (§2.7); T68-1 – T68-9; the default ink map casts its gentle shadows in its own ink and only the `MFCG` preset none (J-A68.81; decided J-C1) | §8.4 |
+| 69 the corpus's measured colour targets | §8.2's palette targets; §13.4's bar; the `ink` plate chroma 20–30 (J-A69.82; decided J-C2) | §8.2 |
+| 70 informal clusters | §4.7 S11's *Informal clusters*; T70-1 – T70-6 | §4.7 S11 |
+| 71 mixed classes inside a band | §4.7 S10b's *Class mix inside a band*; T71-1 – T71-4 | §4.7 S10b |
+| 72 what defines a neighbourhood, and names it | §4.5's *Neighbourhood character* — the character vector, identities, dials, band range, pressure (the surplus-pressure reading decided J-C3); T72-1 – T72-9 | §4.5 |
+| 101 the authoring toolkit — declare, then derive | §7.1's *The authoring toolkit*; §14's surfaces and interaction contract; T101-1 – T101-9 and §13.4's first-five-minutes test; volumes 9 and 10 | §7.1 |
+| 102 sunlight a soft driver of prosperity | §4.5 (the daylight driver and its order); T102-1 – T102-4 | §4.5 |
+| 103 the siting rulebook | §10.2 (siting profiles, relation families, signature pairs, coverage); §4.7 S10b; T103-1 – T103-3 | §10.2 |
+| 104 generic siting for custom content | §7.7 and §10.2 (the resolution order, archetype rows, delta tables, fallback); T104-1 – T104-4 | §10.2 |
+| 105 the supply web | §10.2 (goods, orientation, splits); §4.7 S10a–S10b; T105-1 – T105-4 | §4.7 S10b |
+| 106 walls that use natural barriers | §2.7, §4.2 S3 (9), §4.4 S5a, §4.8; T106-1 – T106-5 | §4.4 S5a |
+| 107 spread and pull in balance | §10.2 (the balance profile, `comfortM`, spacing); §4.7 S10a–S10b; T107-1 – T107-4 | §10.2 |
+| 108 institution ladders | §7.7 (DR9; V08 §2.6's `distribution` row set), §10.2 (step types), §4.2 S2; T108-1 – T108-4 | §7.7 |
+| 109 caverns, underground ruins, catacombs | §2.7, §4.2 S1, II.7.5, II.7.6, §7.7's DR rows; T109-1 – T109-6; built with volume 4 | II.7.6 |
+| 110 four authoring gaps; a second known-city fixture | §2.7 (`RetainingWall`, raised ways, deck plots), §3.4, §4.3, §4.6, §4.7 S10–S11, §5.3; T110-1 – T110-8 and T101-6 | §2.7 |
+| 111 water in dry country | §4.2 S0–S1 (the oasis and spring), §4.2 S3 and §4.4 (the water pull), §4.5 (the water term, item 102's climate cell), §4.7 S10b; T111-1 – T111-5 | §4.2 S1 |
+| 112 colour-blind-safe maps; a game-master trial before launch | §8, §9 (second cues, checked variants); §13.4's style check T112-1 and the release gate T112-2 (§16) | §8.2 |
+| 113 history shapes the map at generation | §4.2 S0 (the history option), §4.11 and §7.7 (the replay; DR36 onward), II.7.6 (the buried former settlement); T113-1 – T113-7; volumes 6, 4 and 8 | §4.11 |
+| 114 walls decay into gaps and patchwork, and recover | §2.7 (`Enceinte.condition`, each run's material and the epoch of its last change), §5.3 (the wall-crossing row), §7.1 and §7.4 (`repairWall`'s material, `wearWall`), §7.7 (DR41), §8.2 (the state rows, the legend), §11 (exports); T114-1 – T114-10; volumes 6, 7, 8 and 11 | §2.7 |
+| 115 a ceiling on grandeur by tier | §4.7 S10b (the rung ceiling on the class mix), §10.2 (the ceiling table's shape); T115-1 – T115-4; volumes 2, 7 and 11 | §4.7 S10b |
+| 116 a zoom-out limit | §8.8 (the per-map limit on the pyramid), §9.5 (framing), §12.5 (fewer stops); T116-1 – T116-4; volumes 7 and 9 | §8.8 |
+| 117 seasons, a look only | §2.9 (the year position, "follow SettlementForge"), §7.7 (DR42), §4.2 S0 and §10.2 (the climate row's season columns), §8.2 (the season rows), §11, §12.5; T117-1 – T117-8; volumes 7, 8, 9 and 11 | §8.2 |
+| 118 festival decorations, a look only | §2.9 (festival display), §7.7 (`traditions` consumed, DR43), §10.2 (the decoration and staging tables), §8.2 (the decoration rows), §11, §12.5; T118-1 – T118-6; volumes 7, 8, 9 and 11 | §8.2 |
+| 119 as fast as possible; the ten-second comfort level | §12 (the targets, the comfort level, the measured-gain and progress rules; D-18), §1.1 (the performance statement); T119-1 – T119-5; volumes 9 and 12 | §12 |
+| 120 Find, a view only | §2.9 (the per-viewer key `find`: its chips and Show gaps, outside the document, its hash and the log), §8.2 (the veil, halo, outline, pin, count-bubble, ghost-pin and gap marks; each chip's colour and second cue), §9.5 (the tool and the legend's chips), §11.1 (picture exports draw it), §11.2 (the gazetteer's class counts and match listing under knowledge admission), §12.5 (the overlay's budget); T120-1 – T120-6; built at M5; volumes 1, 3, 4, 5, 7, 8, 9, 10, 11 and 12 | §2.9 |
+| 121 the resolution adjuster | §8.8 (the Resolution ladder with its two steps below 1, the 4K live-view ceiling, the ultra tier, the live Auto loop and its settle rule), §8.4 (g) (what Auto gives up, in order; labels, chrome and overlays at the device's pixel ratio), §12.1 (calibration picks ultra), §12.5 (the frame budgets the loop holds), §12.8 (memory per tier); T121-1 – T121-8; built at M4; volumes 9 and 12 | §8.8 |
+| 122 crisis looks, a look only | §2.7 (`ConditionOverlay` read for the look; the aftermath only by the epoch path), §2.9 (the per-viewer key `crises`; the crisis framing), §7.7 (DR44), §10.2 (`RosterTables.crisis`: the look rows, the closed map, the settings and item 122 (h)'s rates), §8.2 (the look rows), §8.8 (the ring's massed marks), §11 (exports), §12.5; T122-1 – T122-7; built at M3b, the dossier's reading at M-SF; volumes 1, 2, 3, 4, 6, 7, 8, 9, 10, 11 and 12 | §10.2 |
+| 123 a ruined building's plans damaged, never redrawn | §2.6 step 7 (the damage layer over the same plan), §6.3 (`plan.damage`: one keyed threshold per plan element, no new id), §8.6 (the damaged plan's drawing), §11.1 (battle maps' line of sight); T123-1 – T123-7; built with volume 3's P4 and P5, the decay level with M6-E; volumes 2, 3, 4, 6, 9, 10, 11 and 12 | §2.6 |
+| 124 light weather, a view layer | §2.9 (the switch as device state, the spell session-transient, `weather` the cover), §6.1 (the session-seeded `view.weather` stream), §8.2 (the effects' marks; no snow where winter does not freeze), §8.4 (the shower's dimming, fog's scattering, night halos), §8.8 (the effects layer, never in the tile key), §11 (exports leave it out), §12.5 (≈ 1 ms a frame); T124-1 – T124-9; built at M3b; volumes 9, 11 and 12 | §8.2 |
+| 125 the dossier the only data input | §11.3 and §11.4 (the doors take no data input beside the dossier; the view commands kept as commands), §14 (`HostContext` without `week`, `realm` or `customLibrary`), §7.7 (DR1, DR3, DR19, DR29 and DR42 re-sourced to the dossier or the generator's fallback), §4.11 and §2.9 (the week's one source); T125-1 – T125-3, from M-SF; volumes 8, 9 and 12 | §11.4 |
+| 126 the map on tablets and desktops only | §1.1 (the supported devices; no phone view), §13.2 and §13.4 (bars; sessions on tablets and desktops), §16 (the narrow class never built); T126-1 – T126-3; built at M2a; volumes 4, 8, 9 and 12 | §1.1 |
+| 200–585 (file f) | each item at the base section whose heading file f files it under; the requesting volume cites the applied item | file f's headings |
+
+=== END ===
+
+=== REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT ===
+### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT
+
+* **Invariants.** The §5.3 suite runs by scope — batch-local invariants per batch, stage-end invariants per stage,
+  save / load invariants per document, CI-only invariants (§5.3's digest-maintenance oracle among them, on every
+  B-CITY-lite city) in the harness — on B-CITY: 1 000 seeds × the 4 `WaterSetting`s of §13.3 × 3 rungs — seed i of a setting
+  `H32("bcity/<rung>/<water>/<i>")`, B-CITY-lite its first 50, rehashed by V12 §2.4's collision rule, and every
+  measurement family disjoint from them by that rule — in the nightly tier, 50 seeds per rung in the PR tier (§13.8), all three rungs from M1 (§1.1). Each invariant has an id, a severity,
+  a count in the report and a CI threshold: hard = 0 per 1 000 cities; soft within its band.
+* **The statistics record.** The **core record** is O(n) and is emitted by every generation within 4 ms at CITY
+  (§12.4): counts per entity kind and class; areas per class and band; fixed-bin histograms per district and band of
+  plot area, frontage, depth, footprint area and storeys; way length per class; the junction-degree histogram; turning
+  per 100 m on ways resampled at 10 m; the walled share and built extent; ladder uses per cause and rung; every
+  requested feature's delivery tier (§5.1 principle 7); stage timings. The **bench metrics** — detour index over sampled
+  destination pairs, Moran's I, KS distances, junction-to-junction runs, orientation coherence and wall alignment,
+  figure-ground metrics on renders (§8.5), tree nearest-neighbour and pair-correlation statistics computed from §8.10's
+  stamped scatter — run through `stats(doc, { level: 'bench' })` on demand or in the bench, never on the one-click path.
+* **Cost-model tests.** Each stage is timed on **nine sizes — three per rung: the band's bottom, its target and its
+  top** — 1 500, 5 000 and 9 900 (TOWN); 10 000, 20 000 and 29 900 (CITY); 30 000, 50 000 and 120 000 (METROPOLIS)
+  inhabitants, five seeds each, nightly (the METROPOLIS sizes reported from M1, gating from M2b). A stage's log-log
+  slope of time against its declared work measure (its work-limit laws, §5.1 (5), §14) must not exceed **1.15** for a
+  stage declared linear and **1.25** for one declared n log n; §12.3's per-rung cost laws are fitted on the same runs.
+  **Work limits follow population:** each run reports, per stage, the F-WORK hit rate (work cuts per 1 000 batches), and
+  CI fails when the rate at the top of a band exceeds the rate at its bottom by more than 1 per 1 000 — §5.1 (5)'s
+  pre-decided coefficient fallback then applies and the sweep re-runs. **Index work** is fitted against commits × level
+  size (§3.3). **Batch cost:** every commit record's `work` and its `edgesAdded`, `edgesRemoved`, `steinerAdded` and
+  `steinerDissolved` counts stay within a constant × the batch's touched faces — §3.10's O(touched) claim (SCL-1) — and a
+  count that grows with the arena fails. The budgets these runs time, and their measurement rules, are §12's: the per-edit cost and validation
+  flatness across rungs (§12.6), the memory test per rung (§12.8), the first map by size (§12.5), the pan-and-zoom run
+  during an A2 300-dpi export (§12.7), the model max clause judged on re-timed outliers (§12.3), the simulation module's
+  occupancy test at M4b (§12.7), all taken in §12.1's timing phase.
+* **Document tests.** The entity registry's path test fails when a type is missing from any path — generation, digest,
+  render, export, persistence, edit, undo, migration (O11 a) — its cases include `HistoryRecord`, `WaterBody.spring`
+  and the `fedBy` links, `Enceinte.arcs` and `stretchClass`, `Gate.mouth` (§2.3, §2.7) and the `Way` and `Junction`
+  lifecycles under §2.4's missing and contradictory data; export → import → export is byte-identical over the
+  canonical form (O9 a, O11 c); the **document-size test** per rung holds ≤ 320 B per building at CITY (§2.9); the
+  schema tests of the generation report (§5.4: a derivation meeting missing or empty inputs gives a whole report, its
+  lists `[]`, never absent) and of the disruption budgets (§7.7 item 5: every request kind has its row), and the control
+  registry test (§7.8: a disabled state without its reason row fails).
+* **Stage contract tests.** The same inputs and stream give the same digest on Node x86 / arm64, Chromium, Firefox and
+  WebKit, with workers on and off and pool sizes 0–3 and no merge raising `E_SCOPE` (§3.3 pool step 3, §3.10's
+  pool-scope row), beside §6.5 (9)'s determinism tests (each on one fixture per base
+  rung and a METROPOLIS fixture at the population cap). **Op-order determinism:** a
+  declared batch's ops permuted give the same result (§13.1); a callback-form stage run twice, on a slot-renumbered
+  arena and inside the pool at sizes 0–3 gives identical digests (issue order; op permutation does not apply to it,
+  §3.3). S8's working block equals S9's committed block (Hausdorff 0; §3.7). The stored `market.siting` cell `portRef` equals the median port demand fraction recomputed by running S0–S2 alone on every B-CITY harbour seed, from M1, where the scripted pass first sets it (§4.2 S3 (12); J-A24.43); a differing value fails. The per-stop placement digests of §13.3
+  are the contract test of S13b; a stop placed whole and placed one unit per step gives identical placement digests
+  (§8.3, §9.2). The stamp-tile asset's hash and rebuild tests and the view-data contracts are §8.3's; the shipped stamp
+  tiles pass §8.3's seam check (§8.10). **The host-content door (door 4, §11.4; J-S46):** a fixture `ContentProvider`
+  registered after §11.4's double-run check replaces the roster, the siting and the people derivation at their call
+  points (§4.2 S2, §4.7 S10b, §10.3), its outputs recorded in the document; the document replays to its digest with the
+  provider unregistered, from the recorded outputs, and a provider whose two runs differ is refused registration.
+* **Stage property tests.** 10 000 coast / island / fjord / sky outlines per intent → 0 self-intersections and 0 untyped
+  loops; 0 overlapping or self-intersecting plots on concave, notched and curved blocks before any fallback; attached
+  and party-wall shares on curved-street blocks inside the dense band; roster `manifest(P₂) ⊇ manifest(P₁)` for P₂ > P₁
+  on 1 000 seeds; the stage-3 contract (the union of composed wings equals the outline, §2.6); the `ringed` fixture (≥ 3
+  closed rings, radius CV ≤ 10 %); a B-CITY sweep over `wealthLevel` ∈ {0, 0.5, 1} (population ± 5 % on ≥ 95 % of seeds,
+  walled share inside its rung band, §4.2 S2); the derived-complete digest identical across district orders; opening a
+  person leaves the digest, the log and the undo stack unchanged; **heights** on 100 % of buildings, wings, towers and
+  wall runs, and on hilly golden seeds and after every terrain stroke 0 wings whose `baseCm` differs from the highest
+  terrain sample under the wing plus the plinth, user-edited bases excepted (§2.6, §7.3 (a)); **0 `E_KEPT` on the
+  one-click path** over B-CITY (a stage whose domain overlaps an earlier stage's kept content is a pipeline bug); every
+  gate and weld vertex on its trace, and stage 1's trace within 40 m of its boundary except along an `on_enceinte`
+  castle's shared stretch; 0 lanes crossing a wall strip and 0 L3 band faces split or cleared (NF-P5); 0 S7b claims
+  meeting a wall strip; the seam exception (NF-P6) on New random of 20 districts per B-CITY-lite city; the union rule
+  (composed wings = outline) on curved-street row fixtures with `quad` wings, including rear lines oblique to the
+  frontage — bent party-wall chains, `corners` recorded, the ridge at the arc-length midpoints; decks on 100 % of
+  way–water crossings, moats and canals included; harbour fixtures with a two-arm mole and a detached breakwater pass
+  the crossing invariant as harbour works, and a `quay` way drawn across a river without a deck fails it (§5.3); the
+  walled coastal harbour fixtures of §4.2 S3 (11) — the harbour outside the stage-1 region, with and without
+  `moat: 'inner'`, sealed with `N = 0`, and a polycentric coastal town whose nucleus nearest the harbour has no unforced
+  pick left — each with the harbour served, 0 non-gate ways reaching the trace, every way–moat crossing on a deck, roads
+  leaving = the N main gates plus a harbour gate of §4.2 S3 (7) where one was placed, the harbour route at most 1.5 ×
+  the plaza ↔ harbour least-cost lattice path with the wall ignored, and one main gate on the harbour side (§4.2 S3
+  (4)); a river town whose growth leaves crossing sites unused — 0 site furniture and 0 site marks in the display list,
+  every built bridge's span the way's own L1 edge; an epoch whose growth builds a site; a drawn bridge 15 m from a site
+  builds that site, and one 30 m from every site adds a deck by one L0 shore-split batch, §5.3's crossing invariant
+  holding throughout (§4.2 S1 (5)); a canal across the settlement perimeter — 0 district faces outside the perimeter,
+  the land on both banks the hinterland's; `castle: 'on_enceinte'` with water in reach, with and without a city moat — 0
+  trace–water crossings off a river's water gate, the outer-arc channel beside the shared stretch, the town side
+  dry-ditched or plain by its row; every seam edge typed, a way-less shared reservation boundary typed `reserve` (II.5).
+* **The edge suite B-EDGE** — one fixture per row of §4.13's edge table (its EP rows) and per cell of its combination
+  table, at every rung the row names and under every preset (the parity presets, each layer on and off): the home's
+  stated outcome, hard, 0 per 1 000.
+* **The rendering, label and export edges** — the T-ER rows of §8.11, §9.7 and
+  §11.6: census rows of §8.3's kind, each fixture holding the outcome and ladder rung its row defines; their bars are
+  those rows, scheduled by §13.8.
+* **B-EDIT and the locality oracle.** §7.3 item 7 (i)–(iii) and (v), and (iv)'s byte identity of Regenerate (keep
+  settings), run **once per sequence** — at its end and at one seeded random position — never per edit. Fixtures: §7.1's
+  empty-edit forms, each leaving `nextSeq` and both digests unchanged; §7.2's lock, pin and declaration fixtures; §7.4's
+  *every kind at the edit boundary* fixtures — each kind edited, locked, undone, saved and loaded, and regenerated at
+  every rung where it exists; the re-parenting set (`drawBoundary`, district merge and split, `outskirtToDistrict`, regenerate around a lock, the
+  id-recycling case); terrain-brush sequences in both water modes, and course-knot, drawn-water and drawn-bridge
+  sequences with §7.3 item 7 (v)'s assertions and its water-edit fixtures; table weight edits and row insertions; drawn
+  features mixed with later attribute edits; epochs and rebases; an epoch after 20 edits and a Re-derive from S10 after
+  20 edits, each at pool sizes 0 and 3 with identical digests, every freeze finding every dynamic grid and tombstone set
+  empty after its rebuild (§3.3 pool step 1) and no merge failing with `E_SCOPE` (§3.3 pool step 3, §3.10's pool-scope
+  row); undo and redo from several sessions and §6.5 (9)'s truncation, naming and
+  version-pinned cases (§7.4); an undo after a reload of an unshared document undoing the pre-reload event (§7.4); New
+  random on minimal scopes (§5.1 (6)); the naming-collision replay fixture (§7.3 item 7 (i)); the B-EDIT-lite identity
+  fixtures (≥ 99.9 % of addresses kept under 1 cm perturbation, §6.3); §7.3 item 7 (vi)'s shared-edge identity, and
+  Regenerate (keep settings) of a block holding a rich compound whose yard has a formal-garden grid and an orchard part
+  with edges ending on the house wall — byte-identical to the one-click result, the wing rings after generation already
+  carrying those wall vertices (§2.6); a warp over a square keeping its fountain, over a yard keeping a user-moved tree,
+  and one halved by a pinned pin (§7.4); a warp and a `moveVertex` over a lit street with an inn — every street light,
+  the inn's door light, a hand-placed light on a pin and a junction light on a tunnel carried in their host faces by
+  §7.4's rule, the door light keeping its fraction of the footprint ring's edge nearest it and never re-seated, through two successive warps, the second starting from its lattice-rounded point off that edge, and passing §5.3's light row after each, a
+  light pushed inside its `sizeCm` clearance re-seated, one whose inset empties re-placed when generated and orphaned
+  and reported when hand-placed; an access point's opening carried in its ground host; a building under a demolition
+  Works whose kept rings take their mean-value images unre-seated; undo restoring every former point byte for byte and
+  a replay reproducing them (§7.4; J-A68.73); **§2.6's test** — a warp and a `moveVertex` over a built block with an L house,
+  an overlapping T, a curved row of quads and a holed footprint: after each, every wing union equal to its footprint
+  face (integer equality), every carried ring simple, every roof line inside its footprint, de-rectangled rects turned
+  quads, a neighbouring plot re-fitted onto a shared party wall adding its corner to the wing ring along that wall, undo
+  restoring every ring byte for byte and a replay reproducing them; and a building with a hand-built stored
+  `Composition` — its composed wings the base wings each cut in two, a court on the footprint's hole, a tower centred on
+  a corner and one inside, rooms in one wing — whose composed wings unite to the moved footprint face after each move,
+  its rooms inside, its tower centres inside or on it and its wings reaching every storey the base wings reach with at least their area at each (the storey rule of §2.6's stage-3 contract), undo restoring it byte for byte — the stage-3 intake runs the
+  same test with every fixture building's composition stored (§2.6); **load verification** — an edit within 100 ms of
+  the state becoming editable on an edited CITY document, with a mismatch forced by a snapshot whose one moved footprint
+  has its recorded digest recomputed to match, each choice taken in turn: the edit applies at once, and after either
+  choice the session's digest equals the digest a fresh load of the saved document replays to, and that load reports no
+  mismatch; the open-to-editable time against T(B); a snapshot with one moved footprint and an unchanged `model.digest`
+  — its chunk hash rewritten, and not — reported as a corrupt cache and loaded by replay, never verified and never
+  offered as the saved town, the session's digest after the replay equal to a fresh replay's (§2.9 steps 3–4); the same
+  snapshot under a forced §6.2 (iii): "trust the saved town" and a save wait for the recomputation, the mismatch
+  withdraws the keep, and the snapshot is never kept; a snapshot with one altered naming record — a corrupt cache when
+  its `recordsDigest` is left as written; rewritten to match, loaded, reported by the replay as a records mismatch, the
+  edits made meanwhile re-applied, then verified, and a corpus selection made afterwards renames exactly what a session
+  that never saved renames; an Adjust made during load verification in an epoch-grown town, saved and reloaded, reports
+  no records mismatch; a `drawBoundary` that moves surviving blocks, saved and reloaded, reports no corrupt cache;
+  **naming inputs** (§6.3) — a selected user corpus and an edited naming row rename exactly the unedited names citing
+  the changed slices, listed in the fate report and stored in the event, in a fresh and in a rebased document, every
+  other name and naming record byte-identical, 0 duplicate ids and 0 silent re-binds; a bridge re-sited afterwards keeps
+  its new name; an `editTable` of one naming grammar row renames exactly the unedited names citing it; a culture row
+  with a street corpus and a district-name corpus, the street corpus replaced — every district and quarter name and
+  naming record byte-identical; a frozen fixture whose naming row changed imports with its renames listed, and a New
+  random made afterwards renames nothing outside its scope; a canal carved across a wall and a river move whose bank
+  cuts a glacis line, each committing with 0 NF-P5 violations, and a lane drawn across a wall strip refused (§5.3); the
+  20-epoch test — a TOWN with ≈ 30 % churn per epoch keeps its heap ≤ 1.3 × and its document ≤ 2 × those of a freshly
+  generated town with the same live entities (M4); and **the thirteen MFCG asks of §7.4** as scripted scenarios, each
+  reporting its locality share, its invariant results and its re-run cost against §12.6.
+* **The faithfulness campaign (O9 c; §7.3 item 7 (iv)).** New random is judged by a campaign, not per sequence. Each
+  nightly run draws **n = 800 regenerated scopes** from its B-EDIT New-random events — 400 block scopes and 400 district
+  scopes, by a seeded draw; a night whose B-EDIT run holds fewer than 400 New-random events of a kind adds New random on
+  seeded scopes of that kind in its B-CITY-lite towns until it has 400 — and for each generates **K = 50 from-scratch
+  references** of the same scope: the same upstream state and context, rerolls 32 768 + i for i = 0 … 49, a range no user
+  reroll reaches. For each of four statistics (median plot area, median frontage width, density, attached share) the
+  rank r of the regenerated value among the K references counts the references below it plus a uniform draw from 0 … t
+  over the t references equal to it (drawn from the campaign's own stream), so r is exactly uniform on 0 … K for a
+  perfect regenerator, whatever K and however discrete the statistic. The ranks are binned into 10 bins of
+  ⌊r · 10 / (K + 1)⌋ with expected counts proportional to the number of rank values each bin holds; a χ² test per
+  statistic gives four p-values, and the campaign **fails when Holm's procedure rejects at family-wise 0.01** (the
+  smallest p-value below 0.0025). Cost ≈ 40 800 scope generations (800 × 51), ≈ 12.5 CPU-min at §12.6's block and
+  district costs (20 400 × ≈ 6.6 ms + 20 400 × ≤ 30 ms), inside the nightly budget (§13.8). **Calibration (executed,
+  `docs/validation/bench/fixall_scope_r3_o9c_n800.py` → `.out`; `fixall_scope_r2_o9c_power.out`):** the four statistics
+  move together, and at ρ = 0.8 a campaign of 400 scopes catches a +0.25 sd bias in only 92.2 % of nights and a 0.8 ×
+  too-snug regenerator in 95.2 %, hence 800. At n = 800 a perfect regenerator fails 1.0 % of campaigns on continuous
+  statistics (31 / 3 000 at ρ = 0.8, 15 / 1 500 at ρ = 0) and 1.4 % (14 / 1 000) on heavily tied, scope-varying discrete
+  ones; a +0.25 sd bias and a 0.8 × too-snug regenerator are caught in 2 000 / 2 000 campaigns each at ρ = 0 and ρ =
+  0.8 (95 % lower bound 99.8 %), a 0.6 × too-snug and a 1.5 × too-loose one in 500 / 500, and at ρ = 1 the bias in
+  99.3 % and the snugness in 99.7 %; without the randomised tie-break a perfect regenerator fails every campaign on a
+  tied statistic (`fixall_verify_scope_o9c_rank.out`). A failing statistic's histogram names the fault: a hump is too
+  snug, a U too loose, a slope a bias. **A failed campaign is re-run once with the next campaign seed:** a perfect
+  regenerator fails two in a row with probability ≈ 1–2 × 10⁻⁴, and a fault of the sizes above is declared on the night
+  it first runs with probability ≥ 0.996 at ρ ≤ 0.8 (≥ 0.985 at ρ = 1). A second failure is a regeneration defect —
+  entered in `known-defects.json`, and M3a does not exit until it is fixed (§16), because no threshold can be relaxed
+  without passing a wrong regenerator.
+* **Control sweeps.** §7.8's statistical monotonicity and continuity: 21 steps × 50 seeds at TOWN and CITY (nightly);
+  METROPOLIS in the milestone tier. The population control's sweep also reports the F-WORK hit rate per stage, which
+  must stay flat across each band as above.
+* **Option-interaction matrix.** Every pair of toggles rendered and diffed; no option silently disables another (O12 c).
+* **Documentation coverage.** 100 % of controls and entity kinds have a guide anchor (§14 `@plat/docs`); every in-app
+  help link resolves (CI link check); the release notes list every open entry of `known-defects.json`.
+
+* **The owner-item bars and their convention.** The bars `T⟨item⟩-⟨n⟩` of the owner items are stated once, here, and prove
+  the mechanisms at the homes §0.2 names. Every group keeps one convention: (1) a bar is hard — 0 violations, or 100 % —
+  unless it names a band; (2) it runs in the CI tier and from the milestone §13.8's schedule gives it; (3) a staged
+  engine's bars run on hook fixtures, its conversions applied by hand, until the engine lands, when the same bars bind
+  it and the volume tests the table at the end of this section names take the clauses it names; (4) a bar that meets a
+  golden follows §13.3's declared-shift rule — no golden exists before M1 (D-24), so the attributes that land before it
+  need none; (5) every no-op pin is a `NoOpPin` registration on V12 §3.7.8's engine, its off form the item's
+  switch cells in volume 11 (V11 §3.24.0 for items 110, 111 and 113–115, V11 §3.7.4's web off form for items 105 and
+  107, the cells the bar names otherwise) — a view pin's off form the view state its bar names (`view`: items 117,
+  118, 120–122, 124 and 126), an input pin's the input withheld (`input`: item 125's host context) and an entity-scope
+  pin's the entities its bar names (`entityScope`: item 123's never-decayed buildings under no disaster look) (V12 §3.7.8 (5)); (6) a bar that compares with a random or shuffled baseline is a `NullModelSpec` run by V12 §3.6's
+  harness, §13.7's correlation row its pass rule unless the bar states its own, and a tendency bar of another shape —
+  "in most placements", "at or above the floor", "at the ranked share", "at every rung", "rises with", "higher with than
+  without", "rising monotonically", "differs from", "beats the baseline", "within tolerance of the base's" — a
+  `StatBarSpec` run by V12 §3.6b under §13.7's tendency row (V12 §3.6b's bar map lists each); a fixture
+  property is a conformance clause, listed in the harness registry's `conformance` list — items 120–126's statistics
+  and pins measure such clauses (V12 §3.15); (7) a bar a register line names
+  as `bar.<id>` that no `NullModelSpec` or `StatBarSpec` carries is a `BenchBarDef` (V12 §2.1; `@plat/testkit/bars`,
+  §14) keyed by the bar's own id, registered by the seat landing the milestone whose exit writes the entry — the base's
+  T16-4 by volume 11's C1 seat (V11 §8), T112-1 by the M3b seat, T113-1, T113-3, T113-4 and T113-6 by the M6-E and M6-U
+  seats, and the bench bars of items 114–126 by the seats landing their mechanisms (§13.8's schedule). The entity registry's path
+  test (above) covers every record and attribute §2.8's registry lists — `Passage` and the tunnel's `navigable`,
+  `headroomCm` and `closure`, `Block.due`, `ElaborationRecord`, `Works`, `LightSource`, `UndergroundSystem`, `Gallery`,
+  `Chamber`, `UndergroundLink`, each kind's dossier paths, `Plot.tenure`, `District.character`, `identity`, `pressure` and
+  `nameHistory`, `Assignment.state`, `Institution.powers` and the staged records, schema-complete and empty — and the
+  enumeration test every event kind of §7.1.
+* **Items 8–31.**
+  * *Decline and regrowth (item 8; §4.11).* (T8-1) every `DeclineOp` kind applied by hand on the golden TOWN undoes to
+    byte identity; (T8-2) the regrowth-first fixture — a TOWN with 12 % of its buildings vacated, derelict or cleared by
+    hand, then grown by +6 % population: 0 new S5 faces, ≥ 95 % of the delta placed inside the old plan, every
+    vacancy-run share within ± 0.02 of its table share; (T8-3) 20 epochs of hand-applied decline and regrowth keep the
+    address of every ruin, trace and superseded ring (100 %), and no cleared building gets a tombstone unless
+    demolished or succeeded, and a front building made a footprint trace or demolished leaves its passage with no `frontBuilding` and no base wing spanning it, the undo restoring both (§2.6's `BaseWing.spans`); (T8-4) the exposure function is monotone in each driver's weight, and its chance share
+    equals the table's; (T8-5) the salvage ledger's credits equal the yields of the robbed and the cleared, are never
+    negative, and every shortfall is reported; (T8-6) a CITY dropped below 10 000 inhabitants loses its islands over
+    their dwell spans — waning, settled, fallen — never in one epoch; (T8-7) after a −6 % population fall on a TOWN
+    whose buildings are let out, no building with a surviving household reads `vacant`, and every `relet` down marks
+    an unstored plan rung `stale` and re-cuts a stored plan inside its own event (item 28 (f)).
+  * *Islands (items 10, 13, 15; II.6).* (T10-1) 200 CITY seeds with `recipe.layers.islands` on: a town supply below the
+    threshold gives 0 islands, and the supported area is monotone non-decreasing in the town's supply and in the
+    carried districts' supply over the band rows; (T13-1) TOWN and village requests never carry a sky allocation; a
+    CITY with the setting off carries none, and its ground digest equals the realism golden; (T15-1) 500 CITY seeds at
+    the target at each of `wealthLevel` 0.5 and 1 with the setting on: for each count 0–3 the number of seeds drawing
+    it lies within ± 3 s.e. of its expectation under II.6 (4)'s slot law at each seed's own h(S_town) — with the
+    defaults a count of 0 has probability 1 − 0.6 · h(S_town); on 1 000 seeds of a hook fixture whose built land lies
+    wholly in the rich band every count 0–3 is observed, the sky's own bars being V05 §7's; and hiding the sky layer changes no model digest (J-A15.01).
+  * *The underground (items 11, 12, 14; II.6, II.7).* (T11-1) tunnel conversions by hand undo exactly; a `caveIn` given a stretch splits the tunnel at the stretch's widened ends (II.6, §6.3; J-A11.43) — the first-vertex part keeping the address, every part continuing the lineage, the chambers and access points re-pointed, and each underground block's `Frontage` that spans an end split there (each part beyond an end a new record with its kerb edges' rows, one spanning both ends of an interior stretch split in three, each part keyed by §6.3's rule for a split `Frontage` and re-pointed to the part it fronts) — closes only the plots fronting the stretch, leaves U1 holding on every plot, and its undo restores the one tunnel record and each split `Frontage`'s one record; no
+    `EvolutionStrategy` plan on the hook fixture contains a tunnel `demolish` (a lint); a sealed tunnel persists at its
+    address and reopens; (T12-1) a schema fixture of one underground neighbourhood — two navigable tunnels, a junction,
+    six cells, one vault, one stair, two gratings — validates and passes every row of §5.3's U1–U3 family: each
+    underground plot's frontage rows on exactly one navigable open tunnel run, no `way` chain and no `alley` face on
+    the underground arena, every building's frontage side on its plot's frontage edge, ≥ 1 access per neighbourhood,
+    every access point in public ground, a yard or a building's basement — a `cellar_stair`, `ladder`, `hatch` or
+    `door` only from the basement of a building II.7.3 admits (its neighbourhood rule's class row or a `secret` plot, or
+    its *Basement accesses*, item 64) or that an access edit gave one (§7.3 item 9) —, every `grating` on public ground, 0 underground faces under an excluded ground face (also on
+    B-CITY-lite with the `navigable` preset), and the underground stage's commit records holding 0 writes on the
+    ground `PlatKey`; the underground reroll-isolation fixture leaves the ground byte-identical, and the cut-away or
+    overlay draws one depth band at a time (§8.4); (T14-1) the TOWN
+    existence draw's frequency over 1 000 seeds at three populations × three wealth levels lies within II.7.1's law
+    ± 3 s.e. and never reaches 1; `Features.sewers` is true on 100 % of CITY and METROPOLIS seeds; a TOWN with `off`
+    and a village request carry 0 tunnels; with the layer hidden and a parity preset (`MFCG` or `FTG`) on, a CITY's render matches, pixel for pixel, the render
+    the same seed gave before the staged stages registered; under the default presets the ground differs only by the
+    households and `preferred` uses S7b (6) and (7) send below, a one-time shift of the M6-U output version recorded in
+    `plat/goldens/` (§13.3).
+  * *Assignments (items 16–19; §4.7 S10b, S11; §4.11).* (T16-1) hard relation rows satisfied on 100 % of placed items;
+    every unplaced item reported with its blocking rows and ≥ 1 closest option; soft-row satisfaction ≥ 95 % reported
+    per city — O7 (b) extended: noxious trades downstream or extramural, water trades on water, the market hall at a
+    tier-1 junction or gate, inns at gates; (T16-2) hard supply edges within their `maxDistanceM` on ≥ 90 % of items
+    at generation, the rest reported; (T16-3) the one-solver contract — S10b's placement of a class and an `assign` of
+    the same class from the same state give the same plots; (T16-4) the detour factor — block-raster distance against
+    the way-graph Dijkstra within the factor's band on B-CITY at M1, the fallback a per-rung refit; (T17-1) a hand
+    relocation keeps the use's address, the building persists vacant with its `formerUses`, and undo restores;
+    (T17-2) a pinned assignment never moves under an epoch, and the use row of the churn cap holds; (T17-3) one seed
+    with one circumstance timeline replays to a single digest of openings, closings and moves; (T18-1) a designation
+    mutation keeps every kept part byte-identical (leaf digests) and leaves everything outside its event's effective scope untouched (§7.3 item 1: the plot, its joined neighbour, each displaced use's new site and the buildings and plots its capacity re-homing touches; the locality oracle); (T18-2) locked parts are never subtracted; (T18-3) A → B → A by the
+    inverse mutation is byte-identical when nothing else changed, and one change from one starting state yields one
+    mutation record on every host; (T18-4) S11 run as a mutation from the empty design reproduces generation
+    byte-identically; (T19-1) every roster class has a designation template with every band row (registry test);
+    (T19-2) the size budget is monotone along prosperity (Spearman ≥ 0.9 over B-CITY) and continuous between adjacent
+    samples by §7.8's rule on the template's continuous columns — two smiths a few streets apart differ by degree;
+    (T19-3) a `setAttr` material change leaves the geometry subtree of the digest unchanged; (T19-4) with no epoch
+    every residential building houses at least one household and at most its capacity (§2.6's function) — the households S10b placed in its slot (one to its template row's `households.built`) clamped into [1, capacity], but for the moves §4.7's overflow pass reports — every building S11 builds for a slot without `houses` (§10.2; `BuildingSlot.unhoused`, §2.5) houses none, no plot's site plan holds a `required` structure below its least `count`, and every household S2 demanded (§4.2) is housed or reported unplaced by F-SITING (§4.7, J-A28.46); on a fixture whose district holds a live-in workshop and no household of its band or drift, the workshop's plot keeps its use and its main slot, which S11 builds without `houses` — `BuildingSlot.unhoused` set (§2.5), capacity 0 (§2.6), housing none, `Building.dwelling` absent — the typing reported (§4.7); on a dossier fixture whose squalid district's shells hold fewer households than their template rows, every household that fills the dossier's population is housed — those no building has room for in a residential slot the `dossier` request re-provides in their district —, no building exceeds its capacity, and each re-provided slot is reported (§7.7 item 2; the dossier clause, from M3a).
+  * *The dossier (items 20 and 22; §7.7).* (T20-1) a map delete of a dossier-backed element re-places it coherently from
+    the same seed, every plot outside the disruption set byte-identical; (T20-2) by §7.7's lapse rule, the rejection lapses at
+    a dossier event touching its block (the dossier-event clause) and at the first epoch whose population target has moved
+    from the one it recorded by more than the roster tolerance (± 5 %, §4.11; item 76), a drift inside it lapsing nothing
+    (the epoch clause, from M4), and an undo of a lapsing epoch outside the port's session `host:port` restores the hold, while an `undo` naming a lapsing event of session `host:port` (a dossier event, or a port epoch whether or not it carried a dossier change) returns F-EDIT (§7.4 *Replay semantics*); (T20-3) a blocked positive placement returns its blocking rows and ≥ 1 closest site;
+    (T20-4) generator-added filler deleted, the dossier's housing re-provided elsewhere; (T20-5) the one-way
+    door (item 20 (a)) — an enumeration of the bridge's message kinds (§11.3) finds no PLAT → host message that
+    addresses the dossier (`doc.changed` carries map-document events only, `report.changed` the map's report), and over a
+    B-EDIT sequence `report.changed` carries every rejection, placement, lapse, relocation and mutation record the
+    sequence made (§5.4's entries); (T20-6) by §7.7 item 2, a map `unassign` of a dossier-backed element, a map `setAttr` of its use or class, a hand `convert` `closeUse` of its use or `mutate` of its plot to another designation, and a plot `join` or `split` whose fate would demolish the building that houses it each return F-EDIT with `rejectSite` and `placeAt` offered and change nothing, while a `relocateUse` of it commits, and a `revert` of it skips every later event of session `host:port` that placed or re-designated it, its dossier content unchanged (§7.4 *Replay semantics*; item 20 (c)) (the refusal clause); on a B-CITY dossier fixture whose dossier-backed use stands in a declining quarter, a hand `convert` `vacate` or `demolish` of the building that houses it returns F-EDIT, and in every epoch whose use step, redevelopment, population fall or conversion reaches the use or its building the use is never closed and its building is emptied or removed only after the use has moved — a pinned use keeping its building (§4.11's *Dossier content across epochs*) — with §5.3's dossier row holding after every epoch, and an `undo` naming an epoch of session `host:port` — one that carried a dossier event in `EpochInputs.dossier`, and a year-end epoch that carried none — returns F-EDIT and changes nothing (§7.4 *Replay semantics*) (the epoch clause, from M4; J-A17.01); (T22-1) the same history from
+    the same seed gives one digest; (T22-2) two histories reaching one dossier give two valid maps whose differences
+    are confined to their disruption sets; (T22-3) an over-budget dossier event lands and is reported; (T22-4) a
+    brand-new map from a dossier holds every dossier element from the start, and everything outside the report is
+    byte-identical after any dossier event. §7.7's precedence (a dossier event is never refused by a lock or a pin; it
+    supersedes the lock on what it changes, reported orphaned): (T20-14) a dossier rename on a locked name path, and a
+    `ruined` and a `removed` state on an institution whose building is locked — each lands, the lock is reported
+    orphaned in the event's disruption report, and every other locked entity is byte-identical; (T20-15) a dossier
+    population fall over a town whose remaining households all live in locked dwellings — the population met within
+    the roster tolerance by `relet`s down, every locked building's state and shell byte-identical, the emptied ones
+    counted in `uses.heldByProtection` and no `vacate` emitted on a locked or pinned building; (T20-16) a fall over a
+    town whose remaining households are all locked — met within the roster tolerance, the locked and pinned households
+    taken in the roster's suffix order, every superseded household lock reported orphaned.
+  * *Emulation (items 23, 24, 26, 27; §7.6 with §4.2, §4.9 and §4.5).* (T23-1) with the parity presets `MFCG` and
+    `FTG` every `extension` cell reads 0 or off and B-REF's parity rows hold; with the default preset the extensions
+    run at their table values; a registry test that every table cell has `provenance.source` and, where it extends a
+    reference, its `extension` marker; (T24-1) under the defaults the principal market sits on the plaza for ≥ 90 % of
+    inland walled B-CITY seeds and elsewhere for ≥ 50 % of port seeds (§13.7's row); (T24-2) the market count equals
+    the roster's demand; (T24-3) no two market reservations share an edge or lie within `market.minSeparationM`;
+    (T26-1) wood area lies within the fuel and timber rows' demand, the import share reported; (T26-2) the `fill`
+    mode at TOWN and CITY on flat fertile fixtures and `perimeter` at METROPOLIS or on hilly fixtures; under `perimeter`
+    and `rivers` no farmstead plot exists and every farm household is allocated to a town district; on an arid river
+    fixture at TOWN on flat fertile land the mode is `rivers` and every field lies within `riverBandM` of a bank but
+    those of the band's reported shortfall, laid beyond it as `perimeter` lays them, and on an arid fixture without a
+    river the mode reads as `perimeter`; (T26-3) with
+    `reserveArable` on, fertile land outside the boundary ≥ the reserve wherever the fixture makes it feasible;
+    (T27-1) a schema test that the band set has one `middle`, that every band-keyed table resolves a row or an
+    interpolation for every band, and that the parity preset's household shares equal FTG's captured distribution;
+    (T27-2) the shanty fixture — an average band of poor gives a shanty kind once half the stages have run, the
+    extramural share reported.
+  * *Terrain and water (item 25; §4.11).* (T25-1) a hand `reclaim` and a hand `siltReach` are byte-identical outside their
+    footprint, in the carve fixtures' form (§13.1), and undo exactly.
+  * *The plan rung and elaboration (item 28; §2.6 beside §2.8's record, §2.9's cache and §4.1's policy) — the B-PLAN fixtures.* 24 fixture
+    buildings (rectangles, L and T shapes, a court closed by a U, a quad from a curved row, a rectangle carrying a round tower, a rectangle holding a round tower wholly inside it, a rectangle carrying two round towers whose rings overlap, a T of two overlapping wings whose second wing holds a round tower that also overlaps the first, a rectangle carrying a stair turret (a round tower whose spiral core's bay fills its round room), a
+    manor of three wings at unequal storey counts), each in six classes and three bands with one to four storeys, the
+    entrance sets of item 29 and a cellar wherever the class row gives one; from M6-P's intake, the plans of every clicked
+    building of B-CITY-lite as well. Hard: (T28-1) each room the programme marks hard is present, and soft rooms are
+    delivered, folded into a neighbour or dropped, each with its tier in the report — except on a building with no
+    storeyed wing, where a room, hard or soft, whose storey rule admits none of its basement storeys is dropped under
+    the plan report's note `solidMonument` (E-28) and listed in the report with no tier (V03 §3.1 step 2, V03 §3.2 A5 (b),
+    V03 §2.3); (T28-2) starting at the main entrance — on a building whose every ground wing is solid, at the landing door of the
+    first storeyed wing its stair chain reaches (§2.6 *Entrances* rule 5; V03 §3.3 S6), and a building with no
+    storeyed wing has no room above the ground to test, its basement storeys, where it has a basement, reached from the
+    room its outside door at `basementDoor(b)` opens into (V03 §3.1 step 2) — and, for a basement whose
+    `Basement.access` is `external`, at its outside door where step 3 opens one (§2.6 step 3), openings and stair cores
+    lead to every room of every storey but a structural face's (roles `stack`, `shaft`, `column`, V03 §2.4) — a
+    concealed room, for a key that admits its use, from its concealed entrance where it has one (item 63), a lifted
+    chancel through its choir flights (V03 §3.7.6), and a wing standing on another through the exterior flights of
+    its stair chain and its landing door, terrace exit or terrace door (V03 §3.3 S6); each entrance gives onto a room; a passage can be
+    entered from either of its ways; (T28-3) stairs stacked — a stair core occupies one bay through all the storeys it
+    serves, and the basement is entered by that core, through a trapdoor — the one `Basement.access` names, or the `trapdoor` core the plan reports where no bay of the core fits the basement ring or, for an external access, where `basementDoor(b)` gives no door (§2.6's fallback, step 3; J-A29.25) — or, for any other external access (a walk-out, or a building with no storeyed ground wing), by its outside stair at `basementDoor(b)` (V03 §3.7.1); (T28-4) the outer walls
+    coincide with the wings: on each storey the rooms together cover exactly the extents of the wings reaching that level
+    plus the span ring of each passage a wing spans, at the ground storey only — the passage room (§2.6's fourth rung) —,
+    each exterior wall segment sits along the edge of such an extent or span ring, each room's ring is simple and lies
+    within its wing's extent at its storey (the passage room within its span ring), each composed tower's round room at each storey the tower reaches — with any spiral core's bay (`StairCore.tower`) or chimney stack standing in it, or that bay alone where it fills the room (a stair turret) — covers exactly the tower's ring there less those of the earlier towers in the clip order that the tower overlaps (§2.6's stage-3 contract), and no gap or overlap remains between rooms (§3.10's seed-tiling row per storey); (T28-5) each chimney rises from a hearth's
+    column, and a dormer exists only where a roofed room needs light; (T28-6) one building state, one plan, host after
+    host (§6.5 (9) applied at the building band); re-rolling the layout preserves the stair core, the wings and the
+    entrances bit for bit, and re-rolling the roles keeps every ring and every opening's position bit for bit; (T28-7) no edit or
+    re-roll of a plan touches anything beyond its own building; (T28-8) `plan()` meets §12.7's row at its median per
+    building, one plan for each click, and the cache stays within §12.8's line; (T28-19) the JSON `plan` block validates against its schema
+    and round-trips, and every storey scene's portals equal the plan's openings and entrances (§11.1). Every T-V3
+    test (V03 §7) runs on the same fixtures from M6-P's intake, T-V3-23 (a)–(d), (f) and (g) also at the model level
+    from the crypt's landing (M6-U; file f item 238). Soft bands, reported: no unit room used as a
+    passage (its door count within its row's cap); corridors never doubled in parallel; the share of each storey given
+    to circulation, by class and band; room areas ordered as their rows' target areas; unit and service rooms no shallower in the door
+    graph than the shared and circulation rooms of their storey; a loop in the door graph only when a row calls for one (§13.7's row). Elaboration: (T28-9) click order
+    changes no digest — one document elaborated in two orders has identical model, records and derived-complete
+    digests, and the cache holds byte-identical results per (entity, rung, input digest); (T28-10) a `stale` rung
+    re-derived by mutation keeps every surviving room's address, and viewing never re-derives a `current` rung;
+    (T28-11) an evicted cache re-derives to the same bytes, and a corrupt cache chunk is dropped and re-derived, never
+    trusted; (T28-12) clicking a neighbourhood makes its buildings' `wings` rung `current`; clicking a building does
+    the same for `plan`, after `wings` where that is still absent.
+  * *Stage 3 (V02 §7).* Every T-V2 test (V02 §7) and the B-MASS fixtures, in the tiers V02 §7.6 and V02 §7.7 name — the
+    bars of V02 §7.7 whose subject a base item lands before M6 run from that item's milestone (T-V2-44 – T-V2-47,
+    T-V2-50 and T-V2-51 at M3a; T-V2-52 at M2b).
+  * *The interior ladder (item 28 (f); §2.6).* (T28-13) the owner's bar — when a building's occupants' band falls two
+    rows, the re-cut plan houses every household of the building (`Building.households`, §2.6) with its own door off a
+    corridor or stair hall, within unchanged wing rings and around an unmoved stair core; (T28-14) the shell stays
+    byte-identical through any interior re-cut — its wings, entrances, heights, roof and basement — checked by the
+    shell's leaf digest before and after the re-cut, a stored plan's rings read with the `composition`-role vertices its
+    re-cut adds removed (§2.6's bar, §5.3's interior-ladder row), with §3.10's seed-tiling row proving the re-cut rooms
+    tile that unchanged shell; (T28-15) re-uniting the households restores the earlier plan where nothing else changed — exactly for an unstored plan (§2.6's canonical chain); for a stored plan, every household's unit with its own door, the shell read without the `composition`-role vertices (§2.6, J-P48 (1)), and the subdividing event's undo restoring the plan byte for byte (§7.4) (item 18 (e)'s
+    inverse); (T28-16) a schema test that every band of the band set maps to an interior row, and that every row names
+    its unit, shared, staff, circulation and size columns; (T28-17) the owner's concern — after a district's two-band
+    fall every roster household is housed without a new plot, bounded by each shell's capacity (the housing clause — in
+    the base on a hook fixture, the `relet`s applied by hand), and no F-PLAN tier drops a household unit, a unit
+    falling to the next poorer form first (the F-PLAN clause, from M6-P's intake); (T28-18) a hand `relet` above §2.6's
+    capacity returns F-EDIT (the `relet` clause), and a `setRoomUnit` that would leave a unit without its own door
+    returns F-EDIT (the `setRoomUnit` clause, from M6-P's intake); on a B-EDIT fixture a `setAttr` of a tenement's heights, a `moveVertex` that shrinks its footprint, a moved face of a passage it spans and a §7.6 edit of its template's `households.max` each lower its capacity below its households, and each edit's dry run lists the households past the capacity (the last in address order, a locked or pinned one passed over) with their `relocate` moves and holds that building and the receiving buildings in its effective scope; after commit no building houses more households than its capacity (§5.3); the undo of each returns every household to its former building byte-identically; a prosperity-brush stroke that lowers the tenement's plot `builtBand`, bringing its capacity below its households, re-homes its excess the same way, and the stroke's undo returns every household to its former building byte-identically (§7.4's setField row); a `setAttr` of the tenement's plot use to a class that leaves it no residential slot (capacity 0, §2.6) re-homes every household it houses the same way, and its undo returns the tenement's design and every household to its former building byte-identically (§4.7 S11 rule 5; §7.4's Application); and an edit whose excess cannot be re-homed — its locked and pinned households alone above the new capacity, or a household that fills no dossier's population that no residential building of the district has room for — returns F-EDIT; on B-EDIT dossier fixtures whose district has no residential room for the excess and whose tenement holds no locked or pinned household — one whose re-provision moves a use, one whose re-provision joins two plots — each of these edits, the brush stroke among them, commits, the households past the capacity that fill the dossier's population housed in the residential slots the `dossier` request re-provides inside the district (§4.7), its dry run listing each such slot with the use its re-provision displaces or the plots it joins (§7.3 item 4) and holding the plots that request touches — each site with its joined neighbour or the displaced use's new site — in its effective scope (§7.3 item 1), and its undo restoring those plots and every household byte-identically (§7.4; §2.6's capacity rule; the re-homing clause).
+  * *Entrances and basements (item 29; §2.6).* (T29-1) each building has one main entrance and only one, facing its
+    street, its court or passage, or — a cluster structure — its footpath (§2.6 rule 1) (100 %; O5 (f)'s doorless count stays 0); (T29-2) no side or rear entrance without an access
+    edge beyond the frontage, and the caps per class hold; (T29-3) no cellar under the flood band or on the water
+    table's damp ground; (T29-4) every basement inside its ground-floor footprint and smaller, with its storey in
+    `Heights` and its access by one of the three ways §2.6 gives it — the stair core, a trapdoor or, for an `external` access (a walk-out, or a building with no storeyed ground wing), an outside stair; the entrance row of §13.5, class C — the owner's rule (item 50) — stands for the main door; (T29-5) a VTT portal at every
+    entrance of the set, and glTF and CityJSON basements below `baseCm` that validate (§11.1).
+  * *Hidden plots (item 30; §4.6, §9.2).* (T30-1) every hidden plot is reachable by a chain of access edges — alley,
+    court and passage faces — from a public way, 100 %; a sealed plot reads `sealed`, is reported, is never landlocked,
+    and reopens; (T30-2) the hidden share per district lies within its target ± 0.03 — §4.6's band rows interpolated at the district's area-weighted mean prosperity value and scaled by its rung and density factors (§13.7); (T30-3) no label
+    of a local or secret place appears at the settlement band without the viewer's knowledge key, and no secret name
+    enters an export made under a view state without it; (T30-4) the parity presets and the village rungs produce 0
+    hidden plots, and a hidden court passes §8.5's figure-ground metrics, reading as a court behind buildings; every passage with a `frontBuilding` has its `headroomCm` written and equal to §2.5's rule, after a heights edit of a spanning wing too, each base wing spanning it has at least two floors and an eave above that headroom, and a heights edit that would leave a spanning wing below two floors returns F-EDIT;
+    (T30-5) by §11.2's knowledge rule, on a document holding a `secret` institution, `query` of every kind (`gazetteer`,
+    `people`, `whereIs`, `relations`, `hit`, `inView`, `why`) and hover list its row with `withheld: true` at the `public` tier
+    — a view-bound kind (`hit`, `inView`, hover) at every band coarser than the building band, the one band §9.2's table
+    admits it at; a person working there naming it by its address only; the band-less kinds and a GeoJSON export
+    withholding it as at the city band — and its name at `secret`; a `why` on the withheld place answers at `public` with
+    its address and kind only, `withheld: true`, and no rule, input or alternative, and on T63-2's front fixture the front's
+    `why` is the front's own and a `why` on a concealed part answers empty, no answer naming the concealed function; and at
+    `public` a `why` on another building whose relation rows, supply edges or alternative sites include the withheld place
+    gives that place by its address and kind only, `withheld: true` (§11.2's oracle rules (1)–(4)); a viewer's `preview` of
+    any event returns `status: 'refused'`, `reason: 'role'`, with no fates, renames, counts or shape, and an `editor`'s
+    `preview` of the same event returns its dry run (§11.2's *Knowledge*);
+    `export` of `.plat` and of a permalink under a
+    `public` key fails with `E_KNOWLEDGE_TIER` and succeeds under `secret`; a bridged `export.request` for `.plat` from a client whose key is `public` is answered by `export.refused` carrying `E_KNOWLEDGE_TIER`, and never by `export.ready`; and by §9.5 a withheld place gets no number,
+    letter or row in the legend.
+  * *Prosperity change (item 31; §4.11).* (T31-1) after a re-cut every plot keeps ≥ 1 access edge and the class
+    minimums, and party walls agree on both sides; (T31-2) granularity lies within the band's target ± tolerance;
+    (T31-3) the churn cap holds for each kind, in each district and each block; (T31-4) no occupied building is
+    removed by a band change — a redevelopment first vacates — and a plot `join` or `split` that would remove an
+    occupied building returns F-EDIT ('vacate first') unless the user confirms the demolition as a fate, while one that
+    keeps the building through S11's mutator commits (§7.1); (T31-5) generation-then-mutation equals the same history replayed; (T31-6) an undo of a
+    fusion or a split restores rings, records and `builtBand` exactly, and a resurrected member takes `builtBand` from
+    the event; (T31-7) a direct `setAttr` of `builtBand` is refused; a brush sets `builtBand` in its scope, and with
+    no epoch the static base's digest is unchanged; (T31-8) a schema test that every class has a replaceability and
+    every ladder row a duration per direction and replaceability. The floor's bars: (T31-9) across any run of epochs, no
+    rung-1 or rung-2 event changes a plot's frontage edge or shrinks or re-cuts a shell of its buildings toward a poorer
+    band — every change of its ring or its buildings' shells (read, as §5.3's epoch row reads them, without the `composition`-role vertices a stored plan's re-cut adds, §2.6, J-P48 (1)) matched to a lifecycle event the epoch recorded (§5.3's
+    epoch row: a rung-3 event, rung 1's yard buildings, rung 2's back court, a designation or renovation mutation, a
+    conversion — `wallToWay` and `contractWall` among them — or the growth step's regrowth builds, `demolish` and
+    corridor re-cuts) — and its geometry band is at or above its floor; (T31-10) after a rung-3 event that builds, `builtBand` is the band of the new stock, and after an `amalgamate` that builds nothing it is the `builtBand` of the member whose frontage anchor the joined plot keeps (§4.11, J-A31.44); (T31-11) a rich → poor →
+    rich run with no rung-3 event leaves rings and shells byte-identical, a stored plan's shell read without the `composition`-role vertices its re-cuts add (§2.6, J-P48 (1)), and returns the rung-1 and rung-2 attributes
+    to the rich manifestation within the ladder's durations; (T31-12) with no epoch `builtBand` equals each plot's
+    generation band and the geometry band equals the field band; a town and a metropolis each resolve their own middle
+    band; every band set names its middle band.
+
+* **The code-reading items 33–62.** The mechanisms restated from the references' code change no golden, and the
+  reference numbers they reproduce stay §13.5's rows (J-A41.01, J-A41.02).
+  * *The bent cut (items 34–41; §4.6).* (T34-1) every block S8 commits has an OBB minor extent below the `τ` drawn for
+    its face and every face it cut one at or above it, replayed from the `cut.stop` draws; over 10 000 faces the mean of
+    `g` lies within 7/30 ± 3 s.e.; (T36-1) the start A draws nothing — a face planned with a different `cut.t` stream
+    keeps its A — and lies on the run most nearly parallel to the working major axis (ties: the earlier run); (T37-1)
+    every kept corner K lies at least `o` from both ends of its first leg, or at `λ / 2` when `λ < 2o`; every second leg
+    meets its far run square within the lattice tolerance; under `flatten` no kept corner's triangle A–K–foot is lower
+    than `max(cut.flattenM, 0.02 × |A–foot|)`; under the `MFCG` preset every cut whose first leg meets its run within
+    `asin(√0.99)` of perpendicular, and passes step 8's checks, is straight; no cut bends twice; (T38-1) fillets on lane and street
+    cuts only, never on a plot cut; each arc touching both legs tangentially and curving the shorter leg from end to end, its chords no shorter
+    than `w_min` or the lattice minimum edge; the filleted share on NG's recorded face shapes within §13.5's fillet bar;
+    (T39-1) rung (a) plans at most three frames per face, each turned 36° from the last, and never restarts anything
+    above the face; a face every frame fails reaches rung (b), reported; (T40-1) inside one district lane widths are
+    non-decreasing in the lane's length, inside the class's width band, and never narrower than a lower class; (T41-1) a
+    registry test — `cut.stop` registered with its reader, `cut.side` and `cut.farSideAlt` reserved ids that no reader
+    draws (§6.1); and §13.5's bent-cut signature row, its fillet share included, on NG's recorded shapes at M0 (b).
+  * *Plots (items 43, 44; §4.7 S11).* (T43-1) every plot's `frontJitterCm` is 0 or in [`jitter.minM`, min(√(plot
+    area)/3, `jitter.maxM`)] at its interpolated columns, and over the plots whose depth does not bind, the share of
+    receded main slots per band row lies within ± 0.05 of the law's expectation — the mean over those plots of max(0,
+    1 − `jitter.minM` ÷ cap), cap = min(√(plot area)/3, `jitter.maxM`); (T43-2) on bent and curved frontages every row
+    footprint's front chain lies at `h` from its frontage along the normal (within the 0.71 cm hot pixel) and every party
+    wall is its plot side line; (T43-3) no recession lies in (0, `attractCm` + 1 cm), and an `editTable` or `editPreset`
+    setting `jitter.minM` below that bound is refused naming it (F-EDIT); (T43-4) under the `MFCG` preset the recessions
+    follow 4.8 m and 2 m, and the institution, tents and cluster rows draw none under every preset; (T43-5) a designation
+    mutation that keeps the main slot keeps its `frontJitterCm`, and Regenerate (keep settings) reproduces every front;
+    (T44-1) under the default preset every prosperous or rich set-back compound carries a `wall` PlotBound with a gate on
+    each access edge, and under the parity presets none carries a wall.
+  * *Walls, gates and districts (items 45–47; §4.8, §4.2 S3 (4), §4.4, §4.5).* (T45-1) a thin castle claim — its nearest
+    boundary vertex within `castle.minInnerM` of its centroid — is bloated before any equalise pass; a repaired claim
+    reaches compactness ≥ 0.75 with an `on_enceinte` claim's weld vertices and, once fixed, its gate side's ends unmoved;
+    a claim the repair cannot bring to the gate goes to re-site with a report and never restarts anything; (T46-1) on
+    walled B-CITY seeds whose pick contour follows a sea or lake shore over at least a `gate.waterfrontShare` share of it, the main gates equal §4.2 S3 (4)'s reduced `N₁` exactly unless N was requested, and every trace is smoothed by
+    exactly `wall.smoothPasses` passes with its gates, welds and shore vertices unmoved; (T47-1) districts seeded at a
+    gate, the castle or a bridgehead have a median area below the town's median district area on ≥ 90 % of B-CITY seeds,
+    and a scoped regroup (§7.3's S6 row) replays the same turns by seed lineage (J-A47.01).
+  * *The hinterland (item 57; §4.9).* (T57-1) under the sector-look preset in `demand` mode no field cell is more distant from the settlement's edge than a non-field cell of the preset's admissible land (the outward order); under `fill`
+    the field land equals the mode's; the farmstead count equals the farm table's under both sector variants.
+  * *Drawing and labels (items 54, 55; §8.2, §9.3).* (T54-1) under `ink` every footprint's raised under-copy is swept by
+    the sheet's base offset times its class's ratio — house 1, landmark 2, farm building 0.6 —, on 100 % of footprints;
+    (T55-1) the horizontal spine is the first candidate of every area label whose tree has ≤ 64 leaves, and the candidates depend on the model alone — identical under every view rotation and zoom, as §6.2 requires of hashed label
+    candidates.
+
+* **The owner rules 20 (h) and 63–72.**
+  * *Clandestine institutions (item 63; §4.7).* (T63-1) every clandestine institution is placed in one of its allowed
+    modes — front, hidden or underground — or in its reported fallback (underground → front → hidden); (T63-2) at the
+    `public` tier every view, label, query answer and export shows only the front — the true function, its concealed
+    rooms, door and link withheld (T30-5's enumeration, run on a fixture holding a front with its hidden function) — and
+    at `secret` both; (T63-3) the B-PLAN fixtures confirm that a front's concealed rooms are reachable only from its
+    concealed entrance or its service side (from M6-P's intake; in the base the schema fixture carries the flag and the door);
+    (T63-4) over 1 000 seeds the `underground` mode is never chosen without an underground allocation (II.7.3), and the
+    parity presets place no concealment.
+  * *Basement access (item 64; II.7.3).* (T64-1) an access point stands only where a basement lies within the access reach
+    of a tunnel or a sewer dwelling; (T64-2) over 500 CITY seeds on the layer's hook fixture the access rate of each class lies
+    within its row's probability ± 3 s.e.; (T64-3) clandestine buildings over a network carry an access at least at their
+    row's rate times the concealment multiplier. T12-1's clause on where an access point stands is the amendments-b
+    group's (public ground, a yard or a building's basement).
+  * *The underground family and the undercity (item 65; II.7.5, II.7.6; the geology flag, §4.2 S1).* (T65-1) an undercity exists only where a void
+    source exists and at least one lifeline reaches it; (T65-2) on 500 seeds per rung its neighbourhoods stay within
+    `RungProfile.layers.undercity` (§1.1) — none on the village rungs, at most one at TOWN and only above that row's
+    population floor, at most two at CITY and three at METROPOLIS — and the circumstance `require` gives one at TOWN and
+    above while `forbid` gives none; (T65-3) every building under a ceiling is capped by it (its eave below the chamber's
+    ceiling less the row's clearance); (T65-4) every connection link is typed (open, gated, secret, collapsed, flooded)
+    and knowledge-gated; (T65-5) the population stays whole — the settlement's households are the same set with and
+    without an undercity; (T65-6) U1–U3 hold on the sewer's part with an undercity present, and re-deriving one
+    underground system leaves the ground and every other part byte-identical but for the far `link_end` vertices of its
+    links, each placed, kept or stripped by one transaction on its own part — a stripped one restoring the edge it split
+    unless other geometry has met the vertex since (§3.4) (the per-part twin of T12-1's reroll isolation; §3.10's row);
+    (T65-7) with `geology: 'auto'` and each relief class set by the site request's `relief` toggle (§4.2 S0), over 1 000
+    seeds per class the shares S1 resolves to `soluble` and `volcanic` lie within ± 3 s.e. of the feature table's geology
+    row at that class, each resolution recorded in `autoResolved`; with `relief: 'auto'`, over 1 000 seeds per rung the
+    classes' shares lie within ± 3 s.e. of the rung's relief row, and a digest whose `site.terrain` is given — a
+    test-side edit of a fixture's digest — takes the class §7.7 DR1 maps it to; setting either toggle moves no other S0
+    draw (§6.1); and every run under the parity presets, and a sky island's terrain (from M4, on the islands' hook
+    fixture, II.6), reads `ordinary` (§4.2 S1 (10); J-A65.49, J-A65.02); (T65-8) on a TOWN hook fixture with the
+    undercity forbidden, a test-side `HistoryHint` (item 88) carrying one `fire` scar of severity 0.6 makes one `buried`
+    system at generation — its region the districts of growth stage 1, its galleries their way centrelines 320 cm below
+    the present grade, its chambers their buildings' ground storeys — and the log records no `raiseGrade`; a scar of
+    severity 0.4, an empty hint and the parity presets make none; and the ground arena's digest is the same in the 0.6
+    and 0.4 runs and in a run whose hint keeps their `ageYears` and no scar (II.7.6's *A buried old town*; J-A65.46,
+    J-A88.42).
+  * *The closure rule (item 66; §7.3 item 9).* (T66-1) `addUndergroundAccess` on a building without a basement gives a
+    lawful basement — full, half or a hatch to a crawl space, by the terrain gate — or a stated refusal, never a silent
+    change; (T66-2) every generated connector is reachable end to end and lies inside its depth band, and a target within
+    `digReachM` whose route is longer than 2 × `digReachM` is refused with its reason, and so is an enclosed basement — its
+    ring within `foundationClearM` of other footprints, basement rings or dug passages on every side, and, apart, the
+    water table above every floor between it and the target: the dry run refuses with `E_NO_PATH`'s reason naming the
+    blocking building or the water table (F-EDIT), the basement of step 1 is not laid and nothing else changes (II.7.6
+    step 3); (T66-3) its undo
+    restores the document byte for byte; (T66-4) a second access sharing a connector survives the first one's deletion,
+    and the last one's deletion removes only the pieces nothing else uses; (T66-5) the closure's first base instance
+    (J-A66.01): a `setAttr` that sets a placed use's `concealment` to `front`, its `front` another use of that building
+    (§4.7's *Concealed institutions* (1); `Use.front`), on a building whose plot
+    has an access edge beyond its frontage onto an alley or a passage, adds the concealed door by §2.6's entrance rules in
+    the same event (*Concealed institutions* (4) (b)), its closure record naming the door, and its undo removes exactly
+    that door; with no such edge it adds none, the concealed programme reached from the front's service side (§4.7's *Concealed institutions* (4) (b)); (T66-6) a `drawBoundary` that adds an undercity neighbourhood no lifeline reaches, and a `split` of one that leaves a part no lifeline reaches, each adds that neighbourhood's nearest lifeline by II.7.6's target, connector, access-point and link steps in the same event, its closure record naming them and, where it digs a connector, the dug system's `sources` naming the neighbourhood's `District`; its undo removes exactly them (§7.3 item 9 (d); J-A66.72).
+  * *The underground layer built (M6-U).* Every T-V4 test (V04 §7), run from M6-U's steps; the hook tests above
+    run on its generated output.
+  * *Works and the weekly clock (items 67, 76; §4.11).* (T67-1) the stage drawn at week w is a pure function of the
+    Works record and w: reached directly or by scrubbing forward and back, every drawing is byte-identical and no model
+    digest moves; (T67-2) no Works leaves a plot without an access edge at any week; (T67-3) a merge or a split shows the
+    old boundary until its clearing stage; (T67-4) a demolition's households are rehoused (item 17) before its first
+    stage; (T67-5) no Works at generation and none under the parity presets, the goldens unchanged; (T67-6) on the hook
+    fixture an epoch's share of buildings in works lies within ± 3 s.e. of growth × mean duration ÷ span, and a decay
+    Works within its dwell band; (T76-1) its cadence clauses (from M3a, on the port's `EpochInputs`) — an epoch folds at
+    each 52-week boundary, at a population move past the roster tolerance and at the week of each newly carried calamity
+    no other epoch falls on (one dated at or before the last epoch's week folding none at its own week: it rides, at
+    that epoch's first week, the first epoch its absorb folds where the absorb's week is after the last epoch's (one
+    folded at the absorb's week where no other is), else, carried by no absorb whose week is not after the last epoch's,
+    by the first later absorb whose week passes it, by the same rule; §4.11 *The clock* (4)), none on a 2 % drift, with
+    `years` = Δweeks ÷ 52 — on fixtures adding a calamity carried at a mid-year week with no population crossing (one
+    epoch at its week, the calamity in its `EpochInputs.events`), one at a week-52 boundary (no second epoch), one
+    inside a coarsened catch-up (riding the coarse epoch that holds its week, V06 §6.8 (6); from M6-E), a calamity
+    carried one year late, riding the absorb's first epoch, its event at that epoch's first week, and one dated in the
+    last epoch's own week reaching a second absorb in that week — no epoch and nothing of it carried, then carried by
+    the next absorb past that week, riding its first epoch at that epoch's first week with its targets struck in place,
+    its deaths in that epoch's burial need (that clause from M6-E's E8, V06 §3.18.2 (3)); and a late non-calamity change
+    in an absorb whose week is after the last epoch's — folded at the last epoch's week + 1, the document's current week
+    never before it nor before the week of any event an earlier absorb folded —; its per-year clause (from M4, with the
+    epochs) — per-year rates give equal expected firings under a weekly and a decade cadence.
+  * *Light (item 68; §8.4, §4.7).* (T68-1) a spot lit from every side by several point lights carries no shadow;
+    (T68-2) no shadow climbs a taller roof; (T68-3) a shadow falling on a lower roof is shortened by that roof's height
+    and continues beyond that roof onto the next building or the ground; (T68-4) on the CPU reference the lighting is
+    byte-identical for the same model, lights, view and time on the five engines (§6.5 (9)); (T68-5) at night every way
+    class × band reaches its light rows' target minimum illuminance on the CPU reference, interpolated along the value;
+    (T68-6) no light stands on a hidden, sealed or clandestine plot unless a row places one; (T68-7) the GPU pass lies
+    within §13.4's tolerance of the CPU reference; (T68-8) with the GPU lighting unavailable (no GPU, a lost context) the
+    next rung of §8.4's ladder is drawn and reported, never an error (§5.2); (T68-9) no light on a building in Works
+    before it is finished (item 67).
+  * *Informal clusters (item 70; §4.7 S11).* (T70-1) every structure has its own door on a footpath that reaches an access
+    edge of its plot; (T70-2) the fire-gap minimum holds between structures; (T70-3) the households per structure
+    lie within the row and within each structure's capacity; (T70-4) no cluster stands on a standing plot whose geometry
+    floor is the middle band or above, none in a district whose band range excludes the squalid band, and no structure in
+    a wall strip; (T70-5) under the parity presets the shanty districts draw FTG's tents row and MFCG's hovel (T27-2's
+    shanty fixture extended); (T70-6) at generation every `informal` plot is one that §4.7 S11's *Informal clusters* (2)
+    gives the cluster row, so none lies outside a shanty-typed district, and no class-mix draw (§4.7 S10b) yields a
+    cluster structure's class — `shack`, `tent` or `lean_to_shelter` (§10.2; *Informal clusters* (1)–(2); J-A70.49).
+  * *The class mix inside a band (item 71; §4.7 S10b).* (T71-1) inside a band row the manor share rises monotonically
+    with the prosperity value, reaching 1 at the extreme of the table; (T71-2) at equal relative position a wealthier town shifts
+    the share in the declared direction; (T71-3) in mixed blocks the largest classes stand on the highest-prestige
+    frontages at a share above a shuffled-placement baseline by §13.7's margin (V12 §3.6's harness, the spec `T71-3`:
+    block scope, 20 permutations, the margin rule); (T71-4) manors on joined plots and houses
+    on standard ones within one block.
+  * *The neighbourhood's character (item 72; §4.5).* (T72-1) the character vector is a pure function — recomputed from a
+    saved model it is equal; (T72-2) a district's name changes only past the hysteresis or by a rename; (T72-3) value,
+    not volume — the owner's fixture: many lodgings never outweigh a few churches, and three churches or one cathedral
+    alone make the religious quarter; (T72-4) one district per district-defining dossier instance, its defining trade at
+    the row's share and not on every plot; (T72-5) dispersed classes spread, none gathered into one district by rule;
+    (T72-6) every building's prosperity-driven state lies inside its district's band range, an institution's excess
+    raising the district's pressure; (T72-7) a shared building's total amplification and contribution never exceed a
+    single-power building's of equal significance; (T72-8) the economy dial is proportional to the sector's share with no
+    rank bonus, and an even mix is neutral; (T72-9) after S10a every household it distributes to blocks has its band inside
+    its district's written band range (a household no admitting district has room for housed in the district whose range
+    lies nearest its band and has room, its band read at that range's end — a derived band, reported —, so none is left
+    unplaced for its band, F-SITING meeting only one outside a dossier's population that no capacity holds, T19-4), each household S10a
+    moved from S7b's provisional allocation is reported, and no record holds the
+    provisional range (a schema test); its dossier clause (from M3a, with T19-4's): on a dossier fixture whose written
+    ranges exclude households S7b allocated and whose other districts lack the capacity for them, every household that
+    fills the dossier's population is housed in its own district by §4.7's re-provision (§4.5 (5); J-A72.50).
+  * *Derivation fills every gap (item 20 (h); §7.7 items 9–11).* On the dossier fixtures of the port's group below and,
+    standalone, on blueprints (J-A20.06): (T20-7) no derived fact contradicts a dossier fact — every derivation row's bar
+    holds, counted by §5.3's coherence rows; (T20-8) a dossier change re-derives exactly its disruption set — the rows
+    whose inputs it changed — and nothing else; (T20-9) a map edit of a dossier-owned value (a dossier name or kind, a
+    dossier-set `knownTo`, concealment, front or state, a count outside its range, the population) returns F-EDIT
+    `dossier-owned` and changes nothing; (T20-10) the totality test — every map-fact family of §2.8's registry is covered
+    by a derivation row, and every row's chance is a registered §6.1 concern or none (one test with T73-10; J-A83.01);
+    (T20-11) a schema test that every door and `HostContext` field beyond the dossier's content is optional; (T20-12) from
+    M1 the rows run on the frozen fixtures and, as the stand-in dossier, on a blueprint's own roster, T20-7 and T20-10
+    holding on both (T22-1's purity and T20-5's one-way bar stand); (T20-13) on the fixtures and on a blueprint,
+    `factTier` (§2.8; J-A20.23, J-A20.24) reads `dossier` on exactly the paths §2.8's three conditions give — a dossier
+    ref, a registry dossier path and a carried value —, `declared` on exactly the paths an author's declaration set
+    (`flags.editedPaths`, and the existence and position a declaring event pinned; item 101), and `map` on every other
+    path, a blueprint with no dossier reading no `dossier` tier; §9.2's reader, every export (`plat:tier`) and the tool
+    API (§11.2) show that tier (J-A20.82).
+* **The dossier port (items 73–88): B-DOSSIER-lite and the port's bars.** The frozen dossier fixtures (item 84; J-A84.01,
+  J-A84.02) live in `plat/tests/fixtures/dossier/` — inside `plat/` by §17.1 (3)'s path rule, and never under `research/`
+  or `captures/`, whose JSON the document checks read as corpus. They are cut only from runs of the named SettlementForge
+  line — the first `fp/integration-2026-09-23` at commit `5d699cc68` (J86 Q1) — never from an on-disk working tree, and
+  are re-cut by the same scripts when the owner names another line; the build copies them at M1. Their `manifest.json`
+  holds one row per file, and one per derived fixture a volume names — a run-time, test-side mutation of one file, never
+  written as a file (V12 §1b's `<dossier>@pop×k` levels; V08 §7.1's crisis, force and required-keys fixtures):
+
+```ts
+// @plat/testkit — the dossier fixtures' manifest (items 83, 84)
+interface DossierFixtureRow { file: string; sfLine: string; commit: string; generatorVersion: string; seed: string /* the synthetic seed the file was generated from */;
+  config: string; generatedBy: { lane: string; date: string }; kind: 'birth'|'after-events'|'after-ticks'|'world-state'|'derived'; pairsWith?: string /* the file it pairs with */;
+  derivedFrom?: { file: string; mutation: string /* the mutation as its volume names it — '@pop×k', or the V08 §7.1 fixture's name */ } /* kind 'derived' only: its source row's file; the harness makes it at run time */;
+  population: number /* persons */; tierWord: string; ourRung: Rung | 'refused'; notes: string;
+  neverPublish: ('seed'|'config')[] /* the host's seed and config fields inside the file: kept for re-cutting, never carried by an export or a document (item 85) */ }
+```
+
+  The set: nine at-rung births — town-1 Berghafen (2 130 people, TOWN), town-2 Novaorum (3 174), town-3 Glenford
+  (2 492), sample-mossgate (4 155), town-nb-1 Novasaltus (4 921; the one set of partner-level trade links), town-cc-1
+  Großmark (4 196; a custom-content record keyed by its local uid), city-1 Pianopagus (23 178, CITY), sample-blackcrag
+  (18 911, CITY) and metropolis-2 Ventovicus (47 734, METROPOLIS); three refusal births — culture-latin Collevilla
+  (1 287), sample-cnocby (767) and village-1 Lipopol (782); the totality-only files — the twelve culture towns,
+  metropolis-1 and metropolis-3; and the pairs for the absorb half — the probe town before and after seven events with
+  its per-event record; town-1 and city-1 after one week, one season and one year under the birth default and after a
+  lit year, each with its world state; the probe town after a plain and a lit year; village-1 after its years.
+  **B-DOSSIER-lite** runs each at-rung birth × 5 seeds (the fixture's derived seed, then four `rerollLayer` salts) through
+  `digest`, `creation` and `generate`, and holds:
+  * *the creation bars* (M1): (T73-1) every dossier record placed — 0 tier-6 omissions; (T73-2) the population within
+    ± 5 %; (T73-3) the residential building count inside the housing record's range; (T73-4) every collective record's
+    count inside its range; (T73-5) walls exactly when the walls bucket holds a record, the number of gates inside the access
+    row's range; (T73-6) every quarter name on exactly one district, or reported waiting (§7.7 item 16); (T73-7) the
+    population-weighted mean household band within one band of the wealth row's mapped band; (T73-8) the cross-engine
+    digest, stated in §6.5 (9) and scheduled here; (T73-9) while no village product is registered, the three refusal
+    fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks (§1.1, §7.7
+    item 15); with volume 7's `ProductDecl` registered they route to its rungs (V08's T-V8-19 on V07's rows); (T73-10) the vocabulary totality — every enumeration
+    value of the fixtures has a table row or the declared fallback, the port's `unmapped_word` notes 0 and its
+    `unmapped_kind` notes equal to the M1 class gap, listed (one test with T20-10; J-A83.01);
+  * *the absorb bars* (M3a), on the pairs: (T75-1) every `DossierChange` dated by a rung of §4.11 or reported
+    `unreceipted_change`; (T75-2) every removed element's plot vacant and every ruined one present as its ruin; (T75-3)
+    the seven-event pair's disruption within its budget or reported over it; (T75-4) the host's undo — the before-dossier
+    fed after the after-dossier — converging with `state_matches_absorbed`, its residue reported; (T75-5) a rename with
+    a receipt re-bound, one without reported as a removal plus an addition;
+  * *the typed slices and the rung* (M1, M2b, M3a and M4): (T77-1) its slice clause (from M1) — a partner's bearing,
+    drawn on its own key when the dossier gives none, does not move when an unrelated fact changes, and a partner the
+    slice no longer holds keeps its road, bearing and key, weighed 0 by `TradeFlow` (§2.4) —; its weight clauses
+    (from M2b) — `TradeFlow`'s gate weights sum to one, a harbour town's harbour carries the sea share, a way's trade
+    weight equals the sum of the gate weights routed over it, and `TradeFlow`'s S3 (7) values — the gate weights, the
+    harbour's share and the dominant bearing — equal their values after S4, S3 (12)'s principal-market score reading
+    those gate weights (§4.3; J-A77.42); (T81-1) (from M4) an epoch whose population target crosses
+    a band upward changes the rung's row and grows the frame by §3.2 (9)'s batches, every entity outside the growth's
+    region keeping its address, and every face outside that region and beside no deleted stretch of the old margin or
+    border keeping its ring, its owner and its nested faces, re-parented where its parent was joined, every raster keeping
+    its `cellCm` with every old cell in its place and every stored height unchanged, the `hydro` fields equal to a fresh
+    computation over the grown grid and every river's traced course inside the old arena unchanged — or, where M4's
+    memory measurement took §3.2 (9)'s pre-decided re-grid, each raster at the new rung's `cellCm`, every standing
+    entity keeping its stored `baseCm` and the report naming the re-grid (§3.2 (9);
+    J-A81.31); (T81-2) a digest built from the town-1 fixture with its population set to 150 000 — a test-side edit of
+    the digest, never a fixture file — is refused `E_RUNG_UNAVAILABLE` naming the population cap by `creation` (the
+    creation clause, from M1) and by `absorb` against the document town-1 made (the absorb clause, from M3a), nothing
+    absorbed (§1.1; J-A81.01); (T88-1) with the staged rows and records empty (`PortRows`, §10.2; `Recipe.history`'s
+    `HistoryHint`, §2.9; every `PowerRelation`, §2.7) the staged readers of J-A88.41 and J-A88.42 (S2's stage count at
+    §4.2, the typing row, the alliance spill and the dials at §4.5, the crime term at §4.6 with its readers at II.7.3 and
+    II.7.5, the import share at §4.9, and the catacomb age and the buried old town at II.7.6) change nothing: on the golden suite the model
+    digest equals the one a test build gives with each reader replaced by its base value, each reader from the milestone
+    that lands its stage; (T88-2) (from M2b) on a dossier fixture whose `PortRows.impairments`, filled test-side, holds a
+    non-physical row (`physical: false`), a visible impairment of that type on one dossier institution
+    (`DossierInstitution.impairments`, §14) lowers that institution's own dial term by §4.5's rule and changes no other
+    institution's term and no district's dial (J-A88.42);
+  * *the seam's bars* (item 85; M1): (T85-1) CI runs hostile names — markup, script, event attributes, entities and
+    control characters, very long and right-to-left strings — through every exporter as dossier names, display names and
+    user renames, and every output is well-formed and inert by §11.1's bar; (T85-2) a dossier-bound document, its
+    snapshot, its permalinks and every export hold no occurrence of the host's seed, and the recipe's seed equals
+    `H32("plat:sf-seed" ‖ that seed)`; (T85-3) from M3a, display names reach only the export they were given to — the
+    document and the next export are unchanged.
+* **The SettlementForge stage (V08 §7).** Every T-V8 test (V08 §7) on the host harness `plat/tools/hostharness/`, with the
+  frozen fixtures and test-side mutations only.
+* **The authoring toolkit (item 101; §7.1, §14): elegance bars and fixtures.** (T101-1) at most twelve tools — a
+  registry test that every tool maps to its declaration kinds in §7.1's binding, so a thirteenth tool fails it (a new
+  capability is a parameter of a tool); (T101-2) each tool is one declaration kind with one dry run, one fate report and
+  one undo step (an enumeration over the binding); (T101-3) the same declaration made on the canvas (a scripted gesture),
+  through the tool API and in a skeleton file gives one event, byte for byte; (T101-4) a map's declared subset exported
+  as a skeleton and re-imported under its seed reproduces its model digest; a skeleton exported from a hand map on which
+  a raised road was declared and a wall then drawn beneath it, and from one on which the wall came first and the road
+  was brought down before it, each re-imported to its source's model digest (§2.7's laws, law 2 *Newer*: a creation
+  prefix meets in its log order), and a clerk's transcript of tool calls, replayed, gives the session's digest (§6.5
+  (9)); (T101-5) no declaration contradicts a dossier fact or a lock without a refusal (a meeting of a wall and a raised
+  way contradicting no placement lock: §2.7's laws, law 2 *Entry*; its worked example the crossing table's lock
+  sentence) carrying its reason and at least one closest alternative; (T101-6) J78's acceptance fixture and item 110
+  (e)'s second fixture (M3a) — each an original skeleton with a known city's structure and our own names, its brief,
+  structure list, seed and golden in V12 §3.14 — each authored three ways: as a skeleton file, by hand through the
+  scripted canvas, and through the tool API from a clerk's recorded transcript — at M3a a scripted transcript of
+  tool-API calls for each fixture, from M3c the built-in clerk's cassettes for their descriptions and rosters (V10
+  §3.15, V10 §7.3 group A) —; the skeleton file and the hand-authored map share one model digest under one seed, and all
+  three meet its fixture's structure list (every declared quarter by kind and name, both enceintes with their gates,
+  every named place in its declared quarter); (T101-7) points in, shape out — a two-point wall over the ridge fixture
+  follows the ridge and closes when its ends meet; a seed quarter never crosses a block and its boundary lies on street
+  centre-lines, water, walls or ridges; a level lake's shoreline equals the terrain's contour at that level; (T101-8)
+  declared means held — a New random over a quarter holding declared entities moves no declared entity, the fates list
+  naming each one held; (T101-9) the count badge of a quarter, a fill or a roster equals the plots, households and
+  buildings its committed event makes.
+* **File g's items.**
+  * *Sunlight (item 102; §4.5).* (T102-1) with `w_sun` = 0 and item 111's climate cell at its temperate value the field and
+    the town are byte-identical to a build without the term (a `NoOpPin`); (T102-2) on a fixture with an island over a
+    uniform district, the island's shade strip averages lower prosperity than the sunlit remainder by the declared weight
+    within tolerance — volume 5's T-V5-19, with T-V5-20 and T-V5-21, from M6-sky, and volume 6's drift fixture (T-V6-12)
+    its epoch form; (T102-3) the term alone moves no plot across two bands (volume 11's T-V11-30: `w_sun` at its default
+    against 0 under common random numbers on B-CITY, 0 plots); (T102-4) the term's computation within its per-rung budget
+    (§12.4).
+  * *The siting rulebook (item 103; §10.2, §4.7 S10b).* (T103-1) the siting statistics suite: each family's effect shows
+    as a measured shift against a random-placement baseline across seeds — tanneries downstream in most river towns (at
+    0.80 of towns), a nuisance's sensitive members farther from its emitters, the thieves' den farther from the law,
+    shops nearer the market — never as a guarantee (volume 11's T-V11-12, one Holm family; volume 5's T-V5-22 on its
+    island seeds); (T103-2) the share of districts a coverage class serves above its random-placement baseline by 0.1
+    (volume 11's T-V11-13); (T103-3) with the coverage weight at 0, placement byte-identical to the build without the
+    coverage rows (a `NoOpPin`).
+  * *Custom content (item 104; §7.7, §10.2).* (T104-1) fixtures of custom institutions carrying only a category; a
+    category and tags; a scene archetype; the optional definition fields; and an active reviewed chain — each resolves,
+    sites and reports as §10.2 specifies, with zero placement failures; (T104-2) a chain's nodes closer together than a
+    random baseline across seeds (volume 11's T-V11-16; volume 5's T-V5-23 on islands); (T104-3) the flow order — the
+    resource farther from the market than the final seller — in most placements (at 0.75), a compatible chain's in-town
+    nodes within their links' comfortable distances in most placements, and a chain toggled off and on returning its nodes
+    to their sites where nothing else changed (volume 5's T-V5-24 on islands); (T104-4) a revision re-sites with least
+    disruption.
+  * *The supply web (item 105; §4.7 S10a–S10b).* (T105-1) across seeds a multi-output producer sits nearer its dominant
+    output's consumers, consumers of a shared provider nearer it, source-oriented classes nearer their inputs and
+    market-oriented classes nearer their demand than a random baseline (volume 11's T-V11-14); (T105-2) a loop fixture
+    settles within the relaxation cap, its second pass moving fewer members than its first, byte-stable across runs;
+    (T105-3) the share of districts holding a dispersed class within 0.05 of the base's (J-A72.46 holds; volume 11's
+    T-V11-18), and split pairs for split classes past the threshold, never under the parity presets; (T105-4) with the
+    web's weights at 0 — V11 §3.7.4's off form — placement byte-identical to the base (a `NoOpPin`).
+  * *Walls that use natural barriers (item 106; §4.2 S3 (9), §4.4 S5a, §4.8).* (T106-1) a river-loop fixture walls only
+    the neck and is sealed; a cliff-backed coastal fixture anchors on the cliff and the shore with zero wall edges along
+    sheer arcs; (T106-2) 100 % of quays reachable through a gate or an open front; (T106-3) a sea-threat dossier gets a
+    quay wall with sea gates and a peaceful one an open front, and every walled port gets its harbour-mouth chain;
+    (T106-4) F-WALL's check extended — every open stretch's ends anchored on a barrier or an enceinte (§5.2); (T106-5) with
+    `barrier` closure and the stretch profile off, byte-identical to the base (a `NoOpPin`); volume 11's T-V11-19 checks
+    its rows.
+  * *Spread and pull in balance (item 107; §10.2, §4.7 S10a–S10b).* (T107-1) a coverage class's served-district share
+    above its random baseline with the web's weights on — the pull never defeats coverage; (T107-2) a spaced class's
+    nearest-member distance above its baseline; (T107-3) consumer-to-provider distance within `comfortM` in most
+    placements (at 0.70; volume 11's T-V11-14); (T107-4) with `comfortM` and spacing at 0, byte-identical to items 103
+    and 105 alone (a `NoOpPin`).
+  * *Institution ladders (item 108; §7.7, §10.2, §4.2 S2).* (T108-1) on the surveyed dossiers every COUNT, QUARTER and
+    GUILD record shows members inside its range, rising monotonically across a population sweep (× 0.5, 0.75, 1, 1.5, 2;
+    a level outside [1 500, 120 000] `notApplicable`; volume 11's T-V11-17); (T108-2) no ladder pair double-counted;
+    (T108-3) a SIZE record is one building, and the `kinds` row set's rows for the unnumbered qualifiers read as §7.7's DR9 extends them;
+    (T108-4) a promotion or demotion changes the member count by least disruption.
+  * *Caverns, ruins and catacombs (item 109; §4.2 S1, II.7.5, II.7.6).* (T109-1) across seeds cavern frequency rises with
+    relief and is higher with mining than without, per relief class (volume 4's T-V4-55), and every mine–cavern breach
+    lies within `breachM`; (T109-2) a dossier carrying `ancient_ruins` gets a ruin system or a reported reason, its
+    surface marker linked; ruin plans beat the cavern baseline on the structure test (right angles, straight walls) and
+    differ from the town above on block size, grid regularity and orientation (volume 4's T-V4-44, T-V4-45; volume 6's
+    T-V6-37); every ruin link obeys the connection graph; an undercity takes a ruin void over a cavern when both qualify,
+    at the ranked share (volume 4's T-V4-58); (T109-3) a system growing through a sealed void at a shared depth yields a
+    breach and makes it accessible; across METROPOLIS seeds the sealed share of voids deeper than `dig.reachM` stays at or
+    above the row's floor (volume 4's T-V4-54; volume 6's T-V6-36); caverns and ruins occur at every rung (volume 4's
+    T-V4-43); the share of voids with an access rises with the buildings over them across a growth sweep (volume 4's
+    T-V4-49; volume 6's T-V6-34); no dwelling in a void without an access, and every access carries its cause; (T109-4)
+    at most one catacomb at TOWN, the counts at CITY and METROPOLIS within the table bound, the largest under the largest
+    cemetery, every catacomb under a cemetery or a quarry ossuary and none under a church, the cathedral always with a
+    crypt (volume 4's T-V4-50; volume 6's T-V6-40; volume 11's T-V11-25); (T109-5) a catacomb's extent non-decreasing
+    over every epoch sequence (a property test), its growth per epoch within the cap, a stagnant catacomb's ossuary fill
+    rising while its extent holds, and its sources only those item 109 (k) (2) admits (volume 4's T-V4-51, T-V4-52;
+    volume 6's T-V6-38, T-V6-39); (T109-6) with the ruin chance 0 and the relief, boost and fissure rows at the base's
+    values, byte-identical to the base (a `NoOpPin`).
+  * *Retaining walls, raised ways, stepped massing, deck plots (item 110; §2.7, §4.3, §4.6, §4.7 S10–S11, §5.3).*
+    (T110-1) retaining walls on terraced slopes above the thresholds and nowhere flat, every way crossing one a stair
+    or a ramp, and one meeting the frame's outer ring ending on it, and a T3 `retaining` wall drawn across a standing
+    viaduct's under-deck strip through one of its supports — levelling no ground inside the strip, laid through the
+    support, every station, key and span unchanged (§2.7's laws, law 1 (2), law 2; its worked example the crossing
+    table's lock sentence's retaining wall); the same stroke drawn across a `vault` span of a standing aqueduct — the
+    span read `open` while the line lies there, its arch vault removed by V04's reconcile (one of the stroke's
+    consequences, law 4), and laid again with its id when the stroke is deleted (§2.7's laws, law 1 (8)); on a second
+    run with a declared placement seated in that vault and locked by the user, the stroke moved along the deck to cross
+    under the nearest span whose chamber seats none, or at a support, part of its bend (§2.7's laws, law 1 (9), law 4),
+    the building, its chamber and its door unchanged, and on a one-span way refused `refuse.raised.meeting` naming the
+    building, no Unlock offered (§2.7's laws, law 2 (c)); and an aqueduct drawn across a standing retaining wall — no
+    arch vault in a `vault` span over its line (§2.7's laws, law 1 (8); its worked example the crossing table's
+    *beneath*); (T110-2) a raised way crosses ground ways with zero junctions and its parts never share a planar
+    arrangement with part 0 — at the frame (§2.7 *At the frame*), its part sized to the ground's frame plus margin and
+    growing with it, an aqueduct sourced beyond the frame laid to the outer ring without a ramp, and the same aqueduct
+    through an epoch's frame growth — §3.10's stored-references row passing at every stage end of the epoch, no part-0
+    vertex left with a row and no edge, and after §4.11 both ends of its ring-end foot on the new rings (§2.7
+    `RaisedFoot`, §3.2 (9)) and every station of the old deck at its key, position and ring after the growth (§2.7's
+    support step (7)) and, on the same aqueduct with its end span on the old ring `ruined` by its lapse and, on a second
+    run, with that span's `use` held by a user's `setAttr`, every span the extension lays `ruined` and, on the second
+    run, carrying the held `use` — no fallen arch standing again and no hold lost; and a fixture whose stage-2 ring
+    crosses a declared viaduct's end span at the frame: the frame growth's extension keeping the deck's course and that
+    end span as it stood, laid on from the old foot's point (§2.7's support step (7)), its new supports off the band,
+    the deck reaching the new ring, the run beneath capped at the soffits (§2.7's laws, law 1 (7), law 2 (c); its worked
+    example the crossing table's W1·C12), and the same with that ring drawn by hand (W2·C12); and, on a variant whose
+    grown frame reveals across the aqueduct's course a river wider than `raisedWays.structure.maxClearSpanM` and, on a
+    second run, a valley deeper than its `maxPierM` — first with a fitting course in reach, then with none — the
+    extension bent to the nearest course whose clear spans and piers fit, both ends of its ring-end foot on the new
+    rings, and, with none, kept on its course with its support in the water and its pier past the bound, each counted in
+    `raised.extendedPastBound`, the aqueduct kept and nothing waiting (§2.7's support step (7)), and, on a variant whose
+    fitting course crosses a standing ring, that course crossing it at the aqueduct's level as a course laid then
+    (§2.7's laws, law 1 (2), law 2 (a); its worked examples the crossing table's C12 and *over the band*) —, a declared
+    course drawn beyond the frame bent to the ring; the support step's obstacles and bounds (§2.7): a viaduct over a
+    square and an aqueduct over an oasis's grove, 0 piers in either, each span over one `open` with reason `clear`; a
+    generated viaduct and aqueduct over a 200 m river dropped (`raised_too_long`, the epoch candidate waiting as
+    `raised_too_tall`'s does), a declared one bent to a course whose clear spans fit
+    `raisedWays.structure.maxClearSpanM`, no support in water but a frame growth's extension with no fitting course
+    (above); **the wall and later work** (§2.7's laws, laws 1–4; their worked examples the crossing and way-and-channel
+    tables, with the crossing table's lock, bent-group and fixed-place sentences; every count below of way corridors
+    over a support ring or a `vault` span's strip reading standing rings and `vault` spans as the crossing table's
+    *beneath* reads them (§2.7's laws, law 1 (8)); **the state sweep** — where a clause runs over it, the clause's case
+    run once more for each of these states of its raised way, each on its own run of the clause's fixture, the state
+    made by scripted ops before the clause's wall event — at an epoch clause, and on a clause whose wall events run over
+    several epochs, the raised way locked by the script once its state is made, so that no epoch repairs, strikes or
+    releases it (V06 §3.1) and the state holds, its meeting the unlocked cell's but for the `reshaped` entries law 4's
+    (G2) writes for a placement-locked thing (§2.7's laws, law 2 *Entry*, law 4), save a clause whose event is a hazard
+    or a landfall on the raised way (T-V5-14), which a lock keeps off it (§2.7's laws, law 2 *Entry*), that clause
+    making each state inside its own epoch with the raised way unlocked —: C3, a span over the wall's line `ruined` by a
+    `DeclineOp` `breach` and, on a second run, `cleared` by its `dismantle` after it; C4, every span over the line
+    `ruined`; C5, the support nearest the line `cleared` — both its spans `ruined` first, then its `dismantle` (V06
+    §3.19.2 (3)) — and, on a second run, `ruined` by a `topple` (V06 §3.11; it and both its spans, V06 §3.19.2 (4)) — on
+    a raised way the clause locks, the state made before the lock (by the `topple`, or by hand `convert`s: a `breach` of
+    both spans, then of the support), a lock keeping both a hazard and the user's own ops off it (§2.7's laws, law 2
+    *Entry*) —; C6, a `vault` span over the line breached — with its arch vault where no wall of the clause stood over
+    the span before the event, else with none, the span read `open` — (the fixture's seed searched so that one reads
+    `vault`); C8, the raised way placement-locked (a pin is one) and, from the milestone that carries the shape lock
+    (J147, J150), on a second run shape-locked; on a third, an arch vault in a `vault` span over the line locked by the
+    user before any wall of the clause stood over it; in a clause whose event lays a trace, on a fourth, a declared
+    placement seated in that vault and locked by the user before the event; C10, C3's `ruined` span repaired by
+    `repairRaised`, and, in a clause whose event lays a trace, the C3 run once more with that span repaired after the
+    event — no gate, tower or fixed place under it save under an aqueduct's arch that clears it (§2.7's laws, law 1 (5),
+    (6)) — and once more with that span `cleared` by its `dismantle` and repaired by hand after the event: a new span on
+    the way's line over the run, its supports off the band, no gate, tower or fixed place under it but as §2.7's laws,
+    law 1 (5) and (6), admit; C12, the deck extended by a frame growth (on the clause's variant whose raised way ends on
+    the frame's outer ring, §2.7 *At the frame*, the frame grown by an epoch before the event); C13, the raised way's
+    Arch spacing edited, on a second run its Deck height, on a third its course re-shaped by a hand `moveVertex`. Each
+    run takes its cell of §2.7's crossing table (the shape-locked C8 run its cell as §2.7's laws, law 1 (10), leave it:
+    the later wall or raised way bent clear of what the lock holds, else refused, waiting or not built): the event's own
+    records only, nothing of the raised way written by the clause's wall events but a chamber the table removes or lays
+    again (`collapsed` where its span or a bounding support has fallen), the run's top read by *beneath* for that state
+    (§2.7's laws, law 1 (7)), no gate's or tower's footprint in the under-deck strip but where §2.7's laws, law 1 (5),
+    admit one, each reshape of a placement-locked thing shown (§2.7's laws, law 4; its worked example the lock
+    sentence's (G2)), and every station, key, span and state the event does not name unchanged): (1) *over the band* — a
+    CITY c15 town with a moated ring and an intervallum whose masonry aqueduct, laid at S6's end, crosses S3's ring with
+    its channel there above the ring's top (§2.7's laws, law 1 (2): over): its supports off the band and out of the
+    moat's water, every span over the band clearing the ring's top, the span over the band ruled with no reading of the
+    wall (its `use` and `reason` those the span rule gives the same course with no ring there), a `vault` one read
+    `open` with no chamber (§2.7's laws, law 1 (8)), and within every bound, the run beneath at its own top (§2.7's
+    laws, law 1 (7)), no station, gate or opening, the ring's gates and strips as without it, a tower S7's spacing
+    places under it standing there only where every span over it clears the tower's top, else laid along the trace at
+    the nearest point the laws admit it (§2.7's laws, law 1 (5), law 2 (a), law 3), nothing reported; on a variant whose
+    aqueduct's channel runs within the ring's height at the crossing, the crossing merged — the band built up to and
+    around the aqueduct's arch there at the ring's own top, the water passing through it, no gate, postern or tower in
+    it, nothing of either record written (§2.7's laws, law 1 (2), (5)); the same aqueduct founded by V06 §3.19 at a CITY
+    epoch across the ring where its run is `breached` and, on a second run, `dismantled` — the gap left a gap beneath
+    the arch, no `repairWall`; on a third run across a ring drawn by hand and placement-locked by the user — crossing it
+    at the aqueduct's level (§2.7's laws, law 1 (2); its worked example *over the band*), no wait, nothing of the ring
+    written (V06 §3.19 (5)); on a fourth across a retaining wall drawn by hand and placement-locked by the user — passed
+    over, a support on its line built against it, nothing of it written (§2.7's laws, law 1 (2), law 2; its worked
+    example the lock sentence's retaining wall; V06 §3.19 (5)); and a hand aqueduct drawn across a standing wall, its
+    course bent clear of a tower whose top its arches would not clear (§2.7's laws, law 1 (5), law 2 (a)), with
+    `bend.wall.aqueductArch` — and the same across a wall drawn by hand, which holds nothing unless locked (§2.7's laws'
+    *held*), and across one the user placement-locked, no `refuse.locked` and nothing of the wall written (§2.7's laws,
+    law 2 *Entry*; its worked example the lock sentence), and across a wall where no course keeps its supports off the
+    band within `raisedWays.structure.maxClearSpanM`, refused (`refuse.raised.meeting`), nothing of either built —;
+    (1)'s aqueduct at S6's end on a variant whose recipe places a ring anchor, a river's water gate and an `on_enceinte`
+    castle's weld vertex within one span of its best course — its course bent so that the anchor lies outside its
+    under-deck strip and the water gate and the weld vertex outside it save under an arch that clears them (§2.7's laws,
+    law 1 (4)–(6), law 2 (a); its worked example the fixed-place sentence), S7's anchor tower standing at its anchor;
+    (2) *down before the wall* — a CITY whose S4 route's best course crosses a valley at S3's gate, its deck down before
+    the trace and its route through the gate on ground part 0 — S3's gate route, whose first point at `T = t_1` lay on
+    its priced deck, re-solved by §4.2 S3 (7) with no deck across the stage-1 boundary, the gate on ground part 0 and S4
+    committing the re-solved route —; an elevated road whose course would cross a standing ring, not built and reported;
+    on volume 6's engine an H-AQUA variant whose viaduct reading's `A` lies inside the CITY ring and `B` beyond it — not
+    founded, `raised.waited` at each CITY and METROPOLIS epoch while the CITY ring's trace stands — and the same with
+    the ring's run at the crossing `breached`; and a stage-2 primary S5b spawns whose best course is raised across its
+    picked boundary, down before it — the stage's `N_k` gates all on ground part 0; 0 road decks across a trace standing
+    when laid; a hand raised road drawn across a wall drawn by hand and placement-locked by the user where no gate
+    stands on its ground course — brought down before it, its ground way's gate made in the placement-locked wall with
+    the fate *reshaped* naming it (§2.7's laws, law 2 *Carried way*, law 4; its worked example the lock sentence), its
+    course beyond the wall a ground way on ground part 0 to the stroke's end, the undo restoring the wall; a
+    regeneration (keep) of a CITY whose stage-1 ring was drawn by hand and placement-locked by the user, an S4 route
+    priced on a deck across it — the deck down before the ring and the route through one of the ring's standing gates,
+    no gate made, the ring's gate count unchanged — and an epoch route priced on a deck across a standing ring, through
+    a standing gate likewise (§2.7's laws, law 1 (3), law 2 *Carried way*; its worked example the crossing table's *down
+    before the wall*; §5.3's gate row); an epoch on that CITY fixture growing a walled stage whose S5b spawned primary's
+    best course crosses a valley at the stage's picked boundary on a priced deck — the deck down before the boundary,
+    the primary's main gate on ground part 0 made by the stage's gate law, the stage's gates exactly `N_k` (§2.7's laws,
+    law 1 (3), law 2 *Carried way*; its worked examples the crossing table's *down before the wall* and the
+    way-and-channel table's row (d)); (3) *beneath* at generation — a CITY c14 fixture whose S4 viaduct over a valley is
+    crossed by stage 2's moated ring: the ring on its course, its band laid through each support in it, no ramp, stair
+    or foot under its band or wall strips (§2.7's laws, law 1 (4)), its setback, glacis and berm as anywhere, a run
+    beneath each standing span capped at its soffit and across each support built into it at the lowest soffit of the
+    standing spans it bears and, beneath a span whose soffit stands above the ring's top, at its own top with the arch
+    open above it, no gate or tower in the under-deck strip and no gate on the deck, the arterial on the deck pinning no
+    gate and S5b's count read on ground part 0, the channel passing beneath only where it meets no support, ramp, stair,
+    foot or `vault` span's strip, else stopped at the strip's edges (`W_RAISED_CROSSING`), its intervallum (the c14
+    fixture's era row laying one) crossing under a span §4.3 admits or ending at the strip, the inner strip then bounded
+    across it by its inner setback line, every station, key and span as S4's commit laid them; the same with
+    `moat: 'all'` at the widest moat row — the channel stopped at the under-deck strip's edges, the outer strip closed
+    across it as on a dry stretch, `W_RAISED_CROSSING` reported, no support in water; and a stage-2 ring whose boundary
+    falls on an S4 viaduct's ramp at a valley rim — the arterial's gate pinned on its ground course beyond the foot and
+    the trace laid through it, no ramp, stair or foot under the band, its wall strips or the channel (§2.7's laws, law 1
+    (4)), the stage's `N_k` gates on ground part 0; a variant whose picked boundary crosses that deck within the pull's
+    search band of the valley's rim — the pulled trace crossing it under the deck and never on its ground course beyond
+    the foot, the stage's gates exactly `N_k`, 0 non-gate crossings (§4.4 S5a *Trace* (2)); a stage-2 ring whose
+    boundary crosses the river under an S4 viaduct's span and, on a second run, is anchored on that river's bank inside
+    the viaduct's fixed-place zone — the river crossing with its water gate, and the anchor with its tower, moved along
+    the river clear of the zone, the trace laid to them; a spur town whose gorge-side stretch would anchor on the rim
+    where a gate route's priced viaduct crosses the gorge — the anchor, laid after that viaduct (§4.2 S3 (9) after (5)),
+    moved along the rim clear of its fixed-place zone with its tower — and, on a second run, where a viaduct on an S4
+    route of its own would cross there, that viaduct, laid after the stage-1 trace, keeping the anchor outside its
+    fixed-place zone; and a stage-2 ring anchored on that rim after the viaduct, the anchor moved along the rim clear of
+    the zone with its tower; an `on_enceinte` castle sited at generation beside a gate route's viaduct, its weld
+    vertices outside the viaduct's fixed-place zone (§4.2 S3 (8)'s filter); a castle sited at a regeneration (keep)
+    beside an aqueduct the user placement-locked whose under-deck strip, under arches that do not clear the castle's
+    walls, holds its first candidate's weld vertex and, on a second run, the midpoint of its least-cost side — the first
+    claim passed over for the siting's next candidate, the second castle's town-side gate fixed on its next side clear
+    of that strip, no weld vertex or gate moved after siting (§2.7's laws, law 1 (5), (6), law 2 (a)); 0 fixed places —
+    water gates, anchors with their towers, weld vertices and castles' town-side gates, each with its footprint — in a
+    road deck's fixed-place zone or in an aqueduct's under-deck strip but where §2.7's laws, law 1 (5) and (6), admit
+    one, and 0 gates' or towers' footprints in an under-deck strip save under an aqueduct's arch that clears them
+    (§2.7's laws, law 1 (5), (6); its worked examples the fixed-place sentence and *Strips, zones and nearest points*);
+    a CITY fixture holding a declared masonry aqueduct the user placement-locked across a corner of a castle's bailey,
+    crossing its curtain at the aqueduct's level (§2.7's laws, law 1 (2); its worked example *over the band*),
+    regenerated (keep), so that S7 lays the castle's internal paths (keep ↔ gatehouse ↔ wall stairs, §4.8) after it:
+    each path crossing the under-deck strip under a span §4.3 admits or ending at the strip as at a reservation, 0 path
+    corridors over a support ring, ramp, stair, foot or `vault` span's strip (§2.7's laws, law 1 (1), (8); its worked
+    example the way-and-channel table's row (a)); and in every case of this clause each crossing of the ring's trace
+    with a deck line counted once in S7's `W_RAISED_CROSSING` and each stopped channel once in S3's or S5a's (§5.4); on
+    a variant of the river ring above whose `raisedWays.structure.stripMarginM` a table edit widens so that the S4
+    viaduct's fixed-place zone holds every point of the river within the pull's search band — F-WALL's raised-way rung:
+    the boundary re-pulled once, its search band widened to `wall.barrierReachM`, its river crossing and water gate
+    clear of the zone, and, on a second run where the river within that reach lies inside the zone too, the stage left
+    unwalled and `W_RAISED_MEETING` reported, nothing of the viaduct changed (§5.2; law 1 (6), law 2 (c); its worked
+    example the crossing table's (G3)); (4) *beneath* by hand and at an epoch — an epoch circuit across a standing
+    aqueduct and one across a standing timber elevated road, an epoch contraction across an aqueduct, a hand `drawWall`
+    across a standing aqueduct with a `vault` span in its line and one across a declared one-span masonry viaduct, each
+    run again with the raised way placement-locked and with it pinned: no `refuse.locked`, the `vault` span's arch vault
+    removed in the wall's commit (one of the hand op's consequences in its dry run, the fate *reshaped* on the locked
+    and pinned runs, the hand undo restoring it with the same id; §2.7's laws, law 1 (8), law 4), a gate the wall makes
+    for a ground way laid clear of the under-deck strip, or under an aqueduct's arch that clears it (§2.7's laws, law 1
+    (5), law 2 (a)), every station, key, span and state of the raised way unchanged, the hand cases naming
+    `bend.wall.raisedCrossing`; and a hand `delete` of a run beneath a standing viaduct — the viaduct unchanged, no
+    bend, the run back on its undo; and a hand `drawWall` across a standing aqueduct drawn through one of its supports —
+    where its channel runs above the wall's top, bent along the deck to cross under the nearest span that clears the
+    wall, and, on a second run whose channel runs within the wall's height, kept on its line, merged round the support
+    (§2.7's laws, law 1 (2), law 3) — and one across a viaduct's ramp — bent beyond its foot through a gate on the
+    carried way's ground course (§2.7's laws, law 1 (4)) —, each move part of its bend, named in
+    `bend.wall.raisedCrossing`'s line (§2.7's laws, law 4); a hand `drawWall` across a viaduct with a `ruined` span and
+    a `cleared` support in its line — the cap read from standing spans only (§2.7's laws, law 1 (7)), the trace through
+    the cleared ring as open ground, no fate; a hand `drawWall` across a standing viaduct where a ground way crosses the
+    new trace under a span — that way's gate clear of the strip, the stretch bent through it, part of its bend; a hand
+    `placeGate` inside a viaduct's under-deck strip — moved along the trace clear of it, `bend.wall.raisedCrossing`; and
+    the viaduct's Arch spacing changed after the wall was drawn — its station in the band slid off it, the band whole
+    there; the hand rows of §2.7's crossing table on this clause's standing aqueduct with a `vault` span in its line and
+    on its declared viaduct — a hand `convert` `breach` and `dismantle` of the epoch circuit's run beneath (W4), a hand
+    `convert` `wearWall` and `neglect` of it (W5), a `repairWall` of the breached run and of the `dismantled` one, its
+    new stretch drawn on its line and meeting the raised way as a hand `drawWall` does (W10), a hand `delete` of the run
+    (W11), a hand `placeGate` inside the under-deck strip and a gate of that wall slid by its grip into the strip — the
+    placed gate moved along the trace to the nearest place §2.7's laws admit it (§2.7's laws, law 1 (5): clear of the
+    strip, or under an aqueduct's arch that clears it) and the slid one back, on the side its grip came from, to the
+    first such place, its road following, the trace unchanged, with `bend.wall.raisedCrossing`'s gate form (W13) —, a
+    hand `contractWall` of the ring across the aqueduct (W1 by hand) and a hand `setAttr` re-grading a `light` stretch
+    of the hand `drawWall` above to `full` under the aqueduct — its wider band kept to a lawful crossing, re-traced
+    locally where it would not cross lawfully, part of its bend (§2.7's laws, law 2 (a), law 3, law 4; its worked
+    examples the bent-group sentence and row W14) —, together with the epoch circuit and the hand `drawWall` above (W1,
+    W2), each run over the state sweep: each its cell's outcome, no `refuse.locked` with the raised way placement-locked
+    or pinned, an arch vault a delete lays again `collapsed` where its span has fallen; each hand row run again on the
+    hand `drawWall`'s run (drawn and not locked, so changed as an unlocked run: the cell's outcome) and on a run the
+    user locked (§7.1's lock row: `refuse.locked`, nothing written) (§2.7's laws, law 2 *Entry*; its worked example the
+    lock sentence's reach); a hand `drawWall` drawn along beneath a standing aqueduct through two of its supports, one
+    entering and leaving its under-deck strip on one side, and one ending at a support — each such part moved to the
+    strip's edge on its entry side, its band outside the under-deck strip, part of its bend, named in
+    `bend.wall.raisedCrossing`'s line, every station, key and span unchanged (§2.7's laws, law 1 (4), law 2 (a), law 3;
+    its worked example the bent-group sentence); an epoch circuit across a standing aqueduct whose `vault` span holds an
+    arch vault the user placement-locked — the circuit crossing under that span, its chamber not laid while the wall
+    stands, its lock and id kept, a `reshaped` entry naming it, and after a hand `delete` of that run the chamber laid
+    again, locked, with the same id; the same by a hand `drawWall`, with the fate *reshaped*; on a second run with a
+    declared placement seated in that vault and locked by the user — the circuit crossing the deck line clear of that
+    span's strip at the aqueduct's level, the building, its chamber and its door unchanged, 0 footprints in a band or
+    setback, no band or wall strip of a crossing at the neighbouring span over its span's strip, and a hand `drawWall`
+    across that span moved along the deck line to the nearest crossing clear of the building's widened strip, part of
+    its bend, named in `bend.wall.raisedCrossing`'s line, the building, its chamber and its door unchanged, and on a
+    one-span way the same stroke refused `refuse.raised.meeting` naming the building, no Unlock offered (§2.7's laws,
+    law 1 (2), (9), law 2 (c), law 3); and, on a CITY fixture whose standing ring was drawn by hand and placement-locked
+    by the user, a standing aqueduct's course re-shaped by hand so that a stretch of it crosses the ring — that stretch
+    crossing the ring at the aqueduct's level, its supports off the band (§2.7's support step (3)), over where its
+    channel runs above the ring's top, every span over the band clearing it, else merged, and its under-deck strip clear
+    of the ring's gates, towers and fixed places save under an arch that clears them (§2.7's laws, law 1 (2), (5), (6),
+    law 2 (a); its worked example *over the band*) — and a standing declared viaduct's course re-shaped so that a
+    stretch of it would newly cross the ring — the drag bent back along itself until no stretch newly crosses the ring,
+    else refused `refuse.raised.meeting`, and a 3 m nudge of a stretch already passing over the ring keeping that
+    crossing, the ring beneath (§2.7's laws, *Order*, law 2 (a), law 3) —, no `refuse.locked` (§2.7's laws, law 2
+    *Entry*; its worked examples the crossing table's C13 and lock sentence); on a variant whose standing aqueduct and
+    declared viaduct cross the epoch circuit's planned line with their under-deck strips within the ring's band's width
+    of each other, the epoch circuit and a hand `drawWall` across both — each crossing lawful for both deck lines, every
+    tower, gate and fixed place where §2.7's laws admit it against each raised way (§2.7's laws, law 1 (5), (6)), one
+    moved out of either's strip or zone stopping at the nearest such place, none moved into a strip or zone that bars
+    it, nothing of either raised way written (§2.7's laws' terms; its worked example *Several raised ways*); the
+    standing aqueduct with a declared placement seated in a `vault` span and locked by the user, its course re-shaped by
+    hand and, on a second run, its Arch spacing edited so that the span's widened strip would take in the epoch
+    circuit's standing line — the edit bent to the nearest course or spacing that keeps the line out of it, the
+    building, its chamber and its door unchanged, and, where none does, refused `refuse.raised.meeting` naming the
+    building, no Unlock offered (§2.7's laws, law 1 (9), law 2 (a), (c)); an epoch circuit and, on a second run, an
+    epoch contraction whose planned water gate and anchor fall in the declared viaduct's fixed-place zone — each moved
+    along the river or the barrier's edge clear of the zone with its tower, the trace laid to it, counted in neither
+    `walls.waited` nor `walls.raisedCrossings` (§2.7's laws, law 1 (6), law 2 (a)); a hand `drawWall` whose end snaps to
+    a shore inside that zone with a clear point within `wall.barrierReachM` — the anchor moved along the shore clear of
+    it with its tower, part of its bend, named in `bend.wall.raisedCrossing`'s line in its fixed-place form; a hand
+    `setAttr` of the hand `drawWall`'s kind, under the aqueduct, to a kind whose band is wider (W14), as the grade
+    change; on a variant whose `raisedWays.structure.pierSpacingM` band a table edit narrows so that no span of the
+    standing aqueduct over the circuit's planned line clears the ring's band, its channel there running above the ring's
+    top (§2.7's laws, law 1 (2): over, never merged), an epoch circuit across the standing aqueduct waiting
+    (`walls.waited`), and a hand `drawWall` across it and a hand stretch whose anchor lies inside its under-deck strip
+    with no clear point within `wall.barrierReachM`, each refused `refuse.raised.meeting` with the nearest lawful
+    declarations, nothing of either written (§2.7's laws, law 1 (2), (4), law 2 (c)); and, on a fixture whose river
+    crosses the ring beside a viaduct over the river, an epoch `shiftCourse` that would carry the ring's river crossing
+    into the viaduct's fixed-place zone — its water gate placed along the river clear of the zone within the run its own
+    law re-traces, every tower and gate outside that run unmoved, and, on a second run where no clear point lies within
+    that run (§2.7's laws, law 1 (11), law 2 (c)), the shift not made that epoch and counted in `walls.waited`, the
+    river, the ring and the viaduct unchanged (F-REDERIVE's raised-way rung, §5.2); (5) ways and channels — on the CITY
+    and METROPOLIS fixtures, 0 supports in a moat's water, a gate plaza, a quay's corridor, a pier, a mole or a way's
+    corridor, and none in the band of a wall standing at the raised way's creation — among them a CITY masonry viaduct
+    across a `quay`-banked river at its clear-span bound (both bank stations behind the quays' corridors, each quay one
+    connected way passing under its span) and a CITY S4 timber viaduct crossed by a `through` S5b road and an S5c
+    street, each crossing under a span clear of its supports; an H-AQUA epoch growing a stage over a standing aqueduct's
+    land, an epoch route re-solved under a viaduct, a hand road drawn across one, a hand road drawn across one where a
+    wall runs beneath it, crossing the trace under the deck — moved along the deck to cross the trace clear of the
+    under-deck strip at a gate (`bend.raised.underSpan`), a hand road wider than every `open` span's clear width drawn
+    across one, a hand carve of a canal across a standing viaduct whose drawn crossing meets a support and one wider
+    than the clear width between every two of its supports, a hand carve of a canal across a generated ring beneath
+    which a standing aqueduct passes, its re-traced run's new strips meeting the aqueduct's supports — the run meeting
+    it by §2.7's laws (§2.7's laws, law 1 (2), (4); its worked examples the crossing table's *beneath* and row W2), bent
+    where the bent-group sentence says (§2.7's laws, law 2 (a), law 3), no F-EDIT conflict (§4.11 *Other crossings*) —,
+    and the same carve across a ring the user placement-locked — refused by §7.1's lock row (`refuse.water`), nothing
+    written (§2.7's laws, law 2 *Entry*; its worked example the lock sentence's reach) —, each hand case run again with
+    the raised way placement-locked and with it pinned — 0 way corridors over a support ring, ramp, stair, foot or
+    `vault` span's strip, every way crossing under a span §4.3 admits (`bend.raised.underSpan`; the wide road round the
+    raised way, `bend.raised.around`), the first carve moved along the deck to the nearest crossing that meets none of
+    these and passing beneath with no support in water (`bend.raised.underSpan`), the second stopped at the under-deck
+    strip's edges, both ends against the ground as against a berm (`bend.raised.around`), no `refuse.locked`, every
+    station, key and span unchanged; (6) regeneration — (1)'s c15 fixture, its aqueduct crossing every S4 route under a
+    span §4.3's crossing rule admits, with its aqueduct placement-locked, regenerated (keep): the routes, the ring, its
+    strips, band, towers and gates byte-identical; a variant whose aqueduct crosses an S4 route obliquely, regenerated:
+    that route re-solved to cross under the nearest span the rule admits, the ring re-derived from the new routes, every
+    meeting by §2.7's laws (§2.7's laws, law 1; its worked example *beneath*); then given New random, its seed searched
+    so that the new ring's boundary meets one of the aqueduct's supports — the trace crossing the deck line under a
+    span, never at a support, S3's pull treating the aqueduct's standing supports as impassable where its channel runs
+    above the ring's top (§2.7's laws, law 1 (2): over; its worked example the crossing table's *beneath*; §4.4 S5a
+    *Trace* (2)), no standing support in the band and every span over it clearing the ring's top, and on (1)'s variant
+    whose channel runs within the ring's height the crossing merged wherever the boundary meets the deck line (§2.7's
+    laws, law 1 (2)), every station, key and span of the aqueduct unchanged; and (3)'s `moat: 'all'` fixture re-derived
+    from S4 with its viaduct placement-locked — stage 2's ring and moat meeting it as in (3), no station moved, added or
+    omitted and no key minted, 0 S5b or S5c way corridors over a support ring, ramp, stair or foot; and (1)'s c15
+    fixture with its aqueduct placement-locked, regenerated (keep) and given New random over the state sweep (row W3),
+    New random's seed searched so that the new ring's boundary meets the `cleared` support's former ring and, on the
+    `topple` run, the `ruined` stump — the trace through the cleared ring as open ground and crossing the deck line
+    clear of the stump as of a standing support, the band whole across each former footprint, the run at its own top
+    beneath each fallen span, no chamber in the breached `vault` span, each S4 route the regeneration re-solves crossing
+    the deck under a span §4.3 admits, its clear width read between standing rings, every station, key, span and state
+    of the aqueduct unchanged (§2.7's laws, law 1 (2), (7), (8); its worked example row W3); a CITY whose stage-1 ring
+    was drawn by hand and placement-locked by the user, regenerated (keep) and given New random — the ring held before
+    every stage, (1)'s S6 aqueduct crossing it at the aqueduct's level with its supports off the band and its strip
+    clear of the ring's standing towers, gates and fixed places save under an arch that clears them (§2.7's laws, law 1
+    (2), (5), (6); its worked example *over the band*), an S4 route priced on a deck across it brought down before it
+    through a standing gate (§2.7's laws, law 1 (3), law 2 *Carried way*), nothing of the held ring changed but by the
+    lock sentence (§2.7's laws, law 2; its worked example the lock sentence); and (3)'s table-edit variant regenerated
+    (keep) with its viaduct placement-locked by the user — the same rung; (7) parts going — after (4)'s epoch circuit
+    ran beneath the standing aqueduct, a span over the band `ruined`, a support by the band `cleared` and a `vault` span
+    over the trace breached by scripted `DeclineOp`s (as its lapse's salvage would, V06 §3.19.2 (3)); and, on a second
+    run, the aqueduct deleted by hand: the run whole across each former footprint and at its own top throughout, 0 gaps
+    in its band and the enceinte's closure unchanged, the delete's undo restoring the aqueduct and, where its crossing
+    is merged, the band built round its arch and piers again (§2.7's laws, law 1 (2), (7)); then the lapsed span
+    repaired by `repairRaised` — the span over the run again, the run at its own top, no wall op; and, in the cells' own
+    order, an epoch circuit laid across the aqueduct after a span over its planned band fell `ruined` and after a
+    support there was `cleared`, the aqueduct then placement-locked by the script so that no epoch's `raisedWays` step
+    repairs it before the circuit is laid (§2.7's laws, law 2 *Entry*: a lock decides no meeting) — the run at its own
+    top beneath the fallen span, the trace through the cleared ring as open ground — and an epoch contraction laid after
+    a support by its planned line was `cleared`, the aqueduct then placement-locked by the script so that no epoch's
+    `raisedWays` step repairs it before the contraction is laid (§2.7's laws, law 2 *Entry*: a lock decides no meeting)
+    — the trace through its former ring; (8) `wallToWay` of (3)'s stage-2 ring once superseded, its fate set to `road` —
+    the ring road crossing the viaduct's under-deck strip under a span §4.3 admits, re-routed by §7.3's S4 operator,
+    else ended at the strip's edges; 0 way corridors over a support ring, ramp, stair, foot or `vault` span's strip, no
+    junction with the raised way; the same on a fixture whose old line passed under a `vault` span of a standing
+    aqueduct with no other way or channel under it — the dry run reading that span `vault` (the state the op leaves),
+    the ring road re-routed under another span, the arch vault laid again with its id in the commit, 0 way corridors
+    over its strip (§2.7's laws, law 1 (8); its worked example the way-and-channel table's row (c)); on a second run
+    with the intervallum also passing under that span — the span read `open` while the intervallum lies there, no
+    chamber over the lane, the ring road crossing under it by the crossing rule, and a hand `delete` of the intervallum
+    then laying the chamber again with its id; on a third with the moat passing under it — the span read `open` while
+    its water lies there, no chamber in the water (§2.7's laws, law 1 (8); its worked example the crossing table's
+    *beneath*); and (3)'s `wallToWay` run over the state sweep, its viaduct placement-locked and pinned among them — the
+    ring road by row (c) read at that state, a re-laid vault `collapsed` where its span has fallen, no `refuse.locked`;
+    (T110-3) generated raised ways only at CITY and METROPOLIS, each with its reason recorded (`drop`, `link` or
+    `water`), within the rung's cap, and a removed one still removed after regeneration — with the tendency specs
+    `T110b.viaduct`, `T110b.aqueduct`, `T110b.elevated.prosperity` and `T110b.elevated.landmarks` (volume 12 §3.6b's bar
+    map); (T110-4) **the family's laws** (§2.7's laws; J146): §5.3's law-1 row passes after every commit — (a) on every
+    fixture of T110-1 – T110-3, T114-3, T-V4-63, T-V4-80, T-V5-14, T-V6-11, T-V6-47, T-V6-48 (with a declared viaduct
+    over its harbour mouth), T-V6-71, T-V6-73, T-V7-32, T-V7-48 and T-V9-52, and on a CITY ring an aqueduct crosses
+    merged (its channel within the ring's height, a pier in the band) run with W4, W5, W10 and W12 — decay, a breach, a
+    dismantling, a landfall and a repair each applying, the form unchanged (§2.7's laws, law 1 (2)); (b) on each of
+    those clauses' raised ways over the state sweep (T110-2's lead); and (c) on a randomised sequence of 200 ops on each
+    of 32 fixed seeds — CITY and METROPOLIS maps with at least two raised ways (an aqueduct with a `vault` span seating
+    a building the user locked, and a road deck, one of the two placement-locked and, on a second run, shape-locked —
+    the shape-locked runs from the milestone that carries the shape lock, J147, J150) and a village rung — its ops drawn
+    from law 4's list on every path, an `editTable` or `adjust` of a cell §2.7's laws read among them
+    (`raisedWays.structure.stripMarginM`, §4.8's band and setback rows, `palisade.bandM`,
+    `raisedWays.structure.span.deckDepthCm` and a `walls.barriers` height row): a generation from a creation prefix (a
+    skeleton), Regenerate (keep), New random, an epoch run of 20 epochs with the hazards and the landfall on, a village
+    derivation and its epochs, a history replay (a village refounded in it over a former CITY's aqueduct among them), a
+    village dossier's absorb with no epoch adding a wall record across a declared aqueduct, and hand ops sent both as
+    the canvas's scripted gestures and as the clerk's calls, each hand op undone on a second run; and on every run: each
+    op's outcome one digest on two hosts; no meeting refused, skipped or altered for a placement lock; each reshape of a
+    placement-locked structure other than the op's own shown (an `EditFate` *reshaped* by hand, a `reshaped` report
+    entry otherwise); every locked structure's placement, and every shape-locked one's outline and size, unchanged by
+    every op that does not name it, no op making or deepening a meeting that changes a shape-locked one (§2.7's laws,
+    law 1 (10); its behaviour under an undo, a redo, a re-grade or value edit within a standing meeting and a repair
+    outside this bar, J150), and no gate, postern, tower or fixed place moved for a meeting, locked or not (§2.7's laws,
+    law 1 (11)); nothing held because it was drawn or declared (J147); each undo restoring the prior digest, or refused
+    `refuse.undo.dependent` with its reason where §2.7's laws would not then hold (§2.7's laws, law 4); and each
+    skeleton exported and re-imported reproducing its source's model digest where no declaration on the source met a
+    generated structure laid before it (T101-4), and otherwise its meetings as §2.7's laws' law 2 *Newer* gives a
+    creation prefix, its own re-export reproducing the re-import's digest; (T110-5) deck plots within the deck's width
+    and budget, falling with the deck, and a deck slot whose face would cross the outer ring left out, reported and
+    re-offered by a frame growth; a walled, moated fixture with stone moat bridges holds 0 deck plots on a bridge over a
+    `moat` or `castle_moat` whose way is a `Gate.way`; (T110-6) both known-city fixtures pass (T101-6); (T110-7) with
+    the terrace, raised-way and deck-plot rows off — V11 §3.24.0's switches — byte-identical to the base (a `NoOpPin`;
+    volume 2's T-V2-50, volume 6's T-V6-65, volume 7's village pin and volume 11's T-V11-31 register theirs on the same
+    engine); (T110-8) a stepped building's tiers nest and cast one shadow each. Volume 6 runs T110-2's epoch clauses
+    (4), (5), (7) and (8) on its engine (T-V6-47), and (1)'s founding across a decayed ring and (2)'s founded viaduct
+    across a standing ring (T-V6-73).
+  * *Water in dry country (item 111; §4.2 S0–S1, §4.2 S3, §4.4, §4.5, §4.7 S10b).* (T111-1) on arid seeds the share of
+    households within walking distance of water — the coverage radius of volume 11's water-supply family — exceeds the
+    non-arid baseline (a `StatBarSpec`, higher-with); (T111-2) an oasis stands only on an arid site unless drawn (T2
+    `ground`'s spring flag) or supplied by a dossier's `oasis_water`, and an oasis reads as water for every rule that reads
+    water (conformance); (T111-3) arid sites still draw rivers, lakes and coasts at the arid row's chances (a rate
+    `StatBarSpec` per water kind under §13.7's tendency row); (T111-4) on arid seeds the richest band's mean distance to water below the
+    middle band's in most towns (a `StatBarSpec`); (T111-5) with item 111's climate dry cells at V11 §3.24.0's off
+    form — the oasis chance, the water pull, the water prosperity term and the well yield weight 0, the sun cell and the
+    well coverage factor 1 — byte-identical to the base (a `NoOpPin`). Volume 7 runs them at the village rungs
+    (T-V7-58), volume 6 over epochs, a failing spring weakening its pull (T-V6-72), volume 8 the port's clauses
+    (T-V8-50), volumes 10 and 11 T111-5's registration on their goldens and sites (T-V10-45, T-V11-38) and volume 12 the
+    specs, the pin and the register lines (T-V12-44).
+  * *Colour-blind-safe maps and the trial (item 112; §8.2, §9).* (T112-1) the style check: in every checked variant (`StyleSheet.variants`' `protan`, `deutan` and `tritan`, selected
+    per viewer by the view key `cvdVariant`, §8.2) of every shipped family, every pair of categories a legend distinguishes (district tints, prosperity, ownership,
+    knowledge, the underground's systems, water and ground classes) passes the simulated-deficiency contrast check —
+    protanopia, deuteranopia and tritanopia simulated on the legend's swatches — at or above §8.2's deficiency-contrast
+    threshold (a table value), and each such category carries its second cue (a pattern, line style, label or shape) at
+    the legend-bearing zoom stops and in the thematic views; (T112-2) the game-master trial's report exists before the
+    public release (§16's release gate), its findings entered in volume 12's calibration record and the fix list.
+    Volume 9 runs T112-1 on its thematic views and T112-2's trial (T-V9-72) and volume 12 the style line (T-V12-45).
+  * *History at generation (item 113; §4.2 S0, §4.11, §7.7, II.7.6).* (T113-1) a "city to village" history fixture shows
+    walls and street lines beyond the present fabric and an oversized church, while the dossier's present facts match
+    exactly; (T113-2) the replay is byte-stable per seed and history — one digest on the five engines; (T113-3) a refounded
+    fixture reuses the old roads, gate gaps, bridges and foundations wherever the route cost admits them for the new
+    plan's destinations; (T113-4) buried ruins appear only past the burial threshold and match the former geometry — its
+    streets, walls and major buildings at their old ground level; (T113-5) closing a void's last open link makes it LOST
+    and reopening restores it, its dwellings emptied by the vacancy rules and returning with access; (T113-6) a symbolic
+    peak only with evidence of a higher tier, sized inside that tier (by default at its range's lower quartile) and
+    marked `symbolic`, and no peak without evidence; (T113-7) with history replay off, byte-identical to the base (a
+    `NoOpPin`). Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output
+    (T-V4-77, T-V4-76), volume 7 the village halves of T113-1 and T113-3 (T-V7-59), volume 8 the dossier's history
+    (T-V8-51), volume 11 T113-7's registration (T-V11-39), volume 12 their register lines, T113-7's pin and the
+    replay's budget (T-V12-46).
+  * *Walls that decay and recover (item 114; §2.7, §5.3, §7.1, §7.4, §7.7, §8.2, §11).* (T114-1) a poor, threatened fixture —
+    the need sustained high, the means sustained low — shows its breached runs `patched`, each in a patch row of its wall
+    kind and culture, and no robust rebuild; (T114-2) a rich, threatened one rebuilds its breached and patched runs
+    robust, inside the `fabric` cap; (T114-3) a safe one decays through `worn` to `breached`, no run going from
+    `standing` to `breached` in one change, and on a neglected, poor CITY ring over 20 epochs with a masonry aqueduct
+    over it, the run beneath the aqueduct decays through `worn` to `breached` as every other run, the deck standing on
+    its own supports throughout (§2.7's laws, law 1 (2), law 4; its worked example the crossing table's *unchanged
+    meeting*); its landfall clause, on volume 5's landfall (V05 §3.16): a landfall over an aqueduct's span and the run
+    beneath it — the run `breached` by the wall row and the span and the supports it covers `ruined` by theirs, then
+    each repaired by its own op (`repairWall`, `repairRaised`), neither waiting on the other, the landfall's undo
+    restoring both; (T114-4) recovery replaces patches oldest first, by the week of each run's last-change epoch
+    (`EpochRecord.inputs.week` of its `conditionEpoch`; generation's epoch 0 first, every replay epoch's week before
+    every live one's — §6.1, V06 §3.7.7 (3)), never the epoch's number (volume 12's spec `T114g.oldestFirst`); (T114-5)
+    no run changes its condition without a driver sustained over its table window — a driver alternating across its
+    threshold every epoch changes no run (`T114g.sustained`); (T114-6) every state is told from every other in greyscale
+    — T112-1's contrast check on luma alone, at §8.2's threshold — at every band where both of a pair draw, `worn` at
+    the district band and finer (a `BenchBarDef`); (T114-7) with no replay, every run's generation-time condition
+    derives from the dossier's readiness and the wealth by §7.7's DR41 at its table shares — a vulnerable poor fixture
+    shows patched and breached runs, a fortified rich one stands whole — each fixture of the readiness × wealth grid
+    within one run's length of its row's shares (a `BenchBarDef`); (T114-8) with the need and the means at their neutral
+    values, every run at generation `standing` and V06 §3.7.3's neglect and V06 §3.7.5's repair reproduced over epochs,
+    byte-identical to the build without item 114 (a `NoOpPin`, `item114.condition`); (T114-9) a way crosses an enceinte
+    at a gate or at an opening of item 114 and nowhere else: a refounded village's tracker crossing a ruined former
+    enceinte at a `breached` run and at a gate gap commits with 0 violations of §5.3's wall-crossing row, and a TOWN
+    epoch beside a `breached` run grows no way through the breach (§5.3; §4.4 S5c's legality); (T114-10) on a CITY
+    fixture with an `on_enceinte` castle at a vulnerable, poor town's generation shares and over 10 epochs, the town
+    enceinte's and the bailey's three profiles along `Castle.cityWeld` are equal at every commit (§2.7's welded
+    stretch), §8.2 draws one state there, and §11.1's battle-map export gives one wall-or-opening answer per edge. The
+    hand forms — T3 `wall`'s repair with a material and `wearWall` — are §7.4's fixtures of each kind in B-EDIT. Volume
+    6 runs T114-1 – T114-5 save T114-3's landfall clause, T114-8's and T114-10's epoch clauses on its engine, T114-4's
+    replay case on its history-first fixture (T-V6-73), volume 5 T114-3's landfall clause on its landfall fixture
+    (T-V5-14), volume 7 the palisade's (T-V7-62) and T114-9's village clause on its replay fixture (T-V7-59), volume 8
+    the readiness from the dossier (T-V8-52), volume 9 the repair tool and the legend (T-V9-74), volume 10 the story
+    told (T-V10-47), volume 11 the rows and T114-8's registration (T-V11-40) and volume 12 the specs, the pin and the
+    register lines (T-V12-47).
+  * *The grandeur ceiling (item 115; §4.7 S10b, §10.2).* (T115-1) rich THORP, HAMLET and VILLAGE fixtures at the wealth
+    maximum hold no dwelling with an `H` or `U` plan, a court, a tower or a turret but the manor, every other dwelling at
+    most `single`, `L` or `T`, a richer settlement moving its dwellings only along their capped rows (`bldg.grandeur`,
+    reported nightly at every rung); (T115-2) the manor count by rung: no manor at THORP or HAMLET unless specified —
+    V08 §3.16 (3): a dossier-bound record of a class in `grandeur.ceiling`'s `settings.grandClasses` (V11 §3.25.4), or a
+    dossier government whose `villageSeat` names the manor house, seigneurial or crown (V11 §3.21.1); a seigneurial
+    government alone admits none — and at VILLAGE at most one, only with a lord (a seigneurial government) or when
+    specified; the manor count never rises with the wealth (§4.7 S10b (3); V11's `grandeur.ceiling` rows); (T115-3) a grand building the dossier specifies (V08
+    §3.16 (3)) and one the user places or reshapes by hand keep their full design above the ceiling, never
+    refused (item 101 R2); (T115-4) TOWN rungs and above byte-identical to the build without the ceiling table (the rung
+    pin `item115.ceiling`), and with every ceiling row's `enabled` false — V11 §3.24.0's off form — every rung
+    byte-identical to the base (a `NoOpPin`). In the base they run on S10b's class mix and S11's site plans at the village
+    rungs' ceiling rows on hook fixtures; volume 7 runs them at its rungs (T-V7-63), volume 2 on composed shapes
+    and the rung pin on B-MASS (T-V2-58), volume 6 across a rung change (T-V6-74), volume 8 what "specified" reads (T-V8-53), volumes 9
+    and 10 T115-3's hand and clerk forms (T-V9-75, T-V10-48), volume 11 the table and T115-4's registrations (T-V11-41) and volume 12 the statistic
+    and the pins (T-V12-48).
+  * *The zoom-out limit (item 116; §8.8, §9.5, §12.5).* (T116-1) at every rung from THORP to the METROPOLIS cap the view
+    at the zoom-out limit shows the whole `bounds` — while a crisis look stands, the bounds of town and camps (item 122
+    (i)) —, or is stop 0 where the bounds are wider than the window at stop 0 (§8.8), no stop beyond the limit is reachable in the view and the pyramid
+    draws no tile past it — B-ZOOM over B-CITY-lite's seeds of every rung and volume 7's village fixtures (`view.limitStop`
+    0); (T116-2) the first view is the one it was without the limit; (T116-3) a change that grows the bounds — an epoch
+    (from M4), a Re-derive by a rung change or an Adjust of the population (from M2a) — moves the limit with them, and one
+    that keeps them moves nothing; (T116-4) every export frames within the limit bounds (§8.7: the whole bounds — town and camps while a crisis look
+    stands — at most), at any window size and with none; at the METROPOLIS cap a whole-bounds PNG, print and SVG export
+    frames the whole bounds. T-ER-08's
+    restatement — every rung draws every stop from its limit inward — is §8.11's. Volume 7 runs them at its rungs
+    (T-V7-64), volume 9 the view controls (T-V9-76) and volume 12 the statistic (T-V12-48).
+  * *Seasons (item 117; §2.9, §7.7, §4.2 S0, §10.2, §8.2, §11, §12.5).* (T117-1) the same document hashes identically in
+    all 52 weeks — its model, its digests and its save (the pin `item117.season`); (T117-2) an autumn fixture shows at
+    least five distinct crown colours across its deciduous trees at the leaf-colour weeks' middle week (a `BenchBarDef`),
+    and the leaf cover on its ground deepens week by week through the leaf-fall weeks (volume 12's spec
+    `T117i.leafCover`); (T117-3) every climate's season rows cover all 52 weeks with no gap (volume 11's compile check,
+    T-V11-42); (T117-4) an arid fixture draws no ice and no snow in any of its 52 weeks (`T117i.arid`); (T117-5) on a
+    cold fixture every still water's first ice week is at or before every flowing water's, and no ice is drawn on a mill
+    race's or a weir's water (`T117i.ice`); (T117-6) a dossier-bound map opens on its present week — the dossier's latest stamped
+    tick (§4.11 *The clock*; item 125) — at `week mod 52` under the follow flag (DR42), and a map with no stamped tick
+    opens at midsummer; (T117-7) each season's look passes
+    T112-1's contrast and colour-blind checks at each season's middle week (`T117i.styles`); (T117-8) switching the
+    season re-skins the cached tiles within §12.5's budget (`time.reskin`, in the timing phase). Volume 7 runs them at its
+    rungs (T-V7-65), volume 5 the islands through the year (T-V5-34), volume 8 the dossier's week and climate (T-V8-54), volume 9 the season control (T-V9-77), volume 10
+    the explanations (T-V10-49), volume 11 the rows (T-V11-42) and volume 12 the specs and the pin (T-V12-49).
+  * *Festival decorations (item 118; §2.9, §7.7, §10.2, §8.2, §11, §12.5).* (T118-1) the same document hashes
+    identically with decorations on and off and in every week, and with no traditions and no preview its tiles are
+    byte-identical to the base (the pin `item118.festival`, a `NoOpPin`); (T118-2) a festival shows exactly in its
+    window's weeks, a window across the year's end wrapping; (T118-3) the same festival draws identically in the view and
+    in every export, its tiles byte-stable per seed; (T118-4) each tier's fixture shows its tier's decoration kinds and
+    none of a larger tier's; (T118-5) staging lands on the dossier's named place or the keyword table's place, else on
+    the festival kind's fallback; (T118-6) no decoration stands in a gate's passage or over a label's keep-out
+    (`festival.blocked` 0). T118-2 – T118-6 are `BenchBarDef`s on the festival fixtures. Volume 7 runs them at its rungs
+    (T-V7-66), volume 8 the dossier's `traditions` (T-V8-55), volume 9 the festival list (T-V9-78), volume 10 the
+    explanations (T-V10-49), volume 11 the tables (T-V11-43), volume 5 the sky islands' pennants (T-V5-35) and volume 12 the bench bars and the pin (T-V12-49).
+  * *As fast as possible (item 119; §12, §1.1).* (T119-1) §12's target laws — §12.3's model budgets and §12.5's
+    first-map law — measured at every rung's bottom, default and top and reported as *target met* or *target miss*, a
+    miss gating nothing by itself (D-18); (T119-2) every one-time wait — generate, regenerate, open from SettlementForge,
+    a dossier change applied, advance time, the history replay, an export, a migration — timed from the click to the
+    complete result within 10 000 ms at p95 on §12.1's reference hardware, at every rung's top and at the metropolis cap
+    (a `BenchBarDef`; V12 §3.15.9's runs); (T119-3) for every wait over one second, progress — the stage by name and the
+    map filling in — within 1 000 ms of the click, and no frame of the wait an empty screen; (T119-4) every §12.10 row
+    that declares a step slower than its target names its measured gain — a bar or a register entry — and the release's
+    runs show it; (T119-5) no interaction row of §12.10 — frame, pan, zoom, drag, preview, hover, inspect, undo, the
+    season and festival switches — relaxed against the previous release. The low tier's sizes that miss the comfort level
+    are declared per device (§12.1). Volume 9 runs the progress view (T-V9-79), volume 12 the timer and the register
+    check (T-V12-50), and each layer's volume its own waits: volume 1 the stage-2 waits (T-V1-29), volume 2 the stage-3
+    waits (T-V2-22, T-V2-24), volume 3 the plan's (T-V3-37: T119-2 – T119-5), volume 4 the underground's (T-V4-32), volume 5 the
+    islands' (T-V5-18) and volume 7 the village's (T-V7-67).
+  * *Find (item 120; §2.9, §8.2, §9.5, §11.1, §11.2, §12.5) — a view, never a change; built at M5.* (T120-1) the model
+    digest, the document's hash, its saved bytes and its edit log are identical with Find on and off, and turning every
+    chip off — Clear, or closing the panel — restores byte-identical tiles (the pin `item120.find`, a `NoOpPin` of kind
+    `view`); (T120-2) each chip's matches equal §11.2's gazetteer match listing at the viewer's effective key, by class,
+    area and layer (`find.matches` 0); (T120-3) under a player view on T-V9-66's canary fixture no withheld thing appears
+    in a suggestion, a count, a glow, a pin, a ghost pin, a gap outline or a legend chip (`find.leaks` 0); (T120-4) the
+    chips survive every band and layer change and every commit, advance, undo, redo, regenerate, load and migration,
+    re-evaluated at once, and a chip whose last match goes stays in the set at count 0, dark (`find.held` 0); (T120-5) at
+    the city band every match has a pin or is counted in a bubble (`find.pins` 0), and every chip has its second cue — its
+    glyph on its pins and its dash pattern on its halo's outline (`find.cues` 0; item 112); (T120-6) at the METROPOLIS
+    cap on §12.1's reference hardware, suggestions within ≈ 50 ms of a key and a chip's glow within ≈ 100 ms of its
+    click, and at a drawn week whose frame is not the head the chips re-evaluated within ≈ 100 ms of that frame being
+    drawn, the frame never waiting for them (§12.5; that clause from the later of M5 and V06's E6, V06 §3.15.2's frames)
+    (`time.findSuggest`, `time.findGlow`, in the timing phase; §12.5). Volume 9 runs T120-2 – T120-5's interface clauses
+    on its app harness (T-V9-83), volume 12 the pin, the statistics and the timings (T-V12-52: T120-1, T120-6), volume 1
+    the town's areas and gaps (T-V1-59: T120-2 and T120-4), volume 3 the interior band (T-V3-38: T120-4), volume 4 Below
+    (T-V4-81: T120-4 and T120-5), volume 5 Sky (T-V5-36: T120-1's registration, T120-4 and T120-5), volume 7 the village
+    rungs (T-V7-68: T120-1's registration and T120-4), volume 8 the dossier's entries (T-V8-58: T120-2) and volume 10
+    the clerk's "show me" (T-V10-51: T120-2's clerk clause).
+  * *The resolution adjuster (item 121; §8.8, §8.4 (g), §12.1, §12.5, §12.8) — device state and drawing only; built at
+    M4.* (T121-1) Auto is the level on a fresh install (`AppPrefs.resolution` absent); (T121-2) no level change while a
+    pan, zoom or drag is in progress — a change lands only while the view is settled (§8.8): at once when no gesture
+    runs, at the gesture's settle otherwise — and on a fixture loaded at its threshold at
+    most one change per 10 s, with no oscillation (`resolution.changes` 0); (T121-3) Auto holds §12.5's frame budget at
+    p95 on the reference and the low-end device over §12.5's reference viewports (`resolution.p95`); (T121-4) a manual level
+    is drawn as chosen or, where the device cannot hold its canvas need, the nearest level that fits with item 121 (f)'s
+    line — never a refusal or a crash; (T121-5) labels, text, the chrome and every overlay are drawn at the device's full
+    pixel ratio at every level (a pixel test, `resolution.textPx` 0); (T121-6) every picture, print and battle-map export,
+    and the document and its hash, byte-identical across every setting (the pin `item121.display`, kind `view`, its
+    `exports` clause); (T121-7) a change of the device pixel ratio re-evaluates the level at once; (T121-8) native 4K, lit
+    at full precision, holds on the ultra tier within its 512 MB canvas ceiling (§8.8, §12.8; `resolution.ultra4k`).
+    Volume 9 runs T121-1, T121-4 and T121-7 on its app harness, where T121-5's captures are taken (T-V9-84), and volume
+    12 T121-2, T121-3, T121-5, T121-6 and T121-8 (T-V12-53).
+  * *Crisis looks (item 122, with (h)–(i); §2.7, §2.9, §7.7's DR44, §10.2, §8.2, §8.8, §11, §12.5) — a look, never a
+    change; built at M3b, the dossier's reading at M-SF.* (T122-1) the same document hashes identically — its model, its
+    digests and its save — with crises on, off and under every preview and in every week (the pin `item122.crises`, kind
+    `view`); (T122-2) each look shows exactly in its condition's weeks — while §2.9's `week` lies in [`sinceWeek`,
+    `untilWeek`), or from `sinceWeek` on while an overlay with no `untilWeek` stands (§2.7) — at every key for a
+    look-bearing condition (`public`, DR44) and for no `none`-row one (`crisis.weeks` 0); (T122-3) a look draws identically in the view and in
+    every picture export, its tiles byte-stable per seed (`crisis.stable` 0); (T122-4) every SettlementForge stressor
+    type, condition archetype and crisis event at the pinned baseline has its row in §10.2's closed map — a look or an explicit `none`
+    — and a word no row maps reads `none`, reported `unmapped_word` (a totality check over V08's census lists); (T122-5)
+    the scale follows severity and tier — each tier's fixture at a low and a high severity within its look row's scale, a
+    hamlet a war band's camp and a city a full siege line — and the dossier's headcounts where it gives them, at item
+    122 (h)'s rates (`crisis.scale`); (T122-6) nothing stands on water, in a gate's passage or over a label's keep-out,
+    and on a way's carriageway only a barrier across it (§10.2 (d)), and several crises share the outskirts by
+    `priority` under `densityCap` (§10.2's placement; `crisis.blocked` 0 and `crisis.share` 0);
+    (T122-7) with no condition and no preview, the tiles are byte-identical to the base (`item122.crises`, its `tiles`
+    clause). Item 122 (h)–(i)'s four bars are volume 12's own (T-V12-55: the camped area by headcount, two armies twice
+    one, every camp inside the opening view, Fit and the limit while a look stands, the limit restored when none stands).
+    Volume 12 runs T122-1 – T122-3 and T122-5 – T122-7 (T-V12-54), volume 11 T122-4's compile check (T-V11-46) and
+    volume 8 its census of the baseline's lists and T122-1 and T122-7's registration (T-V8-59), volume 9 T122-2's interface clause (T-V9-85), volume 6
+    T122-1's hand-over clause (T-V6-75), volume 7 T122-5 and T122-6 at the village rungs (T-V7-69) and volume 3 the plan
+    clauses of T122-1 – T122-3 and T122-7 (T-V3-40); volume 1's units and land (T-V1-60), volume 2's ruined look, with
+    T122-1 and T122-7's registration (T-V2-60), volume 4's look below ground (T-V4-82 (i)), volume 8's forces (T-V8-60)
+    and volume 10's explanations (T-V10-52) test
+    their own parts.
+  * *A ruined building's plans (item 123; §2.6 step 7, §6.3, §8.6, §11.1) — the plan as built, damaged, never redrawn;
+    built with volume 3's P4 and P5, the decay level with M6-E.* (T123-1) room, wall and opening ids are identical
+    between the intact and the damaged plan, and a building first met ruined — generated as a ruin, or reached by item
+    113's replay — carries the plan it had when built; (T123-2) damage is monotone in the decay level: a higher level's
+    damaged set ⊇ a lower's, on every element (`damage.nested` 0); (T123-3) for a seed each element breaks at one level —
+    one threshold per element, keyed by lineage and element id (§6.3's `plan.damage`) — on every engine and across
+    regeneration, load, undo and migration (`damage.breakLevel` 0; §6.5 (9)); (T123-4) restoring — a `reoccupy` back
+    into use (item 123 (b)'s "reused") or a repair — lowers the level and removes the damage in reverse threshold order,
+    each repaired element drawn in item 114's patch material; (T123-5) the exterior agrees with the plan: a roof hole over a room shows from above as an
+    opening in its roof, and a fallen run of outer wall as an open stretch of the footprint's edge; (T123-6) battle-map exports' line of sight passes fallen
+    wall runs, a doorless opening is a gap, and rubble heaps and floor holes are image only (§11.1); (T123-7) a
+    never-decayed building under no disaster look (§6.3 *Plan damage*) keeps its plan byte for byte as it is without
+    item 123 (the pin `item123.damage`, a `NoOpPin` of kind `entityScope`). Volume 3 runs the plan clauses of T123-1,
+    T123-2, T123-4, T123-6 and T123-7 (T-V3-39), volume 4 T123-1, T123-2
+    and T123-6 below ground (T-V4-82), volume 2 T123-5 and T123-7's exterior clause (T-V2-59), volume 6 T123-4's epoch clause (T-V6-76), determinism §6.5 (9)
+    T123-3's engine clause and volume 12 T123-2, T123-3 and T123-7 (T-V12-56); volumes 9 and 10 test their lines
+    (T-V9-86, T-V10-53).
+  * *Light weather (item 124; §2.9, §6.1, §8.2, §8.4, §8.8, §11, §12.5) — a view layer only; built at M3b.* (T124-1)
+    the document's hash and every tile are identical with the effects on and off, the tile cache untouched by a spell
+    (the pin `item124.effects`, kind `view`, its `cache` clause); (T124-2) the effects' frame cost is within ≈ 1 ms a frame
+    at the densest spell on §12.1's reference hardware (§12.5; `weather.frameMs`, in the timing phase); (T124-3) on an
+    `arid` climate row and on every row whose winter does not freeze, no snow falls or lies in any week, a `snow` cover
+    drawn `clear` there (§8.2; `weather.snow` 0); (T124-4) arid rain frequency lies within its row over a simulated year
+    of the timeline (`weather.aridRain`); (T124-5) the effects are off by default on the low tier and under reduced
+    motion; (T124-6) labels, the chrome and every overlay are never covered (a pixel test, `weather.cover` 0); (T124-7) no
+    luminance step is faster than §8.4 (i)'s photosensitivity limit (`weather.luma` 0); (T124-8) picture, print and
+    battle-map exports are byte-identical with the effects on and off (the pin's `exports` clause); (T124-9) the timeline
+    replays from its session seed, clock and presses with the climate row, year position, sites, `light` mode and view
+    hour in force at each moment (§6.1 *The weather stream*) — a year-position change from a week with no live kind into
+    a live one and back, a press at a moment with no live kind and a view hour crossing a kind's `hours` among its
+    fixtures (§6.1's `view.weather`, never a model stream; `weather.replay` 0). Volume 11
+    runs T124-3's and T124-4's row clauses as compile checks (T-V11-48), volume 9 T124-5 (T-V9-87), determinism §6.5
+    (9) T124-9's stream clause, and volume 12 T124-1 – T124-4 and T124-6 – T124-9 (T-V12-57).
+  * *The dossier the only data input (item 125; §11.3, §11.4, §14, §7.7, §4.11, §2.9); its bars from M-SF.* (T125-1) a
+    dossier holding only SettlementForge's required keys generates a full map at every rung, every field the port uses
+    that it lacks reported with the fallback taken (`field_fallback`, V08 §2.4's fallback column) — with no stamped tick,
+    §4.11's clock at week 0 and the year position at midsummer (`port.fallbacks` 0); (T125-2) the same dossier with and
+    without a host context, and under each `HostContext` field (`audience`, `displayNames`, `line`), yields the identical
+    document and hash (the pin `item125.host`, a `NoOpPin` of kind `input`); (T125-3) no code path of the port reads
+    anything but the dossier — a static check of each adapter's imports and reads. Volume 8 runs T125-1 – T125-3 on its
+    host harness (T-V8-61) and volume 12 T125-1 and T125-2 (T-V12-58).
+  * *Tablets and desktops only (item 126 (a2); §1.1); built at M2a with the medium layout.* (T126-1) at the medium class
+    every tool of V09 §4.12's list completes its canvas script under touch, with `AppPrefs.touch.editFabric` on;
+    (T126-2) below the medium class the medium
+    layout holds at its 600 × 480 minimum and the page scrolls, and the document, the view and the selection are
+    byte-identical across a resize over the threshold (the pin `item126.resize`, kind `view`); (T126-3) no phone layout,
+    screen, notice or catalogue row exists — a build-time scan of V09's layout classes and message catalogue. Volume 9
+    runs them on its app harness (T-V9-22: T126-1's tablet half, T126-2 and T126-3), volume 8 T126-2's host-frame clause and
+    T126-3's embed clause (T-V8-62) and volume 12 T126-1's medium-minimum clause and T126-2 (T-V12-59).
+* **The volumes' tests and the base's hook bars.** A staged engine's bars bind it when it lands (the convention's (3));
+  the volume family below re-runs them on the engine's output, each of its tests naming the base bar and the clauses it
+  takes:
+
+| base bars | the engine (volume, milestone) | the volume family that re-runs them |
+|---|---|---|
+| T8-1 – T8-7, T17-2, T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12, T67-1 – T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause, T81-1, T108-4 over epochs (T-V6-45), T110-2's epoch clauses (4), (5), (7) and (8) (T-V6-47), T110-2 (1)'s founding across a decayed ring and (2)'s founded viaduct across a standing ring (T-V6-73), T111-1 – T111-5's epoch form (T-V6-72), T113-1 – T113-3, T113-6, T113-7 (T-V6-71), T114-1 – T114-5 save T114-3's landfall clause, T114-8's and T114-10's epoch clauses (T-V6-73), T115-1 and T115-2 across a rung change (T-V6-74), T122-1's hand-over clause (T-V6-75), T123-4's epoch clause (T-V6-76) | the evolution engine (volume 6, M6-E) | every T-V6 test (V06 §7), on the H-100, H-DOSSIER and other H fixtures |
+| T10-1, T13-1, T15-1, T102-2, T114-3's landfall clause (T-V5-14), T117-1 – T117-8's and T118-1 – T118-6's island clauses (T-V5-34, T-V5-35), T119-2 – T119-5's island clauses (T-V5-18), T120-1's registration and T120-4's and T120-5's sky clauses (T-V5-36) | the sky layer (volume 5, M6-sky) | every T-V5 test (V05 §7) (T102-2 by T-V5-19 – T-V5-21) |
+| T11-1, T12-1, T14-1, T63-4, T64-1 – T64-3, T65-1 – T65-8, T66-1 – T66-4, T66-6, T109-1 – T109-6, T113-4 (T-V4-77), T113-5 (T-V4-76), T119-2, T119-3 and T119-5's clauses on this layer (T-V4-32), T120-4's and T120-5's underground clauses (T-V4-81), T123-1's, T123-2's and T123-6's clauses below ground (T-V4-82) | the underground layer (volume 4, M6-U) | every T-V4 test (V04 §7) |
+| T28-1 – T28-8, T28-10, T28-12's `plan` clause, T28-13 – T28-15, T28-17's F-PLAN clause, T28-18's `setRoomUnit` clause, T28-19, T63-3, T119-2 – T119-5's plan clauses (T-V3-37), T120-4's interior-band clause (T-V3-38), T122-1's, T122-2's, T122-3's and T122-7's plan clauses (T-V3-40), T123-1's, T123-2's, T123-4's, T123-6's and T123-7's plan clauses (T-V3-39) | the plan rung (volume 3, M6-P) | every T-V3 test (V03 §7) |
+| T29-4 on stacked and solid wings, T110-8, T110-5, T115-1's composed shapes and T115-4's rung clause on B-MASS (T-V2-58), T119-2's stage-3 clauses (T-V2-22, T-V2-24), T122-1 and T122-7's `item122.crises` registration (T-V2-60), T123-5 and T123-7's exterior clause (T-V2-59) | stage 3 (volume 2, M6; its item-110 part at M3a) | every T-V2 test (V02 §7) |
+| §15.2's stage-2 letters S1–S6, T119-2 and T119-3's stage-2 clauses (T-V1-29), T120-2's and T120-4's town clauses (T-V1-59) | stage 2 (volume 1, M5) | every T-V1 test (V01 §7) |
+| the village rungs' clauses of T13-1, T14-1, T30-4, T65-2, T102-1, T110-7, T111-1 – T111-5 (T-V7-58), the village halves of T113-1 and T113-3 and T114-9's village clause (T-V7-59), and the village clauses of T114-1 – T114-8 (T-V7-62), T115-1 – T115-4 (T-V7-63), T116-1 – T116-4 (T-V7-64), T117-1 – T117-8 (T-V7-65), T118-1 – T118-6 (T-V7-66), T119-2 – T119-4 (T-V7-67), T120-1 and T120-4 (T-V7-68) and T122-5 and T122-6 (T-V7-69) | the village product (volume 7) | every T-V7 test (V07 §7), with B-VILLAGE and B-VG |
+| T73-1 – T73-10, T75-1 – T75-5, T77-1, T81-2, T85-1 – T85-3, T88-1, T88-2, T108-1 – T108-3, and the port's clauses of T111-1 – T111-5 (T-V8-50), T113-1 and T113-6 (T-V8-51), T114-7 (T-V8-52), T115-2 and T115-3 (T-V8-53), T117-1 and T117-6 (T-V8-54) and T118-1, T118-2 and T118-5 (T-V8-55), T120-2's dossier clause (T-V8-58), T122-4's census clause and T122-1 and T122-7's `item122.crises` registration (T-V8-59), T125-1 – T125-3 (T-V8-61) and T126-2's host-frame clause and T126-3's embed clause (T-V8-62) | the SettlementForge connection (volume 8, M-SF) | every T-V8 test (V08 §7), on the host harness |
+| T101-6's clerk path, T111-5's `item111.water` registration (T-V10-45), T115-3's clerk form (T-V10-48), T120-2's clerk clause (T-V10-51) | the built-in clerk (volume 10, M3c) | V10 §7's evaluation cases and every T-V10 test (V10 §7) |
+| T101-1 – T101-9 on the canvas (T101-4 by T-V9-82, T101-7 by T-V9-81), §13.4's scripted tasks and first-five-minutes test, the screens of items 111–126 (T-V9-71 – T-V9-79, T-V9-83 – T-V9-87: T112-1's thematic-view clause and T112-2 (T-V9-72), T114-6's legend, T115-3's hand form, T116-1's view controls, T117-6, T118-2 and T119-3 among them, T120-2 – T120-5's interface clauses (T-V9-83), T121-1, T121-4 and T121-7 (T-V9-84), T122-2's interface clause (T-V9-85) and T124-5 (T-V9-87)), T126-1's tablet half, T126-2 and T126-3 (T-V9-22) | the application (volume 9, inside M1–M4b; its staged screens with their layers) | every T-V9 test (V09 §7) |
+| every bar's register line and its spec, the specs, pins and bench bars of items 111–126: T111-1 – T111-5 (T-V12-44); T112-1's style line (T-V12-45); T113-2, T113-5's registration and T113-7's pin (T-V12-46); T114-4 – T114-8 (T-V12-47); T115-1, T115-4 and T116-1 (T-V12-48); T117-1, T117-2, T117-4, T117-5, T117-7 and T118-1 – T118-6 (T-V12-49); T119-1, T119-2, T119-4 and T119-5 (T-V12-50); T120-1 and T120-6 (T-V12-52); T121-2, T121-3, T121-5, T121-6 and T121-8 (T-V12-53); T122-1 – T122-3 and T122-5 – T122-7 (T-V12-54), beside item 122 (h)–(i)'s four bars (T-V12-55); T123-2, T123-3 and T123-7 (T-V12-56); T124-1 – T124-4 and T124-6 – T124-9 (T-V12-57); T125-1 and T125-2 (T-V12-58); T126-1's medium-minimum clause and T126-2 (T-V12-59) | calibration (volume 12) | every T-V12 test (V12 §7) (T-V12-35 checks the bar map) |
+| every content row a bar reads, the registrations of T111-5 (T-V11-38), T113-7 (T-V11-39), T114-8 (T-V11-40) and T115-4 (T-V11-41), T117-3 (T-V11-42), T122-4 (T-V11-46), T124-3's compile clause and T124-4's row clause (T-V11-48) | the content (volume 11) | every T-V11 test (V11 §7) |
+
+=== END ===
+
+=== REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34) ===
+### 13.8 CI tiers and compute budgets (SCL-18; D-34)
+
+The full verification rig costs ≈ 10–20 CPU-hours (12 000 B-CITY generations ≈ 1.6 CPU-h before the suite; 10⁵ oracle
+regenerations ≈ 8 CPU-h; 10⁶ fuzz inputs × ≈ 20 primitives ≈ 0.3–5.5 CPU-h), so it cannot gate a single change. It runs
+in three tiers, each with a wall-clock budget on a stated runner (a 16-core x86-64 Linux machine; timings normalised by
+§12.1's calibration score):
+
+| tier | runs | budget | contents |
+|---|---|---|---|
+| **PR** | every change | ≤ 15 min on 8 cores | lint (the determinism allowlist, units, dependency direction, the repository path rule), type check, unit and contract tests; B-FUZZ with 10⁴ random inputs per primitive plus the whole constructive-degeneracy set; B-CITY-lite 50 seeds per rung × 4 water settings; B-EDIT 10³ sequences with the oracle once per sequence; stage-isolated goldens and the per-stop placement digests on Node x86 (§13.3); every shipped style sheet through §8.2's slot resolution at every band and the render keys across two B-CITY-lite seeds per rung (§8.3); the stamp-tile asset's loaded hashes and its seam check (§8.3, §8.10); the licence, notices and deny-list scans; the app's scripted and accessibility tasks on Chromium |
+| **nightly** | every night | ≤ 4 h on 16 cores | B-CITY 1 000 seeds × 4 water settings × 3 rungs with the invariant suite and the screen of §12.3's model max clause on every generation; B-FUZZ 10⁶ per primitive; B-EDIT 10⁴ sequences; **the O9 (c) faithfulness campaign** (n = 800 scopes × K = 50, ≈ 12.5 CPU-min, §13.2); the five-engine golden run with one PNG per LOD and preset, the placement digests, the stamp-tile asset rebuilt on the five engines and its loaded hashes in both workers, the sliced-raster and sliced-placement census rows (§8.3), and from M3a the five-engine GeoJSON with trees (§13.3); visual regression and B-ZOOM; control sweeps at TOWN and CITY; the option matrix; the B-REF parity report; and, last and alone on the runner, **§12.1's timing phase** (≤ 20 min: the cost-model sweeps with the F-WORK flatness check, the first-map runs, the in-Chrome re-measure of the model budgets and the re-timing of the max clause's flagged generations) |
+| **milestone** | every milestone exit, and weekly | ≤ 12 h on 16 cores | B-EDIT 10⁵ sequences; METROPOLIS control sweeps; the 20-epoch test; the parity report at 100 of our seeds per setting against the ten-seed references (V12 §3.5.5); the D-5 renders, including every earlier panel still *provisional — not rated* (§13.6 (7)); §12.3's pool comparison in the timing phase at every rung the milestone confirms; memory and document-size tests at every rung |
+
+A tier whose normalised wall-clock exceeds its budget by more than 10 % fails with *over budget*; the answer is to split
+the job or make it faster, never to raise the cap — a budget changes only by a recorded decision. **Measurement (M0):**
+the harness times each tier on the runner. **Pre-decided fallback:** if the PR tier exceeds 15 min, B-CITY-lite drops to
+25 seeds per rung and the random fuzz to 5 × 10³ inputs per primitive (the constructive set is never cut), and the
+nightly tier absorbs the difference.
+
+**The bar schedule** (the one statement of when a §13.2 bar runs; §16's exits cite it). *PR* runs a bar on the golden TOWN
+and CITY fixtures and its hook fixtures, *nightly* on B-CITY-lite and, for a bar that says B-CITY, on B-CITY; a
+seed sweep, a cross-engine digest or a many-seed statistic runs nightly, a sweep over epochs in the milestone tier. A
+bar's first milestone is the one that lands its mechanism; a clause named separately starts at its own.
+
+| bars | tier | first milestone |
+|---|---|---|
+| T34-1 – T41-1 (the bent cut) | PR on the M0 (b) faces and NG's recorded shapes; T34-1's 10 000-face mean nightly | M0 (b) |
+| T13-1; T14-1 but its hidden-render clause; T16-4; T23-1's registry test; T43-1 – T43-5; T45-1; T54-1; T55-1; T111-2, T111-3, T111-5 | PR; T14-1's S0 draws, T16-4, T111-3 nightly | M1 |
+| T46-1, T47-1 | nightly (walled B-CITY seeds) | M1 |
+| T20-7, T20-11, T20-12, T20-13; T73-1 – T73-9; T77-1's slice clause; T81-2's creation clause; T85-1, T85-2 | PR (B-DOSSIER-lite: the nine at-rung births × 5 seeds, ≈ 45 generations beside B-CITY-lite's 600); T73-8 in the nightly five-engine run | M1 |
+| T88-1 (each reader from the milestone that lands its stage) | PR on the golden suite | M1 |
+| T20-10, T73-10 | nightly (the totality files and the culture towns) | M1 |
+| T65-7 (its sky-island clause from M4) | nightly (the relief-class sweeps) | M1 |
+| T101-2, T101-3, T101-5 for T9 `shape` and T10 `hold` | PR | M2a |
+| T16-1, T16-2, T19-1 – T19-3, T19-4 but its dossier clause, T23-1's parity clauses, T24-1 – T24-3, T26-1 – T26-3, T27-1, T27-2, T29-1 – T29-4, T30-1, T30-2, T30-4, T44-1, T57-1, T70-1 – T70-6, T71-1 – T71-4, T72-1 – T72-8, T72-9 but its dossier clause, T77-1's weight clauses | PR; nightly on B-CITY | M2b |
+| T88-2 | PR (B-DOSSIER-lite) | M2b |
+| T63-1, T63-2's views and labels, T63-4 | PR; T63-4's 1 000 seeds nightly | M2b |
+| T68-1 – T68-4, T68-7, T68-8 (the day model) | PR on the golden fixtures but T68-7; T68-4 and T68-7 nightly on the five engines | M2b |
+| T102-1, T102-4, T103-3, T105-4, T106-5, T107-4 (the no-op pins and the term's budget) | PR on the two PR golden seeds; the off-state suites nightly; T102-4 in the timing phase | M2b |
+| T102-3 | milestone | M2b |
+| T103-1, T103-2, T104-2, T104-3, T105-1, T105-3, T107-1 – T107-3, T108-1, T111-1, T111-4 | nightly (the correlation specs and the pooled statistics, volume 12's budgets) | M2b |
+| T104-1, T105-2, T106-1 – T106-4, T108-2, T108-3 | PR | M2b |
+| T16-3, T17-1, T18-1 – T18-4, T19-4's dossier clause, T20-1, T20-2's dossier-event clause, T20-3 – T20-5, T20-6's refusal clause, T20-8, T20-9, T22-1 – T22-4, T25-1, T30-3, T30-5, T31-1, T31-4 – T31-7, T63-2's query and export clauses, T66-5, T72-9's dossier clause, T104-4, T108-4 | PR; nightly on B-CITY | M3a |
+| T28-9, T28-11, T28-12's `wings` clause, T28-16, T28-17's housing clause, T28-18's `relet` and re-homing clauses | PR (the B-PLAN fixtures) | M3a |
+| T75-1 – T75-5, T76-1's cadence clauses, T81-2's absorb clause, T85-3 | nightly (the absorb pairs) | M3a (T76-1's coarsened catch-up fixture with M6-E; its second-absorb fixture's burial-need clause with M6-E's E8) |
+| T101-1 – T101-5, T101-7 – T101-9 for T2 `ground` to T8 `fill` | PR | M3a |
+| T101-6 (both known-city fixtures, three paths) | milestone (≤ 10 min wall) | M3a |
+| T110-1 – T110-8; the specs `T110b.*` | PR; the four raised-way specs in the milestone and weekly run (≤ 20 CPU-min); T110-4 (c)'s 32 seeds nightly and its epoch and replay runs in the milestone tier (the schedule's rule above) | M3a (T110-2's epoch clauses — the frame growth, (1)'s and (2)'s foundings, (4)'s and (5)'s circuits, contraction, stage growth and route re-solve, (7)'s lapse and (8)'s ring road — from M4 on the hook fixtures, those of (1), (2), (4), (5), (7) and (8) on volume 6's engine with M6-E's E2 and E3; the state sweep's `topple` runs at the later of their milestone and M6-E's E5, which builds the hazards, and every arch-vault clause — T110-1's `vault`-span clauses, T110-2 (1)'s, (4)'s, (6)'s and (8)'s, and the sweep's C6 runs — at the later of their milestone and M6-U's U3, which lays the arch vaults (V04 §8); and every run whose arch-vault outcome follows an epoch's wall event — T-V6-11's re-lay, T-V6-47's vault bar and the sweep's epoch C6 runs among them — at the later of M6-U's U5 and M6-E's E8, which reconcile the arch vaults over `EpochScope.raised` (V04 §8; V06 §8); T110-4's runs each at the later of its path's providers — generation at M3a's raised ways, arch vaults at M6-U's U3 (and at an epoch U5), an epoch at M6-E's E3, its hazards at E5 and its arch-vault reconcile at E8, a village at V07's V-M3, a history replay at M6-E's E9 (its burial with V04's `BuriedFormer.lay`), an absorb with no epoch at the later of V07's V-M3 and the milestone that carries V08's absorb, the landfall at V05's P6, a creation prefix at T101-4's milestone, hand ops and the clerk at the milestones §13.8 gives V09's and V10's tools) |
+| T29-5; T68-5, T68-6 (the night view); T101-1 – T101-5 for T11 `name` and T12 `dress`; the lit-street warp fixture but its tunnel, access-point and Works clauses | PR; the warp fixture in B-EDIT | M3b |
+| T112-1 (the style check) | nightly, in B-ZOOM on every checked variant | M3b (`hatched` at M5) |
+| T8-1 – T8-7, T10-1, T11-1, T12-1, T15-1, T17-2, T17-3, T20-2's epoch and tolerance clauses, T20-6's epoch clause, T31-2, T31-3, T31-8 – T31-12, T64-1 – T64-3, T65-1 – T65-6, T65-8, T66-1 – T66-4, T66-6, T67-1 – T67-6, T68-9, T72's epoch clauses, T76-1's per-year clause; the lit-street warp fixture's tunnel, access-point and Works clauses; §8.3's hand-lantern row | PR on the hook fixtures; T10-1's and T15-1's CITY sweeps, T64-2's and T65-2's 500-seed sweeps nightly; the 20-epoch test, with the wealth ladder and the decline table, in the milestone tier | M4 |
+| T81-1 | milestone | M4 |
+| T14-1's hidden-render clause; T109-1 – T109-6; T113-4, T113-5 | PR on the layer's fixtures; the sweeps and pooled bars in the milestone and weekly run (≤ 60 CPU-min each) | M6-U (T113-4, T113-5 at the later of M6-U and M6-E) |
+| T102-2 | nightly | M6-sky |
+| T113-1 – T113-3, T113-6, T113-7 | PR on the history fixtures; T113-2's digest in the nightly five-engine run | M6-E |
+| T28-1 – T28-8, T28-10, T28-12's `plan` clause, T28-13 – T28-15, T28-17's F-PLAN clause, T28-18's `setRoomUnit` clause, T28-19, T63-3 | PR (the B-PLAN fixtures, and the clicked buildings of B-CITY-lite nightly) | M6-P |
+| T112-2 (the game-master trial) | a human trial, outside CI | the release gate (§16) |
+| T114-6, T114-7, T114-8's generation clause | PR on the readiness × wealth fixture grid and the two PR golden seeds; T114-6 nightly with the render bars (V12 §6) | M2b |
+| T114-1 – T114-5, T114-8's epoch clause | the milestone tier over H-100's epochs and H-AQUA's for T114-3's crossing clause on volume 6's engine, T114-3's landfall clause on volume 5's landfall fixture; T114-4's and T114-5's step scripts nightly on the wall fixtures (V12 §6) | M6-E (with V06's E3; T114-3's landfall clause with M6-sky) |
+| T115-1 – T115-3 | PR on S10b's hook fixtures at the village rungs' ceiling rows; `bldg.grandeur` nightly | M2b (the village clauses with V07's V-M2, the composed shapes with M6) |
+| T115-4 | PR on the two PR golden seeds; the pins' off-state suites nightly | M2b |
+| T116-1, T116-2, T116-4 | PR on the golden fixtures; T116-1's sweep nightly in B-ZOOM | M1 (the village fixtures with volume 7) |
+| T116-3 | PR on the hook fixtures | M2a (its epoch clause from M4) |
+| T117-1, T118-1 (the pins) | PR on the two PR golden seeds (the landing gate); their suites nightly at every fourth week, all 52 weeks at milestones (V12 §6) | M3b |
+| T117-2, T117-4, T117-5, T117-7; T118-2 – T118-6 | nightly on the season and festival fixtures, alternate nights (V12 §6) | M3b |
+| T117-3 | PR (volume 11's compile check) | M3b |
+| T117-6 | PR on B-DOSSIER-lite's births whose dossier carries a stamped tick (the week's source, item 125 (b)), and on one with none (the season control's midsummer) | M3b (the port's reading with M-SF) |
+| T117-8 | §12.1's timing phase | M3b |
+| T119-1, T119-2 | §12.1's timing phase | M1 (TOWN, CITY); M2b (METROPOLIS and the cap); each other wait from the milestone that lands it — M3a (a dossier change applied, a migration), M6-E (advance time and the history replay), M-SF (an open from SettlementForge) |
+| T119-3 | §12.1's timing phase with the app harness's frame sampler | M3b (with volume 9's progress view) |
+| T119-4, T119-5 | PR (the budget register against the previous release) | M2b |
+| T20-14 (a dossier event over locks) | PR on B-DOSSIER-lite | M3a |
+| T20-15, T20-16 (a dossier population fall over locked dwellings and households) | PR on B-DOSSIER-lite | M4 (with the epochs) |
+| T114-9 | PR on the hook fixtures | M4 (its TOWN-epoch clause; the village clause with volume 7, T-V7-59) |
+| T114-10 | PR on the CITY castle fixture at generation; its 10 epochs in the milestone tier | M2b (its epochs with M6-E's E3) |
+| T120-1 (the pin) | PR on the two PR golden seeds (the landing gate); its off-state suite nightly | M5 (Find's milestone) |
+| T120-2 – T120-5 | nightly on volume 9's app harness over B-CITY-lite's seeds of every rung, the village fixtures and a dossier fixture (V12 §6) | M5 (each volume's clause at the later of its step and M5) |
+| T120-6 | §12.1's timing phase at the METROPOLIS cap | M5 (its drawn-week clause at the later of M5 and V06's E6) |
+| T121-1, T121-4 – T121-7 | PR on volume 9's app harness; T121-6's pin suites nightly | M4 |
+| T121-2, T121-3, T121-8 | §12.1's timing phase on the reference, the low-end and an ultra-tier device | M4 |
+| T122-1, T122-7 (the pin) | PR on the two PR golden seeds (the landing gate); its suites nightly, every week at milestones | M3b (the dossier's crisis fixtures with M-SF) |
+| T122-2, T122-3, T122-5, T122-6 | nightly on the crisis fixtures — the previews from M3b, volume 8's dossier crisis and force fixtures from M-SF (V12 §6) | M3b (the `disaster` look's district clauses from M5) |
+| T122-4 | PR (volume 11's compile check over volume 8's census lists) | M-SF (with the map rows) |
+| T123-1 – T123-7 | PR on B-PLAN's damage fixtures; T123-3's engine clause in the nightly five-engine run | volume 3's P4, the step that draws a decayed or ruined plan (V03 §8, inside M6-P) — the decay level read from the existence state at V11's default age until M6-E, T123-4's epoch clause with M6-E, T123-5 at the later of that step and volume 2's exterior step (M6) |
+| T124-1, T124-3 – T124-5, T124-8, T124-9 | PR; the pin's suites nightly | M3b |
+| T124-2, T124-6, T124-7 | §12.1's timing phase and the visual-regression run | M3b |
+| T125-1 – T125-3 | PR on B-DOSSIER-lite (T125-1's required-keys dossier at every rung nightly) | M-SF |
+| T126-1 – T126-3 | PR on volume 9's app harness | M2a (with the medium layout); T126-1 each tool from the milestone that lands it, every tool from M3a |
+| the first-five-minutes sessions (§13.4) | human sessions, outside CI | M2a (the pipeline session), M3a (midpoint and exit), M3c (the clerk task, T-V10-26) |
+| B-EDGE (§4.13's EP rows and its combination cells) | PR on its fixtures; the rung and preset sweep nightly | the milestone that lands each row's mechanism |
+| the T-ER rows of §8.11, §9.7 and §11.6 (the rendering, label and export edges) | PR on their fixtures; T-ER-01 (B-CITY at the cap) and T-ER-08's stop sweep nightly; T-ER-04 and T-ER-16 in B-EDIT | the milestone that lands each row's mechanism (the village-rung fixtures with volume 7) |
+| T-RIG-1 – T-RIG-6 (the rig's own edges: §13.5, §13.6 (12), §13.7, §13.8, §13.9) | PR | M1 (T-RIG-3 with M1's first panel; T-RIG-6 at M-CAL) |
+
+The budgets above do not change: the PR tier's added work is measured at M0 with the tiers, and the fallback above
+applies to it like any other over-run (J-A83.02). The palette bar (§13.4) runs with visual regression nightly.
+
+**The volumes in the tiers.** Each volume's §7 names the tier of each of its bars inside these budgets. Volume 7 adds
+`B-VILLAGE` and `B-VG` (PR: 20 seeds per rung; nightly: the full bench) and the frozen small-dossier fixtures; volume 8
+its host-harness bars in the tiers its §7.1 names. Volume 12: each bar in the tier its §7.1 column states, inside
+V12 §6's budgets — the harness's cost by job: B-REF, the pooled and correlation specs, the web, comfort and chain bars,
+the no-op and view pins, the render bars of items 114, 117, 118 and 120–124, the underground's and the raised-way bars, the
+known-city paths, the milestone parity report — with item 119's wait timing (T-V12-50) and the Find, resolution and weather timings of items 120, 121 and
+124 (T-V12-52, T-V12-53, T-V12-57) inside §12.1's timing phase.
+Calibration and corpus runs and the tendency bars' confirmation re-runs are runner jobs outside the tiers, never during
+a timing phase (V12 §6).
+
+**Edges.** Every job reads the whole `plat/` tree at its commit, never a diff, so a change that touches nothing a job
+reads still runs the tier's lint, type check and path rule; a suite whose seed family, fixture set or baseline file is
+empty or missing fails naming it, never passes vacuously; a record or file that contradicts the store — a shift record
+whose seeds or digests differ from the golden store, a milestone record naming a missing report — fails the golden CLI
+naming both; a job over its budget fails *over budget* by the rule above (T-RIG-5).
+
+=== END ===
+
+=== REPLACE ### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5 ===
+### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5
+
+Every acceptance letter carries its class: **[C] conformance** — it holds by construction once the rule is built, so it
+proves the implementation follows the design and is never cited as evidence that an improvement was achieved; **[P]
+parity** — compared with a measured reference number in `baselines.json` by §13.5's band rule; **[O] outcome** — it can
+show that the result is better than the references, for a user or for realism. Thresholds without a reference source
+have their numbers in §13.7. Every letter is stated here in full, stage-2 letters included — or, where another section
+owns the letter's number, by a pointer to it: implementers read this matrix, never `docs/IMPROVEMENTS.md`, which is cited
+for traceability only (§17.1 (1)).
+
+**The first-weighted improvements (D-7) and the evidence their own rules cannot fake.**
+* *Plot texture* (O5, O17, O18): §13.5's figure-ground and streetwall rows against MFCG's exports at the matched rung,
+  with the intended direction of each difference declared; the plots, party-wall and MFCG street-signature rows; the
+  within-district plot-area CV floor [P / O].
+* *Editability* (O9, O16-core, O2 c): the thirteen MFCG asks as measured scenarios; locality outside the scope;
+  faithfulness against from-scratch generations; carry-over rates of edited entities [O].
+* *Legibility and charm*: the §13.6 protocol's legibility and charm questions; street-edge recoverability [O / P].
+* *Realism*: the §13.6 protocol's realism question and the P rows of §13.5 — realism against real towns is the corpus
+  phase's measurement (§13.7, §13.9), and this matrix makes no realism claim beyond those two.
+
+| id | tier | mechanism in this design | acceptance (class of each letter) |
+|---|---|---|---|
+| O2 deterministic recipe | must | §6.1 keyed streams with the concern registry; §6.3 addresses and lineage; seeded decoration; epoch components | (a) identical model digest on two machines and three browsers, 100 % [O — FTG has no seed; VG drifts between builds]; (b) the scope of stability as §6.3 states it — grammar, decoration and block-reroll perturbations change 0 other entities [C]; (c) per parameter class: entities outside the stage-k closure byte-identical 100 %, the seam exception of §4.6 / II.4 excepted — computed by the oracle from the batches' commit records and checked (§7.3) [C]; edited entities kept or carried at §13.7's O2 (c) rates, measured at M3a with its fallback [O]; (d) addresses 100 % stable outside the scope on B-EDIT [C]; (e) stage-isolated goldens: only declared stages move (§13.3) [C] |
+| O6 metric units, furniture, statistics | must | §2.1 cm + unit lint; §1.1 ladder; §9.5 furniture; §13.2 core statistics record | (a) 100 % of length fields carry a unit (lint) [C]; (b) ordinary-house footprint median 60–160 m², p95 < 400 m² [P — FTG 103 / 154 m²; MFCG's footprints are lots, descriptive only]; (c) scale bar and grid within 0.5 % [C]; (d) 100 % of generations emit the core statistics record with provenance, the bench metrics on demand (§13.2) [C] |
+| O3 robust kernel, typed ladders, report | must | §3, §5 | (a) B-FUZZ on random inputs and constructive degeneracies: 0 crash / hang / invalid output [O — all four references crash or retry on degenerate input]; (b) hard invariant violations 0 / 1 000 cities [O]; "no restart path" is a design property, not an acceptance number (D-9); (c) B-EDIT 0 planarity violations [C]; (d) model time within §12.3's per-rung laws of the building count and its max clause, so the bars 100 ms / 300 ms / 1 s hold up to the sizes §12.3 states and are missed above them, a miss declared for the owner's veto (D-18) [P — MFCG at matched sizes, with §12.9's declared trade]; (e) identical digest across platforms [O]; (f) the seed never swapped; ladder uses ≤ 2 % of transactions, p99 ≤ 3 attempts [C]; (g) p95 per delivered town on the MFCG-worst configuration set ≤ 1.0 s against MFCG's 3.7–4.0 s (§13.5) [O] |
+| O11 schema, registry, exports, API | must | §2 schema + registry with the CI path test, §11, §14 | (a) registry round-trip 100 %, no type missing from any path [C]; (b) containment 100 % [C]; (c) export → import → export identical [C]; (d) GeoJSON validates and loads in QGIS with districts [P — FTG omits districts]; (e) 0 dangling references [C]; (f) headless digest = UI digest [C]; (g) VTT grid 0 px [C]; (h) layered SVG separable and opening in Inkscape within 120 s at METROPOLIS [O] |
+| O1 terrain and hydrology first | must | §4.2 S1 | (a) requested water features counted by delivery tier: tier-6 omissions 0, degraded ≤ 5 % (§13.7) [O — MFCG fails a requested river in 7 of 10 attempts at size 80]; (b) 0 non-monotonic beds; every river has an outfall; width never decreases downstream; every terrain cell has a defined flow path to an outfall (100 %); contours cross water 0 times [C]; (c) 10 / 10 configurations on 100 seeds each — coast, estuary, confluence, river island, lake shore, delta (distributaries), moat, island city, hill town, cliff or ravine [O]; (d) building ∩ water = 0 [O — MFCG's buildings over its river]; (e) the water stage linear in cell count, ≤ 5 ms at a 128²-cell equivalent and inside §12.4's S1 budget [P — VG 17–87 ms for one 128² village]; (f) site classifier ≥ 90 % [O]; (g) unused eligible land components 0 [C]; IMPROVEMENTS R11: river within the core when requested = 100 % [C] |
+| O4 two-tier street network | must | §4.3, §4.4, §4.6 | (a) 100 % of through-roads reach destinations, bearings ± 10° [C]; (b) detour ≤ 1.4; junction p5 ≥ 30°; no turn cliff (10 m resampling); 4-way share per preset — organic 0–15 %, `ringed` 20–45 %, `american` 40–80 % [P]; (c) width ~ betweenness [C]; (d) slope p95 within class [C]; (e) 0 edges below `minEdge` and 0 clearance violations [C]; (f) network + infill ≤ 100 ms at CITY with block statistics in the NG bands — the fusion gate, at M0 on a flat site and at M1 on river, coast and relief configurations [P]; the MFCG street signature inside the walls (§13.5) [P]; (g) N external connections exactly, island towns counting their shore landings [C]; (h) between-seed dispersion of the signature vector ≥ the larger of MFCG's and FTG's at the matched rung, from M1 [O] |
+| O5 frontage-first plots | must | §4.7 S10 | (a) access edge 100 %, and every hidden plot reachable by a chain of access edges from a public way (§13.2 T30-1) [C]; (b) 0 plots < 3 m, wedges < 0.5 % [C]; (c) side walls ± 5° ≥ 90 % [C]; (d) typed coverage 100 %, discard ≤ 0.05 [C]; (e) plot and block distributions by §13.5's band rule [P]; (f) 0 self-intersecting, duplicate or doorless buildings — exactly one main entrance per building facing its street, court or passage, or its footpath (§2.6 rule 1), side, rear and yard doors by §2.6's rules (§13.2 T29-1, T29-2) [O — FTG's hourglasses and duplicate houses; FTG models no door — the FTG client of the 2026-09-25 capture receives none (item 50)]; (g) streetwall gap ≤ 1 m [C]; streetwall continuity on dense frontages ≥ MFCG's at the matched rung [P] |
+| O18 prosperity field + granularity law | must | §4.5 field; §4.7 S10 joins / splits / alleys; §4.6 deep interiors; §4.7 S10b's class mix (item 71); §4.5's character, band range and dials (item 72) | (a) Spearman(prosperity, plot area) ≥ 0.8 and Spearman(prosperity, plots per ha) ≤ −0.8 [C]; (b) Moran's I of plot area > 0 [C]; (c) detached, yard, attached and coverage shares, and the class mix inside a band row (§13.2 T71-1, T71-2), monotone in prosperity [C]; (d) alley length per ha ~ −prosperity (Spearman ≤ −0.7), 0 alleys below the class minimum, the dead-end share in band [C]; the court share of deep blocks within band per class [P]; the hidden-plot share per district within its §4.6 target ± 0.03 (§13.7, T30-2) [C]; (e) access 100 % [C]; (f) institutions placed 100 %, never gives up [C]; (g) provenance, and the perturbation test ≥ 95 % outside; under a band change the wealth ladder's bars of §13.2 (T31-1 – T31-12) — no occupied building removed, a plot's geometry at or above its floor, granularity within the band's target after a re-cut [C]; (h) soft-seam jumps within §13.7's bands [O]; (i) a smooth field — §13.7's gradient threshold — whose edits replay [C]; (j) within-district plot-area CV ≥ 0.25 (§13.7) [O]; (k) gap-width modes [C]; (l) mixed blocks put their largest classes on prime frontages above a shuffled baseline by §13.7's margin (§13.2 T71-3) [O]; (m) the neighbourhood bounds its buildings — every prosperity-driven state inside its district's band range, an institution's excess its district's pressure, identities and dials weighed by value, not volume (§13.2 T72-3, T72-6 – T72-8) [C] |
+| O17 plot model, site plans, heights | must | §2.5–§2.6, §4.7 S11, §8.4; the informal clusters of §4.7 S11 (item 70); the Works of §4.11 (item 67) | (a) coverage within the table [C]; (b) multi-footprint plots > 0 for institutions, manors, inns and farms [C]; (c) party-wall share by band, attached ≥ 90 % in dense bands [P — NG 39–43 %, 95–99 %]; (d) streetwall continuity ≥ MFCG's Lots mode, walled or fenced frontage counted [P]; (e) yards owned 100 % [C]; (f) footprints fit 100 % [C]; (g) heights on 100 %, shadow ∝ height r ≥ 0.99 under the fixed sun on isolated casters (§8.4) [C]; (h) ≤ 5 µs per plot median for site plans (§12.4) [C]; (i) footprint hash identical across LOD [C]; (j) entrances and basements by §2.6's rules — no cellar under the flood band, every basement inside and smaller than its ground floor (§13.2 T29-3, T29-4) [C]; (k) every structure of an informal cluster with its own door on a footpath reaching an access edge, the fire gap held (§13.2 T70-1 – T70-4) [C]; (l) a building in transition drawn at its Works stage, which depends on nothing but its record and the week, never leaving its plot without access (§13.2 T67-1 – T67-4) [C] |
+| O7 content-first land use | must | §4.2 S2, §4.5 S7b, §4.7 S10b, §10.2 | (a) every building has a function and an occupancy (100 %); requested population ± 5 % on ≥ 95 % of seeds [O — MFCG's multiplier]; every person a home (100 %) [C]; every person a work or role (100 %) — a module letter, measured at M4b [C]; (b) hard relation rows satisfied 100 % and soft-row satisfaction ≥ 95 % reported per city — noxious trades downstream or extramural, water trades within 100 m of water, the market hall at a tier-1 junction or gate, inns at gates (§13.2 T16-1) [C]; (c) Moran's I (wealth) > 0 and monotone in the requested gradient [C]; (d) 0 constraint violations; per-capita ratio error against the tables reported; no occupation above its per-capita maximum [O — FTG's "20 adventurers" per 100 people]; (e) reconciliation ≤ 3 rounds [C]; (f) seam discontinuity within §13.7's bands [O]; (g) lazy people stable 100 %; opening a person writes nothing [C]; (h) gazetteer 100 % [C]; block-level use mix within §13.7's bands [O] |
+| O19 greenery by prosperity | must | §4.9 rule table | §4.9's acceptance (a)–(g); classes: (a) [C — NG's 23–58 % at identical tags is the weakness]; (b) [C]; (c) [O — MFCG and NG green is leftover space]; (d) at §13.7's canopy threshold [O — FTG minimum 0.14 m]; (e) [P — VG P1; the frame budget is §12.7's]; (f) [C]; (g) at §13.7's city-zoom check [O] |
+| O8 fortification network | must | §4.2 S3, §4.4, §4.8, §4.11 | (a) gates at 100 % of arterial crossings, count exact [C]; (b) 0 buildings in the setback band on both faces [C]; (c) tower spacing in band, 0 sawtooth [P — FTG 39 m]; (d) defensible-ground share; castle ≥ p80 among candidates [C]; castle area and compactness in MFCG's band [P]; (e) walled share in MFCG's band (§13.5) [P]; outer curtain on request [C]; (f) 4 / 4 circuit configurations, including two independent enceintes (polycentric nuclei, §4.2 S3) [O]; (g) wall → road keeps plot ids [C]; (h) the wall an entity in every export [C] |
+| O12 display list, LOD, style as data, layers | must | §8 | (a) continuous zoom, footprint hash identical per LOD, minimum drawn feature ≥ 2 px, labels above §9.4's floors at every level, no feature pops more than once [O — MFCG has no zoom]; (b) pan and zoom ≥ 60 fps at 40 000 buildings and 200 000 trees on the reference machine and ≥ 30 fps on the low-end device; edit-to-redraw < 100 ms; roof computations per frame after warm-up = 0; ≤ 80 draw calls per tile (≤ 80 × P per view) and ≤ 4 uploads per frame during gestures, every ready tile at the first map and settle (§12.5) [P — NG 528 uploads per hood; FTG's roofs recomputed every render]; (c) screen = PNG = SVG within threshold, 0 silent couplings [C]; (d) glyph ambiguity 0, legend 100 % of the places the viewer's knowledge key admits (§9.2), every visible feature hit-testable [C]; (e) 300 dpi A2 [O]; (f) §8.2's contrast matrix on the rendered city band [C]; (g) first map by §12.5's laws of the building count, the miss above its knee declared for the owner's veto [P]; street-edge recoverability ≥ MFCG − 0.03 (§8.5) [P] |
+| O9 persistent document, locks, regeneration, undo | must | §2.9, §7 | (a) save / load / save identical [C]; (b) locked preserved 100 % (a wall, a raised way or an arch vault in its placement, and its shape where they meet as §2.7's laws give it: law 1 (10), law 2; its worked example the crossing table's lock sentence); outside the effective scope byte-identical (§7.3 item 7 ii) [C]; (c) faithfulness = §7.3 item 7 (iv): Regenerate (keep settings) byte-identical [C]; New random judged by §13.2's calibrated rank campaign, whose design and executed calibration are stated there [O — FTG's "too snug" regeneration]; (d) every operation undoable (enumeration test) [C]; (e) an upgrade keeps 100 % of edited entities or reports each orphan [O — FTG cannot regenerate old towns]; (f) the thirteen MFCG edit asks of §7.4 as scripted B-EDIT scenarios, each reporting its locality share, invariants and re-run cost (§13.2) [O — MFCG: "no way to save those changes"] |
+| O16-core report and honest controls | must | §5.4, §7.1, §7.8 | (a) report 100 %; the requested-vs-built diff and every requested feature's delivery tier shown when non-empty [O — MFCG's 28 silent street failures]; (b) auto-resolved values reported 100 % [C]; (d) hidden couplings 0 [C]; (f) every numeric control monotone and continuous by §7.8's statistical rule [C]; (h) seed → map identity 100 % [C] |
+| O13-core labels and names | must | §9, §10.4 | (a) 0 protected overlaps, 0 collisions, inside ≥ 99 %, curvature within §13.7's limit, 0 labels crossing holes [O — MFCG covers gates and the keep]; quarter labels at MFCG's count at matched sizes [P]; (c) name–feature consistency 100 % within 250 m [C]; (e) edited names persist 100 % [C] |
+| O14-core hinterland and margin | must | §4.9 | (a) farmland per capita ± 20 % [C]; (b) field access 100 %; every farmstead within 300 m of one of its fields and 1 500 m of all; land-use overlaps 0; unused components 0 [C]; (d) roads leave to destinations 100 %, rivers enter and exit [C]; (e) built / map area 0.06–0.25 at every rung (§13.7) [O — FTG's fixed canvas per class]; (h) woods sized to the fuel and timber rows with the import share reported, the farmland mode by size and landscape (§13.2 T26-1, T26-2) [C] |
+| O10 intent, constraints, assignment, forms | should (input schema + drift bounds: must hook) | §7.7; §14's dossier port (items 73–88); §4.5's district-defining and dispersed classes (item 72) | (a) 10 / 10 scripted intent tasks without URL editing [O]; (b) hard targets 100 %, achieved-vs-requested reported [C]; (c) monotonicity [C]; (d) pins 100 % [C]; (e) assignments ≥ 99 % within drift, placed by the one solver under the hard relation rows, infeasibility reported with the nearest count and the closest options (§13.2 T16-1, T16-3) [C]; (f) size error p90 ≤ 10 % [C]; (g) the forms classifier ≥ 90 % over the forms catalogue, `linear-street`, `island-city` and `twin-town` included [C]; (h) edited tables versioned, default path byte-identical [C]; (i) the dossier contract — a map delete of a dossier-backed element re-placed from the same seed, a dossier change mutating the map that exists, one history one digest (§13.2 T20-1 – T20-6, T22-1 – T22-4) [O — no reference has a host contract]; derivation before invention — no derived fact contradicting a dossier fact, a dossier-owned value refused, the derivation table total, every value's fact tier shown (T20-7 – T20-13) [C]; (j) the dossier port on real dossiers — B-DOSSIER-lite's creation bars from M1 and its absorb bars from M3a (§13.2 T73-1 – T73-10, T75-1 – T75-5), the seam's inert exports and one-way seed (T85-1 – T85-3) [O — no reference reads a host's settlement record]; (k) a district-defining dossier institution shapes one district at its row's share, never every plot, and dispersed classes spread across districts (T72-4, T72-5) [C] |
+| O13 full (street names, addresses, annotation) | should | §9 | (b) ≥ 90 % of named streets labelled at neighbourhood LOD [O — no reference names its streets]; (d) 0 spelling errors [C]; (f) annotation layer [C]; (g) addresses 100 % [C] |
+| O14 full (rings, presets, wildness, feasibility) | should | §4.9 | (c) wood-edge straightness median ≤ 0.90, canopy monotone in wildness (§13.7) [O — VG's "Some" ≈ "Many"]; (f) ≥ 95 % of the map land-classed [C]; (g) scatter statistics [P] |
+| O16 full (thumbnails, drafts, discoverability, responsive, accessible) | should | §7.8 (S0–S4 proxy thumbnails, G-R4), `@plat/app` (§14); §7.1's authoring toolkit with §14's interaction contract (item 101) | (c) the scripted tasks of §13.4, each in one action where a reference needs a detour, every response ≤ 1 s (replaces "≥ 90 % of testers") [O]; (e) six thumbnails < 1 s at TOWN [P]; (g) editor usable at 768 px [C]; the accessibility contract (§14, §13.4) [C]; (i) the authoring toolkit — at most twelve tools, one event from every surface, a skeleton that reproduces its city, a clerk's transcript that replays (§13.2 T101-1 – T101-9) [C] — and the first-five-minutes test at M2a and M3a (§13.4) [O] |
+| O12 extras (relief tier, tiled export, low-end tier) | should | §8.2 relief tier; §8.8 tiled export; the low tier (§12) | as O12 (b), (e); the relief tier renders at every rung and is off by default [C] |
+| owner rule: light (item 68) | must (owner rule) | §8.4's lighting model; §4.7's light placement; §2.7 `LightSource` | (a) height-aware shadows — a spot lit from every side has none, no shadow climbs a taller roof, a lower roof shortens a shadow that continues beyond it (§13.2 T68-1 – T68-3) [C]; (b) after sunset every way class × band reaches its light rows' target minimum illuminance, and concealed and clandestine plots stay unlit unless a row places a light there (T68-5, T68-6) [C]; (c) the CPU reference byte-identical on the five engines and the GPU pass within §13.4's tolerance (T68-4, T68-7) [C]; (d) the fallback ladder draws a legible map on every device, never an error (T68-8, §13.4) [C]; (e) O12 (b)'s pan-and-zoom frame budget holds with the cursor sun on (§12.5) [P] |
+| O7 simulation module | should | §10.1, §10.3 `@plat/sim` (M4b) | the same person on every view; `whereIs` deterministic; stored bytes per 10 k population reported; every person a work or role (100 %); the economy and personality content of D-32 derived deterministically from its keys [C] |
+| O11 extras (VTT native, per-layer, binary, 3-D, GIS profile) | should | §11 | (g), (h); format validators, CityJSON's included [C] |
+| O9 extras (upgrade replay with diff) | should | §7.5, §6.4 retention | the upgrade test; goldens replay under N−1 and N−2 [C] |
+| O2 / O6 extras (golden suite, calibration interface) | should | §13.3, §7.6, §13.9 | the declared-shift protocol in CI from M1; every table value replaceable with provenance; the corpus interface of §13.9 present [C] |
+| hooks 1–8 (§5.4) | must | 1 addresses + sub-seeds §6.3 / §6.1; 2 lifecycle + edit log + incremental pipeline + conversions — the decline ladders, the use step, the wealth ladder with its floor, the terrain-water and passage kinds, the Works records with their derivation rule and the weekly clock (item 67) and the closure edits (item 66) §2.8 / §7 / §4.11; 3 assignment input + the one placement solver and the designation mutator + the dossier contract with its two tiers of fact and its derivation table (item 20 (h)) and the port (items 73–88) §7.7 / §4.7 S10b, S11 / §14; 4 context vector + rules as data §2.5 / §7.6; 5 building-generator interface (`outline` / `compose` / `plan`) + heights + the entrance set and basement + shadow hook §2.6 / §8.4; 6 layers + drainage + any-boundary neighbourhood + island outlines + the island rule, the sewer tier rows and the underground arena's hooks — the underground systems, the undercity's existence row and the connection graph (item 65), the basement access rows (item 64) and the concealed modes (item 63) included — §2.1 / §2.3 / PART II / II.6 / II.7 / §4.2; 7 editable versioned tables + preference layer + the emulation marker and parity presets §7.6; 8 circumstances timeline — its trade, economy and power slices typed (items 77–79) — + stored editable field + the built band and geometry floor + the staged records the port will fill (item 88) §7.7 / §4.5 / §4.11 / §2.7 | every hook field declared in the schema of every entity type and populated when used (registry test, 100 %) [C]; zero cost when unused — with every hook unused, the one-click model time and document size equal a build with the hook fields removed within 2 % (a CI comparison) [C] |
+| S1 boundary and seam contract | STAGE-2 (must in base) | §2.5 `SeamContract` from M1, §4.12, PART II; volume 1 | 100 % of districts carry a complete contract; portals 100 %; misalignment 0; Hausdorff 0 for shared entities [C]; at M1 the check is schema completeness only (the field is flat until M2b, so its samples are constants) [C] |
+| S3 seam-continuous fields | STAGE-2 (must in base) | §4.5 fields with `hard` flags per seam edge; volume 1 | Δ frontage, area and storeys within §13.7's bands on soft seams [O — NG's hoods cannot share a street] |
+| S2 context features inside the neighbourhood | STAGE-2 | II.1 (the request's context), II.3 (context features as constraints), §4.8 water furniture, §4.4 intervallum; volume 1 | (a) a context coverage matrix — district context (waterfront, wall-side, slope, bridgehead, gate approach, sky) × generated feature — with no empty cell: every waterfront district has a quay or bank path, every wall-side district an intervallum or a rear-plot rule [C]; (b) 0 buildings in water; bridges within ± 10° of the channel normal [C]; (c) 0 fragments cut at the close-up frame — the surroundings continue at lower LOD to the frame [C]; (d) S2's blind preference test, run as §13.6's protocol against NG at M5 with the owner as the declared rater [O] |
+| S4 composable context templates, functional squares, landmark-centred neighbourhoods | STAGE-2 | II.2 template fabrics, II.3 dispatch table, §4.7 claims, §2.6 footprint templates; volume 1 | (a) every base district kind has ≥ 1 template [C]; (b) the templates' morphologies are separable by generated statistics — a nearest-centroid classifier over §7.7's signature vector, computed per district, assigns ≥ 90 % of template districts to their template [C]; (c) ≥ 90 % of squares at a junction with a tier-1 arm or two tier-2 arms (§8.5's tiers), or in front of a landmark [C]; (d) typed-square area per 1 000 inhabitants within §13.7's band [C]; (e) a requested landmark delivered ≥ 99 % [C]; (f) rule satisfaction ≥ 95 % [C] |
+| S5 NG-class close-up render tier | STAGE-2 | II.4, §8.2 `hatched`, §8.6, §8.4's projected shadows; volume 1 | (a) opening one district at neighbourhood LOD within §12.5's neighbourhood band, against NG's times at comparable building counts [P]; (b) generation ≤ NG's 64–75 µs and rendering ≤ ≈ 85 µs per building [P]; (c) draw operations per frame and uploads within §12.5's budgets, against NG's 528 uploads per hood and 55–80 % hatch share of operations [P]; (d) the `hatched` style regression — per-wing operation mix and the roof colour law (§8.3) [P]; (e) shadow length ∝ stored height under the fixed sun, r ≥ 0.99 [C]; (f) footprint hash identical to the city LOD [C]; (g) city-zoom legibility unchanged with the tier on (B-ZOOM) [C] |
+| S6 stage-2 workflow | STAGE-2 | II.4 workflow, §7.1 named actions, §6.1 per-district streams; volume 1 | (a) five variants of one template in five actions, where NG needs a tags dialog or a URL detour [O]; (b) the default path one action with p95 ≤ 0.5 s for a medium neighbourhood [P — NG]; (c) rerolling one district or block leaves 100 % of entities outside it identical in address and geometry, the seam exception of II.4 excepted [C]; (d) addresses, names and footprints preserved across levels, 100 % [C]; (e) 0 hand-offs to another tool [C] |
+
+=== END ===
+
+=== J-ROWS ===
+| J-A110.01 | item 110's base bars T110-1 – T110-8, its tendency specs keeping volume 12's ids `T110b.*` | §13.2 |
+=== END ===
+
+=== RATIONALE-A ===
+| J-A110.01 | Chose to keep volume 12's `T110b.*` spec ids for item 110's tendency bars beside T110-1 – T110-8, because V12's bar map already registers them as base bars. |
+=== END ===

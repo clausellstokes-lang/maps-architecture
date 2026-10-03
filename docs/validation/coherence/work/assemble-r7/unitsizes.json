@@ -1,0 +1,211 @@
+{
+ "units": {
+  "V01": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V01-neighbourhoods.md"
+   ],
+   "words_before": 10506,
+   "words_after": 10530,
+   "bytes_before": 63080,
+   "bytes_after": 63185,
+   "whole_files": []
+  },
+  "V04": {
+   "found": 16,
+   "applied": 16,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V04-underground.md"
+   ],
+   "words_before": 51773,
+   "words_after": 52680,
+   "bytes_before": 314277,
+   "bytes_after": 319386,
+   "whole_files": []
+  },
+  "V05": {
+   "found": 4,
+   "applied": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V05-sky.md"
+   ],
+   "words_before": 15981,
+   "words_after": 16241,
+   "bytes_before": 92916,
+   "bytes_after": 94441,
+   "whole_files": []
+  },
+  "V06": {
+   "found": 13,
+   "applied": 13,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V06-evolution.md"
+   ],
+   "words_before": 53316,
+   "words_after": 55478,
+   "bytes_before": 332157,
+   "bytes_after": 344305,
+   "whole_files": []
+  },
+  "V07": {
+   "found": 10,
+   "applied": 10,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V07-village.md"
+   ],
+   "words_before": 27761,
+   "words_after": 29112,
+   "bytes_before": 167611,
+   "bytes_after": 175426,
+   "whole_files": []
+  },
+  "V09": {
+   "found": 9,
+   "applied": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V09-application.md"
+   ],
+   "words_before": 41866,
+   "words_after": 42962,
+   "bytes_before": 254407,
+   "bytes_after": 260616,
+   "whole_files": []
+  },
+  "V10": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V10-clerk.md"
+   ],
+   "words_before": 16701,
+   "words_after": 16992,
+   "bytes_before": 103328,
+   "bytes_after": 104911,
+   "whole_files": []
+  },
+  "V11": {
+   "found": 4,
+   "applied": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V11-content.md"
+   ],
+   "words_before": 20660,
+   "words_after": 20971,
+   "bytes_before": 130139,
+   "bytes_after": 132030,
+   "whole_files": []
+  },
+  "V12": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V12-calibration.md"
+   ],
+   "words_before": 7017,
+   "words_after": 7052,
+   "bytes_before": 44652,
+   "bytes_after": 44839,
+   "whole_files": []
+  },
+  "determinism": {
+   "found": 8,
+   "applied": 7,
+   "skipped": 1,
+   "skipped_detail": [
+    "#8 MALFORMED === RULING REQUEST E-D7 === — malformed \"=== \" header line; its text skipped"
+   ],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 42599,
+   "words_after": 44867,
+   "bytes_before": 262520,
+   "bytes_after": 275340,
+   "whole_files": []
+  },
+  "model": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 29603,
+   "words_after": 44278,
+   "bytes_before": 185365,
+   "bytes_after": 270699,
+   "whole_files": []
+  },
+  "pipeline": {
+   "found": 10,
+   "applied": 10,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 74121,
+   "words_after": 76025,
+   "bytes_before": 458024,
+   "bytes_after": 468555,
+   "whole_files": []
+  },
+  "rendering": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 18018,
+   "words_after": 18214,
+   "bytes_before": 107635,
+   "bytes_after": 108684,
+   "whole_files": []
+  },
+  "scope": {
+   "found": 6,
+   "applied": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 32757,
+   "words_after": 38155,
+   "bytes_before": 200173,
+   "bytes_after": 232246,
+   "whole_files": [],
+   "restated_rows": [
+    "J-ROWS J-A110.01",
+    "RATIONALE-A J-A110.01"
+   ]
+  }
+ },
+ "total": {
+  "found": 95,
+  "applied": 94,
+  "skipped": 1
+ }
+}

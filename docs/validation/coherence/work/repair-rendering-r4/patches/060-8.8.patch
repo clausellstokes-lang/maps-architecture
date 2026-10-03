@@ -1,0 +1,40 @@
+# §8.8 VCS-r3-07 (G-refview): "reference view" → "reference viewport" (two hits). R4-10's one phrase for a DPR change's
+# timing. Sweep (R4-02 (d)): the tile key reads the layers the view draws; the effects return when the underground is no
+# longer drawn. Sweep (R4-04 (b)): the tile key's disaster clause reads "a building a disaster look stands over".
+@@ FILE 8.8.md
+<<<<
+  draws the standard surface (`coh_repair_rendering_r3_resolution.out`): its reference view is lit at full precision at
+====
+  draws the standard surface (`coh_repair_rendering_r3_resolution.out`): its reference viewport is lit at full precision at
+>>>>
+<<<<
+  85 + 21.5 = 106.5 MB does not fit); and the ultra tier keeps full precision for the reference view at DPR 2
+====
+  85 + 21.5 = 106.5 MB does not fit); and the ultra tier keeps full precision for the reference viewport at DPR 2
+>>>>
+<<<<
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once and is applied at once while the view is idle, at the settle while a gesture runs (T121-7). Each change and
+====
+  threshold settles on the lower rung (T121-2). A device-pixel-ratio change (the window moved to another monitor) refits
+  d at once and is applied while the view is settled — at once when no gesture runs, at the gesture's settle otherwise
+  (T121-7). Each change and
+>>>>
+<<<<
+  (the underground has no global light, §8.4 (e)); the effects return when the underground layer is hidden, the spell's
+====
+  (the underground has no global light, §8.4 (e)); the effects return when the underground layer is no longer drawn, the spell's
+>>>>
+<<<<
+  season rows), `cvdVariant` while the sheet ships a variant (§8.2), shadows on or off and their mode, model-layer
+  toggles, `plotsOnly` (city and district bands), `storey` (building band), `depthBand` and, for a `secret` key,
+====
+  season rows), `cvdVariant` while the sheet ships a variant (§8.2), shadows on or off and their mode, the model layers
+  the view draws (their toggles and the working layer, §8.4), `plotsOnly` (city and district bands), `storey` (building
+  band), `depthBand` and, for a `secret` key,
+>>>>
+<<<<
+  `crises` and the effective knowledge key where it holds a building under a disaster look (V02 §5.7 (8)), the
+====
+  `crises` and the effective knowledge key where it holds a building a disaster look stands over (§10.2 (f); V02 §5.7 (8)), the
+>>>>

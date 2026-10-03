@@ -1,0 +1,67 @@
+{
+ "sha256": {
+  "docs/ARCHITECTURE.md": "5f34cceb61432ac420f375d84296f6d154dad2af6a1fbcdf329763425784334c",
+  "docs/ARCHITECTURE-RATIONALE.md": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+  "docs/volumes/INDEX.md": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3"
+ },
+ "blocks": [
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test",
+   "edits": 1,
+   "ids": [
+    "VKr4-02"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "edits": 5,
+   "ids": [
+    "VM-R4T-02",
+    "END VEW-r4-01",
+    "END VEW-r4-03",
+    "END VM-R4T-01",
+    "END VPC-R4-01",
+    "END VDC4-03",
+    "END VDC4-04",
+    "END VV34-r4-01",
+    "VAP-r4-01",
+    "END VAT4-r4-01",
+    "END VPC-R4-02",
+    "VCS-r4-01",
+    "VRC4T-06"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "edits": 2,
+   "ids": [
+    "VAP-r4-01",
+    "VM-R4T-02"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+   "edits": 7,
+   "ids": [
+    "VRC4T-05",
+    "VDC3-03",
+    "VAH-r4-04",
+    "VAH-r4-03"
+   ]
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "heading": "## §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2",
+   "edits": 1,
+   "ids": [
+    "VAF-R4T-04"
+   ]
+  }
+ ],
+ "edits": 16,
+ "rows": 0
+}

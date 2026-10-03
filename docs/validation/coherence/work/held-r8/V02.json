@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VV12-r6-02",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V02",
+  "claim": "Round 6's \u00a78.6 paragraph (VV12-r5-02's fix and its class sweep under R6-01 (2) and R6-09) now lists the T-V2-59 and T-V2-60 clauses that run after M6b because their provider lands with V06's E2, and its repair report says every other clause 'runs as before'. One more clause of the class is missing. T-V2-59 (e) (l. 3773\u20133774) runs 'a plan derived while the building stood, the building then abandoned by an epoch's `vacate`, stays in force with its `wings` and `rooms` rungs `current`' (V02 \u00a73.18 (e)'s row at l. 2555 names T-V2-59 for it). An epoch's `vacate` is issued only by V06's `departures` step (V06 \u00a73.2's step table, row 7: 'the departure matching, `relet` down, `vacate` | V06 \u00a73.5.1'). That step is not among the nine base phases E1 runs (V06 W36: prelude, demand, field, dossier, siting, growth, lapse, character, works; T-V6-1: the grow-by-stage strategy 'reproduces M4's grow path' with them). It lands with E2 ('E2 \u2014 decline and regrowth | departures, \u2026'). M6b's exit can come before E2 (M6 may start after M5 while M6-E runs beside it, INDEX \u00a73, the premise \u00a78.6 itself states). With the list now enumerated, a builder reads (e) as an M6b clause. INDEX \u00a75 risk 2 moves it 'to the first exit after the provider (each named in its volume)', so a build agent applies that rule; nothing built changes (the class of VV12-r5-02, graded minor).",
+  "required_change": "V02 \u00a78.6's paragraph, after \"since until E2 lands V02 reads X36's stand-in \u2014 nothing repaired, the look standing until its condition no longer stands;\", add \" T-V2-59 (e)'s plan in force after an epoch's `vacate` runs at the later of M6b and V06's E2 (V06 \u00a73.5.1's departure matching, which issues `vacate`);\".",
+  "reported_by": "verify-vol-V01-V02-r6t"
+ }
+]

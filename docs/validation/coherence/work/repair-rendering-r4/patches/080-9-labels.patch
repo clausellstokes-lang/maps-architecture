@@ -1,0 +1,19 @@
+# §9.2 VAL-R3-01's END (R4-02): a label is a candidate on a layer the view draws (visible, or the working layer).
+# §9.1 sweep (R4-02 (d)): an undercity's labels are candidates while the underground layer is drawn.
+@@ FILE 9.2.md
+<<<<
+* **The candidate set of a stop** is fixed before the greedy runs: every `LabelTable` row drawn at the band whose layer
+  is visible (`LayerSpec.visible`, §8.4 — a hidden underground or sky layer's district, tunnel and cell labels are not
+  candidates; and a visible sky layer's occlusion rule of V05 §5.4, M6-sky) and that the **admission function** below
+====
+* **The candidate set of a stop** is fixed before the greedy runs: every `LabelTable` row drawn at the band whose layer
+  the view draws (its `LayerSpec.visible`, or the view's working layer, §8.4 — a hidden underground or sky layer that is
+  not the working layer: its district, tunnel and cell labels are not candidates; and a visible sky layer's occlusion
+  rule of V05 §5.4, M6-sky) and that the **admission function** below
+>>>>
+@@ FILE 9.1.md
+<<<<
+  named as the underside of that quarter, its labels candidates only while the underground layer is visible (§9.2); the
+====
+  named as the underside of that quarter, its labels candidates only while the underground layer is drawn (§9.2); the
+>>>>

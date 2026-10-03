@@ -1,0 +1,38 @@
+[
+ {
+  "id": "VAF-R5T-01",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V01",
+  "claim": "R5-03 rewrote \u00a74.11 *The clock* (4) (l. 8476\u20138487). A calamity dated at or before the last epoch's week `W\u2080` is late. Where the absorb's week `W\u2081` is after `W\u2080`, \"it rides the first epoch this absorb folds \u2026 its `EpochInputs.events` entry at that epoch's first week `W\u2080` + 1\". Only where `W\u2081` is not after `W\u2080` does it fold no epoch: it is then \"held in the binding (`DossierBinding.lateCalamities`, \u00a77.7) until the first epoch a later absorb folds\". So the one late calamity with no epoch event is a held one. V01 glosses the no-event case the other way at four sites, and R5-03's sweep did not name V01. The sites are \u00a73.16 (2) (l. 2337\u20132339: \"so a calamity carried with no event (one dated at or before the last absorbed week) still gives its targets and its pattern\"), \u00a73.18's disaster row (l. 2678), T-V1-60 (d) (l. 3363) and J-V1.104 (l. 3627). The last three read \"a \u2026 calamity carried with no epoch event (dated at or before the last absorbed week)\". The gloss is wrong for the ordinary absorb (`W\u2081` after `W\u2080`), and \"the last absorbed week\" is no term of the base. V01 reads the carried fact either way, so the units are unchanged. But T-V1-60 (d)'s fixture built to the gloss rides an epoch event, so the clause's named case (no epoch event) is never run.",
+  "required_change": "V01 \u00a73.16 (2): \"so a calamity carried with no event (one dated at or before the last absorbed week) still gives its targets and its pattern\" \u2192 \"so a calamity carried with no epoch event yet \u2014 a late one held in `DossierBinding.lateCalamities` until a later absorb's epoch (\u00a74.11 *The clock* (4)) \u2014 still gives its targets and its pattern\". \u00a73.18's disaster row: \"a linked calamity carried with no epoch event (dated at or before the last absorbed week)\" \u2192 \"a linked calamity carried with no epoch event yet (a late one held in `DossierBinding.lateCalamities`, \u00a74.11 *The clock* (4))\". T-V1-60 (d): \"a linked calamity carried with no epoch event (dated at or before the last absorbed week) strikes its targets, with its pattern\" \u2192 \"a linked calamity carried late by a second absorb in the last epoch's own week, held in `DossierBinding.lateCalamities` with no epoch event (\u00a74.11 *The clock* (4)), strikes its targets, with its pattern, as does one carried late by an absorb whose week is after the last epoch's (riding that absorb's first epoch)\". J-V1.104: \"a calamity carried with no epoch event (dated at or before the last absorbed week)\" \u2192 \"a calamity carried with no epoch event yet (a late one held in `DossierBinding.lateCalamities`, \u00a74.11 *The clock* (4))\".",
+  "reported_by": "verify-agree-fabric-r5t"
+ },
+ {
+  "id": "VAF-R5T-02",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V01",
+  "claim": "R5-02 lets a wall stretch laid after a raised way run on beneath its deck. In \u00a72.7's support step (6) (d) (l. 2603\u20132616), \"beneath every other span it is an ordinary run whose top is no higher than that span's soffit (the arch walled up \u2026)\". So a later ring passing under a viaduct or an aqueduct stands a wall run under an `open` span. V01 \u00a73.17.3 (2) (l. 2464\u20132470) still describes the under-deck strip's spans as \"the base's arch vaults (II.7.6; volume 4's `vault` spans) fill it where they exist, and an `open` span stays open ground, a way passing under it or bare ground\". R5-02's sweep listed V01 \u00a73.17.3 (3) and l. 978, 1424, 2485, not (2). V01 lays nothing in the strip, so nothing V01 builds changes.",
+  "required_change": "V01 \u00a73.17.3 (2): \"and an `open` span stays open ground, a way passing under it or bare ground\" \u2192 \"and an `open` span stays open ground, a way passing under it, bare ground or the run of a wall stretch laid after the raised way, walled up beneath it (\u00a72.7's support step (6) (d))\" (the quotation of item 110 (b) after it kept).",
+  "reported_by": "verify-agree-fabric-r5t"
+ },
+ {
+  "id": "VAF-R5T-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V01",
+  "claim": "R5-02 makes the commit that creates a raised way load-bearing. Its stations, keys and spans are placed there and held from then. \u00a72.7's support step (6) (l. 2580\u20132583) names that commit: \"at generation inside S4's or a stage's S5b route solve or at S6's end\". \u00a74.3 *The slot* (l. 5719\u20135722: \"a viaduct inside S4's route solve (and each later stage's S5b through this router)\") and V11 \u00a73.24.2's readers (l. 3903\u20133904) say the same. V01 \u00a73.17.4 (l. 2495\u20132496) lists the generated raised parts' commits as \"\u2014 the viaduct inside S4's route solve, the elevated road and the aqueduct at S6's end (item 290)\" and leaves out S5b's viaduct. Its claim that they are all committed before S7b (1) holds for S5b too, so nothing built changes.",
+  "required_change": "V01 \u00a73.17.4: \"\u2014 the viaduct inside S4's route solve, the elevated road and the aqueduct at S6's end (item 290)\" \u2192 \"\u2014 a viaduct inside S4's route solve or a later stage's S5b, the elevated road and the aqueduct at S6's end (item 290; \u00a72.7's support step (6))\".",
+  "reported_by": "verify-agree-fabric-r5t"
+ },
+ {
+  "id": "VV12-r5-01",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V01",
+  "claim": "T-V1-59 (f)'s new clause (round 5, VV12-r4-02's fix) runs 'a chip held on the district the epoch merged or split away (\u00a76.3's succession: its id no longer held at the head, V01 \u00a75.4 (4))', but (f)'s fixture is 'a B-EDIT CITY document whose epoch after the drawn week split a district, built the only member of a chip's class in a second district and closed the only one in a third' \u2014 a split, no merge. Under \u00a76.3's anchor table a district's anchor is 'its seed feature's address', radius 'same feature', so the split's child on the old seed succeeds it and takes its id (V01 \u00a72.5: 'a district succeeded by the anchor rule (a merge or split) carries \u2026 to its anchor successor'). On the fixture as written the split district's id is still held at the head, so the clause has no subject and its 'at the head it stays at count 0, dark' cannot be run (the chip lifts the successor). The rule (V01 \u00a75.4 (4)) is defined; the fixture omits the case its own clause names, so a build agent adds one and nothing built changes (R5-01: a fixture omitting a case its own test names is MINOR).",
+  "required_change": "T-V1-59 (f): \"on a B-EDIT CITY document whose epoch after the drawn week split a district, built the only member of a chip's class in a second district and closed the only one in a third\" \u2192 \"\u2026 and closed the only one in a third, and merged a fourth into its neighbour (the fourth's id no longer held at the head, \u00a76.3)\"; and \"a chip held on the district the epoch merged or split away (\u00a76.3's succession: its id no longer held at the head, V01 \u00a75.4 (4))\" \u2192 \"a chip held on the fourth district (merged away by the epoch: its id no longer held at the head, \u00a76.3's succession, V01 \u00a75.4 (4))\".",
+  "reported_by": "verify-vol-V01-V02-r5t"
+ }
+]

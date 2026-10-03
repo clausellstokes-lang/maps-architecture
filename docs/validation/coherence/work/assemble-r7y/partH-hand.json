@@ -1,0 +1,38 @@
+[
+ {
+  "entry": "scope S2 (3)",
+  "file": "docs/ARCHITECTURE.md",
+  "where": "before",
+  "anchor": "; and (3)'s table-edit variant regenerated",
+  "insert_words": 229,
+  "insert_head": "; on a sixth whose skeleton seats a building in the arch vault of the raised road's `vault` span nearest its foot and lo",
+  "insert_tail": "he stage walled, F-WALL's raised-way rung not run and nothing of the aqueduct changed (§4.4 S5d; §2.7's laws, law 2 (c))",
+  "joined_in_installed": 1,
+  "joined_in_untouched": 0,
+  "insert_in_installed": 1
+ },
+ {
+  "entry": "scope S4 (1)",
+  "file": "docs/ARCHITECTURE.md",
+  "where": "before",
+  "anchor": "; (4) *beneath* by hand and at an epoch",
+  "insert_words": 74,
+  "insert_head": "; a walled port whose skeleton declares a viaduct along its harbour's shore, a head of its harbour mouth in that viaduct",
+  "insert_tail": "NG` reported (§4.8 *The harbour mouth*; §2.7's laws, law 1 (5), (6), law 2; its worked example the fixed-place sentence)",
+  "joined_in_installed": 1,
+  "joined_in_untouched": 0,
+  "insert_in_installed": 1
+ },
+ {
+  "entry": "V06 V6-1 (2)",
+  "file": "docs/volumes/V06-evolution.md",
+  "where": "after",
+  "anchor": "every crossing under a span §4.3 admits;",
+  "insert_words": 74,
+  "insert_head": " on an H-AQUA variant whose METROPOLIS circuit's boundary falls on its viaduct's far ramp, the main approach road's pin ",
+  "insert_tail": ", the circuit laid with its gates on ground part 0, nothing waiting (§4.4 S5a *Trace* (2); §2.7's laws, law 2 (a), (b));",
+  "joined_in_installed": 1,
+  "joined_in_untouched": 0,
+  "insert_in_installed": 1
+ }
+]

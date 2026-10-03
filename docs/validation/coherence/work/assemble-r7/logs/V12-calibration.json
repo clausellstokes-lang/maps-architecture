@@ -1,0 +1,81 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/volumes/V12-calibration.md",
+ "input_doc_sha256": "006b8ef1d304cee55b9e0754a7c8d26fe3de43a65fd9e88eddcb5be0cd60a51d",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0",
+ "files": [
+  {
+   "file": "b-repair-r7-V12.md",
+   "sha256": "7f111b22b3294cb2c059cc30483fd47ab1a0b9b7c601032f22d4d0e9a80e4c82",
+   "lines": 293,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7-V12.md #1 (l. 2) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+   "file": "b-repair-r7-V12.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The calibration register — no provisional number dangles",
+   "body_lines": 289,
+   "body_sha256": "ebe613778d50cbec7500723255efbc46330edbe5a264b6ef2a9e70a02fee803b",
+   "target_line": 2013,
+   "section_old": "2013–2302",
+   "section_old_n": 290,
+   "section_new_n": 290,
+   "new_headings": [
+    "### 3.11 The calibration register — no provisional number dangles"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7-V12.md #1 (l. 2) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The calibration register — no provisional number dangles",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 67,
+  "headings_after": 67,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 30,
+  "fence_lines_after": 30,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 525576,
+  "doc_bytes_after": 525763,
+  "doc_lines_before": 3560,
+  "doc_lines_after": 3560,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 1,
+  "blocks_applied": 1,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "66e2ca404b1f9d19f6f9d56beebd73445a9a0375992d45ea1c2b754083446eff",
+  "output_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+ }
+}

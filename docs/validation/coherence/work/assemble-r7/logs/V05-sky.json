@@ -1,0 +1,159 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/volumes/V05-sky.md",
+ "input_doc_sha256": "a0dd3b65e35edef258cb29209b22ae3f3868868e4b7bdb91e29272a4db7b5e77",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0",
+ "files": [
+  {
+   "file": "b-repair-r7-V05.md",
+   "sha256": "4983cf5984c939747af314e9b7dae7f71081a5b95d57db23ee201eb931427d68",
+   "lines": 631,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7-V05.md #1 (l. 2) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "file": "b-repair-r7-V05.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "body_lines": 47,
+   "body_sha256": "746a4da8cc6cb35a3169a7d8e855acfefbe7741399623e23ec1f4b5bf2ff516c",
+   "target_line": 644,
+   "section_old": "644–691",
+   "section_old_n": 48,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 2.6 The lifecycle of every state field this volume adds or gives a producer"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7-V05.md #2 (l. 52) REPLACE ### 3.16 The fall and the landfall (`fallIsland`)",
+   "file": "b-repair-r7-V05.md",
+   "index": 2,
+   "line": 52,
+   "kind": "REPLACE",
+   "heading": "### 3.16 The fall and the landfall (`fallIsland`)",
+   "body_lines": 59,
+   "body_sha256": "3e268405f217f5a3024137ed4119975233dc1cbb2cfe3e46d833cbd8db4a8441",
+   "target_line": 1312,
+   "section_old": "1312–1369",
+   "section_old_n": 58,
+   "section_new_n": 60,
+   "new_headings": [
+    "### 3.16 The fall and the landfall (`fallIsland`)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7-V05.md #3 (l. 114) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "file": "b-repair-r7-V05.md",
+   "index": 3,
+   "line": 114,
+   "kind": "REPLACE",
+   "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 84,
+   "body_sha256": "c541e264661f89a48b4eb02524db00b67bdc6a632334d446f936a16410c4355f",
+   "target_line": 1746,
+   "section_old": "1746–1830",
+   "section_old_n": 85,
+   "section_new_n": 85,
+   "new_headings": [
+    "### 3.23 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7-V05.md #4 (l. 201) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7-V05.md",
+   "index": 4,
+   "line": 201,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 427,
+   "body_sha256": "704d2762acaa38802d182f97a7d936c2a72a22dede6c0bc3894b5b6f3513225d",
+   "target_line": 2421,
+   "section_old": "2421–2843",
+   "section_old_n": 423,
+   "section_new_n": 428,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7-V05.md #1 (l. 2) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V05.md #2 (l. 52) REPLACE ### 3.16 The fall and the landfall (`fallIsland`)",
+    "kind": "REPLACE",
+    "heading": "### 3.16 The fall and the landfall (`fallIsland`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V05.md #3 (l. 114) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V05.md #4 (l. 201) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 62,
+  "headings_after": 62,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 403128,
+  "doc_bytes_after": 404653,
+  "doc_lines_before": 3089,
+  "doc_lines_after": 3096,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "618925836a8e0688ea01e3a9e542bfbcf06efea4f4177d4aac42c6ba4c404206",
+  "output_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+ }
+}

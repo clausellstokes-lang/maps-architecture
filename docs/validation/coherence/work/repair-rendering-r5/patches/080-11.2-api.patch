@@ -1,0 +1,66 @@
+# §11.2 VAT-r4-02 (1): `ExportOpts.pins`, default false; `furniture` excepts the annotation layer.
+@@ FILE 11.2.md
+<<<<
+  furniture?: boolean;   // the picture's furniture (§9.5): default true
+====
+  furniture?: boolean;   // the picture's furniture (§9.5), the annotation layer excepted (`pins`): default true
+  pins?: boolean;        // a picture (PNG, SVG, print): §9.5's annotation layer — the view pins and public notes (§2.9; V09 §4.19), drawn as the view
+                         // draws them, above the map as the furniture is; default false (V09 §5.10's "pins and public notes": never in a picture unless asked)
+>>>>
+# §11.2 VRC4T-02: the `links` comment cites §11.1 for the feature and V09 §5.10 for the checkbox; the feature's
+# definition lives once, in §11.1's GeoJSON row.
+<<<<
+  links?: boolean;       // GeoJSON (V09 §5.15): one LineString of kind `supplyLink` per supply link within the export's scope (its good, consumer, provider,
+                         // satisfaction and declared row, as the `links` query below reads them); default true while the view's `thematic` is `links`, else false
+====
+  links?: boolean;       // GeoJSON: §11.1's `supplyLink` LineStrings, one per supply link within the export's scope (V09 §5.10's checkbox); default true
+                         // while the view's `thematic` is `links`, else false
+>>>>
+# §11.2 VRC4T-03: the `vtt.squareM` tie and a non-finite numeric member.
+<<<<
+// of 1.5 and 1, `band` 'neighbourhood' over a frame larger than a district to 'district' — the file made at that value and the clamp listed in its
+====
+// of 1.5 and 1 (1.25 to the default, 1.5), `band` 'neighbourhood' over a frame larger than a district to 'district' — the file made at that value and the
+// clamp listed in its
+>>>>
+<<<<
+// bounds — refuses the export with the API error `E_EXPORT_OPTION` naming the member (the call's promise rejected, `exportDocument` throwing; over the bridge
+====
+// bounds, a numeric member that is not a finite number (`NaN` or ±∞, never clamped) — refuses the export with the API error `E_EXPORT_OPTION` naming the
+// member (the call's promise rejected, `exportDocument` throwing; over the bridge
+>>>>
+# §11.2 END of VV910-r4-03 (V09; R5-08 (c)): `looks` takes a `field`, and `over` answers for it.
+<<<<
+  | { kind: 'looks'; view: ViewHandle; building?: Id /* g item 122 (f): with it, each disaster look says whether it stands over that building (§10.2 (f)) */ }   // g items 122 (f), 118: the crisis looks and festivals standing in the view, answered as LooksAnswer (below)
+====
+  | { kind: 'looks'; view: ViewHandle; building?: Id /* g item 122 (f): with it, each disaster look says whether it stands over that building (§10.2 (f)) */;
+      field?: Id /* g item 122 (f): with it, each famine look says whether it draws that field bare (§10.2 (d)'s fields, (f)) */ }   // g items 122 (f), 118: the crisis looks and festivals standing in the view, answered as LooksAnswer (below)
+>>>>
+<<<<
+on a preview, every building of its units; evaluated in the generation worker */;
+====
+on a preview, every building of its units; evaluated in the generation worker; with the query's field, whether this famine look draws that field bare at the view's week (§10.2 (d)'s `fields`), evaluated in the generation worker */;
+>>>>
+# §11.2 VAT-r4-01 (1) (R5-08 (d)): a section provider whose rows read the drawn week reads the why's view week.
+<<<<
+                           such row is given; a provider that states no view's look ignores it */ }   // item 101:
+====
+                           such row is given; a provider that states no view's look ignores it; a section provider whose rows are read at the drawn
+                           week — V03 §4.6's `plan` damage rows (V03 §5.6 (2) (d)) — reads that view's `week`, and with no view the document's current
+                           week (§2.9's `week` default) */ }   // item 101:
+>>>>
+# §11.2 END of VV12-r4-01 (V09; R5-05 (a)): the one reader list; VRC4T-04: the index's triggers, the drawn week's
+# re-derivation; the second list of readers becomes a reference to the first (one reader list, R5-05 (a)).
+<<<<
+week (`live.find`, V09's panel, V10's `read_map find`, V01's `gapUnits`, V04's and V05's Find places) counts, glows,
+pins, lists and gaps that listing; absent, the head.
+This listing is T120-2's definition of a chip's matches; V09's panel and `live.find`, V10's `FindAnswer`, V01's
+`gapUnits` (its members) and V12's statistics read it, from the generation worker's Find index, rebuilt once per commit
+(§12.5).
+====
+week (`live.find`, V09's panel, V10's `read_map find`, V01's `findAreas` and `gapUnits`, V04's and V05's Find places, V07
+§5.5's village reading) counts, glows, pins, lists and gaps that listing; absent, the head.
+This listing is T120-2's definition of a chip's matches; those readers and V12's statistics read it, from the generation
+worker's Find index, rebuilt once per commit and at each change of the effective key (§12.5), and, at a drawn week whose
+frame is not the head, re-derived from that frame at each change of §2.9's `week` (V09 §4.21.10 (7)).
+>>>>

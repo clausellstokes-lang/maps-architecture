@@ -1,0 +1,13 @@
+# Hand-offs to scope received from round-2 siblings (read 08:2x)
+- V01: §16 M3b item-122 line absorbs V01's campLand (~0.25 pw, V01 §8.1); V01 §8 total 27.5–36.75 (was 27.25–36.25); no take-over row for T-V1-60.
+- V02: §8 total 23–33.5 (was 22.5–32.5).
+- V04: §13.2 underground take-over row names T120-4, T120-5, T123-1, T123-2, T123-6 against T-V4-81, T-V4-82; *The underground layer built* every T-V4 test; §8 28.5–39.5 (was 28.25–39.25).
+- V06: evolution take-over row base-bar adds "T122-1's hand-over clause" (T-V6-75), "T123-4's epoch clause" (T-V6-76); §8 31–44.
+- V09: §8 23.75–34.75 (was 21.5–31.75).
+- V10: take-over T-V10-51 row with T120-2's clerk clause; §8 14.75–20.25 (was 14.5–20).
+- V11: take-over V11 row base-bar adds T122-4 and T124-3 (compile clause), T124-4 (row clause); §8 new figures (pending landing).
+- V12: take-over V12 row: T120-1, T120-6, T121-2, T121-3, T121-5, T121-6, T121-8, T122-1–T122-3, T122-5–T122-7, T123-2, T123-3, T123-7, T124-1–T124-4, T124-6–T124-9, T125-1, T125-2, T126-1's medium-minimum clause, T126-2, beside item 122 (h)-(i)'s four bars (T-V12-55); rig line 7.25–11 (W7 1.25–2); convention (6) conformance list holds items 120–126's statistics clauses (V12 §3.15 head; T-V12-35).
+- determinism: §14 item 5's `realm` and `realm_block_used` (R2-40 (2)); rationale J-A77.72 if it records realm fit.
+- pipeline: §13.2 T66 group gains enclosed-basement fixture (VPC-R1-23); J-A76.41 index row + Part A read dossier's latest stamped tick (VPC-R1-27); B-EDGE runs EP-27.
+- rendering: register T-ER-22–T-ER-29 in §13.2 and schedule T-ER-25–29 with milestones; judgment index rows for 120–124 may cite rendering judgments 1–7.
+- model: T20-15; T120-1–6, T122-1, T123-1–7, T124-1 cited; §14 HostContext without week.

@@ -1,0 +1,15 @@
+files 5; blocks 30 found, 29 applied, 1 skipped
+  SKIPPED b-repair-r7-determinism.md #8 (l. 1436) MALFORMED === RULING REQUEST E-D7 === — malformed "=== " header line; its text skipped
+  NOTE b-repair-r7-scope.md #5 (l. 1661) J-ROWS — DUPLICATE ID inserted (an id the table already holds): ['J-A110.01']
+  NOTE b-repair-r7-scope.md #6 (l. 1665) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-A110.01']
+audit: 29 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 806
+  document index duplicate ids: ['J-A110.01']
+  Part A rows: 806
+  Part A duplicate ids: ['J-A110.01']
+headings 153 -> 153 (+0 / -0); fences balanced True (140 -> 140 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 0 -> 0
+document 3052639 -> 3194560 bytes, 23140 -> 24063 lines, sha256 99242252fcbf93949edfc109cf8611c478ec2dff46d65dd79615a7304851c2b9
+rationale 704813 -> 704988 bytes, 2386 -> 2387 lines, sha256 5ce118b29c37d9f2ef5406fcbc5d0a0d1456b02e70a2a4565a378ba361d475ac

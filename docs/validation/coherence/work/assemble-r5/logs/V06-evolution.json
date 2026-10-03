@@ -1,0 +1,289 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "ef22171ae7b0d296b1a71ea88b0765541a2616f3a76ba445960830cbb8eff474",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V06.md",
+   "sha256": "015e03f8cd5153c033dfa5cc9ab8c12c7e7871e10a1984d5855bc73edec439da",
+   "lines": 1530,
+   "blocks": 9,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V06.md #1 (l. 1) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r5-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 130,
+   "body_sha256": "2d52fd1844bbce56e04472258288b51f3d11ec43f7d7e8282bb3775492e2dbf9",
+   "target_line": 277,
+   "section_old": "277–407",
+   "section_old_n": 131,
+   "section_new_n": 131,
+   "new_headings": [
+    "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V06.md #2 (l. 133) REPLACE ### 2.1 The engine's interfaces (`@plat/evolve`)",
+   "file": "repair-r5-V06.md",
+   "index": 2,
+   "line": 133,
+   "kind": "REPLACE",
+   "heading": "### 2.1 The engine's interfaces (`@plat/evolve`)",
+   "body_lines": 72,
+   "body_sha256": "afdda39ce319456ececb36af3034917d84e47e396c5daa50040c2a386bb3b6e5",
+   "target_line": 416,
+   "section_old": "416–488",
+   "section_old_n": 73,
+   "section_new_n": 73,
+   "new_headings": [
+    "### 2.1 The engine's interfaces (`@plat/evolve`)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V06.md #3 (l. 207) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "file": "repair-r5-V06.md",
+   "index": 3,
+   "line": 207,
+   "kind": "REPLACE",
+   "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "body_lines": 67,
+   "body_sha256": "75c5541101e55f95dc9dfed6a4e2af393a8015fcbddf68cd564bf69bff8e36a3",
+   "target_line": 740,
+   "section_old": "740–807",
+   "section_old_n": 68,
+   "section_new_n": 68,
+   "new_headings": [
+    "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V06.md #4 (l. 276) REPLACE ### 3.6 Growth — fill first, crowd next, spread last",
+   "file": "repair-r5-V06.md",
+   "index": 4,
+   "line": 276,
+   "kind": "REPLACE",
+   "heading": "### 3.6 Growth — fill first, crowd next, spread last",
+   "body_lines": 60,
+   "body_sha256": "b91b4ff8b643393c0638bb50e5bab1c0e95bf9f1f2097aae61e0c540396ae55c",
+   "target_line": 1383,
+   "section_old": "1383–1443",
+   "section_old_n": 61,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 3.6 Growth — fill first, crowd next, spread last"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V06.md #5 (l. 338) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "repair-r5-V06.md",
+   "index": 5,
+   "line": 338,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 233,
+   "body_sha256": "ccf89821d4a60a27c54cb5326b5fae481b16dfbc87077498a7314fed6c0346c3",
+   "target_line": 1444,
+   "section_old": "1444–1671",
+   "section_old_n": 228,
+   "section_new_n": 234,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r5-V06.md #6 (l. 573) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+   "file": "repair-r5-V06.md",
+   "index": 6,
+   "line": 573,
+   "kind": "REPLACE",
+   "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+   "body_lines": 368,
+   "body_sha256": "bf492ac6a20ac085711cb6e10a5e16c106eb9f0e555dac4e6b3c00aed6d5a126",
+   "target_line": 2735,
+   "section_old": "2735–3103",
+   "section_old_n": 369,
+   "section_new_n": 369,
+   "new_headings": [
+    "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r5-V06.md #7 (l. 943) REPLACE ## 6 Performance budgets",
+   "file": "repair-r5-V06.md",
+   "index": 7,
+   "line": 943,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 261,
+   "body_sha256": "b14fe8b31d0e8986db8cff8063346dd04447068258f9f6b673a398b188bb0428",
+   "target_line": 3779,
+   "section_old": "3779–4039",
+   "section_old_n": 261,
+   "section_new_n": 262,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r5-V06.md #8 (l. 1206) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r5-V06.md",
+   "index": 8,
+   "line": 1206,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 173,
+   "body_sha256": "5467ec8ff16dd4557531eaddf055daef490697166cae8cc40084dae6a994dbd4",
+   "target_line": 4041,
+   "section_old": "4041–4206",
+   "section_old_n": 166,
+   "section_new_n": 174,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r5-V06.md #9 (l. 1381) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "file": "repair-r5-V06.md",
+   "index": 9,
+   "line": 1381,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "body_lines": 147,
+   "body_sha256": "d7b68febe5970329bd40470e35b45230d6fd3bb982d06f4119663d0df94f801d",
+   "target_line": 4358,
+   "section_old": "4358–4505",
+   "section_old_n": 148,
+   "section_new_n": 148,
+   "new_headings": [
+    "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V06.md #1 (l. 1) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #2 (l. 133) REPLACE ### 2.1 The engine's interfaces (`@plat/evolve`)",
+    "kind": "REPLACE",
+    "heading": "### 2.1 The engine's interfaces (`@plat/evolve`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #3 (l. 207) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "kind": "REPLACE",
+    "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #4 (l. 276) REPLACE ### 3.6 Growth — fill first, crowd next, spread last",
+    "kind": "REPLACE",
+    "heading": "### 3.6 Growth — fill first, crowd next, spread last",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #5 (l. 338) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #6 (l. 573) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+    "kind": "REPLACE",
+    "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #7 (l. 943) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #8 (l. 1206) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V06.md #9 (l. 1381) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 691243,
+  "doc_bytes_after": 694375,
+  "doc_lines_before": 4601,
+  "doc_lines_after": 4616,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 9,
+  "blocks_applied": 9,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "6fb1f6417fc1dfc886677f260dce1d38219ebd7a848d959a85260bf7792fc9e1",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

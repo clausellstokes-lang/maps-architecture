@@ -1,0 +1,367 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "a55c4d0803b7a755922816fc0eacbf8f8a962395fc8e9a73c889a62190d2ba2b",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V07.md",
+   "sha256": "0bf398c192ab4fd3f05e449f9c9c7338c96f2fea90cc1c3f034e0ac8cf7bc09c",
+   "lines": 1120,
+   "blocks": 12,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r5-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 127,
+   "body_sha256": "41af58f1107e6c983886d9a49872c7c7eadfda1a183810a9a12512f7785150ac",
+   "target_line": 203,
+   "section_old": "203–331",
+   "section_old_n": 129,
+   "section_new_n": 129,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V07.md #2 (l. 132) REPLACE ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+   "file": "repair-r5-V07.md",
+   "index": 2,
+   "line": 132,
+   "kind": "REPLACE",
+   "heading": "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+   "body_lines": 112,
+   "body_sha256": "bd38502b7d465fdc1eb20c6ab018f2a655d1d067ed360fdf6f89f8fd7687df98",
+   "target_line": 513,
+   "section_old": "513–625",
+   "section_old_n": 113,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V07.md #3 (l. 247) REPLACE ### 3.5 VS4 — the tracker-steered network",
+   "file": "repair-r5-V07.md",
+   "index": 3,
+   "line": 247,
+   "kind": "REPLACE",
+   "heading": "### 3.5 VS4 — the tracker-steered network",
+   "body_lines": 118,
+   "body_sha256": "9fc4d87fb3f15bd8f2e2261db9dd8ff40ea2fa8ef2dbccd902caf2c726d030de",
+   "target_line": 1441,
+   "section_old": "1441–1557",
+   "section_old_n": 117,
+   "section_new_n": 119,
+   "new_headings": [
+    "### 3.5 VS4 — the tracker-steered network"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V07.md #4 (l. 368) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "file": "repair-r5-V07.md",
+   "index": 4,
+   "line": 368,
+   "kind": "REPLACE",
+   "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+   "body_lines": 101,
+   "body_sha256": "b5fcc4a896fd9eefac5b8723278919c89ceee283f82a14bb14a07c24d03aa650",
+   "target_line": 1560,
+   "section_old": "1560–1650",
+   "section_old_n": 91,
+   "section_new_n": 102,
+   "new_headings": [
+    "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V07.md #5 (l. 472) REPLACE ### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+   "file": "repair-r5-V07.md",
+   "index": 5,
+   "line": 472,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+   "body_lines": 23,
+   "body_sha256": "e7cfddd7e4881015548c18ff946c2e23d7bcbcadc196cce0523beaf48989ba76",
+   "target_line": 2734,
+   "section_old": "2734–2757",
+   "section_old_n": 24,
+   "section_new_n": 24,
+   "new_headings": [
+    "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r5-V07.md #6 (l. 498) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r5-V07.md",
+   "index": 6,
+   "line": 498,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 67,
+   "body_sha256": "8c499c0345dd96cd74a9af4a05ef8e16614b6a16c12e605ae6c551c142fc523b",
+   "target_line": 2926,
+   "section_old": "2926–2994",
+   "section_old_n": 69,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r5-V07.md #7 (l. 568) REPLACE ### 4.5 The clerk's view",
+   "file": "repair-r5-V07.md",
+   "index": 7,
+   "line": 568,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The clerk's view",
+   "body_lines": 65,
+   "body_sha256": "1e0bb17fded14bb8f7f2c18f35ff22917852d3b6dc59f34765b8c33fc01eb746",
+   "target_line": 3097,
+   "section_old": "3097–3161",
+   "section_old_n": 65,
+   "section_new_n": 67,
+   "new_headings": [
+    "### 4.5 The clerk's view"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r5-V07.md #8 (l. 636) REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+   "file": "repair-r5-V07.md",
+   "index": 8,
+   "line": 636,
+   "kind": "REPLACE",
+   "heading": "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+   "body_lines": 72,
+   "body_sha256": "6ec2f4052554028017c82cf705bd14149f7176a8775f2b97698301c740384aac",
+   "target_line": 3343,
+   "section_old": "3343–3409",
+   "section_old_n": 67,
+   "section_new_n": 73,
+   "new_headings": [
+    "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r5-V07.md #9 (l. 711) REPLACE ### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+   "file": "repair-r5-V07.md",
+   "index": 9,
+   "line": 711,
+   "kind": "REPLACE",
+   "heading": "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+   "body_lines": 119,
+   "body_sha256": "ddce5b62764d65910d0f0be23ee8f8594cc93420f192aa12222d9572b63b7fcf",
+   "target_line": 3416,
+   "section_old": "3416–3531",
+   "section_old_n": 116,
+   "section_new_n": 120,
+   "new_headings": [
+    "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r5-V07.md #10 (l. 833) REPLACE ## 6 Performance budgets",
+   "file": "repair-r5-V07.md",
+   "index": 10,
+   "line": 833,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 80,
+   "body_sha256": "b8c7da04918c76c5d31e55794309277683979d6d0a807874548ab34ebe903270",
+   "target_line": 3536,
+   "section_old": "3536–3616",
+   "section_old_n": 81,
+   "section_new_n": 82,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r5-V07.md #11 (l. 916) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r5-V07.md",
+   "index": 11,
+   "line": 916,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "9a836e9ed158f73bf284bb0f4bc83ef2dda3c3f53332b1e219801167d356c242",
+   "target_line": 3618,
+   "section_old": "3618–3719",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r5-V07.md #12 (l. 1019) REPLACE ## 8 Build plan",
+   "file": "repair-r5-V07.md",
+   "index": 12,
+   "line": 1019,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 99,
+   "body_sha256": "2a516235cbc31cd0f11974b0fc7321d9c356343b77eef42703def2afa08ef345",
+   "target_line": 3720,
+   "section_old": "3720–3818",
+   "section_old_n": 99,
+   "section_new_n": 100,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #2 (l. 132) REPLACE ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+    "kind": "REPLACE",
+    "heading": "### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #3 (l. 247) REPLACE ### 3.5 VS4 — the tracker-steered network",
+    "kind": "REPLACE",
+    "heading": "### 3.5 VS4 — the tracker-steered network",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #4 (l. 368) REPLACE ### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "kind": "REPLACE",
+    "heading": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #5 (l. 472) REPLACE ### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Failure handling — the village ladders (never a whole-map retry, §5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #6 (l. 498) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #7 (l. 568) REPLACE ### 4.5 The clerk's view",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #8 (l. 636) REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "kind": "REPLACE",
+    "heading": "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #9 (l. 711) REPLACE ### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #10 (l. 833) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #11 (l. 916) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V07.md #12 (l. 1019) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 605033,
+  "doc_bytes_after": 610850,
+  "doc_lines_before": 4068,
+  "doc_lines_after": 4095,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 12,
+  "blocks_applied": 12,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "7747179dc9854aa6d319fc1a4db579a19f9ed694d36a9cb353e88dabb4750284",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

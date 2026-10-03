@@ -37,7 +37,7 @@ district gets follows how many people live there and how well off they are. Befo
 aside the land each chosen layout needs — the square, the ring roads, the main street — so nobody loses a home to a
 square: households that no longer fit move to a district with room, as the allocation already moves them.
 
-**A standalone neighbourhood.** From the start screen you can make a neighbourhood on its own, as Neighbourhood does:
+**A standalone neighbourhood document.** From the start screen you can make a neighbourhood on its own, as Neighbourhood does:
 pick a shape (or draw one), a size (small, medium or large — about 85, 700 or 1 050 houses, Neighbourhood's own sizes),
 what kind of place it is, and whether it is leafy or has no church; one click gives a finished neighbourhood with no town
 around it. Its outline follows its layout: a main-street neighbourhood is a long strip round its street, a square
@@ -70,13 +70,13 @@ Rebuilding a district never moves the cemetery a catacomb grows under.
 
 **Terraces, arches and houses on the water (item 110).** On a hill a quarter can be laid in terraces: streets along the
 slope a double row of houses apart, stairs climbing between them, and a retaining wall wherever the quarter's edge
-stands well above the land below; a quarter over a dry ravine is terraced on both sides with a stepped path down the
+stands well above the land below; a quarter over a dry ravine is terraced on both sides with a stair-stepped path down the
 middle. A city may carry a road over a valley on arches, join two high quarters by a raised road, or bring water in on an
 aqueduct; in a close-up you see the arches, the streets passing under them and no house beneath, and from the
 neighbourhood's panel you can remove one the generator raised (it stays removed) or draw your own. Houses and shops on a
 bridge, a mole or a jetty, and the towers and forts on a harbour mole, appear in the close-up of the quarter the bridge
-or mole starts from. A stepped temple is drawn tier on tier, each tier casting its own shadow on the one below. On a
-standalone neighbourhood the Terraces card lays its streets on a hillside, so it always gives terraces.
+or mole starts from. A stepped temple is drawn tier on tier, each tier casting its own shadow on the one below. In a
+standalone neighbourhood document the Terraces card lays its streets on a hillside, so it always gives terraces.
 
 **The look.** The hatched family (Neighbourhood's look, in our own colours) can draw the whole town: at city zoom simple
 masses on warm paper; closer in, two-tone roofs; at neighbourhood zoom the full hatching, shadows, trees and cobbles; at

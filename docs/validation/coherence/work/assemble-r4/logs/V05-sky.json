@@ -1,0 +1,341 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V05-sky.md",
+ "input_doc_sha256": "cc1dfa61fe882bcb8767901e0d5624fcfc7776d6cc1a4256d6eca269a89aad28",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V05.md",
+   "sha256": "43871ba378cb0d4332d1393c76b585181aad8eefb01cfe4158e86d06e6150180",
+   "lines": 1013,
+   "blocks": 11,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V05.md #1 (l. 2) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r4-V05.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 59,
+   "body_sha256": "750e87103382c89f5ba183245fb19ab41967b155ad6cc91365176c4723929950",
+   "target_line": 248,
+   "section_old": "248–307",
+   "section_old_n": 60,
+   "section_new_n": 60,
+   "new_headings": [
+    "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V05.md #2 (l. 64) REPLACE ### 3.16 The fall and the landfall (`fallIsland`)",
+   "file": "repair-r4-V05.md",
+   "index": 2,
+   "line": 64,
+   "kind": "REPLACE",
+   "heading": "### 3.16 The fall and the landfall (`fallIsland`)",
+   "body_lines": 58,
+   "body_sha256": "28e2084a60014eadee06ab0a0ed47a41338f737144d8c17be6f3e9d430363e6f",
+   "target_line": 1312,
+   "section_old": "1312–1369",
+   "section_old_n": 58,
+   "section_new_n": 59,
+   "new_headings": [
+    "### 3.16 The fall and the landfall (`fallIsland`)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V05.md #3 (l. 125) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r4-V05.md",
+   "index": 3,
+   "line": 125,
+   "kind": "REPLACE",
+   "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 84,
+   "body_sha256": "a0e5f1eae2f9970a890370e3b7875aa65a651125f487107678e83425372d2d74",
+   "target_line": 1745,
+   "section_old": "1745–1829",
+   "section_old_n": 85,
+   "section_new_n": 85,
+   "new_headings": [
+    "### 3.23 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V05.md #4 (l. 212) REPLACE ### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)",
+   "file": "repair-r4-V05.md",
+   "index": 4,
+   "line": 212,
+   "kind": "REPLACE",
+   "heading": "### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)",
+   "body_lines": 99,
+   "body_sha256": "28541f1adc4f0d52558a99123dc038c377bcecb14ceaf61f035c8f835a6b18bd",
+   "target_line": 2110,
+   "section_old": "2110–2208",
+   "section_old_n": 99,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V05.md #5 (l. 314) REPLACE ### 5.2 Occlusion",
+   "file": "repair-r4-V05.md",
+   "index": 5,
+   "line": 314,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Occlusion",
+   "body_lines": 8,
+   "body_sha256": "835733bc8217c9dd35f2d6d0e0ba02f0c115cb08ae6428174e098105d1574d44",
+   "target_line": 2210,
+   "section_old": "2210–2218",
+   "section_old_n": 9,
+   "section_new_n": 9,
+   "new_headings": [
+    "### 5.2 Occlusion"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V05.md #6 (l. 325) REPLACE ### 5.3 Light and shadow — the underside's shadow (the owner's J98)",
+   "file": "repair-r4-V05.md",
+   "index": 6,
+   "line": 325,
+   "kind": "REPLACE",
+   "heading": "### 5.3 Light and shadow — the underside's shadow (the owner's J98)",
+   "body_lines": 37,
+   "body_sha256": "17fcaa9d909498d5e912129ea69bd101db730d91c8661bbc5d850537895f68d4",
+   "target_line": 2219,
+   "section_old": "2219–2255",
+   "section_old_n": 37,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 5.3 Light and shadow — the underside's shadow (the owner's J98)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V05.md #7 (l. 365) REPLACE ### 5.4 Labels",
+   "file": "repair-r4-V05.md",
+   "index": 7,
+   "line": 365,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Labels",
+   "body_lines": 9,
+   "body_sha256": "42d46876a159f360e56d1c66136d040541fd04e1d2f5f808e4eb38774c16e032",
+   "target_line": 2257,
+   "section_old": "2257–2266",
+   "section_old_n": 10,
+   "section_new_n": 10,
+   "new_headings": [
+    "### 5.4 Labels"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V05.md #8 (l. 377) REPLACE ### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+   "file": "repair-r4-V05.md",
+   "index": 8,
+   "line": 377,
+   "kind": "REPLACE",
+   "heading": "### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+   "body_lines": 48,
+   "body_sha256": "0cf290b0f1ee1e6935c8e588484a6068b1ef403dc8ea16714ce8fe65344733c8",
+   "target_line": 2295,
+   "section_old": "2295–2339",
+   "section_old_n": 45,
+   "section_new_n": 49,
+   "new_headings": [
+    "### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V05.md #9 (l. 428) REPLACE ## 6 Performance budgets",
+   "file": "repair-r4-V05.md",
+   "index": 9,
+   "line": 428,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 75,
+   "body_sha256": "7c309b087da007bd5cf4a910a90738ef1ec493afe5d2e863789c63753306b52a",
+   "target_line": 2344,
+   "section_old": "2344–2419",
+   "section_old_n": 76,
+   "section_new_n": 76,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V05.md #10 (l. 506) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V05.md",
+   "index": 10,
+   "line": 506,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 409,
+   "body_sha256": "2c2c3cd27d82b63e427df0cc2e3bd67ff1fcefe6ce59cb52a05e4f0c5e794256",
+   "target_line": 2420,
+   "section_old": "2420–2813",
+   "section_old_n": 394,
+   "section_new_n": 410,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-V05.md #11 (l. 918) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r4-V05.md",
+   "index": 11,
+   "line": 918,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 93,
+   "body_sha256": "b222277c60f586e53390752f4a5ca917728c5801dc7504ce70ac1df57dee917f",
+   "target_line": 2898,
+   "section_old": "2898–2991",
+   "section_old_n": 94,
+   "section_new_n": 94,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V05.md #1 (l. 2) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #2 (l. 64) REPLACE ### 3.16 The fall and the landfall (`fallIsland`)",
+    "kind": "REPLACE",
+    "heading": "### 3.16 The fall and the landfall (`fallIsland`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #3 (l. 125) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #4 (l. 212) REPLACE ### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)",
+    "kind": "REPLACE",
+    "heading": "### 5.1 Marks (S14; every sky coordinate is `anchor` + the local one)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #5 (l. 314) REPLACE ### 5.2 Occlusion",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Occlusion",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #6 (l. 325) REPLACE ### 5.3 Light and shadow — the underside's shadow (the owner's J98)",
+    "kind": "REPLACE",
+    "heading": "### 5.3 Light and shadow — the underside's shadow (the owner's J98)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #7 (l. 365) REPLACE ### 5.4 Labels",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Labels",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #8 (l. 377) REPLACE ### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #9 (l. 428) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #10 (l. 506) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V05.md #11 (l. 918) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 62,
+  "headings_after": 62,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 398194,
+  "doc_bytes_after": 401398,
+  "doc_lines_before": 3052,
+  "doc_lines_after": 3075,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 11,
+  "blocks_applied": 11,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "ef99abd9b5a84c8aa4530a2f318c45618f66959571fb6d9836847c509c68f031",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

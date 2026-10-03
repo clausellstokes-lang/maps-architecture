@@ -1,0 +1,60 @@
+G123-V03, G122-V03 §0	## 0 In plain words	count 1
+G123-V03, G122-V03 scope	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G123-V03, G122-V03 hooks	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+VAH-r1-14 per R2-10	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G123-V03, G122-V03 volumes read	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G123-V03, G122-V03 file g	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G123-V03, G122-V03 out of scope	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G123-V03 lights	## 1b Wiring table	count 1
+G123-V03, G122-V03 derived pieces	## 1b Wiring table	count 1
+G123-V03 interface	## 1b Wiring table	count 1
+G123-V03 entity kinds	## 1b Wiring table	count 1
+G122-V03 view state	## 1b Wiring table	count 1
+G122-V03 dossier end to end	## 1b Wiring table	count 1
+G123-V03 ids	### 2.2 Identity of the plan's parts	count 1
+G123-V03 (R2-38 (1)) vacant programme	### 2.4 The rule tables and the default rows	count 1
+G123-V03, G122-V03 lifecycle	### 2.5 Lifecycle of every new state field	count 1
+G123-V03 (R2-38 (1)) A1	### 3.2 A — the programme	count 1
+G123-V03 (R2-38 (1)) no re-cut on decay	### 3.11 Re-cuts — the chain steps, the kept-room test and t	count 1
+G123-V03 edges (decay)	### 3.13 Edges at their limits (principle (11))	count 1
+G123-V03, G122-V03 edges (layer, look)	### 3.13 Edges at their limits (principle (11))	count 1
+G123-V03 (R2-38 (1)) stored plans	### 4.3 Locality, stored plans, carries, New random and undo	count 1
+G122-V03, G123-V03 not an edit	### 4.4 What is not an edit	count 1
+G123-V03 switcher	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+G123-V03, G122-V03 panel lines	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+G123-V03 why path	### 4.6 The clerk's view — plan queries and "why?"	count 1
+G123-V03 why path	### 4.6 The clerk's view — plan queries and "why?"	count 1
+G123-V03 (CVR-V10-21) plan section rows	### 4.6 The clerk's view — plan queries and "why?"	count 1
+G123-V03 lights	### 5.1 The plan at the building band	count 1
+G123-V03 labels	### 5.1 The plan at the building band	count 1
+G123-V03 unsafe labels	### 5.1 The plan at the building band	count 1
+G123-V03, G122-V03 drawing per state (rendering hand-off: cite §8.6)	### 5.1 The plan at the building band	count 1
+G123-V03 SVG	### 5.2 Picture exports	count 1
+G123-V03, G122-V03 picture exports	### 5.2 Picture exports	count 1
+G123-V03 JSON damage	### 5.3 Interchange and scene exports	count 1
+G123-V03, G122-V03 .dd2vtt	### 5.3 Interchange and scene exports	count 1
+G123-V03 Foundry	### 5.3 Interchange and scene exports	count 1
+G123-V03 CityJSON glTF	### 5.3 Interchange and scene exports	count 1
+G123-V03 knowledge	### 5.4 Concealment at a public key	count 1
+G123-V03, G122-V03 budgets	## 6 Performance budgets	count 1
+G123-V03 interaction	## 6 Performance budgets	count 1
+G123-V03, G122-V03 fixtures	## 7 Tests and acceptance bars	count 1
+R2-35 receiving end	## 7 Tests and acceptance bars	count 1
+VV34-r1-10 (d)	## 7 Tests and acceptance bars	count 1
+VV34-r1-10 (e); R2-35 receiving end	## 7 Tests and acceptance bars	count 1
+R2-32 receiving end; G123-V03 T-V3-39; G122-V03 T-V3-40	## 7 Tests and acceptance bars	count 1
+G123-V03, G122-V03 P4 (R2-36)	## 8 Build plan	count 1
+G123-V03, G122-V03 P5	## 8 Build plan	count 1
+G123-V03 total	## 8 Build plan	count 1
+R2-32 receiving end	## 8 Build plan	count 1
+G123-V03, G122-V03 landing (R2-36)	## 8 Build plan	count 1
+G123-V03 parity remainder	## 8 Build plan	count 1
+G123-V03 parity remainder	## 8 Build plan	count 1
+G123-V03 M6-P line	## 8 Build plan	count 1
+G123-V03, G122-V03 decisions	## 9 Decisions (each vetoable)	count 1
+G123-V03, G122-V03 owner questions	## 11 Owner questions	count 1
+G123-V03 plausible	## 12 CONFIRMED versus PLAUSIBLE	count 1
+G123-V03 plausible	## 12 CONFIRMED versus PLAUSIBLE	count 1
+G123-V03 hand-offs made here	## 13 Fix list	count 1
+G123-V03 hand-offs closed here	## 13 Fix list	count 1
+G123-V03, G122-V03 new §5.6	APPEND ## 5 Rendering, labels, exports

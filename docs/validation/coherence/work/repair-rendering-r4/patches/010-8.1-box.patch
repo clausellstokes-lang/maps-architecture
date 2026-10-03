@@ -1,0 +1,13 @@
+# §8.1 VRC3T-06: one declared box type, `Box`, in world cm (read by DisplayList.bounds and .dirty, LiveLayerProvider.marks,
+# VectorBackend's frame, §11.2's ExportOpts.frame, thumbnail's box and the links query's region, §14's ObstacleSource).
+@@ FILE 8.1.md
+<<<<
+// LodBand, Role (§8.2), ZoomStop (§8.8), and LabelTable, StringTable and GeomTable with §9.2's LabelRows, are declared in
+// @plat/model (§14), so @plat/labels and @plat/render share them without either importing the other's code (N-22)
+type LodBand = 'city'|'district'|'neighbourhood'|'building';
+====
+// LodBand, Box, Role (§8.2), ZoomStop (§8.8), and LabelTable, StringTable and GeomTable with §9.2's LabelRows, are declared in
+// @plat/model (§14), so @plat/labels and @plat/render share them without either importing the other's code (N-22)
+type LodBand = 'city'|'district'|'neighbourhood'|'building';
+type Box = { x0: Cm; y0: Cm; x1: Cm; y1: Cm };   // an axis-aligned box in world cm, as MarkTable.bbox's four values: the one box type of §8, §9, §11 and §14
+>>>>

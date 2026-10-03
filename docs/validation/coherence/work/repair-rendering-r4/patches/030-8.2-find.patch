@@ -1,0 +1,31 @@
+# §8.2 Find. VRC3T-01 (R4-12): at a drawn week whose frame is not the head each chip's matches are §11.2's listing at that
+# week — the frame's own, a building matched by its use then. Sweep (R4-02 (d) against item 120 (f)): Find's "layer
+# shown" is the view's working layer, so a match on any other layer — drawn dimmed or not drawn — is a ghost pin
+# (V09 §4.21.10 (8), V04 §5.1 (2)–(3), V05 §5.6 (3)), and Show gaps outlines on the working layer.
+@@ FILE 8.2.md
+<<<<
+layer, year position or drawn week (§2.9's `week`) changes, and when the view moves (item 120 (f)). **At a drawn week
+whose frame is not the head** (V06 §3.15.2) each chip's matches are that listing restricted to the entities the frame
+holds (the `gazetteer` query's `week`, §11.2): one the frame lacks is not drawn, pinned, counted or gapped there, a chip
+with none there reads count 0 for that week, and the chips themselves are unchanged. An `overlay` layer, it is composed
+====
+layer, year position or drawn week (§2.9's `week`) changes, and when the view moves (item 120 (f)). **At a drawn week
+whose frame is not the head** (V06 §3.15.2) each chip's matches are §11.2's listing at that week (the `gazetteer`
+query's `week`; *At a drawn week*): the frame's own — a building matched by its use at that week, never its head use, and
+an entity or use the frame holds matched though the head has since closed, moved or demolished it —, one the frame lacks
+or holds otherwise not drawn, pinned, counted or gapped there, a chip with none there reading count 0 for that week, and
+the chips themselves unchanged. An `overlay` layer, it is composed
+>>>>
+<<<<
+* **Ghost pins** (item 120 (f)). A match on a layer not shown is its pin at α 0.35, with no halo, at the anchor where
+====
+* **Ghost pins** (item 120 (f)). A match on a layer other than the one shown — the view's working layer (§8.4), whatever
+  other layers the view draws — is its pin at α 0.35, with no halo, at the anchor where
+>>>>
+<<<<
+* **Show gaps' outline** (item 120 (i)). With `gaps` on, each of V01 §5.4 (3)'s gap units for each kind chip, on the
+  layer shown, is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
+====
+* **Show gaps' outline** (item 120 (i)). With `gaps` on, each of V01 §5.4 (3)'s gap units for each kind chip, on the
+  layer shown (the view's working layer), is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
+>>>>

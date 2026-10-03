@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VV34-r6-02",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "R6-07 puts \"and under no disaster look\" on every \"never decayed \u21d2 unchanged\" statement (item 122 (d)). The round wrote the condition on the building subject of UE33's E1 (l. 2435) and on T-V4-82 (g)'s never-decayed control (l. 3175). It did not write it on their second subject: E1's \"an underground none of whose buildings has decayed\" and (g)'s \"every band of an underground with no decayed building\", each said to draw (and export) byte-identically. Under a look, a storey below 0 reads its building's drawn level, the higher of its own and the look's (J-V4.130; V04 \u00a75.6 (6): \"the look over a storey below 0 with V03 \u00a75.6 (4)'s\"). T-V4-82 (i) draws a never-decayed church's crypt at the look's level. So such an underground is not byte-identical while a look stands over it. T-V4-82 (i) runs the look, and (g)'s fixture holds none, so nothing built or tested changes.",
+  "required_change": "UE33's E1: \"and an underground none of whose buildings has decayed, draw byte-identically\" \u2192 \"and an underground none of whose buildings has decayed or stands under a disaster look, draw byte-identically\". T-V4-82 (g): \"and every band of an underground with no decayed building draw and export byte-identically\" \u2192 \"and every band of an underground with no decayed building and none under a disaster look draw and export byte-identically\".",
+  "owner": "V04",
+  "reported_by": "verify-vol-V03-V04-r6t"
+ }
+]

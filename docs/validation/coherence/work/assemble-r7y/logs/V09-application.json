@@ -1,0 +1,133 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7y/before/docs/volumes/V09-application.md",
+ "input_doc_sha256": "da502c0a32e9ad7dba2a694b05967adf830bba30035ce450db13688a2ec02f62",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7y/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7y-V09.md",
+   "sha256": "63d8cc6c277f86bde031af76d4a1acd6e6a456ae96dbbc9338190d0ef5b8cb7e",
+   "lines": 586,
+   "blocks": 3,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7y-V09.md #1 (l. 2) REPLACE ### 4.9 The words — the message catalogue's rows (English, our own)",
+   "file": "b-repair-r7y-V09.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 4.9 The words — the message catalogue's rows (English, our own)",
+   "body_lines": 406,
+   "body_sha256": "c2ce79494edb2dfd4ececb80da9e31028f355593bfe8e98c36f1014e598b8486",
+   "target_line": 1929,
+   "section_old": "1929–2335",
+   "section_old_n": 407,
+   "section_new_n": 407,
+   "new_headings": [
+    "### 4.9 The words — the message catalogue's rows (English, our own)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7y-V09.md #2 (l. 411) REPLACE #### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+   "file": "b-repair-r7y-V09.md",
+   "index": 2,
+   "line": 411,
+   "kind": "REPLACE",
+   "heading": "#### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+   "body_lines": 79,
+   "body_sha256": "288290952fc3d108d1beecd0b19957a1efd2ed0715da513d470f1ad76b3ad378",
+   "target_line": 3002,
+   "section_old": "3002–3077",
+   "section_old_n": 76,
+   "section_new_n": 80,
+   "new_headings": [
+    "#### 4.20.2 Raised ways and aqueducts (item 110 (b))"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7y-V09.md #3 (l. 493) REPLACE ### 7.1 The bars",
+   "file": "b-repair-r7y-V09.md",
+   "index": 3,
+   "line": 493,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars",
+   "body_lines": 91,
+   "body_sha256": "bd0b395c487393e5bd81354ea08582fbe7b5b2cdc2131ddd6d0d16979014637f",
+   "target_line": 4377,
+   "section_old": "4377–4468",
+   "section_old_n": 92,
+   "section_new_n": 92,
+   "new_headings": [
+    "### 7.1 The bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7y-V09.md #1 (l. 2) REPLACE ### 4.9 The words — the message catalogue's rows (English, our own)",
+    "kind": "REPLACE",
+    "heading": "### 4.9 The words — the message catalogue's rows (English, our own)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V09.md #2 (l. 411) REPLACE #### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+    "kind": "REPLACE",
+    "heading": "#### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7y-V09.md #3 (l. 493) REPLACE ### 7.1 The bars",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 110,
+  "headings_after": 110,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 779775,
+  "doc_bytes_after": 781054,
+  "doc_lines_before": 5045,
+  "doc_lines_after": 5049,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 3,
+  "blocks_applied": 3,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "1394a5ee0e0e25cbdf5c884ebc0052f84d5a4c56df5718d84319bb669358dfd0",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

@@ -1,0 +1,26 @@
+# §8.4 END of R5-02 (R1): the heightfield writers and the shadow casters read a wall run beneath a raised way's span
+# topped at its soffit (§2.7's support step (6) (d)).
+@@ FILE 8.4.md
+<<<<
+  §3.8's readers stay three (J-A28.32); flat roofs, walls, towers and gatehouses as the tops of their prisms;
+====
+  §3.8's readers stay three (J-A28.32); flat roofs, walls, towers and gatehouses as the tops of their prisms (a wall run
+  beneath a raised way's span topped at its soffit);
+>>>>
+<<<<
+  deck), towers and gatehouses (prism), curtain walls (prism of the band), bridges and piers (deck prism over water),
+====
+  deck), towers and gatehouses (prism), curtain walls (prism of the band; a run beneath a raised way's span topped at its
+  soffit, §2.7's support step (6) (d)), bridges and piers (deck prism over water),
+>>>>
+# §8.4 (i) VDC4-02: one fade per weather kind, every one of V11's nine (checked: every kind's `lengthS` lower end and
+# every climate override's at least twice its fade), the strength moving at 1 ÷ fade a second — the rate §6.1's press reads.
+<<<<
+  its kind, its strength s in [0, 1] by its phase (rising from 0 and back to 0 over its fades: at least 5 s for a
+  shower, 60 s for fog, mist, dust haze and cloud cover, V11's rows never shorter) — enters the per-frame terms above,
+====
+  its kind, its strength s in [0, 1] by its phase (rising from 0 and back to 0, each over its kind's fade, s moving by
+  1 ÷ that fade a second: 5 s for a shower (`rain`, `drizzle`), `snow` and `leaves`, 60 s for `fog`, `mist`, `dust`
+  (dust haze), `cloudShadow` (cloud cover) and `shimmer` (heat shimmer) — each kind's `lengthS` lower end in V11
+  §3.25.11 at least twice it; §6.1's press reads the same fade) — enters the per-frame terms above,
+>>>>

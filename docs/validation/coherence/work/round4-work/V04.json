@@ -1,0 +1,38 @@
+[
+ {
+  "id": "VAL-R3-03",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "V04",
+  "claim": "Missed shared subject: the raised way's stations re-sited by a trace, against V04's arch vaults. \u00a72.7's support step (6), new this round, re-runs (1)-(5) and the span rule on a standing raised way in the commit of any trace or moat laid across it. That covers S5a at generation, an epoch's circuit, contraction or re-anchored stretch (V06 \u00a73.7.6 (5)) and a hand `drawWall`. A station moves onto the trace (key kept) or is added, and the stations in the new strips slide or are omitted. The spans are re-ruled: a merged span over a setback, glacis, berm or channel is `open`. \u00a73.2 (9) and \u00a72.7 `RaisedFoot`, also new this round, extend a deck at a frame growth and re-place its stations. V04's arch vaults are keyed by their span's two pier keys and laid between those piers' inner faces (V04 \u00a73.5.4 (d)). V04 runs `ArchVaults.reconcile` and re-reads `foundationObstacles` in only three places: at T2; at 'a ground edit that adds, removes or re-shapes a raised way or sets a span's `use`' (\u00a71b l. 328, the lifecycle row l. 867, \u00a73.10's edit row l. 2572); and at an epoch over `EpochScope.raised`. That V06 field (V06 l. 465; W64) lists only the ways an op 'created, repaired, neglected, breached, dismantled or removed' or a landfall ruined. A station re-sited by a wall trace, or a deck extended at a frame growth, is none of these. So at an epoch the vaults are never reconciled: a chamber stays under a span that no longer exists, now open over the new setback or moat, a new `vault` span has no chamber, and doors and footprints sit off the moved piers. At a hand `drawWall` the text does not say whether 're-shapes' covers it. V06's 'the epoch-side guarantee \u2026 whatever op changed the way' (V06 l. 1036-1042) then fails. This is a hook with one end (principle (7)).",
+  "required_change": "V04's three trigger statements each add 'or whose stations \u00a72.7's support step (6) re-sites (a trace or moat laid across it: a hand `drawWall`, an epoch's circuit, contraction or re-anchored stretch; an S5a trace needs none, T2 following it) or whose deck a frame growth extends (\u00a73.2 (9); \u00a72.7 `RaisedFoot`)'. The three statements are \u00a71b's `ArchVaults.reconcile` row (l. 328), the arch-vault lifecycle row (l. 867) and \u00a73.10's edit row 'a raised way added, removed or re-shaped' (l. 2572). The reconcile and the `foundationObstacles` re-read run in that commit. V06's END: `EpochScope.raised`'s comment (V06 \u00a72.1, l. 465) and W64's derivation add 'or whose stations a circuit, contraction or re-anchored stretch re-sited (\u00a72.7's support step (6)), or whose deck the frame growth extended (\u00a73.2 (9))'. T-V4-63 adds a CITY fixture with a `vault` span under a viaduct crossed by an epoch circuit and by a hand `drawWall`. After each commit, every arch vault's key names a standing span of use `vault`, its footprint lies between that span's piers, and no chamber stands under an `open` span.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAL-R3-05",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "V04",
+  "claim": "Missed shared subject: Find on Below at a drawn week whose frame is not the head. This is V04's end of the class of VV12-r3-03 (V01) and VRC3T-01 (rendering). \u00a711.2 *At a drawn week*, new this round (l. 16292-16297; \u00a78.2's *Find*): at such a week a reader 'counts, glows, pins, lists and gaps only what the drawn frame holds'. The ruling on Find at a drawn week named ends at V01, V09 and V10, not at V04 or V05. V04 \u00a75.1 *Find on Below* gives every Below match's part, depth bands, glow shape and plan anchor through `underFindPlaces(doc, ids)`. Its rows (l. 308, 340, 866) read it 'at each commit that rebuilds Find's index'. V09 \u00a74.21.10 (7) rebuilds the index at each `week` change and calls `underFindPlaces(doc, ids)` without saying which model. At a scrubbed week, the set never says whether the glow shapes, the band ladder's counts, the ghost pins' bands and Go there's `depthBand` come from the head or from the drawn frame. A run, gallery or undercity district that an epoch has since extended or re-cut glows over galleries the frame does not draw, and Go there sends the view to a band the frame lacks, or not. The same holds for V05 \u00a75.6 (2)-(5): an island's matches drawn at its anchor, at the head or in that frame.",
+  "required_change": "V04 \u00a75.1 *Find on Below* adds: 'At a drawn week whose frame is not the head (V06 \u00a73.15.2; \u00a711.2's *At a drawn week*), `underFindPlaces` reads the model the view draws, that frame, for the ids \u00a711.2's listing gives at that week. Each glow shape, depth band, ghost pin's band, the band ladder's counts and Go there's band are then the frame's. Show gaps' units Below are V01's `gapUnits` at that week.' V04's rows at l. 308, 340 and 866 add 'and at each change of \u00a72.9's `week`, over the model the view draws'. V05's END: \u00a75.6 (2)-(5) say the same for the islands (a match glows at its island's anchor in that frame). V09's END: \u00a74.21.10 (7) passes the model the view draws to `underFindPlaces` and to V05 \u00a75.6's places.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAL-R3-09",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "V04 \u00a75.6 (1) (l. 2887-2888), new this round, reads: 'An underground building lies in no look's unit \u2014 V01's `disasterDistricts` returns ground part 0's districts, at the village rungs V07's ends (V01 \u00a73.16 (1))'. V07 \u00a75.6 (3)'s units are its ends, or in an end-less thorp its toft groups. The conclusion holds either way, since every unit is made of part 0's plots, so nothing built changes, but the list leaves out a unit kind. The same family as VV12-r3-01 and VV12-r3-04.",
+  "required_change": "V04 \u00a75.6 (1): 'at the village rungs V07's ends (V01 \u00a73.16 (1))' \u2192 'at the village rungs V07 \u00a75.6 (3)'s units, its ends or an end-less thorp's toft groups, all of part 0's plots (V01 \u00a73.16 (1))'.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAP-r3-05",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "As VAP-r3-03, at V04, in the clause round 3 added: T-V4-82 (i) (V04 l. 3144) '\u2026 and at its own level with Show crises off, at a key that withholds the condition, in the weeks outside the condition's and from the week a Works begun on the church hands it over'. The fixture's condition is the `reconstruction` condition linked to a calamity, reading the `calamity` row and so `public` (DR44; V08 \u00a73.16 (7) (b), (e)); no key withholds it.",
+  "required_change": "T-V4-82 (i) reads '\u2026 and at its own level with Show crises off, in the weeks outside the condition's and from the week a Works begun on the church hands it over (V06 \u00a73.22 (3)'s `crisisLookYields`; this clause once V06's E2 has landed); under View as at `public`, `local` and `secret` the same drawing, the condition `public` (\u00a77.7's DR44); \u2026'.",
+  "reported_by": "verify-agree-proof-r3t"
+ }
+]

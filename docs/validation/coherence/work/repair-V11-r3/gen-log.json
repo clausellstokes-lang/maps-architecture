@@ -1,0 +1,135 @@
+{
+ "doc": "docs/volumes/V11-content.md",
+ "doc_sha256": "7842179aaa80abfcf1e85dda0ab46c2fa6555b24c874527c2833c02a832b67b4",
+ "blocks": [
+  {
+   "heading": "### 1b Wiring table",
+   "ids": [
+    "VV78-r2-10",
+    "VPC-R2-13",
+    "END VPC-R2-03"
+   ],
+   "words_before": 4647,
+   "words_after": 4703
+  },
+  {
+   "heading": "### 2.1 The table registry",
+   "ids": [
+    "VEL2-r2-02"
+   ],
+   "words_before": 843,
+   "words_after": 904
+  },
+  {
+   "heading": "### 2.3 The siting profile and the class columns items 103–108 add (file f item 432)",
+   "ids": [
+    "VPC-R2-13"
+   ],
+   "words_before": 1615,
+   "words_after": 1620
+  },
+  {
+   "heading": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "ids": [
+    "VV1112-r2-01"
+   ],
+   "words_before": 1640,
+   "words_after": 1643
+  },
+  {
+   "heading": "### 2.8d The row types of items 113–119 and 122–124",
+   "ids": [
+    "END VAT2-r2-05",
+    "END VAT2-r2-06"
+   ],
+   "words_before": 1057,
+   "words_after": 1067
+  },
+  {
+   "heading": "### 3.1 The complete catalogue of tables",
+   "ids": [
+    "VV78-r2-10",
+    "VV1112-r2-03"
+   ],
+   "words_before": 6905,
+   "words_after": 6952
+  },
+  {
+   "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "ids": [
+    "VPC-R2-06"
+   ],
+   "words_before": 5648,
+   "words_after": 5691
+  },
+  {
+   "heading": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+   "ids": [
+    "VPC-R1-01",
+    "VV78-r2-10",
+    "VV1112-r2-02",
+    "END VPC-R2-03",
+    "END VAT2-r2-05",
+    "END VAT2-r2-06",
+    "VV1112-r2-01"
+   ],
+   "words_before": 8506,
+   "words_after": 8710
+  },
+  {
+   "heading": "### 3.26 Edges and combinations",
+   "ids": [
+    "VEL2-r2-02",
+    "END VAT2-r2-06",
+    "VV1112-r2-01"
+   ],
+   "words_before": 3111,
+   "words_after": 3303
+  },
+  {
+   "heading": "## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+   "ids": [
+    "VEL2-r2-02"
+   ],
+   "words_before": 1643,
+   "words_after": 1687
+  },
+  {
+   "heading": "## 7 Tests and acceptance bars",
+   "ids": [
+    "VAP-r2-09",
+    "VEL2-r2-02",
+    "VV1112-r2-01",
+    "VV78-r2-10"
+   ],
+   "words_before": 4543,
+   "words_after": 4765
+  },
+  {
+   "heading": "## 8 Build plan",
+   "ids": [
+    "VAP-r2-11"
+   ],
+   "words_before": 3160,
+   "words_after": 3176
+  },
+  {
+   "heading": "## 9 Decisions (each vetoable)",
+   "ids": [
+    "END VPC-R2-03",
+    "VV1112-r2-01"
+   ],
+   "words_before": 8784,
+   "words_after": 8790
+  },
+  {
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "ids": [
+    "VV1112-r2-02"
+   ],
+   "words_before": 527,
+   "words_after": 538
+  }
+ ],
+ "edits": 52
+}

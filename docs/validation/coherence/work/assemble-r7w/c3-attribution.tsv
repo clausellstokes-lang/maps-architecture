@@ -1,0 +1,3 @@
+check	run	lines	subsection	in_untouched	carried_by	corpus_whole	proposed_by	proposed_reason
+C3	law 1 2 3 5	14161	8.2 Style sheets as data: roles, contras	no	rendering	-	rendering	coherence/repair-rendering-r7w (proposed): §8.2's layer-order table, row 19a, adjudication-r7w R1's binding citation "(§2.7's laws, law 1 (2), (3), (5))" — numbered law pointers of the citation form Part H's head binds, no reference phrasing
+C3	law 1 2 5 6 10	11154	7.1 Edits are ordered events on addresse	no	determinism	-	determinism	coherence/repair-determinism-r7w (proposed): §7.1 *Raised ways*, adjudication-r7w D3's binding citation "(item 363; §2.7's laws, law 1 (2), (5), (6), (10); law 2 (a), (c); …)" — the design's own numbered law pointers, no reference text

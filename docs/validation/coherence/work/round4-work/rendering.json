@@ -1,0 +1,128 @@
+[
+ {
+  "id": "VAF-R3T-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "\u00a711.2's new `LooksAnswer` (R3-16 (a)) comments `crises[].districts` (l.16163) as 'a disaster look's units: V01's disasterDistricts over the model the view draws, at the village rungs V07's ends'. This is the same gloss as VAF-R3T-02. V01's `disasterDistricts` returns V07 \u00a75.6 (3)'s units there, which in an end-less thorp are toft groups (each id its lowest plot's). The field carries what V01 returns, so nothing built changes. The comment misstates the case.",
+  "required_change": "l.16163: '\u2026 V01's disasterDistricts over the model the view draws, at the village rungs V07 \u00a75.6 (3)'s units (its ends, or an end-less thorp's toft groups); key-filtered, \u2264 limits.members'.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-fabric-r3t"
+ },
+ {
+  "id": "VAL-R3-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "rendering",
+  "claim": "Damaged doors in the per-band underground VTT scene get two builds. V04 \u00a75.6 (5), the home of the damage below ground, states the per-band VTT rule, and T-V4-82 (e) tests it: 'a door past its threshold no portal (an open gap)'. \u00a711.1's underground-band clause (l. 15976-15981) had its line of sight rewritten this round (VRC2T-06). Its `portals` still sit 'at openings in a wall line \u2014 a door access, a door or breach link, an underground building's entrances, each tunnel grille (closed when locked, bricked, gated or secret)' with no damage exception. By contrast, \u00a711.1's per-storey clause writes portals only for 'every entrance whose door that level leaves standing'. A builder of \u00a711.1's profile writes a closed door portal at an underground building's fallen door; V04's builder writes none.",
+  "required_change": "\u00a711.1's underground-band clause: 'an underground building's entrances' \u2192 'an underground building's entrances whose door its own decay level leaves standing (a door past its threshold an open gap, no portal; V04 \u00a75.6 (5))'. V04's END: its \u00a75.5 VTT row may cite the same in one clause; \u00a75.6 (5) already states it.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAL-R3-06",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "rendering",
+  "claim": "Same defect as VV12-r3-02 (vol-V01-V02), in this lane's rendering\u2013V07 seam, with one more site in the same unit. At THORP, HAMLET and VILLAGE the village is one district, and a disaster look ruins V07 \u00a75.6 (3)'s units: its ends, or in an end-less thorp its toft groups. V07 \u00a75.6 (3) draws item 123's damage on 'every building on a returned unit's plots' and the ruined tone on 'the unit's plots' faces'. \u00a78.2 washes 'the district's faces' (`ruinTone`; the `disaster` row; 'their districts the `ruinTone`'). \u00a78.6 (l. 13984-13988, rewritten this round) damages every 'building of a district a disaster look ruins'. Read at a village rung, one struck end ruins and tones the whole village.",
+  "required_change": "ONE FIX with VV12-r3-02 (its \u00a78.2 and \u00a711.2 text), and \u00a78.6's 'A building of a district a disaster look ruins' \u2192 'A building on a unit a disaster look ruins (\u00a710.2 (d)'s `neighbourhoods`: a district; at THORP, HAMLET and VILLAGE a unit of V07 \u00a75.6 (3) \u2014 its ends, or an end-less thorp's toft groups \u2014 on the plots `villageUnitPlots` gives it)'.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAT-r3-02",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "rendering",
+  "claim": "R3-16 (e) rules that at THORP, HAMLET and VILLAGE `info.crisis.ruinedFor` is the village `WhyProvider`'s answer row, shown once. V09 \u00a74.21.12 (4) and \u00a75.8 now show it only from that provider. V07 \u00a74.5 and W74 say the provider reads '\u00a72.9's `crises` and `week` with DR44 at the viewer's key \u2026 never from the model'; its `info.village.season` and `info.village.festival` rows are likewise 'read from view state'. No interface carries a view into a why answer: \u00a711.2's `why` member is `{ kind: 'why'; id; path?; mode?; historyPage? }`; V10 \u00a72.13's `WhyProvider.explain(model, id, path, key, { mode, historyPage })` takes none; V10 \u00a73.9 calls providers 'over the committed model with the caller's key'; V09's `WhyCardModel` reads `query({ kind: 'why' })` with no view; and J-V10.125 says 'a `why` section is model-side and cannot know the view's week'. These three rows' inputs have no producer (principle (7)). One builder adds a view parameter; another, following V10, cannot produce the rows, and the village card shows no crisis line \u2014 the case R3-16 (e) meant to settle.",
+  "required_change": "One view-bound why at the API's home. (1) \u00a711.2's `why` member: `{ kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number; view?: ViewHandle /* a view-bound why: a provider whose rows state a view's look \u2014 V07 \u00a74.5's crisis, season and festival rows \u2014 reads that view's \u00a72.9 week, yearWeek, festival and crises and its looks evaluation (LooksAnswer) at the view's effective key; absent, no such row is given */ }`; *Knowledge* adds 'a `why` with a `view` admits its view-bound rows as `looks` does'. (2) END at V10: \u00a72.13's `WhyProvider.explain` opts gain `view?: { week: number; yearWeek: number; festival: ViewState['festival']; crises: ViewState['crises']; looks: LooksAnswer }`; \u00a73.9's query paragraph adds 'and, for a view-bound why, the view's state and `looks` answer'; the `why` tool passes `ClerkSession.view` where present (\u00a73.5). (3) END at V09: \u00a72.7's `WhyCardModel` reads `query({ kind: 'why', \u2026, view })` with the card's view. (4) END at V07: \u00a74.5 and W74 cite `opts.view` for the three rows.",
+  "reported_by": "verify-agree-tools-r3t"
+ },
+ {
+  "id": "VAT-r3-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "rendering",
+  "claim": "T-ER-21's outcome for the host's commands (l. 16624) reads 'the week and the selection view state that travels, the layers a logged `setLayer` \u2014 never an input', in the words adjudication-r3's note gives. \u00a711.3, the home, says the selection is not view state: `view.set { select: ids }` selects as a user's list pick would and reports `entity.selected` \u2014 'a command, never a stored key' \u2014 so it neither persists nor travels as `view.changed`. The bar's own fixture (byte-identical replay without the host) passes either way. A test writer checking the stated outcome would look for a travelling selection the bridge never sends.",
+  "required_change": "T-ER-21's outcome: 'the week and the selection view state that travels, the layers a logged `setLayer` \u2014 never an input' \u2192 'the week view state that travels, the selection a command (the frame selects and reports `entity.selected`; never a stored key), the layers a logged `setLayer` \u2014 never an input'.",
+  "reported_by": "verify-agree-tools-r3t"
+ },
+ {
+  "id": "VRC2T-08",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "Partly fixed: \u00a78.8 now applies an Auto change decided while the view is idle at once, and a device-pixel-ratio change at once when idle (J-A121.07; T-ER-26), but \u00a712.5 *The frame budgets Auto holds* still reads 'a rolling p95 over the budget through 2 s steps one rung \u2026 down, one under 60 % of it through 10 s one up, each applied only at the settle and at most once in 10 s'. *The settle* is \u00a78.8's gesture event (*Gestures*: 'the settle, at which the Auto changes decided during the gesture apply'), so a builder reading \u00a712.5 never applies a change decided on an idle view: VRC2T-08's defect, restated in the same unit.",
+  "required_change": "\u00a712.5's clause reads '\u2026 each applied only while the view is settled \u2014 at once when no gesture runs, at the gesture's settle otherwise \u2014 and at most once in 10 s (\u00a78.8's Auto loop) \u2026'.",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VRC3T-01",
+  "severity": "major",
+  "kind": "NEW-PROBLEM",
+  "owner": "rendering",
+  "claim": "\u00a711.2 *At a drawn week* (new this round): 'every row, count, match and gap unit is the head index's restricted to the entities the frame holds'. A kind chip's match is 'every entity holding an admitted Use whose cls is among its classes \u2026 one match per entity' (*Find's match listing*), and a Use is itself an addressed record with `opened`/`closed` (\u00a72.6), while V06 \u00a73.15.2's frame is a whole model with its own uses. So at a scrubbed week (a) a building that held a smithy then and a bakery at the head is matched by 'Bakery' (the building is held by the frame) and not by 'Smithy', glowing, pinning and counting a use the frame does not draw \u2014 unless 'entities' includes the Use, which two builders read two ways; (b) a use or building the frame holds that the head has since closed, moved or demolished is in no head row and is never matched though drawn \u2014 the second half of VRC2T-07's claim, left standing against R3-24's own sentence ('Find counts, glows, pins, lists and gaps only the entities that frame holds'). T-ER-25's scrub fixtures exercise neither case.",
+  "required_change": "\u00a711.2 *At a drawn week* reads: 'where that week's frame is not the head, the listing is the frame's: the head index's matches less those whose entity, or whose matching use, the frame does not hold open at that week, plus the frame's own uses and entities of the chip's classes or target that the head lacks or holds otherwise \u2014 read from V06 \u00a73.15.2's frame (its Use records with `opened` at or before the week and no `closed` by it; the HistoryStore images between the frame and the head) \u2014 so a building matches by its use at that week, never its head use, and an entity or use the frame holds matches though the head has since closed, moved or demolished it; a chip with none there counting 0; absent, the head'; \u00a78.2's *At a drawn week* sentence cites it ('each chip's matches are \u00a711.2's listing at that week'); T-ER-25's scrub fixture adds a week before a matched use closed and a building whose use changed since that week (matched by its use then; the closed use matched and drawn). V09 \u00a74.21.10 (8) and V10's `read_map find` then read the same listing (their 'restricted to the entities that frame holds' citing \u00a711.2).",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VRC2T-12",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "rendering",
+  "claim": "Partly fixed: \u00a711.2's `interface ExportOpts` is declared once with `Format` and `ViewHandle`, and \u00a714's `Exporter`, \u00a711.1 and V08 W81 cite it; but it says it holds 'every option an export reads, declared once \u2026 written by V09 \u00a75.10's dialog', while V09 \u00a75.10 offers, and \u00a711.1 / V02 \u00a75.5 / V09 \u00a75.15 define, options with no member: Map data's 'Raised ways' and 'Retaining walls' checkboxes (file f item 447 (a)) and 'include supply links' (V09 \u00a75.15's `supplyLink` LineStrings); GeoJSON's optional `wings` layer (\u00a711.1; V02 \u00a75.5); 3-D's 'terrain, trees and lights on \u00b7 off' (`trees` is typed for GeoJSON only); Tabletop's layer 'a raised way's deck' (`vtt.scene` has no raised-way form).",
+  "required_change": "`ExportOpts` gains, each with its default: `links?: boolean` (GeoJSON, V09 \u00a75.15; default on while the view's `thematic` is `links`), `raised?: boolean` and `retaining?: boolean` (GeoJSON, file f item 447 (a); default true), `wings?: boolean` (GeoJSON, V02 \u00a75.5; default false), `terrain?: boolean` and `lights?: boolean` (3-D; default true) with `trees` extended to the 3-D formats (`'none'` leaving them out, else drawn), and `vtt.scene` the form `{ raisedWay: Id }` (one deck scene, \u00a711.1 *Per raised way*).",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VRC3T-05",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "rendering",
+  "claim": "The new typed `ExportOpts` members state ranges a script or a bridged `export.request` can pass outside \u2014 `vtt.pxPerSquare` 'at least 50', `band` 'neighbourhood only for a district-sized or smaller frame', `vtt.scene` naming a building, storey or depth band, `stride` (years), `size` (`px`, `dpi`) \u2014 and nothing says what an export does with 30 px a square, the neighbourhood band over a whole town, a storey the building lacks, a stride of 0 or a zero-sized picture (clamp, refuse or draw); T-ER-19 and T-ER-20 test none. The dialog never produces such values (no normal path, hence minor).",
+  "required_change": "\u00a711.2 states beside `ExportOpts`: a member outside its range that has a nearest lawful value is clamped to it and named in the export's report (`pxPerSquare` \u2192 50; `band` 'neighbourhood' over a larger frame \u2192 'district'); one with none \u2014 a `vtt.scene` naming what the scope lacks, a `stride` \u2264 0, a `size` side or `dpi` \u2264 0, a zero-area `frame` \u2014 refuses the export (`export.refused` / the rejected promise, naming the member), never a crash or a hang; T-ER-19 adds a request of each.",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VRC3T-06",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "rendering",
+  "claim": "`ExportOpts.frame?: BoxCm` (new) and `thumbnail`'s `box: BoxCm` use `BoxCm`; `DisplayList.bounds: Box`, `dirty: Box[]`, `LiveLayerProvider.marks(\u2026, region: Box)`, `VectorBackend`'s `frame: Box` (the writer `ExportOpts.frame` feeds) and \u00a714's `ObstacleSource` use `Box`. Neither is declared anywhere in the set (principle (2): one name per concept).",
+  "required_change": "\u00a78.1's code block declares `type Box = { x0: Cm; y0: Cm; x1: Cm; y1: Cm };   // an axis-aligned box in world cm, as MarkTable.bbox's four values`; \u00a711.2's `ExportOpts.frame` and `thumbnail`'s `box` read `Box`.",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VRC3T-07",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "\u00a711.3: '`export.request` becomes `export.request { fmt, opts, displayNames?, knowledge?: Admission, bundle?: true }`', while `opts` is now \u00a711.2's `ExportOpts`, whose members include `knowledge` and `displayNames`; \u00a711.1 says 'the bridge's `export.request` carries the same field'. Two slots for one value, with no rule for which governs when both are sent.",
+  "required_change": "\u00a711.3's message reads `export.request { fmt: Format, opts?: ExportOpts, bundle?: true }` \u2014 the requester's `knowledge` and `displayNames` being `opts`' members (\u00a711.2) \u2014 and V08 \u00a72.2's comment 'export.request gains displayNames?: \u2026, knowledge?: Admission \u2026' reads 'export.request's `opts` carries `displayNames` and `knowledge` (\u00a711.2's `ExportOpts`)' (V08's end).",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VCS-r3-07",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "rendering",
+  "claim": "J-A121.02's new index row (base l. 22657, rendering's J-ROWS this round) reads \"so the mid tier's lit reference view (D = 2)\". The canon retires \"reference view\" for \"reference viewport\" (G-refview), and the row's own Part A entry (rationale l. 844) says \"reference viewport\".",
+  "required_change": "J-A121.02's index row reads \"\u2026 so the mid tier's lit reference viewport (D = 2) is lit at DPR 1 with its text layer, 103.75 MB\". (Outside scope, for rendering's verifier: the same retired term at \u00a78.8 l. 14172 and l. 14176, \u00a712's R12-38 row l. 17298, and the Part A entries J-A68.85, J-A68.89 and J-A68.90.)",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VV12-r3-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "\u00a78.2 draws a disaster's city-band tone over districts: the `disaster` row 'its districts in the `ruinTone`' (l. 12985), `ruinTone` 'the district's faces under a `crisis.ash` wash' (l. 13004), and 'their districts the `ruinTone` at the city band \u2026 a district's `ruinTone` stands while any of its buildings still draws the look' (l. 13012\u201313016). At THORP, HAMLET and VILLAGE the village product holds one district and the units are V07 \u00a75.6 (3)'s ends or toft groups: V07 \u00a75.6 (3) has 'the unit's plots' faces take \u00a78.2's ruined tone at the city band', and V01 \u00a73.16 (1) (this round) names \u00a78.2's disaster row as reading a returned unit's faces through `villageUnitPlots`. \u00a78.2 as written washes the whole village when one end is struck; V07 washes that end's plots. \u00a711.2's `LooksAnswer.crises[].districts` comment (l. 16163) also reads 'at the village rungs V07's ends', missing the toft groups.",
+  "required_change": "\u00a78.2's `disaster` row's city-band cell reads \"its units in the `ruinTone` (districts; at THORP, HAMLET and VILLAGE V07 \u00a75.6 (3)'s units, on the plots `villageUnitPlots` gives each)\"; `ruinTone`'s definition reads \"a unit's faces \u2014 a district's, or at the village rungs its unit's plots' (V07 \u00a75.6 (3)) \u2014 under a `crisis.ash` wash \u2026\"; the rule sentence's \"and their districts the `ruinTone` at the city band\" reads \"and their units (V01 \u00a73.16 (1)) the `ruinTone` at the city band\", and \"a district's `ruinTone` stands while any of its buildings still draws the look\" reads \"a unit's `ruinTone` stands while any of its buildings still draws the look\". \u00a711.2's `districts` comment reads \"a disaster look's units: V01's `disasterDistricts` over the model the view draws (at the village rungs V07 \u00a75.6 (3)'s ends or toft groups); key-filtered, \u2264 limits.members\". T-ER-27's fire fixture at VILLAGE adds the outcome \"the `ruinTone` on the struck end's plots only\".",
+  "reported_by": "verify-vol-V01-V02-r3t"
+ },
+ {
+  "id": "VV34-r3-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "VV34-r2-11's fix makes V03 \u00a75.1 (l. 2458\u20132460) pick a damaged floor's form by kind: 'a damaged `groundFloor` element takes \u00a78.6's ground-level form (a rotten patch, still walkable) at whatever level it lies, a solid wing's first storey included, and a damaged `upperFloor` element \u00a78.6's hole', its `ruined` look keeping a solid wing's first storey walkable (l. 2465). \u00a78.6, the home of the damaged forms, still picks by position: 'floor area | on any storey above ground level, a hole \u2026 the storey below seen through it; at ground level and under it, a rotten patch' (base l. 13964) and 'leaving the ground storey the only one that can be walked' (l. 13975). The first storey of a wing on a solid wing (V03 \u00a73.3's s\u2080(w) \u2265 1: item 110's shrines and tiers) is above ground level: a hole onto solid fill by \u00a78.6, a walkable patch by V03 and T-V3-39 (d). V03 \u00a713's row (l. 3249) names \u00a78.6 as the other end; it is unwritten (no END line named it; V03's HAND-OFFS).",
+  "required_change": "\u00a78.6's floor-area row: 'floor area | an `upperFloor` element (V03 \u00a75.6 (1)): a hole: the area filled in `void` under a dense `ink` cross-hatch at \u03b1 0.4 (the drop), its edge a broken hairline, the storey below seen through it as `trace` hairlines; a `groundFloor` element \u2014 at ground level, under it, or a wing's first storey on a solid wing \u2014 a rotten patch in `ground` stipple, still walkable'; the `ruined` sentence (l. 13975) reads 'leaving the ground storey \u2014 with a solid wing's first storey \u2014 the only one that can be walked'.",
+  "reported_by": "verify-vol-V03-V04-r3t"
+ }
+]

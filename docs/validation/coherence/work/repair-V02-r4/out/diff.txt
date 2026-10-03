@@ -1,0 +1,126 @@
+--- live/V02-buildings.md
++++ expected/V02-buildings.md
+@@ -199 +199 @@
+-| `exteriorDamage(doc, b, view, opts)` and its `ExteriorDamage` (V02 §2.4) — the exterior's damage (item 123 (d)) and the ruined look of a disaster's buildings (item 122) | derived function (never stored), run in the generation worker by S14 (V02 §5.7 (8)) | V06's `decayLevel` for the building's lineage at §2.9's `week`; the plan in force — current or stored, in the elaboration cache — under its damage layer (V03; §2.6 step 7; §6.3's `plan.damage` with V11's ranges; its repaired elements by V06's per-element `decayPeak`, read through V03 §5.6 (2) (b)); the disaster looks drawn in the view over the building's unit (§2.7's `ConditionOverlay` and its reader rule; §7.7's DR44 and its admission at the view's knowledge key, `ViewOpts.viewAs` lowering it; §10.2's `disaster` row and its `lookLevel`, and `previewSeverity`; §2.9's `crises`; V01's `disasterSource` — its `pattern` — and `disasterDistricts`, V07's ends at THORP, HAMLET and VILLAGE; V06's `crisisLookYields`, false for a preview) | the building's damage marks (V02 §5.7 (8)) — in its district's group of the display list or a `DisplayDelta`, re-emitted for exactly the buildings whose marks change — read by V02 §5.7's drawing in the tile rasteriser (the `roofscape` program's holes and patches, clipped to their wing's facets, the outline's gaps and rubble, the look's tone and dash, the porch, cupola and roof-decoration draws over a hole) and by the SVG and PNG writers from their transient lists; the SVG semantics `sem.building.roof.hole` and `sem.building.rubble`; V02 §6.6's memo; T-V2-59, T-V2-60 | §8.1 (S14, its `group`, the `DisplayDelta`, item 7's week re-emission), §8.9 (the worker boundary), §8.2 (the `states` rows; the crisis look rows), §8.6 (the damaged plan, item 123), §8.8 (the tile key) |
++| `exteriorDamage(doc, b, view, opts)` and its `ExteriorDamage` (V02 §2.4) — the exterior's damage (item 123 (d)) and the ruined look of a disaster's buildings (item 122) | derived function (never stored), run in the generation worker by S14 (V02 §5.7 (8)) | V06's `decayLevel` for the building's lineage at §2.9's `week`; the plan in force — current or stored, in the elaboration cache — under its damage layer (V03; §2.6 step 7; §6.3's `plan.damage` with V11's ranges; its repaired elements by V06's per-element `decayPeak`, read through V03 §5.6 (2) (b)); the disaster looks drawn in the view over the building's unit (§2.7's `ConditionOverlay` and its reader rule; §7.7's DR44 and its admission at the view's knowledge key, `ViewOpts.viewAs` lowering it; §10.2's `disaster` row and its `lookLevel`, and `previewSeverity`; §2.9's `crises`; V01's `disasterSource` — its `pattern` — and `disasterDistricts`, at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units and their land `villageUnitPlots`; V06's `crisisLookYields`, false for a preview) | the building's damage marks (V02 §5.7 (8)) — in its district's group of the display list or a `DisplayDelta`, re-emitted for exactly the buildings whose marks change — read by V02 §5.7's drawing in the tile rasteriser (the `roofscape` program's holes and patches, clipped to their wing's facets, the outline's gaps and rubble, the look's tone and dash, the porch, cupola and roof-decoration draws over a hole) and by the SVG and PNG writers from their transient lists; the SVG semantics `sem.building.roof.hole` and `sem.building.rubble`; V02 §6.6's memo; T-V2-59, T-V2-60 | §8.1 (S14, its `group`, the `DisplayDelta`, item 7's week re-emission), §8.9 (the worker boundary), §8.2 (the `states` rows; the crisis look rows), §8.6 (the damaged plan, item 123), §8.8 (the tile key) |
+@@ -367,3 +367,3 @@
+-  (`disasterDistricts`), V07's ends at the village rungs; the marks round the buildings — a ruined quarter's tone,
+-  camps, smoke, marked doors — §8.2's crisis rows; the hand-over to the aftermath V06's. V02 draws the building's
+-  exterior only (V02 §5.7).
++  (`disasterDistricts`), V07 §5.6 (3)'s units and their plots (`villageUnitPlots`) at the village rungs; the marks round
++  the buildings — a ruined quarter's tone, camps, smoke, marked doors — §8.2's crisis rows; the hand-over to the
++  aftermath V06's. V02 draws the building's exterior only (V02 §5.7).
+@@ -2455 +2455 @@
+-| THORP, HAMLET, VILLAGE (the village product) | V07's `v.` classes compose by `composition.classFamily` (V02 §3.10.5); a town class plays its `villageForm`'s `v.` class (V02 §3.2); no stepped building unless V11 §3.24.3's culture × class specialisation applies to the `v.` class under V07's `rules.tiers.capPerSettlement` (X26); deck buildings on a village bridge by V02 §3.16; no raised way (the base's rung gate); every dwelling but a `grandClasses` building reads its row under the rung's grandeur ceiling — at most `single`, `L` or `T`, no tower, turret, gate tower or court — while a manor S10b admits and a building the dossier or the author makes grand keep their full rows (V02 §3.2 step 2; item 115); a disaster's ruined look falls on every building of V07's ends (V02 §5.7) |
++| THORP, HAMLET, VILLAGE (the village product) | V07's `v.` classes compose by `composition.classFamily` (V02 §3.10.5); a town class plays its `villageForm`'s `v.` class (V02 §3.2); no stepped building unless V11 §3.24.3's culture × class specialisation applies to the `v.` class under V07's `rules.tiers.capPerSettlement` (X26); deck buildings on a village bridge by V02 §3.16; no raised way (the base's rung gate); every dwelling but a `grandClasses` building reads its row under the rung's grandeur ceiling — at most `single`, `L` or `T`, no tower, turret, gate tower or court — while a manor S10b admits and a building the dossier or the author makes grand keep their full rows (V02 §3.2 step 2; item 115); a disaster's ruined look falls on every building of V07 §5.6 (3)'s units (`villageDisasterUnits`: its ends, or in an end-less thorp its toft groups), a unit's buildings those on the plots `villageUnitPlots(doc, unit)` gives it (V02 §5.7) |
+@@ -2522,2 +2522,2 @@
+-| the damage marks (V02 §5.7 (8)) | a drawn week that moves a level without crossing a threshold; one that crosses one, a look's week edge or a rebuild's start; Show crises switched, a preview started or ended, View as changed; a plan entering force, or evicted from the elaboration cache; a commit that moves a level or a look's units; a cached tile of a struck district | nothing re-emitted; exactly the buildings whose marks change re-emitted, the rest untouched; the buildings of the looks' units before and after re-emitted; that building re-emitted, its element reading joining or leaving; its marks in the commit's delta; the tile redrawn after each re-emission (its dirty box, §8.1 item 4) and keyed by the drawn week, `crises` and the effective key (§8.8) | — | T-V2-59, T-V2-60 |
+-| the ruined look (V02 §5.7) | severity 0 and 1; two disaster looks over one building; a condition the view's key withholds; a `preview` on a standalone document; a preview over buildings under a rebuild's Works; an overlay whose condition carries no calamity | the `disaster` row's two `lookLevel` ends; the higher level, with that look's pattern (ties: the lower condition id); no look on any building; the previewed look at `previewSeverity` on its preview's units; the look on every building of its units whatever their Works (a preview never hands over, V06 §3.22 (3)); the `scatter` pattern (V01 §3.16 (2)) | — | T-V2-60 |
++| the damage marks (V02 §5.7 (8)) | a drawn week that moves a level without crossing a threshold; one that crosses one, a look's week edge or a rebuild's start; Show crises switched, a preview started or ended; View as changed; a plan entering force, or evicted from the elaboration cache; a commit that moves a level or a look's units; a cached tile holding a struck unit's buildings | nothing re-emitted; exactly the buildings whose marks change re-emitted, the rest untouched; the buildings of the looks' units before and after re-emitted; the looks' units at both keys tested and no building re-emitted where the same looks stand on the same units at both (every look-bearing condition is `public`, §7.7's DR44), the tile drawn under the new key (§8.8); that building re-emitted, its element reading joining or leaving; its marks in the commit's delta; the tile redrawn after each re-emission (its dirty box, §8.1 item 4) and keyed by the drawn week, `crises` and the effective key (§8.8) | — | T-V2-59, T-V2-60 |
++| the ruined look (V02 §5.7) | severity 0 and 1; two disaster looks over one building; a condition the view's key withholds (a `none`-row one: a look-bearing condition is `public`, §7.7's DR44); a `preview` on a standalone document; a preview over buildings under a rebuild's Works; an overlay whose condition carries no calamity; an end-less thorp | the `disaster` row's two `lookLevel` ends; the higher level, with that look's pattern (ties: the lower condition id); no look on any building; the previewed look at `previewSeverity` on its preview's units; the look on every building of its units whatever their Works (a preview never hands over, V06 §3.22 (3)); the `scatter` pattern (V01 §3.16 (2)); its toft groups' buildings, by `villageUnitPlots` (V07 §5.6 (3)), and no other building | — | T-V2-60 |
+@@ -2550 +2550 @@
+-| a disaster's look and its aftermath (V06) | the look leaves a building where V06's `crisisLookYields` holds, so no week draws both the look and the rebuild's scaffolding; a building the next epoch really ruins or abandons reads its own level from that epoch's week; an element only the look damaged is drawn in its real state when the look ends, never patched | — | T-V2-60 |
++| a disaster's look and its aftermath (V06) | the look leaves a building where V06's `crisisLookYields` holds, so no week draws both the look and the rebuild's scaffolding; a building the next epoch really ruins or abandons reads its own level from the week its change shows (V06 §3.23 (1): the hazard's week, a `vacate`'s `decay` Works' start); an element only the look damaged is drawn in its real state when the look ends, never patched | — | T-V2-60 |
+@@ -3043,9 +3043,11 @@
+-in a unit the look strikes and has not handed over ((6); a preview never hands over, V06 §3.22 (3)). The units are every
+-district V01's `disasterDistricts` returns — for a preview, the districts it returns for the previewed look, keyed on
+-the look kind in the condition's stead (§10.2's placement; X35) — and at THORP, HAMLET and VILLAGE every end V07
+-returns; every building of a unit draws the look, with no second, per-building share (item 122 (b): whole
+-neighbourhoods). Nothing of the look is drawn from a stream of its own: its units are V01's and V07's (keyed by the
+-condition's id), its elements' thresholds the building's lineage's (§6.3), its rubble the building's render key's
+-(§8.10). Of two looks over one building the higher level is drawn, with that look's pattern ((4); ties: the lower
+-condition id). At level 0 — a building never abandoned, under no look — nothing of this section is drawn: the building
+-draws byte-identically to stage 3 without items 122 and 123 (T123-7's no-op).
++in a unit the look strikes and has not handed over ((6); a preview never hands over, V06 §3.22 (3)). The units are those
++V01's `disasterDistricts` returns (§10.2 (d)'s `neighbourhoods`) — for a preview, those it returns for the previewed
++look, keyed on the look kind in the condition's stead (§10.2's placement; X35): at TOWN and above every district it
++returns, and at THORP, HAMLET and VILLAGE every unit it returns there — V07 §5.6 (3)'s `villageDisasterUnits`, its ends
++or in an end-less thorp its toft groups — a unit's buildings being those on the plots V07's
++`villageUnitPlots(doc, unit)` gives it; every building of a unit draws the look, with no second, per-building share
++(item 122 (b): whole neighbourhoods). Nothing of the look is drawn from a stream of its own: its units are V01's and
++V07's (keyed by the condition's id), its elements' thresholds the building's lineage's (§6.3), its rubble the building's
++render key's (§8.10). Of two looks over one building the higher level is drawn, with that look's pattern ((4); ties: the
++lower condition id). At level 0 — a building never abandoned, under no look — nothing of this section is drawn: the
++building draws byte-identically to stage 3 without items 122 and 123 (T123-7's no-op).
+@@ -3115,2 +3117,2 @@
+-A building the next epoch really ruins or abandons reads its own level from that epoch's week (V06's hazard and decline
+-phases), the look's level ruling only while it is the higher.
++A building the next epoch really ruins or abandons reads its own level from the week its change shows (V06 §3.23 (1):
++the hazard's week, a `vacate`'s `decay` Works' start), the look's level ruling only while it is the higher.
+@@ -3741,7 +3743,10 @@
+-force; and the house once burned (`burn`), its shell charred. A **look fixture** on B-CITY-lite's TOWN and CITY seeds
+-and B-VILLAGE's VILLAGE seed: a fire, a flood and an earthquake, each a calamity carried by V08's port with its linked
+-`reconstruction` condition (V08 §3.16 (7) (b)), whose map row then reads `disaster` (V11's map rows), at severities 0,
+-0.5 and 1, the condition's `sinceWeek` 10 and `untilWeek` 20; on one seed a rebuild's `repair` Works beginning in week
+-18 on half the struck buildings and a `decay` Works on two others, and a second calamity with its linked condition
+-overlapping the first; the same documents with Show crises `off` and with no condition; and the `disaster` preview on a
+-standalone document and on the rebuilt seed, its units holding buildings under the rebuild's Works.
++force; and the house once burned (`burn`), its shell charred. A **look fixture** on B-CITY-lite's TOWN and CITY seeds,
++B-VILLAGE's VILLAGE seed and an end-less THORP of B-VILLAGE (V07 §5.6 (7)'s no-end case, as T-V7-69 (c) runs it: no
++anchor, so its units are its toft groups, V07 §5.6 (3)): a fire, a flood and an earthquake, each a calamity carried by
++V08's port with its linked `reconstruction` condition (V08 §3.16 (7) (b)), whose map row then reads `disaster` (V11's
++map rows), at severities 0, 0.5 and 1, the condition's `sinceWeek` 10 and `untilWeek` 20; on one seed a rebuild's
++`repair` Works beginning in week 18 on half the struck buildings and a `decay` Works on two others, and a second
++calamity with its linked condition overlapping the first; an `infiltrated` stressor (a `none`-row condition, V11's map
++rows) carried beside the looks, standing in their weeks; the same documents with Show crises `off` and with no
++condition; and the `disaster` preview on a standalone document and on the rebuilt seed, its units holding buildings
++under the rebuild's Works.
+@@ -3771,21 +3776,27 @@
+-  fixture's exteriors) — on the look fixture: (a) every building of every unit `disasterDistricts` returns (V07's ends
+-  at VILLAGE) draws the look in exactly the weeks it stands (10–19; 10–17 on a building whose rebuild's Works begins in
+-  week 18) and no building outside those units does — at the element reading its holes and gaps equal its plan's damage
+-  at the higher of its own level and the look's, at the massing reading the toned roof and the dashed outline; (b) the
+-  model digest, every wing, `MassingRef`, stored composition and stored plan, and the saved bytes identical with Show
+-  crises `follow`, `off` and a preview and in every week; (c) with Show crises `off`, every building's exterior
+-  byte-identical to its drawing under no disaster look (its own decay alone), and with no condition and no preview every
+-  tile byte-identical to stage 3 without item 122 (the `item122.crises` no-op — the `item122.crises` registration of the
+-  look fixture's exteriors on V12 §3.7.8's engine (V12 §2.13), written by the seat landing V02's ruined-look step (M6b,
+-  V02 §8.6)); (d) from week 18 a building whose rebuild's Works began draws that Works' stage and not the look (V06's
+-  `crisisLookYields`), and a building under a `decay` Works keeps the look; the `disaster` preview on the rebuilt seed
+-  in week 18 draws the look on every building of its units, those under the rebuild's Works included (a preview never
+-  hands over); a building also really decayed drawn at the higher level; in week 20 every element in its real state,
+-  none patched by the look; (e) a viewer whose knowledge key withholds the condition sees the look on no building; (f)
+-  the fire's buildings blackened (the `fire` pattern), the flood's and the earthquake's not (`flood`, `scatter`); of two
+-  overlapping looks the higher level drawn; (g) one building's holes and gaps identical across two views, at the
+-  district and neighbourhood bands and in an SVG and a PNG export; over a cached district-band tile of a struck
+-  district, Show crises switched `off` and back, a preview started and ended, and View as set to a key that withholds
+-  the condition, the struck buildings' damage marks re-emitted and the tile redrawn after each, and the week step 17 →
+-  18 re-emitting exactly the buildings whose rebuild began; (h) the stepped temple, the deck building, a tower and a
+-  solid monument take V02 §3.18 (e)'s outcomes, and an underground building draws none of it.
++  fixture's exteriors) — on the look fixture: (a) every building of every unit `disasterDistricts` returns (at VILLAGE
++  V07's ends, each on the plots `villageUnitPlots` gives it; on the end-less THORP its toft groups, likewise) draws the
++  look in exactly the weeks it stands (10–19; 10–17 on a building whose rebuild's Works begins in week 18) and no
++  building outside those units does (on the end-less THORP every building of a struck toft group draws it and no other
++  building does) — at the element reading its holes and gaps equal its plan's damage at the higher of its own level and
++  the look's, at the massing reading the toned roof and the dashed outline; (b) the model digest, every wing,
++  `MassingRef`, stored composition and stored plan, and the saved bytes identical with Show crises `follow`, `off` and a
++  preview and in every week; (c) with Show crises `off`, every building's exterior byte-identical to its drawing under
++  no disaster look (its own decay alone), and with no condition and no preview every tile byte-identical to stage 3
++  without item 122 (the `item122.crises` no-op — the `item122.crises` registration of the look fixture's exteriors on
++  V12 §3.7.8's engine (V12 §2.13), written by the seat landing V02's ruined-look step (M6b, V02 §8.6)); (d) from week 18
++  a building whose rebuild's Works began draws that Works' stage and not the look (V06's `crisisLookYields`), and a
++  building under a `decay` Works keeps the look; the `disaster` preview on the rebuilt seed in week 18 draws the look on
++  every building of its units, those under the rebuild's Works included (a preview never hands over); a building also
++  really decayed drawn at the higher level; in week 20 every element in its real state, none patched by the look; (e)
++  the disaster's condition, whose map row gives the look and so `public` (§7.7's DR44), draws the look on its units'
++  buildings under View as at `public`, `local` and `secret` alike — the same drawing at each key, in every week of (a)
++  and (d) — and the `infiltrated` stressor carried beside it (a `none`-row condition) draws no look on any building at
++  any key; (f) the fire's buildings blackened (the `fire` pattern), the flood's and the earthquake's not (`flood`,
++  `scatter`); of two overlapping looks the higher level drawn; (g) one building's holes and gaps identical across two
++  views, at the district and neighbourhood bands and in an SVG and a PNG export; over a cached district-band tile
++  holding a struck unit's buildings, Show crises switched `off` and back and a preview started and ended, the struck
++  buildings' damage marks re-emitted and the tile redrawn after each, and View as changed among `public`, `local` and
++  `secret`, the look standing at every key — the same drawing, no struck building's marks re-emitted (their `revision`
++  unchanged, V02 §5.7 (8)) and the tile drawn under its new key (§8.8's tile key) — and the week step 17 → 18
++  re-emitting exactly the buildings whose rebuild began; (h) the stepped temple, the deck building, a tower and a solid
++  monument take V02 §3.18 (e)'s outcomes, and an underground building draws none of it.
+@@ -3882 +3893,2 @@
+-age (V06); at THORP, HAMLET and VILLAGE the look's units wait for V07's ends (V07 §8).
++age (V06); at THORP, HAMLET and VILLAGE the look's units wait for V07's `villageDisasterUnits` and `villageUnitPlots`
++(V-M3, V07 §5.6 (8)).
+@@ -4003 +4015 @@
+-| J-V2.113 | Chose to draw **a disaster's ruined look as item 123's damage at the higher of the building's own decay level and the look's** (the `disaster` row's `lookLevel` at the condition's severity, §10.2) on every building of every unit V01's `disasterDistricts` returns (V07's ends at the village rungs), over a ruined look of its own or a per-building share inside a struck district, because the owner's disaster takes whole neighbourhoods (item 122 (b)) and one damage design keeps the exterior, the plan and the cellars in one comparison (item 122 (d)); to give the kinds **one flavour** — a fire blackens — over a look per disaster, because soot is the one mark the damage does not already draw — an earthquake's fallen wings, towers and open roofs and a flood's fallen walls and outbuildings are the damage itself, and a flood's stained lower storeys lie under the roofs a map draws from above; and to let the look **leave no patch**, over reading its end as a repair, because the look is temporary and cosmetic (item 122 (a)) and what really breaks reaches the map only through V06's epoch path. |
++| J-V2.113 | Chose to draw **a disaster's ruined look as item 123's damage at the higher of the building's own decay level and the look's** (the `disaster` row's `lookLevel` at the condition's severity, §10.2) on every building of every unit V01's `disasterDistricts` returns (at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units — its ends, or in an end-less thorp its toft groups — a unit's buildings those on the plots `villageUnitPlots(doc, unit)` gives it), over a ruined look of its own or a per-building share inside a struck district, because the owner's disaster takes whole neighbourhoods (item 122 (b)) and one damage design keeps the exterior, the plan and the cellars in one comparison (item 122 (d)); to give the kinds **one flavour** — a fire blackens — over a look per disaster, because soot is the one mark the damage does not already draw — an earthquake's fallen wings, towers and open roofs and a flood's fallen walls and outbuildings are the damage itself, and a flood's stained lower storeys lie under the roofs a map draws from above; and to let the look **leave no patch**, over reading its end as a repair, because the look is temporary and cosmetic (item 122 (a)) and what really breaks reaches the map only through V06's epoch path. |
+@@ -4175 +4187 @@
+-| X35 | V01, V07 | `disasterSource` and `disasterDistricts` (V01 §3.16): the districts a disaster strikes — for a standing condition, and for a preview of the look keyed on its look kind in the condition's stead (§10.2's placement) — and its `pattern` (`fire`, `flood` or `scatter`: the overlay's calamity's type through V06 §2.4's calamity table, `scatter` with no calamity), and V07's ends at THORP, HAMLET and VILLAGE; every building of each draws the ruined look (V02 §5.7) | no look on a building |
++| X35 | V01, V07 | `disasterSource` and `disasterDistricts` (V01 §3.16): the districts a disaster strikes — for a standing condition, and for a preview of the look keyed on its look kind in the condition's stead (§10.2's placement) — and its `pattern` (`fire`, `flood` or `scatter`: the overlay's calamity's type through V06 §2.4's calamity table, `scatter` with no calamity), and at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units (its ends, or an end-less thorp's toft groups) with their land `villageUnitPlots`; every building of each draws the ruined look (V02 §5.7) | no look on a building |

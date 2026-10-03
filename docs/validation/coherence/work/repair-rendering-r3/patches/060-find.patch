@@ -1,0 +1,40 @@
+# §8.2 *Find*. VRC2T-09 (Find runs only while a chip is on: `gaps` alone draws no veil); VRC2T-07 (R3-24: the drawn week
+# among the re-runs; matches at a week whose frame is not the head); VRC2T-01 (nine pin glyphs against eight colours and
+# eight dash patterns).
+@@ FILE 8.2.md
+<<<<
+**Find (g item 120; J133): a view, never a change.** While §2.9's per-viewer key `find` holds a chip, or Show gaps is
+on, the overlay provider `live.find` (V09's) delivers the marks below for the visible region dilated by one tile, over
+each chip's matches as §11.2's gazetteer match listing gives them at the view's effective key — §9.2's admission, so a
+thing the key withholds is never suggested, counted, drawn or hinted at (no glow, pin, ghost pin, gap or legend chip of
+it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, whenever the key,
+band, layer or year position changes, and when the view moves (item 120 (f)). An `overlay` layer, it is composed with the
+labels (§8.8) — at the device's pixel ratio — and never re-renders a base tile; with no chip and Show gaps off it
+delivers nothing, the tiles byte-identical (`item120.find`; T120-1). It draws over whichever Show view is on, and under
+every style preset (§8.4 (h)).
+====
+**Find (g item 120; J133): a view, never a change.** While §2.9's per-viewer key `find` holds a chip, the overlay
+provider `live.find` (V09's) delivers the marks below for the visible region dilated by one tile, over each chip's
+matches as §11.2's gazetteer match listing gives them at the view's effective key and drawn week — §9.2's admission, so
+a thing the key withholds is never suggested, counted, drawn or hinted at (no glow, pin, ghost pin, gap or legend chip
+of it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, whenever the key, band,
+layer, year position or drawn week (§2.9's `week`) changes, and when the view moves (item 120 (f)). **At a drawn week
+whose frame is not the head** (V06 §3.15.2) each chip's matches are that listing restricted to the entities the frame
+holds (the `gazetteer` query's `week`, §11.2): one the frame lacks is not drawn, pinned, counted or gapped there, a chip
+with none there reads count 0 for that week, and the chips themselves are unchanged. An `overlay` layer, it is composed
+with the labels (§8.8) — at the device's pixel ratio — and never re-renders a base tile; with no chip it delivers
+nothing — Show gaps reads the kind chips (V09 §4.21.10 (10)), so `gaps` alone draws no veil — the tiles byte-identical
+(`item120.find`; T120-1). It draws over whichever Show view is on, and under every style preset (§8.4 (h)).
+>>>>
+<<<<
+  `find.((k − 1) mod 8 + 1)`; its second cue is its **glyph** on its pins — circle, square, triangle, diamond, star,
+  cross, hexagon, bar, cycling by k, so two chips that share a colour past eight differ in glyph — and its **dash
+  pattern** on its halo's outline — solid, long dash, short dash, dash-dot, dot, dash-dot-dot, long-short, double, by
+  ((k − 1) mod 8) — so a chip never rests on hue alone; the legend and V09's panel show both beside the colour (§9.5).
+====
+  `find.((k − 1) mod 8 + 1)`; its second cue is its **glyph** on its pins — circle, square, triangle, diamond, star,
+  cross, hexagon, bar and ring, by (k − 1) mod 9 — and its **dash pattern** on its halo's outline — solid, long dash,
+  short dash, dash-dot, dot, dash-dot-dot, long-short, double, by (k − 1) mod 8 — so chips k and k + 8, one colour and
+  one dash, differ in glyph, no two of the first 72 chips share colour and glyph, and a chip never rests on hue alone;
+  the legend and V09's panel show both beside the colour (§9.5).
+>>>>

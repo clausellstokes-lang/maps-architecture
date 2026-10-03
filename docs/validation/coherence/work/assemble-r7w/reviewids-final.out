@@ -1,0 +1,125 @@
+known review-id tokens 9217 (PRB tokens among them: 233 )
+PRB ids in the set: 0
+markers ((amended, …), (Jn, …), bare (Jn)) in the set: 9 {'bare (Jn)': 7, '(Jn, …)': 2}
+   base 2579 (J146) | (0) **§2.7's laws** — the raised-way × wall family's laws, normative (J146):
+   base 2653 (J147) | * **Held** is locked, on the axis named, and nothing else (J147): **held in placement** is
+   base 2655 (J144) | shape still changing at a meeting (J144); **held in shape** is shape-locked and holds its
+   base 2706 (J149) | level there gives, nothing of either record written (J149) — its levels read from the records,
+   base 2740 (J144) | at names it — a meeting changing a placement-held thing's shape alone (J144) —, and no op
+   base 2743 (J147, J150) | it, a gate made in it (J147, J150);
+   base 19280 (J147, J150) | (J147, J150), on a second run shape-locked; on a third, an arc
+   base 19636 (J147) | law 1 (11)); nothing held because it was drawn or declared (J147); each undo and each redo restoring the prior
+   V07 2314 (J148) | -traced locally where not, its gates kept — never moved for a meeting (J148): where a
+END-line ids in the set: 2
+   V09 4629 E-S33 | | a multi-level tabletop scene (Part II, E-S33, E-S34) | — | a raised way's deck scene, a level
+   V09 4629 E-S34 | | a multi-level tabletop scene (Part II, E-S33, E-S34) | — | a raised way's deck scene, a level with it
+J144-J151 mentions: 24 {'base': 20, 'V06': 1, 'V07': 2, 'V11': 1}
+'pass n' / 'round n' / 'Part H|L|P' mentions: 104
+   base 5593 pass 1 | ─► S6 Districts, quarters, field pass 1 ─► S7 Wall strips + fortification lines ─► S7b Al
+   base 5598 pass 2 | Block allocation (its hook S9b Block dispatch after step (i)) + field pass 2 (+ the way-surface rule)
+   base 5656 pass 1 | bisection; GEO-18, MFP-2; J-P3). (e) Districts and field pass 1 before infill (the infill's block band is the dis
+   base 5716 pass 2 | a, S10b, S12c, S7c, S9b (hooks) | none — decisions and records (field pass 2 is a raster; S12c's character records, §4.5); the
+   base 6716 pass 1 | h face's band is the driver-only prosperity field at its centroid (S6 pass 1's kernels) cut by
+   base 6839 pass 1 | e-box blur. It is computed in **two declared eager passes** (LC-2): **pass 1** at S6 — first the
+   base 6841 pass 1 | , the district-type term `characterOffset(district)`, which completes pass 1 (S8's
+   base 6842 pass 1 | block bands read pass 1 complete); **pass 2** at S10a (§4.7), adding the
+   base 6842 pass 2 | block bands read pass 1 complete); **pass 2** at S10a (§4.7), adding the kernels around the n
+   base 6844 pass 2 | he shade strip of every live sky island (V05 §3.19). S10 onward reads pass 2.
+   base 6846 pass 1 | w alone and never stored (V05 §3.15 (1)); at S7b the supply law reads pass 1, which holds no island bits.
+   base 6861 pass 1 | never alone moves a plot across two bands; terrain and wall shade in pass 1, island shade in pass 2; the island supply law re
+   base 6861 pass 2 | t across two bands; terrain and wall shade in pass 1, island shade in pass 2; the island supply law reads the field before the
+   base 6883 pass 2 | (an `S10a.afterDrivers` hook's, V01's S9b, where one reads them, else pass 2's), and held for pass 2's fold and
+   base 6883 pass 2 | hook's, V01's S9b, where one reads them, else pass 2's), and held for pass 2's fold and
+   base 6889 pass 1 | (§4.3), in pass 1, and floating islands, in pass 2. Ordinary buildi
+   base 6889 pass 2 | (§4.3), in pass 1, and floating islands, in pass 2. Ordinary buildings do not cast in generation (th
+   base 6954 pass 1 | 's district-type term is applied after typing as the last step of its pass 1, as above.
+   base 6966 pass 1 | from pass 1, less its expected dispatch land (its sub-block s
+   base 7137 pass 2 | rovisional reading, never stored; S10a, which writes `bandRange` from pass 2 at its step (ii), moves any household S7b
+   base 7162 pass 2 | w_i(p) × (A_p − 1)` scales its institution attractor kernel in field pass 2 and steps its
+   base 7165 pass 1 | r`) adds `dial.quarterWeight × (A_p − 1)` to its `characterOffset` in pass 1 — at generation
+   base 7188 pass 1 | `pressure.retain` 0.5; the next epoch's pass 1 adds `pressure.weight × pressure` (0.5) to the di
+   base 7491 pass 2 | **S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district'
+   base 7496 pass 2 | §3.5); (ii) **field pass 2** adds their kernels to pass 1 (§4.5), from which
+   base 7496 pass 1 | §3.5); (ii) **field pass 2** adds their kernels to pass 1 (§4.5), from which each district's band range is
+   base 7498 pass 2 | workplaces, shops — by capacity per band under pass 2, sub-districts receiving contiguous block groups
+   base 9332 pass 2 | ` low, damp or flood +; downwind +; near the noxious kernels of field pass 2 +; the intramural periphery (`dist.wall` small in
+   base 9882 pass 2 | [V05 §3.17] | S7b (5), SKY, SKY-F, the unit run, `fallIsland`, field pass 2 and each epoch's `sky.clearance` (item 331) | V05
+   base 14142 pass 1 | | 5 | way casings (`way.*`, pass 1), every class drawn at the band | MFCG: road casi
+   base 14143 pass 2 | | 6 | way bodies (`way.*`, pass 2) | MFCG: road body |
+   base 14185 pass 3 | entry in slot 19a outranking the prefix, and `way.stair` in slot 6's pass 3; one
+   base 17807 pass 1 | | S6's daylight term, pass 1 (g item 102 (a)–(c): terrain and wall shade) | §4
+   base 17807 pass 2 | prisms at ≈ 20 ns per cell and sun (PLAUSIBLE); the island strips at pass 2 are V05 §6's; budget TOWN ≤ 5 ms, CITY ≤ 12 ms, M
+   base 20687 pass 2 | volume 1's S9b, else field pass 2) and at each epoch's re-evaluation, `skyRoute` by
+   base 22053 pass 2 | enters §4.5's daylight term in field pass 2 only (V05 §3.19; item 102 (c)), after the island
+   base 23900 pass 2 | | J-A72.40 | the dials' passes: the institution dial on pass 2's institution kernels … | §4.5 |
+   base 24088 round 2 | | J-A568.05 | round 2's figures: volume 9's AP11 (4.5–6.25 pw) split 3.
+   V01 189 pass 1 | | g item 102 (a)–(d) | `shade(x)` from terrain and walls (field pass 1) and island strips (pass 2); the sunlit-side pref
+   V01 189 pass 2 | | `shade(x)` from terrain and walls (field pass 1) and island strips (pass 2); the sunlit-side preference | `DistrictContext.s
+   V01 333 pass 1 | culture`) | DR29 | item 102's model-side sampler, through the field's pass 1 and volume 5's strips |
+   V01 462 pass 2 | prosperity: number /* area-weighted pass-1 value; pass 2 once S10a (ii) has run */; band: string; density:
+   V01 480 pass 1 | hted mean of item 102's shade(x) over D from terrain and walls (field pass 1's sampler); on a sky arena
+   V01 687 pass 2 | order; Block.content, square types, void corners] ─► S10a (ii) field pass 2
+   V01 1200 pass 2 | ing classes and the institutions below a block, **before (ii)'s field pass 2** (J-V1.40; §4.7, item 300) —
+   V01 1290 pass 2 | ch's, V05 §3.19 (6)) at S9b's first read, by the same pure call field pass 2 makes, and held for it, so no strip is
+   V01 1529 pass 2 | At S10a's end, after field pass 2, every way without an edited `surface` takes the
+   V01 1824 pass 1 | 6), once field pass 1 has given the capacity per band —: with `L_hood`
+   V01 1827 pass 1 | ` of it); households fill the residential capacity by band from field pass 1's shares; `singular` and
+   V01 1839 pass 1 | 5. **S6.** One district: the outline face; kind from S0; field pass 1 with `characterOffset = intent.wealth − 0.5` plus
+   V01 3017 pass 1 | | 6 | way casings (`way.*`, pass 1) | — |
+   V01 3018 pass 2 | | 7 | way bodies, square faces and road surfaces (`way.*`, pass 2; `ground.square`) | NG: roads |
+   V01 3257 pass 2 | d once per shade evaluation at S9b's first read and shared with field pass 2, V01 §3.5.5) — ≈ 5 ms at CITY | a row of §12.4 (i
+   V01 3392 pass 2 | by S9 for every way and the way-surface rule (V01 §3.7.3) with field pass 2, since
+   V01 3457 pass 2 | hade term, S9b's sun and siting factors, the strips shared with field pass 2, S9b's move after S10a (i) with its hook point, t
+   V01 3542 pass 2 | created (S4, S5, S8) before the field that should set it exists, and pass 2 is the first reading every block shares (V01 §3.7
+   V01 3585 pass 2 | evaluation (V05 §3.19 (6)) at S9b's first read and shared with field pass 2 (on a sky arena every reader reads V05's `shadeSk
+   V01 3585 pass 2 | arena every reader reads V05's `shadeSky`, J-V1.87), over waiting for pass 2, because the rich must seek the sun where the dis
+   V05 153 pass 2 | field pass 2; the sky receivers' shade; its lag behind edits,
+   V05 225 pass 1 | t, the model sampler, the climate cell, the terrain and wall shade of pass 1,
+   V05 260 pass 1 | | `S_town` (V05 §3.3) | field pass 1 over built district cells; at an epoch the re-eva
+   V05 565 pass 2 | | `landingKernel` | weight 0.05, radius 150 m | same | field pass 2 (V05 §3.10 (6)) |
+   V05 657 pass 2 | | `altitudeCm`, `groundRefCm` | V05 §3.9 at SKY, before field pass 2; the clearance rule (V05 §3.9 (5)); `setAttr`; a
+   V05 673 pass 2 | the hinterland unit's S12a (the plot); S11 (the landing house); field pass 2's landing kernel | model digest (the allocation)
+   V05 700 pass 2 | | **S10a** — the strips onto the ground and their fold into field pass 2 (§4.5 *Fields*) | S10a, after SKY and before the
+   V05 767 pass 1 | pass 1, at an epoch the re-evaluated field's island-free
+   V05 1114 pass 2 | 6. **The ground's field** gains, at field pass 2 (S10a), a positive kernel at each ground landing
+   V05 1463 pass 2 | islands (never by pass 2, so no hook of S10a reads a strip built from the
+   V05 1470 pass 2 | `afterDrivers` hook, between step (i) and field pass 2, where it is registered (its manor sun factor, V0
+   V05 1471 pass 2 | field pass 2 — by the one pure call, and **held** for pass 2's
+   V05 1471 pass 2 | field pass 2 — by the one pure call, and **held** for pass 2's fold and every later reader of the same evaluat
+   V05 1472 pass 2 | ctContext.shade.islandShare`, V01 §3.8.2, V01 §2.3): S9b's strips and pass 2's are the
+   V05 1482 pass 1 | field.** For each ground cell, each bit of the daylight term's mask — pass 1's terrain and wall
+   V05 1487 pass 1 | at generation S7b (5) reads pass 1, which has no island bits by construction. **On a
+   V05 1803 pass 1 | are the unlevelled raster, bilinear across the cliff; terrain shade (pass 1) and the island's bits are OR-ed, a point counted
+   V05 2360 pass 2 | | field pass 2: the strips onto the ground, per island (and per
+   V05 2375 pass 2 | nversions at the rows above | same | the epoch's strips are the field pass 2 row |
+   V05 2378 pass 2 | the shade map view's pending strip after an island edit | ≤ the field pass 2 row, computed only while that view is shown | sam
+   V05 2379 pass 2 | | Update shade now | ≤ the field pass 2 row for one island + the field's recomputation ov
+   V05 2619 pass 2 | every strip is empty and the field byte-identical to the base's pass 2 (no-op pins) — this fixture's NoOpPin
+   V05 2654 pass 2 | b registered, the strips S9b's manor sun factor reads and those field pass 2 folds are the
+   V05 2858 pass 2 | ips from the bases on the unlevelled receivers, their fold into field pass 2 and the island-free value; the sky receivers; F-S
+   V05 2951 pass 2 | ter allowance, over reading the built casters at SKY-F, because field pass 2 must read the island's shade before any plot is c
+   V05 2960 pass 1 | into the daylight term sample by sample, over adding their shares to pass 1's, because a cell in a hill's shade and an island
+   V05 2993 pass 2 | S9b at S10a's `afterDrivers` hook where it is registered, else field pass 2 — and hold them for every later reader, and at a
+   V05 2993 pass 2 | ore step (i) and every hook, over computing bases and strips at field pass 2 alone, because S9b's manor sun factor, the hood p
+   V05 2993 pass 2 | e gate and `DistrictContext.shade.islandShare` read the strips before pass 2, and a re-derivation from S10a would otherwise le
+   V06 3880 pass 2 | | 20 | 25 | V05 §6's rows "`IslandEpochStep`, per island" and "field pass 2: the strips onto the ground, per island (and per
+   V07 225 pass 1 | 7 §3.12's retype at the hand-off | `District.kind` (item 214); §4.5's pass 1 | DR5 (one district) |
+   V07 253 pass 1 | 5's rule, a recorded input | VS1's heart score, VS2's sun term, VS5's pass 1, V07 §3.9's suitability — each × the climate row'
+   V07 286 pass 1 | d (§4.2 S1 (10)) | S0's water draw; VS1's heart; VS2's density; VS5's pass 1 (the base's water term); V07 §3.9's suitability;
+   V07 1107 pass 1 | (interiors over 2 ha cut out), the one `village` district, prosperity pass 1 (V07 §3.7)
+   V07 1146 pass 1 | the deck faces of V07 §3.10a (5)), `perimeter`, `fields.prosperity` (pass 1), `reservations.fair` (V07 §3.6 (4b)) | `field.ch
+   V07 1271 pass 1 | (nothing built exists yet; the palisade's shade enters VS5's pass 1, V06's building mask the epochs). Every village r
+   V07 1760 pass 1 | 3. **Prosperity, pass 1.** §4.5's field over the district and its margin,
+   V07 1765 pass 2 | band capacity and demand agree by construction; pass 2 is S10a's, as in the base (the institution kernel
+   V07 1780 pass 1 | frontage centre of the band its prosperity (pass 1) reads, and the institutions' slots as the Σ of t
+   V07 1815 pass 2 | drive prosperity's pass 2); then the source-oriented classes by depth from
+   V07 2171 pass 1 | views") → a `claim` end on the plots of highest mean prosperity (pass 1), on the high ground, its band bias applied to th
+   V09 4938 adjudication-r2 | ount — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's renderin
+   V11 942 pass 2 | (with S7b (2)'s sub-districts), S10a (the noxious-first order, field pass 2's kernels), S10b, S11 (with §2.6's basement funct
+   V11 1016 pass 2 | e f item 207) | S10a (the way-surface rule at S10a's end, after field pass 2); S6 (an epoch's field step re-bands, and the way
+   V11 1423 pass 2 | field pass 2's kernels).
+   V11 4818 pass 2 | ll (V11 §3.3.5, V11 §3.25.1) | CITY–METROPOLIS (the islands' shade in pass 2) |
+Part H line ids (Vn-m) in the set: 1
+   V10 1745 V10-15 | V10-15), the committed uses whose own order `(seq, k)` p
+design-text sites 0 {}
+in records (kept as records) 25 {'V03': 9, 'V09': 15, 'V10': 1}

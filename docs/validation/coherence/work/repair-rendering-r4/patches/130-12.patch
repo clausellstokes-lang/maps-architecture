@@ -1,0 +1,22 @@
+# §12.5 VRC2T-08 (R4-10): Auto's change applied while the view is settled — at once when no gesture runs, at the
+# gesture's settle otherwise. §12.10 VCS-r3-07's note (G-refview): R12-36 and R12-38 read "reference viewport(s)".
+@@ FILE 12.5.md
+<<<<
+through 10 s one up, each applied only at the settle and at most once in 10 s, a rung left downward held for 60 s and
+doubling (R12-36).
+====
+through 10 s one up, each applied only while the view is settled — at once when no gesture runs, at the gesture's
+settle otherwise — and at most once in 10 s (§8.8's Auto loop), a rung left downward held for 60 s and doubling
+(R12-36).
+>>>>
+@@ FILE 12.10.md
+<<<<
+over §12.5's reference views, V12's item-121 bars
+====
+over §12.5's reference viewports, V12's item-121 bars
+>>>>
+<<<<
+the densest spell of each kind over §12.5's reference view (V12's T124-2 measurement)
+====
+the densest spell of each kind over §12.5's reference viewport (V12's T124-2 measurement)
+>>>>

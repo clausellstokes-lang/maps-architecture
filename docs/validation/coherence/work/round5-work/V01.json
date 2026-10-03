@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VV12-r4-02",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "V01",
+  "claim": "V01 \u00a75.4 (4) gains this round a defined outcome for a held area chip: an area the document no longer holds leaves its chip 'at count 0, dark, until the viewer removes it or presses Clear \u2026, save at a drawn week whose frame holds that id, where the chip reads the frame's area and its matches ((1))' (l. 3222\u20133225). No bar runs it: T-V1-59 (c) holds the chip dark at the head; (f) runs `findAreas`, `gapUnits` and the disaster's frame at a drawn week but places no chip on an area the head lacks; T-V9-83's scrub clauses (l. 4406) and T-ER-25's 'a chip whose target is gone' cover kind chips and the head. A build that keeps the held chip dark at every week passes every bar. \u00a73.18 (e)'s Find row still pairs 'a chip's area no longer held' with 'the chip kept at count 0, dark, until removed or Clear' alone.",
+  "required_change": "T-V1-59 (f) adds: \"a chip held on the district the epoch merged or split away (\u00a76.3's succession), added at the drawn week from the frame's areas: at that week it lifts that district's faces in the frame and its matches are \u00a711.2's listing at that week; at the head it stays at count 0, dark, until removed or Clear; scrubbed back, it reads the frame's area again\". \u00a73.18 (e)'s Find row's outcome for \"a chip's area no longer held (merged away, or rebuilt under another id)\" reads \"the chip kept at count 0, dark, until removed or Clear \u2014 at a drawn week whose frame holds its id, the frame's area and matches (V01 \u00a75.4 (4))\".",
+  "reported_by": "verify-vol-V01-V02-r4t"
+ },
+ {
+  "id": "VV12-r4-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V01",
+  "claim": "T-V1-59 runs 'From M5, Find's milestone (\u00a716's M5 row)'. Its new clause (f) needs an epoch that splits a district, builds one member and closes another (M6-E), and V06 \u00a73.15.2's history frames, which land at M6-E's E6 (V06 \u00a78: 'E6 \u2014 history and the app: the history index, store and frames with the effective week'). M5 and M6-E run side by side after M4 (\u00a716; INDEX \u00a74), so M5's exit can come before E6. INDEX \u00a75 risk 2 moves such a clause 'to the first exit after the provider (each named in its volume)'; T-V1-60 names its later clauses ('clause (e) from M3b \u2026; the VILLAGE fixture's clauses once V07's village readings land'), T-V1-59 names none. A build agent applies risk 2's rule, so nothing built changes.",
+  "required_change": "T-V1-59's timing sentence \"From M5, Find's milestone (\u00a716's M5 row), on the services and on V09's app harness with V09's Find panel\" adds \"; clause (c)'s epoch cases and clause (f) at the first exit after M6-E provides them \u2014 its epochs (V06 \u00a78) and, for (f), V06 \u00a73.15.2's history frames (E6)\".",
+  "reported_by": "verify-vol-V01-V02-r4t"
+ }
+]

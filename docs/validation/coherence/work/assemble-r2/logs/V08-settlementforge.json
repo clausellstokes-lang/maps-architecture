@@ -1,0 +1,1083 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V08-settlementforge.md",
+ "input_doc_sha256": "b96e79d8a7d84deb5c04fce37bd5cbb29e606f104d0ca9d14488f6b0b46df2d2",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V08.md",
+   "sha256": "ff872b9ad191dd348242535dfa3110fea3533a5168f72883df010037eddb3ef6",
+   "lines": 3058,
+   "blocks": 38,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V08.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r2-V08.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 81,
+   "body_sha256": "f11c55cf4220b4ab136c4e535e5583771aac0dfe0a31cb0f9f84a9f5cf314675",
+   "target_line": 19,
+   "section_old": "19–94",
+   "section_old_n": 76,
+   "section_new_n": 82,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V08.md #2 (l. 86) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r2-V08.md",
+   "index": 2,
+   "line": 86,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 116,
+   "body_sha256": "83b477573cfc9945995af3db84b9889691ff36d6fa32c5f58e7bf295cfef0df2",
+   "target_line": 101,
+   "section_old": "101–210",
+   "section_old_n": 110,
+   "section_new_n": 117,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V08.md #3 (l. 205) REPLACE ## 1b Wiring table",
+   "file": "repair-r2-V08.md",
+   "index": 3,
+   "line": 205,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 115,
+   "body_sha256": "8d73ed9913c0711dd660633f1f825e1817e379f366a95d999874a43a130afd9d",
+   "target_line": 218,
+   "section_old": "218–327",
+   "section_old_n": 110,
+   "section_new_n": 116,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V08.md #4 (l. 323) REPLACE ### 2.2 The bridge additions and the host client",
+   "file": "repair-r2-V08.md",
+   "index": 4,
+   "line": 323,
+   "kind": "REPLACE",
+   "heading": "### 2.2 The bridge additions and the host client",
+   "body_lines": 102,
+   "body_sha256": "273b894a604d3b79e357c85b6ea2d33f4060b5bd4f01f3e9b71003f79e9132cf",
+   "target_line": 394,
+   "section_old": "394–500",
+   "section_old_n": 107,
+   "section_new_n": 103,
+   "new_headings": [
+    "### 2.2 The bridge additions and the host client"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V08.md #5 (l. 428) REPLACE ### 2.3 The binding in practice — the carried facts and their hash",
+   "file": "repair-r2-V08.md",
+   "index": 5,
+   "line": 428,
+   "kind": "REPLACE",
+   "heading": "### 2.3 The binding in practice — the carried facts and their hash",
+   "body_lines": 69,
+   "body_sha256": "4bc7b62e4db01cc6b26c8c61d4036a2063f7bc0206ae0302eb91067216ca5f70",
+   "target_line": 497,
+   "section_old": "497–564",
+   "section_old_n": 68,
+   "section_new_n": 70,
+   "new_headings": [
+    "### 2.3 The binding in practice — the carried facts and their hash"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V08.md #6 (l. 500) REPLACE ### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+   "file": "repair-r2-V08.md",
+   "index": 6,
+   "line": 500,
+   "kind": "REPLACE",
+   "heading": "### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+   "body_lines": 143,
+   "body_sha256": "dc80b9d391539d3a8019e44892d8e3fa122a6cb8246284dfc2499bfc3f339be1",
+   "target_line": 567,
+   "section_old": "567–689",
+   "section_old_n": 123,
+   "section_new_n": 144,
+   "new_headings": [
+    "### 2.4 The adapter manifest, the registry, the field table and the port's notes"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V08.md #7 (l. 646) REPLACE ### 2.5 The digest's additions, the staged-record event and the per-settlement values",
+   "file": "repair-r2-V08.md",
+   "index": 7,
+   "line": 646,
+   "kind": "REPLACE",
+   "heading": "### 2.5 The digest's additions, the staged-record event and the per-settlement values",
+   "body_lines": 77,
+   "body_sha256": "be9056e48c28741628412b0315a7339b3c5503bb4db9c82a58f77ccdc2f5c797",
+   "target_line": 711,
+   "section_old": "711–788",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 2.5 The digest's additions, the staged-record event and the per-settlement values"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V08.md #8 (l. 726) REPLACE ### 2.6 The dossier row sets, written out",
+   "file": "repair-r2-V08.md",
+   "index": 8,
+   "line": 726,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The dossier row sets, written out",
+   "body_lines": 297,
+   "body_sha256": "31d031137091f06acea8ed027abea7af554b2b0b56a13c094120c2b938e1058f",
+   "target_line": 789,
+   "section_old": "789–1082",
+   "section_old_n": 294,
+   "section_new_n": 298,
+   "new_headings": [
+    "### 2.6 The dossier row sets, written out"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V08.md #9 (l. 1026) REPLACE ### 2.6b Item 110's dossier inputs — the water system, the high-ground landmarks, the toll bridges a",
+   "file": "repair-r2-V08.md",
+   "index": 9,
+   "line": 1026,
+   "kind": "REPLACE",
+   "heading": "### 2.6b Item 110's dossier inputs — the water system, the high-ground landmarks, the toll bridges and the culture (DR34, DR35)",
+   "body_lines": 102,
+   "body_sha256": "8fc62aa7980d4136f9dcf05702932741a277fd1e99857fbaec340d3ba2358683",
+   "target_line": 1163,
+   "section_old": "1163–1265",
+   "section_old_n": 103,
+   "section_new_n": 103,
+   "new_headings": [
+    "### 2.6b Item 110's dossier inputs — the water system, the high-ground landmarks, the toll bridges and the culture (DR34, DR35)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V08.md #10 (l. 1131) REPLACE ### 2.7 Lifecycle of every new state field",
+   "file": "repair-r2-V08.md",
+   "index": 10,
+   "line": 1131,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Lifecycle of every new state field",
+   "body_lines": 46,
+   "body_sha256": "fc8e3b3043dc0b5ca256b86b7394e126d4fb3fc051b25752eee947b2e4adde27",
+   "target_line": 1266,
+   "section_old": "1266–1309",
+   "section_old_n": 44,
+   "section_new_n": 47,
+   "new_headings": [
+    "### 2.7 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-V08.md #11 (l. 1180) REPLACE ### 2.8 Custom content — the records, the chains and the optional library input (item 104's host sid",
+   "file": "repair-r2-V08.md",
+   "index": 11,
+   "line": 1180,
+   "kind": "REPLACE",
+   "heading": "### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)",
+   "body_lines": 89,
+   "body_sha256": "641b3704e623edcda419dde0f36067fe5475eba6ad03905ed1d20767af732808",
+   "target_line": 1313,
+   "section_old": "1313–1400",
+   "section_old_n": 88,
+   "retitled_to": "### 2.8 Custom content — the records, the chains and the definition fields (item 104's host side)",
+   "section_new_n": 90,
+   "new_headings": [
+    "### 2.8 Custom content — the records, the chains and the definition fields (item 104's host side)"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-V08.md #12 (l. 1272) REPLACE ### 3.1 The embed: the Map tab, the frame, the boot",
+   "file": "repair-r2-V08.md",
+   "index": 12,
+   "line": 1272,
+   "kind": "REPLACE",
+   "heading": "### 3.1 The embed: the Map tab, the frame, the boot",
+   "body_lines": 102,
+   "body_sha256": "d67a4ef0bb0881fe82343376f2fc3e62a80c3019da30d143f760e895e0240188",
+   "target_line": 1405,
+   "section_old": "1405–1506",
+   "section_old_n": 102,
+   "section_new_n": 103,
+   "new_headings": [
+    "### 3.1 The embed: the Map tab, the frame, the boot"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-V08.md #13 (l. 1377) REPLACE ### 3.3 Who runs the port, and who commits — the port leader",
+   "file": "repair-r2-V08.md",
+   "index": 13,
+   "line": 1377,
+   "kind": "REPLACE",
+   "heading": "### 3.3 Who runs the port, and who commits — the port leader",
+   "body_lines": 33,
+   "body_sha256": "abf6d6f0f07510348881d0fe8d317af03ae58c7743629e090f82412fa1e8f2a9",
+   "target_line": 1527,
+   "section_old": "1527–1560",
+   "section_old_n": 34,
+   "section_new_n": 34,
+   "new_headings": [
+    "### 3.3 Who runs the port, and who commits — the port leader"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-V08.md #14 (l. 1413) REPLACE ### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+   "file": "repair-r2-V08.md",
+   "index": 14,
+   "line": 1413,
+   "kind": "REPLACE",
+   "heading": "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+   "body_lines": 229,
+   "body_sha256": "9f82fae8c6de17939c3bee9d04adf0ed35285a24b0c7faaf37d89dca6f9e6d94",
+   "target_line": 1584,
+   "section_old": "1584–1812",
+   "section_old_n": 229,
+   "section_new_n": 230,
+   "new_headings": [
+    "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "#### 3.5.1 The institution ladders (item 108)"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r2-V08.md #15 (l. 1645) REPLACE ### 3.6 From changes to events and epochs",
+   "file": "repair-r2-V08.md",
+   "index": 15,
+   "line": 1645,
+   "kind": "REPLACE",
+   "heading": "### 3.6 From changes to events and epochs",
+   "body_lines": 85,
+   "body_sha256": "5dd50e5ba82e68d79d86fe97a25cd3dab9520019705fbf9a3615c07ee5906353",
+   "target_line": 1814,
+   "section_old": "1814–1895",
+   "section_old_n": 82,
+   "section_new_n": 86,
+   "new_headings": [
+    "### 3.6 From changes to events and epochs"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r2-V08.md #16 (l. 1733) REPLACE ### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+   "file": "repair-r2-V08.md",
+   "index": 16,
+   "line": 1733,
+   "kind": "REPLACE",
+   "heading": "### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+   "body_lines": 34,
+   "body_sha256": "bd208586c396fb789f8a5e7f82f08c4d00d2df05011fc6728267728a8f24b328",
+   "target_line": 1992,
+   "section_old": "1992–2026",
+   "section_old_n": 35,
+   "section_new_n": 35,
+   "new_headings": [
+    "### 3.9 Failure handling — every failure, its detection, its rung and what the user sees"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r2-V08.md #17 (l. 1770) REPLACE ### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+   "file": "repair-r2-V08.md",
+   "index": 17,
+   "line": 1770,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+   "body_lines": 63,
+   "body_sha256": "af97b659e74bf7c59a4e2c8efbbaa057a2547ee21b43b6249e9209eb11ea8740",
+   "target_line": 2048,
+   "section_old": "2048–2118",
+   "section_old_n": 71,
+   "retitled_to": "### 3.11 The staged records, the per-settlement values and the audience in use",
+   "section_new_n": 64,
+   "new_headings": [
+    "### 3.11 The staged records, the per-settlement values and the audience in use"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r2-V08.md #18 (l. 1836) REPLACE ### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's ",
+   "file": "repair-r2-V08.md",
+   "index": 18,
+   "line": 1836,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)",
+   "body_lines": 81,
+   "body_sha256": "a9fed3ad7a4671bb7b6df98f9f4054bf50d35b48e0a621f32a2d1cffa25ff956",
+   "target_line": 2126,
+   "section_old": "2126–2202",
+   "section_old_n": 77,
+   "retitled_to": "### 3.13 Custom content's arrival — records, keywords, chains, services and the definition fields (item 104's host side)",
+   "section_new_n": 82,
+   "new_headings": [
+    "### 3.13 Custom content's arrival — records, keywords, chains, services and the definition fields (item 104's host side)"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r2-V08.md #19 (l. 1920) REPLACE ### 3.15 SettlementForge's history at creation (item 113)",
+   "file": "repair-r2-V08.md",
+   "index": 19,
+   "line": 1920,
+   "kind": "REPLACE",
+   "heading": "### 3.15 SettlementForge's history at creation (item 113)",
+   "body_lines": 83,
+   "body_sha256": "556d8a6d01b5b1a359a7f5ed204f79525afeb3d1490e66e919229ea949c56cc9",
+   "target_line": 2278,
+   "section_old": "2278–2360",
+   "section_old_n": 83,
+   "section_new_n": 84,
+   "new_headings": [
+    "### 3.15 SettlementForge's history at creation (item 113)"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r2-V08.md #20 (l. 2006) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+   "file": "repair-r2-V08.md",
+   "index": 20,
+   "line": 2006,
+   "kind": "REPLACE",
+   "heading": "### 3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+   "body_lines": 231,
+   "body_sha256": "1e657bfad70d530df5f3c3512c430bdae74ccfbc64c902a7c7376c535bbfd954",
+   "target_line": 2362,
+   "section_old": "2362–2485",
+   "section_old_n": 124,
+   "retitled_to": "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+   "section_new_n": 232,
+   "new_headings": [
+    "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r2-V08.md #21 (l. 2240) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r2-V08.md",
+   "index": 21,
+   "line": 2240,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 74,
+   "body_sha256": "f2cf2f6dc33d353dda2588e6527ec053c8ec0de4fc110147837f81ab14452250",
+   "target_line": 2594,
+   "section_old": "2594–2663",
+   "section_old_n": 70,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r2-V08.md #22 (l. 2317) REPLACE ### 4.1 No new declaration; two host-only events; item 110's generated content is never bound",
+   "file": "repair-r2-V08.md",
+   "index": 22,
+   "line": 2317,
+   "kind": "REPLACE",
+   "heading": "### 4.1 No new declaration; two host-only events; item 110's generated content is never bound",
+   "body_lines": 20,
+   "body_sha256": "8c364613bc91714a1ad5ddde23722fe15a26a3ff04944b5cf1cd27e27f834d46",
+   "target_line": 2671,
+   "section_old": "2671–2691",
+   "section_old_n": 21,
+   "section_new_n": 21,
+   "new_headings": [
+    "### 4.1 No new declaration; two host-only events; item 110's generated content is never bound"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r2-V08.md #23 (l. 2340) REPLACE ### 4.3 Locality, protection and the dossier's reach",
+   "file": "repair-r2-V08.md",
+   "index": 23,
+   "line": 2340,
+   "kind": "REPLACE",
+   "heading": "### 4.3 Locality, protection and the dossier's reach",
+   "body_lines": 22,
+   "body_sha256": "39dfe1d41b40daa7a0b51a803c541d30a980703745a041705eda389128f82f3c",
+   "target_line": 2723,
+   "section_old": "2723–2741",
+   "section_old_n": 19,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 4.3 Locality, protection and the dossier's reach"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r2-V08.md #24 (l. 2365) REPLACE ### 4.4 The host clerk — SettlementForge's assistant as a client of the tool API",
+   "file": "repair-r2-V08.md",
+   "index": 24,
+   "line": 2365,
+   "kind": "REPLACE",
+   "heading": "### 4.4 The host clerk — SettlementForge's assistant as a client of the tool API",
+   "body_lines": 52,
+   "body_sha256": "09345c072ace405c1796eb527e5ea8ea839badc159fa82fb9976621fde62abaa",
+   "target_line": 2746,
+   "section_old": "2746–2797",
+   "section_old_n": 52,
+   "section_new_n": 53,
+   "new_headings": [
+    "### 4.4 The host clerk — SettlementForge's assistant as a client of the tool API"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r2-V08.md #25 (l. 2420) REPLACE ### 4.5 Custom content under editing",
+   "file": "repair-r2-V08.md",
+   "index": 25,
+   "line": 2420,
+   "kind": "REPLACE",
+   "heading": "### 4.5 Custom content under editing",
+   "body_lines": 13,
+   "body_sha256": "55fc5091b30a639911b4a7c1777d07618abcb30f92854556eb5c141015f7770e",
+   "target_line": 2799,
+   "section_old": "2799–2812",
+   "section_old_n": 14,
+   "section_new_n": 14,
+   "new_headings": [
+    "### 4.5 Custom content under editing"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "repair-r2-V08.md #26 (l. 2436) REPLACE ### 4.6 The DM's view of what the dossier did",
+   "file": "repair-r2-V08.md",
+   "index": 26,
+   "line": 2436,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The DM's view of what the dossier did",
+   "body_lines": 111,
+   "body_sha256": "b1c7ee1139c8ec84d88930cf7b2837a61788ed26220837f21e2673ff05920fae",
+   "target_line": 2813,
+   "section_old": "2813–2924",
+   "section_old_n": 112,
+   "section_new_n": 112,
+   "new_headings": [
+    "### 4.6 The DM's view of what the dossier did"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "repair-r2-V08.md #27 (l. 2550) REPLACE ### 5.2 Drawing the dossier's records and custom content",
+   "file": "repair-r2-V08.md",
+   "index": 27,
+   "line": 2550,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Drawing the dossier's records and custom content",
+   "body_lines": 23,
+   "body_sha256": "244d9a6faf83b63781c6dd98d16e4762b2e1a89035772f0a63dd5a577bb2da7b",
+   "target_line": 2995,
+   "section_old": "2995–3018",
+   "section_old_n": 24,
+   "section_new_n": 24,
+   "new_headings": [
+    "### 5.2 Drawing the dossier's records and custom content"
+   ]
+  },
+  {
+   "seq": 28,
+   "block": "repair-r2-V08.md #28 (l. 2576) REPLACE ### 5.5 Labels",
+   "file": "repair-r2-V08.md",
+   "index": 28,
+   "line": 2576,
+   "kind": "REPLACE",
+   "heading": "### 5.5 Labels",
+   "body_lines": 15,
+   "body_sha256": "faddaaec56da3464b18dcadfa55159ee1de57feb8e6165a24134a3eb679f9741",
+   "target_line": 3105,
+   "section_old": "3105–3119",
+   "section_old_n": 15,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 5.5 Labels"
+   ]
+  },
+  {
+   "seq": 29,
+   "block": "repair-r2-V08.md #29 (l. 2594) REPLACE ## 6 Performance budgets",
+   "file": "repair-r2-V08.md",
+   "index": 29,
+   "line": 2594,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 36,
+   "body_sha256": "e2728185cffad9fb3de887d5effe5945abe1bc48ade7602059c5a9c42a6f1a76",
+   "target_line": 3121,
+   "section_old": "3121–3157",
+   "section_old_n": 37,
+   "section_new_n": 37,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 30,
+   "block": "repair-r2-V08.md #30 (l. 2633) REPLACE ### 7.1 The bars (T-V8-n)",
+   "file": "repair-r2-V08.md",
+   "index": 30,
+   "line": 2633,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars (T-V8-n)",
+   "body_lines": 70,
+   "body_sha256": "bfb592fdaf0dfa48125320ec1e3ed15791ee3e7be65418b3105b924feaecd436",
+   "target_line": 3160,
+   "section_old": "3160–3226",
+   "section_old_n": 67,
+   "section_new_n": 71,
+   "new_headings": [
+    "### 7.1 The bars (T-V8-n)"
+   ]
+  },
+  {
+   "seq": 31,
+   "block": "repair-r2-V08.md #31 (l. 2706) REPLACE ### 7.2 The host harness",
+   "file": "repair-r2-V08.md",
+   "index": 31,
+   "line": 2706,
+   "kind": "REPLACE",
+   "heading": "### 7.2 The host harness",
+   "body_lines": 12,
+   "body_sha256": "7599345f9128c7cdbb025561ec9a0eb28a1959c4b3a95cb930517269917edd6a",
+   "target_line": 3231,
+   "section_old": "3231–3243",
+   "section_old_n": 13,
+   "section_new_n": 13,
+   "new_headings": [
+    "### 7.2 The host harness"
+   ]
+  },
+  {
+   "seq": 32,
+   "block": "repair-r2-V08.md #32 (l. 2721) REPLACE ### 8.1 Where it slots into §16",
+   "file": "repair-r2-V08.md",
+   "index": 32,
+   "line": 2721,
+   "kind": "REPLACE",
+   "heading": "### 8.1 Where it slots into §16",
+   "body_lines": 21,
+   "body_sha256": "3d7cfd96189dd0d60ef16c905faea05fcc132e82a867d8e0bb37faae39ea6887",
+   "target_line": 3265,
+   "section_old": "3265–3285",
+   "section_old_n": 21,
+   "section_new_n": 22,
+   "new_headings": [
+    "### 8.1 Where it slots into §16"
+   ]
+  },
+  {
+   "seq": 33,
+   "block": "repair-r2-V08.md #33 (l. 2745) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r2-V08.md",
+   "index": 33,
+   "line": 2745,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 15,
+   "body_sha256": "6eb93f1554d5b215c74ff8a1865ebba4a931a91dc3017c271fdfce0c9ea90b2a",
+   "target_line": 3287,
+   "section_old": "3287–3302",
+   "section_old_n": 16,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)"
+   ]
+  },
+  {
+   "seq": 34,
+   "block": "repair-r2-V08.md #34 (l. 2763) REPLACE ### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configurat",
+   "file": "repair-r2-V08.md",
+   "index": 34,
+   "line": 2763,
+   "kind": "REPLACE",
+   "heading": "### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configuration)",
+   "body_lines": 14,
+   "body_sha256": "4613c25292919d35e2790c4531576229e3f64289ddf05868f42ecfd2129afcb1",
+   "target_line": 3303,
+   "section_old": "3303–3317",
+   "section_old_n": 15,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configuration)"
+   ]
+  },
+  {
+   "seq": 35,
+   "block": "repair-r2-V08.md #35 (l. 2780) REPLACE ### 8.4 Risks, in order",
+   "file": "repair-r2-V08.md",
+   "index": 35,
+   "line": 2780,
+   "kind": "REPLACE",
+   "heading": "### 8.4 Risks, in order",
+   "body_lines": 37,
+   "body_sha256": "6518e3370ab6128206920acf1d2ce2ef74b68350af27b4a584c30a64b37593ee",
+   "target_line": 3318,
+   "section_old": "3318–3351",
+   "section_old_n": 34,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 8.4 Risks, in order"
+   ]
+  },
+  {
+   "seq": 36,
+   "block": "repair-r2-V08.md #36 (l. 2820) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r2-V08.md",
+   "index": 36,
+   "line": 2820,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 138,
+   "body_sha256": "68013a545a916de8e8b380c31b108bb5b71e7fbe83d6908829a1b7171eb97d60",
+   "target_line": 3356,
+   "section_old": "3356–3489",
+   "section_old_n": 134,
+   "section_new_n": 139,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 37,
+   "block": "repair-r2-V08.md #37 (l. 2961) REPLACE ## 10 Base change requests",
+   "file": "repair-r2-V08.md",
+   "index": 37,
+   "line": 2961,
+   "kind": "REPLACE",
+   "heading": "## 10 Base change requests",
+   "body_lines": 45,
+   "body_sha256": "964b578d977d9b1e67f3dad9b888d10e2c84e850861a4da3f6c695a2b01e5e32",
+   "target_line": 3495,
+   "section_old": "3495–3540",
+   "section_old_n": 46,
+   "section_new_n": 46,
+   "new_headings": [
+    "## 10 Base change requests"
+   ]
+  },
+  {
+   "seq": 38,
+   "block": "repair-r2-V08.md #38 (l. 3009) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r2-V08.md",
+   "index": 38,
+   "line": 3009,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 47,
+   "body_sha256": "aad24214b13e7720bf61a7fa9988cbb2bfae0164add6bef1ee383cf4df1e3a8a",
+   "target_line": 3553,
+   "section_old": "3553–3596",
+   "section_old_n": 44,
+   "section_new_n": 48,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r2-V08.md #11 (l. 1180) REPLACE ### 2.8 Custom content — the records, the chains and the optional library input (item 104's host sid",
+   "note": "REPLACE retitles the heading",
+   "old": "### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)",
+   "new": "### 2.8 Custom content — the records, the chains and the definition fields (item 104's host side)"
+  },
+  {
+   "block": "repair-r2-V08.md #17 (l. 1770) REPLACE ### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+   "note": "REPLACE retitles the heading",
+   "old": "### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+   "new": "### 3.11 The staged records, the per-settlement values and the audience in use"
+  },
+  {
+   "block": "repair-r2-V08.md #18 (l. 1836) REPLACE ### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's ",
+   "note": "REPLACE retitles the heading",
+   "old": "### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)",
+   "new": "### 3.13 Custom content's arrival — records, keywords, chains, services and the definition fields (item 104's host side)"
+  },
+  {
+   "block": "repair-r2-V08.md #20 (l. 2006) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+   "note": "REPLACE retitles the heading",
+   "old": "### 3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+   "new": "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126"
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V08.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #2 (l. 86) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #3 (l. 205) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #4 (l. 323) REPLACE ### 2.2 The bridge additions and the host client",
+    "kind": "REPLACE",
+    "heading": "### 2.2 The bridge additions and the host client",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #5 (l. 428) REPLACE ### 2.3 The binding in practice — the carried facts and their hash",
+    "kind": "REPLACE",
+    "heading": "### 2.3 The binding in practice — the carried facts and their hash",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #6 (l. 500) REPLACE ### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+    "kind": "REPLACE",
+    "heading": "### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #7 (l. 646) REPLACE ### 2.5 The digest's additions, the staged-record event and the per-settlement values",
+    "kind": "REPLACE",
+    "heading": "### 2.5 The digest's additions, the staged-record event and the per-settlement values",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #8 (l. 726) REPLACE ### 2.6 The dossier row sets, written out",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The dossier row sets, written out",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #9 (l. 1026) REPLACE ### 2.6b Item 110's dossier inputs — the water system, the high-ground landmarks, the toll bridges a",
+    "kind": "REPLACE",
+    "heading": "### 2.6b Item 110's dossier inputs — the water system, the high-ground landmarks, the toll bridges and the culture (DR34, DR35)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #10 (l. 1131) REPLACE ### 2.7 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #11 (l. 1180) REPLACE ### 2.8 Custom content — the records, the chains and the optional library input (item 104's host sid",
+    "kind": "REPLACE",
+    "heading": "### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #12 (l. 1272) REPLACE ### 3.1 The embed: the Map tab, the frame, the boot",
+    "kind": "REPLACE",
+    "heading": "### 3.1 The embed: the Map tab, the frame, the boot",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #13 (l. 1377) REPLACE ### 3.3 Who runs the port, and who commits — the port leader",
+    "kind": "REPLACE",
+    "heading": "### 3.3 Who runs the port, and who commits — the port leader",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #14 (l. 1413) REPLACE ### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "kind": "REPLACE",
+    "heading": "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #15 (l. 1645) REPLACE ### 3.6 From changes to events and epochs",
+    "kind": "REPLACE",
+    "heading": "### 3.6 From changes to events and epochs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #16 (l. 1733) REPLACE ### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+    "kind": "REPLACE",
+    "heading": "### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #17 (l. 1770) REPLACE ### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #18 (l. 1836) REPLACE ### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's ",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #19 (l. 1920) REPLACE ### 3.15 SettlementForge's history at creation (item 113)",
+    "kind": "REPLACE",
+    "heading": "### 3.15 SettlementForge's history at creation (item 113)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #20 (l. 2006) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+    "kind": "REPLACE",
+    "heading": "### 3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #21 (l. 2240) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #22 (l. 2317) REPLACE ### 4.1 No new declaration; two host-only events; item 110's generated content is never bound",
+    "kind": "REPLACE",
+    "heading": "### 4.1 No new declaration; two host-only events; item 110's generated content is never bound",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #23 (l. 2340) REPLACE ### 4.3 Locality, protection and the dossier's reach",
+    "kind": "REPLACE",
+    "heading": "### 4.3 Locality, protection and the dossier's reach",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #24 (l. 2365) REPLACE ### 4.4 The host clerk — SettlementForge's assistant as a client of the tool API",
+    "kind": "REPLACE",
+    "heading": "### 4.4 The host clerk — SettlementForge's assistant as a client of the tool API",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #25 (l. 2420) REPLACE ### 4.5 Custom content under editing",
+    "kind": "REPLACE",
+    "heading": "### 4.5 Custom content under editing",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #26 (l. 2436) REPLACE ### 4.6 The DM's view of what the dossier did",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The DM's view of what the dossier did",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #27 (l. 2550) REPLACE ### 5.2 Drawing the dossier's records and custom content",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Drawing the dossier's records and custom content",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #28 (l. 2576) REPLACE ### 5.5 Labels",
+    "kind": "REPLACE",
+    "heading": "### 5.5 Labels",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #29 (l. 2594) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #30 (l. 2633) REPLACE ### 7.1 The bars (T-V8-n)",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars (T-V8-n)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #31 (l. 2706) REPLACE ### 7.2 The host harness",
+    "kind": "REPLACE",
+    "heading": "### 7.2 The host harness",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #32 (l. 2721) REPLACE ### 8.1 Where it slots into §16",
+    "kind": "REPLACE",
+    "heading": "### 8.1 Where it slots into §16",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #33 (l. 2745) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #34 (l. 2763) REPLACE ### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configurat",
+    "kind": "REPLACE",
+    "heading": "### 8.3 The release checklist (run by T-V8-26 before every release of the SettlementForge configuration)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #35 (l. 2780) REPLACE ### 8.4 Risks, in order",
+    "kind": "REPLACE",
+    "heading": "### 8.4 Risks, in order",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #36 (l. 2820) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #37 (l. 2961) REPLACE ## 10 Base change requests",
+    "kind": "REPLACE",
+    "heading": "## 10 Base change requests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V08.md #38 (l. 3009) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 63,
+  "headings_after": 63,
+  "headings_added": [
+   "### 2.8 Custom content — the records, the chains and the definition fields (item 104's host side)",
+   "### 3.11 The staged records, the per-settlement values and the audience in use",
+   "### 3.13 Custom content's arrival — records, keywords, chains, services and the definition fields (item 104's host side)",
+   "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126"
+  ],
+  "headings_removed": [
+   "### 2.8 Custom content — the records, the chains and the optional library input (item 104's host side)",
+   "### 3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+   "### 3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)",
+   "### 3.16 The port side of items 111, 114, 115, 117, 118 and 120"
+  ],
+  "fences_balanced": true,
+  "fence_lines_before": 20,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 505231,
+  "doc_bytes_after": 545796,
+  "doc_lines_before": 3440,
+  "doc_lines_after": 3629,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 38,
+  "blocks_applied": 38,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "3d235466c526cd5cba347bb1a2c9184b79a62271711688e088222db9274b8aa8",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

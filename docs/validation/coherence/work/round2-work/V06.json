@@ -1,0 +1,165 @@
+[
+ {
+  "id": "VAP-r1-10",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V12 \u00a72.13's `item115.ceiling` row lists \"H-100 over epochs at TOWN and above (V06, T-V6-74)\" and \u00a73.7.8 counts T-V6-74 among the volume pins that register; V12 \u00a72.13 refuses \"a suite no owner registers\". V06 registers none: T-V6-74's last clause (l. 3913) reads only \"a history that never stands below TOWN is byte-identical with the ceiling on and off\" (no fixture, no pin, no engine), and V06 \u00a78's *The no-op pins* paragraph (l. 3987) lists E1, E3, E4, E5 and E9 registrations and no E2 `item115.ceiling`.",
+  "required_change": "T-V6-74's last clause reads \"H-100 at TOWN and above is byte-identical with the ceiling on and off \u2014 the `item115.ceiling` registration of H-100 on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by V06's E2 seat\"; V06 \u00a78's *The no-op pins* paragraph adds \"E2 `item115.ceiling` (H-100 at TOWN and above; T-V6-74)\".",
+  "owner": "V06",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAT1-03",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "This round's \u00a77.4 change makes every port epoch no undo target. V06 still states the older, narrower rule. \u00a77.4 *Replay semantics* (l.10718-10724; VEL0-05): 'Every event of the port's reserved session `host:port` \u2014 dossier events, `dossierFacts`, `dossierRecord` and the port's epochs alike, whether or not a port epoch carried a dossier change in `EpochInputs.dossier` \u2014 is likewise no `undo`, `redo` or `revert` target'. \u00a77.7 item 3 follows: 'an undo of a lapsing epoch outside the port's session `host:port` restores the hold'. V06 says otherwise in three places. \u00a74.1 (l.3302): 'An epoch that carried a dossier event is never an undo target (\u00a77.4)'. T-V6-27 (l.3866), on H-DOSSIER where every epoch is a port epoch: 'an undo of a lapsing epoch that carried no dossier event restores the hold'. The take-over rows T20-2 and T20-6 (l.3819-3820) say the same. A correct build refuses that undo (F-EDIT), so it fails T-V6-27. A build that follows V06 lets a user undo the host's clock.",
+  "required_change": "V06 \u00a74.1: replace 'An epoch that carried a dossier event is never an undo target (\u00a77.4)' with 'No event of the port's session `host:port` \u2014 a port epoch, with or without a dossier change, a dossier event \u2014 is an undo, redo or revert target (\u00a77.4 *Replay semantics*)'. T-V6-27: replace 'and an undo of a lapsing epoch that carried no dossier event restores the hold (T20-2's epoch clause); an `undo` naming an epoch that carried a dossier event returns F-EDIT and changes nothing (T20-6's epoch clause)' with 'and an undo of a lapsing epoch outside the port's session `host:port` (an advance on a what-if copy of the fixture) restores the hold (T20-2's epoch clause); an `undo` naming a port epoch, with or without a dossier change, returns F-EDIT and changes nothing (T20-6's epoch clause)'. Make the take-over rows T20-2 and T20-6 (V06 \u00a77) read the same.",
+  "owner": "V06",
+  "reported_by": "verify-agree-time-r1t"
+ },
+ {
+  "id": "VAT1-05",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Item 114's recovery order breaks across a history replay. V06 \u00a73.7.7 (3) (l.1599) rebuilds patched runs 'oldest patch first (by the run's last-change epoch, ties in chain order)'. \u00a72.7 (l.2420-2433) has every writer set `conditionEpoch` to 'the epoch in force at its event', 'with the replay the replay's own epochs', and the replay runs item 114's transitions (V06 \u00a73.20.3). \u00a76.1 numbers live epochs 1 \u2026 2\u00b3\u00b9 \u2212 1 apart from the replay's range (VAT0-07). After a history-first generation, a run patched in a replay epoch decades ago therefore sorts after a run patched in live epoch 2 if it records `0x8000_0000 + r`, or ties with live epoch r if it records r. Either way the rebuild is not oldest first, and the result is silently wrong.",
+  "required_change": "In V06 \u00a73.7.7 (3) replace '(by the run's last-change epoch, ties in chain order)' with '(by the week of the run's last-change epoch \u2014 `EpochRecord.week` of its `conditionEpoch`, generation's epoch 0 first, a replay epoch's week before every live epoch's, \u00a76.1 \u2014 ties in chain order)'. Add to T-V6-73 a history-first fixture: runs patched in replay epochs and in live epochs, recovery rebuilding the replay-era patches first. Add the combination row 'item 114's recovery \u00d7 the history replay' to V06 \u00a73.21 (b).",
+  "owner": "V06",
+  "reported_by": "verify-agree-time-r1t"
+ },
+ {
+  "id": "G122-V06",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 122 routes to V06 'the hand-over (aftermath through the epoch path; the camp at the growth frontier; reconstruction as Works)' (item 122 (a); canon's dated ruling for items 121\u2013123). V06 carries none of it: no text names item 122, a crisis look, a camp at the growth frontier, or a look handing over to the next epoch. `ConditionOverlay` is read only for the Works share (V06 \u00a73.13 (6)).",
+  "required_change": "Write V06's item-122 part at build depth as new design. (1) **The aftermath**: what a crisis leaves reaches the map only through the next epoch \u2014 the calamity as an `EpochInputs.events` entry (DR28) run by the hazards phase (V06 \u00a73.11) at its `targets`; deaths and exodus through the population target; newcomers who stay through growth (V06 \u00a73.6). A look never writes an op. (2) **The camp at the growth frontier**: a pure, draw-free query, `frontierFor(doc, households)`: where V06 \u00a73.6's growth would seat that many households next, by the same rules over committed state. It is read by \u00a710.2's refugee-camp placement, so newcomers who stay become the next epoch's suburb where the camp stood. Fallback with no frontier: the approach road by a gate (item 122 (b)). (3) **Reconstruction as Works**: the `reconstruction` archetype's `ConditionOverlay` read by the works phase (V06 \u00a73.13 (6)); a disaster's ruined look ends in the week its rebuild's Works begins, so no week draws both. (4) **Edges and lifecycle rows** (V06 \u00a72.12, V06 \u00a73.21): a look standing when its aftermath epoch folds; a condition with no calamity (a look, no aftermath); the aftermath epoch undone while the look stands; a replay epoch (no look; past calamities reach it as events); a port epoch carrying the calamity. (5) A T-V6 test: the hash identical with crises on and off; the frontier query equal to where the next epoch's growth seats those households on a fixture.",
+  "owner": "V06",
+  "reported_by": "verify-agree-time-r1t, verify-edges-life-r1t, verify-vol-V05-V06-r1t",
+  "also_reported": [
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 assigns V06 'the hand-over (aftermath through the epoch path; the camp at the growth frontier; reconstruction as Works)'. V06 has no item-122 part: 'item 122' and 'crisis' appear 0 times, and \u00a73.11 (hazards), \u00a73.6 (growth) and \u00a73.13 (Works) do not mention a crisis look.",
+    "required_change": "V06 writes the hand-over at build depth. (a) What a crisis leaves (deaths, ruined institutions, a burned quarter, settled newcomers) reaches the map only through the next epoch's inputs: the calamity through `EpochInputs.events` and the hazard phase (\u00a73.11), and the population change through growth. A look never adds, moves or removes anything. (b) The refugee camp's site is where \u00a73.6's growth frontier would build next, so newcomers who stay become the next epoch's suburb on that ground. If growth has taken the site before the look ends, the camp moves to the next frontier site. (c) A disaster's ruined look gives way to `reconstruction`'s Works scaffolding (\u00a73.13) from the epoch that starts it. (d) A \u00a73.21 edge row: a look ending inside an epoch, a camp over a site the epoch builds on, a disaster look over a quarter the epoch rebuilds, every rung, undo of the epoch. (e) A T-V6 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V05-V06-r1t",
+    "claim": "g item 122 (crisis looks; J135) routes to V06 \"the hand-over (aftermath through the epoch path; the camp at the growth frontier; reconstruction as Works)\" (canon's last dated rulings; item 122 (a)). V06 carries none of it: no text names item 122, a crisis look, a camp's placement or `reconstruction`; `ConditionOverlay` is read only for the Works share (V06 \u00a73.13 (6), l. 2233).",
+    "required_change": "Write V06's item-122 part at build depth as new design: (1) **the aftermath** (item 122 (a)) \u2014 what a crisis leaves reaches the map only through the next epoch: the calamity as an `EpochInputs.events` entry (DR28) run by the hazards phase (V06 \u00a73.11), deaths and exodus through the epoch's `populationTarget`, ruined institutions and a burned quarter through the hazard's ops at the calamity's `targets`, settled newcomers through growth (V06 \u00a73.6) \u2014 never a write from a look; (2) **the camp at the growth frontier** \u2014 a pure query on the growth phase (where V06 \u00a73.6's spread step would seat a given number of households next, by the same rules and keyed draws, drawing nothing new), read by the refugee camp's placement in \u00a710.2's crisis look table and \u00a78.2's rows, so newcomers who stay become the next epoch's suburb where the camp stood; its fallback (no frontier: the approach road by a gate, item 122 (b)); (3) **reconstruction as Works** \u2014 the `reconstruction` archetype's `ConditionOverlay` read by the works phase (V06 \u00a73.13 (6), \u00a74.11 *Works* (10)), the disaster's ruined look giving way to the rebuild's Works scaffolding with no week drawing both; (4) the lifecycle and edges: a look standing when its aftermath epoch folds, a condition with no calamity, the aftermath epoch undone while the look stands, a replay epoch (the look only in the view's week), a standalone map (preview only, no aftermath); a T-V6 clause (the camp inside the next epoch's growth placement for the same households; the model and hash identical with crisis looks on and off; the aftermath equal to the calamity path's result); a J-V6 row; \u00a71b wiring rows (producer and readers); \u00a71.2's hook row; V06 \u00a78's price; the head's item range widened to the highest item V06 cites.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-V06",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 123 routes to V06 'the decay level over time per lineage (existence state, years since abandoned) and restoration' (canon's dated ruling for items 121\u2013123; item 123 (b)). V06 has no decay level. The record that dates a building's abandonment is `Lifecycle.since`, which keeps only the last existence change (\u00a72.8, l.2622). The `decay` Works already carries a dated progress for each step (\u00a74.11 *Works* (4)\u2013(5)), but nothing derives item 123's level from it.",
+  "required_change": "Write V06's item-123 part at build depth. (1) **The decay level** (0\u20131) of a building lineage at a week is derived, never stored. It is read from the existing `decay` Works and existence (\u00a74.11 *Works* (4)\u2013(5): `abandoned` and its Works' progress toward `decayed`, then `decayed`, then `ruined`; the dwell bands \u00d7 0.6 for timber and thatch being item 123 (b)'s material rate), so the plan's damage and the building's drawn decay stage are one reading. It is monotone while the building stays abandoned, decayed or ruined, and is read at any frame's week (V06 \u00a73.15) and at each replay epoch. (2) **Restoration**: `reoccupy` and a `repair` Works run the stages backwards, so the level falls and the damage leaves in reverse threshold order, a repaired element drawn in patch material (item 114). (3) **Edges** (V06 \u00a73.21): a building generated as a ruin with no Works (its level from its state and V11's default age); a fire's CHARRED state; a successor lineage on a trace (a new plan, level 0); an epoch undone; the replay's first-met ruins (the plan as built, then its damage, item 123 (a)). (4) A T-V6 test: the level is monotone over H-100's decline and falls in reverse on repair.",
+  "owner": "V06",
+  "reported_by": "verify-agree-time-r1t, verify-edges-life-r1t, verify-vol-V05-V06-r1t",
+  "also_reported": [
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 123 assigns V06 'the decay level over time per lineage (existence state, years since abandoned) and restoration'. V06 has no item-123 part: 'item 123' and 'decay level' appear 0 times.",
+    "required_change": "V06 writes the decay level at build depth. (a) A derived value in [0, 1] per building lineage, computed from its existence state (abandoned, decayed, ruined, reused) and the years since it was abandoned, at V11's per-material rate (timber faster than stone). It is never stored where it can be derived, and it gets its lifecycle row (\u00a72.12). (b) Restoration (`reused`, a repair, `reoccupy`) lowers the level so damage leaves in reverse order, a repaired element drawn in patch material (item 114). (c) A building met already ruined, by generation or by item 113's replay, gets the plan it had when built, then its level. (d) A \u00a73.21 edge row: level 0, level 1, a reuse at level 1, a scrub back across a restoration, undo of the epoch. (e) A T-V6 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V05-V06-r1t",
+    "claim": "g item 123 (a ruined building's plans damaged, never redrawn; J136) routes to V06 \"the decay level over time per lineage (existence state, years since abandoned) and restoration\" (item 123 (a), (b)). V06 has no decay level: no text names item 123 or damage, and the base's `Existence` (\u00a72.7, l. 2619) records no week of abandonment for \"years since abandoned\" to read.",
+    "required_change": "Write V06's item-123 part at build depth as new design: (1) **the decay level** (0\u20131) per building lineage at a week \u2014 a pure function of its `Existence` state (`abandoned`, `decayed`, `ruined`; `reused` and a repaired building below them), the years since it was abandoned (derived from the week of the epoch whose op last set it `abandoned`, read from its `EpochRecord`, never a stored counter \u2014 or a stored field with its \u00a72.12 lifecycle rows) and V11's rate by material (timber faster than stone), monotone non-decreasing while the building stays abandoned, decayed or ruined, so damage only accumulates (item 123 (b)); (2) **restoration** \u2014 `reused`, `reoccupy` from derelict and a repair lower the level by a stated rule, the damage leaving in reverse threshold order, a repaired element drawn in patch material (item 114's patchwork); (3) **history** \u2014 a building first met ruined in item 113's replay gets its plan as built, then its damage at the level its replayed years give, and time scrubbing (V06 \u00a73.15) reads the level at each frame's week, so one plan is seen aging (item 123 (a)); (4) edges: a building abandoned at generation (no abandonment epoch: the level from its state and V11's default age), a building ruined by a hazard rather than by decay, a successor lineage rebuilt on a trace (a new plan, no damage carried), the restoring epoch undone, negative weeks in the replay; a T-V6 clause (the level monotone in years while abandoned, reversed on restoration, the same at a given seed, week and lineage on every engine; plan ids unchanged); a J-V6 row; a \u00a72.12 lifecycle row and \u00a71b wiring rows (readers: V03's damage layer, V02's exterior, V04's cellars and crypts, the panel); V06 \u00a78's price; the head's item range widened.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VEL1-04",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "V06 \u00a73.5.1 has two clauses that read differently on one edge. (4) (l.1219-1221) says a protected building's last household leaves by 'a `relet` down, never a `vacate` of a protected building's last household by this step'. (5) (l.1222), which states the ops, reads '`relet` down where a building keeps households, `vacate` at the last', with no exception. Read on its own, (5) vacates a protected building whose last household (4) let go. That is the outcome \u00a77.7's precedence (l.11379-11382) forbids.",
+  "required_change": "V06 \u00a73.5.1 (5) reads '`relet` down where a building keeps households, `vacate` at the last \u2014 never at a locked or pinned building, whose last household (4) lets out by a `relet` down to 0, the building keeping its state (\u00a77.7's precedence)'.",
+  "owner": "V06",
+  "reported_by": "verify-edges-life-r1t"
+ },
+ {
+  "id": "VM-R1T-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V06 \u00a72.9 still declares `strain?: { kind: 'demand'|'supply'; sinceWeek: number }` 'on \u00a72.7's Use' with the comment 'written by the use phase only', while \u00a72.7 now declares `Use.strain` (VM-R0S-08's fix, file f item 429) with a user's `setAttr` clearing it ('give this shop time') \u2014 as V06's own hand-forms table (V06 \u00a74.2, 'a failing shop given time': `setAttr` on `Use.strain`) and \u00a72.8's registry ('Use.strain (setAttr)') say. Two declarations, and V06's comment contradicts the writers.",
+  "required_change": "V06 \u00a72.9: replace the ts block with '`Use.strain` is \u00a72.7's (file f item 429): set by the use phase (V06 \u00a73.9.2) and cleared by it or by a user's `setAttr`', keeping the section as the rule's pointer.",
+  "owner": "V06",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-09",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a72.7's support step says a generated course dropped by the new clear-span bound is reported `raised_too_long`, 'which waits as `raised_too_tall` does, V06 \u00a73.19 (5)'; but V06 \u00a73.19 (5) (the course), V06 \u00a73.17 item 9 and `EpochReport.raised.waited`'s comment (V06 \u00a72.10) name only `raised_too_tall` \u2014 the cited waiting rule does not cover the new drop (the model's hand-off to V06 was not carried).",
+  "required_change": "V06 \u00a73.19 (5): 'a course one of whose piers stands higher than `maxPierM` for its kind (`raised_too_tall`) or whose merged clear span exceeds `maxClearSpanM` for its material (`raised_too_long`, \u00a72.7) is dropped and the candidate waits'; name both codes in V06 \u00a73.17 item 9 and in `raised.waited`'s comment (V06 \u00a72.10).",
+  "owner": "V06",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VPC-R1-05",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "After V04's rename of its opening row to `UnderOpeningRow` (V04 \u00a72.3, l. 694), V06 still names V04's row `OpeningRow` (l. 2443 '\u2026 the `DigRule`, `OpeningRow`, `LinkRule`, `RuinRule` \u2026'; l. 2490 'V04's `OpeningRow` draws'). In the set `OpeningRow` now resolves only to \u00a72.6's opening-hours row.",
+  "required_change": "In V06 l. 2443 and l. 2490 replace V04's `OpeningRow` with `UnderOpeningRow`.",
+  "owner": "V06",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VPC-R1-20",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "Repair r1 declared `wealthLevel?`, `advance?` and `replay?` on \u00a74.11's `EpochInputs` (file f items 343 and item 113, VPC-22 (b)). V06 still declares the same fields 'on EpochInputs': \u00a72.3 (l. 597\u2013600) declares `wealthLevel` and `advance`, and \u00a72.14 (l. 911\u2013913) declares `replay`. The same fields now have two homes (principle (1)), and the pipeline repair's hand-off ('V06: \u00a72.3 and \u00a72.14 cite \u00a74.11's EpochInputs \u2026') was not applied.",
+  "required_change": "In V06 \u00a72.3 replace the `wealthLevel?` and `advance?` declarations (the block headed '// on EpochInputs (file f item 343)') with '// EpochInputs.wealthLevel and EpochInputs.advance are \u00a74.11's (file f item 343); this volume writes them (V06 \u00a73.3.5, \u00a73.3.2)'. In \u00a72.14 replace the `replay?` declaration with '// EpochInputs.replay is \u00a74.11's (item 113); ReplayEventRef and ReplayEpoch are declared above'.",
+  "owner": "V06",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VV34-r1-05",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "V04's repair renamed its opening row `UnderOpeningRow` (VAL-08; V04 \u00a72.3, 0 `OpeningRow` left in V04), `OpeningRow` remaining \u00a72.6's opening-hours row. V06 \u00a71b's U-ACCESS row (l. 314: '`DigRule`, `OpeningRow`, `LinkRule` (V04)') still names V04's row `OpeningRow`; VPC-R1-05 (verify-pipeline-r1t) covers V06 l. 2443 and l. 2490 only.",
+  "required_change": "In V06 l. 314 (the \u00a71b row of the access pass's scope) replace `OpeningRow` with `UnderOpeningRow`.",
+  "owner": "V06",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ },
+ {
+  "id": "VV56-r1-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "V06 \u00a76.8 (6) (l. 3763\u20133767): \"A dossier-bound document's epochs are the port's cadence (\u00a74.11 *The clock*) and are never coarsened \u2026 each priced at 6.1\u20136.2 inside \u00a712's waits for a dossier change and an open from SettlementForge.\" A catch-up folds an epoch at every year end it crosses (\u00a74.11 *The clock* (4): \"a catch-up batch follows the same rule\"; V08 l. 1778: \"every crossing inside the span adds its own epoch\"), and a map opened before its turn \"catches up at once\" (V08 l. 33). By V06 \u00a76.8 (1)'s own rows a catch-up of N years costs \u2248 N \u00d7 430 ms at CITY (N \u00d7 1 120 ms with three islands) and N \u00d7 1 310 ms at METROPOLIS (N \u00d7 2 090 ms with islands): past \u2248 23 years at CITY (\u2248 8 with three islands) and \u2248 7 at METROPOLIS (\u2248 4 with islands) its epochs alone exceed the ten seconds item 119 (a) sets for \"a dossier change applied\" and \"open a map from SettlementForge\". The claim is unsupported at the limit; V06 \u00a73.21 has no catch-up row and T-V6-24 times none.",
+  "required_change": "V06 \u00a76.8 (6) reads: \"A dossier-bound document's epochs follow the port's cadence (\u00a74.11 *The clock* (4)) while estimate (1) over a catch-up's epochs fits `advance.budgetMs`; above it the catch-up folds one epoch per k crossed year ends, k the smallest whole number whose estimate fits \u2014 every dossier event still at its own week (\u00a74.11 *The clock* (2)), a calamity entering the coarse epoch that holds its week, at its week, the population crossings read into the coarse epochs' targets, the last epoch at the dossier's week, every epoch reading the new digest's slices as every catch-up epoch does (J-V8.25) \u2014 the cadence reported in `EpochReport.advance` and the port's report; one epoch over the span always fits (6.8 (3)), so no catch-up is refused or shortened (item 101 R2).\" V06 \u00a73.21 adds the row \"a dossier catch-up of many years | the coarsened catch-up of V06 \u00a76.8 (6) | simpler shape (coarser epochs) | T-V6-24\"; T-V6-24 adds a 20-year and a 100-year catch-up at CITY and METROPOLIS, the sky layer off and on, each p95 \u2264 10 000 ms with the dossier's present facts met exactly; a J-V6 row records the choice over keeping the port's cadence. At their homes (hand-offs, not V06's text): \u00a74.11 *The clock* (4)'s catch-up sentence adds \"coarsened under item 119's comfort level by V06 \u00a76.8 (6)\" (pipeline); V08's catch-up rule and V08 \u00a76's \"an absorb with epochs\" row cite V06 \u00a76.8 (6).",
+  "owner": "V06",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ },
+ {
+  "id": "VV56-r1-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Item 125 (a) (J139): \"`HostContext.week` and `HostContext.realm` stop being inputs\"; its bar (e): \"the same dossier with and without a host context yields the identical document and hash\". V06 \u00a73.20.3 (l. 3089) sets the replay's present as \"`W_p` the present \u2014 the creation week the base gives (`HostContext.week` or 0)\", so a history-first generation's epoch weeks follow the host context; V06 \u00a75.2 *Years* (l. 3495) labels a dossier-bound week by \"the host's calendar year when `HostContext` gives one\" \u2014 a host input item 125 retires, and a field `HostContext` does not have (\u00a714's interface, l. 18159: `week`, `realm`, `audience`, `displayNames`, `line`, `customLibrary`).",
+  "required_change": "V06 \u00a73.20.3's bullet reads \"`week` = `W_p \u2212 round(52 \u00d7 toYearsAgo)`, `W_p` the present \u2014 the document's creation week (\u00a74.11 *The clock* (1)) \u2014 so the replayed past lies before it \u2026\" (the source named by the base, never restated); V06 \u00a75.2 *Years* reads \"\u2026 dossier-bound, the same form (the map reads no host calendar; item 125 (a)). The year numbering is display only.\"; the head's item range covers 125 once V06 cites it.",
+  "owner": "V06",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ },
+ {
+  "id": "VV56-r1-03",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "V06 \u00a73.15 *Upgrading a `'history'` document* (l. 2347): \"stays pinned unless the host asks (`HostContext`'s upgrade request, V08)\". `HostContext` carries no upgrade request (l. 18159); V08 names it as the owner's **Update the map engine** action, an `upgrade` event over the bridge (V08 l. 1908, V08 \u00a74.2).",
+  "required_change": "The parenthesis reads \"(the host's upgrade request: the owner's **Update the map engine**, V08 \u00a74.2, an `upgrade` event over the bridge)\".",
+  "owner": "V06",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ },
+ {
+  "id": "VV56-r1-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V06 \u00a74.1 *Preview*: on Accept, \"while the document's head is still the preview fork's base, the commit takes the fork's folded state \u2026; otherwise the epochs fold again under the estimate the preview ran with\". An edit between the preview and Accept that raises V06 \u00a76.8's estimate is folded at the preview's cadence without re-estimating \u2014 e.g. a CITY century with islands previewed at 12\u00bd-year steps (8 epochs, \u2248 9.0 s), then 18 hand-placed accesses added (`epoch.handAccessMs` 60 ms each an epoch): 8 \u00d7 (1 120 + 1 080) ms \u2248 17.6 s \u2014 against item 119 (a2) (\"the run COARSENS its cadence \u2026 until its estimate fits\"). T-V6-23 tests only an unchanged head.",
+  "required_change": "V06 \u00a74.1 reads \"\u2026 otherwise the epochs fold again at the cadence V06 \u00a76.8's estimate chooses on the current head (V06 \u00a73.3.2), the card's line naming it where it differs from the preview's\"; T-V6-23 adds \"an Accept after edits that raise the estimate (hand-placed accesses added on the preview's islands) folds at the re-estimated cadence, inside the comfort level\".",
+  "owner": "V06",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ }
+]

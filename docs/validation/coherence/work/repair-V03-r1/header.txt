@@ -1,0 +1,123 @@
+# Repair round 1 — V03 (plans) — lane coherence/repair-V03-r1
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V03-r1; covered by the whole-design retrovalidation (J84).
+
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-c/apply-blocks.py): text before the first "=== " line is
+# ignored; the FILE line below names the one file every block applies to (split off as assemble does).
+#
+# PROGRESS
+# - P0 brief read whole (7 routed issues: 3 major, 4 minor) plus G120-V03 (the canon's item-120 ruling names V03): done
+# - P1 issue sources, canon rulings (g 114–120, 119 (a2)), sibling repairs' hand-offs to V03, every concerned V03 section: done
+# - P2 count-asserted substitutions on the live V03 (work/repair-V03-r1/gen.py with edits_a/b/c.py): done
+# - cut at ~03:49 (no LANDED, no result); resumed under the CONTINUE rule: the live V03 equals work/V03.orig.md (the
+#   03:21 copy); gen.py reproduced blocks.txt; every edit re-checked against its issue and its source: done
+# - resume fixes: T-V3-37 (a)'s fixture named as §13.2's B-EDIT dossier fixtures (the base names no "reference CITY
+#   document"); §0 gains its plain-words paragraph for items 119 and 120: done
+# - P3 checks on copies, words, result: done (below)
+#
+# ISSUES (each FIXED; ruling requests: none)
+# - VAF-R0S-12 (major) T-V3-25's manor clause: "houses at least three units — the `poor` row's least households per
+#   shell (§2.6's interior ladder: [3, capacity]) — in its main range"; V03 §13 closes V02's X30 at T-V3-25.
+# - VAF-R0S-18 (major) the stepped specialisations cited at V11 §3.24.3, "whose culture builds in tiers": V03 §2.4,
+#   J-V3.93 and V03 §13's V11 row. The four remaining `V11 §3.6.2` pointers are the specialisations by band (correct).
+# - VAF-R0S-24 (minor) V03 §1: `CompositionRow.rooms.gateHallM` (V02 §2.3, V02 §3.8); F-COMPOSE (3) keeps V02 §3.13.
+# - VAF-R0S-28 (minor) "§2.7's `stepProfile(wall)` (file f item 245)" at V03 §1, V03 §1b, V03 §3.7.1 and V03 §8;
+#   no `V01 §3.11 (7)` attribution remains.
+# - VK0-15 (minor) V03 §3.4 and V03 §3.13 read the issue's words (`E_DEGENERATE` with detail `seed` or `overlap`, §3.4;
+#   `E_INVARIANT` for a §3.10 row); `E_NON_SIMPLE` and `E_BELOW_MIN_EDGE` no longer cited.
+# - VV34-01 (major; g item 119, J130) V03 §6's *One-time waits* paragraph at build depth: the rows and §12.7's plan row
+#   (R12-23) kept as the targets; the plan's share of each one-time wait (S11's eager facts inside generation, stored
+#   plans' re-cuts inside a dossier change or any event moving their inputs, an epoch's re-cuts timed by volume 6's part,
+#   the plan exports, the migration on load) inside §12.1's comfort level; the measured-gain rule (`perf.qualitySpend`,
+#   V11 §3.25.8), the progress rule (V09 §4.21.9), the interaction budgets unchanged, the low tier; T-V3-37 (on V12
+#   §3.15.9's `wait.*` timer and T119-2 – T119-5); J-V3.133; V03 §1, V03 §3.13, V03 §8, V03 §12, V03 §0.
+#   HELD (ROUND-1 NOTES (2), VV56-07): V03 makes no per-step-or-total choice for advance time and the history replay —
+#   an epoch's plan re-cuts count in the epoch's work, "timed as volume 6's part of item 119 times an advance of time
+#   and the history replay (V06 §6)" (V03 §6; T-V3-37's last clause).
+# - VV34-09 (minor) V03 §4.5 words every `PlanReport.warnings` code (`W_TIER_UNREACHED`, `W_STOREY_RUN`,
+#   `W_ENTRANCE_NO_STOREY`, `W_STACK_ACCESS`, `W_DECK_ACCESS`, `W_GRADE_FACE_TUNNEL`, `W_CHURCH_CATACOMB_HEAD`) as a
+#   panel line keyed `report.plan.<code>`, its `en` text written here as V09 delegates the panel's contents to V03 §4.5
+#   (V09 §1.3: "The plan panel's and storey switcher's contents are V03 §4.5"); V03 §2.3's comment and V03 §1b name the
+#   key; T-V3-36 (m) checks one line per reported code; V03 §13 hands V09 the family row in its §4.9 table.
+# - G120-V03 (g item 120, J133; the canon names V03: "the rooms an institution uses glow at the interior band") — new
+#   V03 §5.5 (an APPEND to ## 5): `findRooms(plan, b, target)`, a pure reading of the drawn plan (a use's programme,
+#   sleep-in, sub-location and crypt rooms; a sub-location's; a household's unit; the building's every room), the union
+#   outline from the wall records, the storey switcher's and the panel's marks, knowledge admission through V03 §5.4's
+#   merge, the re-evaluation over commits, undo, advance and seasons, exports (`plan.find` in SVG; scenes off unless
+#   asked; never in JSON, CityJSON or glTF), cost; wired in V03 §0, §1, §1b, §2.5, §3.13, §4.4, §4.5, §5.2, §6, §8, §12,
+#   §13; T-V3-38; J-V3.134. A view only: nothing stored, hashed or logged.
+#
+# HAND-OFFS CLOSED HERE (requests of this round's landed sibling repairs; V03 §13's "made of this volume" rows)
+# - model (VAF-R0S-03): `AccessHead` is declared at §2.6 (moved verbatim by repair-r1-model); V03 §2.1 cites it and
+#   V03 §1b and V03 §3.7.2 (1) point to §2.6.
+# - model (VAF-R0S-16): §2.6's `BuildingClass` is a `roster.classes` id and "a template family is never a class"; V03
+#   §2.4's class rows key on it alone — `hall`, `keep`, `tower`, `mill` become named rows, cell for cell, reached only by
+#   name; `temple` (no class; a great temple reaches its `cathedral` family row) leaves the church row's key; J-V3.135;
+#   T-V3-1 checks the keys. No building resolves differently.
+# - pipeline (VAF-R0S-20): V03 §2.4 and V03 §3.2 cite §4.5's discrete-cell rule (the nearest rowed band below).
+# - determinism (VDC0-11): V03 §4.2's reach bend `bend.room.unreachable` (§7.1's outcome row; V09's catalogue row);
+#   V03 §3.13's edits row; T-V3-11 (vi).
+# - V10 (VV34-07): the notes keyed `info.plan.note.<id>` (V03 §2.3, V03 §4.6, T-V3-12).
+# - V11 (VAP-21), V12: `exposureAllStoreys` carries `presets.MFCG`, `.FTG`, `.VG` entries false (V03 §2.4); T-V3-34's
+#   first clause is the `item110.*` `NoOpPin` on V12 §3.7.8's engine, listed by V12 §2.13.
+# Requests this file makes of others (V03 §13): V09 — the `report.plan.<code>` family row in V09 §4.9's table and V09's
+# Find drawing V03 §5.5's rooms; the base units' item-120 parts (§2.9's view key `find`, §8.2's veil, outline and halo
+# rows, §11.1, §11.2, §12.5's overlay budget) are cited as the canon routes them, as V01, V04, V05 and V12 cite them.
+# Items 121–123 of file g are not part of this round (CONTINUATION note).
+#
+# CHECKS (on copies; live files untouched)
+# - apply-blocks.py (amendments-c, two-pass) on a copy of the live V03 (= work/V03.orig.md) as --doc, with the FILE line
+#   split off: 23 blocks found, 23 applied, 0 skipped; audit not-OK 0; headings 46 -> 47 (§5.5); fences balanced (12 ->
+#   12); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1; the rationale unchanged; the output
+#   byte-identical to the builder's work/V03.new.md (sha256 of the output printed in the applier's log).
+# - References: every `§x`, `Vnn §x` and `V03 §x` in the added lines resolves — the base's against docs/ARCHITECTURE.md
+#   with this round's landed base repairs, a volume's against its live text with its landed repair-r1 file, V03's
+#   against the new V03; no citation split across a line break. The new external names resolve in the landed
+#   repairs: V12 §3.15.9 (`wait.dossierChange`, `wait.export`, `wait.migrate`, T119-2 – T119-5), V11 §3.25.8
+#   (`perf.qualitySpend`), V09 §4.21.9, R12-23, `bend.room.unreachable` (determinism, V09), `info.plan.note.<id>`
+#   (V10), §4.5's discrete-cell rule (pipeline), `item110.*` (V12 §2.13), `AccessHead` and `BuildingClass` (model).
+# - Ids: T-V3-37, T-V3-38, J-V3.133, J-V3.134, J-V3.135 each defined once and used nowhere else in the set; no duplicate
+#   T-V3 or J-V3 row.
+# - Retired terms (the canon's glossary) and deferral wording over the added lines: 0 ("the later of P5 and the milestone
+#   that lands Find" names a milestone, as V01, V04, V05 and V12 do; no unresolved choice).
+# - doc_checks.py --doc (the live and the new V03) --allow docs/validation/doc-checks-allow.tsv --heads
+#   docs/ARCHITECTURE.md — WARNING: reference corpus INCOMPLETE (captures, research/patreon, research/devlogs,
+#   research/ftg-docs, research/external absent): the clean-room result is NOT authoritative, PROVISIONAL. Before C1 0,
+#   C2 0, C3 313 hits / 290 unreviewed, C4 1 / 0, S1 0, S2 41 / 0; after C1 0, C2 0, C3 330 / 307, C4 2 / 1, S1 0,
+#   S2 63 / 0 (the added S2 hits are volume pointers — `V03 §5.5`, `V03 §3.12`, `V10 §2.13`, `V12 §2.13` and the like —
+#   which resolve in their volumes, read against the base's headings). The 22 new C3 hits and the C4 hit are our own words (5 old C3 hits left with removed text, 3 of them with
+#   `AccessHead`'s declaration now at §2.6), proposed as reviewed rows for
+#   docs/validation/doc-checks-allow.tsv (this lane writes no shared file):
+#   C3	the class and the named	repair-V03-r1 (2026-10-01): our own plain words in V03 §2.4's named rows; no reference text
+#   C3	plan and the view key	repair-V03-r1 (2026-10-01): our own plain words in V03 §2.5's Find row; no reference text
+#   C3	that would leave a room	repair-V03-r1 (2026-10-01): our own plain words in V03 §4.2's reach bend and T-V3-11 (vi); no reference text
+#   C3	that would leave a room the	repair-V03-r1 (2026-10-01): our own plain words in V03 §4.2's reach bend; no reference text
+#   C3	door in the outer wall	repair-V03-r1 (2026-10-01): our own panel words for W_STACK_ACCESS (V03 §4.5); no reference text
+#   C3	onto the ground under the	repair-V03-r1 (2026-10-01): our own panel words for W_GRADE_FACE_TUNNEL (V03 §4.5); no reference text
+#   C3	its state is the per	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 ("its state is the per-viewer view key"); no reference text
+#   C3	moves from the building s footprint	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5; no reference text
+#   C3	none of them and the	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (1); no reference text
+#   C3	the rest of the plan	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2); no reference text
+#   C3	one of the rooms with the	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2); no reference text
+#   C3	4 5 and the plan	repair-V03-r1 (2026-10-01): a section pointer "(V03 §4.5) and the plan panel" in V03 §5.5; no reference text
+#   C3	list with the same glyph	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2); no reference text
+#   C3	a click or elaborate view	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2) ("a click or `elaborate: 'view'` does"); no reference text
+#   C3	and the building band s	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (3); no reference text
+#   C3	1 and the plan s	repair-V03-r1 (2026-10-01): a section pointer "(V03 §5.1) and the plan's" in V03 §5.5; no reference text
+#   C3	by name and the map	repair-V03-r1 (2026-10-01): our own plain words in V03 §6 ("the stage by name and the map filling in", item 119 (c)); no reference text
+#   C3	per storey and the whole	repair-V03-r1 (2026-10-01): our own plain words in V03 §6's one-time waits; no reference text
+#   C3	b city lite s clicked buildings	repair-V03-r1 (2026-10-01): our fixture names in T-V3-38 (B-PLAN, B-CITY-lite); no reference text
+#   C3	s count and a building	repair-V03-r1 (2026-10-01): our own plain words in T-V3-38 (d); no reference text
+#   C3	exports and the plan s	repair-V03-r1 (2026-10-01): our own plain words in J-V3.133; no reference text
+#   C3	4 1 and the cache	repair-V03-r1 (2026-10-01): a section pointer "(§4.1), and the cache" in J-V3.133; no reference text
+#   C4	castle cathedral keep mill temple	repair-V03-r1 (2026-10-01): J-V3.135's own reasoning naming V03's named rows and V11's classes and family; no reference list
+#
+# WORDS (the shrink goal, principle (9)): `wc -w` 64 625 -> 68 805 (+4 180, +6.5 %). Added: item 119's part ≈ 1 450 words
+# (V03 §6's paragraph, T-V3-37, J-V3.133, §0, §1, §3.13, §8, §12 lines) and item 120's part ≈ 2 200 (V03 §5.5 ≈ 1 030,
+# T-V3-38, J-V3.134, the wiring rows of §1, §1b, §2.5, §3.13, §4.4, §4.5, §5.2, §6, §8, §12, §13), the panel's warning lines
+# (VV34-09) ≈ 240, the sibling hand-offs ≈ 610 (the named rows and J-V3.135, the reach bend, the note keys, the preset
+# entries, V03 §13's rows); removed: `AccessHead`'s declaration, now §2.6's (restatement, ≈ 260 words). The rise is
+# owner-rule design (file g items 119 and 120, written at build depth as the dated rulings require) and the hand-offs'
+# closure, which the shrink goal never thins (principle (9)'s guard); no rule, case, value, bar, record field, lifecycle
+# row, test or decision was dropped.
+#

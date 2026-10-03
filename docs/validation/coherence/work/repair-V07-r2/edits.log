@@ -1,0 +1,86 @@
+edits_a	VAH-r1-16	1	"`asNow` modes (V10's `WhyAnswer`)"
+edits_a	VAH-r1-20 R2-11	1	"| at generation §7.7's readiness-and-wealth row; at an epoch V06 §3.7's walls st"
+edits_a	VAH-r1-20	1	"the view's year position (§2.9), §7.7's calendar row (the dossier's week),"
+edits_a	VAH-r1-20	1	"festival display (§2.9); §7.7's `traditions` row (window, staging);"
+edits_a	R2-11	1	"   is §7.7's readiness-and-wealth derivation row (item 114 (d); a dossier villag"
+edits_a	R2-11	1	"The palisade's generation-time condition is §7.7's item-114 row\n"
+edits_a	R2-11	1	"a dossier village's generation-time conditions follow its readiness and wealth b"
+edits_a	R2-11	1	"the generation-time conditions by §7.7's readiness-and-wealth row,"
+edits_a	R2-11 VV78-r1-01 G122-V07	1	"→ V08's history reading and DR36 onward → W76; the `readiness` label and wealth "
+edits_a	VV78-r1-01 R2-14	1	'DR6\'s wealth shift; a dossier\'s manor record or `villageSeat` ("specified", V08)'
+edits_a	VV78-r1-01 R2-14	1	"| §4.7 S10b's rung ceiling; §10.2 | DR6 wealth; DR11 seats; a manor or hall reco"
+edits_a	VV78-r1-01 R2-14	1	'and "specified" meaning a dossier manor or hall record, a dossier government\'s `'
+edits_a	VAL-R1-03 VPC-R1-06 VV78-r1-03	1	"| V04's `DigRule.classRow`, `OpeningRow` |"
+edits_a	VAL-R1-03 VPC-R1-06 VV78-r1-03	1	"V04 §3.5.7 (e)'s candidates and V11 §3.23.7's `OpeningRow` chances (the ruin ent"
+edits_a	R2-28 (a)	1	"where the site holds mining —\nby V11 §3.23.1's ore rule over its `miningCellShar"
+edits_a	VAT1-04 R2-19	1	"a record's never (an epoch that carries a\ndossier event is no undo target, §7.4;"
+edits_a	VAT1-04 R2-19	1	'undone by its undo record where the epoch is an undo target (an epoch that carri'
+edits_a	R2-19	1	'one a record laid or removed, none (a dossier event and an epoch that carries on'
+edits_a	R2-19	1	'none: a dossier event and an epoch that carries one are no undo targets (§7.4); '
+edits_a	R2-19	1	"a record's batch none (a dossier event's, §7.4)"
+edits_a	R2-19	1	"their ops are that absorb commit's batches (no undo target, §7.4), keyed"
+edits_a	VAL-R1-09 R2-26 (d)	1	'**(5) VS5, VS6 and S10 — no house under the arches.** The **under-deck strip** —'
+edits_a	VAL-R1-09 R2-26 (d)	1	'  raised: { supportClearM: M; endSnapM: M; stripClearM: M; turnStepCdeg: Cdeg; t'
+edits_a	VAL-R1-09 R2-26 (d)	1	'| `raised` | support clearance 1 m; end snap 20 m; strip clearance 2 m; a tracke'
+edits_a	VAL-R1-09	1	'support and strip clearances, the turns, the deck widths,'
+edits_a	VAL-R1-10 R2-34	1	'**Across layers**: on Below, a dwelling or an access in a cavern or ruin\n(V07 §3'
+edits_b	G122-V07	1	"item 115's ceiling a row read in S10b; items 117 and 118 no model time (looks, d"
+edits_b	VAP-r1-01 R2-08 R2-09 G122-V07	1	"T111-5, and the village halves of T113-1 and T113-3 and of items 114–120's bars,"
+edits_b	R2-09	1	"(item 105 (k)'s no-op pin)"
+edits_b	R2-09	1	'byte-identical to the build without these kinds (a `NoOpPin`); the village'
+edits_b	R2-09	1	'the output is byte-identical to the build before item 111 (a `NoOpPin`)'
+edits_b	R2-08 R2-27 (d) R2-09	1	'| T-V7-59 | item 113 at village rungs (the village halves of T113-1 and T113-3; '
+edits_b	R2-08 R2-27 (d)	1	"crosses the ruined wall only at gate gaps and breaches save a through road's cut"
+edits_b	R2-09	1	'with the replay off the output is byte-identical (a `NoOpPin`)'
+edits_b	VAP-r1-01	1	"| T-V7-62 | item 114 at village rungs (item 114 (g)'s village clauses):"
+edits_b	R2-09	1	'the existing neglect and repair behaviour is reproduced (a `NoOpPin`)'
+edits_b	VAP-r1-01 R2-09 VV78-r1-01 R2-14	1	"| T-V7-63 | item 115 at village rungs (item 115 (f)'s village clauses): rich THO"
+edits_b	VAP-r1-01	1	'| T-V7-64 | item 116 at village rungs: at THORP'
+edits_b	VAP-r1-01 R2-09	1	"| T-V7-65 | item 117 at village rungs (item 117 (i)'s village clauses, (f2) incl"
+edits_b	VAP-r1-01	1	"| T-V7-66 | item 118 at village rungs (item 118 (h)'s village clauses):"
+edits_b	R2-29 (b)	1	"staging lands on the named or keyed village place, else its kind's fallback;"
+edits_b	R2-09	1	'with no traditions and no preview, byte-identical (a `NoOpPin`)'
+edits_b	VAP-r1-01	1	"| T-V7-67 | the one-time waits (item 119 (f)'s village clauses):"
+edits_b	R2-08 R2-35	1	"| T-V7-68 | Find at the village rungs (item 120 (k)'s village clauses):"
+edits_b	R2-09	1	'the document hashes identically with Find on and off and turning every chip off '
+edits_b	R2-32	1	"at the VILLAGE top | C | V-M3 (with V09's Find; risk (13)) |"
+edits_b	G122-V07	1	'**(h)** editing, the clerk, rendering, labels and exports, and Find;'
+edits_b	G122-V07 R2-35	1	"suggestions within 50 ms and a chip's glow within 100 ms at the VILLAGE top | C "
+edits_b	G122-V07	1	"item 119's one-time waits (V07 §6); Find at the village rungs (item 120; V07 §5."
+edits_b	R2-32 G122-V07	1	"T-V7-61, T-V7-62's epoch clause, T-V7-64 – T-V7-68 — the clauses"
+edits_b	G122-V07 R2-06 (c)	1	'| 9.5–14.25 |'
+edits_b	G122-V07 R2-06 (c)	1	'| **total** | | | **30.25–42.5** |'
+edits_b	G122-V07 VV78-r1-02	1	"The total is the product's own 26.5–36.5 pw plus the parts of items 111–120 rout"
+edits_b	R2-32 G122-V07	1	"(13) **Find** (item 120) is V09's panel and `live.find` overlay over §11.2's gaz"
+edits_b	G122-V07	1	'a viewer looking for "the mill end" or "the north field" means those, and a kept'
+edits_b	R2-07 G122-V07	1	'(files f and g\napplied, items 111 and 113–120 included);'
+edits_b	G122-V07	1	"that the ends serve as Find's area targets and Show gaps' units (T-V7-68; V-M3);"
+edits_c	G122-V07	1	'item 120 (Find at\nthe village rungs: the ends, fields and places as targets and '
+edits_c	G122-V07	1	"T3 `wall`'s `retaining` kind and T4 `road`'s `raised` flag (§7.1). The sibling v"
+edits_c	G122-V07	1	"cap and decline (V06 §3.19); V09's delete; V01's aqueduct terminal form (V01 §3."
+edits_c	G122-V07	1	"participants at item 202's call points with V06 §2.1's `ProductEpochContext`; *f"
+edits_c	G122-V07	1	"`RaisedRead.origin`; a generated wall's platform |"
+edits_c	G122-V07	1	"| the map's `bounds` (the territory frame, grown by an epoch or an edit) |"
+edits_c	G122-V07	1	"| §2.9's view key `find`; §11.2 (item 120) | the institution names (V08's list e"
+edits_c	G122-V07	1	'| the request fields `orchards`, `forest`, `arableFactor`, `organic`, `district`'
+edits_c	G122-V07	1	'lifecycle: the `find` key never in the document — saved in view pins only, untou'
+edits_c	G122-V07	1	'| a Find chip on an end at the hand-off up | the end superseded, the chip kept a'
+edits_c	G122-V07	1	"  items 117 (h), 118 (g)), read from view state and the dossier's schedule, neve"
+edits_c	R2-29 (b) VAL-R1-11 VAL-R1-12	1	"* **The village through the year** (item 117, the village's part; J-V7.141). A s"
+edits_c	G122-V07	1	"the seasons §8.2's season rows, cover rows and its `ice` and `snow` roles (item "
+edits_c	G122-V07	1	'an epoch or an edit that grows the frame moves the limit\nwith it (item 116 (d)),'
+edits_c	G122-V07	1	'chosen season and the festival shown, both named (items 116, 117, 118), and Find'
+edits_c	G122-V07	1	"(item 117 (h)), a festival's decorations in the image only, never walls or obsta"
+edits_c	G122-V07	1	"An empty box shows the kinds as V11's grouped grid, as at every rung; at THORP a"
+edits_c	G122-V07	1	'names, at most 6 ends and the field groups of a few hundred furlong faces.\n\n## 6'
+edits_d	layout	1	"deck plots and their budget, T3 `wall`'s `retaining` kind and T4 `road`'s `raise"
+edits_d	layout	1	"their ops are that absorb commit's batches (no undo target, §7.4 *Replay semanti"
+edits_d	layout	1	'(`Terrain.mining`, §4.2 S1 (10)) — and the `fissure` variant in ordinary rock of'
+edits_d	layout	1	"* **(iii) Public openings** — V04 §3.5.7 (e)'s candidates and V11 §3.23.7's `Und"
+edits_d	layout	1	"`asNow` modes (§11.2's `WhyAnswer`) from the committed records alone — the heart"
+edits_d	layout	1	'chosen season, the festival shown and the crisis looks standing, each named (ite'
+edits_d	layout	1	"V07 §5.2), so no match lies beyond the view's reach. **Across layers**: on Below"
+edits_d	layout	1	'glows on the underground layer and shows as a ghost pin on Ground (V04 §5.1); an'
+edits_d	layout	1	"the village siting's (6v)–(9v) (infill, encroachment, then extension). The refug"
+edits_d	layout	1	"applied, items 111, 113–120 and 122 included); the owner's words in `docs/DEFINI"
+edits_d	layout	1	"comfort level (T-V7-67; V-M3); that the ends serve as Find's area targets and Sh"

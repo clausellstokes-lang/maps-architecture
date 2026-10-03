@@ -1,0 +1,117 @@
+[
+ {
+  "id": "VAH-r1-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The port's statement of how dossier events meet locks disagrees with the base precedence that this round rewrote. Base \u00a77.7 (l.11371-11382, VEL0-01) says a dossier event 'is never refused by a lock or a pin'. A lock or pin on what the event changes (a dossier-owned value; a dossier-backed element's existence, state, name, kind or membership) 'supersedes it for what it changes \u2014 the lock or pin reported orphaned'. Its examples: a dossier rename lands on a locked name path, and a `ruined`/`removed` state closes a locked building's use. Only 'a lock on anything else the event touches' is applied around. A population fall reaches locked and pinned dwellings by `relet`. V08 \u00a74.3 (l.2560) instead says 'A dossier event mutates only its disruption set \u2026, around every lock, pin, positive placement and declared entity'. V08 \u00a73.3's absorb bullet (l.1496) says the events 'are never refused by map locks or pins, around which they apply'. Neither states the supersession or the population reach. An adapter built from V08 would keep a locked name against a dossier rename, which the base's T20 fixtures refuse.",
+  "required_change": "V08 \u00a74.3's first sentence reads: 'A dossier event mutates only its disruption set (\u00a77.7 item 5; T20-8) and is never refused by a lock or a pin (\u00a77.7's precedence). A lock or pin on what it changes \u2014 a dossier-owned value, or a dossier-backed element's existence, state, name, kind or membership \u2014 is superseded for what it changes and reported orphaned, the dossier fact its `why`. Every other lock, pin, positive placement and declared entity is applied around, and a population fall reaches locked and pinned dwellings by `relet` (\u00a77.7's precedence; V06 \u00a73.5.1 (4)). An edit it can no longer honour is reported and orphaned, never dropped (J-A20.73).' V08 \u00a73.3's absorb bullet reads '\u2014 never refused by map locks or pins (\u00a77.7's precedence: a lock on what a dossier event changes is superseded and reported orphaned, every other applied around) \u2014'.",
+  "owner": "V08",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-09",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V08's decision row J-V8.101 (l.3282: 'is the why card's (V10's `WhyAnswer.profile`, V09 \u00a72.7's `chips`)'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "J-V8.101 reads '(\u00a711.2's `WhyAnswer.profile`, V09 \u00a72.7's `chips`)'.",
+  "owner": "V08",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "G122-V08",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122's V08 part ('every stressor type and archetype and the calamities' targets read at the baseline; the closed mapping'; J135) is absent. V08 reads `stressors`, `activeConditions` and `calamityHistory` only into the `conditions` row, the `threats` row and DR28, and no V08 text maps a type or archetype to a look or to 'no look' (item 122 (b)).",
+  "required_change": "V08 adds the closed mapping as a dossier row set: every SettlementForge stressor type and condition archetype at the pinned baseline maps to its look kind or 'no look', and the calamities' `targets` are read for the disaster look. A field section names the paths and their fallbacks, with a lifecycle row, a T-V8 bar (every type and archetype has its row) and SF4's content.",
+  "owner": "V08",
+  "reported_by": "verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V07-V08-r1t",
+  "also_reported": [
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 assigns V08 'every stressor type and archetype and the calamities' targets read at the baseline; the closed mapping'. V08 has no item-122 part: 'item 122' appears 0 times. \u00a73.16 covers items 111, 114, 115, 117, 118 and 120 only, and the port writes `ConditionOverlay` only for item 67's Works share.",
+    "required_change": "V08 \u00a73.16 gains the port side of item 122. (a) Every `stressors` type (fifteen; fourteen seen in the census) and every `activeConditions` archetype is read at the pinned baseline, with severity, status, tick and duration, together with the calamities' `targets`. The field table (\u00a72.4) lists each path. (b) The closed mapping assigns each type and archetype a look kind or 'no look', and an unknown one reads 'no look', reported with `unmapped_word`. (c) sinceWeek and untilWeek come from the condition's tick and duration on the `sf445` calendar. (d) A \u00a73.17 edge row: no condition, a condition with no duration, overlapping conditions, an unknown archetype, a condition whose target the map lacks. (e) A T-V8 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V07-V08-r1t",
+    "claim": "File g item 122's V08 part ('every stressor type and archetype and the calamities' targets read at the baseline; the closed mapping'; J135) is absent. V08 reads stressors, activeConditions and calamityHistory (with targets) only for the conditions row, the threats row and DR28. It writes no crisis-look reading and no closed table ('item 122' occurs 0 times).",
+    "required_change": "Write V08's part. Reading: every SettlementForge stressor type and every condition archetype, read at the pinned baseline, read-only (war_pressure, famine, plague, regional_migration_pressure, rebellion, occupation, reconstruction, boom, bust, resource_strike, vein_exhausted, the regional_* archetypes, and the simulator's PLAGUE, REFUGEE_WAVE and RAID_OR_MONSTER_ATTACK where the dossier carries them), and the calamities' targets resolved to binding keys. Closed mapping: every type and archetype maps to its look kind or to an explicit 'no look', with \u00a77.7's derivation row (determinism's), so nothing falls through; a type the table lacks is noted unmapped_word and drawn as no look. Knowledge: the condition's knowledge admission. Weeks: each look's weeks from the carried condition facts' sinceWeek and untilWeek, the week taken by item 125 (b). Records: the field-table rows, a W row, a \u00a72.7 lifecycle row, a V08 \u00a73.17 edge row, a T-V8 bar (every type and archetype has its row; each look shows only in its weeks), a J-V8 row, SF4's content, and the head's range '1-125'.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122h-V08",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 (h)-(i)'s V08 part ('force, coalition and travelling-group sizes read from the dossier when present, confirmed by item 125 (d)'; J138) is absent. V08 reads no army, coalition or travelling-group size.",
+  "required_change": "V08 adds the field-table rows for the forces', coalitions' and travelling groups' headcounts. Each reads the dossier path where present, with its fallback (item 122 (b)'s scale by severity and tier, or `exodus` and arrivals), and is marked in-development and confirmed by item 125 (d)'s final check. A digest field and the derivation row they feed (G122-determinism's row) follow, with a T-V8 bar.",
+  "owner": "V08",
+  "reported_by": "verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V07-V08-r1t",
+  "also_reported": [
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 (h)\u2013(i) (J138; canon's 'File g item 122 (h)\u2013(i) and item 125 routed') assigns V08 'force, coalition and travelling-group sizes read from the dossier when present'. V08 has no such part: 'item 122' appears 0 times, and the digest (\u00a72.5) has no force, coalition or group field.",
+    "required_change": "V08 gains (a) `DossierDigest` fields for armies (headcount, allegiance), coalitions (their member armies) and travelling groups (people, kind), each read where the dossier carries it. The paths are listed in \u00a72.4's field table as 'in development: confirmed by the final local check (item 125 (d))'. (b) Each field has a fallback: absent \u2192 item 122 (b)'s scale by severity and tier, with the calamity's or condition's own counts (`exodus`, arrivals) where it has them. (c) A \u00a73.17 edge row: a headcount of 0, a coalition of one army, a force larger than the frame and margin can hold (the ring's massed marks, item 122 (i)), a field present with an unreadable value (the fallback, reported). (d) A T-V8 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V07-V08-r1t",
+    "claim": "Item 122 (h)-(i)'s V08 part ('force, coalition and travelling-group sizes read from the dossier when present, confirmed by item 125 (d)'; J138) is absent: V08 reads no army, coalition or travelling-group size.",
+    "required_change": "Read each force's headcount, each coalition's member armies and each travelling group's size from the dossier where present, into the carried facts the crisis look reads (item 122 (h): 45 m2 a head; a coalition's armies each their own camp). Where absent, read the condition's or calamity's own counts (exodus, arrivals), else item 122 (b)'s severity-and-tier scale, the absence reported. Name these in-development fields with their fallback for the final local check (item 125 (d)). Add the field-table rows, a W row, a T-V8 clause and a J-V8 row.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G125-V08",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 125's V08 part (J139: 'every digest row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from the dossier's ticks; the final local check's brief') is absent. V08 \u00a72.4's field table still lists `HostContext.week` and `HostContext.realm` as inputs (l.645-646), W22 and W64 read them, \u00a73.16 (4) sets the week from `HostContext.week` after each load, and no row carries a fallback column.",
+  "required_change": "V08 \u00a72.4's field table gains a fallback column, one per read row (the generator's own choice as on a standalone map, reported). The `HostContext.week` and `HostContext.realm` rows leave the inputs: the week is the dossier's latest stamped tick, else the user's season control; latitude, placement and neighbours' bearings come from the generator's defaults or the user's settings. W22, W64, \u00a73.11 (the realm block) and \u00a73.16 (4) follow. The final check's brief (item 125 (d)) is written, with T-V8 bars for item 125 (e).",
+  "owner": "V08",
+  "reported_by": "verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V07-V08-r1t",
+  "also_reported": [
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 125 assigns V08 'every digest row with its fallback column; `HostContext.week` and `.realm` retired as inputs; the week from the dossier's ticks; the final local check's brief'. None is written: 'item 125' appears 0 times, and `HostContext.week` is still read as an input in many places. They are W64 (l.278), \u00a72.3's `history.atWeek` (l.515), \u00a72.4's field table (l.645), \u00a73.6's dating rungs ('`HostContext.week` is the last rung', l.1768, and the absorb's week, l.1777), the conditions' weeks (l.1999), the history's dating (l.2262) and \u00a73.16 (4), where the client sends `view.set { week }` 'with `HostContext.week` after each `doc.load`' (l.2352-2361). \u00a73.16 (4) also takes the climate from 'the realm block's climate word'.",
+    "required_change": "V08 writes these parts. (a) \u00a72.5's digest gains a fallback column on every row: the generator's own choice, as on a map made without a dossier, reported when taken. (b) `HostContext.week` and `.realm` are retired as inputs (\u00a71.2, \u00a72.4, W rows); a host's `view.set { week }` stays a view command (item 125 (c)). (c) The week is the dossier's latest stamped tick (conditions' `triggeredAt`, calamities' and history's ticks), else the user's season control for the view and `W\u2080` for an absorb's dating. The `HostContext.week` rung is removed from W64, \u00a72.3's `history.atWeek`, \u00a72.4, \u00a73.6's dating rungs, the conditions' and history's weeks, and \u00a73.16 (4). (d) The climate is the dossier's terrain type with item 117 (d)'s rows. (e) The final local check's brief (item 125 (d)): field by field, every path the port reads exists with the shape expected, every needed but absent field has its fallback, and the in-development fields (item 122 (h)'s forces, coalitions and groups; a current-week stamp) are listed as present or absent, in a table of matches, mismatches and fixes. (f) A \u00a73.17 edge row: a required-keys-only dossier, a dossier with no tick, a host context present and absent. (g) A T-V8 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V07-V08-r1t",
+    "claim": "Item 125's V08 part (J139: 'every digest row with its fallback column; HostContext.week and .realm retired as inputs; the week from the dossier's ticks; the final local check's brief') is absent. V08 still reads HostContext.week and HostContext.realm as inputs: field table l.645-646; W42 realmBlockFrom; W64; \u00a73.5's dating rungs (l.1768, l.1777); \u00a73.11 (l.1999); \u00a73.15 (l.2262); \u00a73.16 (4)'s week (l.2354); \u00a72.3's history.atWeek (l.515); \u00a72.7's view row (l.1265). The field table has no fallback column, and V08 writes no brief for the final check. V08 \u00a73.16 (4) and (6) (g) say no host message sets the frame's view but view.set { week }, while item 125 (c) keeps the embedding API's view commands (a week, a layer, a selection) as commands, never inputs.",
+    "required_change": "(1) Retire HostContext.week and HostContext.realm as inputs at every site listed: the week is the dossier's latest stamped tick (conditions' triggeredAt, the calamities' and history's ticks), else the user's season control (standalone midsummer); the climate is the dossier's terrain with item 117 (d)'s rows; latitude, realm placement and neighbours' bearings are the generator's defaults or the user's settings. (2) Give every field-table row a standalone-fallback column (the generator's own choice, reported). (3) Re-read V08 \u00a73.16 (4) and (6) (g) under item 125 (c): view commands are commands; Find's chips are set by no host command. (4) State how HostContext.line and HostContext.customLibrary stand under item 125 (a) and (e); (e) requires the identical document and hash with and without a host context, and the library's admitted fields today become carried custom-def facts. (5) Write the final local check's brief (item 125 (d)): every path the port reads, its expected shape and values, its fallback, and the in-development fields to look for (item 122 (h)'s forces, coalitions and travelling groups; a current-week stamp). (6) Add T-V8 bars for item 125 (e): a dossier with only the required keys generates a full map, each absent field reported with its fallback; the identical document and hash with and without a host context; a static check that the adapter reads only the dossier. (7) Add a J-V8 row, and set the head's range to '1-125'.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAP-r1-02",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "The SettlementForge take-over row (base l. 17250) hands volume 8 \"the port's clauses of T111-1 \u2013 T111-5 (T-V8-50), T113-1 and T113-6 (T-V8-51), T114-7 (T-V8-52), T115-2 and T115-3 (T-V8-53), T117-1 and T117-6 (T-V8-54) and T118-1, T118-2 and T118-5 (T-V8-55)\". V08 names none of these fifteen bars (0 occurrences): T-V8-50 \u2013 T-V8-55 (l. 3046\u20133051) open with \"item 11n at the port\" only, and \u00a78.3's release row R1 (l. 3131) lists every other bar of the row (T73 \u2026 T108-3) but none of them. T-V8-53's TOWN clause (\"at TOWN every case is byte-identical to the build without the ceiling\") states no registration, while V12 \u00a72.13 lists \"V08's port fixtures at TOWN (T-V8-53)\" on `item115.ceiling` and V12 \u00a73.7.8 counts T-V8-53 among the registering pins.",
+  "required_change": "T-V8-50's head reads \"item 111 at the port (takes T111-1 \u2013 T111-5's port clauses)\"; T-V8-51's \"item 113's reading (takes T113-1 and T113-6's dossier clauses)\"; T-V8-52's \"item 114 at the port (takes T114-7)\"; T-V8-53's \"item 115's 'specified' (takes T115-2 and T115-3's dossier clauses)\", its TOWN clause ending \"\u2014 the `item115.ceiling` registration of the port fixtures on V12 \u00a73.7.8's engine, written by the SF4 seat\"; T-V8-54's \"item 117 at the port (takes T117-1 and T117-6's port clauses)\"; T-V8-55's \"item 118 at the port (takes T118-1, T118-2 and T118-5's port clauses)\"; \u00a78.3's R1 adds \"and the port's clauses of T111-1 \u2013 T111-5, T113-1, T113-6, T114-7, T115-2, T115-3, T117-1, T117-6, T118-1, T118-2 and T118-5\".",
+  "owner": "V08",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "G126-V08",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 126 (a2) routes to V08 \"SettlementForge presents no map entry on a phone; the frame carries no phone handling\". V08 states neither (\"phone\" 0 times): its host mode renders V09's shell inside the frame (V08 \u00a75.1; T-V9-28's \"every screen of the standalone app\"), which today includes V09's narrow layout, and no V08 text says the host offers no map on a phone or what the frame does below the medium class.",
+  "required_change": "V08's host section (\u00a73.16 or \u00a75.1, where the frame's mounting is stated) adds: \"SettlementForge presents no map entry on a phone (item 126 (a2); J140): the map tab and every map command are absent there, and the frame carries no phone handling \u2014 a frame given a viewport below the medium class keeps V09's medium layout at its 600 \u00d7 480 minimum and scrolls (V09 \u00a74.12)\"; a J-V8 row records it, and a T-V8 clause checks that the host harness's frame at 599 \u00d7 479 shows the medium layout with the document byte-identical.",
+  "owner": "V08",
+  "reported_by": "verify-agree-proof-r1t",
+  "orchestrator_note": "ORCHESTRATOR NOTE: item 126 was REVISED by the owner the same day (item 126 (a2); canon 'g item 126 (a2) \u2014 revised'): \u201cwe will simply not have the option of viewing the map in the phone in the first place\u201d \u2014 write NO phone screen, notice, catalogue row or Send button; the narrow layout class is retired; below the medium class the medium layout holds at its 600 \u00d7 480 minimum and the page scrolls. The routing text quoted above predates the revision where it names a screen."
+ },
+ {
+  "id": "VM-R1T-07",
+  "severity": "minor",
+  "kind": "RESTATEMENT",
+  "claim": "V08 \u00a73.15 (2) still types item 113's `HistoryHint` fields in its own ts block ('its item-113 fields typed here, which model \u00a72.7 carries'), while \u00a72.7 now declares them in full ('Declared here, V08 \u00a73.15 (2) cites it'; VM-R0S-11's fix). The copies agree today; the set holds two declarations.",
+  "required_change": "V08 \u00a73.15 (2): replace the ts block with '\u00a72.7's `HistoryHint` declares the fields creation writes (founding, events, tiers, population, calamities, lifecycle, ancientFall, peak)' and keep, as a mapping list, each field's dossier source (history.founding.age else history.age, historicalEvents, tierHistory, populationHistory, calamityHistory, the ancient 'Fall of' event, peakTier) and the tick-to-years rule that follows the block.",
+  "owner": "V08",
+  "reported_by": "verify-model-r1t"
+ }
+]

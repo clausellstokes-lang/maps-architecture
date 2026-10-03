@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V05-sky.md",
+ "input_doc_sha256": "b5f310b6269b2897d64e5688bab5415faaa691b88cfd62770d5f9a7945c4a84a",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V05.md",
+   "sha256": "d1f5539ad0f21a838a64501204d067fb6bf97f426d8ee9770c67c75cdd9567bd",
+   "lines": 894,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V05.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r2-V05.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 41,
+   "body_sha256": "7dcffaba398edb970a169da42044e7f62d514993632f36d91233b5ace1a8faf5",
+   "target_line": 168,
+   "section_old": "168–208",
+   "section_old_n": 41,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V05.md #2 (l. 46) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r2-V05.md",
+   "index": 2,
+   "line": 46,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 59,
+   "body_sha256": "f65a1dac16eb047b55c8dcef1b3031b719292f29aa7b8128a65893097d4649d3",
+   "target_line": 248,
+   "section_old": "248–306",
+   "section_old_n": 59,
+   "section_new_n": 60,
+   "new_headings": [
+    "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V05.md #3 (l. 108) REPLACE ### 3.21 The rim as a barrier (the owner's item 106 where it reaches islands; J-V5.49)",
+   "file": "repair-r2-V05.md",
+   "index": 3,
+   "line": 108,
+   "kind": "REPLACE",
+   "heading": "### 3.21 The rim as a barrier (the owner's item 106 where it reaches islands; J-V5.49)",
+   "body_lines": 25,
+   "body_sha256": "fbca7a36de8a4326dae193307afb6bdefdc1ed7d52dfdc8057dfadf1bbd9bc69",
+   "target_line": 1627,
+   "section_old": "1627–1652",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 3.21 The rim as a barrier (the owner's item 106 where it reaches islands; J-V5.49)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V05.md #4 (l. 136) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r2-V05.md",
+   "index": 4,
+   "line": 136,
+   "kind": "REPLACE",
+   "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 84,
+   "body_sha256": "59be42ce32a53d6b237abd59c604e1c47dc92c9a3171f215dd0b0cf99875f27c",
+   "target_line": 1743,
+   "section_old": "1743–1827",
+   "section_old_n": 85,
+   "section_new_n": 85,
+   "new_headings": [
+    "### 3.23 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V05.md #5 (l. 223) REPLACE ### 4.5 The clerk's view",
+   "file": "repair-r2-V05.md",
+   "index": 5,
+   "line": 223,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The clerk's view",
+   "body_lines": 52,
+   "body_sha256": "403163074a79964bad7efa4338f4be40b7acfd19563f47c6d0ffba617c46077d",
+   "target_line": 2053,
+   "section_old": "2053–2105",
+   "section_old_n": 53,
+   "section_new_n": 53,
+   "new_headings": [
+    "### 4.5 The clerk's view"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V05.md #6 (l. 278) REPLACE ### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+   "file": "repair-r2-V05.md",
+   "index": 6,
+   "line": 278,
+   "kind": "REPLACE",
+   "heading": "### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+   "body_lines": 44,
+   "body_sha256": "512513f86430394dfb72778e819e6f9432b554f42408447aaa4a606586900d44",
+   "target_line": 2291,
+   "section_old": "2291–2332",
+   "section_old_n": 42,
+   "section_new_n": 45,
+   "new_headings": [
+    "### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V05.md #7 (l. 325) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r2-V05.md",
+   "index": 7,
+   "line": 325,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 393,
+   "body_sha256": "e5c0fa435e08c3a420e30bab98a935cd9f10b9c0449de61b11922c8ea749a01e",
+   "target_line": 2412,
+   "section_old": "2412–2791",
+   "section_old_n": 380,
+   "section_new_n": 394,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V05.md #8 (l. 721) REPLACE ## 8 Build plan",
+   "file": "repair-r2-V05.md",
+   "index": 8,
+   "line": 721,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 67,
+   "body_sha256": "5fe18eff1f48f1fcb509ac3fb246d3fdc39e66639ec009f70bf2efd4b7cd19c1",
+   "target_line": 2806,
+   "section_old": "2806–2872",
+   "section_old_n": 67,
+   "section_new_n": 68,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V05.md #9 (l. 791) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r2-V05.md",
+   "index": 9,
+   "line": 791,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 93,
+   "body_sha256": "85c0c98fd0615dec0a94ac94603cdc0cfddc18e0c049f1a97a840c2500cabe28",
+   "target_line": 2874,
+   "section_old": "2874–2967",
+   "section_old_n": 94,
+   "section_new_n": 94,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V05.md #10 (l. 887) REPLACE ## 13 Fix list",
+   "file": "repair-r2-V05.md",
+   "index": 10,
+   "line": 887,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 5,
+   "body_sha256": "b66750df1ca82f9dd3248784e0780a7beda6bd7c47645befdcfe010e6c98f289",
+   "target_line": 3038,
+   "section_old": "3038–3043",
+   "section_old_n": 6,
+   "section_new_n": 6,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V05.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #2 (l. 46) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #3 (l. 108) REPLACE ### 3.21 The rim as a barrier (the owner's item 106 where it reaches islands; J-V5.49)",
+    "kind": "REPLACE",
+    "heading": "### 3.21 The rim as a barrier (the owner's item 106 where it reaches islands; J-V5.49)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #4 (l. 136) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #5 (l. 223) REPLACE ### 4.5 The clerk's view",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #6 (l. 278) REPLACE ### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 Find on Sky (item 120, the sky's part; J-V5.89)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #7 (l. 325) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #8 (l. 721) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #9 (l. 791) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V05.md #10 (l. 887) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 62,
+  "headings_after": 62,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 394900,
+  "doc_bytes_after": 398211,
+  "doc_lines_before": 3031,
+  "doc_lines_after": 3051,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "7617d87cff90221648d3152f847bad8a9c3926683066543ab69331edd764bf95",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

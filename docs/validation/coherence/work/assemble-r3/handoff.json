@@ -1,0 +1,113 @@
+{
+ "swaps": [
+  {
+   "note": "repair-r3-rendering.md, NOTE FOR ASSEMBLE (J-A68.89, Part A only)",
+   "script": "work/repair-rendering-r3/swap_restated.py",
+   "stdout": [
+    "J-A68.89: l. 689 <- l. 853",
+    "Part A rows 807 duplicates ['J-A120.01', 'J-A81.31']",
+    "sha256 c3998475592bcc97116cc59d3bc01ecfe3269bfebb51eadd577a4ffbd543e884"
+   ],
+   "rationale_sha256": "c3998475592bcc97116cc59d3bc01ecfe3269bfebb51eadd577a4ffbd543e884"
+  },
+  {
+   "note": "repair-r3-scope.md, NOTE FOR ASSEMBLE (J-A120.01, judgment index and Part A)",
+   "script": "work/repair-scope-r3/swap_restated.py",
+   "stdout": [
+    "judgment index: J-A120.01: l. 22649 <- l. 22666",
+    "Part A: J-A120.01: l. 836 <- l. 853",
+    "judgment index rows 806 duplicates ['J-A81.31']",
+    "Part A rows 806 duplicates ['J-A81.31']",
+    "ids in one and not the other []",
+    "base sha256 c0a90396b1028e25034db52d1eaae0f90166ccada3784478f8f5de0933c19e07",
+    "rationale sha256 cb6e3133504d9578398902d089be56e8981e47ac51d421c1e453fac2d69a78ab"
+   ],
+   "base_sha256": "c0a90396b1028e25034db52d1eaae0f90166ccada3784478f8f5de0933c19e07",
+   "rationale_sha256": "cb6e3133504d9578398902d089be56e8981e47ac51d421c1e453fac2d69a78ab"
+  },
+  {
+   "note": "repair-r3-kernel.md, NOTE FOR ASSEMBLE (J-A81.31, judgment index and Part A)",
+   "script": "work/repair-kernel-r3/swap_restated.py",
+   "stdout": [
+    "judgment index: J-A81.31: l. 22566 <- l. 22657",
+    "Part A: J-A81.31: l. 753 <- l. 844",
+    "judgment index rows 805 duplicates []",
+    "Part A rows 805 duplicates []",
+    "ids in one and not the other []",
+    "base sha256 593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+    "rationale sha256 e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+   ],
+   "base_sha256": "593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+   "rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+  }
+ ],
+ "substitutions": [
+  {
+   "file": "docs/volumes/V05-sky.md",
+   "line": 11,
+   "old": "items 1–120 the owner's",
+   "new": "items below 200 the owner's",
+   "line_after": "amendment item — items below 200 the owner's, items 200 and above file f's, each the applied text of a volume's base change",
+   "requested_by": "repair-r3-V05.md header, ASSEMBLE NOTE — the title block (R2-07; Part H · V05's note on VAL-R2-04): docs/volumes/V05-sky.md l. 11, 'amendment item — items 1–120 the owner's, items 200 and above file f's, each the applied text of a volume's base change': 'items 1–120 the owner's' reads 'items below 200 the owner's' … No other text of the title block changes."
+  }
+ ],
+ "checks": {
+  "ids": {
+   "index_before": 797,
+   "part_a_before": 797,
+   "index_after": 805,
+   "part_a_after": 805,
+   "index_duplicates": [],
+   "part_a_duplicates": [],
+   "one_id_set": true,
+   "only_in_index": [],
+   "only_in_part_a": [],
+   "new_ids": [
+    "J-A121.02",
+    "J-A121.03",
+    "J-A121.04",
+    "J-A121.05",
+    "J-A121.06",
+    "J-A121.07",
+    "J-A122.02",
+    "J-A124.02"
+   ],
+   "removed_ids": []
+  },
+  "restated_positions": {
+   "J-A68.89": {
+    "index_before": 22251,
+    "index_after": 22502,
+    "part_a_before": 689,
+    "part_a_after": 689
+   },
+   "J-A120.01": {
+    "index_before": 22398,
+    "index_after": 22649,
+    "part_a_before": 836,
+    "part_a_after": 836
+   },
+   "J-A81.31": {
+    "index_before": 22315,
+    "index_after": 22566,
+    "part_a_before": 753,
+    "part_a_after": 753
+   }
+  },
+  "kernel_alone": {
+   "base_sha256": "590e3def12b9cf1e3c52de2f3e7a1e3f4f339ba08ff8dc0ae908d98f96bbc83a",
+   "rationale_sha256": "ac868127158badeb2136c4d75e2a5d7a473911e05fe4512f6279e1d4bf2d7a1f",
+   "equals_recorded": true
+  }
+ },
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+  "docs/ARCHITECTURE-RATIONALE.md": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+  "docs/volumes/V05-sky.md": "cc1dfa61fe882bcb8767901e0d5624fcfc7776d6cc1a4256d6eca269a89aad28"
+ },
+ "out_equals_final": {
+  "docs/ARCHITECTURE.md": false,
+  "docs/ARCHITECTURE-RATIONALE.md": false,
+  "docs/volumes/V05-sky.md": false
+ }
+}

@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VAL-R4-07",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "R4-02's sweep missed one V04 edge row. UE33's E7 (l. 2430) says 'the layer hidden draws none of the underground view's part'. V04 \u00a75.1 and \u00a78.4 draw a hidden underground while Below is the view's working layer, and UE27's E7 was conformed this round ('the layer hidden \u2014 not drawn, or drawn in a view whose working layer is Below (\u00a78.4)'). UE33's test, T-V4-82, has no hidden-layer clause, so nothing built or tested changes.",
+  "required_change": "V04 UE33's E7: 'the layer hidden draws none of the underground view's part' \u2192 'the layer not drawn \u2014 hidden and not the view's working layer (\u00a78.4) \u2014 draws none of the underground view's part'.",
+  "reported_by": "verify-agree-layers-r4t"
+ },
+ {
+  "id": "VAP-r4-06",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "Round 4 (R4-12, VAL-R3-05) gave T-V4-81 clause (j) (V04 l. 3166): 'at a drawn week whose frame is not the head (V04 \u00a75.1 (7)) \u2014 the METROPOLIS fixture advanced over epochs, one of which extends its catacomb complex and re-cuts an undercity district, and scrubbed to a week before that epoch'. A frame that is not the head is V06 \u00a73.15.2's history frame (\u00a711.2 *At a drawn week*, base l. 16455\u201316459: 'read from V06 \u00a73.15.2's frame'), built at V06's E6 ('the history index, store and frames', V06 \u00a78). Before E6 a scrub draws the current model (\u00a74.11 (9), l. 8828\u20138831). T-V4-81 runs at U5 (V04 \u00a78, l. 3202: 'Find on Below \u2026 at U5'; its tests cell 'T-V4-81'). \u00a716 (l. 20151 ff.; INDEX \u00a73\u2013\u00a74) orders M6-E only after M4 and beside M5, and orders E8, not E6, after V04's U5, so U5 can exit before E6 and (j) has no frame to read. INDEX \u00a75 risk 2 moves such a clause to 'the first exit after the provider (each named in its volume)', and T-V4-81 names none. The rule settles it, so nothing built changes. VV12-r4-04 is the same defect at V01's T-V1-59 (f).",
+  "required_change": "T-V4-81 (j): '(j) at a drawn week whose frame is not the head (V04 \u00a75.1 (7)) \u2014' \u2192 '(j) at a drawn week whose frame is not the head (V04 \u00a75.1 (7)), from the later of U5 and V06's E6, whose history frames (V06 \u00a73.15.2) it reads \u2014'. V04 \u00a78's U5 tests cell: 'T-V4-81' \u2192 'T-V4-81 ((j) at the later of U5 and V06's E6)'.",
+  "owner": "V04",
+  "reported_by": "verify-agree-proof-r4t"
+ }
+]

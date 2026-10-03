@@ -1,0 +1,78 @@
+{
+ "key": "coherence/probe-r7e-locks",
+ "file": "docs/validation/coherence/probe-r7e-locks.md",
+ "issues": [
+  {
+   "id": "PRB7E-LCK-01",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "law 2 (a)'s reach (\"each part it changes moved along its own line or tie only to the meeting's nearest clear points\") x law 3's keys (1)-(2); the bent-group sentence (i)-(iii); W14; E-D2; T110-2 (1)",
+   "claim": "Read as a direction, (a)'s reach admits only things moved along a line or tie (a gate, tower, fixed place, crossing, station, an end drawn back), so a hand wall drawn along beneath a deck (the bent group's edge path), a hand aqueduct bent clear of a tower and W14's local re-trace have no shape within reach and are refused by (c) (or the tower moved by (b)); read as a bound, they are admitted and law 3 ranks them, as its key (1) ('bends it only locally ... re-lays it') and key (2) ('a re-laid line or course') expect and every example and test (E-S4, E-D2, T110-2 (1), veto 18) assumes. Two outcomes on the commonest hand paths; under J148 the direction reading refuses every hand aqueduct whose stroke meets a tower.",
+   "required_change": "Law 2 (a): \"within its own reach — each part it changes moved along its own line or tie only to the meeting's nearest clear points, within the bound its own law gives it\" -> \"within its own reach — each thing it moves moved along its own line or tie (a gate, postern or tower along its wall's line, a fixed place along its tie, a crossing along the line it crosses, a station along its deck, an end back along its own line), and each stretch of its own line or course it changes re-laid only between the nearest points clear of the strips, zones and ends it meets on either side (a local re-lay: the bent group's moves, a re-section's local re-trace, a drawn course bent clear of a gate or tower), every change only as far as the meeting's nearest clear points and within the bound its own law gives it\"; law 3's key (1): \"or bends it only locally\" -> \"or re-lays it only locally (law 2 (a))\"."
+  },
+  {
+   "id": "PRB7E-LCK-02",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "law 2 (b): \"with the standing structure's gates, posterns and towers passable\" x \"Never a fixed place, ..., or anything shape-locked ..., which (b) passes over as it passes a fixed place\"",
+   "claim": "A fixed place (a water gate, an anchor's tower, a castle's gate and vertex towers) and a shape-locked part are gates or towers, so (b)'s shape is taken with them passable and then they are not moved: reading 1 leaves that shape unlawful and (c) refuses (e.g. a hand aqueduct whose nearest course meets an anchor tower and an ordinary tower); reading 2 takes the next shape with them impassable and moves only the ordinary tower. Two outcomes, made common by J147 (any user shape lock joins the never-list); J148 replaces (b)'s movable set with Tier-3 things, where the same question recurs (a shape-locked way, a locked building).",
+   "required_change": "Law 2 (b): \"the op's shape is taken as (a) would take it with the standing structure's gates, posterns and towers passable\" -> \"the op's shape is taken as (a) would take it with those of the standing structure's gates, posterns and towers passable that (b) may move — a fixed place, a support, a held building and anything shape-locked staying as impassable to that shape as to (a)'s —\"; and \"which (b) passes over as it passes a fixed place\" -> \"which (b) neither makes passable nor moves\" (carried to whatever set (b) may move after J148)."
+  },
+  {
+   "id": "PRB7E-LCK-03",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "law 2 Carried way (J147: \"never in a shape-locked one, where the declared way is bent by law 2 (a) to cross through a gate that wall has\") x law 2 (a)'s reach and the reach of a meeting; law 3 key (1); C13's re-shaped road deck",
+   "claim": "A raised road drawn (or re-shaped, C13) into a shape-locked ring whose nearest gate stands 180 m along it from the crossing beyond the foot: by Carried way's words the declared way is re-routed through that gate however far (no bound named), law 3 then choosing between bending the carried way and re-laying the deck by an undrawn 'locally' line; by (a)'s reach the gate is no 'nearest clear point' of the meeting (beyond the foot is already clear) and no move 'along its own line', so (a) fails, (b) passes the ring over and (c) refuses. Bent (by one of two shapes) or refused, by canvas and clerk alike.",
+   "required_change": "Carried way: \"never in a shape-locked one, where the declared way is bent by law 2 (a) to cross through a gate that wall has, else the stroke takes law 2 (c) (J147)\" -> \"never in a shape-locked one: there the deck keeps the course the op gives it and its carried way's ground course is re-routed by §7.3's S4 operator from beyond the foot through the nearest gate that wall has along its line, in either direction and never past that wall's ends — this re-route the bend's own reach (law 2 (a)), the gate's distance along the wall's line its displacement (law 3 (2)), ties by law 3's key (3) — else the stroke, or the re-shape (C13) that moves the foot, takes law 2 (c) (J147)\"."
+  },
+  {
+   "id": "PRB7E-LCK-04",
+   "severity": "major",
+   "clause": "(a); (b) on one reading",
+   "cell": "Terms' shape (\"the readings law 1 (7) and (8) give\") and held in shape x law 1 (7), (8), (10); the check; veto 23; the cap; W2, W7, W11, C3, C7, C13 by hand and their undo",
+   "claim": "A shape lock's commonest state is a reading a meeting gave at its lock (a shape-locked aqueduct's vault span read open over a wall; a shape-locked run capped beneath a span). When the meeting is unmade by an op that does not name the held thing (a wall deleted, moved off or converted from under the arch; the aqueduct deleted, breached or re-shaped off the run; or the undo of the edit that made the meeting), law 1 (8)/the cap make the reading follow what stands while law 1 (10) holds it: builders lay the chamber and fail the check's shape digest (E_INVARIANT), refuse the op by law 2 (c) (a user unable to delete their own unlocked wall or aqueduct — the latter against item 110 (b)'s 'the user may add or remove a raised way'), or keep the span open breaking (8). Veto 23 and PRB7D-LCK-08 (J147) cover only meetings made after the lock.",
+   "required_change": "Law 1 (10), after \"a shape-held thing's not at all (J147)\" add: \"; a shape-held thing's held shape is its own record with what no meeting made after its lock imposes — a reading law 1 (7) or (8) gives it from a meeting that stood at its lock follows what stands once that meeting is unmade (its other side removed, moved off, fallen or re-sectioned clear, by any op): its run back to its own top, its span read `vault` and its chamber laid again with its key and lock, that return no change of its held shape and shown as law 4's (G2) shows a placement-held thing's change; no meeting made after its lock caps a run of it, reads a span of it `open`, or makes, moves or removes a gate or tower of it\"; the check: \"and of a shape-held thing's shape —\" -> \"and of a shape-held thing's shape, a return law 1 (10) names excepted —\"."
+  },
+  {
+   "id": "PRB7E-LCK-05",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "law 1 (9)'s \"(Order, the lock's order its event's)\" (J147) x law 4's undo and redo; §7.4 Independence",
+   "claim": "E1 a shop seated in a vault span and locked; E2 unlocked; E3 a wall drawn 15 m off the span inside the shop's held building's strip (lawful: unlocked, its strips off the span); E4 the owner undoes E2. E1's lock is live again with E1's order, before the wall's laidAt, so law 1 (9) is false; law 4 names dependents only for a re-created meeting and §7.4 finds E3 independent, so the undo is refused naming nothing, refused naming E3, or applied with the lock dated by the undo (the state a fresh lock reaches lawfully). The same for a redo of a lock, and for 'the lock's order' with a re-made placement lock and a later shape lock both live.",
+   "required_change": "Law 1 (9): \"(Order, the lock's order its event's)\" -> \"(Order, the lock's order that of the commit that last made the building locked, on either axis, from unlocked — a lock, its redo, or the undo of its unlock —)\"; law 4, after \"naming those events to undo first)\" add: \"; an undo or redo that would leave law 1 false where no event is so dependent is refused the same way, naming each later live event that locked, on either axis, a thing its inverse or re-application would change\"."
+  },
+  {
+   "id": "PRB7E-LCK-06",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "Terms' anything across a strip (\"a reservation, a plot or building\", PRB7D-TIM-03) x law 1 (8), (9); §2.7 (6)'s reservation; V04 §3.5.4 (d)'s chamber and seat; E-D13; V09's span panel and V10's span read",
+   "claim": "A vault span's own under-deck strip is a reservation on ground part 0 (base l. 2565-2567), its chamber fills that strip, and a declared placement seats a plot and a building in it (V04 l. 1699, 1723-1724); the term qualifies only supports ('another raised way's'). So law 1 (8) has no fixed point for any vault span (its own reservation reads it open, an open span reserves nothing, so it reads vault again) and law 1 (9)'s 'nothing lies across the strip of the span whose chamber seats it' is false by its own subject. Builds: own reservation, chamber and seat excluded (chambers stand); reservation excluded but the seated plot and building counted (placing a shop opens its arch and removes its chamber; a locked one makes (8) and (9) contradict); or the term as written (E-D13's row failing wherever a chamber stands). V09's panel would list the arch's own building as what lies under it.",
+   "required_change": "Anything across a strip: \"a square or plaza, a reservation, a plot or building,\" -> \"a square or plaza, a reservation other than the strip's own (§2.7's support step (6)), a plot or building other than a span's own chamber and the plot and building a declared placement seats in it (V04 §3.5.4 (d)),\"; law 1 (9): \"nothing lies across the strip of the span whose chamber seats it\" -> \"nothing lies across the strip of the span whose chamber seats it (anything across a strip: its own chamber and what that chamber seats are not across it)\"."
+  },
+  {
+   "id": "PRB7E-LCK-07",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "the check (J147) x E-D13 (§5.3's law-1 row)",
+   "claim": "J147 changed law 1 (9) to 'laid after the lock', (10) to holds per axis and the check to placement and shape digests; E-D13 still writes 'no wall line laid after the seat', 'every held structure's placement, and every other held thing whole' and placement digests only, and J147 applied conformed E-S0, E-S4, E-S9, E-S13, E-V4-4, E-V4-7, E-V6-18 and R7-06 (a), not E-D13. Built so, the row aborts a lawful wall laid between a seat and its lock; T110-4 (c) checks shape itself, so nothing goes unchecked by both.",
+   "required_change": "E-D13's row text: \"and no wall line laid after the seat in its held building's strip; every held structure's placement, and every other held thing whole, unchanged but by an op naming it\" -> \"and no wall line laid after the building's lock in its held building's strip (§2.7's laws, law 1 (9)); every thing held in placement keeping its placement and every thing held in shape its shape, unchanged but by an op naming it (law 1 (10))\"; its how-checked cell: \"and where a run's line lies in a held building's strip\" -> \"and, where a run's line lies in a held building's strip, its laidAt against the building's lock order\", and \"its placement's leaf digests (§6.2) unchanged unless the commit's event names it\" -> \"the leaf digests (§6.2) of its placement and, for a thing held in shape, of its shape unchanged unless the commit's event names it\"."
+  },
+  {
+   "id": "PRB7E-LCK-08",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "law 1 (10), law 2 (b), Carried way (J147) x correction 6 and the examples' unaxed 'locked': the lock sentence, C8 (W2·C8, W3·C8), beneath's locked arch vault, E-D2, E-D7, E-V9-6, E-V4-6; the bent group's lawful crossing, beneath's pulled impassables, E-P9, E-V6-16, E-D11",
+   "claim": "Correction 6 maps to a placement lock only examples that hold a thing because it was drawn, dragged, declared, placed or pinned; examples about a user's lock with no axis still give J144's outcome as every lock's (a lock 'never [holds] its shape', C8 'as the same cell unheld', a locked arch vault's chamber removed, a gate made 'in a held wall too'), and the complete lists of lawful crossings and impassables admit a crossing under a shape-locked raised way's vault span. For a shape lock each contradicts law 1 (10), law 2 (b) and Carried way.",
+   "required_change": "Part L's corrections add: \"7. Every example that says a lock or pin holds placement and never shape, gives a locked or held side's cell as its unheld cell's, or makes, moves, caps or leaves open at a meeting something it calls locked, pinned or held, reads it as placement-locked (J147); where a side is shape-locked nothing of it changes at a meeting — no gate made or moved in it, no tower moved, no run of it capped, no `vault` span of it read `open` (law 1 (10); law 2 (b); Carried way) —, and every list an example gives of lawful crossings, of a pulled or founded course's impassables or of what a stroke keeps clear holds a shape-locked raised way's `vault` spans and a shape-locked run's top as fixed: the newer bends itself, else gives way (law 2 (c)). Where such a text is one Part A hands to round 8, correction 6's last sentence holds.\"; and R7-02's banner and E-M1's lead (adj l. 619, 1757) \"six since J147\" -> \"seven since J147\"."
+  },
+  {
+   "id": "PRB7E-LCK-09",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "Terms' a held building's strip and a span's strip, law 1 (9) x R7-02's A held building in an arch vault and C13",
+   "claim": "The example's held building's widened strip is 'that span's under-deck strip widened all round' (margin included) where the law widens the span's own strip (without the margin); and the example bends or refuses the raised way's own re-shape or Arch spacing edit that would bring any standing trace's line into that strip, where law 1 (9) bars only a wall line laid after the lock (and of an earlier wall only anything across the span's own strip) — a span moved beside a pre-lock wall whose strips stay off it is lawful by the law, refused by the example.",
+   "required_change": "R7-02's A held building in an arch vault: \"that span's under-deck strip widened all round\" -> \"that span's own strip (the span rule's, between its piers' inner faces: §2.7's laws' terms) widened all round\"; \"that would bring a standing trace's line into that span's widened strip (below)\" -> \"that would bring a wall's band or wall strips across that span's strip, or the line of a wall laid after the building's lock into its widened strip (below; §2.7's laws, law 1 (9))\"; C13's \"the edit bent to keep every standing trace's line out of that span's widened strip\" -> \"the edit bent to keep §2.7's laws' law 1 (9) for that building\"; each END citing 'a held building's widened strip' (E-P9, E-V6-16, E-D11, E-D12) reads law 1's term."
+  }
+ ]
+}

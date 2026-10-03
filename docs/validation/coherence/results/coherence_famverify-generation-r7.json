@@ -1,0 +1,92 @@
+{
+ "key": "coherence/famverify-generation-r7",
+ "file": "docs/validation/coherence/famverify-generation-r7.md",
+ "issues": [
+  {
+   "id": "VF7-GEN-01",
+   "severity": "major",
+   "kind": "TWO READINGS / READERS (law 1 (2))",
+   "owner": "pipeline (END at model)",
+   "claim": "Law 1 (2) (ARCHITECTURE l. 2703–2711) makes a crossing over only where its channel runs above the wall's top with no standing support in the band and every span above the band clearing the wall's top; a crossing that fits neither form is unlawful. Law 2 (a) (l. 2810–2811) has the pull search only shapes law 1 admits. But the pull's impassable list in §4.4 S5a Trace (2) (l. 6589), which *beneath* (l. 3069–3079) and V06 §3.7.4 (2) (V06 l. 1605–1606) cite as the one list, names only \"an aqueduct's standing supports where its channel runs above the wall's top\". A builder who builds the list crosses under a span whose soffit is below the wall's top (channel above it), breaking law 1 (2). §5.3's law-1 row (l. 9928) then raises E_INVARIANT at a regeneration under a kept aqueduct, a New random, or a generation from a prefix. T110-2 (6) asserts the lawful outcome (l. 19469–19470).",
+   "required_change": "§4.4 S5a Trace (2) (l. 6589): change \"an aqueduct's standing supports where its channel runs above the wall's top (its crossing there over),\" to \"where an aqueduct's channel runs above the wall's top (its crossing there over), its standing supports and the strip of each span above the band there whose soffit does not clear the wall's top (§2.7's laws, law 1 (2): a crossing that fits neither form unlawful),\". END at model, §2.7's *beneath* (l. 3075–3077): change \"an aqueduct's standing supports where its channel runs above the wall's top (each widened so that the band's half at most touches the ring, *the edge*),\" to \"where an aqueduct's channel runs above the wall's top, its standing supports (each widened so that the band's half at most touches the ring, *the edge*) and the strip of each span whose soffit does not clear the wall's top (law 1 (2)),\". V06 §3.7.4 (2) cites the list and needs no words of its own."
+  },
+  {
+   "id": "VF7-GEN-02",
+   "severity": "major",
+   "kind": "READERS (law 1 (6); law 2 Newer)",
+   "owner": "pipeline",
+   "claim": "*Order* and *Newer* (l. 2668, 2762–2765) put a creation prefix's declarations before every stage, and W1·C8 (l. 3329) has every generated structure meet them as standing. S3 (8)'s castle filter (l. 6231) bars a weld vertex in a standing road deck's zone, then lists which raised ways stand: \"(the raised stretches of (5)'s routes at S3, S4's and S5b's viaducts at a stage's citadel, every held one at a regeneration; …)\". That leaves out a skeleton's or Rebuild around my drawings' declared viaduct, which is not held unless locked (l. 2656–2657). A builder reading the list sites a weld vertex or town-side gate in that viaduct's zone, so law 1 (6) (l. 2724) is false and the check fails. T110-4 (c) runs this path (l. 19527). S3 (10) (l. 6285) lists its standing raised ways the same way, so the moat can be carved through a prefix aqueduct's supports.",
+   "required_change": "§4.2 S3 (8) (l. 6231): change \"(the raised stretches of (5)'s routes at S3, S4's and S5b's viaducts at a stage's citadel, every held one at a regeneration;\" to \"(every raised way standing before the stage — a creation prefix's declared ones and, at a regeneration, each one it keeps where it stands (§2.7's laws, law 2 *Newer*) —, the raised stretches of (5)'s routes at S3, S4's and S5b's viaducts at a stage's citadel;\". §4.2 S3 (10) (l. 6285): change \"— at a regeneration, one held (§2.7's support step (6); §2.7's laws, law 2 *Newer*); at generation the raised stretches of (5)'s routes,\" to \"— a creation prefix's declared one and, at a regeneration, one it keeps where it stands (§2.7's support step (6); §2.7's laws, law 2 *Newer*); at generation, besides, the raised stretches of (5)'s routes,\"."
+  },
+  {
+   "id": "VF7-GEN-03",
+   "severity": "major",
+   "kind": "TESTS / CHECK (law 2 (c))",
+   "owner": "pipeline",
+   "claim": "Law 2 (c) (l. 2828–2830) and F-WALL's raised-way rung (l. 9840, where S3 stage 1 included) re-pull a stage's boundary with its search band widened to wall.barrierReachM beyond the boundary so it may pass round a raised way. S3 (9)'s Test (l. 6264–6268) and §5.3's stage-end row (l. 9939) bound stage 1's trace to 40 m from the boundary, except along an on_enceinte castle's shared stretch and along a barrier reach. A stage-1 trace that the rung correctly re-pulls round a raised way departs more than 40 m on a stretch that is no barrier reach. §5.3's row raises E_INVARIANT, so a check fails a correct build (at a regeneration or from a prefix, or at generation against S3 (7)'s stretches).",
+   "required_change": "§4.2 S3 (9)'s Test (l. 6267): change \"and along a barrier reach, which departs by at most `wall.barrierReachM`\" to \"and along a barrier reach or a stretch F-WALL's raised-way rung re-pulled round a raised way (§5.2; §2.7's laws, law 2 (c)), each of which departs by at most `wall.barrierReachM`\". §5.3's row (l. 9939) cites S3 (9) and stays as written."
+  },
+  {
+   "id": "VF7-GEN-04",
+   "severity": "minor",
+   "kind": "READERS (gate count)",
+   "owner": "pipeline (END at determinism)",
+   "claim": "Row (d) (l. 2914) and S5a Trace (2) (l. 6590) count an earlier arterial whose crossing of the new boundary falls on a ramp, stair or foot, pinned beyond the foot, as a gate and one of c where that pin is lawful. S5b (l. 6638) still says \"cross the new boundary `c` times on ground part 0 (a crossing on a raised deck no gate …)\", so one builder counts N_k + 1 gates. F-WALL's B-CITY bar and T110-2 (3)'s ramp variant (l. 19320–19322) catch it. §5.3's gate row (l. 9938) counts a carried way's gate only \"where the boundary crosses its ground course\", while *Carried way* (l. 2785) and S3 (7) (l. 6214) say \"crosses its ground course or ends\".",
+   "required_change": "§4.4 S5b (l. 6638): change \"(a crossing on a raised deck no gate, S5a *Trace* (2);\" to \"(a crossing on a raised deck no gate, and one on a ramp, stair or foot pinned beyond the foot one of them where that pin is lawful, S5a *Trace* (2); §2.7's way-and-channel table, row (d);\". END at determinism, §5.3's gate row (l. 9938): change \"where the boundary crosses its ground course\" to \"where the boundary crosses its ground course or ends\"."
+  },
+  {
+   "id": "VF7-GEN-05",
+   "severity": "minor",
+   "kind": "VALID CHOICE (J151)",
+   "owner": "pipeline",
+   "claim": "S3 (7)'s re-solve trigger (l. 6214) reads \"or with its gate's footprint or the band there over the ends or in the strip (law 1 (1), (4), (5))\". (a) At a regeneration it re-solves a gate under a kept aqueduct's arch that clears it, which law 1 (5) admits (l. 2722–2723). (b) It names the band but not the wall strips over another raised way's ends, which law 1 (4) bars (l. 2719), so such a gate is kept and S3 (9) goes to F-WALL's rung. In (a) the gate is kept or the route re-solved; in (b) the route is re-solved, or the rung runs and else stage 1 is left unwalled and reported. Every outcome keeps law 1 and the owner rules and passes the check and T110-4.",
+   "required_change": "§4.2 S3 (7) (l. 6214): change \"or with its gate's footprint or the band there over the ends or in the strip (law 1 (1), (4), (5))\" to \"or with its gate's footprint in a strip where law 1 (5) bars it, or the band or wall strips there over the ends (law 1 (1), (4), (5))\". Alternatively, list both readings among fix-list.md's builders' choices."
+  },
+  {
+   "id": "VF7-GEN-06",
+   "severity": "minor",
+   "kind": "VALID CHOICE (J151)",
+   "owner": "pipeline",
+   "claim": "A carried way standing before stage 1 takes \"a gate … beside the N main gates, decked and counted as the harbour gate is\" (*Carried way*, l. 2786; S3 (7), l. 6214). The harbour gate is of kind `water` (l. 6219–6220), main gates are S4's and S5b's arterials' crossings (§4.8, l. 8368–8369), and Gate.kind admits main|postern|water|gatehouse|castle (l. 2277). One builder records `main`, another `water`. The gatehouse row and footprint follow the kind, and S5a reads the footprint from that row (l. 6590). So the kind decides whether the gate stands or the way is re-routed (law 1 (5)), and which trade-flow rule weighs the gate (l. 6516–6520). Both builds keep law 1 and pass the check.",
+   "required_change": "S3 (7)'s carried-way sentence (l. 6214): change \"beside the N main gates, decked and counted as the harbour gate is,\" to \"beside the N main gates, a gate of kind `main` on the carried way's class (not counted in N), decked and counted as the harbour gate is,\". Alternatively, list the kind among fix-list.md's builders' choices."
+  },
+  {
+   "id": "VF7-GEN-07",
+   "severity": "minor",
+   "kind": "READERS (law 2 (c))",
+   "owner": "determinism (END at scope)",
+   "claim": "A harbour-mouth chain with no lawful heads at generation is not laid, with W_RAISED_MEETING reported (the fixed-place sentence, l. 3247–3250; §5.4, l. 9970; law 2 (c)). F-WALL's detection (l. 9840, where S7 included) lists \"a fixed place with no clear point in reach\" with no exception and sends it to the raised-way rung (re-pull, else the stage unwalled), a second outcome at S7 after growth. T106-3 asserts \"every walled port gets its harbour-mouth chain\" (l. 19156) with no exception.",
+   "required_change": "§5.2 F-WALL's detection (l. 9840): change \"a fixed place with no clear point in reach\" to \"a fixed place the trace lays with no clear point in reach (a harbour-mouth chain S7 lays is not laid, `W_RAISED_MEETING`: §2.7's laws, law 2 (c); its worked example the fixed-place sentence)\". END at scope, T106-3 (l. 19156): change \"and every walled port gets its harbour-mouth chain;\" to \"and every walled port gets its harbour-mouth chain, save one §2.7's laws leave out for a raised way, reported (`W_RAISED_MEETING`; law 2 (c));\"."
+  },
+  {
+   "id": "VF7-GEN-08",
+   "severity": "minor",
+   "kind": "READERS (citation)",
+   "owner": "pipeline",
+   "claim": "Part H's head requires every family citation to read \"§2.7's laws, law n; its worked example …\". §4.1's S7 row (l. 5700) still reads \"met by §2.7's crossing table (*beneath*; §4.8's lead)\", and §4.8 Gates (l. 8378) \"A raised way and a trace meet by §2.7's crossing table: no station, gate or opening on a deck.\" Nothing built changes.",
+   "required_change": "§4.1's S7 row: change \"met by §2.7's crossing table (*beneath*; §4.8's lead)\" to \"met by §2.7's laws (law 1 (1)–(9); its worked example the crossing table's *beneath*; §4.8's lead)\". §4.8 *Gates*: change \"A raised way and a trace meet by §2.7's crossing table: no station, gate or opening on a deck.\" to \"A raised way and a trace meet by §2.7's laws (law 1 (1); its worked example the crossing table): no station, gate or opening on a deck.\""
+  },
+  {
+   "id": "VF7-GEN-09",
+   "severity": "minor",
+   "kind": "TESTS (an example's named test)",
+   "owner": "scope",
+   "claim": "W3·C2 (l. 3331) says a ring re-derived after a kept road deck \"takes its carried way's gate by *Carried way*\" and names T110-2 (6) as its test. That covers S3 (7)'s stage-1 gate beside N₁, decked by S3 (10) and counted by S3 (11), §4.3 Routes and §5.3 (l. 6214, 6279, 6308, 6402, 9938); the pull keeping a deck-only crossing beneath the deck (l. 6589); and at stage k a lawful pin counted in c (l. 6638). T110-2 (6) regenerates only kept aqueducts and a locked S4 viaduct whose route is re-solved, so it carries no kept way (l. 2791–2793). No §13.2 clause regenerates a ring across a kept or prefix raised road's ground course; T101-4 (l. 19104–19107) runs only prefix-internal meetings. None of this is a law-1 invariant, and §5.3's runtime rows check each part.",
+   "required_change": "§13.2's T110-2 (6), before \"and (3)'s table-edit variant regenerated (keep)\", add: \"; a CITY whose skeleton holds a hand raised road over the valley beside S3's ring, placement-locked by the user, regenerated (keep) and given New random with its seed searched so that the stage-1 boundary crosses the raised road's ground course beyond its foot and, on a second run, only its deck — the first run's gate beside the N main gates on ground part 0, decked where the city moat is wet and counted among the roads leaving the stage, the second run's trace crossing beneath the deck with no gate and its pull never moving the crossing onto the ground course, and, on a third run where that gate's footprint would meet a strip, the way re-routed through one of the stage's gates (§2.7's laws, law 2 *Carried way*, (b); §5.3's gate row)\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "ARCHITECTURE.md §5.2 F-WALL (l. 9840) × §4.2 S3 (9)'s Test (l. 6264–6268) × §5.3's trace row (l. 9939)",
+   "note": "F-WALL's non-raised rung \"re-offset with a larger radius\" can move stage 1's trace beyond 40 m from the boundary, and the Test and §5.3's distance row have no exception for it (the same class as VF7-GEN-03, outside the family)."
+  },
+  {
+   "site": "ARCHITECTURE.md §4.2 S3 (7) (l. 6214) × §5.3's way-and-trace row (l. 9924)",
+   "note": "Each gate is a route's first point at T = t_1, but nothing states that a (5) route crosses T = t_1 once. T is not monotone along a route once several routes and the water pull shape it, so a later re-crossing would cross the trace with no gate."
+  },
+  {
+   "site": "ARCHITECTURE.md §4.3 Raised ways (l. 6447–6449) × §2.7 support step (3) (l. 2551–2553)",
+   "note": "S3 (5) prices a raised stretch over a canal planned at S3 (2) by span length alone. The support step at S4's commit may drop it as raised_too_long, leaving a committed gate route without its crossing. This is a raised-way × channel case, not raised-way × wall."
+  }
+ ]
+}

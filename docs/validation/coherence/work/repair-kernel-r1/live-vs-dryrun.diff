@@ -1,0 +1,50 @@
+3107c3107
+<   | 'E_NO_PATH'            // with the closest reached point [F-ROUTE, F-RIVER]
+---
+>   | 'E_NO_PATH'            // with the closest reached point [F-ROUTE]
+3201c3201,3203
+<    change. The arena's outer ring and the frame rectangle are §2.2 rule 1's `margin` and `border` chains.
+---
+>    change. The arena's outer ring and the frame rectangle are §2.2 rule 1's `margin` and `border` chains. A Re-derive
+>    that recomputes the frame — a rung change or a population `adjust` — reads this law afresh and never shrinks the
+>    frame below its protected content (§7.4's frame row; §7.1's `bend.frame.held`).
+3203c3205
+<    **Frame growth at an epoch (item 81 (b); J-A81.31).** A frame only grows, and only where §4.11 grows it at an epoch.
+---
+>    **Frame growth at an epoch (item 81 (b); J-A81.31).** At an epoch a frame only grows, and only where §4.11 grows it.
+3231,3232c3233,3234
+<    — and each raised part of the ground layer, §3.4) grows by (a) and (b) on its own key, the `margin` rows of its own
+<    record instead of the `Terrain`'s, with no water and no border. Each raster of §2.3 extends as §2.3 states (whole
+---
+>    — and each raised part of the ground layer, §2.7 *At the frame*) grows by (a) and (b) on its own key, the `margin`
+>    rows of its own record instead of the `Terrain`'s, with no water and no border. Each raster of §2.3 extends as §2.3 states (whole
+3435,3436c3437,3438
+<    and step (0)'s parts; our count, PLAUSIBLE until M1), ≈ 2.2–3.3 MB plus ≈ 0.2 MB of home column; at a freeze after
+<    edits ≈ 0.5 MB of home column; three copies measured at ≈ 4.6 ms (`fixall_kernel_r4_bench.out` A). Its size and
+---
+>    and step (0)'s parts; our count, PLAUSIBLE until M1), ≈ 2.2–3.3 MB plus ≈ 0.2 MB of home column, three such copies
+>    measured at ≈ 4.6 ms (`fixall_kernel_r4_bench.out` A); at a freeze after edits ≈ 0.5 MB of home column. Its size and
+3690,3693c3692,3696
+<   `ground` layer, numbered from 1 (part 0 is the ground), allocated once and never renumbered or reused, as the
+<   underground's and the sky's parts are (§2.2's `PlatKey`). A raised way crosses the part-0 ways beneath it without a
+<   junction; inside its part it is an ordinary way, banded by §3.7's kerb and `corridorUnion`; its piers are footprints
+<   on part 0 (§2.7's `supports`), which part-0 stages read through the services.
+---
+>   `ground` layer, numbered from 1 (part 0 is the ground) by `Document.nextGroundPart` (§2.9), allocated once and never
+>   renumbered or reused, as the underground's and the sky's parts are (§2.2's `PlatKey`). A raised way crosses the
+>   part-0 ways beneath it without a junction; inside its part it is an ordinary way, banded by §3.7's kerb and
+>   `corridorUnion`; its piers are footprints on part 0 (§2.7's `supports`), which part-0 stages read from the record
+>   through §4.1's `raised` data key.
+3701,3703c3704,3707
+< `UndergroundLink`, §2.7) — whose two `link_end` vertices lie one in each part it joins, and a raised way's two feet,
+< where its ramps or stairs meet part 0 (item 110 (b)), each a vertex on part 0 and one on the raised part — as an
+< `AccessPoint` names a ground point and a kerb vertex (II.7.4). Each end names its part (`{ part; at }`), so `resolve`
+---
+> `UndergroundLink`, §2.7) — whose two `link_end` vertices lie one in each part it joins, and a raised way's two feet
+> (`RaisedWayRecord.feet`, §2.7), where its ramps or stairs meet part 0 (item 110 (b)), each a `raised_foot` vertex on
+> part 0 and one on the raised part — as an `AccessPoint` names a ground point and a kerb vertex (II.7.4). Each end
+> names its part (`{ part; at }`), so `resolve`
+3815c3819
+< | silent no-op of the 2017 cut routine whenever a cut did not make exactly two crossings, and its unbounded recursion (`os-model.md` §13.4) | `E_NOT_TWO_CROSSINGS` and `connectHole` (§3.6); the bent cut's bounded, logged ladder (§4.6, §5.2 F-CUT) |
+---
+> | silent no-op of the 2017 cut routine whenever a cut did not make exactly two crossings, and its unbounded recursion (`os-model.md` §13.4) | `E_NOT_TWO_CROSSINGS` and `connectHole` (§3.6); the bent cut's recursion bounded by §4.6 step 1's stop test and by its recursion-depth work limit (§5.1 (5), F-WORK), every rejection logged on its ladder (§4.6, §5.2 F-CUT) |

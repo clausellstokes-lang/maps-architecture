@@ -1,0 +1,14 @@
+files 1; blocks 52 found, 52 applied, 0 skipped
+  NOTE repair-r2-V09.md #29 (l. 2185) REPLACE ### 4.12 Touch, pen and small screens — decided — REPLACE retitles the heading ['### 4.12 Touch, pen and small screens — decided' -> '### 4.12 Touch, pen and window sizes — decided']
+  NOTE repair-r2-V09.md #35 (l. 2818) REPLACE ### 4.21 Items 111–119 on screen — REPLACE retitles the heading ['### 4.21 Items 111–119 on screen' -> '### 4.21 Items 111–126 on screen']
+audit: 52 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 788
+  Part A duplicate ids: []
+headings 110 -> 110 (+2 / -2); fences balanced True (24 -> 24 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 659614 -> 738860 bytes, 4521 -> 4905 lines, sha256 cab49ee7245d62632460b25431df23eb14b7067c6dba8e583abfc005fecbb1ca
+rationale 688889 -> 688889 bytes, 2369 -> 2369 lines, sha256 630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928

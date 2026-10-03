@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V04-underground.md",
+ "input_doc_sha256": "6aebc1e136c8778c9fcac983b98590a4ef3e74b5daf5dd036edd09b82505dff1",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V04.md",
+   "sha256": "053a06e56a5907219020e2a5ac7ee298b3a0ec4b6d925d8b285b7ea8cc01e66b",
+   "lines": 1381,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V04.md #1 (l. 2) REPLACE ### 1b.2 Stage outputs and interfaces",
+   "file": "repair-r5-V04.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1b.2 Stage outputs and interfaces",
+   "body_lines": 40,
+   "body_sha256": "a1c1eefbb1d59db04472bf90a7414161853e18e789f794f3a5d6986edd796a47",
+   "target_line": 311,
+   "section_old": "311–351",
+   "section_old_n": 41,
+   "section_new_n": 41,
+   "new_headings": [
+    "### 1b.2 Stage outputs and interfaces"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V04.md #2 (l. 45) REPLACE ### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+   "file": "repair-r5-V04.md",
+   "index": 2,
+   "line": 45,
+   "kind": "REPLACE",
+   "heading": "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+   "body_lines": 23,
+   "body_sha256": "f91ffd70af24431be61421022df5cf38edd07af2068fefbc8b3cd9b2b861bcd1",
+   "target_line": 352,
+   "section_old": "352–375",
+   "section_old_n": 24,
+   "section_new_n": 24,
+   "new_headings": [
+    "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V04.md #3 (l. 71) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "file": "repair-r5-V04.md",
+   "index": 3,
+   "line": 71,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "body_lines": 41,
+   "body_sha256": "d405af369073d1ccab3bf5966a5744d8695e0fef8b3a39d3ccdec43a8e801c6b",
+   "target_line": 839,
+   "section_old": "839–880",
+   "section_old_n": 42,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 2.6 The lifecycle of every state field this volume adds or gives a producer"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V04.md #4 (l. 115) REPLACE ### 3.5 U-SYS — the void systems",
+   "file": "repair-r5-V04.md",
+   "index": 4,
+   "line": 115,
+   "kind": "REPLACE",
+   "heading": "### 3.5 U-SYS — the void systems",
+   "body_lines": 682,
+   "body_sha256": "e6fbcc9e45bdea3b74697469482ba77d368020d3c4c68e43ab45ffcd174001ae",
+   "target_line": 1277,
+   "section_old": "1277–1960",
+   "section_old_n": 684,
+   "section_new_n": 683,
+   "new_headings": [
+    "### 3.5 U-SYS — the void systems"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V04.md #5 (l. 800) REPLACE ### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+   "file": "repair-r5-V04.md",
+   "index": 5,
+   "line": 800,
+   "kind": "REPLACE",
+   "heading": "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+   "body_lines": 128,
+   "body_sha256": "1721881d2415b4f1aafd1e0c30026378afa2fdd35ca3b88461bcbe5ba3eb8896",
+   "target_line": 2228,
+   "section_old": "2228–2357",
+   "section_old_n": 130,
+   "section_new_n": 129,
+   "new_headings": [
+    "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r5-V04.md #6 (l. 931) REPLACE ### 3.11 Failure handling (no whole-map retry; §5)",
+   "file": "repair-r5-V04.md",
+   "index": 6,
+   "line": 931,
+   "kind": "REPLACE",
+   "heading": "### 3.11 Failure handling (no whole-map retry; §5)",
+   "body_lines": 99,
+   "body_sha256": "103c056c7ff464e712e53b91361a80064097387377959f73d86ad565e0f1edcc",
+   "target_line": 2357,
+   "section_old": "2357–2456",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 3.11 Failure handling (no whole-map retry; §5)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r5-V04.md #7 (l. 1033) REPLACE ### 4.3 Locality (§7.3; J-V4.14)",
+   "file": "repair-r5-V04.md",
+   "index": 7,
+   "line": 1033,
+   "kind": "REPLACE",
+   "heading": "### 4.3 Locality (§7.3; J-V4.14)",
+   "body_lines": 22,
+   "body_sha256": "308b02f09ffdc10cd4d15db5f3c6da8c8909176a508157221fe5517b32275a72",
+   "target_line": 2558,
+   "section_old": "2558–2580",
+   "section_old_n": 23,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 4.3 Locality (§7.3; J-V4.14)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r5-V04.md #8 (l. 1058) REPLACE ## 6 Performance budgets",
+   "file": "repair-r5-V04.md",
+   "index": 8,
+   "line": 1058,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 93,
+   "body_sha256": "708b79449baef7e64a4b640dd86a137eb78d0d244574a80d746034102d02ead5",
+   "target_line": 2965,
+   "section_old": "2965–3058",
+   "section_old_n": 94,
+   "section_new_n": 94,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r5-V04.md #9 (l. 1154) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r5-V04.md",
+   "index": 9,
+   "line": 1154,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 114,
+   "body_sha256": "ff8d9d6dbcb7863e483c45cb8db838591348654bea68675d2b88b20d39f341b0",
+   "target_line": 3059,
+   "section_old": "3059–3173",
+   "section_old_n": 115,
+   "section_new_n": 115,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r5-V04.md #10 (l. 1271) REPLACE ## 8 Build plan",
+   "file": "repair-r5-V04.md",
+   "index": 10,
+   "line": 1271,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 108,
+   "body_sha256": "88033b61b5712b9dbf38673ba367ecb3e8dfe5d439de7885449d56df15b6ca13",
+   "target_line": 3174,
+   "section_old": "3174–3282",
+   "section_old_n": 109,
+   "section_new_n": 109,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V04.md #1 (l. 2) REPLACE ### 1b.2 Stage outputs and interfaces",
+    "kind": "REPLACE",
+    "heading": "### 1b.2 Stage outputs and interfaces",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #2 (l. 45) REPLACE ### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+    "kind": "REPLACE",
+    "heading": "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #3 (l. 71) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #4 (l. 115) REPLACE ### 3.5 U-SYS — the void systems",
+    "kind": "REPLACE",
+    "heading": "### 3.5 U-SYS — the void systems",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #5 (l. 800) REPLACE ### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+    "kind": "REPLACE",
+    "heading": "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #6 (l. 931) REPLACE ### 3.11 Failure handling (no whole-map retry; §5)",
+    "kind": "REPLACE",
+    "heading": "### 3.11 Failure handling (no whole-map retry; §5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #7 (l. 1033) REPLACE ### 4.3 Locality (§7.3; J-V4.14)",
+    "kind": "REPLACE",
+    "heading": "### 4.3 Locality (§7.3; J-V4.14)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #8 (l. 1058) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #9 (l. 1154) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V04.md #10 (l. 1271) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 59,
+  "headings_after": 59,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 527003,
+  "doc_bytes_after": 526488,
+  "doc_lines_before": 3628,
+  "doc_lines_after": 3626,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "b79fd29048f06a90b564e0145b489e6fba68c407e9dfdbec99bbe627795a697e",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

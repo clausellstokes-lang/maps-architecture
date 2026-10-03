@@ -1,0 +1,52 @@
+{
+ "key": "coherence/famverify-table-r7x",
+ "file": "docs/validation/coherence/famverify-table-r7x.md",
+ "issues": [
+  {
+   "id": "VF7x-TBL-01",
+   "severity": "minor",
+   "kind": "example contradicts law 1 (4) (Part L's correction 3)",
+   "owner": "model",
+   "claim": "Law 1 (4) (l. 2721-2723) keeps a wall's line, band and wall strips off a raised way's ends (ramps, stairs and feet widened by the strip margin, l. 2617-2618), and Line and band (l. 3069-3074) keeps the line off them by the wall strips' width. The bent-group sentence's strip (l. 3178-3183) is the under-deck strip widened by the band's half plus 'every place meeting it where these laws bar the line itself — a held building's widened strip (law 1 (9)) and, of a shape-locked raised way, each place ... (law 1 (10)) —': no place round the ends. Its moves put the line on that strip's edge ((i) l. 3198-3199, (ii) l. 3203, (iii) l. 3204-3205); beside a road deck's ramp or stair the band touches the strip and its inner setback (6-10 m) or outer setback with glacis (10-20 m, §4.8 l. 8348, 8351) lies over the ramp — e.g. T110-2 (4)'s second ramp run (l. 19434-19437), (i)'s path from the entry point beside the ramp to the deck's first lawful crossing. The fix of VF7w-TBL-03 added law 1 (9), (10)'s places only. The laws govern (law 2 (a); Line and band) and §5.3's law-1 row catches a build of the example: an example's slip, minor.",
+   "required_change": "model — the bent-group sentence (l. 3180-3182): \"together with every place meeting it where these laws bar the line itself — a held building's widened strip (law 1 (9)) and, of a shape-locked raised way,\" → \"together with every place meeting it where these laws bar the line itself — each place from which the line's band or wall strips would lie over a raised way's ends (law 1 (4)), a held building's widened strip (law 1 (9)) and, of a shape-locked raised way,\"."
+  },
+  {
+   "id": "VF7x-TBL-02",
+   "severity": "minor",
+   "kind": "example skips law 2 (b) (law 2's order; Carried way; down before the wall)",
+   "owner": "model",
+   "claim": "Law 2 (l. 2752-2754) tries (a), then (b), then (c); Carried way (l. 2790-2793) re-routes a carried way at a shape-locked wall by law 2 (b) before law 2 (c), as down before the wall says (l. 3051-3052). The lock sentence (l. 2942-2944) gives a shape lock 'the newer bending itself, else giving way (law 1 (10))' and the C8 column's lead (l. 3280-3281) 'the newer bending itself, else giving way (law 1 (10), law 2 (c))': a builder of C8 refuses a raised road drawn across a shape-locked wall where Carried way re-routes its way, and gives way on any other shape-lock meeting where law 2 (b)'s soft things, moved, leave a lawful shape. J147 (3)'s words are kept (the re-routed carried way is the newer's own); the citation of law 2 (c) alone and the missing step mislead. The laws govern: minor.",
+   "required_change": "model — the lock sentence (l. 2944): \"the newer bending itself, else giving way (law 1 (10)).\" → \"the newer bending itself, else the soft things moved (law 2 (b): a carried way re-routed, *Carried way*), else giving way (law 1 (10)).\"; the C8 column's lead (l. 3280-3281): \"the newer bending itself, else giving way (law 1 (10), law 2 (c))\" → \"the newer bending itself, else the soft things moved, else giving way (law 1 (10), law 2 (a)–(c); *Carried way*)\"."
+  },
+  {
+   "id": "VF7x-TBL-03",
+   "severity": "minor",
+   "kind": "example restates a bend or place narrower than the laws (root-cause forms F2, F4 not applied)",
+   "owner": "model",
+   "claim": "Three example sites keep a paraphrase narrower than the laws: (a) A held building in an arch vault (l. 3122-3125) bends the raised way's re-shape or Arch spacing edit 'to the nearest course or spacing that keeps every such band and strip off it', which may be unlawful in another clause, where law 2 (a) and law 3 pick the nearest lawful one (T110-2 (4) already says so, adjudication-r7w C4); (b) Paths and tests (l. 3328-3330) bends a hand aqueduct 'to the nearest course that crosses each wall at its level, no gate, postern, tower or fixed place under it but where law 1 (4)-(6) admit it', which admits a merge into a shape-locked wall (law 1 (10)), where §7.1 Raised ways now cites law 1 (2)-(6), (9)-(11); (c) W1·C1 (l. 3338): 'S7's towers after it placed clear by law 2 (a)', read 'clear of the strip', moves a tower out of an over crossing's strip where law 1 (5) admits it (the case closed at §4.8's S7 lead, P9, and at over the band, l. 3022-3024). The laws and the builder texts govern; §5.3's row and T110-2 (4) catch a wrong build: minor.",
+   "required_change": "model — (a) (l. 3123-3124): \"to the nearest course or spacing that keeps every such band and strip off it (item 101 R2;\" → \"to the nearest lawful course or spacing these laws give (law 1 (9), law 2 (a), law 3; item 101 R2;\"; (b) (l. 3328-3330): \"an aqueduct's to the nearest course that crosses each wall at its level, no gate, postern, tower or fixed place under it but where law 1 (4)–(6) admit it (`bend.wall.aqueductArch`)\" → \"an aqueduct's to the nearest lawful course these laws give (law 1 (2)–(6), (9)–(11), law 2 (a), law 3; `bend.wall.aqueductArch`)\"; (c) W1·C1 (l. 3338): \"S7's towers after it placed clear by law 2 (a)\" → \"S7's towers after it placed where law 1 (5) admits them (law 2 (a), law 3)\"."
+  },
+  {
+   "id": "VF7x-TBL-04",
+   "severity": "minor",
+   "kind": "test gap: law 1 (10)'s wall side held by no fixture; a cell naming tests that do not set up its state",
+   "owner": "scope (§13.2 T110-4 (c)); END model (W1·C1's test cell)",
+   "claim": "Law 1 (10) (l. 2739-2743) bars, of a shape-held wall, an aqueduct merged into it, a soffit lowered over it and a gate made in it; over the band (l. 3029-3030), down before the wall (l. 3051-3052), Carried way (l. 2790-2793) and W1·C1 give the outcomes, and the check (l. 2888-2891) says T110-4 runs every path with its structures unlocked, placement-locked and shape-locked. But T110-4 (c) (l. 19645-19649) shape-locks only one of its two raised ways, the state sweep's C8 (l. 19276-19280) locks only the raised way, its arch vault or a placement seated in it, and no clause of T110-1 - T110-4 or of a volume bar shape-locks a wall (every locked wall in them is placement-locked). W1·C1's 'a shape-locked one never merged into (law 1 (10))' names T110-2 (1), (2), T-V7-48, none of which holds a shape-locked wall. So an aqueduct drawn or founded across a shape-locked wall and a raised road drawn across one are run by no fixture. Minor: law 1 (10) is checked by §5.3's law-1 row at every commit and by T110-4 (c) on its shape-locked raised way (its random hand ops may lock a wall); the wall side is a case its fixtures may not hold, every text stating the laws' outcome (as VF7-GEN-09, VF7w-GEN-05 were graded). Not J150's: no undo, redo, re-grade, value edit within a standing meeting or repair.",
+   "required_change": "scope — T110-4 (c) (l. 19646-19648): \"one of the two placement-locked and, on a second run, shape-locked — the shape-locked runs from the milestone that carries the shape lock, J147, J150)\" → \"one of the two placement-locked and, on a second run, shape-locked, and, on a third, the ring both meet shape-locked before an aqueduct stroke and a raised road are drawn across it by hand and an aqueduct is founded across it at an epoch — the shape-locked runs from the milestone that carries the shape lock, J147, J150)\"; END model — W1·C1's test (l. 3338): \"a shape-locked one never merged into (law 1 (10)) · T110-2 (1), (2), T-V7-48 (V)\" → \"a shape-locked one never merged into (law 1 (10)) · T110-2 (1), (2), T-V7-48 (V), T110-4 (c) (its shape-locked ring)\"."
+  },
+  {
+   "id": "VF7x-TBL-05",
+   "severity": "minor",
+   "kind": "VALID CHOICE (J151): two readings of a term, every outcome lawful",
+   "owner": "model (the laws' terms); fix-list.md",
+   "claim": "What stands of a wall (l. 2594-2597): a run of a record absorbWall cleared 'stands while its condition is not dismantled, with its band as it stood and its wall strips merged into the blocks'; law 1 (4) (l. 2721) reads 'line, band or wall strips'. (A) the absorbed run's wall strips stand no more (V06 §2.8 removes their setback and glacis lines and S10 cuts plots on the freed land, V06 l. 717, 1498-1500), so a raised way laid after the absorb may stand an end under the former setback or glacis; (B) they stand where they lay, and law 1 (4) keeps such an end off them (a founded road deck waiting, a hand one bent, else refused). Both keep law 1 as the term is read, cross no owner rule, pass §5.3's row built on the same reading and fail no named test (T-V6-11's viaduct waits by law 1 (3) on either; W8·C1, l. 3345, names no end). A pick costs words in the laws (J150): listed.",
+   "required_change": "None to the design text; fix-list.md lists: \"§2.7's laws' *what stands of a wall*: a run of a record `absorbWall` cleared, not yet `dismantled` — its wall strips read as no longer standing (law 1 (4) keeping a raised way's ends off its line and band as they stood), or as standing where they lay (law 1 (4) keeping the ends off them too); the builder picks one.\""
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "base §4.6 (l. 7205-7208) × §2.7's laws' term *the strip* (l. 2614-2615)",
+   "note": "§4.6 words the under-deck strip S8 holes as the deck's ground projection over its piers and spans, §2.7's term as the deck's plan between its feet — whether a ramp's or stair's plan lies in the strip; both are holed as (6)'s reservation, so it shows only where a reader reads the strip alone (raised way × plots)."
+  }
+ ]
+}

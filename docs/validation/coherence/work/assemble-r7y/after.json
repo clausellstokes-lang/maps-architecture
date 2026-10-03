@@ -1,0 +1,302 @@
+[
+ {
+  "path": "docs/ARCHITECTURE.md",
+  "sha256_before": "03573b4f209a0cef3024adaa2ec10f431b9c6f96ab22aaaae0899aee8de075af",
+  "sha256_installed": "c13613c5771a99e583726d3258b55700eb68afd793e0933a7aaa0f162e6d147d",
+  "sha256_after": "c13613c5771a99e583726d3258b55700eb68afd793e0933a7aaa0f162e6d147d",
+  "changed": true,
+  "equals_final_copy": true,
+  "bytes": [
+   3209864,
+   3218661
+  ],
+  "words": [
+   522396,
+   523926
+  ],
+  "lines": [
+   null,
+   24241
+  ]
+ },
+ {
+  "path": "docs/ARCHITECTURE-RATIONALE.md",
+  "sha256_before": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "sha256_installed": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "sha256_after": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   704813,
+   704813
+  ],
+  "words": [
+   119127,
+   119127
+  ],
+  "lines": [
+   null,
+   2386
+  ]
+ },
+ {
+  "path": "docs/volumes/V01-neighbourhoods.md",
+  "sha256_before": "5c0ea6757d0cb7cc3a866131961f817cb031919d1276b0dc33def3e95c3b9b1a",
+  "sha256_installed": "5c0ea6757d0cb7cc3a866131961f817cb031919d1276b0dc33def3e95c3b9b1a",
+  "sha256_after": "5c0ea6757d0cb7cc3a866131961f817cb031919d1276b0dc33def3e95c3b9b1a",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   529232,
+   529232
+  ],
+  "words": [
+   86896,
+   86896
+  ],
+  "lines": [
+   null,
+   3762
+  ]
+ },
+ {
+  "path": "docs/volumes/V02-buildings.md",
+  "sha256_before": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "sha256_installed": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "sha256_after": "c7fbb7055d776409fe0f906059fcf943198ecb81de065054674be4859cef4540",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   565121,
+   565121
+  ],
+  "words": [
+   94571,
+   94571
+  ],
+  "lines": [
+   null,
+   4227
+  ]
+ },
+ {
+  "path": "docs/volumes/V03-interiors.md",
+  "sha256_before": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "sha256_installed": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "sha256_after": "894955c29098f435f9f483c2c0991fe7ebfc79b19d4dd0e0a2c078e676266792",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   467810,
+   467810
+  ],
+  "words": [
+   79495,
+   79495
+  ],
+  "lines": [
+   null,
+   3304
+  ]
+ },
+ {
+  "path": "docs/volumes/V04-underground.md",
+  "sha256_before": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+  "sha256_installed": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+  "sha256_after": "4dfe36fb01108f2bbf0430e24f4cacc72bad52bf7db1d9f2708083861ce7680e",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   536518,
+   536518
+  ],
+  "words": [
+   87473,
+   87473
+  ],
+  "lines": [
+   null,
+   3644
+  ]
+ },
+ {
+  "path": "docs/volumes/V05-sky.md",
+  "sha256_before": "1931fec160a4b146d1778deac28413dc329bae2868d8542f4967116a695e671f",
+  "sha256_installed": "4517619dfe10fe5c5273e800e65eb09c331a9332397aea355a45bea55defe940",
+  "sha256_after": "4517619dfe10fe5c5273e800e65eb09c331a9332397aea355a45bea55defe940",
+  "changed": true,
+  "equals_final_copy": true,
+  "bytes": [
+   404696,
+   404941
+  ],
+  "words": [
+   68398,
+   68441
+  ],
+  "lines": [
+   null,
+   3098
+  ]
+ },
+ {
+  "path": "docs/volumes/V06-evolution.md",
+  "sha256_before": "58f0fb64092942c2a93f9881486ea67e9640d6e4fab76b101b5ca9ef8872baeb",
+  "sha256_installed": "72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6",
+  "sha256_after": "72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6",
+  "changed": true,
+  "equals_final_copy": true,
+  "bytes": [
+   710168,
+   710864
+  ],
+  "words": [
+   116276,
+   116393
+  ],
+  "lines": [
+   null,
+   4667
+  ]
+ },
+ {
+  "path": "docs/volumes/V07-village.md",
+  "sha256_before": "6202d46df5b3eabf034ec388adbdb11e83d0295b4b80e0901031d309cbacf5ba",
+  "sha256_installed": "a93d1f64212153ee5c594762050286b2624bba4e408d9c599257630ce3a198c7",
+  "sha256_after": "a93d1f64212153ee5c594762050286b2624bba4e408d9c599257630ce3a198c7",
+  "changed": true,
+  "equals_final_copy": true,
+  "bytes": [
+   622038,
+   622965
+  ],
+  "words": [
+   103040,
+   103193
+  ],
+  "lines": [
+   null,
+   4132
+  ]
+ },
+ {
+  "path": "docs/volumes/V08-settlementforge.md",
+  "sha256_before": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "sha256_installed": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "sha256_after": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   582193,
+   582193
+  ],
+  "words": [
+   92453,
+   92453
+  ],
+  "lines": [
+   null,
+   3735
+  ]
+ },
+ {
+  "path": "docs/volumes/V09-application.md",
+  "sha256_before": "da502c0a32e9ad7dba2a694b05967adf830bba30035ce450db13688a2ec02f62",
+  "sha256_installed": "1394a5ee0e0e25cbdf5c884ebc0052f84d5a4c56df5718d84319bb669358dfd0",
+  "sha256_after": "1394a5ee0e0e25cbdf5c884ebc0052f84d5a4c56df5718d84319bb669358dfd0",
+  "changed": true,
+  "equals_final_copy": true,
+  "bytes": [
+   779775,
+   781054
+  ],
+  "words": [
+   128782,
+   129020
+  ],
+  "lines": [
+   null,
+   5049
+  ]
+ },
+ {
+  "path": "docs/volumes/V10-clerk.md",
+  "sha256_before": "cb4d9cffb49f1bc3cb489a515a316f2e7046f6c44a4116cd895d891022762bc0",
+  "sha256_installed": "cb4d9cffb49f1bc3cb489a515a316f2e7046f6c44a4116cd895d891022762bc0",
+  "sha256_after": "cb4d9cffb49f1bc3cb489a515a316f2e7046f6c44a4116cd895d891022762bc0",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   524582,
+   524582
+  ],
+  "words": [
+   84926,
+   84926
+  ],
+  "lines": [
+   null,
+   3580
+  ]
+ },
+ {
+  "path": "docs/volumes/V11-content.md",
+  "sha256_before": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+  "sha256_installed": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+  "sha256_after": "da9be47c3f14fd2f8cb3146549cea1c6a45c4d7a1a6099ba5508dbda3d79d080",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   681994,
+   681994
+  ],
+  "words": [
+   113932,
+   113932
+  ],
+  "lines": [
+   null,
+   5470
+  ]
+ },
+ {
+  "path": "docs/volumes/V12-calibration.md",
+  "sha256_before": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "sha256_installed": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "sha256_after": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   526016,
+   526016
+  ],
+  "words": [
+   85347,
+   85347
+  ],
+  "lines": [
+   null,
+   3561
+  ]
+ },
+ {
+  "path": "docs/volumes/INDEX.md",
+  "sha256_before": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "sha256_installed": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "sha256_after": "90e2844ab4c9884d0af4105af4eb9301c78848e44c372b526eb99754a07181c3",
+  "changed": false,
+  "equals_final_copy": true,
+  "bytes": [
+   24074,
+   24074
+  ],
+  "words": [
+   4054,
+   4054
+  ],
+  "lines": [
+   null,
+   202
+  ]
+ }
+]

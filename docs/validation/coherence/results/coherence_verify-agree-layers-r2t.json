@@ -1,0 +1,78 @@
+{
+ "key": "coherence/verify-agree-layers-r2t",
+ "file": "docs/validation/coherence/verify-agree-layers-r2t.md",
+ "issues": [
+  {
+   "id": "VAL-R2-01",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "owner": "rendering",
+   "claim": "Missed shared subject: item 124's weather effects layer over V04's underground view has no stated outcome. §8.8 *The weather effects layer* (l. 14097–14109) draws the spell every frame 'above the tiles and below the labels, the chrome and every overlay'; §8.4 (i) (l. 13599–13617) adds per-frame terms beyond the direct-light multiplier — fog and mist fading the picture toward `fog` from the view's centre, at night a soft halo on 'every drawn LightSource (§8.1 item 7)', heat shimmer offsetting 'the base's sampling', dust fading toward `sand`; §8.2 *Weather effects* gives the falling marks and ripples. None names a layer. V04 §5.1 draws the underground, when visible, as `cutaway` (ground ghosted), `overlay` or `solo` ('the underground alone', the export default), and §8.4 (e) says 'Underground there is no global light at any setting'. So with Below shown it is undefined whether rain and snow fall over a sewer's plan, fog fades the band and haloes the undercity's torches, or shimmer moves the rock. No test sweeps it: T-ER-29 (§8.11) names no layer, V12 §3.15.14's edge row 35 lists no layer, V04 §3.11 and §5.1 are silent. Principle (11): every layer on and off has a defined outcome and test; the effects layer is rendering's (canon routing of item 124).",
+   "required_change": "§8.8 *The weather effects layer* adds: 'While the underground layer is drawn (V04 §5.1's `cutaway`, `overlay` or `solo`), the spell draws nothing over the view — no mark, ripple, fog, mist or dust fade, shimmer or night halo — and §8.4 (i)'s terms are not applied (the underground has no global light, §8.4 (e)); the effects return when the underground layer is hidden, the spell's timeline running on (§6.1's `view.weather`).' §8.4 (i) states the same in one clause; T-ER-29 adds 'the underground layer drawn in each of its three modes during a spell' with 'nothing drawn, the underground tiles and light byte-identical with the effects on and off'; V04 §5.1 cites §8.8's rule in one clause (V04's end, R2-05)."
+  },
+  {
+   "id": "VAL-R2-02",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "rendering",
+   "claim": "`depthBand` crosses the bridge under round 2's §11.3, against the units that make it per viewer. Before round 2, §11.3's *View state* sent every view key across but the pointer and `underlay`; VRC1T-02 (R2-33 (b)) rewrote it (l. 16277–16281) to name 'the per-viewer keys a viewer's client keeps — `yearWeek`, `seasonFollow`, `festival`, `cvdVariant`, `find` and `crises` (§2.9), `thematic`, `workingLayer`, `showUnexcavated` and V09 §4.19's per-viewer keys —, which never cross the bridge'. The list leaves out `depthBand`, the underground's drawn band, which §8.4 (l. 13368) calls 'the per-viewer view key `depthBand` (§2.9)', V04 §1b.3 (l. 373) groups with `showUnexcavated` as set 'by V09's per-viewer controls', and V09's `WorkingLayer` (V09 l. 518) keeps as the band of the per-viewer working layer ('the view key `depthBand` alone (§2.9), never copied here'); V09 §4.19's table, to which §11.3 delegates, does not carry it, and §2.9's entry (l. 3293) does not mark it per viewer. Read by §11.3 — the key's home for what travels (R2-33 (b)) — a host's or another viewer's band change moves this viewer's drawn band and Find's Go there target while that viewer's working layer stays: the two readings sync the view differently.",
+   "required_change": "§11.3's never-cross list adds `depthBand` beside `workingLayer` and `showUnexcavated`: '… `thematic`, `workingLayer`, `depthBand` (the underground's drawn band, V04 §5.1), `showUnexcavated` and V09 §4.19's per-viewer keys —, which never cross the bridge'. §2.9's entry needs no change (it defers which keys travel to §11.3)."
+  },
+  {
+   "id": "VAL-R2-03",
+   "severity": "minor",
+   "kind": "AMBIGUOUS",
+   "owner": "determinism",
+   "claim": "§6.3 *Plan damage* (l. 9786–9792), the home of the threshold's key, lists 'the id's parts — its element kind and V03 §2.2's plan-part id (`wall:`, `op:`, `win:`, `core:`, `furn:`), a floor area and the roof bay over a room by their room's address'. It has no form for V04 §5.6 (2)'s room-keyed kinds below ground (l. 2887–2889): `cellarVault` keyed by 'the room's id' and `cryptVault` by '(its room's id, the cell's grid node (i, j)) … a key, never a new id', each cell with its own threshold ('a rubble heap filling the cell, its columns standing'). Read as exhaustive, §6.3 folds every `cryptVault` cell of a crypt to one key (kind and room address), so every bay falls at one level, against V04's per-cell thresholds and T-V4-82 (c). VV34-r2-03 raises the other half (which node names a cell).",
+   "required_change": "§6.3's sentence reads: '… a floor area, the roof bay over a room and a `cellarVault` by their room's address, and a `cryptVault` cell by its room's address and the cell's grid node (V04 §5.6 (2)) — folded into the key …'. ONE FIX with VV34-r2-03, whose V04 end fixes the node that names the cell."
+  },
+  {
+   "id": "VAL-R2-04",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "V05",
+   "claim": "R2-07 (a canon change): a list meaning every owner item states no upper number, and a subset list is brought to item 126 this round. Assemble set 'items below 200 the owner's' in the title blocks of V04, V06, V07 and V08; V05, whose seat sent no note, still reads at l. 11 (its reading guide) 'items 1–120 the owner's, items 200 and above file f's', which leaves items 121–126 in no class; at l. 198 (§1.2's hook table) 'items 102–120 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts'; and at l. 3015 (§12's reading record) 'items 102–120 of `docs/AMENDMENTS-2026-09-28g.md`'.",
+   "required_change": "V05 l. 11: 'items 1–120 the owner's' → 'items below 200 the owner's' (the title block's form in V04, V06, V07 and V08; Assemble's to set, R2-07); l. 198: 'items 102–120 of `docs/AMENDMENTS-2026-09-28g.md`' → 'file g's items'; l. 3015: 'items 102–120 of `docs/AMENDMENTS-2026-09-28g.md`' → 'file g's items in `docs/AMENDMENTS-2026-09-28g.md`'."
+  },
+  {
+   "id": "VAL-R2-05",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "Same defect as VM-R2T-11 (verify-model) and VV78-r2-04 (vol-V07-V08). V07 §5.5 (l. 3323–3325) says Find's state is 'saved only in view pins — never in the document, its hash or the log', and V07 §3.17's Find row (l. 2948) 'the `find` key never in the document — saved in view pins only'. §2.9, the key's home (R2-33 (a)), saves it 'with the other view keys (`Document.view`; item 120 (a))' (l. 3360), and V09 §4.21.10 (1) 'with the other view keys in the document's `view` section'. A load restores Find under the base and V09, and not under V07.",
+   "required_change": "ONE FIX with VM-R2T-11 and VV78-r2-04, in VV78-r2-04's words: V07 §5.5 '… and saved only in view pins — never in the document, its hash or the log' → '… and saved with the other view keys in the document's `view` section and in view pins (§2.9) — never in its canonical form, a digest, its hash or the log'; V07 §3.17's Find row 'the `find` key never in the document — saved in view pins only' → 'the `find` key in no digest — saved with the other view keys (§2.9) and in view pins'."
+  },
+  {
+   "id": "VAL-R2-06",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "owner": "pipeline",
+   "claim": "Same defect as VV78-r2-05 (vol-V07-V08), a rung rule shared by this lane's members. V07 §1 (15) (l. 197–200) hands §10.2 'its places read at the village rungs as V07 §5.6 (2) states'. §10.2 *Crisis looks*, the placement home, does not carry that end: (d) defines the main approach road by §4.3's `TradeFlow` and `affectedQuarter` as 'the district …', and only `neighbourhoods` cites V07; (f) draws `siege`'s 'line of trenches and earthworks round the walled arcs' at every rung with walled arcs, which §8.2's siege row (l. 12892) draws. V07 §5.6 (1) (l. 3400–3402) and T-V7-69 draw no siege line at THORP or HAMLET — item 122 (c)'s 'a hamlet gets a war band's camp, a city a full siege line', which §13.2's T122-5 (l. 18159) also quotes — and no V11 `scale` cell can suppress the line (they are camped-ground areas). The base and V07 draw a hamlet's siege differently.",
+   "required_change": "ONE FIX with VV78-r2-05, in its words: §10.2 (c) adds that a share s of a place's n units takes round(s × n) clamped to [1, n] where s > 0 and none where s ≤ 0 (V01 §3.16 (5)'s count); (d) adds 'at THORP, HAMLET and VILLAGE the main approach road, the outskirts' land and each place below read on the village's records as V07 §5.6 (2) states, `affectedQuarter` a unit of V07 §5.6 (3)'; (f)'s `siege` reads 'at VILLAGE and above, a line of trenches and earthworks round the walled arcs at it — none at THORP and HAMLET, item 122 (c)'s war band's camp (V07 §5.6 (1))'; (h) adds 'and no siege line at THORP and HAMLET'. §8.2's siege row draws the line where §10.2 places it and needs no change."
+  },
+  {
+   "id": "VAL-R2-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "rendering",
+   "claim": "Same defect as VRC2T-06 (b) (verify-rendering), this lane's rendering–V04 seam. §11.1's underground band scene (l. 15806–15808) takes `line_of_sight` from 'every underground building's footprint less its doors and the runs its damage layer draws broken (V04, by their own thresholds; §8.6)', and the per-storey scene (l. 15820–15821) removes 'the wall runs and partitions §8.6's damage layer draws broken'. V04 §5.6 (2) draws a damaged `cellarWall` or `cryptWall` run as 'the run's middle third broken over a rubble spill …, still a wall to sight and passage' (l. 2886, 2888), and V04 §5.6 (5) and V04 §5.5's VTT row (l. 2922, 2852) keep its segment ('a `cellarWall` run keeps its segment'); an underground building's runs on its rock are `cellarWall`. Under §11.1 those runs leave the battle map's walls; under V04 they stay, so the exported scene differs.",
+   "required_change": "ONE FIX with VRC2T-06 (b): §11.1's underground band clause reads '… every underground building's footprint less its doors and the outer wall runs its damage layer fells (V04 §5.6 (5)) — a `cellarWall` run keeping its segment —', and the per-storey clause adds '`cellarWall` and `cryptWall` runs keeping their segments (V04 §5.6 (2))'."
+  },
+  {
+   "id": "VAL-R2-08",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "pipeline",
+   "claim": "Same defect as VPC-R2-08 (verify-pipeline): a residual of this lane's VAL-R1-07 made by round 2's other end. II.7.2 (l. 20638–20639; VAL-R1-07's text, R2-25 (b)) gives gutter and pit only to 'a bank whose stretch of the boundary lies wholly on water and that holds no candidate'. Round 2's V04 §3.2 N2 (l. 990–991; VV34-r1-08), the fallbacks' home, reads 'A bank whose stretch is empty or lies wholly on water … and that holds no candidate makes none', and T-V4-80 (j) tests 'a stretch empty or wholly on water'. The base sends an empty-stretch bank to 'its own field outfall', which N2 builds from a stretch cell's D8 path, and such a bank has none.",
+   "required_change": "ONE FIX with VPC-R2-08: II.7.2 reads '… and a bank whose stretch of the boundary is empty or lies wholly on water and that holds no candidate drains by gutter and pit, its area reported unsewered …'."
+  },
+  {
+   "id": "VAL-R2-09",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "Same defect as VV78-r2-03 (vol-V07-V08): model's week source against the village. §2.9 *The week's source* (l. 3372–3377; R2-40 (1): 'one sentence in every unit') and §4.11 *The clock* (1) make a dossier-bound map's present week 'the dossier's own latest stamped tick', 'never the campaign's calendar or any host input'. V07 still reads the retired input: its dossier trace (l. 324–325) 'the campaign calendar's week and season → §7.7's DR42 → W80', W80's dossier column (l. 288) 'the campaign calendar's week and season (V08)', and T-V7-65 (l. 3664) 'a campaign dossier opens on its own week'.",
+   "required_change": "ONE FIX with VV78-r2-03, in its words: V07 §1b's dossier trace → 'the dossier's present week — its latest stamped tick (V08 §3.16 (4); item 125 (b)) → §7.7's DR42 → W80'; W80's dossier column → 'the dossier's present week, its latest stamped tick (V08 §3.16 (4))'; T-V7-65 → 'a dossier village opens on its present week (its latest stamped tick), one with no stamped tick on the season control's midsummer'."
+  }
+ ]
+}

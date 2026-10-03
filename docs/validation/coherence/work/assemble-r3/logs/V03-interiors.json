@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V03-interiors.md",
+ "input_doc_sha256": "b015fd004576b4c1469fa91f4d40dc027c2842b5995aa06c9d52093129a6a157",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V03.md",
+   "sha256": "6476e788c1da297c5fbf1bfc45359efa698d108fa61f7628edb4891dbf8e2770",
+   "lines": 878,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V03.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r3-V03.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 144,
+   "body_sha256": "f38e6003ad91cd6fbc2423606e68de7608374c0e4d08cb70bc8f411f12437363",
+   "target_line": 230,
+   "section_old": "230–374",
+   "section_old_n": 145,
+   "section_new_n": 145,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V03.md #2 (l. 149) REPLACE ### 2.5 Lifecycle of every new state field",
+   "file": "repair-r3-V03.md",
+   "index": 2,
+   "line": 149,
+   "kind": "REPLACE",
+   "heading": "### 2.5 Lifecycle of every new state field",
+   "body_lines": 52,
+   "body_sha256": "615321efd85220487ef554fd61e1e2b9ec8070885141991e3f1250ac92f2f04a",
+   "target_line": 880,
+   "section_old": "880–932",
+   "section_old_n": 53,
+   "section_new_n": 53,
+   "new_headings": [
+    "### 2.5 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V03.md #3 (l. 204) REPLACE ### 3.13 Edges at their limits (principle (11))",
+   "file": "repair-r3-V03.md",
+   "index": 3,
+   "line": 204,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Edges at their limits (principle (11))",
+   "body_lines": 37,
+   "body_sha256": "83bd7956986373afa592b4dc34bc18eeb81248c731ad9283a550c490772d7fc4",
+   "target_line": 2064,
+   "section_old": "2064–2101",
+   "section_old_n": 38,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 3.13 Edges at their limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V03.md #4 (l. 244) REPLACE ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+   "file": "repair-r3-V03.md",
+   "index": 4,
+   "line": 244,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+   "body_lines": 63,
+   "body_sha256": "3194846503343ec21c8ec652a70f10cf16a325b282ea832bd8188ec6a2fc7992",
+   "target_line": 2267,
+   "section_old": "2267–2330",
+   "section_old_n": 64,
+   "section_new_n": 64,
+   "new_headings": [
+    "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V03.md #5 (l. 310) REPLACE ### 4.6 The clerk's view — plan queries and \"why?\"",
+   "file": "repair-r3-V03.md",
+   "index": 5,
+   "line": 310,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The clerk's view — plan queries and \"why?\"",
+   "body_lines": 59,
+   "body_sha256": "71c437449e8f9a720187bbe028aa4f9896d0edcffc183b4ba11a10320f08c679",
+   "target_line": 2331,
+   "section_old": "2331–2390",
+   "section_old_n": 60,
+   "section_new_n": 60,
+   "new_headings": [
+    "### 4.6 The clerk's view — plan queries and \"why?\""
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V03.md #6 (l. 372) REPLACE ### 5.1 The plan at the building band",
+   "file": "repair-r3-V03.md",
+   "index": 6,
+   "line": 372,
+   "kind": "REPLACE",
+   "heading": "### 5.1 The plan at the building band",
+   "body_lines": 85,
+   "body_sha256": "4594008387c0a77ae01fb324169f94364c2ecc14ec138bf0309053c3bfe4b11a",
+   "target_line": 2393,
+   "section_old": "2393–2476",
+   "section_old_n": 84,
+   "section_new_n": 86,
+   "new_headings": [
+    "### 5.1 The plan at the building band"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V03.md #7 (l. 460) REPLACE ### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d)",
+   "file": "repair-r3-V03.md",
+   "index": 7,
+   "line": 460,
+   "kind": "REPLACE",
+   "heading": "### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)",
+   "body_lines": 118,
+   "body_sha256": "8f0c73484efe5e86351c0bc32953e0ea2bdf37335113a6e228012e8445975008",
+   "target_line": 2640,
+   "section_old": "2640–2749",
+   "section_old_n": 110,
+   "section_new_n": 119,
+   "new_headings": [
+    "### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V03.md #8 (l. 581) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r3-V03.md",
+   "index": 8,
+   "line": 581,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 87,
+   "body_sha256": "61841f8f3b7319356086f1a7b2b1f3c760fee4ba1b6cd3e91b34d73ee2151a89",
+   "target_line": 2829,
+   "section_old": "2829–2916",
+   "section_old_n": 88,
+   "section_new_n": 88,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r3-V03.md #9 (l. 671) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r3-V03.md",
+   "index": 9,
+   "line": 671,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 146,
+   "body_sha256": "270add4249148059b589c6f0a180c0a683eb37279cdcf37e52916dde14676e05",
+   "target_line": 2982,
+   "section_old": "2982–3128",
+   "section_old_n": 147,
+   "section_new_n": 147,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r3-V03.md #10 (l. 820) REPLACE ## 13 Fix list",
+   "file": "repair-r3-V03.md",
+   "index": 10,
+   "line": 820,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 56,
+   "body_sha256": "3d9c9c22c142811ed1df9e57bae8e6d7e02314d5edb685e26f2cba9d7f9b8641",
+   "target_line": 3229,
+   "section_old": "3229–3281",
+   "section_old_n": 53,
+   "section_new_n": 57,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V03.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #2 (l. 149) REPLACE ### 2.5 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.5 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #3 (l. 204) REPLACE ### 3.13 Edges at their limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Edges at their limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #4 (l. 244) REPLACE ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #5 (l. 310) REPLACE ### 4.6 The clerk's view — plan queries and \"why?\"",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The clerk's view — plan queries and \"why?\"",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #6 (l. 372) REPLACE ### 5.1 The plan at the building band",
+    "kind": "REPLACE",
+    "heading": "### 5.1 The plan at the building band",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #7 (l. 460) REPLACE ### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #8 (l. 581) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #9 (l. 671) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V03.md #10 (l. 820) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 48,
+  "headings_after": 48,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 459238,
+  "doc_bytes_after": 464396,
+  "doc_lines_before": 3280,
+  "doc_lines_after": 3295,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "f4458cf438971b111959196b5ae575b36ea6da248a5e72289c45dc565d80c2e3",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

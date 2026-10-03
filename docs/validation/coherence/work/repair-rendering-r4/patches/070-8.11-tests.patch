@@ -1,0 +1,85 @@
+# §8.11 T-ER-25 (VRC3T-01, R4-12: the frame's listing; the ghost-pin input read as item 120 (f)'s "another layer"),
+# T-ER-26 (G-refview), T-ER-27 (VPC-R3-03's END, R4-06: the three barriers and a quarantine whose quarter ways enter;
+# VV56-r3-03's END: a refugee camp of two heads; VV12-r3-02: the struck end's tone at VILLAGE, R4-04 (a)'s toft group;
+# R4-11's class: the knowledge input staged with a `none`-row condition), T-ER-28 (R4-04 (b): a building a look stands over).
+@@ FILE 8.11.md
+<<<<
+a match on a layer not shown, and one Below off the band shown
+====
+a match on a layer other than the working layer — that layer drawn or not —, and one Below off the band shown
+>>>>
+<<<<
+a scrub to a week before a matched building was built and to a week after a closed use's end
+====
+a scrub to a week before a matched building was built, to a week after a closed use's end, to a week before a matched use closed, and to a week before a building's use changed
+>>>>
+<<<<
+only the drawn frame's entities matched — counted, glowed, pinned, listed and gapped —, a chip with none there at count 0, the head's matches back at the head
+====
+the drawn frame's listing (§11.2's *At a drawn week*) — counted, glowed, pinned, listed and gapped —: a building matched by its use at that week, never its head use, a use closed since matched and drawn, a chip with none there at count 0, the head's matches back at the head
+>>>>
+<<<<
+the scrub fixture's counts, glows and pins those of the drawn frame's entities
+====
+the scrub fixture's counts, glows and pins those of the drawn frame's listing
+>>>>
+<<<<
+over §12.5's reference views on each device
+====
+over §12.5's reference viewports on each device
+>>>>
+<<<<
+no condition and no preview; a condition the key withholds; one standing in some weeks;
+====
+no condition and no preview; a `none`-row condition carried beside the looks, under View as at `public`, `local` and `secret`; one standing in some weeks;
+>>>>
+<<<<
+tiles byte-identical; not drawn, legended or counted; drawn exactly in its weeks;
+====
+tiles byte-identical; the `none`-row condition drawn, legended and counted at no key, each look-bearing condition's look the same at every key (`public`, §7.7's DR44); drawn exactly in its weeks;
+>>>>
+<<<<
+a barricade on a way's carriageway (`blockade`, `raiders`, `rebellion`)
+====
+a barrier across a way's carriageway (a `barricade` of `blockade`, `raiders` or `rebellion`, a `beast`'s `stakes` where its edge crosses a way, a quarantine's `cordon` across a way entering its quarter)
+>>>>
+<<<<
+drawn across the way, no other part on a carriageway
+====
+drawn across the way (the cordon closing the quarter, §10.2 (f)), no other part on a carriageway
+>>>>
+<<<<
+the district's `ruinTone` standing while any of its buildings draws it
+====
+the unit's `ruinTone` standing while the look stands over any of its buildings
+>>>>
+<<<<
+the unserved mesa (S3 (9) (a)) with a refugee camp and a quarantine standing
+====
+the unserved mesa (S3 (9) (a)) with a refugee camp and a quarantine standing; a refugee camp of two heads
+>>>>
+<<<<
+each on `campLand`, else on the ring marks, never undefined
+====
+each on `campLand`, else on the ring marks, never undefined; placed by the overflow belt by the gate (`approachByGate`'s `h` at least 1, §10.2 (d)), never undefined
+>>>>
+<<<<
+a quarantine, refugees, a famine, a fire, a flood and an earthquake by their calamities
+====
+a quarantine whose affected quarter ways enter, refugees, a famine, a fire, a flood and an earthquake by their calamities
+>>>>
+<<<<
+none on a carriageway but a barricade's
+====
+none on a carriageway but a barrier's across it (a barricade's, a `stakes` barricade's or a cordon's)
+>>>>
+<<<<
+no week drawing a building both ruined and under its rebuild's stage
+====
+no week drawing a building both ruined and under its rebuild's stage; the fire at VILLAGE striking one end: the `ruinTone` on the struck end's plots only, and at an end-less THORP on the struck toft group's plots only (V07 §5.6 (3))
+>>>>
+<<<<
+a building of a disaster look's district, and its battle-map scene
+====
+a building a disaster look stands over (§10.2 (f); a struck district's, and at VILLAGE a struck end's), and its battle-map scene
+>>>>

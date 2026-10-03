@@ -1,0 +1,128 @@
+# VRC0S-04 (major, F-MISSING): g item 118's rendering part — §8.2's decoration rows by tier and band (V11's table read,
+# never restated), the places they stand at, keyed placement, culture and season motifs, the second cue, never over a
+# label or a gate's passage; the base live layer `live.festival` (lazily per visible tile); §9.5's legend line; the
+# census and edge rows. A LOOK only (canon J129); exports and the budget are in 210's §11.1 and §12.5 paragraphs.
+@@ FILE 8.2.md
+<<<<
+positions from the occupancy at the view-state hour, one categorical colour per person), which the simulation module
+registers through §14's `LiveLayerProvider` registry (§10.3). The model view a provider receives offers
+====
+positions from the occupancy at the view-state hour, one categorical colour per person), which the simulation module
+registers through §14's `LiveLayerProvider` registry (§10.3); and `live.festival` (base; g item 118: the festival
+decorations, below). The model view a provider receives offers
+>>>>
+<<<<
+**Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
+====
+**Festival decorations (g item 118; J129): a look, never a change of the map.** While the view's year position (the
+season rows above) lies in a festival's weeks, the base live layer `live.festival` draws its decorations: the festivals
+are §7.7's DR43 schedule of the dossier's `traditions` (each with its weeks, kind, staging places and deity, a window
+wrapping the year's end when it ends before it starts) and the festival display is §2.9's (following the schedule, off,
+or previewing one festival — standalone, one of V11's `festival.generic` rows); nothing reaches a model value, a digest
+or a save, and with no festival shown nothing is drawn, the tiles byte-identical to the map without the layer (the
+no-op pin).
+* **What, by tier and band.** The rows of V11's `festival.decorations` for the map's rung (§10.2's shape; V11 §3.25.7),
+  `SKY` on a sky island's land (V05): each tier draws its own rows and never a larger tier's, each from its row's `band`,
+  the coarsest it shows at; a row with `alt` is one choice per festival, by `RH32('festival.place', the town root's key,
+  salt, H32(festival id))` ÷ 2³² against its weight.
+* **Where.** A row's place, as DR43 resolves the festival's staging (V11's `festival.staging` keywords, else its kind's
+  `fallback` row; a place the dossier names wins), stands on the map as:
+
+  | place | where it stands |
+  |---|---|
+  | `heart` | the root reservation's square (§4.2 S3); at a village rung V07's heart |
+  | `square` | the main square (the root plaza); a staging `hall` key's square before the hall |
+  | `market` | the market squares, highest `rank` first (§4.2) |
+  | `green` | the greens, largest first; at a village rung V07's green |
+  | `church`, `temple`, `deityTemple` | the plot of the largest church, or temple, use; `deityTemple` the festival deity's temple where one stands, else `temple` |
+  | `waterfront` | the `quay` shore runs and the landings, with their boats (§8.10) |
+  | `gate`, `gates` | the gates on `through` and `primary` ways |
+  | `fairField` | the fair field where one stands (V07), else the largest green outside the walls |
+  | `castle` | the castle's bailey |
+  | `fieldEdge` | the edge of the arable land nearest the green |
+  | `processionRoute` | the procession route: the shortest path on the part-0 way graph from the festival's religious place (`deityTemple`, else `church`) to the main square, along `through` and `primary` ways where they connect, ties broken by address order |
+  | `doors` | the `main` entrance ticks along the main ways within 150 m of the heart |
+  | `churchLane` | V07's church lane, else the shortest way from the church's door to the green |
+  | `towers`, `walls` | the enceintes' towers and their `standing`, `worn` and `patched` runs |
+  | `hall` | the front of the town hall's or guildhall's plot |
+  | `mainWays` | the `through` and `primary` ways |
+  | `boats` | the boats at the waterfront (§8.10) |
+  | `rims`, `landings` | a sky island's rim chain and its landings (V05) |
+
+  A place that does not stand takes the next of its kind's fallback places, and the heart when none stands.
+* **Placement, keyed and stable.** An item's count is a keyed draw in its row's `count` range per its `per` unit (per
+  place, per 100 m of run, per square, per tower, per boat). A point item — maypole, bonfire, stall, table, pavilion,
+  stage, a garland at the heart — takes, in rank order, the cells of a 3 m world grid inside its place's face less 2 m
+  from its edges, less every way's carriageway and every gate's passage (its opening and 4 m along its way each side),
+  ranked by `RH32('festival.place', the place's render key, salt, H32(festival id) + 64 × item index + ordinal)`; a place
+  too small for its count takes as many as fit and the count left out is reported in the view telemetry. A run item —
+  bunting, lantern strings, lanterns, banners lining a way, garlands on doors, pennants along walls and rims — stands at
+  its spacing along its chain from an offset drawn the same way; bunting spans a way from front to facing front, above its
+  carriageway; banners and pennants stand on their gate, hall, tower or wall run. The seed (through the render keys), the
+  festival's id and the place fix every decoration, so a festival draws the same in every view and export (byte-stable
+  tiles per seed), and two festivals in one week both draw, in window order.
+* **The glyphs** (our own; drawn in the festival's two colour roles, alternating along strings; each at least 3 px at
+  1×, not drawn coarser than its row's band): `garland` a swag of five motif beads (3 m); `bonfire` a stacked-wood disc in
+  `plank` with a flame star in the first role (3 m); `maypole` a 1 m disc with six ribbons 4 m long; `bunting` a line
+  hung with triangular flags every 1 m; `stall` a 3 × 2 m rectangle under a striped canopy; `table` a 4 × 1 m `plank`
+  rectangle with bench lines; `banner` a 1 × 2 m panel on a pole tick bearing a motif; `lanternString` a line beaded
+  every 2 m; `lantern` a 1 m dot in a ring; `pennant` a 2 m triangle on a pole tick; `pavilion` a 6 m disc with radial
+  seams; `stage` an 8 × 5 m `plank` platform with a front step; `boatDecor` a pennant on a boat's mast; `routeColour`
+  the route's way bodies overlaid in the first role at α 0.5 with chevrons every 20 px along the route. **Motifs and
+  colours:** the culture's `festival.motifs` row (`site.culture`, else `mixed`) gives the motif glyphs and the two
+  colour roles — `festival.sacred` replacing them for a festival that names a deity — and the year position's
+  `season/<name>` row adds its motifs; banners, pennants, pavilions and stall canopies carry a motif, and garlands and
+  bunting string them, cycling the culture's then the season's by a keyed draw. The motif glyphs: `wreath` a ring of six
+  dots; `ribbon` a bow; `knot` an interlace; `laurel` two leafed arcs; `lanternPierced` a dotted ring; `garlandFlower`
+  and `flowers` five-dot flowers, strung or scattered; `canopy` a scalloped edge; `lanternPaper` a ribbed oval; `streamer`
+  a wavy tail; `sunDisc` a rayed disc; `pennantSwallowtail` a forked pennant; `sheaf` three strokes tied; `evergreenBough`
+  a feathered stroke.
+* **Read without colour; never over a label or a passage (item 118 (c), (f)).** Every decoration is told by its glyph
+  shape and the route colour by its chevrons (the colour-deficiency table above); the colours name no legend category.
+  Nothing is placed in a gate's passage or stood on a carriageway, and the layer draws in slot 19b, under slot 23's labels
+  and their halos (§9.4), so no decoration covers a label. Decorations add no light: the lanterns are glyphs (§8.4's
+  lights are §2.7's records and the derived ones).
+* **The layer.** `live.festival` runs in the generation worker (*Live layers* above) over the model (the places, the
+  way graph, walls, towers, gates, the boats by §8.10's function), the view state and DR43's schedule; it delivers
+  `glyph` and `ribbon` marks of semantics `festival.<item>` for the visible region dilated by one tile, re-run when the
+  year position crosses a window's edge, the festival display changes, the model changes or the view moves — so
+  decorations are made lazily, tile by tile as they come into view (§12.5) — and, a `base` layer, joins the tile key (§8.8).
+
+**Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
+>>>>
+<<<<
+| a wall run's condition (g item 114) |
+====
+| the procession route's colour (g item 118) | its chevrons; every other decoration its glyph shape |
+| a wall run's condition (g item 114) |
+>>>>
+<<<<
+| 20 | grid | MFCG: grid |
+====
+| 19b | festival decorations (`live.festival`; g item 118) | new: over everything built, under the grid, labels and furniture |
+| 20 | grid | MFCG: grid |
+>>>>
+@@ FILE 9.5.md
+<<<<
+  generated from the registry (O12 d) and each active thematic row's key (`ThematicRow.legend`, §8.2), every
+  colour-coded category shown with its second cue beside its colour (g item 112). Position, mode and border are view state.
+====
+  generated from the registry (O12 d), each active thematic row's key (`ThematicRow.legend`, §8.2) and each state row's
+  entry while a mark in that state is drawn (`StateRow.legend`: the wall runs' conditions, g item 114), every
+  colour-coded category shown with its second cue beside its colour (g item 112); and a line naming the season and week
+  and, while one shows, the festival and its weeks (g items 117 (h), 118 (g)). Position, mode and border are view state.
+>>>>
+@@ FILE 8.3.md
+<<<<
+| seasons (g item 117; §8.2's season rows, §8.4's sun through the year):
+====
+| festival decorations (g item 118; §8.2's decoration rows): a THORP, a HAMLET, a VILLAGE, a TOWN, a CITY and a METROPOLIS fixture, each with a religious, a market, a harvest and a water festival from a dossier and with a generic preview, swept through all 52 weeks, and each with no traditions | all | the model digest equal with decorations on and off and in every week; each festival drawn exactly in its window's weeks; each tier drawing its own rows and none of a larger tier's; every item on its named or keyed place, else its fallback's; 0 decoration pixels in a gate's passage or standing on a carriageway, 0 over a label or its halo; the tiles byte-identical across two views and the PNG export of the same frame; with no traditions and no preview, tiles byte-identical to the fixture without the layer |
+| seasons (g item 117; §8.2's season rows, §8.4's sun through the year):
+>>>>
+@@ FILE 8.11.md
+<<<<
+| T-ER-23 | seasons (§8.2, §8.4; g item 117) at every rung THORP to the cap: every week 0–51; a climate band wrapping the year's end; a climate with no ice or snow band; a water mark with no `iceKind`; a crown with no `season.leaf` row; a face with no `seasonKind`; a document with no season tables; save, load, undo, redo, regenerate and migrate | each week's looks by their rows; the band read cyclically; nothing frozen or snowed; that water and that face as drawn; that crown unchanged all year (evergreen); the off form's four named rows; the year position is view state (§2.9) — persisted with the view, in no digest, left as it was by an undo, a redo and a regeneration, kept by a migration — never an error | the season fixture of §8.3 at every rung and every week: tiles as stated, the model digest constant; each lifecycle step's tiles equal to a fresh render of its state |
+====
+| T-ER-23 | seasons (§8.2, §8.4; g item 117) at every rung THORP to the cap: every week 0–51; a climate band wrapping the year's end; a climate with no ice or snow band; a water mark with no `iceKind`; a crown with no `season.leaf` row; a face with no `seasonKind`; a document with no season tables; save, load, undo, redo, regenerate and migrate | each week's looks by their rows; the band read cyclically; nothing frozen or snowed; that water and that face as drawn; that crown unchanged all year (evergreen); the off form's four named rows; the year position is view state (§2.9) — persisted with the view, in no digest, left as it was by an undo, a redo and a regeneration, kept by a migration — never an error | the season fixture of §8.3 at every rung and every week: tiles as stated, the model digest constant; each lifecycle step's tiles equal to a fresh render of its state |
+| T-ER-24 | festival decorations (§8.2; g item 118) at every rung THORP to the cap and on a sky island: no traditions and no preview; a window wrapping the year's end; two windows overlapping; a staging place that does not stand, and none of its fallbacks; a place too small for its count; a tradition with no readable week; save, load, undo, redo, regenerate and migrate | nothing drawn, tiles byte-identical; the window read cyclically; both drawn, in window order; the next fallback, then the heart; as many as fit, the rest reported; shown only in preview (DR43); the display and the year position are view state (§2.9) and the schedule the dossier's facts (DR43), so each lifecycle step draws what its state shows — never an error | §8.3's festival fixtures at every rung and on an island fixture: as stated; each lifecycle step's tiles equal to a fresh render of its state |
+>>>>

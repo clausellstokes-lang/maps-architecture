@@ -1,0 +1,166 @@
+{
+ "key": "coherence/probe-r7d-locks",
+ "file": "docs/validation/coherence/probe-r7d-locks.md",
+ "issues": [
+  {
+   "id": "PRB7D-LCK-01",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 2 (a)-(b) (adj l. 316-324) x Part L's correction 1 (adj l. 372-374) x veto 6 (adj l. 407-410)",
+   "claim": "A hand aqueduct drawn across a standing wall whose straight course would put a tower or gate under its strip: law 2 lays the newer lawfully first ((a): the stroke bent clear, as E-D2 and T110-2 (1)'s 'its course bent clear of a tower, with bend.wall.aqueductArch' say), and only failing that moves the standing wall's gate or tower ((b)). Part L's own correction 1 says that wherever an example has a newer structure 'bent, dropped, refused or waiting' because of such a gate or tower, 'law 2 (b) first moves' it, and veto 6 makes moving the tower the program's behaviour with 'such a raised way bent' as the veto option. Two outcomes on a common hand path: the stroke bent with no fate, or the tower moved with the fate reshaped. J146's chosen method puts the op's own structure first.",
+   "required_change": "Correction 1: 'Wherever an example has a newer structure bent, dropped, refused or waiting because ... lies where law 1 bars it, law 2 (b) first moves that gate, postern or tower along its wall inside the meeting's reach, and the example's outcome follows only where (b) finds no lawful point.' -> 'Wherever an example has a newer structure dropped, refused or waiting because a standing wall's gate, postern or tower (not a fixed place) lies where law 1 bars it and law 2 (a) leaves the newer no lawful shape, law 2 (b) moves that gate, postern or tower along its wall inside the meeting's reach, and the example's outcome follows only where (b) finds no lawful point; an example whose newer structure is bent clear of a gate, postern or tower stands, law 2 (a) coming first.' Veto 6: 'and a raised way built later moves a standing wall's gate or tower along the wall rather than give way. Veto option: such a drawing refused, and such a raised way bent or not built.' -> 'and a raised way built later bends its own course clear of them first (law 2 (a)), moving a standing wall's gate or tower along the wall only where no lawful course of its own is left, rather than give way. Veto option: such a drawing refused; such a raised way not built where its own course cannot bend clear.'"
+  },
+  {
+   "id": "PRB7D-LCK-02",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 2 (a)'s 'within its own reach' for an op given its shape (adj l. 316-321); law 3; the fixed-place sentence (adj l. 862-865); E-S12 (adj l. 1510-1511)",
+   "claim": "Law 2 (a) bounds the newer's lawful shape 'within its own reach' but names reaches only for searches (the pull's band, the slide bound, the strip's edges, the siting's candidates); a given shape 'takes the lawful shape law 3 picks nearest it' with no bound, so a hand stroke whose anchor falls in a viaduct's fixed-place zone has its anchor moved along the shore however far, and (a) never fails by hand. The examples bound it at wall.barrierReachM and E-S12 tests that case as refused refuse.raised.meeting. Moved 300 m, or refused.",
+   "required_change": "Law 2 (a), after 'an op given its shape - ... a warp's result - takes the lawful shape law 3 picks nearest it' add: 'inside the meeting's reach (law 1's terms) - an anchor or other fixed place moved along its tie within wall.barrierReachM of where the op put it, a gate or tower along the line it stands on and never past its ends, an edited value within its declared range -, (a) failing where none lies there'."
+  },
+  {
+   "id": "PRB7D-LCK-03",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 3's last sentence (adj l. 349-350) x law 2's '(b) Failing that' (adj l. 322); C13 (adj l. 910)",
+   "claim": "A declared aqueduct crossing a generated ring whose gate stands at the strip's edge (where every law-moved gate stands): a width setAttr or a course drag toward the gate has the old value as its only lawful value. Law 3: 'A bend that would leave the op with no effect is no bend: the op takes law 2 (c)' - refused. Law 2: failing (a), '(b) ... its gates ... move along its line' - the gate moved, the edit applied. Two outcomes on a common hand edit.",
+   "required_change": "Law 3's last sentence -> 'A bend that would leave the op with no effect is no lawful shape of law 2 (a): law 2 (b) is tried next, and only where (b) finds none does the op take law 2 (c).'"
+  },
+  {
+   "id": "PRB7D-LCK-04",
+   "severity": "major",
+   "clause": "b",
+   "cell": "law 2 (b)'s 'each gate's way following it' (adj l. 322-324); law 1 (10); Entry's exemption (adj l. 294); law 4's (G2)",
+   "claim": "(b) moves a gate whose way the user drew (locked by default, pinned by its declaring event) or locked; the way is no wall-like structure (whose own ways are an intervallum, a quay, a castle's paths) and no similar structure, so moving it moves a held declared placement, against item 101 R13 as J144 reads it ('other declared placements ... stay held as before', PROGRESS J144). The laws give no outcome: law 1 (10) holds 'every held structure' (a way unsaid), Entry lifts only locks on wall-like structures, raised ways and arch vaults (so the way's lock refuses by §7.1's lock row), and (G2) shows reshapes of held structures only. Builders: way moved with no fate; gate passed over, else (c); or refuse.locked with Unlock.",
+   "required_change": "Law 2 (b): 'Never a fixed place, a support or a held building.' -> 'Never a fixed place, a support, a held building, or a gate whose way the user drew, locked or pinned (that way keeps its course, item 101 R13; the gate passed over as a fixed place is).' Law 1 (10): 'every held structure keeps its placement (§7.2; J144), moved by no op but one that names it.' -> 'every held structure keeps its placement (§7.2; J144), and every held way its course, moved by no op but one that names it.'"
+  },
+  {
+   "id": "PRB7D-LCK-05",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 2 Entry (adj l. 291-293) x §7.2 Declared means held (base l. 10810-10816); E-D1 (adj l. 1681)",
+   "claim": "Entry refuses 'a target the user locked or pinned' and lets 'a drawn wall or a declared raised way' be changed by its author. §7.2 pins every entity a declaration made, placed or shaped, and lets its author change it by a new declaration. A generated ring the user shaped once (or a generated retaining wall moved by its chain grip, 'declared and held') is pinned by the user's event and is no drawn wall: its second drag near a raised way is refused (Entry's first clause) or bent (§7.2). A drawn wall the user also T10-locked fits both clauses (E-D1 exempts its author's declaration with no T10 exception): refused or applied.",
+   "required_change": "Entry's parenthesis -> '(a target the user locked or pinned by T10 hold - a live lock or pin event on it or on the attribute path the op changes - refused, refuse.locked, a drawn or declared one among them; every other target, held or not - a drawn wall or retaining wall locked by its drawing, a declared raised way, a wall-like structure or raised way that an earlier declaration shaped and so pinned - changed by the user's new declaration, §7.2 Declared means held, and met by these laws)'."
+  },
+  {
+   "id": "PRB7D-LCK-06",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 4's last sentence (adj l. 360-362) x E-D6 (adj l. 1720-1721), E-V4-4 (adj l. 1857); Terms' raised way with its arch vaults",
+   "claim": "The user locks an arch vault (UC18) and then re-shapes or widens that aqueduct by hand so the span comes under a wall's strips (or locks a gate and re-grades its stretch, W14). Law 4: a reshape of the op's own structure (by the Terms, the raised way with its arch vaults; the wall with its gates) is its bend line, never a fate. E-D6 gives a locked arch vault whose shape a meeting changes the fate reshaped, 'never the op's own target' (the target is the aqueduct), and E-V4-4 the fate reshaped; §7.3 item 4 lists every protected entity with its fate. Bend line with no confirmation, or the fates sheet.",
+   "required_change": "Law 4's last sentence -> 'A reshape of the op's own structure - the user's stroke, or a drawn wall or declared raised way its author's op changes - is its bend line, never a fate, save a part of it the user locked or pinned by T10 hold (an arch vault, a gate, a tower, a span's held use), whose change is shown as the fate reshaped as a held structure's is.'"
+  },
+  {
+   "id": "PRB7D-LCK-07",
+   "severity": "major",
+   "clause": "a",
+   "cell": "Part L's correction 5 (adj l. 382-385); law 4's (G2); E-D14's EditFate; W2, E-D3; §7.3 item 4; V09 §4.20.7",
+   "claim": "A hand drawWall across a generated aqueduct's vault span removes an unheld chamber (W2·C2); a hand delete lays one again (W11). Correction 5 gives 'what the op removes or lays beside it (an arch vault's chamber)' a fate, but no EditFate kind (kept, carried, orphaned, discarded, reshaped) holds a removal or a re-lay of an unprotected thing; §7.3 item 4 lists it among the unprotected consequences and V09 §4.20.7 among the effects (removed, added). A fate stored in the event and compared on replay, or an effect: two encodings for the commonest hand meeting.",
+   "required_change": "Correction 5: 'a fate is given only to a held structure other than the op's own (reshaped) and to what the op removes or lays beside it (an arch vault's chamber).' -> 'a fate is given only to a held structure other than the op's own (reshaped, a held arch vault's chamber removed or laid again among them); an unheld chamber the op's meeting removes or lays again is one of the edit's unprotected consequences (§7.3 item 4; an effects entry, removed or added), never a fate.' Law 4's (G2), after 'the event's undo restores it.' add: 'A change of an unheld structure at a meeting is listed among the op's consequences, never as a fate.'"
+  },
+  {
+   "id": "PRB7D-LCK-08",
+   "severity": "major",
+   "clause": "a",
+   "cell": "Terms' 'shape' (adj l. 263-264); law 1 (7); law 4's (G2); E-D7's change union",
+   "claim": "A hand aqueduct drawn over a held wall's run whose top stands above the soffit (or a hand repairRaised of a fallen span over a held run): law 1 (7) cuts the run down. The Terms define shape as 'what a meeting may change' and list (b)'s moves, the carried way's gate and the vault reading - not the cap, which is no placement either; (G2) shows 'every reshape of a held structure'; E-D7's change union has no value for it. Shown as reshaped, applied silently, or (the list read as closed) the newer aqueduct bent or raised clear or refused.",
+   "required_change": "Terms: 'a vault span's reading (law 1 (8)).' -> 'a vault span's reading (law 1 (8)), and a run's top and walk read down to a soffit (law 1 (7)).'; law 4's (G2), after 'is shown' add '- a held run capped by law 1 (7) among them, shown by the op that puts a standing span over it -'; E-D7's change union adds 'capped'."
+  },
+  {
+   "id": "PRB7D-LCK-09",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 1 (3)'s 'the deck's course' and 'that run was laid' (adj l. 274-278); C13 (adj l. 910-913); revert, split, merge, warp",
+   "claim": "A declared raised road with a ring drawn beneath it later (lawful), then one interior course vertex dragged far from the ring: law 1 (3) dates the crossing by 'the deck's course', only an extension and a repair keeping its date. Re-dating the whole course makes the ring stand 'when its course was laid', so the deck must come down before it, cut at the ring; re-dating only the moved stretch (C13's 'a re-shaped road deck stretch') keeps the crossing. The same split for a revert, a split, a merge and a warp; and no record stores a course's or a run's laying date.",
+   "required_change": "Terms add: 'A deck stretch's date is the commit that last laid the line of that stretch of a road deck's deck line between two of its stations: its creating commit; a hand re-shape, a warp or a split re-dating only the stretches whose line it moves (a station the support step's (5) keeps keeping its stretches' dates); a merge keeping each stretch's own; a frame growth's extension and a repair the date of the line they continue; an undo or a revert the date the line it restores had. A run's date is the commit that last laid its line (a re-section on its kept trace keeping it). Both are stored with the stretch and the run.' Law 1 (3): 'only where that run was laid after the deck's course' -> 'only where that run's date is later than the date of the deck stretch over it'; 'across an enclosing wall standing when its course was laid' -> 'across an enclosing wall whose run's date is earlier than that stretch's'."
+  },
+  {
+   "id": "PRB7D-LCK-10",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 2 Newer's 'where one op lays or changes both, the raised way is the older' (adj l. 296-298) x Carried way (adj l. 311-314)",
+   "claim": "A hand raised road across a held ring W comes down before it; its carried way's gate cannot stand at the crossing (its footprint in a second raised way's strip). The road is the op's own (newer): (a) moves its carried way so the gate stands at the nearest lawful point along W - the stroke bent. But the op lays the road and changes W (Carried way's gate), so 'the raised way is the older': W's gate is the newer, moved 'along that way (the wall laid through it)', re-laying held W's line, which law 1 (10) bars; (b) on the road finds nothing; (c) refused. Bent, or refused.",
+   "required_change": "Newer: 'where one op lays or changes both, the raised way is the older (held from its creation, §2.7's support step (6))' -> 'where one op lays or changes both and names neither as its target (a warp, an undo of a group), the raised way is the older (held from its creation, §2.7's support step (6)); a raised way the op declares, with the gates its carried way makes, is the op's own and the newer, every wall it meets the standing one'."
+  },
+  {
+   "id": "PRB7D-LCK-11",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 3's measures (adj l. 340-347) x law 2 (a)'s 're-section' and 'edit's value'; W14 and veto 18 vs C13",
+   "claim": "A value edit's lawful shapes include the value bent with the line or course kept and the value kept with the line or course re-laid; law 3 measures them in different units ('a re-laid line or course, by the largest distance ...; an edited value, by its difference') and never orders them. W14 and veto 18 keep the new section and re-trace the line; C13 bends the value and keeps the course ('never another course'). A hand re-grade under an aqueduct, or a hand width or spacing edit: re-traced, value bent, or numbers compared across units.",
+   "required_change": "Law 3, after 'an edited value, by its difference.' add: 'An op that edits a value of its own structure keeps that structure's line or course and bends the value - save a wall's section (a grade, a kind, a palisade's REPLACEMENT), which keeps the value and re-lays the line locally -; only where that finds no lawful shape is the other tried.'"
+  },
+  {
+   "id": "PRB7D-LCK-12",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 3's ties (adj l. 347-349)",
+   "claim": "A hand Arch spacing edit to 1200 cm with 1180 and 1220 equally near and lawful; a hand aqueduct snapped through a tower's centre, bent left or right by equal distance and area; a width bent up or down equally. 'Ties go to the one nearer the start of that line ... and then to the lower address': two values have no line, two courses of one raised way leave the old line at the same point, and both are one entity with one address. No outcome.",
+   "required_change": "Law 3: 'and then to the lower address.' -> 'and then to the lower address; of two values equally near, the lower; of two re-laid lines or courses equally displaced, the one that keeps the old to its left (the old line's vertex order; a deck's spine order) where they first differ; of two positions of one thing equally near, the one nearer the line's first vertex measured forward in its vertex order (a closed line from its first vertex).'"
+  },
+  {
+   "id": "PRB7D-LCK-13",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 3's 'a line's crossing of a deck line along that deck line' (adj l. 343-344) x Terms' union (adj l. 230-231)",
+   "claim": "A hand drawWall across two converging raised ways whose strips meet crosses one deck line at a pier and the other under a span, inside one union. Law 3 measures one crossing along one deck line; moving one moves the other, and law 3 neither orders, sums nor couples them. First-met first (the example's rule), least sum, or least largest: three walls.",
+   "required_change": "Law 3, after 'a line's crossing of a deck line along that deck line' add: '(where a line's part inside a union of strips crosses several deck lines, its crossing of the deck line it meets first from its own first vertex, moved along that deck line to the nearest point from which the part is lawful for every raised way whose strip it enters, that move its displacement)'."
+  },
+  {
+   "id": "PRB7D-LCK-14",
+   "severity": "major",
+   "clause": "a",
+   "cell": "'a vault span's strip' in law 1 (8) and a held building's strip (adj l. 258, 284) - undefined by the Terms (adj l. 243-245)",
+   "claim": "The Terms define only the raised way's strip; the base defines a span's strip twice - the span rule's, between the piers' inner faces without the margin (base l. 2730-2732), and (6)'s 'under-deck strip of each vault span' with the margin. A hand retaining stroke crossing at the support beside a span seating a held building (the example's 'or at a support'), or running within the margin: under the first reading it meets no span's strip and is accepted; under the second both spans read open, the held building's chamber removed, and the stroke moved or refused.",
+   "required_change": "Terms add: 'A span's strip is the span rule's (§2.7 The span rule (1)): the deck's plan between its two piers' inner faces, without the strip margin; law 1 (8), a held building's strip and every rule naming a vault span's strip read it so (a line at a support or within the margin meets no span's strip).'"
+  },
+  {
+   "id": "PRB7D-LCK-15",
+   "severity": "major",
+   "clause": "a, c",
+   "cell": "law 1 (9) (adj l. 286-287); Terms' held building's strip and wall strips' width (adj l. 241-242, 258-259); law 4's list; E-D13",
+   "claim": "A shop seated (T6 place) in the standing chamber of an aqueduct's second span inside the wall, 15 m from the wall's line on its inner side (the inner strip, 7-11.5 m, short of it): law 1 (9)'s 'so no wall's line lies in a held building's strip', widened by the wider setback (11-21.5 m; past 15 m wherever the outer setback and glacis reach 14 m), is false at once though nothing changed the chamber. No law re-checks the seat (placeAt is not in law 4's list), E-D13's row checks only the chamber, footprint and door (so (9)'s line clause is unchecked), and the next op on that wall finds (9) false and is refused for a state it did not make.",
+   "required_change": "Law 1 (9): 'a held building's chamber, footprint and door are unchanged by any meeting, so no wall's line lies in a held building's strip;' -> 'a held building's chamber, footprint and door are unchanged by any meeting: nothing law 1 (8) reads comes to lie across the strip of the span whose chamber seats it, so a wall laid or changed after the seat keeps its line out of the held building's strip (a wall standing when the seat was made, nothing of it across that span's strip, stands as it is);'."
+  },
+  {
+   "id": "PRB7D-LCK-16",
+   "severity": "major",
+   "clause": "c",
+   "cell": "the check (adj l. 364-366); E-D13's how-checked (adj l. 1773-1775); T110-4 (E-S13)",
+   "claim": "E-D13 checks law 1 by one spatial query per touched part against the union of strips, zones and ends. Law 1 (3)'s 'only where that run was laid after the deck's course' needs two dates no record stores; (9)'s 'unchanged by any meeting' and (10)'s 'keeps its placement' need the held set before and after the batch. §5.3's declared row compares before and after only for re-derivation, New random and epochs, declared entities only; T110-4 compares no held placement. A build that re-traces a T10-locked wall at a hand aqueduct's meeting, or lays a deck over a wall that stood when its course was laid, passes both.",
+   "required_change": "The check, after 'by one §5.3 row' add: '- its spatial clauses by query, law 1 (3) by the stored dates of each deck stretch and run that cross (law 1's terms), and (9) and (10) by each touched held building's chamber, footprint and door and each touched held structure's placement (a wall's trace and course; a raised way's course, deck line, stations and keys; an arch vault's span and key), compared by leaf digest before and after the batch, by address, the op's own named target excepted -'; E-S13's T110-4 (c), after 'no meeting refused, skipped or altered for a lock;' add ' every held structure's placement unchanged by every op that does not name it;'."
+  },
+  {
+   "id": "PRB7D-LCK-17",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 4's 'an undo is its event's inverse, re-checked as any op' (adj l. 357-358) x §7.4 Application and Independence; T110-4 (c)'s 'each undo restoring the prior digest'",
+   "claim": "A declared aqueduct (open spans) deleted, then a wall drawn through where its piers stood, then the owner's undo of the delete: Independence passes (the delete touched the aqueduct's own part and its feet; support rings are point attributes; the wall's faces lie mid-deck). Restored exactly, the supports lie in the band (law 1 (2)) and §5.3's row fails, E_INVARIANT; 're-checked as any op' makes the re-created aqueduct the newer and slides its stations - an inexact undo against §7.4's exact inverses and T110-4. Aborted, bent, or dependent; likewise a redo at the head.",
+   "required_change": "Law 4: 'an undo is its event's inverse, re-checked as any op.' -> 'an undo or a redo is its event's exact inverse or re-application, never bent: it applies only where law 1 then holds, a later live event whose structure lies in the reach of a meeting the undo or redo would re-create counting as dependent on its target (§7.4 Independence: refuse.undo.dependent, the dependants named, to undo first).'"
+  },
+  {
+   "id": "PRB7D-LCK-18",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 2 (a)'s 'a warp's result' (adj l. 320-321) x §7.1's 'a warp step that would break an invariant | bent | the step halved' (base l. 10663); PRB7C-LCK-04's closure (adj l. 2345)",
+   "claim": "A T2 Displace stroke carries a generated stretch's gate under a viaduct's deck. Law 2 (a) makes a warp's result a given shape re-shaped by law 3 (the warp kept, the gate moved along the trace); E-D13 makes law 1 a batch-local invariant row, and the base halves 'a warp step that would break an invariant', up to eight times, then a reported no-op. PRB7C-LCK-04's closure wrote no END at §7.1's warp row or §3.6, so it fails: re-shaped, or halved.",
+   "required_change": "Law 2 (a): 'a warp's result' struck from the given shapes, and after (a)'s last sentence add: 'A warp's step whose result law 1 bars is halved by the kernel (§3.6's whole-step validation; bend.warp.halved), never re-shaped; its last halving's no-op is reported as §3.6 reports it.'"
+  },
+  {
+   "id": "PRB7D-LCK-19",
+   "severity": "major",
+   "clause": "a",
+   "cell": "law 2 Newer's creation prefix (adj l. 300-302) x the check's T110-4 (c) 'each skeleton exported and re-imported reproducing its source's model digest' (E-S13); PRB7C-LCK-10's closure",
+   "claim": "On a generated CITY the user draws a raised road across the generated ring: the ring is older, the deck comes down before it, its carried way gated by hand. Exported as a skeleton and re-imported, the road stands before every stage, so the ring is the newer: laid after the deck's course it passes beneath ungated and S3's gate law serves the road. The meetings differ by Newer itself, so T110-4 (c)'s round trip over random hand ops on generated maps fails every correct build; E-S15's round trips are drawn-on-drawn only, so PRB7C-LCK-10's closure fails for the common declared-on-generated case.",
+   "required_change": "The check, after 'and every path' add: '- a skeleton's round trip reproducing its source's model digest only where every meeting on the source was between the skeleton's declarations, a declaration that met a generated structure meeting it on re-import as Newer says'; E-S13's T110-4 (c): 'and each skeleton exported and re-imported reproducing its source's model digest (T101-4)' -> 'and each skeleton exported and re-imported reproducing its source's model digest where every meeting on the source was between its declarations (T101-4), and otherwise its meetings as §2.7's laws' law 2 Newer gives them, its own re-export reproducing the re-import's digest'."
+  },
+  {
+   "id": "PRB7D-LCK-20",
+   "severity": "minor",
+   "clause": "d",
+   "cell": "R7-02's bent-group (i) (adj l. 830-832); E-D3 (adj l. 1701-1702) x law 3",
+   "claim": "The example replaces 'a crossing on a road deck's ramp, stair or foot by one beyond the foot'; law 3 takes the least displacement along the deck line and its carried way, so a hand wall crossing a 70 m ramp 15 m from its top goes under the first span whose crossing keeps the wall strips off the ramp (lawful by law 1 (3)-(4)), nearer than beyond the foot. The laws govern: the example is corrected.",
+   "required_change": "(i)'s 'and a crossing on a road deck's ramp, stair or foot by one beyond the foot, crossing the carried way's ground course on ground part 0 through a gate there (the form down before the wall gives a road deck)' -> 'and a crossing on a road deck's ramp, stair or foot by the nearer, by law 3, of the first lawful crossing under its deck and the one beyond the foot, the latter crossing the carried way's ground course on ground part 0 through a gate there'; E-D3's '(under an aqueduct's span, beyond a road deck's foot through a gate there)' -> '(under an aqueduct's span; under a road deck's span or beyond its foot through a gate there, whichever law 3 finds nearer)'."
+  }
+ ]
+}

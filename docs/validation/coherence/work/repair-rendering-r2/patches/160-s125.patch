@@ -1,0 +1,30 @@
+# §12.5: G121-rendering (the frame budgets Auto's loop holds; its settle rule); G120-rendering (Find's overlay budget);
+# G122-rendering (the crisis looks drawn lazily per visible tile); G124-rendering (the effects' ≈ 1 ms a frame).
+@@ FILE 12.5.md
+<<<<
+**The zoom-out limit (g item 116).** The limit (§8.8) removes stops and never adds one: no budget above grows, a map
+whose limit lies finer than stop 0 caches fewer stops, and a gesture at the limit shows that stop's own tiles.
+====
+**The zoom-out limit (g item 116).** The limit (§8.8) removes stops and never adds one: no budget above grows, a map
+whose limit lies finer than stop 0 caches fewer stops, and a gesture at the limit shows that stop's own tiles.
+
+**The frame budgets Auto holds (g item 121 (d); J134).** §8.8's Auto loop holds the interaction rates above as its frame
+budgets — 60 fps (16.7 ms a frame) on the mid, high and ultra tiers, the reference machine's, and 30 fps (33.3 ms) on
+the low tier: a rolling p95 over the budget through 2 s steps one rung of §8.4 (g)'s order down, one under 60 % of it
+through 10 s one up, each applied only at the settle and at most once in 10 s, a rung left downward held for 60 s and
+doubling (R12-36). The text layer's composition (§8.8) is the label composition above, at the device ratio's positions.
+
+**Find (g item 120 (j); J133).** An interaction budget (item 119 (d)), at the METROPOLIS cap on the reference machine:
+suggestions drawn within ≈ 50 ms of a key; a chip's glow within ≈ 100 ms of its click — the Find index's lookup,
+`live.find`'s delivery and the re-composition of the visible tiles' overlay; the index (each chip's listing, §11.2, with
+V01's areas and gaps and V04's and V05's places) rebuilt by the generation worker once per commit, off the commit's
+path; no base tile re-rastered for a chip (R12-35).
+
+**Crisis looks (g item 122).** Drawn lazily for the visible tiles and their first ring (`live.crises`' region, §8.2),
+adding ≤ 20 % to a tile's raster time as the decorations do; a change of the crisis display, or the drawn week crossing a
+condition's edge, re-skins the visible tiles within the settle bound above (R12-37).
+
+**Weather effects (g item 124 (f); J137).** ≈ 1 ms of frame time at the densest spell on the reference machine — the
+sprite instances and the per-frame light terms of §8.4 (i), main thread and GPU together — inside the frame budgets
+above; the first thing Auto gives up (§8.4 (g); R12-38).
+>>>>

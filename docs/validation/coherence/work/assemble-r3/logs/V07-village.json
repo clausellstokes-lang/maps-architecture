@@ -1,0 +1,263 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "8a4302dc1cd9f98d2cf06aa96aa3f4470f2fee6717c7af96ab6804b5bca28394",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V07.md",
+   "sha256": "83afa2aacb43ce16a406e5b374fc187949c19fb5f49cff78f197a53157dd8725",
+   "lines": 1096,
+   "blocks": 8,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r3-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 127,
+   "body_sha256": "cedc7b3dc6acf8f7bde1d44952997a5d3d982dd271caf293932e1be41a6090a6",
+   "target_line": 203,
+   "section_old": "203–330",
+   "section_old_n": 128,
+   "section_new_n": 129,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V07.md #2 (l. 132) REPLACE ### 3.0 The village pipeline — stages, order and data keys",
+   "file": "repair-r3-V07.md",
+   "index": 2,
+   "line": 132,
+   "kind": "REPLACE",
+   "heading": "### 3.0 The village pipeline — stages, order and data keys",
+   "body_lines": 71,
+   "body_sha256": "dcbd923b82ae0b0051b3db0e8936739c7c49ed8dcf87e0f364999fe52516695e",
+   "target_line": 1081,
+   "section_old": "1081–1152",
+   "section_old_n": 72,
+   "section_new_n": 72,
+   "new_headings": [
+    "### 3.0 The village pipeline — stages, order and data keys"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V07.md #3 (l. 206) REPLACE ### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill",
+   "file": "repair-r3-V07.md",
+   "index": 3,
+   "line": 206,
+   "kind": "REPLACE",
+   "heading": "### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill seat",
+   "body_lines": 119,
+   "body_sha256": "fd806f89495af2924dcea95754d303566462230a835aa3cc1c9e0643d532e61a",
+   "target_line": 1201,
+   "section_old": "1201–1319",
+   "section_old_n": 119,
+   "section_new_n": 120,
+   "new_headings": [
+    "### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill seat"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V07.md #4 (l. 328) REPLACE ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+   "file": "repair-r3-V07.md",
+   "index": 4,
+   "line": 328,
+   "kind": "REPLACE",
+   "heading": "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+   "body_lines": 367,
+   "body_sha256": "8f12f27f008ccf87d5e4205cb50151879aeb7a27602745b1c780238c39ca02ff",
+   "target_line": 2287,
+   "section_old": "2287–2651",
+   "section_old_n": 365,
+   "section_new_n": 368,
+   "new_headings": [
+    "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V07.md #5 (l. 698) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r3-V07.md",
+   "index": 5,
+   "line": 698,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 67,
+   "body_sha256": "70d68b4b1a405b466a87b7f0ef097147e35c6ef703760499d3a6f7cc2d510935",
+   "target_line": 2913,
+   "section_old": "2913–2981",
+   "section_old_n": 69,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V07.md #6 (l. 768) REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+   "file": "repair-r3-V07.md",
+   "index": 6,
+   "line": 768,
+   "kind": "REPLACE",
+   "heading": "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+   "body_lines": 66,
+   "body_sha256": "78421ffe7a0b86846f6904638713ca50a62855b8ab736ae38b59cb8e52b10de2",
+   "target_line": 3326,
+   "section_old": "3326–3391",
+   "section_old_n": 66,
+   "section_new_n": 67,
+   "new_headings": [
+    "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V07.md #7 (l. 837) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r3-V07.md",
+   "index": 7,
+   "line": 837,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "75f59a4bff638965c6598b46342aaef28fe8794a24762ea6d744922eecbce0e3",
+   "target_line": 3590,
+   "section_old": "3590–3691",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V07.md #8 (l. 940) REPLACE ## 9 Decisions",
+   "file": "repair-r3-V07.md",
+   "index": 8,
+   "line": 940,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions",
+   "body_lines": 154,
+   "body_sha256": "23119c563f9cfdd9de86c81a2cf0620fbb12d2bccb1e570395b245c4da633850",
+   "target_line": 3791,
+   "section_old": "3791–3945",
+   "section_old_n": 155,
+   "section_new_n": 155,
+   "new_headings": [
+    "## 9 Decisions"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V07.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #2 (l. 132) REPLACE ### 3.0 The village pipeline — stages, order and data keys",
+    "kind": "REPLACE",
+    "heading": "### 3.0 The village pipeline — stages, order and data keys",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #3 (l. 206) REPLACE ### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill",
+    "kind": "REPLACE",
+    "heading": "### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill seat",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #4 (l. 328) REPLACE ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+    "kind": "REPLACE",
+    "heading": "### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #5 (l. 698) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #6 (l. 768) REPLACE ### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "kind": "REPLACE",
+    "heading": "### 5.5 Find at the village rungs (item 120, the village's part; J-V7.145)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #7 (l. 837) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V07.md #8 (l. 940) REPLACE ## 9 Decisions",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 602961,
+  "doc_bytes_after": 603780,
+  "doc_lines_before": 4060,
+  "doc_lines_after": 4066,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 8,
+  "blocks_applied": 8,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "285e2f6fe9dd744be31d1d5db7073d16c958cd2f67d956e9a6da935b091a0b5a",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

@@ -1,0 +1,78 @@
+OK  §2.7 way-and-channel table, row (b) (its gates cell, M8 / X1 home base  defined False->True cites 3->4 {'base': 1, 'V09': 3}
+OK  §2.7 way-and-channel table, row (d) (its gates cell, M5)     home base  defined False->True cites 4->4 {'base': 4}
+OK  §2.7 way-and-channel table, row (e)                          home base  defined True->True cites 8->9 {'base': 6, 'V06': 1, 'V09': 2}
+OK  §2.7 crossing table, row W2                                  home base  defined True->True cites 4->4 {'base': 4}
+OK  §2.7 crossing table, W12·C8 (names T-V5-14)                  home base  defined True->True cites 0->1 {'V05': 1}
+OK  §2.7 crossing table, row W13                                 home base  defined True->True cites 5->6 {'base': 3, 'V07': 1, 'V09': 2}
+OK  §2.7 crossing table, row W14 and its event cell (M7)         home base  defined False->True cites 6->6 {'base': 2, 'V06': 1, 'V07': 3}
+OK  §2.7 crossing table, W1·C1's test naming T110-4 (c) (its sha home base  defined False->True cites 0->1 {'base': 1}
+OK  the bent-group sentence, items (ii) and (iv)                 home base  defined True->True cites 0->2 {'V09': 2}
+OK  the bent-group sentence's strip (M1: law 1, read with its te home base  defined False->True cites 21->24 {'base': 14, 'V06': 1, 'V07': 4, 'V09': 5}
+OK  the fixed-place sentence                                     home base  defined True->True cites 28->30 {'base': 21, 'V06': 6, 'V07': 2, 'V09': 1}
+OK  the lock sentence (M2: else the soft things moved)           home base  defined False->True cites 21->21 {'base': 17, 'V04': 1, 'V06': 1, 'V07': 2}
+OK  ***beneath***                                                home base  defined True->True cites 126->126 {'base': 89, 'V01': 5, 'V04': 9, 'V06': 11, 'V07': 6, 'V09': 5, 'V10': 1}
+OK  ***down before the wall***                                   home base  defined True->True cites 30->30 {'base': 18, 'V06': 9, 'V07': 1, 'V09': 2}
+OK  *No gate and no tower in the under-deck strip* (M6: a contra home base  defined False->True cites 2->2 {'base': 2}
+OK  law 2 *Entry*                                                home base  defined True->True cites 27->28 {'base': 18, 'V04': 1, 'V05': 1, 'V06': 8}
+OK  law 2 *Carried way*                                          home base  defined True->True cites 36->38 {'base': 34, 'V06': 1, 'V07': 1, 'V09': 2}
+OK  law 2 *Newer*                                                home base  defined True->True cites 6->7 {'base': 7}
+OK  these laws' *ends* / **the ends**                            home base  defined True->True cites 5->5 {'base': 4, 'V06': 1}
+OK  §2.7's laws' *Order*                                         home base  defined True->True cites 14->15 {'base': 15}
+OK  §4.1's S5 row: the L1 re-lays of law 2 (b) (P7)              home base  defined False->True cites 0->0 {}
+OK  §4.1 *Declarations read ahead* (P9: only one §7.1's dry-run  home base  defined False->True cites 2->2 {'V04': 2}
+OK  §4.2 S3 (6): the cross wall against a standing raised way (P home base  defined False->True cites 16->20 {'base': 14, 'V06': 4, 'V07': 2}
+OK  §4.2 S3 (7): a merged pair's inter-nucleus route re-solved ( home base  defined False->True cites 32->37 {'base': 37}
+OK  §4.3 *Where it may not go* (P3: a merged pair's cross wall)  home base  defined False->True cites 7->8 {'base': 8}
+OK  §4.3 *Routes* (P3, P8: the cross wall's reader; a carried wa home base  defined False->True cites 0->0 {}
+OK  §4.4 S5a *Trace* (2) (the pull and the pin rule)             home base  defined True->True cites 16->21 {'base': 19, 'V06': 2}
+OK  §4.4 S5a *Trace* (2)'s step (b)                              home base  defined True->True cites 0->2 {'base': 2}
+OK  the pull's search band (§4.4 S5a)                            home base  defined True->True cites 27->31 {'base': 29, 'V06': 1, 'V07': 1}
+OK  §4.4 S5a *Trace* (3): no move to a shape the laws do not adm home base  defined False->True cites 0->0 {}
+OK  §4.4 S5a *Outer moats* (P8: the arterial or carried way re-r home base  defined False->True cites 6->6 {'base': 6}
+OK  §4.4 S5d's kept arc (P6)                                     home base  defined False->True cites 38->42 {'base': 25, 'V06': 4, 'V09': 1, 'V11': 3, 'V12': 9}
+OK  §4.8 *The harbour mouth* (its chain, P14 in F6)              home base  defined False->True cites 0->1 {'base': 1}
+OK  §4.11's trace step for `contractWall` (S5a's)                home base  defined True->True cites 2->3 {'base': 3}
+OK  F-WALL's raised-way rung and its top-up exception (D1)       home base  defined False->True cites 10->14 {'base': 13, 'V06': 1}
+OK  F-BUDGET-STAGE's kept arc (D2)                               home base  defined False->True cites 6->8 {'base': 8}
+OK  F-REDERIVE and its raised-way rung (D4, D5)                  home base  defined False->True cites 31->32 {'base': 29, 'V02': 1, 'V09': 1, 'V11': 1}
+OK  `W_RAISED_MEETING` (§5.4's warnings: a merged pair's cross w home base  defined False->True cites 10->14 {'base': 12, 'V07': 2}
+OK  §7.1's dry-run outcomes (the outcome table)                  home base  defined True->True cites 5->9 {'base': 3, 'V07': 3, 'V09': 2, 'V10': 1}
+OK  §7.1 *Raised ways, aqueducts and retaining walls* (D6: law 2 home base  defined False->True cites 1->1 {'V09': 1}
+OK  `refuse.raised.meeting` (§7.1; D9)                           home base  defined False->True cites 33->35 {'base': 28, 'V04': 1, 'V07': 3, 'V09': 2, 'V10': 1}
+OK  `bend.wall.raisedCrossing` (§7.1 row; D8)                    home base  defined False->True cites 27->27 {'base': 18, 'V07': 2, 'V09': 7}
+OK  `bend.raised.underSpan` (§7.1 row; D10)                      home base  defined False->True cites 17->17 {'base': 9, 'V09': 8}
+OK  §7.3 (b) 3 (D5: law 2, in its order)                         home base  defined False->True cites 18->18 {'base': 15, 'V09': 2, 'V11': 1}
+OK  §7.7's DR2 row (D7: the chain left out for a raised way)     home base  defined False->True cites 298->298 {'base': 38, 'V01': 10, 'V02': 11, 'V03': 1, 'V04': 6, 'V05': 19, 'V06': 46, 'V07': 49, 'V08': 97, 'V09': 1, 'V10': 1, 'V11': 14, 'V12': 5}
+OK  §8.2's slot 19a (the draw order's one home)                  home base  defined True->True cites 8->9 {'base': 3, 'V01': 5, 'V07': 1}
+OK  T110-4 (c)'s third run: the ring both meet shape-locked (S1) home base  defined False->True cites 2->3 {'base': 3}
+OK  T110-4 (a)'s T-V6-48 variant (a declared shore viaduct's fix home base  defined True->True cites 0->1 {'V06': 1}
+OK  T110-2 (2)'s twin-town CITY runs (S2 (1))                    home base  defined False->True cites 2->2 {'base': 1, 'V06': 1}
+OK  T110-2 (6)'s perpendicular moat deck, sixth, seventh and top home base  defined False->True cites 11->11 {'base': 11}
+OK  T110-2 (3)'s walled port with a declared shore viaduct (S4 ( home base  defined False->True cites 5->5 {'base': 4, 'V10': 1}
+OK  T110-2 (1)'s along-the-band stroke and under-deck tower (S4  home base  defined False->True cites 9->9 {'base': 5, 'V06': 4}
+OK  §13.8's T110 row: hand rows W4, W5, W6, W8 and W10 (S3)      home base  defined False->True cites 0->0 {}
+OK  the c15 fixture (T110-2 (1))                                 home base  defined True->True cites 6->7 {'base': 4, 'V11': 3}
+OK  `wealthLevel` (§4.2's blueprint / the intent)                home base  defined True->True cites 53->54 {'base': 24, 'V01': 1, 'V04': 2, 'V05': 7, 'V06': 7, 'V07': 1, 'V08': 6, 'V12': 6}
+OK  `structure.span.deckDepthCm`                                 home base, V09, V11 defined True->True cites 7->8 {'base': 4, 'V09': 1, 'V11': 3}
+OK  `structure.stripMarginM`                                     home base, V01, V06, V07, V11, V12 defined True->True cites 22->22 {'base': 5, 'V01': 1, 'V06': 4, 'V07': 3, 'V11': 9}
+OK  T-V5-14 and its locked-run sentence (V5-1)                   home V05   defined False->True cites 34->34 {'base': 14, 'V05': 18, 'V12': 2}
+OK  `walls.waited` (V06 §2.10's report)                          home V06   defined True->True cites 19->23 {'base': 15, 'V06': 6, 'V07': 2}
+OK  `absorbWall` (V06 §2.8's EvolveOp)                           home V06   defined True->True cites 37->38 {'base': 15, 'V04': 1, 'V06': 17, 'V07': 4, 'V09': 1}
+OK  V06's E3 cell (## 8: fortification and raised ways)          home V06   defined True->True cites 55->55 {'base': 14, 'V01': 1, 'V02': 1, 'V04': 15, 'V06': 16, 'V07': 2, 'V11': 1, 'V12': 5}
+OK  H-AQUA (V06 ## 7's fixture)                                  home V06   defined True->True cites 24->25 {'base': 3, 'V06': 20, 'V12': 2}
+OK  T-V6-47 (V6-1 (2)'s far-ramp clause; V6-2's F5 pointer)      home V06   defined False->True cites 29->29 {'base': 18, 'V06': 11}
+OK  T-V6-48 (V6-1 (1)'s T110-4 (a) variant chain)                home V06   defined False->True cites 3->3 {'base': 1, 'V06': 2}
+OK  V06 §3.7.6 (3), the harbour-mouth chain (V6-3)               home V06   defined False->True cites 10->10 {'base': 3, 'V04': 1, 'V06': 6}
+OK  V06 §3.19 (2), (5) (V6-4, V6-5)                              home V06   defined False->True cites 22->22 {'base': 9, 'V06': 13}
+OK  V07 §3.5a (4) (VS3's palisade; V7-4) and (1)'s refusal (V7-2 home V07   defined False->True cites 3->5 {'base': 1, 'V07': 3, 'V11': 1}
+OK  V07 §3.11 the palisade's REPLACEMENT (V7-1: law 2, in its or home V07   defined False->True cites 138->138 {'base': 5, 'V06': 1, 'V07': 106, 'V08': 11, 'V09': 1, 'V11': 14}
+OK  F-V-RAISED (V07 §3.13; the sweep site)                       home V07   defined False->True cites 12->12 {'base': 7, 'V07': 5}
+OK  V07 ## 4's lead (V7-2 (2))                                   home V07   defined False->True cites 0->0 {}
+OK  T-V7-48 and its T3 palisade stroke refused (V7-2 (4))        home V07   defined False->True cites 43->43 {'base': 33, 'V07': 10}
+OK  V07 `raised.deck` citing §8.2's slot 19a (V7-3)              home V07   defined False->True cites 6->6 {'V07': 4, 'V11': 2}
+OK  `bend.wall.raisedCrossing` (V09 §4.9 row) and its gate line  home V09   defined False->True cites 27->27 {'base': 18, 'V07': 2, 'V09': 7}
+OK  `bend.raised.wall` (V09 §4.9 row) and its keep-clear form    home V09   defined True->True cites 8->9 {'base': 5, 'V07': 2, 'V09': 2}
+OK  `bend.raised.underSpan` (V09 §4.9 row; V9-4)                 home V09   defined False->True cites 17->17 {'base': 9, 'V09': 8}
+OK  V09 §4.20.2 (4) (V9-2, V9-4)                                 home V09   defined False->True cites 29->29 {'V09': 26, 'V10': 3}
+OK  T-V9-52 (V9-3: the first point the laws admit; the strip lef home V09   defined False->True cites 10->10 {'base': 4, 'V09': 6}
+undefined at home (installed): 0

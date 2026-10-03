@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VAF-R6T-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V01",
+  "claim": "V01 \u00a71.2's hook row (l. 205) reads '| V04 \u00a73.5.4 (item 244's span rule) | a raised part's spans with their `use` (`open`, `vault`) | crossings through `open` spans only (V01 \u00a73.17.3) |'. The span rule's home is the base's \u00a72.7 (l. 2729, '**The span rule**, run eagerly at the end of the raised way's generation \u2026'). V04 \u00a73.5.4 (d) (V04 l. 1689\u20131690) is a reader of it: 'The base fixes each span's `use` eagerly by \u00a72.7's span rule (item 244)'. This round makes the home matter more. A span's `use` is now read together with \u00a72.7's crossing table (a `vault` span under a wall is read `open`; the span rule 'never reads a wall', l. 2644\u20132645), and V01 \u00a73.17.3 (3) cites \u00a72.7 for that reading, while the hook row still sends a builder to V04. The repair left the row as it stands, since it cites V01 \u00a73.17.3 for its use; its provider column is the mis-citation. Nothing built changes.",
+  "required_change": "V01 \u00a71.2's row: \"V04 \u00a73.5.4 (item 244's span rule)\" \u2192 \"\u00a72.7's span rule (item 244; a `vault` span under a wall read `open`, \u00a72.7's crossing table, *beneath*)\", the other two cells as they stand.",
+  "reported_by": "verify-agree-fabric-r6t"
+ }
+]

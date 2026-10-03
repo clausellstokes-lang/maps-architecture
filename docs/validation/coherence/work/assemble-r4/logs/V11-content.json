@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V11-content.md",
+ "input_doc_sha256": "1671da41b1f28eeda542e2946004dd94ccdc424dde2c940c16d87619a1a790d9",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V11.md",
+   "sha256": "2782493aa27fb33eb8c37e3544e5b08fb7c692c01d7c84bb0356d0c477247b23",
+   "lines": 1738,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V11.md #1 (l. 2) REPLACE ### 1b Wiring table",
+   "file": "repair-r4-V11.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1b Wiring table",
+   "body_lines": 99,
+   "body_sha256": "7543823da33d80a6a639733440d810a92fc2820e87116d8bab5c3a6141a8d68d",
+   "target_line": 150,
+   "section_old": "150–249",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V11.md #2 (l. 104) REPLACE ### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "file": "repair-r4-V11.md",
+   "index": 2,
+   "line": 104,
+   "kind": "REPLACE",
+   "heading": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "body_lines": 77,
+   "body_sha256": "90758f3eba8a9e53be4250623f0f2ed4ed6c926bff1389731482cb08496126ba",
+   "target_line": 566,
+   "section_old": "566–643",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 2.8 The row types the base names without declaring (file f items 400, 435)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V11.md #3 (l. 184) REPLACE ### 2.8c Item 110's row types",
+   "file": "repair-r4-V11.md",
+   "index": 3,
+   "line": 184,
+   "kind": "REPLACE",
+   "heading": "### 2.8c Item 110's row types",
+   "body_lines": 92,
+   "body_sha256": "5a64f2d31e8c5e257478ab5680bdfa2f4856522ddd97e6c66cbf9822ff1f2f6a",
+   "target_line": 660,
+   "section_old": "660–751",
+   "section_old_n": 92,
+   "section_new_n": 93,
+   "new_headings": [
+    "### 2.8c Item 110's row types"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V11.md #4 (l. 279) REPLACE ### 2.10 Lifecycle of every new state field",
+   "file": "repair-r4-V11.md",
+   "index": 4,
+   "line": 279,
+   "kind": "REPLACE",
+   "heading": "### 2.10 Lifecycle of every new state field",
+   "body_lines": 44,
+   "body_sha256": "ae010e3d283f2dcd8626641c4896479bd6859fea660b2775d0c0b5a813d53cb3",
+   "target_line": 837,
+   "section_old": "837–881",
+   "section_old_n": 45,
+   "section_new_n": 45,
+   "new_headings": [
+    "### 2.10 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V11.md #5 (l. 326) REPLACE ### 3.1 The complete catalogue of tables",
+   "file": "repair-r4-V11.md",
+   "index": 5,
+   "line": 326,
+   "kind": "REPLACE",
+   "heading": "### 3.1 The complete catalogue of tables",
+   "body_lines": 181,
+   "body_sha256": "ade75723ef3c91d6d25935887d07d81be9ea03526dc6242fe3cd15e9eb17f1ee",
+   "target_line": 891,
+   "section_old": "891–1072",
+   "section_old_n": 182,
+   "section_new_n": 182,
+   "new_headings": [
+    "### 3.1 The complete catalogue of tables"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V11.md #6 (l. 510) REPLACE ### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "file": "repair-r4-V11.md",
+   "index": 6,
+   "line": 510,
+   "kind": "REPLACE",
+   "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "body_lines": 362,
+   "body_sha256": "6afddf47511109c328eabd651922266946877bb5aa3328d54ffc956afbef56c1",
+   "target_line": 3796,
+   "section_old": "3796–4152",
+   "section_old_n": 357,
+   "section_new_n": 364,
+   "new_headings": [
+    "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V11.md #7 (l. 875) REPLACE ### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+   "file": "repair-r4-V11.md",
+   "index": 7,
+   "line": 875,
+   "kind": "REPLACE",
+   "heading": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+   "body_lines": 570,
+   "body_sha256": "61352f4873a09da87038fbfd4a0ee3b6b6cfe9ab393d445d2244e6b8fd844006",
+   "target_line": 4160,
+   "section_old": "4160–4727",
+   "section_old_n": 568,
+   "section_new_n": 571,
+   "new_headings": [
+    "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V11.md #8 (l. 1448) REPLACE ### 3.26 Edges and combinations",
+   "file": "repair-r4-V11.md",
+   "index": 8,
+   "line": 1448,
+   "kind": "REPLACE",
+   "heading": "### 3.26 Edges and combinations",
+   "body_lines": 88,
+   "body_sha256": "5e13aaa6a127a6e717914e790e14fc037960ff31c5ad2af5d93939342b00a779",
+   "target_line": 4731,
+   "section_old": "4731–4819",
+   "section_old_n": 89,
+   "section_new_n": 89,
+   "new_headings": [
+    "### 3.26 Edges and combinations"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V11.md #9 (l. 1539) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V11.md",
+   "index": 9,
+   "line": 1539,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 78,
+   "body_sha256": "e4e602d1d375734c3b12f62a5f738007d8d9022ba556d5b54c3c3621d4a25cc7",
+   "target_line": 4968,
+   "section_old": "4968–5046",
+   "section_old_n": 79,
+   "section_new_n": 79,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V11.md #10 (l. 1620) REPLACE ## 8 Build plan",
+   "file": "repair-r4-V11.md",
+   "index": 10,
+   "line": 1620,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 115,
+   "body_sha256": "6c4114d4ed9f5deec094b0713e667255f1ff66bac1ff70502633ac84f680416d",
+   "target_line": 5047,
+   "section_old": "5047–5163",
+   "section_old_n": 117,
+   "section_new_n": 117,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V11.md #1 (l. 2) REPLACE ### 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "### 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #2 (l. 104) REPLACE ### 2.8 The row types the base names without declaring (file f items 400, 435)",
+    "kind": "REPLACE",
+    "heading": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #3 (l. 184) REPLACE ### 2.8c Item 110's row types",
+    "kind": "REPLACE",
+    "heading": "### 2.8c Item 110's row types",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #4 (l. 279) REPLACE ### 2.10 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.10 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #5 (l. 326) REPLACE ### 3.1 The complete catalogue of tables",
+    "kind": "REPLACE",
+    "heading": "### 3.1 The complete catalogue of tables",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #6 (l. 510) REPLACE ### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+    "kind": "REPLACE",
+    "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #7 (l. 875) REPLACE ### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+    "kind": "REPLACE",
+    "heading": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #8 (l. 1448) REPLACE ### 3.26 Edges and combinations",
+    "kind": "REPLACE",
+    "heading": "### 3.26 Edges and combinations",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #9 (l. 1539) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V11.md #10 (l. 1620) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 22,
+  "fence_lines_after": 22,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 674664,
+  "doc_bytes_after": 678595,
+  "doc_lines_before": 5451,
+  "doc_lines_after": 5462,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "47b14d9f67f451fd5194c62fff07a543037dde36078fb54eb74ed894fddb0c20",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

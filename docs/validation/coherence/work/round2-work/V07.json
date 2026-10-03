@@ -1,0 +1,139 @@
+[
+ {
+  "id": "VAH-r1-16",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V07 \u00a74.5's village `WhyProvider` paragraph (l.3064: '`asNow` modes (V10's `WhyAnswer`)'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V07 l.3064 reads '(\u00a711.2's `WhyAnswer`)'.",
+  "owner": "V07",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-20",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Derivation rows cited by names \u00a77.7 does not carry. This round numbered the item-117 and item-118 derivation rows DR42 and DR43 (base l.11625-11626; aliases 'the item-117 row' and 'the item-118 row'). V08 cites them by number everywhere (J-VI.13's rule for the port's rows). \u00a77.7 has no 'calendar row' or 'traditions row'. 'The calendar row' is \u00a74.11's season table (\u00a74.11 *The clock* (3)), and `traditions` is V08's digest field. This unit still cites them by the old names at: V07 W80 (l.276: '\u00a77.7's calendar row (the dossier's week)') and W81 (l.277: '\u00a77.7's `traditions` row (window, staging)').",
+  "required_change": "V07 W80 and W81 cite '\u00a77.7's DR42' and '\u00a77.7's DR43' (the aliases 'the item-117 row' and 'the item-118 row' resolve as well).",
+  "owner": "V07",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAL-R1-03",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "VAL-08's remainder in this lane's volume. V04 \u00a713's sibling table hands V07 \"`UnderOpeningRow` in V07 \u00a71b (W46) and V07 \u00a73.16 (3) (iii)\" (V04 l. 3420); V07 still names the old record: V07 \u00a71b W46 (l. 242) \"V04's `DigRule.classRow`, `OpeningRow`\" and V07 \u00a73.16 (3) (iii) (l. 2850) \"V04 \u00a73.5.7 (e)'s candidates and V11 \u00a73.23.7's `OpeningRow` chances\". `OpeningRow` now names only \u00a72.6's opening-hours row. (verify-pipeline-r1t raised l. 2850 as VPC-R1-06.)",
+  "required_change": "V07 l. 242 reads \"V04's `DigRule.classRow`, `UnderOpeningRow`\" and V07 \u00a73.16 (3) (iii) reads \"V04 \u00a73.5.7 (e)'s candidates and V11 \u00a73.23.7's `UnderOpeningRow` chances (V04 \u00a72.3's record)\".",
+  "owner": "V07",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAL-R1-09",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "claim": "Missed shared subject: one term, two cells and two widths. The base's S8 (repair r1, base l. 6164\u20136168) makes \"every committed raised part's under-deck strip \u2014 the deck's ground projection over its piers and spans, widened by `raised.stripMarginM` each side (a `hood.constants` cell \u2026; V01 \u00a73.17.3 (2) reads the same strip)\" a hole; V01 \u00a73.14 sets that cell at 1 m (V01 l. 2172, 2371) and V06 \u00a73.19 clears \"the deck's width plus V01 \u00a73.14's `raised.stripMarginM` each side\" (V06 l. 2772, 2796). V07 \u00a73.5a (5) defines \"The **under-deck strip** \u2014 the deck's footprint grown by `raised.stripClearM` (2 m)\" (V07 l. 1585\u20131586), its own cell (V07 \u00a72.2a l. 555; V07 \u00a72.2 l. 592: \"strip clearance 2 m\"), with no decision giving a reason for a different width (J-V7.83 states none). A raised way carried down at the hand-off changes its strip from 1 m to 2 m each side, and the town's and the village's \"under-deck strip\" are not one thing.",
+  "required_change": "V07 \u00a73.5a (5) reads \"The **under-deck strip** \u2014 \u00a74.6's: the deck's ground projection over its piers and spans widened by `raised.stripMarginM` each side (V01 \u00a73.14's `hood.constants` cell, 1 m) \u2014 holds no toft yard part and no building \u2026\", and V07 \u00a72.2a's `raised` cells and V07 \u00a72.2's `raised` row drop `stripClearM` (the village's 2 m has no recorded reason; were one to exist, the adjudicator may instead rule a separately named village clearance beyond \u00a74.6's strip, with its J-V7 decision).",
+  "owner": "V07",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAL-R1-10",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "New this round (item 120's parts). V07 \u00a75.5 (3): \"**Across layers**: on Below, a dwelling or an access in a cavern or ruin (V07 \u00a73.16 (3), (5)) glows on the underground layer and shows as a ghost pin on Ground (V04's part)\" (V07 l. 3353\u20133355). V04 \u00a75.1 *Find on Below*, the part V07 cites, lists the Below matches as \"an underground building and its use \u2026, an undercity or sewer-front district, a named system or catacomb complex, a named run, the core's plaza, a named chamber\" (V04 l. 2678\u20132681) \u2014 no access \u2014 and adds no match rule (\"The matches are the listing's; this volume adds no match rule\"); V05 \u00a75.6 (1) states \"An access is no target (it has no name and no class)\" (V05 l. 2302\u20132303). V07 offers a match the other two layers' volumes rule out.",
+  "required_change": "V07 \u00a75.5 (3) reads \"**Across layers**: on Below, a dwelling in a cavern or ruin (V07 \u00a73.16 (5)) glows on the underground layer and shows as a ghost pin on Ground (V04 \u00a75.1); an access is no Find target (V05 \u00a75.6 (1))\".",
+  "owner": "V07",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "G122-V07",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 122's village part (canon: \"V07: the village and smaller rungs\") is absent: V07 has no crisis look (0 matches for \"crisis\" or item 122).",
+  "required_change": "V07 writes the crisis looks at THORP, HAMLET and VILLAGE as new design: the village tiers' scale (a war band's camp, a small refugee camp), their places on the village map (the green and commons, the through road's approach, the palisade for a beast attack, the great fields for famine's bare strips, the outlying farms for raiders) read through \u00a710.2's table and \u00a78.2's rows, the hand-over at a village epoch (V06), its edges (no palisade, no green, a THORP with one house), the clerk's line and its bar (T-V7-n), cost and build-plan line.",
+  "owner": "V07",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-time-r1t, verify-edges-world-r1t, verify-vol-V07-V08-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-time-r1t",
+    "claim": "g item 122 routes to V07 'the village and smaller rungs' (canon's dated ruling for items 121\u2013123). V07 has no item-122 text: no crisis look at THORP, HAMLET or VILLAGE and no placement on the village's ground.",
+    "required_change": "Write V07's item-122 part at build depth. The closed table at the village rungs, scaled by tier ('a hamlet gets a war band's camp'). Placement on the village's commons, greens and approach tracks. Engines facing the palisade's weakest stretch (item 114's condition). Famine's bare furlongs overriding item 117's crop stage on the great fields. The township view's clusters. The aftermath through the village epoch (V07 \u00a73.12). A crisis look over a hand-off band. Edges and a T-V7 test (the hash identical with crises on and off; each look only in its condition's weeks).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (J135) names V07: the village and smaller rungs. V07 has no crisis part.",
+    "required_change": "V07: the looks at THORP, HAMLET and VILLAGE \u2014 a war band's camp, a blockade on an unpalisaded village's approach tracks, refugee tents on the green or the commons, famine's bare strips over item 117's crop stage, beasts' torn palisade sections with watch-fires \u2014 under \u00a710.2's table and the density cap; never on the green's pond, a gate gap or a label's keep-out.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V07-V08-r1t",
+    "claim": "File g item 122 (crisis looks; canon dated ruling 'File g items 121, 122 and 123 routed', J135: 'V07: the village and smaller rungs') has no V07 part: 'item 122' and every crisis look occur 0 times in V07.",
+    "required_change": "Write V07's part at build depth (item 122 (a)-(g) at THORP, HAMLET and VILLAGE). (1) Scale and sharing: each look's scale at the village rungs (a hamlet gets a war band's camp, never a siege line) and the shared-outskirts priority (siege, quarantine, refugees) under the density cap within the territory frame. (2) Placement of each look of item 122 (b) on V07's own features: blockade camps on the approach roads, torn palisade runs, stake barricades and burned outlying farmsteads for a siege or raid at an unwalled or palisaded village; the refugee camp on the common or fallow by the main road's entry, where V07 \u00a73.12's village growth would build; the quarantine camp outside the perimeter, with marked doors in the affected end and a cordon; famine's bare and withered fields, strips and meadow overriding item 117's crop stage in V07 \u00a75.1, with empty pens and shuttered stalls on the green; a disaster's ruined tofts and ends by its pattern (fire downwind through contiguous tofts, flood on the low ground by the brook, the calamity's targets); occupation, rebellion, boom and bust; never on water, a gate's passage, a keep-out or the green's keep-outs. (3) Hand-over: the aftermath through V07 \u00a73.12's epoch path, desertion included; the camp at the village growth frontier; reconstruction as Works. (4) The looks at the township view, the district band and finer, in painterly and ink. (5) Show crises and the preview at the village rungs; the village WhyProvider's crisis lines (V07 \u00a74.5); Find's listing (V07 \u00a75.5); exports (V07 \u00a75.4: pictures draw them, VTT in the image only). (6) Records: a V07 \u00a73.17 row, a \u00a71b W row, a T-V7 bar for item 122 (g)'s village clauses (hash identical with crises on and off and in every week; each look exactly in its condition's weeks; no-op pin with no condition and no preview), a J-V7 row, the V-M3 price, \u00a71's scope list, and the head's owner range to '1-125'.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAP-r1-01",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Scope's repair wrote the village take-over row (base l. 17249): \"the village clauses of T114-1 \u2013 T114-8 (T-V7-62), T115-1 \u2013 T115-4 (T-V7-63), T116-1 \u2013 T116-4 (T-V7-64), T117-1 \u2013 T117-8 (T-V7-65) and T118-1 \u2013 T118-6 (T-V7-66)\", and VCS-10 adds \"T119-2 \u2013 T119-4's village clauses (T-V7-67)\". V07 \u00a77's own head (l. 3460\u20133462) says it takes \"the village halves \u2026 of items 114\u2013120's bars, each test naming the bar it takes over\", yet V07 names none of T114-1 \u2013 T118-6 (0 occurrences; a range-aware census) \u2014 T-V7-62 \u2013 T-V7-66 cite \"item 11n (x)'s village clauses\" only, T-V7-64 not even that, and T-V7-67 cites \"item 119 (f)'s village clauses\". T-V7-63 also carries no clause for T115-4 (with every ceiling row's `enabled` false, byte-identical), though the take-over row hands it T115-1 \u2013 T115-4 and V12 \u00a72.13 lists \"V07's village goldens\" on `item115.off`.",
+  "required_change": "In V07 \u00a77: T-V7-62's head reads \"(item 114 (g)'s village clauses; takes T114-1 \u2013 T114-8's village clauses)\"; T-V7-63's \"(item 115 (f)'s village clauses; takes T115-1 \u2013 T115-4's village clauses)\" and it gains the clause \"with every `grandeur.ceiling` row's `enabled` false (V11 \u00a73.24.0's off form) `B-VILLAGE` is byte-identical to the build before item 115 \u2014 the `item115.off` registration of the village goldens on V12 \u00a73.7.8's engine (T115-4)\"; T-V7-64's \"item 116 at village rungs (takes T116-1 \u2013 T116-4's village clauses)\"; T-V7-65's \"(item 117 (i)'s village clauses, (f2) included; takes T117-1 \u2013 T117-8's village clauses)\"; T-V7-66's \"(item 118 (h)'s village clauses; takes T118-1 \u2013 T118-6's village clauses)\"; T-V7-67's \"(item 119 (f)'s village clauses; takes T119-2 \u2013 T119-4's village clauses)\".",
+  "owner": "V07",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAT1-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V07 restates \u00a77.4's undo-target rule in its narrower form, which this round's \u00a77.4 change superseded (see VAT1-03). V07 \u00a73.12 (l.2336-2337): 'undone by the epoch's undo record where the epoch is an undo target, a record's never (an epoch that carries a dossier event is no undo target, \u00a77.4; the host restores, item 87)'. V07 *Pins over epochs* (l.2480-2481): 'undone by its undo record where the epoch is an undo target (an epoch that carries a dossier event is none, \u00a77.4)'. Both imply that a port epoch carrying no dossier change is an undo target at a village rung. \u00a77.4 now makes every event of session `host:port` no undo target.",
+  "required_change": "At V07 l.2336-2337 replace '(an epoch that carries a dossier event is no undo target, \u00a77.4; the host restores, item 87)' with '(no event of the port's session `host:port` \u2014 a port epoch with or without a dossier change, a dossier event \u2014 is an undo target, \u00a77.4 *Replay semantics*; the host restores, item 87)'. At l.2480-2481 replace '(an epoch that carries a dossier event is none, \u00a77.4)' with '(a port epoch never is, \u00a77.4 *Replay semantics*)'.",
+  "owner": "V07",
+  "reported_by": "verify-agree-time-r1t"
+ },
+ {
+  "id": "VPC-R1-06",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "After V04's rename to `UnderOpeningRow` (V04 \u00a72.3), V07 \u00a73.16 (3) (iii) (l. 2850) still reads 'V11 \u00a73.23.7's `OpeningRow` chances'. V04's hand-off row to V07 (l. 3420) names `UnderOpeningRow` in V07 \u00a71b (W46) and V07 \u00a73.16 (3) (iii).",
+  "required_change": "In V07 l. 2850 replace `OpeningRow` with `UnderOpeningRow`, and likewise in W46 (V07 \u00a71b) if it names the row.",
+  "owner": "V07",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VV78-21",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "V07-RESTATE-1's canon ruling ('ProductDecl's interface lives in the base (via BCR-V7-11 at \u00a74.12); V07 cites it and states only the 'village' entry's values') is not applied. The interface is still declared in V07 \u00a72.1, now as 'interface ProductDecl extends ProductDeclEpoch', and the base cites it there (\u00a74.12; \u00a714's 'V07 \u00a72.1's type'). V07's repair wrote a RULING REQUEST instead of a fix, and assemble-r1 skipped that block by rule.",
+  "required_change": "Either move interface ProductDecl (every member and comment) to \u00a74.12 beside StrategyRegistry.products, with \u00a714 citing \u00a74.12 and V07 \u00a72.1 keeping only the 'village' entry's values; or the adjudicator rules V07-RESTATE-1 INVALID under item 202's applied text (an f item over a base home, principle (3)). (Ruling requested by V07: see repair-r1-V07.md.)",
+  "reported_by": "verify-vol-V07-V08-r1t"
+ },
+ {
+  "id": "VV78-r1-01",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "Two V07 texts restate 'specified' (item 115 (c)) more narrowly than its home. J-V7.136 says \"'specified' meaning a dossier manor or hall record, a dossier government's villageSeat naming the manor, or the author's placement\". W78 (l.274) names 'a dossier's manor record or villageSeat' as producer and 'a manor or hall record' in its dossier column. V08 \u00a73.16 (3) (a) counts any dossier-bound record of a grandClasses class (V11 \u00a73.25.4: manor, tower_house, castle, palace, v.manor_house), every placed member of a collective record included. A town class plays itself at a village rung (V07 \u00a73.11 step 3), so a castle or tower-house record at a HAMLET is specified by V08 and not by J-V7.136. V07 \u00a73.8, by contrast, now cites V08 \u00a73.16 (3) correctly.",
+  "required_change": "J-V7.136: replace \"and 'specified' meaning a dossier manor or hall record, a dossier government's villageSeat naming the manor, or the author's placement\" with \"and 'specified' read as V08 \u00a73.16 (3) reads it, or the author's placement\". W78's producer column: 'a dossier's specification (V08 \u00a73.16 (3))'. W78's dossier column: \"a record of a grandClasses class; a government's villageSeat manor (V08 \u00a73.16 (3))\".",
+  "reported_by": "verify-vol-V07-V08-r1t"
+ },
+ {
+  "id": "VV78-r1-02",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "V07",
+  "claim": "V07 \u00a78 l.3574, in the paragraph this round extended for items 119 and 120, reads \"\u00a716's village line and INDEX \u00a74 carry it (item 568 computes the totals once)\". INDEX \u00a74 states no price ('Every milestone's price is its volume's own \u00a78 estimate, and \u00a716 computes the two totals'). The village's price is carried by INDEX \u00a71's product map (l.30).",
+  "required_change": "V07 \u00a78 l.3574: \"\u00a716's village line and INDEX \u00a71 carry it\". l.3555's 'INDEX \u00a74 carry the same slot' stays.",
+  "reported_by": "verify-vol-V07-V08-r1t"
+ },
+ {
+  "id": "VV78-r1-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "V04's repair (VAL-08) renamed V04's opening record UnderOpeningRow. Its hand-off to V07 asked W46 and V07 \u00a73.16 (3) (iii) to read that name, and the hand-off was not closed. V07 W46 (l.242) and V07 \u00a73.16 (3) (iii) (l.2850, in the subsection this round rewrote) still say 'OpeningRow'. In the base, OpeningRow is now only the model's opening-hours row (\u00a72.6, l.1365: dayType, openH, closeH), so V07's name points at a different record.",
+  "required_change": "V07 W46 and V07 \u00a73.16 (3) (iii): 'UnderOpeningRow' (V04 \u00a72.3; its chances V11 \u00a73.23.7).",
+  "reported_by": "verify-vol-V07-V08-r1t"
+ }
+]

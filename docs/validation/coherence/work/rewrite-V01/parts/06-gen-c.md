@@ -123,7 +123,7 @@ crooked lane for its shape, a stair-stepped alley as steps, a row for a straight
 otherwise — so no feature is a strict priority, and two lanes of one trade in one district get distinct names by §9.6's
 uniqueness. The context is derived at S13a from eager records, so names stay eager model data (§4.10). The features land
 at M1 (V01 §8.1); the squares and places S9b and S13a add at M5 give some ways a new `to` or `placeOnIt`, a declared M5
-shift of those ways' names (V01 §8.1, §13.3's shift record). A way with no feature (no destination, landmark, trade or
+shift of those ways' names (V01 §8.1; §13.3's shift record). A way with no feature (no destination, landmark, trade or
 place) takes a proper name.
 
 #### 3.7.3 Way surfaces (item 207)
@@ -211,15 +211,15 @@ the pick ordinal — in the order gate, kind, size, angle:
    item 241), never the lazy composition — `widthM[1]` wide and `depthM[1]` deep of volume 2's porch kind rows (V02 §3.7,
    `composition.json`: for a main entrance the largest over the `PorchKindRow`s with `outside` true, for a side, rear,
    yard or service entrance the `hood` row's, the secondary porch's kind), so the reserve stands from M5 at the porches'
-   own sizes before the composer draws any porch; where the building's `Basement.access` is `external`, the main
+   own sizes before the composer draws any porch; where the building's `Basement.access` is `external` (item 371), the main
    entrance's rectangle again, outward from the footprint side nearest the point `basementDoor(b)` gives (V03 §3.7.1;
    §2.6, item 578), centred on that point's projection onto that side — none where `basementDoor(b)` is null (the base's
    trapdoor fallback, which draws no outside stair); and, for each `AccessPoint` hosted by a building with neither a
    basement nor `ground(b)` (V03 §3.3), whose head volume 3 opens as an outside door at `stackAccessDoor(b, a)` (V03
    §3.7.2 (1)), the `hood` row's rectangle outward from the footprint side on which `stackAccessDoor(b, a)` lies, centred
    on its `at` — a `well` access there opens at the well pin it stands over (V04 §3.5.7 (d)) and takes no reserve
-   rectangle, and a building on a deck hosts no head (V03 §3.7.2 (0)–(1)). Both door points are V03 §3.7.1's shared door
-   helper's (E-29): pure, draw-free, of eager records, in `@plat/plots` from M3a. The reserve holds the porch, the
+   rectangle, and a building on a deck hosts no head (V03 §3.7.2 (0)–(1)). Both door points come from V03 §3.7.1's one door
+   helper: pure, draw-free, of eager records, in `@plat/plots` from M3a. The reserve holds the porch, the
    secondary porch, the stoop (V03 O1 (e)), the outside basement stair's steps and the stack access's outside door
    whichever rungs have been derived, so the close-up stays a pure function of committed state in any order of click,
    `wings` rung and plan (T-V1-26 measures it; *fallback*: the reserve's depth doubled, re-measured). From M6-U a church's

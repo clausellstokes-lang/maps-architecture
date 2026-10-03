@@ -1,0 +1,421 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7w/before/docs/ARCHITECTURE.md",
+ "input_doc_sha256": "2612044ee57e7324f1e40e0b5329d1f55360ce9b95a8c70c7d30969a0299b9d0",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7w/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "a-repair-r7w-model.md",
+   "sha256": "5620758429185f4f1ec6e2bf4ed30eca0e9ef86fb4df77b8cbcd7c5602de5856",
+   "lines": 1274,
+   "blocks": 1,
+   "issues": []
+  },
+  {
+   "file": "b-repair-r7w-determinism.md",
+   "sha256": "d6d0d027167869183e653b876f56d54c87136ca3c3ea311ad801968399df4300",
+   "lines": 903,
+   "blocks": 4,
+   "issues": []
+  },
+  {
+   "file": "b-repair-r7w-pipeline.md",
+   "sha256": "2d33f48b4505d8555b6ba80651247cd398b54d0cb846f3ca4008568e7b5b3029",
+   "lines": 1268,
+   "blocks": 4,
+   "issues": []
+  },
+  {
+   "file": "b-repair-r7w-rendering.md",
+   "sha256": "10259e3f1c7c16d02959718ede757fb63372a257be6a8ad7384057b4d1a21ade",
+   "lines": 1064,
+   "blocks": 2,
+   "issues": []
+  },
+  {
+   "file": "b-repair-r7w-scope.md",
+   "sha256": "c65fbe5b077369849cfc95dab5bfc9880c6107b8876e869a7a1282ef92885e2a",
+   "lines": 1551,
+   "blocks": 2,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "a-repair-r7w-model.md #1 (l. 1) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+   "file": "a-repair-r7w-model.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+   "body_lines": 1271,
+   "body_sha256": "b037217505d2061e8af6df366c8385b4449bd1caebe80852322e1a6f4b69af57",
+   "target_line": 2249,
+   "section_old": "2249–3519",
+   "section_old_n": 1271,
+   "section_new_n": 1272,
+   "new_headings": [
+    "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7w-determinism.md #1 (l. 1) REPLACE ### 5.2 Failure classes: detection, ladder, test",
+   "file": "b-repair-r7w-determinism.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "body_lines": 47,
+   "body_sha256": "4dc44d5cc30160c4635d73d2c9831e9c21249ed3f1fb6a10750c14ace7d9c5de",
+   "target_line": 9836,
+   "section_old": "9836–9883",
+   "section_old_n": 48,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 5.2 Failure classes: detection, ladder, test"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7w-determinism.md #2 (l. 51) REPLACE ### 5.4 The generation report",
+   "file": "b-repair-r7w-determinism.md",
+   "index": 2,
+   "line": 51,
+   "kind": "REPLACE",
+   "heading": "### 5.4 The generation report",
+   "body_lines": 80,
+   "body_sha256": "4516fe6e18dbfa6b6b227028266d9f1750523472b6e63edf0761112a87305b80",
+   "target_line": 9976,
+   "section_old": "9976–10056",
+   "section_old_n": 81,
+   "section_new_n": 81,
+   "new_headings": [
+    "### 5.4 The generation report"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7w-determinism.md #3 (l. 134) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+   "file": "b-repair-r7w-determinism.md",
+   "index": 3,
+   "line": 134,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+   "body_lines": 504,
+   "body_sha256": "117493097b1044713f3a59b46744d261fe4aa65220dd4bfca533f6298e742351",
+   "target_line": 10958,
+   "section_old": "10958–11460",
+   "section_old_n": 503,
+   "section_new_n": 505,
+   "new_headings": [
+    "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "b-repair-r7w-determinism.md #4 (l. 641) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "file": "b-repair-r7w-determinism.md",
+   "index": 4,
+   "line": 641,
+   "kind": "REPLACE",
+   "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+   "body_lines": 260,
+   "body_sha256": "8cc39e4e34b2fe72b9df6196d7ed7c5c0a98c4ebe8037804914b7d953de7c855",
+   "target_line": 11904,
+   "section_old": "11904–12162",
+   "section_old_n": 259,
+   "section_new_n": 261,
+   "new_headings": [
+    "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "b-repair-r7w-pipeline.md #1 (l. 1) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "file": "b-repair-r7w-pipeline.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "body_lines": 216,
+   "body_sha256": "ea8bbbafed5af73978878630929e293bd727abf333725308401cced3d585c9e9",
+   "target_line": 5584,
+   "section_old": "5584–5800",
+   "section_old_n": 217,
+   "section_new_n": 217,
+   "new_headings": [
+    "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "b-repair-r7w-pipeline.md #2 (l. 220) REPLACE ### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and it",
+   "file": "b-repair-r7w-pipeline.md",
+   "index": 2,
+   "line": 220,
+   "kind": "REPLACE",
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "body_lines": 582,
+   "body_sha256": "8c009a4278f2ad63925a3ca5b0b0e051eeb96df1b97effcd55d34b8c6ba2bc16",
+   "target_line": 5801,
+   "section_old": "5801–6383",
+   "section_old_n": 583,
+   "section_new_n": 583,
+   "new_headings": [
+    "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "b-repair-r7w-pipeline.md #3 (l. 805) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+   "file": "b-repair-r7w-pipeline.md",
+   "index": 3,
+   "line": 805,
+   "kind": "REPLACE",
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "body_lines": 200,
+   "body_sha256": "1284bd89f49d82ed049e6f0279a4ae48c3ba66ef56f2ee77f02cd86ffe999ff0",
+   "target_line": 6550,
+   "section_old": "6550–6748",
+   "section_old_n": 199,
+   "section_new_n": 201,
+   "new_headings": [
+    "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "b-repair-r7w-pipeline.md #4 (l. 1008) REPLACE ### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+   "file": "b-repair-r7w-pipeline.md",
+   "index": 4,
+   "line": 1008,
+   "kind": "REPLACE",
+   "heading": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+   "body_lines": 257,
+   "body_sha256": "f49b8ffdfe7373373cd931654078acf56988dce45097ed1a1c554c104690db04",
+   "target_line": 22683,
+   "section_old": "22683–22940",
+   "section_old_n": 258,
+   "section_new_n": 258,
+   "new_headings": [
+    "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "b-repair-r7w-rendering.md #1 (l. 1) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+   "file": "b-repair-r7w-rendering.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+   "body_lines": 968,
+   "body_sha256": "01711a3b9b1bca5dae9f6745dd6365c9c3e924bd2d54b2de0972bd252f7a8255",
+   "target_line": 13272,
+   "section_old": "13272–14238",
+   "section_old_n": 967,
+   "section_new_n": 969,
+   "new_headings": [
+    "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "b-repair-r7w-rendering.md #2 (l. 972) REPLACE ### 8.3 Symbol catalogue and draw-style census",
+   "file": "b-repair-r7w-rendering.md",
+   "index": 2,
+   "line": 972,
+   "kind": "REPLACE",
+   "heading": "### 8.3 Symbol catalogue and draw-style census",
+   "body_lines": 90,
+   "body_sha256": "69aac2f5684cfa220979e042629b8c7c5bc5763e13bf9ea92e9749da170a45cc",
+   "target_line": 14241,
+   "section_old": "14241–14331",
+   "section_old_n": 91,
+   "section_new_n": 91,
+   "new_headings": [
+    "### 8.3 Symbol catalogue and draw-style census"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "b-repair-r7w-scope.md #1 (l. 1) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "file": "b-repair-r7w-scope.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+   "body_lines": 1434,
+   "body_sha256": "f8fec6344c8daa5a2141db3f07e53e913033a0986a82a3b9775dd8765acb499b",
+   "target_line": 18475,
+   "section_old": "18475–19871",
+   "section_old_n": 1397,
+   "section_new_n": 1435,
+   "new_headings": [
+    "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "b-repair-r7w-scope.md #2 (l. 1438) REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "file": "b-repair-r7w-scope.md",
+   "index": 2,
+   "line": 1438,
+   "kind": "REPLACE",
+   "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+   "body_lines": 111,
+   "body_sha256": "41398693e4eeb9f3c6280e4e649c25b3012ef3027751a051d9fe63b6caaa40c7",
+   "target_line": 20431,
+   "section_old": "20431–20542",
+   "section_old_n": 112,
+   "section_new_n": 112,
+   "new_headings": [
+    "### 13.8 CI tiers and compute budgets (SCL-18; D-34)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "a-repair-r7w-model.md #1 (l. 1) REPLACE ### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; conten",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-determinism.md #1 (l. 1) REPLACE ### 5.2 Failure classes: detection, ladder, test",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Failure classes: detection, ladder, test",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-determinism.md #2 (l. 51) REPLACE ### 5.4 The generation report",
+    "kind": "REPLACE",
+    "heading": "### 5.4 The generation report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-determinism.md #3 (l. 134) REPLACE ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validati",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-determinism.md #4 (l. 641) REPLACE ### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "kind": "REPLACE",
+    "heading": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-pipeline.md #1 (l. 1) REPLACE ### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "kind": "REPLACE",
+    "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-pipeline.md #2 (l. 220) REPLACE ### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and it",
+    "kind": "REPLACE",
+    "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-pipeline.md #3 (l. 805) REPLACE ### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capac",
+    "kind": "REPLACE",
+    "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-pipeline.md #4 (l. 1008) REPLACE ### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+    "kind": "REPLACE",
+    "heading": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-rendering.md #1 (l. 1) REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-rendering.md #2 (l. 972) REPLACE ### 8.3 Symbol catalogue and draw-style census",
+    "kind": "REPLACE",
+    "heading": "### 8.3 Symbol catalogue and draw-style census",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-scope.md #1 (l. 1) REPLACE ### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "kind": "REPLACE",
+    "heading": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-scope.md #2 (l. 1438) REPLACE ### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "kind": "REPLACE",
+    "heading": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 805,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 153,
+  "headings_after": 153,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 140,
+  "fence_lines_after": 140,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 0,
+  "pending_fable_review_lines_after": 0,
+  "doc_bytes_before": 3201924,
+  "doc_bytes_after": 3208372,
+  "doc_lines_before": 24116,
+  "doc_lines_after": 24163,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 13,
+  "blocks_applied": 13,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "fe67093c3f28a6e4aa356c514de9d041d8f7f2545ca958a375f3aac584d10896",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

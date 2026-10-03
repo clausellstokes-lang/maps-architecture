@@ -1,0 +1,69 @@
+{
+ "doc_sha256": "593c657d34849302d1e4bd2355149b6606b2ed1c10c9ea2ca03746d78c9a7fe3",
+ "blocks": [
+  {
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "ids": [
+    "VEW-r3-02 (END, sweep)"
+   ]
+  },
+  {
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "ids": [
+    "VEW-r3-01",
+    "VEW-r3-02 (END)"
+   ]
+  },
+  {
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "ids": [
+    "VM-R3T-04",
+    "sweep",
+    "VEW-r3-01"
+   ]
+  },
+  {
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "ids": [
+    "VEW-r3-02 (END)",
+    "VM-R3T-08",
+    "VEW-r3-05 (END)",
+    "VPC-R3-06"
+   ]
+  },
+  {
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "ids": [
+    "VEL3-r3-01 (END)",
+    "R4-09 (END)",
+    "VAT3-r3-01",
+    "VKr3-01"
+   ]
+  },
+  {
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "ids": [
+    "VV56-r3-03",
+    "VPC-R3-03",
+    "VAL-R3-02 (END)",
+    "sweep"
+   ]
+  },
+  {
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "ids": [
+    "VPC-R3-02",
+    "VV1112-r3-02",
+    "VPC-R3-03",
+    "VAL-R3-07",
+    "VV12-r3-05",
+    "VPC-R3-07",
+    "VV56-r3-03",
+    "VAL-R3-08",
+    "sweep",
+    "VM-R3T-10"
+   ]
+  }
+ ],
+ "edits": 29
+}

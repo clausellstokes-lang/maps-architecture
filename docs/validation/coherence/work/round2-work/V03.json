@@ -1,0 +1,78 @@
+[
+ {
+  "id": "G122-V03",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 routes \"V03: item 123's damage as a look in a disaster's buildings\" (item 122 (d)). V03 has no part (\"item 122\" 0 times).",
+  "required_change": "V03 states that a plan in a disaster's ruined neighbourhood draws item 123's damage layer as a look while the condition stands (a decay level from severity, never stored), and its test.",
+  "owner": "V03",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-time-r1t, verify-edges-world-r1t, verify-vol-V03-V04-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-time-r1t",
+    "claim": "g item 122 routes to V03 'item 123's damage as a look in a disaster's buildings' (canon's dated ruling for items 121\u2013123; item 122 (d): 'Interiors in a disaster's ruined neighbourhood show item 123's damage as a look while it lasts'). V03 has no item-122 text.",
+    "required_change": "Write V03's item-122 part at build depth. While a disaster look stands, a building's plan draws item 123's damage layer (G123-V03) at a look-only decay level set by the disaster's severity. Its rooms, walls, openings and ids are unchanged, nothing is stored, and the look ends with the condition. A real decay after the aftermath epoch is the building's own level (V06). Edges: a plan not yet derived (derived on view as today); a building in the look that is also decayed (the higher level); exports drawing the look, battle maps in the image only. A T-V3 test: plan ids identical with the look on and off, and the same hash.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (J135) names V03: item 123's damage as a look inside a disaster's buildings. V03 has no crisis part.",
+    "required_change": "V03: inside a disaster look's building the plan draws item 123's damage layer at the decay level the look sets, while the look lasts; nothing is stored, and the plan's ids and digest are unchanged.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V03-V04-r1t",
+    "claim": "g item 122 (crisis looks; J135; canon dated ruling 'File g items 121, 122 and 123 routed': 'V03: item 123's damage as a look in a disaster's buildings'; item 122 (d): 'Interiors in a disaster's ruined neighbourhood show item 123's damage as a look while it lasts') is absent from V03: 0 hits for 'item 122', `ConditionOverlay`, 'crisis' or 'disaster' as a look in the volume; V03 \u00a75.1 draws a plan's damage only from the building's own `decayed`/`ruined` existence.",
+    "required_change": "Write V03's part of item 122 at build depth as new design (an addition): (1) in V03 \u00a75 a subsection *A crisis's damage in the plan* \u2014 while a `disaster` crisis look stands in the view's week (the derivation row \u00a77.7 routes for item 122; the look table \u00a710.2's; V01's neighbourhoods as targets), each building of a neighbourhood the look shows ruined draws its plan with V03's item-123 damage layer (G123-V03) at a look decay level set by the condition's severity by a stated rule, over the same plan \u2014 never stored, never in the document, its hash, the plan's ids, `PlanReport` or a cache chunk's model digest; the look ending with the condition's weeks; the aftermath reaching the plan only through the epoch path (a real `ruined` or `decayed` existence, V06), then item 123's real damage; where a building is already really damaged, each element drawn at the greater of the two levels; (2) knowledge: a condition the viewer's key withholds draws no damage (\u00a711.2's admission); (3) the panel and the why name the crisis and its weeks (V03 \u00a74.5, V03 \u00a74.6; keys for V09 \u00a74.9 and V10); (4) exports: a picture export draws it; a `.dd2vtt` or Foundry scene in the image only, never as walls, portals or lights (item 122 (f)); (5) Show crises off, or no condition and no preview: plan tiles byte-identical (a no-op pin); (6) its cost lazily per drawn plan inside \u00a712.5's budget (V03 \u00a76 row); (7) a V03 \u00a73.13 edge row (no condition; a condition ending in the session; a building under both a crisis look and real decay; every rung), a T-V3-n bar (hash identical with crises on and off and in every week; the damage exactly in the condition's weeks; byte-stable per seed across views and exports; the no-op), a J-V3 decision, the \u00a71, \u00a71b and \u00a72.5 rows (a view, never stored), \u00a78's placement, \u00a712 and V03 \u00a713's hand-offs (V09, V10, V11, rendering).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-V03",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123 routes \"V03: the damage layer, its drawing at every state (abandoned, decayed, ruined, restored with patches), the plan's exports, the panel lines\". V03 \u00a75.1 still draws a decayed or ruined plan uniformly.",
+  "required_change": "V03 writes item 123's damage layer at build depth (element thresholds, the states' looks, cellars and crypts by their own thresholds, battle-map line of sight, the panel and clerk lines) with T-V3 bars for item 123 (f).",
+  "owner": "V03",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-time-r1t, verify-edges-world-r1t, verify-vol-V03-V04-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-time-r1t",
+    "claim": "g item 123 routes to V03 'the damage layer, its drawing at every state (abandoned, decayed, ruined, restored with patches), the plan's exports, the panel lines' (canon's dated ruling for items 121\u2013123). V03 still draws a `decayed` or `ruined` plan uniformly (V03 \u00a75.1), with no floors, no partial damage and no progression, and has no item-123 text.",
+    "required_change": "Write V03's item-123 part at build depth. The damage layer over the same plan, every room, wall, opening and id unchanged. Its drawing by state: `abandoned` \u2014 dust, debris, broken furniture, doors off their hinges; `decayed` \u2014 rotten floor patches and holes, partitions down, roof holes, rooms marked unsafe; `ruined` \u2014 outer walls broken, upper storeys mostly floorless, rubble heaps, the ground floor the only walkable storey. Restored elements are drawn in patch material. Battle-map exports follow the damage: a fallen wall run leaves line of sight, a doorless opening is a gap, rubble and holes are drawn in the image, never as walls. Add the panel lines. Replace V03 \u00a75.1's uniform drawing. The no-op pin: a building never decayed is byte-identical. Edges and a T-V3 test (ids identical; damage monotone in the level; restoring reverses it).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 123 (J136) names V03: the damage layer, its drawing at every state (abandoned, decayed, ruined, restored with patches), the plan's exports and the panel lines. V03 \u00a75.1 still draws a ruined plan uniformly ('a drawing of the same plan').",
+    "required_change": "V03: the damage layer. One keyed threshold per plan element (wall run, floor area, door, window, stair, roof bay, furniture piece) by lineage and element id (\u00a76.3's), monotone in the decay level (higher \u2287 lower) and never relocated. Restoration removes it in reverse, a repaired element in patch material (item 114). The states' looks, the plan exports and the panel lines. Edges: a ground floor the only walkable storey when `ruined`; a plan stored, cached or absent; ids identical intact and damaged.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V03-V04-r1t",
+    "claim": "g item 123 (a ruined building's floor plans damaged, the same plans amended, never redrawn; J136; canon: 'V03: the damage layer, its drawing at every state (abandoned, decayed, ruined, restored with patches), the plan's exports, the panel lines') is absent: V03 \u00a75.1 still draws a `decayed` or `ruined` building uniformly ('fallen walls as broken ink runs over rubble stipple and open rooms without labels'), with no damage layer, no decay level, no per-element threshold, no `abandoned` or restored drawing, no damaged exports and no panel lines; and nothing reconciles item 123 (a) ('derived once from what it was built as \u2026 never re-derived because it decays') with V03's vacant programme (A1, item 17: 'the class row at the plot's `builtBand`', V03 \u00a72.4) and the re-cut chain (V03 \u00a73.11, V03 \u00a74.3), which re-cut a building whose use and households leave.",
+    "required_change": "Write V03's part of item 123 at build depth as new design (an addition): (a) state that a building's plan is the one it had when built (or last lived in) and is never re-derived because it decays \u2014 a building turning `abandoned`, `decayed` or `ruined` keeps its plan (stored, else re-derived from its canonical prior) under the damage layer instead of a re-cut to the vacant programme, and a building first met ruined (generated as a ruin, or reached by item 113's replay) gets the plan it had when built, then its damage \u2014 with the matching rows of V03 \u00a72.5, V03 \u00a73.11 and V03 \u00a74.3; (b) the damage layer: each plan element (wall run, floor area, door, window, stair, roof bay over a room, furniture piece) shown damaged where the building's decay level (0\u20131, V06's, the material's rate V11's) has passed its one keyed threshold (\u00a76.3's key by lineage and element id; no new ids), monotone, never relocated; restoration (`reused`, a repair) lowering the level, the damage leaving in reverse order, a repaired element drawn in item 114's patch material; (c) the drawing at every state in V03 \u00a75.1 (`abandoned`: dust, debris, broken furniture, doors off; `decayed`: rotten floor patches and holes, partitions down, roof holes, rooms marked unsafe; `ruined`: outer walls broken, upper storeys mostly floorless with fragments over the void, rubble heaps, the ground floor the only walkable storey; cellars and the crypt by their own thresholds, a ruined church keeping its crypt), replacing the uniform rule; (d) exports (V03 \u00a75.2, V03 \u00a75.3): picture exports draw it; in VTT and Foundry scenes a fallen wall run leaves line of sight, a doorless opening is a gap, rubble and floor holes are in the image only, never walls; the JSON `plan` block's carriage stated; (e) the panel lines (V03 \u00a74.5) and the why rows (V03 \u00a74.6), e.g. 'roof fallen in over the hall; the upper floor is gone', keyed for V09 \u00a74.9 and V10; (f) bars (a T-V3-n): room, wall and opening ids identical intact and damaged; a higher level's damage \u2287 a lower's on every element; the same element breaks at the same level per seed; restoring reverses it; exports' line of sight follows fallen walls; a building never decayed byte-identical to today's plan (no-op pin); plus a V03 \u00a73.13 edge row (level 0 and 1, restoration, a building first met ruined, a stored edited plan, a deck building fallen with its deck), the V03 \u00a76 budget, a J-V3 decision, the \u00a71, \u00a71b and \u00a72.5 rows, \u00a78's placement, \u00a712, and V03 \u00a713's hand-offs (model \u00a72.6 step 7, determinism \u00a76.3, rendering \u00a78.6 and \u00a711.1, V02's exterior agreeing, V04's below-ground thresholds, V06's decay level, V11's tables, V09, V10).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAH-r1-14",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V03 l.176 ('and `WhyAnswer` (V10 \u00a72.13, V10 \u00a73.9, V10 \u00a73.9a; BCR-V10-3)'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V03 l.176 reads 'and `WhyAnswer` (\u00a711.2; its sections V10 \u00a73.9, V10 \u00a73.9a; BCR-V10-3)'.",
+  "owner": "V03",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VV34-r1-10",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "V03 \u00a73.13's Find row (added this round) lists the edges 'a plan absent, stale, stored or empty' and 'save, load, undo, redo, regenerate' with the outcome of V03 \u00a75.5 (1)\u2013(3) and the test T-V3-38; T-V3-38 has no clause for an empty plan's building (V03 \u00a75.5 (2): 'the plan holds none \u2026 an empty plan \u2026 the building's outline carries the chip's outline and halo'), none for a stale plan's glow over its cached rooms under \u00a78.5's marker until its re-derivation lands (V03 \u00a75.5 (3)), and none for a redo ((e) lists a relet, a `setRoomRole`, a re-cut, an undo, a regenerate and a load).",
+  "required_change": "In T-V3-38 add to (d): 'a building whose plan is empty carries the chip's outline and halo on its outline, and a stale plan glows its cached rooms under \u00a78.5's marker until its re-derivation lands, then the re-derived rooms'; and add 'a redo' to (e)'s list.",
+  "owner": "V03",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ }
+]

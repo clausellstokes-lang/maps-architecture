@@ -1,0 +1,12 @@
+# §12.1: G121-rendering — calibration picks the ultra tier (g item 121 (c)).
+@@ FILE 12.1.md
+<<<<
+  fixed tiles (≈ 40 ms; the part that also picks the hardware tier at app start, §8.8). Every score is stored with the
+====
+  fixed tiles (≈ 40 ms; the part that also picks the hardware tier at app start, §8.8), and in browser runs with a GPU a
+  **GPU probe** — §8.4's light pass at full precision over a native-4K view (3 840 × 2 160 device px) of the same fixed
+  tiles. The **ultra** tier (g item 121 (c); J134) is picked only where the host reports at least 8 GB of device memory
+  (the browser's `deviceMemory`, whose largest reading is 8), the Canvas2D part runs within the reference machine's time
+  and the probe holds ≤ 8 ms a frame; otherwise the tier the other parts pick stands (our bar; R12-36 confirms it at M4).
+  Every score is stored with the
+>>>>

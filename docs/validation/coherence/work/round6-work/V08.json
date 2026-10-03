@@ -1,0 +1,65 @@
+[
+ {
+  "id": "VAP-r5-02",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "claim": "R5-08 (c) gave a famine look a `field` read. V09 wrote its test into T-V9-85 (V09 l. 4436): \"on a dossier crisis fixture with a famine at severity 0.5 (V08 \u00a77.1), the why card of a bare field carries `info.crisis.ruinedFor` and that of a field left sown none\". V08 \u00a77.1's crisis fixtures (V08 l. 3242\u20133246) hold \"\u2026 a famine, a fire, a flood and an earthquake \u2026 each standing through part of the year at its severity\". They name no severity for the famine, and V12 \u00a73.15.12 (l. 2693) and X-V12-5 restate them the same way. The clause needs a severity below 1, since at 1 every field is bare. V09's hand-off to V08 and V12 (repair-r5-V09 l. 120\u2013122) is open. V12 declined it as V08's (\"the severity belongs in V08 \u00a77.1, which X-V12-5 then cites\"). This is a fixture list that omits a case its test names, so the grade is minor (R5-01).",
+  "required_change": "V08 \u00a77.1's crisis fixtures (l. 3244): \"a plague with its affected quarter, a famine, a fire\" \u2192 \"a plague with its affected quarter, a famine at severity 0.5 (its look baring part of the arable faces and leaving the rest sown, V09's T-V9-85), a fire\".",
+  "owner": "V08",
+  "reported_by": "verify-agree-proof-r5t"
+ },
+ {
+  "id": "VEL5-r5-02",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "R5-03 holds a late calamity carried by an absorb whose week is not after `W\u2080` \"for the first epoch a later absorb folds\" (base \u00a74.11 *The clock* (4) l. 8483; V08 \u00a73.6 (3) l. 1871\u20131876; \u00a77.7's comment l. 11825). V08 \u00a73.6 (4) (l. 1903\u20131908) writes the whole held list in every `dossierFacts` event (\"the binding's list less each calamity the first epoch this absorb folds carries, plus each late calamity this absorb holds\"). So a later absorb past `W\u2080` that folds no epoch must write the list unchanged and fold no epoch for the held calamity, unlike a newly carried late one with `W\u2081` after `W\u2080`, for which \"the port folds one at `W\u2081`\". The calamity waits up to the next year end. That is the common path: weekly syncs between year ends fold none. T-V8-49 (g) (V08 l. 3311) and T76-1 (base l. 18242\u201318245) hold the calamity and then make the very next absorb fold an epoch (a population move past the tolerance). So two wrong builds pass every bar, T-V8-5's fold check included. One writes `lateCalamities` from this absorb's new holds alone, so the list empties at a no-epoch absorb and the calamity is silently lost. The other folds an epoch at `W\u2081` for a held calamity. VV78-r5-01 names this wait but tests only a forked copy.",
+  "required_change": "T-V8-49 (g), after \"the next absorb past `W\u2080` folding the crossing and the calamity's strike at its first epoch's first week, its deaths in that epoch's burial need\", add: \"; and on a copy, between the hold and that absorb, an absorb past `W\u2080` with no year end, no crossing and no calamity (one institution's `state` changed) \u2014 no epoch folded, its `dossierFacts` event listing the held calamity in `lateCalamities`, the calamity not struck \u2014 then an absorb past the next year end folding the year-end epoch, the calamity riding it at its first week `W\u2080` + 1, struck once, its deaths in that epoch's burial need, `lateCalamities` empty after\".",
+  "owner": "V08",
+  "reported_by": "verify-edges-life-r5t"
+ },
+ {
+  "id": "VEL5-r5-03",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "claim": "R5-03 adds `DossierBinding.lateCalamities: string[]`, \"the binding keys of late calamities held\" (\u00a77.7 l. 11825). A held calamity's `CalamityRef` is built \"from its carried `calamity` fact under the held key\" (V08 \u00a73.6 (3) l. 1894\u20131895). The calamity key is a port-minted binding key (`calamity:<week>:<slug(name)>`, V08 \u00a72.3). At a line change, \"B's `fromLines` entry for A re-keys the binding rows (a `rebind` `setAttr` per changed key \u2026)\", and an entry may be a `table` of `{ from, to }` rows (V08 \u00a72.4 l. 587; \u00a73.8 l. 2042\u20132047; \u00a72.3's row life l. 566). Nothing re-keys `lateCalamities`, nor `quarantined[].key`, which has the same gap. Where the migrating or a later absorb folds the epoch the held calamity rides, a builder who re-keys rows and carried facts alone looks up the old key and finds no fact. The result is a crash, or the calamity silently lost against R5-03's \"never lost\". A quarantined record's stale key likewise stops shielding it from the diff. Two builders differ, and the case is not in the canon's catalogue (no migration entry for V08 \u00a73.8's binding lists). T-V8-11 (l. 3273) runs only `identity` and the missing-entry hold.",
+  "required_change": "1. V08 \u00a73.8's line-change bullet, after \"re-keys the binding rows (a `rebind` `setAttr` per changed key, V08 \u00a73.6 (5), no address changes)\", add: \", and every binding key the binding's lists hold \u2014 each `quarantined` entry's `key` and each `lateCalamities` key \u2014 by the same entry in that absorb, before the diff, the absorb's `dossierFacts` event carrying both lists under the new keys (V08 \u00a73.6 (4)); a key the entry does not map keeps its key\". 2. V08 \u00a72.6's `DossierBinding.lateCalamities` row, its migrate cell, adds \"; a line migration re-keys it by the `fromLines` entry (V08 \u00a73.8)\". 3. T-V8-11 adds: \"on its test line with a `fromLines` table that re-keys calamity keys, a document holding a late calamity (T-V8-49 (g)'s second absorb) and a quarantined record, migrated by an absorb that folds an epoch \u2014 the calamity riding that epoch under its new key, struck once, `lateCalamities` empty after, and the quarantined record's key re-keyed, its carried state still skipped by the diff\".",
+  "owner": "V08",
+  "reported_by": "verify-edges-life-r5t"
+ },
+ {
+  "id": "VV78-r5-02",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "VV78-r4-04's fix widened \u00a74.6's `late` variant to \"a change carried at or before the last epoch's week (V08 \u00a73.6 (3), (6))\", and R5-03's T-V8-49 (g) notes the held calamity with it. Its words, \"{name} is dated before the map's last update, so the map shows it as already finished.\", are true of a non-calamity late change (applied finished) but false of a late calamity, which since R5-03 is never shown finished: it strikes at the first week after the last epoch, now (`W\u2081` after `W\u2080`) or held for a later epoch. \u00a73.6 (3) also does not say that a late calamity in an absorb whose week is after `W\u2080` is noted, while \u00a74.6's trigger includes it and the note's class `event` puts it in the log. The fix is a string and its trigger; nothing else built changes.",
+  "required_change": "V08 \u00a74.6's `unreceipted_change` row: \"for a change carried at or before the last epoch's week (V08 \u00a73.6 (3), (6); V08 \u00a73.17), the row's variant `host.note.unreceipted_change.late` \"{name} is dated before the map's last update, so the map shows it as already finished.\"\" \u2192 \"for a change other than a calamity carried at or before the last epoch's week (V08 \u00a73.6 (6); V08 \u00a73.17), the row's variant `host.note.unreceipted_change.late` \"{name} is dated before the map's last update, so the map shows it as already finished.\"; for a late calamity (V08 \u00a73.6 (3)), the variant `host.note.unreceipted_change.lateCalamity` \"{name} is dated before the map's last update, so the map shows it striking in the week after that update.\"\", and its args and Show cells \"the variant for a late calamity\" \u2192 \"the `lateCalamity` variant\". V08 \u00a73.6 (3): \"its tick kept in its receipt either way\" \u2192 \"its tick kept in its receipt either way, noted by `unreceipted_change`'s `lateCalamity` variant (V08 \u00a74.6)\". V08 \u00a73.17's 'changes to events and epochs' row: \"a late calamity's targets applied and the calamity held for the next folded epoch\" \u2192 \"a late calamity's targets applied and the calamity held for the next folded epoch, noted `lateCalamity`\", and \"riding the first epoch the absorb folds at `W\u2080` + 1 (V08 \u00a73.6 (3))\" \u2192 \"riding the first epoch the absorb folds at `W\u2080` + 1, noted `lateCalamity` (V08 \u00a73.6 (3))\". T-V8-49 (g): \"noted by `unreceipted_change`'s `late` variant, the calamity held\" \u2192 \"noted by `unreceipted_change`'s `lateCalamity` variant, the calamity held\", and \"its event in the absorb's first epoch at that epoch's first week\" \u2192 \"its event in the absorb's first epoch at that epoch's first week, noted by the `lateCalamity` variant\".",
+  "owner": "V08",
+  "reported_by": "verify-vol-V07-V08-r5t"
+ },
+ {
+  "id": "VV78-r5-03",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "T-V8-61 (a)'s clause from VV78-r4-03 runs \"an absorb on `town-1` whose ruined or remnant institution record returns with `status` `active`\". `town-1`'s frozen files hold no ruined or remnant institution: research/sf/PLAN.md l. 392 and l. 415 give the lit year's ruins to `city-1` (\"3 `ruined | destroyed_by_disaster`\"; `town-1` only \"Prosperous \u2192 Wealthy\"), and the remnant or removed records to the probe town after its plain and lit years (l. 416). R5-10: a test that names a case runs it on a fixture that holds it. (This verifier's own round-4 text.)",
+  "required_change": "T-V8-61 (a): \"an absorb on `town-1` whose ruined or remnant institution record returns with `status` `active` and no `worldPulseFate` reopens it (F6)\" \u2192 \"an absorb after the lit `city-1` year (\u00a713.2's pair; its three institutions `ruined` by `destroyed_by_disaster`) whose ruined record returns, by a test-side mutation, with `status` `active` and no `worldPulseFate` reopens it (F6), as does one after the probe town's plain or lit year (\u00a713.2's pairs) whose `remnant` record returns `active`\"; the rest of the clause stands.",
+  "owner": "V08",
+  "reported_by": "verify-vol-V07-V08-r5t"
+ },
+ {
+  "id": "VV78-r5-04",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "V08 ## 6's catch-up row (VV78-r4-05 (a)) and \u00a73.6 (6) batch \"the dossier events one epoch's span holds \u2014 dated in (the previous epoch's week, its week)\" as standalone events, excepting only \"one dated at the epoch's own week riding its `EpochInputs.dossier`\". A late calamity's F5 targets' events, dated `W\u2080` + 1 when `W\u2081` is after `W\u2080`, lie inside that interval but ride the first epoch's `EpochInputs.dossier` (V08 \u00a73.6 (3); base \u00a74.11 *The clock* (4)). \u00a73.6 (3) is explicit, so a builder of (3) puts them right; the batch rows omit the exception.",
+  "required_change": "V08 ## 6's 'an absorb with epochs' row: \"then the epoch, one dated at the epoch's own week riding its `EpochInputs.dossier` (V08 \u00a73.6 (6)).\" \u2192 \"then the epoch \u2014 one dated at the epoch's own week, and a late calamity's F5 targets' events at its first week, riding its `EpochInputs.dossier` (V08 \u00a73.6 (3), (6)), never the batch.\" V08 \u00a73.6 (6): \"In an absorb that folds an epoch, the events each epoch's span holds, and those after the last epoch, fold as one batch\" \u2192 \"In an absorb that folds an epoch, the events each epoch's span holds, and those after the last epoch, fold as one batch (those riding an epoch's `EpochInputs.dossier` \u2014 one at its week, a late calamity's F5 targets, (3) \u2014 excepted)\".",
+  "owner": "V08",
+  "reported_by": "verify-vol-V07-V08-r5t"
+ },
+ {
+  "id": "VV78-r5-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "VEL4-r4-01's \u00a73.17 'the digest and the diff' row says \"where such an absorb's span crosses a year end, the epoch there targets the carried population\". \u00a73.6 (3) \u2014 the home \u2014 gives the year-end epoch the latest readable `populationHistory` entry at or before it, else a target linear from the target at `W\u2080` toward the carried population; the row is exact only where neither applies (T-V8-61 (a)'s fixture, right after creation, is that case). The row restates the home in a narrower form.",
+  "required_change": "V08 \u00a73.17's 'the digest and the diff' row: \"and where such an absorb's span crosses a year end, the epoch there targets the carried population, no epoch folding toward the fallback (V08 \u00a73.6 (3))\" \u2192 \"and where such an absorb's span crosses a year end, the epoch there takes V08 \u00a73.6 (3)'s target with the carried population as the new population (a readable `populationHistory` entry at or before it, else linear from the target at `W\u2080` toward the carried population), no epoch folding toward the fallback\".",
+  "owner": "V08",
+  "reported_by": "verify-vol-V07-V08-r5t"
+ }
+]

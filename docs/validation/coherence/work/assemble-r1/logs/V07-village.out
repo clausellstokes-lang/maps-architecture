@@ -1,0 +1,13 @@
+files 1; blocks 2 found, 1 applied, 1 skipped
+  SKIPPED repair-r1-V07.md #2 (l. 3922) MALFORMED === RULING REQUEST VV78-21 === — malformed "=== " header line; its text skipped
+audit: 1 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 781
+  Part A duplicate ids: []
+headings 56 -> 57 (+2 / -1); fences balanced True (14 -> 16 fence lines); title block unchanged False; PENDING FABLE REVIEW lines 1 -> 1
+document 561556 -> 580760 bytes, 3809 -> 3917 lines, sha256 02f8dbb439bce4ae73e010022fc29a93e71f3e8944e0a6b3fbf8df01c8e2d6f8
+rationale 685208 -> 685208 bytes, 2362 -> 2362 lines, sha256 adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564

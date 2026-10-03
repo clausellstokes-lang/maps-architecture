@@ -1,0 +1,26 @@
+# §8.9: g item 121 — the ultra tier in `TileRasterOpts.tier`; the text layer and the effects' planes crossing to the main
+# thread; text composed at the device ratio; the compositors draw the effects (g item 124).
+@@ FILE 8.9.md
+<<<<
+  While the light pass is off or on the vector rung the WebGL2 compositor is the **pre-decided fallback compositor**:
+====
+  Either compositor draws §8.8's weather effects from their sprite atlas, the WebGL2 one with the light terms of §8.4 (i)
+  as fragment passes (g item 124).
+  While the light pass is off or on the vector rung the WebGL2 compositor is the **pre-decided fallback compositor**:
+>>>>
+<<<<
+* **Text (DEF-6).** All text is drawn by Canvas2D in the tile worker's composition step (§8.8), glyph by glyph at the
+====
+* **Text (DEF-6).** All text is drawn by Canvas2D in the tile worker's composition step (§8.8) — into the composed
+  bitmap, or under the split composition into the text layer at the device's pixel ratio (g item 121 (e)) — glyph by glyph at the
+>>>>
+<<<<
+and each ring block (§8.8), and the slab list (its records; §8.8) | transferred (zero-copy) | ≤ 1 MB bitmap + ≤ 64 KB slice per tile; + 1 MB surface (3.25 MB at full precision, §8.4 (g)), 1⁄12 MB pyramid (1⁄6 at full precision) and ¼ MB light map; ⅓ MB per first-ring position and ≤ 1⁄48 MB per ring block (⅔ and 1⁄24 at full precision) |
+====
+and each ring block (§8.8), and the slab list (its records; §8.8); under the split composition the text tiles (g item 121 (e)); while a spell of the weather effects is drawn, rung 3's coverage plane and, in rain, the water mask (g item 124; §8.8) | transferred (zero-copy) | ≤ 1 MB bitmap + ≤ 64 KB slice per tile; + 1 MB surface (3.25 MB at full precision, §8.4 (g)), 1⁄12 MB pyramid (1⁄6 at full precision) and ¼ MB light map; ⅓ MB per first-ring position and ≤ 1⁄48 MB per ring block (⅔ and 1⁄24 at full precision); ≤ 1 MB per text tile; ¼ MB coverage plane and 512 B water mask per tile |
+>>>>
+<<<<
+    tier: 'low'|'mid'|'high'; dpr: number }
+====
+    tier: 'low'|'mid'|'high'|'ultra' /* g item 121 (c) */; dpr: number }
+>>>>

@@ -1,0 +1,137 @@
+volume	check	run	proposed	in_untouched_volume	carried_by_block	corpus_whole	reason
+V01-neighbourhoods	C3	16 1 2 the base hooks	yes	no	no	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	3 10 1 1 5 2 1 5	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	3 4 4 3 3 7	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	4 5 and the tree s	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	5 4 5 5 4	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	a cell that is a rule	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	as it is the longer	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	committed state and the key	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	definition of the town s	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	its state is the per	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	or not at all a	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	ring of the union of the outline s	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	small medium large size small	yes	no	yes	findings/profile-dwellings.md	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V01-neighbourhoods	C3	the look of an area	yes	no	yes	-	repair-V01-r1 (2026-10-01): one of the 16 C3 three-gram runs the new text adds, reviewed by that seat — generic English or section-number runs, no reference identifier, word list, palette or table
+V02-buildings	C3	2 s 0 5 s	yes	no	yes	-	repair-V02-r1 (2026-10-01): estimates and targets of V02 §6.4's export table (facts, not creative content)
+V02-buildings	C3	8 5 1 2 the	yes	no	yes	-	repair-V02-r1 (2026-10-01): a section pointer "(V06 §3.8.5 (1)–(2))" in V02 §3.2's ceiling bullet; no reference text
+V02-buildings	C3	dialog shows the export s	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §6.4's export paragraph; no reference text
+V02-buildings	C3	from a gate and a	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §3.18 (f)'s bridge row; no reference text
+V02-buildings	C3	of 2 6 s stage 3	yes	no	yes	-	repair-V02-r1 (2026-10-01): a section pointer "§2.6's stage-3 intake" in V02 §6.1 (c); no reference text
+V02-buildings	C3	only up to the building count	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §6.4's fallback (b); no reference text
+V02-buildings	C3	only where it is enabled	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §3.2's ceiling bullet; no reference text
+V02-buildings	C3	only where the settlement s	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §0 (stepped shapes by culture); no reference text
+V02-buildings	C3	or it is one of the	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §3.2's ceiling bullet; no reference text
+V02-buildings	C3	run on the base s	yes	no	yes	-	repair-V02-r1 (2026-10-01): V03 §8's order restated in V02 §8.1 and J-V2.32 ("run on the base's buildings"); no reference text
+V02-buildings	C3	s 1 2 s 1 1 s 1 6 s	yes	no	yes	-	repair-V02-r1 (2026-10-01): estimates and targets of V02 §6.4's export table (facts, not creative content)
+V02-buildings	C3	written in the generation worker	yes	no	yes	-	repair-V02-r1 (2026-10-01): our own plain words in V02 §6.4's export paragraph; no reference text
+V03-interiors	C3	1 and the plan s	yes	no	yes	-	repair-V03-r1 (2026-10-01): a section pointer "(V03 §5.1) and the plan's" in V03 §5.5; no reference text
+V03-interiors	C3	4 1 and the cache	yes	no	yes	-	repair-V03-r1 (2026-10-01): a section pointer "(§4.1), and the cache" in J-V3.133; no reference text
+V03-interiors	C3	4 5 and the plan	yes	no	yes	-	repair-V03-r1 (2026-10-01): a section pointer "(V03 §4.5) and the plan panel" in V03 §5.5; no reference text
+V03-interiors	C3	a click or elaborate view	yes	no	yes	findings/dwellings-synthesis.md	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2) ("a click or `elaborate: 'view'` does"); no reference text
+V03-interiors	C3	and the building band s	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (3); no reference text
+V03-interiors	C3	b city lite s clicked buildings	yes	no	yes	findings/dwellings-synthesis.md	repair-V03-r1 (2026-10-01): our fixture names in T-V3-38 (B-PLAN, B-CITY-lite); no reference text
+V03-interiors	C3	door in the outer wall	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own panel words for W_STACK_ACCESS (V03 §4.5); no reference text
+V03-interiors	C3	exports and the plan s	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in J-V3.133; no reference text
+V03-interiors	C3	its state is the per	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 ("its state is the per-viewer view key"); no reference text
+V03-interiors	C3	list with the same glyph	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2); no reference text
+V03-interiors	C3	moves from the building s footprint	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5; no reference text
+V03-interiors	C3	none of them and the	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (1); no reference text
+V03-interiors	C3	one of the rooms with the	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2); no reference text
+V03-interiors	C3	onto the ground under the	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own panel words for W_GRADE_FACE_TUNNEL (V03 §4.5); no reference text
+V03-interiors	C3	per storey and the whole	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §6's one-time waits; no reference text
+V03-interiors	C3	plan and the view key	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §2.5's Find row; no reference text
+V03-interiors	C3	s count and a building	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in T-V3-38 (d); no reference text
+V03-interiors	C3	that would leave a room	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §4.2's reach bend and T-V3-11 (vi); no reference text
+V03-interiors	C3	that would leave a room the	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §4.2's reach bend; no reference text
+V03-interiors	C3	the class and the named	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §2.4's named rows; no reference text
+V03-interiors	C3	the rest of the plan	yes	no	yes	-	repair-V03-r1 (2026-10-01): our own plain words in V03 §5.5 (2); no reference text
+V03-interiors	C4	castle cathedral keep mill temple	yes	no	yes	(C4 list)	repair-V03-r1 (2026-10-01): J-V3.135's own reasoning naming V03's named rows and V11's classes and family; no reference list
+V04-underground	C3	8 2 11 1 11 2	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §1.2's "§2.9, §8.2, §11.1, §11.2, §12.5" — section pointers' digits
+V04-underground	C3	a merge and the run s	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §3.11 UC20's "never a merge) and the run's knots" — ordinary words
+V04-underground	C3	an area is a plan	yes	no	yes	-	repair-V04-r1 (2026-10-01): J-V4.127's "an area is a plan region" — ordinary words
+V04-underground	C3	an island in the river	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §3.2 N2's "an island in the river" — ordinary words
+V04-underground	C3	is drawn at a time	yes	no	yes	-	repair-V04-r1 (2026-10-01): J-V4.127's "one band is drawn at a time" — ordinary words
+V04-underground	C3	of it is drawn 5	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §5.1's "nothing of it is drawn" before §5.2's heading — ordinary words and a heading's digit
+V04-underground	C3	one for a town on	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §3.2 N3's "one for a town on one side of its water" — ordinary words
+V04-underground	C3	opening is a path of the	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §3.11 UC20's "the opening is a path of the connection graph" — ordinary words
+V04-underground	C3	read it and the base	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §8's register row "read it; and the base cell" — ordinary words
+V04-underground	C3	the parts of the graph	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §3.2 N2's "the parts of the graph the water divides" — ordinary words
+V04-underground	C3	them on the ground in	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §3.5.5 (b) (1)'s "the replay clears them on the ground in the same batch" — ordinary words
+V04-underground	C3	time and the replay the	yes	no	yes	-	repair-V04-r1 (2026-10-01): V04 §13's V06 row "advance time and the replay, the participants' time" — ordinary words
+V05-sky	C3	2 1 3 2 the second	no	no	yes	-	
+V05-sky	C3	5 3 9 1 9 2 11 1	no	yes	yes	-	
+V05-sky	C3	6 1 2 the base hooks	no	no	yes	-	
+V05-sky	C3	8 2 11 2 and	no	no	yes	-	
+V05-sky	C3	a row of the island s	no	no	yes	-	
+V05-sky	C3	are byte identical to the base s	no	no	yes	-	
+V05-sky	C3	drawn in the island s	no	no	yes	-	
+V05-sky	C3	exactly in the window s	no	no	yes	-	
+V05-sky	C3	it for the island s	no	no	yes	-	
+V05-sky	C3	its state is the per	no	no	yes	-	
+V05-sky	C3	on a 1 5 m grid	no	no	yes	-	
+V05-sky	C3	on the ground and a faint	no	no	yes	-	
+V05-sky	C3	on the island s rim	no	yes	yes	-	
+V05-sky	C3	on the land side of the	no	no	yes	findings/vg-posts-a.md	
+V05-sky	C3	on the rim and at the	no	no	yes	-	
+V05-sky	C3	read from the ground s	no	no	yes	-	
+V05-sky	C3	read only the island s	no	no	yes	-	
+V05-sky	C3	run on the rim and	no	no	yes	-	
+V05-sky	C3	s name and an island	no	no	yes	-	
+V05-sky	C3	with it the ground s	no	no	yes	-	
+V05-sky	S2	§6.8	no	no	yes	(S2)	
+V06-evolution	C3	2 5 of the town s	no	no	yes	-	
+V06-evolution	C3	3 5 1 5 the	no	no	yes	-	
+V06-evolution	C3	4 3 2 3 6 6	no	no	yes	-	
+V06-evolution	C3	5 of the town s	no	no	yes	-	
+V06-evolution	C3	a function of the plan and the	no	no	yes	-	
+V06-evolution	C3	a third of the island	no	no	yes	-	
+V06-evolution	C3	disc of the island s	no	no	yes	-	
+V06-evolution	C3	does not raise it a	no	no	yes	-	
+V06-evolution	C3	generation and the first map	no	no	yes	-	
+V06-evolution	C3	is byte identical to its	no	no	yes	-	
+V06-evolution	C3	mutation of the same record	no	no	yes	-	
+V06-evolution	C3	of 6 1 6 7	no	no	yes	-	
+V06-evolution	C3	rounded up to the next	no	yes	yes	-	
+V06-evolution	C3	say so in the same one	no	no	yes	-	
+V06-evolution	C3	the request and the growth	no	no	yes	-	
+V06-evolution	S2	§5.12	no	no	yes	(S2)	
+V06-evolution	S2	§6.8	no	no	yes	(S2)	
+V07-village	C3	3 1 1 each type	yes	no	yes	-	repair-V07-r1 (2026-10-01): "V07 §3.1 (1) (each type at its class's arid chance" — a section pointer's digits and ordinary words
+V07-village	C3	and a hole in the	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §3.5a (2)'s "and a hole in the faces beneath" — ordinary words
+V07-village	C3	drawn by its row s	yes	no	yes	-	repair-V07-r1 (2026-10-01): T-V7-62's "each drawn by its row's `look` role" — ordinary words
+V07-village	C3	from 1 4 1 s	yes	no	yes	-	repair-V07-r1 (2026-10-01): "parts from 1, §4.1's `RaisedRead`" — a section pointer's digits
+V07-village	C3	in the village and the	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §5.5's "farmsteads in the village and the outlying farmsteads" — ordinary words
+V07-village	C3	its state is the per	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §5.5's "its state is the per-viewer view key" — ordinary words
+V07-village	C3	member of the class is	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §5.5's "no member of the class is outlined" — ordinary words
+V07-village	C3	row of the same thing	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §5.5's "V11's town row of the same thing" — ordinary words
+V07-village	C3	the outline of the union of	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §5.5's "the outline of the union of its plots' faces" — ordinary words
+V07-village	C3	where it is a rule	yes	no	yes	-	repair-V07-r1 (2026-10-01): V07 §3.17 (b)'s "'—' where it is a rule" — ordinary words
+V08-settlementforge	C3	4 9 and the client s	yes	yes	yes	-	repair-V08-r1 (2026-10-01): the pointer "(V09 §2.9, V09 §4.9)" followed by our own words in W86; no reference text
+V09-application	C3	0 25 0 5 3	no	no	yes	-	
+V09-application	C3	0 5 0 75 the	no	no	yes	-	
+V09-application	C3	4 on the canvas the	no	no	yes	-	
+V09-application	C3	9 on the canvas the	no	no	yes	-	
+V09-application	C3	a fault in the map	no	no	yes	-	
+V09-application	C3	be reached from the entrance	no	no	yes	-	
+V09-application	C3	is fixed by a rule	no	no	yes	-	
+V09-application	C3	listed in the style dialog	no	no	yes	-	
+V09-application	C3	or a row of the	no	no	yes	findings/profile-neighbourhood.md	
+V09-application	C3	place for a new one	no	no	yes	-	
+V09-application	C3	rule of the map and	no	no	yes	-	
+V09-application	C3	them in the style dialog	no	no	yes	-	
+V09-application	C3	this section is the home	no	no	yes	-	
+V09-application	S2	§3.23	no	no	yes	(S2)	
+V10-clerk	C3	7 1 2 the base hooks	no	no	no	-	
+V10-clerk	C3	is never a target and a	no	no	yes	-	
+V10-clerk	C3	it it is a view	no	no	yes	-	
+V10-clerk	C3	on every building with a plan	no	no	yes	-	
+V10-clerk	C3	or what the viewer s	no	no	yes	-	
+V10-clerk	C3	stands on the top the	no	no	yes	-	
+V10-clerk	C3	the rest of the map and	no	no	yes	-	
+V10-clerk	C3	the rest of the viewer s	no	no	yes	-	
+V10-clerk	C3	this is the owner s	no	no	yes	-	
+V11-content	C3	3 2 3 the editor	yes	no	yes	-	repair-V11-r1 (2026-10-01): a section pointer "(V11 §3.2.3)" followed by our own words in V11 §4.1's required-row rule; no reference text
+V11-content	C3	by its label and its	yes	no	yes	-	repair-V11-r1 (2026-10-01): our own plain words in V11 §2.3's Find's lexicon ("reached by its `label` and its `synonyms`"); no reference text
+V11-content	C3	entrances and the plan rung	yes	no	yes	-	repair-V11-r1 (2026-10-01): our own plain words in V11 §3.24.0's switch row for V03's exposureAllStoreys; no reference text
+V11-content	C3	or of the last row	yes	no	yes	-	repair-V11-r1 (2026-10-01): our own plain words in V11 §3.26's edge row EI-V11-EDGE-3; no reference text

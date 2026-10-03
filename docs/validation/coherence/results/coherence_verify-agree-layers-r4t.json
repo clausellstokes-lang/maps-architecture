@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-agree-layers-r4t",
+ "file": "docs/validation/coherence/verify-agree-layers-r4t.md",
+ "issues": [
+  {
+   "id": "VAL-R4-01",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "owner": "model",
+   "claim": "Missed shared subject, verdict DISAGREE: the value type of the per-viewer view key `workingLayer`. Model §2.9 (l. 3392) gives its values as 'ground, a sky island's `PlatKey`, or an underground depth band'. V09 §2.4 types it `WorkingLayer = { layer: 'ground' } | { layer: 'sky'; key: PlatKey } | { layer: 'underground' }` and says 'the band is the view key `depthBand` alone (§2.9), never copied here'. §2.9 itself lists `depthBand` as the cut-away's band, and V04 §5.1 (2)'s Go there sets `workingLayer` to Below and `depthBand` to the band as two keys. The canon ruled the text (V09-XCONF-1: 'ground, a sky island's PlatKey, or the underground (its band the view key depthBand)'), but the base never took it. Since R4-02 the base itself reads the key: §8.4 draws the view's working layer whatever its `LayerSpec.visible`, and §8.8's tile key holds 'the model layers the view draws (their toggles and the working layer)'. A builder of §8.4 and §8.8 who follows §2.9 parses a depth band out of a key that V09 writes as `{ layer: 'underground' }`, and the band ends up stored in two keys.",
+   "required_change": "Model §2.9's View state entry '`workingLayer` (per viewer: the layer the tools act on — ground, a sky island's `PlatKey`, or an underground depth band; V09 §4.2)' reads '`workingLayer` (per viewer: the layer the tools act on and the view draws whatever its visibility, §8.4 — ground, a sky island's `PlatKey`, or the underground, its band the view key `depthBand` alone, never copied into `workingLayer`; its value V09 §2.4's `WorkingLayer`, its switch V09 §4.2)'."
+  },
+  {
+   "id": "VAL-R4-02",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "Village tracks cross a raised way by a different rule from the base's. R4-09 made §4.3 *Lattice and costs* (l. 5623-5634) the one crossing rule for ground part 0. A standing raised way's support rings, ramps, stairs and feet, and the under-deck strips of its `vault` spans, are 'impassable to every route and growth proposal on ground part 0' after generation, and at generation where the raised way is held (a declared one is). Elsewhere its strip is crossed only under an `open` span whose clear width is at least the way's width + `clearWidthM` and whose soffit meets *The clearance*, within ± `squareDeg` of square, never along the strip. §4.3 calls this 'the one rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep'. V07 §3.5a (3) gives VS4's trackers, which are growth proposals on ground part 0, a different rule. Only supports whose `state` is absent or `ruined` are obstacles, and 'A tracker passes beneath a span, standing, ruined or cleared, freely: no junction, no crossing record, no gate, no stop'. Nothing stops a tracker at a ramp or a stair. V07 (7) registers V04's arch-vault source at every village rung, and a `vault` span inside the perimeter holds an arch vault (`storage`). So on a village map with a declared or carried-down raised way, a VS4 track can run through an arch vault chamber, over a ramp, or at any angle under a span too low for it. The base forbids each of these, and V04's T-V4-62 bars an arch vault 'over a part-0 way' at every rung. Two outcomes for one case.",
+   "required_change": "V07 §3.5a (3): *Supports are obstacles* reads 'A support whose `state` is absent or `ruined`, the raised way's ramps and stairs, and the under-deck strip of each `vault` span (impassable by §4.3 *Lattice and costs*), each grown by `raised.supportClearM` (1 m), is an obstacle …', the turn rule unchanged. *Under a span* reads 'A tracker crosses the under-deck strip only where §4.3 *Lattice and costs* admits a part-0 way — under an `open` span whose clear width is at least the way's width + `raisedWays.structure.clearWidthM` and whose soffit meets §2.7's *The clearance* for the way's class, within ± `raisedWays.structure.squareDeg` of square to the deck, never along the strip. A step that would enter the strip elsewhere turns by the rule above. Where it crosses there is no junction, no crossing record, no gate and no stop; a `cleared` span's ground is free ((2)).' T-V7-48 adds '0 VS4 ways on a ramp, a stair or a `vault` span's under-deck strip or along the strip, each VS4 way crossing a span under an `open` span within §4.3's clear width, clearance and `squareDeg`'. Pipeline's END: §4.3's '— the one rule S5c's proposals (§4.4) and stage 2's ways (V01 §3.17.3 (3)) keep' adds 'and V07 §3.5a (3)'s village trackers'."
+  },
+  {
+   "id": "VAL-R4-03",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "A crossing station carried down onto the village palisade gets two outcomes. At the hand-off down 'the standing fabric survives unchanged' and the palisade is 'the innermost standing enceinte' (V07 §3.12). A CITY's raised way stays through the fall (V07 §3.5a's lead; V06 §3.19). Where a viaduct or elevated road crossed that ring, §2.7's support step (3) gave it a crossing station: a raised gate 'whose tower carries the deck', and a station whose support is the band's stretch under the deck, held while the deck stands (§4.8 *Gates*). V07 rules the opposite for every raised way over the palisade, declared or carried down. §3.5a (4) says the support is 'never a gate … a raised way crossing the circuit makes no gate'. §3.17's row 'a raised way over the palisade' says 'no gate under the deck'. T-V7-48, on a fixture 'carried down from a CITY', bars that the palisade 'has 0 gates at supports'. §2.7 (6) (b) (iv), new this round, says the same of a palisade laid later. Nothing states what happens to the standing raised gate and its station. One builder keeps them (base (3); standing fabric). Another removes the gate, which leaves the deck on no support, or fails T-V7-48 on a correct build. §3.17's row also cites T-V7-52, the no-op pins, for this case.",
+   "required_change": "V07 §3.5a (4) adds: 'A raised way carried down (V07 §3.12) whose crossing station stands on the enceinte that becomes the palisade keeps that station as standing fabric — its support the band's stretch under the deck, held while the deck stands, with its raised gate whose tower carries the deck, or the aqueduct's arch (§2.7's support step (3)) — the one gate at a support the palisade carries; the abutting and no-gate rule above reads every other support in its band.' V07 §3.17's row 'a raised way over the palisade' adds '; a carried-down crossing station on the palisade kept with its raised gate or arch (V07 §3.5a (4))', and its test cell reads T-V7-48. T-V7-48's 'has 0 gates at supports' reads 'has 0 gates at supports but a carried-down crossing station's raised gate, kept with its tower carrying the deck', its CITY fixture's viaduct crossing the innermost ring at a raised gate. Model's END: §2.7's support step (6) (b) (iv) adds '— a crossing station carried down on the enceinte that becomes the palisade standing as (3) holds it (V07 §3.5a (4))'. Pipeline's END: §4.13's raised-way edge row `wall` takes the same clause."
+  },
+  {
+   "id": "VAL-R4-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "model",
+   "claim": "ONE FIX with VV34-r4-01 (vol-V03-V04), this lane's model–V04 seam. V04's repair left it as a hand-off ('the base's text decides'). §2.7's support step (6) (b) lists 'a frame growth's extension of its deck, §3.2 (9)' among the ops that change a standing raised way, and `RaisedFoot`, §3.2 (9) and §4.11 have 'the raised way's re-derivation' extend the deck to the new ring. The support step that re-derivation runs spaces the stations evenly over the whole deck ((2)), and for a changed course (5) keeps only the key of a station within p ÷ 2. So a growth may move every old pier by up to p ÷ 2. V04 §3.5.0 *At an epoch* depends on the opposite. It says 'An epoch op removes no obstacle … so the element set it collapses is the one a regeneration of the same state collapses (T-V4-65)', with `Foundations.apply` collapse-only over `EpochScope.raised`, which V04 §3.10 and V06 W64 now say holds 'the frame growth's deck extension'. Re-spaced piers leave collapsed elements and pillars under no pier, unequal to a regeneration, so T-V4-65 cannot pass. A moved pier can also land in a plot S8 holed round its old ring, against (6) (b)'s reservation. Two builders, two behaviours.",
+   "required_change": "VV34-r4-01's text: §2.7's support step (6) (b), after '… a frame growth's extension of its deck, §3.2 (9)), and none drops it.', adds 'A frame growth's extension keeps every station of the old deck — its key, position and support `ring` — and every span between them with its `use` and `reason`; (1)–(5) and the span rule run on the extension alone, from the old deck's last interior station to the deck's new end on the new ring, its stations' keys minted after the largest the way has held ((5)); so no pier of the old deck moves and no footing leaves (V04 §3.5.0 *At an epoch*).' The `RaisedFoot` comment's 'then extends the deck to the new ring' adds '(the old deck's stations kept, the support step's (6) (b))'. Scope's END: T110-2's frame-growth clause adds 'every station of the old deck at its key, position and ring after the growth'. V04's END: T-V4-65's at-epoch clause adds the aqueduct whose deck a frame growth extends over a chamber within its piers' reach, the collapsed set equal to a regeneration's."
+  },
+  {
+   "id": "VAL-R4-05",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "ONE FIX with VV78-r4-01 (T-V7-69 (e), V07 §4.5) and VV78-r4-02 (V07 §5.6 (3)'s text). This is the same R4-04 (b) class at the one V07 site neither names: T-V7-69 (c). The bar reads 'a disaster ruins whole units of `villageDisasterUnits` … every building of a returned unit drawing the ruined look and none outside', with no hand-over. Its fixtures include, from M-SF, a dossier fixture carrying each mapped condition: a disaster with its linked `reconstruction` condition (V08 §3.16 (7) (b)). §10.2 (f), §8.2, T-ER-27 and V07 §5.6 (3) itself hand each building over in the week a Works other than `decay` begins on it. A building under its rebuild is then drawn ruined by T-V7-69 (c) and rebuilt by every other unit. R4-04 graded that class MAJOR, and a correct build fails the bar.",
+   "required_change": "T-V7-69 (c)'s 'every building of a returned unit drawing the ruined look and none outside' reads 'every building the look stands over (§10.2 (f): a building of a returned unit until V06 §3.22 (3)'s `crisisLookYields` turns true on it, a preview never handing over) drawing the ruined look, a building of a returned unit whose rebuild Works begin in the condition's weeks drawing its Works from that week, and none outside'; its dossier fixture adds a disaster whose rebuild Works begin on some of an end's buildings."
+  },
+  {
+   "id": "VAL-R4-06",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "pipeline",
+   "claim": "R4-02 (d) has every reader of 'the layers the view shows' read 'draws' (visible, or the working layer), and its sweep missed one site. II.7.3's *Order, seed and locality* (l. 21271) still says the underground pseudo-district's 'labels drawn only when the layer is visible'. §9.2's candidate set, the home (l. 14798), admits them whenever the view draws the layer, including Below as the working layer over a hidden underground, as §9.1 (l. 14750) and V04 (l. 2864) now say. The parenthetical builds no label logic, so nothing built changes.",
+   "required_change": "II.7.3: 'its labels drawn only when the layer is visible' → 'its labels candidates only while the view draws the layer — visible, or Below the view's working layer (§9.2, §8.4)'."
+  },
+  {
+   "id": "VAL-R4-07",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V04",
+   "claim": "R4-02's sweep missed one V04 edge row. UE33's E7 (l. 2430) says 'the layer hidden draws none of the underground view's part'. V04 §5.1 and §8.4 draw a hidden underground while Below is the view's working layer, and UE27's E7 was conformed this round ('the layer hidden — not drawn, or drawn in a view whose working layer is Below (§8.4)'). UE33's test, T-V4-82, has no hidden-layer clause, so nothing built or tested changes.",
+   "required_change": "V04 UE33's E7: 'the layer hidden draws none of the underground view's part' → 'the layer not drawn — hidden and not the view's working layer (§8.4) — draws none of the underground view's part'."
+  },
+  {
+   "id": "VAL-R4-08",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "pipeline",
+   "claim": "ONE FIX with VRC4T-09 (verify-rendering; repair-r4-rendering's hand-off). §10.2 (d)'s footprint exception (l. 15649-15650) still names 'a disaster's ruins and its districts' tone'. R4-04 (a) bars 'district' alone at the village rungs, where §8.2's `ruinTone` lies on the units' plots (V07 §5.6 (3)).",
+   "required_change": "VRC4T-09's text: §10.2 (d)'s 'a disaster's ruins and its districts' tone' → 'a disaster's ruins and its units' tone (§8.2's `ruinTone`)'."
+  },
+  {
+   "id": "VAL-R4-09",
+   "severity": "minor",
+   "kind": "NARRATION",
+   "owner": "V05",
+   "claim": "Two canon conflict ids stand in V05's design text: l. 313 '(file f item 251; MC-07: the island arena's own ring, no stored position)' and l. 685's row '`ContextVector.arena 'sky'` (§2.5, file f item 213; MC-05)'. This is against R3-02 (no review id in design text) and principle (5). assemble-r4 §8 lists both. Round 3's census for this lane missed them.",
+   "required_change": "V05 l. 313: '(file f item 251; MC-07: the island arena's own ring, no stored position)' → '(file f item 251: the island arena's own ring, no stored position)'. l. 685: '(§2.5, file f item 213; MC-05)' → '(§2.5, file f item 213)'."
+  },
+  {
+   "id": "VAL-R4-10",
+   "severity": "minor",
+   "kind": "NARRATION",
+   "owner": "pipeline",
+   "claim": "§4's class-floor heading (l. 6783-6784) ends '… §5.3's class-floor row cite it without values; DXC-06, KXC-02).' These are two canon conflict ids in design text, against R3-02 and principle (5); assemble-r4 §8 lists the site.",
+   "required_change": "'(the one home; §3.2 (2), §3.10, §5.2's F-PLOT and F-CORRIDOR and §5.3's class-floor row cite it without values; DXC-06, KXC-02)' → '(the one home; §3.2 (2), §3.10, §5.2's F-PLOT and F-CORRIDOR and §5.3's class-floor row cite it without values)'."
+  }
+ ]
+}

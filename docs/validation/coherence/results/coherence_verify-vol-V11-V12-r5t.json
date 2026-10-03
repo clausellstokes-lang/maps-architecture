@@ -1,0 +1,14 @@
+{
+ "key": "coherence/verify-vol-V11-V12-r5t",
+ "file": "docs/validation/coherence/verify-vol-V11-V12-r5t.md",
+ "issues": [
+  {
+   "id": "VV1112-r5-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V12",
+   "claim": "T-V12-57 (V12 l. 3179), written this round as VAP-r4-04's required text, ends: \"`weather.replay` fails a planted spell drawn from the host's clock and one carried into a week with no live kind across a year-position change\". The base makes the second case lawful. §6.1 *The weather stream* (base l. 9585–9589): \"a change of the year position, the climate row, the sites, the `light` mode or the hour changes the rate from that moment, the drawn E kept … A spell's kind and length are fixed once it starts; a change acts on a running spell only through §8.2's hard rules\", and those hard rules (l. 13262–13264) concern only snow and arid rain. T124-9's own fixture moves the year position \"from a week with no live kind into a live one and back\" (§13.2, base l. 18735; determinism §6.5 (9), l. 10224–10228; V12 §3.15.14, l. 2795–2797), so a spell started in the live week and still running when the year position goes back is carried into the week with no live kind by rule. `weather.replay` counts the spells that differ in kind, start or length between two timelines from the same seed, clock, presses and inputs (V12 §3.4.2's row, l. 1212). A carried spell — the lawful one, or any deterministic planted code — is the same in both runs, so the statistic reads 0 and the clause \"fails … one carried into a week with no live kind\" cannot pass. The first planted case passes only because the host's clock differs between runs. Builders would split three ways: one finds the clause unpassable and stops; one reads it as requiring a running spell to end at a change into a week with no live kind and builds a timeline against §6.1; one plants a run-varying fault of their own. This is a test bar that cannot pass as written (J141: major).",
+   "required_change": "T-V12-57: \"and one carried into a week with no live kind across a year-position change\" → \"and one whose gap is re-drawn from the host's clock at a year-position change instead of kept (§6.1 *The weather stream*: the drawn E kept), on T124-9's year-position fixture — a spell in force at that change carried into the week with no live kind, its kind and length fixed (§6.1), passing\". The rest of the row stands."
+  }
+ ]
+}

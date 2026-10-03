@@ -1,0 +1,779 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V11-content.md",
+ "input_doc_sha256": "9481453bcd0fd7577c4d0ac5b9766587adc01316a433c7ddce123ebf2539549d",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V11.md",
+   "sha256": "549056f90a7425ad56d4a1ece926e36f81e5e33f9423fdf9914650696874178d",
+   "lines": 3339,
+   "blocks": 27,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V11.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r2-V11.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 55,
+   "body_sha256": "a6c3a8d658702dfb6a3f6d13752137ec2fc198df85d49578eed9c1293a670905",
+   "target_line": 21,
+   "section_old": "21–69",
+   "section_old_n": 49,
+   "section_new_n": 56,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V11.md #2 (l. 60) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r2-V11.md",
+   "index": 2,
+   "line": 60,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 172,
+   "body_sha256": "2c094644a3eeb086f75a6f27d112c890b561e9ef1effd5dc404eb321886afa83",
+   "target_line": 77,
+   "section_old": "77–241",
+   "section_old_n": 165,
+   "section_new_n": 173,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "### 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V11.md #3 (l. 235) REPLACE ### 2.1 The table registry",
+   "file": "repair-r2-V11.md",
+   "index": 3,
+   "line": 235,
+   "kind": "REPLACE",
+   "heading": "### 2.1 The table registry",
+   "body_lines": 53,
+   "body_sha256": "97a84ae08281eac1c197b3956e1eb5212bdd61a33e5633960408979d0acec6a4",
+   "target_line": 258,
+   "section_old": "258–311",
+   "section_old_n": 54,
+   "section_new_n": 54,
+   "new_headings": [
+    "### 2.1 The table registry"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V11.md #4 (l. 291) REPLACE ### 2.4 Relation families, signature pairs and the derived rows",
+   "file": "repair-r2-V11.md",
+   "index": 4,
+   "line": 291,
+   "kind": "REPLACE",
+   "heading": "### 2.4 Relation families, signature pairs and the derived rows",
+   "body_lines": 38,
+   "body_sha256": "35fde81e2742cdc0ea323451ae1418d6239513675849d813efa00b749b5a86df",
+   "target_line": 467,
+   "section_old": "467–503",
+   "section_old_n": 37,
+   "section_new_n": 39,
+   "new_headings": [
+    "### 2.4 Relation families, signature pairs and the derived rows"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V11.md #5 (l. 332) REPLACE ### 2.6 Ladder steps (file f items 510, 520)",
+   "file": "repair-r2-V11.md",
+   "index": 5,
+   "line": 332,
+   "kind": "REPLACE",
+   "heading": "### 2.6 Ladder steps (file f items 510, 520)",
+   "body_lines": 18,
+   "body_sha256": "3391796815ab86a89bdadd722843fce4fe668bedd4680735dab64b3499649570",
+   "target_line": 520,
+   "section_old": "520–538",
+   "section_old_n": 19,
+   "section_new_n": 19,
+   "new_headings": [
+    "### 2.6 Ladder steps (file f items 510, 520)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V11.md #6 (l. 353) REPLACE ### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "file": "repair-r2-V11.md",
+   "index": 6,
+   "line": 353,
+   "kind": "REPLACE",
+   "heading": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+   "body_lines": 77,
+   "body_sha256": "0532444927f60c122108d87a35c8e2d10095e43a4c8e4242f3c980ce2fc0b99f",
+   "target_line": 563,
+   "section_old": "563–629",
+   "section_old_n": 67,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 2.8 The row types the base names without declaring (file f items 400, 435)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V11.md #7 (l. 433) REPLACE ### 2.8b The underground content rows (item 109): shapes cited, one cell added",
+   "file": "repair-r2-V11.md",
+   "index": 7,
+   "line": 433,
+   "kind": "REPLACE",
+   "heading": "### 2.8b The underground content rows (item 109): shapes cited, one cell added",
+   "body_lines": 15,
+   "body_sha256": "c279316f72b6bcb6d42ad51bc2537c0e7b57c9627aad8e7d6341eea027b6f6ad",
+   "target_line": 641,
+   "section_old": "641–656",
+   "section_old_n": 16,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 2.8b The underground content rows (item 109): shapes cited, one cell added"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V11.md #8 (l. 451) REPLACE ### 2.8c Item 110's row types",
+   "file": "repair-r2-V11.md",
+   "index": 8,
+   "line": 451,
+   "kind": "REPLACE",
+   "heading": "### 2.8c Item 110's row types",
+   "body_lines": 91,
+   "body_sha256": "4303d5d5bb1286c986761be05bc2c3dc8e544f585ef403a16ca279d1e2048bbe",
+   "target_line": 657,
+   "section_old": "657–747",
+   "section_old_n": 91,
+   "section_new_n": 92,
+   "new_headings": [
+    "### 2.8c Item 110's row types"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V11.md #9 (l. 545) REPLACE ### 2.8d The row types of items 113–119",
+   "file": "repair-r2-V11.md",
+   "index": 9,
+   "line": 545,
+   "kind": "REPLACE",
+   "heading": "### 2.8d The row types of items 113–119",
+   "body_lines": 64,
+   "body_sha256": "4033adf494048aa8e23a4b1b274d77a2332ab94467f7f1ba6aa6760ac2cb861e",
+   "target_line": 749,
+   "section_old": "749–805",
+   "section_old_n": 57,
+   "retitled_to": "### 2.8d The row types of items 113–119 and 122–124",
+   "section_new_n": 65,
+   "new_headings": [
+    "### 2.8d The row types of items 113–119 and 122–124"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V11.md #10 (l. 612) REPLACE ### 2.10 Lifecycle of every new state field",
+   "file": "repair-r2-V11.md",
+   "index": 10,
+   "line": 612,
+   "kind": "REPLACE",
+   "heading": "### 2.10 Lifecycle of every new state field",
+   "body_lines": 44,
+   "body_sha256": "9587d03e3c56308c46ae77c1a21fb9b71129ee3e4c06727fbaa52963961d9bf5",
+   "target_line": 833,
+   "section_old": "833–874",
+   "section_old_n": 42,
+   "section_new_n": 45,
+   "new_headings": [
+    "### 2.10 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-V11.md #11 (l. 659) REPLACE ### 3.1 The complete catalogue of tables",
+   "file": "repair-r2-V11.md",
+   "index": 11,
+   "line": 659,
+   "kind": "REPLACE",
+   "heading": "### 3.1 The complete catalogue of tables",
+   "body_lines": 179,
+   "body_sha256": "e62d12fc04a001402eace64af460de2f52821373dd97945cdf9935b7301c4e18",
+   "target_line": 887,
+   "section_old": "887–1061",
+   "section_old_n": 175,
+   "section_new_n": 180,
+   "new_headings": [
+    "### 3.1 The complete catalogue of tables"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-V11.md #12 (l. 841) REPLACE ### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "file": "repair-r2-V11.md",
+   "index": 12,
+   "line": 841,
+   "kind": "REPLACE",
+   "heading": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+   "body_lines": 563,
+   "body_sha256": "c6fe4a79e34849720ef199ef557489f5845eb21c66fa8281071b8110bce9cfc8",
+   "target_line": 1386,
+   "section_old": "1386–1951",
+   "section_old_n": 566,
+   "section_new_n": 566,
+   "new_headings": [
+    "### 3.5 The class ladder (`roster.classes`) — every town and city class"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-V11.md #13 (l. 1407) REPLACE ### 3.6 Designation templates, the compatibility table and heights",
+   "file": "repair-r2-V11.md",
+   "index": 13,
+   "line": 1407,
+   "kind": "REPLACE",
+   "heading": "### 3.6 Designation templates, the compatibility table and heights",
+   "body_lines": 175,
+   "body_sha256": "6c31ab28a8569857ffb494919084d2ee32a15500cd19b58c7a550d7063ccb2e4",
+   "target_line": 1952,
+   "section_old": "1952–2126",
+   "section_old_n": 175,
+   "section_new_n": 176,
+   "new_headings": [
+    "### 3.6 Designation templates, the compatibility table and heights"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-V11.md #14 (l. 1585) REPLACE ### 3.17 Climate and land use",
+   "file": "repair-r2-V11.md",
+   "index": 14,
+   "line": 1585,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Climate and land use",
+   "body_lines": 27,
+   "body_sha256": "bbb7b18d19d312f91d12464091fe3251ab69a65669bf5360450f66404f32344d",
+   "target_line": 3397,
+   "section_old": "3397–3422",
+   "section_old_n": 26,
+   "section_new_n": 28,
+   "new_headings": [
+    "### 3.17 Climate and land use"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r2-V11.md #15 (l. 1615) REPLACE ### 3.18 Decline, ruin and salvage by material",
+   "file": "repair-r2-V11.md",
+   "index": 15,
+   "line": 1615,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Decline, ruin and salvage by material",
+   "body_lines": 39,
+   "body_sha256": "449f5f1eb67a4a328b6bb1e0af7e2112e7d0f3c217632414f49d790c43d311fc",
+   "target_line": 3425,
+   "section_old": "3425–3462",
+   "section_old_n": 38,
+   "section_new_n": 40,
+   "new_headings": [
+    "### 3.18 Decline, ruin and salvage by material"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r2-V11.md #16 (l. 1657) REPLACE ### 3.23 The underground's content rows (item 109; J111)",
+   "file": "repair-r2-V11.md",
+   "index": 16,
+   "line": 1657,
+   "kind": "REPLACE",
+   "heading": "### 3.23 The underground's content rows (item 109; J111)",
+   "body_lines": 129,
+   "body_sha256": "51ea692860278155554570876c478e33983538c89a8b6359e3029cf5b38b7fdb",
+   "target_line": 3659,
+   "section_old": "3659–3789",
+   "section_old_n": 131,
+   "section_new_n": 131,
+   "new_headings": [
+    "### 3.23 The underground's content rows (item 109; J111)"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r2-V11.md #17 (l. 1789) REPLACE ### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "file": "repair-r2-V11.md",
+   "index": 17,
+   "line": 1789,
+   "kind": "REPLACE",
+   "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "body_lines": 353,
+   "body_sha256": "e1e9efd2fb8a149785f6596afe25a404a7fcac91e9d5a3f7d25077095fbbc30c",
+   "target_line": 3790,
+   "section_old": "3790–4138",
+   "section_old_n": 349,
+   "section_new_n": 355,
+   "new_headings": [
+    "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r2-V11.md #18 (l. 2145) REPLACE ### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "file": "repair-r2-V11.md",
+   "index": 18,
+   "line": 2145,
+   "kind": "REPLACE",
+   "heading": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "body_lines": 559,
+   "body_sha256": "125255afa544e9ec2536d15d80f143a0c399ecbe5d7e5910a0e065fab68f58ad",
+   "target_line": 4145,
+   "section_old": "4145–4503",
+   "section_old_n": 359,
+   "retitled_to": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+   "section_new_n": 560,
+   "new_headings": [
+    "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r2-V11.md #19 (l. 2707) REPLACE ### 3.26 Edges and combinations",
+   "file": "repair-r2-V11.md",
+   "index": 19,
+   "line": 2707,
+   "kind": "REPLACE",
+   "heading": "### 3.26 Edges and combinations",
+   "body_lines": 88,
+   "body_sha256": "e725b7d2aae5693a2b3b15cba8d07d29a04d8f724d97ab8d66d109cebe392895",
+   "target_line": 4705,
+   "section_old": "4705–4787",
+   "section_old_n": 83,
+   "section_new_n": 89,
+   "new_headings": [
+    "### 3.26 Edges and combinations"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r2-V11.md #20 (l. 2798) REPLACE ## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+   "file": "repair-r2-V11.md",
+   "index": 20,
+   "line": 2798,
+   "kind": "REPLACE",
+   "heading": "## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+   "body_lines": 91,
+   "body_sha256": "4d526add4ad436432eed258ad0148f6a8addf7b37f3cecd61cd495b0774170cd",
+   "target_line": 4794,
+   "section_old": "4794–4882",
+   "section_old_n": 89,
+   "section_new_n": 92,
+   "new_headings": [
+    "## 4 Editing — table edits, declarations, locality, undo and the clerk's view"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r2-V11.md #21 (l. 2892) REPLACE ## 5 Rendering, labels and exports",
+   "file": "repair-r2-V11.md",
+   "index": 21,
+   "line": 2892,
+   "kind": "REPLACE",
+   "heading": "## 5 Rendering, labels and exports",
+   "body_lines": 31,
+   "body_sha256": "565f1a563fc625e0e9d53d387d1b2e53fc89939f6b5005d2b90abbabcedbb0d0",
+   "target_line": 4886,
+   "section_old": "4886–4915",
+   "section_old_n": 30,
+   "section_new_n": 32,
+   "new_headings": [
+    "## 5 Rendering, labels and exports"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r2-V11.md #22 (l. 2926) REPLACE ## 6 Performance budgets",
+   "file": "repair-r2-V11.md",
+   "index": 22,
+   "line": 2926,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 21,
+   "body_sha256": "ffa3d1bfafd513639b56f26c8e9281cab11bfedb6dcd365a18bdf97394cc1803",
+   "target_line": 4918,
+   "section_old": "4918–4939",
+   "section_old_n": 22,
+   "section_new_n": 22,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r2-V11.md #23 (l. 2950) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r2-V11.md",
+   "index": 23,
+   "line": 2950,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 78,
+   "body_sha256": "1cbeb910a285643e06ede829326cffccccbbb212656fbae11b9fc55db6820f18",
+   "target_line": 4940,
+   "section_old": "4940–5015",
+   "section_old_n": 76,
+   "section_new_n": 79,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r2-V11.md #24 (l. 3031) REPLACE ## 8 Build plan",
+   "file": "repair-r2-V11.md",
+   "index": 24,
+   "line": 3031,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 115,
+   "body_sha256": "f3945ba751c1ce2e11709d22a2d4c25bf4dddda5626c8889e35a46bbeb1d5aae",
+   "target_line": 5019,
+   "section_old": "5019–5134",
+   "section_old_n": 116,
+   "section_new_n": 117,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r2-V11.md #25 (l. 3149) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r2-V11.md",
+   "index": 25,
+   "line": 3149,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 124,
+   "body_sha256": "d97aa0c991a3f8ce19bfddb8548db0cab909dce552987a5b97f7cd21e70e1e3d",
+   "target_line": 5136,
+   "section_old": "5136–5257",
+   "section_old_n": 122,
+   "section_new_n": 125,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "repair-r2-V11.md #26 (l. 3276) REPLACE ### 10b Cross-volume requests",
+   "file": "repair-r2-V11.md",
+   "index": 26,
+   "line": 3276,
+   "kind": "REPLACE",
+   "heading": "### 10b Cross-volume requests",
+   "body_lines": 22,
+   "body_sha256": "75cb3d5c59730fed96e5da16799e9e27a79edb9a678fbdf4f1fec268e2e355ad",
+   "target_line": 5300,
+   "section_old": "5300–5323",
+   "section_old_n": 24,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 10b Cross-volume requests"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "repair-r2-V11.md #27 (l. 3301) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r2-V11.md",
+   "index": 27,
+   "line": 3301,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 36,
+   "body_sha256": "0bcf43254fc084b8032a6657fb68510794307fdd66aa3b379996a271df0bbe40",
+   "target_line": 5375,
+   "section_old": "5375–5406",
+   "section_old_n": 32,
+   "section_new_n": 37,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r2-V11.md #9 (l. 545) REPLACE ### 2.8d The row types of items 113–119",
+   "note": "REPLACE retitles the heading",
+   "old": "### 2.8d The row types of items 113–119",
+   "new": "### 2.8d The row types of items 113–119 and 122–124"
+  },
+  {
+   "block": "repair-r2-V11.md #18 (l. 2145) REPLACE ### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "note": "REPLACE retitles the heading",
+   "old": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+   "new": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)"
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V11.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #2 (l. 60) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #3 (l. 235) REPLACE ### 2.1 The table registry",
+    "kind": "REPLACE",
+    "heading": "### 2.1 The table registry",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #4 (l. 291) REPLACE ### 2.4 Relation families, signature pairs and the derived rows",
+    "kind": "REPLACE",
+    "heading": "### 2.4 Relation families, signature pairs and the derived rows",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #5 (l. 332) REPLACE ### 2.6 Ladder steps (file f items 510, 520)",
+    "kind": "REPLACE",
+    "heading": "### 2.6 Ladder steps (file f items 510, 520)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #6 (l. 353) REPLACE ### 2.8 The row types the base names without declaring (file f items 400, 435)",
+    "kind": "REPLACE",
+    "heading": "### 2.8 The row types the base names without declaring (file f items 400, 435)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #7 (l. 433) REPLACE ### 2.8b The underground content rows (item 109): shapes cited, one cell added",
+    "kind": "REPLACE",
+    "heading": "### 2.8b The underground content rows (item 109): shapes cited, one cell added",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #8 (l. 451) REPLACE ### 2.8c Item 110's row types",
+    "kind": "REPLACE",
+    "heading": "### 2.8c Item 110's row types",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #9 (l. 545) REPLACE ### 2.8d The row types of items 113–119",
+    "kind": "REPLACE",
+    "heading": "### 2.8d The row types of items 113–119",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #10 (l. 612) REPLACE ### 2.10 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.10 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #11 (l. 659) REPLACE ### 3.1 The complete catalogue of tables",
+    "kind": "REPLACE",
+    "heading": "### 3.1 The complete catalogue of tables",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #12 (l. 841) REPLACE ### 3.5 The class ladder (`roster.classes`) — every town and city class",
+    "kind": "REPLACE",
+    "heading": "### 3.5 The class ladder (`roster.classes`) — every town and city class",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #13 (l. 1407) REPLACE ### 3.6 Designation templates, the compatibility table and heights",
+    "kind": "REPLACE",
+    "heading": "### 3.6 Designation templates, the compatibility table and heights",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #14 (l. 1585) REPLACE ### 3.17 Climate and land use",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Climate and land use",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #15 (l. 1615) REPLACE ### 3.18 Decline, ruin and salvage by material",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Decline, ruin and salvage by material",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #16 (l. 1657) REPLACE ### 3.23 The underground's content rows (item 109; J111)",
+    "kind": "REPLACE",
+    "heading": "### 3.23 The underground's content rows (item 109; J111)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #17 (l. 1789) REPLACE ### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+    "kind": "REPLACE",
+    "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #18 (l. 2145) REPLACE ### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+    "kind": "REPLACE",
+    "heading": "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #19 (l. 2707) REPLACE ### 3.26 Edges and combinations",
+    "kind": "REPLACE",
+    "heading": "### 3.26 Edges and combinations",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #20 (l. 2798) REPLACE ## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+    "kind": "REPLACE",
+    "heading": "## 4 Editing — table edits, declarations, locality, undo and the clerk's view",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #21 (l. 2892) REPLACE ## 5 Rendering, labels and exports",
+    "kind": "REPLACE",
+    "heading": "## 5 Rendering, labels and exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #22 (l. 2926) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #23 (l. 2950) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #24 (l. 3031) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #25 (l. 3149) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #26 (l. 3276) REPLACE ### 10b Cross-volume requests",
+    "kind": "REPLACE",
+    "heading": "### 10b Cross-volume requests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V11.md #27 (l. 3301) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [
+   "### 2.8d The row types of items 113–119 and 122–124",
+   "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)"
+  ],
+  "headings_removed": [
+   "### 2.8d The row types of items 113–119",
+   "### 3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)"
+  ],
+  "fences_balanced": true,
+  "fence_lines_before": 22,
+  "fence_lines_after": 22,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 626514,
+  "doc_bytes_after": 668874,
+  "doc_lines_before": 5154,
+  "doc_lines_after": 5433,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 27,
+  "blocks_applied": 27,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "db2ccf012142718e91fdd59ebffc8d2e5344627018602a6b127cedaf70762fac",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

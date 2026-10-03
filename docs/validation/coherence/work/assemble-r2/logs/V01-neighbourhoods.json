@@ -1,0 +1,783 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/volumes/V01-neighbourhoods.md",
+ "input_doc_sha256": "1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm2/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+ "files": [
+  {
+   "file": "repair-r2-V01.md",
+   "sha256": "a338a302eab81e88481c3f5c19387b1a67514015a5091f4b2f9238c11133b129",
+   "lines": 1655,
+   "blocks": 28,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r2-V01.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r2-V01.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 87,
+   "body_sha256": "b5edc1554236685c02b8940f9f6decc191661cbca96f06c4b8b939c15c08ab91",
+   "target_line": 10,
+   "section_old": "10–91",
+   "section_old_n": 82,
+   "section_new_n": 88,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r2-V01.md #2 (l. 92) REPLACE ### 1.1 What this volume builds (to build depth)",
+   "file": "repair-r2-V01.md",
+   "index": 2,
+   "line": 92,
+   "kind": "REPLACE",
+   "heading": "### 1.1 What this volume builds (to build depth)",
+   "body_lines": 56,
+   "body_sha256": "e3c04c5ab00729313fd8de044d3f730d5cde663317de374f26cfc1c67348a7bc",
+   "target_line": 100,
+   "section_old": "100–152",
+   "section_old_n": 53,
+   "section_new_n": 57,
+   "new_headings": [
+    "### 1.1 What this volume builds (to build depth)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r2-V01.md #3 (l. 151) REPLACE ### 1.2 The base hooks this volume consumes",
+   "file": "repair-r2-V01.md",
+   "index": 3,
+   "line": 151,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes",
+   "body_lines": 55,
+   "body_sha256": "50d59dbe462a7e4756c7b18e2cbf5982e36dcc38b7dec1120866a2f24ac0d94a",
+   "target_line": 157,
+   "section_old": "157–210",
+   "section_old_n": 54,
+   "section_new_n": 56,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r2-V01.md #4 (l. 209) REPLACE ### 1.3 Out of scope, and whose it is",
+   "file": "repair-r2-V01.md",
+   "index": 4,
+   "line": 209,
+   "kind": "REPLACE",
+   "heading": "### 1.3 Out of scope, and whose it is",
+   "body_lines": 35,
+   "body_sha256": "a55f56a0765cd1a3475bd02829c116f2fefed04c7975c98b09daba82731e6999",
+   "target_line": 213,
+   "section_old": "213–244",
+   "section_old_n": 32,
+   "section_new_n": 36,
+   "new_headings": [
+    "### 1.3 Out of scope, and whose it is"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r2-V01.md #5 (l. 247) REPLACE ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "file": "repair-r2-V01.md",
+   "index": 5,
+   "line": 247,
+   "kind": "REPLACE",
+   "heading": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "body_lines": 103,
+   "body_sha256": "f8e9edcd9e9094e5fe7ee10fdd7ecbad864fb925d4979e7839d8baa72fcb3718",
+   "target_line": 249,
+   "section_old": "249–348",
+   "section_old_n": 100,
+   "section_new_n": 104,
+   "new_headings": [
+    "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r2-V01.md #6 (l. 353) REPLACE ### 2.1 Identifiers and the fabric table",
+   "file": "repair-r2-V01.md",
+   "index": 6,
+   "line": 353,
+   "kind": "REPLACE",
+   "heading": "### 2.1 Identifiers and the fabric table",
+   "body_lines": 9,
+   "body_sha256": "eec21ec0d7136652a75cdbd242e9eb4328bf6867a91e3a47350a692920330d4c",
+   "target_line": 359,
+   "section_old": "359–367",
+   "section_old_n": 9,
+   "section_new_n": 10,
+   "new_headings": [
+    "### 2.1 Identifiers and the fabric table"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r2-V01.md #7 (l. 365) REPLACE ### 2.2 Rows (editable tables, §7.6)",
+   "file": "repair-r2-V01.md",
+   "index": 7,
+   "line": 365,
+   "kind": "REPLACE",
+   "heading": "### 2.2 Rows (editable tables, §7.6)",
+   "body_lines": 79,
+   "body_sha256": "fc38c992ffb6ac7ab5e6390b9aa1b34368454569cf1a42a9c2228c8ef1541749",
+   "target_line": 369,
+   "section_old": "369–448",
+   "section_old_n": 80,
+   "section_new_n": 80,
+   "new_headings": [
+    "### 2.2 Rows (editable tables, §7.6)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r2-V01.md #8 (l. 447) REPLACE ### 2.3 Views and services (derived, never stored)",
+   "file": "repair-r2-V01.md",
+   "index": 8,
+   "line": 447,
+   "kind": "REPLACE",
+   "heading": "### 2.3 Views and services (derived, never stored)",
+   "body_lines": 135,
+   "body_sha256": "0fb36d4ac0a083144d1564af720ed06384121172875a8317511d7da17571816c",
+   "target_line": 449,
+   "section_old": "449–570",
+   "section_old_n": 122,
+   "section_new_n": 136,
+   "new_headings": [
+    "### 2.3 Views and services (derived, never stored)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r2-V01.md #9 (l. 585) REPLACE ### 2.4 The request, the result and the report",
+   "file": "repair-r2-V01.md",
+   "index": 9,
+   "line": 585,
+   "kind": "REPLACE",
+   "heading": "### 2.4 The request, the result and the report",
+   "body_lines": 14,
+   "body_sha256": "c03812268b7ab09c78c4d1b031fb04e190aabc79b3a0680954ec6efed83b1ff7",
+   "target_line": 585,
+   "section_old": "585–606",
+   "section_old_n": 22,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 2.4 The request, the result and the report"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r2-V01.md #10 (l. 602) REPLACE ### 2.6 The standalone neighbourhood document's recipe",
+   "file": "repair-r2-V01.md",
+   "index": 10,
+   "line": 602,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The standalone neighbourhood document's recipe",
+   "body_lines": 4,
+   "body_sha256": "688ad7c63ce4d455f3c93dad62113d8121d1cc008724f94c6346b9362f38c4c5",
+   "target_line": 611,
+   "section_old": "611–626",
+   "section_old_n": 16,
+   "section_new_n": 5,
+   "new_headings": [
+    "### 2.6 The standalone neighbourhood document's recipe"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r2-V01.md #11 (l. 609) REPLACE ### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo",
+   "file": "repair-r2-V01.md",
+   "index": 11,
+   "line": 609,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo · migrate)",
+   "body_lines": 29,
+   "body_sha256": "a762e571916f8ffd3e582e4c61a289cb03d9012f14ab211866385a5e66b2c14b",
+   "target_line": 616,
+   "section_old": "616–644",
+   "section_old_n": 29,
+   "section_new_n": 30,
+   "new_headings": [
+    "### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo · migrate)"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r2-V01.md #12 (l. 641) REPLACE ### 3.12 Determinism",
+   "file": "repair-r2-V01.md",
+   "index": 12,
+   "line": 641,
+   "kind": "REPLACE",
+   "heading": "### 3.12 Determinism",
+   "body_lines": 43,
+   "body_sha256": "cbafe9419c1a2c9ba1ded13ea36fb0385bd8ba2e96598e32bfce83230046a828",
+   "target_line": 2074,
+   "section_old": "2074–2113",
+   "section_old_n": 40,
+   "section_new_n": 44,
+   "new_headings": [
+    "### 3.12 Determinism"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r2-V01.md #13 (l. 687) REPLACE ### 3.14 Constants (with provenance and table home)",
+   "file": "repair-r2-V01.md",
+   "index": 13,
+   "line": 687,
+   "kind": "REPLACE",
+   "heading": "### 3.14 Constants (with provenance and table home)",
+   "body_lines": 77,
+   "body_sha256": "d4448e990f53694528353289c65511d8ed3f0f4ede5f6a661df88c950b40e4c3",
+   "target_line": 2129,
+   "section_old": "2129–2205",
+   "section_old_n": 77,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 3.14 Constants (with provenance and table home)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r2-V01.md #14 (l. 767) REPLACE ### 3.16 Services other volumes call (`@plat/hood`)",
+   "file": "repair-r2-V01.md",
+   "index": 14,
+   "line": 767,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Services other volumes call (`@plat/hood`)",
+   "body_lines": 101,
+   "body_sha256": "f4b22d20ffb743494b7d51d4775e58bdb06d76da9f73a42172c55b3812092993",
+   "target_line": 2276,
+   "section_old": "2276–2321",
+   "section_old_n": 46,
+   "section_new_n": 102,
+   "new_headings": [
+    "### 3.16 Services other volumes call (`@plat/hood`)"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r2-V01.md #15 (l. 871) REPLACE #### 3.17.3 Raised ways in the close-up (J-V1.65)",
+   "file": "repair-r2-V01.md",
+   "index": 15,
+   "line": 871,
+   "kind": "REPLACE",
+   "heading": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+   "body_lines": 35,
+   "body_sha256": "54862343236952377e97efe79d099c1bf9cb4e62bb3ec6f9df11eac2aa6cd4fa",
+   "target_line": 2442,
+   "section_old": "2442–2476",
+   "section_old_n": 35,
+   "section_new_n": 36,
+   "new_headings": [
+    "#### 3.17.3 Raised ways in the close-up (J-V1.65)"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r2-V01.md #16 (l. 909) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r2-V01.md",
+   "index": 16,
+   "line": 909,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 127,
+   "body_sha256": "ae2111f5f6111f761cf39fb9b9b3dec9a0925109faeb15ef0fbe7146b9edf014",
+   "target_line": 2572,
+   "section_old": "2572–2693",
+   "section_old_n": 122,
+   "section_new_n": 128,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r2-V01.md #17 (l. 1039) REPLACE ### 4.5 The clerk's view and the \"why\" providers (item 101; volume 10 builds the clerk)",
+   "file": "repair-r2-V01.md",
+   "index": 17,
+   "line": 1039,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The clerk's view and the \"why\" providers (item 101; volume 10 builds the clerk)",
+   "body_lines": 50,
+   "body_sha256": "e7774d20b28cb836205664a0442731bd6225efdd6bcc33519ea4102b47c9c075",
+   "target_line": 2814,
+   "section_old": "2814–2864",
+   "section_old_n": 51,
+   "section_new_n": 51,
+   "new_headings": [
+    "### 4.5 The clerk's view and the \"why\" providers (item 101; volume 10 builds the clerk)"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r2-V01.md #18 (l. 1092) REPLACE #### 5.1.4 Night and states",
+   "file": "repair-r2-V01.md",
+   "index": 18,
+   "line": 1092,
+   "kind": "REPLACE",
+   "heading": "#### 5.1.4 Night and states",
+   "body_lines": 8,
+   "body_sha256": "31849161dc00b40244af21d48a3dd4937572c2c462ed85ba0016da549014988a",
+   "target_line": 3028,
+   "section_old": "3028–3033",
+   "section_old_n": 6,
+   "section_new_n": 9,
+   "new_headings": [
+    "#### 5.1.4 Night and states"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r2-V01.md #19 (l. 1103) REPLACE ### 5.3 Exports",
+   "file": "repair-r2-V01.md",
+   "index": 19,
+   "line": 1103,
+   "kind": "REPLACE",
+   "heading": "### 5.3 Exports",
+   "body_lines": 19,
+   "body_sha256": "a273eb7e310632a62191e7c14005da941be470c66eaa6e0bc1e6a77aecbc76ac",
+   "target_line": 3094,
+   "section_old": "3094–3112",
+   "section_old_n": 19,
+   "section_new_n": 20,
+   "new_headings": [
+    "### 5.3 Exports"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r2-V01.md #20 (l. 1125) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "file": "repair-r2-V01.md",
+   "index": 20,
+   "line": 1125,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "body_lines": 97,
+   "body_sha256": "62431fef88a101650327ac1f988639210691be9ba64e2f7863a2ef311faa1d1b",
+   "target_line": 3114,
+   "section_old": "3114–3205",
+   "section_old_n": 92,
+   "section_new_n": 98,
+   "new_headings": [
+    "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r2-V01.md #21 (l. 1225) REPLACE ## 6 Performance budgets",
+   "file": "repair-r2-V01.md",
+   "index": 21,
+   "line": 1225,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 52,
+   "body_sha256": "329bec7054603fa5f72ba4c313e0a219794d4988721d7c8d4e58909b57d9f4fd",
+   "target_line": 3212,
+   "section_old": "3212–3262",
+   "section_old_n": 51,
+   "section_new_n": 53,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r2-V01.md #22 (l. 1280) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r2-V01.md",
+   "index": 22,
+   "line": 1280,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 76,
+   "body_sha256": "a1660c3fffc6f6e2c265a5fa2b54e8874dcef2560a03eb7be2e7573ec45e0b09",
+   "target_line": 3265,
+   "section_old": "3265–3340",
+   "section_old_n": 76,
+   "section_new_n": 77,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r2-V01.md #23 (l. 1359) REPLACE ### 8.1 Where it slots into §16",
+   "file": "repair-r2-V01.md",
+   "index": 23,
+   "line": 1359,
+   "kind": "REPLACE",
+   "heading": "### 8.1 Where it slots into §16",
+   "body_lines": 57,
+   "body_sha256": "2b005da2f2711859dba89539e3e03c19da6fa6657d5ccf53167f53d4f8d73090",
+   "target_line": 3344,
+   "section_old": "3344–3398",
+   "section_old_n": 55,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 8.1 Where it slots into §16"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r2-V01.md #24 (l. 1419) REPLACE ### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r2-V01.md",
+   "index": 24,
+   "line": 1419,
+   "kind": "REPLACE",
+   "heading": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 38,
+   "body_sha256": "8fe3526b72dba1398c1a746d65cdfdd8a0d3dc4f8ac2d72a767a13d5f9ae388b",
+   "target_line": 3402,
+   "section_old": "3402–3438",
+   "section_old_n": 37,
+   "section_new_n": 39,
+   "new_headings": [
+    "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r2-V01.md #25 (l. 1460) REPLACE ### 8.3 `@plat/hood`'s contents (§14, item 505)",
+   "file": "repair-r2-V01.md",
+   "index": 25,
+   "line": 1460,
+   "kind": "REPLACE",
+   "heading": "### 8.3 `@plat/hood`'s contents (§14, item 505)",
+   "body_lines": 17,
+   "body_sha256": "96a960a6c12d7b32df85fa6a0d3c3d369bc1ad9505db47f4a09d0e47be085035",
+   "target_line": 3441,
+   "section_old": "3441–3457",
+   "section_old_n": 17,
+   "section_new_n": 18,
+   "new_headings": [
+    "### 8.3 `@plat/hood`'s contents (§14, item 505)"
+   ]
+  },
+  {
+   "seq": 26,
+   "block": "repair-r2-V01.md #26 (l. 1480) REPLACE ## 9 Decisions",
+   "file": "repair-r2-V01.md",
+   "index": 26,
+   "line": 1480,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions",
+   "body_lines": 112,
+   "body_sha256": "7f8f92e27b70a8caf8dffb324db99fd21174f9e3fb3538ad26bcd606548803ca",
+   "target_line": 3484,
+   "section_old": "3484–3594",
+   "section_old_n": 111,
+   "section_new_n": 113,
+   "new_headings": [
+    "## 9 Decisions"
+   ]
+  },
+  {
+   "seq": 27,
+   "block": "repair-r2-V01.md #27 (l. 1595) REPLACE ## 11 Owner questions",
+   "file": "repair-r2-V01.md",
+   "index": 27,
+   "line": 1595,
+   "kind": "REPLACE",
+   "heading": "## 11 Owner questions",
+   "body_lines": 8,
+   "body_sha256": "4e75154a7ebe28044964d608e0862f9a55182b4c86d6cc08e9cd7aaca410cbc0",
+   "target_line": 3652,
+   "section_old": "3652–3660",
+   "section_old_n": 9,
+   "section_new_n": 9,
+   "new_headings": [
+    "## 11 Owner questions"
+   ]
+  },
+  {
+   "seq": 28,
+   "block": "repair-r2-V01.md #28 (l. 1606) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r2-V01.md",
+   "index": 28,
+   "line": 1606,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 47,
+   "body_sha256": "bac747b1cd27b802603a75600b7acc2eb408992e9f35ed222d1b4d3352913108",
+   "target_line": 3661,
+   "section_old": "3661–3705",
+   "section_old_n": 45,
+   "section_new_n": 48,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r2-V01.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #2 (l. 92) REPLACE ### 1.1 What this volume builds (to build depth)",
+    "kind": "REPLACE",
+    "heading": "### 1.1 What this volume builds (to build depth)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #3 (l. 151) REPLACE ### 1.2 The base hooks this volume consumes",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #4 (l. 209) REPLACE ### 1.3 Out of scope, and whose it is",
+    "kind": "REPLACE",
+    "heading": "### 1.3 Out of scope, and whose it is",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #5 (l. 247) REPLACE ### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #6 (l. 353) REPLACE ### 2.1 Identifiers and the fabric table",
+    "kind": "REPLACE",
+    "heading": "### 2.1 Identifiers and the fabric table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #7 (l. 365) REPLACE ### 2.2 Rows (editable tables, §7.6)",
+    "kind": "REPLACE",
+    "heading": "### 2.2 Rows (editable tables, §7.6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #8 (l. 447) REPLACE ### 2.3 Views and services (derived, never stored)",
+    "kind": "REPLACE",
+    "heading": "### 2.3 Views and services (derived, never stored)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #9 (l. 585) REPLACE ### 2.4 The request, the result and the report",
+    "kind": "REPLACE",
+    "heading": "### 2.4 The request, the result and the report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #10 (l. 602) REPLACE ### 2.6 The standalone neighbourhood document's recipe",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The standalone neighbourhood document's recipe",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #11 (l. 609) REPLACE ### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo · migrate)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #12 (l. 641) REPLACE ### 3.12 Determinism",
+    "kind": "REPLACE",
+    "heading": "### 3.12 Determinism",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #13 (l. 687) REPLACE ### 3.14 Constants (with provenance and table home)",
+    "kind": "REPLACE",
+    "heading": "### 3.14 Constants (with provenance and table home)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #14 (l. 767) REPLACE ### 3.16 Services other volumes call (`@plat/hood`)",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Services other volumes call (`@plat/hood`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #15 (l. 871) REPLACE #### 3.17.3 Raised ways in the close-up (J-V1.65)",
+    "kind": "REPLACE",
+    "heading": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #16 (l. 909) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #17 (l. 1039) REPLACE ### 4.5 The clerk's view and the \"why\" providers (item 101; volume 10 builds the clerk)",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The clerk's view and the \"why\" providers (item 101; volume 10 builds the clerk)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #18 (l. 1092) REPLACE #### 5.1.4 Night and states",
+    "kind": "REPLACE",
+    "heading": "#### 5.1.4 Night and states",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #19 (l. 1103) REPLACE ### 5.3 Exports",
+    "kind": "REPLACE",
+    "heading": "### 5.3 Exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #20 (l. 1125) REPLACE ### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #21 (l. 1225) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #22 (l. 1280) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #23 (l. 1359) REPLACE ### 8.1 Where it slots into §16",
+    "kind": "REPLACE",
+    "heading": "### 8.1 Where it slots into §16",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #24 (l. 1419) REPLACE ### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #25 (l. 1460) REPLACE ### 8.3 `@plat/hood`'s contents (§14, item 505)",
+    "kind": "REPLACE",
+    "heading": "### 8.3 `@plat/hood`'s contents (§14, item 505)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #26 (l. 1480) REPLACE ## 9 Decisions",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #27 (l. 1595) REPLACE ## 11 Owner questions",
+    "kind": "REPLACE",
+    "heading": "## 11 Owner questions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r2-V01.md #28 (l. 1606) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 788,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 123,
+  "headings_after": 123,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 492604,
+  "doc_bytes_after": 516483,
+  "doc_lines_before": 3615,
+  "doc_lines_after": 3725,
+  "rationale_bytes_before": 688889,
+  "rationale_bytes_after": 688889,
+  "rationale_lines_before": 2369,
+  "rationale_lines_after": 2369,
+  "blocks_total": 28,
+  "blocks_applied": 28,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "fb2d14965bdcae74be2f7d138804e64aafe2ed5569e53f1aeb5d07ed52ac1901",
+  "output_rationale_sha256": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928"
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "key": "coherence/probe-r7d-time",
+ "file": "docs/validation/coherence/probe-r7d-time.md",
+ "issues": [
+  {
+   "id": "PRB7D-TIM-01",
+   "severity": "blocker",
+   "clause": "(a)",
+   "cell": "Law 1's lead 'After every commit' with law 1 (8)'s chamber (adj l. 267, 284-285); law 2's vault reading (l. 309-310); law 4's 'in its own commit' (l. 352-357); the check and E-D13's stage-end/batch-local row (l. 364, 1765-1775); W7-C2, W8-C2, R7-04 (b); E-V4-2, E-V4-3, E-V6-1, VAL-R6-05, E-S10, E-S14",
+   "claim": "The laws require a vault span's chamber after every commit and every stage end; its providers run later. At generation the span rule runs after S8's cut (base l. 2730) and the arch vault is built with M6-U by the tail's T2 after the first map (base l. 2747-2748; V04 l. 272, 328), so every stage end S8-S13 of a map with a vault span (viaduct vaultShare 0.6) fails the row, and before M6-U no chamber exists at all. At an epoch (one event of batches, V06 l. 967) chambers are reconciled once in afterGrowth's under.extend over EpochScope.raised (V06 l. 1010, 1030, 1037-1046; V04 l. 2285-2294, 2584), after the fortification, terrainWater, raisedWays and growth batches that change a span's reading, while law 4 and the examples (W7-C2, W8-C2, R7-04 (b): 'in the commit') put it in the op's own commit and the ENDs keep it at under.extend. At a village rung V04's maintenance mode 'lays nothing new' (V04 l. 923, 2296-2298) against arch vaults 'at every rung' (V04 l. 1289). Two outcomes: every op reconciles itself (T2 inside S4-S8, impossible before M6-U; against V04 and V06), or the providers keep their times and E-D13's row returns E_INVARIANT on a correct build on the common path.",
+   "required_change": "Part L: law 1's lead 'After every commit, on every path, at every rung:' -> 'After every commit, on every path, at every rung - (8)'s chamber at the end of the event, as (8) says:'. Law 1 (8) -> '8. a `vault` span is read `open` while anything lies across its strip and `vault` while nothing does, its record unchanged either way; a chamber (`collapsed` where V04 §3.5.4 (d) (2) says) stands exactly in each span read `vault`, made by V04's arch-vault reconcile at the end of the event that changed the reading - by hand in the op's commit; at an epoch in `under.extend` over `EpochScope.raised` (V06 §3.2), at a village rung too (an inherited vaults system in maintenance mode lays its arch vaults again, following their raised way); at generation, a regeneration and a village derivation in the underground tail's T2 vaults step (V04 §3.5.4 (d)) - and where the underground layer is not built (before M6-U) no chamber stands and the reading alone holds;'. Law 2's vault reading adds '; its chamber follows at the end of that op's event (law 1 (8)), never in the op's own batch'. Law 4 'in its own commit,' -> 'in its own commit (law 1 (8)'s chamber at its event's end),'. The check adds ', (8)'s chamber clause at each event's end - a hand commit, an epoch's `close`, generation's tail after T2 - and before M6-U its reading alone'. Consequences: E-D13's scope cell names the (8) chamber clause event-end; E-S14 adds the row's (8) chamber clause from M6-U's U3 (generation) and from U5 with M6-E's E8 (an epoch); W7-C2's, W8-C2's and R7-04 (b)'s 'in the commit' read 'at the end of the event'; V04's maintenance-mode sentences (V04 l. 923, 2296-2298) take 'the arch vaults excepted (V04 §3.5.0's table)' by END."
+  },
+  {
+   "id": "PRB7D-TIM-02",
+   "severity": "major",
+   "clause": "(a); (b) on reading A",
+   "cell": "Term 'Anything across a strip': 'a run of a wall record neither `dismantled` nor cleared (an absorbed record's among them)' (adj l. 260-262); 'what stands' in law 1 (2)-(6) (l. 230-231, 270-281); the band term (l. 238); W8 (C1, C2, C11) at an epoch; a replay's burial (PRB7C-TIM-09's closure, l. 2377)",
+   "claim": "absorbWall leaves the Enceinte existence `cleared` (cause convert:absorbWall; V06 l. 717, 1492) and a replay's burial clears records to existence `cleared` (cause rule:burial; V06 l. 3223) with their runs `breached` (V06 l. 3218-3220); Existence has one `cleared` (base l. 2893). Reading A ('cleared' = existence): an absorbed record's runs never lie across - the chamber is laid at absorbWall's commit against the parenthesis, W8-C2, R7-04 (b) and veto 9 [15] - and an aqueduct founded across an absorbed breached run may stand a pier on it (PRB7-18's item 110 (b) flag). Reading B (the parenthesis governs): a buried ring's breached runs keep their spans open for ever, against PRB7C-TIM-09's closure ('it clears the runs ... the chamber is laid again in the burial's commit'), which fails. Law 1 (3)'s 'enclosing wall's line ... laid before' leaves a viaduct across an absorbed ring's dismantled run built (W8-C1, E-V6-3) or waiting for ever; the band term gives a dismantled run its band by profile, so W8-C1/C11's 'a dismantled one none' has no law.",
+   "required_change": "Part L Terms, after The band, add: '* **What stands of a wall.** A wall record whose existence is not `cleared` stands whole - every run, whatever its condition, with its line, band, wall strips, gates, posterns, towers and fixed places. A record `absorbWall` cleared (cause `convert:absorbWall`) stands only in its runs whose condition is not `dismantled`, each with its line, its band as it stood (§2.7's support step (3)) and the gates, towers and fixed places on it, its wall strips merged into the blocks; a `dismantled` run of it stands nowhere. A record cleared otherwise (a replay's burial, `rule:burial`) or tombstoned by a `delete` stands nowhere. Every wall, line, band, wall strip, run, gate, tower and fixed place in these laws is of what stands.' Anything across a strip: 'a run of a wall record neither `dismantled` nor cleared (an absorbed record's among them)' -> 'a run that stands (*What stands of a wall*)'. Law 1 (3): 'an enclosing wall's line' -> 'the line of an enclosing wall's runs that stand'."
+  },
+  {
+   "id": "PRB7D-TIM-03",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "Term 'Anything across a strip ... whatever meets it but open ground: [list]' (adj l. 260-262) with law 1 (8) (l. 284-285) and the Terms' union rule (l. 230-231); W6, W7, W8, W11 at an epoch; a founding (V06 §3.19) beside another raised way's vault span; readers E-D13, E-V9-8, VEL6-r6-01, E-R2",
+   "claim": "While a vault span reads open its strip is no reservation ((M6), adj l. 992-997; base l. 2565-2567), so a square, reservation or gate plaza 'cut round the reservation' (base l. 2588-2589) - an epoch's gateToJunction 'with a square ... (a gate market)' (V06 l. 1481-1482) - and a raised way founded at an epoch, whose stations slide only off 'a square ... or a reservation, an enceinte's band' (base l. 2533-2540) and whose course is barred only by other raised ways' supports (V06 l. 2815; E-V6-4), may be laid on it. When the wall goes, the list holds nothing there: read as a closed list the chamber is laid in the gate market or round the second way's pier; read as 'whatever ... but open ground' the span stays open. The span rule calls squares, reservations and groves `clear`, 'ground that stays open' (base l. 2733-2734), so 'open ground' itself reads two ways; a flood cell (base l. 2732) is neither listed nor plainly ground. The split reaches §5.3's row, V09's panel, V10's told use and §11.1's exports. The Terms' union rule reaches (8)'s 'its strip' literally, reading one way's vault span open when anything crosses another's strip.",
+   "required_change": "Part L: Anything across a strip -> '* **Anything across a strip** is whatever stands on the ground within it but open ground - ground that holds no record but its face's land use, a `cleared` support's ring among it: a wall's band or wall strips, a run that stands (*What stands of a wall*), a retaining wall's line, a part-0 way's corridor, a square or gate plaza, a reservation, an oasis's grove, another raised way's support ring, ramp, stair or foot, water, a flood cell, or marsh - the span rule's step (2) obstacles and every wall-like structure; in law 1 (8) a span's strip is its own under-deck strip, never a union.'"
+  },
+  {
+   "id": "PRB7D-TIM-04",
+   "severity": "major",
+   "clause": "(a)",
+   "cell": "Term 'The band ... a village kind's by V07 §3.4 ... `palisade.bandM` each side of it being its wall strips' and the wall strips' width (adj l. 238-242), sizing law 1 (4), (6), (9) and beyond the foot; W9 (hand-off down), the hand-up, W14 (REPLACEMENT), W1 at every walled town; PRB7C-TIM-06's closure (l. 2374)",
+   "claim": "`inner` is a base enceinte kind and stage row (base l. 2252, 7792) and V07's village stone circuit (V07 l. 1405-1408); the REPLACEMENT sets a palisade's kind to inner (V07 l. 2288-2291); the village plan's palisade is 'the Enceinte of kind palisade, earthwork or inner' (V07 l. 640), the innermost standing enceinte at the hand-off down with 'the standing fabric unchanged' (V07 l. 2609-2614); the hand-up re-derives no wall (V07 l. 2606). By kind, every town's and city's inner ring takes V07's section and 8.5 m bandM wall strips instead of §4.8's setbacks, re-sizing every zone, ends rule and held building's strip. By rung or origin, a town's inner ring handed down changes its wall strips at the hand-off with no op (W9's unchanged meeting), so a fixed place clear of a carried-down viaduct's zone falls in it or its strips over a ramp; the hand-off cannot wait (law 2 (c)) and moves no fixed place (law 2 (b)): no outcome, reversed at the hand-up. And 'bandM each side of it [the section]' against V07's 'each side of every walled stretch' (V07 l. 1410-1411; E-V7-7) gives two zone widths. PRB7C-TIM-06's own clause 'a town's ring handed down as the palisade keeps its own section' (probe-r7c-time l. 291-295) was not carried: the closure fails.",
+   "required_change": "Part L, The band: '- a village kind's by V07 §3.4: the palisade's stakes, the earthwork's bank with its ditch, the inner circuit's wall, `palisade.bandM` each side of it being its wall strips -' -> '- a village enceinte's (one VS3 laid, of kind `palisade`, `earthwork` or `inner`, or one V07 §3.11's REPLACEMENT rebuilt, at whatever rung it stands) by V07 §3.4: the palisade's stakes, the earthwork's bank with its ditch, the inner circuit's wall, its wall strips the strips `palisade.bandM` wide each side of its line, the band's half within them; every other enceinte's by §4.8, a town's `inner` ring among them, handed down as a village's palisade (V07 §3.12) or carried up, so no product change alters a band or wall strips -'; and the width sentence adds '- a village enceinte's `palisade.bandM`'."
+  },
+  {
+   "id": "PRB7D-TIM-05",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "Law 1 (3)'s '(a frame growth's extension and a repair keep their course's date)' (adj l. 278) x R7-04 (c) (l. 1152-1158) and C12 (l. 907-910)",
+   "claim": "R7-04 (c) and C12 (PRB7-15: 'The bent extension is a course laid then', adj l. 2252) make an extension bent past a bound a course laid then, a road deck never across a standing trace; the law dates every extension to its old course, so a bent road-deck extension passes over a trace laid after the old course but before the bend. PRB7-15 ruled the bent course new on purpose; the parenthesis is the slip.",
+   "required_change": "Part L, law 1 (3): '(a frame growth's extension and a repair keep their course's date)' -> '(a frame growth's extension that keeps its course, and a repair, keep their course's date; an extension bent past a bound, §2.7's support step (7), is a course laid then)'; kept as written, R7-04 (c) and C12 are corrected to the law instead."
+  },
+  {
+   "id": "PRB7D-TIM-06",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "Law 1 (7)'s 'beneath a standing span (or a standing support bearing one) ... the lowest soffit there' (adj l. 282-283) with the term 'standing support' (l. 245-246) x the cap (l. 743-747); readers E-R2",
+   "claim": "The term makes a `ruined` stump standing and a fallen span keeps its derived soffitCm (base l. 2294); the cap caps only beneath a support whose state is absent bearing a standing span, at the standing spans' soffits. Beneath a road deck's support built into the band with one span fallen (C3) the law caps at the fallen span's soffit, the example at the standing one's; V04 lets a span stand by a ruined bounding support (V04 l. 1709-1712). Readers cite the law (E-R2).",
+   "required_change": "Part L, law 1 (7): 'wherever any part of a wall's band lies beneath a standing span (or a standing support bearing one), its top and walk are no higher than the lowest soffit there' -> 'wherever any part of a wall's band lies beneath a span whose `state` is absent (or a support whose `state` is absent bearing one), its top and walk are no higher than the lowest soffit of those spans there'."
+  },
+  {
+   "id": "PRB7D-TIM-07",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "Law 2 Entry (adj l. 291-295) x the state sweep's epoch lock (R7-06 (a) l. 1224; E-S0 l. 1328) x T110-4 (b) (l. 1517-1521); W12 (C8 vs C2, l. 949)",
+   "claim": "The sweep locks the raised way at an epoch clause, 'its meeting the unlocked cell's (law 2 Entry: a lock decides no meeting)'; law 2 Entry keeps a held part from every hazard, so for a clause whose event is a hazard on the raised way - W12's landfall - the locked run tests C8, not C3-C6. R7-06 (a) left T-V5-14 off the sweep (l. 1238-1239), but T110-4 (b) runs each listed clause, T-V5-14 among them, over the sweep.",
+   "required_change": "E-S0 and R7-06 (a): after 'its meeting the unlocked cell's (§2.7's laws, law 2 *Entry*: a lock decides no meeting)' add '- save a clause whose event is a hazard or a landfall on the raised way (T-V5-14), which a lock keeps off it (law 2 *Entry*): that clause makes each state inside its own epoch, the raised way unlocked -'; T110-4 (b) reads it so."
+  },
+  {
+   "id": "PRB7D-TIM-08",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "Law 1 (8) x E-V9-8 (adj l. 2132-2137) and VEL6-r6-01's V10 text (l. 1194-1197)",
+   "claim": "V09's panel and V10's clerk say what lies under an open-read arch by an enumeration - a wall's band or strip, an absorbed run, a retaining wall, a way or channel - which restates law 1 (8)'s list against Part H's citation rule (l. 1292-1296) and has no line for marsh (a moat silted to marsh keeps the span open, PRB7C-TIM-01) or for what PRB7D-TIM-03 adds.",
+   "required_change": "E-V9-8: '- \"A wall runs under this arch\" for a wall's band or strip, an absorbed run or a retaining wall, and for a way or channel the line its recorded reason would give (\"A street passes under this arch\")' -> '- for each thing §2.7's laws' *anything across a strip* finds there (law 1 (8)), one line: \"A wall runs under this arch\" for a wall-like structure, else the line its span-rule reason gives (\"A street passes under this arch\", \"Marsh lies under this arch\")'."
+  },
+  {
+   "id": "PRB7D-TIM-09",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "The check x E-S14 (adj l. 1531-1534) x T110-4 (c)'s op draw (l. 1523-1526)",
+   "claim": "T110-4 (c) draws an epoch run with the landfall on and a history replay; E-S14 names providers for the epoch (E3), hazards (E5), arch-vault reconcile (E8), village (V-M3) and hand ops, not the replay (M6-E's E9 with V04's BuriedFormer.lay, V06 l. 4237), the landfall (V05's P6, V05 l. 2856) or a creation prefix's import.",
+   "required_change": "E-S14: after 'a village at V07's V-M3,' add 'a history replay at M6-E's E9 (its burial with V04's `BuriedFormer.lay`), the landfall at V05's P6, a creation prefix at T101-4's milestone,'."
+  },
+  {
+   "id": "PRB7D-TIM-10",
+   "severity": "minor",
+   "clause": "(d)",
+   "cell": "Law 4's op list (adj l. 352-357) and T110-4 (c)'s 'ops drawn from law 4's list' (l. 1523) x V11's item-110 table-edit pattern (V11 l. 863); V12 l. 2177, E-V12-1",
+   "claim": "An edit of raisedWays.structure.stripMarginM, §4.8's band and setback rows or palisade.bandM widens strips, zones and wall strips: V11 keeps 'a standing GENERATED thing whose draw or admission flips ... listed with an offer' and, for stripMarginM, what the widened strip covers; law 4 re-checks every op that changes such a width and resolves it (a gate or tower moved along, law 2 (b); a fixed place or two held structures giving way, law 2 (c), by hand the edit refused). Law 4's enumerated list and T110-4's op draw name no editTable, adjust or upgrade, though V12 calibrates these cells.",
+   "required_change": "Part L, law 4's list: after 'a skeleton's import and an undo' add ', and an `editTable`, `adjust` or upgrade that changes a cell these laws read (`raisedWays.structure.stripMarginM`, §4.8's band and setback rows, `palisade.bandM`)'; V11 row 863's pattern takes 'a wall-like structure's gates, towers and fixed places excepted: §2.7's laws, law 4' by END."
+  }
+ ]
+}

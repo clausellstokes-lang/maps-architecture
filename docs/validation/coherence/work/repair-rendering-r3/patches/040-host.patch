@@ -1,0 +1,39 @@
+# §11.3, §11.4, §11.6. VAT-r2-04 (R3-21 (a): the layers shown by a logged `setLayer` sent by `doc.apply`); R3-21 (b)
+# (`view.set { week }` writes §2.9's `week` only); VAL-R2-02 (R3-21 (d): `depthBand` never crosses); END of G125-V08
+# (R3-20 (1): `line` checked, never chosen from — the sentence the END names stands in §11.4); T-ER-21's outcome for the
+# host's commands (VAT-r2-04's note).
+@@ FILE 11.3.md
+<<<<
+  keeps — `yearWeek`, `seasonFollow`, `festival`, `cvdVariant`, `find` and `crises` (§2.9), `thematic`, `workingLayer`,
+  `showUnexcavated` and V09 §4.19's per-viewer keys —, which never cross the bridge; `knowledge`, which the host sets per
+====
+  keeps — `yearWeek`, `seasonFollow`, `festival`, `cvdVariant`, `find` and `crises` (§2.9), `thematic`, `workingLayer`,
+  `depthBand` (the underground's drawn band, V04 §5.1), `showUnexcavated` and V09 §4.19's per-viewer keys —, which never
+  cross the bridge; `knowledge`, which the host sets per
+>>>>
+<<<<
+  would — a week (`view.set { week }`, item 67), the layers shown (`view.set` of the view's layer choices, §8.4's
+  `LayerSpec.visible`), a selection (`view.set { select: ids }`: the frame selects those entities as a user's list pick
+====
+  would — a week (`view.set { week }`: §2.9's `week`, item 67's drawn week, set as a user's scrub sets it, never
+  `yearWeek` or `seasonFollow`), the layers shown (a `setLayer { layer, spec: { visible } }` sent by `doc.apply`, as a
+  user's layer toggle is that logged event — §7.1's binding, T12 `dress`; §7.4's `setLayer` row; `LayerSpec` is the
+  document's style state, §8.4, and no view key, so `view.set` never carries it), a selection (`view.set { select: ids }`:
+  the frame selects those entities as a user's list pick
+>>>>
+@@ FILE 11.4.md
+<<<<
+J-A30.82), `displayNames` (inside one export request, never stored, §11.1; item 85) and `line` (which adapter reads the
+dossier; with none, the dossier's own version stamps pick it, and a `line` no adapter supports, or one the stamps
+contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs, a custom
+====
+J-A30.82), `displayNames` (inside one export request, never stored, §11.1; item 85) and `line` (checked against the
+dossier's own selection, V08 §2.4, never chosen from; a `line` no adapter supports, or one the dossier's stamps
+contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs, a custom
+>>>>
+@@ FILE 11.6.md
+<<<<
+| derived by §7.7's table; the identical document and hash (`item125.host`); a full map, every absent field reported with the fallback taken, never a refusal; `E_LINE_UNSUPPORTED`; view state that travels, never an input; applied as any event;
+====
+| derived by §7.7's table; the identical document and hash (`item125.host`); a full map, every absent field reported with the fallback taken, never a refusal; `E_LINE_UNSUPPORTED`; the week and the selection view state that travels, the layers a logged `setLayer` — never an input; applied as any event;
+>>>>

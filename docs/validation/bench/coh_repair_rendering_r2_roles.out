@@ -1,0 +1,78 @@
+== ink (chroma cap 34)
+  find.1          #AE6160  L*  50.0  vs paper/road/ground  40.0 /  40.0 /  36.0
+  find.2          #996E41  L*  49.9  vs paper/road/ground  35.1 /  35.1 /  28.5
+  find.3          #717D41  L*  50.2  vs paper/road/ground  35.6 /  35.6 /  30.4
+  find.4          #398562  L*  50.1  vs paper/road/ground  39.8 /  39.8 /  37.1
+  find.5          #02848B  L*  50.0  vs paper/road/ground  42.1 /  42.1 /  41.1
+  find.6          #157FAD  L*  49.9  vs paper/road/ground  45.4 /  45.4 /  46.8
+  find.7          #7271AB  L*  49.9  vs paper/road/ground  45.3 /  45.3 /  46.0
+  find.8          #A2628B  L*  49.8  vs paper/road/ground  44.5 /  44.5 /  43.9
+  crisis.army.a   #9D5156  L*  43.8  vs paper/road/ground  45.6 /  45.6 /  41.8
+  crisis.army.b   #666C31  L*  43.9  vs paper/road/ground  41.0 /  41.0 /  35.5
+  crisis.army.c   #027477  L*  44.0  vs paper/road/ground  46.3 /  46.3 /  44.5
+  crisis.army.d   #5B649D  L*  43.9  vs paper/road/ground  49.7 /  49.7 /  49.8
+  crisis.mark     #964E49  L*  41.9  vs paper/road/ground  46.4 /  46.4 /  41.9
+  crisis.tent     #D9C8AD  L*  81.3  vs paper/road/ground   7.9 /   7.9 /   4.7
+  crisis.ash      #B4A080  L*  66.8  vs paper/road/ground  18.7 /  18.7 /  12.8
+  fog             #D1C6B2  L*  80.3  vs paper/road/ground   8.4 /   8.4 /   7.6
+  find.* pairwise minimum ΔE2000 14.6 (find.5 / find.6)
+  crisis.army.* pairwise minimum ΔE2000 26.1
+  find.* against ink minimum ΔE2000 31.1
+== lit (chroma cap 60)
+  find.1          #D0474F  L*  50.1  vs paper/road/ground  43.1 /  36.8 /  35.3
+  find.2          #AA6805  L*  50.0  vs paper/road/ground  37.8 /  33.7 /  25.4
+  find.3          #668101  L*  50.1  vs paper/road/ground  38.5 /  35.9 /  29.9
+  find.4          #02885B  L*  49.9  vs paper/road/ground  41.0 /  38.3 /  36.5
+  find.5          #02848B  L*  50.0  vs paper/road/ground  42.1 /  38.3 /  38.5
+  find.6          #0580AE  L*  50.1  vs paper/road/ground  45.3 /  39.3 /  44.0
+  find.7          #646DD4  L*  50.0  vs paper/road/ground  50.1 /  42.9 /  48.6
+  find.8          #C0499B  L*  49.9  vs paper/road/ground  49.0 /  41.4 /  46.2
+  crisis.army.a   #BF3249  L*  44.0  vs paper/road/ground  48.5 /  42.0 /  40.9
+  crisis.army.b   #616F01  L*  44.1  vs paper/road/ground  42.6 /  39.5 /  33.0
+  crisis.army.c   #027477  L*  44.0  vs paper/road/ground  46.3 /  42.4 /  41.5
+  crisis.army.d   #3D62C7  L*  44.0  vs paper/road/ground  54.0 /  47.0 /  51.6
+  crisis.mark     #B53335  L*  41.9  vs paper/road/ground  48.9 /  42.9 /  40.0
+  crisis.tent     #CFBCA3  L*  77.2  vs paper/road/ground  10.8 /   6.3 /   5.0
+  crisis.ash      #A48D6E  L*  60.0  vs paper/road/ground  24.4 /  19.3 /  12.9
+  fog             #CFC5B6  L*  79.9  vs paper/road/ground   9.0 /   3.4 /   9.7
+  find.* pairwise minimum ΔE2000 14.3 (find.5 / find.6)
+  crisis.army.* pairwise minimum ΔE2000 28.6
+  find.* against ink minimum ΔE2000 34.8
+== hatched (chroma cap 60)
+  find.1          #D0474F  L*  50.1  vs paper/road/ground  43.1 /  31.3 /  43.1
+  find.2          #AA6805  L*  50.0  vs paper/road/ground  37.8 /  21.9 /  37.8
+  find.3          #668101  L*  50.1  vs paper/road/ground  38.5 /  28.1 /  38.5
+  find.4          #02885B  L*  49.9  vs paper/road/ground  41.0 /  35.0 /  41.0
+  find.5          #02848B  L*  50.0  vs paper/road/ground  42.1 /  36.4 /  42.1
+  find.6          #0580AE  L*  50.1  vs paper/road/ground  45.3 /  41.0 /  45.3
+  find.7          #646DD4  L*  50.0  vs paper/road/ground  50.1 /  45.1 /  50.1
+  find.8          #C0499B  L*  49.9  vs paper/road/ground  49.0 /  42.2 /  49.0
+  crisis.army.a   #BF3249  L*  44.0  vs paper/road/ground  48.5 /  36.5 /  48.5
+  crisis.army.b   #616F01  L*  44.1  vs paper/road/ground  42.6 /  30.4 /  42.6
+  crisis.army.c   #027477  L*  44.0  vs paper/road/ground  46.3 /  39.0 /  46.3
+  crisis.army.d   #3D62C7  L*  44.0  vs paper/road/ground  54.0 /  47.9 /  54.0
+  crisis.mark     #B53335  L*  41.9  vs paper/road/ground  48.9 /  35.7 /  48.9
+  crisis.tent     #D1BDA2  L*  77.6  vs paper/road/ground  10.7 /   7.0 /  10.7
+  crisis.ash      #BFB5A2  L*  74.0  vs paper/road/ground  12.8 /   8.9 /  12.8
+  fog             #D0C5B4  L*  80.0  vs paper/road/ground   8.8 /  11.1 /   8.8
+  find.* pairwise minimum ΔE2000 14.3 (find.5 / find.6)
+  crisis.army.* pairwise minimum ΔE2000 28.6
+  find.* against ink minimum ΔE2000 34.8
+
+TABLE
+| find.1 | `#AE6160` | `#D0474F` | `#D0474F` |
+| find.2 | `#996E41` | `#AA6805` | `#AA6805` |
+| find.3 | `#717D41` | `#668101` | `#668101` |
+| find.4 | `#398562` | `#02885B` | `#02885B` |
+| find.5 | `#02848B` | `#02848B` | `#02848B` |
+| find.6 | `#157FAD` | `#0580AE` | `#0580AE` |
+| find.7 | `#7271AB` | `#646DD4` | `#646DD4` |
+| find.8 | `#A2628B` | `#C0499B` | `#C0499B` |
+| crisis.army.a | `#9D5156` | `#BF3249` | `#BF3249` |
+| crisis.army.b | `#666C31` | `#616F01` | `#616F01` |
+| crisis.army.c | `#027477` | `#027477` | `#027477` |
+| crisis.army.d | `#5B649D` | `#3D62C7` | `#3D62C7` |
+| crisis.mark | `#964E49` | `#B53335` | `#B53335` |
+| crisis.tent | `#D9C8AD` | `#CFBCA3` | `#D1BDA2` |
+| crisis.ash | `#B4A080` | `#A48D6E` | `#BFB5A2` |
+| fog | `#D1C6B2` | `#CFC5B6` | `#D0C5B4` |

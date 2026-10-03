@@ -1,0 +1,101 @@
+[
+ {
+  "id": "VAL-R4-06",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "pipeline",
+  "claim": "R4-02 (d) has every reader of 'the layers the view shows' read 'draws' (visible, or the working layer), and its sweep missed one site. II.7.3's *Order, seed and locality* (l. 21271) still says the underground pseudo-district's 'labels drawn only when the layer is visible'. \u00a79.2's candidate set, the home (l. 14798), admits them whenever the view draws the layer, including Below as the working layer over a hidden underground, as \u00a79.1 (l. 14750) and V04 (l. 2864) now say. The parenthetical builds no label logic, so nothing built changes.",
+  "required_change": "II.7.3: 'its labels drawn only when the layer is visible' \u2192 'its labels candidates only while the view draws the layer \u2014 visible, or Below the view's working layer (\u00a79.2, \u00a78.4)'.",
+  "reported_by": "verify-agree-layers-r4t"
+ },
+ {
+  "id": "VAL-R4-08",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "pipeline",
+  "claim": "ONE FIX with VRC4T-09 (verify-rendering; repair-r4-rendering's hand-off). \u00a710.2 (d)'s footprint exception (l. 15649-15650) still names 'a disaster's ruins and its districts' tone'. R4-04 (a) bars 'district' alone at the village rungs, where \u00a78.2's `ruinTone` lies on the units' plots (V07 \u00a75.6 (3)).",
+  "required_change": "VRC4T-09's text: \u00a710.2 (d)'s 'a disaster's ruins and its districts' tone' \u2192 'a disaster's ruins and its units' tone (\u00a78.2's `ruinTone`)'.",
+  "reported_by": "verify-agree-layers-r4t"
+ },
+ {
+  "id": "VAL-R4-10",
+  "severity": "minor",
+  "kind": "NARRATION",
+  "owner": "pipeline",
+  "claim": "\u00a74's class-floor heading (l. 6783-6784) ends '\u2026 \u00a75.3's class-floor row cite it without values; DXC-06, KXC-02).' These are two canon conflict ids in design text, against R3-02 and principle (5); assemble-r4 \u00a78 lists the site.",
+  "required_change": "'(the one home; \u00a73.2 (2), \u00a73.10, \u00a75.2's F-PLOT and F-CORRIDOR and \u00a75.3's class-floor row cite it without values; DXC-06, KXC-02)' \u2192 '(the one home; \u00a73.2 (2), \u00a73.10, \u00a75.2's F-PLOT and F-CORRIDOR and \u00a75.3's class-floor row cite it without values)'.",
+  "reported_by": "verify-agree-layers-r4t"
+ },
+ {
+  "id": "VAT4-r4-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "R4-08's rule at \u00a74.11 *The clock* (4) (l.8446-8452) sends a calamity dated at or before the last epoch's week `W\u2080` to 'the first epoch folded by the absorb that carries it (\u2026 with none, the port folds one at the absorb's week for it), its `EpochInputs.events` entry at that epoch's first week (the last epoch's week + 1)', and folds no epoch only 'with the absorb's week itself before the last epoch's'. At `W\u2081` = `W\u2080` that has no possible outcome: an epoch at `W\u2080` on top of the last one, `years` 0, its event at `W\u2080` + 1 outside `(W\u2080, W\u2080]` (l.8325). V08's repair made the degenerate branch 'with `W\u2081` not after `W\u2080` (a clock turned back, or no week past the last epoch's)' \u2014 no epoch, 'its dated changes applied finished, noted' by the `late` variant (V08 \u00a73.6 (3) l.1857-1864, \u00a73.17 row l.2674, l.2933, T-V8-49 (g)); VPC-R4-02 asks the base to read so. But `W\u2081` = `W\u2080` is no clock turned back: it is any second absorb in the week of the last epoch, which follows whenever the previous sync's epoch fell at the dossier's present week (a calamity epoch at its own week, a year end, a crossing 'with none, at `W\u2081`'). A DM records a fire at week P, the map syncs (an epoch at P), then records a second calamity in the same week: it is dated `W\u2080`, carried late, and under V08 (and the base once VPC-R4-02 is applied as written) folds no epoch now or ever (it is no longer newly carried). Its hazard never strikes (DR28; V06 \u00a73.11) and its deaths never reach the burial need (`CalamityRef.deaths`, V06 \u00a73.18.2) \u2014 the loss R4-08 exists to prevent ('so its hazard strikes and its deaths reach the burial need'; item 122 (a)'s path 'the calamity \u2026 into the next epoch, V06's hazard phase'); recorded before one sync, both calamities would strike. The same absorb's population move is undefined too: V08 \u00a73.6 (3)'s crossing epoch 'at the first week the population leaves \u2026 (with none, at `W\u2081` \u2026)', 'every crossing inside the span', reads at `W\u2081` = `W\u2080` either as an epoch at `W\u2080` with `years` 0 (VPC-R4-02's own scenario) \u2014 whose late calamity then has an impossible event \u2014 or as none (the span `(W\u2080, W\u2080]` empty); V08's degenerate row names only `W\u2081 < W\u2080`. Two builders, two behaviours, and the defined one loses a calamity on a reachable path.",
+  "required_change": "One fix with VPC-R4-02 (same sentence). (1) \u00a74.11 *The clock* (4): 'with the absorb's week itself before the last epoch's (V08 \u00a73.6's degenerate row) it folds no epoch and its dated changes apply finished, noted' \u2192 'an absorb whose week is the last epoch's own (`W\u2081` = `W\u2080`: a second absorb before the dossier's clock moves) folds no epoch \u2014 a population move it carries crosses at the next absorb whose week passes `W\u2080`, and a calamity it newly carries applies its F5 targets' dossier events now as element events (finished, no Works) and rides, with its `EpochInputs.events` entry and its deaths, the first epoch a later absorb folds, at that epoch's first week, held meanwhile in the binding (`DossierBinding.lateCalamities`, V08 \u00a72.3); only with the absorb's week before the last epoch's (a clock turned back; V08 \u00a73.17's row for V08 \u00a73.6) do its dated changes apply finished, noted (`unreceipted_change`'s `late` variant, V08 \u00a74.6)'. (2) END under V08: \u00a73.6 (3)'s '(with `W\u2081` not after `W\u2080`, V08 \u00a73.17's degenerate row)' \u2192 '(with `W\u2081` = `W\u2080`, held in `DossierBinding.lateCalamities` for the first epoch a later absorb folds; with `W\u2081` before `W\u2080`, V08 \u00a73.17's degenerate row)', and its crossing clause adds '\u2014 none when `W\u2081` = `W\u2080`, the crossing then read at the next absorb whose week passes `W\u2080`'; \u00a72.3's `DossierBinding` gains `lateCalamities: CalamityRef[]` with its \u00a72.6 lifecycle row (written by the ledger event of an absorb at `W\u2081` = `W\u2080` that newly carries a calamity; read and emptied by the next absorb that folds an epoch, each entry at that epoch's first week; persisted with the binding; no undo \u2014 an absorb is no undo target; absent in an older document `[]`); \u00a73.17's row splits its 'with `W\u2081` not after `W\u2080`' clause the same way; the `late` variant's row (l.2933) 'by an absorb whose week is not after it' \u2192 'by an absorb whose week is before it'; T-V8-49 (g) adds 'a second absorb in the last epoch's own week carrying a calamity dated that week and a population move past the tolerance \u2014 no epoch, the calamity's targets applied; then the next absorb past `W\u2080` folding the crossing and the calamity's strike at its first epoch's first week, its deaths in that epoch's burial need'. (3) END under scope: T76-1's late-calamity fixture adds 'and one carried by a second absorb in the last epoch's own week, held to the next absorb's first epoch'. (If the adjudicator rules the loss acceptable instead, VPC-R4-02's text applies as written, and V08 \u00a73.17's row must still name the population move at `W\u2081` = `W\u2080` \u2014 no epoch \u2014 and the `late` variant's wording a same-week change.)",
+  "owner": "pipeline",
+  "reported_by": "verify-agree-time-r4t"
+ },
+ {
+  "id": "VDC4-05",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a74.11's `wallToWay(enceinte)` (l. 8189\u20138196), the operator's home for epochs and hand converts alike, ends 'towers are removed; gates become junctions with a `square` option'. V06 \u00a73.7.6 (5) (l. 1605\u20131612; J-V6.114, J-V6.140) says '`absorbWall` and `wallToWay` leave standing every raised way that crosses the old line; the new ring road takes no junction with it: its opening or raised gate in the old curtain stays as a free-standing arch or gate tower'. \u00a74.8 (l. 7643\u20137650) makes that raised gate 'a gate whose tower carries the deck'. A builder of \u00a74.11's operator removes the tower that carries a standing viaduct's deck and makes its gate a junction; the evolution builder keeps both. Two units state two outcomes for one case (R3-03 (b)), and \u00a74.11's reading leaves a deck without its support.",
+  "required_change": "\u00a74.11 *`wallToWay(enceinte)`*: 'towers are removed; gates become junctions with a `square` option.' \u2192 'towers are removed; gates become junctions with a `square` option \u2014 save the stretch held under a raised way's crossing station while its deck stands (a raised gate with its tower, the curtain under an aqueduct's arch), which stays as a free-standing gate tower or arch carrying the deck, the new ring road taking no junction with the raised way (\u00a72.7's support step (3); V06 \u00a73.7.6 (5)).'",
+  "reported_by": "verify-determinism-r4t"
+ },
+ {
+  "id": "VEW-r4-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a74.4 S5a *Trace* (2) pins the gates 'where the arterials cross the boundary (\u2026 k \u2265 2: every crossing of an S4, earlier-S5b or this stage's S5b arterial)', and step 3 keeps them 'never moving' (base l.5832-5838). A stage gate on a raised arterial is its raised gate (*Outer moats*, l.5882-5883). \u00a72.7's support step (6) (a) (l.2578-2580) bends the trace along the deck through the nearest station at deck level where 'the trace would meet the raised way on a ramp or a stair'. T110-2 (2)'s fixture is exactly a stage-2 boundary falling on an S4 viaduct's ramp (l.18410-18412). The pin step neither cites (6) (a) nor says the pin is the crossing station. The bar fixes the outcome (the crossing station on the deck at its level), so a builder reconciles the two and nothing built changes.",
+  "required_change": "\u00a74.4 S5a *Trace* (2) adds, after the pinned-gate parenthesis: '\u2014 on a raised arterial the gate is its crossing station, pinned at the deck's station that \u00a72.7's support step (6) (a) gives the crossing (never on a ramp or a stair, the pin moved along the deck to it before smoothing)'.",
+  "owner": "pipeline",
+  "reported_by": "verify-edges-world-r4t"
+ },
+ {
+  "id": "VM-R4T-03",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "pipeline",
+  "claim": "\u00a72.7's support step (6) (a) (l. 2582-2586) rules that where an S5a crossing cannot keep its bounds, or the berm or channel would meet a ramp, stair or foot, 'the stage's berm and channel \u2014 and S7's setback and glacis after them \u2014 are not laid under the deck: they stop at the edges of the under-deck strip \u2026 and the strip lines closed along it'. \u00a74.4 S5a *Outer moats* states the berm-and-channel half; \u00a74.8 *Wall strips, band, setbacks, intervallum* (l. 7595ff), which lays the setback and glacis lines, neither states the S7 half nor cites (6) (a) for it (\u00a74.8's lead cites (6) (a) only for the last support run). Nothing built changes while \u00a72.7 is read.",
+  "required_change": "\u00a74.8 *Wall strips, band, setbacks, intervallum*, after the sentence defining the outer strip ('Outside: the band's half plus the outer setback and glacis \u2026'): 'Where S5a stopped the stage's berm and channel at a raised way's under-deck strip (\u00a72.7's support step (6) (a)), the setback and glacis lines stop there too, closed along the strip's edges, reported (`W_RAISED_CROSSING`).'",
+  "reported_by": "verify-model-r4t"
+ },
+ {
+  "id": "VM-R4T-06",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "pipeline",
+  "claim": "\u00a74.3 *Lattice and costs* (l. 5629-5632) gives the generation regime 'At generation, before the span rule has run' (a later stage's way crosses an unlocked raised way's strip wherever the soffit clears), but \u00a72.7's support step (6) (a) (l. 2577) runs the span rule on an S4 or S5b viaduct at a stage's S5a commit ('re-run (1)\u2013(5), and then the span rule, on it in the same commit'), before that stage's S5c grows. Read literally, a stage-2 street crossing such a viaduct is no longer 'before the span rule has run', and \u00a74.3 states no regime for a ruled span at generation (its open-span rule applies 'once generation has ended' or to a held raised way). \u00a72.7's span rule has one eager time ('at the end of the raised way's generation (after \u00a74.6's cut)', l. 2620), which (6) (a)'s last run cites.",
+  "required_change": "\u00a74.3: 'At generation, before the span rule has run,' \u2192 'At generation, until the span rule's eager run (after \u00a74.6's cut, \u00a72.7's span rule; a run at an S5a commit, \u00a72.7's support step (6) (a), does not end it),'.",
+  "reported_by": "verify-model-r4t"
+ },
+ {
+  "id": "VPC-R4-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "In \u00a74.11 *The clock* (4) (l. 8447\u20138451), a calamity carried late rides the absorb's first epoch: 'with none, the port folds one at the absorb's week for it', and 'with the absorb's week itself before the last epoch's (V08 \u00a73.6's degenerate row) it folds no epoch'. V08 \u00a73.6 (3) (l. 1862\u20131863), its \u00a73.17 row (l. 2674) and T-V8-49 (g) instead give no epoch when '`W\u2081` not after `W\u2080` (a clock turned back, or no week past the last epoch's)'. Take a second sync in the same week as the last epoch (a population move folds one at `W\u2081`) that carries a calamity dated earlier. The base folds an epoch at `W\u2080` on top of the last one, with `years` 0 and its event at `W\u2080` + 1, outside that epoch's span (`EpochInputs.events[].week` lies in (the previous epoch's week, week], l. 8325). V08 folds no epoch and applies the changes finished. The two units give two outcomes for one case (R3-03 (b)), and the base's outcome is impossible. The citation 'V08 \u00a73.6's degenerate row' also names a row that sits in V08 \u00a73.17's edge table.",
+  "required_change": "\u00a74.11 *The clock* (4) l. 8450\u20138451: 'with the absorb's week itself before the last epoch's (V08 \u00a73.6's degenerate row) it folds no epoch' reads 'with the absorb's week itself not after the last epoch's (a clock turned back, or no week past it; V08 \u00a73.17's row for V08 \u00a73.6) it folds no epoch'. END at scope: T76-1's late-calamity fixture (l. 18174\u201318175) adds 'and one carried by an absorb at the last epoch's own week \u2014 no epoch, its dated changes applied finished, noted'.",
+  "owner": "pipeline",
+  "reported_by": "verify-pipeline-r4t"
+ },
+ {
+  "id": "VRC4T-09",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "pipeline",
+  "claim": "R4-04 (a) makes 'the look's units (\u00a710.2 (d))' the one phrase, never 'district' alone at the village rungs, and \u00a78.2's ruinTone lies on 'a unit's faces \u2014 a district's, or at the village rungs its unit's plots''. \u00a710.2 (d)'s footprint exception (l. 15650: 'a disaster's ruins and its districts' tone') and CrisisLookRow.lookLevel's comment (l. 15277: 'the decay level its districts' buildings draw') still say districts (repair-r4-rendering's hand-off named the first).",
+  "required_change": "l. 15650 reads 'a disaster's ruins and its units' tone (\u00a78.2's ruinTone)'; l. 15277 reads 'the disaster row only: item 123's decay level the buildings it stands over draw ((f)) at severity 0 and 1, linear between'.",
+  "reported_by": "verify-rendering-r4t"
+ },
+ {
+  "id": "VV12-r4-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a74.3 *Lattice and costs* (round 4's VEW-r3-01 text, l. 5632\u20135634) ends the raised-way crossing paragraph 'A route's crossing shifts along the strip to the nearest crossing these admit, else the route takes another course by F-ROUTE's ladder (\u00a75.2) \u2014 the one rule S5c's proposals (\u00a74.4) and stage 2's ways (V01 \u00a73.17.3 (3)) keep.' Placed after the route's fallback, 'the one rule' reads as the shift-then-F-ROUTE ladder too. Neither reader keeps that ladder: S5c's proposal is 'deflected along it to the nearest such span, or ends at the strip as at a reservation' (\u00a74.4), and a stage-2 seed takes F-TEMPLATE rung 1 (redraw), then rung 2 (shift), a bent-cut lane \u00a74.6's ladder ending at the strip's edge (V01 \u00a73.17.3 (3); R4-09: 'V01's rule, ladder and values unchanged'). Each home states its own ladder, so nothing built changes.",
+  "required_change": "\u00a74.3: \"\u2026 else the route takes another course by F-ROUTE's ladder (\u00a75.2) \u2014 the one rule S5c's proposals (\u00a74.4) and stage 2's ways (V01 \u00a73.17.3 (3)) keep.\" \u2192 \"\u2026 else the route takes another course by F-ROUTE's ladder (\u00a75.2). S5c's proposals (\u00a74.4) and stage 2's ways (V01 \u00a73.17.3 (3)) keep the same crossing rule, each with its own ladder (S5c's deflection along the strip or its end there; V01's F-TEMPLATE rungs and \u00a74.6's lane ladder).\"",
+  "reported_by": "verify-vol-V01-V02-r4t"
+ }
+]

@@ -1,0 +1,87 @@
+ROUND-7 NOTES (orchestrator, 2026-10-02) — A FAMILY-ONLY ROUND (owner, J144).
+
+(0) START FRESH. Two earlier runs of this seat were stopped. One ran under a narrowing the owner withdrew (J142 → J143); its skeleton is adjudication-r7-withdrawn-J142.md. The other ran at full scope before the owner's J144; its skeleton is adjudication-r7-stopped-full-scope.md. Their CHECKPOINT lines in docs/lane-events.log are VOID. Never resume from them. docs/validation/coherence/narrowing-r7.md is not binding.
+
+(1) WHAT THIS ROUND IS. The owner: "Why don't you just focus entirely on solving this problem first before moving on?" (J144). This round works the raised-way × wall family ALONE: walls of every kind meeting viaducts, elevated roads and aqueducts, their arch vaults included.
+  - Your work set is the 53 round-6 findings in that family (28 major, 25 minor): docs/validation/coherence/work/round7-work/.
+  - The other 28 round-6 findings (11 major, 17 minor: pictures and annotations, drawing-group switches, the why card, Find's timing, the late calamity's leftovers) are HELD for round 8 in docs/validation/coherence/work/held-r8/. Do not rule them. List their ids once under "Held for round 8".
+  - The loop is: adjudicate, probe until dry, repair, then family-focused verify. It repeats until a focused verify finds no major in the family. Then the held findings and full sweeps resume, to J141's bar.
+
+(2) THE OWNER'S LOCK RULE — BINDING (J144). The owner, verbatim: "Locked regarding walls and aqueduct and similar structure should be considered for placement, not permanent shape. So when they do intersect, absolutely change the shape to be cohesive and coherent, despite being locked."
+The program's reading (J122, vetoable; docs/PROGRESS.md J144):
+  - SIMILAR STRUCTURES are the enceintes with their stretches, gates and towers; palisades; quay walls; retaining walls; and the raised ways (viaducts, elevated roads, aqueducts) with their supports, ramps, stairs, feet, spans and arch vaults.
+  - PLACEMENT is where the thing is: a wall's trace and course, a raised way's course and deck line.
+  - SHAPE is what changes at a meeting: a gate or tower moved along, a stretch bent locally under a span, a support slid off a band, an arch vault read `open` (no chamber) while a wall stands over it.
+  - A reshaped locked thing stays locked.
+  - For these structures, item 101 R13 ("a held thing is held") reads as their placement held.
+  - Buildings and other declared placements are NOT similar structures and stay held as before.
+State this ONCE at §2.7 as the crossing table's lock sentence. It supersedes, by name, every clause where a lock or pin refuses, skips or alters a meeting between these structures:
+  - §7.1's lock row and its exemptions;
+  - the C8 column;
+  - V04 §3.11 UC18 for a wall meeting an arch vault;
+  - V06 §3.19 (5)'s impassable list for locked or drawn walls;
+  - the bent group's lock clauses.
+It closes, or reshapes the closure of: VDC6-01, VEW-r6-04, VAL-R6-01 = VEW-r6-02, VAP-r6-01.
+Rule the remaining case of VEW-r6-02 explicitly: a held BUILDING seated in an arch vault whose span a wall comes to stand over. The building stays held, so the wall's placement or the meeting must give way. Say how.
+
+(3) THE TWO OTHER CROSS-CUTTING SENTENCES (the owner: "you need to make specific rules"). State each once at §2.7 and cite it from the cells.
+  - THE BENT-GROUP SENTENCE: every stretch laid by neither the pull nor the cost field, whatever its shape, with its one outcome. The shapes: a crossing, running along beneath, entering and leaving on one side, ending at a pier, a run a carve or moved river re-traces, a gate placed or slid under a deck, and a raised way re-shaped or re-spaced onto a wall. Findings: VEL6-r6-04, VAT-r6-02 = VV910-r6-01, VPC-r6-03, VCS-r6-01, VAT-r6-04.
+  - THE FIXED-PLACE SENTENCE: what the wall's own law fixes in place inside an under-deck strip — a river's water gate, an anchor's tower, a weld vertex — and how the trace moves to keep each clear. Findings: VM-R6T-01, VEW-r6-03.
+
+(4) THE OTHER GROUPS, each ruled once.
+  - GENERATION ORDER:
+    - S3's gate routes, solved before any boundary, against *down before the wall*: VPC-r6-01;
+    - S5a's pull moving a deck crossing onto the ground course: VEW-r6-01;
+    - T110-2 (6)'s New random against the pull: VCS-r6-02.
+  - EPOCHS AND DECAY:
+    - the landfall over a part already further down its ladder: VV56-r6-01;
+    - `absorbWall`'s vault re-lay: VV56-r6-02 = VV34-r6-03;
+    - a frame growth past a structural bound: VAT6-r6-02;
+    - `wallToWay`'s re-route against the vault re-laid in its own commit: VPC-r6-02;
+    - a cleared span at a village: VAL-R6-02.
+  - READERS:
+    - a span's `use` read `open` under a wall, at GeoJSON and at V10: VAL-R6-03, VEL6-r6-01;
+    - the span rule's home at V01: VAF-R6T-04;
+    - V11's readers of `stripMarginM`: VV1112-r6-02.
+  - TESTS — every cell names a test that HOLDS its case, on a fixture that holds it, with the clause lists written in full:
+    - VAT6-r6-01 = VAP-r6-04 (the collapsed-vault bars);
+    - VEL6-r6-02, VM-R6T-02 (W3 and W7);
+    - VAF-R6T-03 (castle paths);
+    - VAP-r6-02, VCS-r6-01, VCS-r6-03;
+    - VV56-r6-03 – 06;
+    - VAL-R6-06, VV78-r6-01, VV78-r6-02;
+    - VV34-r6-01, VV34-r6-04;
+    - VAT6-r6-03, VCS-r6-04, VM-R6T-03.
+  - BOOKKEEPING:
+    - `W_RAISED_CROSSING`'s count: VDC6-02 = VPC-r6-05;
+    - §4.13's rung: VAL-R6-07 = VPC-r6-06;
+    - the stopped moat's strip: VPC-r6-04;
+    - the slide bound's wording: VM-R6T-04;
+    - row (a)'s test: VAF-R6T-02;
+    - `EpochScope.raised` at V06 §3.18.1 (6): VAL-R6-05.
+
+(5) WRITE THE TABLES COMPLETE. This family is worked alone until no major remains, so close it by construction.
+  - Enumerate the axes explicitly:
+    - every wall event (rows);
+    - every raised-way state (columns);
+    - every path: generation, regeneration, epoch, hand;
+    - every lock: none, or either side (which J144 now makes one case).
+  - Every combination gets a named cell or a sentence covering it. A cell whose outcome follows from another says "as Wn·Cm" and names its own test. A cell that cannot occur says why.
+  - Before writing, run the attack yourself: for each cell, what would a second builder build from the words?
+
+(6) PROBE UNTIL DRY. A probe seat attacks the family's ruling and an amend seat decides its findings into a Part P. This repeats, up to three passes, until a probe finds no major. Then the family's units repair, and family-focused checks verify.
+
+(7) THE SWEEP'S BLIND SPOTS stand:
+  - (a) V07's village restatements;
+  - (b) V09's panels and V10's clerk;
+  - (c) the tests, fixture lists and milestone cells;
+  - (d) the base's summaries and index rows;
+  - (e) V11's registry readers and V12's statistics.
+OWNER RULES FIRST: item 110 (b) as written ("crossing the wall through an arch"; the user may add or remove a raised way; zero junctions), item 110 (f)'s bars, item 101 (R2, and R13 as J144 reads it), and item 114 (walls decay and recover). adjudication-r2.md – r6.md stay binding except where you supersede an entry by name; R6-02 and its Part P stand except where you amend them. THE BAR AND SEVERITY (J141): grade by the SEVERITY STANDARD, regrading with a one-line reason where a grade contradicts it.
+
+(8) WRITE docs/validation/coherence/adjudication-r7.md with:
+  - a table of contents by unit;
+  - the rulings (R7-01 …), each naming its issue ids, the owner rule checked, the single correct text, the unit that states it and every END;
+  - THE FAMILY RULING in full: J144's lock sentence, the bent-group and fixed-place sentences, both tables as amended and complete, and the owner's veto list for the family restated;
+  - PART H for the 53 family issues only, under each owner's heading, with END lines under each receiving unit's heading, each unit's section self-contained;
+  - "Held for round 8": the 28 ids, no ruling.

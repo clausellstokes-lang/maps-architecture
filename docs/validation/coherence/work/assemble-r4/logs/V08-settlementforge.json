@@ -1,0 +1,498 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V08-settlementforge.md",
+ "input_doc_sha256": "bf9fa7be4ae8c3b9977d0b2e9a6938a0be34b43df607d10c9364c64c6d0a47fe",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V08.md",
+   "sha256": "d51e5a07c24bd5568a224358b4e7443998da172bdfa2824ee16b10186cb44874",
+   "lines": 1737,
+   "blocks": 17,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V08.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r4-V08.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 115,
+   "body_sha256": "79c35059b292d80686d182e0007bdc1961ee4a823cad6e32cecb56c9119d089c",
+   "target_line": 218,
+   "section_old": "218–333",
+   "section_old_n": 116,
+   "section_new_n": 116,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V08.md #2 (l. 120) REPLACE ### 2.2 The bridge additions and the host client",
+   "file": "repair-r4-V08.md",
+   "index": 2,
+   "line": 120,
+   "kind": "REPLACE",
+   "heading": "### 2.2 The bridge additions and the host client",
+   "body_lines": 103,
+   "body_sha256": "0110d2cb1721d95894042449d2b0be81bd6a8a13d08d55008064a4444bea71d5",
+   "target_line": 394,
+   "section_old": "394–496",
+   "section_old_n": 103,
+   "section_new_n": 104,
+   "new_headings": [
+    "### 2.2 The bridge additions and the host client"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V08.md #3 (l. 226) REPLACE ### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+   "file": "repair-r4-V08.md",
+   "index": 3,
+   "line": 226,
+   "kind": "REPLACE",
+   "heading": "### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+   "body_lines": 154,
+   "body_sha256": "494ce198f32e109d00158f24e885994428ade606a33cbd162fb4c56d667f202d",
+   "target_line": 568,
+   "section_old": "568–718",
+   "section_old_n": 151,
+   "section_new_n": 155,
+   "new_headings": [
+    "### 2.4 The adapter manifest, the registry, the field table and the port's notes"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V08.md #4 (l. 383) REPLACE ### 2.7 Lifecycle of every new state field",
+   "file": "repair-r4-V08.md",
+   "index": 4,
+   "line": 383,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Lifecycle of every new state field",
+   "body_lines": 46,
+   "body_sha256": "24d3ab92d5addfb17283a632c56c0c810fbaa5a31131c816fbbd89f79b3d3ebc",
+   "target_line": 1278,
+   "section_old": "1278–1324",
+   "section_old_n": 47,
+   "section_new_n": 47,
+   "new_headings": [
+    "### 2.7 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V08.md #5 (l. 432) REPLACE ### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+   "file": "repair-r4-V08.md",
+   "index": 5,
+   "line": 432,
+   "kind": "REPLACE",
+   "heading": "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+   "body_lines": 244,
+   "body_sha256": "a14dd39d53f027fc293960362eeaba4d20af0995d46a2a343dee08ac27e0c6f0",
+   "target_line": 1596,
+   "section_old": "1596–1830",
+   "section_old_n": 235,
+   "section_new_n": 245,
+   "new_headings": [
+    "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "#### 3.5.1 The institution ladders (item 108)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V08.md #6 (l. 679) REPLACE ### 3.6 From changes to events and epochs",
+   "file": "repair-r4-V08.md",
+   "index": 6,
+   "line": 679,
+   "kind": "REPLACE",
+   "heading": "### 3.6 From changes to events and epochs",
+   "body_lines": 95,
+   "body_sha256": "35b0dea0a0f36a87ab8435bc5dc7fa4a0c5f8d0a20904c6e951ddf1fcb6763b4",
+   "target_line": 1841,
+   "section_old": "1841–1926",
+   "section_old_n": 86,
+   "section_new_n": 96,
+   "new_headings": [
+    "### 3.6 From changes to events and epochs"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V08.md #7 (l. 777) REPLACE ### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+   "file": "repair-r4-V08.md",
+   "index": 7,
+   "line": 777,
+   "kind": "REPLACE",
+   "heading": "### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+   "body_lines": 34,
+   "body_sha256": "dc5766f7bcc8d5d6d1503f31018424360541c7b743150e1856e2f942de879960",
+   "target_line": 2029,
+   "section_old": "2029–2063",
+   "section_old_n": 35,
+   "section_new_n": 35,
+   "new_headings": [
+    "### 3.9 Failure handling — every failure, its detection, its rung and what the user sees"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V08.md #8 (l. 814) REPLACE ### 3.15 SettlementForge's history at creation (item 113)",
+   "file": "repair-r4-V08.md",
+   "index": 8,
+   "line": 814,
+   "kind": "REPLACE",
+   "heading": "### 3.15 SettlementForge's history at creation (item 113)",
+   "body_lines": 83,
+   "body_sha256": "7f921717f323ba4018e6af2c9a0118b037863ee093d2608811e43a077a176943",
+   "target_line": 2315,
+   "section_old": "2315–2398",
+   "section_old_n": 84,
+   "section_new_n": 84,
+   "new_headings": [
+    "### 3.15 SettlementForge's history at creation (item 113)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V08.md #9 (l. 900) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+   "file": "repair-r4-V08.md",
+   "index": 9,
+   "line": 900,
+   "kind": "REPLACE",
+   "heading": "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+   "body_lines": 246,
+   "body_sha256": "c66cc4c1f5a3ae79d59a8cd0687445e61efbdad86510faceff300df76b92de48",
+   "target_line": 2399,
+   "section_old": "2399–2641",
+   "section_old_n": 243,
+   "section_new_n": 247,
+   "new_headings": [
+    "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V08.md #10 (l. 1149) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r4-V08.md",
+   "index": 10,
+   "line": 1149,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 74,
+   "body_sha256": "a05602a3104e79ccf4b7556e935bc4db93ff3788902b5a496c6b7e34d73814bc",
+   "target_line": 2646,
+   "section_old": "2646–2720",
+   "section_old_n": 75,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-V08.md #11 (l. 1226) REPLACE ### 4.6 The DM's view of what the dossier did",
+   "file": "repair-r4-V08.md",
+   "index": 11,
+   "line": 1226,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The DM's view of what the dossier did",
+   "body_lines": 112,
+   "body_sha256": "13c21d5fb932e7b0b9589778fd91f495a9f383a3a0f4ba41f8aba1a6cc454ec6",
+   "target_line": 2865,
+   "section_old": "2865–2977",
+   "section_old_n": 113,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 4.6 The DM's view of what the dossier did"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r4-V08.md #12 (l. 1341) REPLACE ### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured forma",
+   "file": "repair-r4-V08.md",
+   "index": 12,
+   "line": 1341,
+   "kind": "REPLACE",
+   "heading": "### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured format",
+   "body_lines": 57,
+   "body_sha256": "3d8969afbb7f2b316b424535170e89d5417d0c598aa3c904ecb0b04f9b38f150",
+   "target_line": 3100,
+   "section_old": "3100–3157",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured format"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r4-V08.md #13 (l. 1401) REPLACE ## 6 Performance budgets",
+   "file": "repair-r4-V08.md",
+   "index": 13,
+   "line": 1401,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 36,
+   "body_sha256": "f6301c11328186bbc345e0c55a08054d7f9320ac2301836fd66cb3bd86909c95",
+   "target_line": 3174,
+   "section_old": "3174–3210",
+   "section_old_n": 37,
+   "section_new_n": 37,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r4-V08.md #14 (l. 1440) REPLACE ### 7.1 The bars (T-V8-n)",
+   "file": "repair-r4-V08.md",
+   "index": 14,
+   "line": 1440,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars (T-V8-n)",
+   "body_lines": 81,
+   "body_sha256": "18e1f74cb3ebb248efa56ad04fe95b38981f239960b8d6e89c092535d949c189",
+   "target_line": 3213,
+   "section_old": "3213–3291",
+   "section_old_n": 79,
+   "section_new_n": 82,
+   "new_headings": [
+    "### 7.1 The bars (T-V8-n)"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r4-V08.md #15 (l. 1524) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r4-V08.md",
+   "index": 15,
+   "line": 1524,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 15,
+   "body_sha256": "713ede6307e0a57cb697874a970fd8d324d8976cabd06028836db01aee076609",
+   "target_line": 3351,
+   "section_old": "3351–3366",
+   "section_old_n": 16,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r4-V08.md #16 (l. 1542) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r4-V08.md",
+   "index": 16,
+   "line": 1542,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 143,
+   "body_sha256": "85788ebd8e431e20c2fbd10e023e126ac32284efdb2c70c450004b4ba41e8ce4",
+   "target_line": 3420,
+   "section_old": "3420–3562",
+   "section_old_n": 143,
+   "section_new_n": 144,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r4-V08.md #17 (l. 1688) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r4-V08.md",
+   "index": 17,
+   "line": 1688,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 47,
+   "body_sha256": "587415bfaca3c5f89aca152ba519fe32f2a8c56018591e606f03a5b2961776ea",
+   "target_line": 3622,
+   "section_old": "3622–3669",
+   "section_old_n": 48,
+   "section_new_n": 48,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V08.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #2 (l. 120) REPLACE ### 2.2 The bridge additions and the host client",
+    "kind": "REPLACE",
+    "heading": "### 2.2 The bridge additions and the host client",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #3 (l. 226) REPLACE ### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+    "kind": "REPLACE",
+    "heading": "### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #4 (l. 383) REPLACE ### 2.7 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #5 (l. 432) REPLACE ### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "kind": "REPLACE",
+    "heading": "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #6 (l. 679) REPLACE ### 3.6 From changes to events and epochs",
+    "kind": "REPLACE",
+    "heading": "### 3.6 From changes to events and epochs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #7 (l. 777) REPLACE ### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+    "kind": "REPLACE",
+    "heading": "### 3.9 Failure handling — every failure, its detection, its rung and what the user sees",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #8 (l. 814) REPLACE ### 3.15 SettlementForge's history at creation (item 113)",
+    "kind": "REPLACE",
+    "heading": "### 3.15 SettlementForge's history at creation (item 113)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #9 (l. 900) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+    "kind": "REPLACE",
+    "heading": "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #10 (l. 1149) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #11 (l. 1226) REPLACE ### 4.6 The DM's view of what the dossier did",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The DM's view of what the dossier did",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #12 (l. 1341) REPLACE ### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured forma",
+    "kind": "REPLACE",
+    "heading": "### 5.4 What leaves the frame — door 1 closed by ruling, and structurally for every structured format",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #13 (l. 1401) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #14 (l. 1440) REPLACE ### 7.1 The bars (T-V8-n)",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars (T-V8-n)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #15 (l. 1524) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #16 (l. 1542) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V08.md #17 (l. 1688) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 63,
+  "headings_after": 63,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 559089,
+  "doc_bytes_after": 572529,
+  "doc_lines_before": 3665,
+  "doc_lines_after": 3698,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 17,
+  "blocks_applied": 17,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "4675c05ecf19eb56966b4dbaeb69e70ac4af690b7fbd6f0c9cf651127006b7bd",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

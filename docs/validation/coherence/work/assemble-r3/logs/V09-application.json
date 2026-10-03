@@ -1,0 +1,529 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V09-application.md",
+ "input_doc_sha256": "23398a30e3926569be252c029e1c11593c91e76d091977e6c262f71eee6c91ef",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V09.md",
+   "sha256": "8eec3d692b1143908276e4e112de74e059af5323a4a3708d24e220172e72091e",
+   "lines": 2258,
+   "blocks": 18,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V09.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r3-V09.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 137,
+   "body_sha256": "9838bf17dffa674f19c040b2caa6d20bdef7e0fd83353cad276632e95c42550f",
+   "target_line": 277,
+   "section_old": "277–414",
+   "section_old_n": 138,
+   "section_new_n": 138,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V09.md #2 (l. 142) REPLACE ### 2.12 Lifecycle of every new state field",
+   "file": "repair-r3-V09.md",
+   "index": 2,
+   "line": 142,
+   "kind": "REPLACE",
+   "heading": "### 2.12 Lifecycle of every new state field",
+   "body_lines": 49,
+   "body_sha256": "a06115f2ac5f5f2b27e38674de99454fda834445cbc950114fc49158bc74ca92",
+   "target_line": 962,
+   "section_old": "962–1011",
+   "section_old_n": 50,
+   "section_new_n": 50,
+   "new_headings": [
+    "### 2.12 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V09.md #3 (l. 194) REPLACE ### 3.8 Autosave, compaction and crash recovery (R15)",
+   "file": "repair-r3-V09.md",
+   "index": 3,
+   "line": 194,
+   "kind": "REPLACE",
+   "heading": "### 3.8 Autosave, compaction and crash recovery (R15)",
+   "body_lines": 39,
+   "body_sha256": "c0ecbc52f07b52d8de547e65a84087dab58e85aad14863f2f186904db19b21f4",
+   "target_line": 1271,
+   "section_old": "1271–1311",
+   "section_old_n": 41,
+   "section_new_n": 40,
+   "new_headings": [
+    "### 3.8 Autosave, compaction and crash recovery (R15)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V09.md #4 (l. 236) REPLACE ### 3.16 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r3-V09.md",
+   "index": 4,
+   "line": 236,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 143,
+   "body_sha256": "0b74fc593966ab2d59bc040df47e42614d5392fd363ff4b287ebaffbd30af0ca",
+   "target_line": 1474,
+   "section_old": "1474–1616",
+   "section_old_n": 143,
+   "section_new_n": 143,
+   "new_headings": [
+    "### 3.16 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V09.md #5 (l. 382) REPLACE ### 4.2 The tool rail, the five layers and the working layer",
+   "file": "repair-r3-V09.md",
+   "index": 5,
+   "line": 382,
+   "kind": "REPLACE",
+   "heading": "### 4.2 The tool rail, the five layers and the working layer",
+   "body_lines": 45,
+   "body_sha256": "06a98c65b5e07df38cd5141c5ad1f1b29a2bd368e46d89a3dc73baa8a341abc6",
+   "target_line": 1629,
+   "section_old": "1629–1674",
+   "section_old_n": 46,
+   "section_new_n": 46,
+   "new_headings": [
+    "### 4.2 The tool rail, the five layers and the working layer"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V09.md #6 (l. 430) REPLACE ### 4.3 The tool binding table — every edit kind and where a user reaches it",
+   "file": "repair-r3-V09.md",
+   "index": 6,
+   "line": 430,
+   "kind": "REPLACE",
+   "heading": "### 4.3 The tool binding table — every edit kind and where a user reaches it",
+   "body_lines": 69,
+   "body_sha256": "6799c135a4708ae1ef0b06eda09ff801ec9801116fab21b7d3aa78841f36927f",
+   "target_line": 1675,
+   "section_old": "1675–1744",
+   "section_old_n": 70,
+   "section_new_n": 70,
+   "new_headings": [
+    "### 4.3 The tool binding table — every edit kind and where a user reaches it"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V09.md #7 (l. 502) REPLACE ### 4.9 The words — the message catalogue's rows (English, our own)",
+   "file": "repair-r3-V09.md",
+   "index": 7,
+   "line": 502,
+   "kind": "REPLACE",
+   "heading": "### 4.9 The words — the message catalogue's rows (English, our own)",
+   "body_lines": 401,
+   "body_sha256": "be59fd7fd97bbd7aefbee977bd757ad5b7fef3380e59e89d90e2d7d86f70441a",
+   "target_line": 1915,
+   "section_old": "1915–2314",
+   "section_old_n": 400,
+   "section_new_n": 402,
+   "new_headings": [
+    "### 4.9 The words — the message catalogue's rows (English, our own)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V09.md #8 (l. 906) REPLACE ### 4.12 Touch, pen and window sizes — decided",
+   "file": "repair-r3-V09.md",
+   "index": 8,
+   "line": 906,
+   "kind": "REPLACE",
+   "heading": "### 4.12 Touch, pen and window sizes — decided",
+   "body_lines": 27,
+   "body_sha256": "143e65e15dcf488c77d7d7f4eef7a9180365a3f1086727ccabbb74775e8c05e2",
+   "target_line": 2527,
+   "section_old": "2527–2554",
+   "section_old_n": 28,
+   "section_new_n": 28,
+   "new_headings": [
+    "### 4.12 Touch, pen and window sizes — decided"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r3-V09.md #9 (l. 936) REPLACE ### 4.17 The underground in the editor — item 109's screens (J111)",
+   "file": "repair-r3-V09.md",
+   "index": 9,
+   "line": 936,
+   "kind": "REPLACE",
+   "heading": "### 4.17 The underground in the editor — item 109's screens (J111)",
+   "body_lines": 181,
+   "body_sha256": "fa70b94f84162d4f0e0e7299e7fee5ce051c21e6ed8de863facee08b0ba41327",
+   "target_line": 2669,
+   "section_old": "2669–2841",
+   "section_old_n": 173,
+   "section_new_n": 182,
+   "new_headings": [
+    "### 4.17 The underground in the editor — item 109's screens (J111)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r3-V09.md #10 (l. 1120) REPLACE ### 4.18 People, the family tree and the clock (§10.3's module, M4b)",
+   "file": "repair-r3-V09.md",
+   "index": 10,
+   "line": 1120,
+   "kind": "REPLACE",
+   "heading": "### 4.18 People, the family tree and the clock (§10.3's module, M4b)",
+   "body_lines": 24,
+   "body_sha256": "2f7b472932a2764b0492ac514cb2e6f3344d4695547127bc2d25ac1b21b95ae6",
+   "target_line": 2851,
+   "section_old": "2851–2875",
+   "section_old_n": 25,
+   "section_new_n": 25,
+   "new_headings": [
+    "### 4.18 People, the family tree and the clock (§10.3's module, M4b)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r3-V09.md #11 (l. 1147) REPLACE ### 4.19 The base's view keys, notes, pins and the ruler on screen",
+   "file": "repair-r3-V09.md",
+   "index": 11,
+   "line": 1147,
+   "kind": "REPLACE",
+   "heading": "### 4.19 The base's view keys, notes, pins and the ruler on screen",
+   "body_lines": 22,
+   "body_sha256": "7519b3dfa30d246c7efb3d83a8d949f861e9166f61f113075c6735161c3e941c",
+   "target_line": 2876,
+   "section_old": "2876–2898",
+   "section_old_n": 23,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 4.19 The base's view keys, notes, pins and the ruler on screen"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r3-V09.md #12 (l. 1172) REPLACE #### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+   "file": "repair-r3-V09.md",
+   "index": 12,
+   "line": 1172,
+   "kind": "REPLACE",
+   "heading": "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+   "body_lines": 39,
+   "body_sha256": "e669787bfabd11a5a452bd61d6d32b02bffff9138e72b61a9acbc824b5de13ab",
+   "target_line": 3150,
+   "section_old": "3150–3189",
+   "section_old_n": 40,
+   "section_new_n": 40,
+   "new_headings": [
+    "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r3-V09.md #13 (l. 1214) REPLACE ### 4.21 Items 111–126 on screen",
+   "file": "repair-r3-V09.md",
+   "index": 13,
+   "line": 1214,
+   "kind": "REPLACE",
+   "heading": "### 4.21 Items 111–126 on screen",
+   "body_lines": 467,
+   "body_sha256": "e5a1841bd623bc7a9e0a2c0f358b002a334a77f795a611fa7f66f4ac20ad1e21",
+   "target_line": 3241,
+   "section_old": "3241–3673",
+   "section_old_n": 433,
+   "section_new_n": 467,
+   "new_headings": [
+    "### 4.21 Items 111–126 on screen"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r3-V09.md #14 (l. 1684) REPLACE ### 5.8 The \"Why here?\" card",
+   "file": "repair-r3-V09.md",
+   "index": 14,
+   "line": 1684,
+   "kind": "REPLACE",
+   "heading": "### 5.8 The \"Why here?\" card",
+   "body_lines": 25,
+   "body_sha256": "d78ce568209851fb41c1ac5881fae9d6a403e607119cad387f56bbf87c01dacd",
+   "target_line": 3938,
+   "section_old": "3938–3962",
+   "section_old_n": 25,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 5.8 The \"Why here?\" card"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r3-V09.md #15 (l. 1712) REPLACE ### 5.15 Every new thing: drawn, labelled, exported, persisted",
+   "file": "repair-r3-V09.md",
+   "index": 15,
+   "line": 1712,
+   "kind": "REPLACE",
+   "heading": "### 5.15 Every new thing: drawn, labelled, exported, persisted",
+   "body_lines": 41,
+   "body_sha256": "80488a80feae3d062902c6b8eb99053816ff028e81449f555a303bbadaf2cacd",
+   "target_line": 4081,
+   "section_old": "4081–4122",
+   "section_old_n": 42,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 5.15 Every new thing: drawn, labelled, exported, persisted"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r3-V09.md #16 (l. 1756) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r3-V09.md",
+   "index": 16,
+   "line": 1756,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 301,
+   "body_sha256": "38d80112d40da6b3c2a15f5be464aea7f72e016d386d8f7c29af12209e4799ee",
+   "target_line": 4266,
+   "section_old": "4266–4564",
+   "section_old_n": 299,
+   "section_new_n": 302,
+   "new_headings": [
+    "## 7 Tests and acceptance bars",
+    "### 7.1 The bars",
+    "### 7.2 The known-city fixture, authored through the canvas",
+    "### 7.3 The first-five-minutes protocol, operationally",
+    "### 7.4 The owner's UX sitting — §13.6's shape applied to the editor",
+    "### 7.5 Parity with the references' own editing",
+    "### 7.6 The game-master trial before the public release (item 112 (b))"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r3-V09.md #17 (l. 2060) REPLACE ### 8.1 Where it slots into §16",
+   "file": "repair-r3-V09.md",
+   "index": 17,
+   "line": 2060,
+   "kind": "REPLACE",
+   "heading": "### 8.1 Where it slots into §16",
+   "body_lines": 40,
+   "body_sha256": "677d36d65c6adf9a01be78091600a0d0a7b1bebc32836f8f102be27f83bcbd83",
+   "target_line": 4570,
+   "section_old": "4570–4610",
+   "section_old_n": 41,
+   "section_new_n": 41,
+   "new_headings": [
+    "### 8.1 Where it slots into §16"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r3-V09.md #18 (l. 2103) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r3-V09.md",
+   "index": 18,
+   "line": 2103,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 153,
+   "body_sha256": "086735793af2ce7e843b1f040061414e560632e86dee83e8e68816261621112d",
+   "target_line": 4647,
+   "section_old": "4647–4800",
+   "section_old_n": 154,
+   "section_new_n": 154,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V09.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #2 (l. 142) REPLACE ### 2.12 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.12 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #3 (l. 194) REPLACE ### 3.8 Autosave, compaction and crash recovery (R15)",
+    "kind": "REPLACE",
+    "heading": "### 3.8 Autosave, compaction and crash recovery (R15)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #4 (l. 236) REPLACE ### 3.16 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #5 (l. 382) REPLACE ### 4.2 The tool rail, the five layers and the working layer",
+    "kind": "REPLACE",
+    "heading": "### 4.2 The tool rail, the five layers and the working layer",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #6 (l. 430) REPLACE ### 4.3 The tool binding table — every edit kind and where a user reaches it",
+    "kind": "REPLACE",
+    "heading": "### 4.3 The tool binding table — every edit kind and where a user reaches it",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #7 (l. 502) REPLACE ### 4.9 The words — the message catalogue's rows (English, our own)",
+    "kind": "REPLACE",
+    "heading": "### 4.9 The words — the message catalogue's rows (English, our own)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #8 (l. 906) REPLACE ### 4.12 Touch, pen and window sizes — decided",
+    "kind": "REPLACE",
+    "heading": "### 4.12 Touch, pen and window sizes — decided",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #9 (l. 936) REPLACE ### 4.17 The underground in the editor — item 109's screens (J111)",
+    "kind": "REPLACE",
+    "heading": "### 4.17 The underground in the editor — item 109's screens (J111)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #10 (l. 1120) REPLACE ### 4.18 People, the family tree and the clock (§10.3's module, M4b)",
+    "kind": "REPLACE",
+    "heading": "### 4.18 People, the family tree and the clock (§10.3's module, M4b)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #11 (l. 1147) REPLACE ### 4.19 The base's view keys, notes, pins and the ruler on screen",
+    "kind": "REPLACE",
+    "heading": "### 4.19 The base's view keys, notes, pins and the ruler on screen",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #12 (l. 1172) REPLACE #### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+    "kind": "REPLACE",
+    "heading": "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #13 (l. 1214) REPLACE ### 4.21 Items 111–126 on screen",
+    "kind": "REPLACE",
+    "heading": "### 4.21 Items 111–126 on screen",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #14 (l. 1684) REPLACE ### 5.8 The \"Why here?\" card",
+    "kind": "REPLACE",
+    "heading": "### 5.8 The \"Why here?\" card",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #15 (l. 1712) REPLACE ### 5.15 Every new thing: drawn, labelled, exported, persisted",
+    "kind": "REPLACE",
+    "heading": "### 5.15 Every new thing: drawn, labelled, exported, persisted",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #16 (l. 1756) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #17 (l. 2060) REPLACE ### 8.1 Where it slots into §16",
+    "kind": "REPLACE",
+    "heading": "### 8.1 Where it slots into §16",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V09.md #18 (l. 2103) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 110,
+  "headings_after": 110,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 738871,
+  "doc_bytes_after": 749608,
+  "doc_lines_before": 4905,
+  "doc_lines_after": 4953,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 18,
+  "blocks_applied": 18,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "cfe4df195892ff4f0943cf98764a0b4d36d22af02f11d51d4eeed6acf3675b04",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

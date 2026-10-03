@@ -1,0 +1,62 @@
+{
+ "key": "coherence/verify-vol-V01-V02-r2t",
+ "file": "docs/validation/coherence/verify-vol-V01-V02-r2t.md",
+ "issues": [
+  {
+   "id": "VV12-r2-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V01",
+   "claim": "Two units pick a disaster overlay's calamity by different rules. V01 §3.16 (2) takes the latest `CalamityRef` among the committed `epoch` events whose week lies inside the overlay's weeks [`sinceWeek`, `untilWeek`), ties by severity band then id; J-V1.104 records it 'over a new field on `ConditionOverlay`', and §1b's dossier row and §3.18 (e)'s 'no calamity in the overlay's weeks' follow it. V08 §3.16 (7) (d) is the port's home for the condition's crisis fields (V08 §2.3's carried `condition` fact `calamity`; W97; the `calamityHistory[]` field-table row). It links a condition to 'the carried calamity whose week equals its `triggeredAt.tick`, else … the latest carried calamity in the 52 weeks up to its `sinceWeek`', and states that DR44 reads that calamity's `targets` ('which V01's `disasterDistricts` takes first') and its type for the pattern. The rules disagree twice. V08's fallback window lies before `sinceWeek`, where V01 never looks. And where a disaster condition's weeks also hold a later calamity (a plague, a war, a second fire), V01 takes the later one: its targets are struck and its hazard's pattern is drawn (a plague's null hazard gives `scatter` for a great fire's look). Which districts look ruined depends on which unit's rule is built.",
+   "required_change": "V01 §3.16 (2) reads: \"**The calamity.** The overlay's calamity is the carried calamity its condition's `calamity` crisis field names (V08 §2.3's `condition` fact under the overlay's key; V08 §3.16 (7) (d)), read as the `CalamityRef` of that id among the committed `epoch` events' `calamity` entries (§4.11; V08 §3.6). An overlay whose condition carries no `calamity`, a named calamity no committed event holds, and a preview give no calamity.\" The pattern sentence is kept. J-V1.104's clause from 'to find the overlay's calamity' to 'the port carries' reads: \"to take the overlay's calamity from its condition's carried `calamity` field (V08 §3.16 (7) (d)) and read its pattern through V06 §2.4's calamity table, over an association of this volume's own by week or a second table of calamity words, because the port alone reads the condition's trigger tick, item 122 adds nothing to the model (§2.7) and V06's table already types every calamity word the port carries\". §1b's dossier row names \"`activeConditions[]`' crisis field `calamity` (V08 §3.16 (7) (d))\" beside `calamityHistory[]`. §3.18 (e)'s case 'no calamity in the overlay's weeks' reads 'no calamity linked to the condition'. T-V1-60 (d) adds a disaster condition whose weeks also hold a later calamity of another type: the linked calamity's targets are struck, with its pattern."
+  },
+  {
+   "id": "VV12-r2-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V01",
+   "claim": "Item 122 (b), approved by the owner, places mass immigration's look as 'a tent and shanty camp on common or fallow land along the main approach road by a gate'. V01 §3.16 `campLand` (2) counts as 'verges of the approach roads' every `meadow`, `pasture`, `arable` and `strip_field` face bordering an arterial within `camp.reachM`. That includes arable and strip fields in crop, outside their fallow course. §10.2 (d)'s `approachByGate` (the refugee camp), `approachRoads`' fallback, `outside` and `gatesAndKeep`'s camp take those faces, so a refugee camp may stand on a field in crop, against the owner's words. J-V1.105 ('the open verges of the arterials') and T-V1-60 (e) carry V01's reading.",
+   "required_change": "V01 §3.16 `campLand` (2) reads: \"the **verges of the approach roads** — the `commons` faces, and the `arable` and `strip_field` faces in their rotation's fallow course (§4.9), bordering an arterial that leaves the settlement, within `camp.reachM` of where it leaves (its gate, else the built edge)\". Its 'Never a face of another kind' sentence adds 'nor a field in crop'. J-V1.105 adds \"and to take the land beside the road only where it is common or fallow, because the owner's camps stand on common or fallow land (item 122 (b))\". T-V1-60 (e) asserts 0 `arable` or `strip_field` faces outside their fallow course and 0 `meadow` or `pasture` faces in `campLand`. §3.18 (e)'s outskirts row gains the case 'neither common nor fallow land within reach', whose outcome is the empty list (§10.2 (h)'s ring marks)."
+  },
+  {
+   "id": "VV12-r2-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V01",
+   "claim": "V01 §3.16 (4) opens the strike order with every matched unit, by ascending u, then grows by the pattern. A fire whose calamity names two districts that are not adjacent therefore strikes a set that is not connected. T-V1-60 (a) nonetheless asserts 'a fire's set connected over district adjacency, each unit after the first the frontier's farthest downwind of the seed'. T-V1-60 (d)'s own fixture (a calamity naming a district's institution) breaks that bar as soon as it names two.",
+   "required_change": "T-V1-60 (a)'s fire clause reads: \"a fire's units after its matched ones each adjacent to a unit before it in the order and each the frontier's farthest downwind of the seed (nearest under calm); with at most one matched unit, the set connected over district adjacency\"."
+  },
+  {
+   "id": "VV12-r2-04",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "V02",
+   "claim": "V02 §5.7 (4), §2.4's `ExteriorDamage.look.kind` comment and X35 take the disaster's kind from 'the calamity's type V01's `disasterDistricts` reads for its pattern'. But `disasterDistricts` returns only `Id[]` (V01 §2.3; R2-37 (4)). The calamity and its pattern are `disasterSource(doc, overlay, key)`'s `calamity` and `pattern` (V01 §2.3, whose comments name V02 §5.7 (4) as their reader), and V02 §1b's input cell does not name `disasterSource`. A raw `type` word also leaves the fire flavour undefined for 'blaze', 'conflagration' or 'burning', which V06 §2.4's table reads as `fire` and V01's `pattern` already classifies.",
+   "required_change": "V02 §5.7 (4) reads: \"Its kind — V01's `disasterSource(doc, overlay, key).pattern` (V01 §2.3, V01 §3.16 (2): the calamity's type through V06 §2.4's calamity table; `scatter` for a preview) — adds one flavour: a `fire` pattern blackens, …; a `flood` and a `scatter` (an earthquake, every other kind, a preview) draw the damage alone\". §2.4's `look.kind` becomes `pattern: 'fire'|'flood'|'scatter'` with the comment \"V01's `DisasterSource.pattern`\". V02 §1b's input cell and X35 name `disasterSource` beside `disasterDistricts`."
+  },
+  {
+   "id": "VV12-r2-05",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V02",
+   "claim": "`exteriorDamage(doc, b, view, opts)` (V02 §2.4) reads state that lives only in the generation worker: the document; V06's `decayLevel` and `decayPeak` over the lineage's lifecycle events; the plan in force from the elaboration cache (§2.8: the document's non-canonical blocks); V01's `disasterDistricts` and V06's `crisisLookYields`. Its consumer is 'V02 §5.7's drawing in the tile rasteriser' (V02 §1b). Its holes and gaps are 'memoised beside its roofscape' (V02 §5.7 (8), §6.6), which the tile worker derives from the display list (V02 §3.1's roofscape row; V02 §6.3); the tile worker holds no document, cache or lifecycle block. V02 names no path by which a building's damage reaches the tile worker (no mark, column or `DisplayDelta` group). Nor does it say when the damage is sent again: the drawn week crossing an element's threshold or a look's week edge, `crises` or the effective key changing, a plan coming into force (a click, `elaborate: 'view'`) or leaving it (eviction), a restoration. §8.1 item 7 re-emits only Works targets' marks on a week change. Producer and consumer sit in two workers with no wire between them.",
+   "required_change": "V02 §5.7 (8) and §2.4 state four things. (1) `exteriorDamage` runs in the generation worker, where its inputs live, over the buildings of the tiles the view requests. (2) Its result reaches the tile worker as the building's damage marks — `level`, `reading`, the hole and patched rings, the gap spans, and the look's tone, dash and fire flags — in the building's group of a `DisplayDelta` (§8.1, §8.9). (3) It is re-emitted for exactly the buildings whose `ExteriorDamage` changes: when the drawn week moves (beside §8.1 item 7's Works re-emission), when `crises` or the effective knowledge key changes, when a plan enters or leaves force, and after a commit that moves a level or a look's units. (4) The tile worker clips the marks against the roofscape it memoises (V02 §6.3), the tile keyed as VV12-r2-06 states. V02 §1b's row names this path. V02 §6.6 adds the generation-worker cost per changed building. T-V2-59 (e) and T-V2-60 (g) add an eviction of the plan in force and a `crises` toggle, the tile redrawn after each."
+  },
+  {
+   "id": "VV12-r2-06",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "rendering",
+   "claim": "V02 §13's X37 (V02 §5.7 (2), (8)) asks the base for two ends, and neither is written. (1) §8.2's Works `decaying` row still reads 'override: the roof with gaps along its ridge, the outline dashed at 30 %', with no word that, where the building's plan is in force, its ridge gaps are V02 §5.7's holes; a `decaying` building with its plan in force would draw two different sets of roof gaps. (2) §8.8's tile key carries the drawn week for 'a building drawn under item 123's damage layer', but not `crises` or the effective knowledge key for a tile holding a building under a disaster look. At the district band the `disaster` row draws no `live.crises` mark ('— (its buildings' damage, below)', §8.2's *Crisis looks* table), so `live.crises`' share of the key does not move when Show crises turns `off`, a preview starts or View as withholds the condition. The cached tile keeps drawing ruined roofs the view has switched off.",
+   "required_change": "§8.2's Works `decaying` row reads \"override: the roof with gaps along its ridge — where the building's plan is in force, V02 §5.7's holes in their place — the outline dashed at 30 %\". §8.8's tile-key list reads \"… the drawn week where the tile holds a Works mark (§8.1 item 7) or a building drawn under item 123's damage layer, whose decay level is read at it (§2.6 step 7; §8.6), and `crises` and the effective knowledge key where it holds a building under a disaster look (V02 §5.7 (8)) …\". §8.1 item 7's week re-emission adds the buildings whose damage marks differ between the two weeks (V02 §5.7). T-ER-27 gains a case: Show crises toggled, and View as changed, over a cached district-band tile of a struck district, with the tile redrawn each time."
+  },
+  {
+   "id": "VV12-r2-07",
+   "severity": "minor",
+   "kind": "COHESION",
+   "owner": "scope",
+   "claim": "R2-36 (a canon change) places item 122's disaster units 'with V01's W10 at M5', and V01 §8.2's W10 builds them (`disasterSource`, `disasterDistricts`, within V01's 27.5–36.75 pw). §16's M5 row lists item 120's Find with 'volume 1's area and gap services `findAreas` and `gapUnits` (W10–W11)' but omits item 122's part. Its M3b row (`campLand`) and M6 row (V02 §8.6's ruined look) both name their item-122 parts.",
+   "required_change": "§16's M5 row, after \"volume 1's area and gap services `findAreas` and `gapUnits` (W10–W11)\", adds \"; item 122's disaster units — volume 1's `disasterSource` and `disasterDistricts` (W10; V01 §3.16)\"."
+  }
+ ]
+}

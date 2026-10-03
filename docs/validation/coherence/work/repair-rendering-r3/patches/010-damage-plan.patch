@@ -1,0 +1,39 @@
+# §8.6 The damaged plan. VAF-R2T-02 (R3-05: the roofless wing); VRC2T-13 = VDC2-08 (R3-04: the one comparison);
+# VRC2T-15 with VV56-r2-06's END (R3-08 (b): the per-element peak); the disaster look's hand-over (R3-10) and the own
+# level for a battle map's walls (VRC2T-06 (a)); the plan in force read as V03 §3.11 rules it (R3-07, this unit's side).
+@@ FILE 8.6.md
+<<<<
+patches, draws the plan in force — the plan it was built with, never a re-derived one (§2.6 step 7) — under §2.6 step
+7's **damage layer**: each plan element whose threshold t (§6.3's `plan.damage`) its decay level reaches at the drawn
+week (V06's `decayLevel`; level ≥ t, the one comparison every reader makes) is drawn damaged, every other element as
+built. V03 §5.1 draws each damaged form among its plan marks, storey by storey, and writes them into the plan's exports;
+====
+patches, draws the plan in force — the one it was last lived in, never re-cut (V03 §3.11's *Decay re-cuts no plan*;
+§2.6 step 7) — under §2.6 step 7's **damage layer**: each plan element whose threshold t (§6.3's `plan.damage`) its
+decay level reaches at the drawn week (V06's `decayLevel`; damaged while the level is above 0 and at least t — §6.3
+*Plan damage*'s one comparison every reader makes) is drawn damaged — and every roof bay over a room of a roofless wing
+of a `decayed` or `ruined` building, whatever its t (§2.6 step 7's one case without a threshold; V03 §5.6 (2) (c)) —
+every other element as built. V03 §5.1 draws each damaged form among its plan marks, storey by storey, and writes them
+into the plan's exports;
+>>>>
+<<<<
+dropped — a shape, never a colour alone (item 112). A restoration lowers the level and the damage leaves in reverse
+threshold order, each repaired element drawn in item 114's patch material: a wall run by `wallPatch` with its material's
+look, any other element by the patch look of its material's row (V11's `walls.patchMaterials`), its outline as built.
+Every room, wall, opening and id is the built plan's (T123-1). A building of a district a disaster look ruins draws the
+same layer at its row's `lookLevel` by severity, or at its own level where that is higher (§8.2's *Crisis looks*). A
+building never decayed draws byte-identically to its plan without the layer (`item123.damage`; T123-7); the drawn week
+====
+dropped — a shape, never a colour alone (item 112). A restoration lowers the level and the damage leaves in reverse
+threshold order: an element whose threshold lies above the own level and at or below V06's per-element `decayPeak`
+(since its entry into the plan, V06 §3.23 (3)) — a roofless wing's roof bay counting as reached once the building is
+`decayed` (§2.6 step 7) — is drawn repaired, in item 114's patch material (a wall run by `wallPatch` with its
+material's look, any other element by the patch look of its material's row, V11's `walls.patchMaterials`; its outline
+as built), until the plan changes (a rebuild, a demolition, a successor on the trace); a look leaves no patch
+(`decayPeak` never reads a look; V03 §5.6 (2) (b)). Every room, wall, opening and id is the plan in force's (T123-1). A
+building of a district a disaster look ruins draws the same layer at its row's `lookLevel` by severity, or at its own
+level where that is higher, until the look leaves it (V06 §3.22 (3)'s `crisisLookYields`; a preview never hands over;
+§8.2's *Crisis looks*) — in the drawing only: a battle map's walls, portals and lights read its own level (§11.1;
+V03 §5.3). A building never decayed draws byte-identically to its plan without the layer (`item123.damage`; T123-7);
+the drawn week
+>>>>

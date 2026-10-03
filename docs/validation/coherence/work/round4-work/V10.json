@@ -1,0 +1,65 @@
+[
+ {
+  "id": "VAH-r3-01",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V10",
+  "claim": "V09 deleted the `crisis.look.<kind>` catalogue family this round (VV1112-r2-14): each look is worded by its `crisis.looks` row's `label` (V11 \u00a73.25.9), and V09's repair handed the change to V10. Three V10 sites still name the family: \u00a71.2's V09 row (l. 202: 'V09 \u00a74.21.12: `crisis.look.<kind>`, `info.crisis.*` \u2026 whose words the clerk renders'), T-V10-29 (l. 3097: 'every `info.damage.*`, `info.crisis.*` and `crisis.look.<kind>` key V10 \u00a73.9a and V10 \u00a73.9b (8) render' has a catalogue key in every shipped locale) and CVR-V10-22 (l. 3449). V10's own render path agrees with V09 (`LookAnswer.crises.looks[].says` is V09's `info.crisis.*` line, `{look}` the row's `label`), so nothing built changes; only a dependency row, a compile test's key list and a request row name a family that no longer exists.",
+  "required_change": "V10 l. 202 reads '(V09 \u00a74.21.12: `info.crisis.*`, each look worded by its `crisis.looks` row's `label`, V11 \u00a73.25.9)'. T-V10-29 drops 'and `crisis.look.<kind>`', reading 'every `info.damage.*` and `info.crisis.*` key V10 \u00a73.9a and V10 \u00a73.9b (8) render'. CVR-V10-22 reads 'the `info.crisis.*` and `info.damage.*` rows (each look's words its `crisis.looks` row's `label`, V11 \u00a73.25.9)'.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VAH-r3-08",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "T-V10-52 (l. 3120) carries, by R3-09 (e), 'a fire calamity naming a district with its linked `reconstruction` condition'. By V08 \u00a73.16 (7) (b) and DR44 that condition carries `event` `calamity`, reads the `disaster` row and is look-bearing, so it is public at every key. The test's knowledge clause still enumerates 'at `public` every look-bearing condition \u2014 the siege, the refugee wave and the plague \u2014 is listed', which misses the fourth look its own fixture stands. A test written from the enumeration either misses the disaster look or fails on it; the clause's 'lists exactly \u00a711.2's `looks` answer's crises' decides, so the enumeration only misstates it.",
+  "required_change": "T-V10-52: 'at `public` every look-bearing condition \u2014 the siege, the refugee wave, the plague and the fire's linked `reconstruction` condition (its disaster look) \u2014 is listed with its name and weeks (\u00a77.7's DR44)'.",
+  "reported_by": "verify-agree-host-r3t"
+ },
+ {
+  "id": "VAT-r3-05",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "V10 \u00a73.23 row 26 (l. 2678) gives 'a layer off' the outcome 'layer visibility is view state and never filters a read, which admits by key'. By R3-21 (a), \u00a78.4 and \u00a77.4, layer visibility is `LayerSpec.visible`, the document's style state, written by a logged `setLayer`, the very event V10's own \u00a74.1 T12 encoder writes (`setLayer { layer, spec: { visible } }`). The outcome that counts \u2014 a hidden layer never filters a read \u2014 is the same; the classification is the retired one.",
+  "required_change": "V10 \u00a73.23 row 26: 'layer visibility is view state and never filters a read, which admits by key' \u2192 'layer visibility (`LayerSpec.visible`, the document's style state, written by a logged `setLayer`, \u00a78.4) never filters a read, which admits by key'.",
+  "reported_by": "verify-agree-tools-r3t"
+ },
+ {
+  "id": "VCS-r3-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V10",
+  "claim": "T-V10-45's head (V10 l. 3113) reads \"item 111's explanations and forms:\", naming no base bar, while its last clause is \"the `item111.water` registration of the reader and why goldens \u2026, written by the C1 seat\". Scope's take-over table and item 111's runs list assign T-V10-45 \"T111-5's `item111.water` registration\" (R3-26). V10's other take-over heads use \"(takes \u2026)\" (T-V10-48, T-V10-51). Bookkeeping (R2-08; R3-03 (a)).",
+  "required_change": "T-V10-45's head reads \"item 111's explanations and forms (takes T111-5's `item111.water` registration):\", and its last clause reads \"\u2014 T111-5's `item111.water` registration of the reader and why goldens \u2026\".",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VV910-r3-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V10",
+  "claim": "V10 \u00a72.13's `LookAnswer.festivals` (l.1000\u20131001) projects \u00a711.2's `LooksAnswer.festivals`, its `name` commented \"a dossier tradition's (V08 \u00a73.16 (5)); a standalone generic festival, which it names not\"; \u00a73.9b (5) (l.1946\u20131948) calls it \"the list V09 \u00a74.21.8 reads\"; T-V10-49 asserts `read_map look` returns \"the festival list the view shows\". But the base's `LooksAnswer.festivals` is \"DR43's list\" (l.16159) and DR43 holds \"standalone no tradition exists and none is invented\" (l.11980); V11's registry row 105 gives `festival.generic` to \"V09's preview list, standalone\" and the renderer directly (V11 l.1030); V09 \u00a74.21.8 (1) lists the generic festivals standalone (T-V9-78: \"standalone, the four generic festivals are listed\"). On a standalone map the look read so returns no festival while the panel shows four, and T-V10-49 cannot pass against a base-conformant build. V10's round-3 HAND-OFFS name the gap; the base, V09 and V11 agree with each other, so V10 is the end that moves.",
+  "required_change": "V10 \u00a72.13's `name` comment reads \"LooksAnswer's `name` \u2014 a dossier tradition's (V08 \u00a73.16 (5)); the list is DR43's, so a standalone map's is empty (no tradition exists, DR43), a previewed generic festival (V11 \u00a73.25.7's `festival.generic`) reaching the model only through `display.id`, rendered in V09's `view.festival.<id>` words\"; \u00a73.9b (5)'s \"(`LooksAnswer.festivals`: \u00a77.7's DR43, the list V09 \u00a74.21.8 reads, under the session's key)\" reads \"(`LooksAnswer.festivals`: \u00a77.7's DR43, the dossier's festivals V09 \u00a74.21.8 lists, under the session's key; standalone none, a previewed generic festival named from the display)\"; T-V10-49's \"the festival list the view shows\" reads \"the dossier's festival list the view shows (\u00a711.2's `LooksAnswer.festivals`), and on a standalone fixture no festival, a previewed generic one named in V09's words\".",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV910-r3-04",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "V10",
+  "claim": "Round 3 deleted V09 \u00a74.9's `crisis.look.<kind>` family (VV1112-r2-14: each look is worded by its `crisis.looks` row's `label`, V11 \u00a73.25.9; V09 \u00a74.9 has no such row). V10 still names it at \u00a71.2's V09 row (l.202, \"V09 \u00a74.21.12: `crisis.look.<kind>`, `info.crisis.*`\"), T-V10-29 (l.3097, \"every `info.damage.*`, `info.crisis.*` and `crisis.look.<kind>` key V10 \u00a73.9a and V10 \u00a73.9b (8) render\") and CVR-V10-22 (l.3449, \"the `crisis.look.<kind>`, `info.crisis.*` and `info.damage.*` rows\"); repair-r3-V09's HAND-OFFS name all three.",
+  "required_change": "V10 l.202 reads \"(V09 \u00a74.21.12: each look row's `label` (V11 \u00a73.25.9) and `info.crisis.*`)\"; T-V10-29 reads \"every `info.damage.*` and `info.crisis.*` key V10 \u00a73.9a and V10 \u00a73.9b (8) render\"; CVR-V10-22's first cell reads \"the `info.crisis.*` and `info.damage.*` rows, each look worded by its `crisis.looks` row's `label` (V11 \u00a73.25.9); \u2026\" (the rest as it stands).",
+  "reported_by": "verify-vol-V09-V10-r3t"
+ },
+ {
+  "id": "VV1112-r3-07",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "V10",
+  "claim": "VV1112-r2-14's fix deleted V09's `crisis.look.<kind>` catalogue row; each look is now worded by its `crisis.looks` row's `label` (V11 \u00a73.25.9). V10 still names the key family three times: \u00a71.2's V09 row (l. 202: \"the crisis looks' list and lines (V09 \u00a74.21.12: `crisis.look.<kind>`, `info.crisis.*`)\"), T-V10-29 (\"every `info.damage.*`, `info.crisis.*` and `crisis.look.<kind>` key V10 \u00a73.9a and V10 \u00a73.9b (8) render \u2026 has a catalogue key in every shipped locale\") and CVR-V10-22 (\"the `crisis.look.<kind>`, `info.crisis.*` and `info.damage.*` rows\"). V10 \u00a73.9b (8) renders a look through `info.crisis.line`, so no such key is rendered; the three cite a row that no longer exists (repair-r3-V09's HAND-OFFS names them for round 4).",
+  "required_change": "V10 l. 202: \"(V09 \u00a74.21.12: `crisis.look.<kind>`, `info.crisis.*`)\" \u2192 \"(V09 \u00a74.21.12: `info.crisis.*`, each look worded by its `crisis.looks` row's `label`, V11 \u00a73.25.9)\"; T-V10-29: \"every `info.damage.*`, `info.crisis.*` and `crisis.look.<kind>` key\" \u2192 \"every `info.damage.*` and `info.crisis.*` key\"; CVR-V10-22: \"the `crisis.look.<kind>`, `info.crisis.*` and `info.damage.*` rows\" \u2192 \"the `info.crisis.*` and `info.damage.*` rows and each look's `label` (V11 \u00a73.25.9)\".",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]

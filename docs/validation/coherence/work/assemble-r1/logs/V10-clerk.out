@@ -1,0 +1,15 @@
+files 1; blocks 41 found, 40 applied, 1 skipped
+  SKIPPED repair-r1-V10.md #41 (l. 2921) MALFORMED === RULING REQUEST VAT-20 === — malformed "=== " header line; its text skipped
+  NOTE repair-r1-V10.md #17 (l. 1622) REPLACE ### 3.9a The underground and the crypt, explained (item 109; J-V10.40) — REPLACE retitles the heading ['### 3.9a The underground and the crypt, explained (item 109;' -> "### 3.9a The underground, the crypt and a plan's causes, exp"]
+  NOTE repair-r1-V10.md #18 (l. 1691) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons and festivals, explained (items 111, 113–118) — REPLACE retitles the heading ['### 3.9b Water, a past, walls, grandeur, seasons and festiva' -> '### 3.9b Water, a past, walls, grandeur, seasons, festivals ']
+audit: 40 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 781
+  Part A duplicate ids: []
+headings 86 -> 86 (+2 / -2); fences balanced True (24 -> 24 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 466617 -> 476312 bytes, 3347 -> 3374 lines, sha256 887b1031b59d114a2fe63a00afd3d998c28dd119f4759bc347098d195b1bd832
+rationale 685208 -> 685208 bytes, 2362 -> 2362 lines, sha256 adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564

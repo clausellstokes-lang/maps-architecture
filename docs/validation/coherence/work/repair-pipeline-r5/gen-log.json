@@ -1,0 +1,81 @@
+{
+ "doc_sha256": "5f34cceb61432ac420f375d84296f6d154dad2af6a1fbcdf329763425784334c",
+ "blocks": [
+  {
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "ids": [
+    "P3 (END of R5-02, VEW-r4-03)",
+    "sweep (P4)"
+   ]
+  },
+  {
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "ids": [
+    "VM-R4T-06",
+    "VV12-r4-03",
+    "P1 (END of VM-R4T-01, VAL-R4-02)",
+    "P2 (END of R5-02)",
+    "sweep (P12)"
+   ]
+  },
+  {
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "ids": [
+    "VEW-r4-04 (P4)",
+    "P5 (END of R5-02)",
+    "P6 (END of R5-02)",
+    "sweep (P1)"
+   ]
+  },
+  {
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "ids": [
+    "P7 (END of R5-02)"
+   ]
+  },
+  {
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "ids": [
+    "VAL-R4-10"
+   ]
+  },
+  {
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "ids": [
+    "VM-R4T-03 (P8)",
+    "P8 (END of VEW-r4-03)",
+    "P9 (END of R5-02)"
+   ]
+  },
+  {
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "ids": [
+    "VDC4-05 (P11)",
+    "P10 (END of R5-02)",
+    "VAT4-r4-01",
+    "VPC-R4-02",
+    "sweep ((7))"
+   ]
+  },
+  {
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "ids": [
+    "P12 (END of VEW-r4-02, VAL-R4-03)"
+   ]
+  },
+  {
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "ids": [
+    "VRC4T-09",
+    "VAL-R4-08"
+   ]
+  },
+  {
+   "heading": "### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order",
+   "ids": [
+    "VAL-R4-06"
+   ]
+  }
+ ],
+ "edits": 25
+}

@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-agree-time-r3t",
+ "file": "docs/validation/coherence/verify-agree-time-r3t.md",
+ "issues": [
+  {
+   "id": "VAT3-r3-01",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "pipeline",
+   "claim": "R3-17's new trigger at §4.11 *The clock* (4) (l.8352-8356) folds 'an epoch … at the week of each newly carried calamity that no other epoch falls on'; V08 §3.6 (3) (l.1838-1847) bounds the year ends to '(W₀, W₁]' but not the calamities. A calamity newly carried at an absorb but dated at or before the last epoch's week W₀ (a backdated record, a host whose clock turned back and forward again) has no defined outcome: an epoch 'at its week' would follow an epoch already folded at a later week, with `years` (l.8237) zero or negative and its event outside `EpochInputs.events[].week` 'in (the previous epoch's week, week]' (l.8239), against §6.1's order by week; no epoch of the absorb holds its week either. V08's edge row (l.2645) defines only the whole absorb before the last epoch (W₁ < W₀). V01 §3.16 (2) (l.2336-2338) assumes such calamities exist ('one dated at or before the last absorbed week'). One builder folds an epoch out of week order, another drops the calamity from the epoch path (DR28's strike, V06 §3.22 (1)'s aftermath and its deaths into the burial need lost), a third attaches it to the absorb's first epoch.",
+   "required_change": "§4.11 *The clock* (4): after '… that no other epoch falls on (DR28: a destructive event is epoch content; V08 §3.6 (3); J-V8.55)' add '— a newly carried calamity dated at or before the last epoch's week folds no epoch at its own week: it rides the first epoch the absorb folds (with none, the port folds one at the absorb's week for it), its `EpochInputs.events` entry at that epoch's first week (the last epoch's week + 1), its own tick kept in its receipt, so its hazard strikes and its deaths reach the burial need; with the absorb's week itself before the last epoch's (V08 §3.6's degenerate row) it folds no epoch and its dated changes apply finished, noted'. V08 §3.6 (3)'s calamity clause and its edge row (l.2645) cite it (the row naming the case among its degenerate inputs); T76-1's cadence clause (VPC-R3-01) adds a fixture of a calamity carried one year late."
+  },
+  {
+   "id": "VAT3-r3-02",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "model",
+   "claim": "The present at creation is the dossier's latest stamped tick, which may be a calamity's own `tick` (§4.11 *The clock* (1) l.8327-8328; V08 l.672). `HistoryHint.calamities` (§2.7 l.2452) and its writer V08 §3.15 (2) (l.2318) take '`calamityHistory` before the creation week', which before R3-18 meant strictly before the present. A calamity at the present week itself is carried at creation (V08 l.1287), so no later absorb carries it 'newly' and V08 §3.6 (3) never gives it an epoch: it reaches neither DR37's replay, nor the `HistoryRecord`'s story, nor DR28's epoch path — the case of a map made right after a disaster, a common request. The peers' two fixes word the bound two ways (VM-R3T-02 'before the present at creation', VPC-R3-05 'up to the present at creation'): one builder drops that calamity, the other replays it.",
+   "required_change": "§2.7's `HistoryHint.calamities` comment reads '`calamityHistory` up to and including the present at creation (§4.11 *The clock* (1)) — every calamity the creation carries (DR36's losses; DR37's events)' — the endpoint of VM-R3T-02's and VPC-R3-05's text, one bound for both; V08 §3.15 (2)'s `calamities` bullet (l.2318) reads the same in the same round; V08's history test (T-V8-51) adds a dossier whose latest stamped tick is a calamity's, that calamity in the hint and in the last replay epoch (VAT3-r3-10)."
+  },
+  {
+   "id": "VAT3-r3-03",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "scope",
+   "claim": "T114-4 (§13.2 l.18280-18281) reads 'recovery replaces patches oldest first, by each run's epoch of last change (volume 12's spec `T114g.oldestFirst`)'. §6.1 orders epochs by their weeks and numbers a replay epoch `0x8000_0000 + r`, above every live epoch's 1, 2, …; V06 §3.7.7 (3) (l.1636-1638), V06 §3.21 (l.3302) and T-V6-73 (l.4140) replace 'oldest patch first (by the week of the run's last-change epoch — `EpochRecord.inputs.week` of its `conditionEpoch`, generation's epoch 0 first, a replay epoch's week before every live epoch's, §6.1 …)'. Read by `conditionEpoch`'s number, T114-4 puts every replay-era patch after every live-era one on a history-first document — the reverse order — so the bar fails a correct build or passes the wrong order (J141: a bar that passes a wrong result).",
+   "required_change": "T114-4: 'by each run's epoch of last change' → 'by the week of each run's last-change epoch (`EpochRecord.inputs.week` of its `conditionEpoch`; generation's epoch 0 first, every replay epoch's week before every live one's — §6.1, V06 §3.7.7 (3)), never the epoch's number'; the T114 group's runs list keeps T-V6-73's history-first clause as its replay case."
+  },
+  {
+   "id": "VAT3-r3-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V12",
+   "claim": "V12 §3.15.4's `T114g.oldestFirst` (l.2511-2512) runs `exactScript` `patchesOldestFirst` 'over H-100's epochs and V06's recovery fixture, the order read from each run's epoch of last change'. V06's recovery fixture (T-V6-73) is history-first, its walls patched in replay epochs and again in live epochs; by epoch number the script expects live patches replaced first, while V06 §3.7.7 (3) and §6.1 replace replay-era patches first (VAT3-r3-03). T-V12-47's planted fault ('a recovery that replaces a younger patch first') is judged by the wrong key.",
+   "required_change": "V12 §3.15.4: 'the order read from each run's epoch of last change' → 'the order read from the week of each run's last-change epoch (`EpochRecord.inputs.week`; §6.1 — never the epoch's number, so a replay epoch orders by its week, before every live one), over H-100's epochs and T-V6-73's history-first recovery fixture'; T-V12-47's planted fault adds 'a live-era patch replaced before a replay-era one'."
+  },
+  {
+   "id": "VAT3-r3-05",
+   "severity": "minor",
+   "kind": "TERM",
+   "owner": "V08",
+   "claim": "R3-18 names the dossier's present week 'the present at creation' and the `generate` event's week 'the creation week' (the replay's start on a history-first document), one name each everywhere. V08 still feeds its `presentWeek` to 'the creation week' at W64 (l.291: '§4.11's clock (the creation week; V08 §3.6 (3)'s `W₁`)') and at the present-week field row (l.672: '§4.11's clock — the creation week and V08 §3.6 (3)'s `W₁`'). VM-R3T-02 rewrites only l.2318. Nothing built changes (§4.11 (1) and V06 §3.20.3 derive the creation week from the present).",
+   "required_change": "In V08 W64 (l.291) and the present-week field row (l.672), 'the creation week' → 'the present at creation (from which a history-first document's creation week follows, V06 §3.20.3)'."
+  },
+  {
+   "id": "VAT3-r3-06",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V02",
+   "claim": "V02 §5.7 (6) (l.3115-3116) and its §3.18 row (l.2550) read 'a building the next epoch really ruins or abandons reads its own level from that epoch's week (V06's hazard and decline phases)'. V06 §3.23 (1), the level's one home (R3-06 (a)), starts the run at the week its change shows — a hazard's change at the hazard's (calamity's) week, a `vacate`'s `decay` Works at its drawn offset in the epoch's span (V06 §3.13 (2)) — which in a coarse catch-up can lie years before the epoch's week (R3-17). V02 calls `decayLevel` and neither T-V2-59 nor T-V2-60 encodes the week, so nothing built changes, but the restatement states another week (named in round 2; no END line carried it).",
+   "required_change": "V02 §5.7 (6) and the §3.18 row 'a disaster's look and its aftermath (V06)': 'reads its own level from that epoch's week (V06's hazard and decline phases)' → 'reads its own level from the week its change shows (V06 §3.23 (1): the hazard's week, a `vacate`'s `decay` Works' start)'."
+  },
+  {
+   "id": "VAT3-r3-07",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V03",
+   "claim": "V03 §5.6 (4) (l.2734-2735) reads 'a building the aftermath really ruins enters a decay run (V03 §3.11) and draws its own level from that epoch's week'. V06 §3.23 (1) starts the run at the week its change shows (the hazard's week; a `vacate`'s `decay` Works' start), not the epoch's (VAT3-r3-06); `planDamage` reads V06's `decayLevel` and T-V3-40 does not encode the week, so nothing built changes.",
+   "required_change": "V03 §5.6 (4): 'draws its own level from that epoch's week' → 'draws its own level from the week its change shows (V06 §3.23 (1))'."
+  },
+  {
+   "id": "VAT3-r3-08",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "model",
+   "claim": "Model §2.6 step 7 (l.2100-2101; R3-06's binding text) reads 'one item 113's replay abandons or ruins ages from that replay epoch's week'. V06 §3.23 (4) (l.3423-3426), the home, starts it 'from the week (1) gives its change in that replay epoch — the epoch's week where the epoch runs at model level and starts no Works (V06 §3.20.4)'. A replay epoch ending within `replay.detailRetainYears` (50) of the present runs its Works (V06 §3.13 (1), §3.20.4), so its `vacate`'s or hazard's change shows at the Works' start, anywhere in a `history.epochYears` (10-year) span. R3-06 (a) governs where a run starts. Every reader calls V06's `decayLevel`, so nothing built changes.",
+   "required_change": "Model §2.6 step 7: 'one item 113's replay abandons or ruins ages from that replay epoch's week' → 'one item 113's replay abandons or ruins ages from the week its change shows in that replay epoch (V06 §3.23 (4): the epoch's week where it starts no Works)'."
+  },
+  {
+   "id": "VAT3-r3-09",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V11",
+   "claim": "V11 §3.25.10's `settings` row (l.4617-4618; R3-06's END text) reads 'a building item 113's replay abandons or ruins ages from that replay epoch's week' — the same restatement as VAT3-r3-08, against V06 §3.23 (4) (from the week its change shows in that replay epoch, which is the Works' start in a replay epoch within `replay.detailRetainYears` of the present).",
+   "required_change": "V11 §3.25.10's `settings` row: 'ages from that replay epoch's week' → 'ages from the week its change shows in that replay epoch (V06 §3.23 (4))'."
+  },
+  {
+   "id": "VAT3-r3-10",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V06",
+   "claim": "V06 §3.20.2 (l.3108-3110) places each history event and each `calamityHistory` entry 'in the epoch whose span `(toYearsAgo, fromYearsAgo]` holds its years ago; one before the start is not replayed'. The last replay epoch ends at the present ('the last ending at the present (yearsAgo 0)', V06 l.911), so its span `(0, fromYearsAgo]` excludes 0: an event or a calamity at the present week — a calamity whose tick set the present week, a history event of 0 years ago — lies in no span, though it is not before the start. Under `EpochInputs.events`' own rule '(the previous epoch's week, week]' (§4.11 l.8239) that week belongs to the last replay epoch at `W_p`. One builder drops the event, another replays it in the last epoch (DR37: the dossier's present facts met exactly at the replay's end).",
+   "required_change": "V06 §3.20.2: after 'holds its years ago' add ', an event at the present (0 years ago) in the last epoch, at `W_p`'; V06 §3.21's replay row adds 'an event or a calamity at the present week | replayed in the last epoch at `W_p`'; T-V6-71 adds that fixture."
+  }
+ ]
+}

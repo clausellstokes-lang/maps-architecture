@@ -1,0 +1,656 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/volumes/V03-interiors.md",
+ "input_doc_sha256": "23cc83c40b021f207817cd889b8de98140d823ee214395f78720c37a4ca02418",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+ "files": [
+  {
+   "file": "repair-r1-V03.md",
+   "sha256": "d0cd14f7ffafe0ad8ca576cc1bbd2962ae65473027c4bdbfb35c6809cfd33a68",
+   "lines": 2163,
+   "blocks": 23,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r1-V03.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r1-V03.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 67,
+   "body_sha256": "ee6ba9ac15d4f4f479255514c8f5fc0a64b1b8d166d8933967b4719dcdb97756",
+   "target_line": 11,
+   "section_old": "11–70",
+   "section_old_n": 60,
+   "section_new_n": 68,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r1-V03.md #2 (l. 72) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r1-V03.md",
+   "index": 2,
+   "line": 72,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 123,
+   "body_sha256": "932dc06e1f098acff545aea2ade80b9ee4d4f697c1acd87903add5366752acd6",
+   "target_line": 79,
+   "section_old": "79–194",
+   "section_old_n": 116,
+   "section_new_n": 124,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r1-V03.md #3 (l. 198) REPLACE ## 1b Wiring table",
+   "file": "repair-r1-V03.md",
+   "index": 3,
+   "line": 198,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 134,
+   "body_sha256": "3961c4660609220af5e0e9c2de5dd7c89a44f2d5afba218e40d58bac4be548b6",
+   "target_line": 203,
+   "section_old": "203–334",
+   "section_old_n": 132,
+   "section_new_n": 135,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r1-V03.md #4 (l. 335) REPLACE ### 2.1 Record additions (typed)",
+   "file": "repair-r1-V03.md",
+   "index": 4,
+   "line": 335,
+   "kind": "REPLACE",
+   "heading": "### 2.1 Record additions (typed)",
+   "body_lines": 26,
+   "body_sha256": "844c66b7cbe56d02653cb63de52f15294dbeafb5175ea7efa1a54f332a5626fe",
+   "target_line": 340,
+   "section_old": "340–383",
+   "section_old_n": 44,
+   "section_new_n": 27,
+   "new_headings": [
+    "### 2.1 Record additions (typed)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r1-V03.md #5 (l. 364) REPLACE ### 2.3 The plan report (non-canonical)",
+   "file": "repair-r1-V03.md",
+   "index": 5,
+   "line": 364,
+   "kind": "REPLACE",
+   "heading": "### 2.3 The plan report (non-canonical)",
+   "body_lines": 31,
+   "body_sha256": "45d531f275c44165c3a9f6d82e9f0c46da4bcb32092381a1fe9df2da5fd9147a",
+   "target_line": 398,
+   "section_old": "398–428",
+   "section_old_n": 31,
+   "section_new_n": 32,
+   "new_headings": [
+    "### 2.3 The plan report (non-canonical)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r1-V03.md #6 (l. 398) REPLACE ### 2.4 The rule tables and the default rows",
+   "file": "repair-r1-V03.md",
+   "index": 6,
+   "line": 398,
+   "kind": "REPLACE",
+   "heading": "### 2.4 The rule tables and the default rows",
+   "body_lines": 406,
+   "body_sha256": "90f25d78b66c233c479890ddea1b1e8a444dfeda3024fd1868921e11086e834e",
+   "target_line": 430,
+   "section_old": "430–825",
+   "section_old_n": 396,
+   "section_new_n": 407,
+   "new_headings": [
+    "### 2.4 The rule tables and the default rows"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r1-V03.md #7 (l. 807) REPLACE ### 2.5 Lifecycle of every new state field",
+   "file": "repair-r1-V03.md",
+   "index": 7,
+   "line": 807,
+   "kind": "REPLACE",
+   "heading": "### 2.5 Lifecycle of every new state field",
+   "body_lines": 50,
+   "body_sha256": "27e60f3332db0e6fe2e35680741bdb80b00fcfeeb2000022780b556fc47bad7e",
+   "target_line": 837,
+   "section_old": "837–886",
+   "section_old_n": 50,
+   "section_new_n": 51,
+   "new_headings": [
+    "### 2.5 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r1-V03.md #8 (l. 860) REPLACE ### 3.2 A — the programme",
+   "file": "repair-r1-V03.md",
+   "index": 8,
+   "line": 860,
+   "kind": "REPLACE",
+   "heading": "### 3.2 A — the programme",
+   "body_lines": 163,
+   "body_sha256": "c6f26557337310daa63e03c374774df202da7037f54446e5afe3a4ef99fee21b",
+   "target_line": 924,
+   "section_old": "924–1086",
+   "section_old_n": 163,
+   "section_new_n": 164,
+   "new_headings": [
+    "### 3.2 A — the programme"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r1-V03.md #9 (l. 1026) REPLACE ### 3.4 Seed pieces per storey",
+   "file": "repair-r1-V03.md",
+   "index": 9,
+   "line": 1026,
+   "kind": "REPLACE",
+   "heading": "### 3.4 Seed pieces per storey",
+   "body_lines": 14,
+   "body_sha256": "24eab4b9f79ef72b0a2fba6d36979bc56bf89897fbcca509029a0aaac7dc3555",
+   "target_line": 1231,
+   "section_old": "1231–1245",
+   "section_old_n": 15,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 3.4 Seed pieces per storey"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r1-V03.md #10 (l. 1043) REPLACE ### 3.7 Basements, the crypt and the heads of the ways down",
+   "file": "repair-r1-V03.md",
+   "index": 10,
+   "line": 1043,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Basements, the crypt and the heads of the ways down",
+   "body_lines": 338,
+   "body_sha256": "6ebad4b8fcac00b6f8b2d3d1d96d6ed73cc5ebe40f8a22f7f843961797f3432e",
+   "target_line": 1498,
+   "section_old": "1498–1836",
+   "section_old_n": 339,
+   "section_new_n": 339,
+   "new_headings": [
+    "### 3.7 Basements, the crypt and the heads of the ways down"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r1-V03.md #11 (l. 1384) REPLACE ### 3.13 Edges at their limits (principle (11))",
+   "file": "repair-r1-V03.md",
+   "index": 11,
+   "line": 1384,
+   "kind": "REPLACE",
+   "heading": "### 3.13 Edges at their limits (principle (11))",
+   "body_lines": 34,
+   "body_sha256": "c60bbed8c7ce2ee5689efa16bf6c4ff952da5d4fcc452f11c3fddaca931451d5",
+   "target_line": 1990,
+   "section_old": "1990–2022",
+   "section_old_n": 33,
+   "section_new_n": 35,
+   "new_headings": [
+    "### 3.13 Edges at their limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r1-V03.md #12 (l. 1421) REPLACE ### 4.2 The edits the plan needs, each with its semantics and its bend",
+   "file": "repair-r1-V03.md",
+   "index": 12,
+   "line": 1421,
+   "kind": "REPLACE",
+   "heading": "### 4.2 The edits the plan needs, each with its semantics and its bend",
+   "body_lines": 94,
+   "body_sha256": "cb66e668ce740f7b2f5a5a09df4e1f07ecbc79eb2cc24cf67282b97820dec915",
+   "target_line": 2055,
+   "section_old": "2055–2144",
+   "section_old_n": 90,
+   "section_new_n": 95,
+   "new_headings": [
+    "### 4.2 The edits the plan needs, each with its semantics and its bend"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r1-V03.md #13 (l. 1518) REPLACE ### 4.4 What is not an edit",
+   "file": "repair-r1-V03.md",
+   "index": 13,
+   "line": 1518,
+   "kind": "REPLACE",
+   "heading": "### 4.4 What is not an edit",
+   "body_lines": 5,
+   "body_sha256": "5d68c6635852f0cce946f244ee8e9ba97108b14aa4ad9fbcf91304d2a58eb9d4",
+   "target_line": 2181,
+   "section_old": "2181–2186",
+   "section_old_n": 6,
+   "section_new_n": 6,
+   "new_headings": [
+    "### 4.4 What is not an edit"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r1-V03.md #14 (l. 1526) REPLACE ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+   "file": "repair-r1-V03.md",
+   "index": 14,
+   "line": 1526,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+   "body_lines": 57,
+   "body_sha256": "e9378e800bd296d7c171b3460e1c4b2c91209bd88f4323451d667cbe074c6373",
+   "target_line": 2187,
+   "section_old": "2187–2234",
+   "section_old_n": 48,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r1-V03.md #15 (l. 1586) REPLACE ### 4.6 The clerk's view — plan queries and \"why?\"",
+   "file": "repair-r1-V03.md",
+   "index": 15,
+   "line": 1586,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The clerk's view — plan queries and \"why?\"",
+   "body_lines": 48,
+   "body_sha256": "3503150d214d10d0f9ae1cddc7f5eabef3972daefcc13d77e38de7c94af3b226",
+   "target_line": 2245,
+   "section_old": "2245–2292",
+   "section_old_n": 48,
+   "section_new_n": 49,
+   "new_headings": [
+    "### 4.6 The clerk's view — plan queries and \"why?\""
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r1-V03.md #16 (l. 1637) REPLACE ### 5.2 Picture exports",
+   "file": "repair-r1-V03.md",
+   "index": 16,
+   "line": 1637,
+   "kind": "REPLACE",
+   "heading": "### 5.2 Picture exports",
+   "body_lines": 11,
+   "body_sha256": "5d9a9542f37b75482067fc790e47bbf5c0de3c542ddb66373bbf1c48cbf82834",
+   "target_line": 2363,
+   "section_old": "2363–2373",
+   "section_old_n": 11,
+   "section_new_n": 12,
+   "new_headings": [
+    "### 5.2 Picture exports"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r1-V03.md #17 (l. 1651) REPLACE ## 6 Performance budgets",
+   "file": "repair-r1-V03.md",
+   "index": 17,
+   "line": 1651,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 66,
+   "body_sha256": "e7c220296d07f898bae6640124b86483c5fb559682a37f0dee5d82cc336afe1e",
+   "target_line": 2443,
+   "section_old": "2443–2477",
+   "section_old_n": 35,
+   "section_new_n": 67,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r1-V03.md #18 (l. 1720) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r1-V03.md",
+   "index": 18,
+   "line": 1720,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 81,
+   "body_sha256": "c570422b7e3b189fdde4a4baf8f4d4b64ab1fd2592e3ec8567b8126c0c9e8261",
+   "target_line": 2510,
+   "section_old": "2510–2589",
+   "section_old_n": 80,
+   "section_new_n": 82,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r1-V03.md #19 (l. 1804) REPLACE ## 8 Build plan",
+   "file": "repair-r1-V03.md",
+   "index": 19,
+   "line": 1804,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 56,
+   "body_sha256": "5688702017e1ece1a340e71da763624bde4e05dc08f1a00dac959012f7c7e108",
+   "target_line": 2592,
+   "section_old": "2592–2642",
+   "section_old_n": 51,
+   "section_new_n": 57,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r1-V03.md #20 (l. 1863) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r1-V03.md",
+   "index": 20,
+   "line": 1863,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 141,
+   "body_sha256": "854ad198ddbae070cb176eeb45d4836c16f809709d7f42f6b3bb850f50145082",
+   "target_line": 2649,
+   "section_old": "2649–2787",
+   "section_old_n": 139,
+   "section_new_n": 142,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r1-V03.md #21 (l. 2007) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r1-V03.md",
+   "index": 21,
+   "line": 2007,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 42,
+   "body_sha256": "e89bebd981e1bdedbf064fc08aeba3f480d5ff370b275a096cebaedaf77c4381",
+   "target_line": 2843,
+   "section_old": "2843–2882",
+   "section_old_n": 40,
+   "section_new_n": 43,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r1-V03.md #22 (l. 2052) REPLACE ## 13 Fix list",
+   "file": "repair-r1-V03.md",
+   "index": 22,
+   "line": 2052,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 45,
+   "body_sha256": "62bc7f030368b0a27086a49a54c3008b8361aa87f2e8dccd675f57b406d792e7",
+   "target_line": 2886,
+   "section_old": "2886–2923",
+   "section_old_n": 38,
+   "section_new_n": 46,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r1-V03.md #23 (l. 2100) APPEND TO SECTION ## 5 Rendering, labels, exports",
+   "file": "repair-r1-V03.md",
+   "index": 23,
+   "line": 2100,
+   "kind": "APPEND TO SECTION",
+   "heading": "## 5 Rendering, labels, exports",
+   "body_lines": 60,
+   "body_sha256": "c247816c1c6e3e742309a6357cfe735d71a0e4f7c253dd9180038700b9bb9c00",
+   "target_line": 2294,
+   "section_old": "2294–2442",
+   "section_old_n": 149,
+   "inserted_at_line": 2442,
+   "lines_inserted": 61,
+   "new_headings": [
+    "### 5.5 Find at the interior band (item 120, the plan's part; J-V3.134)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r1-V03.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #2 (l. 72) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #3 (l. 198) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #4 (l. 335) REPLACE ### 2.1 Record additions (typed)",
+    "kind": "REPLACE",
+    "heading": "### 2.1 Record additions (typed)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #5 (l. 364) REPLACE ### 2.3 The plan report (non-canonical)",
+    "kind": "REPLACE",
+    "heading": "### 2.3 The plan report (non-canonical)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #6 (l. 398) REPLACE ### 2.4 The rule tables and the default rows",
+    "kind": "REPLACE",
+    "heading": "### 2.4 The rule tables and the default rows",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #7 (l. 807) REPLACE ### 2.5 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.5 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #8 (l. 860) REPLACE ### 3.2 A — the programme",
+    "kind": "REPLACE",
+    "heading": "### 3.2 A — the programme",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #9 (l. 1026) REPLACE ### 3.4 Seed pieces per storey",
+    "kind": "REPLACE",
+    "heading": "### 3.4 Seed pieces per storey",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #10 (l. 1043) REPLACE ### 3.7 Basements, the crypt and the heads of the ways down",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Basements, the crypt and the heads of the ways down",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #11 (l. 1384) REPLACE ### 3.13 Edges at their limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.13 Edges at their limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #12 (l. 1421) REPLACE ### 4.2 The edits the plan needs, each with its semantics and its bend",
+    "kind": "REPLACE",
+    "heading": "### 4.2 The edits the plan needs, each with its semantics and its bend",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #13 (l. 1518) REPLACE ### 4.4 What is not an edit",
+    "kind": "REPLACE",
+    "heading": "### 4.4 What is not an edit",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #14 (l. 1526) REPLACE ### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The click, the storey switcher and the plan panel — the viewer's experience",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #15 (l. 1586) REPLACE ### 4.6 The clerk's view — plan queries and \"why?\"",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The clerk's view — plan queries and \"why?\"",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #16 (l. 1637) REPLACE ### 5.2 Picture exports",
+    "kind": "REPLACE",
+    "heading": "### 5.2 Picture exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #17 (l. 1651) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #18 (l. 1720) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #19 (l. 1804) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #20 (l. 1863) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #21 (l. 2007) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #22 (l. 2052) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V03.md #23 (l. 2100) APPEND TO SECTION ## 5 Rendering, labels, exports",
+    "kind": "APPEND TO SECTION",
+    "heading": "## 5 Rendering, labels, exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 781,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 46,
+  "headings_after": 47,
+  "headings_added": [
+   "### 5.5 Find at the interior band (item 120, the plan's part; J-V3.134)"
+  ],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 388143,
+  "doc_bytes_after": 413070,
+  "doc_lines_before": 2852,
+  "doc_lines_after": 3002,
+  "rationale_bytes_before": 685208,
+  "rationale_bytes_after": 685208,
+  "rationale_lines_before": 2362,
+  "rationale_lines_after": 2362,
+  "blocks_total": 23,
+  "blocks_applied": 23,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "eda87a1c8cf0e84bca1431d21b30a948c4f35bddbc95c7cf2e25e2f4b009baeb",
+  "output_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564"
+ }
+}

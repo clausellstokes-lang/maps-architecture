@@ -1,0 +1,2261 @@
+# Repair round 2 — V02 (buildings, stage 3) — lane coherence/repair-V02-r2
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-V02-r2; covered by the whole-design retrovalidation (J84).
+
+# §8 total: 23–33.5 pw (was 22.5–32.5) — R2-06 (c); V02 §8.6's new M6b row, + 0.5–1 pw (M6 18.75–28.5 pw, was 18.25–27.5).
+#
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
+# ignored; one FILE line routes every block to docs/volumes/V02-buildings.md. Target: V02 sha256 a11f04ccc93d0fce… (assemble-r1's
+# install, live and unchanged at landing); base docs/ARCHITECTURE.md 137ecc0e4fe12c44… (no round-2 assemble has run).
+# Each block body is the live subsection with count-asserted substitutions (work/repair-V02-r2/gen.py over edits_a.py and
+# edits_b.py: 44 substitutions, each applied exactly once); every untouched line is verbatim.
+# Blocks: 28 — 24 REPLACE (## 0; ### 1a, 1b, 1c, 1d; ### 2.2, 2.3, 2.5, 2.6; ### 3.2, 3.8, 3.10, 3.11, 3.18; ### 4.5;
+# ### 5.1, 5.3, 5.5; ## 6 (its head text, §6.4 and the new §6.6); ### 7.1; ### 8.3; ## 9; ## 12; ## 13) and 4 APPEND TO
+# SECTION (### 2.4: `ExteriorDamage`; ## 5: new §5.7; ## 7: new §7.8; ## 8: new §8.6). Ruling requests: 0.
+# Binding rulings applied: adjudication-r2's R2-04, R2-05, R2-06, R2-07, R2-10, R2-13, R2-16, R2-35, R2-36, R2-37, R2-38
+# (Part H · V02), with R2-09 where the new tests name pins.
+#
+# PROGRESS
+# - P0 brief read whole (9 issues; ROUND-2 NOTES, NEW OWNER RULES, CONTINUATION, ORCHESTRATION NOTES); adjudication-r2's V02
+#   rulings and Part H · V02 read whole: done
+# - P1 issue sources, file g items 122 and 123, the canon's routings, the base homes cited (model's and pipeline's landed
+#   round-2 blocks, V06's saved round-2 design), every V02 section concerned: done
+# - P2 count-asserted edit set over the live V02 (work/repair-V02-r2/edits_a.py, edits_b.py, gen.py): done (resumed after
+#   the 07:09 usage-limit cut under the CONTINUE rule; the saved edit set re-checked against the rulings and refined)
+# - P3 blocks generated, applied on a copy, checks, result saved, LANDED: done
+#
+# ISSUES → WHERE FIXED (9 routed ids, 8 distinct defects; 7 FIXED in text, 1 CLOSED by ruling, 0 INVALID, 0 parked)
+#  VAF-R0S-03 = VM-R1T-05 (ONE FIX, R2-13). §2.2: the `DormerRow` and `DormerKind` declarations (with DormerKind's two
+#        comment lines) deleted, the lead sentence naming "`DormerRow`, `DormerKind` and `PorchKind` are §2.6's"; §2.6: the
+#        `LaidWing` and `TierLay` lines replaced by "// `TierLay` and `LaidWing` are §2.7's (V02 §3.15.1 lays them)". The
+#        base's declarations (§2.6, §2.7, kept by model's round-2 blocks) carry every field and comment V02's copies held —
+#        nothing lost.
+#  VAF-R1T-01 (blocker; FIX per R2-16). §3.10's 3.10.1: `squalid` the poor row, `comfortable` the modest row for its
+#        discrete cells and the cell-wise interpolation of modest and prosperous at its band centre for its continuous cells
+#        (§4.5's band-set paragraph and its discrete-cell rule); the upper-half sentence deleted. §2.3's `CompositionRow`
+#        comment (l.453) and §3.2 step 3 (l.815): "discrete cells read §4.5's discrete-cell rule (item 19)". No other V02
+#        text states a cut rule (l.817's J-A19.43 citation is the manifested-versus-field band and stays).
+#  VAH-r1-13 (FIX per R2-10). §4.5: "filling §11.2's `WhyAnswer` with no new field".
+#  VV12-r1-05 (FIX, Part H's second option). §6.4: "≈ 35 µs for the roofscape's facets (V02 §6.2's ≤ 25 µs median with
+#        its ≤ 150 µs p99 tail)"; §6.2 gains no figure.
+#  VV12-r1-06 (FIX per R2-07). The title block's l.7 reads "file g" with no range — text inside the title's level-1
+#        subsection, which R2-07 gives to Assemble to set in place: see ASSEMBLE NOTE below (no block).
+#  VV12-08 — CLOSED per R2-04 (J-V2.109 confirmed as E-27's shed ruling); no text change, no block.
+#  G123-V02 (NEW DESIGN per R2-38 (4), R2-35 T123-5). The exterior agreeing with the plan's damage: §5.7 (new) with
+#        `exteriorDamage` / `ExteriorDamage` at §2.4; the element reading where the plan is in force (a damaged roof bay over
+#        a room a hole clipped to its own wing's facets; a broken outer run of a wing's lowest storey a gap in the outline
+#        with the rubble spill; a repaired bay patched by V06's `decayPeak`; a wing whose every bay is damaged roofless, the
+#        lost upper storey), V03's thresholds and V06's level only, never V02's own; the massing reading where none is; a
+#        stale plan never read; no rung raised (§3.11); the `rooms` rung kept `current` through a building's decline so the
+#        plan as built stands (§3.11 and §3.8 — V02's end of R2-38 (1) and §2.6 step 7); the `roofscape` cell
+#        `rubbleReachM` (§5.3); exports (§5.5; J-V2.112: pictures draw it, glTF, OBJ, CityJSON, GeoJSON and JSON carry it
+#        not, VTT and battle maps by §11.1); §1a item 9, §1b row, §1c rows, §1d homes, §2.5 row, §3.18 (d), (e), (f)
+#        rows; §6.6 budgets; T-V2-59 (takes T123-5) in §7.8; §8.6 (M6b, at the later of M6b and V03's item-123 step,
+#        R2-36); J-V2.112; X34, X36, X37; §12 CONFIRMED and PLAUSIBLE lines; census. Every verifier version is met:
+#        agree-fabric (holes over rooms, gaps in the outline, same thresholds, test: §5.7 (2), T-V2-59); agree-time (same
+#        thresholds at V06's level; `MassingRef`, `Composition` and footprint unchanged; solid monument, no stored plan,
+#        deck building: §3.18 (e); exterior equal to the plan at every level: T-V2-59 (a)); edges-world (V03's thresholds,
+#        never V02's: §5.7 (2), J-V2.112); vol-V01-V02 (1)–(8): §5.7 (2), (5), (7), §5.5, §1b, §1c, §3.18 (e), T-V2-59
+#        (a)–(f), J-V2.112.
+#  G122-V02 (NEW DESIGN per R2-37 (4), (7), R2-36). The ruined look of a disaster's buildings: §5.7 (1)–(8) — item 123's
+#        damage at the higher of the building's decay level and the `disaster` row's `lookLevel` by severity, on every
+#        building of every district V01's `disasterDistricts` returns (V07's ends at THORP, HAMLET, VILLAGE), with no
+#        per-building share (verify-vol-V01-V02's "keyed share by severity" per building is overridden: R2-37 (4), Part H);
+#        standing by §2.7's reader rule, DR44 and its admission (`ViewOpts.viewAs`), §2.9's `crises` (`follow`, `off`,
+#        `preview` at `previewSeverity`); the massing reading's tone and dash (item 112's second cue); one flavour — a fire
+#        blackens (J-V2.113, with why a flood's and an earthquake's marks are the damage itself); the hand-over by V06's
+#        `crisisLookYields` (no week draws both the look and the rebuild's scaffolding; a `decay` Works never ends it); no
+#        patch left by a look; per band (§5.7 (5)); exports (§5.7 (7), §5.5: pictures draw it, battle maps in the image
+#        only); §3.18 (b) village row, (c) Show crises row, (d), (e), (f) rows; §6.6's lazy per-tile line; T-V2-60;
+#        §8.6; J-V2.113; X35, X36. Every verifier version is met: agree-fabric (§5.7, T-V2-60); agree-time (the look as
+#        item 123's damage at a look-only level by severity; never `MassingRef`, `Composition`, model or hash; keyed by the
+#        condition's id through its units and by the lineage through the thresholds; a look over a real decay at the
+#        higher level; a standing Works; a deck building; T-V2-60 (a)–(d)); edges-world (deck building, tiered stack,
+#        Works: §3.18 (e), (f)); vol-V01-V02 (2)–(10) at §5.7 (4)–(8), §1b–§1d, §3.18, §6.6, T-V2-60, J-V2.113, its (1)
+#        overridden as above.
+#
+# RECEIVING ENDS WRITTEN THIS ROUND (R2-05): R2-35's T123-5 named by T-V2-59's head; R2-13's two V02 citations; R2-16's
+#  three V02 sites; R2-10's V02 citation; R2-36's placement of V02's parts (§8.6); R2-37 (4), (6), (7) and R2-38 (1), (4)
+#  at V02 (§5.7, §3.11, §3.8). T-V2-59 (d) and T-V2-60 (c) name the `item123.damage` and `item122.crises` pins as V12's
+#  (V12 §2.13); V02 registers no pin of its own, so R2-09's registration list is unchanged.
+#
+# ASSEMBLE NOTE (R2-07; VV12-r1-06). docs/volumes/V02-buildings.md line 7, inside the title's level-1 subsection (above the
+#  first '## ' heading): replace the one occurrence of
+#      owner items 1–101, file g 102–120, file f 200–585
+#  with
+#      owner items 1–101, file g, file f 200–585
+#  No other text of the title block changes; the line is not a marker line (principle (8) untouched).
+#
+# HAND-OFFS for round 3's verifiers (R2-05 (3): cross-unit ends no ruling names; V02's side is written, and each is also
+#  a row of V02 §13 with its stand-in):
+#  - V03 (X34): the damage layer's two element kinds V02 reads — each roof bay over a room as a ring, each outer wall run
+#    of a wing's lowest storey as a span, each intact, damaged or repaired at a level — and a roofless building's (roof
+#    kind `none`) roof bays all damaged, so the plan agrees with the model's roofless state (T-V2-59 (b)).
+#  - V01 and V07 (X35): `disasterDistricts` answering a preview (no overlay) keyed on the look kind in the condition's
+#    stead, as §10.2's placement (d) keys a preview, and returning the calamity's type with the districts.
+#  - V06 (X36): V02 cites `decayLevel`, `decayPeak` and `crisisLookYields` by the names of V06's saved round-2 design
+#    (V06 §3.22, §3.23); if V06 lands other names, V02's citations follow them.
+#  - rendering, base §8.2 and §8.8 (X37): the Works `decaying` row's ridge gaps drawn, where a plan is in force, as V02
+#    §5.7's holes; the drawn week, `crises` and the effective knowledge key in the tile key of a tile holding a building
+#    whose damage level is above 0, as the drawn week is for a Works mark.
+#  - scope (R2-06 (b)): V02 §8's total is 23–33.5 pw (was 22.5–32.5); §16 and INDEX read it from this file.
+#  - doc checks: a base text citing V02 §5.7, §6.6, §7.8 or §8.6 needs an S2 allow row in the existing volume-prefixed
+#    form (S2 reads the base's headings only).
+#
+# WORDS (principle (9)'s shrink goal). V02 85 913 → 91 697 words (+5 784, +6.73 %). Removed: RESTATEMENT 202 net (§2.2's
+#  `DormerRow`/`DormerKind` and §2.6's `LaidWing`/`TierLay` declarations, now cited; −209 with the lead's +7);
+#  DUPLICATED MECHANISM 2 (R2-16: V02's own band-anchoring rule for discrete cells withdrawn for §4.5's one rule);
+#  NARRATION 0; VERBOSE PROSE 0. Added: owner items 122 and 123 at the building, new design at build depth (+5 978, the
+#  brief's NEW DESIGN rule: an addition, never a change of another decision); VV12-r1-05's exact citation (+10). The unit
+#  grows: what holds it is irreducible owner-item content; no other text of V02 was in this round's routed scope.
+#
+# CHECKS. Dry run (apply-blocks.py on a copy of the live V02): 28/28 applied, 0 skipped, audit 0 not OK, output
+#  byte-identical to the edited volume (sha256 dad2b5bce0a72f00…), headings 73 → 77 (+§5.7, §6.6, §7.8, §8.6, none
+#  removed), fences balanced (14 → 16 fence lines), title block unchanged, the PENDING FABLE REVIEW line kept.
+#  refcheck (work/repair-V02-r2/refcheck.py): 46 section references in the added lines, 0 unresolved (V02's in V02, the
+#  base's in the base with the landed round-2 base blocks, the other volumes' in the live volumes); the new ids T-V2-59,
+#  T-V2-60, J-V2.112, J-V2.113, X34–X37 each defined once. Doc checks, PROVISIONAL — WARNING: reference corpus INCOMPLETE
+#  (captures, research/patreon, research/devlogs, research/ftg-docs, research/external absent here; NOT authoritative):
+#  against the unrepaired V02 the new text adds C1 0, C2 0, C4 0, S1 0; C3 +29 runs, every one a generic plain-English
+#  phrase of the new prose ("a building with no roof", "is drawn in the view", "each side of the outline"), no copied
+#  identifier, table or list; S2 +41, every one V02's own pointer "V02 §5.7" (32) or "V02 §6.6" (9) read against the
+#  base's headings, each resolving in V02.
+
+=== FILE docs/volumes/V02-buildings.md ===
+
+=== REPLACE ## 0 In plain words ===
+## 0 In plain words
+
+**What this stage does.** The base gives every plot a building with a simple outline: a rectangle, an L or T of
+rectangles, a row house clipped to its plot, or a church or keep from a small set of templates. Stage 3 replaces that
+outline maker with a **composer** that builds each building the way Fantasy Manor builds a manor — out of wings (long
+roofed ranges), blocks (square pavilions standing a little proud of the wings), towers, a courtyard, a porch, dormer
+windows and chimneys — and does it for **every** building on the map, not only manors. A hovel gets one short, low range
+with a thatch-like roof and nothing else. A cottage may get a lean-to at the back. A comfortable town house gets a back
+range behind its street front, dormers and a door hood. A rich merchant's house on a wide plot may get a hall with a
+cross-wing at each end (the classic H plan), or three ranges round a forecourt. A great manor on a joined plot may close
+four ranges round a courtyard, with a gate hall, a corner tower or two and a stair turret. An inn becomes a galleried
+courtyard inn in a rich street and an L-shaped alehouse in a poor one. The building's class (hovel, cottage, house, inn,
+manor …), how prosperous its spot is — smoothly, never by a switch — and its plot decide which of these it gets.
+
+**How it fits the plot.** The composer turns the building to face its street, keeps it inside the part of the plot the
+site plan gives it (never over the street, never over a neighbour), puts the main door on the street side (Fantasy
+Manor leaves about one building in seven without a door — ours never does), and keeps towers from standing through the
+middle of a wing. Sizes are in metres: a hovel's range is about 4 m wide, a manor's 7–9 m.
+
+**What you see, and when.** At city zoom a building is its plan shape as a dark mass, as today — but the masses now show
+courtyards, cross-wings and round towers, so a rich quarter reads differently from a poor one even from far away. Zoom
+to a district and the roofs appear: ridges, hips, the valleys where wings meet, the cones of the towers, lit by the
+moving sun. Click a neighbourhood (or let the view derive detail as you look) and its buildings open: dormers, porches
+and chimneys arrive. Click one building and it is composed down to its rooms — the hall, the tower rooms, the gate
+hall — and, with V03, its floor plan; a double-click zooms in until the plan is readable. Once generated, a building's
+detail is kept; when something changes it (a new owner, a new use, a fire, the passing years) it is marked with a small
+sign and redone at the next click, and whatever did not change stays exactly as it was.
+
+**When a building changes use.** A house that becomes an inn is not torn down and re-rolled: the house's range stays and
+the inn grows side ranges round a yard behind it; turned back into a house, the added ranges go again and the original
+is exactly as it was. A manor that falls on hard times keeps its shell, but its great hall is no longer held fixed: the
+families move in and divide it room by room (V03), and if it recovers the hall comes back exactly as it was. A brewer's
+shop that grows into a brewery keeps its shop front and gains a yard behind; a business split into a workshop and a shop
+has two ordinary buildings, and merging them back is one undoable step.
+
+**Editing.** Everything is editable with the building tool: drag a wing's ends or width, add or remove a wing, a tower or
+a back range, change a tower's shape, storeys or roof, set a porch (or a hood at a side door), add or remove dormers,
+switch the hall, the gate hall or the chapel on or off and move their ends. Asking the clerk "why is this manor an H?"
+gets the rule, the wealth level and the other shapes it could have taken. Each change is one undoable step that touches
+only that building and its plot, and the map repairs around it. **The tool never says a plain no** (item 101 R2): a
+request it cannot carry out as asked becomes the nearest thing it can do, and one short line says what it did — "put the
+stairs inside" on a solid pyramid seals it instead, "remove the last wing" removes the building, a tower added beside a
+stepped temple is built on the ground beside it. Only a fact SettlementForge sent and a lock you set are ever refused.
+
+**Every kind of building has its rules.** The shapes are written once per kind of building — row house, shop, workshop
+yard, tannery, inn, guild hall, parish church, cathedral, covered market, farm, barracks and the rest, about thirty kinds
+— each at four levels of wealth, so every one of the roughly two hundred town trades, every village building and every
+custom building SettlementForge sends gets a shape that fits its trade and its wealth. A few classes have their own
+touches: the manor grows courtyards and towers, the longhouse runs down the slope with its byre at the bottom, the
+watermill puts its wheel on the water, the windmill is a round tower with sails, the cathedral has twin west towers and
+often a tower over its crossing, a market hall stands on an open arcade, a kiln is round, and landmark halls may carry a
+small cupola. Bigger and richer buildings, and custom landmarks, are laid larger; a building that would not fit its size
+budget steps down from a courtyard to a U, an L or a single range rather than overflowing.
+
+**Small places are not grand (item 115).** In a thorp, a hamlet or a village, wealth shows as bigger houses, longer
+ranges, more outbuildings, dormers, porches and chimneys and better roofs — never as a courtyard, an H or U plan, a tower
+or a turret on a house. Only a village's one manor house, where there is a lord or SettlementForge names one, takes the
+grand plans. A hall SettlementForge names, or a house you reshape by hand, keeps its full design, and the clerk says it
+is grander than such a place usually has. A village that grows into a town builds grander from then on; a town that
+shrinks keeps its grand buildings as they stand.
+
+**Sun, crypts and digging.** Where a house has a free choice — which end its cross-wing goes, which way its yard opens —
+it leans toward the sunny side (the owner's "more prosperous people would love more sun"), never turning away from its
+street. Buildings' wings cast the town's shade at later epochs. The cathedral always has a crypt; on wet ground where a
+crypt would flood, its choir is raised over a crypt that stays dry, as real cathedrals did. A new wing built over a
+hidden cavern or ruin may break through into it. Catacombs are never made by a building: they lie under cemeteries
+(V04).
+
+**Stepped buildings, and buildings on bridges, piers and moles (item 110).** Some buildings are a stack of tiers, each
+standing on the one below and set back from its edge: a stepped temple (solid rubble tiers, a great stair up the front, a
+small shrine on top), a terraced palace (storeys on each terrace, flights of steps along the faces) and a tiered tower
+(storeys shrinking as they rise, each with a skirt roof). Each tier casts its own shadow and can be given more or fewer
+storeys; the stack can gain or lose tiers, change its shape, step, skirt roofs, which tiers are solid, its stair (or have
+none, a sealed pyramid) or put a shrine on top, one undoable step at a time. A stepped temple's size comes from its
+precinct and its first tier takes the proportions its stairs need, so the stack fits; its great stair is steep, as such
+stairs were, and the summit stands a few metres back from the centre because every terrace in front holds a flight. When
+the ground under a stack changes, the whole stack moves with it; a stack under construction rises tier by tier. These
+shapes appear only where the settlement's culture builds them, never in an
+ordinary European market town; an older civilisation's ruins underground may keep a stepped monument (V04 decays it).
+Houses and stalls may also stand on a bridge, a pier, a quay platform or a mole: small and light — one or two storeys,
+no cellar — lined along the deck's way, with a tower or fort at a mole's head where the map places one. If the deck
+falls, what stands on it falls with it; rebuild the deck and new buildings may rise there. A chapel whose crypt
+SettlementForge records is never put on a bridge: it stands on the bank. A quay built on the bank is ordinary ground,
+cellars allowed where the ground is dry enough. When a viaduct or an aqueduct is built over a street, every house
+standing where its piers or arches come down gives way to it; the spaces between the piers stay open.
+
+**Arenas and terraces.** An arena is an oval: an arcaded outer wall of storeys and, inside it, solid banks of seating
+stepping down to an open floor, entered through gate halls at the ends of its long axis. A house built against a
+terrace wall stands on its own terrace, never floating up toward the terrace above.
+
+**Ruins and disasters (items 123, 122).** A building left empty for years looks it, and once its floor plan has been
+opened its roof shows holes exactly over the rooms whose roof has fallen in, and its outline breaks over a spill of
+rubble exactly where an outer wall came down — the same holes and fallen walls the plan shows, because both read one
+record of what has broken. As the years pass more breaks, never moving; a repaired roof shows its patches. When
+SettlementForge reports a disaster, every building of the neighbourhoods it struck looks ruined while it lasts —
+blackened after a fire — until its rebuilding begins, when the scaffolding shows instead; when the disaster ends it
+looks as before, unless the following years really left it in ruins. Neither ever changes a building's shape, size or
+data.
+
+**Speed.** Building the shapes for a 50 000-person metropolis adds about three hundredths of a second to the first map
+(about 3 % of its time); the roof detail of a neighbourhood arrives within about a tenth of a second of the click.
+Every wait you sit through once — a new map, an export with every building's detail, an upgrade — ends within ten
+seconds at every size up to the largest metropolis (item 119), and dragging, clicking and editing stay as quick as
+before.
+
+**What it does not do.** Materials change only colours and textures, never shapes (owner, 2026-09-26). Fantasy shapes
+(octagonal and star-shaped courtyard manors, as Fantasy Manor makes them) exist but are rare by default and kept for the
+classes where they make sense; a Fantasy Manor look-alike setting turns them up to Fantasy Manor's own mix. Floor plans
+are V03's, neighbourhood close-ups V01's, how buildings change over decades V06's.
+=== END ===
+
+=== REPLACE ### 1a Scope ===
+### 1a Scope
+
+This volume builds **stage 3** to build depth: the `BuildingGenerator` registration that replaces the base's
+`OutlineBuildingGenerator` (§2.6 *The stage-3 hook and its cost contract*). It settles:
+
+1. **The massing** — stage 3's `outline()`: an eager, per-building step at S11 that composes the building's plan from a
+   path of wings (ranges), blocks, towers, a back range and a court, fitted to the slot the site plan gives it, oriented
+   by its frontage, in metres (V02 §3.2–§3.5). Its output is the base wings (`Building.wings`), so the footprint, the
+   heights, the shadows, the 3-D export and the capacity all read it (model data, in the digest).
+2. **The composition** — stage 3's `compose()`: the lazy `wings` and `rooms` rungs — dormer rows, the porch, the
+   composed towers, the courts and the composer's principal rooms (hall, gate hall, tower rooms, chapel) — whose draws are
+   keyed per wing so what is kept stays (V02 §3.6–§3.8).
+3. **The roofscape** — one derived roof plan per building, resolving every joint between wings (mitre, valley, wall,
+   gable, hip) and every tower, read by the drawing, the light pass and the 3-D exports (V02 §5.2).
+4. **The diversity ladder** — per class and per prosperity band, as data tables (`composition.json`), from a hovel to a
+   giant manor, interpolated along the prosperity value (item 19) (V02 §3.3, V02 §3.10).
+5. **Mutation** — item 18 applied to wings: keep what fits, add, remove, by path growth from the kept ranges (V02 §3.9).
+6. **Elaboration by click, editing, rendering, exports, budgets at METROPOLIS scale, tests, parity with Fantasy Manor,
+   and the build plan.**
+7. **The owner's rules of 2026-09-28 at the building** (file g; V02 §3.14): the building side of sunlight (item 102: the
+   wings as epoch casters, the sunlit choice), custom institutions (item 104), split works-and-shop sites (item 105 (h)),
+   the institution ladders (item 108), and digging down, crypts and the catacomb boundary (item 109 (j), (k); J111) — each
+   only in its building part; g's base mechanisms are the base's.
+8. **Item 110 at the building (V02 §3.15–V02 §3.17):** (c) **stepped massing** — the `stepped` family of stacked tiers laid
+   by the pure construction `layTiers` behind the exported `massStepped`, which the base outline builder (from M3a; item
+   110 (e)'s second fixture needs a stepped temple there) and stage 3 share byte for byte, and which V04 also calls for a
+   ruin's stepped monument; solid and storeyed tiers, stairs up the faces, a flat, shrine or roofed top; one shadow per
+   tier; the `tiers` edit with a named bend for every structural limit; one building-level datum pass (`rebaseStack`) on
+   every re-basing path; a stack order under Works; pent band facets; a solid stack's entrance rule; the claim-sized
+   band; and the non-fantasy `ovalCourt` family for the fixture's arena; (d) **buildings on moles, jetties, quay platforms
+   and bridge decks** — the `@deck` rows, the deck budget, the deck's datum, no basement; and the building side of (a)
+   retaining walls, (b) raised ways (generated at CITY and METROPOLIS, declared at TOWN, added or removed by the user)
+   and (e) the second known-city fixture.
+9. **Items 123 (d) and 122 at the building (V02 §5.7):** the exterior's damage — a decayed or ruined building's roof
+   holes and outline gaps drawn from its plan's damage layer, the same elements at the same level as the plan (V03), and
+   its patches after a repair — and the ruined look of a disaster's buildings, item 123's damage at the look's level on
+   every building of the neighbourhoods the disaster strikes; looks only, never a wing, a record or a hash.
+=== END ===
+
+=== REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds ===
+### 1b The wiring table — every new piece, what feeds it and what it feeds
+
+Every piece below has a named producer and a named consumer; the base hook column names where it plugs in. The file f
+items cited are applied to the base (their text is the base section's).
+
+| new piece | kind | fed by (producer; the dossier or derivation row where a fact comes from one) | feeds (consumer) | base hook |
+|---|---|---|---|---|
+| `ComposedBuildingGenerator.outline()` (the massing) | stage function | `BuildingInput` from S11 (slot hint, access, ctx, class, drift); `CompositionRow` at the manifested band (§2.5 `Plot.builtBand` → §4.11's floor rule); `ClimateTable` pitch; `massing` stream | `Building.wings`, `Building.massing`; S11's footprint insertion and first carry, `deriveEntrances` (entrance hint), `deriveBase`, the basement decision, the capacity function, the yard partition (court typing); §8.4's casters; 3-D exports | §2.6 `BuildingGenerator.outline`; §4.7 S11 |
+| `BaseWing.role`, `BaseWing.key`, `Building.nextWingKey` | persisted fields | the massing; `setMassing`; the mutator's wing step | the composer (per-wing keyed draws), the mutator (match by role), §6.3's anchors, the roofscape (joint priority), exports (role names), edits (`setAttr` paths by key), V01's `hatched` stack ties by wing key (V01 §5.1.3) | §2.6 `BaseWing` (item 216) |
+| `Building.massing` (`MassingRef`) | persisted field | the massing; `setMassing` `family`; the mutator | the mutator (source family), `deriveEntrances` (entrance wing and side), the JSON export, the report, the clerk's reader | §2.6 `Building` (item 217) |
+| `DriftBounds` | type (declared at §2.6) | an assignment (§7.7) | the massing's family filter and size clamp; the mutator's adapt bounds | §2.6 `BuildingInput.drift`; §7.7 `Assignment.drift` (item 385) |
+| `composition.json` (`CompositionRow`, `MassingFamilyRow`, `WingRoleRow`, `MassingGrowthRow`, `TowerShapeRow`, `PorchKindRow`, `DormerKindRow`, `RoleKeyRow`, `ClassFamilyRow`, the constants row) | tables | `@plat/tables`, the override layer, the `FM` preset, the corpus phase (§13.9) | the massing, the composer, the mutator, the roofscape, `facadeBays`, §8.10's decorative chimneys; V01's entrance reserve (`PorchKindRow`'s `widthM`, `depthM`, `outside`, shipped from M3a-V2; V01 §3.8.2 step 5, V01 §3.8.3's digest) | §7.6; §10.2 `DesignationTemplateRow.composition` (item 426) |
+| `ComposedBuildingGenerator.compose()` (the composer) | lazy stage function | the base wings, the entrance set, the plot and yard parts, `CompositionRow`, `compose.*` streams | `Composition` (the `wings` and `rooms` rungs), the elaboration cache, the building-band drawing, the plan rung (fixed rings, dormer rows), exports with compositions | §2.6 `BuildingGenerator.compose`; §4.1 trigger policy; §2.8 record |
+| `Wing.base`, `Wing.dormerRows` (`DormerRow`), `ComposedTower.base`, `Porch.kind`, `Composition.row`, `.grammar`, `.secondaryPorch` | lazy record fields (stored when edited) | the composer; `setComposition` | the roofscape and its paint programs, the plan rung (edited dormer rows fixed), glTF, CityJSON and JSON exports, the carry (rooms only) | §2.6 `Composition` (items 218–220) |
+| V11's `HeightsRow` with the columns `attic`, `parapetCm`, `towerStoreyCm` | table contract (V11's rows and values; V02's reading rule) | V11 §3.6.4 (table `heights`, keyed by template family) | M11's eave, ridge, tower storeys and spires; `attic` gates dormers (V02 §3.7); `parapetCm` on flat roofs | §10.2 `DesignationTemplateRow.heights` (items 435, 427) |
+| the resolution chain; `composition.roleKeys`; `composition.classFamily`; the family, class-override, role and default rows; the arrangement law | stage logic and tables | `DesignationTemplateRow.composition`, `BuildingClassRow.templateFamily` (item 432), the compiled template's `arrangement` and `structures`, V07's `v.` classes (V07 §2.4; V11 §2.9) | M1 (every slot's row), `MassingRef.row`, `Composition.row`, T-V2-33, the why provider; V03's A1 (3) and slot order, which read `composition.classFamily` for a `v.` key without a programme row (V03 §2.4; J-V3.111) | §4.7 S11; §10.2 |
+| the rung ceiling on a dwelling's row (item 115) | stage logic, table read | V11 §3.25.4's `grandeur.ceiling` row of the rung in force (the document's; at an epoch the fold's, V06 §3.8.5) and its `settings.grandClasses`; the use's class and its profile family; S11's capped key in `BuildingInput.compositionRow` | M1's capped row (M3–M8's families and their tower, turret and gate-tower cells), `MassingRef.row`'s `~<RUNG>`, a standing building's re-derivations, the why fact `massing/ceiling`, V09 §4.21.5's beyond-tier line, T-V2-55, T-V2-58 | §4.7 S10b *Class mix* (3), S11 *Footprints and heights*; §10.2 *Grandeur ceiling* |
+| M3's budget test and M10's slot band | stage logic | V11's `footprintM2` (p10/p90 or the 0.7 / 1.45 ratios), the role table's `footprintShare`, `LadderStepRow.sizeFactor`, `buildingScale`, the significance shift | M4's family draw, M10's shrink and reverse lattice, the report's `overBudget` | §4.7 S11 |
+| `CompositionRow.axis` (`fallLine`, `water`), `MassingRef.low` | table cell, persisted field | the row (V07's longhouse rule; the mill and landing rows; `needs.runningWater`, V02 §3.14.6); the terrain sampler; the water faces | M2's frame; V03's byre end (`low`); the why provider | §2.6 `BuildingInput.terrain` |
+| the sunlit choice (`sunBias`) | stage logic, constant | §7.7's `Intent.latitudeDeg` (DR29 on a dossier map; absent 50) — the latitude item 102's model sampler reads (§4.5), never the style's `SunSpec.latitudeDeg`; the constants row; the presets | M5's mirror coins; T-V2-37; the why provider | item 102 (d) |
+| the building casters (each wing's prism) | derived | the massing's wings and heights | item 102's epoch daylight raster (V06 §3.4, per wing); §8.4's shadows | §8.4 casters; §4.11 |
+| attached structures (M8b; `BuildingInput.attached`) | stage logic, input field | V11's structures through `roleKeys` (`attach: 'main'`); S11's drawn counts (item 304) | the main building's wheel, church porch and west towers; the forced tower mill; the absorbed ranges' budget | §4.7 S11 (item 304) |
+| `MassingRef.segments`, `.cupola`, `BaseWing.arcade` | persisted fields | M5 and M13 (`segments`), M12 (`cupola`), M11 (`arcade`); every `setMassing` op and the mutator | the parity harness, the report, the why provider; the roofscape and exports (`cupola`); the drawing, exports and capacity (`arcade`) | §2.6 `Building`, `BaseWing` (items 216, 217) |
+| wing references by key; the canonical wing order | contract | every wing writer (massing, mutator, `setMassing`, migration) | the carry, the plan's re-cut, §6.3's re-match, the clip order; T-V2-34 | §2.6 (item 225) |
+| the significance shift | stage logic | the use's σ (§4.5 (1), with V11 §3.13's landmark and `economicWeight` factors; DR24 with item 104 (a) (5), (7)) | every geometry cell and M10's budget of that building; T-V2-38 | §4.5 (1) |
+| split and ladder composition (V02 §3.14.3–V02 §3.14.4) | stage logic | `Use.branchOf` and V11's `split` families (item 105 (h)); `LadderStepRow` (item 108) | the two buildings of a split site; members and SIZE buildings; W3b's arrangement change; T-V2-39, T-V2-40 | §4.7 S11 designation mutator |
+| the crypt seed wings, the raised crypt's lift, the dig floor, the W6 dig trigger | stage logic, persisted heights | `cryptSeedWings` (template parts, a stack's tier 0, the east-most range); V03's stair-entered reading (V03 §3.7.4), which gives the ground wings over the basement's ring the lift and the half raise act on; V11's `crypt` column (item 436) through item 238; the terrain gate; V04's void systems; V11 §3.23.7's `DigRule` rows (the dig chance) | §2.6's basement function (`Basement.crypt`, `kind 'raised'`, item 226); V03's choir stairs; V04's access draw and item 109 (k) (5)'s obstacle test | §2.6 *Basements*; II.7.3; item 109 |
+| `setComposition room`, `moveTower { shape }`, the secondary-porch op | edit kinds | T9's handles, the clerk, a skeleton file | the stored composition, the `rooms` rung, §7.3's orphan table | §7.1 (item 351) |
+| the `WhyProvider` for `building` (`massing`, `wings/<key>`, `composition`) | interface implementer | the committed massing, M3's and M8's tests re-run without draws, the event log | V10's oracle and clerk; V09's "why?" panel; T-V2-43 | V10 §3.9 (item 270) |
+| `fantasyShapes`' control row | control | the recipe | M3's family filter; V09's advanced panel; `@plat/docs` | §7.8 (item 402) |
+| `@underground` rows, `BuildingInput.layer` | table rows, input field | S11's plot layer (II.7.3, II.7.5, item 109 (j) (4)) | M1's key suffix, M0 (f) | §2.6 `BuildingInput` (item 303) |
+| the naming slice `building.wingRole` | table (V11's naming tables) | V11 (V02 X6) | the wing hover label (V02 §5.4) | §10.4 |
+| roof decorations `sails`, `smokeStack`, `stepStones`, `wallGrass` | §8.10 rows (cells in V02 §5.3's style table) | the massing (sails; the class's `emits.smoke`); the `FM` look | the tile rasteriser | §8.10 |
+| options `fantasyShapes` (a recipe parameter) and `massing.composed` (a table option, `extension` over both) | model options | the recipe and §7.8's control; the preset resolution (§7.6) | M3's family filter; V02 §3.1's switch to the base outline under `MFCG` and `FTG` | §7.8, §7.6 |
+| the composer's room roles `hall`, `gatehall`, `chapel`, `towerRoom` | room rows | the `rooms` rung (V02 §3.8) | the plan rung's programme and its arches (V03); §8.5's room labels | §2.6 `Composition.rooms`; §10.2 `RoomProgramRow` |
+| `RoofSpec.kind 'shed'` and `RoofSpec.high` | model field values | the massing (back ranges, lean-tos, outshots, stairs) | the roofscape, §8.2's roof programs, glTF and CityJSON roofs | §2.6 `RoofSpec` (item 222) |
+| `roofscape(building)` | derived function (never stored) | base wings, heights, roofs, towers; the composition's dormer rows and porch where present; `valleyReach` (float mode) | §8.6's roof construction `roofscape`, §8.4's surface layer and casters' roof faces, glTF, OBJ and CityJSON LoD2.2 roofs, B-ZOOM | §8.6 (item 406) |
+| `exteriorDamage(doc, b, view, opts)` and its `ExteriorDamage` (V02 §2.4) — the exterior's damage (item 123 (d)) and the ruined look of a disaster's buildings (item 122) | derived function (never stored) | V06's `decayLevel` for the building's lineage at §2.9's `week`; the plan in force — current or stored — under its damage layer (V03; §2.6 step 7; §6.3's `plan.damage` with V11's ranges; its repaired elements by V06's `decayPeak`); the disaster looks drawn in the view over the building's unit (§2.7's `ConditionOverlay` and its reader rule; §7.7's DR44 and its admission at the view's knowledge key, `ViewOpts.viewAs` lowering it; §10.2's `disaster` row and its `lookLevel`, and `previewSeverity`; §2.9's `crises`; V01's `disasterDistricts`, V07's ends at THORP, HAMLET and VILLAGE; V06's `crisisLookYields`) | V02 §5.7's drawing in the tile rasteriser and the SVG and PNG writers — the `roofscape` program's holes and patches, the outline's gaps and rubble, the look's tone and dash, the porch, cupola and roof-decoration draws over a hole; the SVG semantics `sem.building.roof.hole` and `sem.building.rubble`; V02 §6.6's memo; T-V2-59, T-V2-60 | §8.2 (the `states` rows; the crisis look rows), §8.6 (the damaged plan, item 123) |
+| `valleyReach(X, Y, mode)` — the plan reach of the valley where wing X's ridge meets wing Y's roof | derived function, `@plat/plots` | the two wings' heights and roofs | `facadeBays` (integer mode) and the roofscape (float mode) | — (V02 §3.7) |
+| `facadeBays(wing, side, bayM)` | derived function, in `@plat/plots`, re-exported by `@plat/buildings` (item 505) | a wing's ring, the `bayM` column, `valleyReach` (integer mode) | dormer positions (V02 §3.7), the plan rung's windows (V03), lit windows when no plan exists (§8.4's `live.windows`), decorative chimneys (§8.10) | §2.6 plan step 6 "one per façade bay" (item 406) |
+| `resolveEnds(building)` | derived function | base wings, heights, joints | the roofscape; the drawing of ridge ends | — (V02 §5.2) |
+| the mutator's wing step (`mutateMassing`) | stage function | `MutationRecord` steps of §4.7 S11; `MassingGrowthRow`; `siteplan.mutate` stream | kept, adapted, added and subtracted wings; `MutationStep` of part kind `wing`; the composition's per-wing keep; Works stages (V06) | §4.7 S11 designation mutator steps 1–7 |
+| concerns `massing`, `compose.dormers`, `compose.porch`, `compose.rooms` | stream registry entries | §6.1's mixer | the massing and the composer | §6.1 registry (item 341) |
+| anchors for base wings and composed parts | identity rows | §6.3's re-match | edits by key after a re-derivation; the mutator's keep | §6.3 anchor table (item 346) |
+| events `setMassing`, `setComposition` | edit kinds | the canvas T9 `shape` handles, the clerk's tool API, a skeleton file | S11's operator on the plot (massing), the stored composition, `carryWings`, the capacity re-homing, the elaboration record | §7.1, §7.4 (item 351) |
+| the `FM` building-scope parity preset | preset | `composition.json`'s `presets.FM` entries (the measured-rate ones set by V12's `reference` run against Fantasy Manor, V12 §3.7.2 (3)); V11 §3.24.0's item-110 chance and offer cells' `presets.FM` entries, 0 | the free-frame parity harness (V02 §7.4), the owner's stage-3 panel, a user's "Fantasy Manor look" | §7.6 (item 376) |
+| the register entries of `composition.json`'s calibratable cells | calibration register entries | the seat landing M3a-V2, M6a, M6b and M6c (V02 §8.3, V02 §8.5), from this volume's defaults, tests and fallbacks (V02 §3.10, V02 §6, V02 §8.2) | `plat calibrate register --check` (T-V12-20) at each exit; V12's tuning, fallback and reference runs (V12 §3.7) | V12 §3.11; §13.9 |
+| the `BenchBarDef` registrations of V02's eleven bars (T-V2-22, -28, -29, -30, -32, -36, -37, -42, -46, -47, -51) | bar registrations (`@plat/testkit/bars`) | the seats landing M3a-V2, M6a, M6b and M6c, each in the change that writes the register entry naming the bar (V02 §3.10.10; V02 §7's checks as their `run`) | `plat parity`'s `bar.` rows (V12 §1b); the register lint and the exit rule (V12 §3.11, T-V12-20) | V12 §2.1 (`BenchBarDef`, `bar.<barId>`); §13.8's CI tiers |
+| the NoOpPin registration of T-V2-50 (item 110's off form) | pin registration | the seat landing M3a-V2 | V12 §3.7.8's pin engine, reading V11 §3.24.0's off form | §13.2's convention; V12 §3.7.8 |
+| the rung-pin registration of T-V2-58 (B-MASS on `item115.ceiling`; item 115 (f)) | pin registration | the seat landing M6a | V12 §3.7.8's pin engine, its `rungScope` kind (V12 §2.13) | §13.2's convention (T115-4); V12 §3.7.8 |
+| F-MASSING, F-COMPOSE | failure classes | the massing's and the composer's checks | the generation report (massing), the view report (composition) | §5.2 (item 328) |
+| paint programs `roofscape`, `dormer`, `porch`, `towerRoof`, `stairFlight` and the style cells of V02 §5.3 | style programs and cells | the roofscape, the composition, `stairTreads` | the tile rasteriser; the SVG writer | §8.2 (item 406) |
+| JSON `massing` and `composition` blocks; glTF composition meshes; CityJSON LoD2.2 roofscape, `BuildingPart`, `BuildingInstallation`; `on`, `solid`, `stack` | export content | the model and the elaboration cache (or a derive-on-export pass) | files | §11.1 (item 449) |
+| `@plat/buildings` | package | `@plat/kernel`, `model`, `tables`, the `BuildingGenerator` interface and the stack helpers in `@plat/plots` | the `StrategyRegistry.building` entry `composed` | §14 (item 505) |
+| the free-frame parity harness `plat/bench/fm-parity/` | test instrument | the `FM` preset; `baselines.json` rows from `captures/manor/README-frequencies.md` | §13.5's Fantasy Manor rows; the owner's stage-3 panel; V12's `reference` run against Fantasy Manor, whose fixture it is (V12 §3.7.2 (3)) | §13.5, §13.6 (item 522) |
+| `layTiers` — the tier geometry, ST2–ST7 | pure function, `@plat/plots` | `TierInput` (V02 §2.6) | a `TierLay` or a typed `TierFailure` → `massStepped` (ST8 and the attempts), the `tiers` op (V02 §4.6), the mutator's anchored lay (V02 §3.15.5), V04's ruin stage (V02 X19) | §2.6 base outline builder (item 229) |
+| `massStepped` — the stepped branch of the massing | exported function, `@plat/plots` | `BuildingInput`, the `CompositionRow`, the bands; `slotBand`; `drawTiers` on `massing` indices 8–9; the attempt streams `massing/attempt=a` | `Building.wings` and `Building.massing` (with `stack`) of a stepped building — from M3a through the base outline builder, from M6a through stage 3's M5; T-V2-46 | §2.6 base outline builder (item 229); §4.7 S11 |
+| `slotBand` — M10's band as one formula | exported function, `@plat/plots` | the template's `footprintM2` (or `claimShare × area(H)` where the template is claim-sized or the row carries `claimShare`; on a deck the deck row), the role table's shares, `buildingScale`, `sizeFactor`, the significance shift (V02 §3.2 step 3), the drift's `areaPct` | M3's budget test, ST0, ST8, M10 | §4.7 S11 |
+| `drawTiers` — ST1 as a function of two streams | exported function, `@plat/plots` | `TierCells` at the band and the storey heights; two `Rng`s (`massing` 8 and 9; `siteplan.mutate` for a mutation; V04's ruin stream) | the `TierDraws` list `layTiers` reads | §6.1 |
+| `TierFailure` | type | `layTiers` (ST3's exhausted stair fallback, ST6's checks) | `massStepped`'s M14 loop; the `tiers` op's bend; the mutator's degrade; V04's ruin stage | — |
+| `TierCells.heights`; `CompositionRow.claimShare`; the constants `claimLo`, `claimHi` | table cells | `composition.json` (V02 §3.10.9) | `layTiers`' storey heights for a ruin's shrine (V04 passes them); `slotBand` | §7.6 |
+| the stack migration row | migration rule | the document loader | `MassingRef.stack` re-derived from the wings of a stepped building that lacks it; then the `tiers` op, the why facts, the JSON export | §7.5 |
+| the stair form `none` and `MassingRef.stack.grade` | persisted values | the bends of V02 §4.6; a skeleton file line; `drawTiers` (the grade) | ST3, ST5, ST6, `stairChain`, `landingSide`, the entrance hint; the `tiers` op's re-lay (the grade); V03's `W_TIER_UNREACHED`; exports | §2.6 `MassingRef.stack` (item 217) |
+| the bends of V02 §4.2, V02 §4.3 and V02 §4.6 — `bend.tiers.stepped`, `.none`, `.axial`, `.internal`, `.count`, `.step`, `.form`, `.top`; `bend.tier.height`; `bend.stack.groundWing`, `.roof`, `.base`; `bend.deck.single`, `.floors`, `.basement`; `bend.building.remove`; `bend.row.plotLine`; `bend.wing.grow`; `bend.family.nearest`; `bend.room.passage`, `bend.room.host` | edit results, each with its one-line words | V02 §4.2, V02 §4.3, V02 §4.6; V03 §4.2 (`bend.deck.basement`: a cellar asked for on a deck over water goes to the nearest ground building of its plot group, else its block, else the nearest building on the ground) | V09 §4.9's catalogue, one row per id with its words and buttons; V10's clerk, which words each bend through V09's rows (V02 X22); the why provider (`massing/bend/<id>`) | item 101 R2; §7.1 |
+| `rebaseStack` — the building-level datum pass | derived function, `@plat/plots`, built at M3a-V2 | the ground wings' `levelledGroundCm` samples (with item 231's wall-side reading) through its `ground` parameter, which each re-basing path builds from its document and the plot's arena key; the deck's surface; a kept user `baseCm` of a ground wing; the crypt lift and the half raise | every stacked wing's `baseCm`, every stair's `ridgeCm` and `stairSteep`, `Building.heights` (the envelope, `floors`) → §8.4's casters and caster ceiling, V05's clearance (V02 X20), V06's shade mask, the 3-D exports | §2.6 datum (item 370); §7.3 (a) 4; §7.4; the carry's rule (2) |
+| the stack order under Works | derived rule in `heightsAt` | §4.11 step 8 (item 318): the stack's courses, `on`, `solid` | §8.4's casters at a stage, §11.1's 3-D export, V06's Works (V02 X23) | §4.11 |
+| the pent band facets | roofscape rule | a pent wing's ring and the ring of the wing standing on it | §8.4's surface layer and casters; glTF, OBJ and CityJSON roofs | §8.6 (item 406) |
+| a solid stack's entrance and plan root | base rule | §2.6 *Entrances* rule 5 (item 230); ST7's hint | V03's plan root at the first landing door (V02 X18); T-V2-45 | §2.6 |
+| the sibling-disjointness check | invariant | ST6; item 333 in the carry check | the carry's halving; F-REDERIVE; T-V2-44 | §2.6 rule 4; §5.3 |
+| chimney hosting on a stack | draw rule | V02 §3.7's decorative chimneys; the roofscape reading `Chimney.column` and `Chimney.levels` | §8.10's tile draw; V03's carried stacks | §8.10, §8.6 |
+| the `tiers` op and its fields | edit op | T9's tier controls (V09, V02 X21); the clerk (V10, V02 X22); a skeleton file | the stack's re-lay; undo; the why facts | §7.1 (item 351) |
+| `terrace.wallBandCm` and the wall-side sample | base rule, constant | §2.6 datum (item 231) with item 110 (a)'s `RetainingWall`; the constant's cell (V02 §3.10.9) | the ground wing's datum sample near a retaining wall — `deriveBase` and `rebaseStack` (1); V03's walk-out reads its own band, 2 × `cellar.insetCm` (V03 §3.7.1), never this constant | §2.6; item 110 (a) |
+| `levelledGroundCm(doc, key, p)` — §4.7's levelled-ground reader (item 309) | base reader, consumed here | S10 and S11's levelling (item 110 (a)'s platform datum of a levelled plot, block or ward), else S1's raster with the T2 terrain strokes | `deriveBase` and `rebaseStack`'s ground wings (items 370, 231; V02 §3.15.2 (1)), and through them the dig floor (V02 §3.14.5 (a)); the basement gate's fall (§2.6's skirt facts); the raised crypt's lowest sample (V02 §3.14.5 (d)); T-V2-51 (c) | §2.6 *Heights and the ground datum*, *Basements*; §4.7 S10–S11 (item 309) |
+| `deckOk` per use (the crypt binding) | placement constraint | V11's `deckOk` (V02 X16); V04's crypt records | S10b's placement; T6's landward bend; the mutator's relocation (§10.3) | §4.7 S10b |
+| the family `ovalCourt` (`massOval`, `@plat/plots`), the `arena` family row, `caveaM` | family, function, table row and cell | `composition.json`; the base outline builder from M3a (item 229) and M5 from M6a call `massOval` | M3–M13; the roofscape; V03's plan of the outer ring; V12's fixture bars (V02 X25); V11's arena plot (V02 X27); V01's hood-pin sites (V01 §3.8.2 step 1: no pin on the arena floor, the `court` yard part of item 303's hole sentence) | §7.6; §4.7 S11 |
+| `vaultClamp` and its constant `vaultClampCm` | clamp, constant | `composition.json`'s constants; V04's chamber ceiling (V02 X29) | M11 on the underground layer | II.7.6 |
+| `DeckContext` (with `landmark`) | input field (declared at §2.6) | S11, from the deck-plot record (`Plot.deck`, its `landmark` flag; item 246) | M1's chain and `@deck` suffix; M10's deck band or the landmark's own rows; M11's storey cap; `deriveBase`'s deck datum (item 370); the basement gate (item 305); the dig floor (V02 §3.14.5) | §2.6 `BuildingInput.deck` (item 305); §4.7 S11 |
+| `BaseWing.on`, `BaseWing.solid` | persisted fields | `layTiers` through the massing (ST7), the `tiers` op, the mutator's stepped rows | `deriveBase`'s stacking (item 370), `storeyRange`, the capacity (item 371), the roofscape's occlusion and order, the casters, the carry check (item 333), exports, V03's plans of tiers (V02 X18), V01's `hatched` stack order by `on` depth and tier shadows (V01 §5.1.3; V02 X24) | §2.6 `BaseWing` (item 227) |
+| the roles `tier`, `shrine`, `stair`; the family `stepped` | enum members | the massing | `WingRoleRow`, the roofscape, `building.wingRole` labels, exports, the why provider | §2.6 `WingRole`, `MassingFamilyId` (items 216, 221) |
+| `MassingRef.stack` | persisted field | ST7, the `tiers` op, the mutator | the `tiers` op's re-lay, the why provider, the JSON export, the report | §2.6 `MassingRef` (item 217) |
+| `CompositionRow.tiers` (`TierCells`) and the rows `stepped-temple`, `terraced-palace`, `tiered-tower`, `stepped-monument` | table cells and rows | `composition.json`, reached by name from V11's specialisations (V02 X17) and by V04 (V02 X19) | `layTiers` (ST1–ST8), M3's stepped test, the load checks (V02 §3.15.4) | §7.6; §10.2 `DesignationTemplateRow.composition` (item 426) |
+| `storeyRange`, `deckLevel`, `stairChain`, `landingSide` | derived functions, `@plat/plots`, built at M3a-V2 | the wings with `on` and `solid` | the capacity and `Storey.wings` (item 371), `deriveBase` (item 370), V03's levels and landing doors (V02 X18), V03's eager facts at M3a — `ground(b)` and `floorCm` (V03 §3.3), `basementDoor(b)` and `stackAccessDoor(b, a)` (`stairChain`: the stair wings, stair 0 and its approach strip; V03 §3.7.1, V03 §3.7.2 (1)) — and through them V01's entrance reserve; T-V2-44, T-V2-45 | §2.6 capacity, `Storey` |
+| stair 0's **approach strip** | derived region, never stored (V02 §4.6 (4)) | `stairChain`'s stair 0 with its ring and `RoofSpec.high`; the main entrance under `internal`; the constant `landingM` | V02 §4.6's ground-wing placement (`addRange`, `addTower`, `backRange`); V03's `basementDoor(b)` rule 2 and `stackAccessDoor(b, a)` (V03 §3.7.1, V03 §3.7.2 (1)) | §2.6 `Building` (the stack's wings) |
+| the stack's heights envelope | derived rule in M11 | the stacked wings' heights | `Building.heights` → §8.4's caster ceiling, V05's clearance (V02 X20), exports | §2.6 *Heights* |
+| the deck budget (read) | table contract | V11's table `deck` by deck kind × band (V02 X16), registered from C0 (V11 §2.1's empty-table rule): no deck plot exists without its row (V02 §3.16 (3)) | M10 and M11 on a deck plot; `bend.deck.floors` (V02 §4.6 (5)); the why provider | §10.2 (V11) |
+| the `@deck` rows | table rows | `composition.json` | M1 and M5–M12 on a deck plot | §7.6 |
+| the paint program `stairFlight`; the roofscape's stack order | style program, draw rule | the roofscape; `stairTreads` | the tile rasteriser, the SVG writer | §8.2 (item 406), §8.6 (item 419) |
+| constants `tierMinSideM`, `landingM`, `stairClearM`, `stairGradeMax`, `pentShare`, `riserMaxCm`, `ovalSides`, `ovalAxisRatio`, `ovalMajorFactor` | table cells | `composition.json`'s constants row (V02 §3.10.9) | `layTiers`, `massStepped`, `massOval`, the roofscape, `stairTreads`, the exports, stair 0's approach strip (`landingM`) | §7.6 |
+| `stairTreads(w)` — the one tread law of a stair wing (J-V2.90) | derived function, `@plat/plots` | a stair wing's `ridgeCm` (its rise, kept true by `rebaseStack`), its ring and `RoofSpec.high` (its run); `riserMaxCm` | `stairFlight`'s tread lines (V02 §5.6), the glTF, OBJ and CityJSON stair solids, the per-wing constructions' treads (item 419), V01's stair-flight hatch (V01 §5.1.2), V03's exterior flights (V03 §5.1) | §8.2, §8.6 (items 406, 419); §11.1 |
+| `cryptSeedWings(b)` (J-V2.92) | derived function, `@plat/plots` | `BaseWing.partName` (item 234), a stack's tier 0, the wings' roles, rings and ridges | §2.6's basement function (item 238's crypt ring; item 226's lift and half raise act on the wings over the basement's ring); V03's crypt placement (V03 §3.7.4 step 1); T-V2-36, T-V2-53 | §2.6 *Basements* (items 226, 238) |
+| the half cellar's raise (J-V2.91) | base rule, a datum term | §2.6's terrain gate choosing `half`; `cellar.depthCm`; for a crypt-only basement the wings over the crypt's ring (V03 §3.7.4) | `deriveBase` and `rebaseStack` (1) on every re-basing path → those wings' `Heights.baseCm`; the basement floor at the datum less half the depth; the dig floor (V02 §3.14.5 (a)); V03's storey datum and its half cellar's light windows (V03 §3.3, W2); T-V2-52 | §2.6 *Heights and the ground datum*, *Basements* (item 226) |
+| `BaseWing.partName` | persisted field | the base outline builder's templates, passed through by M0 (d), kept by every V02 wing writer (V02 §2.1) | M8 (e)'s crossing tower; `cryptSeedWings`; V03's A5 (e) room placement; the why provider | §2.6 `BaseWing` (item 234) |
+| the family rows `burial-ground`, `fort`, `arena` and the role rows `charnelHouse`, `lychgate` (J-V2.88) | table rows | `composition.json`; V11 §3.6.1's 35 template families and their structure names | M1's chain for the classes `cemetery`, `fort` and `arena` and their structures; `roleKeys`; M8b's absorbed arena gates; T-V2-33 | §7.6; §10.2 |
+| the stepped specialisation a bend to `stepped` writes (J-V2.94) | edit side effect | V02 §4.6 (1)'s bend and `setMassing { family: 'stepped' }`; V11 §3.24.3's rows for the use's culture and class | the use's `siting.declared` `use:` row cell `specialisation` (V11 §4.2) → `Use.specialisation` → V11's composition and heights replacement, V03's plan rows (`for.use`), V10's why | §7.6 (V11 §4.2's document-only table); §7.1 `EditBase.group` |
+
+**The dossier facts that reach a building's shape** (item 20 (h): the dossier says what exists; its shape is the map's
+construction). Every record here has the fact tier `derived` (§2.8's `factTier`), or `declared` where an edit set it.
+Each dossier fact that shapes the massing, with its field, its derivation row (§7.7) and the V08 and V11 rows that carry
+it:
+
+| dossier fact (SettlementForge field) | derivation row | carried by | reaches the massing as | read by |
+|---|---|---|---|---|
+| an institution's kind and tier (`institutions[].kind`) | DR24 (the class); DR9 (a ladder's members and SIZE step) | V08's kinds map → V11 §3.11; item 108's `LadderStepRow` | the class (for a ladder the member class or the SIZE factor) | V02 §3.2 step 1; M10 |
+| a custom institution's scene archetype (`custom.sceneProfileId`) | DR24 (item 104 (a) (2)) | V11 §3.13.2's archetype row | the class | V02 §3.2 step 1 |
+| its `category` and `tags` | DR24 (item 104 (a) (3)–(4)) → the siting profile | V11 §3.13 | nothing in the massing except `emits.smoke` and `needs.runningWater` (V02 §3.14.6) | M2's axis; §8.10's stacks |
+| its `landmarkLevel` | DR24 (item 104 (a) (7)) → `landmark` | V11 §3.13's landmark factor on σ | the significance shift | V02 §3.2 step 3; M10 |
+| its `economicWeight` (an optional library field) | DR24 (item 104 (a) (5)) | V11 §3.13's `economicWeight` factor on σ | the significance shift | V02 §3.2 step 3; M10 |
+| its `materialFamily` | DR15 (materials) | the material row (V11 §3.19) | texture and colour only — never the massing | §8.2 |
+| a split class's institution (with `activeChains` feeding the supply web) | DR10 (S10b's split placement; item 105 (h)) | V11 §2.3's `split.threshold` → `Use.branchOf` | the `split.works` and `split.shop` families | V02 §3.14.3 |
+| a crypt record and the cathedral's existence | DR17 (a crypt record → its church's crypt); DR32 (the crypted churches) | V08's religious rows → V11's `crypt` column (item 436) → item 238 | the crypt seed wings and the raised crypt's lift | V02 §3.14.5 |
+| a crypt record bound to a use that could stand on a deck (a bridge chapel's crypt) | DR17 with DR10 (the binding) | V11's `deckOk` per use (V02 X16) | never a deck plot: the use stands on land with its crypt | V02 §3.16 (6); S10b |
+| households and bands (the population, `wealth.label`) | DR6 (the prosperity field and each plot's band), DR7 (households) | §7.7's derivation table | the manifested band (geometry) and the occupants' band (the composer's rooms) | V02 §3.2 step 3; V02 §3.8 |
+| a worship, government or fortification institution whose culture builds in tiers — the dossier's `site.culture` only (no religion field builds in tiers — a deity is a temple's dedication — and the era is the constant `c14` on dossier maps) | DR15 (`site.culture` → the template-family row) | V11's specialisation rows `stepped_temple`, `terraced_palace`, `tiered_tower` with their chance and cap (V02 X17), which name the composition key | the `stepped` family through `DesignationTemplateRow.composition` | V02 §3.2 step 2; V02 §3.15 |
+| a building on a deck plot — no dossier fact names a deck (the dossier's 'Bridge' and 'Wharf' landmark strings name features whose deck plots are map-side, V08) | none (map-side) | the base's deck plots (item 110 (d)); V11's `deckOk` column (V02 X16) | the `@deck` rows, the deck budget and datum | V02 §3.16 |
+
+A dossier change reaches these facts by §7.7 item 11 (b): the map facts whose inputs it changed are re-derived inside
+its disruption set by least-disruption mutation (§7.7 item 5; items 22, 75, 76), never a re-roll. At the building that
+mutation is S11's designation mutator with V02 §3.9's wing step — keep what fits, add, subtract, adapt — for a changed
+class, ladder step, custom record, significance or specialisation; a changed `materialFamily` reaches the material row
+only (never the massing, T-V2-25); a changed crypt record re-derives the basement (§2.6) and with it the lift (V02
+§3.14.5).
+=== END ===
+
+=== REPLACE ### 1c The base hooks consumed (by section) ===
+### 1c The base hooks consumed (by section)
+
+| base section | what this volume uses | how |
+|---|---|---|
+| §2.6 `BuildingGenerator` (`outline` / `compose` / `plan`) | the three-call split, `BuildingInput`, `KernelResult` | the massing implements `outline()`, the composer `compose()`; `plan()` is V03's |
+| §2.6 `BaseWing`, `Building.wings`, the kinds `rect` / `quad` / `polygon`, `corners`, `ridgeAxis`, `spans` | the massing's output record | ranges and blocks are `rect` (butt joints) or `quad` (mitre joints); towers are `polygon`; a row keeps its `quad` |
+| §2.6 the wing-carrying rule (`carryWings`, rules 1–5, J-P47–J-P49) | every wing and every stored composition point follows its footprint | unchanged; the massing establishes rule 1 at S11's first carry; the pairing tier (ii) covers every tiled massing, tier (iii) a massing with towers (V02 §3.5) |
+| §2.6 *Heights* and `deriveBase`; *Materials*; *Entrances* (`deriveEntrances`, rules 1 and 5); *Basements*; the stage-3 contract and intake | heights per wing, the ground datum, texture-only materials, the entrance set the porch and the gate hall anchor on, the union contract, the intake fallback | as stated there, with items 223 (towers in the union, per-class admission), 224 (the entrance hint), 228 (a forecourt `U`'s door kept where it already lies free) and 230 (a solid stack's entrance at its stair's foot, the plan rooted at the first landing door) |
+| §2.6 `Composition`, `Wing`, `ComposedTower`, `Porch`, `Room` | the lazy rungs' records | with items 218–220 (a composed wing and tower name their base wing; dormer rows; porch kinds) |
+| §2.6 `PathShapeRow` (item 59) | Fantasy Manor's five layout families | five rows of `MassingFamilyRow` (V02 §2.3) under our own ids (item 221, with its table-migration row) |
+| §2.6 *Basements* (items 238, 226); II.7.3; item 109 (j), (k) | the basement decision, the crypt column, the dig draw | the crypt seed wings and the raised crypt's lift; the dig floor and the W6 trigger (V02 §3.14.5) |
+| §2.6 `interface Basement`, the terrain gate, §5.3's basement row, §7.4's warp check, §10.2 `cellar`, §13.2's T29-4, J-A29.25 (item 371) | the basement's place and its `external` access | inside the ground wings; `external` for a walk-out or where no ground wing is storeyed; the plan rung's step 3 and T28-3 are V03's (item 578) |
+| §4.5 (1) significance; §7.7's `Intent.latitudeDeg` (DR29 on a dossier map; absent 50) — the latitude item 102's model sampler reads (§4.5), never the style's `SunSpec.latitudeDeg` | σ; the settlement's latitude | the significance shift (V02 §3.2 step 3); the sunlit choice (M5) |
+| V10 §3.9 `WhyProvider` (item 270) | the oracle's per-kind explainer | V02 §4.5's provider for `building` |
+| §7.8 the control registry | control rows | `fantasyShapes` (item 402) |
+| §2.5 `SlotPlan.hint`, `BuildingSlot`, `ContextVector`, `PlotBound`, `YardPart`, `Passage`, `Plot.builtBand` / `fieldBand` | the region the massing may occupy, its frontage, its band | read at S11; the manifested band for geometry columns, the field band never (item 31) |
+| §2.8 `ElaborationRecord`; §2.9 `ElaborationChunk` | the `wings` and `rooms` rungs' state and cache | the rungs' recorded inputs gain the composition slices (item 261) |
+| §3.2–§3.4, §3.6–§3.8, §3.10 | the lattice, `minEdge` and `attractCm` (§2.2 `LatticeSpec`, §3.2), `lir(ring, axes)`, `obb`, booleans on the arrangement, the near-rectangle test, the straight skeleton | the massing's snap and validation (V02 §3.5); the roofscape's facet construction (V02 §5.2) |
+| §4.1 the laziness contract and the elaboration trigger policy | massing eager (S11), composition lazy | unchanged; the `rooms` rung derives with the plan only (V02 §3.8) |
+| §4.7 S11 — designation template, arrangements, front-line jitter, first carry, households fill, designation mutator, informal clusters, class mix | the class, the band, the slot, the structures, the mutation steps | the massing is S11's `outline()` for every arrangement; the mutator's wing step is V02 §3.9 |
+| §4.7 S10–S11's levelling (item 110 (a)) and its reader `levelledGroundCm` (item 309) | the platform datums of levelled plots, blocks and wards | every ground sample of the datum, the basement gate and the raised crypt (items 370, 231) |
+| §5.1–§5.3 | bounded ladders, no whole-map retry, the invariant suite | F-MASSING and F-COMPOSE (item 328), invariants (item 332) |
+| §6.1 streams and the concern registry; §6.3 anchors | the composition's own concerns, appended when stage 3 registers them | `massing`, `compose.dormers`, `compose.porch`, `compose.rooms` (item 341); wing anchors (item 346) |
+| §7.1 events, T9 `shape`, `regenerate` with `rung`; §7.2–§7.5 | edits of massing and composition | `setMassing` and `setComposition` (V02 §4; item 351) |
+| §7.6 tables, `extension`, per-preset values | the composition tables and the parity presets | `composition.json`; the `FM` building-scope preset (item 376), resolving `composition.json`'s and V11 §3.24.0's `presets.FM` cells |
+| §8.1, §8.2 (`roofConstruction`, `states`, roof tint by band), §8.4 (surface layer, casters), §8.5 (bands, change markers), §8.6 (stage-3 LOD, roof construction), §8.10 (roof detail) | the drawing | the construction `roofscape` (item 406); dormers, porches, tower roofs and stair flights as paint programs (V02 §5) |
+| §4.9 `ClimateTable` (`ClimateRow.roof`, typed by V11 §2.8) | the climate's roof form and pitch | M11's one pitch rule and M12's flat roofs (V02 §3.5) |
+| §10.2 `DesignationTemplateRow`, `BuildingClassRow.templateFamily`, `HeightsRow` (items 432, 435) | the per-band template, its family and heights | the `composition` column on the row and each structure (item 426); the resolution chain reads `templateFamily`; three heights columns (item 427) |
+| §11.1 exports | JSON, SVG, glTF, OBJ, CityJSON, GeoJSON, VTT | V02 §5.5 |
+| §12.4, §12.5, §12.7, §12.8 | S11's row, the first-map laws, the stage-3 bullet, the elaboration cache | V02 §6 |
+| §13.2, §13.3, §13.5, §13.6 | bars, declared shifts, parity rows, the owner's panel | V02 §7 |
+| §14, §15.1, §16 | packages, the parity matrix, the build plan | `@plat/buildings` (item 505); Fantasy Manor rows (item 522); milestones M6 and M3a-V2 (items 524, 525, 568) |
+| §2.6 the base outline builder, `deriveBase`, the capacity function, `Storey.wings`, `BuildingInput` (items 227, 229, 305, 370, 371) | where the tier construction and the deck buildings plug in before stage 3; the stacked and deck datums; the storeys a stacked wing reaches; no cellar on a deck | V02 §3.15–V02 §3.16 |
+| §2.7 `Bridge.deckCm`; §4.8 the piers', moles' and quays' deck heights; the deck plots (item 246) | the deck's surface and its plots | read through `DeckContext` (V02 §3.16) |
+| §8.4 the casters (a prism from `baseCm`) and the caster ceiling; §8.6 the per-wing constructions (item 419) | one shadow per tier; the stack's order in every construction | V02 §5.6 |
+| item 110 (a)–(f) (file g) | stepped massing, deck buildings, the building side of retaining walls, raised ways and the second fixture | V02 §3.15–V02 §3.17 |
+| §2.6 *Heights and the ground datum*; §7.3 (a) 4; §7.4's warp and `moveVertex`; the wing-carrying rule's rule (2) | every path that re-bases a wing | one building-level pass, `rebaseStack`, for a building with a stacked wing (item 370); the wall-side sample (item 231) |
+| §4.11 step 8 `heightsAt` | a building's heights at a Works stage | a stack rises in stack order, solid wings in courses (item 318) |
+| item 101 R2 (`docs/AMENDMENTS-2026-09-27e.md`) | refusals only for what item 20 forbids (dossier facts) and what a lock protects | every structural limit of V02's edits is a named bend (V02 §4.2, V02 §4.3, V02 §4.6; J-V2.79) |
+| §4.7 S10b *Class mix* (3) and S11 *Footprints and heights*; §10.2 *Grandeur ceiling* (item 115, file g) | the rung's `grandeur.ceiling` row (V11 §3.25.4) and its `settings.grandClasses`; S10b's manor count | the rung ceiling on a dwelling's resolved row (V02 §3.2 step 2) |
+| §12.1 *Targets and the comfort level*; §12.10's R12-31 – R12-34 (item 119, file g) | the ten-second comfort level, the progress rule, the measured-gain rule, the interaction budgets | V02 §6's targets and waits (V02 §6, V02 §6.4) |
+| §2.7 `ConditionOverlay` and its reader rule; §2.9's `week`, `crises` and `knowledge` keys; §7.7's DR44; §10.2's crisis look table (`RosterTables.crisis`: the `disaster` row's `lookLevel`, `previewSeverity`); §8.2's crisis look rows; §11's exports (item 122, file g) | the disaster looks drawn in the view, their admission and their level; the marks round the buildings | the ruined look of a disaster's buildings (V02 §5.7) |
+| §2.6 step 7; §6.3's concern `plan.damage`; §8.6's damaged plan; §11.1's battle maps (item 123, file g) | the plan in force under its damage layer, one keyed threshold per element; the battle maps following the damage | the exterior's damage (V02 §5.7): the plan's own elements, never a threshold of V02's |
+| §8.2's `states` rows (`abandoned`, `decayed`, `ruined`, `charred`, the Works `decaying`), the `charred` program, the wall `breached` row's rubble spill and the `condition` row's patched-courses roof `pattern`; §8.8's tile key | the drawn decline states and the marks and values the exterior's damage reuses | V02 §5.7 (no cell of its own) |
+| §12.5 (the crisis looks drawn lazily per visible tile) | the look's per-tile cost | V02 §6.6 |
+=== END ===
+
+=== REPLACE ### 1d Out of scope (and where it lives) ===
+### 1d Out of scope (and where it lives)
+
+* **The plan rung** (`BuildingGenerator.plan`, room programmes, the interior ladder, stairs, F-PLAN) — V03. This volume
+  hands it the composition (V02 §3.8) and the dormer rows it must honour (V02 §3.7).
+* **Neighbourhood close-ups** and the neighbourhood click (II.4) — V01; this volume answers that click's request for the
+  `wings` rung (V02 §3.11).
+* **How mutations spread over epochs and show on the weekly clock** (Works, item 67; item 18 (c)) — V06; this volume
+  supplies the recorded wing steps it reads (V02 §3.9).
+* **The content of every other rule table** — V11; this volume owns `composition.json`'s schema and default rows.
+* **The app's screens and the clerk** — V09 and V10; this volume defines the events, the handles, the bends and the
+  clerk's operations (V02 §4).
+* **Castles and wall towers** (§4.8, §2.7's `Tower`) stay the base's; a `keep` class building uses the base's template
+  (V02 §3.3's `template` family).
+* **Underground buildings' vaults and islands' bases** — V04 and V05; the massing gives an underground building a `single`
+  range with a `flat` roof and nothing more (V02 §3.10.6's `@underground` rows). An island's rim as a cliff barrier and
+  its rim-slab crypt vault are V05's.
+* **Materials** are texture and colour only; `MaterialRow`'s rows are V11's (V11 §3.19); SettlementForge's
+  `materialFamily` reaches the material row, never the massing (owner, 2026-09-26; T-V2-25).
+* **The siting profile** (item 103) is S10b's and V11's: no profile column shapes the massing except `emits.smoke` and
+  `needs.runningWater` (V02 §3.14.6).
+* **The crypt's ring, its size and its rank** are §2.6's basement function with V11's `crypt` column, `cryptM2` and
+  `rankShare` (item 238; V03); **catacombs** are V04's, under cemeteries or a CITY/METROPOLIS quarry ossuary — no V02
+  path makes, moves or shrinks one (V02 §3.14.5).
+* **Item 110's other homes.** The `RetainingWall` record, its sources and its drawing (item 110 (a)); the raised ways,
+  their arena parts, piers, ramps, stairs and vaults, and their generation at CITY and METROPOLIS or declaration at TOWN
+  (item 110 (b)); the deck plots themselves — their faces, sizes and fall (item 110 (d)'s base side; items 244–246); the
+  second known-city fixture's skeleton and bars (item 110 (e); V12). Which classes build in tiers, with what chance and
+  cap, and the deck budget rows are V11's (V02 X16, X17); the plans of tiers V03's (V02 X18); a ruin's decay V04's (V02
+  X19). V02 designs the building part only (V02 §3.15–V02 §3.17).
+* **Items 123 and 122's other homes.** The damage layer — its element kinds, its keyed thresholds (§6.3's `plan.damage`
+  with V11's ranges by material and element kind), the plan's drawing at every state, the plan's exports and its panel
+  lines — is V03's; cellars, crypts and underground buildings V04's; the decay level and restoration V06's
+  (`decayLevel`, `decayPeak`), and the look's yielding to a rebuild's Works (`crisisLookYields`); the crisis look table,
+  its map rows and settings the base's (§10.2) with V11's values; which neighbourhoods a disaster strikes V01's
+  (`disasterDistricts`), V07's ends at the village rungs; the marks round the buildings — a ruined quarter's tone,
+  camps, smoke, marked doors — §8.2's crisis rows; the hand-over to the aftermath V06's. V02 draws the building's
+  exterior only (V02 §5.7).
+=== END ===
+
+=== REPLACE ### 2.2 The composition's records (lazy; stored only when edited) ===
+### 2.2 The composition's records (lazy; stored only when edited)
+
+`Wing.base`, `Wing.dormerRows`, `ComposedTower.base`, `Porch.kind`, `Composition.row` and `.grammar` are declared at §2.6
+(items 218–220), and `DormerRow`, `DormerKind` and `PorchKind` are §2.6's: a composed wing and a composed tower take
+their ring, heights, roof and spans from the base wing they name — the composition never re-shapes the massing
+(J-V2.2, J-V2.6). This volume declares the rest:
+
+```ts
+interface CompositionStage3Fields {
+  secondaryPorch?: { entrance: number /* the Entrance ordinal (§2.6 Entrance.vertex's i): a side, rear or yard entrance */;
+                     widthCm: Cm; depthCm: Cm };   // a hood only (V02 §3.7, J-V2.44); side and offset re-read from its entrance after every carry (rule 3)
+  // courts: derived at read — the holes of the building's footprint face, in ring order (V02 §3.6); never stored
+}
+```
+
+A composed wing carries zero, one or two dormer rows (one per eave side); its `dormers` count is their sum (§2.6); its
+porch stands only on the wing that carries the main entrance, where that wing's role admits one (`WingRoleRow.porch`,
+V02 §3.7). `PorchKind` `halfRound` is a half-disc on the door's side under a half-cone roof — Fantasy Manor's commonest
+porch, weight 0 by default and calibrated under `FM`. A composed tower's `centre` is its ring's area centroid and its
+`radiusCm` the largest vertex distance from it, rounded up. A stored composition therefore holds only its row and
+grammar, per composed wing its `base` and its dormer rows, the porch and the secondary porch, per composed tower its
+`base`, and the rooms and plan the base defines. Its world points are only the rooms' and the plan's, which `carryWings`
+already carries (J-P48); the composed wings and towers follow the base wings they name, so a stored composition adds no
+carried ring of its own (J-V2.6).
+=== END ===
+
+=== REPLACE ### 2.3 The composition tables (`composition.json`, `@plat/tables`) ===
+### 2.3 The composition tables (`composition.json`, `@plat/tables`)
+
+One versioned table file, read through the override layer (§7.6); every cell `{value, unit, provenance, calibratable,
+extension?, presets?}`. Every calibratable cell has its calibration register entry (V12 §3.11's rule), written by the seat
+landing the milestone that ships the cell — M3a-V2, M6a, M6b or M6c (V02 §8.3, V02 §8.5) — from the line of V02 §3.10.10 that
+names its metric, method, due milestone and fallback; `plat calibrate register --check` (T-V12-20) is green over them at
+that exit. A `presets.FM` measured-rate entry (V02 §3.10.8) is set only by V12's `reference` run; the code-read `FM`
+entries (the rich rows' `families`, `sunBias` 0.5) and `sunBias`'s parity-neutral entries under `MFCG`, `FTG` and `VG`
+(0.5, `own`, note `fixed: the parity neutral`, V11 §2.2's rule (a)) move by no run. Readers: S11 (the massing), the
+composer, the designation mutator, the roofscape, §8.10's roof detail. Slice kinds: `row` (a `CompositionRow`, a `WingRoleRow`, a `MassingGrowthRow`), `weights` (a row's family
+weights, porch weights, tower-shape weights), `bracket` (`TowerShapeRow.sides`). Default rows: V02 §3.10.
+
+```ts
+interface CompositionRow {           // one per (key, band of §4.5's band set), compiled from the four authored anchors (V02 §3.10.1); continuous cells interpolate along the prosperity value between band centres (§4.5), discrete cells read §4.5's discrete-cell rule (item 19)
+  key: string;                       // `<prefix>/<band>`, the prefix a template-family key (V11 §3.6.1), a class id (an override row), a structure-role key (V02 §3.10.4), `default.<arrangement>` or `outbuilding`; `@underground` and `@deck` suffixed rows exist per prefix (V02 §3.10.6, V02 §3.16)
+  prefix: string; band: string;
+  alias?: string;                    // a row that reads another prefix's row at the same band (e.g. the `kiln` role reads `kiln-yard`); cells the alias row states override it
+  families: { family: MassingFamilyId; weight: number }[];   // continuous weights (interpolated, then renormalised over the feasible set, V02 §3.5 M4); must satisfy the arrangement law (V02 §3.10.7)
+  axis: 'frontage' | 'fallLine' | 'water';   // discrete (V02 §3.5 M2): how the main range is oriented; default 'frontage'
+  wingWidthM: [number, number];      // continuous: the range's width, drawn uniformly in [lo, hi]
+  rangeLenM: [number, number];       // continuous: a single range's length and an L / U / H arm's target length
+  crossWing: { fwdM: [number, number]; backM: [number, number] };   // continuous: how far a cross-wing reaches in front of and behind the main range
+  courtMinM: number;                 // continuous: the least court side a closed family may leave
+  uOpenFront: number;                // continuous chance that a U plan opens toward the frontage (a forecourt) rather than the rear
+  blocks: [number, number];          // continuous count range; the count is drawn uniformly on the integers inside it
+  blockStoreyDelta: [number, number];
+  towers: [number, number];          // continuous count range (corner, end and gate towers; a `towerHouse` family's own tower is laid by M5 and not counted here)
+  towerShape: { round: number; square: number; octagon: number };   // continuous weights
+  towerRadiusW: [number, number];    // continuous: a corner or end tower's radius as a share of the wing width
+  towerStoreyDelta: [number, number];
+  towerOnBlock: number;              // continuous weight of M8's candidate (d), a square tower standing on a block: 0 by default, calibrated under FM (V02 §3.10.8)
+  towerFlat: number;                 // continuous chance that a square or octagonal tower takes a flat battlemented roof (parapet) instead of a pyramid
+  westTowers: [number, number];      // discrete: west towers of a church-like template (M8 (e)): the cathedral 2 at the west corners, a church 0–1 at the west end
+  crossingTower: number;             // continuous chance of a tower over a template's transept crossing (M8 (e))
+  gateTower: number;                 // continuous chance that a closed or U plan's front range takes a gate tower when a tower is drawn (V02 §3.5 M8 (c))
+  turret: number;                    // continuous chance of one stair turret in a re-entrant corner
+  backRange: number;                 // continuous chance of a back range (rows, houses, cottages)
+  backLenM: [number, number]; backWidthM: [number, number];
+  hipShare: number;                  // continuous chance that a range's roof is hipped rather than gabled (blocks are always hipped; towers by shape: WingRoleRow)
+  gableToStreetMaxFrontM: number;    // continuous: a single range turns its gable to the street where the frame's frontage is below this
+  arcade: boolean;                   // discrete: the main range's ground storey is an open arcade (a market hall; V02 §3.5 M11, V02 §5.1)
+  cupola: { chance: number; kinds: { dome: number; tip: number; pyramid: number } };   // continuous: a roof ornament at the main range's ridge midpoint (M12)
+  dormer: { perTenM: number /* dormers per 10 m of usable eave */; widthM: [number, number]; kinds: Record<DormerKind, number> /* weights */; entranceGable: number /* chance */ };
+  porch: Record<PorchKind | 'none', number>;   // continuous weights; V02 §3.7 filters them by the space in front of the door
+  secondaryPorch: number;            // continuous chance of one hood at a side, rear or yard entrance (V02 §3.7); 0 by default, calibrated under FM
+  rooms: { hall: boolean /* discrete */; hallLenShare: [number, number]; chapel: number /* chance */; gateHallM: [number, number] };   // read at the OCCUPANTS' band (V02 §3.2 step 3); hall and chapel emitted only by V02 §3.8's rule
+  floors?: [number, number];         // a role row's own storey range, overriding the template's `floors` for that slot (a one-storey cloister gallery); absent: the template's
+  hearths: [number, number];         // decorative chimneys before a plan exists (§8.10)
+  coverageMax: number;               // continuous: the massing's footprint area as the most share of the slot hint's area (a ring leaves its court)
+  claimShare?: [number, number];     // present → M10's band is claimShare × area(H), replacing the template's footprint (the stepped rows, the `arena` row); absent on a row whose template's footprintM2 is "the claim's" → the constants claimLo / claimHi (0.35, 0.6); read by slotBand (V02 §3.5 M10)
+  caveaM?: [number, number];         // `ovalCourt` only — the seating ring's depth across, drawn uniformly (the `arena` row; V02 §3.5 M5)
+}
+interface MassingFamilyRow {         // supersedes the base's PathShapeRow (item 221): Fantasy Manor's five families keep their rows (P21) under our ids, ours are added
+  family: MassingFamilyId;
+  minFrameW: [number, number];       // the least frame (along the frontage, into the plot) in wing widths, for feasibility (V02 §3.5 M3)
+  wings: [number, number];           // the range of ranges the family lays before blocks split them (towers and blocks apart); M13 checks the laid count against it
+  closed: boolean;                   // a closed ring: the footprint has a hole, the court
+  joints: 'butt' | 'mitre' | 'either';   // M13 checks every joint the family laid against it
+  fantasy: boolean;                  // true for 'regularCourt', 'starCourt', 'chordArc': the owner's "fantasy as toggles" (D-7); their weight is scaled by the `fantasyShapes` option (V02 §3.10)
+  sides?: number[]; sideWeights?: number[];   // 'regularCourt': the side counts and their weights; 'starCourt': the corner counts
+  chords?: [number, number];                   // 'chordArc': the least and most chords
+  gridCells?: number;                          // 'gridWalk': cells per side
+  provenance: string;
+}
+interface WingRoleRow { role: WingRole; storeyDelta: [number, number]; roofKinds: { kind: RoofSpec['kind']; weight: number }[]; hipInset: number /* a hip roof's ridge-end inset as a share of the span (0.5: equal pitches); ranges 0.5, blocks 0.5 by default and 0.25 under FM (V02 §5.2 step 2) */; through: number /* priority at a butt joint: the higher runs through (V02 §3.5 M5) */; dormers: boolean; porch: boolean /* read by V02 §3.7: a porch only on a wing whose role admits one */ }
+interface MassingGrowthRow {         // the mutator's family lattice (V02 §3.9): how a target family is laid around the kept ranges of a source family
+  from: MassingFamilyId; to: MassingFamilyId;
+  keep: 'all' | 'main' | 'mainAndOne' | 'none';   // which kept ranges seed the target's path
+  anchor: 'front' | 'rear' | 'either';            // where the kept main range sits in the target path
+}
+interface TowerShapeRow { shape: 'round' | 'square' | 'octagon'; sides: { maxRadiusM: number; n: number }[] /* bracket: the polygon's side count by radius */; roof: 'cone' | 'pyramid'; pitch: number /* rise over radius */ }
+interface PorchKindRow { kind: PorchKind; depthM: [number, number]; widthM: [number, number]; storeys: number; clearanceM: number /* kept free in front of it */; outside: boolean /* false: recessed inside the footprint */ }
+interface DormerKindRow { kind: DormerKind; depthShare: number /* its up-slope depth as a share of the half span */; atEave: boolean; minPitch: number; gapM: number }   // the end margin is the constants row's endMarginM, read by facadeBays (one fact, one place)
+interface RoleKeyRow {               // `composition.roleKeys` (V02 §3.10.4): normalises a template structure's name to a composition key
+  family: string;                    // a V11 template-family key, or '*' for every family (a family-specific row wins)
+  name: string;                      // the structure name as V11 §3.6.1 writes it ('stable', 'stables', 'nave and choir', 'wheel or sails', …)
+  key: string | 'yardPart' | 'basement';   // a composition key prefix (a role row, a family row or a class row); 'yardPart': not a building (S11's yard partition owns it); 'basement': held in the cellar (the class's cellar row)
+  attach: 'slot' | 'main';           // 'slot': S11 packs it as its own slot, which reads `key`'s row; 'main': S11 packs no slot — the main slot's massing lays it as part of the main building (item 304; V02 §3.5 M8b)
+}
+interface ClassFamilyRow { cls: string /* a V07 village class key `v.<id>` (V07 §2.4; V11 §2.9) */; key: string }   // `composition.classFamily` (V02 §3.10.5): the composition key prefix of each of V07's `v.` village classes, the one source of their keys (V07 cites it); keyed by the `v.` key (J-V2.96)
+// HeightsRow: V11's (V11 §2.8, table 'heights', keyed by template family, with item 427's columns attic, parapetCm, towerStoreyCm; values V11 §3.6.4's); V02 §3.10.6 states only their reading rule. This volume declares no heights row (J-V2.33).
+interface CompositionConstantsRow { key: 'constants'; cells: Record<string, TableCell> /* the named constants of V02 §3.10.9's table, each a §7.6 cell */ }
+interface CompositionTables { rows: CompositionRow[]; families: MassingFamilyRow[]; roles: WingRoleRow[]; growth: MassingGrowthRow[]; towers: TowerShapeRow[]; porches: PorchKindRow[]; dormers: DormerKindRow[]; roleKeys: RoleKeyRow[]; classFamily: ClassFamilyRow[]; constants: CompositionConstantsRow; version: string }   // composition.json
+```
+=== END ===
+
+=== APPEND TO SECTION ### 2.4 Derived at read (never stored) ===
+**The exterior's damage (items 123 (d), 122; V02 §5.7).**
+
+```ts
+interface ExteriorDamage {                 // what V02 §5.7 draws of item 123's damage and of a disaster's ruined look; derived at read, never stored
+  level: number;                           // the higher of V06's decayLevel at §2.9's week and the drawn disaster look's level (§10.2's
+                                           // `disaster` row's lookLevel at its severity); 0 with neither
+  look: { condition: Id | null /* null: a preview (§2.9's crises) */;
+          kind: string | null /* the calamity's type V01's disasterDistricts reads for its pattern; null for a preview */ } | null;
+  reading: 'none' | 'massing' | 'element'; // 'none' at level 0; 'element' where the building's plan is current or stored (V03); else 'massing'
+  holes: PointCm[][];                      // 'element': each damaged roof bay over a room — the room's ring clipped to the facets of its own wing
+  gaps: [PointCm, PointCm][];              // 'element': each broken outer wall run of a wing's lowest storey, as its span on that wing's outline
+  patched: PointCm[][];                    // 'element': each repaired roof bay's ring (item 114's patch material; V06's decayPeak)
+}
+declare function exteriorDamage(doc: Document, b: Building, view: ViewState, opts: ViewOpts): ExteriorDamage;   // reads §2.9's week, crises and knowledge keys from view, opts.viewAs lowering the key (§9.2)
+```
+=== END ===
+
+=== REPLACE ### 2.5 Identity and lifecycle of every state field ===
+### 2.5 Identity and lifecycle of every state field
+
+| field | create | read | persist | regenerate | undo | migrate |
+|---|---|---|---|---|---|---|
+| `BaseWing.role` | the massing at S11; the mutator's add step; `setMassing` (`addRange`, `addTower`, `addBlock`, `backRange`) | composer, mutator, roofscape, exports, anchors | leaf digest | Regenerate (keep) re-derives the same; New random on the plot re-draws it with the plot's reroll (§6.1) | the event's undo record keeps the former wings | the base carries it from M1 (item 216): the base outline builder writes `main`, `range` or `part`; for a document without it, the **fallback migration row** below |
+| `BaseWing.key`, `Building.nextWingKey` | as `role`; a new key is `nextWingKey`, which then advances | as `role`; edit paths | leaf digest | as `role` — generation keys 0 … n − 1 in wing order (V02 §3.5 M13) | restored with the wings; `nextWingKey` restored to its former value | as `role` |
+| `Building.massing` | S11 (the massing); `setMassing` `family`; the mutator (`family` and `row` of the target) | mutator, `deriveEntrances`, exports, reader | leaf digest | as above | restored | an older document keeps its value; one from before stage 3 has none and reads as `baseOutline` until an `upgrade` re-derives S11 (§7.5; a declared shift, §13.3); a `row` without the ceiling's `~<RUNG>` reads uncapped (V02 §3.2 step 2) |
+| `MassingRef.segments`, `.low`, `.cupola` | M5 (`segments`, `low`), M12 (`cupola`); every `setMassing` op and the mutator rewrite them | the parity harness, the report, the why provider (`segments`); V03's byre end (`low`); the roofscape, the paint programs and the exports (`cupola`) | leaf digest | re-derived with the massing (the same draws) | restored with `Building.massing` | a `MassingRef` without them reads `segments` = the range-role wing count with each block's pieces re-joined, `low` absent, `cupola` absent until an `upgrade` re-derives S11 |
+| the crypt lift (the ground-storey `baseCm` of the ground wings over the basement's ring, raised form; V02 §3.14.5) and **the half cellar's raise** (the ground wings over a `half` basement's ring, `cellar.depthCm ÷ 2`; a basement that is only a crypt, the wings over the crypt's ring; item 226) | M11, when §2.6's basement function takes the crypt ladder's `raised` form; the basement step when the gate chooses `half` (the gate reading the datum without the raise) | `deriveBase`'s successors, the heights, the plan's floor levels (V03's choir stairs, V03 §3.3's datum), the dig floor, the roofscape, the casters | leaf digest (it is those wings' `Heights.baseCm`) | re-derived with the basement after a `setMassing`, a designation mutation or a terrain change; kept by `deriveBase` and `rebaseStack` (1) on every re-basing path while the basement stays `half` (T-V2-52) | restored with the wings | a document without it re-derives the basement on load for an `always`-crypt building (V03's migrate row, item 238); a document whose half basements lack the raise gains it at its next `upgrade` — the one-time shift of J-V2.91, reported |
+| `BaseWing.partName` (item 234) | the base outline builder's templates; passed through by M0 (d) | M8 (e), `cryptSeedWings`, V03 (A5 (e)), the why provider | leaf digest | kept on the wing that keeps its key by every V02 writer (V02 §2.1; a re-joined block keeps the lowest key's); absent on a wing V02 adds | restored with the wings | V03's row (V03 §2.5) |
+| `RoofSpec.kind 'shed'`, `RoofSpec.high` | massing M12; `setAttr` | roofscape, exports | leaf digest | as above | restored | none before stage 3 |
+| `BaseWing.arcade` | M11 (the row's `arcade`); `setAttr(wings/<key>/arcade)` | the drawing, the exports, the capacity function | leaf digest | re-derived with the massing | restored | absent before stage 3 (no arcade) |
+| `Composition.secondaryPorch` | the composer (V02 §3.7); `setComposition` `porch` with `entrance` | roofscape, drawing, exports | lazy; stored with the composition | as the porch | restored | by the entrance ordinal; an entrance that no longer exists orphans it (§7.3 item 4), reported |
+| `Composition.row`, `.grammar` | the composer | the elaboration record's slices; migration | lazy; stored with the composition when an edit stores it | a stale rung re-derives from committed state (V02 §3.11) | restored with the composition | a stored composition whose `grammar` is older keeps its stored fields; its unstored parts re-derive under the new grammar at the next click |
+| `Wing.base` | the composer (1:1 with non-tower base wings) | roofscape, plan rung, exports | lazy / stored | re-derived; a stored one is re-matched by key when the wings change (V02 §3.9) | restored | a key that no longer exists orphans the composed wing (§7.3 item 4), reported |
+| `Wing.dormerRows`, `DormerRow.edited` | the composer; `setComposition` `dormers` (sets `edited`) | roofscape, the plan rung, exports | lazy; stored (the first `setComposition` stores the composition, V02 §4) | an unedited row re-derives on the wing's own stream; an edited row is kept while its eave's length stays within ± `dormerEaveTol`, else orphaned and reported | the undo record keeps the former row | by the wing's key |
+| `Porch.kind` | the composer; `setComposition` `porch` | roofscape, drawing, exports | lazy / stored | as dormer rows; side and offset re-read from the main entrance after every carry (the base's rule 3) | restored | — |
+| `ComposedTower.base` | the composer (one per tower or turret wing) | plan rung (round wings), roofscape | lazy / stored | follows the tower wing | restored | by key |
+| `Composition` as a whole | the `wings` rung (and `rooms` with the plan) | §8.6, the plan rung | the elaboration cache (non-canonical, §2.9); model data once stored | stale → re-derived at the next click (V02 §3.11) | an edit's undo restores the former composition, or removes it when that edit stored it (J-P48 (5)) | §7.5's orphan rule for stored parts |
+| the exterior's damage and the ruined look (`ExteriorDamage`, V02 §5.7) | derived at read wherever the building is drawn, from V06's level, the plan in force and the looks drawn in the view | the drawing, the SVG and PNG writers, T-V2-59, T-V2-60 | never stored: no digest, no snapshot field, no cache chunk of its own (its holes and gaps memoised beside the roofscape, V02 §6.6) | re-read at every draw; a Regenerate or New random changes it only through its inputs | — (an undo changes its inputs, never it) | none |
+
+**The fallback migration row** (a document whose buildings carry no stage-3 fields — from before item 216 reached M1):
+each wing's `key` = its index in `Building.wings`; its `role` by the base outline builder's rule — `main` for the first
+rectangle (the bar of an L or T) or a row quad, `range` for the other rectangles, `part` for a template or axis-locked
+part; `nextWingKey` = the wing count; `massing` absent (read as `baseOutline` with `segments` 1 until an `upgrade`
+re-derives S11, a declared shift, §13.3); footprints, heights and roofs unchanged; the canonical order (V02 §2.1) then
+holds because the base builder lays no tower. The index-named fields of item 225 need no rewrite: key = index.
+
+**Identity.** A base wing's address is its building's with its key — the sub-record address `('wing', building, key)` —
+and it is matched after a re-derivation by §6.3's wing anchor row (item 346). A composed wing, its dormer rows and a composed tower are addressed through the base wing key
+they name; the porch by the building; the composer's rooms by the base's `room:<building>/<level>/<i>` (§2.6, §6.3).
+No record here stores a stream key or a seed (the base's §2.4).
+=== END ===
+
+=== REPLACE ### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d)) ===
+### 2.6 Stacked tiers and deck buildings — the records (item 110 (c), (d))
+
+Item 110 adds no entity kind. A tier, a shrine and a stair are base wings whose fields say what they stand on and whether
+they are solid; a building on a deck is an ordinary building whose `BuildingInput` names its deck. `BaseWing.on`,
+`BaseWing.solid`, `MassingRef.stack` and `DeckContext` are declared at §2.6 (items 217, 227, 305); their meanings, writers
+and readers:
+
+| field | meaning | written by | read by |
+|---|---|---|---|
+| `BaseWing.on` | the key of the wing this wing stands on — its floor is that wing's `deckLevel`: tier k ≥ 1 names tier k − 1, the shrine the top tier, stair k ≥ 1 the tier on whose terrace its foot stands; absent: on the ground (every wing of every family but `stepped`) | the massing (V02 §3.15 ST7), the `tiers` op (V02 §4.6), the mutator's stepped rows (V02 §3.15.5); never re-pointed after minting except by those writers | `deriveBase` and `rebaseStack` (item 370), `storeyRange`, the capacity (item 371), the roofscape's occlusion and order (V02 §5.6), the carry check (item 333), the exports, V03's plans of tiers (V02 X18) |
+| `BaseWing.solid` | a solid mass with no interior — a stepped pyramid's rubble tier, every stair, an `ovalCourt`'s seating ring: `Heights.floors` 0 and its `eaveCm` its top above its `baseCm`; no storey, room, dormer, porch or capacity | the massing (ST4, ST5; M5's seating ring), the `tiers` op, the mutator (cleared when `stepped → single` keeps a solid tier 0 as a storeyed range, V02 §3.15.5) | `storeyRange`, the capacity, M11, the composer, V03 (no rooms), the exports |
+| `MassingRef.stack.shape` | the tiers' plan shape (ST1) | ST7 through `massStepped`; every `tiers` op, bend and stepped mutation | the `tiers` op's re-lay, the why provider, the exports |
+| `.stairs` | the stair form laid — after ST3's fallback, so it may differ from the row's; `none` is a sealed stack, lawful only where tier 0 is solid, never a row value, reached only by an edit's bend (V02 §4.6) | as `shape` | ST3, ST5, ST6, `stairChain`, `landingSide`, the entrance hint, V03's `W_TIER_UNREACHED` |
+| `.lowerRoof` | every tier's roof but the top's, as laid (a tier's own roof may differ after a `setAttr`, V02 §4.6) | as `shape` | the `tiers` op's re-lay |
+| `.top` | the top tier's form | as `shape` | the `tiers` op, the why provider |
+| `.insetCm` | the drawn step d (ST1), which the `tiers` op re-uses | as `shape` | the `tiers` op |
+| `.grade` | the drawn stair grade (rise ÷ run), which the `tiers` op re-uses | as `shape`; `drawTiers` | the `tiers` op's re-lay |
+| `.truncated` | tiers drawn but not laid for want of room (ST3) | as `shape` | the report (`tiersTruncated`), T-V2-46 |
+| `DeckContext` | the plot's deck (§2.6): its host, kind (a jetty is a pier; a raised way's deck carries no plot, J-V2.71), `surfaceCm` (`null` exactly for a quay platform built on the bank, which is ground — the terrain datum, the ordinary basement gate and a dig floor — while `kind 'quay'` keeps the `@deck` rows and the deck budget) and `landmark` (a mole-head or mid-mole tower or fort: its class's own rows, no deck budget); a `Bridge` of kind `ford` or `draw`, or with no `deckCm`, offers no deck plot (item 246), so no `DeckContext` names one | S11 at each call, from the plot's deck record (`Plot.deck`, its `landmark` flag) | M1, M10, M11, the datum (item 370), the basement gate (item 305), the dig floor |
+
+```ts
+interface TierCells {                         // present exactly on a row whose families include 'stepped' (V02 §3.15.4's load check)
+  count: [number, number];                    // continuous: tiers laid, the top one included (≥ 2); drawn uniformly on the integers
+  shape: { rect: number; round: number; octagon: number };   // continuous weights
+  aspect: [number, number];                   // continuous: the clamp of a rect tier 0's width along the frontage ÷ its depth — the laid aspect
+                                              // is the drawn stack's own proportion clamped into this range (ST2; J-V2.86), never drawn
+  insetM: [number, number];                   // continuous: the step — how far each tier stands in from the one below on every side
+  solid: 'all' | 'lower' | 'none';            // discrete: every tier solid (a stepped pyramid, a ziggurat), tier 0 only (a platform
+                                              // under storeyed tiers), or none (a terraced palace, a tiered tower)
+  solidHeightM: [number, number];             // continuous: a solid tier 0's height; tier k's × taper^k
+  tierFloors: [number, number];               // continuous: a storeyed tier 0's storeys; tier k's × taper^k, rounded stochastically, ≥ 1
+  taper: number;                              // continuous: each tier's height as a share of the one below's
+  lowerRoof: 'flat' | 'pent';                 // discrete: a walkable terrace (flat, with the family's parapetCm) or a pent skirt rising
+                                              // to the tier above (a tiered tower's eaves)
+  top: { flat: number; shrine: number; roofed: number };     // continuous weights: the top tier's form
+  shrine: { floors: [number, number]; insetShare: [number, number]; roofs: { kind: RoofSpec['kind']; weight: number }[] };
+  stairs: 'axial' | 'flights' | 'internal';   // discrete: one straight chain up the front, flights along the faces, or none outside
+                                              // (the sealed form 'none' is never a row value — edits only, V02 §4.6)
+  stairWidthM: [number, number];              // continuous
+  stairGrade: [number, number];               // continuous range: a flight's rise ÷ run, drawn uniformly by ST1, its upper end
+                                              // at most the constant stairGradeMax
+  heights?: { storeyGroundCm: Cm; storeyUpperCm: Cm };   // read only where no class's HeightsRow is
+                                              // passed — a ruin's call (V04) — and only for a shrine's storeys; `stepped-monument` 350 / 300
+}
+// the construction's contract (V02 §3.15.1; J-V2.80) — all five exported by @plat/plots
+declare function massStepped(input: BuildingInput, row: CompositionRow, band: BandRead, k: Kernel): KernelResult<{ wings: BaseWing[]; massing: MassingRef }>;
+  // the massing's stepped branch, every step that decides the bytes: V02 §3.4's frontage frame (steps 1–2), slotBand, ST0, drawTiers on
+  // `massing` creation indices 8–9, layTiers, ST8, M14's attempts on `massing/attempt=a` (drawTiers re-run on them), then the single
+  // fallback (ST8), then the base outline builder's rectangle. The base outline builder calls it from M3a (item 229), stage 3's M5 from
+  // M6a; T-V2-46 compares its output. V04 never calls it (no budget, no attempts for a ruin)
+declare function slotBand(input: BuildingInput, row: CompositionRow, band: BandRead): { lo: number; hi: number; cap: number };   // m²: M10's band and cap (V02 §3.5 M10), one formula for M3, ST0, ST8 and M10
+declare function massOval(input: BuildingInput, row: CompositionRow, band: BandRead, k: Kernel): KernelResult<{ wings: BaseWing[]; massing: MassingRef }>;
+  // the `ovalCourt` branch (V02 §3.5 M3, M5, M11–M13), exported beside massStepped so the base outline builder
+  // (from M3a, the second fixture's arena) and stage 3's M5 (from M6a) lay the same bytes
+declare function drawTiers(cells: TierCells, storeys: { groundCm: Cm; upperCm: Cm }, s8: Rng, s9: Rng): TierDraws;   // ST1: its two draw groups on the caller's two streams
+declare function layTiers(input: TierInput): TierLay | TierFailure;          // ST2–ST7: pure — no draw, no budget, no stream
+interface BandRead { band: string; value: number /* the manifested band and value, significance-shifted (V02 §3.2 step 3) */ }
+interface TierInput {
+  frame: { origin: PointCm; u: [number, number]; v: [number, number] };   // the frontage frame: u along the frontage, v inward, origin Rr's near front corner
+  region: { W: Cm; D: Cm };                   // the fit rectangle Rr's width and depth
+  scale: number;                              // ST8's size factor on tier 0 (1 at the first lay)
+  cells: TierCells;                           // the row's cells at the building's band value (V02 §3.2 step 3)
+  storeys: { groundCm: Cm; upperCm: Cm };     // the class's HeightsRow storeyCm (massStepped, the tiers op, the mutator) or TierCells.heights (V04)
+  pitch: number; parapetCm: Cm; plinthCm: Cm; // M11's one pitch rule; the family's parapet; §2.6's plinth (a ruin passes 0 and 0)
+  draws: TierDraws;                           // what drawTiers drew (or, for the `tiers` op, the values it resolved without a draw)
+  anchor?: PointCm[];                         // anchored mode (V02 §3.9 W3, the `tiers` op): tier 0's ring is given — four corners (a kept range's
+                                              // BaseWing.corners) or a regular ring — and not laid
+  forms?: ('axial' | 'flights' | 'internal' | 'none')[];   // the stair forms to try in order; absent: the row's form, then ST3's fallback order
+}
+interface TierDraws {
+  n: number; shape: 'rect' | 'round' | 'octagon'; insetCm: Cm; top: 'flat' | 'shrine' | 'roofed'; stairWidthCm: Cm;
+  grade: number;                              // drawn in `stairGrade` (no aspect draw: ST2 derives it, J-V2.86)
+  tiers: { heightCm: Cm; floors: number }[];  // per tier in order: floors 0 for a solid tier; heightCm without any parapet (ST4 adds it)
+  shrine?: { floors: number; insetShare: number; roof: RoofSpec['kind'] };
+}
+// `TierLay` and `LaidWing` are §2.7's (V02 §3.15.1 lays them)
+interface TierFailure { kind: 'noSecondTier' | 'check'; step: 'ST3' | 'ST6'; detail: string }   // ST3's forms exhausted, or an ST6 check failed
+// the deck budget V02 reads — V11's table `deck`, keyed by deck kind × band (V02 X16); V02 declares no row of its own
+interface DeckBudgetRead { footprintM2: [number, number]; maxFloors: number }
+```
+
+**Derived at read (never stored; exported by `@plat/plots`, built at M3a-V2):**
+
+```ts
+declare function deckLevel(w: BaseWing): Cm;   // w.baseCm + w.eaveCm, less the family's parapetCm when w's roof is flat: the floor a wing standing on w has
+  // — exact because ST4 adds the parapet to every flat-roofed tier's eave, solid or storeyed, so
+  // deckLevel(x) = x.baseCm + x's drawn heightCm for every tier
+declare function rebaseStack(b: Building, ground: (p: PointCm) => Cm /* levelledGroundCm(doc, key, ·) on the building's document and arena key (item 309; items 370, 231), never the raster's TerrainSampler */): void;
+  // J-V2.81: the building-level datum pass for a building with a wing standing on another — (1) the ground wings by §2.6's
+  // terrain rule (item 370; every sample by `ground`), with a deck's surface, a kept user base, item 231's wall-side sample,
+  // the crypt lift and the half cellar's raise (item 226); (2) every wing with
+  // `on`, in stack order (each after the wing it stands on), baseCm = deckLevel of its support; (3) every stair's ridgeCm re-set to its
+  // true rise and `stairSteep` re-tested (V02 §3.15.2); (4) Building.heights by the envelope rule, `floors` included. Every path that
+  // re-bases a wing of such a building calls it instead of the per-wing step (item 370), passing `ground` built from its own
+  // document and the arena key the building's plot lies on
+declare function storeyRange(b: Building, w: BaseWing): [number, number] | null;
+  // the storey levels a wing reaches: null for a solid wing; [0, floors − 1] for a storeyed wing on the ground (the base's reading);
+  // for a storeyed wing with `on`: [t, t + floors − 1], t = next(on), where next(x) = storeyRange(b, x)[1] + 1 for a storeyed x,
+  // next(x.on) for a solid x with `on`, and 0 for a solid x on the ground — so a shrine on a solid pyramid is storey 0, and the
+  // tier above a two-storey tier 0 starts at storey 2. Towers, turrets and every other wing: the base's reading, unchanged
+declare function stairChain(b: Building): { stair: number; from: number | null; to: number; head: number }[];
+  // per stair wing in key order: `from` the wing on whose terrace its foot stands (null: the ground), `to` the tier whose top it
+  // reaches, `head` the ring side at its high end (RoofSpec.high); empty for the `internal` and `none` forms and for every other family
+declare function landingSide(b: Building, w: BaseWing): number | null;
+  // for a storeyed wing with `on`: the side of its ring nearest the head of the stair that arrives on the terrace it stands on
+  // (for `axial`, its front side; for `flights`, the side the last flight's head abuts); null for the `internal` and `none`
+  // forms — the side where V03 opens its landing door (X18) and, on a solid stack, roots the plan (item 230)
+declare function stairTreads(w: BaseWing): { n: number; goingCm: Cm };
+  // J-V2.90: the one tread law of a stair wing (role 'stair') — n = ⌈rise ÷ riserMaxCm⌉
+  // equal risers (rise = w.ridgeCm, its true rise, which rebaseStack (3) keeps), goingCm = ⌊run ÷ n⌋ (run = the plan
+  // distance from the ring side opposite RoofSpec.high to the side `high`, the flight's climb), by §6.5's integer arithmetic; the k-th
+  // riser's top at ⌊k × rise ÷ n⌋, the head tread taking the run's remainder (run − n × goingCm). Exported by @plat/plots (the M3a
+  // per-wing constructions draw treads, item 419). Read by stairFlight (n − 1 tread lines, V02 §5.6), the glTF, OBJ and CityJSON stair
+  // solids (V02 §5.6), V01's stair-flight hatch (V01 §5.1.2) and V03's exterior flights (V03 §5.1; its own goingCm stays for
+  // interior stairs). A flight with rise 0 has n = 0 and no treads (a ramp)
+```
+
+**Identity and lifecycle.**
+
+| field | create | read | persist | regenerate | undo | migrate |
+|---|---|---|---|---|---|---|
+| `BaseWing.on` | ST7 (the massing); the `tiers` op; W6 (stepped → stepped) | as the table above | leaf digest | re-derived with the massing by the same draws; a `tiers` edit's result is a fixed input of later S11 runs (the base's pin of edited wings) | restored with the wings | absent on every document from before M3a: every wing on the ground — byte-identical (T-V2-50) |
+| `BaseWing.solid` | ST4 and ST5; the `tiers` op (its `solid` field); cleared by `stepped → single`; the `ovalCourt` seating ring (M5) | as above | leaf digest | as `on` | restored | absent before: every wing storeyed |
+| `MassingRef.stack` (with `grade`, and `stairs 'none'`) | ST7 through `massStepped`; rewritten by every `tiers` op, bend and stepped mutation | the `tiers` op, the why provider, exports | leaf digest | as the massing; a `tiers` edit's stack is a fixed input of later S11 runs (the base's pin of edited wings) | restored with `Building.massing` | absent before (no `stepped` family existed); **the stack migration row**: a stepped building whose `MassingRef` lacks `stack` (or `stack.grade`) re-derives it at load from its wings — `shape` from tier 0's kind and vertex count (4 → rect, 8 → octagon, else round), `stairs` from the stair wings (`axial` when stair 0's ring is centred on tier 0's centre line, `flights` when it runs along tier 0's face, none with tier 0 storeyed → `internal`, none with tier 0 solid → `none`), `lowerRoof` from tier 1's roof (`flat` → flat, else pent), `top` from the top wing (a shrine → shrine, flat → flat, else roofed), `insetCm` the least ring offset of tier 1 in tier 0, `grade` stair 0's rise ÷ run (none: the row's central grade), `truncated` 0 — the one-time shift reported |
+| the `tiers` op's fields (`count`, `insetCm`, `top`, `stairs`, `stairWidthCm`, `shape`, `lowerRoof`, `solid`, `shrineInsetShare`, `centre`, `radiusCm`) | the op; its bends (V02 §4.6) | the re-lay | the event log; the wings and the stack are model data | as V02 §4.4's `setMassing` row | the former wings and `MassingRef.stack` | by the building's address and wing keys |
+| the Works heights of a stack | `heightsAt` in stack order (item 318) | §8.4, §11.1, V06 | derived, never stored | per stage | — | — |
+| `ovalCourt` wings | the massing; `setMassing family` | as any wing | leaf digest | as the massing | as any wing | none (a new family; the `arena` row's grammar bump is a declared shift for arenas only) |
+| `BuildingInput.deck` | S11, per call, from the plot | M1, M10, M11, the datum step, the basement gate, the dig floor | never stored — an input resolved at each call, as `layer` is | re-read at every S11 run on a deck plot | — | — |
+| a stacked wing's `Heights.baseCm`, a stair's `ridgeCm`, the stack's envelope (`Building.heights`, `floors` included) | `rebaseStack` (item 370) on every re-basing path — S11, a `setMassing` commit, a tier's height edit, §7.3 (a) 4's terrain operator, §7.4's warp and `moveVertex`, the carry's rule (2), the crypt lift, a deck's re-base | as every wing's; casters, exports, V03, V05 | leaf digest | re-derived by `rebaseStack`, never per wing; a `setAttr` of a stacked wing's `baseCm` bends to its support's height (V02 §4.6) | restored with the wings | none (no stacked wing exists before M3a) |
+| a deck building's `Heights.baseCm` | the datum step from `DeckContext.surfaceCm` | as above | leaf digest | re-derived when the deck's height changes (the deck's re-base, item 370) | restored | none |
+
+**Wing roles (the `WingRoleRow` defaults for the three new roles, V02 §3.10.9's list extended).** `tier`: storeys from
+`TierCells` (no `storeyDelta`), through 6 (tier 0 runs through at stair 0's butt joint), dormers no, porch yes (a storeyed
+tier 0's main door), hipInset .5, **roofKinds** `flat` 1, `hip` 1, `pyramid` 1, `cone` 1 (ST4 picks by the tier's place
+and shape; W5's "first allowed kind" is `flat`); `shrine`: storeys from `TierCells.shrine`, through 0, dormers no, porch
+no, roofKinds the kinds of `TierCells.shrine.roofs` (default `hip` 1, `pyramid` 1, `gable` 1); `stair`: floors 0, roofKinds
+`shed` 1, through 0, dormers no, porch no.
+=== END ===
+
+=== REPLACE ### 3.2 The row a building reads, and its band ===
+### 3.2 The row a building reads, and its band
+
+1. **Class.** S10b's class-mix draw (item 71) or the assignment's `shapeClass` gives the class; the slot's structure
+   gives the slot role (§4.7 S11). A clandestine front's building reads the front's row (item 63 (4)); the concealed use
+   adds nothing to the massing or the composition (its rooms and door are the plan's and the entrance set's). Four owner
+   rules of 2026-09-28 decide which class a building composes as (V02 §3.14):
+   * **split works-and-shop sites** (item 105 (h)): a building whose use has `branchOf` composes as the class's
+     `split.shop` template family, the works building as its `split.works` family (V11 §2.3's `split`);
+   * **ladders** (item 108): a COUNT, QUARTER or GUILD member is an ordinary building of the lesser class
+     (`LadderStepRow.memberClass`); a GUILD's hall composes as the `hall` family; a SIZE building composes as the greater
+     class with `sizeFactor` in M10;
+   * **custom institutions** (item 104): the class DR24 resolved from the custom record's scene archetype, category,
+     tags or fallback (V11 §3.13.2), composed like any class of that id;
+   * **subsumption** (item 104 (h) (5), item 108): a subsuming kind's building takes the subsumed kinds' structures as
+     extra slots (V02 §3.14.2).
+2. **Row key — the resolution chain (stated once; J-V2.34).** The chain stops at the first key whose row exists and
+   satisfies the arrangement law for the compiled template's `arrangement` at this band (V02 §3.10.7); a row that exists
+   but breaks the law is skipped and reported at load (`arrangementSkip`, T-V2-33).
+   * *The main slot* (the template's first required structure):
+     1. `DesignationTemplateRow.composition` (item 426), when the template names one;
+     2. `<class>/<band>` — a class override row (V02 §3.10.3);
+     3. for a `v.` class (V07 §2.4): `composition.classFamily[<v. key>]` (V02 §3.10.5; a town class at a village rung plays its
+        `villageForm`'s `v.` class, V11 §3.22, and never reaches this step by its town id);
+     4. `<templateFamily>/<band>` — `BuildingClassRow.templateFamily` (V11 §2.3), which S11's composition resolution
+        reads (V02 X1);
+     5. `default.<arrangement>/<band>` (V02 §3.10.6).
+   * *Any other slot* `structures[i]`:
+     1. `structures[i].composition` (item 426);
+     2. `<key>/<band>` where `key` is `composition.roleKeys[(templateFamily, name)]`, else `[('*', name)]` (V02 §3.10.4) —
+        a key naming a family or class row reads that row (an outbuilding `house` reads `dwelling-detached`);
+     3. `outbuilding/<band>`.
+   * A structure whose role key is `yardPart` or `basement` has no building and never reaches `outline()`; one whose
+     `attach` is `main` is laid by the main slot's massing (M8b) and has no slot of its own (item 304).
+   * **The underground layer.** When the plot lies on the underground layer — II.7.3's sewer-front plots, II.7.5's
+     undercity, item 109 (j) (4)'s cavern and ruin dwellings — `@underground` is appended to the resolved key, and the
+     `<prefix>@underground/<band>` row is read where it exists, else `default.underground/<band>`. The layer reaches
+     `outline()` as `BuildingInput.layer` (item 303), written by S11 from the plot's layer.
+   * **Decks (item 110 (d)).** When the plot lies on a deck (`BuildingInput.deck`, item 305) and is not a
+     placed landmark, `@deck` is appended to the resolved key: the `<key>@deck/<band>` row is read where it exists, else
+     `default.<arrangement>@deck/<band>` (V02 §3.16). A landmark reads its class's chain unchanged; a deck plot is never on
+     the underground layer.
+   * **The rung ceiling (item 115; J-V2.110).** A **dwelling** — a building whose use's class has the profile family
+     `housing` (V11 §3.5.3; V07 §2.4's `v.` rows of that family) — whose class is not in `grandeur.ceiling`'s
+     `settings.grandClasses` (V11 §3.25.4: the manor and the other lords' and rulers' houses, whose number and presence
+     S10b's manor rule decides, §4.7 S10b *Class mix* (3)) reads its resolved row **capped** by the ceiling row of the rung
+     in force — the document's (§1.1) at generation, the epoch's at an epoch (V06 §3.8.5) — and S11 passes the capped key in
+     `BuildingInput.compositionRow` (§4.7 S11 *Footprints and heights*). A row caps only where it is `enabled` and limits
+     something — `dwellingFamilies` not `'all'`, or one of `towers`, `turrets`, `gatehouse` and `courts` false: as shipped,
+     the THORP, HAMLET and VILLAGE rows. Every slot of a capped dwelling's site then reads its row with:
+     1. `families` keeping a family only where `dwellingFamilies` lists it (as shipped `single`, `L`, `T`) or it is one of
+        the arrangement's own constructions (`row`, `shelter`, `template`, `axisLocked`, `baseOutline`), and never a closed
+        family (`MassingFamilyRow.closed`) where `courts` is false nor `towerHouse` where `towers` is false; M4 renormalises
+        the kept weights as for any row. Where no kept family has a positive weight, the families of
+        `default.<arrangement>/<band>` (with the same suffix) capped the same way, else `baseOutline`, reported
+        `ceilingEmpty`; where an assignment's `DriftBounds.families` (§2.6) admits none of the kept families, the drift's
+        families are read uncapped — a declared bound, the ceiling a default (item 101 R2);
+     2. `towers` [0, 0], `towerOnBlock` and `crossingTower` 0 and `westTowers` [0, 0] where `towers` is false; `turret` 0
+        where `turrets` is false; `gateTower` 0 where `gatehouse` is false, a slot whose role key is `gatehouse`
+        (V02 §3.10.4) then reading `outbuilding/<band>` (a plain range, no gate hall);
+     3. a chain step whose key is a `grandClasses` class's override row (`manor/<band>`) skipped, the chain reading on.
+     Every other cell — sizes, widths, lengths, blocks, back ranges, roofs, dormers, porches, hearths, the cupola, the
+     rooms — stays the row's, so wealth shows as larger ranges, more outbuildings, dormers, porches and hearths and better
+     roofs inside the capped row (item 115 (a)), and DR6's wealth moves a dwelling only along it, the richest dwelling its
+     rich anchor (item 115 (d)). A row `enabled` false, or one that limits nothing (TOWN, CITY, METROPOLIS), caps nothing
+     and writes nothing, so those rungs stay byte-identical (item 115 (f); T-V2-58). A capped key is the resolved key
+     followed by `~<RUNG>`, the rung it was capped at (`dwelling-compound/rich~HAMLET`); a key without the suffix is
+     uncapped, as every key written before item 115 is (no migration row).
+     **Unless specified** (item 115 (c)): a `grandClasses` building — one S10b admits, or one the dossier specifies
+     (V08 §3.16 (3)) — reads its full row at every rung, and a hand design is never capped: a T6 placement of a
+     `grandClasses` class and every `setMassing` and `setComposition` op (V02 §4.2, V02 §4.3; a `family` op lays the asked family from the
+     building's row uncapped) are committed as asked — the ceiling is a default, never a refusal (item 101 R2) — the why
+     fact `massing/ceiling` (V02 §4.5) naming the exception and V09 §4.21.5's `info.grand.beyondTier` or
+     `info.grand.dossier` line saying that the building exceeds the tier's usual (V10 tells it).
+     **Over epochs** (item 115 (e)): the ceiling is read where the chain is resolved — at generation, for a building new or
+     rebuilt, a mutation's target (V02 §3.9) and New random on its plot (§7.1) — at the rung in force then; a re-derivation that
+     keeps a building standing (a carry, a terrain or water operator's re-fit) reads the ceiling of the rung its stored
+     `MassingRef.row` records, so a rung's crossing reshapes no standing building, up or down (V06 §3.8.5 (1)–(2)).
+   The key reached is written to `MassingRef.row` and `Composition.row`, so the why provider and the report name it.
+3. **Band.** Every geometry cell of the row (families, widths, lengths, blocks, towers, roofs, dormers, porch,
+   hearths, coverage — item 31's geometry columns) is read at the plot's **manifested** band and value (§4.11's floor
+   rule: `max(field band, geometryFloor)`); continuous cells interpolate between the band rows' centres along the value
+   (§4.5's interpolation), discrete cells read §4.5's discrete-cell rule (item 19). The district's band range (item 72,
+   §4.5 (5)) clamps the value first. **The `rooms` cells are the exception: they are read at the occupants' band** — the
+   plot's `fieldBand` and the current field value, as the programme is (J-A19.43) — because the composer's rooms are the
+   interior's, which reads who is there (item 28 (f); V02 §3.8; J-V2.36).
+   **Significance.** For every geometry cell and M10's budget, the value is shifted by `0.5 × bandWidth × log2(σ_use ÷
+   σ_class)` before interpolation — `σ_use` the use's resolved significance (§4.5 (1), with V11 §3.13's landmark and
+   `economicWeight` factors), `σ_class` the class row's — clamped to at most one band's width up and
+   never below the plot's own value (a significance below the class's never shrinks a building). So a landmark custom
+   guildhall composes one band richer than an unmarked one (T-V2-38; J-V2.43).
+4. **Scale and drift.** Every length cell is multiplied by the district's `buildingScale` (§2.5); an assignment's
+   `DriftBounds` (§2.6) filters `families` and roof kinds and clamps the footprint target and the floors.
+5. **Presets.** The document's preset resolves each cell by §7.6's order; the building-scope `FM` preset (item 376)
+   resolves only the cells that carry a `presets.FM` entry — `composition.json`'s (V02 §3.10.8) and V11 §3.24.0's
+   item-110 chance and offer cells (0) — and sets `fantasyShapes` on; it zeroes no `extension` cell and changes nothing
+   else.
+=== END ===
+
+=== REPLACE ### 3.8 The `rooms` rung — the composer's principal rooms ===
+### 3.8 The `rooms` rung — the composer's principal rooms
+
+Derived only as the plan rung's input — on the click that derives the plan, `compose(…, 'rooms')` after `wings` —
+and never alone under `elaborate: 'view'` (J-V2.9), because nothing but the plan draws them. Each room is a `Room`
+(§2.6) with its storey, its composed wing's **base key** (a tower's room its tower wing's key; item 225) and a role the
+room programme rows name (V03 owns those rows; these four roles must exist in them). All rooms lie inside one seed
+piece at their storey (the stage-3 contract): each avoids every tower ring (a room that would meet one is shortened away
+from it, else omitted) and keeps `attractCm` from every side it does not share.
+
+**The rung reads the occupants, not the shell (item 28 (f); J-V2.36).** Its `rooms` cells are read at the occupants'
+band (V02 §3.2 step 3), and its recorded inputs include the occupants' band row and the household count (item 261), so a
+band change or a re-division marks it stale and the plan's re-cut starts from the rooms the new band admits (a
+building's decline excepted, V02 §3.11). The **hall
+and the chapel are emitted only** where the interior-ladder row at the occupants' band gives the unit form `house` (one
+household holds the building, §2.6's interior ladder), or where the class is an institution whose programme row names a
+hall (an inn's common room, a guild or town hall's hall, a market hall's upper hall, a barracks' mess): a rich manor
+whose occupants fall to the poor band has no hall ring, and its main range divides into the units the ladder asks
+(T-V2-35); returning to the rich band restores the as-built rooms exactly (the canonical chain). **The gate hall and the
+tower rooms are shell and circulation rooms and stay at every band.**
+
+1. **Hall** (the row's `rooms.hall` under the rule above): in the `main` wing — for a closed family the range opposite the
+   gate (M5) — from eave side to eave side, length `U(hallLenShare) ×` the wing's length along its ridge, clamped to
+   `[1.4w, length − 2 m]` and then **to the programme's area**: its area is clamped into the class programme's `hall` row
+   `[min, max]` × the interior-ladder row's `sizeFactor` at the occupants' band, by shortening its length, never its width (which runs eave to eave) —
+   where a `RoomProgramRow` with a `hall` rule is loaded for the class (V03's rows, shipped by V03's P1 in the stream
+   after M4, J122); where none is — a class whose programme names no hall, or a build in which P1 has not shipped its
+   rows — the clamp `[1.4w, length − 2 m]` alone, reported per building (`hallUnclamped`; J-V2.95). **Its low end** is the door it is entered by: the main entrance where that lies on the `main`
+   wing — the hall's low end at `door offset − hallDoorBackM` (1.5 m; the entrance opens into the hall's low end, the
+   cross-passage bay), clamped inside the wing; otherwise a **court door** on the `main` range's court side at the offset
+   nearest the gate hall's axis (a derived opening the plan rung opens, listed with the gate hall's arches). The hall runs
+   from its low end toward the range's farther end. Ground storey; role `hall`.
+2. **Gate hall** (closed families): in the `gate` wing, from eave side to eave side, width `U(gateHallM)` centred on the
+   main entrance's offset and shifted to keep `gateHallJointGapM` (0.5 m) from a joint; ground storey; role `gatehall`.
+   The plan rung opens an arch at both ends — to the street and to the court (V03 reads the role's programme row) —
+   so the court is reached through the building, as courtyard houses and inns were. **`ovalCourt`**: the
+   gate hall is laid in the main gate's façade wing as above and continues through its gate-passage seating wing to the
+   floor — two rooms of role `gatehall` sharing an arch on `P1` — and the opposite major-axis chord's passage wing holds a
+   second `gatehall` room (its outer end a door into the façade's `main` wing, or an arch where an access edge faces it, by
+   the base's entrance rules); each minor-axis seating wing M8b turned into a gate passage holds a `gatehall` room likewise,
+   its outer end an arch through its façade wing; the plan of the façade ring is V03's.
+3. **Chapel** (with chance `rooms.chapel`, under the rule above): in an open family, at the free end of the range whose
+   ridge direction is nearest world east (`+x`); **in a closed ring**, at the east end of the range whose ridge is nearest
+   east, from its joint toward the range's other end; from eave side to eave side, length `w × U(1, 1.5)`, ground storey
+   (or first storey where the ground storey there is the hall); role `chapel`.
+4. **Tower rooms:** per composed tower, one room per storey it reaches: its ring less the rings of the towers before it
+   in the clip order that it overlaps (the base's rule); a tower on a block, its ring inside the block's piece; role
+   `towerRoom`.
+Room ids are the base's `room:<building>/<level>/<i>`, `i` in the order hall, gate hall, chapel, then the tower rooms by
+tower key; the plan rung passes them as fixed rings (§3.4's transient arena) and places its stair cores against their
+walls (the base's contract). **Every one of them is editable** by `setComposition` `room` (V02 §4.1): on or off, and its
+extent along its host's ridge, bent to the nearest lawful extent by V02 §3.13 (3)'s rule; an edited room is a fixed input
+of the rung (`edited`), kept through a re-derivation while its host keeps its key.
+=== END ===
+
+=== REPLACE ### 3.10 The default rows — the diversity ladder from hovel to giant manor ===
+### 3.10 The default rows — the diversity ladder from hovel to giant manor
+
+All values are **our own** (provenance `own`, architecture 2026-09-28), calibratable (§13.9),
+general architectural history rather than corpus-witnessed, and keyed so that **every class of the compiled roster
+resolves to a written row** (T-V2-33): one row per V11 template family (V11 §3.6.1's 35 families), class rows only as overrides, one row per structure role, and full default rows per arrangement.
+
+**3.10.1 Anchors (J-V2.30).** Every row is authored at **V11's four anchors — poor, modest, prosperous,
+rich** — the same anchors as the templates whose budgets it must meet; `squalid` reads the poor row and `comfortable`
+the modest row for its discrete cells and the cell-wise interpolation of modest and prosperous at its band centre for its
+continuous cells (§4.5's band-set paragraph and its discrete-cell rule — one band-anchoring rule for every template-like
+table). Continuous cells interpolate along the value. A class the class mix never places at a band still has its row
+(its nearest anchor's), because a designation change or an assignment can put it there. Notation
+below: `p / m / pr / r` for the four anchors; one value where all four agree. **Porch weights** are written
+`none / hood / gabled / twoStorey / recessed`; `halfRound` is 0 in every default row (J-V2.45) and set only by the `FM`
+preset. Every cell a row leaves out takes the shared value of V02 §3.10.9.
+
+**3.10.2 The template-family rows** (`<family>/<band>`; the main slot's step 4 of the chain):
+
+| family (arrangement; main slot) | families `p / m / pr / r` | wing width m | range length m | blocks · towers (turret) | back · hip | dormers /10 m | porch `p · m · pr · r` | rooms · hearths | other cells |
+|---|---|---|---|---|---|---|---|---|---|
+| `dwelling-row` (row; house) | row 1 | the quad | — | 0 · 0 (0) | .1 / .35 / .6 / .85 (squalid 0) · .1 | .2 / .5 / 1.0 / 1.5 | .9/0/0/0/.1 · .75/.1/0/0/.15 · .5/.3/0/0/.2 · .3/.4/0/0/.3 | — · 1 / 1–2 / 2 / 2–3 | entrance gable 0 / .05 / .15 / .3 |
+| `lodging-row` (row; house) | row 1 | the quad | — | 0 · 0 (0) | .3 / .4 / .5 / .5 · .1 | .5 / .8 / 1.0 / 1.2 | .8/.1/0/0/.1 · .7/.15/0/0/.15 · .6/.2/0/0/.2 · .5/.25/0/0/.25 | — · 1–2 / 2 / 2–3 / 3 | — |
+| `shopfront` (row; shop-house) | row 1 | the quad | — | 0 · 0 (0) | .4 / .5 / .6 / .7 · .15 | .3 / .7 / 1.0 / 1.4 | .6/.3/0/0/.1 · .4/.4/0/0/.2 · .3/.5/0/0/.2 · .2/.5/0/0/.3 | — · 1 / 1–2 / 2 / 2–3 | entrance gable 0 / .05 / .1 / .2 |
+| `workshop-row` (row; shop-house) | row 1 | the quad | — | 0 · 0 (0) | .5 / .5 / .6 / .6 (shed outshots) · .15 | 0 / .3 / .6 / .8 | .8/.2/0/0/0 · .6/.3/0/0/.1 · .5/.4/0/0/.1 · .4/.4/0/0/.2 | — · 1 / 1–2 / 2 / 2 | — |
+| `tavern-row` (row; house) | row 1 | the quad | — | 0 · 0 (0) | .3 / .4 / .5 / .6 · .15 | .3 / .6 / 1.0 / 1.2 | .5/.3/0/0/.2 · .3/.4/0/0/.3 · .2/.4/0/0/.4 · .1/.4/0/0/.5 | hall (the common room) · 2 / 2 / 3 / 3–4 | — |
+| `warehouse` (row; store) | row 1 | the quad | — | 0 · 0 (0) | 0 · .1 | .5 / .5 / .6 / .7 | 1/0/0/0/0 | — · 0 | dormer kinds hoist .6, dormer .4, one hoist per access eave (V02 §3.7) |
+| `dwelling-detached` (detached; house) | single 1 / single .8, L .2 / single .6, L .3, T .1 / single .4, L .35, T .15, H .1 | 4.2–5.2 / 4.8–6 / 5.5–6.5 / 6–7 | 6–8 / 7–9 / 9–13 / 11–15 | 0 / 0 / 0–1 / 0–1 · 0 (0 / 0 / .05 / .15) | .3 / .4 / .5 / .6 · .4 / .35 / .4 / .45 | 0 / .3 / .8 / 1.2 | .9/.1/0/0/0 · .6/.3/0/0/.1 · .3/.3/.3/0/.1 · 0/.2/.5/.2/.1 | hall (V02 §3.8's rule) · 1 / 1–2 / 2–3 / 3–5 | — |
+| `dwelling-compound` (compound; hall) | single .7, L .3 / single .5, L .35, T .15 / single .25, L .4, T .3, H .05 / L .35, T .35, H .15, U .15 | 5–6 / 5.5–6.5 / 6–7 / 6.5–7.5 | 8–11 / 9–13 / 11–15 / 13–17 | 0 / 0 / 0–1 / 0–1 · 0 (0 / .05 / .15 / .25) | .4 / .4 / .3 / .2 · .3 / .35 / .45 / .5 | .8 / 1.0 / 1.2 / 1.4 | .4/.5/0/0/.1 · .2/.5/.2/0/.1 · 0/.4/.5/.1/0 · 0/.1/.5/.4/0 | hall; chapel 0 / 0 / .05 / .15 · 2–4 / 3–5 / 4–6 / 5–8 | courtMinM 6 / 6 / 7 / 8; uOpenFront .6; cupola 0 / 0 / .05 / .1 |
+| `hovel` (hovel; hut) | single 1 | 3.4–4 / 3.6–4.4 / 3.6–4.4 / 3.6–4.4 | 4–5 / 4.5–6 / 4.5–6 / 4.5–6 | 0 · 0 (0) | 0 / .1 / .1 / .1 · .5 | 0 | 1/0/0/0/0 | — · 1 | — |
+| `cluster` (cluster) | shelter 1 | the cluster row's | — | 0 · 0 (0) | 0 · 0 | 0 | 1/0/0/0/0 | — · 0 (a shack .3 chance of one) | — |
+| `workshop-yard` (compound; house) | single 1 / single .8, L .2 / single .7, L .3 / single .5, L .4, T .1 | 3.6–4.4 / 4.2–5 / 4.8–5.8 / 5.5–6.5 | 4.5–6 / 5.5–7.5 / 7–10 / 8–12 | 0 · 0 (0) | .5 / .5 / .45 / .4 · .2 | 0 / .2 / .4 / .6 | .9/.1/0/0/0 · .7/.3/0/0/0 · .4/.4/.2/0/0 · .2/.5/.3/0/0 | — · 1 / 1–2 / 2 / 2 | — |
+| `works-noxious` (compound; works) | single 1 / single .8, L .2 / single .7, L .3 / single .6, L .4 | 5–6 / 5.5–6.5 / 6–7.5 / 7–8.5 | 6–8 / 7–10 / 10–14 / 12–16 | 0 · 0 (0) | 0 · .2 | 0 | .9/.1/0/0/0 | — · 1 / 1 / 2 / 2 | axis `water` where the class needs running water (V02 §3.14.6) |
+| `yard` (compound; shed) | single 1 / single 1 / single .8, L .2 / single .7, L .3 | 4–5 / 4.5–5.5 / 5–6.5 / 5.5–7 | 7–9 / 9–12 / 11–15 / 13–17 | 0 · 0 (0) | 0 · .1 | 0 | 1/0/0/0/0 | — · 0 | — |
+| `kiln-yard` (compound; kiln) | towerHouse 1 (no range) | 3–3.2 / 3.4–4 / 4–4.8 / 4.6–5.4 | 0 | 0 · 0 (0) | 0 · — | 0 | 1/0/0/0/0 | — · 0 | towerShape round .8, square .2 (a bottle kiln: the tower's cone) |
+| `market-hall` (institution; hall) | single 1 / single 1 / single .85, L .15 / single .7, L .15, T .15 | 9–11 / 10–12 / 11–13 / 12–14 | 22–28 / 28–36 / 34–42 / 40–50 | 0 / 0 / 0–1 / 0–1 · 0 (0 / 0 / .1 / .2) | 0 · .5 | .3 / .5 / .6 / .8 | 1/0/0/0/0 (arcaded) | hall (the upper hall) · 0 / 0 / 1 / 1 | `arcade` on; cupola .1 / .2 / .35 / .5 |
+| `hall` (institution; hall) | single .6, T .4 / single .5, T .35, H .15 / single .35, T .35, H .2, rectCourt .1 / single .2, T .3, H .3, rectCourt .1, cross .1 | 7–9 / 7.5–9.5 / 8–10 / 9–11 | 11–17 / 14–20 / 15–23 / 18–28 | 0–1 · 0 (.1 / .15 / .2 / .3) | .1 · .3 / .35 / .4 / .5 | .3 / .45 / .6 / .8 | 0/.2/.8/0/0 · 0/.1/.8/.1/0 · 0/0/.7/.3/0 · 0/0/.5/.5/0 | hall · 2 / 2–3 / 3 / 4 | cupola .1 / .15 / .25 / .4; with `fantasyShapes`: regularCourt .1 at r |
+| `inn-compound` (compound; inn) | single .6, L .4 / single .4, L .45, U .15 / single .2, L .45, U .3, rectCourt .05 / L .4, U .45, rectCourt .15 | 5–6 / 5.5–6.5 / 6–7 / 6–7 | 8–11 / 10–13 / 12–16 / 13–17 | 0 / 0 / 0–1 / 0–1 · 0 (0) | .3 / .25 / .2 / .1 · .3 | .6 / .8 / 1.0 / 1.2 | .3/.3/.4/0/0 · .1/.3/.5/.1/0 · 0/.2/.6/.2/0 · 0/0/.5/.5/0 | hall (the common room); gate hall on `rectCourt` · 2 / 2–3 / 3 / 4–6 | — |
+| `bath-house` (compound; bath hall) | single .7, L .3 / single .6, L .4 / single .6, L .25, T .15 / single .5, T .3, H .2 | 6–8 / 7–9 / 7.5–9.5 / 8–10 | 8–12 / 9–13 / 11–15 / 13–17 | 0 · 0 (0) | 0 · .4 | 0 | .8/.2/0/0/0 · .6/.2/.2/0/0 · .4/.2/.4/0/0 · .2/.2/.6/0/0 | — · 1 / 1 / 2 / 2 | cupola 0 / 0 / .1 / .25 (dome 1) |
+| `church` (institution; nave) | template 1 | the template's | the template's | 0 · 0 (0) | 0 · the template's | 0 | the template's door; a church porch by M8b | — · 0–1 | westTowers 0–1 (the chance of one .3 / .6 / .85 / 1, where the template lists no `tower` structure); crossingTower 0 / 0 / .1 / .2; spires by `spireFactor` |
+| `chapel` (institution; nave) | single .9, template .1 / single .8, template .2 / single .7, template .3 / single .5, template .5 | 5–6 / 5.5–6.5 / 5.5–7 / 6–8 | 8–12 / 9–14 / 10–16 / 12–20 | 0 · 0 (0) | 0 · .2 | 0 | .5/0/.5/0/0 | — · 0 | — |
+| `cathedral` (institution; nave and choir) | template 1 | the template's | the template's | 0 · 0 (0) | 0 · the template's | 0 | the template's door | — · 0 | westTowers 2 (always, at the west corners); crossingTower .5 / .6 / .7 / .8; towerShape square 1; spires by `spireFactor` |
+| `cloister` (institution; church) | template 1 | the template's | the template's | 0 · 0 (0) | 0 · the template's | 0 | the template's door | — · 0 | westTowers 0–1 (.5); crossingTower .2 |
+| `court-institution` (institution; main range, its `ranges` absorbed) | single .2, L .4, U .4 / L .3, U .45, rectCourt .25 / rectCourt .45, U .35, plotRing .1, H .1 / rectCourt .45, plotRing .15, U .15, H .15, cross .1 | 6–7 / 6.5–7.5 / 7–8 / 7.5–8.5 | 12–18 / 15–21 / 18–26 / 22–32 | 0 / 0–1 / 0–1 / 1–2 · 0 (.1) / 0–1 (.2) / 0–1 (.3) / 0–2 (.4) | 0 · .4 / .45 / .5 / .55 | .5 / .7 / .9 / 1.1 | 0/.3/.7/0/0 · 0/.2/.7/.1/0 · 0/.1/.6/.3/0 · 0/0/.5/.5/0 | hall (by its programme); gate hall on closed families · 3 / 4 / 5–7 / 6–10 | gate tower 0 / .1 / .2 / .3; cupola 0 / .1 / .2 / .3; courtMinM 8 / 9 / 10 / 12 |
+| `barracks` (compound; block) | single .7, L .3 / single .4, L .45, U .15 / single .3, L .45, U .2, rectCourt .05 / single .2, L .45, U .35 | 7–8 / 7–8.5 / 7.5–8.5 / 7.5–8.5 | 16–22 / 17–23 / 18–24 / 19–25 | 0 · 0 (.1 / .1 / .2 / .3) | 0 · .3 | .3 / .4 / .5 / .6 | .7/.3/0/0/0 | hall (the mess) · 2 / 3 / 4 / 5 | — |
+| `watch-house` (detached; post) | single 1 | 4–5 / 4.5–5.5 / 5–6 / 5.5–6.5 | 5–6.5 / 5.5–7 / 6.5–8 / 7.5–9 | 0 · 0 (0) | 0 · .3 | 0 | .8/.2/0/0/0 | — · 1 | — (a towered post is the `watchtower` class, `tower` family) |
+| `tower` (detached; tower) | towerHouse 1 | 3.5–4.2 / 4–4.6 / 3.6–4.4 / 4.2–4.8 (the tower's side 1.2–2 w) | 0 / 0 / 5–7 / 7–10 (the attached range) | 0 · 0 (.1 / .15 / .2 / .3) — M5 lays its tower | 0 · 0 | 0 / 0 / .3 / .5 (on the range) | .5/.5/0/0/0 | tower rooms · 1 / 1–2 / 2 / 3 | towerShape square .5, round .4, octagon .1; towerFlat .3; with `fantasyShapes`: regularCourt .1 at pr and r |
+| `castle` (institution) | template 1 (the base's §4.2 S3 castle and bailey) | the template's | the template's | the template's | 0 · the template's | 0 | the template's | — · 0–2 | the palace override (V02 §3.10.3) |
+| `farm` (compound; farmhouse) | single 1 / single .8, L .2 / single .7, L .3 / single .5, L .35, T .15 | 4.2–5 / 4.5–5.5 / 5–6 / 5.5–6.5 | 6–7.5 / 7–9 / 8.5–11.5 / 10–13 | 0 · 0 (0) | .3 · .5 | 0 / .2 / .4 / .6 | .8/.2/0/0/0 · .7/.2/.1/0/0 · .6/.2/.2/0/0 · .4/.3/.3/0/0 | — · 1 / 1–2 / 2 / 2–3 | — |
+| `mill` (compound; mill house; `wheel or sails` attached) | single .9, L .1 | 5–6 / 5.5–6.5 / 6–7 / 6.5–7.5 | 7–9.5 / 8–11 / 9–12 / 10–13 | 0 · 0 (0) | .2 · .3 | .3 | .9/.1/0/0/0 | — · 1 | the class overrides `watermill` and `windmill` (V02 §3.10.3) |
+| `extractive` (compound; works shed) | single 1 | 3–3.8 / 3.5–4.5 / 4–5 / 4.5–5.5 | 4–5.5 / 5–7 / 7–9 / 8.5–10.5 | 0 · 0 (0) | 0 · 0 | 0 | 1/0/0/0/0 | — · 0 | — |
+| `landing-yard` (compound; sheds) | single 1 / single 1 / single .85, L .15 / single .75, L .25 | 4–5 / 4.5–6 / 5.5–6.5 / 6–7.5 | 6–7.5 / 8.5–10.5 / 11–14 / 14–18 | 0 · 0 (0) | 0 · .1 | 0 | 1/0/0/0/0 | — · 0 | axis `water` |
+| `stable-yard` (compound; stable) | single .8, L .2 / single .7, L .3 / single .5, L .4, U .1 / single .3, L .45, U .25 | 5–6 / 5.5–6.5 / 6–7 / 6.5–7.5 | 7–10 / 9–12 / 11–14 / 13–16 | 0 · 0 (0) | 0 · .3 | .2 / .3 / .4 / .5 | .9/.1/0/0/0 · .8/.2/0/0/0 · .7/.3/0/0/0 · .6/.4/0/0/0 | — · 0 / 1 / 1 / 1 | dormer kinds hoist .4, dormer .6 |
+| `burial-ground` (institution; no required structure — V02 §3.10.7's exemption; its mortuary chapel reads this row through `roleKeys`) | single 1 | 4–5 / 4.5–5.5 / 5–6 / 5–6.5 | 5–7 / 6–9 / 8–10 / 9–12 | 0 · 0 (0) | 0 · .2 | 0 | .5/0/.5/0/0 | — · 0 | the `cemetery` class's row; floors by V11 §3.6.4's `burial-ground` heights (one storey) |
+| `fort` (compound; tower) | towerHouse 1 (no range) | 6–7 / 7–8 / 8.5–10 / 10.5–12 (the tower's side 1.2–2 w) | 0 | 0 · 0 (0) — M5 lays its tower | 0 · 0 | 0 | 1/0/0/0/0 | tower rooms · 1 / 1 / 2 / 2 | towerShape square .6, round .3, octagon .1; towerFlat .7 (a battlemented roof; the `tower` heights row's `parapetCm` 60, which `fort` reads, V11 §3.6.1); the second tower, the gate and the barracks range by `roleKeys` (V02 §3.10.4) |
+| `arena` (institution; stands) — the amphitheatre (a family row since V11's 35) | `ovalCourt` 1 at every anchor | the façade 4–6 | — (claim-sized) | 0 · 0 (0) | 0 · 0 | 0 | 1/0/0/0/0 | none (gate halls only, V02 §3.8) · 0 | `caveaM` 8–12 / 10–14 / 12–18 / 14–22; floors 2 / 2–3 / 3 / 3–4; `arcade` off / off / on / on (every façade wing); `courtMinM` 16 / 20 / 24 / 28; `claimShare` .5–.8 (the arena fills its precinct; J-V2.87); `coverageMax` .85; cupola 0; its `gate`s absorbed (M8b); its plot V11 §3.6.1's `arena` row (plot p50 2 500 / 4 000 / 6 000 / 9 000 m², footprint "the claim's"; X27); heights V11's `hall` row |
+
+**3.10.3 Class override rows** (`<class>/<band>`; step 2 of the chain). Each override row is an `alias` of the family named
+beside it, and only the cells named override it — also where another class reads the row through `composition.classFamily`
+(`v.manor_house` → `manor`):
+
+| class (family) | overriding cells |
+|---|---|
+| `manor` (`dwelling-compound`) — the giant manor | families: single .7, L .3 (a fallen one) / single .45, L .35, T .2 / L .2, T .25, H .25, U .3 / rectCourt .35, plotRing .2, U .2, H .15, gridWalk .1 — with `fantasyShapes` on, regularCourt .2, starCourt .15, chordArc .15 added at pr and r; width 5–6 / 5–6 / 7–8 / 7.5–9; length 9–11 / 10–13 / 16–22 / 20–30; blocks 0 / 0 / 0–1 / 1–2; towers 0 (.05) / 0 (.15) / 0–1 (.3) / 1–3 (.5); gate tower 0 / .05 / .15 / .3; back .3 / .3 / .2 / .1; hip .35 / .4 / .5 / .55; dormers .8 / 1.0 / 1.2 / 1.4; porch .3/.7/0/0/0 · .1/.5/.4/0/0 · 0/.3/.6/.1/0 · 0/0/.4/.6/0; chapel 0 / .05 / .2 / .4; hearths 3–5 / 4–6 / 5–9 / 8–14; courtMinM 6 / 7 / 8 / 9; cupola 0 / 0 / .1 / .2; coverageMax .65. **Budget (J-V2.35):** V11 §3.6.1's `manor` override as adopted (J-V11.39) — prosperous footprint p50 420 m², rich p50 650 m² (p10 455, p90 943 by the 0.7 / 1.45 ratios), rich plot 3 000 m², the main slot's `footprintShare` ≥ 0.6 at prosperous and rich (the court's ranges hold the kitchen and lodgings); the rows' medians sit at 1.1–1.3 × those budgets (the table after this one) |
+| `town_house` (`dwelling-compound`) — the burgess's urban compound | families: single .7, L .3 / single .5, L .35, T .15 / single .3, L .4, T .3 / L .35, T .3, U .2, H .15; towers 0 (0 / .1 / .2 / .25); back .6 / .7 / .8 / .9; hip .2; dormers 1.0 / 1.1 / 1.3 / 1.6; porch .4/.3/0/0/.3 · .3/.35/.05/0/.3 · .2/.4/.1/0/.3 · 0/.4/.3/.1/.2; hearths 2 / 2 / 2–3 / 3–4 |
+| `house` (`dwelling-row` at p and m, `dwelling-detached` at pr and r — V11's per-band family) | at pr: single .5, L .35, T .15; at r: single .3, L .35, T .25, H .1; hall at r only (the `house` unit form) |
+| `cottage` (`dwelling-detached`) | families single .8, L .2 / single .7, L .3 / single .6, L .4 / single .5, L .5; back .3 / .35 / .45 / .5; dormers 0 / 0 / .3 / .6; porch .9/.1/0/0/0 · .8/.15/0/0/.05 · .7/.2/0/0/.1 · .5/.3/.2/0/0; hearths 1 / 1 / 1–2 / 1–2 (an `L` at p is infeasible by M3's budget and falls away) |
+| `watermill` (`mill`) | axis `water`; the attached `wheel` (M8b) |
+| `windmill` (`mill`) | the attached `sails` force `towerHouse` with no range; towerShape round .6, square .4 (a tower mill, or a post mill's body); width 5–6.5 |
+| `v.longhouse` (`dwelling-detached`; V07's village class, read by the chain's step 2 under its own `v.` key) | families single 1; axis `fallLine` (V07's hard rule: the axis along the fall line where the slope exceeds 3 %, the byre end downhill in `MassingRef.low`); width 5–6 / 5.5–6.5 / 5.5–6.5 / 5.5–6.5; length 14–22 / 16–26 / 16–26 / 16–26; back 0; hip .3; dormers 0; porch .9/.1/0/0/0; hearths 1 |
+| `palace` (`castle`) | at p and m template 1; at pr and r families rectCourt .4, plotRing .2, H .2, U .2; width 8–10; length 24–50; towers 1–4 (.5); gate tower .5; cupola .3; rooms hall, chapel .6, gate hall |
+| `mage_tower` (`tower`) | towerShape round .6, octagon .3, square .1; towerFlat 0; cupola .3 (tip 1); with `fantasyShapes`: regularCourt .15 at pr and r |
+| `watchtower` (`tower`) | range length 0; towerShape square .5, round .5; towerFlat .6 |
+
+The classes `cemetery` and `arena` read their own template families' rows, `burial-ground` and `arena` (V02 §3.10.2),
+with no class override row; the `arena` plot is V11 §3.6.1's `arena` row.
+
+**The rows against the budgets.** Each row's median footprint — the family weights at their median width
+and length, `crossWing` 2.25 m forward and 1.5 m back, a `towerHouse` tower of side 1.6 w by its shape weights, by M5's
+constructions — against the template's p50 × the main
+slot's share (V11 §3.6.1's p50; shares: 1 for a one-structure template, 0.9 where only small optional structures stand
+beside the main, 0.6 where a second building is required or several are drawn — the `mainShareDefault`), computed by
+M5's constructions (receipt `docs/validation/coherence/receipts/V02/medians.py` → `medians.out`, re-executed 2026-09-29). Every ratio lies in [0.91, 1.31], inside
+`[sizeBandLo, sizeBandHi]` = [0.7, 1.45] of the p50, so M10 trims rather than rebuilds; the few rows near 1.3 are the rich courts the
+owner asked for. The `manor` rows are measured against V11 §3.6.1's `manor` override.
+
+| row | share | p: median / budget = ratio | m | pr | r |
+|---|---|---|---|---|---|
+| `dwelling-detached` | 0.9 | 33 / 32 = 1.04 | 52 / 45 = 1.16 | 84 / 72 = 1.17 | 123 / 99 = 1.24 |
+| `house` (pr, r) | 0.9 | — | — | 89 / 72 = 1.24 | 129 / 99 = 1.31 |
+| `cottage` | 0.9 | 40 / 32 = 1.26 | 56 / 45 = 1.26 | 83 / 72 = 1.15 | 106 / 99 = 1.07 |
+| `dwelling-compound` | 0.6 | 64 / 54 = 1.18 | 89 / 72 = 1.24 | 128 / 108 = 1.19 | 197 / 156 = 1.26 |
+| `town_house` | 0.6 | 64 / 54 = 1.18 | 89 / 72 = 1.24 | 121 / 108 = 1.12 | 201 / 156 = 1.29 |
+| `manor` (V11's override) | 0.6 | 66 / 54 = 1.22 | 85 / 72 = 1.18 | 283 / 252 = 1.12 | 496 / 390 = 1.27 |
+| `workshop-yard` | 0.6 | 21 / 18 = 1.17 | 37 / 30 = 1.22 | 57 / 48 = 1.18 | 85 / 72 = 1.18 |
+| `works-noxious` | 0.6 | 38 / 36 = 1.07 | 62 / 54 = 1.16 | 98 / 84 = 1.16 | 137 / 120 = 1.14 |
+| `yard` | 0.9 | 36 / 36 = 1.00 | 52 / 54 = 0.97 | 83 / 81 = 1.03 | 110 / 108 = 1.02 |
+| `kiln-yard` | 0.6 | 20 / 18 = 1.13 | 29 / 27 = 1.08 | 41 / 42 = 0.98 | 53 / 54 = 0.98 |
+| `market-hall` | 1.0 | 250 / 250 = 1.00 | 352 / 350 = 1.01 | 503 / 500 = 1.01 | 680 / 700 = 0.97 |
+| `hall` | 0.85 | 150 / 128 = 1.17 | 212 / 187 = 1.13 | 305 / 272 = 1.12 | 438 / 382 = 1.14 |
+| `inn-compound` | 0.6 | 68 / 60 = 1.13 | 103 / 90 = 1.15 | 165 / 132 = 1.25 | 219 / 180 = 1.21 |
+| `bath-house` | 0.75 | 93 / 90 = 1.03 | 130 / 120 = 1.08 | 153 / 165 = 0.93 | 215 / 225 = 0.96 |
+| `court-institution` | 0.9 | 176 / 180 = 0.97 | 308 / 270 = 1.14 | 457 / 405 = 1.13 | 559 / 540 = 1.04 |
+| `barracks` | 0.6 | 168 / 180 = 0.94 | 230 / 210 = 1.10 | 278 / 240 = 1.16 | 310 / 270 = 1.15 |
+| `watch-house` | 1.0 | 26 / 25 = 1.03 | 31 / 30 = 1.04 | 40 / 40 = 1.00 | 50 / 50 = 0.99 |
+| `tower` | 0.85 | 34 / 34 = 0.99 | 42 / 42 = 0.99 | 60 / 60 = 1.01 | 84 / 85 = 0.99 |
+| `farm` | 0.5 | 31 / 30 = 1.03 | 47 / 40 = 1.18 | 66 / 60 = 1.10 | 91 / 80 = 1.14 |
+| `mill` | 0.8 | 50 / 48 = 1.04 | 62 / 64 = 0.97 | 74 / 80 = 0.93 | 87 / 96 = 0.91 |
+| `extractive` | 0.8 | 16 / 16 = 1.01 | 24 / 24 = 1.00 | 36 / 36 = 1.00 | 48 / 48 = 0.99 |
+| `landing-yard` | 0.5 | 30 / 30 = 1.01 | 50 / 50 = 1.00 | 81 / 80 = 1.01 | 124 / 120 = 1.03 |
+| `stable-yard` | 0.8 | 56 / 48 = 1.16 | 76 / 72 = 1.06 | 112 / 104 = 1.08 | 163 / 144 = 1.13 |
+| `hovel` | 1.0 | 17 / 16 = 1.04 | 21 / 20 = 1.05 | 21 / 20 = 1.05 | 21 / 20 = 1.05 |
+| `fort` | 0.6 | 98 / 90 = 1.09 | 131 / 120 = 1.09 | 199 / 180 = 1.10 | 294 / 270 = 1.09 |
+| `burial-ground` | 0.6 | 27 / 24 = 1.12 | 38 / 36 = 1.04 | 50 / 48 = 1.03 | 60 / 60 = 1.01 |
+
+The `fort` and `burial-ground` rows are measured by the same arithmetic (receipt
+`docs/validation/coherence/receipts/V02/medians_new.py` → `medians_new.out`: 1.01–1.12; every ratio of the table stays in [0.91, 1.31]). The row families (`row`),
+the templates (`church`, `chapel`'s template share, `cathedral`, `cloister`, `castle`), the claim-sized `arena` (its band
+`claimShare × area(H)`, `slotBand`) and `cluster` are sized by their quads, templates, claims and cluster rows, not by these
+medians.
+
+**The stepped rows against their bands.** Receipt `docs/validation/coherence/receipts/V02/stepped_receipt.py` → `stepped_receipt.out`, which
+evaluates V02 §3.15.1's closed forms: ST0's least stack at the least draws
+and the steepest grade, the median stack (its tier-0 width × depth, its own proportion, the summit offset), the tiered
+tower against its tower-family budget, and a Monte-Carlo of `tiersTruncated` (N = 4 000 per anchor) on precinct hints
+sized for the row's 90th-percentile stack at `claimHi` (the T-V2-46 bar; the Monte-Carlo column is the recorded output of an unsaved run, PLAUSIBLE until T-V2-46 measures
+it, V02 §12). The claim-sized rows are measured against
+`claimShare × area(H)`, not a template number.
+
+| row | anchor | ST0 least `Wmin × Dmin` (m) | median stack: tier 0 `W × D` (m), own aspect, summit offset | band | `tiersTruncated` on the p90 hint |
+|---|---|---|---|---|---|
+| `stepped-temple` | p / m / pr / r | 9.0 × 15.0 / 12.0 × 20.8 / 15.0 × 23.7 / 19.0 × 30.6 | 15.0 × 19.8, .76, 2.4 m / 19.0 × 26.3, .72, 3.6 m / 23.0 × 29.7, .77, 3.3 m / 30.5 × 39.3, .78, 4.4 m | `claimShare` .35–.6 × area(H) | 1.0 / 1.6 / 4.6 / 7.0 % |
+| `terraced-palace` | p / m / pr / r | 9.0 × 11.3 / 9.0 × 11.3 / 19.0 × 21.8 / 23.0 × 26.3 | the top face must hold its flight (≥ `h ÷ g + landingM`), so its own aspect is 1.2–1.7 | `claimShare` .35–.6 × area(H) | 3.2 / 4.8 / 6.0 / 7.6 % |
+| `stepped-monument` | p / m / pr / r | 9.0 × 17.4 / 12.0 × 22.3 / 15.0 × 27.0 / 18.0 × 31.5 | 16.5 × 23.6, .70, 3.5 m / 21.0 × 29.8, .71, 4.4 m / 25.5 × 35.6, .72, 5.1 m / 30.0 × 41.2, .73, 5.6 m | none (V04's plan cell; no ST8) | 5.1 / 6.3 / 7.3 / 7.5 % |
+| `tiered-tower` | p / m / pr / r | 4.2 × 4.2 / 4.2 × 4.2 / 4.6 × 4.6 / 5.4 × 5.4 | 4.6 × 4.6 (21 m²) / 5.7 × 5.7 (32 m²) / 6.3 × 6.3 (40 m²) / 7.8 × 7.8 (61 m²) | the `tower` family's 34 / 42 / 60 / 85 m² (× 0.85) — every median stack fits | — (not claim-sized) |
+
+**3.10.4 Structure roles** — the rows another slot reads (`<key>/<band>`) and `composition.roleKeys`, which maps each
+structure name of V11 §3.6.1 to its key. The first required structure of a template is the main slot (the family chain) and needs no entry — a template with no
+required structure (`burial-ground`) takes V02 §3.10.7's exemption; a later instance of the same name (a second `block`, `kiln` or `sheds`) reads the family-specific
+entry. Role rows (a row states only what differs from `outbuilding`; `alias` reads another row):
+
+| role key | families | wing width m | range length m `p / m / pr / r` | other cells |
+|---|---|---|---|---|
+| `shed` | single 1 | 3–4.5 | 4–8 | hip 0; hearths 0 |
+| `kitchen` | single 1 | 4.5–6 | 6–10 | hip .3; hearths 1 |
+| `stable` | single .8, L .2 at r (else single 1) | 5–6.5 | 8–16 / 10–18 / 12–20 / 14–24 | dormers .2 (hoist .5); hearths 0 |
+| `store` | single 1 | 4.5–6 / 5–6.5 / 5–7 / 5.5–7.5 | 6–10 / 6–12 / 8–14 / 8–16 | hearths 0 |
+| `staffDwelling` | alias `dwelling-detached` at its p and m cells at every band | — | — | — |
+| `workshop` | single .8, L .2 | 5–6.5 / 5.5–7 / 5.5–7 / 6–7.5 | 7–12 / 8–14 / 8–14 / 9–16 | hearths 1 |
+| `forge` | single 1 | 5–6.5 | 6–10 / 6–10 / 7–12 / 8–14 | porch (the open front) .5/0/0/0/.5; hearths 1 (+ the smoke stack of V02 §3.14.6) |
+| `office` | single 1 | 4.5–6 | 5–9 | hearths 1 |
+| `kiln` | alias `kiln-yard` | — | — | — |
+| `annex` | single 1 | 5–7 | 6–12 | — |
+| `brewhouse` | single .8, L .2 | 5–7 | 8–14 | hearths 1 |
+| `furnace` | single 1 | 4–5 | 4–7 | hearths 1 |
+| `chapterHouse` | towerHouse 1 (no range) | 7–9 | 0 | towerShape octagon .7, square .2, round .1 (a polygonal chapter house); floors the template's |
+| `closeHouse` | alias `dwelling-detached` | — | — | — |
+| `cloisterRing` | rectCourt 1 | 3–4 (a gallery) | 16–30 / 18–34 / 20–40 / 24–48 | floors 1–1; courtMinM 10 / 12 / 14 / 16; hip 0; dormers 0; hearths 0 |
+| `range` | single 1 | 7–9 | 20–40 | hip .3; dormers .3; hearths 1–2 |
+| `gatehouse` | single .7, towerHouse .3 | 6–8 | 8–12 | turret .2; its single range carries a gate hall at its middle (V02 §3.8) |
+| `barn` | single .9, L .1 | 7–10 | 12–20 / 14–24 / 16–30 / 18–34 | hip .4; dormers 0; hearths 0 |
+| `byre` | single 1 | 5–6.5 | 8–16 | hip .3; hearths 0 |
+| `armoury` | single 1 | 6–8 | 10–16 | hearths 0 |
+| `charnelHouse` | single 1 | 4–6 | 5–8 | floors 1–1; hip .3; dormers 0; porch 1/0/0/0/0; hearths 0 (a burial ground's charnel house; its bones are V04's) |
+| `lychgate` (J-V2.88) | single 1 at p and m | 2.5–3.5 at p and m | 3–4.5 at p and m | at p and m a roofed gate: floors 1–1, hip 0, dormers 0, porch 1/0/0/0/0, hearths 0; at pr and r alias `gatehouse` (a burial ground's gatehouse) |
+| `outbuilding` (the last step of every other slot's chain) | single 1 | 4.5–6 (a barn 7–10) | 6–20 | blocks 0; towers 0; back 0 (a barn .2); hip .3; dormers 0; porch 1/0/0/0/0; hearths 0 (a kitchen or brewhouse 1) |
+
+`composition.roleKeys` (family `*` = any family; a family-specific row wins; `attach` `slot` unless named):
+
+| family | V11 structure names | key |
+|---|---|---|
+| `*` | `shed`, `sheds` | `shed` |
+| `*` | `kitchen` | `kitchen` |
+| `*` | `stable`, `stables` | `stable` |
+| `*` | `store`, `stores` | `store` |
+| `*` | `dwelling (staff)`, `journeymen` | `staffDwelling` |
+| `*` | `workshop` | `workshop` |
+| `*` | `forge` | `forge` |
+| `workshop-yard` | `forge or workshop` | `forge` where the class's profile `emits.fire` ≥ 1, else `workshop` |
+| `*` | `house` | `dwelling-detached` (a family row) |
+| `*` | `office` | `office` |
+| `kiln-yard` | `kiln` (the second) | `kiln` |
+| `*` | `annex` | `annex` |
+| `*` | `brewhouse` | `brewhouse` |
+| `*` | `furnace` | `furnace` |
+| `cathedral` | `chapter house` · `close houses` · `cloister` | `chapterHouse` · `closeHouse` · `cloisterRing` |
+| `cloister` | `cloister ring` · `ranges` · `gatehouse` · `barns` | `cloisterRing` · `range` · `gatehouse` · `barn` |
+| `*` | `gatehouse` · `barn`, `barns` · `byre` · `armoury` | `gatehouse` · `barn` · `byre` · `armoury` |
+| `barracks` | `block` (the second) | `barracks` (the family row) |
+| `extractive` | `hut` | `hovel` (the family row) |
+| `landing-yard` | `sheds` (the second and third) | `landing-yard` (the family row) |
+| `court-institution` | `chapel` | `chapel` (the family row) |
+| `court-institution` | `ranges` | `absorbed`, **attach `main`** (M8b) |
+| `church` | `tower` · `porch` | `westTower` · `churchPorch`, **attach `main`** |
+| `cathedral` | `towers` | `westTower`, **attach `main`** |
+| `mill` | `wheel or sails` | `sails` for the `windmill` class, else `wheel`, **attach `main`** |
+| `*` | `yard (open)`, `yard (parade)`, `yard`, `pits or vats (yard parts)`, `stacks (yard parts)`, `spoil (yard part)`, `slip or stage (yard part)` | `yardPart` (no building; S11's yard partition) |
+| `tavern-row` | `cellar store` | `basement` (the class's cellar row holds it) |
+| `burial-ground` | `mortuary chapel` · `charnel house` · `gatehouse or lychgate` | `burial-ground` (the family row) · `charnelHouse` · `lychgate` |
+| `fort` | `tower` (the second) · `gate` · `range (barracks)` | `tower` (the family row) · `gatehouse` · `barracks` (the family row) |
+| `arena` | `gate` | `absorbed`, **attach `main`** (M8b: the oval's gate passages) |
+
+The `castle` family's parts are the base's §4.2 S3 construction and take no role rows.
+
+**3.10.5 `composition.classFamily`** — the composition key of each of V07's village classes, keyed by its **`v.` key** as
+V07 §2.4 keys it (V11 §2.9; J-V7.95). **This table is the home and the one source of the village classes' composition
+keys**; V07 cites it (J-V7.82) and names no second source: each of V07's `v.` rows names a V11 §3.6.1
+`templateFamily` only for its budget rows, read by the chain's step 4 only where this table's step-3 row breaks the
+arrangement law (V02 X13). V03's programme resolution (V03 §3.2 A1 (3)) and its slot order read it too, for a `v.` key
+without a programme row (V03 §2.4; J-V3.111), so a change of a row's key changes that village building's rooms as well
+as its massing. A
+`v.` key names a village-only class and is read wherever a building of that class stands, at any rung (a
+standing building keeps its class across V07 §3.12's hand-offs). A town class never reads this table: at a village rung it
+plays its `villageForm`'s `v.` class (V11 §3.22), which reads its row here, and a town class with no village form plays
+itself through its `templateFamily` (the chain's step 4). The rows are keyed by the `v.` keys alone (J-V2.96):
+
+| class (V07 §2.4) | key |
+|---|---|
+| `v.hovel` · `v.cottage` · `v.chapel` · `v.inn` · `v.watchtower` | `hovel` · `cottage` (the override) · `chapel` · `inn-compound` · `tower` |
+| `v.longhouse` | `v.longhouse` (its own override row, V02 §3.10.3, which the chain's step 2 reads first) |
+| `v.farmstead` · `v.yeoman_house` · `v.manor_house` · `v.parsonage` · `v.reeve_house` | `farm` · `dwelling-compound` · `manor` · `dwelling-compound` · `dwelling-compound` |
+| `v.parish_church` · `v.tithe_barn` | `church` · `barn` |
+| `v.watermill` · `v.windmill` | `watermill` · `windmill` (the overrides) |
+| `v.smithy` · `v.potter` · `v.tannery` | `workshop-yard` · `kiln-yard` · `works-noxious` |
+| `v.alehouse` · `v.shop` · `v.bakehouse` | `dwelling-detached` · `dwelling-detached` · `kitchen` |
+| `v.landing` · `v.wood_yard` · `v.charcoal_pit` | `landing-yard` · `yard` · `hovel` |
+| `v.pound` | `yardPart` — no building ("a walled pen", V07) |
+
+**3.10.6 The default rows, the underground rows and the heights columns.** Every arrangement has a full default row
+(`default.<arrangement>/<band>`), so no chain ends on an undefined cell:
+
+| row | cells |
+|---|---|
+| `default.row` | families row 1; back .1 / .3 / .5 / .6; hip .1; dormers .2 / .4 / .8 / 1.0; porch .9/0/0/0/.1 · .7/.1/0/0/.2 · .5/.2/0/0/.3 · .4/.3/0/0/.3; hearths 1 / 1 / 2 / 2 |
+| `default.detached`, `default.compound` | families single 1; wing width 5–6.5; range length 8–14; blocks 0; towers 0 (0); back .2; hip .3; dormers 0 / .3 / .6 / .8; porch .8/.2/0/0/0; hearths 1 |
+| `default.institution` | as `default.compound`, with families single .8, T .2 at pr and r |
+| `default.hovel`, `default.cluster` | alias `hovel`, `cluster` |
+| `default.underground` (every `<prefix>@underground` row aliases it, with the prefix's wing width and range length) | families single 1; roof `flat` forced; blocks 0; towers 0; back 0; dormers 0; porch 1/0/0/0/0; hearths 0 |
+
+**Heights (item 427; J-V2.33).** The storey heights, the roof pitch, `towerStoreys`, `spireFactor` and item 427's three
+columns `attic`, `parapetCm` and `towerStoreyCm` are V11's `HeightsRow` (V11 §3.6.4 writes their values), read unchanged. The reading rule is this volume's: `attic` true admits dormers on a one-storey wing (V02 §3.7);
+`parapetCm` rises above a flat roof's eave (M11, M12) and is the parapet `deckLevel` subtracts; `towerStoreyCm`, where the
+row gives it, is a church's or cathedral's tower storey, and where it is absent a tower's storeys are `storeyCm.upper`;
+`fort` reads the `tower` row and `arena` the `hall` row (V11 §3.6.1).
+
+**3.10.7 The arrangement law and the load checks (T-V2-33).** A row read under a `row` arrangement may carry only the
+family `row`; under `compound`, `detached`, `hovel` or `institution` never `row`; under `cluster` or `tents` only
+`shelter`. The chain skips a lawless row (V02 §3.2 step 2). At load the compiler of `composition.json` also checks:
+every row's family weights non-negative with a positive sum at every band after `fantasyShapes` off; every `alias` acyclic
+and naming an existing prefix; every structure name of every compiled template resolved by `roleKeys` or as its main
+slot — **a template with no required structure** (`burial-ground`; J-V2.88) has no main slot
+by name: each drawn structure is an ordinary slot reading its `roleKeys` key, the first drawn in the template's structure
+order is the main building for S11's entrance and household rules (V11 §3.6.5: the mortuary chapel "main when present"), a
+template that draws none has no building (open ground), and every one of its names must resolve by `roleKeys`; every class of the compiled roster (town, city, generic, custom archetype and `v.` village) resolved at every band to a
+row above `default.*`, except the classes whose template has no building (`market`, `fair_ground`, `druid_grove`, `v.pound`);
+every `v.` class of the compiled roster has exactly one `composition.classFamily` row, and every row's `cls` names a `v.` class
+of the roster;
+a failure is a table error naming the key (§7.6's refusal), never a silent default. The stepped and deck rows add V02
+§3.15.4's and V02 §3.16's checks. **Every family a row names has its `MassingFamilyRow`**, and a row naming `ovalCourt` carries `caveaM` and a positive `courtMinM`.
+
+**3.10.8 The `FM` building-scope preset (item 376).** Cells of `composition.json` that carry a `presets.FM` entry
+— with V11 §3.24.0's item-110 chance and offer cells, whose `FM` entries (0, V11's) keep every generated stepped or
+deck building out of the `FM` goldens: the `manor`,
+`dwelling-compound`, `hall` and `dwelling-detached` rich rows' `families` — the five Fantasy Manor families
+(`regularCourt`, `starCourt`, `chordArc`, `rectCourt`, `gridWalk`) at weight 1 each and every other family 0, provenance
+`ref:Fantasy Manor build 890 layout families (code)`, P21 (item 59); `fantasyShapes` on; `sunBias` 0.5; and,
+**calibrated to Fantasy Manor's measured outputs, not copied from its code** — `blocks`, `towers`, `towerOnBlock`,
+`towerShape` (the square share), `dormer.perTenM`, the porch weights with `halfRound`, `secondaryPorch`, `walkStop` and
+`walkFree`, and the blocks' `WingRoleRow.hipInset` (0.25 until calibrated, pre-decided fallback 0.5) — each set at M6c by
+**V12's `reference` run against Fantasy Manor** (`layer: { preset: 'FM' }`, V12 §3.7.1 (c), V12 §3.7.2 (3)) on V12's `fm.*`
+metrics, the free-frame harness (V02 §7.4) its fixture and each run holding at most four cells (V12 §3.7.2), so that the
+measured rates of `captures/manor/README-frequencies.md` §3–§4 are reproduced (provenance `ref:Fantasy Manor build 890
+element rates (measured)`, written into the cells' `presets.FM` entries with the defaults untouched, V12 §3.7.6); a run
+rejected applies the register entry's pre-decided fallback (`fallback-applied`), else the entry is `not-achieved` and
+reported to the owner (V12 §3.7.5, V12 §3.11). No V02-private tuner exists. Our realism rules stay on under `FM` (item 59's KEEP OURS): wings in the collision set, a street-facing
+main door, metric scale, the plot. **The `FM` building look** a user may choose (item 376; V09's style panel, V02 X10) dresses the drawing only — its
+roof weathering, doubled cone facets, paper pitch and its two §8.10 decoration rows (`stepStones`, `wallGrass`) are
+the style cells of V02 §5.3.
+
+**3.10.9 Shared cells, the small tables and the constants.** A cell no row names: `courtMinM` 6; `uOpenFront` .2;
+`crossWing` fwd 1.5–3 m, back 0–3 m; `towerShape` round .7, square .25, octagon .05; `towerRadiusW` .35–.5;
+`towerStoreyDelta` 1–2; `blockStoreyDelta` 0–1; `towerOnBlock` 0; `towerFlat` 0; `westTowers` 0–0; `crossingTower` 0;
+`gableToStreetMaxFrontM` 6 / 6.5 / 7.5 / 8; `arcade` false; `cupola` 0 (kinds dome .4, tip .3, pyramid .3); `axis`
+`frontage`; `dormer.widthM` 1.0–1.6; `dormer.kinds` dormer .7, wallGable .3; `dormer.entranceGable` 0 / .05 / .15 / .2;
+`secondaryPorch` 0; `rooms.hall` false; `rooms.hallLenShare` .35–.55; `rooms.chapel` 0; `rooms.gateHallM` 3–4.5;
+`coverageMax` .8 (closed families' rows .65); `claimShare` absent (the constants `claimLo`, `claimHi` for a claim-sized
+template); `caveaM` absent. These carry the **diversity ladder**: the families widen from one range to
+courts, towers appear only toward the rich rows, dormers, porches and back ranges thicken with the value, and each family
+keeps its own ladder, so a poor smith's workshop-yard house is a single range with a shed outshot and a rich armourer's
+an L round a work yard (item 19's example, reached through the template's specialisation and its composition key).
+
+**`WingRoleRow` defaults.** `main`: storeys 0, through 2, dormers yes, porch yes, hipInset .5; `range`: 0, through 1,
+dormers yes, porch yes; `cross`: 0–1, through 3, dormers yes, porch yes; `gate`: 0, through 2, dormers yes, porch yes;
+`block`: the row's `blockStoreyDelta`, roof `hip` only (item 59), hipInset .5 (`FM` .25, calibrated), through 4, dormers
+yes, porch yes; `back`: −1, through 0, dormers no, porch no; `service`: −1 to 0, through 0, dormers no, porch no; `tower`,
+`turret`: the row's `towerStoreyDelta`, roof by shape, through 5 (a square tower's ring stays whole at a butt joint),
+dormers no, porch no; `part`: the template's, dormers no, porch yes (a template's door); `shelter`: 0, dormers no, porch
+no. Ranges read their gable or hip from `hipShare`. The roles `tier`, `shrine` and `stair`: V02 §2.6.
+
+**The `stepped` and `ovalCourt` `MassingFamilyRow` rows.** `stepped`: `minFrameW`
+[0, 0] (ST0's test instead), `wings` [2, 9] (the tiers), `closed` false, `joints` `butt` (tier 0 and stair 0; the stacked
+wings are ST6's), `fantasy` false, provenance own. `ovalCourt`: `minFrameW` [0, 0] (its own M3 test), `wings` [24, 40] (two
+rings of 12–20), `closed` true, `joints` `mitre`, `fantasy` false, provenance own.
+
+**`MassingGrowthRow` defaults** (the mutator's lattice; V02 §3.9's table gives each pair's construction): from `single` to
+any of `L`, `T`, `H`, `U`, `cross`, `rectCourt`, `towerHouse`, `gridWalk`: keep `main` (anchor: the front for `L`, `U` and `rectCourt`; the hall
+for `T` and `H`; the main range for `cross`; either for `gridWalk`); `L → U | rectCourt`: `all`; `L → T | H`: `main`;
+`T → H`: `all`; `U → rectCourt`: `all`; every reverse (`rectCourt → U`, `U → L`, `H → T`, `T → single`, `L → single`,
+`cross → single`, …): `mainAndOne`, or `main` when the target has one range. Any pair into or out of `plotRing` or a
+fantasy family — or `ovalCourt` (the kept range matched against one façade chord) — reads `keep: 'main'`, anchor `either`, under V02 §3.9's ± 15 % rule. `row → row`: `all`; a row building
+keeps its family through every change that keeps the `row` arrangement (J-V2.13); V02 §3.9's W3b takes the rest.
+`single → stepped` keep `main` (anchor front), `stepped → single` keep `main`, `stepped → stepped` keep
+`all` (V02 §3.15.5); every other pair into or out of `stepped` passes through `single`.
+
+**`TowerShapeRow`**: round — sides 12 below 2 m radius, 16 below 4 m, 24 above; roof `cone`, pitch (rise over radius)
+1.5. Square — 4 sides, `pyramid`, 1.0. Octagon — 8 sides, `pyramid`, 1.2. **`PorchKindRow`** (depth × width m, storeys,
+clearance 0.3 m): `hood` 0.4–0.8 × 1.2–2.0, 0 storeys (at 0.8 of the ground storey); `gabled` 1.5–3.0 × 2.0–3.5, 1;
+`twoStorey` 2.5–4.0 × 2.5–4.0, 2; `recessed` 1.0–1.8 × 1.2–2.4, inside the footprint; `halfRound` depth = width ÷ 2 ×
+2.0–3.5, 1 (a half-cone roof). **`DormerKindRow`** (depth share of the half span, at the eave, least pitch, gap):
+`dormer` 0.45, no, 0.7, 0.4 m; `wallGable` 0.5, yes; `hoist` 0.4, yes; `entranceGable` 0.7, yes.
+
+**Constants not in a row** (each a table cell of `composition.json`'s `constants` row; `own`; calibratable):
+
+| constant | default | read by |
+|---|---|---|
+| `mitreMinDeg` | 60° | M5 (oblique paths) |
+| `collinearMergeDeg` | 178° | M5 |
+| `wMinM`, `wMinShare` | 3 m, 0.8 | V02 §3.4, M3 |
+| `walkStop`, `walkFree`, `walkGapM` | 0.12, 0, 2 m (the gap `max(walkGapM, 0.3w)`) | M5 `gridWalk`, M3 |
+| `plotRingMaxVertices`, `plotRingTolW`, `plotRingMinEdgeW` | 8, 0.25, 1.5 | M5 `plotRing` |
+| `blockLenW`, `blockDepthW`, `blockMinPiece`, `blockGapM` | [1, 1.6], [1, 1.4], `max(w/2, 2 m)`, 1 m | M7 |
+| `towerCentreOut`, `towerShare`, `turretShare`, `turretRadiusM`, `towerGapM`, `towerOnBlockInsetM`, `westTowerW` | 0.35 r, [0.2, 0.6], [0.25, 0.75], [1.2, 1.8] m, 0.5 m, 0.3 m, [0.45, 0.6] | M8 |
+| `wheelWidthM`, `wheelReachM`, `churchPorchWidthM`, `churchPorchDepthM` | [2, 3] m, 4 m, [3, 4.5] m, [3, 5] m | M8b |
+| `axisSlope`, `axisSampleM`, `axisWaterM` | 3 %, 2 m, 50 m | M2 |
+| `sunBias` | 0.7 (`extension`; 0.5 in the `MFCG`, `FTG`, `VG` and `FM` presets — the `MFCG`, `FTG` and `VG` entries `own`, note `fixed: the parity neutral` (V11 §2.2's rule (a)); the `FM` entry code-read (V02 §3.10.10)) | M5's sunlit choice |
+| `backMinWidthM`, `backShedMaxWidthM`, `backFarMarginM`, `backRunTolDeg` | 3 m, 3.5 m, 1 m, 5° | M9 |
+| `sizeLo`, `sizeHi`, `mainShareDefault` | 0.9, 1.1, 0.6 | M3, M10 |
+| `sizeBandLo`, `sizeBandHi` | 0.7, 1.45 (`own`, note `fixed: the mirror of V11 §3.6.1's derivation ratios, changed only in the change that changes those` — not calibratable, the one exception to this table's heading) | M10 |
+| `pitchClamp` | [0.3, 1.8] | M11 |
+| `entranceHintMinCos` | cos 60° | M2, M13, V02 §3.7 |
+| `bayM`, `endMarginM`, `dormerSetbackM` | 3.6 m, 1.2 m, 0.3 m | V02 §3.7 |
+| `hallDoorBackM`, `gateHallJointGapM` | 1.5 m, 0.5 m | V02 §3.8 |
+| `dormerEaveTol` | ± 10 % | V02 §3.9 W8, V02 §2.5 |
+| `domeRise` | 1.0 (rise ÷ the ring's mean radius) | V02 §5.2 |
+| `viewBatchMs` | 16 ms of pool time | V02 §3.11, V02 §6.2 |
+| `crypt.clearCm`, `crypt.freeboardCm` | 250 cm, 30 cm | V02 §3.14.5 (item 226) |
+| `massing.composed` (option, `extension` over both) | on | V02 §3.1 |
+| `fantasyShapes` (model option; §7.8 row, item 402) | off | V02 §3.3 |
+| `tierMinSideM`, `landingM`, `stairClearM`, `stairGradeMax`, `pentShare` | 3 m, 1 m, 0.3 m, 1.3, 0.6 | V02 §3.15.1 |
+| `claimLo`, `claimHi` | 0.35, 0.6 | `slotBand` for a claim-sized template without a row `claimShare` |
+| `ovalSides`, `ovalAxisRatio`, `ovalMajorFactor` | 12 below a 10 m mean semi-axis, 16 below 20 m, 20 above; [1.15, 1.4]; [0.85, 1] | V02 §3.5 M3, M5 |
+| `terrace.wallBandCm` | 250 cm (one refined raster cell) | item 231's wall-side sample |
+| `vaultClampCm` | 30 cm | M11 |
+| `riserMaxCm` | 20 cm | `stairTreads` (V02 §2.6) |
+
+**3.10.10 The register lines of `composition.json` (J-V2.101).** Every calibratable cell of this volume's tables takes
+its calibration register entry from exactly one line below, by V12 §3.11's rule (a line ending "and every other …"
+binds the rest of its family). `bar.T-V2-<n>` is V12's bar-metric family (V12 §2.1); the other metrics are V12
+§3.4.2's. "The panel rule" is V12 §3.11's: this volume states no second value
+for these cells, so a group rated No leaves the entry `not-achieved`, reported to the owner as a table defect, and an
+unrated group leaves it *provisional — not rated*.
+
+**The bars' registrations** (J-V2.102). Each bar a line below names as `bar.T-V2-<n>` is
+registered by the seat landing the milestone that writes that line's entry (V02 §2.3: the milestone that ships the cell),
+in the same change, as a V12 `BenchBarDef` (V12 §2.1) — `id` the bar id (`'T-V2-22'` …), `owner` `'V02'`,
+`statistic` the bar's own quantity as the table states it, `stages` `['S11']` (the stage that reads `composition.json`, the
+composer's draws keyed by its stage id, V02 §3.12 — so V12 §3.7.2 (4) admits exactly this volume's cells), `towns` the
+bar's fixtures with their settings (their rungs and water as V02 §7.1 builds them; each setting's `preset` `'default'`, V12 §2.1's `PresetArm` — no parity
+preset; `perSetting` the bar's
+own count where it states one, else the fixture family's — B-CITY's per rung, §13.2, one for a hand-built fixture),
+`tier` the bar's CI tier (V02 §7's two CI paragraphs), `run` the check V02 §7 states — unless a `StatBarSpec` or
+`NullModelSpec` of V12's bar map already carries it as `id` or `ownerBar` (none does). A bar V02 §7 runs in
+two tiers on two fixture sets registers once per tier under the same `id` (V12 §2.1: `bar.<barId>` is then the vector of
+both, passing only when each passes); a bar named by two lines registers once, with the earlier line. In T-V2-36, T-V2-42
+and T-V2-46 — the bars whose clauses wait on a later landing — a clause whose subject the build does not yet produce reads
+−1 (every value of theirs is a share, a ratio or 1 / 0, never negative) and is left out of the verdict, which is
+`notApplicable` when no clause applies; the entry it confirms is not due before that landing (V12 §3.11's *Milestone exits*).
+
+| bar | `statistic` — its clauses in the bar's order (`unit`) | `towns` | `tier` | registered by (the line) |
+|---|---|---|---|---|
+| T-V2-22 | V02 §6.1's four times, then V02 §6.2's four, then each stage-3 one-time wait's p95 from the click (`ms`) | B-CITY, every rung and the population cap | `nightly` | the M6b seat (`viewBatchMs`) |
+| T-V2-28 | the share of cluster structures and `@underground` buildings meeting the one-wing, one-roof rule (`share`) | B-MASS | `pr` | the M6a seat (the crypt line; its cells ship in M6a's `composition.json`) |
+| T-V2-29 | the least within-class Spearman, the non-decreasing check (1 or 0), `hovel`'s `single` share, the rich manors' court-family share, the towers standing where no row allows one (`none`) | B-CITY, every rung | `nightly` | the M6a seat (the geometry rows) |
+| T-V2-30 | the share of buildings inside `[0.9 × lo, 1.1 × hi]` (`share`) | B-MASS against the compiled V11 templates; B-CITY, every rung | `pr`; `nightly` — two registrations | the M6a seat (the geometry rows; the small tables' line reads the same bar) |
+| T-V2-32 | the short-axis ridge share (`share`) | B-CITY-lite | `nightly` | the M6c seat (`gableToStreetMaxFrontM`) |
+| T-V2-36 | each clause 1 or 0 (`none`); −1 until V04's access draw and the crypt derivation (M6-U) land (V02 §8.1, R8) | B-MASS's cathedrals on `dry`, `low`, `damp` and `flood` plots and its stepped great temples on `flood` | `nightly` | the M6a seat (the crypt line) |
+| T-V2-37 | the south-facing share at `sunBias` 0.7, then at 0.5 (`share`) | B-MASS's flat northern site (latitude 50°, 200 slots) | `pr` | the M6a seat (`sunBias`; its cell ships with M5) |
+| T-V2-42 | each landmark clause 1 or 0, then the arena's hull aspect, its court's share of the hull, its floor's `court` typing (1 or 0) and its closure (1 or 0) (`none`); the landmark clauses −1 before M6a's composed massing | B-MASS (its market hall, kiln yard, church with a transept, rich hall, cathedrals and arena sub-fixture) and B-PLAN; the second known-city fixture | `pr`; `milestone` — two registrations | the M3a-V2 seat (the arena line) |
+| T-V2-46 | the `tiersTruncated` share per anchor, then each other clause 1 or 0 (`none`); the M6a byte-identity clause −1 before M6a | B-MASS's stepped sub-fixture with the receipt's precinct hints (200 per anchor); the second known-city fixture | `pr`; `milestone` — two registrations | the M3a-V2 seat (the stepped line) |
+| T-V2-47 | the in-band share, then each other clause 1 or 0 (`none`) | B-MASS's deck sub-fixture; the second known-city fixture | `pr`; `milestone` — two registrations | the M3a-V2 seat (the `@deck` line) |
+| T-V2-51 | clauses (a) – (c), each the share of buildings holding it (`share`) | the terrace-wall sub-fixture; the second known-city fixture's terraced wards | `pr`; `milestone` — two registrations | the M3a-V2 seat (`terrace.wallBandCm`) |
+
+| cells — one entry each | method, due | metric | when it cannot confirm |
+|---|---|---|---|
+| the template-family, class-override, structure-role and default rows' geometry cells at the four anchors (V02 §3.10.2 – V02 §3.10.6: `families` weights, `wingWidthM`, `rangeLenM`, `crossWing`, `courtMinM`, `uOpenFront`, `blocks`, `towers`, `towerShape`, `towerRadiusW`, the storey deltas, `towerFlat`, `westTowers`, `crossingTower`, `gateTower`, `turret`, `backRange`, `backLenM`, `backWidthM`, `hipShare`, `cupola`, `dormer`, `porch`, `secondaryPorch`, `rooms`, `floors`, `hearths`, `coverageMax`), the `@underground` rows, V02 §3.10.9's shared cells, and every other calibratable cell of those rows no line below names | `measure` at M6a (T-V2-29's ladder and T-V2-30's budget share on B-CITY, V02 §3.10.3's receipt re-run on the compiled V11 templates), then `panel` at M6 (V02 §7.5 (2), the ladder street), then `corpus` possibility at M-CAL (§13.9) | `bldg.area`, `bar.T-V2-29`, `bar.T-V2-30` | M10's band and shrink keep each building inside its budget whatever the row (V02 §3.5), and SP-V2-1's rich join step (V02 §8.2); otherwise the panel rule |
+| `gableToStreetMaxFrontM` (M12's frontage law) | `measure` at M6c (T-V2-32, the NG ridge share, on B-CITY-lite) | `bar.T-V2-32` | none stated: a miss is `not-achieved`, reported; the NG draw-style sheet keeps its own fallback (X14) |
+| the `FM` preset's measured-rate entries — `presets.FM` of `blocks`, `towers`, `towerOnBlock`, `towerShape` (the square share), `dormer.perTenM`, the porch weights with `halfRound`, `secondaryPorch`, `walkStop`, `walkFree` and the blocks' `WingRoleRow.hipInset` (V02 §3.10.8) | `reference` run against Fantasy Manor at M6c (`layer: { preset: 'FM' }`, V12 §3.7.2 (3); SP-V2-3), the free-frame harness its fixture | `fm.*` | `hipInset` 0.5 (`fallback-applied`); every other cell `not-achieved`, reported to the owner (V12 §3.7.5) |
+| the code-read `FM` entries — the four rich rows' `families` (the five Fantasy Manor families at weight 1, P21) and `sunBias` 0.5 | no entry: their `ref:Fantasy Manor build 890 … (code)` provenance passes V12 §3.11's lint; no run moves them | — | — |
+| the mirror constants — `sizeBandLo`, `sizeBandHi` | no entry: `own` with the note `fixed: the mirror of V11 §3.6.1's derivation ratios, changed only in the change that changes those` passes V12 §3.11's lint; no run moves them — a change to V11's ratios changes them in the same change | — | — |
+| the parity-neutral entries — `sunBias` 0.5 under `MFCG`, `FTG` and `VG` | no entry: `own` with the note `fixed: the parity neutral` (V11 §2.2's rule (a)) passes V12 §3.11's lint; no run moves them (V12 §3.7.2 (3)) | — | — |
+| the stepped rows' `tiers` cells (`count`, `shape`, `insetM`, `solid` and the heights, `taper`, `lowerRoof`, `top`, `stairs`, `stairWidthM`, `stairGrade`, `shrineInsetShare`), `claimShare`, `TierCells.heights`, and the constants `tierMinSideM`, `landingM`, `stairClearM`, `stairGradeMax`, `pentShare`, `riserMaxCm`, `claimLo`, `claimHi` | `measure` at M3a-V2 (T-V2-46's truncation share ≤ 10 % on the receipt's precinct hints; T-V2-44, T-V2-45), then `panel` at M4 (M4-110's stepped-temple item, V12 §3.11's stepped-tiers line) and at M6 (V02 §7.5 (3)) | `tier.count`, `bar.T-V2-46` | the per-building fallbacks V02 §3.15.1 lays (the stair fallback `axial → flights → internal`, ST8's single, each reported) and V02 §6.5's truncation above seven tiers; otherwise the panel rule |
+| the `arena` row (`caveaM`, `courtMinM`, `claimShare`) and `ovalSides`, `ovalAxisRatio`, `ovalMajorFactor` | `measure` at M3a-V2 (T-V2-42's arena bar on B-MASS and the second known-city fixture), then `panel` at M6 (V02 §7.5 (3), the amphitheatre) | `bar.T-V2-42` | M3 removes `ovalCourt` where the least oval does not fit and M14 lays the fallback, reported (X27); otherwise the panel rule |
+| the `@deck` rows | `measure` at M3a-V2 (T-V2-47: ≥ 95 % inside the deck band), then `panel` at M4 (M4-110, V12 §3.11's `deck` line) | `deck.buildings`, `bar.T-V2-47` | the panel rule |
+| the small tables — `WingRoleRow` (`storeyDelta`, `hipInset` outside `FM`), `MassingFamilyRow` (`minFrameW`, `wings` of our own families; the five Fantasy Manor families' rows keep their `ref:` provenance, P21, and take no entry), `TowerShapeRow`, `PorchKindRow` (shipped at M3a-V2 for V01's entrance reserve, so its entries are written by the M3a-V2 seat and fall due at the measure this line names), `DormerKindRow` — and the massing constants of V02 §3.10.9 (`mitreMinDeg`, `collinearMergeDeg`, `wMinM`, `wMinShare`, `walkStop`, `walkFree`, `walkGapM`, the `plotRing…`, `block…`, `tower…`, `turret…`, `westTowerW`, M8b's four, `axisSlope`, `axisSampleM`, `axisWaterM`, the `back…` four, `sizeLo`, `sizeHi`, `mainShareDefault`, `pitchClamp`, `entranceHintMinCos`, `bayM`, `endMarginM`, `dormerSetbackM`, `hallDoorBackM`, `gateHallJointGapM`, `dormerEaveTol`, `domeRise`), and every other calibratable constant no line names | `measure` at M6a and M6b (SP-V2-1's feasibility share, ≥ 40 % of rich manor plots admitting a court; T-V2-3, T-V2-9 – T-V2-12, T-V2-30), then `panel` at M6 (V02 §7.5 (1)–(2)) | `bldg.area`, `bar.T-V2-30` | SP-V2-1's rich join step (V02 §8.2); otherwise the panel rule |
+| `sunBias` (0.7, `extension`) | `panel` at M6 (V02 §7.5 (2); T-V2-37 checks only that the draw reads it), then `corpus` possibility at M-CAL | `bar.T-V2-37` | the panel rule |
+| `crypt.clearCm`, `crypt.freeboardCm`, `vaultClampCm` | `measure` by T-V2-36 and T-V2-28 from the landing of V04's access draw, then `panel` at U5 (V4-U5, `realism`; its framing holds the cathedral's crypt, V12 §3.11's `under.catacomb` line) | `crypt.present`, `bar.T-V2-36`, `bar.T-V2-28` | the panel rule |
+| `terrace.wallBandCm` | `measure` at M3a-V2 (T-V2-51 (a) – (c) on the terrace-wall sub-fixture and the second known-city fixture), then `panel` at M4 (M4-110's terrace item) | `bar.T-V2-51` | the panel rule |
+| `viewBatchMs` | `measure` at M6b (V02 §6.2's measurement; T-V2-22) | `time.model`, `bar.T-V2-22` | V02 §6.2's fallbacks |
+| the options `massing.composed` and `fantasyShapes` | no entry: each closes with the note `fixed: an option` (V02 §3.1; the owner's fantasy-as-toggles, D-7, J-V2.5) | — | — |
+| the keys and laws — `composition.roleKeys`, `composition.classFamily`, `MassingGrowthRow`'s `keep` and `anchor`, `CompositionRow.axis` and `arcade`, the arrangement law | not calibratable (keys, enumerations and laws, as V12 §3.11 reads V11's `ColumnSpec`): no entry | — | — |
+=== END ===
+
+=== REPLACE ### 3.11 Elaboration by click, staleness and the canonical prior ===
+### 3.11 Elaboration by click, staleness and the canonical prior
+
+* **City band.** The massing only (eager): every footprint with its wings and heights, as the base's first map.
+* **District band and finer, before any click.** The roofscape of the massing (V02 §5.2) — ridges, hips, valleys, tower
+  cones and spires, the cupola — drawn lazily per tile from model data (§8.5's lazy list: "roof constructions and
+  hatching"); no composition is needed for it, and the district band requests none.
+* **A neighbourhood click** (II.4, V01), an **outline close-up** (V01 §3.8.9: the buildings inside the
+  outline, centre-out from the outline's centroid), or a visible tile's request **at the neighbourhood band or finer** under
+  `elaborate: 'view'`: the derivation pool runs `compose(…, 'wings')` for each building of the neighbourhood (or tile),
+  **centre-out from the click point** (or the tile's centre), each result a cache chunk and its record `current`; the tile
+  worker re-rasters the affected tiles as the chunks arrive (`DisplayDelta`, §8.9) — dormers, porches, entrance gables
+  appear. A tile's request is sliced into batches of at most `viewBatchMs` of pool time (§12.7's bound) when it
+  holds more buildings than one batch composes; the tile draws the massing's roofscape until each batch lands (V02 §6.2).
+* **A building click** from the neighbourhood band down: `wings` (if absent or stale), then `rooms`, then `plan` (V03),
+  each recorded. At the city and district bands a click on a building is the district's click (V01 §3.8.1: its
+  close-up and the `wings` rung), which selects the building without deriving `rooms` or `plan`; a double-click reaches the
+  plan at any band (V03 §4.5).
+* **What makes the `wings` rung stale — `wingsInputs` (item 261; J-V2.52).** Its recorded inputs are exactly: a digest of
+  the building's **base wings** (keys, roles, rings, heights, roofs), the **main entrance** (its wing key, side and offset)
+  and any entrance a secondary porch stands at, `Building.massing`, the **slices of `composition.json`** it read, and —
+  for the porch's space — the **plot's ring with the footprints of the plot's other buildings and the yard parts** that lie
+  within `porch.depthM[1] + clearanceM` of the main entrance (and of the secondary porch's entrance). Nothing else: a
+  relet, a household move, a use change, an access, a sub-location, a band drift, a Works stage or a material change
+  leaves the rung `current` and draws no change marker (T-V2-21), because dormers and the porch read none of them. A dossier
+  event of items 18, 22 or 31 reaches the rung only through those inputs.
+* **What makes the `rooms` rung stale.** `wingsInputs`, plus the **occupants' band row and value**, the **household
+  count** (V02 §3.8; item 261), the class's programme `hall` row, and its own slices — so a band change or a re-division
+  re-derives the composer's rooms and the plan's re-cut starts from the rooms the new band admits. A building's decline is
+  no such change: an existence change to `abandoned`, `decayed` or `ruined`, and the households' leaving that comes with
+  it, leaves the rung `current`, so the plan as built stands under its damage layer (§2.6 step 7; item 123 (a); V02 §5.7).
+* **The canonical prior.** An unstored composition has none to carry: its re-derivation is a pure function of the
+  committed massing, and its draws are keyed per wing key (V02 §3.12), so every wing the change kept recomposes exactly as
+  before — the least-disruption property item 18 asks of a mutation, obtained by construction. A stored composition is
+  re-matched inside the changing event (V02 §3.9 W8) and is never stale (its state is `edited`).
+* **Re-rolls.** `regenerate` with `rung: 'wings'` advances `#wings`: dormer counts, kinds and the porches re-draw; the
+  massing, a model fact, is unchanged (T-V2-14). `rung: 'rooms'` advances `#rooms`: the hall's length, the chapel. New
+  random on the building's plot or block re-derives its massing (S11) with the plot's reroll (§6.1).
+* **The exterior's damage reads a plan only where one is in force** (V02 §5.7). A decayed or ruined building, or one
+  under a disaster's look, raises no rung for its exterior: its holes and gaps are drawn from the plan a building click
+  or V03's `view` derivation put in force (current or stored), and elsewhere the exterior takes its massing reading. A
+  change of the decay level or of a look marks no rung stale (`wingsInputs` holds neither), and a plan current before a
+  building decays stays current (§2.6 step 7: decay never re-cuts a plan).
+=== END ===
+
+=== REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11)) ===
+### 3.18 Edges — every mechanism at its limits (principle (11))
+
+Every mechanism of V02 §2–§5 has a defined outcome at the limits of its inputs, a rung on §5's failure ladder (check,
+repair locally, retry that piece, simpler shape, substitute, leave out and report — never a whole-map retry) and a test.
+Four rules cover whole edge classes; the tables give every other case, each row naming its home.
+
+**(a) Degenerate geometry.** Every geometry stage 3 commits — the massing, a mutation's lay, a `setMassing` commit, a
+stack's lay — passes M13's snap and validation (V02 §3.5: an edge below `minEdge` merged, every ring simple and
+counter-clockwise, every wing at least 4 m² with every side at least `minEdge`) and commits through S11's kernel
+transaction, so a zero-length, zero-area, self-touching, collinear or coincident ring is never committed: at generation
+it is an M14 attempt and ends at worst at rung 3, the base rectangle the base guarantees (V02 §3.13); in an edit it is
+bent to the least lawful size (`bend.wing.grow`, V02 §4.2 step 2). A degenerate slot hint (zero area, or narrower than
+every family's least lengths) reaches rung 3 at once, and below it the base's F-SITEPLAN ladder (§2.6). The composer's
+products (dormer rows, porches, rooms) that would be degenerate are dropped or shortened by F-COMPOSE's rungs (V02
+§3.13); the view's derivations (the roofscape, `stairFlight`, the exports) skip a zero-area facet or a zero-length line
+and never fail a tile or an export. Tests: T-V2-9, T-V2-17, T-V2-56.
+
+**(b) Rungs.** Stage 3 runs at every rung; only its inputs differ:
+
+| rung | stage 3 |
+|---|---|
+| THORP, HAMLET, VILLAGE (the village product) | V07's `v.` classes compose by `composition.classFamily` (V02 §3.10.5); a town class plays its `villageForm`'s `v.` class (V02 §3.2); no stepped building unless V11 §3.24.3's culture × class specialisation applies to the `v.` class under V07's `rules.tiers.capPerSettlement` (X26); deck buildings on a village bridge by V02 §3.16; no raised way (the base's rung gate); every dwelling but a `grandClasses` building reads its row under the rung's grandeur ceiling — at most `single`, `L` or `T`, no tower, turret, gate tower or court — while a manor S10b admits and a building the dossier or the author makes grand keep their full rows (V02 §3.2 step 2; item 115); a disaster's ruined look falls on every building of V07's ends (V02 §5.7) |
+| TOWN | stage 3 whole; raised ways only as declared (V02 §3.17 (b)); stepped buildings at V11's caps (≤ 0.1 % of buildings, V02 §6.5); the grandeur ceiling caps nothing (V02 §3.2 step 2) |
+| CITY, METROPOLIS | stage 3 whole; generated raised ways; V02 §6.1's rung rows; the grandeur ceiling caps nothing |
+| the population cap | V02 §6.1's cap row; nothing else changes |
+| any rung, the `VG` preset | `sunBias` 0.5 (V02 §3.10.9's preset entries); the rest as the rung's row |
+
+Tests: T-V2-29, T-V2-30, T-V2-33 (every class at every band), T-V2-55, T-V2-58, T-V2-60.
+
+**(c) Toggles and presets.**
+
+| toggle or preset | stage 3 |
+|---|---|
+| `MFCG`, `FTG` | `massing.composed` off: every class's family `baseOutline`, the base outline builder's footprints byte for byte (V02 §3.1; T-V2-26); `sunBias` 0.5 |
+| `NG` | the `hatched` family's constructions; the NG parity sheet's roof construction by V01 §7's rule (X14); T-V2-32 |
+| `FM` | the `FM` building look and its calibrated cells (V02 §3.10.8); T-V2-31 |
+| `massing.composed` off (an edit of the option) | as under `MFCG` and `FTG`: every class's family `baseOutline` (V02 §3.1) |
+| `fantasyShapes` off (the default) / on | the three fantasy families never drawn / drawn at their row weights (V02 §3.3; V02 §4.4's control) |
+| item 110's rows off (the `item110.stepped` and `item110.deck` overlays) | byte-identical to the composer without them (T-V2-50) |
+| the grandeur ceiling off (V11 §3.24.0's off form: every `grandeur.ceiling` row `enabled` false) | no row capped: every rung reads as TOWN does, byte-identical to stage 3 without item 115 (the `item115.off` pin, V12 §2.13) |
+| `elaborate: 'view'` off | the `wings` rung only on a click (V02 §3.11) |
+| the export option `compositions` | V02 §5.5 |
+| Show crises (§2.9's `crises`): `follow` (the default) / `off` / `preview` | the disaster looks drawn in the view fall on their units' buildings / no look: each building's exterior by its own decay alone, as if no disaster look stood / the previewed `disaster` look at §10.2's `previewSeverity` on the units its preview strikes (V02 §5.7); item 123's damage is never switched |
+
+Tests: T-V2-26, T-V2-31, T-V2-32, T-V2-37, T-V2-50, T-V2-55, T-V2-58, T-V2-60.
+
+**(d) Save, load, undo, redo, regenerate, migrate.** Every stored field's cells are V02 §2.5's and every event's §7.4's
+row (V02 §4.4); the elaboration cache and every derived view (V02 §2.4, the roofscape) are recomputed on load, undo, redo
+and regenerate and never stored, so none goes stale in a save; a document without stage-3 fields loads by the fallback
+migration row (T-V2-6), one without `MassingRef.stack` by the stack migration row (T-V2-46). The exterior's damage and a
+disaster's ruined look (V02 §5.7) are derived at read and never stored: a load re-reads them from the level, the plan in
+force and the looks, and an undo or redo of an epoch changes only the level they read. Tests: T-V2-6, T-V2-19,
+T-V2-20, T-V2-24, T-V2-34, T-V2-48, T-V2-59, T-V2-60.
+
+**(e) Per mechanism** — no input (E1), one item (E2), the maximum and its caps (E3), missing, empty or contradictory
+data (E5), and degenerate cases with an outcome of their own (E4):
+
+| mechanism (home) | edge | outcome | rung | test |
+|---|---|---|---|---|
+| the stored composition (V02 §2.2) | a stored composition naming a wing key that left; an edited room whose host left; a secondary porch whose entrance left | listed in §7.3's orphan table with re-attach and discard (V02 §4.4), never dropped silently | leave out and report | T-V2-20 |
+| the stored composition (V02 §2.2) | a stored composition whose `composition.json` slices a later table version changed | kept as stored (`edited` is never stale, V02 §3.11); its unedited parts re-derive only when the massing changes | — | T-V2-21 |
+| the derived functions (V02 §2.4) | a side whose usable run is not positive; a `polygon` wing's free arc shorter than `bayM ÷ 2`; a wing with no ridge (`flat`, `none`) | no bay on that side or arc; no eave sides and so no dormer; `cryptSeedWings` on a building with none returns an empty list (V02 §3.14.5) | — | T-V2-53 |
+| the row a building reads (V02 §3.2) | a class, family or structure with no row; a row breaking the arrangement law; V11's templates without the manor override, the role shares or item 427's columns | the chain's next key, ending at `default.<arrangement>/<band>`; the row skipped and reported at load (`arrangementSkip`); R7's defaults (V02 §8.4) | substitute | T-V2-33 |
+| the rung ceiling (V02 §3.2 step 2) | a capped row keeping no family; an assignment's drift admitting none of the kept families; a `gatehouse` slot on a capped dwelling; a ceiling row that limits nothing or is off | the default row's capped families, else `baseOutline` (`ceilingEmpty`, reported); the drift's families read uncapped, the why fact naming it; the `outbuilding` row; no cap and no suffix | substitute | T-V2-58 |
+| fitting (V02 §3.4) | the slot's `entranceOn` names no access segment; a zero-length access segment; `lir` of a sliver `H` | the plot's longest access segment gives `f`, and with none the massing takes rung 3, reported; a zero-length segment is never the longest; a clamped `w` below the least makes every family infeasible (M3), so rung 2, then rung 3 | substitute | T-V2-17, T-V2-56 |
+| the massing (V02 §3.5) | a plot with no slot; a template that draws no structure | no `outline()` call; no building (open ground, V02 §3.10.7) | — | T-V2-56 |
+| the massing (V02 §3.5) | one slot, one wing | the drawn family lays one range, or rung 2's `single` | simpler shape | T-V2-17 |
+| the massing (V02 §3.5) | a hint below the family's least footprint `Amin`; a band above the plot's capacity | M3's budget test removes the family; M10's reverse-lattice shrink, then `overBudget` reported (T-V2-30) | simpler shape | T-V2-30 |
+| the massing (V02 §3.5) | the most the rows draw (wings, blocks, towers, tiers) | every loop runs over a finite list — M7's and M8's candidates tried in drawn order until `k` are accepted or none remain — and at most three attempts of a family (M14), so no lay hangs; a lay the plot cannot hold is the next attempt | retry that piece | T-V2-17, T-V2-22 |
+| the composer (V02 §3.6, V02 §3.7) | a building whose every eave has no bay; no main entrance side with room for a porch | no dormer; the porch ladder ends at `none` (F-COMPOSE (2)) | leave out and report | T-V2-12, T-V2-18 |
+| the rooms rung (V02 §3.8) | a host shorter than the hall's least length; no host admitting a room | the room shortened once, then omitted, V03 placing that role (F-COMPOSE (3)) | leave out and report | T-V2-35 |
+| the mutation (V02 §3.9) | a kept wing outside every target's ± 15 % side rule; a mutation toward the building's own family | the target unreachable, the next reachable family drawn; a mutation to its own family re-lays nothing (every wing kept) | substitute | T-V2-16 |
+| elaboration (V02 §3.11) | a click on a building whose `wings` rung failed; a tile holding more buildings than one batch composes | the identity composition, reported (F-COMPOSE (4)); the batches of `viewBatchMs`, the massing's roofscape drawn meanwhile | substitute | T-V2-18, T-V2-22 |
+| determinism (V02 §3.12) | two candidates at equal weight or distance; a row cell absent from `composition.json` | ties by the lowest key, then the fixed geometric enumeration order; an absent cell is resolved by V02 §3.2's chain before any draw, so no draw reads a missing range | — | T-V2-13, T-V2-33 |
+| the owner's rules (V02 §3.14) | a split site whose works plot is lost; a ladder demotion with one member | the merge-back's two mutations in one event; the demotion keeps the member nearest its demand, the as-built bytes returning | — | T-V2-39, T-V2-40 |
+| stepped massing (V02 §3.15) | a hint too small for a second tier; a draw of more tiers than fit | ST8's shrink, then the single fallback, reported (`tiersTruncated`, `shrineDropped`) | simpler shape | T-V2-46 |
+| deck buildings (V02 §3.16) | a deck plot narrower than every family's least lengths; a deck whose `deckCm` is unset | F-MASSING to the base rectangle inside the plot; no deck plot at all (V02 §3.16 (1)) | simpler shape | T-V2-47 |
+| item 110's rest (V02 §3.17) | a wall of zero height inside `terrace.wallBandCm`; a building meeting a raised way's pier strip | the wall-side sample equals the terrain's (nothing moves); the add path clears the building (V02 §3.17 (b)) | — | T-V2-51, T-V2-53 |
+| the ops (V02 §4.1, V02 §4.2) | an op with no optional field; `addRange` whose two points coincide; a canvas drag to a zero-width range | every omitted value the row's central value (V02 §3.12); the zero-length centre line grows along the plot's frontage direction `f` (V02 §3.4) by `bend.wing.grow`'s rule, as a zero width grows to 2 m | repair locally | T-V2-19, T-V2-56 |
+| `setComposition` (V02 §4.3) | `dormers` with count 0; `porch` with an `entrance` ordinal naming no current entrance | the eave's row stored with no dormer (`edited`); the op bends to the nearest side, rear or yard entrance (V02 §4.4's re-attach rule), and with none is a no-op, named | repair locally | T-V2-20, T-V2-56 |
+| the skeleton file (V02 §4.5) | a `setMassing` line naming a key that no longer exists | orphaned and reported (§7.4's migrate cell) | leave out and report | T-V2-34 |
+| editing stacks (V02 §4.6) | `centre` outside the plot; `radiusCm` giving tier 0 below 4 m² or a side below `minEdge` | the least move into the plot region; the ring grown to the least lawful size (`bend.wing.grow`), the stack re-inset | repair locally | T-V2-48 |
+| drawing (V02 §5.1–§5.3, V02 §5.6) | a map with no building; a one-wing building; a sheet that omits one of V02 §5.3's cells | nothing drawn by stage 3; that wing's facets alone; the shipped default cell | — | T-V2-9, T-V2-56 |
+| exports (V02 §5.5) | a scope with no building; a zero-area facet | no stage-3 entry; the facet skipped in every format | leave out | T-V2-24 |
+| the exterior's damage (V02 §5.7) | level 0 (never abandoned, under no look); level 1; no plan in force (none stored, none current); a stale cached plan | nothing drawn, byte-identical (T123-7's no-op); every element the plan holds damaged; the massing reading, no hole or gap; the stale plan never read — the massing reading until the plan is re-derived | — | T-V2-59 |
+| the exterior's damage (V02 §5.7) | a building with no roof bay over a room or no storeyed wing (a solid monument, a stack of solid tiers); a roofless building (roof kind `none`: `decayed`, `ruined`, `charred`); a building under a Works whose stage draws no roof (`wallsRising`) or no building yet (`staked`, `groundBroken`) | no hole (gaps only where a storeyed wing has outer runs); no facet to hole — every roof bay open, the gaps cut from its state row's outline; holes only in the facets the stage draws and gaps only on an outline it draws, nothing where it draws no building | — | T-V2-59 |
+| the exterior's damage (V02 §5.7) | a restoration from level 1 to 0; a building first met ruined (generated as a ruin, or reached by item 113's replay) | the damage leaving in reverse threshold order, each repaired bay patched and each repaired run drawn whole; its plan as built under its damage (V03), the exterior reading that plan | — | T-V2-59 |
+| the ruined look (V02 §5.7) | severity 0 and 1; two disaster looks over one building; a condition the view's key withholds; a `preview` on a standalone document | the `disaster` row's two `lookLevel` ends; the higher level, with that look's kind (ties: the lower condition id); no look on any building; the previewed look at `previewSeverity` on its preview's units | — | T-V2-60 |
+| the ruined look (V02 §5.7) | a roofless building; a deck building; a tower; a stack; an underground building | its state row with the gaps; as any building (its own plan; no cellar); the tower room's roof bay opening its cone; each storeyed wing's own roof bays and lowest-storey runs, a solid wing none; none — below ground is V04's | — | T-V2-60 |
+
+**(f) Combinations** — where another unit's feature meets a V02 mechanism at its limits; the rung column names the
+§5 rung of a failure outcome, and — marks a rule with no failure:
+
+| combination | outcome | rung | test |
+|---|---|---|---|
+| a cliff and a composed building | the massing stays inside `H` (V02 §3.4), which the base's plot model keeps off the cliff face; each wing's datum is `deriveBase` over its own samples (plinth and skirt, §2.6); a wing against a retaining wall at the cliff's foot takes the wall-side sample (item 231) | — | T-V2-1, T-V2-51 |
+| steep ground and a composed building | above `axisSlope` a `fallLine` class lies along the fall line (V02 §3.4); every wing's datum per `deriveBase` | — | T-V2-41 |
+| steep ground and tiers | tier 0's datum per `deriveBase`, the stack re-based by `rebaseStack`; a stair whose run the slope lengthens steepens up to `stairGradeMax`, reported `stairSteep` (V02 §3.15) | repair locally (the stair steepened, `stairSteep` reported) | T-V2-44, T-V2-45 |
+| steep ground and a crypt | the crypt's floor at `max(lowest terrain sample under its ring, water table + crypt.freeboardCm)` (V02 §3.14.5 (d)) | — | T-V2-36 |
+| a river, a coast, a moat or an oasis and a crypt | the water table decides the ladder's form — full, half-sunk or raised (V02 §3.14.5 (d)); the crypt is never refused | — | T-V2-36 |
+| a coast or an oasis and a composed building | a `water`-axis class reads the nearest water face — an oasis's spring pool included (item 111) — within `axisWaterM` (V02 §3.4) | — | T-V2-41, T-V2-57 |
+| a harbour and a composed building | deck plots on moles, piers, jetties and quay platforms by V02 §3.16; a bank quay's plots ground | — | T-V2-47 |
+| a bridge over a river, or over a moat away from a gate, and a composed building | a deck plot's building by V02 §3.16 (deck datum, `maxFloors`, no basement); a ford, a drawbridge or a gate's moat deck carries no deck plot (§4.7 *Deck plots*) | — | T-V2-47 |
+| a moat, a square, an oasis's spring pool or the map frame and a composed building, tiers or a crypt | none crosses the plot, so `H` excludes them, and a basement or crypt lies under its building inside the plot; an oasis's spring pool is water outside the plot (item 111), so `H` excludes it and a stack stands inside `H`, tier 0 on `deriveBase`'s datum over its own samples (V02 §3.15.2); a porch stays inside the plot, clear of ways (T-V2-12); the base's margin band keeps plots off the frame | — | T-V2-1, T-V2-12, T-V2-36, T-V2-57 |
+| a raised way and a composed building, tiers or a crypt | the add path clears every building meeting its piers or strip (V02 §3.17 (b)); a cleared building's basement and crypt leave through V03 and V04's closure, never silently (V02 §3.14.5 (c)); a use a dossier crypt record binds is relocated by the base's relocation (§10.3), its crypt re-derived at its new building by the no-refusal ladder; a building inside an arch vault is clamped by `vaultClamp` (M11) | leave out and report (a cleared building, its basement and crypt); substitute (the bound use at its new building); repair locally (`vaultClamp`) | T-V2-53, T-V2-57 |
+| a stage-2 neighbourhood (V01) and a composed building | the neighbourhood click raises the `wings` rung centre-out (V02 §3.11); V01's entrance reserve reads the `PorchKindRow`s (V02 §8.5) | — | T-V2-21 |
+| a terraced ward (V01) and a composed building or a crypt | every building's datum within `plinthCm + 10 cm` of its own terrace's level (T-V2-51); a basement's and a crypt's floors read the levelled ground as their terrain samples | — | T-V2-51, T-V2-57 |
+| a lock and a composed building | a lock on `wings/<key>` holds that wing against every mutation, re-derivation and edit of another wing (V02 §4.1); an op on it is refused with the lock named (item 101 R2) | — (a refusal, the lock named; item 101 R2) | T-V2-19 |
+| a crypt and undo | undo of a `setMassing` or a mutation restores the former basement and crypt with every wing, byte for byte (V02 §4.2 step 5) | — | T-V2-36 |
+| a settlement growing over a sealed void | a wing W6 adds over a sealed void draws its access once on V04's `sewer` key (V02 §3.9 W6); no `setMassing` op draws | — | T-V2-36 |
+| a dossier removing what an edit pinned | the dossier fact wins (item 20): the building goes by its fate, and the `setMassing` and `setComposition` edits on it are orphaned and listed in §7.3's orphan table | leave out and report (the orphaned edits listed) | T-V2-57 |
+| a rung change at an epoch and a standing composed building (item 115 (e)) | the crossing reshapes no standing building, up or down: its re-derivations read the ceiling of the rung its `MassingRef.row` records; a building new or rebuilt from that epoch reads the new rung's ceiling (V02 §3.2 step 2; V06 §3.8.5) | — | T-V2-58 |
+| an epoch undone after a save | the epoch's recorded wing steps (`EditBase.mutations`) reverse exactly on the loaded document as before the save | — | T-V2-15, T-V2-57 |
+| a disaster's look over a building really decayed | each element drawn at the higher of the two levels; an element the look's level does not reach keeps its real state, a repaired one its patch | — | T-V2-60 |
+| a disaster's look and its aftermath (V06) | the look leaves a building where V06's `crisisLookYields` holds, so no week draws both the look and the rebuild's scaffolding; a building the next epoch really ruins or abandons reads its own level from that epoch's week; an element only the look damaged is drawn in its real state when the look ends, never patched | — | T-V2-60 |
+| a disaster's look and a Works on its building | a Works other than a `decay` Works begun by the week and not finished before the condition's `sinceWeek` (a rebuild, a repair, a clearance, a demolition) ends the look on that building (V06's `crisisLookYields`): its Works' stage and its own state drawn, never both; a `decay` Works, or one finished before the condition, leaves the look standing, its damage over what the stage draws — holes in the facets it draws, gaps on the outline it draws | — | T-V2-60 |
+| a disaster's look over a deck building whose deck is ruined | the building by its own state row (§8.2's deck row) and the higher level; when the deck's fall tombstones it, nothing | — | T-V2-60 |
+| a dossier change moving a condition's weeks or severity, or removing a building under a look | the look re-read at the next draw, no rung stale; a removed building drawn by its fate, no look on what is gone | — | T-V2-60 |
+| an epoch undone, or a save and load, while a look stands | nothing stored: the exterior re-reads the restored level and the look's weeks, byte-identical to before | — | T-V2-59, T-V2-60 |
+| a building's decline after its plan was derived (an epoch's `vacate`, a fire's `burn`, a flood's or a topple's `ruin`) | the `wings` and `rooms` rungs stay `current` (V02 §3.11) and the plan in force stands (§2.6 step 7); the exterior's element reading reads it at the rising level | — | T-V2-59 |
+=== END ===
+
+=== REPLACE ### 4.5 The canvas, the clerk and the skeleton file ===
+### 4.5 The canvas, the clerk and the skeleton file
+
+* **Canvas handles** (V09 §3.5 draws them; this is their contract): at the building band each range shows its two
+  centre-line end handles and one width handle (→ `reshapeRange`), each tower its centre and radius handles (→ `moveTower`)
+  and a shape chip (→ `moveTower { shape }`), each wing a storey stepper and a roof-kind chip (→ `setAttr`), each eave a
+  dormer stepper (→ `setComposition dormers`), the main entrance a porch chip and every side, rear or yard entrance a hood
+  toggle (→ `setComposition porch`), and — with the plan shown — the hall, gate hall and chapel an on/off chip and two
+  extent handles along their host's ridge (→ `setComposition room`). A **family strip** shows the feasible families of the
+  building's row read uncapped (a family above the rung's grandeur ceiling carrying V09 §4.21.5's beyond-tier line,
+  V02 §3.2 step 2), each as a ghost made by a dry run of `setMassing family`, one tap committing it. Every drag previews its
+  dry run live inside the plot (§14's interaction contract) and commits one event on release.
+* **The clerk** (V10) calls the same operations through the tool API (§11.2): "make the manor an H" is
+  `setMassing { family: 'H' }`; "a round tower on the north-east corner" is `addTower` at that corner's point; "two dormers
+  on the street side" is `setComposition dormers` on the `main` wing's street eave. It reads a building's massing (family,
+  wings with roles, storeys, roof kinds, towers) and composition (dormer rows, porch, rooms) through the reader under §9.2's
+  knowledge rules: the mass of every building is public (J-A30.83), and nothing in this volume is concealed (a front's
+  concealed rooms are the plan's, V03).
+* **"Why is it this shape?" — the `WhyProvider` (V10 §3.9 lists it; J-V2.51).** `@plat/buildings` registers a provider for
+  the kind `building` at the paths `massing`, `wings/<key>` and `composition`, filling §11.2's `WhyAnswer` with no new field:
+  **`facts`** — `massing/family`, `massing/row` (the key the chain reached), `massing/ceiling` (the rung whose
+  `grandeur.ceiling` row capped the row and the cells it set, or why none did — a `grandClasses` building, a hand design, a
+  drift read uncapped, a row that limits nothing; item 115), the manifested band and value, the drift
+  bounds, `fantasyShapes`, `massing/segments`, `massing/axis` with `MassingRef.low`, each wing's role, floors and roof, and
+  the **alternatives** as fact rows — `massing/alternatives/<family>` = its renormalised weight among M3's feasible families
+  (or `infeasible: <the failed test>`), `wings/<key>/rejected/<i>` = the M8 test (i)–(v) a rejected tower candidate failed,
+  `composition/porch/d` and `composition/porch/feasible`, `composition/dormers/<key>/<eave>/dropped` = the obstacle of a
+  dropped dormer — each with `tier: 'derived'` and `row` the `composition.json` slice; **`cause`** — S11's massing
+  (`step: 'S11'`, `rule: 'V02 §3.5'`, `chance: 'massing'` with its creation index), the `setMassing` event (`seq`), or the
+  mutation's W1 draw or kept seeds (W2; `chance: 'siteplan.mutate'`); the sunlit choice names `sunBias` and the options'
+  factors. The alternatives are **recomputed** by re-running M3 and the M5/M8 tests on the committed state without
+  advancing any stream (a pure function), so the answer on an untouched building equals the massing's recorded draws
+  (T-V2-43). "Why no crypt / why this crypt" is V03's and V04's provider (item 238's `Basement.crypt`).
+* **A skeleton file** carries these events as ordered declarations like any other (§11.1): a building declared with
+  `build` and shaped by `setMassing` lines is re-created exactly by the creation prefix's fold (§4.1's read-ahead reads no
+  stage-3 declaration ahead; the massing runs when its plot's S11 runs, and the declared ops apply at their log positions).
+=== END ===
+
+=== REPLACE ### 5.1 What each band draws (§8.5's bands, with stage 3) ===
+### 5.1 What each band draws (§8.5's bands, with stage 3)
+
+| band | stage 3 draws | from |
+|---|---|---|
+| **city** | the massing as masses — the base's closing per block (§8.5 (2)): a courtyard building's court stays open when wider than the closing's 1.5 px (a court is a yard part, `ground` at this band); towers and cross-wings show in the mass's silhouette; no roof lines | model (eager) |
+| **district** | footprints with outlines and entrance ticks (the base's), and the **roofscape of the massing** (V02 §5.2): ridges, hips, valleys, walls, tower roofs and spires, the cupola, drawn by the style's construction; an `arcade` wing's ground-storey outline dashed; no dormers or porches | model, drawn lazily per tile |
+| **neighbourhood** | the district band's, plus — where the building's `wings` rung is current or stored — dormers, the entrance gable, the porch, and §8.10's decorative chimneys at the façade-bay lines (`hearths` of them; none once the plan rung exists, J-A28.85); the change marker on a stale building (§8.5) | model + the elaboration cache |
+| **building** | the neighbourhood band's at full detail, and the plan storey by storey (V03); the other storeys' wing outlines faded beneath (the base's) | model + cache |
+
+Under a Works (item 67) a building draws its wings at their stage heights and §8.2's `states` rows: `wallsRising` draws
+no roofscape facet, `roofFramed` draws the roofscape's lines through §8.2's `frame` program without fill, a `decayed` or
+`ruined` building (roof kind `none`) draws no facet, its walls by the `states` rows (a ruined landmark, V02 §3.14.2,
+included). **A stack under Works** takes its stage heights from `heightsAt` (item 318): the stack rising in stack order, a
+solid wing by courses of `storeyCm.upper`, no wing drawn or cast before its support reaches its eave, each stair rising
+with the tier whose top it reaches, a demolition lowering in reverse (V02 §5.6); the same order reaches V06's Works
+(X23). A building whose roof kind is `none` takes no dormer, porch or cupola drawing. Condition (`worn`, `neglected`) and
+material stay texture and colour on the same facets (item 19). A building with one wing draws that wing's facets alone;
+a map with no building draws nothing of stage 3.
+
+**Ruin and disaster** (items 123 (d), 122): a building's damage and a disaster's ruined look are drawn over these rows
+by V02 §5.7 — holes in the roofscape's facets and gaps in the outline, with rubble and patches at the neighbourhood band
+and finer — and change no mass at the city band.
+=== END ===
+
+=== REPLACE ### 5.3 Style rows and paint programs ===
+### 5.3 Style rows and paint programs
+
+`StyleSheet.roofConstruction` gains `'roofscape'` (item 406), the default construction of every shipped family from stage
+3's landing; the older constructions remain for the parity presets (under `MFCG` and `FTG` the massing is the base's, and
+their sheets keep their constructions). The paint programs below join §8.2's list. **Every weight, size and pitch in
+them is a cell of the program's entry in the sheet's `programs` (§8.2), or of its §8.10 decoration row**; the value given
+is the shipped sheets' default (own), and a sheet may set its own.
+
+* `roofscape(tone: 'twoTone' | 'mono' | 'facet')` — fills every facet in the `roof` role: `twoTone` by `faceLight` per
+  facet (`lit`), `mono` one tone with the light pass's shading (`ink`, whose light is value-only, §8.4), `facet` the
+  per-facet diffuse-and-specular shading of the reference look (the `FM` preset's building band; §8.4 (h), P24); then the
+  lines of V02 §5.2 step 5 in `ink`, cells `ridgeWeight` (½ of the band's building outline weight: ridges and seams) and
+  `hipWeight` (⅓: hips and valleys); V02 §5.7's damage drawn over the facets — a hole's edge at `hipWeight`, and cell
+  `rubbleReachM` (1.5 m: the rubble spill's reach to each side of a gap in the outline).
+* `dormer` and `porch` — their facets through the same tone rule, outlined at cell `outlineWeight` (½ the outline weight);
+  `towerRoof` — a cone's facets with the seam lines of step 5, a pyramid's with its hips, a spire's the same at its pitch;
+  the cupola through `towerRoof` at ½ weight.
+* `stairFlight` (V02 §5.6).
+* **Roof decorations** (§8.10 rows, view data, keyed by the render key): `sails` — a windmill's four sails on its tower's
+  roof, turned to the settlement's prevailing wind where the site states one, else to `+y`; `smokeStack` — V02 §3.14.6's
+  added decorative stacks; and, **only in the `FM` building look**, `stepStones` (a stone path from the main door to the
+  frame's access side; row cells `stoneM` 0.5–0.8 m and `pitchM` 1 m) and `wallGrass` (grass tufts at re-entrant corners);
+  with the `FM` look's per-building roof hue (`weathering` on hue at `w` 0.15, §8.2) and cone facets doubled for drawing
+  only.
+* **The NG parity sheet's roof construction** (`fakeGablePerWing`, then `roofscape` when V01's NG draw-style bars pass on
+  it) is V01 §7's rule (X14); this volume supplies the construction.
+* `hatch(ridge | eave, pitch, taper)`, already in §8.2: the `hatched` family's hatch program is V01's (V01 §5.1.2), run per
+  roofscape facet; the `FM` look hatches parallel to the eave at a paper pitch, cell `pitchPx` 0.9 px at 1×.
+* The `lit` family's roof tint by band (§8.2, item 19) and the material's `pattern` (texture) apply per facet, never
+  changing a facet (J-A19.42).
+* The **contrast matrix** is unchanged: the roof role's pairs are the building role's (§8.2).
+=== END ===
+
+=== REPLACE ### 5.5 Exports (item 449) ===
+### 5.5 Exports (item 449)
+
+| format | stage 3 adds |
+|---|---|
+| **JSON schema** | per building a `massing` block (family, row, grammar, entrance hint, `segments`, `low`, `cupola`, `stack`; each wing's key, role, kind, ring, heights, roof, `arcade`, `on`, `solid`) and, where the `wings` rung is current or stored, a `composition` block with its state (as the base's `plan` block): row, grammar, composed wings (`base`, dormer rows with their derived positions), towers (`base`), the porch and the secondary porch with their derived rings, the courts (derived rings), the rooms; for a deck building a derived `deck` block (`kind`, `host`) read from its plot at export; round-trips (T-V2-24) |
+| **SVG** | at the district band and finer, §11.1's grouping: the roofscape's facets in the semantics `sem.building.roof` (wing facets), `sem.building.roof.dormer`, `sem.building.roof.porch`, `sem.building.roof.tower` and `sem.building.roof.cupola` (by `RoofFacet.part`), and V02 §5.2 step 5's lines in `sem.building.roofline`, each group one compound `<path>` per (semantic, district), the groups in V02 §5.2 step 6's order; the `<metadata>` map carries each facet's subpath range to its wing address `wing:<building>/<key>` (a porch's to its building, a cupola's to its range's wing) — no per-building group and no `data-wing` attribute, so §12.7's element budgets hold; at the city band nothing new (masses); V02 §5.7's damage and a disaster's look as the view draws them — the holes in `sem.building.roof.hole` (one compound `<path>` per district, after the wing facets), the outline left open over each gap, the rubble in `sem.building.rubble`, the look's tone on the facets' fills |
+| **glTF 2.0 / OBJ** | roofs from the roofscape facets (replacing per-wing roof meshes); each wing extruded from its own `baseCm` (a tier stands on the tier below at its deck level; a deck building's `baseCm` the deck's), a solid tier a closed prism; towers as ring prisms with cone, pyramid or spire facets; the cupola a small mesh; an `arcade` wing's ground storey exported open (its piers four corner prisms, its walls from the first storey); each stair a stepped solid of `stairTreads`' `n` risers (the k-th top at `⌊k × rise ÷ n⌋`) and treads of `goingCm`, the head tread taking the remainder; with compositions, dormers and porches as small meshes; `extras` carry each wing's key and role. The export option `compositions`: `'asDrawn'` (the default: the compositions whose rung is current or stored), `'derive'` (`compose()` run for every building of the export scope first, in the derivation pool, under V02 §6.4's export budget) or `'none'` (the massing only); V02 §5.7's damage and a disaster's look are not carried (J-V2.112): the roofs as the model holds them, a roofless building's none |
+| **CityJSON 2.0** | LoD2.2 `RoofSurface` per roofscape facet, `WallSurface`s from the wing prisms, dormers and porches as their own surfaces when compositions are exported; tier 0 is the `Building`, each tier above and the shrine a `BuildingPart` (a terrace a `RoofSurface`, the walls from the part's own base), each stair a `BuildingInstallation` (an outer stair, stepped by `stairTreads`) with `plat:role 'stair'` (J-V2.77); attributes `plat:role` and `plat:key` in the `Plat` extension (the base's `plat.ext.json`); V02 §5.7's damage and a disaster's look not carried (J-V2.112) |
+| **GeoJSON** | an optional `wings` layer (strict and metric variants): one Polygon per base wing with `key`, `role`, `floors`, `eaveCm`, `ridgeCm`, `roof`, `building`, `on`, `solid`, `baseCm`; the base's building features carry `onDeck`, `deck` and a stepped building's `tiers` (item 447), which the `wings` layer repeats none of |
+| **VTT** | the ground scene's walls from the footprint (the base's); a tower's ring is part of the footprint's walls; a stair's outer sides are not walls; the storey scenes are the plan's (V03); walls, portals and line of sight follow the damage by §11.1's battle-map rule (item 123 (e)), and a disaster's look is drawn in the image only, never as a wall or an obstacle (item 122 (f)) |
+
+An export of a scope with no building writes no `massing`, `composition`, roof or `wings` entry and is otherwise the
+base's. The export's layer set, band and look (§11.1) govern stage 3's content exactly as they govern the base's
+buildings; the `compositions` option is read identically by every format. A picture export (SVG, PNG, print) draws
+V02 §5.7's damage and a disaster's look exactly as the view draws them at its band, week and key (item 122 (f)).
+=== END ===
+
+=== APPEND TO SECTION ## 5 Rendering, labels, exports ===
+### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)
+
+Two owner items reach the building's exterior, both looks: a building's floor plans show its ruin as a damage layer over
+the same plan (item 123), and its exterior draws the same damage (item 123 (d)); a disaster's neighbourhoods look ruined
+while it lasts (item 122 (b)). One reading, `exteriorDamage` (V02 §2.4), serves both. It changes no wing, `MassingRef`,
+composition, stored plan, digest or hash, reads no model stream, and stores nothing.
+
+**(1) The level.** A building's level is the higher of its **decay level** — V06's `decayLevel` for its lineage at
+§2.9's `week`, 0 for a building never abandoned (item 123 (b)) — and the level of a **disaster look** over it: the
+`disaster` row's `lookLevel` (§10.2; V11's values) at the condition's severity, linear between its two ends. A disaster
+look lies over a building while the look is drawn in the view — its `ConditionOverlay` standing in the view's week by
+§2.7's reader rule, its map row reading `disaster` (§7.7's DR44), admitted by the view's knowledge key (DR44's
+admission; `ViewOpts.viewAs` lowering it, §9.2), and drawn by §2.9's `crises` in `follow` — or previewed: `crises` in
+`preview` naming the `disaster` row, at §10.2's `previewSeverity`, with or without a dossier — while the building stands
+in a unit the look strikes and has not handed over ((6)). The units are every district V01's `disasterDistricts` returns
+— for a preview, the districts it returns for the previewed look, keyed on the look kind in the condition's stead
+(§10.2's placement; X35) — and at THORP, HAMLET and VILLAGE every end V07 returns; every building of a unit draws the
+look, with no second, per-building share (item 122 (b): whole neighbourhoods). Nothing of the look is drawn from a
+stream of its own: its units are V01's and V07's (keyed by the condition's id), its elements' thresholds the building's
+lineage's (§6.3), its rubble the building's render key's (§8.10). Of two looks over one building the higher level is
+drawn, with that look's kind (ties: the lower condition id). At level 0 — a building never abandoned, under no look —
+nothing of this section is drawn: the building draws byte-identically to stage 3 without items 122 and 123 (T123-7's
+no-op).
+
+**(2) The element reading — where the building's plan is in force.** Where the building's plan rung is current or stored
+(V03; a stale cached plan is not read, its elements no longer sure to lie on the massing's facets), the exterior draws
+exactly the damage the plan shows at the level. V03's damage layer gives each element its state — intact; damaged, the
+level at or past its keyed threshold (§6.3's `plan.damage`, V11's ranges); or repaired, the level below its threshold
+and V06's `decayPeak` at or past it, its damage having left through a restoration (item 123 (b)) — and V02 reads two
+kinds of element, never a threshold of its own:
+* **A roof bay over a room** (the roof over a room of the storey directly under it). Damaged, it is a **hole**: the
+  room's ring clipped to the facets of the room's own wing (a tower room's to its tower's; never another wing's),
+  removed from those facets and from every dormer facet over it, and drawn as §8.2's `decayed` row draws a roofless
+  building (no roof construction, the fill at the row's alpha); the roof's lines (V02 §5.2 step 5) stop at its edge,
+  which is drawn in `ink` at the `roofscape` program's `hipWeight`. A wing whose every roof bay is damaged draws no roof
+  facet over its rooms: the lost upper storey item 123 (c) gives a `ruined` building, seen from above. Repaired, its
+  facets take §8.2's patched-courses roof `pattern` (the `condition` row's) over its ring, at the neighbourhood band and
+  finer — item 114's patch material on a roof.
+* **An outer wall run of a wing's lowest storey** (a wall run of the plan with the outside on one face, on the first
+  storey `storeyRange` gives that wing; a solid wing has none). Broken, it is a **gap**: the outline the drawing gives
+  that wall — the footprint outline for a wing on the ground, the eave line of a wing standing on another — is not drawn
+  over the run's span, and at the neighbourhood band and finer §8.2's rubble spill (the wall `breached` row's dots,
+  keyed by the building's render key, §8.10 — never a model stream) covers a strip along the span reaching the
+  `roofscape` program's cell `rubbleReachM` (1.5 m; V02 §5.3) to each side of the outline (at least 1 px), the fallen
+  wall's spill inside and out. Repaired, the run's outline is drawn whole (its patch material the plan's to show, V03).
+
+Marks standing on a hole go with it: the cupola, `sails` and every roof decoration whose foot lies in a hole are not
+drawn; a plan chimney stands (its stack is masonry; §8.6 draws it as before). The porch and a secondary porch are drawn
+only while the outer run carrying their entrance stands. A **roofless** building — roof kind `none`, the model's
+`decayed`, `ruined` and `charred` states — has no facet to hole: it draws its state row, the gaps cut from that row's
+outline, and every roof bay over a room its plan holds is open, which T-V2-59 (b) holds the plan to (X34). Where a
+building at the decay Works' `decaying` stage draws its roof with gaps along the ridge (§8.2), the element reading's
+holes are those gaps (X37).
+
+**(3) The massing reading — where no plan is in force.** No element is known, so nothing is drawn that a plan could
+contradict. A building's own decay draws its state row alone (§8.2, as before). A building under a disaster look draws,
+over its state row, its roof tone lerped toward `ground` as the `abandoned` row lerps it (30 %) and its outline dashed
+as the `decaying` row dashes it — the dash the look's second cue (item 112). When the building's plan comes into force
+(a building click; V03's `view` derivation), the element reading's holes and gaps join that tone and dash; because every
+threshold is keyed by the lineage and the element's id (§6.3), they are the same whenever, and by whichever trigger, the
+plan is derived (V02 §3.11: no rung is raised for them).
+
+**(4) The disaster's kind.** The look draws the damage of (2) and (3) whatever the disaster. Its kind — the calamity's
+type V01's `disasterDistricts` reads for its pattern — adds one flavour: a **fire** blackens, the massing reading's tone
+lerping toward `ink` instead of `ground` and every hole drawn in the `charred` program's tone; a **flood**, an
+**earthquake**, every other kind and a preview (no kind) draw the damage alone — an earthquake's fallen wings, towers
+and open roofs and a flood's fallen walls and outbuildings are that damage, and a flood's stained lower storeys lie
+under the roofs a map draws from above (J-V2.113). The look leaves no patch: an element only the look damaged is drawn
+in its real state again from the week the look no longer stands (V06's `decayPeak` never reads a look).
+
+**(5) At each band.** City band: nothing of this section — the masses are the model's, and a ruined quarter's tone is
+§8.2's crisis rows'. District band: the tone and the dash, and the element reading's holes and gaps. Neighbourhood band
+and finer: the rubble spill and the patches as well, the composition's dormers, porches and decorations as (2) says.
+Building band: where a building's plan is drawn, the plan draws its own damage (V03; §8.6); every other building's
+exterior as at the neighbourhood band.
+
+**(6) The hand-over** (item 122 (a)). The look leaves a building where V06 hands it over: from the week V06's
+`crisisLookYields(doc, building, overlay, week)` holds — a Works other than a `decay` Works begun on the building by
+that week and not finished before the condition's `sinceWeek` (a rebuild, a repair, a clearance, a demolition) — the
+building draws its Works' stage and its own state, so no week draws both the ruined look and the rebuild's scaffolding;
+a `decay` Works never ends the look. A building no rebuild reaches keeps the look until its condition no longer stands.
+A building the next epoch really ruins or abandons reads its own level from that epoch's week (V06's hazard and decline
+phases), the look's level ruling only while it is the higher.
+
+**(7) Exports.** A picture export — SVG, PNG, print — draws this section as the view draws it at its band, week and key
+(item 122 (f)), the SVG carrying the holes in `sem.building.roof.hole` and the rubble in `sem.building.rubble`
+(V02 §5.5); a battle map follows the damage by §11.1's rule (item 123 (e)) and draws a disaster's look in its image
+only. The glTF, OBJ, CityJSON, GeoJSON and JSON exports carry neither (J-V2.112).
+
+**(8) Its inputs.** The drawing reads §2.9's `week`, `crises` and `knowledge` keys and `ViewOpts.viewAs`, so a tile
+holding a building whose level is above 0 is keyed by them as a tile holding a Works mark is keyed by the drawn week
+(§8.8's tile key; X37); a building's holes, gaps and patches are memoised beside its roofscape (V02 §6.6).
+=== END ===
+
+=== REPLACE ## 6 Performance budgets ===
+## 6 Performance budgets
+
+Every number here is **PLAUSIBLE** (an estimate from operation counts on §12.1's reference machine) until the
+measurements named below; each has its pre-decided fallback. The building counts per rung are §1.1's; the mix is §2.6's
+cost note's assumed core mix (row quads, single ranges, tiled multi-wing massings, massings with towers).
+
+**Targets and the comfort level (item 119; §12.1).** The lines of V02 §6.1 – V02 §6.6 are the **targets**, which the build
+works to meet and beat. Every one-time wait stage 3 adds to or lengthens completes within the **ten-second comfort level**
+of total time, from the click to the complete result on the reference machine, at every rung up to the population cap:
+the massing's share of a generate, a regenerate, an open from SettlementForge or a dossier change applied (V02 §6.1's
+table: ≈ 72 ms of wall time at the cap); an export under every `compositions` option, its `derive` pass included
+(V02 §6.4); an `upgrade` that re-derives S11 for a document from before stage 3, whose massing costs V02 §6.1's rates; and
+the load's stage-3 migration rows (V02 §2.5: O(wings) a building, ≈ 1 µs, ≤ 40 ms at the cap). An epoch's stage-3 work (the
+mutator's wing step, V02 §6.4, and S11's re-fits) counts inside advance time and the history replay, whose reading of the
+comfort level is V06 §6's. A wait past about one second shows progress (§12.1's progress rule: §11.2's `Progress` per stage
+or export band, shown by V09 §4.21.9; R12-32). A stage-3 step runs slower than its target only for a recorded measured
+gain inside the comfort level — its V11 §3.25.8 `perf.qualitySpend` row (§12.1; R12-33); none is planned, and where no row
+stands the fallbacks below are taken. The **interaction budgets keep their values** (item 119 (d); R12-34): a `setMassing`
+dry run and commit ≤ 2 ms and a `setComposition` ≤ 1 ms (V02 §6.4), a neighbourhood click's batches streamed centre-out
+within ≤ 120 ms of pool time and the `view` tiles' batches of `viewBatchMs` (V02 §6.2). A size the low tier cannot reach
+within ten seconds is declared per device (§12.1). T-V2-22 and T-V2-24 hold the comfort level at every rung to the cap.
+
+### 6.1 The massing (eager, on the first map's path)
+
+| building kind | massing cost per building (median; PLAUSIBLE) | basis |
+|---|---|---|
+| row (pass-through, heights, roof, a back range where drawn) | 1–3 µs | one frame, one rect, M11–M13 on ≤ 2 wings |
+| single range | 3–6 µs | frame, `lir`, one slab, snap and checks |
+| tiled families (`L`, `T`, `H`, `U`, `cross`, `rectCourt`, `gridWalk`), blocks included | 15–40 µs | ≤ 8 slabs, the pairing check (§2.6 rule 4 (ii)), ≤ 4 block trials |
+| `plotRing` and the fantasy families | 30–60 µs | simplification, line offsets, mitres, angle checks |
+| with towers or a turret | + 20–60 µs | per trial: a ring (≤ 24 vertices), its overlap share by the kernel's boolean on the arrangement, the seed-contract distances |
+| an F-MASSING attempt | × (1 + attempts) | ≤ 3 attempts of the drawn family, then one per other family |
+
+**Bars (the stage-3 intake, item 223):** town-wide median ≤ **10 µs** per building (the base's admission bound; the
+estimate ≈ 3 µs, rows dominating); for the composed classes (every building whose family is not `row`, `single`,
+`shelter` or `baseOutline`) median ≤ **60 µs** and p99 ≤ **250 µs**; mean over all buildings ≤ **12 µs**. S11's §12.4
+row is re-declared by the measured difference (the estimate: mean + 6 µs per building).
+
+| rung | added massing CPU | added first-map wall time (3 pool workers) | share of §12.5's first map |
+|---|---|---|---|
+| TOWN | ≈ 9 ms | ≈ 3 ms (≈ 9 ms single-threaded) | ≈ 2–6 % |
+| CITY | ≈ 36 ms | ≈ 12 ms | ≈ 3 % |
+| METROPOLIS | ≈ 90 ms | ≈ 30 ms | ≈ 3 % |
+| the population cap | ≈ 216 ms | ≈ 72 ms | ≈ 3 % |
+
+**Measurement** (M6a; T-V2-22): the massing timed per class on B-CITY's TOWN, CITY and METROPOLIS seeds, 20 runs, and the
+first-map time re-measured. **Pre-decided fallbacks, in order, each a declared shift (§13.3):** (a) M8's candidate trials
+capped at 6 per building and M14's rung 0 at one attempt for the composed classes; (b) towers and turrets off in the
+massing (the families kept; the rows' tower cells read 0), re-measured; (c) the rest of §2.6's stage-3 intake fallback: the
+generator's massing step alone (its wings without roofs or rooms), then the base outline builder making the outline with
+`compose()` working inside it (the composer then adding only dormer rows and the porch), reported as "stage-3 massing
+withdrawn at this rung" (§12.10's R12-22).
+
+### 6.2 The composer, the rooms rung and the roofscape (lazy)
+
+| work | budget | estimate | when |
+|---|---|---|---|
+| `compose(…, 'wings')` per building | median ≤ **0.2 ms**, p95 ≤ 0.6 ms (inside §12.7's per-building bound) | 20–150 µs: `facadeBays` per eave against the wings it meets, ≤ 2 rows per wing, one porch ray on the plot's rings, ≤ 10 draws | a neighbourhood click, a building click, a `view` tile request |
+| `facadeBays` on every side (the lit windows before a plan), `stairTreads`, `cryptSeedWings` | ≤ 10 µs per wing for every side; ≤ 2 µs per call for the other two | a side's run against ≤ 16 meeting rings in integer arithmetic; one ceiling and one floor division; one pass over ≤ 16 wings | §8.4's lit windows at a night view; the drawing and exports of stairs; §2.6's basement function |
+| a neighbourhood click | §12.7's pool time per tile, amortised; the whole neighbourhood within ≤ 120 ms of pool time, streamed centre-out | ≈ 0.1 ms per building (≈ 45 ms at §12.6's district ceiling) | II.4's click |
+| `compose(…, 'rooms')` per building | ≤ 0.3 ms median | ≤ 4 rectangles and one ring difference per tower storey | with the plan, on the building click |
+| `roofscape` per building | ≤ 25 µs median, ≤ 150 µs p99 (a large manor) | end classes O(wings²) with wings ≤ 16, facets, float64 occlusion clips | the tile worker, per building per (leaf digest, composition hash, construction), memoised as the base's derived-roof cache (§8.1 item 5) |
+| a district-band tile's roofscape | ≤ 8 ms of tile-worker raster time for ≤ 400 buildings | 400 × 20 µs | inside §8.8's per-tile raster budget |
+| `compose()` under `elaborate: 'view'` per tile | only tiles **at the neighbourhood band and finer** request the `wings` rung (the district band draws the massing's roofscape and requests nothing); p95 buildings per neighbourhood-band tile at the METROPOLIS core ≤ 60 → ≈ 12 ms at 0.2 ms each, inside §12.7's per-tile pool time | ≤ 60 × 0.2 ms (measured at M6b on B-CITY METROPOLIS) | a pan under `view` |
+
+**Measurement** (M6b): on B-CITY METROPOLIS, compose per building by class, 50 neighbourhood clicks, 200 district-band
+tiles, and the buildings per neighbourhood-band tile at the core (p95). **Fallbacks:** a tile's `view` request over its
+pool time is sliced into batches of at most `viewBatchMs` streamed centre-out, the tile drawing the massing's roofscape
+until each batch lands, reported (J-V2.53); a compose median over 0.2 ms: the porch's space test runs on the plot's ring
+only (the other footprints ignored, the porch then clipped at draw); still over §12.7's bound: the dormer rows drop to one
+per wing (the street eave), reported. A roofscape over budget per tile: the valley extensions are drawn without the
+occlusion clip (the abutting wing's valley triangles overpainted in order), a declared view shift.
+
+### 6.3 Memory
+
+* **Model:** per building ≈ 36 B for roles, keys, `nextWingKey` and `MassingRef` (with `segments`, `low` and `cupola`),
+  and ≈ 50 B for the extra wings the composed massings carry (about 1.8 wings per building instead of about 1.3) — ≈ 1.2 MB
+  at the METROPOLIS target, counted in §12.8's model line and re-declared at the intake.
+* **The elaboration cache:** a `wings`-rung chunk ≤ **1 KB** per building at p99 (§12.8's line) — composed wings and
+  towers are key references (2 B each), dormer rows 8 B each, the porch 12 B; the `rooms` rung's rings count in the plan's
+  per-storey line (§12.8; a tower room's ring encoded as its tower's index and storey, derived at decode). Measured at M6b
+  on B-PLAN's fixtures and B-CITY; fallback: the base's (the cap halves).
+* **The roofscape memo:** ≤ 2 KB per building in the tile worker's session memo, LRU-capped at 8 MB per worker, evicting
+  to recomputation.
+
+### 6.4 Edits and exports
+
+* `setMassing` dry run and commit: ≤ 2 ms per edit (one plot's S11 re-fit, the checks, the carry); `setComposition`
+  ≤ 1 ms; the mutator's wing step ≤ 150 µs per building plus S11's re-fit — inside §12.6's per-edit laws, which count them.
+  These edit lines are interaction budgets, which item 119 leaves as they are (item 119 (d)).
+
+**Exports** — one-time waits (item 119 (a)): glTF, OBJ and CityJSON, written in the generation worker, timed from the click
+to the file at every rung; the line is CityJSON's, the slowest format's (glTF and OBJ about a quarter less):
+
+| rung (buildings, §1.1) | `'asDrawn'`: estimate → target | `'derive'`: estimate → target |
+|---|---|---|
+| TOWN (≈ 1 500) | ≈ 0.2 s → ≤ 0.5 s | ≈ 0.3 s → ≤ 0.6 s |
+| CITY (≈ 6 000) | ≈ 0.8 s → ≤ 1.2 s | ≈ 1.1 s → ≤ 1.6 s |
+| METROPOLIS (≈ 15 000) | ≈ 1.9 s → ≤ 3 s | ≈ 2.6 s → ≤ 4 s |
+| the population cap (≈ 36 000) | ≈ 4.5 s → ≤ 6 s | ≈ 6.3 s → ≤ 8 s |
+
+The estimate per building: ≈ 35 µs for the roofscape's facets (V02 §6.2's ≤ 25 µs median with its ≤ 150 µs p99
+tail); ≈ 55 µs (glTF, OBJ) to ≈ 90 µs
+(CityJSON) for the wing prisms, roofs and stairs as meshes or surfaces and their encoding (roofs ≈ 8–60 triangles a
+building, ≈ 0.4 M triangles at METROPOLIS); `derive` adds `compose()` for each building whose `wings` rung is neither
+current nor stored — ≈ 0.1 ms of pool time shared by the three pool workers district by district while the generation
+worker writes, ≈ 35 µs of wall time a building — and its dormer and porch meshes, ≈ 15 µs. The village rungs fall below
+TOWN's line; a district-band SVG ≤ 1.5 KB per building. Past one second the dialog shows the export's progress band by
+band (§11.2's `Progress`; R12-32). **Measured** at M6b at every rung's top and at the population cap (T-V2-24).
+**Pre-decided fallbacks, in order:** (a) the roofscape's facets, like `derive`'s compositions, computed on the three pool
+workers district by district while the generation worker writes the district before (the same bytes); (b) where the
+measurement still cannot hold a format under a `compositions` option within ten seconds at a size, the export dialog
+offers it only up to the largest building count the measurement held — above it a `derive` export writes `asDrawn` and a
+format that still misses is not offered — naming why in one line (§12.7's print-size rule: a wait past the comfort level
+is never offered).
+
+### 6.5 Stacks and deck buildings
+
+| work | budget | estimate (PLAUSIBLE) |
+|---|---|---|
+| the massing of a `stepped` building (`massStepped`: ST0–ST8, at most three attempts) | ≤ 120 µs p99, inside the composed classes' ≤ 250 µs p99 (V02 §6.1) | ≤ 9 tiers × (an inset, a stair, the containment and the sibling-disjointness tests) ≈ 20–60 µs, plus §2.6 rule 4 (iii)'s union check over ≤ 20 wings ≈ 20–40 µs; a second or third attempt only on a `TierFailure` |
+| the massing of an `ovalCourt` (`massOval`) | ≤ 150 µs p99 | two line-offset passes over ≤ 20 edges (as `plotRing`), ≤ 40 quads, the pairing check ≈ 40–90 µs; at most one or two arenas per city |
+| `rebaseStack` on a terrain stroke, a warp step or a crypt lift | ≤ 20 µs per stepped building | O(wings) samples and one pass in stack order; counted inside §12.6's per-stroke law with the base's per-entity re-basing |
+| how many | stepped buildings are landmarks: ≤ 0.1 % of buildings at every rung (V11's caps, X17), so V02 §6.1's town-wide median and mean do not move | — |
+| a deck building's massing | a single range's (V02 §6.1) | — |
+| the roofscape of a stepped building | ≤ 60 µs | facets on ≤ 20 wings with the stacked occlusion |
+| a `tiers` edit or a tier's height edit | ≤ 2 ms (V02 §6.4's `setMassing` line) | one anchored `layTiers`, the re-base and the re-lay |
+| the carry check of a stepped building inside a warp (item 333) | ≤ 40 µs per building per halving, counted like V02 §8.4 R5's towered buildings | the union and the containment tests |
+
+**Measurement** at M6a on B-MASS's stepped and deck sub-fixtures (T-V2-22's harness), and at M3a for the base outline
+builder's lay. **Fallbacks, in order:** ST6's containment tests run on the rings' bounding boxes first and the exact test
+only on an overlap (a pure speed-up, no output change); then tiers above seven truncated at ST3 (a declared shift, §13.3).
+
+### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)
+
+| work | budget | estimate (PLAUSIBLE) |
+|---|---|---|
+| `exteriorDamage` at level 0 | ≤ 1 µs per drawn building | V06's `decayLevel` read (its cost V06's) and the look test against the units of the looks drawn in the view, listed once per look and week — nothing drawn |
+| the massing reading of a damaged building | ≤ 2 µs over its roofscape | one tone lerp per facet and the outline's dash |
+| the element reading of a damaged building | ≤ 30 µs median, ≤ 200 µs p99 (a large manor fully ruined) over its roofscape | ≤ 60 roof bays and ≤ 80 outer runs read from the plan in force; each hole clipped against the ≤ 8 facets of its own wing (float64, the renderer's CPU reference); the outline cut at each gap; the rubble spill per pixel cell |
+| a neighbourhood-band tile in a disaster's district at the METROPOLIS core | ≤ 2 ms of tile-worker raster time over the tile's roofscape | ≤ 60 buildings (V02 §6.2) × 30 µs where every plan is in force; × 2 µs where none is |
+| the memo | ≤ 1 KB per damaged building, inside the roofscape memo's 8 MB LRU cap (V02 §6.3) | the holes, gaps and patches keyed by the leaf digest, the plan's hash and the set of damaged and repaired element ids |
+
+Drawn lazily per visible tile inside §12.5's frame budget — the crisis looks' lazy per-tile line — an interaction budget
+item 119 (d) leaves as it is; nothing is derived for it (V02 §3.11), so it adds no one-time wait. **Measured** at M6b on
+B-CITY METROPOLIS with the damage sub-fixture and the look fixture of V02 §7.8, plans derived on the core's buildings.
+**Fallbacks, in order:** (a) each hole's clip run first on its bounding box and exactly only on an overlap (no output
+change); (b) on a tile still over its share, the rubble spill left out at the neighbourhood band, the gaps kept — a
+declared view shift, reported.
+=== END ===
+
+=== REPLACE ### 7.1 Fixtures ===
+### 7.1 Fixtures
+
+* **B-MASS** (new, in `plat/bench/`): 60 synthetic plots — rectangles from 8 × 12 m to 60 × 80 m at aspects 0.3–3,
+  irregular quadrilaterals, wedges and corner plots, L-shaped plots, curved and bent frontages, narrow row frontages of
+  4–6 m, slopes of 0–15 %, a plot carrying a passage — each with its slot hint from S11, crossed with every template
+  family, class override and structure role of V02 §3.10 at the four anchors (≈ 6 000 buildings), under the default
+  preset, `fantasyShapes` on and off, and the `FM` preset, **against the compiled V11 templates** (V11 C1–C3b). Named
+  sub-fixtures: **gable-fronted rows with back ranges** (row quads of 4–6 m frontage, `ridgeAxis 1`); an **arid town**
+  (`ClimateRow.roof.form` `flat`); **cathedrals** on `dry`, `low`, `damp` and `flood` plots; a **longhouse
+  (`v.longhouse`) on a 6 % slope**; a **watermill** on a plot abutting a river; a **flat northern site** (latitude 50°) of
+  200 identical L, T, U and `towerHouse` slots; a **landmark custom** `mercantile-guildhall` and the same class unmarked; a
+  **butcher split** into a slaughterhouse and a stall; **`brewer → brewery`** and **`town granary → city granaries`**; a
+  **market hall**, a **kiln yard**, a **church with a transept** and a **rich hall** of family `cross`; the **butt-joint
+  sub-fixture** (every roof kind of the abutted wing; T-V2-54); the **edge sub-fixture** (one fixture per row of V02 §3.18
+  (e); T-V2-56); the **combination sub-fixture** (V02 §3.18 (f)'s rows no other bar holds; T-V2-57); the **ceiling sub-fixture**
+  (every `housing` class's row and every `v.` housing class's at the rich anchor, on plots wide enough for every family,
+  under the THORP, HAMLET, VILLAGE and TOWN ceiling rows, with a `v.manor_house` dossier record at HAMLET and an
+  assignment drift naming only `H`; T-V2-58); and V02 §7.7's and V02 §7.8's.
+* **B-PLAN** (the base's 24 fixture buildings, §13.2) with, from stage 3's landing, each fixture's composition (and its
+  stored form) — the plan rung's intake runs on them (V03).
+* **B-CITY-lite** and **B-CITY** (§13.2) at every rung; **B-VILLAGE** (V07) at the village rungs; **B-EDIT** sequences
+  (§13.2) with the two new event kinds added to the generator's alphabet.
+* **The free-frame harness** (`plat/bench/fm-parity/`): a square slot hint of side `6w` (w = 8 m) with one access side,
+  no neighbours, the building's class `manor` at the `rich` row under the `FM` preset — the Fantasy Manor comparison
+  setting (the reference has no plot, `research/findings/manor.md` §3.3, CONFIRMED).
+=== END ===
+
+=== APPEND TO SECTION ## 7 Tests and acceptance bars ===
+### 7.8 Ruin and disaster on the exterior
+
+**Fixtures.** A **damage sub-fixture** of B-MASS: a `dwelling-detached` house, an `inn-compound` round its court, a
+manor with towers and a turret, a stepped temple with its shrine and solid tiers, a terraced palace, a deck building on
+a bridge, a solid stepped monument and a `hovel`, each with its plan derived (V03), drawn at decay levels 0, 0.1, 0.2,
+0.3, 0.5, 0.75 and 1 (V06's level, set by the building's existence state and years, in stone and in timber), then
+restored from 1 to 0 by a `repair` Works, and each once with no plan in force. A **look fixture** on B-CITY-lite's TOWN
+and CITY seeds and B-VILLAGE's VILLAGE seed: a dossier condition whose map row reads `disaster` (V08's port; V11's map
+rows) — a fire, a flood and an earthquake — at severities 0, 0.5 and 1, `sinceWeek` 10 and `untilWeek` 20; on one seed a
+rebuild's `repair` Works beginning in week 18 on half the struck buildings and a `decay` Works on two others, and a
+second disaster overlapping the first; the same documents with Show crises `off` and with no condition; and the
+`disaster` preview on a standalone document.
+
+* **T-V2-59 the exterior agrees with the plan** (item 123 (d), (f); takes T123-5) — on the damage sub-fixture at every
+  level and every restoration step: (a) the holes are exactly the plan's damaged roof bays over rooms (ring for ring
+  after the clip to their wing's facets), the gaps exactly its broken outer runs of each wing's lowest storey (span for
+  span) and the patched rings exactly its repaired roof bays — none drawn where the plan shows the element intact; (b)
+  on a roofless building (`decayed`, `ruined`, `charred`) no roof facet is drawn and every roof bay over a room the plan
+  holds is damaged; (c) the holes and gaps at a higher level contain those at a lower, and the restoration removes them
+  in reverse threshold order, each repaired bay patched and each repaired run drawn whole; (d) at level 0 every tile
+  byte-identical to the same fixture without item 123 (T123-7's no-op; the `item123.damage` pin is V12's, V12 §2.13);
+  (e) with no plan in force the massing reading — no hole, no gap — and, the plan then derived by a click and by V03's
+  `view`, the same holes and gaps as from the stored plan; a plan derived while the building stood, the building then
+  abandoned by an epoch's `vacate`, stays in force with its `wings` and `rooms` rungs `current`; (f) the model digest,
+  every `MassingRef`, wing, stored composition and stored plan, and the saved bytes identical with the damage drawn and
+  not, across a save and load and an undo and redo of the restoring epoch; (g) the glTF, OBJ and CityJSON exports
+  byte-identical at every level, and an SVG at the neighbourhood band carrying the holes in `sem.building.roof.hole` and
+  the rubble in `sem.building.rubble`, the outline open over each gap.
+* **T-V2-60 a disaster's ruined look** (item 122) — on the look fixture: (a) every building of every unit
+  `disasterDistricts` returns (V07's ends at VILLAGE) draws the look in exactly the weeks it stands (10–19; 10–17 on a
+  building whose rebuild's Works begins in week 18) and no building outside those units does — at the element reading
+  its holes and gaps equal its plan's damage at the higher of its own level and the look's, at the massing reading the
+  toned roof and the dashed outline; (b) the model digest, every wing, `MassingRef`, stored composition and stored plan,
+  and the saved bytes identical with Show crises `follow`, `off` and a preview and in every week; (c) with Show crises
+  `off`, every building's exterior byte-identical to its drawing under no disaster look (its own decay alone), and with
+  no condition and no preview every tile byte-identical to stage 3 without item 122 (the `item122.crises` no-op; its pin
+  is V12's, V12 §2.13); (d) from week 18 a building whose rebuild's Works began draws that Works' stage and not the look
+  (V06's `crisisLookYields`), and a building under a `decay` Works keeps the look; a building also really decayed drawn
+  at the higher level; in week 20 every element in its real state, none patched by the look; (e) a viewer whose
+  knowledge key withholds the condition sees the look on no building; (f) the fire's buildings blackened, the flood's
+  and the earthquake's not; of two overlapping looks the higher level drawn; (g) one building's holes and gaps identical
+  across two views, at the district and neighbourhood bands and in an SVG and a PNG export; (h) the stepped temple, the
+  deck building, a tower and a solid monument take V02 §3.18 (e)'s outcomes, and an underground building draws none of
+  it.
+
+**CI tiers for these:** T-V2-59 in the PR tier on the damage sub-fixture (≈ + 4 s); T-V2-60 in the PR tier on
+B-CITY-lite's TOWN seed (≈ + 6 s) and nightly on every seed of the look fixture; both at the milestone on B-CITY
+METROPOLIS with V02 §6.6's measurement.
+=== END ===
+
+=== REPLACE ### 8.3 Milestones ===
+### 8.3 Milestones
+
+| milestone | content | exit (executed) | est. |
+|---|---|---|---|
+| **M6a — the massing** | `@plat/buildings` with `composition.json` (schema, loaders, the default rows of V02 §3.10, provenance cells, the preset resolution); M0–M14; the S11 integration (the registration, the manifested-band row read, the entrance hint, court typing — the hole sentence built at M3a-V2 (V02 §8.5), now also typing the composed families' courts — the structures' composition keys, the cluster structures as fixed wings; item 303); `BaseWing.role` and `key` as the base carries them from M1 (items 216–217); `MassingRef`; F-MASSING; the `massing` concern; the mutator's wing step W1–W10 with `MassingGrowthRow`; `resolveEnds` and `roofscape` for the massing, the `roofscape` construction in `ink`, `lit` and `hatched` at the district band; the golden shift; the resolution chain with the family, class-override, role and default rows at four anchors, `roleKeys`, `classFamily` and the load checks; V11's `HeightsRow` with the one pitch rule, the climate's flat roofs, tower storeys and spires; M3's budget test and M10's slot band and reverse-lattice shrink; M5's closed-family `main`, `cross`, the sunlit choice and the `fallLine` and `water` axes; M8's tower on a block and the template towers; M8b's attached structures (item 304); the canonical order and the wing keys of item 225; `segments`, `low`, `cupola`; the significance shift, split and ladder composition; item 115's rung ceiling in the chain with the `~<RUNG>` key and the why fact `massing/ceiling` (V02 §3.2 step 2; inside the estimate — before M6a the base outline builder lays no `H`, `U`, closed family or tower on a dwelling); the crypt seed wings (`cryptSeedWings`, exported by `@plat/plots`: built here, or with the crypt derivation at M6-U where that lands first) and the raised crypt's lift (item 226) | T-V2-1 – T-V2-7, T-V2-9, T-V2-10, T-V2-13, T-V2-15 – T-V2-17, T-V2-22 (massing), T-V2-25 – T-V2-30, T-V2-33, T-V2-34, T-V2-37 – T-V2-42, T-V2-55, T-V2-56's massing rows and T-V2-58 (with B-MASS's `item115.ceiling` registration) on B-MASS, B-CITY and B-VILLAGE; the first map re-measured at every rung within V02 §6.1's lines; **every seed's footprints move — one declared shift (§13.3) with its diff report**, output version bumped; `plat calibrate register --check` green over the `composition.json` cells it lands (V12 §3.11), entries written by the landing seat | 6.5–9 pw |
+| **M6b — the composer, the rooms rung, rendering and exports** | `compose()` at `wings` and `rooms`; dormer rows, the entrance gable, the porch (reading `facadeBays`, built first, V02 §8.1); the composer's rooms; F-COMPOSE; the `compose.*` concerns; the elaboration integration (building click, `view`, and II.4's click where M5 has landed); the paint programs `roofscape`, `dormer`, `porch`, `towerRoof` in every shipped family and the surface layer's roofs; the exports of V02 §5.5 with the `compositions` option; the cache line; the stage-3 intake (§2.6's test with stored compositions of every family; B-PLAN's compositions); `wingsInputs` and the rooms rung at the occupants' band with the programme's hall clamp and the court door; the half-round and secondary porches; the warehouse hoist rule and the plan precedence of dormer rows; `valleyReach` in both modes; `dome`, `plain`, `none`, spires and the cupola in the roofscape; the roof decorations and the `FM` look's dressing; the `WhyProvider`; the view trigger at the neighbourhood band with its sliced batches | T-V2-8, T-V2-11, T-V2-12, T-V2-14, T-V2-18, T-V2-20 (carry part), T-V2-21, T-V2-22 (compose, roofscape), T-V2-23, T-V2-24, T-V2-35 (its composer clauses), T-V2-43, T-V2-54, T-V2-56's composer, drawing and export rows; `plat calibrate register --check` green over the `composition.json` cells it lands (V12 §3.11), entries written by the landing seat | 5–7.5 pw |
+| **M6c — editing, parity and the gate** | `setMassing` and `setComposition` with their dry runs, bends, lifecycle rows and migration rows; the `setAttr` paths by key; T9's handles and family strip, built with V09's AP10 (the building-band controls, 0.25–0.5 pw, counted on §16's line for V09's staged screens, V09 §8.1), and the clerk's operations (with V10); the `FM` preset and the free-frame harness, the fixture of V12's `reference` run against Fantasy Manor (`layer: { preset: 'FM' }`, V12 §3.7.2 (3)) on V12's `fm.*` metrics; the owner's stage-3 panel; the `room` op, `moveTower { shape }`, the secondary-porch op, the bends of V02 §4.2 and V02 §4.3, the orphan actions, the `fantasyShapes` control row (item 402); the parity bars (segments, square towers, half-round porches) with SP-V2-4's extent row | T-V2-19, T-V2-20, T-V2-31 (the V02 §7.4 parity bars), T-V2-32 (the NG ridge share), T-V2-56's edit rows, T-V2-57; B-EDIT at 10⁴ with the new kinds; the panel offered (V02 §7.5); T-V2-36 with M6-U; `plat calibrate register --check` green over the `composition.json` cells it lands (V12 §3.11), entries written by the landing seat | 3.5–6 pw |
+
+**Effort (stated once; PLAUSIBLE): 23–33.5 expert person-weeks for the volume** — **M6 18.75–28.5 pw** (the three rows
+above, 15–22.5; V02 §8.5's additions inside M6, 3–4.5; V02 §8.6's, 0.5–1; and 0.25–0.5 across M6a–M6c for the `fort`
+and `burial-ground` family rows, the `arena` row's move, the `charnelHouse` and `lychgate` rows, the oval's
+minor-axis gates,
+`cryptSeedWings`, `stairTreads`, `facadeBays` on every side, the stepped-specialisation write, the hall's fallback and
+T-V2-52 – T-V2-53), **M3a's part 2–2.75 pw** (V02 §8.5's M3a-V2 row, the hole sentence's cost inside it) and **2.25 pw of
+spikes** (V02 §8.2). Builder-tier seats do the build, verify and measure work, the architecture rulings Fable seats, per
+the owner's staffing. §16 counts the lines (items 524, 525) and computes its totals once (item 568).
+=== END ===
+
+=== APPEND TO SECTION ## 8 Build plan ===
+### 8.6 Ruin and disaster in the build (items 123, 122)
+
+| milestone | content | exit (executed) | est. |
+|---|---|---|---|
+| **M6b**, added — the exterior's damage at the later of M6b and V03's item-123 plan step (V03 §8); the ruined look with it, once item 122's base parts (M3b) and V01's `disasterDistricts` (M5) stand | `exteriorDamage` and V02 §5.7's drawing in every shipped family — the holes, gaps, rubble and patches, the massing reading's tone and dash, the fire's blackening — the SVG semantics and the export rows of V02 §5.5; V02 §6.6's memo | T-V2-59, T-V2-60; V02 §6.6 measured | + 0.5–1 pw |
+
+Until V03's item-123 step lands no plan carries a damage layer, so the element reading draws nothing and the massing
+reading stands; until V06's decay level lands (M6-E) the level is read from the existence state alone at V11's default
+age (V06); at THORP, HAMLET and VILLAGE the look's units wait for V07's ends (V07 §8).
+=== END ===
+
+=== REPLACE ## 9 Decisions ===
+## 9 Decisions
+
+Each row is final unless the owner or the Fable retrovalidation vetoes it; each is "chose X over Y because Z". A row
+another row supersedes or amends carries one mark naming it, and the governing row keeps the reason.
+
+| id | decision |
+|---|---|
+| J-V2.1 | Chose to make stage 3's **massing the eager `outline()` at S11** (model data: the footprint, heights, shadows and capacity read it) over keeping the base outline and composing only lazily, because the owner's buildings must show their composed plan — courts, cross-wings, towers — at every zoom with one footprint hash across LOD (O17 (i)), and the massing costs ≈ 3 % of the first map (V02 §6.1). |
+| J-V2.2 | Chose to let the **massing own every height and ring**, the composer never re-shaping a wing or changing a covered storey, over using the base contract's allowance for taller composed sections, because shadows, the 3-D export and the capacity must never depend on a click (§6.2: a click changes no digest). |
+| J-V2.3 | Chose **tiled ranges and blocks** (butt joints at right angles, mitres otherwise; a block splits the range it straddles) over Fantasy Manor's overlapping blocks, because tiling keeps §2.6's cheap pairing tier and an exact capacity; **towers overlap** (tier (iii)) because a round ring cannot tile a rectangle without non-rectangular wings. Item 59's ADOPTED block/tower distinction holds — **a block's roof is always a hip, never a pyramid** (its ridge ends inset by `WingRoleRow.hipInset` × span — under `FM` the measured-rate entry of V02 §3.10.8), and **the square pyramids are towers standing on blocks** (M8's candidate (d), contained in its block, weight 0 by default and calibrated under `FM`). |
+| J-V2.4 | Chose to put **towers and turrets first in wing order** over path order, so §2.6's clip order takes each tower whole (a round room per storey) and each range less its towers, and no seed piece has a hole. |
+| J-V2.5 | Chose to keep Fantasy Manor's **regular, star and arc families behind the `fantasyShapes` model toggle, off by default**, over its equal weights as the default, because the owner adopted "realism in the base, fantasy as toggles" (D-7); the `FM` preset turns them on at the reference's weights. |
+| J-V2.6 | Chose **composed wings and towers that name their base wing by key and store no ring** over storing composed rings, because one geometry source removes a class of carry bugs (the write that survives one path and ghosts another) and makes a mutation's re-match trivial. |
+| J-V2.7 | Chose **dormers and gables that never project past the eave** — a projecting bay is a block, which the footprint shows — over Fantasy Manor's projecting cross-gables, because a projection would leave the footprint (the stage-3 contract) and possibly the plot (item 59). |
+| J-V2.8 | Chose **orientation by the frontage and fitting in the frontage-aligned largest inscribed rectangle of the slot hint** (`plotRing` following the hint itself) over a random rotation or a free fit in the plot's OBB, because item 59 keeps our plot rule and a building must never leave its plot. |
+| J-V2.9 | Chose to derive the **`rooms` rung only with the plan** over deriving it under `view`, because nothing but the plan draws it and its cost would be wasted on a pan. |
+| J-V2.10 | Chose **per-wing keyed composition draws** (creation index from the wing's key) over per-building draws, so every wing a mutation keeps recomposes byte for byte without storing the composition — item 18's "keep what fits" by construction. |
+| J-V2.11 | Chose to **lay a mutation's target family around the kept ranges** (the growth lattice, anchored mode) over re-running the family and matching after, because item 18 (a) wants "the old house still recognisable inside the new workshop". |
+| J-V2.12 | Chose to **draw a mutation's target family** on `siteplan.mutate` over the reachable, feasible families over taking the heaviest, for variety across a town; the stream keeps it deterministic and reversible. |
+| J-V2.13 | Chose to **keep a row building's quads** through every designation change that keeps the `row` arrangement (only its back range and storeys change) over re-laying rows, because the quad is the plot's (shared party walls) and item 31's geometry floor protects built stock. A change to a `compound` arrangement keeps the quad byte-identical as the compound's frontage slot and adds the target's main structure behind it (V02 §3.9 W3b). |
+| J-V2.14 | Chose a **back range by band** for rows, houses and cottages over leaving rows unarticulated, because rear ranges on burgage plots are the historical norm, the yard behind stays (the coverage cap), and it carries item 19's "scale in structure" to the commonest building. |
+| J-V2.15 | Chose **porch kinds filtered by the free space in front of the door** — a flush front takes a recessed porch or none — over Fantasy Manor's porch lottery, because no porch may stand over a street. |
+| J-V2.16 | Chose **a closed ring with a gate hall** (the court a footprint hole, reached through the front range) over an open ring spanned above, which would need an in-plot passage face, because item 30's passages are block-level and courtyard houses and inns were entered through a gate hall. |
+| J-V2.17 | Chose **two event kinds with op unions** (`setMassing`, `setComposition`) over one event kind per operation, keeping item 101's small vocabulary and one dry-run path per kind. |
+| J-V2.18 | Chose **geometric edits that draw nothing** — an omitted value takes the row's central value — over drawn defaults, so the tool behaves predictably; the `setMassing` `family` op is a designation mutation and **draws on `siteplan.mutate`** exactly as one (V02 §3.12), replayable because that stream is a pure function of its key. |
+| J-V2.19 | Chose to **switch the composed massing off under the `MFCG` and `FTG` presets** (the base outline) over composing under them, so §13.5's parity rows stay on the references' behaviour (item 23). |
+| J-V2.20 | Chose a **building-scope `FM` preset whose element rates are calibrated to Fantasy Manor's measured outputs**, not copied from its code, over a constant table taken from the code reading, because §17.1's clean room admits the code only for understanding, while emulation-first (item 23) still wants the reference's behaviour reproducible. |
+| J-V2.21 | Chose **one planar, non-overlapping roof plan per building** (the roofscape) drawn and exported by one function over independent per-wing roofs painted in order, because valleys, walls and towers come out right, the light pass gets exact normals, and the exports agree with the picture. |
+| J-V2.22 | Chose to keep the **shadow casters on the model's wing prisms** over casting from composition parts, so **no shadow of the model's masses depends on a click**; the surface-layer shading of a porch, the dormers and the cupola appears with their drawing — view only, no digest. |
+| J-V2.23 | Chose to **repair the size budget by scaling and dropping parts**, never by asking for land, over a JOIN inside the massing, because land is S10's and the mutator's and the massing must stay a per-slot pure function. |
+| J-V2.24 | Chose a **second admission bound for the composed classes** (≤ 60 µs median, ≤ 250 µs p99) beside the base's town-wide 10 µs median, over one 10 µs bound per class, because the composed classes are a few per cent of buildings and inherently heavier, while the town-wide median and the mean bound the first map. |
+| J-V2.25 | Chose **one façade-bay rhythm** (`facadeBays`) for dormers, the plan's windows, lit windows before a plan and decorative chimneys over separate spacing rules, so the picture stays consistent when the plan arrives. |
+| J-V2.26 | Chose to **raise a tower's eave above every roof it overlaps** over a per-pixel height sort, so plan occlusion is a subtraction and every tower reads as rising through the roofs, as towers do. |
+| J-V2.27 | Chose a **separate `@plat/buildings` package** between `plots` and `labels` over folding the composer into `@plat/plots`, keeping S11 small and the interface (in `plots`) apart from its implementation. |
+| J-V2.28 | Chose a new roof kind **`shed`** over drawing lean-tos and outshots as gables, for realism on the commonest additions and on lean-to shelters (item 70). |
+| J-V2.29 | Chose **tower ring side counts by radius** (12 / 16 / 24) over one count, so a small turret keeps its sides above `minEdge` and a great tower looks round. |
+| J-V2.30 | Chose **V11's four anchor bands (poor, modest, prosperous, rich) with V11's derivation for squalid and comfortable** for every row of `composition.json` over three anchors with midpoints, so **one band-anchoring rule serves every template-like table** and the massing bends where the size budget bends. |
+| J-V2.31 | Chose to **measure the porch's space on the building's own plot** over the neighbourhood around it, so the rung stays a function of its building and plot (§4.1's contract). |
+| J-V2.32 | Chose **M6 after M5 in three parts, the massing first** (with the roofscape) over the composer first, because the massing is on the first map and is what every view shows; V03's P0, P1 and P3 run on the base's buildings after M4 (V03 §8; J-V3.132; J122), the plan rung taking the composer's rooms and dormer rows when M6b lands, so this volume's `facadeBays` is built first, as its own item (V02 §8.1). |
+| J-V2.33 | Chose **V11's family-keyed `HeightsRow`**, with V02 supplying three columns (`attic`, `parapetCm`, `towerStoreyCm`, item 427), and **one pitch rule** (`roofPitch × ClimateRow.roof.pitch ÷ pitchRef`, clamped) over V02's own class-keyed heights row and a climate-only pitch, because one content owner and one key avoid a second source of truth, and the climate still steepens or flattens every family's roof. |
+| J-V2.34 | Chose **one resolution chain** — the template's key, a class override, a village class map, the template family, a full default per arrangement; for other slots the slot's key, the role key, `outbuilding` — with **rows per V11 template family and per structure role**, class rows only as overrides, and an **arrangement law checked at load**, over rows per class, because the roster has ~180 classes plus generic, custom and village ones while their shapes follow V11 §3.6.1's template families (35), and a row that contradicts its arrangement must never be read. |
+| J-V2.35 | Chose a **slot-level size band** (`[p10, p90] × footprintShare ÷ count × buildingScale × sizeFactor`, the p10/p90 ratios **V11 §3.6.1's derivation ratios, mirrored as `sizeBandLo`/`sizeBandHi` (0.7 / 1.45, fixed)**, over 0.75 / 1.35), an **M3 least-footprint budget test** and an **M10 shrink that lowers the clamps and then falls down the reverse lattice**, over scaling alone, because the clamps undid the scale and T-V2-29 and T-V2-30 could not both pass; and chose a **manor override in V11's rows** (prosperous 420 m², rich 650 m², plot 3 000 m², main share ≥ 0.6), which V11 §3.6.1 carries (J-V11.39), for the owner's "giant manor … bigger courts", M3's test still removing any court family a plot cannot hold. |
+| J-V2.36 | Chose to read **the composer's rooms at the occupants' band**, emit the hall and chapel only for the `house` unit form or a programme hall, and clamp the hall to its programme row, over rooms fixed at the built band, because item 28 (f) keeps the shell and lets the interior follow who lives there. |
+| J-V2.37 | Chose **the range opposite the gate as a closed ring's `main`**, the hall entered by a court door where the main door opens into the gate hall, over leaving closed families without a `main`, because courtyard houses and inns had their hall across the court from the gate. |
+| J-V2.38 | Chose a **sunlit bias on the mirror coins** (`sunBias` 0.7; 0.5 in the parity presets `MFCG`, `FTG`, `VG` and `FM`, each with its own entry) over fair coins, because item 102 (d)'s "the rich seek the sun" reaches the building's garden and court side, and historical houses turned their courts to the south; the frontage orientation is never changed, and the bias is not scaled by band (passive orientation was common at every band). |
+| J-V2.39 | Chose that **only a wing the mutator adds** over a sealed void draws for an access (keyed by its wing), that a `setMassing` op draws none (the user declares `addUndergroundAccess`), and that a replacement draws as new, over drawing on every massing change, because growth by new foundations is the owner's "more digging" while a hand edit must stay predictable. |
+| J-V2.40 | Chose **the rear side by the outward normal away from the access**, independent of the ridge, over "the eave side farther from access", because the ridge is decided later and a gable-fronted row's eave sides are its party walls. |
+| J-V2.41 | Chose **two orientation laws beside the frontage** (`fallLine` for the longhouse, `water` for mills and landings) over frontage-only orientation, because V07's longhouse rule is hard and a mill's wheel must stand on its water (realism tiebreaker). |
+| J-V2.42 | Chose **attached structures** (a wheel, sails, a church's west tower and porch, a court institution's ranges) laid by the main slot's massing over separate slots, because they are parts of one building historically and a separate slot could not touch its host (item 304). |
+| J-V2.43 | Chose to **shift the geometry value by the use's significance** (half a band per doubling, at most one band up, never down) over ignoring it, because a landmark or a weighty custom institution must read larger (item 104) while a weak one never shrinks built stock. |
+| J-V2.44 | Chose **one main porch plus an optional secondary hood** (0 by default, calibrated under `FM`; buildings with two or more porches reported against the reference's 10 / 41) over the reference's up-to-three porches at any door, because historical houses mostly had one porch at the main door; recorded as a departure. |
+| J-V2.45 | Chose to add the **half-round porch at weight 0 in the default rows** over a default weight, because it is Fantasy Manor's commonest porch but rare in the realism base; the `FM` preset calibrates it. |
+| J-V2.46 | *Amended by J-V2.108* (the lift's wings). Chose a **raised-choir crypt** (the crypt's floor above the water table, the ground wings over the basement's ring lifted by `crypt.clearCm`) over exempting the cathedral from the water table (a crypt that floods) or a refusal (a cathedral with no crypt), because the owner's "the cathedral always has a crypt" is unconditional and a raised choir over a crypt is the historical answer on wet ground (J111). |
+| J-V2.47 | Chose **our own ids** (`regularCourt`, `starCourt`, `chordArc`, `rectCourt`, `gridWalk`) with a table-migration row over the reference's layout routine names, because §17.1's clean room forbids transferring its identifiers. |
+| J-V2.48 | Chose **a canonical wing order (towers first, then by key) and wing references by key** (item 225) over index references, because V02's edits add and remove wings and an index would silently re-point a stored door or room. |
+| J-V2.49 | Chose **the cupola as a massing draw recorded on `MassingRef`**, drawn from the district band and never in `Heights`, over a composition-rung ornament, because landmarks need their silhouettes before any click (NG C2) while shadows and capacity must not change. |
+| J-V2.50 | Chose to express **the cross plan, the kiln, the chapter house and the tower on a block** with the existing constructions (`cross` as a main range with a two-piece cross slab; kilns and chapter houses as rangeless `towerHouse`s; the block tower as a contained square) over new wing kinds, keeping one geometry vocabulary. |
+| J-V2.51 | Chose to answer "why this shape" through **V10's existing `WhyAnswer` fields** (alternatives as fact rows, recomputed without advancing a stream) over a new typed field, so no volume-10 change is needed. |
+| J-V2.52 | Chose a **narrow `wingsInputs` digest** (the base wings, the main entrance, the massing reference, the slices, the porch's neighbourhood) over the building's whole leaf digest, because dormers and porches read nothing else and a relet must not mark a town stale at every epoch. Item 261 writes the per-rung lists into §2.8's `inputs` comment, its `stale` sentence and §4.1's list as well as the `slices` comment, so an implementer holding the base alone stales `wings` only on `wingsInputs`. |
+| J-V2.53 | Chose to **request the `wings` rung under `view` only at the neighbourhood band and finer**, with a pre-decided slicing into 16 ms batches, over requesting it at the district band, because the district band draws the massing's roofscape and §12.7 bounds a tile at 16 ms. |
+| J-V2.54 | Chose to compose a **split site as two ordinary buildings** by the class's `split.works` and `split.shop` families, a merge-back as two mutations in one event, over a special two-plot building, so every lifecycle path reaches both by the ordinary machinery (item 105 (h)). |
+| J-V2.55 | Chose **ladder members as ordinary buildings of the lesser class** and a SIZE step as the greater class with `sizeFactor`, the upgrade keeping member #1 (W3b where the arrangement changes), over a ladder-specific massing, because item 108 asks for real buildings that scale with the population. |
+| J-V2.56 | *Amended by J-V2.96* (the keys). Chose a **V02 table (`composition.classFamily`) for V07's village classes**, the one source of their composition keys, read at the chain's step 3, over a `templateFamily` column on V07's rows as that source, so every village class resolves; V07's `v.` rows name a V11 §3.6.1 `templateFamily` for their budget rows only (J-V7.82, J-V7.101), read at the chain's step 4 after this table, so no column supersedes it. |
+| J-V2.57 | Chose to **keep `MassingFamilyRow.wings` and `.joints` as M13 checks** over deleting them, because a structural check on each family's construction catches a construction bug at the building, where M14's ladder repairs it. |
+| J-V2.58 | *Retired:* a process choice (the lane that wrote item 110's building parts), kept in the validation records; it carries no design content. |
+| J-V2.59 | Chose **stacked wings — a tier is a base wing standing on another (`BaseWing.on`), its `baseCm` the lower wing's deck level** — over a separate tier record or a composition-only stack, because heights, casters, capacity, the carry, the exports and the edit paths then serve tiers unchanged, and "each tier casts its own shadow" holds by construction (one prism per wing). |
+| J-V2.60 | Chose **solid wings** (`solid`, floors 0, the height in `eaveCm`) over storeyed tiers only, because a stepped pyramid is rubble fill without rooms and a stair is a solid; the capacity and the plan must not count either. |
+| J-V2.61 | Chose **stairs as solid `shed`-roofed wings laid on the terrace below**, the stair side's inset deepened to hold the run, over stairs cut into the upper tier or projecting through the step, because every tier then stays a simple nested ring and every stair is contained in what it stands on; both the stepped pyramid's great axial stair and the terraced palace's flights along the faces are reached. **Its cost:** with each front terrace holding a whole flight, the summit stands `(Σ f_k − (n − 1)d) ÷ 2` behind tier 0's centre, 2.4 / 3.6 / 3.3 / 4.4 m on the stepped temple's median stacks at its grade 1.0–1.2 (receipt, V02 §3.10.3) — accepted as the price of nested rings and contained stairs, the steeper stair (as the stepped temples of the Americas were climbed) bringing it down, and shown to the owner's panel (V02 §7.5 (3)), which may veto it toward stairs cut into the tiers. |
+| J-V2.62 | Chose to keep **the tier geometry cells in `composition.json`** (V02) and **which classes build in tiers, with their chance and cap, in V11's class rows** (X17), over V11 holding the geometry, because item 110 (c) splits them so ("composition rows (V02) and class rows (V11)") and one fact must live in one place. |
+| J-V2.63 | Chose that **a stepped row is reached only by name** (V11 §3.24.3's culture × class specialisations, a declared class, the `family` op) and that no default Western row lists `stepped`, over a small default share, because the design's centre of gravity is Western (D-7), item 23 forbids a hard-coded universal, and item 110 (f)'s no-op pin must hold. |
+| J-V2.64 | Chose to **ship the tier construction at M3a in `@plat/plots` as a base outline-builder construction**, the same exported `layTiers` that V02's massing and V04's ruins call, over waiting for M6, because item 110 is "built with the editing and authoring milestones" and its second known-city fixture at M3a has a stepped temple; one function keeps the M3a and M6 results byte-identical (T-V2-46). |
+| J-V2.65 | Chose **a tier's storeys and height through the base's `setAttr` of heights from M3a, and the `tiers` op from M6c**, over a new event kind at M3a, keeping item 101's vocabulary and M3a small. |
+| J-V2.66 | Chose to **derive a wing's storeys (`storeyRange`) from `on` and the floors beneath, never storing a level offset**, over a stored `levelFrom`, because a derived value cannot disagree with the stack after an edit (the write that survives one path and ghosts another). |
+| J-V2.67 | Chose that **a deck building's footprint band is the deck row's, replacing the template's, with its storeys capped**, over the template's band clamped, because item 110 (d) asks for a "small, light" deck budget whatever the class's usual size. |
+| J-V2.68 | Chose **no basement, crypt or dig on any deck, a mole included**, over a masonry-mole exception, because the deck is not ground; an `always`-crypt class is never a deck class (V11's load check), so the no-refusal crypt ladder never meets a deck. The gate reads **the use, not only the class** — a use to which a dossier crypt record binds is never placed on a deck either (`deckOk` per use; a hand placement bends landward; a mutation relocates the use), because the dossier is the sole immutable truth (items 20, 22) and a bridge chapel may carry a recorded crypt; and **a quay built on the bank is ground**, not a deck (the terrain datum, the ordinary basement gate, a dig floor), so "the deck is not ground" covers moles, piers, bridge decks and quays built out over water. |
+| J-V2.69 | Chose that **placed landmarks on a deck (a mole-head or mid-mole tower or fort, the lighthouse islet's tower) read their classes' own rows** with their templates' budgets and floors, over the deck budget, because item 110 (d) names them "placed landmarks" apart from the frontage plots' small buildings. |
+| J-V2.70 | Chose to **bend a hand edit's storeys to the deck's `maxFloors`** while leaving the footprint to the plot, over applying M10 to hand edits or leaving storeys free, because the storey cap is the deck's load (a structural fact) and the plot already bounds the rest. |
+| J-V2.71 | Chose that **no building stands on a raised way's deck**, over admitting one, because item 110 (d)'s hosts are a mole, a pier, a quay platform and a bridge deck. |
+| J-V2.72 | Chose to **add no building-side retaining-wall rule** — the massing reads only `H` and the levelled datum — over a wall setback or a wall-hugging range in the massing, because S10 and S11's levelling and the site plan own where a wall runs (item 110 (a)). The rear setback may be 0 (a row built against the terrace wall), and **the datum reads the building's own terrace** — a sample within `terrace.wallBandCm` of a wall is taken on the centroid's side (item 231) — because a sample on or across the wall's line would read the platform across the wall, floating the house toward the terrace above or sinking it toward the one below; the massing itself adds no wall rule. Every datum sample is §4.7's `levelledGroundCm` (item 309; item 370), the levelling a platform datum never written to the raster, so the move keeps that one reader on the wing's own terrace — the terrace §2.7's `stepProfile` reads on each side of the wall. |
+| J-V2.73 | *Superseded by J-V2.79* (ground wings beside a stack; a block beside it as a range). |
+| J-V2.74 | Chose the **stair fallback `axial → flights → internal`** (internal only over a storeyed tier 0), then the family's lattice, over refusing the stepped family where the plot is shallow, so a stepped class keeps its tiers on most real plots and every fallback is reported. |
+| J-V2.75 | Chose **pent skirts as ordinary `hip`, `pyramid` or `cone` roofs clipped where the tier above rises** over a new roof kind, keeping one roof vocabulary; the skirt's pitch is capped so it meets the tier above within its ground storey. A pent roof is built as **band facets** between its ring and the ring above (V02 §5.2 step 3), not as a hip to the midline or a pyramid to one apex, so `ridgeCm = eaveCm + p × d` is the height at which the skirt meets the upper wall; and **pent only with equal insets** (`internal` or `none`), since an axial or flights front inset leaves no single `d`. |
+| J-V2.76 | *Superseded by J-V2.79* (removing a stair bends to `internal` or `none`). |
+| J-V2.77 | Chose to **export a stair as a CityJSON `BuildingInstallation` and a stepped glTF solid**, and each upper tier as a `BuildingPart`, over folding them into one solid, because the standard has those types for outer stairs and building parts, so viewers and GIS tools read them rightly. |
+| J-V2.78 | Chose to **compute the building's heights as the stack's envelope only when a wing stands on another** over changing M11's rule for every building, so every other building keeps its bytes (the no-op pin) while §8.4's caster ceiling and V05's clearance see the top of a stack. |
+| J-V2.79 | Chose **a named bend for every structural limit of V02's edits** — the sealed stair form `none`; ground wings beside a stack (the nesting and the stair chain read only the wings with `on`, so ground wings break neither); a block beside it as a range; removing a stair as `internal` over a storeyed tier 0 and `none` over a solid one (a sealed stack, as the early stepped royal tombs, is a lawful building whose unreached tiers V03 flags); `tiers` on a non-stepped building as `family: 'stepped'` first; `internal` over a solid base as `none` (all solid) or `axial`; `single` for `family: 'stepped'` on a deck; the building's removal for its last wing (and for tier 0 with nothing beside it); the party-wall line's move for a row quad's reshape and a gap for its removal; a too-small wing grown; an op beyond the plot clipped with `join` offered; an unreachable family as the nearest reachable one; a gate hall with no gate range as a gate passage — over refusals with offers, because item 101 R2 lets a tool refuse only what item 20 forbids and what a lock protects. Two limits of it: `none` is lawful wherever tier 0 is solid, not only where every tier is (an unreached shrine on a sealed stack is the same case, and it gives removing a stair a lawful bend on a platform under storeyed tiers); and removing a row quad that is not the last wing leaves a gap rather than moving a plot line (the nearest form of a removal is a removal). |
+| J-V2.80 | Chose to **split the stepped construction into a pure `layTiers` (the geometry, ST2–ST7, with a typed failure) and an exported `massStepped` (frame, `slotBand`, ST0, `drawTiers` on `massing` 8–9, ST8, the attempts and the fallbacks)** over one function with a partial contract, so the M3a builder and stage 3 share every step that decides the bytes (T-V2-46 compares one function) while the `tiers` op, the mutator and V04 take only the geometry; `MassingRef` with `stack` reaches M3a with it (item 229), with a stack migration row, and `stepped` joins the M3a drift list. |
+| J-V2.81 | Chose **one building-level datum pass, `rebaseStack`, that every re-basing path calls** for a building with a stacked wing — S11, a commit, a tier edit, the terrain operator, a warp or vertex move, the carry, the crypt lift, a deck's re-base — over per-wing re-basing in call order, because a stacked wing's datum is another wing's height and a per-entity pass leaves it stale (the write that survives one path and ghosts another); a stacked wing's `baseCm` is not user-editable (it bends to its support's height). |
+| J-V2.82 | Chose to **raise a stack under Works in stack order, a solid wing by courses of `storeyCm.upper`**, over one fraction for every wing, because a tier cannot rise before the tier it stands on and a solid wing has no storeys to count (item 318). |
+| J-V2.83 | Chose **the stair's foot as a solid stack's main entrance, with the plan rooted at the first landing door** (and no plan above the ground for a building with no storeyed wing, its basement and access heads still planned; a sealed stack with a storeyed shrine keeps the shrine's plan, unreached), over a main door on the shrine, because *Entrances* rule 1 puts the main entrance on the footprint and a solid stack has no storey there (item 230). |
+| J-V2.84 | Chose **an elliptical two-ring `ovalCourt` family** — an arcaded façade ring and a solid seating ring round an open floor, gate passages at the major-axis ends — over the court-institution's rectangles or the fantasy `regularCourt`, because the amphitheatre is a historical form the owner's second fixture names and solid wings carry the seating; shipped as `massOval` in `@plat/plots` from M3a (the fixture stands there), with an `arena` row that fills its precinct (`claimShare` .5–.8) and a V11 plot override (X27); and chose the floor's bar at least 10 % of the hull over 35 %, because the historical amphitheatres' arenas are about 13–20 % of their hulls (the largest ≈ 13.5 %), so 35 % would forbid the real form. |
+| J-V2.85 | Chose **each stacked storeyed tier's first storey a principal floor of `storeyCm.ground`**, its others `storeyCm.upper`, over one storey height per wing, because each tier is its own building level with its own ground floor (as terraced palaces' terraces were entered at a principal floor); V03's `floorCm` reads the tier's two heights (X18), and `Building.heights.floors` counts the stack's levels (`1 + max storeyRange[1]`). |
+| J-V2.86 | Chose to **derive a rect tier 0's aspect from the drawn stack's own needs** (ST0's closed form at the drawn count, step, heights, grade and stair width), clamped to the row's aspect cell, over drawing an aspect independently (a .68–.78 draw), because an independent draw mismatches the draw it must hold: the receipt's Monte-Carlo gives 14–27 % truncation with drawn aspects and 1.0–7.6 % with the derived one on the same hints (V02 §3.10.3); ST1 draws no aspect. |
+| J-V2.87 | Chose **a claim-sized band — `claimShare × area(H)` — read by `slotBand` wherever the row carries `claimShare` or the template's footprint is "the claim's"**, with the shared default `claimLo`, `claimHi` 0.35, 0.6, over a `stepped`-only constant, because the palace override's courts, the great temple and the arena have the same gap (no template number) and one rule fills it: the precinct the site plan gave the slot sizes the building. |
+| J-V2.88 | Chose **family rows for V11's three new template families** — `burial-ground` (the mortuary chapel's small single range, reached through `roleKeys`, over mapping it to the `chapel` family row, whose templates at .1–.5 would give a one-cell mortuary chapel a nave-sized plan), `fort` (a battlemented keep sized to the fort budget; its second tower the `tower` row, its gate the `gatehouse`, its barracks range `barracks`) and `arena` (the `ovalCourt` row as its own family, its `gate`s absorbed as M5's passages — the major-axis pair, then the minor-axis chords for a third and fourth) — with a `charnelHouse` role row, a `lychgate` role row that is a roofed gate at the poor and modest bands and a gatehouse at the prosperous and rich, and the exemption that a template with no required structure has every drawn structure read its role key, the first drawn being the main building, over mapping the lychgate to the `gatehouse` row at every band or giving the first drawn structure the family chain, because each structure then keeps its own historical size and the compile check stays total. |
+| J-V2.89 | Chose to **clear every building whose footprint meets a new raised way's piers or under-deck strip, on every path**, over exempting buildings below the deck's underside less a clearance, because item 110 (b) keeps the spaces between the piers open or vaulted, V01 makes the strip a hole, and a way founded at an epoch must leave the same ground as the same way regenerated at its address; the soffit bound over a crossed way is item 244's clearance rule (V02 §3.17 (b)), and V02 keeps no clearance of its own. |
+| J-V2.90 | Chose **one tread law, `stairTreads`** — `⌈rise ÷ riserMaxCm⌉` equal risers, the run divided among them in whole centimetres — read by the map, the exports, V01's hatch and V03's exterior flights, over a fixed plan pitch (`treadM`) or V03's interior going, because the flight's rise, run and grade are this volume's and the picture, the plan and the 3-D solid must show one set of treads. |
+| J-V2.91 | Chose to **raise the ground wings over a `half` basement by half the cellar depth** (a basement that is only a crypt: the wings over the crypt's ring), carried by `deriveBase` on every re-basing path while the basement stays half and read by the gate without the raise, over sinking the half cellar's floor a full depth below the datum (below the water table the gate chose the half form to avoid) or keeping the gate's half-depth floor with no raise (a cellar storey about 1.1 m high the plan cannot furnish), because a raised ground floor over a half-sunk cellar is the historical form (PLAUSIBLE, general knowledge) and it reconciles the base's two sentences on the half cellar's floor; should the base's basement rule ship before item 226, the change is a declared one-time shift (§13.3). |
+| J-V2.92 | Chose the **crypt seed order** template parts (`chancel`, else `apse`, else `crossing`) → a stack's tier 0 → the east-most storeyed range (ties by key) → none, in **one exported function** (`cryptSeedWings`), over leaving the seed to each reader, because the base's basement function, V03's crypt placement and the tests must read one set of wings; a church's chancel is its crypt's historical place and a stepped temple's chamber lies in its platform (V02 §3.14.5 (d)). |
+| J-V2.93 | Chose **`facadeBays` on every ring side** — eave sides as before, other sides without the valley term and with no bay where the run is not positive, a tower's bays round its free perimeter — over V03's per-side restatement without the deductions for meeting towers and wings, because one rhythm must serve the plan's windows, the lit windows and the dormers on every face, and a round tower's short facets would otherwise hold a window each or none. |
+| J-V2.94 | Chose to **write the use's stepped specialisation into `siting.declared`** in the same undo group as a bend or `family` op to `stepped` (and `none` on the way back), over leaving it to a separate declaration, because the specialisation, the heights row and V03's plan rows must follow a hand-made stack, and V11 holds a user's specialisation on the use through that table only. |
+| J-V2.95 | Chose to **clamp the hall by its wing alone before V03's programme rows are loaded**, reported (`hallUnclamped`), and to move T-V2-35's plan-units clause to V03 (T-V3-25) and its hall-area clause to M6-P's P1, over holding M6b's exit on the plan rung, because M6b precedes the plan rung and its exit must be executable at M6b. |
+| J-V2.96 | Chose to **key `composition.classFamily` by V07's `v.` keys with no scope column**, over keeping the town ids with a `village` scope, because a `v.` key and the town key of the same word are two classes (V11 §2.9; J-V7.95), a town class at a village rung plays its `villageForm`'s `v.` class (V11 §3.22) and so never needs a village dressing of its own, and this table is the one source of the village classes' composition keys, which V07 cites (J-V7.82); the `v.longhouse` override row takes the class's own key, and a load check pairs every `v.` class with exactly one row. |
+| J-V2.97 | Chose **V12's `reference` run against Fantasy Manor** (`layer: { preset: 'FM' }`) on V12's `fm.*` metrics to set the `FM` preset's measured-rate cells, with the free-frame harness as its fixture and V12's outcomes (`fallback-applied`, `not-achieved`) as the failure branch, over a V02 harness calibration run with its own fallback, because V12 §3.7.2 (3) admits a `presets.FM` entry only by such a run and its scope guard (T-V12-9) must see every tuner; and chose **a register entry for every calibratable `composition.json` cell written at the exit that ships it**, over entries at M6c alone, so no milestone lands a provisional number without one (T-V12-20). |
+| J-V2.98 | Chose to **take every ground sample of the datum through §4.7's `levelledGroundCm`** (item 370, item 231) — the vertex and centroid samples, the basement gate's fall and the raised crypt's lowest sample — over sampling the terrain raster, because item 309 makes a levelled plot, block or ward a platform datum never written to the raster, so the raster keeps the unlevelled slope and a house seated on it would float above or sink below the step §2.7's `stepProfile` derives from the same datums; the wall-band move is kept so that a vertex on or beside the wall's line reads its own platform. |
+| J-V2.99 | Chose to **write V03's condition into item 371's own text** — `Basement.access` `external` only where no ground wing is storeyed, its door at V03's `basementDoor(b)` (a retaining wall's side first, else the tomb door) — together with the base's `basementAccess` comment and every base text that read `external` as a walk-out (§13.2's T29-4, a 100 % bar the all-solid temple would fail; J-A29.25's access clause, its door clause pointed at step 3; the plan rung's step-5 root clause; the six "ground storey" readings of the basement's place — item 371 (a)–(d)), step 3 and T28-3 being V03's item 578 so each base sentence has one request, the condition worded by V03's `ground(b)`, never "storey 0" — over keeping "under a solid ground wing" with a superseding note, because the base-change applier copies the request's words, a mixed ground floor (an arena's façade ring, a stepped temple's annex) must be joined by its core (J-V3.88), and V01's entrance reserve reads the same access. |
+| J-V2.100 | Chose **the `FM` preset's scope as the cells that carry a `presets.FM` entry — `composition.json`'s and V11 §3.24.0's item-110 chance and offer cells (0)** — over `composition.json` alone, because V11's T-V11-21 and V12's goldens guard (V12 §3.4.4, V12 §3.7.6, J-V12.54) rely on `FM` resolving the stepped and deck families off; `FM` still zeroes no `extension` cell, so our realism rules stay on under it (item 59's KEEP OURS). |
+| J-V2.101 | Chose **one register line per column family** (V02 §3.10.10) — its metric (`bldg.area`, `fm.*`, `tier.count`, `deck.buildings`, `crypt.present`, `time.model`, and `bar.T-V2-<n>` from V12's bar family, X33), method, due milestone and the fallback this volume already states, else V12 §3.11's panel rule — over per-cell prose, so each landing seat writes lint-green entries without inventing a metric; the code-read `FM` entries, the options and the keys take no entry (their `ref:` provenance, a `fixed:` note, not calibratable), and only the measured-rate `FM` entries move, by V12's `reference` run. |
+| J-V2.102 | Chose to **register V02's eleven bars in one table in V02 §3.10.10** — per bar its statistic in clause order, its towns, its CI tier and the seat (the milestone that writes the line's entry), `stages` `['S11']` for all, one registration per CI tier where V02 §7 runs a bar in two, and, in T-V2-36, T-V2-42 and T-V2-46, a clause whose subject is not yet built reading −1 and left out of the verdict — over V12's generic sentence alone, because the seat would otherwise choose towns and tiers bar by bar, and the M3a-V2 and M6a entries name bars (T-V2-42, T-V2-46, T-V2-36) whose other clauses are built at M6a or M6-U, so a whole-bar verdict could never confirm them on time. |
+| J-V2.103 | Chose (a) to keep `sizeBandLo`/`sizeBandHi` in `composition.json`'s constants as **fixed mirrors** of V11 §3.6.1's derivation ratios (`own`, a `fixed:` note, no register entry — the one constant of V02 §3.10.9's table that is not calibratable) over dropping them and reading V11's compiler constants, because M10 applies the ratios at run time to a compiled row whose authored p10 = p50 = p90 while V11 holds them only in its compiler, and a mirror marked fixed can neither drift by a calibration nor leave M10 without a value; and (b) to bring **item 426 and item 224 to M3a whole** with item 229 — both `composition?` fields, the `heights` comment and the hint clause — over splitting each request into an M3a part and an M6 part, because no part changes a base behaviour before a writer or a hint exists (V11's C3b replacement and the base outline builder's stepped and oval constructions are the first, both at M3a), so the earlier landing costs nothing and each request stays one text. |
+| J-V2.104 | Chose (a) to **ship the `PorchKindRow`s with M3a-V2's `composition.json`** (data only; the porch itself is composed from M6b) over V01 holding porch sizes of its own until M6a, because the rows are five authored data rows with no build effort, a second copy of their sizes in V01's constants would state this volume's facts twice, and a reserve sized from the real rows from M5 leaves the hood pins where they are when the composer's porches appear at M6b (J-V1.75's order-independence); and (b) to **build item 303's hole sentence alone at M3a**, with item 229, over the whole request at M3a or leaving the arena floor to its template's yard row until M6, because `massOval`'s arena is laid from M3a and three bars (T-V2-42, T-V1-26, T-V1-54) read its floor as a `court` before M6, while the request's other sentences have no reader before M6. A base template's hole whose kind the yard rows set otherwise before M3a is retyped once at M3a, a declared shift (§13.3), over keeping template-typed holes, because two typings of one kind of place would split every reader of the court. |
+| J-V2.105 | Chose (a) to **word X18's hand-off and item 371 (c)'s step-5 root clause as V02 §3.15.3 words the solid stack's door and its planned crypt**, over their older words, because X18 is what V03 builds from and (c) is base text the applier copies — a storey-less stack against a retaining wall would otherwise root its basement at a tomb door the plan never opens, and a storey-less temple's crypt would read as unplanned; (b) to **home the whole derived-at-read block of V02 §2.6 in `@plat/plots` at M3a-V2** — `rebaseStack` and `stairTreads` with the four stack helpers — over naming only the four, because `rebaseStack` runs on the base's re-basing paths from M3a and `@plat/buildings` depends on `@plat/plots`, so no function of the block can live above V03's eager readers (`ground(b)`, `floorCm`, `basementDoor(b)`); (c) to write every bar registration's `preset` as `'default'` (V12 §2.1's `PresetArm`) over leaving the field to the registering seat, because none of V02's eleven bars generates its towns under a parity preset — T-V2-37's preset clause reads the compiled cell, not a town, and the `FM` measurements are V12's `reference` run, not a bar. |
+| J-V2.106 | Chose (a) to word item 230's storey-less clause by **what the stack carries, not by its stair form** — "a sealed stack whose every wing is solid" among the buildings with no plan above the ground, and a sealed stack carrying a storeyed tier or shrine keeping that wing's plan, reached by nothing and flagged by V03 — over classing every sealed stack as storey-less, because the stair form says how a stack is reached, not whether it has storeys, and a sealed temple with its shrine is the common sealed stack (V02 §4.6's bend seals a shrine-topped temple); (b) to give V02 §7.7's sealed stack fixture **two forms** (sealed with its storeyed shrine; sealed with every wing solid) over one, because T-V2-45's sealed clause has two branches and a one-form fixture would leave one of them without a subject; (c) to type `rebaseStack`'s ground reader as **a plain function of a point, `ground: (p: PointCm) => Cm`, that each caller builds from `levelledGroundCm(doc, key, ·)`**, over passing the document and the arena key into `rebaseStack`, because the pass reads only heights at points, every calling path (S11's datum step, the edit operators, the carry, the crypt lift, a deck's re-base) already holds its document and the plot's arena key, and the base's raster `TerrainSampler` is the reader item 370 removed from the datum; and (d) to keep item 230's first clause (the stair's foot as the entrance of a building with no storeyed ground wing) as written, the sealed clause after it naming the sealed form's entrance, because ST7's hint places that entrance exactly and the general-then-particular order reads the all-solid sealed stack first. |
+| J-V2.107 | Chose (a) to **give stair 0's approach strip its own V02 §1b row while keeping its one statement in V02 §4.6's ground-wing bullet**, the row's kind cell pointing there, over moving the definition into V02 §3.15.1's construction, because V03's two door functions cite the strip "as V02 §4.6 bounds it", no step of the construction lays or stores it (ST2 – ST7 place the reserve and the stairs; the strip only bounds what may stand in front of stair 0), and a moved statement would break a citation for no change of mechanism; and (b) to **name the strip among `landingM`'s consumers** in the constants row. |
+| J-V2.108 | Chose to **key the raised lift and the crypt-only half raise on the ground wings over the basement's ring**, over the crypt's seed wings, because V03 derives basements under other wings — the ground wings' whole inset of a crypt no stair reaches (V03 §3.7.4), an author's crypt ring on a building without a basement (V03 §4.2) and the far-third seed where `cryptSeedWings(b)` returns none — and under the seed-wing key each of those put storey −1 into an unraised or unlifted storey 0. A derived crypt stays under its seed wings on the `half` and `raised` rungs (V03 §3.7.4 step 2), so J-V2.91's raised choir over a half-sunk crypt is unchanged; a solid tier 0 holding the crypt inside it keeps its height. No declared shift: the crypt parts are built at M6-U. |
+| J-V2.109 | Chose **`valleyReach` to read a `shed` `Y`'s whole run in both modes** (V02 §3.7) over the integer form's half span for every `Y`, because a single-pitch plane runs from its eave to its high side (`RoofSpec.high`), so the plan point where `X`'s ridge meets it lies at `(X.ridgeCm − Y.eaveCm) × Y.runCm ÷ Y.riseCm` with the whole span as the run, and a half-span reach would stop the usable run — the bays, the dormers and the lit windows `facadeBays` feeds — short of where the drawn valley starts; E-27's two equivalences hold (the integer mode byte-identical on every host, T-V2-13; the float mode view data), and only a building whose valley ends on a shed reads otherwise (T-V2-54). |
+| J-V2.110 | Chose to apply **item 115's rung ceiling as a cap on a dwelling's resolved row** (V02 §3.2 step 2) — its families kept to the ceiling row's `dwellingFamilies` and the arrangement's own constructions, its tower, turret and gate-tower cells zeroed, a grand class's override row skipped, every other cell kept — over capped rows of its own per rung in `composition.json`, because one filter over the rows already written keeps one source for each fact (V11's table the limits, `composition.json` the shapes) and leaves every size, roof, dormer, porch and hearth cell free to carry the wealth item 115 (a) asks small places to show; over mapping a drawn grand family down the reverse lattice after the draw, because that would pile the grand families' weight onto `T` and `L` instead of keeping the row's own proportions among the admitted families; and to record the cap's rung in `MassingRef.row` (`~<RUNG>`) over re-reading the present rung at every re-derivation, because a standing building keeps the ceiling it was built under across a rung change (item 115 (e); V06 §3.8.5) and the key is already the persisted record of what the chain reached. A row that limits nothing writes no suffix, so TOWN and above stay byte-identical (item 115 (f)). |
+| J-V2.111 | Chose to **re-budget V02 §6.4's exports to the population cap inside item 119's ten seconds** — CityJSON `asDrawn` ≤ 3 s at METROPOLIS and ≤ 6 s at the cap, `derive` ≤ 4 s and ≤ 8 s, from the per-building costs of the roofscape, the meshes and their encoding and the pooled `compose()` — with the pre-decided change that a format or a `derive` the measurement cannot hold within ten seconds is offered only up to the building count it held, over keeping METROPOLIS's former lines of 10 s and 12 s, because those lines scaled to the cap's ≈ 36 000 buildings pass the comfort level, past which a wait fails (item 119 (a)); and over a switch by the clock at run time, because a budget never changes output at run time (§12.1), so the limit is fixed by the measurement and one document exports the same way on every machine of the reference tier (the low tier declaring its sizes per device). |
+| J-V2.112 | Chose to draw **item 123's damage on the exterior from the plan in force** (V02 §5.7) — its damaged roof bays over rooms as holes cut from their own wing's facets, its broken outer runs of each wing's lowest storey as gaps in the outline, its repaired bays in the patched-courses pattern, all read from V03's damage layer and §6.3's keyed thresholds — over thresholds or a damage pattern of V02's own, because the owner asks the inside and the outside to agree (item 123 (d)) and only the plan's own elements can agree with it element for element; to draw **no element where no plan is in force** — the state rows alone, and a look's tone and dash — and to raise no rung for the exterior, over deriving a plan for every damaged building in view, because a typical house's plan costs 3 ms median and 10 ms p95 (V03 §6) and a disaster's districts hold hundreds of buildings, while §4.1's `elaborate` decides when a rung is derived and never what it draws, so the holes are the same whenever the plan comes; and to leave the damage and a disaster's look **out of the glTF, OBJ, CityJSON, GeoJSON and JSON exports**, over carrying them, because those carry the model's surfaces and records (a roofless building already exports no roof) while the damage depends on the drawn week, the plan in force and, for a look, the viewer's switch and key — a picture draws both and a battle map follows §11.1. |
+| J-V2.113 | Chose to draw **a disaster's ruined look as item 123's damage at the higher of the building's own decay level and the look's** (the `disaster` row's `lookLevel` at the condition's severity, §10.2) on every building of every unit V01's `disasterDistricts` returns (V07's ends at the village rungs), over a ruined look of its own or a per-building share inside a struck district, because the owner's disaster takes whole neighbourhoods (item 122 (b)) and one damage design keeps the exterior, the plan and the cellars in one comparison (item 122 (d)); to give the kinds **one flavour** — a fire blackens — over a look per disaster, because soot is the one mark the damage does not already draw — an earthquake's fallen wings, towers and open roofs and a flood's fallen walls and outbuildings are the damage itself, and a flood's stained lower storeys lie under the roofs a map draws from above; and to let the look **leave no patch**, over reading its end as a repair, because the look is temporary and cosmetic (item 122 (a)) and what really breaks reaches the map only through V06's epoch path. |
+=== END ===
+
+=== REPLACE ## 12 CONFIRMED versus PLAUSIBLE ===
+## 12 CONFIRMED versus PLAUSIBLE
+
+**CONFIRMED** (an executed measurement or a quotation verified at source):
+* The base facts this volume builds on, read at source in `docs/ARCHITECTURE.md` with files f and g: §2.5–§2.9, §3.4,
+  §4.1, §4.7 S11 with its mutator, clusters, class mix and concealed institutions, §4.8's piers', moles' and quays' deck
+  heights, §4.11, §5.2, §6.1, §6.3, §7.1–§7.6, §8.2, §8.4–§8.6, §8.10, §10.2, §11.1, §12.7–§12.8, §13.2, §14, §16 and the
+  staged table; item 101 R2's wording (`docs/AMENDMENTS-2026-09-27e.md`: "refuses only what item 20 forbids (dossier facts)
+  and what a lock protects"); items 109 (j), (k) (J111), 110 (a)–(f), 122 and 123 (J135, J136)
+  (`docs/AMENDMENTS-2026-09-28g.md`).
+* Fantasy Manor's five layout families at equal odds, one polyline and one wing width as its whole input, no plot, no
+  metric scale, no entrance guarantee — item 59's evidence gate and `research/findings/manor.md` §2, §3.1; the measured
+  element counts of V02 §7.4 (41 buildings of build 890, `captures/manor/README-frequencies.md` §3–§4); the reference
+  model's cost (≈ 0.08 ms per building warm, §12.7) under V02 §6.2's `compose()` bound; NG's short-axis ridge share
+  (≈ 36 %, §2.6).
+* V11's 35 template families with their arrangements, main slots and structure names (V11 §3.6.1), `HeightsRow` and
+  `TemplateFamilyRow` (V11 §2.8) and the heights of V11 §3.6.4 with the three columns V02 reads; the generic classes
+  (V11 §3.13); the classes with no building family (`market`, `fair_ground`, `druid_grove`); the `arena`, `great_temple`,
+  `burial-ground` and `fort` families with their structures and role shares (V11 §3.6.1, V11 §3.6.5); the `manor` override
+  (J-V11.39); the `DigRule` rows (V11 §3.23.7); the stepped specialisations with the `siting.declared` `use:` cell
+  `specialisation` (V11 §3.24.3, V11 §4.2); the `toll_house`, bridge `chapel` and `watchtower` rows; V11 §2.2's zeroing of an
+  `extension` number to 0 under `MFCG`, `FTG` and `VG` absent an entry; V07 §2.4's village classes.
+* The medians of V02 §3.10.3 (`docs/validation/coherence/receipts/V02/medians.py` → `medians.out`: every ratio in [0.91,
+  1.31]) and of the `fort` and `burial-ground` rows (`medians_new.py` → `medians_new.out`: 1.01–1.12), re-executed; the
+  stepped rows (`stepped_receipt.py` → `stepped_receipt.out`, lines 1–35, re-executed): ST0's least `Wmin × Dmin` per row
+  and anchor, the median stacks (aspects .70–.78 for the axial rows, 1.2–1.7 for the palace; the temple's summit offset
+  2.4 / 3.6 / 3.3 / 4.4 m at grade 1.1), the tiered tower's median stacks inside the `tower` budget at every anchor (21 /
+  32 / 40 / 61 m² against 34 / 42 / 60 / 85) — the closed-form model of ST0–ST3 and ST8 in a script, not the built code.
+* V03's readings this volume relies on (V03 §3.3 S6, V03 §3.1 step 2, V03 §3.7.1, V03 §3.7.4; T-V3-28): a storeyed wing on a sealed
+  stack planned and flagged `W_TIER_UNREACHED`; a building with no storeyed wing has no level at or above the ground, its
+  basement storeys planned alone and entered at `basementDoor(b)`; `basementDoor(b)` takes a retaining wall's side before the
+  tomb door; V03's eager facts read `storeyRange`, `deckLevel` and `stairChain`. §4.7's `levelledGroundCm(doc, key: PlatKey,
+  p: PointCm): Cm` (item 309) and the base's raster `TerrainSampler` (§2.3). V12 §2.1's `BenchBarDef` (`id`, `owner`,
+  `statistic`, `stages`, `towns`, `tier`, `run`; several registrations of one id one vector verdict; `PresetArm` =
+  `'default' | PresetId`), with no V12 `StatBarSpec` or `NullModelSpec` carrying a V02 bar.
+
+**PLAUSIBLE** (reasoning from that evidence, until measured):
+* Every mechanism, constant and default row of this volume — the families' mapping to historical plan types, the widths,
+  lengths, rates and chances of V02 §3.10, the bay rhythm, the porch sizes, the tower rules, every tier cell and `@deck`
+  row, and every own value (`sunBias` 0.7, `crypt.clearCm` 250 cm, `crypt.freeboardCm` 30 cm, `walkStop` 0.12, `domeRise`
+  1.0, `axisSlope` 3 %, the cupola and west-tower chances, `claimLo` / `claimHi` 0.35 / 0.6, the `arena` row, `ovalSides`,
+  the axis ratio 1.15–1.4, `terrace.wallBandCm` 250 cm, `vaultClampCm` 30 cm, the temple grade 1.0–1.2 and
+  `stairGradeMax` 1.3, the aspect clamps) — our own design, calibratable, each with its stated fallback and test, until
+  SP-V2-1 – SP-V2-4, M3a's and M6's exits and the owner's panel measure it (`sizeBandLo` / `sizeBandHi` are fixed mirrors
+  of V11's derivation ratios, not calibratable).
+* The least-footprint formulas of M3 and the manor override's sizes (a rich `rectCourt` at `w₀` 6 m holds ≈ 360 m², at
+  7.5 m ≈ 495 m²) — T-V2-30 measures them; the METROPOLIS core's ≤ 60 buildings per neighbourhood-band tile (V02 §6.2),
+  measured at M6b; every budget of V02 §6 and the effort of V02 §8.
+* That V02 §5.7's reuse of the base's values — the `abandoned` row's 30 % lerp, the `decaying` row's dash, the `decayed`
+  row's fill alpha, the rubble spill's density and `rubbleReachM` 1.5 m — reads as a ruined building to the owner's eye, and
+  V02 §6.6's budgets — M6b's measurement and the owner's panel decide.
+* The `tiersTruncated` Monte-Carlo (N = 4 000 per anchor, `stepped_receipt.out` lines 36–74, recorded output only): 14–27 %
+  with drawn aspects, 1.0–7.6 % with the derived aspect on precinct hints sized for the 90th-percentile stack — T-V2-46
+  measures the built `massStepped` at M3a; that `rebaseStack` keeps every stacked datum exact on the warp and terrain paths
+  and that the pent band facets meet the upper walls within 1 cm (T-V2-44).
+* That no document shifts from item 371 (d) (true by the reading: on a building none of whose ground wings is solid the
+  ground wings are the ground storey's; not executed); and whether a mirror-coin family draws at a village rung under `VG`
+  at all (the zeroing turns `massing.composed` off there unless an entry turns it on) — `sunBias`'s `VG` entry is written
+  either way.
+* That the default rows read as the owner's "giant manor to small hovel" ladder, and the stepped temple, the terraced
+  palace, the tiered tower, the arena and the bridge street as themselves, to his eye — the panel of V02 §7.5 decides; the
+  historical readings (open-hall and H-plan houses, rear ranges on burgage plots, galleried courtyard inns, gate halls,
+  courts turned to the south, raised choirs over crypts on wet ground, longhouses down the slope, mill wheels on the race,
+  polygonal chapter houses, bottle kilns, a stepped pyramid's axial stair and shrine, terraced palaces' flights, a pagoda's
+  pent skirts, sealed step pyramids, steep stairs on the stepped temples of the Americas, chambers in temple platforms,
+  bridge houses of one or two storeys, bridge chapels with crypts, amphitheatres' arenas at about 13–20 % of hulls of
+  1 400 – 11 000 m²) are general architectural history, not sourced in this repository's research.
+
+**Census** (over this file): decisions J-V2.1 – J-V2.113 (113 rows, J-V2.58, J-V2.73 and J-V2.76 marked); tests T-V2-1 – T-V2-60 (60 bars); hand-offs X1 – X37; requests BCR-V2-01 – BCR-V2-42, each applied as its file f item (V02 §10); every `J-V2`, `T-V2` and `X` id cited here is defined here, and every `V02 §` reference resolves.
+=== END ===
+
+=== REPLACE ## 13 Fix list ===
+## 13 Fix list
+
+**Nothing of this volume's own is open**: every finding against it is fixed in its text. The rows below are its
+hand-offs — each a rule another unit carries, closed at that destination, which cites this volume. Where V02 reads a
+stand-in while the destination's part is not yet built (a build-order fact, not an open choice), the last column names it.
+
+| # | to | what the destination carries | stand-in before it is built |
+|---|---|---|---|
+| X1 | V11 §2.3 | `BuildingClassRow.templateFamily` is read by S11's composition resolution (V02 §3.2) and the tables editor | — |
+| X2 | V11 §3.6.1 | the compiler emits `footprintM2` p10 and p90 by the derivation ratios 0.7 and 1.45 × p50, which V02 mirrors as its fixed `sizeBandLo` / `sizeBandHi` (V02 §3.10.9) | — |
+| X3 | V11 §3.6.1 | the `manor` template override: prosperous p50 420 m², rich p50 650 m², rich plot 3 000 m², main-slot share ≥ 0.6 at prosperous and rich (J-V2.35; J-V11.39) | — |
+| X4 | V11 §3.6.5 | the role table's `footprintShare` per structure | `mainShareDefault` 0.6, the rest equal |
+| X5 | V11 §2.8, V11 §3.6.4 | the `attic`, `parapetCm` and `towerStoreyCm` columns and their values (items 427, 435); V02 §3.10.6 keeps only the reading rule | — |
+| X6 | V11's naming tables | the slice `building.wingRole`, our own word per `WingRole` (V02 §5.4), with "a tier", "the shrine", "a stair", and "the seating" and "a gate passage" keyed by the `ovalCourt` family and the wing's `solid` flag | the role id |
+| X7 | the base, §10.2 (item 436; V11's rows) | the class columns `crypt` (`always`, `basement`, `never`), `cryptM2` and `rankShare` that §2.6's crypt derivation reads | built with M6-U; T-V2-36's crypt clauses run from it (V02 §8.1) |
+| X8 | V06 §3.4 | the epoch casters rasterised **per wing** (each wing's prism and roof rise, V02 §3.14.1); W10 "called through the mutator" | — |
+| X9 | V08 | `MaterialRow`'s rows are V11's, and `materialFamily` reaches the material row only (V02 §1d) | — |
+| X10 | V09 | the `FM` building look in the style panel; tool rows for `setComposition room`, the secondary porch and `moveTower { shape }`; the `fantasyShapes` control in the advanced panel (V02 §4.4–§4.5) | the ops through the clerk and the skeleton file |
+| X11 | V03 | the plan reads wings by key (item 225); unedited dormer rows follow the plan's roofed rooms and edited rows stay fixed (V02 §3.7); the choir stairs over the raised crypt's lift; the room role `gatehall` in V03's role table | — |
+| X12 | V04 | the dig draw's key carries the wing key for a wing the mutator adds (V02 §3.9 W6); item 109 (k) (5)'s obstacle test reads V02's footprint and basement floor (V02 §3.14.5 (f)) | — |
+| X13 | V07 | every `v.` row names a V11 §3.6.1 `templateFamily` for its budget rows (J-V7.82, J-V7.101), read at the chain's step 4 after `composition.classFamily` (V02 §3.10.5), which is the one source of the village classes' composition keys | — |
+| X14 | V01 §7, V01 §5.1.2 | the NG parity sheet's rule for its roof construction (V02 §5.3 supplies `roofscape`); the `hatched` hatch program run per roofscape facet | `fakeGablePerWing` |
+| X15 | V05 | the island rim-slab crypt vault as the island form of the `always`-crypt ladder (V02 §3.14.5 (d)) | — |
+| X16 | V11 | the `deck` table (`DeckBudgetRead`: `footprintM2`, `maxFloors`, the plot fields the base's deck plots read) by deck kind × band; `deckOk` read **per use**, false for an `always`-crypt class and for a use a dossier crypt record binds (V02 §3.16 (6)); V09's T6 landward bend for a hand placement | without `deckOk`, every class the base places on a deck plot composes by its `@deck` row |
+| X17 | V11 §3.24.3 | the specialisations of V11 §3.24.3 (culture × class rows: `stepped_temple`, `terraced_palace`, `tiered_tower`), each naming its composition key in `DesignationTemplateRow.composition` (item 426, written by item 259's replacement), with their chance and cap rows (≤ 0.1 % of buildings), the culture read through DR15; no tier geometry cell in V11 (J-V2.62) | only a declared class and the `family` op reach `stepped` |
+| X18 | V03 | plans of tiers: levels by `storeyRange`; no rooms in a `solid` wing; a landing door on `landingSide` for every storeyed wing standing on another; the shrine one room by its programme; item 230's root (a solid stack's main entrance at the stair's foot, the plan rooted at the first landing door, no plan above the ground without a storeyed wing, its basement storeys and access heads still planned); `W_TIER_UNREACHED` for a storeyed wing on a sealed stack; `floorCm` from each tier's ground and upper storey heights (J-V2.85); `Storey.level` 0 the lowest storeyed level (item 371); chimneys carried up through the tiers with `Chimney.levels` reaching the top wing (V02 §5.2); the crypt inside a solid tier 0 entered at its own floor by the door at `basementDoor(b)` (V03 §3.7.1); the arena's façade ring planned, the seating ring not; no basement on a deck; the bank quay's cellar by the ordinary gate; the walk-out door where a retaining wall is the plot's low edge | — |
+| X19 | V04 | a ruin's stepped monument laid by `layTiers` with the `stepped-monument` row at its ancient-culture band, on its ruin stream, decayed by its persistence order; the vaults under raised ways are V04's (item 110 (b)) | — |
+| X20 | V05 | the caster ceiling reads the stack's envelope (V02 §3.15.2); an island palace or temple may take a stepped row; its crypt is the rim-slab crypt vault under the building's lowest massing tier, inside underside tier 0 (the rim slab; J-VI.7) | — |
+| X21 | V09 §4.9, V09 §4.20.5–V09 §4.20.6 | T9's tier controls (V02 §4.6 (7)) emitting `setMassing { op: 'tiers' }` and `setAttr`; the deck-plot badge reading V11's row; one catalogue row, with its words and buttons, per bend id of V02 §1b; no structural refusal (item 101 R2) | the ops through the clerk and the skeleton file |
+| X22 | V10 | the clerk's tier calls and V02 §4.6 (7)'s why facts (`massing/bend/<id>`, `stack.grade`, the derived aspect); each bend said by its line and alternatives, never "cannot" | the events |
+| X23 | V06 | tiers added or removed over epochs by V02 §3.15.5's rows; deck buildings falling with their deck by the base's fate rule, and deck-plot buildings at an epoch through S11's capped mutator (V02 §3.16 (3)); a solid monument never re-roofed; a stack's Works in stack order, solid wings by courses (item 318); an epoch's raised way clearing every building meeting its supports or strip (V06 §3.19 (7), cause `clearance`; V02 §3.17 (b)); `rebaseStack` on an epoch's terrain change | — |
+| X24 | V01 §5.1.2 | the `hatched` family draws a stack in its order and hatches `stairFlight`'s treads by `stairTreads` (V02 §2.6) | the per-wing constructions' stack order and treads (item 419) |
+| X25 | V12 | the second known-city fixture's golden and own bars; V02's bars on it are T-V2-42 (the arena), T-V2-44 – T-V2-47 and T-V2-51; the fixture declares its arena's precinct (60 × 50 m or larger) and its temple's precinct (V02 §3.10.3's receipt hints) | — |
+| X26 | V07, V11 §3.24.3 | a village class takes tiers only through V11 §3.24.3's culture × class specialisations applied to the `v.` class that plays the row's class, under V07's `rules.tiers.capPerSettlement`; none by default; a village's piers and bridges take deck buildings by the `@deck` rows and V07's deck cell | — |
+| X27 | V11 §3.6.1 | the `arena` template override: plot p50 2 500 / 4 000 / 6 000 / 9 000 m² (own; the historical amphitheatres' 1 400 – 11 000 m² hulls), footprint "the claim's" (so `slotBand` reads the `arena` row's `claimShare` .5–.8), main share 1, its `gate` structures absorbed as M5's passages; read with V02's `arena` family row (V02 §3.10.2) | — |
+| X28 | the base, §2.7 (item 246) | the deck-plot record's `landmark` (a mole's head and mid-mole slots, and on a bridge whose deck span reaches V11's `deck.landmarks/bridgeMid/minSpanM` one mid-span slot), which S11 copies to `DeckContext.landmark`; no deck plot on a `ford`, a `draw` bridge or a bridge without `deckCm`; a quay platform on the bank flagged ground (`DeckContext.surfaceCm` null) | — |
+| X29 | V04 | the chamber record gives its ceiling (an arch vault's soffit), which M11's `vaultClamp` reads for a building on the underground layer; the ruin stage calls `drawTiers` and `layTiers` alone with `TierCells.heights`, `plinthCm` 0, `parapetCm` 0, `scale` 1, and handles a `TierFailure` | no clamp (the `@underground` rows' one flat storey) |
+| X30 | V03 | W2 lays windows by `facadeBays(wing, side, bayM)` on every side (a tower's round its free perimeter, V02 §3.7); V03 §3.7.4 step 1 places the crypt under `cryptSeedWings(b)`, else the far third of the region from the main entrance; exterior flights by `stairTreads`; T-V3-25 carries the poor manor's three-units clause; the half cellar's floor at the datum less half the depth | — |
+| X31 | V01 §3.17.3 | the stair-flight hatch reads `stairTreads`; the raised way's add path clears the same set of buildings V02 §3.17 (b) clears | — |
+| X32 | V11 §3.6.5 | the role table's `gate`, `charnel house`, `mortuary chapel` and `lychgate` shares feed M10 as written | — |
+| X33 | V12 §2.1 | the metric family `bar.<barId>` (J-V12.65), which V02 §3.10.10 names as `bar.T-V2-<n>`; V02 registers its bars there (the `BenchBarDef` table, each written by the seat landing its line's milestone) | — |
+| X34 | V03 | the damage layer V02 §5.7 reads for the plan in force: each roof bay over a room (its ring) and each outer wall run of a wing's lowest storey (its span), each intact, damaged or repaired at a level; a roofless building's (roof kind `none`) roof bays all damaged, so the plan agrees with the model's roofless state (T-V2-59 (b)) | the element reading draws nothing (the massing reading) |
+| X35 | V01, V07 | `disasterDistricts` returning the districts a disaster strikes — for a standing condition, and for a preview of the look keyed on its look kind in the condition's stead (§10.2's placement) — with the calamity's type its pattern reads, and V07's ends at THORP, HAMLET and VILLAGE; every building of each draws the ruined look (V02 §5.7) | no look on a building |
+| X36 | V06 | `decayLevel` and `decayPeak` per lineage at a week, and `crisisLookYields` per building, read by V02 §5.7 | the level from the existence state at V11's default age, nothing repaired; the look standing until its condition no longer stands |
+| X37 | the base, §8.2 and §8.8 (rendering) | the Works `decaying` row's gaps along the ridge drawn, where a plan is in force, as V02 §5.7's holes; the drawn week, `crises` and the knowledge key in the tile key of a tile holding a building whose level is above 0, as the drawn week is for a Works mark | the row's own ridge gaps |
+
+**Hand-offs received** — each closed in this volume:
+
+| from | the hand-off | closed at |
+|---|---|---|
+| V06 §3.18.3 (1)–(2) | V03's rank re-runs inside each epoch op that changes the principal crypt or its building's designation; the basement re-derived with an always-crypt class | V02 §3.14.5 (c) (the crypt kept on every re-derivation, an epoch's included); the rank and the trim are V03's and V06's |
+| V06 §3.8.4, V06 §3.19.5 (2) | deck-plot buildings at an epoch through S11's capped mutator | V02 §3.16 (3); X23 |
+| V08 §2.6b (4) | the stepped specialisation rows keyed by culture and class, which DR15's template family reads | X17; V02 §3.2 step 1 reads the template's composition key |
+| V09 XV-V9-6 | the no-refusal crypt ladder; the canvas-handle contract; X21; the bridge slot as a `DeckContext.landmark` plot; the registry path | V02 §3.14.5 (d), V02 §4.5, V02 §4.6 (7), V02 §3.16; X21, X28 |
+| V09 XV-V9-8 | AP10's price with M6c | V02 §8.3's M6c row (counted on §16's line for V09's staged screens) |
+| V10 CVR-V10-8 | the registry paths `deck/landmarks/<head\|mid>` and `massing/stack`; the `massing` section's item-110 rows | V02 §4.6 (7); X22 |
+| V11 X-V11-5 | the S11 specialisation draw replaces the band template's `composition` and `heights` for the use (item 259) | V02 §3.2 step 1; X17 |
+| V11 X-V11-9 | an oval composition key for the `arena` family | V02 §3.10.2's `arena` row (`ovalCourt`); X27 |
+| V12 X-V12-2 | the panel a `PanelSpec` on V12's engine with its `'FM'` pairs and reference rows | V02 §7.5 |
+| V12 X-V12-11 | T-V2-50 a `NoOpPin` on V12 §3.7.8's engine reading V11 §3.24.0's off form | V02 §7.7 (T-V2-50) |
+| V12 X-V12-12 | §16's M3a row carrying item 110's base parts with item 229 | V02 §8.5's M3a-V2 row |
+| V12 X-V12-15 | every bar a register line names registers a `BenchBarDef` | V02 §3.10.10 |
+| V12 X-V12-18 | a line naming several stages is one entry with `stages` in the line's order | V02 §3.10.10 (as written) |
+=== END ===

@@ -1,0 +1,23 @@
+198c198
+< | items 102–120 of `docs/AMENDMENTS-2026-09-28g.md` as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–18) |
+---
+> | file g's items as the coherence pass applies them to the base | their island parts (V05 §1.1 items 13–18) |
+1687,1692c1687,1693
+<    (d) **No raised way reaches an island.** A raised part's two ends are ramps or stairs joined to ground vertices (item
+<    110 (b)); a T4 `raised` or aqueduct stroke that ends on an island's rim makes no way and is bent into a sky access (V05
+<    §4.2; J-VI.4 (d)), so II.1's "sky: no portals, no roads in or out" stands. **No raised part stands on an island:** item
+<    110 (b)'s decks live in ground parts ≥ 1, and the sky layer has one part per island (V05 §2.1); a T4 `raised` or
+<    aqueduct stroke on an island's key is bent (J-VI.4 (e): `raised` dropped, the aqueduct made a fountain pin), with V09
+<    §4.9's lines `bend.raised.onIsland` and `bend.aqueduct.onIsland`. **No access is a way** (V05 §2.2).
+---
+>    (d) **No raised way reaches an island.** A raised part's two ends are its feet on ground part 0 (§2.7's
+>    `RaisedWayRecord.feet`; item 110 (b)); a T4 `raised` or aqueduct stroke that ends on an island's rim makes no way and
+>    is bent into a sky access (V05 §4.2; J-VI.4 (d)), so II.1's "sky: no portals, no roads in or out" stands.
+>    **No raised part stands on an island:** item 110 (b)'s decks live in ground parts ≥ 1, and the sky layer has one part
+>    per island (V05 §2.1); a T4 `raised` or aqueduct stroke on an island's key is bent (J-VI.4 (e): `raised` dropped, the
+>    aqueduct made a fountain pin), with V09 §4.9's lines `bend.raised.onIsland` and `bend.aqueduct.onIsland`.
+>    **No access is a way** (V05 §2.2).
+3015c3016
+< J111 included) and items 102–120 of `docs/AMENDMENTS-2026-09-28g.md`; `docs/volumes/_integrate.md`'s J-VI rows; the
+---
+> J111 included) and file g's items in `docs/AMENDMENTS-2026-09-28g.md`; `docs/volumes/_integrate.md`'s J-VI rows; the

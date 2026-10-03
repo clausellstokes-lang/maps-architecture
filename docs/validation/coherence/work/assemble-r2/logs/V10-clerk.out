@@ -1,0 +1,14 @@
+files 1; blocks 28 found, 28 applied, 0 skipped
+  NOTE repair-r2-V10.md #14 (l. 980) REPLACE ### 3.9a The underground, the crypt and a plan's causes, explained (items 109, 110; J-V10.40) — REPLACE retitles the heading ["### 3.9a The underground, the crypt and a plan's causes, exp" -> "### 3.9a The underground, the crypt, a plan's causes and its"]
+  NOTE repair-r2-V10.md #15 (l. 1090) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals and Find, explained (items 111, 113–118, — REPLACE retitles the heading ['### 3.9b Water, a past, walls, grandeur, seasons, festivals ' -> '### 3.9b Water, a past, walls, grandeur, seasons, festivals,']
+audit: 28 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 788
+  Part A duplicate ids: []
+headings 86 -> 86 (+2 / -2); fences balanced True (24 -> 24 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 476312 -> 503125 bytes, 3374 -> 3507 lines, sha256 6c871dc4d98a528ed3e739b353a740adfd6f3d432671a612a7bbed7fac79d5e9
+rationale 688889 -> 688889 bytes, 2369 -> 2369 lines, sha256 630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928

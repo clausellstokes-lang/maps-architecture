@@ -1,0 +1,134 @@
+{
+ "key": "coherence/verify-vol-V11-V12-r1t",
+ "file": "docs/validation/coherence/verify-vol-V11-V12-r1t.md",
+ "issues": [
+  {
+   "id": "VV1112-r1-01",
+   "severity": "major",
+   "kind": "COHESION",
+   "claim": "V11's round-1 repair (VAP-08; J-V11.117) split C4 into C4a (the wall barrier and waterfront rows, M2b, 0.5 pw) and C4b (the SettlementForge rows — `dossier.kinds` (280), archetypes, category synonyms, keywords, good words, ladders — M-SF, 1.0–1.5 pw), and V11 §8's total row now states: \"**§16's first total** carries C0–C3b, C4a, C5–C7 and C9 — 11.25–15.75 pw … 3.0–5.0 for file g's (C2's g share 1.0–2.0 for items 102, 103, 105 and 107; C4a's 0.5 for item 106; C3b for item 110; C9 for items 111 and 113–119); **§16's staged content line** carries C4b and C8 — 1.75–2.5 pw (the 280 kind rows and items 104 and 108's dossier rows; item 109's rows)\". §16 does not agree: its effort line *original content under the clean room* (l. 18773) still prices \"file g's rows — profiles, families, pairs, goods, coverage, **ladders, the 280 kind rows**, walls (items 103–108; V11 §8, 2.5–4)\" inside the first total, while its staged line \"the content's staged rows (volume 11) | ≈ 1.75–2.5 | V11 §8\" (l. 18791) — exactly C4b + C8 — prices the ladders and the 280 kind rows again; the staged-milestones row (l. 18753) reads \"the content's staged rows (V11: **C4** at M-SF, C8 at M6-U)\"; and INDEX §1's V11 row reads \"C0–C3b and C5–C7 inside M0–M4b, **C4's wall rows** at M2b; … **C4's dossier rows** with the SettlementForge stage\", naming a milestone V11 no longer has. So C4b is priced twice in the whole program, V11 §8's statement of what §16's first total carries is not true of §16, and the items 103–108 figure (2.5–4) matches no V11 figure (V11: items 102–107 1.5–2.5 in the first total). VAP-08's required change gave §16's half (\"§16's content line and staged V11 line then carry exactly those figures (the 280 kind rows and the ladders on the staged line only) under VCS-08's recomputation\"); V11 handed it to scope (repair-r1-V11.md, *CROSS-UNIT HAND-OFFS*), and scope's repair did not carry it. verify-scope-r1t's re-raised VCS-08 covers the V05, V06 and V07 re-pricings only.",
+   "required_change": "In §16's effort line *original content under the clean room*, replace \"file g's rows — profiles, families, pairs, goods, coverage, ladders, the 280 kind rows, walls (items 103–108; V11 §8, 2.5–4)\" by \"file g's rows in the first total — profiles, families, pairs, goods, coverage and balance (items 102, 103, 105 and 107; V11 §8's C2 g share, 1.0–2.0) and the wall rows (item 106; C4a, 0.5); the ladders, the 280 kind rows and item 109's rows are on the staged content line (V11 §8's C4b and C8)\", re-summing the line, the base subtotal, the first total and the whole program once under VCS-08's recomputation (file f item 568), and checking that the milestone rows carry C4a at M2b and no C4b, so the milestone rows still equal the first total. In the staged-milestones row write \"the content's staged rows (V11: C4b at M-SF, C8 at M6-U)\". In INDEX §1's V11 row write \"C0–C3b, C4a (the wall rows, at M2b) and C5–C7 inside M0–M4b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the SettlementForge rows) at M-SF (V11 §8)\".",
+   "owner": "scope"
+  },
+  {
+   "id": "G121-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The dated ruling \"File g items 121, 122 and 123 routed\" names V12 for item 121: \"the bars and how each is measured\". V12 has no part: \"item 121\" occurs 0 times, no metric, pin, spec, test, timing or decision row reads the resolution adjuster, and §3.15 stops at item 120.",
+   "required_change": "V12 writes item 121's part at build depth as new design: a §3.15.11 *Item 121 — the resolution adjuster* measuring item 121 (h)'s clauses against §13.2's item-121 bars (scope's G121-scope) on V09's app harness and §12.1's timing phase — (1) Auto the default on a fresh install (a conformance check on a fresh profile); (2) no level change during a gesture, and at most one change per 10 s on a fixture loaded at its threshold (two counts over scripted pans, zooms and drags, 0 and ≤ 1); (3) Auto holding the frame budget's p95 on the reference and low devices over §12.5's reference views; (4) a manual level honoured or its explanation shown (item 121 (f)); (5) labels, text, chrome and overlays at the device pixel ratio at every level (a pixel test); (6) picture, print and battle-map exports byte-identical across every setting (a pin over the device state, which never enters the document); (7) a device-pixel-ratio change re-evaluating at once; (8) native 4K lit at full precision on the ultra tier within its 512 MB (§12.8's memory measurement) — with their §3.4.2 metric rows, §2.13 pin, §3.12 failure row, §3.16 edge rows (every level, every tier, a screen above 4K), §6 budget row, a T-V12 test, a J-V12 row, §8.2's W7 milestone cells and §12's PLAUSIBLE entry.",
+   "owner": "V12"
+  },
+  {
+   "id": "G122-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling names V11 for item 122: \"the look, symbol, scale and placement tables\". V11 has no part (\"item 122\" 0 times; no crisis registry row, row type, value, lifecycle row or test).",
+   "required_change": "V11 writes item 122's tables at build depth as new design (an addition; §10.2's table shape is the pipeline's, G122-pipeline): registry rows and §2.8d row types for the crisis look rows — (1) the closed mapping's look kind per SettlementForge stressor type and condition archetype, or an explicit \"no look\" (item 122 (b): siege, mass immigration, disease, famine, beast attack, raiders, disaster with its fire, flood and earthquake patterns, occupation, rebellion, boom, bust; the `regional_*` pressures none), keyed as V08's closed mapping keys them; (2) the symbol rows — what each look draws (camps, trenches and earthworks, engines, burned farmsteads, blockade camps, tents and carts, the quarantine fence, huts, pest-house and grave rows, marked doors and cordon, bare fields, empty pens and shuttered stalls, torn palisade and watch-fires, barricades, banners, scaffolding) with §8.2's role keys, never colours; (3) the scale rows by severity and tier (a hamlet a war band's camp, a city a full siege line); (4) the placement rows (the siege camps ≈ 300 m beyond the walls, the refugee camp on common or fallow land by a gate's approach road, the quarantine camp outside the town, the outskirts' priority siege → quarantine → refugees, the density cap, never on water, a gate's passage or a keep-out) — `own`, their numeric cells calibratable with ranges and register lines, the enumerations `calibratable: false`, each read by the renderer only (a look: no model StageId reader), with §2.10's lifecycle rows, §3.1's catalogue rows, the totality check (every type and archetype of V08's mapping has its row) in T-V11's compile bars, §3.26's edge rows and a J-V11 row.",
+   "owner": "V11"
+  },
+  {
+   "id": "G122-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling names V12 for item 122: \"bars\". V12 has none (\"item 122\" 0 times).",
+   "required_change": "V12 writes item 122 (g)'s bars as new design: a `view` pin over Show crises on and off and every week (the same document's model digest and saved bytes invariant) with the no-op clause (no condition and no preview: byte-identical to the base); statistics on crisis fixtures for each look showing exactly in its condition's weeks, byte stability per seed across views and exports, the tier and severity scaling, and nothing on water, a gate's passage or a keep-out (0 by rule); the closed table's totality read from V11's compile check — each with its §3.4.2 metric, §3.12 failure row, §3.16 edge rows, §6 budget, T-V12 test, J-V12 row and W7 milestone cells, under §13.2's item-122 bars (G122-scope).",
+   "owner": "V12"
+  },
+  {
+   "id": "G122h-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling \"File g item 122 (h)–(i) and item 125 routed\" names V11 for item 122 (h)–(i): \"the rates\". V11 has none.",
+   "required_change": "V11 writes item 122 (h)'s rates as calibratable cells of the crisis look rows (new design, beside G122-V11's tables): the camped area per head, 45 m² (a force's or a travelling group's camp sized by its headcount, each army its own camp), the siege-engine rate, one per 1 500 besiegers (capped by the gates and wall stretches the engines can face), and the coalition's spread round the town (each army's own camp and colours, the ring fuller as the coalition grows) — each `own`, with its range, provenance (\"general historical knowledge, not corpus-witnessed\": Roman marching camps and present-day refugee-camp standards near 30–45 m² a head), its register line, its lifecycle row and its compile check, and the fallback when the dossier gives no size (item 122 (b)'s scale by severity and tier, the condition's own counts where it has them).",
+   "owner": "V11"
+  },
+  {
+   "id": "G122h-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling names V12 for item 122 (h)–(i): \"bars\". V12 has none.",
+   "required_change": "V12 writes the four bars item 122 (h)–(i) names as new design: the camped area proportional to the dossier's headcount within 10 %; two armies joined twice one army's camped ground; the opening view and Fit containing every camp while a look stands; item 116's limit restored when the crisis ends — on force and coalition fixtures, each with its statistic, failure row, edge rows (a force too large for the frame and margin: the ring's massed marks), test and milestone.",
+   "owner": "V12"
+  },
+  {
+   "id": "G123-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling names V11 for item 123: \"the thresholds' tables by material and element kind\". V11 has none.",
+   "required_change": "V11 writes item 123's tables at build depth as new design: the decay-level rates by material (timber rotting faster than stone; item 123 (b)), which V06's decay level reads with the existence state and the years since abandonment, and the threshold rows by plan element kind (wall run, floor area, door, window, stair, roof bay over a room, furniture piece; cellars and crypts by their own rows, V04) that map each element's one keyed draw (§6.3) to the decay level at which it breaks — `own`, calibratable with ranges and register lines, with §2.10's lifecycle rows (a table edit never re-derives a plan, only re-reads the levels), §3.1's catalogue rows, compile bars (monotone, every element kind covered) and §3.26's edge rows (decay level 0 and 1; a material with no row).",
+   "owner": "V11"
+  },
+  {
+   "id": "G123-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling names V12 for item 123: \"bars\". V12 has none.",
+   "required_change": "V12 writes item 123 (f)'s bars as new design: room, wall and opening ids identical between the intact and the damaged plan; damage monotone in the decay level (an `exactMonotone` step script over rising levels, a higher level's damage ⊇ a lower's on every element); the same element breaking at the same level for a given seed; restoration reversing it; the exterior agreeing with the plan; exports' line of sight following fallen walls; a never-decayed building byte-identical to today's plan (no-op pin) — each with its metric, failure row, edge rows, test and milestone.",
+   "owner": "V12"
+  },
+  {
+   "id": "G124-V11",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling \"File g item 124 routed\" names V11: \"the climate row's weather columns per week band and the two hard rules\". V11's climate rows carry no weather columns (\"item 124\" 0 times).",
+   "required_change": "V11 writes item 124 (c)'s columns at build depth as new design: on every climate row, per band of weeks, each effect kind's frequency and spell length (light rain, drizzle, falling snow, drifting mist, fog, wind-blown leaves, cloud shadows, heat shimmer, dust haze), with item 124 (c)'s defaults by region (desert and arid, coastal, riverside and lowland, temperate plains, hills and mountains, forest, cold) and the gradual turn of the weeks, and item 124 (d)'s fog (cool mornings, autumn, low ground by water, burning off through the day); the two hard rules as compile checks — no snow, falling or lying, on a row whose winter does not freeze; arid rain rare (brief showers in its short wet weeks, none in its dry months); a view-only table (no model StageId reader), `own`, calibratable, with lifecycle, catalogue, register and edge rows.",
+   "owner": "V11"
+  },
+  {
+   "id": "G124-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling names V12 for item 124: \"the bars and how each is measured\". V12 has none.",
+   "required_change": "V12 writes item 124 (i)'s bars and their measurement as new design: the model hash and every tile identical with the effects on and off (the tile cache untouched by a spell; a `view` pin); the frame cost within item 124 (f)'s ≈ 1 ms at the densest spell (timing phase); no falling or lying snow on a non-freezing climate row at any week; arid rain frequency within its row; off by default under reduced motion, on the low tier and on phones; labels and chrome never covered (a pixel test); no luminance step faster than the photosensitivity limit; exports byte-identical with the effects on and off; the timeline replaying from its seed and clock — each with its metric, failure row, edge rows, test and milestone.",
+   "owner": "V12"
+  },
+  {
+   "id": "G125-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "The ruling \"File g item 122 (h)–(i) and item 125 routed\" names V12 for item 125: \"bars\". V12 has none.",
+   "required_change": "V12 writes item 125 (e)'s bars as new design: a dossier holding only SettlementForge's required keys generates a full map with every absent field reported and its fallback taken; the same dossier with and without a host context yields the identical document and hash; no code path of the port reads anything but the dossier (the static check of the adapter's imports and reads) — each registered on the harness (fixtures, conformance list or pin) with its failure row, test and milestone, under §13.2's item-125 bars.",
+   "owner": "V12"
+  },
+  {
+   "id": "VV1112-r1-02",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11's repair renamed C4 into C4a (the wall rows, M2b) and C4b (the SettlementForge rows, M-SF). Two V12 places still name \"C4\": §2.6's due map (l. 721) \"C0 `M0`, C1 `M1`, C2 `M2b`, C3 and C3b `M3a`, C4's wall rows `M2b`, C5 …, C8 `M6-U`\" (which also leaves out C9, whose register entries — item 117's look rows among them — fall due at their items' base milestones), and §12 PLAUSIBLE 11 (written this round) \"the one-knob-one-entry check finds any at C2's and C4's exits\", where the rows meant (registry rows 14–15, the wall rows) are C4a's.",
+   "required_change": "In V12 §2.6 write \"… C3 and C3b `M3a`, C4a `M2b`, C4b `M-SF` (no entry: the dossier row sets are not calibratable), C5 `M2b` for its O13-core part and `M3b` for the rest, C6 `M4`, C7 `M4b`, C8 `M6-U`, C9 the milestone that lands each owner item's base part (V11 §8; §13.8)\"; in §12 PLAUSIBLE 11 write \"at C2's and C4a's exits\".",
+   "owner": "V12"
+  },
+  {
+   "id": "VV1112-r1-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V11's repair (VAP-21) gave item 110 a sixth switch in V11 §3.24.0 — V03's `roomProgram` `PlanGeometryRow.exposureAllStoreys` false (item 110 (a); \"S11's entrances and the plan rung read the outside ground as before item 110\") — and T-V11-31, W61 and V03's T-V3-34 read \"the six switches\" (\"its off form V11 §3.24.0's, `exposureAllStoreys` false among it\"). V12 still lists five: §3.7.8 (1) \"V11 §3.24.0's switch table for item 110 (one named off form per row set: `terrace`, `raisedWays`, `deck`, `roster.specialisations`, `deck.landmarks`)\", and §2.13's `item110.raised`, `.terrace`, `.deck`, `.stepped` row (\"one row set per family\") assigns the new switch to no pin. A pin overlay built from V12's list leaves `exposureAllStoreys` at its default `true`, so B-PLAN's and B-CITY-lite's plans under the item-110 overlay differ from the pre-110 goldens (windows and entrances on walls whose outside ground lies above their sill) and T-V3-34's pin, which V12 §2.13 lists among the item-110 suites, cannot hold.",
+   "required_change": "In V12 §3.7.8 (1) write \"(one named off form per row set: `terrace`, `raisedWays`, `deck`, `roster.specialisations`, `deck.landmarks`, and V03's `roomProgram` `exposureAllStoreys`)\"; in §2.13's item-110 row add to the off-form cell \"`item110.terrace`'s overlay also sets V03's `exposureAllStoreys` false (item 110 (a)), so the four pins together are V11 §3.24.0's six switches off\".",
+   "owner": "V12"
+  },
+  {
+   "id": "VV1112-r1-04",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11 §2.6's new declaration reads \"`type LadderStep = 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'` // item 108's step types; V08 §2.3, V08 §2.5, V10 §2.13 and V01 §2.3 type their fields by it\". V08 §2.3 and §2.5 do (`step?: LadderStep /* V11 §2.6 */`), but V10 §2.13 holds no ladder-step field — the oracle's `WhyAnswer`, whose `members.step` VAH-32 named, is declared in base §11.2 (l. 15236 – 15248) — and V01 §2.3 (l. 466) and §11.2 still write the union inline. The comment names a wrong home and states a use that does not exist.",
+   "required_change": "In V11 §2.6's comment write \"item 108's step types; V08 §2.3's `CarriedFact`, V08 §2.5's `DossierInstitution.step`, V01 §2.3's district view and §11.2's `WhyAnswer.members.step` type their fields by it\" (true once VV1112-r1-05 and VV1112-r1-06 land).",
+   "owner": "V11"
+  },
+  {
+   "id": "VV1112-r1-05",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "VAH-32 (an elegance ruling: one named type for item 108's five step values) is applied in V11 and V08 but not in V01: V01 §2.3's district view (l. 466) still reads `records: { record: Id; step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; … }[]`, a second statement of V11 §2.6's `LadderStep` (V11's repair handed the change to V01).",
+   "required_change": "In V01 §2.3 write `step: LadderStep /* V11 §2.6 */`.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV1112-r1-06",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "The same ruling's other remaining copy: §11.2's `WhyAnswer` (l. 15248) reads `members?: { step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; … }`. VAH-32 named this field at its former home V10 §2.13; it now lives in §11.2, so V11's hand-off to V10 does not reach it.",
+   "required_change": "In §11.2's `WhyAnswer` write `members?: { step: LadderStep /* V11 §2.6 */; range?: [number, number]; count: number; ids: Id[] /* ≤ limits.members */ }`.",
+   "owner": "rendering"
+  }
+ ]
+}

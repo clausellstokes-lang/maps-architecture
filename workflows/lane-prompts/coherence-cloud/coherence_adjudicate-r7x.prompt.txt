@@ -1,0 +1,32 @@
+SEAT coherence/adjudicate-r7x — the Maps program's coherence pass, round 7's THIRD FAMILY FIX PASS (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS
+Round 7 works the raised-way × wall family alone (the owner's J144). Its laws (docs/validation/coherence/adjudication-r7.md's Part L, under J146 with J147–J151) were refined through eight probe passes, written into the design by fourteen repair seats and assembled (docs/validation/coherence/assemble-r7.md). Six family-focused checks then read the live design three times, each run followed by a fix pass: famverify-*-r7.md (13 majors; adjudication-r7v.md), famverify-*-r7v.md (8 majors; adjudication-r7w.md), and now, after assemble-r7w:
+  - docs/validation/coherence/famverify-{table,generation,epochs,hand,readers,tests}-r7w.md (new ids VF7w-*, persisting ids kept): 23 findings, 4 DISTINCT majors.
+Their results are in docs/validation/coherence/results/coherence_famverify-*-r7w.json. The majors are texts, lists, fixtures and tests that do not yet conform to the laws, not defects of the laws. You decide every finding so that repair seats can write the fixes, and the six checks can run again. The loop ends when they find no major (J144, J151).
+
+READ FIRST, WHOLE:
+  1. The six famverify-*-r7w files, and docs/validation/coherence/adjudication-r7v.md and adjudication-r7w.md whole (the first two fix passes).
+  2. adjudication-r7.md: Part L (the laws: the design's home is now §2.7's support step (6)), Part H's head (the citation rule: every family text cites "§2.7's laws" with the law's number, the example after it), the restated veto list, and Part P pass 8's verdict.
+  3. docs/PROGRESS.md: the J144 – J151 rows (J151's grading: a case where EVERY outcome keeps every law-1 invariant and owner rule, passes the runtime check and fails no named test is a minor VALID CHOICE; no lawful outcome, an outcome breaking an owner rule or a law-1 invariant, an unchecked invariant, or a check or named test failing a correct build is MAJOR).
+  4. The live text each finding cites, by grep and in ranges (docs/ARCHITECTURE.md is about 9.9 MB: never read it whole).
+
+DECIDE EVERY FINDING of the r7w checks (persisting ids, VF7w-* new) — one row each:
+  - FIX: the finding stands; give the exact words the owning unit writes (the finding's required change, or your own where its words would open a new case — say why).
+  - FIX, VALID CHOICE PICKED: a valid choice (J151) whose pick costs nothing and keeps the laws whole; give the words.
+  - VALID CHOICE LISTED: a valid choice left to the builder; give one line naming the outcomes for fix-list.md's builders' choices.
+  - MERGED: the same defect as another id; name it.
+  - INVALID: the laws or a ruling already close it, or its change would break an owner rule; say why in one line.
+Re-grade any finding graded against J151, naming the reason. THE ROOT CAUSE, CLOSED ONCE. Three of the four distinct majors sit in one sentence, §4.4 S5a *Trace* (2): its one list of a trace's impassables and its pin rule. The fourth sits in §7.1's `bend.wall.raisedCrossing` row. Each is a RESTATEMENT of the laws in its own words, and every pass that fixed one of them opened a new deviation in it (r7: the list missed low spans; r7v: it did not widen them; r7w: it says "ramps, stairs and feet" for law 1 (4)'s ends and "each widened" over a strip already widened; its pin rule skips law 2 (b)). Close the class by construction: rewrite each of those texts — and §4.3 *Where it may not go*'s course rule, *beneath*'s list and V06 §3.7.4 (2)'s cost field, which take the same list — so that it CITES the laws instead of restating them: a pulled line or cost field "searches only shapes §2.7's laws admit (law 1 (2)–(6), (9)–(11), read with their terms)", keeping only what the laws do not already say (the search band, the operator's mechanics); a pin or gate the laws bar there "is resolved by §2.7's laws, law 2, in its order — (a) moved along its way, (b) its way re-routed, (c) the stage's rung"; and §7.1's row gives the bend key and names the outcome as "the nearest lawful shape §2.7's laws give (law 1 (2)–(5), law 2 (a), law 3)". Then sweep the family's other texts for the same restatement of law 1's exclusions or law 2's order and cite them the same way, so the next check cannot raise it again.
+
+WRITE docs/validation/coherence/adjudication-r7x.md:
+  1. A head: what this pass is, its grading, the totals by disposition.
+  2. A table: one row per id — severity, disposition, one-line reason.
+  3. Part H by unit (model, kernel, pipeline, determinism, rendering, scope, V01 … V12): under each unit that has work, every FIX and every END line it writes, each with the site and the exact words; for a unit with none, say so. Every END that another unit's finding asks of a unit is written under THAT unit.
+  4. "Builders' choices for fix-list.md": every VALID CHOICE LISTED, one line each.
+  5. "Held for the next full round": every famverify held_note, with its site and one line (outside the family; never graded here).
+Write docs/validation/coherence/results/coherence_adjudicate-r7x.json:
+  {"file": "docs/validation/coherence/adjudication-r7x.md", "fix": n, "valid_choice_picked": n, "valid_choice_listed": [ids], "merged": n, "invalid": n, "regraded": [ids], "units": [the units with work]}
+Log to docs/lane-events.log, in the form `<UTC date time> coherence/adjudicate-r7x <KIND> <text>`: a CHECKPOINT after reading, a CHECKPOINT after the table, and a LANDED line naming both files. If adjudication-r7x.md exists with your CHECKPOINT in the log, RESUME from it: never redo a decided row.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Write only the two files above and the log lines. Change no design text. Your final message must be exactly the JSON result object, nothing else.

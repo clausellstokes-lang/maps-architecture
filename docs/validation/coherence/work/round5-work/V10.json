@@ -1,0 +1,38 @@
+[
+ {
+  "id": "VAH-r4-02",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "R4-12 amends R3-24's 'restricted to the entities that frame holds': at a drawn week whose frame is not the head a chip's matches are \u00a711.2's listing at that week \u2014 the frame's own, 'a building matched by its use at that week, never its head use, and an entity or use the frame holds matched though the head has since closed, moved or demolished it' (\u00a711.2 *At a drawn week*, base l. 16455; \u00a78.2 l. 13150\u201313154); V09 \u00a74.21.10 (8) took the END line. V10, bound by no R4-12 text, keeps the superseded form and cites the panel for it: \u00a73.9b (7) (l. 2002\u20132004) 'at a drawn week whose frame is not the head (V06 \u00a73.15.2) each chip counts, lists and gaps only the entities that frame holds \u2026 as the panel does (V09 \u00a74.21.10 (8))'; T-V10-51 (l. 3141) 'they equal the panel's over that frame's entities'. 'Only the entities that frame holds' restricts the head's matches, so a use closed since that week, or a building whose use changed, is unmatched where \u00a711.2, \u00a78.2 and V09 match it. The read passes the week to \u00a711.2's gazetteer and reports its answer, so nothing built changes; the gloss and the bar's wording are R3-24's.",
+  "required_change": "V10 \u00a73.9b (7): 'so at a drawn week whose frame is not the head (V06 \u00a73.15.2) each chip counts, lists and gaps only the entities that frame holds \u2014 a chip with none there counting 0 for that week' \u2192 'so at a drawn week whose frame is not the head (V06 \u00a73.15.2) each chip's count, matches and gaps are \u00a711.2's listing at that week (*At a drawn week*: the frame's matches, a building matched by its use at that week, never its head use) \u2014 a chip with none there counting 0 for that week', the rest as it stands. T-V10-51: 'they equal the panel's over that frame's entities' \u2192 'they equal the panel's \u2014 \u00a711.2's listing at that week, a building whose use changed since matched by its use then'.",
+  "reported_by": "verify-agree-host-r4t"
+ },
+ {
+  "id": "VAP-r4-09",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "The same class as VAP-r4-06 \u2013 08, at V10; the clause predates round 4 (R3-24), and round 4 extended its subject to V01, V04, V05 and V09. T-V10-51 (V10 l. 3141) checks `read_map find` 'at a drawn week whose frame is not the head (a scrub to before a matched building was built)'. That reads V06 \u00a73.15.2's history frame, built at V06's E6. Its milestone cell is 'PR, from M5 (Find's milestone; V09 \u00a78)', and \u00a716's M3c row lands C4's item-120 content 'with M5's exit'. M6-E runs beside M5, so the clause can be due before any frame exists. INDEX \u00a75 risk 2's rule ('each named in its volume') settles it, so nothing built changes. VAT-r4-03 is this row's wording fix (the frame's listing per R4-12); this is its schedule.",
+  "required_change": "T-V10-51's milestone cell: 'PR, from M5 (Find's milestone; V09 \u00a78)' \u2192 'PR, from M5 (Find's milestone; V09 \u00a78); its drawn-week clause at the later of M5 and V06's E6 (V06 \u00a73.15.2's frames)'.",
+  "owner": "V10",
+  "reported_by": "verify-agree-proof-r4t"
+ },
+ {
+  "id": "VAT-r4-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "V10 restates Find at a drawn week in the form R4-12 superseded. R4-12 amended R3-24's 'restricted to the entities that frame holds' to \u00a711.2's frame listing (l. 16455\u201316464: 'a building matches by its use at that week, never its head use, and an entity or use the frame holds matches though the head has since closed, moved or demolished it'), and V09 \u00a74.21.10 (8) now reads so. V10 keeps the old form at three sites: \u00a73.9b (7) (l. 2002\u20132005) 'each chip counts, lists and gaps only the entities that frame holds'; \u00a73.23 row 32 'each chip counted, listed and gapped over that frame's entities alone'; T-V10-51 'they equal the panel's over that frame's entities'. `read_map find` reads \u00a711.2's gazetteer with `week`, so nothing built changes; the prose is a narrower restatement.",
+  "required_change": "V10 \u00a73.9b (7): 'each chip counts, lists and gaps only the entities that frame holds \u2014 a chip with none there counting 0 for that week' \u2192 'each chip counts, lists and gaps \u00a711.2's listing at that week \u2014 the frame's matches, by the uses it holds open then, so a building matches by its use at that week, never its head use \u2014 a chip with none there counting 0 for that week'. \u00a73.23 row 32: the outcome 'each chip counted, listed and gapped over that frame's entities alone' \u2192 'each chip counted, listed and gapped by \u00a711.2's listing at that week (the frame's matches, a building by its use then)'; its edge '(a scrub to before a matched building was built)' adds 'or before a matched building's use changed'. T-V10-51: 'they equal the panel's over that frame's entities' \u2192 'they equal the panel's \u2014 \u00a711.2's listing at that week, a building matched by its use then'.",
+  "reported_by": "verify-agree-tools-r4t"
+ },
+ {
+  "id": "VV910-r4-04",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "V10",
+  "claim": "Round 4 added `read_map { kind: 'look'; building?: Ref }` (V10 \u00a72.12 l. 954; \u00a73.5; prompt rule 21, l. 1280). \u00a73.23 row 34 (l. 2708) defines four building cases (one the look stands over, one whose rebuilding has begun, one of no unit, one of a previewed `disaster`'s units under Works) but not a `building` that names no building \u2014 an address no read returned, or an entity that is not a building (a district, a plot, a field). Row 6's `is_error` covers \"an anchor naming an address the session never read\" only, and \u00a711.2's `building?: Id` says nothing of a non-building id; builders may answer an error, `over` false, or no `over`. Off the common path (the model sending a non-building), hence minor.",
+  "required_change": "V10 \u00a73.23 row 34's edges add \"a read asked with a `building` that names no building \u2014 an address no read returned, a district, a plot or a field\" with the outcome \"`over` absent on every look, every other field as without `building`\"; T-V10-50 (33) adds the two cases.",
+  "reported_by": "verify-vol-V09-V10-r4t"
+ }
+]

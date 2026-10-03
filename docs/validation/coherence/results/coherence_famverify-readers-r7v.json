@@ -1,0 +1,72 @@
+{
+  "key": "coherence/famverify-readers-r7v",
+  "file": "docs/validation/coherence/famverify-readers-r7v.md",
+  "issues": [
+    {
+      "id": "VF7v-RDR-01",
+      "severity": "major",
+      "kind": "OWNER-RULE (drawing order)",
+      "owner": "rendering (one fix with V01)",
+      "claim": "Item 110 (b): a raised way is 'RENDERED above what it crosses, with its shadow' (AMENDMENTS-2026-09-28g l. 629); the base states it at §4.3 ('It is drawn above what it crosses, with its shadow', l. 6457), V07's painterly role ('the deck band drawn above everything it crosses', V07 l. 3258) and V09's hit stack ('top first by §8.2's draw order (a raised part above ground part 0)', V09 l. 3253-3254) read it so. In this family the raised way crosses over the wall: a wall laid after a road deck passes beneath its deck (§2.7's laws, law 1 (3), l. 2716-2718; *beneath*, l. 3160: 'No gate on the deck, which passes over the run'), an aqueduct crosses a wall over it on an arch (law 1 (2), l. 2707-2709: 'the band passing beneath the arch'), and a gate, postern or tower stands under an aqueduct's clearing arch (law 1 (5), l. 2724-2725). But §8.2's layer-order table draws raised decks in slot 14 (l. 14147), curtain walls in slot 18 and towers and gate blocks in slot 19 (l. 14152-14153); the order is slot-major across the whole scene (§8.1 item 3, l. 13190-13191) and §8.3's census asserts it ('non-decreasing in the slot table', l. 14261); V01 §5.1.3's hatched order repeats it (V01 l. 3024, 3028-3029; V01 l. 2976-2977), as does §8.2's hatched preset row (l. 14198). Every picture export draws from that list. So wherever a ring is laid under a viaduct (T110-2 (3)'s c14 fixture), an aqueduct crosses a wall over it, or a gate or tower stands under a clearing arch, a builder following §8.2 draws the wall, tower or gatehouse - and the deck's shadow under it - over the deck the model, glTF and CityJSON put above it; a builder following §4.3 draws the deck above and, doing it by order, fails §8.3's census. Two units, two outcomes for one case, one breaking item 110 (b); the census fails the build that keeps the owner's rule (J146, J151: major). No bar catches it: §8.3's item-110 marks row asserts 'every raised deck over the ways it crosses' (l. 14307), ways only.",
+      "required_change": "1. §8.2's layer-order table (l. 14147): \"| 14 | piers and bridges; raised decks (`raisedWay`), on the vector rung their shadows drawn in a derived pass just before this slot over everything below, roofs included | MFCG: piers; a deck may stand above the roofs beside it |\" -> \"| 14 | piers and bridges | MFCG: piers |\"; and after the row \"| 19 | towers and gate blocks | MFCG: towers |\" insert \"| 19a | raised decks (`raisedWay`), on the vector rung their shadows drawn in a derived pass just before this slot over everything below, roofs, walls, towers and gate blocks included | new: drawn above what it crosses (§4.3; item 110 (b)) — a deck may stand above the roofs beside it, and a wall that runs beneath it — under a road deck's span or an aqueduct's arch, or with an aqueduct merged into it — and a gate, postern or tower under an aqueduct's arch that clears it draw beneath it (§2.7's laws, law 1 (2), (3), (5)) |\". 2. §8.2's slot resolution (l. 14176-14177): \"exact pier, bridge-deck and raised-deck entries in slot 14 outranking the prefix\" -> \"exact pier and bridge-deck entries in slot 14 and the raised-deck entry in slot 19a outranking the prefix\". 3. §8.2's presets table, the `hatched` row (l. 14198): \"raised decks in slot 14 with their shadow pass before it\" -> \"raised decks in slot 19a with their shadow pass before it\". 4. END for V01: §5.1.3's table (V01 l. 3024): \"| 14 | piers and bridges; raised decks (`raisedWay`), their shadows drawn in a pass just before this slot over everything below, roofs included | a deck may stand above the roofs beside it |\" -> \"| 14 | piers and bridges | — |\", and after \"| 19 | towers and gate blocks | — |\" insert \"| 19a | raised decks (`raisedWay`), their shadows drawn in a pass just before this slot over everything below, roofs, walls, towers and gate blocks included | drawn above what it crosses (§8.2's slot 19a; item 110 (b)) |\"; and §5.1.2 (V01 l. 2976-2977): \"a raised part's piers take slot 11 and its deck slot 14, its shadow by the prism law from the deck's height in the pass before slot 14\" -> \"a raised part's piers take slot 11 and its deck slot 19a, its shadow by the prism law from the deck's height in the pass before slot 19a\"."
+    },
+    {
+      "id": "VF7-RDR-02",
+      "severity": "minor",
+      "kind": "RESTATEMENT (persisting)",
+      "owner": "V06 (one fix with pipeline)",
+      "claim": "Partly fixed: law 1 (8) now cites V04's lay rule ('a span read `vault` has the chamber V04 §3.5.4 (d) lays', l. 2734-2735), the span rule (l. 3404-3405), T-V4-62, T-V4-63 (V04 l. 3163-3164) and T-ER-12 (l. 15480) conformed. Two restatements of the replaced clause stand: V06 §3.2's reconcile guarantee 'that every `vault` span they read `vault` has its chamber (`collapsed` where V04 §3.5.4 (d) (2) says)' (V06 l. 1048-1050; assemble-r7v section 8's open hand-off), and base II.7.6's vaults sentence 'each span a raised way's record marks `vault` — but one read `open` (...; V04 §3.5.4 (d) (1)) — holds one arch vault at grade' (l. 22795), the span rule's sentence without its new too-small span. Minor: V04's reconcile does the laying, §5.3's law-1 row and T110-4 cite the law, and no bar asserts V06's guarantee in that direction (T-V6-64, V06 l. 4237, asserts arch vault -> span only).",
+      "required_change": "V06 l. 1048-1049: \"and that every `vault` span they read `vault` has its chamber (`collapsed` where V04 §3.5.4 (d) (2) says),\" -> \"and that every `vault` span they read `vault` has the chamber V04 §3.5.4 (d) lays (law 1 (8)),\". END for pipeline, II.7.6 (l. 22795): \"— but one read `open` (§2.7's laws, law 1 (8); its worked example the crossing table's *beneath*; V04 §3.5.4 (d) (1)) — holds one arch vault\" -> \"— but one read `open` (§2.7's laws, law 1 (8); its worked example the crossing table's *beneath*) and one whose inset rectangle V04 §3.5.4 (d) (1) finds too small, reported — holds one arch vault\"."
+    },
+    {
+      "id": "VF7v-RDR-02",
+      "severity": "minor",
+      "kind": "CITATION",
+      "owner": "V01",
+      "claim": "V01 §3.17.3 (3) (V01 l. 2473) cites a worked example alone: 'where §4.3's crossing rule admits it (*Lattice and costs*; §2.7's way-and-channel table, row a)'; Part H's citation rule writes '§2.7's laws, law n; its worked example ...'. The same item's next clause already cites law 1 (8). Nothing built changes (outside VF7-RDR-09's required change).",
+      "required_change": "V01 l. 2473: \"(*Lattice and costs*; §2.7's way-and-channel table, row a)\" -> \"(*Lattice and costs*; §2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (a))\"."
+    },
+    {
+      "id": "VF7v-RDR-03",
+      "severity": "minor",
+      "kind": "CITATION",
+      "owner": "V09",
+      "claim": "T-V9-61 (V09 l. 4437) asserts every 'retaining wall, raised way, span, arch vault and deck plot appears in each format as file f item 447 (a)–(d) state'. Item 447 gives a span's GeoJSON property as '(`use`, `state` — item 244's ...)' (AMENDMENTS-2026-09-28f l. 708), the record's; its design home, §11.1's GeoJSON row, exports '`use` as §2.7's laws read it (law 1 (8); its worked example *beneath*)' (l. 16715), and *beneath* has every reader of a span's `use` read it so (l. 3103-3110). A bar written from the cited source compares a `vault` span read `open` on K2 (a retaining wall's line or a way across its strip) with its record. Minor: whether K2 holds such a span is the fixture's.",
+      "required_change": "V09 l. 4437: \"appears in each format as file f item 447 (a)–(d) state\" -> \"appears in each format as §11.1's rows state (file f item 447; a span's `use` as §2.7's laws read it, law 1 (8); its worked example *beneath*)\"."
+    },
+    {
+      "id": "VF7v-RDR-04",
+      "severity": "minor",
+      "kind": "FIXTURE",
+      "owner": "V10",
+      "claim": "T-V10-41 (V10 l. 3156) searches T110-2 (3)'s c14 seed 'so that a `vault` span of its S4 viaduct lies under a run of stage 2's ring with nothing but that run across the span's strip' and, after the run's hand `delete`, asserts the span told `vault` 'with its arch vault from M6-U's U3 (V04 §3.5.4 (d))'. Law 1 (8) now cites V04's lay rule (l. 2734-2735), under which a span whose inset rectangle falls below `minEdge` holds no arch vault (V04 l. 1707-1708), and the support step's slide bounds a slid span from above only (l. 2548-2549); the search does not exclude one, so the seed it finds may fail a correct build. Minor: a case the fixture may not hold.",
+      "required_change": "V10 l. 3156: \"with nothing but that run across the span's strip (§2.7's laws, law 1 (8))\" -> \"with nothing but that run across the span's strip and the span's inset rectangle at least `minEdge` on each side (§2.7's laws, law 1 (8); V04 §3.5.4 (d) (1))\"."
+    },
+    {
+      "id": "VF7v-RDR-05",
+      "severity": "minor",
+      "kind": "VALID CHOICE (J151)",
+      "owner": "V09",
+      "claim": "`bend.wall.aqueductArch` takes 'its form by the aqueduct's level (§2.7's laws, law 1 (2))' (V09 l. 2103), one line per bend (the crossing table's *Paths and tests*, l. 3330-3332). One aqueduct stroke across two walls whose levels give different forms (over the outer ring, merged into an inner one) has no stated line. Outcomes: (a) one line per wall in its form; (b) one line in the first wall's form, the others among the dry run's effects. Each keeps law 1 and every owner rule, passes the check and fails no named test (T-V9-52, V09 l. 4428, runs each form on its own stroke; T110-2 (1), l. 19297-19305, asserts the key). VF7-RDR-07's choice for an aqueduct stroke.",
+      "required_change": "fix-list.md's builders' choices list: \"`bend.wall.aqueductArch` for one aqueduct stroke crossing several walls whose levels give different forms (over one, merged into another): one line per wall in its form, or one line in the first wall's form with the rest among the dry run's effects\"."
+    }
+  ],
+  "held_notes": [
+    {
+      "site": "V04 l. 2892 (§5.5's CityJSON row) × base §11.1's CityJSON row (l. 16720)",
+      "note": "V04 exports a `TunnelHollowSpace` per chamber of each system's `Tunnel` (an arch vault is a `vaults` chamber) while §11.1 makes an arch vault a `BridgeRoom` of its raised way's `Bridge`: two objects, or two forms, for one chamber."
+    },
+    {
+      "site": "V04 l. 222-223 and l. 2727-2728 × base §8.2's `raisedWay` program (l. 13550-13553)",
+      "note": "V04 leaves 'the vault's infill wall and door on the ground view' to 'the base's drawing'; the base program draws the deck, parapets, piers and 'the spans' openings as a dashed outline', no infill wall or door."
+    },
+    {
+      "site": "base §8.2's layer order (l. 14147-14151) and V01 §5.1.3 (V01 l. 3024-3027)",
+      "note": "Fields (15), trees (16) and boundary treatments (17) draw over raised decks (14), against §4.3's 'drawn above what it crosses' (l. 6457); VF7v-RDR-01's slot 19a closes it too if written as given."
+    },
+    {
+      "site": "adjudication-r7v held notes 5-7 (V09 l. 3258; V09 l. 4434; base l. 6885, 14403-14404, 14628-14629)",
+      "note": "Persist unchanged; the casters now read 'each run at its top as §2.7's laws give it' while the laws' *wall's top* is 'whatever its runs' condition' (l. 2606-2607), so a breached or dismantled run casts at its section's top unless the readers' drawing (glTF, CityJSON and VTT: none, l. 16719-16720, 16877-16879) is read into it."
+    }
+  ]
+}

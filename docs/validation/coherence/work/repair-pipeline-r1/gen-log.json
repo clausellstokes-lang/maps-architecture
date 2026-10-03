@@ -1,0 +1,253 @@
+{
+ "doc_sha256": "484af066f0115b1d19ba3a44af4388c9e069e90eb7630ad6ee218476c9b59173",
+ "blocks": [
+  {
+   "heading": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+   "ids": [
+    "VAL-12",
+    "VK0-14",
+    "VPC-04",
+    "VPC-16"
+   ]
+  },
+  {
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "ids": [
+    "VPC-02",
+    "VEW-04",
+    "VV12-05",
+    "VPC-16",
+    "VEW-09",
+    "VPC-19",
+    "VEW-03",
+    "VEW-02",
+    "VPC-31",
+    "VPC-25",
+    "VPC-01"
+   ]
+  },
+  {
+   "heading": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+   "ids": [
+    "VK0-12",
+    "VEW-10",
+    "VK0-18",
+    "VK0-04",
+    "VEW-08",
+    "VDC0-23"
+   ]
+  },
+  {
+   "heading": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+   "ids": [
+    "VEW-02",
+    "VPC-26",
+    "VEW-03",
+    "VPC-31",
+    "VEW-04",
+    "VEW-10"
+   ]
+  },
+  {
+   "heading": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+   "ids": [
+    "VPC-25",
+    "VPC-27",
+    "VAF-R0S-20",
+    "VAF-R0S-15",
+    "VAL-06",
+    "VAL-03",
+    "VPC-12"
+   ]
+  },
+  {
+   "heading": "### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule",
+   "ids": [
+    "VEW-08",
+    "VDC0-01",
+    "VPC-18",
+    "VM-R0S-26",
+    "VPC-26"
+   ]
+  },
+  {
+   "heading": "### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model",
+   "ids": [
+    "VK0-02",
+    "VEW-05",
+    "VEL0-09",
+    "VAF-R0S-20",
+    "VK0-12",
+    "VK0-18",
+    "VPC-01",
+    "VEW-04"
+   ]
+  },
+  {
+   "heading": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+   "ids": [
+    "VPC-26",
+    "VPC-31",
+    "VPC-16",
+    "VEW-06"
+   ]
+  },
+  {
+   "heading": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+   "ids": [
+    "VAL-14",
+    "VAL-15",
+    "VM-R0S-12",
+    "VPC-24",
+    "VPC-02"
+   ]
+  },
+  {
+   "heading": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+   "ids": [
+    "VPC-11",
+    "VPC-22",
+    "VRC0S-12",
+    "VDC0-09",
+    "VAT0-06",
+    "VAT0-07",
+    "VPC-23",
+    "VK0-22",
+    "VDC0-08",
+    "VM-R0S-15",
+    "VPC-32"
+   ]
+  },
+  {
+   "heading": "### 4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)",
+   "ids": [
+    "VPC-29",
+    "VPC-28",
+    "VM-R0S-07",
+    "VM-R0S-18",
+    "VAL-01",
+    "VPC-17"
+   ]
+  },
+  {
+   "heading": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+   "ids": [
+    "VPC-25",
+    "VPC-23",
+    "VEW-02",
+    "VEW-03",
+    "VEW-04",
+    "VEW-10",
+    "VEW-05",
+    "VEW-09",
+    "VEL0-09",
+    "VEW-18",
+    "VEW-06",
+    "VEW-08"
+   ]
+  },
+  {
+   "heading": "### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)",
+   "ids": [
+    "VAF-R0S-09",
+    "VPC-29",
+    "VPC-01",
+    "VPC-03",
+    "VPC-02",
+    "VAF-R0S-11",
+    "VAF-R0S-20",
+    "VAF-R0S-15",
+    "VK0-22",
+    "VAF-R0S-23",
+    "VPC-12"
+   ]
+  },
+  {
+   "heading": "### 10.4 Names, descriptions and setting packs",
+   "ids": [
+    "VPC-33"
+   ]
+  },
+  {
+   "heading": "## II.1 The district → neighbourhood interface",
+   "ids": [
+    "VPC-14",
+    "VV12-01",
+    "VAF-R0S-08"
+   ]
+  },
+  {
+   "heading": "## II.2 Templates as fabric strategies (NG B2, B7, B8)",
+   "ids": [
+    "VAF-R0S-21"
+   ]
+  },
+  {
+   "heading": "## II.4 The render tier, the workflow and the close-up's persistence status (stage-2 features S5, S6)",
+   "ids": [
+    "VPC-19"
+   ]
+  },
+  {
+   "heading": "## II.5 What the base already carries for stage 2 (all base requirements in PART I)",
+   "ids": [
+    "VPC-34"
+   ]
+  },
+  {
+   "heading": "## II.6 The staged layers — floating islands and sewers: the hooks the base carries now",
+   "ids": [
+    "VPC-21",
+    "VPC-20"
+   ]
+  },
+  {
+   "heading": "### II.7.1 Existence by tier (item 14): the rung row, the S0 draw, the toggle as visibility, the drain rule",
+   "ids": [
+    "VAL-02"
+   ]
+  },
+  {
+   "heading": "### II.7.2 The network stage: the gate, the underground arena's levels, the tunnel profile, depth and outfalls, editing",
+   "ids": [
+    "VEW-07"
+   ]
+  },
+  {
+   "heading": "### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order",
+   "ids": [
+    "VAL-06"
+   ]
+  },
+  {
+   "heading": "### II.7.4 The hook interfaces and the base's part",
+   "ids": [
+    "VAL-06",
+    "VAL-01",
+    "VAL-07"
+   ]
+  },
+  {
+   "heading": "### II.7.5 The undercity (item 65): what it requires, existence and the 1–3 bound, a shadow of the settlement",
+   "ids": [
+    "VAL-04"
+   ]
+  },
+  {
+   "heading": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+   "ids": [
+    "VV34-12",
+    "VV34-10",
+    "VAL-01"
+   ]
+  },
+  {
+   "heading": "# PART III — What a later village product needs from the base (one page; the hooks are concrete)",
+   "ids": [
+    "VAL-02",
+    "VPC-15"
+   ]
+  }
+ ],
+ "edits": 123
+}

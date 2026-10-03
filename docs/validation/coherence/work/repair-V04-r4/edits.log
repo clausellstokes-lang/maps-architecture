@@ -1,0 +1,36 @@
+edits_a	VAL-R3-03 §1b.2 ArchVaults.reconcile callers	1	"| the tail's T2 vaults step (every raised way); the commit of a ground edit that"
+edits_a	VAL-R3-03 §1b.3 raised-way edit row	1	'| a raised way added (T4 `road` with `raised`, the aqueduct class) or deleted (g'
+edits_a	VAL-R3-03 §2.6 arch-vault row create	1	"| U-SYS's vaults step (T2) from the base's `vault` spans; `ArchVaults.reconcile`"
+edits_a	VAL-R3-03 §2.6 arch-vault row regenerate	1	'| re-derived with its raised way, its id kept by its key; its closure follows it'
+edits_a	VAL-R3-03 §3.5.0 Foundations.apply scope.raised	1	'the raised-way piers of the parts in\n`scope.raised` and the footings of the reta'
+edits_a	VAL-R3-03 §3.5.0 no obstacle removed (sweep)	1	"An epoch op removes no obstacle — a breached\nor dismantled span keeps its piers'"
+edits_a	VAL-R3-03 §3.10 epoch reconcile	1	"* **`ArchVaults.reconcile(doc, EpochScope.raised, epoch)`** (V06's `under.extend"
+edits_a	VAL-R3-03 §4.3 one trigger row	1	'| a raised way added, removed or re-shaped, generated or drawn | `ArchVaults.rec'
+edits_a	VAL-R3-03 §6 budget	1	"a raised way's add\nor removal adds ≤ 2 ms for its arch vaults and foundations;"
+edits_a	VAL-R3-03 T-V4-63 fixture	1	"an epoch that founds a raised way (V06's `under.extend`) lays its vaults in the "
+edits_a	VAL-R3-05 §1b.1 underFindPlaces row	1	'| the underground records and their bands (§8.4), read at each commit that rebui'
+edits_a	VAL-R3-05 §1b.2 underFindPlaces row	1	"for the ids §11.2's gazetteer match listing gives on underground parts, after ea"
+edits_a	VAL-R3-05 §2.6 underFindPlaces row	1	"| recomputed at each commit that rebuilds Find's index | follows its records | —"
+edits_a	END VAL-R3-01 §5.1 lead	1	'Hidden by default at every rung (§8.4). When the underground layer is visible, o'
+edits_a	R4-02 sweep §5.1 document opened	1	'document opened with the underground visible shows'
+edits_a	R4-02 sweep §5.4 label candidates	1	'a candidate only while the underground is visible and its band drawn,'
+edits_a	R4-02 sweep §6 View	1	'**View.** Showing the layer or switching band re-rasters the visible tiles of th'
+edits_a	R4-02 sweep §5.1 (2) Go there	1	"   with their count; **Go there** sets `depthBand` to the match's shallowest ban"
+edits_a	R4-02 sweep UE32 E7	1	'E7: the layer hidden (every match Below a ghost pin)'
+edits_a	R4-02 sweep T-V4-81 (b) Go there	1	"and **Go there** sets `depthBand` to the match's shallowest band; with Ground sh"
+edits_a	VAL-R3-05 §5.1 doc is the model the view draws	1	'(`@plat/under`, never stored): for each matched id on an underground part — an u'
+edits_a	VAL-R3-05 §5.1 (6) and new (7)	1	"   underground epoch participant's — and the chips re-evaluate then (V09).\n"
+edits_a	VAL-R3-05 UE32 E8	1	'E8: a view — the chips saved in view pins, re-evaluated after load, undo, redo, '
+edits_a	VAL-R3-05 T-V4-81 (j)	1	'pins and ghost pins closer than about 24 px merge into a count bubble whose numb'
+edits_a	VAL-R3-09 §5.6 (1) stands over	1	"   collapses; its restoration is V06 §3.23 (3)'s, as for every building. Under a"
+edits_a	VAL-R3-09 §5.6 (1) units	1	"An underground building lies in no look's unit — V01's `disasterDistricts` retur"
+edits_a	R4-04 sweep UE33 E7	1	'a church in a ruined district draws its crypt'
+edits_a	R4-04 sweep J-V4.130	1	"under a disaster's look over the building, the whole building's drawn level"
+edits_a	VAP-r3-05 T-V4-82 (i)	1	'and at its own level with Show crises off, at a key that withholds the condition'
+edits_a	R4-02 sweep §1.2 working layer	1	'While the underground is the active layer the tools pick ground buildings and po'
+edits_a	R4-02 sweep §1.3 working layer control	1	"* **The controls** for `showUnexcavated` and for the active layer are V09's;"
+edits_a	R4-02 sweep §4.1 working layer	1	"The toolkit's layer: showing the underground layer makes it the active layer\nunt"
+edits_a	R4-02 sweep §5.1 PageUp working layer	1	'otherwise, with the underground layer active, the band.'
+edits_a	R4-02 sweep UE20 E7	1	'E7: with the underground hidden the tools act on the ground (T4 draws a way);'
+edits_a	R4-02 sweep UE27 E7	1	'E7: the layer hidden, each `underView` mode,'
+edits_a	R4-02 sweep ## 13 V09 row	1	'| V09 | the `showUnexcavated` and active-layer controls;'

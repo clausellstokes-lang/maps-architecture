@@ -1,0 +1,174 @@
+{
+ "key": "coherence/verify-agree-proof-r1t",
+ "file": "docs/validation/coherence/verify-agree-proof-r1t.md",
+ "issues": [
+  {
+   "id": "VAP-11",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Persists from round 0 (its scope half fixed). Scope's repair wrote M3c's clerk session into §13.4 (\"At M3c's exit a clerk session of five such participants, the built-in clerk connected, runs T-V10-26's clerk task …, its result an exit criterion of M3c's `MilestoneRecord`\", base l. 17406– 17408), §13.8's schedule row (\"M2a (the pipeline session), M3a (midpoint and exit), M3c (the clerk task, T-V10-26)\", l. 17846) and §13.3's `MilestoneRecord.ux` readers; INDEX §5 repeats it. Its hand-off \"V09 §7.3 (1) to name M3c's clerk session (VAP-11's last clause)\" (repair-r1-scope.md preamble) was not taken: V09 §7.3 (1) (l. 4036–4044), \"how it is run\", still holds only the two M3a sessions and M2a's pipeline session, and (3) \"no clerk unless the session tests it\" names no session that does.",
+   "required_change": "V09 §7.3 (1) adds: \"**At M3c's exit** a clerk session (§13.4): five participants on the same terms, the built-in clerk connected, each asking it for 'a walled harbour town with a temple quarter' and making one follow-up change (T-V10-26), timed and recorded as below; its result is an exit criterion of M3c's `MilestoneRecord`, written to `plat/goldens/ux/M3c/f5.json`.\"",
+   "owner": "V09"
+  },
+  {
+   "id": "VAP-r1-01",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Scope's repair wrote the village take-over row (base l. 17249): \"the village clauses of T114-1 – T114-8 (T-V7-62), T115-1 – T115-4 (T-V7-63), T116-1 – T116-4 (T-V7-64), T117-1 – T117-8 (T-V7-65) and T118-1 – T118-6 (T-V7-66)\", and VCS-10 adds \"T119-2 – T119-4's village clauses (T-V7-67)\". V07 §7's own head (l. 3460–3462) says it takes \"the village halves … of items 114–120's bars, each test naming the bar it takes over\", yet V07 names none of T114-1 – T118-6 (0 occurrences; a range-aware census) — T-V7-62 – T-V7-66 cite \"item 11n (x)'s village clauses\" only, T-V7-64 not even that, and T-V7-67 cites \"item 119 (f)'s village clauses\". T-V7-63 also carries no clause for T115-4 (with every ceiling row's `enabled` false, byte-identical), though the take-over row hands it T115-1 – T115-4 and V12 §2.13 lists \"V07's village goldens\" on `item115.off`.",
+   "required_change": "In V07 §7: T-V7-62's head reads \"(item 114 (g)'s village clauses; takes T114-1 – T114-8's village clauses)\"; T-V7-63's \"(item 115 (f)'s village clauses; takes T115-1 – T115-4's village clauses)\" and it gains the clause \"with every `grandeur.ceiling` row's `enabled` false (V11 §3.24.0's off form) `B-VILLAGE` is byte-identical to the build before item 115 — the `item115.off` registration of the village goldens on V12 §3.7.8's engine (T115-4)\"; T-V7-64's \"item 116 at village rungs (takes T116-1 – T116-4's village clauses)\"; T-V7-65's \"(item 117 (i)'s village clauses, (f2) included; takes T117-1 – T117-8's village clauses)\"; T-V7-66's \"(item 118 (h)'s village clauses; takes T118-1 – T118-6's village clauses)\"; T-V7-67's \"(item 119 (f)'s village clauses; takes T119-2 – T119-4's village clauses)\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VAP-r1-02",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "The SettlementForge take-over row (base l. 17250) hands volume 8 \"the port's clauses of T111-1 – T111-5 (T-V8-50), T113-1 and T113-6 (T-V8-51), T114-7 (T-V8-52), T115-2 and T115-3 (T-V8-53), T117-1 and T117-6 (T-V8-54) and T118-1, T118-2 and T118-5 (T-V8-55)\". V08 names none of these fifteen bars (0 occurrences): T-V8-50 – T-V8-55 (l. 3046–3051) open with \"item 11n at the port\" only, and §8.3's release row R1 (l. 3131) lists every other bar of the row (T73 … T108-3) but none of them. T-V8-53's TOWN clause (\"at TOWN every case is byte-identical to the build without the ceiling\") states no registration, while V12 §2.13 lists \"V08's port fixtures at TOWN (T-V8-53)\" on `item115.ceiling` and V12 §3.7.8 counts T-V8-53 among the registering pins.",
+   "required_change": "T-V8-50's head reads \"item 111 at the port (takes T111-1 – T111-5's port clauses)\"; T-V8-51's \"item 113's reading (takes T113-1 and T113-6's dossier clauses)\"; T-V8-52's \"item 114 at the port (takes T114-7)\"; T-V8-53's \"item 115's 'specified' (takes T115-2 and T115-3's dossier clauses)\", its TOWN clause ending \"— the `item115.ceiling` registration of the port fixtures on V12 §3.7.8's engine, written by the SF4 seat\"; T-V8-54's \"item 117 at the port (takes T117-1 and T117-6's port clauses)\"; T-V8-55's \"item 118 at the port (takes T118-1, T118-2 and T118-5's port clauses)\"; §8.3's R1 adds \"and the port's clauses of T111-1 – T111-5, T113-1, T113-6, T114-7, T115-2, T115-3, T117-1, T117-6, T118-1, T118-2 and T118-5\".",
+   "owner": "V08"
+  },
+  {
+   "id": "VAP-r1-03",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "The application take-over row (base l. 17252) hands volume 9 \"the screens of items 111–119 (T-V9-71 – T-V9-79: T114-6's legend, T115-3's hand form, T116-1's view controls, T117-6, T118-2 and T119-3 among them)\". V09 names none of the six (0 occurrences): T-V9-74 – T-V9-79 (l. 3950–3955) cite \"(V09 §4.21.n; item 11n)\" only, and V09 §7.1's take-over paragraph (l. 3869–3871) stops at T101-1 – T101-9.",
+   "required_change": "T-V9-74's head reads \"(V09 §4.21.4; item 114; takes T114-6's legend clause on the canvas)\"; T-V9-75's \"(V09 §4.21.5; item 115; takes T115-3's hand form)\"; T-V9-76's \"(V09 §4.21.6; item 116; takes T116-1's view-control clause)\"; T-V9-77's \"(V09 §4.21.7; item 117; takes T117-6's season-control clause)\"; T-V9-78's \"(V09 §4.21.8; item 118; takes T118-2's festival-list clause)\"; T-V9-79's \"(V09 §4.21.9; item 119; takes T119-3)\"; V09 §7.1's paragraph adds \"and the screens of items 114–119: T114-6 by T-V9-74, T115-3 by T-V9-75, T116-1 by T-V9-76, T117-6 by T-V9-77, T118-2 by T-V9-78 and T119-3 by T-V9-79\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VAP-r1-04",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "The clerk's take-over row (base l. 17251) reads \"T101-6's clerk path, T115-3's clerk form (T-V10-48)\"; V10 names T115-3 nowhere (0 occurrences) — T-V10-48 (l. 2967) opens \"item 115's ceiling:\".",
+   "required_change": "T-V10-48 opens \"item 115's ceiling (takes T115-3's clerk form):\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VAP-r1-05",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "The content take-over row (base l. 17255) reads \"every content row a bar reads, T117-3 (T-V11-42)\", and §13.2's item-117 group calls T117-3 \"volume 11's compile check, T-V11-42\"; V11 names T117-3 nowhere (0 occurrences) — T-V11-42 (l. 4743) opens \"item 117's rows:\".",
+   "required_change": "T-V11-42 opens \"item 117's rows (takes T117-3):\".",
+   "owner": "V11"
+  },
+  {
+   "id": "VAP-r1-06",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "V05 added T-V5-34 (item 117 on the islands, l. 2740) and T-V5-35 (item 118's pennants, l. 2756), each re-running the base bars' clauses on the sky (the hash in 52 weeks, ice and snow by climate, the festival's weeks and placement), and VCS-10 hands the sky take-over row \"T117-1 – T117-8's and T118-1 – T118-6's island clauses (T-V5-34, T-V5-35)\"; neither test names a T117 or T118 bar (0 occurrences in V05), so the take-over has no volume end.",
+   "required_change": "T-V5-34's head reads \"— the island through the year (item 117; V05 §5.1; takes T117-1 – T117-8's island clauses)\" and T-V5-35's \"— festival pennants on the islands (item 118; V05 §5.1; takes T118-1 – T118-6's island clauses)\"; each lettered clause names the bar it re-runs where it re-runs one (e.g. (a) \"(T117-1)\", \"(T118-1)\").",
+   "owner": "V05"
+  },
+  {
+   "id": "VAP-r1-07",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "T-V1-29 (l. 3203) gained \"**item 119's one-time waits** (V01 §6; J-V1.103)\" — stage 2's generate, close-up, switch, sky unit-run and export waits within 10 s, progress past 1 s, every slower step with its `perf.qualitySpend` row — which are T119-2, T119-3 and T119-4's clauses on stage 2; VCS-10 hands the stage-2 take-over row \"T119-2 and T119-3's stage-2 clauses (T-V1-29)\" (and V01's repair asked the same of scope), but V01 names no T119 bar (0 occurrences).",
+   "required_change": "T-V1-29's clause reads \"**item 119's one-time waits** (V01 §6; J-V1.103; takes T119-2 and T119-3's stage-2 clauses)\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VAP-r1-08",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "The rig's take-over row (base l. 17253) hands volume 12 \"the specs, pins and bench bars of items 111–119 (T-V12-44 – T-V12-50)\", and §13.2's item-115, -116 and -119 groups name T-V12-48 and T-V12-50 as V12's runs. T-V12-44, -46, -47 and -49 name their bars (T111-n, T113-2, T114-4 – T114-7, T117-2, T118-2 – T118-6), but T-V12-48 (l. 2864: `bldg.grandeur`, the two item-115 pins, `view.limitStop`) names none of T115-1, T115-4 or T116-1, and T-V12-50 (l. 2866: the wait timer, the target-miss report, the budget-register check, the interaction rows) none of T119-1, T119-2, T119-4 or T119-5.",
+   "required_change": "T-V12-48's head reads \"**Items 115 and 116** (takes T115-1's statistic, T115-4's two pins and T116-1's statistic)\"; T-V12-50's \"**Item 119's measurements** (takes T119-1's target report, T119-2's timer, T119-4's budget-register check and T119-5's interaction-row comparison)\".",
+   "owner": "V12"
+  },
+  {
+   "id": "VAP-r1-09",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Two volume tests claim T119 clauses that neither §13.2's item-119 group (l. 17235: \"Volume 9 runs the progress view (T-V9-79) and volume 12 the timer and the register check (T-V12-50)\") nor the take-over table lists, and VCS-10's required change (which adds V01, V03, V04 and V07's) does not name them either: V02's T-V2-22 (\"completes within ten seconds from the click at every rung's top and at the population cap (V12 §3.15.9's wait timer, T119-2 …)\") with T-V2-24's export timings, and V05's T-V5-18 (item 119's comfort level at every island rung, naming T119-2 – T119-5).",
+   "required_change": "Beside VCS-10's additions: the stage-3 take-over row's base-bar column adds \"T119-2's stage-3 clauses (T-V2-22, T-V2-24)\" and the sky row \"T119-2 – T119-5's island clauses (T-V5-18)\"; the item-119 group's runs list adds \"volume 2 the stage-3 waits (T-V2-22, T-V2-24) and volume 5 the islands' (T-V5-18)\".",
+   "owner": "scope"
+  },
+  {
+   "id": "VAP-r1-10",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V12 §2.13's `item115.ceiling` row lists \"H-100 over epochs at TOWN and above (V06, T-V6-74)\" and §3.7.8 counts T-V6-74 among the volume pins that register; V12 §2.13 refuses \"a suite no owner registers\". V06 registers none: T-V6-74's last clause (l. 3913) reads only \"a history that never stands below TOWN is byte-identical with the ceiling on and off\" (no fixture, no pin, no engine), and V06 §8's *The no-op pins* paragraph (l. 3987) lists E1, E3, E4, E5 and E9 registrations and no E2 `item115.ceiling`.",
+   "required_change": "T-V6-74's last clause reads \"H-100 at TOWN and above is byte-identical with the ceiling on and off — the `item115.ceiling` registration of H-100 on V12 §3.7.8's engine (V12 §2.13), written by V06's E2 seat\"; V06 §8's *The no-op pins* paragraph adds \"E2 `item115.ceiling` (H-100 at TOWN and above; T-V6-74)\".",
+   "owner": "V06"
+  },
+  {
+   "id": "VAP-r1-11",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V12 §2.13 lists V07's village goldens on `item115.off` and on `item120.find`, but V12 §3.7.8's list of the volume pins that register (l. 1649–1653) gives \"V07's pins by its §7 rule (T-V7-33, T-V7-38, T-V7-52, T-V7-58, T-V7-59, T-V7-62, T-V7-65, T-V7-66)\" — not T-V7-63 (`item115.off`, VAP-r1-01) or T-V7-68 (Find at the village rungs, whose hash and tiles clauses are `item120.find`'s) — and its V05 list stops at T-V5-33, while T-V5-34 – T-V5-36 register the sky goldens on `item117.season`, `item118.festival` and `item120.find` (VV56-r1-07 fixes §2.13's rows and X-V12-11, not §3.7.8). §2.13's two V07 cells name no test.",
+   "required_change": "V12 §3.7.8's list reads \"… V05's T-V5-15, T-V5-19 (c), T-V5-22 (b) and (k), T-V5-27, T-V5-33's item-111 clause and T-V5-34 – T-V5-36; … V07's pins by its §7 rule (T-V7-33, T-V7-38, T-V7-52, T-V7-58, T-V7-59, T-V7-62, T-V7-63, T-V7-65, T-V7-66, T-V7-68) …\"; §2.13's `item115.off` suites read \"the golden suite; V07's village goldens (T-V7-63)\" and `item120.find`'s \"… V07's village goldens (T-V7-68)\".",
+   "owner": "V12"
+  },
+  {
+   "id": "VAP-r1-12",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V12 §10.3's hand-off row (l. 3119) reads \"V06 §2.2's structure knobs; V06 §7 (T-V6-66 – T-V6-69) | `retaining.holdM`, `.neglectAfterYears`, `.stretchM` and `aqueduct.disuseAfterYears` … | … T-V6-66 – T-V6-69 are V06's, nightly …\". Those tests are the landfall clearance (T-V6-66), foundations at an epoch (T-V6-67), a village mine breach (T-V6-68) and calamity deaths (T-V6-69); the knobs' readers are V06 §3.19.2 and §3.19.4 (V06 l. 577–578), tested by T-V6-61 (raised ways in disuse: \"disused only as V06 §3.19.2 (2) states\") and T-V6-62 (retaining walls: \"slumps only below terraces abandoned for `retaining.neglectAfterYears`\").",
+   "required_change": "The row reads \"V06 §2.2's structure knobs; V06 §7 (T-V6-61, T-V6-62) | … T-V6-61 and T-V6-62 in the nightly tier | V12 §3.11's `decline` line (owner V11); T-V6-61 and T-V6-62 are V06's, nightly on its fixtures by §13.8, each a `BenchBarDef` where a line names it\".",
+   "owner": "V12"
+  },
+  {
+   "id": "VAP-r1-13",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §8's C3 builds \"item 120's find form and read (V10 §3.9b (7)), built with V09's Find panel\", and C4's exit (M3c) lists T-V10-51 (Find from words: `read_map find`'s counts \"equal §11.2's gazetteer listing … and the panel's own counts\"). V09 §8 places Find at no milestone (G120-V09), so M3c's exit carries a bar whose provider may land after it. V03 (T-V3-38 \"with the later of P5 and the milestone that lands Find (V09 §8)\"), V04 (T-V4-81 at \"the later of U5 and the step that lands V09's Find panel\"), V08 (T-V8-58 \"with V09's Find step\"), V07 (risk (13)) and V12 (T-V12-52 \"the milestone that lands Find\") each defer to Find's landing; V10 alone does not (V01's same gap is VAF-R1T-07).",
+   "required_change": "V10 §8's C4 row reads \"… T-V10-47 – T-V10-49, and T-V10-51 at the exit of the later of M3c and the milestone that lands Find (V09 §8), with the find form and read\" and C3's content \"item 120's find form and read (V10 §3.9b (7)), landing with V09's Find panel at the later of M3c and Find's milestone, inside C4's range\"; T-V10-51's tier cell reads \"PR, from the later of M3c and Find's milestone\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VAP-r1-14",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§16's M2b row (base l. 18727) lands \"item 114's generation-time condition … with §8.2's `worn` and `patched` state rows and their legend\", §16's M3a row (l. 18728) \"T3 `wall`'s repair with a material and `wearWall` (item 114)\" beside T2 `ground`'s spring flag, and §13.8 schedules T114-6 — whose legend clause the take-over row hands V09 (T-V9-74) — at M2b. V09's AP11 (l. 4172) puts \"the wall's Repair material and legend at M6-E (with V06 §3.7.7)\" and T-V9-74's milestone is \"M6-E\", while it puts the parallel oasis toggle at M3a with AP3. So from M2b to M6-E generated walls show `worn`, `patched` and `breached` runs with no legend lines of V09's and from M3a no canvas form for the base's repair-with-material event; and V10's T-V10-47, an exit of C4 at M3c, compares the clerk's `wall { op: 'repair' | 'wear' }` \"with V09 §4.21.4's Repair (each material), Wear and Back in use events byte for byte\" before V09 builds them.",
+   "required_change": "V09 §8.1's AP11 row reads \"… the wall states in the legend (V09 §4.21.4 (3)) at M2b with §8.2's state rows, the Repair mode's **Material** chip and **Wear** at M3a (with AP3 and §16's M3a T3 repair), **Back in use**, the last-change epoch on the panel line and the ring's story at M6-E (with V06 §3.7.3 – §3.7.7) …\", inside AP11's price; T-V9-74's milestone cell reads \"M2b (the legend); M3a (Repair with a material, Wear); M6-E (Back in use, the epoch lines)\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VAP-r1-15",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V11 §8 renamed C4 into C4a (the wall rows, M2b, first total) and C4b (the SettlementForge rows, M-SF, staged), and V08 §8 now cites \"V11's **C4b**\" and \"**C4a**'s … rows (landed at M2b)\". §16's staged row (base l. 18753) still reads \"the content's staged rows (V11: C4 at M-SF, C8 at M6-U)\" and INDEX §1's V11 cell (INDEX l. 34) \"… C4's wall rows at M2b; … C4's dossier rows with the SettlementForge stage (V11 §8)\" — milestone ids V11 no longer has (VV1112-r1-01 covers §16's content line's figures; VV1112-r1-02 V12's names).",
+   "required_change": "§16's staged row reads \"the content's staged rows (V11: C4b at M-SF, C8 at M6-U)\"; INDEX §1's V11 cell reads \"C0–C3b, C4a (the wall rows) and C5–C7 inside M0–M4b, C4a at M2b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the dossier rows) with the SettlementForge stage (V11 §8)\".",
+   "owner": "scope"
+  },
+  {
+   "id": "G126-scope",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 126 (the map only on tablets and desktops; J140) with its (a2) revision routes to scope \"§1 (the supported devices: tablets and desktops); §13 (bars; §13.4's sessions on tablets and desktops only); §16 (the narrow class's work dropped from the reference app's line); the judgment index row\". None is written (\"item 126\" 0 times in the base): §1 states no supported devices; §13.2 has no item-126 bar and §13.8 no row; §16's reference-app line (l. 18775) still prices \"touch and the three layout classes\"; no J-A126 row or Part A entry; §0.2's landing table has no row.",
+   "required_change": "§1.1 states the supported devices: \"the map is seen on tablets and desktops only (item 126); a phone is offered no map view, and a window below the medium class (600 × 480 CSS px) keeps the medium layout at that minimum and scrolls\". §13.2 adds *Tablets and desktops only (item 126; §1.1).* (T126-1) at the medium class every tool completes its canvas script under touch (V09's T-V9-22, its tablet half); (T126-2) below the medium class the medium layout holds at its minimum, the page scrolling, and the document, view and selection are byte-identical across a resize over the threshold; (T126-3) no phone layout, screen or catalogue row exists (a build-time scan of V09's layout classes and catalogue) — \"Volume 9 runs them (T-V9-22) and volume 12 measures them (its item-126 test)\"; the take-over application row names them; §13.8 schedules them (PR on the app harness, from M2a with the medium layout). §13.4's touch question reads \"two participants per session work on a tablet; every session runs on tablets and desktops only (item 126)\". §16's reference-app line reads \"touch and the two layout classes (wide and medium; item 126 retires the narrow class)\", its price following V09 §8.1's restated base line. §0.2 gains item 126's row; the judgment index gains J-A126.01 with its Part A entry.",
+   "owner": "scope"
+  },
+  {
+   "id": "G126-V09",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 126 (a2) routes to V09 \"no phone screen, notice, catalogue row or Send button: the narrow layout class retired; below the medium class the medium layout holds at its 600 × 480 minimum and the page scrolls; `refuse.phone` withdrawn (no tool is ever greyed for a phone); item 120's phone sheet and item 124's phone default removed; T-V9-22 keeps its tablet half\". V09 still carries the narrow class everywhere: `type LayoutClass = 'wide' | 'medium' | 'narrow'` (l. 412), the tool rows' `narrow` flag (l. 475) and every table's \"narrow · coarse\" column (l. 1742, 2815), the phone paragraph of §0 (l. 99–101), §1's \"what a phone may do\" (l. 142), the frame's edge row 48 (l. 1513), the rail's and panels' narrow forms (l. 1574, 1691, 2350, 3349–3350, 3391), §4.12's narrow class (l. 2452–2457), the tools' narrow notes (l. 2885, 2937, 2990, 3193), `refuse.phone` (l. 1877, 1941), T-V9-22's narrow clause (l. 3898) and J-V9.9 (l. 4240).",
+   "required_change": "V09 retires the narrow class: `LayoutClass = 'wide' | 'medium'`, the `narrow` flag and every \"narrow\" column, row and form removed; §0's paragraph reads \"**On a tablet.** A tablet gets every tool with touch (press and hold opens the menu a right-click opens). The map is not offered on a phone (item 126)\"; §4.12 states the two classes and that a window below 600 × 480 keeps the medium layout at that minimum and scrolls, nothing re-generated; the edge row 48 reads \"a viewport below 600 × 480 | the medium layout at its minimum, the page scrolling | T-V9-22\"; `refuse.phone`'s catalogue row and its uses withdrawn; T-V9-22 keeps its tablet half and gains \"below the medium class the medium layout holds, and the document, view and selection are byte-identical across a resize over the threshold\"; J-V9.9 rewritten to the two classes (item 126 (a2), J140). G120-V09's \"phone bottom sheet\" and G124-V09's \"phones\" default, which peers' required changes still ask for, are not written (item 126 supersedes items 120 (j) and 124 (g)).",
+   "owner": "V09"
+  },
+  {
+   "id": "G126-V08",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 126 (a2) routes to V08 \"SettlementForge presents no map entry on a phone; the frame carries no phone handling\". V08 states neither (\"phone\" 0 times): its host mode renders V09's shell inside the frame (V08 §5.1; T-V9-28's \"every screen of the standalone app\"), which today includes V09's narrow layout, and no V08 text says the host offers no map on a phone or what the frame does below the medium class.",
+   "required_change": "V08's host section (§3.16 or §5.1, where the frame's mounting is stated) adds: \"SettlementForge presents no map entry on a phone (item 126 (a2); J140): the map tab and every map command are absent there, and the frame carries no phone handling — a frame given a viewport below the medium class keeps V09's medium layout at its 600 × 480 minimum and scrolls (V09 §4.12)\"; a J-V8 row records it, and a T-V8 clause checks that the host harness's frame at 599 × 479 shows the medium layout with the document byte-identical.",
+   "owner": "V08"
+  },
+  {
+   "id": "G126-V04",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 126 routes to V04 \"the 'phone sheet' mention of item 120 dropped\". V04 §1b (l. 233) still reads \"**Find** (g item 120) — its panel, type-ahead, chip grid, results list, phone sheet and `live.find` provider are V09's\".",
+   "required_change": "V04 l. 233 reads \"… its panel, type-ahead, chip grid, results list and `live.find` provider are V09's\".",
+   "owner": "V04"
+  },
+  {
+   "id": "G126-V12",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "Item 126 (with (a2): \"scope, V04, V12: as the item-126 routing above, less any phone screen\") routes to V12 \"§3.15.10's 'phone sheet' and every phone-viewport fixture dropped\" and the bar of item 126 (e) as (a2) reads it. V12 §3.15.10 (l. 2508) still lists \"results list, phone sheet\" among V09's Find parts, and V12 has no item-126 measurement (\"item 126\" 0 times; §3.15 stops at item 120).",
+   "required_change": "§3.15.10 drops \"phone sheet\"; §3.15 gains **3.15.11 Item 126 — tablets and desktops only**: on V09's app harness, at the medium class's minimum (600 × 480) every tool's canvas script completes under touch events (T-V9-22's tablet half), and a resize from 1024 × 768 to 599 × 479 and back leaves the model digest, the view key and the selection byte-identical with the medium layout held and no tool withheld (`layout.belowMedium` 0 differences), no phone viewport in any fixture — a conformance clause on the harness registry's list under §13.2's item-126 bars (G126-scope), its T-V12 row, its §3.16 edge row and its W7 milestone cell (the milestone that lands the medium layout).",
+   "owner": "V12"
+  }
+ ]
+}

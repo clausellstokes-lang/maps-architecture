@@ -1,0 +1,485 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "d12c382be27e78351c5b0c020b8aae7432f888f6d67f5c32ec0571f31aa10e52",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V06.md",
+   "sha256": "dd5dc8a0588b3ff5e74850a11c7d5d05e1c40ead09f25158bf16f824b5e52990",
+   "lines": 2250,
+   "blocks": 16,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V06.md #1 (l. 1) REPLACE ### 1.1 What this volume builds",
+   "file": "repair-r3-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 1.1 What this volume builds",
+   "body_lines": 77,
+   "body_sha256": "8cf03822327945f247806eafbf2a6823b7249d886942b247f9bec1801850b324",
+   "target_line": 117,
+   "section_old": "117–193",
+   "section_old_n": 77,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 1.1 What this volume builds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V06.md #2 (l. 80) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r3-V06.md",
+   "index": 2,
+   "line": 80,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 130,
+   "body_sha256": "91f906a39d572056b25bb7e73e6bca8ad3acbe97e9114fb1e75ac6417367298a",
+   "target_line": 277,
+   "section_old": "277–407",
+   "section_old_n": 131,
+   "section_new_n": 131,
+   "new_headings": [
+    "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V06.md #3 (l. 212) REPLACE ## 2 Data model",
+   "file": "repair-r3-V06.md",
+   "index": 3,
+   "line": 212,
+   "kind": "REPLACE",
+   "heading": "## 2 Data model",
+   "body_lines": 526,
+   "body_sha256": "dfe7cd5a2c70ba713621c533cda1174c80d3aa85dd5e91eb0563469645f057a1",
+   "target_line": 408,
+   "section_old": "408–933",
+   "section_old_n": 526,
+   "section_new_n": 527,
+   "new_headings": [
+    "## 2 Data model",
+    "### 2.1 The engine's interfaces (`@plat/evolve`)",
+    "### 2.2 Parameters and the evolution table",
+    "### 2.3 The trajectory and the `advance` event",
+    "### 2.4 Hazard rows",
+    "### 2.5 `MutationPlan` — a designation change spread over epochs (item 18 (c))",
+    "### 2.6 `BuildingShadeMask` — the buildings' share of the daylight driver at an epoch (item 102 (b), (e))",
+    "### 2.7 `Enceinte.pathway` and `Enceinte.underuseSince` — a ring's road out of use",
+    "### 2.8 The new conversion kinds and `Way.formerClass`",
+    "### 2.9 `Use.strain` — the use step's memory",
+    "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "### 2.11 The history index, frames and diffs (derived and non-canonical)",
+    "### 2.12 Lifecycle of every new state (create · read · persist · regenerate · undo · migrate)",
+    "### 2.13 Item 110's epoch records — the reason key and the ledger",
+    "### 2.14 The history replay's records (item 113)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V06.md #4 (l. 740) REPLACE ### 3.3 Epoch inputs",
+   "file": "repair-r3-V06.md",
+   "index": 4,
+   "line": 740,
+   "kind": "REPLACE",
+   "heading": "### 3.3 Epoch inputs",
+   "body_lines": 73,
+   "body_sha256": "b5437972f0c200ab4ca4a3d6c944a1b556fe8957be6781116662f7b784c6d83b",
+   "target_line": 1073,
+   "section_old": "1073–1146",
+   "section_old_n": 74,
+   "section_new_n": 74,
+   "new_headings": [
+    "### 3.3 Epoch inputs"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V06.md #5 (l. 815) REPLACE ### 3.5 Decline",
+   "file": "repair-r3-V06.md",
+   "index": 5,
+   "line": 815,
+   "kind": "REPLACE",
+   "heading": "### 3.5 Decline",
+   "body_lines": 156,
+   "body_sha256": "d89460dbb23ad5afb67cd7dea20d56d8b171601e22284cd24aa52786d1b4cbd6",
+   "target_line": 1218,
+   "section_old": "1218–1364",
+   "section_old_n": 147,
+   "section_new_n": 157,
+   "new_headings": [
+    "### 3.5 Decline"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V06.md #6 (l. 973) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "repair-r3-V06.md",
+   "index": 6,
+   "line": 973,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 227,
+   "body_sha256": "e186a1cf187cdff1c253af46e9a4ba8a21833a8907a0b7a88ef56299ba3f43d4",
+   "target_line": 1432,
+   "section_old": "1432–1653",
+   "section_old_n": 222,
+   "section_new_n": 228,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V06.md #7 (l. 1202) REPLACE ### 3.10 Designation mutations over epochs — the `MutationPlan` (item 18 (c))",
+   "file": "repair-r3-V06.md",
+   "index": 7,
+   "line": 1202,
+   "kind": "REPLACE",
+   "heading": "### 3.10 Designation mutations over epochs — the `MutationPlan` (item 18 (c))",
+   "body_lines": 42,
+   "body_sha256": "c13c944f191f4e25477418b3291ab376ed43250bc0df7835192b51c15cfb1887",
+   "target_line": 2018,
+   "section_old": "2018–2060",
+   "section_old_n": 43,
+   "section_new_n": 43,
+   "new_headings": [
+    "### 3.10 Designation mutations over epochs — the `MutationPlan` (item 18 (c))"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V06.md #8 (l. 1246) REPLACE ### 3.20 The history replay at generation (item 113)",
+   "file": "repair-r3-V06.md",
+   "index": 8,
+   "line": 1246,
+   "kind": "REPLACE",
+   "heading": "### 3.20 The history replay at generation (item 113)",
+   "body_lines": 155,
+   "body_sha256": "01e3a7bf060da4e18a3474f0f4ce1a41e1418bc0c47279d4a410612d5102b168",
+   "target_line": 3073,
+   "section_old": "3073–3225",
+   "section_old_n": 153,
+   "section_new_n": 156,
+   "new_headings": [
+    "### 3.20 The history replay at generation (item 113)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r3-V06.md #9 (l. 1403) REPLACE ### 3.21 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r3-V06.md",
+   "index": 9,
+   "line": 1403,
+   "kind": "REPLACE",
+   "heading": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 77,
+   "body_sha256": "b87ebd64cae76916c1bc7f86f1d6ab82f753b450c4a24858e1e9732cb509cb38",
+   "target_line": 3229,
+   "section_old": "3229–3306",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 3.21 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r3-V06.md #10 (l. 1482) REPLACE ### 3.22 Crisis looks and the epoch path — the hand-over (item 122)",
+   "file": "repair-r3-V06.md",
+   "index": 10,
+   "line": 1482,
+   "kind": "REPLACE",
+   "heading": "### 3.22 Crisis looks and the epoch path — the hand-over (item 122)",
+   "body_lines": 65,
+   "body_sha256": "26953c172f9f2f99abf5da49457125bf66d3fc46bc1da95aa38a80d65b155e28",
+   "target_line": 3307,
+   "section_old": "3307–3366",
+   "section_old_n": 60,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 3.22 Crisis looks and the epoch path — the hand-over (item 122)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r3-V06.md #11 (l. 1549) REPLACE ### 3.23 The decay level of a building lineage (item 123)",
+   "file": "repair-r3-V06.md",
+   "index": 11,
+   "line": 1549,
+   "kind": "REPLACE",
+   "heading": "### 3.23 The decay level of a building lineage (item 123)",
+   "body_lines": 63,
+   "body_sha256": "e2973ac517c448c55c184fcb7f6936ee0e572823c0136f4a101bf564d7dec23f",
+   "target_line": 3373,
+   "section_old": "3373–3419",
+   "section_old_n": 47,
+   "section_new_n": 64,
+   "new_headings": [
+    "### 3.23 The decay level of a building lineage (item 123)"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r3-V06.md #12 (l. 1614) REPLACE ### 4.3 Locality, locks and the order of events",
+   "file": "repair-r3-V06.md",
+   "index": 12,
+   "line": 1614,
+   "kind": "REPLACE",
+   "heading": "### 4.3 Locality, locks and the order of events",
+   "body_lines": 23,
+   "body_sha256": "b2f98f00aa3e4bca56b3099eef2a6a78bc24e2a06d9aa44f5beacf3a3569883e",
+   "target_line": 3546,
+   "section_old": "3546–3567",
+   "section_old_n": 22,
+   "section_new_n": 24,
+   "new_headings": [
+    "### 4.3 Locality, locks and the order of events"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r3-V06.md #13 (l. 1639) REPLACE ## 6 Performance budgets",
+   "file": "repair-r3-V06.md",
+   "index": 13,
+   "line": 1639,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 253,
+   "body_sha256": "b7889e8e15f3fdb0d7951cfecc4091c63025f7bf50ef2db3deda2d3fec00cd0b",
+   "target_line": 3741,
+   "section_old": "3741–3978",
+   "section_old_n": 238,
+   "section_new_n": 254,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r3-V06.md #14 (l. 1894) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r3-V06.md",
+   "index": 14,
+   "line": 1894,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 163,
+   "body_sha256": "dddfae3557c38b6342585c818ecbf965036db42c75ea5f1d3d8c5a92b2a3848a",
+   "target_line": 3995,
+   "section_old": "3995–4158",
+   "section_old_n": 164,
+   "section_new_n": 164,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r3-V06.md #15 (l. 2059) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "file": "repair-r3-V06.md",
+   "index": 15,
+   "line": 2059,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "body_lines": 147,
+   "body_sha256": "24089c78661df8d94af9ffc09994b20184f2b817b7715c88e13541bd06605072",
+   "target_line": 4302,
+   "section_old": "4302–4448",
+   "section_old_n": 147,
+   "section_new_n": 148,
+   "new_headings": [
+    "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r3-V06.md #16 (l. 2208) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r3-V06.md",
+   "index": 16,
+   "line": 2208,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 40,
+   "body_sha256": "9846cb2ed3414fa43194ae2c07301f721b8994210d2a70f8563db1c4a6a91f3f",
+   "target_line": 4500,
+   "section_old": "4500–4539",
+   "section_old_n": 40,
+   "section_new_n": 41,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V06.md #1 (l. 1) REPLACE ### 1.1 What this volume builds",
+    "kind": "REPLACE",
+    "heading": "### 1.1 What this volume builds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #2 (l. 80) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #3 (l. 212) REPLACE ## 2 Data model",
+    "kind": "REPLACE",
+    "heading": "## 2 Data model",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #4 (l. 740) REPLACE ### 3.3 Epoch inputs",
+    "kind": "REPLACE",
+    "heading": "### 3.3 Epoch inputs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #5 (l. 815) REPLACE ### 3.5 Decline",
+    "kind": "REPLACE",
+    "heading": "### 3.5 Decline",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #6 (l. 973) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #7 (l. 1202) REPLACE ### 3.10 Designation mutations over epochs — the `MutationPlan` (item 18 (c))",
+    "kind": "REPLACE",
+    "heading": "### 3.10 Designation mutations over epochs — the `MutationPlan` (item 18 (c))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #8 (l. 1246) REPLACE ### 3.20 The history replay at generation (item 113)",
+    "kind": "REPLACE",
+    "heading": "### 3.20 The history replay at generation (item 113)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #9 (l. 1403) REPLACE ### 3.21 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #10 (l. 1482) REPLACE ### 3.22 Crisis looks and the epoch path — the hand-over (item 122)",
+    "kind": "REPLACE",
+    "heading": "### 3.22 Crisis looks and the epoch path — the hand-over (item 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #11 (l. 1549) REPLACE ### 3.23 The decay level of a building lineage (item 123)",
+    "kind": "REPLACE",
+    "heading": "### 3.23 The decay level of a building lineage (item 123)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #12 (l. 1614) REPLACE ### 4.3 Locality, locks and the order of events",
+    "kind": "REPLACE",
+    "heading": "### 4.3 Locality, locks and the order of events",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #13 (l. 1639) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #14 (l. 1894) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #15 (l. 2059) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V06.md #16 (l. 2208) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 665608,
+  "doc_bytes_after": 680177,
+  "doc_lines_before": 4496,
+  "doc_lines_after": 4560,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 16,
+  "blocks_applied": 16,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "8f92dd3809e03132e1d710d49e11ccf8ccce394b5dd7ceb8b7d73e2234299feb",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}
