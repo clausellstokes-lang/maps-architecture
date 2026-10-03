@@ -81,6 +81,7 @@ r("""interface TemplateDef { id: string /* 'desc.district', 'desc.building', 'ch
 interface HistorySettings {   // table 'history' (registry row 92), its named row 'settings' (item 113; V11 §3.25.1)
   replay: boolean /* the history-first path's switch: false = generation as without replay (§4.11's no-op pin); a switch, not calibratable */;
   epochYears: number /* yr: a coarse epoch's span */; symbolicQuantile: number /* share: where in the tier's population range the effective peak is sized */;
+  defaultAgeYears: Record<Rung, number> /* yr: the age of a history that states none (the blueprint's history option, V06 §3.20.2 (2)); a dossier's absent age is V08's `historyAge` row's */;
   burialYears: number /* yr: ruins older than burialYears_eff lie buried */;
   burialFactor: { flood: number; silt: number; rebuilt: number; bareRock: number } /* × burialYears for each condition that holds (V11 §3.25.2) */;
   burialBoundsYears: [number, number] /* the clamp on burialYears_eff */;

@@ -254,7 +254,7 @@ metric draws from its testkit stream (V12 §3.13), so one `MeasureInput` gives b
 filled for every catalogue row, explicitly where the row states it and otherwise by V12 §3.4.2's default rules; a row
 whose field neither states nor defaults fails `plat build`. `stages` holds registered StageIds only; a catalogue row may
 write a stage group the registry expands (V11's rule: `S5` expands to `S5a`–`S5d`), and `plat build` stores the expansion,
-so no metric names an unregistered id (V12-XCONF-3).
+so no metric names an unregistered id (§4.1).
 
 **Two generated families** (J-V12.65). Most register entries are confirmed by an owning volume's bar, and a bar is no
 catalogue row; so the registry holds two families whose members `plat build` generates from registrations, each member a
@@ -571,7 +571,7 @@ type StatSpec =
                                                        // V11 §2.3 defines it at a plot (V12 §3.6); 'coverage' (the default) reads the class's
                                                        // compiled profile.coverage, its district unit every district; 'district' forces the
                                                        // district unit for item 105 (k)'s dispersal reading, which alone counts only districts of
-                                                       // ≥ 30 households (T-V11-18; V12-XCONF-4); one class per spec; null scope 'town' only
+                                                       // ≥ 30 households (T-V11-18; J-V12.60); one class per spec; null scope 'town' only
   | { kind: 'nnSameKind' }                             // median nearest same-class distance; null scope 'town' only
   | { kind: 'downstreamShare' } | { kind: 'downwindShare' }   // share of members downstream / downwind of the median household: the pooled route
   | { kind: 'prestigeShare' }                          // share on prime frontages (item 71's definition, T71-3): the pooled route
@@ -777,7 +777,7 @@ interface ReconciliationRecord {   // plat/calibration/reconciliation/<id>.json,
 
 §7.6's cell provenance carries this volume's two optional fields; their meaning, the compiler that carries them and the
 **pinning hash** that excludes the whole provenance block (so rewording or adding evidence never moves an output version)
-are §7.6's (item 381; V12-XCONF-2; V11 §3.2.1 step 7 computes the hash so). This volume fills them:
+are §7.6's (item 381; V11 §3.2.1 step 7 computes the hash so). This volume fills them:
 * `evidence` — the **ids** of the baseline rows, the `CalibrationRun`, the panel (`d5:<panel>`) or the M-1 record that
   set the value; ids only, never sentences.
 * `ownerRule` — the owner-rule item and part a cell encodes (`'109 (k) (1)'`, `'110 (b)'`): the catacomb TOWN gate, the
@@ -1066,7 +1066,7 @@ own lots (MFCG's lots drawn as buildings, §13.5; NG's parcels), as §13.5's row
   30 m with overflow; widths 0.25 m bins to 30 m with overflow.
 * `tolerance` — `geo`, `model`, `trace` and `counts`: 1e-9 relative (the same code on the same input); `render`: 0.01
   absolute; the M-1 twin comparison of T-V12-3: 0.5 % relative or one unit of the last printed digit, whichever is larger.
-* `stages` — registered StageIds (§4.1) only (V12-XCONF-3): ways S3, S4, S5a – S5d and S8; walls, towers, gates, the
+* `stages` — registered StageIds (§4.1) only: ways S3, S4, S5a – S5d and S8; walls, towers, gates, the
   castle, closures and enclosures S3, S4, S5a – S5d; districts and squares S3, S6, S7, S7b; blocks S8, S9; plots S8, S9,
   S10a, S10; buildings S10, S10b, S11; the `water`, `river` and `pier` kinds S1 and S3; the `green`, `field` and `tree`
   kinds S12a – S12b; galleries and chambers the underground stages (II.7); retaining walls S10, S11; raised parts, their
@@ -1322,7 +1322,7 @@ market square's edge, a gate, a quay face; `water` and `wall` Euclidean to the n
 `shareWithin` the share within `radiusM`; **`servedShare`** (item 103 (f)) the share of the subject class's coverage units
 holding ≥ 1 member, the unit read from the class's compiled `profile.coverage` (V11 §2.3: `unit`, `per`) and each unit
 taken as V11 §2.3 defines it at a plot: `district` — every district of the town (the plot's district, no household
-threshold; V12-XCONF-4), served when a member's plot lies in it; `parish` — the cells of the parish partition derived as
+threshold; J-V12.60), served when a member's plot lies in it; `parish` — the cells of the parish partition derived as
 V11 §2.3 states (the Voronoi cells of the placed members of the classes counted as churches, V11 §3.23.8's list, over
 residential land; one cell per district before any church stands), derived from the town's churches as they stand and
 held fixed while the subject's members are permuted, served when a member's plot lies in the cell; `walk` — the
@@ -1649,7 +1649,7 @@ with its own `ShiftRecord`s and cascades of cause `{ kind: 'feature', ref: 'item
    every THORP – TOWN golden stay unchanged: a moved one fails CI and is not a declared shift. Its records name every CITY
    and METROPOLIS golden where a reason arises (`raised.count` by kind, expected `up` there and `none` at TOWN), and, where
    they move, V05's two sky goldens, V06's H-100, K1 and K2, and the B-DOSSIER-lite towns carrying the water-system record
-   (its met need, cap step and cistern terminal, V11 §3.24.7 (3); V12-ICONF-1).
+   (its met need, cap step and cistern terminal, V11 §3.24.7 (3)).
 2. the `terrace` and `retaining` row sets — S10 and S11's levelling and the district-edge source.
 3. the `deck` and `deck.landmarks` row sets — S10's deck faces and deck plots; K1's golden moves here (its bridge's deck
    plots, V12 §3.14).
@@ -1727,7 +1727,7 @@ the next boundary opens a new pin (J-V12.25). VG's change of geometry for one se
 **3.9.1 The registered panels and the four sittings.** The owner sits only at M1 (the look check), M2b, M4 and M5,
 batched, about an hour each (§13.6 (1); J122, Q-V12-2). Every other panel is registered on the same engine and is rated
 at one of those sittings when its build has exited by then; otherwise it stays *provisional — not rated* and is offered
-with every release until rated (§13.6 (7); V12-XCONF-1).
+with every release until rated (§13.6 (7); J122).
 
 | panel | gate a rated pass claims | groups (pairs) | extras | spec owner | sat at |
 |---|---|---|---|---|---|
@@ -2100,7 +2100,7 @@ ending "and every other calibratable column" binds by the catch-all rule above. 
 item 245, J-RF2.4; owner `base`, whose value it holds, as the `span` cells' is V04): the default line's entry at M3a,
 restated in place at `V6-E2` by V06 §8's line on `bar.T-V6-62`, J-RF2.4's measurement (*A later line*), due `V6-E7` — a bar
 V06 registers at E2 cannot be named by an entry written at M3a (T-V12-20: an entry naming an unregistered bar fails); V11
-§3.24.1 cites this entry (V11-XCONF-1). `owner` is the volume whose values the cells hold, the schema's volume named in
+§3.24.1 cites this entry. `owner` is the volume whose values the cells hold, the schema's volume named in
 brackets. No entry of these lines names a preset entry (V11's preset entries are `fixed:` off values, V11 §2.2; V12 §3.7.2
 (3)) or moves an owner-stamped cell or gate or a value below an owner-stamped calibration minimum. A line's step is written
 into its entries' `due` (and a staged line's into each stage's, *Staged entries* below) in V12 §2.8's volume-qualified form
@@ -2801,7 +2801,7 @@ does; §16 computes both totals once (item 568) and this volume states none of i
 | J-V12.57 | chose K2's thresholds as consequences of its declarations (≥ 8 jetties with deck buildings on ≥ 4; ≥ 3 terraced wards with ≥ 10 retaining walls; a raised road within 2 % of straight crossing ≥ 2 ways) at CITY, 20 000 people, on the coast, over counts the rules may or may not fill ("every jetty with deck buildings"), because deck plots are offered by chance (item 110 (d)) and a fixture bar must fail only when the capability or the fixture is wrong |
 | J-V12.58 | chose the fixtures' inputs under `plat/tests/fixtures/known-city/<id>/` (the base's fixture tree, §17.1 (3)) and their goldens under `plat/goldens/known/<id>/`, over V09's draft path `plat/test/fixtures/known-city-2/`, because the base names one fixture tree and one golden store, and K1 and K2 share one engine |
 | J-V12.59 | chose to read a church class whose coverage unit is `parish` — a class that itself makes the parish partition — in the unit's `households` form with the same `per` (a disc of radius √(per × a_res ÷ π) about each residential plot), over the parish cells, because the cells are the churches' own Voronoi cells: every cell holds exactly one member, observed and permuted alike, so the statistic could never move and T-V11-13 could never pass for the principal coverage class |
-| J-V12.60 | chose one `servedShare` whose unit is read from the subject class's compiled `profile.coverage` — every district (V11 §2.3's unit, no household threshold), parish cells, or residential plots for the walk and households discs, counted unweighted — with a `unit: 'district'` override for item 105 (k)'s dispersal row, which alone counts districts of ≥ 30 households (T-V11-18), one class per spec and a `settlement` unit refused, over a single district statistic, because T-V11-13 measures "the share of units served" per class unit and T-V11-18 speaks of districts, the owning volume's statement wins (J-V12.48), and a permutation conserves a town-level unit (amended by V12-XCONF-4) |
+| J-V12.60 | chose one `servedShare` whose unit is read from the subject class's compiled `profile.coverage` — every district (V11 §2.3's unit, no household threshold), parish cells, or residential plots for the walk and households discs, counted unweighted — with a `unit: 'district'` override for item 105 (k)'s dispersal row, which alone counts districts of ≥ 30 households (T-V11-18), one class per spec and a `settlement` unit refused, over a single district statistic, because T-V11-13 measures "the share of units served" per class unit and T-V11-18 speaks of districts, the owning volume's statement wins (J-V12.48), and a permutation conserves a town-level unit |
 | J-V12.61 | chose one **panel rule** for the register lines a panel confirms — a group rated No moves the line's cells once to the owning volume's stated second value as a declared `fallback` run and re-sits, else the entry is `not-achieved` and reaches the owner as a table defect; unrated, *provisional — not rated* — over a fallback per line, because V11 states second values for only a few cells (`blockPitchM`, `perHeadL`, `w_sun`) and every other line needs a pre-decided outcome |
 | J-V12.62 | chose file f item 447's shapes for the measurement profile — an aqueduct a `way` of class `aqueduct` that enters no way graph, a `span` kind no metric reads, `stepMinCm` and `stepMaxCm`, J-VI.3's six closure kinds, no founding rung — with one drop-on-read rule for the exported properties the profile does not declare, over a separate aqueduct kind and reading every exported property, because 447 is the base's one export text for both variants (J-VI.18) and T-V12-4's equality must hold on it, while the metrics that need the dropped properties are `model` metrics reading the records |
 | J-V12.63 | chose a `layer: { preset }` cell in a `reference` run against that preset's own reference, written into the cell's preset entry with the default untouched, or in a `fallback` run applying that entry's own pre-decided fallback, over freezing every preset entry, because V02 §3.10.8 and V07's V-M4 set those presets' measured-rate entries by exactly such runs (V07's one entry, `rules.race.densityPower@VG`, V07 §3.15), while the MFCG and FTG presets hold values read from their references' behaviour and stay untuned (amended by J-V12.67, J-V12.76) |
@@ -2825,7 +2825,7 @@ does; §16 computes both totals once (item 568) and this volume states none of i
 | J-V12.81 | chose to keep application and engineering constants — UI thresholds, autosave and export limits, time budgets — outside the register when their volume confirms them by its own test or performance row under D-18 (volume 9's and volume 10's), their provenance note naming that test, and to scope the in-code rule and *Entries* to model constants, over a `thr.` entry for each (the register's methods, metrics and corpus stages describe model behaviour a parity bar or a frame measures, which a UI timing is not) and over a scan of code constants (the lint reads compiled cells, and each such constant already has its test) |
 | J-V12.82 | chose to name V04's span-rule constants by volume 11's cells `raisedWays.structure.span.*` (row 80) in the span-rule line, to exclude the `span` block from the `raisedWays.structure` line's catch-all and add `slideMaxFactor` to it, and to take `retaining.settings.stateSnapCm` out of the `retaining` line's catch-all into its own default entry at M3a restated in place at `V6-E2` on `bar.T-V6-62` (item 245, J-RF2.4's measurement), over leaving the prose keys (which the lint cannot match, so the M3a seat would write two entries for one knob) and over an M4 panel for the snap (which sees no wall an epoch has re-levelled). Values unchanged. |
 | J-V12.83 | chose to make a released strip pick's row a cells row — the change that releases it runs `plat calibrate register`, which appends the released cells by row key — over exempting owner-set entries from V12 §3.11 (3)'s cells check, because the check is what proves a released value matches its table version, and a pick is no run, so without the row the releasing change could never pass `--check`. |
-| J-V12.84 | chose to apply J122's four sittings by one batch rule — a gating sitting holds its own panel, then each staged panel whose build exited since the previous gating sitting in §16's order, then at most one earlier provisional panel, while the panels' estimated `minutes` sum to at most 60, a panel that does not fit waiting for the next gating sitting or, after M5, offered with every release — over a sitting per staged milestone (J122 allows four) or an unbounded batch (J122's "about an hour each" protects the owner's time), because every panel then has a defined place and a missed one stays *provisional — not rated* without faking a verdict (§13.6 (1), (7); V12-XCONF-1) |
+| J-V12.84 | chose to apply J122's four sittings by one batch rule — a gating sitting holds its own panel, then each staged panel whose build exited since the previous gating sitting in §16's order, then at most one earlier provisional panel, while the panels' estimated `minutes` sum to at most 60, a panel that does not fit waiting for the next gating sitting or, after M5, offered with every release — over a sitting per staged milestone (J122 allows four) or an unbounded batch (J122's "about an hour each" protects the owner's time), because every panel then has a defined place and a missed one stays *provisional — not rated* without faking a verdict (§13.6 (1), (7)) |
 | J-V12.85 | chose one no-op pin engine for every owner item's pin (items 102, 103, 105–107, 109–111, 113), each a `NoOpPin` with its base bar and its off form read from its home cells, and one landing rule — the landing change's suites under the overlay byte-identical to the goldens committed before it, the off-state set recorded then (or at item 110's switch-on bumps, or with M1's first goldens), a stepped landing re-checked at each step — over item 110's engine alone with the other pins left to each owner, because §13.2's convention (5) makes every pin a registration here (E-20) and a pin with no recorded off-state set cannot be checked byte for byte |
 | J-V12.86 | chose item 111 (d)'s bars as V12 §3.6b specs — `T111-1` a `higherWith` of the arid row against its temperate counterpart on the same seeds with households as instances deflated by the design effect, `T111-3` a `rate` per water kind against the arid row's chance cell at the site stage, `T111-4` a `most` over arid towns — and one register line for the climate rows' item-111 cells (measure at M1, then M2b, then corpus possibility), over one rule for all three or raw household counts, because the three clauses are a comparison of arms, a promised rate and a per-town ordering, and a town's households share its water so raw counts would let a few large towns carry the bar |
 | J-V12.87 | chose item 113 (e)'s lost-access property as an `exactStates` rule on the existing step runner, its scripts admitting the author's access edits beside epochs, undo and reloads, with item 113's other bars on the conformance list, one register line for the history rows on V06's `bar.T-V6-72`, and the replay's CI budget as a V12 §6 row citing V06 §6.7's per-replay bound, over a new engine or a statistical bar, because a reading that must change exactly when the last open link closes and reopens is a property of every step, and the author's edits are among the closings the owner's rule names |
@@ -2844,9 +2844,9 @@ volume by its item number.
 | BCR-V12-1 | the baseline row and the band rule | item 496 (§13.5) |
 | BCR-V12-2 | the parity report (`preset` as `PresetArm`, the two new verdicts, the canonical form) | item 497 (§13.5) |
 | BCR-V12-3 | the calibration run, generalised; `CorpusMap.features` as `MeasureInput` | item 503 (§13.9) |
-| BCR-V12-4 | the reconciliation's rules: the historical pack, evidence, never-changed, acceptance, owner rules (its decision rule J122's, V12-XCONF-5) | item 504 (§13.9) |
+| BCR-V12-4 | the reconciliation's rules: the historical pack, evidence, never-changed, acceptance, owner rules (its decision rule J122's) | item 504 (§13.9) |
 | BCR-V12-5 | provenance `evidence` and `ownerRule`; the pinning hash outside the provenance block | item 381 (§7.6) |
-| BCR-V12-6 | the panel engine: `D5Pair`'s staged variants, the `D5Record`, one engine for every sitting (the sittings J122's, V12-XCONF-1) | item 500 (§13.6) |
+| BCR-V12-6 | the panel engine: `D5Pair`'s staged variants, the `D5Record`, one engine for every sitting (the sittings J122's) | item 500 (§13.6) |
 | BCR-V12-7 | seeds by formula for the benches and the goldens | item 491 (§13.3) |
 | BCR-V12-8 | the crossing's file list | item 535 (§17.1 (4)) |
 | BCR-V12-9 | the build plan and its price | item 533 (§16; the totals item 568's) |
@@ -2974,12 +2974,12 @@ home. The critique's variations are decisions with their reasons (J-V12.42, J-V1
 | V11 X-V11-14 (c) | V12 §3.7.2 (4) and §3.7.7 read the registry's `readers` StageIds; V11 §8's two bar registrations write `preset: 'default'` | V12 §3.7.2 (4), §3.7.7, §2.1 |
 | V11 X-V11-16 (b) | `PresetArm` takes `'NG'` through `PresetId` | V12 §2.1 |
 | V11 X-V11-17 (f) | the span-rule line cites row 80's `structure.span`; the `raisedWays.structure` catch-all excludes the `span` block and holds `slideMaxFactor`; `stateSnapCm` its own line on `bar.T-V6-62` at `V6-E7`, fallback J-RF2.4's | V12 §3.11 (J-V12.82) |
-| INDEX §7 (the round-6 seam clause) | V04's rows take V12's span-rule order | V12 §3.11; V04 §8 |
+| INDEX §7 (the fix list's span-rule entry) | V04's rows take V12's span-rule order | V12 §3.11; V04 §8 |
 | V04 | register T-V4-76 – T-V4-79; the `former*` cells on the default line | V12 §3.6b's bar map and conformance list, V12 §3.11's default line |
 | V01 | T-V1-4 (e) a `NoOpPin`; M5's panel re-offers the MFCG and FTG side-by-sides on the new default preset beside the NG pairs (T-V1-32) | V12 §3.7.8's pin table; V12 §3.9.1's M5 row |
 | V07 | E-38: the farm rows calibratable, the territory per head off the register; T-V7-58 and T-V7-59 `NoOpPin`s beside T-V7-52 | V12 §3.11's default line; V12 §3.7.8 |
 | scope | §13.6's `D5Pair` closes with `D5PairStaged` | V12 §2.8 |
-| determinism | the pinning hash at §7.6 (V12-XCONF-2) | V12 §2.10 |
+| determinism | the pinning hash at §7.6 | V12 §2.10 |
 | model | the metric `Unit` a named subset of §2.1's (E-37) | V12 §2 (`MetricUnit`) |
 
 ## Integration notes
