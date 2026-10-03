@@ -1,6 +1,8 @@
 // The repository path rule (§17.1 (3)): a fixture importing ../../research/x.json fails (the rule's fixtures, linted
-// as a script of plat/ — rules.test.mjs); a symbolic link out of plat/ fails; build inputs and fixture paths that
-// leave plat/ fail; the real tree passes. Fixture trees are built in the OS temporary folder (a "plat" folder beside an
+// as a script of plat/ — rules.test.mjs, one planted line per specifier form, C-0130); a symbolic link out of plat/
+// fails, the node_modules links of every kind among them; every build-input form the check names (tsconfig and
+// package.json keys, workspace globs) and fixture paths that leave plat/ fail, each by its own case (C-0130); the real
+// tree passes. Fixture trees are built in the OS temporary folder (a "plat" folder beside an
 // "outside" one), so nothing is written into plat/ and nothing outside the temporary folder is touched. Every test that
 // lints a tree carries an explicit timeout.
 import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
@@ -119,6 +121,107 @@ describe('the whole-tree check repository-path', () => {
       'tsconfig.json: extends "../outside/base.json" resolves outside plat/',
       'vitest.config.ts:1: The import "../outside/x.mjs" resolves outside plat/ (§17.1 (3)).',
     ]);
+  }, 60_000);
+
+  it('judges every link and build-input form the check names, each with a case that leaves plat/ (C-0127 (2), C-0130; the checker\'s H2 mutants MX, MY1 – MY3)', () => {
+    const { root, outside } = tree({
+      'packages/k/package.json': '{ "name": "@plat/k" }\n',
+      // tsconfig: every path-valued key (paths relative to baseUrl when it is set)
+      'forms/tsconfig.json': JSON.stringify({
+        extends: ['./base.json', '../../outside/base.json'],
+        references: [{ path: '../../outside/ref' }, { path: '../packages/k' }],
+        files: ['../../outside/a.ts', 'src/a.ts'],
+        include: ['src/**/*'],
+        exclude: ['../../outside/**'],
+        compilerOptions: {
+          rootDir: '../../outside/root',
+          outDir: '../../outside/out',
+          outFile: '../../outside/out.js',
+          baseUrl: '../../outside/base',
+          declarationDir: '../../outside/decl',
+          tsBuildInfoFile: '../../outside/x.tsbuildinfo',
+          typeRoots: ['../../outside/types', './types'],
+          rootDirs: ['../../outside/rootdirs', 'src'],
+        },
+      }),
+      'forms/tsconfig.paths.json': JSON.stringify({ compilerOptions: { paths: { 'zz/*': ['../../outside/*'], 'ok/*': ['src/*'] } } }),
+      'forms/tsconfig.base-paths.json': JSON.stringify({ compilerOptions: { baseUrl: 'sub', paths: { y: ['../../../outside/y'], in: ['../../inside'] } } }),
+      'forms/tsconfig.pkg.json': JSON.stringify({ extends: '@zz/missing-config' }),
+      // package.json: every path-valued field
+      'forms/pkg-a/package.json': JSON.stringify({
+        name: 'a',
+        main: './index.js',
+        module: '../../../outside/m.mjs',
+        types: '../../../outside/t.d.ts',
+        typings: '../../../outside/ty.d.ts',
+        browser: '../../../outside/b.js',
+        bin: '../../../outside/bin.mjs',
+        exports: { '.': { import: '../../../outside/x.mjs', default: './index.js' }, './*': '../../../outside/*.mjs' },
+        dependencies: { d: 'file:../../../outside/d', w: 'workspace:*' },
+        devDependencies: { e: 'link:../../../outside/e' },
+        optionalDependencies: { f: 'file:../../../outside/f' },
+        peerDependencies: { g: 'link:../../../outside/g', h: '^1.0.0' },
+      }),
+      'forms/pkg-b/package.json': JSON.stringify({
+        name: 'b',
+        bin: { zz: '../../../outside/zz.mjs', ok: './ok.mjs' },
+        browser: { './a.js': '../../../outside/a.js', './c.js': false, fs: './shim.js' },
+        exports: '../../../outside/only.mjs',
+      }),
+    });
+    // node_modules links of every kind nodeModulesLinks reads: a member's package, a scoped one, .bin, .pnpm's hoisted
+    // and per-package links, another member's; one link inside plat/ passes.
+    for (const d of ['node_modules/@zz', 'node_modules/.bin', 'node_modules/.pnpm/node_modules', 'node_modules/.pnpm/zz@1.0.0/node_modules', 'packages/k/node_modules']) {
+      mkdirSync(join(root, d), { recursive: true });
+    }
+    symlinkSync(outside, join(root, 'node_modules', 'zz-out'));
+    symlinkSync(join(outside, 'pkg'), join(root, 'node_modules', '@zz', 'scoped'));
+    symlinkSync(join(outside, 'x.mjs'), join(root, 'node_modules', '.bin', 'zz'));
+    symlinkSync(outside, join(root, 'node_modules', '.pnpm', 'node_modules', 'zz-hoisted'));
+    symlinkSync(join(outside, 'pkg'), join(root, 'node_modules', '.pnpm', 'zz@1.0.0', 'node_modules', 'zz'));
+    symlinkSync(outside, join(root, 'packages', 'k', 'node_modules', 'zz-dep'));
+    symlinkSync(join(root, 'packages', 'k'), join(root, 'node_modules', 'zz-in'));
+    const r = checkRepositoryPaths(root);
+    expect(r.ok).toBe(false);
+    expect(r.counts.nodeModulesLinks).toBe(7);
+    const out = 'resolves outside plat/';
+    expect(r.problems.map((p) => p.replace(/ \(to .*\)$/, '')).sort()).toEqual([
+      `node_modules/.bin/zz: symbolic link ${out}`,
+      `node_modules/.pnpm/node_modules/zz-hoisted: symbolic link ${out}`,
+      `node_modules/.pnpm/zz@1.0.0/node_modules/zz: symbolic link ${out}`,
+      `node_modules/@zz/scoped: symbolic link ${out}`,
+      `node_modules/zz-out: symbolic link ${out}`,
+      `packages/k/node_modules/zz-dep: symbolic link ${out}`,
+      `forms/tsconfig.json: extends "../../outside/base.json" ${out}`,
+      `forms/tsconfig.json: references "../../outside/ref" ${out}`,
+      `forms/tsconfig.json: files "../../outside/a.ts" ${out}`,
+      `forms/tsconfig.json: exclude "../../outside/**" ${out}`,
+      `forms/tsconfig.json: compilerOptions.rootDir "../../outside/root" ${out}`,
+      `forms/tsconfig.json: compilerOptions.outDir "../../outside/out" ${out}`,
+      `forms/tsconfig.json: compilerOptions.outFile "../../outside/out.js" ${out}`,
+      `forms/tsconfig.json: compilerOptions.baseUrl "../../outside/base" ${out}`,
+      `forms/tsconfig.json: compilerOptions.declarationDir "../../outside/decl" ${out}`,
+      `forms/tsconfig.json: compilerOptions.tsBuildInfoFile "../../outside/x.tsbuildinfo" ${out}`,
+      `forms/tsconfig.json: compilerOptions.typeRoots "../../outside/types" ${out}`,
+      `forms/tsconfig.json: compilerOptions.rootDirs "../../outside/rootdirs" ${out}`,
+      `forms/tsconfig.paths.json: compilerOptions.paths.zz/* "../../outside/*" ${out}`,
+      `forms/tsconfig.base-paths.json: compilerOptions.paths.y "../../../outside/y" ${out}`,
+      'forms/tsconfig.pkg.json: extends "@zz/missing-config" is found nowhere inside plat/',
+      `forms/pkg-a/package.json: module "../../../outside/m.mjs" ${out}`,
+      `forms/pkg-a/package.json: types "../../../outside/t.d.ts" ${out}`,
+      `forms/pkg-a/package.json: typings "../../../outside/ty.d.ts" ${out}`,
+      `forms/pkg-a/package.json: browser "../../../outside/b.js" ${out}`,
+      `forms/pkg-a/package.json: bin "../../../outside/bin.mjs" ${out}`,
+      `forms/pkg-a/package.json: exports...import "../../../outside/x.mjs" ${out}`,
+      `forms/pkg-a/package.json: exports../* "../../../outside/*.mjs" ${out}`,
+      `forms/pkg-a/package.json: dependencies.d "../../../outside/d" ${out}`,
+      `forms/pkg-a/package.json: devDependencies.e "../../../outside/e" ${out}`,
+      `forms/pkg-a/package.json: optionalDependencies.f "../../../outside/f" ${out}`,
+      `forms/pkg-a/package.json: peerDependencies.g "../../../outside/g" ${out}`,
+      `forms/pkg-b/package.json: bin.zz "../../../outside/zz.mjs" ${out}`,
+      `forms/pkg-b/package.json: browser../a.js "../../../outside/a.js" ${out}`,
+      `forms/pkg-b/package.json: exports "../../../outside/only.mjs" ${out}`,
+    ].sort());
   }, 60_000);
 
   it('judges a source of every code extension, declarations included (C-0128)', () => {

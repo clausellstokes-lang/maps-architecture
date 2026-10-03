@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """W-02 post-processing of one FTG capture (research-side; no site contact).
 
-  python3 research/baselines/ftg_capture_post.py <stamp> --slot K [--notes notes.md] [--check-only]
+  python3 research/baselines/ftg_capture_post.py <stamp> --slot K [--signed-in] [--notes notes.md] [--check-only]
+
+--signed-in marks a capture made in the owner's signed-in free account (J163, slots 1-5): the README names the settlement
+as saved in the account, and the account list's population is recorded beside the nominal one (numbers only).
 
 Reads captures/ftg/<stamp>/session/network/index.jsonl and the Fetch-intercepted bodies, and the slot K of
 research/baselines/plan.json (size, water, nominal population). Writes into the capture folder:
@@ -10,7 +13,9 @@ research/baselines/plan.json (size, water, nominal population). Writes into the 
   structure.md          tools/pb_raw.py's schema-less structure of the layout payload
   capture-facts.json    every number the README states, with the checks and their verdicts
   README.md             the capture README (plan section 2.1; ARCHITECTURE section 13.6 (2)); --notes appends a section
-Exit status 0 only when every check of W-02's row passes. --check-only writes nothing and prints the checks.
+Exit status 0 only when every check of W-02's row passes (10 checks: calls, size key, water keys, the request diff
+against the base and against slot 0 within the named size-dependent leaves (R-24), the same-size values, decode, border,
+no resident field, pb_raw). --check-only writes nothing and prints the checks.
 
 Decoding follows the recorded findings: payload coordinates are zig-zag sint32 in centimetres (memory note on FTG
 payload decoding; research/findings/code-ftg-client.md section 2.1 gives the 27-field layout message, none of which is
@@ -29,6 +34,28 @@ PLAN = os.path.join(HERE, 'plan.json')
 KNOWN_TOP_LEVEL = set(range(1, 28))            # the layout message's 27 fields (code-ftg-client.md section 2.1)
 WATER_KEYS = {'none': (None, False), 'coast+river': ('COASTAL', True)}   # (coastType, rivers) per WaterSetting
 HALF_WIDTH_M = {'BIG_TOWN': 2000.0, 'BIG_CITY': 2750.0}                   # size ladder width / 2 (presets.json)
+# The size-dependent preset values, pinned by name (ruling R-24; no prefix rule). The client fills them from the chosen
+# size; no simple-form control sets them. Measured on three sizes: the 2026-09-21 CITY base, day 1 (BIG_TOWN, slot 0) and
+# slot 1 (BIG_CITY, signed in), whose form steps differed only in the size option (E02 section 10). Day 1 differed from
+# the base in the first eleven; slot 1 adds the last five.
+SIZE_DEPENDENT = (
+    '.buildingsParameters.defaultInsideSettlementShopProbability',
+    '.buildingsParameters.defaultOutsideSettlementShopProbability',
+    '.factionsParameters.numberOfRandomFactions',
+    '.layoutParameters.stages[0].horizontalBranchSegments',
+    '.layoutParameters.stages[0].minDistrictArea',
+    '.layoutParameters.stages[0].proportionOfBuildings',
+    '.layoutParameters.stages[0].spokeStaySpokeProbability',
+    '.layoutParameters.stages[0].verticalBranchSegments',
+    '.layoutParameters.stages[1].minDistrictArea',
+    '.layoutParameters.stages[1].proportionOfBuildings',
+    '.layoutParameters.stages[1].roadLength',
+    '.layoutParameters.stages[0].maxSpokesInStage',
+    '.layoutParameters.stages[0].roadLength',
+    '.layoutParameters.stages[1].horizontalBranchSegments',
+    '.layoutParameters.stages[1].verticalBranchSegments',
+    '.religionParameters.religionTargetPercentage',
+)
 
 
 def zz(n):
@@ -70,6 +97,7 @@ def main(argv):
     slot_k = int(argv[argv.index('--slot') + 1])
     notes = argv[argv.index('--notes') + 1] if '--notes' in argv else None
     check_only = '--check-only' in argv
+    signed_in = '--signed-in' in argv          # J163: created in the owner's signed-in free account (slots 1-5)
     cap = os.path.join(ROOT, 'captures', 'ftg', stamp)
     net = os.path.join(cap, 'session', 'network')
     slot = json.load(open(PLAN))['ftg']['slots'][slot_k]
@@ -92,6 +120,17 @@ def main(argv):
     req = json.loads(put['postData'])
     request_hash = hashlib.sha256(body).hexdigest()[:12]
     sid = json.loads(open(os.path.join(net, 'bodies', pid[0]['bodyFile'])).read()) if pid else None
+    # Signed in, the account's settlement list (GET .../prod/settlements, read after the create) lists a population per
+    # settlement; the layout payload has none. Recorded beside the nominal value (numbers only; E02 section 9.1).
+    listed = None
+    for r in rows:
+        if r.get('method') == 'GET' and r.get('url', '').split('?')[0].endswith('/prod/settlements') and r.get('bodyFile', '').endswith('.json'):
+            try:
+                hit = [e for e in json.load(open(os.path.join(net, 'bodies', r['bodyFile']))) if e.get('id') == sid]
+            except (ValueError, AttributeError, TypeError):
+                hit = []
+            if hit:
+                listed = hit[0].get('population')
 
     # request checks (W-02 checker: size key equals the slot's; water keys equal the slot's water option, PC-16)
     lp = req['landscapeParameters']
@@ -107,15 +146,38 @@ def main(argv):
     # (d) client-random partner ids. Anything else is a form value that left the base: the check fails.
     slot_keys = {'.size', '.landscapeParameters.coastType', '.landscapeParameters.rivers'}
     water_implied = [d for d in sem if d[0].startswith('.landscapeParameters.availableRawResources')]
-    size_implied = [d for d in sem if d[0].startswith('.layoutParameters.stages[') or d[0] in (
-        '.factionsParameters.numberOfRandomFactions', '.buildingsParameters.defaultInsideSettlementShopProbability',
-        '.buildingsParameters.defaultOutsideSettlementShopProbability')]
+    size_implied = [d for d in sem if d[0] in SIZE_DEPENDENT]
     other = [d for d in sem if d[0] not in slot_keys and d not in water_implied and d not in size_implied]
-    check('request differs from the 2026-09-21 base only in the slot keys, water-implied resources and size-dependent preset values',
+    check('request differs from the 2026-09-21 base only in the slot keys, water-implied resources and the named size-dependent preset values',
           not other, '%d differing leaves: slot keys %d, water-implied %d, size-dependent preset %d (%s), partner ids %d, other %d%s' % (
               len(diff), len([d for d in sem if d[0] in slot_keys]), len(water_implied), len(size_implied),
               ', '.join(d[0].replace('.layoutParameters.', '') for d in size_implied), len(nonsem), len(other),
               (' (' + ', '.join(d[0] for d in other) + ')') if other else ''), 'requestDiff')
+
+    # The same against slot 0 (day 1, the first capture; the same form steps but the size and the water): only the slot
+    # keys, water-implied resources and named size-dependent values may differ. A later slot of a size already captured
+    # must repeat that capture's size-dependent values exactly (they are a function of the size).
+    plan_slots = json.load(open(PLAN))['ftg']['slots']
+    req_of = lambda k: json.load(open(os.path.join(ROOT, 'captures', 'ftg', plan_slots[k]['capture'], 'create-request.json')))
+    ref0 = req_of(0) if plan_slots[0].get('capture') and slot_k != 0 else req
+    _, sem0, _ = request_diff(ref0, req)
+    other0 = [d for d in sem0 if d[0] not in slot_keys and not d[0].startswith('.landscapeParameters.availableRawResources')
+              and d[0] not in SIZE_DEPENDENT]
+    check('request differs from slot 0 (day 1) only in the slot keys, water-implied resources and the named size-dependent values',
+          not other0, 'against %s: %d semantic differences (%d size-dependent), other %d%s' % (
+              plan_slots[0].get('capture') if slot_k != 0 else 'itself', len(sem0),
+              len([d for d in sem0 if d[0] in SIZE_DEPENDENT]), len(other0),
+              (' (' + ', '.join(d[0] for d in other0) + ')') if other0 else ''), 'vsSlot0')
+    same = [k for k, s in enumerate(plan_slots) if k < slot_k and s.get('capture') and s['ftgSize'] == slot['ftgSize']]
+    if same:
+        ref, mine = dict(leaves(req_of(same[0]))), dict(leaves(req))
+        moved = [k for k in SIZE_DEPENDENT if ref.get(k, '<absent>') != mine.get(k, '<absent>')]
+        check('the named size-dependent values equal the first capture of this size', not moved,
+              'against slot %d (%s): %d of %d equal%s' % (same[0], plan_slots[same[0]]['capture'], len(SIZE_DEPENDENT) - len(moved),
+                                                          len(SIZE_DEPENDENT), (' (moved: ' + ', '.join(moved) + ')') if moved else ''), 'sameSize')
+    else:
+        check('the named size-dependent values equal the first capture of this size', True,
+              'no earlier capture at %s: this capture sets the reference values' % slot['ftgSize'], 'sameSize')
 
     # payload decode (W-02 checker: pb_raw.py decodes it; field 3 edges and nodes, field 8 buildings present)
     blob = open(os.path.join(net, 'bodies', lay['bodyFile']), 'rb').read()
@@ -147,6 +209,7 @@ def main(argv):
         'capture': stamp, 'slot': slot_k, 'label': slot['label'], 'family': slot['family'], 'ftgSize': slot['ftgSize'],
         'rung': slot['rung'], 'water': slot['water'],
         'population': slot['nominalPopulation'], 'populationSource': 'nominal' if not unknown else 'unchecked',
+        'listedPopulation': listed, 'account': 'signed-in free account (J163)' if signed_in else 'guest (no account, J159)',
         'serverDate': sdate, 'putResponseDateHeader': server_date,
         'layoutResponseDateHeader': (get.get('respHeaders') or {}).get('date'),
         'putSentUtc': datetime.datetime.utcfromtimestamp(put_ts).isoformat(timespec='milliseconds') + 'Z',
@@ -182,7 +245,7 @@ def main(argv):
         '# FTG capture %s — %s, `WaterSetting: %s` (M-1 W-02, slot %d)' % (stamp, t['ftgSize'], t['water'], slot_k), '',
         'Research-side capture folder (plan `docs/calibration/M-1-plan.md` section 2.1; record `docs/calibration/E02-ftg-captures.md`).',
         'Made with `profiler/session.mjs --target ftg --headful` and `profiler/drive.mjs`, step by step by',
-        '`research/baselines/ftg_capture_checklist.md`; post-processed by `research/baselines/ftg_capture_post.py %s --slot %d`.' % (stamp, slot_k), '',
+        '`research/baselines/ftg_capture_checklist.md`; post-processed by `research/baselines/ftg_capture_post.py %s --slot %d%s`.' % (stamp, slot_k, ' --signed-in' if signed_in else ''), '',
         '## The three fields of ARCHITECTURE section 13.6 (2) and the plan\'s README fields', '',
         '| field | value |', '|---|---|',
         '| capture id (this folder) | `%s` |' % stamp,
@@ -190,6 +253,8 @@ def main(argv):
         '| size (request key) | `%s` |' % t['ftgSize'],
         '| `WaterSetting` | `%s` (request: coast type %r, rivers %r) |' % (t['water'], lp['coastType'], lp['rivers']),
         '| population | %d |' % t['population'],
+    ] + (['| listed population | %d (the account\'s settlement list; not the payload; recorded beside the nominal value, E02 section 9.1) |' % listed]
+         if listed is not None else []) + [
         '| `populationSource` | `%s` — the layout payload carries no resident count (its top-level fields %s are all within the known 27-field layout message, none a population) |' % (t['populationSource'], t['topLevelFields']),
         '| server date / time | %s; PUT answered `%s`, layout answered `%s` |' % (t['serverDate'], t['putResponseDateHeader'], t['layoutResponseDateHeader']),
         '| server time | %.3f s (PUT sent → layout GET sent, `index.jsonl` ts); recorded on a contended machine, feeds no time row |' % t['serverTimeS'],
@@ -202,7 +267,8 @@ def main(argv):
         '| road graph | %d edges (3.1), %d nodes (3.2) |' % (edges, nodes),
         '| wall towers / water bodies / districts | %d / %d / %d |' % (t['towers'], t['waterBodies'], t['districts']),
         '| settlement border | square, max coordinate %.2f m (zig-zag sint32, cm) — the size ladder\'s half width |' % half,
-        '| temporary-settlement id | `%s…` (the guest identity\'s id; the new settlement replaced the previous one under it) |' % t['settlementIdPrefix'], '',
+        ('| settlement id | `%s…` (a new settlement saved in the owner\'s signed-in free account, J163) |' if signed_in else
+         '| temporary-settlement id | `%s…` (the guest identity\'s id; the new settlement replaced the previous one under it) |') % t['settlementIdPrefix'], '',
         '## Request', '',
         '`create-request.json` is the PUT body pretty-printed. `request-diff.txt` compares it with the 2026-09-21 CITY base and',
         'classes each difference: %d slot keys, %d water-implied resource entries, %d size-dependent preset values (filled by the' % (

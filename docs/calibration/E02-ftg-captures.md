@@ -14,6 +14,14 @@ off. It has 1 694 buildings, 3 266 road edges and 3 003 nodes, 25 wall towers, 0
 `plan.py --check` reads SAME. The site showed no consent notice, no login, no account, no payment and no new terms;
 nothing was accepted. Five slots remain, one per day from 2026-10-04 (section 5 says how to run day 2).
 
+**Update, slot 1 (2026-10-03 22:09 UTC, signed in under J163).** Owner ruling J163 moved slots 1–5 into the owner's
+signed-in free account, created the same day one after another (section 9). Slot 1 (`capture/FTG/BIG_CITY/none/0`) is
+`captures/ftg/2026-10-03T22-04-25`: a BIG_CITY settlement with no coast and rivers off, 7 164 buildings, 7 236 road edges
+and 6 302 nodes, 66 wall towers, 3 water bodies and 5 districts on a 5 500 m square; `referenceBuild`
+`ftg:2026-10-03+e2524cd0cb32`. All 10 checks of the revised `ftg_capture_post.py` pass, the slot is bound, and
+`plan.py --check` reads SAME (section 10). It settles finding 1: the size-dependent request values follow the size
+(CONFIRMED). The free account holds 10 settlements; its counter read 2 / 10 after slot 1.
+
 ## 1 What was built
 
 | file | what it is |
@@ -78,7 +86,8 @@ settings was never opened (shots 004–012; values verified by `eval` before the
    values for BIG_TOWN, or the fresh form's initial size left them unchanged. Day 2 (BIG_CITY) decides between these:
    its values should differ from both day 1 and the CITY base if they follow the size. For W-05, these are FTG's
    defaults at that size, not a setting this programme chose. `ftg_capture_post.py` reports them as their own class
-   and fails on any other difference.
+   and fails on any other difference. **Resolved by slot 1 (section 10.3): they follow the size, CONFIRMED; the class
+   is now 16 named leaves.**
 2. **No resident count (CONFIRMED).** The payload's top-level fields are a subset of the 27-field layout message
    (`research/findings/code-ftg-client.md` §2.1), and none of them is a population. `populationSource` is therefore
    `nominal`, as plan section 8 item 2 expected.
@@ -95,6 +104,9 @@ settings was never opened (shots 004–012; values verified by `eval` before the
    its own session file. The shared file was never written (checked before and after).
 
 ## 5 How to run day 2 (BIG_CITY, `none`) tomorrow
+
+*Superseded on 2026-10-03 by J163: slots 1–5 are created signed in, the same day (section 9; checklist section H). Kept
+as the guest procedure in case the account route closes.*
 
 Run on 2026-10-04, no earlier than 13:30 EDT (24 hours after day 1's 17:23 UTC create, so the one-a-day allowance
 has renewed), from a fresh session.
@@ -153,3 +165,156 @@ CONFIRMED (executed or read) are every number in sections 2 and 3, findings 2–
 differences. PLAUSIBLE (reasoning only) are that the eleven layout-preset values follow the chosen size (finding 1;
 day 2 tests it), and the 13:30 EDT earliest time for day 2 (the allowance window is not documented, so 24 hours is
 the safe reading).
+
+## 9 Signed-in captures (J163)
+
+Owner ruling J163 (2026-10-03, about 18:30 EDT): the five remaining slots are created today, one after another, in the
+owner's signed-in free account (the persistent profile `profiler/.profiles/ftg`), replacing J159's "no account" rule
+for FTG only. The seats never upgrade, pay, sign out, change settings, delete, rename or share. The account's name,
+email, ids, tokens and cookies appear in no file outside `captures/`; this record says only "the owner's signed-in free
+account". Lane `m1/W-02-slot1` (the first signed-in seat) read the site before creating anything (session
+`2026-10-03T22-04-25`, shots 001–003; read only).
+
+### 9.1 What the signed-in site shows before a create (read 2026-10-03 22:05 UTC, CONFIRMED)
+
+| | day 1 (guest, no account) | signed in (J163) |
+|---|---|---|
+| landing page | the no-account block with the button "Create one-time settlement" | that block is gone: a "Signed in as …" line (the display name, not recorded), "Sign out" and "Home"; the membership text below; no consent notice |
+| where a create starts | the landing button opens the temporary-settlement page | "Home" opens the account's settlements view (`/user/settlements`), which holds the button **"New Settlement"** (beside "New Folder") |
+| settlements kept | one temporary settlement per identity, replaced by the next, deleted after 24 hours | kept in the account until deleted, up to the limit |
+
+**The free account's limit, as the site states it.** The landing page's membership section: "Free accounts have a limit
+of 10 settlements, which will not be deleted." The settlements view shows a counter, which read **1 / 10** before this
+run: the account already held one settlement (a big town, not under day 1's temporary id). Nine creates remain, so the
+five slots fit (1 + 5 = 6 of 10) and the run is not limited by the account.
+
+**The account list carries a population (CONFIRMED; meaning PLAUSIBLE).** The settlements view loads
+`GET …/prod/settlements`, whose rows hold an id, a name, a folder path, a population and the size key. The existing big
+town lists 5 769 people, where the size ladder's nominal value is 5 600. The layout payload has no resident count (section
+4, finding 2), so this list is the first place a per-settlement population appears. Whether it is the generated resident
+count is PLAUSIBLE only. The capture rows keep `populationSource: nominal` (plan section 2.1) until a ruling, and each
+signed-in slot records its listed population beside the nominal one.
+
+### 9.2 The signed-in create flow and where the payload arrives (slot 1, CONFIRMED)
+
+| | day 1 (guest) | signed in (slot 1) |
+|---|---|---|
+| the create control | "Create one-time settlement" on the landing page opens the temporary-settlement page and its dialog "Create Temporary Settlement" | "New Settlement" on the settlements view opens the dialog **"Create New Settlement"** over that view |
+| the form | name, size, layout preset, building material, races, religions, lifestyle, climate, coast, then the river, farm, forest, reserve-area and wall boxes | the same fields in the same order, at the same coordinates in the 1440×632 window; the size opens at "Town (~4000 people)"; the premium size is listed but disabled; the boxes open as on day 1 (farms on, the rest off) |
+| the create button | "Create Temporary Settlement" | **"Create Settlement"**, inside the dialog; it was the only hit-testable match |
+| the request | `PUT …/prod/settlements`, a JSON body, an authorization header | the same path and the same top-level body keys: the body holds no account field. The recorder redacts the authorization header in both. |
+| the payload | `GET …/prod/settlements/<id>/layout?asPublic=false`, Fetch-intercepted by the session's `*execute-api*` pattern | the same |
+| after the create | the map at `/temporary-settlement`; the new settlement replaces the guest's previous one | the map at `/user/settlements/<id>`; the account list gains one entry (counter 1 / 10 → 2 / 10) |
+
+The map page's toolbar puts a logout button and a re-roll button (a new generation with the previous settings) beside the
+home link. Neither may be clicked: logout would end the owner's session, and a re-roll would make a second settlement.
+Checklist section H gives the signed-in steps for slots 2–5.
+
+## 10 Slot 1 (signed in) — 2026-10-03, BIG_CITY, `none`
+
+Lane `m1/W-02-slot1`. One settlement was created; the create click was the only one.
+
+### 10.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-03T22-04-25` |
+| account | the owner's signed-in free account (J163); counter 1 / 10 before, 2 / 10 after |
+| size / rung | BIG_CITY / CITY |
+| `WaterSetting` | `none` (the request's coast key empty, rivers false) |
+| population, source | 24 500, `nominal`. The account list gives 24 367 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-03; 22:09:28.207 UTC (the response date headers read 22:09:33 and 22:09:34 GMT) |
+| server time | 5.656 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 7 164 |
+| request hash | `e2524cd0cb32`: sha256 of the exact 274 288-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-03+e2524cd0cb32` |
+| payload | 1 126 607 bytes, Fetch-intercepted (`intercept-0043…bin`, sha256 `2dd5f7badbdebe50…`) |
+| road graph | 7 236 edges, 6 302 nodes |
+| wall towers / water bodies / districts | 66 / 3 / 5 |
+| settlement border | a square with half width 2 750.00 m, the size ladder's 5 500 m width |
+| capture folder | 45 MB: 13 MB of session recording and 32 MB of screenshots at 2× (no CPU profile). Free disk: 12 GB before and after. |
+
+**Form values.** The size was set to the BIG_CITY option. The water was the form's own default: no coast, rivers off.
+The farm box was already on; the forest, reserve-area and wall boxes were switched on. Everything else stayed at FTG's
+default presets, and the name was left blank. All settings was never opened (shots 005–012; values verified by `eval`
+before the create click). Every click had a `text` and a `shot` reading before it (`steps/steps.jsonl`, 19 shots).
+
+### 10.2 Checks (all executed 2026-10-03, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of the revised `ftg_capture_post.py` | `--slot 1 --signed-in`, `--check-only` first, then the writing run: exit 0 both times | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (vacuous: the first BIG_CITY), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>`: exit 0, 187 field paths | 3.1 × 7 236, 3.2 × 6 302, 8 × 7 164. `structure.md` equals a fresh run apart from its trailing newline. |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_CITY; coast key empty and rivers false |
+| the request differs from day 1's only by the size | a leaf diff of the two requests | 15 semantic differences: the size key and 14 named size-dependent values; plus 45 client-random partner ids. Nothing else. |
+| the checks discriminate (red tests) | the module run with altered inputs, `--check-only` | slot 1's capture as slot 0: exit 1 (size key, border). As slot 2: exit 1 (size key, water keys, same-size, border). A base request with one unnamed stage value planted: exit 1 (request diff); the old prefix rule would have passed it. A plan copy that labels day 1 BIG_CITY: exit 1 (same-size: 14 values moved). Day 1 as slot 0 under the revised script: exit 0. |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…` |
+| the slot bind is safe | `plan.py --bind-ftg 1=…`, then `--check` and a diff against the pre-bind copy | one line changed (slot 1's capture); SAME for both files; `metrics.m-1.json` byte-unchanged. `plan.json` sha256 moves from `45b4b315…` to `9b89d82e…` (the designed slot lifecycle). |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl` for an email pattern, the display name, a token prefix and a full id | none. The 45 full ids in `create-request.json` are the client-random partner ids, as on day 1. |
+
+### 10.3 Findings
+
+1. **The size-dependent values follow the size (CONFIRMED; settles finding 1).** Day 1 and slot 1 took the same form
+   steps apart from the size option: both forms opened at the same size and defaults, the same three boxes were
+   switched on, and All settings stayed closed. Their requests differ in the size key, 14 layout-preset values and the
+   random partner ids, and in nothing else. So these values come with the size choice. The client also recomputes the
+   religious-workers share from the size while that setting is at its default, "based on size" (read in the client
+   bundle in this capture; research-side). Five values that are equal at CITY and BIG_TOWN differ at BIG_CITY, so the
+   class grows from eleven to **16 named values**:
+
+   | value | CITY (2026-09-21 base) | BIG_TOWN (day 1) | BIG_CITY (slot 1) | in the class since |
+   |---|---|---|---|---|
+   | stage 1: branch segments, first direction | 4 | 3 | 4 | day 1 |
+   | stage 1: branch segments, second direction | 4 | 3 | 4 | day 1 |
+   | stage 1: minimum district area (ha) | 10 | 6 | 10 | day 1 |
+   | stage 1: building share | 0.2 | 0.1 | 0.2 | day 1 |
+   | stage 1: spoke probability | 0.5 | 0.1 | 0.3 | day 1 |
+   | stage 1: most spokes | 1 | 1 | 2 | slot 1 |
+   | stage 1: main-road step (m) | 50 | 50 | 70 | slot 1 |
+   | stage 2: branch segments, first direction | 3 | 3 | 5 | slot 1 |
+   | stage 2: branch segments, second direction | 3 | 3 | 5 | slot 1 |
+   | stage 2: minimum district area (ha) | 7 | 6 | 10 | day 1 |
+   | stage 2: building share | 0.5 | 0.6 | 0.6 | day 1 |
+   | stage 2: main-road step (m) | 60 | 50 | 50 | day 1 |
+   | random-faction count | 4 | 3 | 5 | day 1 |
+   | shop probability, inside the settlement | 0.1 | 0.4 | 0.1 | day 1 |
+   | shop probability, outside the settlement | 0.5 | 0.4 | 0.5 | day 1 |
+   | religious-workers share | 0.01 | 0.01 | 0.005 | slot 1 |
+
+   For W-05b these are FTG's defaults at each size, not settings this programme chose. The BIG_CITY row differs from
+   the recorded CITY family's 2026-09-21 base in ten of these values. Every later BIG_CITY slot must repeat slot 1's
+   values exactly, and every BIG_TOWN slot must repeat day 1's (the new same-size check).
+2. **The account list carries a population (CONFIRMED; meaning PLAUSIBLE).** Slot 1 lists 24 367 people against the
+   nominal 24 500, and the earlier big town lists 5 769 against 5 600. The rows keep `populationSource: nominal` (plan
+   section 2.1) until a ruling. A seat ruling for W-05b could adopt the listed figure as a recorded resident count.
+3. **A city with no coast and no river has 3 water bodies (CONFIRMED; nature PLAUSIBLE).** Field 6 occurs 3 times,
+   where day 1's town had none. The overview (shot 013) shows small ponds in the countryside, so field 6 PLAUSIBLY
+   holds ponds that do not depend on the water options.
+4. **Signing in changes nothing on the wire that the tools read (CONFIRMED).** The request path, the body's keys and
+   the layout call are the guest flow's (section 9.2). The intercept pattern, `ftg_capture_post.py`'s call matching
+   and the decode needed no change; only the README's wording for the settlement id did.
+
+### 10.4 Calls made under delegated authority (vetoable)
+
+1. **The size-dependent class is pinned by name and widened to 16 values** (R-24 asked for it pinned to the named
+   leaves). The old rule accepted any stage value by prefix, which was the verifier's weakness; the new rule names 16
+   leaves and fails on any other (red test above). The five additions rest on the controlled comparison in finding 1.
+   Two checks are new: the diff against slot 0 must stay within the same classes, and a later slot of a size already
+   captured must repeat that size's values exactly. The alternative is the eleven leaves only, with BIG_CITY slots
+   failing on five values that the size sets.
+2. **`--signed-in` and the listed population** were added to `ftg_capture_post.py`. They change the README's id line
+   and record the listed figure as a number. They change no check.
+3. **One `--full` shot before the form** (shot 003, the settlements view). Checklist G1 advises against it; it was taken
+   so that the counter and the create control were on record whole. It cleared the viewport emulation, so the form ran
+   in the 1440×632 window, as on day 1. One dialog scroll handled the clipped rows, and no click missed.
+4. **A second visit to the settlements view after the create** (one navigation click) read the counter and the listed
+   population. It changed nothing.
+5. **`text` readings were printed through a redacting filter and not saved** (the display name and email patterns
+   replaced). This departs from checklist A4's scratch files, so that no account identifier lands in any file.
+
+### 10.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 9.1, 9.2, 10.1 and 10.2, finding 1's controlled
+comparison and its 16-value table, the client's size rule for the religious-workers share (read in the bundle), the
+listed populations, and finding 4. PLAUSIBLE (reasoning only) are that the listed population is the generated
+resident count, and that the 3 water bodies are ponds independent of the water options.

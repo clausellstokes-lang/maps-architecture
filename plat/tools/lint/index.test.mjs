@@ -52,10 +52,10 @@ async function lintAt(rel, code) {
 const SCOPE = fileURLToPath(new URL('./fixtures/model-scope/', import.meta.url));
 
 describe('the plugin', () => {
-  it('registers the nine rules and the six whole-tree checks', () => {
+  it('registers the nine rules and the seven whole-tree checks', () => {
     expect(Object.keys(plugin.rules).sort()).toEqual(Object.keys(rules).sort());
     expect(Object.keys(rules)).toHaveLength(9);
-    expect(plugin.checks.map((c) => c.name)).toEqual(['probe-red', 'vendor-scan', 'repository-path', 'inline-directives', 'no-bare-pnpm', 'licences']);
+    expect(plugin.checks.map((c) => c.name)).toEqual(['probe-red', 'vendor-scan', 'repository-path', 'inline-directives', 'model-coverage', 'no-bare-pnpm', 'licences']);
     for (const c of plugin.checks) expect(typeof c.run).toBe('function');
   });
 });

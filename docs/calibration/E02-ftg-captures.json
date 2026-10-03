@@ -5,9 +5,10 @@
  "files": {
   "checklist": "research/baselines/ftg_capture_checklist.md",
   "post": "research/baselines/ftg_capture_post.py",
-  "plan": "research/baselines/plan.json"
+  "plan": "research/baselines/plan.json",
+  "postChecks": 10
  },
- "slotsTaken": 1,
+ "slotsTaken": 2,
  "slotsTotal": 6,
  "days": [
   {
@@ -37,18 +38,152 @@
    "waterBodies": 0,
    "districts": 3,
    "borderHalfWidthM": 2000.0,
-   "requestDiffVsCityBase": {"semantic": 20, "slotKeys": 3, "waterImplied": 6, "sizeDependentPreset": 11, "other": 0, "partnerIds": 45},
-   "checks": {"calls": true, "sizeKey": true, "waterKeys": true, "requestDiff": true, "decode": true, "border": true, "noResidentField": true, "pbRaw": true, "readmeFields": true},
-   "redTests": {"slot1": "exit 1 (sizeKey, border)", "slot2": "exit 1 (waterKeys)"},
+   "requestDiffVsCityBase": {
+    "semantic": 20,
+    "slotKeys": 3,
+    "waterImplied": 6,
+    "sizeDependentPreset": 11,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "checks": {
+    "calls": true,
+    "sizeKey": true,
+    "waterKeys": true,
+    "requestDiff": true,
+    "decode": true,
+    "border": true,
+    "noResidentField": true,
+    "pbRaw": true,
+    "readmeFields": true
+   },
+   "redTests": {
+    "slot1": "exit 1 (sizeKey, border)",
+    "slot2": "exit 1 (waterKeys)"
+   },
    "folderMB": 65,
    "freeGBBefore": 17,
    "freeGBAfter": 16
+  },
+  {
+   "day": 2,
+   "date": "2026-10-03",
+   "slot": 1,
+   "lane": "m1/W-02-slot1",
+   "account": "the owner's signed-in free account (J163)",
+   "label": "capture/FTG/BIG_CITY/none/0",
+   "capture": "2026-10-03T22-04-25",
+   "ftgSize": "BIG_CITY",
+   "rung": "CITY",
+   "water": "none",
+   "population": 24500,
+   "populationSource": "nominal",
+   "listedPopulation": 24367,
+   "serverDate": "2026-10-03",
+   "putSentUtc": "2026-10-03T22:09:28.207Z",
+   "serverTimeS": 5.656,
+   "serverTimeContended": true,
+   "requestBytes": 274288,
+   "requestHash": "e2524cd0cb32",
+   "referenceBuild": "ftg:2026-10-03+e2524cd0cb32",
+   "payloadBytes": 1126607,
+   "payloadSha256Prefix": "2dd5f7badbdebe50",
+   "buildings": 7164,
+   "edges": 7236,
+   "nodes": 6302,
+   "towers": 66,
+   "waterBodies": 3,
+   "districts": 5,
+   "borderHalfWidthM": 2750.0,
+   "requestDiffVsCityBase": {
+    "semantic": 19,
+    "slotKeys": 3,
+    "waterImplied": 6,
+    "sizeDependentPreset": 10,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot0": {
+    "semantic": 15,
+    "sizeKey": 1,
+    "sizeDependentPreset": 14,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "checks": {
+    "calls": true,
+    "sizeKey": true,
+    "waterKeys": true,
+    "requestDiff": true,
+    "vsSlot0": true,
+    "sameSize": true,
+    "decode": true,
+    "border": true,
+    "noResidentField": true,
+    "pbRaw": true
+   },
+   "redTests": {
+    "asSlot0": "exit 1 (sizeKey, border)",
+    "asSlot2": "exit 1 (sizeKey, waterKeys, sameSize, border)",
+    "plantedUnnamedStageValue": "exit 1 (requestDiff)",
+    "day1LabelledBigCity": "exit 1 (sameSize, 14 moved)",
+    "day1Regression": "exit 0"
+   },
+   "accountCounter": {
+    "before": "1 / 10",
+    "after": "2 / 10"
+   },
+   "shots": 19,
+   "folderMB": 45,
+   "freeGBBefore": 12,
+   "freeGBAfter": 12,
+   "planSha256": {
+    "before": "45b4b315b5b3b22c",
+    "after": "9b89d82e2901e33a"
+   }
   }
  ],
  "failed": [],
  "decoderTwin": {
-  "2026-09-21T05-23-58": {"edges": 5326, "nodes": 4303, "buildings": 2798, "towers": 17, "borderHalfWidthM": 2500.0},
-  "2026-09-25T10-13-51": {"edges": 4811, "nodes": 4045, "buildings": 2813, "towers": 29, "borderHalfWidthM": 2500.0}
+  "2026-09-21T05-23-58": {
+   "edges": 5326,
+   "nodes": 4303,
+   "buildings": 2798,
+   "towers": 17,
+   "borderHalfWidthM": 2500.0
+  },
+  "2026-09-25T10-13-51": {
+   "edges": 4811,
+   "nodes": 4045,
+   "buildings": 2813,
+   "towers": 29,
+   "borderHalfWidthM": 2500.0
+  }
  },
- "nextDay": {"day": 2, "slot": 1, "ftgSize": "BIG_CITY", "water": "none", "earliest": "2026-10-04T13:30-04:00", "expectedBorderHalfWidthM": 2750.0}
+ "signedIn": {
+  "ruling": "J163",
+  "freeAccountLimit": 10,
+  "limitWording": "Free accounts have a limit of 10 settlements, which will not be deleted.",
+  "counterBeforeRun": "1 / 10",
+  "createsLeftAfterSlot1": 8,
+  "createsNeededAfterSlot1": 4,
+  "checklistSection": "H",
+  "recordSection": "9"
+ },
+ "sizeDependentClass": {
+  "leaves": 16,
+  "since": {
+   "day1": 11,
+   "slot1": 5
+  },
+  "pinnedIn": "research/baselines/ftg_capture_post.py SIZE_DEPENDENT",
+  "followsSize": "CONFIRMED by slot 1 (E02 section 10.3)"
+ },
+ "next": {
+  "slot": 2,
+  "ftgSize": "BIG_TOWN",
+  "water": "coast+river",
+  "expectedBorderHalfWidthM": 2000.0,
+  "procedure": "checklist section H (signed in, same day, J163)"
+ }
 }

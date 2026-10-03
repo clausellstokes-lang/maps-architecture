@@ -8,9 +8,11 @@
 //       through ESLint's Linter so the check stands on its own: inline configuration is off there (no directive can
 //       silence it), and only the rule's own reports and parse failures count — a source's directives for other rules
 //       are the tree lint's (C-0128);
-//   (3) the build inputs that are not source — every tsconfig*.json (extends, references, files, include), every
-//       package.json (main, module, types, bin, exports, file: / link: dependencies, the file paths its scripts name)
-//       and pnpm-workspace.yaml's package globs — and every `../` string in a fixture JSON file resolve inside plat/.
+//   (3) the build inputs that are not source — every tsconfig*.json (extends, references, files, include, exclude, the
+//       path-valued compilerOptions: rootDir, outDir, outFile, baseUrl, declarationDir, tsBuildInfoFile, typeRoots,
+//       rootDirs and paths), every package.json (main, module, types, typings, browser, bin, exports, file: / link:
+//       dependencies, the file paths its scripts name) and pnpm-workspace.yaml's package globs — and every `../` string
+//       in a fixture JSON file resolve inside plat/. paths.test.mjs holds a failing case for each form (C-0130).
 // A path is judged lexically first: one that leaves plat/ is refused without touching the file system there (the
 // clean room's firewall is physical on this machine), and only a path inside plat/ is followed through its links.
 // The lint's own red fixtures (tools/lint/fixtures/) are never built, run or resolved and are skipped (C-0127).
@@ -145,10 +147,19 @@ function tsconfigPaths(json) {
     for (const v of json[key] ?? []) if (typeof v === 'string') out.push({ where: key, value: v, glob: true });
   }
   const co = json.compilerOptions ?? {};
-  for (const key of ['rootDir', 'outDir', 'baseUrl', 'declarationDir', 'tsBuildInfoFile']) {
+  for (const key of ['rootDir', 'outDir', 'outFile', 'baseUrl', 'declarationDir', 'tsBuildInfoFile']) {
     if (typeof co[key] === 'string') out.push({ where: `compilerOptions.${key}`, value: co[key] });
   }
-  for (const v of co.typeRoots ?? []) if (typeof v === 'string') out.push({ where: 'compilerOptions.typeRoots', value: v });
+  for (const key of ['typeRoots', 'rootDirs']) {
+    for (const v of co[key] ?? []) if (typeof v === 'string') out.push({ where: `compilerOptions.${key}`, value: v });
+  }
+  // `paths` maps module names to locations, relative to `baseUrl` when it is set (else to the tsconfig's folder).
+  const pathsBase = typeof co.baseUrl === 'string' ? co.baseUrl : '.';
+  for (const [k, targets] of Object.entries(co.paths ?? {})) {
+    for (const v of Array.isArray(targets) ? targets : []) {
+      if (typeof v === 'string') out.push({ where: `compilerOptions.paths.${k}`, value: v, glob: true, base: pathsBase });
+    }
+  }
   return out;
 }
 
@@ -167,6 +178,10 @@ function globBase(v) {
 function manifestPaths(json) {
   const out = [];
   for (const key of ['main', 'module', 'types', 'typings', 'browser']) if (typeof json[key] === 'string') out.push({ where: key, value: json[key] });
+  // `browser` as a map: each replacement module (a string; `false` drops one) is a path the bundler reads.
+  if (json.browser && typeof json.browser === 'object') {
+    for (const [k, v] of Object.entries(json.browser)) if (typeof v === 'string' && isPathSpecifier(v)) out.push({ where: `browser.${k}`, value: v });
+  }
   if (typeof json.bin === 'string') out.push({ where: 'bin', value: json.bin });
   else for (const [k, v] of Object.entries(json.bin ?? {})) if (typeof v === 'string') out.push({ where: `bin.${k}`, value: v });
   const leaves = (v, where) => {
@@ -248,7 +263,7 @@ export function checkRepositoryPaths(root = PLAT_ROOT) {
     inputs += 1;
     for (const e of entries) {
       const value = e.glob ? globBase(e.value) : e.value;
-      const j = e.module && !isPathSpecifier(value) ? judgeSpecifier(root, abs, value) : judgePath(root, resolve(dirname(abs), value));
+      const j = e.module && !isPathSpecifier(value) ? judgeSpecifier(root, abs, value) : judgePath(root, resolve(dirname(abs), e.base ?? '.', value));
       if (!j.ok) problems.push(`${rel}: ${e.where} ${JSON.stringify(e.value)} ${describe(j)}`);
     }
   }

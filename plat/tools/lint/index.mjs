@@ -13,9 +13,11 @@
 // `.ts`, `.js` and `.mjs`; the parsers for the other extensions are given here, so none of them escapes unparsed.
 // Whole-tree checks: probe-red (the lint's acceptance probe, C-0106), vendor-scan (§6.5 (4) and the audit record),
 // repository-path (links, ignored sources, build inputs), inline-directives (model code silences no rule but by
-// C-0125 (6)'s vetted division, C-0128), no-bare-pnpm (package scripts and Markdown command lines), licences (§17.4's
-// allowlist over the production closure).
+// C-0125 (6)'s vetted division, C-0128), model-coverage (the tree lint reaches every model-code file with the whole
+// model rule set: no ignore, weaker setting or nested configuration takes it out, C-0130), no-bare-pnpm (package
+// scripts and Markdown command lines), licences (§17.4's allowlist over the production closure).
 import tseslint from 'typescript-eslint';
+import { check as modelCoverage } from './coverage.mjs';
 import { digestClosure } from './digest-closure.mjs';
 import { check as inlineDirectives } from './directives.mjs';
 import { check as licences } from './licences.mjs';
@@ -36,7 +38,7 @@ const plugin = {
   meta: { name: '@plat/lint', version: '0.1.0' },
   rules,
   configs: {},
-  checks: [probeRed, vendorScan, repositoryPathCheck, inlineDirectives, noBarePnpm, licences],
+  checks: [probeRed, vendorScan, repositoryPathCheck, inlineDirectives, modelCoverage, noBarePnpm, licences],
 };
 
 /**

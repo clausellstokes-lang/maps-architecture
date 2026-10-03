@@ -142,3 +142,77 @@ when all 8 checks pass. Run it with `--check-only` first: that writes nothing.
 7. **If the landing page shows the previous settlement** instead of the create buttons, use the map page's "Create new
    temporary settlement" control, after a `text` and a `shot`. If it says the day's settlement is used, or asks for an
    account, a login, a payment or terms: STOP (F1).
+
+## H. Signed-in captures (J163; slots 1–5, 2026-10-03) — read before slot 2
+
+Written by lane `m1/W-02-slot1` after slot 1 (`captures/ftg/2026-10-03T22-04-25`; record: E02 sections 9 and 10). Owner
+ruling J163 replaces J159's "no account" rule for FTG only. Slots 1–5 are created one after another, the same day, in
+the owner's signed-in free account in `profiler/.profiles/ftg`. Every rule of sections A–G still holds unless this section
+says otherwise. The table in section "The day's slot" still gives each slot's size, coast and rivers.
+
+**Never click or open:** "Sign out" / "Logout" (on the landing at its foot, on the settlements view at the top right,
+and on the map page at the **top left, (26, 21), next to the home link**); "Settings"; "New Folder"; a settlement row's
+"…" menu (delete, rename, share live there); the map toolbar's "Re-roll settlement with previous settings" (it makes a
+second settlement); the size option "★ Metropolis" (premium; disabled); anything upgrade, Patreon or premium.
+**STOP without clicking** (a `shot`, then report in `owner_notes`): a settlement-limit message or a counter at 10 / 10;
+a payment or upgrade prompt; new terms; a sign-in or Google prompt, or a landing without the "Signed in as" line (the
+session expired); a cookie notice with no decline option; anything else not described here.
+
+**Privacy.** The account's display name is on the landing ("Signed in as …"), at the top of the settlements view and
+in the shots. Never write it, the email, an account or user id, a token or a cookie value into any file you choose to
+write, inside `captures/` too (the recording itself stays local and is never quoted). Read every `text` through
+`research/baselines/ftg_text_summary.mjs`, which prints a redacted summary and saves nothing (this replaces A4's scratch
+files). Never `eval` page text wholesale. Records say only "the owner's signed-in free account". Settlement ids are not
+account ids; records keep their first 8 hex, as on day 1.
+
+Shell (zsh; a function, G6): `D() { node $ISO/profiler/drive.mjs "$@"; }`, `T() { D text | node $MAPS/research/baselines/ftg_text_summary.mjs "${1:-40}"; }`,
+`HIT() { D eval "$(node $MAPS/research/baselines/ftg_text_summary.mjs --hit "$1")"; }` (prints the count of matches
+and each hit-testable one as `[x, y, tag, insideTheCreateDialog]`).
+
+1. **Pre-flight and session:** A1–A3 and B1 unchanged (own runner copies, `cmp`, port 9341, `pgrep -fl profiles/ftg`
+   empty and no `Singleton*` in the profile, the shared `profiler/.session` absent before and after). Check the capture
+   folders and `plan.json` first: never create a second settlement for a slot whose PUT is already in a folder's
+   `session/network/index.jsonl`.
+2. **Landing:** `T`, `D shot landing`. Expect "Signed in as [name]", "Sign out", "Home" and the membership text (the free
+   limit: "Free accounts have a limit of 10 settlements, which will not be deleted."). `HIT '^Home$'` → 2 matches, 1
+   hit-testable (≈ 896, 931 at 1500×1100). `D clicktext "^Home$"`.
+3. **Settlements view** (`/user/settlements`): `T`, then `D shot settlements-full --full`. Read the counter `N / 10`:
+   before slot k it should read k (one earlier settlement, plus one per slot created). STOP at 10 / 10. The `--full`
+   shot clears the viewport emulation: from here on the page runs in the 1440×632 window, where every plain shot shows
+   what is clicked.
+4. **Open the form:** `T`, `D shot pre-new-settlement`, `HIT '^New Settlement$'` → 1 of 1 (≈ 1377, 576);
+   `D clicktext "^New Settlement$"`. `T`, `D shot form-open`: the dialog "Create New Settlement", with the same fields
+   as day 1's. Visible select 0 is the size (it opens at "Town (~4000 people)"), select 7 the coast; the boxes are at
+   x 1008, y 498 (rivers), 527 (farms, on), 556 (forests), 585 (reserve area), 614 (walled) before any scroll. The
+   other ~25 "visible" selects belong to All settings; never touch them.
+5. **Set the slot** (a `T` and a `shot` before each step, an `eval` of the result after):
+   - size: `D select 0 '^Big town \(~6000 people\)$'` (slots 2, 4) or `'^Big city \(~25000 people\)$'` (slots 3, 5);
+   - coast (slots 2–5): `D select 7 '^Coastal$'`; then re-read every box's coordinates by `eval` (the form may change);
+   - rivers on (slots 2–5) and forests on: check `document.elementFromPoint(x, y)` names the box, `D click x y`, `eval`;
+   - `D wheel 720 400 300` (the dialog scrolls; reserve area and walled sit at its clipped edge), re-read, then the
+     reserve-area and walled boxes the same way (slot 1: (1008, 367) and (1008, 396) after the scroll);
+   - final `eval`: the eight selects' texts and the six inputs (name empty; rivers per slot; farms, forests, reserve
+     area, walled on). `D shot form-final`.
+6. **Create:** `T`, `HIT '^Create Settlement$'` → exactly 1 hit-testable, with `insideTheCreateDialog` true (slot 1:
+   ≈ 947, 522 after the scroll). `D shot pre-create`. Append a CHECKPOINT line saying the create click happens now (a
+   resumed seat then knows), then `D clicktext "^Create Settlement$"` — once. Poll `index.jsonl` for the
+   `PUT …/prod/settlements` row with `postData`, its intercepted response, and the intercepted
+   `GET …/settlements/<id>/layout?asPublic=false` body (`intercept-*.bin`) — the same calls as the guest flow.
+7. **Map:** `T` (the map is at `/user/settlements/<id>`), `D shot after-create` (500 m bar), `D shot map-overview --full`;
+   two zoom-in clicks at the control `T` lists as "Zoom in" (slot 1: (1418, 471); check it by `elementFromPoint`), each
+   after a `T` and a `shot`; `D shot core` (250 m bar).
+8. **Back to the list:** check `elementFromPoint(63, 21)` is the home link (`A … /user/settlements`; **(26, 21) is
+   Logout**), `T`, `D shot pre-home`, `D click 63 21`; `T`, `D shot settlements-after`: the counter is now N + 1. The
+   list call (`GET …/prod/settlements`) gives the new settlement's listed population, which the post script records.
+9. **Stop:** `D stop`; wait for "session closed"; no `Singleton*` left; `df -h /Users/cstokes`.
+10. **Post:** `python3 research/baselines/ftg_capture_post.py <stamp> --slot K --signed-in --notes <notes.md>`,
+    `--check-only` first; all **10** checks must pass. The size-dependent class is now 16 named values (the script's
+    `SIZE_DEPENDENT`, R-24). The same-size check makes slots 2 and 4 repeat day 1's 16 values exactly, and slots 3 and 5
+    repeat slot 1's. The slot-0 check allows only the slot keys, the water-implied resource entries and those 16 values.
+    If the coastal option brings a new kind of difference, do not widen the class without the same evidence slot 1 gave
+    (two captures whose form steps differ in one option only); record it and return `failed`.
+    Then `plan.py --bind-ftg K=<stamp>` and `--check` (SAME), and an E02 section and `E02-ftg-captures.json` entry.
+11. **Privacy grep** of every file you wrote or changed (the capture's README, `capture-facts.json`, `request-diff.txt`,
+    `structure.md`, `create-request.json`, your notes, the E02 files, the result file, your `lane-events.log` lines)
+    for an email pattern, the display name, a token prefix (`eyJ`) and full ids. Only `create-request.json`'s 45
+    partner ids may match the id pattern.

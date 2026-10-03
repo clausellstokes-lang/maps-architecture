@@ -1,0 +1,113 @@
+{
+ "slot": 1,
+ "status": "landed",
+ "capture": "2026-10-03T22-04-25",
+ "checks": [
+  {
+   "check": "ftg_capture_post.py: one PUT with a body, one layout GET, one intercepted layout body",
+   "passed": true,
+   "receipt": "PUT rows 1, layout GET rows 1, intercepted layout bodies 1"
+  },
+  {
+   "check": "ftg_capture_post.py: request size key equals the slot",
+   "passed": true,
+   "receipt": "size BIG_CITY, slot BIG_CITY"
+  },
+  {
+   "check": "ftg_capture_post.py: request water keys equal the slot water option",
+   "passed": true,
+   "receipt": "coastType None rivers False; slot none wants None / False"
+  },
+  {
+   "check": "ftg_capture_post.py: request differs from the 2026-09-21 base only in the slot keys, water-implied resources and the named size-dependent preset values",
+   "passed": true,
+   "receipt": "64 differing leaves: slot keys 3, water-implied 6, size-dependent preset 10 (.factionsParameters.numberOfRandomFactions, stages[0].maxSpokesInStage, stages[0].roadLength, stages[0].spokeStaySpokeProbability, stages[1].horizontalBranchSegments, stages[1].minDistrictArea, stages[1].proportionOfBuildings, stages[1].roadLength, stages[1].verticalBranchSegments, .religionParameters.religionTargetPercen"
+  },
+  {
+   "check": "ftg_capture_post.py: request differs from slot 0 (day 1) only in the slot keys, water-implied resources and the named size-dependent values",
+   "passed": true,
+   "receipt": "against 2026-10-03T17-19-06: 15 semantic differences (14 size-dependent), other 0"
+  },
+  {
+   "check": "ftg_capture_post.py: the named size-dependent values equal the first capture of this size",
+   "passed": true,
+   "receipt": "no earlier capture at BIG_CITY: this capture sets the reference values"
+  },
+  {
+   "check": "ftg_capture_post.py: payload decodes: field 3 edges and nodes, field 8 buildings present",
+   "passed": true,
+   "receipt": "1126607 bytes; top-level fields {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 3, 7: 66, 8: 7164, 9: 10, 10: 5, 11: 1, 13: 9, 14: 45, 15: 4, 16: 16, 17: 3, 18: 5, 19: 1, 20: 1, 22: 1, 23: 1, 27: 1}; 3.1 edges 7236, 3.2 nodes 6302, 8 buildings 7164"
+  },
+  {
+   "check": "ftg_capture_post.py: settlement border is the size ladder square (zig-zag cm)",
+   "passed": true,
+   "receipt": "border 5 points, max |coordinate| 2750.00 m, ladder half width 2750 m"
+  },
+  {
+   "check": "ftg_capture_post.py: no top-level field outside the known 27 (none of which is a resident count) -> populationSource nominal",
+   "passed": true,
+   "receipt": "unknown top-level fields: []"
+  },
+  {
+   "check": "ftg_capture_post.py: tools/pb_raw.py runs on the payload",
+   "passed": true,
+   "receipt": "# Raw protobuf structure of captures/ftg/2026-10-03T22-04-25/session/network/bodies/intercept-0043-ca4c5902.bin"
+  },
+  {
+   "check": "exactly one settlement created for slot 1",
+   "passed": true,
+   "receipt": "one PUT …/prod/settlements with a body in captures/ftg/2026-10-03T22-04-25/session/network/index.jsonl (sent 22:09:28.207 UTC); one Create Settlement click in steps.jsonl; account counter 1 / 10 before, 2 / 10 after"
+  },
+  {
+   "check": "create control clicked only as the one hit-testable match inside the dialog",
+   "passed": true,
+   "receipt": "Create Settlement: 1 match, 1 hit-testable at (947, 522), inside the dialog rectangle x 220-1220 y 47-585; a text and a shot (012-pre-create) before it"
+  },
+  {
+   "check": "plan.py --bind-ftg 1=2026-10-03T22-04-25 and --check",
+   "passed": true,
+   "receipt": "bind exit 0; --check SAME plan.json (sha256 9b89d82e2901e33a, was 45b4b315b5b3b22c) and metrics.m-1.json (7a21bb290bb9c7df, byte-unchanged); diff: one line (slot 1 capture)"
+  },
+  {
+   "check": "revised checks discriminate (red tests)",
+   "passed": true,
+   "receipt": "as slot 0: exit 1 (sizeKey, border); as slot 2: exit 1 (sizeKey, waterKeys, sameSize, border); planted unnamed stage value in the base: exit 1 (requestDiff); plan copy labelling day 1 BIG_CITY: exit 1 (sameSize); day 1 as slot 0: exit 0"
+  },
+  {
+   "check": "request differs from day 1 only by the size",
+   "passed": true,
+   "receipt": "15 semantic differences: size key + 14 of the 16 named size-dependent values; 45 partner ids; other 0 (both forms opened at Town (~4000 people) with identical defaults)"
+  },
+  {
+   "check": "isolated runner is the profiler code; shared session file untouched",
+   "passed": true,
+   "receipt": "cmp identical: session.mjs e199be5d, drive.mjs 597eb62d, lib/common.mjs 3b948576, package.json 25e7d362, lib/instrument.js cca253ac; port 9341; profiler/.session absent before and after; no Singleton lock after stop"
+  },
+  {
+   "check": "privacy: no account identifier in any file written",
+   "passed": true,
+   "receipt": "grep of E02 .md/.json, checklist, post script, ftg_text_summary.mjs, plan.json, the capture README, capture-facts.json, request-diff.txt, structure.md, steps.jsonl and this lane's lane-events lines: 0 emails, 0 display-name hits, 0 token prefixes, 0 full settlement or account ids (create-request.json: only the 45 client partner ids)"
+  },
+  {
+   "check": "session stopped; disk",
+   "passed": true,
+   "receipt": "drive.mjs stop -> session closed; df: 12 GB free before and after; capture folder 45 MB"
+  }
+ ],
+ "account_limit": "The site states: \"Free accounts have a limit of 10 settlements, which will not be deleted.\" The settlements view counter read 1 / 10 before this run (one earlier big town already in the account) and 2 / 10 after slot 1, so 8 creates remain and slots 2-5 need 4: the run is not limited by the account (CONFIRMED by reading the landing and the settlements view).",
+ "owner_notes": [
+  "Slot 1 is done: a big city with no coast and no river was created in your signed-in free account and recorded. No limit message, payment or upgrade prompt, new terms, cookie notice or sign-in prompt appeared, and nothing was accepted.",
+  "Your account now holds 2 of its 10 free settlements: the big town that was already there before this run, and the new big city. After slots 2-5 it will hold 6 of 10. None was renamed, shared or deleted.",
+  "Your account name, email and ids were not written into any project file; records say only \"the owner's signed-in free account\"."
+ ],
+ "notes": [
+  "Outcome: slot 1 landed; all 10 checks of the revised ftg_capture_post.py pass, bound in plan.json, plan.py --check SAME. 7164 buildings, 7236 edges, 6302 nodes, 66 towers, 3 water bodies, 5 districts, border +-2750 m, referenceBuild ftg:2026-10-03+e2524cd0cb32, population 24500 nominal (account list 24367).",
+  "Finding 1 settled (CONFIRMED): the size-dependent request values follow the size. Slot 1 and day 1 took identical form steps except the size option and differ in the size key and 14 preset values only. The class grows from 11 to 16 named values; the five new ones (stage 1 most spokes and main-road step, stage 2 branch segments x2, the religious-workers share) are equal at CITY and BIG_TOWN and differ at BIG_CITY.",
+  "Vetoable call (E02 10.4 (1)): ftg_capture_post.py now pins the size-dependent class by name (R-24) and widens it to 16 leaves, and adds two checks (diff against slot 0; later slots of a size must repeat that size's values exactly). The old prefix rule passed any stage value; the new one fails on a planted unnamed stage value.",
+  "Needs a ruling (W-05b): the account list (GET …/prod/settlements) carries a per-settlement population (slot 1: 24367 vs nominal 24500). Rows keep populationSource nominal; the listed figure is recorded as listedPopulation.",
+  "For the session (outside this seat's write scope): docs/calibration/M-1-plan.md section 2.1 still describes the J159 one-a-day schedule and shows day 2 open; it should cite J163 and slot 1's capture.",
+  "Signed-in flow (E02 9.2; checklist H for slots 2-5): create starts from Home -> settlements view -> \"New Settlement\" -> dialog \"Create New Settlement\" -> \"Create Settlement\"; same request path, body keys and layout call as the guest flow. Hazards recorded in H: Logout sits at (26, 21) next to the map's home link; the map toolbar has a re-roll button.",
+  "Deviations (E02 10.4): one --full shot before the form (checklist G1 advises against; the form then ran at 1440x632 as on day 1, no misclick); text readings printed through a redacting filter and not saved (privacy), now research/baselines/ftg_text_summary.mjs.",
+  "CONFIRMED: every number above, the controlled comparison, the account limit and counter, the listed populations, the client size rule for the religious share (read in the captured bundle). PLAUSIBLE: that the listed population is the generated resident count, and that the 3 water bodies are ponds independent of the water options."
+ ]
+}

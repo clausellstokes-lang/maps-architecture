@@ -77,6 +77,19 @@ export function codeFilesOf(dir) {
   return out;
 }
 
+/**
+ * Is a plat/-relative path one of the files this scan reads — a code file of a vendored library's folder
+ * (`vendor/<name>@<version>/…`, outside its node_modules, not a declaration)? The whole-tree check model-coverage leaves
+ * these to the scan and refuses every other model-code file the tree lint does not reach (C-0130).
+ */
+export function isScannedFile(root, rel) {
+  const parts = rel.split('/');
+  if (parts[0] !== 'vendor' || parts.length < 3 || parts.includes('node_modules')) return false;
+  if (!vendoredLibraries(root).some((l) => l.folder === `vendor/${parts[1]}`)) return false;
+  const name = parts[parts.length - 1];
+  return CODE.test(name) && !DECLARATION.test(name);
+}
+
 /** A plugin whose one rule records the Math census of a file into `sink` (member → count). */
 function censusPlugin(sink) {
   return {
