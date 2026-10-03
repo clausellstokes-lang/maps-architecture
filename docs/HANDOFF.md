@@ -1,5 +1,7 @@
 # HANDOFF — town-generator research program
 
+> **SUPERSEDED BRANCH — do not resume from here (2026-10-03 ~06:20 UTC).** This branch (`claude/gallant-dirac-w8i53u`) was started from `main` (frozen at the 2026-09-29 pause) and re-ran the coherence pass's rewrite, assembly and first sweep, duplicating the work already done on `claude/ecstatic-gates-iyenrz` (622 commits, 2026-09-30 → 2026-10-02: seven verify/repair rounds, owner rules to 126, rulings to J151). Everything this branch's session ran was stopped once that was found. The REAL state is `claude/ecstatic-gates-iyenrz`'s docs/HANDOFF.md. Owner decisions taken here that still stand are carried there (the 'Built by the town' switch list with delete-for-now; build after noting the open findings); this branch's item 114 and J126–J130 numbers collide with that branch's and are not used.
+
 ## RESUME HERE (kept current; last updated 2026-10-03 00:10 UTC)
 
 **Where things stand — PAUSED at a clean point at the owner's request (2026-09-29 ~20:10).** (1) The twelve design volumes are DONE
